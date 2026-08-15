@@ -1,0 +1,35 @@
+name: Bug report
+description: Report reproducible incorrect behavior in the game or repository tooling.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What is wrong, and what impact does it have?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Provide the smallest reliable sequence, program/data, and Cache or wiring state.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Godot version, OS, commit/tag, and relevant hardware settings.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Test output, logs without secrets, screenshots, trace metrics, or a minimal example.

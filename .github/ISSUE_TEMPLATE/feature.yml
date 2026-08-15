@@ -1,0 +1,36 @@
+name: Feature proposal
+description: Propose a scoped improvement backed by a player or engineering problem.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What player or engineering problem should be solved? Include evidence when available.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe observable behavior and acceptance criteria without prescribing unnecessary architecture.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-goals
+      description: Identify affected subsystems, invariants, and what this proposal should not include.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      description: How should correctness, playability, and regressions be evaluated?
+  - type: textarea
+    id: open_questions
+    attributes:
+      label: Open questions
+      description: Preserve unresolved choices instead of inventing decisions.

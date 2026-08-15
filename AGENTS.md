@@ -1,98 +1,53 @@
-# AGENTS.md
+# Repository guidance
 
-## Project
+## Start here
 
-This repository is a disposable vertical-slice prototype for the game **Von Neumann Bottleneck**.
+- `README.md`: project status, run instructions, and vision.
+- `ARCHITECTURE.md`: high-level subsystem map.
+- `PLANS.md`: when and how to write an execution plan.
+- `docs/README.md`: detailed design, architecture, development, and status docs.
 
-Its current purpose is to validate the core gameplay loop, not to build the full game.
+Repository-local documentation is the source of truth. Preserve unresolved questions instead of inventing product decisions.
 
-Read the user-provided conversation for product context, but do not implement features outside the current milestone.
+## Repository map
 
-## Tech stack
+- `project.godot`: Godot 4.7.1 project entry point.
+- `src/simulation/`: typed, deterministic DSL and simulation code.
+- `src/ui/`: Godot scene, hardware bench, profiler, and trace playback.
+- `tests/`: addon-free headless simulation and UI checks.
+- `experiments/`: isolated investigations; production code does not depend on them.
+- `docs/`: durable design, architecture, workflow, plans, decisions, and status.
 
-* Godot 4.7.1 stable
-* Strongly typed GDScript
-* 2D/UI-first
-* Prefer built-in Godot functionality over external addons or dependencies.
+Do not move `.gd`, `.tscn`, or other Godot resources merely to make the tree look cleaner. Inspect `res://` and UID references before any resource move.
 
-## Architecture rules
+## Project invariants
 
-* Keep `SimulationCore` independent from rendering and UI.
-* Simulation must be deterministic and reproducible.
-* Rendering and animation must never change simulation results.
-* Generate a `SimulationTrace` from the simulation, then let the UI play that trace.
-* Ordinary wires have zero simulation latency.
-* Wires describe connectivity only.
-* Bandwidth, latency, queuing, and transfer cost belong to components such as Bus, Cache, and RAM.
-* Cache is hardware-managed. The player must never manually insert data into Cache.
-* Keep game rules/data separate from presentation where practical.
-* Prefer clear, simple implementations over premature abstraction.
+- Use Godot 4.7.1 stable and prefer strongly typed GDScript.
+- Keep simulation deterministic and independent from UI/rendering.
+- Produce a complete `SimulationTrace`; UI may play it back but must not change results or metrics.
+- Ordinary wires describe connectivity and have zero simulation latency.
+- Transfer costs belong to components such as Cache, Bus, and RAM.
+- Cache is hardware-managed; players do not insert cache contents manually.
+- Prefer Godot built-ins, simple code, and explicit prototype limitations over speculative abstractions.
 
-## Current milestone
+## Mandatory workflow gates
 
-Only implement the 4×4 cache-locality vertical slice described in the task prompt.
-
-The prototype should validate:
-
-1. visual hardware wiring;
-2. minimal player-written program logic;
-3. deterministic memory/cache simulation;
-4. readable data-flow animation;
-5. useful performance profiling;
-6. a clear performance difference between row-first and column-first traversal.
-
-Do not implement future systems unless they are strictly required by this slice.
-
-## Explicitly out of scope
-
-Do not add:
-
-* gate-level CPU construction;
-* multi-level caches;
-* multicore or GPU systems;
-* compression;
-* blocking/tiling chapters;
-* energy simulation;
-* leaderboard;
-* progression systems;
-* full save/version-management UI;
-* procedural/random challenge generation;
-* polished art pipelines;
-* a general-purpose programming language.
-
-## DSL
-
-The prototype DSL should implement only what this experiment requires.
-
-Do not build a general parser/compiler architecture unless necessary.
-
-Keep explicit the operations that matter to the game:
-
-* registers;
-* load;
-* store;
-* compute/add;
-* loop order;
-* array indexing.
-
-Hide irrelevant machine-level details such as opcodes, instruction encoding, calling conventions, and stack management.
+1. Inspect `git status` and read the relevant docs and tests before editing.
+2. Keep work inside the requested scope; avoid drive-by cleanup, unrelated renames, and gameplay redesign.
+3. Follow `PLANS.md` when a change crosses its planning threshold.
+4. Update architecture, status, testing, or decision docs when their source-of-truth facts change.
+5. Run fresh, relevant verification and review the final diff before claiming completion.
 
 ## Verification
 
-After changing simulation behavior:
+- Simulation changes: run `tests/test_simulation.gd` and confirm determinism and the row-first advantage.
+- UI, wiring, profiler, or playback changes: also run `tests/test_ui.gd` and the project smoke command.
+- Documentation-only changes: run whitespace/link/path checks appropriate to the files changed.
+- Use only commands recorded as verified in `docs/development/testing.md`; report exact outcomes and separate pre-existing warnings from introduced failures.
 
-* run the relevant automated/headless tests;
-* confirm identical inputs produce identical traces/results;
-* verify the official row-first solution causes substantially fewer cache misses and cycles than the default column-first solution;
-* confirm UI playback does not affect simulation outputs.
+## Git safety
 
-Before finishing a task, review the diff for accidental scope expansion.
-
-## Working style
-
-* Make reasonable implementation decisions autonomously.
-* Do not stop for minor design questions if a simple reversible choice is available.
-* Document important temporary assumptions in `README.md`.
-* Do not modify files outside this workspace.
-* Do not replace the chosen engine or language.
-* When something is intentionally simplified for the prototype, prefer an explicit simplification over fake realism.
+- Keep `main` runnable; use short-lived, focused branches for feature work.
+- Never push, merge, force-push, rewrite history, add a remote, or discard unrelated user changes unless explicitly requested.
+- Do not run destructive commands such as `git reset --hard` or `git clean -fd`.
+- Do not invent Git author identity. Preserve releases with commits and tags, not copied version directories.

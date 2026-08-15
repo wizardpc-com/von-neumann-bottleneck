@@ -1,3 +1,20 @@
+# Godot editor/import state and runtime-local output
 .godot/
-*.tmp
+.import/
+.mono/
+data_*/
+mono_crash.*.json
 
+# Temporary files and logs
+*.tmp
+*.log
+
+# Local export/build output
+/build/
+/dist/
+/exports/
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

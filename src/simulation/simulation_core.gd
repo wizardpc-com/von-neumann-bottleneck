@@ -29,127 +29,41 @@ func run(program: DSLProgramType, data: Array[int], cache_lines: int, test_name:
 	trace.cache_capacity_lines = cache_lines
 	trace.test_name = test_name
 	trace.loop_order = program.loop_order.duplicate()
+	trace.program_source = program.source
 	if not program.is_valid():
 		return trace
 	if data.size() != ARRAY_LENGTH or not CACHE_COSTS.has(cache_lines):
 		return trace
 
-	var registers: Dictionary[StringName, int] = program.registers.duplicate(true)
-	var loop_values: Dictionary[StringName, int] = {}
-	var resident_lines: Array[int] = []
-	var line_last_used: Dictionary[int, int] = {}
-	var use_clock: int = 0
-	var current_cycle: int = 0
-	var compute_cycles: int = 0
-	var wait_cycles: int = 0
-	var cache_hits: int = 0
-	var cache_misses: int = 0
-	var ram_bytes: int = 0
-	var result_value: int = 0
-
-	for outer_value: int in range(ARRAY_WIDTH):
-		loop_values[program.loop_order[0]] = outer_value
-		for inner_value: int in range(ARRAY_WIDTH):
-			loop_values[program.loop_order[1]] = inner_value
-			for instruction: DSLInstructionType in program.loop_instructions:
-				if instruction.opcode == &"load":
-					var row: int = loop_values[instruction.row_index_variable]
-					var column: int = loop_values[instruction.column_index_variable]
-					var address: int = row * ARRAY_WIDTH + column
-					var line_index: int = address / CACHE_LINE_INTS
-					var loaded_value: int = data[address]
-					trace.add_event(SimulationEventType.new(
-						&"request", current_cycle, 0, &"CPU", &"Cache", address, line_index,
-						loaded_value, "LOAD A[%d][%d] → address %d" % [row, column, address]
-					))
-					trace.add_event(SimulationEventType.new(
-						&"cache_lookup", current_cycle, CACHE_LOOKUP_CYCLES, &"Cache", &"Cache",
-						address, line_index, loaded_value, "Cache tag lookup for line %d" % line_index
-					))
-					current_cycle += CACHE_LOOKUP_CYCLES
-					wait_cycles += CACHE_LOOKUP_CYCLES
-					use_clock += 1
-					if line_index in resident_lines:
-						cache_hits += 1
-						line_last_used[line_index] = use_clock
-						trace.add_event(SimulationEventType.new(
-							&"cache_hit", current_cycle, 0, &"Cache", &"CPU", address,
-							line_index, loaded_value, "HIT — line %d already resident" % line_index
-						))
-					else:
-						cache_misses += 1
-						trace.add_event(SimulationEventType.new(
-							&"cache_miss", current_cycle, 0, &"Cache", &"Bus", address,
-							line_index, loaded_value, "MISS — request cache line %d" % line_index
-						))
-						trace.add_event(SimulationEventType.new(
-							&"bus_request", current_cycle, BUS_REQUEST_CYCLES, &"Cache", &"Bus",
-							address, line_index, loaded_value, "Bus carries the read request"
-						))
-						current_cycle += BUS_REQUEST_CYCLES
-						wait_cycles += BUS_REQUEST_CYCLES
-						trace.add_event(SimulationEventType.new(
-							&"ram_access", current_cycle, RAM_ACCESS_CYCLES, &"Bus", &"RAM",
-							address, line_index, loaded_value, "RAM fetches 4 contiguous ints"
-						))
-						current_cycle += RAM_ACCESS_CYCLES
-						wait_cycles += RAM_ACCESS_CYCLES
-						trace.add_event(SimulationEventType.new(
-							&"line_return", current_cycle, BUS_LINE_TRANSFER_CYCLES, &"RAM", &"Cache",
-							address, line_index, loaded_value, "16-byte cache line returns through Bus"
-						))
-						current_cycle += BUS_LINE_TRANSFER_CYCLES
-						wait_cycles += BUS_LINE_TRANSFER_CYCLES
-						ram_bytes += CACHE_LINE_BYTES
-						if resident_lines.size() >= cache_lines:
-							var evicted_line: int = _least_recently_used_line(resident_lines, line_last_used)
-							resident_lines.erase(evicted_line)
-							line_last_used.erase(evicted_line)
-							trace.add_event(SimulationEventType.new(
-								&"cache_evict", current_cycle, 0, &"Cache", &"Cache", address,
-								evicted_line, 0, "Evict least-recently-used line %d" % evicted_line
-							))
-						resident_lines.append(line_index)
-						line_last_used[line_index] = use_clock
-						trace.add_event(SimulationEventType.new(
-							&"cache_fill", current_cycle, 0, &"Cache", &"CPU", address,
-							line_index, loaded_value, "Fill line %d, then return requested int" % line_index
-						))
-					registers[instruction.destination] = loaded_value
-				elif instruction.opcode == &"add":
-					registers[instruction.destination] += registers[instruction.source]
-					trace.add_event(SimulationEventType.new(
-						&"compute", current_cycle, ADD_CYCLES, &"CPU", &"CPU", -1, -1,
-						registers[instruction.destination], "ADD %s, %s → %d" % [
-							String(instruction.destination), String(instruction.source), registers[instruction.destination]
-						]
-					))
-					current_cycle += ADD_CYCLES
-					compute_cycles += ADD_CYCLES
-
-	for instruction: DSLInstructionType in program.final_instructions:
-		if instruction.opcode == &"store":
-			result_value = registers[instruction.source]
-			trace.add_event(SimulationEventType.new(
-				&"store_result", current_cycle, STORE_RESULT_CYCLES, &"CPU", &"TestBench",
-				-1, -1, result_value, "STORE result, %s → %d" % [String(instruction.source), result_value]
-			))
-			current_cycle += STORE_RESULT_CYCLES
-			compute_cycles += STORE_RESULT_CYCLES
+	var state: Dictionary = {
+		"registers": {},
+		"loop_values": {},
+		"resident_lines": [],
+		"line_last_used": {},
+		"use_clock": 0,
+		"current_cycle": 0,
+		"compute_cycles": 0,
+		"wait_cycles": 0,
+		"cache_hits": 0,
+		"cache_misses": 0,
+		"ram_bytes": 0,
+		"result_value": 0,
+	}
+	_execute_block(program.instructions, data, cache_lines, trace, state)
 
 	var expected: int = 0
 	for item: int in data:
 		expected += item
-	trace.result_value = result_value
+	trace.result_value = int(state["result_value"])
 	trace.expected_value = expected
-	trace.passed = result_value == expected
+	trace.passed = trace.result_value == expected
 	trace.metrics = {
-		"total_cycles": current_cycle,
-		"compute_cycles": compute_cycles,
-		"wait_cycles": wait_cycles,
-		"cache_hits": cache_hits,
-		"cache_misses": cache_misses,
-		"ram_bytes_transferred": ram_bytes,
+		"total_cycles": int(state["current_cycle"]),
+		"compute_cycles": int(state["compute_cycles"]),
+		"wait_cycles": int(state["wait_cycles"]),
+		"cache_hits": int(state["cache_hits"]),
+		"cache_misses": int(state["cache_misses"]),
+		"ram_bytes_transferred": int(state["ram_bytes"]),
 		"hardware_cost": CACHE_COSTS[cache_lines],
 	}
 	return trace
@@ -163,11 +77,168 @@ static func official_data_copy() -> Array[int]:
 	return OFFICIAL_DATA.duplicate()
 
 
-static func _least_recently_used_line(lines: Array[int], last_used: Dictionary[int, int]) -> int:
-	var selected: int = lines[0]
-	var selected_clock: int = last_used.get(selected, -1)
-	for line: int in lines:
-		var clock: int = last_used.get(line, -1)
+func _execute_block(
+		block: Array,
+		data: Array[int],
+		cache_lines: int,
+		trace: SimulationTraceType,
+		state: Dictionary
+	) -> void:
+	var registers: Dictionary = state["registers"]
+	var loop_values: Dictionary = state["loop_values"]
+	for instruction: DSLInstructionType in block:
+		match instruction.opcode:
+			&"assign_const":
+				registers[instruction.destination] = instruction.immediate
+			&"for_range":
+				for loop_value: int in range(instruction.range_stop):
+					loop_values[instruction.destination] = loop_value
+					_execute_block(instruction.children, data, cache_lines, trace, state)
+			&"load":
+				registers[instruction.destination] = _perform_load(instruction, data, cache_lines, trace, state)
+			&"add_load":
+				var loaded_value: int = _perform_load(instruction, data, cache_lines, trace, state)
+				registers[instruction.destination] = int(registers[instruction.destination]) + loaded_value
+				_add_compute_event(instruction, int(registers[instruction.destination]), trace, state)
+			&"add":
+				registers[instruction.destination] = int(registers[instruction.destination]) + int(registers[instruction.source])
+				_add_compute_event(instruction, int(registers[instruction.destination]), trace, state)
+			&"store":
+				var result_value: int = int(registers[instruction.source])
+				state["result_value"] = result_value
+				var store_details: Dictionary = {"instruction_text": instruction.source_text}
+				trace.add_event(SimulationEventType.new(
+					&"store_result", int(state["current_cycle"]), STORE_RESULT_CYCLES,
+					&"CPU", &"TestBench", -1, -1, result_value,
+					"STORE OUT[0], %s → %d" % [String(instruction.source), result_value],
+					instruction.source_line, [&"CPU", &"TestBench"], store_details
+				))
+				state["current_cycle"] = int(state["current_cycle"]) + STORE_RESULT_CYCLES
+				state["compute_cycles"] = int(state["compute_cycles"]) + STORE_RESULT_CYCLES
+
+
+func _perform_load(
+		instruction: DSLInstructionType,
+		data: Array[int],
+		cache_lines: int,
+		trace: SimulationTraceType,
+		state: Dictionary
+	) -> int:
+	var loop_values: Dictionary = state["loop_values"]
+	var row: int = int(loop_values[instruction.row_index_variable])
+	var column: int = int(loop_values[instruction.column_index_variable])
+	var address: int = row * ARRAY_WIDTH + column
+	var line_index: int = address / CACHE_LINE_INTS
+	var line_base: int = line_index * CACHE_LINE_INTS
+	var loaded_value: int = data[address]
+	var line_values: Array[int] = []
+	for line_offset: int in range(CACHE_LINE_INTS):
+		line_values.append(data[line_base + line_offset])
+	var details: Dictionary = {
+		"instruction_text": instruction.source_text,
+		"array_row": row,
+		"array_column": column,
+		"line_base_address": line_base,
+		"line_values": line_values,
+	}
+
+	trace.add_event(SimulationEventType.new(
+		&"request", int(state["current_cycle"]), 0, &"CPU", &"Cache", address, line_index,
+		loaded_value, "LOAD A[%d][%d] → address %d" % [row, column, address],
+		instruction.source_line, [&"CPU", &"Cache"], details
+	))
+	trace.add_event(SimulationEventType.new(
+		&"cache_lookup", int(state["current_cycle"]), CACHE_LOOKUP_CYCLES, &"Cache", &"Cache",
+		address, line_index, loaded_value, "Cache lookup for line %d" % line_index,
+		instruction.source_line, [&"Cache"], details
+	))
+	state["current_cycle"] = int(state["current_cycle"]) + CACHE_LOOKUP_CYCLES
+	state["wait_cycles"] = int(state["wait_cycles"]) + CACHE_LOOKUP_CYCLES
+	state["use_clock"] = int(state["use_clock"]) + 1
+
+	var resident_lines: Array = state["resident_lines"]
+	var line_last_used: Dictionary = state["line_last_used"]
+	if line_index in resident_lines:
+		state["cache_hits"] = int(state["cache_hits"]) + 1
+		line_last_used[line_index] = int(state["use_clock"])
+		trace.add_event(SimulationEventType.new(
+			&"cache_hit", int(state["current_cycle"]), 0, &"Cache", &"CPU", address,
+			line_index, loaded_value, "HIT — line %d returns value %d" % [line_index, loaded_value],
+			instruction.source_line, [&"Cache", &"CPU"], details
+		))
+	else:
+		state["cache_misses"] = int(state["cache_misses"]) + 1
+		trace.add_event(SimulationEventType.new(
+			&"cache_miss", int(state["current_cycle"]), 0, &"Cache", &"Cache", address,
+			line_index, loaded_value, "MISS — line %d is not resident" % line_index,
+			instruction.source_line, [&"Cache"], details
+		))
+		trace.add_event(SimulationEventType.new(
+			&"bus_request", int(state["current_cycle"]), BUS_REQUEST_CYCLES, &"Cache", &"Bus",
+			address, line_index, loaded_value, "Bus carries the line request",
+			instruction.source_line, [&"Cache", &"Bus"], details
+		))
+		state["current_cycle"] = int(state["current_cycle"]) + BUS_REQUEST_CYCLES
+		state["wait_cycles"] = int(state["wait_cycles"]) + BUS_REQUEST_CYCLES
+		trace.add_event(SimulationEventType.new(
+			&"ram_access", int(state["current_cycle"]), RAM_ACCESS_CYCLES, &"Bus", &"RAM",
+			address, line_index, loaded_value, "RAM reads line %d: %s" % [line_index, str(line_values)],
+			instruction.source_line, [&"Bus", &"RAM"], details
+		))
+		state["current_cycle"] = int(state["current_cycle"]) + RAM_ACCESS_CYCLES
+		state["wait_cycles"] = int(state["wait_cycles"]) + RAM_ACCESS_CYCLES
+		trace.add_event(SimulationEventType.new(
+			&"line_return", int(state["current_cycle"]), BUS_LINE_TRANSFER_CYCLES, &"RAM", &"Cache",
+			address, line_index, loaded_value, "16-byte line %d returns through Bus" % line_index,
+			instruction.source_line, [&"RAM", &"Bus", &"Cache"], details
+		))
+		state["current_cycle"] = int(state["current_cycle"]) + BUS_LINE_TRANSFER_CYCLES
+		state["wait_cycles"] = int(state["wait_cycles"]) + BUS_LINE_TRANSFER_CYCLES
+		state["ram_bytes"] = int(state["ram_bytes"]) + CACHE_LINE_BYTES
+		if resident_lines.size() >= cache_lines:
+			var evicted_line: int = _least_recently_used_line(resident_lines, line_last_used)
+			resident_lines.erase(evicted_line)
+			line_last_used.erase(evicted_line)
+			var eviction_details: Dictionary = details.duplicate(true)
+			eviction_details["evicted_line"] = evicted_line
+			trace.add_event(SimulationEventType.new(
+				&"cache_evict", int(state["current_cycle"]), 0, &"Cache", &"Cache", address,
+				evicted_line, 0, "Evict least-recently-used line %d" % evicted_line,
+				instruction.source_line, [&"Cache"], eviction_details
+			))
+		resident_lines.append(line_index)
+		line_last_used[line_index] = int(state["use_clock"])
+		trace.add_event(SimulationEventType.new(
+			&"cache_fill", int(state["current_cycle"]), 0, &"Cache", &"CPU", address,
+			line_index, loaded_value, "Fill line %d, return value %d" % [line_index, loaded_value],
+			instruction.source_line, [&"Cache", &"CPU"], details
+		))
+	state["resident_lines"] = resident_lines
+	state["line_last_used"] = line_last_used
+	return loaded_value
+
+
+func _add_compute_event(
+		instruction: DSLInstructionType,
+		result: int,
+		trace: SimulationTraceType,
+		state: Dictionary
+	) -> void:
+	trace.add_event(SimulationEventType.new(
+		&"compute", int(state["current_cycle"]), ADD_CYCLES, &"CPU", &"CPU", -1, -1,
+		result, "%s → %d" % [instruction.source_text, result], instruction.source_line,
+		[&"CPU"], {"instruction_text": instruction.source_text}
+	))
+	state["current_cycle"] = int(state["current_cycle"]) + ADD_CYCLES
+	state["compute_cycles"] = int(state["compute_cycles"]) + ADD_CYCLES
+
+
+static func _least_recently_used_line(lines: Array, last_used: Dictionary) -> int:
+	var selected: int = int(lines[0])
+	var selected_clock: int = int(last_used.get(selected, -1))
+	for raw_line: Variant in lines:
+		var line: int = int(raw_line)
+		var clock: int = int(last_used.get(line, -1))
 		if clock < selected_clock:
 			selected = line
 			selected_clock = clock

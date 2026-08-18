@@ -1,0 +1,1554 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Von Neumann Bottleneck\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "game.title"
+msgstr "VON NEUMANN BOTTLENECK"
+
+msgid "game.window_title"
+msgstr "Von Neumann Bottleneck — CPU Building Prologue"
+
+msgid "common.auto_layout"
+msgstr "Auto Layout"
+
+msgid "common.open_named"
+msgstr "Open %s"
+
+msgid "common.pause"
+msgstr "Pause"
+
+msgid "common.prototype_hub"
+msgstr "Prototype Hub"
+
+msgid "common.replay"
+msgstr "Replay"
+
+msgid "common.resume"
+msgstr "Resume"
+
+msgid "common.step"
+msgstr "Step"
+
+msgid "window.close.tooltip"
+msgstr "Close this window"
+
+msgid "window.minimize.tooltip"
+msgstr "Minimize this window; double-clicking the title also toggles it"
+
+msgid "window.resize.tooltip"
+msgstr "Drag to resize"
+
+msgid "window.restore.tooltip"
+msgstr "Restore this window"
+
+msgid "hub.subtitle"
+msgstr "PLAYABLE RESEARCH BUILDS"
+
+msgid "hub.hardware.title"
+msgstr "CPU BUILDING PROLOGUE"
+
+msgid "hub.hardware.eyebrow"
+msgstr "COMPLETE PLAYABLE PROLOGUE PROTOTYPE"
+
+msgid "hub.hardware.description"
+msgstr "Start with free wiring and HalfAdder, build FullAdder, ALU, latch, register, and RAM across two branches, then connect a four-bit accumulator CPU and run LOAD/STORE."
+
+msgid "hub.hardware.play"
+msgstr "Enter the CPU Building Prologue"
+
+msgid "hub.locality.title"
+msgstr "CACHE LOCALITY LAB"
+
+msgid "hub.locality.eyebrow"
+msgstr "PRESERVED PROTOTYPE v0.2"
+
+msgid "hub.locality.description"
+msgstr "The existing Draft → Apply → Execute locality experiment remains available as historical and design evidence."
+
+msgid "hub.locality.open"
+msgstr "Open v0.2 Locality Lab"
+
+msgid "hub.note"
+msgstr "These slices validate different gameplay hypotheses; neither is presented as the complete game."
+
+msgid "device.program"
+msgstr "PROGRAM"
+
+msgid "device.program.detail"
+msgstr "Python-shaped DSL"
+
+msgid "device.program.draft_detail"
+msgstr "%s · draft"
+
+msgid "device.program.applied_detail"
+msgstr "%s · applied"
+
+msgid "device.program.executing"
+msgstr "%s · executing"
+
+msgid "device.program.invalid_source"
+msgstr "invalid source"
+
+msgid "device.cpu.detail"
+msgstr "load / add / store"
+
+msgid "device.cache"
+msgstr "CACHE"
+
+msgid "device.cache.default_detail"
+msgstr "1 line · 4 ints · cost 4"
+
+msgid "device.bus"
+msgstr "BUS"
+
+msgid "device.bus.detail"
+msgstr "request 2 · line 4 cycles"
+
+msgid "device.ram"
+msgstr "RAM"
+
+msgid "device.ram.detail"
+msgstr "row-major A[4][4]"
+
+msgid "device.test_bench"
+msgstr "TEST BENCH"
+
+msgid "device.test_bench.detail"
+msgstr "correct + ≤%d cycles"
+
+msgid "device.profiler"
+msgstr "PROFILER"
+
+msgid "device.profiler.detail"
+msgstr "evidence instrument"
+
+msgid "port.memory"
+msgstr "memory"
+
+msgid "port.result"
+msgstr "result"
+
+msgid "port.telemetry"
+msgstr "telemetry"
+
+msgid "state.ready"
+msgstr "READY"
+
+msgid "state.idle"
+msgstr "IDLE"
+
+msgid "state.not_run"
+msgstr "NOT RUN"
+
+msgid "state.no_trace"
+msgstr "NO TRACE"
+
+msgid "state.apply_required"
+msgstr "APPLY REQUIRED"
+
+msgid "state.applied_ready"
+msgstr "APPLIED · READY"
+
+msgid "state.draft_error"
+msgstr "DRAFT ERROR"
+
+msgid "state.trace_ready"
+msgstr "TRACE READY"
+
+msgid "state.trace_source"
+msgstr "TRACE SOURCE"
+
+msgid "state.waiting_for_memory"
+msgstr "WAITING FOR MEMORY"
+
+msgid "state.test_bench"
+msgstr "TEST BENCH"
+
+msgid "strategy.column_first"
+msgstr "COLUMN-FIRST"
+
+msgid "strategy.row_first"
+msgstr "ROW-FIRST"
+
+msgid "strategy.unknown"
+msgstr "UNKNOWN"
+
+msgid "test.official"
+msgstr "Official"
+
+msgid "test.debug"
+msgstr "Debug"
+
+msgid "outcome.correct"
+msgstr "CORRECT"
+
+msgid "outcome.correct_over_target"
+msgstr "CORRECT · OVER TARGET"
+
+msgid "outcome.incorrect"
+msgstr "INCORRECT"
+
+msgid "outcome.target_met"
+msgstr "TARGET MET"
+
+msgid "outcome.met"
+msgstr "MET"
+
+msgid "outcome.pass"
+msgstr "PASS"
+
+msgid "outcome.fail"
+msgstr "FAIL"
+
+msgid "locality.subtitle"
+msgstr "PROTOTYPE v0.2  •  PROGRAM → TRACE → MACHINE → EVIDENCE"
+
+msgid "locality.workbench.title"
+msgstr "MACHINE WORKBENCH"
+
+msgid "locality.workbench.goal"
+msgstr "Official target: correct result · ≤ %d cycles · hardware cost recorded"
+
+msgid "locality.hub.tooltip"
+msgstr "Return to the prototype selector without changing this lab."
+
+msgid "locality.auto_layout.tooltip"
+msgstr "Restore the canonical visual arrangement. Positions do not affect simulation."
+
+msgid "locality.status.ready"
+msgstr "READY — open Test Bench to run the starter program"
+
+msgid "locality.status.auto_layout"
+msgstr "AUTO LAYOUT — visual positions restored; simulation is unchanged"
+
+msgid "locality.status.strategy_already_loaded"
+msgstr "%s ALREADY LOADED — review the explanation and applied state"
+
+msgid "locality.status.strategy_loaded_draft"
+msgstr "%s LOADED AS DRAFT — review each line, then Apply Program"
+
+msgid "locality.status.program_changed"
+msgstr "PROGRAM CHANGED — previous trace cleared"
+
+msgid "locality.status.apply_blocked"
+msgstr "APPLY BLOCKED — fix the Program draft errors"
+
+msgid "locality.status.program_already_applied"
+msgstr "PROGRAM ALREADY APPLIED — Test Bench is ready"
+
+msgid "locality.status.program_applied_cleared"
+msgstr "PROGRAM APPLIED — previous trace cleared; run Test Bench for new evidence"
+
+msgid "locality.status.program_applied"
+msgstr "PROGRAM APPLIED — %s is now the only Test Bench execution source"
+
+msgid "locality.status.debug_data_changed"
+msgstr "DEBUG DATA CHANGED — rerun the Test Bench"
+
+msgid "locality.status.cache_replaced_rerun"
+msgstr "CACHE REPLACED — rerun to measure the new hardware"
+
+msgid "locality.status.cache_replaced"
+msgstr "CACHE REPLACED — %d lines · cost %d"
+
+msgid "locality.status.run_blocked_invalid_draft"
+msgstr "RUN BLOCKED — fix and Apply the Program draft"
+
+msgid "locality.status.run_blocked_unapplied"
+msgstr "RUN BLOCKED — confirm the draft with Apply Program"
+
+msgid "locality.status.run_blocked_applied_invalid"
+msgstr "RUN BLOCKED — applied Program state is invalid"
+
+msgid "locality.status.run_complete"
+msgstr "%s — %s — %d cycles · Cache %d lines · cost %d"
+
+msgid "locality.status.profiler_inspect"
+msgstr "PROFILER INSPECT — cycle %d · source line %d · %s"
+
+msgid "program.draft.description"
+msgstr "This editor is a draft. Apply Program confirms it as the only source Test Bench may parse and execute."
+
+msgid "program.reference.title"
+msgstr "PYTHON-SHAPED REFERENCE"
+
+msgid "program.reference.body"
+msgstr "# comment  ·  for name in range(4):  ·  indent with 4 spaces\nacc += load(A[row][col])  ·  store(OUT[0], acc)"
+
+msgid "program.strategy_library.title"
+msgstr "STRATEGY LIBRARY — load a draft, inspect it, then Apply"
+
+msgid "program.strategy.column.use"
+msgstr "Use Column-first"
+
+msgid "program.strategy.column.tooltip"
+msgstr "Load the strided column-first strategy as an editable draft."
+
+msgid "program.strategy.row.use"
+msgstr "Use Row-first"
+
+msgid "program.strategy.row.tooltip"
+msgstr "Load the contiguous row-first strategy as an editable draft."
+
+msgid "program.applied_starter"
+msgstr "APPLIED PROGRAM · %s starter"
+
+msgid "program.apply.button"
+msgstr "✓ Apply Program"
+
+msgid "program.apply.tooltip"
+msgstr "Confirm this valid draft as the only program Test Bench may execute."
+
+msgid "program.apply.draft_pending"
+msgstr "DRAFT NOT APPLIED — Test Bench remains on the previous program"
+
+msgid "program.apply.applied"
+msgstr "APPLIED PROGRAM · %s"
+
+msgid "program.apply.invalid"
+msgstr "NOT APPLIED — invalid drafts cannot replace the active program"
+
+msgid "program.effect.waiting"
+msgstr "LIVE EFFECT — waiting for a valid program"
+
+msgid "program.effect.preview"
+msgstr "DRAFT EFFECT · %s\nouter %s → inner %s · first addresses %s"
+
+msgid "program.effect.invalid"
+msgstr "NO DRAFT EXECUTION PLAN — fix the parser error before applying"
+
+msgid "program.explanation.title"
+msgstr "LINE-BY-LINE EXPLANATION"
+
+msgid "program.explanation.invalid"
+msgstr "The parser must accept the draft before a line-by-line explanation can be generated."
+
+msgid "program.explanation.line"
+msgstr "L%d  %s\n     %s"
+
+msgid "program.validation.valid_draft"
+msgstr "VALID DRAFT · %s"
+
+msgid "program.validation.valid_applied"
+msgstr "VALID APPLIED PROGRAM · %s"
+
+msgid "program.validation.error"
+msgstr "DRAFT ERROR · %s"
+
+msgid "program.receipt.not_executed_starter"
+msgstr "NOT EXECUTED — the applied starter is ready for Test Bench"
+
+msgid "program.receipt.not_executed"
+msgstr "NOT EXECUTED — the applied program is ready for Test Bench"
+
+msgid "program.receipt.draft_not_applied"
+msgstr "DRAFT NOT APPLIED — this edit has not affected any run"
+
+msgid "program.receipt.applied_not_run"
+msgstr "APPLIED PROGRAM NOT YET RUN — the receipt above belongs to the previous source"
+
+msgid "program.receipt.last_executed"
+msgstr "LAST EXECUTED · %s · %d cycles · %d misses\nsource captured exactly from the applied program"
+
+msgid "program.reset.button"
+msgstr "Reset draft to starter"
+
+msgid "program.reset.tooltip"
+msgstr "Load the column-first starter as a draft; Apply is still required when it differs from the active program."
+
+msgid "test_bench.official_goal"
+msgstr "OFFICIAL GOAL\nCorrect result and total cycles ≤ %d. Hardware cost is recorded, not capped."
+
+msgid "test_bench.debug_input.tooltip"
+msgstr "Debug A[%d][%d]"
+
+msgid "test_bench.official_data"
+msgstr "Official A: [7, -2, 5, 11, 3, 0, 8, 4, 9, 1, 6, 2, 10, -1, 12, 13]"
+
+msgid "test_bench.run_debug"
+msgstr "▶ Run Debug"
+
+msgid "test_bench.run_official"
+msgstr "◆ Run Official"
+
+msgid "test_bench.result"
+msgstr "%s · %d / %d · %d cycles"
+
+msgid "cache.description"
+msgstr "Replace the Cache component. Capacity changes hardware cost and may change the same program's trace."
+
+msgid "cache.card"
+msgstr "%d LINES\n%d ints capacity · cost %d"
+
+msgid "cache.detail"
+msgstr "%d lines · %d ints · cost %d"
+
+msgid "trace.playback.title"
+msgstr "TRACE PLAYBACK"
+
+msgid "trace.playback.empty"
+msgstr "Run a test to generate an authoritative SimulationTrace."
+
+msgid "trace.playback.event"
+msgstr "[%03d/%03d] cycle %d +%d · source L%d · %s"
+
+msgid "trace.playback.complete"
+msgstr "Trace complete — playback consumed the precomputed trace without changing results."
+
+msgid "trace.playback.inputs_changed"
+msgstr "Inputs changed. Run again to create matching Trace evidence."
+
+msgid "trace.overlay.process"
+msgstr "PROCESS"
+
+msgid "profiler.description"
+msgstr "Evidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated."
+
+msgid "profiler.column.evidence"
+msgstr "EVIDENCE"
+
+msgid "profiler.column.value"
+msgstr "VALUE"
+
+msgid "profiler.select_miss"
+msgstr "Select a Cache miss to inspect its source line and returned line."
+
+msgid "profiler.inspect_trace"
+msgstr "Inspect in Trace"
+
+msgid "profiler.history.title"
+msgstr "RUN HISTORY (session)"
+
+msgid "profiler.history.empty"
+msgstr "No runs yet."
+
+msgid "profiler.history.entry"
+msgstr "%d. %s · %s · Cache %d · %d cyc · %d miss · %d B · cost %d · %s"
+
+msgid "profiler.summary"
+msgstr "%s\nTotal %d · Compute %d · Wait %d · Hits %d · Misses %d · RAM %d B · Cost %d"
+
+msgid "profiler.tree.cycles"
+msgstr "Cycles"
+
+msgid "profiler.tree.compute"
+msgstr "Compute"
+
+msgid "profiler.tree.waiting"
+msgstr "Waiting"
+
+msgid "profiler.tree.cache_lookup"
+msgstr "Cache lookup"
+
+msgid "profiler.tree.bus_request"
+msgstr "Bus request"
+
+msgid "profiler.tree.ram_access"
+msgstr "RAM access"
+
+msgid "profiler.tree.line_return"
+msgstr "Line return"
+
+msgid "profiler.tree.memory_accesses"
+msgstr "Memory accesses"
+
+msgid "profiler.tree.cache_hits"
+msgstr "Cache hits"
+
+msgid "profiler.tree.cache_misses"
+msgstr "Cache misses"
+
+msgid "profiler.tree.miss_event"
+msgstr "cycle %d · L%d · A[%d][%d]"
+
+msgid "profiler.tree.cache_line"
+msgstr "line %d"
+
+msgid "profiler.event_detail"
+msgstr "Cycle %d · source line %d\nA[%d][%d] → address %d · Cache line %d\nFetched A addresses %d..%d = %s"
+
+msgid "event.message.request"
+msgstr "LOAD A[%d][%d] → address %d"
+
+msgid "event.message.cache_lookup"
+msgstr "Cache lookup for line %d"
+
+msgid "event.message.cache_hit"
+msgstr "HIT — line %d returns value %d"
+
+msgid "event.message.cache_miss"
+msgstr "MISS — line %d is not resident"
+
+msgid "event.message.bus_request"
+msgstr "Bus carries the line request"
+
+msgid "event.message.ram_access"
+msgstr "RAM reads line %d: %s"
+
+msgid "event.message.line_return"
+msgstr "16-byte line %d returns through Bus"
+
+msgid "event.message.cache_evict"
+msgstr "Evict least-recently-used line %d"
+
+msgid "event.message.cache_fill"
+msgstr "Fill line %d, return value %d"
+
+msgid "event.message.compute"
+msgstr "%s → %d"
+
+msgid "event.message.store_result"
+msgstr "STORE result → OUT[0] = %d"
+
+msgid "event.short.lookup"
+msgstr "LOOKUP"
+
+msgid "event.short.hit"
+msgstr "HIT"
+
+msgid "event.short.miss"
+msgstr "MISS"
+
+msgid "event.short.request"
+msgstr "REQUEST"
+
+msgid "event.short.read_line"
+msgstr "READ LINE"
+
+msgid "event.short.four_ints"
+msgstr "4 INTS · 16 B"
+
+msgid "event.short.value"
+msgstr "VALUE %d"
+
+msgid "event.short.evict"
+msgstr "EVICT"
+
+msgid "event.short.add"
+msgstr "ADD"
+
+msgid "event.state.issue_load"
+msgstr "L%d · ISSUE LOAD"
+
+msgid "event.state.form_address"
+msgstr "FORM A[%d][%d]"
+
+msgid "event.state.accept_request"
+msgstr "ACCEPT REQUEST"
+
+msgid "event.state.lookup_line"
+msgstr "LOOKUP LINE %d"
+
+msgid "event.state.read_hit_line"
+msgstr "READ HIT LINE %d"
+
+msgid "event.state.latch_value"
+msgstr "LATCH VALUE %d"
+
+msgid "event.state.miss_line"
+msgstr "MISS LINE %d"
+
+msgid "event.state.send_line_request"
+msgstr "SEND LINE %d REQUEST"
+
+msgid "event.state.forward_request"
+msgstr "FORWARD REQUEST"
+
+msgid "event.state.send_address"
+msgstr "SEND ADDRESS"
+
+msgid "event.state.read_line"
+msgstr "READ LINE %d"
+
+msgid "event.state.pack_line"
+msgstr "PACK LINE %d · 16 B"
+
+msgid "event.state.relay_16b"
+msgstr "RELAY 16 B"
+
+msgid "event.state.install_line"
+msgstr "INSTALL LINE %d"
+
+msgid "event.state.evict_line"
+msgstr "EVICT LINE %d"
+
+msgid "event.state.read_filled_line"
+msgstr "READ FILLED LINE %d"
+
+msgid "event.state.issue_add"
+msgstr "L%d · ISSUE ADD"
+
+msgid "event.state.add_result"
+msgstr "ADD → %d"
+
+msgid "event.state.issue_store"
+msgstr "L%d · ISSUE STORE"
+
+msgid "event.state.send_value"
+msgstr "SEND %d"
+
+msgid "event.state.check_value"
+msgstr "CHECK %d"
+
+msgid "event.state.process_device"
+msgstr "PROCESS %s"
+
+msgid "dsl.error.internal_pattern"
+msgstr "Internal DSL pattern failed to compile."
+
+msgid "dsl.error.tabs"
+msgstr "Line %d: use four spaces for indentation; tabs are not supported."
+
+msgid "dsl.error.indent_multiple"
+msgstr "Line %d: indentation must use multiples of four spaces."
+
+msgid "dsl.error.unexpected_indent"
+msgstr "Line %d: unexpected indentation."
+
+msgid "dsl.error.too_many_loops"
+msgstr "Line %d: this prototype supports exactly two nested loops."
+
+msgid "dsl.error.unsupported_statement"
+msgstr "Line %d: unsupported statement `%s`."
+
+msgid "dsl.error.empty"
+msgstr "Program is empty."
+
+msgid "dsl.error.two_distinct_loops"
+msgstr "The program must contain exactly two nested loops with different variables."
+
+msgid "dsl.error.one_nested_traversal"
+msgstr "The two loops must form one nested traversal."
+
+msgid "dsl.error.final_store"
+msgstr "The final statement must be `store(OUT[0], name)`."
+
+msgid "dsl.error.load_required"
+msgstr "The loop body must load at least one value from A."
+
+msgid "dsl.error.add_required"
+msgstr "The loop body must perform at least one `+=` operation."
+
+msgid "dsl.error.one_store"
+msgstr "The program must contain exactly one final store."
+
+msgid "dsl.error.scalar_outside_loops"
+msgstr "Line %d: scalar initialization must be outside the loops."
+
+msgid "dsl.error.assign_loop_variable"
+msgstr "Line %d: cannot assign to a loop variable."
+
+msgid "dsl.error.loop_variables_different"
+msgstr "Line %d: loop variables must be different."
+
+msgid "dsl.error.memory_inside_loops"
+msgstr "Line %d: memory access must be inside both loops."
+
+msgid "dsl.error.indices_active_loops"
+msgstr "Line %d: A indices must use the two active loop variables."
+
+msgid "dsl.error.indices_different"
+msgstr "Line %d: row and column indices must be different."
+
+msgid "dsl.error.initialize_before_add"
+msgstr "Line %d: `%s` must be initialized before `+=`."
+
+msgid "dsl.error.add_inside_loops"
+msgstr "Line %d: `+=` must be inside both loops."
+
+msgid "dsl.error.add_variables_initialized"
+msgstr "Line %d: both variables in `+=` must already be initialized."
+
+msgid "dsl.error.store_outside_loops"
+msgstr "Line %d: store must be outside both loops."
+
+msgid "dsl.error.stored_variable_initialized"
+msgstr "Line %d: stored variable `%s` is not initialized."
+
+msgid "dsl.explanation.comment"
+msgstr "Comment for the reader; it does not execute."
+
+msgid "dsl.explanation.assign_const"
+msgstr "Create `%s` with initial integer value %d."
+
+msgid "dsl.explanation.for_range.outer"
+msgstr "Run the outer loop variable `%s` through 0, 1, 2, 3."
+
+msgid "dsl.explanation.for_range.inner"
+msgstr "Run the inner loop variable `%s` through 0, 1, 2, 3."
+
+msgid "dsl.explanation.load"
+msgstr "Load A[%s][%s] through CPU and Cache, then place the value in `%s`."
+
+msgid "dsl.explanation.add_load"
+msgstr "Load A[%s][%s] through CPU and Cache, then add it to `%s`."
+
+msgid "dsl.explanation.add"
+msgstr "Add `%s` to `%s` inside CPU."
+
+msgid "dsl.explanation.store"
+msgstr "Send `%s` to OUT[0] so Test Bench can check the result."
+
+msgid "circuit.connection.endpoints_missing"
+msgstr "Both connection endpoints must exist."
+
+msgid "circuit.connection.output_missing"
+msgstr "%s has no output port %d."
+
+msgid "circuit.connection.input_missing"
+msgstr "%s has no input port %d."
+
+msgid "circuit.connection.duplicate"
+msgstr "That wire already exists."
+
+msgid "circuit.error.no_observer"
+msgstr "The circuit has no lamp or output terminal to evaluate."
+
+msgid "circuit.error.input_missing"
+msgstr "Test Bench input %s is missing."
+
+msgid "circuit.error.unresolved"
+msgstr "%s is unresolved (cycle or invalid upstream wiring)."
+
+msgid "circuit.error.unsupported_kind"
+msgstr "%s has unsupported kind '%s'."
+
+msgid "circuit.error.wire_endpoint_missing"
+msgstr "Wire %s has a missing endpoint."
+
+msgid "circuit.error.wire_port_invalid"
+msgstr "Wire %s uses an invalid port."
+
+msgid "circuit.error.circuit_missing"
+msgstr "The circuit is missing."
+
+msgid "circuit.error.duplicate_wire"
+msgstr "Wire %s is duplicated."
+
+msgid "circuit.error.short_circuit"
+msgstr "SHORT CIRCUIT: %s input %d is driven low and high at the same time."
+
+msgid "circuit.error.circular_dependency"
+msgstr "CIRCULAR DEPENDENCY: %s feeds back within the same simulation tick."
+
+msgid "hardware.title"
+msgstr "HARDWARE PROLOGUE · BUILD A CPU"
+
+msgid "hardware.subtitle"
+msgstr "SIGNAL → LOGIC → ABSTRACTION → CPU / RAM"
+
+msgid "hardware.hub.tooltip"
+msgstr "Return to the prototype selector."
+
+msgid "hardware.window.mission"
+msgstr "MISSION"
+
+msgid "hardware.window.show.tooltip"
+msgstr "Show or restore this desktop window."
+
+msgid "hardware.toolbar.auto_layout.tooltip"
+msgstr "Restore readable positions; geometry never changes delay."
+
+msgid "hardware.toolbar.undo_wire"
+msgstr "Undo"
+
+msgid "hardware.toolbar.undo_wire.tooltip"
+msgstr "Undo the latest complete edit (Ctrl+Z)."
+
+msgid "hardware.toolbar.redo"
+msgstr "Redo"
+
+msgid "hardware.toolbar.redo.tooltip"
+msgstr "Reapply the latest undone edit (Ctrl+Y or Ctrl+Shift+Z)."
+
+msgid "hardware.toolbar.clear_wires"
+msgstr "Clear Wires"
+
+msgid "hardware.toolbar.clear_wires.tooltip"
+msgstr "Remove all wires and wire nodes as one undoable edit."
+
+msgid "hardware.toolbar.cancel_cable"
+msgstr "Cancel Cable"
+
+msgid "hardware.toolbar.cancel_cable.tooltip"
+msgstr "Cancel the cable currently following the pointer."
+
+msgid "hardware.toolbar.level_map"
+msgstr "Level Map"
+
+msgid "hardware.toolbar.level_map.tooltip"
+msgstr "Open the Hardware Prologue map to review completed, unlocked, and prerequisite-gated levels."
+
+msgid "hardware.phase.tutorial"
+msgstr "1 / 2  ·  WIRING TUTORIAL"
+
+msgid "hardware.phase.half_adder"
+msgstr "2 / 2  ·  BUILD A 1-BIT HALF ADDER"
+
+msgid "hardware.phase.complete"
+msgstr "COMPLETE  ·  PLAYER-OWNED ABSTRACTION"
+
+msgid "hardware.trace.empty"
+msgstr "TRACE — run the circuit to see each causal step"
+
+msgid "hardware.diagnostics.empty"
+msgstr "Gates —  ·  Delay —"
+
+msgid "hardware.tutorial.status"
+msgstr "Left-drag to move/wire; Shift-click or Shift-drag to multi-select; Ctrl+Z/Y/C/V edits; Shift-drag a connected input to move its wire end; hold right mouse to erase."
+
+msgid "hardware.tutorial.trace_hint"
+msgstr "TRACE — a recommended first route is A → NOT → LAMP"
+
+msgid "hardware.tutorial.zero_delay"
+msgstr "Wires have 0 tick delay"
+
+msgid "hardware.tutorial.heading"
+msgstr "WIRING TUTORIAL"
+
+msgid "hardware.tutorial.heading_subtitle"
+msgstr "A compact desktop task window"
+
+msgid "hardware.tutorial.prompt"
+msgstr "Make one complete route to the lamp.\nSuggested: A → NOT → LAMP.\nUnconnected ports default to red/low 0; green=1, gray=real high-Z/unresolved. Mixed multi-drivers short, and same-tick feedback creates a cycle.\nShift multi-selects; Ctrl+Z/Y undo/redo and Ctrl+C/V copy/paste. Then delete one cable and reconnect it."
+
+msgid "hardware.tutorial.checklist_title"
+msgstr "SHORT INTERACTION CHECK"
+
+msgid "hardware.tutorial.check.wire"
+msgstr "Create a valid wire"
+
+msgid "hardware.tutorial.check.input"
+msgstr "Change a Test Bench input"
+
+msgid "hardware.tutorial.check.run"
+msgstr "Run a complete route"
+
+msgid "hardware.tutorial.check.remove"
+msgstr "Remove a wire"
+
+msgid "hardware.tutorial.check.reconnect"
+msgstr "Reconnect after removal"
+
+msgid "hardware.tutorial.begin_challenge"
+msgstr "Begin Half Adder Challenge"
+
+msgid "hardware.tutorial.complete_five"
+msgstr "Complete the 5 interactions"
+
+msgid "hardware.practice.heading"
+msgstr "PRACTICE SIGNALS"
+
+msgid "hardware.practice.heading_subtitle"
+msgstr "External controls · not player hardware"
+
+msgid "hardware.practice.run"
+msgstr "Run Practice Circuit"
+
+msgid "hardware.practice.lamp_empty"
+msgstr "Lamp: —"
+
+msgid "hardware.challenge.status"
+msgstr "Design the topology. Gates, Test Bench terminals, and wire nodes are all movable."
+
+msgid "hardware.challenge.trace_note"
+msgstr "TRACE — official success comes only from the displayed circuit"
+
+msgid "hardware.challenge.diagnostics"
+msgstr "Correctness required  ·  gates/delay diagnostic only"
+
+msgid "hardware.challenge.ready_unwired"
+msgstr "Ready to build · no wires yet; this is not an error. Unconnected ports are evaluated as low 0"
+
+msgid "hardware.challenge.heading"
+msgstr "HALF ADDER CHALLENGE"
+
+msgid "hardware.challenge.heading_subtitle"
+msgstr "Design the topology yourself"
+
+msgid "hardware.challenge.description"
+msgstr "Build a circuit with inputs A/B and outputs SUM/CARRY. Spare gates are allowed. The Test Bench evaluates only your displayed wires."
+
+msgid "hardware.challenge.hint"
+msgstr "Failures show expected/actual, shorts, or cycles without prescribing a formula. Shift multi-selects; Ctrl+Z/Y/C/V undo, redo, and copy subcircuits."
+
+msgid "hardware.seal.button"
+msgstr "Seal as HalfAdder"
+
+msgid "hardware.seal.tooltip"
+msgstr "Unlocked only by a fresh pass of all four official cases."
+
+msgid "hardware.seal.verified_button"
+msgstr "Seal This Circuit as HalfAdder"
+
+msgid "hardware.cases.heading"
+msgstr "HALF ADDER CASES"
+
+msgid "hardware.cases.heading_subtitle"
+msgstr "Correctness only · no Profiler"
+
+msgid "hardware.cases.run_debug"
+msgstr "Run This Debug Case"
+
+msgid "hardware.cases.actual_empty"
+msgstr "Actual: SUM —  CARRY —"
+
+msgid "hardware.cases.run_official"
+msgstr "Run 4 Official Cases"
+
+msgid "hardware.cases.row_not_run"
+msgstr "A%d B%d  →  expected S%d C%d  ·  not run"
+
+msgid "hardware.cases.row_result"
+msgstr "A%d B%d  →  expected S%d C%d  ·  actual %s  %s"
+
+msgid "hardware.sealed.library_heading"
+msgstr "PLAYER COMPONENT LIBRARY"
+
+msgid "hardware.sealed.library_subtitle"
+msgstr "New reusable abstraction"
+
+msgid "hardware.sealed.created"
+msgstr "✓  HalfAdder"
+
+msgid "hardware.sealed.interface"
+msgstr "INPUTS   A  ·  B\nOUTPUTS  SUM  ·  CARRY\n\nThis component still evaluates the sealed snapshot of your player-built circuit."
+
+msgid "hardware.sealed.signature"
+msgstr "SEALED SOURCE SIGNATURE\n%s"
+
+msgid "hardware.sealed.bench_heading"
+msgstr "COMPONENT TEST BENCH"
+
+msgid "hardware.sealed.bench_subtitle"
+msgstr "Runs the sealed circuit snapshot"
+
+msgid "hardware.sealed.run_debug"
+msgstr "Run Encapsulated Component"
+
+msgid "hardware.sealed.result_empty"
+msgstr "HalfAdder: SUM —  CARRY —"
+
+msgid "hardware.sealed.run_official"
+msgstr "Replay Official Cases Through HalfAdder"
+
+msgid "hardware.sealed.node_title"
+msgstr "HalfAdder  ·  PLAYER COMPONENT"
+
+msgid "hardware.sealed.ownership"
+msgstr "SEALED FROM YOUR VERIFIED CIRCUIT\n4 official cases passed"
+
+msgid "hardware.sealed.diagnostics"
+msgstr "Reusable interface  ·  A/B → SUM/CARRY"
+
+msgid "hardware.port.input"
+msgstr "input"
+
+msgid "hardware.port.output"
+msgstr "output"
+
+msgid "hardware.component.test_input"
+msgstr "TEST INPUT %s"
+
+msgid "hardware.component.probe"
+msgstr "PROBE %s"
+
+msgid "hardware.component.output_lamp"
+msgstr "OUTPUT LAMP"
+
+msgid "hardware.kind.input"
+msgstr "INPUT"
+
+msgid "hardware.kind.output"
+msgstr "OUTPUT"
+
+msgid "hardware.kind.lamp"
+msgstr "LAMP"
+
+msgid "hardware.kind.junction"
+msgstr "WIRE NODE"
+
+msgid "hardware.result.lamp"
+msgstr "Lamp"
+
+msgid "hardware.result.actual"
+msgstr "Actual"
+
+msgid "hardware.result.cannot_run"
+msgstr "Cannot run: %s"
+
+msgid "hardware.result.single"
+msgstr "%s: %d"
+
+msgid "hardware.result.half_adder"
+msgstr "%s: SUM %d  CARRY %d"
+
+msgid "hardware.status.invalid_connection"
+msgstr "INVALID CONNECTION — %s"
+
+msgid "hardware.status.connected"
+msgstr "CONNECTED — %s → %s  ·  this output can feed more than one destination"
+
+msgid "hardware.status.topology_changed"
+msgstr "Topology changed — run all four official cases again."
+
+msgid "hardware.status.wire_removed"
+msgstr "WIRE REMOVED — reconnect from any compatible output port"
+
+msgid "hardware.status.erase_active"
+msgstr "CONTINUOUS ERASE — hold right mouse and sweep across wires or any component"
+
+msgid "hardware.status.erase_finished"
+msgstr "ERASE COMPLETE — removed %d components and %d wires; Undo restores the whole stroke"
+
+msgid "hardware.status.erase_finished_empty"
+msgstr "ERASE ENDED — no deletable wire or component was crossed"
+
+msgid "hardware.status.invalid_merge"
+msgstr "INVALID MERGE — ordinary outputs cannot be joined; branch from the driven wire instead"
+
+msgid "hardware.status.branch_cable"
+msgstr "BRANCH CABLE — release on a free input; the wire will split at the glowing node"
+
+msgid "hardware.status.invalid_wire_node"
+msgstr "INVALID WIRE NODE — %s"
+
+msgid "hardware.status.wire_node_created"
+msgstr "WIRE NODE CREATED — drag from its right port, or drag an existing wire to a free input"
+
+msgid "hardware.status.branch_cancelled_changed"
+msgstr "BRANCH CANCELLED — the selected wire changed before release"
+
+msgid "hardware.status.invalid_branch"
+msgstr "INVALID BRANCH — %s"
+
+msgid "hardware.status.branch_created"
+msgstr "BRANCH CREATED — one driven wire now feeds both destinations through a movable node"
+
+msgid "hardware.status.backward_wire_node_created"
+msgstr "WIRE END CREATED — this input can now be routed backward from the new movable node"
+
+msgid "hardware.status.branch_waypoint_created"
+msgstr "FREE BRANCH CREATED — the selected wire now reaches a new movable endpoint"
+
+msgid "hardware.status.endpoint_move_active"
+msgstr "MOVE WIRE END — keep Shift held and release on a free input or empty space"
+
+msgid "hardware.status.endpoint_moved"
+msgstr "WIRE END MOVED — the old input was disconnected and the new input is now authoritative"
+
+msgid "hardware.status.endpoint_moved_to_waypoint"
+msgstr "WIRE END MOVED — the segment now ends at a movable wire node"
+
+msgid "hardware.status.endpoint_moved_to_wire"
+msgstr "WIRE END MOVED — the selected input now branches from the wire where it was released"
+
+msgid "hardware.status.component_removed"
+msgstr "COMPONENT REMOVED — %s and only its incident wire segments were deleted"
+
+msgid "hardware.status.test_bench_terminal_protected"
+msgstr "Selection delete keeps Test Bench terminals; hold right mouse and sweep across a terminal to erase it"
+
+msgid "hardware.status.nothing_selected_delete"
+msgstr "No deletable player component is selected."
+
+msgid "hardware.status.cable_active"
+msgstr "CABLE ACTIVE — compatible %s ports glow and snap; invalid ports reject the cable"
+
+msgid "hardware.status.cable_released"
+msgstr "CABLE RELEASED — drag another port, or run the current circuit"
+
+msgid "hardware.status.action_undone"
+msgstr "UNDONE — the previous editor state was restored"
+
+msgid "hardware.status.action_redone"
+msgstr "REDONE — the undone edit was reapplied"
+
+msgid "hardware.status.nothing_to_undo"
+msgstr "There is no edit to undo."
+
+msgid "hardware.status.nothing_to_redo"
+msgstr "There is no edit to redo."
+
+msgid "hardware.status.selection_count"
+msgstr "%d component/wire node(s) selected; hold Shift to keep toggling"
+
+msgid "hardware.status.nodes_moved"
+msgstr "Moved %d selected item(s) — Ctrl+Z can undo it"
+
+msgid "hardware.status.nothing_to_copy"
+msgstr "No copyable player gate or wire node is selected; Test Bench terminals are excluded."
+
+msgid "hardware.status.selection_copied"
+msgstr "Copied %d component/wire node(s) and %d internal segment(s)"
+
+msgid "hardware.status.clipboard_empty"
+msgstr "The internal clipboard is empty; Shift-select items, then press Ctrl+C."
+
+msgid "hardware.status.paste_failed"
+msgstr "PASTE FAILED — %s"
+
+msgid "hardware.status.selection_pasted"
+msgstr "Pasted %d component/wire node(s) and %d internal segment(s); the new group is selected"
+
+msgid "hardware.status.components_removed"
+msgstr "Deleted %d selected component/wire node(s) as one edit"
+
+msgid "hardware.status.already_no_wires"
+msgstr "The workbench already has no wires."
+
+msgid "hardware.status.all_wires_removed"
+msgstr "ALL WIRES REMOVED — components and layout were preserved"
+
+msgid "hardware.status.topology_cleared"
+msgstr "Topology cleared — run all four official cases after rebuilding."
+
+msgid "hardware.status.drag_cancelled"
+msgstr "Cable drag cancelled. Existing wires were not changed."
+
+msgid "hardware.status.auto_layout"
+msgstr "AUTO LAYOUT RESTORED — screen distance has no simulation cost"
+
+msgid "hardware.status.input_changed"
+msgstr "Test Bench input changed. Run to create new evidence."
+
+msgid "hardware.status.circuit_incomplete"
+msgstr "CIRCUIT INCOMPLETE — %s"
+
+msgid "hardware.status.debug_complete"
+msgstr "DEBUG COMPLETE — the animation is replaying the deterministic circuit trace"
+
+msgid "hardware.status.official_pass"
+msgstr "OFFICIAL PASS — every case matches. Your exact topology is ready to seal."
+
+msgid "hardware.status.official_fail"
+msgstr "OFFICIAL FAIL — compare expected and actual, then revise the topology."
+
+msgid "hardware.status.sealed_verified"
+msgstr "SEALED COMPONENT VERIFIED — all four cases still pass through its stored circuit."
+
+msgid "hardware.status.sealed_failed"
+msgstr "SEALED COMPONENT CHECK FAILED"
+
+msgid "hardware.status.seal_stale"
+msgstr "Topology changed before sealing — official evidence is stale."
+
+msgid "hardware.status.sealing"
+msgstr "SEALING — capturing your verified topology and named interface"
+
+msgid "hardware.status.half_adder_created"
+msgstr "HalfAdder CREATED — the component evaluates the sealed player topology"
+
+msgid "hardware.status.trace_control_requires_run"
+msgstr "Run a circuit before controlling its Trace."
+
+msgid "hardware.status.trace_step_requires_run"
+msgstr "Run a circuit before stepping its Trace."
+
+msgid "hardware.trace.topology_changed"
+msgstr "TRACE — topology changed; run the displayed circuit again"
+
+msgid "hardware.diagnostics.awaiting_run"
+msgstr "Awaiting fresh run  ·  wire geometry still costs 0 ticks"
+
+msgid "hardware.diagnostics.trace"
+msgstr "Active gates %d  ·  Propagation %d ticks  ·  wires cost 0"
+
+msgid "hardware.live.summary"
+msgstr "LIVE PORTS · GREEN HIGH %d · RED LOW %d · GRAY HIGH-Z %d"
+
+msgid "hardware.live.invalid"
+msgstr "GREEN=HIGH · RED=LOW · GRAY=HIGH-Z · %s"
+
+msgid "hardware.trace.blocked"
+msgstr "TRACE BLOCKED — %s"
+
+msgid "hardware.trace.first_wave"
+msgstr "PARALLEL TRACE 1 / %d — %s"
+
+msgid "hardware.trace.component_count"
+msgstr "%d components"
+
+msgid "hardware.trace.wire_count"
+msgstr "%d wire segments"
+
+msgid "hardware.trace.parallel_summary"
+msgstr "%s in parallel"
+
+msgid "hardware.trace.wave"
+msgstr "PARALLEL WAVE %d / %d  ·  tick %d  ·  %s"
+
+msgid "hardware.trace.process"
+msgstr "PROCESS %s → %s"
+
+msgid "hardware.trace.pause"
+msgstr "Pause Trace"
+
+msgid "hardware.trace.resume"
+msgstr "Resume Trace"
+
+msgid "hardware.trace.replay"
+msgstr "Replay Trace"
+
+msgid "hardware.trace.complete"
+msgstr "TRACE COMPLETE — results were computed before animation began"
+
+msgid "hardware.tooltip.input"
+msgstr "External Test Bench signal source. Toggle its value in the Test Bench window."
+
+msgid "hardware.tooltip.output"
+msgstr "External Test Bench probe. This is not placeable circuit hardware."
+
+msgid "hardware.tooltip.lamp"
+msgstr "Visible output lamp. It observes a signal without adding gate delay."
+
+msgid "hardware.tooltip.and"
+msgstr "Outputs 1 only when both inputs are 1. Adds one simulation tick."
+
+msgid "hardware.tooltip.or"
+msgstr "Outputs 1 when either input is 1. Adds one simulation tick."
+
+msgid "hardware.tooltip.not"
+msgstr "Inverts its input. Adds one simulation tick."
+
+msgid "hardware.tooltip.junction"
+msgstr "Movable zero-delay wire node. Every port may carry multiple segments; distinct driven values on one net short."
+
+msgid "hardware.tooltip.logic_component"
+msgstr "Logic component"
+
+msgid "hardware.tooltip.nor"
+msgstr "Outputs 1 only when both inputs are 0. Adds one simulation tick."
+
+msgid "hardware.prologue.open_map"
+msgstr "Continue: Open CPU Build Map"
+
+msgid "hardware.prologue.open_map.tooltip"
+msgstr "Carry the sealed HalfAdder into the two-branch hardware prologue."
+
+msgid "hardware.prologue.map.phase"
+msgstr "HARDWARE PROLOGUE · CPU BUILD MAP"
+
+msgid "hardware.prologue.map.title"
+msgstr "From gates to a running computer"
+
+msgid "hardware.prologue.map.subtitle"
+msgstr "Two dependency branches merge into a four-bit CPU"
+
+msgid "hardware.prologue.map.description"
+msgstr "Start with wiring and basic gates, then seal each component you build. A level unlocks only after every prerequisite is complete; official tests read only the visible player-wired topology."
+
+msgid "hardware.prologue.map.status"
+msgstr "Choose an unlocked level. Completed levels remain replayable."
+
+msgid "hardware.prologue.map.trace"
+msgstr "Inside a level, signals follow the player's actual displayed wires."
+
+msgid "hardware.prologue.map.locked"
+msgstr "This level's prerequisite component is not complete."
+
+msgid "hardware.prologue.map.missing"
+msgstr "The component library is missing %s; complete its level first."
+
+msgid "hardware.prologue.map.requirement"
+msgstr "Requires: %s"
+
+msgid "hardware.prologue.branch.cpu"
+msgstr "ARITHMETIC BRANCH"
+
+msgid "hardware.prologue.branch.foundations"
+msgstr "BASIC GATES AND ABSTRACTION"
+
+msgid "hardware.prologue.branch.storage"
+msgstr "STORAGE BRANCH"
+
+msgid "hardware.prologue.branch.integration"
+msgstr "SYSTEM INTEGRATION"
+
+msgid "hardware.prologue.none"
+msgstr "none"
+
+msgid "hardware.prologue.unknown"
+msgstr "Unknown level"
+
+msgid "hardware.prologue.session_only"
+msgstr "Progress and the component library are session-local; no save format exists yet."
+
+msgid "hardware.prologue.library.title"
+msgstr "MY COMPONENT LIBRARY"
+
+msgid "hardware.prologue.library.subtitle"
+msgstr "Player topology and generated word-wrapper provenance"
+
+msgid "hardware.prologue.library.empty"
+msgstr "No sealed components yet."
+
+msgid "hardware.prologue.library.generated"
+msgstr "generated from a verified one-bit design"
+
+msgid "hardware.prologue.library.provenance"
+msgstr "%s · source signature %s"
+
+msgid "hardware.prologue.level.subtitle"
+msgstr "Free topology · fixed external Test Bench"
+
+msgid "hardware.prologue.level.ownership_note"
+msgstr "Components are auto-laid-out but unwired. Ports accept multiple segments; conflicting drivers short and combinational loops report a circular dependency."
+
+msgid "hardware.prologue.level.status"
+msgstr "Wire the components, inspect live ports with debug inputs, then run every official case."
+
+msgid "hardware.prologue.level.trace"
+msgstr "Awaiting run · components and wires in the same causal wave animate in parallel."
+
+msgid "hardware.prologue.level.zero_wire_delay"
+msgstr "Ordinary wires and wire nodes cost 0 ticks; only component processing adds propagation time."
+
+msgid "hardware.prologue.back_map"
+msgstr "Back to Build Map"
+
+msgid "hardware.prologue.seal"
+msgstr "Pass Tests to Seal Component"
+
+msgid "hardware.prologue.seal_verified"
+msgstr "Seal as %s"
+
+msgid "hardware.prologue.bench.title"
+msgstr "EXTERNAL TEST BENCH"
+
+msgid "hardware.prologue.bench.subtitle"
+msgstr "Editable debug values + fixed official cases/temporal program"
+
+msgid "hardware.prologue.case.not_run"
+msgstr "#%d  %s  →  expected %s  ·  not run"
+
+msgid "hardware.prologue.case.result"
+msgstr "#%d  %s  →  expected %s  ·  actual %s  ·  %s"
+
+msgid "hardware.prologue.debug.result"
+msgstr "Actual outputs: %s"
+
+msgid "hardware.prologue.no_result"
+msgstr "Simulation produced no result."
+
+msgid "hardware.prologue.live.summary"
+msgstr "Live ports settled · %d discrete ticks · %d zero-delay wire segments"
+
+msgid "hardware.prologue.trace.metrics"
+msgstr "Result: %d settle ticks · %d zero-delay segments · %d visual events"
+
+msgid "hardware.prologue.created"
+msgstr "%s was added to your component library."
+
+msgid "hardware.prologue.sealed_trace"
+msgstr "Player circuit → seal → %s · source signature preserved"
+
+msgid "hardware.prologue.complete.title"
+msgstr "ABSTRACTION LAYER ESTABLISHED"
+
+msgid "hardware.prologue.complete.subtitle"
+msgstr "Test evidence, topology signature, and behavior contract are bound"
+
+msgid "hardware.prologue.complete.created"
+msgstr "Created reusable component %s"
+
+msgid "hardware.prologue.complete.bridge"
+msgstr "LOAD/STORE program complete: computation happened in the CPU while state remained in RAM."
+
+msgid "hardware.prologue.complete.auto_expand"
+msgstr "Generated %s from your verified one-bit structure without making you wire four identical slices."
+
+msgid "hardware.prologue.open_locality"
+msgstr "Next: Open Cache Locality Lab"
+
+msgid "hardware.prologue.full_adder.title"
+msgstr "Full Adder"
+
+msgid "hardware.prologue.full_adder.description"
+msgstr "Use two sealed HalfAdders and one OR to handle A, B, and carry-in. Determine the topology instead of following a forced template."
+
+msgid "hardware.prologue.alu.title"
+msgstr "One-bit ALU"
+
+msgid "hardware.prologue.alu.description"
+msgstr "Select among AND, OR, ADD, and NOT-A results. Passing generates an ALU4 word wrapper."
+
+msgid "hardware.prologue.latch.title"
+msgstr "SR Latch"
+
+msgid "hardware.prologue.latch.description"
+msgstr "Store one bit with two cross-coupled NOR gates. Stable S=R=1 is invalid; only this level permits the explicit feedback loop."
+
+msgid "hardware.prologue.register.title"
+msgstr "One-bit Register"
+
+msgid "hardware.prologue.register.description"
+msgstr "Add D and LOAD control around your SRLatch: hold when LOAD=0 and write when LOAD=1. Passing generates Register4."
+
+msgid "hardware.prologue.ram.title"
+msgstr "2×4 RAM"
+
+msgid "hardware.prologue.ram.description"
+msgstr "Use two Register4 components, an address decoder, and a word mux to build two independent four-bit storage locations."
+
+msgid "hardware.prologue.cpu.title"
+msgstr "Four-bit Accumulator CPU"
+
+msgid "hardware.prologue.cpu.description"
+msgstr "Connect ALU4, accumulator, RAM, control, and data selectors into a tiny computer that runs LOAD_IMM, ADD_IMM, LOAD_MEM, and STORE_MEM."
+
+msgid "hardware.prologue.load_store.title"
+msgstr "LOAD/STORE Bridge"
+
+msgid "hardware.prologue.load_store.description"
+msgstr "Reuse the sealed TinyComputer to run a fixed program and watch data cross the CPU/RAM boundary. No repeated wiring is required."
+
+msgid "hardware.program.load_imm_3"
+msgstr "LOAD_IMM 3"
+
+msgid "hardware.program.store_0"
+msgstr "STORE [0]"
+
+msgid "hardware.program.load_imm_5"
+msgstr "LOAD_IMM 5"
+
+msgid "hardware.program.add_2"
+msgstr "ADD_IMM 2"
+
+msgid "hardware.program.store_1"
+msgstr "STORE [1]"
+
+msgid "hardware.program.load_0"
+msgstr "LOAD [0]"
+
+msgid "hardware.program.add_4"
+msgstr "ADD_IMM 4"
+
+msgid "circuit.connection.width_mismatch"
+msgstr "%s's %d-bit output cannot connect to %s's %d-bit input."
+
+msgid "circuit.error.invalid_latch_state"
+msgstr "%s cannot keep SET and RESET high at the same time."
+
+msgid "circuit.error.temporal_oscillation"
+msgstr "The circuit repeated a previous state at tick %d and cannot settle."
+
+msgid "circuit.error.temporal_timeout"
+msgstr "The circuit did not settle within %d ticks."
+
+msgid "hardware.trace.component"
+msgstr "Component process"
+
+msgid "hardware.trace.wire"
+msgstr "Wire propagation"
+
+msgid "hardware.trace.observer"
+msgstr "Probe observation"
+msgid "hardware.trace.state_count"
+msgstr "%d state commit(s)"
+
+msgid "hardware.trace.state.set"
+msgstr "SET → Q=%s"
+
+msgid "hardware.trace.state.reset"
+msgstr "RESET → Q=%s"
+
+msgid "hardware.trace.state.hold"
+msgstr "HOLD stored value %s"
+
+msgid "hardware.trace.state.write"
+msgstr "WRITE → %s"
+
+msgid "hardware.trace.state.ram_write"
+msgstr "WRITE M%d ← %s · M0=%s M1=%s"
+
+msgid "hardware.trace.state.ram_read"
+msgstr "READ M%d → %s · M0=%s M1=%s"
+
+msgid "hardware.trace.state.feedback_set"
+msgstr "SET feedback settled · %s=%s"
+
+msgid "hardware.trace.state.feedback_reset"
+msgstr "RESET feedback settled · %s=%s"
+
+msgid "hardware.trace.state.feedback_hold"
+msgstr "HOLD feedback retained · %s=%s"
+
+msgid "hardware.storage.component.uninitialized"
+msgstr "Not initialized"
+
+msgid "hardware.storage.component.latch"
+msgstr "Q=%s · /Q=%s"
+
+msgid "hardware.storage.component.register"
+msgstr "Stored Q=%s"
+
+msgid "hardware.storage.component.ram"
+msgstr "M0=%s · M1=%s"
+
+msgid "hardware.storage.component.computer"
+msgstr "ACC=%s · MEM=%s"
+
+msgid "hardware.storage.monitor.title"
+msgstr "Committed state"
+
+msgid "hardware.storage.monitor.explanation"
+msgstr "Port colors preview the current inputs in real time. Only Run Current advances one storage boundary and changes the committed state shown here."
+
+msgid "hardware.storage.state.cleared"
+msgstr "State reset; no input has been committed yet."
+
+msgid "hardware.storage.state.committed"
+msgstr "Committed · %s"
+
+msgid "hardware.storage.state.unknown"
+msgstr "Unknown state"
+
+msgid "hardware.storage.state.latch"
+msgstr "Q=%s · NQ=%s"
+
+msgid "hardware.storage.state.register"
+msgstr "Q=%s"
+
+msgid "hardware.storage.state.ram"
+msgstr "M0=%s · M1=%s"
+
+msgid "hardware.storage.state.initial_latch"
+msgstr "Undetermined (the first RESET/SET establishes state)"
+
+msgid "hardware.storage.reset"
+msgstr "Reset storage state"
+
+msgid "hardware.storage.reset.tooltip"
+msgstr "Clear this level's debug state and prior-tick outputs without deleting wires or changing official-test evidence."
+
+msgid "hardware.storage.reset.done"
+msgstr "Storage state reset; the current ports still show the live preview."
+
+msgid "hardware.storage.case.transition"
+msgstr "Action: %s · State: %s → %s"
+
+msgid "hardware.storage.case.plan"
+msgstr "Planned action: %s"
+
+msgid "hardware.storage.action.set"
+msgstr "SET"
+
+msgid "hardware.storage.action.reset"
+msgstr "RESET"
+
+msgid "hardware.storage.action.hold"
+msgstr "HOLD"
+
+msgid "hardware.storage.action.write"
+msgstr "WRITE D=%d"
+
+msgid "hardware.storage.action.ram_write"
+msgstr "WRITE M%d ← %s"
+
+msgid "hardware.storage.action.ram_read"
+msgstr "READ M%d"

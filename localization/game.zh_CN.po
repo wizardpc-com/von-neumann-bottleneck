@@ -1,0 +1,1554 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Von Neumann Bottleneck\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "game.title"
+msgstr "冯·诺依曼瓶颈"
+
+msgid "game.window_title"
+msgstr "冯·诺依曼瓶颈 — 硬件序章：构建 CPU"
+
+msgid "common.auto_layout"
+msgstr "自动布局"
+
+msgid "common.open_named"
+msgstr "打开%s"
+
+msgid "common.pause"
+msgstr "暂停"
+
+msgid "common.prototype_hub"
+msgstr "原型选择"
+
+msgid "common.replay"
+msgstr "重新播放"
+
+msgid "common.resume"
+msgstr "继续"
+
+msgid "common.step"
+msgstr "单步"
+
+msgid "window.close.tooltip"
+msgstr "关闭此窗口"
+
+msgid "window.minimize.tooltip"
+msgstr "最小化此窗口；双击标题也可切换"
+
+msgid "window.resize.tooltip"
+msgstr "拖动以调整大小"
+
+msgid "window.restore.tooltip"
+msgstr "还原此窗口"
+
+msgid "hub.subtitle"
+msgstr "可玩研究原型"
+
+msgid "hub.hardware.title"
+msgstr "硬件序章：构建 CPU"
+
+msgid "hub.hardware.eyebrow"
+msgstr "完整可玩序章原型"
+
+msgid "hub.hardware.description"
+msgstr "从自由连线与 HalfAdder 开始，沿算术和存储两条分支构建 FullAdder、ALU、锁存器、寄存器与 RAM，最终连成四位累加器 CPU 并运行 LOAD/STORE。"
+
+msgid "hub.hardware.play"
+msgstr "进入 CPU 构建序章"
+
+msgid "hub.locality.title"
+msgstr "缓存局部性实验室"
+
+msgid "hub.locality.eyebrow"
+msgstr "保留的 v0.2 原型"
+
+msgid "hub.locality.description"
+msgstr "原有的“草稿 → 应用 → 执行”局部性实验继续保留，作为历史和设计证据。"
+
+msgid "hub.locality.open"
+msgstr "打开 v0.2 局部性实验室"
+
+msgid "hub.note"
+msgstr "两个切片验证不同的玩法假设；它们都不是完整游戏。"
+
+msgid "device.program"
+msgstr "程序"
+
+msgid "device.program.detail"
+msgstr "类 Python DSL"
+
+msgid "device.program.draft_detail"
+msgstr "%s · 草稿"
+
+msgid "device.program.applied_detail"
+msgstr "%s · 已应用"
+
+msgid "device.program.executing"
+msgstr "%s · 执行中"
+
+msgid "device.program.invalid_source"
+msgstr "无效源代码"
+
+msgid "device.cpu.detail"
+msgstr "加载 / 加法 / 存储"
+
+msgid "device.cache"
+msgstr "缓存"
+
+msgid "device.cache.default_detail"
+msgstr "1 行 · 4 个整数 · 成本 4"
+
+msgid "device.bus"
+msgstr "总线"
+
+msgid "device.bus.detail"
+msgstr "请求 2 · 传输缓存行 4 周期"
+
+msgid "device.ram"
+msgstr "内存"
+
+msgid "device.ram.detail"
+msgstr "按行存储 A[4][4]"
+
+msgid "device.test_bench"
+msgstr "测试台"
+
+msgid "device.test_bench.detail"
+msgstr "结果正确 + 不超过 %d 周期"
+
+msgid "device.profiler"
+msgstr "分析器"
+
+msgid "device.profiler.detail"
+msgstr "证据调查工具"
+
+msgid "port.memory"
+msgstr "内存通路"
+
+msgid "port.result"
+msgstr "结果"
+
+msgid "port.telemetry"
+msgstr "追踪数据"
+
+msgid "state.ready"
+msgstr "就绪"
+
+msgid "state.idle"
+msgstr "空闲"
+
+msgid "state.not_run"
+msgstr "尚未运行"
+
+msgid "state.no_trace"
+msgstr "暂无追踪"
+
+msgid "state.apply_required"
+msgstr "需要应用"
+
+msgid "state.applied_ready"
+msgstr "已应用 · 就绪"
+
+msgid "state.draft_error"
+msgstr "草稿错误"
+
+msgid "state.trace_ready"
+msgstr "追踪已就绪"
+
+msgid "state.trace_source"
+msgstr "追踪来源"
+
+msgid "state.waiting_for_memory"
+msgstr "等待内存"
+
+msgid "state.test_bench"
+msgstr "测试台"
+
+msgid "strategy.column_first"
+msgstr "列优先"
+
+msgid "strategy.row_first"
+msgstr "行优先"
+
+msgid "strategy.unknown"
+msgstr "未知策略"
+
+msgid "test.official"
+msgstr "正式测试"
+
+msgid "test.debug"
+msgstr "调试测试"
+
+msgid "outcome.correct"
+msgstr "结果正确"
+
+msgid "outcome.correct_over_target"
+msgstr "结果正确 · 超出周期目标"
+
+msgid "outcome.incorrect"
+msgstr "结果错误"
+
+msgid "outcome.target_met"
+msgstr "目标达成"
+
+msgid "outcome.met"
+msgstr "达标"
+
+msgid "outcome.pass"
+msgstr "通过"
+
+msgid "outcome.fail"
+msgstr "失败"
+
+msgid "locality.subtitle"
+msgstr "原型 v0.2  •  程序 → 追踪 → 机器 → 证据"
+
+msgid "locality.workbench.title"
+msgstr "机器工作台"
+
+msgid "locality.workbench.goal"
+msgstr "正式目标：结果正确 · 不超过 %d 周期 · 记录硬件成本"
+
+msgid "locality.hub.tooltip"
+msgstr "返回原型选择界面，不改变本实验。"
+
+msgid "locality.auto_layout.tooltip"
+msgstr "恢复标准视觉布局。元件位置不影响模拟结果。"
+
+msgid "locality.status.ready"
+msgstr "就绪 — 打开测试台即可运行初始程序"
+
+msgid "locality.status.auto_layout"
+msgstr "自动布局 — 已恢复视觉位置；模拟不受影响"
+
+msgid "locality.status.strategy_already_loaded"
+msgstr "%s已加载 — 请查看逐行解释和应用状态"
+
+msgid "locality.status.strategy_loaded_draft"
+msgstr "%s已载入草稿 — 逐行检查后请点击“应用程序”"
+
+msgid "locality.status.program_changed"
+msgstr "程序已修改 — 旧追踪已清除"
+
+msgid "locality.status.apply_blocked"
+msgstr "无法应用 — 请先修复程序草稿中的错误"
+
+msgid "locality.status.program_already_applied"
+msgstr "程序已经应用 — 测试台已就绪"
+
+msgid "locality.status.program_applied_cleared"
+msgstr "程序已应用 — 旧追踪已清除；请从测试台运行以生成新证据"
+
+msgid "locality.status.program_applied"
+msgstr "程序已应用 — 测试台现在只会执行%s程序"
+
+msgid "locality.status.debug_data_changed"
+msgstr "调试数据已修改 — 请重新运行测试台"
+
+msgid "locality.status.cache_replaced_rerun"
+msgstr "缓存已替换 — 请重新运行以测量新硬件"
+
+msgid "locality.status.cache_replaced"
+msgstr "缓存已替换 — %d 行 · 成本 %d"
+
+msgid "locality.status.run_blocked_invalid_draft"
+msgstr "无法运行 — 请修复并应用程序草稿"
+
+msgid "locality.status.run_blocked_unapplied"
+msgstr "无法运行 — 请点击“应用程序”确认草稿"
+
+msgid "locality.status.run_blocked_applied_invalid"
+msgstr "无法运行 — 已应用的程序状态无效"
+
+msgid "locality.status.run_complete"
+msgstr "%s — %s — %d 周期 · 缓存 %d 行 · 成本 %d"
+
+msgid "locality.status.profiler_inspect"
+msgstr "分析器调查 — 周期 %d · 源代码第 %d 行 · %s"
+
+msgid "program.draft.description"
+msgstr "这里编辑的是草稿。点击“应用程序”后，它才会成为测试台能够解析和执行的唯一代码。"
+
+msgid "program.reference.title"
+msgstr "类 PYTHON 语法参考"
+
+msgid "program.reference.body"
+msgstr "# 注释  ·  for name in range(4):  ·  使用 4 个空格缩进\nacc += load(A[row][col])  ·  store(OUT[0], acc)"
+
+msgid "program.strategy_library.title"
+msgstr "策略库 — 载入草稿、检查效果，再点击应用"
+
+msgid "program.strategy.column.use"
+msgstr "使用列优先"
+
+msgid "program.strategy.column.tooltip"
+msgstr "把跨行访问的列优先策略载入为可编辑草稿。"
+
+msgid "program.strategy.row.use"
+msgstr "使用行优先"
+
+msgid "program.strategy.row.tooltip"
+msgstr "把连续访问的行优先策略载入为可编辑草稿。"
+
+msgid "program.applied_starter"
+msgstr "已应用程序 · %s初始程序"
+
+msgid "program.apply.button"
+msgstr "✓ 应用程序"
+
+msgid "program.apply.tooltip"
+msgstr "确认此有效草稿，将它设为测试台可以执行的唯一程序。"
+
+msgid "program.apply.draft_pending"
+msgstr "草稿尚未应用 — 测试台仍使用之前的程序"
+
+msgid "program.apply.applied"
+msgstr "已应用程序 · %s"
+
+msgid "program.apply.invalid"
+msgstr "尚未应用 — 无效草稿不能替换当前程序"
+
+msgid "program.effect.waiting"
+msgstr "实时效果 — 等待有效程序"
+
+msgid "program.effect.preview"
+msgstr "草稿效果 · %s\n外层 %s → 内层 %s · 起始地址 %s"
+
+msgid "program.effect.invalid"
+msgstr "没有草稿执行计划 — 应用前请先修复解析错误"
+
+msgid "program.explanation.title"
+msgstr "逐行解释"
+
+msgid "program.explanation.invalid"
+msgstr "解析器接受草稿后，才能生成逐行解释。"
+
+msgid "program.explanation.line"
+msgstr "第 %d 行  %s\n     %s"
+
+msgid "program.validation.valid_draft"
+msgstr "有效草稿 · %s"
+
+msgid "program.validation.valid_applied"
+msgstr "已应用的有效程序 · %s"
+
+msgid "program.validation.error"
+msgstr "草稿错误 · %s"
+
+msgid "program.receipt.not_executed_starter"
+msgstr "尚未执行 — 已应用的初始程序正等待测试台运行"
+
+msgid "program.receipt.not_executed"
+msgstr "尚未执行 — 已应用程序正等待测试台运行"
+
+msgid "program.receipt.draft_not_applied"
+msgstr "草稿尚未应用 — 此次编辑没有影响任何一次运行"
+
+msgid "program.receipt.applied_not_run"
+msgstr "已应用程序尚未运行 — 上方收据属于之前的代码"
+
+msgid "program.receipt.last_executed"
+msgstr "上次执行 · %s · %d 周期 · %d 次未命中\n源代码逐字取自已应用程序"
+
+msgid "program.reset.button"
+msgstr "将草稿重置为初始程序"
+
+msgid "program.reset.tooltip"
+msgstr "载入列优先初始程序作为草稿；若与当前程序不同，仍需点击应用。"
+
+msgid "test_bench.official_goal"
+msgstr "正式目标\n结果正确且总周期不超过 %d。硬件成本会被记录，但不设上限。"
+
+msgid "test_bench.debug_input.tooltip"
+msgstr "调试输入 A[%d][%d]"
+
+msgid "test_bench.official_data"
+msgstr "正式数据 A：[7, -2, 5, 11, 3, 0, 8, 4, 9, 1, 6, 2, 10, -1, 12, 13]"
+
+msgid "test_bench.run_debug"
+msgstr "▶ 运行调试数据"
+
+msgid "test_bench.run_official"
+msgstr "◆ 运行正式测试"
+
+msgid "test_bench.result"
+msgstr "%s · %d / %d · %d 周期"
+
+msgid "cache.description"
+msgstr "替换缓存元件。容量会改变硬件成本，也可能改变同一程序的追踪结果。"
+
+msgid "cache.card"
+msgstr "%d 行缓存\n容量 %d 个整数 · 成本 %d"
+
+msgid "cache.detail"
+msgstr "%d 行 · %d 个整数 · 成本 %d"
+
+msgid "trace.playback.title"
+msgstr "追踪回放"
+
+msgid "trace.playback.empty"
+msgstr "运行一次测试以生成权威的 SimulationTrace。"
+
+msgid "trace.playback.event"
+msgstr "[%03d/%03d] 周期 %d +%d · 源代码第 %d 行 · %s"
+
+msgid "trace.playback.complete"
+msgstr "追踪完成 — 回放只读取预先计算的追踪，没有改变结果。"
+
+msgid "trace.playback.inputs_changed"
+msgstr "输入已改变。请重新运行以生成匹配的追踪证据。"
+
+msgid "trace.overlay.process"
+msgstr "处理"
+
+msgid "profiler.description"
+msgstr "这里展示已完成追踪中的证据。展开事实并调查事件；工具不会自动给出优化建议。"
+
+msgid "profiler.column.evidence"
+msgstr "证据"
+
+msgid "profiler.column.value"
+msgstr "数值"
+
+msgid "profiler.select_miss"
+msgstr "请选择一次缓存未命中，查看其源代码行和返回的缓存行。"
+
+msgid "profiler.inspect_trace"
+msgstr "在追踪中调查"
+
+msgid "profiler.history.title"
+msgstr "本次会话的运行历史"
+
+msgid "profiler.history.empty"
+msgstr "尚无运行记录。"
+
+msgid "profiler.history.entry"
+msgstr "%d. %s · %s · 缓存 %d 行 · %d 周期 · %d 次未命中 · %d B · 成本 %d · %s"
+
+msgid "profiler.summary"
+msgstr "%s\n总计 %d · 计算 %d · 等待 %d · 命中 %d · 未命中 %d · 内存 %d B · 成本 %d"
+
+msgid "profiler.tree.cycles"
+msgstr "周期"
+
+msgid "profiler.tree.compute"
+msgstr "计算"
+
+msgid "profiler.tree.waiting"
+msgstr "等待"
+
+msgid "profiler.tree.cache_lookup"
+msgstr "缓存查询"
+
+msgid "profiler.tree.bus_request"
+msgstr "总线请求"
+
+msgid "profiler.tree.ram_access"
+msgstr "内存访问"
+
+msgid "profiler.tree.line_return"
+msgstr "缓存行返回"
+
+msgid "profiler.tree.memory_accesses"
+msgstr "内存访问次数"
+
+msgid "profiler.tree.cache_hits"
+msgstr "缓存命中"
+
+msgid "profiler.tree.cache_misses"
+msgstr "缓存未命中"
+
+msgid "profiler.tree.miss_event"
+msgstr "周期 %d · 第 %d 行 · A[%d][%d]"
+
+msgid "profiler.tree.cache_line"
+msgstr "缓存行 %d"
+
+msgid "profiler.event_detail"
+msgstr "周期 %d · 源代码第 %d 行\nA[%d][%d] → 地址 %d · 缓存行 %d\n取回 A 的地址 %d..%d = %s"
+
+msgid "event.message.request"
+msgstr "加载 A[%d][%d] → 地址 %d"
+
+msgid "event.message.cache_lookup"
+msgstr "查询缓存行 %d"
+
+msgid "event.message.cache_hit"
+msgstr "命中 — 缓存行 %d 返回数值 %d"
+
+msgid "event.message.cache_miss"
+msgstr "未命中 — 缓存行 %d 不在缓存中"
+
+msgid "event.message.bus_request"
+msgstr "总线传递缓存行请求"
+
+msgid "event.message.ram_access"
+msgstr "内存读取缓存行 %d：%s"
+
+msgid "event.message.line_return"
+msgstr "16 字节的缓存行 %d 经总线返回"
+
+msgid "event.message.cache_evict"
+msgstr "换出最久未使用的缓存行 %d"
+
+msgid "event.message.cache_fill"
+msgstr "填入缓存行 %d，返回数值 %d"
+
+msgid "event.message.compute"
+msgstr "%s → %d"
+
+msgid "event.message.store_result"
+msgstr "存储结果 → OUT[0] = %d"
+
+msgid "event.short.lookup"
+msgstr "查询"
+
+msgid "event.short.hit"
+msgstr "命中"
+
+msgid "event.short.miss"
+msgstr "未命中"
+
+msgid "event.short.request"
+msgstr "请求"
+
+msgid "event.short.read_line"
+msgstr "读取缓存行"
+
+msgid "event.short.four_ints"
+msgstr "4 个整数 · 16 B"
+
+msgid "event.short.value"
+msgstr "数值 %d"
+
+msgid "event.short.evict"
+msgstr "换出"
+
+msgid "event.short.add"
+msgstr "加法"
+
+msgid "event.state.issue_load"
+msgstr "第 %d 行 · 发出加载"
+
+msgid "event.state.form_address"
+msgstr "形成 A[%d][%d]"
+
+msgid "event.state.accept_request"
+msgstr "接收请求"
+
+msgid "event.state.lookup_line"
+msgstr "查询缓存行 %d"
+
+msgid "event.state.read_hit_line"
+msgstr "读取命中的缓存行 %d"
+
+msgid "event.state.latch_value"
+msgstr "锁存数值 %d"
+
+msgid "event.state.miss_line"
+msgstr "缓存行 %d 未命中"
+
+msgid "event.state.send_line_request"
+msgstr "发送缓存行 %d 请求"
+
+msgid "event.state.forward_request"
+msgstr "转发请求"
+
+msgid "event.state.send_address"
+msgstr "发送地址"
+
+msgid "event.state.read_line"
+msgstr "读取缓存行 %d"
+
+msgid "event.state.pack_line"
+msgstr "打包缓存行 %d · 16 B"
+
+msgid "event.state.relay_16b"
+msgstr "转发 16 B"
+
+msgid "event.state.install_line"
+msgstr "装入缓存行 %d"
+
+msgid "event.state.evict_line"
+msgstr "换出缓存行 %d"
+
+msgid "event.state.read_filled_line"
+msgstr "读取新填入的缓存行 %d"
+
+msgid "event.state.issue_add"
+msgstr "第 %d 行 · 发出加法"
+
+msgid "event.state.add_result"
+msgstr "相加 → %d"
+
+msgid "event.state.issue_store"
+msgstr "第 %d 行 · 发出存储"
+
+msgid "event.state.send_value"
+msgstr "发送 %d"
+
+msgid "event.state.check_value"
+msgstr "检查 %d"
+
+msgid "event.state.process_device"
+msgstr "%s 处理中"
+
+msgid "dsl.error.internal_pattern"
+msgstr "内部 DSL 模式编译失败。"
+
+msgid "dsl.error.tabs"
+msgstr "第 %d 行：请使用 4 个空格缩进；不支持制表符。"
+
+msgid "dsl.error.indent_multiple"
+msgstr "第 %d 行：缩进必须是 4 个空格的整数倍。"
+
+msgid "dsl.error.unexpected_indent"
+msgstr "第 %d 行：出现意外缩进。"
+
+msgid "dsl.error.too_many_loops"
+msgstr "第 %d 行：当前原型只支持恰好两层嵌套循环。"
+
+msgid "dsl.error.unsupported_statement"
+msgstr "第 %d 行：不支持语句 `%s`。"
+
+msgid "dsl.error.empty"
+msgstr "程序为空。"
+
+msgid "dsl.error.two_distinct_loops"
+msgstr "程序必须包含恰好两个变量不同的嵌套循环。"
+
+msgid "dsl.error.one_nested_traversal"
+msgstr "两个循环必须组成一段嵌套遍历。"
+
+msgid "dsl.error.final_store"
+msgstr "最后一条语句必须是 `store(OUT[0], name)`。"
+
+msgid "dsl.error.load_required"
+msgstr "循环体必须至少从 A 加载一个数值。"
+
+msgid "dsl.error.add_required"
+msgstr "循环体必须至少执行一次 `+=`。"
+
+msgid "dsl.error.one_store"
+msgstr "程序必须恰好包含一次最终存储。"
+
+msgid "dsl.error.scalar_outside_loops"
+msgstr "第 %d 行：标量初始化必须位于循环外。"
+
+msgid "dsl.error.assign_loop_variable"
+msgstr "第 %d 行：不能给循环变量赋值。"
+
+msgid "dsl.error.loop_variables_different"
+msgstr "第 %d 行：两个循环变量必须不同。"
+
+msgid "dsl.error.memory_inside_loops"
+msgstr "第 %d 行：内存访问必须位于两层循环内部。"
+
+msgid "dsl.error.indices_active_loops"
+msgstr "第 %d 行：A 的下标必须使用当前两个循环变量。"
+
+msgid "dsl.error.indices_different"
+msgstr "第 %d 行：行下标和列下标必须不同。"
+
+msgid "dsl.error.initialize_before_add"
+msgstr "第 %d 行：`%s` 必须在 `+=` 之前初始化。"
+
+msgid "dsl.error.add_inside_loops"
+msgstr "第 %d 行：`+=` 必须位于两层循环内部。"
+
+msgid "dsl.error.add_variables_initialized"
+msgstr "第 %d 行：`+=` 两侧的变量都必须已经初始化。"
+
+msgid "dsl.error.store_outside_loops"
+msgstr "第 %d 行：存储操作必须位于两层循环外。"
+
+msgid "dsl.error.stored_variable_initialized"
+msgstr "第 %d 行：待存储变量 `%s` 尚未初始化。"
+
+msgid "dsl.explanation.comment"
+msgstr "这是给玩家阅读的注释，不会执行。"
+
+msgid "dsl.explanation.assign_const"
+msgstr "创建变量 `%s`，并把初始整数设为 %d。"
+
+msgid "dsl.explanation.for_range.outer"
+msgstr "让外层循环变量 `%s` 依次取 0、1、2、3。"
+
+msgid "dsl.explanation.for_range.inner"
+msgstr "让内层循环变量 `%s` 依次取 0、1、2、3。"
+
+msgid "dsl.explanation.load"
+msgstr "经 CPU 和缓存加载 A[%s][%s]，再把数值放入 `%s`。"
+
+msgid "dsl.explanation.add_load"
+msgstr "经 CPU 和缓存加载 A[%s][%s]，再把数值累加到 `%s`。"
+
+msgid "dsl.explanation.add"
+msgstr "在 CPU 中把 `%s` 加到 `%s`。"
+
+msgid "dsl.explanation.store"
+msgstr "把 `%s` 发送到 OUT[0]，供测试台检查结果。"
+
+msgid "circuit.connection.endpoints_missing"
+msgstr "连接的两个端点都必须存在。"
+
+msgid "circuit.connection.output_missing"
+msgstr "%s 没有输出端口 %d。"
+
+msgid "circuit.connection.input_missing"
+msgstr "%s 没有输入端口 %d。"
+
+msgid "circuit.connection.duplicate"
+msgstr "这条连线已经存在。"
+
+msgid "circuit.error.no_observer"
+msgstr "电路中没有可供求值的指示灯或输出端。"
+
+msgid "circuit.error.input_missing"
+msgstr "缺少测试台输入 %s。"
+
+msgid "circuit.error.unresolved"
+msgstr "%s 无法求值（可能存在环路或无效的上游连线）。"
+
+msgid "circuit.error.unsupported_kind"
+msgstr "%s 使用了不支持的元件类型“%s”。"
+
+msgid "circuit.error.wire_endpoint_missing"
+msgstr "连线 %s 缺少端点。"
+
+msgid "circuit.error.wire_port_invalid"
+msgstr "连线 %s 使用了无效端口。"
+
+msgid "circuit.error.circuit_missing"
+msgstr "电路不存在。"
+
+msgid "circuit.error.duplicate_wire"
+msgstr "连线 %s 重复。"
+
+msgid "circuit.error.short_circuit"
+msgstr "短路：%s 的第 %d 个输入同时受到低电平和高电平驱动。"
+
+msgid "circuit.error.circular_dependency"
+msgstr "循环依赖：%s 在同一个仿真 tick 内形成反馈。"
+
+msgid "hardware.title"
+msgstr "硬件序章 · 构建 CPU"
+
+msgid "hardware.subtitle"
+msgstr "信号 → 逻辑 → 抽象 → CPU / RAM"
+
+msgid "hardware.hub.tooltip"
+msgstr "返回原型选择界面。"
+
+msgid "hardware.window.mission"
+msgstr "任务"
+
+msgid "hardware.window.show.tooltip"
+msgstr "显示或还原此桌面窗口。"
+
+msgid "hardware.toolbar.auto_layout.tooltip"
+msgstr "恢复清晰的元件位置；几何距离永远不会改变延迟。"
+
+msgid "hardware.toolbar.undo_wire"
+msgstr "撤销"
+
+msgid "hardware.toolbar.undo_wire.tooltip"
+msgstr "撤销最近一次完整编辑（Ctrl+Z）。"
+
+msgid "hardware.toolbar.redo"
+msgstr "重做"
+
+msgid "hardware.toolbar.redo.tooltip"
+msgstr "重新应用刚撤销的编辑（Ctrl+Y 或 Ctrl+Shift+Z）。"
+
+msgid "hardware.toolbar.clear_wires"
+msgstr "清空连线"
+
+msgid "hardware.toolbar.clear_wires.tooltip"
+msgstr "移除当前全部连线和线节点；整个操作可以撤销。"
+
+msgid "hardware.toolbar.cancel_cable"
+msgstr "取消接线"
+
+msgid "hardware.toolbar.cancel_cable.tooltip"
+msgstr "取消当前跟随鼠标的接线。"
+
+msgid "hardware.toolbar.level_map"
+msgstr "关卡地图"
+
+msgid "hardware.toolbar.level_map.tooltip"
+msgstr "打开硬件序章地图，查看已完成、已解锁和仍需前置元件的关卡。"
+
+msgid "hardware.phase.tutorial"
+msgstr "1 / 2 · 连线教程"
+
+msgid "hardware.phase.half_adder"
+msgstr "2 / 2 · 搭建 1 位半加器"
+
+msgid "hardware.phase.complete"
+msgstr "完成 · 玩家拥有的抽象"
+
+msgid "hardware.trace.empty"
+msgstr "追踪 — 运行电路以查看每一步因果传播"
+
+msgid "hardware.diagnostics.empty"
+msgstr "门电路 — · 延迟 —"
+
+msgid "hardware.tutorial.status"
+msgstr "左拖移动/接线；Shift+单击或拖框多选；Ctrl+Z/Y/C/V 编辑；Shift+拖已连接输入可移动线端；按住右键划过可删除。"
+
+msgid "hardware.tutorial.trace_hint"
+msgstr "追踪 — 推荐先尝试 A → NOT → 指示灯"
+
+msgid "hardware.tutorial.zero_delay"
+msgstr "普通连线延迟为 0 tick"
+
+msgid "hardware.tutorial.heading"
+msgstr "连线教程"
+
+msgid "hardware.tutorial.heading_subtitle"
+msgstr "一个紧凑、可移动的桌面任务窗口"
+
+msgid "hardware.tutorial.prompt"
+msgstr "创建一条通往指示灯的完整路径。\n建议：A → NOT → 指示灯。\n未接端口默认红色低电平 0；绿=1，灰=真实高阻/未决。多线异值会短路，无延迟反馈会产生循环依赖。\nShift 可多选；Ctrl+Z/Y 撤销/重做，Ctrl+C/V 复制/粘贴。然后删除一条线并重新连接。"
+
+msgid "hardware.tutorial.checklist_title"
+msgstr "简短交互检查"
+
+msgid "hardware.tutorial.check.wire"
+msgstr "创建一条有效连线"
+
+msgid "hardware.tutorial.check.input"
+msgstr "改变一个测试台输入"
+
+msgid "hardware.tutorial.check.run"
+msgstr "运行一条完整路径"
+
+msgid "hardware.tutorial.check.remove"
+msgstr "移除一条连线"
+
+msgid "hardware.tutorial.check.reconnect"
+msgstr "移除后重新连接"
+
+msgid "hardware.tutorial.begin_challenge"
+msgstr "开始半加器挑战"
+
+msgid "hardware.tutorial.complete_five"
+msgstr "完成 5 项交互"
+
+msgid "hardware.practice.heading"
+msgstr "练习信号"
+
+msgid "hardware.practice.heading_subtitle"
+msgstr "外部控制 · 不属于玩家硬件"
+
+msgid "hardware.practice.run"
+msgstr "运行练习电路"
+
+msgid "hardware.practice.lamp_empty"
+msgstr "指示灯：—"
+
+msgid "hardware.challenge.status"
+msgstr "请自行设计拓扑。门电路、测试台端子和线节点都可以移动。"
+
+msgid "hardware.challenge.trace_note"
+msgstr "追踪 — 正式成功只取决于画面中实际存在的电路"
+
+msgid "hardware.challenge.diagnostics"
+msgstr "只要求正确性 · 门数量与延迟仅作诊断"
+
+msgid "hardware.challenge.ready_unwired"
+msgstr "准备搭建 · 当前尚未接线，这不是故障；未连接端口按低电平 0 实时计算"
+
+msgid "hardware.challenge.heading"
+msgstr "半加器挑战"
+
+msgid "hardware.challenge.heading_subtitle"
+msgstr "请自行设计拓扑"
+
+msgid "hardware.challenge.description"
+msgstr "用输入 A/B 和输出 SUM/CARRY 搭建电路。允许留下备用门；测试台只会评估画面中的实际连线。"
+
+msgid "hardware.challenge.hint"
+msgstr "失败会显示期望/实际、短路或循环依赖，但不会给出公式。Shift 多选；Ctrl+Z/Y/C/V 可撤销、重做和复制子电路。"
+
+msgid "hardware.seal.button"
+msgstr "封装为 HalfAdder"
+
+msgid "hardware.seal.tooltip"
+msgstr "只有刚刚通过全部 4 个正式用例后才会解锁。"
+
+msgid "hardware.seal.verified_button"
+msgstr "将此电路封装为 HalfAdder"
+
+msgid "hardware.cases.heading"
+msgstr "半加器用例"
+
+msgid "hardware.cases.heading_subtitle"
+msgstr "只验证正确性 · 不使用分析器"
+
+msgid "hardware.cases.run_debug"
+msgstr "运行当前调试用例"
+
+msgid "hardware.cases.actual_empty"
+msgstr "实际：SUM —  CARRY —"
+
+msgid "hardware.cases.run_official"
+msgstr "运行 4 个正式用例"
+
+msgid "hardware.cases.row_not_run"
+msgstr "A%d B%d → 期望 S%d C%d · 尚未运行"
+
+msgid "hardware.cases.row_result"
+msgstr "A%d B%d → 期望 S%d C%d · 实际 %s  %s"
+
+msgid "hardware.sealed.library_heading"
+msgstr "玩家元件库"
+
+msgid "hardware.sealed.library_subtitle"
+msgstr "新的可复用抽象"
+
+msgid "hardware.sealed.created"
+msgstr "✓ HalfAdder"
+
+msgid "hardware.sealed.interface"
+msgstr "输入   A · B\n输出   SUM · CARRY\n\n此元件仍会计算你亲手搭建并封存的电路快照。"
+
+msgid "hardware.sealed.signature"
+msgstr "封存源签名\n%s"
+
+msgid "hardware.sealed.bench_heading"
+msgstr "元件测试台"
+
+msgid "hardware.sealed.bench_subtitle"
+msgstr "运行封存的电路快照"
+
+msgid "hardware.sealed.run_debug"
+msgstr "运行已封装元件"
+
+msgid "hardware.sealed.result_empty"
+msgstr "HalfAdder：SUM —  CARRY —"
+
+msgid "hardware.sealed.run_official"
+msgstr "让 HalfAdder 重放正式用例"
+
+msgid "hardware.sealed.node_title"
+msgstr "HalfAdder · 玩家元件"
+
+msgid "hardware.sealed.ownership"
+msgstr "封装自你验证通过的电路\n4 个正式用例全部通过"
+
+msgid "hardware.sealed.diagnostics"
+msgstr "可复用接口 · A/B → SUM/CARRY"
+
+msgid "hardware.port.input"
+msgstr "输入"
+
+msgid "hardware.port.output"
+msgstr "输出"
+
+msgid "hardware.component.test_input"
+msgstr "测试输入 %s"
+
+msgid "hardware.component.probe"
+msgstr "输出探针 %s"
+
+msgid "hardware.component.output_lamp"
+msgstr "输出指示灯"
+
+msgid "hardware.kind.input"
+msgstr "输入"
+
+msgid "hardware.kind.output"
+msgstr "输出"
+
+msgid "hardware.kind.lamp"
+msgstr "指示灯"
+
+msgid "hardware.kind.junction"
+msgstr "线节点"
+
+msgid "hardware.result.lamp"
+msgstr "指示灯"
+
+msgid "hardware.result.actual"
+msgstr "实际"
+
+msgid "hardware.result.cannot_run"
+msgstr "无法运行：%s"
+
+msgid "hardware.result.single"
+msgstr "%s：%d"
+
+msgid "hardware.result.half_adder"
+msgstr "%s：SUM %d  CARRY %d"
+
+msgid "hardware.status.invalid_connection"
+msgstr "无效连接 — %s"
+
+msgid "hardware.status.connected"
+msgstr "已连接 — %s → %s · 该输出可以驱动多个目标"
+
+msgid "hardware.status.topology_changed"
+msgstr "拓扑已改变 — 请重新运行全部 4 个正式用例。"
+
+msgid "hardware.status.wire_removed"
+msgstr "连线已移除 — 可从任意兼容输出端口重新连接"
+
+msgid "hardware.status.erase_active"
+msgstr "连续删除 — 按住右键划过导线或任意元件"
+
+msgid "hardware.status.erase_finished"
+msgstr "连续删除完成 — 已移除 %d 个元件和 %d 条导线；撤销可整体恢复"
+
+msgid "hardware.status.erase_finished_empty"
+msgstr "连续删除结束 — 没有划过可删除的导线或元件"
+
+msgid "hardware.status.invalid_merge"
+msgstr "无效合并 — 普通输出不能相互短接；请从已有受驱动连线上分支"
+
+msgid "hardware.status.branch_cable"
+msgstr "分支接线 — 在空闲输入上释放；连线会在发光节点处分开"
+
+msgid "hardware.status.invalid_wire_node"
+msgstr "无效线节点 — %s"
+
+msgid "hardware.status.wire_node_created"
+msgstr "线节点已创建 — 可从右侧端口继续拖线，或把已有连线分支到空闲输入"
+
+msgid "hardware.status.branch_cancelled_changed"
+msgstr "分支已取消 — 选中的连线在释放前发生了变化"
+
+msgid "hardware.status.invalid_branch"
+msgstr "无效分支 — %s"
+
+msgid "hardware.status.branch_created"
+msgstr "分支已创建 — 一条受驱动连线现在通过可移动节点同时连接两个目标"
+
+msgid "hardware.status.backward_wire_node_created"
+msgstr "已创建反向线端 — 现在可从新建的可移动节点向该输入反向布线"
+
+msgid "hardware.status.branch_waypoint_created"
+msgstr "已创建自由分支 — 选中的导线现在延伸到新的可移动端点"
+
+msgid "hardware.status.endpoint_move_active"
+msgstr "移动线端 — 保持 Shift，并释放到空闲输入或空白处"
+
+msgid "hardware.status.endpoint_moved"
+msgstr "线端已移动 — 旧输入已断开，新输入成为当前有效连接"
+
+msgid "hardware.status.endpoint_moved_to_waypoint"
+msgstr "线端已移动 — 该线段现在结束于可移动线节点"
+
+msgid "hardware.status.endpoint_moved_to_wire"
+msgstr "线端已移动 — 选中的输入现在从释放位置的导线处分支"
+
+msgid "hardware.status.component_removed"
+msgstr "元件已删除 — 已移除 %s 及仅与它相连的线段"
+
+msgid "hardware.status.test_bench_terminal_protected"
+msgstr "选中删除不会移除测试台端子；按住右键划过端子可将其删除"
+
+msgid "hardware.status.nothing_selected_delete"
+msgstr "当前没有选中可删除的玩家元件。"
+
+msgid "hardware.status.cable_active"
+msgstr "正在接线 — 兼容的%s端口会发光并吸附；无效端口会拒绝连接"
+
+msgid "hardware.status.cable_released"
+msgstr "接线已释放 — 可继续拖动其它端口，或运行当前电路"
+
+msgid "hardware.status.action_undone"
+msgstr "已撤销 — 上一个编辑状态已恢复"
+
+msgid "hardware.status.action_redone"
+msgstr "已重做 — 撤销的编辑已重新应用"
+
+msgid "hardware.status.nothing_to_undo"
+msgstr "没有可撤销的编辑。"
+
+msgid "hardware.status.nothing_to_redo"
+msgstr "没有可重做的编辑。"
+
+msgid "hardware.status.selection_count"
+msgstr "已选择 %d 个元件/线节点；Shift 可继续切换选择"
+
+msgid "hardware.status.nodes_moved"
+msgstr "已移动 %d 个选中项 — 可用 Ctrl+Z 撤销"
+
+msgid "hardware.status.nothing_to_copy"
+msgstr "没有选中可复制的玩家门或线节点；测试台端子不会被复制。"
+
+msgid "hardware.status.selection_copied"
+msgstr "已复制 %d 个元件/线节点和 %d 段内部连线"
+
+msgid "hardware.status.clipboard_empty"
+msgstr "内部剪贴板为空；先用 Shift 选择，再按 Ctrl+C。"
+
+msgid "hardware.status.paste_failed"
+msgstr "粘贴失败 — %s"
+
+msgid "hardware.status.selection_pasted"
+msgstr "已粘贴 %d 个元件/线节点和 %d 段内部连线；它们已被选中"
+
+msgid "hardware.status.components_removed"
+msgstr "已在一个操作中删除 %d 个选中元件/线节点"
+
+msgid "hardware.status.already_no_wires"
+msgstr "工作台中已经没有连线。"
+
+msgid "hardware.status.all_wires_removed"
+msgstr "全部连线已移除 — 元件和布局均已保留"
+
+msgid "hardware.status.topology_cleared"
+msgstr "拓扑已清空 — 重建后请重新运行全部 4 个正式用例。"
+
+msgid "hardware.status.drag_cancelled"
+msgstr "接线拖拽已取消。已有连线没有变化。"
+
+msgid "hardware.status.auto_layout"
+msgstr "自动布局已恢复 — 屏幕距离没有模拟成本"
+
+msgid "hardware.status.input_changed"
+msgstr "测试台输入已改变。请运行以生成新证据。"
+
+msgid "hardware.status.circuit_incomplete"
+msgstr "电路不完整 — %s"
+
+msgid "hardware.status.debug_complete"
+msgstr "调试完成 — 动画正在回放确定性的电路追踪"
+
+msgid "hardware.status.official_pass"
+msgstr "正式测试通过 — 全部用例均匹配。你的精确拓扑已经可以封装。"
+
+msgid "hardware.status.official_fail"
+msgstr "正式测试失败 — 对比期望值与实际值，然后修改拓扑。"
+
+msgid "hardware.status.sealed_verified"
+msgstr "封装元件验证通过 — 保存的电路仍通过全部 4 个用例。"
+
+msgid "hardware.status.sealed_failed"
+msgstr "封装元件检查失败"
+
+msgid "hardware.status.seal_stale"
+msgstr "封装前拓扑已改变 — 正式测试证据已经失效。"
+
+msgid "hardware.status.sealing"
+msgstr "正在封装 — 保存你验证通过的拓扑和命名接口"
+
+msgid "hardware.status.half_adder_created"
+msgstr "HalfAdder 已创建 — 此元件会计算玩家封存的拓扑"
+
+msgid "hardware.status.trace_control_requires_run"
+msgstr "请先运行电路，再控制追踪回放。"
+
+msgid "hardware.status.trace_step_requires_run"
+msgstr "请先运行电路，再单步查看追踪。"
+
+msgid "hardware.trace.topology_changed"
+msgstr "追踪 — 拓扑已改变；请重新运行画面中的电路"
+
+msgid "hardware.diagnostics.awaiting_run"
+msgstr "等待重新运行 · 连线几何形状仍然消耗 0 tick"
+
+msgid "hardware.diagnostics.trace"
+msgstr "有效门电路 %d · 传播 %d tick · 连线成本 0"
+
+msgid "hardware.live.summary"
+msgstr "实时端口 · 绿色高电平 %d · 红色低电平 %d · 灰色高阻 Z %d"
+
+msgid "hardware.live.invalid"
+msgstr "绿=高 · 红=低 · 灰=高阻 Z · %s"
+
+msgid "hardware.trace.blocked"
+msgstr "追踪被阻止 — %s"
+
+msgid "hardware.trace.first_wave"
+msgstr "并行追踪 1 / %d — %s"
+
+msgid "hardware.trace.component_count"
+msgstr "%d 个元件"
+
+msgid "hardware.trace.wire_count"
+msgstr "%d 段连线"
+
+msgid "hardware.trace.parallel_summary"
+msgstr "%s并行运行"
+
+msgid "hardware.trace.wave"
+msgstr "并行波次 %d / %d · tick %d · %s"
+
+msgid "hardware.trace.process"
+msgstr "处理 %s → %s"
+
+msgid "hardware.trace.pause"
+msgstr "暂停追踪"
+
+msgid "hardware.trace.resume"
+msgstr "继续追踪"
+
+msgid "hardware.trace.replay"
+msgstr "重放追踪"
+
+msgid "hardware.trace.complete"
+msgstr "追踪完成 — 结果在动画开始前就已计算完毕"
+
+msgid "hardware.tooltip.input"
+msgstr "外部测试台信号源。请在测试台窗口中切换数值。"
+
+msgid "hardware.tooltip.output"
+msgstr "外部测试台探针，不是可放置的玩家硬件。"
+
+msgid "hardware.tooltip.lamp"
+msgstr "可见输出指示灯。它只观察信号，不增加门延迟。"
+
+msgid "hardware.tooltip.and"
+msgstr "仅当两个输入都为 1 时输出 1。增加 1 个模拟 tick。"
+
+msgid "hardware.tooltip.or"
+msgstr "任一输入为 1 时输出 1。增加 1 个模拟 tick。"
+
+msgid "hardware.tooltip.not"
+msgstr "反转输入。增加 1 个模拟 tick。"
+
+msgid "hardware.tooltip.junction"
+msgstr "可移动的零延迟线节点。每个端口都可接多段线；不同电平同时驱动同一网络会短路。"
+
+msgid "hardware.tooltip.logic_component"
+msgstr "逻辑元件"
+
+msgid "hardware.tooltip.nor"
+msgstr "仅当两个输入均为 0 时输出 1。增加 1 个模拟 tick。"
+
+msgid "hardware.prologue.open_map"
+msgstr "继续：打开 CPU 构建地图"
+
+msgid "hardware.prologue.open_map.tooltip"
+msgstr "把已封存的 HalfAdder 带入后续双分支硬件序章。"
+
+msgid "hardware.prologue.map.phase"
+msgstr "硬件序章 · CPU 构建地图"
+
+msgid "hardware.prologue.map.title"
+msgstr "从门电路到可运行计算机"
+
+msgid "hardware.prologue.map.subtitle"
+msgstr "两条依赖分支，最终汇合为四位 CPU"
+
+msgid "hardware.prologue.map.description"
+msgstr "从连线与基础门开始，逐关封存你亲手搭建的元件。只有完成全部前置关卡，下一关才会解锁；正式测试只读取画面中的真实连线。"
+
+msgid "hardware.prologue.map.status"
+msgstr "选择一个已解锁关卡；完成的关卡可以重新搭建。"
+
+msgid "hardware.prologue.map.trace"
+msgstr "选择关卡后，信号会沿玩家实际连线并行传播。"
+
+msgid "hardware.prologue.map.locked"
+msgstr "该关卡的前置元件尚未完成。"
+
+msgid "hardware.prologue.map.missing"
+msgstr "元件库缺少 %s；请先完成对应关卡。"
+
+msgid "hardware.prologue.map.requirement"
+msgstr "前置：%s"
+
+msgid "hardware.prologue.branch.cpu"
+msgstr "算术分支"
+
+msgid "hardware.prologue.branch.foundations"
+msgstr "基础门与抽象"
+
+msgid "hardware.prologue.branch.storage"
+msgstr "存储分支"
+
+msgid "hardware.prologue.branch.integration"
+msgstr "系统集成"
+
+msgid "hardware.prologue.none"
+msgstr "无"
+
+msgid "hardware.prologue.unknown"
+msgstr "未知关卡"
+
+msgid "hardware.prologue.session_only"
+msgstr "当前进度与元件库仅保留在本次运行中；尚未实现存档格式。"
+
+msgid "hardware.prologue.library.title"
+msgstr "我的元件库"
+
+msgid "hardware.prologue.library.subtitle"
+msgstr "玩家拓扑与自动位扩展的来源记录"
+
+msgid "hardware.prologue.library.empty"
+msgstr "尚未封存元件。"
+
+msgid "hardware.prologue.library.generated"
+msgstr "由已验证的一位结构自动扩展"
+
+msgid "hardware.prologue.library.provenance"
+msgstr "%s · 来源签名 %s"
+
+msgid "hardware.prologue.level.subtitle"
+msgstr "自由决定拓扑 · 固定外部测试台"
+
+msgid "hardware.prologue.level.ownership_note"
+msgstr "元件已经自动排好，但没有预连线。端口可多段连接；冲突驱动会短路，组合环路会报循环依赖。"
+
+msgid "hardware.prologue.level.status"
+msgstr "请连接元件并用调试输入观察实时端口，再运行全部正式用例。"
+
+msgid "hardware.prologue.level.trace"
+msgstr "等待运行 · 同一因果波次中的元件和导线会并行动画。"
+
+msgid "hardware.prologue.level.zero_wire_delay"
+msgstr "普通导线与线节点均为 0 tick；只有元件处理增加传播时间。"
+
+msgid "hardware.prologue.back_map"
+msgstr "返回构建地图"
+
+msgid "hardware.prologue.seal"
+msgstr "通过测试后封存元件"
+
+msgid "hardware.prologue.seal_verified"
+msgstr "封存为 %s"
+
+msgid "hardware.prologue.bench.title"
+msgstr "外部测试台"
+
+msgid "hardware.prologue.bench.subtitle"
+msgstr "可编辑调试值 + 固定正式用例/时序程序"
+
+msgid "hardware.prologue.case.not_run"
+msgstr "#%d  %s  →  期望 %s  ·  未运行"
+
+msgid "hardware.prologue.case.result"
+msgstr "#%d  %s  →  期望 %s  ·  实际 %s  ·  %s"
+
+msgid "hardware.prologue.debug.result"
+msgstr "实际输出：%s"
+
+msgid "hardware.prologue.no_result"
+msgstr "仿真没有产生结果。"
+
+msgid "hardware.prologue.live.summary"
+msgstr "实时端口已收敛 · %d 个离散 tick · %d 段零延迟连线"
+
+msgid "hardware.prologue.trace.metrics"
+msgstr "本次结果 %d 个收敛 tick · %d 段零延迟连线 · %d 个可视事件"
+
+msgid "hardware.prologue.created"
+msgstr "%s 已加入你的元件库。"
+
+msgid "hardware.prologue.sealed_trace"
+msgstr "玩家电路 → 封存 → %s · 来源签名保持不变"
+
+msgid "hardware.prologue.complete.title"
+msgstr "抽象层已建立"
+
+msgid "hardware.prologue.complete.subtitle"
+msgstr "测试证据、拓扑签名与行为契约已绑定"
+
+msgid "hardware.prologue.complete.created"
+msgstr "已创建可复用元件 %s"
+
+msgid "hardware.prologue.complete.bridge"
+msgstr "LOAD/STORE 程序完成：计算发生在 CPU，数据状态保留在 RAM。"
+
+msgid "hardware.prologue.complete.auto_expand"
+msgstr "已自动生成 %s；复用你验证的一位结构，不要求重复连接四次。"
+
+msgid "hardware.prologue.open_locality"
+msgstr "下一步：打开 Cache 局部性实验"
+
+msgid "hardware.prologue.full_adder.title"
+msgstr "全加器"
+
+msgid "hardware.prologue.full_adder.description"
+msgstr "使用两个你封存的 HalfAdder 与一个 OR，处理 A、B 和进位输入；不要照模板机械连线。"
+
+msgid "hardware.prologue.alu.title"
+msgstr "一位 ALU"
+
+msgid "hardware.prologue.alu.description"
+msgstr "把 AND、OR、ADD、NOT-A 四种结果送入选择器。通过后自动生成四位 ALU4。"
+
+msgid "hardware.prologue.latch.title"
+msgstr "SR 锁存器"
+
+msgid "hardware.prologue.latch.description"
+msgstr "用两个交叉反馈的 NOR 保存一位状态。S=R=1 为非法稳定状态；仅本关允许该明确反馈。"
+
+msgid "hardware.prologue.register.title"
+msgstr "一位寄存器"
+
+msgid "hardware.prologue.register.description"
+msgstr "为你的 SRLatch 增加 D 与 LOAD 控制：LOAD=0 保持，LOAD=1 写入。通过后生成 Register4。"
+
+msgid "hardware.prologue.ram.title"
+msgstr "2×4 RAM"
+
+msgid "hardware.prologue.ram.description"
+msgstr "使用两个 Register4、地址译码器和字选择器，构造两个独立四位存储位置。"
+
+msgid "hardware.prologue.cpu.title"
+msgstr "四位累加器 CPU"
+
+msgid "hardware.prologue.cpu.description"
+msgstr "把 ALU4、累加器、RAM、控制器和数据选择器连成可执行 LOAD_IMM、ADD_IMM、LOAD_MEM、STORE_MEM 的小型计算机。"
+
+msgid "hardware.prologue.load_store.title"
+msgstr "LOAD/STORE 桥接实验"
+
+msgid "hardware.prologue.load_store.description"
+msgstr "复用刚封存的 TinyComputer 运行固定程序，观察数据在 CPU 与 RAM 之间往返；此关不要求重复布线。"
+
+msgid "hardware.program.load_imm_3"
+msgstr "LOAD_IMM 3"
+
+msgid "hardware.program.store_0"
+msgstr "STORE [0]"
+
+msgid "hardware.program.load_imm_5"
+msgstr "LOAD_IMM 5"
+
+msgid "hardware.program.add_2"
+msgstr "ADD_IMM 2"
+
+msgid "hardware.program.store_1"
+msgstr "STORE [1]"
+
+msgid "hardware.program.load_0"
+msgstr "LOAD [0]"
+
+msgid "hardware.program.add_4"
+msgstr "ADD_IMM 4"
+
+msgid "circuit.connection.width_mismatch"
+msgstr "%s 的 %d 位输出不能连接到 %s 的 %d 位输入。"
+
+msgid "circuit.error.invalid_latch_state"
+msgstr "%s 不能同时保持 SET 与 RESET 为高电平。"
+
+msgid "circuit.error.temporal_oscillation"
+msgstr "电路在 tick %d 重复旧状态，无法收敛。"
+
+msgid "circuit.error.temporal_timeout"
+msgstr "电路在 %d tick 内没有收敛。"
+
+msgid "hardware.trace.component"
+msgstr "元件处理"
+
+msgid "hardware.trace.wire"
+msgstr "导线传播"
+
+msgid "hardware.trace.observer"
+msgstr "探针读取"
+msgid "hardware.trace.state_count"
+msgstr "%d 次状态提交"
+
+msgid "hardware.trace.state.set"
+msgstr "置位 → Q=%s"
+
+msgid "hardware.trace.state.reset"
+msgstr "复位 → Q=%s"
+
+msgid "hardware.trace.state.hold"
+msgstr "保持已存值 %s"
+
+msgid "hardware.trace.state.write"
+msgstr "写入 → %s"
+
+msgid "hardware.trace.state.ram_write"
+msgstr "写入 M%d ← %s · M0=%s M1=%s"
+
+msgid "hardware.trace.state.ram_read"
+msgstr "读取 M%d → %s · M0=%s M1=%s"
+
+msgid "hardware.trace.state.feedback_set"
+msgstr "SET 反馈已稳定 · %s=%s"
+
+msgid "hardware.trace.state.feedback_reset"
+msgstr "RESET 反馈已稳定 · %s=%s"
+
+msgid "hardware.trace.state.feedback_hold"
+msgstr "HOLD 反馈回路保持 · %s=%s"
+
+msgid "hardware.storage.component.uninitialized"
+msgstr "尚未初始化"
+
+msgid "hardware.storage.component.latch"
+msgstr "Q=%s · /Q=%s"
+
+msgid "hardware.storage.component.register"
+msgstr "已存 Q=%s"
+
+msgid "hardware.storage.component.ram"
+msgstr "M0=%s · M1=%s"
+
+msgid "hardware.storage.component.computer"
+msgstr "ACC=%s · MEM=%s"
+
+msgid "hardware.storage.monitor.title"
+msgstr "已提交状态"
+
+msgid "hardware.storage.monitor.explanation"
+msgstr "端口颜色会实时预览当前输入；只有“运行当前输入”才会推进一次存储边界并改写这里的状态。"
+
+msgid "hardware.storage.state.cleared"
+msgstr "状态已重置；尚未提交输入。"
+
+msgid "hardware.storage.state.committed"
+msgstr "已提交 · %s"
+
+msgid "hardware.storage.state.unknown"
+msgstr "状态未知"
+
+msgid "hardware.storage.state.latch"
+msgstr "Q=%s · NQ=%s"
+
+msgid "hardware.storage.state.register"
+msgstr "Q=%s"
+
+msgid "hardware.storage.state.ram"
+msgstr "M0=%s · M1=%s"
+
+msgid "hardware.storage.state.initial_latch"
+msgstr "尚未确定（首个 RESET/SET 将建立状态）"
+
+msgid "hardware.storage.reset"
+msgstr "重置存储状态"
+
+msgid "hardware.storage.reset.tooltip"
+msgstr "清除本关的调试状态与上一拍输出；不会删除线路，也不会改变正式测试证据。"
+
+msgid "hardware.storage.reset.done"
+msgstr "存储状态已重置；当前端口仍在实时预览。"
+
+msgid "hardware.storage.case.transition"
+msgstr "动作：%s · 状态：%s → %s"
+
+msgid "hardware.storage.case.plan"
+msgstr "计划动作：%s"
+
+msgid "hardware.storage.action.set"
+msgstr "SET（置位）"
+
+msgid "hardware.storage.action.reset"
+msgstr "RESET（复位）"
+
+msgid "hardware.storage.action.hold"
+msgstr "HOLD（保持）"
+
+msgid "hardware.storage.action.write"
+msgstr "WRITE D=%d"
+
+msgid "hardware.storage.action.ram_write"
+msgstr "WRITE M%d ← %s"
+
+msgid "hardware.storage.action.ram_read"
+msgstr "READ M%d"

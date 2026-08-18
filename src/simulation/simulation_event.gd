@@ -10,6 +10,9 @@ var address: int
 var cache_line: int
 var value: int
 var message: String
+var source_line: int
+var route_devices: Array[StringName] = []
+var details: Dictionary = {}
 
 
 func _init(
@@ -21,7 +24,10 @@ func _init(
 		p_address: int = -1,
 		p_cache_line: int = -1,
 		p_value: int = 0,
-		p_message: String = ""
+		p_message: String = "",
+		p_source_line: int = 0,
+		p_route_devices: Array[StringName] = [],
+		p_details: Dictionary = {}
 	) -> void:
 	kind = p_kind
 	cycle = p_cycle
@@ -32,6 +38,9 @@ func _init(
 	cache_line = p_cache_line
 	value = p_value
 	message = p_message
+	source_line = p_source_line
+	route_devices = p_route_devices.duplicate()
+	details = p_details.duplicate(true)
 
 
 func to_dictionary() -> Dictionary:
@@ -45,5 +54,8 @@ func to_dictionary() -> Dictionary:
 		"cache_line": cache_line,
 		"value": value,
 		"message": message,
+		"source_line": source_line,
+		"route_devices": route_devices.map(func(device: StringName) -> String: return String(device)),
+		"details": details,
 	}
 

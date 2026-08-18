@@ -10,9 +10,13 @@ config_version=5
 
 [application]
 
-config/name="Von Neumann Bottleneck — Cache Locality Slice"
-run/main_scene="res://src/ui/main.tscn"
+config/name="Von Neumann Bottleneck — CPU Building Prologue"
+run/main_scene="res://src/ui/prototype_hub.tscn"
 config/features=PackedStringArray("4.7")
+
+[autoload]
+
+Localization="*res://src/localization/localization.gd"
 
 [display]
 
@@ -21,6 +25,14 @@ window/size/viewport_height=900
 window/size/window_width_override=1600
 window/size/window_height_override=900
 window/stretch/mode="canvas_items"
+
+[game]
+
+default_locale="zh_CN"
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/game.en.po", "res://localization/game.zh_CN.po")
 
 [rendering]
 

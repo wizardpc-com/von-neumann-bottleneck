@@ -4,11 +4,25 @@ Repository-local documentation is the source of truth for future human and Codex
 
 - `design/core-principles.md`: settled design direction, prototype choices, and open design questions.
 - `architecture/simulation.md`: current simulation pipeline, cost ownership, invariants, and model limits.
+- `architecture/localization.md`: default locale, catalog boundary, language-neutral technical evidence, and the process for adding a locale.
+- `architecture/content-system.md`: explicit campaign registry, content-pack extension contract, player-owned state, and the boundary between authored content and executable mechanics.
+- `status/cpu-building-prologue.md`: current tutorial-to-CPU campaign, reusable-component progression, temporal model, final LOAD/STORE bridge, limitations, and playtest questions.
+- `status/hardware-foundations-01.md`: historical wiring/Half Adder milestone retained as design evidence.
+- `status/prototype-v0.2.md`: current implemented gameplay loop, reference tradeoffs, verification, and remaining validation questions.
 - `status/prototype-v0.1.md`: what the tagged prototype actually implements and what it was meant to validate.
 - `development/testing.md`: commands that have been run successfully in this repository.
 - `development/git-workflow.md`: branch, review, commit, and release conventions.
 - `development/codex-workflow.md`: scoping, planning, implementation, verification, and handoff for agent-assisted work.
 - `decisions/`: durable architectural or product decisions that need rationale and consequences.
+- `decisions/0001-v0.2-core-loop-boundaries.md`: accepted v0.2 decisions for DSL authority, fixed topology, event-driven feedback, Profiler behavior, and goal evaluation.
+- `decisions/0002-staged-animation-and-floating-instruments.md`: correction from simultaneous highlighting and exclusive drawers to staged component processing and coexisting instruments.
+- `decisions/0003-explicit-program-application.md`: draft/apply/execute state boundary, supplied strategies, IR-derived explanations, and production animation extension.
+- `decisions/0004-graph-authoritative-circuit-encapsulation.md`: visual-topology authority, separate circuit simulator, Test Bench boundary, and sealed HalfAdder snapshot.
+- `decisions/0005-semantic-key-localization-boundary.md`: Simplified Chinese default, semantic translation keys, structured presentation diagnostics, and locale-independent simulation.
+- `decisions/0006-tristate-live-circuit-analysis.md`: shared tri-state analysis, multi-driver resolution, structural cycle detection, and event-driven port presentation.
+- `decisions/0007-default-low-and-transactional-schematic-editing.md`: zero-wire low defaults, reversible editor transactions, Shift selection, and structured subgraph clipboard semantics.
+- `decisions/0008-hierarchical-temporal-cpu-prologue.md`: player-owned component dependencies, bounded sequential semantics, generated word wrappers, and the external-instruction CPU boundary.
+- `decisions/0009-explicit-content-registry-and-player-state.md`: deterministic content packs/validation, registry-driven progression/rewards, player-state ownership, and the non-HDL behavior boundary.
 - `exec-plans/active/`: living plans for large or cross-cutting work.
 - `exec-plans/completed/`: completed plans retained as implementation history.
 

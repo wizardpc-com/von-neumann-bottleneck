@@ -13,7 +13,7 @@ var failures: Array[String] = []
 func _init() -> void:
 	_run_all()
 	if failures.is_empty():
-		print("PASS: all cache-locality simulation tests passed")
+		print("PASS: Python-shaped DSL, deterministic simulation, route, and cache-goal tests passed")
 		quit(0)
 	else:
 		for failure: String in failures:
@@ -27,15 +27,24 @@ func _run_all() -> void:
 	var official: Array[int] = SimulationCoreType.official_data_copy()
 	var column_program: DSLProgramType = DSLParserType.parse(ProgramTemplatesType.COLUMN_FIRST)
 	var row_program: DSLProgramType = DSLParserType.parse(ProgramTemplatesType.ROW_FIRST)
-	_assert(column_program.is_valid(), "Column-first template must parse: %s" % str(column_program.errors))
-	_assert(row_program.is_valid(), "Row-first template must parse: %s" % str(row_program.errors))
+	_assert(column_program.is_valid(), "Column-first Python-shaped template must parse: %s" % str(column_program.errors))
+	_assert(row_program.is_valid(), "Row-first Python-shaped template must parse: %s" % str(row_program.errors))
 	if not column_program.is_valid() or not row_program.is_valid():
 		return
-	_assert(column_program.traversal_pattern() == "column-first", "Default template must be identified as column-first.")
-	_assert(row_program.traversal_pattern() == "row-first", "Optimized template must be identified as row-first.")
+	_assert(column_program.traversal_pattern() == "column-first", "Starter template must be identified as column-first.")
+	_assert(row_program.traversal_pattern() == "row-first", "Edited template must be identified as row-first.")
+	_assert(column_program.memory_address_order(8) == [0, 4, 8, 12, 1, 5, 9, 13], "Live Program preview must derive the starter address order from parsed IR.")
+	_assert(row_program.memory_address_order(8) == [0, 1, 2, 3, 4, 5, 6, 7], "Live Program preview must change when the executable loop order changes.")
+	var column_explanations: Dictionary[int, String] = column_program.line_explanations()
+	_assert(column_explanations.size() == 6, "Every non-blank starter line, including its comment, must have a line explanation.")
+	_assert("outer" in column_explanations[3] and "`col`" in column_explanations[3], "Outer-loop explanation must come from parsed IR.")
+	_assert("Load A[row][col]" in column_explanations[5] and "add it to `acc`" in column_explanations[5], "Memory-line explanation must describe the executable load and accumulation.")
+	_assert("OUT[0]" in column_explanations[6], "Final store explanation must describe Test Bench output.")
+	_assert(column_program.instructions.size() == 3, "Nested IR must contain initialization, one root loop, and final store.")
+	_assert(column_program.instructions[1].children.size() == 1, "Outer loop must own the inner loop in IR.")
 
-	var column: SimulationTraceType = core.run(column_program, official, 1, "Official")
-	var row: SimulationTraceType = core.run(row_program, official, 1, "Official")
+	var column: SimulationTraceType = core.run(column_program, official, 1, "Official Test Set")
+	var row: SimulationTraceType = core.run(row_program, official, 1, "Official Test Set")
 	_assert(column.passed and row.passed, "Both official programs must produce the correct sum.")
 	_assert(column.result_value == 88, "Official data sum must stay fixed at 88.")
 	_assert(int(column.metrics["cache_misses"]) == 16, "One-line column-first should miss on all 16 loads.")
@@ -48,33 +57,79 @@ func _run_all() -> void:
 	_assert(int(row.metrics["total_cycles"]) == 105, "Row-first reference total must remain 105 cycles.")
 	_assert(int(row.metrics["wait_cycles"]) == 88, "Row-first must spend 88 wait cycles.")
 	_assert(int(row.metrics["ram_bytes_transferred"]) == 64, "Row-first must fetch only 64 RAM bytes.")
-	_assert(
-		int(row.metrics["total_cycles"]) * 2 < int(column.metrics["total_cycles"]),
-		"Row-first total cycles must be less than half of column-first."
-	)
 
-	var repeat: SimulationTraceType = core.run(row_program, official, 1, "Official")
-	_assert(row.canonical_signature() == repeat.canonical_signature(), "Identical input must generate an identical trace.")
+	var column_addresses: Array[int] = _request_addresses(column)
+	var row_addresses: Array[int] = _request_addresses(row)
+	_assert(column_addresses.slice(0, 4) == [0, 4, 8, 12], "Column-first DSL must directly generate its strided address order.")
+	_assert(row_addresses.slice(0, 4) == [0, 1, 2, 3], "Swapping the DSL loops must directly generate contiguous addresses.")
 
+	var first_request: SimulationEventType = _first_event(column, &"request")
+	var first_miss: SimulationEventType = _first_event(column, &"cache_miss")
+	var first_return: SimulationEventType = _first_event(column, &"line_return")
+	_assert(first_request != null and first_request.source_line == 5, "Trace events must retain the executable DSL source line.")
+	_assert(first_request.route_devices == [&"CPU", &"Cache"], "Load request route must be CPU → Cache.")
+	_assert(first_miss.route_devices == [&"Cache"], "Cache miss is internal component feedback, not a fake wire packet.")
+	_assert(first_return.route_devices == [&"RAM", &"Bus", &"Cache"], "Line return must explicitly route RAM → Bus → Cache.")
+	_assert(first_return.details.get("line_values", []) == [7, -2, 5, 11], "Trace must carry the authoritative returned Cache-line values.")
+	_assert(column.program_source == ProgramTemplatesType.COLUMN_FIRST, "Trace must retain the exact program source used for the run.")
+
+	var wait_from_events: int = 0
+	for event: SimulationEventType in column.events:
+		if event.kind in [&"cache_lookup", &"bus_request", &"ram_access", &"line_return"]:
+			wait_from_events += event.duration
+	_assert(wait_from_events == int(column.metrics["wait_cycles"]), "Profiler waiting evidence must sum exactly to wait_cycles.")
+
+	var repeat: SimulationTraceType = core.run(row_program, official, 1, "Official Test Set")
+	_assert(row.canonical_signature() == repeat.canonical_signature(), "Identical source and inputs must generate an identical enriched trace.")
 	var signature_before_playback: String = row.canonical_signature()
-	var playback_checksum: int = 0
 	for event: SimulationEventType in row.events:
-		playback_checksum += event.cycle + event.duration
-	_assert(playback_checksum > 0, "Trace should contain playable timed events.")
-	_assert(signature_before_playback == row.canonical_signature(), "Reading a trace for playback must not mutate simulation output.")
+		var ignored: Dictionary = event.to_dictionary()
+		if ignored.is_empty():
+			failures.append("Every event must serialize for playback.")
+	_assert(signature_before_playback == row.canonical_signature(), "Reading an enriched trace must not mutate simulation output.")
 
-	var column_four_lines: SimulationTraceType = core.run(column_program, official, 4, "Official")
-	var column_two_lines: SimulationTraceType = core.run(column_program, official, 2, "Official")
-	_assert(int(column_two_lines.metrics["cache_misses"]) == 16, "Two lines still thrash under the column-first stride.")
+	var column_two_lines: SimulationTraceType = core.run(column_program, official, 2, "Official Test Set")
+	var column_four_lines: SimulationTraceType = core.run(column_program, official, 4, "Official Test Set")
+	_assert(int(column_two_lines.metrics["total_cycles"]) == 321, "Two-line column-first must remain over the 105-cycle target.")
 	_assert(int(column_two_lines.metrics["hardware_cost"]) == 7, "Two-line Cache cost must remain 7.")
-	_assert(int(column_four_lines.metrics["cache_misses"]) == 4, "Four cache lines should retain the whole 4x4 array.")
-	_assert(
-		int(column.metrics["hardware_cost"]) < int(column_four_lines.metrics["hardware_cost"]),
-		"Larger cache capacity must have a higher hardware cost."
-	)
+	_assert(int(column_four_lines.metrics["total_cycles"]) == 105, "Four-line column-first must meet the 105-cycle target through hardware capacity.")
+	_assert(int(column_four_lines.metrics["cache_misses"]) == 4, "Four-line column-first must keep all four lines after compulsory misses.")
+	_assert(int(column.metrics["hardware_cost"]) == 4 and int(column_four_lines.metrics["hardware_cost"]) == 13, "Software and hardware solutions must expose cost 4 versus cost 13.")
 
-	var invalid: DSLProgramType = DSLParserType.parse("register sum = 0\nfor row in 0..4\nadd sum, sum\nend\nstore result, sum")
-	_assert(not invalid.is_valid(), "A program without two nested loops and a load must be rejected.")
+	var explicit_load_source: String = """acc = 0
+for row in range(4):
+    for col in range(4):
+        value = load(A[row][col])
+        acc += value
+store(OUT[0], acc)
+"""
+	var explicit_load: DSLProgramType = DSLParserType.parse(explicit_load_source)
+	_assert(explicit_load.is_valid(), "Separate load and += statements must be valid: %s" % str(explicit_load.errors))
+	if explicit_load.is_valid():
+		var explicit_trace: SimulationTraceType = core.run(explicit_load, official, 1, "Official Test Set")
+		_assert(explicit_trace.result_value == 88 and int(explicit_trace.metrics["total_cycles"]) == 105, "Separate explicit operations must execute through the same core semantics.")
+
+	var old_syntax: DSLProgramType = DSLParserType.parse("register sum = 0\nfor row in 0..4\nend\nstore result, sum")
+	var tabbed: DSLProgramType = DSLParserType.parse("acc = 0\nfor row in range(4):\n\tfor col in range(4):\n        acc += load(A[row][col])\nstore(OUT[0], acc)")
+	var bad_range: DSLProgramType = DSLParserType.parse("acc = 0\nfor row in range(8):\n    for col in range(4):\n        acc += load(A[row][col])\nstore(OUT[0], acc)")
+	_assert(not old_syntax.is_valid(), "The tagged v0.1 syntax must be rejected after the deliberate v0.2 cutover.")
+	_assert(not tabbed.is_valid(), "Tabs must be rejected with a line-aware indentation error.")
+	_assert(not bad_range.is_valid(), "Only range(4) is valid for this focused challenge.")
+
+
+func _request_addresses(trace: SimulationTraceType) -> Array[int]:
+	var addresses: Array[int] = []
+	for event: SimulationEventType in trace.events:
+		if event.kind == &"request":
+			addresses.append(event.address)
+	return addresses
+
+
+func _first_event(trace: SimulationTraceType, kind: StringName) -> SimulationEventType:
+	for event: SimulationEventType in trace.events:
+		if event.kind == kind:
+			return event
+	return null
 
 
 func _assert(condition: bool, message: String) -> void:

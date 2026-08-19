@@ -39,7 +39,7 @@ Suggested Hardware Foundations path:
 The preserved v0.2 path remains available from the same hub:
 
 1. Open **Program**, use the Python-shaped reference or load either supplied strategy, and inspect the line-by-line explanation plus address preview. Editing changes only a draft; press **Apply Program** to confirm the exact source Test Bench may execute.
-2. Watch each request progress through Program issue, one component's internal PROCESS animation, wire transfer, and the next component's receive stage.
+2. Watch each request progress through Program issue, processing on the actual displayed device body, exact-path wire transfer, and the next component's receive stage. Playback no longer invents a circular internal route or a second component model.
 3. Open **Profiler** beside Program, move or resize either instrument, select a memory event, and use **Inspect in Trace** without losing the editor or investigation layout.
 4. Run the applied source and use its last-executed receipt to confirm cycles and misses. Reach the Official goal—correct result in at most `105` cycles—by changing loop order, replacing the Cache with 2 or 4 lines, or comparing both approaches in Run History.
 

@@ -1,6 +1,6 @@
 # ADR 0003: explicit program application
 
-- Status: Accepted
+- Status: Accepted; animation follow-up superseded by ADR 0012
 - Date: 2026-08-15
 
 ## Context

@@ -25,6 +25,8 @@ Repository-local documentation is the source of truth for future human and Codex
 - `decisions/0009-explicit-content-registry-and-player-state.md`: deterministic content packs/validation, registry-driven progression/rewards, player-state ownership, and the non-HDL behavior boundary.
 - `decisions/0010-level-authoritative-component-placement.md`: level-derived component supply, authoritative repeated placement, editor shortcuts, and the truthful-rotation boundary.
 - `decisions/0011-explicit-global-game-test-mode.md`: shared Game/Test mode, isolated test content, all-level development access, and normal-progression protection.
+- `decisions/0012-component-aligned-trace-feedback.md`: wire-only overlays, real-symbol processing feedback, and removal of invented radial/orbit component models.
+- `decisions/0013-functional-schematic-shapes-and-single-wire-rendering.md`: function-specific schematic surfaces, value-aware pin animation, RAM cursor feedback, and one full-path wire renderer.
 - `exec-plans/active/`: living plans for large or cross-cutting work.
 - `exec-plans/completed/`: completed plans retained as implementation history.
 

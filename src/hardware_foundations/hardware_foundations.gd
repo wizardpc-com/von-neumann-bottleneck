@@ -18,6 +18,7 @@ const ReusableComponentType = preload("res://src/circuit/reusable_component.gd")
 const CircuitGraphEditType = preload("res://src/hardware_foundations/circuit_graph_edit.gd")
 const CircuitTraceOverlayType = preload("res://src/hardware_foundations/circuit_trace_overlay.gd")
 const CircuitComponentSymbolType = preload("res://src/hardware_foundations/circuit_component_symbol.gd")
+const CircuitModuleRowType = preload("res://src/hardware_foundations/circuit_module_row.gd")
 const CampaignMapViewType = preload("res://src/hardware_foundations/campaign_map_view.gd")
 const EncapsulationEffectType = preload("res://src/hardware_foundations/encapsulation_effect.gd")
 const PrologueLevelCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
@@ -102,6 +103,7 @@ var mode_selector: GameModeSelectorType
 var component_catalog: Dictionary[StringName, LogicComponent] = {}
 var component_nodes: Dictionary[StringName, GraphNode] = {}
 var component_symbols: Dictionary[StringName, CircuitComponentSymbol] = {}
+var component_row_labels: Dictionary[StringName, Array] = {}
 var component_state_labels: Dictionary[StringName, Label] = {}
 var component_idle_state_text: Dictionary[StringName, String] = {}
 var layout_positions: Dictionary[StringName, Vector2] = {}
@@ -152,6 +154,7 @@ func _ready() -> void:
 		or "--capture-prologue-storage" in user_arguments
 		or "--capture-prologue-cpu" in user_arguments
 		or "--capture-schematic-signal" in user_arguments
+		or "--capture-component-processing" in user_arguments
 		or "--capture-component-placement" in user_arguments
 		or "--capture-wiring-guides" in user_arguments
 		or "--capture-selection-highlight" in user_arguments
@@ -174,6 +177,8 @@ func _ready() -> void:
 		call_deferred("_prepare_prologue_storage_capture")
 	elif "--capture-prologue-cpu" in user_arguments:
 		call_deferred("_prepare_prologue_cpu_capture")
+	elif "--capture-component-processing" in user_arguments:
+		call_deferred("_prepare_component_processing_capture")
 	elif "--capture-schematic-signal" in user_arguments:
 		call_deferred("_prepare_schematic_signal_capture")
 	set_process(true)
@@ -192,6 +197,20 @@ func _prepare_schematic_signal_capture() -> void:
 	_update_input_button_text()
 	_run_debug()
 	_finish_playback()
+
+
+func _prepare_component_processing_capture() -> void:
+	_on_connection_request(&"A_IN", 0, &"NOT_1", 0)
+	_on_connection_request(&"NOT_1", 0, &"LAMP", 0)
+	input_a_button.set_pressed_no_signal(true)
+	_update_input_button_text()
+	_run_debug()
+	playback_running = false
+	for batch: Dictionary in playback_batches:
+		for event: Variant in batch.get("events", []):
+			if event.kind == &"component_process" and event.component_id == &"NOT_1":
+				_show_playback_batch(batch, 0.5)
+				return
 
 
 func _prepare_wiring_guides_capture() -> void:
@@ -368,7 +387,7 @@ func _build_theme() -> void:
 	prototype_theme.set_color("activity", "GraphEdit", Color.TRANSPARENT)
 	prototype_theme.set_color("connection_valid_target_tint_color", "GraphEdit", Color(GOOD, 0.72))
 	prototype_theme.set_color("connection_hover_tint_color", "GraphEdit", Color(ACCENT, 0.35))
-	prototype_theme.set_color("connection_rim_color", "GraphEdit", Color(BACKGROUND, 0.9))
+	prototype_theme.set_color("connection_rim_color", "GraphEdit", Color.TRANSPARENT)
 	prototype_theme.set_constant("separation", "VBoxContainer", 9)
 	prototype_theme.set_constant("separation", "HBoxContainer", 10)
 	prototype_theme.set_constant("separation", "GraphNode", 5)
@@ -790,6 +809,7 @@ func _create_graph() -> void:
 		graph_stack.add_child(encapsulation_effect)
 	component_nodes.clear()
 	component_symbols.clear()
+	component_row_labels.clear()
 	component_state_labels.clear()
 	component_idle_state_text.clear()
 	wire_history.clear()
@@ -1079,33 +1099,31 @@ func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
 
 func _add_generic_component_slots(node: GraphNode, component: LogicComponent) -> void:
 	var row_count: int = maxi(1, maxi(component.input_count(), component.output_count()))
-	var center_row: int = row_count / 2
+	var row_labels: Array = []
 	for row_index: int in range(row_count):
 		var has_input: bool = row_index < component.input_count()
 		var has_output: bool = row_index < component.output_count()
 		var left_text: String = ""
 		var right_text: String = ""
 		if has_input:
-			left_text = "%s%s" % [
-				component.input_port_name(row_index),
-				"×%d" % component.input_width(row_index) if component.input_width(row_index) > 1 else "",
-			]
+			left_text = String(component.input_port_name(row_index))
 		if has_output:
-			right_text = "%s%s" % [
-				component.output_port_name(row_index),
-				"×%d" % component.output_width(row_index) if component.output_width(row_index) > 1 else "",
-			]
-		var body_text: String = component.display_name if row_index == center_row else ""
-		var row_text: String = "%s   %s   %s" % [left_text, body_text, right_text]
-		_add_port_row(
-			node, row_index, row_text, has_input, has_output,
-			SIGNAL_LOW, SIGNAL_HIGH_Z, 30.0
+			right_text = String(component.output_port_name(row_index))
+		var row := CircuitModuleRowType.new()
+		row.custom_minimum_size.y = 30.0
+		row.configure(
+			component.kind, component.display_name, left_text, right_text,
+			row_index, row_count, has_input, has_output,
+			component.input_width(row_index) if has_input else 1,
+			component.output_width(row_index) if has_output else 1
 		)
-		var row_label := node.get_child(node.get_child_count() - 1) as Label
-		if row_label != null:
-			row_label.add_theme_stylebox_override(
-				"normal", _generic_component_row_style(component, row_index, row_count)
-			)
+		node.add_child(row)
+		node.set_slot(
+			row_index, has_input, PORT_TYPE, SIGNAL_LOW,
+			has_output, PORT_TYPE, SIGNAL_HIGH_Z
+		)
+		row_labels.append(row)
+	component_row_labels[component.id] = row_labels
 	if component.is_stateful():
 		var state_label := Label.new()
 		state_label.text = _component_default_state_text(component)
@@ -1133,34 +1151,6 @@ func _component_default_state_text(component: LogicComponent) -> String:
 		LogicComponentType.KIND_TINY_COMPUTER:
 			return _t(&"hardware.storage.component.computer", ["0x0", "0x0"])
 	return _t(&"hardware.storage.component.uninitialized")
-
-
-func _generic_component_row_style(
-		component: LogicComponent,
-		row_index: int,
-		row_count: int
-	) -> StyleBoxFlat:
-	var outline: Color = ACCENT
-	if component.kind in [LogicComponentType.KIND_SR_LATCH, LogicComponentType.KIND_REGISTER1, LogicComponentType.KIND_REGISTER4, LogicComponentType.KIND_RAM2X4]:
-		outline = PURPLE
-	elif component.kind in [LogicComponentType.KIND_CONTROL, LogicComponentType.KIND_DECODER1_TO_2]:
-		outline = WARNING
-	var box := StyleBoxFlat.new()
-	box.bg_color = Color("111a2a", 0.94)
-	box.border_color = Color(outline, 0.62)
-	box.border_width_left = 2
-	box.border_width_right = 2
-	box.border_width_top = 2 if row_index == 0 else 0
-	box.border_width_bottom = 2 if row_index == row_count - 1 else 0
-	if row_index == 0:
-		box.corner_radius_top_left = 7
-		box.corner_radius_top_right = 7
-	if row_index == row_count - 1:
-		box.corner_radius_bottom_left = 7
-		box.corner_radius_bottom_right = 7
-	box.content_margin_left = 5.0
-	box.content_margin_right = 5.0
-	return box
 
 
 func _add_empty_schematic_row(node: GraphNode, row_height: float) -> void:
@@ -1963,6 +1953,13 @@ func _sync_selection_feedback() -> void:
 		var symbol: CircuitComponentSymbol = component_symbols[component_id]
 		var node: GraphNode = component_nodes.get(component_id)
 		symbol.set_selection_active(node != null and node.selected)
+	for component_id: StringName in component_row_labels:
+		var node: GraphNode = component_nodes.get(component_id)
+		var selected: bool = node != null and node.selected
+		for row_variant: Variant in component_row_labels[component_id]:
+			var row: Variant = row_variant
+			if row != null:
+				row.set_selection_active(selected)
 
 
 func _on_selection_count_changed() -> void:
@@ -4192,7 +4189,6 @@ func _show_playback_batch(batch: Dictionary, progress: float) -> void:
 		playback_index + 1, playback_batches.size(), int(batch.get("tick", 0)), _playback_batch_summary(batch)
 	])
 	var wire_pulses: Array[Dictionary] = []
-	var component_pulses: Array[Dictionary] = []
 	var has_wire: bool = false
 	for event: Variant in batch.get("events", []):
 		if event.kind == &"wire_signal":
@@ -4230,18 +4226,10 @@ func _show_playback_batch(batch: Dictionary, progress: float) -> void:
 		if state != null:
 			state.text = event_caption
 			state.add_theme_color_override("font_color", color)
-		component_pulses.append({
-			"rect": _component_overlay_rect(node),
-			"component_id": event.component_id,
-			"kind": component.kind,
-			"progress": component_progress,
-			"value": event_high,
-			"input_values": _event_input_bits(event),
-			"caption": event_caption,
-		})
+		_set_component_activity(event.component_id, component_progress, event)
 	active_component = active_components[0] if not active_components.is_empty() else &""
 	active_connection = active_connections[0] if not active_connections.is_empty() else {}
-	trace_overlay.show_parallel(wire_pulses, component_pulses)
+	trace_overlay.show_parallel(wire_pulses)
 	if progress >= 1.0:
 		for event: Variant in batch.get("events", []):
 			if event is PrologueEvent and event.kind == &"state_transition":
@@ -4307,17 +4295,6 @@ func _event_caption(event: Variant, component: LogicComponent) -> String:
 	])
 
 
-func _event_input_bits(event: Variant) -> Array[bool]:
-	var bits: Array[bool] = []
-	if event is PrologueEvent:
-		for digital: DigitalValue in (event as PrologueEvent).input_values:
-			bits.append(digital.is_known() and digital.value != 0)
-		return bits
-	for value: bool in event.input_values:
-		bits.append(value)
-	return bits
-
-
 func _activate_routing_endpoint(component_id: StringName, value: bool) -> void:
 	var component: LogicComponent = component_catalog.get(component_id)
 	if component == null or not component.is_routing_node():
@@ -4344,14 +4321,6 @@ func _connection_curve(from_node: StringName, from_port: int, to_node: StringNam
 		target.get_global_transform() * target.get_input_port_position(to_port)
 	)
 	return graph.get_connection_line(start, finish)
-
-
-func _component_overlay_rect(node: GraphNode) -> Rect2:
-	var global_rect: Rect2 = node.get_global_rect()
-	var overlay_inverse: Transform2D = trace_overlay.get_global_transform().affine_inverse()
-	var top_left: Vector2 = overlay_inverse * global_rect.position
-	var bottom_right: Vector2 = overlay_inverse * global_rect.end
-	return Rect2(top_left, bottom_right - top_left)
 
 
 func _finish_playback() -> void:
@@ -4429,6 +4398,82 @@ func _reset_connection_activity() -> void:
 	active_connection = {}
 
 
+func _set_component_activity(
+		component_id: StringName,
+		progress: float,
+		event: Variant = null
+	) -> void:
+	var input_visuals: Array[Dictionary] = _event_input_visuals(event)
+	var output_visual: Dictionary = _event_output_visual(event)
+	var output_port: int = _event_output_port(event)
+	var symbol: CircuitComponentSymbol = component_symbols.get(component_id)
+	if symbol != null:
+		symbol.set_processing_state(progress, input_visuals, output_visual)
+	var component: LogicComponent = component_catalog.get(component_id)
+	var rows: Array = component_row_labels.get(component_id, [])
+	if component == null or rows.is_empty():
+		return
+	for row_index: int in range(rows.size()):
+		var row: Variant = rows[row_index]
+		if row == null:
+			continue
+		row.set_processing_state(progress, input_visuals, output_visual, output_port)
+
+
+func _event_input_visuals(event: Variant) -> Array[Dictionary]:
+	var visuals: Array[Dictionary] = []
+	if event is PrologueEvent:
+		for value: DigitalValue in (event as PrologueEvent).input_values:
+			visuals.append(_digital_value_visual(value))
+	elif event is CircuitEvent:
+		for value: bool in (event as CircuitEvent).input_values:
+			visuals.append(_bool_value_visual(value))
+	return visuals
+
+
+func _event_output_visual(event: Variant) -> Dictionary:
+	if event is PrologueEvent:
+		return _digital_value_visual((event as PrologueEvent).value)
+	if event is CircuitEvent:
+		return _bool_value_visual(bool((event as CircuitEvent).value))
+	return {"known": false, "numeric": 0, "text": "Z", "color": SIGNAL_HIGH_Z}
+
+
+func _event_output_port(event: Variant) -> int:
+	if event is PrologueEvent:
+		var prologue_port: int = (event as PrologueEvent).from_port
+		return prologue_port if prologue_port >= 0 else 0
+	if event is CircuitEvent:
+		var circuit_port: int = (event as CircuitEvent).from_port
+		return circuit_port if circuit_port >= 0 else 0
+	return -1
+
+
+func _bool_value_visual(value: bool) -> Dictionary:
+	return {
+		"known": true,
+		"numeric": 1 if value else 0,
+		"text": str(int(value)),
+		"color": SIGNAL_HIGH if value else SIGNAL_LOW,
+	}
+
+
+func _digital_value_visual(value: DigitalValue) -> Dictionary:
+	if value == null or not value.is_known():
+		return {
+			"known": false,
+			"numeric": 0,
+			"text": value.display_text() if value != null else "Z",
+			"color": SIGNAL_HIGH_Z,
+		}
+	return {
+		"known": true,
+		"numeric": value.value,
+		"text": value.display_text(),
+		"color": SIGNAL_HIGH if value.value != 0 else SIGNAL_LOW,
+	}
+
+
 func _reset_component_feedback() -> void:
 	active_components.clear()
 	active_component = &""
@@ -4436,6 +4481,15 @@ func _reset_component_feedback() -> void:
 		var component: LogicComponent = component_catalog.get(component_id)
 		if component == null:
 			continue
+		var symbol: CircuitComponentSymbol = component_symbols.get(component_id)
+		if symbol != null:
+			symbol.clear_processing_state()
+		var rows: Array = component_row_labels.get(component_id, [])
+		for row_index: int in range(rows.size()):
+			var row: Variant = rows[row_index]
+			if row == null:
+				continue
+			row.clear_processing_state()
 		_set_node_style(component_id, PURPLE if component.fixed_terminal else MUTED, false)
 		var state: Label = component_state_labels.get(component_id)
 		if state != null:
@@ -4549,24 +4603,44 @@ func _update_tutorial_checklist() -> void:
 
 
 func _component_tooltip(component: LogicComponent) -> String:
+	var description: String = ""
 	match component.kind:
 		LogicComponentType.KIND_INPUT:
-			return _t(&"hardware.tooltip.input")
+			description = _t(&"hardware.tooltip.input")
 		LogicComponentType.KIND_OUTPUT:
-			return _t(&"hardware.tooltip.output")
+			description = _t(&"hardware.tooltip.output")
 		LogicComponentType.KIND_LAMP:
-			return _t(&"hardware.tooltip.lamp")
+			description = _t(&"hardware.tooltip.lamp")
 		LogicComponentType.KIND_AND:
-			return _t(&"hardware.tooltip.and")
+			description = _t(&"hardware.tooltip.and")
 		LogicComponentType.KIND_OR:
-			return _t(&"hardware.tooltip.or")
+			description = _t(&"hardware.tooltip.or")
 		LogicComponentType.KIND_NOT:
-			return _t(&"hardware.tooltip.not")
+			description = _t(&"hardware.tooltip.not")
 		LogicComponentType.KIND_NOR:
-			return _t(&"hardware.tooltip.nor")
+			description = _t(&"hardware.tooltip.nor")
 		LogicComponentType.KIND_JUNCTION:
-			return _t(&"hardware.tooltip.junction")
-	return _t(&"hardware.tooltip.logic_component")
+			description = _t(&"hardware.tooltip.junction")
+		_:
+			description = "%s — %s" % [component.display_name, _t(&"hardware.tooltip.logic_component")]
+	var port_lines := PackedStringArray()
+	if component.input_count() > 0:
+		var inputs := PackedStringArray()
+		for port: int in range(component.input_count()):
+			inputs.append("%s%s" % [
+				component.input_port_name(port),
+				"×%d" % component.input_width(port) if component.input_width(port) > 1 else "",
+			])
+		port_lines.append("← " + ", ".join(inputs))
+	if component.output_count() > 0:
+		var outputs := PackedStringArray()
+		for port: int in range(component.output_count()):
+			outputs.append("%s%s" % [
+				component.output_port_name(port),
+				"×%d" % component.output_width(port) if component.output_width(port) > 1 else "",
+			])
+		port_lines.append("→ " + ", ".join(outputs))
+	return description if port_lines.is_empty() else description + "\n" + "\n".join(port_lines)
 
 
 func _component_display_name(component: LogicComponent) -> String:

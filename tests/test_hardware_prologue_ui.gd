@@ -138,16 +138,26 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 		var saw_state_boundary: bool = false
 		var saw_parallel_ram_cells: bool = false
 		var parallel_ram_batch: Dictionary = {}
+		var first_state_batch: Dictionary = {}
 		for batch: Dictionary in batches:
 			var boundary_count: int = 0
 			for event: PrologueEvent in batch.get("events", []):
 				if event.kind == &"state_transition":
 					boundary_count += 1
+			if boundary_count > 0 and first_state_batch.is_empty():
+				first_state_batch = batch
 			saw_state_boundary = saw_state_boundary or boundary_count > 0
 			saw_parallel_ram_cells = saw_parallel_ram_cells or boundary_count >= 2
 			if boundary_count >= 2:
 				parallel_ram_batch = batch
 		_assert(saw_state_boundary, "%s playback must animate an explicit state boundary even on HOLD." % level_id)
+		if level_id == &"register" and not first_state_batch.is_empty():
+			main.call("_show_playback_batch", first_state_batch, 0.82)
+			var latch_rows: Array = (main.get("component_row_labels") as Dictionary).get(&"LATCH", [])
+			_assert(latch_rows.size() == 2, "The SR latch must display separate Q and NQ output rows.")
+			if latch_rows.size() == 2:
+				_assert(bool(latch_rows[0].call("output_token_enabled")), "The latch state event must animate its real Q output pin.")
+				_assert(not bool(latch_rows[1].call("output_token_enabled")), "The Q state value must not be duplicated onto the opposite NQ output animation.")
 		if level_id == &"ram":
 			_assert(saw_parallel_ram_cells, "RAM's two Register4 cells must animate their boundary in parallel, not one after another.")
 			var playback_storage: Label = main.get("storage_state_label")
@@ -156,15 +166,19 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 			var final_storage: Label = main.get("storage_state_label")
 			_assert(final_storage != null and "0x5" in final_storage.text and "0xC" in final_storage.text, "RAM official sequence must leave M0=0x5 and M1=0xC visible in the committed-state monitor.")
 			main.call("_show_playback_batch", parallel_ram_batch, 0.5)
-			var component_pulses: Array = main.get("trace_overlay").get("component_pulses")
 			var nodes: Dictionary = main.get("component_nodes")
-			for pulse: Dictionary in component_pulses:
-				var component_id := StringName(pulse.get("component_id", &""))
-				if component_id not in [&"REG_0", &"REG_1"]:
+			var row_labels: Dictionary = main.get("component_row_labels")
+			for component_id: StringName in [&"REG_0", &"REG_1"]:
+				var rows: Array = row_labels.get(component_id, [])
+				var node := nodes[component_id] as GraphNode
+				_assert(not rows.is_empty(), "RAM processing must reuse the displayed %s row surface." % component_id)
+				if rows.is_empty():
 					continue
-				var expected_rect: Rect2 = main.call("_component_overlay_rect", nodes[component_id])
-				var actual_rect: Rect2 = pulse.get("rect", Rect2())
-				_assert(actual_rect.get_center().is_equal_approx(expected_rect.get_center()), "RAM processing halo must stay centered on the displayed %s node after GraphEdit zoom/scroll." % component_id)
+				var row: Variant = rows[0]
+				_assert(bool(row.get("processing_active")), "RAM processing must animate the actual %s component surface instead of drawing a substitute RAM model." % component_id)
+				_assert(StringName(row.call("shape_profile")) == &"register_module", "RAM cells must keep their register/latch silhouette while processing.")
+				_assert(node.get_global_rect().has_point(row.get_global_rect().get_center()), "RAM activity must remain inside the displayed %s node after GraphEdit zoom/scroll." % component_id)
+			_assert(StringName(main.get("trace_overlay").get("mode")).is_empty(), "A state boundary must not add a detached component halo above the real register surfaces.")
 	if level_id == &"cpu":
 		_assert_cpu_playback(main)
 	main.call("_seal_prologue_component")
@@ -181,6 +195,7 @@ func _assert_cpu_playback(main: Control) -> void:
 	var component_kinds: Dictionary[StringName, bool] = {}
 	var parallel_component_wave: bool = false
 	var word_wire_event: PrologueEvent
+	var ram_event: PrologueEvent
 	for batch: Dictionary in main.get("playback_batches"):
 		var component_count: int = 0
 		for event: PrologueEvent in batch.get("events", []):
@@ -189,11 +204,26 @@ func _assert_cpu_playback(main: Control) -> void:
 				var component = (main.get("component_catalog") as Dictionary).get(event.component_id)
 				if component != null:
 					component_kinds[component.kind] = true
+					if component.kind == &"ram2x4" and ram_event == null:
+						ram_event = event
 			elif event.kind == &"wire_signal" and event.value.width == 4 and word_wire_event == null:
 				word_wire_event = event
 		parallel_component_wave = parallel_component_wave or component_count >= 2
 	_assert(component_kinds.has(&"control") and component_kinds.has(&"alu4") and component_kinds.has(&"register4") and component_kinds.has(&"ram2x4"), "CPU playback must give control, ALU, accumulator, and RAM their own processing events.")
 	_assert(parallel_component_wave, "Independent CPU components ready on the same tick must animate in one parallel wave.")
+	_assert(ram_event != null, "CPU playback must expose a RAM processing event for on-component address feedback.")
+	if ram_event != null:
+		main.call("_show_playback_batch", {
+			"tick": ram_event.tick,
+			"visual_step": ram_event.visual_step,
+			"events": [ram_event],
+		}, 0.5)
+		var ram_rows: Array = (main.get("component_row_labels") as Dictionary).get(ram_event.component_id, [])
+		_assert(not ram_rows.is_empty(), "The CPU RAM must use a real procedural module surface.")
+		if not ram_rows.is_empty():
+			var ram_row: Variant = ram_rows[ram_rows.size() / 2]
+			_assert(StringName(ram_row.call("shape_profile")) == &"ram_grid", "RAM must use a visible cell-grid silhouette, not a generic text card.")
+			_assert(int(ram_row.call("ram_cursor_index")) >= 0, "A known RAM address must light a cursor on the actual RAM grid during processing.")
 	_assert(word_wire_event != null, "CPU playback must include a four-bit data word moving over a displayed connection.")
 	if word_wire_event != null:
 		var expected_path: PackedVector2Array = main.call(

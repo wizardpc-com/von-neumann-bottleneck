@@ -89,6 +89,8 @@ func _run() -> void:
 		_assert(StringName(request_ranges[0]["device"]) == &"ProgramController" and StringName(request_ranges[1]["device"]) == &"CPU" and StringName(request_ranges[2]["device"]) == &"Cache", "Request processing order must be Program → CPU → Cache.")
 		for process_range: Dictionary in request_ranges:
 			var movement_midpoint: float = (float(process_range["start"]) + float(process_range["end"])) * 0.5
+			var process_point: Vector2 = (main.get("trace_overlay") as Control).call("_point_on_path", request_animation["path"], movement_midpoint)
+			_assert((process_range["rect"] as Rect2).has_point(process_point), "Component processing data must remain inside the actual displayed device body.")
 			main.call("_draw_event", request_event, _raw_progress_for_movement(movement_midpoint))
 			_assert(StringName(main.get("active_component")) == StringName(process_range["device"]), "Only the component containing the packet may be strongly active.")
 		var wire_midpoint: float = (float(request_ranges[0]["end"]) + float(request_ranges[1]["start"])) * 0.5
@@ -116,6 +118,8 @@ func _run() -> void:
 
 	var miss_animation: Dictionary = main.call("_event_animation", miss_event)
 	var miss_range: Dictionary = (miss_animation["processing_ranges"] as Array)[0]
+	_assert((miss_animation["path"] as PackedVector2Array).size() <= 5, "An internal Cache event must use a short in-body lane instead of an invented circular orbit.")
+	_assert(not (main.get("trace_overlay") as Control).has_method("_draw_processing_indicator"), "The trace overlay must not draw a generic radial component indicator over the actual device.")
 	main.call("_draw_event", miss_event, _raw_progress_for_movement((float(miss_range["start"]) + float(miss_range["end"])) * 0.5))
 	var states: Dictionary = main.get("device_state_labels")
 	_assert(StringName(main.get("active_component")) == &"Cache", "Cache miss must strongly highlight only Cache while it processes the lookup result.")

@@ -52,6 +52,7 @@ func _run() -> void:
 	var symbols: Dictionary = main.get("component_symbols")
 	_assert(graph != null and graph.get_connection_list().is_empty(), "Tutorial must begin auto-laid-out but unwired.")
 	_assert(graph.connection_lines_thickness >= 8.0, "Schematic wires must be deliberately heavier than Godot's thin default.")
+	_assert(graph.get_node_or_null("SignalWireLayer") == null, "Each settled cable must have one full-path renderer; a duplicate signal-wire layer would make it look like two stacked wires.")
 	var component_menu: MenuButton = main.get("component_menu_button")
 	var menu_templates: Dictionary = main.get("component_menu_templates")
 	var menu_kinds: Array[StringName] = []
@@ -247,6 +248,8 @@ func _run() -> void:
 	_assert((nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")), "The lamp input port must retain its live low/red state during playback.")
 	_assert((symbols[&"A_IN"] as CircuitComponentSymbol).symbol_color().is_equal_approx(fixed_source_symbol_color), "Changing A must not recolor the source symbol itself.")
 	_assert((symbols[&"LAMP"] as CircuitComponentSymbol).symbol_color().is_equal_approx(fixed_source_symbol_color), "Input and output component bodies must share the same fixed schematic color.")
+	_assert(StringName((symbols[&"A_IN"] as CircuitComponentSymbol).shape_profile()) == &"level_input_tag", "The level input must use a large directional input-pin silhouette instead of the old generic circle.")
+	_assert(StringName((symbols[&"LAMP"] as CircuitComponentSymbol).shape_profile()) == &"lamp_probe", "The lamp must remain visually distinct from the level input terminal.")
 	var high_wire_state: Dictionary = graph.get_connection_signal_value(&"A_IN", 0, &"NOT_1", 0)
 	var low_wire_state: Dictionary = graph.get_connection_signal_value(&"NOT_1", 0, &"LAMP", 0)
 	_assert(bool(high_wire_state.get("known", false)) and bool(high_wire_state.get("value", false)), "The full A-to-NOT wire must retain the high signal together with its green destination port.")
@@ -268,8 +271,11 @@ func _run() -> void:
 	_assert(StringName(overlay.get("mode")) == &"parallel" and single_wire_pulses.size() == 1 and _paths_equal(single_wire_pulses[0]["path"], exact_curve), "Trace overlay must receive the exact wire path inside a parallel batch.")
 	var not_event: CircuitEvent = _component_event(tutorial_trace, &"NOT_1")
 	main.call("_show_circuit_event", not_event, 0.5)
-	var single_component_pulses: Array = overlay.get("component_pulses")
-	_assert((main.get("active_components") as Array).has(&"NOT_1") and single_component_pulses.size() == 1 and StringName(single_component_pulses[0]["kind"]) == &"not", "NOT processing must own a distinct component animation inside its parallel wave.")
+	var not_symbol := symbols[&"NOT_1"] as CircuitComponentSymbol
+	_assert((main.get("active_components") as Array).has(&"NOT_1") and not_symbol.processing_active and is_equal_approx(not_symbol.processing_progress, 0.5), "NOT processing must animate the real displayed NOT symbol inside its parallel wave.")
+	_assert(not_symbol.processing_input_visuals.size() == 1 and (not_symbol.processing_input_visuals[0].get("color") as Color).is_equal_approx(Color("67e8a5")), "The NOT input token must carry the actual high/green input value into the displayed triangle.")
+	_assert((not_symbol.processing_output_visual.get("color") as Color).is_equal_approx(Color("ff6b7d")), "The NOT output token must leave the inversion bubble with the actual low/red result.")
+	_assert(StringName(overlay.get("mode")).is_empty() and (overlay.get("wire_pulses") as Array).is_empty(), "A component wave must not draw a second approximate component model or radial halo in the trace overlay.")
 
 	var input_b: CheckButton = main.get("input_b_button")
 	_connect(main, &"B_IN", 0, &"LAMP", 0)
@@ -488,6 +494,9 @@ func _run() -> void:
 	_assert(graph.get_connection_list().is_empty(), "Half Adder challenge must not reveal a prewired solution template.")
 	_assert(nodes.size() == 11 and nodes.has(&"SUM_OUT") and nodes.has(&"CARRY_OUT"), "Challenge must provide fixed Test Bench terminals and a spare-gate inventory.")
 	_assert((nodes[&"SUM_OUT"] as GraphNode).draggable and (nodes[&"CARRY_OUT"] as GraphNode).draggable, "Half Adder output terminals must be freely movable like desktop schematic parts.")
+	symbols = main.get("component_symbols")
+	_assert(StringName((symbols[&"SUM_OUT"] as CircuitComponentSymbol).shape_profile()) == &"level_output_tag", "Half Adder probes must use the larger, directionally distinct level-output silhouette.")
+	_assert((symbols[&"SUM_OUT"] as CircuitComponentSymbol).shape_profile() != (symbols[&"A_IN"] as CircuitComponentSymbol).shape_profile(), "Input and output terminals must not reuse the same visual shape.")
 	_assert(not nodes.has(&"Profiler"), "Early logic section must not introduce the performance Profiler.")
 	_assert((main.get("live_state") as CircuitLiveStateType).is_valid(), "A fresh unwired Half Adder must be a valid incomplete design, not a simulator error.")
 	_assert((main.get("diagnostics_label") as Label).text.contains("这不是故障"), "The initial Half Adder diagnostic must explicitly distinguish an unwired design from a fault.")
@@ -512,8 +521,10 @@ func _run() -> void:
 	main.call("_show_playback_batch", parallel_gate_batch, 0.5)
 	await process_frame
 	var active_parallel: Array = main.get("active_components")
-	var parallel_component_pulses: Array = overlay.get("component_pulses")
-	_assert(active_parallel.has(&"AND_1") and active_parallel.has(&"OR_1") and parallel_component_pulses.size() == 2, "AND and OR that are ready together must visibly process together.")
+	var and_symbol := symbols[&"AND_1"] as CircuitComponentSymbol
+	var or_symbol := symbols[&"OR_1"] as CircuitComponentSymbol
+	_assert(active_parallel.has(&"AND_1") and active_parallel.has(&"OR_1") and and_symbol.processing_active and or_symbol.processing_active, "AND and OR that are ready together must animate their real symbols in parallel.")
+	_assert(StringName(overlay.get("mode")).is_empty(), "Parallel component activity must stay on the displayed symbols instead of creating overlay models.")
 	var and_event: CircuitEvent = _component_event((report["cases"] as Array)[3]["trace"], &"AND_1")
 	var downstream_not_event: CircuitEvent = _component_event((report["cases"] as Array)[3]["trace"], &"NOT_1")
 	_assert(and_event.visual_step < downstream_not_event.visual_step, "A downstream gate must remain causally later even while independent gates animate in parallel.")

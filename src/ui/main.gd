@@ -1097,7 +1097,7 @@ func _event_animation(event: SimulationEventType) -> Dictionary:
 		var center: Vector2 = _device_center(devices[device_index])
 		var entry: Vector2 = center if device_index == 0 else wires[device_index - 1][wires[device_index - 1].size() - 1]
 		var exit: Vector2 = center if device_index == devices.size() - 1 else wires[device_index][0]
-		var process_path: PackedVector2Array = _component_process_curve(center, entry, exit)
+		var process_path: PackedVector2Array = _component_process_curve(devices[device_index], entry, exit)
 		var start_index: int = complete.size()
 		if not complete.is_empty() and not process_path.is_empty() and complete[complete.size() - 1].is_equal_approx(process_path[0]):
 			start_index = complete.size() - 1
@@ -1108,6 +1108,7 @@ func _event_animation(event: SimulationEventType) -> Dictionary:
 		raw_ranges.append({
 			"device": devices[device_index],
 			"center": center,
+			"rect": _device_rect(devices[device_index]),
 			"start_index": maxi(0, start_index),
 			"end_index": maxi(0, complete.size() - 1),
 		})
@@ -1127,6 +1128,7 @@ func _event_animation(event: SimulationEventType) -> Dictionary:
 			normalized_ranges.append({
 				"device": raw_range["device"],
 				"center": raw_range["center"],
+				"rect": raw_range["rect"],
 				"start": distances[int(raw_range["start_index"])] / total_length,
 				"end": distances[int(raw_range["end_index"])] / total_length,
 			})
@@ -1141,16 +1143,18 @@ func _presentation_devices(event: SimulationEventType) -> Array[StringName]:
 	return devices
 
 
-func _component_process_curve(center: Vector2, entry: Vector2, exit: Vector2) -> PackedVector2Array:
+func _component_process_curve(device: StringName, entry: Vector2, exit: Vector2) -> PackedVector2Array:
+	var rect: Rect2 = _device_rect(device)
+	var center: Vector2 = rect.get_center()
+	var lane_half_width: float = minf(42.0, rect.size.x * 0.20)
+	var lane_start := center - Vector2(lane_half_width, 0.0)
+	var lane_end := center + Vector2(lane_half_width, 0.0)
 	var path := PackedVector2Array()
-	path.append(entry)
 	if not entry.is_equal_approx(center):
-		path.append(center)
-	var radius: float = 20.0
-	for step: int in range(25):
-		var angle: float = -PI * 0.5 + TAU * 2.0 * float(step) / 24.0
-		path.append(center + Vector2(cos(angle), sin(angle)) * radius)
+		path.append(entry)
+	path.append(lane_start)
 	path.append(center)
+	path.append(lane_end)
 	if not exit.is_equal_approx(center):
 		path.append(exit)
 	return path
@@ -1161,6 +1165,13 @@ func _device_center(device: StringName) -> Vector2:
 	if node == null:
 		return Vector2.ZERO
 	return node.position + node.size * 0.5
+
+
+func _device_rect(device: StringName) -> Rect2:
+	var node: GraphNode = device_nodes.get(device)
+	if node == null:
+		return Rect2()
+	return Rect2(node.position, node.size)
 
 
 func _event_path(event: SimulationEventType) -> PackedVector2Array:

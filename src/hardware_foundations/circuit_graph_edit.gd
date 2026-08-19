@@ -5,8 +5,6 @@ const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
 
 const SIGNAL_HIGH := Color("67e8a5")
 const SIGNAL_LOW := Color("ff6b7d")
-const SIGNAL_HIGH_Z := Color("8b929d")
-const CONNECTION_RIM := Color("09101d")
 const ERASER_COLOR := Color("ff6b7d")
 const ERASER_TIP_RADIUS: float = 2.0
 const ERASER_SAMPLE_SPACING: float = 4.0
@@ -60,7 +58,6 @@ var endpoint_anchor: Vector2 = Vector2.ZERO
 var endpoint_pointer: Vector2 = Vector2.ZERO
 var endpoint_target: Dictionary = {}
 var connection_signal_values: Dictionary = {}
-var signal_wire_layer: Control
 var erase_active: bool = false
 var erase_pointer: Vector2 = Vector2.ZERO
 var erase_last_position: Vector2 = Vector2.ZERO
@@ -83,23 +80,15 @@ var placement_preview_label: String = ""
 
 
 func _ready() -> void:
-	signal_wire_layer = Control.new()
-	signal_wire_layer.name = "SignalWireLayer"
-	signal_wire_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	signal_wire_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	signal_wire_layer.z_index = 1
-	signal_wire_layer.draw.connect(_draw_known_signal_connections)
-	add_child(signal_wire_layer)
-	if has_signal("scroll_offset_changed"):
-		connect("scroll_offset_changed", Callable(self, "queue_signal_wire_redraw"))
-	if has_signal("zoom_changed"):
-		connect("zoom_changed", Callable(self, "queue_signal_wire_redraw"))
+	# GraphEdit is the sole full-path wire renderer. A second full-size signal
+	# layer made one connection look like two slightly displaced cables after
+	# zooming and curving. Port colors already give the native connection its
+	# live low/high/high-Z gradient; trace playback adds only a short moving token.
 	mouse_exited.connect(_on_graph_mouse_exited)
 
 
 func queue_signal_wire_redraw(_value: Variant = null) -> void:
-	if signal_wire_layer != null:
-		signal_wire_layer.queue_redraw()
+	queue_redraw()
 
 
 func _input(event: InputEvent) -> void:
@@ -762,14 +751,12 @@ func set_connection_signal_state(
 	if connection_signal_values.get(key, -1) == state:
 		return
 	connection_signal_values[key] = state
-	if signal_wire_layer != null:
-		signal_wire_layer.queue_redraw()
+	queue_redraw()
 
 
 func clear_connection_signal_values() -> void:
 	connection_signal_values.clear()
-	if signal_wire_layer != null:
-		signal_wire_layer.queue_redraw()
+	queue_redraw()
 
 
 func get_connection_signal_value(
@@ -787,35 +774,6 @@ func get_connection_signal_value(
 		"value": state == LogicSignalType.HIGH,
 		"state": state,
 	}
-
-
-func _draw_known_signal_connections() -> void:
-	for connection: Dictionary in get_connection_list():
-		var from_node: StringName = connection.get("from_node", &"")
-		var from_port: int = int(connection.get("from_port", -1))
-		var to_node: StringName = connection.get("to_node", &"")
-		var to_port: int = int(connection.get("to_port", -1))
-		var key: String = _connection_key(from_node, from_port, to_node, to_port)
-		if not connection_signal_values.has(key):
-			continue
-		var source: GraphNode = get_node_or_null(NodePath(String(from_node))) as GraphNode
-		var target: GraphNode = get_node_or_null(NodePath(String(to_node))) as GraphNode
-		if source == null or target == null:
-			continue
-		var start: Vector2 = source.position + source.get_output_port_position(from_port)
-		var finish: Vector2 = target.position + target.get_input_port_position(to_port)
-		var curve: PackedVector2Array = get_connection_line(start, finish)
-		var color: Color = _signal_color(int(connection_signal_values[key]))
-		signal_wire_layer.draw_polyline(curve, CONNECTION_RIM, 13.0, true)
-		signal_wire_layer.draw_polyline(curve, color, 9.0, true)
-
-
-func _signal_color(state: int) -> Color:
-	if state == LogicSignalType.HIGH:
-		return SIGNAL_HIGH
-	if state == LogicSignalType.LOW:
-		return SIGNAL_LOW
-	return SIGNAL_HIGH_Z
 
 
 func _connection_key(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> String:

@@ -44,7 +44,7 @@ This is the prototype's first explicit software-versus-hardware comparison: both
 - The topology is fixed and does not simulate arbitrary hardware graphs.
 - Cache is fully associative, permits one outstanding request, and has no overlap or prefetch.
 - Most UI composition remains concentrated in `main.gd`; built-in controls provide functional presentation rather than production art.
-- All components currently share one generic internal PROCESS orbit. Component-specific animation families are deferred to formal production and must remain presentation-only.
+- Processing now stays on the actual displayed device body and state label; the former generic PROCESS orbit and radial indicator were removed. Richer component-specific animation remains presentation-only future work and may not invent hidden internals.
 - Run History and traces are in-memory only; there is no save, progression, localization, telemetry, or CI pipeline.
 
 ## Remaining validation question

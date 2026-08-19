@@ -1,6 +1,6 @@
 # ADR 0002: staged animation and floating instruments
 
-- Status: Accepted
+- Status: Accepted; generic orbit superseded by ADR 0012
 - Date: 2026-08-15
 
 ## Context

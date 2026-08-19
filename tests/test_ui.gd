@@ -20,6 +20,8 @@ func _run() -> void:
 
 	var graph: GraphEdit = main.get("graph")
 	var instruments: Dictionary = main.get("instrument_windows")
+	var game_mode: Node = root.get_node("GameMode")
+	_assert(main.get("mode_selector") != null and not bool(game_mode.call("is_test_mode")), "The locality lab must expose the shared selector and start in Game mode by default.")
 	_assert(graph != null, "Main UI must create the fixed Machine Workbench GraphEdit.")
 	_assert(graph.get_connection_list().size() == 6, "Fixed topology must contain all six programmatic links.")
 	_assert(instruments.size() == 4, "Program, Test Bench, Profiler, and Cache must each own a floating instrument.")

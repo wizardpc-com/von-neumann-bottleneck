@@ -33,6 +33,24 @@ msgstr "Resume"
 msgid "common.step"
 msgstr "Step"
 
+msgid "mode.selector.label"
+msgstr "MODE"
+
+msgid "mode.selector.tooltip"
+msgstr "Game mode follows progression; Test mode unlocks all current levels with an isolated temporary component library"
+
+msgid "mode.game"
+msgstr "GAME MODE"
+
+msgid "mode.test"
+msgstr "TEST MODE"
+
+msgid "mode.game.description"
+msgstr "Game mode follows official prerequisites and retains player designs for this session."
+
+msgid "mode.test.description"
+msgstr "Test mode unlocks every current level while keeping test content separate from Game-mode progress."
+
 msgid "window.close.tooltip"
 msgstr "Close this window"
 
@@ -750,6 +768,18 @@ msgstr "MISSION"
 msgid "hardware.window.show.tooltip"
 msgstr "Show or restore this desktop window."
 
+msgid "hardware.component_menu.button"
+msgstr "Components"
+
+msgid "hardware.component_menu.tooltip"
+msgstr "Choose a component allowed by this level, then left-click empty canvas space to place it repeatedly; Esc cancels."
+
+msgid "hardware.component_menu.unavailable"
+msgstr "No components can be placed here"
+
+msgid "hardware.component_menu.armed"
+msgstr "Place: %s"
+
 msgid "hardware.toolbar.auto_layout.tooltip"
 msgstr "Restore readable positions; geometry never changes delay."
 
@@ -775,7 +805,7 @@ msgid "hardware.toolbar.cancel_cable"
 msgstr "Cancel Cable"
 
 msgid "hardware.toolbar.cancel_cable.tooltip"
-msgstr "Cancel the cable currently following the pointer."
+msgstr "Cancel the cable, selection box, or component currently following the pointer."
 
 msgid "hardware.toolbar.level_map"
 msgstr "Level Map"
@@ -799,7 +829,7 @@ msgid "hardware.diagnostics.empty"
 msgstr "Gates —  ·  Delay —"
 
 msgid "hardware.tutorial.status"
-msgstr "Left-drag to move/wire; Shift-click or Shift-drag to multi-select; Ctrl+Z/Y/C/V edits; Shift-drag a connected input to move its wire end; hold right mouse to erase."
+msgstr "Place from Components; left-drag parts/ports to move or wire, and drag empty canvas to select; Shift adds selection or moves a wire end; sweep right mouse to erase."
 
 msgid "hardware.tutorial.trace_hint"
 msgstr "TRACE — a recommended first route is A → NOT → LAMP"
@@ -814,7 +844,7 @@ msgid "hardware.tutorial.heading_subtitle"
 msgstr "A compact desktop task window"
 
 msgid "hardware.tutorial.prompt"
-msgstr "Make one complete route to the lamp.\nSuggested: A → NOT → LAMP.\nUnconnected ports default to red/low 0; green=1, gray=real high-Z/unresolved. Mixed multi-drivers short, and same-tick feedback creates a cycle.\nShift multi-selects; Ctrl+Z/Y undo/redo and Ctrl+C/V copy/paste. Then delete one cable and reconnect it."
+msgstr "Take an allowed gate from Components, then make one complete route to the lamp.\nSuggested: A → NOT → LAMP.\nWhile wiring, a green outer ring accepts the cable and a red ring rejects it; the inner port still shows its live level. Opposing drivers short, and same-tick feedback creates a cycle.\nDrag empty canvas to replace selection; Shift-drag adds/toggles. Ctrl+A/X/C/V/Z/Y edits and WASD pans. Then delete one cable and reconnect it."
 
 msgid "hardware.tutorial.checklist_title"
 msgstr "SHORT INTERACTION CHECK"
@@ -1012,7 +1042,7 @@ msgid "hardware.status.invalid_merge"
 msgstr "INVALID MERGE — ordinary outputs cannot be joined; branch from the driven wire instead"
 
 msgid "hardware.status.branch_cable"
-msgstr "BRANCH CABLE — release on a free input; the wire will split at the glowing node"
+msgstr "BRANCH CABLE — release on a green compatible input; the wire will split at the glowing node"
 
 msgid "hardware.status.invalid_wire_node"
 msgstr "INVALID WIRE NODE — %s"
@@ -1036,7 +1066,7 @@ msgid "hardware.status.branch_waypoint_created"
 msgstr "FREE BRANCH CREATED — the selected wire now reaches a new movable endpoint"
 
 msgid "hardware.status.endpoint_move_active"
-msgstr "MOVE WIRE END — keep Shift held and release on a free input or empty space"
+msgstr "MOVE WIRE END — keep Shift held and release on a compatible input, existing cable, or empty space"
 
 msgid "hardware.status.endpoint_moved"
 msgstr "WIRE END MOVED — the old input was disconnected and the new input is now authoritative"
@@ -1077,6 +1107,15 @@ msgstr "There is no edit to redo."
 msgid "hardware.status.selection_count"
 msgstr "%d component/wire node(s) selected; hold Shift to keep toggling"
 
+msgid "hardware.status.all_selected"
+msgstr "Selected all %d component/wire node(s) on the canvas"
+
+msgid "hardware.status.selection_cut"
+msgstr "Cut %d player component/wire node(s); Test Bench terminals remain unique"
+
+msgid "hardware.status.component_route_selected"
+msgstr "Selected the component and %d connected component/wire node(s); drag any selected item to move the group"
+
 msgid "hardware.status.nodes_moved"
 msgstr "Moved %d selected item(s) — Ctrl+Z can undo it"
 
@@ -1094,6 +1133,24 @@ msgstr "PASTE FAILED — %s"
 
 msgid "hardware.status.selection_pasted"
 msgstr "Pasted %d component/wire node(s) and %d internal segment(s); the new group is selected"
+
+msgid "hardware.status.component_placement_armed"
+msgstr "PLACING %s — left-click empty canvas space; repeat as needed, Esc cancels"
+
+msgid "hardware.status.component_placement_cancelled"
+msgstr "Component placement cancelled."
+
+msgid "hardware.status.component_placement_failed"
+msgstr "COMPONENT PLACEMENT FAILED — the topology was not changed"
+
+msgid "hardware.status.component_placed"
+msgstr "PLACED %s — the new component is selected and ready to move or wire"
+
+msgid "hardware.status.view_moved"
+msgstr "Canvas view moved — hold WASD to pan, use the wheel to zoom, or middle-drag the canvas"
+
+msgid "hardware.status.simulation_reset"
+msgstr "Simulation stopped and reset; canvas topology is unchanged (F4 reset, F5 step, F6 run)"
 
 msgid "hardware.status.components_removed"
 msgstr "Deleted %d selected component/wire node(s) as one edit"
@@ -1241,6 +1298,39 @@ msgstr "Two dependency branches merge into a four-bit CPU"
 
 msgid "hardware.prologue.map.description"
 msgstr "Start with wiring and basic gates, then seal each component you build. A level unlocks only after every prerequisite is complete; official tests read only the visible player-wired topology."
+
+msgid "hardware.prologue.map.canvas_hint"
+msgstr "Choose a level on the central dependency graph; hover a node to inspect its goal and prerequisites."
+
+msgid "hardware.mode.test_notice"
+msgstr "TEST MODE ENABLED: every level is enterable; required parts come from an isolated temporary library and never write to Game-mode progress."
+
+msgid "hardware.prologue.map.progress"
+msgstr "Prologue progress: %d / %d"
+
+msgid "hardware.prologue.map.legend"
+msgstr "Green ✓ complete · cyan ◆ available · gray ○ locked"
+
+msgid "hardware.prologue.map.canvas_legend"
+msgstr "Dependency paths show unlock relationships, not circuit wires. Choose a cyan node to begin; green nodes can be replayed."
+
+msgid "hardware.prologue.map.node.completed"
+msgstr "Complete · replayable"
+
+msgid "hardware.prologue.map.node.unlocked"
+msgstr "Unlocked · enter"
+
+msgid "hardware.prologue.map.node.locked"
+msgstr "Waiting for prerequisites"
+
+msgid "hardware.prologue.map.tutorial_description"
+msgstr "Practice creating, deleting, branching, and reconnecting wires while reading live levels and signal flow."
+
+msgid "hardware.prologue.map.half_adder_description"
+msgstr "Design a one-bit Half Adder from basic gates, pass its complete truth table, then seal it as HalfAdder."
+
+msgid "hardware.prologue.map.generic_description"
+msgstr "Build and officially verify this node to unlock the abstractions that depend on it."
 
 msgid "hardware.prologue.map.status"
 msgstr "Choose an unlocked level. Completed levels remain replayable."

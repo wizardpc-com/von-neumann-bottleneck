@@ -3,6 +3,7 @@ extends Control
 
 const SURFACE := Color("101725")
 const SYMBOL := Color("aebbd0")
+const SELECTION := Color("50d5ff")
 
 var component_kind: StringName = &""
 var terminal_label: String = ""
@@ -55,7 +56,7 @@ func set_selection_active(active: bool) -> void:
 
 
 func symbol_color() -> Color:
-	return SYMBOL
+	return SELECTION if selection_active else SYMBOL
 
 
 func gate_label() -> String:
@@ -63,11 +64,6 @@ func gate_label() -> String:
 
 
 func _draw() -> void:
-	if selection_active:
-		var center := Vector2(size.x * 0.5, display_height * 0.5)
-		var radius: float = minf(size.x, display_height) * 0.46
-		draw_circle(center, radius, Color("50d5ff", 0.11))
-		draw_circle(center, radius, Color("50d5ff", 0.85), false, 2.0, true)
 	match component_kind:
 		&"and":
 			_draw_and()
@@ -95,7 +91,7 @@ func _draw_and() -> void:
 	var arc_center_x: float = width * 0.56
 	var radius: float = minf(display_height * 0.34, width * 0.22)
 	var right: float = arc_center_x + radius
-	var body_color: Color = SYMBOL
+	var body_color: Color = symbol_color()
 	_draw_input_lead(0, Vector2(0.0, input_y[0]), Vector2(left, input_y[0]))
 	_draw_input_lead(1, Vector2(0.0, input_y[1]), Vector2(left, input_y[1]))
 	draw_line(Vector2(left, center_y - radius), Vector2(arc_center_x, center_y - radius), body_color, 4.0, true)
@@ -114,7 +110,7 @@ func _draw_or(label: String = "or", output_finish: float = -1.0) -> void:
 	var right: float = width * 0.78
 	var top: float = display_height * 0.09
 	var bottom: float = display_height * 0.91
-	var body_color: Color = SYMBOL
+	var body_color: Color = symbol_color()
 	_draw_input_lead(0, Vector2(0.0, input_y[0]), Vector2(width * 0.38, input_y[0]))
 	_draw_input_lead(1, Vector2(0.0, input_y[1]), Vector2(width * 0.38, input_y[1]))
 	draw_polyline(_cubic(
@@ -142,7 +138,7 @@ func _draw_nor() -> void:
 	var bubble_center := Vector2(width * 0.82, center_y)
 	_draw_or("nor", bubble_center.x - 6.0)
 	draw_circle(bubble_center, 6.0, SURFACE)
-	draw_circle(bubble_center, 6.0, SYMBOL, false, 3.0, true)
+	draw_circle(bubble_center, 6.0, symbol_color(), false, 3.0, true)
 	_draw_output_lead(bubble_center + Vector2(6.0, 0.0), Vector2(width, center_y))
 
 
@@ -152,7 +148,7 @@ func _draw_not() -> void:
 	var left: float = width * 0.27
 	var tip: float = width * 0.69
 	var bubble_radius: float = 6.5
-	var body_color: Color = SYMBOL
+	var body_color: Color = symbol_color()
 	_draw_input_lead(0, Vector2(0.0, center_y), Vector2(left, center_y))
 	var triangle := PackedVector2Array([
 		Vector2(left, display_height * 0.15),
@@ -170,7 +166,7 @@ func _draw_not() -> void:
 func _draw_source() -> void:
 	var width: float = size.x
 	var center := Vector2(width * 0.48, display_height * 0.5)
-	var color: Color = SYMBOL
+	var color: Color = symbol_color()
 	draw_circle(center, 16.0, Color(color, 0.16))
 	draw_circle(center, 16.0, color, false, 4.0, true)
 	draw_line(center + Vector2(16.0, 0.0), Vector2(width, center.y), color, 4.0, true)
@@ -180,7 +176,7 @@ func _draw_source() -> void:
 func _draw_observer(lamp: bool) -> void:
 	var width: float = size.x
 	var center := Vector2(width * 0.55, display_height * 0.5)
-	var color: Color = SYMBOL
+	var color: Color = symbol_color()
 	_draw_input_lead(0, Vector2(0.0, center.y), center - Vector2(17.0, 0.0))
 	draw_circle(center, 17.0, Color(color, 0.16))
 	draw_circle(center, 17.0, color, false, 4.0, true)
@@ -197,18 +193,18 @@ func _draw_observer(lamp: bool) -> void:
 
 func _draw_junction() -> void:
 	var center := Vector2(size.x * 0.5, display_height * 0.5)
-	var color: Color = SYMBOL
+	var color: Color = symbol_color()
 	draw_line(Vector2(0.0, center.y), Vector2(size.x, center.y), color, 5.0, true)
 	draw_circle(center, 8.0, SURFACE)
 	draw_circle(center, 6.0, color)
 
 
 func _draw_input_lead(_index: int, start: Vector2, finish: Vector2) -> void:
-	draw_line(start, finish, SYMBOL, 4.0, true)
+	draw_line(start, finish, symbol_color(), 4.0, true)
 
 
 func _draw_output_lead(start: Vector2, finish: Vector2) -> void:
-	draw_line(start, finish, SYMBOL, 4.0, true)
+	draw_line(start, finish, symbol_color(), 4.0, true)
 
 
 func _draw_centered_text(center: Vector2, text: String, color: Color) -> void:

@@ -18,10 +18,12 @@ const ReusableComponentType = preload("res://src/circuit/reusable_component.gd")
 const CircuitGraphEditType = preload("res://src/hardware_foundations/circuit_graph_edit.gd")
 const CircuitTraceOverlayType = preload("res://src/hardware_foundations/circuit_trace_overlay.gd")
 const CircuitComponentSymbolType = preload("res://src/hardware_foundations/circuit_component_symbol.gd")
+const CampaignMapViewType = preload("res://src/hardware_foundations/campaign_map_view.gd")
 const EncapsulationEffectType = preload("res://src/hardware_foundations/encapsulation_effect.gd")
 const PrologueLevelCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
 const PlayerContentStateType = preload("res://src/content/player_content_state.gd")
 const FloatingInstrumentPanelType = preload("res://src/ui/floating_instrument_panel.gd")
+const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
@@ -51,7 +53,9 @@ var passing_topology_signature: String = ""
 var sealed_half_adder: ReusableHalfAdder
 var level_catalog := PrologueLevelCatalogType.new()
 var prologue_simulator := PrologueSimulatorType.new()
-var player_content := PlayerContentStateType.new()
+var game_player_content := PlayerContentStateType.new()
+var test_player_content := PlayerContentStateType.new()
+var player_content = game_player_content
 var component_library: Dictionary = player_content.component_library
 var completed_levels: Dictionary = player_content.completed_levels
 var campaign_level_buttons: Dictionary[StringName, Button] = {}
@@ -72,6 +76,7 @@ var pending_sealed_circuit: LogicCircuit
 
 var graph_stack: Control
 var graph: CircuitGraphEdit
+var campaign_map_view: CampaignMapViewType
 var trace_overlay: CircuitTraceOverlay
 var encapsulation_effect: EncapsulationEffect
 var side_box: VBoxContainer
@@ -91,6 +96,8 @@ var debug_result_label: Label
 var official_case_labels: Array[Label] = []
 var pause_button: Button
 var speed_selector: OptionButton
+var component_menu_button: MenuButton
+var mode_selector: GameModeSelectorType
 
 var component_catalog: Dictionary[StringName, LogicComponent] = {}
 var component_nodes: Dictionary[StringName, GraphNode] = {}
@@ -108,6 +115,11 @@ var clipboard_components: Array[Dictionary] = []
 var clipboard_wires: Array[Dictionary] = []
 var clipboard_paste_count: int = 0
 var pasted_component_counter: int = 0
+var component_menu_templates: Dictionary = {}
+var component_menu_template_keys: Array[String] = []
+var armed_component_template_key: String = ""
+var placed_component_counter: int = 0
+var builtin_connection_drag_active: bool = false
 
 var tutorial_created_wire: bool = false
 var tutorial_changed_input: bool = false
@@ -132,12 +144,17 @@ var sealing_elapsed: float = 0.0
 func _ready() -> void:
 	_build_theme()
 	_build_interface()
+	_activate_content_state()
+	GameMode.mode_changed.connect(_on_game_mode_changed)
 	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
 	var preparing_capture: bool = (
 		"--capture-prologue-map" in user_arguments
 		or "--capture-prologue-storage" in user_arguments
 		or "--capture-prologue-cpu" in user_arguments
 		or "--capture-schematic-signal" in user_arguments
+		or "--capture-component-placement" in user_arguments
+		or "--capture-wiring-guides" in user_arguments
+		or "--capture-selection-highlight" in user_arguments
 	)
 	if preparing_capture:
 		# Capture helpers need a deterministic non-empty provenance circuit. Normal
@@ -145,7 +162,13 @@ func _ready() -> void:
 		_show_tutorial()
 	else:
 		_open_campaign_map()
-	if "--capture-prologue-map" in user_arguments:
+	if "--capture-wiring-guides" in user_arguments:
+		call_deferred("_prepare_wiring_guides_capture")
+	elif "--capture-selection-highlight" in user_arguments:
+		call_deferred("_prepare_selection_highlight_capture")
+	elif "--capture-component-placement" in user_arguments:
+		call_deferred("_prepare_component_placement_capture")
+	elif "--capture-prologue-map" in user_arguments:
 		call_deferred("_prepare_prologue_map_capture")
 	elif "--capture-prologue-storage" in user_arguments:
 		call_deferred("_prepare_prologue_storage_capture")
@@ -169,6 +192,35 @@ func _prepare_schematic_signal_capture() -> void:
 	_update_input_button_text()
 	_run_debug()
 	_finish_playback()
+
+
+func _prepare_wiring_guides_capture() -> void:
+	await get_tree().process_frame
+	_on_connection_drag_started(&"A_IN", 0, true)
+	var target: GraphNode = component_nodes.get(&"NOT_1")
+	if target == null:
+		return
+	var motion := InputEventMouseMotion.new()
+	motion.position = target.position + target.get_input_port_position(0) + Vector2(-12.0, 0.0)
+	graph.call("_gui_input", motion)
+
+
+func _prepare_selection_highlight_capture() -> void:
+	await get_tree().process_frame
+	_set_selected_ids([&"NOT_1"] as Array[StringName])
+
+
+func _prepare_component_placement_capture() -> void:
+	if component_menu_button == null or component_menu_template_keys.is_empty():
+		return
+	var popup: PopupMenu = component_menu_button.get_popup()
+	if popup.item_count <= 0:
+		return
+	_on_component_menu_item_pressed(popup.get_item_id(0))
+	await get_tree().process_frame
+	var motion := InputEventMouseMotion.new()
+	motion.position = Vector2(1000.0, 590.0)
+	graph.call("_gui_input", motion)
 
 
 func _prepare_prologue_map_capture() -> void:
@@ -215,8 +267,43 @@ func _prepare_prologue_storage_capture() -> void:
 			break
 
 
+func _activate_content_state() -> void:
+	player_content = test_player_content if GameMode.is_test_mode() else game_player_content
+	component_library = player_content.component_library
+	completed_levels = player_content.completed_levels
+	if GameMode.is_test_mode():
+		_install_support_library(component_library, LogicCircuitType.new(), true)
+
+
+func _on_game_mode_changed(_mode: StringName) -> void:
+	sealing = false
+	sealing_elapsed = 0.0
+	sealing_level_id = &""
+	pending_sealed_circuit = null
+	_activate_content_state()
+	_open_campaign_map()
+
+
+func _is_level_unlocked(level_id: StringName) -> bool:
+	if GameMode.is_test_mode():
+		return level_id in level_catalog.level_ids()
+	return level_catalog.is_unlocked(level_id, completed_levels)
+
+
 func _bootstrap_capture_library(include_computer: bool) -> void:
 	var source: LogicCircuit = current_circuit.duplicate_circuit()
+	_install_support_library(component_library, source, include_computer)
+	for level_id: StringName in [&"half_adder", &"full_adder", &"alu", &"latch", &"register", &"ram"]:
+		completed_levels[level_id] = true
+	if include_computer:
+		completed_levels[&"cpu"] = true
+
+
+func _install_support_library(
+		target_library: Dictionary,
+		source: LogicCircuit,
+		include_computer: bool
+	) -> void:
 	for entry: Array in [
 		[&"HalfAdder", LogicComponentType.KIND_HALF_ADDER, &"half_adder"],
 		[&"FullAdder", LogicComponentType.KIND_FULL_ADDER, &"full_adder"],
@@ -225,26 +312,26 @@ func _bootstrap_capture_library(include_computer: bool) -> void:
 		[&"Register1", LogicComponentType.KIND_REGISTER1, &"register"],
 		[&"RAM2x4", LogicComponentType.KIND_RAM2X4, &"ram"],
 	]:
-		component_library[entry[0]] = ReusableComponentType.new(
-			entry[0], entry[1], entry[2], source
-		)
-	component_library[&"ALU4"] = ReusableComponentType.new(
+		if not target_library.has(entry[0]):
+			target_library[entry[0]] = ReusableComponentType.new(
+				entry[0], entry[1], entry[2], source
+			)
+	if not target_library.has(&"ALU4"):
+		target_library[&"ALU4"] = ReusableComponentType.new(
 		&"ALU4", LogicComponentType.KIND_ALU4, &"alu", null,
-		[(component_library[&"ALU1"] as ReusableComponent).source_signature],
+		[(target_library[&"ALU1"] as ReusableComponent).source_signature],
 		{"auto_expanded_bits": 4}
 	)
-	component_library[&"Register4"] = ReusableComponentType.new(
+	if not target_library.has(&"Register4"):
+		target_library[&"Register4"] = ReusableComponentType.new(
 		&"Register4", LogicComponentType.KIND_REGISTER4, &"register", null,
-		[(component_library[&"Register1"] as ReusableComponent).source_signature],
+		[(target_library[&"Register1"] as ReusableComponent).source_signature],
 		{"auto_expanded_bits": 4}
 	)
-	for level_id: StringName in [&"half_adder", &"full_adder", &"alu", &"latch", &"register", &"ram"]:
-		completed_levels[level_id] = true
-	if include_computer:
-		component_library[&"TinyComputer"] = ReusableComponentType.new(
+	if include_computer and not target_library.has(&"TinyComputer"):
+		target_library[&"TinyComputer"] = ReusableComponentType.new(
 			&"TinyComputer", LogicComponentType.KIND_TINY_COMPUTER, &"cpu", source
 		)
-		completed_levels[&"cpu"] = true
 
 
 func _process(delta: float) -> void:
@@ -474,6 +561,10 @@ func _build_header() -> Control:
 	phase_label.add_theme_color_override("font_color", PURPLE)
 	phase_label.add_theme_font_size_override("font_size", 18)
 	row.add_child(phase_label)
+	mode_selector = GameModeSelectorType.new()
+	mode_selector.name = "GameModeSelector"
+	mode_selector.show_label = false
+	row.add_child(mode_selector)
 	var hub_button := Button.new()
 	hub_button.text = _t(&"common.prototype_hub")
 	hub_button.tooltip_text = _t(&"hardware.hub.tooltip")
@@ -490,6 +581,11 @@ func _build_toolbar() -> Control:
 	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status_label.add_theme_color_override("font_color", MUTED)
 	row.add_child(status_label)
+	component_menu_button = MenuButton.new()
+	component_menu_button.text = _t(&"hardware.component_menu.button")
+	component_menu_button.tooltip_text = _t(&"hardware.component_menu.tooltip")
+	component_menu_button.get_popup().id_pressed.connect(_on_component_menu_item_pressed)
+	row.add_child(component_menu_button)
 	for data: Array in [
 		[&"hardware.toolbar.level_map", &"hardware.toolbar.level_map.tooltip", Callable(self, "_open_campaign_map")],
 		[&"common.auto_layout", &"hardware.toolbar.auto_layout.tooltip", Callable(self, "_auto_layout")],
@@ -524,6 +620,8 @@ func _build_toolbar() -> Control:
 func _show_tutorial() -> void:
 	_stop_playback()
 	current_phase = &"tutorial"
+	current_level_id = &"tutorial"
+	current_level_definition.clear()
 	phase_label.text = _t(&"hardware.phase.tutorial")
 	official_passed = false
 	passing_topology_signature = ""
@@ -540,12 +638,14 @@ func _show_tutorial() -> void:
 
 
 func _start_challenge() -> void:
-	if not level_catalog.is_unlocked(&"half_adder", completed_levels):
+	if not _is_level_unlocked(&"half_adder"):
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return
 	_stop_playback()
 	current_phase = &"half_adder"
+	current_level_id = &"half_adder"
+	current_level_definition.clear()
 	phase_label.text = _t(&"hardware.phase.half_adder")
 	official_passed = false
 	passing_topology_signature = ""
@@ -615,10 +715,17 @@ func _add_catalog_component(component: LogicComponent) -> void:
 
 func _create_graph() -> void:
 	_stop_playback()
+	_cancel_component_placement(false)
+	_capture_component_menu_templates()
 	active_erase_action.clear()
 	live_refresh_queued = false
 	live_state = null
 	live_state_key = ""
+	if campaign_map_view != null and is_instance_valid(campaign_map_view):
+		campaign_map_view.hide()
+		graph_stack.remove_child(campaign_map_view)
+		campaign_map_view.queue_free()
+		campaign_map_view = null
 	if graph != null:
 		graph_stack.remove_child(graph)
 		graph.free()
@@ -662,6 +769,7 @@ func _create_graph() -> void:
 	graph.connection_endpoint_move_to_wire_requested.connect(_on_connection_endpoint_move_to_wire_requested)
 	graph.connection_endpoint_move_state_changed.connect(_on_connection_endpoint_move_state_changed)
 	graph.selection_rectangle_applied.connect(_on_selection_rectangle_applied)
+	graph.empty_canvas_pressed.connect(_on_empty_canvas_pressed)
 	graph.delete_nodes_request.connect(_on_delete_nodes_request)
 	graph.node_selected.connect(_on_graph_node_selection_changed)
 	graph.node_deselected.connect(_on_graph_node_selection_changed)
@@ -691,6 +799,9 @@ func _create_graph() -> void:
 	clipboard_wires.clear()
 	clipboard_paste_count = 0
 	pasted_component_counter = 0
+	placed_component_counter = 0
+	armed_component_template_key = ""
+	_rebuild_component_menu()
 
 
 func _build_component_nodes() -> void:
@@ -702,6 +813,184 @@ func _build_component_nodes() -> void:
 		_add_component_node(component_catalog[component_id], layout_positions[component_id])
 	graph.scroll_offset = Vector2.ZERO
 	graph.call_deferred("set_scroll_offset", Vector2.ZERO)
+
+
+func _capture_component_menu_templates() -> void:
+	component_menu_templates.clear()
+	component_menu_template_keys.clear()
+	var component_ids: Array[StringName] = []
+	for component_id: StringName in component_catalog:
+		component_ids.append(component_id)
+	component_ids.sort()
+	for component_id: StringName in component_ids:
+		var component: LogicComponent = component_catalog[component_id]
+		if component.fixed_terminal or component.is_routing_node():
+			continue
+		var key: String = _component_template_signature(component)
+		if component_menu_templates.has(key):
+			continue
+		var template: LogicComponent = component.duplicate_component()
+		template.fixed_terminal = false
+		template.signal_name = &""
+		if template.is_basic_gate():
+			template.display_name = String(template.kind).to_upper()
+		component_menu_templates[key] = template
+		component_menu_template_keys.append(key)
+	# Keep the authoritative menu order independent from the active translation.
+	# The signature contains only the electrical specification, never localized text.
+	component_menu_template_keys.sort()
+
+
+func _component_template_signature(component: LogicComponent) -> String:
+	var specification: Dictionary = component.to_dictionary()
+	for identity_field: String in ["id", "display_name", "signal_name", "fixed_terminal"]:
+		specification.erase(identity_field)
+	return JSON.stringify(specification)
+
+
+func _rebuild_component_menu() -> void:
+	if component_menu_button == null:
+		return
+	var popup: PopupMenu = component_menu_button.get_popup()
+	popup.clear()
+	component_menu_button.text = _t(&"hardware.component_menu.button")
+	var placement_allowed: bool = (
+		graph != null
+		and not _editor_locked()
+		and graph.branch_edit_enabled
+		and not bool(current_level_definition.get("locked_topology", false))
+		and not component_menu_template_keys.is_empty()
+	)
+	component_menu_button.disabled = not placement_allowed
+	if not placement_allowed:
+		popup.add_item(_t(&"hardware.component_menu.unavailable"), 0)
+		popup.set_item_disabled(0, true)
+		return
+	for item_index: int in range(component_menu_template_keys.size()):
+		var key: String = component_menu_template_keys[item_index]
+		var template: LogicComponent = component_menu_templates[key]
+		popup.add_item(_component_menu_label(template), item_index)
+		popup.set_item_metadata(item_index, key)
+		popup.set_item_as_radio_checkable(item_index, true)
+	_refresh_component_menu_checks()
+
+
+func _component_menu_label(component: LogicComponent) -> String:
+	var label: String = String(component.kind).to_upper() if component.is_basic_gate() else _component_display_name(component)
+	var widest_port: int = 1
+	for width: int in component.input_port_widths:
+		widest_port = maxi(widest_port, width)
+	for width: int in component.output_port_widths:
+		widest_port = maxi(widest_port, width)
+	if widest_port > 1:
+		label += "  ×%d" % widest_port
+	return label
+
+
+func _on_component_menu_item_pressed(item_id: int) -> void:
+	if component_menu_button == null or _editor_locked():
+		return
+	var popup: PopupMenu = component_menu_button.get_popup()
+	var item_index: int = popup.get_item_index(item_id)
+	if item_index < 0:
+		return
+	var metadata: Variant = popup.get_item_metadata(item_index)
+	var key: String = String(metadata) if metadata != null else ""
+	if key.is_empty() or not component_menu_templates.has(key):
+		return
+	if armed_component_template_key == key:
+		_cancel_component_placement()
+		return
+	armed_component_template_key = key
+	var template: LogicComponent = component_menu_templates[key]
+	component_menu_button.text = _t(&"hardware.component_menu.armed", [_component_menu_label(template)])
+	graph.set_component_placement_preview(true, _component_menu_label(template), _component_node_size(template))
+	_refresh_component_menu_checks()
+	status_label.text = _t(&"hardware.status.component_placement_armed", [_component_menu_label(template)])
+	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _refresh_component_menu_checks() -> void:
+	if component_menu_button == null:
+		return
+	var popup: PopupMenu = component_menu_button.get_popup()
+	for item_index: int in range(popup.item_count):
+		var metadata: Variant = popup.get_item_metadata(item_index)
+		popup.set_item_checked(
+			item_index,
+			metadata != null and String(metadata) == armed_component_template_key
+		)
+
+
+func _cancel_component_placement(update_status: bool = true) -> void:
+	var was_armed: bool = not armed_component_template_key.is_empty()
+	armed_component_template_key = ""
+	if graph != null and is_instance_valid(graph):
+		graph.set_component_placement_preview(false)
+	if component_menu_button != null:
+		component_menu_button.text = _t(&"hardware.component_menu.button")
+		_refresh_component_menu_checks()
+	if was_armed and update_status and status_label != null:
+		status_label.text = _t(&"hardware.status.component_placement_cancelled")
+		status_label.add_theme_color_override("font_color", MUTED)
+
+
+func _on_empty_canvas_pressed(local_position: Vector2) -> void:
+	if armed_component_template_key.is_empty() or _editor_locked():
+		return
+	var template: LogicComponent = component_menu_templates.get(armed_component_template_key)
+	if template == null:
+		_cancel_component_placement()
+		return
+	var placed: LogicComponent = template.duplicate_component()
+	placed.id = _next_placed_component_id(template)
+	placed.fixed_terminal = false
+	placed.signal_name = &""
+	var placement_position: Vector2 = _graph_position_from_local(
+		local_position, _component_node_size(placed) * 0.5
+	)
+	if graph.snapping_enabled:
+		var snap_distance: float = float(graph.snapping_distance)
+		placement_position = Vector2(
+			snappedf(placement_position.x, snap_distance),
+			snappedf(placement_position.y, snap_distance)
+		)
+	var previous_selection: Array[StringName] = _selected_node_ids(false)
+	if not current_circuit.add_component(placed.duplicate_component()):
+		status_label.text = _t(&"hardware.status.component_placement_failed")
+		status_label.add_theme_color_override("font_color", BAD)
+		return
+	component_catalog[placed.id] = placed
+	layout_positions[placed.id] = placement_position
+	_add_component_node(placed, placement_position)
+	var placed_ids: Array[StringName] = [placed.id]
+	_set_selected_ids(placed_ids)
+	_push_history_action({
+		"kind": &"place_component",
+		"added": [],
+		"removed": [],
+		"added_components": [{"component": placed, "position": placement_position}],
+		"selection_before": previous_selection,
+		"selection_after": placed_ids,
+	})
+	_topology_changed(
+		_t(&"hardware.status.component_placed", [_component_menu_label(placed)]),
+		false,
+		false
+	)
+	status_label.add_theme_color_override("font_color", GOOD)
+
+
+func _next_placed_component_id(template: LogicComponent) -> StringName:
+	var base_name: String = String(template.kind).to_upper()
+	if base_name.is_empty():
+		base_name = "COMPONENT"
+	while true:
+		placed_component_counter += 1
+		var candidate := StringName("%s_NEW_%03d" % [base_name, placed_component_counter])
+		if not component_catalog.has(candidate):
+			return candidate
+	return &""
 
 
 func _add_component_node(component: LogicComponent, position: Vector2) -> void:
@@ -736,6 +1025,8 @@ func _component_node_size(component: LogicComponent) -> Vector2:
 			return Vector2(62.0, 34.0)
 		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_NOR:
 			return Vector2(124.0, 78.0)
+		LogicComponentType.KIND_NOT:
+			return Vector2(96.0, 48.0)
 		LogicComponentType.KIND_INPUT, LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP:
 			return Vector2(116.0, 62.0)
 		LogicComponentType.KIND_CONSTANT:
@@ -752,6 +1043,9 @@ func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
 	if component.kind in [LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_NOR]:
 		height = 66.0
 		row_height = 22.0
+	elif component.kind == LogicComponentType.KIND_NOT:
+		height = 36.0
+		row_height = 36.0
 	elif component.kind == LogicComponentType.KIND_JUNCTION:
 		height = 28.0
 		row_height = 28.0
@@ -1528,18 +1822,16 @@ func _is_hover_connection_valid(from_node: StringName, from_port: int, to_node: 
 	return current_circuit.connection_error(from_node, from_port, to_node, to_port).is_empty()
 
 
-func _on_connection_drag_started(_from_node: StringName, _from_port: int, is_output: bool) -> void:
+func _on_connection_drag_started(from_node: StringName, from_port: int, is_output: bool) -> void:
+	builtin_connection_drag_active = true
+	graph.begin_builtin_connection_preview(from_node, from_port, is_output)
 	status_label.text = _t(&"hardware.status.cable_active", [_t(&"hardware.port.input") if is_output else _t(&"hardware.port.output")])
 	status_label.add_theme_color_override("font_color", ACCENT)
-	for component_id: StringName in component_nodes:
-		var component: LogicComponent = component_catalog.get(component_id)
-		if component == null:
-			continue
-		var compatible: bool = component.input_count() > 0 if is_output else component.output_count() > 0
-		_set_node_style(component_id, GOOD if compatible else Color(MUTED, 0.45), false)
 
 
 func _on_connection_drag_ended() -> void:
+	builtin_connection_drag_active = false
+	graph.end_builtin_connection_preview()
 	_reset_component_feedback()
 	status_label.text = _t(&"hardware.status.cable_released")
 	status_label.add_theme_color_override("font_color", MUTED)
@@ -1555,29 +1847,106 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 		_editor_locked()
 		or not event is InputEventKey
 		or not (event as InputEventKey).pressed
-		or (event as InputEventKey).echo
 	):
 		return false
 	var key_event := event as InputEventKey
-	if not key_event.ctrl_pressed and not key_event.meta_pressed:
+	if _keyboard_focus_accepts_text():
+		return false
+	if key_event.ctrl_pressed or key_event.meta_pressed:
+		if key_event.echo:
+			return false
+		match key_event.keycode:
+			KEY_Z:
+				if key_event.shift_pressed:
+					_redo_edit()
+				else:
+					_undo_wire()
+				return true
+			KEY_Y:
+				_redo_edit()
+				return true
+			KEY_A:
+				_select_all_nodes()
+				return true
+			KEY_X:
+				_cut_selection()
+				return true
+			KEY_C:
+				_copy_selection()
+				return true
+			KEY_V:
+				_paste_selection()
+				return true
 		return false
 	match key_event.keycode:
-		KEY_Z:
-			if key_event.shift_pressed:
-				_redo_edit()
-			else:
-				_undo_wire()
+		KEY_ESCAPE:
+			_cancel_connection_drag()
 			return true
-		KEY_Y:
-			_redo_edit()
+		KEY_W:
+			_pan_graph_view(Vector2.UP)
 			return true
-		KEY_C:
-			_copy_selection()
+		KEY_A:
+			_pan_graph_view(Vector2.LEFT)
 			return true
-		KEY_V:
-			_paste_selection()
+		KEY_S:
+			_pan_graph_view(Vector2.DOWN)
+			return true
+		KEY_D:
+			_pan_graph_view(Vector2.RIGHT)
+			return true
+		KEY_F4:
+			_reset_current_simulation()
+			return true
+		KEY_F5:
+			_step_playback()
+			return true
+		KEY_F6:
+			_run_current_debug()
 			return true
 	return false
+
+
+func _keyboard_focus_accepts_text() -> bool:
+	if component_menu_button != null and component_menu_button.get_popup().visible:
+		return true
+	var focused: Control = get_viewport().gui_get_focus_owner()
+	return focused is LineEdit or focused is TextEdit
+
+
+func _pan_graph_view(direction: Vector2) -> void:
+	if graph == null:
+		return
+	graph.scroll_offset += direction * 72.0
+	graph.queue_signal_wire_redraw()
+	status_label.text = _t(&"hardware.status.view_moved")
+	status_label.add_theme_color_override("font_color", MUTED)
+
+
+func _run_current_debug() -> void:
+	match current_phase:
+		&"tutorial", &"half_adder":
+			_run_debug()
+		&"prologue":
+			_run_prologue_debug()
+		&"sealed":
+			_run_sealed_official()
+
+
+func _reset_current_simulation() -> void:
+	if current_phase == &"prologue" and _is_storage_level():
+		_reset_storage_debug_state()
+		return
+	_stop_playback()
+	current_trace = null
+	if current_phase == &"prologue":
+		prologue_runtime_state.clear()
+		prologue_prior_outputs.clear()
+		prologue_live_result = null
+	live_state_key = ""
+	_clear_signal_states()
+	_schedule_live_refresh()
+	status_label.text = _t(&"hardware.status.simulation_reset")
+	status_label.add_theme_color_override("font_color", MUTED)
 
 
 func _on_graph_node_selection_changed(_node: Node) -> void:
@@ -1600,6 +1969,34 @@ func _on_selection_count_changed() -> void:
 	var selected_count: int = _selected_node_ids(false).size()
 	status_label.text = _t(&"hardware.status.selection_count", [selected_count])
 	status_label.add_theme_color_override("font_color", ACCENT if selected_count > 0 else MUTED)
+
+
+func _select_all_nodes() -> void:
+	if graph == null or _editor_locked():
+		return
+	var all_ids: Array[StringName] = []
+	for component_id: StringName in component_nodes:
+		all_ids.append(component_id)
+	all_ids.sort()
+	_set_selected_ids(all_ids)
+	status_label.text = _t(&"hardware.status.all_selected", [all_ids.size()])
+	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _cut_selection() -> bool:
+	if graph == null or _editor_locked():
+		return false
+	var selected_ids: Array[StringName] = _selected_node_ids(false)
+	if not _copy_selection():
+		return false
+	var component_count_before: int = component_catalog.size()
+	_on_delete_nodes_request(selected_ids)
+	var removed_count: int = component_count_before - component_catalog.size()
+	if removed_count <= 0:
+		return false
+	status_label.text = _t(&"hardware.status.selection_cut", [removed_count])
+	status_label.add_theme_color_override("font_color", WARNING)
+	return true
 
 
 func _on_begin_node_move() -> void:
@@ -1756,6 +2153,41 @@ func _set_selected_ids(ids: Array[StringName]) -> void:
 	for component_id: StringName in component_nodes:
 		(component_nodes[component_id] as GraphNode).selected = selected.has(component_id)
 	_sync_selection_feedback()
+
+
+func _select_component_with_connected_route_nodes(component_id: StringName, additive: bool = false) -> void:
+	if graph == null or not component_catalog.has(component_id):
+		return
+	var selected: Dictionary[StringName, bool] = {}
+	if additive:
+		for selected_id: StringName in _selected_node_ids(false):
+			selected[selected_id] = true
+	selected[component_id] = true
+	var visited: Dictionary[StringName, bool] = {component_id: true}
+	var frontier: Array[StringName] = [component_id]
+	while not frontier.is_empty():
+		var current_id: StringName = frontier.pop_front()
+		for connection: Dictionary in graph.get_connection_list():
+			var neighbor: StringName = &""
+			if StringName(connection.get("from_node", &"")) == current_id:
+				neighbor = StringName(connection.get("to_node", &""))
+			elif StringName(connection.get("to_node", &"")) == current_id:
+				neighbor = StringName(connection.get("from_node", &""))
+			if neighbor.is_empty() or visited.has(neighbor):
+				continue
+			var neighbor_component: LogicComponent = component_catalog.get(neighbor)
+			if neighbor_component == null or not neighbor_component.is_routing_node():
+				continue
+			visited[neighbor] = true
+			selected[neighbor] = true
+			frontier.append(neighbor)
+	var selected_ids: Array[StringName] = []
+	for selected_id: StringName in selected:
+		selected_ids.append(selected_id)
+	selected_ids.sort()
+	_set_selected_ids(selected_ids)
+	status_label.text = _t(&"hardware.status.component_route_selected", [selected_ids.size()])
+	status_label.add_theme_color_override("font_color", ACCENT)
 
 
 func _local_point_hits_port(node: GraphNode, point: Vector2, radius: float) -> bool:
@@ -2037,12 +2469,21 @@ func _clear_wires() -> void:
 
 
 func _cancel_connection_drag() -> void:
+	var placement_was_armed: bool = not armed_component_template_key.is_empty()
 	if graph != null:
-		graph.force_connection_drag_end()
+		if builtin_connection_drag_active:
+			graph.force_connection_drag_end()
+			builtin_connection_drag_active = false
+		graph.end_builtin_connection_preview()
 		graph.cancel_branch_drag()
 		graph.cancel_endpoint_move()
 		graph.cancel_selection_drag()
-	status_label.text = _t(&"hardware.status.drag_cancelled")
+	_cancel_component_placement(false)
+	status_label.text = _t(
+		&"hardware.status.component_placement_cancelled"
+		if placement_was_armed
+		else &"hardware.status.drag_cancelled"
+	)
 	status_label.add_theme_color_override("font_color", MUTED)
 	_reset_component_feedback()
 
@@ -2055,6 +2496,8 @@ func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 	var action: Dictionary = {
 		"kind": &"delete_selection", "added": [], "removed": [],
 		"removed_components": [],
+		"selection_before": _selected_node_ids(false),
+		"selection_after": [],
 	}
 	var sorted_nodes: Array[StringName] = nodes.duplicate()
 	sorted_nodes.sort()
@@ -2079,6 +2522,17 @@ func _on_component_gui_input(event: InputEvent, component_id: StringName) -> voi
 	if _editor_locked() or not event is InputEventMouseButton:
 		return
 	var mouse_event := event as InputEventMouseButton
+	if (
+		mouse_event.button_index == MOUSE_BUTTON_LEFT
+		and mouse_event.pressed
+		and mouse_event.double_click
+	):
+		var double_clicked_node: GraphNode = component_nodes.get(component_id)
+		if double_clicked_node == null or _local_point_hits_port(double_clicked_node, mouse_event.position, 28.0):
+			return
+		_select_component_with_connected_route_nodes(component_id, mouse_event.shift_pressed)
+		get_viewport().set_input_as_handled()
+		return
 	if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed and mouse_event.shift_pressed:
 		var node: GraphNode = component_nodes.get(component_id)
 		if node == null or _local_point_hits_port(node, mouse_event.position, 28.0):
@@ -2943,6 +3397,7 @@ func _open_campaign_map() -> void:
 	layout_positions.clear()
 	_create_graph()
 	graph.branch_edit_enabled = false
+	_build_campaign_map_view()
 	_build_campaign_side()
 	status_label.text = _t(&"hardware.prologue.map.status")
 	status_label.add_theme_color_override("font_color", ACCENT)
@@ -2954,7 +3409,6 @@ func _open_campaign_map() -> void:
 func _build_campaign_side() -> void:
 	_clear_container(task_box)
 	_clear_container(side_box)
-	campaign_level_buttons.clear()
 	task_box.add_child(_side_heading(
 		_t(&"hardware.prologue.map.title"), _t(&"hardware.prologue.map.subtitle")
 	))
@@ -2963,11 +3417,32 @@ func _build_campaign_side() -> void:
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	intro.add_theme_color_override("font_color", TEXT)
 	task_box.add_child(intro)
-	for branch_id: StringName in level_catalog.branch_ids():
-		_add_campaign_branch(
-			level_catalog.branch_title_key(branch_id),
-			level_catalog.level_ids_for_branch(branch_id)
-		)
+	var map_hint := Label.new()
+	map_hint.text = _t(&"hardware.prologue.map.canvas_hint")
+	map_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	map_hint.add_theme_color_override("font_color", ACCENT)
+	task_box.add_child(map_hint)
+	if GameMode.is_test_mode():
+		var test_notice := Label.new()
+		test_notice.text = _t(&"hardware.mode.test_notice")
+		test_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		test_notice.add_theme_color_override("font_color", WARNING)
+		task_box.add_child(test_notice)
+	var completed_count: int = 0
+	for level_id: StringName in level_catalog.level_ids():
+		if bool(completed_levels.get(level_id, false)):
+			completed_count += 1
+	var progress := Label.new()
+	progress.text = _t(&"hardware.prologue.map.progress", [
+		completed_count, level_catalog.level_ids().size()
+	])
+	progress.add_theme_color_override("font_color", GOOD if completed_count > 0 else MUTED)
+	task_box.add_child(progress)
+	var legend := Label.new()
+	legend.text = _t(&"hardware.prologue.map.legend")
+	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	legend.add_theme_color_override("font_color", MUTED)
+	task_box.add_child(legend)
 
 	side_box.add_child(_side_heading(
 		_t(&"hardware.prologue.library.title"), _t(&"hardware.prologue.library.subtitle")
@@ -2997,30 +3472,68 @@ func _build_campaign_side() -> void:
 			side_box.add_child(item)
 
 
-func _add_campaign_branch(title_key: StringName, level_ids: Array[StringName]) -> void:
-	var branch_title := Label.new()
-	branch_title.text = _t(title_key)
-	branch_title.add_theme_color_override("font_color", PURPLE)
-	branch_title.add_theme_font_size_override("font_size", 16)
-	task_box.add_child(branch_title)
-	for level_id: StringName in level_ids:
-		var unlocked: bool = level_catalog.is_unlocked(level_id, completed_levels)
+func _build_campaign_map_view() -> void:
+	campaign_map_view = CampaignMapViewType.new()
+	campaign_map_view.name = "CampaignMapView"
+	campaign_map_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	campaign_map_view.z_index = 10
+	graph_stack.add_child(campaign_map_view)
+	var branch_descriptors: Array[Dictionary] = []
+	for branch_id: StringName in level_catalog.branch_ids():
+		branch_descriptors.append({
+			"id": branch_id,
+			"title": _t(level_catalog.branch_title_key(branch_id)),
+			"order": level_catalog.branch_order(branch_id),
+		})
+	var level_descriptors: Array[Dictionary] = []
+	for level_id: StringName in level_catalog.level_ids():
+		var unlocked: bool = _is_level_unlocked(level_id)
 		var completed: bool = bool(completed_levels.get(level_id, false))
-		var button := Button.new()
-		button.text = "%s  %s" % [
-			"✓" if completed else ("◆" if unlocked else "🔒"),
-			_level_display_name(level_id),
-		]
-		button.disabled = not unlocked
-		campaign_level_buttons[level_id] = button
-		var prerequisites := PackedStringArray()
+		var prerequisite_names := PackedStringArray()
 		for dependency: StringName in level_catalog.dependencies(level_id):
-			prerequisites.append(_level_display_name(dependency))
-		button.tooltip_text = _t(&"hardware.prologue.map.requirement", [
-			_t(&"hardware.prologue.none") if prerequisites.is_empty() else ", ".join(prerequisites)
+			prerequisite_names.append(_level_display_name(dependency))
+		var requirement: String = _t(&"hardware.prologue.map.requirement", [
+			_t(&"hardware.prologue.none") if prerequisite_names.is_empty()
+			else ", ".join(prerequisite_names)
 		])
-		button.pressed.connect(_start_campaign_level.bind(level_id))
-		task_box.add_child(button)
+		var description: String = _campaign_level_description(level_id)
+		var status_key: StringName = (
+			&"hardware.prologue.map.node.completed" if completed
+			else (&"hardware.prologue.map.node.unlocked" if unlocked
+			else &"hardware.prologue.map.node.locked")
+		)
+		level_descriptors.append({
+			"id": level_id,
+			"branch_id": level_catalog.level_branch_id(level_id),
+			"order": level_catalog.level_order(level_id),
+			"title": _level_display_name(level_id),
+			"description": description,
+			"dependencies": level_catalog.dependencies(level_id),
+			"completed": completed,
+			"unlocked": unlocked,
+			"status": _t(status_key),
+			"requirement": requirement,
+			"tooltip": "%s\n%s" % [requirement, description],
+		})
+	campaign_map_view.level_requested.connect(_start_campaign_level)
+	campaign_map_view.configure(
+		branch_descriptors,
+		level_descriptors,
+		_t(&"hardware.prologue.map.canvas_legend")
+	)
+	campaign_level_buttons = campaign_map_view.level_buttons
+
+
+func _campaign_level_description(level_id: StringName) -> String:
+	var description_key: StringName = level_catalog.description_key(level_id)
+	if not description_key.is_empty():
+		return _t(description_key)
+	match level_id:
+		&"tutorial":
+			return _t(&"hardware.prologue.map.tutorial_description")
+		&"half_adder":
+			return _t(&"hardware.prologue.map.half_adder_description")
+	return _t(&"hardware.prologue.map.generic_description")
 
 
 func _level_display_name(level_id: StringName) -> String:
@@ -3028,7 +3541,7 @@ func _level_display_name(level_id: StringName) -> String:
 
 
 func _start_campaign_level(level_id: StringName) -> void:
-	if not level_catalog.is_unlocked(level_id, completed_levels):
+	if not _is_level_unlocked(level_id):
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return
@@ -3045,7 +3558,7 @@ func _start_campaign_level(level_id: StringName) -> void:
 
 
 func _start_prologue_level(level_id: StringName) -> void:
-	if not level_catalog.is_unlocked(level_id, completed_levels):
+	if not _is_level_unlocked(level_id):
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return

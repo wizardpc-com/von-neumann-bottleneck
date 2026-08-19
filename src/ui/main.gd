@@ -8,6 +8,7 @@ const SimulationEventType = preload("res://src/simulation/simulation_event.gd")
 const SimulationTraceType = preload("res://src/simulation/simulation_trace.gd")
 const TraceOverlayType = preload("res://src/ui/trace_overlay.gd")
 const FloatingInstrumentPanelType = preload("res://src/ui/floating_instrument_panel.gd")
+const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 
 const PANEL_COLOR := Color("172033")
 const PANEL_DARK := Color("101725")
@@ -70,6 +71,7 @@ var playback_label: Label
 var pause_button: Button
 var step_button: Button
 var speed_selector: OptionButton
+var mode_selector: GameModeSelectorType
 var trace_progress: ProgressBar
 var official_run_button: Button
 var debug_run_button: Button
@@ -240,6 +242,10 @@ func _build_header() -> Control:
 	status_label.custom_minimum_size.x = 570.0
 	status_label.add_theme_color_override("font_color", WARNING)
 	row.add_child(status_label)
+	mode_selector = GameModeSelectorType.new()
+	mode_selector.name = "GameModeSelector"
+	mode_selector.show_label = false
+	row.add_child(mode_selector)
 	var hub_button := Button.new()
 	hub_button.text = _t(&"common.prototype_hub")
 	hub_button.tooltip_text = _t(&"locality.hub.tooltip")

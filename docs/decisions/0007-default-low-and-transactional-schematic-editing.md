@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted for Hardware Foundations 01.
+Accepted for Hardware Foundations 01. Its original no-cut/no-placement scope boundary is subsequently extended by [ADR 0010](0010-level-authoritative-component-placement.md).
 
 ## Context
 
@@ -25,4 +25,4 @@ The public [Turing Complete controls documentation](https://turingcomplete.wiki/
 - An untouched AND/OR input is immediately red/low; an untouched NOT input is red and its output is green. A connected explicit `Z` remains gray.
 - The player can prototype repeated logic without rebuilding every gate chain, while the fixed A/B/SUM/CARRY interface stays unique.
 - Undo/redo restores model and view together instead of repairing only visible connections.
-- The clipboard and history are intentionally scene/session-local; no OS text format, persistence, inventory cost, cut, rotation, or cross-level paste is implied.
+- At this milestone the clipboard and history were intentionally scene/session-local and did not imply an OS text format, persistence, inventory cost, cut, rotation, or cross-level paste. ADR 0010 later adds scene-local cut and level-authoritative placement without changing the remaining boundaries.

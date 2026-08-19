@@ -34,9 +34,29 @@ func branch_title_key(branch_id: StringName) -> StringName:
 	return definition.title_key if definition != null else &"hardware.prologue.unknown"
 
 
+func branch_order(branch_id: StringName) -> int:
+	var definition = _registry.branch(branch_id)
+	return int(definition.order) if definition != null else 0
+
+
 func title_key(level_id: StringName) -> StringName:
 	var definition = _registry.level(level_id)
 	return definition.title_key if definition != null else &"hardware.prologue.unknown"
+
+
+func description_key(level_id: StringName) -> StringName:
+	var definition = _registry.level(level_id)
+	return definition.description_key if definition != null else &""
+
+
+func level_branch_id(level_id: StringName) -> StringName:
+	var definition = _registry.level(level_id)
+	return definition.branch_id if definition != null else &""
+
+
+func level_order(level_id: StringName) -> int:
+	var definition = _registry.level(level_id)
+	return int(definition.order) if definition != null else 0
 
 
 func entry_kind(level_id: StringName) -> StringName:

@@ -23,6 +23,8 @@ Repository-local documentation is the source of truth for future human and Codex
 - `decisions/0007-default-low-and-transactional-schematic-editing.md`: zero-wire low defaults, reversible editor transactions, Shift selection, and structured subgraph clipboard semantics.
 - `decisions/0008-hierarchical-temporal-cpu-prologue.md`: player-owned component dependencies, bounded sequential semantics, generated word wrappers, and the external-instruction CPU boundary.
 - `decisions/0009-explicit-content-registry-and-player-state.md`: deterministic content packs/validation, registry-driven progression/rewards, player-state ownership, and the non-HDL behavior boundary.
+- `decisions/0010-level-authoritative-component-placement.md`: level-derived component supply, authoritative repeated placement, editor shortcuts, and the truthful-rotation boundary.
+- `decisions/0011-explicit-global-game-test-mode.md`: shared Game/Test mode, isolated test content, all-level development access, and normal-progression protection.
 - `exec-plans/active/`: living plans for large or cross-cutting work.
 - `exec-plans/completed/`: completed plans retained as implementation history.
 

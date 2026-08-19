@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.7")
 [autoload]
 
 Localization="*res://src/localization/localization.gd"
+GameMode="*res://src/game/game_mode.gd"
 
 [display]
 

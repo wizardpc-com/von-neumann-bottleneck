@@ -28,6 +28,14 @@ func _run() -> void:
 	main.call("_open_campaign_map")
 	await process_frame
 	_assert(StringName(main.get("current_phase")) == &"campaign", "Sealed HalfAdder must lead to the session campaign map.")
+	var campaign_map: Control = main.get("campaign_map_view")
+	_assert(campaign_map != null and is_instance_valid(campaign_map), "Campaign selection must use the central graphical dependency map.")
+	_assert(
+		StringName(campaign_map.call("level_state", &"full_adder")) == &"unlocked"
+		and StringName(campaign_map.call("level_state", &"latch")) == &"unlocked"
+		and StringName(campaign_map.call("level_state", &"cpu")) == &"locked",
+		"The graphical map must expose both unlocked branches while keeping their CPU merge locked."
+	)
 	var campaign_buttons: Dictionary = main.get("campaign_level_buttons")
 	_assert(
 		not (campaign_buttons[&"tutorial"] as Button).disabled
@@ -57,6 +65,7 @@ func _run() -> void:
 	var graph: GraphEdit = main.get("graph")
 	_assert(graph.get_connection_list().size() == 5, "The LOAD/STORE bridge must reuse the sealed computer with an already connected external Test Bench.")
 	_assert(not bool(graph.get("branch_edit_enabled")), "The bridge topology must be locked so it is a program/data-flow demonstration, not repeated wiring.")
+	_assert((main.get("component_menu_button") as MenuButton).disabled, "A locked demonstration topology must not offer extra component placement.")
 	main.call("_run_official")
 	await process_frame
 	_assert(bool(completed.get(&"load_store", false)), "The final fixed LOAD/STORE program must complete through the sealed TinyComputer contract.")
@@ -94,6 +103,7 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	var definition: Dictionary = main.get("current_level_definition")
 	var graph: GraphEdit = main.get("graph")
 	_assert(graph.get_connection_list().is_empty(), "%s must not expose the reference solution to the player." % level_id)
+	_assert(not (main.get("component_menu_button") as MenuButton).disabled and not (main.get("component_menu_templates") as Dictionary).is_empty(), "%s must expose a level-authoritative menu for placing additional allowed components." % level_id)
 	var idle_analysis_count: int = int(main.get("live_analysis_count"))
 	for _idle_frame: int in range(2):
 		await process_frame

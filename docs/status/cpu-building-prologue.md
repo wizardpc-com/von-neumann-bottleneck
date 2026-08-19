@@ -4,7 +4,9 @@ The CPU Building Prologue is the current Hardware Foundations gameplay-validatio
 
 ## Playable progression
 
-The campaign opens on one visible prerequisite map. Only the wiring tutorial is initially available; completing its five interaction checks unlocks Half Adder. Half Adder must pass all four official cases and be sealed before either later branch unlocks. Every construction level starts with a readable automatic component layout and no solution wires. Test Bench inputs/outputs remain visually external to player hardware. An unwired challenge is a neutral incomplete design; genuine shorts and cycles remain explicit live errors.
+The campaign opens on a central graphical prerequisite map. Real button nodes show completed/replayable, currently unlocked, and locked states; drawn dependency curves visibly fork into arithmetic/storage lanes and merge at CPU. Titles, descriptions, dependency edges, state, and click routing are derived from the validated campaign registry rather than maintained as a second level list. Only the wiring tutorial is initially available; completing its five interaction checks unlocks Half Adder. Half Adder must pass all four official cases and be sealed before either later branch unlocks. Every construction level starts with a readable automatic component layout and no solution wires. Test Bench inputs/outputs remain visually external to player hardware. An unwired challenge is a neutral incomplete design; genuine shorts and cycles remain explicit live errors.
+
+The global selector defaults to Game mode, where those prerequisites remain authoritative. Test mode makes every valid registered node enterable and supplies a separate temporary library for level factories that require earlier abstractions. It does not mark levels complete, does not replace official circuit evaluation, and never writes helper definitions or test completions into the Game-mode `PlayerContentState`.
 
 | branch | level | player decision and completion evidence | reusable result |
 | --- | --- | --- | --- |
@@ -61,7 +63,7 @@ official Test Bench pass + unchanged topology signature
 
 ## Interaction and presentation
 
-The prologue retains the Turing Complete-inspired editor outcomes established in Hardware Foundations 01: left-drag movement or new wiring, Shift endpoint movement and multi-selection, ports/segments/junctions as routing starts, explicit non-connecting crossings, continuous cursor-tip right-button erasing, transactional undo/redo, selected-subgraph copy/paste, and movable/minimizable Mission and Test Bench windows.
+The prologue retains the Turing Complete-inspired editor outcomes established in Hardware Foundations 01 and extends them with a level-aware component menu. The menu deduplicates the hardware types allowed by the current level, excludes unique Test Bench terminals, and lets the player repeatedly place real snapped instances. The one-input `not` is shorter than two-input gates. Left-drag moves or wires; a source and its exact compatible targets receive separate cyan/green guide rings without overwriting live electrical colors, and rendered wires show exact-path hover feedback. Empty-canvas drag replacement-selects; selected hardware recolors its entire procedural symbol cyan with no extra circle, while Shift-click/drag toggles selection or intentionally moves an existing endpoint. Ports, segments, and junctions can start routes; crossings stay disconnected without a visible node; a cursor-tip right-button sweep erases continuously. `Ctrl+A/X/C/V/Z/Y`, WASD view movement, component-plus-wire-node double-click selection, transactional history, and movable/minimizable Mission and Test Bench windows complete the current desktop-editor loop.
 
 One-bit ports are red for low, green for high, and gray for explicit high impedance/unresolved. Multi-bit wire pulses include their word value (for example `0x3`). Gate and high-level components use different procedural processing effects, while terminal bodies remain neutral. These effects are presentation only.
 
@@ -74,6 +76,7 @@ One-bit ports are red for low, green for high, and gray for explicit high impeda
 - RAM is exactly two words × four bits. The CPU has an accumulator and external instructions, not a complete stored-program architecture.
 - The final bridge opens the preserved Cache Locality Lab; Cache, Profiler, cache capacity, and software optimization are not part of these construction levels.
 - Layouts and procedural art are functional prototypes. Dense player circuits may still need manual routing nodes for visual clarity, and no production art/audio pass is included.
+- Components cannot yet rotate. The current Godot graph carrier fixes input ports on the left and outputs on the right; rotation is deferred until symbol geometry, port hit targets, and rendered/simulated endpoints can rotate as one truthful interaction.
 
 ## Manual validation questions
 

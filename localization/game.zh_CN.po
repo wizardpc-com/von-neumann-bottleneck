@@ -33,6 +33,24 @@ msgstr "继续"
 msgid "common.step"
 msgstr "单步"
 
+msgid "mode.selector.label"
+msgstr "模式"
+
+msgid "mode.selector.tooltip"
+msgstr "游戏模式遵循正式进度；测试模式解锁全部当前关卡并使用隔离的临时元件库"
+
+msgid "mode.game"
+msgstr "游戏模式"
+
+msgid "mode.test"
+msgstr "测试模式"
+
+msgid "mode.game.description"
+msgstr "游戏模式：按正式前置条件推进并保留本次会话中的玩家设计。"
+
+msgid "mode.test.description"
+msgstr "测试模式：解锁全部当前关卡，测试内容与游戏模式进度相互隔离。"
+
 msgid "window.close.tooltip"
 msgstr "关闭此窗口"
 
@@ -750,6 +768,18 @@ msgstr "任务"
 msgid "hardware.window.show.tooltip"
 msgstr "显示或还原此桌面窗口。"
 
+msgid "hardware.component_menu.button"
+msgstr "元件"
+
+msgid "hardware.component_menu.tooltip"
+msgstr "选择本关允许的元件，再在画布空白处左键放置；可连续放置，Esc 取消。"
+
+msgid "hardware.component_menu.unavailable"
+msgstr "本界面没有可放置元件"
+
+msgid "hardware.component_menu.armed"
+msgstr "放置：%s"
+
 msgid "hardware.toolbar.auto_layout.tooltip"
 msgstr "恢复清晰的元件位置；几何距离永远不会改变延迟。"
 
@@ -775,7 +805,7 @@ msgid "hardware.toolbar.cancel_cable"
 msgstr "取消接线"
 
 msgid "hardware.toolbar.cancel_cable.tooltip"
-msgstr "取消当前跟随鼠标的接线。"
+msgstr "取消当前跟随鼠标的接线、选框或元件放置。"
 
 msgid "hardware.toolbar.level_map"
 msgstr "关卡地图"
@@ -799,7 +829,7 @@ msgid "hardware.diagnostics.empty"
 msgstr "门电路 — · 延迟 —"
 
 msgid "hardware.tutorial.status"
-msgstr "左拖移动/接线；Shift+单击或拖框多选；Ctrl+Z/Y/C/V 编辑；Shift+拖已连接输入可移动线端；按住右键划过可删除。"
+msgstr "从“元件”菜单放置；左拖元件/端口移动或接线，空白拖框选择；Shift 增量多选/移动线端；右键划过删除。"
 
 msgid "hardware.tutorial.trace_hint"
 msgstr "追踪 — 推荐先尝试 A → NOT → 指示灯"
@@ -814,7 +844,7 @@ msgid "hardware.tutorial.heading_subtitle"
 msgstr "一个紧凑、可移动的桌面任务窗口"
 
 msgid "hardware.tutorial.prompt"
-msgstr "创建一条通往指示灯的完整路径。\n建议：A → NOT → 指示灯。\n未接端口默认红色低电平 0；绿=1，灰=真实高阻/未决。多线异值会短路，无延迟反馈会产生循环依赖。\nShift 可多选；Ctrl+Z/Y 撤销/重做，Ctrl+C/V 复制/粘贴。然后删除一条线并重新连接。"
+msgstr "从“元件”菜单取用本关允许的门，再创建一条通往指示灯的完整路径。\n建议：A → NOT → 指示灯。\n拖线时绿色外环表示可连接，红色外环表示拒绝；端口内部仍显示实时电平。多线异值会短路，无延迟反馈会产生循环依赖。\n空白拖框替换选择，Shift 拖框增量多选；Ctrl+A/X/C/V/Z/Y 编辑，WASD 平移。然后删除一条线并重新连接。"
 
 msgid "hardware.tutorial.checklist_title"
 msgstr "简短交互检查"
@@ -1012,7 +1042,7 @@ msgid "hardware.status.invalid_merge"
 msgstr "无效合并 — 普通输出不能相互短接；请从已有受驱动连线上分支"
 
 msgid "hardware.status.branch_cable"
-msgstr "分支接线 — 在空闲输入上释放；连线会在发光节点处分开"
+msgstr "分支接线 — 在绿色兼容输入上释放；连线会在发光节点处分开"
 
 msgid "hardware.status.invalid_wire_node"
 msgstr "无效线节点 — %s"
@@ -1036,7 +1066,7 @@ msgid "hardware.status.branch_waypoint_created"
 msgstr "已创建自由分支 — 选中的导线现在延伸到新的可移动端点"
 
 msgid "hardware.status.endpoint_move_active"
-msgstr "移动线端 — 保持 Shift，并释放到空闲输入或空白处"
+msgstr "移动线端 — 保持 Shift，并释放到兼容输入、已有导线或空白处"
 
 msgid "hardware.status.endpoint_moved"
 msgstr "线端已移动 — 旧输入已断开，新输入成为当前有效连接"
@@ -1077,6 +1107,15 @@ msgstr "没有可重做的编辑。"
 msgid "hardware.status.selection_count"
 msgstr "已选择 %d 个元件/线节点；Shift 可继续切换选择"
 
+msgid "hardware.status.all_selected"
+msgstr "已选择画布中的全部 %d 个元件/线节点"
+
+msgid "hardware.status.selection_cut"
+msgstr "已剪切 %d 个玩家元件/线节点；测试台端子保持唯一"
+
+msgid "hardware.status.component_route_selected"
+msgstr "已选择元件及其相连的 %d 个元件/线节点；拖动任一选中项可整体移动"
+
 msgid "hardware.status.nodes_moved"
 msgstr "已移动 %d 个选中项 — 可用 Ctrl+Z 撤销"
 
@@ -1094,6 +1133,24 @@ msgstr "粘贴失败 — %s"
 
 msgid "hardware.status.selection_pasted"
 msgstr "已粘贴 %d 个元件/线节点和 %d 段内部连线；它们已被选中"
+
+msgid "hardware.status.component_placement_armed"
+msgstr "正在放置 %s — 左键单击画布空白处；可连续放置，Esc 取消"
+
+msgid "hardware.status.component_placement_cancelled"
+msgstr "元件放置已取消。"
+
+msgid "hardware.status.component_placement_failed"
+msgstr "元件放置失败 — 当前拓扑没有改变"
+
+msgid "hardware.status.component_placed"
+msgstr "已放置 %s — 新元件已选中，可立即移动或接线"
+
+msgid "hardware.status.view_moved"
+msgstr "画布视图已移动 — WASD 可连续平移，滚轮缩放，中键拖动画布"
+
+msgid "hardware.status.simulation_reset"
+msgstr "仿真已停止并复位；画布拓扑保持不变（F4 复位、F5 单步、F6 运行）"
 
 msgid "hardware.status.components_removed"
 msgstr "已在一个操作中删除 %d 个选中元件/线节点"
@@ -1241,6 +1298,39 @@ msgstr "两条依赖分支，最终汇合为四位 CPU"
 
 msgid "hardware.prologue.map.description"
 msgstr "从连线与基础门开始，逐关封存你亲手搭建的元件。只有完成全部前置关卡，下一关才会解锁；正式测试只读取画面中的真实连线。"
+
+msgid "hardware.prologue.map.canvas_hint"
+msgstr "在中央依赖图中选择关卡；将鼠标移到节点上可查看目标与前置条件。"
+
+msgid "hardware.mode.test_notice"
+msgstr "测试模式已启用：全部关卡均可进入，所需元件来自隔离的临时测试库，不会写入游戏模式进度。"
+
+msgid "hardware.prologue.map.progress"
+msgstr "序章进度：%d / %d"
+
+msgid "hardware.prologue.map.legend"
+msgstr "绿色 ✓ 已完成 · 青色 ◆ 可进入 · 灰色 ○ 尚未解锁"
+
+msgid "hardware.prologue.map.canvas_legend"
+msgstr "依赖线表示解锁关系，不是电路导线。选择青色节点开始；绿色节点可重新挑战。"
+
+msgid "hardware.prologue.map.node.completed"
+msgstr "已完成 · 可重玩"
+
+msgid "hardware.prologue.map.node.unlocked"
+msgstr "已解锁 · 可进入"
+
+msgid "hardware.prologue.map.node.locked"
+msgstr "等待前置关卡"
+
+msgid "hardware.prologue.map.tutorial_description"
+msgstr "练习创建、删除、分支和重接导线，并观察实时电平与信号传播。"
+
+msgid "hardware.prologue.map.half_adder_description"
+msgstr "用基础门自行设计 1 位半加器，通过完整真值表后封存为 HalfAdder。"
+
+msgid "hardware.prologue.map.generic_description"
+msgstr "完成当前节点的构建与正式测试，解锁依赖它的后续抽象。"
 
 msgid "hardware.prologue.map.status"
 msgstr "选择一个已解锁关卡；完成的关卡可以重新搭建。"

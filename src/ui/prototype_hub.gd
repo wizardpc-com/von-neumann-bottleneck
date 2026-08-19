@@ -1,16 +1,24 @@
 extends Control
 
+const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
+
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
 const ACCENT := Color("50d5ff")
 const GOOD := Color("67e8a5")
+const WARNING := Color("ffbf69")
 const MUTED := Color("91a0b9")
 const TEXT := Color("e9f0fa")
+
+var mode_selector: GameModeSelectorType
+var mode_description_label: Label
 
 
 func _ready() -> void:
 	_build_theme()
 	_build_interface()
+	GameMode.mode_changed.connect(_on_game_mode_changed)
+	_refresh_mode_description()
 	var arguments: PackedStringArray = OS.get_cmdline_user_args()
 	if "--capture-hardware" in arguments:
 		get_tree().call_deferred("change_scene_to_file", "res://src/hardware_foundations/hardware_foundations.tscn")
@@ -19,7 +27,7 @@ func _ready() -> void:
 func _build_theme() -> void:
 	var hub_theme := Theme.new()
 	hub_theme.default_font_size = 17
-	for control_type: String in ["Label", "Button"]:
+	for control_type: String in ["Label", "Button", "OptionButton"]:
 		hub_theme.set_color("font_color", control_type, TEXT)
 	hub_theme.set_constant("separation", "VBoxContainer", 14)
 	hub_theme.set_constant("separation", "HBoxContainer", 18)
@@ -52,6 +60,15 @@ func _build_interface() -> void:
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle.add_theme_color_override("font_color", MUTED)
 	content.add_child(subtitle)
+	var mode_center := CenterContainer.new()
+	content.add_child(mode_center)
+	mode_selector = GameModeSelectorType.new()
+	mode_selector.name = "GameModeSelector"
+	mode_center.add_child(mode_selector)
+	mode_description_label = Label.new()
+	mode_description_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
+	content.add_child(mode_description_label)
 	var cards := HBoxContainer.new()
 	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(cards)
@@ -76,6 +93,21 @@ func _build_interface() -> void:
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	note.add_theme_color_override("font_color", MUTED)
 	content.add_child(note)
+
+
+func _on_game_mode_changed(_mode: StringName) -> void:
+	_refresh_mode_description()
+
+
+func _refresh_mode_description() -> void:
+	if mode_description_label == null:
+		return
+	mode_description_label.text = Localization.text(
+		&"mode.test.description" if GameMode.is_test_mode() else &"mode.game.description"
+	)
+	mode_description_label.add_theme_color_override(
+		"font_color", WARNING if GameMode.is_test_mode() else MUTED
+	)
 
 
 func _build_card(

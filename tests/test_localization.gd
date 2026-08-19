@@ -10,6 +10,7 @@ const CircuitSimulatorType = preload("res://src/circuit/circuit_simulator.gd")
 const LOCALIZED_SOURCE_FILES := [
 	"res://src/localization/localization.gd",
 	"res://src/ui/prototype_hub.gd",
+	"res://src/ui/game_mode_selector.gd",
 	"res://src/ui/floating_instrument_panel.gd",
 	"res://src/ui/trace_overlay.gd",
 	"res://src/ui/main.gd",

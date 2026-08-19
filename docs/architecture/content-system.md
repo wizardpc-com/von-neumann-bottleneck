@@ -53,6 +53,8 @@ Branch and level order is explicit and deterministic, with stable ID ordering on
 
 `PlayerContentState` owns the session component library and completion set. The Hardware Foundations controller retains its legacy dictionary aliases for UI/test compatibility, but installation and invalidation go through this domain object.
 
+Hardware Foundations keeps separate Game-mode and Test-mode instances. Game mode uses only verified player rewards and the registered prerequisite graph. Test mode explicitly bypasses valid registered prerequisites and receives a bounded temporary library sufficient to instantiate the current late levels, but does not fabricate completion flags. Switching modes swaps the active aliases rather than copying dictionaries, so test helpers and test completions cannot leak into Game-mode evidence. This is a session development boundary, not a persistence or simulation feature.
+
 Installing a verified reusable design:
 
 1. requires the owning level to declare the reward;

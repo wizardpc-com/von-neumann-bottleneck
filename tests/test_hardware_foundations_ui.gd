@@ -19,8 +19,23 @@ func _run() -> void:
 	for _frame: int in range(5):
 		await process_frame
 
+	var game_mode: Node = root.get_node("GameMode")
 	_assert(StringName(main.get("current_phase")) == &"campaign", "Hardware Foundations must open on the prerequisite-gated level map.")
+	_assert(main.get("mode_selector") != null and not bool(game_mode.call("is_test_mode")), "Hardware Foundations must expose the shared selector and default to Game mode.")
+	_assert(not bool(game_mode.call("set_mode", &"unknown")) and not bool(game_mode.call("is_test_mode")), "The global mode boundary must reject unknown modes without changing state.")
 	var campaign_buttons: Dictionary = main.get("campaign_level_buttons")
+	var campaign_map: Control = main.get("campaign_map_view")
+	_assert(campaign_map != null and is_instance_valid(campaign_map), "The campaign must use the central graphical dependency map instead of leaving the canvas empty.")
+	_assert(campaign_buttons.size() == 9 and (campaign_map.call("dependency_edges") as Array).size() == 9, "The graphical map must expose all nine registered levels and all nine prerequisite edges.")
+	_assert(
+		(campaign_map.call("level_position", &"tutorial") as Vector2).x < (campaign_map.call("level_position", &"half_adder") as Vector2).x
+		and (campaign_map.call("level_position", &"full_adder") as Vector2).y < (campaign_map.call("level_position", &"latch") as Vector2).y
+		and (campaign_map.call("level_position", &"cpu") as Vector2).x > (campaign_map.call("level_position", &"alu") as Vector2).x
+		and (campaign_map.call("level_position", &"cpu") as Vector2).x > (campaign_map.call("level_position", &"ram") as Vector2).x,
+		"The dependency layout must visibly fork into arithmetic/storage lanes and merge at CPU."
+	)
+	_assert(StringName(campaign_map.call("level_state", &"tutorial")) == &"unlocked" and StringName(campaign_map.call("level_state", &"half_adder")) == &"locked", "Graphical node state must match the authoritative prerequisite gate.")
+	_assert((campaign_buttons[&"tutorial"] as Button).get_parent() == campaign_map, "Level selection buttons must live on the central graphical map, not in the Mission text list.")
 	_assert(campaign_buttons.has(&"tutorial") and not (campaign_buttons[&"tutorial"] as Button).disabled, "The wiring tutorial must be the first unlocked Foundations level.")
 	_assert(campaign_buttons.has(&"half_adder") and (campaign_buttons[&"half_adder"] as Button).disabled, "Half Adder must be visibly locked before the wiring tutorial is complete.")
 	_assert(campaign_buttons.has(&"full_adder") and (campaign_buttons[&"full_adder"] as Button).disabled, "Later arithmetic levels must remain visibly locked at session start.")
@@ -37,6 +52,45 @@ func _run() -> void:
 	var symbols: Dictionary = main.get("component_symbols")
 	_assert(graph != null and graph.get_connection_list().is_empty(), "Tutorial must begin auto-laid-out but unwired.")
 	_assert(graph.connection_lines_thickness >= 8.0, "Schematic wires must be deliberately heavier than Godot's thin default.")
+	var component_menu: MenuButton = main.get("component_menu_button")
+	var menu_templates: Dictionary = main.get("component_menu_templates")
+	var menu_kinds: Array[StringName] = []
+	for template_variant: Variant in menu_templates.values():
+		menu_kinds.append(StringName(template_variant.get("kind")))
+	_assert(component_menu != null and not component_menu.disabled, "An editable level must expose its allowed-components menu.")
+	_assert(menu_kinds.size() == 3 and &"and" in menu_kinds and &"not" in menu_kinds and &"or" in menu_kinds, "The tutorial menu must deduplicate supplied gates and exclude unique Test Bench terminals and wire nodes; got %s." % [menu_kinds])
+	var and_menu_item: int = _component_menu_item_for_kind(main, &"and")
+	_assert(and_menu_item >= 0, "The allowed-components menu must contain an AND gate item.")
+	main.call("_on_component_menu_item_pressed", and_menu_item)
+	_assert(not String(main.get("armed_component_template_key")).is_empty() and bool(graph.get("component_placement_enabled")), "Choosing a component must arm a snapped empty-canvas placement mode.")
+	_left_click_empty_canvas(graph, Vector2(905.0, 575.0))
+	await process_frame
+	_assert((main.get("component_nodes") as Dictionary).has(&"AND_NEW_001") and (main.get("component_nodes") as Dictionary).size() == 7, "One empty-canvas click must create a deterministic real component, not a visual-only ghost.")
+	_assert((main.get("component_catalog") as Dictionary)[&"AND_NEW_001"].kind == &"and" and (main.get("component_nodes") as Dictionary)[&"AND_NEW_001"].selected, "A placed menu component must enter the authoritative catalog and become selected.")
+	_assert((main.get("current_circuit") as LogicCircuit).components.has(&"AND_NEW_001"), "A placed menu component must enter the circuit model that simulation evaluates.")
+	var placed_position: Vector2 = ((main.get("component_nodes") as Dictionary)[&"AND_NEW_001"] as GraphNode).position_offset
+	_assert(is_zero_approx(fmod(placed_position.x, float(graph.snapping_distance))) and is_zero_approx(fmod(placed_position.y, float(graph.snapping_distance))), "Menu placement must snap the actual component to the same visible dot grid as its preview.")
+	_shortcut(main, KEY_Z)
+	_assert((main.get("component_nodes") as Dictionary).size() == 6 and not (main.get("component_nodes") as Dictionary).has(&"AND_NEW_001") and not (main.get("current_circuit") as LogicCircuit).components.has(&"AND_NEW_001"), "Undo must atomically remove a menu-placed component from both the view and simulation model.")
+	_shortcut(main, KEY_Y)
+	_assert((main.get("component_nodes") as Dictionary).has(&"AND_NEW_001") and (main.get("current_circuit") as LogicCircuit).components.has(&"AND_NEW_001"), "Redo must restore the same deterministic placed component to both the view and simulation model.")
+	_shortcut(main, KEY_Z)
+	_key(main, KEY_ESCAPE)
+	_assert(String(main.get("armed_component_template_key")).is_empty() and not bool(graph.get("component_placement_enabled")), "Esc must cancel component placement without changing the graph.")
+	_shortcut(main, KEY_A)
+	_assert((main.call("_selected_node_ids", false) as Array).size() == 6, "Ctrl+A must select every component and explicit wire node on the current canvas.")
+	_shortcut(main, KEY_X)
+	_assert((main.get("component_nodes") as Dictionary).size() == 3 and (main.get("clipboard_components") as Array).size() == 3, "Ctrl+X must cut player gates while keeping unique Test Bench terminals and a reusable clipboard.")
+	_shortcut(main, KEY_Z)
+	main.call("_set_selected_ids", [] as Array[StringName])
+	nodes = main.get("component_nodes")
+	symbols = main.get("component_symbols")
+	_assert(nodes.size() == 6, "Undo must restore the complete cut selection as one edit.")
+	var scroll_before_keys: Vector2 = graph.scroll_offset
+	_key(main, KEY_D)
+	_assert(graph.scroll_offset.x > scroll_before_keys.x, "D must pan the schematic view to the right.")
+	_key(main, KEY_A)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_before_keys), "Opposite WASD navigation must return to the prior view without moving components.")
 	var desktop_windows: Dictionary = main.get("desktop_windows")
 	_assert(desktop_windows.size() == 2 and (desktop_windows[&"task"] as Control).visible and (desktop_windows[&"test_bench"] as Control).visible, "Mission and Test Bench must coexist as desktop-style floating windows.")
 	var task_window: Control = desktop_windows[&"task"]
@@ -60,6 +114,8 @@ func _run() -> void:
 	_assert(port_icon != null and port_icon.get_size().x >= 24.0, "Connection ports must use a generous procedural hit icon.")
 	var compact_gate_size: Vector2 = (nodes[&"AND_1"] as GraphNode).size
 	_assert(compact_gate_size.x <= 170.0 and compact_gate_size.y <= 115.0, "Basic gates must stay compact instead of occupying large cards; actual=%s." % compact_gate_size)
+	var not_gate_size: Vector2 = (nodes[&"NOT_1"] as GraphNode).size
+	_assert(not_gate_size.x <= 110.0 and not_gate_size.x < compact_gate_size.x and not_gate_size.y < compact_gate_size.y, "The one-input NOT must be visibly shorter and smaller than a two-input gate; NOT=%s AND=%s." % [not_gate_size, compact_gate_size])
 	_assert(symbols.has(&"AND_1") and StringName(symbols[&"AND_1"].get("component_kind")) == &"and", "AND must be a procedural schematic symbol instead of a text-filled gate card.")
 	_assert(symbols.has(&"OR_1") and StringName(symbols[&"OR_1"].get("component_kind")) == &"or", "OR must be a distinct procedural schematic symbol.")
 	_assert(symbols.has(&"NOT_1") and StringName(symbols[&"NOT_1"].get("component_kind")) == &"not", "NOT must use the triangle-and-inversion-bubble schematic symbol.")
@@ -85,16 +141,28 @@ func _run() -> void:
 	_assert((nodes[&"AND_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "AND with two default-low inputs must continuously expose a low output.")
 	_assert((nodes[&"OR_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "OR with two default-low inputs must continuously expose a low output.")
 	_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")) and (nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("67e8a5")), "NOT must invert its unconnected default-low input to a live high output.")
+	main.call("_on_connection_drag_started", &"A_IN", 0, true)
+	var initial_targets: Array = graph.call("visible_connection_targets")
+	_assert(initial_targets.size() == 6 and _target_is_valid(initial_targets, &"NOT_1", 0), "Starting from A must advertise every exact compatible input port, including NOT, before release.")
+	_assert((nodes[&"A_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "Wiring target rings must not replace the source port's live red/green/gray electrical color.")
+	main.call("_on_connection_drag_ended")
+	_assert((graph.call("visible_connection_targets") as Array).is_empty(), "Ending a cable gesture must clear every temporary target guide.")
 	var fixed_source_symbol_color: Color = (symbols[&"A_IN"] as CircuitComponentSymbol).symbol_color()
 	var idle_analysis_count: int = int(main.get("live_analysis_count"))
 	for _idle_frame: int in range(3):
 		await process_frame
 	_assert(int(main.get("live_analysis_count")) == idle_analysis_count, "Live port analysis must be event-driven and must not run every frame while the circuit is unchanged.")
 
+	main.call("_set_selected_ids", [&"A_IN"] as Array[StringName])
+	_drag_select(graph, Vector2(600.0, 35.0), Vector2(790.0, 430.0), false)
+	_assert((nodes[&"AND_1"] as GraphNode).selected and (nodes[&"OR_1"] as GraphNode).selected and not (nodes[&"A_IN"] as GraphNode).selected, "Ordinary empty-canvas drag must replace the selection with every intersected component.")
+	_drag_select(graph, Vector2(1390.0, 600.0), Vector2(1390.0, 600.0), false)
+	_assert((main.call("_selected_node_ids", false) as Array).is_empty(), "An ordinary click on empty canvas must clear the current component selection.")
 	_shift_drag_select(graph, Vector2(600.0, 35.0), Vector2(790.0, 430.0))
 	await process_frame
 	_assert((nodes[&"AND_1"] as GraphNode).selected and (nodes[&"OR_1"] as GraphNode).selected, "Shift-drag must toggle every component/wire node inside its selection rectangle.")
-	_assert(bool((symbols[&"AND_1"] as CircuitComponentSymbol).get("selection_active")), "Selected schematic symbols must show non-rectangular selection feedback.")
+	_assert(bool((symbols[&"AND_1"] as CircuitComponentSymbol).get("selection_active")) and (symbols[&"AND_1"] as CircuitComponentSymbol).symbol_color().is_equal_approx(Color("50d5ff")), "Selection must recolor the complete schematic symbol instead of drawing a separate blue circle.")
+	_assert((nodes[&"AND_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")), "Whole-component selection highlighting must leave the port's live electrical color unchanged.")
 	_shift_click_component(main, &"A_IN")
 	_assert((nodes[&"A_IN"] as GraphNode).selected, "Shift-click must add or remove one component without clearing the existing group.")
 	_connect(main, &"AND_1", 0, &"OR_1", 0)
@@ -132,11 +200,24 @@ func _run() -> void:
 	_assert(not (nodes[&"AND_1"] as GraphNode).position_offset.is_equal_approx(and_before_group_move), "Ctrl+Y must reapply a multi-node movement transaction.")
 	_shortcut(main, KEY_Z)
 	_connect(main, &"A_IN", 0, &"NOT_1", 0)
+	main.call("_on_connection_drag_started", &"A_IN", 0, true)
+	var duplicate_targets: Array = graph.call("visible_connection_targets")
+	_assert(not _target_is_valid(duplicate_targets, &"NOT_1", 0), "An already-existing identical cable must show its destination as invalid instead of advertising a false valid drop.")
+	main.call("_on_connection_drag_ended")
 	_shortcut(main, KEY_Y)
 	_assert(graph.get_connection_list().size() == 1, "A new edit after Undo must clear the redo branch.")
 	_connect(main, &"NOT_1", 0, &"LAMP", 0)
 	await process_frame
 	_assert(graph.get_connection_list().size() == 2, "Tutorial connection requests must change the visible and simulated topology.")
+	var hover_path: PackedVector2Array = main.call("_connection_curve", &"A_IN", 0, &"NOT_1", 0)
+	var hover_motion := InputEventMouseMotion.new()
+	hover_motion.position = hover_path[hover_path.size() / 2]
+	graph.call("_gui_input", hover_motion)
+	var hovered_wire: Dictionary = graph.get("hovered_connection")
+	_assert(StringName(hovered_wire.get("from_node", &"")) == &"A_IN" and StringName(hovered_wire.get("to_node", &"")) == &"NOT_1", "Moving over the rendered cable must expose an exact-path hover highlight before branching or deletion; point=%s closest=%s hovered=%s." % [hover_motion.position, graph.get_closest_connection_at_point(hover_motion.position, 13.0), hovered_wire])
+	hover_motion.position = Vector2(1390.0, 600.0)
+	graph.call("_gui_input", hover_motion)
+	_assert((graph.get("hovered_connection") as Dictionary).is_empty(), "Moving away from a cable must clear its temporary hover highlight.")
 	main.call("_clear_wires")
 	_shortcut(main, KEY_Z)
 	_assert(graph.get_connection_list().size() == 2, "Ctrl+Z must restore Clear Wires as one complete transaction.")
@@ -283,6 +364,11 @@ func _run() -> void:
 	_assert(graph.get_connection_list().size() == 4 and _routing_node_count(main) == 1, "Dragging from a rendered wire to a free input must atomically replace it with a trunk and two outgoing segments.")
 	var junction_node: GraphNode = _first_routing_node(main)
 	_assert(junction_node != null and junction_node.draggable and junction_node.size.x < 100.0, "A branch point must be a small movable wire node, not another large component.")
+	main.call("_set_selected_ids", [] as Array[StringName])
+	_double_click_component(main, &"A_IN")
+	_assert((nodes[&"A_IN"] as GraphNode).selected and junction_node.selected, "Double-clicking a routed component must select it together with explicit wire nodes connected to its pins.")
+	_assert(not (nodes[&"NOT_1"] as GraphNode).selected and not (nodes[&"OR_1"] as GraphNode).selected, "Connected-route selection must not absorb the other endpoint components on the same electrical net.")
+	main.call("_set_selected_ids", [] as Array[StringName])
 	main.call("_run_debug")
 	var branched_trace: CircuitTrace = main.get("current_trace")
 	_assert(branched_trace.outputs.get(&"LAMP") == false and int(branched_trace.metrics["propagation_ticks"]) == 1, "Inserting and moving zero-delay branch nodes must preserve circuit behavior and delay.")
@@ -448,10 +534,34 @@ func _run() -> void:
 	var sealed_trace: CircuitTrace = sealed.evaluate(true, true)
 	_assert(sealed_trace.outputs.get(&"SUM") == false and sealed_trace.outputs.get(&"CARRY") == true, "The reusable HalfAdder view must preserve the sealed circuit's behavior.")
 
+	var game_content_signature: String = main.get("game_player_content").canonical_signature()
+	var mode_option: OptionButton = main.get("mode_selector").get("option_button")
+	mode_option.item_selected.emit(1)
+	_assert(bool(game_mode.call("is_test_mode")), "Choosing Test mode in the shared selector must update the global service.")
+	for _test_mode_frame: int in range(3):
+		await process_frame
+	var test_buttons: Dictionary = main.get("campaign_level_buttons")
+	var all_test_levels_unlocked: bool = test_buttons.size() == 9
+	for test_button: Button in test_buttons.values():
+		all_test_levels_unlocked = all_test_levels_unlocked and not test_button.disabled
+	_assert(all_test_levels_unlocked, "Test mode must make every registered campaign node enterable.")
+	_assert(not bool(main.call("_is_level_unlocked", &"unknown")), "Test mode must not make unregistered level IDs enterable.")
+	_assert((main.get("completed_levels") as Dictionary).is_empty(), "Unlocking Test mode must not fabricate completed-level evidence.")
+	var test_library: Dictionary = main.get("component_library")
+	_assert(test_library.size() == 9 and test_library.has(&"HalfAdder") and test_library.has(&"ALU4") and test_library.has(&"Register4") and test_library.has(&"TinyComputer"), "Test mode must provide an isolated temporary library sufficient to instantiate every level.")
+	main.call("_start_campaign_level", &"load_store")
+	await process_frame
+	_assert(StringName(main.get("current_phase")) == &"prologue" and (main.get("graph") as GraphEdit).get_connection_list().size() == 5, "An end-of-prologue level must actually open in Test mode, not merely display an enabled map button.")
+	mode_option.item_selected.emit(0)
+	_assert(not bool(game_mode.call("is_test_mode")), "Choosing Game mode in the shared selector must leave Test mode.")
+	for _game_mode_frame: int in range(3):
+		await process_frame
+	_assert(main.get("player_content").canonical_signature() == game_content_signature, "Returning to Game mode must restore its exact player progress without Test-mode helper content.")
+
 	main.queue_free()
 	await process_frame
 	if failures.is_empty():
-		print("PASS: default-low live ports, editor shortcuts/multi-selection, multi-wire diagnostics, parallel trace, Half Adder, and sealing UI tests passed")
+		print("PASS: global test mode, compact NOT, whole-symbol selection, graphical map, wiring, and Hardware UI tests passed")
 		quit(0)
 	else:
 		for failure: String in failures:
@@ -484,6 +594,29 @@ func _shortcut(main: Control, keycode: Key, shifted: bool = false) -> void:
 	main.call("_input", event)
 
 
+func _key(main: Control, keycode: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.pressed = true
+	main.call("_input", event)
+
+
+func _component_menu_item_for_kind(main: Control, kind: StringName) -> int:
+	var menu: MenuButton = main.get("component_menu_button")
+	var templates: Dictionary = main.get("component_menu_templates")
+	if menu == null:
+		return -1
+	var popup: PopupMenu = menu.get_popup()
+	for item_index: int in range(popup.item_count):
+		var metadata: Variant = popup.get_item_metadata(item_index)
+		if metadata == null or not templates.has(String(metadata)):
+			continue
+		var template: LogicComponent = templates[String(metadata)]
+		if template.kind == kind:
+			return popup.get_item_id(item_index)
+	return -1
+
+
 func _shift_click_component(main: Control, component_id: StringName) -> void:
 	var node: GraphNode = (main.get("component_nodes") as Dictionary)[component_id]
 	var click := InputEventMouseButton.new()
@@ -495,25 +628,49 @@ func _shift_click_component(main: Control, component_id: StringName) -> void:
 	main.call("_on_component_gui_input", click, component_id)
 
 
+func _double_click_component(main: Control, component_id: StringName) -> void:
+	var node: GraphNode = (main.get("component_nodes") as Dictionary)[component_id]
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.button_mask = MOUSE_BUTTON_MASK_LEFT
+	click.pressed = true
+	click.double_click = true
+	click.position = node.size * 0.5
+	main.call("_on_component_gui_input", click, component_id)
+
+
 func _shift_drag_select(graph: GraphEdit, start: Vector2, finish: Vector2) -> void:
+	_drag_select(graph, start, finish, true)
+
+
+func _drag_select(graph: GraphEdit, start: Vector2, finish: Vector2, shifted: bool) -> void:
 	var press := InputEventMouseButton.new()
 	press.button_index = MOUSE_BUTTON_LEFT
 	press.button_mask = MOUSE_BUTTON_MASK_LEFT
 	press.pressed = true
-	press.shift_pressed = true
+	press.shift_pressed = shifted
 	press.position = start
 	graph.call("_gui_input", press)
 	var motion := InputEventMouseMotion.new()
 	motion.button_mask = MOUSE_BUTTON_MASK_LEFT
-	motion.shift_pressed = true
+	motion.shift_pressed = shifted
 	motion.position = finish
 	graph.call("_gui_input", motion)
 	var release := InputEventMouseButton.new()
 	release.button_index = MOUSE_BUTTON_LEFT
 	release.pressed = false
-	release.shift_pressed = true
+	release.shift_pressed = shifted
 	release.position = finish
 	graph.call("_gui_input", release)
+
+
+func _left_click_empty_canvas(graph: GraphEdit, position: Vector2) -> void:
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.button_mask = MOUSE_BUTTON_MASK_LEFT
+	press.pressed = true
+	press.position = position
+	graph.call("_gui_input", press)
 
 
 func _first_event(trace: CircuitTrace, kind: StringName) -> CircuitEvent:
@@ -541,6 +698,16 @@ func _find_connection(
 		if connection["from_node"] == from_node and int(connection["from_port"]) == from_port and connection["to_node"] == to_node and int(connection["to_port"]) == to_port:
 			return connection
 	return {}
+
+
+func _target_is_valid(targets: Array, node_id: StringName, port: int) -> bool:
+	for target_variant: Variant in targets:
+		if not target_variant is Dictionary:
+			continue
+		var target := target_variant as Dictionary
+		if StringName(target.get("node", &"")) == node_id and int(target.get("port", -1)) == port:
+			return bool(target.get("valid", false))
+	return false
 
 
 func _drag_branch_from_wire(graph: GraphEdit, split_position: Vector2, target: GraphNode, target_port: int) -> void:

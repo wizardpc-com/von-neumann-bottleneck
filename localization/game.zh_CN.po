@@ -10,10 +10,13 @@ msgid "game.title"
 msgstr "冯·诺依曼瓶颈"
 
 msgid "game.window_title"
-msgstr "冯·诺依曼瓶颈 — 硬件序章：构建 CPU"
+msgstr "冯·诺依曼瓶颈"
 
 msgid "common.auto_layout"
 msgstr "自动布局"
+
+msgid "common.chapter_select"
+msgstr "返回章节选择"
 
 msgid "common.open_named"
 msgstr "打开%s"
@@ -63,6 +66,15 @@ msgstr "拖动以调整大小"
 msgid "window.restore.tooltip"
 msgstr "还原此窗口"
 
+msgid "window.fullscreen.enter"
+msgstr "全屏"
+
+msgid "window.fullscreen.exit"
+msgstr "退出全屏"
+
+msgid "window.fullscreen.tooltip"
+msgstr "切换全屏显示（F11 或 Alt+Enter）"
+
 msgid "hub.subtitle"
 msgstr "可玩研究原型"
 
@@ -73,10 +85,31 @@ msgid "hub.hardware.eyebrow"
 msgstr "完整可玩序章原型"
 
 msgid "hub.hardware.description"
-msgstr "从自由连线与 HalfAdder 开始，沿算术和存储两条分支构建 FullAdder、ALU、锁存器、寄存器与 RAM，最终连成四位累加器 CPU 并运行 LOAD/STORE。"
+msgstr "完成自由连线后，分别从 HalfAdder 开始 CPU / 算术路线、从锁存器开始存储路线，最终把 ALU 与 RAM 连成四位累加器 CPU 并运行 LOAD/STORE。"
 
 msgid "hub.hardware.play"
 msgstr "进入 CPU 构建序章"
+
+msgid "hub.system.title"
+msgstr "第 1 章：等待数据"
+
+msgid "hub.system.eyebrow"
+msgstr "CPU · RAM · BUS"
+
+msgid "hub.system.description"
+msgstr "组装玩家来源的 8-bit 系统，逐步调查 CPU、内存延迟、总线宽度、工作量放大与真实瓶颈。"
+
+msgid "hub.system.open"
+msgstr "进入章节地图"
+
+msgid "hub.system.locked"
+msgstr "游戏模式下需先完成硬件序章的 LOAD/STORE；测试模式可直接进入。"
+
+msgid "hub.system.locked_action"
+msgstr "完成 LOAD/STORE 后解锁"
+
+msgid "hardware.prologue.open_system"
+msgstr "用我的 CPU 与 RAM 进入第 1 章"
 
 msgid "hub.locality.title"
 msgstr "缓存局部性实验室"
@@ -91,7 +124,7 @@ msgid "hub.locality.open"
 msgstr "打开 v0.2 局部性实验室"
 
 msgid "hub.note"
-msgstr "两个切片验证不同的玩法假设；它们都不是完整游戏。"
+msgstr "这些可玩切片验证不同的玩法假设；它们共同组成正在生长的游戏。"
 
 msgid "device.program"
 msgstr "程序"
@@ -760,7 +793,7 @@ msgid "hardware.subtitle"
 msgstr "信号 → 逻辑 → 抽象 → CPU / RAM"
 
 msgid "hardware.hub.tooltip"
-msgstr "返回原型选择界面。"
+msgstr "返回章节选择界面。"
 
 msgid "hardware.window.mission"
 msgstr "任务"
@@ -772,7 +805,10 @@ msgid "hardware.component_menu.button"
 msgstr "元件"
 
 msgid "hardware.component_menu.tooltip"
-msgstr "选择本关允许的元件，再在画布空白处左键放置；可连续放置，Esc 取消。"
+msgstr "从可移动元件窗口把本关允许的元件拖到桌面；也可单击元件后在空白处连续放置，Esc 取消。"
+
+msgid "hardware.component_palette.hint"
+msgstr "单击元件后，低亮预览将跟随鼠标；左键连续放置，右键或操作其它内容结束。也可直接拖到桌面。"
 
 msgid "hardware.component_menu.unavailable"
 msgstr "本界面没有可放置元件"
@@ -1135,7 +1171,7 @@ msgid "hardware.status.selection_pasted"
 msgstr "已粘贴 %d 个元件/线节点和 %d 段内部连线；它们已被选中"
 
 msgid "hardware.status.component_placement_armed"
-msgstr "正在放置 %s — 左键单击画布空白处；可连续放置，Esc 取消"
+msgstr "正在放置 %s — 低亮预览跟随鼠标；左键连续放置，右键或其它操作结束"
 
 msgid "hardware.status.component_placement_cancelled"
 msgstr "元件放置已取消。"
@@ -1269,6 +1305,9 @@ msgstr "仅当两个输入都为 1 时输出 1。增加 1 个模拟 tick。"
 msgid "hardware.tooltip.or"
 msgstr "任一输入为 1 时输出 1。增加 1 个模拟 tick。"
 
+msgid "hardware.tooltip.xor"
+msgstr "两个输入不同时输出 1。增加 1 个模拟 tick。"
+
 msgid "hardware.tooltip.not"
 msgstr "反转输入。增加 1 个模拟 tick。"
 
@@ -1285,7 +1324,7 @@ msgid "hardware.prologue.open_map"
 msgstr "继续：打开 CPU 构建地图"
 
 msgid "hardware.prologue.open_map.tooltip"
-msgstr "把已封存的 HalfAdder 带入后续双分支硬件序章。"
+msgstr "把已封存的 HalfAdder 带入后续 CPU / 算术构建路线。"
 
 msgid "hardware.prologue.map.phase"
 msgstr "硬件序章 · CPU 构建地图"
@@ -1348,10 +1387,10 @@ msgid "hardware.prologue.map.requirement"
 msgstr "前置：%s"
 
 msgid "hardware.prologue.branch.cpu"
-msgstr "算术分支"
+msgstr "CPU / 算术分支"
 
 msgid "hardware.prologue.branch.foundations"
-msgstr "基础门与抽象"
+msgstr "接线基础"
 
 msgid "hardware.prologue.branch.storage"
 msgstr "存储分支"
@@ -1642,3 +1681,795 @@ msgstr "WRITE M%d ← %s"
 
 msgid "hardware.storage.action.ram_read"
 msgstr "READ M%d"
+
+msgid "common.create"
+msgstr "创建"
+
+msgid "common.cancel"
+msgstr "取消"
+
+msgid "hardware.workbench.button"
+msgstr "桌布：%s"
+
+msgid "hardware.workbench.button.tooltip"
+msgstr "切换本关的桌布，或新建一个独立的电路方案。"
+
+msgid "hardware.workbench.create"
+msgstr "＋ 新建桌布…"
+
+msgid "hardware.workbench.create.title"
+msgstr "新建桌布"
+
+msgid "hardware.workbench.create.prompt"
+msgstr "输入一个容易辨认的方案名称。新桌布从本关的初始元件开始。"
+
+msgid "hardware.workbench.create.placeholder"
+msgstr "例如：低门数方案"
+
+msgid "hardware.workbench.switch_failed"
+msgstr "无法切换到该桌布。"
+
+msgid "hardware.workbench.loaded"
+msgstr "已切换到桌布“%s”；撤销记录从空白开始。"
+
+msgid "hardware.workbench.error.empty"
+msgstr "桌布名称不能为空。"
+
+msgid "hardware.workbench.error.too_long"
+msgstr "桌布名称最多可用 %d 个字符。"
+
+msgid "hardware.workbench.error.invalid_character"
+msgstr "桌布名称不能包含换行或制表符。"
+
+msgid "hardware.workbench.error.duplicate"
+msgstr "本关已经有同名桌布。"
+
+msgid "hardware.workbench.error.generic"
+msgstr "无法创建桌布。"
+
+msgid "hardware.hint.button"
+msgstr "提示"
+
+msgid "hardware.hint.button.tooltip"
+msgstr "进入独立的只读提示桌布；不会改变你的电路。"
+
+msgid "hardware.hint.return"
+msgstr "返回我的桌布"
+
+msgid "hardware.hint.return.tooltip"
+msgstr "离开提示并恢复刚才使用的玩家桌布。"
+
+msgid "hardware.hint.next"
+msgstr "提示 %d/%d · 下一步"
+
+msgid "hardware.hint.next.tooltip"
+msgstr "逐步揭示下一层提示。"
+
+msgid "hardware.hint.phase"
+msgstr "提示桌布 · %d/%d"
+
+msgid "hardware.hint.status"
+msgstr "正在查看第 %d/%d 级提示。"
+
+msgid "hardware.hint.read_only"
+msgstr "提示桌布为只读；元件和线路来自同一套真实电路模型。"
+
+msgid "hardware.hint.no_progress"
+msgstr "提示不会运行正式测试、封装元件或改变关卡进度。"
+
+msgid "hardware.hint.title"
+msgstr "第 %d/%d 级提示"
+
+msgid "hardware.hint.scope.1"
+msgstr "仅显示固定端口，不展示解题拓扑。"
+
+msgid "hardware.hint.scope.2"
+msgstr "桌布只展示关键元件和关键线路，其余部分仍由你完成。"
+
+msgid "hardware.hint.scope.3"
+msgstr "桌布展示完整参考拓扑，可沿每条真实线路检查答案。"
+
+msgid "hardware.hint.reveal_next"
+msgstr "查看第 %d 级提示"
+
+msgid "hardware.hint.returned"
+msgstr "已返回你的桌布“%s”。"
+
+msgid "hardware.hint.generic"
+msgstr "先根据输入、输出和官方测试，把问题拆成更小的信号关系。"
+
+msgid "hardware.hint.tutorial.1"
+msgstr "先完成一条最短信号链：从输出端口开始连线，并观察信号是否沿屏幕上的真实线路到达目标。"
+
+msgid "hardware.hint.tutorial.2"
+msgstr "尝试让输入 A 经过 NOT 后进入灯；重点观察反相前后的端口颜色。"
+
+msgid "hardware.hint.tutorial.3"
+msgstr "完整示例使用 A → NOT → LAMP，足以练习连接、运行、删除和重新连接。"
+
+msgid "hardware.hint.half_adder.1"
+msgstr "分别为 SUM 与 CARRY 画出四行真值表。先只观察其中一个输出，尝试找出它在什么输入组合下为 1。"
+
+msgid "hardware.hint.half_adder.2"
+msgstr "SUM 在两个输入不同的时候为 1。提示桌布展示了 (A OR B) AND NOT(A AND B) 这条本位输出路径。"
+
+msgid "hardware.hint.half_adder.3"
+msgstr "完整答案在 SUM 路径之外增加 A AND B 作为 CARRY；两个输出共享 A、B 信号。"
+
+msgid "hardware.hint.full_adder.1"
+msgstr "先把 A 与 B 相加，再把第一次的 SUM 与 CIN 相加；最后思考两次进位如何合并。"
+
+msgid "hardware.hint.full_adder.2"
+msgstr "关键路径串联两个 HalfAdder，第二个 HalfAdder 的 SUM 就是最终 SUM。"
+
+msgid "hardware.hint.full_adder.3"
+msgstr "完整答案再用 OR 合并两个 HalfAdder 的 CARRY，得到 COUT。"
+
+msgid "hardware.hint.alu.1"
+msgstr "让各运算候选结果并行产生，再使用操作码选择其中一个；不要让操作码改变运算元件本身。"
+
+msgid "hardware.hint.alu.2"
+msgstr "关键子电路展示 AND、OR、NOT 与加法结果怎样进入多路选择器，并由 OP0/OP1 选择输出。"
+
+msgid "hardware.hint.alu.3"
+msgstr "完整答案连接四条候选运算路径、选择线、RESULT，并单独保留加法器的 CARRY。"
+
+msgid "hardware.hint.latch.1"
+msgstr "两个 NOR 可以互相读取对方的输出，从而在 S=R=0 时保留上一状态；不要同时令 S、R 为 1。"
+
+msgid "hardware.hint.latch.2"
+msgstr "关键子电路展示两个 NOR 的交叉反馈以及 S、R 各自进入哪一侧。"
+
+msgid "hardware.hint.latch.3"
+msgstr "完整答案把交叉反馈 NOR 的两个输出分别接到 Q 与 NQ。"
+
+msgid "hardware.hint.register.1"
+msgstr "LOAD=0 时不应改变锁存器；LOAD=1 时，D 与 NOT D 应分别形成 SET 与 RESET。"
+
+msgid "hardware.hint.register.2"
+msgstr "关键子电路用两个 AND 将 LOAD 分别与 D、NOT D 组合，再送入 SRLatch。"
+
+msgid "hardware.hint.register.3"
+msgstr "完整答案把两条门控路径接入 SRLatch，并把其 Q 连接到关卡输出。"
+
+msgid "hardware.hint.ram.1"
+msgstr "把写入和读取分开考虑：译码器只允许被寻址的寄存器写入，多路选择器负责读出被寻址的行。"
+
+msgid "hardware.hint.ram.2"
+msgstr "关键子电路展示 ADDR/WRITE 进入译码器，并分别驱动两个 Register4 的 LOAD。"
+
+msgid "hardware.hint.ram.3"
+msgstr "完整答案还把 DATA 扇出到两个寄存器，并用 ADDR 控制字多路选择器读出 OUT。"
+
+msgid "hardware.hint.cpu.1"
+msgstr "先画数据通路：ACC、立即数和 RAM 数据在哪里相遇；再让 CONTROL 只负责选择、装载和写入信号。"
+
+msgid "hardware.hint.cpu.2"
+msgstr "关键子电路展示 CONTROL、SOURCE_MUX、ALU、RESULT_MUX 与 ACC 形成的主数据循环。"
+
+msgid "hardware.hint.cpu.3"
+msgstr "完整答案补齐 RAM 地址/写入路径和两个外部观察输出，形成可执行固定程序的 TinyComputer。"
+
+msgid "hardware.hint.load_store.1"
+msgstr "逐条跟踪 OP、ARG、ADDR，记录每条指令执行前后的 ACC 与目标内存行。"
+
+msgid "hardware.hint.load_store.2"
+msgstr "关键连接把三路测试输入送入 TinyComputer；先确认每个端口宽度和顺序。"
+
+msgid "hardware.hint.load_store.3"
+msgstr "完整参考桌布还连接 ACC 与 MEM 输出；本关拓扑固定，重点是读懂状态变化。"
+
+msgid "system.chapter.title"
+msgstr "第 1 章：等待数据"
+
+msgid "system.chapter.subtitle"
+msgstr "从可运行的计算机走向可解释的性能证据"
+
+msgid "system.action.map"
+msgstr "章节地图"
+
+msgid "system.action.auto_wire"
+msgstr "标准布线"
+
+msgid "system.workbench.title"
+msgstr "系统桌面 · 8-bit CPU / Bus / RAM"
+
+msgid "system.status.map"
+msgstr "选择已解锁关卡"
+
+msgid "system.status.locked"
+msgstr "完成前置关卡后才能进入"
+
+msgid "system.status.ready"
+msgstr "先确认线路、硬件与已应用代码"
+
+msgid "system.status.hardware_changed"
+msgstr "硬件已更换；请重新运行并比较证据"
+
+msgid "system.status.layout_restored"
+msgstr "已恢复可读布局；几何距离不影响周期"
+
+msgid "system.status.wired"
+msgstr "六条标准线路已连接"
+
+msgid "system.status.connection_added"
+msgstr "线路已连接；屏幕拓扑已更新"
+
+msgid "system.status.connection_removed"
+msgstr "线路已断开；旧运行结果不再代表当前系统"
+
+msgid "system.status.invalid_connection"
+msgstr "端口类型不匹配；请求、写入与读取通道不能混接"
+
+msgid "system.status.program_invalid"
+msgstr "代码尚不能应用"
+
+msgid "system.status.program_applied"
+msgstr "代码已确认并应用；新运行将使用这一版本"
+
+msgid "system.status.apply_required"
+msgstr "草稿尚未应用；测试只运行已确认的代码"
+
+msgid "system.status.topology_invalid"
+msgstr "当前系统缺少 %d 项有效连接或零件"
+
+msgid "system.status.level_complete"
+msgstr "证据满足要求，下一关已解锁"
+
+msgid "system.status.evidence_progress"
+msgstr "有效证据 %d / %d；继续完成同条件比较"
+
+msgid "system.map.intro.title"
+msgstr "等待从哪里来？"
+
+msgid "system.map.intro.body"
+msgstr "六个节点组成一条连续调查路线：先组装系统，再分别改变 CPU、RAM 与 Bus，随后放大工作量，最后只凭本次运行证据判断瓶颈。\n\n本章不使用 Cache，也不要求软件优化。"
+
+msgid "system.map.prologue_required"
+msgstr "请先完成硬件序章的 LOAD/STORE，生成属于你的 CPU8 与 RAM64x8 来源。"
+
+msgid "system.map.test_mode"
+msgstr "测试模式：六关全部开放，使用隔离的测试来源，不修改游戏模式进度。"
+
+msgid "system.map.level"
+msgstr "关卡 %d"
+
+msgid "system.map.completed"
+msgstr "✓ 已完成"
+
+msgid "system.map.unlocked"
+msgstr "◆ 可进入"
+
+msgid "system.map.locked"
+msgstr "○ 未解锁"
+
+msgid "system.level.header"
+msgstr "%d / 6 · %s"
+
+msgid "system.level.unknown.title"
+msgstr "未知关卡"
+
+msgid "system.level.unknown.description"
+msgstr "关卡内容不可用。"
+
+msgid "system.level.unknown.objective"
+msgstr "恢复有效关卡内容。"
+
+msgid "system.level.assembly.title"
+msgstr "接通第一台系统"
+
+msgid "system.level.assembly.description"
+msgstr "把玩家来源的 CPU8、8-bit Bus 与 RAM64x8 接成一台能运行的计算机。"
+
+msgid "system.level.assembly.objective"
+msgstr "连接请求、写入和读取的六段通道，应用代码，并通过两个官方用例。"
+
+msgid "system.level.cpu_speed.title"
+msgstr "CPU 变快以后"
+
+msgid "system.level.cpu_speed.description"
+msgstr "保持 RAM、Bus、代码和测试不变，只更换 CPU，观察总周期并不会按 CPU 速度等比例下降。"
+
+msgid "system.level.cpu_speed.objective"
+msgstr "用同一份已应用代码测试至少两种 CPU，并比较可复现的总周期。"
+
+msgid "system.level.ram_wait.title"
+msgstr "CPU 在等谁"
+
+msgid "system.level.ram_wait.description"
+msgstr "流式求和会反复访问内存；Profiler 开始拆分 CPU 计算与等待时间。"
+
+msgid "system.level.ram_wait.objective"
+msgstr "保持其它条件一致，测试至少两种 RAM，找出等待时间随访问延迟的变化。"
+
+msgid "system.level.bus_width.title"
+msgstr "一字节要走几次"
+
+msgid "system.level.bus_width.description"
+msgstr "Bus2、Bus4、Bus8 都传输同一个 8-bit 值，但分别需要四、二、一个数据阶段。"
+
+msgid "system.level.bus_width.objective"
+msgstr "用同一复制程序测试至少两种总线宽度，观察精确线路上的分段传输。"
+
+msgid "system.level.scale_up.title"
+msgstr "工作量放大镜"
+
+msgid "system.level.scale_up.description"
+msgstr "把相同求和工作从 4 个元素扩展到 16 与 64 个元素，观察固定硬件上的时间增长。"
+
+msgid "system.level.scale_up.objective"
+msgstr "一次官方运行通过 4、16、64 三个固定规模，并在历史与 Profiler 中比较。"
+
+msgid "system.level.bottleneck.title"
+msgstr "瓶颈调查"
+
+msgid "system.level.bottleneck.description"
+msgstr "自由组合已见过的 CPU、RAM 与 Bus，运行固定程序，再根据周期占比提交判断。"
+
+msgid "system.level.bottleneck.objective"
+msgstr "先通过全部官方用例，再判断本次系统的瓶颈是 CPU、RAM、Bus 还是混合。"
+
+msgid "system.window.mission.title"
+msgstr "任务"
+
+msgid "system.window.parts.title"
+msgstr "零件"
+
+msgid "system.window.program.title"
+msgstr "程序"
+
+msgid "system.window.test_bench.title"
+msgstr "测试台"
+
+msgid "system.window.profiler.title"
+msgstr "Profiler"
+
+msgid "system.window.history.title"
+msgstr "运行历史"
+
+msgid "system.window.mission.short"
+msgstr "任务"
+
+msgid "system.window.parts.short"
+msgstr "零件"
+
+msgid "system.window.program.short"
+msgstr "程序"
+
+msgid "system.window.test_bench.short"
+msgstr "测试"
+
+msgid "system.window.profiler.short"
+msgstr "Profiler"
+
+msgid "system.window.history.short"
+msgstr "历史"
+
+msgid "system.mission.progress"
+msgstr "完成进度：%d / %d 份有效证据"
+
+msgid "system.mission.complete"
+msgstr "✓ 本关证据链完整；可以回到地图进入下一关。"
+
+msgid "system.part.cpu"
+msgstr "CPU"
+
+msgid "system.part.ram"
+msgstr "RAM"
+
+msgid "system.part.bus"
+msgstr "Bus"
+
+msgid "system.parts.help"
+msgstr "零件共享同一 8-bit 外部接口。更换零件会改变周期和成本，但不会偷偷改变程序或线路。"
+
+msgid "system.parts.cost"
+msgstr "成本 %d"
+
+msgid "system.parts.total_cost"
+msgstr "系统总成本：%d（本章只记录，不设硬门槛）"
+
+msgid "system.parts.cpu_detail"
+msgstr "%s：每次算术 %d 周期 · 成本 %d"
+
+msgid "system.parts.ram_detail"
+msgstr "%s：每次读/写服务 %d 周期 · 成本 %d"
+
+msgid "system.parts.bus_detail"
+msgstr "%s：每周期 %d bit · 成本 %d"
+
+msgid "system.program.help"
+msgstr "这是受限的 Python 形状程序。编辑只产生草稿；点击“确认并应用”后，测试才会使用新代码。"
+
+msgid "system.program.apply"
+msgstr "确认并应用"
+
+msgid "system.program.valid"
+msgstr "语法有效，可以应用。"
+
+msgid "system.program.draft_pending"
+msgstr "● 草稿未应用"
+
+msgid "system.program.applied"
+msgstr "✓ 已应用"
+
+msgid "system.program.explanation.title"
+msgstr "逐行解释"
+
+msgid "system.dsl.error.tabs"
+msgstr "第 %d 行使用了 Tab；请改用四个空格。"
+
+msgid "system.dsl.error.indent"
+msgstr "第 %d 行只能使用零个或四个前导空格。"
+
+msgid "system.dsl.error.body"
+msgstr "第 %d 行缩进在循环体之外。"
+
+msgid "system.dsl.error.syntax"
+msgstr "第 %d 行不是支持的语句：%s"
+
+msgid "system.dsl.error.empty_loop"
+msgstr "第 %d 行的循环没有循环体。"
+
+msgid "system.dsl.error.empty"
+msgstr "程序没有可执行语句。"
+
+msgid "system.dsl.explanation.assign_const"
+msgstr "把常数写入 8-bit 临时变量：%s"
+
+msgid "system.dsl.explanation.for_range"
+msgstr "按固定次数或输入长度重复下一层语句：%s"
+
+msgid "system.dsl.explanation.load"
+msgstr "经 CPU → Bus → RAM 请求并读取一个字节：%s"
+
+msgid "system.dsl.explanation.add"
+msgstr "在 CPU 中执行 8-bit 加法，结果按 256 回绕：%s"
+
+msgid "system.dsl.explanation.add_const"
+msgstr "在 CPU 中加上常数，结果按 256 回绕：%s"
+
+msgid "system.dsl.explanation.store"
+msgstr "经 CPU → Bus → RAM 写回一个结果字节：%s"
+
+msgid "system.test_bench.help"
+msgstr "单例调试不计入解锁。官方测试会运行固定用例，并生成绑定当前代码、线路和零件的证据单。"
+
+msgid "system.test_bench.case"
+msgstr "%s · 输入 %s"
+
+msgid "system.test_bench.run_one"
+msgstr "运行所选用例"
+
+msgid "system.test_bench.run_official"
+msgstr "运行全部官方用例"
+
+msgid "system.test_bench.not_run"
+msgstr "尚未运行当前系统。"
+
+msgid "system.test_bench.debug_pass"
+msgstr "所选用例通过；这是调试结果，不计入解锁。"
+
+msgid "system.test_bench.debug_fail"
+msgstr "所选用例失败；检查输出、代码或线路。"
+
+msgid "system.test_bench.official_pass"
+msgstr "官方测试通过：%d / %d"
+
+msgid "system.test_bench.official_fail"
+msgstr "官方测试未通过：%d / %d"
+
+msgid "system.test_bench.result"
+msgstr "%s · 期望 %s · 实际 %s · %d 周期 · %s"
+
+msgid "system.result.pass"
+msgstr "通过"
+
+msgid "system.result.fail"
+msgstr "失败"
+
+msgid "system.diagnosis.cpu"
+msgstr "CPU"
+
+msgid "system.diagnosis.ram"
+msgstr "RAM"
+
+msgid "system.diagnosis.bus"
+msgstr "Bus"
+
+msgid "system.diagnosis.mixed"
+msgstr "混合瓶颈"
+
+msgid "system.diagnosis.confirm"
+msgstr "提交判断"
+
+msgid "system.diagnosis.run_first"
+msgstr "请先让当前组合通过全部官方测试。"
+
+msgid "system.diagnosis.incorrect"
+msgstr "这项判断与当前 Trace 的周期占比不一致；继续调查证据。"
+
+msgid "system.diagnosis.correct"
+msgstr "判断正确：本次系统属于%s。"
+
+msgid "system.profiler.tier"
+msgstr "调查工具等级 %d / 6"
+
+msgid "system.profiler.help"
+msgstr "Profiler 只读取已完成的 Trace；播放暂停、速度和动画不会改变任何指标。"
+
+msgid "system.profiler.no_data"
+msgstr "%s：— 等待一次运行"
+
+msgid "system.profiler.name.total_cycles"
+msgstr "总周期"
+
+msgid "system.profiler.name.cpu_compute_cycles"
+msgstr "CPU 计算"
+
+msgid "system.profiler.name.cpu_wait_cycles"
+msgstr "CPU 等待"
+
+msgid "system.profiler.name.ram_service_cycles"
+msgstr "RAM 服务"
+
+msgid "system.profiler.name.memory_requests"
+msgstr "内存请求"
+
+msgid "system.profiler.name.bus_control_cycles"
+msgstr "Bus 控制"
+
+msgid "system.profiler.name.bus_transfer_cycles"
+msgstr "Bus 数据"
+
+msgid "system.profiler.name.bus_segments_per_word"
+msgstr "每字节分段"
+
+msgid "system.profiler.name.bytes_transferred"
+msgstr "传输字节"
+
+msgid "system.profiler.name.hardware_cost"
+msgstr "硬件成本"
+
+msgid "system.profiler.name.shares"
+msgstr "周期占比"
+
+msgid "system.profiler.metric.total_cycles"
+msgstr "总周期：%d"
+
+msgid "system.profiler.metric.cpu_compute_cycles"
+msgstr "CPU 计算：%d 周期"
+
+msgid "system.profiler.metric.cpu_wait_cycles"
+msgstr "CPU 等待：%d 周期"
+
+msgid "system.profiler.metric.ram_service_cycles"
+msgstr "RAM 服务：%d 周期"
+
+msgid "system.profiler.metric.memory_requests"
+msgstr "内存请求：%d 次"
+
+msgid "system.profiler.metric.bus_control_cycles"
+msgstr "Bus 控制：%d 周期"
+
+msgid "system.profiler.metric.bus_transfer_cycles"
+msgstr "Bus 数据：%d 周期"
+
+msgid "system.profiler.metric.bus_segments_per_word"
+msgstr "每字节 Bus 分段：%d"
+
+msgid "system.profiler.metric.bytes_transferred"
+msgstr "传输字节：%d"
+
+msgid "system.profiler.metric.hardware_cost"
+msgstr "硬件成本：%d"
+
+msgid "system.profiler.shares"
+msgstr "周期占比 · CPU %d%% · RAM %d%% · Bus %d%%"
+
+msgid "system.history.heading"
+msgstr "当前关卡的官方证据"
+
+msgid "system.history.empty"
+msgstr "还没有证据单。"
+
+msgid "system.history.row"
+msgstr "#%d · %s / %s / %s · %d 周期 · 成本 %d"
+
+msgid "system.playback.ready"
+msgstr "运行后，可在真实线路上查看请求和数据。"
+
+msgid "system.playback.case"
+msgstr "正在播放 %s 的确定性 Trace"
+
+msgid "system.playback.no_events"
+msgstr "本次运行没有可播放事件。"
+
+msgid "system.playback.event"
+msgstr "周期 %d–%d · %s · 代码第 %d 行"
+
+msgid "system.playback.pause"
+msgstr "暂停"
+
+msgid "system.playback.resume"
+msgstr "继续"
+
+msgid "system.playback.step"
+msgstr "单步"
+
+msgid "system.playback.complete"
+msgstr "Trace 播放完成；结果早已由模拟器确定。"
+
+msgid "system.event.read_request"
+msgstr "读取请求"
+
+msgid "system.event.ram_read"
+msgstr "RAM 读取"
+
+msgid "system.event.read_data"
+msgstr "读取数据"
+
+msgid "system.event.compute"
+msgstr "CPU 计算"
+
+msgid "system.event.write_request"
+msgstr "写入请求"
+
+msgid "system.event.write_data"
+msgstr "写入数据"
+
+msgid "system.event.ram_write"
+msgstr "RAM 写入"
+
+msgid "system.device.idle"
+msgstr "IDLE"
+
+msgid "system.device.cpu_compute"
+msgstr "COMPUTE"
+
+msgid "system.device.cpu_wait"
+msgstr "WAIT"
+
+msgid "system.device.ram_read"
+msgstr "READ"
+
+msgid "system.device.ram_write"
+msgstr "WRITE"
+
+msgid "system.device.bus_control"
+msgstr "CONTROL"
+
+msgid "system.device.bus_transfer"
+msgstr "TRANSFER"
+
+msgid "system.port.request"
+msgstr "request"
+
+msgid "system.port.write_data"
+msgstr "write data"
+
+msgid "system.port.read_data"
+msgstr "read data"
+
+msgid "system.port.request_lane"
+msgstr "request lane"
+
+msgid "system.port.write_lane"
+msgstr "write lane"
+
+msgid "system.port.read_lane"
+msgstr "read lane"
+
+msgid "system.topology.missing_route"
+msgstr "系统缺少线路。请连接所有匹配颜色与名称的端口。"
+
+msgid "system.topology.missing_part"
+msgstr "系统缺少 CPU、Bus 或 RAM 零件。"
+
+msgid "system.topology.invalid"
+msgstr "当前可见拓扑无效。"
+
+msgid "common.level_complete.title"
+msgstr "关卡完成"
+
+msgid "common.level_complete.learned"
+msgstr "本关收获"
+
+msgid "common.level_complete.continue"
+msgstr "继续并返回关卡选择"
+
+msgid "hardware.completion.chapter"
+msgstr "硬件基础 · 构建序章"
+
+msgid "hardware.completion.summary.tutorial"
+msgstr "你已经掌握了端口、电平、连线、断开与重新连接；桌布上的可见线路就是电路真正执行的拓扑。"
+
+msgid "hardware.completion.summary.half_adder"
+msgstr "你把两个输入拆成了 SUM 与 CARRY，并把亲手构建的门电路封装成可复用的 HalfAdder。"
+
+msgid "hardware.completion.summary.full_adder"
+msgstr "你通过组合较小的加法器处理了进位输入，第一次用已有抽象构建了更高层元件。"
+
+msgid "hardware.completion.summary.alu"
+msgstr "你让控制信号选择不同算术结果，并理解了 ALU 如何把多种运算收进同一个数据通路。"
+
+msgid "hardware.completion.summary.latch"
+msgstr "你利用反馈保存了一个状态，理解了组合逻辑与具有记忆的时序元件之间的分界。"
+
+msgid "hardware.completion.summary.register"
+msgstr "你用 LOAD 控制何时接收新数据，并把单比特存储抽象成了可复用寄存器。"
+
+msgid "hardware.completion.summary.ram"
+msgstr "你把地址、写入控制和数据端口组合成可寻址存储，观察了写入、保持与读取的状态变化。"
+
+msgid "hardware.completion.summary.cpu"
+msgstr "你把 ALU、寄存器、控制与 RAM 汇合成一台小型计算机，建立了完整数据通路的所有权。"
+
+msgid "hardware.completion.summary.load_store"
+msgstr "你让 CPU 经由 LOAD 与 STORE 访问外部存储，也看见了处理器必须等待数据往返的边界。"
+
+msgid "system.completion.chapter"
+msgstr "第一章 · 等待数据"
+
+msgid "system.completion.summary.assembly"
+msgstr "你连接了 CPU、Bus 与 RAM 的请求、写入和读取路径，并验证了显示线路就是系统拓扑。"
+
+msgid "system.completion.summary.cpu_speed"
+msgstr "你通过受控对比发现：更快的 CPU 只能缩短计算部分，无法消除等待内存的时间。"
+
+msgid "system.completion.summary.ram_wait"
+msgstr "你改变 RAM 而保持其余条件不变，直接观察了存储服务时间如何转化为 CPU WAIT。"
+
+msgid "system.completion.summary.bus_width"
+msgstr "你看见一个字节在不同总线宽度下需要四、二或一次传输，带宽决定了数据往返次数。"
+
+msgid "system.completion.summary.scale_up"
+msgstr "你用 4、16、64 规模放大了工作负载，学会从增长趋势而不是单次运行判断瓶颈。"
+
+msgid "system.completion.summary.bottleneck"
+msgstr "你综合 Trace 与 Profiler 的周期占比，对自己实际运行的系统给出了有证据的瓶颈结论。"
+
+msgid "hardware.wire_color.button"
+msgstr "线色 %d"
+
+msgid "hardware.wire_color.tooltip"
+msgstr "1–9 选择颜色；悬停导线后 Ctrl+F 着色线段、Ctrl+E 着色整网、Ctrl+R 取色。"
+
+msgid "hardware.wire_color.item"
+msgstr "颜色 %d"
+
+msgid "hardware.wire_color.selected"
+msgstr "已选择导线颜色 %d。"
+
+msgid "hardware.wire_color.hover_required"
+msgstr "请先把鼠标悬停在一段导线上。"
+
+msgid "hardware.wire_color.unchanged"
+msgstr "目标导线已经是当前颜色。"
+
+msgid "hardware.wire_color.segment_done"
+msgstr "已为 %d 段导线着色。"
+
+msgid "hardware.wire_color.net_done"
+msgstr "已为同一电气网络的 %d 段导线着色。"
+
+msgid "system.wire_color.button"
+msgstr "线色 %d"
+
+msgid "system.wire_color.tooltip"
+msgstr "1–9 选择颜色；悬停线路后 Ctrl+F 着色线段、Ctrl+E 着色整条通道、Ctrl+R 取色。"
+
+msgid "system.wire_color.item"
+msgstr "颜色 %d"
+
+msgid "system.wire_color.selected"
+msgstr "已选择系统线路颜色 %d。"
+
+msgid "system.wire_color.hover_required"
+msgstr "请先把鼠标悬停在一段系统线路上。"
+
+msgid "system.wire_color.segment_done"
+msgstr "已为 %d 段系统线路着色。"
+
+msgid "system.wire_color.lane_done"
+msgstr "已为同一数据通道的 %d 段线路着色。"

@@ -12,8 +12,3 @@ func register_into(registry, _builders: Dictionary) -> void:
 		&"tutorial", &"foundations", 0,
 		&"hardware.phase.tutorial", &"", [], LevelType.ENTRY_TUTORIAL
 	))
-	registry.register_level(LevelType.new(
-		&"half_adder", &"foundations", 1,
-		&"hardware.phase.half_adder", &"", [&"tutorial"],
-		LevelType.ENTRY_HALF_ADDER, Callable(), [&"HalfAdder"]
-	))

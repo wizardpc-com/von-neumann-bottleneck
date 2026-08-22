@@ -42,14 +42,17 @@ func _test_real_prologue_catalog() -> void:
 	)
 	_assert(catalog.entry_kind(&"tutorial") == LevelType.ENTRY_TUTORIAL, "Tutorial entry routing must be content metadata.")
 	_assert(catalog.entry_kind(&"half_adder") == LevelType.ENTRY_HALF_ADDER, "Half Adder entry routing must be content metadata.")
+	_assert(catalog.level_branch_id(&"half_adder") == &"arithmetic", "Half Adder must belong to the CPU/arithmetic branch rather than Foundations or storage.")
+	_assert(catalog.dependencies(&"latch") == [&"tutorial"], "The storage branch must open from wiring basics without depending on Half Adder.")
+	_assert(catalog.is_unlocked(&"latch", {&"tutorial": true}) and not catalog.is_unlocked(&"half_adder", {}), "Tutorial completion must independently unlock both branch roots.")
 	_assert(catalog.entry_kind(&"full_adder") == LevelType.ENTRY_CIRCUIT, "Ordinary construction challenges must use the circuit entry contract.")
 	_assert(catalog.reward_names(&"alu") == [&"ALU1", &"ALU4"], "ALU reward ownership must include its generated word wrapper.")
 	_assert(catalog.reward_names(&"register") == [&"Register1", &"Register4"], "Register reward ownership must include its generated word wrapper.")
 	_assert(
 		catalog.dependent_level_ids(&"half_adder") == [
-			&"full_adder", &"alu", &"latch", &"register", &"ram", &"cpu", &"load_store",
+			&"full_adder", &"alu", &"cpu", &"load_store",
 		],
-		"Dependency invalidation must traverse every registered downstream branch deterministically."
+		"Half Adder replacement must invalidate only its CPU/arithmetic descendants, never storage."
 	)
 	_assert(
 		&"hardware.prologue.branch.storage" in catalog.localization_keys()

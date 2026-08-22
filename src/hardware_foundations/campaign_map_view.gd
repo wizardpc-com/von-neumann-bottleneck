@@ -329,6 +329,7 @@ func _relayout() -> void:
 
 
 func _draw() -> void:
+	draw_rect(Rect2(Vector2.ZERO, size), BACKGROUND, true)
 	if _levels.is_empty():
 		return
 	_draw_branch_labels()

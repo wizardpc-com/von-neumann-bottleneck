@@ -2,6 +2,7 @@ class_name CircuitGraphEdit
 extends GraphEdit
 
 const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
+const WirePaletteType = preload("res://src/ui/wire_palette.gd")
 
 const SIGNAL_HIGH := Color("67e8a5")
 const SIGNAL_LOW := Color("ff6b7d")
@@ -11,6 +12,8 @@ const ERASER_SAMPLE_SPACING: float = 4.0
 const SELECTION_DRAG_THRESHOLD: float = 4.0
 const WIRE_HOVER_RADIUS: float = 13.0
 const TARGET_GUIDE_RADIUS: float = 15.0
+const SETTLED_WIRE_THICKNESS: float = 8.0
+const FLOW_WIRE_THICKNESS: float = 4.5
 
 signal branch_connection_requested(
 	connection: Dictionary,
@@ -45,8 +48,11 @@ signal connection_endpoint_move_to_wire_requested(
 signal connection_endpoint_move_state_changed(active: bool)
 signal selection_rectangle_applied(changed_count: int, selected_count: int)
 signal empty_canvas_pressed(position: Vector2)
+signal component_drop_requested(template_key: String, local_position: Vector2)
+signal component_placement_cancel_requested(reason: StringName)
 
 var connection_validator: Callable
+var settled_wire_thickness: float = SETTLED_WIRE_THICKNESS
 var branch_edit_enabled: bool = true
 var branch_candidate: Dictionary = {}
 var branch_anchor: Vector2 = Vector2.ZERO
@@ -58,6 +64,9 @@ var endpoint_anchor: Vector2 = Vector2.ZERO
 var endpoint_pointer: Vector2 = Vector2.ZERO
 var endpoint_target: Dictionary = {}
 var connection_signal_values: Dictionary = {}
+var connection_color_indices: Dictionary = {}
+var connection_flows: Dictionary = {}
+var draft_color_index: int = WirePaletteType.DEFAULT_INDEX
 var erase_active: bool = false
 var erase_pointer: Vector2 = Vector2.ZERO
 var erase_last_position: Vector2 = Vector2.ZERO
@@ -73,22 +82,83 @@ var hovered_wire_point: Vector2 = Vector2.ZERO
 var builtin_connection_source: Dictionary = {}
 var builtin_connection_pointer: Vector2 = Vector2.ZERO
 var component_placement_enabled: bool = false
+var component_drop_enabled: bool = false
 var placement_pointer: Vector2 = Vector2.ZERO
 var placement_has_pointer: bool = false
 var placement_preview_size: Vector2 = Vector2(120.0, 72.0)
-var placement_preview_label: String = ""
+var placement_preview_control: Control
+var displayed_scroll_offset: Vector2 = Vector2(INF, INF)
+var displayed_zoom: float = -1.0
+var displayed_node_transforms: Dictionary[StringName, Transform2D] = {}
 
 
 func _ready() -> void:
-	# GraphEdit is the sole full-path wire renderer. A second full-size signal
-	# layer made one connection look like two slightly displaced cables after
-	# zooming and curving. Port colors already give the native connection its
-	# live low/high/high-Z gradient; trace playback adds only a short moving token.
+	# Native GraphEdit still owns topology, geometry, hit testing, and dragging.
+	# Its cable stroke is hidden; this control draws that exact curve once so a
+	# player's wire hue can stay independent from red/green/gray port truth.
 	mouse_exited.connect(_on_graph_mouse_exited)
+	set_process(true)
+
+
+func _process(_delta: float) -> void:
+	var geometry_changed: bool = (
+		not displayed_scroll_offset.is_equal_approx(scroll_offset)
+		or not is_equal_approx(displayed_zoom, zoom)
+	)
+	var current_transforms: Dictionary[StringName, Transform2D] = {}
+	for child: Node in get_children():
+		if not child is GraphNode or not (child as GraphNode).visible:
+			continue
+		var node := child as GraphNode
+		var node_transform: Transform2D = node.get_transform()
+		current_transforms[node.name] = node_transform
+		if not displayed_node_transforms.has(node.name) \
+				or not displayed_node_transforms[node.name].is_equal_approx(node_transform):
+			geometry_changed = true
+	if current_transforms.size() != displayed_node_transforms.size():
+		geometry_changed = true
+	if not geometry_changed:
+		return
+	displayed_scroll_offset = scroll_offset
+	displayed_zoom = zoom
+	displayed_node_transforms = current_transforms
+	queue_redraw()
 
 
 func queue_signal_wire_redraw(_value: Variant = null) -> void:
 	queue_redraw()
+
+
+func displayed_port_position(node: GraphNode, port: int, is_output: bool) -> Vector2:
+	var local_position: Vector2 = (
+		node.get_output_port_position(port) if is_output
+		else node.get_input_port_position(port)
+	)
+	return node.get_transform() * local_position
+
+
+func displayed_node_rect(node: GraphNode) -> Rect2:
+	var transform: Transform2D = node.get_transform()
+	var top_left: Vector2 = transform * Vector2.ZERO
+	var bottom_right: Vector2 = transform * node.size
+	return Rect2(top_left, bottom_right - top_left).abs()
+
+
+func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
+	return (
+		component_drop_enabled
+		and branch_edit_enabled
+		and data is Dictionary
+		and StringName((data as Dictionary).get("type", &"")) == &"circuit_component_template"
+		and not String((data as Dictionary).get("template_key", "")).is_empty()
+	)
+
+
+func _drop_data(at_position: Vector2, data: Variant) -> void:
+	if not _can_drop_data(at_position, data):
+		return
+	var payload := data as Dictionary
+	component_drop_requested.emit(String(payload.get("template_key", "")), at_position)
 
 
 func _input(event: InputEvent) -> void:
@@ -99,6 +169,17 @@ func _input(event: InputEvent) -> void:
 		queue_redraw()
 	if event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
+		if component_placement_enabled and mouse_event.pressed:
+			if mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+				component_placement_cancel_requested.emit(&"right_click")
+				get_viewport().set_input_as_handled()
+				return
+			if mouse_event.button_index == MOUSE_BUTTON_LEFT and _is_graph_hover_target(mouse_event.position):
+				var local_position: Vector2 = _local_from_global(mouse_event.position)
+				if _placement_hits_existing_content(local_position):
+					# Cancellation is synchronous. Do not consume this left click: once the
+					# ghost is gone, the same gesture can select, move, or wire the item.
+					component_placement_cancel_requested.emit(&"canvas_content")
 		if mouse_event.button_index != MOUSE_BUTTON_RIGHT:
 			return
 		if mouse_event.pressed:
@@ -125,6 +206,14 @@ func _is_node_hover_valid(from_node: StringName, from_port: int, to_node: String
 	if connection_validator.is_valid():
 		return bool(connection_validator.call(from_node, from_port, to_node, to_port))
 	return from_node != to_node
+
+
+func _placement_hits_existing_content(point: Vector2) -> bool:
+	return (
+		not _port_at(point, 28.0).is_empty()
+		or not _node_at(point).is_empty()
+		or not get_closest_connection_at_point(point, WIRE_HOVER_RADIUS).is_empty()
+	)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -314,9 +403,11 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
+	_draw_settled_connections()
 	_draw_hovered_connection()
 	_draw_component_placement_preview()
 	if not builtin_connection_source.is_empty():
+		_draw_builtin_connection_preview()
 		_draw_connection_target_guides(
 			StringName(builtin_connection_source.get("node", &"")),
 			int(builtin_connection_source.get("port", -1)),
@@ -359,6 +450,129 @@ func _draw() -> void:
 	draw_circle(end, 5.0, color)
 
 
+func set_draft_color_index(color_index: int) -> void:
+	draft_color_index = WirePaletteType.normalized_index(color_index)
+	queue_redraw()
+
+
+func _draw_builtin_connection_preview() -> void:
+	var source: GraphNode = get_node_or_null(NodePath(String(
+		builtin_connection_source.get("node", "")
+	))) as GraphNode
+	if source == null:
+		return
+	var port: int = int(builtin_connection_source.get("port", 0))
+	var is_output: bool = bool(builtin_connection_source.get("is_output", true))
+	var origin: Vector2 = displayed_port_position(source, port, is_output)
+	var preview: PackedVector2Array = get_connection_line(origin, builtin_connection_pointer)
+	var color: Color = WirePaletteType.color(draft_color_index)
+	draw_polyline(preview, Color(color, 0.20), SETTLED_WIRE_THICKNESS + 7.0, true)
+	draw_polyline(preview, color.lightened(0.24), SETTLED_WIRE_THICKNESS - 1.0, true)
+
+
+func _draw_settled_connections() -> void:
+	for connection: Dictionary in get_connection_list():
+		var curve: PackedVector2Array = connection_curve(connection)
+		if curve.size() < 2:
+			continue
+		var key: String = _connection_key(
+			connection.get("from_node", &""), int(connection.get("from_port", -1)),
+			connection.get("to_node", &""), int(connection.get("to_port", -1))
+		)
+		var base: Color = WirePaletteType.color(int(connection_color_indices.get(
+			key, WirePaletteType.DEFAULT_INDEX
+		)))
+		var state: int = int(connection_signal_values.get(key, LogicSignalType.LOW))
+		_draw_settled_curve(curve, base, state)
+		if connection_flows.has(key):
+			_draw_connection_flow(curve, base, connection_flows[key])
+
+
+func _draw_settled_curve(curve: PackedVector2Array, base: Color, state: int) -> void:
+	draw_polyline(curve, Color("07101c", 0.92), SETTLED_WIRE_THICKNESS + 3.0, true)
+	if state == LogicSignalType.HIGH_Z:
+		_draw_dashed_curve(curve, Color("8b929d", 0.82), SETTLED_WIRE_THICKNESS - 1.5)
+		return
+	var settled: Color = base.lightened(0.22) if state == LogicSignalType.HIGH \
+		else base.darkened(0.54)
+	settled.a = 1.0 if state == LogicSignalType.HIGH else 0.78
+	draw_polyline(curve, settled, SETTLED_WIRE_THICKNESS, true)
+	if state == LogicSignalType.HIGH:
+		draw_polyline(curve, Color(base.lightened(0.48), 0.38), 2.0, true)
+
+
+func _draw_connection_flow(curve: PackedVector2Array, base: Color, flow: Dictionary) -> void:
+	var progress: float = clampf(float(flow.get("progress", 0.0)), 0.0, 1.0)
+	var prefix: PackedVector2Array = _path_prefix(curve, progress)
+	if prefix.size() < 2:
+		return
+	var state: int = int(flow.get("state", LogicSignalType.LOW))
+	var flow_color: Color = Color("8b929d") if state == LogicSignalType.HIGH_Z \
+		else (base.lightened(0.55) if state == LogicSignalType.HIGH else base.lightened(0.08))
+	draw_polyline(prefix, Color(flow_color, 0.24), FLOW_WIRE_THICKNESS + 5.0, true)
+	draw_polyline(prefix, flow_color, FLOW_WIRE_THICKNESS, true)
+
+
+func _draw_dashed_curve(curve: PackedVector2Array, color: Color, width: float) -> void:
+	var draw_length: float = 8.0
+	var gap_length: float = 6.0
+	var drawing: bool = true
+	var remaining: float = draw_length
+	for index: int in range(curve.size() - 1):
+		var start: Vector2 = curve[index]
+		var finish: Vector2 = curve[index + 1]
+		var segment_length: float = start.distance_to(finish)
+		if segment_length <= 0.001:
+			continue
+		var direction: Vector2 = (finish - start) / segment_length
+		var travelled: float = 0.0
+		while travelled < segment_length:
+			var step: float = minf(remaining, segment_length - travelled)
+			if drawing:
+				draw_line(
+					start + direction * travelled,
+					start + direction * (travelled + step), color, width, true
+				)
+			travelled += step
+			remaining -= step
+			if remaining <= 0.001:
+				drawing = not drawing
+				remaining = draw_length if drawing else gap_length
+
+
+func _path_prefix(points: PackedVector2Array, amount: float) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	if points.size() < 2:
+		return result
+	result.append(points[0])
+	var total: float = 0.0
+	for index: int in range(points.size() - 1):
+		total += points[index].distance_to(points[index + 1])
+	if total <= 0.001:
+		return result
+	var target: float = clampf(amount, 0.0, 1.0) * total
+	var travelled: float = 0.0
+	for index: int in range(points.size() - 1):
+		var length: float = points[index].distance_to(points[index + 1])
+		if travelled + length >= target:
+			var local: float = (target - travelled) / maxf(length, 0.001)
+			result.append(points[index].lerp(points[index + 1], local))
+			return result
+		result.append(points[index + 1])
+		travelled += length
+	return result
+
+
+func connection_curve(connection: Dictionary) -> PackedVector2Array:
+	var source: GraphNode = get_node_or_null(NodePath(String(connection.get("from_node", "")))) as GraphNode
+	var target: GraphNode = get_node_or_null(NodePath(String(connection.get("to_node", "")))) as GraphNode
+	if source == null or target == null:
+		return PackedVector2Array()
+	var start: Vector2 = displayed_port_position(source, int(connection.get("from_port", 0)), true)
+	var finish: Vector2 = displayed_port_position(target, int(connection.get("to_port", 0)), false)
+	return get_connection_line(start, finish)
+
+
 func begin_builtin_connection_preview(
 		from_node: StringName,
 		from_port: int,
@@ -371,10 +585,7 @@ func begin_builtin_connection_preview(
 	}
 	var source: GraphNode = get_node_or_null(NodePath(String(from_node))) as GraphNode
 	if source != null:
-		builtin_connection_pointer = source.position + (
-			source.get_output_port_position(from_port)
-			if is_output else source.get_input_port_position(from_port)
-		)
+		builtin_connection_pointer = displayed_port_position(source, from_port, is_output)
 	_clear_hovered_connection()
 	queue_redraw()
 
@@ -420,10 +631,7 @@ func _connection_targets(
 		var node := child as GraphNode
 		var port_count: int = node.get_input_port_count() if from_is_output else node.get_output_port_count()
 		for port: int in range(port_count):
-			var position: Vector2 = node.position + (
-				node.get_input_port_position(port)
-				if from_is_output else node.get_output_port_position(port)
-			)
+			var position: Vector2 = displayed_port_position(node, port, not from_is_output)
 			var valid: bool = (
 				from_is_output
 				and not allowed_connection.is_empty()
@@ -468,10 +676,7 @@ func _draw_connection_target_guides(
 	var source: GraphNode = get_node_or_null(NodePath(String(from_node))) as GraphNode
 	if source == null:
 		return
-	var origin: Vector2 = source.position + (
-		source.get_output_port_position(from_port)
-		if from_is_output else source.get_input_port_position(from_port)
-	)
+	var origin: Vector2 = displayed_port_position(source, from_port, from_is_output)
 	draw_circle(origin, TARGET_GUIDE_RADIUS + 2.0, Color("50d5ff", 0.12))
 	draw_circle(origin, TARGET_GUIDE_RADIUS + 2.0, Color("50d5ff"), false, 2.0, true)
 
@@ -503,9 +708,7 @@ func _draw_hovered_connection() -> void:
 	var target: GraphNode = get_node_or_null(NodePath(String(hovered_connection.get("to_node", "")))) as GraphNode
 	if source == null or target == null:
 		return
-	var start: Vector2 = source.position + source.get_output_port_position(int(hovered_connection.get("from_port", 0)))
-	var finish: Vector2 = target.position + target.get_input_port_position(int(hovered_connection.get("to_port", 0)))
-	var curve: PackedVector2Array = get_connection_line(start, finish)
+	var curve: PackedVector2Array = connection_curve(hovered_connection)
 	draw_polyline(curve, Color("50d5ff", 0.13), 18.0, true)
 	draw_polyline(curve, Color("50d5ff", 0.86), 2.5, true)
 	draw_circle(hovered_wire_point, 7.0, Color("101725"))
@@ -517,17 +720,32 @@ func _on_graph_mouse_exited() -> void:
 		_clear_hovered_connection()
 
 
-func set_component_placement_preview(enabled: bool, label: String = "", footprint: Vector2 = Vector2(120.0, 72.0)) -> void:
+func set_component_placement_preview(
+		enabled: bool,
+		preview_control: Control = null,
+		footprint: Vector2 = Vector2(120.0, 72.0)
+	) -> void:
+	if placement_preview_control != null and is_instance_valid(placement_preview_control):
+		placement_preview_control.hide()
+		placement_preview_control.queue_free()
+	placement_preview_control = preview_control
 	component_placement_enabled = enabled
-	placement_preview_label = label
 	placement_preview_size = Vector2(maxf(48.0, footprint.x), maxf(32.0, footprint.y))
 	placement_has_pointer = false
-	mouse_default_cursor_shape = Control.CURSOR_CROSS if enabled else Control.CURSOR_ARROW
+	if enabled and placement_preview_control != null:
+		placement_preview_control.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		placement_preview_control.z_index = 1000
+		placement_preview_control.modulate = Color(0.82, 0.93, 1.0, 0.42)
+		add_child(placement_preview_control)
+		placement_preview_control.hide()
+	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if enabled else Control.CURSOR_ARROW
 	queue_redraw()
 
 
 func _draw_component_placement_preview() -> void:
 	if not component_placement_enabled or not placement_has_pointer:
+		if placement_preview_control != null and is_instance_valid(placement_preview_control):
+			placement_preview_control.hide()
 		return
 	var half_size: Vector2 = placement_preview_size * 0.5
 	var graph_top_left: Vector2 = (placement_pointer + scroll_offset) / zoom - half_size
@@ -537,40 +755,12 @@ func _draw_component_placement_preview() -> void:
 		snappedf(graph_top_left.y, snap_distance)
 	)
 	var display_top_left: Vector2 = graph_top_left * zoom - scroll_offset
-	var display_size: Vector2 = placement_preview_size * zoom
-	var center: Vector2 = display_top_left + display_size * 0.5
-	var color := Color("50d5ff", 0.92)
-	var corner: float = clampf(minf(display_size.x, display_size.y) * 0.22, 7.0, 18.0)
-	for anchor: Vector2 in [
-		Vector2(display_top_left.x, display_top_left.y),
-		Vector2(display_top_left.x + display_size.x, display_top_left.y),
-		Vector2(display_top_left.x, display_top_left.y + display_size.y),
-		Vector2(display_top_left.x + display_size.x, display_top_left.y + display_size.y),
-	]:
-		var horizontal_direction: float = 1.0 if anchor.x <= center.x else -1.0
-		var vertical_direction: float = 1.0 if anchor.y <= center.y else -1.0
-		draw_line(anchor, anchor + Vector2(horizontal_direction * corner, 0.0), color, 2.0, true)
-		draw_line(anchor, anchor + Vector2(0.0, vertical_direction * corner), color, 2.0, true)
-	draw_line(center - Vector2(7.0, 0.0), center + Vector2(7.0, 0.0), color, 2.0, true)
-	draw_line(center - Vector2(0.0, 7.0), center + Vector2(0.0, 7.0), color, 2.0, true)
-	if placement_preview_label.is_empty():
+	if placement_preview_control == null or not is_instance_valid(placement_preview_control):
 		return
-	var font_size: int = 13
-	var text_width: float = ThemeDB.fallback_font.get_string_size(
-		placement_preview_label, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size
-	).x
-	var label_baseline: float = display_top_left.y + display_size.y + 18.0
-	if label_baseline > size.y - 24.0:
-		label_baseline = display_top_left.y - 8.0
-	draw_string(
-		ThemeDB.fallback_font,
-		Vector2(center.x - text_width * 0.5, label_baseline),
-		placement_preview_label,
-		HORIZONTAL_ALIGNMENT_LEFT,
-		-1.0,
-		font_size,
-		color
-	)
+	placement_preview_control.position = display_top_left
+	placement_preview_control.size = placement_preview_size
+	placement_preview_control.scale = Vector2.ONE * zoom
+	placement_preview_control.show()
 
 
 func cancel_selection_drag() -> void:
@@ -603,7 +793,7 @@ func _apply_selection_rectangle() -> void:
 		var node := child as GraphNode
 		var inside: bool = (
 			not is_click
-			and selection_rect.intersects(Rect2(node.position, node.size), true)
+			and selection_rect.intersects(displayed_node_rect(node), true)
 		)
 		var next_selected: bool = node.selected
 		if selection_toggle_mode:
@@ -678,7 +868,7 @@ func _erase_at_point(point: Vector2) -> void:
 	# The eraser is a cursor-tip contact patch, not a circular brush. Include half
 	# the rendered wire width so touching a visible wire counts, while nearby
 	# empty space remains safe.
-	var wire_hit_radius: float = connection_lines_thickness * 0.5 + ERASER_TIP_RADIUS
+	var wire_hit_radius: float = SETTLED_WIRE_THICKNESS * 0.5 + ERASER_TIP_RADIUS
 	for connection: Dictionary in _connections_at(point, wire_hit_radius):
 		var key: String = _connection_key(
 			connection.get("from_node", &""), int(connection.get("from_port", -1)),
@@ -698,9 +888,7 @@ func _connections_at(point: Vector2, radius: float) -> Array[Dictionary]:
 		var target: GraphNode = get_node_or_null(NodePath(String(connection.get("to_node", "")))) as GraphNode
 		if source == null or target == null:
 			continue
-		var start: Vector2 = source.position + source.get_output_port_position(int(connection.get("from_port", 0)))
-		var finish: Vector2 = target.position + target.get_input_port_position(int(connection.get("to_port", 0)))
-		var curve: PackedVector2Array = get_connection_line(start, finish)
+		var curve: PackedVector2Array = connection_curve(connection)
 		for index: int in range(curve.size() - 1):
 			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(point, curve[index], curve[index + 1])
 			if closest.distance_squared_to(point) <= radius_squared:
@@ -759,6 +947,72 @@ func clear_connection_signal_values() -> void:
 	queue_redraw()
 
 
+func set_connection_color_index(
+		from_node: StringName,
+		from_port: int,
+		to_node: StringName,
+		to_port: int,
+		color_index: int
+	) -> void:
+	var key: String = _connection_key(from_node, from_port, to_node, to_port)
+	var normalized: int = WirePaletteType.normalized_index(color_index)
+	if int(connection_color_indices.get(key, -1)) == normalized:
+		return
+	connection_color_indices[key] = normalized
+	queue_redraw()
+
+
+func get_connection_color_index(
+		from_node: StringName,
+		from_port: int,
+		to_node: StringName,
+		to_port: int
+	) -> int:
+	return WirePaletteType.normalized_index(connection_color_indices.get(
+		_connection_key(from_node, from_port, to_node, to_port),
+		WirePaletteType.DEFAULT_INDEX
+	))
+
+
+func remove_connection_presentation(
+		from_node: StringName,
+		from_port: int,
+		to_node: StringName,
+		to_port: int
+	) -> void:
+	var key: String = _connection_key(from_node, from_port, to_node, to_port)
+	connection_color_indices.erase(key)
+	connection_signal_values.erase(key)
+	connection_flows.erase(key)
+	queue_redraw()
+
+
+func set_connection_flow(
+		from_node: StringName,
+		from_port: int,
+		to_node: StringName,
+		to_port: int,
+		state: int,
+		progress: float
+	) -> void:
+	connection_flows[_connection_key(from_node, from_port, to_node, to_port)] = {
+		"state": state,
+		"progress": clampf(progress, 0.0, 1.0),
+	}
+	queue_redraw()
+
+
+func clear_connection_flows() -> void:
+	if connection_flows.is_empty():
+		return
+	connection_flows.clear()
+	queue_redraw()
+
+
+func hovered_connection_snapshot() -> Dictionary:
+	return hovered_connection.duplicate()
+
+
 func get_connection_signal_value(
 		from_node: StringName,
 		from_port: int,
@@ -797,7 +1051,7 @@ func _begin_endpoint_move(connection: Dictionary, pointer: Vector2) -> void:
 	if source == null:
 		endpoint_candidate.clear()
 		return
-	endpoint_anchor = source.position + source.get_output_port_position(int(connection.get("from_port", 0)))
+	endpoint_anchor = displayed_port_position(source, int(connection.get("from_port", 0)), true)
 	endpoint_target.clear()
 	connection_endpoint_move_state_changed.emit(true)
 	queue_redraw()
@@ -842,7 +1096,7 @@ func _input_port_at(
 			continue
 		var node := child as GraphNode
 		for port: int in range(node.get_input_port_count()):
-			var port_position: Vector2 = node.position + node.get_input_port_position(port)
+			var port_position: Vector2 = displayed_port_position(node, port, false)
 			var distance: float = point.distance_to(port_position)
 			if distance > closest_distance:
 				continue
@@ -880,10 +1134,10 @@ func _port_at(point: Vector2, radius: float) -> Dictionary:
 			continue
 		var node := child as GraphNode
 		for port: int in range(node.get_input_port_count()):
-			if point.distance_to(node.position + node.get_input_port_position(port)) <= radius:
+			if point.distance_to(displayed_port_position(node, port, false)) <= radius:
 				return {"node": node.name, "port": port, "is_output": false}
 		for port: int in range(node.get_output_port_count()):
-			if point.distance_to(node.position + node.get_output_port_position(port)) <= radius:
+			if point.distance_to(displayed_port_position(node, port, true)) <= radius:
 				return {"node": node.name, "port": port, "is_output": true}
 	return {}
 
@@ -892,7 +1146,7 @@ func _node_at(point: Vector2) -> StringName:
 	for child: Node in get_children():
 		if child is GraphNode and (child as GraphNode).visible:
 			var node := child as GraphNode
-			if Rect2(node.position, node.size).has_point(point):
+			if displayed_node_rect(node).has_point(point):
 				return node.name
 	return &""
 
@@ -902,9 +1156,7 @@ func _closest_point_on_connection(connection: Dictionary, point: Vector2) -> Vec
 	var target: GraphNode = get_node_or_null(NodePath(String(connection.get("to_node", "")))) as GraphNode
 	if source == null or target == null:
 		return point
-	var start: Vector2 = source.position + source.get_output_port_position(int(connection.get("from_port", 0)))
-	var finish: Vector2 = target.position + target.get_input_port_position(int(connection.get("to_port", 0)))
-	var curve: PackedVector2Array = get_connection_line(start, finish)
+	var curve: PackedVector2Array = connection_curve(connection)
 	var closest: Vector2 = point
 	var closest_distance: float = INF
 	for index: int in range(curve.size() - 1):

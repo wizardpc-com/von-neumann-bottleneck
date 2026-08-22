@@ -263,13 +263,8 @@ func _draw_processing_token(
 	)
 	var point: Vector2 = start.lerp(finish, local_progress)
 	var color: Color = visual.get("color", SIGNAL_HIGH_Z)
-	var tail_start: Vector2 = start.lerp(finish, maxf(0.0, local_progress - 0.20))
-	draw_line(tail_start, point, Color(color, 0.46), 7.0, true)
-	draw_circle(point, 5.0, SURFACE)
-	draw_circle(point, 4.0, color)
-	var text: String = String(visual.get("text", ""))
-	if text.length() > 1 and text != "SHORT":
-		_draw_value_badge(point + Vector2(0.0, -11.0), text, color)
+	draw_line(start, point, Color(color, 0.24), 8.0, true)
+	draw_line(start, point, color, 3.5, true)
 
 
 func _draw_mux_mark(center: Vector2, color: Color) -> void:

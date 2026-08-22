@@ -13,6 +13,7 @@ var simulator := PrologueSimulatorType.new()
 func _init() -> void:
 	_test_width_validation()
 	_test_junction_zero_latency()
+	_test_xor_gate()
 	_test_full_adder_truth_table()
 	_test_cross_coupled_latch_sequence()
 	_test_register_sequence()
@@ -74,6 +75,26 @@ func _test_junction_zero_latency() -> void:
 			source_wire_steps[event.visual_step] = true
 			source_wire_count += 1
 	_assert(source_wire_count == 3 and source_wire_steps.size() == 1, "Every segment of one zero-delay routed net must animate in the same parallel wave.")
+
+
+func _test_xor_gate() -> void:
+	var circuit := LogicCircuitType.new()
+	for component: LogicComponent in [
+		LogicComponentType.new(&"A", LogicComponentType.KIND_INPUT, "A", &"A", true),
+		LogicComponentType.new(&"B", LogicComponentType.KIND_INPUT, "B", &"B", true),
+		LogicComponentType.new(&"XOR", LogicComponentType.KIND_XOR, "xor"),
+		LogicComponentType.new(&"OUT", LogicComponentType.KIND_OUTPUT, "OUT", &"OUT", true),
+	]:
+		_add(circuit, component)
+	_wire(circuit, &"A", 0, &"XOR", 0)
+	_wire(circuit, &"B", 0, &"XOR", 1)
+	_wire(circuit, &"XOR", 0, &"OUT", 0)
+	for a: int in range(2):
+		for b: int in range(2):
+			var result = simulator.evaluate(circuit, {&"A": a, &"B": b})
+			_assert(result.is_valid() and result.observed_values[&"OUT"].value == (a ^ b), "Prologue XOR must match its truth table for %d,%d." % [a, b])
+			var replay = simulator.evaluate(circuit, {&"A": a, &"B": b})
+			_assert(result.canonical_signature() == replay.canonical_signature(), "Prologue XOR evaluation must remain deterministic for %d,%d." % [a, b])
 
 
 func _test_full_adder_truth_table() -> void:

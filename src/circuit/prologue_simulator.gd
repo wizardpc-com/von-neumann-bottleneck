@@ -381,6 +381,8 @@ func _evaluate_component(
 			return [_bit_and(inputs)]
 		LogicComponentType.KIND_OR:
 			return [_bit_or(inputs)]
+		LogicComponentType.KIND_XOR:
+			return [_bit_xor(inputs)]
 		LogicComponentType.KIND_NOT:
 			return [_bit_not(inputs[0])]
 		LogicComponentType.KIND_NOR:
@@ -426,6 +428,17 @@ func _bit_and(inputs: Array[DigitalValue]) -> DigitalValue:
 		if not value.is_known():
 			return DigitalValueType.high_z()
 	return DigitalValueType.high()
+
+
+func _bit_xor(inputs: Array[DigitalValue]) -> DigitalValue:
+	var high_count: int = 0
+	for value: DigitalValue in inputs:
+		if value.is_conflict():
+			return DigitalValueType.conflict()
+		if not value.is_known():
+			return DigitalValueType.high_z()
+		high_count += 1 if value.bit() else 0
+	return DigitalValueType.high() if high_count % 2 == 1 else DigitalValueType.low()
 
 
 func _bit_or(inputs: Array[DigitalValue]) -> DigitalValue:

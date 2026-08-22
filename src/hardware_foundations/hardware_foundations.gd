@@ -5,6 +5,7 @@ const LogicComponentType = preload("res://src/circuit/logic_component.gd")
 const LogicCircuitType = preload("res://src/circuit/logic_circuit.gd")
 const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
 const CircuitAnalyzerType = preload("res://src/circuit/circuit_analyzer.gd")
+const CircuitSimulatorType = preload("res://src/circuit/circuit_simulator.gd")
 const CircuitLiveStateType = preload("res://src/circuit/circuit_live_state.gd")
 const CircuitEventType = preload("res://src/circuit/circuit_event.gd")
 const CircuitTraceType = preload("res://src/circuit/circuit_trace.gd")
@@ -19,12 +20,17 @@ const CircuitGraphEditType = preload("res://src/hardware_foundations/circuit_gra
 const CircuitTraceOverlayType = preload("res://src/hardware_foundations/circuit_trace_overlay.gd")
 const CircuitComponentSymbolType = preload("res://src/hardware_foundations/circuit_component_symbol.gd")
 const CircuitModuleRowType = preload("res://src/hardware_foundations/circuit_module_row.gd")
+const ComponentPaletteItemType = preload("res://src/hardware_foundations/component_palette_item.gd")
+const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
 const CampaignMapViewType = preload("res://src/hardware_foundations/campaign_map_view.gd")
 const EncapsulationEffectType = preload("res://src/hardware_foundations/encapsulation_effect.gd")
 const PrologueLevelCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
 const PlayerContentStateType = preload("res://src/content/player_content_state.gd")
 const FloatingInstrumentPanelType = preload("res://src/ui/floating_instrument_panel.gd")
+const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
+const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
+const WirePaletteType = preload("res://src/ui/wire_palette.gd")
 
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
@@ -40,6 +46,18 @@ const PORT_TYPE: int = 1
 const SIGNAL_HIGH := GOOD
 const SIGNAL_LOW := BAD
 const SIGNAL_HIGH_Z := Color("8b929d")
+const COMPLETION_SUMMARY_KEYS := {
+	&"tutorial": &"hardware.completion.summary.tutorial",
+	&"half_adder": &"hardware.completion.summary.half_adder",
+	&"full_adder": &"hardware.completion.summary.full_adder",
+	&"alu": &"hardware.completion.summary.alu",
+	&"latch": &"hardware.completion.summary.latch",
+	&"register": &"hardware.completion.summary.register",
+	&"ram": &"hardware.completion.summary.ram",
+	&"cpu": &"hardware.completion.summary.cpu",
+	&"load_store": &"hardware.completion.summary.load_store",
+}
+const GRAPH_NODE_CONTENT_ORIGIN := Vector2(7.0, 31.0)
 
 var current_phase: StringName = &"tutorial"
 var current_circuit: LogicCircuit
@@ -82,9 +100,19 @@ var trace_overlay: CircuitTraceOverlay
 var encapsulation_effect: EncapsulationEffect
 var side_box: VBoxContainer
 var task_box: VBoxContainer
+var component_palette_box: VBoxContainer
+var workbench_store = null
+var workbench_menu_button: MenuButton
+var workbench_name_dialog: Control
+var workbench_name_edit: LineEdit
+var hint_button: Button
+var hint_exit_button: Button
+var editor_toolbar: Control
+var hub_button: Button
 var desktop_windows: Dictionary[StringName, FloatingInstrumentPanel] = {}
 var desktop_window_buttons: Dictionary[StringName, Button] = {}
 var desktop_z_counter: int = 100
+var desktop_layout_size: Vector2 = Vector2(1500.0, 650.0)
 var phase_label: Label
 var status_label: Label
 var trace_caption_label: Label
@@ -96,9 +124,13 @@ var input_b_button: CheckButton
 var debug_result_label: Label
 var official_case_labels: Array[Label] = []
 var pause_button: Button
+var trace_step_button: Button
 var speed_selector: OptionButton
 var component_menu_button: MenuButton
+var wire_color_menu_button: MenuButton
 var mode_selector: GameModeSelectorType
+var fullscreen_button: FullscreenButtonType
+var level_completion_overlay: LevelCompletionOverlay
 
 var component_catalog: Dictionary[StringName, LogicComponent] = {}
 var component_nodes: Dictionary[StringName, GraphNode] = {}
@@ -119,9 +151,23 @@ var clipboard_paste_count: int = 0
 var pasted_component_counter: int = 0
 var component_menu_templates: Dictionary = {}
 var component_menu_template_keys: Array[String] = []
+var component_palette_items: Dictionary[String, Control] = {}
+var level_palette_templates: Array[LogicComponent] = []
 var armed_component_template_key: String = ""
 var placed_component_counter: int = 0
 var builtin_connection_drag_active: bool = false
+var editor_toolbar_buttons: Array[Button] = []
+var active_wire_color_index: int = WirePaletteType.DEFAULT_INDEX
+
+var active_workbench_namespace: StringName = &""
+var active_workbench_name: String = ""
+var workbench_seed_snapshot: Dictionary = {}
+var workbench_answer_wires: Array[Dictionary] = []
+var pending_workbench_wires: Array[Dictionary] = []
+var workbench_save_queued: bool = false
+var hint_mode: bool = false
+var hint_level: int = 0
+var hint_return_level_id: StringName = &""
 
 var tutorial_created_wire: bool = false
 var tutorial_changed_input: bool = false
@@ -134,6 +180,7 @@ var playback_index: int = 0
 var playback_elapsed: float = 0.0
 var playback_speed: float = 1.0
 var playback_running: bool = false
+var animate_next_live_refresh: bool = false
 var playback_batches: Array[Dictionary] = []
 var active_components: Array[StringName] = []
 var active_connections: Array[Dictionary] = []
@@ -144,6 +191,7 @@ var sealing_elapsed: float = 0.0
 
 
 func _ready() -> void:
+	_configure_workbench_store()
 	_build_theme()
 	_build_interface()
 	_activate_content_state()
@@ -158,6 +206,9 @@ func _ready() -> void:
 		or "--capture-component-placement" in user_arguments
 		or "--capture-wiring-guides" in user_arguments
 		or "--capture-selection-highlight" in user_arguments
+		or "--capture-workbench-hint" in user_arguments
+		or "--capture-workbench-create" in user_arguments
+		or "--capture-level-completion" in user_arguments
 	)
 	if preparing_capture:
 		# Capture helpers need a deterministic non-empty provenance circuit. Normal
@@ -165,7 +216,13 @@ func _ready() -> void:
 		_show_tutorial()
 	else:
 		_open_campaign_map()
-	if "--capture-wiring-guides" in user_arguments:
+	if "--capture-workbench-create" in user_arguments:
+		call_deferred("_prepare_workbench_create_capture")
+	elif "--capture-level-completion" in user_arguments:
+		call_deferred("_prepare_level_completion_capture")
+	elif "--capture-workbench-hint" in user_arguments:
+		call_deferred("_prepare_workbench_hint_capture")
+	elif "--capture-wiring-guides" in user_arguments:
 		call_deferred("_prepare_wiring_guides_capture")
 	elif "--capture-selection-highlight" in user_arguments:
 		call_deferred("_prepare_selection_highlight_capture")
@@ -184,10 +241,53 @@ func _ready() -> void:
 	set_process(true)
 
 
+func _prepare_workbench_hint_capture() -> void:
+	await get_tree().process_frame
+	_enter_hint_workbench()
+	_show_hint_level(2)
+
+
+func _prepare_level_completion_capture() -> void:
+	await get_tree().process_frame
+	level_completion_overlay.audio_enabled = "--capture-completion-audio" in OS.get_cmdline_user_args()
+	_show_level_completion(&"tutorial")
+
+
+func _prepare_workbench_create_capture() -> void:
+	await get_tree().process_frame
+	_show_new_workbench_dialog()
+
+
 func _input(event: InputEvent) -> void:
+	if _handle_component_placement_global_input(event):
+		get_viewport().set_input_as_handled()
+		return
 	if not _handle_editor_shortcut(event):
 		return
 	get_viewport().set_input_as_handled()
+
+
+func _handle_component_placement_global_input(event: InputEvent) -> bool:
+	if armed_component_template_key.is_empty() or not event is InputEventMouseButton:
+		return false
+	var mouse_event := event as InputEventMouseButton
+	if not mouse_event.pressed:
+		return false
+	if mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+		_cancel_component_placement()
+		return true
+	if mouse_event.button_index != MOUSE_BUTTON_LEFT:
+		return false
+	var hovered: Control = get_viewport().gui_get_hovered_control()
+	var current: Node = hovered
+	while current != null:
+		if current == graph:
+			return false
+		current = current.get_parent()
+	# Clicking a palette item, toolbar, or floating page is a real action. Cancel
+	# the old ghost first, then allow that same click to continue normally.
+	_cancel_component_placement(false)
+	return false
 
 
 func _prepare_schematic_signal_capture() -> void:
@@ -295,6 +395,10 @@ func _activate_content_state() -> void:
 
 
 func _on_game_mode_changed(_mode: StringName) -> void:
+	_save_active_workbench()
+	hint_mode = false
+	hint_level = 0
+	hint_return_level_id = &""
 	sealing = false
 	sealing_elapsed = 0.0
 	sealing_level_id = &""
@@ -396,7 +500,7 @@ func _build_theme() -> void:
 	prototype_theme.set_stylebox("normal", "Button", _stylebox(Color("26334a"), 7, 1, Color("354866")))
 	prototype_theme.set_stylebox("hover", "Button", _stylebox(Color("30435f"), 7, 1, ACCENT))
 	prototype_theme.set_stylebox("pressed", "Button", _stylebox(Color("17283e"), 7, 1, ACCENT))
-	prototype_theme.set_icon("port", "GraphNode", _make_port_texture(24))
+	prototype_theme.set_icon("port", "GraphNode", _make_port_texture(24, 12))
 	theme = prototype_theme
 
 
@@ -418,18 +522,21 @@ func _build_interface() -> void:
 	var root_box := VBoxContainer.new()
 	margin.add_child(root_box)
 	root_box.add_child(_build_header())
-	root_box.add_child(_build_toolbar())
+	editor_toolbar = _build_toolbar()
+	root_box.add_child(editor_toolbar)
 
 	var graph_panel := PanelContainer.new()
 	graph_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	graph_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	root_box.add_child(graph_panel)
 	graph_stack = Control.new()
-	graph_stack.custom_minimum_size = Vector2(1500.0, 650.0)
+	graph_stack.custom_minimum_size = Vector2(960.0, 500.0)
 	graph_stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	graph_stack.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	graph_panel.add_child(graph_stack)
 	_create_desktop_windows()
+	graph_stack.resized.connect(_on_graph_stack_resized)
+	_create_workbench_name_dialog()
 
 	var footer := HBoxContainer.new()
 	root_box.add_child(footer)
@@ -442,24 +549,58 @@ func _build_interface() -> void:
 	diagnostics_label.text = _t(&"hardware.diagnostics.empty")
 	diagnostics_label.add_theme_color_override("font_color", MUTED)
 	footer.add_child(diagnostics_label)
-	for data: Array in [[&"task", &"hardware.window.mission"], [&"test_bench", &"device.test_bench"]]:
+	for data: Array in [
+		[&"task", &"hardware.window.mission"],
+		[&"test_bench", &"device.test_bench"],
+		[&"components", &"hardware.component_menu.button"],
+	]:
 		var window_button := Button.new()
 		window_button.text = _t(StringName(data[1]))
 		window_button.tooltip_text = _t(&"hardware.window.show.tooltip")
 		window_button.pressed.connect(_show_desktop_window.bind(data[0]))
 		desktop_window_buttons[data[0]] = window_button
 		footer.add_child(window_button)
+	_create_level_completion_overlay()
+
+
+func _create_level_completion_overlay() -> void:
+	level_completion_overlay = LevelCompletionOverlayType.new()
+	level_completion_overlay.continue_requested.connect(_on_level_completion_continue)
+	add_child(level_completion_overlay)
+
+
+func _show_level_completion(level_id: StringName) -> void:
+	if level_completion_overlay == null or level_id.is_empty():
+		return
+	level_completion_overlay.present(
+		level_id,
+		_level_display_name(level_id),
+		_t(StringName(COMPLETION_SUMMARY_KEYS.get(level_id, &"hardware.completion.summary.tutorial"))),
+		_t(&"hardware.completion.chapter")
+	)
+
+
+func _dismiss_level_completion() -> void:
+	if level_completion_overlay != null:
+		level_completion_overlay.dismiss()
+
+
+func _on_level_completion_continue(_level_id: StringName) -> void:
+	_open_campaign_map()
 
 
 func _create_desktop_windows() -> void:
 	var task_content: Control = _make_desktop_window_content(&"task")
 	var test_bench_content: Control = _make_desktop_window_content(&"test_bench")
+	var component_content: Control = _make_desktop_window_content(&"components")
 	_add_desktop_window(&"task", _t(&"hardware.window.mission"), task_content)
 	_add_desktop_window(&"test_bench", _t(&"device.test_bench"), test_bench_content)
+	_add_desktop_window(&"components", _t(&"hardware.component_menu.button"), component_content)
 
 
 func _make_desktop_window_content(id: StringName) -> Control:
 	var scroll := ScrollContainer.new()
+	scroll.name = "%sScroll" % String(id).to_pascal_case()
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -468,6 +609,8 @@ func _make_desktop_window_content(id: StringName) -> Control:
 	scroll.add_child(box)
 	if id == &"task":
 		task_box = box
+	elif id == &"components":
+		component_palette_box = box
 	else:
 		side_box = box
 	return scroll
@@ -476,8 +619,13 @@ func _make_desktop_window_content(id: StringName) -> Control:
 func _add_desktop_window(id: StringName, title_text: String, content: Control) -> void:
 	var window: FloatingInstrumentPanel = FloatingInstrumentPanelType.new()
 	window.name = "%sWindow" % String(id).to_pascal_case()
-	window.custom_minimum_size = Vector2(285.0, 180.0)
-	window.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, ACCENT if id == &"test_bench" else PURPLE))
+	window.custom_minimum_size = (
+		Vector2(220.0, 160.0)
+		if id in [&"task", &"components"]
+		else Vector2(285.0, 180.0)
+	)
+	var border_color: Color = ACCENT if id in [&"test_bench", &"components"] else PURPLE
+	window.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, border_color))
 	graph_stack.add_child(window)
 	window.setup(id, title_text)
 	window.set_content(content)
@@ -488,47 +636,110 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 	desktop_windows[id] = window
 
 
-func _layout_desktop_windows() -> void:
+func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
 	var bench_window: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
-	for window: FloatingInstrumentPanel in [task_window, bench_window]:
-		window.show_instrument()
-		window.set_minimized(false)
-	match current_phase:
-		&"tutorial":
-			task_window.position = Vector2(18.0, 18.0)
-			task_window.size = Vector2(335.0, 340.0)
-			bench_window.position = Vector2(18.0, 372.0)
-			bench_window.size = Vector2(335.0, 275.0)
-		&"half_adder":
-			task_window.position = Vector2(18.0, 18.0)
-			task_window.size = Vector2(345.0, 245.0)
-			bench_window.position = Vector2(18.0, 278.0)
-			bench_window.size = Vector2(355.0, 370.0)
-		&"sealed":
-			task_window.position = Vector2(18.0, 18.0)
-			task_window.size = Vector2(350.0, 350.0)
-			bench_window.position = Vector2(18.0, 383.0)
-			bench_window.size = Vector2(350.0, 265.0)
-		&"campaign":
-			task_window.position = Vector2(18.0, 18.0)
-			task_window.size = Vector2(365.0, 430.0)
-			bench_window.position = Vector2(18.0, 462.0)
-			bench_window.size = Vector2(365.0, 185.0)
-		&"prologue", &"prologue_complete":
-			task_window.position = Vector2(18.0, 18.0)
-			task_window.size = Vector2(360.0, 285.0)
-			bench_window.position = Vector2(18.0, 317.0)
-			bench_window.size = Vector2(370.0, 330.0)
-	_focus_desktop_window(&"test_bench")
+	var component_window: FloatingInstrumentPanel = desktop_windows[&"components"]
+	var area: Vector2 = graph_stack.size
+	if area.x <= 0.0 or area.y <= 0.0:
+		area = Vector2(1500.0, 650.0)
+	var margin: float = clampf(minf(area.x, area.y) * 0.025, 12.0, 20.0)
+	var gap: float = clampf(margin * 0.75, 10.0, 16.0)
+	var usable_height: float = maxf(180.0, area.y - margin * 2.0)
+	var left_width: float = clampf(area.x * 0.23, 285.0, 420.0)
+	var component_width: float = clampf(area.x * 0.17, 220.0, 310.0)
+	if reset_windows:
+		for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
+			window.show_instrument()
+			window.set_minimized(false)
+	var test_bench_button: Button = desktop_window_buttons.get(&"test_bench")
+	if test_bench_button != null:
+		test_bench_button.visible = current_phase != &"campaign" and not hint_mode
+	if current_phase == &"campaign":
+		# CampaignMapView reserves its left lane for Mission. Keep the initial
+		# page entirely inside that lane and remove the irrelevant Test Bench.
+		if reset_windows:
+			var map_task_width: float = clampf(area.x * 0.22, 220.0, 360.0)
+			var map_task_height: float = clampf(usable_height * 0.48, 210.0, 340.0)
+			task_window.position = Vector2(margin, margin)
+			task_window.size = Vector2(map_task_width, map_task_height)
+		bench_window.hide()
+		component_window.hide()
+	elif current_phase == &"hint":
+		if reset_windows:
+			var hint_width: float = clampf(area.x * 0.28, 360.0, 460.0)
+			var hint_height: float = clampf(usable_height * 0.46, 240.0, 340.0)
+			task_window.position = Vector2(margin, area.y - margin - hint_height)
+			task_window.size = Vector2(hint_width, hint_height)
+		bench_window.hide()
+		component_window.hide()
+	else:
+		component_window.position = Vector2(area.x - margin - component_width, margin)
+		component_window.size = Vector2(
+			component_width,
+			clampf(usable_height * 0.64, 260.0, usable_height)
+		)
+		var task_ratio: float = 0.52
+		match current_phase:
+			&"half_adder": task_ratio = 0.37
+			&"sealed": task_ratio = 0.54
+			&"prologue", &"prologue_complete": task_ratio = 0.44
+		var split_height: float = maxf(2.0, usable_height - gap)
+		var minimum_section: float = minf(180.0, split_height * 0.5)
+		var task_height: float = clampf(
+			split_height * task_ratio,
+			minimum_section,
+			split_height - minimum_section
+		)
+		var bench_height: float = split_height - task_height
+		task_window.position = Vector2(margin, margin)
+		task_window.size = Vector2(left_width, task_height)
+		bench_window.position = Vector2(margin, margin + task_height + gap)
+		bench_window.size = Vector2(left_width, bench_height)
+	for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
+		window.fit_to_parent(margin)
+	desktop_layout_size = area
+	_focus_desktop_window(&"task" if current_phase in [&"campaign", &"hint"] else &"test_bench")
+
+
+func _on_graph_stack_resized() -> void:
+	if graph_stack == null or desktop_windows.is_empty():
+		return
+	var new_size: Vector2 = graph_stack.size
+	if new_size.x <= 0.0 or new_size.y <= 0.0:
+		return
+	if current_phase in [&"campaign", &"hint"]:
+		# These views reserve deliberate non-canvas lanes. Recompute from the
+		# actual viewport instead of scaling a fallback layout across that line.
+		_layout_desktop_windows(false)
+		return
+	var previous := Vector2(
+		maxf(1.0, desktop_layout_size.x),
+		maxf(1.0, desktop_layout_size.y)
+	)
+	var scale := Vector2(new_size.x / previous.x, new_size.y / previous.y)
+	for window: FloatingInstrumentPanel in desktop_windows.values():
+		window.position = Vector2(
+			window.position.x * scale.x,
+			window.position.y * scale.y
+		)
+		if not window.minimized:
+			window.size = Vector2(window.size.x * scale.x, window.size.y * scale.y)
+		window.fit_to_parent(10.0)
+	desktop_layout_size = new_size
 
 
 func _show_desktop_window(id: StringName) -> void:
+	if hint_mode and id != &"task":
+		return
+	if current_phase == &"campaign" and id == &"test_bench":
+		return
 	var window: FloatingInstrumentPanel = desktop_windows.get(id)
 	if window == null:
 		return
 	window.show_instrument()
 	window.set_minimized(false)
+	window.fit_to_parent(10.0)
 	_focus_desktop_window(id)
 
 
@@ -580,14 +791,31 @@ func _build_header() -> Control:
 	phase_label.add_theme_color_override("font_color", PURPLE)
 	phase_label.add_theme_font_size_override("font_size", 18)
 	row.add_child(phase_label)
+	hint_button = Button.new()
+	hint_button.name = "HintButton"
+	hint_button.text = _t(&"hardware.hint.button")
+	hint_button.tooltip_text = _t(&"hardware.hint.button.tooltip")
+	hint_button.visible = false
+	hint_button.pressed.connect(_on_hint_button_pressed)
+	row.add_child(hint_button)
+	hint_exit_button = Button.new()
+	hint_exit_button.name = "HintExitButton"
+	hint_exit_button.text = _t(&"hardware.hint.return")
+	hint_exit_button.tooltip_text = _t(&"hardware.hint.return.tooltip")
+	hint_exit_button.visible = false
+	hint_exit_button.pressed.connect(_exit_hint_workbench)
+	row.add_child(hint_exit_button)
 	mode_selector = GameModeSelectorType.new()
 	mode_selector.name = "GameModeSelector"
 	mode_selector.show_label = false
 	row.add_child(mode_selector)
-	var hub_button := Button.new()
-	hub_button.text = _t(&"common.prototype_hub")
+	fullscreen_button = FullscreenButtonType.new()
+	row.add_child(fullscreen_button)
+	hub_button = Button.new()
+	hub_button.name = "ChapterSelectButton"
+	hub_button.text = _t(&"common.chapter_select")
 	hub_button.tooltip_text = _t(&"hardware.hub.tooltip")
-	hub_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
+	hub_button.pressed.connect(_return_to_prototype_hub)
 	row.add_child(hub_button)
 	return header
 
@@ -600,11 +828,29 @@ func _build_toolbar() -> Control:
 	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status_label.add_theme_color_override("font_color", MUTED)
 	row.add_child(status_label)
+	workbench_menu_button = MenuButton.new()
+	workbench_menu_button.name = "WorkbenchMenuButton"
+	workbench_menu_button.text = _t(&"hardware.workbench.button", [CircuitWorkbenchStoreType.DEFAULT_NAME])
+	workbench_menu_button.tooltip_text = _t(&"hardware.workbench.button.tooltip")
+	workbench_menu_button.visible = false
+	workbench_menu_button.get_popup().id_pressed.connect(_on_workbench_menu_item_pressed)
+	row.add_child(workbench_menu_button)
 	component_menu_button = MenuButton.new()
 	component_menu_button.text = _t(&"hardware.component_menu.button")
 	component_menu_button.tooltip_text = _t(&"hardware.component_menu.tooltip")
 	component_menu_button.get_popup().id_pressed.connect(_on_component_menu_item_pressed)
 	row.add_child(component_menu_button)
+	wire_color_menu_button = MenuButton.new()
+	wire_color_menu_button.name = "WireColorMenuButton"
+	wire_color_menu_button.tooltip_text = _t(&"hardware.wire_color.tooltip")
+	wire_color_menu_button.get_popup().id_pressed.connect(_on_wire_color_selected)
+	for color_index: int in range(WirePaletteType.COLORS.size()):
+		wire_color_menu_button.get_popup().add_icon_item(
+			_make_color_swatch(WirePaletteType.color(color_index)),
+			_t(&"hardware.wire_color.item", [color_index + 1]), color_index
+		)
+	row.add_child(wire_color_menu_button)
+	_refresh_wire_color_button()
 	for data: Array in [
 		[&"hardware.toolbar.level_map", &"hardware.toolbar.level_map.tooltip", Callable(self, "_open_campaign_map")],
 		[&"common.auto_layout", &"hardware.toolbar.auto_layout.tooltip", Callable(self, "_auto_layout")],
@@ -618,14 +864,16 @@ func _build_toolbar() -> Control:
 		button.tooltip_text = _t(StringName(data[1]))
 		button.pressed.connect(data[2])
 		row.add_child(button)
+		if StringName(data[0]) != &"hardware.toolbar.level_map":
+			editor_toolbar_buttons.append(button)
 	pause_button = Button.new()
 	pause_button.text = _t(&"hardware.trace.pause")
 	pause_button.pressed.connect(_toggle_playback)
 	row.add_child(pause_button)
-	var step_button := Button.new()
-	step_button.text = _t(&"common.step")
-	step_button.pressed.connect(_step_playback)
-	row.add_child(step_button)
+	trace_step_button = Button.new()
+	trace_step_button.text = _t(&"common.step")
+	trace_step_button.pressed.connect(_step_playback)
+	row.add_child(trace_step_button)
 	speed_selector = OptionButton.new()
 	speed_selector.add_item("0.7×", 0)
 	speed_selector.add_item("1.0×", 1)
@@ -636,7 +884,673 @@ func _build_toolbar() -> Control:
 	return toolbar
 
 
+func _make_color_swatch(color: Color) -> Texture2D:
+	var image := Image.create(16, 16, false, Image.FORMAT_RGBA8)
+	image.fill(Color.TRANSPARENT)
+	for y: int in range(3, 13):
+		for x: int in range(3, 13):
+			image.set_pixel(x, y, color)
+	return ImageTexture.create_from_image(image)
+
+
+func _on_wire_color_selected(color_index: int) -> void:
+	_set_active_wire_color(color_index)
+
+
+func _set_active_wire_color(color_index: int) -> void:
+	active_wire_color_index = WirePaletteType.normalized_index(color_index)
+	if graph != null:
+		graph.set_draft_color_index(active_wire_color_index)
+	_refresh_wire_color_button()
+	status_label.text = _t(&"hardware.wire_color.selected", [active_wire_color_index + 1])
+	status_label.add_theme_color_override("font_color", WirePaletteType.color(active_wire_color_index))
+
+
+func _refresh_wire_color_button() -> void:
+	if wire_color_menu_button == null:
+		return
+	wire_color_menu_button.text = _t(&"hardware.wire_color.button", [active_wire_color_index + 1])
+	wire_color_menu_button.icon = _make_color_swatch(WirePaletteType.color(active_wire_color_index))
+
+
+func _configure_workbench_store() -> void:
+	var save_path: String = "" if _is_automated_workbench_session() \
+		else "user://hardware_workbenches_v1.json"
+	workbench_store = CircuitWorkbenchStoreType.new(save_path)
+
+
+func _is_automated_workbench_session() -> bool:
+	if "--script" in OS.get_cmdline_args():
+		return true
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--capture"):
+			return true
+	return false
+
+
+func _return_to_prototype_hub() -> void:
+	_save_active_workbench()
+	get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+
+
+func _create_workbench_name_dialog() -> void:
+	workbench_name_dialog = Control.new()
+	workbench_name_dialog.name = "WorkbenchNameDialog"
+	workbench_name_dialog.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	workbench_name_dialog.mouse_filter = Control.MOUSE_FILTER_STOP
+	workbench_name_dialog.z_index = 600
+	graph_stack.add_child(workbench_name_dialog)
+	var blocker := ColorRect.new()
+	blocker.color = Color(0.01, 0.02, 0.04, 0.68)
+	blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	blocker.mouse_filter = Control.MOUSE_FILTER_STOP
+	workbench_name_dialog.add_child(blocker)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	workbench_name_dialog.add_child(center)
+	var panel := PanelContainer.new()
+	panel.name = "WorkbenchNamePanel"
+	panel.custom_minimum_size = Vector2(500.0, 230.0)
+	panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	panel.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, ACCENT))
+	center.add_child(panel)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 20)
+	margin.add_theme_constant_override("margin_right", 20)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	panel.add_child(margin)
+	var content := VBoxContainer.new()
+	margin.add_child(content)
+	var title := Label.new()
+	title.text = _t(&"hardware.workbench.create.title")
+	title.add_theme_font_size_override("font_size", 20)
+	title.add_theme_color_override("font_color", ACCENT)
+	content.add_child(title)
+	var prompt := Label.new()
+	prompt.text = _t(&"hardware.workbench.create.prompt")
+	prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	prompt.add_theme_color_override("font_color", TEXT)
+	content.add_child(prompt)
+	workbench_name_edit = LineEdit.new()
+	workbench_name_edit.name = "WorkbenchNameEdit"
+	workbench_name_edit.placeholder_text = _t(&"hardware.workbench.create.placeholder")
+	workbench_name_edit.max_length = CircuitWorkbenchStoreType.MAX_NAME_LENGTH
+	workbench_name_edit.custom_minimum_size = Vector2(382.0, 40.0)
+	workbench_name_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	workbench_name_edit.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	workbench_name_edit.add_theme_color_override("font_color", TEXT)
+	workbench_name_edit.add_theme_color_override("font_placeholder_color", MUTED)
+	workbench_name_edit.add_theme_stylebox_override(
+		"normal", _stylebox(PANEL_DARK, 6, 1, Color("52627d"))
+	)
+	workbench_name_edit.add_theme_stylebox_override(
+		"focus", _stylebox(PANEL_DARK, 6, 2, ACCENT)
+	)
+	content.add_child(workbench_name_edit)
+	var actions := HBoxContainer.new()
+	content.add_child(actions)
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	actions.add_child(spacer)
+	var create_button := Button.new()
+	create_button.text = _t(&"common.create")
+	create_button.pressed.connect(_confirm_new_workbench)
+	actions.add_child(create_button)
+	var cancel_button := Button.new()
+	cancel_button.text = _t(&"common.cancel")
+	cancel_button.pressed.connect(_hide_new_workbench_dialog)
+	actions.add_child(cancel_button)
+	workbench_name_edit.text_submitted.connect(func(_text: String) -> void: _confirm_new_workbench())
+	workbench_name_dialog.hide()
+
+
+func _refresh_workbench_menu() -> void:
+	if workbench_menu_button == null:
+		return
+	var available: bool = (
+		not hint_mode
+		and current_phase in [&"tutorial", &"half_adder", &"prologue"]
+		and not current_level_id.is_empty()
+		and not active_workbench_name.is_empty()
+	)
+	workbench_menu_button.visible = available
+	workbench_menu_button.disabled = not available
+	if not available:
+		return
+	workbench_menu_button.text = _t(&"hardware.workbench.button", [active_workbench_name])
+	var popup: PopupMenu = workbench_menu_button.get_popup()
+	popup.clear()
+	var names: Array[String] = workbench_store.workbench_names(
+		active_workbench_namespace, current_level_id
+	)
+	for name: String in names:
+		var item_id: int = popup.item_count
+		popup.add_item(name, item_id)
+		popup.set_item_metadata(popup.item_count - 1, {"action": &"switch", "name": name})
+		popup.set_item_as_radio_checkable(popup.item_count - 1, true)
+		popup.set_item_checked(popup.item_count - 1, name == active_workbench_name)
+	popup.add_separator()
+	var create_id: int = popup.item_count
+	popup.add_item(_t(&"hardware.workbench.create"), create_id)
+	popup.set_item_metadata(popup.item_count - 1, {"action": &"create"})
+
+
+func _on_workbench_menu_item_pressed(item_id: int) -> void:
+	if workbench_menu_button == null or hint_mode:
+		return
+	var popup: PopupMenu = workbench_menu_button.get_popup()
+	var item_index: int = popup.get_item_index(item_id)
+	if item_index < 0:
+		return
+	var metadata: Variant = popup.get_item_metadata(item_index)
+	if not metadata is Dictionary:
+		return
+	var action := StringName((metadata as Dictionary).get("action", &""))
+	if action == &"create":
+		_show_new_workbench_dialog()
+	elif action == &"switch":
+		_switch_workbench(String((metadata as Dictionary).get("name", "")))
+
+
+func _show_new_workbench_dialog() -> void:
+	if workbench_name_dialog == null or active_workbench_name.is_empty():
+		return
+	workbench_name_edit.clear()
+	workbench_name_dialog.show()
+	workbench_name_edit.grab_focus()
+
+
+func _hide_new_workbench_dialog() -> void:
+	if workbench_name_dialog != null:
+		workbench_name_dialog.hide()
+
+
+func _confirm_new_workbench() -> void:
+	if _create_named_workbench(workbench_name_edit.text):
+		_hide_new_workbench_dialog()
+
+
+func _create_named_workbench(raw_name: String) -> bool:
+	if hint_mode or current_level_id.is_empty() or workbench_seed_snapshot.is_empty():
+		return false
+	_save_active_workbench()
+	var normalized_name: String = CircuitWorkbenchStoreType.normalized_name(raw_name)
+	var error: StringName = workbench_store.create_workbench(
+		active_workbench_namespace,
+		current_level_id,
+		normalized_name,
+		workbench_seed_snapshot
+	)
+	if not error.is_empty():
+		status_label.text = _workbench_name_error_text(error)
+		status_label.add_theme_color_override("font_color", BAD)
+		if workbench_name_dialog != null:
+			workbench_name_dialog.show()
+			workbench_name_edit.grab_focus()
+		return false
+	active_workbench_name = normalized_name
+	_reload_current_campaign_level()
+	return true
+
+
+func _switch_workbench(workbench_name: String) -> bool:
+	if hint_mode or workbench_name.is_empty() or workbench_name == active_workbench_name:
+		return false
+	_save_active_workbench()
+	if not workbench_store.switch_workbench(
+		active_workbench_namespace, current_level_id, workbench_name
+	):
+		status_label.text = _t(&"hardware.workbench.switch_failed")
+		status_label.add_theme_color_override("font_color", BAD)
+		return false
+	active_workbench_name = workbench_name
+	_reload_current_campaign_level()
+	return true
+
+
+func _reload_current_campaign_level() -> void:
+	var level_id: StringName = current_level_id
+	if level_id.is_empty():
+		return
+	_start_campaign_level(level_id)
+	status_label.text = _t(&"hardware.workbench.loaded", [active_workbench_name])
+	status_label.add_theme_color_override("font_color", GOOD)
+
+
+func _workbench_name_error_text(error: StringName) -> String:
+	match error:
+		&"empty": return _t(&"hardware.workbench.error.empty")
+		&"too_long": return _t(&"hardware.workbench.error.too_long", [CircuitWorkbenchStoreType.MAX_NAME_LENGTH])
+		&"invalid_character": return _t(&"hardware.workbench.error.invalid_character")
+		&"duplicate": return _t(&"hardware.workbench.error.duplicate")
+	return _t(&"hardware.workbench.error.generic")
+
+
+func _current_workbench_namespace() -> StringName:
+	return &"test" if GameMode.is_test_mode() else &"game"
+
+
+func _prepare_level_workbench(answer_wires: Array, seed_with_answer: bool = false) -> void:
+	workbench_answer_wires = _normalized_wire_list(answer_wires)
+	workbench_seed_snapshot = _snapshot_from_inventory(
+		workbench_answer_wires if seed_with_answer else []
+	)
+	active_workbench_namespace = _current_workbench_namespace()
+	workbench_store.ensure_default(
+		active_workbench_namespace, current_level_id, workbench_seed_snapshot
+	)
+	active_workbench_name = workbench_store.active_name(
+		active_workbench_namespace, current_level_id
+	)
+	var snapshot: Dictionary = workbench_store.active_snapshot(
+		active_workbench_namespace, current_level_id
+	)
+	_apply_workbench_snapshot(snapshot if not snapshot.is_empty() else workbench_seed_snapshot)
+
+
+func _snapshot_from_inventory(wires: Array = []) -> Dictionary:
+	var components: Array[Dictionary] = []
+	var layout: Dictionary = {}
+	var ids: Array[StringName] = []
+	for component_id: StringName in component_catalog:
+		ids.append(component_id)
+	ids.sort()
+	for component_id: StringName in ids:
+		components.append((component_catalog[component_id] as LogicComponent).to_dictionary())
+		var position: Vector2 = layout_positions.get(component_id, Vector2.ZERO)
+		layout[String(component_id)] = {"x": position.x, "y": position.y}
+	return {
+		"schema_version": 1,
+		"components": components,
+		"layout": layout,
+		"wires": _normalized_wire_list(wires),
+	}
+
+
+func _capture_workbench_snapshot() -> Dictionary:
+	var snapshot: Dictionary = _snapshot_from_inventory([])
+	var layout: Dictionary = snapshot["layout"]
+	for component_id: StringName in component_nodes:
+		var node: GraphNode = component_nodes.get(component_id)
+		if node != null:
+			layout[String(component_id)] = {
+				"x": node.position_offset.x,
+				"y": node.position_offset.y,
+			}
+	var visible_wires: Array = graph.get_connection_list() if graph != null else []
+	snapshot["wires"] = _normalized_wire_list(visible_wires)
+	return snapshot
+
+
+func _apply_workbench_snapshot(snapshot: Dictionary) -> void:
+	var seed_components: Dictionary[StringName, LogicComponent] = {}
+	var seed_layout: Dictionary = workbench_seed_snapshot.get("layout", {})
+	for data_variant: Variant in workbench_seed_snapshot.get("components", []):
+		if not data_variant is Dictionary:
+			continue
+		var seed_component: LogicComponent = LogicComponentType.from_dictionary(data_variant)
+		if seed_component != null:
+			seed_components[seed_component.id] = seed_component
+	var saved_layout: Dictionary = snapshot.get("layout", {})
+	current_circuit = LogicCircuitType.new()
+	component_catalog.clear()
+	layout_positions.clear()
+	var restored_ids: Dictionary[StringName, bool] = {}
+	for data_variant: Variant in snapshot.get("components", []):
+		if not data_variant is Dictionary:
+			continue
+		var component: LogicComponent = LogicComponentType.from_dictionary(data_variant)
+		if component == null or restored_ids.has(component.id):
+			continue
+		if component.fixed_terminal:
+			var fixed_seed: LogicComponent = seed_components.get(component.id)
+			if fixed_seed == null or not fixed_seed.fixed_terminal:
+				continue
+			component = fixed_seed.duplicate_component()
+		elif seed_components.has(component.id) and (seed_components[component.id] as LogicComponent).fixed_terminal:
+			continue
+		_add_catalog_component(component)
+		restored_ids[component.id] = true
+		layout_positions[component.id] = _snapshot_position(
+			saved_layout.get(String(component.id), seed_layout.get(String(component.id), {}))
+		)
+	var seed_ids: Array[StringName] = []
+	for component_id: StringName in seed_components:
+		if (seed_components[component_id] as LogicComponent).fixed_terminal and not restored_ids.has(component_id):
+			seed_ids.append(component_id)
+	seed_ids.sort()
+	for component_id: StringName in seed_ids:
+		var component: LogicComponent = seed_components[component_id].duplicate_component()
+		_add_catalog_component(component)
+		layout_positions[component_id] = _snapshot_position(seed_layout.get(String(component_id), {}))
+	pending_workbench_wires = _normalized_wire_list(snapshot.get("wires", []))
+
+
+func _snapshot_position(value: Variant) -> Vector2:
+	if value is Dictionary:
+		var data := value as Dictionary
+		return Vector2(float(data.get("x", 0.0)), float(data.get("y", 0.0)))
+	if value is Vector2:
+		return value
+	return Vector2.ZERO
+
+
+func _normalized_wire_list(source: Array) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for wire_variant: Variant in source:
+		if not wire_variant is Dictionary:
+			continue
+		var wire := wire_variant as Dictionary
+		var from_id := StringName(wire.get(
+			"from", wire.get("from_node", wire.get("from_component", &""))
+		))
+		var to_id := StringName(wire.get(
+			"to", wire.get("to_node", wire.get("to_component", &""))
+		))
+		if from_id.is_empty() or to_id.is_empty():
+			continue
+		var from_port: int = int(wire.get("from_port", 0))
+		var to_port: int = int(wire.get("to_port", 0))
+		var color_index: int = WirePaletteType.normalized_index(wire.get(
+			"color_index",
+			graph.get_connection_color_index(from_id, from_port, to_id, to_port)
+				if graph != null and graph.is_node_connected(from_id, from_port, to_id, to_port)
+				else WirePaletteType.DEFAULT_INDEX
+		))
+		result.append({
+			"from": String(from_id),
+			"from_port": from_port,
+			"to": String(to_id),
+			"to_port": to_port,
+			"color_index": color_index,
+		})
+	result.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		return _workbench_wire_id(left) < _workbench_wire_id(right)
+	)
+	return result
+
+
+func _workbench_wire_id(wire: Dictionary) -> String:
+	return "%s:%d>%s:%d" % [
+		wire.get("from", wire.get("from_node", "")), int(wire.get("from_port", 0)),
+		wire.get("to", wire.get("to_node", "")), int(wire.get("to_port", 0)),
+	]
+
+
+func _load_pending_workbench_wires() -> int:
+	var rejected: int = 0
+	for wire: Dictionary in pending_workbench_wires:
+		if not _add_visible_wire(_wire_data(
+			StringName(wire.get("from", "")), int(wire.get("from_port", 0)),
+			StringName(wire.get("to", "")), int(wire.get("to_port", 0)),
+			int(wire.get("color_index", WirePaletteType.DEFAULT_INDEX))
+		)):
+			rejected += 1
+	pending_workbench_wires.clear()
+	wire_history.clear()
+	redo_history.clear()
+	return rejected
+
+
+func _queue_workbench_save() -> void:
+	if workbench_save_queued or hint_mode:
+		return
+	workbench_save_queued = true
+	call_deferred("_flush_queued_workbench_save")
+
+
+func _flush_queued_workbench_save() -> void:
+	workbench_save_queued = false
+	_save_active_workbench()
+
+
+func _save_active_workbench() -> bool:
+	if (
+		workbench_store == null
+		or hint_mode
+		or active_workbench_name.is_empty()
+		or current_level_id.is_empty()
+		or current_phase not in [&"tutorial", &"half_adder", &"prologue"]
+		or graph == null
+	):
+		return false
+	return workbench_store.save_workbench(
+		active_workbench_namespace,
+		current_level_id,
+		active_workbench_name,
+		_capture_workbench_snapshot()
+	)
+
+
+func _tutorial_reference_wires() -> Array[Dictionary]:
+	return [
+		_wire_data(&"A_IN", 0, &"NOT_1", 0),
+		_wire_data(&"NOT_1", 0, &"LAMP", 0),
+	]
+
+
+func _half_adder_reference_wires() -> Array[Dictionary]:
+	return [
+		_wire_data(&"A_IN", 0, &"AND_1", 0),
+		_wire_data(&"B_IN", 0, &"AND_1", 1),
+		_wire_data(&"AND_1", 0, &"NOT_1", 0),
+		_wire_data(&"A_IN", 0, &"OR_1", 0),
+		_wire_data(&"B_IN", 0, &"OR_1", 1),
+		_wire_data(&"OR_1", 0, &"AND_2", 0),
+		_wire_data(&"NOT_1", 0, &"AND_2", 1),
+		_wire_data(&"AND_2", 0, &"SUM_OUT", 0),
+		_wire_data(&"A_IN", 0, &"AND_3", 0),
+		_wire_data(&"B_IN", 0, &"AND_3", 1),
+		_wire_data(&"AND_3", 0, &"CARRY_OUT", 0),
+	]
+
+
+func _hint_partial_wires() -> Array[Dictionary]:
+	match current_level_id:
+		&"tutorial":
+			return _normalized_wire_list(_tutorial_reference_wires())
+		&"half_adder":
+			var answer: Array[Dictionary] = _half_adder_reference_wires()
+			return _normalized_wire_list(answer.slice(0, 8))
+	return _normalized_wire_list(current_level_definition.get("hint_partial_wires", []))
+
+
+func _refresh_hint_controls() -> void:
+	if hint_button == null or hint_exit_button == null:
+		return
+	var in_player_level: bool = (
+		not hint_mode
+		and current_phase in [&"tutorial", &"half_adder", &"prologue"]
+		and not current_level_id.is_empty()
+	)
+	hint_button.visible = in_player_level or hint_mode
+	hint_exit_button.visible = hint_mode
+	phase_label.visible = not hint_mode
+	var on_campaign_map: bool = current_phase == &"campaign"
+	if editor_toolbar != null:
+		editor_toolbar.visible = not on_campaign_map
+	if trace_caption_label != null:
+		trace_caption_label.visible = not on_campaign_map
+	if diagnostics_label != null:
+		diagnostics_label.visible = not on_campaign_map
+	for button: Button in editor_toolbar_buttons:
+		button.disabled = hint_mode
+	if pause_button != null:
+		pause_button.disabled = hint_mode
+	if trace_step_button != null:
+		trace_step_button.disabled = hint_mode
+	if speed_selector != null:
+		speed_selector.disabled = hint_mode
+	for window_id: StringName in desktop_window_buttons:
+		var window_button: Button = desktop_window_buttons[window_id]
+		window_button.visible = (
+			window_id == &"task" if on_campaign_map
+			else not hint_mode or window_id == &"task"
+		)
+	if hint_mode:
+		hint_button.text = _t(&"hardware.hint.next", [hint_level, 3])
+		hint_button.tooltip_text = _t(&"hardware.hint.next.tooltip")
+		hint_button.disabled = hint_level >= 3
+	else:
+		hint_button.text = _t(&"hardware.hint.button")
+		hint_button.tooltip_text = _t(&"hardware.hint.button.tooltip")
+		hint_button.disabled = not in_player_level
+
+
+func _on_hint_button_pressed() -> void:
+	if hint_mode:
+		if hint_level < 3:
+			_show_hint_level(hint_level + 1)
+		return
+	_enter_hint_workbench()
+
+
+func _enter_hint_workbench() -> void:
+	if current_level_id.is_empty() or current_phase not in [&"tutorial", &"half_adder", &"prologue"]:
+		return
+	_save_active_workbench()
+	hint_return_level_id = current_level_id
+	hint_mode = true
+	_show_hint_level(1)
+
+
+func _show_hint_level(level: int) -> void:
+	if not hint_mode or hint_return_level_id.is_empty():
+		return
+	_stop_playback()
+	hint_level = clampi(level, 1, 3)
+	current_phase = &"hint"
+	current_level_id = hint_return_level_id
+	phase_label.text = _t(&"hardware.hint.phase", [hint_level, 3])
+	var hint_snapshot: Dictionary = _build_hint_snapshot(hint_level)
+	_apply_workbench_snapshot(hint_snapshot)
+	_create_graph()
+	_build_component_nodes()
+	_load_pending_workbench_wires()
+	graph.branch_edit_enabled = false
+	graph.zoom = _hint_graph_zoom()
+	_rebuild_component_menu()
+	_build_hint_side()
+	status_label.text = _t(&"hardware.hint.status", [hint_level, 3])
+	status_label.add_theme_color_override("font_color", PURPLE)
+	trace_caption_label.text = _t(&"hardware.hint.read_only")
+	diagnostics_label.text = _t(&"hardware.hint.no_progress")
+	_refresh_workbench_menu()
+	_refresh_hint_controls()
+	_layout_desktop_windows()
+	_schedule_live_refresh()
+	call_deferred("_restore_graph_view_after_layout")
+
+
+func _build_hint_snapshot(level: int) -> Dictionary:
+	var selected_wires: Array[Dictionary] = []
+	if level == 2:
+		selected_wires = _hint_partial_wires()
+	elif level >= 3:
+		selected_wires = workbench_answer_wires.duplicate(true)
+	var included_ids: Dictionary[String, bool] = {}
+	for wire: Dictionary in selected_wires:
+		included_ids[String(wire.get("from", ""))] = true
+		included_ids[String(wire.get("to", ""))] = true
+	var components: Array[Dictionary] = []
+	var layout: Dictionary = {}
+	var seed_layout: Dictionary = workbench_seed_snapshot.get("layout", {})
+	for data_variant: Variant in workbench_seed_snapshot.get("components", []):
+		if not data_variant is Dictionary:
+			continue
+		var data := data_variant as Dictionary
+		var component_id: String = String(data.get("id", ""))
+		if not bool(data.get("fixed_terminal", false)) and level < 3 and not included_ids.has(component_id):
+			continue
+		components.append(data.duplicate(true))
+		if seed_layout.has(component_id):
+			layout[component_id] = (seed_layout[component_id] as Dictionary).duplicate(true)
+	return {
+		"schema_version": 1,
+		"components": components,
+		"layout": layout,
+		"wires": selected_wires,
+	}
+
+
+func _build_hint_side() -> void:
+	_clear_container(task_box)
+	_clear_container(side_box)
+	task_box.add_child(_side_heading(
+		_t(&"hardware.hint.title", [hint_level, 3]),
+		_level_display_name(current_level_id)
+	))
+	var explanation := Label.new()
+	explanation.name = "HintExplanation"
+	explanation.text = _t(_hint_text_key(current_level_id, hint_level))
+	explanation.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	explanation.add_theme_font_size_override("font_size", 17)
+	explanation.add_theme_color_override("font_color", TEXT)
+	task_box.add_child(explanation)
+	var scope := Label.new()
+	scope.text = _t(StringName("hardware.hint.scope.%d" % hint_level))
+	scope.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	scope.add_theme_color_override("font_color", ACCENT if hint_level < 3 else GOOD)
+	task_box.add_child(scope)
+	if hint_level < 3:
+		var next_button := Button.new()
+		next_button.text = _t(&"hardware.hint.reveal_next", [hint_level + 1])
+		next_button.pressed.connect(_show_hint_level.bind(hint_level + 1))
+		task_box.add_child(next_button)
+	var return_button := Button.new()
+	return_button.text = _t(&"hardware.hint.return")
+	return_button.pressed.connect(_exit_hint_workbench)
+	task_box.add_child(return_button)
+
+
+func _hint_text_key(level_id: StringName, level: int) -> StringName:
+	match level_id:
+		&"tutorial":
+			return [&"hardware.hint.tutorial.1", &"hardware.hint.tutorial.2", &"hardware.hint.tutorial.3"][level - 1]
+		&"half_adder":
+			return [&"hardware.hint.half_adder.1", &"hardware.hint.half_adder.2", &"hardware.hint.half_adder.3"][level - 1]
+		&"full_adder":
+			return [&"hardware.hint.full_adder.1", &"hardware.hint.full_adder.2", &"hardware.hint.full_adder.3"][level - 1]
+		&"alu":
+			return [&"hardware.hint.alu.1", &"hardware.hint.alu.2", &"hardware.hint.alu.3"][level - 1]
+		&"latch":
+			return [&"hardware.hint.latch.1", &"hardware.hint.latch.2", &"hardware.hint.latch.3"][level - 1]
+		&"register":
+			return [&"hardware.hint.register.1", &"hardware.hint.register.2", &"hardware.hint.register.3"][level - 1]
+		&"ram":
+			return [&"hardware.hint.ram.1", &"hardware.hint.ram.2", &"hardware.hint.ram.3"][level - 1]
+		&"cpu":
+			return [&"hardware.hint.cpu.1", &"hardware.hint.cpu.2", &"hardware.hint.cpu.3"][level - 1]
+		&"load_store":
+			return [&"hardware.hint.load_store.1", &"hardware.hint.load_store.2", &"hardware.hint.load_store.3"][level - 1]
+	return &"hardware.hint.generic"
+
+
+func _hint_graph_zoom() -> float:
+	if current_level_id == &"half_adder":
+		return 0.88
+	if current_level_id == &"tutorial":
+		return 1.0
+	return float(current_level_definition.get("initial_zoom", 1.0))
+
+
+func _exit_hint_workbench() -> void:
+	if not hint_mode or hint_return_level_id.is_empty():
+		return
+	var return_level: StringName = hint_return_level_id
+	hint_mode = false
+	hint_level = 0
+	hint_return_level_id = &""
+	_start_campaign_level(return_level)
+	status_label.text = _t(&"hardware.hint.returned", [active_workbench_name])
+	status_label.add_theme_color_override("font_color", GOOD)
+
+
 func _show_tutorial() -> void:
+	_dismiss_level_completion()
 	_stop_playback()
 	current_phase = &"tutorial"
 	current_level_id = &"tutorial"
@@ -645,13 +1559,17 @@ func _show_tutorial() -> void:
 	official_passed = false
 	passing_topology_signature = ""
 	_build_tutorial_circuit()
+	_prepare_level_workbench(_tutorial_reference_wires())
 	_create_graph()
 	_build_component_nodes()
+	_load_pending_workbench_wires()
 	_build_tutorial_side()
 	status_label.text = _t(&"hardware.tutorial.status")
 	trace_caption_label.text = _t(&"hardware.tutorial.trace_hint")
 	diagnostics_label.text = _t(&"hardware.tutorial.zero_delay")
 	_update_tutorial_checklist()
+	_refresh_workbench_menu()
+	_refresh_hint_controls()
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
 
@@ -661,6 +1579,7 @@ func _start_challenge() -> void:
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	_dismiss_level_completion()
 	_stop_playback()
 	current_phase = &"half_adder"
 	current_level_id = &"half_adder"
@@ -670,12 +1589,17 @@ func _start_challenge() -> void:
 	passing_topology_signature = ""
 	official_report = {}
 	_build_half_adder_circuit()
+	_prepare_level_workbench(_half_adder_reference_wires())
 	_create_graph()
 	_build_component_nodes()
+	_load_pending_workbench_wires()
+	graph.zoom = 0.88
 	_build_half_adder_side()
 	status_label.text = _t(&"hardware.challenge.status")
 	trace_caption_label.text = _t(&"hardware.challenge.trace_note")
 	diagnostics_label.text = _t(&"hardware.challenge.diagnostics")
+	_refresh_workbench_menu()
+	_refresh_hint_controls()
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
 
@@ -683,6 +1607,11 @@ func _start_challenge() -> void:
 func _build_tutorial_circuit() -> void:
 	current_circuit = LogicCircuitType.new()
 	component_catalog.clear()
+	level_palette_templates = [
+		LogicComponentType.new(&"PALETTE_AND", LogicComponentType.KIND_AND, "AND"),
+		LogicComponentType.new(&"PALETTE_OR", LogicComponentType.KIND_OR, "OR"),
+		LogicComponentType.new(&"PALETTE_NOT", LogicComponentType.KIND_NOT, "NOT"),
+	]
 	junction_counter = 0
 	layout_positions = {
 		&"A_IN": Vector2(390, 95), &"B_IN": Vector2(390, 360),
@@ -703,6 +1632,11 @@ func _build_tutorial_circuit() -> void:
 func _build_half_adder_circuit() -> void:
 	current_circuit = LogicCircuitType.new()
 	component_catalog.clear()
+	level_palette_templates = [
+		LogicComponentType.new(&"PALETTE_AND", LogicComponentType.KIND_AND, "AND"),
+		LogicComponentType.new(&"PALETTE_OR", LogicComponentType.KIND_OR, "OR"),
+		LogicComponentType.new(&"PALETTE_NOT", LogicComponentType.KIND_NOT, "NOT"),
+	]
 	junction_counter = 0
 	layout_positions = {
 		&"A_IN": Vector2(390, 110), &"B_IN": Vector2(390, 425),
@@ -766,8 +1700,11 @@ func _create_graph() -> void:
 	graph.show_menu = false
 	graph.right_disconnects = false
 	graph.connection_lines_antialiased = true
-	graph.connection_lines_thickness = 9.0
+	# CircuitGraphEdit draws one player-colored cable on the exact native curve.
+	# Keep native GraphEdit topology/dragging while hiding its value-gradient line.
+	graph.connection_lines_thickness = 0.0
 	graph.connection_lines_curvature = 0.48
+	graph.set_draft_color_index(active_wire_color_index)
 	graph.add_valid_connection_type(PORT_TYPE, PORT_TYPE)
 	graph.connection_validator = Callable(self, "_is_hover_connection_valid")
 	graph.connection_request.connect(_on_connection_request)
@@ -789,6 +1726,8 @@ func _create_graph() -> void:
 	graph.connection_endpoint_move_state_changed.connect(_on_connection_endpoint_move_state_changed)
 	graph.selection_rectangle_applied.connect(_on_selection_rectangle_applied)
 	graph.empty_canvas_pressed.connect(_on_empty_canvas_pressed)
+	graph.component_drop_requested.connect(_on_component_drop_requested)
+	graph.component_placement_cancel_requested.connect(_on_component_placement_cancel_requested)
 	graph.delete_nodes_request.connect(_on_delete_nodes_request)
 	graph.node_selected.connect(_on_graph_node_selection_changed)
 	graph.node_deselected.connect(_on_graph_node_selection_changed)
@@ -838,12 +1777,18 @@ func _build_component_nodes() -> void:
 func _capture_component_menu_templates() -> void:
 	component_menu_templates.clear()
 	component_menu_template_keys.clear()
-	var component_ids: Array[StringName] = []
-	for component_id: StringName in component_catalog:
-		component_ids.append(component_id)
-	component_ids.sort()
-	for component_id: StringName in component_ids:
-		var component: LogicComponent = component_catalog[component_id]
+	var sources: Array[LogicComponent] = []
+	if not level_palette_templates.is_empty():
+		for component: LogicComponent in level_palette_templates:
+			sources.append(component)
+	else:
+		var component_ids: Array[StringName] = []
+		for component_id: StringName in component_catalog:
+			component_ids.append(component_id)
+		component_ids.sort()
+		for component_id: StringName in component_ids:
+			sources.append(component_catalog[component_id])
+	for component: LogicComponent in sources:
 		if component.fixed_terminal or component.is_routing_node():
 			continue
 		var key: String = _component_template_signature(component)
@@ -882,9 +1827,11 @@ func _rebuild_component_menu() -> void:
 		and not component_menu_template_keys.is_empty()
 	)
 	component_menu_button.disabled = not placement_allowed
+	graph.component_drop_enabled = placement_allowed
 	if not placement_allowed:
 		popup.add_item(_t(&"hardware.component_menu.unavailable"), 0)
 		popup.set_item_disabled(0, true)
+		_rebuild_component_palette(false)
 		return
 	for item_index: int in range(component_menu_template_keys.size()):
 		var key: String = component_menu_template_keys[item_index]
@@ -892,16 +1839,49 @@ func _rebuild_component_menu() -> void:
 		popup.add_item(_component_menu_label(template), item_index)
 		popup.set_item_metadata(item_index, key)
 		popup.set_item_as_radio_checkable(item_index, true)
+	_rebuild_component_palette(true)
 	_refresh_component_menu_checks()
+
+
+func _rebuild_component_palette(placement_allowed: bool) -> void:
+	component_palette_items.clear()
+	if component_palette_box == null:
+		return
+	_clear_container(component_palette_box)
+	var hint := Label.new()
+	hint.text = _t(&"hardware.component_palette.hint")
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.add_theme_font_size_override("font_size", 12)
+	hint.add_theme_color_override("font_color", MUTED)
+	component_palette_box.add_child(hint)
+	if not placement_allowed:
+		var unavailable := Label.new()
+		unavailable.text = _t(&"hardware.component_menu.unavailable")
+		unavailable.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		unavailable.add_theme_color_override("font_color", MUTED)
+		component_palette_box.add_child(unavailable)
+		return
+	for key: String in component_menu_template_keys:
+		var template: LogicComponent = component_menu_templates[key]
+		var item: Control = ComponentPaletteItemType.new()
+		item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template))
+		item.connect("placement_requested", Callable(self, "_arm_component_template"))
+		component_palette_items[key] = item
+		component_palette_box.add_child(item)
+
+
+func _widest_component_port(component: LogicComponent) -> int:
+	var widest: int = 1
+	for width: int in component.input_port_widths:
+		widest = maxi(widest, width)
+	for width: int in component.output_port_widths:
+		widest = maxi(widest, width)
+	return widest
 
 
 func _component_menu_label(component: LogicComponent) -> String:
 	var label: String = String(component.kind).to_upper() if component.is_basic_gate() else _component_display_name(component)
-	var widest_port: int = 1
-	for width: int in component.input_port_widths:
-		widest_port = maxi(widest_port, width)
-	for width: int in component.output_port_widths:
-		widest_port = maxi(widest_port, width)
+	var widest_port: int = _widest_component_port(component)
 	if widest_port > 1:
 		label += "  ×%d" % widest_port
 	return label
@@ -918,16 +1898,77 @@ func _on_component_menu_item_pressed(item_id: int) -> void:
 	var key: String = String(metadata) if metadata != null else ""
 	if key.is_empty() or not component_menu_templates.has(key):
 		return
+	_arm_component_template(key)
+
+
+func _arm_component_template(key: String) -> void:
+	if key.is_empty() or not component_menu_templates.has(key) or _editor_locked():
+		return
 	if armed_component_template_key == key:
-		_cancel_component_placement()
 		return
 	armed_component_template_key = key
 	var template: LogicComponent = component_menu_templates[key]
 	component_menu_button.text = _t(&"hardware.component_menu.armed", [_component_menu_label(template)])
-	graph.set_component_placement_preview(true, _component_menu_label(template), _component_node_size(template))
+	graph.set_component_placement_preview(
+		true,
+		_create_component_placement_ghost(template),
+		_component_node_size(template)
+	)
 	_refresh_component_menu_checks()
 	status_label.text = _t(&"hardware.status.component_placement_armed", [_component_menu_label(template)])
 	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _create_component_placement_ghost(template: LogicComponent) -> Control:
+	var footprint: Vector2 = _component_node_size(template)
+	var ghost := Control.new()
+	ghost.name = "ComponentPlacementGhost"
+	ghost.custom_minimum_size = footprint
+	ghost.size = footprint
+	ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if template.kind in [
+		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR,
+		LogicComponentType.KIND_XOR, LogicComponentType.KIND_NOR,
+		LogicComponentType.KIND_NOT, LogicComponentType.KIND_INPUT,
+		LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP,
+		LogicComponentType.KIND_CONSTANT, LogicComponentType.KIND_JUNCTION,
+	]:
+		var metrics: Dictionary = _schematic_symbol_metrics(template.kind)
+		var symbol := CircuitComponentSymbolType.new()
+		symbol.position = GRAPH_NODE_CONTENT_ORIGIN
+		symbol.size = Vector2(footprint.x - 14.0, float(metrics["row_height"]))
+		symbol.custom_minimum_size = symbol.size
+		symbol.configure(template.kind, String(template.signal_name), float(metrics["display_height"]))
+		ghost.add_child(symbol)
+		return ghost
+	var rows := VBoxContainer.new()
+	rows.position = GRAPH_NODE_CONTENT_ORIGIN
+	rows.size = Vector2(
+		footprint.x - GRAPH_NODE_CONTENT_ORIGIN.x * 2.0,
+		maxf(30.0, footprint.y - GRAPH_NODE_CONTENT_ORIGIN.y)
+	)
+	rows.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ghost.add_child(rows)
+	var row_count: int = maxi(1, maxi(template.input_count(), template.output_count()))
+	for row_index: int in range(row_count):
+		var has_input: bool = row_index < template.input_count()
+		var has_output: bool = row_index < template.output_count()
+		var row := CircuitModuleRowType.new()
+		row.custom_minimum_size.y = 30.0
+		row.configure(
+			template.kind,
+			template.display_name,
+			String(template.input_port_name(row_index)) if has_input else "",
+			String(template.output_port_name(row_index)) if has_output else "",
+			row_index,
+			row_count,
+			has_input,
+			has_output,
+			template.input_width(row_index) if has_input else 1,
+			template.output_width(row_index) if has_output else 1
+		)
+		rows.add_child(row)
+	return ghost
 
 
 func _refresh_component_menu_checks() -> void:
@@ -940,6 +1981,10 @@ func _refresh_component_menu_checks() -> void:
 			item_index,
 			metadata != null and String(metadata) == armed_component_template_key
 		)
+	for key: String in component_palette_items:
+		var item: Control = component_palette_items[key]
+		if item != null and is_instance_valid(item):
+			item.call("set_armed", key == armed_component_template_key)
 
 
 func _cancel_component_placement(update_status: bool = true) -> void:
@@ -958,7 +2003,22 @@ func _cancel_component_placement(update_status: bool = true) -> void:
 func _on_empty_canvas_pressed(local_position: Vector2) -> void:
 	if armed_component_template_key.is_empty() or _editor_locked():
 		return
-	var template: LogicComponent = component_menu_templates.get(armed_component_template_key)
+	_place_component_template(armed_component_template_key, local_position)
+
+
+func _on_component_drop_requested(template_key: String, local_position: Vector2) -> void:
+	_arm_component_template(template_key)
+	_place_component_template(template_key, local_position)
+
+
+func _on_component_placement_cancel_requested(_reason: StringName) -> void:
+	_cancel_component_placement()
+
+
+func _place_component_template(template_key: String, local_position: Vector2) -> void:
+	if _editor_locked() or not component_menu_templates.has(template_key):
+		return
+	var template: LogicComponent = component_menu_templates.get(template_key)
 	if template == null:
 		_cancel_component_placement()
 		return
@@ -1017,7 +2077,7 @@ func _add_component_node(component: LogicComponent, position: Vector2) -> void:
 	var node := GraphNode.new()
 	node.name = component.id
 	node.title = ""
-	node.draggable = true
+	node.draggable = not hint_mode
 	node.resizable = false
 	node.z_index = 2
 	node.custom_minimum_size = _component_node_size(component)
@@ -1043,7 +2103,7 @@ func _component_node_size(component: LogicComponent) -> Vector2:
 	match component.kind:
 		LogicComponentType.KIND_JUNCTION:
 			return Vector2(62.0, 34.0)
-		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_NOR:
+		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_XOR, LogicComponentType.KIND_NOR:
 			return Vector2(124.0, 78.0)
 		LogicComponentType.KIND_NOT:
 			return Vector2(96.0, 48.0)
@@ -1058,17 +2118,9 @@ func _component_node_size(component: LogicComponent) -> Vector2:
 
 
 func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
-	var height: float = 50.0
-	var row_height: float = 50.0
-	if component.kind in [LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_NOR]:
-		height = 66.0
-		row_height = 22.0
-	elif component.kind == LogicComponentType.KIND_NOT:
-		height = 36.0
-		row_height = 36.0
-	elif component.kind == LogicComponentType.KIND_JUNCTION:
-		height = 28.0
-		row_height = 28.0
+	var metrics: Dictionary = _schematic_symbol_metrics(component.kind)
+	var height: float = float(metrics["display_height"])
+	var row_height: float = float(metrics["row_height"])
 	var symbol := CircuitComponentSymbolType.new()
 	symbol.custom_minimum_size = Vector2(_component_node_size(component).x - 14.0, row_height)
 	symbol.configure(component.kind, String(component.signal_name), height)
@@ -1076,7 +2128,7 @@ func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
 	component_symbols[component.id] = symbol
 	var neutral: Color = SIGNAL_LOW
 	match component.kind:
-		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_NOR:
+		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_XOR, LogicComponentType.KIND_NOR:
 			node.set_slot(0, true, PORT_TYPE, neutral, false, PORT_TYPE, neutral, null, null, false)
 			_add_empty_schematic_row(node, row_height)
 			node.set_slot(1, false, PORT_TYPE, neutral, true, PORT_TYPE, neutral, null, null, false)
@@ -1095,6 +2147,19 @@ func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
 			symbol.free()
 			component_symbols.erase(component.id)
 			_add_generic_component_slots(node, component)
+
+
+func _schematic_symbol_metrics(kind: StringName) -> Dictionary:
+	if kind in [
+		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR,
+		LogicComponentType.KIND_XOR, LogicComponentType.KIND_NOR,
+	]:
+		return {"display_height": 66.0, "row_height": 22.0}
+	if kind == LogicComponentType.KIND_NOT:
+		return {"display_height": 36.0, "row_height": 36.0}
+	if kind == LogicComponentType.KIND_JUNCTION:
+		return {"display_height": 28.0, "row_height": 28.0}
+	return {"display_height": 50.0, "row_height": 50.0}
 
 
 func _add_generic_component_slots(node: GraphNode, component: LogicComponent) -> void:
@@ -1625,9 +2690,9 @@ func _create_branch_transaction(
 	trial.disconnect_ports(original["from_node"], original["from_port"], original["to_node"], original["to_port"])
 	trial.add_component(junction.duplicate_component())
 	var added: Array[Dictionary] = [
-		_wire_data(original["from_node"], original["from_port"], junction_id, 0),
-		_wire_data(junction_id, 0, original["to_node"], original["to_port"]),
-		_wire_data(junction_id, 0, to_node, to_port),
+		_wire_data(original["from_node"], original["from_port"], junction_id, 0, original["color_index"]),
+		_wire_data(junction_id, 0, original["to_node"], original["to_port"], original["color_index"]),
+		_wire_data(junction_id, 0, to_node, to_port, original["color_index"]),
 	]
 	for wire: Dictionary in added:
 		var diagnostic: Dictionary = trial.connect_ports_detailed(wire["from_node"], wire["from_port"], wire["to_node"], wire["to_port"])
@@ -1671,9 +2736,9 @@ func _create_branch_waypoint_transaction(
 	trial.add_component(split_junction.duplicate_component())
 	trial.add_component(endpoint_junction.duplicate_component())
 	var added: Array[Dictionary] = [
-		_wire_data(original["from_node"], original["from_port"], split_id, 0),
-		_wire_data(split_id, 0, original["to_node"], original["to_port"]),
-		_wire_data(split_id, 0, endpoint_id, 0),
+		_wire_data(original["from_node"], original["from_port"], split_id, 0, original["color_index"]),
+		_wire_data(split_id, 0, original["to_node"], original["to_port"], original["color_index"]),
+		_wire_data(split_id, 0, endpoint_id, 0, original["color_index"]),
 	]
 	for wire: Dictionary in added:
 		var diagnostic: Dictionary = trial.connect_ports_detailed(wire["from_node"], wire["from_port"], wire["to_node"], wire["to_port"])
@@ -1707,7 +2772,9 @@ func _move_connection_endpoint(connection: Dictionary, to_node: StringName, to_p
 	)
 	if not current_circuit.has_connection(original["from_node"], original["from_port"], original["to_node"], original["to_port"]):
 		return false
-	var replacement: Dictionary = _wire_data(original["from_node"], original["from_port"], to_node, to_port)
+	var replacement: Dictionary = _wire_data(
+		original["from_node"], original["from_port"], to_node, to_port, original["color_index"]
+	)
 	var trial: LogicCircuit = current_circuit.duplicate_circuit()
 	trial.disconnect_ports(original["from_node"], original["from_port"], original["to_node"], original["to_port"])
 	var diagnostic: Dictionary = trial.connect_ports_detailed(replacement["from_node"], replacement["from_port"], replacement["to_node"], replacement["to_port"])
@@ -1733,7 +2800,9 @@ func _move_connection_endpoint_to_empty(connection: Dictionary, release_position
 	var junction: LogicComponent = _new_junction(
 		junction_id, _component_output_width(original["from_node"], original["from_port"])
 	)
-	var replacement: Dictionary = _wire_data(original["from_node"], original["from_port"], junction_id, 0)
+	var replacement: Dictionary = _wire_data(
+		original["from_node"], original["from_port"], junction_id, 0, original["color_index"]
+	)
 	var trial: LogicCircuit = current_circuit.duplicate_circuit()
 	trial.disconnect_ports(original["from_node"], original["from_port"], original["to_node"], original["to_port"])
 	trial.add_component(junction.duplicate_component())
@@ -1776,9 +2845,9 @@ func _move_connection_endpoint_to_wire(
 		junction_id, _component_output_width(target["from_node"], target["from_port"])
 	)
 	var added: Array[Dictionary] = [
-		_wire_data(target["from_node"], target["from_port"], junction_id, 0),
-		_wire_data(junction_id, 0, target["to_node"], target["to_port"]),
-		_wire_data(junction_id, 0, original["to_node"], original["to_port"]),
+		_wire_data(target["from_node"], target["from_port"], junction_id, 0, target["color_index"]),
+		_wire_data(junction_id, 0, target["to_node"], target["to_port"], target["color_index"]),
+		_wire_data(junction_id, 0, original["to_node"], original["to_port"], original["color_index"]),
 	]
 	var trial: LogicCircuit = current_circuit.duplicate_circuit()
 	trial.disconnect_ports(original["from_node"], original["from_port"], original["to_node"], original["to_port"])
@@ -1813,6 +2882,7 @@ func _is_hover_connection_valid(from_node: StringName, from_port: int, to_node: 
 
 
 func _on_connection_drag_started(from_node: StringName, from_port: int, is_output: bool) -> void:
+	_cancel_component_placement(false)
 	builtin_connection_drag_active = true
 	graph.begin_builtin_connection_preview(from_node, from_port, is_output)
 	status_label.text = _t(&"hardware.status.cable_active", [_t(&"hardware.port.input") if is_output else _t(&"hardware.port.output")])
@@ -1842,6 +2912,13 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 	var key_event := event as InputEventKey
 	if _keyboard_focus_accepts_text():
 		return false
+	var editor_action: bool = (
+		(key_event.ctrl_pressed or key_event.meta_pressed)
+		and key_event.keycode in [KEY_Z, KEY_Y, KEY_A, KEY_X, KEY_C, KEY_V, KEY_F, KEY_E, KEY_R]
+	) or key_event.keycode in [KEY_ESCAPE, KEY_W, KEY_A, KEY_S, KEY_D, KEY_F4, KEY_F5, KEY_F6] \
+		or (key_event.keycode >= KEY_1 and key_event.keycode <= KEY_9)
+	if editor_action:
+		_cancel_component_placement(false)
 	if key_event.ctrl_pressed or key_event.meta_pressed:
 		if key_event.echo:
 			return false
@@ -1867,7 +2944,19 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 			KEY_V:
 				_paste_selection()
 				return true
+			KEY_F:
+				_color_hovered_wire(false)
+				return true
+			KEY_E:
+				_color_hovered_wire(true)
+				return true
+			KEY_R:
+				_sample_hovered_wire_color()
+				return true
 		return false
+	if key_event.keycode >= KEY_1 and key_event.keycode <= KEY_9:
+		_set_active_wire_color(int(key_event.keycode - KEY_1))
+		return true
 	match key_event.keycode:
 		KEY_ESCAPE:
 			_cancel_connection_drag()
@@ -1901,6 +2990,119 @@ func _keyboard_focus_accepts_text() -> bool:
 		return true
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	return focused is LineEdit or focused is TextEdit
+
+
+func _color_hovered_wire(whole_net: bool) -> void:
+	if graph == null:
+		return
+	var hovered: Dictionary = graph.hovered_connection_snapshot()
+	if hovered.is_empty():
+		status_label.text = _t(&"hardware.wire_color.hover_required")
+		status_label.add_theme_color_override("font_color", WARNING)
+		return
+	var members: Array[Dictionary] = []
+	if whole_net:
+		members = _connected_wire_net(hovered)
+	else:
+		members.append(_wire_data(
+			StringName(hovered.get("from_node", &"")), int(hovered.get("from_port", 0)),
+			StringName(hovered.get("to_node", &"")), int(hovered.get("to_port", 0))
+		))
+	var before: Array[Dictionary] = []
+	var after: Array[Dictionary] = []
+	for wire: Dictionary in members:
+		var previous: int = int(wire.get("color_index", WirePaletteType.DEFAULT_INDEX))
+		if previous == active_wire_color_index:
+			continue
+		before.append(wire.duplicate())
+		var recolored: Dictionary = wire.duplicate()
+		recolored["color_index"] = active_wire_color_index
+		after.append(recolored)
+		graph.set_connection_color_index(
+			StringName(wire["from_node"]), int(wire["from_port"]),
+			StringName(wire["to_node"]), int(wire["to_port"]), active_wire_color_index
+		)
+	if after.is_empty():
+		status_label.text = _t(&"hardware.wire_color.unchanged")
+		status_label.add_theme_color_override("font_color", MUTED)
+		return
+	_push_history_action({
+		"kind": &"wire_color_net" if whole_net else &"wire_color_segment",
+		"colors_before": before,
+		"colors_after": after,
+	})
+	status_label.text = _t(
+		&"hardware.wire_color.net_done" if whole_net else &"hardware.wire_color.segment_done",
+		[after.size()]
+	)
+	status_label.add_theme_color_override("font_color", WirePaletteType.color(active_wire_color_index))
+
+
+func _sample_hovered_wire_color() -> void:
+	if graph == null:
+		return
+	var hovered: Dictionary = graph.hovered_connection_snapshot()
+	if hovered.is_empty():
+		status_label.text = _t(&"hardware.wire_color.hover_required")
+		status_label.add_theme_color_override("font_color", WARNING)
+		return
+	_set_active_wire_color(graph.get_connection_color_index(
+		StringName(hovered.get("from_node", &"")), int(hovered.get("from_port", 0)),
+		StringName(hovered.get("to_node", &"")), int(hovered.get("to_port", 0))
+	))
+
+
+func _connected_wire_net(seed: Dictionary) -> Array[Dictionary]:
+	var endpoints: Dictionary[String, bool] = {}
+	_add_wire_endpoint(endpoints, StringName(seed.get("from_node", &"")), int(seed.get("from_port", 0)), true)
+	_add_wire_endpoint(endpoints, StringName(seed.get("to_node", &"")), int(seed.get("to_port", 0)), false)
+	var included: Dictionary[String, Dictionary] = {}
+	var changed: bool = true
+	while changed:
+		changed = false
+		for connection: Dictionary in graph.get_connection_list():
+			var from_node := StringName(connection.get("from_node", &""))
+			var from_port: int = int(connection.get("from_port", 0))
+			var to_node := StringName(connection.get("to_node", &""))
+			var to_port: int = int(connection.get("to_port", 0))
+			var from_key: String = _wire_endpoint_key(from_node, from_port, true)
+			var to_key: String = _wire_endpoint_key(to_node, to_port, false)
+			if not endpoints.has(from_key) and not endpoints.has(to_key):
+				continue
+			var wire: Dictionary = _wire_data(from_node, from_port, to_node, to_port)
+			var wire_key: String = _workbench_wire_id(wire)
+			if not included.has(wire_key):
+				included[wire_key] = wire
+				changed = true
+			var endpoint_count: int = endpoints.size()
+			_add_wire_endpoint(endpoints, from_node, from_port, true)
+			_add_wire_endpoint(endpoints, to_node, to_port, false)
+			changed = changed or endpoints.size() != endpoint_count
+	var result: Array[Dictionary] = []
+	var keys: Array[String] = []
+	for key: String in included:
+		keys.append(key)
+	keys.sort()
+	for key: String in keys:
+		result.append(included[key])
+	return result
+
+
+func _add_wire_endpoint(
+		endpoints: Dictionary[String, bool],
+		component_id: StringName,
+		port: int,
+		is_output: bool
+	) -> void:
+	endpoints[_wire_endpoint_key(component_id, port, is_output)] = true
+	var component: LogicComponent = component_catalog.get(component_id)
+	if component != null and component.is_routing_node():
+		endpoints[_wire_endpoint_key(component_id, 0, false)] = true
+		endpoints[_wire_endpoint_key(component_id, 0, true)] = true
+
+
+func _wire_endpoint_key(component_id: StringName, port: int, is_output: bool) -> String:
+	return "%s:%s:%d" % ["O" if is_output else "I", component_id, port]
 
 
 func _pan_graph_view(direction: Vector2) -> void:
@@ -2085,7 +3287,8 @@ func _paste_selection() -> bool:
 			continue
 		var mapped: Dictionary = _wire_data(
 			id_map[old_from], int(wire.get("from_port", -1)),
-			id_map[old_to], int(wire.get("to_port", -1))
+			id_map[old_to], int(wire.get("to_port", -1)),
+			int(wire.get("color_index", WirePaletteType.DEFAULT_INDEX))
 		)
 		var diagnostic: Dictionary = trial.connect_ports_detailed(
 			mapped["from_node"], mapped["from_port"], mapped["to_node"], mapped["to_port"]
@@ -2235,6 +3438,8 @@ func _push_history_action(action: Dictionary) -> void:
 	stored["removed_components"] = removed_components
 	stored["positions_before"] = (action.get("positions_before", {}) as Dictionary).duplicate()
 	stored["positions_after"] = (action.get("positions_after", {}) as Dictionary).duplicate()
+	stored["colors_before"] = _duplicate_wire_entries(action.get("colors_before", []))
+	stored["colors_after"] = _duplicate_wire_entries(action.get("colors_after", []))
 	if action.has("selection_before"):
 		stored["selection_before"] = (action.get("selection_before", []) as Array).duplicate()
 	else:
@@ -2245,6 +3450,7 @@ func _push_history_action(action: Dictionary) -> void:
 		stored.erase("selection_after")
 	wire_history.append(stored)
 	redo_history.clear()
+	_queue_workbench_save()
 
 
 func _duplicate_wire_entries(source: Array) -> Array[Dictionary]:
@@ -2314,6 +3520,19 @@ func _apply_history_action(action: Dictionary, forward: bool) -> bool:
 			continue
 		node.position_offset = position
 		changed = true
+	var colors: Array = action.get("colors_after", []) if forward else action.get("colors_before", [])
+	for wire: Dictionary in colors:
+		if not current_circuit.has_connection(
+			StringName(wire.get("from_node", &"")), int(wire.get("from_port", 0)),
+			StringName(wire.get("to_node", &"")), int(wire.get("to_port", 0))
+		):
+			continue
+		graph.set_connection_color_index(
+			StringName(wire.get("from_node", &"")), int(wire.get("from_port", 0)),
+			StringName(wire.get("to_node", &"")), int(wire.get("to_port", 0)),
+			int(wire.get("color_index", WirePaletteType.DEFAULT_INDEX))
+		)
+		changed = true
 	var selection_key: String = "selection_after" if forward else "selection_before"
 	if action.has(selection_key):
 		var selected_ids: Array[StringName] = []
@@ -2348,6 +3567,7 @@ func _after_history_replay(action: Dictionary, message: String) -> void:
 		status_label.text = message
 		status_label.add_theme_color_override("font_color", ACCENT)
 	_sync_selection_feedback()
+	_queue_workbench_save()
 
 
 func _capture_node_positions() -> Dictionary:
@@ -2519,6 +3739,11 @@ func _on_component_gui_input(event: InputEvent, component_id: StringName) -> voi
 	if _editor_locked() or not event is InputEventMouseButton:
 		return
 	var mouse_event := event as InputEventMouseButton
+	if not armed_component_template_key.is_empty() and mouse_event.pressed:
+		_cancel_component_placement(false)
+		if mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+			get_viewport().set_input_as_handled()
+			return
 	if (
 		mouse_event.button_index == MOUSE_BUTTON_LEFT
 		and mouse_event.pressed
@@ -2607,13 +3832,20 @@ func _wire_data(
 		from_node: StringName,
 		from_port: int,
 		to_node: StringName,
-		to_port: int
+		to_port: int,
+		color_index: int = -1
 	) -> Dictionary:
+	var resolved_color: int = color_index
+	if resolved_color < 0:
+		resolved_color = graph.get_connection_color_index(from_node, from_port, to_node, to_port) \
+			if graph != null and graph.is_node_connected(from_node, from_port, to_node, to_port) \
+			else active_wire_color_index
 	return {
 		"from_node": from_node,
 		"from_port": from_port,
 		"to_node": to_node,
 		"to_port": to_port,
+		"color_index": WirePaletteType.normalized_index(resolved_color),
 	}
 
 
@@ -2625,6 +3857,10 @@ func _add_visible_wire(wire: Dictionary) -> bool:
 		push_error("Visible wire commit rejected: %s" % error)
 		return false
 	graph.connect_node(wire["from_node"], int(wire["from_port"]), wire["to_node"], int(wire["to_port"]))
+	graph.set_connection_color_index(
+		wire["from_node"], int(wire["from_port"]), wire["to_node"], int(wire["to_port"]),
+		int(wire.get("color_index", active_wire_color_index))
+	)
 	return true
 
 
@@ -2634,6 +3870,9 @@ func _remove_visible_wire(wire: Dictionary) -> bool:
 	):
 		return false
 	graph.disconnect_node(wire["from_node"], int(wire["from_port"]), wire["to_node"], int(wire["to_port"]))
+	graph.remove_connection_presentation(
+		wire["from_node"], int(wire["from_port"]), wire["to_node"], int(wire["to_port"])
+	)
 	return true
 
 
@@ -2684,7 +3923,7 @@ func _new_junction(component_id: StringName, width: int) -> LogicComponent:
 
 
 func _editor_locked() -> bool:
-	return sealing or current_phase in [&"sealed", &"campaign", &"prologue_complete"]
+	return hint_mode or sealing or current_phase in [&"sealed", &"campaign", &"prologue_complete"]
 
 
 func _component_output_width(component_id: StringName, port: int) -> int:
@@ -2722,8 +3961,15 @@ func _refresh_live_signals() -> void:
 	live_state = CircuitAnalyzerType.new().analyze(circuit, external_inputs)
 	live_state_key = next_key
 	live_analysis_count += 1
-	_apply_live_state(live_state)
 	_update_live_diagnostics(live_state)
+	var should_animate: bool = animate_next_live_refresh
+	animate_next_live_refresh = false
+	if should_animate and live_state.is_valid():
+		var trace: CircuitTrace = CircuitSimulatorType.new().evaluate(circuit, external_inputs)
+		if trace.is_valid() and not trace.events.is_empty():
+			_play_trace(trace)
+			return
+	_apply_live_state(live_state)
 
 
 func _refresh_prologue_live_signals() -> void:
@@ -2739,8 +3985,13 @@ func _refresh_prologue_live_signals() -> void:
 	)
 	live_state_key = next_key
 	live_analysis_count += 1
-	_apply_prologue_live_result(prologue_live_result, false)
 	_update_prologue_live_diagnostics(prologue_live_result)
+	var should_animate: bool = animate_next_live_refresh
+	animate_next_live_refresh = false
+	if should_animate and prologue_live_result.is_valid() and not prologue_live_result.events.is_empty():
+		_play_prologue_events(prologue_live_result.events, prologue_live_result)
+		return
+	_apply_prologue_live_result(prologue_live_result, false)
 
 
 func _variant_input_signature(values: Dictionary) -> String:
@@ -2989,6 +4240,8 @@ func _mark_trace_stale() -> void:
 
 
 func _auto_layout() -> void:
+	if _editor_locked():
+		return
 	var before: Dictionary = _capture_node_positions()
 	history_replaying = true
 	for component_id: StringName in component_nodes:
@@ -3018,6 +4271,7 @@ func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
 	current_trace = null
 	_update_input_button_text()
 	live_state_key = ""
+	animate_next_live_refresh = true
 	_schedule_live_refresh()
 	if current_phase == &"tutorial":
 		tutorial_changed_input = true
@@ -3211,11 +4465,17 @@ func _run_prologue_official() -> void:
 		status_label.text = _t(&"hardware.status.official_pass")
 		status_label.add_theme_color_override("font_color", GOOD)
 		if StringName(current_level_definition.get("seal_name", &"")).is_empty():
+			var newly_completed: bool = not bool(completed_levels.get(current_level_id, false))
+			_save_active_workbench()
 			player_content.mark_completed(current_level_id)
 			current_phase = &"prologue_complete"
 			prologue_level_completed_view = true
 			graph.branch_edit_enabled = false
 			_build_prologue_complete_side()
+			_refresh_workbench_menu()
+			_refresh_hint_controls()
+			if newly_completed:
+				call_deferred("_show_level_completion", current_level_id)
 		else:
 			seal_button.disabled = false
 			seal_button.text = _t(&"hardware.prologue.seal_verified", [
@@ -3334,6 +4594,7 @@ func _finish_encapsulation() -> void:
 	if not sealing_level_id.is_empty():
 		_finish_prologue_encapsulation()
 		return
+	_save_active_workbench()
 	sealing = false
 	encapsulation_effect.finish()
 	current_phase = &"sealed"
@@ -3348,12 +4609,17 @@ func _finish_encapsulation() -> void:
 		sealed_half_adder.circuit_snapshot
 	)
 	player_content.install_reusable(&"half_adder", reusable, level_catalog)
+	_refresh_workbench_menu()
+	_refresh_hint_controls()
+	_show_level_completion(&"half_adder")
 
 
 func _build_sealed_graph() -> void:
-	_create_graph()
 	component_catalog.clear()
+	level_palette_templates.clear()
 	layout_positions.clear()
+	_create_graph()
+	graph.branch_edit_enabled = false
 	var node := GraphNode.new()
 	node.name = &"HalfAdder"
 	node.title = _t(&"hardware.sealed.node_title")
@@ -3381,7 +4647,12 @@ func _build_sealed_graph() -> void:
 
 
 func _open_campaign_map() -> void:
+	_dismiss_level_completion()
+	_save_active_workbench()
 	_stop_playback()
+	hint_mode = false
+	hint_level = 0
+	hint_return_level_id = &""
 	current_phase = &"campaign"
 	current_level_id = &""
 	current_level_definition.clear()
@@ -3391,15 +4662,24 @@ func _open_campaign_map() -> void:
 	phase_label.text = _t(&"hardware.prologue.map.phase")
 	current_circuit = LogicCircuitType.new()
 	component_catalog.clear()
+	level_palette_templates.clear()
 	layout_positions.clear()
+	active_workbench_namespace = &""
+	active_workbench_name = ""
+	workbench_seed_snapshot.clear()
+	workbench_answer_wires.clear()
+	pending_workbench_wires.clear()
 	_create_graph()
 	graph.branch_edit_enabled = false
+	graph.hide()
 	_build_campaign_map_view()
 	_build_campaign_side()
 	status_label.text = _t(&"hardware.prologue.map.status")
 	status_label.add_theme_color_override("font_color", ACCENT)
 	trace_caption_label.text = _t(&"hardware.prologue.map.trace")
 	diagnostics_label.text = _t(&"hardware.prologue.session_only")
+	_refresh_workbench_menu()
+	_refresh_hint_controls()
 	_layout_desktop_windows()
 
 
@@ -3475,6 +4755,9 @@ func _build_campaign_map_view() -> void:
 	campaign_map_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	campaign_map_view.z_index = 10
 	graph_stack.add_child(campaign_map_view)
+	# GUI picking follows sibling order. Keep the full-rect map below desktop
+	# windows so their header, scroll area, and controls receive real input.
+	graph_stack.move_child(campaign_map_view, mini(1, graph_stack.get_child_count() - 1))
 	var branch_descriptors: Array[Dictionary] = []
 	for branch_id: StringName in level_catalog.branch_ids():
 		branch_descriptors.append({
@@ -3559,6 +4842,7 @@ func _start_prologue_level(level_id: StringName) -> void:
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	_dismiss_level_completion()
 	var level: Dictionary = level_catalog.definition(level_id, component_library)
 	if level.is_empty() or not bool(level.get("available", false)):
 		status_label.text = _t(&"hardware.prologue.map.missing", [
@@ -3582,17 +4866,21 @@ func _start_prologue_level(level_id: StringName) -> void:
 	pending_sealed_circuit = null
 	phase_label.text = _t(StringName(level["title_key"]))
 	_load_prologue_inventory(level)
+	var locked_topology: bool = bool(level.get("locked_topology", false))
+	_prepare_level_workbench(level.get("reference_wires", []), locked_topology)
 	_create_graph()
 	_build_component_nodes()
+	_load_pending_workbench_wires()
 	graph.zoom = float(level.get("initial_zoom", 1.0))
-	if bool(level.get("locked_topology", false)):
-		_load_reference_wires(level)
+	if locked_topology:
 		graph.branch_edit_enabled = false
 	_build_prologue_side()
 	status_label.text = _t(&"hardware.prologue.level.status")
 	status_label.add_theme_color_override("font_color", MUTED)
 	trace_caption_label.text = _t(&"hardware.prologue.level.trace")
 	diagnostics_label.text = _t(&"hardware.prologue.level.zero_wire_delay")
+	_refresh_workbench_menu()
+	_refresh_hint_controls()
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
 
@@ -3600,12 +4888,15 @@ func _start_prologue_level(level_id: StringName) -> void:
 func _load_prologue_inventory(level: Dictionary) -> void:
 	current_circuit = LogicCircuitType.new()
 	component_catalog.clear()
+	level_palette_templates.clear()
 	junction_counter = 0
 	layout_positions.clear()
 	for component_id: Variant in (level.get("layout", {}) as Dictionary):
 		layout_positions[StringName(component_id)] = level["layout"][component_id]
 	for component: LogicComponent in level.get("components", []):
 		_add_catalog_component(component.duplicate_component())
+	for template: LogicComponent in level.get("palette_components", []):
+		level_palette_templates.append(template.duplicate_component())
 
 
 func _load_reference_wires(level: Dictionary) -> void:
@@ -3877,6 +5168,7 @@ func _on_prologue_word_changed(_value: float, _name: StringName) -> void:
 func _on_prologue_input_changed() -> void:
 	_stop_playback()
 	live_state_key = ""
+	animate_next_live_refresh = true
 	_schedule_live_refresh()
 	status_label.text = _t(&"hardware.status.input_changed")
 	status_label.add_theme_color_override("font_color", ACCENT)
@@ -3927,13 +5219,18 @@ func _seal_prologue_component() -> void:
 
 
 func _finish_prologue_encapsulation() -> void:
+	_save_active_workbench()
 	var finished_level: StringName = sealing_level_id
 	var component_name := StringName(current_level_definition.get("seal_name", &""))
 	var behavior_kind := StringName(current_level_definition.get("seal_kind", &""))
 	var reusable := ReusableComponentType.new(
 		component_name, behavior_kind, finished_level, pending_sealed_circuit
 	)
-	player_content.install_reusable(finished_level, reusable, level_catalog)
+	var invalidated_levels: Array[StringName] = player_content.install_reusable(
+		finished_level, reusable, level_catalog
+	)
+	if not invalidated_levels.is_empty():
+		SystemChapter.invalidate_prologue()
 	sealing = false
 	sealing_level_id = &""
 	pending_sealed_circuit = null
@@ -3946,10 +5243,14 @@ func _finish_prologue_encapsulation() -> void:
 	status_label.text = _t(&"hardware.prologue.created", [component_name])
 	status_label.add_theme_color_override("font_color", GOOD)
 	trace_caption_label.text = _t(&"hardware.prologue.sealed_trace", [component_name])
+	_refresh_workbench_menu()
+	_refresh_hint_controls()
+	_show_level_completion(finished_level)
 
 
 func _invalidate_downstream_progress(changed_level: StringName) -> void:
 	player_content.invalidate_dependents(changed_level, level_catalog)
+	SystemChapter.invalidate_prologue()
 
 
 func _library_names_for_level(level_id: StringName) -> Array[StringName]:
@@ -3957,6 +5258,8 @@ func _library_names_for_level(level_id: StringName) -> Array[StringName]:
 
 
 func _build_prologue_complete_side(component_name: StringName = &"") -> void:
+	if current_level_id == &"load_store":
+		SystemChapter.capture_prologue(component_library)
 	_clear_container(task_box)
 	task_box.add_child(_side_heading(
 		_t(&"hardware.prologue.complete.title"), _t(&"hardware.prologue.complete.subtitle")
@@ -3987,6 +5290,8 @@ func _build_prologue_complete_side(component_name: StringName = &"") -> void:
 			"completion_action_key", &"hardware.prologue.open_locality"
 		)))
 		locality_button.pressed.connect(func() -> void:
+			if completion_scene == "res://src/system_lab/system_lab.tscn":
+				SystemChapter.capture_prologue(component_library)
 			get_tree().change_scene_to_file(completion_scene)
 		)
 		task_box.add_child(locality_button)
@@ -3994,7 +5299,6 @@ func _build_prologue_complete_side(component_name: StringName = &"") -> void:
 
 func _play_trace(trace: CircuitTrace, allow_graph_animation: bool = true) -> void:
 	current_trace = trace
-	_apply_trace_signal_states(trace)
 	playback_index = 0
 	playback_elapsed = 0.0
 	_build_playback_batches(trace)
@@ -4009,7 +5313,10 @@ func _play_trace(trace: CircuitTrace, allow_graph_animation: bool = true) -> voi
 		trace_caption_label.text = _t(&"hardware.trace.blocked", [_trace_error_text(trace, 0)])
 		_stop_playback()
 	elif playback_running:
+		graph.clear_connection_flows()
 		trace_caption_label.text = _t(&"hardware.trace.first_wave", [playback_batches.size(), _playback_batch_summary(playback_batches[0])])
+	else:
+		_apply_trace_signal_states(trace)
 
 
 func _play_prologue_events(
@@ -4020,8 +5327,6 @@ func _play_prologue_events(
 	) -> void:
 	current_trace = null
 	prologue_live_result = result
-	if result != null:
-		_apply_prologue_live_result(result, not _events_have_state_transition(events))
 	if _is_storage_level() and _events_have_state_transition(events):
 		_prepare_storage_playback_state(initial_runtime_state, initial_prior_outputs)
 	playback_index = 0
@@ -4038,9 +5343,12 @@ func _play_prologue_events(
 		trace_caption_label.text = _t(&"hardware.trace.blocked", [_prologue_result_errors(result)])
 		playback_running = false
 	elif playback_running:
+		graph.clear_connection_flows()
 		trace_caption_label.text = _t(&"hardware.trace.first_wave", [
 			playback_batches.size(), _playback_batch_summary(playback_batches[0])
 		])
+	else:
+		_apply_prologue_live_result(result, not _events_have_state_transition(events))
 
 
 func _events_have_state_transition(events: Array) -> bool:
@@ -4201,8 +5509,14 @@ func _show_playback_batch(batch: Dictionary, progress: float) -> void:
 			wire_pulses.append({
 				"path": path, "progress": progress, "value": wire_high,
 				"display": _event_value_text(event),
+				"color": WirePaletteType.color(graph.get_connection_color_index(
+					event.from_component, event.from_port, event.to_component, event.to_port
+				)),
 			})
-			graph.set_connection_activity(event.from_component, event.from_port, event.to_component, event.to_port, sin(progress * PI))
+			graph.set_connection_flow(
+				event.from_component, event.from_port, event.to_component, event.to_port,
+				_event_logic_state(event), progress
+			)
 			active_connections.append(event.to_dictionary())
 			_activate_routing_endpoint(event.from_component, wire_high)
 			_activate_routing_endpoint(event.to_component, wire_high)
@@ -4232,6 +5546,7 @@ func _show_playback_batch(batch: Dictionary, progress: float) -> void:
 	trace_overlay.show_parallel(wire_pulses)
 	if progress >= 1.0:
 		for event: Variant in batch.get("events", []):
+			_commit_event_presentation(event)
 			if event is PrologueEvent and event.kind == &"state_transition":
 				_commit_state_event_readout(event as PrologueEvent)
 
@@ -4277,6 +5592,49 @@ func _event_is_high(event: Variant) -> bool:
 	return bool(event.value)
 
 
+func _event_logic_state(event: Variant) -> int:
+	if event is PrologueEvent:
+		return _digital_logic_state((event as PrologueEvent).value)
+	return LogicSignalType.HIGH if bool(event.value) else LogicSignalType.LOW
+
+
+func _commit_event_presentation(event: Variant) -> void:
+	if event == null:
+		return
+	if event.kind == &"wire_signal":
+		graph.set_connection_signal_state(
+			event.from_component, event.from_port, event.to_component, event.to_port,
+			_event_logic_state(event)
+		)
+		var target: GraphNode = component_nodes.get(event.to_component)
+		if target != null and event.to_port >= 0 and event.to_port < target.get_input_port_count():
+			target.set_slot_color_left(
+				target.get_input_port_slot(event.to_port), _signal_color(_event_logic_state(event))
+			)
+		return
+	var component_id: StringName = event.component_id
+	var component: LogicComponent = component_catalog.get(component_id)
+	if component == null:
+		return
+	if event is CircuitEvent:
+		var input_states: Array[int] = []
+		for value: bool in (event as CircuitEvent).input_values:
+			input_states.append(LogicSignalType.HIGH if value else LogicSignalType.LOW)
+		_set_component_port_states(component_id, _event_logic_state(event), input_states)
+		return
+	if event is PrologueEvent:
+		var prologue_event := event as PrologueEvent
+		var outputs: Array[DigitalValue] = []
+		for port: int in range(component.output_count()):
+			outputs.append(DigitalValueType.high_z(component.output_width(port)))
+		var output_port: int = _event_output_port(event)
+		if output_port >= 0 and output_port < outputs.size():
+			outputs[output_port] = prologue_event.value.duplicate_value()
+		_set_component_digital_port_states(
+			component_id, outputs, prologue_event.input_values
+		)
+
+
 func _event_value_text(event: Variant) -> String:
 	if event is PrologueEvent:
 		var digital: DigitalValue = (event as PrologueEvent).value
@@ -4313,14 +5671,17 @@ func _connection_curve(from_node: StringName, from_port: int, to_node: StringNam
 	var target: GraphNode = component_nodes.get(to_node)
 	if source == null or target == null or from_port >= source.get_output_port_count() or to_port >= target.get_input_port_count():
 		return PackedVector2Array()
+	var graph_curve: PackedVector2Array = graph.connection_curve({
+		"from_node": from_node,
+		"from_port": from_port,
+		"to_node": to_node,
+		"to_port": to_port,
+	})
+	var overlay_curve := PackedVector2Array()
 	var overlay_inverse: Transform2D = trace_overlay.get_global_transform().affine_inverse()
-	var start: Vector2 = overlay_inverse * (
-		source.get_global_transform() * source.get_output_port_position(from_port)
-	)
-	var finish: Vector2 = overlay_inverse * (
-		target.get_global_transform() * target.get_input_port_position(to_port)
-	)
-	return graph.get_connection_line(start, finish)
+	for point: Vector2 in graph_curve:
+		overlay_curve.append(overlay_inverse * (graph.get_global_transform() * point))
+	return overlay_curve
 
 
 func _finish_playback() -> void:
@@ -4392,6 +5753,7 @@ func _on_speed_selected(index: int) -> void:
 func _reset_connection_activity() -> void:
 	if graph == null:
 		return
+	graph.clear_connection_flows()
 	for connection: Dictionary in graph.get_connection_list():
 		graph.set_connection_activity(connection["from_node"], connection["from_port"], connection["to_node"], connection["to_port"], 0.0)
 	active_connections.clear()
@@ -4595,8 +5957,11 @@ func _update_tutorial_checklist() -> void:
 		label.text = ("✓  " if states[key] else "○  ") + base_text
 		label.add_theme_color_override("font_color", GOOD if states[key] else MUTED)
 	var complete: bool = tutorial_created_wire and tutorial_changed_input and tutorial_valid_run and tutorial_removed_wire and tutorial_reconnected_wire
+	var newly_completed: bool = complete and not bool(completed_levels.get(&"tutorial", false))
 	if complete:
 		completed_levels[&"tutorial"] = true
+	if newly_completed:
+		call_deferred("_show_level_completion", &"tutorial")
 	if tutorial_next_button != null:
 		tutorial_next_button.disabled = not complete
 		tutorial_next_button.text = _t(&"hardware.tutorial.begin_challenge") if complete else _t(&"hardware.tutorial.complete_five")
@@ -4615,6 +5980,8 @@ func _component_tooltip(component: LogicComponent) -> String:
 			description = _t(&"hardware.tooltip.and")
 		LogicComponentType.KIND_OR:
 			description = _t(&"hardware.tooltip.or")
+		LogicComponentType.KIND_XOR:
+			description = _t(&"hardware.tooltip.xor")
 		LogicComponentType.KIND_NOT:
 			description = _t(&"hardware.tooltip.not")
 		LogicComponentType.KIND_NOR:
@@ -4664,7 +6031,10 @@ func _component_kind_text(kind: StringName) -> String:
 
 
 func _desktop_window_name(id: StringName) -> String:
-	return _t(&"hardware.window.mission") if id == &"task" else _t(&"device.test_bench")
+	match id:
+		&"task": return _t(&"hardware.window.mission")
+		&"components": return _t(&"hardware.component_menu.button")
+	return _t(&"device.test_bench")
 
 
 func _trace_error_text(trace: CircuitTrace, index: int) -> String:
@@ -4723,14 +6093,15 @@ func _node_stylebox(color: Color, radius: int, border_width: int = 0, border_col
 	return box
 
 
-func _make_port_texture(diameter: int) -> Texture2D:
-	var image := Image.create(diameter, diameter, false, Image.FORMAT_RGBA8)
-	var center := Vector2(float(diameter - 1), float(diameter - 1)) * 0.5
-	for y: int in range(diameter):
-		for x: int in range(diameter):
+func _make_port_texture(canvas_size: int, visible_diameter: int = 12) -> Texture2D:
+	var image := Image.create(canvas_size, canvas_size, false, Image.FORMAT_RGBA8)
+	var center := Vector2(float(canvas_size - 1), float(canvas_size - 1)) * 0.5
+	var radius: float = float(clampi(visible_diameter, 4, canvas_size)) * 0.5
+	for y: int in range(canvas_size):
+		for x: int in range(canvas_size):
 			var distance: float = Vector2(x, y).distance_to(center)
-			if distance <= float(diameter) * 0.48:
-				var alpha: float = 1.0 if distance <= float(diameter) * 0.38 else 0.72
+			if distance <= radius:
+				var alpha: float = 1.0 if distance <= radius - 1.5 else 0.76
 				image.set_pixel(x, y, Color(1.0, 1.0, 1.0, alpha))
 	return ImageTexture.create_from_image(image)
 

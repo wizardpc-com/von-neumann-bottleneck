@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted for the Turing-style schematic-editor interaction pass.
+Accepted for the Turing-style schematic-editor interaction pass; its inventory-derived menu source is amended by [ADR 0014](0014-independent-branch-roots-and-explicit-component-palettes.md), which introduces explicit supplies and direct drag/drop.
 
 ## Context
 

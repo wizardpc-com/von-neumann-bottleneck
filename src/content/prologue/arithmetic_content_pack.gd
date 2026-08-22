@@ -9,7 +9,12 @@ func register_into(registry, _builders: Dictionary = {}) -> void:
 		&"arithmetic", &"hardware.prologue.branch.cpu", 1
 	))
 	registry.register_level(LevelType.new(
-		&"full_adder", &"arithmetic", 0,
+		&"half_adder", &"arithmetic", 0,
+		&"hardware.phase.half_adder", &"", [&"tutorial"],
+		LevelType.ENTRY_HALF_ADDER, Callable(), [&"HalfAdder"]
+	))
+	registry.register_level(LevelType.new(
+		&"full_adder", &"arithmetic", 1,
 		&"hardware.prologue.full_adder.title",
 		&"hardware.prologue.full_adder.description",
 		[&"half_adder"], LevelType.ENTRY_CIRCUIT,
@@ -21,7 +26,7 @@ func register_into(registry, _builders: Dictionary = {}) -> void:
 		"properties": {"auto_expanded_bits": 4},
 	}]
 	registry.register_level(LevelType.new(
-		&"alu", &"arithmetic", 1,
+		&"alu", &"arithmetic", 2,
 		&"hardware.prologue.alu.title", &"hardware.prologue.alu.description",
 		[&"full_adder"], LevelType.ENTRY_CIRCUIT,
 		Callable(self, "_alu"), [&"ALU1", &"ALU4"], generated_alu_rewards
@@ -61,7 +66,17 @@ func _full_adder(library: Dictionary) -> Dictionary:
 			&"A_IN": Vector2(400, 65), &"B_IN": Vector2(400, 250), &"CIN_IN": Vector2(400, 460),
 			&"HA_1": Vector2(670, 135), &"HA_2": Vector2(930, 260), &"OR_1": Vector2(930, 60),
 			&"SUM_OUT": Vector2(1250, 250), &"COUT_OUT": Vector2(1250, 65),
-		}, wires, steps, &"FullAdder", LogicComponentType.KIND_FULL_ADDER
+		}, wires, steps, &"FullAdder", LogicComponentType.KIND_FULL_ADDER,
+		{"initial_zoom": 0.88, "palette_components": [
+			half_adder_1.duplicate_component(),
+			LogicComponentType.new(&"PALETTE_AND", LogicComponentType.KIND_AND, "AND"),
+			LogicComponentType.new(&"PALETTE_OR", LogicComponentType.KIND_OR, "OR"),
+			LogicComponentType.new(&"PALETTE_NOT", LogicComponentType.KIND_NOT, "NOT"),
+			LogicComponentType.new(&"PALETTE_XOR", LogicComponentType.KIND_XOR, "XOR"),
+		], "hint_partial_wires": [
+			wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
+			wires[3].duplicate(), wires[6].duplicate(),
+		]}
 	)
 
 
@@ -119,5 +134,21 @@ func _alu(library: Dictionary) -> Dictionary:
 			&"FULL_ADDER": Vector2(620, 280), &"NOT_1": Vector2(650, 485),
 			&"MUX": Vector2(970, 215), &"RESULT_OUT": Vector2(1280, 250), &"CARRY_OUT": Vector2(1280, 85),
 		}, wires, steps, &"ALU1", LogicComponentType.KIND_ALU1,
-		{"initial_zoom": 0.9}
+		{
+			"initial_zoom": 0.9,
+			"palette_components": [
+				full_adder.duplicate_component(),
+				LogicComponentType.new(&"PALETTE_AND", LogicComponentType.KIND_AND, "AND"),
+				LogicComponentType.new(&"PALETTE_OR", LogicComponentType.KIND_OR, "OR"),
+				LogicComponentType.new(&"PALETTE_NOT", LogicComponentType.KIND_NOT, "NOT"),
+				LogicComponentType.new(&"PALETTE_XOR", LogicComponentType.KIND_XOR, "XOR"),
+				LogicComponentType.new(&"PALETTE_MUX", LogicComponentType.KIND_MUX4, "4→1 mux"),
+			],
+			"hint_partial_wires": [
+				wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
+				wires[3].duplicate(), wires[4].duplicate(), wires[8].duplicate(),
+				wires[9].duplicate(), wires[11].duplicate(), wires[12].duplicate(),
+				wires[13].duplicate(), wires[14].duplicate(),
+			],
+		}
 	)

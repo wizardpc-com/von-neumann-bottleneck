@@ -60,6 +60,13 @@ static func evaluate_gate(kind: StringName, inputs: Array[int]) -> int:
 			if inputs.has(HIGH):
 				return HIGH
 			return LOW if not inputs.is_empty() and not inputs.has(HIGH_Z) else HIGH_Z
+		&"xor":
+			if inputs.is_empty() or inputs.has(HIGH_Z):
+				return HIGH_Z
+			var high_count: int = 0
+			for state: int in inputs:
+				high_count += 1 if state == HIGH else 0
+			return HIGH if high_count % 2 == 1 else LOW
 		&"not":
 			if inputs.is_empty() or inputs[0] == HIGH_Z:
 				return HIGH_Z

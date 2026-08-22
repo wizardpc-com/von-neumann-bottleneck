@@ -9,6 +9,7 @@ const SimulationTraceType = preload("res://src/simulation/simulation_trace.gd")
 const TraceOverlayType = preload("res://src/ui/trace_overlay.gd")
 const FloatingInstrumentPanelType = preload("res://src/ui/floating_instrument_panel.gd")
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
+const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 
 const PANEL_COLOR := Color("172033")
 const PANEL_DARK := Color("101725")
@@ -47,6 +48,7 @@ const INSTRUMENT_LAYOUT: Dictionary = {
 	&"profiler": Rect2(710, 18, 700, 470),
 	&"cache": Rect2(1080, 92, 410, 360),
 }
+const INSTRUMENT_REFERENCE_SIZE := Vector2(1500.0, 510.0)
 
 var simulation_core := SimulationCoreType.new()
 var current_trace: SimulationTraceType
@@ -72,6 +74,7 @@ var pause_button: Button
 var step_button: Button
 var speed_selector: OptionButton
 var mode_selector: GameModeSelectorType
+var fullscreen_button: FullscreenButtonType
 var trace_progress: ProgressBar
 var official_run_button: Button
 var debug_run_button: Button
@@ -84,6 +87,8 @@ var inspect_event_button: Button
 var selected_profiler_event_index: int = -1
 
 var instrument_windows: Dictionary[StringName, FloatingInstrumentPanel] = {}
+var instrument_host: Control
+var instrument_layout_size: Vector2 = INSTRUMENT_REFERENCE_SIZE
 var focused_instrument: StringName = &""
 var instrument_z_counter: int = 100
 var program_dirty: bool = false
@@ -246,6 +251,8 @@ func _build_header() -> Control:
 	mode_selector.name = "GameModeSelector"
 	mode_selector.show_label = false
 	row.add_child(mode_selector)
+	fullscreen_button = FullscreenButtonType.new()
+	row.add_child(fullscreen_button)
 	var hub_button := Button.new()
 	hub_button.text = _t(&"common.prototype_hub")
 	hub_button.tooltip_text = _t(&"locality.hub.tooltip")
@@ -280,6 +287,7 @@ func _build_workbench() -> Control:
 	stack.custom_minimum_size.y = 510.0
 	stack.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(stack)
+	instrument_host = stack
 	graph = GraphEdit.new()
 	graph.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	graph.show_grid = true
@@ -303,6 +311,8 @@ func _build_workbench() -> Control:
 	trace_overlay.z_index = 50
 	stack.add_child(trace_overlay)
 	_build_instruments(stack)
+	stack.resized.connect(_on_instrument_host_resized)
+	call_deferred("_on_instrument_host_resized")
 	return content
 
 
@@ -387,6 +397,31 @@ func _add_instrument(parent: Control, id: StringName, title_text: String, conten
 	instrument.close_requested.connect(_close_instrument)
 	instrument.focus_requested.connect(_focus_instrument)
 	instrument_windows[id] = instrument
+
+
+func _on_instrument_host_resized() -> void:
+	if instrument_host == null or instrument_windows.is_empty():
+		return
+	var new_size: Vector2 = instrument_host.size
+	if new_size.x <= 0.0 or new_size.y <= 0.0:
+		return
+	var previous := Vector2(
+		maxf(1.0, instrument_layout_size.x),
+		maxf(1.0, instrument_layout_size.y)
+	)
+	var scale := Vector2(new_size.x / previous.x, new_size.y / previous.y)
+	for instrument: FloatingInstrumentPanel in instrument_windows.values():
+		instrument.position = Vector2(
+			instrument.position.x * scale.x,
+			instrument.position.y * scale.y
+		)
+		if not instrument.minimized:
+			instrument.size = Vector2(
+				instrument.size.x * scale.x,
+				instrument.size.y * scale.y
+			)
+		instrument.fit_to_parent(10.0)
+	instrument_layout_size = new_size
 
 
 func _build_program_instrument() -> Control:
@@ -653,6 +688,7 @@ func _build_playback_panel() -> Control:
 func _open_instrument(id: StringName) -> void:
 	if not instrument_windows.has(id):
 		return
+	instrument_windows[id].fit_to_parent(10.0)
 	instrument_windows[id].show_instrument()
 
 

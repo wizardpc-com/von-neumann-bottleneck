@@ -66,10 +66,37 @@ func _run() -> void:
 	_assert(graph.get_connection_list().size() == 5, "The LOAD/STORE bridge must reuse the sealed computer with an already connected external Test Bench.")
 	_assert(not bool(graph.get("branch_edit_enabled")), "The bridge topology must be locked so it is a program/data-flow demonstration, not repeated wiring.")
 	_assert((main.get("component_menu_button") as MenuButton).disabled, "A locked demonstration topology must not offer extra component placement.")
+	var bridge_snapshot: String = JSON.stringify(main.call("_capture_workbench_snapshot"))
+	main.call("_enter_hint_workbench")
+	main.call("_show_hint_level", 3)
+	await process_frame
+	_assert(
+		(main.get("graph") as GraphEdit).get_connection_list().size() == 5
+		and main.call("_circuit_from_graph").canonical_signature() == main.get("level_catalog").reference_circuit(&"load_store", main.get("component_library")).canonical_signature(),
+		"The final bridge must also expose a truthful read-only level-3 reference workbench."
+	)
+	main.call("_exit_hint_workbench")
+	await process_frame
+	graph = main.get("graph")
+	_assert(JSON.stringify(main.call("_capture_workbench_snapshot")) == bridge_snapshot, "Leaving the final bridge hint must restore its own default workbench unchanged.")
 	main.call("_run_official")
 	await process_frame
 	_assert(bool(completed.get(&"load_store", false)), "The final fixed LOAD/STORE program must complete through the sealed TinyComputer contract.")
 	_assert(StringName(main.get("current_phase")) == &"prologue_complete", "Successful LOAD/STORE must finish the construction prologue.")
+	var bridge_completion: Control = main.get("level_completion_overlay")
+	_assert(
+		bridge_completion.visible
+		and StringName(bridge_completion.get("current_level_id")) == &"load_store"
+		and not String((bridge_completion.get("summary_label") as Label).text).is_empty(),
+		"LOAD/STORE completion must automatically summarize its processor-waiting lesson."
+	)
+	var system_chapter: Node = root.get_node("SystemChapter")
+	_assert(
+		bool(system_chapter.get("prologue_ready"))
+		and String(system_chapter.get("cpu_source_signature")) != "reference-cpu4"
+		and String(system_chapter.get("ram_source_signature")) != "reference-ram2x4",
+		"Game-mode LOAD/STORE completion must hand verified CPU/RAM provenance to Chapter 1 even before its button is clicked."
+	)
 	var bridge_report: Dictionary = main.get("prologue_report")
 	_assert(bool(bridge_report.get("passed", false)) and (bridge_report.get("events", []) as Array).size() > 10, "The bridge must expose a deterministic multi-step signal trace, not a hidden completion flag.")
 	var first_result = (bridge_report.get("steps", []) as Array)[0]["result"]
@@ -104,10 +131,43 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	var graph: GraphEdit = main.get("graph")
 	_assert(graph.get_connection_list().is_empty(), "%s must not expose the reference solution to the player." % level_id)
 	_assert(not (main.get("component_menu_button") as MenuButton).disabled and not (main.get("component_menu_templates") as Dictionary).is_empty(), "%s must expose a level-authoritative menu for placing additional allowed components." % level_id)
+	_assert(not (main.get("component_palette_items") as Dictionary).is_empty(), "%s must expose the same allowed supply as visible draggable palette items." % level_id)
+	_assert(_palette_kinds(main) == _expected_palette_kinds(level_id), "%s must expose its explicit suitable component set; expected=%s actual=%s." % [level_id, _expected_palette_kinds(level_id), _palette_kinds(main)])
+	if level_id in [&"full_adder", &"alu"]:
+		var has_xor: bool = false
+		for template_variant: Variant in (main.get("component_menu_templates") as Dictionary).values():
+			has_xor = has_xor or StringName(template_variant.kind) == LogicComponentType.KIND_XOR
+		_assert(has_xor, "%s must offer the XOR primitive unlocked after Half Adder." % level_id)
 	var idle_analysis_count: int = int(main.get("live_analysis_count"))
 	for _idle_frame: int in range(2):
 		await process_frame
 	_assert(int(main.get("live_analysis_count")) == idle_analysis_count, "%s live multi-bit port evaluation must be event-driven rather than recomputed every frame." % level_id)
+	var player_snapshot: String = JSON.stringify(main.call("_capture_workbench_snapshot"))
+	main.call("_enter_hint_workbench")
+	main.call("_show_hint_level", 2)
+	await process_frame
+	_assert(
+		(main.get("graph") as GraphEdit).get_connection_list().size() == (definition.get("hint_partial_wires", []) as Array).size(),
+		"%s hint stage 2 must use the explicitly curated key subcircuit." % level_id
+	)
+	for node_variant: Variant in (main.get("component_nodes") as Dictionary).values():
+		_assert(not (node_variant as GraphNode).draggable, "%s hint components must remain read-only." % level_id)
+	main.call("_show_hint_level", 3)
+	await process_frame
+	var expected_reference: LogicCircuit = main.get("level_catalog").reference_circuit(level_id, main.get("component_library"))
+	_assert(
+		main.call("_circuit_from_graph").canonical_signature() == expected_reference.canonical_signature(),
+		"%s hint stage 3 must be the same complete topology used by official reference evidence." % level_id
+	)
+	main.call("_exit_hint_workbench")
+	await process_frame
+	graph = main.get("graph")
+	definition = main.get("current_level_definition")
+	_assert(
+		JSON.stringify(main.call("_capture_workbench_snapshot")) == player_snapshot
+		and (main.get("wire_history") as Array).is_empty(),
+		"%s must return from hints to the byte-identical player workbench with no hint history." % level_id
+	)
 	for source_wire: Dictionary in definition.get("reference_wires", []):
 		main.call(
 			"_on_connection_request",
@@ -188,6 +248,13 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	_assert(StringName(main.get("current_phase")) == &"prologue_complete", "%s must enter a clear completed state after sealing." % level_id)
 	_assert((main.get("component_library") as Dictionary).has(expected_component), "%s must register %s in the reusable library." % [level_id, expected_component])
 	_assert(bool((main.get("completed_levels") as Dictionary).get(level_id, false)), "%s must persist as completed for this session." % level_id)
+	var completion_overlay: Control = main.get("level_completion_overlay")
+	_assert(
+		completion_overlay.visible
+		and StringName(completion_overlay.get("current_level_id")) == level_id
+		and not String((completion_overlay.get("summary_label") as Label).text).is_empty(),
+		"%s completion must automatically present a localized learning summary." % level_id
+	)
 
 
 func _assert_cpu_playback(main: Control) -> void:
@@ -239,6 +306,31 @@ func _assert_cpu_playback(main: Control) -> void:
 		_assert(not pulses.is_empty() and _paths_equal(pulses[0]["path"], expected_path), "Four-bit animation must follow the exact currently rendered connection curve.")
 		_assert(not pulses.is_empty() and String(pulses[0].get("display", "")).begins_with("0x"), "A word animation must display its multi-bit value instead of collapsing it to a binary dot.")
 	_assert(bool(report.get("passed", false)), "Animation inspection must not influence the already computed CPU result.")
+
+
+func _palette_kinds(main: Control) -> Array[StringName]:
+	var unique: Dictionary[StringName, bool] = {}
+	for template_variant: Variant in (main.get("component_menu_templates") as Dictionary).values():
+		var template: LogicComponent = template_variant
+		unique[template.kind] = true
+	var result: Array[StringName] = []
+	for kind: StringName in unique:
+		result.append(kind)
+	result.sort()
+	return result
+
+
+func _expected_palette_kinds(level_id: StringName) -> Array[StringName]:
+	var result: Array[StringName] = []
+	match level_id:
+		&"full_adder": result = [&"and", &"half_adder", &"not", &"or", &"xor"]
+		&"alu": result = [&"and", &"full_adder", &"mux4", &"not", &"or", &"xor"]
+		&"latch": result = [&"nor"]
+		&"register": result = [&"and", &"not", &"sr_latch"]
+		&"ram": result = [&"decoder1_to_2", &"mux2_word", &"register4"]
+		&"cpu": result = [&"alu4", &"constant", &"control", &"mux2_word", &"ram2x4", &"register4"]
+	result.sort()
+	return result
 
 
 func _provenance_circuit() -> LogicCircuit:

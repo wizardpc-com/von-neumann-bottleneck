@@ -6,6 +6,7 @@ const KIND_OUTPUT: StringName = &"output"
 const KIND_LAMP: StringName = &"lamp"
 const KIND_AND: StringName = &"and"
 const KIND_OR: StringName = &"or"
+const KIND_XOR: StringName = &"xor"
 const KIND_NOT: StringName = &"not"
 const KIND_NOR: StringName = &"nor"
 const KIND_JUNCTION: StringName = &"junction"
@@ -87,7 +88,7 @@ func output_width(port: int) -> int:
 
 
 func is_basic_gate() -> bool:
-	return kind in [KIND_AND, KIND_OR, KIND_NOT, KIND_NOR]
+	return kind in [KIND_AND, KIND_OR, KIND_XOR, KIND_NOT, KIND_NOR]
 
 
 func is_observer() -> bool:
@@ -111,7 +112,7 @@ func is_reusable_abstraction() -> bool:
 
 func is_supported() -> bool:
 	return kind in [
-		KIND_INPUT, KIND_OUTPUT, KIND_LAMP, KIND_AND, KIND_OR, KIND_NOT, KIND_NOR,
+		KIND_INPUT, KIND_OUTPUT, KIND_LAMP, KIND_AND, KIND_OR, KIND_XOR, KIND_NOT, KIND_NOR,
 		KIND_JUNCTION, KIND_HALF_ADDER, KIND_FULL_ADDER, KIND_MUX4, KIND_ALU1,
 		KIND_SR_LATCH, KIND_REGISTER1, KIND_REGISTER4, KIND_DECODER1_TO_2,
 		KIND_MUX2_WORD, KIND_ALU4, KIND_RAM2X4, KIND_CONTROL, KIND_CONSTANT,
@@ -125,6 +126,34 @@ func duplicate_component() -> LogicComponent:
 		input_port_names, output_port_names, input_port_widths, output_port_widths,
 		properties
 	)
+
+
+static func from_dictionary(data: Dictionary) -> LogicComponent:
+	var input_names: Array[StringName] = []
+	for name_variant: Variant in data.get("input_port_names", []):
+		input_names.append(StringName(name_variant))
+	var output_names: Array[StringName] = []
+	for name_variant: Variant in data.get("output_port_names", []):
+		output_names.append(StringName(name_variant))
+	var input_widths: Array[int] = []
+	for width_variant: Variant in data.get("input_port_widths", []):
+		input_widths.append(int(width_variant))
+	var output_widths: Array[int] = []
+	for width_variant: Variant in data.get("output_port_widths", []):
+		output_widths.append(int(width_variant))
+	var component := LogicComponent.new(
+		StringName(data.get("id", "")),
+		StringName(data.get("kind", "")),
+		String(data.get("display_name", "")),
+		StringName(data.get("signal_name", "")),
+		bool(data.get("fixed_terminal", false)),
+		input_names,
+		output_names,
+		input_widths,
+		output_widths,
+		(data.get("properties", {}) as Dictionary).duplicate(true)
+	)
+	return component if not component.id.is_empty() and component.is_supported() else null
 
 
 func to_dictionary() -> Dictionary:
@@ -149,7 +178,7 @@ func _apply_default_port_spec() -> void:
 				_set_ports([], [&"OUT"], [], [_property_width(&"width", 1)])
 			KIND_OUTPUT, KIND_LAMP:
 				_set_ports([&"IN"], [], [_property_width(&"width", 1)], [])
-			KIND_AND, KIND_OR, KIND_NOR:
+			KIND_AND, KIND_OR, KIND_XOR, KIND_NOR:
 				_set_ports([&"A", &"B"], [&"Y"], [1, 1], [1])
 			KIND_NOT:
 				_set_ports([&"A"], [&"Y"], [1], [1])

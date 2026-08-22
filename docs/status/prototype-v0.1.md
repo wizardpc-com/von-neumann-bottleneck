@@ -33,7 +33,7 @@ The headless simulation and UI tests assert these results, trace determinism, pl
 - Cycle values are teaching constants rather than calibrated hardware measurements.
 - The final store writes to Test Bench, not back to cached memory.
 - Most UI is constructed in one large `main.gd`; this was expedient for a vertical slice.
-- Layout targets a 1600×900 desktop view; dense side panels rely on scrolling at lower vertical space.
+- The UI retains a 1600×900 design baseline but now starts in resizable fullscreen, expands to the monitor aspect ratio, and proportionally fits/clamps floating instruments after a mode or resolution change. Dense instrument contents still rely on their own scrolling.
 - Tests are custom SceneTree scripts rather than an external Godot test framework.
 - Visuals are functional and use built-in controls; there is no production asset pipeline.
 

@@ -12,6 +12,7 @@ var failures: Array[String] = []
 
 
 func _init() -> void:
+	_test_component_dictionary_round_trip()
 	_test_basic_gates()
 	_test_unconnected_ports_default_low()
 	_test_connectivity_rules()
@@ -32,15 +33,36 @@ func _init() -> void:
 		quit(1)
 
 
+func _test_component_dictionary_round_trip() -> void:
+	var original := LogicComponentType.new(
+		&"MUX_SAVED", LogicComponentType.KIND_MUX2_WORD, "Saved mux", &"", false,
+		[], [], [], [], {"width": 4, "note": "桌布"}
+	)
+	var restored: LogicComponent = LogicComponentType.from_dictionary(original.to_dictionary())
+	_assert(
+		restored != null
+		and restored.to_dictionary() == original.to_dictionary()
+		and restored.input_width(0) == 4
+		and restored.output_width(0) == 4,
+		"A supported component must round-trip through the versioned workbench dictionary without changing its ports or properties."
+	)
+	var unsupported: LogicComponent = LogicComponentType.from_dictionary({"id": "BAD", "kind": "unknown"})
+	_assert(unsupported == null, "Workbench loading must reject unsupported component kinds instead of injecting unknown simulation behavior.")
+
+
 func _test_basic_gates() -> void:
 	var simulator := CircuitSimulatorType.new()
 	var and_circuit: LogicCircuit = _single_gate_circuit(&"and")
 	var or_circuit: LogicCircuit = _single_gate_circuit(&"or")
+	var xor_circuit: LogicCircuit = _single_gate_circuit(&"xor")
 	for a: bool in [false, true]:
 		for b: bool in [false, true]:
 			var inputs: Dictionary[StringName, bool] = {&"A": a, &"B": b}
 			_assert(simulator.evaluate(and_circuit, inputs).outputs.get(&"Y") == (a and b), "AND must match its truth table for %d,%d." % [int(a), int(b)])
 			_assert(simulator.evaluate(or_circuit, inputs).outputs.get(&"Y") == (a or b), "OR must match its truth table for %d,%d." % [int(a), int(b)])
+			_assert(simulator.evaluate(xor_circuit, inputs).outputs.get(&"Y") == (a != b), "XOR must be high exactly when its inputs differ for %d,%d." % [int(a), int(b)])
+	var xor_trace: CircuitTrace = simulator.evaluate(xor_circuit, {&"A": true, &"B": false})
+	_assert(xor_trace.is_valid() and int(xor_trace.metrics["gate_count"]) == 1 and int(xor_trace.metrics["propagation_ticks"]) == 1, "XOR must be a supported one-tick basic gate.")
 	var not_circuit := LogicCircuitType.new()
 	not_circuit.add_component(LogicComponentType.new(&"A_IN", &"input", "A", &"A", true))
 	not_circuit.add_component(LogicComponentType.new(&"NOT_1", &"not", "NOT"))

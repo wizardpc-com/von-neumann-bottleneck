@@ -10,10 +10,13 @@ msgid "game.title"
 msgstr "VON NEUMANN BOTTLENECK"
 
 msgid "game.window_title"
-msgstr "Von Neumann Bottleneck — CPU Building Prologue"
+msgstr "Von Neumann Bottleneck"
 
 msgid "common.auto_layout"
 msgstr "Auto Layout"
+
+msgid "common.chapter_select"
+msgstr "Back to Chapters"
 
 msgid "common.open_named"
 msgstr "Open %s"
@@ -63,6 +66,15 @@ msgstr "Drag to resize"
 msgid "window.restore.tooltip"
 msgstr "Restore this window"
 
+msgid "window.fullscreen.enter"
+msgstr "Fullscreen"
+
+msgid "window.fullscreen.exit"
+msgstr "Exit fullscreen"
+
+msgid "window.fullscreen.tooltip"
+msgstr "Toggle fullscreen (F11 or Alt+Enter)"
+
 msgid "hub.subtitle"
 msgstr "PLAYABLE RESEARCH BUILDS"
 
@@ -73,10 +85,31 @@ msgid "hub.hardware.eyebrow"
 msgstr "COMPLETE PLAYABLE PROLOGUE PROTOTYPE"
 
 msgid "hub.hardware.description"
-msgstr "Start with free wiring and HalfAdder, build FullAdder, ALU, latch, register, and RAM across two branches, then connect a four-bit accumulator CPU and run LOAD/STORE."
+msgstr "After free wiring, start the CPU/arithmetic path with HalfAdder and the independent storage path with a latch, then join ALU and RAM in a four-bit accumulator CPU and run LOAD/STORE."
 
 msgid "hub.hardware.play"
 msgstr "Enter the CPU Building Prologue"
+
+msgid "hub.system.title"
+msgstr "CHAPTER 1: WAITING FOR DATA"
+
+msgid "hub.system.eyebrow"
+msgstr "CPU · RAM · BUS"
+
+msgid "hub.system.description"
+msgstr "Assemble your player-provenance 8-bit system and investigate CPU speed, RAM latency, Bus width, workload scale, and the actual bottleneck."
+
+msgid "hub.system.open"
+msgstr "OPEN CHAPTER MAP"
+
+msgid "hub.system.locked"
+msgstr "Complete Hardware Prologue LOAD/STORE in Game mode first, or enter directly in Test mode."
+
+msgid "hub.system.locked_action"
+msgstr "UNLOCK AFTER LOAD/STORE"
+
+msgid "hardware.prologue.open_system"
+msgstr "ENTER CHAPTER 1 WITH MY CPU AND RAM"
 
 msgid "hub.locality.title"
 msgstr "CACHE LOCALITY LAB"
@@ -91,7 +124,7 @@ msgid "hub.locality.open"
 msgstr "Open v0.2 Locality Lab"
 
 msgid "hub.note"
-msgstr "These slices validate different gameplay hypotheses; neither is presented as the complete game."
+msgstr "These playable slices validate different gameplay hypotheses and form one growing game."
 
 msgid "device.program"
 msgstr "PROGRAM"
@@ -760,7 +793,7 @@ msgid "hardware.subtitle"
 msgstr "SIGNAL → LOGIC → ABSTRACTION → CPU / RAM"
 
 msgid "hardware.hub.tooltip"
-msgstr "Return to the prototype selector."
+msgstr "Return to chapter selection."
 
 msgid "hardware.window.mission"
 msgstr "MISSION"
@@ -772,7 +805,10 @@ msgid "hardware.component_menu.button"
 msgstr "Components"
 
 msgid "hardware.component_menu.tooltip"
-msgstr "Choose a component allowed by this level, then left-click empty canvas space to place it repeatedly; Esc cancels."
+msgstr "Drag a level-allowed component from the movable palette onto the desktop, or click it for repeated empty-canvas placement; Esc cancels."
+
+msgid "hardware.component_palette.hint"
+msgstr "Click a component to attach its dim preview to the pointer; left-click repeatedly to place it, or end with right-click or another action. Direct drag also works."
 
 msgid "hardware.component_menu.unavailable"
 msgstr "No components can be placed here"
@@ -1135,7 +1171,7 @@ msgid "hardware.status.selection_pasted"
 msgstr "Pasted %d component/wire node(s) and %d internal segment(s); the new group is selected"
 
 msgid "hardware.status.component_placement_armed"
-msgstr "PLACING %s — left-click empty canvas space; repeat as needed, Esc cancels"
+msgstr "PLACING %s — dim preview follows the pointer; left-click repeatedly, right-click or another action ends"
 
 msgid "hardware.status.component_placement_cancelled"
 msgstr "Component placement cancelled."
@@ -1269,6 +1305,9 @@ msgstr "Outputs 1 only when both inputs are 1. Adds one simulation tick."
 msgid "hardware.tooltip.or"
 msgstr "Outputs 1 when either input is 1. Adds one simulation tick."
 
+msgid "hardware.tooltip.xor"
+msgstr "Outputs 1 when the two inputs differ. Adds one simulation tick."
+
 msgid "hardware.tooltip.not"
 msgstr "Inverts its input. Adds one simulation tick."
 
@@ -1285,7 +1324,7 @@ msgid "hardware.prologue.open_map"
 msgstr "Continue: Open CPU Build Map"
 
 msgid "hardware.prologue.open_map.tooltip"
-msgstr "Carry the sealed HalfAdder into the two-branch hardware prologue."
+msgstr "Carry the sealed HalfAdder into the later CPU / arithmetic construction path."
 
 msgid "hardware.prologue.map.phase"
 msgstr "HARDWARE PROLOGUE · CPU BUILD MAP"
@@ -1348,10 +1387,10 @@ msgid "hardware.prologue.map.requirement"
 msgstr "Requires: %s"
 
 msgid "hardware.prologue.branch.cpu"
-msgstr "ARITHMETIC BRANCH"
+msgstr "CPU / ARITHMETIC BRANCH"
 
 msgid "hardware.prologue.branch.foundations"
-msgstr "BASIC GATES AND ABSTRACTION"
+msgstr "WIRING BASICS"
 
 msgid "hardware.prologue.branch.storage"
 msgstr "STORAGE BRANCH"
@@ -1642,3 +1681,795 @@ msgstr "WRITE M%d ← %s"
 
 msgid "hardware.storage.action.ram_read"
 msgstr "READ M%d"
+
+msgid "common.create"
+msgstr "Create"
+
+msgid "common.cancel"
+msgstr "Cancel"
+
+msgid "hardware.workbench.button"
+msgstr "Workbench: %s"
+
+msgid "hardware.workbench.button.tooltip"
+msgstr "Switch this level's workbench or create an independent circuit design."
+
+msgid "hardware.workbench.create"
+msgstr "+ New workbench…"
+
+msgid "hardware.workbench.create.title"
+msgstr "New workbench"
+
+msgid "hardware.workbench.create.prompt"
+msgstr "Enter a recognizable design name. A new workbench starts from this level's initial components."
+
+msgid "hardware.workbench.create.placeholder"
+msgstr "For example: Low gate count"
+
+msgid "hardware.workbench.switch_failed"
+msgstr "Could not switch to that workbench."
+
+msgid "hardware.workbench.loaded"
+msgstr "Switched to workbench “%s”; undo history starts empty."
+
+msgid "hardware.workbench.error.empty"
+msgstr "The workbench name cannot be empty."
+
+msgid "hardware.workbench.error.too_long"
+msgstr "Workbench names can use at most %d characters."
+
+msgid "hardware.workbench.error.invalid_character"
+msgstr "Workbench names cannot contain line breaks or tabs."
+
+msgid "hardware.workbench.error.duplicate"
+msgstr "This level already has a workbench with that name."
+
+msgid "hardware.workbench.error.generic"
+msgstr "Could not create the workbench."
+
+msgid "hardware.hint.button"
+msgstr "Hint"
+
+msgid "hardware.hint.button.tooltip"
+msgstr "Enter a separate read-only hint workbench without changing your circuit."
+
+msgid "hardware.hint.return"
+msgstr "Return to my workbench"
+
+msgid "hardware.hint.return.tooltip"
+msgstr "Leave the hint and restore the player workbench you were using."
+
+msgid "hardware.hint.next"
+msgstr "Hint %d/%d · Next"
+
+msgid "hardware.hint.next.tooltip"
+msgstr "Reveal the next hint stage."
+
+msgid "hardware.hint.phase"
+msgstr "HINT WORKBENCH · %d/%d"
+
+msgid "hardware.hint.status"
+msgstr "Viewing hint stage %d/%d."
+
+msgid "hardware.hint.read_only"
+msgstr "The hint workbench is read-only; its components and wires use the real circuit model."
+
+msgid "hardware.hint.no_progress"
+msgstr "Hints cannot run official tests, seal components, or change progression."
+
+msgid "hardware.hint.title"
+msgstr "Hint stage %d/%d"
+
+msgid "hardware.hint.scope.1"
+msgstr "Only fixed terminals are shown; no solution topology is revealed."
+
+msgid "hardware.hint.scope.2"
+msgstr "Only the key components and wires are shown; the rest is still yours to build."
+
+msgid "hardware.hint.scope.3"
+msgstr "The complete reference topology is shown along its real displayed wires."
+
+msgid "hardware.hint.reveal_next"
+msgstr "View hint stage %d"
+
+msgid "hardware.hint.returned"
+msgstr "Returned to your workbench “%s”."
+
+msgid "hardware.hint.generic"
+msgstr "Use the inputs, outputs, and official cases to split the problem into smaller signal relationships."
+
+msgid "hardware.hint.tutorial.1"
+msgstr "Build one shortest signal chain: start at an output port and watch the signal follow the exact displayed wire to its target."
+
+msgid "hardware.hint.tutorial.2"
+msgstr "Try sending input A through NOT and then into the lamp; watch the port colors before and after inversion."
+
+msgid "hardware.hint.tutorial.3"
+msgstr "The complete example uses A → NOT → LAMP, enough to practice connecting, running, deleting, and reconnecting."
+
+msgid "hardware.hint.half_adder.1"
+msgstr "Draw separate four-row truth tables for SUM and CARRY. Look at one output at a time and find which input combinations make it 1."
+
+msgid "hardware.hint.half_adder.2"
+msgstr "SUM is 1 when the inputs differ. The hint board shows the (A OR B) AND NOT(A AND B) result path."
+
+msgid "hardware.hint.half_adder.3"
+msgstr "The complete answer adds A AND B as CARRY beside the SUM path; both outputs share A and B."
+
+msgid "hardware.hint.full_adder.1"
+msgstr "Add A and B first, then add the first SUM to CIN; finally decide how the two carry results combine."
+
+msgid "hardware.hint.full_adder.2"
+msgstr "The key path chains two HalfAdders, and the second HalfAdder's SUM becomes the final SUM."
+
+msgid "hardware.hint.full_adder.3"
+msgstr "The complete answer also ORs the two HalfAdder CARRY outputs to produce COUT."
+
+msgid "hardware.hint.alu.1"
+msgstr "Produce candidate operations in parallel, then select one with the opcode; do not make the opcode change the operators themselves."
+
+msgid "hardware.hint.alu.2"
+msgstr "The key subcircuit shows AND, OR, NOT, and addition results entering a mux selected by OP0/OP1."
+
+msgid "hardware.hint.alu.3"
+msgstr "The complete answer connects all four candidates, selectors, RESULT, and the adder's separate CARRY output."
+
+msgid "hardware.hint.latch.1"
+msgstr "Two NOR gates can read each other's output and retain state while S=R=0; avoid asserting S and R together."
+
+msgid "hardware.hint.latch.2"
+msgstr "The key subcircuit shows the two NOR cross-feedback wires and which side receives S and R."
+
+msgid "hardware.hint.latch.3"
+msgstr "The complete answer connects the cross-coupled NOR outputs to Q and NQ."
+
+msgid "hardware.hint.register.1"
+msgstr "LOAD=0 must preserve the latch; with LOAD=1, D and NOT D should form SET and RESET."
+
+msgid "hardware.hint.register.2"
+msgstr "The key subcircuit uses two AND gates to combine LOAD with D and NOT D before the SRLatch."
+
+msgid "hardware.hint.register.3"
+msgstr "The complete answer feeds both gated paths into the SRLatch and connects its Q to the level output."
+
+msgid "hardware.hint.ram.1"
+msgstr "Separate writing from reading: a decoder enables only the addressed register, while a mux reads the addressed row."
+
+msgid "hardware.hint.ram.2"
+msgstr "The key subcircuit sends ADDR/WRITE into the decoder and drives the two Register4 LOAD inputs separately."
+
+msgid "hardware.hint.ram.3"
+msgstr "The complete answer also fans DATA to both registers and uses ADDR to select the word mux output."
+
+msgid "hardware.hint.cpu.1"
+msgstr "Draw the data path first: where ACC, immediate values, and RAM data meet; then let CONTROL only select, load, and write."
+
+msgid "hardware.hint.cpu.2"
+msgstr "The key subcircuit shows the main CONTROL, SOURCE_MUX, ALU, RESULT_MUX, and ACC data loop."
+
+msgid "hardware.hint.cpu.3"
+msgstr "The complete answer adds RAM addressing/writes and both external probes to form the program-capable TinyComputer."
+
+msgid "hardware.hint.load_store.1"
+msgstr "Trace OP, ARG, and ADDR one instruction at a time, recording ACC and the addressed memory row before and after each step."
+
+msgid "hardware.hint.load_store.2"
+msgstr "The key connections feed all three Test Bench inputs into TinyComputer; first verify every width and port order."
+
+msgid "hardware.hint.load_store.3"
+msgstr "The complete reference also connects ACC and MEM outputs; this topology is fixed, so focus on reading state changes."
+
+msgid "system.chapter.title"
+msgstr "CHAPTER 1: WAITING FOR DATA"
+
+msgid "system.chapter.subtitle"
+msgstr "Turn a working computer into explainable performance evidence"
+
+msgid "system.action.map"
+msgstr "CHAPTER MAP"
+
+msgid "system.action.auto_wire"
+msgstr "STANDARD WIRING"
+
+msgid "system.workbench.title"
+msgstr "SYSTEM DESKTOP · 8-bit CPU / Bus / RAM"
+
+msgid "system.status.map"
+msgstr "Choose an unlocked level"
+
+msgid "system.status.locked"
+msgstr "Complete the prerequisite first"
+
+msgid "system.status.ready"
+msgstr "Check wiring, hardware, and the applied program"
+
+msgid "system.status.hardware_changed"
+msgstr "Hardware changed; rerun and compare new evidence"
+
+msgid "system.status.layout_restored"
+msgstr "Readable layout restored; geometry never changes cycles"
+
+msgid "system.status.wired"
+msgstr "All six standard routes are connected"
+
+msgid "system.status.connection_added"
+msgstr "Route connected; the displayed topology is updated"
+
+msgid "system.status.connection_removed"
+msgstr "Route removed; old results no longer describe this system"
+
+msgid "system.status.invalid_connection"
+msgstr "Port types do not match; request, write, and read lanes stay distinct"
+
+msgid "system.status.program_invalid"
+msgstr "The program cannot be applied yet"
+
+msgid "system.status.program_applied"
+msgstr "Program confirmed and applied; new runs use this version"
+
+msgid "system.status.apply_required"
+msgstr "The draft is not applied; tests only run confirmed code"
+
+msgid "system.status.topology_invalid"
+msgstr "The system is missing %d valid route(s) or part(s)"
+
+msgid "system.status.level_complete"
+msgstr "Evidence requirement met; the next level is unlocked"
+
+msgid "system.status.evidence_progress"
+msgstr "Valid evidence %d / %d; continue the controlled comparison"
+
+msgid "system.map.intro.title"
+msgstr "WHERE DOES WAITING COME FROM?"
+
+msgid "system.map.intro.body"
+msgstr "Six nodes form one investigation: assemble the machine, change CPU, RAM, and Bus independently, scale the workload, then diagnose the exact run.\n\nThis chapter has no Cache and requires no software optimization."
+
+msgid "system.map.prologue_required"
+msgstr "Complete the Hardware Prologue LOAD/STORE bridge first to generate your CPU8 and RAM64x8 provenance."
+
+msgid "system.map.test_mode"
+msgstr "Test mode: all six levels are open with isolated test provenance and progress."
+
+msgid "system.map.level"
+msgstr "LEVEL %d"
+
+msgid "system.map.completed"
+msgstr "✓ COMPLETE"
+
+msgid "system.map.unlocked"
+msgstr "◆ OPEN"
+
+msgid "system.map.locked"
+msgstr "○ LOCKED"
+
+msgid "system.level.header"
+msgstr "%d / 6 · %s"
+
+msgid "system.level.unknown.title"
+msgstr "UNKNOWN LEVEL"
+
+msgid "system.level.unknown.description"
+msgstr "Level content is unavailable."
+
+msgid "system.level.unknown.objective"
+msgstr "Restore valid level content."
+
+msgid "system.level.assembly.title"
+msgstr "CONNECT THE FIRST SYSTEM"
+
+msgid "system.level.assembly.description"
+msgstr "Join the player-provenance CPU8, 8-bit Bus, and RAM64x8 into one runnable computer."
+
+msgid "system.level.assembly.objective"
+msgstr "Connect all six request, write, and read routes, apply the program, and pass both official cases."
+
+msgid "system.level.cpu_speed.title"
+msgstr "AFTER THE CPU GETS FASTER"
+
+msgid "system.level.cpu_speed.description"
+msgstr "Keep RAM, Bus, program, and tests fixed; change only CPU and see why total time does not scale with CPU speed."
+
+msgid "system.level.cpu_speed.objective"
+msgstr "Test at least two CPUs under one applied program and compare reproducible total cycles."
+
+msgid "system.level.ram_wait.title"
+msgstr "WHO IS THE CPU WAITING FOR?"
+
+msgid "system.level.ram_wait.description"
+msgstr "Streaming sum repeatedly visits memory; the Profiler now separates CPU compute and wait time."
+
+msgid "system.level.ram_wait.objective"
+msgstr "Keep every other condition fixed, test at least two RAM parts, and compare wait time."
+
+msgid "system.level.bus_width.title"
+msgstr "HOW MANY TRIPS FOR ONE BYTE?"
+
+msgid "system.level.bus_width.description"
+msgstr "Bus2, Bus4, and Bus8 carry the same 8-bit value in four, two, or one data stages."
+
+msgid "system.level.bus_width.objective"
+msgstr "Run the same copy program on at least two Bus widths and inspect segmented packets on the exact wires."
+
+msgid "system.level.scale_up.title"
+msgstr "WORKLOAD MAGNIFIER"
+
+msgid "system.level.scale_up.description"
+msgstr "Scale one sum from 4 elements to 16 and 64 on fixed hardware and inspect how time grows."
+
+msgid "system.level.scale_up.objective"
+msgstr "Pass all fixed 4, 16, and 64 item cases in one official run and compare their evidence."
+
+msgid "system.level.bottleneck.title"
+msgstr "BOTTLENECK INVESTIGATION"
+
+msgid "system.level.bottleneck.description"
+msgstr "Combine any encountered CPU, RAM, and Bus, run the fixed program, then submit a diagnosis from cycle shares."
+
+msgid "system.level.bottleneck.objective"
+msgstr "Pass every official case, then identify CPU, RAM, Bus, or mixed as the bottleneck of this exact system."
+
+msgid "system.window.mission.title"
+msgstr "MISSION"
+
+msgid "system.window.parts.title"
+msgstr "PARTS"
+
+msgid "system.window.program.title"
+msgstr "PROGRAM"
+
+msgid "system.window.test_bench.title"
+msgstr "TEST BENCH"
+
+msgid "system.window.profiler.title"
+msgstr "PROFILER"
+
+msgid "system.window.history.title"
+msgstr "RUN HISTORY"
+
+msgid "system.window.mission.short"
+msgstr "MISSION"
+
+msgid "system.window.parts.short"
+msgstr "PARTS"
+
+msgid "system.window.program.short"
+msgstr "PROGRAM"
+
+msgid "system.window.test_bench.short"
+msgstr "TEST"
+
+msgid "system.window.profiler.short"
+msgstr "PROFILER"
+
+msgid "system.window.history.short"
+msgstr "HISTORY"
+
+msgid "system.mission.progress"
+msgstr "Completion: %d / %d valid evidence item(s)"
+
+msgid "system.mission.complete"
+msgstr "✓ This level has a complete evidence chain; return to the map for the next level."
+
+msgid "system.part.cpu"
+msgstr "CPU"
+
+msgid "system.part.ram"
+msgstr "RAM"
+
+msgid "system.part.bus"
+msgstr "BUS"
+
+msgid "system.parts.help"
+msgstr "All parts share one 8-bit external interface. Replacement changes cycles and cost without secretly changing program or wiring."
+
+msgid "system.parts.cost"
+msgstr "cost %d"
+
+msgid "system.parts.total_cost"
+msgstr "Total system cost: %d (recorded, never a hard gate in this chapter)"
+
+msgid "system.parts.cpu_detail"
+msgstr "%s: %d cycle(s) per arithmetic operation · cost %d"
+
+msgid "system.parts.ram_detail"
+msgstr "%s: %d service cycle(s) per read/write · cost %d"
+
+msgid "system.parts.bus_detail"
+msgstr "%s: %d bit/cycle · cost %d"
+
+msgid "system.program.help"
+msgstr "This is a bounded Python-shaped program. Editing makes a draft; tests use it only after CONFIRM & APPLY."
+
+msgid "system.program.apply"
+msgstr "CONFIRM & APPLY"
+
+msgid "system.program.valid"
+msgstr "Syntax is valid and ready to apply."
+
+msgid "system.program.draft_pending"
+msgstr "● DRAFT NOT APPLIED"
+
+msgid "system.program.applied"
+msgstr "✓ APPLIED"
+
+msgid "system.program.explanation.title"
+msgstr "LINE-BY-LINE EXPLANATION"
+
+msgid "system.dsl.error.tabs"
+msgstr "Line %d uses a tab; use four spaces."
+
+msgid "system.dsl.error.indent"
+msgstr "Line %d must use zero or four leading spaces."
+
+msgid "system.dsl.error.body"
+msgstr "Line %d has an indented statement outside a loop."
+
+msgid "system.dsl.error.syntax"
+msgstr "Line %d is not supported: %s"
+
+msgid "system.dsl.error.empty_loop"
+msgstr "Loop on line %d has no body."
+
+msgid "system.dsl.error.empty"
+msgstr "Program contains no executable statements."
+
+msgid "system.dsl.explanation.assign_const"
+msgstr "Write a constant into an 8-bit temporary: %s"
+
+msgid "system.dsl.explanation.for_range"
+msgstr "Repeat the indented body for a fixed count or input length: %s"
+
+msgid "system.dsl.explanation.load"
+msgstr "Request and read one byte over CPU → Bus → RAM: %s"
+
+msgid "system.dsl.explanation.add"
+msgstr "Execute 8-bit addition in the CPU with modulo-256 wrap: %s"
+
+msgid "system.dsl.explanation.add_const"
+msgstr "Add a constant in the CPU with modulo-256 wrap: %s"
+
+msgid "system.dsl.explanation.store"
+msgstr "Write one result byte over CPU → Bus → RAM: %s"
+
+msgid "system.test_bench.help"
+msgstr "A single debug case does not unlock progress. Official tests create evidence bound to current code, wiring, parts, and fixed cases."
+
+msgid "system.test_bench.case"
+msgstr "%s · input %s"
+
+msgid "system.test_bench.run_one"
+msgstr "RUN SELECTED CASE"
+
+msgid "system.test_bench.run_official"
+msgstr "RUN ALL OFFICIAL CASES"
+
+msgid "system.test_bench.not_run"
+msgstr "The current system has not run yet."
+
+msgid "system.test_bench.debug_pass"
+msgstr "Selected case passed; debug results do not unlock progress."
+
+msgid "system.test_bench.debug_fail"
+msgstr "Selected case failed; inspect output, program, or wiring."
+
+msgid "system.test_bench.official_pass"
+msgstr "Official tests passed: %d / %d"
+
+msgid "system.test_bench.official_fail"
+msgstr "Official tests failed: %d / %d"
+
+msgid "system.test_bench.result"
+msgstr "%s · expected %s · actual %s · %d cycles · %s"
+
+msgid "system.result.pass"
+msgstr "PASS"
+
+msgid "system.result.fail"
+msgstr "FAIL"
+
+msgid "system.diagnosis.cpu"
+msgstr "CPU"
+
+msgid "system.diagnosis.ram"
+msgstr "RAM"
+
+msgid "system.diagnosis.bus"
+msgstr "BUS"
+
+msgid "system.diagnosis.mixed"
+msgstr "MIXED"
+
+msgid "system.diagnosis.confirm"
+msgstr "SUBMIT DIAGNOSIS"
+
+msgid "system.diagnosis.run_first"
+msgstr "Pass every official case with the current system first."
+
+msgid "system.diagnosis.incorrect"
+msgstr "That diagnosis is not supported by this Trace's cycle shares; keep investigating."
+
+msgid "system.diagnosis.correct"
+msgstr "Correct: this system has a %s bottleneck."
+
+msgid "system.profiler.tier"
+msgstr "INVESTIGATION TOOL TIER %d / 6"
+
+msgid "system.profiler.help"
+msgstr "Profiler only reads completed Traces; playback pause, speed, and animation never change metrics."
+
+msgid "system.profiler.no_data"
+msgstr "%s: — waiting for a run"
+
+msgid "system.profiler.name.total_cycles"
+msgstr "Total cycles"
+
+msgid "system.profiler.name.cpu_compute_cycles"
+msgstr "CPU compute"
+
+msgid "system.profiler.name.cpu_wait_cycles"
+msgstr "CPU wait"
+
+msgid "system.profiler.name.ram_service_cycles"
+msgstr "RAM service"
+
+msgid "system.profiler.name.memory_requests"
+msgstr "Memory requests"
+
+msgid "system.profiler.name.bus_control_cycles"
+msgstr "Bus control"
+
+msgid "system.profiler.name.bus_transfer_cycles"
+msgstr "Bus data"
+
+msgid "system.profiler.name.bus_segments_per_word"
+msgstr "Segments per byte"
+
+msgid "system.profiler.name.bytes_transferred"
+msgstr "Bytes transferred"
+
+msgid "system.profiler.name.hardware_cost"
+msgstr "Hardware cost"
+
+msgid "system.profiler.name.shares"
+msgstr "Cycle shares"
+
+msgid "system.profiler.metric.total_cycles"
+msgstr "Total: %d cycles"
+
+msgid "system.profiler.metric.cpu_compute_cycles"
+msgstr "CPU compute: %d cycles"
+
+msgid "system.profiler.metric.cpu_wait_cycles"
+msgstr "CPU wait: %d cycles"
+
+msgid "system.profiler.metric.ram_service_cycles"
+msgstr "RAM service: %d cycles"
+
+msgid "system.profiler.metric.memory_requests"
+msgstr "Memory requests: %d"
+
+msgid "system.profiler.metric.bus_control_cycles"
+msgstr "Bus control: %d cycles"
+
+msgid "system.profiler.metric.bus_transfer_cycles"
+msgstr "Bus data: %d cycles"
+
+msgid "system.profiler.metric.bus_segments_per_word"
+msgstr "Bus segments per byte: %d"
+
+msgid "system.profiler.metric.bytes_transferred"
+msgstr "Bytes transferred: %d"
+
+msgid "system.profiler.metric.hardware_cost"
+msgstr "Hardware cost: %d"
+
+msgid "system.profiler.shares"
+msgstr "Cycle shares · CPU %d%% · RAM %d%% · Bus %d%%"
+
+msgid "system.history.heading"
+msgstr "OFFICIAL EVIDENCE FOR THIS LEVEL"
+
+msgid "system.history.empty"
+msgstr "No evidence receipts yet."
+
+msgid "system.history.row"
+msgstr "#%d · %s / %s / %s · %d cycles · cost %d"
+
+msgid "system.playback.ready"
+msgstr "Run the system to inspect requests and data on exact displayed wires."
+
+msgid "system.playback.case"
+msgstr "Playing deterministic Trace for %s"
+
+msgid "system.playback.no_events"
+msgstr "This run has no playback events."
+
+msgid "system.playback.event"
+msgstr "cycle %d–%d · %s · source line %d"
+
+msgid "system.playback.pause"
+msgstr "PAUSE"
+
+msgid "system.playback.resume"
+msgstr "RESUME"
+
+msgid "system.playback.step"
+msgstr "STEP"
+
+msgid "system.playback.complete"
+msgstr "Trace playback complete; the simulator determined results before animation."
+
+msgid "system.event.read_request"
+msgstr "READ REQUEST"
+
+msgid "system.event.ram_read"
+msgstr "RAM READ"
+
+msgid "system.event.read_data"
+msgstr "READ DATA"
+
+msgid "system.event.compute"
+msgstr "CPU COMPUTE"
+
+msgid "system.event.write_request"
+msgstr "WRITE REQUEST"
+
+msgid "system.event.write_data"
+msgstr "WRITE DATA"
+
+msgid "system.event.ram_write"
+msgstr "RAM WRITE"
+
+msgid "system.device.idle"
+msgstr "IDLE"
+
+msgid "system.device.cpu_compute"
+msgstr "COMPUTE"
+
+msgid "system.device.cpu_wait"
+msgstr "WAIT"
+
+msgid "system.device.ram_read"
+msgstr "READ"
+
+msgid "system.device.ram_write"
+msgstr "WRITE"
+
+msgid "system.device.bus_control"
+msgstr "CONTROL"
+
+msgid "system.device.bus_transfer"
+msgstr "TRANSFER"
+
+msgid "system.port.request"
+msgstr "request"
+
+msgid "system.port.write_data"
+msgstr "write data"
+
+msgid "system.port.read_data"
+msgstr "read data"
+
+msgid "system.port.request_lane"
+msgstr "request lane"
+
+msgid "system.port.write_lane"
+msgstr "write lane"
+
+msgid "system.port.read_lane"
+msgstr "read lane"
+
+msgid "system.topology.missing_route"
+msgstr "The system is missing a route. Connect every matching port name and color."
+
+msgid "system.topology.missing_part"
+msgstr "The system is missing its CPU, Bus, or RAM part."
+
+msgid "system.topology.invalid"
+msgstr "The displayed topology is invalid."
+
+msgid "common.level_complete.title"
+msgstr "Level Complete"
+
+msgid "common.level_complete.learned"
+msgstr "What you learned"
+
+msgid "common.level_complete.continue"
+msgstr "Continue to level select"
+
+msgid "hardware.completion.chapter"
+msgstr "Hardware Foundations · Prologue"
+
+msgid "hardware.completion.summary.tutorial"
+msgstr "You learned ports, levels, wiring, removal, and reconnection. The visible wires on the workbench are the topology the circuit really executes."
+
+msgid "hardware.completion.summary.half_adder"
+msgstr "You separated two inputs into SUM and CARRY, then sealed the gate circuit you built as your reusable HalfAdder."
+
+msgid "hardware.completion.summary.full_adder"
+msgstr "You combined smaller adders to handle carry-in, using an owned abstraction to construct a higher-level component for the first time."
+
+msgid "hardware.completion.summary.alu"
+msgstr "You used control signals to select arithmetic results and saw how an ALU brings several operations into one data path."
+
+msgid "hardware.completion.summary.latch"
+msgstr "You stored state through feedback and discovered the boundary between combinational logic and a component with memory."
+
+msgid "hardware.completion.summary.register"
+msgstr "You used LOAD to control when new data is accepted and turned one-bit storage into a reusable register abstraction."
+
+msgid "hardware.completion.summary.ram"
+msgstr "You combined address, write control, and data ports into addressable memory, observing write, hold, and read state changes."
+
+msgid "hardware.completion.summary.cpu"
+msgstr "You joined an ALU, registers, control, and RAM into a small computer and took ownership of a complete data path."
+
+msgid "hardware.completion.summary.load_store"
+msgstr "You made the CPU reach external memory through LOAD and STORE, exposing the boundary where the processor must wait for data to return."
+
+msgid "system.completion.chapter"
+msgstr "Chapter 1 · Waiting for Data"
+
+msgid "system.completion.summary.assembly"
+msgstr "You connected the CPU, Bus, and RAM request, write, and read routes, proving that the displayed wires are the system topology."
+
+msgid "system.completion.summary.cpu_speed"
+msgstr "A controlled comparison showed that a faster CPU shortens compute work but cannot remove time spent waiting for memory."
+
+msgid "system.completion.summary.ram_wait"
+msgstr "By changing RAM while holding everything else fixed, you saw storage service time turn directly into CPU WAIT."
+
+msgid "system.completion.summary.bus_width"
+msgstr "You watched one byte take four, two, or one transfer at different Bus widths: bandwidth controls how many trips data needs."
+
+msgid "system.completion.summary.scale_up"
+msgstr "You magnified the workload through 4, 16, and 64 cases and learned to diagnose growth trends instead of one isolated run."
+
+msgid "system.completion.summary.bottleneck"
+msgstr "You combined Trace and Profiler cycle shares to make an evidence-backed bottleneck diagnosis for the exact system you ran."
+
+msgid "hardware.wire_color.button"
+msgstr "Wire %d"
+
+msgid "hardware.wire_color.tooltip"
+msgstr "Press 1–9 to choose a color; hover a wire and use Ctrl+F for a segment, Ctrl+E for its net, or Ctrl+R to sample."
+
+msgid "hardware.wire_color.item"
+msgstr "Color %d"
+
+msgid "hardware.wire_color.selected"
+msgstr "Wire color %d selected."
+
+msgid "hardware.wire_color.hover_required"
+msgstr "Hover a wire segment first."
+
+msgid "hardware.wire_color.unchanged"
+msgstr "The target wire already uses this color."
+
+msgid "hardware.wire_color.segment_done"
+msgstr "Colored %d wire segment(s)."
+
+msgid "hardware.wire_color.net_done"
+msgstr "Colored %d segment(s) in the same electrical net."
+
+msgid "system.wire_color.button"
+msgstr "Wire %d"
+
+msgid "system.wire_color.tooltip"
+msgstr "Press 1–9 to choose a color; hover a route and use Ctrl+F for a segment, Ctrl+E for its lane, or Ctrl+R to sample."
+
+msgid "system.wire_color.item"
+msgstr "Color %d"
+
+msgid "system.wire_color.selected"
+msgstr "System wire color %d selected."
+
+msgid "system.wire_color.hover_required"
+msgstr "Hover a system route first."
+
+msgid "system.wire_color.segment_done"
+msgstr "Colored %d system route segment(s)."
+
+msgid "system.wire_color.lane_done"
+msgstr "Colored %d segment(s) in the same data lane."

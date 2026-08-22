@@ -6,6 +6,7 @@ var progress: float = 0.0
 var signal_value: bool = false
 var path: PackedVector2Array = PackedVector2Array()
 var value_text: String = ""
+var player_color: Color = Color("50d5ff")
 var wire_pulses: Array[Dictionary] = []
 
 
@@ -48,6 +49,7 @@ func _draw() -> void:
 			progress = smoothstep(0.0, 1.0, clampf(float(wire_pulse.get("progress", 0.0)), 0.0, 1.0))
 			signal_value = bool(wire_pulse.get("value", false))
 			value_text = String(wire_pulse.get("display", str(int(signal_value))))
+			player_color = wire_pulse.get("color", Color("50d5ff"))
 			_draw_wire_signal()
 	elif mode == &"wire":
 		_draw_wire_signal()
@@ -56,21 +58,13 @@ func _draw() -> void:
 func _draw_wire_signal() -> void:
 	if path.size() < 2:
 		return
-	var color: Color = Color("67e8a5") if signal_value else Color("ff6b7d")
+	# One-bit flow is carried by the cable's growing state stroke. Wider values
+	# get one readable badge; no point/capsule competes with the cable color.
+	if value_text.length() <= 1:
+		return
+	var color: Color = player_color.lightened(0.34)
 	var current: Vector2 = _point_on_path(path, progress)
-	var tail := PackedVector2Array()
-	var tail_start: float = maxf(0.0, progress - 0.10)
-	for sample: int in range(16):
-		tail.append(_point_on_path(path, lerpf(tail_start, progress, float(sample) / 15.0)))
-	# The settled cable is already drawn once by GraphEdit. Playback adds one
-	# short centered stroke, never a second full-path cable.
-	draw_polyline(tail, Color(color.lightened(0.18), 0.84), 5.0, true)
-	draw_circle(current, 9.0, Color(color, 0.14))
-	draw_circle(current, 5.5, color)
-	# A single bit is already communicated by the live red/green wire. Keep a
-	# compact badge only when the moving packet carries a wider value.
-	if value_text.length() > 1:
-		_draw_badge(current + Vector2(13.0, -14.0), value_text, color)
+	_draw_badge(current + Vector2(10.0, -25.0), value_text, color)
 
 
 func _draw_badge(position: Vector2, text: String, color: Color) -> void:

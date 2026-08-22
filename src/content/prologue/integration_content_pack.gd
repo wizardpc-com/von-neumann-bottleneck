@@ -63,7 +63,22 @@ func _cpu(library: Dictionary) -> Dictionary:
 			&"ALU": Vector2(1300, 120), &"RESULT_MUX": Vector2(1560, 235),
 			&"ACC_OUT": Vector2(1850, 90), &"MEM_OUT": Vector2(1850, 500),
 		}, wires, _computer_program(), &"TinyComputer", LogicComponentType.KIND_TINY_COMPUTER,
-		{"initial_zoom": 0.78}
+		{
+			"initial_zoom": 0.62,
+			"palette_components": [
+				LogicComponentType.new(&"PALETTE_CONTROL", LogicComponentType.KIND_CONTROL, "control"),
+				LogicComponentType.new(&"PALETTE_MUX", LogicComponentType.KIND_MUX2_WORD, "word mux"),
+				alu.duplicate_component(), acc.duplicate_component(), ram.duplicate_component(),
+				_constant(&"PALETTE_ZERO", 0), _constant(&"PALETTE_ONE", 1),
+			],
+			"hint_partial_wires": [
+				wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
+				wires[3].duplicate(), wires[4].duplicate(), wires[5].duplicate(),
+				wires[6].duplicate(), wires[7].duplicate(), wires[8].duplicate(),
+				wires[9].duplicate(), wires[10].duplicate(), wires[11].duplicate(),
+				wires[12].duplicate(), wires[13].duplicate(),
+			],
+		}
 	)
 
 
@@ -88,8 +103,13 @@ func _load_store(library: Dictionary) -> Dictionary:
 		], _computer_program()
 	)
 	level["locked_topology"] = true
-	level["completion_scene"] = "res://src/ui/main.tscn"
-	level["completion_action_key"] = &"hardware.prologue.open_locality"
+	level["hint_partial_wires"] = [
+		(level["reference_wires"] as Array)[0].duplicate(),
+		(level["reference_wires"] as Array)[1].duplicate(),
+		(level["reference_wires"] as Array)[2].duplicate(),
+	]
+	level["completion_scene"] = "res://src/system_lab/system_lab.tscn"
+	level["completion_action_key"] = &"hardware.prologue.open_system"
 	return level
 
 

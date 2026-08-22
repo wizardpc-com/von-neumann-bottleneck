@@ -1,6 +1,7 @@
 extends Control
 
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
+const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
@@ -12,6 +13,8 @@ const TEXT := Color("e9f0fa")
 
 var mode_selector: GameModeSelectorType
 var mode_description_label: Label
+var fullscreen_button: FullscreenButtonType
+var system_entry_button: Button
 
 
 func _ready() -> void:
@@ -22,6 +25,8 @@ func _ready() -> void:
 	var arguments: PackedStringArray = OS.get_cmdline_user_args()
 	if "--capture-hardware" in arguments:
 		get_tree().call_deferred("change_scene_to_file", "res://src/hardware_foundations/hardware_foundations.tscn")
+	elif "--capture-system" in arguments or "--capture-system-run" in arguments or "--capture-system-map" in arguments:
+		get_tree().call_deferred("change_scene_to_file", "res://src/system_lab/system_lab.tscn")
 
 
 func _build_theme() -> void:
@@ -81,6 +86,15 @@ func _build_interface() -> void:
 		"res://src/hardware_foundations/hardware_foundations.tscn"
 	))
 	cards.add_child(_build_card(
+		Localization.text(&"hub.system.title"),
+		Localization.text(&"hub.system.eyebrow"),
+		Localization.text(&"hub.system.description"),
+		Localization.text(&"hub.system.open"),
+		WARNING,
+		"res://src/system_lab/system_lab.tscn",
+		&"system"
+	))
+	cards.add_child(_build_card(
 		Localization.text(&"hub.locality.title"),
 		Localization.text(&"hub.locality.eyebrow"),
 		Localization.text(&"hub.locality.description"),
@@ -93,10 +107,18 @@ func _build_interface() -> void:
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	note.add_theme_color_override("font_color", MUTED)
 	content.add_child(note)
+	fullscreen_button = FullscreenButtonType.new()
+	add_child(fullscreen_button)
+	fullscreen_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	fullscreen_button.offset_left = -116.0
+	fullscreen_button.offset_top = 16.0
+	fullscreen_button.offset_right = -16.0
+	fullscreen_button.offset_bottom = 60.0
 
 
 func _on_game_mode_changed(_mode: StringName) -> void:
 	_refresh_mode_description()
+	_refresh_system_entry()
 
 
 func _refresh_mode_description() -> void:
@@ -114,9 +136,10 @@ func _build_card(
 		title: String,
 		eyebrow: String,
 		description: String,
-		button_text: String,
-		color: Color,
-		scene_path: String
+	button_text: String,
+	color: Color,
+	scene_path: String,
+	entry_id: StringName = &""
 	) -> Control:
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -148,7 +171,19 @@ func _build_card(
 	button.custom_minimum_size.y = 58.0
 	button.pressed.connect(func() -> void: get_tree().change_scene_to_file(scene_path))
 	box.add_child(button)
+	if entry_id == &"system":
+		system_entry_button = button
+		_refresh_system_entry()
 	return panel
+
+
+func _refresh_system_entry() -> void:
+	if system_entry_button == null:
+		return
+	var unlocked: bool = GameMode.is_test_mode() or SystemChapter.prologue_ready
+	system_entry_button.disabled = not unlocked
+	system_entry_button.text = Localization.text(&"hub.system.open") if unlocked else Localization.text(&"hub.system.locked_action")
+	system_entry_button.tooltip_text = "" if unlocked else Localization.text(&"hub.system.locked")
 
 
 func _stylebox(color: Color, radius: int, border_width: int = 0, border_color: Color = Color.TRANSPARENT) -> StyleBoxFlat:

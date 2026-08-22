@@ -11,7 +11,7 @@ func register_into(registry, _builders: Dictionary = {}) -> void:
 	registry.register_level(LevelType.new(
 		&"latch", &"storage", 0,
 		&"hardware.prologue.latch.title", &"hardware.prologue.latch.description",
-		[&"half_adder"], LevelType.ENTRY_CIRCUIT,
+		[&"tutorial"], LevelType.ENTRY_CIRCUIT,
 		Callable(self, "_latch"), [&"SRLatch"]
 	))
 	var generated_register_rewards: Array[Dictionary] = [{
@@ -64,6 +64,13 @@ func _latch(_library: Dictionary = {}) -> Dictionary:
 			"allow_feedback": true,
 			"feature_tags": [&"storage"],
 			"state_feedback_components": [&"NOR_Q", &"NOR_NQ"],
+			"palette_components": [
+				LogicComponentType.new(&"PALETTE_NOR", LogicComponentType.KIND_NOR, "NOR"),
+			],
+			"hint_partial_wires": [
+				wires[0].duplicate(), wires[1].duplicate(),
+				wires[2].duplicate(), wires[3].duplicate(),
+			],
 		}
 	)
 
@@ -102,6 +109,17 @@ func _register(library: Dictionary) -> Dictionary:
 		{
 			"feature_tags": [&"storage"],
 			"state_feedback_components": [&"LATCH"],
+			"initial_zoom": 0.9,
+			"palette_components": [
+				latch.duplicate_component(),
+				LogicComponentType.new(&"PALETTE_AND", LogicComponentType.KIND_AND, "AND"),
+				LogicComponentType.new(&"PALETTE_NOT", LogicComponentType.KIND_NOT, "NOT"),
+			],
+			"hint_partial_wires": [
+				wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
+				wires[3].duplicate(), wires[4].duplicate(), wires[5].duplicate(),
+				wires[6].duplicate(),
+			],
 		}
 	)
 
@@ -142,6 +160,15 @@ func _ram(library: Dictionary) -> Dictionary:
 		{
 			"feature_tags": [&"storage"],
 			"state_feedback_components": [&"REG_0", &"REG_1"],
-			"initial_zoom": 0.9,
+			"initial_zoom": 0.88,
+			"palette_components": [
+				reg_0.duplicate_component(),
+				LogicComponentType.new(&"PALETTE_DECODER", LogicComponentType.KIND_DECODER1_TO_2, "1→2 decoder"),
+				LogicComponentType.new(&"PALETTE_MUX", LogicComponentType.KIND_MUX2_WORD, "word mux"),
+			],
+			"hint_partial_wires": [
+				wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
+				wires[3].duplicate(), wires[4].duplicate(), wires[5].duplicate(),
+			],
 		}
 	)

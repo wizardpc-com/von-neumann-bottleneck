@@ -13,6 +13,8 @@ var _footer: HBoxContainer
 var _minimize_button: Button
 var _expanded_size: Vector2 = Vector2.ZERO
 var _expanded_minimum_size: Vector2 = Vector2.ZERO
+var _base_minimum_size: Vector2 = Vector2.ZERO
+var _edge_margin: float = 8.0
 
 var _dragging: bool = false
 var _resizing: bool = false
@@ -23,12 +25,14 @@ var _size_origin: Vector2 = Vector2.ZERO
 
 func setup(id: StringName, title_text: String) -> void:
 	instrument_id = id
+	_base_minimum_size = custom_minimum_size
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(root)
 
 	var header := HBoxContainer.new()
+	header.name = "WindowHeader"
 	header.custom_minimum_size.y = 38.0
 	header.mouse_filter = Control.MOUSE_FILTER_STOP
 	header.mouse_default_cursor_shape = Control.CURSOR_MOVE
@@ -41,12 +45,14 @@ func setup(id: StringName, title_text: String) -> void:
 	title.add_theme_font_size_override("font_size", 18)
 	header.add_child(title)
 	_minimize_button = Button.new()
+	_minimize_button.name = "MinimizeButton"
 	_minimize_button.text = "—"
 	_minimize_button.tooltip_text = Localization.text(&"window.minimize.tooltip")
 	_minimize_button.custom_minimum_size = Vector2(38.0, 32.0)
 	_minimize_button.pressed.connect(toggle_minimized)
 	header.add_child(_minimize_button)
 	var close_button := Button.new()
+	close_button.name = "CloseButton"
 	close_button.text = "×"
 	close_button.tooltip_text = Localization.text(&"window.close.tooltip")
 	close_button.custom_minimum_size = Vector2(38.0, 32.0)
@@ -113,7 +119,7 @@ func set_minimized(value: bool) -> void:
 		size = _expanded_size if _expanded_size != Vector2.ZERO else custom_minimum_size
 		_minimize_button.text = "—"
 		_minimize_button.tooltip_text = Localization.text(&"window.minimize.tooltip")
-		_clamp_position()
+		fit_to_parent(_edge_margin)
 	minimized_changed.emit(instrument_id, minimized)
 
 
@@ -126,11 +132,47 @@ func resize_by(delta: Vector2) -> void:
 	var parent_control := get_parent() as Control
 	var maximum := Vector2(1600.0, 900.0)
 	if parent_control != null:
-		maximum = parent_control.size - position
-	size = Vector2(
-		clampf(size.x + delta.x, custom_minimum_size.x, maxf(custom_minimum_size.x, maximum.x)),
-		clampf(size.y + delta.y, custom_minimum_size.y, maxf(custom_minimum_size.y, maximum.y))
+		maximum = parent_control.size - position - Vector2.ONE * _edge_margin
+	maximum.x = maxf(1.0, maximum.x)
+	maximum.y = maxf(1.0, maximum.y)
+	var minimum := Vector2(
+		minf(custom_minimum_size.x, maximum.x),
+		minf(custom_minimum_size.y, maximum.y)
 	)
+	size = Vector2(
+		clampf(size.x + delta.x, minimum.x, maximum.x),
+		clampf(size.y + delta.y, minimum.y, maximum.y)
+	)
+
+
+func fit_to_parent(margin: float = 8.0) -> void:
+	var parent_control := get_parent() as Control
+	if parent_control == null or parent_control.size.x <= 0.0 or parent_control.size.y <= 0.0:
+		return
+	_edge_margin = maxf(0.0, margin)
+	var available := Vector2(
+		maxf(1.0, parent_control.size.x - _edge_margin * 2.0),
+		maxf(1.0, parent_control.size.y - _edge_margin * 2.0)
+	)
+	if minimized:
+		custom_minimum_size = Vector2(
+			minf(220.0, available.x),
+			minf(46.0, available.y)
+		)
+	else:
+		var baseline: Vector2 = (
+			_base_minimum_size if _base_minimum_size != Vector2.ZERO
+			else Vector2(360.0, 250.0)
+		)
+		custom_minimum_size = Vector2(
+			minf(baseline.x, available.x),
+			minf(baseline.y, available.y)
+		)
+	size = Vector2(
+		clampf(size.x, custom_minimum_size.x, available.x),
+		clampf(size.y, custom_minimum_size.y, available.y)
+	)
+	_clamp_position()
 
 
 func _on_header_input(event: InputEvent) -> void:
@@ -142,12 +184,12 @@ func _on_header_input(event: InputEvent) -> void:
 			return
 		_dragging = event.pressed
 		if _dragging:
-			_pointer_origin = get_global_mouse_position()
+			_pointer_origin = event.global_position
 			_panel_origin = position
 			focus_requested.emit(instrument_id)
-		accept_event()
+			accept_event()
 	elif event is InputEventMouseMotion and _dragging:
-		position = _panel_origin + get_global_mouse_position() - _pointer_origin
+		position = _panel_origin + event.global_position - _pointer_origin
 		_clamp_position()
 		accept_event()
 
@@ -158,12 +200,12 @@ func _on_resize_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		_resizing = event.pressed
 		if _resizing:
-			_pointer_origin = get_global_mouse_position()
+			_pointer_origin = event.global_position
 			_size_origin = size
 			focus_requested.emit(instrument_id)
 		accept_event()
 	elif event is InputEventMouseMotion and _resizing:
-		var delta: Vector2 = get_global_mouse_position() - _pointer_origin
+		var delta: Vector2 = event.global_position - _pointer_origin
 		size = _size_origin
 		resize_by(delta)
 		accept_event()
@@ -173,6 +215,13 @@ func _clamp_position() -> void:
 	var parent_control := get_parent() as Control
 	if parent_control == null:
 		return
-	var visible_header_width: float = minf(size.x, 170.0)
-	position.x = clampf(position.x, 0.0, maxf(0.0, parent_control.size.x - visible_header_width))
-	position.y = clampf(position.y, 0.0, maxf(0.0, parent_control.size.y - 48.0))
+	position.x = clampf(
+		position.x,
+		_edge_margin,
+		maxf(_edge_margin, parent_control.size.x - size.x - _edge_margin)
+	)
+	position.y = clampf(
+		position.y,
+		_edge_margin,
+		maxf(_edge_margin, parent_control.size.y - size.y - _edge_margin)
+	)

@@ -6,6 +6,10 @@ const SimulationCoreType = preload("res://src/simulation/simulation_core.gd")
 const LogicCircuitType = preload("res://src/circuit/logic_circuit.gd")
 const LogicComponentType = preload("res://src/circuit/logic_component.gd")
 const CircuitSimulatorType = preload("res://src/circuit/circuit_simulator.gd")
+const SystemCatalogType = preload("res://src/system_lab/system_level_catalog.gd")
+const SystemParserType = preload("res://src/system_lab/system_dsl_parser.gd")
+const SystemCoreType = preload("res://src/system_lab/system_simulation_core.gd")
+const SystemTopologyType = preload("res://src/system_lab/system_topology.gd")
 
 const LOCALIZED_SOURCE_FILES := [
 	"res://src/localization/localization.gd",
@@ -24,6 +28,7 @@ const LOCALIZED_SOURCE_FILES := [
 ]
 const LOCALIZED_SOURCE_DIRECTORIES := [
 	"res://src/content",
+	"res://src/system_lab",
 ]
 
 var failures: Array[String] = []
@@ -70,6 +75,21 @@ func _run() -> void:
 	_set_locale("en")
 	var english_circuit_trace = CircuitSimulatorType.new().evaluate(circuit, {&"A": true, &"B": true})
 	_assert(chinese_circuit_trace.canonical_signature() == english_circuit_trace.canonical_signature(), "Locale must not change circuit evaluation or its canonical trace.")
+
+	var system_catalog = SystemCatalogType.new("locale-cpu", "locale-ram")
+	var system_level: Dictionary = system_catalog.definition(&"assembly")
+	var system_case: Dictionary = (system_level["cases"] as Array)[0]
+	var system_topology = SystemTopologyType.new()
+	system_topology.set_part(&"CPU", system_catalog.part(&"cpu_balanced"))
+	system_topology.set_part(&"RAM", system_catalog.part(&"ram_balanced"))
+	system_topology.set_part(&"BUS", system_catalog.part(&"bus_8"))
+	system_topology.connect_required_routes()
+	var system_program = SystemParserType.parse(system_level["program_source"])
+	_set_locale("zh_CN")
+	var chinese_system_trace = SystemCoreType.new().run(system_program, system_topology, [7], [8], String(system_case["name"]))
+	_set_locale("en")
+	var english_system_trace = SystemCoreType.new().run(system_program, system_topology, [7], [8], String(system_case["name"]))
+	_assert(chinese_system_trace.canonical_signature() == english_system_trace.canonical_signature(), "Locale must not change system-chapter timing, diagnosis, or trace identity.")
 
 	_set_locale("zh_CN")
 	if failures.is_empty():

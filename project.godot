@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Von Neumann Bottleneck — CPU Building Prologue"
+config/name="Von Neumann Bottleneck"
 run/main_scene="res://src/ui/prototype_hub.tscn"
 config/features=PackedStringArray("4.7")
 
@@ -18,14 +18,18 @@ config/features=PackedStringArray("4.7")
 
 Localization="*res://src/localization/localization.gd"
 GameMode="*res://src/game/game_mode.gd"
+WindowMode="*res://src/ui/window_mode.gd"
+SystemChapter="*res://src/system_lab/system_chapter_state.gd"
 
 [display]
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+window/size/mode=3
 window/size/window_width_override=1600
 window/size/window_height_override=900
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [game]
 

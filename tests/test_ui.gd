@@ -21,6 +21,13 @@ func _run() -> void:
 	var graph: GraphEdit = main.get("graph")
 	var instruments: Dictionary = main.get("instrument_windows")
 	var game_mode: Node = root.get_node("GameMode")
+	_assert(
+		int(ProjectSettings.get_setting("display/window/size/mode", 0)) == 3
+		and bool(ProjectSettings.get_setting("display/window/size/resizable", false))
+		and String(ProjectSettings.get_setting("display/window/stretch/aspect", "")) == "expand",
+		"The game window must default to resizable fullscreen and expand its logical desktop across the available aspect ratio."
+	)
+	_assert(root.has_node("WindowMode") and main.get("fullscreen_button") != null, "Every gameplay screen must expose the shared fullscreen controller and visible toggle.")
 	_assert(main.get("mode_selector") != null and not bool(game_mode.call("is_test_mode")), "The locality lab must expose the shared selector and start in Game mode by default.")
 	_assert(graph != null, "Main UI must create the fixed Machine Workbench GraphEdit.")
 	_assert(graph.get_connection_list().size() == 6, "Fixed topology must contain all six programmatic links.")
@@ -45,6 +52,11 @@ func _run() -> void:
 	program_window.call("resize_by", Vector2(36.0, 18.0))
 	_assert(not program_window.position.is_equal_approx(program_position), "A floating instrument must be movable inside the workbench.")
 	_assert(not program_window.size.is_equal_approx(program_size), "A floating instrument must be resizable within the available workbench bounds.")
+	var instrument_host: Control = main.get("instrument_host")
+	program_window.position = instrument_host.size + Vector2(300.0, 200.0)
+	program_window.size = instrument_host.size * 2.0
+	program_window.call("fit_to_parent", 10.0)
+	_assert(_control_fits(program_window, instrument_host, 10.0), "A resized/fullscreen workbench must pull every floating instrument completely back inside the visible desktop.")
 	main.call("_close_instrument", &"profiler")
 	_assert(not profiler_window.visible and program_window.visible, "Closing Profiler must leave Program open.")
 	main.call("_open_instrument", &"profiler")
@@ -174,6 +186,14 @@ func _run() -> void:
 
 	main.queue_free()
 	await process_frame
+	var hub_scene: PackedScene = load("res://src/ui/prototype_hub.tscn")
+	var hub: Control = hub_scene.instantiate()
+	root.add_child(hub)
+	for _hub_frame: int in range(2):
+		await process_frame
+	_assert(hub.get("fullscreen_button") != null, "The startup hub must expose the same visible fullscreen toggle as both gameplay screens.")
+	hub.queue_free()
+	await process_frame
 	if failures.is_empty():
 		print("PASS: staged animation, floating instruments, explicit Program apply/explanation/strategies, Profiler, and Cache tradeoff tests passed")
 		quit(0)
@@ -205,6 +225,15 @@ func _paths_equal(left: PackedVector2Array, right: PackedVector2Array) -> bool:
 		if not left[index].is_equal_approx(right[index]):
 			return false
 	return true
+
+
+func _control_fits(control: Control, parent: Control, margin: float) -> bool:
+	return (
+		control.position.x >= margin - 0.1
+		and control.position.y >= margin - 0.1
+		and control.position.x + control.size.x <= parent.size.x - margin + 0.1
+		and control.position.y + control.size.y <= parent.size.y - margin + 0.1
+	)
 
 
 func _raw_progress_for_movement(target: float) -> float:

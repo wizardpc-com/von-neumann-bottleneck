@@ -90,13 +90,14 @@ func symbol_color() -> Color:
 
 
 func gate_label() -> String:
-	return String(component_kind) if component_kind in [&"and", &"or", &"not", &"nor"] else ""
+	return String(component_kind) if component_kind in [&"and", &"or", &"xor", &"not", &"nor"] else ""
 
 
 func shape_profile() -> StringName:
 	match component_kind:
 		&"and": return &"ieee_and"
 		&"or", &"nor": return &"ieee_or"
+		&"xor": return &"ieee_xor"
 		&"not": return &"ieee_inverter"
 		&"input": return &"level_input_tag"
 		&"output": return &"level_output_tag"
@@ -112,6 +113,8 @@ func _draw() -> void:
 			_draw_and()
 		&"or":
 			_draw_or()
+		&"xor":
+			_draw_xor()
 		&"nor":
 			_draw_nor()
 		&"not":
@@ -208,6 +211,19 @@ func _draw_or(
 			Vector2(right, center_y), Vector2(finish, center_y), 0.62, 1.0,
 			_processing_output_visual()
 		)
+
+
+func _draw_xor() -> void:
+	_draw_or("xor")
+	var width: float = size.x
+	var top: float = display_height * 0.09
+	var bottom: float = display_height * 0.91
+	var left: float = width * 0.22
+	var body_color: Color = _stage_color(symbol_color(), 0.20, 0.80)
+	draw_polyline(_cubic(
+		Vector2(left, top), Vector2(width * 0.38, display_height * 0.28),
+		Vector2(width * 0.38, display_height * 0.72), Vector2(left, bottom)
+	), body_color, 3.0, true)
 
 
 func _draw_nor() -> void:
@@ -398,13 +414,9 @@ func _draw_processing_dot(
 	)
 	var point: Vector2 = start.lerp(finish, local_progress)
 	var color: Color = visual.get("color", PROCESS)
-	var tail_start: Vector2 = start.lerp(finish, maxf(0.0, local_progress - 0.18))
-	draw_line(tail_start, point, Color(color, 0.42), 7.0, true)
-	draw_circle(point, 5.0, SURFACE)
-	draw_circle(point, 4.0, color)
-	var text: String = String(visual.get("text", ""))
-	if text.length() > 1 and text != "SHORT":
-		_draw_value_badge(point + Vector2(0.0, -11.0), text, color)
+	# Processing is a growing lead/surface state, not a detached data point.
+	draw_line(start, point, Color(color, 0.26), 8.0, true)
+	draw_line(start, point, color, 3.5, true)
 
 
 func _processing_input_visual(index: int) -> Dictionary:

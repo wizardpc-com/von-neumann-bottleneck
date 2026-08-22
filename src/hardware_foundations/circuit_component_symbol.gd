@@ -93,6 +93,66 @@ func gate_label() -> String:
 	return String(component_kind) if component_kind in [&"and", &"or", &"xor", &"not", &"nor"] else ""
 
 
+func name_layout() -> Dictionary:
+	var width: float = size.x
+	var center_y: float = display_height * 0.5
+	var text: String = ""
+	var center := Vector2(width * 0.5, center_y)
+	var max_width: float = 0.0
+	var preferred_font_size: int = 13
+	var color: Color = symbol_color()
+	match component_kind:
+		&"and":
+			var left: float = width * 0.28
+			var arc_center_x: float = width * 0.56
+			var radius: float = minf(display_height * 0.34, width * 0.22)
+			text = "and"
+			center.x = (left + arc_center_x + radius) * 0.5
+			max_width = arc_center_x + radius - left - 10.0
+			color = _stage_color(symbol_color(), 0.20, 0.80)
+		&"or", &"xor", &"nor":
+			text = String(component_kind)
+			center.x = width * 0.55
+			max_width = width * 0.36
+			color = _stage_color(symbol_color(), 0.20, 0.80)
+		&"not":
+			var left: float = width * 0.27
+			var tip: float = width * 0.69
+			text = "not"
+			center.x = lerpf(left, tip, 0.35)
+			max_width = (tip - left) * 0.58
+			preferred_font_size = 11
+			color = _stage_color(symbol_color(), 0.20, 0.78)
+		&"input":
+			text = terminal_label
+			center.x = width * 0.44
+			max_width = 36.0
+		&"constant":
+			text = str(int(output_value)) if output_known else "C"
+			center.x = width * 0.48
+			max_width = 24.0
+		&"output", &"lamp":
+			text = terminal_label
+			center.x = width * 0.55
+			max_width = 36.0 if component_kind == &"output" else 24.0
+	if text.is_empty():
+		return {}
+	var font_size: int = _fitted_font_size(text, preferred_font_size, max_width)
+	var text_width: float = _text_width(text, font_size)
+	return {
+		"text": text,
+		"center": center,
+		"max_width": max_width,
+		"font_size": font_size,
+		"text_width": text_width,
+		"rect": Rect2(
+			center - Vector2(text_width * 0.5 + 1.0, float(font_size) * 0.5 + 2.0),
+			Vector2(text_width + 2.0, float(font_size) + 4.0)
+		),
+		"color": color,
+	}
+
+
 func shape_profile() -> StringName:
 	match component_kind:
 		&"and": return &"ieee_and"
@@ -129,6 +189,7 @@ func _draw() -> void:
 			_draw_observer(true)
 		&"junction":
 			_draw_junction()
+	_draw_name_overlay()
 
 
 func _draw_and() -> void:
@@ -149,7 +210,6 @@ func _draw_and() -> void:
 	draw_line(Vector2(left, center_y - radius), Vector2(left, center_y + radius), body_color, 4.0, true)
 	draw_line(Vector2(left, center_y + radius), Vector2(arc_center_x, center_y + radius), body_color, 4.0, true)
 	draw_arc(Vector2(arc_center_x, center_y), radius, -PI * 0.5, PI * 0.5, 30, body_color, 4.0, true)
-	_draw_centered_text(Vector2((left + right) * 0.5, center_y), "and", body_color)
 	_draw_output_lead(Vector2(right, center_y), Vector2(width, center_y), output_color)
 	_draw_processing_dot(
 		Vector2(0.0, input_y[0]), Vector2(left, input_y[0]), 0.0, 0.38,
@@ -166,7 +226,6 @@ func _draw_and() -> void:
 
 
 func _draw_or(
-		label: String = "or",
 		output_finish: float = -1.0,
 		draw_output_token: bool = true
 	) -> void:
@@ -196,7 +255,6 @@ func _draw_or(
 		Vector2(left, top), Vector2(width * 0.43, display_height * 0.28),
 		Vector2(width * 0.43, display_height * 0.72), Vector2(left, bottom)
 	), body_color, 4.0, true)
-	_draw_centered_text(Vector2(width * 0.55, center_y), label, body_color)
 	_draw_output_lead(Vector2(right, center_y), Vector2(finish, center_y), output_color)
 	_draw_processing_dot(
 		Vector2(0.0, input_y[0]), Vector2(width * 0.38, input_y[0]), 0.0, 0.38,
@@ -214,7 +272,7 @@ func _draw_or(
 
 
 func _draw_xor() -> void:
-	_draw_or("xor")
+	_draw_or()
 	var width: float = size.x
 	var top: float = display_height * 0.09
 	var bottom: float = display_height * 0.91
@@ -230,7 +288,7 @@ func _draw_nor() -> void:
 	var width: float = size.x
 	var center_y: float = display_height * 0.5
 	var bubble_center := Vector2(width * 0.82, center_y)
-	_draw_or("nor", bubble_center.x - 6.0, false)
+	_draw_or(bubble_center.x - 6.0, false)
 	var body_color: Color = _stage_color(symbol_color(), 0.20, 0.86)
 	draw_circle(bubble_center, 6.0, SURFACE)
 	draw_circle(bubble_center, 6.0, body_color, false, 3.0, true)
@@ -265,7 +323,6 @@ func _draw_not() -> void:
 	draw_polyline(triangle, body_color, 4.0, true)
 	draw_circle(Vector2(tip + bubble_radius, center_y), bubble_radius, SURFACE)
 	draw_circle(Vector2(tip + bubble_radius, center_y), bubble_radius, body_color, false, 3.5, true)
-	_draw_centered_text(Vector2((left + tip) * 0.5, center_y), "not", body_color)
 	var output_start := Vector2(tip + bubble_radius * 2.0, center_y)
 	_draw_output_lead(output_start, Vector2(width, center_y), output_color)
 	_draw_processing_dot(
@@ -301,7 +358,6 @@ func _draw_source() -> void:
 			Color(PROCESS, 0.34 + internal_strength * 0.66), 3.0, true
 		)
 	_draw_output_lead(center + Vector2(22.0, 0.0), Vector2(width, center.y), output_color)
-	_draw_centered_text(center, terminal_label, body_color)
 	_draw_processing_dot(
 		center + Vector2(7.0, 0.0), Vector2(width, center.y), 0.22, 1.0,
 		_processing_output_visual()
@@ -320,7 +376,6 @@ func _draw_constant() -> void:
 		center + Vector2(0.0, -16.0),
 	])
 	draw_polyline(diamond, body_color, 4.0, true)
-	_draw_centered_text(center, str(int(output_value)) if output_known else "C", body_color)
 	_draw_output_lead(center + Vector2(16.0, 0.0), Vector2(width, center.y), output_color)
 	_draw_processing_dot(
 		center + Vector2(4.0, 0.0), Vector2(width, center.y), 0.22, 1.0,
@@ -359,7 +414,6 @@ func _draw_observer(lamp: bool) -> void:
 			center, 9.0, -PI * 0.7, PI * 0.7, 18,
 			Color(PROCESS, 0.26 + settle_strength * 0.74), 3.0, true
 		)
-	_draw_centered_text(center + Vector2(0.0, 1.0), _short_label(terminal_label), body_color)
 	_draw_processing_dot(
 		Vector2(0.0, center.y), center - Vector2(2.0, 0.0), 0.0, 0.76,
 		_processing_input_visual(0)
@@ -462,26 +516,37 @@ func _draw_value_badge(center: Vector2, text: String, color: Color) -> void:
 	)
 
 
-func _draw_centered_text(center: Vector2, text: String, color: Color) -> void:
-	if text.is_empty():
+func _draw_name_overlay() -> void:
+	var layout: Dictionary = name_layout()
+	if layout.is_empty():
 		return
-	var font_size: int = 13 if text.length() <= 3 else 10
-	var text_width: float = ThemeDB.fallback_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size).x
+	var center: Vector2 = layout["center"]
+	var text: String = layout["text"]
+	var font_size: int = int(layout["font_size"])
+	var text_width: float = float(layout["text_width"])
+	var position := center + Vector2(-text_width * 0.5, float(font_size) * 0.36)
+	for offset: Vector2 in [Vector2(-1.0, 0.0), Vector2(1.0, 0.0), Vector2(0.0, -1.0), Vector2(0.0, 1.0)]:
+		draw_string(
+			ThemeDB.fallback_font, position + offset, text,
+			HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, Color(SURFACE, 0.98)
+		)
 	draw_string(
-		ThemeDB.fallback_font,
-		center + Vector2(-text_width * 0.5, float(font_size) * 0.36),
-		text,
-		HORIZONTAL_ALIGNMENT_LEFT,
-		-1.0,
-		font_size,
-		color
+		ThemeDB.fallback_font, position, text,
+		HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, layout["color"]
 	)
 
 
-func _short_label(label: String) -> String:
-	if label.length() <= 5:
-		return label
-	return label.left(4)
+func _fitted_font_size(text: String, preferred: int, max_width: float) -> int:
+	var font_size: int = preferred
+	while font_size > 8 and _text_width(text, font_size) > max_width:
+		font_size -= 1
+	return font_size
+
+
+func _text_width(text: String, font_size: int) -> float:
+	return ThemeDB.fallback_font.get_string_size(
+		text, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size
+	).x
 
 
 func _cubic(a: Vector2, b: Vector2, c: Vector2, d: Vector2) -> PackedVector2Array:

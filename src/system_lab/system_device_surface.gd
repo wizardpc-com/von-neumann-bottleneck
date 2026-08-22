@@ -13,6 +13,7 @@ var activity_kind: StringName = &""
 var activity_progress: float = 0.0
 var activity_details: Dictionary = {}
 var waiting: bool = false
+var selection_active: bool = false
 
 
 func _ready() -> void:
@@ -41,6 +42,17 @@ func clear_activity() -> void:
 	queue_redraw()
 
 
+func set_selection_active(active: bool) -> void:
+	if selection_active == active:
+		return
+	selection_active = active
+	queue_redraw()
+
+
+func outline_color(base_color: Color = OUTLINE) -> Color:
+	return ACCENT if selection_active else base_color
+
+
 func _draw() -> void:
 	match device_kind:
 		&"cpu":
@@ -54,7 +66,7 @@ func _draw() -> void:
 func _draw_cpu() -> void:
 	var chip := Rect2(24.0, 10.0, size.x - 48.0, size.y - 20.0)
 	draw_rect(chip, BACKGROUND, true)
-	draw_rect(chip, WARNING if waiting else OUTLINE, false, 2.0)
+	draw_rect(chip, outline_color(WARNING if waiting else OUTLINE), false, 3.0 if selection_active else 2.0)
 	for pin_index: int in range(5):
 		var y: float = chip.position.y + 10.0 + float(pin_index) * (chip.size.y - 20.0) / 4.0
 		draw_line(Vector2(chip.position.x - 8.0, y), Vector2(chip.position.x, y), OUTLINE, 2.0)
@@ -84,7 +96,7 @@ func _draw_cpu() -> void:
 func _draw_ram() -> void:
 	var outer := Rect2(30.0, 8.0, size.x - 60.0, size.y - 16.0)
 	draw_rect(outer, BACKGROUND, true)
-	draw_rect(outer, OUTLINE, false, 2.0)
+	draw_rect(outer, outline_color(), false, 3.0 if selection_active else 2.0)
 	var columns: int = 8
 	var rows: int = 4
 	var gap: float = 3.0
@@ -114,10 +126,9 @@ func _draw_bus() -> void:
 	var segments: int = maxi(1, int(activity_details.get("segments", 1)))
 	for lane: int in range(4):
 		var y: float = 18.0 + float(lane) * 15.0
-		draw_line(Vector2(left, y), Vector2(right, y), Color(OUTLINE, 0.72), 4.0)
+		draw_line(Vector2(left, y), Vector2(right, y), Color(outline_color(), 0.95 if selection_active else 0.72), 5.0 if selection_active else 4.0)
 		if activity_kind in [&"read_request", &"write_request", &"read_data", &"write_data"]:
 			var phased: float = fmod(activity_progress * float(segments) + float(lane) * 0.11, 1.0)
 			var cursor_x: float = lerpf(left, right, phased)
 			var color := GOOD if activity_kind == &"read_data" else (WARNING if activity_kind == &"write_data" else ACCENT)
 			draw_line(Vector2(maxf(left, cursor_x - 15.0), y), Vector2(cursor_x, y), color, 4.0)
-

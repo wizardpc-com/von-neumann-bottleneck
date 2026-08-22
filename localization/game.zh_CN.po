@@ -1871,6 +1871,18 @@ msgstr "章节地图"
 msgid "system.action.auto_wire"
 msgstr "标准布线"
 
+msgid "system.action.undo"
+msgstr "撤销"
+
+msgid "system.action.undo.tooltip"
+msgstr "撤销最近一次布线、删除或移动（Ctrl+Z）。"
+
+msgid "system.action.redo"
+msgstr "重做"
+
+msgid "system.action.redo.tooltip"
+msgstr "重新应用刚撤销的编辑（Ctrl+Y 或 Ctrl+Shift+Z）。"
+
 msgid "system.workbench.title"
 msgstr "系统桌面 · 8-bit CPU / Bus / RAM"
 
@@ -1897,6 +1909,42 @@ msgstr "线路已连接；屏幕拓扑已更新"
 
 msgid "system.status.connection_removed"
 msgstr "线路已断开；旧运行结果不再代表当前系统"
+
+msgid "system.status.view_moved"
+msgstr "画布视图已移动 — WASD 可连续平移，滚轮缩放，中键拖动画布"
+
+msgid "system.status.selection_count"
+msgstr "已选择 %d 个系统元件；Shift 可继续切换选择"
+
+msgid "system.status.all_selected"
+msgstr "已选择画布中的全部 %d 个系统元件"
+
+msgid "system.status.nodes_moved"
+msgstr "已移动 %d 个选中项 — 可用 Ctrl+Z 撤销"
+
+msgid "system.status.erase_finished"
+msgstr "已删除划过的线路；整次右键操作可一次撤销"
+
+msgid "system.status.device_routes_removed"
+msgstr "已删除 %d 个固定系统元件的关联线路；元件槽位保留"
+
+msgid "system.status.nothing_selected_delete"
+msgstr "没有选中可删除线路的系统元件。"
+
+msgid "system.status.nothing_to_delete"
+msgstr "选中的系统元件没有可删除的关联线路。"
+
+msgid "system.status.action_undone"
+msgstr "已撤销 — 上一个系统编辑状态已恢复"
+
+msgid "system.status.action_redone"
+msgstr "已重做 — 撤销的系统编辑已重新应用"
+
+msgid "system.status.nothing_to_undo"
+msgstr "没有可撤销的系统编辑。"
+
+msgid "system.status.nothing_to_redo"
+msgstr "没有可重做的系统编辑。"
 
 msgid "system.status.invalid_connection"
 msgstr "端口类型不匹配；请求、写入与读取通道不能混接"

@@ -248,12 +248,23 @@ func _run() -> void:
 	_assert(palette_items.size() == 3, "The visible component palette must mirror the level-owned supply instead of hiding it only in a popup menu.")
 	var and_menu_item: int = _component_menu_item_for_kind(main, &"and")
 	_assert(and_menu_item >= 0, "The allowed-components menu must contain an AND gate item.")
+	var placement_window_layout: String = _desktop_window_layout_signature(main)
+	var placement_desktop_size: Vector2 = (main.get("graph_stack") as Control).size
 	graph.zoom = 0.82
 	graph.scroll_offset = Vector2(96.0, 64.0)
 	for _placement_transform_frame: int in range(2):
 		await process_frame
 	main.call("_on_component_menu_item_pressed", and_menu_item)
+	await process_frame
 	_assert(not String(main.get("armed_component_template_key")).is_empty() and bool(graph.get("component_placement_enabled")), "Choosing a component must arm a snapped empty-canvas placement mode.")
+	_assert(
+		_desktop_window_layout_signature(main) == placement_window_layout
+		and (main.get("graph_stack") as Control).size.is_equal_approx(placement_desktop_size),
+		"Arming component placement must not resize or move any floating window or the circuit desktop; before=%s/%s after=%s/%s." % [
+			placement_window_layout, placement_desktop_size,
+			_desktop_window_layout_signature(main), (main.get("graph_stack") as Control).size,
+		]
+	)
 	var preview_motion := InputEventMouseMotion.new()
 	preview_motion.position = Vector2(905.0, 575.0)
 	graph.call("_gui_input", preview_motion)
@@ -279,6 +290,7 @@ func _run() -> void:
 	)
 	_left_click_empty_canvas(graph, Vector2(905.0, 575.0))
 	await process_frame
+	_assert(_desktop_window_layout_signature(main) == placement_window_layout, "Placing a component must not resize, move, minimize, or hide any floating window.")
 	_assert((main.get("component_nodes") as Dictionary).has(&"AND_NEW_001") and (main.get("component_nodes") as Dictionary).size() == 7, "One empty-canvas click must create a deterministic real component, not a visual-only ghost.")
 	_assert((main.get("component_catalog") as Dictionary)[&"AND_NEW_001"].kind == &"and" and (main.get("component_nodes") as Dictionary)[&"AND_NEW_001"].selected, "A placed menu component must enter the authoritative catalog and become selected.")
 	_assert((main.get("current_circuit") as LogicCircuit).components.has(&"AND_NEW_001"), "A placed menu component must enter the circuit model that simulation evaluates.")
@@ -300,18 +312,21 @@ func _run() -> void:
 		await process_frame
 	_left_click_empty_canvas(graph, Vector2(1085.0, 575.0))
 	await process_frame
+	_assert(_desktop_window_layout_signature(main) == placement_window_layout, "Continuous component placement must keep the desktop window layout byte-stable.")
 	_assert((main.get("component_nodes") as Dictionary).has(&"AND_NEW_002") and (main.get("component_nodes") as Dictionary).size() == 8, "A second left click must place another copy without returning to the palette.")
 	var component_count_before_cancel: int = (main.get("component_nodes") as Dictionary).size()
 	var cancel_click := InputEventMouseButton.new()
 	cancel_click.button_index = MOUSE_BUTTON_RIGHT
 	cancel_click.pressed = true
 	main.call("_input", cancel_click)
+	await process_frame
 	_assert(
 		String(main.get("armed_component_template_key")).is_empty()
 		and not bool(graph.get("component_placement_enabled"))
 		and (main.get("component_nodes") as Dictionary).size() == component_count_before_cancel,
 		"Right click while placing must cancel the ghost without erasing the component underneath that gesture."
 	)
+	_assert(_desktop_window_layout_signature(main) == placement_window_layout, "Cancelling placement must not disturb the floating-window layout.")
 	_shortcut(main, KEY_Z)
 	_assert((main.get("component_nodes") as Dictionary).size() == 7 and not (main.get("component_nodes") as Dictionary).has(&"AND_NEW_002"), "Undo must remove only the latest continuously placed component.")
 	_shortcut(main, KEY_Z)
@@ -349,13 +364,54 @@ func _run() -> void:
 	symbols = main.get("component_symbols")
 	_assert(nodes.size() == 6, "Undo must restore the complete cut selection as one edit.")
 	var scroll_before_keys: Vector2 = graph.scroll_offset
-	_key(main, KEY_D)
-	_assert(graph.scroll_offset.x > scroll_before_keys.x, "D must pan the schematic view to the right.")
-	_key(main, KEY_A)
-	_assert(graph.scroll_offset.is_equal_approx(scroll_before_keys), "Opposite WASD navigation must return to the prior view without moving components.")
+	_key_down(main, KEY_D)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_before_keys), "A WASD press event must not cause the old fixed-distance camera jump.")
+	main.call("_process", 0.25)
+	_key_up(main, KEY_D)
+	_assert(is_equal_approx(graph.scroll_offset.x - scroll_before_keys.x, 180.0), "Held-key camera movement must be delta based at the configured continuous speed.")
+	var scroll_after_release: Vector2 = graph.scroll_offset
+	main.call("_process", 0.25)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_after_release), "Releasing WASD must stop the camera immediately without a sticky movement interval.")
+	_key_down(main, KEY_D)
+	main.call("_notification", MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	main.call("_process", 0.10)
+	_key_up(main, KEY_D)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_after_release), "Losing application focus must clear held movement so returning to the game cannot leave the camera stuck.")
+	_key_down(main, KEY_A)
+	main.call("_process", 0.25)
+	_key_up(main, KEY_A)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_before_keys), "Equal continuous WASD movement in opposite directions must return to the prior view without moving components.")
+	var focus_probe := LineEdit.new()
+	focus_probe.text = "focus"
+	main.add_child(focus_probe)
+	focus_probe.grab_focus()
+	_key_down(main, KEY_D)
+	main.call("_process", 0.10)
+	_key_up(main, KEY_D)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_before_keys), "Typing in a visible text field must not leak WASD into canvas movement.")
+	var focus_click := InputEventMouseButton.new()
+	focus_click.button_index = MOUSE_BUTTON_LEFT
+	focus_click.pressed = true
+	main.call("_on_graph_gui_input", focus_click)
+	_key_down(main, KEY_D)
+	main.call("_process", 0.10)
+	_key_up(main, KEY_D)
+	_assert(graph.scroll_offset.x > scroll_before_keys.x and root.gui_get_focus_owner() == graph, "Clicking the canvas after text entry must restore responsive WASD movement immediately.")
+	graph.scroll_offset = scroll_before_keys
+	focus_probe.queue_free()
 	var desktop_windows: Dictionary = main.get("desktop_windows")
 	_assert(desktop_windows.size() == 3 and (desktop_windows[&"task"] as Control).visible and (desktop_windows[&"test_bench"] as Control).visible and (desktop_windows[&"components"] as Control).visible, "Mission, Test Bench, and the component palette must coexist as desktop-style floating windows.")
 	var task_window: Control = desktop_windows[&"task"]
+	var bench_window: Control = desktop_windows[&"test_bench"]
+	var components_window: Control = desktop_windows[&"components"]
+	var desktop_area: Vector2 = (main.get("graph_stack") as Control).size
+	_assert(
+		task_window.size.x >= 320.0 and bench_window.size.x >= 320.0
+		and components_window.size.x >= 280.0
+		and components_window.size.y <= desktop_area.y * 0.60
+		and components_window.position.x - task_window.get_rect().end.x >= desktop_area.x * 0.35,
+		"Default Hardware windows must be comfortably readable while preserving a large unobstructed center workspace."
+	)
 	var original_window_position: Vector2 = task_window.position
 	var original_window_height: float = task_window.size.y
 	task_window.call("move_by", Vector2(52.0, 18.0))
@@ -448,6 +504,17 @@ func _run() -> void:
 	_assert((symbols[&"AND_1"] as CircuitComponentSymbol).gate_label() == "and", "The AND symbol must visibly carry its English name.")
 	_assert((symbols[&"OR_1"] as CircuitComponentSymbol).gate_label() == "or", "The OR symbol must visibly carry its English name.")
 	_assert((symbols[&"NOT_1"] as CircuitComponentSymbol).gate_label() == "not", "The NOT symbol must visibly carry its English name.")
+	for label_case: Array in [[&"AND_1", "and"], [&"OR_1", "or"], [&"NOT_1", "not"]]:
+		var named_symbol := symbols[label_case[0]] as CircuitComponentSymbol
+		var name_layout: Dictionary = named_symbol.name_layout()
+		_assert(
+			String(name_layout.get("text", "")) == String(label_case[1])
+			and float(name_layout.get("text_width", INF)) <= float(name_layout.get("max_width", 0.0))
+			and Rect2(
+				Vector2.ZERO, Vector2(named_symbol.size.x, named_symbol.display_height)
+			).encloses(name_layout.get("rect", Rect2())),
+			"%s must render its complete name inside its own symbol bounds." % label_case[0]
+		)
 	var xor_symbol: Control = load("res://src/hardware_foundations/circuit_component_symbol.gd").new()
 	xor_symbol.call("configure", LogicComponent.KIND_XOR, "", 66.0)
 	_assert(StringName(xor_symbol.call("shape_profile")) == &"ieee_xor", "XOR must use a distinct extra-curve schematic silhouette rather than reusing OR unchanged.")
@@ -867,6 +934,12 @@ func _run() -> void:
 	symbols = main.get("component_symbols")
 	_assert(StringName((symbols[&"SUM_OUT"] as CircuitComponentSymbol).shape_profile()) == &"level_output_tag", "Half Adder probes must use the larger, directionally distinct level-output silhouette.")
 	_assert((symbols[&"SUM_OUT"] as CircuitComponentSymbol).shape_profile() != (symbols[&"A_IN"] as CircuitComponentSymbol).shape_profile(), "Input and output terminals must not reuse the same visual shape.")
+	var carry_name_layout: Dictionary = (symbols[&"CARRY_OUT"] as CircuitComponentSymbol).name_layout()
+	_assert(
+		String(carry_name_layout.get("text", "")) == "CARRY"
+		and float(carry_name_layout.get("text_width", INF)) <= float(carry_name_layout.get("max_width", 0.0)),
+		"Terminal labels must shrink to fit instead of truncating the player's visible component name."
+	)
 	_assert(not nodes.has(&"Profiler"), "Early logic section must not introduce the performance Profiler.")
 	_assert((main.get("live_state") as CircuitLiveStateType).is_valid(), "A fresh unwired Half Adder must be a valid incomplete design, not a simulator error.")
 	_assert((main.get("diagnostics_label") as Label).text.contains("这不是故障"), "The initial Half Adder diagnostic must explicitly distinguish an unwired design from a fault.")
@@ -1018,6 +1091,22 @@ func _key(main: Control, keycode: Key) -> void:
 	main.call("_input", event)
 
 
+func _key_down(main: Control, keycode: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.physical_keycode = keycode
+	event.pressed = true
+	main.call("_input", event)
+
+
+func _key_up(main: Control, keycode: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.physical_keycode = keycode
+	event.pressed = false
+	main.call("_input", event)
+
+
 func _component_menu_item_for_kind(main: Control, kind: StringName) -> int:
 	var menu: MenuButton = main.get("component_menu_button")
 	var templates: Dictionary = main.get("component_menu_templates")
@@ -1032,6 +1121,27 @@ func _component_menu_item_for_kind(main: Control, kind: StringName) -> int:
 		if template.kind == kind:
 			return popup.get_item_id(item_index)
 	return -1
+
+
+func _desktop_window_layout_signature(main: Control) -> String:
+	var snapshot: Array[Dictionary] = []
+	var windows: Dictionary = main.get("desktop_windows")
+	var ids: Array[StringName] = []
+	for id_variant: Variant in windows.keys():
+		ids.append(StringName(id_variant))
+	ids.sort()
+	for id: StringName in ids:
+		var window: Control = windows[id]
+		snapshot.append({
+			"id": String(id),
+			"x": snappedf(window.position.x, 0.01),
+			"y": snappedf(window.position.y, 0.01),
+			"width": snappedf(window.size.x, 0.01),
+			"height": snappedf(window.size.y, 0.01),
+			"visible": window.visible,
+			"minimized": bool(window.get("minimized")),
+		})
+	return JSON.stringify(snapshot)
 
 
 func _click_control(control: Control) -> void:

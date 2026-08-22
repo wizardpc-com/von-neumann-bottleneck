@@ -1871,6 +1871,18 @@ msgstr "CHAPTER MAP"
 msgid "system.action.auto_wire"
 msgstr "STANDARD WIRING"
 
+msgid "system.action.undo"
+msgstr "Undo"
+
+msgid "system.action.undo.tooltip"
+msgstr "Undo the latest wiring, deletion, or movement edit (Ctrl+Z)."
+
+msgid "system.action.redo"
+msgstr "Redo"
+
+msgid "system.action.redo.tooltip"
+msgstr "Reapply the latest undone edit (Ctrl+Y or Ctrl+Shift+Z)."
+
 msgid "system.workbench.title"
 msgstr "SYSTEM DESKTOP · 8-bit CPU / Bus / RAM"
 
@@ -1897,6 +1909,42 @@ msgstr "Route connected; the displayed topology is updated"
 
 msgid "system.status.connection_removed"
 msgstr "Route removed; old results no longer describe this system"
+
+msgid "system.status.view_moved"
+msgstr "Canvas view moved — hold WASD to pan, use the wheel to zoom, or middle-drag the canvas"
+
+msgid "system.status.selection_count"
+msgstr "%d system device(s) selected; hold Shift to keep toggling"
+
+msgid "system.status.all_selected"
+msgstr "Selected all %d system devices on the canvas"
+
+msgid "system.status.nodes_moved"
+msgstr "Moved %d selected item(s) — Ctrl+Z can undo it"
+
+msgid "system.status.erase_finished"
+msgstr "Removed the swept routes; the complete right-button stroke is one undoable edit"
+
+msgid "system.status.device_routes_removed"
+msgstr "Removed routes incident to %d fixed system device(s); their slots remain available"
+
+msgid "system.status.nothing_selected_delete"
+msgstr "No system device is selected for route deletion."
+
+msgid "system.status.nothing_to_delete"
+msgstr "The selected system devices have no incident routes to remove."
+
+msgid "system.status.action_undone"
+msgstr "UNDONE — the previous system editor state was restored"
+
+msgid "system.status.action_redone"
+msgstr "REDONE — the undone system edit was reapplied"
+
+msgid "system.status.nothing_to_undo"
+msgstr "There is no system edit to undo."
+
+msgid "system.status.nothing_to_redo"
+msgstr "There is no system edit to redo."
 
 msgid "system.status.invalid_connection"
 msgstr "Port types do not match; request, write, and read lanes stay distinct"

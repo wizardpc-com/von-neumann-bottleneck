@@ -62,6 +62,7 @@ func _run() -> void:
 	main.call("_open_campaign_map")
 	main.call("_start_prologue_level", &"load_store")
 	await process_frame
+	_assert_module_text_clearance(main, &"load_store")
 	var graph: GraphEdit = main.get("graph")
 	_assert(graph.get_connection_list().size() == 5, "The LOAD/STORE bridge must reuse the sealed computer with an already connected external Test Bench.")
 	_assert(not bool(graph.get("branch_edit_enabled")), "The bridge topology must be locked so it is a program/data-flow demonstration, not repeated wiring.")
@@ -124,6 +125,7 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	main.call("_start_prologue_level", level_id)
 	await process_frame
 	_assert(StringName(main.get("current_phase")) == &"prologue", "%s must open as an editable construction level." % level_id)
+	_assert_module_text_clearance(main, level_id)
 	if level_id in [&"latch", &"register", &"ram"]:
 		var storage_label: Label = main.get("storage_state_label")
 		_assert(storage_label != null and is_instance_valid(storage_label), "%s must expose a committed-state monitor separate from live port preview." % level_id)
@@ -259,6 +261,17 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 
 func _assert_cpu_playback(main: Control) -> void:
 	var report: Dictionary = main.get("prologue_report")
+	var visible_names: Dictionary[String, bool] = {}
+	for rows_variant: Variant in (main.get("component_row_labels") as Dictionary).values():
+		var rows: Array = rows_variant
+		if not rows.is_empty():
+			visible_names[String(rows[rows.size() / 2].call("visible_component_name"))] = true
+	_assert(
+		visible_names.has("Control") and visible_names.has("ALU4")
+		and visible_names.has("Register4") and visible_names.has("RAM2x4")
+		and visible_names.has("Word Mux"),
+		"CPU modules must render their complete function names rather than line-obscured abbreviations."
+	)
 	var component_kinds: Dictionary[StringName, bool] = {}
 	var parallel_component_wave: bool = false
 	var word_wire_event: PrologueEvent
@@ -306,6 +319,37 @@ func _assert_cpu_playback(main: Control) -> void:
 		_assert(not pulses.is_empty() and _paths_equal(pulses[0]["path"], expected_path), "Four-bit animation must follow the exact currently rendered connection curve.")
 		_assert(not pulses.is_empty() and String(pulses[0].get("display", "")).begins_with("0x"), "A word animation must display its multi-bit value instead of collapsing it to a binary dot.")
 	_assert(bool(report.get("passed", false)), "Animation inspection must not influence the already computed CPU result.")
+
+
+func _assert_module_text_clearance(main: Control, level_id: StringName) -> void:
+	for rows_variant: Variant in (main.get("component_row_labels") as Dictionary).values():
+		var rows: Array = rows_variant
+		if rows.is_empty():
+			continue
+		var row: Control = rows[rows.size() / 2]
+		var name: String = String(row.call("visible_component_name"))
+		var layout: Dictionary = row.call("name_layout")
+		var name_rect: Rect2 = layout.get("rect", Rect2())
+		var safe_rect: Rect2 = layout.get("safe_rect", Rect2())
+		var icon_rect: Rect2 = layout.get("icon_rect", Rect2())
+		_assert(
+			String(layout.get("text", "")) == name
+			and safe_rect.encloses(name_rect)
+			and name_rect.size.x > 4.0,
+			"%s %s must keep its complete name inside the row's port-free safe region; safe=%s name=%s." % [level_id, name, safe_rect, name_rect]
+		)
+		_assert(
+			not icon_rect.has_area() or (
+				safe_rect.encloses(icon_rect) and not icon_rect.intersects(name_rect)
+			),
+			"%s %s must keep its function glyph separate from its name." % [level_id, name]
+		)
+		for port_layout: Dictionary in row.call("port_label_layouts"):
+			var port_rect: Rect2 = port_layout.get("rect", Rect2())
+			_assert(
+				not row.call("function_mark_rect").intersects(port_rect.grow(2.0)),
+				"%s %s must keep port text clear of its function glyph and complete name." % [level_id, name]
+			)
 
 
 func _palette_kinds(main: Control) -> Array[StringName]:

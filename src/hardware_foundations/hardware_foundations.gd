@@ -46,6 +46,7 @@ const PORT_TYPE: int = 1
 const SIGNAL_HIGH := GOOD
 const SIGNAL_LOW := BAD
 const SIGNAL_HIGH_Z := Color("8b929d")
+const GRAPH_KEYBOARD_PAN_SPEED: float = 720.0
 const COMPLETION_SUMMARY_KEYS := {
 	&"tutorial": &"hardware.completion.summary.tutorial",
 	&"half_adder": &"hardware.completion.summary.half_adder",
@@ -112,7 +113,6 @@ var hub_button: Button
 var desktop_windows: Dictionary[StringName, FloatingInstrumentPanel] = {}
 var desktop_window_buttons: Dictionary[StringName, Button] = {}
 var desktop_z_counter: int = 100
-var desktop_layout_size: Vector2 = Vector2(1500.0, 650.0)
 var phase_label: Label
 var status_label: Label
 var trace_caption_label: Label
@@ -158,6 +158,7 @@ var placed_component_counter: int = 0
 var builtin_connection_drag_active: bool = false
 var editor_toolbar_buttons: Array[Button] = []
 var active_wire_color_index: int = WirePaletteType.DEFAULT_INDEX
+var graph_pan_keys: Dictionary[Key, bool] = {}
 
 var active_workbench_namespace: StringName = &""
 var active_workbench_name: String = ""
@@ -216,6 +217,9 @@ func _ready() -> void:
 		_show_tutorial()
 	else:
 		_open_campaign_map()
+	# The phase builders run before containers receive their final viewport size.
+	# Reapply the initial window arrangement once against the real desktop bounds.
+	call_deferred("_layout_desktop_windows")
 	if "--capture-workbench-create" in user_arguments:
 		call_deferred("_prepare_workbench_create_capture")
 	elif "--capture-level-completion" in user_arguments:
@@ -262,9 +266,17 @@ func _input(event: InputEvent) -> void:
 	if _handle_component_placement_global_input(event):
 		get_viewport().set_input_as_handled()
 		return
+	if _handle_graph_pan_key_event(event):
+		get_viewport().set_input_as_handled()
+		return
 	if not _handle_editor_shortcut(event):
 		return
 	get_viewport().set_input_as_handled()
+
+
+func _notification(what: int) -> void:
+	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT:
+		graph_pan_keys.clear()
 
 
 func _handle_component_placement_global_input(event: InputEvent) -> bool:
@@ -458,6 +470,7 @@ func _install_support_library(
 
 
 func _process(delta: float) -> void:
+	_update_graph_keyboard_pan(delta)
 	if sealing:
 		sealing_elapsed += delta
 		encapsulation_effect.set_progress(sealing_elapsed / 1.55)
@@ -542,11 +555,16 @@ func _build_interface() -> void:
 	root_box.add_child(footer)
 	trace_caption_label = Label.new()
 	trace_caption_label.text = _t(&"hardware.trace.empty")
+	trace_caption_label.clip_text = true
+	trace_caption_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	trace_caption_label.add_theme_color_override("font_color", MUTED)
 	trace_caption_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	footer.add_child(trace_caption_label)
 	diagnostics_label = Label.new()
 	diagnostics_label.text = _t(&"hardware.diagnostics.empty")
+	diagnostics_label.custom_minimum_size.x = 240.0
+	diagnostics_label.clip_text = true
+	diagnostics_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	diagnostics_label.add_theme_color_override("font_color", MUTED)
 	footer.add_child(diagnostics_label)
 	for data: Array in [
@@ -619,11 +637,13 @@ func _make_desktop_window_content(id: StringName) -> Control:
 func _add_desktop_window(id: StringName, title_text: String, content: Control) -> void:
 	var window: FloatingInstrumentPanel = FloatingInstrumentPanelType.new()
 	window.name = "%sWindow" % String(id).to_pascal_case()
-	window.custom_minimum_size = (
-		Vector2(220.0, 160.0)
-		if id in [&"task", &"components"]
-		else Vector2(285.0, 180.0)
-	)
+	match id:
+		&"task":
+			window.custom_minimum_size = Vector2(300.0, 190.0)
+		&"components":
+			window.custom_minimum_size = Vector2(270.0, 220.0)
+		_:
+			window.custom_minimum_size = Vector2(320.0, 220.0)
 	var border_color: Color = ACCENT if id in [&"test_bench", &"components"] else PURPLE
 	window.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, border_color))
 	graph_stack.add_child(window)
@@ -646,8 +666,8 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	var margin: float = clampf(minf(area.x, area.y) * 0.025, 12.0, 20.0)
 	var gap: float = clampf(margin * 0.75, 10.0, 16.0)
 	var usable_height: float = maxf(180.0, area.y - margin * 2.0)
-	var left_width: float = clampf(area.x * 0.23, 285.0, 420.0)
-	var component_width: float = clampf(area.x * 0.17, 220.0, 310.0)
+	var left_width: float = clampf(area.x * 0.25, 320.0, 420.0)
+	var component_width: float = clampf(area.x * 0.19, 280.0, 340.0)
 	if reset_windows:
 		for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
 			window.show_instrument()
@@ -677,28 +697,40 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 		component_window.position = Vector2(area.x - margin - component_width, margin)
 		component_window.size = Vector2(
 			component_width,
-			clampf(usable_height * 0.64, 260.0, usable_height)
+			clampf(usable_height * 0.56, 260.0, minf(520.0, usable_height))
 		)
-		var task_ratio: float = 0.52
+		var task_ratio: float = 0.40
+		var bench_ratio: float = 0.52
 		match current_phase:
-			&"half_adder": task_ratio = 0.37
-			&"sealed": task_ratio = 0.54
-			&"prologue", &"prologue_complete": task_ratio = 0.44
-		var split_height: float = maxf(2.0, usable_height - gap)
-		var minimum_section: float = minf(180.0, split_height * 0.5)
+			&"tutorial":
+				task_ratio = 0.43
+				bench_ratio = 0.40
+			&"half_adder":
+				task_ratio = 0.34
+				bench_ratio = 0.52
+			&"sealed":
+				task_ratio = 0.48
+				bench_ratio = 0.40
+			&"prologue", &"prologue_complete":
+				task_ratio = 0.40
+				bench_ratio = 0.54
 		var task_height: float = clampf(
-			split_height * task_ratio,
-			minimum_section,
-			split_height - minimum_section
+			usable_height * task_ratio,
+			minf(180.0, usable_height),
+			minf(340.0, usable_height)
 		)
-		var bench_height: float = split_height - task_height
+		var bench_available: float = maxf(1.0, usable_height - task_height - gap)
+		var bench_height: float = clampf(
+			usable_height * bench_ratio,
+			minf(200.0, bench_available),
+			minf(420.0, bench_available)
+		)
 		task_window.position = Vector2(margin, margin)
 		task_window.size = Vector2(left_width, task_height)
 		bench_window.position = Vector2(margin, margin + task_height + gap)
 		bench_window.size = Vector2(left_width, bench_height)
 	for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
 		window.fit_to_parent(margin)
-	desktop_layout_size = area
 	_focus_desktop_window(&"task" if current_phase in [&"campaign", &"hint"] else &"test_bench")
 
 
@@ -713,20 +745,8 @@ func _on_graph_stack_resized() -> void:
 		# actual viewport instead of scaling a fallback layout across that line.
 		_layout_desktop_windows(false)
 		return
-	var previous := Vector2(
-		maxf(1.0, desktop_layout_size.x),
-		maxf(1.0, desktop_layout_size.y)
-	)
-	var scale := Vector2(new_size.x / previous.x, new_size.y / previous.y)
 	for window: FloatingInstrumentPanel in desktop_windows.values():
-		window.position = Vector2(
-			window.position.x * scale.x,
-			window.position.y * scale.y
-		)
-		if not window.minimized:
-			window.size = Vector2(window.size.x * scale.x, window.size.y * scale.y)
 		window.fit_to_parent(10.0)
-	desktop_layout_size = new_size
 
 
 func _show_desktop_window(id: StringName) -> void:
@@ -825,7 +845,10 @@ func _build_toolbar() -> Control:
 	var row := HBoxContainer.new()
 	toolbar.add_child(row)
 	status_label = Label.new()
+	status_label.custom_minimum_size.x = 120.0
 	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	status_label.clip_text = true
+	status_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	status_label.add_theme_color_override("font_color", MUTED)
 	row.add_child(status_label)
 	workbench_menu_button = MenuButton.new()
@@ -1687,6 +1710,7 @@ func _create_graph() -> void:
 		trace_overlay.free()
 	graph = CircuitGraphEditType.new()
 	graph.name = "CircuitGraph"
+	graph.focus_mode = Control.FOCUS_ALL
 	graph.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	graph.grid_pattern = GraphEdit.GRID_PATTERN_DOTS
 	graph.snapping_enabled = true
@@ -1908,7 +1932,7 @@ func _arm_component_template(key: String) -> void:
 		return
 	armed_component_template_key = key
 	var template: LogicComponent = component_menu_templates[key]
-	component_menu_button.text = _t(&"hardware.component_menu.armed", [_component_menu_label(template)])
+	component_menu_button.text = _t(&"hardware.component_menu.button")
 	graph.set_component_placement_preview(
 		true,
 		_create_component_placement_ghost(template),
@@ -2114,7 +2138,7 @@ func _component_node_size(component: LogicComponent) -> Vector2:
 		_:
 			var row_count: int = maxi(1, maxi(component.input_count(), component.output_count()))
 			var state_height: float = 26.0 if component.is_stateful() else 0.0
-			return Vector2(220.0, maxf(64.0, float(row_count) * 31.0 + 16.0 + state_height))
+			return Vector2(244.0, maxf(64.0, float(row_count) * 31.0 + 16.0 + state_height))
 
 
 func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
@@ -2898,8 +2922,50 @@ func _on_connection_drag_ended() -> void:
 
 
 func _on_graph_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
+		_focus_graph_for_keyboard()
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		_cancel_connection_drag()
+
+
+func _handle_graph_pan_key_event(event: InputEvent) -> bool:
+	if not event is InputEventKey:
+		return false
+	var key_event := event as InputEventKey
+	if key_event.keycode in [KEY_CTRL, KEY_META, KEY_ALT]:
+		if key_event.pressed:
+			graph_pan_keys.clear()
+		return false
+	var pan_key: Key = key_event.physical_keycode
+	if pan_key not in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		pan_key = key_event.keycode
+	if pan_key not in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		return false
+	if not key_event.pressed:
+		var was_active: bool = graph_pan_keys.has(pan_key)
+		graph_pan_keys.erase(pan_key)
+		return was_active
+	if key_event.ctrl_pressed or key_event.meta_pressed or key_event.alt_pressed \
+			or graph == null or not graph.is_visible_in_tree() or _editor_locked() \
+			or _keyboard_focus_accepts_text():
+		graph_pan_keys.clear()
+		return false
+	graph_pan_keys[pan_key] = true
+	if not key_event.echo:
+		_cancel_component_placement(false)
+		_focus_graph_for_keyboard()
+		status_label.text = _t(&"hardware.status.view_moved")
+		status_label.add_theme_color_override("font_color", MUTED)
+	return true
+
+
+func _focus_graph_for_keyboard() -> void:
+	if graph == null or not graph.is_visible_in_tree():
+		return
+	graph.grab_focus()
+	for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		if Input.is_physical_key_pressed(key):
+			graph_pan_keys[key] = true
 
 
 func _handle_editor_shortcut(event: InputEvent) -> bool:
@@ -2915,7 +2981,7 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 	var editor_action: bool = (
 		(key_event.ctrl_pressed or key_event.meta_pressed)
 		and key_event.keycode in [KEY_Z, KEY_Y, KEY_A, KEY_X, KEY_C, KEY_V, KEY_F, KEY_E, KEY_R]
-	) or key_event.keycode in [KEY_ESCAPE, KEY_W, KEY_A, KEY_S, KEY_D, KEY_F4, KEY_F5, KEY_F6] \
+	) or key_event.keycode in [KEY_ESCAPE, KEY_F4, KEY_F5, KEY_F6] \
 		or (key_event.keycode >= KEY_1 and key_event.keycode <= KEY_9)
 	if editor_action:
 		_cancel_component_placement(false)
@@ -2961,18 +3027,6 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 		KEY_ESCAPE:
 			_cancel_connection_drag()
 			return true
-		KEY_W:
-			_pan_graph_view(Vector2.UP)
-			return true
-		KEY_A:
-			_pan_graph_view(Vector2.LEFT)
-			return true
-		KEY_S:
-			_pan_graph_view(Vector2.DOWN)
-			return true
-		KEY_D:
-			_pan_graph_view(Vector2.RIGHT)
-			return true
 		KEY_F4:
 			_reset_current_simulation()
 			return true
@@ -2989,7 +3043,8 @@ func _keyboard_focus_accepts_text() -> bool:
 	if component_menu_button != null and component_menu_button.get_popup().visible:
 		return true
 	var focused: Control = get_viewport().gui_get_focus_owner()
-	return focused is LineEdit or focused is TextEdit
+	return focused != null and focused.is_visible_in_tree() \
+		and (focused is LineEdit or focused is TextEdit)
 
 
 func _color_hovered_wire(whole_net: bool) -> void:
@@ -3105,13 +3160,22 @@ func _wire_endpoint_key(component_id: StringName, port: int, is_output: bool) ->
 	return "%s:%s:%d" % ["O" if is_output else "I", component_id, port]
 
 
-func _pan_graph_view(direction: Vector2) -> void:
-	if graph == null:
+func _update_graph_keyboard_pan(delta: float) -> void:
+	if graph == null or not graph.is_visible_in_tree() or _editor_locked() \
+			or _keyboard_focus_accepts_text():
+		graph_pan_keys.clear()
 		return
-	graph.scroll_offset += direction * 72.0
-	graph.queue_signal_wire_redraw()
-	status_label.text = _t(&"hardware.status.view_moved")
-	status_label.add_theme_color_override("font_color", MUTED)
+	var direction := Vector2(
+		float(graph_pan_keys.has(KEY_D)) - float(graph_pan_keys.has(KEY_A)),
+		float(graph_pan_keys.has(KEY_S)) - float(graph_pan_keys.has(KEY_W))
+	)
+	_advance_graph_pan(delta, direction)
+
+
+func _advance_graph_pan(delta: float, direction: Vector2) -> void:
+	if graph == null or direction.is_zero_approx() or delta <= 0.0:
+		return
+	graph.scroll_offset += direction.normalized() * GRAPH_KEYBOARD_PAN_SPEED * delta
 
 
 func _run_current_debug() -> void:
@@ -3739,6 +3803,8 @@ func _on_component_gui_input(event: InputEvent, component_id: StringName) -> voi
 	if _editor_locked() or not event is InputEventMouseButton:
 		return
 	var mouse_event := event as InputEventMouseButton
+	if mouse_event.pressed:
+		_focus_graph_for_keyboard()
 	if not armed_component_template_key.is_empty() and mouse_event.pressed:
 		_cancel_component_placement(false)
 		if mouse_event.button_index == MOUSE_BUTTON_RIGHT:

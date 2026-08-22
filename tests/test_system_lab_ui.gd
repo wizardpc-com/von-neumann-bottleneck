@@ -103,6 +103,119 @@ func _run() -> void:
 		saved_custom_color = saved_custom_color or int(connection.get("color_index", -1)) == 5
 	_assert(saved_custom_color, "Chapter 1 session state must preserve player-selected route colors separately from topology evidence.")
 
+	graph.scroll_offset = Vector2(240.0, 160.0)
+	var scroll_before_pan: Vector2 = graph.scroll_offset
+	_key_down(main, KEY_D)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_before_pan), "Chapter 1 WASD input must not use fixed-distance key-repeat jumps.")
+	for _pan_slice: int in range(15):
+		main.call("_process", 1.0 / 60.0)
+	_key_up(main, KEY_D)
+	_assert(is_equal_approx(graph.scroll_offset.x - scroll_before_pan.x, 180.0), "Chapter 1 held-key camera motion must be smooth and frame-delta based.")
+	var scroll_after_pan_release: Vector2 = graph.scroll_offset
+	main.call("_process", 0.25)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_after_pan_release), "Chapter 1 key release must stop camera movement immediately.")
+	_key_down(main, KEY_D)
+	main.call("_notification", MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	main.call("_process", 0.10)
+	_key_up(main, KEY_D)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_after_pan_release), "Chapter 1 application focus loss must clear held movement state.")
+	_key_down(main, KEY_A)
+	main.call("_process", 0.25)
+	_key_up(main, KEY_A)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_before_pan), "Opposite Chapter 1 camera motion must restore the view without moving hardware; before=%s after=%s." % [scroll_before_pan, graph.scroll_offset])
+	main.call("_open_instrument", &"program")
+	var program_editor: CodeEdit = main.get("editor")
+	program_editor.grab_focus()
+	_key_down(main, KEY_D)
+	main.call("_process", 0.10)
+	_key_up(main, KEY_D)
+	_assert(graph.scroll_offset.is_equal_approx(scroll_before_pan), "Chapter 1 program editing must not move the canvas with WASD.")
+	var system_focus_click := InputEventMouseButton.new()
+	system_focus_click.button_index = MOUSE_BUTTON_LEFT
+	system_focus_click.pressed = true
+	main.call("_on_system_graph_gui_input", system_focus_click)
+	_key_down(main, KEY_D)
+	main.call("_process", 0.10)
+	_key_up(main, KEY_D)
+	_assert(graph.scroll_offset.x > scroll_before_pan.x and root.gui_get_focus_owner() == graph, "Clicking the Chapter 1 canvas after program editing must restore responsive WASD immediately.")
+	graph.scroll_offset = Vector2.ZERO
+	await process_frame
+
+	var device_nodes: Dictionary = main.get("device_nodes")
+	var device_surfaces: Dictionary = main.get("device_surfaces")
+	for child: Node in (device_nodes[&"CPU"] as GraphNode).get_children():
+		if child is Label:
+			_assert((child as Label).mouse_filter == Control.MOUSE_FILTER_IGNORE, "Chapter 1 labels must pass left-drag gestures through to the whole movable device body.")
+	var cpu_rect: Rect2 = graph.call("displayed_node_rect", device_nodes[&"CPU"])
+	var bus_rect: Rect2 = graph.call("displayed_node_rect", device_nodes[&"BUS"])
+	_drag_select(graph, cpu_rect.position - Vector2(32.0, 20.0), bus_rect.end + Vector2(4.0, 4.0), false)
+	_assert((device_nodes[&"CPU"] as GraphNode).selected and (device_nodes[&"BUS"] as GraphNode).selected and not (device_nodes[&"RAM"] as GraphNode).selected, "Chapter 1 empty-canvas marquee selection must match the prologue replacement-selection rule.")
+	_assert(bool((device_surfaces[&"CPU"] as Control).get("selection_active")), "A selected Chapter 1 device must highlight its actual procedural surface.")
+	var shift_toggle := InputEventMouseButton.new()
+	shift_toggle.button_index = MOUSE_BUTTON_LEFT
+	shift_toggle.pressed = true
+	shift_toggle.shift_pressed = true
+	shift_toggle.position = (device_nodes[&"BUS"] as GraphNode).size * 0.5
+	main.call("_on_system_device_gui_input", shift_toggle, &"BUS")
+	_assert((device_nodes[&"CPU"] as GraphNode).selected and not (device_nodes[&"BUS"] as GraphNode).selected, "Shift-click must toggle one Chapter 1 device without clearing the rest of the selection.")
+
+	main.call("_set_selected_system_devices", [&"CPU", &"BUS"] as Array[StringName])
+	var cpu_position_before: Vector2 = (device_nodes[&"CPU"] as GraphNode).position_offset
+	var bus_position_before: Vector2 = (device_nodes[&"BUS"] as GraphNode).position_offset
+	main.call("_on_system_begin_node_move")
+	(device_nodes[&"CPU"] as GraphNode).position_offset += Vector2(34.0, 18.0)
+	(device_nodes[&"BUS"] as GraphNode).position_offset += Vector2(34.0, 18.0)
+	main.call("_on_system_end_node_move")
+	_shortcut(main, KEY_Z)
+	_assert((device_nodes[&"CPU"] as GraphNode).position_offset.is_equal_approx(cpu_position_before) and (device_nodes[&"BUS"] as GraphNode).position_offset.is_equal_approx(bus_position_before), "Ctrl+Z history must restore a moved Chapter 1 selection as one edit.")
+	_shortcut(main, KEY_Y)
+	_assert((device_nodes[&"CPU"] as GraphNode).position_offset.is_equal_approx(cpu_position_before + Vector2(34.0, 18.0)) and (device_nodes[&"BUS"] as GraphNode).position_offset.is_equal_approx(bus_position_before + Vector2(34.0, 18.0)), "Ctrl+Y history must reapply the complete selected-group movement.")
+	main.call("_save_level_session")
+	var moved_session: Dictionary = (main.get("level_sessions") as Dictionary)[main.call("_level_session_key", &"assembly")]
+	_assert((moved_session.get("positions", {}) as Dictionary).get("CPU", Vector2.ZERO).is_equal_approx(cpu_position_before + Vector2(34.0, 18.0)), "Chapter 1 level sessions must retain the player's final component layout.")
+	_assert(not moved_session.has("editor_history") and not moved_session.has("redo_history"), "Chapter 1 sessions must not persist the operation chain.")
+
+	_shortcut(main, KEY_A)
+	_assert((main.call("_selected_system_device_ids") as Array).size() == 3, "Ctrl+A must select all three Chapter 1 system devices.")
+	_key(main, KEY_DELETE)
+	_assert(graph.get_connection_list().is_empty() and device_nodes.size() == 3, "Delete must clear routes incident to selected fixed system slots without making CPU, Bus, or RAM unrecoverable.")
+	main.call("_undo_system_edit")
+	_assert(graph.get_connection_list().size() == 6, "One Undo must restore all routes removed from a Chapter 1 selection.")
+
+	var cpu_center: Vector2 = graph.call("displayed_node_rect", device_nodes[&"CPU"]).get_center()
+	_right_drag_erase(graph, [cpu_center])
+	_assert(graph.get_connection_list().size() == 3 and device_nodes.has(&"CPU"), "Right-clicking a fixed Chapter 1 device must remove its three incident routes while preserving the typed slot.")
+	main.call("_undo_system_edit")
+	_assert(graph.get_connection_list().size() == 6, "One Undo must atomically restore routes removed by a right-button device stroke.")
+
+	var erase_connection: Dictionary = graph.get_connection_list()[0]
+	var erase_curve: PackedVector2Array = graph.call("connection_curve", erase_connection)
+	var erase_segment: int = _longest_path_segment(erase_curve)
+	var erase_start: Vector2 = erase_curve[erase_segment]
+	var erase_finish: Vector2 = erase_curve[erase_segment + 1]
+	var erase_midpoint: Vector2 = erase_start.lerp(erase_finish, 0.5)
+	var erase_normal: Vector2 = (erase_finish - erase_start).orthogonal().normalized()
+	_right_drag_erase(graph, [erase_midpoint + erase_normal * 10.0])
+	_assert(graph.get_connection_list().size() == 6, "The Chapter 1 eraser must use the cursor tip, not the broader hover radius.")
+	_right_drag_erase(graph, [erase_midpoint])
+	_assert(graph.get_connection_list().size() == 5, "Touching the rendered Chapter 1 route must delete exactly that route.")
+	_shortcut(main, KEY_Z)
+	_assert(graph.get_connection_list().size() == 6, "A route erased with the right mouse button must be undoable.")
+	_shortcut(main, KEY_Z, true)
+	_assert(graph.get_connection_list().size() == 5, "Ctrl+Shift+Z must remain a Chapter 1 redo alias consistent with the prologue editor.")
+	_shortcut(main, KEY_Z)
+	var topology_before_erase_stroke: String = main.call("_topology_from_graph").canonical_signature()
+	var stroke_connections: Array[Dictionary] = graph.get_connection_list()
+	var stroke_points: Array[Vector2] = []
+	for stroke_connection: Dictionary in stroke_connections.slice(0, 2):
+		var stroke_curve: PackedVector2Array = graph.call("connection_curve", stroke_connection)
+		var stroke_segment: int = _longest_path_segment(stroke_curve)
+		stroke_points.append(stroke_curve[stroke_segment].lerp(stroke_curve[stroke_segment + 1], 0.5))
+	_right_drag_erase(graph, stroke_points)
+	_assert(graph.get_connection_list().size() <= 4, "One held-right Chapter 1 sweep must continuously erase every rendered route crossed by its sampled path.")
+	main.call("_undo_system_edit")
+	_assert(graph.get_connection_list().size() == 6 and main.call("_topology_from_graph").canonical_signature() == topology_before_erase_stroke, "One Undo must atomically restore the exact topology removed by a continuous Chapter 1 erase stroke.")
+
 	var instruments: Dictionary = main.get("instrument_windows")
 	main.call("_open_instrument", &"program")
 	main.call("_open_instrument", &"profiler")
@@ -214,7 +327,7 @@ func _run() -> void:
 	game_mode.call("set_mode", &"game")
 	_assert(chapter.call("completed_levels").is_empty(), "Test-mode completion must stay isolated from Game-mode progression.")
 	if failures.is_empty():
-		print("PASS: six-level system chapter map, applied program, typed wiring, floating tools, evidence progression, exact-path animation, and diagnosis tests passed")
+		print("PASS: six-level system chapter map, coherent editor controls, applied program, typed wiring, floating tools, evidence progression, exact-path animation, and diagnosis tests passed")
 		quit(0)
 	else:
 		for failure: String in failures:
@@ -259,6 +372,90 @@ func _paths_equal(left: PackedVector2Array, right: PackedVector2Array) -> bool:
 		if not left[index].is_equal_approx(right[index]):
 			return false
 	return true
+
+
+func _longest_path_segment(path: PackedVector2Array) -> int:
+	var longest_index: int = 0
+	var longest_length: float = -1.0
+	for index: int in range(path.size() - 1):
+		var length: float = path[index].distance_squared_to(path[index + 1])
+		if length > longest_length:
+			longest_length = length
+			longest_index = index
+	return longest_index
+
+
+func _shortcut(main: Control, keycode: Key, shifted: bool = false) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.pressed = true
+	event.ctrl_pressed = true
+	event.shift_pressed = shifted
+	main.call("_input", event)
+
+
+func _key(main: Control, keycode: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.pressed = true
+	main.call("_input", event)
+
+
+func _key_down(main: Control, keycode: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.physical_keycode = keycode
+	event.pressed = true
+	main.call("_input", event)
+
+
+func _key_up(main: Control, keycode: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.physical_keycode = keycode
+	event.pressed = false
+	main.call("_input", event)
+
+
+func _right_drag_erase(graph: GraphEdit, points: Array[Vector2]) -> void:
+	if points.is_empty():
+		return
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_RIGHT
+	press.pressed = true
+	press.position = points[0]
+	graph.call("_gui_input", press)
+	for index: int in range(1, points.size()):
+		var motion := InputEventMouseMotion.new()
+		motion.button_mask = MOUSE_BUTTON_MASK_RIGHT
+		motion.position = points[index]
+		graph.call("_gui_input", motion)
+	var release := InputEventMouseButton.new()
+	release.button_index = MOUSE_BUTTON_RIGHT
+	release.pressed = false
+	release.position = points[points.size() - 1]
+	graph.call("_gui_input", release)
+
+
+func _drag_select(graph: GraphEdit, start: Vector2, finish: Vector2, shifted: bool) -> void:
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.button_mask = MOUSE_BUTTON_MASK_LEFT
+	press.pressed = true
+	press.shift_pressed = shifted
+	press.position = start
+	graph.call("_gui_input", press)
+	var motion := InputEventMouseMotion.new()
+	motion.button_mask = MOUSE_BUTTON_MASK_LEFT
+	motion.shift_pressed = shifted
+	motion.position = finish
+	graph.call("_gui_input", motion)
+	var release := InputEventMouseButton.new()
+	release.button_index = MOUSE_BUTTON_LEFT
+	release.pressed = false
+	release.shift_pressed = shifted
+	release.position = finish
+	graph.call("_gui_input", release)
 
 
 func _t(key: StringName, args: Array = []) -> String:

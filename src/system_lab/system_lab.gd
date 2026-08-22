@@ -28,6 +28,7 @@ const PURPLE := Color("bc8cff")
 const MUTED := Color("91a0b9")
 const TEXT := Color("e9f0fa")
 const RUN_HISTORY_LIMIT: int = 10
+const GRAPH_KEYBOARD_PAN_SPEED: float = 720.0
 const COMPLETION_SUMMARY_KEYS := {
 	&"assembly": &"system.completion.summary.assembly",
 	&"cpu_speed": &"system.completion.summary.cpu_speed",
@@ -129,6 +130,12 @@ var playback_elapsed: float = 0.0
 var playback_speed: float = 1.0
 var playback_running: bool = false
 var highlighted_source_line: int = -1
+var editor_history: Array[Dictionary] = []
+var editor_redo_history: Array[Dictionary] = []
+var editor_history_replaying: bool = false
+var node_move_start_snapshot: Dictionary = {}
+var erase_start_snapshot: Dictionary = {}
+var graph_pan_keys: Dictionary[Key, bool] = {}
 
 
 func _ready() -> void:
@@ -150,16 +157,33 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if current_level_id.is_empty() or not event is InputEventKey:
+	if current_level_id.is_empty():
+		graph_pan_keys.clear()
+		return
+	if _handle_system_graph_pan_key_event(event):
+		get_viewport().set_input_as_handled()
+		return
+	if not event is InputEventKey:
 		return
 	var key_event := event as InputEventKey
 	if not key_event.pressed or key_event.echo:
 		return
-	var focused: Control = get_viewport().gui_get_focus_owner()
-	if focused is LineEdit or focused is TextEdit:
+	if _system_keyboard_focus_accepts_text():
 		return
 	if key_event.ctrl_pressed or key_event.meta_pressed:
 		match key_event.keycode:
+			KEY_Z:
+				if key_event.shift_pressed:
+					_redo_system_edit()
+				else:
+					_undo_system_edit()
+				get_viewport().set_input_as_handled()
+			KEY_Y:
+				_redo_system_edit()
+				get_viewport().set_input_as_handled()
+			KEY_A:
+				_select_all_system_devices()
+				get_viewport().set_input_as_handled()
 			KEY_F:
 				_color_hovered_system_wire(false)
 				get_viewport().set_input_as_handled()
@@ -170,12 +194,66 @@ func _input(event: InputEvent) -> void:
 				_sample_hovered_system_wire()
 				get_viewport().set_input_as_handled()
 		return
+	if key_event.keycode == KEY_DELETE:
+		_delete_selected_system_devices()
+		get_viewport().set_input_as_handled()
+		return
+	if key_event.keycode == KEY_ESCAPE:
+		graph.cancel_selection_drag()
+		_set_selected_system_devices([] as Array[StringName])
+		get_viewport().set_input_as_handled()
+		return
 	if key_event.keycode >= KEY_1 and key_event.keycode <= KEY_9:
 		_set_active_system_wire_color(int(key_event.keycode - KEY_1))
 		get_viewport().set_input_as_handled()
 
 
+func _notification(what: int) -> void:
+	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT:
+		graph_pan_keys.clear()
+
+
+func _handle_system_graph_pan_key_event(event: InputEvent) -> bool:
+	if not event is InputEventKey:
+		return false
+	var key_event := event as InputEventKey
+	if key_event.keycode in [KEY_CTRL, KEY_META, KEY_ALT]:
+		if key_event.pressed:
+			graph_pan_keys.clear()
+		return false
+	var pan_key: Key = key_event.physical_keycode
+	if pan_key not in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		pan_key = key_event.keycode
+	if pan_key not in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		return false
+	if not key_event.pressed:
+		var was_active: bool = graph_pan_keys.has(pan_key)
+		graph_pan_keys.erase(pan_key)
+		return was_active
+	if key_event.ctrl_pressed or key_event.meta_pressed or key_event.alt_pressed \
+			or graph == null or not graph.is_visible_in_tree() \
+			or _system_keyboard_focus_accepts_text():
+		graph_pan_keys.clear()
+		return false
+	graph_pan_keys[pan_key] = true
+	if not key_event.echo:
+		_focus_system_graph_for_keyboard()
+		status_label.text = _t(&"system.status.view_moved")
+		status_label.add_theme_color_override("font_color", MUTED)
+	return true
+
+
+func _focus_system_graph_for_keyboard() -> void:
+	if graph == null or not graph.is_visible_in_tree():
+		return
+	graph.grab_focus()
+	for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		if Input.is_physical_key_pressed(key):
+			graph_pan_keys[key] = true
+
+
 func _process(delta: float) -> void:
+	_update_graph_keyboard_pan(delta)
 	if not playback_running or current_trace == null:
 		return
 	if playback_index >= current_trace.events.size():
@@ -190,6 +268,32 @@ func _process(delta: float) -> void:
 	if progress >= 1.0:
 		playback_index += 1
 		playback_elapsed = 0.0
+
+
+func _update_graph_keyboard_pan(delta: float) -> void:
+	if current_level_id.is_empty() or graph == null or not graph.is_visible_in_tree() \
+			or _system_keyboard_focus_accepts_text():
+		graph_pan_keys.clear()
+		return
+	var direction := Vector2(
+		float(graph_pan_keys.has(KEY_D)) - float(graph_pan_keys.has(KEY_A)),
+		float(graph_pan_keys.has(KEY_S)) - float(graph_pan_keys.has(KEY_W))
+	)
+	_advance_graph_pan(delta, direction)
+
+
+func _advance_graph_pan(delta: float, direction: Vector2) -> void:
+	if graph == null or direction.is_zero_approx() or delta <= 0.0:
+		return
+	graph.scroll_offset += direction.normalized() * GRAPH_KEYBOARD_PAN_SPEED * delta
+
+
+func _system_keyboard_focus_accepts_text() -> bool:
+	if wire_color_menu_button != null and wire_color_menu_button.get_popup().visible:
+		return true
+	var focused: Control = get_viewport().gui_get_focus_owner()
+	return focused != null and focused.is_visible_in_tree() \
+		and (focused is LineEdit or focused is TextEdit)
 
 
 func _rebuild_catalog() -> void:
@@ -330,6 +434,7 @@ func _build_lab(parent: Control) -> void:
 	box.add_child(desktop_host)
 	graph = SystemGraphEditType.new()
 	graph.name = "SystemGraph"
+	graph.focus_mode = Control.FOCUS_ALL
 	graph.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	graph.show_grid = true
 	graph.grid_pattern = GraphEdit.GRID_PATTERN_DOTS
@@ -341,13 +446,24 @@ func _build_lab(parent: Control) -> void:
 	graph.show_zoom_buttons = false
 	graph.show_zoom_label = false
 	graph.show_menu = false
-	graph.right_disconnects = true
+	graph.right_disconnects = false
 	graph.connection_lines_thickness = 0.0
 	graph.connection_lines_curvature = 0.48
 	graph.connection_request.connect(_on_connection_request)
 	graph.disconnection_request.connect(_on_disconnection_request)
 	graph.connection_drag_started.connect(Callable(graph, "begin_connection_preview"))
 	graph.connection_drag_ended.connect(Callable(graph, "end_connection_preview"))
+	graph.erase_stroke_started.connect(_on_system_erase_stroke_started)
+	graph.erase_component_requested.connect(_on_system_erase_component_requested)
+	graph.erase_wire_requested.connect(_on_system_erase_wire_requested)
+	graph.erase_stroke_finished.connect(_on_system_erase_stroke_finished)
+	graph.selection_rectangle_applied.connect(_on_system_selection_rectangle_applied)
+	graph.delete_nodes_request.connect(_on_system_delete_nodes_request)
+	graph.node_selected.connect(_on_system_node_selection_changed)
+	graph.node_deselected.connect(_on_system_node_selection_changed)
+	graph.begin_node_move.connect(_on_system_begin_node_move)
+	graph.end_node_move.connect(_on_system_end_node_move)
+	graph.gui_input.connect(_on_system_graph_gui_input)
 	graph.set_draft_color_index(active_wire_color_index)
 	desktop_host.add_child(graph)
 	_build_device_nodes()
@@ -375,6 +491,18 @@ func _build_workbench_bar() -> Control:
 	layout_button.text = _t(&"common.auto_layout")
 	layout_button.pressed.connect(func() -> void: _auto_layout(true))
 	row.add_child(layout_button)
+	var undo_button := Button.new()
+	undo_button.name = "SystemUndoButton"
+	undo_button.text = _t(&"system.action.undo")
+	undo_button.tooltip_text = _t(&"system.action.undo.tooltip")
+	undo_button.pressed.connect(_undo_system_edit)
+	row.add_child(undo_button)
+	var redo_button := Button.new()
+	redo_button.name = "SystemRedoButton"
+	redo_button.text = _t(&"system.action.redo")
+	redo_button.tooltip_text = _t(&"system.action.redo.tooltip")
+	redo_button.pressed.connect(_redo_system_edit)
+	row.add_child(redo_button)
 	var wire_button := Button.new()
 	wire_button.name = "AutoWireButton"
 	wire_button.text = _t(&"system.action.auto_wire")
@@ -438,13 +566,14 @@ func _color_hovered_system_wire(whole_lane: bool) -> void:
 				members.append(connection)
 	else:
 		members.append(hovered)
+	var before: Dictionary = _capture_system_editor_snapshot()
 	for connection: Dictionary in members:
 		graph.set_connection_color_index(
 			StringName(connection.get("from_node", &"")), int(connection.get("from_port", 0)),
 			StringName(connection.get("to_node", &"")), int(connection.get("to_port", 0)),
 			active_wire_color_index
 		)
-	_save_level_session()
+	_commit_system_editor_snapshot(&"wire_color", before)
 	status_label.text = _t(
 		&"system.wire_color.lane_done" if whole_lane else &"system.wire_color.segment_done",
 		[members.size()]
@@ -530,6 +659,7 @@ func _add_device_node(id: StringName, kind: StringName, slots: Array[Dictionary]
 		row.text = String(slot["label"])
 		row.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		row.add_theme_color_override("font_color", slot["color"])
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		node.add_child(row)
 		node.set_slot(
 			slot_index,
@@ -544,9 +674,11 @@ func _add_device_node(id: StringName, kind: StringName, slots: Array[Dictionary]
 	state.text = _t(&"system.device.idle")
 	state.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	state.add_theme_color_override("font_color", MUTED)
+	state.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	node.add_child(state)
 	device_state_labels[id] = state
 	device_nodes[id] = node
+	node.gui_input.connect(_on_system_device_gui_input.bind(id))
 
 
 func _build_instruments() -> void:
@@ -882,8 +1014,13 @@ func _save_level_session() -> void:
 
 
 func _load_level_session() -> void:
+	editor_history.clear()
+	editor_redo_history.clear()
+	node_move_start_snapshot.clear()
+	erase_start_snapshot.clear()
 	graph.clear_connections()
 	graph.clear_connection_presentations()
+	_set_selected_system_devices([] as Array[StringName])
 	var session: Dictionary = level_sessions.get(_level_session_key(current_level_id), {})
 	selected_part_ids.clear()
 	for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
@@ -940,7 +1077,6 @@ func _refresh_level_ui() -> void:
 	_refresh_profiler()
 	_refresh_history()
 	_refresh_mission_progress()
-	_auto_layout(false)
 
 
 func _populate_part_selectors() -> void:
@@ -1022,21 +1158,354 @@ func _slot_for_kind(kind: StringName) -> StringName:
 	return &""
 
 
+func _capture_system_editor_snapshot() -> Dictionary:
+	if graph == null:
+		return {}
+	var positions: Dictionary = {}
+	for device_id: StringName in device_nodes:
+		positions[device_id] = (device_nodes[device_id] as GraphNode).position_offset
+	var connections: Array[Dictionary] = []
+	for connection: Dictionary in graph.get_connection_list():
+		connections.append(_system_connection_data(connection))
+	connections.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		return _system_connection_key(left) < _system_connection_key(right)
+	)
+	return {
+		"positions": positions,
+		"connections": connections,
+		"selection": _selected_system_device_ids(),
+	}
+
+
+func _system_connection_data(connection: Dictionary) -> Dictionary:
+	var from_node := StringName(connection.get("from_node", &""))
+	var from_port: int = int(connection.get("from_port", 0))
+	var to_node := StringName(connection.get("to_node", &""))
+	var to_port: int = int(connection.get("to_port", 0))
+	return {
+		"from_node": from_node,
+		"from_port": from_port,
+		"to_node": to_node,
+		"to_port": to_port,
+		"color_index": graph.get_connection_color_index(from_node, from_port, to_node, to_port),
+	}
+
+
+func _system_connection_key(connection: Dictionary, include_color: bool = false) -> String:
+	var key: String = "%s:%d>%s:%d" % [
+		connection.get("from_node", &""), int(connection.get("from_port", 0)),
+		connection.get("to_node", &""), int(connection.get("to_port", 0)),
+	]
+	return "%s@%d" % [key, int(connection.get("color_index", WirePaletteType.DEFAULT_INDEX))] \
+		if include_color else key
+
+
+func _system_editor_snapshot_signature(snapshot: Dictionary) -> String:
+	var fields := PackedStringArray()
+	var positions: Dictionary = snapshot.get("positions", {})
+	var ids: Array[String] = []
+	for id_variant: Variant in positions:
+		ids.append(String(id_variant))
+	ids.sort()
+	for id: String in ids:
+		var position: Vector2 = positions.get(StringName(id), positions.get(id, Vector2.ZERO))
+		fields.append("P:%s:%.3f:%.3f" % [id, position.x, position.y])
+	for connection: Dictionary in snapshot.get("connections", []):
+		fields.append("W:%s" % _system_connection_key(connection, true))
+	var selection: Array[String] = []
+	for id_variant: Variant in snapshot.get("selection", []):
+		selection.append(String(id_variant))
+	selection.sort()
+	for id: String in selection:
+		fields.append("S:%s" % id)
+	return "|".join(fields)
+
+
+func _system_editor_topology_signature(snapshot: Dictionary) -> String:
+	var keys := PackedStringArray()
+	for connection: Dictionary in snapshot.get("connections", []):
+		keys.append(_system_connection_key(connection))
+	keys.sort()
+	return "|".join(keys)
+
+
+func _commit_system_editor_snapshot(kind: StringName, before: Dictionary) -> bool:
+	if editor_history_replaying or before.is_empty():
+		return false
+	var after: Dictionary = _capture_system_editor_snapshot()
+	if _system_editor_snapshot_signature(before) == _system_editor_snapshot_signature(after):
+		return false
+	editor_history.append({
+		"kind": kind,
+		"before": before.duplicate(true),
+		"after": after.duplicate(true),
+	})
+	editor_redo_history.clear()
+	_after_system_editor_mutation(
+		_system_editor_topology_signature(before) != _system_editor_topology_signature(after)
+	)
+	return true
+
+
+func _apply_system_editor_snapshot(snapshot: Dictionary) -> void:
+	editor_history_replaying = true
+	graph.clear_connections()
+	graph.clear_connection_presentations()
+	var positions: Dictionary = snapshot.get("positions", {})
+	for device_id: StringName in device_nodes:
+		var node: GraphNode = device_nodes[device_id]
+		node.position_offset = positions.get(device_id, positions.get(String(device_id), node.position_offset))
+	for connection: Dictionary in snapshot.get("connections", []):
+		var from_node := StringName(connection.get("from_node", &""))
+		var from_port: int = int(connection.get("from_port", 0))
+		var to_node := StringName(connection.get("to_node", &""))
+		var to_port: int = int(connection.get("to_port", 0))
+		graph.connect_node(from_node, from_port, to_node, to_port)
+		graph.set_connection_color_index(
+			from_node, from_port, to_node, to_port,
+			int(connection.get("color_index", WirePaletteType.DEFAULT_INDEX))
+		)
+	var selected_ids: Array[StringName] = []
+	for id_variant: Variant in snapshot.get("selection", []):
+		selected_ids.append(StringName(id_variant))
+	_set_selected_system_devices(selected_ids)
+	editor_history_replaying = false
+	graph.queue_redraw()
+
+
+func _after_system_editor_mutation(topology_changed: bool) -> void:
+	current_topology = _topology_from_graph()
+	if topology_changed:
+		latest_receipt = null
+		latest_official_traces.clear()
+		_stop_playback()
+	_save_level_session()
+
+
+func _undo_system_edit() -> void:
+	if editor_history.is_empty():
+		status_label.text = _t(&"system.status.nothing_to_undo")
+		status_label.add_theme_color_override("font_color", MUTED)
+		return
+	var action: Dictionary = editor_history.pop_back()
+	var before: Dictionary = action.get("before", {})
+	var after: Dictionary = action.get("after", {})
+	_apply_system_editor_snapshot(before)
+	editor_redo_history.append(action)
+	_after_system_editor_mutation(
+		_system_editor_topology_signature(before) != _system_editor_topology_signature(after)
+	)
+	status_label.text = _t(&"system.status.action_undone")
+	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _redo_system_edit() -> void:
+	if editor_redo_history.is_empty():
+		status_label.text = _t(&"system.status.nothing_to_redo")
+		status_label.add_theme_color_override("font_color", MUTED)
+		return
+	var action: Dictionary = editor_redo_history.pop_back()
+	var before: Dictionary = action.get("before", {})
+	var after: Dictionary = action.get("after", {})
+	_apply_system_editor_snapshot(after)
+	editor_history.append(action)
+	_after_system_editor_mutation(
+		_system_editor_topology_signature(before) != _system_editor_topology_signature(after)
+	)
+	status_label.text = _t(&"system.status.action_redone")
+	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _selected_system_device_ids() -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for device_id: StringName in device_nodes:
+		if (device_nodes[device_id] as GraphNode).selected:
+			ids.append(device_id)
+	ids.sort()
+	return ids
+
+
+func _set_selected_system_devices(ids: Array[StringName]) -> void:
+	var selected: Dictionary[StringName, bool] = {}
+	for device_id: StringName in ids:
+		selected[device_id] = true
+	for device_id: StringName in device_nodes:
+		(device_nodes[device_id] as GraphNode).selected = selected.has(device_id)
+	_sync_system_selection_feedback()
+
+
+func _select_all_system_devices() -> void:
+	var ids: Array[StringName] = []
+	for device_id: StringName in device_nodes:
+		ids.append(device_id)
+	ids.sort()
+	_set_selected_system_devices(ids)
+	status_label.text = _t(&"system.status.all_selected", [ids.size()])
+	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _sync_system_selection_feedback() -> void:
+	for device_id: StringName in device_nodes:
+		var surface: Control = device_surfaces.get(device_id)
+		if surface != null:
+			surface.call("set_selection_active", (device_nodes[device_id] as GraphNode).selected)
+
+
+func _on_system_node_selection_changed(_node: Node) -> void:
+	_sync_system_selection_feedback()
+
+
+func _on_system_selection_rectangle_applied(_changed_count: int, selected_count: int) -> void:
+	_sync_system_selection_feedback()
+	status_label.text = _t(&"system.status.selection_count", [selected_count])
+	status_label.add_theme_color_override("font_color", ACCENT if selected_count > 0 else MUTED)
+
+
+func _system_node_local_point_hits_port(node: GraphNode, point: Vector2, radius: float) -> bool:
+	for port: int in range(node.get_input_port_count()):
+		if point.distance_to(node.get_input_port_position(port)) <= radius:
+			return true
+	for port: int in range(node.get_output_port_count()):
+		if point.distance_to(node.get_output_port_position(port)) <= radius:
+			return true
+	return false
+
+
+func _on_system_device_gui_input(event: InputEvent, device_id: StringName) -> void:
+	if not event is InputEventMouseButton:
+		return
+	var mouse_event := event as InputEventMouseButton
+	if mouse_event.pressed:
+		_focus_system_graph_for_keyboard()
+	if mouse_event.button_index != MOUSE_BUTTON_LEFT or not mouse_event.pressed \
+			or not mouse_event.shift_pressed:
+		return
+	var node: GraphNode = device_nodes.get(device_id)
+	if node == null or _system_node_local_point_hits_port(node, mouse_event.position, 28.0):
+		return
+	node.selected = not node.selected
+	_sync_system_selection_feedback()
+	status_label.text = _t(&"system.status.selection_count", [_selected_system_device_ids().size()])
+	status_label.add_theme_color_override("font_color", ACCENT)
+	get_viewport().set_input_as_handled()
+
+
+func _on_system_graph_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
+		_focus_system_graph_for_keyboard()
+
+
+func _on_system_begin_node_move() -> void:
+	if editor_history_replaying:
+		return
+	node_move_start_snapshot = _capture_system_editor_snapshot()
+
+
+func _on_system_end_node_move() -> void:
+	if editor_history_replaying or node_move_start_snapshot.is_empty():
+		return
+	var before: Dictionary = node_move_start_snapshot
+	node_move_start_snapshot = {}
+	if _commit_system_editor_snapshot(&"move_nodes", before):
+		status_label.text = _t(&"system.status.nodes_moved", [_selected_system_device_ids().size()])
+		status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _on_system_erase_stroke_started() -> void:
+	if erase_start_snapshot.is_empty():
+		erase_start_snapshot = _capture_system_editor_snapshot()
+
+
+func _on_system_erase_wire_requested(connection: Dictionary) -> void:
+	_remove_system_connection(
+		StringName(connection.get("from_node", &"")), int(connection.get("from_port", 0)),
+		StringName(connection.get("to_node", &"")), int(connection.get("to_port", 0))
+	)
+
+
+func _on_system_erase_component_requested(device_id: StringName) -> void:
+	_remove_incident_system_connections([device_id] as Array[StringName])
+
+
+func _on_system_erase_stroke_finished() -> void:
+	if erase_start_snapshot.is_empty():
+		return
+	var before: Dictionary = erase_start_snapshot
+	erase_start_snapshot = {}
+	if _commit_system_editor_snapshot(&"erase_stroke", before):
+		status_label.text = _t(&"system.status.erase_finished")
+		status_label.add_theme_color_override("font_color", WARNING)
+
+
+func _on_system_delete_nodes_request(nodes: Array[StringName]) -> void:
+	_delete_system_device_routes(nodes)
+
+
+func _delete_selected_system_devices() -> void:
+	_delete_system_device_routes(_selected_system_device_ids())
+
+
+func _delete_system_device_routes(device_ids: Array[StringName]) -> void:
+	if device_ids.is_empty():
+		status_label.text = _t(&"system.status.nothing_selected_delete")
+		status_label.add_theme_color_override("font_color", MUTED)
+		return
+	var before: Dictionary = _capture_system_editor_snapshot()
+	_remove_incident_system_connections(device_ids)
+	if _commit_system_editor_snapshot(&"delete_routes", before):
+		status_label.text = _t(&"system.status.device_routes_removed", [device_ids.size()])
+		status_label.add_theme_color_override("font_color", WARNING)
+	else:
+		status_label.text = _t(&"system.status.nothing_to_delete")
+		status_label.add_theme_color_override("font_color", MUTED)
+
+
+func _remove_incident_system_connections(device_ids: Array[StringName]) -> void:
+	var targets: Dictionary[StringName, bool] = {}
+	for device_id: StringName in device_ids:
+		targets[device_id] = true
+	var connections: Array[Dictionary] = graph.get_connection_list()
+	for connection: Dictionary in connections:
+		if targets.has(StringName(connection.get("from_node", &""))) \
+				or targets.has(StringName(connection.get("to_node", &""))):
+			_remove_system_connection(
+				StringName(connection.get("from_node", &"")), int(connection.get("from_port", 0)),
+				StringName(connection.get("to_node", &"")), int(connection.get("to_port", 0))
+			)
+
+
+func _remove_system_connection(
+		from_node: StringName,
+		from_port: int,
+		to_node: StringName,
+		to_port: int
+	) -> bool:
+	if not graph.is_node_connected(from_node, from_port, to_node, to_port):
+		return false
+	graph.disconnect_node(from_node, from_port, to_node, to_port)
+	graph.remove_connection_presentation(from_node, from_port, to_node, to_port)
+	return true
+
+
 func _auto_layout(show_status: bool = true) -> void:
 	if graph == null:
 		return
+	var before: Dictionary = _capture_system_editor_snapshot() if show_status else {}
 	var width: float = maxf(1120.0, graph.size.x / maxf(graph.zoom, 0.01))
 	var start_x: float = maxf(80.0, (width - 1120.0) * 0.5 + 80.0)
 	for device_id: StringName in [&"CPU", &"BUS", &"RAM"]:
 		var offset: Vector2 = STANDARD_LAYOUT[device_id]
 		(device_nodes[device_id] as GraphNode).position_offset = Vector2(start_x + offset.x - 155.0, offset.y)
 	if show_status:
+		_commit_system_editor_snapshot(&"auto_layout", before)
 		status_label.text = _t(&"system.status.layout_restored")
 		status_label.add_theme_color_override("font_color", GOOD)
 
 
 func _auto_connect() -> void:
+	var before: Dictionary = _capture_system_editor_snapshot()
 	_connect_required_routes(true)
+	_commit_system_editor_snapshot(&"auto_connect", before)
 
 
 func _connect_required_routes(show_status: bool) -> void:
@@ -1075,20 +1544,18 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	if not trial.connect_ports(from_node, output_names[from_port], to_node, input_names[to_port]):
 		_show_connection_error()
 		return
+	var before: Dictionary = _capture_system_editor_snapshot()
 	graph.connect_node(from_node, from_port, to_node, to_port)
 	graph.set_connection_color_index(from_node, from_port, to_node, to_port, active_wire_color_index)
-	current_topology = _topology_from_graph()
-	latest_receipt = null
+	_commit_system_editor_snapshot(&"connect", before)
 	status_label.text = _t(&"system.status.connection_added")
 	status_label.add_theme_color_override("font_color", GOOD)
 
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	graph.disconnect_node(from_node, from_port, to_node, to_port)
-	graph.remove_connection_presentation(from_node, from_port, to_node, to_port)
-	current_topology = _topology_from_graph()
-	latest_receipt = null
-	_stop_playback()
+	var before: Dictionary = _capture_system_editor_snapshot()
+	_remove_system_connection(from_node, from_port, to_node, to_port)
+	_commit_system_editor_snapshot(&"disconnect", before)
 	status_label.text = _t(&"system.status.connection_removed")
 	status_label.add_theme_color_override("font_color", WARNING)
 

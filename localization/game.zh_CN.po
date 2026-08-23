@@ -97,7 +97,7 @@ msgid "hub.system.eyebrow"
 msgstr "CPU · RAM · BUS"
 
 msgid "hub.system.description"
-msgstr "组装玩家来源的 8-bit 系统，逐步调查 CPU、内存延迟、总线宽度、工作量放大与真实瓶颈。"
+msgstr "组装玩家来源的 8-bit 系统，预测受控变化、追踪 CPU 等待，并诊断真实瓶颈。"
 
 msgid "hub.system.open"
 msgstr "进入章节地图"
@@ -1958,26 +1958,38 @@ msgstr "代码已确认并应用；新运行将使用这一版本"
 msgid "system.status.apply_required"
 msgstr "草稿尚未应用；测试只运行已确认的代码"
 
+msgid "system.status.prediction_required"
+msgstr "请先锁定预测，再采集官方证据。"
+
+msgid "system.status.baseline_required"
+msgstr "请先运行默认基线，再更换被比较的零件。"
+
 msgid "system.status.topology_invalid"
 msgstr "当前系统缺少 %d 项有效连接或零件"
 
 msgid "system.status.level_complete"
-msgstr "证据满足要求，下一关已解锁"
+msgstr "证据链已完整；请先复盘 Trace、Profiler 与历史，再查看调查结论。"
 
 msgid "system.status.evidence_progress"
 msgstr "有效证据 %d / %d；继续完成同条件比较"
+
+msgid "system.status.diagnosis_ready"
+msgstr "原始证据已就绪；请提交首次诊断以解锁完整分解。"
+
+msgid "system.status.diagnosis_retry"
+msgstr "完整分解已解锁；请重新检查证据并提交修正后的诊断。"
 
 msgid "system.map.intro.title"
 msgstr "等待从哪里来？"
 
 msgid "system.map.intro.body"
-msgstr "六个节点组成一条连续调查路线：先组装系统，再分别改变 CPU、RAM 与 Bus，随后放大工作量，最后只凭本次运行证据判断瓶颈。\n\n本章不使用 Cache，也不要求软件优化。"
+msgstr "五个节点组成一条连续调查路线：先组装系统，再预测每次受控变化、运行实验、追踪 Trace 与 Profiler、解释 CPU WAIT，最后根据 4/16/64 工作负载诊断这套系统。\n\n本章不使用 Cache，也不要求软件优化。"
 
 msgid "system.map.prologue_required"
 msgstr "请先完成硬件序章的 LOAD/STORE，生成属于你的 CPU8 与 RAM64x8 来源。"
 
 msgid "system.map.test_mode"
-msgstr "测试模式：六关全部开放，使用隔离的测试来源，不修改游戏模式进度。"
+msgstr "测试模式：五关全部开放，使用隔离的测试来源，不修改游戏模式进度。"
 
 msgid "system.map.level"
 msgstr "关卡 %d"
@@ -1992,7 +2004,7 @@ msgid "system.map.locked"
 msgstr "○ 未解锁"
 
 msgid "system.level.header"
-msgstr "%d / 6 · %s"
+msgstr "%d / 5 · %s"
 
 msgid "system.level.unknown.title"
 msgstr "未知关卡"
@@ -2016,46 +2028,37 @@ msgid "system.level.cpu_speed.title"
 msgstr "CPU 变快以后"
 
 msgid "system.level.cpu_speed.description"
-msgstr "保持 RAM、Bus、代码和测试不变，只更换 CPU，观察总周期并不会按 CPU 速度等比例下降。"
+msgstr "这次内存密集求和同时包含算术与反复数据往返。先预测算术快 4 倍能否让整次运行也快 4 倍，再实验。"
 
 msgid "system.level.cpu_speed.objective"
-msgstr "用同一份已应用代码测试至少两种 CPU，并比较可复现的总周期。"
+msgstr "锁定预测，以 Eco 运行基线，再只把 CPU 换成 Fast，并用计算与 WAIT 解释总周期变化。"
 
 msgid "system.level.ram_wait.title"
 msgstr "CPU 在等谁"
 
 msgid "system.level.ram_wait.description"
-msgstr "流式求和会反复访问内存；Profiler 开始拆分 CPU 计算与等待时间。"
+msgstr "先预测 CPU 的时间去向，再追踪重复请求、RAM 服务、数据返回与 CPU 可见的 WAIT 状态。"
 
 msgid "system.level.ram_wait.objective"
-msgstr "保持其它条件一致，测试至少两种 RAM，找出等待时间随访问延迟的变化。"
+msgstr "锁定预测，固定 CPU、Bus、程序与用例，只更换 RAM，并解释 CPU-wait 差值。"
 
 msgid "system.level.bus_width.title"
 msgstr "一字节要走几次"
 
 msgid "system.level.bus_width.description"
-msgstr "Bus2、Bus4、Bus8 都传输同一个 8-bit 值，但分别需要四、二、一个数据阶段。"
+msgstr "同一个字节会通过不同宽度的 Bus；先预测序列化如何变化，再到真实线路上数传输阶段。"
 
 msgid "system.level.bus_width.objective"
-msgstr "用同一复制程序测试至少两种总线宽度，观察精确线路上的分段传输。"
-
-msgid "system.level.scale_up.title"
-msgstr "工作量放大镜"
-
-msgid "system.level.scale_up.description"
-msgstr "把相同求和工作从 4 个元素扩展到 16 与 64 个元素，观察固定硬件上的时间增长。"
-
-msgid "system.level.scale_up.objective"
-msgstr "一次官方运行通过 4、16、64 三个固定规模，并在历史与 Profiler 中比较。"
+msgstr "锁定预测，以 Bus2 运行基线，再只改变 Bus 宽度，并在真实线路上观察分段数据包。"
 
 msgid "system.level.bottleneck.title"
 msgstr "瓶颈调查"
 
 msgid "system.level.bottleneck.description"
-msgstr "自由组合已见过的 CPU、RAM 与 Bus，运行固定程序，再根据周期占比提交判断。"
+msgstr "用同一套系统调查 4、16、64 三种工作量；完整拆分揭示前，先依据总周期、CPU WAIT、增长趋势与 Trace 数据流判断。"
 
 msgid "system.level.bottleneck.objective"
-msgstr "先通过全部官方用例，再判断本次系统的瓶颈是 CPU、RAM、Bus 还是混合。"
+msgstr "通过 4/16/64 官方用例，首次提交 CPU、RAM、Bus 或混合诊断，再与揭示的完整拆分核对。"
 
 msgid "system.window.mission.title"
 msgstr "任务"
@@ -2097,7 +2100,10 @@ msgid "system.mission.progress"
 msgstr "完成进度：%d / %d 份有效证据"
 
 msgid "system.mission.complete"
-msgstr "✓ 本关证据链完整；可以回到地图进入下一关。"
+msgstr "✓ 本关证据链完整；复盘后再查看调查结论。"
+
+msgid "system.mission.review_finding"
+msgstr "查看调查结论"
 
 msgid "system.part.cpu"
 msgstr "CPU"
@@ -2216,6 +2222,54 @@ msgstr "通过"
 msgid "system.result.fail"
 msgstr "失败"
 
+msgid "system.prediction.title"
+msgstr "预测"
+
+msgid "system.prediction.choose"
+msgstr "首次官方运行前，先选择你预期的结果。"
+
+msgid "system.prediction.lock"
+msgstr "锁定预测"
+
+msgid "system.prediction.locked"
+msgstr "已锁定 · %s"
+
+msgid "system.prediction.cpu_speed.question"
+msgstr "内存不变、算术快 4 倍后，总周期会怎样变化？"
+
+msgid "system.prediction.cpu_speed.large"
+msgstr "大幅下降，接近 4 倍加速"
+
+msgid "system.prediction.cpu_speed.modest"
+msgstr "小幅下降，远不到 4 倍"
+
+msgid "system.prediction.cpu_speed.none"
+msgstr "几乎不变"
+
+msgid "system.prediction.ram_wait.question"
+msgstr "反复 LOAD 时，CPU 的大部分时间会用在哪里？"
+
+msgid "system.prediction.ram_wait.compute"
+msgstr "计算数值"
+
+msgid "system.prediction.ram_wait.wait"
+msgstr "等待内存"
+
+msgid "system.prediction.ram_wait.both"
+msgstr "计算与等待大致相当"
+
+msgid "system.prediction.bus_width.question"
+msgstr "Bus2 换成 Bus8 后，每个字节的数据阶段会怎样变化？"
+
+msgid "system.prediction.bus_width.four_to_one"
+msgstr "四段变为一段"
+
+msgid "system.prediction.bus_width.two_to_one"
+msgstr "两段变为一段"
+
+msgid "system.prediction.bus_width.unchanged"
+msgstr "保持不变"
+
 msgid "system.diagnosis.cpu"
 msgstr "CPU"
 
@@ -2235,16 +2289,19 @@ msgid "system.diagnosis.run_first"
 msgstr "请先让当前组合通过全部官方测试。"
 
 msgid "system.diagnosis.incorrect"
-msgstr "这项判断与当前 Trace 的周期占比不一致；继续调查证据。"
+msgstr "这项判断与当前 Trace 不符。完整拆分现已开放，请用它核对你的解释。"
 
 msgid "system.diagnosis.correct"
 msgstr "判断正确：本次系统属于%s。"
 
 msgid "system.profiler.tier"
-msgstr "调查工具等级 %d / 6"
+msgstr "调查工具等级 %d / 5"
 
 msgid "system.profiler.help"
 msgstr "Profiler 只读取已完成的 Trace；播放暂停、速度和动画不会改变任何指标。"
+
+msgid "system.profiler.breakdown_locked"
+msgstr "首次提交诊断后才会开放 CPU/RAM/Bus 完整周期拆分。请先依据总周期、CPU WAIT、工作量增长与 Trace 数据流判断。"
 
 msgid "system.profiler.no_data"
 msgstr "%s：— 等待一次运行"
@@ -2323,6 +2380,45 @@ msgstr "还没有证据单。"
 
 msgid "system.history.row"
 msgstr "#%d · %s / %s / %s · %d 周期 · 成本 %d"
+
+msgid "system.history.prediction"
+msgstr "预测 · %s"
+
+msgid "system.history.baseline"
+msgstr "基线 · %s"
+
+msgid "system.history.observation"
+msgstr "当前证据 · %s"
+
+msgid "system.history.baseline_metrics"
+msgstr "总周期 %d · CPU 等待 %d 周期"
+
+msgid "system.history.next"
+msgstr "下一步 · 只改变 %s"
+
+msgid "system.history.comparison"
+msgstr "之前 → 之后 · %s → %s"
+
+msgid "system.history.only_changed"
+msgstr "唯一改变项 · %s"
+
+msgid "system.history.fixed"
+msgstr "保持不变 · %s"
+
+msgid "system.history.total_delta"
+msgstr "总周期 · %d → %d · Δ %s"
+
+msgid "system.history.wait_delta"
+msgstr "CPU 等待 · %d → %d · Δ %s"
+
+msgid "system.history.metric_delta"
+msgstr "%s · %d → %d · Δ %s"
+
+msgid "system.history.workload_heading"
+msgstr "工作负载证据"
+
+msgid "system.history.workload_row"
+msgstr "%s · 总周期 %d · CPU 等待 %d 周期"
 
 msgid "system.playback.ready"
 msgstr "运行后，可在真实线路上查看请求和数据。"
@@ -2463,19 +2559,16 @@ msgid "system.completion.summary.assembly"
 msgstr "你连接了 CPU、Bus 与 RAM 的请求、写入和读取路径，并验证了显示线路就是系统拓扑。"
 
 msgid "system.completion.summary.cpu_speed"
-msgstr "你通过受控对比发现：更快的 CPU 只能缩短计算部分，无法消除等待内存的时间。"
+msgstr "你的预测遇到了受控反转：Eco → Fast 让算术快 4 倍，但不变的 CPU WAIT 把总周期改善限制在约 15%。"
 
 msgid "system.completion.summary.ram_wait"
-msgstr "你改变 RAM 而保持其余条件不变，直接观察了存储服务时间如何转化为 CPU WAIT。"
+msgstr "预测计算与等待的比例后，你只更换 RAM，并追踪了存储服务如何直接形成 CPU-wait 差值。"
 
 msgid "system.completion.summary.bus_width"
-msgstr "你看见一个字节在不同总线宽度下需要四、二或一次传输，带宽决定了数据往返次数。"
-
-msgid "system.completion.summary.scale_up"
-msgstr "你用 4、16、64 规模放大了工作负载，学会从增长趋势而不是单次运行判断瓶颈。"
+msgstr "预测数据包变化后，你固定其它条件，看见同一字节在 Bus2 的四个数据阶段到 Bus8 时变成一个。"
 
 msgid "system.completion.summary.bottleneck"
-msgstr "你综合 Trace 与 Profiler 的周期占比，对自己实际运行的系统给出了有证据的瓶颈结论。"
+msgstr "你先用原始 Trace、CPU WAIT 与 4/16/64 增长证据提交诊断，再用揭示的 CPU/RAM/Bus 完整拆分核对结论。"
 
 msgid "hardware.wire_color.button"
 msgstr "线色 %d"
@@ -2521,3 +2614,606 @@ msgstr "已为 %d 段系统线路着色。"
 
 msgid "system.wire_color.lane_done"
 msgstr "已为同一数据通道的 %d 段线路着色。"
+
+msgid "hub.locality.locked_action"
+msgstr "先完成第一章"
+
+msgid "hub.locality.locked"
+msgstr "先在第一章完成瓶颈诊断，再开始第二章。"
+
+msgid "chapter2.title"
+msgstr "第二章 · 让数据留在近处"
+
+msgid "chapter2.subtitle"
+msgstr "减少昂贵的数据移动，让 CPU 少等待。"
+
+msgid "chapter2.branch.title"
+msgstr "数据移动"
+
+msgid "chapter2.header.level"
+msgstr "2-%d · %s"
+
+msgid "chapter2.status.map"
+msgstr "选择一次短小的调查。"
+
+msgid "chapter2.status.level_locked"
+msgstr "请先完成前一项调查。"
+
+msgid "chapter2.status.invalid_level"
+msgstr "这个第二章关卡无效。"
+
+msgid "chapter2.status.level_ready"
+msgstr "调查已就绪。先读任务，再收集证据。"
+
+msgid "chapter2.status.select_level_first"
+msgstr "请先从第二章地图选择一项调查。"
+
+msgid "chapter2.status.tool_unavailable"
+msgstr "这项调查不需要该工具。"
+
+msgid "chapter2.status.program_locked"
+msgstr "这是观察关；程序保持固定。"
+
+msgid "chapter2.status.memory_path_changed"
+msgstr "数据路径已改变。重新运行以生成可比较证据。"
+
+msgid "chapter2.status.memory_path_selected"
+msgstr "已选择数据路径：%s。"
+
+msgid "chapter2.status.work_group_changed"
+msgstr "工作分组已改变。重新运行以测量结果。"
+
+msgid "chapter2.status.work_group_selected"
+msgstr "已选择工作分组：%s。"
+
+msgid "chapter2.status.judgment_recheck"
+msgstr "现有证据尚不支持这个判断。请重新检查 Trace 和 Profiler。"
+
+msgid "chapter2.status.run_complete"
+msgstr "%s · 总计 %d cycles · CPU WAIT %d · RAM %d B。"
+
+msgid "chapter2.status.capstone_complete"
+msgstr "已达到目标。现在可以结束章节，也可以继续压低 cycles 与成本。"
+
+msgid "chapter2.map.open"
+msgstr "地图"
+
+msgid "chapter2.map.return"
+msgstr "返回地图"
+
+msgid "chapter2.map.intro.title"
+msgstr "调查路线"
+
+msgid "chapter2.map.intro.body"
+msgstr "CPU 仍在等待。沿着证据，从反复远程取数走向复用、访问顺序、工作集与分块。每个节点只要求一个主要判断。"
+
+msgid "chapter2.map.level_index"
+msgstr "2-%d"
+
+msgid "chapter2.map.complete"
+msgstr "已完成"
+
+msgid "chapter2.map.available"
+msgstr "可进入"
+
+msgid "chapter2.map.locked"
+msgstr "未解锁"
+
+msgid "chapter2.workbench.select_level"
+msgstr "请从地图选择关卡。"
+
+msgid "chapter2.workbench.evidence_goal"
+msgstr "目标 · 收集原始证据并提交一个解释"
+
+msgid "chapter2.workbench.performance_goal"
+msgstr "目标 · 结果正确且不超过 %d cycles"
+
+msgid "chapter2.tool.mission"
+msgstr "任务"
+
+msgid "chapter2.tool.program"
+msgstr "程序"
+
+msgid "chapter2.tool.test_bench"
+msgstr "运行"
+
+msgid "chapter2.tool.cache"
+msgstr "近处存储"
+
+msgid "chapter2.tool.blocking"
+msgstr "工作分组"
+
+msgid "chapter2.tool.profiler"
+msgstr "Profiler"
+
+msgid "chapter2.tool.notebook"
+msgstr "概念手册"
+
+msgid "chapter2.level_type.observation"
+msgstr "观察 · 解释一条 Trace"
+
+msgid "chapter2.level_type.exploration"
+msgstr "探索 · 比较两条数据路径"
+
+msgid "chapter2.level_type.implementation"
+msgstr "实现 · 做一次受控改变"
+
+msgid "chapter2.level_type.capstone"
+msgstr "综合调查 · 先诊断，再修改"
+
+msgid "chapter2.progress.run_required"
+msgstr "证据 %d/%d · 运行官方 workload。"
+
+msgid "chapter2.progress.judgment_required"
+msgstr "证据 %d/%d · 选择 Trace 所支持的解释。"
+
+msgid "chapter2.progress.compare_required"
+msgstr "证据 %d/%d · 分别在关闭和启用近处存储时运行。"
+
+msgid "chapter2.progress.baseline_required"
+msgstr "证据 %d/%d · 修改前，先运行给定机器。"
+
+msgid "chapter2.progress.target_required"
+msgstr "证据 %d/%d · 结果正确，但仍高于 cycle 目标。"
+
+msgid "chapter2.progress.complete"
+msgstr "完成 %d/%d · 证据支持你的结论。"
+
+msgid "chapter2.progress.unknown_level"
+msgstr "不可用 %d/%d · 调查内容无效。"
+
+msgid "chapter2.test_bench.observation_goal"
+msgstr "证据运行\n正确执行 %d 个 pass；本观察关不设 cycle 目标。"
+
+msgid "chapter2.test_bench.performance_goal"
+msgstr "性能运行\n正确执行 %d 个 pass，且不超过 %d cycles。"
+
+msgid "chapter2.test_bench.official_data"
+msgstr "官方 4×4 数据 · %d 个程序 pass · deterministic Trace"
+
+msgid "chapter2.near_store.title"
+msgstr "近处存储"
+
+msgid "chapter2.near_store.description"
+msgstr "选择是否在数据路径上放置一小块快速存储，然后用同一程序和数据重新运行。"
+
+msgid "chapter2.near_store.off.card"
+msgstr "不使用近处存储\n每个值都前往 RAM"
+
+msgid "chapter2.near_store.on.card"
+msgstr "近处存储 · %d line\n靠近 CPU 保存 %d 个整数 · 成本 %d"
+
+msgid "chapter2.near_store.off.name"
+msgstr "直接访问 RAM"
+
+msgid "chapter2.near_store.on.name"
+msgstr "%d line 近处存储"
+
+msgid "chapter2.near_store.off.detail"
+msgstr "已绕过 · CPU 每次都向 RAM 请求数值"
+
+msgid "chapter2.near_store.on.detail"
+msgstr "%d line · 在近处保存 %d 个整数"
+
+msgid "chapter2.work_group.title"
+msgstr "工作分组"
+
+msgid "chapter2.work_group.description"
+msgstr "workload 需要两个 pass。选择两个 pass 在移向下一处前共同完成多少数据。"
+
+msgid "chapter2.work_group.whole"
+msgstr "整个数据集\n先完成 pass 1，再开始 pass 2"
+
+msgid "chapter2.work_group.card"
+msgstr "%d line 小组\n为 %d 个整数完成两个 pass，再向后移动"
+
+msgid "chapter2.blocking.card"
+msgstr "每块 %d line\n每个 tile 含 %d 个整数"
+
+msgid "chapter2.capstone.finish"
+msgstr "完成章节"
+
+msgid "chapter2.profiler.summary.direct"
+msgstr "%s\n总计 %d · CPU WAIT %d · 近处返回 %d · 远端获取 %d · RAM %d B"
+
+msgid "chapter2.profiler.summary.basic"
+msgstr "%s\n总计 %d · CPU WAIT %d · 近处返回 %d · 远端获取 %d · RAM %d B"
+
+msgid "chapter2.profiler.tree.ram_reads"
+msgstr "直接 RAM 读取"
+
+msgid "chapter2.profiler.tree.near_returns"
+msgstr "从近处返回"
+
+msgid "chapter2.profiler.tree.far_fetches"
+msgstr "从远端内存获取"
+
+msgid "chapter2.profiler.tree.value_return"
+msgstr "数值返回"
+
+msgid "chapter2.profiler.select_far_fetch"
+msgstr "选择一次远端获取，查看其源代码行和返回的数据块。"
+
+msgid "chapter2.profiler.tree.data_block"
+msgstr "数据块 %d"
+
+msgid "chapter2.profiler.event_detail"
+msgstr "周期 %d · 源代码第 %d 行\nA[%d][%d] → 地址 %d · 数据块 %d\n取回 A 的地址 %d..%d = %s"
+
+msgid "chapter2.history.comparison_title"
+msgstr "Before → After"
+
+msgid "chapter2.history.before"
+msgstr "Before · %s"
+
+msgid "chapter2.history.after"
+msgstr "After  · %s"
+
+msgid "chapter2.history.only_change"
+msgstr "唯一改变 · %s"
+
+msgid "chapter2.history.changes"
+msgstr "改变项 · %s"
+
+msgid "chapter2.history.none"
+msgstr "无"
+
+msgid "chapter2.history.total_delta"
+msgstr "总 cycles · %d → %d · Δ %s（%s）"
+
+msgid "chapter2.history.wait_delta"
+msgstr "CPU WAIT · %d → %d · Δ %s"
+
+msgid "chapter2.history.memory_delta"
+msgstr "远端获取 %d → %d · 近处返回 %d → %d · RAM %d → %d B"
+
+msgid "chapter2.history.baseline"
+msgstr "基线 · %s"
+
+msgid "chapter2.history.baseline_metrics"
+msgstr "总计 %d · CPU WAIT %d · 远端获取 %d · 近处返回 %d · RAM %d B · 成本 %d"
+
+msgid "chapter2.history.run_again"
+msgstr "只改变一项并重新运行，以生成 Before → After 比较。"
+
+msgid "chapter2.history.config"
+msgstr "%s · %s · %d 个 pass · %s · 成本 %d"
+
+msgid "chapter2.history.change.memory_path"
+msgstr "数据路径"
+
+msgid "chapter2.history.change.access_order"
+msgstr "访问顺序"
+
+msgid "chapter2.history.change.passes"
+msgstr "pass 数量"
+
+msgid "chapter2.history.change.work_group"
+msgstr "工作分组"
+
+msgid "chapter2.history.change.test_data"
+msgstr "测试数据"
+
+msgid "chapter2.event.short.check"
+msgstr "检查"
+
+msgid "chapter2.event.short.near"
+msgstr "近处"
+
+msgid "chapter2.event.short.far"
+msgstr "远取"
+
+msgid "chapter2.event.short.read_value"
+msgstr "读取数值"
+
+msgid "chapter2.event.short.read_block"
+msgstr "读取数据块"
+
+msgid "chapter2.event.state.check_nearby"
+msgstr "检查近处 LINE %d"
+
+msgid "chapter2.event.state.nearby_return"
+msgstr "从近处 LINE %d 返回"
+
+msgid "chapter2.event.state.fetch_far"
+msgstr "从远端获取 LINE %d"
+
+msgid "chapter2.event.state.send_value_request"
+msgstr "请求地址 %d"
+
+msgid "chapter2.event.state.read_value"
+msgstr "读取地址 %d"
+
+msgid "chapter2.event.state.pack_value"
+msgstr "返回数值 %d"
+
+msgid "chapter2.event.state.relay_value"
+msgstr "中继 4 B"
+
+msgid "chapter2.event.state.send_block_request"
+msgstr "请求数据块 %d"
+
+msgid "chapter2.event.state.read_block"
+msgstr "读取数据块 %d"
+
+msgid "chapter2.event.state.pack_block"
+msgstr "打包数据块 %d · 16 B"
+
+msgid "chapter2.event.state.install_nearby_block"
+msgstr "把数据块 %d 留在近处"
+
+msgid "chapter2.event.state.replace_nearby_block"
+msgstr "替换近处的数据块 %d"
+
+msgid "chapter2.event.state.read_nearby_block"
+msgstr "读取近处的数据块 %d"
+
+msgid "chapter2.event.message.check_nearby"
+msgstr "检查 line %d 是否仍保留在近处。"
+
+msgid "chapter2.event.message.nearby_return"
+msgstr "近处 line %d 直接返回数值 %d，无需访问 RAM。"
+
+msgid "chapter2.event.message.fetch_far"
+msgstr "近处没有 line %d；CPU 等待 RAM。"
+
+msgid "chapter2.event.message.ram_value"
+msgstr "RAM 读取地址 %d 并返回 %d。"
+
+msgid "chapter2.event.message.value_return"
+msgstr "数值 %d 沿 RAM → Bus → CPU 返回。"
+
+msgid "chapter2.event.message.bus_value_request"
+msgstr "总线传递对地址 %d 的请求。"
+
+msgid "chapter2.event.message.bus_block_request"
+msgstr "总线传递对数据块 %d 的请求。"
+
+msgid "chapter2.event.message.ram_block"
+msgstr "RAM 读取数据块 %d：%s"
+
+msgid "chapter2.event.message.block_return"
+msgstr "16 B 数据块 %d 经总线返回。"
+
+msgid "chapter2.event.message.replace_nearby_block"
+msgstr "替换近处最久未使用的数据块 %d。"
+
+msgid "chapter2.event.message.fill_nearby_block"
+msgstr "把数据块 %d 留在近处，并返回数值 %d。"
+
+msgid "chapter2.notebook.title"
+msgstr "Systems Notebook · 概念手册"
+
+msgid "chapter2.notebook.description"
+msgstr "只有亲自观察机制后才会出现术语；未解锁条目保持为 ???。"
+
+msgid "chapter2.notebook.entry"
+msgstr "[color=#50d5ff][b]%s[/b][/color]\n%s\n[color=#91a0b9]%s · 相关：%s[/color]"
+
+msgid "chapter2.notebook.cpu_wait.title"
+msgstr "CPU WAIT"
+
+msgid "chapter2.notebook.cpu_wait.body"
+msgstr "处理器因请求的数据尚未返回而无法继续的 cycles。"
+
+msgid "chapter2.notebook.cpu_wait.diagram"
+msgstr "CPU 请求 → WAIT → 数据返回 → 计算"
+
+msgid "chapter2.notebook.cpu_wait.related"
+msgstr "瓶颈"
+
+msgid "chapter2.notebook.controlled_comparison.title"
+msgstr "受控比较"
+
+msgid "chapter2.notebook.controlled_comparison.body"
+msgstr "比较两次有效运行，同时只改变一个条件。"
+
+msgid "chapter2.notebook.controlled_comparison.diagram"
+msgstr "Before → 唯一改变 → After"
+
+msgid "chapter2.notebook.controlled_comparison.related"
+msgstr "Run History、诊断"
+
+msgid "chapter2.notebook.bottleneck.title"
+msgstr "瓶颈"
+
+msgid "chapter2.notebook.bottleneck.body"
+msgstr "在当前 workload 中主导限制的部件或行为。"
+
+msgid "chapter2.notebook.bottleneck.diagram"
+msgstr "证据 → 解释 → 诊断"
+
+msgid "chapter2.notebook.bottleneck.related"
+msgstr "CPU WAIT"
+
+msgid "chapter2.notebook.cache.title"
+msgstr "Cache"
+
+msgid "chapter2.notebook.cache.body"
+msgstr "靠近 CPU 的小型快速硬件存储，用来保留最近从内存取回的 line。"
+
+msgid "chapter2.notebook.cache.diagram"
+msgstr "CPU ↔ Cache ↔ Bus ↔ RAM"
+
+msgid "chapter2.notebook.cache.related"
+msgstr "Hit、Miss、Locality"
+
+msgid "chapter2.notebook.hit.title"
+msgstr "Cache Hit"
+
+msgid "chapter2.notebook.hit.body"
+msgstr "请求的 line 已在近处，因此不必访问 RAM。"
+
+msgid "chapter2.notebook.hit.diagram"
+msgstr "请求 → Cache → 数值"
+
+msgid "chapter2.notebook.hit.related"
+msgstr "Cache、Locality"
+
+msgid "chapter2.notebook.miss.title"
+msgstr "Cache Miss"
+
+msgid "chapter2.notebook.miss.body"
+msgstr "请求的 line 不在近处，执行必须等它从 RAM 返回。"
+
+msgid "chapter2.notebook.miss.diagram"
+msgstr "请求 → Cache？→ RAM → fill → 数值"
+
+msgid "chapter2.notebook.miss.related"
+msgstr "CPU WAIT、Working Set"
+
+msgid "chapter2.notebook.locality.title"
+msgstr "Locality · 局部性"
+
+msgid "chapter2.notebook.locality.body"
+msgstr "在数据被替换前复用时间或地址上相邻数据的访问顺序。"
+
+msgid "chapter2.notebook.locality.diagram"
+msgstr "0 → 1 → 2 → 3，而非 0 → 4 → 8 → 12"
+
+msgid "chapter2.notebook.locality.related"
+msgstr "Cache Hit、访问顺序"
+
+msgid "chapter2.notebook.working_set.title"
+msgstr "Working Set · 工作集"
+
+msgid "chapter2.notebook.working_set.body"
+msgstr "当前计算阶段需要持续可用的数据。"
+
+msgid "chapter2.notebook.working_set.diagram"
+msgstr "当前需要：4 line > 近处容量：1 line"
+
+msgid "chapter2.notebook.working_set.related"
+msgstr "Cache 容量、Blocking"
+
+msgid "chapter2.notebook.blocking.title"
+msgstr "Blocking / Tiling · 分块"
+
+msgid "chapter2.notebook.blocking.body"
+msgstr "重组计算，使一个小型活跃数据组在移动前被充分复用。"
+
+msgid "chapter2.notebook.blocking.diagram"
+msgstr "line 0：pass 1 + pass 2 → line 1：pass 1 + pass 2"
+
+msgid "chapter2.notebook.blocking.related"
+msgstr "Working Set、Locality"
+
+msgid "chapter2.completion.chapter"
+msgstr "第二章 · 让数据留在近处"
+
+msgid "chapter2.level.unknown.title"
+msgstr "未知调查"
+
+msgid "chapter2.level.unknown.description"
+msgstr "第二章内容无效。"
+
+msgid "chapter2.level.distant_reads.title"
+msgstr "为什么每次都要走那么远？"
+
+msgid "chapter2.level.distant_reads.description"
+msgstr "观察一次正确扫描：每个请求的数值都穿过 Bus 前往 RAM。"
+
+msgid "chapter2.level.distant_reads.objective"
+msgstr "运行一次。跟随多个 load 从 CPU 到 RAM 再返回，然后判断 CPU 的大部分时间花在什么上。"
+
+msgid "chapter2.level.distant_reads.learned"
+msgstr "每次 load 都重复同一段远途。算术很短，CPU WAIT 却沿着数据路径不断累积。"
+
+msgid "chapter2.level.distant_reads.judgment.repeated_ram"
+msgstr "CPU 在等待，因为每个值都要前往 RAM 再返回。"
+
+msgid "chapter2.level.distant_reads.judgment.cpu_math"
+msgstr "加法本身消耗了大部分 cycles。"
+
+msgid "chapter2.level.distant_reads.judgment.result_store"
+msgstr "反复延迟来自最后一次结果写入。"
+
+msgid "chapter2.level.nearby_storage.title"
+msgstr "把它留在近处"
+
+msgid "chapter2.level.nearby_storage.description"
+msgstr "加入一小块快速存储，对比同一程序和数据的 Before 与 After。"
+
+msgid "chapter2.level.nearby_storage.objective"
+msgstr "先记录直接访问 RAM 的基线，再启用近处存储并重新运行。在 Trace 中找到第一次远端获取与后续近处返回。"
+
+msgid "chapter2.level.nearby_storage.learned"
+msgstr "这种近处硬件叫 Cache。Miss 会从 RAM 获取一条 line；之后对该 line 的请求成为 Hit，省去远途。"
+
+msgid "chapter2.level.cache_failure.title"
+msgstr "它为什么没有帮上忙？"
+
+msgid "chapter2.level.cache_failure.description"
+msgstr "观察已经存在的 Cache 如何反复替换下一次正需要的 line。"
+
+msgid "chapter2.level.cache_failure.objective"
+msgstr "不要改机器。运行固定的 column-first 程序，用地址顺序和 Miss/Evict 证据解释 321 cycles。"
+
+msgid "chapter2.level.cache_failure.learned"
+msgstr "装上 Cache 并不够。跨步顺序在四条 line 间轮转，而近处只能容纳一条，数据在复用前就被替换。"
+
+msgid "chapter2.level.cache_failure.judgment.replacement"
+msgstr "访问顺序让每条有用 line 都在复用前被替换。"
+
+msgid "chapter2.level.cache_failure.judgment.slow_cpu"
+msgstr "CPU 的算术运算变慢了。"
+
+msgid "chapter2.level.cache_failure.judgment.wrong_result"
+msgstr "长运行来自错误结果。"
+
+msgid "chapter2.level.access_order.title"
+msgstr "换个顺序"
+
+msgid "chapter2.level.access_order.description"
+msgstr "不更换上一关的一 line Cache，修复那次运行。"
+
+msgid "chapter2.level.access_order.objective"
+msgstr "只改变并 Apply 循环顺序。在相同数据和一 line Cache 下达到 105 cycles 或更少。"
+
+msgid "chapter2.level.access_order.learned"
+msgstr "连续访问在移动前复用了刚取回的 line。这种可利用的时间或地址邻近性叫 Locality（局部性）。"
+
+msgid "chapter2.level.working_set.title"
+msgstr "明明顺序已经对了"
+
+msgid "chapter2.level.working_set.description"
+msgstr "观察两个顺序良好的 pass：所需数据仍无法留在近处。"
+
+msgid "chapter2.level.working_set.objective"
+msgstr "运行固定的 row-first workload。比较 pass 1 与 pass 2，并解释为何四条 line 都被再次获取。"
+
+msgid "chapter2.level.working_set.learned"
+msgstr "访问顺序没有错，但该阶段需要四条 line，近处只能容纳一条。当前需要的数据就是 Working Set（工作集）。"
+
+msgid "chapter2.level.working_set.judgment.does_not_fit"
+msgstr "两个 pass 之间需要保留四条 line，但近处只能容纳一条。"
+
+msgid "chapter2.level.working_set.judgment.bad_order"
+msgstr "程序又变回了 column-first 访问。"
+
+msgid "chapter2.level.working_set.judgment.more_math"
+msgstr "第二个 pass 执行了异常昂贵的算术。"
+
+msgid "chapter2.level.blocking.title"
+msgstr "一次别做那么多"
+
+msgid "chapter2.level.blocking.description"
+msgstr "保留同一个一 line Cache，只重组两个 pass 在何时处理每条 line。"
+
+msgid "chapter2.level.blocking.objective"
+msgstr "用工作分组让两个 pass 先完成一个小组再移动。在不升级硬件的情况下达到 145 cycles 或更少。"
+
+msgid "chapter2.level.blocking.learned"
+msgstr "让两个 pass 共同复用一条活跃 line，缩小了工作集。这种重组叫 Blocking，也叫 Tiling（分块）。"
+
+msgid "chapter2.level.capstone.title"
+msgstr "现在，自己调查"
+
+msgid "chapter2.level.capstone.description"
+msgstr "一个新的双 pass workload 开放全部已学工具，但不给诊断提示。"
+
+msgid "chapter2.level.capstone.objective"
+msgstr "先按给定配置运行。再用 Trace、Profiler 与 Before → After 证据，让结果正确且不超过 145 cycles；硬件成本始终可见。"
+
+msgid "chapter2.level.capstone.learned"
+msgstr "你完成了完整循环：观察、诊断、改变一个原因、再比较。多种软硬件解法都有效。"

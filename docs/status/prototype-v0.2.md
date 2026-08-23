@@ -1,6 +1,6 @@
-# Prototype v0.2 status
+# Cache Locality Lab v0.2 baseline status
 
-Prototype v0.2 turns the tagged v0.1 technical slice into a focused gameplay-validation loop. The `prototype-v0.1` Git tag remains the historical baseline; v0.2 deliberately changes its DSL and interaction model.
+Prototype v0.2 turned the tagged v0.1 technical slice into a focused gameplay-validation loop. Its one-pass reference behavior remains a tested compatibility boundary, but the playable scene is now the seven-level Chapter 2 described in [`chapter-2-reducing-data-movement.md`](chapter-2-reducing-data-movement.md). This document preserves the v0.2 baseline rather than describing the complete current chapter.
 
 ## What it implements
 
@@ -45,8 +45,8 @@ This is the prototype's first explicit software-versus-hardware comparison: both
 - Cache is fully associative, permits one outstanding request, and has no overlap or prefetch.
 - Most UI composition remains concentrated in `main.gd`; built-in controls provide functional presentation rather than production art.
 - Processing now stays on the actual displayed device body and state label; the former generic PROCESS orbit and radial indicator were removed. Richer component-specific animation remains presentation-only future work and may not invent hidden internals.
-- Run History and traces are in-memory only; there is no save, progression, localization, telemetry, or CI pipeline.
+- The v0.2 model remains fixed-size and in-memory. Chapter 2 adds session progression, bilingual content, delayed concept reveals, and structured comparisons, but still has no durable save, telemetry export, or CI pipeline.
 
 ## Remaining validation question
 
-Automated and visual checks establish causal consistency, not teaching effectiveness. Playtesting must now determine whether players discover both solutions, use Profiler evidence before guessing, understand why the same 105-cycle outcome can have different hardware cost, and find the trace readable at useful speeds. That evidence should decide the next prototype rather than more cosmetic expansion of this slice.
+The baseline questions have moved into Chapter 2's observation/implementation pairs and unguided capstone. Current playtest questions and multi-pass reference evidence live in the Chapter 2 status document; the 105-cycle table above remains the regression contract for `SimulationCore.run()`.

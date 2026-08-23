@@ -97,7 +97,7 @@ msgid "hub.system.eyebrow"
 msgstr "CPU · RAM · BUS"
 
 msgid "hub.system.description"
-msgstr "Assemble your player-provenance 8-bit system and investigate CPU speed, RAM latency, Bus width, workload scale, and the actual bottleneck."
+msgstr "Assemble your player-provenance 8-bit system, predict controlled changes, trace CPU waiting, and diagnose the actual bottleneck."
 
 msgid "hub.system.open"
 msgstr "OPEN CHAPTER MAP"
@@ -1958,26 +1958,38 @@ msgstr "Program confirmed and applied; new runs use this version"
 msgid "system.status.apply_required"
 msgstr "The draft is not applied; tests only run confirmed code"
 
+msgid "system.status.prediction_required"
+msgstr "Lock a prediction before collecting official evidence."
+
+msgid "system.status.baseline_required"
+msgstr "Run the default baseline before changing the compared part."
+
 msgid "system.status.topology_invalid"
 msgstr "The system is missing %d valid route(s) or part(s)"
 
 msgid "system.status.level_complete"
-msgstr "Evidence requirement met; the next level is unlocked"
+msgstr "Evidence complete; review Trace, Profiler, and History before opening the finding."
 
 msgid "system.status.evidence_progress"
 msgstr "Valid evidence %d / %d; continue the controlled comparison"
+
+msgid "system.status.diagnosis_ready"
+msgstr "Raw evidence is ready; submit your first diagnosis to unlock the breakdown."
+
+msgid "system.status.diagnosis_retry"
+msgstr "The breakdown is unlocked; revisit the evidence and submit a revised diagnosis."
 
 msgid "system.map.intro.title"
 msgstr "WHERE DOES WAITING COME FROM?"
 
 msgid "system.map.intro.body"
-msgstr "Six nodes form one investigation: assemble the machine, change CPU, RAM, and Bus independently, scale the workload, then diagnose the exact run.\n\nThis chapter has no Cache and requires no software optimization."
+msgstr "Five nodes form one investigation: assemble the machine, predict each controlled change, run it, follow Trace and Profiler evidence, explain CPU WAIT, then diagnose the exact system across 4/16/64 workloads.\n\nThis chapter has no Cache and requires no software optimization."
 
 msgid "system.map.prologue_required"
 msgstr "Complete the Hardware Prologue LOAD/STORE bridge first to generate your CPU8 and RAM64x8 provenance."
 
 msgid "system.map.test_mode"
-msgstr "Test mode: all six levels are open with isolated test provenance and progress."
+msgstr "Test mode: all five levels are open with isolated test provenance and progress."
 
 msgid "system.map.level"
 msgstr "LEVEL %d"
@@ -1992,7 +2004,7 @@ msgid "system.map.locked"
 msgstr "○ LOCKED"
 
 msgid "system.level.header"
-msgstr "%d / 6 · %s"
+msgstr "%d / 5 · %s"
 
 msgid "system.level.unknown.title"
 msgstr "UNKNOWN LEVEL"
@@ -2016,46 +2028,37 @@ msgid "system.level.cpu_speed.title"
 msgstr "AFTER THE CPU GETS FASTER"
 
 msgid "system.level.cpu_speed.description"
-msgstr "Keep RAM, Bus, program, and tests fixed; change only CPU and see why total time does not scale with CPU speed."
+msgstr "This memory-heavy sum mixes arithmetic with repeated data trips. Predict whether 4× faster arithmetic makes the whole run 4× faster, then test it."
 
 msgid "system.level.cpu_speed.objective"
-msgstr "Test at least two CPUs under one applied program and compare reproducible total cycles."
+msgstr "Lock a prediction, run Eco as the baseline, then change only CPU to Fast and explain total-cycle change from compute versus WAIT."
 
 msgid "system.level.ram_wait.title"
 msgstr "WHO IS THE CPU WAITING FOR?"
 
 msgid "system.level.ram_wait.description"
-msgstr "Streaming sum repeatedly visits memory; the Profiler now separates CPU compute and wait time."
+msgstr "Predict where CPU time goes, then follow repeated requests, RAM service, returned data, and the CPU's visible WAIT state."
 
 msgid "system.level.ram_wait.objective"
-msgstr "Keep every other condition fixed, test at least two RAM parts, and compare wait time."
+msgstr "Lock a prediction, keep CPU, Bus, program, and tests fixed, then change only RAM and explain the CPU-wait delta."
 
 msgid "system.level.bus_width.title"
 msgstr "HOW MANY TRIPS FOR ONE BYTE?"
 
 msgid "system.level.bus_width.description"
-msgstr "Bus2, Bus4, and Bus8 carry the same 8-bit value in four, two, or one data stages."
+msgstr "The same byte crosses each Bus width; predict how serialization changes, then count the stages on the exact wire."
 
 msgid "system.level.bus_width.objective"
-msgstr "Run the same copy program on at least two Bus widths and inspect segmented packets on the exact wires."
-
-msgid "system.level.scale_up.title"
-msgstr "WORKLOAD MAGNIFIER"
-
-msgid "system.level.scale_up.description"
-msgstr "Scale one sum from 4 elements to 16 and 64 on fixed hardware and inspect how time grows."
-
-msgid "system.level.scale_up.objective"
-msgstr "Pass all fixed 4, 16, and 64 item cases in one official run and compare their evidence."
+msgstr "Lock a prediction, run Bus2 as the baseline, then change only Bus width and inspect segmented packets on the exact wires."
 
 msgid "system.level.bottleneck.title"
 msgstr "BOTTLENECK INVESTIGATION"
 
 msgid "system.level.bottleneck.description"
-msgstr "Combine any encountered CPU, RAM, and Bus, run the fixed program, then submit a diagnosis from cycle shares."
+msgstr "Investigate one exact system across 4, 16, and 64 items. Use raw totals, CPU WAIT, workload growth, and Trace flow before the full breakdown is revealed."
 
 msgid "system.level.bottleneck.objective"
-msgstr "Pass every official case, then identify CPU, RAM, Bus, or mixed as the bottleneck of this exact system."
+msgstr "Pass the 4/16/64 official cases, submit CPU, RAM, Bus, or mixed as your first diagnosis, then compare it with the revealed breakdown."
 
 msgid "system.window.mission.title"
 msgstr "MISSION"
@@ -2097,7 +2100,10 @@ msgid "system.mission.progress"
 msgstr "Completion: %d / %d valid evidence item(s)"
 
 msgid "system.mission.complete"
-msgstr "✓ This level has a complete evidence chain; return to the map for the next level."
+msgstr "✓ Evidence chain complete. Review it, then open the investigation finding."
+
+msgid "system.mission.review_finding"
+msgstr "Review investigation finding"
 
 msgid "system.part.cpu"
 msgstr "CPU"
@@ -2216,6 +2222,54 @@ msgstr "PASS"
 msgid "system.result.fail"
 msgstr "FAIL"
 
+msgid "system.prediction.title"
+msgstr "PREDICTION"
+
+msgid "system.prediction.choose"
+msgstr "Choose what you expect before the first official run."
+
+msgid "system.prediction.lock"
+msgstr "LOCK PREDICTION"
+
+msgid "system.prediction.locked"
+msgstr "LOCKED · %s"
+
+msgid "system.prediction.cpu_speed.question"
+msgstr "If arithmetic becomes 4× faster while memory is unchanged, what happens to total cycles?"
+
+msgid "system.prediction.cpu_speed.large"
+msgstr "A large reduction, close to 4× faster"
+
+msgid "system.prediction.cpu_speed.modest"
+msgstr "A modest reduction, far less than 4×"
+
+msgid "system.prediction.cpu_speed.none"
+msgstr "Almost no change"
+
+msgid "system.prediction.ram_wait.question"
+msgstr "During repeated loads, where will most CPU time go?"
+
+msgid "system.prediction.ram_wait.compute"
+msgstr "Computing values"
+
+msgid "system.prediction.ram_wait.wait"
+msgstr "Waiting for memory"
+
+msgid "system.prediction.ram_wait.both"
+msgstr "Compute and wait about equally"
+
+msgid "system.prediction.bus_width.question"
+msgstr "When Bus2 is replaced by Bus8, how do the data stages per byte change?"
+
+msgid "system.prediction.bus_width.four_to_one"
+msgstr "Four stages become one"
+
+msgid "system.prediction.bus_width.two_to_one"
+msgstr "Two stages become one"
+
+msgid "system.prediction.bus_width.unchanged"
+msgstr "They stay unchanged"
+
 msgid "system.diagnosis.cpu"
 msgstr "CPU"
 
@@ -2235,16 +2289,19 @@ msgid "system.diagnosis.run_first"
 msgstr "Pass every official case with the current system first."
 
 msgid "system.diagnosis.incorrect"
-msgstr "That diagnosis is not supported by this Trace's cycle shares; keep investigating."
+msgstr "That diagnosis does not fit the current Trace. The full breakdown is now available; compare it with your explanation."
 
 msgid "system.diagnosis.correct"
 msgstr "Correct: this system has a %s bottleneck."
 
 msgid "system.profiler.tier"
-msgstr "INVESTIGATION TOOL TIER %d / 6"
+msgstr "INVESTIGATION TOOL TIER %d / 5"
 
 msgid "system.profiler.help"
 msgstr "Profiler only reads completed Traces; playback pause, speed, and animation never change metrics."
+
+msgid "system.profiler.breakdown_locked"
+msgstr "Full CPU/RAM/Bus cycle breakdown unlocks after your first diagnosis. Use total cycles, CPU WAIT, workload growth, and Trace flow first."
 
 msgid "system.profiler.no_data"
 msgstr "%s: — waiting for a run"
@@ -2323,6 +2380,45 @@ msgstr "No evidence receipts yet."
 
 msgid "system.history.row"
 msgstr "#%d · %s / %s / %s · %d cycles · cost %d"
+
+msgid "system.history.prediction"
+msgstr "Prediction · %s"
+
+msgid "system.history.baseline"
+msgstr "BASELINE · %s"
+
+msgid "system.history.observation"
+msgstr "CURRENT EVIDENCE · %s"
+
+msgid "system.history.baseline_metrics"
+msgstr "Total %d cycles · CPU wait %d cycles"
+
+msgid "system.history.next"
+msgstr "NEXT · change only %s"
+
+msgid "system.history.comparison"
+msgstr "BEFORE → AFTER · %s → %s"
+
+msgid "system.history.only_changed"
+msgstr "Only changed · %s"
+
+msgid "system.history.fixed"
+msgstr "Fixed · %s"
+
+msgid "system.history.total_delta"
+msgstr "Total cycles · %d → %d · Δ %s"
+
+msgid "system.history.wait_delta"
+msgstr "CPU wait · %d → %d · Δ %s"
+
+msgid "system.history.metric_delta"
+msgstr "%s · %d → %d · Δ %s"
+
+msgid "system.history.workload_heading"
+msgstr "WORKLOAD EVIDENCE"
+
+msgid "system.history.workload_row"
+msgstr "%s · %d total cycles · %d CPU-wait cycles"
 
 msgid "system.playback.ready"
 msgstr "Run the system to inspect requests and data on exact displayed wires."
@@ -2463,19 +2559,16 @@ msgid "system.completion.summary.assembly"
 msgstr "You connected the CPU, Bus, and RAM request, write, and read routes, proving that the displayed wires are the system topology."
 
 msgid "system.completion.summary.cpu_speed"
-msgstr "A controlled comparison showed that a faster CPU shortens compute work but cannot remove time spent waiting for memory."
+msgstr "Your prediction met a controlled surprise: Eco → Fast made arithmetic 4× faster, but unchanged CPU WAIT limited total improvement to about 15%."
 
 msgid "system.completion.summary.ram_wait"
-msgstr "By changing RAM while holding everything else fixed, you saw storage service time turn directly into CPU WAIT."
+msgstr "After predicting the balance, you changed only RAM and traced storage service directly into the CPU-wait delta."
 
 msgid "system.completion.summary.bus_width"
-msgstr "You watched one byte take four, two, or one transfer at different Bus widths: bandwidth controls how many trips data needs."
-
-msgid "system.completion.summary.scale_up"
-msgstr "You magnified the workload through 4, 16, and 64 cases and learned to diagnose growth trends instead of one isolated run."
+msgstr "After predicting the packet change, you held every other condition fixed and watched one byte's four Bus2 data stages become one on Bus8."
 
 msgid "system.completion.summary.bottleneck"
-msgstr "You combined Trace and Profiler cycle shares to make an evidence-backed bottleneck diagnosis for the exact system you ran."
+msgstr "You used raw Trace, CPU WAIT, and 4/16/64 growth evidence to commit a diagnosis before checking the revealed CPU/RAM/Bus breakdown."
 
 msgid "hardware.wire_color.button"
 msgstr "Wire %d"
@@ -2521,3 +2614,606 @@ msgstr "Colored %d system route segment(s)."
 
 msgid "system.wire_color.lane_done"
 msgstr "Colored %d segment(s) in the same data lane."
+
+msgid "hub.locality.locked_action"
+msgstr "COMPLETE CHAPTER 1"
+
+msgid "hub.locality.locked"
+msgstr "Diagnose the Chapter 1 bottleneck before beginning Chapter 2."
+
+msgid "chapter2.title"
+msgstr "CHAPTER 2 · KEEP DATA CLOSE"
+
+msgid "chapter2.subtitle"
+msgstr "Reduce expensive data movement so the CPU waits less."
+
+msgid "chapter2.branch.title"
+msgstr "Data Movement"
+
+msgid "chapter2.header.level"
+msgstr "2-%d · %s"
+
+msgid "chapter2.status.map"
+msgstr "Choose one short investigation."
+
+msgid "chapter2.status.level_locked"
+msgstr "Complete the preceding investigation first."
+
+msgid "chapter2.status.invalid_level"
+msgstr "This Chapter 2 level is invalid."
+
+msgid "chapter2.status.level_ready"
+msgstr "Investigation ready. Read Mission, then gather evidence."
+
+msgid "chapter2.status.select_level_first"
+msgstr "Choose an investigation from the Chapter 2 map first."
+
+msgid "chapter2.status.tool_unavailable"
+msgstr "This investigation does not need that tool."
+
+msgid "chapter2.status.program_locked"
+msgstr "This is an observation run; the program is fixed."
+
+msgid "chapter2.status.memory_path_changed"
+msgstr "The data path changed. Run again to create comparable evidence."
+
+msgid "chapter2.status.memory_path_selected"
+msgstr "Data path selected: %s."
+
+msgid "chapter2.status.work_group_changed"
+msgstr "The work grouping changed. Run again to measure it."
+
+msgid "chapter2.status.work_group_selected"
+msgstr "Work grouping selected: %s."
+
+msgid "chapter2.status.judgment_recheck"
+msgstr "That claim is not yet supported by the captured evidence. Recheck Trace and Profiler."
+
+msgid "chapter2.status.run_complete"
+msgstr "%s · Total %d cycles · CPU WAIT %d · RAM %d B."
+
+msgid "chapter2.status.capstone_complete"
+msgstr "Target met. Finish the chapter now, or keep optimizing cycles and cost."
+
+msgid "chapter2.map.open"
+msgstr "MAP"
+
+msgid "chapter2.map.return"
+msgstr "RETURN TO MAP"
+
+msgid "chapter2.map.intro.title"
+msgstr "THE INVESTIGATION"
+
+msgid "chapter2.map.intro.body"
+msgstr "The CPU is still waiting. Follow the evidence from repeated distant reads to reuse, access order, working set, and blocking. Each node asks for one judgment only."
+
+msgid "chapter2.map.level_index"
+msgstr "2-%d"
+
+msgid "chapter2.map.complete"
+msgstr "COMPLETE"
+
+msgid "chapter2.map.available"
+msgstr "AVAILABLE"
+
+msgid "chapter2.map.locked"
+msgstr "LOCKED"
+
+msgid "chapter2.workbench.select_level"
+msgstr "Select a level from the map."
+
+msgid "chapter2.workbench.evidence_goal"
+msgstr "Goal · collect raw evidence and commit one explanation"
+
+msgid "chapter2.workbench.performance_goal"
+msgstr "Goal · correct result at ≤ %d cycles"
+
+msgid "chapter2.tool.mission"
+msgstr "MISSION"
+
+msgid "chapter2.tool.program"
+msgstr "PROGRAM"
+
+msgid "chapter2.tool.test_bench"
+msgstr "RUN"
+
+msgid "chapter2.tool.cache"
+msgstr "NEAR STORE"
+
+msgid "chapter2.tool.blocking"
+msgstr "WORK GROUP"
+
+msgid "chapter2.tool.profiler"
+msgstr "PROFILER"
+
+msgid "chapter2.tool.notebook"
+msgstr "NOTEBOOK"
+
+msgid "chapter2.level_type.observation"
+msgstr "OBSERVATION · explain one trace"
+
+msgid "chapter2.level_type.exploration"
+msgstr "EXPLORATION · compare two data paths"
+
+msgid "chapter2.level_type.implementation"
+msgstr "IMPLEMENTATION · make one controlled change"
+
+msgid "chapter2.level_type.capstone"
+msgstr "CAPSTONE · diagnose before changing anything"
+
+msgid "chapter2.progress.run_required"
+msgstr "Evidence %d/%d · run the official workload."
+
+msgid "chapter2.progress.judgment_required"
+msgstr "Evidence %d/%d · choose the explanation supported by Trace."
+
+msgid "chapter2.progress.compare_required"
+msgstr "Evidence %d/%d · run both without and with nearby storage."
+
+msgid "chapter2.progress.baseline_required"
+msgstr "Evidence %d/%d · run the given machine before changing it."
+
+msgid "chapter2.progress.target_required"
+msgstr "Evidence %d/%d · correct, but still above the cycle target."
+
+msgid "chapter2.progress.complete"
+msgstr "Complete %d/%d · the evidence supports your conclusion."
+
+msgid "chapter2.progress.unknown_level"
+msgstr "Unavailable %d/%d · invalid investigation content."
+
+msgid "chapter2.test_bench.observation_goal"
+msgstr "EVIDENCE RUN\nCorrectly execute %d pass(es); there is no cycle target in this observation."
+
+msgid "chapter2.test_bench.performance_goal"
+msgstr "PERFORMANCE RUN\nCorrectly execute %d pass(es) at no more than %d cycles."
+
+msgid "chapter2.test_bench.official_data"
+msgstr "Official 4×4 data · %d program pass(es) · deterministic Trace"
+
+msgid "chapter2.near_store.title"
+msgstr "NEARBY STORAGE"
+
+msgid "chapter2.near_store.description"
+msgstr "Choose whether a tiny fast store sits on the data path, then rerun the same program and data."
+
+msgid "chapter2.near_store.off.card"
+msgstr "NO NEARBY STORAGE\nEvery value travels to RAM"
+
+msgid "chapter2.near_store.on.card"
+msgstr "NEARBY STORAGE · %d line(s)\n%d integers close to CPU · cost %d"
+
+msgid "chapter2.near_store.off.name"
+msgstr "direct RAM path"
+
+msgid "chapter2.near_store.on.name"
+msgstr "nearby storage with %d line(s)"
+
+msgid "chapter2.near_store.off.detail"
+msgstr "Bypassed · CPU requests every value from RAM"
+
+msgid "chapter2.near_store.on.detail"
+msgstr "%d line(s) · %d integers retained nearby"
+
+msgid "chapter2.work_group.title"
+msgstr "WORK GROUP"
+
+msgid "chapter2.work_group.description"
+msgstr "The workload needs two passes. Choose how much data both passes finish before moving on."
+
+msgid "chapter2.work_group.whole"
+msgstr "WHOLE DATA SET\nFinish pass 1, then start pass 2"
+
+msgid "chapter2.work_group.card"
+msgstr "%d LINE GROUP\nFinish both passes for %d integers, then move on"
+
+msgid "chapter2.blocking.card"
+msgstr "BLOCK %d LINE(S)\n%d integers per tile"
+
+msgid "chapter2.capstone.finish"
+msgstr "FINISH CHAPTER"
+
+msgid "chapter2.profiler.summary.direct"
+msgstr "%s\nTotal %d · CPU WAIT %d · Near returns %d · Far fetches %d · RAM %d B"
+
+msgid "chapter2.profiler.summary.basic"
+msgstr "%s\nTotal %d · CPU WAIT %d · Near returns %d · Far fetches %d · RAM %d B"
+
+msgid "chapter2.profiler.tree.ram_reads"
+msgstr "Direct RAM reads"
+
+msgid "chapter2.profiler.tree.near_returns"
+msgstr "Returned from nearby"
+
+msgid "chapter2.profiler.tree.far_fetches"
+msgstr "Fetched from far memory"
+
+msgid "chapter2.profiler.tree.value_return"
+msgstr "Value return"
+
+msgid "chapter2.profiler.select_far_fetch"
+msgstr "Select a far-memory fetch to inspect its source line and returned data block."
+
+msgid "chapter2.profiler.tree.data_block"
+msgstr "data block %d"
+
+msgid "chapter2.profiler.event_detail"
+msgstr "Cycle %d · source line %d\nA[%d][%d] → address %d · data block %d\nFetched A addresses %d..%d = %s"
+
+msgid "chapter2.history.comparison_title"
+msgstr "BEFORE → AFTER"
+
+msgid "chapter2.history.before"
+msgstr "Before · %s"
+
+msgid "chapter2.history.after"
+msgstr "After  · %s"
+
+msgid "chapter2.history.only_change"
+msgstr "Only changed · %s"
+
+msgid "chapter2.history.changes"
+msgstr "Changed · %s"
+
+msgid "chapter2.history.none"
+msgstr "nothing"
+
+msgid "chapter2.history.total_delta"
+msgstr "Total cycles · %d → %d · Δ %s (%s)"
+
+msgid "chapter2.history.wait_delta"
+msgstr "CPU WAIT · %d → %d · Δ %s"
+
+msgid "chapter2.history.memory_delta"
+msgstr "Far fetches %d → %d · Near returns %d → %d · RAM %d → %d B"
+
+msgid "chapter2.history.baseline"
+msgstr "BASELINE · %s"
+
+msgid "chapter2.history.baseline_metrics"
+msgstr "Total %d · CPU WAIT %d · Far fetches %d · Near returns %d · RAM %d B · Cost %d"
+
+msgid "chapter2.history.run_again"
+msgstr "Make one change and rerun to create a Before → After comparison."
+
+msgid "chapter2.history.config"
+msgstr "%s · %s · %d pass(es) · %s · cost %d"
+
+msgid "chapter2.history.change.memory_path"
+msgstr "data path"
+
+msgid "chapter2.history.change.access_order"
+msgstr "access order"
+
+msgid "chapter2.history.change.passes"
+msgstr "pass count"
+
+msgid "chapter2.history.change.work_group"
+msgstr "work grouping"
+
+msgid "chapter2.history.change.test_data"
+msgstr "test data"
+
+msgid "chapter2.event.short.check"
+msgstr "CHECK"
+
+msgid "chapter2.event.short.near"
+msgstr "NEAR"
+
+msgid "chapter2.event.short.far"
+msgstr "FETCH"
+
+msgid "chapter2.event.short.read_value"
+msgstr "READ VALUE"
+
+msgid "chapter2.event.short.read_block"
+msgstr "READ BLOCK"
+
+msgid "chapter2.event.state.check_nearby"
+msgstr "CHECK NEARBY LINE %d"
+
+msgid "chapter2.event.state.nearby_return"
+msgstr "RETURN NEARBY LINE %d"
+
+msgid "chapter2.event.state.fetch_far"
+msgstr "FETCH LINE %d FROM FAR MEMORY"
+
+msgid "chapter2.event.state.send_value_request"
+msgstr "REQUEST ADDRESS %d"
+
+msgid "chapter2.event.state.read_value"
+msgstr "READ ADDRESS %d"
+
+msgid "chapter2.event.state.pack_value"
+msgstr "RETURN VALUE %d"
+
+msgid "chapter2.event.state.relay_value"
+msgstr "RELAY 4 B"
+
+msgid "chapter2.event.state.send_block_request"
+msgstr "REQUEST DATA BLOCK %d"
+
+msgid "chapter2.event.state.read_block"
+msgstr "READ DATA BLOCK %d"
+
+msgid "chapter2.event.state.pack_block"
+msgstr "PACK DATA BLOCK %d · 16 B"
+
+msgid "chapter2.event.state.install_nearby_block"
+msgstr "KEEP DATA BLOCK %d NEARBY"
+
+msgid "chapter2.event.state.replace_nearby_block"
+msgstr "REPLACE NEARBY DATA BLOCK %d"
+
+msgid "chapter2.event.state.read_nearby_block"
+msgstr "READ NEARBY DATA BLOCK %d"
+
+msgid "chapter2.event.message.check_nearby"
+msgstr "Check whether line %d is retained nearby."
+
+msgid "chapter2.event.message.nearby_return"
+msgstr "Nearby line %d returns value %d without visiting RAM."
+
+msgid "chapter2.event.message.fetch_far"
+msgstr "Line %d is absent nearby; CPU waits for RAM."
+
+msgid "chapter2.event.message.ram_value"
+msgstr "RAM reads address %d and returns %d."
+
+msgid "chapter2.event.message.value_return"
+msgstr "Value %d travels RAM → Bus → CPU."
+
+msgid "chapter2.event.message.bus_value_request"
+msgstr "Bus carries the request for address %d."
+
+msgid "chapter2.event.message.bus_block_request"
+msgstr "Bus carries the request for data block %d."
+
+msgid "chapter2.event.message.ram_block"
+msgstr "RAM reads data block %d: %s"
+
+msgid "chapter2.event.message.block_return"
+msgstr "The 16-byte data block %d returns through Bus."
+
+msgid "chapter2.event.message.replace_nearby_block"
+msgstr "Replace the least-recently-used nearby data block %d."
+
+msgid "chapter2.event.message.fill_nearby_block"
+msgstr "Keep data block %d nearby and return value %d."
+
+msgid "chapter2.notebook.title"
+msgstr "SYSTEMS NOTEBOOK"
+
+msgid "chapter2.notebook.description"
+msgstr "Terms appear only after you have observed the mechanism. Locked entries remain ???."
+
+msgid "chapter2.notebook.entry"
+msgstr "[color=#50d5ff][b]%s[/b][/color]\n%s\n[color=#91a0b9]%s · Related: %s[/color]"
+
+msgid "chapter2.notebook.cpu_wait.title"
+msgstr "CPU WAIT"
+
+msgid "chapter2.notebook.cpu_wait.body"
+msgstr "Cycles when the processor cannot continue because requested data has not returned."
+
+msgid "chapter2.notebook.cpu_wait.diagram"
+msgstr "CPU request → WAIT → data returns → compute"
+
+msgid "chapter2.notebook.cpu_wait.related"
+msgstr "Bottleneck"
+
+msgid "chapter2.notebook.controlled_comparison.title"
+msgstr "CONTROLLED COMPARISON"
+
+msgid "chapter2.notebook.controlled_comparison.body"
+msgstr "Compare two valid runs while changing exactly one condition."
+
+msgid "chapter2.notebook.controlled_comparison.diagram"
+msgstr "Before → one change → After"
+
+msgid "chapter2.notebook.controlled_comparison.related"
+msgstr "Run History, diagnosis"
+
+msgid "chapter2.notebook.bottleneck.title"
+msgstr "BOTTLENECK"
+
+msgid "chapter2.notebook.bottleneck.body"
+msgstr "The limiting part or behavior that dominates the observed workload."
+
+msgid "chapter2.notebook.bottleneck.diagram"
+msgstr "evidence → explanation → diagnosis"
+
+msgid "chapter2.notebook.bottleneck.related"
+msgstr "CPU WAIT"
+
+msgid "chapter2.notebook.cache.title"
+msgstr "CACHE"
+
+msgid "chapter2.notebook.cache.body"
+msgstr "A small fast hardware store near the CPU that keeps recently fetched memory lines."
+
+msgid "chapter2.notebook.cache.diagram"
+msgstr "CPU ↔ Cache ↔ Bus ↔ RAM"
+
+msgid "chapter2.notebook.cache.related"
+msgstr "Hit, Miss, Locality"
+
+msgid "chapter2.notebook.hit.title"
+msgstr "CACHE HIT"
+
+msgid "chapter2.notebook.hit.body"
+msgstr "The requested line is already nearby, so RAM is not visited."
+
+msgid "chapter2.notebook.hit.diagram"
+msgstr "request → Cache → value"
+
+msgid "chapter2.notebook.hit.related"
+msgstr "Cache, Locality"
+
+msgid "chapter2.notebook.miss.title"
+msgstr "CACHE MISS"
+
+msgid "chapter2.notebook.miss.body"
+msgstr "The requested line is absent, so it must travel from RAM before execution continues."
+
+msgid "chapter2.notebook.miss.diagram"
+msgstr "request → Cache? → RAM → fill → value"
+
+msgid "chapter2.notebook.miss.related"
+msgstr "CPU WAIT, Working Set"
+
+msgid "chapter2.notebook.locality.title"
+msgstr "LOCALITY"
+
+msgid "chapter2.notebook.locality.body"
+msgstr "An access order that reuses nearby data before it is displaced."
+
+msgid "chapter2.notebook.locality.diagram"
+msgstr "0 → 1 → 2 → 3, not 0 → 4 → 8 → 12"
+
+msgid "chapter2.notebook.locality.related"
+msgstr "Cache Hit, access order"
+
+msgid "chapter2.notebook.working_set.title"
+msgstr "WORKING SET"
+
+msgid "chapter2.notebook.working_set.body"
+msgstr "The data that must remain available during the current phase of computation."
+
+msgid "chapter2.notebook.working_set.diagram"
+msgstr "needed now: 4 lines > nearby capacity: 1 line"
+
+msgid "chapter2.notebook.working_set.related"
+msgstr "Cache capacity, Blocking"
+
+msgid "chapter2.notebook.blocking.title"
+msgstr "BLOCKING / TILING"
+
+msgid "chapter2.notebook.blocking.body"
+msgstr "Reorganize computation so a small active group is fully reused before moving on."
+
+msgid "chapter2.notebook.blocking.diagram"
+msgstr "line 0: pass 1 + pass 2 → line 1: pass 1 + pass 2"
+
+msgid "chapter2.notebook.blocking.related"
+msgstr "Working Set, Locality"
+
+msgid "chapter2.completion.chapter"
+msgstr "Chapter 2 · Keep Data Close"
+
+msgid "chapter2.level.unknown.title"
+msgstr "Unknown Investigation"
+
+msgid "chapter2.level.unknown.description"
+msgstr "Invalid Chapter 2 content."
+
+msgid "chapter2.level.distant_reads.title"
+msgstr "Why Go All the Way Back?"
+
+msgid "chapter2.level.distant_reads.description"
+msgstr "Observe one correct scan where every requested value crosses the Bus to RAM."
+
+msgid "chapter2.level.distant_reads.objective"
+msgstr "Run once. Follow several loads from CPU to RAM and back, then identify what the CPU spends most of its time doing."
+
+msgid "chapter2.level.distant_reads.learned"
+msgstr "Every load made the same distant round trip. Arithmetic stayed short while CPU WAIT accumulated along the data path."
+
+msgid "chapter2.level.distant_reads.judgment.repeated_ram"
+msgstr "The CPU waits because every value travels to RAM and back."
+
+msgid "chapter2.level.distant_reads.judgment.cpu_math"
+msgstr "The additions themselves consume most cycles."
+
+msgid "chapter2.level.distant_reads.judgment.result_store"
+msgstr "Writing the final result is the repeated delay."
+
+msgid "chapter2.level.nearby_storage.title"
+msgstr "Leave It Nearby"
+
+msgid "chapter2.level.nearby_storage.description"
+msgstr "Add one tiny fast store and compare the same program and data before and after."
+
+msgid "chapter2.level.nearby_storage.objective"
+msgstr "Capture a direct-RAM baseline, enable nearby storage, and rerun. Find the first far fetch and later nearby returns in Trace."
+
+msgid "chapter2.level.nearby_storage.learned"
+msgstr "The nearby hardware is a Cache. A Miss fetches a line from RAM; later requests to that line are Hits and avoid the distant trip."
+
+msgid "chapter2.level.cache_failure.title"
+msgstr "Why Didn't It Help?"
+
+msgid "chapter2.level.cache_failure.description"
+msgstr "Observe a Cache that is present but repeatedly replaces the line needed next."
+
+msgid "chapter2.level.cache_failure.objective"
+msgstr "Do not change the machine. Run the fixed column-first program and use address order plus Miss/Evict evidence to explain 321 cycles."
+
+msgid "chapter2.level.cache_failure.learned"
+msgstr "Installing a Cache is not enough. The strided order cycles through four lines while only one fits, so useful data is displaced before reuse."
+
+msgid "chapter2.level.cache_failure.judgment.replacement"
+msgstr "The access order replaces each useful line before it is reused."
+
+msgid "chapter2.level.cache_failure.judgment.slow_cpu"
+msgstr "The CPU arithmetic became slower."
+
+msgid "chapter2.level.cache_failure.judgment.wrong_result"
+msgstr "The long run is caused by an incorrect result."
+
+msgid "chapter2.level.access_order.title"
+msgstr "Change the Order"
+
+msgid "chapter2.level.access_order.description"
+msgstr "Repair the previous run without replacing its one-line Cache."
+
+msgid "chapter2.level.access_order.objective"
+msgstr "Change and Apply only the loop order. Reach 105 cycles or less with the same data and one-line Cache."
+
+msgid "chapter2.level.access_order.learned"
+msgstr "Contiguous access reused each fetched line before moving on. This exploitable closeness in time or address is Locality."
+
+msgid "chapter2.level.working_set.title"
+msgstr "The Order Is Already Right"
+
+msgid "chapter2.level.working_set.description"
+msgstr "Observe two well-ordered passes whose needed data still cannot remain nearby."
+
+msgid "chapter2.level.working_set.objective"
+msgstr "Run the fixed row-first workload. Compare pass 1 with pass 2 and explain why all four lines are fetched again."
+
+msgid "chapter2.level.working_set.learned"
+msgstr "The access order was good, but the phase needed four lines while only one fit. The data needed now is the Working Set."
+
+msgid "chapter2.level.working_set.judgment.does_not_fit"
+msgstr "The four-line working data does not fit in one nearby line between passes."
+
+msgid "chapter2.level.working_set.judgment.bad_order"
+msgstr "The program returned to column-first access."
+
+msgid "chapter2.level.working_set.judgment.more_math"
+msgstr "The second pass performs unusually expensive arithmetic."
+
+msgid "chapter2.level.blocking.title"
+msgstr "Do Less at Once"
+
+msgid "chapter2.level.blocking.description"
+msgstr "Keep the same one-line Cache and reorganize when the two passes work on each line."
+
+msgid "chapter2.level.blocking.objective"
+msgstr "Use Work Group to finish both passes for a small group before moving on. Reach 145 cycles or less without upgrading hardware."
+
+msgid "chapter2.level.blocking.learned"
+msgstr "Keeping one active line nearby across both passes shrank the working set. This reorganization is Blocking, also called Tiling."
+
+msgid "chapter2.level.capstone.title"
+msgstr "Now Investigate"
+
+msgid "chapter2.level.capstone.description"
+msgstr "A new two-pass workload exposes all learned tools but gives no diagnosis hint."
+
+msgid "chapter2.level.capstone.objective"
+msgstr "First run the machine as given. Then use Trace, Profiler, and Before → After evidence to produce a correct result at 145 cycles or less. Hardware cost remains visible."
+
+msgid "chapter2.level.capstone.learned"
+msgstr "You completed the full loop: observe, diagnose, change one cause, and compare. Multiple hardware/software solutions remain valid."

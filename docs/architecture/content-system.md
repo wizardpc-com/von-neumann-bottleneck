@@ -30,6 +30,8 @@ authored hint stage
 
 `src/content/prologue/prologue_content_manifest.gd` is the explicit root of the current prologue. It registers four ordered packs: foundations, arithmetic, storage, and integration. Explicit registration is intentional. It makes packaged builds deterministic and auditable and avoids relying on filesystem reflection or import order.
 
+`src/content/locality/locality_content_manifest.gd` uses the same registry for Chapter 2's branch identity, seven ordered level IDs, prerequisites, and localization ownership. Its `locality` entry kind has no circuit builder: executable workload, completion, and tool metadata remains in `LocalityLevelCatalog`. This reuses the safe content boundary without turning registered dictionaries into a Cache/workload language.
+
 Each pack owns the things that normally change together:
 
 - branch and level IDs, ordering, and semantic title/description keys;
@@ -79,6 +81,8 @@ This boundary also gives future assisted/automatic design tools a safe integrati
 
 The LOAD/STORE completion action is also the explicit boundary into Chapter 1. `SystemChapter.capture_prologue()` hashes the verified `TinyComputer`/`ALU4`/`Register4` lineage and retains the verified `RAM2x4` signature. `SystemLevelCatalog` uses those values only as provenance for compatible CPU8/RAM64x8 system parts; it does not reinterpret the smaller gate circuit as an arbitrary-width implementation. Chapter receipts and progression live in a separate Game/Test session state because system-performance evidence is not a reusable circuit reward.
 
+Chapter 1's final bottleneck completion is the explicit gate into Chapter 2. `LocalityChapter` owns separate Game/Test completion and trace-bound receipt sets plus concept prerequisites. It does not copy Chapter 1 traces or treat Notebook concepts as reusable circuit rewards. `LocalityLevelCatalog` queries the registered prerequisite chain and supplies only bounded trusted runtime configuration to the existing locality simulator/UI.
+
 ## Named workbench persistence
 
 `CircuitWorkbenchStore` is deliberately separate from `PlayerContentState`. It owns a versioned local manifest keyed by Game/Test mode, level ID, and player-chosen workbench name. Each snapshot stores only supported component dictionaries, deterministic IDs, component/route-node positions, and normalized visible connections with an optional presentation-only `color_index`. Loading reconstructs an ordinary `LogicCircuit` and `GraphEdit`; the graph remains the topology evaluated by the normal simulator, while cable color never enters its signature.
@@ -125,4 +129,4 @@ This is deliberate. A universal dictionary evaluator or data-authored script wou
 - The player-content manifest remains session-only and cannot restore completion/reusable provenance. Named workbench topology has a separate version-1 disk snapshot, but there is no cross-version migration, cloud sync, mod loader, workshop, or untrusted content execution.
 - Workbenches can currently be created and switched but not renamed, deleted, shared, or exported.
 - The Hardware Foundations scene controller is still large. Campaign knowledge has moved out, but view extraction should be driven by measured change pressure rather than a broad rewrite.
-- New storage timing, bus contention, Cache behavior, or locality objectives require explicit deterministic domain design. The bounded Chapter 1 system domain and preserved Cache locality domain reuse Test Bench/player-evidence patterns where natural without becoming a speculative universal simulator.
+- New storage timing, bus contention, Cache behavior, or locality objectives require explicit deterministic domain design. The bounded Chapter 1 system domain and Chapter 2 locality domain reuse Test Bench/player-evidence patterns where natural without becoming a speculative universal simulator.

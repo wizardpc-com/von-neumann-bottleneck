@@ -7,12 +7,14 @@ const PlayerContentStateType = preload("res://src/content/player_content_state.g
 const ReusableComponentType = preload("res://src/circuit/reusable_component.gd")
 const LogicComponentType = preload("res://src/circuit/logic_component.gd")
 const PrologueLevelCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
+const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
 
 var failures: Array[String] = []
 
 
 func _init() -> void:
 	_test_real_prologue_catalog()
+	_test_locality_catalog()
 	_test_synthetic_content_extension()
 	_test_invalid_content_is_rejected()
 	_test_player_content_state()
@@ -59,6 +61,22 @@ func _test_real_prologue_catalog() -> void:
 		and &"hardware.prologue.ram.description" in catalog.localization_keys(),
 		"Registry must expose all content-owned localization keys for catalog validation."
 	)
+
+
+func _test_locality_catalog() -> void:
+	var catalog = LocalityLevelCatalogType.new()
+	_assert(catalog.validation_errors().is_empty(), "Built-in Chapter 2 content must pass registry validation.")
+	_assert(catalog.level_ids() == [
+		&"distant_reads", &"nearby_storage", &"cache_failure", &"access_order",
+		&"working_set", &"blocking", &"capstone",
+	], "Chapter 2 must register all seven cognitive tasks in authored order.")
+	_assert(catalog.dependencies(&"distant_reads").is_empty(), "Chapter 2's first observation must be a branch root.")
+	_assert(catalog.dependencies(&"capstone") == [&"blocking"], "The capstone must depend on the final taught technique.")
+	_assert(catalog.is_unlocked(&"distant_reads", {}, true), "Chapter 2's first level must open when Chapter 1 is complete.")
+	_assert(not catalog.is_unlocked(&"nearby_storage", {}, true), "Normal progression must keep later Chapter 2 tasks gated.")
+	_assert(catalog.is_unlocked(&"nearby_storage", {&"distant_reads": true}, true), "Completing an observation must unlock its paired exploration.")
+	_assert(catalog.is_unlocked(&"capstone", {}, false, true), "Test mode must expose every Chapter 2 level without mutating normal progress.")
+	_assert(&"chapter2.branch.title" in catalog.localization_keys(), "Chapter 2 registry metadata must own its branch localization key.")
 
 
 func _test_synthetic_content_extension() -> void:

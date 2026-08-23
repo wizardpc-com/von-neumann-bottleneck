@@ -10,6 +10,7 @@ const SystemCatalogType = preload("res://src/system_lab/system_level_catalog.gd"
 const SystemParserType = preload("res://src/system_lab/system_dsl_parser.gd")
 const SystemCoreType = preload("res://src/system_lab/system_simulation_core.gd")
 const SystemTopologyType = preload("res://src/system_lab/system_topology.gd")
+const LocalityCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
 
 const LOCALIZED_SOURCE_FILES := [
 	"res://src/localization/localization.gd",
@@ -28,6 +29,7 @@ const LOCALIZED_SOURCE_FILES := [
 ]
 const LOCALIZED_SOURCE_DIRECTORIES := [
 	"res://src/content",
+	"res://src/locality_chapter",
 	"res://src/system_lab",
 ]
 
@@ -44,6 +46,10 @@ func _run() -> void:
 	_assert(_supported_locales() == PackedStringArray(["zh_CN", "en"]), "Supported locales must be explicit and stable.")
 
 	var used_keys: Array[StringName] = _localized_source_keys()
+	for key: StringName in LocalityCatalogType.new().localization_keys():
+		if key not in used_keys:
+			used_keys.append(key)
+	used_keys.sort()
 	_assert(used_keys.size() > 300, "Localization coverage must include the complete current UI surface.")
 	for locale: String in ["zh_CN", "en"]:
 		_assert(_set_locale(locale), "Registered locale %s must be selectable." % locale)

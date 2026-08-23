@@ -26,21 +26,25 @@ Unused supplied components are legal and every input with zero incoming segments
 4. `SystemSimulationCore.run()` executes one memory request at a time. CPU arithmetic, RAM service, and Bus control/payload own all cycles; ordinary displayed connections own none.
 5. The core completes byte output, correctness, metrics, and ordered `SystemEvent` objects before the UI receives a `SystemTrace`. Arithmetic wraps to 8 bits.
 6. All fixed official cases for one machine/program are aggregated into a `SystemRunReceipt`. The receipt binds the program, topology, part IDs, test-set identity, per-case Trace identities, aggregate metrics, and deterministic diagnosis.
-7. Comparison progression counts distinct target parts only inside a group with the same applied program and non-compared parts. Scale progression requires all three fixed cases. Final progression requires a correct diagnosis of the latest passing receipt.
-8. UI playback resolves each CPU↔Bus↔RAM section through the actual displayed connection curve after GraphEdit transforms. CPU, Bus, and RAM procedural surfaces present their own wait/transfer/read/write activity. Playback timing never feeds the core or receipt.
+7. The UI requires a locked prediction before the CPU, RAM, and Bus investigations can collect controlled evidence. Progression counts distinct target parts only inside a group with the same applied program and non-compared parts; Run History presents the qualifying pair as Before → After with the sole changed part, fixed controls, total-cycle delta, and CPU-wait delta.
+8. The final investigation aggregates fixed 4/16/64 cases in one receipt. The simulation may compute its deterministic diagnosis immediately, but the UI initially exposes only raw totals, CPU WAIT, workload growth, and Trace flow; the complete CPU/RAM/Bus breakdown is presentation-gated until the player submits a first diagnosis. Final progression still requires the supported diagnosis.
+9. UI playback resolves each CPU↔Bus↔RAM section through the actual displayed connection curve after GraphEdit transforms. CPU, Bus, and RAM procedural surfaces present their own wait/transfer/read/write activity. Run History is brought forward after playback, and completion exposes an explicit finding-review action so neither the controlled comparison nor a correct-first diagnostic reveal is immediately covered by the lesson overlay. Playback timing never feeds the core or receipt.
 
 The Chapter 1 graph uses the prologue's useful desktop-editor conventions without changing its more constrained topology model. WASD changes only `GraphEdit.scroll_offset`: the editor records physical press/release events and integrates that state with frame delta rather than polling key repeat. Clicking a canvas or component explicitly restores GraphEdit keyboard focus, visible text editors retain their own WASD input, and application focus loss clears held movement state. Empty-canvas marquee selection, Shift toggling, selected-group movement, precise held-right erasing, Delete, Ctrl+A, and reversible Ctrl+Z/Ctrl+Y edits operate on the displayed graph. Editor history snapshots only route endpoints/colors, fixed-slot positions, and selection and is cleared on level load; it is absent from `SystemTopology` and saved level sessions. Because CPU, Bus, and RAM are unique typed slots selected through the Parts window, a device deletion removes its incident routes but does not destroy the slot. Free placement, cloning, junctions, and waypoint routing remain specific to Hardware Foundations.
 
 CPU compute costs are 4/2/1 cycles, RAM access costs are 12/8/4 cycles, and Bus payload bandwidth is 2/4/8 bits per cycle. Each memory operation also costs one Bus control cycle. A unique category at or above half of accounted CPU/RAM/Bus cycles is the bottleneck; otherwise the result is mixed. The model has no Cache, queues, contention, overlap, prefetch, DMA, arbitration, or wire-distance timing.
 
-## Cache Locality Lab pipeline
+The authored CPU investigation is deliberately memory-heavy: replacing Eco with Fast makes each arithmetic operation four times faster while leaving memory service and therefore CPU WAIT unchanged, so total cycles improve by only about 15%. This teaching contrast changes workload content, not the cost formulas above.
+
+## Chapter 2 locality pipeline
 
 1. `DSLParser.parse()` converts editor draft text into a nested, source-line-aware `DSLProgram`, collecting validation errors and supplying address/line explanations without executing it.
-2. Apply Program copies a valid draft into `applied_program_source`. Test Bench is disabled while the draft differs and reparses only this applied source before calling `SimulationCore.run()`.
-3. `SimulationCore.run()` recursively executes that applied IR against an integer array and selected Cache capacity. There is no independent traversal selector in the core.
+2. Apply Program copies a valid draft into `applied_program_source`. Test Bench is disabled while the draft differs and reparses only this applied source before calling the simulation core. Observation levels keep Program fixed; implementation/capstone levels expose only the edit controls they need.
+3. `SimulationCore.run()` remains the exact one-pass v0.2 path. `run_workload()` additively supports the authored Cache-free route, one/two passes, and 0/1/2/4-line work groups. It derives every loop context and address from the applied nested IR, then executes the actual inner instruction body; there is no independent row/column result selector.
 4. The core computes result, cycle counters, Cache/RAM metrics, and an ordered list of `SimulationEvent` objects.
 5. Each event records its originating source line, device route, and relevant evidence such as array coordinates, address, line base, and returned cache-line values. The completed `SimulationTrace` retains the exact applied source.
-6. `src/ui/main.gd` renders metrics immediately and plays those events over time. Playback timing is presentation-only; source highlight, staged component/wire path, component state, and Profiler detail all read the same event.
+6. `LocalityRunReceipt` binds the completed trace to level, applied source, traversal, data, Cache/direct path, pass count, and work group. Chapter completion and Before → After comparisons query receipts rather than presentation state.
+7. `src/ui/main.gd` renders metrics immediately and plays those events over time. Playback timing is presentation-only; source highlight, staged component/wire path, component state, Profiler detail, evidence judgments, and Notebook reveals all read completed trace/receipt state.
 
 The current DSL accepts integer initialization, exactly two four-space-indented `for name in range(4):` loops, `name = load(A[i][j])`, `name += name`, `name += load(A[i][j])`, and a final `store(OUT[0], name)`. Tabs, other loop bounds, invalid indentation, and old v0.1 syntax are rejected. It is a purpose-built Python-shaped parser, not a Python interpreter or compiler platform.
 
@@ -68,11 +72,12 @@ No violation of these listed invariants is currently verified. Future changes mu
 - Bus request: 2 cycles.
 - RAM access: 12 cycles.
 - Bus line return: 4 cycles.
+- Direct RAM value return: 1 cycle for one 4-byte integer; direct reads do not pay Cache lookup or fetch a 16-byte line.
 - CPU add: 1 cycle.
 - Final result store to Test Bench: 1 cycle.
 - One memory request is completed before the next; there is no overlap or prefetch.
 
-Wait cycles include Cache lookup and miss-path transfer costs. Compute cycles include adds and the final result store. `total_cycles` is their sum in the current sequential model.
+Wait cycles include Cache lookup and miss-path transfer costs, or direct Bus/RAM/value-return costs. Compute cycles include adds and each pass's final result store. `total_cycles` is their sum in the current sequential model.
 
 ## Wiring and presentation
 
@@ -88,7 +93,7 @@ Circuit trace playback is parallel by causal wave, not serial by event-array pos
 
 Mission and Test Bench are desktop-style embedded windows over a full-width circuit canvas. They coexist, move, resize, minimize, close, focus, and restore through a taskbar. Their geometry has no simulation meaning.
 
-The separate Cache Locality Lab GraphEdit bench contains six programmatically created connections among Program Controller, CPU, Cache, Bus, RAM, Test Bench, and Profiler. Players cannot add or remove wiring in that level. Devices are automatically laid out, may be dragged for readability, and return to canonical positions through Auto Layout. This fixed topology is presentation structure, not a graph-driven simulation network.
+The Chapter 2 GraphEdit bench normally contains six programmatically created connections among Program Controller, CPU, Cache, Bus, RAM, Test Bench, and Profiler. The Cache-free observation replaces CPU → Cache → Bus with CPU → Bus, hides unavailable devices/tools, and uses matching direct-memory trace routes. Players cannot add or remove wiring. Devices are automatically laid out, may be dragged for readability, and return to canonical positions through Auto Layout. This topology is authoritative presentation of the selected path, not a graph-driven simulation network.
 
 For playback, each event becomes a presentation route with explicit component-processing sections and wire sections. Program-issued load/add/store events prepend Program → CPU; every inter-component section is resolved through `GraphEdit.get_connection_line()` at draw time. Reverse traffic uses the same curve in reverse, and a returned cache line progresses through RAM processing → RAM/Bus wire → Bus processing → Bus/Cache wire → Cache processing. Only the component currently containing the packet is strongly highlighted; CPU waiting may remain as muted context. Component sections use a short straight lane contained by the actual device body, including internal events such as Cache lookup or miss; they do not add a circular route, substitute model, or invented wire traffic. These display durations add no simulated cycles.
 
@@ -96,9 +101,9 @@ The Program instrument contains a compact Python-shaped reference and two suppli
 
 Future production may add truthful visual profiles—CPU decode/ALU, Cache tag lookup/fill, Bus relay, RAM row selection/burst, Test Bench comparison, and Profiler sampling—but each profile must live on the component actually displayed, preserve the same processing intervals and event authority, and add no simulated cost.
 
-Program, Test Bench, Profiler, and Cache are independent embedded floating instruments. They are closed by default, may coexist, move, resize, minimize, and close independently, and remain open during runs or Profiler trace inspection. Their positions do not affect simulation or GraphEdit device routes.
+Mission, Program, Test Bench, Profiler, nearby-storage selection, Work Group, and Systems Notebook are independent embedded floating instruments. Each level exposes only the subset required by its primary cognitive task; exposed instruments may coexist, move, resize, minimize, and close independently and remain open during runs or trace inspection. Their positions do not affect simulation or GraphEdit device routes.
 
-The Official goal—correct result and at most 105 cycles—is evaluated by the Test Bench after simulation. Hardware cost and Run History are UI evidence; they do not change `SimulationCore` behavior.
+The access-order implementation retains the one-pass 105-cycle target. Blocking and the capstone use a two-pass 145-cycle target. Observation completion additionally requires a correct evidence judgment; the nearby-storage exploration requires valid direct and cached runs. Hardware cost, Run History, and concept presentation are evidence only and do not change `SimulationCore` behavior.
 
 ## Prototype-scale shortcuts
 

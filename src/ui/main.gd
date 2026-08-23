@@ -10,6 +10,10 @@ const TraceOverlayType = preload("res://src/ui/trace_overlay.gd")
 const FloatingInstrumentPanelType = preload("res://src/ui/floating_instrument_panel.gd")
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
+const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
+const ChapterMapViewType = preload("res://src/system_lab/system_chapter_map_view.gd")
+const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
+const LocalityRunReceiptType = preload("res://src/locality_chapter/locality_run_receipt.gd")
 
 const PANEL_COLOR := Color("172033")
 const PANEL_DARK := Color("101725")
@@ -23,10 +27,17 @@ const TEXT := Color("e9f0fa")
 const OFFICIAL_CYCLE_TARGET: int = 105
 const RUN_HISTORY_LIMIT: int = 8
 
-const REQUIRED_CONNECTIONS: Array = [
+const CACHE_CONNECTIONS: Array = [
 	[&"ProgramController", 0, &"CPU", 0],
 	[&"CPU", 0, &"Cache", 0],
 	[&"Cache", 0, &"Bus", 0],
+	[&"Bus", 0, &"RAM", 0],
+	[&"CPU", 1, &"TestBench", 0],
+	[&"CPU", 2, &"Profiler", 0],
+]
+const DIRECT_CONNECTIONS: Array = [
+	[&"ProgramController", 0, &"CPU", 0],
+	[&"CPU", 0, &"Bus", 0],
 	[&"Bus", 0, &"RAM", 0],
 	[&"CPU", 1, &"TestBench", 0],
 	[&"CPU", 2, &"Profiler", 0],
@@ -43,24 +54,51 @@ const STANDARD_LAYOUT: Dictionary = {
 }
 
 const INSTRUMENT_LAYOUT: Dictionary = {
+	&"mission": Rect2(18, 18, 480, 430),
 	&"program": Rect2(20, 18, 560, 470),
 	&"test_bench": Rect2(380, 38, 650, 445),
 	&"profiler": Rect2(710, 18, 700, 470),
 	&"cache": Rect2(1080, 92, 410, 360),
+	&"blocking": Rect2(1020, 70, 450, 370),
+	&"notebook": Rect2(820, 18, 650, 470),
 }
 const INSTRUMENT_REFERENCE_SIZE := Vector2(1500.0, 510.0)
 
 var simulation_core := SimulationCoreType.new()
+var catalog := LocalityLevelCatalogType.new()
 var current_trace: SimulationTraceType
 var current_goal_met: bool = false
 var current_cache_lines: int = 1
+var current_bypass_cache: bool = false
+var current_pass_count: int = 1
+var current_block_lines: int = 0
+var current_level_id: StringName = &""
+var current_level: Dictionary = {}
+var selected_judgment: StringName = &""
 var run_history: Array[Dictionary] = []
+var active_connections: Array = CACHE_CONNECTIONS.duplicate(true)
 
+var chapter_map: ChapterMapViewType
+var chapter_map_host: Control
+var lab_host: VBoxContainer
+var chapter_title_label: Label
+var chapter_subtitle_label: Label
+var workbench_goal_label: Label
 var graph: GraphEdit
 var trace_overlay: TraceOverlayType
 var editor: CodeEdit
 var debug_inputs: Array[SpinBox] = []
+var debug_grid: GridContainer
+var debug_data_label: Label
+var test_goal_label: Label
 var status_label: Label
+var mission_title_label: Label
+var mission_type_label: Label
+var mission_objective_label: Label
+var mission_progress_label: Label
+var mission_judgment_box: VBoxContainer
+var mission_finish_button: Button
+var mission_judgment_buttons: Dictionary[StringName, Button] = {}
 var program_validation_label: Label
 var program_effect_label: Label
 var program_apply_label: Label
@@ -84,9 +122,13 @@ var profiler_detail_label: Label
 var profiler_tree: Tree
 var profiler_history_label: Label
 var inspect_event_button: Button
+var notebook_label: RichTextLabel
 var selected_profiler_event_index: int = -1
+var level_completion_overlay: LevelCompletionOverlayType
 
 var instrument_windows: Dictionary[StringName, FloatingInstrumentPanel] = {}
+var instrument_open_buttons: Dictionary[StringName, Button] = {}
+var device_instrument_buttons: Dictionary[StringName, Button] = {}
 var instrument_host: Control
 var instrument_layout_size: Vector2 = INSTRUMENT_REFERENCE_SIZE
 var focused_instrument: StringName = &""
@@ -101,6 +143,7 @@ var device_detail_labels: Dictionary[StringName, Label] = {}
 var device_state_labels: Dictionary[StringName, Label] = {}
 var device_default_states: Dictionary[StringName, String] = {}
 var cache_card_buttons: Dictionary[int, Button] = {}
+var block_card_buttons: Dictionary[int, Button] = {}
 
 var playback_index: int = 0
 var playback_elapsed: float = 0.0
@@ -113,14 +156,13 @@ var active_component: StringName = &""
 func _ready() -> void:
 	_build_theme()
 	_build_interface()
-	_connect_fixed_topology()
-	_auto_layout(false)
-	_select_cache(1, false)
-	_validate_program_editor()
+	LocalityChapter.progression_changed.connect(_on_chapter_progression_changed)
+	GameMode.mode_changed.connect(_on_game_mode_changed)
+	_show_chapter_map()
 	set_process(true)
 	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
 	if "--capture-demo" in user_arguments:
-		call_deferred("_run_simulation", "Official Test Set")
+		call_deferred("_prepare_demo_capture")
 	elif "--capture-profiler" in user_arguments:
 		call_deferred("_prepare_profiler_capture")
 	elif "--capture-workspace" in user_arguments:
@@ -129,15 +171,24 @@ func _ready() -> void:
 		call_deferred("_prepare_program_draft_capture")
 	elif "--capture-row" in user_arguments:
 		call_deferred("_prepare_row_capture")
+	elif "--capture-chapter2-capstone" in user_arguments:
+		call_deferred("_start_level", &"capstone")
+
+
+func _prepare_demo_capture() -> void:
+	_start_level(&"capstone")
+	_run_simulation("Official Test Set")
 
 
 func _prepare_profiler_capture() -> void:
+	_start_level(&"capstone")
 	_run_simulation("Official Test Set")
 	playback_running = false
 	_open_instrument(&"profiler")
 
 
 func _prepare_workspace_capture() -> void:
+	_start_level(&"capstone")
 	_run_simulation("Official Test Set")
 	playback_running = false
 	_open_instrument(&"program")
@@ -145,12 +196,14 @@ func _prepare_workspace_capture() -> void:
 
 
 func _prepare_row_capture() -> void:
+	_start_level(&"access_order")
 	_load_strategy(ProgramTemplatesType.ROW_FIRST, "row-first")
 	_apply_program()
 	_run_simulation("Official Test Set")
 
 
 func _prepare_program_draft_capture() -> void:
+	_start_level(&"access_order")
 	_open_instrument(&"program")
 	_load_strategy(ProgramTemplatesType.ROW_FIRST, "row-first")
 
@@ -220,8 +273,25 @@ func _build_interface() -> void:
 	var root_vbox := VBoxContainer.new()
 	margin.add_child(root_vbox)
 	root_vbox.add_child(_build_header())
-	root_vbox.add_child(_build_workbench())
-	root_vbox.add_child(_build_playback_panel())
+	var content_host := Control.new()
+	content_host.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root_vbox.add_child(content_host)
+	chapter_map_host = Control.new()
+	chapter_map_host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	content_host.add_child(chapter_map_host)
+	chapter_map = ChapterMapViewType.new()
+	chapter_map.name = "Chapter2Map"
+	chapter_map.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	chapter_map.level_requested.connect(_start_level)
+	chapter_map_host.add_child(chapter_map)
+	lab_host = VBoxContainer.new()
+	lab_host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	content_host.add_child(lab_host)
+	lab_host.add_child(_build_workbench())
+	lab_host.add_child(_build_playback_panel())
+	level_completion_overlay = LevelCompletionOverlayType.new()
+	level_completion_overlay.continue_requested.connect(_on_level_completion_continue)
+	add_child(level_completion_overlay)
 
 
 func _build_header() -> Control:
@@ -232,21 +302,26 @@ func _build_header() -> Control:
 	var title_box := VBoxContainer.new()
 	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(title_box)
-	var title := Label.new()
-	title.text = _t(&"game.title")
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", ACCENT)
-	title_box.add_child(title)
-	var subtitle := Label.new()
-	subtitle.text = _t(&"locality.subtitle")
-	subtitle.add_theme_color_override("font_color", MUTED)
-	title_box.add_child(subtitle)
+	chapter_title_label = Label.new()
+	chapter_title_label.text = _t(&"chapter2.title")
+	chapter_title_label.add_theme_font_size_override("font_size", 24)
+	chapter_title_label.add_theme_color_override("font_color", ACCENT)
+	title_box.add_child(chapter_title_label)
+	chapter_subtitle_label = Label.new()
+	chapter_subtitle_label.text = _t(&"chapter2.subtitle")
+	chapter_subtitle_label.add_theme_color_override("font_color", MUTED)
+	title_box.add_child(chapter_subtitle_label)
 	status_label = Label.new()
-	status_label.text = _t(&"locality.status.ready")
+	status_label.text = _t(&"chapter2.status.map")
 	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	status_label.custom_minimum_size.x = 570.0
+	status_label.custom_minimum_size.x = 390.0
 	status_label.add_theme_color_override("font_color", WARNING)
 	row.add_child(status_label)
+	var map_button := Button.new()
+	map_button.name = "Chapter2MapButton"
+	map_button.text = _t(&"chapter2.map.open")
+	map_button.pressed.connect(_show_chapter_map)
+	row.add_child(map_button)
 	mode_selector = GameModeSelectorType.new()
 	mode_selector.name = "GameModeSelector"
 	mode_selector.show_label = false
@@ -271,11 +346,27 @@ func _build_workbench() -> Control:
 	heading.text = _t(&"locality.workbench.title")
 	heading.add_theme_color_override("font_color", ACCENT)
 	bar_row.add_child(heading)
-	var goal := Label.new()
-	goal.text = _t(&"locality.workbench.goal", [OFFICIAL_CYCLE_TARGET])
-	goal.add_theme_color_override("font_color", MUTED)
-	goal.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bar_row.add_child(goal)
+	workbench_goal_label = Label.new()
+	workbench_goal_label.text = _t(&"chapter2.workbench.select_level")
+	workbench_goal_label.add_theme_color_override("font_color", MUTED)
+	workbench_goal_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bar_row.add_child(workbench_goal_label)
+	for tool: Array in [
+		[&"mission", &"chapter2.tool.mission"],
+		[&"program", &"chapter2.tool.program"],
+		[&"test_bench", &"chapter2.tool.test_bench"],
+		[&"cache", &"chapter2.tool.cache"],
+		[&"blocking", &"chapter2.tool.blocking"],
+		[&"profiler", &"chapter2.tool.profiler"],
+		[&"notebook", &"chapter2.tool.notebook"],
+	]:
+		var tool_id := StringName(tool[0])
+		var tool_button := Button.new()
+		tool_button.name = "%sToolButton" % String(tool_id).to_pascal_case()
+		tool_button.text = _t(StringName(tool[1]))
+		tool_button.pressed.connect(_open_instrument.bind(tool_id))
+		instrument_open_buttons[tool_id] = tool_button
+		bar_row.add_child(tool_button)
 	var layout_button := Button.new()
 	layout_button.text = _t(&"common.auto_layout")
 	layout_button.tooltip_text = _t(&"locality.auto_layout.tooltip")
@@ -371,15 +462,19 @@ func _add_device_node(
 		open_button.focus_mode = Control.FOCUS_ALL
 		open_button.pressed.connect(_open_instrument.bind(open_instrument))
 		node.add_child(open_button)
+		device_instrument_buttons[id] = open_button
 	device_nodes[id] = node
 	_set_device_style(id, MUTED, false)
 
 
 func _build_instruments(parent: Control) -> void:
+	_add_instrument(parent, &"mission", _t(&"chapter2.tool.mission"), _build_mission_instrument())
 	_add_instrument(parent, &"program", _t(&"device.program"), _build_program_instrument())
 	_add_instrument(parent, &"test_bench", _t(&"device.test_bench"), _build_test_bench_instrument())
 	_add_instrument(parent, &"profiler", _t(&"device.profiler"), _build_profiler_instrument())
-	_add_instrument(parent, &"cache", _t(&"device.cache"), _build_cache_instrument())
+	_add_instrument(parent, &"cache", _t(&"chapter2.near_store.title"), _build_cache_instrument())
+	_add_instrument(parent, &"blocking", _t(&"chapter2.work_group.title"), _build_blocking_instrument())
+	_add_instrument(parent, &"notebook", _t(&"chapter2.notebook.title"), _build_notebook_instrument())
 
 
 func _add_instrument(parent: Control, id: StringName, title_text: String, content: Control) -> void:
@@ -422,6 +517,85 @@ func _on_instrument_host_resized() -> void:
 			)
 		instrument.fit_to_parent(10.0)
 	instrument_layout_size = new_size
+
+
+func _build_mission_instrument() -> Control:
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var panel := VBoxContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(panel)
+	mission_type_label = Label.new()
+	mission_type_label.add_theme_color_override("font_color", PURPLE)
+	panel.add_child(mission_type_label)
+	mission_title_label = Label.new()
+	mission_title_label.add_theme_font_size_override("font_size", 25)
+	mission_title_label.add_theme_color_override("font_color", ACCENT)
+	mission_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	panel.add_child(mission_title_label)
+	mission_objective_label = Label.new()
+	mission_objective_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mission_objective_label.add_theme_font_size_override("font_size", 18)
+	panel.add_child(mission_objective_label)
+	var divider := HSeparator.new()
+	panel.add_child(divider)
+	mission_progress_label = Label.new()
+	mission_progress_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mission_progress_label.add_theme_color_override("font_color", WARNING)
+	panel.add_child(mission_progress_label)
+	mission_judgment_box = VBoxContainer.new()
+	panel.add_child(mission_judgment_box)
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	panel.add_child(spacer)
+	mission_finish_button = Button.new()
+	mission_finish_button.name = "Chapter2FinishButton"
+	mission_finish_button.text = _t(&"chapter2.capstone.finish")
+	mission_finish_button.visible = false
+	mission_finish_button.pressed.connect(_show_chapter_map)
+	panel.add_child(mission_finish_button)
+	var map_button := Button.new()
+	map_button.text = _t(&"chapter2.map.return")
+	map_button.pressed.connect(_show_chapter_map)
+	panel.add_child(map_button)
+	return scroll
+
+
+func _build_blocking_instrument() -> Control:
+	var panel := VBoxContainer.new()
+	var description := Label.new()
+	description.text = _t(&"chapter2.work_group.description")
+	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description.add_theme_color_override("font_color", MUTED)
+	panel.add_child(description)
+	for lines: int in [0, 1, 2, 4]:
+		var card := Button.new()
+		card.name = "WorkGroup%dButton" % lines
+		card.custom_minimum_size.y = 66.0
+		card.pressed.connect(_select_block_lines.bind(lines, true))
+		block_card_buttons[lines] = card
+		panel.add_child(card)
+	return panel
+
+
+func _build_notebook_instrument() -> Control:
+	var panel := VBoxContainer.new()
+	var description := Label.new()
+	description.text = _t(&"chapter2.notebook.description")
+	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description.add_theme_color_override("font_color", MUTED)
+	panel.add_child(description)
+	notebook_label = RichTextLabel.new()
+	notebook_label.name = "SystemsNotebookEntries"
+	notebook_label.bbcode_enabled = true
+	notebook_label.fit_content = false
+	notebook_label.scroll_active = true
+	notebook_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	notebook_label.custom_minimum_size.y = 340.0
+	panel.add_child(notebook_label)
+	return panel
 
 
 func _build_program_instrument() -> Control:
@@ -527,14 +701,14 @@ func _build_program_instrument() -> Control:
 
 func _build_test_bench_instrument() -> Control:
 	var panel := VBoxContainer.new()
-	var goal := Label.new()
-	goal.text = _t(&"test_bench.official_goal", [OFFICIAL_CYCLE_TARGET])
-	goal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	goal.add_theme_color_override("font_color", WARNING)
-	panel.add_child(goal)
-	var grid := GridContainer.new()
-	grid.columns = 4
-	panel.add_child(grid)
+	test_goal_label = Label.new()
+	test_goal_label.text = _t(&"test_bench.official_goal", [OFFICIAL_CYCLE_TARGET])
+	test_goal_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	test_goal_label.add_theme_color_override("font_color", WARNING)
+	panel.add_child(test_goal_label)
+	debug_grid = GridContainer.new()
+	debug_grid.columns = 4
+	panel.add_child(debug_grid)
 	for index: int in range(16):
 		var spin := SpinBox.new()
 		spin.min_value = -99
@@ -545,12 +719,12 @@ func _build_test_bench_instrument() -> Control:
 		spin.tooltip_text = _t(&"test_bench.debug_input.tooltip", [index / 4, index % 4])
 		spin.value_changed.connect(_on_debug_data_changed)
 		debug_inputs.append(spin)
-		grid.add_child(spin)
-	var official := Label.new()
-	official.text = _t(&"test_bench.official_data")
-	official.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	official.add_theme_color_override("font_color", MUTED)
-	panel.add_child(official)
+		debug_grid.add_child(spin)
+	debug_data_label = Label.new()
+	debug_data_label.text = _t(&"test_bench.official_data")
+	debug_data_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	debug_data_label.add_theme_color_override("font_color", MUTED)
+	panel.add_child(debug_data_label)
 	var run_row := HBoxContainer.new()
 	panel.add_child(run_row)
 	debug_run_button = Button.new()
@@ -625,13 +799,14 @@ func _build_profiler_instrument() -> Control:
 func _build_cache_instrument() -> Control:
 	var panel := VBoxContainer.new()
 	var subtitle := Label.new()
-	subtitle.text = _t(&"cache.description")
+	subtitle.text = _t(&"chapter2.near_store.description")
 	subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitle.add_theme_color_override("font_color", MUTED)
 	panel.add_child(subtitle)
-	for lines: int in [1, 2, 4]:
+	for lines: int in [0, 1, 2, 4]:
 		var card := Button.new()
-		card.text = _t(&"cache.card", [lines, lines * 4, SimulationCoreType.CACHE_COSTS[lines]])
+		card.name = "NearStore%dButton" % lines
+		card.text = _cache_card_text(lines, false)
 		card.custom_minimum_size.y = 92.0
 		card.pressed.connect(_select_cache.bind(lines, true))
 		cache_card_buttons[lines] = card
@@ -685,8 +860,289 @@ func _build_playback_panel() -> Control:
 	return panel
 
 
+func _show_chapter_map() -> void:
+	if level_completion_overlay != null:
+		level_completion_overlay.dismiss()
+	if chapter_map_host == null or lab_host == null:
+		return
+	lab_host.hide()
+	chapter_map_host.show()
+	chapter_subtitle_label.text = _t(&"chapter2.subtitle")
+	_set_status(_t(&"chapter2.status.map"), MUTED)
+	_refresh_chapter_map()
+
+
+func _refresh_chapter_map() -> void:
+	if chapter_map == null:
+		return
+	var levels: Array[Dictionary] = []
+	var completed: Dictionary = LocalityChapter.completed_levels()
+	for index: int in range(catalog.level_ids().size()):
+		var level_id: StringName = catalog.level_ids()[index]
+		var is_complete: bool = bool(completed.get(level_id, false))
+		var unlocked: bool = catalog.is_unlocked(
+			level_id, completed, LocalityChapter.chapter_unlocked(), GameMode.is_test_mode()
+		)
+		var status_key: StringName = &"chapter2.map.complete" if is_complete else (&"chapter2.map.available" if unlocked else &"chapter2.map.locked")
+		levels.append({
+			"id": level_id,
+			"eyebrow": _t(&"chapter2.map.level_index", [index + 1]),
+			"title": _t(catalog.title_key(level_id)),
+			"status": _t(status_key),
+			"tooltip": _t(catalog.description_key(level_id)),
+			"completed": is_complete,
+			"unlocked": unlocked,
+		})
+	chapter_map.configure(levels, _t(&"chapter2.map.intro.title"), _t(&"chapter2.map.intro.body"))
+
+
+func _start_level(level_id: StringName) -> void:
+	if level_completion_overlay != null:
+		level_completion_overlay.dismiss()
+	var completed: Dictionary = LocalityChapter.completed_levels()
+	if not catalog.is_unlocked(level_id, completed, LocalityChapter.chapter_unlocked(), GameMode.is_test_mode()):
+		_set_status(_t(&"chapter2.status.level_locked"), WARNING)
+		return
+	var definition: Dictionary = catalog.definition(level_id)
+	if definition.is_empty():
+		_set_status(_t(&"chapter2.status.invalid_level"), BAD)
+		return
+	current_level_id = level_id
+	current_level = definition
+	selected_judgment = &""
+	current_pass_count = int(current_level.get("pass_count", 1))
+	current_block_lines = int(current_level.get("default_block_lines", 0))
+	current_cache_lines = int(current_level.get("default_cache_lines", 1))
+	current_bypass_cache = bool(current_level.get("bypass_cache", false)) or current_cache_lines == 0
+	run_history.clear()
+	for receipt: Variant in LocalityChapter.receipts_for(level_id):
+		if receipt != null:
+			run_history.append(_history_record_from_receipt(receipt))
+	while run_history.size() > RUN_HISTORY_LIMIT:
+		run_history.pop_front()
+
+	for instrument: FloatingInstrumentPanel in instrument_windows.values():
+		instrument.visible = false
+		if instrument.minimized:
+			instrument.set_minimized(false)
+	chapter_map_host.hide()
+	lab_host.show()
+	chapter_subtitle_label.text = _t(&"chapter2.header.level", [
+		int(current_level.get("order", 0)) + 1, _t(catalog.title_key(level_id))
+	])
+	var target_cycles: int = int(current_level.get("target_cycles", 0))
+	workbench_goal_label.text = (
+		_t(&"chapter2.workbench.performance_goal", [target_cycles])
+		if target_cycles > 0 else _t(&"chapter2.workbench.evidence_goal")
+	)
+	test_goal_label.text = (
+		_t(&"chapter2.test_bench.performance_goal", [current_pass_count, target_cycles])
+		if target_cycles > 0 else _t(&"chapter2.test_bench.observation_goal", [current_pass_count])
+	)
+	debug_data_label.text = _t(&"chapter2.test_bench.official_data", [current_pass_count])
+
+	editor.set_block_signals(true)
+	editor.text = String(current_level.get("program_source", ProgramTemplatesType.COLUMN_FIRST))
+	editor.set_block_signals(false)
+	applied_program_source = editor.text
+	last_executed_source = ""
+	last_run_receipt_text = ""
+	program_dirty = false
+	debug_grid.visible = level_id == &"capstone"
+	debug_run_button.visible = level_id == &"capstone"
+	_configure_level_tools()
+	_refresh_level_decision_controls()
+	_configure_graph_for_level()
+	_auto_layout(false)
+	_invalidate_current_run(_t(&"chapter2.status.level_ready"))
+	_update_history_label()
+	_configure_mission()
+	_update_notebook()
+	_open_instrument(&"mission")
+
+
+func _configure_level_tools() -> void:
+	var tools: Array = current_level.get("tools", [])
+	for tool_id: StringName in instrument_open_buttons:
+		instrument_open_buttons[tool_id].visible = tool_id in tools
+	var node_tools: Dictionary[StringName, StringName] = {
+		&"ProgramController": &"program",
+		&"Cache": &"cache",
+		&"TestBench": &"test_bench",
+		&"Profiler": &"profiler",
+	}
+	for device_id: StringName in device_instrument_buttons:
+		var tool_id: StringName = node_tools.get(device_id, &"")
+		device_instrument_buttons[device_id].visible = tool_id in tools
+
+
+func _configure_graph_for_level() -> void:
+	var cache_visible: bool = not current_bypass_cache
+	device_nodes[&"Cache"].visible = cache_visible
+	device_nodes[&"Profiler"].visible = _tool_available(&"profiler")
+	var cache_title: String = _t(&"device.cache") if LocalityChapter.concept_unlocked(&"cache") else _t(&"chapter2.near_store.title")
+	device_nodes[&"Cache"].title = cache_title
+	device_instrument_buttons[&"Cache"].text = _t(&"common.open_named", [cache_title])
+	active_connections = (DIRECT_CONNECTIONS if current_bypass_cache else CACHE_CONNECTIONS).duplicate(true)
+	if not device_nodes[&"Profiler"].visible:
+		var visible_connections: Array = []
+		for connection: Array in active_connections:
+			if connection[0] != &"Profiler" and connection[2] != &"Profiler":
+				visible_connections.append(connection)
+		active_connections = visible_connections
+	_connect_fixed_topology()
+
+
+func _configure_mission() -> void:
+	mission_type_label.text = _t(StringName("chapter2.level_type.%s" % _cognitive_type(current_level_id)))
+	mission_title_label.text = _t(catalog.title_key(current_level_id))
+	mission_objective_label.text = _t(StringName(current_level.get("objective_key", &"")))
+	for child: Node in mission_judgment_box.get_children():
+		child.queue_free()
+	mission_judgment_buttons.clear()
+	for option: Dictionary in current_level.get("judgment_options", []):
+		var option_id := StringName(option.get("id", &""))
+		var button := Button.new()
+		button.name = "Judgment%sButton" % String(option_id).to_pascal_case()
+		button.text = _t(StringName(option.get("text_key", &"")))
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.pressed.connect(_select_judgment.bind(option_id))
+		mission_judgment_buttons[option_id] = button
+		mission_judgment_box.add_child(button)
+	_update_mission_progress()
+
+
+func _select_judgment(judgment_id: StringName) -> void:
+	selected_judgment = judgment_id
+	for option_id: StringName in mission_judgment_buttons:
+		var button: Button = mission_judgment_buttons[option_id]
+		var option_text: String = button.text.trim_prefix("✓ ")
+		button.text = ("✓ " if option_id == judgment_id else "") + option_text
+	_evaluate_level_completion()
+	if not bool(LocalityChapter.completed_levels().get(current_level_id, false)):
+		_set_status(_t(&"chapter2.status.judgment_recheck"), WARNING)
+
+
+func _evaluate_level_completion() -> void:
+	if current_level_id.is_empty():
+		return
+	var already_complete: bool = bool(LocalityChapter.completed_levels().get(current_level_id, false))
+	var completion: Dictionary = catalog.completion_status(
+		current_level_id, LocalityChapter.receipts_for(current_level_id), selected_judgment
+	)
+	if bool(completion.get("complete", false)) and not already_complete:
+		LocalityChapter.mark_completed(current_level_id)
+		_refresh_cache_controls()
+		_refresh_block_controls()
+		_configure_graph_for_level()
+		_update_notebook()
+		_rebuild_profiler()
+		if current_level_id == &"capstone":
+			_set_status(_t(&"chapter2.status.capstone_complete"), GOOD)
+		else:
+			level_completion_overlay.present(
+				current_level_id,
+				_t(catalog.title_key(current_level_id)),
+				_t(StringName("chapter2.level.%s.learned" % String(current_level_id))),
+				_t(&"chapter2.completion.chapter")
+			)
+	_update_mission_progress()
+
+
+func _update_mission_progress() -> void:
+	if current_level_id.is_empty():
+		return
+	var complete: bool = bool(LocalityChapter.completed_levels().get(current_level_id, false))
+	var completion: Dictionary = catalog.completion_status(
+		current_level_id, LocalityChapter.receipts_for(current_level_id), selected_judgment
+	)
+	var reason := &"complete" if complete else StringName(completion.get("reason", &"run_required"))
+	mission_progress_label.text = _t(StringName("chapter2.progress.%s" % String(reason)), [
+		int(completion.get("progress", 0)), int(completion.get("required", 1))
+	])
+	mission_progress_label.add_theme_color_override("font_color", GOOD if complete else WARNING)
+	var evidence_available: bool = not LocalityChapter.receipts_for(current_level_id).is_empty()
+	for button: Button in mission_judgment_buttons.values():
+		button.disabled = not evidence_available or complete
+	mission_finish_button.visible = current_level_id == &"capstone" and complete
+
+
+func _on_level_completion_continue(_level_id: StringName) -> void:
+	_show_chapter_map()
+
+
+func _on_chapter_progression_changed() -> void:
+	_refresh_chapter_map()
+	_update_notebook()
+	if not current_level_id.is_empty():
+		_refresh_level_decision_controls()
+		_update_mission_progress()
+
+
+func _on_game_mode_changed(_mode: StringName) -> void:
+	current_level_id = &""
+	current_level.clear()
+	_show_chapter_map()
+
+
+func _tool_available(tool_id: StringName) -> bool:
+	return not current_level.is_empty() and tool_id in (current_level.get("tools", []) as Array)
+
+
+func _cognitive_type(level_id: StringName) -> String:
+	if level_id in [&"distant_reads", &"cache_failure", &"working_set"]:
+		return "observation"
+	if level_id == &"nearby_storage":
+		return "exploration"
+	if level_id in [&"access_order", &"blocking"]:
+		return "implementation"
+	return "capstone"
+
+
+func _update_notebook() -> void:
+	if notebook_label == null:
+		return
+	var output := PackedStringArray()
+	for concept_id: StringName in [
+		&"cpu_wait", &"controlled_comparison", &"bottleneck", &"cache", &"hit",
+		&"miss", &"locality", &"working_set", &"blocking",
+	]:
+		if not LocalityChapter.concept_unlocked(concept_id):
+			output.append("[color=#74839b][b]???[/b][/color]")
+			continue
+		output.append(_t(&"chapter2.notebook.entry", [
+			_t(StringName("chapter2.notebook.%s.title" % String(concept_id))),
+			_t(StringName("chapter2.notebook.%s.body" % String(concept_id))),
+			_t(StringName("chapter2.notebook.%s.diagram" % String(concept_id))),
+			_t(StringName("chapter2.notebook.%s.related" % String(concept_id))),
+		]))
+	notebook_label.text = "\n\n".join(output)
+
+
+func _history_record_from_receipt(receipt: Variant) -> Dictionary:
+	return {
+		"test": "Official Test Set",
+		"pattern": receipt.traversal_pattern,
+		"cache_lines": receipt.cache_lines,
+		"bypass_cache": receipt.bypass_cache,
+		"passes": receipt.pass_count,
+		"block_lines": receipt.block_lines,
+		"cycles": int(receipt.metrics.get("total_cycles", 0)),
+		"wait_cycles": int(receipt.metrics.get("wait_cycles", 0)),
+		"misses": int(receipt.metrics.get("cache_misses", 0)),
+		"hits": int(receipt.metrics.get("cache_hits", 0)),
+		"ram_bytes": int(receipt.metrics.get("ram_bytes_transferred", 0)),
+		"cost": int(receipt.metrics.get("hardware_cost", 0)),
+		"correct": receipt.passed,
+		"target_met": receipt.passed and int(receipt.metrics.get("total_cycles", 0)) <= int(current_level.get("target_cycles", 0)) and int(current_level.get("target_cycles", 0)) > 0,
+	}
+
+
 func _open_instrument(id: StringName) -> void:
 	if not instrument_windows.has(id):
+		return
+	if not _tool_available(id):
+		_set_status(_t(&"chapter2.status.tool_unavailable"), MUTED)
 		return
 	instrument_windows[id].fit_to_parent(10.0)
 	instrument_windows[id].show_instrument()
@@ -714,7 +1170,7 @@ func _focus_instrument(id: StringName) -> void:
 
 func _connect_fixed_topology() -> void:
 	graph.clear_connections()
-	for connection: Array in REQUIRED_CONNECTIONS:
+	for connection: Array in active_connections:
 		graph.connect_node(connection[0], connection[1], connection[2], connection[3])
 
 
@@ -723,16 +1179,23 @@ func _auto_layout(report_status: bool = true) -> void:
 		var node: GraphNode = device_nodes.get(device)
 		if node != null:
 			node.position_offset = STANDARD_LAYOUT[device]
+	if current_bypass_cache:
+		device_nodes[&"Bus"].position_offset = Vector2(515, 92)
+		device_nodes[&"RAM"].position_offset = Vector2(755, 92)
 	graph.scroll_offset = Vector2.ZERO
 	if report_status:
 		_set_status(_t(&"locality.status.auto_layout"), GOOD)
 
 
 func _reset_starter_program() -> void:
-	_load_strategy(ProgramTemplatesType.COLUMN_FIRST, "column-first")
+	var source: String = String(current_level.get("program_source", ProgramTemplatesType.COLUMN_FIRST))
+	_load_strategy(source, DSLParserType.parse(source).traversal_pattern())
 
 
 func _load_strategy(source: String, strategy_name: String) -> void:
+	if not bool(current_level.get("program_editable", false)):
+		_set_status(_t(&"chapter2.status.program_locked"), MUTED)
+		return
 	var localized_strategy: String = _strategy_text(strategy_name)
 	if editor.text == source:
 		_validate_program_editor()
@@ -854,22 +1317,103 @@ func _on_debug_data_changed(_value: float) -> void:
 		_invalidate_current_run(_t(&"locality.status.debug_data_changed"))
 
 
+func _refresh_level_decision_controls() -> void:
+	var program_editable: bool = bool(current_level.get("program_editable", false)) and not _capstone_baseline_pending()
+	editor.editable = program_editable
+	column_strategy_button.disabled = not program_editable
+	row_strategy_button.disabled = not program_editable
+	_refresh_cache_controls()
+	_refresh_block_controls()
+	_validate_program_editor()
+
+
+func _capstone_baseline_pending() -> bool:
+	return (
+		current_level_id == &"capstone"
+		and not catalog.capstone_baseline_seen(LocalityChapter.receipts_for(&"capstone"))
+	)
+
+
 func _select_cache(lines: int, invalidate: bool = true) -> void:
-	if not SimulationCoreType.CACHE_COSTS.has(lines):
+	var choices: Array = current_level.get("cache_choices", [])
+	if lines not in choices:
 		return
-	var changed: bool = current_cache_lines != lines
+	var changed: bool = current_cache_lines != lines or current_bypass_cache != (lines == 0)
 	current_cache_lines = lines
+	current_bypass_cache = lines == 0
+	_refresh_cache_controls()
+	_configure_graph_for_level()
+	_auto_layout(false)
+	if invalidate and changed:
+		_invalidate_current_run(_t(&"chapter2.status.memory_path_changed"))
+		_set_status(_t(&"chapter2.status.memory_path_selected", [_cache_choice_name(lines)]), WARNING)
+
+
+func _refresh_cache_controls() -> void:
+	var choices: Array = current_level.get("cache_choices", [])
+	var decisions_locked: bool = _capstone_baseline_pending()
 	for option: int in cache_card_buttons:
 		var button: Button = cache_card_buttons[option]
-		button.disabled = option == lines
-		button.text = ("✓ " if option == lines else "") + _t(&"cache.card", [option, option * 4, SimulationCoreType.CACHE_COSTS[option]])
-	device_detail_labels[&"Cache"].text = _t(&"cache.detail", [lines, lines * 4, SimulationCoreType.CACHE_COSTS[lines]])
+		button.visible = option in choices
+		button.disabled = decisions_locked or option == current_cache_lines
+		button.text = ("✓ " if option == current_cache_lines else "") + _cache_card_text(option, true)
+	if current_bypass_cache:
+		device_detail_labels[&"Cache"].text = _t(&"chapter2.near_store.off.detail")
+	elif SimulationCoreType.CACHE_COSTS.has(current_cache_lines):
+		device_detail_labels[&"Cache"].text = (
+			_t(&"cache.detail", [current_cache_lines, current_cache_lines * 4, SimulationCoreType.CACHE_COSTS[current_cache_lines]])
+			if LocalityChapter.concept_unlocked(&"cache")
+			else _t(&"chapter2.near_store.on.detail", [current_cache_lines, current_cache_lines * 4])
+		)
+
+
+func _cache_card_text(lines: int, include_cost: bool) -> String:
+	if lines == 0:
+		return _t(&"chapter2.near_store.off.card")
+	if LocalityChapter.concept_unlocked(&"cache"):
+		return _t(&"cache.card", [lines, lines * 4, SimulationCoreType.CACHE_COSTS[lines]])
+	return _t(&"chapter2.near_store.on.card", [lines, lines * 4, SimulationCoreType.CACHE_COSTS[lines] if include_cost else 0])
+
+
+func _cache_choice_name(lines: int) -> String:
+	return _t(&"chapter2.near_store.off.name") if lines == 0 else _t(&"chapter2.near_store.on.name", [lines])
+
+
+func _select_block_lines(lines: int, invalidate: bool = true) -> void:
+	var choices: Array = current_level.get("block_choices", [])
+	if lines not in choices:
+		return
+	var changed: bool = current_block_lines != lines
+	current_block_lines = lines
+	_refresh_block_controls()
 	if invalidate and changed:
-		_invalidate_current_run(_t(&"locality.status.cache_replaced_rerun"))
-		_set_status(_t(&"locality.status.cache_replaced", [lines, SimulationCoreType.CACHE_COSTS[lines]]), WARNING)
+		_invalidate_current_run(_t(&"chapter2.status.work_group_changed"))
+		_set_status(_t(&"chapter2.status.work_group_selected", [_block_choice_name(lines)]), WARNING)
+
+
+func _refresh_block_controls() -> void:
+	var choices: Array = current_level.get("block_choices", [])
+	var decisions_locked: bool = _capstone_baseline_pending()
+	for option: int in block_card_buttons:
+		var button: Button = block_card_buttons[option]
+		button.visible = option in choices
+		button.disabled = decisions_locked or option == current_block_lines
+		button.text = ("✓ " if option == current_block_lines else "") + _block_choice_name(option)
+
+
+func _block_choice_name(lines: int) -> String:
+	if lines == 0:
+		return _t(&"chapter2.work_group.whole")
+	return _t(
+		&"chapter2.blocking.card" if LocalityChapter.concept_unlocked(&"blocking") else &"chapter2.work_group.card",
+		[lines, lines * SimulationCoreType.CACHE_LINE_INTS]
+	)
 
 
 func _run_simulation(test_name: String) -> void:
+	if current_level_id.is_empty():
+		_set_status(_t(&"chapter2.status.select_level_first"), WARNING)
+		return
 	var draft: DSLProgramType = _validate_program_editor()
 	if not draft.is_valid():
 		_set_status(_t(&"locality.status.run_blocked_invalid_draft"), BAD)
@@ -889,11 +1433,18 @@ func _run_simulation(test_name: String) -> void:
 	else:
 		for input: SpinBox in debug_inputs:
 			data.append(int(input.value))
-	current_trace = simulation_core.run(program, data, current_cache_lines, test_name)
+	current_trace = simulation_core.run_workload(
+		program, data, current_cache_lines, test_name,
+		current_pass_count, current_block_lines, current_bypass_cache
+	)
 	last_executed_source = applied_program_source
 	program_dirty = false
-	current_goal_met = test_name == "Official Test Set" and current_trace.passed and int(current_trace.metrics["total_cycles"]) <= OFFICIAL_CYCLE_TARGET
-	_record_run(program.traversal_pattern())
+	var target_cycles: int = int(current_level.get("target_cycles", 0))
+	current_goal_met = (
+		test_name == "Official Test Set" and current_trace.passed and target_cycles > 0
+		and int(current_trace.metrics["total_cycles"]) <= target_cycles
+	)
+	_record_run(program, data)
 	_rebuild_profiler()
 	playback_index = 0
 	playback_elapsed = 0.0
@@ -906,7 +1457,10 @@ func _run_simulation(test_name: String) -> void:
 		_show_event_text(current_trace.events[0])
 	var outcome: String
 	if test_name == "Official Test Set":
-		outcome = _t(&"outcome.target_met") if current_goal_met else (_t(&"outcome.correct_over_target") if current_trace.passed else _t(&"outcome.incorrect"))
+		outcome = (
+			_t(&"outcome.target_met") if current_goal_met
+			else (_t(&"outcome.correct_over_target") if current_trace.passed and target_cycles > 0 else (_t(&"outcome.correct") if current_trace.passed else _t(&"outcome.incorrect")))
+		)
 	else:
 		outcome = _t(&"outcome.correct") if current_trace.passed else _t(&"outcome.incorrect")
 	result_label.text = _t(&"test_bench.result", [
@@ -923,29 +1477,43 @@ func _run_simulation(test_name: String) -> void:
 	])
 	_update_program_run_receipt()
 	_set_status(
-		_t(&"locality.status.run_complete", [
-			outcome, _strategy_text(program.traversal_pattern()), int(current_trace.metrics["total_cycles"]),
-			current_cache_lines, int(current_trace.metrics["hardware_cost"])
+		_t(&"chapter2.status.run_complete", [
+			outcome, int(current_trace.metrics["total_cycles"]), int(current_trace.metrics["wait_cycles"]),
+			int(current_trace.metrics["ram_bytes_transferred"])
 		]),
-		GOOD if current_goal_met or (test_name == "Debug Data" and current_trace.passed) else WARNING
+		GOOD if current_trace.passed and (target_cycles == 0 or current_goal_met or test_name == "Debug Data") else WARNING
 	)
+	_evaluate_level_completion()
 
 
-func _record_run(traversal_pattern: String) -> void:
+func _record_run(program: DSLProgramType, data: Array[int]) -> void:
 	var is_official: bool = current_trace.test_name == "Official Test Set"
-	run_history.append({
+	var record: Dictionary = {
 		"test": current_trace.test_name,
-		"pattern": traversal_pattern,
+		"pattern": program.traversal_pattern(),
 		"cache_lines": current_cache_lines,
+		"bypass_cache": current_bypass_cache,
+		"passes": current_pass_count,
+		"block_lines": current_block_lines,
 		"cycles": int(current_trace.metrics["total_cycles"]),
+		"wait_cycles": int(current_trace.metrics["wait_cycles"]),
 		"misses": int(current_trace.metrics["cache_misses"]),
+		"hits": int(current_trace.metrics["cache_hits"]),
 		"ram_bytes": int(current_trace.metrics["ram_bytes_transferred"]),
 		"cost": int(current_trace.metrics["hardware_cost"]),
 		"correct": current_trace.passed,
-		"target_met": is_official and current_trace.passed and int(current_trace.metrics["total_cycles"]) <= OFFICIAL_CYCLE_TARGET,
-	})
+		"target_met": is_official and current_goal_met,
+	}
+	run_history.append(record)
 	while run_history.size() > RUN_HISTORY_LIMIT:
 		run_history.pop_front()
+	if is_official:
+		var receipt := LocalityRunReceiptType.new()
+		receipt.populate(
+			current_level_id, current_trace, program.traversal_pattern(), data,
+			current_pass_count, current_block_lines, current_bypass_cache
+		)
+		LocalityChapter.record_receipt(current_level_id, receipt)
 	_update_history_label()
 
 
@@ -953,60 +1521,151 @@ func _update_history_label() -> void:
 	if run_history.is_empty():
 		profiler_history_label.text = _t(&"profiler.history.empty")
 		return
-	var lines: PackedStringArray = []
-	for index: int in range(run_history.size()):
-		var record: Dictionary = run_history[index]
-		var outcome: String = _t(&"outcome.met") if bool(record["target_met"]) else (_t(&"outcome.correct") if bool(record["correct"]) else _t(&"outcome.incorrect"))
-		lines.append(_t(&"profiler.history.entry", [
-			index + 1, _test_name_text(String(record["test"])), _strategy_text(String(record["pattern"])),
-			int(record["cache_lines"]), int(record["cycles"]), int(record["misses"]),
-			int(record["ram_bytes"]), int(record["cost"]), outcome
+	var lines := PackedStringArray()
+	if run_history.size() == 1:
+		var baseline: Dictionary = run_history[0]
+		lines.append(_t(&"chapter2.history.baseline", [_history_config_text(baseline)]))
+		lines.append(_t(&"chapter2.history.baseline_metrics", [
+			int(baseline["cycles"]), int(baseline["wait_cycles"]), int(baseline["misses"]),
+			int(baseline["hits"]), int(baseline["ram_bytes"]), int(baseline["cost"])
 		]))
+		lines.append(_t(&"chapter2.history.run_again"))
+		profiler_history_label.text = "\n".join(lines)
+		return
+	var before: Dictionary = run_history[run_history.size() - 2]
+	var after: Dictionary = run_history[run_history.size() - 1]
+	var cycle_delta: int = int(after["cycles"]) - int(before["cycles"])
+	var wait_delta: int = int(after["wait_cycles"]) - int(before["wait_cycles"])
+	var percent_delta: int = 0
+	if int(before["cycles"]) != 0:
+		percent_delta = roundi(float(cycle_delta) * 100.0 / float(before["cycles"]))
+	lines.append(_t(&"chapter2.history.comparison_title"))
+	lines.append(_t(&"chapter2.history.before", [_history_config_text(before)]))
+	lines.append(_t(&"chapter2.history.after", [_history_config_text(after)]))
+	var changes: PackedStringArray = _history_changed_items(before, after)
+	lines.append(_t(
+		&"chapter2.history.only_change" if changes.size() == 1 else &"chapter2.history.changes",
+		[", ".join(changes) if not changes.is_empty() else _t(&"chapter2.history.none")]
+	))
+	lines.append(_t(&"chapter2.history.total_delta", [
+		int(before["cycles"]), int(after["cycles"]), _signed_number(cycle_delta), _signed_percent(percent_delta)
+	]))
+	lines.append(_t(&"chapter2.history.wait_delta", [
+		int(before["wait_cycles"]), int(after["wait_cycles"]), _signed_number(wait_delta)
+	]))
+	lines.append(_t(&"chapter2.history.memory_delta", [
+		int(before["misses"]), int(after["misses"]), int(before["hits"]), int(after["hits"]),
+		int(before["ram_bytes"]), int(after["ram_bytes"])
+	]))
 	profiler_history_label.text = "\n".join(lines)
+
+
+func _history_config_text(record: Dictionary) -> String:
+	var memory_path: String = _cache_choice_name(0 if bool(record.get("bypass_cache", false)) else int(record.get("cache_lines", 0)))
+	return _t(&"chapter2.history.config", [
+		memory_path, _strategy_text(String(record.get("pattern", "unknown"))),
+		int(record.get("passes", 1)), _block_choice_name(int(record.get("block_lines", 0))),
+		int(record.get("cost", 0))
+	])
+
+
+func _history_changed_items(before: Dictionary, after: Dictionary) -> PackedStringArray:
+	var changes := PackedStringArray()
+	if bool(before.get("bypass_cache", false)) != bool(after.get("bypass_cache", false)) or int(before.get("cache_lines", 0)) != int(after.get("cache_lines", 0)):
+		changes.append(_t(&"chapter2.history.change.memory_path"))
+	if String(before.get("pattern", "")) != String(after.get("pattern", "")):
+		changes.append(_t(&"chapter2.history.change.access_order"))
+	if int(before.get("passes", 1)) != int(after.get("passes", 1)):
+		changes.append(_t(&"chapter2.history.change.passes"))
+	if int(before.get("block_lines", 0)) != int(after.get("block_lines", 0)):
+		changes.append(_t(&"chapter2.history.change.work_group"))
+	if String(before.get("test", "")) != String(after.get("test", "")):
+		changes.append(_t(&"chapter2.history.change.test_data"))
+	return changes
+
+
+func _signed_number(value: int) -> String:
+	return "+%d" % value if value > 0 else str(value)
+
+
+func _signed_percent(value: int) -> String:
+	return "+%d%%" % value if value > 0 else "%d%%" % value
 
 
 func _rebuild_profiler() -> void:
 	profiler_tree.clear()
 	selected_profiler_event_index = -1
 	inspect_event_button.disabled = true
+	profiler_detail_label.text = _t(
+		&"profiler.select_miss" if LocalityChapter.concept_unlocked(&"miss") else &"chapter2.profiler.select_far_fetch"
+	)
 	if current_trace == null:
 		profiler_summary_label.text = _t(&"state.no_trace")
 		return
 	var metrics: Dictionary = current_trace.metrics
-	var goal_text: String = _t(&"outcome.target_met") if current_goal_met else (_t(&"outcome.correct_over_target") if current_trace.passed else _t(&"outcome.incorrect"))
-	profiler_summary_label.text = _t(&"profiler.summary", [
-		goal_text, int(metrics["total_cycles"]), int(metrics["compute_cycles"]), int(metrics["wait_cycles"]),
-		int(metrics["cache_hits"]), int(metrics["cache_misses"]), int(metrics["ram_bytes_transferred"]), int(metrics["hardware_cost"])
-	])
+	var profiler_tier: int = int(current_level.get("profiler_tier", 2))
+	var target_cycles: int = int(current_level.get("target_cycles", 0))
+	var goal_text: String = (
+		_t(&"outcome.target_met") if current_goal_met
+		else (_t(&"outcome.correct_over_target") if current_trace.passed and target_cycles > 0 else (_t(&"outcome.correct") if current_trace.passed else _t(&"outcome.incorrect")))
+	)
+	if profiler_tier < 2:
+		profiler_summary_label.text = _t(
+			&"chapter2.profiler.summary.direct" if current_bypass_cache else &"chapter2.profiler.summary.basic",
+			[
+				goal_text, int(metrics["total_cycles"]), int(metrics["wait_cycles"]),
+				int(metrics["cache_hits"]), int(metrics["cache_misses"]), int(metrics["ram_bytes_transferred"]),
+			]
+		)
+	else:
+		profiler_summary_label.text = _t(&"profiler.summary", [
+			goal_text, int(metrics["total_cycles"]), int(metrics["compute_cycles"]), int(metrics["wait_cycles"]),
+			int(metrics["cache_hits"]), int(metrics["cache_misses"]), int(metrics["ram_bytes_transferred"]), int(metrics["hardware_cost"])
+		])
 	profiler_summary_label.add_theme_color_override("font_color", GOOD if current_goal_met else WARNING)
 	var root: TreeItem = profiler_tree.create_item()
 	var cycles: TreeItem = profiler_tree.create_item(root)
 	cycles.set_text(0, _t(&"profiler.tree.cycles"))
 	cycles.set_text(1, str(metrics["total_cycles"]))
-	_add_tree_value(cycles, _t(&"profiler.tree.compute"), int(metrics["compute_cycles"]))
+	if profiler_tier >= 2:
+		_add_tree_value(cycles, _t(&"profiler.tree.compute"), int(metrics["compute_cycles"]))
 	var waiting: TreeItem = _add_tree_value(cycles, _t(&"profiler.tree.waiting"), int(metrics["wait_cycles"]))
-	var breakdown: Dictionary[StringName, int] = {
-		&"cache_lookup": 0,
-		&"bus_request": 0,
-		&"ram_access": 0,
-		&"line_return": 0,
-	}
-	for event: SimulationEventType in current_trace.events:
-		if breakdown.has(event.kind):
-			breakdown[event.kind] += event.duration
-	for entry: Array in [
-		[&"cache_lookup", &"profiler.tree.cache_lookup"],
-		[&"bus_request", &"profiler.tree.bus_request"],
-		[&"ram_access", &"profiler.tree.ram_access"],
-		[&"line_return", &"profiler.tree.line_return"],
-	]:
-		_add_tree_value(waiting, _t(StringName(entry[1])), breakdown[entry[0]])
+	if profiler_tier >= 2:
+		var breakdown: Dictionary[StringName, int] = {
+			&"cache_lookup": 0,
+			&"bus_request": 0,
+			&"ram_access": 0,
+			&"line_return": 0,
+			&"value_return": 0,
+		}
+		for event: SimulationEventType in current_trace.events:
+			if breakdown.has(event.kind):
+				breakdown[event.kind] += event.duration
+		for entry: Array in [
+			[&"cache_lookup", &"profiler.tree.cache_lookup"],
+			[&"bus_request", &"profiler.tree.bus_request"],
+			[&"ram_access", &"profiler.tree.ram_access"],
+			[&"line_return", &"profiler.tree.line_return"],
+			[&"value_return", &"chapter2.profiler.tree.value_return"],
+		]:
+			if breakdown[entry[0]] > 0:
+				_add_tree_value(waiting, _t(StringName(entry[1])), breakdown[entry[0]])
 
 	var memory: TreeItem = profiler_tree.create_item(root)
+	var request_count: int = 0
+	for event: SimulationEventType in current_trace.events:
+		if event.kind == &"request":
+			request_count += 1
 	memory.set_text(0, _t(&"profiler.tree.memory_accesses"))
-	memory.set_text(1, str(int(metrics["cache_hits"]) + int(metrics["cache_misses"])))
-	_add_tree_value(memory, _t(&"profiler.tree.cache_hits"), int(metrics["cache_hits"]))
-	var misses: TreeItem = _add_tree_value(memory, _t(&"profiler.tree.cache_misses"), int(metrics["cache_misses"]))
+	memory.set_text(1, str(request_count))
+	if current_bypass_cache:
+		_add_tree_value(memory, _t(&"chapter2.profiler.tree.ram_reads"), request_count)
+		_update_history_label()
+		return
+	var hit_key := &"profiler.tree.cache_hits" if LocalityChapter.concept_unlocked(&"hit") else &"chapter2.profiler.tree.near_returns"
+	var miss_key := &"profiler.tree.cache_misses" if LocalityChapter.concept_unlocked(&"miss") else &"chapter2.profiler.tree.far_fetches"
+	_add_tree_value(memory, _t(hit_key), int(metrics["cache_hits"]))
+	var misses: TreeItem = _add_tree_value(memory, _t(miss_key), int(metrics["cache_misses"]))
 	for event_index: int in range(current_trace.events.size()):
 		var event: SimulationEventType = current_trace.events[event_index]
 		if event.kind != &"cache_miss":
@@ -1015,7 +1674,10 @@ func _rebuild_profiler() -> void:
 		item.set_text(0, _t(&"profiler.tree.miss_event", [
 			event.cycle, event.source_line, int(event.details.get("array_row", -1)), int(event.details.get("array_column", -1))
 		]))
-		item.set_text(1, _t(&"profiler.tree.cache_line", [event.cache_line]))
+		item.set_text(1, _t(
+			&"profiler.tree.cache_line" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.profiler.tree.data_block",
+			[event.cache_line]
+		))
 		item.set_metadata(0, event_index)
 	_update_history_label()
 
@@ -1038,7 +1700,9 @@ func _on_profiler_item_selected() -> void:
 		inspect_event_button.disabled = true
 		return
 	var event: SimulationEventType = current_trace.events[selected_profiler_event_index]
-	profiler_detail_label.text = _t(&"profiler.event_detail", [
+	profiler_detail_label.text = _t(
+		&"profiler.event_detail" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.profiler.event_detail",
+		[
 		event.cycle, event.source_line, int(event.details.get("array_row", -1)), int(event.details.get("array_column", -1)),
 		event.address, event.cache_line, int(event.details.get("line_base_address", -1)),
 		int(event.details.get("line_base_address", -1)) + 3, str(event.details.get("line_values", []))
@@ -1101,6 +1765,7 @@ func _display_duration_for(event: SimulationEventType) -> float:
 		&"bus_request": return 0.56
 		&"ram_access": return 0.64
 		&"line_return": return 0.92
+		&"value_return": return 0.72
 		&"compute": return 0.42
 		&"store_result": return 0.66
 		_: return maxf(0.32, float(event.duration) * 0.04)
@@ -1226,7 +1891,7 @@ func _event_path(event: SimulationEventType) -> PackedVector2Array:
 
 
 func _connection_curve(from_device: StringName, to_device: StringName) -> PackedVector2Array:
-	for connection: Array in REQUIRED_CONNECTIONS:
+	for connection: Array in active_connections:
 		var canonical_from: StringName = connection[0]
 		var canonical_to: StringName = connection[2]
 		var reverse: bool = canonical_from == to_device and canonical_to == from_device
@@ -1277,7 +1942,7 @@ func _apply_event_feedback(event: SimulationEventType, animation: Dictionary, pr
 
 
 func _apply_passive_context(event: SimulationEventType) -> void:
-	if event.kind in [&"cache_lookup", &"cache_hit", &"cache_miss", &"bus_request", &"ram_access", &"line_return", &"cache_evict", &"cache_fill"]:
+	if event.kind in [&"cache_lookup", &"cache_hit", &"cache_miss", &"bus_request", &"ram_access", &"line_return", &"value_return", &"cache_evict", &"cache_fill"]:
 		_set_passive_device_state(&"CPU", _t(&"state.waiting_for_memory"))
 
 
@@ -1294,21 +1959,45 @@ func _component_state_text(event: SimulationEventType, device: StringName) -> St
 			if device == &"ProgramController": return _t(&"event.state.issue_load", [event.source_line])
 			if device == &"CPU": return _t(&"event.state.form_address", [event.details.get("array_row", -1), event.details.get("array_column", -1)])
 			return _t(&"event.state.accept_request")
-		&"cache_lookup": return _t(&"event.state.lookup_line", [event.cache_line])
+		&"cache_lookup": return _t(&"event.state.lookup_line", [event.cache_line]) if LocalityChapter.concept_unlocked(&"cache") else _t(&"chapter2.event.state.check_nearby", [event.cache_line])
 		&"cache_hit":
-			return _t(&"event.state.read_hit_line", [event.cache_line]) if device == &"Cache" else _t(&"event.state.latch_value", [event.value])
-		&"cache_miss": return _t(&"event.state.miss_line", [event.cache_line])
+			return (_t(&"event.state.read_hit_line", [event.cache_line]) if LocalityChapter.concept_unlocked(&"hit") else _t(&"chapter2.event.state.nearby_return", [event.cache_line])) if device == &"Cache" else _t(&"event.state.latch_value", [event.value])
+		&"cache_miss": return _t(&"event.state.miss_line", [event.cache_line]) if LocalityChapter.concept_unlocked(&"miss") else _t(&"chapter2.event.state.fetch_far", [event.cache_line])
 		&"bus_request":
-			return _t(&"event.state.send_line_request", [event.cache_line]) if device == &"Cache" else _t(&"event.state.forward_request")
+			if event.cache_line < 0 and device == &"CPU": return _t(&"chapter2.event.state.send_value_request", [event.address])
+			return _t(
+				&"event.state.send_line_request" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.state.send_block_request",
+				[event.cache_line]
+			) if device == &"Cache" else _t(&"event.state.forward_request")
 		&"ram_access":
-			return _t(&"event.state.send_address") if device == &"Bus" else _t(&"event.state.read_line", [event.cache_line])
+			if event.cache_line < 0: return _t(&"event.state.send_address") if device == &"Bus" else _t(&"chapter2.event.state.read_value", [event.address])
+			return _t(&"event.state.send_address") if device == &"Bus" else _t(
+				&"event.state.read_line" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.state.read_block",
+				[event.cache_line]
+			)
 		&"line_return":
-			if device == &"RAM": return _t(&"event.state.pack_line", [event.cache_line])
+			if device == &"RAM": return _t(
+				&"event.state.pack_line" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.state.pack_block",
+				[event.cache_line]
+			)
 			if device == &"Bus": return _t(&"event.state.relay_16b")
-			return _t(&"event.state.install_line", [event.cache_line])
-		&"cache_evict": return _t(&"event.state.evict_line", [event.cache_line])
+			return _t(
+				&"event.state.install_line" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.state.install_nearby_block",
+				[event.cache_line]
+			)
+		&"value_return":
+			if device == &"RAM": return _t(&"chapter2.event.state.pack_value", [event.value])
+			if device == &"Bus": return _t(&"chapter2.event.state.relay_value")
+			return _t(&"event.state.latch_value", [event.value])
+		&"cache_evict": return _t(
+			&"event.state.evict_line" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.state.replace_nearby_block",
+			[event.cache_line]
+		)
 		&"cache_fill":
-			return _t(&"event.state.read_filled_line", [event.cache_line]) if device == &"Cache" else _t(&"event.state.latch_value", [event.value])
+			return _t(
+				&"event.state.read_filled_line" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.state.read_nearby_block",
+				[event.cache_line]
+			) if device == &"Cache" else _t(&"event.state.latch_value", [event.value])
 		&"compute":
 			return _t(&"event.state.issue_add", [event.source_line]) if device == &"ProgramController" else _t(&"event.state.add_result", [event.value])
 		&"store_result":
@@ -1382,7 +2071,7 @@ func _event_color(kind: StringName) -> Color:
 	match kind:
 		&"cache_hit", &"cache_fill": return GOOD
 		&"cache_miss", &"cache_evict": return BAD
-		&"ram_access", &"line_return", &"bus_request": return WARNING
+		&"ram_access", &"line_return", &"value_return", &"bus_request": return WARNING
 		&"compute", &"store_result": return PURPLE
 		_: return ACCENT
 
@@ -1390,12 +2079,16 @@ func _event_color(kind: StringName) -> Color:
 func _event_short_label(event: SimulationEventType) -> String:
 	match event.kind:
 		&"request": return "A[%d][%d]" % [event.details.get("array_row", -1), event.details.get("array_column", -1)]
-		&"cache_lookup": return _t(&"event.short.lookup")
-		&"cache_hit": return _t(&"event.short.hit")
-		&"cache_miss": return _t(&"event.short.miss")
+		&"cache_lookup": return _t(&"event.short.lookup") if LocalityChapter.concept_unlocked(&"cache") else _t(&"chapter2.event.short.check")
+		&"cache_hit": return _t(&"event.short.hit") if LocalityChapter.concept_unlocked(&"hit") else _t(&"chapter2.event.short.near")
+		&"cache_miss": return _t(&"event.short.miss") if LocalityChapter.concept_unlocked(&"miss") else _t(&"chapter2.event.short.far")
 		&"bus_request": return _t(&"event.short.request")
-		&"ram_access": return _t(&"event.short.read_line")
+		&"ram_access":
+			if event.cache_line < 0:
+				return _t(&"chapter2.event.short.read_value")
+			return _t(&"event.short.read_line") if LocalityChapter.concept_unlocked(&"cache") else _t(&"chapter2.event.short.read_block")
 		&"line_return": return _t(&"event.short.four_ints")
+		&"value_return": return _t(&"event.short.value", [event.value])
 		&"cache_fill": return _t(&"event.short.value", [event.value])
 		&"cache_evict": return _t(&"event.short.evict")
 		&"compute": return _t(&"event.short.add")
@@ -1410,21 +2103,45 @@ func _event_message(event: SimulationEventType) -> String:
 				event.details.get("array_row", -1), event.details.get("array_column", -1), event.address
 			])
 		&"cache_lookup":
+			if not LocalityChapter.concept_unlocked(&"cache"):
+				return _t(&"chapter2.event.message.check_nearby", [event.cache_line])
 			return _t(&"event.message.cache_lookup", [event.cache_line])
 		&"cache_hit":
+			if not LocalityChapter.concept_unlocked(&"hit"):
+				return _t(&"chapter2.event.message.nearby_return", [event.cache_line, event.value])
 			return _t(&"event.message.cache_hit", [event.cache_line, event.value])
 		&"cache_miss":
+			if not LocalityChapter.concept_unlocked(&"miss"):
+				return _t(&"chapter2.event.message.fetch_far", [event.cache_line])
 			return _t(&"event.message.cache_miss", [event.cache_line])
 		&"bus_request":
-			return _t(&"event.message.bus_request")
+			if event.cache_line < 0:
+				return _t(&"chapter2.event.message.bus_value_request", [event.address])
+			return _t(&"event.message.bus_request") if LocalityChapter.concept_unlocked(&"cache") else _t(&"chapter2.event.message.bus_block_request", [event.cache_line])
 		&"ram_access":
-			return _t(&"event.message.ram_access", [event.cache_line, str(event.details.get("line_values", []))])
+			if event.cache_line < 0:
+				return _t(&"chapter2.event.message.ram_value", [event.address, event.value])
+			return _t(
+				&"event.message.ram_access" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.message.ram_block",
+				[event.cache_line, str(event.details.get("line_values", []))]
+			)
 		&"line_return":
-			return _t(&"event.message.line_return", [event.cache_line])
+			return _t(
+				&"event.message.line_return" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.message.block_return",
+				[event.cache_line]
+			)
+		&"value_return":
+			return _t(&"chapter2.event.message.value_return", [event.value])
 		&"cache_evict":
-			return _t(&"event.message.cache_evict", [event.cache_line])
+			return _t(
+				&"event.message.cache_evict" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.message.replace_nearby_block",
+				[event.cache_line]
+			)
 		&"cache_fill":
-			return _t(&"event.message.cache_fill", [event.cache_line, event.value])
+			return _t(
+				&"event.message.cache_fill" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.event.message.fill_nearby_block",
+				[event.cache_line, event.value]
+			)
 		&"compute":
 			return _t(&"event.message.compute", [event.details.get("instruction_text", ""), event.value])
 		&"store_result":
@@ -1472,7 +2189,9 @@ func _invalidate_current_run(reason: String) -> void:
 	playback_label.add_theme_color_override("font_color", WARNING)
 	profiler_tree.clear()
 	profiler_summary_label.text = _t(&"state.no_trace")
-	profiler_detail_label.text = _t(&"profiler.select_miss")
+	profiler_detail_label.text = _t(
+		&"profiler.select_miss" if LocalityChapter.concept_unlocked(&"miss") else &"chapter2.profiler.select_far_fetch"
+	)
 	inspect_event_button.disabled = true
 	selected_profiler_event_index = -1
 	result_label.text = _t(&"state.not_run")

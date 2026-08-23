@@ -93,7 +93,11 @@ func level_ids_for_branch(branch_id: StringName) -> Array[StringName]:
 
 func dependencies(level_id: StringName) -> Array[StringName]:
 	var definition = level(level_id)
-	return definition.dependencies.duplicate() if definition != null else []
+	var result: Array[StringName] = []
+	if definition != null:
+		for dependency: StringName in definition.dependencies:
+			result.append(dependency)
+	return result
 
 
 func is_unlocked(level_id: StringName, completed: Dictionary) -> bool:

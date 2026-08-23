@@ -7,6 +7,11 @@ const TopologyType = preload("res://src/system_lab/system_topology.gd")
 const TraceType = preload("res://src/system_lab/system_trace.gd")
 const ReceiptType = preload("res://src/system_lab/system_run_receipt.gd")
 
+const COMPUTE_HEAVY_PROGRAM := """value = load(INPUT[0])
+for step in range(32):
+    value += 3
+store(OUTPUT[0], value)"""
+
 var failures: Array[String] = []
 var catalog := CatalogType.new("player-cpu-source", "player-ram-source")
 var core := CoreType.new()
@@ -16,6 +21,7 @@ func _init() -> void:
 	_test_catalog_and_parser()
 	_test_topology_authority()
 	_test_exact_cycle_model()
+	_test_cpu_speed_reversal()
 	_test_bus_serialization_and_determinism()
 	_test_bottleneck_categories()
 	_test_receipts_and_completion_rules()
@@ -32,12 +38,29 @@ func _init() -> void:
 func _test_catalog_and_parser() -> void:
 	_assert(catalog.validation_errors().is_empty(), "Built-in system chapter content must validate.")
 	_assert(
-		catalog.level_ids() == [&"assembly", &"cpu_speed", &"ram_wait", &"bus_width", &"scale_up", &"bottleneck"],
-		"The chapter must expose the accepted six-level order."
+		catalog.level_ids() == [&"assembly", &"cpu_speed", &"ram_wait", &"bus_width", &"bottleneck"],
+		"The chapter must expose the accepted five-level investigation order."
 	)
+	_assert(catalog.dependencies(&"bottleneck") == [&"bus_width"], "The final investigation must follow Bus evidence directly.")
 	for level_id: StringName in catalog.level_ids():
 		var program = ParserType.parse(String(catalog.definition(level_id).get("program_source", "")))
 		_assert(program.is_valid(), "Default program for %s must parse." % level_id)
+	var cpu_level: Dictionary = catalog.definition(&"cpu_speed")
+	_assert(String(cpu_level.get("program_source", "")) == CatalogType.PROGRAM_SUM, "The CPU prediction must use the memory-heavy sum program.")
+	var cpu_ids: Array[StringName] = []
+	for cpu_part in catalog.parts_for_level(&"cpu_speed", &"cpu"):
+		cpu_ids.append(cpu_part.id)
+	_assert(cpu_ids == [&"cpu_eco", &"cpu_fast"], "The CPU prediction must compare the explicit Eco and Fast endpoints.")
+	_assert(catalog.default_part_id(&"cpu_speed", &"cpu") == &"cpu_eco" and catalog.default_part_id(&"cpu_speed", &"ram") == &"ram_slow" and catalog.default_part_id(&"cpu_speed", &"bus") == &"bus_8", "The CPU prediction must start on Eco while holding slow RAM and Bus8 fixed.")
+	for cpu_case: Dictionary in cpu_level.get("cases", []):
+		_assert((cpu_case.get("input", []) as Array).size() == 8, "Every CPU prediction case must contain eight memory items.")
+	var final_cases: Array = catalog.definition(&"bottleneck").get("cases", [])
+	var final_names := PackedStringArray()
+	var final_sizes: Array[int] = []
+	for final_case: Dictionary in final_cases:
+		final_names.append(String(final_case.get("name", "")))
+		final_sizes.append((final_case.get("input", []) as Array).size())
+	_assert(final_names == PackedStringArray(["final-4", "final-16", "final-64"]) and final_sizes == [4, 16, 64], "The final investigation must absorb the fixed 4/16/64 workload magnifier.")
 	var invalid = ParserType.parse("for i in range(N):\n\tvalue = load(INPUT[i])")
 	_assert(not invalid.is_valid(), "Tabs must remain invalid in the editable chapter DSL.")
 
@@ -82,6 +105,45 @@ func _test_exact_cycle_model() -> void:
 	_assert(wrap_trace.passed and wrap_trace.output_data == [0], "8-bit arithmetic must wrap 255 + 1 to zero.")
 
 
+func _test_cpu_speed_reversal() -> void:
+	var definition: Dictionary = catalog.definition(&"cpu_speed")
+	var program = ParserType.parse(definition["program_source"])
+	var eco_traces: Array = []
+	var fast_traces: Array = []
+	for case: Dictionary in definition["cases"]:
+		var eco_trace = core.run(
+			program,
+			_topology(&"cpu_eco", &"ram_slow", &"bus_8"),
+			_typed_int_array(case["input"]), _typed_int_array(case["expected"]), String(case["name"])
+		)
+		var fast_trace = core.run(
+			program,
+			_topology(&"cpu_fast", &"ram_slow", &"bus_8"),
+			_typed_int_array(case["input"]), _typed_int_array(case["expected"]), String(case["name"])
+		)
+		_assert(eco_trace.passed and fast_trace.passed, "Both CPU endpoints must preserve the memory-heavy program's result.")
+		_assert(int(eco_trace.metrics["total_cycles"]) == 158 and int(fast_trace.metrics["total_cycles"]) == 134, "Eco/Fast must take exactly 158/134 cycles per CPU prediction case.")
+		_assert(int(eco_trace.metrics["cpu_wait_cycles"]) == 126 and int(fast_trace.metrics["cpu_wait_cycles"]) == 126, "A faster CPU must leave the 126-cycle memory wait unchanged.")
+		_assert(int(eco_trace.metrics["cpu_compute_cycles"]) == 32 and int(fast_trace.metrics["cpu_compute_cycles"]) == 8, "Fast must cut CPU compute from 32 to 8 cycles while waiting remains fixed.")
+		eco_traces.append(eco_trace)
+		fast_traces.append(fast_trace)
+	var eco_receipt = ReceiptType.new()
+	eco_receipt.populate_from_traces(
+		&"cpu_speed", eco_traces, catalog.test_set_signature(&"cpu_speed"),
+		{&"cpu": &"cpu_eco", &"ram": &"ram_slow", &"bus": &"bus_8"}
+	)
+	var fast_receipt = ReceiptType.new()
+	fast_receipt.populate_from_traces(
+		&"cpu_speed", fast_traces, catalog.test_set_signature(&"cpu_speed"),
+		{&"cpu": &"cpu_fast", &"ram": &"ram_slow", &"bus": &"bus_8"}
+	)
+	var eco_total: int = int(eco_receipt.metrics["total_cycles"])
+	var fast_total: int = int(fast_receipt.metrics["total_cycles"])
+	var improvement: float = float(eco_total - fast_total) / float(eco_total)
+	_assert(eco_total == 316 and fast_total == 268, "The two-case CPU receipts must aggregate to exactly 316/268 cycles.")
+	_assert(improvement > 0.0 and improvement < 0.20, "A four-times-faster arithmetic unit must improve this waiting workload by less than twenty percent overall.")
+
+
 func _test_bus_serialization_and_determinism() -> void:
 	var definition: Dictionary = catalog.definition(&"bus_width")
 	var case: Dictionary = (definition["cases"] as Array)[0]
@@ -100,9 +162,7 @@ func _test_bus_serialization_and_determinism() -> void:
 
 
 func _test_bottleneck_categories() -> void:
-	var cpu_level: Dictionary = catalog.definition(&"cpu_speed")
-	var cpu_case: Dictionary = (cpu_level["cases"] as Array)[0]
-	var cpu_trace = core.run(ParserType.parse(cpu_level["program_source"]), _topology(&"cpu_eco", &"ram_fast", &"bus_8"), _typed_int_array(cpu_case["input"]), _typed_int_array(cpu_case["expected"]), "cpu-a")
+	var cpu_trace = core.run(ParserType.parse(COMPUTE_HEAVY_PROGRAM), _topology(&"cpu_eco", &"ram_fast", &"bus_8"), [1], [97], "compute-heavy")
 	_assert(cpu_trace.bottleneck() == TraceType.BOTTLENECK_CPU, "Compute-heavy work on the Eco CPU must diagnose CPU.")
 
 	var ram_level: Dictionary = catalog.definition(&"ram_wait")
@@ -127,13 +187,13 @@ func _test_receipts_and_completion_rules() -> void:
 	for case: Dictionary in level["cases"]:
 		traces.append(core.run(
 			ParserType.parse(level["program_source"]),
-			_topology(&"cpu_eco", &"ram_fast", &"bus_8"),
+			_topology(&"cpu_eco", &"ram_slow", &"bus_8"),
 			_typed_int_array(case["input"]), _typed_int_array(case["expected"]), String(case["name"])
 		))
 	var eco_receipt = ReceiptType.new()
 	eco_receipt.populate_from_traces(
 		&"cpu_speed", traces, catalog.test_set_signature(&"cpu_speed"),
-		{&"cpu": &"cpu_eco", &"ram": &"ram_fast", &"bus": &"bus_8"}
+		{&"cpu": &"cpu_eco", &"ram": &"ram_slow", &"bus": &"bus_8"}
 	)
 	_assert(eco_receipt.all_passed and eco_receipt.total_cases == 2, "One official receipt must aggregate every fixed case.")
 	_assert(not catalog.completion_status(&"cpu_speed", [eco_receipt]).complete, "One CPU observation must not satisfy a two-part comparison.")
@@ -141,17 +201,24 @@ func _test_receipts_and_completion_rules() -> void:
 	for case: Dictionary in level["cases"]:
 		fast_traces.append(core.run(
 			ParserType.parse(level["program_source"]),
-			_topology(&"cpu_fast", &"ram_fast", &"bus_8"),
+			_topology(&"cpu_fast", &"ram_slow", &"bus_8"),
 			_typed_int_array(case["input"]), _typed_int_array(case["expected"]), String(case["name"])
 		))
 	var fast_receipt = ReceiptType.new()
 	fast_receipt.populate_from_traces(
 		&"cpu_speed", fast_traces, catalog.test_set_signature(&"cpu_speed"),
-		{&"cpu": &"cpu_fast", &"ram": &"ram_fast", &"bus": &"bus_8"}
+		{&"cpu": &"cpu_fast", &"ram": &"ram_slow", &"bus": &"bus_8"}
 	)
+	var uncontrolled_traces: Array = []
+	for case: Dictionary in level["cases"]:
+		uncontrolled_traces.append(core.run(
+			ParserType.parse(level["program_source"]),
+			_topology(&"cpu_fast", &"ram_balanced", &"bus_8"),
+			_typed_int_array(case["input"]), _typed_int_array(case["expected"]), String(case["name"])
+		))
 	var uncontrolled_receipt = ReceiptType.new()
 	uncontrolled_receipt.populate_from_traces(
-		&"cpu_speed", fast_traces, catalog.test_set_signature(&"cpu_speed"),
+		&"cpu_speed", uncontrolled_traces, catalog.test_set_signature(&"cpu_speed"),
 		{&"cpu": &"cpu_fast", &"ram": &"ram_balanced", &"bus": &"bus_8"}
 	)
 	_assert(not catalog.completion_status(&"cpu_speed", [eco_receipt, uncontrolled_receipt]).complete, "Changing RAM while comparing CPU must not count as a controlled comparison.")
@@ -159,7 +226,7 @@ func _test_receipts_and_completion_rules() -> void:
 	var changed_source_receipt = ReceiptType.new()
 	changed_source_receipt.populate_from_traces(
 		&"cpu_speed", fast_traces, "different-test-set",
-		{&"cpu": &"cpu_fast", &"ram": &"ram_fast", &"bus": &"bus_8"}
+		{&"cpu": &"cpu_fast", &"ram": &"ram_slow", &"bus": &"bus_8"}
 	)
 	_assert(not catalog.completion_status(&"cpu_speed", [eco_receipt, changed_source_receipt]).complete, "Evidence from another fixed test set must not unlock this level.")
 	var final_level: Dictionary = catalog.definition(&"bottleneck")

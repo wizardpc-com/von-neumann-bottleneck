@@ -96,6 +96,29 @@ func _run_all() -> void:
 	_assert(int(column_four_lines.metrics["cache_misses"]) == 4, "Four-line column-first must keep all four lines after compulsory misses.")
 	_assert(int(column.metrics["hardware_cost"]) == 4 and int(column_four_lines.metrics["hardware_cost"]) == 13, "Software and hardware solutions must expose cost 4 versus cost 13.")
 
+	var direct: SimulationTraceType = core.run_workload(row_program, official, 0, "Direct Memory", 1, 0, true)
+	_assert(direct.passed and direct.result_value == 88, "The authored no-Cache observation workload must remain correct.")
+	_assert(int(direct.metrics["total_cycles"]) == 257 and int(direct.metrics["wait_cycles"]) == 240, "Direct word reads must spend 15 wait cycles per load and preserve 17 compute cycles.")
+	_assert(int(direct.metrics["ram_bytes_transferred"]) == 64 and int(direct.metrics["hardware_cost"]) == 0, "Direct reads must transfer one four-byte value each without Cache cost.")
+	_assert(int(direct.metrics["cache_hits"]) == 0 and int(direct.metrics["cache_misses"]) == 0, "Cache-free evidence must not fabricate hit or miss counts.")
+	var direct_request: SimulationEventType = _first_event(direct, &"request")
+	var direct_return: SimulationEventType = _first_event(direct, &"value_return")
+	_assert(direct_request.route_devices == [&"CPU", &"Bus"], "Cache-free requests must follow the visible CPU → Bus route.")
+	_assert(direct_return.route_devices == [&"RAM", &"Bus", &"CPU"], "Cache-free values must return RAM → Bus → CPU.")
+
+	var two_pass: SimulationTraceType = core.run_workload(row_program, official, 1, "Two Passes", 2)
+	var blocked: SimulationTraceType = core.run_workload(row_program, official, 1, "Blocked Two Passes", 2, 1)
+	var large_cache: SimulationTraceType = core.run_workload(row_program, official, 4, "Two Passes", 2)
+	_assert(two_pass.passed and blocked.passed and large_cache.passed, "Repeated and blocked workloads must preserve program correctness.")
+	_assert(int(two_pass.metrics["total_cycles"]) == 210 and int(two_pass.metrics["cache_misses"]) == 8, "A one-line Cache must reload all four lines on the second unblocked pass.")
+	_assert(int(two_pass.metrics["cache_hits"]) == 24 and int(two_pass.metrics["ram_bytes_transferred"]) == 128, "Two unblocked row-first passes must expose the complete working-set reload evidence.")
+	_assert(int(blocked.metrics["total_cycles"]) == 138 and int(blocked.metrics["cache_misses"]) == 4, "Line-sized blocking must reuse each fetched line across both passes.")
+	_assert(int(blocked.metrics["cache_hits"]) == 28 and int(blocked.metrics["ram_bytes_transferred"]) == 64, "Blocked evidence must show four compulsory misses and 28 hits.")
+	_assert(int(large_cache.metrics["total_cycles"]) == 138 and int(large_cache.metrics["hardware_cost"]) == 13, "A four-line Cache must provide a costlier capstone solution with the same cycle target.")
+	var blocked_repeat: SimulationTraceType = core.run_workload(row_program, official, 1, "Blocked Two Passes", 2, 1)
+	_assert(blocked.canonical_signature() == blocked_repeat.canonical_signature(), "Program-derived blocking schedules must be deterministic.")
+	_assert(_request_addresses(blocked).slice(0, 8) == [0, 1, 2, 3, 0, 1, 2, 3], "Blocking must derive addresses from IR and finish both passes for one line before moving on.")
+
 	var explicit_load_source: String = """acc = 0
 for row in range(4):
     for col in range(4):

@@ -4,8 +4,7 @@ extends RefCounted
 const PartSpecType = preload("res://src/system_lab/system_part_spec.gd")
 
 const LEVEL_IDS: Array[StringName] = [
-	&"assembly", &"cpu_speed", &"ram_wait",
-	&"bus_width", &"scale_up", &"bottleneck",
+	&"assembly", &"cpu_speed", &"ram_wait", &"bus_width", &"bottleneck",
 ]
 
 const PROGRAM_ASSEMBLY := """value = load(INPUT[0])
@@ -196,6 +195,17 @@ func validation_errors() -> PackedStringArray:
 			var default_part: SystemPartSpec = _parts.get(default_id)
 			if default_part == null or default_part.kind != kind:
 				errors.append("System level %s has invalid default %s." % [level_id, kind])
+		var prediction_key := StringName(level.get("prediction_key", &""))
+		var prediction_options: Array = level.get("prediction_options", [])
+		if prediction_key.is_empty() != prediction_options.is_empty():
+			errors.append("System level %s has incomplete prediction content." % level_id)
+		var prediction_ids: Dictionary[StringName, bool] = {}
+		for option: Dictionary in prediction_options:
+			var prediction_id := StringName(option.get("id", &""))
+			var text_key := StringName(option.get("text_key", &""))
+			if prediction_id.is_empty() or text_key.is_empty() or prediction_ids.has(prediction_id):
+				errors.append("System level %s has an invalid prediction option." % level_id)
+			prediction_ids[prediction_id] = true
 		if (level.get("cases", []) as Array).is_empty():
 			errors.append("System level %s has no official cases." % level_id)
 	return errors
@@ -238,24 +248,35 @@ func _build_levels() -> void:
 		[_case("assembly-a", [7], [8]), _case("assembly-b", [255], [0])],
 		[&"cpu_balanced"], [&"ram_balanced"], [&"bus_8"],
 		&"cpu_balanced", &"ram_balanced", &"bus_8", &"none", 1, false)
-	_register_level(&"cpu_speed", 1, [&"assembly"], 2, PROGRAM_CPU,
-		[_case("cpu-a", [1], [97]), _case("cpu-b", [200], [40])],
-		[&"cpu_eco", &"cpu_balanced", &"cpu_fast"], [&"ram_fast"], [&"bus_8"],
-		&"cpu_balanced", &"ram_fast", &"bus_8", PartSpecType.KIND_CPU, 2, false)
+	_register_level(&"cpu_speed", 1, [&"assembly"], 2, PROGRAM_SUM,
+		[_sum_case("cpu-a", [1, 2, 3, 4, 5, 6, 7, 8]), _sum_case("cpu-b", [21, 34, 55, 89, 13, 8, 5, 3])],
+		[&"cpu_eco", &"cpu_fast"], [&"ram_slow"], [&"bus_8"],
+		&"cpu_eco", &"ram_slow", &"bus_8", PartSpecType.KIND_CPU, 2, false,
+		&"system.prediction.cpu_speed.question", [
+			_prediction_option(&"large", &"system.prediction.cpu_speed.large"),
+			_prediction_option(&"modest", &"system.prediction.cpu_speed.modest"),
+			_prediction_option(&"none", &"system.prediction.cpu_speed.none"),
+		])
 	_register_level(&"ram_wait", 2, [&"cpu_speed"], 3, PROGRAM_SUM,
 		[_sum_case("ram-a", [1, 2, 3, 4, 5, 6, 7, 8]), _sum_case("ram-b", [21, 34, 55, 89, 13, 8, 5, 3])],
-		[&"cpu_fast"], [&"ram_slow", &"ram_balanced", &"ram_fast"], [&"bus_8"],
-		&"cpu_fast", &"ram_slow", &"bus_8", PartSpecType.KIND_RAM, 2, false)
+		[&"cpu_fast"], [&"ram_slow", &"ram_fast"], [&"bus_8"],
+		&"cpu_fast", &"ram_slow", &"bus_8", PartSpecType.KIND_RAM, 2, false,
+		&"system.prediction.ram_wait.question", [
+			_prediction_option(&"compute", &"system.prediction.ram_wait.compute"),
+			_prediction_option(&"wait", &"system.prediction.ram_wait.wait"),
+			_prediction_option(&"both", &"system.prediction.ram_wait.both"),
+		])
 	_register_level(&"bus_width", 3, [&"ram_wait"], 4, PROGRAM_COPY,
 		[_case("bus-a", [3, 5, 8, 13, 21, 34, 55, 89], [3, 5, 8, 13, 21, 34, 55, 89])],
-		[&"cpu_fast"], [&"ram_fast"], [&"bus_2", &"bus_4", &"bus_8"],
-		&"cpu_fast", &"ram_fast", &"bus_2", PartSpecType.KIND_BUS, 2, false)
-	_register_level(&"scale_up", 4, [&"bus_width"], 5, PROGRAM_SUM,
-		[_sum_case("scale-4", _series(4)), _sum_case("scale-16", _series(16)), _sum_case("scale-64", _series(64))],
-		[&"cpu_balanced"], [&"ram_balanced"], [&"bus_4"],
-		&"cpu_balanced", &"ram_balanced", &"bus_4", &"scale", 3, false)
-	_register_level(&"bottleneck", 5, [&"scale_up"], 6, PROGRAM_FINAL,
-		[_transform_case("final-8", _series(8), 15), _transform_case("final-16", _series(16), 15), _transform_case("final-32", _series(32), 15)],
+		[&"cpu_fast"], [&"ram_fast"], [&"bus_2", &"bus_8"],
+		&"cpu_fast", &"ram_fast", &"bus_2", PartSpecType.KIND_BUS, 2, false,
+		&"system.prediction.bus_width.question", [
+			_prediction_option(&"four_to_one", &"system.prediction.bus_width.four_to_one"),
+			_prediction_option(&"two_to_one", &"system.prediction.bus_width.two_to_one"),
+			_prediction_option(&"unchanged", &"system.prediction.bus_width.unchanged"),
+		])
+	_register_level(&"bottleneck", 4, [&"bus_width"], 5, PROGRAM_FINAL,
+		[_transform_case("final-4", _series(4), 15), _transform_case("final-16", _series(16), 15), _transform_case("final-64", _series(64), 15)],
 		[&"cpu_eco", &"cpu_balanced", &"cpu_fast"],
 		[&"ram_slow", &"ram_balanced", &"ram_fast"],
 		[&"bus_2", &"bus_4", &"bus_8"],
@@ -277,7 +298,9 @@ func _register_level(
 		default_bus: StringName,
 		comparison_kind: StringName,
 		minimum_runs: int,
-		diagnosis_required: bool
+		diagnosis_required: bool,
+		prediction_key: StringName = &"",
+		prediction_options: Array[Dictionary] = []
 	) -> void:
 	_levels[id] = {
 		"id": id,
@@ -298,7 +321,13 @@ func _register_level(
 		"comparison_kind": comparison_kind,
 		"minimum_runs": minimum_runs,
 		"diagnosis_required": diagnosis_required,
+		"prediction_key": prediction_key,
+		"prediction_options": prediction_options.duplicate(true),
 	}
+
+
+func _prediction_option(id: StringName, text_key: StringName) -> Dictionary:
+	return {"id": id, "text_key": text_key}
 
 
 func _case(name: String, input_data: Array[int], expected: Array[int]) -> Dictionary:

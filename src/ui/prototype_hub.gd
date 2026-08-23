@@ -15,18 +15,30 @@ var mode_selector: GameModeSelectorType
 var mode_description_label: Label
 var fullscreen_button: FullscreenButtonType
 var system_entry_button: Button
+var locality_entry_button: Button
 
 
 func _ready() -> void:
 	_build_theme()
 	_build_interface()
 	GameMode.mode_changed.connect(_on_game_mode_changed)
+	SystemChapter.progression_changed.connect(_refresh_locality_entry)
 	_refresh_mode_description()
 	var arguments: PackedStringArray = OS.get_cmdline_user_args()
 	if "--capture-hardware" in arguments:
 		get_tree().call_deferred("change_scene_to_file", "res://src/hardware_foundations/hardware_foundations.tscn")
 	elif "--capture-system" in arguments or "--capture-system-run" in arguments or "--capture-system-map" in arguments:
 		get_tree().call_deferred("change_scene_to_file", "res://src/system_lab/system_lab.tscn")
+	elif (
+		"--capture-chapter2-map" in arguments
+		or "--capture-chapter2-capstone" in arguments
+		or "--capture-demo" in arguments
+		or "--capture-profiler" in arguments
+		or "--capture-workspace" in arguments
+		or "--capture-program-draft" in arguments
+		or "--capture-row" in arguments
+	):
+		get_tree().call_deferred("change_scene_to_file", "res://src/ui/main.tscn")
 
 
 func _build_theme() -> void:
@@ -100,7 +112,8 @@ func _build_interface() -> void:
 		Localization.text(&"hub.locality.description"),
 		Localization.text(&"hub.locality.open"),
 		ACCENT,
-		"res://src/ui/main.tscn"
+		"res://src/ui/main.tscn",
+		&"locality"
 	))
 	var note := Label.new()
 	note.text = Localization.text(&"hub.note")
@@ -119,6 +132,7 @@ func _build_interface() -> void:
 func _on_game_mode_changed(_mode: StringName) -> void:
 	_refresh_mode_description()
 	_refresh_system_entry()
+	_refresh_locality_entry()
 
 
 func _refresh_mode_description() -> void:
@@ -174,6 +188,9 @@ func _build_card(
 	if entry_id == &"system":
 		system_entry_button = button
 		_refresh_system_entry()
+	elif entry_id == &"locality":
+		locality_entry_button = button
+		_refresh_locality_entry()
 	return panel
 
 
@@ -184,6 +201,15 @@ func _refresh_system_entry() -> void:
 	system_entry_button.disabled = not unlocked
 	system_entry_button.text = Localization.text(&"hub.system.open") if unlocked else Localization.text(&"hub.system.locked_action")
 	system_entry_button.tooltip_text = "" if unlocked else Localization.text(&"hub.system.locked")
+
+
+func _refresh_locality_entry() -> void:
+	if locality_entry_button == null:
+		return
+	var unlocked: bool = LocalityChapter.chapter_unlocked()
+	locality_entry_button.disabled = not unlocked
+	locality_entry_button.text = Localization.text(&"hub.locality.open") if unlocked else Localization.text(&"hub.locality.locked_action")
+	locality_entry_button.tooltip_text = "" if unlocked else Localization.text(&"hub.locality.locked")
 
 
 func _stylebox(color: Color, radius: int, border_width: int = 0, border_color: Color = Color.TRANSPARENT) -> StyleBoxFlat:

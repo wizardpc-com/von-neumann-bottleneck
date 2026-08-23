@@ -37,7 +37,7 @@ func _run() -> void:
 
 	var map_view = main.get("map_view")
 	var map_buttons: Dictionary = map_view.get("level_buttons")
-	_assert(map_buttons.size() == 6, "Chapter map must expose the accepted six-level route.")
+	_assert(map_buttons.size() == 5, "Chapter map must expose the accepted five-level investigation route.")
 	for button: Button in map_buttons.values():
 		_assert(not button.disabled, "Test mode must unlock every system chapter level.")
 	_assert(
@@ -253,10 +253,10 @@ func _run() -> void:
 	var assembly_receipt = main.get("latest_receipt")
 	_assert(assembly_receipt != null and assembly_receipt.all_passed, "Assembly official tests must produce a passing receipt.")
 	_assert(bool(chapter.call("completed_levels").get(&"assembly", false)), "A passing wired assembly must unlock progression.")
+	var conclusion_button: Button = main.get("conclusion_button")
 	_assert(
-		(main.get("level_completion_overlay") as Control).visible
-		and StringName((main.get("level_completion_overlay") as Control).get("current_level_id")) == &"assembly",
-		"The first system completion must automatically open its learning-summary window."
+		not (main.get("level_completion_overlay") as Control).visible and conclusion_button.visible,
+		"Completing a run must leave its Trace observable and expose the finding as an explicit next action."
 	)
 	var trace = (main.get("latest_official_traces") as Array)[0]
 	var request_event = trace.events[0]
@@ -279,18 +279,23 @@ func _run() -> void:
 	var moved_path: PackedVector2Array = main.call("_event_path", request_event)
 	_assert(not _paths_equal(moved_path, exact_path), "Moving a component must update the exact visual route used by playback.")
 
-	await _complete_comparison(main, chapter, &"cpu_speed", &"cpu", 0, 2)
-	await _complete_comparison(main, chapter, &"ram_wait", &"ram", 0, 1)
-	await _complete_comparison(main, chapter, &"bus_width", &"bus", 0, 1)
-
-	main.call("_start_level", &"scale_up")
-	await process_frame
-	main.call("_run_official")
-	await process_frame
-	var scale_receipt = main.get("latest_receipt")
-	_assert(scale_receipt.all_passed and scale_receipt.total_cases == 3, "Scale level must compare the fixed 4/16/64 workloads in one receipt.")
-	_assert(bool(chapter.call("completed_levels").get(&"scale_up", false)), "Passing every workload scale must unlock the final investigation.")
-	_assert(StringName((main.get("level_completion_overlay") as Control).get("current_level_id")) == &"scale_up", "Workload scaling must receive its own localized completion lesson.")
+	await _complete_comparison(main, chapter, &"cpu_speed", &"cpu")
+	var cpu_receipts: Array = chapter.call("receipts_for", &"cpu_speed")
+	_assert(cpu_receipts.size() == 2, "The CPU investigation must retain exactly one Before and one After receipt.")
+	var cpu_before = cpu_receipts[0]
+	var cpu_after = cpu_receipts[1]
+	var history_text: String = String((main.get("history_label") as RichTextLabel).text)
+	var runtime_catalog = main.get("catalog")
+	var before_cpu_name: String = String(runtime_catalog.part(cpu_before.part_ids[&"cpu"]).display_name)
+	var after_cpu_name: String = String(runtime_catalog.part(cpu_after.part_ids[&"cpu"]).display_name)
+	var total_delta: int = int(cpu_after.metrics["total_cycles"]) - int(cpu_before.metrics["total_cycles"])
+	var wait_delta: int = int(cpu_after.metrics["cpu_wait_cycles"]) - int(cpu_before.metrics["cpu_wait_cycles"])
+	_assert("→" in history_text, "Run History must present a controlled comparison as Before → After.")
+	_assert(before_cpu_name in history_text and after_cpu_name in history_text, "Run History must name the friendly CPU endpoints instead of only listing raw part IDs.")
+	_assert(str(cpu_before.metrics["total_cycles"]) in history_text and str(cpu_after.metrics["total_cycles"]) in history_text and str(absi(total_delta)) in history_text, "Run History must expose both total-cycle observations and their delta.")
+	_assert(_t(&"system.profiler.name.cpu_wait_cycles") in history_text and str(cpu_before.metrics["cpu_wait_cycles"]) in history_text and str(cpu_after.metrics["cpu_wait_cycles"]) in history_text and str(absi(wait_delta)) in history_text, "Run History must expose CPU wait before, after, and delta.")
+	await _complete_comparison(main, chapter, &"ram_wait", &"ram")
+	await _complete_comparison(main, chapter, &"bus_width", &"bus")
 
 	main.call("_start_level", &"bottleneck")
 	await process_frame
@@ -298,18 +303,75 @@ func _run() -> void:
 	await process_frame
 	var final_receipt = main.get("latest_receipt")
 	_assert(final_receipt != null and final_receipt.all_passed, "Final investigation must first prove functional correctness.")
+	_assert(final_receipt.total_cases == 3, "The final diagnosis receipt must aggregate the merged 4/16/64 workloads.")
+	var final_trace_names := PackedStringArray()
+	for final_trace in (main.get("latest_official_traces") as Array):
+		final_trace_names.append(String(final_trace.test_name))
+	_assert(final_trace_names == PackedStringArray(["final-4", "final-16", "final-64"]), "The final diagnosis must run the fixed 4/16/64 cases in order.")
 	_assert(not bool(chapter.call("completed_levels").get(&"bottleneck", false)), "The final level must not auto-complete before a diagnosis.")
+	var profiler_labels: Dictionary = main.get("profiler_labels")
+	for locked_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
+		_assert(not (profiler_labels[locked_metric] as Label).visible, "%s must stay hidden before the first diagnosis." % locked_metric)
+	var shares_label: Label = profiler_labels[&"shares"]
+	_assert(shares_label.visible and "%" not in shares_label.text and _t(&"system.profiler.breakdown_locked") in shares_label.text, "The pre-diagnosis Profiler must explicitly lock the component breakdown without leaking percentages.")
 	var selector: OptionButton = main.get("diagnosis_selector")
+	var correct_index: int = -1
+	var incorrect_index: int = -1
 	for index: int in range(selector.item_count):
 		if StringName(selector.get_item_metadata(index)) == final_receipt.diagnosed_bottleneck:
-			selector.select(index)
-			break
+			correct_index = index
+		elif incorrect_index < 0:
+			incorrect_index = index
+	_assert(correct_index >= 0 and incorrect_index >= 0, "The diagnosis selector must offer both the supported answer and at least one falsifiable alternative.")
+	selector.select(incorrect_index)
 	main.call("_confirm_diagnosis")
 	await process_frame
-	_assert(bool(chapter.call("completed_levels").get(&"bottleneck", false)), "Submitting the trace-derived bottleneck must complete Chapter 1.")
-	_assert(chapter.call("completed_levels").size() == 6, "The normal completion path must cover exactly all six chapter levels.")
+	_assert(not bool(chapter.call("completed_levels").get(&"bottleneck", false)), "An unsupported first diagnosis must not complete the chapter.")
+	for revealed_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
+		_assert((profiler_labels[revealed_metric] as Label).visible, "%s must be revealed after the first diagnosis." % revealed_metric)
+	_assert(shares_label.visible and "%" in shares_label.text, "Submitting a diagnosis must reveal the complete percentage breakdown as feedback.")
+	var final_cpu_selector: OptionButton = (main.get("part_selectors") as Dictionary)[&"cpu"]
+	var revised_cpu_index: int = 0 if final_cpu_selector.selected != 0 else 1
+	final_cpu_selector.select(revised_cpu_index)
+	main.call("_on_part_selected", revised_cpu_index, &"cpu")
+	main.call("_run_official")
+	await process_frame
+	var revised_receipt = main.get("latest_receipt")
+	_assert(
+		revised_receipt != null and revised_receipt.canonical_signature() != final_receipt.canonical_signature(),
+		"Changing the investigated machine must create a distinct deterministic evidence receipt."
+	)
+	for relocked_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
+		_assert(not (profiler_labels[relocked_metric] as Label).visible, "%s must relock for a new receipt that has not been diagnosed." % relocked_metric)
+	_assert(shares_label.visible and "%" not in shares_label.text, "A new receipt must not inherit another receipt's revealed percentage breakdown.")
+	correct_index = -1
+	for index: int in range(selector.item_count):
+		if StringName(selector.get_item_metadata(index)) == revised_receipt.diagnosed_bottleneck:
+			correct_index = index
+			break
+	_assert(correct_index >= 0, "The revised receipt's supported diagnosis must remain selectable.")
+	selector.select(correct_index)
+	main.call("_confirm_diagnosis")
+	await process_frame
+	_assert(bool(chapter.call("completed_levels").get(&"bottleneck", false)), "A correct first diagnosis for the new receipt must complete Chapter 1.")
+	for correct_first_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
+		_assert((profiler_labels[correct_first_metric] as Label).visible, "%s must remain observable after a correct-first diagnosis." % correct_first_metric)
+	_assert(shares_label.visible and "%" in shares_label.text, "A correct-first diagnosis must reveal the complete breakdown before any lesson overlay.")
+	_assert(chapter.call("completed_levels").size() == 5, "The normal completion path must cover exactly all five chapter levels.")
 	var final_completion: Control = main.get("level_completion_overlay")
 	var final_continue: Button = final_completion.get("continue_button")
+	_assert(not final_completion.visible and conclusion_button.visible, "A correct-first diagnosis must leave the revealed Profiler visible until the player reviews the finding.")
+	main.call("_finish_playback")
+	await process_frame
+	var final_history_panel: Control = (main.get("instrument_windows") as Dictionary)[&"history"]
+	var final_history_text: String = String((main.get("history_label") as RichTextLabel).text)
+	_assert(final_history_panel.visible, "Run History must come forward only after the final Trace finishes.")
+	_assert(
+		_t(&"system.history.observation", [main.call("_machine_summary", revised_receipt)]) in final_history_text,
+		"The final single-machine evidence must be labeled as the current observation, not as a comparison baseline."
+	)
+	conclusion_button.pressed.emit()
+	await process_frame
 	_assert(
 		final_completion.visible
 		and StringName(final_completion.get("current_level_id")) == &"bottleneck"
@@ -318,7 +380,7 @@ func _run() -> void:
 	)
 	final_continue.pressed.emit()
 	await process_frame
-	_assert((main.get("map_host") as Control).visible and not (main.get("lab_host") as Control).visible, "Continue after any Chapter 1 completion must return to the six-node level map.")
+	_assert((main.get("map_host") as Control).visible and not (main.get("lab_host") as Control).visible, "Continue after any Chapter 1 completion must return to the five-node level map.")
 
 	main.call("_stop_playback")
 	main.queue_free()
@@ -327,7 +389,7 @@ func _run() -> void:
 	game_mode.call("set_mode", &"game")
 	_assert(chapter.call("completed_levels").is_empty(), "Test-mode completion must stay isolated from Game-mode progression.")
 	if failures.is_empty():
-		print("PASS: six-level system chapter map, coherent editor controls, applied program, typed wiring, floating tools, evidence progression, exact-path animation, and diagnosis tests passed")
+		print("PASS: five-level system chapter map, prediction, controlled comparison, evidence reveal, exact-path animation, and diagnosis tests passed")
 		quit(0)
 	else:
 		for failure: String in failures:
@@ -340,29 +402,87 @@ func _complete_comparison(
 		main: Control,
 		chapter: Node,
 		level_id: StringName,
-		kind: StringName,
-		first_index: int,
-		second_index: int
+		kind: StringName
 	) -> void:
 	main.call("_start_level", level_id)
 	await process_frame
+	var mission_panel: Control = (main.get("instrument_windows") as Dictionary)[&"mission"]
+	var prediction_selector: OptionButton = main.get("prediction_selector")
+	var prediction_lock_button: Button = main.get("prediction_lock_button")
 	var selectors: Dictionary = main.get("part_selectors")
 	var selector: OptionButton = selectors[kind]
-	selector.select(first_index)
-	main.call("_on_part_selected", first_index, kind)
+	var default_part_id: StringName = main.get("catalog").call("default_part_id", level_id, kind)
+	_assert(
+		prediction_selector.visible
+		and mission_panel.get_global_rect().encloses(prediction_selector.get_global_rect())
+		and mission_panel.get_global_rect().encloses(prediction_lock_button.get_global_rect()),
+		"%s must keep the prediction choice and lock action visibly inside Mission." % level_id
+	)
+	_assert(selector.item_count == 2, "%s must compare two explicit controlled endpoints." % level_id)
+	_assert(
+		selector.disabled and StringName(selector.get_item_metadata(selector.selected)) == default_part_id,
+		"%s must hold the compared part at its authored baseline before the first receipt." % level_id
+	)
+	main.call("_run_official")
+	await process_frame
+	var unlocked_receipts: Array = chapter.call("receipts_for", level_id)
+	_assert(main.get("latest_receipt") == null and unlocked_receipts.is_empty(), "%s must reject official evidence until the player locks a prediction." % level_id)
+	_lock_prediction(main)
+	_assert(selector.disabled, "%s must keep the changed endpoint locked until the baseline passes." % level_id)
+	var forced_parts: Dictionary = main.get("selected_part_ids")
+	forced_parts[kind] = StringName(selector.get_item_metadata(1))
+	main.set("selected_part_ids", forced_parts)
+	main.call("_run_official")
+	await process_frame
+	_assert(
+		chapter.call("receipts_for", level_id).is_empty()
+		and StringName((main.get("selected_part_ids") as Dictionary).get(kind, &"")) == default_part_id,
+		"%s must reject a nondefault first run at the evidence boundary and restore the baseline." % level_id
+	)
 	main.call("_run_official")
 	await process_frame
 	_assert(not bool(chapter.call("completed_levels").get(level_id, false)), "%s must require a second controlled part observation." % level_id)
-	selector.select(second_index)
-	main.call("_on_part_selected", second_index, kind)
+	_assert(not selector.disabled, "%s must unlock the changed endpoint after a passing baseline receipt." % level_id)
+	selector.select(1)
+	main.call("_on_part_selected", 1, kind)
 	main.call("_run_official")
 	await process_frame
 	_assert(bool(chapter.call("completed_levels").get(level_id, false)), "%s must complete after two distinct parts pass under one applied program." % level_id)
+	var history_panel: Control = (main.get("instrument_windows") as Dictionary)[&"history"]
+	var conclusion_button: Button = main.get("conclusion_button")
+	_assert(
+		not history_panel.visible
+		and bool(main.get("playback_running"))
+		and not (main.get("level_completion_overlay") as Control).visible,
+		"%s must keep its Trace unobstructed before presenting History or the conclusion." % level_id
+	)
+	_assert(
+		conclusion_button.visible and mission_panel.get_global_rect().encloses(conclusion_button.get_global_rect()),
+		"%s must expose an in-panel finding action without covering the evidence." % level_id
+	)
+	main.call("_finish_playback")
+	await process_frame
+	_assert(history_panel.visible and not (main.get("level_completion_overlay") as Control).visible, "%s must bring History forward only after Trace playback finishes." % level_id)
+	conclusion_button.pressed.emit()
+	await process_frame
 	_assert(
 		(main.get("level_completion_overlay") as Control).visible
 		and StringName((main.get("level_completion_overlay") as Control).get("current_level_id")) == level_id,
-		"%s must open its own completion summary after the controlled comparison." % level_id
+		"%s must open its own completion summary only after the player reviews the finding." % level_id
 	)
+	main.call("_dismiss_level_completion")
+
+
+func _lock_prediction(main: Control, option_index: int = 1) -> void:
+	var prediction_selector: OptionButton = main.get("prediction_selector")
+	var prediction_lock_button: Button = main.get("prediction_lock_button")
+	_assert(prediction_selector != null and prediction_lock_button != null, "Comparison levels must expose an explicit prediction and lock action.")
+	if prediction_selector == null or prediction_lock_button == null:
+		return
+	_assert(option_index >= 0 and option_index < prediction_selector.item_count, "The requested prediction option must exist.")
+	prediction_selector.select(option_index)
+	main.call("_lock_prediction")
+	_assert(prediction_lock_button.disabled, "Locking a prediction must preserve the pre-run commitment through the comparison.")
 
 
 func _paths_equal(left: PackedVector2Array, right: PackedVector2Array) -> bool:

@@ -7,9 +7,10 @@ Repository-local documentation is the source of truth for future human and Codex
 - `architecture/localization.md`: default locale, catalog boundary, language-neutral technical evidence, and the process for adding a locale.
 - `architecture/content-system.md`: explicit campaign registry, content-pack extension contract, player-owned state, and the boundary between authored content and executable mechanics.
 - `status/cpu-building-prologue.md`: current tutorial-to-CPU campaign, reusable-component progression, temporal model, final LOAD/STORE bridge, limitations, and playtest questions.
-- `status/chapter-1-waiting-for-data.md`: implemented six-level CPU/RAM/Bus performance chapter, exact cost model, evidence progression, limitations, and playtest questions.
+- `status/chapter-1-waiting-for-data.md`: implemented five-level CPU/RAM/Bus investigation chapter, prediction and controlled-comparison flow, gated diagnosis evidence, exact cost model, limitations, and playtest questions.
+- `status/chapter-2-reducing-data-movement.md`: implemented seven-level Cache/locality/working-set/blocking investigation, delayed Systems Notebook concepts, deterministic reference evidence, multiple capstone solutions, limitations, and playtest questions.
 - `status/hardware-foundations-01.md`: historical wiring/Half Adder milestone retained as design evidence.
-- `status/prototype-v0.2.md`: current implemented gameplay loop, reference tradeoffs, verification, and remaining validation questions.
+- `status/prototype-v0.2.md`: preserved one-pass Cache Locality Lab baseline and reference tradeoffs retained as the Chapter 2 regression boundary.
 - `status/prototype-v0.1.md`: what the tagged prototype actually implements and what it was meant to validate.
 - `development/testing.md`: commands that have been run successfully in this repository.
 - `development/git-workflow.md`: branch, review, commit, and release conventions.

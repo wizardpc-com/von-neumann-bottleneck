@@ -17,6 +17,7 @@ const CACHE_LOOKUP_CYCLES: int = 1
 const BUS_REQUEST_CYCLES: int = 2
 const RAM_ACCESS_CYCLES: int = 12
 const BUS_LINE_TRANSFER_CYCLES: int = 4
+const BUS_VALUE_TRANSFER_CYCLES: int = 1
 const ADD_CYCLES: int = 1
 const STORE_RESULT_CYCLES: int = 1
 
@@ -73,8 +74,184 @@ func run_source(source: String, data: Array[int], cache_lines: int, test_name: S
 	return run(DSLParserType.parse(source), data, cache_lines, test_name)
 
 
+func run_workload(
+		program: DSLProgramType,
+		data: Array[int],
+		cache_lines: int,
+		test_name: String,
+		pass_count: int = 1,
+		block_lines: int = 0,
+		bypass_cache: bool = false
+	) -> SimulationTraceType:
+	if pass_count == 1 and block_lines == 0 and not bypass_cache:
+		return run(program, data, cache_lines, test_name)
+
+	var trace := SimulationTraceType.new()
+	trace.cache_capacity_lines = 0 if bypass_cache else cache_lines
+	trace.test_name = test_name
+	trace.loop_order = program.loop_order.duplicate()
+	trace.program_source = program.source
+	if not program.is_valid() or data.size() != ARRAY_LENGTH:
+		return trace
+	if pass_count < 1 or block_lines not in [0, 1, 2, 4]:
+		return trace
+	if not bypass_cache and not CACHE_COSTS.has(cache_lines):
+		return trace
+
+	var state: Dictionary = _initial_state()
+	state["bypass_cache"] = bypass_cache
+	_execute_scheduled_program(program, data, cache_lines, pass_count, block_lines, trace, state)
+	_finalize_trace(trace, data, state, 0 if bypass_cache else int(CACHE_COSTS[cache_lines]))
+	return trace
+
+
 static func official_data_copy() -> Array[int]:
 	return OFFICIAL_DATA.duplicate()
+
+
+func _initial_state() -> Dictionary:
+	return {
+		"registers": {},
+		"loop_values": {},
+		"resident_lines": [],
+		"line_last_used": {},
+		"use_clock": 0,
+		"current_cycle": 0,
+		"compute_cycles": 0,
+		"wait_cycles": 0,
+		"cache_hits": 0,
+		"cache_misses": 0,
+		"ram_bytes": 0,
+		"result_value": 0,
+	}
+
+
+func _finalize_trace(trace: SimulationTraceType, data: Array[int], state: Dictionary, hardware_cost: int) -> void:
+	var expected: int = 0
+	for item: int in data:
+		expected += item
+	trace.result_value = int(state["result_value"])
+	trace.expected_value = expected
+	trace.passed = trace.result_value == expected
+	trace.metrics = {
+		"total_cycles": int(state["current_cycle"]),
+		"compute_cycles": int(state["compute_cycles"]),
+		"wait_cycles": int(state["wait_cycles"]),
+		"cache_hits": int(state["cache_hits"]),
+		"cache_misses": int(state["cache_misses"]),
+		"ram_bytes_transferred": int(state["ram_bytes"]),
+		"hardware_cost": hardware_cost,
+	}
+
+
+func _execute_scheduled_program(
+		program: DSLProgramType,
+		data: Array[int],
+		cache_lines: int,
+		pass_count: int,
+		block_lines: int,
+		trace: SimulationTraceType,
+		state: Dictionary
+	) -> void:
+	var outer_loop: DSLInstructionType = null
+	var inner_loop: DSLInstructionType = null
+	for instruction: DSLInstructionType in program.instructions:
+		if instruction.opcode == &"for_range":
+			outer_loop = instruction
+			break
+	if outer_loop == null:
+		return
+	for instruction: DSLInstructionType in outer_loop.children:
+		if instruction.opcode == &"for_range":
+			inner_loop = instruction
+			break
+	if inner_loop == null:
+		return
+	var load_instruction: DSLInstructionType = _first_load_instruction(inner_loop.children)
+	if load_instruction == null:
+		return
+
+	var pass_registers: Array[Dictionary] = []
+	for pass_index: int in range(pass_count):
+		state["registers"] = {}
+		state["loop_values"] = {}
+		for instruction: DSLInstructionType in program.instructions:
+			if instruction == outer_loop:
+				break
+			_execute_block([instruction], data, cache_lines, trace, state)
+		pass_registers.append((state["registers"] as Dictionary).duplicate(true))
+
+	var contexts: Array[Dictionary] = []
+	for outer_value: int in range(outer_loop.range_stop):
+		for inner_value: int in range(inner_loop.range_stop):
+			var loop_values: Dictionary = {
+				outer_loop.destination: outer_value,
+				inner_loop.destination: inner_value,
+			}
+			var row: int = int(loop_values[load_instruction.row_index_variable])
+			var column: int = int(loop_values[load_instruction.column_index_variable])
+			contexts.append({
+				"loop_values": loop_values,
+				"cache_line": (row * ARRAY_WIDTH + column) / CACHE_LINE_INTS,
+			})
+
+	if block_lines == 0:
+		for pass_index: int in range(pass_count):
+			_execute_iteration_contexts(
+				contexts, inner_loop.children, pass_index, pass_registers,
+				data, cache_lines, trace, state
+			)
+	else:
+		var block_count: int = ceili(float(ARRAY_LENGTH / CACHE_LINE_INTS) / float(block_lines))
+		for block_index: int in range(block_count):
+			var block_contexts: Array[Dictionary] = []
+			for context: Dictionary in contexts:
+				if int(context["cache_line"]) / block_lines == block_index:
+					block_contexts.append(context)
+			for pass_index: int in range(pass_count):
+				_execute_iteration_contexts(
+					block_contexts, inner_loop.children, pass_index, pass_registers,
+					data, cache_lines, trace, state
+				)
+
+	for pass_index: int in range(pass_count):
+		state["registers"] = pass_registers[pass_index]
+		state["loop_values"] = {}
+		var loop_seen: bool = false
+		for instruction: DSLInstructionType in program.instructions:
+			if instruction == outer_loop:
+				loop_seen = true
+				continue
+			if loop_seen:
+				_execute_block([instruction], data, cache_lines, trace, state)
+
+
+func _execute_iteration_contexts(
+		contexts: Array[Dictionary],
+		body: Array,
+		pass_index: int,
+		pass_registers: Array[Dictionary],
+		data: Array[int],
+		cache_lines: int,
+		trace: SimulationTraceType,
+		state: Dictionary
+	) -> void:
+	state["registers"] = pass_registers[pass_index]
+	for context: Dictionary in contexts:
+		state["loop_values"] = context["loop_values"]
+		_execute_block(body, data, cache_lines, trace, state)
+	pass_registers[pass_index] = state["registers"]
+
+
+func _first_load_instruction(block: Array) -> DSLInstructionType:
+	for instruction: DSLInstructionType in block:
+		if instruction.opcode == &"load" or instruction.opcode == &"add_load":
+			return instruction
+		if not instruction.children.is_empty():
+			var nested: DSLInstructionType = _first_load_instruction(instruction.children)
+			if nested != null:
+				return nested
+	return null
 
 
 func _execute_block(
@@ -95,9 +272,9 @@ func _execute_block(
 					loop_values[instruction.destination] = loop_value
 					_execute_block(instruction.children, data, cache_lines, trace, state)
 			&"load":
-				registers[instruction.destination] = _perform_load(instruction, data, cache_lines, trace, state)
+				registers[instruction.destination] = _perform_data_load(instruction, data, cache_lines, trace, state)
 			&"add_load":
-				var loaded_value: int = _perform_load(instruction, data, cache_lines, trace, state)
+				var loaded_value: int = _perform_data_load(instruction, data, cache_lines, trace, state)
 				registers[instruction.destination] = int(registers[instruction.destination]) + loaded_value
 				_add_compute_event(instruction, int(registers[instruction.destination]), trace, state)
 			&"add":
@@ -115,6 +292,66 @@ func _execute_block(
 				))
 				state["current_cycle"] = int(state["current_cycle"]) + STORE_RESULT_CYCLES
 				state["compute_cycles"] = int(state["compute_cycles"]) + STORE_RESULT_CYCLES
+
+
+func _perform_data_load(
+		instruction: DSLInstructionType,
+		data: Array[int],
+		cache_lines: int,
+		trace: SimulationTraceType,
+		state: Dictionary
+	) -> int:
+	if bool(state.get("bypass_cache", false)):
+		return _perform_direct_load(instruction, data, trace, state)
+	return _perform_load(instruction, data, cache_lines, trace, state)
+
+
+func _perform_direct_load(
+		instruction: DSLInstructionType,
+		data: Array[int],
+		trace: SimulationTraceType,
+		state: Dictionary
+	) -> int:
+	var loop_values: Dictionary = state["loop_values"]
+	var row: int = int(loop_values[instruction.row_index_variable])
+	var column: int = int(loop_values[instruction.column_index_variable])
+	var address: int = row * ARRAY_WIDTH + column
+	var loaded_value: int = data[address]
+	var details: Dictionary = {
+		"instruction_text": instruction.source_text,
+		"array_row": row,
+		"array_column": column,
+		"transfer_bytes": INT_BYTES,
+	}
+
+	trace.add_event(SimulationEventType.new(
+		&"request", int(state["current_cycle"]), 0, &"CPU", &"Bus", address, -1,
+		loaded_value, "LOAD A[%d][%d] → address %d" % [row, column, address],
+		instruction.source_line, [&"CPU", &"Bus"], details
+	))
+	trace.add_event(SimulationEventType.new(
+		&"bus_request", int(state["current_cycle"]), BUS_REQUEST_CYCLES, &"CPU", &"Bus",
+		address, -1, loaded_value, "Bus carries the value request",
+		instruction.source_line, [&"CPU", &"Bus"], details
+	))
+	state["current_cycle"] = int(state["current_cycle"]) + BUS_REQUEST_CYCLES
+	state["wait_cycles"] = int(state["wait_cycles"]) + BUS_REQUEST_CYCLES
+	trace.add_event(SimulationEventType.new(
+		&"ram_access", int(state["current_cycle"]), RAM_ACCESS_CYCLES, &"Bus", &"RAM",
+		address, -1, loaded_value, "RAM reads address %d → %d" % [address, loaded_value],
+		instruction.source_line, [&"Bus", &"RAM"], details
+	))
+	state["current_cycle"] = int(state["current_cycle"]) + RAM_ACCESS_CYCLES
+	state["wait_cycles"] = int(state["wait_cycles"]) + RAM_ACCESS_CYCLES
+	trace.add_event(SimulationEventType.new(
+		&"value_return", int(state["current_cycle"]), BUS_VALUE_TRANSFER_CYCLES, &"RAM", &"CPU",
+		address, -1, loaded_value, "4-byte value returns through Bus",
+		instruction.source_line, [&"RAM", &"Bus", &"CPU"], details
+	))
+	state["current_cycle"] = int(state["current_cycle"]) + BUS_VALUE_TRANSFER_CYCLES
+	state["wait_cycles"] = int(state["wait_cycles"]) + BUS_VALUE_TRANSFER_CYCLES
+	state["ram_bytes"] = int(state["ram_bytes"]) + INT_BYTES
+	return loaded_value
 
 
 func _perform_load(

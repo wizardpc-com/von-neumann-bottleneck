@@ -5,8 +5,8 @@
 Von Neumann Bottleneck is a systems puzzle game about constructing computing abstractions and making their behavior visible. The project currently contains three connected playable slices, selected from a startup hub:
 
 - **CPU Building Prologue:** learn direct wiring, then choose between an arithmetic/CPU line that starts with a 1-bit Half Adder and an independent storage line that starts with an SR latch. Join the resulting ALU and RAM in a four-bit accumulator computer and finish with a visible LOAD/STORE program.
-- **Chapter 1 — Waiting for Data:** connect the player's generated CPU8, RAM64x8, and an 8-bit Bus, then run six prerequisite-gated investigations into CPU speed, RAM latency, Bus width, workload scale, and trace-derived bottlenecks.
-- **Cache Locality Lab v0.2:** edit and explicitly apply a tiny program, investigate its deterministic machine trace, and compare software locality with additional Cache capacity.
+- **Chapter 1 — Waiting for Data:** connect the player's generated CPU8, RAM64x8, and an 8-bit Bus, then follow five prerequisite-gated investigations from prediction through controlled experiment, Trace/Profiler explanation, and bottleneck diagnosis.
+- **Chapter 2 — Keep Data Close:** follow seven short investigations from repeated distant reads through Cache, Locality, Working Set, Blocking/Tiling, and an unguided multi-solution capstone.
 
 These slices are not a complete game. They test successive gameplay hypotheses while sharing deterministic simulation and trace-first presentation principles.
 
@@ -44,20 +44,23 @@ The bridge now hands the player's verified source lineage to **Chapter 1 — Wai
 
 1. Connect the six typed request/write/read routes among CPU, Bus, and RAM. Their visible GraphEdit topology is the topology the simulator validates.
 2. Edit the bounded Python-shaped program, inspect its line-by-line explanation, then use **Confirm & Apply**. An unapplied draft cannot run or create evidence.
-3. Run fixed official cases and inspect exact-path request/data packets plus component-native CPU, Bus, and RAM feedback. Playback controls never affect cycles or results.
-4. Compare two CPUs, two RAM parts, and two Bus widths while the other conditions remain fixed; then run the 4/16/64 workload scale.
-5. In the final level, freely combine encountered parts, pass every official case, and submit CPU/RAM/Bus/mixed from the current aggregate Trace. Cost is recorded but is not an optimization gate.
+3. Before the CPU, RAM, and Bus investigations, lock a prediction. Run a baseline, change only the named part, and use the Before → After comparison to inspect total-cycle and CPU-wait deltas.
+4. Follow exact-path request/data packets and component-native CPU `WAIT`, Bus transfer, and RAM service feedback. Eco → Fast makes arithmetic four times faster in the CPU investigation, but unchanged waiting limits total-cycle improvement to about 15%.
+5. In the final investigation, run the fixed 4/16/64 workloads and submit CPU/RAM/Bus/mixed from raw totals, CPU WAIT, growth, and Trace flow. The complete CPU/RAM/Bus breakdown appears only after the first diagnosis; cost remains evidence rather than an optimization gate.
 
-The Chapter 1 map has six ordered nodes. Game mode requires the prologue handoff; Test mode exposes all six with isolated provenance and progress. Mission, Parts, Program, Test Bench, Profiler, and Run History are independent movable/resizable/minimizable windows. Every first completion uses the same localized lesson-summary, short placeholder cue, and **Continue**-to-map handoff as the prologue.
+The Chapter 1 map has five ordered nodes. Game mode requires the prologue handoff; Test mode exposes all five with isolated provenance and progress. Mission, Parts, Program, Test Bench, Profiler, and Run History are independent movable/resizable/minimizable windows. Completed investigations leave their evidence visible until the player chooses **Review investigation finding**; that action opens the localized lesson summary, short placeholder cue, and **Continue**-to-map handoff.
 
-The preserved v0.2 path remains available from the same hub:
+Chapter 1's final diagnosis unlocks **Chapter 2 — Keep Data Close** in Game mode:
 
-1. Open **Program**, use the Python-shaped reference or load either supplied strategy, and inspect the line-by-line explanation plus address preview. Editing changes only a draft; press **Apply Program** to confirm the exact source Test Bench may execute.
-2. Watch each request progress through Program issue, processing on the actual displayed device body, exact-path wire transfer, and the next component's receive stage. Playback no longer invents a circular internal route or a second component model.
-3. Open **Profiler** beside Program, move or resize either instrument, select a memory event, and use **Inspect in Trace** without losing the editor or investigation layout.
-4. Run the applied source and use its last-executed receipt to confirm cycles and misses. Reach the Official goal—correct result in at most `105` cycles—by changing loop order, replacing the Cache with 2 or 4 lines, or comparing both approaches in Run History.
+1. Observe a Cache-free CPU → Bus → RAM scan and commit an explanation of repeated CPU WAIT; the first level does not reveal Cache terminology.
+2. Compare that 257-cycle direct path with one line of nearby storage. The same row-first program reaches 105 cycles; only after the comparison does the Systems Notebook reveal Cache, Hit, and Miss.
+3. Observe a one-line Cache still taking 321 cycles with column-first access, then repair only the applied loop order. This separates “having Cache” from actually exploiting Locality.
+4. Run two already-row-first passes. The one-line Cache takes 210 cycles because the four-line Working Set cannot survive between passes.
+5. Use the bounded Work Group control to finish both passes one line at a time. The same hardware reaches 138 cycles and reveals Blocking/Tiling without turning the level into a programming exam.
+6. In the capstone, run the given 642-cycle baseline before changing anything. Reach 145 cycles with any valid learned approach: a four-line Cache reaches 138 cycles at cost 13, while a one-line Cache plus line-sized blocking reaches the same 138 cycles at cost 4.
+7. Use the comparison view rather than a raw log: the latest Before → After pair names the changed item and foregrounds total-cycle, CPU-WAIT, far-fetch/near-return, RAM-traffic, and cost evidence. After passing the capstone, keep optimizing or finish the chapter.
 
-With the official data and one-line Cache, both traversal orders return `88`. Column-first records 321 total cycles and 16 misses; row-first records 105 cycles and 4 misses. A four-line Cache also lets the unoptimized column-first program reach 105 cycles, but records hardware cost 13 instead of 4.
+The original v0.2 one-pass results remain covered exactly: column-first/one-line is 321 cycles with 16 misses, row-first/one-line is 105 cycles with 4 misses, and column-first/four-line is 105 cycles at the higher hardware cost. See the [Chapter 2 status](docs/status/chapter-2-reducing-data-movement.md) and [v0.2 baseline](docs/status/prototype-v0.2.md).
 
 ## Test
 
@@ -67,6 +70,7 @@ The repository has addon-free headless simulation and UI tests for both slices:
 $godotConsole = 'godot_console'
 & $godotConsole --headless --path . --log-file '.godot/test-simulation.log' --script res://tests/test_simulation.gd
 & $godotConsole --headless --path . --log-file '.godot/test-ui.log' --script res://tests/test_ui.gd
+& $godotConsole --headless --path . --log-file '.godot/test-locality-chapter-ui.log' --script res://tests/test_locality_chapter_ui.gd
 & $godotConsole --headless --path . --log-file '.godot/test-circuit-simulation.log' --script res://tests/test_circuit_simulation.gd
 & $godotConsole --headless --path . --log-file '.godot/test-hardware-foundations-ui.log' --script res://tests/test_hardware_foundations_ui.gd
 & $godotConsole --headless --path . --log-file '.godot/test-content-registry.log' --script res://tests/test_content_registry.gd
@@ -87,8 +91,9 @@ See [testing details](docs/development/testing.md) for verified outcomes and env
 - [Design principles](docs/design/core-principles.md)
 - [CPU Building Prologue status and limitations](docs/status/cpu-building-prologue.md)
 - [Chapter 1: Waiting for Data status and limitations](docs/status/chapter-1-waiting-for-data.md)
+- [Chapter 2: Keep Data Close status and limitations](docs/status/chapter-2-reducing-data-movement.md)
 - [Historical Hardware Foundations 01 milestone](docs/status/hardware-foundations-01.md)
-- [Current v0.2 status and limitations](docs/status/prototype-v0.2.md)
+- [Preserved v0.2 baseline and limitations](docs/status/prototype-v0.2.md)
 - [Preserved v0.1 status](docs/status/prototype-v0.1.md)
 - [Development documentation](docs/README.md)
 - [Execution-plan policy](PLANS.md)

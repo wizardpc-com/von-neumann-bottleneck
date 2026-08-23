@@ -4,8 +4,9 @@ extends RefCounted
 const ENTRY_TUTORIAL := &"tutorial"
 const ENTRY_HALF_ADDER := &"half_adder"
 const ENTRY_CIRCUIT := &"circuit"
+const ENTRY_LOCALITY := &"locality"
 const VALID_ENTRY_KINDS: Array[StringName] = [
-	ENTRY_TUTORIAL, ENTRY_HALF_ADDER, ENTRY_CIRCUIT,
+	ENTRY_TUTORIAL, ENTRY_HALF_ADDER, ENTRY_CIRCUIT, ENTRY_LOCALITY,
 ]
 
 var id: StringName
@@ -73,8 +74,8 @@ func validation_errors() -> PackedStringArray:
 		errors.append("Campaign level %s has unknown entry kind %s." % [id, entry_kind])
 	if entry_kind == ENTRY_CIRCUIT and not builder.is_valid():
 		errors.append("Circuit campaign level %s must declare a valid builder." % id)
-	if entry_kind == ENTRY_CIRCUIT and description_key.is_empty():
-		errors.append("Circuit campaign level %s must declare a description localization key." % id)
+	if entry_kind in [ENTRY_CIRCUIT, ENTRY_LOCALITY] and description_key.is_empty():
+		errors.append("Campaign level %s must declare a description localization key." % id)
 	var dependency_set: Dictionary[StringName, bool] = {}
 	for dependency: StringName in dependencies:
 		if dependency.is_empty():

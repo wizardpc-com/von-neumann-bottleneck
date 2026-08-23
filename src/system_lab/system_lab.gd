@@ -34,7 +34,6 @@ const COMPLETION_SUMMARY_KEYS := {
 	&"cpu_speed": &"system.completion.summary.cpu_speed",
 	&"ram_wait": &"system.completion.summary.ram_wait",
 	&"bus_width": &"system.completion.summary.bus_width",
-	&"scale_up": &"system.completion.summary.scale_up",
 	&"bottleneck": &"system.completion.summary.bottleneck",
 }
 
@@ -45,7 +44,7 @@ const STANDARD_LAYOUT := {
 }
 
 const WINDOW_LAYOUT := {
-	&"mission": Rect2(16.0, 16.0, 400.0, 305.0),
+	&"mission": Rect2(16.0, 16.0, 420.0, 450.0),
 	&"parts": Rect2(1050.0, 20.0, 430.0, 390.0),
 	&"program": Rect2(35.0, 38.0, 610.0, 540.0),
 	&"test_bench": Rect2(455.0, 50.0, 590.0, 500.0),
@@ -90,7 +89,13 @@ var instrument_layout_size: Vector2 = WINDOW_REFERENCE_SIZE
 var instrument_z_counter: int = 100
 var mission_title_label: Label
 var mission_body_label: Label
+var prediction_box: VBoxContainer
+var prediction_question_label: Label
+var prediction_selector: OptionButton
+var prediction_lock_button: Button
+var prediction_status_label: Label
 var mission_progress_label: Label
+var conclusion_button: Button
 var part_selectors: Dictionary[StringName, OptionButton] = {}
 var parts_summary_label: Label
 var editor: CodeEdit
@@ -120,15 +125,18 @@ var wire_color_menu_button: MenuButton
 var active_wire_color_index: int = WirePaletteType.DEFAULT_INDEX
 
 var draft_dirty: bool = false
+var locked_prediction_id: StringName = &""
 var applied_program: SystemProgram
 var applied_program_source: String = ""
 var latest_receipt
+var revealed_breakdown_receipt_signature: String = ""
 var latest_official_traces: Array[SystemTrace] = []
 var current_trace: SystemTrace
 var playback_index: int = 0
 var playback_elapsed: float = 0.0
 var playback_speed: float = 1.0
 var playback_running: bool = false
+var pending_history_after_playback: bool = false
 var highlighted_source_line: int = -1
 var editor_history: Array[Dictionary] = []
 var editor_redo_history: Array[Dictionary] = []
@@ -357,6 +365,12 @@ func _show_level_completion(level_id: StringName) -> void:
 		_t(StringName(COMPLETION_SUMMARY_KEYS.get(level_id, &"system.completion.summary.assembly"))),
 		_t(&"system.completion.chapter")
 	)
+
+
+func _review_level_conclusion() -> void:
+	if current_level_id.is_empty() or not bool(SystemChapter.completed_levels().get(current_level_id, false)):
+		return
+	_show_level_completion(current_level_id)
 
 
 func _dismiss_level_completion() -> void:
@@ -715,12 +729,44 @@ func _build_mission_instrument() -> Control:
 	box.add_child(mission_title_label)
 	mission_body_label = Label.new()
 	mission_body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	mission_body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	mission_body_label.size_flags_vertical = Control.SIZE_FILL
 	box.add_child(mission_body_label)
+	prediction_box = VBoxContainer.new()
+	prediction_box.add_theme_constant_override("separation", 6)
+	box.add_child(prediction_box)
+	var prediction_title := Label.new()
+	prediction_title.text = _t(&"system.prediction.title")
+	prediction_title.add_theme_color_override("font_color", PURPLE)
+	prediction_box.add_child(prediction_title)
+	prediction_question_label = Label.new()
+	prediction_question_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	prediction_box.add_child(prediction_question_label)
+	var prediction_row := HBoxContainer.new()
+	prediction_box.add_child(prediction_row)
+	prediction_selector = OptionButton.new()
+	prediction_selector.name = "PredictionSelector"
+	prediction_selector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	prediction_selector.item_selected.connect(_on_prediction_selected)
+	prediction_row.add_child(prediction_selector)
+	prediction_lock_button = Button.new()
+	prediction_lock_button.name = "PredictionLockButton"
+	prediction_lock_button.text = _t(&"system.prediction.lock")
+	prediction_lock_button.pressed.connect(_lock_prediction)
+	prediction_row.add_child(prediction_lock_button)
+	prediction_status_label = Label.new()
+	prediction_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	prediction_status_label.add_theme_color_override("font_color", WARNING)
+	prediction_box.add_child(prediction_status_label)
 	mission_progress_label = Label.new()
 	mission_progress_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	mission_progress_label.add_theme_color_override("font_color", WARNING)
 	box.add_child(mission_progress_label)
+	conclusion_button = Button.new()
+	conclusion_button.name = "ReviewLevelConclusionButton"
+	conclusion_button.text = _t(&"system.mission.review_finding")
+	conclusion_button.pressed.connect(_review_level_conclusion)
+	conclusion_button.hide()
+	box.add_child(conclusion_button)
 	return box
 
 
@@ -1006,6 +1052,7 @@ func _save_level_session() -> void:
 		})
 	level_sessions[_level_session_key(current_level_id)] = {
 		"part_ids": selected_part_ids.duplicate(),
+		"prediction_id": locked_prediction_id,
 		"draft_source": editor.text,
 		"applied_source": applied_program_source,
 		"connections": connections,
@@ -1022,6 +1069,7 @@ func _load_level_session() -> void:
 	graph.clear_connection_presentations()
 	_set_selected_system_devices([] as Array[StringName])
 	var session: Dictionary = level_sessions.get(_level_session_key(current_level_id), {})
+	locked_prediction_id = StringName(session.get("prediction_id", &""))
 	selected_part_ids.clear()
 	for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
 		selected_part_ids[kind] = StringName(
@@ -1065,6 +1113,7 @@ func _refresh_level_ui() -> void:
 		_t(catalog.description_key(current_level_id)),
 		_t(StringName(current_level_definition.get("objective_key", &"system.level.unknown.objective"))),
 	]
+	_refresh_prediction_ui()
 	case_selector.clear()
 	for case: Dictionary in current_level_definition.get("cases", []):
 		case_selector.add_item(_case_display(case))
@@ -1073,10 +1122,80 @@ func _refresh_level_ui() -> void:
 	_clear_result_rows()
 	test_status_label.text = _t(&"system.test_bench.not_run")
 	_refresh_program_state()
+	_refresh_comparison_part_lock()
 	_refresh_parts_summary()
 	_refresh_profiler()
 	_refresh_history()
 	_refresh_mission_progress()
+
+
+func _refresh_prediction_ui() -> void:
+	if prediction_box == null:
+		return
+	var question_key := StringName(current_level_definition.get("prediction_key", &""))
+	var options: Array = current_level_definition.get("prediction_options", [])
+	prediction_box.visible = not question_key.is_empty() and not options.is_empty()
+	if not prediction_box.visible:
+		locked_prediction_id = &""
+		return
+	prediction_question_label.text = _t(question_key)
+	prediction_selector.clear()
+	prediction_selector.add_item(_t(&"system.prediction.choose"))
+	prediction_selector.set_item_metadata(0, &"")
+	var locked_index: int = 0
+	for option: Dictionary in options:
+		var option_id := StringName(option.get("id", &""))
+		prediction_selector.add_item(_t(StringName(option.get("text_key", &""))))
+		prediction_selector.set_item_metadata(prediction_selector.item_count - 1, option_id)
+		if option_id == locked_prediction_id:
+			locked_index = prediction_selector.item_count - 1
+	if locked_index == 0:
+		locked_prediction_id = &""
+	prediction_selector.select(locked_index)
+	var is_locked: bool = not locked_prediction_id.is_empty()
+	prediction_selector.disabled = is_locked
+	prediction_lock_button.disabled = is_locked or locked_index == 0
+	prediction_status_label.text = _t(&"system.prediction.locked", [
+		_prediction_option_text(locked_prediction_id)
+	]) if is_locked else ""
+	prediction_status_label.add_theme_color_override("font_color", GOOD if is_locked else WARNING)
+
+
+func _on_prediction_selected(index: int) -> void:
+	if prediction_selector == null or not locked_prediction_id.is_empty():
+		return
+	var selected_id := StringName(prediction_selector.get_item_metadata(index))
+	prediction_lock_button.disabled = selected_id.is_empty()
+
+
+func _lock_prediction() -> void:
+	if prediction_selector == null or not locked_prediction_id.is_empty():
+		return
+	var selected_id := StringName(prediction_selector.get_item_metadata(prediction_selector.selected))
+	if selected_id.is_empty():
+		return
+	locked_prediction_id = selected_id
+	_refresh_prediction_ui()
+	_refresh_program_state()
+	_refresh_history()
+
+
+func _prediction_required() -> bool:
+	return not StringName(current_level_definition.get("prediction_key", &"")).is_empty()
+
+
+func _prediction_option_text(prediction_id: StringName) -> String:
+	for option: Dictionary in current_level_definition.get("prediction_options", []):
+		if StringName(option.get("id", &"")) == prediction_id:
+			return _t(StringName(option.get("text_key", &"")))
+	return String(prediction_id)
+
+
+func _reset_prediction() -> void:
+	if not _prediction_required():
+		return
+	locked_prediction_id = &""
+	_refresh_prediction_ui()
 
 
 func _populate_part_selectors() -> void:
@@ -1094,10 +1213,71 @@ func _populate_part_selectors() -> void:
 			selected_part_ids[kind] = StringName(selector.get_item_metadata(selected_index))
 
 
+func _comparison_kind() -> StringName:
+	return StringName(current_level_definition.get("comparison_kind", &"none"))
+
+
+func _is_part_comparison() -> bool:
+	return _comparison_kind() in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]
+
+
+func _has_current_baseline_receipt() -> bool:
+	if not _is_part_comparison() or applied_program == null or not applied_program.is_valid():
+		return false
+	var comparison_kind := _comparison_kind()
+	var default_id: StringName = catalog.default_part_id(current_level_id, comparison_kind)
+	var program_signature: String = applied_program.canonical_signature()
+	var test_signature: String = catalog.test_set_signature(current_level_id)
+	for receipt: Variant in SystemChapter.receipts_for(current_level_id):
+		if (
+			receipt == null
+			or not receipt.all_passed
+			or receipt.level_id != current_level_id
+			or receipt.program_signature != program_signature
+			or receipt.test_set_signature != test_signature
+			or StringName(receipt.part_ids.get(comparison_kind, &"")) != default_id
+		):
+			continue
+		var fixed_parts_match: bool = true
+		for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
+			if kind != comparison_kind and receipt.part_ids.get(kind, &"") != selected_part_ids.get(kind, &""):
+				fixed_parts_match = false
+				break
+		if fixed_parts_match:
+			return true
+	return false
+
+
+func _refresh_comparison_part_lock() -> void:
+	for selector: OptionButton in part_selectors.values():
+		selector.disabled = false
+	if not _is_part_comparison():
+		return
+	var comparison_kind := _comparison_kind()
+	var selector: OptionButton = part_selectors[comparison_kind]
+	var baseline_ready: bool = _has_current_baseline_receipt()
+	if not baseline_ready:
+		var default_id: StringName = catalog.default_part_id(current_level_id, comparison_kind)
+		selected_part_ids[comparison_kind] = default_id
+		for index: int in range(selector.item_count):
+			if StringName(selector.get_item_metadata(index)) == default_id:
+				selector.select(index)
+				break
+		current_topology = _topology_from_graph()
+		_refresh_device_titles()
+	selector.disabled = not baseline_ready
+
+
 func _on_part_selected(index: int, kind: StringName) -> void:
 	if current_level_id.is_empty():
 		return
 	var selector: OptionButton = part_selectors[kind]
+	if selector.disabled:
+		for selected_index: int in range(selector.item_count):
+			if StringName(selector.get_item_metadata(selected_index)) == selected_part_ids.get(kind, &""):
+				selector.select(selected_index)
+				break
+		return
 	selected_part_ids[kind] = StringName(selector.get_item_metadata(index))
 	current_topology = _topology_from_graph()
 	latest_receipt = null
@@ -1619,11 +1799,16 @@ func _apply_program() -> void:
 	applied_program = parsed
 	applied_program_source = editor.text
 	draft_dirty = false
+	_reset_prediction()
 	latest_receipt = null
 	latest_official_traces.clear()
 	_stop_playback()
 	_validate_program_editor()
 	_refresh_program_state()
+	_refresh_comparison_part_lock()
+	_refresh_device_titles()
+	_refresh_parts_summary()
+	_refresh_history()
 	status_label.text = _t(&"system.status.program_applied")
 	status_label.add_theme_color_override("font_color", GOOD)
 
@@ -1637,7 +1822,8 @@ func _refresh_program_state() -> void:
 	else:
 		program_apply_label.text = _t(&"system.program.applied")
 		program_apply_label.add_theme_color_override("font_color", GOOD)
-	debug_run_button.disabled = draft_dirty or applied_program == null or not applied_program.is_valid()
+	var prediction_ready: bool = not _prediction_required() or not locked_prediction_id.is_empty()
+	debug_run_button.disabled = draft_dirty or applied_program == null or not applied_program.is_valid() or not prediction_ready
 	official_run_button.disabled = debug_run_button.disabled
 
 
@@ -1675,6 +1861,8 @@ func _run_debug_case() -> void:
 	test_status_label.text = _t(&"system.test_bench.debug_pass") if trace.passed else _t(&"system.test_bench.debug_fail")
 	test_status_label.add_theme_color_override("font_color", GOOD if trace.passed else BAD)
 	latest_receipt = null
+	pending_history_after_playback = false
+	_close_instrument(&"history")
 	_play_trace(trace)
 	_refresh_profiler(trace.metrics)
 
@@ -1702,16 +1890,22 @@ func _run_official() -> void:
 		selected_part_ids
 	)
 	SystemChapter.record_receipt(current_level_id, latest_receipt)
+	_refresh_comparison_part_lock()
 	if latest_receipt.all_passed:
 		test_status_label.text = _t(&"system.test_bench.official_pass", [latest_receipt.passed_cases, latest_receipt.total_cases])
 		test_status_label.add_theme_color_override("font_color", GOOD)
 	else:
 		test_status_label.text = _t(&"system.test_bench.official_fail", [latest_receipt.passed_cases, latest_receipt.total_cases])
 		test_status_label.add_theme_color_override("font_color", BAD)
+	pending_history_after_playback = _comparison_kind() != &"none"
+	_close_instrument(&"history")
 	if not latest_official_traces.is_empty():
 		_play_trace(latest_official_traces[0])
 	_refresh_profiler(latest_receipt.metrics)
 	_refresh_history()
+	if pending_history_after_playback and not playback_running:
+		pending_history_after_playback = false
+		_open_instrument(&"history")
 	_evaluate_completion(&"")
 
 
@@ -1725,6 +1919,21 @@ func _prepare_run() -> bool:
 		status_label.add_theme_color_override("font_color", WARNING)
 		_open_instrument(&"program")
 		return false
+	if _prediction_required() and locked_prediction_id.is_empty():
+		status_label.text = _t(&"system.status.prediction_required")
+		status_label.add_theme_color_override("font_color", WARNING)
+		_open_instrument(&"mission")
+		return false
+	if _is_part_comparison() and not _has_current_baseline_receipt():
+		var comparison_kind := _comparison_kind()
+		var default_id: StringName = catalog.default_part_id(current_level_id, comparison_kind)
+		if selected_part_ids.get(comparison_kind, &"") != default_id:
+			status_label.text = _t(&"system.status.baseline_required")
+			status_label.add_theme_color_override("font_color", WARNING)
+			_refresh_comparison_part_lock()
+			_refresh_parts_summary()
+			_open_instrument(&"parts")
+			return false
 	current_topology = _topology_from_graph()
 	var errors: PackedStringArray = current_topology.validation_errors()
 	if not errors.is_empty():
@@ -1740,6 +1949,8 @@ func _confirm_diagnosis() -> void:
 		test_status_label.text = _t(&"system.diagnosis.run_first")
 		test_status_label.add_theme_color_override("font_color", WARNING)
 		return
+	revealed_breakdown_receipt_signature = latest_receipt.canonical_signature()
+	_refresh_profiler(latest_receipt.metrics)
 	var selected := StringName(diagnosis_selector.get_item_metadata(diagnosis_selector.selected))
 	_evaluate_completion(selected)
 
@@ -1748,7 +1959,6 @@ func _evaluate_completion(selected_diagnosis: StringName) -> void:
 	var receipts: Array = SystemChapter.receipts_for(current_level_id)
 	var completion: Dictionary = catalog.completion_status(current_level_id, receipts, selected_diagnosis)
 	if bool(completion.get("complete", false)):
-		var newly_completed: bool = not bool(SystemChapter.completed_levels().get(current_level_id, false))
 		SystemChapter.mark_completed(current_level_id)
 		mission_progress_label.text = _t(&"system.mission.complete")
 		mission_progress_label.add_theme_color_override("font_color", GOOD)
@@ -1759,16 +1969,19 @@ func _evaluate_completion(selected_diagnosis: StringName) -> void:
 				_t(StringName("system.diagnosis.%s" % String(latest_receipt.diagnosed_bottleneck)))
 			])
 			test_status_label.add_theme_color_override("font_color", GOOD)
-		if newly_completed:
-			call_deferred("_show_level_completion", current_level_id)
 	else:
 		var reason := StringName(completion.get("reason", &"run_required"))
-		if reason == &"diagnosis_required" and not selected_diagnosis.is_empty():
-			test_status_label.text = _t(&"system.diagnosis.incorrect")
-			test_status_label.add_theme_color_override("font_color", BAD)
-		status_label.text = _t(&"system.status.evidence_progress", [
-			int(completion.get("progress", 0)), int(completion.get("required", 1))
-		])
+		if reason == &"diagnosis_required":
+			if selected_diagnosis.is_empty():
+				status_label.text = _t(&"system.status.diagnosis_ready")
+			else:
+				test_status_label.text = _t(&"system.diagnosis.incorrect")
+				test_status_label.add_theme_color_override("font_color", BAD)
+				status_label.text = _t(&"system.status.diagnosis_retry")
+		else:
+			status_label.text = _t(&"system.status.evidence_progress", [
+				int(completion.get("progress", 0)), int(completion.get("required", 1))
+			])
 		status_label.add_theme_color_override("font_color", WARNING)
 	_refresh_mission_progress(selected_diagnosis)
 
@@ -1784,11 +1997,13 @@ func _refresh_mission_progress(selected_diagnosis: StringName = &"") -> void:
 	if bool(SystemChapter.completed_levels().get(current_level_id, false)):
 		mission_progress_label.text = _t(&"system.mission.complete")
 		mission_progress_label.add_theme_color_override("font_color", GOOD)
+		conclusion_button.show()
 	else:
 		mission_progress_label.text = _t(&"system.mission.progress", [
 			int(completion.get("progress", 0)), int(completion.get("required", 1))
 		])
 		mission_progress_label.add_theme_color_override("font_color", WARNING)
+		conclusion_button.hide()
 
 
 func _clear_result_rows() -> void:
@@ -1815,6 +2030,15 @@ func _add_result_row(trace: SystemTrace) -> void:
 func _refresh_profiler(metrics: Dictionary = {}) -> void:
 	var tier: int = int(current_level_definition.get("profiler_tier", 1)) if not current_level_definition.is_empty() else 1
 	var has_trace: bool = not metrics.is_empty()
+	var diagnosis_required: bool = bool(current_level_definition.get("diagnosis_required", false))
+	var breakdown_revealed: bool = (
+		latest_receipt != null
+		and latest_receipt.canonical_signature() == revealed_breakdown_receipt_signature
+	)
+	var final_raw_metrics: Array[StringName] = [
+		&"total_cycles", &"cpu_wait_cycles", &"memory_requests",
+		&"bus_segments_per_word", &"bytes_transferred", &"hardware_cost",
+	]
 	var visibility := {
 		&"total_cycles": 1,
 		&"cpu_compute_cycles": 2,
@@ -1826,12 +2050,17 @@ func _refresh_profiler(metrics: Dictionary = {}) -> void:
 		&"bus_segments_per_word": 4,
 		&"bytes_transferred": 5,
 		&"hardware_cost": 5,
-		&"shares": 6,
+		&"shares": 5,
 	}
 	for metric: StringName in profiler_labels:
 		var label: Label = profiler_labels[metric]
 		label.visible = tier >= int(visibility[metric])
+		if diagnosis_required and not breakdown_revealed:
+			label.visible = metric in final_raw_metrics or metric == &"shares"
 		if not label.visible:
+			continue
+		if metric == &"shares" and diagnosis_required and not breakdown_revealed:
+			label.text = _t(&"system.profiler.breakdown_locked")
 			continue
 		if not has_trace:
 			label.text = _t(&"system.profiler.no_data", [_profiler_metric_name(metric)])
@@ -1857,23 +2086,140 @@ func _profiler_metric_name(metric: StringName) -> String:
 func _refresh_history() -> void:
 	if history_label == null or current_level_id.is_empty():
 		return
-	var receipts: Array = SystemChapter.receipts_for(current_level_id)
+	var receipts: Array = []
+	var current_program_signature: String = applied_program.canonical_signature() if applied_program != null and applied_program.is_valid() else ""
+	var current_test_signature: String = catalog.test_set_signature(current_level_id)
+	for receipt: Variant in SystemChapter.receipts_for(current_level_id):
+		if (
+			receipt != null
+			and receipt.all_passed
+			and receipt.test_set_signature == current_test_signature
+			and (current_program_signature.is_empty() or receipt.program_signature == current_program_signature)
+		):
+			receipts.append(receipt)
 	var lines := PackedStringArray(["[color=#50d5ff]%s[/color]" % _t(&"system.history.heading")])
+	if not locked_prediction_id.is_empty():
+		lines.append(_t(&"system.history.prediction", [_prediction_option_text(locked_prediction_id)]))
 	if receipts.is_empty():
 		lines.append(_t(&"system.history.empty"))
 	else:
-		var start: int = maxi(0, receipts.size() - RUN_HISTORY_LIMIT)
-		for index: int in range(receipts.size() - 1, start - 1, -1):
-			var receipt = receipts[index]
-			lines.append(_t(&"system.history.row", [
-				index + 1,
-				String(receipt.part_ids.get(&"cpu", &"?")),
-				String(receipt.part_ids.get(&"ram", &"?")),
-				String(receipt.part_ids.get(&"bus", &"?")),
-				int(receipt.metrics.get("total_cycles", 0)),
-				int(receipt.metrics.get("hardware_cost", 0)),
+		var comparison_kind := StringName(current_level_definition.get("comparison_kind", &"none"))
+		var pair: Array = _latest_controlled_pair(receipts, comparison_kind)
+		if pair.size() == 2:
+			var before = pair[0]
+			var after = pair[1]
+			lines.append("[color=#bc8cff]%s[/color]" % _t(&"system.history.comparison", [
+				_friendly_part_name(StringName(before.part_ids.get(comparison_kind, &""))),
+				_friendly_part_name(StringName(after.part_ids.get(comparison_kind, &""))),
+			]))
+			lines.append(_t(&"system.history.only_changed", [_part_kind_name(comparison_kind)]))
+			lines.append(_t(&"system.history.fixed", [_fixed_control_summary(before, comparison_kind)]))
+			var before_total: int = int(before.metrics.get("total_cycles", 0))
+			var after_total: int = int(after.metrics.get("total_cycles", 0))
+			lines.append(_t(&"system.history.total_delta", [
+				before_total, after_total, _history_delta(after_total - before_total, before_total, true),
+			]))
+			var before_wait: int = int(before.metrics.get("cpu_wait_cycles", 0))
+			var after_wait: int = int(after.metrics.get("cpu_wait_cycles", 0))
+			lines.append(_t(&"system.history.wait_delta", [
+				before_wait, after_wait, _history_delta(after_wait - before_wait, before_wait, false),
+			]))
+			var metric := _comparison_history_metric(comparison_kind)
+			if not metric.is_empty():
+				var before_metric: int = int(before.metrics.get(String(metric), before.metrics.get(metric, 0)))
+				var after_metric: int = int(after.metrics.get(String(metric), after.metrics.get(metric, 0)))
+				lines.append(_t(&"system.history.metric_delta", [
+					_profiler_metric_name(metric), before_metric, after_metric,
+					_history_delta(after_metric - before_metric, before_metric, false),
+				]))
+		else:
+			var baseline = receipts[receipts.size() - 1]
+			var evidence_key := &"system.history.observation" if comparison_kind == &"diagnosis" else &"system.history.baseline"
+			lines.append(_t(evidence_key, [_machine_summary(baseline)]))
+			lines.append(_t(&"system.history.baseline_metrics", [
+				int(baseline.metrics.get("total_cycles", 0)),
+				int(baseline.metrics.get("cpu_wait_cycles", 0)),
+			]))
+			if comparison_kind in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
+				lines.append(_t(&"system.history.next", [_part_kind_name(comparison_kind)]))
+	if bool(current_level_definition.get("diagnosis_required", false)) and latest_official_traces.size() > 1:
+		lines.append("[color=#bc8cff]%s[/color]" % _t(&"system.history.workload_heading"))
+		for trace: SystemTrace in latest_official_traces:
+			lines.append(_t(&"system.history.workload_row", [
+				trace.test_name,
+				int(trace.metrics.get("total_cycles", 0)),
+				int(trace.metrics.get("cpu_wait_cycles", 0)),
 			]))
 	history_label.text = "\n".join(lines)
+
+
+func _latest_controlled_pair(receipts: Array, comparison_kind: StringName) -> Array:
+	if comparison_kind not in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
+		return []
+	var start: int = maxi(0, receipts.size() - RUN_HISTORY_LIMIT)
+	for after_index: int in range(receipts.size() - 1, start - 1, -1):
+		var after = receipts[after_index]
+		for before_index: int in range(after_index - 1, start - 1, -1):
+			var before = receipts[before_index]
+			if before.program_signature != after.program_signature or before.test_set_signature != after.test_set_signature:
+				continue
+			if before.part_ids.get(comparison_kind, &"") == after.part_ids.get(comparison_kind, &""):
+				continue
+			var controlled: bool = true
+			for fixed_kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
+				if fixed_kind != comparison_kind and before.part_ids.get(fixed_kind, &"") != after.part_ids.get(fixed_kind, &""):
+					controlled = false
+					break
+			if controlled:
+				return [before, after]
+	return []
+
+
+func _machine_summary(receipt: Variant) -> String:
+	var parts := PackedStringArray()
+	for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
+		parts.append(_friendly_part_name(StringName(receipt.part_ids.get(kind, &""))))
+	return " / ".join(parts)
+
+
+func _fixed_control_summary(receipt: Variant, comparison_kind: StringName) -> String:
+	var controls := PackedStringArray()
+	for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
+		if kind == comparison_kind:
+			continue
+		controls.append("%s=%s" % [
+			_part_kind_name(kind), _friendly_part_name(StringName(receipt.part_ids.get(kind, &""))),
+		])
+	return " · ".join(controls)
+
+
+func _friendly_part_name(part_id: StringName) -> String:
+	var part: SystemPartSpec = catalog.part(part_id)
+	return part.display_name if part != null else String(part_id)
+
+
+func _part_kind_name(kind: StringName) -> String:
+	return _t(StringName("system.part.%s" % String(kind)))
+
+
+func _comparison_history_metric(comparison_kind: StringName) -> StringName:
+	match comparison_kind:
+		PartSpecType.KIND_CPU:
+			return &"cpu_compute_cycles"
+		PartSpecType.KIND_RAM:
+			return &"ram_service_cycles"
+		PartSpecType.KIND_BUS:
+			return &"bus_transfer_cycles"
+	return &""
+
+
+func _history_delta(change: int, baseline: int, include_percent: bool) -> String:
+	var signed_change: String = "+%d" % change if change > 0 else str(change)
+	if not include_percent or baseline == 0:
+		return signed_change
+	var percent: int = roundi(float(change) * 100.0 / float(baseline))
+	var signed_percent: String = "+%d%%" % percent if percent > 0 else "%d%%" % percent
+	return "%s · %s" % [signed_change, signed_percent]
 
 
 func _play_trace(trace: SystemTrace) -> void:
@@ -2056,10 +2402,14 @@ func _finish_playback() -> void:
 	_clear_source_highlight()
 	pause_button.text = _t(&"system.playback.resume")
 	playback_caption.text = _t(&"system.playback.complete")
+	if pending_history_after_playback:
+		pending_history_after_playback = false
+		_open_instrument(&"history")
 
 
 func _stop_playback() -> void:
 	playback_running = false
+	pending_history_after_playback = false
 	current_trace = null
 	playback_index = 0
 	playback_elapsed = 0.0
@@ -2150,6 +2500,7 @@ func _capture_system_workspace() -> void:
 		_auto_connect()
 		_open_instrument(&"program")
 		_open_instrument(&"profiler")
+		_open_instrument(&"mission")
 
 
 func _capture_system_run() -> void:
@@ -2157,8 +2508,11 @@ func _capture_system_run() -> void:
 		return
 	_start_level(&"bus_width")
 	_auto_connect()
+	prediction_selector.select(1)
+	_lock_prediction()
 	_run_official()
 	playback_running = false
+	pending_history_after_playback = false
 	for panel: FloatingInstrumentPanel in instrument_windows.values():
 		panel.hide()
 	# Wait for GraphNode slot layout so the frozen QA packet uses final displayed

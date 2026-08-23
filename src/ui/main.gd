@@ -26,6 +26,9 @@ const MUTED := Color("91a0b9")
 const TEXT := Color("e9f0fa")
 const OFFICIAL_CYCLE_TARGET: int = 105
 const RUN_HISTORY_LIMIT: int = 8
+const KEY_EVIDENCE_EVENT_KINDS: Array[StringName] = [
+	&"cache_hit", &"cache_miss", &"cache_evict", &"ram_access", &"store_result",
+]
 
 const CACHE_CONNECTIONS: Array = [
 	[&"ProgramController", 0, &"CPU", 0],
@@ -97,6 +100,7 @@ var mission_type_label: Label
 var mission_objective_label: Label
 var mission_progress_label: Label
 var mission_judgment_box: VBoxContainer
+var mission_review_button: Button
 var mission_finish_button: Button
 var mission_judgment_buttons: Dictionary[StringName, Button] = {}
 var program_validation_label: Label
@@ -110,6 +114,8 @@ var row_strategy_button: Button
 var playback_label: Label
 var pause_button: Button
 var step_button: Button
+var next_evidence_button: Button
+var finish_playback_button: Button
 var speed_selector: OptionButton
 var mode_selector: GameModeSelectorType
 var fullscreen_button: FullscreenButtonType
@@ -149,8 +155,12 @@ var playback_index: int = 0
 var playback_elapsed: float = 0.0
 var playback_speed: float = 1.0
 var playback_running: bool = false
+var playback_completed: bool = false
+var playback_index_is_next_unshown: bool = false
 var highlighted_source_line: int = -1
 var active_component: StringName = &""
+var pending_completion_review: bool = false
+var pending_review_level_id: StringName = &""
 
 
 func _ready() -> void:
@@ -547,6 +557,12 @@ func _build_mission_instrument() -> Control:
 	panel.add_child(mission_progress_label)
 	mission_judgment_box = VBoxContainer.new()
 	panel.add_child(mission_judgment_box)
+	mission_review_button = Button.new()
+	mission_review_button.name = "ReviewFindingButton"
+	mission_review_button.text = _t(&"chapter2.review.finding")
+	mission_review_button.visible = false
+	mission_review_button.pressed.connect(_review_pending_finding)
+	panel.add_child(mission_review_button)
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_child(spacer)
@@ -554,7 +570,7 @@ func _build_mission_instrument() -> Control:
 	mission_finish_button.name = "Chapter2FinishButton"
 	mission_finish_button.text = _t(&"chapter2.capstone.finish")
 	mission_finish_button.visible = false
-	mission_finish_button.pressed.connect(_show_chapter_map)
+	mission_finish_button.pressed.connect(_show_capstone_summary)
 	panel.add_child(mission_finish_button)
 	var map_button := Button.new()
 	map_button.text = _t(&"chapter2.map.return")
@@ -836,6 +852,16 @@ func _build_playback_panel() -> Control:
 	step_button.disabled = true
 	step_button.pressed.connect(_step_trace)
 	controls.add_child(step_button)
+	next_evidence_button = Button.new()
+	next_evidence_button.text = _t(&"trace.playback.next_evidence")
+	next_evidence_button.disabled = true
+	next_evidence_button.pressed.connect(_jump_to_next_evidence)
+	controls.add_child(next_evidence_button)
+	finish_playback_button = Button.new()
+	finish_playback_button.text = _t(&"trace.playback.finish_now")
+	finish_playback_button.disabled = true
+	finish_playback_button.pressed.connect(_finish_playback_early)
+	controls.add_child(finish_playback_button)
 	speed_selector = OptionButton.new()
 	for speed: float in [0.5, 1.0, 2.0, 4.0]:
 		speed_selector.add_item(str(speed).trim_suffix(".0") + "x")
@@ -863,6 +889,7 @@ func _build_playback_panel() -> Control:
 func _show_chapter_map() -> void:
 	if level_completion_overlay != null:
 		level_completion_overlay.dismiss()
+	_clear_pending_review()
 	if chapter_map_host == null or lab_host == null:
 		return
 	lab_host.hide()
@@ -899,6 +926,7 @@ func _refresh_chapter_map() -> void:
 func _start_level(level_id: StringName) -> void:
 	if level_completion_overlay != null:
 		level_completion_overlay.dismiss()
+	_clear_pending_review()
 	var completed: Dictionary = LocalityChapter.completed_levels()
 	if not catalog.is_unlocked(level_id, completed, LocalityChapter.chapter_unlocked(), GameMode.is_test_mode()):
 		_set_status(_t(&"chapter2.status.level_locked"), WARNING)
@@ -915,6 +943,9 @@ func _start_level(level_id: StringName) -> void:
 	current_cache_lines = int(current_level.get("default_cache_lines", 1))
 	current_bypass_cache = bool(current_level.get("bypass_cache", false)) or current_cache_lines == 0
 	run_history.clear()
+	var paired_baseline: Variant = _paired_baseline_receipt(level_id)
+	if paired_baseline != null:
+		run_history.append(_history_record_from_receipt(paired_baseline))
 	for receipt: Variant in LocalityChapter.receipts_for(level_id):
 		if receipt != null:
 			run_history.append(_history_record_from_receipt(receipt))
@@ -1019,7 +1050,11 @@ func _select_judgment(judgment_id: StringName) -> void:
 		var option_text: String = button.text.trim_prefix("✓ ")
 		button.text = ("✓ " if option_id == judgment_id else "") + option_text
 	_evaluate_level_completion()
-	if not bool(LocalityChapter.completed_levels().get(current_level_id, false)):
+	_refresh_level_decision_controls()
+	_rebuild_profiler()
+	if pending_completion_review:
+		_set_status(_t(&"chapter2.status.review_pending"), GOOD)
+	elif not bool(LocalityChapter.completed_levels().get(current_level_id, false)):
 		_set_status(_t(&"chapter2.status.judgment_recheck"), WARNING)
 
 
@@ -1028,25 +1063,99 @@ func _evaluate_level_completion() -> void:
 		return
 	var already_complete: bool = bool(LocalityChapter.completed_levels().get(current_level_id, false))
 	var completion: Dictionary = catalog.completion_status(
-		current_level_id, LocalityChapter.receipts_for(current_level_id), selected_judgment
+		current_level_id, _completion_receipts(), selected_judgment
 	)
 	if bool(completion.get("complete", false)) and not already_complete:
-		LocalityChapter.mark_completed(current_level_id)
-		_refresh_cache_controls()
-		_refresh_block_controls()
-		_configure_graph_for_level()
-		_update_notebook()
-		_rebuild_profiler()
 		if current_level_id == &"capstone":
-			_set_status(_t(&"chapter2.status.capstone_complete"), GOOD)
-		else:
-			level_completion_overlay.present(
-				current_level_id,
-				_t(catalog.title_key(current_level_id)),
-				_t(StringName("chapter2.level.%s.learned" % String(current_level_id))),
-				_t(&"chapter2.completion.chapter")
-			)
+			if (
+				GameMode.is_test_mode()
+				or (
+					playback_completed
+					and _current_run_supports_review()
+					and LocalityChapter.capstone_first_experiment_observed()
+				)
+			):
+				_complete_current_level()
+		elif _current_run_supports_review():
+			pending_completion_review = true
+			pending_review_level_id = current_level_id
+	elif (not bool(completion.get("complete", false)) or not _current_run_supports_review()) and pending_review_level_id == current_level_id:
+		_clear_pending_review()
 	_update_mission_progress()
+
+
+func _review_pending_finding() -> void:
+	if not _pending_review_ready():
+		return
+	var completion: Dictionary = catalog.completion_status(
+		current_level_id, _completion_receipts(), selected_judgment
+	)
+	if not bool(completion.get("complete", false)) or not _current_run_supports_review():
+		_clear_pending_review()
+		_update_mission_progress()
+		return
+	_complete_current_level()
+
+
+func _complete_current_level() -> void:
+	if current_level_id.is_empty() or bool(LocalityChapter.completed_levels().get(current_level_id, false)):
+		return
+	var completed_level: StringName = current_level_id
+	_clear_pending_review()
+	LocalityChapter.mark_completed(completed_level)
+	_refresh_cache_controls()
+	_refresh_block_controls()
+	_configure_graph_for_level()
+	_update_notebook()
+	_rebuild_profiler()
+	if completed_level == &"capstone":
+		_set_status(_t(&"chapter2.status.capstone_complete"), GOOD)
+	else:
+		level_completion_overlay.present(
+			completed_level,
+			_t(catalog.title_key(completed_level)),
+			_t(StringName("chapter2.level.%s.learned" % String(completed_level))),
+			_t(&"chapter2.completion.chapter")
+		)
+	_update_mission_progress()
+
+
+func _clear_pending_review() -> void:
+	pending_completion_review = false
+	pending_review_level_id = &""
+	if mission_review_button != null:
+		mission_review_button.visible = false
+
+
+func _pending_review_ready() -> bool:
+	return (
+		pending_completion_review
+		and pending_review_level_id == current_level_id
+		and current_trace != null
+		and playback_completed
+	)
+
+
+func _current_run_supports_review() -> bool:
+	if current_trace == null or current_trace.test_name != "Official Test Set" or not current_trace.passed:
+		return false
+	var completion_kind := StringName(current_level.get("completion_kind", &"run"))
+	if completion_kind == &"judgment":
+		return selected_judgment == StringName(current_level.get("correct_judgment", &""))
+	if completion_kind == &"cache_exploration":
+		return (
+			not current_bypass_cache
+			and int(current_trace.metrics.get("cache_misses", 0)) > 0
+			and int(current_trace.metrics.get("cache_hits", 0)) > 0
+		)
+	if completion_kind == &"performance":
+		if not current_goal_met:
+			return false
+		if current_level_id == &"access_order":
+			return DSLParserType.parse(applied_program_source).traversal_pattern() == "row-first"
+		if current_level_id == &"blocking":
+			return current_block_lines > 0
+	return true
 
 
 func _update_mission_progress() -> void:
@@ -1054,21 +1163,66 @@ func _update_mission_progress() -> void:
 		return
 	var complete: bool = bool(LocalityChapter.completed_levels().get(current_level_id, false))
 	var completion: Dictionary = catalog.completion_status(
-		current_level_id, LocalityChapter.receipts_for(current_level_id), selected_judgment
+		current_level_id, _completion_receipts(), selected_judgment
 	)
-	var reason := &"complete" if complete else StringName(completion.get("reason", &"run_required"))
+	var reason := (
+		&"complete" if complete
+		else (&"review_required" if pending_completion_review else StringName(completion.get("reason", &"run_required")))
+	)
 	mission_progress_label.text = _t(StringName("chapter2.progress.%s" % String(reason)), [
 		int(completion.get("progress", 0)), int(completion.get("required", 1))
 	])
 	mission_progress_label.add_theme_color_override("font_color", GOOD if complete else WARNING)
-	var evidence_available: bool = not LocalityChapter.receipts_for(current_level_id).is_empty()
+	var evidence_available: bool = not _completion_receipts().is_empty()
 	for button: Button in mission_judgment_buttons.values():
 		button.disabled = not evidence_available or complete
+	mission_review_button.visible = _pending_review_ready()
 	mission_finish_button.visible = current_level_id == &"capstone" and complete
 
 
 func _on_level_completion_continue(_level_id: StringName) -> void:
 	_show_chapter_map()
+
+
+func _show_capstone_summary() -> void:
+	if current_level_id != &"capstone" or not bool(LocalityChapter.completed_levels().get(&"capstone", false)):
+		return
+	var baseline: Variant = null
+	var best: Variant = null
+	var target_cycles: int = int(current_level.get("target_cycles", 0))
+	for receipt: Variant in LocalityChapter.receipts_for(&"capstone"):
+		if receipt == null or not receipt.passed:
+			continue
+		if catalog.capstone_baseline_seen([receipt]):
+			baseline = receipt
+		var cycles: int = int(receipt.metrics.get("total_cycles", 0))
+		if cycles > target_cycles:
+			continue
+		if best == null:
+			best = receipt
+			continue
+		var best_cycles: int = int(best.metrics.get("total_cycles", 0))
+		var cost: int = int(receipt.metrics.get("hardware_cost", 0))
+		var best_cost: int = int(best.metrics.get("hardware_cost", 0))
+		if cycles < best_cycles or (cycles == best_cycles and cost < best_cost):
+			best = receipt
+	if baseline == null or best == null:
+		return
+	var baseline_cycles: int = int(baseline.metrics.get("total_cycles", 0))
+	var best_cycles: int = int(best.metrics.get("total_cycles", 0))
+	var baseline_wait: int = int(baseline.metrics.get("wait_cycles", 0))
+	var best_wait: int = int(best.metrics.get("wait_cycles", 0))
+	var best_record: Dictionary = _history_record_from_receipt(best)
+	level_completion_overlay.present(
+		&"capstone",
+		_t(catalog.title_key(&"capstone")),
+		_t(&"chapter2.capstone.summary", [
+			baseline_cycles, best_cycles, baseline_cycles - best_cycles,
+			baseline_wait, best_wait, baseline_wait - best_wait,
+			int(best.metrics.get("hardware_cost", 0)), _history_config_text(best_record),
+		]),
+		_t(&"chapter2.completion.chapter")
+	)
 
 
 func _on_chapter_progression_changed() -> void:
@@ -1138,6 +1292,28 @@ func _history_record_from_receipt(receipt: Variant) -> Dictionary:
 	}
 
 
+func _completion_receipts() -> Array:
+	if current_level_id.is_empty():
+		return []
+	var receipts: Array = LocalityChapter.receipts_for(current_level_id)
+	var paired_baseline: Variant = _paired_baseline_receipt(current_level_id)
+	if paired_baseline != null:
+		receipts.push_front(paired_baseline)
+	return receipts
+
+
+func _paired_baseline_receipt(level_id: StringName) -> Variant:
+	var source_level: StringName = catalog.paired_baseline_level(level_id)
+	if source_level.is_empty():
+		return null
+	var source_receipts: Array = LocalityChapter.receipts_for(source_level)
+	for index: int in range(source_receipts.size() - 1, -1, -1):
+		var receipt: Variant = source_receipts[index]
+		if catalog.is_qualifying_paired_baseline(level_id, receipt):
+			return receipt
+	return null
+
+
 func _open_instrument(id: StringName) -> void:
 	if not instrument_windows.has(id):
 		return
@@ -1193,7 +1369,7 @@ func _reset_starter_program() -> void:
 
 
 func _load_strategy(source: String, strategy_name: String) -> void:
-	if not bool(current_level.get("program_editable", false)):
+	if not bool(current_level.get("program_editable", false)) or _capstone_decisions_locked():
 		_set_status(_t(&"chapter2.status.program_locked"), MUTED)
 		return
 	var localized_strategy: String = _strategy_text(strategy_name)
@@ -1263,6 +1439,9 @@ func _validate_program_editor() -> DSLProgramType:
 
 
 func _apply_program() -> void:
+	if _capstone_decisions_locked():
+		_set_status(_t(&"chapter2.status.program_locked"), MUTED)
+		return
 	var program: DSLProgramType = DSLParserType.parse(editor.text)
 	if not program.is_valid():
 		_validate_program_editor()
@@ -1271,6 +1450,8 @@ func _apply_program() -> void:
 	if editor.text == applied_program_source:
 		_validate_program_editor()
 		_set_status(_t(&"locality.status.program_already_applied"), GOOD)
+		return
+	if not _capstone_first_change_allowed(&"program", editor.text != ProgramTemplatesType.COLUMN_FIRST):
 		return
 	applied_program_source = editor.text
 	program_dirty = false
@@ -1318,7 +1499,7 @@ func _on_debug_data_changed(_value: float) -> void:
 
 
 func _refresh_level_decision_controls() -> void:
-	var program_editable: bool = bool(current_level.get("program_editable", false)) and not _capstone_baseline_pending()
+	var program_editable: bool = bool(current_level.get("program_editable", false)) and not _capstone_decisions_locked()
 	editor.editable = program_editable
 	column_strategy_button.disabled = not program_editable
 	row_strategy_button.disabled = not program_editable
@@ -1334,9 +1515,75 @@ func _capstone_baseline_pending() -> bool:
 	)
 
 
+func _capstone_diagnosis_complete() -> bool:
+	if current_level_id != &"capstone" or GameMode.is_test_mode():
+		return true
+	if bool(LocalityChapter.completed_levels().get(&"capstone", false)):
+		return true
+	return selected_judgment == StringName(current_level.get("correct_judgment", &""))
+
+
+func _capstone_decisions_locked() -> bool:
+	return _capstone_baseline_pending() or not _capstone_diagnosis_complete()
+
+
+func _capstone_breakdown_locked() -> bool:
+	return (
+		current_level_id == &"capstone"
+		and not GameMode.is_test_mode()
+		and not _capstone_diagnosis_complete()
+	)
+
+
+func _capstone_first_experiment_pending() -> bool:
+	if (
+		current_level_id != &"capstone"
+		or GameMode.is_test_mode()
+		or not _capstone_diagnosis_complete()
+	):
+		return false
+	return not LocalityChapter.capstone_first_experiment_observed()
+
+
+func _current_trace_is_modified_capstone_experiment() -> bool:
+	return (
+		current_level_id == &"capstone"
+		and current_trace != null
+		and current_trace.test_name == "Official Test Set"
+		and (
+			applied_program_source != ProgramTemplatesType.COLUMN_FIRST
+			or current_cache_lines != 1
+			or current_bypass_cache
+			or current_block_lines != 0
+		)
+	)
+
+
+func _capstone_first_change_allowed(lever: StringName, differs_from_baseline: bool) -> bool:
+	if not _capstone_first_experiment_pending():
+		return true
+	var changed_levers: Array[StringName] = []
+	if applied_program_source != ProgramTemplatesType.COLUMN_FIRST:
+		changed_levers.append(&"program")
+	if current_cache_lines != 1 or current_bypass_cache:
+		changed_levers.append(&"memory_path")
+	if current_block_lines != 0:
+		changed_levers.append(&"work_group")
+	if differs_from_baseline and lever not in changed_levers:
+		changed_levers.append(lever)
+	elif not differs_from_baseline:
+		changed_levers.erase(lever)
+	if changed_levers.size() <= 1:
+		return true
+	_set_status(_t(&"chapter2.status.first_experiment_one_change"), WARNING)
+	return false
+
+
 func _select_cache(lines: int, invalidate: bool = true) -> void:
 	var choices: Array = current_level.get("cache_choices", [])
-	if lines not in choices:
+	if lines not in choices or (_capstone_decisions_locked() and lines != current_cache_lines):
+		return
+	if not _capstone_first_change_allowed(&"memory_path", lines != 1):
 		return
 	var changed: bool = current_cache_lines != lines or current_bypass_cache != (lines == 0)
 	current_cache_lines = lines
@@ -1351,7 +1598,7 @@ func _select_cache(lines: int, invalidate: bool = true) -> void:
 
 func _refresh_cache_controls() -> void:
 	var choices: Array = current_level.get("cache_choices", [])
-	var decisions_locked: bool = _capstone_baseline_pending()
+	var decisions_locked: bool = _capstone_decisions_locked()
 	for option: int in cache_card_buttons:
 		var button: Button = cache_card_buttons[option]
 		button.visible = option in choices
@@ -1381,7 +1628,9 @@ func _cache_choice_name(lines: int) -> String:
 
 func _select_block_lines(lines: int, invalidate: bool = true) -> void:
 	var choices: Array = current_level.get("block_choices", [])
-	if lines not in choices:
+	if lines not in choices or (_capstone_decisions_locked() and lines != current_block_lines):
+		return
+	if not _capstone_first_change_allowed(&"work_group", lines != 0):
 		return
 	var changed: bool = current_block_lines != lines
 	current_block_lines = lines
@@ -1393,7 +1642,7 @@ func _select_block_lines(lines: int, invalidate: bool = true) -> void:
 
 func _refresh_block_controls() -> void:
 	var choices: Array = current_level.get("block_choices", [])
-	var decisions_locked: bool = _capstone_baseline_pending()
+	var decisions_locked: bool = _capstone_decisions_locked()
 	for option: int in block_card_buttons:
 		var button: Button = block_card_buttons[option]
 		button.visible = option in choices
@@ -1427,6 +1676,10 @@ func _run_simulation(test_name: String) -> void:
 	if not program.is_valid():
 		_set_status(_t(&"locality.status.run_blocked_applied_invalid"), BAD)
 		return
+	_clear_pending_review()
+	var mission_window: FloatingInstrumentPanel = instrument_windows.get(&"mission")
+	if mission_window != null and mission_window.visible and not mission_window.minimized:
+		mission_window.set_minimized(true)
 	var data: Array[int] = []
 	if test_name == "Official Test Set":
 		data = SimulationCoreType.official_data_copy()
@@ -1449,9 +1702,13 @@ func _run_simulation(test_name: String) -> void:
 	playback_index = 0
 	playback_elapsed = 0.0
 	playback_running = not current_trace.events.is_empty()
+	playback_completed = current_trace.events.is_empty()
+	playback_index_is_next_unshown = false
 	pause_button.text = _t(&"common.pause")
 	pause_button.disabled = not playback_running
 	step_button.disabled = current_trace.events.is_empty()
+	next_evidence_button.disabled = current_trace.events.is_empty()
+	finish_playback_button.disabled = current_trace.events.is_empty()
 	trace_progress.value = 0.0
 	if playback_running:
 		_show_event_text(current_trace.events[0])
@@ -1506,7 +1763,8 @@ func _record_run(program: DSLProgramType, data: Array[int]) -> void:
 	}
 	run_history.append(record)
 	while run_history.size() > RUN_HISTORY_LIMIT:
-		run_history.pop_front()
+		# Index 0 is the authored or inherited baseline; discard the oldest experiment instead.
+		run_history.remove_at(1 if run_history.size() > 1 else 0)
 	if is_official:
 		var receipt := LocalityRunReceiptType.new()
 		receipt.populate(
@@ -1522,6 +1780,16 @@ func _update_history_label() -> void:
 		profiler_history_label.text = _t(&"profiler.history.empty")
 		return
 	var lines := PackedStringArray()
+	if _capstone_breakdown_locked():
+		var raw: Dictionary = run_history[run_history.size() - 1]
+		lines.append(_t(&"chapter2.capstone.history.raw_title"))
+		lines.append(_t(&"chapter2.capstone.history.raw_metrics", [
+			int(raw["cycles"]), int(raw["wait_cycles"]),
+			SimulationCoreType.ARRAY_LENGTH * int(raw.get("passes", 1)),
+		]))
+		lines.append(_t(&"chapter2.capstone.history.diagnose_first"))
+		profiler_history_label.text = "\n".join(lines)
+		return
 	if run_history.size() == 1:
 		var baseline: Dictionary = run_history[0]
 		lines.append(_t(&"chapter2.history.baseline", [_history_config_text(baseline)]))
@@ -1532,7 +1800,7 @@ func _update_history_label() -> void:
 		lines.append(_t(&"chapter2.history.run_again"))
 		profiler_history_label.text = "\n".join(lines)
 		return
-	var before: Dictionary = run_history[run_history.size() - 2]
+	var before: Dictionary = run_history[0]
 	var after: Dictionary = run_history[run_history.size() - 1]
 	var cycle_delta: int = int(after["cycles"]) - int(before["cycles"])
 	var wait_delta: int = int(after["wait_cycles"]) - int(before["wait_cycles"])
@@ -1557,6 +1825,12 @@ func _update_history_label() -> void:
 		int(before["misses"]), int(after["misses"]), int(before["hits"]), int(after["hits"]),
 		int(before["ram_bytes"]), int(after["ram_bytes"])
 	]))
+	if run_history.size() > 2:
+		var best: Dictionary = _best_history_record()
+		if not best.is_empty():
+			lines.append(_t(&"chapter2.history.personal_best", [
+				int(best["cycles"]), int(best["wait_cycles"]), int(best["cost"]), _history_config_text(best)
+			]))
 	profiler_history_label.text = "\n".join(lines)
 
 
@@ -1584,6 +1858,23 @@ func _history_changed_items(before: Dictionary, after: Dictionary) -> PackedStri
 	return changes
 
 
+func _best_history_record() -> Dictionary:
+	var best: Dictionary = {}
+	for record: Dictionary in run_history:
+		if String(record.get("test", "")) != "Official Test Set" or not bool(record.get("correct", false)):
+			continue
+		if best.is_empty():
+			best = record
+			continue
+		var cycles: int = int(record.get("cycles", 0))
+		var best_cycles: int = int(best.get("cycles", 0))
+		var cost: int = int(record.get("cost", 0))
+		var best_cost: int = int(best.get("cost", 0))
+		if cycles < best_cycles or (cycles == best_cycles and cost < best_cost):
+			best = record
+	return best
+
+
 func _signed_number(value: int) -> String:
 	return "+%d" % value if value > 0 else str(value)
 
@@ -1604,12 +1895,17 @@ func _rebuild_profiler() -> void:
 		return
 	var metrics: Dictionary = current_trace.metrics
 	var profiler_tier: int = int(current_level.get("profiler_tier", 2))
+	var breakdown_locked: bool = _capstone_breakdown_locked()
 	var target_cycles: int = int(current_level.get("target_cycles", 0))
 	var goal_text: String = (
 		_t(&"outcome.target_met") if current_goal_met
 		else (_t(&"outcome.correct_over_target") if current_trace.passed and target_cycles > 0 else (_t(&"outcome.correct") if current_trace.passed else _t(&"outcome.incorrect")))
 	)
-	if profiler_tier < 2:
+	if breakdown_locked:
+		profiler_summary_label.text = _t(&"chapter2.capstone.profiler.raw_summary", [
+			goal_text, int(metrics["total_cycles"]), int(metrics["wait_cycles"]),
+		])
+	elif profiler_tier < 2:
 		profiler_summary_label.text = _t(
 			&"chapter2.profiler.summary.direct" if current_bypass_cache else &"chapter2.profiler.summary.basic",
 			[
@@ -1627,10 +1923,10 @@ func _rebuild_profiler() -> void:
 	var cycles: TreeItem = profiler_tree.create_item(root)
 	cycles.set_text(0, _t(&"profiler.tree.cycles"))
 	cycles.set_text(1, str(metrics["total_cycles"]))
-	if profiler_tier >= 2:
+	if profiler_tier >= 2 and not breakdown_locked:
 		_add_tree_value(cycles, _t(&"profiler.tree.compute"), int(metrics["compute_cycles"]))
 	var waiting: TreeItem = _add_tree_value(cycles, _t(&"profiler.tree.waiting"), int(metrics["wait_cycles"]))
-	if profiler_tier >= 2:
+	if profiler_tier >= 2 and not breakdown_locked:
 		var breakdown: Dictionary[StringName, int] = {
 			&"cache_lookup": 0,
 			&"bus_request": 0,
@@ -1658,6 +1954,12 @@ func _rebuild_profiler() -> void:
 			request_count += 1
 	memory.set_text(0, _t(&"profiler.tree.memory_accesses"))
 	memory.set_text(1, str(request_count))
+	if breakdown_locked:
+		var locked: TreeItem = profiler_tree.create_item(memory)
+		locked.set_text(0, _t(&"chapter2.capstone.profiler.breakdown_locked"))
+		locked.set_text(1, "—")
+		_update_history_label()
+		return
 	if current_bypass_cache:
 		_add_tree_value(memory, _t(&"chapter2.profiler.tree.ram_reads"), request_count)
 		_update_history_label()
@@ -1679,7 +1981,54 @@ func _rebuild_profiler() -> void:
 			[event.cache_line]
 		))
 		item.set_metadata(0, event_index)
+	_add_schedule_evidence(memory)
 	_update_history_label()
+
+
+func _add_schedule_evidence(memory: TreeItem) -> void:
+	var grouped_events: Dictionary = {}
+	var group_order: PackedStringArray = []
+	for event_index: int in range(current_trace.events.size()):
+		var event: SimulationEventType = current_trace.events[event_index]
+		if event.kind not in [&"cache_hit", &"cache_miss", &"cache_evict"]:
+			continue
+		var pass_index: int = int(event.details.get("pass_index", -1))
+		var group_index: int = int(event.details.get("work_group_index", -1))
+		var group_key := "%d:%d" % [group_index, pass_index]
+		if not grouped_events.has(group_key):
+			grouped_events[group_key] = []
+			group_order.append(group_key)
+		(grouped_events[group_key] as Array).append(event_index)
+	if group_order.is_empty():
+		return
+	var schedule: TreeItem = profiler_tree.create_item(memory)
+	schedule.set_text(0, _t(&"chapter2.profiler.tree.schedule"))
+	var evidence_count: int = 0
+	for group_key: String in group_order:
+		evidence_count += (grouped_events[group_key] as Array).size()
+	schedule.set_text(1, str(evidence_count))
+	for group_key: String in group_order:
+		var indices: Array = grouped_events[group_key]
+		var first_event: SimulationEventType = current_trace.events[int(indices[0])]
+		var pass_index: int = int(first_event.details.get("pass_index", -1))
+		var group_index: int = int(first_event.details.get("work_group_index", -1))
+		var group_item: TreeItem = profiler_tree.create_item(schedule)
+		group_item.set_text(0, _t(
+			&"chapter2.profiler.tree.pass_group" if group_index >= 0 else &"chapter2.profiler.tree.pass",
+			[group_index + 1, pass_index + 1] if group_index >= 0 else [pass_index + 1]
+		))
+		group_item.set_text(1, str(indices.size()))
+		group_item.set_metadata(1, {"pass_index": pass_index, "work_group_index": group_index})
+		group_item.collapsed = true
+		for event_index: int in indices:
+			var event: SimulationEventType = current_trace.events[event_index]
+			var item: TreeItem = profiler_tree.create_item(group_item)
+			item.set_text(0, _t(&"chapter2.profiler.tree.schedule_event", [event.cycle, _event_message(event)]))
+			item.set_text(1, _t(
+				&"profiler.tree.cache_line" if LocalityChapter.concept_unlocked(&"cache") else &"chapter2.profiler.tree.data_block",
+				[event.cache_line]
+			))
+			item.set_metadata(0, event_index)
 
 
 func _add_tree_value(parent: TreeItem, label_text: String, value: int) -> TreeItem:
@@ -1707,6 +2056,13 @@ func _on_profiler_item_selected() -> void:
 		event.address, event.cache_line, int(event.details.get("line_base_address", -1)),
 		int(event.details.get("line_base_address", -1)) + 3, str(event.details.get("line_values", []))
 	])
+	var pass_index: int = int(event.details.get("pass_index", -1))
+	var group_index: int = int(event.details.get("work_group_index", -1))
+	if pass_index >= 0:
+		profiler_detail_label.text += "\n" + _t(
+			&"chapter2.profiler.event_schedule.pass_group" if group_index >= 0 else &"chapter2.profiler.event_schedule.pass",
+			[group_index + 1, pass_index + 1] if group_index >= 0 else [pass_index + 1]
+		)
 	profiler_detail_label.add_theme_color_override("font_color", WARNING)
 	inspect_event_button.disabled = false
 
@@ -1716,6 +2072,7 @@ func _inspect_profiler_event() -> void:
 		return
 	playback_running = false
 	playback_index = selected_profiler_event_index
+	playback_index_is_next_unshown = false
 	playback_elapsed = 0.0
 	pause_button.text = _t(&"common.resume")
 	var event: SimulationEventType = current_trace.events[playback_index]
@@ -1731,10 +2088,18 @@ func _toggle_pause() -> void:
 	if playback_index >= current_trace.events.size():
 		playback_index = 0
 		playback_elapsed = 0.0
+		playback_completed = false
 		trace_progress.value = 0.0
 		_show_event_text(current_trace.events[0])
+		next_evidence_button.disabled = false
+		finish_playback_button.disabled = false
+		playback_index_is_next_unshown = false
+	elif playback_index_is_next_unshown:
+		_show_event_text(current_trace.events[playback_index])
+		playback_index_is_next_unshown = false
 	playback_running = not playback_running
 	pause_button.text = _t(&"common.pause") if playback_running else _t(&"common.resume")
+	_update_mission_progress()
 
 
 func _step_trace() -> void:
@@ -1744,12 +2109,48 @@ func _step_trace() -> void:
 	pause_button.text = _t(&"common.resume")
 	if playback_index >= current_trace.events.size():
 		playback_index = 0
+		playback_completed = false
 	var event: SimulationEventType = current_trace.events[playback_index]
 	_show_event_text(event)
 	_draw_event(event, 1.0)
 	playback_index += 1
+	playback_index_is_next_unshown = playback_index < current_trace.events.size()
 	playback_elapsed = 0.0
 	_update_trace_progress(0.0)
+	if playback_index >= current_trace.events.size():
+		_finish_playback()
+	else:
+		_update_mission_progress()
+
+
+func _jump_to_next_evidence() -> void:
+	if current_trace == null or current_trace.events.is_empty():
+		return
+	var target_index: int = -1
+	var search_start: int = playback_index if playback_index_is_next_unshown else playback_index + 1
+	for event_index: int in range(search_start, current_trace.events.size()):
+		if current_trace.events[event_index].kind in KEY_EVIDENCE_EVENT_KINDS:
+			target_index = event_index
+			break
+	if target_index < 0:
+		_finish_playback()
+		return
+	playback_running = false
+	playback_index = target_index
+	playback_index_is_next_unshown = false
+	playback_elapsed = 0.0
+	pause_button.text = _t(&"common.resume")
+	var event: SimulationEventType = current_trace.events[playback_index]
+	_show_event_text(event)
+	_draw_event(event, 1.0)
+	_update_trace_progress(1.0)
+	_update_mission_progress()
+
+
+func _finish_playback_early() -> void:
+	if current_trace == null or current_trace.events.is_empty():
+		return
+	_finish_playback()
 
 
 func _on_speed_selected(index: int) -> void:
@@ -2058,13 +2459,25 @@ func _show_event_text(event: SimulationEventType) -> void:
 
 func _finish_playback() -> void:
 	playback_running = false
+	playback_completed = true
+	if current_trace != null:
+		playback_index = current_trace.events.size()
+	playback_index_is_next_unshown = false
 	pause_button.text = _t(&"common.replay")
+	next_evidence_button.disabled = true
+	finish_playback_button.disabled = true
 	trace_overlay.clear_event()
 	trace_progress.value = 100.0
 	_reset_device_feedback()
 	_highlight_source_line(-1)
 	playback_label.text = _t(&"trace.playback.complete")
 	playback_label.add_theme_color_override("font_color", GOOD)
+	if _current_trace_is_modified_capstone_experiment():
+		LocalityChapter.mark_capstone_first_experiment_observed()
+		_refresh_level_decision_controls()
+	_evaluate_level_completion()
+	if pending_completion_review:
+		_set_status(_t(&"chapter2.status.review_ready"), GOOD)
 
 
 func _event_color(kind: StringName) -> Color:
@@ -2175,14 +2588,19 @@ func _device_name(device: StringName) -> String:
 
 
 func _invalidate_current_run(reason: String) -> void:
+	_clear_pending_review()
 	current_trace = null
 	current_goal_met = false
 	playback_running = false
+	playback_completed = false
 	playback_index = 0
+	playback_index_is_next_unshown = false
 	playback_elapsed = 0.0
 	pause_button.text = _t(&"common.pause")
 	pause_button.disabled = true
 	step_button.disabled = true
+	next_evidence_button.disabled = true
+	finish_playback_button.disabled = true
 	trace_overlay.clear_event()
 	trace_progress.value = 0.0
 	playback_label.text = _t(&"trace.playback.inputs_changed")

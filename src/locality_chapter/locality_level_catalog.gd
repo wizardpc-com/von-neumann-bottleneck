@@ -4,12 +4,18 @@ extends RefCounted
 const RegistryType = preload("res://src/content/campaign_content_registry.gd")
 const ManifestType = preload("res://src/content/locality/locality_content_manifest.gd")
 const ProgramTemplatesType = preload("res://src/simulation/program_templates.gd")
+const SimulationCoreType = preload("res://src/simulation/simulation_core.gd")
 
 const LEVEL_IDS: Array[StringName] = [
 	&"distant_reads", &"nearby_storage", &"cache_failure", &"access_order",
 	&"working_set", &"blocking", &"capstone",
 ]
 const CAPSTONE_TARGET_CYCLES := 145
+const PAIRED_BASELINE_LEVELS: Dictionary[StringName, StringName] = {
+	&"nearby_storage": &"distant_reads",
+	&"access_order": &"cache_failure",
+	&"blocking": &"working_set",
+}
 
 var _registry
 var _levels: Dictionary[StringName, Dictionary] = {}
@@ -75,7 +81,7 @@ func localization_keys() -> Array[StringName]:
 			keys.append(StringName("chapter2.notebook.%s.%s" % [String(concept_id), field]))
 	for cognitive_type: String in ["observation", "exploration", "implementation", "capstone"]:
 		keys.append(StringName("chapter2.level_type.%s" % cognitive_type))
-	for reason: String in ["run_required", "judgment_required", "compare_required", "baseline_required", "target_required", "complete", "unknown_level"]:
+	for reason: String in ["run_required", "judgment_required", "compare_required", "baseline_required", "diagnosis_required", "review_required", "target_required", "complete", "unknown_level"]:
 		keys.append(StringName("chapter2.progress.%s" % reason))
 	keys.sort()
 	return keys
@@ -87,7 +93,9 @@ func completion_status(level_id: StringName, receipts: Array, selected_judgment:
 		return {"complete": false, "progress": 0, "required": 1, "reason": &"unknown_level"}
 	var valid_receipts: Array = []
 	for receipt: Variant in receipts:
-		if receipt != null and receipt.level_id == level_id and receipt.passed:
+		if receipt != null and receipt.passed and (
+			receipt.level_id == level_id or is_qualifying_paired_baseline(level_id, receipt)
+		):
 			valid_receipts.append(receipt)
 	var completion_kind := StringName(level.get("completion_kind", &"run"))
 	if completion_kind == &"judgment":
@@ -119,8 +127,14 @@ func completion_status(level_id: StringName, receipts: Array, selected_judgment:
 	if completion_kind == &"performance":
 		var target: int = int(level.get("target_cycles", 0))
 		var baseline_seen: bool = level_id != &"capstone" or capstone_baseline_seen(valid_receipts)
+		var diagnosis_correct: bool = (
+			level_id != &"capstone"
+			or selected_judgment == StringName(level.get("correct_judgment", &""))
+		)
 		var target_seen := false
 		for receipt: Variant in valid_receipts:
+			if receipt.level_id != level_id:
+				continue
 			if int(receipt.metrics.get("total_cycles", 0)) > target:
 				continue
 			if level_id == &"access_order" and receipt.traversal_pattern != "row-first":
@@ -131,10 +145,13 @@ func completion_status(level_id: StringName, receipts: Array, selected_judgment:
 			break
 		if level_id == &"capstone":
 			return {
-				"complete": baseline_seen and target_seen,
-				"progress": int(baseline_seen) + int(target_seen),
-				"required": 2,
-				"reason": &"complete" if baseline_seen and target_seen else (&"baseline_required" if not baseline_seen else &"target_required"),
+				"complete": baseline_seen and diagnosis_correct and target_seen,
+				"progress": int(baseline_seen) + int(diagnosis_correct) + int(target_seen),
+				"required": 3,
+				"reason": (
+					&"complete" if baseline_seen and diagnosis_correct and target_seen
+					else (&"baseline_required" if not baseline_seen else (&"diagnosis_required" if not diagnosis_correct else &"target_required"))
+				),
 			}
 		if target_seen:
 			return {"complete": true, "progress": 1, "required": 1, "reason": &"complete"}
@@ -154,18 +171,79 @@ func completion_status(level_id: StringName, receipts: Array, selected_judgment:
 
 func capstone_baseline_seen(receipts: Array) -> bool:
 	for receipt: Variant in receipts:
-		if (
-			receipt != null
-			and receipt.level_id == &"capstone"
-			and receipt.passed
-			and not receipt.bypass_cache
-			and receipt.traversal_pattern == "column-first"
-			and receipt.cache_lines == 1
-			and receipt.pass_count == 2
-			and receipt.block_lines == 0
-		):
+		if _is_capstone_baseline_receipt(receipt):
 			return true
 	return false
+
+
+func capstone_modified_experiment_seen(receipts: Array) -> bool:
+	for receipt: Variant in receipts:
+		if receipt != null and receipt.level_id == &"capstone" and not _is_capstone_baseline_receipt(receipt):
+			return true
+	return false
+
+
+func _is_capstone_baseline_receipt(receipt: Variant) -> bool:
+	return (
+		receipt != null
+		and receipt.level_id == &"capstone"
+		and receipt.passed
+		and receipt.program_signature == ProgramTemplatesType.COLUMN_FIRST.sha256_text()
+		and receipt.data_signature == JSON.stringify(SimulationCoreType.official_data_copy()).sha256_text()
+		and not receipt.bypass_cache
+		and receipt.traversal_pattern == "column-first"
+		and receipt.cache_lines == 1
+		and receipt.pass_count == 2
+		and receipt.block_lines == 0
+	)
+
+
+func paired_baseline_level(level_id: StringName) -> StringName:
+	return PAIRED_BASELINE_LEVELS.get(level_id, &"")
+
+
+func is_qualifying_paired_baseline(level_id: StringName, receipt: Variant) -> bool:
+	if receipt == null or not receipt.passed:
+		return false
+	var source_level: StringName = paired_baseline_level(level_id)
+	if source_level.is_empty() or receipt.level_id != source_level:
+		return false
+	if receipt.data_signature != JSON.stringify(SimulationCoreType.official_data_copy()).sha256_text():
+		return false
+	var expected: Dictionary = {
+		&"nearby_storage": {
+			"program_signature": ProgramTemplatesType.ROW_FIRST.sha256_text(),
+			"traversal_pattern": "row-first",
+			"cache_lines": 0,
+			"pass_count": 1,
+			"block_lines": 0,
+			"bypass_cache": true,
+		},
+		&"access_order": {
+			"program_signature": ProgramTemplatesType.COLUMN_FIRST.sha256_text(),
+			"traversal_pattern": "column-first",
+			"cache_lines": 1,
+			"pass_count": 1,
+			"block_lines": 0,
+			"bypass_cache": false,
+		},
+		&"blocking": {
+			"program_signature": ProgramTemplatesType.ROW_FIRST.sha256_text(),
+			"traversal_pattern": "row-first",
+			"cache_lines": 1,
+			"pass_count": 2,
+			"block_lines": 0,
+			"bypass_cache": false,
+		},
+	}.get(level_id, {})
+	return (
+		receipt.program_signature == String(expected.get("program_signature", ""))
+		and receipt.traversal_pattern == String(expected.get("traversal_pattern", ""))
+		and receipt.cache_lines == int(expected.get("cache_lines", -1))
+		and receipt.pass_count == int(expected.get("pass_count", -1))
+		and receipt.block_lines == int(expected.get("block_lines", -1))
+		and receipt.bypass_cache == bool(expected.get("bypass_cache", false))
+	)
 
 
 func validation_errors() -> PackedStringArray:
@@ -210,7 +288,8 @@ func _build_levels() -> void:
 		[&"mission", &"test_bench", &"blocking", &"profiler", &"notebook"], &"performance", CAPSTONE_TARGET_CYCLES)
 	_register_level(&"capstone", 6, ProgramTemplatesType.COLUMN_FIRST, true, 1, [1, 2, 4], 2, [0, 1, 2, 4], 0, false, 2,
 		[&"mission", &"program", &"test_bench", &"cache", &"blocking", &"profiler", &"notebook"],
-		&"performance", CAPSTONE_TARGET_CYCLES)
+		&"performance", CAPSTONE_TARGET_CYCLES,
+		&"repeated_far_fetch", _judgments("capstone", [&"repeated_far_fetch", &"more_cpu_math", &"wrong_result"]))
 
 
 func _register_level(

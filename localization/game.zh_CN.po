@@ -112,16 +112,16 @@ msgid "hardware.prologue.open_system"
 msgstr "用我的 CPU 与 RAM 进入第 1 章"
 
 msgid "hub.locality.title"
-msgstr "缓存局部性实验室"
+msgstr "第 2 章：让数据留在近处"
 
 msgid "hub.locality.eyebrow"
-msgstr "保留的 v0.2 原型"
+msgstr "缓存 · 局部性 · 工作集"
 
 msgid "hub.locality.description"
-msgstr "原有的“草稿 → 应用 → 执行”局部性实验继续保留，作为历史和设计证据。"
+msgstr "通过七次短调查，从重复的远程读取一路追查到缓存、局部性、工作集、分块与最终自主诊断。"
 
 msgid "hub.locality.open"
-msgstr "打开 v0.2 局部性实验室"
+msgstr "进入章节地图"
 
 msgid "hub.note"
 msgstr "这些可玩切片验证不同的玩法假设；它们共同组成正在生长的游戏。"
@@ -449,6 +449,12 @@ msgstr "[%03d/%03d] 周期 %d +%d · 源代码第 %d 行 · %s"
 
 msgid "trace.playback.complete"
 msgstr "追踪完成 — 回放只读取预先计算的追踪，没有改变结果。"
+
+msgid "trace.playback.next_evidence"
+msgstr "下一关键证据"
+
+msgid "trace.playback.finish_now"
+msgstr "结束播放"
 
 msgid "trace.playback.inputs_changed"
 msgstr "输入已改变。请重新运行以生成匹配的追踪证据。"
@@ -1955,6 +1961,9 @@ msgstr "代码尚不能应用"
 msgid "system.status.program_applied"
 msgstr "代码已确认并应用；新运行将使用这一版本"
 
+msgid "system.status.official_program_required"
+msgstr "第 1 章的推进需要本关官方 workload；这次自定义运行只作为调试证据。"
+
 msgid "system.status.apply_required"
 msgstr "草稿尚未应用；测试只运行已确认的代码"
 
@@ -2187,7 +2196,10 @@ msgid "system.dsl.explanation.store"
 msgstr "经 CPU → Bus → RAM 写回一个结果字节：%s"
 
 msgid "system.test_bench.help"
-msgstr "单例调试不计入解锁。官方测试会运行固定用例，并生成绑定当前代码、线路和零件的证据单。"
+msgstr "单例调试和自定义程序不计入解锁。官方 workload 会运行固定用例，并生成绑定当前线路和零件的证据单。"
+
+msgid "system.test_bench.custom_program_debug_only"
+msgstr "自定义程序调试结果：通过 %d / %d 个用例。只有官方 workload 会生成第 1 章的推进证据。"
 
 msgid "system.test_bench.case"
 msgstr "%s · 输入 %s"
@@ -2669,6 +2681,15 @@ msgstr "已选择工作分组：%s。"
 msgid "chapter2.status.judgment_recheck"
 msgstr "现有证据尚不支持这个判断。请重新检查 Trace 和 Profiler。"
 
+msgid "chapter2.status.review_pending"
+msgstr "证据支持你的发现。先看完 Trace，再打开调查发现。"
+
+msgid "chapter2.status.review_ready"
+msgstr "Trace 回顾完成。准备好后，打开调查发现。"
+
+msgid "chapter2.status.first_experiment_one_change"
+msgstr "第一次实验只改变一个杠杆；先运行并观察结果，再组合方案。"
+
 msgid "chapter2.status.run_complete"
 msgstr "%s · 总计 %d cycles · CPU WAIT %d · RAM %d B。"
 
@@ -2753,6 +2774,12 @@ msgstr "证据 %d/%d · 分别在关闭和启用近处存储时运行。"
 msgid "chapter2.progress.baseline_required"
 msgstr "证据 %d/%d · 修改前，先运行给定机器。"
 
+msgid "chapter2.progress.diagnosis_required"
+msgstr "证据 %d/%d · 根据 baseline 的原始 Trace 提交解释。"
+
+msgid "chapter2.progress.review_required"
+msgstr "证据 %d/%d · 回顾已完成的 Trace，再打开调查发现。"
+
 msgid "chapter2.progress.target_required"
 msgstr "证据 %d/%d · 结果正确，但仍高于 cycle 目标。"
 
@@ -2813,6 +2840,27 @@ msgstr "每块 %d line\n每个 tile 含 %d 个整数"
 msgid "chapter2.capstone.finish"
 msgstr "完成章节"
 
+msgid "chapter2.review.finding"
+msgstr "打开调查发现"
+
+msgid "chapter2.capstone.summary"
+msgstr "BASELINE → 最佳结果\n总周期：%d → %d cycles（减少 %d）\nCPU WAIT：%d → %d cycles（减少 %d）\n硬件成本：%d\n最佳配置：%s\n\n你在修改机器前先诊断了重复的远程取数。多种解法仍然有效。"
+
+msgid "chapter2.capstone.profiler.raw_summary"
+msgstr "%s\n原始证据 · 总计 %d cycles · CPU WAIT %d cycles"
+
+msgid "chapter2.capstone.history.raw_title"
+msgstr "首次诊断前 · 原始运行证据"
+
+msgid "chapter2.capstone.history.raw_metrics"
+msgstr "总计 %d cycles · CPU WAIT %d cycles · 数据请求 %d"
+
+msgid "chapter2.capstone.history.diagnose_first"
+msgstr "先根据 Trace 与数据流提交诊断；完整内存拆分随后揭示。"
+
+msgid "chapter2.capstone.profiler.breakdown_locked"
+msgstr "提交 baseline 诊断后解锁完整 breakdown"
+
 msgid "chapter2.profiler.summary.direct"
 msgstr "%s\n总计 %d · CPU WAIT %d · 近处返回 %d · 远端获取 %d · RAM %d B"
 
@@ -2836,6 +2884,24 @@ msgstr "选择一次远端获取，查看其源代码行和返回的数据块。
 
 msgid "chapter2.profiler.tree.data_block"
 msgstr "数据块 %d"
+
+msgid "chapter2.profiler.tree.schedule"
+msgstr "调度证据"
+
+msgid "chapter2.profiler.tree.pass"
+msgstr "第 %d 轮"
+
+msgid "chapter2.profiler.tree.pass_group"
+msgstr "工作组 %d · 第 %d 轮"
+
+msgid "chapter2.profiler.tree.schedule_event"
+msgstr "cycle %d · %s"
+
+msgid "chapter2.profiler.event_schedule.pass"
+msgstr "调度 · 第 %d 轮"
+
+msgid "chapter2.profiler.event_schedule.pass_group"
+msgstr "调度 · 工作组 %d · 第 %d 轮"
 
 msgid "chapter2.profiler.event_detail"
 msgstr "周期 %d · 源代码第 %d 行\nA[%d][%d] → 地址 %d · 数据块 %d\n取回 A 的地址 %d..%d = %s"
@@ -2872,6 +2938,9 @@ msgstr "基线 · %s"
 
 msgid "chapter2.history.baseline_metrics"
 msgstr "总计 %d · CPU WAIT %d · 远端获取 %d · 近处返回 %d · RAM %d B · 成本 %d"
+
+msgid "chapter2.history.personal_best"
+msgstr "个人最佳 · %d cycles · CPU WAIT %d · 成本 %d\n%s"
 
 msgid "chapter2.history.run_again"
 msgstr "只改变一项并重新运行，以生成 Before → After 比较。"
@@ -3217,3 +3286,12 @@ msgstr "先按给定配置运行。再用 Trace、Profiler 与 Before → After 
 
 msgid "chapter2.level.capstone.learned"
 msgstr "你完成了完整循环：观察、诊断、改变一个原因、再比较。多种软硬件解法都有效。"
+
+msgid "chapter2.level.capstone.judgment.repeated_far_fetch"
+msgstr "CPU 重复等待同一批数据再次从远处内存取回。"
+
+msgid "chapter2.level.capstone.judgment.more_cpu_math"
+msgstr "大部分 cycles 花在 CPU 算术上。"
+
+msgid "chapter2.level.capstone.judgment.wrong_result"
+msgstr "机器很慢，是因为程序算出了错误结果。"

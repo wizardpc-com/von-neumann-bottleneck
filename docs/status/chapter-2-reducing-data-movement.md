@@ -1,4 +1,4 @@
-# Chapter 2: Keep Data Close
+# Chapter 2: Reducing Data Movement
 
 Chapter 2 promotes the Cache Locality Lab v0.2 mechanisms into a seven-level investigation chapter. Its theme is not “install a Cache”; it is reducing expensive data movement so the CPU spends fewer cycles waiting.
 
@@ -14,9 +14,11 @@ Chapter 2 promotes the Cache Locality Lab v0.2 mechanisms into a seven-level inv
 | 2-6 Do Less at Once | implementation | group both passes one line at a time and reach 145 cycles without upgrading hardware | Blocking / Tiling |
 | 2-7 Now Investigate | capstone | diagnose a fresh two-pass baseline, then reach 145 cycles with any valid learned approach | no new concept |
 
-Observation levels require an official run plus an explicit evidence judgment; running alone cannot complete them. Implementation levels complete only from correct trace-derived performance evidence. The capstone deliberately gives no diagnosis or optimization hint. Its Program, Cache, and Work Group decisions stay locked until the given baseline produces an official receipt, then remain active after completion so the player can continue reducing cycles or hardware cost.
+Observation levels require an official run plus an explicit evidence judgment; running alone cannot complete them. Implementation levels complete only from correct trace-derived performance evidence. A qualifying receipt from 2-1, 2-3, or 2-5 becomes the read-only Before evidence in its paired 2-2, 2-4, or 2-6 level, so the player does not repeat an identical baseline run before making the new decision.
 
-Game mode gates the chapter behind Chapter 1's final bottleneck diagnosis and follows the seven registered prerequisites. Test mode exposes every valid level through separate progress and receipts. Chapter and notebook progress remain session-local.
+Non-capstone completion enters a pending-finding state. The successful Trace remains visible and must finish playback before **Open finding** appears; only that explicit review commits completion and reveals the lesson or new terminology. The capstone likewise requires its given baseline first, but keeps Program, Cache, Work Group, and the detailed Profiler and Run History breakdowns locked until the player diagnoses the repeated far fetches from raw totals, CPU WAIT, request count, Trace, and data flow. The first post-diagnosis experiment may change only one lever until its official Trace is observed; only then can the chapter complete and all learned controls be combined for further optimization.
+
+Game mode gates the chapter behind Chapter 1's final bottleneck diagnosis and follows the seven registered prerequisites. Test mode is an explicit QA sandbox: it exposes every valid level through separate progress and receipts and skips the capstone's diagnosis/decision locks and hidden-breakdown presentation. Chapter and notebook progress remain session-local.
 
 ## Deterministic reference evidence
 
@@ -41,19 +43,25 @@ The capstone therefore has multiple real solutions. A four-line Cache retains th
 - Direct reads emit CPU → Bus requests, Bus → RAM access, and RAM → Bus → CPU value returns. Cached reads retain the established request/lookup/hit/miss/fill/evict events and timing.
 - Cache state is deterministic fully associative LRU with one outstanding request, as in v0.2. Blocking changes the authored order in which both workload passes consume program-derived iterations; it does not expose replacement-policy tuning.
 - Trace metrics drive Profiler evidence, CPU WAIT, Run History, receipts, correctness, and completion before playback starts. Window state, GraphEdit geometry, playback speed, and language never feed simulation.
+- Cross-level Before evidence is accepted only when its source level, official data, program signature, access order, Cache configuration, pass count, and work grouping match the authored pair. The receipt stays immutable; the destination level merely presents it.
+- **Next evidence** pauses on the next near return, far fetch, eviction, RAM access, or result boundary, while **Finish Trace** consumes the remaining presentation immediately. Both move only the playback cursor; neither edits the authoritative event list, metrics, or receipt.
 
 ## Player-facing investigation tools
 
 Each level exposes only the Mission, Program, Test Bench, nearby-storage choice, Work Group, Profiler, and Notebook windows needed for its primary task. Level 2-1 has no visible Cache node or Cache terminology. Level 2-2 initially labels the mechanism as nearby storage; completing the comparison reveals Cache/Hit/Miss in the Systems Notebook and updates the visible machine terminology.
 
-Run History now leads with the latest Before → After pair. It names the only changed item when controlled, then shows total-cycle delta and percentage, CPU-WAIT delta, far-fetch/near-return counts, and RAM traffic. The prior raw-list presentation is no longer the main comparison surface.
+Run History now keeps the first authored or inherited receipt as Baseline and compares it with the current run. It names the only changed item when controlled, then shows total-cycle delta and percentage, CPU-WAIT delta, far-fetch/near-return counts, and RAM traffic. After a third official run it also retains a Personal Best chosen by lowest cycles, then lowest cost. The prior raw-list presentation is no longer the main comparison surface.
+
+Before the capstone diagnosis, Profiler and Run History expose only the correctness result, total cycles, CPU WAIT, request count, and raw Trace navigation; both withhold the near-answer hit/miss, traffic, cost, and wait-category breakdowns. After passing, **Finish chapter** opens a Baseline → Best debrief showing total-cycle and CPU-WAIT improvements, hardware cost, and the best passing configuration; it does not impose a cost gate or choose one canonical solution.
+
+Profiler also groups memory evidence by pass and, when blocking is active, by work group plus pass. Each cycle-labeled child remains selectable for exact Trace inspection, making whole-workload versus grouped scheduling visible without inventing a second execution model.
 
 The Systems Notebook contains the Chapter 1 concepts CPU WAIT, Controlled Comparison, and Bottleneck plus Chapter 2's Cache, Hit, Miss, Locality, Working Set, and Blocking/Tiling. Locked concepts display `???`; each entry appears only after its prerequisite experience and records a concise observation, explanation, causal diagram, and related concepts.
 
 ## Automated coverage
 
 - `tests/test_simulation.gd` preserves all v0.2 invariants and adds exact direct-memory, two-pass, blocking, multi-solution, route, address-schedule, and determinism checks.
-- `tests/test_locality_chapter_ui.gd` completes the normal seven-level path, verifies hub and prerequisite gates, tool exposure, observation judgments, delayed terminology, reference metrics, Before → After evidence, the capstone baseline lock, notebook unlocks, and two capstone solutions.
+- `tests/test_locality_chapter_ui.gd` completes the normal seven-level path and verifies hub/prerequisite gates, inherited pair baselines, pass/work-group schedule evidence, key-evidence/end Trace navigation, successful-Trace review before concept reveal, raw-evidence capstone diagnosis before controls/breakdown unlock, reference metrics, Before → After plus Personal Best evidence, Notebook unlocks, the Baseline → Best debrief, and two capstone solutions.
 - `tests/test_ui.gd` retains deep v0.2 Apply/Trace/Profiler/floating-window/exact-curve coverage inside the two-pass capstone.
 - Content-registry and localization suites verify the seven authored descriptors, dependencies, complete Chinese/English catalogs, and locale-independent simulation.
 
@@ -64,4 +72,4 @@ The Systems Notebook contains the Chapter 1 concepts CPU WAIT, Controlled Compar
 - Progress, receipts, Run History, Notebook entries, and tool use are not persisted or exported as analytics.
 - Procedural device cards and floating windows are playtest UI, not production art or audio.
 
-External playtesting should determine whether players inspect Trace before choosing observation judgments, understand the 2-3 “Cache present but still slow” reversal, distinguish poor access order from an oversized working set, discover more than one capstone solution, and voluntarily reopen Trace/Profiler in the unguided capstone. Those results should drive pacing and copy changes before adding new cache mechanisms.
+External playtesting should determine whether players use the carried-forward evidence instead of treating paired levels as unrelated tasks, inspect Trace before opening a finding, understand the 2-3 “Cache present but still slow” reversal, distinguish poor access order from an oversized working set, diagnose the capstone before guessing a replacement part, and discover more than one solution. Those results should drive pacing and copy changes before adding new cache mechanisms.

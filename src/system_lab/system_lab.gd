@@ -1069,18 +1069,20 @@ func _load_level_session() -> void:
 	graph.clear_connection_presentations()
 	_set_selected_system_devices([] as Array[StringName])
 	var session: Dictionary = level_sessions.get(_level_session_key(current_level_id), {})
+	var diagnosis_sandbox_locked: bool = _diagnosis_sandbox_locked()
 	locked_prediction_id = StringName(session.get("prediction_id", &""))
 	selected_part_ids.clear()
 	for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
-		selected_part_ids[kind] = StringName(
-			session.get("part_ids", {}).get(kind, catalog.default_part_id(current_level_id, kind))
-		)
+		var default_part_id: StringName = catalog.default_part_id(current_level_id, kind)
+		var saved_part_id := StringName(session.get("part_ids", {}).get(kind, default_part_id))
+		selected_part_ids[kind] = default_part_id if diagnosis_sandbox_locked else saved_part_id
 	_populate_part_selectors()
-	var source: String = String(session.get("draft_source", current_level_definition.get("program_source", "")))
+	var authored_source: String = String(current_level_definition.get("program_source", ""))
+	var source: String = authored_source if diagnosis_sandbox_locked else String(session.get("draft_source", authored_source))
 	editor.text = source
-	var applied_source: String = String(session.get("applied_source", ""))
+	var applied_source: String = authored_source if diagnosis_sandbox_locked else String(session.get("applied_source", ""))
 	if applied_source.is_empty():
-		applied_source = String(current_level_definition.get("program_source", ""))
+		applied_source = authored_source
 	applied_program = ParserType.parse(applied_source)
 	applied_program_source = applied_source if applied_program.is_valid() else ""
 	draft_dirty = editor.text != applied_program_source
@@ -1221,6 +1223,49 @@ func _is_part_comparison() -> bool:
 	return _comparison_kind() in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]
 
 
+func _applied_program_is_official() -> bool:
+	return (
+		applied_program != null
+		and applied_program.is_valid()
+		and catalog.is_official_program_signature(current_level_id, applied_program.canonical_signature())
+	)
+
+
+func _diagnosis_sandbox_locked() -> bool:
+	return (
+		bool(current_level_definition.get("diagnosis_required", false))
+		and not bool(SystemChapter.completed_levels().get(current_level_id, false))
+	)
+
+
+func _uses_authored_diagnosis_configuration() -> bool:
+	if applied_program == null or not applied_program.is_valid():
+		return false
+	if not catalog.is_official_program_signature(current_level_id, applied_program.canonical_signature()):
+		return false
+	for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
+		if selected_part_ids.get(kind, &"") != catalog.default_part_id(current_level_id, kind):
+			return false
+	return true
+
+
+func _restore_authored_diagnosis_configuration() -> void:
+	for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
+		selected_part_ids[kind] = catalog.default_part_id(current_level_id, kind)
+	_populate_part_selectors()
+	var authored_source: String = String(current_level_definition.get("program_source", ""))
+	editor.text = authored_source
+	applied_program = ParserType.parse(authored_source)
+	applied_program_source = authored_source
+	draft_dirty = false
+	current_topology = _topology_from_graph()
+	_validate_program_editor()
+	_refresh_program_state()
+	_refresh_comparison_part_lock()
+	_refresh_device_titles()
+	_refresh_parts_summary()
+
+
 func _has_current_baseline_receipt() -> bool:
 	if not _is_part_comparison() or applied_program == null or not applied_program.is_valid():
 		return false
@@ -1251,7 +1296,13 @@ func _has_current_baseline_receipt() -> bool:
 func _refresh_comparison_part_lock() -> void:
 	for selector: OptionButton in part_selectors.values():
 		selector.disabled = false
+	if _diagnosis_sandbox_locked():
+		for selector: OptionButton in part_selectors.values():
+			selector.disabled = true
+		return
 	if not _is_part_comparison():
+		return
+	if not _applied_program_is_official():
 		return
 	var comparison_kind := _comparison_kind()
 	var selector: OptionButton = part_selectors[comparison_kind]
@@ -1790,6 +1841,11 @@ func _validate_program_editor() -> void:
 
 
 func _apply_program() -> void:
+	if _diagnosis_sandbox_locked():
+		_restore_authored_diagnosis_configuration()
+		status_label.text = _t(&"system.status.official_program_required")
+		status_label.add_theme_color_override("font_color", WARNING)
+		return
 	var parsed: SystemProgram = ParserType.parse(editor.text)
 	if not parsed.is_valid():
 		_validate_program_editor()
@@ -1816,6 +1872,8 @@ func _apply_program() -> void:
 func _refresh_program_state() -> void:
 	if program_apply_label == null:
 		return
+	var diagnosis_sandbox_locked: bool = _diagnosis_sandbox_locked()
+	editor.editable = not diagnosis_sandbox_locked
 	if draft_dirty:
 		program_apply_label.text = _t(&"system.program.draft_pending")
 		program_apply_label.add_theme_color_override("font_color", WARNING)
@@ -1825,6 +1883,7 @@ func _refresh_program_state() -> void:
 	var prediction_ready: bool = not _prediction_required() or not locked_prediction_id.is_empty()
 	debug_run_button.disabled = draft_dirty or applied_program == null or not applied_program.is_valid() or not prediction_ready
 	official_run_button.disabled = debug_run_button.disabled
+	apply_program_button.disabled = apply_program_button.disabled or diagnosis_sandbox_locked
 
 
 func _update_program_explanation(program: SystemProgram) -> void:
@@ -1889,15 +1948,24 @@ func _run_official() -> void:
 		catalog.test_set_signature(current_level_id),
 		selected_part_ids
 	)
-	SystemChapter.record_receipt(current_level_id, latest_receipt)
+	var is_progression_evidence: bool = catalog.is_official_program_signature(
+		current_level_id, latest_receipt.program_signature
+	)
+	if is_progression_evidence:
+		SystemChapter.record_receipt(current_level_id, latest_receipt)
 	_refresh_comparison_part_lock()
-	if latest_receipt.all_passed:
+	if not is_progression_evidence:
+		test_status_label.text = _t(&"system.test_bench.custom_program_debug_only", [
+			latest_receipt.passed_cases, latest_receipt.total_cases,
+		])
+		test_status_label.add_theme_color_override("font_color", WARNING)
+	elif latest_receipt.all_passed:
 		test_status_label.text = _t(&"system.test_bench.official_pass", [latest_receipt.passed_cases, latest_receipt.total_cases])
 		test_status_label.add_theme_color_override("font_color", GOOD)
 	else:
 		test_status_label.text = _t(&"system.test_bench.official_fail", [latest_receipt.passed_cases, latest_receipt.total_cases])
 		test_status_label.add_theme_color_override("font_color", BAD)
-	pending_history_after_playback = _comparison_kind() != &"none"
+	pending_history_after_playback = is_progression_evidence and _comparison_kind() != &"none"
 	_close_instrument(&"history")
 	if not latest_official_traces.is_empty():
 		_play_trace(latest_official_traces[0])
@@ -1906,7 +1974,15 @@ func _run_official() -> void:
 	if pending_history_after_playback and not playback_running:
 		pending_history_after_playback = false
 		_open_instrument(&"history")
-	_evaluate_completion(&"")
+	if is_progression_evidence:
+		if bool(SystemChapter.completed_levels().get(current_level_id, false)):
+			_refresh_mission_progress()
+		else:
+			_evaluate_completion(&"")
+	else:
+		status_label.text = _t(&"system.status.official_program_required")
+		status_label.add_theme_color_override("font_color", WARNING)
+		_refresh_mission_progress()
 
 
 func _prepare_run() -> bool:
@@ -1924,7 +2000,13 @@ func _prepare_run() -> bool:
 		status_label.add_theme_color_override("font_color", WARNING)
 		_open_instrument(&"mission")
 		return false
-	if _is_part_comparison() and not _has_current_baseline_receipt():
+	if _diagnosis_sandbox_locked() and not _uses_authored_diagnosis_configuration():
+		_restore_authored_diagnosis_configuration()
+		status_label.text = _t(&"system.status.official_program_required")
+		status_label.add_theme_color_override("font_color", WARNING)
+		_open_instrument(&"program")
+		return false
+	if _is_part_comparison() and _applied_program_is_official() and not _has_current_baseline_receipt():
 		var comparison_kind := _comparison_kind()
 		var default_id: StringName = catalog.default_part_id(current_level_id, comparison_kind)
 		if selected_part_ids.get(comparison_kind, &"") != default_id:
@@ -1960,6 +2042,8 @@ func _evaluate_completion(selected_diagnosis: StringName) -> void:
 	var completion: Dictionary = catalog.completion_status(current_level_id, receipts, selected_diagnosis)
 	if bool(completion.get("complete", false)):
 		SystemChapter.mark_completed(current_level_id)
+		_refresh_program_state()
+		_refresh_comparison_part_lock()
 		mission_progress_label.text = _t(&"system.mission.complete")
 		mission_progress_label.add_theme_color_override("font_color", GOOD)
 		status_label.text = _t(&"system.status.level_complete")
@@ -2031,6 +2115,7 @@ func _refresh_profiler(metrics: Dictionary = {}) -> void:
 	var tier: int = int(current_level_definition.get("profiler_tier", 1)) if not current_level_definition.is_empty() else 1
 	var has_trace: bool = not metrics.is_empty()
 	var diagnosis_required: bool = bool(current_level_definition.get("diagnosis_required", false))
+	var diagnosis_gate_active: bool = diagnosis_required and _diagnosis_sandbox_locked()
 	var breakdown_revealed: bool = (
 		latest_receipt != null
 		and latest_receipt.canonical_signature() == revealed_breakdown_receipt_signature
@@ -2055,11 +2140,11 @@ func _refresh_profiler(metrics: Dictionary = {}) -> void:
 	for metric: StringName in profiler_labels:
 		var label: Label = profiler_labels[metric]
 		label.visible = tier >= int(visibility[metric])
-		if diagnosis_required and not breakdown_revealed:
+		if diagnosis_gate_active and not breakdown_revealed:
 			label.visible = metric in final_raw_metrics or metric == &"shares"
 		if not label.visible:
 			continue
-		if metric == &"shares" and diagnosis_required and not breakdown_revealed:
+		if metric == &"shares" and diagnosis_gate_active and not breakdown_revealed:
 			label.text = _t(&"system.profiler.breakdown_locked")
 			continue
 		if not has_trace:

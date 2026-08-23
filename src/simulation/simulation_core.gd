@@ -49,6 +49,8 @@ func run(program: DSLProgramType, data: Array[int], cache_lines: int, test_name:
 		"cache_misses": 0,
 		"ram_bytes": 0,
 		"result_value": 0,
+		"pass_index": 0,
+		"work_group_index": -1,
 	}
 	_execute_block(program.instructions, data, cache_lines, trace, state)
 
@@ -123,6 +125,8 @@ func _initial_state() -> Dictionary:
 		"cache_misses": 0,
 		"ram_bytes": 0,
 		"result_value": 0,
+		"pass_index": 0,
+		"work_group_index": -1,
 	}
 
 
@@ -198,7 +202,7 @@ func _execute_scheduled_program(
 	if block_lines == 0:
 		for pass_index: int in range(pass_count):
 			_execute_iteration_contexts(
-				contexts, inner_loop.children, pass_index, pass_registers,
+				contexts, inner_loop.children, pass_index, -1, pass_registers,
 				data, cache_lines, trace, state
 			)
 	else:
@@ -210,7 +214,7 @@ func _execute_scheduled_program(
 					block_contexts.append(context)
 			for pass_index: int in range(pass_count):
 				_execute_iteration_contexts(
-					block_contexts, inner_loop.children, pass_index, pass_registers,
+					block_contexts, inner_loop.children, pass_index, block_index, pass_registers,
 					data, cache_lines, trace, state
 				)
 
@@ -230,6 +234,7 @@ func _execute_iteration_contexts(
 		contexts: Array[Dictionary],
 		body: Array,
 		pass_index: int,
+		work_group_index: int,
 		pass_registers: Array[Dictionary],
 		data: Array[int],
 		cache_lines: int,
@@ -237,6 +242,8 @@ func _execute_iteration_contexts(
 		state: Dictionary
 	) -> void:
 	state["registers"] = pass_registers[pass_index]
+	state["pass_index"] = pass_index
+	state["work_group_index"] = work_group_index
 	for context: Dictionary in contexts:
 		state["loop_values"] = context["loop_values"]
 		_execute_block(body, data, cache_lines, trace, state)
@@ -322,6 +329,8 @@ func _perform_direct_load(
 		"array_row": row,
 		"array_column": column,
 		"transfer_bytes": INT_BYTES,
+		"pass_index": int(state.get("pass_index", 0)),
+		"work_group_index": int(state.get("work_group_index", -1)),
 	}
 
 	trace.add_event(SimulationEventType.new(
@@ -377,6 +386,8 @@ func _perform_load(
 		"array_column": column,
 		"line_base_address": line_base,
 		"line_values": line_values,
+		"pass_index": int(state.get("pass_index", 0)),
+		"work_group_index": int(state.get("work_group_index", -1)),
 	}
 
 	trace.add_event(SimulationEventType.new(
@@ -464,7 +475,11 @@ func _add_compute_event(
 	trace.add_event(SimulationEventType.new(
 		&"compute", int(state["current_cycle"]), ADD_CYCLES, &"CPU", &"CPU", -1, -1,
 		result, "%s → %d" % [instruction.source_text, result], instruction.source_line,
-		[&"CPU"], {"instruction_text": instruction.source_text}
+		[&"CPU"], {
+			"instruction_text": instruction.source_text,
+			"pass_index": int(state.get("pass_index", 0)),
+			"work_group_index": int(state.get("work_group_index", -1)),
+		}
 	))
 	state["current_cycle"] = int(state["current_cycle"]) + ADD_CYCLES
 	state["compute_cycles"] = int(state["compute_cycles"]) + ADD_CYCLES

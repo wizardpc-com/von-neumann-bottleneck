@@ -6,7 +6,7 @@ Von Neumann Bottleneck is a systems puzzle game about constructing computing abs
 
 - **CPU Building Prologue:** learn direct wiring, then choose between an arithmetic/CPU line that starts with a 1-bit Half Adder and an independent storage line that starts with an SR latch. Join the resulting ALU and RAM in a four-bit accumulator computer and finish with a visible LOAD/STORE program.
 - **Chapter 1 — Waiting for Data:** connect the player's generated CPU8, RAM64x8, and an 8-bit Bus, then follow five prerequisite-gated investigations from prediction through controlled experiment, Trace/Profiler explanation, and bottleneck diagnosis.
-- **Chapter 2 — Keep Data Close:** follow seven short investigations from repeated distant reads through Cache, Locality, Working Set, Blocking/Tiling, and an unguided multi-solution capstone.
+- **Chapter 2 — Reducing Data Movement:** follow seven short investigations from repeated distant reads through Cache, Locality, Working Set, Blocking/Tiling, and a diagnosis-first multi-solution capstone.
 
 These slices are not a complete game. They test successive gameplay hypotheses while sharing deterministic simulation and trace-first presentation principles.
 
@@ -43,22 +43,22 @@ Suggested Hardware Foundations path:
 The bridge now hands the player's verified source lineage to **Chapter 1 — Waiting for Data**:
 
 1. Connect the six typed request/write/read routes among CPU, Bus, and RAM. Their visible GraphEdit topology is the topology the simulator validates.
-2. Edit the bounded Python-shaped program, inspect its line-by-line explanation, then use **Confirm & Apply**. An unapplied draft cannot run or create evidence.
+2. Edit the bounded Python-shaped program, inspect its line-by-line explanation, then use **Confirm & Apply**. An unapplied draft cannot run. Chapter progression receipts require each level's authored program; custom programs remain available as debug-only experiments.
 3. Before the CPU, RAM, and Bus investigations, lock a prediction. Run a baseline, change only the named part, and use the Before → After comparison to inspect total-cycle and CPU-wait deltas.
 4. Follow exact-path request/data packets and component-native CPU `WAIT`, Bus transfer, and RAM service feedback. Eco → Fast makes arithmetic four times faster in the CPU investigation, but unchanged waiting limits total-cycle improvement to about 15%.
-5. In the final investigation, run the fixed 4/16/64 workloads and submit CPU/RAM/Bus/mixed from raw totals, CPU WAIT, growth, and Trace flow. The complete CPU/RAM/Bus breakdown appears only after the first diagnosis; cost remains evidence rather than an optimization gate.
+5. In the final investigation, the authored program and default machine remain fixed until the first diagnosis. Run the fixed 4/16/64 workloads and submit CPU/RAM/Bus/mixed from raw totals, CPU WAIT, growth, and Trace flow. Any first submission reveals the complete CPU/RAM/Bus breakdown, but only the correct diagnosis unlocks the Program and hardware sandbox; cost remains evidence rather than an optimization gate.
 
 The Chapter 1 map has five ordered nodes. Game mode requires the prologue handoff; Test mode exposes all five with isolated provenance and progress. Mission, Parts, Program, Test Bench, Profiler, and Run History are independent movable/resizable/minimizable windows. Completed investigations leave their evidence visible until the player chooses **Review investigation finding**; that action opens the localized lesson summary, short placeholder cue, and **Continue**-to-map handoff.
 
-Chapter 1's final diagnosis unlocks **Chapter 2 — Keep Data Close** in Game mode:
+Chapter 1's final diagnosis unlocks **Chapter 2 — Reducing Data Movement** in Game mode:
 
 1. Observe a Cache-free CPU → Bus → RAM scan and commit an explanation of repeated CPU WAIT; the first level does not reveal Cache terminology.
-2. Compare that 257-cycle direct path with one line of nearby storage. The same row-first program reaches 105 cycles; only after the comparison does the Systems Notebook reveal Cache, Hit, and Miss.
-3. Observe a one-line Cache still taking 321 cycles with column-first access, then repair only the applied loop order. This separates “having Cache” from actually exploiting Locality.
+2. Carry that 257-cycle receipt into the next level as the read-only Before, then run one line of nearby storage. The same row-first program reaches 105 cycles; only after Trace playback and explicit review does the Systems Notebook reveal Cache, Hit, and Miss.
+3. Observe a one-line Cache still taking 321 cycles with column-first access, then carry that evidence into the repair level and change only the applied loop order. This separates “having Cache” from actually exploiting Locality without rerunning the same baseline.
 4. Run two already-row-first passes. The one-line Cache takes 210 cycles because the four-line Working Set cannot survive between passes.
-5. Use the bounded Work Group control to finish both passes one line at a time. The same hardware reaches 138 cycles and reveals Blocking/Tiling without turning the level into a programming exam.
-6. In the capstone, run the given 642-cycle baseline before changing anything. Reach 145 cycles with any valid learned approach: a four-line Cache reaches 138 cycles at cost 13, while a one-line Cache plus line-sized blocking reaches the same 138 cycles at cost 4.
-7. Use the comparison view rather than a raw log: the latest Before → After pair names the changed item and foregrounds total-cycle, CPU-WAIT, far-fetch/near-return, RAM-traffic, and cost evidence. After passing the capstone, keep optimizing or finish the chapter.
+5. Carry that working-set evidence into the next level, then use the bounded Work Group control to finish both passes one line at a time. The same hardware reaches 138 cycles and reveals Blocking/Tiling without turning the level into a programming exam.
+6. In the capstone, run the given 642-cycle baseline before changing anything. Program, Cache, and Work Group remain locked while the player diagnoses repeated far fetches from raw totals, CPU WAIT, request count, Trace, and data flow; both Profiler and Run History withhold hit/miss and traffic breakdowns until that diagnosis. The first experiment then permits one changed lever until its Trace has been observed. A four-line Cache reaches 138 cycles at cost 13, while a one-line Cache plus line-sized blocking reaches the same 138 cycles at cost 4.
+7. Use **Next evidence** to move between consequential Trace events or **Finish Trace** after the causal pattern is clear. The comparison view keeps the authored Baseline → Current result visible and retains a cycle-first, cost-tiebroken Personal Best. After passing, keep optimizing or open a Baseline → Best chapter debrief with total, wait, cost, and final-configuration evidence.
 
 The original v0.2 one-pass results remain covered exactly: column-first/one-line is 321 cycles with 16 misses, row-first/one-line is 105 cycles with 4 misses, and column-first/four-line is 105 cycles at the higher hardware cost. See the [Chapter 2 status](docs/status/chapter-2-reducing-data-movement.md) and [v0.2 baseline](docs/status/prototype-v0.2.md).
 
@@ -91,7 +91,7 @@ See [testing details](docs/development/testing.md) for verified outcomes and env
 - [Design principles](docs/design/core-principles.md)
 - [CPU Building Prologue status and limitations](docs/status/cpu-building-prologue.md)
 - [Chapter 1: Waiting for Data status and limitations](docs/status/chapter-1-waiting-for-data.md)
-- [Chapter 2: Keep Data Close status and limitations](docs/status/chapter-2-reducing-data-movement.md)
+- [Chapter 2: Reducing Data Movement status and limitations](docs/status/chapter-2-reducing-data-movement.md)
 - [Historical Hardware Foundations 01 milestone](docs/status/hardware-foundations-01.md)
 - [Preserved v0.2 baseline and limitations](docs/status/prototype-v0.2.md)
 - [Preserved v0.1 status](docs/status/prototype-v0.1.md)

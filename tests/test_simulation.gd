@@ -105,6 +105,12 @@ func _run_all() -> void:
 	var direct_return: SimulationEventType = _first_event(direct, &"value_return")
 	_assert(direct_request.route_devices == [&"CPU", &"Bus"], "Cache-free requests must follow the visible CPU → Bus route.")
 	_assert(direct_return.route_devices == [&"RAM", &"Bus", &"CPU"], "Cache-free values must return RAM → Bus → CPU.")
+	_assert(
+		direct_request.details.get("pass_index", -1) == 0
+		and direct_request.details.get("work_group_index", 0) == -1
+		and _load_event_schedule_is_consistent(direct),
+		"Direct-memory load evidence must carry the default pass and unblocked group coordinates through compute."
+	)
 
 	var two_pass: SimulationTraceType = core.run_workload(row_program, official, 1, "Two Passes", 2)
 	var blocked: SimulationTraceType = core.run_workload(row_program, official, 1, "Blocked Two Passes", 2, 1)
@@ -118,6 +124,33 @@ func _run_all() -> void:
 	var blocked_repeat: SimulationTraceType = core.run_workload(row_program, official, 1, "Blocked Two Passes", 2, 1)
 	_assert(blocked.canonical_signature() == blocked_repeat.canonical_signature(), "Program-derived blocking schedules must be deterministic.")
 	_assert(_request_addresses(blocked).slice(0, 8) == [0, 1, 2, 3, 0, 1, 2, 3], "Blocking must derive addresses from IR and finish both passes for one line before moving on.")
+	var unblocked_schedule: Array[Vector2i] = []
+	for pass_index: int in range(2):
+		for ignored_address: int in range(16):
+			unblocked_schedule.append(Vector2i(pass_index, -1))
+	_assert(
+		_request_schedule(two_pass) == unblocked_schedule
+		and _load_event_schedule_is_consistent(two_pass),
+		"Unblocked evidence must finish every pass-0 access before pass 1, with work group -1 on the complete load chain."
+	)
+	var blocked_schedule: Array[Vector2i] = []
+	for work_group_index: int in range(4):
+		for pass_index: int in range(2):
+			for ignored_address: int in range(4):
+				blocked_schedule.append(Vector2i(pass_index, work_group_index))
+	_assert(
+		_request_schedule(blocked) == blocked_schedule
+		and _load_event_schedule_is_consistent(blocked),
+		"One-line blocking evidence must finish group 0 pass 0 → pass 1 before group 1, preserving coordinates through hits, misses, transfers, evictions, fills, and compute."
+	)
+	var signature_with_schedule_evidence: String = blocked_repeat.canonical_signature()
+	for event: SimulationEventType in blocked_repeat.events:
+		event.details.erase("pass_index")
+		event.details.erase("work_group_index")
+	_assert(
+		blocked_repeat.canonical_signature() == signature_with_schedule_evidence,
+		"Presentation-only schedule coordinates must not change canonical Trace or receipt identity."
+	)
 
 	var explicit_load_source: String = """acc = 0
 for row in range(4):
@@ -146,6 +179,45 @@ func _request_addresses(trace: SimulationTraceType) -> Array[int]:
 		if event.kind == &"request":
 			addresses.append(event.address)
 	return addresses
+
+
+func _request_schedule(trace: SimulationTraceType) -> Array[Vector2i]:
+	var schedule: Array[Vector2i] = []
+	for event: SimulationEventType in trace.events:
+		if event.kind == &"request":
+			schedule.append(Vector2i(
+				int(event.details.get("pass_index", -1)),
+				int(event.details.get("work_group_index", -2))
+			))
+	return schedule
+
+
+func _load_event_schedule_is_consistent(trace: SimulationTraceType) -> bool:
+	var active_pass_index: int = -1
+	var active_work_group_index: int = -2
+	var has_active_load: bool = false
+	for event: SimulationEventType in trace.events:
+		if event.kind == &"request":
+			if not event.details.has("pass_index") or not event.details.has("work_group_index"):
+				return false
+			active_pass_index = int(event.details["pass_index"])
+			active_work_group_index = int(event.details["work_group_index"])
+			has_active_load = true
+		if event.kind not in [
+			&"request", &"cache_lookup", &"cache_hit", &"cache_miss", &"bus_request",
+			&"ram_access", &"line_return", &"value_return", &"cache_evict", &"cache_fill",
+			&"compute",
+		]:
+			continue
+		if (
+			not has_active_load
+			or not event.details.has("pass_index")
+			or not event.details.has("work_group_index")
+			or int(event.details["pass_index"]) != active_pass_index
+			or int(event.details["work_group_index"]) != active_work_group_index
+		):
+			return false
+	return true
 
 
 func _first_event(trace: SimulationTraceType, kind: StringName) -> SimulationEventType:

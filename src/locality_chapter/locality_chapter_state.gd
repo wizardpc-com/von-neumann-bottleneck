@@ -20,6 +20,8 @@ var game_completed: Dictionary[StringName, bool] = {}
 var test_completed: Dictionary[StringName, bool] = {}
 var game_receipts: Dictionary[StringName, Array] = {}
 var test_receipts: Dictionary[StringName, Array] = {}
+var game_capstone_first_experiment_observed: bool = false
+var test_capstone_first_experiment_observed: bool = false
 
 
 func completed_levels() -> Dictionary:
@@ -50,6 +52,20 @@ func record_receipt(level_id: StringName, receipt: Variant) -> void:
 	progression_changed.emit()
 
 
+func capstone_first_experiment_observed() -> bool:
+	return test_capstone_first_experiment_observed if GameMode.is_test_mode() else game_capstone_first_experiment_observed
+
+
+func mark_capstone_first_experiment_observed() -> void:
+	if capstone_first_experiment_observed():
+		return
+	if GameMode.is_test_mode():
+		test_capstone_first_experiment_observed = true
+	else:
+		game_capstone_first_experiment_observed = true
+	progression_changed.emit()
+
+
 func mark_completed(level_id: StringName) -> void:
 	if level_id.is_empty() or bool(completed_levels().get(level_id, false)):
 		return
@@ -74,4 +90,5 @@ func concept_unlocked(concept_id: StringName) -> bool:
 func reset_test_progress() -> void:
 	test_completed.clear()
 	test_receipts.clear()
+	test_capstone_first_experiment_observed = false
 	progression_changed.emit()

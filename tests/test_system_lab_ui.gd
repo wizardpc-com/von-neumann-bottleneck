@@ -299,6 +299,27 @@ func _run() -> void:
 
 	main.call("_start_level", &"bottleneck")
 	await process_frame
+	var final_part_selectors: Dictionary = main.get("part_selectors")
+	var final_program_editor: CodeEdit = main.get("editor")
+	for kind: StringName in [&"cpu", &"ram", &"bus"]:
+		var locked_selector: OptionButton = final_part_selectors[kind]
+		var authored_part_id: StringName = main.get("catalog").call("default_part_id", &"bottleneck", kind)
+		_assert(
+			locked_selector.disabled
+			and StringName(locked_selector.get_item_metadata(locked_selector.selected)) == authored_part_id,
+			"The first final diagnosis must use the authored %s baseline." % kind
+		)
+	_assert(not final_program_editor.editable, "The final authored workload must stay read-only until the correct diagnosis is submitted.")
+	var forced_final_parts: Dictionary = main.get("selected_part_ids")
+	forced_final_parts[&"cpu"] = &"cpu_fast"
+	main.set("selected_part_ids", forced_final_parts)
+	main.call("_run_official")
+	await process_frame
+	_assert(
+		main.get("latest_receipt") == null
+		and StringName((main.get("selected_part_ids") as Dictionary).get(&"cpu", &"")) == main.get("catalog").call("default_part_id", &"bottleneck", &"cpu"),
+		"The evidence boundary must restore an authored final machine before accepting the first run."
+	)
 	main.call("_run_official")
 	await process_frame
 	var final_receipt = main.get("latest_receipt")
@@ -330,33 +351,19 @@ func _run() -> void:
 	for revealed_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
 		_assert((profiler_labels[revealed_metric] as Label).visible, "%s must be revealed after the first diagnosis." % revealed_metric)
 	_assert(shares_label.visible and "%" in shares_label.text, "Submitting a diagnosis must reveal the complete percentage breakdown as feedback.")
-	var final_cpu_selector: OptionButton = (main.get("part_selectors") as Dictionary)[&"cpu"]
-	var revised_cpu_index: int = 0 if final_cpu_selector.selected != 0 else 1
-	final_cpu_selector.select(revised_cpu_index)
-	main.call("_on_part_selected", revised_cpu_index, &"cpu")
-	main.call("_run_official")
-	await process_frame
-	var revised_receipt = main.get("latest_receipt")
-	_assert(
-		revised_receipt != null and revised_receipt.canonical_signature() != final_receipt.canonical_signature(),
-		"Changing the investigated machine must create a distinct deterministic evidence receipt."
-	)
-	for relocked_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
-		_assert(not (profiler_labels[relocked_metric] as Label).visible, "%s must relock for a new receipt that has not been diagnosed." % relocked_metric)
-	_assert(shares_label.visible and "%" not in shares_label.text, "A new receipt must not inherit another receipt's revealed percentage breakdown.")
-	correct_index = -1
-	for index: int in range(selector.item_count):
-		if StringName(selector.get_item_metadata(index)) == revised_receipt.diagnosed_bottleneck:
-			correct_index = index
-			break
-	_assert(correct_index >= 0, "The revised receipt's supported diagnosis must remain selectable.")
+	for still_locked_selector: OptionButton in final_part_selectors.values():
+		_assert(still_locked_selector.disabled, "An incorrect diagnosis must not unlock hardware experimentation.")
+	_assert(not final_program_editor.editable, "An incorrect diagnosis must not unlock workload editing.")
 	selector.select(correct_index)
 	main.call("_confirm_diagnosis")
 	await process_frame
-	_assert(bool(chapter.call("completed_levels").get(&"bottleneck", false)), "A correct first diagnosis for the new receipt must complete Chapter 1.")
+	_assert(bool(chapter.call("completed_levels").get(&"bottleneck", false)), "Correcting the diagnosis from the same immutable receipt must complete Chapter 1.")
 	for correct_first_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
-		_assert((profiler_labels[correct_first_metric] as Label).visible, "%s must remain observable after a correct-first diagnosis." % correct_first_metric)
-	_assert(shares_label.visible and "%" in shares_label.text, "A correct-first diagnosis must reveal the complete breakdown before any lesson overlay.")
+		_assert((profiler_labels[correct_first_metric] as Label).visible, "%s must remain observable after the corrected diagnosis." % correct_first_metric)
+	_assert(shares_label.visible and "%" in shares_label.text, "A correct diagnosis must keep the complete breakdown visible before any lesson overlay.")
+	for unlocked_selector: OptionButton in final_part_selectors.values():
+		_assert(not unlocked_selector.disabled, "A correct diagnosis must unlock the final hardware sandbox.")
+	_assert(final_program_editor.editable, "A correct diagnosis must unlock the final workload sandbox.")
 	_assert(chapter.call("completed_levels").size() == 5, "The normal completion path must cover exactly all five chapter levels.")
 	var final_completion: Control = main.get("level_completion_overlay")
 	var final_continue: Button = final_completion.get("continue_button")
@@ -367,7 +374,7 @@ func _run() -> void:
 	var final_history_text: String = String((main.get("history_label") as RichTextLabel).text)
 	_assert(final_history_panel.visible, "Run History must come forward only after the final Trace finishes.")
 	_assert(
-		_t(&"system.history.observation", [main.call("_machine_summary", revised_receipt)]) in final_history_text,
+		_t(&"system.history.observation", [main.call("_machine_summary", final_receipt)]) in final_history_text,
 		"The final single-machine evidence must be labeled as the current observation, not as a comparison baseline."
 	)
 	conclusion_button.pressed.emit()
@@ -427,6 +434,33 @@ func _complete_comparison(
 	await process_frame
 	var unlocked_receipts: Array = chapter.call("receipts_for", level_id)
 	_assert(main.get("latest_receipt") == null and unlocked_receipts.is_empty(), "%s must reject official evidence until the player locks a prediction." % level_id)
+	if level_id == &"cpu_speed":
+		var editor: CodeEdit = main.get("editor")
+		var authored_source: String = String((main.get("current_level_definition") as Dictionary).get("program_source", ""))
+		editor.text = authored_source.replace("store(OUTPUT[0], acc)", "acc += 0\nstore(OUTPUT[0], acc)")
+		main.call("_on_program_changed")
+		main.call("_apply_program")
+		_lock_prediction(main)
+		_assert(not selector.disabled, "A custom debug-only workload must leave hardware choices open for free experimentation.")
+		selector.select(1)
+		main.call("_on_part_selected", 1, kind)
+		main.call("_run_official")
+		await process_frame
+		var custom_observation = main.get("latest_receipt")
+		_assert(
+			custom_observation != null and custom_observation.all_passed
+			and chapter.call("receipts_for", level_id).is_empty(),
+			"A correct custom program must run all cases but remain debug-only instead of creating progression evidence."
+		)
+		_assert(
+			String((main.get("test_status_label") as Label).text) == _t(&"system.test_bench.custom_program_debug_only", [
+				custom_observation.passed_cases, custom_observation.total_cases,
+			]),
+			"The Test Bench must explicitly label a custom-program observation as debug-only."
+		)
+		editor.text = authored_source
+		main.call("_on_program_changed")
+		main.call("_apply_program")
 	_lock_prediction(main)
 	_assert(selector.disabled, "%s must keep the changed endpoint locked until the baseline passes." % level_id)
 	var forced_parts: Dictionary = main.get("selected_part_ids")

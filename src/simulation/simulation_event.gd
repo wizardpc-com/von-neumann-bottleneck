@@ -44,6 +44,11 @@ func _init(
 
 
 func to_dictionary() -> Dictionary:
+	# Scheduling coordinates are presentation evidence and must not invalidate an
+	# otherwise identical run receipt when Trace navigation evolves.
+	var signature_details: Dictionary = details.duplicate(true)
+	signature_details.erase("pass_index")
+	signature_details.erase("work_group_index")
 	return {
 		"kind": String(kind),
 		"cycle": cycle,
@@ -56,6 +61,5 @@ func to_dictionary() -> Dictionary:
 		"message": message,
 		"source_line": source_line,
 		"route_devices": route_devices.map(func(device: StringName) -> String: return String(device)),
-		"details": details,
+		"details": signature_details,
 	}
-

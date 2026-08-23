@@ -43,6 +43,21 @@ func _init() -> void:
 func _run() -> void:
 	_assert(_current_locale() == "zh_CN", "Simplified Chinese must be the startup locale.")
 	_assert(_t(&"hub.subtitle") == "可玩研究原型", "The default catalog must present Chinese player-facing copy.")
+	_assert(_t(&"hub.locality.title") == "第 2 章：让数据留在近处", "The hub must present the locality campaign as the formal second chapter.")
+	_assert("v0.2" not in _t(&"hub.locality.eyebrow") and "v0.2" not in _t(&"hub.locality.open"), "The formal Chapter 2 hub card must not retain legacy-prototype identity copy.")
+	_assert(_t(&"trace.playback.next_evidence") == "下一关键证据" and _t(&"trace.playback.finish_now") == "结束播放", "The Chinese Trace controls must name evidence navigation rather than simulation mutation.")
+	_assert(_t(&"chapter2.status.first_experiment_one_change") == "第一次实验只改变一个杠杆；先运行并观察结果，再组合方案。", "The Chinese capstone boundary must ask for one controlled first change without prescribing the lever.")
+	_assert(_t(&"chapter2.capstone.history.raw_metrics", [642, 608, 32]) == "总计 642 cycles · CPU WAIT 608 cycles · 数据请求 32", "The Chinese pre-diagnosis History copy must expose only raw totals with all placeholders intact.")
+	_assert(_t(&"chapter2.history.personal_best", [138, 104, 4, "1-line Cache"]) == "个人最佳 · 138 cycles · CPU WAIT 104 · 成本 4\n1-line Cache", "The Chinese Personal Best copy must preserve all four evidence placeholders.")
+	_assert(
+		_t(&"chapter2.profiler.tree.schedule") == "调度证据"
+		and _t(&"chapter2.profiler.tree.pass", [2]) == "第 2 轮"
+		and _t(&"chapter2.profiler.tree.pass_group", [3, 2]) == "工作组 3 · 第 2 轮"
+		and _t(&"chapter2.profiler.tree.schedule_event", [42, "远端获取"]) == "cycle 42 · 远端获取"
+		and _t(&"chapter2.profiler.event_schedule.pass", [2]) == "调度 · 第 2 轮"
+		and _t(&"chapter2.profiler.event_schedule.pass_group", [3, 2]) == "调度 · 工作组 3 · 第 2 轮",
+		"The Chinese Profiler schedule copy must preserve pass/work-group meaning and placeholder order."
+	)
 	_assert(_supported_locales() == PackedStringArray(["zh_CN", "en"]), "Supported locales must be explicit and stable.")
 
 	var used_keys: Array[StringName] = _localized_source_keys()
@@ -56,6 +71,21 @@ func _run() -> void:
 		for key: StringName in used_keys:
 			_assert(_t(key) != String(key), "%s catalog is missing key %s." % [locale, key])
 	_assert(_t(&"hub.subtitle") == "PLAYABLE RESEARCH BUILDS", "English must remain a working alternate catalog.")
+	_assert(_t(&"hub.locality.title") == "CHAPTER 2: REDUCING DATA MOVEMENT", "The English hub must present the formal Chapter 2 identity.")
+	_assert("v0.2" not in _t(&"hub.locality.eyebrow") and "v0.2" not in _t(&"hub.locality.open"), "The English Chapter 2 hub card must not regress to legacy-prototype identity copy.")
+	_assert(_t(&"trace.playback.next_evidence") == "Next evidence" and _t(&"trace.playback.finish_now") == "Finish Trace", "The English Trace controls must preserve their evidence-navigation semantics.")
+	_assert(_t(&"chapter2.status.first_experiment_one_change") == "Change only one lever in the first experiment; run and inspect it before combining solutions.", "The English capstone boundary must ask for one controlled first change without prescribing the lever.")
+	_assert(_t(&"chapter2.capstone.history.raw_metrics", [642, 608, 32]) == "Total 642 cycles · CPU WAIT 608 cycles · Data requests 32", "The English pre-diagnosis History copy must expose only raw totals with all placeholders intact.")
+	_assert(_t(&"chapter2.history.personal_best", [138, 104, 4, "1-line Cache"]) == "Personal best · 138 cycles · CPU WAIT 104 · Cost 4\n1-line Cache", "The English Personal Best copy must preserve all four evidence placeholders.")
+	_assert(
+		_t(&"chapter2.profiler.tree.schedule") == "Schedule evidence"
+		and _t(&"chapter2.profiler.tree.pass", [2]) == "Pass 2"
+		and _t(&"chapter2.profiler.tree.pass_group", [3, 2]) == "Work group 3 · Pass 2"
+		and _t(&"chapter2.profiler.tree.schedule_event", [42, "far fetch"]) == "cycle 42 · far fetch"
+		and _t(&"chapter2.profiler.event_schedule.pass", [2]) == "Schedule · Pass 2"
+		and _t(&"chapter2.profiler.event_schedule.pass_group", [3, 2]) == "Schedule · Work group 3 · Pass 2",
+		"The English Profiler schedule copy must preserve pass/work-group meaning and placeholder order."
+	)
 	var locale_before_rejection: String = _current_locale()
 	_assert(not _set_locale("ja") and _current_locale() == locale_before_rejection, "Unsupported locales must be rejected without changing presentation state.")
 

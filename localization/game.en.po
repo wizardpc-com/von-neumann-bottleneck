@@ -112,16 +112,16 @@ msgid "hardware.prologue.open_system"
 msgstr "ENTER CHAPTER 1 WITH MY CPU AND RAM"
 
 msgid "hub.locality.title"
-msgstr "CACHE LOCALITY LAB"
+msgstr "CHAPTER 2: REDUCING DATA MOVEMENT"
 
 msgid "hub.locality.eyebrow"
-msgstr "PRESERVED PROTOTYPE v0.2"
+msgstr "CACHE · LOCALITY · WORKING SET"
 
 msgid "hub.locality.description"
-msgstr "The existing Draft → Apply → Execute locality experiment remains available as historical and design evidence."
+msgstr "Follow seven short investigations from repeated distant reads to Cache, Locality, Working Set, Blocking, and an open-ended final diagnosis."
 
 msgid "hub.locality.open"
-msgstr "Open v0.2 Locality Lab"
+msgstr "OPEN CHAPTER MAP"
 
 msgid "hub.note"
 msgstr "These playable slices validate different gameplay hypotheses and form one growing game."
@@ -449,6 +449,12 @@ msgstr "[%03d/%03d] cycle %d +%d · source L%d · %s"
 
 msgid "trace.playback.complete"
 msgstr "Trace complete — playback consumed the precomputed trace without changing results."
+
+msgid "trace.playback.next_evidence"
+msgstr "Next evidence"
+
+msgid "trace.playback.finish_now"
+msgstr "Finish Trace"
 
 msgid "trace.playback.inputs_changed"
 msgstr "Inputs changed. Run again to create matching Trace evidence."
@@ -1955,6 +1961,9 @@ msgstr "The program cannot be applied yet"
 msgid "system.status.program_applied"
 msgstr "Program confirmed and applied; new runs use this version"
 
+msgid "system.status.official_program_required"
+msgstr "Chapter 1 progression requires this level's authored workload; this custom run remains debug evidence only."
+
 msgid "system.status.apply_required"
 msgstr "The draft is not applied; tests only run confirmed code"
 
@@ -2187,7 +2196,10 @@ msgid "system.dsl.explanation.store"
 msgstr "Write one result byte over CPU → Bus → RAM: %s"
 
 msgid "system.test_bench.help"
-msgstr "A single debug case does not unlock progress. Official tests create evidence bound to current code, wiring, parts, and fixed cases."
+msgstr "Debug cases and custom programs do not unlock progress. The authored workload creates evidence bound to current wiring, parts, and fixed cases."
+
+msgid "system.test_bench.custom_program_debug_only"
+msgstr "Custom-program debug result: %d / %d cases passed. Only the authored workload creates Chapter 1 progression evidence."
 
 msgid "system.test_bench.case"
 msgstr "%s · input %s"
@@ -2669,6 +2681,15 @@ msgstr "Work grouping selected: %s."
 msgid "chapter2.status.judgment_recheck"
 msgstr "That claim is not yet supported by the captured evidence. Recheck Trace and Profiler."
 
+msgid "chapter2.status.review_pending"
+msgstr "The evidence supports your finding. Finish reviewing the Trace, then open the finding."
+
+msgid "chapter2.status.review_ready"
+msgstr "Trace review complete. Open the finding when you are ready."
+
+msgid "chapter2.status.first_experiment_one_change"
+msgstr "Change only one lever in the first experiment; run and inspect it before combining solutions."
+
 msgid "chapter2.status.run_complete"
 msgstr "%s · Total %d cycles · CPU WAIT %d · RAM %d B."
 
@@ -2753,6 +2774,12 @@ msgstr "Evidence %d/%d · run both without and with nearby storage."
 msgid "chapter2.progress.baseline_required"
 msgstr "Evidence %d/%d · run the given machine before changing it."
 
+msgid "chapter2.progress.diagnosis_required"
+msgstr "Evidence %d/%d · commit the explanation supported by the raw baseline Trace."
+
+msgid "chapter2.progress.review_required"
+msgstr "Evidence %d/%d · review the completed Trace, then open the finding."
+
 msgid "chapter2.progress.target_required"
 msgstr "Evidence %d/%d · correct, but still above the cycle target."
 
@@ -2813,6 +2840,27 @@ msgstr "BLOCK %d LINE(S)\n%d integers per tile"
 msgid "chapter2.capstone.finish"
 msgstr "FINISH CHAPTER"
 
+msgid "chapter2.review.finding"
+msgstr "OPEN FINDING"
+
+msgid "chapter2.capstone.summary"
+msgstr "BASELINE → BEST\nTotal: %d → %d cycles (%d fewer)\nCPU WAIT: %d → %d cycles (%d fewer)\nHardware cost: %d\nBest configuration: %s\n\nYou diagnosed repeated far fetches before changing the machine. Multiple solutions remain valid."
+
+msgid "chapter2.capstone.profiler.raw_summary"
+msgstr "%s\nRaw evidence · Total %d cycles · CPU WAIT %d cycles"
+
+msgid "chapter2.capstone.history.raw_title"
+msgstr "BEFORE DIAGNOSIS · RAW RUN EVIDENCE"
+
+msgid "chapter2.capstone.history.raw_metrics"
+msgstr "Total %d cycles · CPU WAIT %d cycles · Data requests %d"
+
+msgid "chapter2.capstone.history.diagnose_first"
+msgstr "Diagnose from the Trace and data flow first; the full memory breakdown follows."
+
+msgid "chapter2.capstone.profiler.breakdown_locked"
+msgstr "Full breakdown unlocks after your baseline diagnosis"
+
 msgid "chapter2.profiler.summary.direct"
 msgstr "%s\nTotal %d · CPU WAIT %d · Near returns %d · Far fetches %d · RAM %d B"
 
@@ -2836,6 +2884,24 @@ msgstr "Select a far-memory fetch to inspect its source line and returned data b
 
 msgid "chapter2.profiler.tree.data_block"
 msgstr "data block %d"
+
+msgid "chapter2.profiler.tree.schedule"
+msgstr "Schedule evidence"
+
+msgid "chapter2.profiler.tree.pass"
+msgstr "Pass %d"
+
+msgid "chapter2.profiler.tree.pass_group"
+msgstr "Work group %d · Pass %d"
+
+msgid "chapter2.profiler.tree.schedule_event"
+msgstr "cycle %d · %s"
+
+msgid "chapter2.profiler.event_schedule.pass"
+msgstr "Schedule · Pass %d"
+
+msgid "chapter2.profiler.event_schedule.pass_group"
+msgstr "Schedule · Work group %d · Pass %d"
 
 msgid "chapter2.profiler.event_detail"
 msgstr "Cycle %d · source line %d\nA[%d][%d] → address %d · data block %d\nFetched A addresses %d..%d = %s"
@@ -2872,6 +2938,9 @@ msgstr "BASELINE · %s"
 
 msgid "chapter2.history.baseline_metrics"
 msgstr "Total %d · CPU WAIT %d · Far fetches %d · Near returns %d · RAM %d B · Cost %d"
+
+msgid "chapter2.history.personal_best"
+msgstr "Personal best · %d cycles · CPU WAIT %d · Cost %d\n%s"
 
 msgid "chapter2.history.run_again"
 msgstr "Make one change and rerun to create a Before → After comparison."
@@ -3217,3 +3286,12 @@ msgstr "First run the machine as given. Then use Trace, Profiler, and Before →
 
 msgid "chapter2.level.capstone.learned"
 msgstr "You completed the full loop: observe, diagnose, change one cause, and compare. Multiple hardware/software solutions remain valid."
+
+msgid "chapter2.level.capstone.judgment.repeated_far_fetch"
+msgstr "The CPU repeatedly waits while data is fetched again from far memory."
+
+msgid "chapter2.level.capstone.judgment.more_cpu_math"
+msgstr "Most cycles are spent on CPU arithmetic."
+
+msgid "chapter2.level.capstone.judgment.wrong_result"
+msgstr "The machine is slow because the program computes the wrong result."

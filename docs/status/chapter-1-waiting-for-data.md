@@ -12,7 +12,7 @@ Chapter 1 is a five-level, prerequisite-gated performance investigation after th
 | 4 | How Many Trips for One Byte? | lock a prediction and compare two Bus widths while CPU/RAM/program/tests stay fixed |
 | 5 | Bottleneck Investigation | pass the fixed 4/16/64 cases, diagnose from raw evidence, then inspect the revealed breakdown |
 
-Programs are editable through a bounded Python-shaped DSL, but software optimization is not required. Editing creates a draft; only **Confirm & Apply** replaces executable source. Every supported line is explained from the parsed instruction rather than from separate hidden logic.
+Programs are editable through a bounded Python-shaped DSL, but software optimization is not required. Editing creates a draft; only **Confirm & Apply** replaces executable source. Every supported line is explained from the parsed instruction rather than from separate hidden logic. Custom programs may still run as debug experiments, but only the authored per-level program can create a progression receipt; this keeps the controlled CPU/RAM/Bus evidence comparable.
 
 ## Deterministic model
 
@@ -32,11 +32,11 @@ Simulation finishes before playback. Each route is drawn once in a player-select
 
 The three controlled investigations require the player to lock a prediction before the first official run. The prediction remains visible beside the resulting evidence; it is not scored for correctness and cannot be rewritten after seeing the outcome. The player first establishes the authored baseline, then changes only CPU, RAM, or Bus as named by the level.
 
-An official run creates a `SystemRunReceipt` that records the applied program signature, current topology signature, fixed test-set signature, selected part IDs, aggregate metrics, case Trace signatures, correctness, and trace-derived diagnosis. Comparison levels group receipts only when the non-compared parts, applied program, and test set match. Run History promotes a qualifying pair into a Before → After comparison that names the sole changed part, fixed controls, total-cycle delta, CPU-wait delta, and the locked prediction. Debug runs never unlock progression.
+An authored official run creates a `SystemRunReceipt` that records the applied program signature, current topology signature, fixed test-set signature, selected part IDs, aggregate metrics, case Trace signatures, correctness, and trace-derived diagnosis. A custom-program official-button run still reports its cases and Trace, but is explicitly labeled debug-only and is not stored as chapter evidence. Comparison levels group receipts only when the non-compared parts, applied program, and test set match. Run History promotes a qualifying pair into a Before → After comparison that names the sole changed part, fixed controls, total-cycle delta, CPU-wait delta, and the locked prediction. Debug runs never unlock progression.
 
 The CPU comparison is the chapter's explicit cognitive reversal. Eco → Fast reduces the authored CPU arithmetic cost from four cycles to one, but leaves the same memory traffic and CPU WAIT. Arithmetic is four times faster while total cycles improve by only about 15%; the Trace, visible `WAIT`, and comparison deltas explain the difference.
 
-The Profiler opens through five tiers: total time; CPU compute/wait; RAM service/request count; Bus control/data/serialization; then the final investigation's raw totals and workload evidence. In the final level, the complete CPU/RAM/Bus cycle breakdown remains locked before the first diagnosis. The player first judges from the 4/16/64 growth rows, total cycles, CPU WAIT, and raw Trace/data flow; submitting a diagnosis reveals the full breakdown for explanation and correction. The deterministic receipt already owns those metrics and diagnosis—the reveal is presentation-only.
+The Profiler opens through five tiers: total time; CPU compute/wait; RAM service/request count; Bus control/data/serialization; then the final investigation's raw totals and workload evidence. Before the first final diagnosis, both the authored program and default CPU/RAM/Bus selection are restored and locked, so the question is bound to the exact machine that produced its evidence. The complete CPU/RAM/Bus cycle breakdown also remains hidden. The player first judges from the 4/16/64 growth rows, total cycles, CPU WAIT, and raw Trace/data flow. Any first diagnosis reveals the full breakdown for explanation or correction; only the correct diagnosis reopens the hardware and Program sandbox for further experiments. The deterministic receipt already owns those metrics and diagnosis—the reveal is presentation-only.
 
 Mission, Parts, Program, Test Bench, Profiler, and Run History are independent movable, resizable, minimizable windows. An official comparison first plays its Trace; Run History is brought forward only when playback finishes. Completing a level exposes **Review investigation finding** instead of immediately covering the evidence. The player may inspect Trace, Profiler, and History before opening the localized lesson summary; its **Continue** action returns to the five-node chapter map. The overlay and audio consume completed evidence only; neither participates in timing, receipts, diagnosis, or progression rules.
 
@@ -48,7 +48,7 @@ Mission, Parts, Program, Test Bench, Profiler, and Run History are independent m
 - Fixed system slots are not cloneable or permanently removable. Deleting a device is expressed as removing its incident routes; Chapter 1 has no prologue-style free component palette, junctions, or endpoint waypoints.
 - The DSL is not Python and has no nested loops, branches, functions, or arbitrary memory addressing.
 - Art, difficulty tuning, and workload constants are prototype-quality and require playtest. The completion cue is a replaceable procedural placeholder rather than authored chapter music.
-- Cache, locality, line replacement, and software/hardware optimization interaction remain in the separate preserved v0.2 lab and are not taught in this chapter.
+- Cache, locality, line replacement, and software/hardware optimization interaction are taught in the separate formal Chapter 2 and are not introduced here.
 
 ## Manual playtest questions
 
@@ -61,5 +61,6 @@ Mission, Parts, Program, Test Bench, Profiler, and Run History are independent m
 - Does the final 4/16/64 evidence support a diagnosis without the locked breakdown becoming frustrating?
 - Does the post-submission breakdown help players explain or correct their answer rather than merely announce it?
 - Does the final diagnosis feel earned from the exact system that ran?
+- Does labeling custom programs as debug-only preserve experimentation without making the authored evidence boundary feel arbitrary?
 - Does each completion summary reinforce the correct bottleneck concept, and does its cue/Continue handoff feel satisfying without interrupting investigation flow?
 - Is the five-node chapter short enough to preserve investigative momentum, and which prediction or explanation still feels repetitive?

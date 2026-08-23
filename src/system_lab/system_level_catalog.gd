@@ -102,6 +102,18 @@ func test_set_signature(level_id: StringName) -> String:
 	return JSON.stringify(cases).sha256_text()
 
 
+func official_program_signature(level_id: StringName) -> String:
+	return String(_levels.get(level_id, {}).get("program_source", "")).sha256_text()
+
+
+func requires_authored_program(level_id: StringName) -> bool:
+	return bool(_levels.get(level_id, {}).get("requires_authored_program", false))
+
+
+func is_official_program_signature(level_id: StringName, program_signature: String) -> bool:
+	return not requires_authored_program(level_id) or program_signature == official_program_signature(level_id)
+
+
 func completion_status(level_id: StringName, receipts: Array, selected_diagnosis: StringName = &"") -> Dictionary:
 	var level: Dictionary = _levels.get(level_id, {})
 	if level.is_empty():
@@ -112,7 +124,12 @@ func completion_status(level_id: StringName, receipts: Array, selected_diagnosis
 		if receipt_variant == null:
 			continue
 		var receipt = receipt_variant
-		if receipt.level_id == level_id and receipt.test_set_signature == expected_test_signature and receipt.all_passed:
+		if (
+			receipt.level_id == level_id
+			and receipt.test_set_signature == expected_test_signature
+			and receipt.all_passed
+			and is_official_program_signature(level_id, receipt.program_signature)
+		):
 			matching.append(receipt)
 	var comparison_kind := StringName(level.get("comparison_kind", &"none"))
 	var minimum_runs: int = int(level.get("minimum_runs", 1))
@@ -321,6 +338,7 @@ func _register_level(
 		"comparison_kind": comparison_kind,
 		"minimum_runs": minimum_runs,
 		"diagnosis_required": diagnosis_required,
+		"requires_authored_program": order > 0,
 		"prediction_key": prediction_key,
 		"prediction_options": prediction_options.duplicate(true),
 	}

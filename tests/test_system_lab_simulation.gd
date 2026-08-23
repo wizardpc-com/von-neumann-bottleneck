@@ -223,6 +223,38 @@ func _test_receipts_and_completion_rules() -> void:
 	)
 	_assert(not catalog.completion_status(&"cpu_speed", [eco_receipt, uncontrolled_receipt]).complete, "Changing RAM while comparing CPU must not count as a controlled comparison.")
 	_assert(catalog.completion_status(&"cpu_speed", [eco_receipt, fast_receipt]).complete, "Two distinct CPUs under one applied program must complete the comparison.")
+	_assert(not catalog.requires_authored_program(&"assembly"), "Assembly must retain its existing program-editing completion path.")
+	for official_level_id: StringName in [&"cpu_speed", &"ram_wait", &"bus_width", &"bottleneck"]:
+		_assert(
+			catalog.requires_authored_program(official_level_id),
+			"Performance investigation %s must bind progression to its authored workload." % official_level_id
+		)
+	_assert(
+		catalog.is_official_program_signature(&"cpu_speed", eco_receipt.program_signature),
+		"The authored workload signature must be accepted as official evidence."
+	)
+	var custom_program = ParserType.parse(String(level["program_source"]).replace("store(OUTPUT[0], acc)", "acc += 0\nstore(OUTPUT[0], acc)"))
+	var custom_receipts: Array = []
+	for cpu_id: StringName in [&"cpu_eco", &"cpu_fast"]:
+		var custom_traces: Array = []
+		for case: Dictionary in level["cases"]:
+			custom_traces.append(core.run(
+				custom_program,
+				_topology(cpu_id, &"ram_slow", &"bus_8"),
+				_typed_int_array(case["input"]), _typed_int_array(case["expected"]), String(case["name"])
+			))
+		var custom_receipt = ReceiptType.new()
+		custom_receipt.populate_from_traces(
+			&"cpu_speed", custom_traces, catalog.test_set_signature(&"cpu_speed"),
+			{&"cpu": cpu_id, &"ram": &"ram_slow", &"bus": &"bus_8"}
+		)
+		_assert(custom_receipt.all_passed, "A behaviorally correct custom program must remain runnable for debugging.")
+		custom_receipts.append(custom_receipt)
+	_assert(
+		not catalog.is_official_program_signature(&"cpu_speed", custom_receipts[0].program_signature)
+		and not catalog.completion_status(&"cpu_speed", custom_receipts).complete,
+		"A custom program must not become progression evidence by preserving the expected outputs."
+	)
 	var changed_source_receipt = ReceiptType.new()
 	changed_source_receipt.populate_from_traces(
 		&"cpu_speed", fast_traces, "different-test-set",

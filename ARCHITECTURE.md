@@ -34,8 +34,10 @@ Chapter 1 bottleneck completion + registered seven-level prerequisites
   -> SimulationCore.run() or additive run_workload()
   -> complete SimulationTrace + metrics + source/route evidence
   -> immutable LocalityRunReceipt + Before → After comparison
+  -> qualifying observation receipt carried read-only into its paired solution level
   -> read-only playback, component feedback, and progressive Profiler investigation
-  -> evidence judgment or trace-derived performance completion
+  -> evidence judgment or trace-derived performance finding
+  -> completed Trace + explicit finding review
   -> delayed Systems Notebook concept reveal
 ```
 
@@ -53,6 +55,8 @@ prologue CPU/RAM source signatures + selected compatible parts
   -> complete diagnostic breakdown only after the player's first submitted diagnosis
 ```
 
+Chapter 1 progression receipts additionally require the authored per-level program signature. Custom programs can execute as debug evidence but cannot enter controlled comparisons. Before the first final diagnosis, the authored program and default machine parts remain fixed alongside the hidden breakdown.
+
 ## Subsystems
 
 - `src/game/game_mode.gd` owns the explicit session-wide Game/Test mode. Game is the default; Test unlocks valid registered levels through a separate temporary content state and never changes simulation or Game-mode progression.
@@ -63,10 +67,10 @@ prologue CPU/RAM source signatures + selected compatible parts
 - `src/simulation/simulation_core.gd` recursively executes that IR and owns the deterministic cost model, Cache state, events, result, and metrics. Its legacy `run()` path preserves the one-pass v0.2 trace exactly. The additive `run_workload()` path executes direct RAM observation or one/two program passes with bounded program-derived work groups; it has no UI dependency and no hidden row/column result branch.
 - `src/simulation/simulation_event.gd` and `simulation_trace.gd` are the simulation/presentation boundary. Events retain source line, device route, and investigation details; the trace retains exact source and supports canonical deterministic comparisons.
 - `src/system_lab/` owns Chapter 1's separate 8-bit CPU/RAM/Bus specifications, six typed routes, bounded program parser, sequential cost model, deterministic Trace/receipt/diagnosis, five-level prediction-and-investigation catalog, isolated Game/Test chapter state, graphical chapter map, system desktop, player-colored route rendering, component-native feedback, exact-segment flow-band/value-badge overlay, controlled Before → After evidence, gated diagnostic breakdown, and completion handoff to its own map. It deliberately has no Cache or circuit-gate evaluator.
-- `src/locality_chapter/` owns Chapter 2's seven-level runtime catalog, isolated Game/Test completion and receipt state, concept-unlock rules, and trace-bound run receipts. It reuses the generic registered identity/order/dependency contract without executing content dictionaries.
+- `src/locality_chapter/` owns Chapter 2's seven-level runtime catalog, isolated Game/Test completion and receipt state, concept-unlock rules, trace-bound run receipts, and exact validation of the observation receipts that may become paired-level baselines. It reuses the generic registered identity/order/dependency contract without executing content dictionaries.
 - `src/content/locality/` registers the Chapter 2 branch and seven sequential descriptors. Locality-specific workload and UI metadata remains in the typed Chapter 2 catalog rather than stretching the campaign registry into a simulator.
 - `src/ui/prototype_hub.tscn` is the project entry scene and selects Hardware Foundations, Chapter 1, or Chapter 2. Chapter 2 is gated behind Chapter 1 in Game mode and open in Test mode.
-- `src/ui/main.gd` wraps the established locality GraphEdit workbench in a seven-node map and per-level tool configuration. It owns Mission judgments, Program Apply, direct/Cache topology presentation, Work Group controls, staged playback, progressive Profiler, Before → After history, Systems Notebook, and completion presentation; none of those determine simulation.
+- `src/ui/main.gd` wraps the established locality GraphEdit workbench in a seven-node map and per-level tool configuration. It owns Mission judgments, Program Apply, direct/Cache topology presentation, Work Group controls, staged/key-evidence/end playback navigation, progressive Profiler, inherited Before → After plus Personal Best history, post-playback finding review, diagnosis-gated capstone evidence, Systems Notebook, and Baseline → Best completion presentation; none of those determine simulation.
 - `src/ui/floating_instrument_panel.gd` provides embedded movable, resizable, minimizable, independently closable windows used by both playable slices.
 - `src/ui/level_completion_overlay.gd` presents an already-authoritative level completion with localized lesson copy, a replaceable in-memory audio cue, and a Continue signal. It never determines results, unlocks, timing, or saved state; each host performs its own return-to-map action.
 - `src/ui/trace_overlay.gd` renders only a compact moving packet along a continuous presentation path. Inter-component portions use the workbench's actual GraphEdit connections; in-component portions stay inside the actual device body, whose real card/state supplies processing feedback. It does not call the simulation.

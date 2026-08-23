@@ -195,7 +195,8 @@ func _run() -> void:
 	var history: Array[Dictionary] = main.get("run_history")
 	_assert(history.size() == 4, "Run History must retain all compared evidence across program, Cache, and blocking changes.")
 	var history_label: Label = main.get("profiler_history_label")
-	_assert("210" in history_label.text and "138" in history_label.text and "CPU WAIT" in history_label.text, "Run History must foreground the latest Before → After total and wait deltas.")
+	_assert("642" in history_label.text and "138" in history_label.text and "CPU WAIT" in history_label.text, "Run History must keep the authored Baseline → Current total and wait deltas visible after several experiments.")
+	_assert("个人最佳" in history_label.text or "Personal best" in history_label.text, "Run History must identify the best official result instead of losing it among adjacent runs.")
 
 	main.queue_free()
 	await process_frame
@@ -205,6 +206,12 @@ func _run() -> void:
 	for _hub_frame: int in range(2):
 		await process_frame
 	_assert(hub.get("fullscreen_button") != null, "The startup hub must expose the same visible fullscreen toggle as both gameplay screens.")
+	var hub_fullscreen: Button = hub.get("fullscreen_button")
+	var fullscreen_rect := Rect2(hub_fullscreen.position, hub_fullscreen.size)
+	_assert(
+		Rect2(Vector2.ZERO, hub.size).encloses(fullscreen_rect),
+		"The Hub fullscreen control must remain inside the visible viewport; got %s in %s." % [fullscreen_rect, hub.size]
+	)
 	hub.queue_free()
 	await process_frame
 	if failures.is_empty():

@@ -30,8 +30,8 @@ On the normal Windows Godot layout these files are under `%APPDATA%\Godot\app_us
 ## Starting a clean internal playtest
 
 1. Close the game, then launch `Von-Neumann-Bottleneck.exe --test-mode --reset-local-test-state` (or `godot --path . -- --test-mode --reset-local-test-state` from the repository).
-2. The reset removes the active anonymous session streams and all Hardware workbenches, including named local test designs. Existing files under `playtest_data/exports/` remain intact.
+2. The reset removes the global Game save, active anonymous session streams, and all Hardware workbenches, including named local test designs. Existing files under `playtest_data/exports/` remain intact.
 3. Play from the prologue through Chapter 2 without `--disable-playtest-telemetry`. Answer or skip each compact feedback surface.
 4. At the final Demo handoff, choose **Export Playtest Data**, note the displayed path, and use **Open Folder** if desired.
 
-This is not a general save-game or analytics-upload system. Cross-session aggregation, cohort analysis, account identity, remote collection, and deletion/retention policy UI remain out of scope.
+Telemetry remains separate from the minimal Game Save/Continue service and is never authoritative progression input. Cross-session aggregation, cohort analysis, account identity, remote collection, and deletion/retention policy UI remain out of scope.

@@ -31,7 +31,7 @@ Public Turing Complete material confirms the useful product concepts rather than
 - Players can retain alternative solutions and component placement between launches without persisting a potentially brittle edit-command log.
 - Test mode experiments cannot overwrite Game-mode workbenches.
 - Hint topology is inspectable along the same displayed wires and component symbols as player topology, while completion remains tied only to the player's authoritative graph.
-- Workbench topology is now durable even though campaign progress and reusable-component libraries remain session-local. A later persistence milestone must coordinate those separate manifests instead of claiming this file is a whole-game save.
+- Workbench topology is durable independently of campaign progress. ADR 0018 later coordinates the global recovery index with these workbenches while retaining this file as the sole topology authority.
 - Version 2 has no rename/delete/share/export UI and no migration from unknown future schemas. Unsupported/corrupt component entries fail closed; required fixed terminals are restored from current level content for player workbenches, but not injected into deliberately smaller hint snapshots.
 
 ## Alternatives considered

@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted for the current playable prototype.
+Accepted for the current playable prototype. The session-local Game-progress constraint was superseded by ADR 0018; the Test-isolation decision remains active.
 
 ## Context
 
@@ -18,7 +18,7 @@ The project has multiple entry/play scenes, so a scene-local testing flag could 
 - Keep separate in-memory `PlayerContentState` objects for Game and Test mode inside Hardware Foundations.
 - In Test mode, treat every valid registered level as enterable and install a bounded temporary library containing the reusable definitions required to instantiate the current campaign.
 - Do not mark those levels completed. Official runs still evaluate the player's actual displayed circuit, and any completion achieved in Test mode remains only in Test state.
-- Switching back to Game mode restores its exact prior content state. Mode, progress, and window layout remain session-local.
+- Switching back to Game mode restores its exact prior content state. Mode and window layout remain session-local; ADR 0018 later makes only Game progress persistent without changing Test isolation.
 
 ## Alternatives considered
 

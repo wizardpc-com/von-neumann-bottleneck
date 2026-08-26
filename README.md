@@ -67,9 +67,11 @@ The interface defaults to Simplified Chinese. Start with the English catalog usi
 godot --path . -- --locale=en
 ```
 
-An ordinary launch always enters Game mode and hides development-only mode controls. For isolated development access to every current level, launch with `godot --path . -- --test-mode`; the selector is then available for QA. Game/Test progress is isolated; progression is session-local, while named per-level workbench topology is saved locally.
+An ordinary launch always enters Game mode and hides development-only mode controls. Chapter selection offers **Continue** after the first completed task and a confirmed **New Game** action. Game progression and verified reusable-component provenance persist locally in `savegame_v1.json`; named circuit topology remains in the independent workbench file. If a required workbench topology is missing or its signature no longer matches, only that design and its dependents require replay.
 
-For a clean developer playtest that removes local anonymous session streams and Hardware workbenches while preserving prior exported JSON files:
+For isolated development access to every current level, launch with `godot --path . -- --test-mode`; the selector is then available for QA. Test progression stays temporary and is never copied into the Game save.
+
+For a clean developer playtest that removes Game progression, local anonymous session streams, and Hardware workbenches while preserving prior exported JSON files:
 
 ```powershell
 godot --path . -- --test-mode --reset-local-test-state

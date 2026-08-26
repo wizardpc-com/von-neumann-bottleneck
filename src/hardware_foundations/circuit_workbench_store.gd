@@ -131,6 +131,18 @@ func switch_workbench(
 	return _persist()
 
 
+func clear_namespace(namespace_id: StringName) -> bool:
+	var namespace_key: String = String(namespace_id)
+	if namespace_key.is_empty():
+		last_error = "Cannot clear an empty workbench namespace."
+		return false
+	if not disk_write_allowed:
+		return false
+	_namespaces.erase(namespace_key)
+	last_error = ""
+	return _persist()
+
+
 func canonical_signature() -> String:
 	return JSON.stringify(manifest_snapshot())
 

@@ -108,7 +108,7 @@ The access-order implementation retains the one-pass 105-cycle target. Blocking 
 ## Prototype-scale shortcuts
 
 - Hardware Foundations supports the fixed one-/two-/four-bit components needed by this prologue, including a deliberately bounded SR-latch feedback path and step-boundary register/RAM/computer state. It has no general clock, edge waveform, tri-state switch, analog/metastability model, arbitrary width, HDL, or user-authored component schema.
-- Reusable components and campaign progress are session-local. Source snapshots/provenance support this fixed hierarchy, but there is no persistence format, arbitrary recursive composition, or cross-session library.
+- Game campaign progress persists through a versioned recovery index. Reusable components cross sessions only when a matching saved Game workbench reconstructs the stored source signature and passes the current official verifier; arbitrary recursive composition and untrusted cross-session libraries remain unsupported.
 - The four-bit accumulator consumes Test Bench instructions directly; instruction memory/fetch, a program counter, decoding exercises, pipeline, interrupts, and production ISA are not implemented.
 - The parser permits only two nested `range(4)` loops for the fixed 4×4 workload.
 - The result store targets Test Bench rather than array memory.

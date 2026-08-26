@@ -22,6 +22,7 @@ PlaytestData="*res://src/playtest/playtest_data.gd"
 WindowMode="*res://src/ui/window_mode.gd"
 SystemChapter="*res://src/system_lab/system_chapter_state.gd"
 LocalityChapter="*res://src/locality_chapter/locality_chapter_state.gd"
+GlobalSave="*res://src/save/global_save.gd"
 
 [display]
 

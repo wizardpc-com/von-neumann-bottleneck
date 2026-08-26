@@ -18,6 +18,13 @@ const TEXT := Color("e9f0fa")
 var mode_selector: GameModeSelectorType
 var mode_description_label: Label
 var fullscreen_button: FullscreenButtonType
+var save_actions: Control
+var continue_button: Button
+var new_game_button: Button
+var new_game_overlay: Control
+var new_game_clear_workbenches: CheckBox
+var new_game_status: Label
+var new_game_confirm_button: Button
 var system_entry_button: Button
 var locality_entry_button: Button
 var terminology_handbook: TerminologyHandbookType
@@ -40,7 +47,9 @@ func _ready() -> void:
 	WindowMode.window_mode_changed.connect(_on_window_mode_changed)
 	_refresh_mode_description()
 	var arguments: PackedStringArray = OS.get_cmdline_user_args()
-	if "--capture-options" in arguments:
+	if "--capture-new-game" in arguments:
+		call_deferred("_open_new_game_confirmation")
+	elif "--capture-options" in arguments:
 		call_deferred("_open_options_menu")
 	elif "--capture-terminology" in arguments:
 		terminology_handbook.call_deferred("open_handbook", &"accumulator")
@@ -69,7 +78,9 @@ func _input(event: InputEvent) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not _is_escape_press(event):
 		return
-	if options_overlay.visible:
+	if new_game_overlay != null and new_game_overlay.visible:
+		_close_new_game_confirmation()
+	elif options_overlay.visible:
 		_close_options_menu()
 	else:
 		_open_options_menu()
@@ -122,6 +133,7 @@ func _build_interface() -> void:
 	mode_description_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
 	content.add_child(mode_description_label)
+	_build_save_actions(content)
 	var cards := HBoxContainer.new()
 	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(cards)
@@ -166,6 +178,103 @@ func _build_interface() -> void:
 	terminology_handbook = TerminologyHandbookType.new()
 	add_child(terminology_handbook)
 	_build_options_menu()
+	_build_new_game_confirmation()
+	_refresh_save_actions()
+
+
+func _build_save_actions(content: VBoxContainer) -> void:
+	var center := CenterContainer.new()
+	center.name = "SaveActions"
+	content.add_child(center)
+	save_actions = center
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	center.add_child(row)
+	continue_button = Button.new()
+	continue_button.name = "ContinueButton"
+	continue_button.text = Localization.text(&"hub.save.continue")
+	continue_button.custom_minimum_size = Vector2(210.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
+	continue_button.pressed.connect(_continue_game)
+	row.add_child(continue_button)
+	new_game_button = Button.new()
+	new_game_button.name = "NewGameButton"
+	new_game_button.text = Localization.text(&"hub.save.new_game")
+	new_game_button.custom_minimum_size = Vector2(210.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
+	new_game_button.pressed.connect(_open_new_game_confirmation)
+	row.add_child(new_game_button)
+
+
+func _build_new_game_confirmation() -> void:
+	new_game_overlay = Control.new()
+	new_game_overlay.name = "NewGameConfirmationOverlay"
+	new_game_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	new_game_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	new_game_overlay.z_index = 1200
+	add_child(new_game_overlay)
+	var backdrop := ColorRect.new()
+	backdrop.color = Color("050a12", 0.82)
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+	new_game_overlay.add_child(backdrop)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	new_game_overlay.add_child(center)
+	var panel := PanelContainer.new()
+	panel.name = "NewGameConfirmationPanel"
+	panel.custom_minimum_size = Vector2(660.0, 390.0)
+	panel.add_theme_stylebox_override("panel", _stylebox(PANEL, 16, 2, DANGER))
+	center.add_child(panel)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 38)
+	margin.add_theme_constant_override("margin_right", 38)
+	margin.add_theme_constant_override("margin_top", 30)
+	margin.add_theme_constant_override("margin_bottom", 30)
+	panel.add_child(margin)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 16)
+	margin.add_child(column)
+	var title := Label.new()
+	title.text = Localization.text(&"hub.save.new_game.title")
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title.add_theme_color_override("font_color", DANGER)
+	column.add_child(title)
+	var body := Label.new()
+	body.text = Localization.text(&"hub.save.new_game.body")
+	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.add_theme_color_override("font_color", MUTED)
+	column.add_child(body)
+	new_game_clear_workbenches = CheckBox.new()
+	new_game_clear_workbenches.name = "ClearGameWorkbenchesCheckBox"
+	new_game_clear_workbenches.text = Localization.text(&"hub.save.new_game.clear_workbenches")
+	column.add_child(new_game_clear_workbenches)
+	new_game_status = Label.new()
+	new_game_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	new_game_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	new_game_status.add_theme_color_override("font_color", DANGER)
+	column.add_child(new_game_status)
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(spacer)
+	var actions := HBoxContainer.new()
+	actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_child(actions)
+	var cancel := Button.new()
+	cancel.name = "NewGameCancelButton"
+	cancel.text = Localization.text(&"hub.save.new_game.cancel")
+	cancel.custom_minimum_size = Vector2(210.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
+	cancel.pressed.connect(_close_new_game_confirmation)
+	actions.add_child(cancel)
+	new_game_confirm_button = Button.new()
+	new_game_confirm_button.name = "NewGameConfirmButton"
+	new_game_confirm_button.text = Localization.text(&"hub.save.new_game.confirm")
+	new_game_confirm_button.custom_minimum_size = Vector2(210.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
+	new_game_confirm_button.add_theme_color_override("font_color", DANGER)
+	new_game_confirm_button.pressed.connect(_confirm_new_game)
+	actions.add_child(new_game_confirm_button)
+	new_game_overlay.hide()
 
 
 func _build_options_menu() -> void:
@@ -272,7 +381,7 @@ func _options_button(text: String) -> Button:
 
 
 func _open_options_menu() -> void:
-	if options_overlay == null or options_overlay.visible:
+	if options_overlay == null or options_overlay.visible or (new_game_overlay != null and new_game_overlay.visible):
 		return
 	options_previous_focus = get_viewport().gui_get_focus_owner()
 	_refresh_options_fullscreen_label()
@@ -291,7 +400,41 @@ func _close_options_menu() -> void:
 
 
 func _quit_game() -> void:
+	GlobalSave.save_game()
 	get_tree().quit()
+
+
+func _continue_game() -> void:
+	var scene_path: String = GlobalSave.continue_scene_path()
+	if not scene_path.is_empty():
+		get_tree().change_scene_to_file(scene_path)
+
+
+func _open_new_game_confirmation() -> void:
+	if new_game_overlay == null or new_game_overlay.visible:
+		return
+	new_game_status.text = ""
+	new_game_clear_workbenches.button_pressed = false
+	new_game_overlay.show()
+	new_game_confirm_button.grab_focus()
+
+
+func _close_new_game_confirmation() -> void:
+	if new_game_overlay == null or not new_game_overlay.visible:
+		return
+	new_game_overlay.hide()
+	new_game_confirm_button.release_focus()
+	if new_game_button != null:
+		new_game_button.grab_focus()
+
+
+func _confirm_new_game() -> void:
+	var result: Dictionary = GlobalSave.start_new_game(new_game_clear_workbenches.button_pressed)
+	_refresh_save_actions()
+	if not bool(result.get("ok", false)):
+		new_game_status.text = Localization.text(&"hub.save.new_game.error", [String(result.get("error", ""))])
+		return
+	get_tree().change_scene_to_file("res://src/hardware_foundations/hardware_foundations.tscn")
 
 
 func _export_playtest_data() -> void:
@@ -333,8 +476,20 @@ func _is_escape_press(event: InputEvent) -> bool:
 
 func _on_game_mode_changed(_mode: StringName) -> void:
 	_refresh_mode_description()
+	_refresh_save_actions()
 	_refresh_system_entry()
 	_refresh_locality_entry()
+
+
+func _refresh_save_actions() -> void:
+	if save_actions == null:
+		return
+	save_actions.visible = not GameMode.is_test_mode()
+	if continue_button == null:
+		return
+	var can_continue: bool = GlobalSave.has_resume_progress()
+	continue_button.disabled = not can_continue
+	continue_button.tooltip_text = "" if can_continue else Localization.text(&"hub.save.continue_unavailable")
 
 
 func _refresh_mode_description() -> void:

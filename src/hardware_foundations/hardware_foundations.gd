@@ -81,11 +81,11 @@ var passing_topology_signature: String = ""
 var sealed_half_adder: ReusableHalfAdder
 var level_catalog := PrologueLevelCatalogType.new()
 var prologue_simulator := PrologueSimulatorType.new()
-var game_player_content := PlayerContentStateType.new()
+var game_player_content = null
 var test_player_content := PlayerContentStateType.new()
-var player_content = game_player_content
-var component_library: Dictionary = player_content.component_library
-var completed_levels: Dictionary = player_content.completed_levels
+var player_content = null
+var component_library: Dictionary = {}
+var completed_levels: Dictionary = {}
 var campaign_level_buttons: Dictionary[StringName, Button] = {}
 var current_level_id: StringName = &""
 var current_level_definition: Dictionary = {}
@@ -220,6 +220,7 @@ var sealing_elapsed: float = 0.0
 
 
 func _ready() -> void:
+	game_player_content = GlobalSave.game_player_content
 	_configure_workbench_store()
 	_build_theme()
 	_build_interface()
@@ -515,6 +516,8 @@ func _prepare_prologue_storage_capture() -> void:
 
 
 func _activate_content_state() -> void:
+	if not GameMode.is_test_mode():
+		game_player_content = GlobalSave.game_player_content
 	player_content = test_player_content if GameMode.is_test_mode() else game_player_content
 	component_library = player_content.component_library
 	completed_levels = player_content.completed_levels
@@ -6832,7 +6835,7 @@ func _update_tutorial_checklist() -> void:
 	var complete: bool = tutorial_created_wire and tutorial_changed_input and tutorial_valid_run and tutorial_removed_wire and tutorial_reconnected_wire
 	var newly_completed: bool = complete and not bool(completed_levels.get(&"tutorial", false))
 	if complete:
-		completed_levels[&"tutorial"] = true
+		player_content.mark_completed(&"tutorial")
 	if newly_completed:
 		PlaytestData.level_completed(&"hardware_foundations", &"tutorial")
 		call_deferred("_show_level_completion", &"tutorial")

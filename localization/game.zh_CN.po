@@ -78,6 +78,33 @@ msgstr "切换全屏显示（F11 或 Alt+Enter）"
 msgid "hub.subtitle"
 msgstr "可玩研究原型"
 
+msgid "hub.save.continue"
+msgstr "继续游戏"
+
+msgid "hub.save.continue_unavailable"
+msgstr "目前没有可用的正常模式存档。"
+
+msgid "hub.save.new_game"
+msgstr "新游戏"
+
+msgid "hub.save.new_game.title"
+msgstr "开始新游戏？"
+
+msgid "hub.save.new_game.body"
+msgstr "确认后将清除正常模式进度。试玩数据导出与测试模式进度不会被删除；除非勾选下方选项，已有电路工作台也会保留。"
+
+msgid "hub.save.new_game.clear_workbenches"
+msgstr "同时清除正常模式的电路工作台"
+
+msgid "hub.save.new_game.cancel"
+msgstr "取消"
+
+msgid "hub.save.new_game.confirm"
+msgstr "清除进度并开始"
+
+msgid "hub.save.new_game.error"
+msgstr "新游戏重置未能完成：%s"
+
 msgid "hub.options.title"
 msgstr "选项"
 

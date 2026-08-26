@@ -141,6 +141,12 @@ static func from_dictionary(data: Dictionary) -> LogicComponent:
 	var output_widths: Array[int] = []
 	for width_variant: Variant in data.get("output_port_widths", []):
 		output_widths.append(int(width_variant))
+	var restored_properties: Dictionary = (data.get("properties", {}) as Dictionary).duplicate(true)
+	# JSON numbers reload as floats; these fields are integer circuit semantics and
+	# must round-trip identically for provenance signatures.
+	for integer_key: String in ["width", "value"]:
+		if restored_properties.has(integer_key):
+			restored_properties[integer_key] = int(restored_properties[integer_key])
 	var component := LogicComponent.new(
 		StringName(data.get("id", "")),
 		StringName(data.get("kind", "")),
@@ -151,7 +157,7 @@ static func from_dictionary(data: Dictionary) -> LogicComponent:
 		output_names,
 		input_widths,
 		output_widths,
-		(data.get("properties", {}) as Dictionary).duplicate(true)
+		restored_properties
 	)
 	return component if not component.id.is_empty() and component.is_supported() else null
 

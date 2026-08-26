@@ -78,6 +78,33 @@ msgstr "Toggle fullscreen (F11 or Alt+Enter)"
 msgid "hub.subtitle"
 msgstr "PLAYABLE RESEARCH BUILDS"
 
+msgid "hub.save.continue"
+msgstr "Continue"
+
+msgid "hub.save.continue_unavailable"
+msgstr "No valid Game Mode save is available yet."
+
+msgid "hub.save.new_game"
+msgstr "New Game"
+
+msgid "hub.save.new_game.title"
+msgstr "Start a new game?"
+
+msgid "hub.save.new_game.body"
+msgstr "This clears Game Mode progression after confirmation. Telemetry exports and Test Mode progress are never deleted. Your saved circuit workbenches stay unless you select the option below."
+
+msgid "hub.save.new_game.clear_workbenches"
+msgstr "Also clear Game Mode circuit workbenches"
+
+msgid "hub.save.new_game.cancel"
+msgstr "Cancel"
+
+msgid "hub.save.new_game.confirm"
+msgstr "Clear progression and start"
+
+msgid "hub.save.new_game.error"
+msgstr "The New Game reset could not be completed: %s"
+
 msgid "hub.options.title"
 msgstr "OPTIONS"
 

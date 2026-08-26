@@ -22,11 +22,27 @@ func _run() -> void:
 		await process_frame
 	_assert((hub.get("system_entry_button") as Button).disabled, "Game mode must gate Chapter 1 until the prologue provenance handoff.")
 	_assert(hub.get("terminology_handbook") != null, "Chapter selection must expose the shared terminology handbook.")
+	var save_actions: Control = hub.get("save_actions")
+	var continue_button: Button = hub.get("continue_button")
+	var new_game_button: Button = hub.get("new_game_button")
+	_assert(
+		save_actions.visible and continue_button.disabled and new_game_button.visible,
+		"A fresh Game-mode hub must show New Game and a disabled Continue without exposing false progress."
+	)
+	new_game_button.pressed.emit()
+	await process_frame
+	_assert(
+		(hub.get("new_game_overlay") as Control).visible
+		and not (hub.get("new_game_clear_workbenches") as CheckBox).button_pressed,
+		"New Game must require explicit confirmation and preserve Game workbenches by default."
+	)
+	hub.call("_close_new_game_confirmation")
 	var hub_fullscreen: Control = hub.get("fullscreen_button")
 	_assert(hub.get_rect().encloses(hub_fullscreen.get_rect()), "The three-card hub must keep its fullscreen action completely on screen.")
 	game_mode.call("set_mode", &"test")
 	await process_frame
 	_assert(not (hub.get("system_entry_button") as Button).disabled, "Test mode must expose the Chapter 1 hub entry immediately.")
+	_assert(not save_actions.visible, "Test mode must hide player-facing Continue/New Game controls from the QA session.")
 	_assert(not bool(chapter.call("capture_prologue", {})), "Test mode must not fabricate or overwrite Game-mode prologue provenance.")
 	hub.queue_free()
 	await process_frame

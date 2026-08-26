@@ -18,7 +18,7 @@ Observation levels require an official run plus an explicit evidence judgment; r
 
 Non-capstone completion enters a pending-finding state. The successful Trace remains visible and must finish playback before **Open finding** appears; only that explicit review commits completion and reveals the lesson or new terminology. The capstone likewise requires its given baseline first, but keeps Program, Cache, Work Group, and the detailed Profiler and Run History breakdowns locked until the player diagnoses the repeated far fetches from raw totals, CPU WAIT, request count, Trace, and data flow. The first post-diagnosis experiment may change only one lever until its official Trace is observed; only then can the chapter complete and all learned controls be combined for further optimization.
 
-Game mode gates the chapter behind Chapter 1's final bottleneck diagnosis and follows the seven registered prerequisites. Test mode is an explicit QA sandbox: it exposes every valid level through separate progress and receipts and skips the capstone's diagnosis/decision locks and hidden-breakdown presentation. Chapter and notebook progress remain session-local.
+Game mode gates the chapter behind Chapter 1's final bottleneck diagnosis and follows the seven registered prerequisites. Test mode is an explicit QA sandbox: it exposes every valid level through separate progress and receipts and skips the capstone's diagnosis/decision locks and hidden-breakdown presentation. Game completion persists in the global save, and Notebook unlocks are derived from that sanitized completion; Test progression remains session-local.
 
 ## Deterministic reference evidence
 
@@ -69,7 +69,7 @@ The Systems Notebook contains the Chapter 1 concepts CPU WAIT, Controlled Compar
 
 - The model remains fixed at one 4×4 array, four integers per line, fully associative LRU, sequential requests, and no overlap or prefetch.
 - Program editing remains the bounded Python-shaped DSL; Work Group is a small authored control rather than a programming exercise.
-- Progress, receipts, Run History, and Notebook entries remain session-local gameplay state. The separate playtest observer records only bounded semantic actions and counters, never these authoritative objects or full player-authored contents; see [`playtest-instrumentation.md`](playtest-instrumentation.md).
+- Game completion persists as the minimum prerequisite set, and Notebook unlocks are derived again after load. Receipts, Run History, transient Notebook presentation, and Test progress remain session-local. The separate playtest observer records only bounded semantic actions and counters, never these authoritative objects or full player-authored contents; see [`playtest-instrumentation.md`](playtest-instrumentation.md).
 - Procedural device cards and floating windows are playtest UI, not production art or audio.
 
 External playtesting should determine whether players use the carried-forward evidence instead of treating paired levels as unrelated tasks, inspect Trace before opening a finding, understand the 2-3 “Cache present but still slow” reversal, distinguish poor access order from an oversized working set, diagnose the capstone before guessing a replacement part, and discover more than one solution. Those results should drive pacing and copy changes before adding new cache mechanisms.

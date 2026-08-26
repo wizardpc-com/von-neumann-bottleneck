@@ -62,9 +62,9 @@ Branch and level order is explicit and deterministic, with stable ID ordering on
 
 ## Player-owned content state
 
-`PlayerContentState` owns the session component library and completion set. The Hardware Foundations controller retains its legacy dictionary aliases for UI/test compatibility, but installation and invalidation go through this domain object.
+`PlayerContentState` owns one component library and completion set. The Hardware Foundations controller retains its legacy dictionary aliases for UI/test compatibility, but installation and invalidation go through this domain object.
 
-Hardware Foundations keeps separate Game-mode and Test-mode instances. Game mode uses only verified player rewards and the registered prerequisite graph. Test mode explicitly bypasses valid registered prerequisites and receives a bounded temporary library sufficient to instantiate the current late levels, but does not fabricate completion flags. Switching modes swaps the active aliases rather than copying dictionaries, so test helpers and test completions cannot leak into Game-mode evidence. This is a session development boundary, not a persistence or simulation feature.
+Hardware Foundations keeps separate Game-mode and Test-mode instances. Game mode uses only verified player rewards and the registered prerequisite graph. Test mode explicitly bypasses valid registered prerequisites and receives a bounded temporary library sufficient to instantiate the current late levels, but does not fabricate completion flags. Switching modes swaps the active aliases rather than copying dictionaries, so test helpers and test completions cannot leak into Game-mode evidence. Only the Game instance participates in global persistence.
 
 Installing a verified reusable design:
 
@@ -75,13 +75,13 @@ Installing a verified reusable design:
 5. creates any declared generated wrappers from the primary signature; and
 6. marks the owning level complete.
 
-The state exposes a deterministic canonical signature and a versioned `manifest_snapshot()`. The snapshot is a save-ready boundary for completion and provenance, not a disk save implementation: it deliberately does not claim that arbitrary topology can already be reconstructed across versions.
+The state exposes a deterministic canonical signature and a versioned `manifest_snapshot()`. `GlobalSave` persists that small manifest as a recovery index, not as proof. On load, each primary reusable is reconstructed from a Game workbench whose canonical circuit signature equals the saved source signature, whose embedded reusable bindings match the already restored library, and whose current official Test Bench passes. Registered dependency order makes a mismatch fail closed without erasing an independent branch. Generated wrappers are then recreated from the current recipe and the revalidated primary signature.
 
 This boundary also gives future assisted/automatic design tools a safe integration point. Such a tool should produce a normal `LogicCircuit`, submit it to the same level Test Bench and deterministic simulator, and call `PlayerContentState.install_reusable()` only after the same official evidence succeeds. It must not write completion flags or inject a hidden truth-table result directly.
 
-The LOAD/STORE completion action is also the explicit boundary into Chapter 1. `SystemChapter.capture_prologue()` hashes the verified `TinyComputer`/`ALU4`/`Register4` lineage and retains the verified `RAM2x4` signature. `SystemLevelCatalog` uses those values only as provenance for compatible CPU8/RAM64x8 system parts; it does not reinterpret the smaller gate circuit as an arbitrary-width implementation. Chapter receipts and progression live in a separate Game/Test session state because system-performance evidence is not a reusable circuit reward.
+The LOAD/STORE completion action is also the explicit boundary into Chapter 1. `SystemChapter.capture_prologue()` hashes the verified `TinyComputer`/`ALU4`/`Register4` lineage and retains the verified `RAM2x4` signature. `SystemLevelCatalog` uses those values only as provenance for compatible CPU8/RAM64x8 system parts; it does not reinterpret the smaller gate circuit as an arbitrary-width implementation. The Game completion set and handoff signatures persist, but run receipts do not; Test completion and receipts remain session-only.
 
-Chapter 1's final bottleneck completion is the explicit gate into Chapter 2. `LocalityChapter` owns separate Game/Test completion and trace-bound receipt sets plus concept prerequisites. It does not copy Chapter 1 traces or treat Notebook concepts as reusable circuit rewards. `LocalityLevelCatalog` queries the registered prerequisite chain and supplies only bounded trusted runtime configuration to the existing locality simulator/UI.
+Chapter 1's final bottleneck completion is the explicit gate into Chapter 2. `LocalityChapter` owns separate Game/Test completion and trace-bound receipt sets plus concept prerequisites. Only the Game completion set persists; receipts and capstone experiment state do not. Systems Notebook concepts are derived again from the sanitized Chapter 1/2 completions rather than stored as a second authority. `LocalityLevelCatalog` queries the registered prerequisite chain and supplies only bounded trusted runtime configuration to the existing locality simulator/UI.
 
 ## Named workbench persistence
 
@@ -123,10 +123,16 @@ Adding a genuinely new component kind still requires an explicit, reviewed verti
 
 This is deliberate. A universal dictionary evaluator or data-authored script would be an accidental HDL, weaken validation, and incorrectly force gates, CPU state, and Cache locality into one simulation model. The content registry reduces authoring duplication; it does not erase domain boundaries.
 
+## Global Save / Continue boundary
+
+`GlobalSave` writes schema 1 to `user://savegame_v1.json` through a validated temporary file and retains one previous valid backup. A corrupt primary may recover that backup; an unknown future schema disables automatic writes so an older build cannot guess or overwrite it. Saving occurs at Game completion, reusable installation/invalidation, chapter/concept-gate changes, and normal exit—not per frame.
+
+Continue routes to the deepest valid chapter map. It does not resume an exact screen, draft, Trace position, or runtime memory value. New Game requires confirmation, clears the Game recovery index, preserves telemetry and exports, and preserves Hardware workbenches unless the player separately opts to clear only the Game workbench namespace. The existing `--reset-local-test-state` developer flag clears the global save together with raw local playtest/workbench state while retaining exports.
+
 ## Current limitations
 
 - Current reusable definitions preserve a player circuit snapshot/signature, but opaque placement still selects one of the trusted built-in behavior kinds. Arbitrary recursively nested player-defined components are not implemented.
-- The player-content manifest remains session-only and cannot restore completion/reusable provenance. Named workbench topology has a separate version-2 seed-fingerprinted disk snapshot with a bounded version-1 migration, but there is no general migration framework, cloud sync, mod loader, workshop, or untrusted content execution.
+- The global save supports schema 1 only; unknown future schemas fail closed. Named workbench topology remains a separate version-2 seed-fingerprinted disk snapshot with a bounded version-1 migration. There is no cloud sync, save-slot UI, general migration framework, mod loader, workshop, or untrusted content execution.
 - Workbenches can currently be created and switched but not renamed, deleted, shared, or exported.
 - The Hardware Foundations scene controller is still large. Campaign knowledge has moved out, but view extraction should be driven by measured change pressure rather than a broad rewrite.
 - New storage timing, bus contention, Cache behavior, or locality objectives require explicit deterministic domain design. The bounded Chapter 1 system domain and Chapter 2 locality domain reuse Test Bench/player-evidence patterns where natural without becoming a speculative universal simulator.

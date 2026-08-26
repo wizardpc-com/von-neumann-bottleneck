@@ -65,7 +65,7 @@ official Test Bench pass + unchanged topology signature
 - Every state boundary emits explicit set/reset/write/hold/read evidence, including unchanged HOLD/READ operations. Official storage rows show the requested action and simulator-derived state before and after the step; both RAM word registers commit/hold in one parallel wave.
 - Each official case computes immediately before its own animation, but later cases and the aggregate verdict remain unpublished. Components ready in the same causal wave animate together; all segments of a zero-delay routed net move together along their exact current connection curves. The editable Clock Period sets each visible wave's duration without changing evidence. Stateful reusable components retain a compact stored-value readout between transient effects.
 - Sealed components keep the player's source topology signature and snapshot. Generated `ALU4`/`Register4` wrappers record the verified one-bit source signature rather than pretending the repeated word implementation was separately built.
-- `PlayerContentState` owns completion and reusable rewards, including replacement-driven dependent invalidation. It exposes deterministic identity and a versioned in-memory manifest for future save/assisted-design integration.
+- `PlayerContentState` owns completion and reusable rewards, including replacement-driven dependent invalidation. Its versioned manifest is persisted as a recovery index; reusable rewards are restored only after a matching Game workbench topology passes the current official verifier.
 
 ## Interaction and presentation
 
@@ -79,7 +79,7 @@ Ports remain red for low, green for high, and gray for explicit high impedance/u
 
 ## Intentional temporary limitations
 
-- Named workbench topology and component positions persist locally in a version-2 seed-fingerprinted file. Campaign completion, reusable components, window placement, history, clipboard, debug values, and runtime storage state remain session-local; there is no coordinated whole-game save or persistent component library yet.
+- Named workbench topology and component positions persist locally in a version-2 seed-fingerprinted file. A separate version-1 Game save persists sanitized campaign completion and recoverable reusable provenance. Window placement, history, clipboard, debug values, receipts, Trace position, and runtime storage state remain session-local.
 - Workbenches can be created and switched but not renamed/deleted/shared. Unknown future snapshot schemas are rejected rather than guessed.
 - Only the fixed component kinds and one-/two-/four-bit widths required by this sequence exist. The user-set Clock Period is presentation-only; there is no player-authored general clock, HDL, arbitrary component authoring, arbitrary word width, or level editor.
 - `ALU4` and `Register4` are generated wrappers after their one-bit concepts pass; the player cannot open their four slices as a separately editable nested graph in this iteration.

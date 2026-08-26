@@ -43,7 +43,7 @@ Mission, Parts, Program, Test Bench, Profiler, and Run History are independent m
 ## Intentional temporary limitations
 
 - CPU8 and RAM64x8 are compatible system-level wrappers whose provenance hashes the player's verified smaller prologue abstractions. The gate campaign itself remains at its current one-/four-bit widths.
-- Chapter completion, predictions, receipts, applied drafts, window placement, and level-session layouts are session-local. There is no coordinated whole-game save yet.
+- Game-mode chapter completion and the verified prologue handoff persist through the global save. Predictions, receipts, applied drafts, window placement, and level-session layouts remain session-local.
 - The assembly system has exactly one CPU, one Bus, one RAM, and six supported typed routes. There is no arbitrary system graph, multiple driver, bus arbitration, or multi-core model.
 - Fixed system slots are not cloneable or permanently removable. Deleting a device is expressed as removing its incident routes; Chapter 1 has no prologue-style free component palette, junctions, or endpoint waypoints.
 - The DSL is not Python and has no nested loops, branches, functions, or arbitrary memory addressing.

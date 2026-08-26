@@ -16,7 +16,7 @@ Optional localized feedback appears only at natural level/chapter/Demo completio
 
 An active marker permits interrupted-session recovery. A player-facing Options action exports the current session, events, normalized summaries, and feedback as one versioned JSON file. Submitting or skipping the final Demo form leads directly to the same prominent export action, reports the successful path, and offers to open the containing folder.
 
-`--reset-local-test-state` is the bounded developer clean-playtest entry: it removes the active marker, local session JSONL streams, and Hardware workbench manifest while deliberately preserving already exported JSON files and unrelated local data.
+`--reset-local-test-state` is the bounded developer clean-playtest entry: the telemetry service removes the active marker, local session JSONL streams, and Hardware workbench manifest; the independent global-save service removes Game progression. Already exported JSON files and unrelated local data remain preserved.
 
 ## Alternatives considered
 

@@ -1,6 +1,9 @@
 extends Node
 
 signal progression_changed
+signal persistent_state_changed
+
+const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
 
 const RECEIPT_LIMIT := 12
 
@@ -71,6 +74,8 @@ func mark_completed(level_id: StringName) -> void:
 		return
 	completed_levels()[level_id] = true
 	progression_changed.emit()
+	if not GameMode.is_test_mode():
+		persistent_state_changed.emit()
 
 
 func chapter_unlocked() -> bool:
@@ -87,8 +92,55 @@ func concept_unlocked(concept_id: StringName) -> bool:
 	return bool(completed_levels().get(requirement, false))
 
 
+func game_snapshot() -> Dictionary:
+	return {
+		"schema_version": 1,
+		"completed_levels": _completed_level_ids(game_completed),
+	}
+
+
+func restore_game(snapshot: Dictionary, chapter_ready: bool) -> void:
+	game_completed.clear()
+	game_receipts.clear()
+	game_capstone_first_experiment_observed = false
+	if chapter_ready and int(snapshot.get("schema_version", 0)) == 1:
+		var requested: Dictionary[StringName, bool] = _level_set(snapshot.get("completed_levels", []))
+		var catalog := LocalityLevelCatalogType.new()
+		for level_id: StringName in catalog.level_ids():
+			if bool(requested.get(level_id, false)) and catalog.is_unlocked(
+				level_id, game_completed, true, false
+			):
+				game_completed[level_id] = true
+	progression_changed.emit()
+
+
+func reset_game_progress() -> void:
+	game_completed.clear()
+	game_receipts.clear()
+	game_capstone_first_experiment_observed = false
+	progression_changed.emit()
+	persistent_state_changed.emit()
+
+
 func reset_test_progress() -> void:
 	test_completed.clear()
 	test_receipts.clear()
 	test_capstone_first_experiment_observed = false
 	progression_changed.emit()
+
+
+func _completed_level_ids(source: Dictionary) -> Array[String]:
+	var result: Array[String] = []
+	for level_id: StringName in source:
+		if bool(source[level_id]):
+			result.append(String(level_id))
+	result.sort()
+	return result
+
+
+func _level_set(source: Variant) -> Dictionary[StringName, bool]:
+	var result: Dictionary[StringName, bool] = {}
+	if source is Array:
+		for level_id: Variant in source:
+			result[StringName(level_id)] = true
+	return result

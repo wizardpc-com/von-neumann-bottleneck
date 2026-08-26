@@ -3,13 +3,17 @@ extends RefCounted
 
 const ReusableComponentType = preload("res://src/circuit/reusable_component.gd")
 
+signal persistent_state_changed
+
 var component_library: Dictionary = {}
 var completed_levels: Dictionary = {}
 
 
 func mark_completed(level_id: StringName) -> void:
-	if not level_id.is_empty():
-		completed_levels[level_id] = true
+	if level_id.is_empty() or bool(completed_levels.get(level_id, false)):
+		return
+	completed_levels[level_id] = true
+	persistent_state_changed.emit()
 
 
 func install_reusable(level_id: StringName, reusable, catalog) -> Array[StringName]:
@@ -26,7 +30,7 @@ func install_reusable(level_id: StringName, reusable, catalog) -> Array[StringNa
 	var invalidated: Array[StringName] = []
 	var previous = component_library.get(reusable.component_name)
 	if previous != null and previous.source_signature != reusable.source_signature:
-		invalidated = invalidate_dependents(level_id, catalog)
+		invalidated = _invalidate_dependents(level_id, catalog)
 	component_library[reusable.component_name] = reusable
 	for recipe: Dictionary in catalog.generated_rewards(level_id):
 		var generated_name := StringName(recipe.get("name", &""))
@@ -38,11 +42,18 @@ func install_reusable(level_id: StringName, reusable, catalog) -> Array[StringNa
 			[reusable.source_signature],
 			(recipe.get("properties", {}) as Dictionary).duplicate(true)
 		)
-	mark_completed(level_id)
+	completed_levels[level_id] = true
+	persistent_state_changed.emit()
 	return invalidated
 
 
 func invalidate_dependents(changed_level_id: StringName, catalog) -> Array[StringName]:
+	var invalidated: Array[StringName] = _invalidate_dependents(changed_level_id, catalog)
+	persistent_state_changed.emit()
+	return invalidated
+
+
+func _invalidate_dependents(changed_level_id: StringName, catalog) -> Array[StringName]:
 	var invalidated: Array[StringName] = catalog.dependent_level_ids(changed_level_id)
 	for level_id: StringName in invalidated:
 		completed_levels.erase(level_id)

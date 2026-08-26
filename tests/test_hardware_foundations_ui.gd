@@ -6,6 +6,7 @@ const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
 const CircuitLiveStateType = preload("res://src/circuit/circuit_live_state.gd")
 const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
 const HalfAdderTestBenchType = preload("res://src/circuit/half_adder_test_bench.gd")
+const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 var failures: Array[String] = []
@@ -131,11 +132,11 @@ func _run() -> void:
 	_assert(not is_instance_valid(tutorial_map_button), "A clicked map button must be released after its signal finishes instead of triggering Godot's locked-object error.")
 	var tutorial_task_window: Control = (main.get("desktop_windows") as Dictionary)[&"task"]
 	var tutorial_bench_window: Control = (main.get("desktop_windows") as Dictionary)[&"test_bench"]
-	var briefing_body: Label = tutorial_task_window.find_child("MissionBriefingBody", true, false)
+	var briefing_body: LinkedMissionText = tutorial_task_window.find_child("MissionBriefingBody", true, false)
 	_assert(
 		bool(main.get("mission_briefing_active"))
 		and int(main.get("mission_briefing_page")) == 0
-		and briefing_body != null and briefing_body.text.contains("0") and briefing_body.text.contains("1")
+		and briefing_body != null and briefing_body.get_parsed_text().contains("0") and briefing_body.get_parsed_text().contains("1")
 		and tutorial_task_window.size.x >= 640.0,
 		"Entering a level must open a large centered first-page mission briefing with the foundational 0/1 concept."
 	)
@@ -160,10 +161,10 @@ func _run() -> void:
 	minimize_button.pressed.emit()
 	await process_frame
 	_assert(not bool(main.get("mission_compact")) and Rect2(tutorial_task_window.position, tutorial_task_window.size).is_equal_approx(large_mission_rect), "The same Mission header action must restore the previous large briefing geometry.")
-	for briefing_page: int in range(3):
+	for briefing_page: int in range((main.call("_mission_briefing_pages") as Array).size()):
 		var continue_button: Button = main.get("mission_briefing_continue_button")
 		var previous_button: Button = main.get("mission_briefing_previous_button")
-		var current_briefing_body: Label = tutorial_task_window.find_child("MissionBriefingBody", true, false)
+		var current_briefing_body: LinkedMissionText = tutorial_task_window.find_child("MissionBriefingBody", true, false)
 		_assert(
 			int(main.get("mission_briefing_page")) == briefing_page
 			and previous_button.disabled == (briefing_page == 0)
@@ -1066,10 +1067,20 @@ func _run() -> void:
 	await process_frame
 	briefing_body = tutorial_task_window.find_child("MissionBriefingBody", true, false)
 	_assert(
-		briefing_body != null and briefing_body.text.contains("真值表")
-		and briefing_body.text.contains("0 0") and briefing_body.text.contains("1 1"),
+		briefing_body != null and briefing_body.get_parsed_text().contains("真值表")
+		and briefing_body.get_parsed_text().contains("0 0") and briefing_body.get_parsed_text().contains("1 1"),
 		"Half Adder briefing page 2 must define truth tables immediately and show all four required rows."
 	)
+	briefing_body.meta_clicked.emit(&"truth_table")
+	await process_frame
+	_assert(
+		bool(terminology_handbook.call("is_open"))
+		and (terminology_handbook.get("detail_title_label") as Label).text.contains("真值表"),
+		"Clicking a highlighted mission term must open the Handbook directly at that term."
+	)
+	terminology_handbook.call("close_handbook")
+	(main.get("mission_briefing_continue_button") as Button).pressed.emit()
+	await process_frame
 	(main.get("mission_briefing_continue_button") as Button).pressed.emit()
 	await process_frame
 	(main.get("mission_briefing_continue_button") as Button).pressed.emit()

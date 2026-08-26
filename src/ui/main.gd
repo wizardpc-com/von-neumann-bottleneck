@@ -12,6 +12,8 @@ const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
+const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
+const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 const ChapterMapViewType = preload("res://src/system_lab/system_chapter_map_view.gd")
 const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
@@ -102,7 +104,11 @@ var test_goal_label: Label
 var status_label: Label
 var mission_title_label: Label
 var mission_type_label: Label
-var mission_objective_label: Label
+var mission_objective_label: LinkedMissionTextType
+var mission_page_label: Label
+var mission_previous_button: Button
+var mission_continue_button: Button
+var mission_page: int = 0
 var mission_progress_label: Label
 var mission_judgment_box: VBoxContainer
 var mission_review_button: Button
@@ -580,10 +586,31 @@ func _build_mission_instrument() -> Control:
 	mission_title_label.add_theme_color_override("font_color", ACCENT)
 	mission_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(mission_title_label)
-	mission_objective_label = Label.new()
-	mission_objective_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mission_objective_label = LinkedMissionTextType.new()
 	mission_objective_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	mission_objective_label.term_requested.connect(_open_mission_term)
 	panel.add_child(mission_objective_label)
+	mission_page_label = Label.new()
+	mission_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	mission_page_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	mission_page_label.add_theme_color_override("font_color", MUTED)
+	panel.add_child(mission_page_label)
+	var mission_navigation := HBoxContainer.new()
+	mission_navigation.alignment = BoxContainer.ALIGNMENT_CENTER
+	mission_navigation.add_theme_constant_override("separation", 10)
+	panel.add_child(mission_navigation)
+	mission_previous_button = Button.new()
+	mission_previous_button.name = "MissionPreviousButton"
+	mission_previous_button.text = _t(&"hardware.briefing.previous")
+	mission_previous_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	mission_previous_button.pressed.connect(_change_mission_page.bind(-1))
+	mission_navigation.add_child(mission_previous_button)
+	mission_continue_button = Button.new()
+	mission_continue_button.name = "MissionContinueButton"
+	mission_continue_button.text = _t(&"hardware.briefing.continue")
+	mission_continue_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	mission_continue_button.pressed.connect(_change_mission_page.bind(1))
+	mission_navigation.add_child(mission_continue_button)
 	var divider := HSeparator.new()
 	panel.add_child(divider)
 	mission_progress_label = Label.new()
@@ -1072,7 +1099,8 @@ func _configure_graph_for_level() -> void:
 func _configure_mission() -> void:
 	mission_type_label.text = _t(StringName("chapter2.level_type.%s" % _cognitive_type(current_level_id)))
 	mission_title_label.text = _t(catalog.title_key(current_level_id))
-	mission_objective_label.text = _t(StringName(current_level.get("objective_key", &"")))
+	mission_page = 0
+	_refresh_mission_page()
 	for child: Node in mission_judgment_box.get_children():
 		child.queue_free()
 	mission_judgment_buttons.clear()
@@ -1086,6 +1114,33 @@ func _configure_mission() -> void:
 		mission_judgment_buttons[option_id] = button
 		mission_judgment_box.add_child(button)
 	_update_mission_progress()
+
+
+func _chapter2_mission_pages() -> Array:
+	return MissionNarrativeCatalogType.LOCALITY_PAGES.get(current_level_id, [&"chapter2.level.unknown.description"])
+
+
+func _refresh_mission_page() -> void:
+	var pages: Array = _chapter2_mission_pages()
+	mission_page = clampi(mission_page, 0, pages.size() - 1)
+	mission_objective_label.set_linked_text(_t(StringName(pages[mission_page])))
+	mission_page_label.text = _t(&"hardware.briefing.progress", [mission_page + 1, pages.size()])
+	mission_previous_button.disabled = mission_page == 0
+	mission_continue_button.disabled = mission_page == pages.size() - 1
+	mission_continue_button.text = _t(
+		&"mission.navigation.last_page" if mission_continue_button.disabled
+		else &"hardware.briefing.continue"
+	)
+
+
+func _change_mission_page(delta: int) -> void:
+	mission_page = clampi(mission_page + delta, 0, _chapter2_mission_pages().size() - 1)
+	_refresh_mission_page()
+
+
+func _open_mission_term(term_id: StringName) -> void:
+	if terminology_handbook != null:
+		terminology_handbook.open_handbook(term_id)
 
 
 func _select_judgment(judgment_id: StringName) -> void:

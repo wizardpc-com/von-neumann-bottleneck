@@ -40,7 +40,7 @@ These slices test successive gameplay hypotheses; together they are still only a
   <tr>
     <td width="50%" valign="top">
       <img src="docs/images/mission-briefing.png" alt="Mission briefing over the circuit workbench" width="100%">
-      <br><sub>Mission briefing — concept, goal, and verification before construction.</sub>
+      <br><sub>Mission briefing — concise staged guidance with direct links to the Handbook.</sub>
     </td>
     <td width="50%" valign="top">
       <img src="docs/images/circuit-wiring.png" alt="Circuit workbench with logic gates and visible wires" width="100%">

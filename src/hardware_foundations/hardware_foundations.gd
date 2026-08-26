@@ -32,6 +32,8 @@ const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
+const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
+const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 const BACKGROUND := Color("09101d")
@@ -291,6 +293,7 @@ func _prepare_mission_briefing_capture() -> void:
 func _prepare_mission_compact_capture() -> void:
 	await get_tree().process_frame
 	_begin_mission_briefing()
+	_advance_mission_briefing()
 	_advance_mission_briefing()
 	_advance_mission_briefing()
 	_advance_mission_briefing()
@@ -910,8 +913,10 @@ func _show_mission_briefing_page() -> void:
 	if not mission_briefing_active or mission_briefing_panel == null:
 		return
 	_clear_container(mission_briefing_panel)
+	var pages: Array = _mission_briefing_pages()
+	mission_briefing_page = clampi(mission_briefing_page, 0, pages.size() - 1)
 	var progress := Label.new()
-	progress.text = _t(&"hardware.briefing.progress", [mission_briefing_page + 1, 3])
+	progress.text = _t(&"hardware.briefing.progress", [mission_briefing_page + 1, pages.size()])
 	progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	progress.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	progress.add_theme_color_override("font_color", ACCENT)
@@ -923,17 +928,15 @@ func _show_mission_briefing_page() -> void:
 	heading.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	heading.add_theme_color_override("font_color", PURPLE)
 	mission_briefing_panel.add_child(heading)
-	var body := Label.new()
+	var body := LinkedMissionTextType.new()
 	body.name = "MissionBriefingBody"
-	body.text = _mission_briefing_body(mission_briefing_page)
-	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	body.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	body.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	body.add_theme_color_override("font_color", TEXT)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.term_requested.connect(_open_mission_term)
 	mission_briefing_panel.add_child(body)
-	if mission_briefing_page == 2:
+	body.set_linked_text(_mission_briefing_body(mission_briefing_page), true)
+	if mission_briefing_page == pages.size() - 1:
 		var move_note := Label.new()
 		move_note.text = _t(&"hardware.briefing.move_note")
 		move_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -951,7 +954,7 @@ func _show_mission_briefing_page() -> void:
 	mission_briefing_continue_button = Button.new()
 	mission_briefing_continue_button.name = "MissionBriefingContinue"
 	mission_briefing_continue_button.text = _t(
-		&"hardware.briefing.start" if mission_briefing_page == 2
+		&"hardware.briefing.start" if mission_briefing_page == pages.size() - 1
 		else &"hardware.briefing.continue"
 	)
 	mission_briefing_continue_button.custom_minimum_size = Vector2(
@@ -982,7 +985,7 @@ func _previous_mission_briefing() -> void:
 func _advance_mission_briefing() -> void:
 	if not mission_briefing_active:
 		return
-	if mission_briefing_page < 2:
+	if mission_briefing_page < _mission_briefing_pages().size() - 1:
 		mission_briefing_page += 1
 		_show_mission_briefing_page()
 		return
@@ -1124,32 +1127,28 @@ func _layout_compact_task_window(margin_override: float = -1.0) -> void:
 
 
 func _mission_briefing_stage_title(page: int) -> String:
-	return _t([
-		&"hardware.briefing.stage.concept",
-		&"hardware.briefing.stage.goal",
-		&"hardware.briefing.stage.verify",
-	][page])
+	var pages: Array = _mission_briefing_pages()
+	return _t(StringName((pages[page] as Dictionary).get(&"title", &"hardware.briefing.stage.goal")))
 
 
 func _mission_briefing_body(page: int) -> String:
-	match current_level_id:
-		&"tutorial":
-			return _t([
-				&"hardware.briefing.tutorial.1",
-				&"hardware.briefing.tutorial.2",
-				&"hardware.briefing.tutorial.3",
-			][page])
-		&"half_adder":
-			return _t([
-				&"hardware.briefing.half_adder.1",
-				&"hardware.briefing.half_adder.2",
-				&"hardware.briefing.half_adder.3",
-			][page])
-	if page == 0:
-		return _t(StringName(current_level_definition.get("description_key", &"hardware.hint.generic")))
-	if page == 1:
-		return _t(&"hardware.briefing.generic.goal")
-	return _t(&"hardware.briefing.generic.verify")
+	var pages: Array = _mission_briefing_pages()
+	return _t(StringName((pages[page] as Dictionary).get(&"body", &"hardware.hint.generic")))
+
+
+func _mission_briefing_pages() -> Array:
+	var pages: Array = MissionNarrativeCatalogType.HARDWARE_PAGES.get(current_level_id, [])
+	if pages.is_empty():
+		return [{
+			&"title": &"hardware.briefing.stage.goal",
+			&"body": StringName(current_level_definition.get("description_key", &"hardware.hint.generic")),
+		}]
+	return pages
+
+
+func _open_mission_term(term_id: StringName) -> void:
+	if terminology_handbook != null:
+		terminology_handbook.open_handbook(term_id)
 
 
 func _toggle_desktop_window(id: StringName) -> void:
@@ -2730,11 +2729,12 @@ func _build_tutorial_side() -> void:
 	_clear_container(side_box)
 	_clear_container(task_box)
 	task_box.add_child(_side_heading(_t(&"hardware.tutorial.heading"), _t(&"hardware.tutorial.heading_subtitle")))
-	var prompt := Label.new()
-	prompt.text = _t(&"hardware.tutorial.prompt")
-	prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var prompt := LinkedMissionTextType.new()
 	prompt.add_theme_color_override("font_color", TEXT)
+	prompt.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	prompt.term_requested.connect(_open_mission_term)
 	task_box.add_child(prompt)
+	prompt.set_linked_text(_t(&"hardware.tutorial.prompt"))
 	var checklist_title := Label.new()
 	checklist_title.text = _t(&"hardware.tutorial.checklist_title")
 	checklist_title.add_theme_color_override("font_color", ACCENT)
@@ -2774,17 +2774,18 @@ func _build_half_adder_side() -> void:
 	_clear_container(side_box)
 	_clear_container(task_box)
 	task_box.add_child(_side_heading(_t(&"hardware.challenge.heading"), _t(&"hardware.challenge.heading_subtitle")))
-	var challenge := Label.new()
-	challenge.text = _t(&"hardware.challenge.description")
-	challenge.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var challenge := LinkedMissionTextType.new()
 	challenge.add_theme_color_override("font_color", TEXT)
+	challenge.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	challenge.term_requested.connect(_open_mission_term)
 	task_box.add_child(challenge)
-	var hint := Label.new()
-	hint.text = _t(&"hardware.challenge.hint")
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	challenge.set_linked_text(_t(&"hardware.challenge.description"))
+	var hint := LinkedMissionTextType.new()
 	hint.add_theme_color_override("font_color", MUTED)
 	hint.add_theme_font_size_override("font_size", 13)
+	hint.term_requested.connect(_open_mission_term)
 	task_box.add_child(hint)
+	hint.set_linked_text(_t(&"hardware.challenge.hint"))
 	seal_button = Button.new()
 	seal_button.text = _t(&"hardware.seal.button")
 	seal_button.disabled = true
@@ -2806,13 +2807,13 @@ func _build_half_adder_side() -> void:
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
 	side_box.add_child(official_button)
-	var truth_table_note := Label.new()
+	var truth_table_note := LinkedMissionTextType.new()
 	truth_table_note.name = "TruthTableDefinition"
-	truth_table_note.text = _t(&"hardware.cases.truth_table_definition")
-	truth_table_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	truth_table_note.add_theme_font_size_override("font_size", 13)
 	truth_table_note.add_theme_color_override("font_color", ACCENT)
+	truth_table_note.term_requested.connect(_open_mission_term)
 	side_box.add_child(truth_table_note)
+	truth_table_note.set_linked_text(_t(&"hardware.cases.truth_table_definition"))
 	_build_official_case_rows()
 	_layout_desktop_windows()
 
@@ -5682,11 +5683,13 @@ func _build_prologue_side() -> void:
 		_t(StringName(current_level_definition["title_key"])),
 		_t(&"hardware.prologue.level.subtitle")
 	))
-	var description := Label.new()
-	description.text = _t(StringName(current_level_definition["description_key"]))
-	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var description := LinkedMissionTextType.new()
 	description.add_theme_color_override("font_color", TEXT)
+	description.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	description.term_requested.connect(_open_mission_term)
 	task_box.add_child(description)
+	var pages: Array = _mission_briefing_pages()
+	description.set_linked_text(_t(StringName((pages[pages.size() - 1] as Dictionary)[&"body"])))
 	var ownership_note := Label.new()
 	ownership_note.text = _t(&"hardware.prologue.level.ownership_note")
 	ownership_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

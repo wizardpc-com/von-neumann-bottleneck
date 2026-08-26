@@ -11,6 +11,8 @@ Player-facing copy lives in independent gettext catalogs:
 
 The prototype hub, Hardware Foundations, Cache Locality Lab, floating-window chrome, trace captions, DSL explanations, and player-facing diagnostics use those catalogs. Layout, animation, simulation, and circuit code do not choose wording.
 
+Mission narratives use `[[term_id|visible text]]` inside localized strings. `LinkedMissionText` renders every marked term with the shared cyan Handbook accent and emits the stable `term_id` when clicked; the active chapter then opens `TerminologyHandbook` directly at that entry. `MissionNarrativeCatalog` owns the page order for all three chapters. A mission may use one to four pages, but pages are added only when a concept, action, or verification step genuinely needs separate explanation. Localization tests reject missing page copy, more than four pages, malformed markers, and links whose IDs do not exist in the Handbook.
+
 ## Language-neutral evidence
 
 The following remain stable across locales:
@@ -28,7 +30,8 @@ DSL and circuit validation expose semantic diagnostic keys plus arguments for pr
 1. Add a complete `localization/game.<locale>.po` catalog using the existing semantic keys.
 2. Register the resource in `project.godot` and add its standardized locale code to `Localization.SUPPORTED_LOCALES`.
 3. Do not translate DSL syntax, stable IDs, addresses, or signal names unless a separate gameplay decision deliberately changes those contracts.
-4. Run `tests/test_localization.gd`, both UI suites, and a visual startup check for the new locale.
+4. Keep mission link IDs unchanged while translating their visible text, and introduce a term in plain context before relying on it.
+5. Run `tests/test_localization.gd`, the affected UI suites, and a visual startup check for the new locale.
 
 The current build has no settings window or persisted player preference. A future settings surface should call `Localization.set_locale()` and then rebuild or refresh active procedural UI; it must not write language choices into simulation state.
 

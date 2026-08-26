@@ -45,9 +45,17 @@ func _run() -> void:
 	main.call("_start_level", &"distant_reads")
 	await process_frame
 	var graph: GraphEdit = main.get("graph")
+	_assert(
+		(main.get("mission_previous_button") as Button).disabled
+		and not (main.get("mission_continue_button") as Button).disabled,
+		"Chapter 2 Mission must open on the first authored narrative page."
+	)
+	(main.get("mission_continue_button") as Button).pressed.emit()
+	_assert(int(main.get("mission_page")) == 1 and not (main.get("mission_previous_button") as Button).disabled, "Chapter 2 Mission must advance and expose Previous on later narrative pages.")
+	(main.get("mission_previous_button") as Button).pressed.emit()
 	_assert(not (graph.get_node("Cache") as GraphNode).visible, "2-1 must show the direct CPU → Bus → RAM path without a Cache node.")
 	_assert(graph.get_connection_list().size() == 4, "2-1 must contain only Program, direct-memory, and result routes.")
-	_assert("Cache" not in (main.get("mission_objective_label") as Label).text and "Cache" not in (main.get("notebook_label") as RichTextLabel).text, "2-1 player-facing evidence must not reveal the Cache concept early.")
+	_assert("Cache" not in (main.get("mission_objective_label") as RichTextLabel).get_parsed_text() and "Cache" not in (main.get("notebook_label") as RichTextLabel).text, "2-1 player-facing evidence must not reveal the Cache concept early.")
 	main.call("_run_simulation", "Official Test Set")
 	var direct: SimulationTraceType = main.get("current_trace")
 	_assert(not (main.get("instrument_windows") as Dictionary)[&"mission"].visible and not ((main.get("instrument_open_buttons") as Dictionary)[&"mission"] as Button).button_pressed, "Running evidence must close Mission instead of leaving a long minimized title bar over the Trace path.")

@@ -84,7 +84,7 @@ func _run() -> void:
 		_assert((instruments[id] as Control).visible == (id == &"mission"), "Only Mission should open automatically when a Chapter 2 level starts (%s)." % id)
 	var chapter2_mission: Control = instruments[&"mission"]
 	var chapter2_mission_minimize: Button = chapter2_mission.find_child("MinimizeButton", true, false)
-	_assert(not chapter2_mission_minimize.visible and (main.get("mission_title_label") as Label).get_theme_font_size("font_size") == UiTypographyType.TITLE_SIZE and (main.get("mission_objective_label") as Label).get_theme_font_size("font_size") == UiTypographyType.BODY_SIZE, "Chapter 2 Mission must use the shared title/body sizes and omit minimization.")
+	_assert(not chapter2_mission_minimize.visible and (main.get("mission_title_label") as Label).get_theme_font_size("font_size") == UiTypographyType.TITLE_SIZE and (main.get("mission_objective_label") as RichTextLabel).get_theme_font_size("font_size") == UiTypographyType.BODY_SIZE, "Chapter 2 Mission must use the shared title/body sizes and omit minimization.")
 	var mission_position: Vector2 = chapter2_mission.position
 	var mission_size: Vector2 = chapter2_mission.size
 	var mission_button: Button = (main.get("instrument_open_buttons") as Dictionary)[&"mission"]

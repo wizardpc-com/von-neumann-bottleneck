@@ -293,6 +293,8 @@ The Hardware non-minimizable-tools follow-up on 2026-08-26 reran the Hardware Fo
 
 The Clock Period and sequential-official-test follow-up on 2026-08-26 reran Hardware Foundations, the construction prologue, Chapter 1, Chapter 2, and localization UI coverage with exit code `0`. All three playback toolbars expose the same editable `0.05–2.00` second Clock Period instead of multiplier presets. Hardware tests verify that only the active official case is revealed, future rows omit expected outputs, and sealing/completion evidence remains unavailable until every case finishes. The handbook contains the new Clock Period term.
 
+The beginner mission-narrative revision on 2026-08-26 reran localization, Hardware Foundations UI, Chapter 1 UI, Chapter 2 progression/UI, and the legacy locality UI suite with exit code `0`, followed by a clean project startup smoke. Coverage verifies one-to-four authored pages per level, Previous/Continue navigation in all three chapters, a four-page Half Adder explanation that defines the truth table before using it, one shared term-link color, valid Handbook targets in both locales, and click-through selection of the exact Handbook entry. A fresh 1600×900 Chinese Half Adder page-2 frame was inspected for centered readable copy, an unclipped four-row table, visible cyan term link, compact navigation, and an unobscured upper-left Test Bench. `git diff --check` passed.
+
 ## What to run after changes
 
 - Simulation/DSL/cost/trace changes: simulation test, legacy Cache Locality UI test, Chapter 2 progression/UI test, and smoke check.

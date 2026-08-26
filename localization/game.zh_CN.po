@@ -828,6 +828,9 @@ msgstr "再确认：你要得到什么"
 msgid "hardware.briefing.stage.verify"
 msgstr "最后实践：怎样检查结果"
 
+msgid "hardware.briefing.stage.understand"
+msgstr "看个例子：把要求拆开"
+
 msgid "hardware.briefing.continue"
 msgstr "继续"
 
@@ -837,26 +840,98 @@ msgstr "上一页"
 msgid "hardware.briefing.start"
 msgstr "继续"
 
+msgid "mission.navigation.last_page"
+msgstr "已到最后一页"
+
 msgid "hardware.briefing.move_note"
 msgstr "点击“继续”后，任务窗会缩到左下角并保留；也可随时点击右上角“—”缩小，点击“□”恢复大窗口。"
 
 msgid "hardware.briefing.tutorial.1"
-msgstr "数字电路在这里传递两种信号：0（低电平）和 1（高电平）。测试台暂用红色圆点表示 0、绿色菱形表示 1；颜色和不对称形状共同帮助辨认状态。NOT 会把 0 与 1 互换，AND 只在两个输入都是 1 时输出 1，OR 在至少一个输入是 1 时输出 1。"
+msgstr "桌面上的线只传两种状态，我们把它叫作[[signal|信号]]。红色圆点代表 0，也就是[[low_level|低电平]]；绿色菱形代表 1，也就是[[high_level|高电平]]。颜色和形状都不同，所以不靠颜色也能分清 0 和 1。"
+
+msgid "hardware.briefing.tutorial.gates"
+msgstr "门会按固定规则改变信号：[[not_gate|NOT 门]]把 0 和 1 对调；[[and_gate|AND 门]]要等两个输入都是 1 才输出 1；[[or_gate|OR 门]]只要有一个输入是 1 就输出 1。先记住 NOT 的规则，这一关只要求你亲手接通它。"
 
 msgid "hardware.briefing.tutorial.2"
-msgstr "目标是做出一条可观察的完整信号路径。把输入 A 接到 NOT，再把 NOT 接到指示灯：A → NOT → 指示灯。切换 A 后，灯应显示与 A 相反的状态。"
+msgstr "先搭一条最短的完整路线：\n\nA  →  [[not_gate|NOT]]  →  指示灯\n\nA 是你能切换的[[input_output|输入]]，指示灯是用来查看结果的输出。把 A 接到 NOT，再把 NOT 接到灯；切换 A 后，灯应该显示相反的状态。"
 
 msgid "hardware.briefing.tutorial.3"
-msgstr "依次完成五件事：连线、改变 A、运行一次、删除一条线、重新连接。拖线时绿色外环表示可以连接，红色外环表示不能连接；端口内部颜色始终表示当前 0/1。"
+msgstr "按这个顺序试一遍：拉出一条[[wire|连线]] → 切换 A → 运行一次 → 删掉一条线 → 再接回去。线要从元件边缘的[[port|端口]]拖出；绿色外环表示能接，红色外环表示不能接。\n\n想先试一个输入时，使用[[debug_run|单次调试]]。五步都完成后就能进入下一关。"
 
 msgid "hardware.briefing.half_adder.1"
-msgstr "半加器负责把两个 1 位输入 A、B 相加。SUM 是当前位的结果，CARRY 是送往更高一位的进位。你只能使用已经学过的 AND、OR、NOT；目标是把输入与两个输出之间的关系做成真实电路。"
+msgstr "现在要把两个只能是 0 或 1 的数 A、B 加起来。做这件事的小电路叫[[half_adder|半加器]]。它有两个结果：[[sum|SUM]]表示这一位留下多少，[[carry|CARRY]]表示有没有多出来的 1 要交给下一位。\n\n例如 1 + 1 = 10，所以这时[[sum|SUM]]=0，[[carry|CARRY]]=1。"
 
 msgid "hardware.briefing.half_adder.2"
-msgstr "真值表就是列出所有输入组合及其正确输出的表。本关共有四行：\nA B  │  SUM CARRY\n0 0  │   0     0\n0 1  │   1     0\n1 0  │   1     0\n1 1  │   0     1\n这张表是要求，不是线路答案：同一组门电路必须同时满足四行。"
+msgstr "把所有输入情况和应有结果列在一起，就叫[[truth_table|真值表]]。两个输入各有 0、1 两种可能，所以一共只有四种：\n\nA B  │  SUM CARRY\n0 0  │   0     0\n0 1  │   1     0\n1 0  │   1     0\n1 1  │   0     1\n\n这张表只告诉你“要得到什么”，不会替你给出线路。"
 
 msgid "hardware.briefing.half_adder.3"
-msgstr "先只处理较简单的 CARRY，观察它在哪一行变为 1；再单独处理 SUM，比较它的两行 1 有什么共同点。用测试台逐行切换 A/B 并运行调试，最后运行“完整真值表”。只有四行全部通过，才能封装 HalfAdder。"
+msgstr "不要一次想两个输出。先看[[carry|CARRY]]：它只在 A、B 都是 1 时亮，哪一种门刚好符合？\n\n再看[[sum|SUM]]：A、B 不同时它为 1，同时它为 0。你可以先让[[or_gate|OR 门]]找出“至少一个是 1”，再想办法排除“两者都是 1”。桌面上的[[and_gate|AND 门]]和[[not_gate|NOT 门]]足够完成这一步。"
+
+msgid "hardware.briefing.half_adder.4"
+msgstr "先在[[test_bench|测试台]]里一个案例一个案例切换 A/B，用[[debug_run|单次调试]]查看线路哪里不对。确认四种情况都能工作后，再运行[[official_test|完整真值表测试]]。\n\n四行全部通过时，“封装”按钮会亮起。[[encapsulation|封装]]就是把这套已验证的线路收进一个可重复使用的[[half_adder|HalfAdder]]元件里。"
+
+msgid "hardware.briefing.full_adder.1"
+msgstr "刚才的半加器只算 A+B。真正连续相加时，还要接住上一位送来的进位 CIN。能同时计算 A+B+CIN 的电路叫[[full_adder|全加器]]；它把新的进位从 COUT 送给下一位，这两个端口合称[[cin_cout|CIN / COUT]]。"
+
+msgid "hardware.briefing.full_adder.2"
+msgstr "可以分两次相加：\n\nA、B → 第一个[[half_adder|HalfAdder]] → 中间结果\n中间结果、CIN → 第二个 HalfAdder → [[sum|SUM]]\n两个进位 → [[or_gate|OR]] → COUT\n\n放下两个你已经封装的 HalfAdder，再补一个 OR 门。按端口含义接线，不需要猜新公式。"
+
+msgid "hardware.briefing.full_adder.3"
+msgstr "先用[[debug_run|单次调试]]试几组输入，尤其要试 A=B=CIN=1。然后运行全部[[official_test|正式测试]]；所有案例通过后，把线路[[encapsulation|封装]]成[[full_adder|FullAdder]]，后面就能按位重复使用。"
+
+msgid "hardware.briefing.alu.1"
+msgstr "同一组输入有时要相加，有时要做[[and_gate|AND]]、[[or_gate|OR]]或把 A 取反。把这些小计算集中在一个元件里，再按指令挑选结果，这个元件叫[[alu|ALU（算术逻辑单元）]]。"
+
+msgid "hardware.briefing.alu.2"
+msgstr "先让四条分支各自算好：[[and_gate|AND]]、[[or_gate|OR]]、ADD、[[not_gate|NOT-A]]。然后把四个结果送进[[multiplexer|选择器]]。选择器像一个四选一开关：[[opcode|OP]] 的值决定哪条结果能走到 OUT。\n\n四条结果 → [[multiplexer|MUX]] → OUT"
+
+msgid "hardware.briefing.alu.3"
+msgstr "用[[debug_run|单次调试]]分别切换[[opcode|OP]]，确认每个选择都拿到了对应结果；再运行全部[[official_test|正式测试]]。通过后会生成四位[[alu|ALU4]]，它只是把你验证的一位结构并排复用四次。"
+
+msgid "hardware.briefing.latch.1"
+msgstr "以前的门只看“现在输入是什么”。这关要做一个能记住上一次状态的元件，这类元件叫[[latch|锁存器]]。本关使用 S（设为 1）和 R（清为 0）控制，因此叫[[sr_latch|SR 锁存器]]。"
+
+msgid "hardware.briefing.latch.2"
+msgstr "S 和 R 的意思是[[set_reset|Set / Reset]]：S=1 会把 Q 设为 1，R=1 会把 Q 清为 0；两者都回到 0 后，Q 仍要保持刚才的值。S=R=1 是本关不使用的冲突输入。"
+
+msgid "hardware.briefing.latch.3"
+msgstr "用两个[[nor_gate|NOR 门]]互相“提醒”对方刚才的结果：\n\nS → NOR A → Q\nR → NOR B → NOT-Q\nQ ↘      ↖ NOT-Q\n\n把两个输出交叉接回另一个门的输入。这里的反馈是为了保存状态，只在本关允许。"
+
+msgid "hardware.briefing.latch.4"
+msgstr "按顺序测试：先 S=1,R=0 写入 1；再 S=0,R=0 看它能否保持；然后 S=0,R=1 清成 0；最后再次保持。全部[[official_test|正式案例]]通过后，封装为[[sr_latch|SRLatch]]。"
+
+msgid "hardware.briefing.register.1"
+msgstr "锁存器会直接听 S、R；我们再给它一个更好用的入口 D，并用[[load|LOAD]]决定要不要写。这样得到的单元叫[[register|寄存器]]。D 是准备写入的数据，Q 是保存后的结果，这对端口常写作[[d_q|D / Q]]。"
+
+msgid "hardware.briefing.register.2"
+msgstr "规则只有两条：[[load|LOAD]]=0 时保持旧的 Q；LOAD=1 时让 Q 变成 D。先根据 D 和 LOAD 产生合适的[[set_reset|Set / Reset]]信号，再送进你封装的[[sr_latch|SRLatch]]。\n\nD + LOAD → 控制门 → SRLatch → Q"
+
+msgid "hardware.briefing.register.3"
+msgstr "测试时不要只看刚写入的那一刻，还要让[[load|LOAD]]回到 0，再改变 D，确认 Q 不会跟着变。全部[[official_test|正式案例]]通过后封装[[register|Register1]]，并自动生成四位[[register|Register4]]。"
+
+msgid "hardware.briefing.ram.1"
+msgstr "一个寄存器只能记住一个数。把多个寄存器排在一起，并用地址选择“读哪一个、写哪一个”，就得到[[ram|RAM（内存）]]。这关只有地址 0 和 1，每个位置保存四位数。"
+
+msgid "hardware.briefing.ram.2"
+msgstr "ADDR 像房间号：[[decoder|地址译码器]]把写入命令只送给选中的[[register|Register4]]；[[multiplexer|选择器]]再把选中房间的内容送到 DATA_OUT。\n\nDATA_IN → 两个寄存器\nADDR → 选择写入位置 / 选择读出结果"
+
+msgid "hardware.briefing.ram.3"
+msgstr "先分别向地址 0、1 写入不同的数，再关闭写入并来回切换地址，确认两个位置互不覆盖。[[official_test|正式测试]]通过后封装[[ram|RAM2x4]]。"
+
+msgid "hardware.briefing.cpu.1"
+msgstr "现在把前面做好的元件组装成一台小计算机。负责按步骤执行指令的核心叫[[cpu|CPU]]；其中[[accumulator|累加器]]保存正在计算的数，[[controller|控制器]]决定每一步该让谁工作。"
+
+msgid "hardware.briefing.cpu.2"
+msgstr "数据会沿这条路线移动：\n\n指令 → [[controller|控制器]] → [[alu|ALU]] / [[accumulator|累加器]] ↔ [[ram|RAM]]\n\n[[load|LOAD]]表示把数取进[[cpu|CPU]]，[[store|STORE]]表示把数放回 RAM；IMM 表示数直接写在指令里，叫[[immediate|立即数]]。先按端口名字接通这些路线。"
+
+msgid "hardware.briefing.cpu.3"
+msgstr "用[[official_test|正式程序]]检查四件事：装入[[immediate|立即数]]、相加、从[[ram|RAM]]读取、向 RAM 写入。结果不对时先看哪一步的数据没有到达，再检查控制信号；全部通过后封装[[cpu|TinyComputer]]。"
+
+msgid "hardware.briefing.load_store.1"
+msgstr "这关不再搭新线路，而是运行你刚封装的小计算机。观察两种动作：[[load|LOAD]]把数据从[[ram|RAM]]带到[[cpu|CPU]]，[[store|STORE]]把 CPU 里的结果送回 RAM。\n\nRAM → LOAD → CPU → STORE → RAM"
+
+msgid "hardware.briefing.load_store.2"
+msgstr "直接运行固定[[program|程序]]，再沿[[trace|追踪记录]]逐步查看数据去了哪里。只要最终结果正确，并能看清[[load|LOAD]] / [[store|STORE]]的往返过程，就完成了这座从硬件到程序的桥。"
 
 msgid "hardware.briefing.generic.goal"
 msgstr "先辨认固定输入、固定输出和本关允许使用的元件，再把任务拆成几条较小的信号关系。不要先照抄完整线路；每完成一段就用测试台观察它。"
@@ -946,7 +1021,7 @@ msgid "hardware.tutorial.heading_subtitle"
 msgstr "一个紧凑、可移动的桌面任务窗口"
 
 msgid "hardware.tutorial.prompt"
-msgstr "从“元件”菜单取用本关允许的门，再创建一条通往指示灯的完整路径。\n建议：A → NOT → 指示灯。\n拖线时绿色外环表示可连接，红色外环表示拒绝；端口内部仍显示实时电平。多线异值会短路，无延迟反馈会产生循环依赖。\n空白拖框替换选择，Shift 拖框增量多选；Ctrl+A/X/C/V/Z/Y 编辑，WASD 平移。然后删除一条线并重新连接。"
+msgstr "从“元件”里拿一个[[not_gate|NOT 门]]，搭出：A → NOT → 指示灯。用[[wire|连线]]接好后切换 A，再做一次[[debug_run|单次调试]]。最后删掉一条线并重新接回去。"
 
 msgid "hardware.tutorial.checklist_title"
 msgstr "简短交互检查"
@@ -1003,10 +1078,10 @@ msgid "hardware.challenge.heading_subtitle"
 msgstr "请自行设计拓扑"
 
 msgid "hardware.challenge.description"
-msgstr "用输入 A/B 和输出 SUM/CARRY 搭建电路。允许留下备用门；测试台只会评估画面中的实际连线。"
+msgstr "搭建一个[[half_adder|半加器]]：A、B 是输入，[[sum|SUM]]和[[carry|CARRY]]是两个输出。先分别解决 CARRY 和 SUM，再把两部分接到输出。"
 
 msgid "hardware.challenge.hint"
-msgstr "失败会显示期望/实际、短路或循环依赖，但不会给出公式。Shift 多选；Ctrl+Z/Y/C/V 可撤销、重做和复制子电路。"
+msgstr "卡住时回想[[truth_table|真值表]]：CARRY 只在 11 时为 1；SUM 只在 01、10 时为 1。单次调试会指出哪一组输入不对，但不会直接给线路答案。"
 
 msgid "hardware.test_bench.signal.placeholder"
 msgstr "信号占位：● 0 为红色低电平，◆ 1 为绿色高电平。点击即可切换。"
@@ -1033,7 +1108,7 @@ msgid "hardware.cases.heading_subtitle"
 msgstr "只验证正确性 · 不使用分析器"
 
 msgid "hardware.cases.truth_table_definition"
-msgstr "真值表＝列出 A/B 所有四种输入组合及正确输出。下面每一行都必须通过。"
+msgstr "[[truth_table|真值表]]列出所有输入和正确输出；这里会按 00、01、10、11 逐个运行，一个案例结束后才开始下一个。"
 
 msgid "hardware.cases.run_debug"
 msgstr "运行当前调试用例"
@@ -1432,7 +1507,7 @@ msgid "hardware.prologue.map.subtitle"
 msgstr "两条依赖分支，最终汇合为四位 CPU"
 
 msgid "hardware.prologue.map.description"
-msgstr "从连线与基础门开始，逐关封存你亲手搭建的元件。只有完成全部前置关卡，下一关才会解锁；正式测试只读取画面中的真实连线。"
+msgstr "先学会连线，再把每关做好的小电路保存成新元件。完成前一关后，下一关才会解锁；测试只看你画面里真正接好的线路。"
 
 msgid "hardware.prologue.map.canvas_hint"
 msgstr "在中央依赖图中选择关卡；将鼠标移到节点上可查看目标与前置条件。"
@@ -1459,13 +1534,13 @@ msgid "hardware.prologue.map.node.locked"
 msgstr "等待前置关卡"
 
 msgid "hardware.prologue.map.tutorial_description"
-msgstr "练习创建、删除、分支和重接导线，并观察实时电平与信号传播。"
+msgstr "练习接线、删线和重新接回，并观察 0/1 信号怎样走到指示灯。"
 
 msgid "hardware.prologue.map.half_adder_description"
-msgstr "用基础门自行设计 1 位半加器，通过 A/B 四种输入组合的完整测试（即真值表）后封存为 HalfAdder。"
+msgstr "用刚学过的门把 A、B 相加；四种输入情况都正确后，把电路保存成可重复使用的元件。"
 
 msgid "hardware.prologue.map.generic_description"
-msgstr "完成当前节点的构建与正式测试，解锁依赖它的后续抽象。"
+msgstr "完成这一关的搭建和测试后，就能把成果带到后面的关卡继续使用。"
 
 msgid "hardware.prologue.map.status"
 msgstr "选择一个已解锁关卡；完成的关卡可以重新搭建。"
@@ -1597,43 +1672,43 @@ msgid "hardware.prologue.full_adder.title"
 msgstr "全加器"
 
 msgid "hardware.prologue.full_adder.description"
-msgstr "使用两个你封存的 HalfAdder 与一个 OR，处理 A、B 和进位输入；不要照模板机械连线。"
+msgstr "在 A、B 之外再接住上一位送来的进位，把三者相加，并把新的进位交给下一位。"
 
 msgid "hardware.prologue.alu.title"
 msgstr "一位 ALU"
 
 msgid "hardware.prologue.alu.description"
-msgstr "把 AND、OR、ADD、NOT-A 四种结果送入选择器。通过后自动生成四位 ALU4。"
+msgstr "让同一组输入能完成四种不同的小计算，再用控制信号选择这次要哪一个结果。"
 
 msgid "hardware.prologue.latch.title"
 msgstr "SR 锁存器"
 
 msgid "hardware.prologue.latch.description"
-msgstr "用两个交叉反馈的 NOR 保存一位状态。S=R=1 为非法稳定状态；仅本关允许该明确反馈。"
+msgstr "做一个能记住 0 或 1 的小电路：写入以后，即使控制信号放开，它也要保留刚才的状态。"
 
 msgid "hardware.prologue.register.title"
 msgstr "一位寄存器"
 
 msgid "hardware.prologue.register.description"
-msgstr "为你的 SRLatch 增加 D 与 LOAD 控制：LOAD=0 保持，LOAD=1 写入。通过后生成 Register4。"
+msgstr "给刚做好的记忆元件增加数据入口和写入开关：关着时保持，打开时写入新值。"
 
 msgid "hardware.prologue.ram.title"
 msgstr "2×4 RAM"
 
 msgid "hardware.prologue.ram.description"
-msgstr "使用两个 Register4、地址译码器和字选择器，构造两个独立四位存储位置。"
+msgstr "把两个四位记忆位置放在一起，用地址选择这次读哪一个、写哪一个。"
 
 msgid "hardware.prologue.cpu.title"
 msgstr "四位累加器 CPU"
 
 msgid "hardware.prologue.cpu.description"
-msgstr "把 ALU4、累加器、RAM、控制器和数据选择器连成可执行 LOAD_IMM、ADD_IMM、LOAD_MEM、STORE_MEM 的小型计算机。"
+msgstr "把已经做好的计算、记忆和控制部分接起来，让小计算机能按顺序读取、相加和保存数据。"
 
 msgid "hardware.prologue.load_store.title"
 msgstr "LOAD/STORE 桥接实验"
 
 msgid "hardware.prologue.load_store.description"
-msgstr "复用刚封存的 TinyComputer 运行固定程序，观察数据在 CPU 与 RAM 之间往返；此关不要求重复布线。"
+msgstr "不用再布线。直接运行刚做好的小计算机，观察数据怎样从内存进入计算部分，再把结果送回去。"
 
 msgid "hardware.program.load_imm_3"
 msgstr "LOAD_IMM 3"
@@ -2121,46 +2196,85 @@ msgid "system.level.assembly.title"
 msgstr "接通第一台系统"
 
 msgid "system.level.assembly.description"
-msgstr "把玩家来源的 CPU8、8-bit Bus 与 RAM64x8 接成一台能运行的计算机。"
+msgstr "把负责计算、传送和存放数据的三个部分接起来，让第一台系统真正跑起来。"
 
 msgid "system.level.assembly.objective"
-msgstr "连接请求、写入和读取的六段通道，应用代码，并通过两个官方用例。"
+msgstr "接通六条数据路线，确认程序，再让两个正式案例都得到正确结果。"
+
+msgid "system.level.assembly.briefing.1"
+msgstr "一台最简单的计算机需要三部分：[[cpu|CPU]]负责按步骤计算，[[ram|RAM]]负责保存数据，[[bus|总线]]负责在两者之间搬运数据。\n\nCPU  →  总线  →  RAM\nCPU  ←  总线  ←  RAM"
+
+msgid "system.level.assembly.briefing.2"
+msgstr "把请求、写入数据和读回数据这三趟路都接通，一共是六段[[wire|连线]]。然后打开“程序”，点击[[apply|确认并应用]]，再到[[test_bench|测试台]]逐个运行两个正式案例。两次结果都正确就算完成。"
 
 msgid "system.level.cpu_speed.title"
 msgstr "CPU 变快以后"
 
 msgid "system.level.cpu_speed.description"
-msgstr "这次内存密集求和同时包含算术与反复数据往返。先预测算术快 4 倍能否让整次运行也快 4 倍，再实验。"
+msgstr "只把负责计算的部分换快，看看整台机器会不会跟着快同样多。"
 
 msgid "system.level.cpu_speed.objective"
-msgstr "锁定预测，以 Eco 运行基线，再只把 CPU 换成 Fast，并用计算与 WAIT 解释总周期变化。"
+msgstr "先记下旧配置的时间，再只更换 CPU；比较前后结果并说明时间花在哪里。"
+
+msgid "system.level.cpu_speed.briefing.1"
+msgstr "[[cpu|CPU]]既要做加法，也要等数据从[[ram|RAM]]回来。现在有一个“算得更快”的 CPU，但它不会让 RAM 和[[bus|总线]]一起变快。先猜一猜：只换 CPU，整次运行会快很多、快一点，还是几乎不变？这叫[[prediction|预测]]，只是先写下想法，不会判你输赢。"
+
+msgid "system.level.cpu_speed.briefing.2"
+msgstr "先用 Eco [[cpu|CPU]]跑一次，把它当作比较起点；这个起点叫[[baseline|基线]]。接着只换成 Fast CPU，[[program|程序]]、[[ram|RAM]]、[[bus|总线]]和案例都别动。一次只改变一个东西，叫[[controlled_change|控制变量比较]]，这样才知道差别是谁造成的。"
+
+msgid "system.level.cpu_speed.briefing.3"
+msgstr "对比两次的总[[cycle|周期]]，再打开[[profiler|性能分析器]]看“计算”和[[cpu_wait|CPU 等待]]各占多少。两种 CPU 的[[official_test|正式案例]]都通过，而且比较使用同一套其他零件，就能完成。"
 
 msgid "system.level.ram_wait.title"
 msgstr "CPU 在等谁"
 
 msgid "system.level.ram_wait.description"
-msgstr "先预测 CPU 的时间去向，再追踪重复请求、RAM 服务、数据返回与 CPU 可见的 WAIT 状态。"
+msgstr "沿着数据往返的路线，看看 CPU 为什么常常停下来等。"
 
 msgid "system.level.ram_wait.objective"
-msgstr "锁定预测，固定 CPU、Bus、程序与用例，只更换 RAM，并解释 CPU-wait 差值。"
+msgstr "先用慢内存，再只换成快内存；比较 CPU 等待时间的变化。"
+
+msgid "system.level.ram_wait.briefing.1"
+msgstr "[[cpu|CPU]]要用一个数时，会先向[[ram|RAM]]发请求；RAM 找到数后，再沿[[bus|总线]]送回来。在数还没到之前，CPU 只能停着等。我们把这段时间叫[[cpu_wait|CPU 等待]]。先猜一猜：这次时间主要花在计算、等待，还是两边差不多？"
+
+msgid "system.level.ram_wait.briefing.2"
+msgstr "先固定 Fast [[cpu|CPU]]和[[bus|Bus8]]，用 Slow [[ram|RAM]]跑一次；然后只换成 Fast RAM。打开[[trace|追踪记录]]，可以看到“发出请求 → RAM 处理 → 数据返回”这条完整路线。"
+
+msgid "system.level.ram_wait.briefing.3"
+msgstr "两次[[official_test|正式测试]]都要使用同一个[[program|程序]]和案例。最后比较[[profiler|性能分析器]]里的[[cpu_wait|CPU 等待]]数字：如果只有[[ram|RAM]]变了，这个差值就说明等待来自哪里。"
 
 msgid "system.level.bus_width.title"
 msgstr "一字节要走几次"
 
 msgid "system.level.bus_width.description"
-msgstr "同一个字节会通过不同宽度的 Bus；先预测序列化如何变化，再到真实线路上数传输阶段。"
+msgstr "同一份数据经过宽窄不同的通道，看看要分几趟才能运完。"
 
 msgid "system.level.bus_width.objective"
-msgstr "锁定预测，以 Bus2 运行基线，再只改变 Bus 宽度，并在真实线路上观察分段数据包。"
+msgstr "先用窄总线，再只换成宽总线；比较同一份数据被拆成了几段。"
+
+msgid "system.level.bus_width.briefing.1"
+msgstr "[[bus|总线]]像一条每次只能搬固定数量货物的通道。每个周期能搬多少位，叫[[bandwidth|带宽]]。8 位数据走 2 位总线要分 4 趟，走 8 位总线只要 1 趟；这种“拆成多趟传送”叫[[serialization|串行化]]。"
+
+msgid "system.level.bus_width.briefing.2"
+msgstr "先锁定[[prediction|预测]]，用[[bus|Bus2]]跑一次；再保持[[cpu|CPU]]、[[ram|RAM]]、[[program|程序]]和数据不变，只换成 Bus8。沿桌面上的线路看数据包分成几段，并让两种配置都通过[[official_test|正式测试]]。"
 
 msgid "system.level.bottleneck.title"
 msgstr "瓶颈调查"
 
 msgid "system.level.bottleneck.description"
-msgstr "用同一套系统调查 4、16、64 三种工作量；完整拆分揭示前，先依据总周期、CPU WAIT、增长趋势与 Trace 数据流判断。"
+msgstr "把任务从小到大跑三次，找出整台机器最拖后腿的部分。"
 
 msgid "system.level.bottleneck.objective"
-msgstr "通过 4/16/64 官方用例，首次提交 CPU、RAM、Bus 或混合诊断，再与揭示的完整拆分核对。"
+msgstr "跑完小、中、大三组案例，先作出判断，再查看完整时间拆分。"
+
+msgid "system.level.bottleneck.briefing.1"
+msgstr "一台系统的速度常被最慢、最忙的那一部分卡住。这个主要限制叫[[bottleneck|瓶颈]]。本关会把同一种工作从 4 个数扩大到 16、64 个数；这种要处理的任务量叫[[workload|工作量]]。"
+
+msgid "system.level.bottleneck.briefing.2"
+msgstr "依次运行 4、16、64 三个[[official_test|正式案例]]。先只看总[[cycle|周期]]、[[cpu_wait|CPU 等待]]和[[trace|追踪记录]]里的数据往返，不要急着看完整答案。观察[[workload|工作量]]变大时，哪一类时间增长得最快。"
+
+msgid "system.level.bottleneck.briefing.3"
+msgstr "在[[test_bench|测试台]]选择你认为的主要限制：[[cpu|CPU]]、[[ram|RAM]]、[[bus|总线]]或多项共同限制。提交判断后，系统才会展开完整时间拆分。把你的判断和[[profiler|性能分析器]]证据对上，就完成本章。"
 
 msgid "system.window.mission.title"
 msgstr "任务"
@@ -3273,10 +3387,16 @@ msgid "chapter2.level.distant_reads.title"
 msgstr "为什么每次都要走那么远？"
 
 msgid "chapter2.level.distant_reads.description"
-msgstr "观察一次正确扫描：每个请求的数值都穿过 Bus 前往 RAM。"
+msgstr "跟着一份数据走完整个来回，看看 CPU 为什么总在等。"
 
 msgid "chapter2.level.distant_reads.objective"
-msgstr "运行一次。跟随多个 load 从 CPU 到 RAM 再返回，然后判断 CPU 的大部分时间花在什么上。"
+msgstr "运行一次，观察多次远距离取数，再判断时间主要花在哪里。"
+
+msgid "chapter2.level.distant_reads.briefing.1"
+msgstr "CPU 做加法很快，但它要先拿到数据。每次[[load|读取]]都会走同一条远路：\n\n[[cpu|CPU]] → [[bus|总线]] → [[ram|RAM]] → 总线 → CPU\n\n数据回来前，CPU 只能停下来；这段时间叫[[cpu_wait|CPU 等待]]。"
+
+msgid "chapter2.level.distant_reads.briefing.2"
+msgstr "运行一次[[official_test|正式案例]]，再按“下一关键证据”跟几次数据往返。[[trace|追踪记录]]会告诉你每一步去了哪里。看完后，从三个说法里选出最符合证据的一项；这关只要求观察和判断，不需要改[[program|程序]]。"
 
 msgid "chapter2.level.distant_reads.learned"
 msgstr "每次 load 都重复同一段远途。算术很短，CPU WAIT 却沿着数据路径不断累积。"
@@ -3294,10 +3414,16 @@ msgid "chapter2.level.nearby_storage.title"
 msgstr "把它留在近处"
 
 msgid "chapter2.level.nearby_storage.description"
-msgstr "加入一小块快速存储，对比同一程序和数据的 Before 与 After。"
+msgstr "把刚拿过的数据暂时放在近处，看看下一次能不能少走远路。"
 
 msgid "chapter2.level.nearby_storage.objective"
-msgstr "先记录直接访问 RAM 的基线，再启用近处存储并重新运行。在 Trace 中找到第一次远端获取与后续近处返回。"
+msgstr "保留上一关的结果，再启用近处存储；用同一程序比较前后两次运行。"
+
+msgid "chapter2.level.nearby_storage.briefing.1"
+msgstr "上一关每次取数都跑到[[ram|RAM]]。现在加入一小块更近、更快的存储：第一次仍要去远处拿，之后如果还要同一小块数据，就可以直接从近处返回。\n\n[[cpu|CPU]] → 近处存储 → [[bus|总线]] → [[ram|RAM]]"
+
+msgid "chapter2.level.nearby_storage.briefing.2"
+msgstr "上一关的直接访问结果会作为[[baseline|基线]]保留。启用 1-line 近处存储，用同一[[program|程序]]和数据再跑一次；在[[trace|追踪记录]]中找出“第一次远端获取”和“后来近处返回”。这种前后对照叫[[before_after|Before → After 比较]]。"
 
 msgid "chapter2.level.nearby_storage.learned"
 msgstr "这种近处硬件叫 Cache。Miss 会从 RAM 获取一条 line；之后对该 line 的请求成为 Hit，省去远途。"
@@ -3306,10 +3432,16 @@ msgid "chapter2.level.cache_failure.title"
 msgstr "它为什么没有帮上忙？"
 
 msgid "chapter2.level.cache_failure.description"
-msgstr "观察已经存在的 Cache 如何反复替换下一次正需要的 line。"
+msgstr "近处存储已经装上了，为什么这次还是不断跑远路？"
 
 msgid "chapter2.level.cache_failure.objective"
-msgstr "不要改机器。运行固定的 column-first 程序，用地址顺序和 Miss/Evict 证据解释 321 cycles。"
+msgstr "先不改任何设置；观察取数顺序，找出近处数据总被换掉的原因。"
+
+msgid "chapter2.level.cache_failure.briefing.1"
+msgstr "上一关那块“近处存储”现在正式叫[[cache|Cache（缓存）]]。它一次保存的一小块连续数据叫[[cache_line|Cache line]]。需要的数据不在里面时叫[[miss|Miss]]，只能去[[ram|RAM]]取；空间不够而换掉旧数据时叫[[evict|Evict]]。"
+
+msgid "chapter2.level.cache_failure.briefing.2"
+msgstr "保持机器和[[program|程序]]不变，运行一次。按[[trace|追踪记录]]里的地址顺序看[[miss|Miss]]和[[evict|Evict]]：如果一条数据还没来得及再次使用就被换掉，[[cache|Cache]]自然帮不上忙。最后选择最符合证据的原因。"
 
 msgid "chapter2.level.cache_failure.learned"
 msgstr "装上 Cache 并不够。跨步顺序在四条 line 间轮转，而近处只能容纳一条，数据在复用前就被替换。"
@@ -3327,10 +3459,16 @@ msgid "chapter2.level.access_order.title"
 msgstr "换个顺序"
 
 msgid "chapter2.level.access_order.description"
-msgstr "不更换上一关的一 line Cache，修复那次运行。"
+msgstr "硬件完全不变，只换一个更顺手的取数顺序。"
 
 msgid "chapter2.level.access_order.objective"
-msgstr "只改变并 Apply 循环顺序。在相同数据和一 line Cache 下达到 105 cycles 或更少。"
+msgstr "只调整循环先后，让刚取来的数据能马上再次使用，并把总时间降到 105 周期以内。"
+
+msgid "chapter2.level.access_order.briefing.1"
+msgstr "[[cache|Cache]]里的数据如果很快又被用到，就不用再次跑远路。让访问集中在刚取回的数据附近，这种“用得近、用得及时”的特点叫[[locality|局部性]]。上一关按列跳着取数；现在试着按行连续取。"
+
+msgid "chapter2.level.access_order.briefing.2"
+msgstr "打开“[[program|程序]]”，把[[column_first|按列优先]]改成[[row_first|按行优先]]，再点击“[[apply|确认并应用]]”。硬件、数据和[[cache|Cache]]大小都不要改；正式运行不超过 105 [[cycle|周期]]就完成。"
 
 msgid "chapter2.level.access_order.learned"
 msgstr "连续访问在移动前复用了刚取回的 line。这种可利用的时间或地址邻近性叫 Locality（局部性）。"
@@ -3339,10 +3477,16 @@ msgid "chapter2.level.working_set.title"
 msgstr "明明顺序已经对了"
 
 msgid "chapter2.level.working_set.description"
-msgstr "观察两个顺序良好的 pass：所需数据仍无法留在近处。"
+msgstr "取数顺序已经很顺了，但第二轮为什么还要重新取一遍？"
 
 msgid "chapter2.level.working_set.objective"
-msgstr "运行固定的 row-first workload。比较 pass 1 与 pass 2，并解释为何四条 line 都被再次获取。"
+msgstr "比较第一轮和第二轮，判断近处空间是否装得下这段时间需要的全部数据。"
+
+msgid "chapter2.level.working_set.briefing.1"
+msgstr "[[program|程序]]会把同一批数据处理两遍，每一遍叫一个[[pass|轮次]]。在这段时间里会反复用到的全部数据，叫[[working_set|工作集]]。如果工作集比[[cache|Cache]]大，第一轮留下的数据可能在第二轮开始前就全被换掉。"
+
+msgid "chapter2.level.working_set.briefing.2"
+msgstr "不要改程序，运行一次固定的按行优先任务。比较第 1 轮和第 2 轮的远端获取：如果四条 line 都再次出现，说明问题不在顺序，而在“需要留下的数据多于近处容量”。最后选择对应解释。"
 
 msgid "chapter2.level.working_set.learned"
 msgstr "访问顺序没有错，但该阶段需要四条 line，近处只能容纳一条。当前需要的数据就是 Working Set（工作集）。"
@@ -3360,10 +3504,16 @@ msgid "chapter2.level.blocking.title"
 msgstr "一次别做那么多"
 
 msgid "chapter2.level.blocking.description"
-msgstr "保留同一个一 line Cache，只重组两个 pass 在何时处理每条 line。"
+msgstr "一次只处理一小组数据，让两轮工作趁数据还在近处时一起完成。"
 
 msgid "chapter2.level.blocking.objective"
-msgstr "用工作分组让两个 pass 先完成一个小组再移动。在不升级硬件的情况下达到 145 cycles 或更少。"
+msgstr "不升级硬件，把任务分成小组处理，并把总时间降到 145 周期以内。"
+
+msgid "chapter2.level.blocking.briefing.1"
+msgstr "与其先处理全部数据的第 1 轮，再处理全部数据的第 2 轮，不如先拿一小组数据，把两轮都做完再移动。这个小范围叫[[work_group|工作组]]，这种重排方法叫[[blocking|分块]]。\n\n旧：全部第 1 轮 → 全部第 2 轮\n新：小组 1 两轮 → 小组 2 两轮 → …"
+
+msgid "chapter2.level.blocking.briefing.2"
+msgstr "保持 1-line [[cache|Cache]]和[[row_first|按行优先]]程序不变，在“工作分组”里选择一个非零大小。正式运行时看同一条[[cache_line|line]]是否被两轮连续使用；不超过 145 [[cycle|周期]]就完成。"
 
 msgid "chapter2.level.blocking.learned"
 msgstr "让两个 pass 共同复用一条活跃 line，缩小了工作集。这种重组叫 Blocking，也叫 Tiling（分块）。"
@@ -3372,10 +3522,19 @@ msgid "chapter2.level.capstone.title"
 msgstr "现在，自己调查"
 
 msgid "chapter2.level.capstone.description"
-msgstr "一个新的双 pass workload 开放全部已学工具，但不给诊断提示。"
+msgstr "面对一个新任务，自己完成观察、判断、修改和复查。"
 
 msgid "chapter2.level.capstone.objective"
-msgstr "先按给定配置运行。再用 Trace、Profiler 与 Before → After 证据，让结果正确且不超过 145 cycles；硬件成本始终可见。"
+msgstr "先保留原样跑一次，再根据证据只改一个因素；最终结果要正确且不超过 145 周期。"
+
+msgid "chapter2.level.capstone.briefing.1"
+msgstr "这次不给现成诊断。先用给定配置运行一次，观察总[[cycle|周期]]、[[cpu_wait|CPU 等待]]和数据往返；最拖慢整次运行的原因叫[[bottleneck|瓶颈]]。先从证据判断它在哪里。"
+
+msgid "chapter2.level.capstone.briefing.2"
+msgstr "第一次修改只动一个地方：访问顺序、[[cache|Cache]]大小或[[work_group|工作分组]]任选其一。用[[trace|追踪记录]]看事件，用[[profiler|性能分析器]]看时间分布，再做一次[[before_after|Before → After 比较]]。这样才能知道修改为什么有效。"
+
+msgid "chapter2.level.capstone.briefing.3"
+msgstr "最终要求有三项：保留最初的基线记录；选择与证据相符的瓶颈判断；让正式结果正确且不超过 145 周期。之后可以继续组合方案，但硬件成本也会一直显示。"
 
 msgid "chapter2.level.capstone.learned"
 msgstr "你完成了完整循环：观察、诊断、改变一个原因、再比较。多种软硬件解法都有效。"

@@ -148,6 +148,13 @@ var visible_term_ids: Array[StringName] = []
 var visible_term_items: Dictionary = {}
 
 
+static func has_term(term_id: StringName) -> bool:
+	for term: Dictionary in TERMS:
+		if StringName(term.get("id", &"")) == term_id:
+			return true
+	return false
+
+
 func _ready() -> void:
 	name = "TerminologyHandbook"
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

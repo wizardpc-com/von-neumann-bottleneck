@@ -11,6 +11,8 @@ const SystemParserType = preload("res://src/system_lab/system_dsl_parser.gd")
 const SystemCoreType = preload("res://src/system_lab/system_simulation_core.gd")
 const SystemTopologyType = preload("res://src/system_lab/system_topology.gd")
 const LocalityCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
+const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
+const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
 
 const LOCALIZED_SOURCE_FILES := [
 	"res://src/localization/localization.gd",
@@ -20,6 +22,7 @@ const LOCALIZED_SOURCE_FILES := [
 	"res://src/ui/trace_overlay.gd",
 	"res://src/ui/main.gd",
 	"res://src/ui/terminology_handbook.gd",
+	"res://src/ui/mission_narrative_catalog.gd",
 	"res://src/hardware_foundations/hardware_foundations.gd",
 	"res://src/hardware_foundations/prologue_level_catalog.gd",
 	"res://src/simulation/dsl_parser.gd",
@@ -63,6 +66,7 @@ func _run() -> void:
 		"The Chinese Profiler schedule copy must preserve pass/work-group meaning and placeholder order."
 	)
 	_assert(_supported_locales() == PackedStringArray(["zh_CN", "en"]), "Supported locales must be explicit and stable.")
+	_validate_mission_page_structure()
 
 	var used_keys: Array[StringName] = _localized_source_keys()
 	for key: StringName in LocalityCatalogType.new().localization_keys():
@@ -74,6 +78,7 @@ func _run() -> void:
 		_assert(_set_locale(locale), "Registered locale %s must be selectable." % locale)
 		for key: StringName in used_keys:
 			_assert(_t(key) != String(key), "%s catalog is missing key %s." % [locale, key])
+		_validate_mission_links(locale)
 	_assert(_t(&"hub.subtitle") == "PLAYABLE RESEARCH BUILDS", "English must remain a working alternate catalog.")
 	_assert(_t(&"hub.options.quit") == "Quit Game", "English must localize the chapter Options quit action.")
 	_assert(_t(&"terminology.button") == "Handbook", "The English bottom-right handbook entry must use the concise shared tool-button label.")
@@ -169,6 +174,47 @@ func _localized_source_keys() -> Array[StringName]:
 		sorted_keys.append(key)
 	sorted_keys.sort()
 	return sorted_keys
+
+
+func _validate_mission_page_structure() -> void:
+	for level_id: StringName in MissionNarrativeCatalogType.HARDWARE_PAGES:
+		var pages: Array = MissionNarrativeCatalogType.HARDWARE_PAGES[level_id]
+		_assert(pages.size() >= 1 and pages.size() <= 4, "Hardware mission %s must use one to four useful narrative pages." % level_id)
+	for page_mapping: Dictionary in [MissionNarrativeCatalogType.SYSTEM_PAGES, MissionNarrativeCatalogType.LOCALITY_PAGES]:
+		for level_id: StringName in page_mapping:
+			var pages: Array = page_mapping[level_id]
+			_assert(pages.size() >= 1 and pages.size() <= 4, "Mission %s must use one to four useful narrative pages." % level_id)
+	_assert(LinkedMissionTextType.TERM_COLOR == Color("50d5ff"), "Mission terms must use the shared Handbook accent color.")
+
+
+func _validate_mission_links(locale: String) -> void:
+	var handbook_script: Script = load("res://src/ui/terminology_handbook.gd")
+	var levels: Array[Dictionary] = []
+	for level_id: StringName in MissionNarrativeCatalogType.HARDWARE_PAGES:
+		var keys: Array[StringName] = []
+		for page: Dictionary in MissionNarrativeCatalogType.HARDWARE_PAGES[level_id]:
+			keys.append(StringName(page[&"body"]))
+		levels.append({"id": level_id, "keys": keys})
+	for page_mapping: Dictionary in [MissionNarrativeCatalogType.SYSTEM_PAGES, MissionNarrativeCatalogType.LOCALITY_PAGES]:
+		for level_id: StringName in page_mapping:
+			var keys: Array[StringName] = []
+			for key: StringName in page_mapping[level_id]:
+				keys.append(key)
+			levels.append({"id": level_id, "keys": keys})
+	levels.append({"id": &"hardware_compact", "keys": [
+		&"hardware.tutorial.prompt", &"hardware.challenge.description",
+		&"hardware.challenge.hint", &"hardware.cases.truth_table_definition",
+	]})
+	for level: Dictionary in levels:
+		var link_count: int = 0
+		for key: StringName in level["keys"]:
+			var source: String = _t(key)
+			var term_ids: Array[StringName] = LinkedMissionTextType.linked_term_ids(source)
+			link_count += term_ids.size()
+			_assert("[[" not in LinkedMissionTextType.plain_text(source), "%s mission key %s has a malformed term link." % [locale, key])
+			for term_id: StringName in term_ids:
+				_assert(bool(handbook_script.call("has_term", term_id)), "%s mission key %s links to missing Handbook term %s." % [locale, key, term_id])
+		_assert(link_count > 0, "%s mission %s must contain at least one highlighted Handbook link." % [locale, level["id"]])
 
 
 func _collect_gdscript_paths(directory_path: String, paths: Array[String]) -> void:

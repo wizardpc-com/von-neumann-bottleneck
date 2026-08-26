@@ -17,6 +17,8 @@ const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
+const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
+const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 const BACKGROUND := Color("08101d")
@@ -94,7 +96,11 @@ var instrument_open_buttons: Dictionary[StringName, Button] = {}
 var instrument_layout_size: Vector2 = WINDOW_REFERENCE_SIZE
 var instrument_z_counter: int = 100
 var mission_title_label: Label
-var mission_body_label: Label
+var mission_body_label: LinkedMissionTextType
+var mission_page_label: Label
+var mission_previous_button: Button
+var mission_continue_button: Button
+var mission_page: int = 0
 var prediction_box: VBoxContainer
 var prediction_question_label: Label
 var prediction_selector: OptionButton
@@ -756,11 +762,32 @@ func _build_mission_instrument() -> Control:
 	mission_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	mission_title_label.add_theme_color_override("font_color", ACCENT)
 	box.add_child(mission_title_label)
-	mission_body_label = Label.new()
-	mission_body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mission_body_label = LinkedMissionTextType.new()
 	mission_body_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
-	mission_body_label.size_flags_vertical = Control.SIZE_FILL
+	mission_body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	mission_body_label.term_requested.connect(_open_mission_term)
 	box.add_child(mission_body_label)
+	mission_page_label = Label.new()
+	mission_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	mission_page_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	mission_page_label.add_theme_color_override("font_color", MUTED)
+	box.add_child(mission_page_label)
+	var mission_navigation := HBoxContainer.new()
+	mission_navigation.alignment = BoxContainer.ALIGNMENT_CENTER
+	mission_navigation.add_theme_constant_override("separation", 10)
+	box.add_child(mission_navigation)
+	mission_previous_button = Button.new()
+	mission_previous_button.name = "MissionPreviousButton"
+	mission_previous_button.text = _t(&"hardware.briefing.previous")
+	mission_previous_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	mission_previous_button.pressed.connect(_change_mission_page.bind(-1))
+	mission_navigation.add_child(mission_previous_button)
+	mission_continue_button = Button.new()
+	mission_continue_button.name = "MissionContinueButton"
+	mission_continue_button.text = _t(&"hardware.briefing.continue")
+	mission_continue_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	mission_continue_button.pressed.connect(_change_mission_page.bind(1))
+	mission_navigation.add_child(mission_continue_button)
 	prediction_box = VBoxContainer.new()
 	prediction_box.add_theme_constant_override("separation", 6)
 	box.add_child(prediction_box)
@@ -798,7 +825,7 @@ func _build_mission_instrument() -> Control:
 	conclusion_button.pressed.connect(_review_level_conclusion)
 	conclusion_button.hide()
 	box.add_child(conclusion_button)
-	return box
+	return _scrollable(box)
 
 
 func _build_parts_instrument() -> Control:
@@ -1153,10 +1180,8 @@ func _load_level_session() -> void:
 
 func _refresh_level_ui() -> void:
 	mission_title_label.text = _t(catalog.title_key(current_level_id))
-	mission_body_label.text = "%s\n\n%s" % [
-		_t(catalog.description_key(current_level_id)),
-		_t(StringName(current_level_definition.get("objective_key", &"system.level.unknown.objective"))),
-	]
+	mission_page = 0
+	_refresh_mission_page()
 	_refresh_prediction_ui()
 	case_selector.clear()
 	for case: Dictionary in current_level_definition.get("cases", []):
@@ -1171,6 +1196,33 @@ func _refresh_level_ui() -> void:
 	_refresh_profiler()
 	_refresh_history()
 	_refresh_mission_progress()
+
+
+func _system_mission_pages() -> Array:
+	return MissionNarrativeCatalogType.SYSTEM_PAGES.get(current_level_id, [&"system.level.unknown.objective"])
+
+
+func _refresh_mission_page() -> void:
+	var pages: Array = _system_mission_pages()
+	mission_page = clampi(mission_page, 0, pages.size() - 1)
+	mission_body_label.set_linked_text(_t(StringName(pages[mission_page])))
+	mission_page_label.text = _t(&"hardware.briefing.progress", [mission_page + 1, pages.size()])
+	mission_previous_button.disabled = mission_page == 0
+	mission_continue_button.disabled = mission_page == pages.size() - 1
+	mission_continue_button.text = _t(
+		&"mission.navigation.last_page" if mission_continue_button.disabled
+		else &"hardware.briefing.continue"
+	)
+
+
+func _change_mission_page(delta: int) -> void:
+	mission_page = clampi(mission_page + delta, 0, _system_mission_pages().size() - 1)
+	_refresh_mission_page()
+
+
+func _open_mission_term(term_id: StringName) -> void:
+	if terminology_handbook != null:
+		terminology_handbook.open_handbook(term_id)
 
 
 func _refresh_prediction_ui() -> void:

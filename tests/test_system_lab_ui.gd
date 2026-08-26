@@ -232,7 +232,10 @@ func _run() -> void:
 	var instruments: Dictionary = main.get("instrument_windows")
 	var mission_window: Control = instruments[&"mission"]
 	var mission_minimize: Button = mission_window.find_child("MinimizeButton", true, false)
-	_assert(not mission_minimize.visible and (main.get("mission_title_label") as Label).get_theme_font_size("font_size") == UiTypographyType.TITLE_SIZE and (main.get("mission_body_label") as Label).get_theme_font_size("font_size") == UiTypographyType.BODY_SIZE, "Chapter 1 Mission must use the shared title/body sizes and omit minimization.")
+	_assert(not mission_minimize.visible and (main.get("mission_title_label") as Label).get_theme_font_size("font_size") == UiTypographyType.TITLE_SIZE and (main.get("mission_body_label") as RichTextLabel).get_theme_font_size("font_size") == UiTypographyType.BODY_SIZE, "Chapter 1 Mission must use the shared title/body sizes and omit minimization.")
+	_assert((main.get("mission_previous_button") as Button).disabled and not (main.get("mission_continue_button") as Button).disabled, "Chapter 1 Mission must open on the first authored narrative page with forward navigation available.")
+	(main.get("mission_continue_button") as Button).pressed.emit()
+	_assert(int(main.get("mission_page")) == 1 and not (main.get("mission_previous_button") as Button).disabled, "Chapter 1 Mission must allow returning after advancing to the next narrative page.")
 	main.call("_open_instrument", &"program")
 	main.call("_open_instrument", &"profiler")
 	_assert(

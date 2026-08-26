@@ -24,6 +24,8 @@ var terminology_handbook: TerminologyHandbookType
 var options_overlay: Control
 var options_resume_button: Button
 var options_fullscreen_button: Button
+var options_export_button: Button
+var options_export_status: Label
 var options_quit_button: Button
 var options_previous_focus: Control
 
@@ -183,7 +185,7 @@ func _build_options_menu() -> void:
 
 	var panel := PanelContainer.new()
 	panel.name = "ChapterOptionsPanel"
-	panel.custom_minimum_size = Vector2(460.0, 340.0)
+	panel.custom_minimum_size = Vector2(620.0, 440.0)
 	panel.add_theme_stylebox_override("panel", _stylebox(PANEL, 16, 2, PURPLE))
 	center.add_child(panel)
 
@@ -227,6 +229,19 @@ func _build_options_menu() -> void:
 	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen)
 	column.add_child(options_fullscreen_button)
 
+	options_export_button = _options_button(Localization.text(&"playtest.export.button"))
+	options_export_button.name = "OptionsExportPlaytestButton"
+	options_export_button.tooltip_text = Localization.text(&"playtest.export.tooltip")
+	options_export_button.pressed.connect(_export_playtest_data)
+	column.add_child(options_export_button)
+	options_export_status = Label.new()
+	options_export_status.name = "OptionsExportStatus"
+	options_export_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	options_export_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	options_export_status.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	options_export_status.add_theme_color_override("font_color", MUTED)
+	column.add_child(options_export_status)
+
 	options_quit_button = _options_button(Localization.text(&"hub.options.quit"))
 	options_quit_button.name = "OptionsQuitButton"
 	options_quit_button.add_theme_color_override("font_color", DANGER)
@@ -268,6 +283,16 @@ func _close_options_menu() -> void:
 
 func _quit_game() -> void:
 	get_tree().quit()
+
+
+func _export_playtest_data() -> void:
+	var export_path: String = PlaytestData.export_current_session()
+	if export_path.is_empty():
+		options_export_status.text = Localization.text(&"playtest.export.failed", [PlaytestData.last_error])
+		options_export_status.add_theme_color_override("font_color", DANGER)
+	else:
+		options_export_status.text = Localization.text(&"playtest.export.success", [export_path])
+		options_export_status.add_theme_color_override("font_color", GOOD)
 
 
 func _on_window_mode_changed(_fullscreen: bool) -> void:

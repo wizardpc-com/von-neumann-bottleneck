@@ -4297,3 +4297,96 @@ msgstr "Before: lines trade places"
 
 msgid "terminology.diagram.blocking.after"
 msgstr "Blocked: finish one line"
+
+msgid "playtest.feedback.select"
+msgstr "Select…"
+
+msgid "playtest.feedback.skip"
+msgstr "Skip"
+
+msgid "playtest.feedback.submit"
+msgstr "Save feedback"
+
+msgid "playtest.level_feedback.title"
+msgstr "Quick playtest check-in"
+
+msgid "playtest.level_feedback.hint"
+msgstr "Three taps, then continue. The optional note can stay blank."
+
+msgid "playtest.level_feedback.fun"
+msgstr "Fun · 1–5"
+
+msgid "playtest.level_feedback.clarity"
+msgstr "Understanding · 1–5"
+
+msgid "playtest.level_feedback.continue"
+msgstr "Want to continue · 1–5"
+
+msgid "playtest.level_feedback.note"
+msgstr "Optional short note or complaint"
+
+msgid "playtest.chapter_feedback.title"
+msgstr "Chapter check-in"
+
+msgid "playtest.chapter_feedback.subtitle"
+msgstr "A short look back before moving on. Text fields are optional."
+
+msgid "playtest.chapter_feedback.best"
+msgstr "Best level"
+
+msgid "playtest.chapter_feedback.worst"
+msgstr "Weakest level"
+
+msgid "playtest.chapter_feedback.confusing"
+msgstr "Most confusing point (optional)"
+
+msgid "playtest.chapter_feedback.surprising"
+msgstr "Most surprising point (optional)"
+
+msgid "playtest.chapter_feedback.pace"
+msgstr "Pace · 1 too slow, 5 too fast"
+
+msgid "playtest.demo_feedback.title"
+msgstr "Demo feedback"
+
+msgid "playtest.demo_feedback.subtitle"
+msgstr "One last short check-in. Text fields are optional."
+
+msgid "playtest.demo_feedback.satisfaction"
+msgstr "Overall satisfaction · 1–5"
+
+msgid "playtest.demo_feedback.difficulty"
+msgstr "Overall difficulty · 1 easy, 5 hard"
+
+msgid "playtest.demo_feedback.length"
+msgstr "How did the length feel?"
+
+msgid "playtest.demo_feedback.length.too_short"
+msgstr "Too short"
+
+msgid "playtest.demo_feedback.length.about_right"
+msgstr "About right"
+
+msgid "playtest.demo_feedback.length.too_long"
+msgstr "Too long"
+
+msgid "playtest.demo_feedback.favorite"
+msgstr "Favorite part (optional)"
+
+msgid "playtest.demo_feedback.change"
+msgstr "What would you cut or change? (optional)"
+
+msgid "playtest.demo_feedback.continue"
+msgstr "Would keep playing · 1–5"
+
+msgid "playtest.export.button"
+msgstr "Export Playtest Data"
+
+msgid "playtest.export.tooltip"
+msgstr "Create one local JSON file containing this anonymous session."
+
+msgid "playtest.export.success"
+msgstr "Export ready: %s"
+
+msgid "playtest.export.failed"
+msgstr "Export failed: %s"

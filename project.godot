@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.7")
 
 Localization="*res://src/localization/localization.gd"
 GameMode="*res://src/game/game_mode.gd"
+PlaytestData="*res://src/playtest/playtest_data.gd"
 WindowMode="*res://src/ui/window_mode.gd"
 SystemChapter="*res://src/system_lab/system_chapter_state.gd"
 LocalityChapter="*res://src/locality_chapter/locality_chapter_state.gd"

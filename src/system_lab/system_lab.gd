@@ -15,6 +15,7 @@ const FloatingPanelType = preload("res://src/ui/floating_instrument_panel.gd")
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
+const PlaytestFeedbackOverlayType = preload("res://src/playtest/playtest_feedback_overlay.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
 const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
@@ -83,6 +84,7 @@ var active_mode: StringName = &"game"
 var map_host: Control
 var map_view
 var level_completion_overlay: LevelCompletionOverlay
+var playtest_feedback_overlay: PlaytestFeedbackOverlay
 var lab_host: Control
 var graph
 var desktop_host: Control
@@ -383,8 +385,17 @@ func _build_interface() -> void:
 
 func _create_level_completion_overlay() -> void:
 	level_completion_overlay = LevelCompletionOverlayType.new()
+	level_completion_overlay.questionnaire_enabled = PlaytestData.questionnaires_enabled()
 	level_completion_overlay.continue_requested.connect(_on_level_completion_continue)
+	level_completion_overlay.feedback_submitted.connect(_on_level_feedback_submitted)
+	level_completion_overlay.feedback_skipped.connect(_on_level_feedback_skipped)
 	add_child(level_completion_overlay)
+	playtest_feedback_overlay = PlaytestFeedbackOverlayType.new()
+	playtest_feedback_overlay.questionnaire_enabled = PlaytestData.questionnaires_enabled()
+	playtest_feedback_overlay.chapter_feedback_submitted.connect(_on_chapter_feedback_submitted)
+	playtest_feedback_overlay.feedback_skipped.connect(_on_playtest_feedback_skipped)
+	playtest_feedback_overlay.finished.connect(_on_playtest_feedback_finished)
+	add_child(playtest_feedback_overlay)
 
 
 func _show_level_completion(level_id: StringName) -> void:
@@ -394,7 +405,8 @@ func _show_level_completion(level_id: StringName) -> void:
 		level_id,
 		_t(catalog.title_key(level_id)),
 		_t(StringName(COMPLETION_SUMMARY_KEYS.get(level_id, &"system.completion.summary.assembly"))),
-		_t(&"system.completion.chapter")
+		_t(&"system.completion.chapter"),
+		&"chapter_1"
 	)
 
 
@@ -410,7 +422,58 @@ func _dismiss_level_completion() -> void:
 
 
 func _on_level_completion_continue(_level_id: StringName) -> void:
+	if _level_id == &"bottleneck" and _present_chapter_feedback():
+		return
 	_open_map()
+
+
+func _on_level_feedback_submitted(
+		chapter_id: StringName,
+		level_id: StringName,
+		fun_rating: int,
+		clarity_rating: int,
+		continue_rating: int,
+		note: String
+	) -> void:
+	PlaytestData.submit_level_feedback(
+		chapter_id, level_id, fun_rating, clarity_rating, continue_rating, note
+	)
+
+
+func _on_level_feedback_skipped(chapter_id: StringName, level_id: StringName) -> void:
+	PlaytestData.record_feedback_skipped(&"level", StringName("%s/%s" % [chapter_id, level_id]))
+
+
+func _present_chapter_feedback() -> bool:
+	if playtest_feedback_overlay == null:
+		return false
+	var levels: Array[Dictionary] = []
+	for level_id: StringName in catalog.level_ids():
+		levels.append({"id": level_id, "label": _t(catalog.title_key(level_id))})
+	return playtest_feedback_overlay.present_chapter(&"chapter_1", levels)
+
+
+func _on_chapter_feedback_submitted(
+		chapter_id: StringName,
+		best_level_id: StringName,
+		worst_level_id: StringName,
+		confusing_point: String,
+		surprising_point: String,
+		pace_rating: int
+	) -> void:
+	PlaytestData.submit_chapter_feedback(
+		chapter_id, best_level_id, worst_level_id,
+		confusing_point, surprising_point, pace_rating
+	)
+
+
+func _on_playtest_feedback_skipped(scope: StringName, subject_id: StringName) -> void:
+	PlaytestData.record_feedback_skipped(scope, subject_id)
+
+
+func _on_playtest_feedback_finished(scope: StringName, _subject_id: StringName) -> void:
+	if scope == &"chapter":
+		_open_map()
 
 
 func _build_header() -> Control:
@@ -1028,6 +1091,7 @@ func _build_playback_bar() -> Control:
 func _open_map() -> void:
 	_dismiss_level_completion()
 	if not current_level_id.is_empty() and lab_host != null and lab_host.visible:
+		PlaytestData.level_exited(&"chapter_1", current_level_id, &"map")
 		_save_level_session()
 	_stop_playback()
 	current_level_id = &""
@@ -1084,6 +1148,7 @@ func _start_level(level_id: StringName) -> void:
 		_save_level_session()
 	_stop_playback()
 	current_level_id = level_id
+	PlaytestData.level_started(&"chapter_1", current_level_id)
 	current_level_definition = catalog.definition(level_id)
 	latest_receipt = null
 	latest_official_traces.clear()
@@ -1423,7 +1488,13 @@ func _on_part_selected(index: int, kind: StringName) -> void:
 				selector.select(selected_index)
 				break
 		return
+	var previous_part_id: StringName = selected_part_ids.get(kind, &"")
 	selected_part_ids[kind] = StringName(selector.get_item_metadata(index))
+	PlaytestData.record_modification(&"chapter_1", current_level_id, &"hardware", {
+		"part_kind": String(kind),
+		"from": String(previous_part_id),
+		"to": String(selected_part_ids[kind]),
+	})
 	current_topology = _topology_from_graph()
 	latest_receipt = null
 	latest_official_traces.clear()
@@ -1566,6 +1637,9 @@ func _commit_system_editor_snapshot(kind: StringName, before: Dictionary) -> boo
 		"after": after.duplicate(true),
 	})
 	editor_redo_history.clear()
+	PlaytestData.record_modification(&"chapter_1", current_level_id, &"system_layout", {
+		"operation": String(kind),
+	})
 	_after_system_editor_mutation(
 		_system_editor_topology_signature(before) != _system_editor_topology_signature(after)
 	)
@@ -1961,6 +2035,11 @@ func _apply_program() -> void:
 	_refresh_history()
 	status_label.text = _t(&"system.status.program_applied")
 	status_label.add_theme_color_override("font_color", GOOD)
+	PlaytestData.record_modification(&"chapter_1", current_level_id, &"program", {
+		"official_program": catalog.is_official_program_signature(
+			current_level_id, applied_program.canonical_signature()
+		),
+	})
 
 
 func _refresh_program_state() -> void:
@@ -2042,6 +2121,15 @@ func _run_official() -> void:
 		catalog.test_set_signature(current_level_id),
 		selected_part_ids
 	)
+	PlaytestData.record_official_run(&"chapter_1", current_level_id, latest_receipt.all_passed, {
+		"passed_cases": latest_receipt.passed_cases,
+		"total_cases": latest_receipt.total_cases,
+		"qualified_for_progression": catalog.is_official_program_signature(
+			current_level_id, latest_receipt.program_signature
+		),
+		"cycles": int(latest_receipt.metrics.get("total_cycles", 0)),
+		"cost": int(latest_receipt.metrics.get("hardware_cost", 0)),
+	})
 	var is_progression_evidence: bool = catalog.is_official_program_signature(
 		current_level_id, latest_receipt.program_signature
 	)
@@ -2135,7 +2223,20 @@ func _evaluate_completion(selected_diagnosis: StringName) -> void:
 	var receipts: Array = SystemChapter.receipts_for(current_level_id)
 	var completion: Dictionary = catalog.completion_status(current_level_id, receipts, selected_diagnosis)
 	if bool(completion.get("complete", false)):
+		var newly_completed: bool = not bool(SystemChapter.completed_levels().get(current_level_id, false))
 		SystemChapter.mark_completed(current_level_id)
+		if newly_completed:
+			PlaytestData.level_completed(&"chapter_1", current_level_id, {
+				"final_config": {
+					"cpu": String(selected_part_ids.get(PartSpecType.KIND_CPU, &"")),
+					"ram": String(selected_part_ids.get(PartSpecType.KIND_RAM, &"")),
+					"bus": String(selected_part_ids.get(PartSpecType.KIND_BUS, &"")),
+				},
+				"metrics": {
+					"cycles": int(latest_receipt.metrics.get("total_cycles", 0)) if latest_receipt != null else 0,
+					"cost": int(latest_receipt.metrics.get("hardware_cost", 0)) if latest_receipt != null else 0,
+				},
+			})
 		_refresh_program_state()
 		_refresh_comparison_part_lock()
 		mission_progress_label.text = _t(&"system.mission.complete")
@@ -2561,6 +2662,9 @@ func _toggle_pause() -> void:
 	if current_trace == null:
 		return
 	playback_running = not playback_running
+	PlaytestData.record_trace_action(
+		&"chapter_1", current_level_id, &"resume" if playback_running else &"pause"
+	)
 	pause_button.text = _t(&"system.playback.pause") if playback_running else _t(&"system.playback.resume")
 
 
@@ -2568,6 +2672,7 @@ func _step_playback() -> void:
 	if current_trace == null or playback_index >= current_trace.events.size():
 		return
 	playback_running = false
+	PlaytestData.record_trace_action(&"chapter_1", current_level_id, &"step")
 	pause_button.text = _t(&"system.playback.resume")
 	_show_event(current_trace.events[playback_index], 1.0)
 	playback_index += 1
@@ -2631,6 +2736,7 @@ func _toggle_instrument(id: StringName) -> void:
 		_close_instrument(id)
 	else:
 		_open_instrument(id)
+		PlaytestData.record_tool_opened(&"chapter_1", current_level_id, id)
 
 
 func _open_instrument(id: StringName) -> void:
@@ -2680,6 +2786,8 @@ func _on_desktop_resized() -> void:
 
 
 func _on_mode_changed(_mode: StringName) -> void:
+	if not current_level_id.is_empty():
+		PlaytestData.level_exited(&"chapter_1", current_level_id, &"mode_changed")
 	_save_level_session()
 	current_level_id = &""
 	current_level_definition.clear()

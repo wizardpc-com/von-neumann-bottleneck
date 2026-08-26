@@ -291,6 +291,8 @@ func _run() -> void:
 	var options_overlay: Control = hub.get("options_overlay")
 	var options_resume: Button = hub.get("options_resume_button")
 	var options_fullscreen: Button = hub.get("options_fullscreen_button")
+	var options_export: Button = hub.get("options_export_button")
+	var options_export_status: Label = hub.get("options_export_status")
 	var options_quit: Button = hub.get("options_quit_button")
 	var hub_escape := InputEventKey.new()
 	hub_escape.keycode = KEY_ESCAPE
@@ -299,9 +301,15 @@ func _run() -> void:
 	_assert(
 		options_overlay.visible
 		and options_resume.text == _t(&"hub.options.resume")
+		and options_export.text == _t(&"playtest.export.button")
 		and options_quit.text == _t(&"hub.options.quit")
 		and options_fullscreen.text in [_t(&"window.fullscreen.enter"), _t(&"window.fullscreen.exit")],
-		"Esc on chapter selection must open a localized Options menu with Resume, fullscreen, and Quit actions."
+		"Esc on chapter selection must open a localized Options menu with Resume, fullscreen, Playtest export, and Quit actions."
+	)
+	options_export.pressed.emit()
+	_assert(
+		not options_export_status.text.is_empty(),
+		"Playtest export must report a contained success or failure without blocking the Options menu."
 	)
 	hub.call("_unhandled_key_input", hub_escape)
 	_assert(not options_overlay.visible, "A second Esc on chapter selection must close Options and return to chapter selection.")

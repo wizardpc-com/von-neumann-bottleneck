@@ -30,6 +30,7 @@ const FloatingInstrumentPanelType = preload("res://src/ui/floating_instrument_pa
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
+const PlaytestFeedbackOverlayType = preload("res://src/playtest/playtest_feedback_overlay.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
 const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
@@ -139,6 +140,7 @@ var wire_color_menu_button: MenuButton
 var mode_selector: GameModeSelectorType
 var fullscreen_button: FullscreenButtonType
 var level_completion_overlay: LevelCompletionOverlay
+var playtest_feedback_overlay: PlaytestFeedbackOverlay
 var terminology_handbook: TerminologyHandbookType
 
 var component_catalog: Dictionary[StringName, LogicComponent] = {}
@@ -704,8 +706,17 @@ func _build_interface() -> void:
 
 func _create_level_completion_overlay() -> void:
 	level_completion_overlay = LevelCompletionOverlayType.new()
+	level_completion_overlay.questionnaire_enabled = PlaytestData.questionnaires_enabled()
 	level_completion_overlay.continue_requested.connect(_on_level_completion_continue)
+	level_completion_overlay.feedback_submitted.connect(_on_level_feedback_submitted)
+	level_completion_overlay.feedback_skipped.connect(_on_level_feedback_skipped)
 	add_child(level_completion_overlay)
+	playtest_feedback_overlay = PlaytestFeedbackOverlayType.new()
+	playtest_feedback_overlay.questionnaire_enabled = PlaytestData.questionnaires_enabled()
+	playtest_feedback_overlay.chapter_feedback_submitted.connect(_on_chapter_feedback_submitted)
+	playtest_feedback_overlay.feedback_skipped.connect(_on_playtest_feedback_skipped)
+	playtest_feedback_overlay.finished.connect(_on_playtest_feedback_finished)
+	add_child(playtest_feedback_overlay)
 
 
 func _show_level_completion(level_id: StringName) -> void:
@@ -715,7 +726,8 @@ func _show_level_completion(level_id: StringName) -> void:
 		level_id,
 		_level_display_name(level_id),
 		_t(StringName(COMPLETION_SUMMARY_KEYS.get(level_id, &"hardware.completion.summary.tutorial"))),
-		_t(&"hardware.completion.chapter")
+		_t(&"hardware.completion.chapter"),
+		&"hardware_foundations"
 	)
 
 
@@ -725,7 +737,58 @@ func _dismiss_level_completion() -> void:
 
 
 func _on_level_completion_continue(_level_id: StringName) -> void:
+	if _level_id == &"load_store" and _present_chapter_feedback():
+		return
 	_open_campaign_map()
+
+
+func _on_level_feedback_submitted(
+		chapter_id: StringName,
+		level_id: StringName,
+		fun_rating: int,
+		clarity_rating: int,
+		continue_rating: int,
+		note: String
+	) -> void:
+	PlaytestData.submit_level_feedback(
+		chapter_id, level_id, fun_rating, clarity_rating, continue_rating, note
+	)
+
+
+func _on_level_feedback_skipped(chapter_id: StringName, level_id: StringName) -> void:
+	PlaytestData.record_feedback_skipped(&"level", StringName("%s/%s" % [chapter_id, level_id]))
+
+
+func _present_chapter_feedback() -> bool:
+	if playtest_feedback_overlay == null:
+		return false
+	var levels: Array[Dictionary] = []
+	for level_id: StringName in level_catalog.level_ids():
+		levels.append({"id": level_id, "label": _level_display_name(level_id)})
+	return playtest_feedback_overlay.present_chapter(&"hardware_foundations", levels)
+
+
+func _on_chapter_feedback_submitted(
+		chapter_id: StringName,
+		best_level_id: StringName,
+		worst_level_id: StringName,
+		confusing_point: String,
+		surprising_point: String,
+		pace_rating: int
+	) -> void:
+	PlaytestData.submit_chapter_feedback(
+		chapter_id, best_level_id, worst_level_id,
+		confusing_point, surprising_point, pace_rating
+	)
+
+
+func _on_playtest_feedback_skipped(scope: StringName, subject_id: StringName) -> void:
+	PlaytestData.record_feedback_skipped(scope, subject_id)
+
+
+func _on_playtest_feedback_finished(scope: StringName, _subject_id: StringName) -> void:
+	if scope == &"chapter":
+		_open_campaign_map()
 
 
 func _create_desktop_windows() -> void:
@@ -1159,6 +1222,8 @@ func _toggle_desktop_window(id: StringName) -> void:
 		_close_desktop_window(id)
 	else:
 		_show_desktop_window(id)
+		if not current_level_id.is_empty():
+			PlaytestData.record_tool_opened(&"hardware_foundations", current_level_id, id)
 
 
 func _show_desktop_window(id: StringName) -> void:
@@ -1379,6 +1444,8 @@ func _is_automated_workbench_session() -> bool:
 
 
 func _return_to_prototype_hub() -> void:
+	if not current_level_id.is_empty():
+		PlaytestData.level_exited(&"hardware_foundations", current_level_id, &"chapter_selection")
 	_save_active_workbench()
 	get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
 
@@ -1882,6 +1949,7 @@ func _show_hint_level(level: int) -> void:
 		return
 	_stop_playback()
 	hint_level = clampi(level, 1, 3)
+	PlaytestData.record_hint(&"hardware_foundations", current_level_id, hint_level)
 	current_phase = &"hint"
 	current_level_id = hint_return_level_id
 	phase_label.text = _t(&"hardware.hint.phase", [hint_level, 3])
@@ -2016,6 +2084,7 @@ func _show_tutorial(show_briefing: bool = true) -> void:
 	_stop_playback()
 	current_phase = &"tutorial"
 	current_level_id = &"tutorial"
+	PlaytestData.level_started(&"hardware_foundations", current_level_id)
 	current_level_definition.clear()
 	phase_label.text = _t(&"hardware.phase.tutorial")
 	official_passed = false
@@ -2049,6 +2118,7 @@ func _start_challenge(show_briefing: bool = true) -> void:
 	_stop_playback()
 	current_phase = &"half_adder"
 	current_level_id = &"half_adder"
+	PlaytestData.level_started(&"hardware_foundations", current_level_id)
 	current_level_definition.clear()
 	phase_label.text = _t(&"hardware.phase.half_adder")
 	official_passed = false
@@ -3981,6 +4051,10 @@ func _push_history_action(action: Dictionary) -> void:
 		stored.erase("selection_after")
 	wire_history.append(stored)
 	redo_history.clear()
+	if not current_level_id.is_empty():
+		PlaytestData.record_modification(&"hardware_foundations", current_level_id, &"hardware", {
+			"operation": String(stored.get("kind", &"edit")),
+		})
 	_queue_workbench_save()
 
 
@@ -4812,6 +4886,7 @@ func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
 	if current_phase == &"tutorial":
 		tutorial_changed_input = true
 		_update_tutorial_checklist()
+	PlaytestData.record_action(&"hardware_foundations", current_level_id, &"test_input_changed")
 	status_label.text = _t(&"hardware.status.input_changed")
 	status_label.add_theme_color_override("font_color", ACCENT)
 
@@ -5092,6 +5167,10 @@ func _finish_official_sequence() -> void:
 			first_failed_trace = result.get("trace")
 	official_report = {"passed": all_passed, "cases": results}
 	official_passed = all_passed
+	PlaytestData.record_official_run(
+		&"hardware_foundations", current_level_id, all_passed,
+		{"case_count": results.size()}
+	)
 	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
 	if official_passed:
 		seal_button.disabled = false
@@ -5221,6 +5300,10 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 		bool(current_level_definition.get("allow_feedback", false))
 	)
 	official_passed = bool(prologue_report.get("passed", false))
+	PlaytestData.record_official_run(
+		&"hardware_foundations", current_level_id, official_passed,
+		{"case_count": (current_level_definition.get("official_steps", []) as Array).size()}
+	)
 	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
 	var final_result: PrologueSimulationResult = prologue_report.get("final_result")
 	if final_result != null and final_result.is_valid() and _is_storage_level():
@@ -5234,6 +5317,7 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 			var newly_completed: bool = not bool(completed_levels.get(current_level_id, false))
 			_save_active_workbench()
 			player_content.mark_completed(current_level_id)
+			PlaytestData.level_completed(&"hardware_foundations", current_level_id)
 			current_phase = &"prologue_complete"
 			prologue_level_completed_view = true
 			graph.branch_edit_enabled = false
@@ -5368,6 +5452,7 @@ func _finish_encapsulation() -> void:
 		sealed_half_adder.circuit_snapshot
 	)
 	player_content.install_reusable(&"half_adder", reusable, level_catalog)
+	PlaytestData.level_completed(&"hardware_foundations", &"half_adder")
 	_refresh_workbench_menu()
 	_refresh_hint_controls()
 	_show_level_completion(&"half_adder")
@@ -5407,6 +5492,8 @@ func _build_sealed_graph() -> void:
 
 func _open_campaign_map() -> void:
 	_dismiss_level_completion()
+	if not current_level_id.is_empty():
+		PlaytestData.level_exited(&"hardware_foundations", current_level_id, &"map")
 	_save_active_workbench()
 	_cancel_official_sequence()
 	_stop_playback()
@@ -5616,6 +5703,7 @@ func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> 
 	_stop_playback()
 	current_phase = &"prologue"
 	current_level_id = level_id
+	PlaytestData.level_started(&"hardware_foundations", current_level_id)
 	current_level_definition = level
 	prologue_level_completed_view = false
 	prologue_live_result = null
@@ -5946,6 +6034,7 @@ func _on_prologue_input_changed() -> void:
 	_schedule_live_refresh()
 	status_label.text = _t(&"hardware.status.input_changed")
 	status_label.add_theme_color_override("font_color", ACCENT)
+	PlaytestData.record_action(&"hardware_foundations", current_level_id, &"test_input_changed")
 
 
 func _current_prologue_inputs() -> Dictionary:
@@ -6010,6 +6099,7 @@ func _finish_prologue_encapsulation() -> void:
 	pending_sealed_circuit = null
 	encapsulation_effect.finish()
 	current_phase = &"prologue_complete"
+	PlaytestData.level_completed(&"hardware_foundations", finished_level)
 	prologue_level_completed_view = true
 	graph.branch_edit_enabled = false
 	graph.connection_validator = func(_a: StringName, _b: int, _c: StringName, _d: int) -> bool: return false
@@ -6739,6 +6829,7 @@ func _update_tutorial_checklist() -> void:
 	if complete:
 		completed_levels[&"tutorial"] = true
 	if newly_completed:
+		PlaytestData.level_completed(&"hardware_foundations", &"tutorial")
 		call_deferred("_show_level_completion", &"tutorial")
 	if tutorial_next_button != null:
 		tutorial_next_button.disabled = not complete

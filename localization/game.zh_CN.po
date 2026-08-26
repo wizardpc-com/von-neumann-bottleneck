@@ -4297,3 +4297,96 @@ msgstr "原顺序：两条数据来回换"
 
 msgid "terminology.diagram.blocking.after"
 msgstr "分块后：先完成一条"
+
+msgid "playtest.feedback.select"
+msgstr "请选择…"
+
+msgid "playtest.feedback.skip"
+msgstr "跳过"
+
+msgid "playtest.feedback.submit"
+msgstr "保存反馈"
+
+msgid "playtest.level_feedback.title"
+msgstr "快速游玩反馈"
+
+msgid "playtest.level_feedback.hint"
+msgstr "点选三项即可继续；短备注完全可留空。"
+
+msgid "playtest.level_feedback.fun"
+msgstr "有趣程度 · 1–5"
+
+msgid "playtest.level_feedback.clarity"
+msgstr "理解程度 · 1–5"
+
+msgid "playtest.level_feedback.continue"
+msgstr "想继续下一关 · 1–5"
+
+msgid "playtest.level_feedback.note"
+msgstr "可选的短吐槽或备注"
+
+msgid "playtest.chapter_feedback.title"
+msgstr "章节反馈"
+
+msgid "playtest.chapter_feedback.subtitle"
+msgstr "进入下一章前简单回顾一下；文本项均可留空。"
+
+msgid "playtest.chapter_feedback.best"
+msgstr "最好的一关"
+
+msgid "playtest.chapter_feedback.worst"
+msgstr "最差的一关"
+
+msgid "playtest.chapter_feedback.confusing"
+msgstr "最困惑处（可选）"
+
+msgid "playtest.chapter_feedback.surprising"
+msgstr "最惊喜处（可选）"
+
+msgid "playtest.chapter_feedback.pace"
+msgstr "节奏 · 1 太慢，5 太快"
+
+msgid "playtest.demo_feedback.title"
+msgstr "Demo 总反馈"
+
+msgid "playtest.demo_feedback.subtitle"
+msgstr "最后几项简短问题；文本项均可留空。"
+
+msgid "playtest.demo_feedback.satisfaction"
+msgstr "总体满意度 · 1–5"
+
+msgid "playtest.demo_feedback.difficulty"
+msgstr "总体难度 · 1 简单，5 困难"
+
+msgid "playtest.demo_feedback.length"
+msgstr "整体时长感受"
+
+msgid "playtest.demo_feedback.length.too_short"
+msgstr "太短"
+
+msgid "playtest.demo_feedback.length.about_right"
+msgstr "刚刚好"
+
+msgid "playtest.demo_feedback.length.too_long"
+msgstr "太长"
+
+msgid "playtest.demo_feedback.favorite"
+msgstr "最喜欢的内容（可选）"
+
+msgid "playtest.demo_feedback.change"
+msgstr "最想删除或修改的内容（可选）"
+
+msgid "playtest.demo_feedback.continue"
+msgstr "是否愿意继续玩 · 1–5"
+
+msgid "playtest.export.button"
+msgstr "导出 Playtest 数据"
+
+msgid "playtest.export.tooltip"
+msgstr "将本次匿名 session 导出为一个本地 JSON 文件。"
+
+msgid "playtest.export.success"
+msgstr "导出完成：%s"
+
+msgid "playtest.export.failed"
+msgstr "导出失败：%s"

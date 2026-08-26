@@ -36,6 +36,25 @@ PASS: staged animation, floating instruments, explicit Program apply/explanation
 
 This suite also verifies the resizable-fullscreen project boundary, aspect-ratio expansion, the shared visible fullscreen action on the hub and Cache Locality Lab, and complete on-screen fitting of oversized/misplaced floating instruments. Hardware Foundations UI coverage checks the same fullscreen action and fitting contract for Mission, Test Bench, and Components pages.
 
+## Playtest data and feedback tests
+
+```powershell
+$godotConsole = 'godot_console'
+& $godotConsole --headless --path . --log-file '.godot/test-playtest-data.log' --script res://tests/test_playtest_data.gd
+& $godotConsole --headless --path . --log-file '.godot/test-playtest-feedback-ui.log' --script res://tests/test_playtest_feedback_ui.gd
+```
+
+Expected success output:
+
+```text
+PASS: durable playtest session, recovery, feedback, summary, and export tests passed
+PASS: non-blocking localized level, chapter, and Demo feedback UI tests passed
+```
+
+The data suite uses an isolated repository-local temporary directory. It verifies unique IDs, append-and-flush behavior, clean shutdown, active-session recovery, a malformed trailing JSONL record, Game/Test attribution, attempt/edit/Hint/tool counters, Chapter 2 capstone summaries, optional-text bounds, export schema, and excluded-content privacy metadata. The UI suite verifies all three localized completion surfaces, ratings, optional text, explicit Skip, and questionnaire-disabled navigation.
+
+Normal player runs store the JSONL authority under `user://playtest_data` and export one JSON document from the chapter-selection Options panel. Script, headless, and capture runs suppress questionnaires automatically; the independent flags are `--disable-playtest-feedback`, `--disable-playtest-telemetry`, `--enable-playtest-feedback`, and `--enable-playtest-telemetry`.
+
 ## Chapter 2 progression/UI tests
 
 ```powershell
@@ -306,6 +325,7 @@ The beginner mission-narrative revision on 2026-08-26 reran localization, Hardwa
 - Chapter 2 catalog/progression/notebook changes: content-registry test, Chapter 2 progression/UI test, localization test, and smoke check.
 - UI/wiring/profiler/playback changes: the affected UI suites and smoke check; also run the simulation test if Trace assumptions changed.
 - Player-facing copy or localization-boundary changes: localization test, affected progression/UI suites, and smoke check; visually inspect the Chinese default and at least one alternate-locale launch.
+- Playtest event/storage/export changes: both playtest suites, all affected host UI suites, a normal startup smoke, export inspection, and `git diff --check`.
 - Godot resource moves: all affected suites plus explicit `res://` and UID reference inspection.
 - Documentation-only changes: inspect links, paths, whitespace, and the Git diff; runtime tests are optional unless commands or architecture claims changed.
 

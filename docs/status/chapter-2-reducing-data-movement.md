@@ -69,7 +69,7 @@ The Systems Notebook contains the Chapter 1 concepts CPU WAIT, Controlled Compar
 
 - The model remains fixed at one 4×4 array, four integers per line, fully associative LRU, sequential requests, and no overlap or prefetch.
 - Program editing remains the bounded Python-shaped DSL; Work Group is a small authored control rather than a programming exercise.
-- Progress, receipts, Run History, Notebook entries, and tool use are not persisted or exported as analytics.
+- Progress, receipts, Run History, and Notebook entries remain session-local gameplay state. The separate playtest observer records only bounded semantic actions and counters, never these authoritative objects or full player-authored contents; see [`playtest-instrumentation.md`](playtest-instrumentation.md).
 - Procedural device cards and floating windows are playtest UI, not production art or audio.
 
 External playtesting should determine whether players use the carried-forward evidence instead of treating paired levels as unrelated tasks, inspect Trace before opening a finding, understand the 2-3 “Cache present but still slow” reversal, distinguish poor access order from an oversized working set, diagnose the capstone before guessing a replacement part, and discover more than one solution. Those results should drive pacing and copy changes before adding new cache mechanisms.

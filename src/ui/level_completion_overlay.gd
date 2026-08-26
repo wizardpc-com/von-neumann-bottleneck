@@ -4,6 +4,15 @@ extends Control
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 signal continue_requested(level_id: StringName)
+signal feedback_submitted(
+	chapter_id: StringName,
+	level_id: StringName,
+	fun_rating: int,
+	clarity_rating: int,
+	continue_rating: int,
+	note: String
+)
+signal feedback_skipped(chapter_id: StringName, level_id: StringName)
 
 const BACKDROP := Color("050a12", 0.82)
 const SURFACE := Color("111a2a")
@@ -13,13 +22,19 @@ const PURPLE := Color("bc8cff")
 const TEXT := Color("e9f0fa")
 
 var current_level_id: StringName = &""
+var current_chapter_id: StringName = &""
 var music_cue_count: int = 0
 var audio_enabled: bool = true
+var questionnaire_enabled: bool = false
+var panel: PanelContainer
 var chapter_label: Label
 var title_label: Label
 var level_label: Label
 var summary_label: Label
 var continue_button: Button
+var feedback_box: VBoxContainer
+var feedback_ratings: Dictionary[StringName, OptionButton] = {}
+var feedback_note: LineEdit
 var audio_player: AudioStreamPlayer
 var audio_stop_timer: Timer
 
@@ -45,7 +60,7 @@ func _build_interface() -> void:
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(center)
 
-	var panel := PanelContainer.new()
+	panel = PanelContainer.new()
 	panel.name = "LevelCompletionPanel"
 	panel.custom_minimum_size = Vector2(660.0, 430.0)
 	panel.add_theme_stylebox_override("panel", _stylebox(SURFACE, GOOD, 16, 3))
@@ -99,6 +114,31 @@ func _build_interface() -> void:
 	summary_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(summary_label)
 
+	feedback_box = VBoxContainer.new()
+	feedback_box.name = "LevelFeedbackBox"
+	feedback_box.add_theme_constant_override("separation", 8)
+	var feedback_title := Label.new()
+	feedback_title.text = Localization.text(&"playtest.level_feedback.title")
+	feedback_title.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	feedback_title.add_theme_color_override("font_color", PURPLE)
+	feedback_box.add_child(feedback_title)
+	var feedback_hint := Label.new()
+	feedback_hint.text = Localization.text(&"playtest.level_feedback.hint")
+	feedback_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	feedback_hint.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	feedback_hint.add_theme_color_override("font_color", ACCENT)
+	feedback_box.add_child(feedback_hint)
+	_add_rating_row(&"fun", &"playtest.level_feedback.fun")
+	_add_rating_row(&"clarity", &"playtest.level_feedback.clarity")
+	_add_rating_row(&"continue", &"playtest.level_feedback.continue")
+	feedback_note = LineEdit.new()
+	feedback_note.name = "LevelFeedbackNote"
+	feedback_note.placeholder_text = Localization.text(&"playtest.level_feedback.note")
+	feedback_note.max_length = 240
+	feedback_note.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	feedback_box.add_child(feedback_note)
+	column.add_child(feedback_box)
+
 	continue_button = Button.new()
 	continue_button.name = "LevelCompletionContinueButton"
 	continue_button.text = Localization.text(&"common.level_complete.continue")
@@ -122,16 +162,21 @@ func _build_interface() -> void:
 
 func present(
 		level_id: StringName,
-		level_title: String,
-		summary: String,
-		chapter: String
+	level_title: String,
+	summary: String,
+	chapter: String,
+	chapter_id: StringName = &""
 	) -> void:
 	current_level_id = level_id
+	current_chapter_id = chapter_id
 	chapter_label.text = chapter
 	title_label.text = Localization.text(&"common.level_complete.title")
 	level_label.text = level_title
 	summary_label.text = summary
 	continue_button.text = Localization.text(&"common.level_complete.continue")
+	feedback_box.visible = questionnaire_enabled
+	panel.custom_minimum_size = Vector2(760.0, 650.0) if questionnaire_enabled else Vector2(660.0, 430.0)
+	_reset_feedback()
 	show()
 	continue_button.grab_focus()
 	_play_completion_cue()
@@ -140,6 +185,7 @@ func present(
 func dismiss() -> void:
 	hide()
 	current_level_id = &""
+	current_chapter_id = &""
 	_stop_completion_cue()
 
 
@@ -158,8 +204,53 @@ func _stop_completion_cue() -> void:
 
 func _on_continue_pressed() -> void:
 	var finished_level: StringName = current_level_id
+	var finished_chapter: StringName = current_chapter_id
+	if questionnaire_enabled:
+		var fun_rating: int = _rating_value(&"fun")
+		var clarity_rating: int = _rating_value(&"clarity")
+		var continue_rating: int = _rating_value(&"continue")
+		if fun_rating > 0 and clarity_rating > 0 and continue_rating > 0:
+			feedback_submitted.emit(
+				finished_chapter, finished_level,
+				fun_rating, clarity_rating, continue_rating, feedback_note.text
+			)
+		else:
+			feedback_skipped.emit(finished_chapter, finished_level)
 	dismiss()
 	continue_requested.emit(finished_level)
+
+
+func _add_rating_row(rating_id: StringName, label_key: StringName) -> void:
+	var row := HBoxContainer.new()
+	var label := Label.new()
+	label.text = Localization.text(label_key)
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(label)
+	var selector := OptionButton.new()
+	selector.name = "%sRating" % String(rating_id).to_pascal_case()
+	selector.custom_minimum_size = Vector2(150.0, UiTypographyType.CONTROL_HEIGHT)
+	selector.add_item(Localization.text(&"playtest.feedback.select"))
+	selector.set_item_metadata(0, 0)
+	for value: int in range(1, 6):
+		selector.add_item(str(value))
+		selector.set_item_metadata(value, value)
+	row.add_child(selector)
+	feedback_ratings[rating_id] = selector
+	feedback_box.add_child(row)
+
+
+func _reset_feedback() -> void:
+	for selector: OptionButton in feedback_ratings.values():
+		selector.select(0)
+	if feedback_note != null:
+		feedback_note.clear()
+
+
+func _rating_value(rating_id: StringName) -> int:
+	var selector: OptionButton = feedback_ratings.get(rating_id)
+	if selector == null or selector.selected < 0:
+		return 0
+	return int(selector.get_item_metadata(selector.selected))
 
 
 func _play_completion_cue() -> void:

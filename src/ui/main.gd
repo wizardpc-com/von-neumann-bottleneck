@@ -11,6 +11,7 @@ const FloatingInstrumentPanelType = preload("res://src/ui/floating_instrument_pa
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
+const PlaytestFeedbackOverlayType = preload("res://src/playtest/playtest_feedback_overlay.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
 const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
 const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
@@ -142,6 +143,7 @@ var inspect_event_button: Button
 var notebook_label: RichTextLabel
 var selected_profiler_event_index: int = -1
 var level_completion_overlay: LevelCompletionOverlayType
+var playtest_feedback_overlay: PlaytestFeedbackOverlay
 var terminology_handbook: TerminologyHandbookType
 
 var instrument_windows: Dictionary[StringName, FloatingInstrumentPanel] = {}
@@ -336,8 +338,18 @@ func _build_interface() -> void:
 	lab_host.add_child(_build_workbench())
 	lab_host.add_child(_build_playback_panel())
 	level_completion_overlay = LevelCompletionOverlayType.new()
+	level_completion_overlay.questionnaire_enabled = PlaytestData.questionnaires_enabled()
 	level_completion_overlay.continue_requested.connect(_on_level_completion_continue)
+	level_completion_overlay.feedback_submitted.connect(_on_level_feedback_submitted)
+	level_completion_overlay.feedback_skipped.connect(_on_level_feedback_skipped)
 	add_child(level_completion_overlay)
+	playtest_feedback_overlay = PlaytestFeedbackOverlayType.new()
+	playtest_feedback_overlay.questionnaire_enabled = PlaytestData.questionnaires_enabled()
+	playtest_feedback_overlay.chapter_feedback_submitted.connect(_on_chapter_feedback_submitted)
+	playtest_feedback_overlay.demo_feedback_submitted.connect(_on_demo_feedback_submitted)
+	playtest_feedback_overlay.feedback_skipped.connect(_on_playtest_feedback_skipped)
+	playtest_feedback_overlay.finished.connect(_on_playtest_feedback_finished)
+	add_child(playtest_feedback_overlay)
 
 
 func _build_header() -> Control:
@@ -509,7 +521,7 @@ func _add_device_node(
 		var open_button := Button.new()
 		open_button.text = _t(&"common.open_named", [title_text])
 		open_button.focus_mode = Control.FOCUS_ALL
-		open_button.pressed.connect(_open_instrument.bind(open_instrument))
+		open_button.pressed.connect(_open_instrument.bind(open_instrument, true))
 		node.add_child(open_button)
 		device_instrument_buttons[id] = open_button
 	device_nodes[id] = node
@@ -959,6 +971,8 @@ func _build_playback_panel() -> Control:
 func _show_chapter_map() -> void:
 	if level_completion_overlay != null:
 		level_completion_overlay.dismiss()
+	if not current_level_id.is_empty():
+		PlaytestData.level_exited(&"chapter_2", current_level_id, &"map")
 	_clear_pending_review()
 	if chapter_map_host == null or lab_host == null:
 		return
@@ -1006,6 +1020,7 @@ func _start_level(level_id: StringName) -> void:
 		_set_status(_t(&"chapter2.status.invalid_level"), BAD)
 		return
 	current_level_id = level_id
+	PlaytestData.level_started(&"chapter_2", current_level_id)
 	current_level = definition
 	selected_judgment = &""
 	current_pass_count = int(current_level.get("pass_count", 1))
@@ -1203,6 +1218,23 @@ func _complete_current_level() -> void:
 	var completed_level: StringName = current_level_id
 	_clear_pending_review()
 	LocalityChapter.mark_completed(completed_level)
+	var completion_details: Dictionary = {}
+	if current_trace != null:
+		completion_details = {
+			"final_config": {
+				"pattern": DSLParserType.parse(applied_program_source).traversal_pattern(),
+				"cache_lines": current_cache_lines,
+				"bypass_cache": current_bypass_cache,
+				"passes": current_pass_count,
+				"work_group_lines": current_block_lines,
+			},
+			"metrics": {
+				"cycles": int(current_trace.metrics.get("total_cycles", 0)),
+				"cost": int(current_trace.metrics.get("hardware_cost", 0)),
+				"wait_cycles": int(current_trace.metrics.get("wait_cycles", 0)),
+			},
+		}
+	PlaytestData.level_completed(&"chapter_2", completed_level, completion_details)
 	_refresh_cache_controls()
 	_refresh_block_controls()
 	_configure_graph_for_level()
@@ -1215,7 +1247,8 @@ func _complete_current_level() -> void:
 			completed_level,
 			_t(catalog.title_key(completed_level)),
 			_t(StringName("chapter2.level.%s.learned" % String(completed_level))),
-			_t(&"chapter2.completion.chapter")
+			_t(&"chapter2.completion.chapter"),
+			&"chapter_2"
 		)
 	_update_mission_progress()
 
@@ -1281,6 +1314,72 @@ func _update_mission_progress() -> void:
 
 
 func _on_level_completion_continue(_level_id: StringName) -> void:
+	if _level_id == &"capstone" and _present_chapter_feedback():
+		return
+	_show_chapter_map()
+
+
+func _on_level_feedback_submitted(
+		chapter_id: StringName,
+		level_id: StringName,
+		fun_rating: int,
+		clarity_rating: int,
+		continue_rating: int,
+		note: String
+	) -> void:
+	PlaytestData.submit_level_feedback(
+		chapter_id, level_id, fun_rating, clarity_rating, continue_rating, note
+	)
+
+
+func _on_level_feedback_skipped(chapter_id: StringName, level_id: StringName) -> void:
+	PlaytestData.record_feedback_skipped(&"level", StringName("%s/%s" % [chapter_id, level_id]))
+
+
+func _present_chapter_feedback() -> bool:
+	if playtest_feedback_overlay == null:
+		return false
+	var levels: Array[Dictionary] = []
+	for level_id: StringName in catalog.level_ids():
+		levels.append({"id": level_id, "label": _t(catalog.title_key(level_id))})
+	return playtest_feedback_overlay.present_chapter(&"chapter_2", levels)
+
+
+func _on_chapter_feedback_submitted(
+		chapter_id: StringName,
+		best_level_id: StringName,
+		worst_level_id: StringName,
+		confusing_point: String,
+		surprising_point: String,
+		pace_rating: int
+	) -> void:
+	PlaytestData.submit_chapter_feedback(
+		chapter_id, best_level_id, worst_level_id,
+		confusing_point, surprising_point, pace_rating
+	)
+
+
+func _on_demo_feedback_submitted(
+		satisfaction_rating: int,
+		difficulty_rating: int,
+		length_feeling: StringName,
+		favorite_content: String,
+		change_or_remove: String,
+		continue_interest_rating: int
+	) -> void:
+	PlaytestData.submit_demo_feedback(
+		satisfaction_rating, difficulty_rating, length_feeling,
+		favorite_content, change_or_remove, continue_interest_rating
+	)
+
+
+func _on_playtest_feedback_skipped(scope: StringName, subject_id: StringName) -> void:
+	PlaytestData.record_feedback_skipped(scope, subject_id)
+
+
+func _on_playtest_feedback_finished(scope: StringName, _subject_id: StringName) -> void:
+	if scope == &"chapter" and playtest_feedback_overlay.present_demo():
+		return
 	_show_chapter_map()
 
 
@@ -1321,7 +1420,8 @@ func _show_capstone_summary() -> void:
 			baseline_wait, best_wait, baseline_wait - best_wait,
 			int(best.metrics.get("hardware_cost", 0)), _history_config_text(best_record),
 		]),
-		_t(&"chapter2.completion.chapter")
+		_t(&"chapter2.completion.chapter"),
+		&"chapter_2"
 	)
 
 
@@ -1334,6 +1434,8 @@ func _on_chapter_progression_changed() -> void:
 
 
 func _on_game_mode_changed(_mode: StringName) -> void:
+	if not current_level_id.is_empty():
+		PlaytestData.level_exited(&"chapter_2", current_level_id, &"mode_changed")
 	current_level_id = &""
 	current_level.clear()
 	_show_chapter_map()
@@ -1420,10 +1522,10 @@ func _toggle_instrument(id: StringName) -> void:
 	if instrument_windows[id].visible:
 		_close_instrument(id)
 	else:
-		_open_instrument(id)
+		_open_instrument(id, true)
 
 
-func _open_instrument(id: StringName) -> void:
+func _open_instrument(id: StringName, user_initiated: bool = false) -> void:
 	if not instrument_windows.has(id):
 		return
 	if not _tool_available(id):
@@ -1431,6 +1533,8 @@ func _open_instrument(id: StringName) -> void:
 		return
 	instrument_windows[id].fit_to_parent(10.0)
 	instrument_windows[id].show_instrument()
+	if user_initiated:
+		PlaytestData.record_tool_opened(&"chapter_2", current_level_id, id)
 	var button: Button = instrument_open_buttons.get(id)
 	if button != null:
 		button.set_pressed_no_signal(true)
@@ -1570,6 +1674,10 @@ func _apply_program() -> void:
 		return
 	applied_program_source = editor.text
 	program_dirty = false
+	PlaytestData.record_modification(&"chapter_2", current_level_id, &"program", {
+		"direction": program.traversal_pattern(),
+		"post_completion": bool(LocalityChapter.completed_levels().get(current_level_id, false)),
+	})
 	_invalidate_current_run(_t(&"locality.status.program_applied_cleared"))
 	_validate_program_editor()
 	_update_program_run_receipt()
@@ -1700,9 +1808,19 @@ func _select_cache(lines: int, invalidate: bool = true) -> void:
 		return
 	if not _capstone_first_change_allowed(&"memory_path", lines != 1):
 		return
+	var previous_lines: int = current_cache_lines
+	var previous_bypass: bool = current_bypass_cache
 	var changed: bool = current_cache_lines != lines or current_bypass_cache != (lines == 0)
 	current_cache_lines = lines
 	current_bypass_cache = lines == 0
+	if changed:
+		PlaytestData.record_modification(&"chapter_2", current_level_id, &"cache", {
+			"from_lines": previous_lines,
+			"from_bypass": previous_bypass,
+			"to_lines": current_cache_lines,
+			"to_bypass": current_bypass_cache,
+			"post_completion": bool(LocalityChapter.completed_levels().get(current_level_id, false)),
+		})
 	_refresh_cache_controls()
 	_configure_graph_for_level()
 	_auto_layout(false)
@@ -1747,8 +1865,15 @@ func _select_block_lines(lines: int, invalidate: bool = true) -> void:
 		return
 	if not _capstone_first_change_allowed(&"work_group", lines != 0):
 		return
+	var previous_lines: int = current_block_lines
 	var changed: bool = current_block_lines != lines
 	current_block_lines = lines
+	if changed:
+		PlaytestData.record_modification(&"chapter_2", current_level_id, &"work_group", {
+			"from_lines": previous_lines,
+			"to_lines": current_block_lines,
+			"post_completion": bool(LocalityChapter.completed_levels().get(current_level_id, false)),
+		})
 	_refresh_block_controls()
 	if invalidate and changed:
 		_invalidate_current_run(_t(&"chapter2.status.work_group_changed"))
@@ -1805,6 +1930,19 @@ func _run_simulation(test_name: String) -> void:
 		program, data, current_cache_lines, test_name,
 		current_pass_count, current_block_lines, current_bypass_cache
 	)
+	if test_name == "Official Test Set":
+		var telemetry_target_cycles: int = int(current_level.get("target_cycles", 0))
+		var telemetry_goal_passed: bool = current_trace.passed and (
+			telemetry_target_cycles <= 0
+			or int(current_trace.metrics.get("total_cycles", 0)) <= telemetry_target_cycles
+		)
+		PlaytestData.record_official_run(&"chapter_2", current_level_id, telemetry_goal_passed, {
+			"correct": current_trace.passed,
+			"cycles": int(current_trace.metrics.get("total_cycles", 0)),
+			"cost": int(current_trace.metrics.get("hardware_cost", 0)),
+			"target_met": telemetry_goal_passed,
+			"post_completion": bool(LocalityChapter.completed_levels().get(current_level_id, false)),
+		})
 	last_executed_source = applied_program_source
 	program_dirty = false
 	var target_cycles: int = int(current_level.get("target_cycles", 0))
@@ -2160,6 +2298,7 @@ func _on_profiler_item_selected() -> void:
 		inspect_event_button.disabled = true
 		return
 	selected_profiler_event_index = int(item.get_metadata(0))
+	PlaytestData.record_action(&"chapter_2", current_level_id, &"profiler_event_selected")
 	if current_trace == null or selected_profiler_event_index < 0 or selected_profiler_event_index >= current_trace.events.size():
 		inspect_event_button.disabled = true
 		return
@@ -2186,6 +2325,7 @@ func _inspect_profiler_event() -> void:
 	if current_trace == null or selected_profiler_event_index < 0 or selected_profiler_event_index >= current_trace.events.size():
 		return
 	playback_running = false
+	PlaytestData.record_action(&"chapter_2", current_level_id, &"profiler_event_inspected")
 	playback_index = selected_profiler_event_index
 	playback_index_is_next_unshown = false
 	playback_elapsed = 0.0
@@ -2213,6 +2353,9 @@ func _toggle_pause() -> void:
 		_show_event_text(current_trace.events[playback_index])
 		playback_index_is_next_unshown = false
 	playback_running = not playback_running
+	PlaytestData.record_trace_action(
+		&"chapter_2", current_level_id, &"resume" if playback_running else &"pause"
+	)
 	pause_button.text = _t(&"common.pause") if playback_running else _t(&"common.resume")
 	_update_mission_progress()
 
@@ -2221,6 +2364,7 @@ func _step_trace() -> void:
 	if current_trace == null or current_trace.events.is_empty():
 		return
 	playback_running = false
+	PlaytestData.record_trace_action(&"chapter_2", current_level_id, &"step")
 	pause_button.text = _t(&"common.resume")
 	if playback_index >= current_trace.events.size():
 		playback_index = 0
@@ -2241,6 +2385,7 @@ func _step_trace() -> void:
 func _jump_to_next_evidence() -> void:
 	if current_trace == null or current_trace.events.is_empty():
 		return
+	PlaytestData.record_trace_action(&"chapter_2", current_level_id, &"next_evidence")
 	var target_index: int = -1
 	var search_start: int = playback_index if playback_index_is_next_unshown else playback_index + 1
 	for event_index: int in range(search_start, current_trace.events.size()):
@@ -2265,6 +2410,7 @@ func _jump_to_next_evidence() -> void:
 func _finish_playback_early() -> void:
 	if current_trace == null or current_trace.events.is_empty():
 		return
+	PlaytestData.record_trace_action(&"chapter_2", current_level_id, &"finish_early")
 	_finish_playback()
 
 

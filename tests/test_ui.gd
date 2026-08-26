@@ -3,6 +3,7 @@ extends SceneTree
 const ProgramTemplatesType = preload("res://src/simulation/program_templates.gd")
 const SimulationEventType = preload("res://src/simulation/simulation_event.gd")
 const SimulationTraceType = preload("res://src/simulation/simulation_trace.gd")
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 var failures: Array[String] = []
 
@@ -28,6 +29,36 @@ func _run() -> void:
 		"The game window must default to resizable fullscreen and expand its logical desktop across the available aspect ratio."
 	)
 	_assert(root.has_node("WindowMode") and main.get("fullscreen_button") != null, "Every gameplay screen must expose the shared fullscreen controller and visible toggle.")
+	var terminology_handbook: Control = main.get("terminology_handbook")
+	_assert(terminology_handbook != null, "Chapter 2 must expose the shared terminology handbook.")
+	var terminology_button: Button = terminology_handbook.get("entry_button")
+	var terminology_rect := Rect2(terminology_button.global_position, terminology_button.size)
+	_assert(
+		terminology_rect.end.x >= main.size.x - 16.1 and terminology_rect.end.y >= main.size.y - 16.1
+		and Rect2(Vector2.ZERO, main.size).encloses(terminology_rect),
+		"The terminology entry must stay anchored at the bottom-right corner."
+	)
+	terminology_handbook.call("open_handbook", &"truth_table")
+	var terminology_tree: Tree = terminology_handbook.get("term_tree")
+	var terminology_ids: Array = terminology_handbook.get("visible_term_ids")
+	_assert(terminology_ids.size() == 88 and _unique_count(terminology_ids) == 88, "The global handbook must classify all 88 terms exactly once before filtering.")
+	_assert(
+		terminology_tree.get_root().get_child_count() == 4
+		and _tree_max_depth(terminology_tree.get_root()) == 3
+		and _tree_directory_count(terminology_tree.get_root()) == 14,
+		"The handbook must organize terms into four top-level topics and fourteen second-level directories without exceeding three visible levels."
+	)
+	var terminology_search: LineEdit = terminology_handbook.get("search_edit")
+	terminology_search.text = "真值表"
+	terminology_handbook.call("_refresh_terms")
+	await process_frame
+	_assert((terminology_handbook.get("visible_term_ids") as Array).size() == 1, "Terminology search must narrow the handbook to the matching concept while retaining its directory path.")
+	_assert("00" in (terminology_handbook.get("detail_body_label") as RichTextLabel).text, "The truth-table entry must immediately define its four two-input rows for a new player.")
+	var handbook_escape := InputEventKey.new()
+	handbook_escape.pressed = true
+	handbook_escape.keycode = KEY_ESCAPE
+	main.call("_input", handbook_escape)
+	_assert(not bool(terminology_handbook.call("is_open")) and (main.get("chapter_map_host") as Control).visible, "Escape must close the handbook before navigating away from the Chapter 2 map.")
 	_assert(main.get("mode_selector") != null and not bool(game_mode.call("is_test_mode")), "The locality lab must expose the shared selector and start in Game mode by default.")
 	_assert((main.get("chapter_map_host") as Control).visible, "Chapter 2 must open on its seven-level investigation map rather than dropping directly into the old lab.")
 	game_mode.call("set_mode", &"test")
@@ -42,6 +73,16 @@ func _run() -> void:
 	_assert(instruments.size() == 7, "Chapter 2 must retain the four v0.2 instruments and add Mission, Work Group, and Notebook.")
 	for id: StringName in instruments:
 		_assert((instruments[id] as Control).visible == (id == &"mission"), "Only Mission should open automatically when a Chapter 2 level starts (%s)." % id)
+	var chapter2_mission: Control = instruments[&"mission"]
+	var chapter2_mission_minimize: Button = chapter2_mission.find_child("MinimizeButton", true, false)
+	_assert(not chapter2_mission_minimize.visible and (main.get("mission_title_label") as Label).get_theme_font_size("font_size") == UiTypographyType.TITLE_SIZE and (main.get("mission_objective_label") as Label).get_theme_font_size("font_size") == UiTypographyType.BODY_SIZE, "Chapter 2 Mission must use the shared title/body sizes and omit minimization.")
+	var mission_position: Vector2 = chapter2_mission.position
+	var mission_size: Vector2 = chapter2_mission.size
+	var mission_button: Button = (main.get("instrument_open_buttons") as Dictionary)[&"mission"]
+	mission_button.pressed.emit()
+	_assert(not chapter2_mission.visible, "The active Chapter 2 Mission button must close its window.")
+	mission_button.pressed.emit()
+	_assert(chapter2_mission.visible and chapter2_mission.position.is_equal_approx(mission_position) and chapter2_mission.size.is_equal_approx(mission_size), "Reopening Chapter 2 Mission must restore its remembered position and size.")
 	main.call("_close_instrument", &"mission")
 	for device_name: String in ["ProgramController", "CPU", "Cache", "Bus", "RAM", "TestBench", "Profiler"]:
 		_assert(graph.has_node(NodePath(device_name)), "Workbench must contain %s." % device_name)
@@ -206,12 +247,34 @@ func _run() -> void:
 	for _hub_frame: int in range(2):
 		await process_frame
 	_assert(hub.get("fullscreen_button") != null, "The startup hub must expose the same visible fullscreen toggle as both gameplay screens.")
+	_assert(hub.get("terminology_handbook") != null, "Chapter selection must keep the terminology handbook available in the bottom-right corner.")
 	var hub_fullscreen: Button = hub.get("fullscreen_button")
 	var fullscreen_rect := Rect2(hub_fullscreen.position, hub_fullscreen.size)
 	_assert(
 		Rect2(Vector2.ZERO, hub.size).encloses(fullscreen_rect),
 		"The Hub fullscreen control must remain inside the visible viewport; got %s in %s." % [fullscreen_rect, hub.size]
 	)
+	var options_overlay: Control = hub.get("options_overlay")
+	var options_resume: Button = hub.get("options_resume_button")
+	var options_fullscreen: Button = hub.get("options_fullscreen_button")
+	var options_quit: Button = hub.get("options_quit_button")
+	var hub_escape := InputEventKey.new()
+	hub_escape.keycode = KEY_ESCAPE
+	hub_escape.pressed = true
+	hub.call("_unhandled_key_input", hub_escape)
+	_assert(
+		options_overlay.visible
+		and options_resume.text == _t(&"hub.options.resume")
+		and options_quit.text == _t(&"hub.options.quit")
+		and options_fullscreen.text in [_t(&"window.fullscreen.enter"), _t(&"window.fullscreen.exit")],
+		"Esc on chapter selection must open a localized Options menu with Resume, fullscreen, and Quit actions."
+	)
+	hub.call("_unhandled_key_input", hub_escape)
+	_assert(not options_overlay.visible, "A second Esc on chapter selection must close Options and return to chapter selection.")
+	var hub_handbook: Control = hub.get("terminology_handbook")
+	hub_handbook.call("open_handbook", &"truth_table")
+	hub.call("_input", hub_escape)
+	_assert(not bool(hub_handbook.call("is_open")) and not options_overlay.visible, "Esc must close the handbook without also opening Options.")
 	hub.queue_free()
 	await process_frame
 	if failures.is_empty():
@@ -229,6 +292,31 @@ func _first_event(trace: SimulationTraceType, kind: StringName) -> SimulationEve
 		if event.kind == kind:
 			return event
 	return null
+
+
+func _tree_max_depth(item: TreeItem, depth: int = 0) -> int:
+	var maximum: int = depth
+	var child: TreeItem = item.get_first_child()
+	while child != null:
+		maximum = maxi(maximum, _tree_max_depth(child, depth + 1))
+		child = child.get_next()
+	return maximum
+
+
+func _tree_directory_count(root_item: TreeItem) -> int:
+	var count: int = 0
+	var category: TreeItem = root_item.get_first_child()
+	while category != null:
+		count += category.get_child_count()
+		category = category.get_next()
+	return count
+
+
+func _unique_count(values: Array) -> int:
+	var unique: Dictionary = {}
+	for value: Variant in values:
+		unique[value] = true
+	return unique.size()
 
 
 func _first_event_index(trace: SimulationTraceType, kind: StringName) -> int:

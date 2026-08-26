@@ -1,6 +1,8 @@
 class_name LevelCompletionOverlay
 extends Control
 
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
+
 signal continue_requested(level_id: StringName)
 
 const BACKDROP := Color("050a12", 0.82)
@@ -62,21 +64,21 @@ func _build_interface() -> void:
 
 	chapter_label = Label.new()
 	chapter_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	chapter_label.add_theme_font_size_override("font_size", 14)
+	chapter_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	chapter_label.add_theme_color_override("font_color", PURPLE)
 	column.add_child(chapter_label)
 
 	title_label = Label.new()
 	title_label.text = Localization.text(&"common.level_complete.title")
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.add_theme_font_size_override("font_size", 31)
+	title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	title_label.add_theme_color_override("font_color", GOOD)
 	column.add_child(title_label)
 
 	level_label = Label.new()
 	level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	level_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	level_label.add_theme_font_size_override("font_size", 21)
+	level_label.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
 	level_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(level_label)
 
@@ -85,7 +87,7 @@ func _build_interface() -> void:
 
 	var learned := Label.new()
 	learned.text = Localization.text(&"common.level_complete.learned")
-	learned.add_theme_font_size_override("font_size", 16)
+	learned.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
 	learned.add_theme_color_override("font_color", ACCENT)
 	column.add_child(learned)
 
@@ -93,16 +95,19 @@ func _build_interface() -> void:
 	summary_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	summary_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	summary_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	summary_label.add_theme_font_size_override("font_size", 18)
+	summary_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	summary_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(summary_label)
 
 	continue_button = Button.new()
 	continue_button.name = "LevelCompletionContinueButton"
 	continue_button.text = Localization.text(&"common.level_complete.continue")
-	continue_button.custom_minimum_size.y = 48.0
+	continue_button.custom_minimum_size = Vector2(UiTypographyType.CONTINUE_WIDTH, UiTypographyType.CONTROL_HEIGHT)
+	continue_button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
 	continue_button.pressed.connect(_on_continue_pressed)
-	column.add_child(continue_button)
+	var continue_center := CenterContainer.new()
+	continue_center.add_child(continue_button)
+	column.add_child(continue_center)
 
 	audio_player = AudioStreamPlayer.new()
 	audio_player.name = "CompletionMusicPlayer"

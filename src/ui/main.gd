@@ -11,6 +11,8 @@ const FloatingInstrumentPanelType = preload("res://src/ui/floating_instrument_pa
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
+const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 const ChapterMapViewType = preload("res://src/system_lab/system_chapter_map_view.gd")
 const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
 const LocalityRunReceiptType = preload("res://src/locality_chapter/locality_run_receipt.gd")
@@ -131,6 +133,7 @@ var inspect_event_button: Button
 var notebook_label: RichTextLabel
 var selected_profiler_event_index: int = -1
 var level_completion_overlay: LevelCompletionOverlayType
+var terminology_handbook: TerminologyHandbookType
 
 var instrument_windows: Dictionary[StringName, FloatingInstrumentPanel] = {}
 var instrument_open_buttons: Dictionary[StringName, Button] = {}
@@ -166,6 +169,8 @@ var pending_review_level_id: StringName = &""
 func _ready() -> void:
 	_build_theme()
 	_build_interface()
+	terminology_handbook = TerminologyHandbookType.new()
+	add_child(terminology_handbook)
 	LocalityChapter.progression_changed.connect(_on_chapter_progression_changed)
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	_show_chapter_map()
@@ -183,6 +188,28 @@ func _ready() -> void:
 		call_deferred("_prepare_row_capture")
 	elif "--capture-chapter2-capstone" in user_arguments:
 		call_deferred("_start_level", &"capstone")
+
+
+func _input(event: InputEvent) -> void:
+	if terminology_handbook != null and terminology_handbook.handle_escape(event):
+		get_viewport().set_input_as_handled()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not _is_escape_press(event):
+		return
+	get_viewport().set_input_as_handled()
+	if chapter_map_host != null and chapter_map_host.visible:
+		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	else:
+		_show_chapter_map()
+
+
+func _is_escape_press(event: InputEvent) -> bool:
+	if not event is InputEventKey:
+		return false
+	var key_event := event as InputEventKey
+	return key_event.pressed and not key_event.echo and key_event.keycode == KEY_ESCAPE
 
 
 func _prepare_demo_capture() -> void:
@@ -239,7 +266,7 @@ func _process(delta: float) -> void:
 
 func _build_theme() -> void:
 	var prototype_theme := Theme.new()
-	prototype_theme.default_font_size = 16
+	prototype_theme.default_font_size = UiTypographyType.BODY_SIZE
 	for control_type: String in ["Label", "Button", "OptionButton", "LineEdit", "CodeEdit", "SpinBox", "Tree", "GraphNode"]:
 		prototype_theme.set_color("font_color", control_type, TEXT)
 	prototype_theme.set_color("title_color", "GraphNode", TEXT)
@@ -314,11 +341,12 @@ func _build_header() -> Control:
 	row.add_child(title_box)
 	chapter_title_label = Label.new()
 	chapter_title_label.text = _t(&"chapter2.title")
-	chapter_title_label.add_theme_font_size_override("font_size", 24)
+	chapter_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	chapter_title_label.add_theme_color_override("font_color", ACCENT)
 	title_box.add_child(chapter_title_label)
 	chapter_subtitle_label = Label.new()
 	chapter_subtitle_label.text = _t(&"chapter2.subtitle")
+	chapter_subtitle_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	chapter_subtitle_label.add_theme_color_override("font_color", MUTED)
 	title_box.add_child(chapter_subtitle_label)
 	status_label = Label.new()
@@ -374,7 +402,9 @@ func _build_workbench() -> Control:
 		var tool_button := Button.new()
 		tool_button.name = "%sToolButton" % String(tool_id).to_pascal_case()
 		tool_button.text = _t(StringName(tool[1]))
-		tool_button.pressed.connect(_open_instrument.bind(tool_id))
+		tool_button.toggle_mode = true
+		tool_button.custom_minimum_size.y = UiTypographyType.TOOL_BUTTON_HEIGHT
+		tool_button.pressed.connect(_toggle_instrument.bind(tool_id))
 		instrument_open_buttons[tool_id] = tool_button
 		bar_row.add_child(tool_button)
 	var layout_button := Button.new()
@@ -494,6 +524,7 @@ func _add_instrument(parent: Control, id: StringName, title_text: String, conten
 	instrument.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, ACCENT))
 	parent.add_child(instrument)
 	instrument.setup(id, title_text)
+	instrument.set_minimizable(id != &"mission")
 	instrument.set_content(content)
 	var default_rect: Rect2 = INSTRUMENT_LAYOUT[id]
 	instrument.position = default_rect.position
@@ -538,16 +569,17 @@ func _build_mission_instrument() -> Control:
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(panel)
 	mission_type_label = Label.new()
+	mission_type_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	mission_type_label.add_theme_color_override("font_color", PURPLE)
 	panel.add_child(mission_type_label)
 	mission_title_label = Label.new()
-	mission_title_label.add_theme_font_size_override("font_size", 25)
+	mission_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	mission_title_label.add_theme_color_override("font_color", ACCENT)
 	mission_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(mission_title_label)
 	mission_objective_label = Label.new()
 	mission_objective_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	mission_objective_label.add_theme_font_size_override("font_size", 18)
+	mission_objective_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	panel.add_child(mission_objective_label)
 	var divider := HSeparator.new()
 	panel.add_child(divider)
@@ -956,6 +988,8 @@ func _start_level(level_id: StringName) -> void:
 		instrument.visible = false
 		if instrument.minimized:
 			instrument.set_minimized(false)
+	for button: Button in instrument_open_buttons.values():
+		button.set_pressed_no_signal(false)
 	chapter_map_host.hide()
 	lab_host.show()
 	chapter_subtitle_label.text = _t(&"chapter2.header.level", [
@@ -1314,6 +1348,15 @@ func _paired_baseline_receipt(level_id: StringName) -> Variant:
 	return null
 
 
+func _toggle_instrument(id: StringName) -> void:
+	if not instrument_windows.has(id):
+		return
+	if instrument_windows[id].visible:
+		_close_instrument(id)
+	else:
+		_open_instrument(id)
+
+
 func _open_instrument(id: StringName) -> void:
 	if not instrument_windows.has(id):
 		return
@@ -1322,12 +1365,18 @@ func _open_instrument(id: StringName) -> void:
 		return
 	instrument_windows[id].fit_to_parent(10.0)
 	instrument_windows[id].show_instrument()
+	var button: Button = instrument_open_buttons.get(id)
+	if button != null:
+		button.set_pressed_no_signal(true)
 
 
 func _close_instrument(id: StringName) -> void:
 	if not instrument_windows.has(id):
 		return
 	instrument_windows[id].visible = false
+	var button: Button = instrument_open_buttons.get(id)
+	if button != null:
+		button.set_pressed_no_signal(false)
 	if focused_instrument == id:
 		focused_instrument = &""
 		for other_id: StringName in instrument_windows:
@@ -1678,8 +1727,8 @@ func _run_simulation(test_name: String) -> void:
 		return
 	_clear_pending_review()
 	var mission_window: FloatingInstrumentPanel = instrument_windows.get(&"mission")
-	if mission_window != null and mission_window.visible and not mission_window.minimized:
-		mission_window.set_minimized(true)
+	if mission_window != null and mission_window.visible:
+		_close_instrument(&"mission")
 	var data: Array[int] = []
 	if test_name == "Official Test Set":
 		data = SimulationCoreType.official_data_copy()

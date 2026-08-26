@@ -9,6 +9,18 @@ mono_crash.*.json
 *.tmp
 *.log
 
+# Local environment and signing credentials
+.env
+.env.*
+!.env.example
+export_credentials.cfg
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+
 # Local export/build output
 /build/
 /dist/

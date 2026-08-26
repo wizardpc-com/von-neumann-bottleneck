@@ -35,6 +35,7 @@ func _run() -> void:
 	root.add_child(main)
 	for _frame: int in range(4):
 		await process_frame
+	_assert(main.get("terminology_handbook") != null, "Chapter 2 must expose the shared terminology handbook throughout its investigation map and levels.")
 
 	var catalog = main.get("catalog")
 	_assert(locality_state.call("chapter_unlocked"), "Completing Chapter 1 must unlock Chapter 2 in Game mode.")
@@ -49,7 +50,7 @@ func _run() -> void:
 	_assert("Cache" not in (main.get("mission_objective_label") as Label).text and "Cache" not in (main.get("notebook_label") as RichTextLabel).text, "2-1 player-facing evidence must not reveal the Cache concept early.")
 	main.call("_run_simulation", "Official Test Set")
 	var direct: SimulationTraceType = main.get("current_trace")
-	_assert((main.get("instrument_windows") as Dictionary)[&"mission"].minimized, "Running evidence must collapse the Mission window so it cannot cover the CPU → memory Trace path.")
+	_assert(not (main.get("instrument_windows") as Dictionary)[&"mission"].visible and not ((main.get("instrument_open_buttons") as Dictionary)[&"mission"] as Button).button_pressed, "Running evidence must close Mission instead of leaving a long minimized title bar over the Trace path.")
 	_assert(int(direct.metrics["total_cycles"]) == 257 and int(direct.metrics["wait_cycles"]) == 240, "2-1 must expose repeated distant-read waiting with exact deterministic metrics.")
 	_assert(_first_event(direct, &"value_return").route_devices == [&"RAM", &"Bus", &"CPU"], "2-1 Trace must carry each raw value back along RAM → Bus → CPU.")
 	_assert(not (main.get("next_evidence_button") as Button).disabled and not (main.get("finish_playback_button") as Button).disabled, "A long Trace must offer key-evidence navigation and an explicit finish action.")
@@ -242,6 +243,20 @@ func _run() -> void:
 	_assert("642" in summary_text and "138" in summary_text and "4" in summary_text, "The final summary must compare the baseline with the best lower-cost solution.")
 	completion_overlay.call("_on_continue_pressed")
 	_assert((main.get("chapter_map_host") as Control).visible, "Continuing from the final summary must return to the Chapter 2 map.")
+	main.call("_start_level", &"capstone")
+	await process_frame
+	var escape_event := InputEventKey.new()
+	escape_event.keycode = KEY_ESCAPE
+	escape_event.pressed = true
+	main.call("_unhandled_key_input", escape_event)
+	await process_frame
+	_assert((main.get("chapter_map_host") as Control).visible and not (main.get("lab_host") as Control).visible, "Esc from a Chapter 2 level must return to its level-selection map.")
+	main.call("_unhandled_key_input", escape_event)
+	for _hub_frame: int in range(3):
+		await process_frame
+	var returned_hub: Control = root.get_node_or_null("PrototypeHub")
+	_assert(returned_hub != null, "A second Esc from the Chapter 2 map must return to chapter selection.")
+	_assert(returned_hub != null and not (returned_hub.get("options_overlay") as Control).visible, "The Esc used to enter chapter selection must not leak into and open its Options menu.")
 
 	main.queue_free()
 	await process_frame

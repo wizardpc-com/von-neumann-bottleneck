@@ -1,5 +1,7 @@
 extends SceneTree
 
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
+
 var failures: Array[String] = []
 
 
@@ -19,6 +21,7 @@ func _run() -> void:
 	for _hub_frame: int in range(2):
 		await process_frame
 	_assert((hub.get("system_entry_button") as Button).disabled, "Game mode must gate Chapter 1 until the prologue provenance handoff.")
+	_assert(hub.get("terminology_handbook") != null, "Chapter selection must expose the shared terminology handbook.")
 	var hub_fullscreen: Control = hub.get("fullscreen_button")
 	_assert(hub.get_rect().encloses(hub_fullscreen.get_rect()), "The three-card hub must keep its fullscreen action completely on screen.")
 	game_mode.call("set_mode", &"test")
@@ -34,6 +37,7 @@ func _run() -> void:
 	root.add_child(main)
 	for _frame: int in range(5):
 		await process_frame
+	_assert(main.get("terminology_handbook") != null, "Chapter 1 must expose the shared terminology handbook.")
 
 	var map_view = main.get("map_view")
 	var map_buttons: Dictionary = map_view.get("level_buttons")
@@ -217,6 +221,9 @@ func _run() -> void:
 	_assert(graph.get_connection_list().size() == 6 and main.call("_topology_from_graph").canonical_signature() == topology_before_erase_stroke, "One Undo must atomically restore the exact topology removed by a continuous Chapter 1 erase stroke.")
 
 	var instruments: Dictionary = main.get("instrument_windows")
+	var mission_window: Control = instruments[&"mission"]
+	var mission_minimize: Button = mission_window.find_child("MinimizeButton", true, false)
+	_assert(not mission_minimize.visible and (main.get("mission_title_label") as Label).get_theme_font_size("font_size") == UiTypographyType.TITLE_SIZE and (main.get("mission_body_label") as Label).get_theme_font_size("font_size") == UiTypographyType.BODY_SIZE, "Chapter 1 Mission must use the shared title/body sizes and omit minimization.")
 	main.call("_open_instrument", &"program")
 	main.call("_open_instrument", &"profiler")
 	_assert(
@@ -230,6 +237,13 @@ func _run() -> void:
 	var old_position: Vector2 = program_window.position
 	program_window.call("move_by", Vector2(35.0, 22.0))
 	_assert(not program_window.position.is_equal_approx(old_position), "A system instrument must be draggable.")
+	var remembered_program_position: Vector2 = program_window.position
+	var remembered_program_size: Vector2 = program_window.size
+	var program_button: Button = (main.get("instrument_open_buttons") as Dictionary)[&"program"]
+	program_button.pressed.emit()
+	_assert(not program_window.visible, "The active Chapter 1 Program button must close its window.")
+	program_button.pressed.emit()
+	_assert(program_window.visible and program_window.position.is_equal_approx(remembered_program_position) and program_window.size.is_equal_approx(remembered_program_size), "Reopening a Chapter 1 tool must restore its remembered position and size.")
 	program_window.call("set_minimized", true)
 	_assert(bool(program_window.get("minimized")), "A system instrument must be minimizable.")
 	program_window.call("set_minimized", false)
@@ -388,6 +402,26 @@ func _run() -> void:
 	final_continue.pressed.emit()
 	await process_frame
 	_assert((main.get("map_host") as Control).visible and not (main.get("lab_host") as Control).visible, "Continue after any Chapter 1 completion must return to the five-node level map.")
+	main.call("_start_level", &"assembly")
+	await process_frame
+	var escape_event := InputEventKey.new()
+	escape_event.keycode = KEY_ESCAPE
+	escape_event.pressed = true
+	var active_graph: GraphEdit = main.get("graph")
+	active_graph.set("selection_dragging", true)
+	active_graph.grab_focus()
+	root.push_input(escape_event)
+	await process_frame
+	_assert(StringName(main.get("current_level_id")) == &"assembly" and not bool(active_graph.get("selection_dragging")), "A focused editor gesture must consume Esc before chapter navigation runs.")
+	main.call("_unhandled_key_input", escape_event)
+	await process_frame
+	_assert((main.get("map_host") as Control).visible and StringName(main.get("current_level_id")).is_empty(), "Esc from a Chapter 1 level must return to its level-selection map.")
+	main.call("_unhandled_key_input", escape_event)
+	for _hub_frame: int in range(3):
+		await process_frame
+	var returned_hub: Control = root.get_node_or_null("PrototypeHub")
+	_assert(returned_hub != null, "A second Esc from the Chapter 1 map must return to chapter selection.")
+	_assert(returned_hub != null and not (returned_hub.get("options_overlay") as Control).visible, "The Esc used to enter chapter selection must not leak into and open its Options menu.")
 
 	main.call("_stop_playback")
 	main.queue_free()

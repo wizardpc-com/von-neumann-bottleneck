@@ -16,6 +16,8 @@ const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
+const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 const BACKGROUND := Color("08101d")
 const PANEL := Color("172033")
@@ -85,6 +87,7 @@ var device_surfaces: Dictionary[StringName, Control] = {}
 var device_state_labels: Dictionary[StringName, Label] = {}
 
 var instrument_windows: Dictionary[StringName, FloatingInstrumentPanel] = {}
+var instrument_open_buttons: Dictionary[StringName, Button] = {}
 var instrument_layout_size: Vector2 = WINDOW_REFERENCE_SIZE
 var instrument_z_counter: int = 100
 var mission_title_label: Label
@@ -144,6 +147,7 @@ var editor_history_replaying: bool = false
 var node_move_start_snapshot: Dictionary = {}
 var erase_start_snapshot: Dictionary = {}
 var graph_pan_keys: Dictionary[Key, bool] = {}
+var terminology_handbook: TerminologyHandbookType
 
 
 func _ready() -> void:
@@ -151,6 +155,8 @@ func _ready() -> void:
 	_rebuild_catalog()
 	_build_theme()
 	_build_interface()
+	terminology_handbook = TerminologyHandbookType.new()
+	add_child(terminology_handbook)
 	GameMode.mode_changed.connect(_on_mode_changed)
 	SystemChapter.progression_changed.connect(_refresh_map)
 	_open_map()
@@ -165,6 +171,9 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if terminology_handbook != null and terminology_handbook.handle_escape(event):
+		get_viewport().set_input_as_handled()
+		return
 	if current_level_id.is_empty():
 		graph_pan_keys.clear()
 		return
@@ -206,14 +215,27 @@ func _input(event: InputEvent) -> void:
 		_delete_selected_system_devices()
 		get_viewport().set_input_as_handled()
 		return
-	if key_event.keycode == KEY_ESCAPE:
-		graph.cancel_selection_drag()
-		_set_selected_system_devices([] as Array[StringName])
-		get_viewport().set_input_as_handled()
-		return
 	if key_event.keycode >= KEY_1 and key_event.keycode <= KEY_9:
 		_set_active_system_wire_color(int(key_event.keycode - KEY_1))
 		get_viewport().set_input_as_handled()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not _is_escape_press(event):
+		return
+	get_viewport().set_input_as_handled()
+	graph_pan_keys.clear()
+	if current_level_id.is_empty():
+		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	else:
+		_open_map()
+
+
+func _is_escape_press(event: InputEvent) -> bool:
+	if not event is InputEventKey:
+		return false
+	var key_event := event as InputEventKey
+	return key_event.pressed and not key_event.echo and key_event.keycode == KEY_ESCAPE
 
 
 func _notification(what: int) -> void:
@@ -313,7 +335,7 @@ func _rebuild_catalog() -> void:
 
 func _build_theme() -> void:
 	var system_theme := Theme.new()
-	system_theme.default_font_size = 16
+	system_theme.default_font_size = UiTypographyType.BODY_SIZE
 	for control_type: String in ["Label", "Button", "OptionButton", "LineEdit", "CodeEdit", "SpinBox", "RichTextLabel", "GraphNode"]:
 		system_theme.set_color("font_color", control_type, TEXT)
 	system_theme.set_color("title_color", "GraphNode", TEXT)
@@ -392,7 +414,7 @@ func _build_header() -> Control:
 	row.add_child(title_box)
 	var title := Label.new()
 	title.text = _t(&"system.chapter.title")
-	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	title.add_theme_color_override("font_color", ACCENT)
 	title_box.add_child(title)
 	level_label = Label.new()
@@ -536,7 +558,10 @@ func _build_workbench_bar() -> Control:
 	for instrument_id: StringName in [&"mission", &"parts", &"program", &"test_bench", &"profiler", &"history"]:
 		var button := Button.new()
 		button.text = _t(StringName("system.window.%s.short" % String(instrument_id)))
-		button.pressed.connect(_open_instrument.bind(instrument_id))
+		button.toggle_mode = true
+		button.custom_minimum_size.y = UiTypographyType.TOOL_BUTTON_HEIGHT
+		button.pressed.connect(_toggle_instrument.bind(instrument_id))
+		instrument_open_buttons[instrument_id] = button
 		row.add_child(button)
 	return panel
 
@@ -711,6 +736,7 @@ func _add_instrument(id: StringName, title_text: String, content: Control) -> vo
 	panel.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, ACCENT))
 	desktop_host.add_child(panel)
 	panel.setup(id, title_text)
+	panel.set_minimizable(id != &"mission")
 	panel.set_content(content)
 	var rect: Rect2 = WINDOW_LAYOUT[id]
 	panel.position = rect.position
@@ -724,11 +750,12 @@ func _add_instrument(id: StringName, title_text: String, content: Control) -> vo
 func _build_mission_instrument() -> Control:
 	var box := VBoxContainer.new()
 	mission_title_label = Label.new()
-	mission_title_label.add_theme_font_size_override("font_size", 22)
+	mission_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	mission_title_label.add_theme_color_override("font_color", ACCENT)
 	box.add_child(mission_title_label)
 	mission_body_label = Label.new()
 	mission_body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mission_body_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	mission_body_label.size_flags_vertical = Control.SIZE_FILL
 	box.add_child(mission_body_label)
 	prediction_box = VBoxContainer.new()
@@ -736,6 +763,7 @@ func _build_mission_instrument() -> Control:
 	box.add_child(prediction_box)
 	var prediction_title := Label.new()
 	prediction_title.text = _t(&"system.prediction.title")
+	prediction_title.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
 	prediction_title.add_theme_color_override("font_color", PURPLE)
 	prediction_box.add_child(prediction_title)
 	prediction_question_label = Label.new()
@@ -2523,6 +2551,16 @@ func _clear_source_highlight() -> void:
 	highlighted_source_line = -1
 
 
+func _toggle_instrument(id: StringName) -> void:
+	var panel: FloatingInstrumentPanel = instrument_windows.get(id)
+	if panel == null:
+		return
+	if panel.visible:
+		_close_instrument(id)
+	else:
+		_open_instrument(id)
+
+
 func _open_instrument(id: StringName) -> void:
 	var panel: FloatingInstrumentPanel = instrument_windows.get(id)
 	if panel == null:
@@ -2531,12 +2569,18 @@ func _open_instrument(id: StringName) -> void:
 	if panel.minimized:
 		panel.set_minimized(false)
 	_focus_instrument(id)
+	var button: Button = instrument_open_buttons.get(id)
+	if button != null:
+		button.set_pressed_no_signal(true)
 
 
 func _close_instrument(id: StringName) -> void:
 	var panel: FloatingInstrumentPanel = instrument_windows.get(id)
 	if panel != null:
 		panel.hide()
+	var button: Button = instrument_open_buttons.get(id)
+	if button != null:
+		button.set_pressed_no_signal(false)
 
 
 func _focus_instrument(id: StringName) -> void:

@@ -148,9 +148,14 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	main.call("_enter_hint_workbench")
 	main.call("_show_hint_level", 2)
 	await process_frame
+	var authored_hint_count: int = (definition.get("hint_partial_wires", []) as Array).size()
+	var expected_hint_count: int = mini(
+		authored_hint_count,
+		maxi(1, ceili((definition.get("reference_wires", []) as Array).size() * 0.4))
+	)
 	_assert(
-		(main.get("graph") as GraphEdit).get_connection_list().size() == (definition.get("hint_partial_wires", []) as Array).size(),
-		"%s hint stage 2 must use the explicitly curated key subcircuit." % level_id
+		(main.get("graph") as GraphEdit).get_connection_list().size() == expected_hint_count,
+		"%s hint stage 2 must cap its curated subcircuit near one third of the complete answer." % level_id
 	)
 	for node_variant: Variant in (main.get("component_nodes") as Dictionary).values():
 		_assert(not (node_variant as GraphNode).draggable, "%s hint components must remain read-only." % level_id)

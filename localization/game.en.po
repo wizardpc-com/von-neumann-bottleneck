@@ -78,6 +78,18 @@ msgstr "Toggle fullscreen (F11 or Alt+Enter)"
 msgid "hub.subtitle"
 msgstr "PLAYABLE RESEARCH BUILDS"
 
+msgid "hub.options.title"
+msgstr "OPTIONS"
+
+msgid "hub.options.hint"
+msgstr "Press Esc to return to chapter selection"
+
+msgid "hub.options.resume"
+msgstr "Resume Game"
+
+msgid "hub.options.quit"
+msgstr "Quit Game"
+
 msgid "hub.hardware.title"
 msgstr "CPU BUILDING PROLOGUE"
 
@@ -804,6 +816,54 @@ msgstr "Return to chapter selection."
 msgid "hardware.window.mission"
 msgstr "MISSION"
 
+msgid "hardware.briefing.progress"
+msgstr "Mission briefing %d / %d"
+
+msgid "hardware.briefing.stage.concept"
+msgstr "First: understand the idea"
+
+msgid "hardware.briefing.stage.goal"
+msgstr "Next: identify the goal"
+
+msgid "hardware.briefing.stage.verify"
+msgstr "Finally: test your result"
+
+msgid "hardware.briefing.continue"
+msgstr "Continue"
+
+msgid "hardware.briefing.previous"
+msgstr "Previous"
+
+msgid "hardware.briefing.start"
+msgstr "Continue"
+
+msgid "hardware.briefing.move_note"
+msgstr "Continue keeps Mission in a compact window at the lower-left. You can also click — to shrink it at any time, then □ to restore the large window."
+
+msgid "hardware.briefing.tutorial.1"
+msgstr "Digital circuits here carry two signal states: 0 (low) and 1 (high). As a visual placeholder, the Test Bench uses a red circle for 0 and a green diamond for 1, combining color with asymmetric shapes. NOT swaps 0 and 1, AND outputs 1 only when both inputs are 1, and OR outputs 1 when either input is 1."
+
+msgid "hardware.briefing.tutorial.2"
+msgstr "Build one complete, observable signal path. Connect input A to NOT, then NOT to the lamp: A → NOT → LAMP. After switching A, the lamp should show the opposite state."
+
+msgid "hardware.briefing.tutorial.3"
+msgstr "Complete five actions in order: connect, change A, run once, delete one wire, and reconnect it. A green outer ring accepts a cable, a red outer ring rejects it, and the inner port color always shows the current 0/1 state."
+
+msgid "hardware.briefing.half_adder.1"
+msgstr "A Half Adder adds two one-bit inputs, A and B. SUM is the result in the current bit; CARRY moves into the next bit. Use only the learned AND, OR, and NOT gates to turn those input/output relationships into a real circuit."
+
+msgid "hardware.briefing.half_adder.2"
+msgstr "A truth table lists every input combination and its correct outputs. This level has four rows:\nA B  │  SUM CARRY\n0 0  │   0     0\n0 1  │   1     0\n1 0  │   1     0\n1 1  │   0     1\nThe table specifies behavior, not wiring: one gate circuit must satisfy all four rows."
+
+msgid "hardware.briefing.half_adder.3"
+msgstr "Start with the simpler CARRY output and observe which row makes it 1. Then treat SUM separately and compare its two high rows. Toggle A/B and debug one row at a time, then run the Complete Truth Table. All four rows must pass before you can seal HalfAdder."
+
+msgid "hardware.briefing.generic.goal"
+msgstr "Identify the fixed inputs, fixed outputs, and allowed components, then split the task into smaller signal relationships. Test each section as you build instead of copying a complete circuit first."
+
+msgid "hardware.briefing.generic.verify"
+msgstr "Use a single debug input to confirm that signals follow the intended route, then run every official case. Only a complete official pass can seal the current topology as a player-owned component."
+
 msgid "hardware.window.show.tooltip"
 msgstr "Show or restore this desktop window."
 
@@ -948,6 +1008,15 @@ msgstr "Build a circuit with inputs A/B and outputs SUM/CARRY. Spare gates are a
 msgid "hardware.challenge.hint"
 msgstr "Failures show expected/actual, shorts, or cycles without prescribing a formula. Shift multi-selects; Ctrl+Z/Y/C/V undo, redo, and copy subcircuits."
 
+msgid "hardware.test_bench.signal.placeholder"
+msgstr "Signal placeholder: red ● means low 0; green ◆ means high 1. Click to toggle."
+
+msgid "hardware.test_bench.signal.placeholder_general"
+msgstr "One-bit signal placeholder: red ● means low 0; green ◆ means high 1."
+
+msgid "hardware.test_bench.signal.tooltip"
+msgstr "Test Bench input %s is currently %d; click to toggle 0/1."
+
 msgid "hardware.seal.button"
 msgstr "Seal as HalfAdder"
 
@@ -962,6 +1031,9 @@ msgstr "HALF ADDER CASES"
 
 msgid "hardware.cases.heading_subtitle"
 msgstr "Correctness only · no Profiler"
+
+msgid "hardware.cases.truth_table_definition"
+msgstr "Truth table = every one of the four A/B input combinations and its correct outputs. Every row below must pass."
 
 msgid "hardware.cases.run_debug"
 msgstr "Run This Debug Case"
@@ -1372,7 +1444,7 @@ msgid "hardware.prologue.map.tutorial_description"
 msgstr "Practice creating, deleting, branching, and reconnecting wires while reading live levels and signal flow."
 
 msgid "hardware.prologue.map.half_adder_description"
-msgstr "Design a one-bit Half Adder from basic gates, pass its complete truth table, then seal it as HalfAdder."
+msgstr "Design a one-bit Half Adder from basic gates, pass all four A/B input combinations (the truth table), then seal it as HalfAdder."
 
 msgid "hardware.prologue.map.generic_description"
 msgstr "Build and officially verify this node to unlock the abstractions that depend on it."
@@ -1770,7 +1842,7 @@ msgid "hardware.hint.scope.1"
 msgstr "Only fixed terminals are shown; no solution topology is revealed."
 
 msgid "hardware.hint.scope.2"
-msgstr "Only the key components and wires are shown; the rest is still yours to build."
+msgstr "This board reveals at most about one third of the key wires—enough to cross one local obstacle."
 
 msgid "hardware.hint.scope.3"
 msgstr "The complete reference topology is shown along its real displayed wires."
@@ -1794,10 +1866,10 @@ msgid "hardware.hint.tutorial.3"
 msgstr "The complete example uses A → NOT → LAMP, enough to practice connecting, running, deleting, and reconnecting."
 
 msgid "hardware.hint.half_adder.1"
-msgstr "Draw separate four-row truth tables for SUM and CARRY. Look at one output at a time and find which input combinations make it 1."
+msgstr "Do not wire yet. Cover one truth-table column and inspect only CARRY: which row differs from the other three? Then inspect SUM: what do its two high rows share? Choose the simpler output first."
 
 msgid "hardware.hint.half_adder.2"
-msgstr "SUM is 1 when the inputs differ. The hint board shows the (A OR B) AND NOT(A AND B) result path."
+msgstr "CARRY is 1 only when A and B are both 1; SUM is 1 only when A and B differ. This board demonstrates only the simpler CARRY branch. You still build SUM from AND, OR, and NOT."
 
 msgid "hardware.hint.half_adder.3"
 msgstr "The complete answer adds A AND B as CARRY beside the SUM path; both outputs share A and B."
@@ -3295,3 +3367,618 @@ msgstr "Most cycles are spent on CPU arithmetic."
 
 msgid "chapter2.level.capstone.judgment.wrong_result"
 msgstr "The machine is slow because the program computes the wrong result."
+
+msgid "terminology.button"
+msgstr "Handbook"
+
+msgid "terminology.button.tooltip"
+msgstr "Open the global terminology handbook organized by directory"
+
+msgid "terminology.title"
+msgstr "Terminology Handbook"
+
+msgid "terminology.subtitle"
+msgstr "Browse hardware, system, and performance concepts by directory or search directly"
+
+msgid "terminology.close"
+msgstr "Close"
+
+msgid "terminology.search.placeholder"
+msgstr "Search a name, abbreviation, or definition, such as truth table, CPU, or Miss"
+
+msgid "terminology.result_count"
+msgstr "Showing %d of %d entries"
+
+msgid "terminology.footer"
+msgstr "Esc closes the handbook · Definitions explain concepts without solving a level"
+
+msgid "terminology.empty.title"
+msgstr "No terminology found"
+
+msgid "terminology.empty.body"
+msgstr "Try a shorter search or switch the category to All terminology."
+
+msgid "terminology.category.all"
+msgstr "All terminology"
+
+msgid "terminology.category.basics"
+msgstr "Signals and circuit basics"
+
+msgid "terminology.category.hardware"
+msgstr "Building hardware"
+
+msgid "terminology.category.system"
+msgstr "Systems and performance"
+
+msgid "terminology.category.locality"
+msgstr "Cache and locality"
+
+msgid "terminology.directory.signals"
+msgstr "Binary and signals"
+
+msgid "terminology.directory.logic"
+msgstr "Logic gates"
+
+msgid "terminology.directory.circuit"
+msgstr "Circuit connections and behavior"
+
+msgid "terminology.directory.testing"
+msgstr "Testing, tracing, and abstraction"
+
+msgid "terminology.directory.arithmetic"
+msgstr "Adders and arithmetic"
+
+msgid "terminology.directory.processing"
+msgstr "Processing and control"
+
+msgid "terminology.directory.storage"
+msgstr "Storage and addressing"
+
+msgid "terminology.directory.computer"
+msgstr "Computer components and instructions"
+
+msgid "terminology.directory.programs"
+msgstr "Programs and workloads"
+
+msgid "terminology.directory.metrics"
+msgstr "Performance metrics"
+
+msgid "terminology.directory.diagnosis"
+msgstr "Experiments and bottleneck diagnosis"
+
+msgid "terminology.directory.cache"
+msgstr "Cache behavior"
+
+msgid "terminology.directory.locality"
+msgstr "Locality and access order"
+
+msgid "terminology.directory.optimization"
+msgstr "Working sets and tiling"
+
+msgid "terminology.term.bit.title"
+msgstr "Bit"
+
+msgid "terminology.term.bit.body"
+msgstr "The smallest unit of information used here, representing binary 0 or 1. Several bits combine into a larger value; an 8-bit value contains eight bits."
+
+msgid "terminology.term.binary.title"
+msgstr "Binary"
+
+msgid "terminology.term.binary.body"
+msgstr "A way to represent information using only 0 and 1. Digital circuits map those values to low and high signal levels."
+
+msgid "terminology.term.signal.title"
+msgstr "Signal"
+
+msgid "terminology.term.signal.body"
+msgstr "A logic state carried between ports and wires. This game mainly uses low 0, high 1, and high-impedance Z."
+
+msgid "terminology.term.low_level.title"
+msgstr "Low level (0 / Low)"
+
+msgid "terminology.term.low_level.body"
+msgstr "The signal state representing logic 0. The Test Bench uses a red circular marker for a low input."
+
+msgid "terminology.term.high_level.title"
+msgstr "High level (1 / High)"
+
+msgid "terminology.term.high_level.body"
+msgstr "The signal state representing logic 1. The Test Bench uses a green diamond marker for a high input."
+
+msgid "terminology.term.high_impedance.title"
+msgstr "High impedance (High-Z / Z)"
+
+msgid "terminology.term.high_impedance.body"
+msgstr "A port state that drives neither 0 nor 1, as though disconnected from the line. It is not a third Boolean value; the UI shows it in gray."
+
+msgid "terminology.term.short_circuit.title"
+msgstr "Signal conflict (Short Circuit)"
+
+msgid "terminology.term.short_circuit.body"
+msgstr "A single input is driven low and high at the same time. The simulator reports this as a short circuit or driver conflict so the wiring can be corrected."
+
+msgid "terminology.term.logic_gate.title"
+msgstr "Logic Gate"
+
+msgid "terminology.term.logic_gate.body"
+msgstr "A basic combinational component that calculates output signals from input signals. NOT, AND, OR, XOR, and NOR are logic gates."
+
+msgid "terminology.term.not_gate.title"
+msgstr "NOT gate"
+
+msgid "terminology.term.not_gate.body"
+msgstr "Inverts its input: 0 becomes 1, and 1 becomes 0."
+
+msgid "terminology.term.and_gate.title"
+msgstr "AND gate"
+
+msgid "terminology.term.and_gate.body"
+msgstr "Outputs 1 only when all inputs are 1; otherwise it outputs 0."
+
+msgid "terminology.term.or_gate.title"
+msgstr "OR gate"
+
+msgid "terminology.term.or_gate.body"
+msgstr "Outputs 1 when at least one input is 1; it outputs 0 only when every input is 0."
+
+msgid "terminology.term.xor_gate.title"
+msgstr "XOR gate"
+
+msgid "terminology.term.xor_gate.body"
+msgstr "Outputs 1 when its two inputs differ and 0 when they match. A half adder commonly uses it to produce SUM."
+
+msgid "terminology.term.nor_gate.title"
+msgstr "NOR gate"
+
+msgid "terminology.term.nor_gate.body"
+msgstr "Performs OR and then inverts the result. It outputs 1 only when every input is 0; cross-coupled NOR gates can form an SR latch."
+
+msgid "terminology.term.input_output.title"
+msgstr "Input / Output"
+
+msgid "terminology.term.input_output.body"
+msgstr "An input receives a signal and an output produces one. Connections must run from an output port to an input port."
+
+msgid "terminology.term.port.title"
+msgstr "Port"
+
+msgid "terminology.term.port.body"
+msgstr "A connection point on the edge of a component that receives or sends a signal. Ports have a direction and may be named A, B, SUM, and so on."
+
+msgid "terminology.term.wire.title"
+msgstr "Wire"
+
+msgid "terminology.term.wire.body"
+msgstr "A line that connects two ports and carries a signal. Ordinary wires describe connectivity and add no modeled latency in this game."
+
+msgid "terminology.term.junction.title"
+msgstr "Junction / Branch"
+
+msgid "terminology.term.junction.body"
+msgstr "A node that distributes one output signal to several destinations. A branch shares the same signal rather than duplicating a calculation."
+
+msgid "terminology.term.combinational_loop.title"
+msgstr "Combinational Loop"
+
+msgid "terminology.term.combinational_loop.body"
+msgstr "A path where combinational output returns to its own input without a storage element in between. It may never settle, so the simulator rejects it."
+
+msgid "terminology.term.tick.title"
+msgstr "tick / propagation step"
+
+msgid "terminology.term.tick.body"
+msgstr "One step of signal propagation through a circuit. Gates settle after one or more ticks; a tick is not the same as a CPU cycle in the system chapters."
+
+msgid "terminology.term.truth_table.title"
+msgstr "Truth Table"
+
+msgid "terminology.term.truth_table.body"
+msgstr "A table listing every input combination and the expected outputs. Two inputs A and B produce the four rows 00, 01, 10, and 11."
+
+msgid "terminology.term.topology.title"
+msgstr "Topology"
+
+msgid "terminology.term.topology.body"
+msgstr "The structure formed by components and their connections. Topology describes what is connected, not where a component happens to appear on screen."
+
+msgid "terminology.term.test_bench.title"
+msgstr "Test Bench"
+
+msgid "terminology.term.test_bench.body"
+msgstr "A tool that supplies inputs, runs tests, and checks circuit or system outputs. It exposes behavior without constructing the answer for the player."
+
+msgid "terminology.term.debug_run.title"
+msgstr "Debug Run"
+
+msgid "terminology.term.debug_run.body"
+msgstr "A check using only the currently selected input or case, useful for locating a problem. Passing a debug run does not mean the whole level passes."
+
+msgid "terminology.term.official_test.title"
+msgstr "Official Test Set"
+
+msgid "terminology.term.official_test.body"
+msgstr "The complete set of cases required by a level. A level passes only when every official case satisfies its correctness and target conditions."
+
+msgid "terminology.term.trace.title"
+msgstr "Trace (execution trace)"
+
+msgid "terminology.term.trace.body"
+msgstr "An ordered sequence of event evidence already determined by the simulator. Playback, pause, stepping, and animation speed change only how it is viewed."
+
+msgid "terminology.term.abstraction.title"
+msgstr "Abstraction"
+
+msgid "terminology.term.abstraction.body"
+msgstr "Hiding internal detail while retaining useful external behavior and ports. Abstraction lets small components become building blocks for larger systems."
+
+msgid "terminology.term.encapsulation.title"
+msgstr "Encapsulation"
+
+msgid "terminology.term.encapsulation.body"
+msgstr "Saving a verified circuit as a reusable component. Its source circuit is retained, while later levels can work through the simpler external interface."
+
+msgid "terminology.term.half_adder.title"
+msgstr "Half Adder (HalfAdder)"
+
+msgid "terminology.term.half_adder.body"
+msgstr "A circuit that adds two one-bit inputs A and B and produces SUM and CARRY. It has no carry input from a lower bit."
+
+msgid "terminology.term.sum.title"
+msgstr "SUM"
+
+msgid "terminology.term.sum.body"
+msgstr "The result at the current bit position of an adder. In a half adder, SUM is 1 when A and B differ."
+
+msgid "terminology.term.carry.title"
+msgstr "CARRY"
+
+msgid "terminology.term.carry.body"
+msgstr "A value passed to the next higher bit when addition overflows the current bit. In a half adder, CARRY is 1 only when A and B are both 1."
+
+msgid "terminology.term.full_adder.title"
+msgstr "Full Adder"
+
+msgid "terminology.term.full_adder.body"
+msgstr "Adds the one-bit values A, B, and carry input CIN, producing SUM and COUT. Several full adders can be chained into a multi-bit adder."
+
+msgid "terminology.term.cin_cout.title"
+msgstr "CIN / COUT (carry in / carry out)"
+
+msgid "terminology.term.cin_cout.body"
+msgstr "CIN receives carry from a lower bit and COUT sends carry to a higher bit. The lowest bit normally uses CIN=0."
+
+msgid "terminology.term.multiplexer.title"
+msgstr "Multiplexer (MUX)"
+
+msgid "terminology.term.multiplexer.body"
+msgstr "Selects one of several inputs and forwards it to the output according to control signals. SOURCE_MUX and RESULT_MUX are data selectors."
+
+msgid "terminology.term.alu.title"
+msgstr "ALU (Arithmetic Logic Unit)"
+
+msgid "terminology.term.alu.body"
+msgstr "Combinational hardware that performs addition, logic, and related operations. ALU4 means an ALU that processes four bits at once."
+
+msgid "terminology.term.opcode.title"
+msgstr "Opcode / OP"
+
+msgid "terminology.term.opcode.body"
+msgstr "A control value that tells an ALU or controller which operation to perform. OP0 and OP1 are control bits that form an opcode."
+
+msgid "terminology.term.latch.title"
+msgstr "Latch"
+
+msgid "terminology.term.latch.body"
+msgstr "A storage circuit that can retain one bit. Unlike pure combinational logic, its current output can depend on earlier input."
+
+msgid "terminology.term.sr_latch.title"
+msgstr "SR Latch (SRLatch)"
+
+msgid "terminology.term.sr_latch.body"
+msgstr "A one-bit latch controlled by SET and RESET, commonly built from two cross-coupled NOR gates."
+
+msgid "terminology.term.set_reset.title"
+msgstr "SET / RESET"
+
+msgid "terminology.term.set_reset.body"
+msgstr "SET requests a stored 1 and RESET requests a stored 0. An SR latch should not activate both at the same time."
+
+msgid "terminology.term.d_q.title"
+msgstr "D / Q / NQ"
+
+msgid "terminology.term.d_q.body"
+msgstr "D is the data input to be stored, Q is the current stored output, and NQ is the inverse of Q."
+
+msgid "terminology.term.register.title"
+msgstr "Register"
+
+msgid "terminology.term.register.body"
+msgstr "A small, fast storage component made from several one-bit cells. Register4 stores four bits; LOAD=1 writes D and LOAD=0 holds the current value."
+
+msgid "terminology.term.decoder.title"
+msgstr "Decoder"
+
+msgid "terminology.term.decoder.body"
+msgstr "Converts address or control bits into selection signals so that one target among several is activated."
+
+msgid "terminology.term.address_write.title"
+msgstr "ADDR / WRITE"
+
+msgid "terminology.term.address_write.body"
+msgstr "ADDR selects a storage location. WRITE determines whether the access stores a new value or only reads the existing value."
+
+msgid "terminology.term.ram.title"
+msgstr "RAM (Random Access Memory)"
+
+msgid "terminology.term.ram.body"
+msgstr "Storage hardware that reads and writes data by address. A 2×4 RAM has two four-bit locations; RAM64x8 has sixty-four eight-bit locations."
+
+msgid "terminology.term.cpu.title"
+msgstr "CPU (Central Processing Unit)"
+
+msgid "terminology.term.cpu.body"
+msgstr "A processor that reads instructions, performs calculations, and exchanges data with RAM through a Bus. CPU8 names the eight-bit processor source in this game."
+
+msgid "terminology.term.bus.title"
+msgstr "Bus"
+
+msgid "terminology.term.bus.body"
+msgstr "A shared channel carrying requests, addresses, and data between components such as CPU and RAM. Bus2 and Bus8 indicate the number of bits transferred per stage."
+
+msgid "terminology.term.accumulator.title"
+msgstr "Accumulator (ACC)"
+
+msgid "terminology.term.accumulator.body"
+msgstr "A CPU register holding the current arithmetic result. Many instructions read ACC, calculate through the ALU, and write the result back to ACC."
+
+msgid "terminology.term.controller.title"
+msgstr "Controller / CONTROL"
+
+msgid "terminology.term.controller.body"
+msgstr "Produces selection, load, and write signals from the current instruction, arranging what the data path does at each step."
+
+msgid "terminology.term.data_path.title"
+msgstr "Data Path"
+
+msgid "terminology.term.data_path.body"
+msgstr "The routes along which data moves and is calculated through registers, MUXes, the ALU, Bus, and RAM. TinyComputer connects these parts into an executable machine."
+
+msgid "terminology.term.load.title"
+msgstr "LOAD"
+
+msgid "terminology.term.load.body"
+msgstr "Moves an immediate or memory value into a CPU register. LOAD_IMM uses a constant in the instruction; LOAD_MEM reads from RAM."
+
+msgid "terminology.term.store.title"
+msgstr "STORE"
+
+msgid "terminology.term.store.body"
+msgstr "Writes a value from a CPU register into RAM. STORE_MEM and STORE [address] both describe a memory write."
+
+msgid "terminology.term.immediate.title"
+msgstr "Immediate (IMM)"
+
+msgid "terminology.term.immediate.body"
+msgstr "A constant written directly in an instruction instead of fetched from RAM first. ADD_IMM and LOAD_IMM both use immediate values."
+
+msgid "terminology.term.wraparound.title"
+msgstr "Wraparound"
+
+msgid "terminology.term.wraparound.body"
+msgstr "Continuing from the other end of a fixed-width range after overflow. An 8-bit addition wraps modulo 256 and keeps only the lowest eight bits."
+
+msgid "terminology.term.program.title"
+msgstr "Program"
+
+msgid "terminology.term.program.body"
+msgstr "Instructions or code describing the operations a machine performs in order. The Program panel lets the player edit, explain, and apply a program."
+
+msgid "terminology.term.dsl.title"
+msgstr "DSL (Domain-Specific Language)"
+
+msgid "terminology.term.dsl.body"
+msgstr "A small language designed for a particular task. This game uses a Python-like DSL for loops, load, store, and compute operations, but it is not full Python."
+
+msgid "terminology.term.apply.title"
+msgstr "Apply Program"
+
+msgid "terminology.term.apply.body"
+msgstr "Parses and confirms the current editor contents so the next run uses them. An unapplied draft does not silently change the applied program."
+
+msgid "terminology.term.workload.title"
+msgstr "Workload"
+
+msgid "terminology.term.workload.body"
+msgstr "The combination of data, instructions, and repetitions a machine must process in an experiment. Performance comparisons should use the same workload unless it is the controlled change."
+
+msgid "terminology.term.cycle.title"
+msgstr "cycle (system cycle)"
+
+msgid "terminology.term.cycle.body"
+msgstr "A unit of time in the system performance model. Total cycles combine compute, wait, memory service, and bus transfer events."
+
+msgid "terminology.term.latency.title"
+msgstr "Latency"
+
+msgid "terminology.term.latency.body"
+msgstr "The time from starting one operation until its result becomes available. Greater RAM service latency usually makes each read take longer."
+
+msgid "terminology.term.bandwidth.title"
+msgstr "Bandwidth"
+
+msgid "terminology.term.bandwidth.body"
+msgstr "The amount of data a channel can transfer per unit of time. A wider Bus reduces the number of transfer stages needed for the same byte."
+
+msgid "terminology.term.throughput.title"
+msgstr "Throughput"
+
+msgid "terminology.term.throughput.body"
+msgstr "The rate at which a system completes work over time. It is related to the latency of individual operations, but the two are not the same metric."
+
+msgid "terminology.term.serialization.title"
+msgstr "Serialization"
+
+msgid "terminology.term.serialization.body"
+msgstr "Splitting data into consecutive transfer stages when a channel cannot carry the whole value at once. A narrow Bus increases stages per byte."
+
+msgid "terminology.term.cpu_wait.title"
+msgstr "CPU WAIT"
+
+msgid "terminology.term.cpu_wait.body"
+msgstr "Cycles where the CPU has issued a request but cannot compute until the Bus or RAM returns data. It is key evidence when diagnosing the von Neumann bottleneck."
+
+msgid "terminology.term.profiler.title"
+msgstr "Profiler"
+
+msgid "terminology.term.profiler.body"
+msgstr "A tool that summarizes a completed Trace into total cycles, CPU WAIT, RAM service, Bus transfer, and related metrics. It reads evidence without changing the simulation."
+
+msgid "terminology.term.prediction.title"
+msgstr "Prediction"
+
+msgid "terminology.term.prediction.body"
+msgstr "A testable expectation about an experiment's result and cause, made before running it. Locking a prediction prevents an explanation from being invented after seeing the answer."
+
+msgid "terminology.term.baseline.title"
+msgstr "Baseline"
+
+msgid "terminology.term.baseline.body"
+msgstr "A reference run recorded before changing a factor. Only a baseline under matching conditions gives the later difference a clear meaning."
+
+msgid "terminology.term.controlled_change.title"
+msgstr "Controlled Change"
+
+msgid "terminology.term.controlled_change.body"
+msgstr "Changing one factor under investigation while keeping the others fixed. This makes a Before → After difference attributable to that factor."
+
+msgid "terminology.term.bottleneck.title"
+msgstr "Bottleneck"
+
+msgid "terminology.term.bottleneck.body"
+msgstr "The main part limiting further speedup of a whole system. Improving a non-bottleneck may have little effect, so use Trace and metrics to locate it."
+
+msgid "terminology.term.hardware_cost.title"
+msgstr "Hardware Cost"
+
+msgid "terminology.term.hardware_cost.body"
+msgstr "The game's simplified cost score for faster or larger hardware. A cycle target should still be judged against how much hardware was used to reach it."
+
+msgid "terminology.term.before_after.title"
+msgstr "Before → After"
+
+msgid "terminology.term.before_after.body"
+msgstr "A side-by-side comparison of evidence before and after a controlled change, including cycles, wait, data movement, and cost rather than correctness alone."
+
+msgid "terminology.term.deterministic.title"
+msgstr "Deterministic"
+
+msgid "terminology.term.deterministic.body"
+msgstr "The same program, machine, and input always produce the same Trace and metrics. Playback speed and interface animation cannot change the simulation result."
+
+msgid "terminology.term.cache.title"
+msgstr "Cache"
+
+msgid "terminology.term.cache.body"
+msgstr "Small, fast hardware storage near the CPU that retains blocks recently fetched from RAM, reducing repeated long-distance reads."
+
+msgid "terminology.term.cache_line.title"
+msgstr "Cache Line"
+
+msgid "terminology.term.cache_line.body"
+msgstr "The block of data fetched and stored as one unit between Cache and RAM. Nearby accesses within the same line can then hit."
+
+msgid "terminology.term.hit.title"
+msgstr "Hit (Cache Hit)"
+
+msgid "terminology.term.hit.body"
+msgstr "The requested data's line is already in Cache, so it can return from nearby without another RAM access."
+
+msgid "terminology.term.miss.title"
+msgstr "Miss (Cache Miss)"
+
+msgid "terminology.term.miss.body"
+msgstr "The requested data's line is absent from Cache, so the system must fetch it from RAM and the CPU usually waits."
+
+msgid "terminology.term.evict.title"
+msgstr "Evict / Replacement"
+
+msgid "terminology.term.evict.body"
+msgstr "Removing an existing line when Cache needs room for a new one. Evicting a line needed again soon can cause another Miss."
+
+msgid "terminology.term.fill.title"
+msgstr "Cache Fill"
+
+msgid "terminology.term.fill.body"
+msgstr "Placing the full line returned from RAM into Cache after a Miss, allowing later requests to that line to hit."
+
+msgid "terminology.term.locality.title"
+msgstr "Locality"
+
+msgid "terminology.term.locality.body"
+msgstr "A program's tendency to reuse data close in time or address. Good locality lets even a small Cache eliminate many distant accesses."
+
+msgid "terminology.term.spatial_locality.title"
+msgstr "Spatial Locality"
+
+msgid "terminology.term.spatial_locality.body"
+msgstr "The tendency to access nearby addresses soon after one address. Scanning consecutive values in one cache line uses spatial locality."
+
+msgid "terminology.term.temporal_locality.title"
+msgstr "Temporal Locality"
+
+msgid "terminology.term.temporal_locality.body"
+msgstr "The tendency to access the same data again soon. The earlier reuse happens, the more likely the data is still in Cache."
+
+msgid "terminology.term.access_order.title"
+msgstr "Access Order"
+
+msgid "terminology.term.access_order.body"
+msgstr "The sequence in which a program reads or writes addresses. Two orders with the same final result can have very different Cache behavior."
+
+msgid "terminology.term.row_first.title"
+msgstr "row-first"
+
+msgid "terminology.term.row_first.body"
+msgstr "Finishing consecutive elements in one row before moving to the next. For this game's row-major matrix, it usually reuses each cache line continuously."
+
+msgid "terminology.term.column_first.title"
+msgstr "column-first"
+
+msgid "terminology.term.column_first.body"
+msgstr "Stepping across rows down one column before moving to the next. In row-major storage, this can rotate through lines and cause repeated Misses."
+
+msgid "terminology.term.working_set.title"
+msgstr "Working Set"
+
+msgid "terminology.term.working_set.body"
+msgstr "All data used frequently during one phase of a program. If it is larger than Cache capacity, even a good access order may cause repeated replacement."
+
+msgid "terminology.term.pass.title"
+msgstr "Pass"
+
+msgid "terminology.term.pass.body"
+msgstr "One complete round of processing over a data set. Two passes may perform different calculations while needing the same data again."
+
+msgid "terminology.term.work_group.title"
+msgstr "Work Group"
+
+msgid "terminology.term.work_group.body"
+msgstr "A smaller data group carved from a larger workload so several passes can finish it before moving to the next group."
+
+msgid "terminology.term.blocking.title"
+msgstr "Blocking"
+
+msgid "terminology.term.blocking.body"
+msgstr "Reorganizing computation around small data blocks so the active working set fits more easily in Cache. It changes order without changing the intended result."
+
+msgid "terminology.term.tiling.title"
+msgstr "Tiling"
+
+msgid "terminology.term.tiling.body"
+msgstr "A common name for Blocking that emphasizes cutting a matrix or data space into tiles and completing one tile at a time."
+
+msgid "terminology.term.data_request.title"
+msgstr "Data Request"
+
+msgid "terminology.term.data_request.body"
+msgstr "A system operation started by the CPU to read or write an address. It may hit in Cache or travel through the Bus to RAM."

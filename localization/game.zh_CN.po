@@ -78,6 +78,18 @@ msgstr "切换全屏显示（F11 或 Alt+Enter）"
 msgid "hub.subtitle"
 msgstr "可玩研究原型"
 
+msgid "hub.options.title"
+msgstr "选项"
+
+msgid "hub.options.hint"
+msgstr "按 Esc 返回章节选择"
+
+msgid "hub.options.resume"
+msgstr "继续游戏"
+
+msgid "hub.options.quit"
+msgstr "退出游戏"
+
 msgid "hub.hardware.title"
 msgstr "硬件序章：构建 CPU"
 
@@ -804,6 +816,54 @@ msgstr "返回章节选择界面。"
 msgid "hardware.window.mission"
 msgstr "任务"
 
+msgid "hardware.briefing.progress"
+msgstr "任务说明 %d / %d"
+
+msgid "hardware.briefing.stage.concept"
+msgstr "先理解：这关在做什么"
+
+msgid "hardware.briefing.stage.goal"
+msgstr "再确认：你要得到什么"
+
+msgid "hardware.briefing.stage.verify"
+msgstr "最后实践：怎样检查结果"
+
+msgid "hardware.briefing.continue"
+msgstr "继续"
+
+msgid "hardware.briefing.previous"
+msgstr "上一页"
+
+msgid "hardware.briefing.start"
+msgstr "继续"
+
+msgid "hardware.briefing.move_note"
+msgstr "点击“继续”后，任务窗会缩到左下角并保留；也可随时点击右上角“—”缩小，点击“□”恢复大窗口。"
+
+msgid "hardware.briefing.tutorial.1"
+msgstr "数字电路在这里传递两种信号：0（低电平）和 1（高电平）。测试台暂用红色圆点表示 0、绿色菱形表示 1；颜色和不对称形状共同帮助辨认状态。NOT 会把 0 与 1 互换，AND 只在两个输入都是 1 时输出 1，OR 在至少一个输入是 1 时输出 1。"
+
+msgid "hardware.briefing.tutorial.2"
+msgstr "目标是做出一条可观察的完整信号路径。把输入 A 接到 NOT，再把 NOT 接到指示灯：A → NOT → 指示灯。切换 A 后，灯应显示与 A 相反的状态。"
+
+msgid "hardware.briefing.tutorial.3"
+msgstr "依次完成五件事：连线、改变 A、运行一次、删除一条线、重新连接。拖线时绿色外环表示可以连接，红色外环表示不能连接；端口内部颜色始终表示当前 0/1。"
+
+msgid "hardware.briefing.half_adder.1"
+msgstr "半加器负责把两个 1 位输入 A、B 相加。SUM 是当前位的结果，CARRY 是送往更高一位的进位。你只能使用已经学过的 AND、OR、NOT；目标是把输入与两个输出之间的关系做成真实电路。"
+
+msgid "hardware.briefing.half_adder.2"
+msgstr "真值表就是列出所有输入组合及其正确输出的表。本关共有四行：\nA B  │  SUM CARRY\n0 0  │   0     0\n0 1  │   1     0\n1 0  │   1     0\n1 1  │   0     1\n这张表是要求，不是线路答案：同一组门电路必须同时满足四行。"
+
+msgid "hardware.briefing.half_adder.3"
+msgstr "先只处理较简单的 CARRY，观察它在哪一行变为 1；再单独处理 SUM，比较它的两行 1 有什么共同点。用测试台逐行切换 A/B 并运行调试，最后运行“完整真值表”。只有四行全部通过，才能封装 HalfAdder。"
+
+msgid "hardware.briefing.generic.goal"
+msgstr "先辨认固定输入、固定输出和本关允许使用的元件，再把任务拆成几条较小的信号关系。不要先照抄完整线路；每完成一段就用测试台观察它。"
+
+msgid "hardware.briefing.generic.verify"
+msgstr "先用当前输入做单次调试，确认信号沿预期线路传播；再运行全部正式用例。正式测试全部通过后，才可把当前拓扑封装为玩家拥有的元件。"
+
 msgid "hardware.window.show.tooltip"
 msgstr "显示或还原此桌面窗口。"
 
@@ -948,6 +1008,15 @@ msgstr "用输入 A/B 和输出 SUM/CARRY 搭建电路。允许留下备用门�
 msgid "hardware.challenge.hint"
 msgstr "失败会显示期望/实际、短路或循环依赖，但不会给出公式。Shift 多选；Ctrl+Z/Y/C/V 可撤销、重做和复制子电路。"
 
+msgid "hardware.test_bench.signal.placeholder"
+msgstr "信号占位：● 0 为红色低电平，◆ 1 为绿色高电平。点击即可切换。"
+
+msgid "hardware.test_bench.signal.placeholder_general"
+msgstr "单比特信号占位：● 0 为红色低电平，◆ 1 为绿色高电平。"
+
+msgid "hardware.test_bench.signal.tooltip"
+msgstr "测试台输入 %s 当前为 %d；点击切换 0/1。"
+
 msgid "hardware.seal.button"
 msgstr "封装为 HalfAdder"
 
@@ -962,6 +1031,9 @@ msgstr "半加器用例"
 
 msgid "hardware.cases.heading_subtitle"
 msgstr "只验证正确性 · 不使用分析器"
+
+msgid "hardware.cases.truth_table_definition"
+msgstr "真值表＝列出 A/B 所有四种输入组合及正确输出。下面每一行都必须通过。"
 
 msgid "hardware.cases.run_debug"
 msgstr "运行当前调试用例"
@@ -1372,7 +1444,7 @@ msgid "hardware.prologue.map.tutorial_description"
 msgstr "练习创建、删除、分支和重接导线，并观察实时电平与信号传播。"
 
 msgid "hardware.prologue.map.half_adder_description"
-msgstr "用基础门自行设计 1 位半加器，通过完整真值表后封存为 HalfAdder。"
+msgstr "用基础门自行设计 1 位半加器，通过 A/B 四种输入组合的完整测试（即真值表）后封存为 HalfAdder。"
 
 msgid "hardware.prologue.map.generic_description"
 msgstr "完成当前节点的构建与正式测试，解锁依赖它的后续抽象。"
@@ -1770,7 +1842,7 @@ msgid "hardware.hint.scope.1"
 msgstr "仅显示固定端口，不展示解题拓扑。"
 
 msgid "hardware.hint.scope.2"
-msgstr "桌布只展示关键元件和关键线路，其余部分仍由你完成。"
+msgstr "桌布最多展示约三分之一的关键线路，只帮助你跨过一个局部难点。"
 
 msgid "hardware.hint.scope.3"
 msgstr "桌布展示完整参考拓扑，可沿每条真实线路检查答案。"
@@ -1794,10 +1866,10 @@ msgid "hardware.hint.tutorial.3"
 msgstr "完整示例使用 A → NOT → LAMP，足以练习连接、运行、删除和重新连接。"
 
 msgid "hardware.hint.half_adder.1"
-msgstr "分别为 SUM 与 CARRY 画出四行真值表。先只观察其中一个输出，尝试找出它在什么输入组合下为 1。"
+msgstr "先不连线。遮住真值表的一列，只看 CARRY：哪一行与其他三行不同？再只看 SUM：它的两行 1 有什么共同点？先选择较简单的输出。"
 
 msgid "hardware.hint.half_adder.2"
-msgstr "SUM 在两个输入不同的时候为 1。提示桌布展示了 (A OR B) AND NOT(A AND B) 这条本位输出路径。"
+msgstr "CARRY 只在 A、B 都为 1 时为 1；SUM 只在 A、B 不同时为 1。提示桌布只示范较简单的 CARRY 支路，SUM 仍需你用 AND、OR、NOT 组合出来。"
 
 msgid "hardware.hint.half_adder.3"
 msgstr "完整答案在 SUM 路径之外增加 A AND B 作为 CARRY；两个输出共享 A、B 信号。"
@@ -3295,3 +3367,618 @@ msgstr "大部分 cycles 花在 CPU 算术上。"
 
 msgid "chapter2.level.capstone.judgment.wrong_result"
 msgstr "机器很慢，是因为程序算出了错误结果。"
+
+msgid "terminology.button"
+msgstr "手册"
+
+msgid "terminology.button.tooltip"
+msgstr "打开按目录分类的全局术语手册"
+
+msgid "terminology.title"
+msgstr "术语手册"
+
+msgid "terminology.subtitle"
+msgstr "沿目录查阅游戏中的硬件、系统与性能概念，也可直接搜索"
+
+msgid "terminology.close"
+msgstr "关闭"
+
+msgid "terminology.search.placeholder"
+msgstr "搜索名称、缩写或定义，例如：真值表、CPU、Miss"
+
+msgid "terminology.result_count"
+msgstr "显示 %d / %d 项"
+
+msgid "terminology.footer"
+msgstr "Esc 关闭手册 · 手册只提供定义，不会替你完成关卡"
+
+msgid "terminology.empty.title"
+msgstr "没有找到术语"
+
+msgid "terminology.empty.body"
+msgstr "尝试缩短关键词，或切换到“全部术语”。"
+
+msgid "terminology.category.all"
+msgstr "全部术语"
+
+msgid "terminology.category.basics"
+msgstr "信号与电路基础"
+
+msgid "terminology.category.hardware"
+msgstr "硬件构建"
+
+msgid "terminology.category.system"
+msgstr "系统与性能"
+
+msgid "terminology.category.locality"
+msgstr "缓存与局部性"
+
+msgid "terminology.directory.signals"
+msgstr "二进制与信号"
+
+msgid "terminology.directory.logic"
+msgstr "逻辑门"
+
+msgid "terminology.directory.circuit"
+msgstr "电路连接与行为"
+
+msgid "terminology.directory.testing"
+msgstr "测试、追踪与抽象"
+
+msgid "terminology.directory.arithmetic"
+msgstr "加法与算术"
+
+msgid "terminology.directory.processing"
+msgstr "运算与控制"
+
+msgid "terminology.directory.storage"
+msgstr "存储与寻址"
+
+msgid "terminology.directory.computer"
+msgstr "计算机部件与指令"
+
+msgid "terminology.directory.programs"
+msgstr "程序与工作负载"
+
+msgid "terminology.directory.metrics"
+msgstr "性能指标"
+
+msgid "terminology.directory.diagnosis"
+msgstr "实验与瓶颈诊断"
+
+msgid "terminology.directory.cache"
+msgstr "缓存行为"
+
+msgid "terminology.directory.locality"
+msgstr "局部性与访问顺序"
+
+msgid "terminology.directory.optimization"
+msgstr "工作集与分块优化"
+
+msgid "terminology.term.bit.title"
+msgstr "比特（bit）"
+
+msgid "terminology.term.bit.body"
+msgstr "表示二进制 0 或 1 的最小信息单位。多枚比特可以组合成更大的数值，例如 8-bit 数值由 8 枚比特组成。"
+
+msgid "terminology.term.binary.title"
+msgstr "二进制（Binary）"
+
+msgid "terminology.term.binary.body"
+msgstr "只使用 0 和 1 表示信息的计数方式。数字电路把这两个值映射为低电平与高电平。"
+
+msgid "terminology.term.signal.title"
+msgstr "信号（Signal）"
+
+msgid "terminology.term.signal.body"
+msgstr "在端口与导线之间传递的逻辑状态。本游戏主要使用低电平 0、高电平 1 与高阻态 Z。"
+
+msgid "terminology.term.low_level.title"
+msgstr "低电平（0 / Low）"
+
+msgid "terminology.term.low_level.body"
+msgstr "表示逻辑 0 的信号状态。测试台用红色圆形标志显示低电平输入。"
+
+msgid "terminology.term.high_level.title"
+msgstr "高电平（1 / High）"
+
+msgid "terminology.term.high_level.body"
+msgstr "表示逻辑 1 的信号状态。测试台用绿色菱形标志显示高电平输入。"
+
+msgid "terminology.term.high_impedance.title"
+msgstr "高阻态（High-Z / Z）"
+
+msgid "terminology.term.high_impedance.body"
+msgstr "端口暂时不驱动 0 或 1 的状态，像是从线路上断开。它不是第三个布尔值；界面用灰色显示。"
+
+msgid "terminology.term.short_circuit.title"
+msgstr "信号冲突（Short Circuit）"
+
+msgid "terminology.term.short_circuit.body"
+msgstr "同一输入同时被低电平和高电平驱动。模拟器会把它报告为短路或驱动冲突，要求玩家修改连接。"
+
+msgid "terminology.term.logic_gate.title"
+msgstr "逻辑门（Logic Gate）"
+
+msgid "terminology.term.logic_gate.body"
+msgstr "根据输入信号计算输出信号的基础组合元件。NOT、AND、OR、XOR 与 NOR 都是逻辑门。"
+
+msgid "terminology.term.not_gate.title"
+msgstr "NOT（非门）"
+
+msgid "terminology.term.not_gate.body"
+msgstr "把输入取反：0 变成 1，1 变成 0。"
+
+msgid "terminology.term.and_gate.title"
+msgstr "AND（与门）"
+
+msgid "terminology.term.and_gate.body"
+msgstr "只有全部输入都是 1 时输出 1；其他情况输出 0。"
+
+msgid "terminology.term.or_gate.title"
+msgstr "OR（或门）"
+
+msgid "terminology.term.or_gate.body"
+msgstr "只要至少一个输入是 1 就输出 1；全部为 0 时输出 0。"
+
+msgid "terminology.term.xor_gate.title"
+msgstr "XOR（异或门）"
+
+msgid "terminology.term.xor_gate.body"
+msgstr "两个输入不同时输出 1，相同时输出 0。半加器通常用它产生 SUM。"
+
+msgid "terminology.term.nor_gate.title"
+msgstr "NOR（或非门）"
+
+msgid "terminology.term.nor_gate.body"
+msgstr "先进行 OR，再把结果取反。只有全部输入为 0 时输出 1；交叉连接的 NOR 可组成 SR 锁存器。"
+
+msgid "terminology.term.input_output.title"
+msgstr "输入 / 输出（Input / Output）"
+
+msgid "terminology.term.input_output.body"
+msgstr "输入是元件接收的信号，输出是元件产生的信号。连接必须从输出端口指向输入端口。"
+
+msgid "terminology.term.port.title"
+msgstr "端口（Port）"
+
+msgid "terminology.term.port.body"
+msgstr "元件边缘用于接收或发送信号的连接点。端口有方向，部分端口还带有 A、B、SUM 等名称。"
+
+msgid "terminology.term.wire.title"
+msgstr "导线（Wire）"
+
+msgid "terminology.term.wire.body"
+msgstr "连接两个端口并传递信号的线路。普通导线只描述连接关系，本游戏不把导线本身算作额外延迟。"
+
+msgid "terminology.term.junction.title"
+msgstr "连接点 / 分支点（Junction）"
+
+msgid "terminology.term.junction.body"
+msgstr "把同一个输出信号分发到多个目的地的节点。分支不会复制计算，只共享同一信号。"
+
+msgid "terminology.term.combinational_loop.title"
+msgstr "组合环路（Combinational Loop）"
+
+msgid "terminology.term.combinational_loop.body"
+msgstr "组合逻辑的输出在没有存储元件隔开的情况下又回到自身输入。它可能无法得到稳定结果，因此模拟器会予以阻止。"
+
+msgid "terminology.term.tick.title"
+msgstr "tick / 传播步"
+
+msgid "terminology.term.tick.body"
+msgstr "电路信号向前传播的一步。门电路经过若干 tick 后稳定；tick 用于观察逻辑传播，不等同于系统章节中的 CPU cycle。"
+
+msgid "terminology.term.truth_table.title"
+msgstr "真值表（Truth Table）"
+
+msgid "terminology.term.truth_table.body"
+msgstr "列出所有输入组合以及每种组合应有输出的表格。例如两个输入 A、B 一共有 00、01、10、11 四行。"
+
+msgid "terminology.term.topology.title"
+msgstr "拓扑（Topology）"
+
+msgid "terminology.term.topology.body"
+msgstr "元件和线路如何连接成整体的结构。拓扑关心谁与谁相连，不等同于元件在屏幕上的视觉位置。"
+
+msgid "terminology.term.test_bench.title"
+msgstr "测试台（Test Bench）"
+
+msgid "terminology.term.test_bench.body"
+msgstr "向电路或系统提供输入、运行测试并核对输出的工具窗口。它帮助观察行为，但不会替玩家搭建答案。"
+
+msgid "terminology.term.debug_run.title"
+msgstr "调试运行（Debug Run）"
+
+msgid "terminology.term.debug_run.body"
+msgstr "只使用当前选定输入或用例进行一次检查，适合定位问题。通过调试运行不等于通过完整关卡。"
+
+msgid "terminology.term.official_test.title"
+msgstr "官方测试（Official Test Set）"
+
+msgid "terminology.term.official_test.body"
+msgstr "关卡规定的完整测试集合。只有全部官方用例满足正确性与目标条件，关卡才会判定通过。"
+
+msgid "terminology.term.trace.title"
+msgstr "Trace（执行轨迹）"
+
+msgid "terminology.term.trace.body"
+msgstr "模拟器已经确定的一串按顺序排列的事件证据。播放、暂停、步进与动画速度只改变查看方式，不改变结果。"
+
+msgid "terminology.term.abstraction.title"
+msgstr "抽象（Abstraction）"
+
+msgid "terminology.term.abstraction.body"
+msgstr "隐藏内部细节，只保留外部可用行为与端口。抽象让玩家可以用较小元件构建更大的系统。"
+
+msgid "terminology.term.encapsulation.title"
+msgstr "封装（Encapsulation）"
+
+msgid "terminology.term.encapsulation.body"
+msgstr "把已经验证的电路保存为可复用元件。封装后仍保留原电路来源，但后续关卡只需使用它的接口。"
+
+msgid "terminology.term.half_adder.title"
+msgstr "半加器（Half Adder / HalfAdder）"
+
+msgid "terminology.term.half_adder.body"
+msgstr "把两个一位输入 A、B 相加的电路，输出 SUM 与 CARRY。它不接收来自更低位的进位。"
+
+msgid "terminology.term.sum.title"
+msgstr "SUM（和位）"
+
+msgid "terminology.term.sum.body"
+msgstr "加法器当前这一位的结果。半加器中，A 与 B 不同时 SUM 为 1。"
+
+msgid "terminology.term.carry.title"
+msgstr "CARRY（进位）"
+
+msgid "terminology.term.carry.body"
+msgstr "当前一位相加溢出后传给更高位的值。半加器中只有 A、B 都为 1 时 CARRY 为 1。"
+
+msgid "terminology.term.full_adder.title"
+msgstr "全加器（Full Adder）"
+
+msgid "terminology.term.full_adder.body"
+msgstr "把 A、B 与输入进位 CIN 三个一位值相加，输出 SUM 与 COUT。多个全加器可以串成多位加法器。"
+
+msgid "terminology.term.cin_cout.title"
+msgstr "CIN / COUT（输入进位 / 输出进位）"
+
+msgid "terminology.term.cin_cout.body"
+msgstr "CIN 是从低位接收的进位，COUT 是送往高位的进位。最低位通常令 CIN=0。"
+
+msgid "terminology.term.multiplexer.title"
+msgstr "多路复用器（MUX）"
+
+msgid "terminology.term.multiplexer.body"
+msgstr "根据选择信号从多个输入中挑选一个送到输出。SOURCE_MUX 与 RESULT_MUX 都是数据选择器。"
+
+msgid "terminology.term.alu.title"
+msgstr "ALU（算术逻辑单元）"
+
+msgid "terminology.term.alu.body"
+msgstr "执行加法、逻辑运算等操作的组合硬件。ALU4 表示一次处理 4 位数据的 ALU。"
+
+msgid "terminology.term.opcode.title"
+msgstr "操作码（Opcode / OP）"
+
+msgid "terminology.term.opcode.body"
+msgstr "告诉 ALU 或控制器应执行哪一种操作的控制值。OP0、OP1 是构成操作码的控制比特。"
+
+msgid "terminology.term.latch.title"
+msgstr "锁存器（Latch）"
+
+msgid "terminology.term.latch.body"
+msgstr "能够保持一位状态的存储电路。与纯组合逻辑不同，它的当前输出可能取决于之前发生的输入。"
+
+msgid "terminology.term.sr_latch.title"
+msgstr "SR 锁存器（SR Latch / SRLatch）"
+
+msgid "terminology.term.sr_latch.body"
+msgstr "用 SET 和 RESET 控制一位状态的锁存器，常由两个交叉连接的 NOR 门组成。"
+
+msgid "terminology.term.set_reset.title"
+msgstr "SET / RESET（置位 / 复位）"
+
+msgid "terminology.term.set_reset.body"
+msgstr "SET 请求把锁存状态变为 1，RESET 请求把状态变为 0。SR 锁存器中不应同时激活二者。"
+
+msgid "terminology.term.d_q.title"
+msgstr "D / Q / NQ"
+
+msgid "terminology.term.d_q.body"
+msgstr "D 是要写入的数据输入，Q 是当前保存值的输出，NQ 是 Q 的反相信号。"
+
+msgid "terminology.term.register.title"
+msgstr "寄存器（Register）"
+
+msgid "terminology.term.register.body"
+msgstr "由多枚一位存储单元组成的快速小型存储。Register4 保存 4 位；LOAD=1 时写入 D，LOAD=0 时保持。"
+
+msgid "terminology.term.decoder.title"
+msgstr "译码器（Decoder）"
+
+msgid "terminology.term.decoder.body"
+msgstr "把地址或控制比特转换为一组选通信号，使多个目标中只有指定目标被选择。"
+
+msgid "terminology.term.address_write.title"
+msgstr "ADDR / WRITE（地址 / 写使能）"
+
+msgid "terminology.term.address_write.body"
+msgstr "ADDR 选择要访问的存储位置；WRITE 决定本次访问是写入新值还是只读取现有值。"
+
+msgid "terminology.term.ram.title"
+msgstr "RAM（随机存取存储器）"
+
+msgid "terminology.term.ram.body"
+msgstr "按地址保存和读取数据的存储硬件。2×4 RAM 有 2 个四位位置；RAM64x8 有 64 个八位位置。"
+
+msgid "terminology.term.cpu.title"
+msgstr "CPU（中央处理器）"
+
+msgid "terminology.term.cpu.body"
+msgstr "读取指令、执行计算并通过 Bus 与 RAM 交换数据的处理器。CPU8 表示本游戏中的八位处理器来源。"
+
+msgid "terminology.term.bus.title"
+msgstr "Bus（总线）"
+
+msgid "terminology.term.bus.body"
+msgstr "在 CPU 与 RAM 等部件之间传送请求、地址和数据的共享通道。Bus2、Bus8 的数字表示每阶段可传输的位宽。"
+
+msgid "terminology.term.accumulator.title"
+msgstr "累加器（Accumulator / ACC）"
+
+msgid "terminology.term.accumulator.body"
+msgstr "CPU 内保存当前运算结果的寄存器。许多指令会读取 ACC、经过 ALU 计算，再把结果写回 ACC。"
+
+msgid "terminology.term.controller.title"
+msgstr "控制器（Controller / CONTROL）"
+
+msgid "terminology.term.controller.body"
+msgstr "根据当前指令产生选择、装载与写入等控制信号，安排数据通路在每一步做什么。"
+
+msgid "terminology.term.data_path.title"
+msgstr "数据通路（Data Path）"
+
+msgid "terminology.term.data_path.body"
+msgstr "数据在寄存器、MUX、ALU、Bus 与 RAM 之间移动和计算的路径。TinyComputer 是把这些部件连接成的可执行小型计算机。"
+
+msgid "terminology.term.load.title"
+msgstr "LOAD（装载 / 读取）"
+
+msgid "terminology.term.load.body"
+msgstr "把立即数或内存中的值送入 CPU 寄存器。LOAD_IMM 读取指令中的常数，LOAD_MEM 从 RAM 读取。"
+
+msgid "terminology.term.store.title"
+msgstr "STORE（存储 / 写回）"
+
+msgid "terminology.term.store.body"
+msgstr "把 CPU 寄存器中的值写入 RAM。STORE_MEM 与 STORE [地址] 都表示对内存进行写入。"
+
+msgid "terminology.term.immediate.title"
+msgstr "立即数（Immediate / IMM）"
+
+msgid "terminology.term.immediate.body"
+msgstr "直接写在指令中的常数，不需要先从 RAM 读取。ADD_IMM 与 LOAD_IMM 都使用立即数。"
+
+msgid "terminology.term.wraparound.title"
+msgstr "回绕（Wraparound）"
+
+msgid "terminology.term.wraparound.body"
+msgstr "结果超出固定比特宽度后从范围另一端继续。例如 8-bit 加法按 256 回绕，只保留最低 8 位。"
+
+msgid "terminology.term.program.title"
+msgstr "程序（Program）"
+
+msgid "terminology.term.program.body"
+msgstr "描述机器要依次执行哪些操作的指令或代码。本游戏中的 Program 面板允许编辑、解释并应用程序。"
+
+msgid "terminology.term.dsl.title"
+msgstr "DSL（领域专用语言）"
+
+msgid "terminology.term.dsl.body"
+msgstr "为特定任务设计的小型语言。本游戏使用类 Python DSL 表达循环、load、store 与计算，但它不是完整 Python。"
+
+msgid "terminology.term.apply.title"
+msgstr "Apply（应用程序）"
+
+msgid "terminology.term.apply.body"
+msgstr "解析并确认当前编辑内容，使之后的运行使用这份程序。未 Apply 的草稿不会悄悄改变已应用程序。"
+
+msgid "terminology.term.workload.title"
+msgstr "工作负载（Workload）"
+
+msgid "terminology.term.workload.body"
+msgstr "一次实验要求机器处理的数据、指令与重复次数的组合。比较性能时应明确是否使用相同工作负载。"
+
+msgid "terminology.term.cycle.title"
+msgstr "cycle（系统周期）"
+
+msgid "terminology.term.cycle.body"
+msgstr "系统性能模型中的时间单位。总 cycles 由计算、等待、存储服务与总线传输等事件共同构成。"
+
+msgid "terminology.term.latency.title"
+msgstr "延迟（Latency）"
+
+msgid "terminology.term.latency.body"
+msgstr "从发出一次操作到得到结果所需的时间。RAM 服务延迟越高，等待单次读取的时间通常越长。"
+
+msgid "terminology.term.bandwidth.title"
+msgstr "带宽（Bandwidth）"
+
+msgid "terminology.term.bandwidth.body"
+msgstr "一个时间单位内能够传输的数据量。更宽的 Bus 可减少同一字节需要分成的传输阶段。"
+
+msgid "terminology.term.throughput.title"
+msgstr "吞吐量（Throughput）"
+
+msgid "terminology.term.throughput.body"
+msgstr "持续一段时间后系统完成工作的速率。吞吐量与单次操作延迟相关，但两者不是同一个指标。"
+
+msgid "terminology.term.serialization.title"
+msgstr "串行化（Serialization）"
+
+msgid "terminology.term.serialization.body"
+msgstr "当通道一次放不下完整数据时，把数据拆成多个连续阶段传输。窄 Bus 会增加每字节的分段数量。"
+
+msgid "terminology.term.cpu_wait.title"
+msgstr "CPU WAIT（处理器等待）"
+
+msgid "terminology.term.cpu_wait.body"
+msgstr "CPU 已经发出请求，却必须等待 Bus 或 RAM 返回数据而无法继续计算的周期。它是诊断冯诺依曼瓶颈的重要证据。"
+
+msgid "terminology.term.profiler.title"
+msgstr "Profiler（性能分析器）"
+
+msgid "terminology.term.profiler.body"
+msgstr "把完成的 Trace 汇总成总周期、CPU WAIT、RAM 服务、Bus 传输等指标的工具。它读取证据，不会改变模拟。"
+
+msgid "terminology.term.prediction.title"
+msgstr "预测（Prediction）"
+
+msgid "terminology.term.prediction.body"
+msgstr "实验前对结果和原因作出的可核对判断。先锁定预测，可以避免看见结果后倒推一个无法检验的说法。"
+
+msgid "terminology.term.baseline.title"
+msgstr "基线（Baseline）"
+
+msgid "terminology.term.baseline.body"
+msgstr "改变某个因素前记录的参考运行。后续结果只有与相同条件下的基线比较，差值才有明确含义。"
+
+msgid "terminology.term.controlled_change.title"
+msgstr "受控变化（Controlled Change）"
+
+msgid "terminology.term.controlled_change.body"
+msgstr "一次实验只改变一个待研究因素，其余条件保持不变。这样 Before → After 的差异才能归因于该因素。"
+
+msgid "terminology.term.bottleneck.title"
+msgstr "瓶颈（Bottleneck）"
+
+msgid "terminology.term.bottleneck.body"
+msgstr "限制整个系统继续提速的主要部分。加快非瓶颈部件可能只有很小收益，必须用 Trace 与指标定位。"
+
+msgid "terminology.term.hardware_cost.title"
+msgstr "硬件成本（Hardware Cost）"
+
+msgid "terminology.term.hardware_cost.body"
+msgstr "本游戏对更快或更大硬件使用的简化成本分数。达成周期目标时仍需关注是否用过多硬件换取性能。"
+
+msgid "terminology.term.before_after.title"
+msgstr "Before → After（前后对比）"
+
+msgid "terminology.term.before_after.body"
+msgstr "把受控变化前后的运行证据并列，比较总周期、等待、数据移动与成本，而不只比较最终答案是否正确。"
+
+msgid "terminology.term.deterministic.title"
+msgstr "确定性（Deterministic）"
+
+msgid "terminology.term.deterministic.body"
+msgstr "相同程序、机器和输入总会产生相同 Trace 与指标。播放速度和界面动画不会改变模拟结果。"
+
+msgid "terminology.term.cache.title"
+msgstr "Cache（缓存）"
+
+msgid "terminology.term.cache.body"
+msgstr "靠近 CPU 的小型快速硬件存储，用来保留最近从 RAM 取回的数据块，减少重复的远程读取。"
+
+msgid "terminology.term.cache_line.title"
+msgstr "cache line（缓存行）"
+
+msgid "terminology.term.cache_line.body"
+msgstr "Cache 与 RAM 之间一次获取和保存的数据块。访问同一 line 中相邻数据时，后续请求可能直接命中。"
+
+msgid "terminology.term.hit.title"
+msgstr "Hit（缓存命中）"
+
+msgid "terminology.term.hit.body"
+msgstr "CPU 请求的数据所在 line 已经在 Cache 中，因此可以从近处返回，不必再次访问 RAM。"
+
+msgid "terminology.term.miss.title"
+msgstr "Miss（缓存未命中）"
+
+msgid "terminology.term.miss.body"
+msgstr "CPU 请求的数据所在 line 不在 Cache 中，系统必须前往 RAM 获取它，CPU 通常会产生等待。"
+
+msgid "terminology.term.evict.title"
+msgstr "Evict（逐出 / 替换）"
+
+msgid "terminology.term.evict.body"
+msgstr "Cache 容量不足时移除已有 line，为新 line 腾出位置。如果旧 line 很快还会用到，就可能造成额外 Miss。"
+
+msgid "terminology.term.fill.title"
+msgstr "fill（缓存填充）"
+
+msgid "terminology.term.fill.body"
+msgstr "Miss 后把从 RAM 返回的整条 line 放入 Cache，使该 line 后续请求有机会命中。"
+
+msgid "terminology.term.locality.title"
+msgstr "Locality（局部性）"
+
+msgid "terminology.term.locality.body"
+msgstr "程序在时间或地址上反复靠近已有数据的倾向。良好局部性让小型 Cache 也能减少大量远程访问。"
+
+msgid "terminology.term.spatial_locality.title"
+msgstr "空间局部性（Spatial Locality）"
+
+msgid "terminology.term.spatial_locality.body"
+msgstr "访问一个地址后，很快访问附近地址的倾向。连续扫描同一 cache line 就是在利用空间局部性。"
+
+msgid "terminology.term.temporal_locality.title"
+msgstr "时间局部性（Temporal Locality）"
+
+msgid "terminology.term.temporal_locality.body"
+msgstr "访问某项数据后，很快再次访问同一项数据的倾向。复用发生得越早，数据越可能仍留在 Cache。"
+
+msgid "terminology.term.access_order.title"
+msgstr "访问顺序（Access Order）"
+
+msgid "terminology.term.access_order.body"
+msgstr "程序读取或写入地址的先后次序。即使计算结果相同，不同顺序也可能产生完全不同的 Cache 行为。"
+
+msgid "terminology.term.row_first.title"
+msgstr "row-first（逐行访问）"
+
+msgid "terminology.term.row_first.body"
+msgstr "先完成一行中的连续元素，再移动到下一行。对本游戏的行优先矩阵布局，它通常能连续复用同一 cache line。"
+
+msgid "terminology.term.column_first.title"
+msgstr "column-first（逐列访问）"
+
+msgid "terminology.term.column_first.body"
+msgstr "先沿列跨行访问，再移动到下一列。在行优先布局中，这种跨步顺序可能在多个 line 间轮转并造成反复 Miss。"
+
+msgid "terminology.term.working_set.title"
+msgstr "Working Set（工作集）"
+
+msgid "terminology.term.working_set.body"
+msgstr "程序某一阶段需要频繁使用的全部数据。工作集大于 Cache 容量时，即使访问顺序合理也可能反复替换。"
+
+msgid "terminology.term.pass.title"
+msgstr "pass（处理轮次）"
+
+msgid "terminology.term.pass.body"
+msgstr "对同一批数据完成的一整轮处理。两个 pass 可能分别做不同计算，也可能再次需要相同数据。"
+
+msgid "terminology.term.work_group.title"
+msgstr "Work Group（工作分组）"
+
+msgid "terminology.term.work_group.body"
+msgstr "把较大的工作负载拆成较小的数据组，在移动到下一组前先完成当前组需要的多个 pass。"
+
+msgid "terminology.term.blocking.title"
+msgstr "Blocking（分块）"
+
+msgid "terminology.term.blocking.body"
+msgstr "按小数据块重组计算，使当前工作集更容易留在 Cache 中。它改变执行次序，但不应改变最终结果。"
+
+msgid "terminology.term.tiling.title"
+msgstr "Tiling（平铺 / 分块）"
+
+msgid "terminology.term.tiling.body"
+msgstr "Blocking 的常用别名，强调把矩阵或数据空间切成多个 tile，再逐块完成计算。"
+
+msgid "terminology.term.data_request.title"
+msgstr "数据请求（Data Request）"
+
+msgid "terminology.term.data_request.body"
+msgstr "CPU 为读取或写入一个地址而发起的系统操作。请求可能在 Cache 命中，也可能经过 Bus 前往 RAM。"

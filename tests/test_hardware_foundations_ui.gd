@@ -6,6 +6,7 @@ const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
 const CircuitLiveStateType = preload("res://src/circuit/circuit_live_state.gd")
 const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
 const HalfAdderTestBenchType = preload("res://src/circuit/half_adder_test_bench.gd")
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 var failures: Array[String] = []
 
@@ -25,6 +26,11 @@ func _run() -> void:
 
 	var game_mode: Node = root.get_node("GameMode")
 	_assert(main.get("fullscreen_button") != null, "Hardware Foundations must expose the shared visible fullscreen toggle.")
+	var terminology_handbook: Control = main.get("terminology_handbook")
+	_assert(terminology_handbook != null and (terminology_handbook.get("entry_button") as Button).text == String(main.call("_t", &"terminology.button")), "Hardware Foundations must expose the localized terminology handbook entry.")
+	var terminology_button: Button = terminology_handbook.get("entry_button")
+	var terminology_rect := Rect2(terminology_button.global_position, terminology_button.size)
+	_assert(terminology_rect.end.x >= main.size.x - 16.1 and terminology_rect.end.y >= main.size.y - 16.1 and Rect2(Vector2.ZERO, main.size).encloses(terminology_rect), "The Hardware terminology entry must remain anchored inside the bottom-right corner.")
 	_assert(StringName(main.get("current_phase")) == &"campaign", "Hardware Foundations must open on the prerequisite-gated level map.")
 	_assert(main.get("mode_selector") != null and not bool(game_mode.call("is_test_mode")), "Hardware Foundations must expose the shared selector and default to Game mode.")
 	_assert(not bool(game_mode.call("set_mode", &"unknown")) and not bool(game_mode.call("is_test_mode")), "The global mode boundary must reject unknown modes without changing state.")
@@ -47,6 +53,22 @@ func _run() -> void:
 	_assert(campaign_buttons.has(&"full_adder") and (campaign_buttons[&"full_adder"] as Button).disabled, "Later arithmetic levels must remain visibly locked at session start.")
 	var map_windows: Dictionary = main.get("desktop_windows")
 	var map_window_buttons: Dictionary = main.get("desktop_window_buttons")
+	_assert(
+		is_equal_approx((map_window_buttons[&"task"] as Button).custom_minimum_size.y, UiTypographyType.TOOL_BUTTON_HEIGHT)
+		and is_equal_approx((map_window_buttons[&"test_bench"] as Button).custom_minimum_size.y, UiTypographyType.TOOL_BUTTON_HEIGHT)
+		and is_equal_approx((map_window_buttons[&"components"] as Button).custom_minimum_size.y, UiTypographyType.TOOL_BUTTON_HEIGHT)
+		and is_equal_approx(terminology_button.custom_minimum_size.y, UiTypographyType.TOOL_BUTTON_HEIGHT)
+		and is_equal_approx(terminology_button.custom_minimum_size.x, (map_window_buttons[&"task"] as Button).custom_minimum_size.x)
+		and is_equal_approx((map_window_buttons[&"task"] as Button).size.y, terminology_button.size.y),
+		"Bottom-right tool buttons and Handbook entry must share the same task-button width and visible height. task=%s bench=%s components=%s handbook=%s actual=%s/%s" % [
+			(map_window_buttons[&"task"] as Button).custom_minimum_size.y,
+			(map_window_buttons[&"test_bench"] as Button).custom_minimum_size.y,
+			(map_window_buttons[&"components"] as Button).custom_minimum_size.y,
+			terminology_button.custom_minimum_size.y,
+			(map_window_buttons[&"task"] as Button).size.y,
+			terminology_button.size.y,
+		]
+	)
 	var map_task_window: Control = map_windows[&"task"]
 	var map_bench_window: Control = map_windows[&"test_bench"]
 	_assert(map_task_window.visible and not map_bench_window.visible, "Level select must keep the interactive Mission page but remove the irrelevant Test Bench page.")
@@ -82,18 +104,22 @@ func _run() -> void:
 	await _drag_control(map_header, Vector2(8.0, 8.0))
 	_assert(not map_task_window.position.is_equal_approx(map_task_start) and map_task_window.z_index > map_task_z, "The map Mission page must remain movable and focusable.")
 	var minimize_button: Button = map_task_window.find_child("MinimizeButton", true, false)
-	await _click_control(minimize_button)
-	_assert(bool(map_task_window.get("minimized")), "The map Mission page must remain minimizable.")
-	await _click_control(minimize_button)
+	_assert(minimize_button != null and minimize_button.visible and bool(map_task_window.get("custom_minimize_action")), "Mission must expose a dedicated compact-window action beside Close without using the long title-strip minimization.")
 	map_task_window.call("resize_by", Vector2(0.0, -1000.0))
 	var task_scroll: ScrollContainer = map_task_window.find_child("TaskScroll", true, false)
 	await _scroll_control(task_scroll)
 	_assert(task_scroll.scroll_vertical > 0, "The map Mission page must receive wheel input and scroll overflowing content.")
 	var close_button: Button = map_task_window.find_child("CloseButton", true, false)
+	var closed_map_position: Vector2 = map_task_window.position
+	var closed_map_size: Vector2 = map_task_window.size
 	await _click_control(close_button)
 	_assert(not map_task_window.visible, "The map Mission page close action must remove it without affecting the level map.")
 	await _click_control(map_window_buttons[&"task"])
-	_assert(map_task_window.visible and not bool(map_task_window.get("minimized")), "The Mission taskbar action must restore a closed or minimized map page.")
+	_assert(map_task_window.visible and map_task_window.position.is_equal_approx(closed_map_position) and map_task_window.size.is_equal_approx(closed_map_size), "The Mission taskbar action must restore a closed page at its previous position and size.")
+	await _click_control(map_window_buttons[&"task"])
+	_assert(not map_task_window.visible, "Pressing the active Mission taskbar action a second time must close the same page.")
+	await _click_control(map_window_buttons[&"task"])
+	_assert(map_task_window.visible and map_task_window.position.is_equal_approx(closed_map_position), "Pressing the Mission taskbar action again must reopen the remembered page.")
 	main.call("_layout_desktop_windows")
 	main.call("_start_campaign_level", &"half_adder")
 	_assert(StringName(main.get("current_phase")) == &"campaign", "The internal level router must reject a direct Half Adder prerequisite bypass.")
@@ -103,6 +129,64 @@ func _run() -> void:
 		await process_frame
 	_assert(StringName(main.get("current_phase")) == &"tutorial", "Selecting the first map level must open the short wiring tutorial.")
 	_assert(not is_instance_valid(tutorial_map_button), "A clicked map button must be released after its signal finishes instead of triggering Godot's locked-object error.")
+	var tutorial_task_window: Control = (main.get("desktop_windows") as Dictionary)[&"task"]
+	var tutorial_bench_window: Control = (main.get("desktop_windows") as Dictionary)[&"test_bench"]
+	var briefing_body: Label = tutorial_task_window.find_child("MissionBriefingBody", true, false)
+	_assert(
+		bool(main.get("mission_briefing_active"))
+		and int(main.get("mission_briefing_page")) == 0
+		and briefing_body != null and briefing_body.text.contains("0") and briefing_body.text.contains("1")
+		and tutorial_task_window.size.x >= 640.0,
+		"Entering a level must open a large centered first-page mission briefing with the foundational 0/1 concept."
+	)
+	_assert(
+		tutorial_bench_window.position.x < tutorial_task_window.position.x
+		and tutorial_bench_window.position.y <= tutorial_task_window.position.y,
+		"The Test Bench must default to the upper-left while the large mission briefing occupies the center."
+	)
+	var large_mission_rect := Rect2(tutorial_task_window.position, tutorial_task_window.size)
+	minimize_button.pressed.emit()
+	await process_frame
+	var briefing_area: Control = main.get("graph_stack")
+	_assert(
+		bool(main.get("mission_compact"))
+		and not bool(tutorial_task_window.get("minimized"))
+		and is_equal_approx(tutorial_task_window.size.x, tutorial_bench_window.size.x)
+		and tutorial_task_window.position.x <= tutorial_bench_window.position.x + 1.0
+		and tutorial_task_window.get_rect().end.y >= briefing_area.size.y - 21.0
+		and minimize_button.text == "□",
+		"Mission compact mode must keep readable content, match Test Bench width, and anchor to the lower-left. state=%s minimized=%s task=%s bench=%s area=%s icon=%s" % [main.get("mission_compact"), tutorial_task_window.get("minimized"), tutorial_task_window.get_rect(), tutorial_bench_window.get_rect(), briefing_area.size, minimize_button.text]
+	)
+	minimize_button.pressed.emit()
+	await process_frame
+	_assert(not bool(main.get("mission_compact")) and Rect2(tutorial_task_window.position, tutorial_task_window.size).is_equal_approx(large_mission_rect), "The same Mission header action must restore the previous large briefing geometry.")
+	for briefing_page: int in range(3):
+		var continue_button: Button = main.get("mission_briefing_continue_button")
+		var previous_button: Button = main.get("mission_briefing_previous_button")
+		var current_briefing_body: Label = tutorial_task_window.find_child("MissionBriefingBody", true, false)
+		_assert(
+			int(main.get("mission_briefing_page")) == briefing_page
+			and previous_button.disabled == (briefing_page == 0)
+			and continue_button.custom_minimum_size == Vector2(UiTypographyType.CONTINUE_WIDTH, UiTypographyType.CONTROL_HEIGHT)
+			and absf(continue_button.global_position.x + continue_button.size.x * 0.5 - (tutorial_task_window.global_position.x + tutorial_task_window.size.x * 0.5)) < 8.0
+			and continue_button.global_position.y > current_briefing_body.global_position.y,
+			"Mission navigation must expose Previous only after page 1 while keeping Continue compact and centered."
+		)
+		if briefing_page == 1:
+			previous_button.pressed.emit()
+			await process_frame
+			_assert(int(main.get("mission_briefing_page")) == 0, "Mission Previous must return to the immediately preceding briefing page.")
+			(main.get("mission_briefing_continue_button") as Button).pressed.emit()
+			await process_frame
+		(main.get("mission_briefing_continue_button") as Button).pressed.emit()
+		await process_frame
+	_assert(
+		not bool(main.get("mission_briefing_active"))
+		and bool(main.get("mission_compact"))
+		and is_equal_approx(tutorial_task_window.size.x, tutorial_bench_window.size.x)
+		and tutorial_task_window.get_rect().end.y >= briefing_area.size.y - 21.0,
+		"Continue on the final briefing page must reveal ordinary Mission content in the lower-left compact window."
+	)
 	_assert(
 		(main.get("editor_toolbar") as Control).visible and (main.get("graph") as GraphEdit).visible,
 		"Playable levels must restore their circuit canvas and editing toolbar after leaving the simplified map."
@@ -202,7 +286,7 @@ func _run() -> void:
 	for _hint_two_frame: int in range(2):
 		await process_frame
 	graph = main.get("graph")
-	_assert(graph.get_connection_list().size() == 2 and (main.get("component_nodes") as Dictionary).has(&"NOT_1"), "Hint stage 2 must reveal the tutorial's key NOT signal path on the real graph.")
+	_assert(graph.get_connection_list().size() == 1 and (main.get("component_nodes") as Dictionary).has(&"NOT_1"), "Hint stage 2 must reveal only the first tutorial wire instead of completing the signal path.")
 	main.call("_show_hint_level", 3)
 	for _hint_three_frame: int in range(2):
 		await process_frame
@@ -413,15 +497,24 @@ func _run() -> void:
 		"Default Hardware windows must be comfortably readable while preserving a large unobstructed center workspace."
 	)
 	var original_window_position: Vector2 = task_window.position
-	var original_window_height: float = task_window.size.y
 	task_window.call("move_by", Vector2(52.0, 18.0))
 	_assert(not task_window.position.is_equal_approx(original_window_position), "A Hardware Foundations page must be movable like a desktop/browser window.")
-	task_window.call("set_minimized", true)
+	var restored_task_rect := Rect2(task_window.position, task_window.size)
+	task_window.call("toggle_minimized")
 	await process_frame
-	_assert(bool(task_window.get("minimized")) and task_window.size.y < original_window_height, "A floating page must collapse to its title bar when minimized.")
-	main.call("_show_desktop_window", &"task")
+	_assert(bool(main.get("mission_compact")) and not bool(task_window.get("minimized")) and is_equal_approx(task_window.size.x, bench_window.size.x), "Mission minimization must use the same readable lower-left compact state as the header action. state=%s task=%s bench=%s" % [main.get("mission_compact"), task_window.get_rect(), bench_window.get_rect()])
+	var remembered_task_position: Vector2 = task_window.position
+	var remembered_task_size: Vector2 = task_window.size
+	var taskbar_button: Button = (main.get("desktop_window_buttons") as Dictionary)[&"task"]
+	taskbar_button.pressed.emit()
 	await process_frame
-	_assert(not bool(task_window.get("minimized")) and task_window.visible, "The desktop taskbar button must restore a minimized page.")
+	_assert(not task_window.visible, "The active Mission taskbar button must close the page on its second state.")
+	taskbar_button.pressed.emit()
+	await process_frame
+	_assert(task_window.visible and task_window.position.is_equal_approx(remembered_task_position) and task_window.size.is_equal_approx(remembered_task_size), "The Mission taskbar button must restore the exact position and size remembered by the close action.")
+	task_window.call("toggle_minimized")
+	await process_frame
+	_assert(not bool(main.get("mission_compact")) and Rect2(task_window.position, task_window.size).is_equal_approx(restored_task_rect), "Restoring compact Mission must recover the exact pre-compact position and size.")
 	var graph_stack: Control = main.get("graph_stack")
 	task_window.position = graph_stack.size + Vector2(200.0, 160.0)
 	task_window.size = graph_stack.size * 2.0
@@ -924,6 +1017,19 @@ func _run() -> void:
 	nodes = main.get("component_nodes")
 	overlay = main.get("trace_overlay")
 	_assert(StringName(main.get("current_phase")) == &"half_adder", "Tutorial completion must open the Half Adder challenge.")
+	_assert(bool(main.get("mission_briefing_active")), "Half Adder must begin with the same large layered mission briefing.")
+	(main.get("mission_briefing_continue_button") as Button).pressed.emit()
+	await process_frame
+	briefing_body = tutorial_task_window.find_child("MissionBriefingBody", true, false)
+	_assert(
+		briefing_body != null and briefing_body.text.contains("真值表")
+		and briefing_body.text.contains("0 0") and briefing_body.text.contains("1 1"),
+		"Half Adder briefing page 2 must define truth tables immediately and show all four required rows."
+	)
+	(main.get("mission_briefing_continue_button") as Button).pressed.emit()
+	await process_frame
+	(main.get("mission_briefing_continue_button") as Button).pressed.emit()
+	await process_frame
 	var half_adder_menu_kinds: Array[StringName] = []
 	for template_variant: Variant in (main.get("component_menu_templates") as Dictionary).values():
 		half_adder_menu_kinds.append(StringName(template_variant.kind))
@@ -941,6 +1047,11 @@ func _run() -> void:
 		"Terminal labels must shrink to fit instead of truncating the player's visible component name."
 	)
 	_assert(not nodes.has(&"Profiler"), "Early logic section must not introduce the performance Profiler.")
+	_assert(
+		(main.get("input_a_button") as CheckButton).text.contains("● 0")
+		and (main.get("side_box") as Control).find_child("TruthTableDefinition", true, false) != null,
+		"The Half Adder Test Bench must keep the red-circle/green-diamond signal placeholder and an immediately available truth-table definition."
+	)
 	_assert((main.get("live_state") as CircuitLiveStateType).is_valid(), "A fresh unwired Half Adder must be a valid incomplete design, not a simulator error.")
 	_assert((main.get("diagnostics_label") as Label).text.contains("这不是故障"), "The initial Half Adder diagnostic must explicitly distinguish an unwired design from a fault.")
 	var empty_half_adder_snapshot: String = JSON.stringify(main.call("_capture_workbench_snapshot"))
@@ -948,11 +1059,12 @@ func _run() -> void:
 	main.call("_show_hint_level", 2)
 	await process_frame
 	_assert(
-		(main.get("graph") as GraphEdit).get_connection_list().size() == 8
+		(main.get("graph") as GraphEdit).get_connection_list().size() == 3
 		and (main.get("component_nodes") as Dictionary).has(&"SUM_OUT")
 		and (main.get("component_nodes") as Dictionary).has(&"CARRY_OUT")
-		and _find_connection(main.get("graph"), &"AND_3", 0, &"CARRY_OUT", 0).is_empty(),
-		"Half Adder hint stage 2 must reveal only the complete SUM subcircuit, not the CARRY answer."
+		and not _find_connection(main.get("graph"), &"AND_3", 0, &"CARRY_OUT", 0).is_empty()
+		and _find_connection(main.get("graph"), &"AND_2", 0, &"SUM_OUT", 0).is_empty(),
+		"Half Adder hint stage 2 must reveal only the small CARRY branch and leave the harder SUM circuit unresolved."
 	)
 	main.call("_show_hint_level", 3)
 	await process_frame
@@ -1042,11 +1154,20 @@ func _run() -> void:
 	main.call("_start_campaign_level", &"load_store")
 	await process_frame
 	_assert(StringName(main.get("current_phase")) == &"prologue" and (main.get("graph") as GraphEdit).get_connection_list().size() == 5, "An end-of-prologue level must actually open in Test mode, not merely display an enabled map button.")
+	_key(main, KEY_ESCAPE)
+	await process_frame
+	_assert(StringName(main.get("current_phase")) == &"campaign", "Esc from a Hardware level must return to its level-selection map.")
 	mode_option.item_selected.emit(0)
 	_assert(not bool(game_mode.call("is_test_mode")), "Choosing Game mode in the shared selector must leave Test mode.")
 	for _game_mode_frame: int in range(3):
 		await process_frame
 	_assert(main.get("player_content").canonical_signature() == game_content_signature, "Returning to Game mode must restore its exact player progress without Test-mode helper content.")
+	_key(main, KEY_ESCAPE)
+	for _hub_frame: int in range(3):
+		await process_frame
+	var returned_hub: Control = root.get_node_or_null("PrototypeHub")
+	_assert(returned_hub != null, "A second Esc from the Hardware level map must return to chapter selection.")
+	_assert(returned_hub != null and not (returned_hub.get("options_overlay") as Control).visible, "The Esc used to enter chapter selection must not leak into and open its Options menu.")
 
 	main.queue_free()
 	await process_frame
@@ -1088,7 +1209,7 @@ func _key(main: Control, keycode: Key) -> void:
 	var event := InputEventKey.new()
 	event.keycode = keycode
 	event.pressed = true
-	main.call("_input", event)
+	main.call("_unhandled_key_input" if keycode == KEY_ESCAPE else "_input", event)
 
 
 func _key_down(main: Control, keycode: Key) -> void:

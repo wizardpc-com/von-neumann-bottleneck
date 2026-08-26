@@ -2,12 +2,16 @@ extends Control
 
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
+const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
 const ACCENT := Color("50d5ff")
 const GOOD := Color("67e8a5")
 const WARNING := Color("ffbf69")
+const DANGER := Color("ff6b7d")
+const PURPLE := Color("bc8cff")
 const MUTED := Color("91a0b9")
 const TEXT := Color("e9f0fa")
 
@@ -16,6 +20,12 @@ var mode_description_label: Label
 var fullscreen_button: FullscreenButtonType
 var system_entry_button: Button
 var locality_entry_button: Button
+var terminology_handbook: TerminologyHandbookType
+var options_overlay: Control
+var options_resume_button: Button
+var options_fullscreen_button: Button
+var options_quit_button: Button
+var options_previous_focus: Control
 
 
 func _ready() -> void:
@@ -23,9 +33,14 @@ func _ready() -> void:
 	_build_interface()
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	SystemChapter.progression_changed.connect(_refresh_locality_entry)
+	WindowMode.window_mode_changed.connect(_on_window_mode_changed)
 	_refresh_mode_description()
 	var arguments: PackedStringArray = OS.get_cmdline_user_args()
-	if "--capture-hardware" in arguments:
+	if "--capture-options" in arguments:
+		call_deferred("_open_options_menu")
+	elif "--capture-terminology" in arguments:
+		terminology_handbook.call_deferred("open_handbook", &"truth_table")
+	elif "--capture-hardware" in arguments:
 		get_tree().call_deferred("change_scene_to_file", "res://src/hardware_foundations/hardware_foundations.tscn")
 	elif "--capture-system" in arguments or "--capture-system-run" in arguments or "--capture-system-map" in arguments:
 		get_tree().call_deferred("change_scene_to_file", "res://src/system_lab/system_lab.tscn")
@@ -41,9 +56,24 @@ func _ready() -> void:
 		get_tree().call_deferred("change_scene_to_file", "res://src/ui/main.tscn")
 
 
+func _input(event: InputEvent) -> void:
+	if terminology_handbook != null and terminology_handbook.handle_escape(event):
+		get_viewport().set_input_as_handled()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not _is_escape_press(event):
+		return
+	if options_overlay.visible:
+		_close_options_menu()
+	else:
+		_open_options_menu()
+	get_viewport().set_input_as_handled()
+
+
 func _build_theme() -> void:
 	var hub_theme := Theme.new()
-	hub_theme.default_font_size = 17
+	hub_theme.default_font_size = UiTypographyType.BODY_SIZE
 	for control_type: String in ["Label", "Button", "OptionButton"]:
 		hub_theme.set_color("font_color", control_type, TEXT)
 	hub_theme.set_constant("separation", "VBoxContainer", 14)
@@ -69,7 +99,7 @@ func _build_interface() -> void:
 	var title := Label.new()
 	title.text = Localization.text(&"game.title")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 34)
+	title.add_theme_font_size_override("font_size", UiTypographyType.HERO_TITLE_SIZE)
 	title.add_theme_color_override("font_color", ACCENT)
 	content.add_child(title)
 	var subtitle := Label.new()
@@ -127,6 +157,136 @@ func _build_interface() -> void:
 	fullscreen_button.offset_top = 16.0
 	fullscreen_button.offset_right = -16.0
 	fullscreen_button.offset_bottom = 60.0
+	terminology_handbook = TerminologyHandbookType.new()
+	add_child(terminology_handbook)
+	_build_options_menu()
+
+
+func _build_options_menu() -> void:
+	options_overlay = Control.new()
+	options_overlay.name = "ChapterOptionsOverlay"
+	options_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	options_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	options_overlay.z_index = 1100
+	add_child(options_overlay)
+
+	var backdrop := ColorRect.new()
+	backdrop.color = Color("050a12", 0.78)
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+	options_overlay.add_child(backdrop)
+
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	options_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.name = "ChapterOptionsPanel"
+	panel.custom_minimum_size = Vector2(460.0, 340.0)
+	panel.add_theme_stylebox_override("panel", _stylebox(PANEL, 16, 2, PURPLE))
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 38)
+	margin.add_theme_constant_override("margin_right", 38)
+	margin.add_theme_constant_override("margin_top", 30)
+	margin.add_theme_constant_override("margin_bottom", 30)
+	panel.add_child(margin)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 14)
+	margin.add_child(column)
+
+	var title := Label.new()
+	title.text = Localization.text(&"hub.options.title")
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title.add_theme_color_override("font_color", PURPLE)
+	column.add_child(title)
+
+	var hint := Label.new()
+	hint.text = Localization.text(&"hub.options.hint")
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.add_theme_color_override("font_color", MUTED)
+	column.add_child(hint)
+
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(spacer)
+
+	options_resume_button = _options_button(Localization.text(&"hub.options.resume"))
+	options_resume_button.name = "OptionsResumeButton"
+	options_resume_button.pressed.connect(_close_options_menu)
+	column.add_child(options_resume_button)
+
+	options_fullscreen_button = _options_button("")
+	options_fullscreen_button.name = "OptionsFullscreenButton"
+	options_fullscreen_button.tooltip_text = Localization.text(&"window.fullscreen.tooltip")
+	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen)
+	column.add_child(options_fullscreen_button)
+
+	options_quit_button = _options_button(Localization.text(&"hub.options.quit"))
+	options_quit_button.name = "OptionsQuitButton"
+	options_quit_button.add_theme_color_override("font_color", DANGER)
+	options_quit_button.add_theme_stylebox_override("normal", _stylebox(Color("30202c"), 9, 1, Color("653244")))
+	options_quit_button.add_theme_stylebox_override("hover", _stylebox(Color("402433"), 9, 2, DANGER))
+	options_quit_button.pressed.connect(_quit_game)
+	column.add_child(options_quit_button)
+
+	_refresh_options_fullscreen_label()
+	options_overlay.hide()
+
+
+func _options_button(text: String) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size.y = UiTypographyType.TOOL_BUTTON_HEIGHT
+	button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
+	return button
+
+
+func _open_options_menu() -> void:
+	if options_overlay == null or options_overlay.visible:
+		return
+	options_previous_focus = get_viewport().gui_get_focus_owner()
+	_refresh_options_fullscreen_label()
+	options_overlay.show()
+	options_resume_button.grab_focus()
+
+
+func _close_options_menu() -> void:
+	if options_overlay == null or not options_overlay.visible:
+		return
+	options_overlay.hide()
+	options_resume_button.release_focus()
+	if is_instance_valid(options_previous_focus) and options_previous_focus.is_visible_in_tree():
+		options_previous_focus.grab_focus()
+	options_previous_focus = null
+
+
+func _quit_game() -> void:
+	get_tree().quit()
+
+
+func _on_window_mode_changed(_fullscreen: bool) -> void:
+	_refresh_options_fullscreen_label()
+
+
+func _refresh_options_fullscreen_label() -> void:
+	if options_fullscreen_button == null:
+		return
+	options_fullscreen_button.text = Localization.text(
+		&"window.fullscreen.exit" if WindowMode.is_fullscreen() else &"window.fullscreen.enter"
+	)
+
+
+func _is_escape_press(event: InputEvent) -> bool:
+	if not event is InputEventKey:
+		return false
+	var key_event := event as InputEventKey
+	return key_event.pressed and not key_event.echo and key_event.keycode == KEY_ESCAPE
 
 
 func _on_game_mode_changed(_mode: StringName) -> void:
@@ -172,7 +332,7 @@ func _build_card(
 	box.add_child(eyebrow_label)
 	var title_label := Label.new()
 	title_label.text = title
-	title_label.add_theme_font_size_override("font_size", 27)
+	title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	box.add_child(title_label)
 	var description_label := Label.new()
 	description_label.text = description

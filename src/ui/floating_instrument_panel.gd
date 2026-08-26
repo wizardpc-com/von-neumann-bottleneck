@@ -1,13 +1,18 @@
 class_name FloatingInstrumentPanel
 extends PanelContainer
 
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
+
 signal close_requested(instrument_id: StringName)
 signal focus_requested(instrument_id: StringName)
 signal minimized_changed(instrument_id: StringName, minimized: bool)
+signal minimize_requested(instrument_id: StringName)
 
 var instrument_id: StringName = &""
 var content_host: MarginContainer
 var minimized: bool = false
+var minimizable: bool = true
+var custom_minimize_action: bool = false
 
 var _footer: HBoxContainer
 var _minimize_button: Button
@@ -42,7 +47,7 @@ func setup(id: StringName, title_text: String) -> void:
 	title.text = "⋮⋮  %s" % title_text
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	title.add_theme_font_size_override("font_size", 18)
+	title.add_theme_font_size_override("font_size", UiTypographyType.WINDOW_TITLE_SIZE)
 	header.add_child(title)
 	_minimize_button = Button.new()
 	_minimize_button.name = "MinimizeButton"
@@ -95,11 +100,41 @@ func show_instrument() -> void:
 	focus_requested.emit(instrument_id)
 
 
+func set_minimizable(value: bool) -> void:
+	minimizable = value
+	if not minimizable and minimized:
+		set_minimized(false)
+	if _minimize_button != null:
+		_minimize_button.visible = minimizable
+
+
+func set_custom_minimize_action(value: bool) -> void:
+	custom_minimize_action = value
+
+
+func set_custom_minimized_state(value: bool) -> void:
+	if _minimize_button == null:
+		return
+	_minimize_button.text = "□" if value else "—"
+	_minimize_button.tooltip_text = Localization.text(
+		&"window.restore.tooltip" if value else &"window.minimize.tooltip"
+	)
+
+
 func toggle_minimized() -> void:
+	if not minimizable:
+		return
+	if custom_minimize_action:
+		minimize_requested.emit(instrument_id)
+		return
 	set_minimized(not minimized)
 
 
 func set_minimized(value: bool) -> void:
+	if custom_minimize_action:
+		return
+	if value and not minimizable:
+		return
 	if minimized == value:
 		return
 	minimized = value
@@ -177,7 +212,7 @@ func fit_to_parent(margin: float = 8.0) -> void:
 
 func _on_header_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed and event.double_click:
+		if event.pressed and event.double_click and minimizable:
 			toggle_minimized()
 			_dragging = false
 			accept_event()

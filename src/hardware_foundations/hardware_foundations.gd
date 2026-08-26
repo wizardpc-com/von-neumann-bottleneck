@@ -31,6 +31,8 @@ const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
+const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
+const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
@@ -131,6 +133,7 @@ var wire_color_menu_button: MenuButton
 var mode_selector: GameModeSelectorType
 var fullscreen_button: FullscreenButtonType
 var level_completion_overlay: LevelCompletionOverlay
+var terminology_handbook: TerminologyHandbookType
 
 var component_catalog: Dictionary[StringName, LogicComponent] = {}
 var component_nodes: Dictionary[StringName, GraphNode] = {}
@@ -169,6 +172,13 @@ var workbench_save_queued: bool = false
 var hint_mode: bool = false
 var hint_level: int = 0
 var hint_return_level_id: StringName = &""
+var mission_briefing_active: bool = false
+var mission_briefing_page: int = 0
+var mission_briefing_panel: VBoxContainer
+var mission_briefing_continue_button: Button
+var mission_briefing_previous_button: Button
+var mission_compact: bool = false
+var mission_expanded_rect: Rect2 = Rect2()
 
 var tutorial_created_wire: bool = false
 var tutorial_changed_input: bool = false
@@ -195,6 +205,8 @@ func _ready() -> void:
 	_configure_workbench_store()
 	_build_theme()
 	_build_interface()
+	terminology_handbook = TerminologyHandbookType.new()
+	add_child(terminology_handbook)
 	_activate_content_state()
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
@@ -210,17 +222,26 @@ func _ready() -> void:
 		or "--capture-workbench-hint" in user_arguments
 		or "--capture-workbench-create" in user_arguments
 		or "--capture-level-completion" in user_arguments
+		or "--capture-mission-briefing" in user_arguments
+		or "--capture-mission-compact" in user_arguments
+		or "--capture-half-adder-briefing" in user_arguments
 	)
 	if preparing_capture:
 		# Capture helpers need a deterministic non-empty provenance circuit. Normal
 		# play starts on the dependency map instead of silently bypassing it.
-		_show_tutorial()
+		_show_tutorial(false)
 	else:
 		_open_campaign_map()
 	# The phase builders run before containers receive their final viewport size.
 	# Reapply the initial window arrangement once against the real desktop bounds.
 	call_deferred("_layout_desktop_windows")
-	if "--capture-workbench-create" in user_arguments:
+	if "--capture-mission-compact" in user_arguments:
+		call_deferred("_prepare_mission_compact_capture")
+	elif "--capture-half-adder-briefing" in user_arguments:
+		call_deferred("_prepare_half_adder_briefing_capture")
+	elif "--capture-mission-briefing" in user_arguments:
+		call_deferred("_prepare_mission_briefing_capture")
+	elif "--capture-workbench-create" in user_arguments:
 		call_deferred("_prepare_workbench_create_capture")
 	elif "--capture-level-completion" in user_arguments:
 		call_deferred("_prepare_level_completion_capture")
@@ -245,6 +266,25 @@ func _ready() -> void:
 	set_process(true)
 
 
+func _prepare_mission_briefing_capture() -> void:
+	await get_tree().process_frame
+	_begin_mission_briefing()
+
+
+func _prepare_mission_compact_capture() -> void:
+	await get_tree().process_frame
+	_begin_mission_briefing()
+	_advance_mission_briefing()
+	_advance_mission_briefing()
+	_advance_mission_briefing()
+
+
+func _prepare_half_adder_briefing_capture() -> void:
+	await get_tree().process_frame
+	_start_challenge(true)
+	_advance_mission_briefing()
+
+
 func _prepare_workbench_hint_capture() -> void:
 	await get_tree().process_frame
 	_enter_hint_workbench()
@@ -263,6 +303,9 @@ func _prepare_workbench_create_capture() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if terminology_handbook != null and terminology_handbook.handle_escape(event):
+		get_viewport().set_input_as_handled()
+		return
 	if _handle_component_placement_global_input(event):
 		get_viewport().set_input_as_handled()
 		return
@@ -272,6 +315,42 @@ func _input(event: InputEvent) -> void:
 	if not _handle_editor_shortcut(event):
 		return
 	get_viewport().set_input_as_handled()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	_handle_back_navigation(event)
+
+
+func _handle_back_navigation(event: InputEvent) -> bool:
+	if not event is InputEventKey:
+		return false
+	var key_event := event as InputEventKey
+	if not key_event.pressed or key_event.echo or key_event.keycode != KEY_ESCAPE:
+		return false
+	get_viewport().set_input_as_handled()
+	if workbench_name_dialog != null and workbench_name_dialog.visible:
+		_hide_new_workbench_dialog()
+		return true
+	if _has_active_graph_gesture():
+		_cancel_connection_drag()
+		return true
+	if hint_mode:
+		_exit_hint_workbench()
+	elif current_phase == &"campaign":
+		_return_to_prototype_hub()
+	else:
+		_open_campaign_map()
+	return true
+
+
+func _has_active_graph_gesture() -> bool:
+	return graph != null and (
+		not armed_component_template_key.is_empty()
+		or builtin_connection_drag_active
+		or graph.selection_dragging
+		or not graph.branch_candidate.is_empty()
+		or not graph.endpoint_candidate.is_empty()
+	)
 
 
 func _notification(what: int) -> void:
@@ -495,7 +574,7 @@ func _process(delta: float) -> void:
 
 func _build_theme() -> void:
 	var prototype_theme := Theme.new()
-	prototype_theme.default_font_size = 16
+	prototype_theme.default_font_size = UiTypographyType.BODY_SIZE
 	for control_type: String in ["Label", "Button", "CheckButton", "OptionButton", "GraphNode"]:
 		prototype_theme.set_color("font_color", control_type, TEXT)
 	prototype_theme.set_color("title_color", "GraphNode", TEXT)
@@ -575,9 +654,16 @@ func _build_interface() -> void:
 		var window_button := Button.new()
 		window_button.text = _t(StringName(data[1]))
 		window_button.tooltip_text = _t(&"hardware.window.show.tooltip")
-		window_button.pressed.connect(_show_desktop_window.bind(data[0]))
+		window_button.toggle_mode = true
+		window_button.custom_minimum_size.y = UiTypographyType.TOOL_BUTTON_HEIGHT
+		if StringName(data[0]) == &"task":
+			window_button.custom_minimum_size.x = 118.0
+		window_button.pressed.connect(_toggle_desktop_window.bind(data[0]))
 		desktop_window_buttons[data[0]] = window_button
 		footer.add_child(window_button)
+	var handbook_space := Control.new()
+	handbook_space.custom_minimum_size.x = 128.0
+	footer.add_child(handbook_space)
 	_create_level_completion_overlay()
 
 
@@ -624,6 +710,7 @@ func _make_desktop_window_content(id: StringName) -> Control:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.add_child(box)
 	if id == &"task":
 		task_box = box
@@ -639,7 +726,7 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 	window.name = "%sWindow" % String(id).to_pascal_case()
 	match id:
 		&"task":
-			window.custom_minimum_size = Vector2(300.0, 190.0)
+			window.custom_minimum_size = Vector2(360.0, 190.0)
 		&"components":
 			window.custom_minimum_size = Vector2(270.0, 220.0)
 		_:
@@ -648,6 +735,9 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 	window.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, border_color))
 	graph_stack.add_child(window)
 	window.setup(id, title_text)
+	if id == &"task":
+		window.set_custom_minimize_action(true)
+		window.minimize_requested.connect(_on_task_minimize_requested)
 	window.set_content(content)
 	window.z_index = 100
 	window.close_requested.connect(_close_desktop_window)
@@ -666,7 +756,7 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	var margin: float = clampf(minf(area.x, area.y) * 0.025, 12.0, 20.0)
 	var gap: float = clampf(margin * 0.75, 10.0, 16.0)
 	var usable_height: float = maxf(180.0, area.y - margin * 2.0)
-	var left_width: float = clampf(area.x * 0.25, 320.0, 420.0)
+	var left_width: float = clampf(area.x * 0.27, 360.0, 440.0)
 	var component_width: float = clampf(area.x * 0.19, 280.0, 340.0)
 	if reset_windows:
 		for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
@@ -725,13 +815,20 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 			minf(200.0, bench_available),
 			minf(420.0, bench_available)
 		)
-		task_window.position = Vector2(margin, margin)
-		task_window.size = Vector2(left_width, task_height)
-		bench_window.position = Vector2(margin, margin + task_height + gap)
+		bench_window.position = Vector2(margin, margin)
 		bench_window.size = Vector2(left_width, bench_height)
+		task_window.position = Vector2(margin, margin + bench_height + gap)
+		task_window.size = Vector2(left_width, task_height)
 	for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
 		window.fit_to_parent(margin)
+		var window_button: Button = desktop_window_buttons.get(window.instrument_id)
+		if window_button != null:
+			window_button.set_pressed_no_signal(window.visible)
 	_focus_desktop_window(&"task" if current_phase in [&"campaign", &"hint"] else &"test_bench")
+	if mission_briefing_active:
+		_layout_mission_briefing()
+	elif mission_compact:
+		_layout_compact_task_window()
 
 
 func _on_graph_stack_resized() -> void:
@@ -747,6 +844,288 @@ func _on_graph_stack_resized() -> void:
 		return
 	for window: FloatingInstrumentPanel in desktop_windows.values():
 		window.fit_to_parent(10.0)
+	if mission_briefing_active:
+		_layout_mission_briefing()
+	elif mission_compact:
+		_layout_compact_task_window()
+
+
+func _begin_mission_briefing() -> void:
+	if current_level_id.is_empty() or task_box == null:
+		return
+	_reset_mission_briefing()
+	mission_briefing_active = true
+	mission_briefing_page = 0
+	for child: Node in task_box.get_children():
+		if child is CanvasItem:
+			(child as CanvasItem).hide()
+	mission_briefing_panel = VBoxContainer.new()
+	mission_briefing_panel.name = "MissionBriefing"
+	mission_briefing_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	mission_briefing_panel.add_theme_constant_override("separation", 14)
+	task_box.add_child(mission_briefing_panel)
+	_show_mission_briefing_page()
+	var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
+	task_window.show_instrument()
+	task_window.set_minimized(false)
+	_layout_mission_briefing()
+	_focus_desktop_window(&"task")
+
+
+func _show_mission_briefing_page() -> void:
+	if not mission_briefing_active or mission_briefing_panel == null:
+		return
+	_clear_container(mission_briefing_panel)
+	var progress := Label.new()
+	progress.text = _t(&"hardware.briefing.progress", [mission_briefing_page + 1, 3])
+	progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	progress.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	progress.add_theme_color_override("font_color", ACCENT)
+	mission_briefing_panel.add_child(progress)
+	var heading := Label.new()
+	heading.text = _mission_briefing_stage_title(mission_briefing_page)
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	heading.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	heading.add_theme_color_override("font_color", PURPLE)
+	mission_briefing_panel.add_child(heading)
+	var body := Label.new()
+	body.name = "MissionBriefingBody"
+	body.text = _mission_briefing_body(mission_briefing_page)
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	body.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	body.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	body.add_theme_color_override("font_color", TEXT)
+	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	mission_briefing_panel.add_child(body)
+	if mission_briefing_page == 2:
+		var move_note := Label.new()
+		move_note.text = _t(&"hardware.briefing.move_note")
+		move_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		move_note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		move_note.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+		move_note.add_theme_color_override("font_color", MUTED)
+		mission_briefing_panel.add_child(move_note)
+	mission_briefing_previous_button = Button.new()
+	mission_briefing_previous_button.name = "MissionBriefingPrevious"
+	mission_briefing_previous_button.text = _t(&"hardware.briefing.previous")
+	mission_briefing_previous_button.disabled = mission_briefing_page == 0
+	mission_briefing_previous_button.custom_minimum_size = Vector2(104.0, UiTypographyType.CONTROL_HEIGHT)
+	mission_briefing_previous_button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
+	mission_briefing_previous_button.pressed.connect(_previous_mission_briefing)
+	mission_briefing_continue_button = Button.new()
+	mission_briefing_continue_button.name = "MissionBriefingContinue"
+	mission_briefing_continue_button.text = _t(
+		&"hardware.briefing.start" if mission_briefing_page == 2
+		else &"hardware.briefing.continue"
+	)
+	mission_briefing_continue_button.custom_minimum_size = Vector2(
+		UiTypographyType.CONTINUE_WIDTH,
+		UiTypographyType.CONTROL_HEIGHT
+	)
+	mission_briefing_continue_button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
+	mission_briefing_continue_button.pressed.connect(_advance_mission_briefing)
+	var navigation_center := CenterContainer.new()
+	var navigation_row := HBoxContainer.new()
+	navigation_row.add_theme_constant_override("separation", 12)
+	navigation_row.add_child(mission_briefing_previous_button)
+	navigation_row.add_child(mission_briefing_continue_button)
+	var navigation_balance := Control.new()
+	navigation_balance.custom_minimum_size.x = 104.0
+	navigation_row.add_child(navigation_balance)
+	navigation_center.add_child(navigation_row)
+	mission_briefing_panel.add_child(navigation_center)
+
+
+func _previous_mission_briefing() -> void:
+	if not mission_briefing_active or mission_briefing_page <= 0:
+		return
+	mission_briefing_page -= 1
+	_show_mission_briefing_page()
+
+
+func _advance_mission_briefing() -> void:
+	if not mission_briefing_active:
+		return
+	if mission_briefing_page < 2:
+		mission_briefing_page += 1
+		_show_mission_briefing_page()
+		return
+	_finish_mission_briefing()
+	_set_mission_compact(true)
+
+
+func _finish_mission_briefing() -> void:
+	if not mission_briefing_active:
+		return
+	mission_briefing_active = false
+	if mission_briefing_panel != null and is_instance_valid(mission_briefing_panel):
+		task_box.remove_child(mission_briefing_panel)
+		mission_briefing_panel.queue_free()
+	mission_briefing_panel = null
+	mission_briefing_continue_button = null
+	mission_briefing_previous_button = null
+	for child: Node in task_box.get_children():
+		if child is CanvasItem:
+			(child as CanvasItem).show()
+	_focus_desktop_window(&"task")
+
+
+func _reset_mission_briefing() -> void:
+	mission_briefing_active = false
+	mission_briefing_page = 0
+	mission_briefing_continue_button = null
+	mission_briefing_previous_button = null
+	mission_compact = false
+	mission_expanded_rect = Rect2()
+	if desktop_windows.has(&"task"):
+		(desktop_windows[&"task"] as FloatingInstrumentPanel).set_custom_minimized_state(false)
+	if mission_briefing_panel != null and is_instance_valid(mission_briefing_panel):
+		var parent: Node = mission_briefing_panel.get_parent()
+		if parent != null:
+			parent.remove_child(mission_briefing_panel)
+		mission_briefing_panel.queue_free()
+	mission_briefing_panel = null
+	if task_box != null:
+		for child: Node in task_box.get_children():
+			if child is CanvasItem:
+				(child as CanvasItem).show()
+
+
+func _layout_mission_briefing() -> void:
+	if not mission_briefing_active or graph_stack == null:
+		return
+	var area: Vector2 = graph_stack.size
+	if area.x <= 0.0 or area.y <= 0.0:
+		area = Vector2(1500.0, 650.0)
+	var margin: float = clampf(minf(area.x, area.y) * 0.025, 12.0, 20.0)
+	var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
+	var bench_window: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
+	var bench_size := Vector2(
+		clampf(area.x * 0.25, 360.0, 430.0),
+		clampf(area.y * 0.48, 280.0, 390.0)
+	)
+	bench_window.position = Vector2(margin, margin)
+	bench_window.size = bench_size
+	bench_window.fit_to_parent(margin)
+	if mission_compact:
+		_layout_compact_task_window(margin)
+		return
+	var briefing_size := Vector2(
+		clampf(area.x * 0.56, 640.0, 860.0),
+		clampf(area.y * 0.70, 430.0, 570.0)
+	)
+	task_window.size = briefing_size
+	task_window.position = (area - briefing_size) * 0.5
+	task_window.fit_to_parent(margin)
+
+
+func _on_task_minimize_requested(id: StringName) -> void:
+	if id != &"task":
+		return
+	_set_mission_compact(not mission_compact)
+	_focus_desktop_window(&"task")
+
+
+func _set_mission_compact(value: bool) -> void:
+	var task_window: FloatingInstrumentPanel = desktop_windows.get(&"task")
+	if task_window == null:
+		return
+	if mission_compact == value:
+		if mission_compact:
+			_layout_compact_task_window()
+		return
+	if value:
+		mission_expanded_rect = Rect2(task_window.position, task_window.size)
+		mission_compact = true
+		task_window.set_custom_minimized_state(true)
+		_layout_compact_task_window()
+		return
+	mission_compact = false
+	task_window.set_custom_minimized_state(false)
+	if mission_briefing_active:
+		_layout_mission_briefing()
+	elif mission_expanded_rect.size != Vector2.ZERO:
+		task_window.position = mission_expanded_rect.position
+		task_window.size = mission_expanded_rect.size
+		task_window.fit_to_parent(10.0)
+
+
+func _layout_compact_task_window(margin_override: float = -1.0) -> void:
+	if graph_stack == null or not desktop_windows.has(&"task"):
+		return
+	var area: Vector2 = graph_stack.size
+	if area.x <= 0.0 or area.y <= 0.0:
+		area = Vector2(1500.0, 650.0)
+	var margin: float = (
+		margin_override if margin_override >= 0.0
+		else clampf(minf(area.x, area.y) * 0.025, 12.0, 20.0)
+	)
+	var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
+	var bench_window: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
+	var available_height: float = maxf(1.0, area.y - margin * 2.0)
+	var compact_height := clampf(
+		area.y * 0.36,
+		minf(220.0, available_height),
+		minf(300.0, available_height)
+	)
+	var compact_width: float = maxf(
+		bench_window.size.x,
+		maxf(task_window.get_combined_minimum_size().x + 12.0, bench_window.get_combined_minimum_size().x)
+	)
+	if compact_width <= 0.0:
+		compact_width = clampf(area.x * 0.25, 360.0, 430.0)
+	task_window.size = Vector2(compact_width, compact_height)
+	task_window.fit_to_parent(margin)
+	compact_width = maxf(task_window.size.x, compact_width)
+	bench_window.size.x = compact_width
+	bench_window.fit_to_parent(margin)
+	compact_width = maxf(task_window.size.x, bench_window.size.x)
+	task_window.size.x = compact_width
+	bench_window.size.x = compact_width
+	task_window.position = Vector2(margin, area.y - margin - task_window.size.y)
+	task_window.fit_to_parent(margin)
+	bench_window.fit_to_parent(margin)
+
+
+func _mission_briefing_stage_title(page: int) -> String:
+	return _t([
+		&"hardware.briefing.stage.concept",
+		&"hardware.briefing.stage.goal",
+		&"hardware.briefing.stage.verify",
+	][page])
+
+
+func _mission_briefing_body(page: int) -> String:
+	match current_level_id:
+		&"tutorial":
+			return _t([
+				&"hardware.briefing.tutorial.1",
+				&"hardware.briefing.tutorial.2",
+				&"hardware.briefing.tutorial.3",
+			][page])
+		&"half_adder":
+			return _t([
+				&"hardware.briefing.half_adder.1",
+				&"hardware.briefing.half_adder.2",
+				&"hardware.briefing.half_adder.3",
+			][page])
+	if page == 0:
+		return _t(StringName(current_level_definition.get("description_key", &"hardware.hint.generic")))
+	if page == 1:
+		return _t(&"hardware.briefing.generic.goal")
+	return _t(&"hardware.briefing.generic.verify")
+
+
+func _toggle_desktop_window(id: StringName) -> void:
+	var window: FloatingInstrumentPanel = desktop_windows.get(id)
+	if window == null:
+		return
+	if window.visible:
+		_close_desktop_window(id)
+	else:
+		_show_desktop_window(id)
 
 
 func _show_desktop_window(id: StringName) -> void:
@@ -761,6 +1140,9 @@ func _show_desktop_window(id: StringName) -> void:
 	window.set_minimized(false)
 	window.fit_to_parent(10.0)
 	_focus_desktop_window(id)
+	var button: Button = desktop_window_buttons.get(id)
+	if button != null:
+		button.set_pressed_no_signal(true)
 
 
 func _close_desktop_window(id: StringName) -> void:
@@ -769,7 +1151,8 @@ func _close_desktop_window(id: StringName) -> void:
 		window.hide()
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
-		button.text = _t(&"common.open_named", [_desktop_window_name(id)])
+		button.text = _desktop_window_name(id)
+		button.set_pressed_no_signal(false)
 
 
 func _focus_desktop_window(id: StringName) -> void:
@@ -781,12 +1164,14 @@ func _focus_desktop_window(id: StringName) -> void:
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
 		button.text = _desktop_window_name(id)
+		button.set_pressed_no_signal(true)
 
 
-func _on_desktop_window_minimized(id: StringName, minimized: bool) -> void:
+func _on_desktop_window_minimized(id: StringName, _minimized: bool) -> void:
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
-		button.text = ("□ " if minimized else "") + _desktop_window_name(id)
+		button.text = _desktop_window_name(id)
+		button.set_pressed_no_signal(true)
 
 
 func _build_header() -> Control:
@@ -799,11 +1184,12 @@ func _build_header() -> Control:
 	row.add_child(title_box)
 	var title := Label.new()
 	title.text = _t(&"hardware.title")
-	title.add_theme_font_size_override("font_size", 25)
+	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	title.add_theme_color_override("font_color", ACCENT)
 	title_box.add_child(title)
 	var subtitle := Label.new()
 	subtitle.text = _t(&"hardware.subtitle")
+	subtitle.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	subtitle.add_theme_color_override("font_color", MUTED)
 	title_box.add_child(subtitle)
 	phase_label = Label.new()
@@ -1138,7 +1524,7 @@ func _reload_current_campaign_level() -> void:
 	var level_id: StringName = current_level_id
 	if level_id.is_empty():
 		return
-	_start_campaign_level(level_id)
+	_start_campaign_level(level_id, false)
 	status_label.text = _t(&"hardware.workbench.loaded", [active_workbench_name])
 	status_label.add_theme_color_override("font_color", GOOD)
 
@@ -1374,11 +1760,18 @@ func _half_adder_reference_wires() -> Array[Dictionary]:
 func _hint_partial_wires() -> Array[Dictionary]:
 	match current_level_id:
 		&"tutorial":
-			return _normalized_wire_list(_tutorial_reference_wires())
+			return _normalized_wire_list([_tutorial_reference_wires()[0]])
 		&"half_adder":
 			var answer: Array[Dictionary] = _half_adder_reference_wires()
-			return _normalized_wire_list(answer.slice(0, 8))
-	return _normalized_wire_list(current_level_definition.get("hint_partial_wires", []))
+			return _normalized_wire_list(answer.slice(8, 11))
+	var authored: Array[Dictionary] = _normalized_wire_list(
+		current_level_definition.get("hint_partial_wires", [])
+	)
+	if authored.is_empty():
+		return authored
+	var reference_count: int = maxi(1, workbench_answer_wires.size())
+	var reveal_limit: int = clampi(ceili(reference_count * 0.4), 1, authored.size())
+	return authored.slice(0, reveal_limit)
 
 
 func _refresh_hint_controls() -> void:
@@ -1434,6 +1827,7 @@ func _on_hint_button_pressed() -> void:
 func _enter_hint_workbench() -> void:
 	if current_level_id.is_empty() or current_phase not in [&"tutorial", &"half_adder", &"prologue"]:
 		return
+	_finish_mission_briefing()
 	_save_active_workbench()
 	hint_return_level_id = current_level_id
 	hint_mode = true
@@ -1567,12 +1961,13 @@ func _exit_hint_workbench() -> void:
 	hint_mode = false
 	hint_level = 0
 	hint_return_level_id = &""
-	_start_campaign_level(return_level)
+	_start_campaign_level(return_level, false)
 	status_label.text = _t(&"hardware.hint.returned", [active_workbench_name])
 	status_label.add_theme_color_override("font_color", GOOD)
 
 
-func _show_tutorial() -> void:
+func _show_tutorial(show_briefing: bool = true) -> void:
+	_reset_mission_briefing()
 	_dismiss_level_completion()
 	_stop_playback()
 	current_phase = &"tutorial"
@@ -1595,13 +1990,16 @@ func _show_tutorial() -> void:
 	_refresh_hint_controls()
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
+	if show_briefing:
+		_begin_mission_briefing()
 
 
-func _start_challenge() -> void:
+func _start_challenge(show_briefing: bool = true) -> void:
 	if not _is_level_unlocked(&"half_adder"):
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	_reset_mission_briefing()
 	_dismiss_level_completion()
 	_stop_playback()
 	current_phase = &"half_adder"
@@ -1625,6 +2023,8 @@ func _start_challenge() -> void:
 	_refresh_hint_controls()
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
+	if show_briefing:
+		_begin_mission_briefing()
 
 
 func _build_tutorial_circuit() -> void:
@@ -2350,6 +2750,13 @@ func _build_half_adder_side() -> void:
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
 	side_box.add_child(official_button)
+	var truth_table_note := Label.new()
+	truth_table_note.name = "TruthTableDefinition"
+	truth_table_note.text = _t(&"hardware.cases.truth_table_definition")
+	truth_table_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	truth_table_note.add_theme_font_size_override("font_size", 13)
+	truth_table_note.add_theme_color_override("font_color", ACCENT)
+	side_box.add_child(truth_table_note)
 	_build_official_case_rows()
 	_layout_desktop_windows()
 
@@ -2397,6 +2804,12 @@ func _build_sealed_side() -> void:
 
 
 func _build_input_controls() -> void:
+	var signal_note := Label.new()
+	signal_note.text = _t(&"hardware.test_bench.signal.placeholder")
+	signal_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	signal_note.add_theme_font_size_override("font_size", 12)
+	signal_note.add_theme_color_override("font_color", MUTED)
+	side_box.add_child(signal_note)
 	var input_row := HBoxContainer.new()
 	side_box.add_child(input_row)
 	input_a_button = CheckButton.new()
@@ -2981,7 +3394,7 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 	var editor_action: bool = (
 		(key_event.ctrl_pressed or key_event.meta_pressed)
 		and key_event.keycode in [KEY_Z, KEY_Y, KEY_A, KEY_X, KEY_C, KEY_V, KEY_F, KEY_E, KEY_R]
-	) or key_event.keycode in [KEY_ESCAPE, KEY_F4, KEY_F5, KEY_F6] \
+	) or key_event.keycode in [KEY_F4, KEY_F5, KEY_F6] \
 		or (key_event.keycode >= KEY_1 and key_event.keycode <= KEY_9)
 	if editor_action:
 		_cancel_component_placement(false)
@@ -3024,9 +3437,6 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 		_set_active_wire_color(int(key_event.keycode - KEY_1))
 		return true
 	match key_event.keycode:
-		KEY_ESCAPE:
-			_cancel_connection_drag()
-			return true
 		KEY_F4:
 			_reset_current_simulation()
 			return true
@@ -4348,9 +4758,18 @@ func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
 
 func _update_input_button_text() -> void:
 	if input_a_button != null:
-		input_a_button.text = "A = %d" % int(input_a_button.button_pressed)
+		_update_signal_toggle_placeholder(input_a_button, "A")
 	if input_b_button != null:
-		input_b_button.text = "B = %d" % int(input_b_button.button_pressed)
+		_update_signal_toggle_placeholder(input_b_button, "B")
+
+
+func _update_signal_toggle_placeholder(toggle: CheckButton, signal_name: String) -> void:
+	var high: bool = toggle.button_pressed
+	toggle.text = "%s   %s %d" % [signal_name, "◆" if high else "●", int(high)]
+	var color: Color = SIGNAL_HIGH if high else SIGNAL_LOW
+	for color_name: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		toggle.add_theme_color_override(color_name, color)
+	toggle.tooltip_text = _t(&"hardware.test_bench.signal.tooltip", [signal_name, int(high)])
 
 
 func _run_debug() -> void:
@@ -4719,6 +5138,7 @@ func _open_campaign_map() -> void:
 	hint_mode = false
 	hint_level = 0
 	hint_return_level_id = &""
+	_reset_mission_briefing()
 	current_phase = &"campaign"
 	current_level_id = &""
 	current_level_definition.clear()
@@ -4886,28 +5306,29 @@ func _level_display_name(level_id: StringName) -> String:
 	return _t(level_catalog.title_key(level_id))
 
 
-func _start_campaign_level(level_id: StringName) -> void:
+func _start_campaign_level(level_id: StringName, show_briefing: bool = true) -> void:
 	if not _is_level_unlocked(level_id):
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return
 	match level_catalog.entry_kind(level_id):
 		&"tutorial":
-			_show_tutorial()
+			_show_tutorial(show_briefing)
 		&"half_adder":
-			_start_challenge()
+			_start_challenge(show_briefing)
 		&"circuit":
-			_start_prologue_level(level_id)
+			_start_prologue_level(level_id, show_briefing)
 		_:
 			status_label.text = _t(&"hardware.prologue.map.missing", [level_id])
 			status_label.add_theme_color_override("font_color", BAD)
 
 
-func _start_prologue_level(level_id: StringName) -> void:
+func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> void:
 	if not _is_level_unlocked(level_id):
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	_reset_mission_briefing()
 	_dismiss_level_completion()
 	var level: Dictionary = level_catalog.definition(level_id, component_library)
 	if level.is_empty() or not bool(level.get("available", false)):
@@ -4949,6 +5370,8 @@ func _start_prologue_level(level_id: StringName) -> void:
 	_refresh_hint_controls()
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
+	if show_briefing:
+		_begin_mission_briefing()
 
 
 func _load_prologue_inventory(level: Dictionary) -> void:
@@ -5133,6 +5556,12 @@ func _observed_value_text(result: PrologueSimulationResult, signal_name: StringN
 
 func _build_prologue_input_controls() -> void:
 	prologue_input_controls.clear()
+	var signal_note := Label.new()
+	signal_note.text = _t(&"hardware.test_bench.signal.placeholder_general")
+	signal_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	signal_note.add_theme_font_size_override("font_size", 12)
+	signal_note.add_theme_color_override("font_color", MUTED)
+	side_box.add_child(signal_note)
 	var defaults: Dictionary = current_level_definition.get("debug_inputs", {})
 	var inputs: Array[LogicComponent] = []
 	for component: LogicComponent in current_level_definition.get("components", []):
@@ -5147,7 +5576,7 @@ func _build_prologue_input_controls() -> void:
 		if component.output_width(0) == 1:
 			var toggle := CheckButton.new()
 			toggle.button_pressed = bool(defaults.get(component.signal_name, 0))
-			toggle.text = str(int(toggle.button_pressed))
+			_update_signal_toggle_placeholder(toggle, String(component.signal_name))
 			toggle.toggled.connect(_on_prologue_toggle_changed.bind(component.signal_name, toggle))
 			row.add_child(toggle)
 			prologue_input_controls[component.signal_name] = toggle
@@ -5222,8 +5651,8 @@ func _storage_initial_state_text() -> String:
 	return _t(&"hardware.storage.state.unknown")
 
 
-func _on_prologue_toggle_changed(pressed: bool, _name: StringName, control: CheckButton) -> void:
-	control.text = str(int(pressed))
+func _on_prologue_toggle_changed(_pressed: bool, signal_name: StringName, control: CheckButton) -> void:
+	_update_signal_toggle_placeholder(control, String(signal_name))
 	_on_prologue_input_changed()
 
 

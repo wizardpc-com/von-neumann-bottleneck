@@ -19,6 +19,7 @@ const LOCALIZED_SOURCE_FILES := [
 	"res://src/ui/floating_instrument_panel.gd",
 	"res://src/ui/trace_overlay.gd",
 	"res://src/ui/main.gd",
+	"res://src/ui/terminology_handbook.gd",
 	"res://src/hardware_foundations/hardware_foundations.gd",
 	"res://src/hardware_foundations/prologue_level_catalog.gd",
 	"res://src/simulation/dsl_parser.gd",
@@ -43,6 +44,8 @@ func _init() -> void:
 func _run() -> void:
 	_assert(_current_locale() == "zh_CN", "Simplified Chinese must be the startup locale.")
 	_assert(_t(&"hub.subtitle") == "可玩研究原型", "The default catalog must present Chinese player-facing copy.")
+	_assert(_t(&"hub.options.quit") == "退出游戏", "The chapter Options menu must provide a localized quit action.")
+	_assert(_t(&"terminology.button") == "手册", "The Chinese bottom-right handbook entry must use the concise shared tool-button label.")
 	_assert(_t(&"hub.locality.title") == "第 2 章：让数据留在近处", "The hub must present the locality campaign as the formal second chapter.")
 	_assert("v0.2" not in _t(&"hub.locality.eyebrow") and "v0.2" not in _t(&"hub.locality.open"), "The formal Chapter 2 hub card must not retain legacy-prototype identity copy.")
 	_assert(_t(&"trace.playback.next_evidence") == "下一关键证据" and _t(&"trace.playback.finish_now") == "结束播放", "The Chinese Trace controls must name evidence navigation rather than simulation mutation.")
@@ -71,6 +74,8 @@ func _run() -> void:
 		for key: StringName in used_keys:
 			_assert(_t(key) != String(key), "%s catalog is missing key %s." % [locale, key])
 	_assert(_t(&"hub.subtitle") == "PLAYABLE RESEARCH BUILDS", "English must remain a working alternate catalog.")
+	_assert(_t(&"hub.options.quit") == "Quit Game", "English must localize the chapter Options quit action.")
+	_assert(_t(&"terminology.button") == "Handbook", "The English bottom-right handbook entry must use the concise shared tool-button label.")
 	_assert(_t(&"hub.locality.title") == "CHAPTER 2: REDUCING DATA MOVEMENT", "The English hub must present the formal Chapter 2 identity.")
 	_assert("v0.2" not in _t(&"hub.locality.eyebrow") and "v0.2" not in _t(&"hub.locality.open"), "The English Chapter 2 hub card must not regress to legacy-prototype identity copy.")
 	_assert(_t(&"trace.playback.next_evidence") == "Next evidence" and _t(&"trace.playback.finish_now") == "Finish Trace", "The English Trace controls must preserve their evidence-navigation semantics.")

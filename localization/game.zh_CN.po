@@ -4168,3 +4168,132 @@ msgstr "数据请求（Data Request）"
 
 msgid "terminology.term.data_request.body"
 msgstr "CPU 为读取或写入一个地址而发起的系统操作。请求可能在 Cache 命中，也可能经过 Bus 前往 RAM。"
+
+msgid "terminology.example.title"
+msgstr "看一个具体例子"
+
+msgid "terminology.term.multiplexer.example"
+msgstr "假设四路输入分别是 D0=3、D1=7、D2=12、D3=1。选择信号 OP=10（二进制的 2）时，MUX 只把 D2 的 12 送到输出；其他三路即使有值，也不会通过。可以把它想成由 OP 控制的四选一岔道。"
+
+msgid "terminology.term.alu.example"
+msgstr "令 A=6、B=3。OP 选择 ADD 时，输出是 9；选择 AND 时，二进制 0110 AND 0011 得到 0010，也就是 2。同一组输入不变，只换 OP，ALU 就会改做另一种运算。"
+
+msgid "terminology.term.sr_latch.example"
+msgstr "先给 S=1、R=0，Q 被设成 1。随后把 S 和 R 都改回 0，Q 仍保持 1，这就是“记住”。再给 S=0、R=1，Q 才被清成 0。NOR 型 SR 锁存器不要让 S 和 R 同时为 1。"
+
+msgid "terminology.term.decoder.example"
+msgstr "一个 2 位地址能表示 00、01、10、11。输入 ADDR=01 时，四根选择线中只有 W1=1，其余为 0。若这四根线连接四个寄存器的 LOAD 端，就只有 1 号寄存器会写入新数据。"
+
+msgid "terminology.term.bus.example"
+msgstr "要传送 8 位数据 10100101：Bus8 一次就能送完；Bus2 每次只能送 2 位，需要依次发送 10、10、01、01，共四个传输阶段。位宽越窄，同一份数据占用通道的时间通常越长。"
+
+msgid "terminology.term.accumulator.example"
+msgstr "假设 ACC 原来是 3。执行 ADD_IMM 2 时，控制器让 ALU 读取 ACC=3 和立即数 2，算出 5，再把 5 写回 ACC。下一条 ADD_IMM 4 读到的已经是 ACC=5，所以最后得到 9。ACC 就这样把上一次结果带进下一次计算。"
+
+msgid "terminology.term.serialization.example"
+msgstr "8 位数据 10100101 经过 Bus2 时，必须拆成四段连续发送。任何一段还没到达，接收方都不能把整字节当成完整结果使用；这四段排队通过，就是串行化带来的额外等待。"
+
+msgid "terminology.term.cpu_wait.example"
+msgstr "第 0 个周期，CPU 请求从 RAM 读取数据。RAM 和 Bus 用接下来的 12 个周期处理并传回数据；这段时间 CPU 没有拿到操作数，只能显示 WAIT。第 13 个周期数据返回后，CPU 才能继续下一次计算。"
+
+msgid "terminology.term.bottleneck.example"
+msgstr "假设一次工作中 CPU 需要 2 cycles、Bus 需要 4 cycles、RAM 需要 12 cycles。把 CPU 从 2 加快到 1 只能省 1 cycle；把 RAM 从 12 降到 4 才能省 8 cycles。此时 RAM 才是主要瓶颈。"
+
+msgid "terminology.term.cache.example"
+msgstr "CPU 第一次读取地址 2 时，Cache 里没有对应数据，于是发生 Miss，并从 RAM 取回包含地址 0～3 的整条 cache line。紧接着读取地址 3 时，数据已经在这条 line 中，因此直接 Hit，不必再次访问 RAM。"
+
+msgid "terminology.term.working_set.example"
+msgstr "某个阶段反复使用 line 0、1、2、3，这四条 line 合起来就是该阶段的工作集。如果 Cache 只有 1 个槽位，装入下一条时就会挤掉上一条；第二轮再访问时，四条数据可能又全部 Miss。"
+
+msgid "terminology.term.blocking.example"
+msgstr "原顺序先对 line 0、1 做第 1 遍，再回来做第 2 遍；容量很小的 Cache 可能早已把 line 0 挤走。分块后先把 line 0 的两遍都做完，再处理 line 1，第二遍更可能直接 Hit。计算内容没变，只调整了顺序。"
+
+msgid "terminology.diagram.accumulator.original"
+msgstr "读取原值"
+
+msgid "terminology.diagram.accumulator.operation"
+msgstr "ALU 执行 ADD 2"
+
+msgid "terminology.diagram.accumulator.write_back"
+msgstr "结果写回"
+
+msgid "terminology.diagram.accumulator.reuse"
+msgstr "下一条指令再读取"
+
+msgid "terminology.diagram.multiplexer.select"
+msgstr "从四路中选一路"
+
+msgid "terminology.diagram.multiplexer.output"
+msgstr "输出"
+
+msgid "terminology.diagram.alu.selected"
+msgstr "按 OP 选择运算"
+
+msgid "terminology.diagram.alu.result"
+msgstr "RESULT"
+
+msgid "terminology.diagram.sr_latch.set_path"
+msgstr "置位通路"
+
+msgid "terminology.diagram.sr_latch.reset_path"
+msgstr "复位通路"
+
+msgid "terminology.diagram.decoder.name"
+msgstr "2→4 译码器"
+
+msgid "terminology.diagram.decoder.address"
+msgstr "两位地址"
+
+msgid "terminology.diagram.serialization.value"
+msgstr "同一个 8 位值：10100101"
+
+msgid "terminology.diagram.serialization.bus8"
+msgstr "Bus8：1 段"
+
+msgid "terminology.diagram.serialization.bus2"
+msgstr "Bus2：4 段"
+
+msgid "terminology.diagram.cpu_wait.waiting"
+msgstr "CPU WAIT：等待数据返回"
+
+msgid "terminology.diagram.cpu_wait.request"
+msgstr "发出请求"
+
+msgid "terminology.diagram.cpu_wait.return"
+msgstr "数据返回"
+
+msgid "terminology.diagram.bottleneck.slowest"
+msgstr "最长的一段限制了整体速度"
+
+msgid "terminology.diagram.cache.load"
+msgstr "读取地址 3"
+
+msgid "terminology.diagram.cache.line"
+msgstr "已有 line 0～3"
+
+msgid "terminology.diagram.cache.memory"
+msgstr "较慢的远端存储"
+
+msgid "terminology.diagram.cache.hit"
+msgstr "Hit：直接返回"
+
+msgid "terminology.diagram.cache.miss"
+msgstr "Miss 时才去 RAM"
+
+msgid "terminology.diagram.working_set.phase"
+msgstr "这一阶段反复需要 4 条 line"
+
+msgid "terminology.diagram.working_set.needed"
+msgstr "频繁使用"
+
+msgid "terminology.diagram.working_set.cache"
+msgstr "CACHE 容量"
+
+msgid "terminology.diagram.working_set.one_slot"
+msgstr "只有 1 个槽位"
+
+msgid "terminology.diagram.blocking.before"
+msgstr "原顺序：两条数据来回换"
+
+msgid "terminology.diagram.blocking.after"
+msgstr "分块后：先完成一条"

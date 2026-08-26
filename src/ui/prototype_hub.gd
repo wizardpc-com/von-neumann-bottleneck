@@ -39,7 +39,7 @@ func _ready() -> void:
 	if "--capture-options" in arguments:
 		call_deferred("_open_options_menu")
 	elif "--capture-terminology" in arguments:
-		terminology_handbook.call_deferred("open_handbook", &"truth_table")
+		terminology_handbook.call_deferred("open_handbook", &"accumulator")
 	elif "--capture-hardware" in arguments:
 		get_tree().call_deferred("change_scene_to_file", "res://src/hardware_foundations/hardware_foundations.tscn")
 	elif "--capture-system" in arguments or "--capture-system-run" in arguments or "--capture-system-map" in arguments:

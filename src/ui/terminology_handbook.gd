@@ -2,6 +2,7 @@ class_name TerminologyHandbook
 extends Control
 
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
+const TerminologyDiagramType = preload("res://src/ui/terminology_diagram.gd")
 
 const BACKDROP := Color(0.015, 0.027, 0.055, 0.88)
 const PANEL := Color("111b2c")
@@ -71,20 +72,20 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"carry", "category": &"hardware", "title": &"terminology.term.carry.title", "body": &"terminology.term.carry.body"},
 	{"id": &"full_adder", "category": &"hardware", "title": &"terminology.term.full_adder.title", "body": &"terminology.term.full_adder.body"},
 	{"id": &"cin_cout", "category": &"hardware", "title": &"terminology.term.cin_cout.title", "body": &"terminology.term.cin_cout.body"},
-	{"id": &"multiplexer", "category": &"hardware", "title": &"terminology.term.multiplexer.title", "body": &"terminology.term.multiplexer.body"},
-	{"id": &"alu", "category": &"hardware", "title": &"terminology.term.alu.title", "body": &"terminology.term.alu.body"},
+	{"id": &"multiplexer", "category": &"hardware", "title": &"terminology.term.multiplexer.title", "body": &"terminology.term.multiplexer.body", "example": &"terminology.term.multiplexer.example", "diagram": &"multiplexer"},
+	{"id": &"alu", "category": &"hardware", "title": &"terminology.term.alu.title", "body": &"terminology.term.alu.body", "example": &"terminology.term.alu.example", "diagram": &"alu"},
 	{"id": &"opcode", "category": &"hardware", "title": &"terminology.term.opcode.title", "body": &"terminology.term.opcode.body"},
 	{"id": &"latch", "category": &"hardware", "title": &"terminology.term.latch.title", "body": &"terminology.term.latch.body"},
-	{"id": &"sr_latch", "category": &"hardware", "title": &"terminology.term.sr_latch.title", "body": &"terminology.term.sr_latch.body"},
+	{"id": &"sr_latch", "category": &"hardware", "title": &"terminology.term.sr_latch.title", "body": &"terminology.term.sr_latch.body", "example": &"terminology.term.sr_latch.example", "diagram": &"sr_latch"},
 	{"id": &"set_reset", "category": &"hardware", "title": &"terminology.term.set_reset.title", "body": &"terminology.term.set_reset.body"},
 	{"id": &"d_q", "category": &"hardware", "title": &"terminology.term.d_q.title", "body": &"terminology.term.d_q.body"},
 	{"id": &"register", "category": &"hardware", "title": &"terminology.term.register.title", "body": &"terminology.term.register.body"},
-	{"id": &"decoder", "category": &"hardware", "title": &"terminology.term.decoder.title", "body": &"terminology.term.decoder.body"},
+	{"id": &"decoder", "category": &"hardware", "title": &"terminology.term.decoder.title", "body": &"terminology.term.decoder.body", "example": &"terminology.term.decoder.example", "diagram": &"decoder"},
 	{"id": &"address_write", "category": &"hardware", "title": &"terminology.term.address_write.title", "body": &"terminology.term.address_write.body"},
 	{"id": &"ram", "category": &"hardware", "title": &"terminology.term.ram.title", "body": &"terminology.term.ram.body"},
 	{"id": &"cpu", "category": &"hardware", "title": &"terminology.term.cpu.title", "body": &"terminology.term.cpu.body"},
-	{"id": &"bus", "category": &"hardware", "title": &"terminology.term.bus.title", "body": &"terminology.term.bus.body"},
-	{"id": &"accumulator", "category": &"hardware", "title": &"terminology.term.accumulator.title", "body": &"terminology.term.accumulator.body"},
+	{"id": &"bus", "category": &"hardware", "title": &"terminology.term.bus.title", "body": &"terminology.term.bus.body", "example": &"terminology.term.bus.example", "diagram": &"serialization"},
+	{"id": &"accumulator", "category": &"hardware", "title": &"terminology.term.accumulator.title", "body": &"terminology.term.accumulator.body", "example": &"terminology.term.accumulator.example", "diagram": &"accumulator"},
 	{"id": &"controller", "category": &"hardware", "title": &"terminology.term.controller.title", "body": &"terminology.term.controller.body"},
 	{"id": &"data_path", "category": &"hardware", "title": &"terminology.term.data_path.title", "body": &"terminology.term.data_path.body"},
 	{"id": &"load", "category": &"hardware", "title": &"terminology.term.load.title", "body": &"terminology.term.load.body"},
@@ -100,18 +101,18 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"latency", "category": &"system", "title": &"terminology.term.latency.title", "body": &"terminology.term.latency.body"},
 	{"id": &"bandwidth", "category": &"system", "title": &"terminology.term.bandwidth.title", "body": &"terminology.term.bandwidth.body"},
 	{"id": &"throughput", "category": &"system", "title": &"terminology.term.throughput.title", "body": &"terminology.term.throughput.body"},
-	{"id": &"serialization", "category": &"system", "title": &"terminology.term.serialization.title", "body": &"terminology.term.serialization.body"},
-	{"id": &"cpu_wait", "category": &"system", "title": &"terminology.term.cpu_wait.title", "body": &"terminology.term.cpu_wait.body"},
+	{"id": &"serialization", "category": &"system", "title": &"terminology.term.serialization.title", "body": &"terminology.term.serialization.body", "example": &"terminology.term.serialization.example", "diagram": &"serialization"},
+	{"id": &"cpu_wait", "category": &"system", "title": &"terminology.term.cpu_wait.title", "body": &"terminology.term.cpu_wait.body", "example": &"terminology.term.cpu_wait.example", "diagram": &"cpu_wait"},
 	{"id": &"profiler", "category": &"system", "title": &"terminology.term.profiler.title", "body": &"terminology.term.profiler.body"},
 	{"id": &"prediction", "category": &"system", "title": &"terminology.term.prediction.title", "body": &"terminology.term.prediction.body"},
 	{"id": &"baseline", "category": &"system", "title": &"terminology.term.baseline.title", "body": &"terminology.term.baseline.body"},
 	{"id": &"controlled_change", "category": &"system", "title": &"terminology.term.controlled_change.title", "body": &"terminology.term.controlled_change.body"},
-	{"id": &"bottleneck", "category": &"system", "title": &"terminology.term.bottleneck.title", "body": &"terminology.term.bottleneck.body"},
+	{"id": &"bottleneck", "category": &"system", "title": &"terminology.term.bottleneck.title", "body": &"terminology.term.bottleneck.body", "example": &"terminology.term.bottleneck.example", "diagram": &"bottleneck"},
 	{"id": &"hardware_cost", "category": &"system", "title": &"terminology.term.hardware_cost.title", "body": &"terminology.term.hardware_cost.body"},
 	{"id": &"before_after", "category": &"system", "title": &"terminology.term.before_after.title", "body": &"terminology.term.before_after.body"},
 	{"id": &"deterministic", "category": &"system", "title": &"terminology.term.deterministic.title", "body": &"terminology.term.deterministic.body"},
 
-	{"id": &"cache", "category": &"locality", "title": &"terminology.term.cache.title", "body": &"terminology.term.cache.body"},
+	{"id": &"cache", "category": &"locality", "title": &"terminology.term.cache.title", "body": &"terminology.term.cache.body", "example": &"terminology.term.cache.example", "diagram": &"cache"},
 	{"id": &"cache_line", "category": &"locality", "title": &"terminology.term.cache_line.title", "body": &"terminology.term.cache_line.body"},
 	{"id": &"hit", "category": &"locality", "title": &"terminology.term.hit.title", "body": &"terminology.term.hit.body"},
 	{"id": &"miss", "category": &"locality", "title": &"terminology.term.miss.title", "body": &"terminology.term.miss.body"},
@@ -123,10 +124,10 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"access_order", "category": &"locality", "title": &"terminology.term.access_order.title", "body": &"terminology.term.access_order.body"},
 	{"id": &"row_first", "category": &"locality", "title": &"terminology.term.row_first.title", "body": &"terminology.term.row_first.body"},
 	{"id": &"column_first", "category": &"locality", "title": &"terminology.term.column_first.title", "body": &"terminology.term.column_first.body"},
-	{"id": &"working_set", "category": &"locality", "title": &"terminology.term.working_set.title", "body": &"terminology.term.working_set.body"},
+	{"id": &"working_set", "category": &"locality", "title": &"terminology.term.working_set.title", "body": &"terminology.term.working_set.body", "example": &"terminology.term.working_set.example", "diagram": &"working_set"},
 	{"id": &"pass", "category": &"locality", "title": &"terminology.term.pass.title", "body": &"terminology.term.pass.body"},
 	{"id": &"work_group", "category": &"locality", "title": &"terminology.term.work_group.title", "body": &"terminology.term.work_group.body"},
-	{"id": &"blocking", "category": &"locality", "title": &"terminology.term.blocking.title", "body": &"terminology.term.blocking.body"},
+	{"id": &"blocking", "category": &"locality", "title": &"terminology.term.blocking.title", "body": &"terminology.term.blocking.body", "example": &"terminology.term.blocking.example", "diagram": &"blocking"},
 	{"id": &"tiling", "category": &"locality", "title": &"terminology.term.tiling.title", "body": &"terminology.term.tiling.body"},
 	{"id": &"data_request", "category": &"locality", "title": &"terminology.term.data_request.title", "body": &"terminology.term.data_request.body"},
 ]
@@ -142,6 +143,10 @@ var result_count_label: Label
 var detail_category_label: Label
 var detail_title_label: Label
 var detail_body_label: RichTextLabel
+var detail_scroll_container: ScrollContainer
+var detail_diagram: TerminologyDiagramType
+var detail_example_heading_label: Label
+var detail_example_label: RichTextLabel
 var footer_label: Label
 var close_button: Button
 var visible_term_ids: Array[StringName] = []
@@ -302,8 +307,15 @@ func _build_interface() -> void:
 	detail_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	detail_panel.add_theme_stylebox_override("panel", _stylebox(PANEL_DARK, 10, 1, Color("263750"), 22.0))
 	content_row.add_child(detail_panel)
+	detail_scroll_container = ScrollContainer.new()
+	detail_scroll_container.name = "TerminologyDetailScroll"
+	detail_scroll_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail_scroll_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	detail_scroll_container.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	detail_panel.add_child(detail_scroll_container)
 	var detail_box := VBoxContainer.new()
-	detail_panel.add_child(detail_box)
+	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail_scroll_container.add_child(detail_box)
 	detail_category_label = Label.new()
 	detail_category_label.add_theme_color_override("font_color", GOOD)
 	detail_box.add_child(detail_category_label)
@@ -316,13 +328,29 @@ func _build_interface() -> void:
 	detail_body_label = RichTextLabel.new()
 	detail_body_label.name = "TerminologyDefinition"
 	detail_body_label.bbcode_enabled = false
-	detail_body_label.fit_content = false
-	detail_body_label.scroll_active = true
+	detail_body_label.fit_content = true
+	detail_body_label.scroll_active = false
 	detail_body_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	detail_body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	detail_body_label.add_theme_font_size_override("normal_font_size", UiTypographyType.BODY_SIZE)
 	detail_body_label.add_theme_color_override("default_color", TEXT)
 	detail_box.add_child(detail_body_label)
+	detail_diagram = TerminologyDiagramType.new()
+	detail_diagram.name = "TerminologyDiagram"
+	detail_diagram.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail_box.add_child(detail_diagram)
+	detail_example_heading_label = Label.new()
+	detail_example_heading_label.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	detail_example_heading_label.add_theme_color_override("font_color", GOOD)
+	detail_box.add_child(detail_example_heading_label)
+	detail_example_label = RichTextLabel.new()
+	detail_example_label.name = "TerminologyExample"
+	detail_example_label.bbcode_enabled = false
+	detail_example_label.fit_content = true
+	detail_example_label.scroll_active = false
+	detail_example_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail_example_label.add_theme_font_size_override("normal_font_size", UiTypographyType.BODY_SIZE)
+	detail_example_label.add_theme_color_override("default_color", TEXT)
+	detail_box.add_child(detail_example_label)
 
 	footer_label = Label.new()
 	footer_label.add_theme_color_override("font_color", MUTED)
@@ -338,6 +366,7 @@ func _refresh_localized_copy() -> void:
 	close_button.text = _t(&"terminology.close")
 	search_edit.placeholder_text = _t(&"terminology.search.placeholder")
 	footer_label.text = _t(&"terminology.footer")
+	detail_example_heading_label.text = _t(&"terminology.example.title")
 	var selected_category: StringName = _selected_category()
 	category_selector.clear()
 	category_selector.add_item(_t(&"terminology.category.all"))
@@ -421,9 +450,12 @@ func _term_matches(term: Dictionary, query: String) -> bool:
 	if query.is_empty():
 		return true
 	var directory_name: String = _directory_name_for_term(term["id"])
-	var haystack := "%s\n%s\n%s\n%s\n%s" % [
+	var example_key := StringName(term.get("example", &""))
+	var example_text: String = "" if example_key.is_empty() else _t(example_key)
+	var haystack := "%s\n%s\n%s\n%s\n%s\n%s" % [
 		_t(term["title"]),
 		_t(term["body"]),
+		example_text,
 		_category_name(term["category"]),
 		directory_name,
 		String(term["id"]),
@@ -464,7 +496,13 @@ func _show_term(term_id: StringName) -> void:
 		detail_category_label.text = category_name if directory_name.is_empty() else "%s  ·  %s" % [category_name, directory_name]
 		detail_title_label.text = _t(term["title"])
 		detail_body_label.text = _t(term["body"])
-		detail_body_label.scroll_to_line(0)
+		var example_key := StringName(term.get("example", &""))
+		var has_example: bool = not example_key.is_empty()
+		detail_example_heading_label.visible = has_example
+		detail_example_label.visible = has_example
+		detail_example_label.text = _t(example_key) if has_example else ""
+		detail_diagram.set_diagram(StringName(term.get("diagram", &"")))
+		detail_scroll_container.scroll_vertical = 0
 		return
 	_show_empty_detail()
 
@@ -473,6 +511,9 @@ func _show_empty_detail() -> void:
 	detail_category_label.text = ""
 	detail_title_label.text = _t(&"terminology.empty.title")
 	detail_body_label.text = _t(&"terminology.empty.body")
+	detail_diagram.set_diagram(&"")
+	detail_example_heading_label.hide()
+	detail_example_label.hide()
 
 
 func _selected_category() -> StringName:

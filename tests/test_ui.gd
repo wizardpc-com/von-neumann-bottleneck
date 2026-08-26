@@ -63,6 +63,31 @@ func _run() -> void:
 	await process_frame
 	_assert((terminology_handbook.get("visible_term_ids") as Array).size() == 1, "Terminology search must narrow the handbook to the matching concept while retaining its directory path.")
 	_assert("00" in (terminology_handbook.get("detail_body_label") as RichTextLabel).text, "The truth-table entry must immediately define its four two-input rows for a new player.")
+	terminology_search.clear()
+	terminology_handbook.call("_refresh_terms", &"accumulator")
+	await process_frame
+	var terminology_diagram: Control = terminology_handbook.get("detail_diagram")
+	var terminology_example: RichTextLabel = terminology_handbook.get("detail_example_label")
+	_assert(
+		terminology_diagram.visible
+		and StringName(terminology_diagram.get("diagram_id")) == &"accumulator"
+		and "ADD_IMM 2" in terminology_example.text
+		and "ACC=5" in terminology_example.text,
+		"Difficult Handbook entries must pair their definition with a concrete worked example and the matching in-game diagram."
+	)
+	for illustrated_term: StringName in [
+		&"multiplexer", &"alu", &"sr_latch", &"decoder", &"bus", &"accumulator",
+		&"serialization", &"cpu_wait", &"bottleneck", &"cache", &"working_set", &"blocking",
+	]:
+		terminology_handbook.call("_refresh_terms", illustrated_term)
+		await process_frame
+		_assert(
+			terminology_diagram.visible and not terminology_example.text.is_empty(),
+			"Illustrated Handbook term %s must expose both its diagram and worked example." % illustrated_term
+		)
+	terminology_handbook.call("_refresh_terms", &"bit")
+	await process_frame
+	_assert(not terminology_diagram.visible and not terminology_example.visible, "Simple Handbook terms must remain concise without an empty illustration block.")
 	var handbook_escape := InputEventKey.new()
 	handbook_escape.pressed = true
 	handbook_escape.keycode = KEY_ESCAPE

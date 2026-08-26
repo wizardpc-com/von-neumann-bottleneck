@@ -22,6 +22,7 @@ const LOCALIZED_SOURCE_FILES := [
 	"res://src/ui/trace_overlay.gd",
 	"res://src/ui/main.gd",
 	"res://src/ui/terminology_handbook.gd",
+	"res://src/ui/terminology_diagram.gd",
 	"res://src/ui/mission_narrative_catalog.gd",
 	"res://src/hardware_foundations/hardware_foundations.gd",
 	"res://src/hardware_foundations/prologue_level_catalog.gd",

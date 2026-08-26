@@ -4168,3 +4168,132 @@ msgstr "Data Request"
 
 msgid "terminology.term.data_request.body"
 msgstr "A system operation started by the CPU to read or write an address. It may hit in Cache or travel through the Bus to RAM."
+
+msgid "terminology.example.title"
+msgstr "A concrete example"
+
+msgid "terminology.term.multiplexer.example"
+msgstr "Suppose the four inputs are D0=3, D1=7, D2=12, and D3=1. With OP=10 (binary 2), the MUX forwards only D2, so the output is 12. The other values are present but do not pass through. Think of it as a four-way junction controlled by OP."
+
+msgid "terminology.term.alu.example"
+msgstr "Let A=6 and B=3. With OP set to ADD, the result is 9. With OP set to AND, binary 0110 AND 0011 produces 0010, or 2. The inputs stay the same; changing OP tells the ALU to perform a different operation."
+
+msgid "terminology.term.sr_latch.example"
+msgstr "First apply S=1 and R=0 to set Q to 1. Return both inputs to 0 and Q remains 1—that is the stored memory. Apply S=0 and R=1 to clear Q to 0. On a NOR SR latch, do not make S and R both 1."
+
+msgid "terminology.term.decoder.example"
+msgstr "A two-bit address can be 00, 01, 10, or 11. With ADDR=01, only W1 is 1 and the other three selection lines are 0. Connect those lines to four registers' LOAD inputs, and only register 1 accepts new data."
+
+msgid "terminology.term.bus.example"
+msgstr "To transfer the eight-bit value 10100101, Bus8 can carry it in one stage. Bus2 can carry only two bits at a time, so it sends 10, 10, 01, and 01 across four stages. A narrower channel usually remains occupied longer by the same value."
+
+msgid "terminology.term.accumulator.example"
+msgstr "Suppose ACC starts at 3. For ADD_IMM 2, the controller lets the ALU read ACC=3 and the immediate value 2, calculate 5, and write 5 back to ACC. The next ADD_IMM 4 now reads ACC=5 and finishes at 9. ACC carries one result into the next calculation."
+
+msgid "terminology.term.serialization.example"
+msgstr "The eight-bit value 10100101 must be split into four consecutive pieces on Bus2. The receiver cannot use the complete byte until every piece arrives. Those four pieces taking turns on the channel are the extra delay caused by serialization."
+
+msgid "terminology.term.cpu_wait.example"
+msgstr "At cycle 0, the CPU requests a value from RAM. RAM and the Bus spend the next 12 cycles servicing and returning it. Without the operand, the CPU shows WAIT. Only when the data arrives at cycle 13 can the next calculation begin."
+
+msgid "terminology.term.bottleneck.example"
+msgstr "Suppose one job spends 2 cycles in the CPU, 4 on the Bus, and 12 in RAM. Speeding the CPU from 2 to 1 saves only one cycle, while reducing RAM from 12 to 4 saves eight. RAM is the main bottleneck in this case."
+
+msgid "terminology.term.cache.example"
+msgstr "The first read of address 2 is not in Cache, so it Misses and fetches the whole cache line containing addresses 0–3 from RAM. A following read of address 3 finds its data in that line and Hits, avoiding another RAM access."
+
+msgid "terminology.term.working_set.example"
+msgstr "A phase repeatedly uses lines 0, 1, 2, and 3, so those four lines form its working set. If Cache has one slot, every new line evicts the previous one. On the second pass, all four accesses may Miss again."
+
+msgid "terminology.term.blocking.example"
+msgstr "The original order performs pass 1 on lines 0 and 1, then returns for pass 2; a tiny Cache may have evicted line 0 by then. Blocking finishes both passes on line 0 before moving to line 1, making the second pass more likely to Hit. The work is unchanged; only its order moves."
+
+msgid "terminology.diagram.accumulator.original"
+msgstr "Read old value"
+
+msgid "terminology.diagram.accumulator.operation"
+msgstr "ALU performs ADD 2"
+
+msgid "terminology.diagram.accumulator.write_back"
+msgstr "Write result back"
+
+msgid "terminology.diagram.accumulator.reuse"
+msgstr "Next instruction reads it"
+
+msgid "terminology.diagram.multiplexer.select"
+msgstr "Choose one of four"
+
+msgid "terminology.diagram.multiplexer.output"
+msgstr "Output"
+
+msgid "terminology.diagram.alu.selected"
+msgstr "OP chooses operation"
+
+msgid "terminology.diagram.alu.result"
+msgstr "RESULT"
+
+msgid "terminology.diagram.sr_latch.set_path"
+msgstr "Set path"
+
+msgid "terminology.diagram.sr_latch.reset_path"
+msgstr "Reset path"
+
+msgid "terminology.diagram.decoder.name"
+msgstr "2-to-4 decoder"
+
+msgid "terminology.diagram.decoder.address"
+msgstr "Two-bit address"
+
+msgid "terminology.diagram.serialization.value"
+msgstr "The same eight-bit value: 10100101"
+
+msgid "terminology.diagram.serialization.bus8"
+msgstr "Bus8: 1 stage"
+
+msgid "terminology.diagram.serialization.bus2"
+msgstr "Bus2: 4 stages"
+
+msgid "terminology.diagram.cpu_wait.waiting"
+msgstr "CPU WAIT: waiting for data"
+
+msgid "terminology.diagram.cpu_wait.request"
+msgstr "Request sent"
+
+msgid "terminology.diagram.cpu_wait.return"
+msgstr "Data returned"
+
+msgid "terminology.diagram.bottleneck.slowest"
+msgstr "The longest stage limits the whole job"
+
+msgid "terminology.diagram.cache.load"
+msgstr "Read address 3"
+
+msgid "terminology.diagram.cache.line"
+msgstr "Has line 0–3"
+
+msgid "terminology.diagram.cache.memory"
+msgstr "Slower remote storage"
+
+msgid "terminology.diagram.cache.hit"
+msgstr "Hit: return now"
+
+msgid "terminology.diagram.cache.miss"
+msgstr "Miss: then visit RAM"
+
+msgid "terminology.diagram.working_set.phase"
+msgstr "This phase repeatedly needs four lines"
+
+msgid "terminology.diagram.working_set.needed"
+msgstr "Used often"
+
+msgid "terminology.diagram.working_set.cache"
+msgstr "CACHE CAPACITY"
+
+msgid "terminology.diagram.working_set.one_slot"
+msgstr "Only one slot"
+
+msgid "terminology.diagram.blocking.before"
+msgstr "Before: lines trade places"
+
+msgid "terminology.diagram.blocking.after"
+msgstr "Blocked: finish one line"

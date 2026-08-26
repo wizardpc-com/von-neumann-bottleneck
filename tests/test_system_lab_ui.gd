@@ -38,6 +38,15 @@ func _run() -> void:
 	for _frame: int in range(5):
 		await process_frame
 	_assert(main.get("terminology_handbook") != null, "Chapter 1 must expose the shared terminology handbook.")
+	var clock_period_control: SpinBox = main.get("clock_period_control")
+	_assert(
+		clock_period_control != null
+		and clock_period_control.name == "ClockPeriodControl"
+		and is_equal_approx(clock_period_control.value, 0.5),
+		"Chapter 1 must replace multiplier presets with the shared editable Clock Period control."
+	)
+	clock_period_control.value = 0.3
+	_assert(is_equal_approx(float(main.get("clock_period_seconds")), 0.3), "Chapter 1 Clock Period must update playback duration directly.")
 
 	var map_view = main.get("map_view")
 	var map_buttons: Dictionary = map_view.get("level_buttons")

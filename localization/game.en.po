@@ -1042,13 +1042,19 @@ msgid "hardware.cases.actual_empty"
 msgstr "Actual: SUM —  CARRY —"
 
 msgid "hardware.cases.run_official"
-msgstr "Run 4 Official Cases"
+msgstr "Run Official Cases One by One"
+
+msgid "hardware.cases.official_running"
+msgstr "Official Test %d/%d"
 
 msgid "hardware.cases.row_not_run"
-msgstr "A%d B%d  →  expected S%d C%d  ·  not run"
+msgstr "#%d  A%d B%d  ·  not run"
+
+msgid "hardware.cases.row_running"
+msgstr "#%d  A%d B%d  ·  running"
 
 msgid "hardware.cases.row_result"
-msgstr "A%d B%d  →  expected S%d C%d  ·  actual %s  %s"
+msgstr "#%d  A%d B%d  →  actual %s  ·  %s"
 
 msgid "hardware.sealed.library_heading"
 msgstr "PLAYER COMPONENT LIBRARY"
@@ -1293,11 +1299,14 @@ msgstr "CIRCUIT INCOMPLETE — %s"
 msgid "hardware.status.debug_complete"
 msgstr "DEBUG COMPLETE — the animation is replaying the deterministic circuit trace"
 
+msgid "hardware.status.official_case_running"
+msgstr "OFFICIAL TEST RUNNING ONE CASE AT A TIME · case %d/%d"
+
 msgid "hardware.status.official_pass"
 msgstr "OFFICIAL PASS — every case matches. Your exact topology is ready to seal."
 
 msgid "hardware.status.official_fail"
-msgstr "OFFICIAL FAIL — compare expected and actual, then revise the topology."
+msgstr "OFFICIAL FAIL — inspect the completed cases' actual outputs, then revise the topology."
 
 msgid "hardware.status.sealed_verified"
 msgstr "SEALED COMPONENT VERIFIED — all four cases still pass through its stored circuit."
@@ -1335,6 +1344,15 @@ msgstr "LIVE PORTS · GREEN HIGH %d · RED LOW %d · GRAY HIGH-Z %d"
 msgid "hardware.live.invalid"
 msgstr "GREEN=HIGH · RED=LOW · GRAY=HIGH-Z · %s"
 
+msgid "common.clock_period.label"
+msgstr "Clock Period"
+
+msgid "common.clock_period.seconds_suffix"
+msgstr "s"
+
+msgid "common.clock_period.tooltip"
+msgstr "Seconds per visible trace step. This changes playback speed, never simulation results."
+
 msgid "hardware.trace.blocked"
 msgstr "TRACE BLOCKED — %s"
 
@@ -1366,7 +1384,7 @@ msgid "hardware.trace.replay"
 msgstr "Replay Trace"
 
 msgid "hardware.trace.complete"
-msgstr "TRACE COMPLETE — results were computed before animation began"
+msgstr "CURRENT CASE TRACE COMPLETE"
 
 msgid "hardware.tooltip.input"
 msgstr "External Test Bench signal source. Toggle its value in the Test Bench window."
@@ -1531,10 +1549,13 @@ msgid "hardware.prologue.bench.subtitle"
 msgstr "Editable debug values + fixed official cases/temporal program"
 
 msgid "hardware.prologue.case.not_run"
-msgstr "#%d  %s  →  expected %s  ·  not run"
+msgstr "#%d  %s  ·  not run"
+
+msgid "hardware.prologue.case.running"
+msgstr "#%d  %s  ·  running"
 
 msgid "hardware.prologue.case.result"
-msgstr "#%d  %s  →  expected %s  ·  actual %s  ·  %s"
+msgstr "#%d  %s  →  actual %s  ·  %s"
 
 msgid "hardware.prologue.debug.result"
 msgstr "Actual outputs: %s"
@@ -2382,7 +2403,7 @@ msgid "system.profiler.tier"
 msgstr "INVESTIGATION TOOL TIER %d / 5"
 
 msgid "system.profiler.help"
-msgstr "Profiler only reads completed Traces; playback pause, speed, and animation never change metrics."
+msgstr "Profiler only reads completed Traces; pause, Clock Period, and animation never change metrics."
 
 msgid "system.profiler.breakdown_locked"
 msgstr "Full CPU/RAM/Bus cycle breakdown unlocks after your first diagnosis. Use total cycles, CPU WAIT, workload growth, and Trace flow first."
@@ -3603,7 +3624,13 @@ msgid "terminology.term.trace.title"
 msgstr "Trace (execution trace)"
 
 msgid "terminology.term.trace.body"
-msgstr "An ordered sequence of event evidence already determined by the simulator. Playback, pause, stepping, and animation speed change only how it is viewed."
+msgstr "An ordered sequence of event evidence already determined by the simulator. Playback, pause, stepping, and the adjustable Clock Period change only how it is viewed."
+
+msgid "terminology.term.clock_period.title"
+msgstr "Clock Period"
+
+msgid "terminology.term.clock_period.body"
+msgstr "How long one visible trace step remains on screen. A smaller value plays faster; it changes observation pace only, never simulation ticks, results, metrics, or official-test verdicts."
 
 msgid "terminology.term.abstraction.title"
 msgstr "Abstraction"
@@ -3873,7 +3900,7 @@ msgid "terminology.term.deterministic.title"
 msgstr "Deterministic"
 
 msgid "terminology.term.deterministic.body"
-msgstr "The same program, machine, and input always produce the same Trace and metrics. Playback speed and interface animation cannot change the simulation result."
+msgstr "The same program, machine, and input always produce the same Trace and metrics. The adjustable Clock Period and interface animation cannot change the simulation result."
 
 msgid "terminology.term.cache.title"
 msgstr "Cache"

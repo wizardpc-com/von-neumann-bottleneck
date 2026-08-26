@@ -49,6 +49,9 @@ const SIGNAL_HIGH := GOOD
 const SIGNAL_LOW := BAD
 const SIGNAL_HIGH_Z := Color("8b929d")
 const GRAPH_KEYBOARD_PAN_SPEED: float = 720.0
+const MIN_CLOCK_PERIOD_SECONDS: float = 0.05
+const MAX_CLOCK_PERIOD_SECONDS: float = 2.0
+const DEFAULT_CLOCK_PERIOD_SECONDS: float = 0.5
 const COMPLETION_SUMMARY_KEYS := {
 	&"tutorial": &"hardware.completion.summary.tutorial",
 	&"half_adder": &"hardware.completion.summary.half_adder",
@@ -125,9 +128,10 @@ var input_a_button: CheckButton
 var input_b_button: CheckButton
 var debug_result_label: Label
 var official_case_labels: Array[Label] = []
+var official_button: Button
 var pause_button: Button
 var trace_step_button: Button
-var speed_selector: OptionButton
+var clock_period_control: SpinBox
 var component_menu_button: MenuButton
 var wire_color_menu_button: MenuButton
 var mode_selector: GameModeSelectorType
@@ -189,7 +193,7 @@ var tutorial_check_labels: Dictionary[StringName, Label] = {}
 
 var playback_index: int = 0
 var playback_elapsed: float = 0.0
-var playback_speed: float = 1.0
+var clock_period_seconds: float = DEFAULT_CLOCK_PERIOD_SECONDS
 var playback_running: bool = false
 var animate_next_live_refresh: bool = false
 var playback_batches: Array[Dictionary] = []
@@ -197,6 +201,16 @@ var active_components: Array[StringName] = []
 var active_connections: Array[Dictionary] = []
 var active_component: StringName = &""
 var active_connection: Dictionary = {}
+var official_sequence_active: bool = false
+var official_sequence_kind: StringName = &""
+var official_sequence_index: int = 0
+var official_sequence_circuit: LogicCircuit
+var official_sequence_results: Array[Dictionary] = []
+var official_sequence_pending_result: Dictionary = {}
+var official_sequence_runtime_state: Dictionary = {}
+var official_sequence_prior_outputs: Dictionary = {}
+var official_sequence_previous_storage_state: String = ""
+var official_sequence_completion_queued: bool = false
 var sealing: bool = false
 var sealing_elapsed: float = 0.0
 
@@ -225,6 +239,7 @@ func _ready() -> void:
 		or "--capture-mission-briefing" in user_arguments
 		or "--capture-mission-compact" in user_arguments
 		or "--capture-half-adder-briefing" in user_arguments
+		or "--capture-official-sequence" in user_arguments
 	)
 	if preparing_capture:
 		# Capture helpers need a deterministic non-empty provenance circuit. Normal
@@ -237,6 +252,8 @@ func _ready() -> void:
 	call_deferred("_layout_desktop_windows")
 	if "--capture-mission-compact" in user_arguments:
 		call_deferred("_prepare_mission_compact_capture")
+	elif "--capture-official-sequence" in user_arguments:
+		call_deferred("_prepare_official_sequence_capture")
 	elif "--capture-half-adder-briefing" in user_arguments:
 		call_deferred("_prepare_half_adder_briefing_capture")
 	elif "--capture-mission-briefing" in user_arguments:
@@ -283,6 +300,21 @@ func _prepare_half_adder_briefing_capture() -> void:
 	await get_tree().process_frame
 	_start_challenge(true)
 	_advance_mission_briefing()
+
+
+func _prepare_official_sequence_capture() -> void:
+	await get_tree().process_frame
+	completed_levels[&"tutorial"] = true
+	_start_challenge(false)
+	for wire: Dictionary in _half_adder_reference_wires():
+		_on_connection_request(
+			wire["from_node"], int(wire.get("from_port", 0)),
+			wire["to_node"], int(wire.get("to_port", 0))
+		)
+	_run_official()
+	playback_running = false
+	if not playback_batches.is_empty():
+		_show_playback_batch(playback_batches[0], 0.45)
 
 
 func _prepare_workbench_hint_capture() -> void:
@@ -561,7 +593,7 @@ func _process(delta: float) -> void:
 		_finish_playback()
 		return
 	var batch: Dictionary = playback_batches[playback_index]
-	playback_elapsed += delta * playback_speed
+	playback_elapsed += delta
 	var duration: float = _playback_batch_duration(batch)
 	var progress: float = minf(playback_elapsed / duration, 1.0)
 	_show_playback_batch(batch, progress)
@@ -738,6 +770,8 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 	if id == &"task":
 		window.set_custom_minimize_action(true)
 		window.minimize_requested.connect(_on_task_minimize_requested)
+	elif id in [&"test_bench", &"components"]:
+		window.set_minimizable(false)
 	window.set_content(content)
 	window.z_index = 100
 	window.close_requested.connect(_close_desktop_window)
@@ -797,7 +831,7 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 				bench_ratio = 0.40
 			&"half_adder":
 				task_ratio = 0.34
-				bench_ratio = 0.52
+				bench_ratio = 0.60
 			&"sealed":
 				task_ratio = 0.48
 				bench_ratio = 0.40
@@ -1283,13 +1317,21 @@ func _build_toolbar() -> Control:
 	trace_step_button.text = _t(&"common.step")
 	trace_step_button.pressed.connect(_step_playback)
 	row.add_child(trace_step_button)
-	speed_selector = OptionButton.new()
-	speed_selector.add_item("0.7×", 0)
-	speed_selector.add_item("1.0×", 1)
-	speed_selector.add_item("1.7×", 2)
-	speed_selector.select(1)
-	speed_selector.item_selected.connect(_on_speed_selected)
-	row.add_child(speed_selector)
+	var clock_period_label := Label.new()
+	clock_period_label.text = _t(&"common.clock_period.label")
+	clock_period_label.tooltip_text = _t(&"common.clock_period.tooltip")
+	row.add_child(clock_period_label)
+	clock_period_control = SpinBox.new()
+	clock_period_control.name = "ClockPeriodControl"
+	clock_period_control.min_value = MIN_CLOCK_PERIOD_SECONDS
+	clock_period_control.max_value = MAX_CLOCK_PERIOD_SECONDS
+	clock_period_control.step = 0.05
+	clock_period_control.value = clock_period_seconds
+	clock_period_control.suffix = _t(&"common.clock_period.seconds_suffix")
+	clock_period_control.custom_minimum_size.x = 92.0
+	clock_period_control.tooltip_text = _t(&"common.clock_period.tooltip")
+	clock_period_control.value_changed.connect(_on_clock_period_changed)
+	row.add_child(clock_period_control)
 	return toolbar
 
 
@@ -1798,8 +1840,8 @@ func _refresh_hint_controls() -> void:
 		pause_button.disabled = hint_mode
 	if trace_step_button != null:
 		trace_step_button.disabled = hint_mode
-	if speed_selector != null:
-		speed_selector.disabled = hint_mode
+	if clock_period_control != null:
+		clock_period_control.editable = not hint_mode
 	for window_id: StringName in desktop_window_buttons:
 		var window_button: Button = desktop_window_buttons[window_id]
 		window_button.visible = (
@@ -1825,7 +1867,9 @@ func _on_hint_button_pressed() -> void:
 
 
 func _enter_hint_workbench() -> void:
-	if current_level_id.is_empty() or current_phase not in [&"tutorial", &"half_adder", &"prologue"]:
+	if official_sequence_active \
+		or current_level_id.is_empty() \
+		or current_phase not in [&"tutorial", &"half_adder", &"prologue"]:
 		return
 	_finish_mission_briefing()
 	_save_active_workbench()
@@ -1969,6 +2013,7 @@ func _exit_hint_workbench() -> void:
 func _show_tutorial(show_briefing: bool = true) -> void:
 	_reset_mission_briefing()
 	_dismiss_level_completion()
+	_cancel_official_sequence()
 	_stop_playback()
 	current_phase = &"tutorial"
 	current_level_id = &"tutorial"
@@ -2001,6 +2046,7 @@ func _start_challenge(show_briefing: bool = true) -> void:
 		return
 	_reset_mission_briefing()
 	_dismiss_level_completion()
+	_cancel_official_sequence()
 	_stop_playback()
 	current_phase = &"half_adder"
 	current_level_id = &"half_adder"
@@ -2289,6 +2335,7 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 		var template: LogicComponent = component_menu_templates[key]
 		var item: Control = ComponentPaletteItemType.new()
 		item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template))
+		item.call("set_component_preview", _create_component_placement_ghost(template))
 		item.connect("placement_requested", Callable(self, "_arm_component_template"))
 		component_palette_items[key] = item
 		component_palette_box.add_child(item)
@@ -2350,49 +2397,25 @@ func _create_component_placement_ghost(template: LogicComponent) -> Control:
 	ghost.custom_minimum_size = footprint
 	ghost.size = footprint
 	ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if template.kind in [
-		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR,
-		LogicComponentType.KIND_XOR, LogicComponentType.KIND_NOR,
-		LogicComponentType.KIND_NOT, LogicComponentType.KIND_INPUT,
-		LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP,
-		LogicComponentType.KIND_CONSTANT, LogicComponentType.KIND_JUNCTION,
-	]:
-		var metrics: Dictionary = _schematic_symbol_metrics(template.kind)
-		var symbol := CircuitComponentSymbolType.new()
-		symbol.position = GRAPH_NODE_CONTENT_ORIGIN
-		symbol.size = Vector2(footprint.x - 14.0, float(metrics["row_height"]))
-		symbol.custom_minimum_size = symbol.size
-		symbol.configure(template.kind, String(template.signal_name), float(metrics["display_height"]))
-		ghost.add_child(symbol)
-		return ghost
-	var rows := VBoxContainer.new()
-	rows.position = GRAPH_NODE_CONTENT_ORIGIN
-	rows.size = Vector2(
-		footprint.x - GRAPH_NODE_CONTENT_ORIGIN.x * 2.0,
-		maxf(30.0, footprint.y - GRAPH_NODE_CONTENT_ORIGIN.y)
-	)
-	rows.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	ghost.add_child(rows)
-	var row_count: int = maxi(1, maxi(template.input_count(), template.output_count()))
-	for row_index: int in range(row_count):
-		var has_input: bool = row_index < template.input_count()
-		var has_output: bool = row_index < template.output_count()
-		var row := CircuitModuleRowType.new()
-		row.custom_minimum_size.y = 30.0
-		row.configure(
-			template.kind,
-			template.display_name,
-			String(template.input_port_name(row_index)) if has_input else "",
-			String(template.output_port_name(row_index)) if has_output else "",
-			row_index,
-			row_count,
-			has_input,
-			has_output,
-			template.input_width(row_index) if has_input else 1,
-			template.output_width(row_index) if has_output else 1
-		)
-		rows.add_child(row)
+	var preview_node := GraphNode.new()
+	ghost.add_child(preview_node)
+	_configure_component_node_view(preview_node, template, false, false)
+	preview_node.position = Vector2.ZERO
+	_layout_detached_component_node(preview_node, template)
 	return ghost
+
+
+func _layout_detached_component_node(node: GraphNode, component: LogicComponent) -> void:
+	var child_position := GRAPH_NODE_CONTENT_ORIGIN
+	var child_width: float = _component_node_size(component).x - GRAPH_NODE_CONTENT_ORIGIN.x * 2.0
+	for child: Node in node.get_children():
+		if not child is Control:
+			continue
+		var control := child as Control
+		var child_height: float = control.custom_minimum_size.y
+		control.position = child_position
+		control.size = Vector2(child_width, child_height)
+		child_position.y += child_height
 
 
 func _refresh_component_menu_checks() -> void:
@@ -2499,21 +2522,11 @@ func _next_placed_component_id(template: LogicComponent) -> StringName:
 
 func _add_component_node(component: LogicComponent, position: Vector2) -> void:
 	var node := GraphNode.new()
-	node.name = component.id
-	node.title = ""
-	node.draggable = not hint_mode
-	node.resizable = false
-	node.z_index = 2
-	node.custom_minimum_size = _component_node_size(component)
-	node.tooltip_text = _component_tooltip(component)
-	node.add_theme_font_size_override("title_font_size", 1)
-	node.add_theme_constant_override("separation", 0)
 	graph.add_child(node)
+	_configure_component_node_view(node, component, not hint_mode, true)
 	node.position_offset = position
 	if node.has_signal("position_offset_changed"):
 		node.position_offset_changed.connect(graph.queue_signal_wire_redraw)
-	node.get_titlebar_hbox().hide()
-	_add_schematic_slots(node, component)
 	node.gui_input.connect(_on_component_gui_input.bind(component.id))
 	if component.is_routing_node():
 		component_nodes[component.id] = node
@@ -2521,6 +2534,28 @@ func _add_component_node(component: LogicComponent, position: Vector2) -> void:
 		return
 	component_nodes[component.id] = node
 	_set_node_style(component.id, PURPLE if component.fixed_terminal else MUTED, false)
+
+
+func _configure_component_node_view(
+		node: GraphNode,
+		component: LogicComponent,
+		draggable: bool,
+		register_visuals: bool
+	) -> void:
+	node.name = component.id
+	node.title = ""
+	node.draggable = draggable
+	node.resizable = false
+	node.z_index = 2
+	node.custom_minimum_size = _component_node_size(component)
+	node.size = node.custom_minimum_size
+	node.tooltip_text = _component_tooltip(component)
+	node.mouse_filter = Control.MOUSE_FILTER_STOP if draggable else Control.MOUSE_FILTER_IGNORE
+	node.add_theme_font_size_override("title_font_size", 1)
+	node.add_theme_constant_override("separation", 0)
+	node.get_titlebar_hbox().hide()
+	_add_schematic_slots(node, component, register_visuals)
+	_apply_component_node_style(node, component)
 
 
 func _component_node_size(component: LogicComponent) -> Vector2:
@@ -2541,7 +2576,11 @@ func _component_node_size(component: LogicComponent) -> Vector2:
 			return Vector2(244.0, maxf(64.0, float(row_count) * 31.0 + 16.0 + state_height))
 
 
-func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
+func _add_schematic_slots(
+		node: GraphNode,
+		component: LogicComponent,
+		register_visuals: bool = true
+	) -> void:
 	var metrics: Dictionary = _schematic_symbol_metrics(component.kind)
 	var height: float = float(metrics["display_height"])
 	var row_height: float = float(metrics["row_height"])
@@ -2549,14 +2588,15 @@ func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
 	symbol.custom_minimum_size = Vector2(_component_node_size(component).x - 14.0, row_height)
 	symbol.configure(component.kind, String(component.signal_name), height)
 	node.add_child(symbol)
-	component_symbols[component.id] = symbol
+	if register_visuals:
+		component_symbols[component.id] = symbol
 	var neutral: Color = SIGNAL_LOW
 	match component.kind:
 		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_XOR, LogicComponentType.KIND_NOR:
 			node.set_slot(0, true, PORT_TYPE, neutral, false, PORT_TYPE, neutral, null, null, false)
-			_add_empty_schematic_row(node, row_height)
+			_add_empty_schematic_row(node, component, row_height)
 			node.set_slot(1, false, PORT_TYPE, neutral, true, PORT_TYPE, neutral, null, null, false)
-			_add_empty_schematic_row(node, row_height)
+			_add_empty_schematic_row(node, component, row_height)
 			node.set_slot(2, true, PORT_TYPE, neutral, false, PORT_TYPE, neutral, null, null, false)
 		LogicComponentType.KIND_INPUT:
 			node.set_slot(0, false, PORT_TYPE, neutral, true, PORT_TYPE, neutral, null, null, false)
@@ -2569,8 +2609,9 @@ func _add_schematic_slots(node: GraphNode, component: LogicComponent) -> void:
 		_:
 			node.remove_child(symbol)
 			symbol.free()
-			component_symbols.erase(component.id)
-			_add_generic_component_slots(node, component)
+			if register_visuals:
+				component_symbols.erase(component.id)
+			_add_generic_component_slots(node, component, register_visuals)
 
 
 func _schematic_symbol_metrics(kind: StringName) -> Dictionary:
@@ -2586,7 +2627,11 @@ func _schematic_symbol_metrics(kind: StringName) -> Dictionary:
 	return {"display_height": 50.0, "row_height": 50.0}
 
 
-func _add_generic_component_slots(node: GraphNode, component: LogicComponent) -> void:
+func _add_generic_component_slots(
+		node: GraphNode,
+		component: LogicComponent,
+		register_visuals: bool = true
+	) -> void:
 	var row_count: int = maxi(1, maxi(component.input_count(), component.output_count()))
 	var row_labels: Array = []
 	for row_index: int in range(row_count):
@@ -2612,19 +2657,26 @@ func _add_generic_component_slots(node: GraphNode, component: LogicComponent) ->
 			has_output, PORT_TYPE, SIGNAL_HIGH_Z
 		)
 		row_labels.append(row)
-	component_row_labels[component.id] = row_labels
+	if register_visuals:
+		component_row_labels[component.id] = row_labels
 	if component.is_stateful():
-		var state_label := Label.new()
-		state_label.text = _component_default_state_text(component)
-		state_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		state_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		state_label.custom_minimum_size.y = 24.0
-		state_label.add_theme_font_size_override("font_size", 12)
-		state_label.add_theme_color_override("font_color", PURPLE)
-		state_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var state_label := _create_component_state_label(component)
 		node.add_child(state_label)
-		component_state_labels[component.id] = state_label
-		component_idle_state_text[component.id] = state_label.text
+		if register_visuals:
+			component_state_labels[component.id] = state_label
+			component_idle_state_text[component.id] = state_label.text
+
+
+func _create_component_state_label(component: LogicComponent) -> Label:
+	var state_label := Label.new()
+	state_label.text = _component_default_state_text(component)
+	state_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	state_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	state_label.custom_minimum_size.y = 24.0
+	state_label.add_theme_font_size_override("font_size", 12)
+	state_label.add_theme_color_override("font_color", PURPLE)
+	state_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return state_label
 
 
 func _component_default_state_text(component: LogicComponent) -> String:
@@ -2642,9 +2694,13 @@ func _component_default_state_text(component: LogicComponent) -> String:
 	return _t(&"hardware.storage.component.uninitialized")
 
 
-func _add_empty_schematic_row(node: GraphNode, row_height: float) -> void:
+func _add_empty_schematic_row(
+		node: GraphNode,
+		component: LogicComponent,
+		row_height: float
+	) -> void:
 	var row := Control.new()
-	row.custom_minimum_size = Vector2(_component_node_size(component_catalog[node.name]).x - 14.0, row_height)
+	row.custom_minimum_size = Vector2(_component_node_size(component).x - 14.0, row_height)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	node.add_child(row)
 
@@ -2746,7 +2802,7 @@ func _build_half_adder_side() -> void:
 	debug_result_label.text = _t(&"hardware.cases.actual_empty")
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
-	var official_button := Button.new()
+	official_button = Button.new()
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
 	side_box.add_child(official_button)
@@ -2825,11 +2881,11 @@ func _build_input_controls() -> void:
 
 func _build_official_case_rows() -> void:
 	official_case_labels.clear()
-	for official_case: Dictionary in HalfAdderTestBenchType.OFFICIAL_CASES:
+	for index: int in range(HalfAdderTestBenchType.OFFICIAL_CASES.size()):
+		var official_case: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
 		var label := Label.new()
 		label.text = _t(&"hardware.cases.row_not_run", [
-			int(official_case["A"]), int(official_case["B"]),
-			int(official_case["SUM"]), int(official_case["CARRY"]),
+			index + 1, int(official_case["A"]), int(official_case["B"]),
 		])
 		label.add_theme_font_size_override("font_size", 13)
 		label.add_theme_color_override("font_color", MUTED)
@@ -4399,7 +4455,8 @@ func _new_junction(component_id: StringName, width: int) -> LogicComponent:
 
 
 func _editor_locked() -> bool:
-	return hint_mode or sealing or current_phase in [&"sealed", &"campaign", &"prologue_complete"]
+	return official_sequence_active or hint_mode or sealing \
+		or current_phase in [&"sealed", &"campaign", &"prologue_complete"]
 
 
 func _component_output_width(component_id: StringName, port: int) -> int:
@@ -4743,6 +4800,8 @@ func _restore_graph_view_after_layout() -> void:
 
 
 func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
+	if official_sequence_active:
+		return
 	_stop_playback()
 	current_trace = null
 	_update_input_button_text()
@@ -4773,6 +4832,8 @@ func _update_signal_toggle_placeholder(toggle: CheckButton, signal_name: String)
 
 
 func _run_debug() -> void:
+	if official_sequence_active:
+		return
 	if current_phase in [&"prologue", &"prologue_complete"]:
 		_run_prologue_debug()
 		return
@@ -4815,6 +4876,8 @@ func _show_debug_result(trace: CircuitTrace, prefix: String) -> void:
 
 
 func _run_official() -> void:
+	if official_sequence_active:
+		return
 	if current_phase == &"prologue":
 		_run_prologue_official()
 		return
@@ -4822,26 +4885,214 @@ func _run_official() -> void:
 		return
 	var circuit: LogicCircuit = _circuit_from_graph()
 	current_circuit = circuit
-	official_report = HalfAdderTestBenchType.new().run_official(circuit)
-	official_passed = bool(official_report["passed"])
-	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
-	var cases: Array = official_report["cases"]
-	var playback_trace: CircuitTrace
-	for index: int in range(cases.size()):
-		var result: Dictionary = cases[index]
-		var label: Label = official_case_labels[index]
-		var actual_sum: Variant = result["actual_sum"]
-		var actual_carry: Variant = result["actual_carry"]
-		var actual_text: String = "S— C—" if actual_sum == null or actual_carry == null else "S%d C%d" % [int(actual_sum), int(actual_carry)]
-		label.text = _t(&"hardware.cases.row_result", [
-			int(result["A"]), int(result["B"]), int(result["expected_sum"]), int(result["expected_carry"]),
-			actual_text, _t(&"outcome.pass") if result["passed"] else _t(&"outcome.fail"),
+	_begin_official_sequence(&"half_adder", circuit)
+
+
+func _begin_official_sequence(kind: StringName, circuit: LogicCircuit) -> void:
+	_cancel_official_sequence()
+	official_passed = false
+	passing_topology_signature = ""
+	official_report.clear()
+	prologue_report.clear()
+	official_sequence_active = true
+	official_sequence_kind = kind
+	official_sequence_index = 0
+	official_sequence_circuit = circuit.duplicate_circuit()
+	official_sequence_results.clear()
+	official_sequence_pending_result.clear()
+	official_sequence_runtime_state.clear()
+	official_sequence_prior_outputs.clear()
+	official_sequence_previous_storage_state = _storage_initial_state_text() \
+		if kind == &"prologue" and _is_storage_level() else ""
+	if seal_button != null:
+		seal_button.disabled = true
+	_reset_official_case_rows()
+	_start_next_official_case()
+
+
+func _start_next_official_case() -> void:
+	if not official_sequence_active:
+		return
+	var total: int = HalfAdderTestBenchType.OFFICIAL_CASES.size() \
+		if official_sequence_kind == &"half_adder" \
+		else (current_level_definition.get("official_steps", []) as Array).size()
+	if official_sequence_index >= total:
+		_finish_official_sequence()
+		return
+	if official_button != null and is_instance_valid(official_button):
+		official_button.disabled = true
+		official_button.text = _t(&"hardware.cases.official_running", [
+			official_sequence_index + 1, total,
 		])
-		label.add_theme_color_override("font_color", GOOD if result["passed"] else BAD)
-		if playback_trace == null or not bool(result["passed"]):
-			playback_trace = result["trace"]
+	status_label.text = _t(&"hardware.status.official_case_running", [
+		official_sequence_index + 1, total,
+	])
+	status_label.add_theme_color_override("font_color", ACCENT)
+	if official_sequence_kind == &"half_adder":
+		_start_half_adder_official_case()
+	else:
+		_start_prologue_official_case()
+
+
+func _start_half_adder_official_case() -> void:
+	var official_case: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[official_sequence_index]
+	var label: Label = official_case_labels[official_sequence_index]
+	label.text = _t(&"hardware.cases.row_running", [
+		official_sequence_index + 1, int(official_case["A"]), int(official_case["B"]),
+	])
+	label.add_theme_color_override("font_color", ACCENT)
+	call_deferred("_ensure_official_case_visible", label)
+	var trace: CircuitTrace = HalfAdderTestBenchType.new().run_debug(
+		official_sequence_circuit,
+		bool(official_case["A"]), bool(official_case["B"])
+	)
+	var actual_sum: Variant = trace.outputs.get(&"SUM", null)
+	var actual_carry: Variant = trace.outputs.get(&"CARRY", null)
+	var case_passed: bool = trace.is_valid() and actual_sum != null and actual_carry != null \
+		and bool(actual_sum) == bool(official_case["SUM"]) \
+		and bool(actual_carry) == bool(official_case["CARRY"])
+	official_sequence_pending_result = {
+		"A": bool(official_case["A"]),
+		"B": bool(official_case["B"]),
+		"expected_sum": bool(official_case["SUM"]),
+		"expected_carry": bool(official_case["CARRY"]),
+		"actual_sum": actual_sum,
+		"actual_carry": actual_carry,
+		"passed": case_passed,
+		"trace": trace,
+	}
+	_play_trace(trace)
+	if not playback_running:
+		_queue_official_case_completion()
+
+
+func _start_prologue_official_case() -> void:
+	var steps: Array = current_level_definition.get("official_steps", [])
+	var authored_step: Dictionary = steps[official_sequence_index]
+	var case_inputs: String = _official_step_inputs_text(authored_step)
+	var label: Label = prologue_case_labels[official_sequence_index]
+	label.text = _t(&"hardware.prologue.case.running", [
+		official_sequence_index + 1, case_inputs,
+	])
+	if _is_storage_level():
+		label.text += "\n" + _t(&"hardware.storage.case.plan", [
+			_storage_action_text(authored_step.get("inputs", {}))
+		])
+	label.add_theme_color_override("font_color", ACCENT)
+	call_deferred("_ensure_official_case_visible", label)
+	var case_report: Dictionary = prologue_simulator.run_sequence(
+		official_sequence_circuit,
+		[authored_step],
+		bool(current_level_definition.get("allow_feedback", false)),
+		official_sequence_runtime_state,
+		official_sequence_prior_outputs
+	)
+	official_sequence_runtime_state = case_report.get("runtime_state", {}).duplicate(true)
+	official_sequence_prior_outputs = case_report.get("prior_outputs", {}).duplicate(true)
+	prologue_runtime_state = official_sequence_runtime_state.duplicate(true)
+	prologue_prior_outputs = official_sequence_prior_outputs.duplicate(true)
+	var step_result: Dictionary = {}
+	var reported_steps: Array = case_report.get("steps", [])
+	if not reported_steps.is_empty():
+		step_result = reported_steps[0]
+	official_sequence_pending_result = {
+		"step": step_result,
+		"report": case_report,
+	}
+	var result: PrologueSimulationResult = case_report.get("final_result")
+	prologue_live_result = result
+	if result != null:
+		_play_prologue_events(
+			case_report.get("events", []), result,
+			case_report.get("initial_runtime_state", {}),
+			case_report.get("initial_prior_outputs", {})
+		)
+	if result == null or not playback_running:
+		_queue_official_case_completion()
+
+
+func _queue_official_case_completion() -> void:
+	if not official_sequence_active or official_sequence_completion_queued:
+		return
+	official_sequence_completion_queued = true
+	call_deferred("_complete_official_case")
+
+
+func _complete_official_case() -> void:
+	official_sequence_completion_queued = false
+	if not official_sequence_active or official_sequence_pending_result.is_empty():
+		return
+	if official_sequence_kind == &"half_adder":
+		_reveal_half_adder_official_case()
+	else:
+		_reveal_prologue_official_case()
+	official_sequence_results.append(official_sequence_pending_result)
+	official_sequence_pending_result = {}
+	official_sequence_index += 1
+	_start_next_official_case()
+
+
+func _reveal_half_adder_official_case() -> void:
+	var result: Dictionary = official_sequence_pending_result
+	var actual_sum: Variant = result.get("actual_sum")
+	var actual_carry: Variant = result.get("actual_carry")
+	var actual_text: String = "S— C—" if actual_sum == null or actual_carry == null \
+		else "S%d C%d" % [int(actual_sum), int(actual_carry)]
+	var label: Label = official_case_labels[official_sequence_index]
+	label.text = _t(&"hardware.cases.row_result", [
+		official_sequence_index + 1,
+		int(result["A"]), int(result["B"]), actual_text,
+		_t(&"outcome.pass") if bool(result["passed"]) else _t(&"outcome.fail"),
+	])
+	label.add_theme_color_override("font_color", GOOD if bool(result["passed"]) else BAD)
+
+
+func _reveal_prologue_official_case() -> void:
+	var step: Dictionary = official_sequence_pending_result.get("step", {})
+	var actual: Dictionary = {}
+	for comparison: Dictionary in step.get("comparisons", []):
+		actual[comparison["name"]] = comparison["actual"]
+	var label: Label = prologue_case_labels[official_sequence_index]
+	label.text = _t(&"hardware.prologue.case.result", [
+		official_sequence_index + 1,
+		_official_step_inputs_text(step),
+		_format_digital_values(actual),
+		_t(&"outcome.pass") if bool(step.get("passed", false)) else _t(&"outcome.fail"),
+	])
+	if _is_storage_level():
+		var step_result: PrologueSimulationResult = step.get("result")
+		var next_storage_state: String = _storage_state_text(
+			step_result, step_result.runtime_state if step_result != null else {}
+		)
+		label.text += "\n" + _t(&"hardware.storage.case.transition", [
+			_storage_action_text(step.get("inputs", {})),
+			official_sequence_previous_storage_state,
+			next_storage_state,
+		])
+		official_sequence_previous_storage_state = next_storage_state
+	label.add_theme_color_override(
+		"font_color", GOOD if bool(step.get("passed", false)) else BAD
+	)
+
+
+func _finish_official_sequence() -> void:
+	var kind: StringName = official_sequence_kind
+	var circuit: LogicCircuit = official_sequence_circuit
+	var results: Array[Dictionary] = official_sequence_results.duplicate()
+	_cancel_official_sequence()
+	if kind == &"prologue":
+		_finish_prologue_official_sequence(circuit)
+		return
+	var all_passed: bool = results.size() == HalfAdderTestBenchType.OFFICIAL_CASES.size()
+	var first_failed_trace: CircuitTrace
+	for result: Dictionary in results:
+		all_passed = all_passed and bool(result.get("passed", false))
+		if first_failed_trace == null and not bool(result.get("passed", false)):
+			first_failed_trace = result.get("trace")
+	official_report = {"passed": all_passed, "cases": results}
+	official_passed = all_passed
+	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
 	if official_passed:
-		playback_trace = cases[cases.size() - 1]["trace"]
 		seal_button.disabled = false
 		seal_button.text = _t(&"hardware.seal.verified_button")
 		status_label.text = _t(&"hardware.status.official_pass")
@@ -4849,12 +5100,70 @@ func _run_official() -> void:
 	else:
 		seal_button.disabled = true
 		var first_error: String = ""
-		if playback_trace != null and not playback_trace.errors.is_empty():
-			first_error = "  ·  " + _trace_error_text(playback_trace, 0)
+		if first_failed_trace != null and not first_failed_trace.errors.is_empty():
+			first_error = "  ·  " + _trace_error_text(first_failed_trace, 0)
 		status_label.text = _t(&"hardware.status.official_fail") + first_error
 		status_label.add_theme_color_override("font_color", BAD)
-	if playback_trace != null:
-		_play_trace(playback_trace)
+
+
+func _cancel_official_sequence() -> void:
+	official_sequence_active = false
+	official_sequence_kind = &""
+	official_sequence_index = 0
+	official_sequence_circuit = null
+	official_sequence_results.clear()
+	official_sequence_pending_result.clear()
+	official_sequence_runtime_state.clear()
+	official_sequence_prior_outputs.clear()
+	official_sequence_previous_storage_state = ""
+	official_sequence_completion_queued = false
+	if official_button != null and is_instance_valid(official_button):
+		official_button.disabled = false
+		official_button.text = _t(&"hardware.cases.run_official")
+
+
+func _reset_official_case_rows() -> void:
+	for index: int in range(official_case_labels.size()):
+		var official_case: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
+		var label: Label = official_case_labels[index]
+		if label == null or not is_instance_valid(label):
+			continue
+		label.text = _t(&"hardware.cases.row_not_run", [
+			index + 1, int(official_case["A"]), int(official_case["B"]),
+		])
+		label.add_theme_color_override("font_color", MUTED)
+	var steps: Array = current_level_definition.get("official_steps", [])
+	for index: int in range(prologue_case_labels.size()):
+		if index >= steps.size():
+			continue
+		var step: Dictionary = steps[index]
+		var label: Label = prologue_case_labels[index]
+		if label == null or not is_instance_valid(label):
+			continue
+		label.text = _t(&"hardware.prologue.case.not_run", [
+			index + 1, _official_step_inputs_text(step),
+		])
+		if _is_storage_level():
+			label.text += "\n" + _t(&"hardware.storage.case.plan", [
+				_storage_action_text(step.get("inputs", {}))
+			])
+		label.add_theme_color_override("font_color", MUTED)
+
+
+func _official_step_inputs_text(step: Dictionary) -> String:
+	var case_inputs: String = _format_value_dictionary(step.get("inputs", {}))
+	var label_key := StringName(step.get("label_key", &""))
+	if not label_key.is_empty():
+		case_inputs = "%s · %s" % [_t(label_key), case_inputs]
+	return case_inputs
+
+
+func _ensure_official_case_visible(label: Label) -> void:
+	if label == null or not is_instance_valid(label) or side_box == null:
+		return
+	var scroll := side_box.get_parent() as ScrollContainer
+	if scroll != null:
+		scroll.ensure_control_visible(label)
 
 
 func _run_prologue_debug() -> void:
@@ -4901,6 +5210,10 @@ func _run_prologue_debug() -> void:
 func _run_prologue_official() -> void:
 	var circuit: LogicCircuit = _circuit_from_graph()
 	current_circuit = circuit
+	_begin_official_sequence(&"prologue", circuit)
+
+
+func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 	prologue_report = prologue_simulator.run_sequence(
 		circuit,
 		current_level_definition.get("official_steps", []),
@@ -4908,39 +5221,6 @@ func _run_prologue_official() -> void:
 	)
 	official_passed = bool(prologue_report.get("passed", false))
 	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
-	var steps: Array = prologue_report.get("steps", [])
-	var previous_storage_state: String = _storage_initial_state_text() if _is_storage_level() else ""
-	for index: int in range(prologue_case_labels.size()):
-		var label: Label = prologue_case_labels[index]
-		if index >= steps.size():
-			continue
-		var step: Dictionary = steps[index]
-		var actual: Dictionary = {}
-		for comparison: Dictionary in step.get("comparisons", []):
-			actual[comparison["name"]] = comparison["actual"]
-		var case_inputs: String = _format_value_dictionary(step.get("inputs", {}))
-		var label_key := StringName(step.get("label_key", &""))
-		if not label_key.is_empty():
-			case_inputs = "%s · %s" % [_t(label_key), case_inputs]
-		label.text = _t(&"hardware.prologue.case.result", [
-			index + 1,
-			case_inputs,
-			_format_value_dictionary(step.get("expected", {})),
-			_format_digital_values(actual),
-			_t(&"outcome.pass") if bool(step.get("passed", false)) else _t(&"outcome.fail"),
-		])
-		if _is_storage_level():
-			var step_result: PrologueSimulationResult = step.get("result")
-			var next_storage_state: String = _storage_state_text(
-				step_result, step_result.runtime_state if step_result != null else {}
-			)
-			label.text += "\n" + _t(&"hardware.storage.case.transition", [
-				_storage_action_text(step.get("inputs", {})),
-				previous_storage_state,
-				next_storage_state,
-			])
-			previous_storage_state = next_storage_state
-		label.add_theme_color_override("font_color", GOOD if bool(step.get("passed", false)) else BAD)
 	var final_result: PrologueSimulationResult = prologue_report.get("final_result")
 	if final_result != null and final_result.is_valid() and _is_storage_level():
 		prologue_runtime_state = prologue_report.get("runtime_state", {}).duplicate(true)
@@ -4976,11 +5256,6 @@ func _run_prologue_official() -> void:
 			seal_button.disabled = true
 	if final_result != null:
 		prologue_live_result = final_result
-		_play_prologue_events(
-			prologue_report.get("events", []), final_result,
-			prologue_report.get("initial_runtime_state", {}),
-			prologue_report.get("initial_prior_outputs", {})
-		)
 
 
 func _format_digital_values(values: Dictionary) -> String:
@@ -5041,6 +5316,7 @@ func _circuit_from_graph() -> LogicCircuit:
 
 
 func _invalidate_official_evidence(message: String) -> void:
+	_cancel_official_sequence()
 	official_passed = false
 	passing_topology_signature = ""
 	official_report = {}
@@ -5048,10 +5324,7 @@ func _invalidate_official_evidence(message: String) -> void:
 	if seal_button != null:
 		seal_button.disabled = true
 		seal_button.text = _t(&"hardware.seal.button")
-	for label: Label in official_case_labels:
-		label.add_theme_color_override("font_color", MUTED)
-	for label: Label in prologue_case_labels:
-		label.add_theme_color_override("font_color", MUTED)
+	_reset_official_case_rows()
 	status_label.text = message
 	status_label.add_theme_color_override("font_color", WARNING)
 
@@ -5134,6 +5407,7 @@ func _build_sealed_graph() -> void:
 func _open_campaign_map() -> void:
 	_dismiss_level_completion()
 	_save_active_workbench()
+	_cancel_official_sequence()
 	_stop_playback()
 	hint_mode = false
 	hint_level = 0
@@ -5337,6 +5611,7 @@ func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> 
 		])
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	_cancel_official_sequence()
 	_stop_playback()
 	current_phase = &"prologue"
 	current_level_id = level_id
@@ -5446,7 +5721,7 @@ func _build_prologue_side() -> void:
 	debug_result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
-	var official_button := Button.new()
+	official_button = Button.new()
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
 	side_box.add_child(official_button)
@@ -5604,7 +5879,6 @@ func _build_prologue_case_rows() -> void:
 			case_inputs = "%s · %s" % [_t(label_key), case_inputs]
 		label.text = _t(&"hardware.prologue.case.not_run", [
 			index + 1, case_inputs,
-			_format_value_dictionary(step.get("expected", {})),
 		])
 		if _is_storage_level():
 			label.text += "\n" + _t(&"hardware.storage.case.plan", [
@@ -5661,6 +5935,8 @@ func _on_prologue_word_changed(_value: float, _name: StringName) -> void:
 
 
 func _on_prologue_input_changed() -> void:
+	if official_sequence_active:
+		return
 	_stop_playback()
 	live_state_key = ""
 	animate_next_live_refresh = true
@@ -5954,14 +6230,8 @@ func _build_playback_batches(trace: CircuitTrace) -> void:
 		playback_batches.append({"visual_step": step, "tick": tick, "events": events})
 
 
-func _playback_batch_duration(batch: Dictionary) -> float:
-	for event: Variant in batch.get("events", []):
-		if event.kind == &"wire_signal":
-			return 0.76
-	for event: Variant in batch.get("events", []):
-		if event.kind == &"state_transition":
-			return 1.04
-	return 0.88
+func _playback_batch_duration(_batch: Dictionary) -> float:
+	return clock_period_seconds
 
 
 func _playback_batch_summary(batch: Dictionary) -> String:
@@ -6194,6 +6464,7 @@ func _finish_playback() -> void:
 		_apply_prologue_live_result(prologue_live_result)
 		_update_storage_monitor(prologue_live_result, prologue_runtime_state)
 		trace_caption_label.text = _t(&"hardware.trace.complete")
+	_queue_official_case_completion()
 
 
 func _stop_playback() -> void:
@@ -6238,11 +6509,16 @@ func _step_playback() -> void:
 		playback_index = 0
 	_show_playback_batch(playback_batches[playback_index], 1.0)
 	playback_index += 1
-	pause_button.text = _t(&"hardware.trace.resume")
+	if playback_index >= playback_batches.size():
+		_finish_playback()
+	else:
+		pause_button.text = _t(&"hardware.trace.resume")
 
 
-func _on_speed_selected(index: int) -> void:
-	playback_speed = [0.7, 1.0, 1.7][index]
+func _on_clock_period_changed(seconds: float) -> void:
+	clock_period_seconds = clampf(
+		seconds, MIN_CLOCK_PERIOD_SECONDS, MAX_CLOCK_PERIOD_SECONDS
+	)
 
 
 func _reset_connection_activity() -> void:
@@ -6424,6 +6700,10 @@ func _set_node_style(component_id: StringName, _color: Color, _active: bool) -> 
 	if node == null:
 		return
 	var component: LogicComponent = component_catalog.get(component_id)
+	_apply_component_node_style(node, component)
+
+
+func _apply_component_node_style(node: GraphNode, component: LogicComponent) -> void:
 	var panel_style: StyleBoxFlat
 	if component != null and component.is_routing_node():
 		panel_style = _compact_stylebox(Color.TRANSPARENT, 0, 0, Color.TRANSPARENT)

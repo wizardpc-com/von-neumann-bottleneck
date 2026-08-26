@@ -22,6 +22,15 @@ func _run() -> void:
 	var graph: GraphEdit = main.get("graph")
 	var instruments: Dictionary = main.get("instrument_windows")
 	var game_mode: Node = root.get_node("GameMode")
+	var clock_period_control: SpinBox = main.get("clock_period_control")
+	_assert(
+		clock_period_control != null
+		and clock_period_control.name == "ClockPeriodControl"
+		and is_equal_approx(clock_period_control.value, 0.5),
+		"Chapter 2 must replace multiplier presets with the shared editable Clock Period control."
+	)
+	clock_period_control.value = 0.3
+	_assert(is_equal_approx(float(main.get("clock_period_seconds")), 0.3), "Chapter 2 Clock Period must update playback duration directly.")
 	_assert(
 		int(ProjectSettings.get_setting("display/window/size/mode", 0)) == 3
 		and bool(ProjectSettings.get_setting("display/window/size/resizable", false))
@@ -41,7 +50,7 @@ func _run() -> void:
 	terminology_handbook.call("open_handbook", &"truth_table")
 	var terminology_tree: Tree = terminology_handbook.get("term_tree")
 	var terminology_ids: Array = terminology_handbook.get("visible_term_ids")
-	_assert(terminology_ids.size() == 88 and _unique_count(terminology_ids) == 88, "The global handbook must classify all 88 terms exactly once before filtering.")
+	_assert(terminology_ids.size() == 89 and _unique_count(terminology_ids) == 89, "The global handbook must classify all 89 terms exactly once before filtering.")
 	_assert(
 		terminology_tree.get_root().get_child_count() == 4
 		and _tree_max_depth(terminology_tree.get_root()) == 3

@@ -81,7 +81,7 @@ func _run() -> void:
 	graph = main.get("graph")
 	_assert(JSON.stringify(main.call("_capture_workbench_snapshot")) == bridge_snapshot, "Leaving the final bridge hint must restore its own default workbench unchanged.")
 	main.call("_run_official")
-	await process_frame
+	await _finish_official_sequence(main)
 	_assert(bool(completed.get(&"load_store", false)), "The final fixed LOAD/STORE program must complete through the sealed TinyComputer contract.")
 	_assert(StringName(main.get("current_phase")) == &"prologue_complete", "Successful LOAD/STORE must finish the construction prologue.")
 	var bridge_completion: Control = main.get("level_completion_overlay")
@@ -135,6 +135,7 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	_assert(not (main.get("component_menu_button") as MenuButton).disabled and not (main.get("component_menu_templates") as Dictionary).is_empty(), "%s must expose a level-authoritative menu for placing additional allowed components." % level_id)
 	_assert(not (main.get("component_palette_items") as Dictionary).is_empty(), "%s must expose the same allowed supply as visible draggable palette items." % level_id)
 	_assert(_palette_kinds(main) == _expected_palette_kinds(level_id), "%s must expose its explicit suitable component set; expected=%s actual=%s." % [level_id, _expected_palette_kinds(level_id), _palette_kinds(main)])
+	_assert_palette_previews_match_canvas(main, level_id)
 	if level_id in [&"full_adder", &"alu"]:
 		var has_xor: bool = false
 		for template_variant: Variant in (main.get("component_menu_templates") as Dictionary).values():
@@ -194,6 +195,21 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 		_assert(graph.get_connection_list().size() == (definition.get("reference_wires", []) as Array).size(), "Reset State must preserve the player's complete RAM topology.")
 	main.call("_run_official")
 	await process_frame
+	_assert(
+		bool(main.get("official_sequence_active"))
+		and not bool(main.get("official_passed"))
+		and (main.get("prologue_report") as Dictionary).is_empty(),
+		"%s official run must withhold its aggregate verdict while the first case is playing." % level_id
+	)
+	if level_id in [&"latch", &"register", &"ram"]:
+		var playback_storage: Label = main.get("storage_state_label")
+		_assert(
+			playback_storage != null and (
+				playback_storage.text.count("0x0") >= 2 if level_id == &"ram" else true
+			),
+			"%s official playback must begin from its initial committed state." % level_id
+		)
+	await _finish_official_sequence(main)
 	_assert(bool(main.get("official_passed")), "%s reference-visible topology must pass every official case." % level_id)
 	_assert(String(main.get("passing_topology_signature")) == main.call("_circuit_from_graph").canonical_signature(), "%s evidence must bind to the exact displayed topology." % level_id)
 	var batches: Array = main.get("playback_batches")
@@ -227,9 +243,6 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 				_assert(not bool(latch_rows[1].call("output_token_enabled")), "The Q state value must not be duplicated onto the opposite NQ output animation.")
 		if level_id == &"ram":
 			_assert(saw_parallel_ram_cells, "RAM's two Register4 cells must animate their boundary in parallel, not one after another.")
-			var playback_storage: Label = main.get("storage_state_label")
-			_assert(playback_storage != null and playback_storage.text.count("0x0") >= 2, "Official RAM playback must start from its initial committed state instead of showing the final memory early.")
-			main.call("_finish_playback")
 			var final_storage: Label = main.get("storage_state_label")
 			_assert(final_storage != null and "0x5" in final_storage.text and "0xC" in final_storage.text, "RAM official sequence must leave M0=0x5 and M1=0xC visible in the committed-state monitor.")
 			main.call("_show_playback_batch", parallel_ram_batch, 0.5)
@@ -281,18 +294,19 @@ func _assert_cpu_playback(main: Control) -> void:
 	var parallel_component_wave: bool = false
 	var word_wire_event: PrologueEvent
 	var ram_event: PrologueEvent
-	for batch: Dictionary in main.get("playback_batches"):
-		var component_count: int = 0
-		for event: PrologueEvent in batch.get("events", []):
-			if event.kind == &"component_process":
-				component_count += 1
-				var component = (main.get("component_catalog") as Dictionary).get(event.component_id)
-				if component != null:
-					component_kinds[component.kind] = true
-					if component.kind == &"ram2x4" and ram_event == null:
-						ram_event = event
-			elif event.kind == &"wire_signal" and event.value.width == 4 and word_wire_event == null:
-				word_wire_event = event
+	var component_counts_by_wave: Dictionary[String, int] = {}
+	for event: PrologueEvent in report.get("events", []):
+		var wave_id: String = "%d:%d" % [event.sequence_step, event.visual_step]
+		if event.kind == &"component_process":
+			component_counts_by_wave[wave_id] = int(component_counts_by_wave.get(wave_id, 0)) + 1
+			var component = (main.get("component_catalog") as Dictionary).get(event.component_id)
+			if component != null:
+				component_kinds[component.kind] = true
+				if component.kind == &"ram2x4" and ram_event == null:
+					ram_event = event
+		elif event.kind == &"wire_signal" and event.value.width == 4 and word_wire_event == null:
+			word_wire_event = event
+	for component_count: int in component_counts_by_wave.values():
 		parallel_component_wave = parallel_component_wave or component_count >= 2
 	_assert(component_kinds.has(&"control") and component_kinds.has(&"alu4") and component_kinds.has(&"register4") and component_kinds.has(&"ram2x4"), "CPU playback must give control, ALU, accumulator, and RAM their own processing events.")
 	_assert(parallel_component_wave, "Independent CPU components ready on the same tick must animate in one parallel wave.")
@@ -324,6 +338,19 @@ func _assert_cpu_playback(main: Control) -> void:
 		_assert(not pulses.is_empty() and _paths_equal(pulses[0]["path"], expected_path), "Four-bit animation must follow the exact currently rendered connection curve.")
 		_assert(not pulses.is_empty() and String(pulses[0].get("display", "")).begins_with("0x"), "A word animation must display its multi-bit value instead of collapsing it to a binary dot.")
 	_assert(bool(report.get("passed", false)), "Animation inspection must not influence the already computed CPU result.")
+
+
+func _finish_official_sequence(main: Control) -> void:
+	var frame_guard: int = 0
+	while bool(main.get("official_sequence_active")) and frame_guard < 128:
+		if bool(main.get("playback_running")):
+			main.call("_finish_playback")
+		await process_frame
+		frame_guard += 1
+	_assert(
+		not bool(main.get("official_sequence_active")),
+		"The official case sequence must reach its aggregate verdict without stalling."
+	)
 
 
 func _assert_module_text_clearance(main: Control, level_id: StringName) -> void:
@@ -367,6 +394,95 @@ func _palette_kinds(main: Control) -> Array[StringName]:
 		result.append(kind)
 	result.sort()
 	return result
+
+
+func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) -> void:
+	var templates: Dictionary = main.get("component_menu_templates")
+	var items: Dictionary = main.get("component_palette_items")
+	for key: String in items:
+		var template: LogicComponent = templates[key]
+		var item: Control = items[key]
+		var preview: Control = item.get("component_preview") as Control
+		var preview_node: GraphNode
+		if preview != null:
+			preview_node = preview.get_child(0) as GraphNode
+		_assert(
+			preview_node != null
+			and preview_node.custom_minimum_size.is_equal_approx(main.call("_component_node_size", template)),
+			"%s palette item %s must use the canvas component footprint instead of a name-only placeholder." % [level_id, template.kind]
+		)
+	if level_id != &"register":
+		return
+	var latch_key: String = ""
+	for key: String in templates:
+		if (templates[key] as LogicComponent).kind == LogicComponentType.KIND_SR_LATCH:
+			latch_key = key
+			break
+	_assert(not latch_key.is_empty(), "Register must expose SRLatch in the component palette.")
+	if latch_key.is_empty():
+		return
+	var latch_template: LogicComponent = templates[latch_key]
+	var palette_preview: Control = (items[latch_key] as Control).get("component_preview") as Control
+	var palette_node: GraphNode = palette_preview.get_child(0) as GraphNode
+	var placement_preview: Control = main.call("_create_component_placement_ghost", latch_template)
+	var placement_node: GraphNode = placement_preview.get_child(0) as GraphNode
+	var canvas_node: GraphNode = (main.get("component_nodes") as Dictionary)[&"LATCH"] as GraphNode
+	_assert(
+		_component_visual_signature(palette_node) == _component_visual_signature(canvas_node)
+		and _component_visual_signature(placement_node) == _component_visual_signature(canvas_node),
+		"SRLatch must use one identical row, port, state, and shape presentation in the palette, placement ghost, and placed canvas node."
+	)
+	placement_preview.free()
+
+
+func _component_visual_signature(node: GraphNode) -> String:
+	if node == null:
+		return ""
+	var rows: Array[Dictionary] = []
+	var symbols: Array[Dictionary] = []
+	var state_labels: Array[Dictionary] = []
+	for child: Node in node.get_children():
+		if child is CircuitModuleRow:
+			var row := child as CircuitModuleRow
+			rows.append({
+				"kind": String(row.component_kind),
+				"component": row.visible_component_name(),
+				"input": row.input_label,
+				"output": row.output_label,
+				"index": row.row_index,
+				"count": row.row_count,
+				"has_input": row.has_input,
+				"has_output": row.has_output,
+				"input_width": row.input_width,
+				"output_width": row.output_width,
+				"shape": String(row.shape_profile()),
+				"position": row.position,
+				"size": row.size,
+			})
+		elif child is CircuitComponentSymbol:
+			var symbol := child as CircuitComponentSymbol
+			symbols.append({
+				"kind": String(symbol.component_kind),
+				"label": symbol.terminal_label,
+				"height": symbol.display_height,
+				"shape": String(symbol.shape_profile()),
+				"position": symbol.position,
+				"size": symbol.size,
+			})
+		elif child is Label:
+			var label := child as Label
+			state_labels.append({
+				"text": label.text,
+				"height": label.custom_minimum_size.y,
+				"position": label.position,
+				"size": label.size,
+			})
+	return JSON.stringify({
+		"size": node.custom_minimum_size,
+		"rows": rows,
+		"symbols": symbols,
+		"state": state_labels,
+	})
 
 
 func _expected_palette_kinds(level_id: StringName) -> Array[StringName]:

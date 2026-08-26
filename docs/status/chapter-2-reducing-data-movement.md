@@ -42,7 +42,7 @@ The capstone therefore has multiple real solutions. A four-line Cache retains th
 - The parsed `DSLProgram` remains authoritative. The scheduler derives every iteration address from the two nested loops and executes the actual inner IR body; it does not substitute a hidden row/column result.
 - Direct reads emit CPU → Bus requests, Bus → RAM access, and RAM → Bus → CPU value returns. Cached reads retain the established request/lookup/hit/miss/fill/evict events and timing.
 - Cache state is deterministic fully associative LRU with one outstanding request, as in v0.2. Blocking changes the authored order in which both workload passes consume program-derived iterations; it does not expose replacement-policy tuning.
-- Trace metrics drive Profiler evidence, CPU WAIT, Run History, receipts, correctness, and completion before playback starts. Window state, GraphEdit geometry, playback speed, and language never feed simulation.
+- Trace metrics drive Profiler evidence, CPU WAIT, Run History, receipts, correctness, and completion before playback starts. Window state, GraphEdit geometry, the user-selected presentation Clock Period, and language never feed simulation.
 - Cross-level Before evidence is accepted only when its source level, official data, program signature, access order, Cache configuration, pass count, and work grouping match the authored pair. The receipt stays immutable; the destination level merely presents it.
 - **Next evidence** pauses on the next near return, far fetch, eviction, RAM access, or result boundary, while **Finish Trace** consumes the remaining presentation immediately. Both move only the playback cursor; neither edits the authoritative event list, metrics, or receipt.
 

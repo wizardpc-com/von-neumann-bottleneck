@@ -31,6 +31,9 @@ const MUTED := Color("91a0b9")
 const TEXT := Color("e9f0fa")
 const RUN_HISTORY_LIMIT: int = 10
 const GRAPH_KEYBOARD_PAN_SPEED: float = 720.0
+const MIN_CLOCK_PERIOD_SECONDS: float = 0.05
+const MAX_CLOCK_PERIOD_SECONDS: float = 2.0
+const DEFAULT_CLOCK_PERIOD_SECONDS: float = 0.5
 const COMPLETION_SUMMARY_KEYS := {
 	&"assembly": &"system.completion.summary.assembly",
 	&"cpu_speed": &"system.completion.summary.cpu_speed",
@@ -123,7 +126,7 @@ var level_label: Label
 var playback_caption: Label
 var playback_progress: ProgressBar
 var pause_button: Button
-var speed_selector: OptionButton
+var clock_period_control: SpinBox
 var wire_color_menu_button: MenuButton
 var active_wire_color_index: int = WirePaletteType.DEFAULT_INDEX
 
@@ -137,7 +140,7 @@ var latest_official_traces: Array[SystemTrace] = []
 var current_trace: SystemTrace
 var playback_index: int = 0
 var playback_elapsed: float = 0.0
-var playback_speed: float = 1.0
+var clock_period_seconds: float = DEFAULT_CLOCK_PERIOD_SECONDS
 var playback_running: bool = false
 var pending_history_after_playback: bool = false
 var highlighted_source_line: int = -1
@@ -290,7 +293,7 @@ func _process(delta: float) -> void:
 		_finish_playback()
 		return
 	var event: SystemEvent = current_trace.events[playback_index]
-	playback_elapsed += delta * playback_speed
+	playback_elapsed += delta
 	var duration: float = _display_duration(event)
 	var progress: float = minf(1.0, playback_elapsed / duration)
 	_show_event(event, progress)
@@ -974,13 +977,24 @@ func _build_playback_bar() -> Control:
 	step_button.text = _t(&"system.playback.step")
 	step_button.pressed.connect(_step_playback)
 	row.add_child(step_button)
-	speed_selector = OptionButton.new()
-	for speed: float in [0.5, 1.0, 2.0, 4.0]:
-		speed_selector.add_item("%.1fx" % speed)
-		speed_selector.set_item_metadata(speed_selector.item_count - 1, speed)
-	speed_selector.select(1)
-	speed_selector.item_selected.connect(func(index: int) -> void: playback_speed = float(speed_selector.get_item_metadata(index)))
-	row.add_child(speed_selector)
+	var clock_period_label := Label.new()
+	clock_period_label.text = _t(&"common.clock_period.label")
+	clock_period_label.tooltip_text = _t(&"common.clock_period.tooltip")
+	row.add_child(clock_period_label)
+	clock_period_control = SpinBox.new()
+	clock_period_control.name = "ClockPeriodControl"
+	clock_period_control.min_value = MIN_CLOCK_PERIOD_SECONDS
+	clock_period_control.max_value = MAX_CLOCK_PERIOD_SECONDS
+	clock_period_control.step = 0.05
+	clock_period_control.value = clock_period_seconds
+	clock_period_control.suffix = _t(&"common.clock_period.seconds_suffix")
+	clock_period_control.custom_minimum_size.x = 92.0
+	clock_period_control.tooltip_text = _t(&"common.clock_period.tooltip")
+	clock_period_control.value_changed.connect(_on_clock_period_changed)
+	row.add_child(clock_period_control)
+	var handbook_space := Control.new()
+	handbook_space.custom_minimum_size.x = 128.0
+	row.add_child(handbook_space)
 	return panel
 
 
@@ -2481,8 +2495,14 @@ func _event_color(kind: StringName) -> Color:
 	return ACCENT
 
 
-func _display_duration(event: SystemEvent) -> float:
-	return 0.28 + sqrt(float(maxi(1, event.duration))) * 0.11
+func _display_duration(_event: SystemEvent) -> float:
+	return clock_period_seconds
+
+
+func _on_clock_period_changed(seconds: float) -> void:
+	clock_period_seconds = clampf(
+		seconds, MIN_CLOCK_PERIOD_SECONDS, MAX_CLOCK_PERIOD_SECONDS
+	)
 
 
 func _toggle_pause() -> void:

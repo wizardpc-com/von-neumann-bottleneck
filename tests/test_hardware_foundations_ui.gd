@@ -191,6 +191,20 @@ func _run() -> void:
 		(main.get("editor_toolbar") as Control).visible and (main.get("graph") as GraphEdit).visible,
 		"Playable levels must restore their circuit canvas and editing toolbar after leaving the simplified map."
 	)
+	var clock_period_control: SpinBox = main.get("clock_period_control")
+	_assert(
+		clock_period_control != null
+		and clock_period_control.name == "ClockPeriodControl"
+		and is_equal_approx(clock_period_control.value, 0.5)
+		and clock_period_control.tooltip_text.contains("播放速度"),
+		"Hardware playback must expose one precise Clock Period control instead of multiplier presets."
+	)
+	clock_period_control.value = 0.25
+	_assert(
+		is_equal_approx(float(main.get("clock_period_seconds")), 0.25)
+		and is_equal_approx(float(main.call("_playback_batch_duration", {})), 0.25),
+		"Changing Clock Period must directly set each visible causal wave duration."
+	)
 	var graph: GraphEdit = main.get("graph")
 	var nodes: Dictionary = main.get("component_nodes")
 	var symbols: Dictionary = main.get("component_symbols")
@@ -330,6 +344,22 @@ func _run() -> void:
 	_assert(menu_kinds.size() == 3 and &"and" in menu_kinds and &"not" in menu_kinds and &"or" in menu_kinds, "The tutorial menu must deduplicate supplied gates and exclude unique Test Bench terminals and wire nodes; got %s." % [menu_kinds])
 	var palette_items: Dictionary = main.get("component_palette_items")
 	_assert(palette_items.size() == 3, "The visible component palette must mirror the level-owned supply instead of hiding it only in a popup menu.")
+	for template_key: String in palette_items:
+		var palette_item: Control = palette_items[template_key]
+		var palette_preview: Control = palette_item.get("component_preview") as Control
+		var palette_node: GraphNode
+		if palette_preview != null:
+			palette_node = palette_preview.get_child(0) as GraphNode
+		var palette_symbol := _first_component_symbol(palette_node)
+		var palette_template: LogicComponent = menu_templates[template_key]
+		_assert(
+			palette_preview != null
+			and palette_node != null
+			and palette_symbol != null
+			and palette_symbol.component_kind == palette_template.kind
+			and palette_node.custom_minimum_size.is_equal_approx(main.call("_component_node_size", palette_template)),
+			"Every palette entry must render a scaled copy of the same component node used on the circuit canvas."
+		)
 	var and_menu_item: int = _component_menu_item_for_kind(main, &"and")
 	_assert(and_menu_item >= 0, "The allowed-components menu must contain an AND gate item.")
 	var placement_window_layout: String = _desktop_window_layout_signature(main)
@@ -354,7 +384,8 @@ func _run() -> void:
 	graph.call("_gui_input", preview_motion)
 	graph.call("_draw_component_placement_preview")
 	var placement_ghost: Control = graph.get("placement_preview_control")
-	var ghost_symbol: CircuitComponentSymbol = placement_ghost.get_child(0) as CircuitComponentSymbol
+	var ghost_node: GraphNode = placement_ghost.get_child(0) as GraphNode
+	var ghost_symbol: CircuitComponentSymbol = _first_component_symbol(ghost_node)
 	var ghost_symbol_position: Vector2 = ghost_symbol.position
 	var ghost_symbol_size: Vector2 = ghost_symbol.size
 	var ghost_half_size: Vector2 = graph.get("placement_preview_size") * 0.5
@@ -385,10 +416,16 @@ func _run() -> void:
 	_assert(is_zero_approx(fmod(placed_position.x, float(graph.snapping_distance))) and is_zero_approx(fmod(placed_position.y, float(graph.snapping_distance))), "Menu placement must snap the actual component to the same visible dot grid as its preview.")
 	_assert(
 		placed_node.position.is_equal_approx(placement_ghost.position)
+		and placed_node.custom_minimum_size.is_equal_approx(ghost_node.custom_minimum_size)
 		and placed_symbol.position.is_equal_approx(ghost_symbol_position)
 		and placed_symbol.size.is_equal_approx(ghost_symbol_size)
 		and is_equal_approx(placed_symbol.display_height, ghost_symbol.display_height),
-		"The placed component must occupy the exact preview geometry instead of jumping below the ghost."
+		"The placed component must occupy the exact preview geometry instead of jumping below the ghost; node=%s/%s ghost=%s/%s symbol=%s/%s ghost_symbol=%s/%s." % [
+			placed_node.position, placed_node.custom_minimum_size,
+			placement_ghost.position, ghost_node.custom_minimum_size,
+			placed_symbol.position, placed_symbol.size,
+			ghost_symbol_position, ghost_symbol_size,
+		]
 	)
 	graph.zoom = 1.0
 	graph.scroll_offset = Vector2.ZERO
@@ -488,6 +525,13 @@ func _run() -> void:
 	var task_window: Control = desktop_windows[&"task"]
 	var bench_window: Control = desktop_windows[&"test_bench"]
 	var components_window: Control = desktop_windows[&"components"]
+	var bench_minimize_button: Button = bench_window.find_child("MinimizeButton", true, false)
+	var components_minimize_button: Button = components_window.find_child("MinimizeButton", true, false)
+	_assert(
+		bench_minimize_button != null and not bench_minimize_button.visible and not bool(bench_window.get("minimizable"))
+		and components_minimize_button != null and not components_minimize_button.visible and not bool(components_window.get("minimizable")),
+		"Test Bench and Components must omit minimization while retaining their close and taskbar controls."
+	)
 	var desktop_area: Vector2 = (main.get("graph_stack") as Control).size
 	_assert(
 		task_window.size.x >= 320.0 and bench_window.size.x >= 320.0
@@ -1088,12 +1132,41 @@ func _run() -> void:
 	)
 
 	main.call("_run_official")
-	_assert(not bool(main.get("official_passed")) and (main.get("seal_button") as Button).disabled, "An unwired circuit must fail and keep encapsulation locked.")
+	_assert(
+		bool(main.get("official_sequence_active"))
+		and (main.get("official_report") as Dictionary).is_empty()
+		and not bool(main.get("official_passed"))
+		and (main.get("seal_button") as Button).disabled,
+		"An official run must begin with one case and withhold the aggregate verdict."
+	)
+	await _finish_official_sequence(main)
+	_assert(not bool(main.get("official_passed")) and (main.get("seal_button") as Button).disabled, "An unwired circuit must fail only after every case finishes and keep encapsulation locked.")
 	_connect_valid_half_adder(main)
 	await process_frame
 	_assert(graph.get_connection_list().size() == 9, "The valid player topology must consist of the nine visible wires created by the test.")
 	var exported_signature: String = main.call("_circuit_from_graph").canonical_signature()
 	main.call("_run_official")
+	var case_labels: Array = main.get("official_case_labels")
+	_assert(
+		bool(main.get("official_sequence_active"))
+		and not bool(main.get("official_passed"))
+		and (main.get("official_report") as Dictionary).is_empty()
+		and (case_labels[0] as Label).text.contains("正在运行")
+		and (case_labels[1] as Label).text.contains("未运行")
+		and not (case_labels[0] as Label).text.contains("期望")
+		and not (case_labels[1] as Label).text.contains("期望"),
+		"Official cases must start one at a time without exposing expected outputs or future results."
+	)
+	main.call("_finish_playback")
+	await process_frame
+	_assert(
+		(case_labels[0] as Label).text.contains("实际")
+		and (case_labels[1] as Label).text.contains("正在运行")
+		and (case_labels[2] as Label).text.contains("未运行")
+		and not bool(main.get("official_passed")),
+		"Completing one trace must reveal only that case and then start the next case."
+	)
+	await _finish_official_sequence(main)
 	var report: Dictionary = main.get("official_report")
 	_assert(bool(main.get("official_passed")) and bool(report["passed"]), "The displayed valid Half Adder must pass all four official cases.")
 	_assert((report["cases"] as Array).size() == 4, "Official UI run must show all four fixed truth-table cases.")
@@ -1119,6 +1192,7 @@ func _run() -> void:
 	_assert(not bool(main.get("official_passed")) and (main.get("seal_button") as Button).disabled, "Any topology edit must invalidate stale official evidence.")
 	_connect(main, &"AND_2", 0, &"SUM_OUT", 0)
 	main.call("_run_official")
+	await _finish_official_sequence(main)
 	_assert(bool(main.get("official_passed")), "Reconnected valid topology must pass after a fresh official run.")
 	main.call("_seal_half_adder")
 	_assert(main.get("sealed_half_adder") != null and bool(main.get("sealing")), "Seal action must immediately snapshot the verified player circuit and start the visual effect.")
@@ -1154,6 +1228,21 @@ func _run() -> void:
 	main.call("_start_campaign_level", &"load_store")
 	await process_frame
 	_assert(StringName(main.get("current_phase")) == &"prologue" and (main.get("graph") as GraphEdit).get_connection_list().size() == 5, "An end-of-prologue level must actually open in Test mode, not merely display an enabled map button.")
+	main.call("_run_official")
+	var prologue_labels: Array = main.get("prologue_case_labels")
+	_assert(
+		bool(main.get("official_sequence_active"))
+		and not prologue_labels.is_empty()
+		and (prologue_labels[0] as Label).text.contains("正在运行")
+		and not (prologue_labels[0] as Label).text.contains("期望"),
+		"Prologue official programs must use the same one-case-at-a-time reveal boundary."
+	)
+	await _finish_official_sequence(main)
+	_assert(
+		bool(main.get("official_passed"))
+		and not (main.get("prologue_report") as Dictionary).is_empty(),
+		"A valid prologue official sequence must publish its aggregate report only after all cases finish."
+	)
 	_key(main, KEY_ESCAPE)
 	await process_frame
 	_assert(StringName(main.get("current_phase")) == &"campaign", "Esc from a Hardware level must return to its level-selection map.")
@@ -1310,6 +1399,15 @@ func _component_template_key_for_kind(main: Control, kind: StringName) -> String
 		if template.kind == kind:
 			return key
 	return ""
+
+
+func _first_component_symbol(node: GraphNode) -> CircuitComponentSymbol:
+	if node == null:
+		return null
+	for child: Node in node.get_children():
+		if child is CircuitComponentSymbol:
+			return child as CircuitComponentSymbol
+	return null
 
 
 func _shift_click_component(main: Control, component_id: StringName) -> void:
@@ -1662,6 +1760,19 @@ func _test_workbench_store_model() -> void:
 	)
 	if FileAccess.file_exists(disk_path):
 		DirAccess.remove_absolute(disk_path)
+
+
+func _finish_official_sequence(main: Control) -> void:
+	var frame_guard: int = 0
+	while bool(main.get("official_sequence_active")) and frame_guard < 64:
+		if bool(main.get("playback_running")):
+			main.call("_finish_playback")
+		await process_frame
+		frame_guard += 1
+	_assert(
+		not bool(main.get("official_sequence_active")),
+		"Official case sequence must reach a final verdict without stalling."
+	)
 
 
 func _assert(condition: bool, message: String) -> void:

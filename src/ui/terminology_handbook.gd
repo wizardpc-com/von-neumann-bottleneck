@@ -23,7 +23,7 @@ const DIRECTORIES: Array[Dictionary] = [
 	{"id": &"signals", "category": &"basics", "key": &"terminology.directory.signals", "terms": [&"bit", &"binary", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit"]},
 	{"id": &"logic", "category": &"basics", "key": &"terminology.directory.logic", "terms": [&"logic_gate", &"not_gate", &"and_gate", &"or_gate", &"xor_gate", &"nor_gate"]},
 	{"id": &"circuit", "category": &"basics", "key": &"terminology.directory.circuit", "terms": [&"input_output", &"port", &"wire", &"junction", &"combinational_loop", &"tick", &"truth_table", &"topology"]},
-	{"id": &"testing", "category": &"basics", "key": &"terminology.directory.testing", "terms": [&"test_bench", &"debug_run", &"official_test", &"trace", &"abstraction", &"encapsulation"]},
+	{"id": &"testing", "category": &"basics", "key": &"terminology.directory.testing", "terms": [&"test_bench", &"debug_run", &"official_test", &"trace", &"clock_period", &"abstraction", &"encapsulation"]},
 	{"id": &"arithmetic", "category": &"hardware", "key": &"terminology.directory.arithmetic", "terms": [&"half_adder", &"sum", &"carry", &"full_adder", &"cin_cout"]},
 	{"id": &"processing", "category": &"hardware", "key": &"terminology.directory.processing", "terms": [&"multiplexer", &"alu", &"opcode", &"decoder", &"controller", &"data_path"]},
 	{"id": &"storage", "category": &"hardware", "key": &"terminology.directory.storage", "terms": [&"latch", &"sr_latch", &"set_reset", &"d_q", &"register", &"address_write", &"ram"]},
@@ -62,6 +62,7 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"debug_run", "category": &"basics", "title": &"terminology.term.debug_run.title", "body": &"terminology.term.debug_run.body"},
 	{"id": &"official_test", "category": &"basics", "title": &"terminology.term.official_test.title", "body": &"terminology.term.official_test.body"},
 	{"id": &"trace", "category": &"basics", "title": &"terminology.term.trace.title", "body": &"terminology.term.trace.body"},
+	{"id": &"clock_period", "category": &"basics", "title": &"terminology.term.clock_period.title", "body": &"terminology.term.clock_period.body"},
 	{"id": &"abstraction", "category": &"basics", "title": &"terminology.term.abstraction.title", "body": &"terminology.term.abstraction.body"},
 	{"id": &"encapsulation", "category": &"basics", "title": &"terminology.term.encapsulation.title", "body": &"terminology.term.encapsulation.body"},
 

@@ -28,6 +28,9 @@ const MUTED := Color("91a0b9")
 const TEXT := Color("e9f0fa")
 const OFFICIAL_CYCLE_TARGET: int = 105
 const RUN_HISTORY_LIMIT: int = 8
+const MIN_CLOCK_PERIOD_SECONDS: float = 0.05
+const MAX_CLOCK_PERIOD_SECONDS: float = 2.0
+const DEFAULT_CLOCK_PERIOD_SECONDS: float = 0.5
 const KEY_EVIDENCE_EVENT_KINDS: Array[StringName] = [
 	&"cache_hit", &"cache_miss", &"cache_evict", &"ram_access", &"store_result",
 ]
@@ -118,7 +121,7 @@ var pause_button: Button
 var step_button: Button
 var next_evidence_button: Button
 var finish_playback_button: Button
-var speed_selector: OptionButton
+var clock_period_control: SpinBox
 var mode_selector: GameModeSelectorType
 var fullscreen_button: FullscreenButtonType
 var trace_progress: ProgressBar
@@ -156,7 +159,7 @@ var block_card_buttons: Dictionary[int, Button] = {}
 
 var playback_index: int = 0
 var playback_elapsed: float = 0.0
-var playback_speed: float = 1.0
+var clock_period_seconds: float = DEFAULT_CLOCK_PERIOD_SECONDS
 var playback_running: bool = false
 var playback_completed: bool = false
 var playback_index_is_next_unshown: bool = false
@@ -253,7 +256,7 @@ func _process(delta: float) -> void:
 		return
 	var event: SimulationEventType = current_trace.events[playback_index]
 	var display_duration: float = _display_duration_for(event)
-	playback_elapsed += delta * playback_speed
+	playback_elapsed += delta
 	var progress: float = minf(playback_elapsed / display_duration, 1.0)
 	_draw_event(event, progress)
 	_update_trace_progress(progress)
@@ -894,13 +897,21 @@ func _build_playback_panel() -> Control:
 	finish_playback_button.disabled = true
 	finish_playback_button.pressed.connect(_finish_playback_early)
 	controls.add_child(finish_playback_button)
-	speed_selector = OptionButton.new()
-	for speed: float in [0.5, 1.0, 2.0, 4.0]:
-		speed_selector.add_item(str(speed).trim_suffix(".0") + "x")
-		speed_selector.set_item_metadata(speed_selector.item_count - 1, speed)
-	speed_selector.select(1)
-	speed_selector.item_selected.connect(_on_speed_selected)
-	controls.add_child(speed_selector)
+	var clock_period_label := Label.new()
+	clock_period_label.text = _t(&"common.clock_period.label")
+	clock_period_label.tooltip_text = _t(&"common.clock_period.tooltip")
+	controls.add_child(clock_period_label)
+	clock_period_control = SpinBox.new()
+	clock_period_control.name = "ClockPeriodControl"
+	clock_period_control.min_value = MIN_CLOCK_PERIOD_SECONDS
+	clock_period_control.max_value = MAX_CLOCK_PERIOD_SECONDS
+	clock_period_control.step = 0.05
+	clock_period_control.value = clock_period_seconds
+	clock_period_control.suffix = _t(&"common.clock_period.seconds_suffix")
+	clock_period_control.custom_minimum_size.x = 92.0
+	clock_period_control.tooltip_text = _t(&"common.clock_period.tooltip")
+	clock_period_control.value_changed.connect(_on_clock_period_changed)
+	controls.add_child(clock_period_control)
 	playback_label = Label.new()
 	playback_label.text = _t(&"trace.playback.empty")
 	playback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2202,23 +2213,14 @@ func _finish_playback_early() -> void:
 	_finish_playback()
 
 
-func _on_speed_selected(index: int) -> void:
-	playback_speed = float(speed_selector.get_item_metadata(index))
+func _on_clock_period_changed(seconds: float) -> void:
+	clock_period_seconds = clampf(
+		seconds, MIN_CLOCK_PERIOD_SECONDS, MAX_CLOCK_PERIOD_SECONDS
+	)
 
 
-func _display_duration_for(event: SimulationEventType) -> float:
-	match event.kind:
-		&"request": return 0.62
-		&"cache_lookup": return 0.34
-		&"cache_hit", &"cache_fill": return 0.46
-		&"cache_miss", &"cache_evict": return 0.38
-		&"bus_request": return 0.56
-		&"ram_access": return 0.64
-		&"line_return": return 0.92
-		&"value_return": return 0.72
-		&"compute": return 0.42
-		&"store_result": return 0.66
-		_: return maxf(0.32, float(event.duration) * 0.04)
+func _display_duration_for(_event: SimulationEventType) -> float:
+	return clock_period_seconds
 
 
 func _draw_event(event: SimulationEventType, progress: float) -> void:

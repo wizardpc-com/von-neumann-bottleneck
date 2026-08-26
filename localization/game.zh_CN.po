@@ -1042,13 +1042,19 @@ msgid "hardware.cases.actual_empty"
 msgstr "实际：SUM —  CARRY —"
 
 msgid "hardware.cases.run_official"
-msgstr "运行 4 个正式用例"
+msgstr "逐项运行正式用例"
+
+msgid "hardware.cases.official_running"
+msgstr "正式测试 %d/%d"
 
 msgid "hardware.cases.row_not_run"
-msgstr "A%d B%d → 期望 S%d C%d · 尚未运行"
+msgstr "#%d  A%d B%d  ·  未运行"
+
+msgid "hardware.cases.row_running"
+msgstr "#%d  A%d B%d  ·  正在运行"
 
 msgid "hardware.cases.row_result"
-msgstr "A%d B%d → 期望 S%d C%d · 实际 %s  %s"
+msgstr "#%d  A%d B%d  →  实际 %s  ·  %s"
 
 msgid "hardware.sealed.library_heading"
 msgstr "玩家元件库"
@@ -1293,11 +1299,14 @@ msgstr "电路不完整 — %s"
 msgid "hardware.status.debug_complete"
 msgstr "调试完成 — 动画正在回放确定性的电路追踪"
 
+msgid "hardware.status.official_case_running"
+msgstr "正式测试正在逐项运行 · 案例 %d/%d"
+
 msgid "hardware.status.official_pass"
 msgstr "正式测试通过 — 全部用例均匹配。你的精确拓扑已经可以封装。"
 
 msgid "hardware.status.official_fail"
-msgstr "正式测试失败 — 对比期望值与实际值，然后修改拓扑。"
+msgstr "正式测试失败 — 查看已完成案例的实际输出，然后修改拓扑。"
 
 msgid "hardware.status.sealed_verified"
 msgstr "封装元件验证通过 — 保存的电路仍通过全部 4 个用例。"
@@ -1335,6 +1344,15 @@ msgstr "实时端口 · 绿色高电平 %d · 红色低电平 %d · 灰色高阻
 msgid "hardware.live.invalid"
 msgstr "绿=高 · 红=低 · 灰=高阻 Z · %s"
 
+msgid "common.clock_period.label"
+msgstr "时钟周期"
+
+msgid "common.clock_period.seconds_suffix"
+msgstr "秒"
+
+msgid "common.clock_period.tooltip"
+msgstr "设置每个可见追踪步骤持续的秒数；只改变播放速度，不改变模拟结果。"
+
 msgid "hardware.trace.blocked"
 msgstr "追踪被阻止 — %s"
 
@@ -1366,7 +1384,7 @@ msgid "hardware.trace.replay"
 msgstr "重放追踪"
 
 msgid "hardware.trace.complete"
-msgstr "追踪完成 — 结果在动画开始前就已计算完毕"
+msgstr "当前案例追踪完成"
 
 msgid "hardware.tooltip.input"
 msgstr "外部测试台信号源。请在测试台窗口中切换数值。"
@@ -1531,10 +1549,13 @@ msgid "hardware.prologue.bench.subtitle"
 msgstr "可编辑调试值 + 固定正式用例/时序程序"
 
 msgid "hardware.prologue.case.not_run"
-msgstr "#%d  %s  →  期望 %s  ·  未运行"
+msgstr "#%d  %s  ·  未运行"
+
+msgid "hardware.prologue.case.running"
+msgstr "#%d  %s  ·  正在运行"
 
 msgid "hardware.prologue.case.result"
-msgstr "#%d  %s  →  期望 %s  ·  实际 %s  ·  %s"
+msgstr "#%d  %s  →  实际 %s  ·  %s"
 
 msgid "hardware.prologue.debug.result"
 msgstr "实际输出：%s"
@@ -2382,7 +2403,7 @@ msgid "system.profiler.tier"
 msgstr "调查工具等级 %d / 5"
 
 msgid "system.profiler.help"
-msgstr "Profiler 只读取已完成的 Trace；播放暂停、速度和动画不会改变任何指标。"
+msgstr "Profiler 只读取已完成的 Trace；播放暂停、时钟周期和动画不会改变任何指标。"
 
 msgid "system.profiler.breakdown_locked"
 msgstr "首次提交诊断后才会开放 CPU/RAM/Bus 完整周期拆分。请先依据总周期、CPU WAIT、工作量增长与 Trace 数据流判断。"
@@ -3603,7 +3624,13 @@ msgid "terminology.term.trace.title"
 msgstr "Trace（执行轨迹）"
 
 msgid "terminology.term.trace.body"
-msgstr "模拟器已经确定的一串按顺序排列的事件证据。播放、暂停、步进与动画速度只改变查看方式，不改变结果。"
+msgstr "模拟器已经确定的一串按顺序排列的事件证据。播放、暂停、步进与可调时钟周期只改变查看方式，不改变结果。"
+
+msgid "terminology.term.clock_period.title"
+msgstr "时钟周期"
+
+msgid "terminology.term.clock_period.body"
+msgstr "一个可见追踪步骤在屏幕上持续的时间。数值越小，播放越快；它只控制观察节奏，不改变模拟 tick、结果、指标或正式测试判定。"
 
 msgid "terminology.term.abstraction.title"
 msgstr "抽象（Abstraction）"
@@ -3873,7 +3900,7 @@ msgid "terminology.term.deterministic.title"
 msgstr "确定性（Deterministic）"
 
 msgid "terminology.term.deterministic.body"
-msgstr "相同程序、机器和输入总会产生相同 Trace 与指标。播放速度和界面动画不会改变模拟结果。"
+msgstr "相同程序、机器和输入总会产生相同 Trace 与指标。可调时钟周期和界面动画不会改变模拟结果。"
 
 msgid "terminology.term.cache.title"
 msgstr "Cache（缓存）"

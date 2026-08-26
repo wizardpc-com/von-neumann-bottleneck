@@ -7,12 +7,15 @@ const MODE_TEST: StringName = &"test"
 const MODES: Array[StringName] = [MODE_GAME, MODE_TEST]
 
 var current_mode: StringName = MODE_GAME
+var developer_ui_enabled: bool = false
 
 
 func _ready() -> void:
-	var arguments: PackedStringArray = OS.get_cmdline_user_args()
+	var arguments: PackedStringArray = OS.get_cmdline_args()
+	arguments.append_array(OS.get_cmdline_user_args())
 	if "--test-mode" in arguments or "--mode=test" in arguments:
 		current_mode = MODE_TEST
+		developer_ui_enabled = true
 	elif "--game-mode" in arguments or "--mode=game" in arguments:
 		current_mode = MODE_GAME
 
@@ -29,6 +32,10 @@ func set_mode(mode: StringName) -> bool:
 
 func is_test_mode() -> bool:
 	return current_mode == MODE_TEST
+
+
+func developer_tools_enabled() -> bool:
+	return developer_ui_enabled
 
 
 func mode_index() -> int:

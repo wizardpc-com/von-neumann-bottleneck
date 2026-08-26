@@ -1021,7 +1021,7 @@ msgid "hardware.tutorial.heading_subtitle"
 msgstr "一个紧凑、可移动的桌面任务窗口"
 
 msgid "hardware.tutorial.prompt"
-msgstr "从“元件”里拿一个[[not_gate|NOT 门]]，搭出：A → NOT → 指示灯。用[[wire|连线]]接好后切换 A，再做一次[[debug_run|单次调试]]。最后删掉一条线并重新接回去。"
+msgstr "用桌面上已摆好的[[not_gate|NOT 门]]搭出：A → NOT → 指示灯。用[[wire|连线]]接好后切换 A，再做一次[[debug_run|单次调试]]。最后删掉一条线并重新接回去；“元件”中仍有可选门供自由实验。"
 
 msgid "hardware.tutorial.checklist_title"
 msgstr "简短交互检查"
@@ -1935,10 +1935,10 @@ msgid "hardware.hint.title"
 msgstr "第 %d/%d 级提示"
 
 msgid "hardware.hint.scope.1"
-msgstr "仅显示固定端口，不展示解题拓扑。"
+msgstr "仅显示当前提示所需的外部接口，不展示解题拓扑。"
 
 msgid "hardware.hint.scope.2"
-msgstr "桌布最多展示约三分之一的关键线路，只帮助你跨过一个局部难点。"
+msgstr "桌布只展示一个精心挑选的关键子电路及必要上下文；无关元件保持隐藏。"
 
 msgid "hardware.hint.scope.3"
 msgstr "桌布展示完整参考拓扑，可沿每条真实线路检查答案。"
@@ -1983,7 +1983,7 @@ msgid "hardware.hint.alu.1"
 msgstr "让各运算候选结果并行产生，再使用操作码选择其中一个；不要让操作码改变运算元件本身。"
 
 msgid "hardware.hint.alu.2"
-msgstr "关键子电路展示 AND、OR、NOT 与加法结果怎样进入多路选择器，并由 OP0/OP1 选择输出。"
+msgstr "只展示一条完整候选路径：A AND B 进入多路选择器，由 OP0/OP1 选中并到达 RESULT。其余候选可按同样模式补齐。"
 
 msgid "hardware.hint.alu.3"
 msgstr "完整答案连接四条候选运算路径、选择线、RESULT，并单独保留加法器的 CARRY。"
@@ -1992,7 +1992,7 @@ msgid "hardware.hint.latch.1"
 msgstr "两个 NOR 可以互相读取对方的输出，从而在 S=R=0 时保留上一状态；不要同时令 S、R 为 1。"
 
 msgid "hardware.hint.latch.2"
-msgstr "关键子电路展示两个 NOR 的交叉反馈以及 S、R 各自进入哪一侧。"
+msgstr "只展示反馈的一半：R 与另一只 NOR 的输出进入 Q 侧 NOR。请为 S 镜像这层关系，而不是照抄完整锁存器。"
 
 msgid "hardware.hint.latch.3"
 msgstr "完整答案把交叉反馈 NOR 的两个输出分别接到 Q 与 NQ。"
@@ -2001,7 +2001,7 @@ msgid "hardware.hint.register.1"
 msgstr "LOAD=0 时不应改变锁存器；LOAD=1 时，D 与 NOT D 应分别形成 SET 与 RESET。"
 
 msgid "hardware.hint.register.2"
-msgstr "关键子电路用两个 AND 将 LOAD 分别与 D、NOT D 组合，再送入 SRLatch。"
+msgstr "只展示 SET 路径：D 与 LOAD 进入一只 AND，再驱动 SRLatch。互补的 RESET 路径仍由你完成。"
 
 msgid "hardware.hint.register.3"
 msgstr "完整答案把两条门控路径接入 SRLatch，并把其 Q 连接到关卡输出。"
@@ -2010,7 +2010,7 @@ msgid "hardware.hint.ram.1"
 msgstr "把写入和读取分开考虑：译码器只允许被寻址的寄存器写入，多路选择器负责读出被寻址的行。"
 
 msgid "hardware.hint.ram.2"
-msgstr "关键子电路展示 ADDR/WRITE 进入译码器，并分别驱动两个 Register4 的 LOAD。"
+msgstr "只展示第 0 行写入路径：ADDR/WRITE 进入译码器，DATA 与对应使能到达 Register4 · 0。请镜像第 1 行，再解决读出。"
 
 msgid "hardware.hint.ram.3"
 msgstr "完整答案还把 DATA 扇出到两个寄存器，并用 ADDR 控制字多路选择器读出 OUT。"
@@ -2019,7 +2019,7 @@ msgid "hardware.hint.cpu.1"
 msgstr "先画数据通路：ACC、立即数和 RAM 数据在哪里相遇；再让 CONTROL 只负责选择、装载和写入信号。"
 
 msgid "hardware.hint.cpu.2"
-msgstr "关键子电路展示 CONTROL、SOURCE_MUX、ALU、RESULT_MUX 与 ACC 形成的主数据循环。"
+msgstr "只展示 LOAD_IMM 路径：OP 控制两个多路选择器与 ACC 装载，ARG 经 SOURCE_MUX、RESULT_MUX 进入 ACC；ALU 与 RAM 路径仍未给出。"
 
 msgid "hardware.hint.cpu.3"
 msgstr "完整答案补齐 RAM 地址/写入路径和两个外部观察输出，形成可执行固定程序的 TinyComputer。"
@@ -2028,7 +2028,7 @@ msgid "hardware.hint.load_store.1"
 msgstr "逐条跟踪 OP、ARG、ADDR，记录每条指令执行前后的 ACC 与目标内存行。"
 
 msgid "hardware.hint.load_store.2"
-msgstr "关键连接把三路测试输入送入 TinyComputer；先确认每个端口宽度和顺序。"
+msgstr "只展示面向内存的一段：ADDR 进入 TinyComputer，MEM 暴露被寻址字。OP、ARG 与 ACC 留到完整参考。"
 
 msgid "hardware.hint.load_store.3"
 msgstr "完整参考桌布还连接 ACC 与 MEM 输出；本关拓扑固定，重点是读懂状态变化。"
@@ -4390,3 +4390,18 @@ msgstr "导出完成：%s"
 
 msgid "playtest.export.failed"
 msgstr "导出失败：%s"
+
+msgid "playtest.export.handoff.title"
+msgstr "试玩数据已可交付"
+
+msgid "playtest.export.handoff.subtitle"
+msgstr "感谢完成 Demo。离开前请导出这次试玩的匿名本地 JSON。"
+
+msgid "playtest.export.handoff.note"
+msgstr "文件只包含本次 session 的操作与可选反馈；不会上传，不含账号或身份信息。"
+
+msgid "playtest.export.open_folder"
+msgstr "打开导出文件夹"
+
+msgid "playtest.export.continue"
+msgstr "返回章节地图"

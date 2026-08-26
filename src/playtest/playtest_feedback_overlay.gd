@@ -20,6 +20,8 @@ signal demo_feedback_submitted(
 	continue_interest_rating: int
 )
 signal feedback_skipped(scope: StringName, subject_id: StringName)
+signal export_requested
+signal open_export_folder_requested(export_path: String)
 signal finished(scope: StringName, subject_id: StringName)
 
 const BACKDROP := Color("050a12", 0.86)
@@ -38,6 +40,12 @@ var subtitle_label: Label
 var form_box: VBoxContainer
 var submit_button: Button
 var skip_button: Button
+var finish_button: Button
+var export_handoff_box: VBoxContainer
+var export_button: Button
+var open_export_folder_button: Button
+var export_status_label: Label
+var exported_path: String = ""
 var best_level_selector: OptionButton
 var worst_level_selector: OptionButton
 var chapter_pace_selector: OptionButton
@@ -66,6 +74,7 @@ func present_chapter(chapter_id: StringName, levels: Array[Dictionary]) -> bool:
 	title_label.text = Localization.text(&"playtest.chapter_feedback.title")
 	subtitle_label.text = Localization.text(&"playtest.chapter_feedback.subtitle")
 	_clear_form()
+	_hide_export_handoff()
 	best_level_selector = _add_level_selector(&"ChapterBestLevel", &"playtest.chapter_feedback.best", levels)
 	worst_level_selector = _add_level_selector(&"ChapterWorstLevel", &"playtest.chapter_feedback.worst", levels)
 	confusing_edit = _add_text_field(&"ChapterConfusingPoint", &"playtest.chapter_feedback.confusing")
@@ -88,6 +97,7 @@ func present_demo() -> bool:
 	title_label.text = Localization.text(&"playtest.demo_feedback.title")
 	subtitle_label.text = Localization.text(&"playtest.demo_feedback.subtitle")
 	_clear_form()
+	_hide_export_handoff()
 	demo_ratings.clear()
 	demo_ratings[&"satisfaction"] = _add_rating_selector(&"DemoSatisfactionRating", &"playtest.demo_feedback.satisfaction")
 	demo_ratings[&"difficulty"] = _add_rating_selector(&"DemoDifficultyRating", &"playtest.demo_feedback.difficulty")
@@ -108,6 +118,7 @@ func dismiss() -> void:
 	hide()
 	current_scope = &""
 	current_subject_id = &""
+	exported_path = ""
 
 
 func _build_interface() -> void:
@@ -150,6 +161,37 @@ func _build_interface() -> void:
 	form_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	form_box.add_theme_constant_override("separation", 10)
 	column.add_child(form_box)
+	export_handoff_box = VBoxContainer.new()
+	export_handoff_box.name = "PlaytestExportHandoff"
+	export_handoff_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	export_handoff_box.add_theme_constant_override("separation", 14)
+	column.add_child(export_handoff_box)
+	var export_note := Label.new()
+	export_note.text = Localization.text(&"playtest.export.handoff.note")
+	export_note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	export_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	export_note.add_theme_color_override("font_color", MUTED)
+	export_handoff_box.add_child(export_note)
+	export_button = Button.new()
+	export_button.name = "PlaytestExportButton"
+	export_button.text = Localization.text(&"playtest.export.button")
+	export_button.tooltip_text = Localization.text(&"playtest.export.tooltip")
+	export_button.custom_minimum_size = Vector2(300.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
+	export_button.pressed.connect(func() -> void: export_requested.emit())
+	export_handoff_box.add_child(export_button)
+	open_export_folder_button = Button.new()
+	open_export_folder_button.name = "PlaytestOpenExportFolderButton"
+	open_export_folder_button.text = Localization.text(&"playtest.export.open_folder")
+	open_export_folder_button.custom_minimum_size = Vector2(300.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
+	open_export_folder_button.pressed.connect(_request_open_export_folder)
+	export_handoff_box.add_child(open_export_folder_button)
+	export_status_label = Label.new()
+	export_status_label.name = "PlaytestExportStatus"
+	export_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	export_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	export_status_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	export_status_label.add_theme_color_override("font_color", MUTED)
+	export_handoff_box.add_child(export_status_label)
 	var actions := HBoxContainer.new()
 	actions.alignment = BoxContainer.ALIGNMENT_CENTER
 	actions.add_theme_constant_override("separation", 14)
@@ -165,7 +207,14 @@ func _build_interface() -> void:
 	submit_button.custom_minimum_size = Vector2(190.0, UiTypographyType.CONTROL_HEIGHT)
 	submit_button.pressed.connect(_submit)
 	actions.add_child(submit_button)
+	finish_button = Button.new()
+	finish_button.name = "PlaytestExportContinueButton"
+	finish_button.text = Localization.text(&"playtest.export.continue")
+	finish_button.custom_minimum_size = Vector2(190.0, UiTypographyType.CONTROL_HEIGHT)
+	finish_button.pressed.connect(_finish_demo_handoff)
+	actions.add_child(finish_button)
 	column.add_child(actions)
+	_hide_export_handoff()
 
 
 func _clear_form() -> void:
@@ -180,6 +229,7 @@ func _clear_form() -> void:
 	favorite_edit = null
 	change_edit = null
 	demo_ratings.clear()
+	form_box.show()
 
 
 func _add_level_selector(name_value: StringName, label_key: StringName, levels: Array[Dictionary]) -> OptionButton:
@@ -292,6 +342,8 @@ func _submit() -> void:
 			change_edit.text,
 			_selected_rating(demo_ratings[&"continue"])
 		)
+		_show_demo_export_handoff()
+		return
 	dismiss()
 	finished.emit(scope, subject_id)
 
@@ -300,6 +352,56 @@ func _skip() -> void:
 	var scope: StringName = current_scope
 	var subject_id: StringName = current_subject_id
 	feedback_skipped.emit(scope, subject_id)
+	if scope == &"demo":
+		_show_demo_export_handoff()
+		return
+	dismiss()
+	finished.emit(scope, subject_id)
+
+
+func show_export_result(export_path: String, error_message: String = "") -> void:
+	exported_path = export_path
+	if export_path.is_empty():
+		export_status_label.text = Localization.text(&"playtest.export.failed", [error_message])
+		export_status_label.add_theme_color_override("font_color", Color("ff6b7d"))
+		open_export_folder_button.hide()
+	else:
+		export_status_label.text = Localization.text(&"playtest.export.success", [export_path])
+		export_status_label.add_theme_color_override("font_color", GOOD)
+		open_export_folder_button.show()
+
+
+func _show_demo_export_handoff() -> void:
+	title_label.text = Localization.text(&"playtest.export.handoff.title")
+	subtitle_label.text = Localization.text(&"playtest.export.handoff.subtitle")
+	form_box.hide()
+	skip_button.hide()
+	submit_button.hide()
+	finish_button.show()
+	export_handoff_box.show()
+	export_button.grab_focus()
+
+
+func _hide_export_handoff() -> void:
+	if export_handoff_box == null:
+		return
+	exported_path = ""
+	export_status_label.text = ""
+	export_handoff_box.hide()
+	open_export_folder_button.hide()
+	skip_button.show()
+	submit_button.show()
+	finish_button.hide()
+
+
+func _request_open_export_folder() -> void:
+	if not exported_path.is_empty():
+		open_export_folder_requested.emit(exported_path)
+
+
+func _finish_demo_handoff() -> void:
+	var scope: StringName = current_scope
+	var subject_id: StringName = current_subject_id
 	dismiss()
 	finished.emit(scope, subject_id)
 

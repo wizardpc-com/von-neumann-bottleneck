@@ -14,13 +14,14 @@ Public Turing Complete material confirms the useful product concepts rather than
 
 - Entering every playable prologue level ensures a `default` workbench exists.
 - Players may create a Unicode name up to 32 characters and switch between workbenches in the current level.
-- Workbenches are namespaced by Game/Test mode and level and stored in a version-1 JSON manifest at `user://hardware_workbenches_v1.json`.
+- Workbenches are namespaced by Game/Test mode and level and stored in a version-2 JSON manifest at `user://hardware_workbenches_v1.json`.
+- Each level entry binds only its `default` snapshot to a content-seed fingerprint. When the authored initial inventory changes, a missing or stale fingerprint refreshes `default` once while leaving every named workbench and the active named selection untouched. Version-1 manifests migrate through this same rule; unknown future schemas still fail closed.
 - A snapshot contains supported component specifications, stable IDs, component/route-node positions, and normalized visible wires. It deliberately excludes undo/redo, clipboard, selection, trace/test receipts, debug values, stateful runtime memory, campaign completion, and reusable rewards.
 - New workbenches start from the pristine level inventory and fixed Test Bench terminals rather than cloning the current attempt.
 - Automated test and deterministic capture launches use the same store in memory and never read/write the player's file.
 - The top-right Hint action enters a separate read-only graph:
   1. conceptual text plus fixed external terminals;
-  2. explicitly curated key components and wires;
+  2. an explicitly curated key subcircuit containing only its wire endpoints and necessary authored context;
   3. the complete existing reference topology.
 - Level-2 subsets are authored alongside their level content. Level 3 is not separate success logic: it uses the same reference `LogicCircuit` representation and can pass only through the ordinary simulator/Test Bench.
 - Entering a hint saves the active player workbench. Exiting reconstructs that active workbench from its snapshot with a fresh empty operation history. Hint graphs cannot run official completion or sealing actions.
@@ -31,7 +32,7 @@ Public Turing Complete material confirms the useful product concepts rather than
 - Test mode experiments cannot overwrite Game-mode workbenches.
 - Hint topology is inspectable along the same displayed wires and component symbols as player topology, while completion remains tied only to the player's authoritative graph.
 - Workbench topology is now durable even though campaign progress and reusable-component libraries remain session-local. A later persistence milestone must coordinate those separate manifests instead of claiming this file is a whole-game save.
-- Version 1 has no rename/delete/share/export UI and no migration from unknown schemas. Unsupported/corrupt component entries fail closed; required fixed terminals are restored from current level content.
+- Version 2 has no rename/delete/share/export UI and no migration from unknown future schemas. Unsupported/corrupt component entries fail closed; required fixed terminals are restored from current level content for player workbenches, but not injected into deliberately smaller hint snapshots.
 
 ## Alternatives considered
 

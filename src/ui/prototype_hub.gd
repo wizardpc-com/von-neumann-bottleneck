@@ -26,6 +26,8 @@ var options_resume_button: Button
 var options_fullscreen_button: Button
 var options_export_button: Button
 var options_export_status: Label
+var options_open_export_folder_button: Button
+var latest_export_path: String = ""
 var options_quit_button: Button
 var options_previous_focus: Control
 
@@ -54,6 +56,7 @@ func _ready() -> void:
 		or "--capture-workspace" in arguments
 		or "--capture-program-draft" in arguments
 		or "--capture-row" in arguments
+		or "--capture-playtest-export" in arguments
 	):
 		get_tree().call_deferred("change_scene_to_file", "res://src/ui/main.tscn")
 
@@ -115,6 +118,7 @@ func _build_interface() -> void:
 	mode_selector.name = "GameModeSelector"
 	mode_center.add_child(mode_selector)
 	mode_description_label = Label.new()
+	mode_description_label.visible = GameMode.developer_tools_enabled()
 	mode_description_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
 	content.add_child(mode_description_label)
@@ -241,6 +245,11 @@ func _build_options_menu() -> void:
 	options_export_status.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	options_export_status.add_theme_color_override("font_color", MUTED)
 	column.add_child(options_export_status)
+	options_open_export_folder_button = _options_button(Localization.text(&"playtest.export.open_folder"))
+	options_open_export_folder_button.name = "OptionsOpenExportFolderButton"
+	options_open_export_folder_button.pressed.connect(_open_latest_export_folder)
+	options_open_export_folder_button.hide()
+	column.add_child(options_open_export_folder_button)
 
 	options_quit_button = _options_button(Localization.text(&"hub.options.quit"))
 	options_quit_button.name = "OptionsQuitButton"
@@ -287,12 +296,20 @@ func _quit_game() -> void:
 
 func _export_playtest_data() -> void:
 	var export_path: String = PlaytestData.export_current_session()
+	latest_export_path = export_path
 	if export_path.is_empty():
 		options_export_status.text = Localization.text(&"playtest.export.failed", [PlaytestData.last_error])
 		options_export_status.add_theme_color_override("font_color", DANGER)
+		options_open_export_folder_button.hide()
 	else:
 		options_export_status.text = Localization.text(&"playtest.export.success", [export_path])
 		options_export_status.add_theme_color_override("font_color", GOOD)
+		options_open_export_folder_button.show()
+
+
+func _open_latest_export_folder() -> void:
+	if not latest_export_path.is_empty():
+		OS.shell_show_in_file_manager(latest_export_path)
 
 
 func _on_window_mode_changed(_fullscreen: bool) -> void:

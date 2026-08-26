@@ -69,8 +69,8 @@ func _latch(_library: Dictionary = {}) -> Dictionary:
 			],
 			"hint_partial_wires": [
 				wires[0].duplicate(), wires[1].duplicate(),
-				wires[2].duplicate(), wires[3].duplicate(),
 			],
+			"hint_context_components": [&"Q_OUT"],
 		}
 	)
 
@@ -116,9 +116,7 @@ func _register(library: Dictionary) -> Dictionary:
 				LogicComponentType.new(&"PALETTE_NOT", LogicComponentType.KIND_NOT, "NOT"),
 			],
 			"hint_partial_wires": [
-				wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
-				wires[3].duplicate(), wires[4].duplicate(), wires[5].duplicate(),
-				wires[6].duplicate(),
+				wires[1].duplicate(), wires[2].duplicate(), wires[5].duplicate(),
 			],
 		}
 	)
@@ -168,7 +166,7 @@ func _ram(library: Dictionary) -> Dictionary:
 			],
 			"hint_partial_wires": [
 				wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
-				wires[3].duplicate(), wires[4].duplicate(), wires[5].duplicate(),
+				wires[4].duplicate(),
 			],
 		}
 	)

@@ -1,7 +1,8 @@
 class_name CircuitWorkbenchStore
 extends RefCounted
 
-const SCHEMA_VERSION: int = 1
+const SCHEMA_VERSION: int = 2
+const LEGACY_SCHEMA_VERSION: int = 1
 const DEFAULT_NAME: String = "default"
 const MAX_NAME_LENGTH: int = 32
 
@@ -20,8 +21,13 @@ func _init(p_storage_path: String = "") -> void:
 func ensure_default(namespace_id: StringName, level_id: StringName, seed_snapshot: Dictionary) -> void:
 	var entry: Dictionary = _level_entry(namespace_id, level_id, true)
 	var workbenches: Dictionary = entry["workbenches"]
-	if not workbenches.has(DEFAULT_NAME):
+	var current_seed_fingerprint: String = seed_fingerprint(seed_snapshot)
+	if (
+		not workbenches.has(DEFAULT_NAME)
+		or String(entry.get("seed_fingerprint", "")) != current_seed_fingerprint
+	):
 		workbenches[DEFAULT_NAME] = seed_snapshot.duplicate(true)
+		entry["seed_fingerprint"] = current_seed_fingerprint
 	var active_name: String = String(entry.get("active", ""))
 	if active_name.is_empty() or not workbenches.has(active_name):
 		entry["active"] = DEFAULT_NAME
@@ -154,6 +160,7 @@ func manifest_snapshot() -> Dictionary:
 				ordered_workbenches[name] = (source_workbenches[name] as Dictionary).duplicate(true)
 			ordered_levels[level_key] = {
 				"active": String(source_entry.get("active", DEFAULT_NAME)),
+				"seed_fingerprint": String(source_entry.get("seed_fingerprint", "")),
 				"workbenches": ordered_workbenches,
 			}
 		ordered_namespaces[namespace_key] = ordered_levels
@@ -165,6 +172,10 @@ func manifest_snapshot() -> Dictionary:
 
 static func normalized_name(raw_name: String) -> String:
 	return raw_name.strip_edges()
+
+
+static func seed_fingerprint(seed_snapshot: Dictionary) -> String:
+	return JSON.stringify(seed_snapshot).sha256_text()
 
 
 static func name_error(name: String) -> StringName:
@@ -197,6 +208,7 @@ func _level_entry(
 			return {}
 		namespace_data[level_key] = {
 			"active": DEFAULT_NAME,
+			"seed_fingerprint": "",
 			"workbenches": {},
 		}
 	var entry: Variant = namespace_data[level_key]
@@ -205,6 +217,7 @@ func _level_entry(
 			return {}
 		namespace_data[level_key] = {
 			"active": DEFAULT_NAME,
+			"seed_fingerprint": "",
 			"workbenches": {},
 		}
 	if not (namespace_data[level_key] as Dictionary).get("workbenches", {}) is Dictionary:
@@ -226,7 +239,8 @@ func _load_from_disk() -> void:
 		disk_write_allowed = false
 		return
 	var manifest := parsed as Dictionary
-	if int(manifest.get("schema_version", 0)) != SCHEMA_VERSION:
+	var schema_version: int = int(manifest.get("schema_version", 0))
+	if schema_version not in [LEGACY_SCHEMA_VERSION, SCHEMA_VERSION]:
 		last_error = "Unsupported workbench save schema."
 		disk_write_allowed = false
 		return

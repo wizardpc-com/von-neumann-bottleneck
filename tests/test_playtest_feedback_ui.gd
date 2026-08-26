@@ -59,6 +59,8 @@ func _run() -> void:
 	var demo_payloads: Array = []
 	var finished_scopes: Array = []
 	var skipped_scopes: Array = []
+	var export_requests: Array[String] = []
+	var open_export_paths: Array[String] = []
 	feedback_overlay.chapter_feedback_submitted.connect(func(
 		chapter_id: StringName, best_level_id: StringName, worst_level_id: StringName,
 		confusing_point: String, surprising_point: String, pace_rating: int
@@ -73,6 +75,8 @@ func _run() -> void:
 	)
 	feedback_overlay.finished.connect(func(scope: StringName, subject_id: StringName) -> void: finished_scopes.append([scope, subject_id]))
 	feedback_overlay.feedback_skipped.connect(func(scope: StringName, subject_id: StringName) -> void: skipped_scopes.append([scope, subject_id]))
+	feedback_overlay.export_requested.connect(func() -> void: export_requests.append("export"))
+	feedback_overlay.open_export_folder_requested.connect(func(path: String) -> void: open_export_paths.append(path))
 
 	var levels: Array[Dictionary] = [
 		{"id": &"assembly", "label": "Assembly"},
@@ -104,13 +108,40 @@ func _run() -> void:
 	feedback_overlay.submit_button.pressed.emit()
 	_assert(
 		demo_payloads == [[4, 3, &"about_right", "Profiler", "Shorten intro", 5]]
-		and finished_scopes.back() == [&"demo", &"demo"],
-		"Demo feedback must emit satisfaction, difficulty, length, favorites, change request, and continuation interest."
+		and finished_scopes.back() == [&"chapter", &"chapter_1"],
+		"Demo feedback must emit satisfaction, difficulty, length, favorites, and continuation interest before the Demo is closed."
 	)
+	_assert(
+		(feedback_overlay.export_handoff_box as Control).visible
+		and (feedback_overlay.export_button as Button).visible
+		and not (feedback_overlay.open_export_folder_button as Button).visible,
+		"Submitting final Demo feedback must reveal a prominent export handoff before the player leaves."
+	)
+	feedback_overlay.export_button.pressed.emit()
+	_assert(export_requests == ["export"], "The final handoff Export button must request one anonymous export.")
+	feedback_overlay.show_export_result("C:/test/playtest.json")
+	_assert(
+		"C:/test/playtest.json" in feedback_overlay.export_status_label.text
+		and feedback_overlay.open_export_folder_button.visible,
+		"A successful export must show its path and offer to open the containing folder."
+	)
+	feedback_overlay.open_export_folder_button.pressed.emit()
+	_assert(open_export_paths == ["C:/test/playtest.json"], "Open Folder must carry the exact exported file path.")
+	feedback_overlay.finish_button.pressed.emit()
+	_assert(finished_scopes.back() == [&"demo", &"demo"], "Continue must close the export handoff and finish the Demo flow.")
+
+	_assert(feedback_overlay.present_demo(), "The final Demo questionnaire must remain repeatable for skip-path coverage.")
+	feedback_overlay.skip_button.pressed.emit()
+	_assert(
+		skipped_scopes == [[&"demo", &"demo"]]
+		and feedback_overlay.export_handoff_box.visible,
+		"Skipping final Demo questions must still lead to the anonymous export handoff."
+	)
+	feedback_overlay.finish_button.pressed.emit()
 
 	feedback_overlay.present_chapter(&"chapter_2", levels)
 	feedback_overlay.skip_button.pressed.emit()
-	_assert(skipped_scopes == [[&"chapter", &"chapter_2"]], "Chapter and Demo forms must offer an explicit skip path.")
+	_assert(skipped_scopes == [[&"demo", &"demo"], [&"chapter", &"chapter_2"]], "Chapter and Demo forms must offer an explicit skip path.")
 	feedback_overlay.questionnaire_enabled = false
 	_assert(not feedback_overlay.present_demo() and not feedback_overlay.visible, "The explicit questionnaire flag must prevent chapter/Demo forms from appearing.")
 
@@ -118,7 +149,7 @@ func _run() -> void:
 	feedback_overlay.queue_free()
 	await process_frame
 	if failures.is_empty():
-		print("PASS: non-blocking localized level, chapter, and Demo feedback UI tests passed")
+		print("PASS: non-blocking localized level, chapter, Demo feedback, and final export handoff UI tests passed")
 		quit(0)
 	else:
 		for failure: String in failures:

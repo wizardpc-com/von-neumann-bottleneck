@@ -13,8 +13,8 @@ The project has multiple entry/play scenes, so a scene-local testing flag could 
 ## Decision
 
 - Add an autoloaded session `GameMode` with two explicit states: `game` and `test`.
-- Default every launch to Game mode. Allow the visible selector or the `-- --test-mode` command-line override to enter Test mode.
-- Show the shared selector on the prototype hub and both playable scenes.
+- Default every launch to Game mode and hide the shared selector plus mode-description QA copy from ordinary players.
+- Treat `-- --test-mode` as the developer authority that enters Test mode and exposes the selector on the prototype hub and playable scenes.
 - Keep separate in-memory `PlayerContentState` objects for Game and Test mode inside Hardware Foundations.
 - In Test mode, treat every valid registered level as enterable and install a bounded temporary library containing the reusable definitions required to instantiate the current campaign.
 - Do not mark those levels completed. Official runs still evaluate the player's actual displayed circuit, and any completion achieved in Test mode remains only in Test state.
@@ -30,6 +30,7 @@ The project has multiple entry/play scenes, so a scene-local testing flag could 
 ## Consequences
 
 - Developers can enter any current campaign level from the same UI players use.
+- A friend double-clicking an exported executable sees only the normal Game flow; Test access is an explicit CLI choice rather than a player-facing setting.
 - Game-mode unlock behavior and player-owned provenance remain trustworthy.
 - New registered levels automatically become enterable in Test mode, but a level introducing a new prerequisite reusable kind must extend the bounded helper-library installer until general save/content tooling exists.
 - Test mode is a development convenience, not a simulation cheat: topology, diagnostics, gate delays, official cases, and pass/fail logic are unchanged.

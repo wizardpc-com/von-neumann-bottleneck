@@ -74,9 +74,9 @@ func _full_adder(library: Dictionary) -> Dictionary:
 			LogicComponentType.new(&"PALETTE_NOT", LogicComponentType.KIND_NOT, "NOT"),
 			LogicComponentType.new(&"PALETTE_XOR", LogicComponentType.KIND_XOR, "XOR"),
 		], "hint_partial_wires": [
-			wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
-			wires[3].duplicate(), wires[6].duplicate(),
-		]}
+			wires[0].duplicate(), wires[1].duplicate(),
+			wires[2].duplicate(), wires[6].duplicate(),
+		], "hint_context_components": [&"CIN_IN"]}
 	)
 
 
@@ -145,10 +145,8 @@ func _alu(library: Dictionary) -> Dictionary:
 				LogicComponentType.new(&"PALETTE_MUX", LogicComponentType.KIND_MUX4, "4→1 mux"),
 			],
 			"hint_partial_wires": [
-				wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
-				wires[3].duplicate(), wires[4].duplicate(), wires[8].duplicate(),
-				wires[9].duplicate(), wires[11].duplicate(), wires[12].duplicate(),
-				wires[13].duplicate(), wires[14].duplicate(),
+				wires[0].duplicate(), wires[1].duplicate(), wires[8].duplicate(),
+				wires[12].duplicate(), wires[13].duplicate(), wires[14].duplicate(),
 			],
 		}
 	)

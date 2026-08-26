@@ -72,11 +72,9 @@ func _cpu(library: Dictionary) -> Dictionary:
 				_constant(&"PALETTE_ZERO", 0), _constant(&"PALETTE_ONE", 1),
 			],
 			"hint_partial_wires": [
-				wires[0].duplicate(), wires[1].duplicate(), wires[2].duplicate(),
-				wires[3].duplicate(), wires[4].duplicate(), wires[5].duplicate(),
-				wires[6].duplicate(), wires[7].duplicate(), wires[8].duplicate(),
-				wires[9].duplicate(), wires[10].duplicate(), wires[11].duplicate(),
-				wires[12].duplicate(), wires[13].duplicate(),
+				wires[0].duplicate(), wires[1].duplicate(), wires[3].duplicate(),
+				wires[9].duplicate(), wires[11].duplicate(), wires[12].duplicate(),
+				wires[13].duplicate(), wires[17].duplicate(),
 			],
 		}
 	)
@@ -104,9 +102,8 @@ func _load_store(library: Dictionary) -> Dictionary:
 	)
 	level["locked_topology"] = true
 	level["hint_partial_wires"] = [
-		(level["reference_wires"] as Array)[0].duplicate(),
-		(level["reference_wires"] as Array)[1].duplicate(),
 		(level["reference_wires"] as Array)[2].duplicate(),
+		(level["reference_wires"] as Array)[4].duplicate(),
 	]
 	level["completion_scene"] = "res://src/system_lab/system_lab.tscn"
 	level["completion_action_key"] = &"hardware.prologue.open_system"

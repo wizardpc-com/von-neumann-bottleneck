@@ -8,7 +8,7 @@ var failures: Array[String] = []
 func _init() -> void:
 	_run_all()
 	if failures.is_empty():
-		print("PASS: durable playtest session, recovery, feedback, summary, and export tests passed")
+		print("PASS: durable playtest session, recovery, feedback, summary, export, and clean-reset tests passed")
 		quit(0)
 	else:
 		for failure: String in failures:
@@ -111,7 +111,44 @@ func _run_all() -> void:
 	_assert(not unconfigured.level_started(&"chapter_1", &"assembly"), "A disabled or uninitialized recorder must be a gameplay-safe no-op.")
 	unconfigured.free()
 
+	var reset_directory: String = "res://.godot/playtest_reset_test_%d" % Time.get_ticks_usec()
+	var reset_workbench_path: String = reset_directory.path_join("hardware_workbenches_v1.json")
+	var reset_export_path: String = reset_directory.path_join("exports/keep.json")
+	_write_text(reset_directory.path_join(PlaytestDataType.ACTIVE_SESSION_FILE), "{}")
+	_write_text(reset_directory.path_join("session_old.jsonl"), "{}\n")
+	_write_text(reset_directory.path_join("notes.txt"), "keep")
+	_write_text(reset_export_path, "{}")
+	_write_text(reset_workbench_path, "{}")
+	var reset_result: Dictionary = PlaytestDataType.reset_local_test_state(reset_directory, reset_workbench_path)
+	_assert(bool(reset_result.get("ok", false)), "The explicit clean-playtest reset must complete without errors.")
+	_assert(
+		not FileAccess.file_exists(reset_directory.path_join(PlaytestDataType.ACTIVE_SESSION_FILE))
+		and not FileAccess.file_exists(reset_directory.path_join("session_old.jsonl"))
+		and not FileAccess.file_exists(reset_workbench_path),
+		"Clean reset must remove the active marker, anonymous session streams, and workbench state."
+	)
+	_assert(
+		FileAccess.file_exists(reset_export_path)
+		and FileAccess.file_exists(reset_directory.path_join("notes.txt")),
+		"Clean reset must preserve exported playtest JSON and unrelated local files."
+	)
+
 	_remove_tree(ProjectSettings.globalize_path(test_directory).replace("\\", "/"))
+	_remove_tree(ProjectSettings.globalize_path(reset_directory).replace("\\", "/"))
+
+
+func _write_text(path: String, text: String) -> void:
+	var absolute_path: String = ProjectSettings.globalize_path(path).replace("\\", "/")
+	var directory_error: Error = DirAccess.make_dir_recursive_absolute(absolute_path.get_base_dir())
+	if directory_error != OK and directory_error != ERR_ALREADY_EXISTS:
+		failures.append("Could not create test directory for %s." % path)
+		return
+	var file := FileAccess.open(absolute_path, FileAccess.WRITE)
+	if file == null:
+		failures.append("Could not create reset fixture %s." % path)
+		return
+	file.store_string(text)
+	file.close()
 
 
 func _append_corrupt_trailing_record(path: String) -> void:

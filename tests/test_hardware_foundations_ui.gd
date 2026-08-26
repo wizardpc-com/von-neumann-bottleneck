@@ -6,6 +6,7 @@ const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
 const CircuitLiveStateType = preload("res://src/circuit/circuit_live_state.gd")
 const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
 const HalfAdderTestBenchType = preload("res://src/circuit/half_adder_test_bench.gd")
+const LogicComponentType = preload("res://src/circuit/logic_component.gd")
 const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
@@ -33,7 +34,12 @@ func _run() -> void:
 	var terminology_rect := Rect2(terminology_button.global_position, terminology_button.size)
 	_assert(terminology_rect.end.x >= main.size.x - 16.1 and terminology_rect.end.y >= main.size.y - 16.1 and Rect2(Vector2.ZERO, main.size).encloses(terminology_rect), "The Hardware terminology entry must remain anchored inside the bottom-right corner.")
 	_assert(StringName(main.get("current_phase")) == &"campaign", "Hardware Foundations must open on the prerequisite-gated level map.")
-	_assert(main.get("mode_selector") != null and not bool(game_mode.call("is_test_mode")), "Hardware Foundations must expose the shared selector and default to Game mode.")
+	_assert(
+		main.get("mode_selector") != null
+		and not (main.get("mode_selector") as Control).visible
+		and not bool(game_mode.call("is_test_mode")),
+		"An ordinary Hardware Foundations launch must default to Game mode without exposing the developer selector."
+	)
 	_assert(not bool(game_mode.call("set_mode", &"unknown")) and not bool(game_mode.call("is_test_mode")), "The global mode boundary must reject unknown modes without changing state.")
 	var campaign_buttons: Dictionary = main.get("campaign_level_buttons")
 	var campaign_map: Control = main.get("campaign_map_view")
@@ -209,7 +215,15 @@ func _run() -> void:
 	var graph: GraphEdit = main.get("graph")
 	var nodes: Dictionary = main.get("component_nodes")
 	var symbols: Dictionary = main.get("component_symbols")
-	_assert(graph != null and graph.get_connection_list().is_empty(), "Tutorial must begin auto-laid-out but unwired.")
+	_assert(
+		graph != null and graph.get_connection_list().is_empty()
+		and _component_ids(main) == [&"A_IN", &"LAMP", &"NOT_1"],
+		"Tutorial must begin unwired with only the A → NOT → LAMP task components pre-placed; got %s." % [_component_ids(main)]
+	)
+	_assert(
+		not (main.get("input_b_button") as CheckButton).visible,
+		"Tutorial Test Bench must not show an input B control when the level has no B terminal."
+	)
 	var workbench_store = main.get("workbench_store")
 	var workbench_menu: MenuButton = main.get("workbench_menu_button")
 	var hint_button: Button = main.get("hint_button")
@@ -292,7 +306,8 @@ func _run() -> void:
 	nodes = main.get("component_nodes")
 	_assert(
 		bool(main.get("hint_mode")) and int(main.get("hint_level")) == 1
-		and nodes.size() == 3 and graph.get_connection_list().is_empty(),
+		and nodes.size() == 2 and nodes.has(&"A_IN") and nodes.has(&"LAMP")
+		and graph.get_connection_list().is_empty(),
 		"Hint stage 1 must enter a separate board with only fixed terminals and conceptual guidance."
 	)
 	for node_variant: Variant in nodes.values():
@@ -309,7 +324,7 @@ func _run() -> void:
 	var hint_component_count: int = (main.get("component_nodes") as Dictionary).size()
 	main.call("_on_erase_component_requested", &"NOT_1")
 	_assert(
-		hint_component_count == 6
+		hint_component_count == 3
 		and graph.get_connection_list().size() == 2
 		and (main.get("component_nodes") as Dictionary).has(&"NOT_1"),
 		"Hint stage 3 must show the complete reference topology while rejecting editing gestures."
@@ -328,6 +343,11 @@ func _run() -> void:
 	_assert(bool(main.call("_switch_workbench", "default")), "The test must restore default before exercising the ordinary tutorial flow.")
 	for _restore_default_frame: int in range(3):
 		await process_frame
+	graph = main.get("graph")
+	nodes = main.get("component_nodes")
+	symbols = main.get("component_symbols")
+	_install_tutorial_editor_fixture(main)
+	await process_frame
 	graph = main.get("graph")
 	nodes = main.get("component_nodes")
 	symbols = main.get("component_symbols")
@@ -702,7 +722,16 @@ func _run() -> void:
 	_assert((nodes[&"A_IN"] as GraphNode).selected, "Shift-click must add or remove one component without clearing the existing group.")
 	_connect(main, &"AND_1", 0, &"OR_1", 0)
 	_shortcut(main, KEY_C)
-	_assert((main.get("clipboard_components") as Array).size() == 2 and (main.get("clipboard_wires") as Array).size() == 1, "Ctrl+C must copy selected player gates and internal wires while excluding the selected Test Bench terminal.")
+	_assert(
+		(main.get("clipboard_components") as Array).size() == 2
+		and (main.get("clipboard_wires") as Array).size() == 1,
+		"Ctrl+C must copy selected player gates and internal wires while excluding the selected Test Bench terminal; selected=%s components=%d wires=%d graph=%d." % [
+			main.call("_selected_node_ids", false),
+			(main.get("clipboard_components") as Array).size(),
+			(main.get("clipboard_wires") as Array).size(),
+			graph.get_connection_list().size(),
+		]
+	)
 	_shortcut(main, KEY_V)
 	await process_frame
 	_assert((main.get("component_nodes") as Dictionary).size() == 8 and graph.get_connection_list().size() == 2, "Ctrl+V must paste the selected two-gate subgraph and its one internal wire as one action.")
@@ -1090,8 +1119,14 @@ func _run() -> void:
 		half_adder_menu_kinds.append(StringName(template_variant.kind))
 	_assert(&"xor" not in half_adder_menu_kinds and &"and" in half_adder_menu_kinds and &"or" in half_adder_menu_kinds and &"not" in half_adder_menu_kinds, "Half Adder itself must be built from earlier gates; XOR unlocks only afterward.")
 	_assert(graph.get_connection_list().is_empty(), "Half Adder challenge must not reveal a prewired solution template.")
-	_assert(nodes.size() == 11 and nodes.has(&"SUM_OUT") and nodes.has(&"CARRY_OUT"), "Challenge must provide fixed Test Bench terminals and a spare-gate inventory.")
+	_assert(
+		nodes.size() == 8 and _component_ids(main) == [
+			&"AND_1", &"AND_2", &"A_IN", &"B_IN", &"CARRY_OUT", &"NOT_1", &"OR_1", &"SUM_OUT"
+		],
+		"Half Adder must pre-place only the terminals and four gates used by its reference construction; got %s." % [_component_ids(main)]
+	)
 	_assert((nodes[&"SUM_OUT"] as GraphNode).draggable and (nodes[&"CARRY_OUT"] as GraphNode).draggable, "Half Adder output terminals must be freely movable like desktop schematic parts.")
+	_assert((main.get("input_b_button") as CheckButton).visible, "Half Adder Test Bench must restore the required B input control.")
 	symbols = main.get("component_symbols")
 	_assert(StringName((symbols[&"SUM_OUT"] as CircuitComponentSymbol).shape_profile()) == &"level_output_tag", "Half Adder probes must use the larger, directionally distinct level-output silhouette.")
 	_assert((symbols[&"SUM_OUT"] as CircuitComponentSymbol).shape_profile() != (symbols[&"A_IN"] as CircuitComponentSymbol).shape_profile(), "Input and output terminals must not reuse the same visual shape.")
@@ -1115,18 +1150,22 @@ func _run() -> void:
 	await process_frame
 	_assert(
 		(main.get("graph") as GraphEdit).get_connection_list().size() == 3
-		and (main.get("component_nodes") as Dictionary).has(&"SUM_OUT")
+		and not (main.get("component_nodes") as Dictionary).has(&"SUM_OUT")
 		and (main.get("component_nodes") as Dictionary).has(&"CARRY_OUT")
-		and not _find_connection(main.get("graph"), &"AND_3", 0, &"CARRY_OUT", 0).is_empty()
+		and (main.get("component_nodes") as Dictionary).size() == 4
+		and not _find_connection(main.get("graph"), &"AND_1", 0, &"CARRY_OUT", 0).is_empty()
 		and _find_connection(main.get("graph"), &"AND_2", 0, &"SUM_OUT", 0).is_empty(),
-		"Half Adder hint stage 2 must reveal only the small CARRY branch and leave the harder SUM circuit unresolved."
+		"Half Adder hint stage 2 must reveal only the small CARRY branch and leave the harder SUM circuit unresolved; components=%s wires=%s." % [
+			_component_ids(main), (main.get("graph") as GraphEdit).get_connection_list()
+		]
 	)
 	main.call("_show_hint_level", 3)
 	await process_frame
 	var hint_half_adder: LogicCircuit = main.call("_circuit_from_graph")
 	var hint_half_report: Dictionary = HalfAdderTestBenchType.new().run_official(hint_half_adder)
 	_assert(
-		(main.get("graph") as GraphEdit).get_connection_list().size() == 11
+		(main.get("graph") as GraphEdit).get_connection_list().size() == 9
+		and (main.get("component_nodes") as Dictionary).size() == 8
 		and bool(hint_half_report.get("passed", false)),
 		"Half Adder hint stage 3 must be a complete visible topology that genuinely passes the official truth table."
 	)
@@ -1727,6 +1766,51 @@ func _control_fits(control: Control, parent: Control, margin: float) -> bool:
 	)
 
 
+func _component_ids(main: Control) -> Array[StringName]:
+	var result: Array[StringName] = []
+	for component_id: StringName in (main.get("component_catalog") as Dictionary):
+		result.append(component_id)
+	result.sort_custom(func(left: StringName, right: StringName) -> bool:
+		return String(left) < String(right)
+	)
+	return result
+
+
+func _install_tutorial_editor_fixture(main: Control) -> void:
+	var existing_nodes: Dictionary = main.get("component_nodes")
+	var positions: Dictionary = main.get("layout_positions")
+	for existing: Array in [
+		[&"A_IN", Vector2(390, 95)],
+		[&"NOT_1", Vector2(875, 115)],
+		[&"LAMP", Vector2(1110, 190)],
+	]:
+		positions[existing[0]] = existing[1]
+		(existing_nodes[existing[0]] as GraphNode).position_offset = existing[1]
+	var fixture: Array[Dictionary] = [
+		{
+			"component": LogicComponentType.new(
+				&"B_IN", LogicComponentType.KIND_INPUT, "TEST INPUT B", &"B", true
+			),
+			"position": Vector2(390, 360),
+		},
+		{
+			"component": LogicComponentType.new(&"AND_1", LogicComponentType.KIND_AND, "AND"),
+			"position": Vector2(630, 55),
+		},
+		{
+			"component": LogicComponentType.new(&"OR_1", LogicComponentType.KIND_OR, "OR"),
+			"position": Vector2(630, 330),
+		},
+	]
+	for entry: Dictionary in fixture:
+		var component: LogicComponent = entry["component"]
+		var position: Vector2 = entry["position"]
+		positions[component.id] = position
+		main.call("_add_catalog_component", component)
+		main.call("_add_component_node", component, position)
+	main.call("_schedule_live_refresh")
+
+
 func _test_workbench_store_model() -> void:
 	var store = CircuitWorkbenchStoreType.new("")
 	var seed := {
@@ -1742,10 +1826,30 @@ func _test_workbench_store_model() -> void:
 	var changed: Dictionary = seed.duplicate(true)
 	changed["wires"] = [{"from": "A", "from_port": 0, "to": "B", "to_port": 0}]
 	_assert(bool(store.call("save_active", &"game", &"half_adder", changed)), "The active workbench snapshot must be replaceable without adding history.")
+	var named_before_seed_change: String = JSON.stringify(store.call(
+		"active_snapshot", &"game", &"half_adder"
+	))
+	var revised_seed: Dictionary = seed.duplicate(true)
+	revised_seed["components"] = [
+		{"id": "A", "kind": "input"},
+		{"id": "OUT", "kind": "output"},
+	]
+	store.call("ensure_default", &"game", &"half_adder", revised_seed)
+	_assert(
+		JSON.stringify(store.call("workbench_snapshot", &"game", &"half_adder", "default")) == JSON.stringify(revised_seed)
+		and JSON.stringify(store.call("active_snapshot", &"game", &"half_adder")) == named_before_seed_change
+		and store.call("active_name", &"game", &"half_adder") == "方案 A",
+		"A changed content seed must refresh only default while preserving the active named workbench byte-for-byte."
+	)
 	store.call("ensure_default", &"test", &"half_adder", seed)
 	_assert((store.call("active_snapshot", &"test", &"half_adder") as Dictionary)["wires"].is_empty(), "Test-mode workbenches must be isolated from Game-mode designs.")
 	var manifest: Dictionary = store.call("manifest_snapshot")
-	_assert(int(manifest.get("schema_version", 0)) == 1 and not JSON.stringify(manifest).contains("history"), "The durable manifest must be versioned and must not contain an operation chain.")
+	_assert(
+		int(manifest.get("schema_version", 0)) == CircuitWorkbenchStoreType.SCHEMA_VERSION
+		and JSON.stringify(manifest).contains("seed_fingerprint")
+		and not JSON.stringify(manifest).contains("history"),
+		"The durable manifest must bind defaults to their content seed without storing an operation chain."
+	)
 	var disk_path: String = ProjectSettings.globalize_path("res://.godot/test-workbench-store.json")
 	if FileAccess.file_exists(disk_path):
 		DirAccess.remove_absolute(disk_path)
@@ -1753,10 +1857,28 @@ func _test_workbench_store_model() -> void:
 	disk_store.call("ensure_default", &"game", &"tutorial", seed)
 	disk_store.call("create_workbench", &"game", &"tutorial", "持久方案", changed)
 	var reloaded_store = CircuitWorkbenchStoreType.new(disk_path)
+	var persisted_named_snapshot: String = JSON.stringify(reloaded_store.call(
+		"active_snapshot", &"game", &"tutorial"
+	))
 	_assert(
 		reloaded_store.call("active_name", &"game", &"tutorial") == "持久方案"
 		and (reloaded_store.call("active_snapshot", &"game", &"tutorial") as Dictionary)["wires"].size() == 1,
 		"A fresh store instance must reload the active named workbench and its topology from disk."
+	)
+	var legacy_manifest: Dictionary = disk_store.call("manifest_snapshot")
+	legacy_manifest["schema_version"] = CircuitWorkbenchStoreType.LEGACY_SCHEMA_VERSION
+	var legacy_entry: Dictionary = legacy_manifest["namespaces"]["game"]["tutorial"]
+	legacy_entry.erase("seed_fingerprint")
+	var legacy_file := FileAccess.open(disk_path, FileAccess.WRITE)
+	legacy_file.store_string(JSON.stringify(legacy_manifest))
+	legacy_file.close()
+	var migrated_store = CircuitWorkbenchStoreType.new(disk_path)
+	migrated_store.call("ensure_default", &"game", &"tutorial", revised_seed)
+	_assert(
+		migrated_store.call("active_name", &"game", &"tutorial") == "持久方案"
+		and JSON.stringify(migrated_store.call("workbench_snapshot", &"game", &"tutorial", "持久方案")) == persisted_named_snapshot
+		and JSON.stringify(migrated_store.call("workbench_snapshot", &"game", &"tutorial", "default")) == JSON.stringify(revised_seed),
+		"Schema-1 migration must refresh its unbound default once without replacing a named player workbench."
 	)
 	var incompatible_file := FileAccess.open(disk_path, FileAccess.WRITE)
 	incompatible_file.store_string('{"schema_version":99,"namespaces":{"future":true}}')

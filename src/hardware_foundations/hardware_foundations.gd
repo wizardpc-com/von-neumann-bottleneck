@@ -1735,9 +1735,10 @@ func _apply_workbench_snapshot(snapshot: Dictionary) -> void:
 			saved_layout.get(String(component.id), seed_layout.get(String(component.id), {}))
 		)
 	var seed_ids: Array[StringName] = []
-	for component_id: StringName in seed_components:
-		if (seed_components[component_id] as LogicComponent).fixed_terminal and not restored_ids.has(component_id):
-			seed_ids.append(component_id)
+	if not hint_mode:
+		for component_id: StringName in seed_components:
+			if (seed_components[component_id] as LogicComponent).fixed_terminal and not restored_ids.has(component_id):
+				seed_ids.append(component_id)
 	seed_ids.sort()
 	for component_id: StringName in seed_ids:
 		var component: LogicComponent = seed_components[component_id].duplicate_component()
@@ -1859,9 +1860,7 @@ func _half_adder_reference_wires() -> Array[Dictionary]:
 		_wire_data(&"OR_1", 0, &"AND_2", 0),
 		_wire_data(&"NOT_1", 0, &"AND_2", 1),
 		_wire_data(&"AND_2", 0, &"SUM_OUT", 0),
-		_wire_data(&"A_IN", 0, &"AND_3", 0),
-		_wire_data(&"B_IN", 0, &"AND_3", 1),
-		_wire_data(&"AND_3", 0, &"CARRY_OUT", 0),
+		_wire_data(&"AND_1", 0, &"CARRY_OUT", 0),
 	]
 
 
@@ -1871,15 +1870,20 @@ func _hint_partial_wires() -> Array[Dictionary]:
 			return _normalized_wire_list([_tutorial_reference_wires()[0]])
 		&"half_adder":
 			var answer: Array[Dictionary] = _half_adder_reference_wires()
-			return _normalized_wire_list(answer.slice(8, 11))
+			return _normalized_wire_list([answer[0], answer[1], answer[8]])
 	var authored: Array[Dictionary] = _normalized_wire_list(
 		current_level_definition.get("hint_partial_wires", [])
 	)
-	if authored.is_empty():
-		return authored
-	var reference_count: int = maxi(1, workbench_answer_wires.size())
-	var reveal_limit: int = clampi(ceili(reference_count * 0.4), 1, authored.size())
-	return authored.slice(0, reveal_limit)
+	return authored
+
+
+func _hint_stage_two_context_ids() -> Array[StringName]:
+	if current_level_id == &"tutorial":
+		return [&"LAMP"]
+	var result: Array[StringName] = []
+	for component_id: Variant in current_level_definition.get("hint_context_components", []):
+		result.append(StringName(component_id))
+	return result
 
 
 func _refresh_hint_controls() -> void:
@@ -1983,6 +1987,9 @@ func _build_hint_snapshot(level: int) -> Dictionary:
 	for wire: Dictionary in selected_wires:
 		included_ids[String(wire.get("from", ""))] = true
 		included_ids[String(wire.get("to", ""))] = true
+	if level == 2:
+		for component_id: StringName in _hint_stage_two_context_ids():
+			included_ids[String(component_id)] = true
 	var components: Array[Dictionary] = []
 	var layout: Dictionary = {}
 	var seed_layout: Dictionary = workbench_seed_snapshot.get("layout", {})
@@ -1991,7 +1998,12 @@ func _build_hint_snapshot(level: int) -> Dictionary:
 			continue
 		var data := data_variant as Dictionary
 		var component_id: String = String(data.get("id", ""))
-		if not bool(data.get("fixed_terminal", false)) and level < 3 and not included_ids.has(component_id):
+		var include_component: bool = level >= 3
+		if level == 1:
+			include_component = bool(data.get("fixed_terminal", false))
+		elif level == 2:
+			include_component = included_ids.has(component_id)
+		if not include_component:
 			continue
 		components.append(data.duplicate(true))
 		if seed_layout.has(component_id):
@@ -2152,15 +2164,11 @@ func _build_tutorial_circuit() -> void:
 	]
 	junction_counter = 0
 	layout_positions = {
-		&"A_IN": Vector2(390, 95), &"B_IN": Vector2(390, 360),
-		&"AND_1": Vector2(630, 55), &"OR_1": Vector2(630, 330),
-		&"NOT_1": Vector2(875, 115), &"LAMP": Vector2(1110, 190),
+		&"A_IN": Vector2(430, 170),
+		&"NOT_1": Vector2(760, 170), &"LAMP": Vector2(1110, 170),
 	}
 	for component: LogicComponent in [
 		LogicComponentType.new(&"A_IN", &"input", "TEST INPUT A", &"A", true),
-		LogicComponentType.new(&"B_IN", &"input", "TEST INPUT B", &"B", true),
-		LogicComponentType.new(&"AND_1", &"and", "AND"),
-		LogicComponentType.new(&"OR_1", &"or", "OR"),
 		LogicComponentType.new(&"NOT_1", &"not", "NOT"),
 		LogicComponentType.new(&"LAMP", &"lamp", "OUTPUT LAMP", &"LAMP", true),
 	]:
@@ -2178,21 +2186,17 @@ func _build_half_adder_circuit() -> void:
 	junction_counter = 0
 	layout_positions = {
 		&"A_IN": Vector2(390, 110), &"B_IN": Vector2(390, 425),
-		&"AND_1": Vector2(615, 20), &"OR_1": Vector2(615, 245), &"AND_3": Vector2(615, 455),
-		&"NOT_1": Vector2(845, 75), &"OR_2": Vector2(845, 350),
-		&"AND_2": Vector2(1070, 150), &"NOT_2": Vector2(1070, 430),
-		&"SUM_OUT": Vector2(1295, 150), &"CARRY_OUT": Vector2(1295, 455),
+		&"AND_1": Vector2(625, 80), &"OR_1": Vector2(625, 365),
+		&"NOT_1": Vector2(850, 80), &"AND_2": Vector2(1060, 230),
+		&"SUM_OUT": Vector2(1310, 230), &"CARRY_OUT": Vector2(1060, 500),
 	}
 	for component: LogicComponent in [
 		LogicComponentType.new(&"A_IN", &"input", "TEST BENCH A", &"A", true),
 		LogicComponentType.new(&"B_IN", &"input", "TEST BENCH B", &"B", true),
 		LogicComponentType.new(&"AND_1", &"and", "AND · 1"),
 		LogicComponentType.new(&"AND_2", &"and", "AND · 2"),
-		LogicComponentType.new(&"AND_3", &"and", "AND · 3"),
 		LogicComponentType.new(&"OR_1", &"or", "OR · 1"),
-		LogicComponentType.new(&"OR_2", &"or", "OR · 2"),
 		LogicComponentType.new(&"NOT_1", &"not", "NOT · 1"),
-		LogicComponentType.new(&"NOT_2", &"not", "NOT · 2"),
 		LogicComponentType.new(&"SUM_OUT", &"output", "PROBE SUM", &"SUM", true),
 		LogicComponentType.new(&"CARRY_OUT", &"output", "PROBE CARRY", &"CARRY", true),
 	]:
@@ -2827,7 +2831,7 @@ func _build_tutorial_side() -> void:
 	task_box.add_child(tutorial_next_button)
 
 	side_box.add_child(_side_heading(_t(&"hardware.practice.heading"), _t(&"hardware.practice.heading_subtitle")))
-	_build_input_controls()
+	_build_input_controls(false)
 	var run_button := Button.new()
 	run_button.text = _t(&"hardware.practice.run")
 	run_button.pressed.connect(_run_debug)
@@ -2930,7 +2934,7 @@ func _build_sealed_side() -> void:
 	_layout_desktop_windows()
 
 
-func _build_input_controls() -> void:
+func _build_input_controls(include_b: bool = true) -> void:
 	var signal_note := Label.new()
 	signal_note.text = _t(&"hardware.test_bench.signal.placeholder")
 	signal_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2946,6 +2950,7 @@ func _build_input_controls() -> void:
 	input_b_button = CheckButton.new()
 	input_b_button.button_pressed = false
 	input_b_button.toggled.connect(_on_test_input_toggled.bind(&"B"))
+	input_b_button.visible = include_b
 	input_row.add_child(input_b_button)
 	_update_input_button_text()
 

@@ -14,7 +14,9 @@ One autoloaded `PlaytestData` observer owns a random anonymous session ID and an
 
 Optional localized feedback appears only at natural level/chapter/Demo completion boundaries. Continue and Skip remain independent from response completeness. Script, headless, and capture launches suppress questionnaires by default. Every event records Game/Test mode, and event payloads exclude full Program/Notebook text and unnecessary identity data.
 
-An active marker permits interrupted-session recovery. A player-facing Options action exports the current session, events, normalized summaries, and feedback as one versioned JSON file.
+An active marker permits interrupted-session recovery. A player-facing Options action exports the current session, events, normalized summaries, and feedback as one versioned JSON file. Submitting or skipping the final Demo form leads directly to the same prominent export action, reports the successful path, and offers to open the containing folder.
+
+`--reset-local-test-state` is the bounded developer clean-playtest entry: it removes the active marker, local session JSONL streams, and Hardware workbench manifest while deliberately preserving already exported JSON files and unrelated local data.
 
 ## Alternatives considered
 
@@ -26,6 +28,7 @@ An active marker permits interrupted-session recovery. A player-facing Options a
 ## Consequences
 
 - A complete offline run can be analyzed from one export while raw append-only evidence remains available for recovery/audit.
+- A first-time player does not need to discover the chapter-selection Options menu after finishing the Demo, while developers can repeat a clean local run without hand-deleting paths.
 - Telemetry or questionnaire failures cannot block play or change results.
 - The first schema intentionally favors stable counts and semantic actions over detailed editor replay.
 - Cross-session aggregation, uploads, retention controls, and a general persistent campaign remain future decisions rather than implicit features.

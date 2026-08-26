@@ -1021,7 +1021,7 @@ msgid "hardware.tutorial.heading_subtitle"
 msgstr "A compact desktop task window"
 
 msgid "hardware.tutorial.prompt"
-msgstr "Take a [[not_gate|NOT gate]] from Components and build A → NOT → LAMP. Join it with [[wire|wires]], switch A, and make one [[debug_run|debug run]]. Finally delete one wire and reconnect it."
+msgstr "Use the placed [[not_gate|NOT gate]] to build A → NOT → LAMP. Join it with [[wire|wires]], switch A, and make one [[debug_run|debug run]]. Finally delete one wire and reconnect it. Components offers optional gates for further experiments."
 
 msgid "hardware.tutorial.checklist_title"
 msgstr "SHORT INTERACTION CHECK"
@@ -1935,10 +1935,10 @@ msgid "hardware.hint.title"
 msgstr "Hint stage %d/%d"
 
 msgid "hardware.hint.scope.1"
-msgstr "Only fixed terminals are shown; no solution topology is revealed."
+msgstr "Only the required external interface is shown; no solution topology is revealed."
 
 msgid "hardware.hint.scope.2"
-msgstr "This board reveals at most about one third of the key wires—enough to cross one local obstacle."
+msgstr "Only one curated key subcircuit and its necessary context are shown; unrelated parts stay hidden."
 
 msgid "hardware.hint.scope.3"
 msgstr "The complete reference topology is shown along its real displayed wires."
@@ -1983,7 +1983,7 @@ msgid "hardware.hint.alu.1"
 msgstr "Produce candidate operations in parallel, then select one with the opcode; do not make the opcode change the operators themselves."
 
 msgid "hardware.hint.alu.2"
-msgstr "The key subcircuit shows AND, OR, NOT, and addition results entering a mux selected by OP0/OP1."
+msgstr "One complete candidate path sends A AND B into the mux, uses OP0/OP1 to select it, and reaches RESULT. Apply the same pattern to the other candidates."
 
 msgid "hardware.hint.alu.3"
 msgstr "The complete answer connects all four candidates, selectors, RESULT, and the adder's separate CARRY output."
@@ -1992,7 +1992,7 @@ msgid "hardware.hint.latch.1"
 msgstr "Two NOR gates can read each other's output and retain state while S=R=0; avoid asserting S and R together."
 
 msgid "hardware.hint.latch.2"
-msgstr "The key subcircuit shows the two NOR cross-feedback wires and which side receives S and R."
+msgstr "One half of the feedback is shown: R and the opposite NOR output enter the Q-side NOR. Mirror that relationship for S without copying a complete latch."
 
 msgid "hardware.hint.latch.3"
 msgstr "The complete answer connects the cross-coupled NOR outputs to Q and NQ."
@@ -2001,7 +2001,7 @@ msgid "hardware.hint.register.1"
 msgstr "LOAD=0 must preserve the latch; with LOAD=1, D and NOT D should form SET and RESET."
 
 msgid "hardware.hint.register.2"
-msgstr "The key subcircuit uses two AND gates to combine LOAD with D and NOT D before the SRLatch."
+msgstr "Only the SET path is shown: D and LOAD enter one AND gate, which drives the SRLatch. Build the complementary RESET path yourself."
 
 msgid "hardware.hint.register.3"
 msgstr "The complete answer feeds both gated paths into the SRLatch and connects its Q to the level output."
@@ -2010,7 +2010,7 @@ msgid "hardware.hint.ram.1"
 msgstr "Separate writing from reading: a decoder enables only the addressed register, while a mux reads the addressed row."
 
 msgid "hardware.hint.ram.2"
-msgstr "The key subcircuit sends ADDR/WRITE into the decoder and drives the two Register4 LOAD inputs separately."
+msgstr "Only row 0's write path is shown: ADDR/WRITE enter the decoder, while DATA and its enable reach Register4 · 0. Mirror it for row 1, then solve readout."
 
 msgid "hardware.hint.ram.3"
 msgstr "The complete answer also fans DATA to both registers and uses ADDR to select the word mux output."
@@ -2019,7 +2019,7 @@ msgid "hardware.hint.cpu.1"
 msgstr "Draw the data path first: where ACC, immediate values, and RAM data meet; then let CONTROL only select, load, and write."
 
 msgid "hardware.hint.cpu.2"
-msgstr "The key subcircuit shows the main CONTROL, SOURCE_MUX, ALU, RESULT_MUX, and ACC data loop."
+msgstr "Only the LOAD_IMM path is shown: OP controls the two muxes and ACC load while ARG travels through SOURCE_MUX and RESULT_MUX into ACC. ALU and RAM paths remain unresolved."
 
 msgid "hardware.hint.cpu.3"
 msgstr "The complete answer adds RAM addressing/writes and both external probes to form the program-capable TinyComputer."
@@ -2028,7 +2028,7 @@ msgid "hardware.hint.load_store.1"
 msgstr "Trace OP, ARG, and ADDR one instruction at a time, recording ACC and the addressed memory row before and after each step."
 
 msgid "hardware.hint.load_store.2"
-msgstr "The key connections feed all three Test Bench inputs into TinyComputer; first verify every width and port order."
+msgstr "Only the memory-facing slice is shown: ADDR enters TinyComputer and MEM exposes the addressed word. OP, ARG, and ACC remain for the complete reference."
 
 msgid "hardware.hint.load_store.3"
 msgstr "The complete reference also connects ACC and MEM outputs; this topology is fixed, so focus on reading state changes."
@@ -4390,3 +4390,18 @@ msgstr "Export ready: %s"
 
 msgid "playtest.export.failed"
 msgstr "Export failed: %s"
+
+msgid "playtest.export.handoff.title"
+msgstr "Your Playtest Data Is Ready"
+
+msgid "playtest.export.handoff.subtitle"
+msgstr "Thanks for finishing the Demo. Export the anonymous local JSON before you leave."
+
+msgid "playtest.export.handoff.note"
+msgstr "The file contains this session's actions and optional feedback only. There is no upload, account, or identity data."
+
+msgid "playtest.export.open_folder"
+msgstr "Open Export Folder"
+
+msgid "playtest.export.continue"
+msgstr "Return to Chapter Map"

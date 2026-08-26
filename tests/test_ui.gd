@@ -93,7 +93,12 @@ func _run() -> void:
 	handbook_escape.keycode = KEY_ESCAPE
 	main.call("_input", handbook_escape)
 	_assert(not bool(terminology_handbook.call("is_open")) and (main.get("chapter_map_host") as Control).visible, "Escape must close the handbook before navigating away from the Chapter 2 map.")
-	_assert(main.get("mode_selector") != null and not bool(game_mode.call("is_test_mode")), "The locality lab must expose the shared selector and start in Game mode by default.")
+	_assert(
+		main.get("mode_selector") != null
+		and not (main.get("mode_selector") as Control).visible
+		and not bool(game_mode.call("is_test_mode")),
+		"A normal launch must start in Game mode with the developer selector hidden."
+	)
 	_assert((main.get("chapter_map_host") as Control).visible, "Chapter 2 must open on its seven-level investigation map rather than dropping directly into the old lab.")
 	game_mode.call("set_mode", &"test")
 	var locality_state: Node = root.get_node("LocalityChapter")

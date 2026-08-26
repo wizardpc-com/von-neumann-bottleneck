@@ -6,6 +6,7 @@ const EXPORT_SCHEMA_VERSION: int = 1
 const MAX_SHORT_TEXT_LENGTH: int = 240
 const DEFAULT_STORAGE_DIRECTORY: String = "user://playtest_data"
 const ACTIVE_SESSION_FILE: String = "active_session.json"
+const WORKBENCH_STORAGE_PATH: String = "user://hardware_workbenches_v1.json"
 
 var telemetry_enabled: bool = true
 var questionnaire_enabled: bool = true
@@ -28,7 +29,18 @@ var _read_error_count: int = 0
 
 
 func _ready() -> void:
-	_configure_from_command_line()
+	var arguments: PackedStringArray = _command_line_arguments()
+	if "--reset-local-test-state" in arguments:
+		var reset_result: Dictionary = reset_local_test_state()
+		if bool(reset_result.get("ok", false)):
+			print("Local playtest state reset: %d file(s) removed; prior exports preserved." % (
+				reset_result.get("removed", []) as Array
+			).size())
+		else:
+			push_error("Local playtest state reset failed: %s" % ", ".join(
+				reset_result.get("errors", []) as Array
+			))
+	_configure_from_command_line(arguments)
 	if telemetry_enabled:
 		start_session()
 
@@ -314,9 +326,50 @@ func export_current_session() -> String:
 	return destination
 
 
-func _configure_from_command_line() -> void:
+static func reset_local_test_state(
+		playtest_directory: String = DEFAULT_STORAGE_DIRECTORY,
+		workbench_path: String = WORKBENCH_STORAGE_PATH
+	) -> Dictionary:
+	var removed: Array[String] = []
+	var errors: Array[String] = []
+	var absolute_workbench: String = _global_path(workbench_path)
+	if FileAccess.file_exists(absolute_workbench):
+		var workbench_error: Error = DirAccess.remove_absolute(absolute_workbench)
+		if workbench_error == OK:
+			removed.append(absolute_workbench)
+		else:
+			errors.append("%s: %s" % [absolute_workbench, error_string(workbench_error)])
+	var absolute_playtest_directory: String = _global_path(playtest_directory)
+	if DirAccess.dir_exists_absolute(absolute_playtest_directory):
+		var directory := DirAccess.open(absolute_playtest_directory)
+		if directory == null:
+			errors.append("Could not open %s" % absolute_playtest_directory)
+		else:
+			directory.list_dir_begin()
+			var entry: String = directory.get_next()
+			while not entry.is_empty():
+				if not directory.current_is_dir() and (
+					entry == ACTIVE_SESSION_FILE
+					or entry.begins_with("session_") and entry.ends_with(".jsonl")
+				):
+					var target: String = absolute_playtest_directory.path_join(entry)
+					var remove_error: Error = DirAccess.remove_absolute(target)
+					if remove_error == OK:
+						removed.append(target)
+					else:
+						errors.append("%s: %s" % [target, error_string(remove_error)])
+				entry = directory.get_next()
+			directory.list_dir_end()
+	return {"ok": errors.is_empty(), "removed": removed, "errors": errors}
+
+
+func _command_line_arguments() -> PackedStringArray:
 	var arguments: PackedStringArray = OS.get_cmdline_args()
 	arguments.append_array(OS.get_cmdline_user_args())
+	return arguments
+
+
+func _configure_from_command_line(arguments: PackedStringArray) -> void:
 	var explicitly_enable_telemetry: bool = "--enable-playtest-telemetry" in arguments
 	var explicitly_enable_feedback: bool = "--enable-playtest-feedback" in arguments
 	var automated: bool = "--script" in arguments or DisplayServer.get_name() == "headless"
@@ -680,6 +733,12 @@ func _storage_path(relative_path: String) -> String:
 
 
 func _absolute_path(path: String) -> String:
+	if path.begins_with("user://") or path.begins_with("res://"):
+		return ProjectSettings.globalize_path(path).replace("\\", "/")
+	return path.replace("\\", "/")
+
+
+static func _global_path(path: String) -> String:
 	if path.begins_with("user://") or path.begins_with("res://"):
 		return ProjectSettings.globalize_path(path).replace("\\", "/")
 	return path.replace("\\", "/")

@@ -6,6 +6,7 @@ var option_button: OptionButton
 
 
 func _ready() -> void:
+	visible = GameMode.developer_tools_enabled()
 	add_theme_constant_override("separation", 6)
 	if show_label:
 		var label := Label.new()

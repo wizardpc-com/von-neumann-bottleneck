@@ -67,7 +67,23 @@ The interface defaults to Simplified Chinese. Start with the English catalog usi
 godot --path . -- --locale=en
 ```
 
-Game mode follows normal prerequisites. For isolated development access to every current level, use the in-game mode selector or launch with `godot --path . -- --test-mode`. Game/Test progress is isolated; progression is session-local, while named per-level workbench topology is saved locally.
+An ordinary launch always enters Game mode and hides development-only mode controls. For isolated development access to every current level, launch with `godot --path . -- --test-mode`; the selector is then available for QA. Game/Test progress is isolated; progression is session-local, while named per-level workbench topology is saved locally.
+
+For a clean developer playtest that removes local anonymous session streams and Hardware workbenches while preserving prior exported JSON files:
+
+```powershell
+godot --path . -- --test-mode --reset-local-test-state
+```
+
+## Windows friend build
+
+Install Godot 4.7.1 export templates once, then create the self-contained Windows EXE and ZIP with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\build-playtest.ps1 -GodotExecutable 'C:\path\to\Godot_v4.7.1-stable_win64.exe'
+```
+
+The script writes `build/playtest/Von-Neumann-Bottleneck.exe` and `build/Von-Neumann-Bottleneck-Windows-Playtest.zip`. Friends only need to extract the ZIP and double-click the EXE; Godot and the repository are not required on their machine. See [`distribution/PLAYTEST-README.txt`](distribution/PLAYTEST-README.txt).
 
 ## Current Status
 

@@ -64,11 +64,26 @@ func _run() -> void:
 	await process_frame
 	_assert_module_text_clearance(main, &"load_store")
 	var graph: GraphEdit = main.get("graph")
+	var bridge_definition: Dictionary = main.get("current_level_definition")
+	_assert(_all_initial_components_used(bridge_definition), "LOAD/STORE must not pre-place components absent from its task topology.")
 	_assert(graph.get_connection_list().size() == 5, "The LOAD/STORE bridge must reuse the sealed computer with an already connected external Test Bench.")
 	_assert(not bool(graph.get("branch_edit_enabled")), "The bridge topology must be locked so it is a program/data-flow demonstration, not repeated wiring.")
 	_assert((main.get("component_menu_button") as MenuButton).disabled, "A locked demonstration topology must not offer extra component placement.")
 	var bridge_snapshot: String = JSON.stringify(main.call("_capture_workbench_snapshot"))
 	main.call("_enter_hint_workbench")
+	await process_frame
+	_assert(
+		_canvas_component_ids(main) == _fixed_component_ids(bridge_definition)
+		and (main.get("graph") as GraphEdit).get_connection_list().is_empty(),
+		"LOAD/STORE Hint stage 1 must show only its necessary external interface."
+	)
+	main.call("_show_hint_level", 2)
+	await process_frame
+	_assert(
+		_canvas_component_ids(main) == _stage_two_component_ids(bridge_definition)
+		and (main.get("graph") as GraphEdit).get_connection_list().size() == 2,
+		"LOAD/STORE Hint stage 2 must show only its curated memory-facing slice."
+	)
 	main.call("_show_hint_level", 3)
 	await process_frame
 	_assert(
@@ -131,6 +146,7 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 		_assert(storage_label != null and is_instance_valid(storage_label), "%s must expose a committed-state monitor separate from live port preview." % level_id)
 	var definition: Dictionary = main.get("current_level_definition")
 	var graph: GraphEdit = main.get("graph")
+	_assert(_all_initial_components_used(definition), "%s must not pre-place a component absent from its task topology." % level_id)
 	_assert(graph.get_connection_list().is_empty(), "%s must not expose the reference solution to the player." % level_id)
 	_assert(not (main.get("component_menu_button") as MenuButton).disabled and not (main.get("component_menu_templates") as Dictionary).is_empty(), "%s must expose a level-authoritative menu for placing additional allowed components." % level_id)
 	_assert(not (main.get("component_palette_items") as Dictionary).is_empty(), "%s must expose the same allowed supply as visible draggable palette items." % level_id)
@@ -147,16 +163,19 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	_assert(int(main.get("live_analysis_count")) == idle_analysis_count, "%s live multi-bit port evaluation must be event-driven rather than recomputed every frame." % level_id)
 	var player_snapshot: String = JSON.stringify(main.call("_capture_workbench_snapshot"))
 	main.call("_enter_hint_workbench")
+	await process_frame
+	_assert(
+		_canvas_component_ids(main) == _fixed_component_ids(definition)
+		and (main.get("graph") as GraphEdit).get_connection_list().is_empty(),
+		"%s Hint stage 1 must contain only the level interface and no solution topology." % level_id
+	)
 	main.call("_show_hint_level", 2)
 	await process_frame
 	var authored_hint_count: int = (definition.get("hint_partial_wires", []) as Array).size()
-	var expected_hint_count: int = mini(
-		authored_hint_count,
-		maxi(1, ceili((definition.get("reference_wires", []) as Array).size() * 0.4))
-	)
 	_assert(
-		(main.get("graph") as GraphEdit).get_connection_list().size() == expected_hint_count,
-		"%s hint stage 2 must cap its curated subcircuit near one third of the complete answer." % level_id
+		(main.get("graph") as GraphEdit).get_connection_list().size() == authored_hint_count
+		and _canvas_component_ids(main) == _stage_two_component_ids(definition),
+		"%s Hint stage 2 must show exactly its authored key subcircuit with no unrelated components." % level_id
 	)
 	for node_variant: Variant in (main.get("component_nodes") as Dictionary).values():
 		_assert(not (node_variant as GraphNode).draggable, "%s hint components must remain read-only." % level_id)
@@ -483,6 +502,49 @@ func _component_visual_signature(node: GraphNode) -> String:
 		"symbols": symbols,
 		"state": state_labels,
 	})
+
+
+func _canvas_component_ids(main: Control) -> Array[StringName]:
+	var result: Array[StringName] = []
+	for component_id: StringName in (main.get("component_catalog") as Dictionary):
+		result.append(component_id)
+	result.sort()
+	return result
+
+
+func _fixed_component_ids(definition: Dictionary) -> Array[StringName]:
+	var result: Array[StringName] = []
+	for component: LogicComponent in definition.get("components", []):
+		if component.fixed_terminal:
+			result.append(component.id)
+	result.sort()
+	return result
+
+
+func _stage_two_component_ids(definition: Dictionary) -> Array[StringName]:
+	var included: Dictionary[StringName, bool] = {}
+	for wire: Dictionary in definition.get("hint_partial_wires", []):
+		included[StringName(wire.get("from", &""))] = true
+		included[StringName(wire.get("to", &""))] = true
+	for component_id: Variant in definition.get("hint_context_components", []):
+		included[StringName(component_id)] = true
+	var result: Array[StringName] = []
+	for component_id: StringName in included:
+		if not component_id.is_empty():
+			result.append(component_id)
+	result.sort()
+	return result
+
+
+func _all_initial_components_used(definition: Dictionary) -> bool:
+	var used: Dictionary[StringName, bool] = {}
+	for wire: Dictionary in definition.get("reference_wires", []):
+		used[StringName(wire.get("from", &""))] = true
+		used[StringName(wire.get("to", &""))] = true
+	for component: LogicComponent in definition.get("components", []):
+		if not used.has(component.id):
+			return false
+	return true
 
 
 func _expected_palette_kinds(level_id: StringName) -> Array[StringName]:

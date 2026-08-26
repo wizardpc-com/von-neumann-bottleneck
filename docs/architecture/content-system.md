@@ -126,7 +126,7 @@ This is deliberate. A universal dictionary evaluator or data-authored script wou
 ## Current limitations
 
 - Current reusable definitions preserve a player circuit snapshot/signature, but opaque placement still selects one of the trusted built-in behavior kinds. Arbitrary recursively nested player-defined components are not implemented.
-- The player-content manifest remains session-only and cannot restore completion/reusable provenance. Named workbench topology has a separate version-1 disk snapshot, but there is no cross-version migration, cloud sync, mod loader, workshop, or untrusted content execution.
+- The player-content manifest remains session-only and cannot restore completion/reusable provenance. Named workbench topology has a separate version-2 seed-fingerprinted disk snapshot with a bounded version-1 migration, but there is no general migration framework, cloud sync, mod loader, workshop, or untrusted content execution.
 - Workbenches can currently be created and switched but not renamed, deleted, shared, or exported.
 - The Hardware Foundations scene controller is still large. Campaign knowledge has moved out, but view extraction should be driven by measured change pressure rather than a broad rewrite.
 - New storage timing, bus contention, Cache behavior, or locality objectives require explicit deterministic domain design. The bounded Chapter 1 system domain and Chapter 2 locality domain reuse Test Bench/player-evidence patterns where natural without becoming a speculative universal simulator.

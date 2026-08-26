@@ -187,7 +187,9 @@ func _ready() -> void:
 	_show_chapter_map()
 	set_process(true)
 	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
-	if "--capture-demo" in user_arguments:
+	if "--capture-playtest-export" in user_arguments:
+		call_deferred("_prepare_playtest_export_capture")
+	elif "--capture-demo" in user_arguments:
 		call_deferred("_prepare_demo_capture")
 	elif "--capture-profiler" in user_arguments:
 		call_deferred("_prepare_profiler_capture")
@@ -226,6 +228,12 @@ func _is_escape_press(event: InputEvent) -> bool:
 func _prepare_demo_capture() -> void:
 	_start_level(&"capstone")
 	_run_simulation("Official Test Set")
+
+
+func _prepare_playtest_export_capture() -> void:
+	playtest_feedback_overlay.questionnaire_enabled = true
+	if playtest_feedback_overlay.present_demo():
+		playtest_feedback_overlay.call("_show_demo_export_handoff")
 
 
 func _prepare_profiler_capture() -> void:
@@ -348,6 +356,8 @@ func _build_interface() -> void:
 	playtest_feedback_overlay.chapter_feedback_submitted.connect(_on_chapter_feedback_submitted)
 	playtest_feedback_overlay.demo_feedback_submitted.connect(_on_demo_feedback_submitted)
 	playtest_feedback_overlay.feedback_skipped.connect(_on_playtest_feedback_skipped)
+	playtest_feedback_overlay.export_requested.connect(_on_playtest_export_requested)
+	playtest_feedback_overlay.open_export_folder_requested.connect(_open_playtest_export_folder)
 	playtest_feedback_overlay.finished.connect(_on_playtest_feedback_finished)
 	add_child(playtest_feedback_overlay)
 
@@ -1375,6 +1385,16 @@ func _on_demo_feedback_submitted(
 
 func _on_playtest_feedback_skipped(scope: StringName, subject_id: StringName) -> void:
 	PlaytestData.record_feedback_skipped(scope, subject_id)
+
+
+func _on_playtest_export_requested() -> void:
+	var export_path: String = PlaytestData.export_current_session()
+	playtest_feedback_overlay.show_export_result(export_path, PlaytestData.last_error)
+
+
+func _open_playtest_export_folder(export_path: String) -> void:
+	if not export_path.is_empty():
+		OS.shell_show_in_file_manager(export_path)
 
 
 func _on_playtest_feedback_finished(scope: StringName, _subject_id: StringName) -> void:

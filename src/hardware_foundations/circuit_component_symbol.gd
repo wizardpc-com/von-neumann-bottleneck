@@ -125,16 +125,18 @@ func name_layout() -> Dictionary:
 			color = _stage_color(symbol_color(), 0.20, 0.78)
 		&"input":
 			text = terminal_label
-			center.x = width * 0.44
-			max_width = 36.0
+			center = Vector2(width * 0.41, display_height * 0.22)
+			max_width = 52.0
+			preferred_font_size = 10
 		&"constant":
 			text = str(int(output_value)) if output_known else "C"
 			center.x = width * 0.48
 			max_width = 24.0
 		&"output", &"lamp":
 			text = terminal_label
-			center.x = width * 0.55
-			max_width = 36.0 if component_kind == &"output" else 24.0
+			center = Vector2(width * (0.59 if component_kind == &"output" else 0.55), display_height * 0.22)
+			max_width = 58.0 if component_kind == &"output" else 42.0
+			preferred_font_size = 10
 	if text.is_empty():
 		return {}
 	var font_size: int = _fitted_font_size(text, preferred_font_size, max_width)
@@ -190,6 +192,92 @@ func _draw() -> void:
 		&"junction":
 			_draw_junction()
 	_draw_name_overlay()
+	if component_kind in [&"input", &"output", &"lamp"]:
+		_draw_terminal_value()
+
+
+func visual_hit_test(point: Vector2, tolerance: float = 3.0) -> bool:
+	var width: float = size.x
+	var center_y: float = display_height * 0.5
+	match component_kind:
+		&"input":
+			var center := Vector2(width * 0.41, center_y)
+			var body := PackedVector2Array([
+				center + Vector2(-26.0, -22.0), center + Vector2(8.0, -22.0),
+				center + Vector2(26.0, 0.0), center + Vector2(8.0, 22.0),
+				center + Vector2(-26.0, 22.0),
+			])
+			return Geometry2D.is_point_in_polygon(point, body) or _near_segment(
+				point, center + Vector2(26.0, 0.0), Vector2(width, center.y), tolerance + 2.0
+			)
+		&"output":
+			var center := Vector2(width * 0.59, center_y)
+			var body := PackedVector2Array([
+				center + Vector2(-26.0, 0.0), center + Vector2(-8.0, -22.0),
+				center + Vector2(26.0, -22.0), center + Vector2(26.0, 22.0),
+				center + Vector2(-8.0, 22.0),
+			])
+			return Geometry2D.is_point_in_polygon(point, body) or _near_segment(
+				point, Vector2(0.0, center.y), center + Vector2(-26.0, 0.0), tolerance + 2.0
+			)
+		&"lamp":
+			var center := Vector2(width * 0.55, center_y)
+			return point.distance_to(center) <= 22.0 + tolerance or _near_segment(
+				point, Vector2(0.0, center.y), center - Vector2(22.0, 0.0), tolerance + 2.0
+			)
+		&"and":
+			var left: float = width * 0.28
+			var arc_center_x: float = width * 0.56
+			var radius: float = minf(display_height * 0.34, width * 0.22)
+			return Rect2(
+				Vector2(left - tolerance, center_y - radius - tolerance),
+				Vector2(arc_center_x + radius - left + tolerance * 2.0, radius * 2.0 + tolerance * 2.0)
+			).has_point(point) or _near_gate_leads(point, left, arc_center_x + radius, tolerance)
+		&"or", &"xor", &"nor":
+			var left: float = width * (0.22 if component_kind == &"xor" else 0.27)
+			var right: float = width * (0.88 if component_kind == &"nor" else 0.78)
+			return Rect2(
+				Vector2(left - tolerance, display_height * 0.09 - tolerance),
+				Vector2(right - left + tolerance * 2.0, display_height * 0.82 + tolerance * 2.0)
+			).has_point(point) or _near_gate_leads(point, width * 0.38, right, tolerance)
+		&"not":
+			var left: float = width * 0.27
+			var right: float = width * 0.69 + 13.0
+			var triangle := PackedVector2Array([
+				Vector2(left, display_height * 0.15),
+				Vector2(left, display_height * 0.85),
+				Vector2(width * 0.69, center_y),
+			])
+			return Geometry2D.is_point_in_polygon(point, triangle) \
+				or point.distance_to(Vector2(width * 0.69 + 6.5, center_y)) <= 6.5 + tolerance \
+				or _near_segment(point, Vector2(0.0, center_y), Vector2(left, center_y), tolerance + 2.0) \
+				or _near_segment(point, Vector2(right, center_y), Vector2(width, center_y), tolerance + 2.0)
+		&"constant":
+			var center := Vector2(width * 0.48, center_y)
+			var diamond := PackedVector2Array([
+				center + Vector2(0.0, -16.0), center + Vector2(16.0, 0.0),
+				center + Vector2(0.0, 16.0), center + Vector2(-16.0, 0.0),
+			])
+			return Geometry2D.is_point_in_polygon(point, diamond) or _near_segment(
+				point, center + Vector2(16.0, 0.0), Vector2(width, center.y), tolerance + 2.0
+			)
+		&"junction":
+			return _near_segment(point, Vector2(0.0, center_y), Vector2(width, center_y), tolerance + 3.0)
+	return Rect2(Vector2.ZERO, Vector2(width, display_height)).grow(-4.0).has_point(point)
+
+
+func _near_gate_leads(point: Vector2, input_finish_x: float, output_start_x: float, tolerance: float) -> bool:
+	for y: float in [display_height / 6.0, display_height * 5.0 / 6.0]:
+		if _near_segment(point, Vector2(0.0, y), Vector2(input_finish_x, y), tolerance + 2.0):
+			return true
+	return _near_segment(
+		point, Vector2(output_start_x, display_height * 0.5),
+		Vector2(size.x, display_height * 0.5), tolerance + 2.0
+	)
+
+
+func _near_segment(point: Vector2, start: Vector2, finish: Vector2, tolerance: float) -> bool:
+	return point.distance_to(Geometry2D.get_closest_point_to_segment(point, start, finish)) <= tolerance
 
 
 func _draw_and() -> void:
@@ -337,29 +425,21 @@ func _draw_not() -> void:
 
 func _draw_source() -> void:
 	var width: float = size.x
-	var center := Vector2(width * 0.44, display_height * 0.5)
-	var base: Color = symbol_color()
-	var body_color: Color = base
-	var output_color: Color = _stage_color(base, 0.34, 1.0)
+	var center := Vector2(width * 0.41, display_height * 0.5)
+	var signal_color: Color = _terminal_signal_color()
 	var body := PackedVector2Array([
-		center + Vector2(-22.0, -18.0),
-		center + Vector2(8.0, -18.0),
-		center + Vector2(22.0, 0.0),
-		center + Vector2(8.0, 18.0),
-		center + Vector2(-22.0, 18.0),
-		center + Vector2(-22.0, -18.0),
+		center + Vector2(-26.0, -22.0),
+		center + Vector2(8.0, -22.0),
+		center + Vector2(26.0, 0.0),
+		center + Vector2(8.0, 22.0),
+		center + Vector2(-26.0, 22.0),
+		center + Vector2(-26.0, -22.0),
 	])
-	draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), SURFACE)
-	draw_polyline(body, body_color, 4.0, true)
-	var internal_strength: float = _stage_strength(0.16, 0.72)
-	if internal_strength > 0.0:
-		draw_line(
-			center + Vector2(-12.0, 0.0), center + Vector2(12.0, 0.0),
-			Color(PROCESS, 0.34 + internal_strength * 0.66), 3.0, true
-		)
-	_draw_output_lead(center + Vector2(22.0, 0.0), Vector2(width, center.y), output_color)
+	draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), Color(signal_color, 0.92))
+	draw_polyline(body, SELECTION if selection_active else signal_color.lightened(0.18), 4.0, true)
+	_draw_output_lead(center + Vector2(26.0, 0.0), Vector2(width, center.y), signal_color)
 	_draw_processing_dot(
-		center + Vector2(7.0, 0.0), Vector2(width, center.y), 0.22, 1.0,
+		center + Vector2(12.0, 0.0), Vector2(width, center.y), 0.22, 1.0,
 		_processing_output_visual()
 	)
 
@@ -385,38 +465,62 @@ func _draw_constant() -> void:
 
 func _draw_observer(lamp: bool) -> void:
 	var width: float = size.x
-	var center := Vector2(width * 0.55, display_height * 0.5)
-	var base: Color = symbol_color()
-	var input_color: Color = _stage_color(base, 0.0, 0.58)
-	var body_color: Color = base
-	var entry_finish := center - Vector2(20.0 if not lamp else 17.0, 0.0)
-	_draw_input_lead(Vector2(0.0, center.y), entry_finish, input_color)
+	var center := Vector2(width * (0.55 if lamp else 0.59), display_height * 0.5)
+	var signal_color: Color = _terminal_signal_color()
+	var entry_finish := center - Vector2(22.0 if lamp else 26.0, 0.0)
+	_draw_input_lead(Vector2(0.0, center.y), entry_finish, signal_color)
 	if lamp:
-		draw_circle(center, 17.0, SURFACE)
-		draw_circle(center, 17.0, body_color, false, 4.0, true)
+		draw_circle(center, 22.0, Color(signal_color, 0.92))
+		draw_circle(center, 22.0, SELECTION if selection_active else signal_color.lightened(0.18), false, 4.0, true)
 		for index: int in range(8):
 			var direction := Vector2.from_angle(float(index) * TAU / 8.0)
-			draw_line(center + direction * 21.0, center + direction * 27.0, body_color, 2.5, true)
+			draw_line(center + direction * 25.0, center + direction * 29.0, signal_color, 2.5, true)
 	else:
 		var body := PackedVector2Array([
-			center + Vector2(-20.0, 0.0),
-			center + Vector2(-7.0, -18.0),
-			center + Vector2(22.0, -18.0),
-			center + Vector2(22.0, 18.0),
-			center + Vector2(-7.0, 18.0),
-			center + Vector2(-20.0, 0.0),
+			center + Vector2(-26.0, 0.0),
+			center + Vector2(-8.0, -22.0),
+			center + Vector2(26.0, -22.0),
+			center + Vector2(26.0, 22.0),
+			center + Vector2(-8.0, 22.0),
+			center + Vector2(-26.0, 0.0),
 		])
-		draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), SURFACE)
-		draw_polyline(body, body_color, 4.0, true)
-	var settle_strength: float = _stage_strength(0.42, 1.0)
-	if settle_strength > 0.0:
-		draw_arc(
-			center, 9.0, -PI * 0.7, PI * 0.7, 18,
-			Color(PROCESS, 0.26 + settle_strength * 0.74), 3.0, true
-		)
+		draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), Color(signal_color, 0.92))
+		draw_polyline(body, SELECTION if selection_active else signal_color.lightened(0.18), 4.0, true)
 	_draw_processing_dot(
 		Vector2(0.0, center.y), center - Vector2(2.0, 0.0), 0.0, 0.76,
 		_processing_input_visual(0)
+	)
+
+
+func _terminal_signal_color() -> Color:
+	if component_kind == &"input":
+		return SIGNAL_HIGH if output_known and output_value else SIGNAL_LOW if output_known else SIGNAL_HIGH_Z
+	var known: bool = not input_known.is_empty() and input_known[0]
+	var value: bool = not input_values.is_empty() and input_values[0]
+	return SIGNAL_HIGH if known and value else SIGNAL_LOW if known else SIGNAL_HIGH_Z
+
+
+func _terminal_value_text() -> String:
+	if component_kind == &"input":
+		return str(int(output_value)) if output_known else "?"
+	var known: bool = not input_known.is_empty() and input_known[0]
+	return str(int(input_values[0])) if known and not input_values.is_empty() else "?"
+
+
+func _draw_terminal_value() -> void:
+	var center_x: float = size.x * (0.41 if component_kind == &"input" else 0.55 if component_kind == &"lamp" else 0.59)
+	var text: String = _terminal_value_text()
+	var font_size: int = 23
+	var text_width: float = _text_width(text, font_size)
+	var position := Vector2(center_x - text_width * 0.5, display_height * 0.71)
+	for offset: Vector2 in [Vector2(-1.0, 0.0), Vector2(1.0, 0.0), Vector2(0.0, -1.0), Vector2(0.0, 1.0)]:
+		draw_string(
+			ThemeDB.fallback_font, position + offset, text,
+			HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, Color(SURFACE, 0.98)
+		)
+	draw_string(
+		ThemeDB.fallback_font, position, text,
+		HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, Color("f7fbff")
 	)
 
 

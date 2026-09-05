@@ -37,14 +37,14 @@ func register_into(registry, _builders: Dictionary = {}) -> void:
 func _latch(_library: Dictionary = {}) -> Dictionary:
 	var components: Array[LogicComponent] = [
 		_input(&"S_IN", &"S"), _input(&"R_IN", &"R"),
-		LogicComponentType.new(&"NOR_Q", LogicComponentType.KIND_NOR, "nor · Q"),
-		LogicComponentType.new(&"NOR_NQ", LogicComponentType.KIND_NOR, "nor · NQ"),
+		LogicComponentType.new(&"NOR_Q", LogicComponentType.KIND_NOR, "NOR · NQ"),
+		LogicComponentType.new(&"NOR_NQ", LogicComponentType.KIND_NOR, "NOR · Q"),
 		_output(&"Q_OUT", &"Q"), _output(&"NQ_OUT", &"NQ"),
 	]
 	var wires: Array[Dictionary] = [
-		_w(&"R_IN", &"NOR_Q", 0, 0), _w(&"NOR_NQ", &"NOR_Q", 0, 1),
-		_w(&"S_IN", &"NOR_NQ", 0, 0), _w(&"NOR_Q", &"NOR_NQ", 0, 1),
-		_w(&"NOR_Q", &"Q_OUT", 0, 0), _w(&"NOR_NQ", &"NQ_OUT", 0, 0),
+		_w(&"NOR_NQ", &"NOR_Q", 0, 1), _w(&"NOR_NQ", &"Q_OUT", 0, 0),
+		_w(&"NOR_Q", &"NOR_NQ", 0, 0), _w(&"NOR_Q", &"NQ_OUT", 0, 0),
+		_w(&"R_IN", &"NOR_NQ", 0, 1), _w(&"S_IN", &"NOR_Q", 0, 0),
 	]
 	var steps: Array[Dictionary] = [
 		_case({&"S": 0, &"R": 1}, {&"Q": 0, &"NQ": 1}),
@@ -56,9 +56,9 @@ func _latch(_library: Dictionary = {}) -> Dictionary:
 	return _base(
 		&"latch", &"hardware.prologue.latch.title", &"hardware.prologue.latch.description", components,
 		{
-			&"S_IN": Vector2(415, 115), &"R_IN": Vector2(415, 435),
-			&"NOR_Q": Vector2(725, 135), &"NOR_NQ": Vector2(725, 385),
-			&"Q_OUT": Vector2(1170, 135), &"NQ_OUT": Vector2(1170, 385),
+			&"S_IN": Vector2(510, 115), &"R_IN": Vector2(510, 435),
+			&"NOR_Q": Vector2(780, 200), &"NOR_NQ": Vector2(780, 340),
+			&"NQ_OUT": Vector2(1160, 200), &"Q_OUT": Vector2(1160, 360),
 		}, wires, steps, &"SRLatch", LogicComponentType.KIND_SR_LATCH,
 		{
 			"allow_feedback": true,
@@ -68,7 +68,7 @@ func _latch(_library: Dictionary = {}) -> Dictionary:
 				LogicComponentType.new(&"PALETTE_NOR", LogicComponentType.KIND_NOR, "NOR"),
 			],
 			"hint_partial_wires": [
-				wires[0].duplicate(), wires[1].duplicate(),
+				wires[0].duplicate(), wires[1].duplicate(), wires[5].duplicate(),
 			],
 			"hint_context_components": [&"Q_OUT"],
 		}
@@ -76,7 +76,7 @@ func _latch(_library: Dictionary = {}) -> Dictionary:
 
 
 func _register(library: Dictionary) -> Dictionary:
-	var latch: LogicComponent = _library_instance(library, &"SRLatch", &"LATCH", "Your SRLatch")
+	var latch: LogicComponent = _library_instance(library, &"SRLatch", &"LATCH", "SR Latch")
 	if latch == null:
 		return _missing(&"register", &"SRLatch")
 	var components: Array[LogicComponent] = [
@@ -102,9 +102,9 @@ func _register(library: Dictionary) -> Dictionary:
 	return _base(
 		&"register", &"hardware.prologue.register.title", &"hardware.prologue.register.description", components,
 		{
-			&"D_IN": Vector2(400, 100), &"LOAD_IN": Vector2(400, 455),
-			&"NOT_D": Vector2(625, 95), &"AND_S": Vector2(805, 245),
-			&"AND_R": Vector2(805, 430), &"LATCH": Vector2(1040, 280), &"Q_OUT": Vector2(1300, 300),
+			&"D_IN": Vector2(540, 100), &"LOAD_IN": Vector2(540, 455),
+			&"NOT_D": Vector2(680, 220), &"AND_S": Vector2(860, 220),
+			&"AND_R": Vector2(860, 380), &"LATCH": Vector2(1040, 300), &"Q_OUT": Vector2(1320, 300),
 		}, wires, steps, &"Register1", LogicComponentType.KIND_REGISTER1,
 		{
 			"feature_tags": [&"storage"],
@@ -151,9 +151,9 @@ func _ram(library: Dictionary) -> Dictionary:
 	return _base(
 		&"ram", &"hardware.prologue.ram.title", &"hardware.prologue.ram.description", components,
 		{
-			&"ADDR_IN": Vector2(380, 70), &"DATA_IN": Vector2(380, 250), &"WRITE_IN": Vector2(380, 475),
-			&"DECODER": Vector2(610, 400), &"REG_0": Vector2(830, 120), &"REG_1": Vector2(830, 385),
-			&"MUX": Vector2(1090, 250), &"OUT": Vector2(1320, 270),
+			&"ADDR_IN": Vector2(540, 70), &"DATA_IN": Vector2(540, 250), &"WRITE_IN": Vector2(540, 475),
+			&"DECODER": Vector2(680, 140), &"REG_0": Vector2(980, 220), &"REG_1": Vector2(980, 340),
+			&"MUX": Vector2(1060, 520), &"OUT": Vector2(1340, 270),
 		}, wires, steps, &"RAM2x4", LogicComponentType.KIND_RAM2X4,
 		{
 			"feature_tags": [&"storage"],

@@ -4,6 +4,8 @@ extends Control
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
 signal continue_requested(level_id: StringName)
+signal primary_action_requested(level_id: StringName)
+signal return_requested(level_id: StringName)
 signal feedback_submitted(
 	chapter_id: StringName,
 	level_id: StringName,
@@ -32,6 +34,8 @@ var title_label: Label
 var level_label: Label
 var summary_label: Label
 var continue_button: Button
+var primary_action_button: Button
+var return_button: Button
 var feedback_box: VBoxContainer
 var feedback_ratings: Dictionary[StringName, OptionButton] = {}
 var feedback_note: LineEdit
@@ -139,14 +143,31 @@ func _build_interface() -> void:
 	feedback_box.add_child(feedback_note)
 	column.add_child(feedback_box)
 
+	primary_action_button = Button.new()
+	primary_action_button.name = "LevelCompletionPrimaryButton"
+	primary_action_button.custom_minimum_size = Vector2(UiTypographyType.CONTINUE_WIDTH, UiTypographyType.CONTROL_HEIGHT)
+	primary_action_button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
+	primary_action_button.pressed.connect(_on_primary_action_pressed)
+	primary_action_button.hide()
 	continue_button = Button.new()
 	continue_button.name = "LevelCompletionContinueButton"
 	continue_button.text = Localization.text(&"common.level_complete.continue")
 	continue_button.custom_minimum_size = Vector2(UiTypographyType.CONTINUE_WIDTH, UiTypographyType.CONTROL_HEIGHT)
 	continue_button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
 	continue_button.pressed.connect(_on_continue_pressed)
+	return_button = Button.new()
+	return_button.name = "LevelCompletionReturnButton"
+	return_button.custom_minimum_size = Vector2(UiTypographyType.CONTINUE_WIDTH, UiTypographyType.CONTROL_HEIGHT)
+	return_button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
+	return_button.pressed.connect(_on_return_pressed)
+	return_button.hide()
 	var continue_center := CenterContainer.new()
-	continue_center.add_child(continue_button)
+	var action_row := HBoxContainer.new()
+	action_row.add_theme_constant_override("separation", 14)
+	action_row.add_child(primary_action_button)
+	action_row.add_child(continue_button)
+	action_row.add_child(return_button)
+	continue_center.add_child(action_row)
 	column.add_child(continue_center)
 
 	audio_player = AudioStreamPlayer.new()
@@ -174,12 +195,35 @@ func present(
 	level_label.text = level_title
 	summary_label.text = summary
 	continue_button.text = Localization.text(&"common.level_complete.continue")
+	primary_action_button.hide()
+	return_button.hide()
 	feedback_box.visible = questionnaire_enabled
 	panel.custom_minimum_size = Vector2(760.0, 650.0) if questionnaire_enabled else Vector2(660.0, 430.0)
 	_reset_feedback()
 	show()
 	continue_button.grab_focus()
 	_play_completion_cue()
+
+
+func present_actions(
+		level_id: StringName,
+		level_title: String,
+		summary: String,
+		chapter: String,
+		chapter_id: StringName,
+		primary_text: String,
+		secondary_text: String,
+		return_text: String = ""
+	) -> void:
+	present(level_id, level_title, summary, chapter, chapter_id)
+	feedback_box.hide()
+	panel.custom_minimum_size = Vector2(700.0, 470.0)
+	primary_action_button.text = primary_text
+	primary_action_button.show()
+	continue_button.text = secondary_text
+	return_button.text = return_text
+	return_button.visible = not return_text.is_empty()
+	primary_action_button.grab_focus()
 
 
 func dismiss() -> void:
@@ -218,6 +262,18 @@ func _on_continue_pressed() -> void:
 			feedback_skipped.emit(finished_chapter, finished_level)
 	dismiss()
 	continue_requested.emit(finished_level)
+
+
+func _on_primary_action_pressed() -> void:
+	var finished_level: StringName = current_level_id
+	dismiss()
+	primary_action_requested.emit(finished_level)
+
+
+func _on_return_pressed() -> void:
+	var finished_level: StringName = current_level_id
+	dismiss()
+	return_requested.emit(finished_level)
 
 
 func _add_rating_row(rating_id: StringName, label_key: StringName) -> void:

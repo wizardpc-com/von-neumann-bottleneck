@@ -237,6 +237,11 @@ func _test_campaign_catalog() -> void:
 	_assert(not catalog.is_unlocked(&"cpu", completed), "CPU must stay locked until ALU and RAM are both complete.")
 
 	var full_definition: Dictionary = catalog.definition(&"full_adder", library)
+	_assert_layout(full_definition, {
+		&"A_IN": Vector2(540, 65), &"B_IN": Vector2(540, 250), &"CIN_IN": Vector2(540, 440),
+		&"HA_1": Vector2(740, 160), &"HA_2": Vector2(880, 340), &"OR_1": Vector2(1180, 200),
+		&"COUT_OUT": Vector2(1320, 140), &"SUM_OUT": Vector2(1320, 440),
+	}, "Full Adder player standard")
 	var full_circuit: LogicCircuit = catalog.reference_circuit(&"full_adder", library)
 	var full_report: Dictionary = simulator.run_sequence(full_circuit, full_definition["official_steps"])
 	_assert(bool(full_report["passed"]), "Catalog Full Adder reference topology must pass its complete official table.")
@@ -249,6 +254,14 @@ func _test_campaign_catalog() -> void:
 	completed[&"full_adder"] = true
 
 	var alu_definition: Dictionary = catalog.definition(&"alu", library)
+	_assert_layout(alu_definition, {
+		&"A_IN": Vector2(535, 35), &"B_IN": Vector2(535, 160), &"CIN_IN": Vector2(535, 285),
+		&"OP0_IN": Vector2(535, 430), &"OP1_IN": Vector2(535, 530),
+		&"AND_1": Vector2(820, 20), &"OR_1": Vector2(820, 100),
+		&"FULL_ADDER": Vector2(720, 220), &"NOT_1": Vector2(720, 380),
+		&"MUX": Vector2(1040, 300), &"CARRY_OUT": Vector2(1300, 85),
+		&"RESULT_OUT": Vector2(1300, 250),
+	}, "ALU player standard")
 	var alu_circuit: LogicCircuit = catalog.reference_circuit(&"alu", library)
 	_assert((alu_definition["official_steps"] as Array).size() == 32, "The ALU bench must exhaust all A/B/CIN values across all four operations.")
 	_assert(bool(simulator.run_sequence(alu_circuit, alu_definition["official_steps"])["passed"]), "Catalog ALU reference topology must select AND, OR, ADD, and NOT-A correctly.")
@@ -264,6 +277,11 @@ func _test_campaign_catalog() -> void:
 	completed[&"alu"] = true
 
 	var latch_definition: Dictionary = catalog.definition(&"latch", library)
+	_assert_layout(latch_definition, {
+		&"S_IN": Vector2(510, 115), &"R_IN": Vector2(510, 435),
+		&"NOR_Q": Vector2(780, 200), &"NOR_NQ": Vector2(780, 340),
+		&"NQ_OUT": Vector2(1160, 200), &"Q_OUT": Vector2(1160, 360),
+	}, "SR Latch player standard")
 	var latch_circuit: LogicCircuit = catalog.reference_circuit(&"latch", library)
 	_assert(bool(simulator.run_sequence(latch_circuit, latch_definition["official_steps"], true)["passed"]), "Catalog latch must retain state through its official temporal sequence.")
 	var broken_latch: LogicCircuit = latch_circuit.duplicate_circuit()
@@ -275,6 +293,12 @@ func _test_campaign_catalog() -> void:
 	completed[&"latch"] = true
 
 	var register_definition: Dictionary = catalog.definition(&"register", library)
+	_assert_layout(register_definition, {
+		&"D_IN": Vector2(540, 100), &"LOAD_IN": Vector2(540, 455),
+		&"NOT_D": Vector2(680, 220), &"AND_S": Vector2(860, 220),
+		&"AND_R": Vector2(860, 380), &"LATCH": Vector2(1040, 300),
+		&"Q_OUT": Vector2(1320, 300),
+	}, "Register player standard")
 	var register_circuit: LogicCircuit = catalog.reference_circuit(&"register", library)
 	_assert(bool(simulator.run_sequence(register_circuit, register_definition["official_steps"])["passed"]), "Catalog Register1 must preserve D while LOAD is low.")
 	var broken_register: LogicCircuit = register_circuit.duplicate_circuit()
@@ -289,6 +313,11 @@ func _test_campaign_catalog() -> void:
 	completed[&"register"] = true
 
 	var ram_definition: Dictionary = catalog.definition(&"ram", library)
+	_assert_layout(ram_definition, {
+		&"ADDR_IN": Vector2(540, 70), &"DATA_IN": Vector2(540, 250), &"WRITE_IN": Vector2(540, 475),
+		&"DECODER": Vector2(680, 140), &"REG_0": Vector2(980, 220), &"REG_1": Vector2(980, 340),
+		&"MUX": Vector2(1060, 520), &"OUT": Vector2(1340, 270),
+	}, "RAM player standard")
 	var ram_circuit: LogicCircuit = catalog.reference_circuit(&"ram", library)
 	_assert(bool(simulator.run_sequence(ram_circuit, ram_definition["official_steps"])["passed"]), "Catalog RAM2x4 must preserve two independently addressed words.")
 	var broken_ram: LogicCircuit = ram_circuit.duplicate_circuit()
@@ -316,6 +345,19 @@ func _test_campaign_catalog() -> void:
 	var bridge_circuit: LogicCircuit = catalog.reference_circuit(&"load_store", library)
 	var bridge_report: Dictionary = simulator.run_sequence(bridge_circuit, bridge_definition["official_steps"])
 	_assert(bool(bridge_report["passed"]), "Sealed TinyComputer must preserve LOAD/STORE behavior in the final bridge.")
+
+
+func _assert_layout(definition: Dictionary, expected: Dictionary, label: String) -> void:
+	var actual: Dictionary = definition.get("layout", {})
+	_assert(actual.size() == expected.size(), "%s must keep the exact accepted component set." % label)
+	for component_id: StringName in expected:
+		var actual_position: Vector2 = actual.get(component_id, Vector2(INF, INF))
+		_assert(
+			actual.has(component_id) and actual_position.is_equal_approx(expected[component_id]),
+			"%s position mismatch for %s: expected %s, got %s." % [
+				label, component_id, expected[component_id], actual.get(component_id, Vector2(INF, INF)),
+			]
+		)
 
 
 func _full_adder_circuit() -> LogicCircuit:
@@ -370,7 +412,7 @@ func _register_circuit() -> LogicCircuit:
 		LogicComponentType.new(&"NOT_D", &"not", "NOT D"),
 		LogicComponentType.new(&"AND_S", &"and", "SET GATE"),
 		LogicComponentType.new(&"AND_R", &"and", "RESET GATE"),
-		LogicComponentType.new(&"LATCH", &"sr_latch", "Your SRLatch"),
+		LogicComponentType.new(&"LATCH", &"sr_latch", "SRLatch"),
 		LogicComponentType.new(&"Q_OUT", &"output", "Q", &"Q", true),
 	]:
 		_add(circuit, component)
@@ -419,13 +461,13 @@ func _tiny_computer_circuit() -> LogicCircuit:
 		LogicComponentType.new(&"ADDR_IN", &"input", "ADDR", &"ADDR", true),
 		LogicComponentType.new(&"CONTROL", &"control", "CONTROL"),
 		LogicComponentType.new(&"SOURCE_MUX", &"mux2_word", "SOURCE MUX"),
-		LogicComponentType.new(&"ALU", &"alu4", "Your ALU4"),
+		LogicComponentType.new(&"ALU", &"alu4", "ALU4"),
 		LogicComponentType.new(&"ADD_OP0", &"constant", "0", &"", false, [], [], [], [], {"width": 1, "value": 0}),
 		LogicComponentType.new(&"ADD_OP1", &"constant", "1", &"", false, [], [], [], [], {"width": 1, "value": 1}),
 		LogicComponentType.new(&"CIN_0", &"constant", "0", &"", false, [], [], [], [], {"width": 1, "value": 0}),
 		LogicComponentType.new(&"RESULT_MUX", &"mux2_word", "RESULT MUX"),
 		LogicComponentType.new(&"ACC", &"register4", "ACC Register4"),
-		LogicComponentType.new(&"RAM", &"ram2x4", "Your RAM2x4"),
+		LogicComponentType.new(&"RAM", &"ram2x4", "RAM2x4"),
 		LogicComponentType.new(&"ACC_OUT", &"output", "ACC", &"ACC", true, [], [], [], [], {"width": 4}),
 		LogicComponentType.new(&"MEM_OUT", &"output", "MEM", &"MEM", true, [], [], [], [], {"width": 4}),
 	]:

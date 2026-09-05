@@ -42,8 +42,10 @@ const HARDWARE_PAGES := {
 	],
 	&"cpu": [
 		{&"title": &"hardware.briefing.stage.concept", &"body": &"hardware.briefing.cpu.1"},
-		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.cpu.2"},
-		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.cpu.3"},
+		{&"title": &"hardware.briefing.stage.understand", &"body": &"hardware.briefing.cpu.2"},
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.cpu.3"},
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.cpu.4"},
+		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.cpu.5"},
 	],
 	&"load_store": [
 		{&"title": &"hardware.briefing.stage.concept", &"body": &"hardware.briefing.load_store.1"},

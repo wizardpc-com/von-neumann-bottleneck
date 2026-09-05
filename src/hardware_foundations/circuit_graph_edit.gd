@@ -144,6 +144,19 @@ func displayed_node_rect(node: GraphNode) -> Rect2:
 	return Rect2(top_left, bottom_right - top_left).abs()
 
 
+func graph_position_for_local_pointer(local_pointer: Vector2, footprint: Vector2) -> Vector2:
+	var graph_top_left: Vector2 = (local_pointer + scroll_offset) / zoom - footprint * 0.5
+	var snap_distance: float = float(snapping_distance) if snapping_enabled else 1.0
+	return Vector2(
+		snappedf(graph_top_left.x, snap_distance),
+		snappedf(graph_top_left.y, snap_distance)
+	)
+
+
+func local_position_for_graph_top_left(graph_top_left: Vector2) -> Vector2:
+	return graph_top_left * zoom - scroll_offset
+
+
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	return (
 		component_drop_enabled
@@ -247,11 +260,21 @@ func _gui_input(event: InputEvent) -> void:
 			placement_pointer = mouse_event.position
 			placement_has_pointer = true
 			var pressed_port: Dictionary = _port_at(mouse_event.position, 28.0)
-			if mouse_event.shift_pressed and not pressed_port.is_empty() and not bool(pressed_port.get("is_output", true)):
+			if not pressed_port.is_empty() and not bool(pressed_port.get("is_output", true)):
 				var existing: Dictionary = _connection_to_input(StringName(pressed_port["node"]), int(pressed_port["port"]))
 				if not existing.is_empty():
-					_begin_endpoint_move(existing, mouse_event.position)
+					if mouse_event.shift_pressed:
+						_begin_endpoint_move(existing, mouse_event.position)
+					else:
+						branch_candidate = existing.duplicate()
+						branch_anchor = displayed_port_position(
+							get_node(NodePath(String(existing["to_node"]))) as GraphNode,
+							int(existing["to_port"]), false
+						)
+						branch_pointer = branch_anchor
+						branch_target.clear()
 					accept_event()
+					queue_redraw()
 					return
 			# Deterministic gesture priority: ports, component bodies, rendered wires,
 			# component placement, then empty-canvas marquee selection.
@@ -566,7 +589,7 @@ func _path_prefix(points: PackedVector2Array, amount: float) -> PackedVector2Arr
 func connection_curve(connection: Dictionary) -> PackedVector2Array:
 	var source: GraphNode = get_node_or_null(NodePath(String(connection.get("from_node", "")))) as GraphNode
 	var target: GraphNode = get_node_or_null(NodePath(String(connection.get("to_node", "")))) as GraphNode
-	if source == null or target == null:
+	if source == null or target == null or source.modulate.a < 0.5 or target.modulate.a < 0.5:
 		return PackedVector2Array()
 	var start: Vector2 = displayed_port_position(source, int(connection.get("from_port", 0)), true)
 	var finish: Vector2 = displayed_port_position(target, int(connection.get("to_port", 0)), false)
@@ -747,14 +770,10 @@ func _draw_component_placement_preview() -> void:
 		if placement_preview_control != null and is_instance_valid(placement_preview_control):
 			placement_preview_control.hide()
 		return
-	var half_size: Vector2 = placement_preview_size * 0.5
-	var graph_top_left: Vector2 = (placement_pointer + scroll_offset) / zoom - half_size
-	var snap_distance: float = float(snapping_distance) if snapping_enabled else 1.0
-	graph_top_left = Vector2(
-		snappedf(graph_top_left.x, snap_distance),
-		snappedf(graph_top_left.y, snap_distance)
+	var graph_top_left: Vector2 = graph_position_for_local_pointer(
+		placement_pointer, placement_preview_size
 	)
-	var display_top_left: Vector2 = graph_top_left * zoom - scroll_offset
+	var display_top_left: Vector2 = local_position_for_graph_top_left(graph_top_left)
 	if placement_preview_control == null or not is_instance_valid(placement_preview_control):
 		return
 	placement_preview_control.position = display_top_left
@@ -1146,8 +1165,14 @@ func _node_at(point: Vector2) -> StringName:
 	for child: Node in get_children():
 		if child is GraphNode and (child as GraphNode).visible:
 			var node := child as GraphNode
-			if displayed_node_rect(node).has_point(point):
-				return node.name
+			var node_local: Vector2 = node.get_transform().affine_inverse() * point
+			for row_variant: Node in node.get_children():
+				if not row_variant is Control or not row_variant.has_method("visual_hit_test"):
+					continue
+				var row := row_variant as Control
+				var row_local: Vector2 = row.get_transform().affine_inverse() * node_local
+				if bool(row.call("visual_hit_test", row_local, ERASER_TIP_RADIUS / maxf(zoom, 0.01))):
+					return node.name
 	return &""
 
 

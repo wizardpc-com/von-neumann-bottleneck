@@ -37,6 +37,8 @@ const GRAPH_KEYBOARD_PAN_SPEED: float = 720.0
 const MIN_CLOCK_PERIOD_SECONDS: float = 0.05
 const MAX_CLOCK_PERIOD_SECONDS: float = 2.0
 const DEFAULT_CLOCK_PERIOD_SECONDS: float = 0.5
+const MIN_PLAYBACK_FREQUENCY_HZ: float = 0.5
+const MAX_PLAYBACK_FREQUENCY_HZ: float = 120.0
 const COMPLETION_SUMMARY_KEYS := {
 	&"assembly": &"system.completion.summary.assembly",
 	&"cpu_speed": &"system.completion.summary.cpu_speed",
@@ -1072,12 +1074,12 @@ func _build_playback_bar() -> Control:
 	clock_period_label.tooltip_text = _t(&"common.clock_period.tooltip")
 	row.add_child(clock_period_label)
 	clock_period_control = SpinBox.new()
-	clock_period_control.name = "ClockPeriodControl"
-	clock_period_control.min_value = MIN_CLOCK_PERIOD_SECONDS
-	clock_period_control.max_value = MAX_CLOCK_PERIOD_SECONDS
-	clock_period_control.step = 0.05
-	clock_period_control.value = clock_period_seconds
-	clock_period_control.suffix = _t(&"common.clock_period.seconds_suffix")
+	clock_period_control.name = "PlaybackFrequencyControl"
+	clock_period_control.min_value = MIN_PLAYBACK_FREQUENCY_HZ
+	clock_period_control.max_value = MAX_PLAYBACK_FREQUENCY_HZ
+	clock_period_control.step = 0.5
+	clock_period_control.value = 1.0 / clock_period_seconds
+	clock_period_control.suffix = "Hz"
 	clock_period_control.custom_minimum_size.x = 92.0
 	clock_period_control.tooltip_text = _t(&"common.clock_period.tooltip")
 	clock_period_control.value_changed.connect(_on_clock_period_changed)
@@ -2652,9 +2654,9 @@ func _display_duration(_event: SystemEvent) -> float:
 	return clock_period_seconds
 
 
-func _on_clock_period_changed(seconds: float) -> void:
-	clock_period_seconds = clampf(
-		seconds, MIN_CLOCK_PERIOD_SECONDS, MAX_CLOCK_PERIOD_SECONDS
+func _on_clock_period_changed(frequency_hz: float) -> void:
+	clock_period_seconds = 1.0 / clampf(
+		frequency_hz, MIN_PLAYBACK_FREQUENCY_HZ, MAX_PLAYBACK_FREQUENCY_HZ
 	)
 
 

@@ -63,9 +63,9 @@ func _full_adder(library: Dictionary) -> Dictionary:
 		&"full_adder", &"hardware.prologue.full_adder.title", &"hardware.prologue.full_adder.description",
 		components,
 		{
-			&"A_IN": Vector2(400, 65), &"B_IN": Vector2(400, 250), &"CIN_IN": Vector2(400, 460),
-			&"HA_1": Vector2(670, 135), &"HA_2": Vector2(930, 260), &"OR_1": Vector2(930, 60),
-			&"SUM_OUT": Vector2(1250, 250), &"COUT_OUT": Vector2(1250, 65),
+			&"A_IN": Vector2(540, 65), &"B_IN": Vector2(540, 250), &"CIN_IN": Vector2(540, 440),
+			&"HA_1": Vector2(740, 160), &"HA_2": Vector2(880, 340), &"OR_1": Vector2(1180, 200),
+			&"SUM_OUT": Vector2(1320, 440), &"COUT_OUT": Vector2(1320, 140),
 		}, wires, steps, &"FullAdder", LogicComponentType.KIND_FULL_ADDER,
 		{"initial_zoom": 0.88, "palette_components": [
 			half_adder_1.duplicate_component(),
@@ -81,7 +81,7 @@ func _full_adder(library: Dictionary) -> Dictionary:
 
 
 func _alu(library: Dictionary) -> Dictionary:
-	var full_adder: LogicComponent = _library_instance(library, &"FullAdder", &"FULL_ADDER", "Your FullAdder")
+	var full_adder: LogicComponent = _library_instance(library, &"FullAdder", &"FULL_ADDER", "Full Adder")
 	if full_adder == null:
 		return _missing(&"alu", &"FullAdder")
 	var components: Array[LogicComponent] = [
@@ -128,11 +128,11 @@ func _alu(library: Dictionary) -> Dictionary:
 	return _base(
 		&"alu", &"hardware.prologue.alu.title", &"hardware.prologue.alu.description", components,
 		{
-			&"A_IN": Vector2(385, 35), &"B_IN": Vector2(385, 160), &"CIN_IN": Vector2(385, 285),
-			&"OP0_IN": Vector2(385, 430), &"OP1_IN": Vector2(385, 530),
-			&"AND_1": Vector2(625, 20), &"OR_1": Vector2(625, 150),
-			&"FULL_ADDER": Vector2(620, 280), &"NOT_1": Vector2(650, 485),
-			&"MUX": Vector2(970, 215), &"RESULT_OUT": Vector2(1280, 250), &"CARRY_OUT": Vector2(1280, 85),
+			&"A_IN": Vector2(535, 35), &"B_IN": Vector2(535, 160), &"CIN_IN": Vector2(535, 285),
+			&"OP0_IN": Vector2(535, 430), &"OP1_IN": Vector2(535, 530),
+			&"AND_1": Vector2(820, 20), &"OR_1": Vector2(820, 100),
+			&"FULL_ADDER": Vector2(720, 220), &"NOT_1": Vector2(720, 380),
+			&"MUX": Vector2(1040, 300), &"RESULT_OUT": Vector2(1300, 250), &"CARRY_OUT": Vector2(1300, 85),
 		}, wires, steps, &"ALU1", LogicComponentType.KIND_ALU1,
 		{
 			"initial_zoom": 0.9,

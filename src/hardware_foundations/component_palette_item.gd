@@ -9,7 +9,7 @@ const BORDER := Color("354866")
 const ACCENT := Color("50d5ff")
 const TEXT := Color("e9f0fa")
 const MUTED := Color("91a0b9")
-const PREVIEW_RECT := Rect2(Vector2(10.0, 8.0), Vector2(64.0, 42.0))
+const PREVIEW_RECT := Rect2(Vector2(12.0, 10.0), Vector2(72.0, 50.0))
 
 var template_key: String = ""
 var component_kind: StringName = &""
@@ -33,7 +33,7 @@ func configure(key: String, kind: StringName, label: String, widest_port: int = 
 	component_kind = kind
 	label_text = label
 	width_hint = maxi(1, widest_port)
-	custom_minimum_size = Vector2(188.0, 58.0)
+	custom_minimum_size = Vector2(220.0, 70.0)
 	tooltip_text = label
 	queue_redraw()
 
@@ -70,7 +70,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	preview.placement_enabled = false
 	preview.armed = true
 	preview.hovered = true
-	preview.size = Vector2(188.0, 58.0)
+	preview.size = Vector2(220.0, 70.0)
 	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	preview.modulate = Color(1.0, 1.0, 1.0, 0.92)
 	set_drag_preview(preview)
@@ -82,9 +82,9 @@ func _draw() -> void:
 	var border: Color = ACCENT if armed else BORDER
 	draw_style_box(_stylebox(fill, border, 8.0, 2.0 if armed else 1.0), Rect2(Vector2.ZERO, size))
 	var font: Font = get_theme_default_font()
-	draw_string(font, Vector2(82.0, 27.0), label_text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 92.0, 15, TEXT)
-	var detail: String = "%d-bit" % width_hint if width_hint > 1 else String(component_kind).to_upper()
-	draw_string(font, Vector2(82.0, 46.0), detail, HORIZONTAL_ALIGNMENT_LEFT, size.x - 92.0, 11, MUTED)
+	draw_string(font, Vector2(94.0, 30.0), label_text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 106.0, 15, TEXT)
+	var detail: String = "%s · %d-bit ports" % [String(component_kind).to_upper(), width_hint]
+	draw_string(font, Vector2(94.0, 52.0), detail, HORIZONTAL_ALIGNMENT_LEFT, size.x - 106.0, 11, MUTED)
 
 
 func _layout_component_preview() -> void:

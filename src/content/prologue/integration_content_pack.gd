@@ -23,9 +23,9 @@ func register_into(registry, _builders: Dictionary = {}) -> void:
 
 
 func _cpu(library: Dictionary) -> Dictionary:
-	var alu: LogicComponent = _library_instance(library, &"ALU4", &"ALU", "Your ALU4")
-	var acc: LogicComponent = _library_instance(library, &"Register4", &"ACC", "ACC Register4")
-	var ram: LogicComponent = _library_instance(library, &"RAM2x4", &"RAM", "Your RAM2x4")
+	var alu: LogicComponent = _library_instance(library, &"ALU4", &"ALU", "ALU (4-bit)")
+	var acc: LogicComponent = _library_instance(library, &"Register4", &"ACC", "ACC Register (4-bit)")
+	var ram: LogicComponent = _library_instance(library, &"RAM2x4", &"RAM", "RAM (2×4-bit)")
 	if alu == null:
 		return _missing(&"cpu", &"ALU4")
 	if acc == null:
@@ -34,11 +34,11 @@ func _cpu(library: Dictionary) -> Dictionary:
 		return _missing(&"cpu", &"RAM2x4")
 	var components: Array[LogicComponent] = [
 		_input(&"OP_IN", &"OP", 2), _input(&"ARG_IN", &"ARG", 4), _input(&"ADDR_IN", &"ADDR"),
-		LogicComponentType.new(&"CONTROL", LogicComponentType.KIND_CONTROL, "control"),
-		LogicComponentType.new(&"SOURCE_MUX", LogicComponentType.KIND_MUX2_WORD, "source mux"),
+		LogicComponentType.new(&"CONTROL", LogicComponentType.KIND_CONTROL, "Controller"),
+		LogicComponentType.new(&"SOURCE_MUX", LogicComponentType.KIND_MUX2_WORD, "SOURCE MUX"),
 		alu,
 		_constant(&"ADD_OP0", 0), _constant(&"ADD_OP1", 1), _constant(&"CIN_0", 0),
-		LogicComponentType.new(&"RESULT_MUX", LogicComponentType.KIND_MUX2_WORD, "result mux"),
+		LogicComponentType.new(&"RESULT_MUX", LogicComponentType.KIND_MUX2_WORD, "RESULT MUX"),
 		acc, ram, _output(&"ACC_OUT", &"ACC", 4), _output(&"MEM_OUT", &"MEM", 4),
 	]
 	var wires: Array[Dictionary] = [
@@ -56,12 +56,12 @@ func _cpu(library: Dictionary) -> Dictionary:
 	return _base(
 		&"cpu", &"hardware.prologue.cpu.title", &"hardware.prologue.cpu.description", components,
 		{
-			&"OP_IN": Vector2(505, 25), &"ARG_IN": Vector2(505, 250), &"ADDR_IN": Vector2(505, 510),
-			&"CONTROL": Vector2(650, 20), &"ACC": Vector2(900, 90),
-			&"RAM": Vector2(850, 420), &"SOURCE_MUX": Vector2(1110, 375),
-			&"ADD_OP0": Vector2(1060, 560), &"ADD_OP1": Vector2(1165, 560), &"CIN_0": Vector2(1270, 560),
-			&"ALU": Vector2(1300, 120), &"RESULT_MUX": Vector2(1560, 235),
-			&"ACC_OUT": Vector2(1850, 90), &"MEM_OUT": Vector2(1850, 500),
+			&"OP_IN": Vector2(750, 40), &"ARG_IN": Vector2(750, 245), &"ADDR_IN": Vector2(750, 500),
+			&"CONTROL": Vector2(930, 25), &"SOURCE_MUX": Vector2(1110, 255),
+			&"RAM": Vector2(1030, 500), &"ACC": Vector2(1330, 55),
+			&"ADD_OP0": Vector2(1240, 565), &"ADD_OP1": Vector2(1350, 565), &"CIN_0": Vector2(1460, 565),
+			&"ALU": Vector2(1440, 225), &"RESULT_MUX": Vector2(1690, 255),
+			&"ACC_OUT": Vector2(1900, 95), &"MEM_OUT": Vector2(1900, 505),
 		}, wires, _computer_program(), &"TinyComputer", LogicComponentType.KIND_TINY_COMPUTER,
 		{
 			"initial_zoom": 0.62,
@@ -81,7 +81,7 @@ func _cpu(library: Dictionary) -> Dictionary:
 
 
 func _load_store(library: Dictionary) -> Dictionary:
-	var tiny: LogicComponent = _library_instance(library, &"TinyComputer", &"COMPUTER", "Your TinyComputer")
+	var tiny: LogicComponent = _library_instance(library, &"TinyComputer", &"COMPUTER", "Tiny Computer")
 	if tiny == null:
 		return _missing(&"load_store", &"TinyComputer")
 	var level: Dictionary = _base(

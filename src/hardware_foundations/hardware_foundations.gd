@@ -55,6 +55,8 @@ const GRAPH_KEYBOARD_PAN_SPEED: float = 720.0
 const MIN_CLOCK_PERIOD_SECONDS: float = 0.05
 const MAX_CLOCK_PERIOD_SECONDS: float = 2.0
 const DEFAULT_CLOCK_PERIOD_SECONDS: float = 0.5
+const MIN_PLAYBACK_FREQUENCY_HZ: float = 0.5
+const MAX_PLAYBACK_FREQUENCY_HZ: float = 120.0
 const COMPLETION_SUMMARY_KEYS := {
 	&"tutorial": &"hardware.completion.summary.tutorial",
 	&"half_adder": &"hardware.completion.summary.half_adder",
@@ -110,6 +112,7 @@ var encapsulation_effect: EncapsulationEffect
 var side_box: VBoxContainer
 var task_box: VBoxContainer
 var component_palette_box: VBoxContainer
+var component_inspector_box: VBoxContainer
 var workbench_store = null
 var workbench_menu_button: MenuButton
 var workbench_name_dialog: Control
@@ -170,6 +173,10 @@ var builtin_connection_drag_active: bool = false
 var editor_toolbar_buttons: Array[Button] = []
 var active_wire_color_index: int = WirePaletteType.DEFAULT_INDEX
 var graph_pan_keys: Dictionary[Key, bool] = {}
+var body_drag_component_id: StringName = &""
+var body_drag_pointer_origin: Vector2 = Vector2.ZERO
+var body_drag_positions: Dictionary = {}
+var body_drag_moved: bool = false
 
 var active_workbench_namespace: StringName = &""
 var active_workbench_name: String = ""
@@ -187,6 +194,9 @@ var mission_briefing_continue_button: Button
 var mission_briefing_previous_button: Button
 var mission_compact: bool = false
 var mission_expanded_rect: Rect2 = Rect2()
+var cpu_stage_index: int = 0
+var cpu_stage_label: Label
+var cpu_stage_button: Button
 
 var tutorial_created_wire: bool = false
 var tutorial_changed_input: bool = false
@@ -217,6 +227,7 @@ var official_sequence_previous_storage_state: String = ""
 var official_sequence_completion_queued: bool = false
 var sealing: bool = false
 var sealing_elapsed: float = 0.0
+var continue_after_seal: bool = false
 
 
 func _ready() -> void:
@@ -231,11 +242,14 @@ func _ready() -> void:
 	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
 	var preparing_capture: bool = (
 		"--capture-prologue-map" in user_arguments
+		or "--capture-prologue-ram-default" in user_arguments
+		or "--capture-prologue-cpu-default" in user_arguments
 		or "--capture-prologue-storage" in user_arguments
 		or "--capture-prologue-cpu" in user_arguments
 		or "--capture-schematic-signal" in user_arguments
 		or "--capture-component-processing" in user_arguments
 		or "--capture-component-placement" in user_arguments
+		or "--capture-transformed-placement" in user_arguments
 		or "--capture-wiring-guides" in user_arguments
 		or "--capture-selection-highlight" in user_arguments
 		or "--capture-workbench-hint" in user_arguments
@@ -245,6 +259,14 @@ func _ready() -> void:
 		or "--capture-mission-compact" in user_arguments
 		or "--capture-half-adder-briefing" in user_arguments
 		or "--capture-official-sequence" in user_arguments
+		or "--capture-prologue-full-adder" in user_arguments
+		or "--capture-prologue-alu" in user_arguments
+		or "--capture-prologue-latch" in user_arguments
+		or "--capture-prologue-register" in user_arguments
+		or "--capture-component-inspector" in user_arguments
+		or "--capture-cpu-success" in user_arguments
+		or "--capture-prologue-tutorial" in user_arguments
+		or "--capture-prologue-half-adder" in user_arguments
 	)
 	if preparing_capture:
 		# Capture helpers need a deterministic non-empty provenance circuit. Normal
@@ -255,7 +277,27 @@ func _ready() -> void:
 	# The phase builders run before containers receive their final viewport size.
 	# Reapply the initial window arrangement once against the real desktop bounds.
 	call_deferred("_layout_desktop_windows")
-	if "--capture-mission-compact" in user_arguments:
+	if "--capture-prologue-tutorial" in user_arguments:
+		call_deferred("_show_tutorial", false)
+	elif "--capture-prologue-half-adder" in user_arguments:
+		call_deferred("_prepare_half_adder_level_capture")
+	elif "--capture-cpu-success" in user_arguments:
+		call_deferred("_prepare_cpu_success_capture")
+	elif "--capture-component-inspector" in user_arguments:
+		call_deferred("_prepare_component_inspector_capture")
+	elif "--capture-prologue-full-adder" in user_arguments:
+		call_deferred("_prepare_prologue_level_capture", &"full_adder")
+	elif "--capture-prologue-alu" in user_arguments:
+		call_deferred("_prepare_prologue_level_capture", &"alu")
+	elif "--capture-prologue-latch" in user_arguments:
+		call_deferred("_prepare_prologue_level_capture", &"latch")
+	elif "--capture-prologue-register" in user_arguments:
+		call_deferred("_prepare_prologue_level_capture", &"register")
+	elif "--capture-prologue-ram-default" in user_arguments:
+		call_deferred("_prepare_prologue_level_capture", &"ram")
+	elif "--capture-prologue-cpu-default" in user_arguments:
+		call_deferred("_prepare_prologue_level_capture", &"cpu")
+	elif "--capture-mission-compact" in user_arguments:
 		call_deferred("_prepare_mission_compact_capture")
 	elif "--capture-official-sequence" in user_arguments:
 		call_deferred("_prepare_official_sequence_capture")
@@ -275,6 +317,8 @@ func _ready() -> void:
 		call_deferred("_prepare_selection_highlight_capture")
 	elif "--capture-component-placement" in user_arguments:
 		call_deferred("_prepare_component_placement_capture")
+	elif "--capture-transformed-placement" in user_arguments:
+		call_deferred("_prepare_transformed_placement_capture")
 	elif "--capture-prologue-map" in user_arguments:
 		call_deferred("_prepare_prologue_map_capture")
 	elif "--capture-prologue-storage" in user_arguments:
@@ -345,6 +389,9 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if _handle_component_placement_global_input(event):
+		get_viewport().set_input_as_handled()
+		return
+	if _handle_component_body_drag_global_input(event):
 		get_viewport().set_input_as_handled()
 		return
 	if _handle_graph_pan_key_event(event):
@@ -471,6 +518,22 @@ func _prepare_component_placement_capture() -> void:
 	graph.call("_gui_input", motion)
 
 
+func _prepare_transformed_placement_capture() -> void:
+	await get_tree().process_frame
+	graph.zoom = 1.35
+	graph.scroll_offset = Vector2(430.0, 170.0)
+	if component_menu_button == null or component_menu_template_keys.is_empty():
+		return
+	var popup: PopupMenu = component_menu_button.get_popup()
+	if popup.item_count <= 0:
+		return
+	_on_component_menu_item_pressed(popup.get_item_id(0))
+	await get_tree().process_frame
+	var motion := InputEventMouseMotion.new()
+	motion.position = Vector2(1000.0, 360.0)
+	graph.call("_gui_input", motion)
+
+
 func _prepare_prologue_map_capture() -> void:
 	_bootstrap_capture_library(true)
 	_open_campaign_map()
@@ -491,6 +554,31 @@ func _prepare_prologue_cpu_capture() -> void:
 		if includes_data_path:
 			_show_playback_batch(batch, 0.58)
 			break
+
+
+func _prepare_prologue_level_capture(level_id: StringName) -> void:
+	_bootstrap_capture_library(false)
+	_start_prologue_level(level_id, false)
+
+
+func _prepare_half_adder_level_capture() -> void:
+	completed_levels[&"tutorial"] = true
+	_start_challenge(false)
+
+
+func _prepare_component_inspector_capture() -> void:
+	_bootstrap_capture_library(false)
+	_start_prologue_level(&"cpu", false)
+	_show_component_inspector(&"CONTROL")
+
+
+func _prepare_cpu_success_capture() -> void:
+	_bootstrap_capture_library(false)
+	_start_prologue_level(&"cpu", false)
+	_load_reference_wires(current_level_definition)
+	_refresh_cpu_stage()
+	level_completion_overlay.audio_enabled = false
+	_finish_prologue_official_sequence(_circuit_from_graph())
 
 
 func _prepare_prologue_storage_capture() -> void:
@@ -547,7 +635,7 @@ func _is_level_unlocked(level_id: StringName) -> bool:
 func _bootstrap_capture_library(include_computer: bool) -> void:
 	var source: LogicCircuit = current_circuit.duplicate_circuit()
 	_install_support_library(component_library, source, include_computer)
-	for level_id: StringName in [&"half_adder", &"full_adder", &"alu", &"latch", &"register", &"ram"]:
+	for level_id: StringName in [&"tutorial", &"half_adder", &"full_adder", &"alu", &"latch", &"register", &"ram"]:
 		completed_levels[level_id] = true
 	if include_computer:
 		completed_levels[&"cpu"] = true
@@ -711,6 +799,8 @@ func _create_level_completion_overlay() -> void:
 	level_completion_overlay = LevelCompletionOverlayType.new()
 	level_completion_overlay.questionnaire_enabled = PlaytestData.questionnaires_enabled()
 	level_completion_overlay.continue_requested.connect(_on_level_completion_continue)
+	level_completion_overlay.primary_action_requested.connect(_on_level_completion_primary_action)
+	level_completion_overlay.return_requested.connect(_on_level_completion_return)
 	level_completion_overlay.feedback_submitted.connect(_on_level_feedback_submitted)
 	level_completion_overlay.feedback_skipped.connect(_on_level_feedback_skipped)
 	add_child(level_completion_overlay)
@@ -739,10 +829,58 @@ func _dismiss_level_completion() -> void:
 		level_completion_overlay.dismiss()
 
 
-func _on_level_completion_continue(_level_id: StringName) -> void:
-	if _level_id == &"load_store" and _present_chapter_feedback():
+func _on_level_completion_continue(level_id: StringName) -> void:
+	if level_id == &"load_store" and _present_chapter_feedback():
 		return
+	if level_id == current_level_id and official_passed and seal_button != null and not seal_button.disabled:
+		continue_after_seal = true
+		if level_id == &"half_adder":
+			_seal_half_adder()
+		else:
+			_seal_prologue_component()
+		if not sealing:
+			continue_after_seal = false
+		return
+	_continue_to_next_level(level_id)
+
+
+func _on_level_completion_return(_level_id: StringName) -> void:
+	continue_after_seal = false
 	_open_campaign_map()
+
+
+func _on_level_completion_primary_action(level_id: StringName) -> void:
+	continue_after_seal = false
+	if level_id == current_level_id and seal_button != null and not seal_button.disabled:
+		if level_id == &"half_adder":
+			_seal_half_adder()
+		else:
+			_seal_prologue_component()
+
+
+func _continue_to_next_level(level_id: StringName) -> void:
+	var next_level: StringName = &""
+	match level_id:
+		&"tutorial": next_level = &"half_adder"
+		&"half_adder": next_level = &"full_adder"
+		&"full_adder": next_level = &"alu"
+		&"alu": next_level = &"latch"
+		&"latch": next_level = &"register"
+		&"register": next_level = &"ram"
+		&"ram":
+			if not bool(completed_levels.get(&"half_adder", false)):
+				next_level = &"half_adder"
+			elif not bool(completed_levels.get(&"full_adder", false)):
+				next_level = &"full_adder"
+			elif not bool(completed_levels.get(&"alu", false)):
+				next_level = &"alu"
+			else:
+				next_level = &"cpu"
+		&"cpu": next_level = &"load_store"
+	if not next_level.is_empty() and _is_level_unlocked(next_level):
+		_start_campaign_level(next_level)
+	else:
+		_open_campaign_map()
 
 
 func _on_level_feedback_submitted(
@@ -798,9 +936,12 @@ func _create_desktop_windows() -> void:
 	var task_content: Control = _make_desktop_window_content(&"task")
 	var test_bench_content: Control = _make_desktop_window_content(&"test_bench")
 	var component_content: Control = _make_desktop_window_content(&"components")
+	var inspector_content: Control = _make_desktop_window_content(&"inspector")
 	_add_desktop_window(&"task", _t(&"hardware.window.mission"), task_content)
 	_add_desktop_window(&"test_bench", _t(&"device.test_bench"), test_bench_content)
 	_add_desktop_window(&"components", _t(&"hardware.component_menu.button"), component_content)
+	_add_desktop_window(&"inspector", _t(&"hardware.inspector.title"), inspector_content)
+	(desktop_windows[&"inspector"] as FloatingInstrumentPanel).hide()
 
 
 func _make_desktop_window_content(id: StringName) -> Control:
@@ -817,6 +958,8 @@ func _make_desktop_window_content(id: StringName) -> Control:
 		task_box = box
 	elif id == &"components":
 		component_palette_box = box
+	elif id == &"inspector":
+		component_inspector_box = box
 	else:
 		side_box = box
 	return scroll
@@ -830,6 +973,8 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 			window.custom_minimum_size = Vector2(360.0, 190.0)
 		&"components":
 			window.custom_minimum_size = Vector2(270.0, 220.0)
+		&"inspector":
+			window.custom_minimum_size = Vector2(360.0, 280.0)
 		_:
 			window.custom_minimum_size = Vector2(320.0, 220.0)
 	var border_color: Color = ACCENT if id in [&"test_bench", &"components"] else PURPLE
@@ -839,7 +984,7 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 	if id == &"task":
 		window.set_custom_minimize_action(true)
 		window.minimize_requested.connect(_on_task_minimize_requested)
-	elif id in [&"test_bench", &"components"]:
+	elif id in [&"test_bench", &"components", &"inspector"]:
 		window.set_minimizable(false)
 	window.set_content(content)
 	window.z_index = 100
@@ -853,6 +998,7 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
 	var bench_window: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
 	var component_window: FloatingInstrumentPanel = desktop_windows[&"components"]
+	var inspector_window: FloatingInstrumentPanel = desktop_windows[&"inspector"]
 	var area: Vector2 = graph_stack.size
 	if area.x <= 0.0 or area.y <= 0.0:
 		area = Vector2(1500.0, 650.0)
@@ -862,9 +1008,13 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	var left_width: float = clampf(area.x * 0.27, 360.0, 440.0)
 	var component_width: float = clampf(area.x * 0.19, 280.0, 340.0)
 	if reset_windows:
-		for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
+		for window: FloatingInstrumentPanel in [task_window, bench_window]:
 			window.show_instrument()
 			window.set_minimized(false)
+		# Keep the player-standard circuit and right-side outputs visible on entry.
+		# The toolbar menu and bottom Components button remain one click away.
+		component_window.hide()
+		inspector_window.hide()
 	var test_bench_button: Button = desktop_window_buttons.get(&"test_bench")
 	if test_bench_button != null:
 		test_bench_button.visible = current_phase != &"campaign" and not hint_mode
@@ -907,21 +1057,32 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 			&"prologue", &"prologue_complete":
 				task_ratio = 0.40
 				bench_ratio = 0.54
+				if current_level_id == &"cpu":
+					task_ratio = 0.70
+					bench_ratio = 0.27
+		var task_max_height: float = 460.0 if current_phase in [&"prologue", &"prologue_complete"] and current_level_id == &"cpu" else 340.0
+		var bench_min_height: float = 160.0 if current_phase in [&"prologue", &"prologue_complete"] and current_level_id == &"cpu" else 200.0
 		var task_height: float = clampf(
 			usable_height * task_ratio,
 			minf(180.0, usable_height),
-			minf(340.0, usable_height)
+			minf(task_max_height, usable_height)
 		)
 		var bench_available: float = maxf(1.0, usable_height - task_height - gap)
 		var bench_height: float = clampf(
 			usable_height * bench_ratio,
-			minf(200.0, bench_available),
+			minf(bench_min_height, bench_available),
 			minf(420.0, bench_available)
 		)
 		bench_window.position = Vector2(margin, margin)
 		bench_window.size = Vector2(left_width, bench_height)
 		task_window.position = Vector2(margin, margin + bench_height + gap)
 		task_window.size = Vector2(left_width, task_height)
+		if inspector_window.visible:
+			inspector_window.position = Vector2(
+				area.x - margin - component_width - gap - 390.0,
+				margin
+			)
+			inspector_window.size = Vector2(390.0, minf(440.0, usable_height))
 	for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
 		window.fit_to_parent(margin)
 		var window_button: Button = desktop_window_buttons.get(window.instrument_id)
@@ -953,12 +1114,13 @@ func _on_graph_stack_resized() -> void:
 		_layout_compact_task_window()
 
 
-func _begin_mission_briefing() -> void:
+func _begin_mission_briefing(preserve_page: bool = false) -> void:
 	if current_level_id.is_empty() or task_box == null:
 		return
+	var requested_page: int = mission_briefing_page if preserve_page else 0
 	_reset_mission_briefing()
 	mission_briefing_active = true
-	mission_briefing_page = 0
+	mission_briefing_page = clampi(requested_page, 0, _mission_briefing_pages().size() - 1)
 	for child: Node in task_box.get_children():
 		if child is CanvasItem:
 			(child as CanvasItem).hide()
@@ -1147,6 +1309,9 @@ func _set_mission_compact(value: bool) -> void:
 		return
 	mission_compact = false
 	task_window.set_custom_minimized_state(false)
+	if not mission_briefing_active and not current_level_id.is_empty():
+		_begin_mission_briefing(true)
+		return
 	if mission_briefing_active:
 		_layout_mission_briefing()
 	elif mission_expanded_rect.size != Vector2.ZERO:
@@ -1389,12 +1554,12 @@ func _build_toolbar() -> Control:
 	clock_period_label.tooltip_text = _t(&"common.clock_period.tooltip")
 	row.add_child(clock_period_label)
 	clock_period_control = SpinBox.new()
-	clock_period_control.name = "ClockPeriodControl"
-	clock_period_control.min_value = MIN_CLOCK_PERIOD_SECONDS
-	clock_period_control.max_value = MAX_CLOCK_PERIOD_SECONDS
-	clock_period_control.step = 0.05
-	clock_period_control.value = clock_period_seconds
-	clock_period_control.suffix = _t(&"common.clock_period.seconds_suffix")
+	clock_period_control.name = "PlaybackFrequencyControl"
+	clock_period_control.min_value = MIN_PLAYBACK_FREQUENCY_HZ
+	clock_period_control.max_value = MAX_PLAYBACK_FREQUENCY_HZ
+	clock_period_control.step = 0.5
+	clock_period_control.value = 1.0 / clock_period_seconds
+	clock_period_control.suffix = "Hz"
 	clock_period_control.custom_minimum_size.x = 92.0
 	clock_period_control.tooltip_text = _t(&"common.clock_period.tooltip")
 	clock_period_control.value_changed.connect(_on_clock_period_changed)
@@ -1855,15 +2020,18 @@ func _tutorial_reference_wires() -> Array[Dictionary]:
 
 func _half_adder_reference_wires() -> Array[Dictionary]:
 	return [
+		_wire_data(&"AND_1", 0, &"OR_1", 0),
+		_wire_data(&"AND_1_COPY_002", 0, &"CARRY_OUT", 0),
+		_wire_data(&"AND_2", 0, &"OR_1", 1),
 		_wire_data(&"A_IN", 0, &"AND_1", 0),
-		_wire_data(&"B_IN", 0, &"AND_1", 1),
-		_wire_data(&"AND_1", 0, &"NOT_1", 0),
-		_wire_data(&"A_IN", 0, &"OR_1", 0),
-		_wire_data(&"B_IN", 0, &"OR_1", 1),
-		_wire_data(&"OR_1", 0, &"AND_2", 0),
-		_wire_data(&"NOT_1", 0, &"AND_2", 1),
-		_wire_data(&"AND_2", 0, &"SUM_OUT", 0),
-		_wire_data(&"AND_1", 0, &"CARRY_OUT", 0),
+		_wire_data(&"A_IN", 0, &"AND_1_COPY_002", 0),
+		_wire_data(&"A_IN", 0, &"NOT_1_COPY_001", 0),
+		_wire_data(&"B_IN", 0, &"AND_1_COPY_002", 1),
+		_wire_data(&"B_IN", 0, &"AND_2", 1),
+		_wire_data(&"B_IN", 0, &"NOT_1", 0),
+		_wire_data(&"NOT_1", 0, &"AND_1", 1),
+		_wire_data(&"NOT_1_COPY_001", 0, &"AND_2", 0),
+		_wire_data(&"OR_1", 0, &"SUM_OUT", 0),
 	]
 
 
@@ -1872,8 +2040,11 @@ func _hint_partial_wires() -> Array[Dictionary]:
 		&"tutorial":
 			return _normalized_wire_list([_tutorial_reference_wires()[0]])
 		&"half_adder":
-			var answer: Array[Dictionary] = _half_adder_reference_wires()
-			return _normalized_wire_list([answer[0], answer[1], answer[8]])
+			return _normalized_wire_list([
+				_wire_data(&"A_IN", 0, &"AND_1_COPY_002", 0),
+				_wire_data(&"B_IN", 0, &"AND_1_COPY_002", 1),
+				_wire_data(&"AND_1_COPY_002", 0, &"CARRY_OUT", 0),
+			])
 	var authored: Array[Dictionary] = _normalized_wire_list(
 		current_level_definition.get("hint_partial_wires", [])
 	)
@@ -2167,7 +2338,7 @@ func _build_tutorial_circuit() -> void:
 	]
 	junction_counter = 0
 	layout_positions = {
-		&"A_IN": Vector2(430, 170),
+		&"A_IN": Vector2(510, 170),
 		&"NOT_1": Vector2(760, 170), &"LAMP": Vector2(1110, 170),
 	}
 	for component: LogicComponent in [
@@ -2188,18 +2359,21 @@ func _build_half_adder_circuit() -> void:
 	]
 	junction_counter = 0
 	layout_positions = {
-		&"A_IN": Vector2(390, 110), &"B_IN": Vector2(390, 425),
-		&"AND_1": Vector2(625, 80), &"OR_1": Vector2(625, 365),
-		&"NOT_1": Vector2(850, 80), &"AND_2": Vector2(1060, 230),
-		&"SUM_OUT": Vector2(1310, 230), &"CARRY_OUT": Vector2(1060, 500),
+		&"A_IN": Vector2(535, 110), &"B_IN": Vector2(535, 425),
+		&"AND_1": Vector2(920, 60), &"NOT_1": Vector2(780, 140),
+		&"NOT_1_COPY_001": Vector2(780, 320), &"AND_2": Vector2(920, 340),
+		&"AND_1_COPY_002": Vector2(960, 480), &"OR_1": Vector2(1120, 220),
+		&"SUM_OUT": Vector2(1310, 230), &"CARRY_OUT": Vector2(1320, 480),
 	}
 	for component: LogicComponent in [
 		LogicComponentType.new(&"A_IN", &"input", "TEST BENCH A", &"A", true),
 		LogicComponentType.new(&"B_IN", &"input", "TEST BENCH B", &"B", true),
 		LogicComponentType.new(&"AND_1", &"and", "AND · 1"),
 		LogicComponentType.new(&"AND_2", &"and", "AND · 2"),
+		LogicComponentType.new(&"AND_1_COPY_002", &"and", "AND · CARRY"),
 		LogicComponentType.new(&"OR_1", &"or", "OR · 1"),
 		LogicComponentType.new(&"NOT_1", &"not", "NOT · 1"),
+		LogicComponentType.new(&"NOT_1_COPY_001", &"not", "NOT · 2"),
 		LogicComponentType.new(&"SUM_OUT", &"output", "PROBE SUM", &"SUM", true),
 		LogicComponentType.new(&"CARRY_OUT", &"output", "PROBE CARRY", &"CARRY", true),
 	]:
@@ -2411,6 +2585,7 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 		var template: LogicComponent = component_menu_templates[key]
 		var item: Control = ComponentPaletteItemType.new()
 		item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template))
+		item.tooltip_text = _component_tooltip(template)
 		item.call("set_component_preview", _create_component_placement_ghost(template))
 		item.connect("placement_requested", Callable(self, "_arm_component_template"))
 		component_palette_items[key] = item
@@ -2620,13 +2795,15 @@ func _configure_component_node_view(
 	) -> void:
 	node.name = component.id
 	node.title = ""
+	# The title bar is intentionally hidden for the schematic presentation. Body
+	# dragging below supplies the equivalent interaction across the whole symbol.
 	node.draggable = draggable
 	node.resizable = false
 	node.z_index = 2
 	node.custom_minimum_size = _component_node_size(component)
 	node.size = node.custom_minimum_size
 	node.tooltip_text = _component_tooltip(component)
-	node.mouse_filter = Control.MOUSE_FILTER_STOP if draggable else Control.MOUSE_FILTER_IGNORE
+	node.mouse_filter = Control.MOUSE_FILTER_STOP
 	node.add_theme_font_size_override("title_font_size", 1)
 	node.add_theme_constant_override("separation", 0)
 	node.get_titlebar_hbox().hide()
@@ -2643,7 +2820,7 @@ func _component_node_size(component: LogicComponent) -> Vector2:
 		LogicComponentType.KIND_NOT:
 			return Vector2(96.0, 48.0)
 		LogicComponentType.KIND_INPUT, LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP:
-			return Vector2(116.0, 62.0)
+			return Vector2(138.0, 72.0)
 		LogicComponentType.KIND_CONSTANT:
 			return Vector2(92.0, 56.0)
 		_:
@@ -2700,6 +2877,8 @@ func _schematic_symbol_metrics(kind: StringName) -> Dictionary:
 		return {"display_height": 36.0, "row_height": 36.0}
 	if kind == LogicComponentType.KIND_JUNCTION:
 		return {"display_height": 28.0, "row_height": 28.0}
+	if kind in [LogicComponentType.KIND_INPUT, LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP]:
+		return {"display_height": 58.0, "row_height": 58.0}
 	return {"display_height": 50.0, "row_height": 50.0}
 
 
@@ -3009,6 +3188,8 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		_update_tutorial_checklist()
 	else:
 		_invalidate_official_evidence(_t(&"hardware.status.topology_changed"))
+		if current_level_id == &"cpu":
+			_refresh_cpu_stage()
 
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
@@ -3028,6 +3209,8 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 			_update_tutorial_checklist()
 		else:
 			_invalidate_official_evidence(_t(&"hardware.status.topology_changed"))
+			if current_level_id == &"cpu":
+				_refresh_cpu_stage()
 
 
 func _on_connection_to_empty(from_node: StringName, from_port: int, release_position: Vector2) -> void:
@@ -3450,7 +3633,13 @@ func _move_connection_endpoint_to_wire(
 func _is_hover_connection_valid(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> bool:
 	if _editor_locked():
 		return false
-	return current_circuit.connection_error(from_node, from_port, to_node, to_port).is_empty()
+	var diagnostic: Dictionary = current_circuit.connection_diagnostic(
+		from_node, from_port, to_node, to_port
+	)
+	if not diagnostic.is_empty() and status_label != null:
+		status_label.text = Localization.text_from_spec(diagnostic)
+		status_label.add_theme_color_override("font_color", BAD)
+	return diagnostic.is_empty()
 
 
 func _on_connection_drag_started(from_node: StringName, from_port: int, is_output: bool) -> void:
@@ -3494,7 +3683,7 @@ func _handle_graph_pan_key_event(event: InputEvent) -> bool:
 		graph_pan_keys.erase(pan_key)
 		return was_active
 	if key_event.ctrl_pressed or key_event.meta_pressed or key_event.alt_pressed \
-			or graph == null or not graph.is_visible_in_tree() or _editor_locked() \
+			or graph == null or not graph.is_visible_in_tree() or _view_navigation_locked() \
 			or _keyboard_focus_accepts_text():
 		graph_pan_keys.clear()
 		return false
@@ -3706,7 +3895,7 @@ func _wire_endpoint_key(component_id: StringName, port: int, is_output: bool) ->
 
 
 func _update_graph_keyboard_pan(delta: float) -> void:
-	if graph == null or not graph.is_visible_in_tree() or _editor_locked() \
+	if graph == null or not graph.is_visible_in_tree() or _view_navigation_locked() \
 			or _keyboard_focus_accepts_text():
 		graph_pan_keys.clear()
 		return
@@ -4349,9 +4538,21 @@ func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 
 
 func _on_component_gui_input(event: InputEvent, component_id: StringName) -> void:
-	if _editor_locked() or not event is InputEventMouseButton:
+	if not event is InputEventMouseButton:
 		return
 	var mouse_event := event as InputEventMouseButton
+	if _editor_locked():
+		if mouse_event.pressed and mouse_event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+			var zoom_factor := 1.1 if mouse_event.button_index == MOUSE_BUTTON_WHEEL_UP else 1.0 / 1.1
+			graph.zoom = clampf(graph.zoom * zoom_factor, graph.zoom_min, graph.zoom_max)
+			get_viewport().set_input_as_handled()
+			return
+		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed:
+			var locked_node: GraphNode = component_nodes.get(component_id)
+			if locked_node != null and not _local_point_hits_port(locked_node, mouse_event.position, 28.0):
+				_show_component_inspector(component_id)
+				get_viewport().set_input_as_handled()
+		return
 	if mouse_event.pressed:
 		_focus_graph_for_keyboard()
 	if not armed_component_template_key.is_empty() and mouse_event.pressed:
@@ -4370,22 +4571,76 @@ func _on_component_gui_input(event: InputEvent, component_id: StringName) -> voi
 		_select_component_with_connected_route_nodes(component_id, mouse_event.shift_pressed)
 		get_viewport().set_input_as_handled()
 		return
-	if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed and mouse_event.shift_pressed:
-		var node: GraphNode = component_nodes.get(component_id)
-		if node == null or _local_point_hits_port(node, mouse_event.position, 28.0):
+	if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed:
+		var pressed_node: GraphNode = component_nodes.get(component_id)
+		if pressed_node == null or _local_point_hits_port(pressed_node, mouse_event.position, 28.0):
 			return
-		node.selected = not node.selected
-		_sync_selection_feedback()
-		_on_selection_count_changed()
+		if mouse_event.shift_pressed:
+			pressed_node.selected = not pressed_node.selected
+			_sync_selection_feedback()
+			_on_selection_count_changed()
+			get_viewport().set_input_as_handled()
+			return
+		if not pressed_node.selected:
+			_set_selected_ids([component_id])
+		body_drag_component_id = component_id
+		body_drag_pointer_origin = get_viewport().get_mouse_position()
+		body_drag_positions = _capture_node_positions()
+		body_drag_moved = false
+		_on_begin_node_move()
 		get_viewport().set_input_as_handled()
 		return
-	if mouse_event.button_index != MOUSE_BUTTON_RIGHT or not mouse_event.pressed:
+	# Right-button erasing is handled once by CircuitGraphEdit's precise visual
+	# hit test. A second rectangular node handler made transparent padding erase.
+
+
+func _handle_component_body_drag_global_input(event: InputEvent) -> bool:
+	if body_drag_component_id.is_empty():
+		return false
+	if event is InputEventMouseMotion:
+		var motion := event as InputEventMouseMotion
+		if (motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0:
+			_finish_component_body_drag()
+			return false
+		var graph_delta: Vector2 = (motion.position - body_drag_pointer_origin) / graph.zoom
+		body_drag_moved = body_drag_moved or graph_delta.length() >= 3.0
+		for component_variant: Variant in body_drag_positions:
+			var component_id := StringName(component_variant)
+			var node: GraphNode = component_nodes.get(component_id)
+			if node == null or not node.selected:
+				continue
+			var position: Vector2 = body_drag_positions[component_variant] + graph_delta
+			if graph.snapping_enabled:
+				var snap_distance: float = float(graph.snapping_distance)
+				position = Vector2(
+					snappedf(position.x, snap_distance),
+					snappedf(position.y, snap_distance)
+				)
+			node.position_offset = position
+		graph.queue_signal_wire_redraw()
+		return true
+	if event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		if mouse_event.button_index == MOUSE_BUTTON_LEFT and not mouse_event.pressed:
+			_finish_component_body_drag()
+			return true
+	return false
+
+
+func _finish_component_body_drag() -> void:
+	if body_drag_component_id.is_empty():
 		return
-	var component: LogicComponent = component_catalog.get(component_id)
-	if component == null:
-		return
-	_delete_component_with_history(component_id, true)
-	get_viewport().set_input_as_handled()
+	var clicked_component_id: StringName = body_drag_component_id
+	var inspect_after_release: bool = not body_drag_moved
+	body_drag_component_id = &""
+	body_drag_positions.clear()
+	body_drag_moved = false
+	_on_end_node_move()
+	for component_id: StringName in component_nodes:
+		layout_positions[component_id] = (component_nodes[component_id] as GraphNode).position_offset
+	graph.queue_signal_wire_redraw()
+	if inspect_after_release:
+		_show_component_inspector(clicked_component_id)
 
 
 func _delete_component_with_history(component_id: StringName, allow_fixed_terminal: bool = false) -> bool:
@@ -4542,14 +4797,17 @@ func _editor_locked() -> bool:
 		or current_phase in [&"sealed", &"campaign", &"prologue_complete"]
 
 
+func _view_navigation_locked() -> bool:
+	return sealing or current_phase in [&"campaign", &"prologue_complete"]
+
+
 func _component_output_width(component_id: StringName, port: int) -> int:
 	var component: LogicComponent = component_catalog.get(component_id)
 	return component.output_width(port) if component != null else 1
 
 
 func _graph_position_from_local(local_position: Vector2, half_size: Vector2) -> Vector2:
-	var graph_position: Vector2 = (local_position + graph.scroll_offset) / graph.zoom - half_size
-	return Vector2(snappedf(graph_position.x, 10.0), snappedf(graph_position.y, 10.0))
+	return graph.graph_position_for_local_pointer(local_position, half_size * 2.0)
 
 
 func _schedule_live_refresh() -> void:
@@ -4847,6 +5105,8 @@ func _topology_changed(message: String, created: bool = true, removed: bool = fa
 		status_label.add_theme_color_override("font_color", GOOD if created else WARNING)
 	else:
 		_invalidate_official_evidence(message)
+		if current_level_id == &"cpu":
+			_refresh_cpu_stage()
 
 
 func _mark_trace_stale() -> void:
@@ -4908,10 +5168,21 @@ func _update_input_button_text() -> void:
 
 func _update_signal_toggle_placeholder(toggle: CheckButton, signal_name: String) -> void:
 	var high: bool = toggle.button_pressed
-	toggle.text = "%s   %s %d" % [signal_name, "◆" if high else "●", int(high)]
+	var state_text: String = _t(&"hardware.signal.high") if high else _t(&"hardware.signal.low")
+	toggle.text = "%s   %s  %d   %s" % [signal_name, state_text, int(high), "══▶" if high else "──▷"]
+	toggle.custom_minimum_size = Vector2(168.0, 48.0)
 	var color: Color = SIGNAL_HIGH if high else SIGNAL_LOW
 	for color_name: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-		toggle.add_theme_color_override(color_name, color)
+		toggle.add_theme_color_override(color_name, Color("f7fbff"))
+	var normal: StyleBoxFlat = _stylebox(color.darkened(0.72), 11, 3, color)
+	var hover: StyleBoxFlat = _stylebox(color.darkened(0.60), 11, 3, color.lightened(0.16))
+	var pressed: StyleBoxFlat = _stylebox(color.darkened(0.52), 11, 4, Color("f7fbff"))
+	for style_name: String in ["normal", "disabled"]:
+		toggle.add_theme_stylebox_override(style_name, normal)
+	for style_name: String in ["hover", "focus"]:
+		toggle.add_theme_stylebox_override(style_name, hover)
+	for style_name: String in ["pressed", "hover_pressed"]:
+		toggle.add_theme_stylebox_override(style_name, pressed)
 	toggle.tooltip_text = _t(&"hardware.test_bench.signal.tooltip", [signal_name, int(high)])
 
 
@@ -5185,6 +5456,16 @@ func _finish_official_sequence() -> void:
 		seal_button.text = _t(&"hardware.seal.verified_button")
 		status_label.text = _t(&"hardware.status.official_pass")
 		status_label.add_theme_color_override("font_color", GOOD)
+		level_completion_overlay.present_actions(
+			current_level_id,
+			_level_display_name(current_level_id),
+			_t(&"hardware.completion.summary.half_adder"),
+			_t(&"hardware.completion.chapter"),
+			&"hardware_foundations",
+			_t(&"hardware.seal.verified_button"),
+			_t(&"hardware.prologue.continue_next"),
+			_t(&"hardware.prologue.back_map")
+		)
 	else:
 		seal_button.disabled = true
 		var first_error: String = ""
@@ -5296,6 +5577,12 @@ func _run_prologue_debug() -> void:
 
 
 func _run_prologue_official() -> void:
+	if current_level_id == &"cpu":
+		_refresh_cpu_stage()
+		if cpu_stage_index < 4:
+			status_label.text = _t(&"hardware.cpu.stage.official_locked", [cpu_stage_index + 1])
+			status_label.add_theme_color_override("font_color", WARNING)
+			return
 	var circuit: LogicCircuit = _circuit_from_graph()
 	current_circuit = circuit
 	_begin_official_sequence(&"prologue", circuit)
@@ -5336,6 +5623,18 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 				call_deferred("_show_level_completion", current_level_id)
 		else:
 			seal_button.disabled = false
+			level_completion_overlay.present_actions(
+				current_level_id,
+				_level_display_name(current_level_id),
+				_t(StringName(COMPLETION_SUMMARY_KEYS.get(
+					current_level_id, &"hardware.completion.summary.tutorial"
+				))),
+				_t(&"hardware.completion.chapter"),
+				&"hardware_foundations",
+				_t(&"hardware.prologue.seal"),
+				_t(&"hardware.prologue.continue_next"),
+				_t(&"hardware.prologue.back_map")
+			)
 			seal_button.text = _t(&"hardware.prologue.seal_verified", [
 				StringName(current_level_definition.get("seal_name", &""))
 			])
@@ -5463,6 +5762,10 @@ func _finish_encapsulation() -> void:
 	PlaytestData.level_completed(&"hardware_foundations", &"half_adder")
 	_refresh_workbench_menu()
 	_refresh_hint_controls()
+	if continue_after_seal:
+		continue_after_seal = false
+		_continue_to_next_level(&"half_adder")
+		return
 	_show_level_completion(&"half_adder")
 
 
@@ -5721,6 +6024,9 @@ func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> 
 	official_report.clear()
 	official_passed = false
 	passing_topology_signature = ""
+	cpu_stage_index = 0
+	cpu_stage_label = null
+	cpu_stage_button = null
 	sealing_level_id = &""
 	pending_sealed_circuit = null
 	phase_label.text = _t(StringName(level["title_key"]))
@@ -5779,6 +6085,18 @@ func _build_prologue_side() -> void:
 		_t(StringName(current_level_definition["title_key"])),
 		_t(&"hardware.prologue.level.subtitle")
 	))
+	if current_level_id == &"cpu":
+		var opcode_panel := PanelContainer.new()
+		opcode_panel.add_theme_stylebox_override("panel", _stylebox(Color("181d2c"), 8, 1, WARNING))
+		var opcode_table := Label.new()
+		opcode_table.name = "CpuOpcodeTable"
+		opcode_table.text = _t(&"hardware.cpu.opcode_table")
+		opcode_table.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		opcode_table.add_theme_font_size_override("font_size", 12)
+		opcode_table.add_theme_color_override("font_color", WARNING)
+		opcode_panel.add_child(opcode_table)
+		task_box.add_child(opcode_panel)
+		_build_cpu_stage_panel()
 	var description := LinkedMissionTextType.new()
 	description.add_theme_color_override("font_color", TEXT)
 	description.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
@@ -5824,8 +6142,99 @@ func _build_prologue_side() -> void:
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
 	side_box.add_child(official_button)
+	if current_level_id == &"cpu":
+		_refresh_cpu_stage()
 	_build_prologue_case_rows()
 	_layout_desktop_windows()
+
+
+func _build_cpu_stage_panel() -> void:
+	var separator := HSeparator.new()
+	task_box.add_child(separator)
+	cpu_stage_label = Label.new()
+	cpu_stage_label.name = "CpuStageStatus"
+	cpu_stage_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	cpu_stage_label.add_theme_font_size_override("font_size", 13)
+	cpu_stage_label.add_theme_color_override("font_color", ACCENT)
+	task_box.add_child(cpu_stage_label)
+	cpu_stage_button = Button.new()
+	cpu_stage_button.name = "CpuStageContinue"
+	cpu_stage_button.pressed.connect(_validate_cpu_stage)
+	task_box.add_child(cpu_stage_button)
+
+
+func _cpu_stage_required_indices(stage: int) -> Array[int]:
+	match stage:
+		0: return [0, 1, 3, 5]
+		1: return [4, 6, 7, 8, 10, 11, 12, 13, 17]
+		2: return [2, 9, 14, 18]
+		3: return [15, 16]
+	return []
+
+
+func _cpu_stage_complete(stage: int, circuit: LogicCircuit) -> bool:
+	var wires: Array = current_level_definition.get("reference_wires", [])
+	for index: int in _cpu_stage_required_indices(stage):
+		if index < 0 or index >= wires.size():
+			return false
+		var wire: Dictionary = wires[index]
+		if not circuit.has_connection(
+			StringName(wire["from"]), int(wire.get("from_port", 0)),
+			StringName(wire["to"]), int(wire.get("to_port", 0))
+		):
+			return false
+	return true
+
+
+func _refresh_cpu_stage(update_status: bool = false) -> void:
+	if current_level_id != &"cpu" or graph == null:
+		return
+	var circuit: LogicCircuit = _circuit_from_graph()
+	var derived_stage: int = 0
+	while derived_stage < 4 and _cpu_stage_complete(derived_stage, circuit):
+		derived_stage += 1
+	var advanced: bool = derived_stage > cpu_stage_index
+	cpu_stage_index = derived_stage
+	_apply_cpu_stage_visibility()
+	if cpu_stage_label != null:
+		cpu_stage_label.text = _t(StringName("hardware.cpu.stage.%d" % mini(cpu_stage_index + 1, 5)))
+	if cpu_stage_button != null:
+		cpu_stage_button.disabled = cpu_stage_index >= 4
+		cpu_stage_button.text = _t(
+			&"hardware.cpu.stage.ready" if cpu_stage_index >= 4 else &"hardware.cpu.stage.check"
+		)
+	if official_button != null:
+		official_button.disabled = cpu_stage_index < 4 or official_sequence_active
+	if update_status or advanced:
+		status_label.text = _t(&"hardware.cpu.stage.all_ready") if cpu_stage_index >= 4 \
+			else _t(&"hardware.cpu.stage.advanced", [cpu_stage_index + 1])
+		status_label.add_theme_color_override("font_color", GOOD if advanced else WARNING)
+
+
+func _validate_cpu_stage() -> void:
+	_refresh_cpu_stage(true)
+
+
+func _apply_cpu_stage_visibility() -> void:
+	var stage_groups: Array[Array] = [
+		[&"OP_IN", &"ARG_IN", &"CONTROL", &"SOURCE_MUX", &"ALU"],
+		[&"ACC", &"ADD_OP0", &"ADD_OP1", &"CIN_0", &"RESULT_MUX", &"ACC_OUT"],
+		[&"ADDR_IN", &"RAM", &"MEM_OUT"],
+	]
+	var available: Dictionary[StringName, bool] = {}
+	for group_index: int in range(stage_groups.size()):
+		if group_index > cpu_stage_index:
+			continue
+		for id_variant: Variant in stage_groups[group_index]:
+			available[StringName(id_variant)] = true
+	for component_id: StringName in component_nodes:
+		var node: GraphNode = component_nodes[component_id]
+		var is_available: bool = available.has(component_id) or cpu_stage_index >= 3
+		node.visible = true
+		node.modulate = Color.WHITE if is_available else Color(0.42, 0.46, 0.55, 0.18)
+		node.mouse_filter = Control.MOUSE_FILTER_STOP if is_available else Control.MOUSE_FILTER_IGNORE
+		node.draggable = is_available
+	graph.queue_signal_wire_redraw()
 
 
 func _is_storage_level() -> bool:
@@ -6117,6 +6526,10 @@ func _finish_prologue_encapsulation() -> void:
 	trace_caption_label.text = _t(&"hardware.prologue.sealed_trace", [component_name])
 	_refresh_workbench_menu()
 	_refresh_hint_controls()
+	if continue_after_seal:
+		continue_after_seal = false
+		_continue_to_next_level(finished_level)
+		return
 	_show_level_completion(finished_level)
 
 
@@ -6616,9 +7029,9 @@ func _step_playback() -> void:
 		pause_button.text = _t(&"hardware.trace.resume")
 
 
-func _on_clock_period_changed(seconds: float) -> void:
-	clock_period_seconds = clampf(
-		seconds, MIN_CLOCK_PERIOD_SECONDS, MAX_CLOCK_PERIOD_SECONDS
+func _on_clock_period_changed(frequency_hz: float) -> void:
+	clock_period_seconds = 1.0 / clampf(
+		frequency_hz, MIN_PLAYBACK_FREQUENCY_HZ, MAX_PLAYBACK_FREQUENCY_HZ
 	)
 
 
@@ -6866,25 +7279,113 @@ func _component_tooltip(component: LogicComponent) -> String:
 		LogicComponentType.KIND_JUNCTION:
 			description = _t(&"hardware.tooltip.junction")
 		_:
-			description = "%s — %s" % [component.display_name, _t(&"hardware.tooltip.logic_component")]
+			description = _t(StringName("hardware.tooltip.%s" % String(component.kind)))
+			if description == "hardware.tooltip.%s" % String(component.kind):
+				description = "%s — %s" % [component.display_name, _t(&"hardware.tooltip.logic_component")]
+	return description
+
+
+func _show_component_inspector(component_id: StringName) -> void:
+	var component: LogicComponent = component_catalog.get(component_id)
+	if component == null or component_inspector_box == null:
+		return
+	_clear_container(component_inspector_box)
+	var title := Label.new()
+	title.text = _component_inspector_title(component)
+	title.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	title.add_theme_color_override("font_color", ACCENT)
+	component_inspector_box.add_child(title)
+	var kind := Label.new()
+	kind.text = _t(&"hardware.inspector.stateful") if component.is_stateful() else _t(&"hardware.inspector.combinational")
+	kind.add_theme_color_override("font_color", MUTED)
+	component_inspector_box.add_child(kind)
+	if component.is_reusable_abstraction():
+		var ownership := Label.new()
+		ownership.text = _t(&"hardware.inspector.built_by_you")
+		ownership.add_theme_color_override("font_color", GOOD)
+		component_inspector_box.add_child(ownership)
+	_add_inspector_section(_t(&"hardware.inspector.function"), _component_tooltip(component))
 	var port_lines := PackedStringArray()
-	if component.input_count() > 0:
-		var inputs := PackedStringArray()
-		for port: int in range(component.input_count()):
-			inputs.append("%s%s" % [
-				component.input_port_name(port),
-				"×%d" % component.input_width(port) if component.input_width(port) > 1 else "",
-			])
-		port_lines.append("← " + ", ".join(inputs))
-	if component.output_count() > 0:
-		var outputs := PackedStringArray()
-		for port: int in range(component.output_count()):
-			outputs.append("%s%s" % [
-				component.output_port_name(port),
-				"×%d" % component.output_width(port) if component.output_width(port) > 1 else "",
-			])
-		port_lines.append("→ " + ", ".join(outputs))
-	return description if port_lines.is_empty() else description + "\n" + "\n".join(port_lines)
+	for port: int in range(component.input_count()):
+		port_lines.append("%s  %s [%d]" % [
+			_t(&"hardware.inspector.input_port"),
+			component.input_port_name(port), component.input_width(port),
+		])
+	for port: int in range(component.output_count()):
+		port_lines.append("%s  %s [%d]" % [
+			_t(&"hardware.inspector.output_port"),
+			component.output_port_name(port), component.output_width(port),
+		])
+	_add_inspector_section(
+		_t(&"hardware.inspector.ports"),
+		_t(&"hardware.inspector.no_ports") if port_lines.is_empty() else "\n".join(port_lines)
+	)
+	var behavior_key := StringName("hardware.inspector.behavior.%s" % String(component.kind))
+	var behavior_text: String = _t(behavior_key)
+	if behavior_text == String(behavior_key):
+		behavior_text = _component_tooltip(component)
+	_add_inspector_section(_t(&"hardware.inspector.behavior"), behavior_text)
+	var provenance_key: StringName = &"hardware.inspector.provenance.builtin"
+	if component.fixed_terminal:
+		provenance_key = &"hardware.inspector.provenance.test_bench"
+	elif component.is_reusable_abstraction():
+		provenance_key = &"hardware.inspector.provenance.player"
+	_add_inspector_section(_t(&"hardware.inspector.provenance"), _t(provenance_key))
+	var term_id: StringName = _component_handbook_term(component.kind)
+	if not term_id.is_empty():
+		var handbook_button := Button.new()
+		handbook_button.text = _t(&"hardware.inspector.open_handbook")
+		handbook_button.pressed.connect(_open_mission_term.bind(term_id))
+		component_inspector_box.add_child(handbook_button)
+	var inspector_window: FloatingInstrumentPanel = desktop_windows.get(&"inspector")
+	if inspector_window != null:
+		inspector_window.show_instrument()
+		inspector_window.set_minimized(false)
+		_layout_desktop_windows(false)
+		_focus_desktop_window(&"inspector")
+	if not current_level_id.is_empty():
+		PlaytestData.record_tool_opened(&"hardware_foundations", current_level_id, &"component_inspector")
+
+
+func _add_inspector_section(section_title: String, body: String) -> void:
+	var heading := Label.new()
+	heading.text = section_title
+	heading.add_theme_color_override("font_color", WARNING)
+	component_inspector_box.add_child(heading)
+	var detail := Label.new()
+	detail.text = body
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	component_inspector_box.add_child(detail)
+
+
+func _component_handbook_term(kind: StringName) -> StringName:
+	var terms := {
+		LogicComponentType.KIND_AND: &"and_gate",
+		LogicComponentType.KIND_OR: &"or_gate",
+		LogicComponentType.KIND_XOR: &"xor_gate",
+		LogicComponentType.KIND_NOT: &"not_gate",
+		LogicComponentType.KIND_NOR: &"nor_gate",
+		LogicComponentType.KIND_HALF_ADDER: &"half_adder",
+		LogicComponentType.KIND_FULL_ADDER: &"full_adder",
+		LogicComponentType.KIND_MUX4: &"multiplexer",
+		LogicComponentType.KIND_MUX2_WORD: &"multiplexer",
+		LogicComponentType.KIND_ALU1: &"alu",
+		LogicComponentType.KIND_ALU4: &"alu",
+		LogicComponentType.KIND_SR_LATCH: &"sr_latch",
+		LogicComponentType.KIND_REGISTER1: &"register",
+		LogicComponentType.KIND_REGISTER4: &"register",
+		LogicComponentType.KIND_DECODER1_TO_2: &"decoder",
+		LogicComponentType.KIND_RAM2X4: &"ram",
+		LogicComponentType.KIND_CONTROL: &"controller",
+		LogicComponentType.KIND_TINY_COMPUTER: &"cpu",
+	}
+	return StringName(terms.get(kind, &""))
+
+
+func _component_inspector_title(component: LogicComponent) -> String:
+	if component.kind in [LogicComponentType.KIND_INPUT, LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP]:
+		return _component_display_name(component)
+	return _component_kind_text(component.kind)
 
 
 func _component_display_name(component: LogicComponent) -> String:
@@ -6904,13 +7405,15 @@ func _component_kind_text(kind: StringName) -> String:
 		LogicComponentType.KIND_OUTPUT: return _t(&"hardware.kind.output")
 		LogicComponentType.KIND_LAMP: return _t(&"hardware.kind.lamp")
 		LogicComponentType.KIND_JUNCTION: return _t(&"hardware.kind.junction")
-	return String(kind).to_upper()
+	var translated: String = _t(StringName("hardware.kind.%s" % String(kind)))
+	return String(kind).to_upper() if translated == "hardware.kind.%s" % String(kind) else translated
 
 
 func _desktop_window_name(id: StringName) -> String:
 	match id:
 		&"task": return _t(&"hardware.window.mission")
 		&"components": return _t(&"hardware.component_menu.button")
+		&"inspector": return _t(&"hardware.inspector.title")
 	return _t(&"device.test_bench")
 
 

@@ -121,19 +121,47 @@ func output_token_enabled() -> bool:
 	return _output_is_active()
 
 
+func visual_hit_test(point: Vector2, tolerance: float = 3.0) -> bool:
+	var top_t: float = float(row_index) / float(row_count)
+	var bottom_t: float = float(row_index + 1) / float(row_count)
+	var left_top: float = _body_left(top_t)
+	var left_bottom: float = _body_left(bottom_t)
+	var right_top: float = _body_right(top_t)
+	var right_bottom: float = _body_right(bottom_t)
+	var body := PackedVector2Array([
+		Vector2(left_top, 0.0), Vector2(right_top, 0.0),
+		Vector2(right_bottom, size.y), Vector2(left_bottom, size.y),
+	])
+	if Geometry2D.is_point_in_polygon(point, body):
+		return true
+	var center_y: float = size.y * 0.5
+	var global_t: float = (float(row_index) + 0.5) / float(row_count)
+	if has_input and _near_segment(
+		point, Vector2(0.0, center_y), Vector2(_body_left(global_t), center_y), tolerance + 2.0
+	):
+		return true
+	return has_output and _near_segment(
+		point, Vector2(_body_right(global_t), center_y), Vector2(size.x, center_y), tolerance + 2.0
+	)
+
+
+func _near_segment(point: Vector2, start: Vector2, finish: Vector2, tolerance: float) -> bool:
+	return point.distance_to(Geometry2D.get_closest_point_to_segment(point, start, finish)) <= tolerance
+
+
 func visible_component_name() -> String:
 	match component_kind:
-		&"half_adder": return "HalfAdder"
-		&"full_adder": return "FullAdder"
+		&"half_adder": return "Half Adder"
+		&"full_adder": return "Full Adder"
 		&"mux4": return "Mux4"
-		&"mux2_word": return "Word Mux"
+		&"mux2_word": return component_label if component_label != "word mux" else "Word MUX"
 		&"alu1": return "ALU1"
 		&"alu4": return "ALU4"
 		&"sr_latch": return "SR Latch"
 		&"register1": return "Register1"
-		&"register4": return "Register4"
+		&"register4": return component_label if component_label.contains("ACC") else "Register4"
 		&"decoder1_to_2": return "Decoder"
-		&"control": return "Control"
+		&"control": return component_label if not component_label.is_empty() else "Controller"
 		&"ram2x4": return "RAM2x4"
 		&"tiny_computer": return "CPU + RAM"
 	return component_label if not component_label.is_empty() else String(component_kind)
@@ -587,7 +615,7 @@ func _stage_strength(start: float, finish: float) -> float:
 
 func _width_label(label: String, width: int) -> String:
 	var compact: String = _compact_port_label(label)
-	return "%s×%d" % [compact, width] if width > 1 else compact
+	return "%s[%d]" % [compact, maxi(1, width)]
 
 
 func _compact_port_label(label: String) -> String:

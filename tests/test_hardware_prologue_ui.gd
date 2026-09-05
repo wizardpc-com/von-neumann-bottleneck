@@ -304,10 +304,10 @@ func _assert_cpu_playback(main: Control) -> void:
 		if not rows.is_empty():
 			visible_names[String(rows[rows.size() / 2].call("visible_component_name"))] = true
 	_assert(
-		visible_names.has("Control") and visible_names.has("ALU4")
-		and visible_names.has("Register4") and visible_names.has("RAM2x4")
-		and visible_names.has("Word Mux"),
-		"CPU modules must render their complete function names rather than line-obscured abbreviations."
+		visible_names.has("Controller") and visible_names.has("ALU4")
+		and visible_names.has("ACC Register (4-bit)") and visible_names.has("RAM2x4")
+		and visible_names.has("SOURCE MUX") and visible_names.has("RESULT MUX"),
+		"CPU modules must render their role-specific complete names rather than generic or line-obscured abbreviations. names=%s" % [visible_names.keys()]
 	)
 	var component_kinds: Dictionary[StringName, bool] = {}
 	var parallel_component_wave: bool = false

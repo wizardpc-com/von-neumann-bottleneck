@@ -25,12 +25,13 @@ func _run() -> void:
 	var clock_period_control: SpinBox = main.get("clock_period_control")
 	_assert(
 		clock_period_control != null
-		and clock_period_control.name == "ClockPeriodControl"
-		and is_equal_approx(clock_period_control.value, 0.5),
-		"Chapter 2 must replace multiplier presets with the shared editable Clock Period control."
+		and clock_period_control.name == "PlaybackFrequencyControl"
+		and is_equal_approx(clock_period_control.value, 2.0)
+		and clock_period_control.suffix == "Hz",
+		"Chapter 2 must expose the shared editable playback-frequency control."
 	)
-	clock_period_control.value = 0.3
-	_assert(is_equal_approx(float(main.get("clock_period_seconds")), 0.3), "Chapter 2 Clock Period must update playback duration directly.")
+	clock_period_control.value = 10.0
+	_assert(is_equal_approx(float(main.get("clock_period_seconds")), 0.1), "Chapter 2 playback Hz must update presentation duration only.")
 	_assert(
 		int(ProjectSettings.get_setting("display/window/size/mode", 0)) == 3
 		and bool(ProjectSettings.get_setting("display/window/size/resizable", false))

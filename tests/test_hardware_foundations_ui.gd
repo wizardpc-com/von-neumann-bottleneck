@@ -201,16 +201,18 @@ func _run() -> void:
 	var clock_period_control: SpinBox = main.get("clock_period_control")
 	_assert(
 		clock_period_control != null
-		and clock_period_control.name == "ClockPeriodControl"
-		and is_equal_approx(clock_period_control.value, 0.5)
+		and clock_period_control.name == "PlaybackFrequencyControl"
+		and is_equal_approx(clock_period_control.value, 2.0)
+		and clock_period_control.max_value >= 120.0
+		and clock_period_control.suffix == "Hz"
 		and clock_period_control.tooltip_text.contains("播放速度"),
-		"Hardware playback must expose one precise Clock Period control instead of multiplier presets."
+		"Hardware playback must expose one precise, fast Hz control instead of multiplier presets."
 	)
-	clock_period_control.value = 0.25
+	clock_period_control.value = 40.0
 	_assert(
-		is_equal_approx(float(main.get("clock_period_seconds")), 0.25)
-		and is_equal_approx(float(main.call("_playback_batch_duration", {})), 0.25),
-		"Changing Clock Period must directly set each visible causal wave duration."
+		is_equal_approx(float(main.get("clock_period_seconds")), 0.025)
+		and is_equal_approx(float(main.call("_playback_batch_duration", {})), 0.025),
+		"Changing playback Hz must only convert into each visible causal wave duration."
 	)
 	var graph: GraphEdit = main.get("graph")
 	var nodes: Dictionary = main.get("component_nodes")
@@ -220,6 +222,42 @@ func _run() -> void:
 		and _component_ids(main) == [&"A_IN", &"LAMP", &"NOT_1"],
 		"Tutorial must begin unwired with only the A → NOT → LAMP task components pre-placed; got %s." % [_component_ids(main)]
 	)
+	var body_node := nodes[&"NOT_1"] as GraphNode
+	var body_start: Vector2 = body_node.position_offset
+	var body_press := InputEventMouseButton.new()
+	body_press.button_index = MOUSE_BUTTON_LEFT
+	body_press.pressed = true
+	body_press.position = body_node.size * 0.5
+	main.call("_on_component_gui_input", body_press, &"NOT_1")
+	var body_motion := InputEventMouseMotion.new()
+	body_motion.button_mask = MOUSE_BUTTON_MASK_LEFT
+	var body_origin: Vector2 = main.get("body_drag_pointer_origin")
+	body_motion.position = body_origin + Vector2(70.0, 40.0)
+	main.call("_input", body_motion)
+	var body_release := InputEventMouseButton.new()
+	body_release.button_index = MOUSE_BUTTON_LEFT
+	body_release.pressed = false
+	body_release.position = body_motion.position
+	main.call("_input", body_release)
+	_assert(
+		body_node.selected and not body_node.position_offset.is_equal_approx(body_start),
+		"A normal press-drag on a seeded component body must select and move it without requiring its hidden title bar."
+	)
+	main.call("_undo_wire")
+	_assert(body_node.position_offset.is_equal_approx(body_start), "Body movement must remain one undoable layout action.")
+	main.call("_on_component_gui_input", body_press, &"NOT_1")
+	main.call("_input", body_release)
+	await process_frame
+	var inspector_window: Control = (main.get("desktop_windows") as Dictionary)[&"inspector"]
+	var inspector_text: String = ""
+	for inspector_label: Node in inspector_window.find_children("*", "Label", true, false):
+		inspector_text += (inspector_label as Label).text + "\n"
+	_assert(
+		inspector_window.visible and inspector_text.contains("[1]")
+		and inspector_text.contains("必要行为") and inspector_text.contains("来源"),
+		"Clicking a component must open a localized Inspector with port widths, behavior, and provenance."
+	)
+	main.call("_close_desktop_window", &"inspector")
 	_assert(
 		not (main.get("input_b_button") as CheckButton).visible,
 		"Tutorial Test Bench must not show an input B control when the level has no B terminal."
@@ -312,6 +350,17 @@ func _run() -> void:
 	)
 	for node_variant: Variant in nodes.values():
 		_assert(not (node_variant as GraphNode).draggable, "Every component on a hint workbench must be read-only.")
+	var hint_zoom_before: float = graph.zoom
+	var hint_zoom_event := InputEventMouseButton.new()
+	hint_zoom_event.button_index = MOUSE_BUTTON_WHEEL_UP
+	hint_zoom_event.pressed = true
+	main.call("_on_component_gui_input", hint_zoom_event, &"A_IN")
+	_assert(graph.zoom > hint_zoom_before, "Wheel zoom over a read-only Hint component must remain available for inspection.")
+	var hint_scroll_before: Vector2 = graph.scroll_offset
+	_key_down(main, KEY_D)
+	main.call("_process", 0.10)
+	_key_up(main, KEY_D)
+	_assert(graph.scroll_offset.x > hint_scroll_before.x, "WASD panning must remain available while the Hint topology is read-only.")
 	main.call("_show_hint_level", 2)
 	for _hint_two_frame: int in range(2):
 		await process_frame
@@ -542,7 +591,7 @@ func _run() -> void:
 	graph.scroll_offset = scroll_before_keys
 	focus_probe.queue_free()
 	var desktop_windows: Dictionary = main.get("desktop_windows")
-	_assert(desktop_windows.size() == 3 and (desktop_windows[&"task"] as Control).visible and (desktop_windows[&"test_bench"] as Control).visible and (desktop_windows[&"components"] as Control).visible, "Mission, Test Bench, and the component palette must coexist as desktop-style floating windows.")
+	_assert(desktop_windows.size() == 4 and (desktop_windows[&"task"] as Control).visible and (desktop_windows[&"test_bench"] as Control).visible and not (desktop_windows[&"components"] as Control).visible and not (desktop_windows[&"inspector"] as Control).visible, "Mission and Test Bench must open without covering the circuit; Components and Inspector remain on-demand desktop windows.")
 	var task_window: Control = desktop_windows[&"task"]
 	var bench_window: Control = desktop_windows[&"test_bench"]
 	var components_window: Control = desktop_windows[&"components"]
@@ -561,6 +610,9 @@ func _run() -> void:
 		and components_window.position.x - task_window.get_rect().end.x >= desktop_area.x * 0.35,
 		"Default Hardware windows must be comfortably readable while preserving a large unobstructed center workspace."
 	)
+	main.call("_show_desktop_window", &"components")
+	_assert(components_window.visible, "The closed-by-default Components palette must remain available from its bottom task button.")
+	main.call("_close_desktop_window", &"components")
 	var original_window_position: Vector2 = task_window.position
 	task_window.call("move_by", Vector2(52.0, 18.0))
 	_assert(not task_window.position.is_equal_approx(original_window_position), "A Hardware Foundations page must be movable like a desktop/browser window.")
@@ -579,7 +631,12 @@ func _run() -> void:
 	_assert(task_window.visible and task_window.position.is_equal_approx(remembered_task_position) and task_window.size.is_equal_approx(remembered_task_size), "The Mission taskbar button must restore the exact position and size remembered by the close action.")
 	task_window.call("toggle_minimized")
 	await process_frame
-	_assert(not bool(main.get("mission_compact")) and Rect2(task_window.position, task_window.size).is_equal_approx(restored_task_rect), "Restoring compact Mission must recover the exact pre-compact position and size.")
+	_assert(
+		not bool(main.get("mission_compact")) and bool(main.get("mission_briefing_active"))
+		and main.get("mission_briefing_previous_button") != null
+		and main.get("mission_briefing_continue_button") != null,
+		"Restoring compact Mission must reopen the complete Previous/Next briefing instead of only resizing its summary."
+	)
 	var graph_stack: Control = main.get("graph_stack")
 	task_window.position = graph_stack.size + Vector2(200.0, 160.0)
 	task_window.size = graph_stack.size * 2.0
@@ -775,7 +832,7 @@ func _run() -> void:
 	_assert(graph.get_connection_list().size() == 2, "Tutorial connection requests must change the visible and simulated topology.")
 	var hover_path: PackedVector2Array = main.call("_connection_curve", &"A_IN", 0, &"NOT_1", 0)
 	var hover_motion := InputEventMouseMotion.new()
-	hover_motion.position = hover_path[hover_path.size() / 2]
+	hover_motion.position = _path_midpoint(hover_path)
 	graph.call("_gui_input", hover_motion)
 	var hovered_wire: Dictionary = graph.get("hovered_connection")
 	_assert(StringName(hovered_wire.get("from_node", &"")) == &"A_IN" and StringName(hovered_wire.get("to_node", &"")) == &"NOT_1", "Moving over the rendered cable must expose an exact-path hover highlight before branching or deletion; point=%s closest=%s hovered=%s." % [hover_motion.position, graph.get_closest_connection_at_point(hover_motion.position, 13.0), hovered_wire])
@@ -1004,6 +1061,16 @@ func _run() -> void:
 	await process_frame
 	_assert(_routing_node_count(main) == 0 and graph.get_connection_list().size() == 2, "Undo must remove an unfinished wire node and its segment together.")
 
+	var component_count_before_near_miss: int = (main.get("component_nodes") as Dictionary).size()
+	_right_click_wire(graph, _component_visual_point(main, &"NOT_1", Vector2(4.0, 4.0)))
+	await process_frame
+	_assert(
+		(main.get("component_nodes") as Dictionary).size() == component_count_before_near_miss
+		and (main.get("component_nodes") as Dictionary).has(&"NOT_1")
+		and graph.get_connection_list().size() == 2,
+		"Right-clicking the transparent corner of a component node must not erase the visible symbol or any nearby wire."
+	)
+
 	_right_click_component(main, &"NOT_1")
 	await process_frame
 	_assert(not (main.get("component_nodes") as Dictionary).has(&"NOT_1") and graph.get_connection_list().is_empty(), "Right-clicking a player gate must delete that component and only its incident segments.")
@@ -1046,9 +1113,9 @@ func _run() -> void:
 	nodes = main.get("component_nodes")
 	var topology_before_erase_stroke: String = main.call("_circuit_from_graph").canonical_signature()
 	var component_count_before_erase_stroke: int = nodes.size()
-	var erase_a: Vector2 = (nodes[&"A_IN"] as GraphNode).position + (nodes[&"A_IN"] as GraphNode).size * 0.5
-	var erase_not: Vector2 = (nodes[&"NOT_1"] as GraphNode).position + (nodes[&"NOT_1"] as GraphNode).size * 0.5
-	var erase_lamp: Vector2 = (nodes[&"LAMP"] as GraphNode).position + (nodes[&"LAMP"] as GraphNode).size * 0.5
+	var erase_a: Vector2 = _component_visual_center(main, &"A_IN")
+	var erase_not: Vector2 = _component_visual_center(main, &"NOT_1")
+	var erase_lamp: Vector2 = _component_visual_center(main, &"LAMP")
 	_right_drag_erase(graph, [erase_a, erase_not, erase_lamp])
 	await process_frame
 	nodes = main.get("component_nodes")
@@ -1077,16 +1144,11 @@ func _run() -> void:
 	completion_continue.pressed.emit()
 	for _completion_frame: int in range(2):
 		await process_frame
-	_assert(StringName(main.get("current_phase")) == &"campaign" and not completion_overlay.visible, "Continue on the completion window must return to the graphical level map.")
-	_assert(not is_instance_valid(tutorial_next), "Returning through the completion window must release the old tutorial controls after their signal work is done.")
-	campaign_buttons = main.get("campaign_level_buttons")
-	_assert(not (campaign_buttons[&"half_adder"] as Button).disabled, "Completing the tutorial must unlock Half Adder on the visible level map.")
-	_assert(not (campaign_buttons[&"latch"] as Button).disabled, "Completing the tutorial must independently unlock the storage branch without requiring Half Adder.")
-	_assert((campaign_buttons[&"full_adder"] as Button).disabled, "Completing only the tutorial must not skip the Half Adder prerequisite for Full Adder.")
-	var half_adder_map_button: Button = campaign_buttons[&"half_adder"]
-	half_adder_map_button.pressed.emit()
-	await process_frame
-	_assert(not is_instance_valid(half_adder_map_button), "The clicked Half Adder map button must be released without a locked-object error.")
+	_assert(StringName(main.get("current_phase")) == &"half_adder" and not completion_overlay.visible, "Continue on the completion window must enter the next mission instead of making the player hunt on the map.")
+	_assert(not is_instance_valid(tutorial_next), "Continuing from the tutorial must release its old controls after their signal work is done.")
+	_assert(bool(main.call("_is_level_unlocked", &"half_adder")), "Completing the tutorial must unlock Half Adder.")
+	_assert(bool(main.call("_is_level_unlocked", &"latch")), "Completing the tutorial must independently unlock the storage branch without requiring Half Adder.")
+	_assert(not bool(main.call("_is_level_unlocked", &"full_adder")), "Completing only the tutorial must not skip the Half Adder prerequisite for Full Adder.")
 	graph = main.get("graph")
 	nodes = main.get("component_nodes")
 	overlay = main.get("trace_overlay")
@@ -1120,11 +1182,24 @@ func _run() -> void:
 	_assert(&"xor" not in half_adder_menu_kinds and &"and" in half_adder_menu_kinds and &"or" in half_adder_menu_kinds and &"not" in half_adder_menu_kinds, "Half Adder itself must be built from earlier gates; XOR unlocks only afterward.")
 	_assert(graph.get_connection_list().is_empty(), "Half Adder challenge must not reveal a prewired solution template.")
 	_assert(
-		nodes.size() == 8 and _component_ids(main) == [
-			&"AND_1", &"AND_2", &"A_IN", &"B_IN", &"CARRY_OUT", &"NOT_1", &"OR_1", &"SUM_OUT"
+		nodes.size() == 10 and _component_ids(main) == [
+			&"AND_1", &"AND_1_COPY_002", &"AND_2", &"A_IN", &"B_IN", &"CARRY_OUT",
+			&"NOT_1", &"NOT_1_COPY_001", &"OR_1", &"SUM_OUT"
 		],
-		"Half Adder must pre-place only the terminals and four gates used by its reference construction; got %s." % [_component_ids(main)]
+		"Half Adder must pre-place the exact components from the player's accepted construction; got %s." % [_component_ids(main)]
 	)
+	var half_adder_player_layout := {
+		&"A_IN": Vector2(535, 110), &"B_IN": Vector2(535, 425),
+		&"AND_1": Vector2(920, 60), &"NOT_1": Vector2(780, 140),
+		&"NOT_1_COPY_001": Vector2(780, 320), &"AND_2": Vector2(920, 340),
+		&"AND_1_COPY_002": Vector2(960, 480), &"OR_1": Vector2(1120, 220),
+		&"SUM_OUT": Vector2(1310, 230), &"CARRY_OUT": Vector2(1320, 480),
+	}
+	for component_id: StringName in half_adder_player_layout:
+		_assert(
+			(nodes[component_id] as GraphNode).position_offset.is_equal_approx(half_adder_player_layout[component_id]),
+			"Half Adder default and Hint geometry must use the accepted player position for %s." % component_id
+		)
 	_assert((nodes[&"SUM_OUT"] as GraphNode).draggable and (nodes[&"CARRY_OUT"] as GraphNode).draggable, "Half Adder output terminals must be freely movable like desktop schematic parts.")
 	_assert((main.get("input_b_button") as CheckButton).visible, "Half Adder Test Bench must restore the required B input control.")
 	symbols = main.get("component_symbols")
@@ -1138,9 +1213,11 @@ func _run() -> void:
 	)
 	_assert(not nodes.has(&"Profiler"), "Early logic section must not introduce the performance Profiler.")
 	_assert(
-		(main.get("input_a_button") as CheckButton).text.contains("● 0")
+		(main.get("input_a_button") as CheckButton).text.contains("0")
+		and (main.get("input_a_button") as CheckButton).text.contains("低")
+		and (main.get("input_a_button") as CheckButton).text.contains("──▷")
 		and (main.get("side_box") as Control).find_child("TruthTableDefinition", true, false) != null,
-		"The Half Adder Test Bench must keep the red-circle/green-diamond signal placeholder and an immediately available truth-table definition."
+		"The Half Adder Test Bench must show value plus directional shape and keep an immediately available truth-table definition."
 	)
 	_assert((main.get("live_state") as CircuitLiveStateType).is_valid(), "A fresh unwired Half Adder must be a valid incomplete design, not a simulator error.")
 	_assert((main.get("diagnostics_label") as Label).text.contains("这不是故障"), "The initial Half Adder diagnostic must explicitly distinguish an unwired design from a fault.")
@@ -1153,7 +1230,7 @@ func _run() -> void:
 		and not (main.get("component_nodes") as Dictionary).has(&"SUM_OUT")
 		and (main.get("component_nodes") as Dictionary).has(&"CARRY_OUT")
 		and (main.get("component_nodes") as Dictionary).size() == 4
-		and not _find_connection(main.get("graph"), &"AND_1", 0, &"CARRY_OUT", 0).is_empty()
+		and not _find_connection(main.get("graph"), &"AND_1_COPY_002", 0, &"CARRY_OUT", 0).is_empty()
 		and _find_connection(main.get("graph"), &"AND_2", 0, &"SUM_OUT", 0).is_empty(),
 		"Half Adder hint stage 2 must reveal only the small CARRY branch and leave the harder SUM circuit unresolved; components=%s wires=%s." % [
 			_component_ids(main), (main.get("graph") as GraphEdit).get_connection_list()
@@ -1164,8 +1241,8 @@ func _run() -> void:
 	var hint_half_adder: LogicCircuit = main.call("_circuit_from_graph")
 	var hint_half_report: Dictionary = HalfAdderTestBenchType.new().run_official(hint_half_adder)
 	_assert(
-		(main.get("graph") as GraphEdit).get_connection_list().size() == 9
-		and (main.get("component_nodes") as Dictionary).size() == 8
+		(main.get("graph") as GraphEdit).get_connection_list().size() == 12
+		and (main.get("component_nodes") as Dictionary).size() == 10
 		and bool(hint_half_report.get("passed", false)),
 		"Half Adder hint stage 3 must be a complete visible topology that genuinely passes the official truth table."
 	)
@@ -1193,7 +1270,7 @@ func _run() -> void:
 	_assert(not bool(main.get("official_passed")) and (main.get("seal_button") as Button).disabled, "An unwired circuit must fail only after every case finishes and keep encapsulation locked.")
 	_connect_valid_half_adder(main)
 	await process_frame
-	_assert(graph.get_connection_list().size() == 9, "The valid player topology must consist of the nine visible wires created by the test.")
+	_assert(graph.get_connection_list().size() == 12, "The valid player topology must consist of the twelve visible wires in the player's accepted construction.")
 	var exported_signature: String = main.call("_circuit_from_graph").canonical_signature()
 	main.call("_run_official")
 	var case_labels: Array = main.get("official_case_labels")
@@ -1224,27 +1301,29 @@ func _run() -> void:
 	_assert(not (main.get("seal_button") as Button).disabled, "Fresh official success must visibly unlock sealing.")
 	var batches: Array = main.get("playback_batches")
 	var input_batch: Dictionary = _batch_with_components(batches, [&"A_IN", &"B_IN"])
-	var parallel_gate_batch: Dictionary = _batch_with_components(batches, [&"AND_1", &"OR_1"])
-	_assert(not input_batch.is_empty() and not parallel_gate_batch.is_empty(), "Inputs and same-depth gates must be represented as parallel playback batches.")
+	var parallel_gate_batch: Dictionary = _batch_with_components(batches, [&"NOT_1", &"NOT_1_COPY_001"])
+	_assert(not input_batch.is_empty() and not parallel_gate_batch.is_empty(), "Inputs and the two same-depth inverter paths must be represented as parallel playback batches.")
 	main.set("playback_running", false)
 	main.call("_show_playback_batch", parallel_gate_batch, 0.5)
 	await process_frame
 	var active_parallel: Array = main.get("active_components")
-	var and_symbol := symbols[&"AND_1"] as CircuitComponentSymbol
-	var or_symbol := symbols[&"OR_1"] as CircuitComponentSymbol
-	_assert(active_parallel.has(&"AND_1") and active_parallel.has(&"OR_1") and and_symbol.processing_active and or_symbol.processing_active, "AND and OR that are ready together must animate their real symbols in parallel.")
+	var and_symbol := symbols[&"NOT_1"] as CircuitComponentSymbol
+	var or_symbol := symbols[&"NOT_1_COPY_001"] as CircuitComponentSymbol
+	_assert(active_parallel.has(&"NOT_1") and active_parallel.has(&"NOT_1_COPY_001") and and_symbol.processing_active and or_symbol.processing_active, "Both SUM-path inverters must animate their real symbols in parallel.")
 	_assert(StringName(overlay.get("mode")).is_empty(), "Parallel component activity must stay on the displayed symbols instead of creating overlay models.")
-	var and_event: CircuitEvent = _component_event((report["cases"] as Array)[3]["trace"], &"AND_1")
-	var downstream_not_event: CircuitEvent = _component_event((report["cases"] as Array)[3]["trace"], &"NOT_1")
-	_assert(and_event.visual_step < downstream_not_event.visual_step, "A downstream gate must remain causally later even while independent gates animate in parallel.")
+	var and_event: CircuitEvent = _component_event((report["cases"] as Array)[3]["trace"], &"NOT_1")
+	var downstream_not_event: CircuitEvent = _component_event((report["cases"] as Array)[3]["trace"], &"AND_1")
+	_assert(and_event.visual_step < downstream_not_event.visual_step, "A product gate must remain causally later than its inverter even while independent gates animate in parallel.")
 
-	main.call("_on_disconnection_request", &"AND_2", 0, &"SUM_OUT", 0)
+	main.call("_on_disconnection_request", &"OR_1", 0, &"SUM_OUT", 0)
 	_assert(not bool(main.get("official_passed")) and (main.get("seal_button") as Button).disabled, "Any topology edit must invalidate stale official evidence.")
-	_connect(main, &"AND_2", 0, &"SUM_OUT", 0)
+	_connect(main, &"OR_1", 0, &"SUM_OUT", 0)
 	main.call("_run_official")
 	await _finish_official_sequence(main)
 	_assert(bool(main.get("official_passed")), "Reconnected valid topology must pass after a fresh official run.")
-	main.call("_seal_half_adder")
+	var immediate_seal_button: Button = (main.get("level_completion_overlay") as Control).get("primary_action_button")
+	_assert(immediate_seal_button.visible and not immediate_seal_button.disabled, "Fresh Half Adder success must expose a direct Seal action.")
+	immediate_seal_button.pressed.emit()
 	_assert(main.get("sealed_half_adder") != null and bool(main.get("sealing")), "Seal action must immediately snapshot the verified player circuit and start the visual effect.")
 	main.call("_finish_encapsulation")
 	await process_frame
@@ -1275,9 +1354,65 @@ func _run() -> void:
 	_assert((main.get("completed_levels") as Dictionary).is_empty(), "Unlocking Test mode must not fabricate completed-level evidence.")
 	var test_library: Dictionary = main.get("component_library")
 	_assert(test_library.size() == 9 and test_library.has(&"HalfAdder") and test_library.has(&"ALU4") and test_library.has(&"Register4") and test_library.has(&"TinyComputer"), "Test mode must provide an isolated temporary library sufficient to instantiate every level.")
-	main.call("_start_campaign_level", &"load_store")
+	main.call("_start_campaign_level", &"cpu", false)
 	await process_frame
-	_assert(StringName(main.get("current_phase")) == &"prologue" and (main.get("graph") as GraphEdit).get_connection_list().size() == 5, "An end-of-prologue level must actually open in Test mode, not merely display an enabled map button.")
+	var cpu_definition: Dictionary = main.get("current_level_definition")
+	var cpu_nodes: Dictionary = main.get("component_nodes")
+	_assert(
+		(main.call("_mission_briefing_pages") as Array).size() == 5
+		and int(main.get("cpu_stage_index")) == 0
+		and (cpu_nodes[&"CONTROL"] as GraphNode).modulate.a > 0.9
+		and (cpu_nodes[&"ACC"] as GraphNode).modulate.a < 0.5
+		and (main.get("official_button") as Button).disabled,
+		"CPU onboarding must begin with a five-page contract and reveal only Stage A while the official program stays locked."
+	)
+	var cpu_reference: Array = cpu_definition["reference_wires"]
+	for cpu_wire_index: int in [0, 1, 3, 5]:
+		var cpu_wire: Dictionary = cpu_reference[cpu_wire_index]
+		main.call("_on_connection_request", cpu_wire["from"], int(cpu_wire.get("from_port", 0)), cpu_wire["to"], int(cpu_wire.get("to_port", 0)))
+	await process_frame
+	_assert(
+		int(main.get("cpu_stage_index")) == 1 and (cpu_nodes[&"ACC"] as GraphNode).modulate.a > 0.9,
+		"Completing the immediate path must unlock the ALU-to-ACC stage inside the same CPU level. stage=%s wires=%s" % [main.get("cpu_stage_index"), (main.get("graph") as GraphEdit).get_connection_list()]
+	)
+	main.call("_save_active_workbench")
+	main.call("_start_campaign_level", &"cpu", false)
+	await process_frame
+	cpu_nodes = main.get("component_nodes")
+	_assert(
+		int(main.get("cpu_stage_index")) == 1 and (cpu_nodes[&"ACC"] as GraphNode).modulate.a > 0.9,
+		"Reloading a partially built CPU must derive and restore its stage from saved player topology."
+	)
+	for cpu_wire: Dictionary in cpu_reference:
+		if not (main.get("current_circuit") as LogicCircuit).has_connection(
+			cpu_wire["from"], int(cpu_wire.get("from_port", 0)),
+			cpu_wire["to"], int(cpu_wire.get("to_port", 0))
+		):
+			main.call("_on_connection_request", cpu_wire["from"], int(cpu_wire.get("from_port", 0)), cpu_wire["to"], int(cpu_wire.get("to_port", 0)))
+	await process_frame
+	_assert(
+		int(main.get("cpu_stage_index")) == 4
+		and not (main.get("official_button") as Button).disabled
+		and (main.get("cpu_stage_label") as Label).text.contains("7 步"),
+		"Completing all four CPU paths must unlock the final seven-step program. stage=%s wires=%s" % [main.get("cpu_stage_index"), (main.get("graph") as GraphEdit).get_connection_list()]
+	)
+	main.call("_run_official")
+	await _finish_official_sequence(main)
+	var cpu_success_overlay: Control = main.get("level_completion_overlay")
+	_assert(
+		bool(main.get("official_passed")) and cpu_success_overlay.visible
+		and (cpu_success_overlay.get("primary_action_button") as Button).visible
+		and (cpu_success_overlay.get("primary_action_button") as Button).text.contains("封存")
+		and (cpu_success_overlay.get("continue_button") as Button).text.contains("继续")
+		and (cpu_success_overlay.get("return_button") as Button).visible
+		and (cpu_success_overlay.get("return_button") as Button).text.contains("地图"),
+		"A passing CPU program must immediately present direct Seal, Continue, and Return to Map actions."
+	)
+	(cpu_success_overlay.get("continue_button") as Button).pressed.emit()
+	_assert(bool(main.get("sealing")), "Continue from a sealable success must begin encapsulation instead of bypassing ownership/provenance.")
+	main.call("_finish_encapsulation")
+	await process_frame
+	_assert(StringName(main.get("current_level_id")) == &"load_store" and StringName(main.get("current_phase")) == &"prologue" and (main.get("graph") as GraphEdit).get_connection_list().size() == 5, "Continue must finish CPU encapsulation and open the next Mission without making the player hunt on the map.")
 	main.call("_run_official")
 	var prologue_labels: Array = main.get("prologue_case_labels")
 	_assert(
@@ -1322,11 +1457,12 @@ func _run() -> void:
 
 func _connect_valid_half_adder(main: Control) -> void:
 	for wire: Array in [
-		[&"A_IN", 0, &"AND_1", 0], [&"B_IN", 0, &"AND_1", 1],
-		[&"A_IN", 0, &"OR_1", 0], [&"B_IN", 0, &"OR_1", 1],
-		[&"AND_1", 0, &"NOT_1", 0],
-		[&"OR_1", 0, &"AND_2", 0], [&"NOT_1", 0, &"AND_2", 1],
-		[&"AND_2", 0, &"SUM_OUT", 0], [&"AND_1", 0, &"CARRY_OUT", 0],
+		[&"AND_1", 0, &"OR_1", 0], [&"AND_1_COPY_002", 0, &"CARRY_OUT", 0],
+		[&"AND_2", 0, &"OR_1", 1], [&"A_IN", 0, &"AND_1", 0],
+		[&"A_IN", 0, &"AND_1_COPY_002", 0], [&"A_IN", 0, &"NOT_1_COPY_001", 0],
+		[&"B_IN", 0, &"AND_1_COPY_002", 1], [&"B_IN", 0, &"AND_2", 1],
+		[&"B_IN", 0, &"NOT_1", 0], [&"NOT_1", 0, &"AND_1", 1],
+		[&"NOT_1_COPY_001", 0, &"AND_2", 0], [&"OR_1", 0, &"SUM_OUT", 0],
 	]:
 		_connect(main, wire[0], wire[1], wire[2], wire[3])
 
@@ -1619,10 +1755,40 @@ func _right_click_wire(graph: GraphEdit, position: Vector2) -> void:
 
 
 func _right_click_component(main: Control, component_id: StringName) -> void:
-	var click := InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_RIGHT
-	click.pressed = true
-	main.call("_on_component_gui_input", click, component_id)
+	var graph := main.get("graph") as GraphEdit
+	_right_click_wire(graph, _component_visual_center(main, component_id))
+
+
+func _component_visual_center(main: Control, component_id: StringName) -> Vector2:
+	var symbol := (main.get("component_symbols") as Dictionary).get(component_id) as Control
+	if symbol == null:
+		return Vector2.ZERO
+	var local_center := Vector2(symbol.size.x * 0.5, float(symbol.get("display_height")) * 0.5)
+	return _component_visual_point(main, component_id, local_center)
+
+
+func _component_visual_point(main: Control, component_id: StringName, local_point: Vector2) -> Vector2:
+	var graph := main.get("graph") as GraphEdit
+	var symbol := (main.get("component_symbols") as Dictionary).get(component_id) as Control
+	if graph == null or symbol == null:
+		return Vector2.ZERO
+	var global_point: Vector2 = symbol.get_global_transform_with_canvas() * local_point
+	return graph.get_global_transform_with_canvas().affine_inverse() * global_point
+
+
+func _path_midpoint(path: PackedVector2Array) -> Vector2:
+	if path.is_empty():
+		return Vector2.ZERO
+	var total: float = 0.0
+	for index: int in range(path.size() - 1):
+		total += path[index].distance_to(path[index + 1])
+	var remaining: float = total * 0.5
+	for index: int in range(path.size() - 1):
+		var segment: float = path[index].distance_to(path[index + 1])
+		if remaining <= segment:
+			return path[index].lerp(path[index + 1], remaining / maxf(segment, 0.001))
+		remaining -= segment
+	return path[-1]
 
 
 func _right_drag_erase(graph: GraphEdit, points: Array[Vector2]) -> void:

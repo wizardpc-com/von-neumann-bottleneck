@@ -151,6 +151,7 @@ var footer_label: Label
 var close_button: Button
 var visible_term_ids: Array[StringName] = []
 var visible_term_items: Dictionary = {}
+var experience_notes: Dictionary = {}
 
 
 static func has_term(term_id: StringName) -> bool:
@@ -496,6 +497,8 @@ func _show_term(term_id: StringName) -> void:
 		detail_category_label.text = category_name if directory_name.is_empty() else "%s  ·  %s" % [category_name, directory_name]
 		detail_title_label.text = _t(term["title"])
 		detail_body_label.text = _t(term["body"])
+		if experience_notes.has(term_id):
+			detail_body_label.text += "\n\n" + String(experience_notes[term_id])
 		var example_key := StringName(term.get("example", &""))
 		var has_example: bool = not example_key.is_empty()
 		detail_example_heading_label.visible = has_example

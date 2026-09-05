@@ -1,5 +1,7 @@
 # Playtest instrumentation
 
+Current mainline: [eight-task Demo](demo-redesign.md) records semantic edits, hints, runs, event inspection, completion and exits through this observer under chapter `demo`. Its menu exports the local session. It has no automatic per-task questionnaire modal; the older feedback flow below remains in the optional workshop/legacy labs. Mainline completion never depends on telemetry or survey responses.
+
 The frozen prologue, Chapter 1, and Chapter 2 Demo can now produce one anonymous local session containing behavior events, per-level ratings, chapter feedback, and final Demo feedback. This system is observational only; it does not change simulation, official evidence, completion, progression, scoring, Trace, Profiler, or playback.
 
 ## Recorded behavior

@@ -1,6 +1,6 @@
 # Core design principles
 
-These principles summarize the settled direction supported by the project discussion. They are not a full game design document.
+The current product contract is [DEMO_REDESIGN_BLUEPRINT.md](DEMO_REDESIGN_BLUEPRINT.md), implemented in part as described in [Demo status](../status/demo-redesign.md). ADR 0019 supersedes the earlier mandatory gate-construction, prediction/diagnosis, Apply-click, node-count and playback/review decisions. Simulation, provenance and persistence invariants remain binding. The historical prototype choices below describe the retained legacy labs, not new mainline requirements.
 
 ## Settled direction
 
@@ -12,9 +12,9 @@ These principles summarize the settled direction supported by the project discus
 - Complexity should be earned by validated play. A prototype may use explicit simplifications instead of suggesting realism it does not implement.
 - Setup that creates no decision should not masquerade as gameplay. The current fixed machine topology is automatic; devices remain draggable only to support visual organization.
 - Investigation should be player-directed. Profiler exposes facts and trace navigation but does not prescribe the optimized program.
-- A performance investigation should make the player's reasoning observable: predict an outcome, run a controlled experiment, inspect Trace and Profiler evidence, explain the waiting, then diagnose the bottleneck.
-- Evidence should be progressively disclosed. Raw totals, CPU waiting, data flow, and controlled deltas may support a diagnosis, while a near-answer such as the complete CPU/RAM/Bus cycle breakdown should wait until the player has committed one.
-- A successful run should remain observable before its lesson appears. Trace playback and evidence tools stay available until the player explicitly opens the finding; a completion overlay must not cover the evidence that earned it.
+- A performance investigation should let players change a design, run and compare actual results. Predictions and explanations are voluntary; they do not gate experiments or completion.
+- Required specifications and measured facts are available without a diagnosis gate. Optional hints add reasoning in stages; reference answers require an explicit request and remain read-only.
+- A valid passing run records completion immediately. Replay and optimization remain available without a modal interruption or mandatory finding review.
 - An observation/solution pair should preserve qualifying evidence across its level boundary. Repeating an identical baseline is setup, not a new decision; the next level should inherit that immutable receipt as its Before state.
 - One level should carry one primary cognitive task. Observation may create a question, exploration may expose a mechanism, implementation may prove a technique, and a capstone may integrate them; a short level should not attempt all four at once.
 - Prefer experience before terminology. A mechanism may first appear in concrete language such as nearby storage or active data, then enter the Systems Notebook as Cache or Working Set only after the player has observed and explained it.

@@ -76,7 +76,10 @@ msgid "window.fullscreen.tooltip"
 msgstr "Toggle fullscreen (F11 or Alt+Enter)"
 
 msgid "hub.subtitle"
-msgstr "PLAYABLE RESEARCH BUILDS"
+msgstr "LEGACY RECORDS AND LABS"
+
+msgid "hub.mainline.return"
+msgstr "Return to mainline"
 
 msgid "hub.save.continue"
 msgstr "Continue"
@@ -481,7 +484,7 @@ msgid "trace.playback.title"
 msgstr "TRACE PLAYBACK"
 
 msgid "trace.playback.empty"
-msgstr "Run a test to generate an authoritative SimulationTrace."
+msgstr "Run a test to inspect its execution record."
 
 msgid "trace.playback.event"
 msgstr "[%03d/%03d] cycle %d +%d · source L%d · %s"
@@ -832,10 +835,10 @@ msgid "circuit.error.circular_dependency"
 msgstr "CIRCULAR DEPENDENCY: %s feeds back within the same simulation tick."
 
 msgid "hardware.title"
-msgstr "HARDWARE PROLOGUE · BUILD A CPU"
+msgstr "HARDWARE WORKSHOP · BUILD A CPU"
 
 msgid "hardware.subtitle"
-msgstr "SIGNAL → LOGIC → ABSTRACTION → CPU / RAM"
+msgstr "OPTIONAL: GATES → ARITHMETIC AND STORAGE → SMALL COMPUTER"
 
 msgid "hardware.hub.tooltip"
 msgstr "Return to chapter selection."
@@ -1537,7 +1540,7 @@ msgid "hardware.prologue.open_map.tooltip"
 msgstr "Carry the sealed HalfAdder into the later CPU / arithmetic construction path."
 
 msgid "hardware.prologue.map.phase"
-msgstr "HARDWARE PROLOGUE · CPU BUILD MAP"
+msgstr "HARDWARE WORKSHOP · BUILD MAP"
 
 msgid "hardware.prologue.map.title"
 msgstr "From gates to a running computer"
@@ -1546,7 +1549,7 @@ msgid "hardware.prologue.map.subtitle"
 msgstr "Learn to compute · learn to remember · merge both into a computer"
 
 msgid "hardware.prologue.map.description"
-msgstr "Start with gates and build a small computer. Arithmetic: Half Adder → Full Adder → ALU. Storage: SR Latch → Register → RAM. Take either route first; they meet as ALU + Register + RAM + Controller → small computer. Shared controls are taught once."
+msgstr "Leave this optional workshop whenever you wish; it never gates the eight-task mainline. Arithmetic: Half Adder → Full Adder → ALU. Storage: SR Latch → Register → RAM. Take either route first, then add a controller to build a small computer. These are your own components; fewer gates do not automatically make the mainline CPU faster."
 
 msgid "hardware.prologue.map.canvas_hint"
 msgstr "Choose a level on the central dependency graph; hover a node to inspect its goal and prerequisites."
@@ -1693,10 +1696,10 @@ msgid "hardware.prologue.sealed_trace"
 msgstr "Player circuit → seal → %s · source signature preserved"
 
 msgid "hardware.prologue.complete.title"
-msgstr "ABSTRACTION LAYER ESTABLISHED"
+msgstr "COMPONENT COMPLETE"
 
 msgid "hardware.prologue.complete.subtitle"
-msgstr "Test evidence, topology signature, and behavior contract are bound"
+msgstr "Your component is saved and ready to reuse."
 
 msgid "hardware.prologue.complete.created"
 msgstr "Created reusable component %s"
@@ -3816,22 +3819,22 @@ msgid "terminology.term.debug_run.body"
 msgstr "A check using only the currently selected input or case, useful for locating a problem. Passing a debug run does not mean the whole level passes."
 
 msgid "terminology.term.official_test.title"
-msgstr "Official Test Set"
+msgstr "Full Validation (level tests)"
 
 msgid "terminology.term.official_test.body"
 msgstr "The complete set of cases required by a level. A level passes only when every official case satisfies its correctness and target conditions."
 
 msgid "terminology.term.trace.title"
-msgstr "Trace (execution trace)"
+msgstr "Execution Record (Trace)"
 
 msgid "terminology.term.trace.body"
-msgstr "An ordered sequence of event evidence already determined by the simulator. Playback, pause, stepping, and the adjustable playback frequency change only how it is viewed."
+msgstr "The events of a run in order. Playback, pause, stepping and seeking only change the view. After editing a design, an old record still belongs to the design that produced it."
 
 msgid "terminology.term.clock_period.title"
-msgstr "Playback Frequency (Hz)"
+msgstr "Playback Speed"
 
 msgid "terminology.term.clock_period.body"
-msgstr "How many visible trace steps play each second. Higher Hz plays faster; it changes observation pace only, never simulation ticks, results, metrics, or official-test verdicts."
+msgstr "The mainline offers 1x, 2x and 4x key-event playback. Workshop and legacy-lab Hz means visible steps per second. Both change observation pace only, never simulation cycles, results or test verdicts."
 
 msgid "terminology.term.abstraction.title"
 msgstr "Abstraction"
@@ -4011,7 +4014,7 @@ msgid "terminology.term.apply.title"
 msgstr "Apply Program"
 
 msgid "terminology.term.apply.body"
-msgstr "Parses and confirms the current editor contents so the next run uses them. An unapplied draft does not silently change the applied program."
+msgstr "Parses and confirms the current draft for a run. Mainline Run Current Design applies and runs it in one action. Legacy labs retain a separate Apply button. Invalid drafts report an error and cannot claim an old design's result."
 
 msgid "terminology.term.workload.title"
 msgstr "Workload"
@@ -4023,7 +4026,7 @@ msgid "terminology.term.cycle.title"
 msgstr "cycle (system cycle)"
 
 msgid "terminology.term.cycle.body"
-msgstr "A unit of time in the system performance model. Total cycles combine compute, wait, memory service, and bus transfer events."
+msgstr "A unit of model time counted from execution events. CPU wait already includes memory service and bus transfer; do not add them again. Small digital circuits, system timing and array/cache behavior are three simplified models, not one physical CPU. They do not model a full instruction fetch, pipeline or physical timing."
 
 msgid "terminology.term.latency.title"
 msgstr "Latency"
@@ -4059,13 +4062,13 @@ msgid "terminology.term.profiler.title"
 msgstr "Profiler"
 
 msgid "terminology.term.profiler.body"
-msgstr "A tool that summarizes a completed Trace into total cycles, CPU WAIT, RAM service, Bus transfer, and related metrics. It reads evidence without changing the simulation."
+msgstr "Summarizes execution into total cycles, CPU wait, RAM service and bus transfer. Inspect a waiting event to locate the data at that point. Viewing details never changes a result."
 
 msgid "terminology.term.prediction.title"
 msgstr "Prediction"
 
 msgid "terminology.term.prediction.body"
-msgstr "A testable expectation about an experiment's result and cause, made before running it. Locking a prediction prevents an explanation from being invented after seeing the answer."
+msgstr "An expectation about a result and its cause before running. You may note it and compare it with the outcome. The mainline does not require a prediction before editing or running."
 
 msgid "terminology.term.baseline.title"
 msgstr "Baseline"
@@ -4083,7 +4086,7 @@ msgid "terminology.term.bottleneck.title"
 msgstr "Bottleneck"
 
 msgid "terminology.term.bottleneck.body"
-msgstr "The main part limiting further speedup of a whole system. Improving a non-bottleneck may have little effect, so use Trace and metrics to locate it."
+msgstr "The main part limiting further speedup. Improving other parts may have little effect; use execution records and comparisons to locate it. A wait category exceeding half the total is a legacy-lab classification, not a universal definition."
 
 msgid "terminology.term.hardware_cost.title"
 msgstr "Hardware Cost"
@@ -4101,13 +4104,13 @@ msgid "terminology.term.deterministic.title"
 msgstr "Deterministic"
 
 msgid "terminology.term.deterministic.body"
-msgstr "The same program, machine, and input always produce the same Trace and metrics. Adjustable playback frequency and interface animation cannot change the simulation result."
+msgstr "The same program, machine, input and initial storage state produce the same execution record and metrics. Mainline validation starts from the prescribed state; playback speed and animation cannot change results."
 
 msgid "terminology.term.cache.title"
 msgstr "Cache"
 
 msgid "terminology.term.cache.body"
-msgstr "Small, fast hardware storage near the CPU that retains blocks recently fetched from RAM, reducing repeated long-distance reads."
+msgstr "Small, fast hardware storage that automatically retains blocks fetched from RAM. Near means lower access cost: moving parts or shortening ordinary wires cannot speed up the machine. Hardware manages fetching and replacement."
 
 msgid "terminology.term.cache_line.title"
 msgstr "Cache Line"

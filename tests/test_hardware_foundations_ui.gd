@@ -1439,9 +1439,10 @@ func _run() -> void:
 	_key(main, KEY_ESCAPE)
 	for _hub_frame: int in range(3):
 		await process_frame
-	var returned_hub: Control = root.get_node_or_null("PrototypeHub")
-	_assert(returned_hub != null, "A second Esc from the Hardware level map must return to chapter selection.")
-	_assert(returned_hub != null and not (returned_hub.get("options_overlay") as Control).visible, "The Esc used to enter chapter selection must not leak into and open its Options menu.")
+	# Blueprint section 3 replaces chapter selection with the mainline/workshop menu.
+	var returned_hub: Control = root.get_node_or_null("DemoMenu")
+	_assert(returned_hub != null, "A second Esc from the optional workshop map must return to the mainline menu.")
+	_assert(returned_hub != null and returned_hub.get("start_button") != null and root.get_node_or_null("DemoWorkbench") == null, "Returning Esc must leave the menu visible without starting or completing a mainline task.")
 
 	main.queue_free()
 	await process_frame

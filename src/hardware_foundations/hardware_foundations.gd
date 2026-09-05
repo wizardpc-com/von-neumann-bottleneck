@@ -1615,7 +1615,7 @@ func _return_to_prototype_hub() -> void:
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"hardware_foundations", current_level_id, &"chapter_selection")
 	_save_active_workbench()
-	get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	get_tree().change_scene_to_file("res://src/demo/demo_menu.tscn")
 
 
 func _create_workbench_name_dialog() -> void:

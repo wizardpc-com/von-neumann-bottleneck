@@ -47,7 +47,8 @@ func _init() -> void:
 
 func _run() -> void:
 	_assert(_current_locale() == "zh_CN", "Simplified Chinese must be the startup locale.")
-	_assert(_t(&"hub.subtitle") == "可玩研究原型", "The default catalog must present Chinese player-facing copy.")
+	# Blueprint section 3 makes the old hub an explicit secondary history entry.
+	_assert(_t(&"hub.subtitle") == "旧版记录与实验", "The legacy hub must identify itself separately from the new mainline.")
 	_assert(_t(&"hub.options.quit") == "退出游戏", "The chapter Options menu must provide a localized quit action.")
 	_assert(_t(&"terminology.button") == "手册", "The Chinese bottom-right handbook entry must use the concise shared tool-button label.")
 	_assert(_t(&"hub.locality.title") == "第 2 章：让数据留在近处", "The hub must present the locality campaign as the formal second chapter.")
@@ -80,7 +81,7 @@ func _run() -> void:
 		for key: StringName in used_keys:
 			_assert(_t(key) != String(key), "%s catalog is missing key %s." % [locale, key])
 		_validate_mission_links(locale)
-	_assert(_t(&"hub.subtitle") == "PLAYABLE RESEARCH BUILDS", "English must remain a working alternate catalog.")
+	_assert(_t(&"hub.subtitle") == "LEGACY RECORDS AND LABS", "English must identify the same secondary history entry.")
 	_assert(_t(&"hub.options.quit") == "Quit Game", "English must localize the chapter Options quit action.")
 	_assert(_t(&"terminology.button") == "Handbook", "The English bottom-right handbook entry must use the concise shared tool-button label.")
 	_assert(_t(&"hub.locality.title") == "CHAPTER 2: REDUCING DATA MOVEMENT", "The English hub must present the formal Chapter 2 identity.")

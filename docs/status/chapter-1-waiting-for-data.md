@@ -1,5 +1,7 @@
 # Chapter 1: Waiting for Data
 
+> Current default route: [eight-task Demo](demo-redesign.md). This document describes the retained optional workshop/legacy lab implementation. Its historical mandatory entry, prediction, Apply and review decisions are superseded for the new mainline by [ADR 0019](../decisions/0019-eight-task-mainline-and-standard-modules.md).
+
 ## Current playable scope
 
 Chapter 1 is a five-level, prerequisite-gated performance investigation after the CPU Building Prologue. Game mode requires the LOAD/STORE handoff. Test mode unlocks every node with isolated source signatures, receipts, predictions, and completion.

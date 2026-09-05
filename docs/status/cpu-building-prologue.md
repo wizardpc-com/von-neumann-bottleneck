@@ -1,5 +1,7 @@
 # CPU Building Prologue status
 
+> Current default route: [eight-task Demo](demo-redesign.md). This document describes the retained optional workshop/legacy lab implementation. Its historical mandatory entry, prediction, Apply and review decisions are superseded for the new mainline by [ADR 0019](../decisions/0019-eight-task-mainline-and-standard-modules.md).
+
 The CPU Building Prologue is the current Hardware Foundations gameplay-validation slice. It starts with the previously validated wiring tutorial and Half Adder, then asks the player to grow that owned abstraction into a small working computer. It is still a prototype: automated coverage establishes correctness and causality, while playtesting must establish whether the construction sequence is enjoyable.
 
 ## Onboarding and interaction contract

@@ -1,5 +1,7 @@
 # Chapter 2: Reducing Data Movement
 
+> Current default route: [eight-task Demo](demo-redesign.md). This document describes the retained optional workshop/legacy lab implementation. Its historical mandatory entry, prediction, Apply and review decisions are superseded for the new mainline by [ADR 0019](../decisions/0019-eight-task-mainline-and-standard-modules.md).
+
 Chapter 2 promotes the Cache Locality Lab v0.2 mechanisms into a seven-level investigation chapter. Its theme is not “install a Cache”; it is reducing expensive data movement so the CPU spends fewer cycles waiting.
 
 ## Implemented progression

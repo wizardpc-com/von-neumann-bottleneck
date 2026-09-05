@@ -2,6 +2,10 @@
 
 Repository-local documentation is the source of truth for future human and Codex work.
 
+- [Approved Demo blueprint](design/DEMO_REDESIGN_BLUEPRINT.md): current eight-task product direction.
+- [Demo implementation status](status/demo-redesign.md): playable route, exact results, verification and explicit remaining items.
+- [ADR 0019](decisions/0019-eight-task-mainline-and-standard-modules.md): standard modules, new saves and superseded product gates.
+
 - `design/core-principles.md`: settled design direction, prototype choices, and open design questions.
 - `architecture/simulation.md`: current simulation pipeline, cost ownership, invariants, and model limits.
 - `architecture/localization.md`: default locale, catalog boundary, language-neutral technical evidence, and the process for adding a locale.

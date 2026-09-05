@@ -76,7 +76,10 @@ msgid "window.fullscreen.tooltip"
 msgstr "切换全屏显示（F11 或 Alt+Enter）"
 
 msgid "hub.subtitle"
-msgstr "可玩研究原型"
+msgstr "旧版记录与实验"
+
+msgid "hub.mainline.return"
+msgstr "返回八关主线"
 
 msgid "hub.save.continue"
 msgstr "继续游戏"
@@ -481,7 +484,7 @@ msgid "trace.playback.title"
 msgstr "追踪回放"
 
 msgid "trace.playback.empty"
-msgstr "运行一次测试以生成权威的 SimulationTrace。"
+msgstr "运行一次测试，查看这次执行记录。"
 
 msgid "trace.playback.event"
 msgstr "[%03d/%03d] 周期 %d +%d · 源代码第 %d 行 · %s"
@@ -832,10 +835,10 @@ msgid "circuit.error.circular_dependency"
 msgstr "循环依赖：%s 在同一个仿真 tick 内形成反馈。"
 
 msgid "hardware.title"
-msgstr "硬件序章 · 构建 CPU"
+msgstr "硬件工坊 · 构建 CPU"
 
 msgid "hardware.subtitle"
-msgstr "信号 → 逻辑 → 抽象 → CPU / RAM"
+msgstr "可选深入：逻辑门 → 运算与存储 → 小计算机"
 
 msgid "hardware.hub.tooltip"
 msgstr "返回章节选择界面。"
@@ -1537,7 +1540,7 @@ msgid "hardware.prologue.open_map.tooltip"
 msgstr "把已封存的 HalfAdder 带入后续 CPU / 算术构建路线。"
 
 msgid "hardware.prologue.map.phase"
-msgstr "硬件序章 · CPU 构建地图"
+msgstr "硬件工坊 · 构建地图"
 
 msgid "hardware.prologue.map.title"
 msgstr "从门电路到可运行计算机"
@@ -1546,7 +1549,7 @@ msgid "hardware.prologue.map.subtitle"
 msgstr "学会计算 · 学会记忆 · 最后汇合成计算机"
 
 msgid "hardware.prologue.map.description"
-msgstr "从门电路开始造一台小计算机。算术路线：Half Adder → Full Adder → ALU；存储路线：SR Latch → Register → RAM。两条路线任选先后，最后以 ALU + Register + RAM + Controller 汇合成 small computer。公共操作只教一次。"
+msgstr "工坊可以随时离开，不影响八关主线。算术路线：半加器 → 全加器 → ALU；存储路线：SR 锁存器 → 寄存器 → RAM。两条路线任选先后，最后接上控制器，组成小计算机。成果由你构建；门数不会自动换算成主线 CPU 的速度。"
 
 msgid "hardware.prologue.map.canvas_hint"
 msgstr "在中央依赖图中选择关卡；将鼠标移到节点上可查看目标与前置条件。"
@@ -1693,10 +1696,10 @@ msgid "hardware.prologue.sealed_trace"
 msgstr "玩家电路 → 封存 → %s · 来源签名保持不变"
 
 msgid "hardware.prologue.complete.title"
-msgstr "抽象层已建立"
+msgstr "组件做好了"
 
 msgid "hardware.prologue.complete.subtitle"
-msgstr "测试证据、拓扑签名与行为契约已绑定"
+msgstr "已保存你的组件，后面可以直接使用。"
 
 msgid "hardware.prologue.complete.created"
 msgstr "已创建可复用元件 %s"
@@ -3816,22 +3819,22 @@ msgid "terminology.term.debug_run.body"
 msgstr "只使用当前选定输入或用例进行一次检查，适合定位问题。通过调试运行不等于通过完整关卡。"
 
 msgid "terminology.term.official_test.title"
-msgstr "官方测试（Official Test Set）"
+msgstr "完整验证（本关测试）"
 
 msgid "terminology.term.official_test.body"
 msgstr "关卡规定的完整测试集合。只有全部官方用例满足正确性与目标条件，关卡才会判定通过。"
 
 msgid "terminology.term.trace.title"
-msgstr "Trace（执行轨迹）"
+msgstr "执行记录（Trace）"
 
 msgid "terminology.term.trace.body"
-msgstr "模拟器已经确定的一串按顺序排列的事件证据。播放、暂停、步进与可调播放频率只改变查看方式，不改变结果。"
+msgstr "一次运行中按顺序发生的事件。播放、暂停、步进与定位只改变查看方式，不改变结果。修改方案后，旧记录仍属于当时运行的方案。"
 
 msgid "terminology.term.clock_period.title"
-msgstr "播放频率（Hz）"
+msgstr "回放速度"
 
 msgid "terminology.term.clock_period.body"
-msgstr "每秒显示多少个追踪步骤。Hz 越高，播放越快；它只控制观察节奏，不改变模拟 tick、结果、指标或正式测试判定。"
+msgstr "主线用 1×、2×、4× 调节关键事件的观察节奏。工坊和旧实验中的 Hz 表示每秒显示的步骤数。两者都不改变模拟周期、结果或测试判定。"
 
 msgid "terminology.term.abstraction.title"
 msgstr "抽象（Abstraction）"
@@ -4008,10 +4011,10 @@ msgid "terminology.term.dsl.body"
 msgstr "为特定任务设计的小型语言。本游戏使用类 Python DSL 表达循环、load、store 与计算，但它不是完整 Python。"
 
 msgid "terminology.term.apply.title"
-msgstr "Apply（应用程序）"
+msgstr "应用程序（Apply）"
 
 msgid "terminology.term.apply.body"
-msgstr "解析并确认当前编辑内容，使之后的运行使用这份程序。未 Apply 的草稿不会悄悄改变已应用程序。"
+msgstr "解析并确认当前编辑内容，使本次运行使用这份程序。主线点击“运行当前方案”就会完成应用与运行。旧实验仍有单独的 Apply 按钮。无效草稿会报错，不会冒充旧方案的运行结果。"
 
 msgid "terminology.term.workload.title"
 msgstr "工作负载（Workload）"
@@ -4023,7 +4026,7 @@ msgid "terminology.term.cycle.title"
 msgstr "cycle（系统周期）"
 
 msgid "terminology.term.cycle.body"
-msgstr "系统性能模型中的时间单位。总 cycles 由计算、等待、存储服务与总线传输等事件共同构成。"
+msgstr "耗时模型中的时间单位。总周期由执行记录统计。CPU 等待已包含存储服务与总线传输等时间，不能把这些项目再相加一次。小位宽电路、系统耗时和数组缓存是三层简化模型，不是一台完整物理 CPU；它们不模拟完整取指、流水线或物理时序。"
 
 msgid "terminology.term.latency.title"
 msgstr "延迟（Latency）"
@@ -4056,19 +4059,19 @@ msgid "terminology.term.cpu_wait.body"
 msgstr "CPU 已经发出请求，却必须等待 Bus 或 RAM 返回数据而无法继续计算的周期。它是诊断冯诺依曼瓶颈的重要证据。"
 
 msgid "terminology.term.profiler.title"
-msgstr "Profiler（性能分析器）"
+msgstr "耗时分析（Profiler）"
 
 msgid "terminology.term.profiler.body"
-msgstr "把完成的 Trace 汇总成总周期、CPU WAIT、RAM 服务、Bus 传输等指标的工具。它读取证据，不会改变模拟。"
+msgstr "把执行记录汇总成总周期、CPU 等待、内存服务、总线传输等指标。点击等待相关事件，可以查看数据当时在哪里。查看明细不会改变结果。"
 
 msgid "terminology.term.prediction.title"
 msgstr "预测（Prediction）"
 
 msgid "terminology.term.prediction.body"
-msgstr "实验前对结果和原因作出的可核对判断。先锁定预测，可以避免看见结果后倒推一个无法检验的说法。"
+msgstr "运行前对结果和原因作出的预期。可以记下来再与实际结果比较。主线不要求提交预测，随时可以修改方案并运行。"
 
 msgid "terminology.term.baseline.title"
-msgstr "基线（Baseline）"
+msgstr "初始方案（Baseline）"
 
 msgid "terminology.term.baseline.body"
 msgstr "改变某个因素前记录的参考运行。后续结果只有与相同条件下的基线比较，差值才有明确含义。"
@@ -4083,7 +4086,7 @@ msgid "terminology.term.bottleneck.title"
 msgstr "瓶颈（Bottleneck）"
 
 msgid "terminology.term.bottleneck.body"
-msgstr "限制整个系统继续提速的主要部分。加快非瓶颈部件可能只有很小收益，必须用 Trace 与指标定位。"
+msgstr "限制整机继续提速的主要部分。加快其他部件可能只有很小收益，需要结合执行记录与比较定位。某类等待超过一半只是旧实验采用的分类规则，不是所有系统的通用定义。"
 
 msgid "terminology.term.hardware_cost.title"
 msgstr "硬件成本（Hardware Cost）"
@@ -4101,13 +4104,13 @@ msgid "terminology.term.deterministic.title"
 msgstr "确定性（Deterministic）"
 
 msgid "terminology.term.deterministic.body"
-msgstr "相同程序、机器和输入总会产生相同 Trace 与指标。可调播放频率和界面动画不会改变模拟结果。"
+msgstr "相同程序、机器、输入和初始存储状态会产生相同执行记录与指标。主线完整验证从规定初态开始，回放速度和界面动画不会改变结果。"
 
 msgid "terminology.term.cache.title"
 msgstr "Cache（缓存）"
 
 msgid "terminology.term.cache.body"
-msgstr "靠近 CPU 的小型快速硬件存储，用来保留最近从 RAM 取回的数据块，减少重复的远程读取。"
+msgstr "小型快速硬件存储，自动保留从内存取回的数据块，减少重复读取。这里的“近”指访问成本，拖近元件或缩短普通连线不能提速；缓存的取回与替换由机器管理。"
 
 msgid "terminology.term.cache_line.title"
 msgstr "cache line（缓存行）"

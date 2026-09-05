@@ -37,6 +37,7 @@ var options_open_export_folder_button: Button
 var latest_export_path: String = ""
 var options_quit_button: Button
 var options_previous_focus: Control
+var mainline_button: Button
 
 
 func _ready() -> void:
@@ -106,6 +107,12 @@ func _build_interface() -> void:
 	background.color = BACKGROUND
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
+	mainline_button = Button.new()
+	mainline_button.text = Localization.text(&"hub.mainline.return")
+	mainline_button.position = Vector2(16, 16)
+	mainline_button.custom_minimum_size = Vector2(180, 56)
+	mainline_button.pressed.connect(_return_mainline)
+	add_child(mainline_button)
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
@@ -175,6 +182,7 @@ func _build_interface() -> void:
 	fullscreen_button.offset_top = 16.0
 	fullscreen_button.offset_right = -16.0
 	fullscreen_button.offset_bottom = 60.0
+	move_child(mainline_button, get_child_count() - 1)
 	terminology_handbook = TerminologyHandbookType.new()
 	add_child(terminology_handbook)
 	_build_options_menu()
@@ -549,6 +557,10 @@ func _build_card(
 		locality_entry_button = button
 		_refresh_locality_entry()
 	return panel
+
+
+func _return_mainline() -> void:
+	get_tree().change_scene_to_file("res://src/demo/demo_menu.tscn")
 
 
 func _refresh_system_entry() -> void:

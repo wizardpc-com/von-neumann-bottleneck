@@ -8,6 +8,46 @@
 
 The invocations below match successful repository-root runs; the machine-specific executable path has been normalized to `godot_console` for publication.
 
+## Eight-task mainline, 2026-09-05
+
+The final redesign has 19 passing suites: the 14 original suites and `test_demo_performance`, `test_demo_ui`, `test_demo_save`, `test_demo_input`, and `test_demo_localization`. Logs are in `.godot/redesign/final-tests/`; the pre-change 14-suite baseline remains in `.godot/redesign/baseline/`. The original simulation tests retain their semantics. Hardware return-navigation and legacy-hub title assertions now implement blueprint §3; new mainline tests assert the absence of workshop, prediction, Apply and playback gates rather than deleting their old coverage.
+
+Use an isolated process environment, without deleting the player's files:
+
+```powershell
+$godotConsole = 'godot_console'
+New-Item -ItemType Directory -Force .godot/redesign/runtime-data, .godot/redesign/final-tests | Out-Null
+$env:APPDATA = (Resolve-Path .godot/redesign/runtime-data).Path
+$env:LOCALAPPDATA = $env:APPDATA
+& $godotConsole --headless --path . --editor --import --quit
+Get-ChildItem tests/test_*.gd | ForEach-Object {
+    & $godotConsole --headless --path . --script $_.FullName *> ('.godot/redesign/final-tests/' + $_.BaseName + '.out')
+    if ($LASTEXITCODE -ne 0) { throw ('Failed: ' + $_.Name) }
+}
+```
+
+The performance suite recomputes reference metrics and `.godot/redesign/calibration.json`. Coverage includes equivalent renamed programs, constant-example and extra-work counterexamples, 18 locality data cases, all 27 hardware combinations per upgrade scenario, and 24 final capacity/group/two-program combinations. It does not establish a global optimum for every possible program.
+
+The UI suite traverses all eight ordinary Game tasks and every storage/upgrade stage through the visible design controllers, then saves/reloads and independently replays all accepted stages. It covers immediate completion, invalid-draft isolation, simultaneous final edits, best-run persistence, seeking/playback immutability, historical Notebook labeling and revisiting a completed foundation task. Input tests dispatch actual Godot mouse/key events for Start/Run, port hit tests after zoom/pan, node drag, Esc and legacy return. Save tests protect backups, corrupt/future formats, malformed layouts, missing origin, drafts versus accepted designs and Game/Test isolation. Both catalogs contain 179 matching mainline keys with matching placeholder types/order.
+
+For rendered captures, keep the isolated environment above and omit `--headless`:
+
+```powershell
+& $godotConsole --path . --script tests/test_demo_ui.gd -- --capture-mainline --disable-playtest-feedback --disable-playtest-telemetry
+& $godotConsole --path . --language en --script tests/test_demo_ui.gd -- --capture-mainline --disable-playtest-feedback --disable-playtest-telemetry
+& $godotConsole --path . --script tests/test_demo_input.gd -- --capture-mainline --disable-playtest-feedback --disable-playtest-telemetry
+```
+
+Normal Windows frames were inspected for menu, P-1/P-2, CPU, cache, upgrades, final task and Handbook in Chinese/English, plus the optional workshop and legacy menu. Input/responsive checks cover 1280×720, 1600×900, 1920×1080 and 1920×1200; shared fullscreen controls retain their existing regression. The expanded record area is bounded and scrollable. These are rendered/automated checks, not human physical-mouse, high-DPI comfort, novice comprehension or enjoyment acceptance.
+
+The existing `Windows Playtest` preset exported the final source with Godot 4.7.1 and matching local Windows release templates:
+
+```powershell
+& $godotConsole --headless --path . --export-release 'Windows Playtest' 'build/demo-redesign/Von-Neumann-Bottleneck.exe'
+```
+
+The self-contained EXE and `PLAYTEST-README.txt` are in `build/Von-Neumann-Bottleneck-Demo-Redesign-20260905.zip` (43,022,970 bytes). SHA-256: `4BC435A0ACD4BC942E348AFBFBB3524954B149F56E5BA3DBE251662998565397`. Export and packaged Game/Test headless plus ordinary rendered Game startup each exited 0. Packaged runs used isolated `.godot/redesign/package-user` APPDATA/LOCALAPPDATA and absolute log paths (`package-game.log`, `package-test.log`, `package-window.log`). The earlier build/playtest export remains untouched. All launches retain the known nonfatal Windows root-certificate-store warning; no script/parse/test error remains in the final logs. The export also prints Godot's informational ICU-version compatibility notice with matching 4.7.1 templates.
+
 ## Simulation tests
 
 ```powershell

@@ -284,6 +284,10 @@ func editing_roundtrip() -> void:
 	await palette_drag_roundtrip(false)
 	await palette_drag_roundtrip(true)
 	await palette_drag_roundtrip(true, true)
+	await palette_drag_roundtrip(false, false, &"escape")
+	await palette_drag_roundtrip(true, false, &"escape")
+	await palette_drag_roundtrip(true, false, &"focus_out")
+	await palette_drag_roundtrip(false, false, &"right_click")
 	var and_id: StringName = await place(&"and", ui.graph.global_position + Vector2(900, 390))
 	var or_id: StringName = await place(&"or", ui.graph.global_position + Vector2(1160, 475))
 	if and_id.is_empty() or or_id.is_empty():
@@ -327,7 +331,7 @@ func editing_roundtrip() -> void:
 	await key(KEY_Z, true)
 	check(original_node.position_offset == original_pos and other_node.position_offset == other_pos, "One undo restores the multi-selection move.")
 
-func palette_drag_roundtrip(empty_motion_mask: bool, onto_instrument: bool = false) -> void:
+func palette_drag_roundtrip(empty_motion_mask: bool, onto_instrument: bool = false, cancel_action: StringName = &"") -> void:
 	var before: String = snapshot()
 	var original_ids: Array = ui.component_nodes.keys()
 	await press(ui.desktop_window_buttons[&"components"])
@@ -364,6 +368,25 @@ func palette_drag_roundtrip(empty_motion_mask: bool, onto_instrument: bool = fal
 	var expected: Vector2 = ui.graph.graph_position_for_local_pointer(to - ui.graph.global_position, ui.graph.placement_preview_size)
 	for step: int in range(1, 9):
 		await point(from.lerp(to, step / 8.0), 0 if empty_motion_mask else MOUSE_BUTTON_MASK_LEFT, (to - from) / 8.0)
+	if not onto_instrument:
+		check(root.gui_is_dragging() and ui.graph.placement_preview_control != null
+			and ui.graph.placement_preview_control.visible
+			and ui.graph.placement_pointer.is_equal_approx(to - ui.graph.global_position),
+			"Held drag shows the canvas ghost at the latest input position.")
+	else:
+		check(not ui.graph.placement_has_pointer and not ui.graph.placement_preview_control.visible,
+			"Dragging over a floating instrument hides the invalid placement ghost.")
+	if cancel_action == &"escape":
+		await key(KEY_ESCAPE)
+	elif cancel_action == &"focus_out":
+		root.propagate_notification(MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
+		await settle()
+	elif cancel_action == &"right_click":
+		await click(to, MOUSE_BUTTON_RIGHT)
+	if not cancel_action.is_empty():
+		check(not root.gui_is_dragging() and ui.armed_component_template_key.is_empty(),
+			"%s cancels both the Godot drag payload and the placement ghost before release." % cancel_action)
+	var cancelled: bool = onto_instrument or not cancel_action.is_empty()
 	event = InputEventMouseButton.new()
 	event.position = to
 	event.global_position = to
@@ -374,14 +397,14 @@ func palette_drag_roundtrip(empty_motion_mask: bool, onto_instrument: bool = fal
 		Input.parse_input_event(held)
 		Input.flush_buffered_events()
 	await settle()
-	check(ui.component_nodes.size() == original_ids.size() + (0 if onto_instrument else 1), "A palette drag creates one item on the canvas and none behind a floating instrument.")
+	check(ui.component_nodes.size() == original_ids.size() + (0 if cancelled else 1), "A valid drag places one item; an invalid or cancelled drag places none, including on a later release.")
 	for id: StringName in ui.component_nodes:
 		if not original_ids.has(id):
 			check(ui.component_nodes[id].position_offset.is_equal_approx(expected), "Palette drop matches the snapped ghost position: expected %s, got %s." % [expected, ui.component_nodes[id].position_offset])
 	check(ui.armed_component_template_key.is_empty(), "A completed drag returns to editing instead of leaving an extra placement ghost.")
-	if not onto_instrument:
+	if not cancelled:
 		await key(KEY_Z, true)
-	check(snapshot() == before, "Undo or an invalid drop preserves the original circuit exactly.")
+	check(snapshot() == before, "Undo or a cancelled drop preserves the original circuit exactly.")
 	if onto_instrument:
 		await close_window(&"test_bench")
 	await close_window(&"components")

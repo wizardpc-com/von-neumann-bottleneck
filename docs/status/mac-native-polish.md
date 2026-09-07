@@ -199,3 +199,29 @@ records source hashes, unique player directories and remaining limits. Final
 [Chinese](../verification/2026-09-07-mac-palette-polish/palette-zh_CN.png) and
 [English](../verification/2026-09-07-mac-palette-polish/palette-en.png) catalog
 renders show all 19 card types; they do not represent campaign unlocks.
+
+## Further dragging feedback: cancellation lifetime
+
+The next report led to two concrete failures beyond completed-drop tests. A held
+palette drag followed by Escape cleared the canvas ghost but retained Godot's
+payload, so the later release still placed an item. Application focus-out also
+left repeated placement armed. The held screenshot showed a second card preview
+overlapping the actual component ghost.
+
+Cancellation now ends both the palette payload and placement state; focus-out
+uses the same cancellation. The canvas owns the only snapped component preview,
+and invalid positions over floating instruments hide it. Click-repeat, drag-once,
+normal/missing-mask input, free editing and undo semantics are retained.
+
+The [evidence summary](../verification/2026-09-07-palette-cancellation/summary.json)
+records two failing baseline probes, the passing repair and before/after frames.
+Fresh isolated import/probe and all 20 suites pass in
+`.godot/verification/20260907T120142Z-bf175db9/`; the current ordinary Game setup
+replay passes 567 checks with zero failures. Final native computer-use verifies
+valid drop/undo, invalid Test Bench drop, Escape followed by a harmless canvas
+click, and focus cancellation when raising the user's existing editor. The
+editor remains open. A held Escape is viewport-input evidence, not a separate
+native held-mouse claim.
+
+The ongoing [all-level review](../exec-plans/active/campaign-playability-review.md)
+tracks content assessment and pending major-design decisions separately.

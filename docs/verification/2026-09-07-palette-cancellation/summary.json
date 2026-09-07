@@ -1,0 +1,42 @@
+{
+  "base_commit": "fb26ca6",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "scope": "Palette drag lifetime and single canvas preview",
+  "confirmed_before": [
+    "Escape cleared the ghost but left gui_is_dragging true; later release placed a component",
+    "Application focus-out left click-placement armed",
+    "Card drag preview overlapped the actual snapped component ghost"
+  ],
+  "after": [
+    "Cancellation ends the Godot palette payload and the canvas ghost",
+    "Application focus-out cancels pending placement",
+    "One canvas ghost; no duplicate card preview",
+    "Invalid floating-window positions hide the ghost"
+  ],
+  "checks": {
+    "isolated_run": ".godot/verification/20260907T120142Z-bf175db9",
+    "headless_suites_passed": 20,
+    "ordinary_game_input_checks": 567,
+    "ordinary_game_input_failures": 0,
+    "gui_log": ".godot/mac-playtest/native-campaign-assessment.log",
+    "pre_fix_probe_failures": 2,
+    "post_fix_probe_failures": 0
+  },
+  "native": [
+    "Fresh ordinary Game baseline drag reproduced through computer use",
+    "Final native valid drag / Command+Z",
+    "Final native drag over Test Bench cancels",
+    "Final native click-arm / Escape / canvas click creates nothing",
+    "Raise the existing Godot editor: game status becomes placement cancelled"
+  ],
+  "limits": [
+    "Held Escape was exercised through viewport input; computer-use drag API completes a whole drag per call",
+    "Command+Tab sent to the target app did not establish an OS focus transition; native focus was verified by raising the existing editor instead",
+    "Subsequent chapter native assessment uses ordinary Game prerequisites earned by a viewport-input setup replay, not claimed as manual prerequisite construction"
+  ],
+  "source_sha256": {
+    "src/hardware_foundations/component_palette_item.gd": "b1ef7d527973fa7917b567e6de20775d1be82028148a90ac923826381f7c71be",
+    "src/hardware_foundations/hardware_foundations.gd": "e2d71f759b4baedeb3825dea35602f6bfcd96fe188aca6bbb9b3cd45c0108dc0",
+    "tests/test_recovery_game_input.gd": "2ca785b0b5f6e52d38683e7344ad81634f76d3b65bad964c39c8f2864f541a66"
+  }
+}

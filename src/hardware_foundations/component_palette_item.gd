@@ -95,7 +95,7 @@ func _input(event: InputEvent) -> void:
 	var local_position: Vector2 = get_global_transform().affine_inverse() * motion.position
 	if local_position.distance_to(_press_position) >= 8.0:
 		_drag_candidate = false
-		force_drag(_drag_payload(), _make_drag_preview())
+		force_drag(_drag_payload(), null)
 		get_viewport().set_input_as_handled()
 
 
@@ -108,37 +108,14 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	if not placement_enabled or template_key.is_empty():
 		return null
 	_drag_candidate = false
-	set_drag_preview(_make_drag_preview())
+	# The canvas owns the single snapped, full-size component ghost. A second
+	# card-sized drag preview obscures the actual placement and its ports.
 	return _drag_payload()
 
 
 func _drag_payload() -> Dictionary:
 	return {"type": &"circuit_component_template", "template_key": template_key}
 
-
-func _make_drag_preview() -> ComponentPaletteItem:
-	# Runtime configuration is not an exported property: Node.duplicate() loses
-	# the symbol kind and produces an anonymous glyph in the dragged card.
-	var preview := ComponentPaletteItem.new()
-	preview.configure(template_key, component_kind, label_text, width_hint, purpose_text, ports_text)
-	if component_preview is CircuitModuleThumbnail:
-		var source := component_preview as CircuitModuleThumbnail
-		var module := CircuitModuleThumbnail.new()
-		module.configure_thumbnail(source.component_kind, source.input_widths, source.output_widths)
-		preview.set_component_preview(module)
-	elif component_preview is CircuitComponentSymbol:
-		var source := component_preview as CircuitComponentSymbol
-		var symbol := CircuitComponentSymbol.new()
-		symbol.configure(source.component_kind, source.terminal_label, source.display_height)
-		symbol.size = source.size
-		preview.set_component_preview(symbol)
-	preview.placement_enabled = false
-	preview.armed = true
-	preview.hovered = true
-	preview.size = custom_minimum_size
-	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	preview.modulate = Color(1.0, 1.0, 1.0, 0.92)
-	return preview
 
 
 func _draw() -> void:

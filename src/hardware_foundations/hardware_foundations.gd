@@ -411,6 +411,10 @@ func _input(event: InputEvent) -> void:
 	if (terminology_handbook != null and terminology_handbook.is_open()) \
 			or (level_completion_overlay != null and level_completion_overlay.visible):
 		return
+	if event is InputEventMouseMotion and not armed_component_template_key.is_empty() and graph != null:
+		graph.placement_pointer = graph.get_global_transform_with_canvas().affine_inverse() * event.position
+		graph.placement_has_pointer = _component_placement_position_allowed(event.position)
+		graph.queue_redraw()
 	if _handle_palette_drop_release(event):
 		get_viewport().set_input_as_handled()
 		return
@@ -444,17 +448,23 @@ func _handle_palette_drop_release(event: InputEvent) -> bool:
 	# Native captured input can move independently of the physical OS cursor.
 	# Use the release event for both hit testing and the snapped drop, just as
 	# the canvas preview does. Keep Godot's drag payload and preview lifecycle.
-	var allowed: bool = graph != null and graph.is_visible_in_tree() and not _editor_locked() \
-		and graph.get_global_rect().has_point(event.position)
-	for window: FloatingInstrumentPanel in desktop_windows.values():
-		if window.is_visible_in_tree() and window.get_global_rect().has_point(event.position):
-			allowed = false
+	var allowed: bool = _component_placement_position_allowed(event.position)
 	get_viewport().gui_cancel_drag()
 	if allowed:
 		var local_position: Vector2 = graph.get_global_transform_with_canvas().affine_inverse() * event.position
 		_on_component_drop_requested(String(payload.get("template_key", "")), local_position)
 	else:
 		_cancel_component_placement()
+	return true
+
+
+func _component_placement_position_allowed(viewport_position: Vector2) -> bool:
+	if graph == null or not graph.is_visible_in_tree() or _editor_locked() \
+			or not graph.get_global_rect().has_point(viewport_position):
+		return false
+	for window: FloatingInstrumentPanel in desktop_windows.values():
+		if window.is_visible_in_tree() and window.get_global_rect().has_point(viewport_position):
+			return false
 	return true
 
 
@@ -498,6 +508,7 @@ func _notification(what: int) -> void:
 	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT:
 		graph_pan_keys.clear()
 		_finish_component_body_drag(false)
+		_cancel_component_placement()
 		if graph != null:
 			graph.cancel_selection_drag()
 			graph.cancel_branch_drag()
@@ -2983,6 +2994,12 @@ func _refresh_component_menu_checks() -> void:
 
 
 func _cancel_component_placement(update_status: bool = true) -> void:
+	# Clear both halves of the gesture. Otherwise Escape can remove the canvas
+	# ghost while Godot retains a payload that places an item on the later release.
+	if is_inside_tree() and get_viewport().gui_is_dragging():
+		var payload: Variant = get_viewport().gui_get_drag_data()
+		if payload is Dictionary and StringName(payload.get("type", &"")) == &"circuit_component_template":
+			get_viewport().gui_cancel_drag()
 	var was_armed: bool = not armed_component_template_key.is_empty()
 	armed_component_template_key = ""
 	if graph != null and is_instance_valid(graph):

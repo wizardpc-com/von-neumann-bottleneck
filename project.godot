@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="Von Neumann Bottleneck"
-run/main_scene="res://src/demo/demo_menu.tscn"
+config/version="polish-20260907T010358-76ef116"
+run/main_scene="res://src/ui/prototype_hub.tscn"
 config/features=PackedStringArray("4.7")
 
 [autoload]
@@ -38,6 +39,10 @@ window/stretch/aspect="expand"
 [game]
 
 default_locale="zh_CN"
+
+[gui]
+
+theme/custom_font="res://assets/fonts/interface_regular.tres"
 
 [internationalization]
 

@@ -99,18 +99,20 @@ func _build_theme() -> void:
 	hub_theme.set_stylebox("normal", "Button", _stylebox(Color("26334a"), 9, 1, Color("354866")))
 	hub_theme.set_stylebox("hover", "Button", _stylebox(Color("30435f"), 9, 2, ACCENT))
 	hub_theme.set_stylebox("pressed", "Button", _stylebox(Color("17283e"), 9, 2, ACCENT))
+	preload("res://src/ui/instrument_theme.gd").apply_to(hub_theme)
 	theme = hub_theme
 
 
 func _build_interface() -> void:
-	var background := ColorRect.new()
-	background.color = BACKGROUND
+	var background := preload("res://src/ui/technical_backdrop.gd").new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
 	mainline_button = Button.new()
 	mainline_button.text = Localization.text(&"hub.mainline.return")
 	mainline_button.position = Vector2(16, 16)
-	mainline_button.custom_minimum_size = Vector2(180, 56)
+	mainline_button.custom_minimum_size = Vector2(136, 42)
+	mainline_button.add_theme_font_size_override("font_size", 14)
+	mainline_button.add_theme_color_override("font_color", MUTED)
 	mainline_button.pressed.connect(_return_mainline)
 	add_child(mainline_button)
 	var center := CenterContainer.new()
@@ -123,6 +125,7 @@ func _build_interface() -> void:
 	title.text = Localization.text(&"game.title")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", UiTypographyType.HERO_TITLE_SIZE)
+	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", ACCENT)
 	content.add_child(title)
 	var subtitle := Label.new()
@@ -130,6 +133,13 @@ func _build_interface() -> void:
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle.add_theme_color_override("font_color", MUTED)
 	content.add_child(subtitle)
+	var build_label := Label.new()
+	build_label.name = "BuildIdentifier"
+	build_label.text = ProjectSettings.get_setting("application/config/version", "")
+	build_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	build_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	build_label.add_theme_color_override("font_color", MUTED)
+	content.add_child(build_label)
 	var mode_center := CenterContainer.new()
 	content.add_child(mode_center)
 	mode_selector = GameModeSelectorType.new()
@@ -246,6 +256,7 @@ func _build_new_game_confirmation() -> void:
 	title.text = Localization.text(&"hub.save.new_game.title")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", DANGER)
 	column.add_child(title)
 	var body := Label.new()
@@ -325,6 +336,7 @@ func _build_options_menu() -> void:
 	title.text = Localization.text(&"hub.options.title")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", PURPLE)
 	column.add_child(title)
 
@@ -522,7 +534,7 @@ func _build_card(
 	) -> Control:
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.add_theme_stylebox_override("panel", _stylebox(Color(color, 0.08), 14, 2, color))
+	panel.add_theme_stylebox_override("panel", _stylebox(Color("11212d"), 6, 1, Color(color, 0.55)))
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 22)
 	margin.add_theme_constant_override("margin_right", 22)
@@ -535,9 +547,14 @@ func _build_card(
 	eyebrow_label.text = eyebrow
 	eyebrow_label.add_theme_color_override("font_color", color)
 	box.add_child(eyebrow_label)
+	var emblem := preload("res://src/ui/chapter_emblem.gd").new()
+	emblem.chapter = &"hardware" if entry_id.is_empty() else entry_id
+	emblem.accent = color
+	box.add_child(emblem)
 	var title_label := Label.new()
 	title_label.text = title
 	title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	box.add_child(title_label)
 	var description_label := Label.new()
 	description_label.text = description

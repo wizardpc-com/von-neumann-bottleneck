@@ -1,5 +1,7 @@
 # 《冯诺伊曼瓶颈》游戏路线、架构与重构实施蓝图
 
+> Superseded product direction, 2026-09-05: the user withdrew replacement of the original mainline by eight tasks, demotion of construction to an optional workshop, and replacement of the floating desktop by a fixed workspace. The original Game route is restored. This document is retained as historical comparison evidence; simulation, provenance, save protection, and Git safety still apply. See [recovery status](../status/in-place-recovery.md).
+
 > 版本：1.0 · 2026-09-05\
 > 项目：`wizardpc-com/von-neumann-bottleneck`\
 > 依据版本：`d7aa2f1788c133a6f8f35233bbc6ee7e89f0b932`，本次再次确认远端 `main` 指向该提交。\

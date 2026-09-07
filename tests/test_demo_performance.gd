@@ -65,9 +65,12 @@ func _run() -> void:
 				if run["complete"] and int(run["metrics"]["hardware_cost"]) not in winning_costs:
 					winning_costs.append(int(run["metrics"]["hardware_cost"]))
 	check(4 in winning_costs and 13 in winning_costs, "Final task has both hardware and low-cost software solutions.")
+	check(DirAccess.make_dir_recursive_absolute("res://.godot/redesign") == OK, "Calibration output directory is available in a fresh checkout.")
 	var output := FileAccess.open("res://.godot/redesign/calibration.json", FileAccess.WRITE)
-	output.store_string(JSON.stringify(calibration, "\t"))
-	output.close()
+	check(output != null, "Calibration evidence can be written.")
+	if output != null:
+		output.store_string(JSON.stringify(calibration, "\t"))
+		output.close()
 	if failures.is_empty():
 		print("PASS: demo CPU reversal, cache repair, deterministic receipts and workload authority")
 	quit(0 if failures.is_empty() else 1)

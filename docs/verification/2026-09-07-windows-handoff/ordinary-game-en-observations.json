@@ -1,0 +1,1846 @@
+[
+	{
+		"check": "The configured default scene is the original hub in ordinary Game mode.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Normal Hardware card enters the original prerequisite map.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial first entry prominently displays Mission and no solution hint.",
+		"ok": true
+	},
+	{
+		"check": "First Mission exposes Start Building without scrolling or searching for the action.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Mission Previous/Next remain functional.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Mission section buttons go directly to requested specifications without visiting hints.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start building folds the first page and preserves the independently hidden hints.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The ordinary Handbook opens with only the first lesson's 20 concepts.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Searching a future topic explains its unlock lesson without showing the diagram or answer.",
+		"ok": true
+	},
+	{
+		"check": "Searching the current signal concept exposes its high/low illustration.",
+		"ok": true
+	},
+	{
+		"check": "Escape returns from handbook text focus with player topology, positions, name and colors intact.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual workbench menu opens New Design.",
+		"ok": true
+	},
+	{
+		"check": "Typing and confirming creates a named player design.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Component body follows the actual event displacement and 20-unit grid snapping.",
+		"ok": true
+	},
+	{
+		"check": "Undo restores body position.",
+		"ok": true
+	},
+	{
+		"check": "Redo reapplies body movement.",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → NOT_1:0",
+		"ok": true
+	},
+	{
+		"check": "A newly drawn wire retains the actively selected palette color.",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOT_1:0 → LAMP:0",
+		"ok": true
+	},
+	{
+		"check": "Hints and spoiler confirmation are hidden by default.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H1 enters only the independent interface canvas.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requesting H2 does not reveal it.",
+		"ok": true
+	},
+	{
+		"check": "Escape cancels only the spoiler confirmation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Separate confirmation reveals the relevant H2 partial circuit.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H3 requires an explicit complete-answer warning.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Cancelling H3 keeps H2.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H3 appears only after its own confirmation and cannot advance.",
+		"ok": true
+	},
+	{
+		"check": "Hint input cannot move, delete, or copy the reference.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "A read-only hint still accepts wheel zoom over a component.",
+		"ok": true
+	},
+	{
+		"check": "A read-only hint still accepts WASD panning.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Hint return preserves player name, topology, positions and wire colors exactly.",
+		"ok": true
+	},
+	{
+		"check": "Hint return retains the documented ADR 0015 history reset.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Reentry remembers the explicitly viewed level without upgrading it.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Palette input places the requested component.",
+		"ok": true
+	},
+	{
+		"check": "The drop matches its preview's snapped graph coordinates under the current zoom and pan.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Palette input places the requested component.",
+		"ok": true
+	},
+	{
+		"check": "The drop matches its preview's snapped graph coordinates under the current zoom and pan.",
+		"ok": true
+	},
+	{
+		"check": "Dragging from a rendered wire middle adds an explicit three-way junction.",
+		"ok": true
+	},
+	{
+		"check": "Hover follows the three connected network segments, without crossing the NOT gate.",
+		"ok": true
+	},
+	{
+		"check": "The wire probe explains width and endpoint direction.",
+		"ok": true
+	},
+	{
+		"check": "Precise right-click removes only the targeted wire segment.",
+		"ok": true
+	},
+	{
+		"check": "Undo restores the erased branch with original color and endpoints.",
+		"ok": true
+	},
+	{
+		"check": "Redo erases the same branch.",
+		"ok": true
+	},
+	{
+		"check": "An already wired input continues its network using exactly one new junction and no native phantom wire.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Copy/paste duplicates a selected player component through shortcuts.",
+		"ok": true
+	},
+	{
+		"check": "Undo removes the pasted component.",
+		"ok": true
+	},
+	{
+		"check": "Empty-canvas marquee selects multiple component bodies.",
+		"ok": true
+	},
+	{
+		"check": "Dragging a selected body moves the whole selection.",
+		"ok": true
+	},
+	{
+		"check": "One undo restores the multi-selection move.",
+		"ok": true
+	},
+	{
+		"check": "Wheel input zooms the editable canvas.",
+		"ok": true
+	},
+	{
+		"check": "Middle-drag pans the camera without changing topology, positions, or wire colors.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Palette input places the requested component.",
+		"ok": true
+	},
+	{
+		"check": "The drop matches its preview's snapped graph coordinates under the current zoom and pan.",
+		"ok": true
+	},
+	{
+		"check": "UI wire JUNCTION_001:0 → NOT_NEW_003:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Closing Inspector returns keyboard focus to the selected circuit.",
+		"ok": true
+	},
+	{
+		"check": "A transformed wire-node connection and later Delete remain editable.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Mission remains a movable desktop window.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The persistent short goal restores the closed Mission with Previous/Next.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The real fullscreen button changes the window mode.",
+		"ok": true
+	},
+	{
+		"check": "The short goal stays on screen in fullscreen.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The same fullscreen control returns to the window.",
+		"ok": true
+	},
+	{
+		"check": "Shift+Home fits the circuit without moving components or changing any wires.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible Focus action enlarges a selected component without editing it.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The goal bar stays reachable at 1280×720.",
+		"ok": true
+	},
+	{
+		"check": "The movable Mission fits the smaller canvas.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Five real Tutorial actions earn ordinary Game completion and an explicit Continue.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Continue enters Half Adder through the original progression gate.",
+		"ok": true
+	},
+	{
+		"check": "Earned Tutorial progress opens both original learning branches in the Handbook.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual workbench menu opens New Design.",
+		"ok": true
+	},
+	{
+		"check": "Typing and confirming creates a named player design.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Clicking the 1 1 example selects both visible Test Bench inputs.",
+		"ok": true
+	},
+	{
+		"check": "Trying a truth-table input neither wires an answer nor performs or passes the full test.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → OR_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire B_IN:0 → OR_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → AND_1_COPY_002:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire B_IN:0 → AND_1_COPY_002:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_1_COPY_002:0 → CARRY_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_1_COPY_002:0 → NOT_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire OR_1:0 → AND_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOT_1:0 → AND_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_1:0 → SUM_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Delete removes selected unused gates while test terminals remain.",
+		"ok": true
+	},
+	{
+		"check": "Hints and spoiler confirmation are hidden by default.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H1 enters only the independent interface canvas.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requesting H2 does not reveal it.",
+		"ok": true
+	},
+	{
+		"check": "Escape cancels only the spoiler confirmation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Separate confirmation reveals the relevant H2 partial circuit.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H3 requires an explicit complete-answer warning.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Cancelling H3 keeps H2.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H3 appears only after its own confirmation and cannot advance.",
+		"ok": true
+	},
+	{
+		"check": "Hint input cannot move, delete, or copy the reference.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "A read-only hint still accepts wheel zoom over a component.",
+		"ok": true
+	},
+	{
+		"check": "A read-only hint still accepts WASD panning.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Hint return preserves player name, topology, positions and wire colors exactly.",
+		"ok": true
+	},
+	{
+		"check": "Hint return retains the documented ADR 0015 history reset.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Reentry remembers the explicitly viewed level without upgrading it.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "half_adder passes its complete unchanged behavior tests using only UI-built topology.",
+		"ok": true
+	},
+	{
+		"check": "After a passing test, the success action explicitly offers sealing the verified component.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Sealing shows success and lets the player choose the next step.",
+		"ok": true
+	},
+	{
+		"check": "Completion explains the next capability on the original route.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Explicit return after sealing restores the original map.",
+		"ok": true
+	},
+	{
+		"check": "full_adder is unlocked by actual prior Game builds.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → HA_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire B_IN:0 → HA_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire HA_1:0 → HA_2:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire CIN_IN:0 → HA_2:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire HA_1:1 → OR_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire HA_2:1 → OR_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire HA_2:0 → SUM_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire OR_1:0 → COUT_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "full_adder passes its complete unchanged behavior tests using only UI-built topology.",
+		"ok": true
+	},
+	{
+		"check": "After a passing test, the success action explicitly offers sealing the verified component.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Sealing shows success and lets the player choose the next step.",
+		"ok": true
+	},
+	{
+		"check": "Completion explains the next capability on the original route.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Explicit return after sealing restores the original map.",
+		"ok": true
+	},
+	{
+		"check": "alu is unlocked by actual prior Game builds.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → AND_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire B_IN:0 → AND_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → OR_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire B_IN:0 → OR_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → NOT_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → FULL_ADDER:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire B_IN:0 → FULL_ADDER:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire CIN_IN:0 → FULL_ADDER:2",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_1:0 → MUX:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire OR_1:0 → MUX:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire FULL_ADDER:0 → MUX:2",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOT_1:0 → MUX:3",
+		"ok": true
+	},
+	{
+		"check": "UI wire OP0_IN:0 → MUX:4",
+		"ok": true
+	},
+	{
+		"check": "UI wire OP1_IN:0 → MUX:5",
+		"ok": true
+	},
+	{
+		"check": "UI wire MUX:0 → RESULT_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire FULL_ADDER:1 → CARRY_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "alu passes its complete unchanged behavior tests using only UI-built topology.",
+		"ok": true
+	},
+	{
+		"check": "After a passing test, the success action explicitly offers sealing the verified component.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Sealing shows success and lets the player choose the next step.",
+		"ok": true
+	},
+	{
+		"check": "Completion explains the next capability on the original route.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Explicit return after sealing restores the original map.",
+		"ok": true
+	},
+	{
+		"check": "latch is unlocked by actual prior Game builds.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "UI wire S_IN:0 → NOR_Q:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire R_IN:0 → NOR_NQ:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOR_NQ:0 → NOR_Q:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOR_Q:0 → NOR_NQ:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOR_NQ:0 → Q_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOR_Q:0 → NQ_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "latch passes its complete unchanged behavior tests using only UI-built topology.",
+		"ok": true
+	},
+	{
+		"check": "After a passing test, the success action explicitly offers sealing the verified component.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Sealing shows success and lets the player choose the next step.",
+		"ok": true
+	},
+	{
+		"check": "Completion explains the next capability on the original route.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Explicit return after sealing restores the original map.",
+		"ok": true
+	},
+	{
+		"check": "register is unlocked by actual prior Game builds.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "UI wire D_IN:0 → NOT_D:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire D_IN:0 → AND_S:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire LOAD_IN:0 → AND_S:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOT_D:0 → AND_R:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire LOAD_IN:0 → AND_R:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_S:0 → LATCH:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_R:0 → LATCH:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire LATCH:0 → Q_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "register passes its complete unchanged behavior tests using only UI-built topology.",
+		"ok": true
+	},
+	{
+		"check": "After a passing test, the success action explicitly offers sealing the verified component.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Sealing shows success and lets the player choose the next step.",
+		"ok": true
+	},
+	{
+		"check": "Completion explains the next capability on the original route.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Explicit return after sealing restores the original map.",
+		"ok": true
+	},
+	{
+		"check": "ram is unlocked by actual prior Game builds.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "UI wire ADDR_IN:0 → DECODER:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire WRITE_IN:0 → DECODER:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire DATA_IN:0 → REG_0:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire DATA_IN:0 → REG_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire DECODER:0 → REG_0:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire DECODER:1 → REG_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire REG_0:0 → MUX:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire REG_1:0 → MUX:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire ADDR_IN:0 → MUX:2",
+		"ok": true
+	},
+	{
+		"check": "UI wire MUX:0 → OUT:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "ram passes its complete unchanged behavior tests using only UI-built topology.",
+		"ok": true
+	},
+	{
+		"check": "After a passing test, the success action explicitly offers sealing the verified component.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Sealing shows success and lets the player choose the next step.",
+		"ok": true
+	},
+	{
+		"check": "Completion explains the next capability on the original route.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Explicit return after sealing restores the original map.",
+		"ok": true
+	},
+	{
+		"check": "cpu is unlocked by actual prior Game builds.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "CPU exposes all modules and complete tests before connecting any stage.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "A 2-bit to 1-bit rejection explains the width mismatch after release.",
+		"ok": true
+	},
+	{
+		"check": "Hints and spoiler confirmation are hidden by default.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H1 enters only the independent interface canvas.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requesting H2 does not reveal it.",
+		"ok": true
+	},
+	{
+		"check": "Escape cancels only the spoiler confirmation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Separate confirmation reveals the relevant H2 partial circuit.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H3 requires an explicit complete-answer warning.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Cancelling H3 keeps H2.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H3 appears only after its own confirmation and cannot advance.",
+		"ok": true
+	},
+	{
+		"check": "Hint input cannot move, delete, or copy the reference.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "A read-only hint still accepts wheel zoom over a component.",
+		"ok": true
+	},
+	{
+		"check": "A read-only hint still accepts WASD panning.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Hint return preserves player name, topology, positions and wire colors exactly.",
+		"ok": true
+	},
+	{
+		"check": "Hint return retains the documented ADR 0015 history reset.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Reentry remembers the explicitly viewed level without upgrading it.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "UI wire ADDR_IN:0 → RAM:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire ACC:0 → RAM:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire CONTROL:3 → RAM:2",
+		"ok": true
+	},
+	{
+		"check": "UI wire RAM:0 → MEM_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire OP_IN:0 → CONTROL:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire ARG_IN:0 → SOURCE_MUX:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire RAM:0 → SOURCE_MUX:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire CONTROL:0 → SOURCE_MUX:2",
+		"ok": true
+	},
+	{
+		"check": "UI wire ARG_IN:0 → ALU:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire SOURCE_MUX:0 → ALU:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire CIN_0:0 → ALU:2",
+		"ok": true
+	},
+	{
+		"check": "UI wire ADD_OP0:0 → ALU:3",
+		"ok": true
+	},
+	{
+		"check": "UI wire ADD_OP1:0 → ALU:4",
+		"ok": true
+	},
+	{
+		"check": "UI wire SOURCE_MUX:0 → RESULT_MUX:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire ALU:0 → RESULT_MUX:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire CONTROL:1 → RESULT_MUX:2",
+		"ok": true
+	},
+	{
+		"check": "UI wire RESULT_MUX:0 → ACC:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire CONTROL:2 → ACC:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire ACC:0 → ACC_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "The interface checklist accepts connected inputs without requiring the author's exact sources.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "A fully connected but wrong CPU fails real behavior tests and earns no unlock.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "A precise CPU wire click erases only the pointed wire, preserving nearby crossing connections.",
+		"ok": true
+	},
+	{
+		"check": "UI wire ACC:0 → ALU:0",
+		"ok": true
+	},
+	{
+		"check": "CPU visibly distinguishes one-bit control wires from four-bit data buses.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "cpu passes its complete unchanged behavior tests using only UI-built topology.",
+		"ok": true
+	},
+	{
+		"check": "After a passing test, the success action explicitly offers sealing the verified component.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Sealing shows success and lets the player choose the next step.",
+		"ok": true
+	},
+	{
+		"check": "Completion explains the next capability on the original route.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Explicit return after sealing restores the original map.",
+		"ok": true
+	},
+	{
+		"check": "load_store is unlocked by actual prior Game builds.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "LOAD/STORE retains its original fixed external Test Bench, backed by the UI-built CPU.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "The unchanged LOAD/STORE program completes through the earned CPU and RAM.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Returning to the default hub exposes Chapter 1 after verified prologue completion.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Chapter 1 opens through the ordinary Game card with earned hardware sources.",
+		"ok": true
+	}
+]

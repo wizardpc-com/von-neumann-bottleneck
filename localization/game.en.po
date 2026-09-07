@@ -76,10 +76,10 @@ msgid "window.fullscreen.tooltip"
 msgstr "Toggle fullscreen (F11 or Alt+Enter)"
 
 msgid "hub.subtitle"
-msgstr "LEGACY RECORDS AND LABS"
+msgstr "From your first wire to a working computer. Then make it faster."
 
 msgid "hub.mainline.return"
-msgstr "Return to mainline"
+msgstr "Eight-task comparison"
 
 msgid "hub.save.continue"
 msgstr "Continue"
@@ -124,10 +124,10 @@ msgid "hub.hardware.title"
 msgstr "CPU BUILDING PROLOGUE"
 
 msgid "hub.hardware.eyebrow"
-msgstr "COMPLETE PLAYABLE PROLOGUE PROTOTYPE"
+msgstr "PROLOGUE · LOGIC / ARITHMETIC / MEMORY"
 
 msgid "hub.hardware.description"
-msgstr "After free wiring, start the CPU/arithmetic path with HalfAdder and the independent storage path with a latch, then join ALU and RAM in a four-bit accumulator CPU and run LOAD/STORE."
+msgstr "Wire gates into circuits that calculate and remember.\n\nEach circuit you finish becomes a tool for the next build."
 
 msgid "hub.hardware.play"
 msgstr "Enter the CPU Building Prologue"
@@ -139,7 +139,7 @@ msgid "hub.system.eyebrow"
 msgstr "CPU · RAM · BUS"
 
 msgid "hub.system.description"
-msgstr "Assemble your player-provenance 8-bit system, predict controlled changes, trace CPU waiting, and diagnose the actual bottleneck."
+msgstr "Your computer works.\n\nFind where it waits, then test your explanation with one change."
 
 msgid "hub.system.open"
 msgstr "OPEN CHAPTER MAP"
@@ -160,13 +160,13 @@ msgid "hub.locality.eyebrow"
 msgstr "CACHE · LOCALITY · WORKING SET"
 
 msgid "hub.locality.description"
-msgstr "Follow seven short investigations from repeated distant reads to Cache, Locality, Working Set, Blocking, and an open-ended final diagnosis."
+msgstr "Less movement. The same result.\n\nExplore caches, access order and blocking to keep data close when it is needed."
 
 msgid "hub.locality.open"
 msgstr "OPEN CHAPTER MAP"
 
 msgid "hub.note"
-msgstr "These playable slices validate different gameplay hypotheses and form one growing game."
+msgstr "Every circuit you build is the beginning of the next challenge."
 
 msgid "device.program"
 msgstr "PROGRAM"
@@ -835,10 +835,10 @@ msgid "circuit.error.circular_dependency"
 msgstr "CIRCULAR DEPENDENCY: %s feeds back within the same simulation tick."
 
 msgid "hardware.title"
-msgstr "HARDWARE WORKSHOP · BUILD A CPU"
+msgstr "Hardware Foundations · Build a Computer"
 
 msgid "hardware.subtitle"
-msgstr "OPTIONAL: GATES → ARITHMETIC AND STORAGE → SMALL COMPUTER"
+msgstr "Prologue: gates → arithmetic and memory → a computer"
 
 msgid "hardware.hub.tooltip"
 msgstr "Return to chapter selection."
@@ -853,115 +853,115 @@ msgid "hardware.briefing.stage.concept"
 msgstr "WHY THIS MATTERS"
 
 msgid "hardware.briefing.stage.goal"
-msgstr "WIRE THIS"
+msgstr "Task & rules"
 
 msgid "hardware.briefing.stage.verify"
-msgstr "DONE WHEN"
+msgstr "Check your work"
 
 msgid "hardware.briefing.stage.understand"
-msgstr "THE KEY"
+msgstr "Behavior & examples"
 
 msgid "hardware.briefing.continue"
-msgstr "Continue"
+msgstr "Next page"
 
 msgid "hardware.briefing.previous"
 msgstr "Previous"
 
 msgid "hardware.briefing.start"
-msgstr "Continue"
+msgstr "Start building"
 
 msgid "mission.navigation.last_page"
 msgstr "Last page"
 
 msgid "hardware.briefing.move_note"
-msgstr "Continue keeps Mission in a compact window at the lower-left. You can also click — to shrink it at any time, then □ to restore the large window."
+msgstr "Mission folds into the lower-left corner. Reopen any page from the goal bar or Mission button. You can still move, fold and expand the window."
 
 msgid "hardware.briefing.tutorial.1"
-msgstr "A wire carries 0 or 1, called a [[signal|signal]]. Low uses a vivid red 0 and a thin directional line; high uses a vivid green 1 and a strong directional line. Number, color, shape, and direction appear together.\n\nHighlighted clickable terms open the Handbook. Click [[signal|signal]] now to try it."
+msgstr "Make the lamp show the opposite of input A.\n\nInput: A is one bit (1-bit), either 0 or 1.\nOutput: LAMP; it should be 1 when A=0, and 0 when A=1.\nParts: NOT gates. Place, move and connect them freely.\n\nFinish five actions: wire, change the input, run, erase a wire, reconnect. Then continue to the next challenge."
 
 msgid "hardware.briefing.tutorial.gates"
-msgstr "Gates follow simple rules: a [[not_gate|NOT gate]] swaps 0 and 1, an [[and_gate|AND gate]] produces 1 only when both inputs are 1, and an [[or_gate|OR gate]] produces 1 when either input is 1. This level only asks you to wire NOT yourself."
+msgstr "This challenge uses a [[not_gate|NOT gate]]: 0 in gives 1 out; 1 in gives 0 out.\n\nSelect a component to inspect its ports and role. Underlined blue terms open the Handbook; later concepts become available as you progress."
 
 msgid "hardware.briefing.tutorial.2"
-msgstr "Build the shortest complete route:\n\nA  →  NOT  →  LAMP\n\nA is an [[input_output|input]] you can switch; the lamp is an output that shows the result. Connect A to NOT and NOT to the lamp. The lamp should always show the opposite of A."
+msgstr "Drag a body to move a part. Drag from an output port to a compatible input: outputs send signals, inputs receive them. Widths must match; 4-bit cannot connect to 1-bit.\n\nDrag from an existing wire to branch; a dot marks the junction. Crossings stay separate. Right-click to erase; Ctrl+Z to undo. Delete preserves fixed test terminals; right-erasing a terminal is undoable too.\n\nZoom with the wheel, pan with middle-drag. Home focuses the selection; Shift+Home shows all. The handbook keeps the other controls available."
 
 msgid "hardware.briefing.tutorial.3"
-msgstr "Try these in order: make a [[wire|wire]] → switch A → run once → delete a wire → reconnect it. Drag from a component's [[port|port]]; a green ring accepts the connection and a red ring rejects it. Use a [[debug_run|debug run]] to try one input."
+msgstr "Toggle A in the [[test_bench|Test Bench]] and choose Run Current Input. Check both 0 and 1. After running, erase a wire and reconnect it; Mission tracks these actions.\n\nAfter Start, Mission becomes a short goal. Expand it to revisit every page; the Mission taskbar button always brings it back. Request Hint only when you want solution guidance."
 
 msgid "hardware.briefing.half_adder.1"
-msgstr "Now add two numbers that can only be 0 or 1. The small circuit that does this is a [[half_adder|Half Adder]]. It has two results: [[sum|SUM]] stays in this place, while [[carry|CARRY]] is the extra 1 passed to the next place.\n\nFor example, 1 + 1 = 10, so SUM=0 and CARRY=1."
+msgstr "Teach a circuit to add: build a [[half_adder|Half Adder]] for A+B.\n\nInputs: A and B, one bit each.\nOutputs: [[sum|SUM]] is the low bit; [[carry|CARRY]] carries into the next bit.\nExample: 1+1 is binary 10, so SUM=0 and CARRY=1.\n\nUse AND, OR and NOT in any valid circuit. Pass all four test rows, then seal your HalfAdder for use in the next challenge."
 
 msgid "hardware.briefing.half_adder.2"
 msgstr "A [[truth_table|truth table]] lists every possible input and the output it should produce. Two inputs with two states give four cases:\n\nA B  │  SUM CARRY\n0 0  │   0     0\n0 1  │   1     0\n1 0  │   1     0\n1 1  │   0     1\n\nThe table tells you what the circuit must do, not how to wire it."
 
 msgid "hardware.briefing.half_adder.3"
-msgstr "Solve one output at a time. CARRY is 1 only when A and B are both 1—which gate has exactly that rule?\n\nFor SUM, inspect its two high rows: 01 and 10. Treat each row as a condition. Send any required 0 through [[not_gate|NOT]], check the row with [[and_gate|AND]], then decide how to combine the two conditions."
+msgstr "Available tools: [[and_gate|AND]], [[or_gate|OR]] and [[not_gate|NOT]]. All ports are one bit wide.\n\nAND: output 1 when both inputs are 1.\nOR: output 1 when at least one input is 1.\nNOT: output the opposite of its input.\n\nDrag new components from Components and combine them your way. The full test checks the specified outputs and accepts different legal circuits."
 
 msgid "hardware.briefing.half_adder.4"
 msgstr "Use the [[test_bench|Test Bench]] to switch A/B one case at a time, and use a [[debug_run|debug run]] to find mistakes. Once all four cases work, run the [[official_test|Complete Truth Table test]]. Passing every row enables [[encapsulation|sealing]], which turns the verified circuit into a reusable HalfAdder component."
 
 msgid "hardware.briefing.full_adder.1"
-msgstr "A Half Adder only computes A+B. Multi-place addition must also accept CIN from the previous place. A [[full_adder|Full Adder]] computes A+B+CIN and sends its new carry through COUT; those ports are called [[cin_cout|CIN / COUT]]."
+msgstr "Extend addition to another bit. CIN is the carry arriving from the previous bit. A [[full_adder|Full Adder]] includes it in the sum.\n\nInputs: A, B and CIN, one bit each.\nOutputs: SUM is the low bit of A+B+CIN; COUT is the high bit.\nExample: 1+1+1 is binary 11, so both outputs are 1.\n\nReuse your HalfAdder and choose your own wiring. The full test checks all eight input combinations."
 
 msgid "hardware.briefing.full_adder.2"
-msgstr "Split the work into two additions:\n\nA, B → first Half Adder → middle result\nMiddle result, CIN → second Half Adder → SUM\nBoth carries → OR → COUT\n\nThe board already holds your two sealed Half Adders and one OR. Combine them by port meaning."
+msgstr "A, B, and CIN are 1-bit. SUM is the low bit of A+B+CIN; COUT is the high bit.\n\nThe inventory includes two sealed [[half_adder|Half Adders]], OR, and other parts in Components. A Half Adder has two inputs and SUM/CARRY outputs. Build freely using these interfaces; full tests check all eight input cases."
 
 msgid "hardware.briefing.full_adder.3"
 msgstr "The key acceptance case is A=B=CIN=1: SUM=1 and COUT=1. Pass all eight inputs, then seal the [[full_adder|Full Adder]]."
 
 msgid "hardware.briefing.alu.1"
-msgstr "The same inputs may need addition, AND, OR, or NOT-A. A component that prepares these results and selects the requested one is an [[alu|ALU (Arithmetic Logic Unit)]]."
+msgstr "Let the same inputs perform different operations. An [[alu|ALU]] selects an arithmetic or logic operation using control bits.\n\nInputs: A, B, CIN, OP1 and OP0, all one bit.\nRules: 00 AND; 01 OR; 10 addition; 11 NOT A.\nOutputs: RESULT and the addition carry CARRY.\n\nBuild freely with your existing parts. All four operations must pass the full test. Your one-bit ALU can then be reused in a four-bit ALU4."
 
 msgid "hardware.briefing.alu.2"
-msgstr "Compute four candidates in parallel, then feed a [[multiplexer|MUX]]. The MUX does no arithmetic; OP selects one input:\n\nOP1 OP0 = 00 → AND\nOP1 OP0 = 01 → OR\nOP1 OP0 = 10 → ADD\nOP1 OP0 = 11 → NOT A\n\nYour real judgment is which result belongs on each MUX input. CARRY comes from Full Adder and matters only for ADD."
+msgstr "Operation specification: OP1 OP0 = 00 → A AND B; 01 → A OR B; 10 → A+B+CIN; 11 → NOT A. RESULT is the low bit; CARRY is the carry for ADD.\n\nA [[multiplexer|MUX]] selects a data input using the binary value at its selector ports; it does not perform arithmetic. Inspect components for every port and width."
 
 msgid "hardware.briefing.alu.3"
 msgstr "Debug each OP choice, then run all official tests. Passing creates ALU4 by placing four copies of your verified one-bit structure side by side."
 
 msgid "hardware.briefing.latch.1"
-msgstr "Earlier gates only reacted to inputs now. This level builds a component that remembers its previous state, called a [[latch|latch]]. Because S sets it and R resets it, this version is an [[sr_latch|SR Latch]]."
+msgstr "Make a circuit remember. Ordinary gates read the current inputs; an [[sr_latch|SR Latch]] also retains a state.\n\nInputs: S sets to 1 and R resets to 0, both one bit.\nOutputs: Q is the stored bit; NQ is its opposite.\nRules: S=1, R=0 sets Q=1; S=0, R=1 sets Q=0; both 0 holds. S=R=1 is outside this level’s test cases.\n\nBuild freely with NOR gates. The full sequence checks that the state survives after the input returns to 0."
 
 msgid "hardware.briefing.latch.2"
 msgstr "S and R mean [[set_reset|Set / Reset]]: S=1 sets Q to 1, R=1 clears Q to 0, and S=R=0 must keep the last Q. S=R=1 is a conflicting input that this level does not use."
 
 msgid "hardware.briefing.latch.3"
-msgstr "Send two [[nor_gate|NOR gates]] back into each other:\n\nS → upper NOR → NQ\nR → lower NOR → Q\nNQ ↘          ↖ Q\n\nFeed the upper output into the lower input and the lower output into the upper input. With S=R=0, this cross-feedback keeps the previous Q: that is memory."
+msgstr "Specifications: a [[nor_gate|NOR gate]] outputs 1 only when both inputs are 0. All ports are 1-bit.\n\nExample: reset with R=1 → hold 0 at S=R=0 → set with S=1 → hold 1 at S=R=0. Legal latch feedback follows this level’s state rules. Full tests check reset, hold, set, and holding again."
 
 msgid "hardware.briefing.latch.4"
 msgstr "Test in order: S=1,R=0 writes 1; S=0,R=0 holds it; S=0,R=1 clears it; then hold again. Pass every official case and seal SRLatch."
 
 msgid "hardware.briefing.register.1"
-msgstr "A latch listens directly to S and R. Add a friendlier data input D and a LOAD control to decide when to write. The result is a [[register|register]]: D is the value to write and Q is the stored result, often called [[d_q|D / Q]]."
+msgstr "Give storage a “save now” switch. A [[register|register]] receives data at D and uses [[d_q|LOAD]] to decide when to save it.\n\nInputs: D and LOAD, one bit each. Output: the stored bit Q.\nRule: LOAD=1 saves D; LOAD=0 keeps Q unchanged.\nExample: save 1, turn LOAD off, then change D to 0. Q must remain 1.\n\nReuse your SRLatch and the allowed gates. Pass the full test to seal Register1 and obtain the four-bit Register4."
 
 msgid "hardware.briefing.register.2"
-msgstr "LOAD=0 needs S=R=0 to hold. With LOAD=1, D=1 must SET and D=0 must RESET. Therefore:\n\nS = D AND LOAD\nR = NOT(D) AND LOAD\n\nBuild these signals with NOT and two AND gates, then feed your sealed SR Latch."
+msgstr "D, LOAD, and Q are 1-bit. LOAD=1 stores D; LOAD=0 holds Q.\n\nExample: D=1 and LOAD=1 gives Q=1. Then LOAD=0 and D=0 must leave Q=1.\n\nAvailable parts include NOT, AND, and your sealed SR Latch. Its S sets, R resets, and S=R=0 holds; Inspector keeps these port rules available."
 
 msgid "hardware.briefing.register.3"
 msgstr "After writing, return LOAD to 0 and change D; Q must not follow it. Pass all official cases, seal Register1, and the game will create four-bit Register4."
 
 msgid "hardware.briefing.ram.1"
-msgstr "One register remembers one number. Put several registers together and use an address to choose which one to read or write: that is [[ram|RAM (memory)]]. This level has addresses 0 and 1, each holding four bits."
+msgstr "Give two storage locations their own data. An address chooses which location to read or write: this is [[ram|RAM]].\n\nADDR[1] selects address 0 or 1. DATA[4] is the value to write. WRITE[1] enables writing. OUT[4] shows the selected location.\n\nFour bits represent binary 0000 to 1111, or decimal 0 to 15.\n\nReuse Register4, Decoder and Word MUX in your own circuit. The full test checks independent writes, holding and readback: one location must not overwrite the other."
 
 msgid "hardware.briefing.ram.2"
-msgstr "ADDR[1] is the room number. Decoder uses ADDR[1]+WRITE[1] to make two LOAD[1] lines, so only one Register[4] writes DATA[4]. Word MUX uses ADDR[1] to select OUT[4]. DATA[4] fans out to both registers; ADDR chooses both write and read rows."
+msgstr "Interface specification: ADDR[1] selects address 0 or 1. DATA[4] is the value to write; WRITE[1]=1 updates only the selected address. OUT[4] shows the currently addressed word.\n\nDecoder activates a selected output from ADDR and enable. Register[4] stores its input when LOAD=1. Word MUX selects an input word. Inspector keeps these port rules available."
 
 msgid "hardware.briefing.ram.3"
 msgstr "Write different values to addresses 0 and 1, turn writing off, then switch addresses to confirm the values stay separate. Pass the official tests and seal RAM2x4."
 
 msgid "hardware.briefing.cpu.1"
-msgstr "The two routes converge here: ALU computes and RAM remembers. The [[controller|Controller]] reads each instruction; the [[accumulator|ACC]] holds the working value. You will connect four bounded stages instead of facing one blank CPU at once."
+msgstr "Join parts that calculate and remember into a computer that follows instructions.\n\nInputs: OPCODE[2] selects an action; ARG[4] is a number supplied by the instruction; ADDR[1] selects memory.\nOutputs: ACC[4] is the number in the accumulator; MEM[4] is the selected memory value. Four-bit values range from 0 to 15; overflow keeps the low four bits.\n\nImplement the four actions in the instruction table. Use milestones to inspect parts of your circuit in any order. Pass the complete seven-step program to seal TinyComputer."
 
 msgid "hardware.briefing.cpu.2"
 msgstr "The 2-bit OPCODE maps exactly to one operation:\n\n00 LOAD_IMM — ARG[4] to ACC\n01 ADD_IMM — ACC + ARG[4] to ACC\n10 LOAD_MEM — RAM[ADDR] to ACC\n11 STORE_MEM — ACC to RAM[ADDR]\n\nIMM is an [[immediate|immediate value]] carried inside the instruction."
 
 msgid "hardware.briefing.cpu.3"
-msgstr "Source MUX chooses ARG or RAM. ALU uses A=ACC and B=that source. Result MUX chooses a direct load or ALU result. ACC_LOAD and MEM_WRITE control storage. Constants 0/1 hold the ALU in ADD mode. Click any component to inspect ports and widths."
+msgstr "Module specifications: ALU performs 4-bit arithmetic. ACC stores its input when LOAD=1 and holds when LOAD=0. RAM reads the row at ADDR and writes when WRITE=1. A MUX selects one of two 4-bit inputs using SEL.\n\nController reads 2-bit OPCODE and produces four 1-bit controls: SOURCE_SEL, RESULT_SEL, ACC_LOAD, MEM_WRITE. Click a module body for its port and selection rules; these are task specifications."
 
 msgid "hardware.briefing.cpu.4"
-msgstr "Wire four stages:\nA Immediate: OPCODE→Controller and ARG→Source MUX→ALU.B\nB Compute: ACC→ALU.A→Result MUX→ACC\nC Load memory: RAM.OUT→Source/Result MUX→ACC\nD Store memory: ACC→RAM.DATA and Controller.MEM_WRITE→RAM.WRITE\n\nTrace 4-bit data first, then check 1/2-bit control. Inspector states every port's width and job."
+msgstr "Stage goals:\nA Operand interfaces: opcode, immediate value, arithmetic input.\nB Compute and store: addition, loading, holding.\nC Memory read: address and addressed word.\nD Memory write: target row and write enable.\n\nCheck Interfaces only checks whether the relevant inputs are connected. It does not certify correctness or add wires. The full test checks ACC and RAM state after every instruction."
 
 msgid "hardware.briefing.cpu.5"
-msgstr "After all four stages, run the seven-step official program covering every opcode. On failure, trace the current step's data destination before its control signal. A full pass immediately offers Seal or Return to Map."
+msgstr "The full test executes seven [[program|instructions]] in order. Each step shows the instruction, prior state, expected result and actual result.\n\nIf a step differs, check what its opcode should do, then inspect the relevant ports. The specification and opcode table remain available.\n\nPass every step to seal TinyComputer. Next, use your own computer to observe data moving during LOAD and STORE."
 
 msgid "hardware.briefing.load_store.1"
 msgstr "No new wiring is needed. Run your sealed computer and watch two actions: [[load|LOAD]] brings data from [[ram|RAM]] to the [[cpu|CPU]], while [[store|STORE]] sends the CPU result back.\n\nRAM → LOAD → CPU → STORE → RAM"
@@ -1027,10 +1027,10 @@ msgid "hardware.toolbar.level_map.tooltip"
 msgstr "Open the Hardware Prologue map to review completed, unlocked, and prerequisite-gated levels."
 
 msgid "hardware.phase.tutorial"
-msgstr "1 / 2  ·  WIRING TUTORIAL"
+msgstr "PROLOGUE · WIRING TUTORIAL"
 
 msgid "hardware.phase.half_adder"
-msgstr "2 / 2  ·  BUILD A 1-BIT HALF ADDER"
+msgstr "PROLOGUE · BUILD A 1-BIT HALF ADDER"
 
 msgid "hardware.phase.complete"
 msgstr "COMPLETE  ·  PLAYER-OWNED ABSTRACTION"
@@ -1045,7 +1045,7 @@ msgid "hardware.tutorial.status"
 msgstr "Place from Components; left-drag parts/ports to move or wire, and drag empty canvas to select; Shift adds selection or moves a wire end; sweep right mouse to erase."
 
 msgid "hardware.tutorial.trace_hint"
-msgstr "TRACE — a recommended first route is A → NOT → LAMP"
+msgstr "Observe A and LAMP at 0/1; low is a normal signal."
 
 msgid "hardware.tutorial.zero_delay"
 msgstr "Wires have 0 tick delay"
@@ -1057,7 +1057,7 @@ msgid "hardware.tutorial.heading_subtitle"
 msgstr "A compact desktop task window"
 
 msgid "hardware.tutorial.prompt"
-msgstr "Use the placed [[not_gate|NOT gate]] to build A → NOT → LAMP. Join it with [[wire|wires]], switch A, and make one [[debug_run|debug run]]. Finally delete one wire and reconnect it. Components offers optional gates for further experiments."
+msgstr "Goal: A=0 → LAMP=1; A=1 → LAMP=0. Complete the five actions below, then continue. Expand Mission for specifications and controls."
 
 msgid "hardware.tutorial.checklist_title"
 msgstr "SHORT INTERACTION CHECK"
@@ -1114,16 +1114,16 @@ msgid "hardware.challenge.heading_subtitle"
 msgstr "Design the topology yourself"
 
 msgid "hardware.challenge.description"
-msgstr "Build a [[half_adder|Half Adder]]: A and B are inputs, while [[sum|SUM]] and [[carry|CARRY]] are its two outputs. Solve CARRY and SUM separately, then connect both outputs."
+msgstr "Goal: add 1-bit inputs A and B; output SUM (low bit) and CARRY. Pass all four input cases, then seal. Expand Mission for the truth table and gate rules."
 
 msgid "hardware.challenge.hint"
 msgstr "If you get stuck, return to the [[truth_table|truth table]]: CARRY is 1 only for 11, while SUM is 1 only for 01 and 10. Debug shows which input fails without giving away the wiring."
 
 msgid "hardware.test_bench.signal.placeholder"
-msgstr "Click an input switch: red with the low-line shape means 0; green with the strong rightward shape means 1."
+msgstr "Click a signal: outlined 0 · filled 1."
 
 msgid "hardware.test_bench.signal.placeholder_general"
-msgstr "Every one-bit signal uses a number, red/green, and line shape, so color is never the only cue."
+msgstr "Outlined 0 · filled 1. Type a number for wider inputs."
 
 msgid "hardware.signal.low"
 msgstr "LOW"
@@ -1132,7 +1132,7 @@ msgid "hardware.signal.high"
 msgstr "HIGH"
 
 msgid "hardware.test_bench.signal.tooltip"
-msgstr "Test Bench input %s is currently %d; click to toggle 0/1."
+msgstr "%s = %d. Click or press Space to toggle 0 / 1."
 
 msgid "hardware.seal.button"
 msgstr "Seal as HalfAdder"
@@ -1540,7 +1540,7 @@ msgid "hardware.prologue.open_map.tooltip"
 msgstr "Carry the sealed HalfAdder into the later CPU / arithmetic construction path."
 
 msgid "hardware.prologue.map.phase"
-msgstr "HARDWARE WORKSHOP · BUILD MAP"
+msgstr "Hardware Foundations · Prologue Map"
 
 msgid "hardware.prologue.map.title"
 msgstr "From gates to a running computer"
@@ -1549,7 +1549,7 @@ msgid "hardware.prologue.map.subtitle"
 msgstr "Learn to compute · learn to remember · merge both into a computer"
 
 msgid "hardware.prologue.map.description"
-msgstr "Leave this optional workshop whenever you wish; it never gates the eight-task mainline. Arithmetic: Half Adder → Full Adder → ALU. Storage: SR Latch → Register → RAM. Take either route first, then add a controller to build a small computer. These are your own components; fewer gates do not automatically make the mainline CPU faster."
+msgstr "Start with wiring practice. Arithmetic: Half Adder → Full Adder → ALU. Storage: SR Latch → Register → RAM. Explore either branch first, join them into a CPU, run LOAD/STORE, then continue to systems and data movement."
 
 msgid "hardware.prologue.map.canvas_hint"
 msgstr "Choose a level on the central dependency graph; hover a node to inspect its goal and prerequisites."
@@ -1950,10 +1950,10 @@ msgid "hardware.hint.button"
 msgstr "Hint"
 
 msgid "hardware.hint.button.tooltip"
-msgstr "Enter a separate read-only hint workbench without changing your circuit."
+msgstr "Open the separate read-only canvas at the last viewed level; your design stays unchanged."
 
 msgid "hardware.hint.return"
-msgstr "Return to my workbench"
+msgstr "Return to my design"
 
 msgid "hardware.hint.return.tooltip"
 msgstr "Leave the hint and restore the player workbench you were using."
@@ -1962,7 +1962,7 @@ msgid "hardware.hint.next"
 msgstr "Hint %d/%d · Next"
 
 msgid "hardware.hint.next.tooltip"
-msgstr "Reveal the next hint stage."
+msgstr "Request the next hint level; reveal it only after confirmation."
 
 msgid "hardware.hint.phase"
 msgstr "HINT WORKBENCH · %d/%d"
@@ -1971,7 +1971,7 @@ msgid "hardware.hint.status"
 msgstr "Viewing hint stage %d/%d."
 
 msgid "hardware.hint.read_only"
-msgstr "The hint workbench is read-only; its components and wires use the real circuit model."
+msgstr "Separate hint canvas · Read-only. Pan, zoom, and inspect components."
 
 msgid "hardware.hint.no_progress"
 msgstr "Hints cannot run official tests, seal components, or change progression."
@@ -2010,13 +2010,13 @@ msgid "hardware.hint.half_adder.1"
 msgstr "Do not wire yet. Cover one truth-table column and inspect only CARRY: which row differs from the other three? Then inspect SUM: what do its two high rows share? Choose the simpler output first."
 
 msgid "hardware.hint.half_adder.2"
-msgstr "CARRY is 1 only when A and B are both 1; SUM is 1 only when A and B differ. This board demonstrates only the simpler CARRY branch. You still build SUM from AND, OR, and NOT."
+msgstr "CARRY is 1 only when A and B are both 1. The canvas shows this partial branch.\n\nSUM is 1 for 01 and 10: treat each row as a condition, invert an input that must be 0, test the condition, then combine the two conditions."
 
 msgid "hardware.hint.half_adder.3"
 msgstr "The complete answer adds A AND B as CARRY beside the SUM path; both outputs share A and B."
 
 msgid "hardware.hint.full_adder.1"
-msgstr "Add A and B first, then add the first SUM to CIN; finally decide how the two carry results combine."
+msgstr "A Half Adder accepts only two addends. If A+B+CIN is split into two operations, which intermediate results must be retained?"
 
 msgid "hardware.hint.full_adder.2"
 msgstr "The key path chains two HalfAdders, and the second HalfAdder's SUM becomes the final SUM."
@@ -2034,7 +2034,7 @@ msgid "hardware.hint.alu.3"
 msgstr "The complete answer connects all four candidates, selectors, RESULT, and the adder's separate CARRY output."
 
 msgid "hardware.hint.latch.1"
-msgstr "Two NOR gates can read each other's output and retain state while S=R=0; avoid asserting S and R together."
+msgstr "Separate setting from holding: once both controls return to 0, where could the circuit obtain its previous state? Trace one value first."
 
 msgid "hardware.hint.latch.2"
 msgstr "The upper relation is shown: S and the lower NOR's Q output enter the upper NOR, whose result is NQ. Mirror this with R below to close the cross-feedback."
@@ -2043,7 +2043,7 @@ msgid "hardware.hint.latch.3"
 msgstr "The complete answer connects the cross-coupled NOR outputs to Q and NQ."
 
 msgid "hardware.hint.register.1"
-msgstr "LOAD=0 must preserve the latch; with LOAD=1, D and NOT D should form SET and RESET."
+msgstr "Consider the two LOAD cases separately: what should Q follow when writing is allowed, and which latch control state preserves it when writing is disabled?"
 
 msgid "hardware.hint.register.2"
 msgstr "The key relation is S = D AND LOAD and R = NOT(D) AND LOAD. The partial topology shows the complete SET branch; mirror it with NOT(D) for RESET."
@@ -2790,13 +2790,13 @@ msgid "hardware.completion.chapter"
 msgstr "Hardware Foundations · Prologue"
 
 msgid "hardware.completion.summary.tutorial"
-msgstr "You learned ports, levels, wiring, removal, and reconnection. The visible wires on the workbench are the topology the circuit really executes."
+msgstr "You can wire, run and repair a circuit. Red 0 and green 1 are both normal signals. Change the input and follow how the result changes."
 
 msgid "hardware.completion.summary.half_adder"
-msgstr "You derived SUM and CARRY from the truth table and sealed HalfAdder. XOR is now unlocked: it directly implements 'output 1 when inputs differ,' the SUM relation."
+msgstr "You turned two bits into SUM and CARRY and obtained a reusable HalfAdder. The newly unlocked XOR gate outputs 1 when its inputs differ, matching the SUM rule."
 
 msgid "hardware.completion.summary.full_adder"
-msgstr "You combined smaller adders to handle carry-in, using an owned abstraction to construct a higher-level component for the first time."
+msgstr "Your adder now accepts the carry from the previous bit. Small circuits can become parts of larger circuits without rebuilding every gate."
 
 msgid "hardware.completion.summary.alu"
 msgstr "You used control signals to select arithmetic results and saw how an ALU brings several operations into one data path."
@@ -2805,7 +2805,7 @@ msgid "hardware.completion.summary.latch"
 msgstr "You stored state through feedback and discovered the boundary between combinational logic and a component with memory."
 
 msgid "hardware.completion.summary.register"
-msgstr "You used LOAD to control when new data is accepted and turned one-bit storage into a reusable register abstraction."
+msgstr "Data and the decision to save it now have separate inputs. With LOAD off, Q keeps the last saved value."
 
 msgid "hardware.completion.summary.ram"
 msgstr "You combined address, write control, and data ports into addressable memory, observing write, hold, and read state changes."
@@ -3603,7 +3603,7 @@ msgid "terminology.title"
 msgstr "Terminology Handbook"
 
 msgid "terminology.subtitle"
-msgstr "Browse hardware, system, and performance concepts by directory or search directly"
+msgstr "Understand the circuit in front of you, one idea at a time."
 
 msgid "terminology.close"
 msgstr "Close"
@@ -3615,7 +3615,7 @@ msgid "terminology.result_count"
 msgstr "Showing %d of %d entries"
 
 msgid "terminology.footer"
-msgstr "Esc closes the handbook · Definitions explain concepts without solving a level"
+msgstr "○ Opens later · current specifications remain available · request Hints for solution guidance"
 
 msgid "terminology.empty.title"
 msgstr "No terminology found"
@@ -3684,31 +3684,31 @@ msgid "terminology.term.bit.title"
 msgstr "Bit"
 
 msgid "terminology.term.bit.body"
-msgstr "The smallest unit of information used here, representing binary 0 or 1. Several bits combine into a larger value; an 8-bit value contains eight bits."
+msgstr "One bit holds either 0 or 1, like a lamp that is off or on.\n\nCombine bits to represent more values. Four bits have 16 possible states, from 0 to 15. A port's width tells you how many bits it carries at once."
 
 msgid "terminology.term.binary.title"
 msgstr "Binary"
 
 msgid "terminology.term.binary.body"
-msgstr "A way to represent information using only 0 and 1. Digital circuits map those values to low and high signal levels."
+msgstr "Binary writes numbers using only 0 and 1. From right to left, the places are worth 1, 2, 4, 8, and so on.\n\nAdd a place's value when its bit is 1; skip it when its bit is 0. Leading zeroes do not change the number: 0011 and 11 both mean decimal 3."
 
 msgid "terminology.term.signal.title"
 msgstr "Signal"
 
 msgid "terminology.term.signal.body"
-msgstr "A logic state carried between ports and wires. This game mainly uses low 0, high 1, and high-impedance Z."
+msgstr "A signal is a value carried through a circuit. Inputs produce signals, wires carry them, and components read inputs to produce outputs.\n\nA one-bit signal is 0 or 1. A wider signal carries several bits together. Connected input and output widths must match."
 
 msgid "terminology.term.low_level.title"
 msgstr "Low level (0 / Low)"
 
 msgid "terminology.term.low_level.body"
-msgstr "The signal state representing logic 0. The Test Bench uses a red 0, thin arrow, and low-position switch; the canvas input tag also points in the flow direction."
+msgstr "Low represents logic 0. An outlined triangle and the digit 0 identify it; red is an extra cue, not an error.\n\nA low signal is not a disconnected wire: a valid wire can continuously carry 0."
 
 msgid "terminology.term.high_level.title"
 msgstr "High level (1 / High)"
 
 msgid "terminology.term.high_level.body"
-msgstr "The signal state representing logic 1. The Test Bench uses a green 1, heavy arrow, and high-position switch; the canvas input tag also points in the flow direction."
+msgstr "High represents logic 1, shown by a filled triangle and the digit 1, with green as an extra cue.\n\nHigh and low are values, not grades. A test checks whether the output matches the specification."
 
 msgid "terminology.term.high_impedance.title"
 msgstr "High impedance (High-Z / Z)"
@@ -3768,19 +3768,19 @@ msgid "terminology.term.port.title"
 msgstr "Port"
 
 msgid "terminology.term.port.body"
-msgstr "A connection point on the edge of a component that receives or sends a signal. Ports have a direction and may be named A, B, SUM, and so on."
+msgstr "A port is where a component receives or sends a signal. Inputs are usually on the left, outputs on the right; arrows indicate direction.\n\nThe name describes its role and the width tells you how many bits it carries. A and B can be operands, while SUM is a sum output. Connected widths must match.\n\nIf a connection is rejected, the status explains a direction, width or multiple-driver conflict."
 
 msgid "terminology.term.wire.title"
 msgstr "Wire"
 
 msgid "terminology.term.wire.body"
-msgstr "A line that connects two ports and carries a signal. Ordinary wires describe connectivity and add no modeled latency in this game."
+msgstr "Connect an output to an input to carry its signal there. Drag a branch from an existing wire to reach another compatible input.\n\nWire length and routing do not slow computation. Branches share a signal at a junction; crossing wires alone are not connected."
 
 msgid "terminology.term.junction.title"
 msgstr "Junction / Branch"
 
 msgid "terminology.term.junction.body"
-msgstr "A node that distributes one output signal to several destinations. A branch shares the same signal rather than duplicating a calculation."
+msgstr "A filled dot marks a junction where one signal branches to several destinations. Branching does not change or recalculate the value.\n\nStart a new wire from the middle of a segment to branch. At a crossing without a dot, the wires still carry separate signals."
 
 msgid "terminology.term.combinational_loop.title"
 msgstr "Combinational Loop"
@@ -3798,7 +3798,7 @@ msgid "terminology.term.truth_table.title"
 msgstr "Truth Table"
 
 msgid "terminology.term.truth_table.body"
-msgstr "A table listing every input combination and the expected outputs. Two inputs A and B produce the four rows 00, 01, 10, and 11."
+msgstr "A truth table states the required output for every input combination. It describes behaviour; different circuits can implement the same table.\n\nTwo one-bit inputs A and B have four combinations: 00, 01, 10, 11. Read the inputs on the left and the outputs on the same row. The example compares AND and OR."
 
 msgid "terminology.term.topology.title"
 msgstr "Topology"
@@ -3894,7 +3894,7 @@ msgid "terminology.term.opcode.title"
 msgstr "Opcode / OP"
 
 msgid "terminology.term.opcode.body"
-msgstr "A control value that tells an ALU or controller which operation to perform. OP0 and OP1 are control bits that form an opcode."
+msgstr "An opcode is a number that selects an operation. Read the current level's opcode table to find its meaning: different components can assign different operations to the same number.\n\nFor the prologue ALU, OP1 OP0 = 00 selects AND, 01 OR, 10 addition, and 11 NOT A. The CPU challenge provides its own four instructions."
 
 msgid "terminology.term.latch.title"
 msgstr "Latch"
@@ -3903,10 +3903,10 @@ msgid "terminology.term.latch.body"
 msgstr "A storage circuit that can retain one bit. Unlike pure combinational logic, its current output can depend on earlier input."
 
 msgid "terminology.term.sr_latch.title"
-msgstr "SR Latch (SRLatch)"
+msgstr "SR latch"
 
 msgid "terminology.term.sr_latch.body"
-msgstr "A one-bit latch controlled by SET and RESET, commonly built from two cross-coupled NOR gates."
+msgstr "An SR latch controls a one-bit memory Q with S (set) and R (reset).\n\nS=1, R=0: Q becomes 1.\nS=0, R=1: Q becomes 0.\nS=R=0: keep the previous Q.\nS=R=1: forbidden in this level.\n\nUnlike an ordinary gate, its output can depend on earlier inputs, even when the current inputs are identical."
 
 msgid "terminology.term.set_reset.title"
 msgstr "SET / RESET"
@@ -3924,7 +3924,7 @@ msgid "terminology.term.register.title"
 msgstr "Register"
 
 msgid "terminology.term.register.body"
-msgstr "A small, fast storage component made from several one-bit cells. Register4 stores four bits; LOAD=1 writes D and LOAD=0 holds the current value."
+msgstr "A register holds a value for reuse. D is the data waiting to be written, Q is the stored value, and LOAD decides whether this step writes it.\n\nLOAD=1: store D in Q.\nLOAD=0: keep Q, even if D changes.\n\nRegister1 stores one bit; Register4 stores four bits."
 
 msgid "terminology.term.decoder.title"
 msgstr "Decoder"
@@ -3948,7 +3948,7 @@ msgid "terminology.term.cpu.title"
 msgstr "CPU (Central Processing Unit)"
 
 msgid "terminology.term.cpu.body"
-msgstr "A processor that reads instructions, performs calculations, and exchanges data with RAM through a Bus. CPU8 names the eight-bit processor source in this game."
+msgstr "A CPU follows instructions to select data, compute and save results.\n\nThe prologue computer uses four-bit data. You connect its Controller, ALU, register and RAM; the opcode table defines each instruction.\n\nLater chapters treat the CPU as a system component and use wider data to investigate computation and transfer time."
 
 msgid "terminology.term.bus.title"
 msgstr "Bus"
@@ -4002,19 +4002,19 @@ msgid "terminology.term.program.title"
 msgstr "Program"
 
 msgid "terminology.term.program.body"
-msgstr "Instructions or code describing the operations a machine performs in order. The Program panel lets the player edit, explain, and apply a program."
+msgstr "A program is a sequence of instructions. The same instruction can produce different results when data or stored state changes.\n\nThe prologue CPU test runs instructions in order, carrying ACC and RAM state into the next step. Later chapters provide an editor for changing the operations that actually run."
 
 msgid "terminology.term.dsl.title"
 msgstr "DSL (Domain-Specific Language)"
 
 msgid "terminology.term.dsl.body"
-msgstr "A small language designed for a particular task. This game uses a Python-like DSL for loops, load, store, and compute operations, but it is not full Python."
+msgstr "The game uses a small Python-like language. A variable holds a value; load reads data; store writes it; for repeats an indented block.\n\nRead these three lines as: load INPUT[0], add 1, then write to OUTPUT[0]. The 0 in brackets identifies a position.\n\nvalue = load(INPUT[0])\nvalue += 1\nstore(OUTPUT[0], value)\n\nUse the in-level program explanation to read each line. Only the game's documented syntax is supported, not full Python."
 
 msgid "terminology.term.apply.title"
 msgstr "Apply Program"
 
 msgid "terminology.term.apply.body"
-msgstr "Parses and confirms the current draft for a run. Mainline Run Current Design applies and runs it in one action. Legacy labs retain a separate Apply button. Invalid drafts report an error and cannot claim an old design's result."
+msgstr "Text in the editor starts as a draft. Apply Program checks its syntax and selects it for the next run.\n\nEditing without applying does not silently replace the active program. If syntax is invalid, correct the reported error, then apply and run.\n\nBefore interpreting results, check that the interface identifies the version you applied."
 
 msgid "terminology.term.workload.title"
 msgstr "Workload"
@@ -4224,7 +4224,7 @@ msgid "terminology.term.alu.example"
 msgstr "Let A=6 and B=3. With OP set to ADD, the result is 9. With OP set to AND, binary 0110 AND 0011 produces 0010, or 2. The inputs stay the same; changing OP tells the ALU to perform a different operation."
 
 msgid "terminology.term.sr_latch.example"
-msgstr "First apply S=1 and R=0 to set Q to 1. Return both inputs to 0 and Q remains 1—that is the stored memory. Apply S=0 and R=1 to clear Q to 0. On a NOR SR latch, do not make S and R both 1."
+msgstr "Apply (S,R) in order: (1,0) → (0,0) → (0,1). Q should be 1 → 1 → 0.\n\nThe middle step has no new set request, yet Q remains 1: that is memory. The diagram shows behaviour. Request a Hint if you want construction guidance."
 
 msgid "terminology.term.decoder.example"
 msgstr "A two-bit address can be 00, 01, 10, or 11. With ADDR=01, only W1 is 1 and the other three selection lines are 0. Connect those lines to four registers' LOAD inputs, and only register 1 accepts new data."
@@ -4575,30 +4575,248 @@ msgstr "SEL=0 outputs A; SEL=1 outputs B. It selects but does not compute."
 msgid "hardware.inspector.behavior.ram2x4"
 msgstr "WRITE=1 stores DATA at ADDR; OUT reads the current address."
 msgid "hardware.inspector.behavior.control"
-msgstr "OP[2] determines SOURCE_SEL, RESULT_SEL, ACC_LOAD, and MEM_WRITE; every output is 1-bit."
+msgstr "For OP=00/01/10/11: SOURCE_SEL=0/0/1/0, RESULT_SEL=0/1/0/0, ACC_LOAD=1/1/1/0, MEM_WRITE=0/0/0/1. All control outputs are 1-bit."
 msgid "hardware.inspector.behavior.constant"
 msgstr "Has no input and always outputs its labeled fixed value."
 
 msgid "hardware.cpu.stage.1"
-msgstr "STAGE A / 4 · CHOOSE AN OPERAND\nLOAD_IMM / ADD_IMM use ARG; LOAD_MEM uses RAM. Let SOURCE choose the origin and carry the 4-bit operand into the ALU."
+msgstr "Stage A / 4 · Operand interfaces\nCheck opcode, immediate value, and arithmetic inputs. The full test is always available."
 msgid "hardware.cpu.stage.2"
-msgstr "STAGE B / 4 · CHOOSE THE WRITEBACK VALUE\nADD_IMM writes the ALU sum; LOAD_IMM / LOAD_MEM bypass addition and write the selected data; STORE_MEM leaves ACC unchanged. Derive RESULT and ACC_LOAD from the table."
+msgstr "Stage B / 4 · Compute and store\nCheck inputs for computing, loading, and holding. Connected interfaces do not prove correct behavior."
 msgid "hardware.cpu.stage.3"
-msgstr "STAGE C / 4 · READ RAM\nADDR[1] selects a row. Decide where the same RAM.DATA_OUT[4] must go for LOAD_MEM, later arithmetic, and external observation; this is a natural bus fan-out."
+msgstr "Stage C / 4 · Memory read\nCheck address and addressed-word interfaces against the LOAD_MEM state rule."
 msgid "hardware.cpu.stage.4"
-msgstr "STAGE D / 4 · WRITE RAM\nSTORE_MEM writes the current ACC value into the selected row while ACC stays unchanged. Which 4-bit data path and 1-bit write-enable path does RAM still need?"
+msgstr "Stage D / 4 · Memory write\nCheck write-data and write-enable interfaces against the STORE_MEM state rule."
 msgid "hardware.cpu.stage.5"
-msgstr "ALL PATHS CONNECTED. Run the seven-step official program to verify all four opcodes."
+msgstr "Interfaces are connected. Run the full 7-step program to check actual behavior."
 msgid "hardware.cpu.stage.check"
-msgstr "CHECK CURRENT STAGE"
+msgstr "Check Interfaces"
 msgid "hardware.cpu.stage.ready"
-msgstr "OFFICIAL PROGRAM UNLOCKED"
+msgstr "Interfaces checked"
 msgid "hardware.cpu.stage.advanced"
-msgstr "Stage path passed. Stage %d is now unlocked."
+msgstr "Current check: stage %d input interfaces. Continue building in any order."
 msgid "hardware.cpu.stage.all_ready"
-msgstr "All four paths passed. The official program is unlocked."
+msgstr "Interfaces are connected; run the full test to check behavior."
 msgid "hardware.cpu.stage.official_locked"
 msgstr "The official program is locked; complete current stage %d first."
 
 msgid "hardware.cpu.opcode_table"
 msgstr "OP[2] · DATA FLOW\n00 LOAD_IMM   ARG → ACC\n01 ADD_IMM    ACC + ARG → ACC\n10 LOAD_MEM   RAM[ADDR] → ACC\n11 STORE_MEM  ACC → RAM[ADDR]\nCTRL [SOURCE / RESULT / LOAD / WRITE]\n00 0010 · 01 0110\n10 1010 · 11 0001"
+
+msgid "hardware.hint.confirm.2"
+msgstr "Reveal H2: a key relationship or partial circuit.\n\nThis gives away part of the solution. Confirm to reveal it, or stay at H1 and try it yourself."
+
+msgid "hardware.hint.confirm.3"
+msgstr "This will reveal the complete reference answer (H3).\n\nConfirm to see all connections on the separate read-only canvas. Your design stays unchanged."
+
+msgid "hardware.hint.confirm_button.2"
+msgstr "Reveal H2"
+
+msgid "hardware.hint.confirm_button.3"
+msgstr "Reveal the complete answer"
+
+msgid "hardware.hint.cancel"
+msgstr "Keep thinking"
+
+msgid "hardware.goal.open"
+msgstr "Goal: %s    ·    Open Mission specifications"
+
+msgid "hardware.goal.tutorial"
+msgstr "Invert A at the lamp and complete five actions"
+
+msgid "hardware.goal.half_adder"
+msgstr "A+B → SUM and CARRY; pass four cases and seal"
+
+msgid "hardware.goal.cpu"
+msgstr "Implement four opcodes; pass all seven program steps and seal"
+
+msgid "hardware.view.focus"
+msgstr "Focus"
+
+msgid "hardware.view.focus.tooltip"
+msgstr "Home: focus selected components, or the whole circuit when none are selected. Shift+Home: show all. Changes only the view."
+
+msgid "hardware.view.focused"
+msgstr "View %d%% · wheel to zoom, middle-drag to pan; Shift+Home shows all"
+
+msgid "hardware.wire.inspect"
+msgstr "%d-bit wire\n%s.%s → %s.%s\nHighlighted wires share this network. Drag to branch, right-click to erase this wire. Crossings do not connect."
+
+msgid "hardware.briefing.build_now"
+msgstr "Start building"
+
+msgid "hardware.briefing.build_now.tooltip"
+msgstr "Fold the mission and build. Every page remains available from the goal bar or Mission window."
+
+msgid "hardware.briefing.stage.operations"
+msgstr "Editor controls"
+
+msgid "hardware.briefing.stage.truth_table"
+msgstr "Truth table"
+
+msgid "hardware.briefing.stage.opcodes"
+msgstr "Instructions"
+
+msgid "hardware.briefing.stage.modules"
+msgstr "Components & interfaces"
+
+msgid "hardware.briefing.stage.stages"
+msgstr "Milestones"
+
+msgid "hardware.cases.try.tooltip"
+msgstr "Select this input. Expected SUM=%d, CARRY=%d. Then run the current input; this does not run the full test."
+
+msgid "hardware.cases.try.selected"
+msgstr "Try A=%d, B=%d: expect SUM=%d, CARRY=%d. Run the current input to inspect the result."
+
+msgid "hardware.goal.tutorial_step"
+msgstr "Make the lamp show the opposite of A · %d/5 done · Next: %s · Open mission"
+
+msgid "hardware.completion.continue"
+msgstr "Continue to next challenge"
+
+msgid "playtest.level_feedback.open"
+msgstr "Leave level feedback (optional)"
+
+msgid "experience.next.hardware_foundations.tutorial"
+msgstr "Next capability: add two bits. Or choose the storage branch on the map and make a circuit remember a value."
+
+msgid "experience.next.hardware_foundations.half_adder"
+msgstr "Next: accept the carry from another bit so your adder can take part in longer additions."
+
+msgid "experience.next.hardware_foundations.full_adder"
+msgstr "Next: use control bits to choose an operation. Addition is only the first thing your circuit can do."
+
+msgid "experience.next.hardware_foundations.alu"
+msgstr "The arithmetic branch is ready. Storage lets data stay around; both branches eventually meet in the CPU."
+
+msgid "experience.next.hardware_foundations.latch"
+msgstr "Next: give memory a simpler interface—supply a value, then decide when to save it."
+
+msgid "experience.next.hardware_foundations.register"
+msgstr "Next: let several registers keep different numbers, then select one using an address."
+
+msgid "experience.next.hardware_foundations.ram"
+msgstr "The storage branch is ready. With the arithmetic branch complete, calculation, control and memory can become a small computer."
+
+msgid "experience.next.hardware_foundations.cpu"
+msgstr "Next: run your own computer and follow a read and a write to see where the data travels."
+
+msgid "experience.next.hardware_foundations.load_store"
+msgstr "The next chapter asks: your machine can calculate, so why is it slow? Investigate one round trip for data."
+
+msgid "experience.next.chapter_1.assembly"
+msgstr "Next: speed up only the CPU. Will the whole machine become faster by the same amount?"
+
+msgid "experience.next.chapter_1.cpu_speed"
+msgstr "Next: follow the data to find the waiting. What takes time besides calculation?"
+
+msgid "experience.next.chapter_1.ram_wait"
+msgstr "Next: once memory has the data ready, how long does the transfer take?"
+
+msgid "experience.next.chapter_1.bus_width"
+msgstr "Next: grow the workload. Observe which part accounts for the largest increase in time."
+
+msgid "experience.next.chapter_1.bottleneck"
+msgstr "The next chapter asks: if each distant fetch is slow, can data make fewer trips?"
+
+msgid "experience.next.chapter_2.distant_reads"
+msgstr "Next: try storage nearer to the CPU and compare the same work before and after."
+
+msgid "experience.next.chapter_2.nearby_storage"
+msgstr "Next: try a different workload. Will the nearby storage always help?"
+
+msgid "experience.next.chapter_2.cache_failure"
+msgstr "Next: keep the hardware. Can the order of data accesses alone reduce waiting?"
+
+msgid "experience.next.chapter_2.access_order"
+msgstr "Next: process the same data again. Is the data from the first pass still available?"
+
+msgid "experience.next.chapter_2.working_set"
+msgstr "Next: keep the capacity. Experiment with when each small group of work happens."
+
+msgid "experience.next.chapter_2.blocking"
+msgstr "Next: investigate a new workload yourself—observe, diagnose, change and check."
+
+msgid "experience.next.chapter_2.capstone"
+msgstr "There is still room to explore. Keep your current design and compare the time and cost of another arrangement."
+
+msgid "hardware.completion.ready_to_seal"
+msgstr "Every case passed. Seal this circuit as %s to use it as a component in later challenges. Your wiring will be kept inside it."
+
+
+msgid "hardware.palette.port_width"
+msgstr "%d-bit ports"
+
+
+msgid "terminology.progress"
+msgstr "%d / %d entries available · more open as you progress"
+
+
+msgid "terminology.unlock_at"
+msgstr "Available when you reach %s"
+
+
+msgid "terminology.locked.body"
+msgstr "This entry opens when %s becomes playable.\n\nContinue your current challenge. Each concept is available before you need to use it; there is no need to learn the whole handbook in advance."
+
+
+msgid "terminology.term.half_adder.example"
+msgstr "With A=1 and B=1, the sum is binary 10. Its bits leave separately: SUM=0 and CARRY=1.\n\nRead the result with CARRY on the left and SUM on the right. This specifies the output without prescribing internal wiring."
+
+
+msgid "terminology.term.binary.example"
+msgstr "The places in 1101 are worth 8, 4, 2 and 1, so it represents 13. Four-bit arithmetic wraps after 15. Whether carry is exposed separately depends on the level's port specification."
+
+
+msgid "terminology.term.signal.example"
+msgstr "Set the input to 0 and run: NOT outputs 1. Set it to 1 and run again: NOT outputs 0. Both can be correct results."
+
+
+msgid "terminology.term.junction.example"
+msgstr "One output can drive two compatible inputs; both see the same value. Do not connect two outputs to one input: that would create multiple drivers."
+
+
+msgid "terminology.term.register.example"
+msgstr "Write with D=1, LOAD=1. Then set D=0, LOAD=0: Q should remain 1. Only when D=0, LOAD=1 does Q become 0."
+
+
+msgid "terminology.diagram.signal.normal"
+msgstr "Both 0 and 1 are valid signal values"
+
+
+msgid "terminology.diagram.binary.weights"
+msgstr "Right to left: 1, 2, 4, 8…"
+
+
+msgid "terminology.diagram.junction.join"
+msgstr "Dot: one shared signal"
+
+
+msgid "terminology.diagram.junction.cross"
+msgstr "No dot: separate wires"
+
+
+msgid "terminology.diagram.state.write"
+msgstr "Write 1"
+
+
+msgid "terminology.diagram.state.hold"
+msgstr "Hold"
+
+
+msgid "terminology.diagram.state.clear"
+msgstr "Write 0"
+
+
+msgid "terminology.diagram.state.sequence"
+msgstr "Run left to right and watch what Q remembers"
+
+msgid "terminology.future_topics"
+msgstr "Show future topics"
+
+msgid "terminology.term.opcode.example"
+msgstr "Example: A=1, B=0, CIN=0. Changing only OP1 OP0 selects a different operation on the same data. Read RESULT for each code without changing the data inputs."
+
+msgid "terminology.diagram.opcode.example"
+msgstr "ALU example: A=1 · B=0 · CIN=0"

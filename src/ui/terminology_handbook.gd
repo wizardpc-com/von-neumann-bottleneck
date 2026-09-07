@@ -3,6 +3,31 @@ extends Control
 
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 const TerminologyDiagramType = preload("res://src/ui/terminology_diagram.gd")
+const PrologueCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
+const SystemCatalogType = preload("res://src/system_lab/system_level_catalog.gd")
+const LocalityCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
+
+# Availability follows the first playable lesson that needs the concept.
+const LESSON_TERMS := {
+	&"hardware:tutorial": [&"bit", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit", &"logic_gate", &"not_gate", &"input_output", &"port", &"wire", &"junction", &"tick", &"test_bench", &"debug_run", &"official_test", &"trace", &"clock_period", &"topology", &"truth_table"],
+	&"hardware:half_adder": [&"binary", &"and_gate", &"or_gate", &"xor_gate", &"abstraction", &"encapsulation", &"half_adder", &"sum", &"carry"],
+	&"hardware:full_adder": [&"full_adder", &"cin_cout"],
+	&"hardware:alu": [&"multiplexer", &"alu", &"opcode", &"wraparound"],
+	&"hardware:latch": [&"nor_gate", &"combinational_loop", &"latch", &"sr_latch", &"set_reset"],
+	&"hardware:register": [&"d_q", &"register"],
+	&"hardware:ram": [&"decoder", &"address_write", &"ram"],
+	&"hardware:cpu": [&"cpu", &"accumulator", &"controller", &"data_path", &"load", &"store", &"immediate", &"program"],
+	&"system:assembly": [&"bus", &"dsl", &"apply", &"workload", &"cycle", &"latency"],
+	&"system:cpu_speed": [&"throughput", &"cpu_wait", &"profiler", &"prediction", &"baseline", &"controlled_change", &"before_after", &"deterministic"],
+	&"system:bus_width": [&"bandwidth", &"serialization"],
+	&"system:bottleneck": [&"bottleneck", &"hardware_cost"],
+	&"locality:distant_reads": [&"data_request"],
+	&"locality:nearby_storage": [&"cache", &"cache_line", &"hit", &"miss", &"fill"],
+	&"locality:cache_failure": [&"evict"],
+	&"locality:access_order": [&"locality", &"spatial_locality", &"temporal_locality", &"access_order", &"row_first", &"column_first"],
+	&"locality:working_set": [&"working_set", &"pass", &"work_group"],
+	&"locality:blocking": [&"blocking", &"tiling"],
+}
 
 const BACKDROP := Color(0.015, 0.027, 0.055, 0.88)
 const PANEL := Color("111b2c")
@@ -38,11 +63,11 @@ const DIRECTORIES: Array[Dictionary] = [
 ]
 
 const TERMS: Array[Dictionary] = [
-	{"id": &"bit", "category": &"basics", "title": &"terminology.term.bit.title", "body": &"terminology.term.bit.body"},
-	{"id": &"binary", "category": &"basics", "title": &"terminology.term.binary.title", "body": &"terminology.term.binary.body"},
-	{"id": &"signal", "category": &"basics", "title": &"terminology.term.signal.title", "body": &"terminology.term.signal.body"},
-	{"id": &"low_level", "category": &"basics", "title": &"terminology.term.low_level.title", "body": &"terminology.term.low_level.body"},
-	{"id": &"high_level", "category": &"basics", "title": &"terminology.term.high_level.title", "body": &"terminology.term.high_level.body"},
+	{"id": &"bit", "category": &"basics", "title": &"terminology.term.bit.title", "body": &"terminology.term.bit.body", "diagram": &"signal"},
+	{"id": &"binary", "category": &"basics", "title": &"terminology.term.binary.title", "body": &"terminology.term.binary.body", "diagram": &"binary", "example": &"terminology.term.binary.example"},
+	{"id": &"signal", "category": &"basics", "title": &"terminology.term.signal.title", "body": &"terminology.term.signal.body", "diagram": &"signal", "example": &"terminology.term.signal.example"},
+	{"id": &"low_level", "category": &"basics", "title": &"terminology.term.low_level.title", "body": &"terminology.term.low_level.body", "diagram": &"signal"},
+	{"id": &"high_level", "category": &"basics", "title": &"terminology.term.high_level.title", "body": &"terminology.term.high_level.body", "diagram": &"signal"},
 	{"id": &"high_impedance", "category": &"basics", "title": &"terminology.term.high_impedance.title", "body": &"terminology.term.high_impedance.body"},
 	{"id": &"short_circuit", "category": &"basics", "title": &"terminology.term.short_circuit.title", "body": &"terminology.term.short_circuit.body"},
 	{"id": &"logic_gate", "category": &"basics", "title": &"terminology.term.logic_gate.title", "body": &"terminology.term.logic_gate.body"},
@@ -53,11 +78,11 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"nor_gate", "category": &"basics", "title": &"terminology.term.nor_gate.title", "body": &"terminology.term.nor_gate.body"},
 	{"id": &"input_output", "category": &"basics", "title": &"terminology.term.input_output.title", "body": &"terminology.term.input_output.body"},
 	{"id": &"port", "category": &"basics", "title": &"terminology.term.port.title", "body": &"terminology.term.port.body"},
-	{"id": &"wire", "category": &"basics", "title": &"terminology.term.wire.title", "body": &"terminology.term.wire.body"},
-	{"id": &"junction", "category": &"basics", "title": &"terminology.term.junction.title", "body": &"terminology.term.junction.body"},
+	{"id": &"wire", "category": &"basics", "title": &"terminology.term.wire.title", "body": &"terminology.term.wire.body", "diagram": &"junction", "example": &"terminology.term.junction.example"},
+	{"id": &"junction", "category": &"basics", "title": &"terminology.term.junction.title", "body": &"terminology.term.junction.body", "diagram": &"junction", "example": &"terminology.term.junction.example"},
 	{"id": &"combinational_loop", "category": &"basics", "title": &"terminology.term.combinational_loop.title", "body": &"terminology.term.combinational_loop.body"},
 	{"id": &"tick", "category": &"basics", "title": &"terminology.term.tick.title", "body": &"terminology.term.tick.body"},
-	{"id": &"truth_table", "category": &"basics", "title": &"terminology.term.truth_table.title", "body": &"terminology.term.truth_table.body"},
+	{"id": &"truth_table", "category": &"basics", "title": &"terminology.term.truth_table.title", "body": &"terminology.term.truth_table.body", "diagram": &"truth_table"},
 	{"id": &"topology", "category": &"basics", "title": &"terminology.term.topology.title", "body": &"terminology.term.topology.body"},
 	{"id": &"test_bench", "category": &"basics", "title": &"terminology.term.test_bench.title", "body": &"terminology.term.test_bench.body"},
 	{"id": &"debug_run", "category": &"basics", "title": &"terminology.term.debug_run.title", "body": &"terminology.term.debug_run.body"},
@@ -67,23 +92,23 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"abstraction", "category": &"basics", "title": &"terminology.term.abstraction.title", "body": &"terminology.term.abstraction.body"},
 	{"id": &"encapsulation", "category": &"basics", "title": &"terminology.term.encapsulation.title", "body": &"terminology.term.encapsulation.body"},
 
-	{"id": &"half_adder", "category": &"hardware", "title": &"terminology.term.half_adder.title", "body": &"terminology.term.half_adder.body"},
-	{"id": &"sum", "category": &"hardware", "title": &"terminology.term.sum.title", "body": &"terminology.term.sum.body"},
-	{"id": &"carry", "category": &"hardware", "title": &"terminology.term.carry.title", "body": &"terminology.term.carry.body"},
+	{"id": &"half_adder", "category": &"hardware", "title": &"terminology.term.half_adder.title", "body": &"terminology.term.half_adder.body", "diagram": &"half_adder", "example": &"terminology.term.half_adder.example"},
+	{"id": &"sum", "category": &"hardware", "title": &"terminology.term.sum.title", "body": &"terminology.term.sum.body", "diagram": &"half_adder", "example": &"terminology.term.half_adder.example"},
+	{"id": &"carry", "category": &"hardware", "title": &"terminology.term.carry.title", "body": &"terminology.term.carry.body", "diagram": &"half_adder", "example": &"terminology.term.half_adder.example"},
 	{"id": &"full_adder", "category": &"hardware", "title": &"terminology.term.full_adder.title", "body": &"terminology.term.full_adder.body"},
 	{"id": &"cin_cout", "category": &"hardware", "title": &"terminology.term.cin_cout.title", "body": &"terminology.term.cin_cout.body"},
 	{"id": &"multiplexer", "category": &"hardware", "title": &"terminology.term.multiplexer.title", "body": &"terminology.term.multiplexer.body", "example": &"terminology.term.multiplexer.example", "diagram": &"multiplexer"},
 	{"id": &"alu", "category": &"hardware", "title": &"terminology.term.alu.title", "body": &"terminology.term.alu.body", "example": &"terminology.term.alu.example", "diagram": &"alu"},
-	{"id": &"opcode", "category": &"hardware", "title": &"terminology.term.opcode.title", "body": &"terminology.term.opcode.body"},
-	{"id": &"latch", "category": &"hardware", "title": &"terminology.term.latch.title", "body": &"terminology.term.latch.body"},
+	{"id": &"opcode", "category": &"hardware", "title": &"terminology.term.opcode.title", "body": &"terminology.term.opcode.body", "diagram": &"opcode", "example": &"terminology.term.opcode.example"},
+	{"id": &"latch", "category": &"hardware", "title": &"terminology.term.latch.title", "body": &"terminology.term.latch.body", "diagram": &"sr_latch", "example": &"terminology.term.sr_latch.example"},
 	{"id": &"sr_latch", "category": &"hardware", "title": &"terminology.term.sr_latch.title", "body": &"terminology.term.sr_latch.body", "example": &"terminology.term.sr_latch.example", "diagram": &"sr_latch"},
-	{"id": &"set_reset", "category": &"hardware", "title": &"terminology.term.set_reset.title", "body": &"terminology.term.set_reset.body"},
-	{"id": &"d_q", "category": &"hardware", "title": &"terminology.term.d_q.title", "body": &"terminology.term.d_q.body"},
-	{"id": &"register", "category": &"hardware", "title": &"terminology.term.register.title", "body": &"terminology.term.register.body"},
+	{"id": &"set_reset", "category": &"hardware", "title": &"terminology.term.set_reset.title", "body": &"terminology.term.set_reset.body", "diagram": &"sr_latch", "example": &"terminology.term.sr_latch.example"},
+	{"id": &"d_q", "category": &"hardware", "title": &"terminology.term.d_q.title", "body": &"terminology.term.d_q.body", "diagram": &"register", "example": &"terminology.term.register.example"},
+	{"id": &"register", "category": &"hardware", "title": &"terminology.term.register.title", "body": &"terminology.term.register.body", "diagram": &"register", "example": &"terminology.term.register.example"},
 	{"id": &"decoder", "category": &"hardware", "title": &"terminology.term.decoder.title", "body": &"terminology.term.decoder.body", "example": &"terminology.term.decoder.example", "diagram": &"decoder"},
 	{"id": &"address_write", "category": &"hardware", "title": &"terminology.term.address_write.title", "body": &"terminology.term.address_write.body"},
 	{"id": &"ram", "category": &"hardware", "title": &"terminology.term.ram.title", "body": &"terminology.term.ram.body"},
-	{"id": &"cpu", "category": &"hardware", "title": &"terminology.term.cpu.title", "body": &"terminology.term.cpu.body"},
+	{"id": &"cpu", "category": &"hardware", "title": &"terminology.term.cpu.title", "body": &"terminology.term.cpu.body", "diagram": &"accumulator", "example": &"terminology.term.accumulator.example"},
 	{"id": &"bus", "category": &"hardware", "title": &"terminology.term.bus.title", "body": &"terminology.term.bus.body", "example": &"terminology.term.bus.example", "diagram": &"serialization"},
 	{"id": &"accumulator", "category": &"hardware", "title": &"terminology.term.accumulator.title", "body": &"terminology.term.accumulator.body", "example": &"terminology.term.accumulator.example", "diagram": &"accumulator"},
 	{"id": &"controller", "category": &"hardware", "title": &"terminology.term.controller.title", "body": &"terminology.term.controller.body"},
@@ -138,6 +163,7 @@ var title_label: Label
 var subtitle_label: Label
 var search_edit: LineEdit
 var category_selector: OptionButton
+var future_toggle: Button
 var term_tree: Tree
 var result_count_label: Label
 var detail_category_label: Label
@@ -152,6 +178,10 @@ var close_button: Button
 var visible_term_ids: Array[StringName] = []
 var visible_term_items: Dictionary = {}
 var experience_notes: Dictionary = {}
+var available_term_ids: Array[StringName] = []
+var prologue_catalog := PrologueCatalogType.new()
+var system_catalog := SystemCatalogType.new()
+var locality_catalog := LocalityCatalogType.new()
 
 
 static func has_term(term_id: StringName) -> bool:
@@ -175,6 +205,11 @@ func _ready() -> void:
 func open_handbook(term_id: StringName = &"") -> void:
 	modal.show()
 	entry_button.hide()
+	if not term_id.is_empty():
+		search_edit.clear()
+		category_selector.select(0)
+		if not is_term_unlocked(term_id):
+			future_toggle.set_pressed_no_signal(true)
 	_refresh_terms(term_id)
 	search_edit.grab_focus()
 
@@ -218,6 +253,7 @@ func _build_theme() -> void:
 	handbook_theme.set_stylebox("panel", "Tree", _stylebox(PANEL_DARK, 8, 1, Color("263750"), 8.0))
 	handbook_theme.set_stylebox("selected", "Tree", _stylebox(Color("1d4258"), 6, 1, ACCENT, 6.0))
 	handbook_theme.set_stylebox("selected_focus", "Tree", _stylebox(Color("1d4258"), 6, 2, ACCENT, 6.0))
+	preload("res://src/ui/instrument_theme.gd").apply_to(handbook_theme)
 	theme = handbook_theme
 
 
@@ -260,6 +296,7 @@ func _build_interface() -> void:
 	header.add_child(heading_box)
 	title_label = Label.new()
 	title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title_label.add_theme_color_override("font_color", ACCENT)
 	heading_box.add_child(title_label)
 	subtitle_label = Label.new()
@@ -283,6 +320,11 @@ func _build_interface() -> void:
 	category_selector.custom_minimum_size.x = 245.0
 	category_selector.item_selected.connect(func(_index: int) -> void: _refresh_terms())
 	filter_row.add_child(category_selector)
+	future_toggle = Button.new()
+	future_toggle.name = "HandbookFutureTopics"
+	future_toggle.toggle_mode = true
+	future_toggle.toggled.connect(func(_pressed: bool) -> void: _refresh_terms())
+	filter_row.add_child(future_toggle)
 
 	var content_row := HBoxContainer.new()
 	content_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -322,6 +364,7 @@ func _build_interface() -> void:
 	detail_box.add_child(detail_category_label)
 	detail_title_label = Label.new()
 	detail_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	detail_title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	detail_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail_box.add_child(detail_title_label)
 	var divider := HSeparator.new()
@@ -341,6 +384,7 @@ func _build_interface() -> void:
 	detail_box.add_child(detail_diagram)
 	detail_example_heading_label = Label.new()
 	detail_example_heading_label.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	detail_example_heading_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	detail_example_heading_label.add_theme_color_override("font_color", GOOD)
 	detail_box.add_child(detail_example_heading_label)
 	detail_example_label = RichTextLabel.new()
@@ -366,6 +410,7 @@ func _refresh_localized_copy() -> void:
 	subtitle_label.text = _t(&"terminology.subtitle")
 	close_button.text = _t(&"terminology.close")
 	search_edit.placeholder_text = _t(&"terminology.search.placeholder")
+	future_toggle.text = _t(&"terminology.future_topics")
 	footer_label.text = _t(&"terminology.footer")
 	detail_example_heading_label.text = _t(&"terminology.example.title")
 	var selected_category: StringName = _selected_category()
@@ -394,6 +439,11 @@ func _refresh_terms(preferred_term_id: StringName = &"") -> void:
 	term_tree.clear()
 	visible_term_ids.clear()
 	visible_term_items.clear()
+	available_term_ids.clear()
+	for term: Dictionary in TERMS:
+		if is_term_unlocked(term["id"]):
+			available_term_ids.append(term["id"])
+	subtitle_label.text = _t(&"terminology.progress", [available_term_ids.size(), TERMS.size()])
 	var root_item: TreeItem = term_tree.create_item()
 	for category: Dictionary in CATEGORIES:
 		var current_category_id: StringName = category["id"]
@@ -405,6 +455,8 @@ func _refresh_terms(preferred_term_id: StringName = &"") -> void:
 				continue
 			var matching_terms: Array[Dictionary] = []
 			for term_id: StringName in directory["terms"]:
+				if term_id not in available_term_ids and not future_toggle.button_pressed and query.is_empty():
+					continue
 				var term: Dictionary = _term_definition(term_id)
 				if term.is_empty() or not _term_matches(term, query):
 					continue
@@ -426,6 +478,10 @@ func _refresh_terms(preferred_term_id: StringName = &"") -> void:
 				var term_id: StringName = term["id"]
 				var term_item: TreeItem = term_tree.create_item(directory_item)
 				term_item.set_text(0, _t(term["title"]))
+				if term_id not in available_term_ids:
+					term_item.set_text(0, "○  " + _t(term["title"]))
+					term_item.set_custom_color(0, MUTED)
+					term_item.set_tooltip_text(0, _t(&"terminology.unlock_at", [_lesson_title(term_id)]))
 				term_item.set_metadata(0, term_id)
 				visible_term_ids.append(term_id)
 				visible_term_items[term_id] = term_item
@@ -450,6 +506,8 @@ func _refresh_terms(preferred_term_id: StringName = &"") -> void:
 func _term_matches(term: Dictionary, query: String) -> bool:
 	if query.is_empty():
 		return true
+	if not is_term_unlocked(term["id"]):
+		return query in (_t(term["title"]) + " " + String(term["id"])).to_lower()
 	var directory_name: String = _directory_name_for_term(term["id"])
 	var example_key := StringName(term.get("example", &""))
 	var example_text: String = "" if example_key.is_empty() else _t(example_key)
@@ -496,6 +554,12 @@ func _show_term(term_id: StringName) -> void:
 		var directory_name: String = _directory_name_for_term(term_id)
 		detail_category_label.text = category_name if directory_name.is_empty() else "%s  ·  %s" % [category_name, directory_name]
 		detail_title_label.text = _t(term["title"])
+		if not is_term_unlocked(term_id):
+			detail_body_label.text = _t(&"terminology.locked.body", [_lesson_title(term_id)])
+			detail_diagram.set_diagram(&"")
+			detail_example_heading_label.hide()
+			detail_example_label.hide()
+			return
 		detail_body_label.text = _t(term["body"])
 		if experience_notes.has(term_id):
 			detail_body_label.text += "\n\n" + String(experience_notes[term_id])
@@ -508,6 +572,45 @@ func _show_term(term_id: StringName) -> void:
 		detail_scroll_container.scroll_vertical = 0
 		return
 	_show_empty_detail()
+
+
+func is_term_unlocked(term_id: StringName) -> bool:
+	if not has_term(term_id):
+		return false
+	if GameMode.is_test_mode() or experience_notes.has(term_id):
+		return true
+	var lesson: String = _lesson_for_term(term_id)
+	var parts: PackedStringArray = lesson.split(":")
+	if parts.size() != 2:
+		return false
+	var level_id := StringName(parts[1])
+	match parts[0]:
+		"hardware":
+			return prologue_catalog.is_unlocked(level_id, GlobalSave.game_player_content.completed_levels)
+		"system":
+			return system_catalog.is_unlocked(level_id, SystemChapter.game_completed, SystemChapter.prologue_ready)
+		"locality":
+			return locality_catalog.is_unlocked(level_id, LocalityChapter.game_completed, bool(SystemChapter.game_completed.get(&"bottleneck", false)))
+	return false
+
+
+func _lesson_for_term(term_id: StringName) -> String:
+	for lesson: StringName in LESSON_TERMS:
+		if term_id in LESSON_TERMS[lesson]:
+			return String(lesson)
+	return ""
+
+
+func _lesson_title(term_id: StringName) -> String:
+	var parts: PackedStringArray = _lesson_for_term(term_id).split(":")
+	if parts.size() != 2:
+		return ""
+	var level_id := StringName(parts[1])
+	match parts[0]:
+		"hardware": return _t(prologue_catalog.title_key(level_id))
+		"system": return _t(system_catalog.title_key(level_id))
+		"locality": return _t(locality_catalog.title_key(level_id))
+	return ""
 
 
 func _show_empty_detail() -> void:

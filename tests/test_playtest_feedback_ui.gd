@@ -29,11 +29,13 @@ func _run() -> void:
 	level_overlay.continue_requested.connect(func(level_id: StringName) -> void: level_continues.append(level_id))
 
 	level_overlay.present(&"half_adder", "Half Adder", "Learned summary", "Hardware Foundations", &"hardware_foundations")
-	_assert(level_overlay.visible and (level_overlay.get("feedback_box") as Control).visible, "Ordinary play must show the compact level feedback inside the completion surface.")
+	_assert(level_overlay.visible and not (level_overlay.get("feedback_box") as Control).visible and level_overlay.feedback_toggle.visible, "Ordinary play must offer optional feedback without placing a questionnaire ahead of the next challenge.")
 	(level_overlay.get("continue_button") as Button).pressed.emit()
 	_assert(level_skips.size() == 1 and level_continues == [&"half_adder"], "Unanswered level feedback must remain skippable and never block Continue.")
 
 	level_overlay.present(&"half_adder", "Half Adder", "Learned summary", "Hardware Foundations", &"hardware_foundations")
+	level_overlay.feedback_toggle.button_pressed = true
+	_assert(level_overlay.feedback_box.visible, "Feedback must expand on explicit request and retain all ratings and notes.")
 	var ratings: Dictionary = level_overlay.get("feedback_ratings")
 	(ratings[&"fun"] as OptionButton).select(4)
 	(ratings[&"clarity"] as OptionButton).select(5)

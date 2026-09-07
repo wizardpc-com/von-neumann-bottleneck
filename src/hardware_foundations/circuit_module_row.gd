@@ -1,8 +1,8 @@
 class_name CircuitModuleRow
 extends Control
 
-const SURFACE := Color("101725")
-const SYMBOL := Color("aebbd0")
+const SURFACE := Color("192b40")
+const SYMBOL := Color("d7e9f6")
 const PROCESS := Color("50d5ff")
 const ARITHMETIC := Color("50d5ff")
 const STORAGE := Color("bc8cff")
@@ -159,7 +159,7 @@ func visible_component_name() -> String:
 		&"alu4": return "ALU4"
 		&"sr_latch": return "SR Latch"
 		&"register1": return "Register1"
-		&"register4": return component_label if component_label.contains("ACC") else "Register4"
+		&"register4": return "ACC · Register4" if component_label.contains("ACC") else "Register4"
 		&"decoder1_to_2": return "Decoder"
 		&"control": return component_label if not component_label.is_empty() else "Controller"
 		&"ram2x4": return "RAM2x4"
@@ -173,15 +173,15 @@ func name_layout() -> Dictionary:
 	var preferred_icon_width: float = 24.0
 	var icon_gap: float = 7.0
 	var font_size: int = _name_font_size(
-		text, 11, maxf(1.0, safe_rect.size.x - preferred_icon_width - icon_gap)
+		text, 16, maxf(1.0, safe_rect.size.x - preferred_icon_width - icon_gap)
 	)
 	var text_width: float = _text_width(text, font_size)
 	var text_box_width: float = text_width + 4.0
 	var icon_width: float = preferred_icon_width
-	if text_box_width + icon_width + icon_gap > safe_rect.size.x:
+	if font_size < 14 or text_box_width + icon_width + icon_gap > safe_rect.size.x:
 		icon_width = 0.0
 		icon_gap = 0.0
-		font_size = _name_font_size(text, 11, maxf(1.0, safe_rect.size.x))
+		font_size = _name_font_size(text, 16, maxf(1.0, safe_rect.size.x - 4.0))
 		text_width = _text_width(text, font_size)
 		text_box_width = text_width + 4.0
 	var group_width: float = minf(safe_rect.size.x, icon_width + icon_gap + text_box_width)
@@ -218,19 +218,19 @@ func port_label_layouts() -> Array[Dictionary]:
 	if has_input:
 		var text: String = _width_label(input_label, input_width)
 		layouts.append(_text_layout(
-			Vector2(left + 7.0, center_y), text, HORIZONTAL_ALIGNMENT_LEFT, 9, &"input"
+			Vector2(left + 7.0, center_y), text, HORIZONTAL_ALIGNMENT_LEFT, 12, &"input"
 		))
 	if has_output:
 		var text: String = _width_label(output_label, output_width)
 		layouts.append(_text_layout(
-			Vector2(right - 7.0, center_y), text, HORIZONTAL_ALIGNMENT_RIGHT, 9, &"output"
+			Vector2(right - 7.0, center_y), text, HORIZONTAL_ALIGNMENT_RIGHT, 12, &"output"
 		))
 	return layouts
 
 
 func function_mark_rect() -> Rect2:
-	if row_index != row_count / 2:
-		return Rect2()
+	if row_index >= 0:
+		return _body_icon_rect().grow(2.0) if row_index == row_count / 2 else Rect2()
 	var layout: Dictionary = name_layout()
 	var result: Rect2 = layout["rect"]
 	var icon_rect: Rect2 = layout["icon_rect"]
@@ -242,12 +242,24 @@ func function_mark_rect() -> Rect2:
 func _draw() -> void:
 	if size.x <= 0.0 or size.y <= 0.0:
 		return
+	if row_index < 0:
+		var header := Rect2(Vector2(_body_left(0.0), 0.0), Vector2(_body_right(0.0) - _body_left(0.0), size.y))
+		draw_rect(header, _outline_color().darkened(0.70), true)
+		draw_rect(header, PROCESS if selection_active else _outline_color(), false, 2.0)
+		_draw_function_mark()
+		return
 	_draw_module_surface()
 	_draw_pin_leads()
 	_draw_processing_route()
 	_draw_port_labels()
 	if row_index == row_count / 2:
-		_draw_function_mark()
+		_draw_function_icon(_body_icon_rect(), SYMBOL.lerp(PROCESS, _stage_strength(0.24, 0.76)))
+
+
+func _body_icon_rect() -> Rect2:
+	var safe: Rect2 = _central_content_rect()
+	var width: float = minf(24.0, safe.size.x)
+	return Rect2(Vector2(safe.get_center().x - width * 0.5, size.y * 0.5 - 10.0), Vector2(width, 20.0))
 
 
 func _draw_module_surface() -> void:
@@ -283,8 +295,14 @@ func _draw_pin_leads() -> void:
 	var right: float = _body_right(global_t)
 	if has_input:
 		draw_line(Vector2(0.0, center_y), Vector2(left, center_y), SYMBOL, 4.0, true)
+		_draw_pin_direction(Vector2(left - 10.0, center_y))
 	if has_output:
 		draw_line(Vector2(right, center_y), Vector2(size.x, center_y), SYMBOL, 4.0, true)
+		_draw_pin_direction(Vector2(right + 18.0, center_y))
+
+
+func _draw_pin_direction(tip: Vector2) -> void:
+	draw_polyline(PackedVector2Array([tip + Vector2(-5.0, -4.0), tip, tip + Vector2(-5.0, 4.0)]), SYMBOL, 2.0, true)
 
 
 func _draw_port_labels() -> void:

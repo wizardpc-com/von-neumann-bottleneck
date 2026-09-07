@@ -1,0 +1,21 @@
+{
+  "build": "polish-20260907T010358-76ef116",
+  "exe_sha256": "1dc83a42ca49c0d339f3941aa005c98612e0c8d209f457525a3bab19f563bec0",
+  "startup": [
+    {
+      "mode": "game",
+      "exit": 0,
+      "errors": [],
+      "log": "package-game-confirmed.log"
+    },
+    {
+      "mode": "test",
+      "exit": 0,
+      "errors": [],
+      "log": "package-test-confirmed.log"
+    }
+  ],
+  "head": "76ef11610c3faf2b81722877fa91877a4589074d",
+  "staged_patch_unchanged": true,
+  "staged_sha256": "5af9f60da53bbf4b8a0c3dec3f6f698e5f78cfe8bd2e3f14435631d147a792ae"
+}

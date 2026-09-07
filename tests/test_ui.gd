@@ -51,12 +51,12 @@ func _run() -> void:
 	terminology_handbook.call("open_handbook", &"truth_table")
 	var terminology_tree: Tree = terminology_handbook.get("term_tree")
 	var terminology_ids: Array = terminology_handbook.get("visible_term_ids")
-	_assert(terminology_ids.size() == 89 and _unique_count(terminology_ids) == 89, "The global handbook must classify all 89 terms exactly once before filtering.")
+	_assert(terminology_ids.size() == 20 and _unique_count(terminology_ids) == 20, "Fresh Game must show only the first 20 readable entries by default.")
 	_assert(
-		terminology_tree.get_root().get_child_count() == 4
+		terminology_tree.get_root().get_child_count() == 1
 		and _tree_max_depth(terminology_tree.get_root()) == 3
-		and _tree_directory_count(terminology_tree.get_root()) == 14,
-		"The handbook must organize terms into four top-level topics and fourteen second-level directories without exceeding three visible levels."
+		and _tree_directory_count(terminology_tree.get_root()) == 4,
+		"The initial handbook must organize readable basics into four directories without exposing all future subjects."
 	)
 	var terminology_search: LineEdit = terminology_handbook.get("search_edit")
 	terminology_search.text = "真值表"
@@ -64,6 +64,24 @@ func _run() -> void:
 	await process_frame
 	_assert((terminology_handbook.get("visible_term_ids") as Array).size() == 1, "Terminology search must narrow the handbook to the matching concept while retaining its directory path.")
 	_assert("00" in (terminology_handbook.get("detail_body_label") as RichTextLabel).text, "The truth-table entry must immediately define its four two-input rows for a new player.")
+	terminology_search.clear()
+	terminology_handbook.call("open_handbook", &"accumulator")
+	_assert(not (terminology_handbook.get("detail_diagram") as Control).visible, "Fresh Game must hide future CPU illustrations behind the original learning progression.")
+	_assert((terminology_handbook.get("available_term_ids") as Array).size() == 20, "Fresh Game keeps first-lesson specifications available without opening all future chapters.")
+	var handbook_escape := InputEventKey.new()
+	handbook_escape.pressed = true
+	handbook_escape.keycode = KEY_ESCAPE
+	main.call("_input", handbook_escape)
+	_assert(not bool(terminology_handbook.call("is_open")) and (main.get("chapter_map_host") as Control).visible, "Escape must close the handbook before navigating away from the Chapter 2 map.")
+	_assert(
+		main.get("mode_selector") != null
+		and not (main.get("mode_selector") as Control).visible
+		and not bool(game_mode.call("is_test_mode")),
+		"A normal launch must start in Game mode with the developer selector hidden."
+	)
+	_assert((main.get("chapter_map_host") as Control).visible, "Chapter 2 must open on its seven-level investigation map rather than dropping directly into the old lab.")
+	game_mode.call("set_mode", &"test")
+	# Illustration coverage uses the explicit developer catalogue; Game gates were checked above.
 	terminology_search.clear()
 	terminology_handbook.call("_refresh_terms", &"accumulator")
 	await process_frame
@@ -88,20 +106,8 @@ func _run() -> void:
 		)
 	terminology_handbook.call("_refresh_terms", &"bit")
 	await process_frame
-	_assert(not terminology_diagram.visible and not terminology_example.visible, "Simple Handbook terms must remain concise without an empty illustration block.")
-	var handbook_escape := InputEventKey.new()
-	handbook_escape.pressed = true
-	handbook_escape.keycode = KEY_ESCAPE
-	main.call("_input", handbook_escape)
-	_assert(not bool(terminology_handbook.call("is_open")) and (main.get("chapter_map_host") as Control).visible, "Escape must close the handbook before navigating away from the Chapter 2 map.")
-	_assert(
-		main.get("mode_selector") != null
-		and not (main.get("mode_selector") as Control).visible
-		and not bool(game_mode.call("is_test_mode")),
-		"A normal launch must start in Game mode with the developer selector hidden."
-	)
-	_assert((main.get("chapter_map_host") as Control).visible, "Chapter 2 must open on its seven-level investigation map rather than dropping directly into the old lab.")
-	game_mode.call("set_mode", &"test")
+	_assert(terminology_diagram.visible and not terminology_example.visible, "The first bit concept must have a signal illustration without an empty example block.")
+	terminology_handbook.call("close_handbook")
 	var locality_state: Node = root.get_node("LocalityChapter")
 	for completed_level: StringName in [&"distant_reads", &"nearby_storage", &"cache_failure", &"access_order", &"working_set", &"blocking"]:
 		locality_state.call("mark_completed", completed_level)

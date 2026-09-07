@@ -1,0 +1,45 @@
+class_name InstrumentTheme
+extends RefCounted
+
+const SURFACE := Color("111d29")
+const EDGE := Color("354b5a")
+const ACCENT := Color("50d5ff")
+
+
+static func panel(fill: Color, border: Color = EDGE, radius: int = 5) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = fill
+	box.border_color = border
+	box.set_border_width_all(1)
+	box.set_corner_radius_all(radius)
+	box.content_margin_left = 12.0
+	box.content_margin_right = 12.0
+	box.content_margin_top = 8.0
+	box.content_margin_bottom = 8.0
+	return box
+
+
+static func apply_to(target: Theme) -> void:
+	target.default_font = preload("res://assets/fonts/interface_regular.tres")
+	for control_type: String in ["Button", "OptionButton", "MenuButton"]:
+		target.set_stylebox("normal", control_type, panel(Color("1b2b37")))
+		target.set_stylebox("hover", control_type, panel(Color("233d4b"), ACCENT))
+		target.set_stylebox("pressed", control_type, panel(Color("153343"), ACCENT))
+		target.set_stylebox("disabled", control_type, panel(Color("121d26"), Color("2b3945")))
+		var focus: StyleBoxFlat = panel(Color.TRANSPARENT, ACCENT)
+		focus.set_border_width_all(2)
+		target.set_stylebox("focus", control_type, focus)
+		target.set_color("font_disabled_color", control_type, Color("80919c"))
+		target.set_color("font_hover_color", control_type, Color("ffffff"))
+		target.set_color("font_pressed_color", control_type, Color("ffffff"))
+	target.set_stylebox("normal", "LineEdit", panel(Color("0a141e")))
+	target.set_stylebox("focus", "LineEdit", panel(Color("0e202c"), ACCENT))
+	target.set_stylebox("panel", "PopupMenu", panel(SURFACE))
+	target.set_stylebox("panel", "TooltipPanel", panel(Color("0b1822"), Color("526977")))
+	target.set_font_size("font_size", "TooltipLabel", 14)
+	target.set_color("font_color", "TooltipLabel", Color("e9f0fa"))
+	var window: StyleBoxFlat = panel(SURFACE)
+	window.shadow_color = Color(0.0, 0.0, 0.0, 0.32)
+	window.shadow_size = 12
+	window.shadow_offset = Vector2(0.0, 5.0)
+	target.set_stylebox("panel", "PanelContainer", window)

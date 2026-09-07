@@ -16,3 +16,6 @@
 *.ogg binary
 *.ttf binary
 *.woff2 binary
+
+# Keep the upstream font license verbatim, including its existing trailing space.
+assets/fonts/OFL-NotoSansSC.txt -whitespace

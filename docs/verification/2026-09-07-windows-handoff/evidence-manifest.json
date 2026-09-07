@@ -1,0 +1,152 @@
+[
+  {
+    "file": "fresh-check-results.json",
+    "original_sha256": "db18fb1e087b7705a71cddbb56b7927f54cd3447c5a34b985eb41c43ee238881",
+    "published_sha256": "fb23c71046e2e7557810142967712a2537df756ff94f1e48e52ce6a0600a157a"
+  },
+  {
+    "file": "import.txt",
+    "original_sha256": "8e00c0a5a78a63ff1295a4f04657eb7db0e39ce702b649b68f3c89438874845e",
+    "published_sha256": "542e20ab53bb6c79c8e3626831ad33a97e7b9cf2b3cebe3c0f8e9b8ee3da04ef"
+  },
+  {
+    "file": "user_directory.txt",
+    "original_sha256": "b2fdefe0cb85d392d50948f262161dd1d612fca514d859dc6e81ae699b4ce406",
+    "published_sha256": "a286c52db97097ac321d432d34abb39f3b988854afe986913d84d5a89235dbed"
+  },
+  {
+    "file": "test_circuit_simulation.txt",
+    "original_sha256": "dcfb1cfc01507cdfa90664c4d1ae0eba0c304b82c0e502763b8e6dcb64a89f12",
+    "published_sha256": "8446a4b632b94157464e10c134ea95ba9f3371da02845fff3bdb1789a58da6d0"
+  },
+  {
+    "file": "test_content_registry.txt",
+    "original_sha256": "6b83cc0fbc063bc5aa69fb37eb44357c432d75233103608f8003a02f0e31cf92",
+    "published_sha256": "3ff30ee1d77869c70355fdc464f09d44e952f001c85d1e20bd8527bfb38bb670"
+  },
+  {
+    "file": "test_demo_input.txt",
+    "original_sha256": "e14a8d70785772c557e6ec953c2651645a6bd3ea18169f20e4a8911f2ff8e7d2",
+    "published_sha256": "0c2241ccda8643fdf25d46afd003d466fc1465fa022dde94359beac1e04c43c1"
+  },
+  {
+    "file": "test_demo_localization.txt",
+    "original_sha256": "ce5f8ad3580a82c4206b1d43993d0419b69845a35603f17f8aed2bba3cd844d2",
+    "published_sha256": "b43bdf12418e48fe0c0c676229925b50fe16baaf6d31de3623eff9b24716f940"
+  },
+  {
+    "file": "test_demo_performance.txt",
+    "original_sha256": "8b0db55710c044480a7b68603553f87d93e9427c2d6bac1274d2e397f2cd51da",
+    "published_sha256": "7eaaa397fd0e7bc7f7f0568a76845ea9cf22c7c9aa4453b9c8cd6db985fd53af"
+  },
+  {
+    "file": "test_demo_save.txt",
+    "original_sha256": "79afbd59a01c1992885689d3b595eb687c1dd2c88993c18d9e2ab8557517a3df",
+    "published_sha256": "369170abbeb3fa47d1241ab93c75ac8bc18deac892429c6b19c4ef8ca38f3773"
+  },
+  {
+    "file": "test_demo_ui.txt",
+    "original_sha256": "c50672b27c70873436b77a60611bd436c0d7543265f662a7078521badddfb486",
+    "published_sha256": "023e77ccff16863568defb80f62c714c4a098125773523175ffef5be7e441402"
+  },
+  {
+    "file": "test_global_save.txt",
+    "original_sha256": "17de0f6bb5b07040fabf911603b75b4e01a848925e1ab04cfdc6c70e57153905",
+    "published_sha256": "9268ff50ec76a18044a86d156f34e19f48f3c28e454e11faea0bf42fb4cb55c3"
+  },
+  {
+    "file": "test_hardware_foundations_ui.txt",
+    "original_sha256": "5a861474fb9e08b35ef70963b2ff0cb6763bc90213344d97b590fa6026fa5c62",
+    "published_sha256": "ba65100886011a0ab485cf3dfe406494e9051cbf48d4cabd9cf0933ecaf1af64"
+  },
+  {
+    "file": "test_hardware_prologue_ui.txt",
+    "original_sha256": "3cc3d011a56ab97ea9106e9e95877ab66a56eccef7a5dc0616feff8f605ad889",
+    "published_sha256": "eba240b0b92c98597cf06574ca9969d70b3916b35a9fdafa9c395a7878e5327c"
+  },
+  {
+    "file": "test_learning_handbook.txt",
+    "original_sha256": "ccdf824cd9c2f56b481128391a7d8ebff712e3ba80d437e94fe4454d9576bac3",
+    "published_sha256": "ef602b0c286f9750a099a1cb1a6861ed23f9ef69289e42cd2abd48f2179777df"
+  },
+  {
+    "file": "test_locality_chapter_ui.txt",
+    "original_sha256": "23188cf6d38eaee99011436c92101ab7d25823a3c9094842d3e0d4f7eb552f32",
+    "published_sha256": "b2cb519fdc7a09ac5542416ffc7a9f51b94bade865040f26fc11772b6eaa5c87"
+  },
+  {
+    "file": "test_localization.txt",
+    "original_sha256": "cecb9626f778a404416c1490ffabef1e88a8f155359a9b84fbc1c911591a7027",
+    "published_sha256": "6b04cc1134ec95d56035329fb61510e030ca9890fbba0142d12d2978cf46891b"
+  },
+  {
+    "file": "test_playtest_data.txt",
+    "original_sha256": "4a4e9dcc5d3e7be949ea8ac5cf79c545558e6ac18d8117b06ae70dc1f0a31348",
+    "published_sha256": "8c143f2ff3ef53799aa0cffa7601c0f16b137cddecde7a9d0617d1d4deac4b1c"
+  },
+  {
+    "file": "test_playtest_feedback_ui.txt",
+    "original_sha256": "6d5a68c6dc138d072daa195197ce048defbeeaa88efc95e13d2f4b1622c0eee4",
+    "published_sha256": "aec7d86a29ab44b9dbf6452f4e16b9b635baa48c9c599e4875950db0d9fa341d"
+  },
+  {
+    "file": "test_prologue_simulation.txt",
+    "original_sha256": "63ddad8271eb168f974d05500833b9407f2a1a69d453a49aa1d559b7b5b2fd94",
+    "published_sha256": "eb176cf7e511ab4c451840600e76fc5a6c24bf3df5096668a9b4a20cff395ff4"
+  },
+  {
+    "file": "test_simulation.txt",
+    "original_sha256": "71c9a15529a6195b934adae8d3ba29398aac8133b913287d8010d83d3f046f44",
+    "published_sha256": "f98e4df7c0066c895885b67baedf84a9967bd889bc7cb6685af486eddbcdf970"
+  },
+  {
+    "file": "test_system_lab_simulation.txt",
+    "original_sha256": "6595a05a90fd0d9407366c072e3d666defd1414b38d50626f822ed246ea09e16",
+    "published_sha256": "52580964a12ca0d64d2c07aca65e0f46b7fbcb3e595ba43fa8c969168ffa3752"
+  },
+  {
+    "file": "test_system_lab_ui.txt",
+    "original_sha256": "0307f6a1d856c4eee17abfcf42bf22357d7270f1e3700e05c59278d0eecfee1e",
+    "published_sha256": "ce7ee3057093c1c32a63cca377dcf4e7a905ed7993cd7b8f17e13ec1cc4b1c70"
+  },
+  {
+    "file": "test_ui.txt",
+    "original_sha256": "1a994d8025443419bf5c143ed23e7a094a89ecfc806122910de40a9e95247d2e",
+    "published_sha256": "1521dca8a6ad5dfd1fd330d120d27be723d823e3c30fdef19f1973b77b55599e"
+  },
+  {
+    "file": "game_gui_zh_CN.txt",
+    "original_sha256": "153951f9b7989dd60717108aa0eb7076a19b307a793a8d5e6c60a6a71848fd0f",
+    "published_sha256": "8570399c5769187ad7800ec5843c05c95e4ddc8b801934361db1b03ee66be351"
+  },
+  {
+    "file": "ordinary-game-zh.txt",
+    "original_sha256": "d6f79245684d4c1dc52dbd6074e2b0249493719a111c30db02499630b04f933b",
+    "published_sha256": "c0ecfb08b2a0077066abb308bbcc1f9ae198155f988cd375d1f74f021d9c6a27"
+  },
+  {
+    "file": "ordinary-game-en.txt",
+    "original_sha256": "d6f79245684d4c1dc52dbd6074e2b0249493719a111c30db02499630b04f933b",
+    "published_sha256": "c0ecfb08b2a0077066abb308bbcc1f9ae198155f988cd375d1f74f021d9c6a27"
+  },
+  {
+    "file": "ordinary-game-zh_CN-observations.json",
+    "original_sha256": "95d1cb796250450f6e3d787440bf50d191f83755c3dd57d51279e4e93823c881",
+    "published_sha256": "95d1cb796250450f6e3d787440bf50d191f83755c3dd57d51279e4e93823c881"
+  },
+  {
+    "file": "ordinary-game-en-observations.json",
+    "original_sha256": "95d1cb796250450f6e3d787440bf50d191f83755c3dd57d51279e4e93823c881",
+    "published_sha256": "95d1cb796250450f6e3d787440bf50d191f83755c3dd57d51279e4e93823c881"
+  },
+  {
+    "file": "windows-package.json",
+    "original_sha256": "d8851a46200ccd63a03716a36fb4655e671f4d83187fed3a2ae1ec2b5c6748a6",
+    "published_sha256": "8da0c4c6cf3d2bbf206c6a0144af1cfa048de71d5ec8cfcabac3e0d7224bac7e"
+  },
+  {
+    "file": "windows-startup.json",
+    "original_sha256": "ba286fac523f8e0d1531f3583fd8ab0855d6de56e6e8034edd5ae8ad52dbcf01",
+    "published_sha256": "03761bf5897268b9ce7a205c7be36acde9e54d6afd59b70348bfb78bc0902600"
+  }
+]

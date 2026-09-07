@@ -43,11 +43,18 @@ func setup(id: StringName, title_text: String) -> void:
 	header.mouse_default_cursor_shape = Control.CURSOR_MOVE
 	header.gui_input.connect(_on_header_input)
 	root.add_child(header)
+	var rule := HSeparator.new()
+	var line := StyleBoxLine.new()
+	line.color = Color("355363")
+	line.thickness = 1
+	rule.add_theme_stylebox_override("separator", line)
+	root.add_child(rule)
 	var title := Label.new()
-	title.text = "⋮⋮  %s" % title_text
+	title.text = "⠿  %s" % title_text
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	title.add_theme_font_size_override("font_size", UiTypographyType.WINDOW_TITLE_SIZE)
+	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	header.add_child(title)
 	_minimize_button = Button.new()
 	_minimize_button.name = "MinimizeButton"

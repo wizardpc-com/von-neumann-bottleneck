@@ -1,5 +1,7 @@
 # Eight-task Demo redesign
 
+> Superseded product direction, 2026-09-05: the user withdrew replacement of the original mainline by eight tasks, demotion of construction to an optional workshop, and replacement of the floating desktop by a fixed workspace. The original Game route is restored. This document is retained as historical comparison evidence; simulation, provenance, save protection, and Git safety still apply. See [recovery status](../status/in-place-recovery.md).
+
 Implemented on the `d7aa2f1` baseline, 2026-09-05. [Blueprint](../design/DEMO_REDESIGN_BLUEPRINT.md), [decision](../decisions/0019-eight-task-mainline-and-standard-modules.md), [execution plan](../exec-plans/active/demo-redesign.md).
 
 ## Playable path

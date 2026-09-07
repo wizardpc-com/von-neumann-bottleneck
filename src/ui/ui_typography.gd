@@ -1,6 +1,8 @@
 class_name UiTypography
 extends RefCounted
 
+const HEADING_FONT = preload("res://assets/fonts/interface_heading.tres")
+
 const HERO_TITLE_SIZE: int = 34
 const TITLE_SIZE: int = 26
 const SUBTITLE_SIZE: int = 18

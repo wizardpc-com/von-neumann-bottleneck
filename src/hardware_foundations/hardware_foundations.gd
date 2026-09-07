@@ -32,6 +32,7 @@ const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const LevelCompletionOverlayType = preload("res://src/ui/level_completion_overlay.gd")
 const PlaytestFeedbackOverlayType = preload("res://src/playtest/playtest_feedback_overlay.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
+const SignalLevelButtonType = preload("res://src/ui/signal_level_button.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
 const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
 const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
@@ -68,7 +69,7 @@ const COMPLETION_SUMMARY_KEYS := {
 	&"cpu": &"hardware.completion.summary.cpu",
 	&"load_store": &"hardware.completion.summary.load_store",
 }
-const GRAPH_NODE_CONTENT_ORIGIN := Vector2(7.0, 31.0)
+const GRAPH_NODE_CONTENT_ORIGIN := Vector2(7.0, 32.0)
 
 var current_phase: StringName = &"tutorial"
 var current_circuit: LogicCircuit
@@ -187,6 +188,13 @@ var workbench_save_queued: bool = false
 var hint_mode: bool = false
 var hint_level: int = 0
 var hint_return_level_id: StringName = &""
+var viewed_hint_levels: Dictionary[String, int] = {}
+var pending_hint_level: int = 0
+var hint_confirmation: Control
+var hint_confirmation_text: Label
+var hint_confirm_button: Button
+var hint_cancel_button: Button
+var mission_summary_button: Button
 var mission_briefing_active: bool = false
 var mission_briefing_page: int = 0
 var mission_briefing_panel: VBoxContainer
@@ -235,6 +243,7 @@ func _ready() -> void:
 	_configure_workbench_store()
 	_build_theme()
 	_build_interface()
+	_create_hint_confirmation()
 	terminology_handbook = TerminologyHandbookType.new()
 	add_child(terminology_handbook)
 	_activate_content_state()
@@ -385,7 +394,18 @@ func _prepare_workbench_create_capture() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if pending_hint_level > 0:
+		if event is InputEventKey and event.is_pressed() and event.keycode == KEY_ESCAPE:
+			_cancel_hint_confirmation()
+			get_viewport().set_input_as_handled()
+		return
 	if terminology_handbook != null and terminology_handbook.handle_escape(event):
+		get_viewport().set_input_as_handled()
+		return
+	if event is InputEventKey and event.pressed and not event.echo \
+			and event.keycode == KEY_HOME and not _keyboard_focus_accepts_text() \
+			and not _view_navigation_locked() and not _has_active_graph_gesture():
+		_focus_circuit(event.shift_pressed)
 		get_viewport().set_input_as_handled()
 		return
 	if _handle_component_placement_global_input(event):
@@ -678,6 +698,8 @@ func _install_support_library(
 
 func _process(delta: float) -> void:
 	_update_graph_keyboard_pan(delta)
+	if status_label != null:
+		status_label.tooltip_text = status_label.text
 	if sealing:
 		sealing_elapsed += delta
 		encapsulation_effect.set_progress(sealing_elapsed / 1.55)
@@ -721,12 +743,12 @@ func _build_theme() -> void:
 	prototype_theme.set_stylebox("hover", "Button", _stylebox(Color("30435f"), 7, 1, ACCENT))
 	prototype_theme.set_stylebox("pressed", "Button", _stylebox(Color("17283e"), 7, 1, ACCENT))
 	prototype_theme.set_icon("port", "GraphNode", _make_port_texture(24, 12))
+	preload("res://src/ui/instrument_theme.gd").apply_to(prototype_theme)
 	theme = prototype_theme
 
 
 func _build_interface() -> void:
-	var background := ColorRect.new()
-	background.color = BACKGROUND
+	var background := preload("res://src/ui/technical_backdrop.gd").new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
@@ -744,13 +766,21 @@ func _build_interface() -> void:
 	root_box.add_child(_build_header())
 	editor_toolbar = _build_toolbar()
 	root_box.add_child(editor_toolbar)
+	mission_summary_button = Button.new()
+	mission_summary_button.name = "MissionSummary"
+	mission_summary_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	mission_summary_button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	mission_summary_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	mission_summary_button.add_theme_color_override("font_color", ACCENT)
+	mission_summary_button.pressed.connect(_reopen_mission)
+	root_box.add_child(mission_summary_button)
 
 	var graph_panel := PanelContainer.new()
 	graph_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	graph_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	root_box.add_child(graph_panel)
 	graph_stack = Control.new()
-	graph_stack.custom_minimum_size = Vector2(960.0, 500.0)
+	graph_stack.custom_minimum_size = Vector2(960.0, 360.0)
 	graph_stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	graph_stack.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	graph_panel.add_child(graph_stack)
@@ -822,6 +852,9 @@ func _show_level_completion(level_id: StringName) -> void:
 		_t(&"hardware.completion.chapter"),
 		&"hardware_foundations"
 	)
+	level_completion_overlay.continue_button.text = _t(&"hardware.completion.continue")
+	level_completion_overlay.return_button.text = _t(&"hardware.prologue.back_map")
+	level_completion_overlay.return_button.show()
 
 
 func _dismiss_level_completion() -> void:
@@ -977,8 +1010,11 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 			window.custom_minimum_size = Vector2(360.0, 280.0)
 		_:
 			window.custom_minimum_size = Vector2(320.0, 220.0)
-	var border_color: Color = ACCENT if id in [&"test_bench", &"components"] else PURPLE
-	window.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, border_color))
+	var chrome: StyleBoxFlat = preload("res://src/ui/instrument_theme.gd").panel(Color("111e29"), Color("405867"))
+	chrome.shadow_color = Color(0.0, 0.0, 0.0, 0.45)
+	chrome.shadow_size = 14
+	chrome.shadow_offset = Vector2(0.0, 6.0)
+	window.add_theme_stylebox_override("panel", chrome)
 	graph_stack.add_child(window)
 	window.setup(id, title_text)
 	if id == &"task":
@@ -1151,11 +1187,28 @@ func _show_mission_briefing_page() -> void:
 	mission_briefing_panel.add_child(progress)
 	var heading := Label.new()
 	heading.text = _mission_briefing_stage_title(mission_briefing_page)
-	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	heading.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
-	heading.add_theme_color_override("font_color", PURPLE)
+	heading.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
+	heading.add_theme_color_override("font_color", ACCENT)
 	mission_briefing_panel.add_child(heading)
+	var sections := HFlowContainer.new()
+	sections.name = "MissionSections"
+	sections.add_theme_constant_override("h_separation", 8)
+	for page_index: int in range(pages.size()):
+		var section := Button.new()
+		section.text = "%d · %s" % [page_index + 1, _mission_briefing_stage_title(page_index)]
+		section.toggle_mode = true
+		section.button_pressed = page_index == mission_briefing_page
+		section.custom_minimum_size.y = 36.0
+		section.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+		section.pressed.connect(func() -> void:
+			mission_briefing_page = page_index
+			_show_mission_briefing_page()
+		)
+		sections.add_child(section)
+	mission_briefing_panel.add_child(sections)
 	var body := LinkedMissionTextType.new()
 	body.name = "MissionBriefingBody"
 	body.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
@@ -1163,7 +1216,8 @@ func _show_mission_briefing_page() -> void:
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.term_requested.connect(_open_mission_term)
 	mission_briefing_panel.add_child(body)
-	body.set_linked_text(_mission_briefing_body(mission_briefing_page), true)
+	body.add_theme_font_size_override("normal_font_size", UiTypographyType.BODY_SIZE)
+	body.set_linked_text(_mission_briefing_body(mission_briefing_page))
 	if mission_briefing_page == pages.size() - 1:
 		var move_note := Label.new()
 		move_note.text = _t(&"hardware.briefing.move_note")
@@ -1198,9 +1252,25 @@ func _show_mission_briefing_page() -> void:
 	navigation_row.add_child(mission_briefing_continue_button)
 	var navigation_balance := Control.new()
 	navigation_balance.custom_minimum_size.x = 104.0
+	if mission_briefing_page < pages.size() - 1:
+		var start := Button.new()
+		start.name = "MissionStartBuilding"
+		start.text = _t(&"hardware.briefing.build_now")
+		start.tooltip_text = _t(&"hardware.briefing.build_now.tooltip")
+		start.custom_minimum_size = Vector2(104.0, UiTypographyType.CONTROL_HEIGHT)
+		start.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+		start.pressed.connect(_start_building_from_briefing)
+		navigation_balance.free()
+		navigation_balance = start
 	navigation_row.add_child(navigation_balance)
 	navigation_center.add_child(navigation_row)
 	mission_briefing_panel.add_child(navigation_center)
+
+
+func _start_building_from_briefing() -> void:
+	_finish_mission_briefing()
+	_set_mission_compact(true)
+	_focus_graph_for_keyboard()
 
 
 func _previous_mission_briefing() -> void:
@@ -1269,7 +1339,7 @@ func _layout_mission_briefing() -> void:
 	var bench_window: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
 	var bench_size := Vector2(
 		clampf(area.x * 0.25, 360.0, 430.0),
-		clampf(area.y * 0.48, 280.0, 390.0)
+		clampf(area.y * 0.56, 320.0, 420.0)
 	)
 	bench_window.position = Vector2(margin, margin)
 	bench_window.size = bench_size
@@ -1279,7 +1349,7 @@ func _layout_mission_briefing() -> void:
 		return
 	var briefing_size := Vector2(
 		clampf(area.x * 0.56, 640.0, 860.0),
-		clampf(area.y * 0.70, 430.0, 570.0)
+		clampf(area.y * 0.88, 530.0, 650.0)
 	)
 	task_window.size = briefing_size
 	task_window.position = (area - briefing_size) * 0.5
@@ -1291,6 +1361,11 @@ func _on_task_minimize_requested(id: StringName) -> void:
 		return
 	_set_mission_compact(not mission_compact)
 	_focus_desktop_window(&"task")
+
+
+func _reopen_mission() -> void:
+	_show_desktop_window(&"task")
+	_set_mission_compact(false)
 
 
 func _set_mission_compact(value: bool) -> void:
@@ -1419,6 +1494,7 @@ func _close_desktop_window(id: StringName) -> void:
 	if button != null:
 		button.text = _desktop_window_name(id)
 		button.set_pressed_no_signal(false)
+	_focus_graph_for_keyboard()
 
 
 func _focus_desktop_window(id: StringName) -> void:
@@ -1450,11 +1526,14 @@ func _build_header() -> Control:
 	row.add_child(title_box)
 	var title := Label.new()
 	title.text = _t(&"hardware.title")
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", ACCENT)
 	title_box.add_child(title)
 	var subtitle := Label.new()
 	subtitle.text = _t(&"hardware.subtitle")
+	subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitle.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	subtitle.add_theme_color_override("font_color", MUTED)
 	title_box.add_child(subtitle)
@@ -1494,7 +1573,7 @@ func _build_header() -> Control:
 
 func _build_toolbar() -> Control:
 	var toolbar := PanelContainer.new()
-	var row := HBoxContainer.new()
+	var row := HFlowContainer.new()
 	toolbar.add_child(row)
 	status_label = Label.new()
 	status_label.custom_minimum_size.x = 120.0
@@ -1529,6 +1608,7 @@ func _build_toolbar() -> Control:
 	for data: Array in [
 		[&"hardware.toolbar.level_map", &"hardware.toolbar.level_map.tooltip", Callable(self, "_open_campaign_map")],
 		[&"common.auto_layout", &"hardware.toolbar.auto_layout.tooltip", Callable(self, "_auto_layout")],
+		[&"hardware.view.focus", &"hardware.view.focus.tooltip", Callable(self, "_focus_circuit")],
 		[&"hardware.toolbar.undo_wire", &"hardware.toolbar.undo_wire.tooltip", Callable(self, "_undo_wire")],
 		[&"hardware.toolbar.redo", &"hardware.toolbar.redo.tooltip", Callable(self, "_redo_edit")],
 		[&"hardware.toolbar.clear_wires", &"hardware.toolbar.clear_wires.tooltip", Callable(self, "_clear_wires")],
@@ -1539,7 +1619,7 @@ func _build_toolbar() -> Control:
 		button.tooltip_text = _t(StringName(data[1]))
 		button.pressed.connect(data[2])
 		row.add_child(button)
-		if StringName(data[0]) != &"hardware.toolbar.level_map":
+		if StringName(data[0]) not in [&"hardware.toolbar.level_map", &"hardware.view.focus"]:
 			editor_toolbar_buttons.append(button)
 	pause_button = Button.new()
 	pause_button.text = _t(&"hardware.trace.pause")
@@ -1549,10 +1629,12 @@ func _build_toolbar() -> Control:
 	trace_step_button.text = _t(&"common.step")
 	trace_step_button.pressed.connect(_step_playback)
 	row.add_child(trace_step_button)
+	var playback_frequency := HBoxContainer.new()
+	row.add_child(playback_frequency)
 	var clock_period_label := Label.new()
 	clock_period_label.text = _t(&"common.clock_period.label")
 	clock_period_label.tooltip_text = _t(&"common.clock_period.tooltip")
-	row.add_child(clock_period_label)
+	playback_frequency.add_child(clock_period_label)
 	clock_period_control = SpinBox.new()
 	clock_period_control.name = "PlaybackFrequencyControl"
 	clock_period_control.min_value = MIN_PLAYBACK_FREQUENCY_HZ
@@ -1563,7 +1645,7 @@ func _build_toolbar() -> Control:
 	clock_period_control.custom_minimum_size.x = 92.0
 	clock_period_control.tooltip_text = _t(&"common.clock_period.tooltip")
 	clock_period_control.value_changed.connect(_on_clock_period_changed)
-	row.add_child(clock_period_control)
+	playback_frequency.add_child(clock_period_control)
 	return toolbar
 
 
@@ -1615,7 +1697,7 @@ func _return_to_prototype_hub() -> void:
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"hardware_foundations", current_level_id, &"chapter_selection")
 	_save_active_workbench()
-	get_tree().change_scene_to_file("res://src/demo/demo_menu.tscn")
+	get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
 
 
 func _create_workbench_name_dialog() -> void:
@@ -2069,6 +2151,14 @@ func _refresh_hint_controls() -> void:
 		and not current_level_id.is_empty()
 	)
 	hint_button.visible = in_player_level or hint_mode
+	mission_summary_button.visible = in_player_level
+	var summary_key := StringName("hardware.goal.%s" % String(current_level_id))
+	var summary: String = _t(summary_key)
+	if summary == String(summary_key):
+		summary = _level_display_name(current_level_id)
+	mission_summary_button.text = _t(&"hardware.goal.open", [summary])
+	mission_summary_button.tooltip_text = mission_summary_button.text
+	_update_tutorial_goal()
 	hint_exit_button.visible = hint_mode
 	phase_label.visible = not hint_mode
 	var on_campaign_map: bool = current_phase == &"campaign"
@@ -2105,7 +2195,7 @@ func _refresh_hint_controls() -> void:
 func _on_hint_button_pressed() -> void:
 	if hint_mode:
 		if hint_level < 3:
-			_show_hint_level(hint_level + 1)
+			_request_next_hint()
 		return
 	_enter_hint_workbench()
 
@@ -2119,7 +2209,84 @@ func _enter_hint_workbench() -> void:
 	_save_active_workbench()
 	hint_return_level_id = current_level_id
 	hint_mode = true
-	_show_hint_level(1)
+	_show_hint_level(viewed_hint_levels.get(_hint_view_key(), 1))
+
+
+func _hint_view_key() -> String:
+	return "%s/%s" % [_current_workbench_namespace(), hint_return_level_id]
+
+
+func _create_hint_confirmation() -> void:
+	hint_confirmation = Control.new()
+	hint_confirmation.name = "HintConfirmation"
+	hint_confirmation.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hint_confirmation.mouse_filter = Control.MOUSE_FILTER_STOP
+	hint_confirmation.z_index = 1500
+	add_child(hint_confirmation)
+	var backdrop := ColorRect.new()
+	backdrop.color = Color("050a12", 0.88)
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+	hint_confirmation.add_child(backdrop)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hint_confirmation.add_child(center)
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(650, 280)
+	panel.add_theme_stylebox_override("panel", _stylebox(Color("172033"), 14, 2, WARNING))
+	center.add_child(panel)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 24)
+	panel.add_child(content)
+	hint_confirmation_text = Label.new()
+	hint_confirmation_text.name = "HintSpoilerWarning"
+	hint_confirmation_text.custom_minimum_size = Vector2(580, 150)
+	hint_confirmation_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint_confirmation_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	hint_confirmation_text.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	content.add_child(hint_confirmation_text)
+	var actions := HBoxContainer.new()
+	content.add_child(actions)
+	hint_cancel_button = Button.new()
+	hint_cancel_button.name = "HintCancel"
+	hint_cancel_button.text = _t(&"hardware.hint.cancel")
+	hint_cancel_button.custom_minimum_size = Vector2(260, UiTypographyType.CONTROL_HEIGHT)
+	hint_cancel_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint_cancel_button.pressed.connect(_cancel_hint_confirmation)
+	actions.add_child(hint_cancel_button)
+	hint_confirm_button = Button.new()
+	hint_confirm_button.name = "HintConfirm"
+	hint_confirm_button.custom_minimum_size = Vector2(260, UiTypographyType.CONTROL_HEIGHT)
+	hint_confirm_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint_confirm_button.pressed.connect(_confirm_next_hint)
+	actions.add_child(hint_confirm_button)
+	hint_confirmation.hide()
+
+
+func _request_next_hint() -> void:
+	if not hint_mode or hint_level >= 3 or pending_hint_level > 0:
+		return
+	pending_hint_level = hint_level + 1
+	hint_confirmation_text.text = _t(StringName("hardware.hint.confirm.%d" % pending_hint_level))
+	hint_confirm_button.text = _t(StringName("hardware.hint.confirm_button.%d" % pending_hint_level))
+	hint_confirmation.show()
+	hint_cancel_button.grab_focus()
+
+
+func _cancel_hint_confirmation() -> void:
+	pending_hint_level = 0
+	hint_confirmation.hide()
+	if hint_mode:
+		hint_button.grab_focus()
+
+
+func _confirm_next_hint() -> void:
+	if not hint_mode or pending_hint_level != hint_level + 1:
+		return
+	var revealed_level: int = pending_hint_level
+	_cancel_hint_confirmation()
+	_show_hint_level(revealed_level)
 
 
 func _show_hint_level(level: int) -> void:
@@ -2127,6 +2294,7 @@ func _show_hint_level(level: int) -> void:
 		return
 	_stop_playback()
 	hint_level = clampi(level, 1, 3)
+	viewed_hint_levels[_hint_view_key()] = hint_level
 	PlaytestData.record_hint(&"hardware_foundations", current_level_id, hint_level)
 	current_phase = &"hint"
 	current_level_id = hint_return_level_id
@@ -2211,8 +2379,9 @@ func _build_hint_side() -> void:
 	task_box.add_child(scope)
 	if hint_level < 3:
 		var next_button := Button.new()
+		next_button.name = "HintRequestNext"
 		next_button.text = _t(&"hardware.hint.reveal_next", [hint_level + 1])
-		next_button.pressed.connect(_show_hint_level.bind(hint_level + 1))
+		next_button.pressed.connect(_request_next_hint)
 		task_box.add_child(next_button)
 	var return_button := Button.new()
 	return_button.text = _t(&"hardware.hint.return")
@@ -2255,6 +2424,7 @@ func _exit_hint_workbench() -> void:
 	if not hint_mode or hint_return_level_id.is_empty():
 		return
 	var return_level: StringName = hint_return_level_id
+	_cancel_hint_confirmation()
 	hint_mode = false
 	hint_level = 0
 	hint_return_level_id = &""
@@ -2427,6 +2597,9 @@ func _create_graph() -> void:
 	graph.set_draft_color_index(active_wire_color_index)
 	graph.add_valid_connection_type(PORT_TYPE, PORT_TYPE)
 	graph.connection_validator = Callable(self, "_is_hover_connection_valid")
+	graph.connection_width_provider = Callable(self, "_component_output_width")
+	graph.connection_net_provider = Callable(self, "_connected_wire_net")
+	graph.connection_description = Callable(self, "_wire_description")
 	graph.connection_request.connect(_on_connection_request)
 	graph.disconnection_request.connect(_on_disconnection_request)
 	graph.connection_to_empty.connect(_on_connection_to_empty)
@@ -2586,7 +2759,16 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 		var item: Control = ComponentPaletteItemType.new()
 		item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template))
 		item.tooltip_text = _component_tooltip(template)
-		item.call("set_component_preview", _create_component_placement_ghost(template))
+		if template.is_basic_gate() or template.kind == LogicComponentType.KIND_CONSTANT:
+			var symbol := CircuitComponentSymbolType.new()
+			symbol.configure(template.kind, "", 60.0)
+			symbol.size = Vector2(108.0, 60.0)
+			item.call("set_component_preview", symbol)
+		else:
+			var module := CircuitModuleRowType.new()
+			module.configure(template.kind, "", "", "", 0, 1, true, true, 1, 1)
+			module.size = Vector2(108.0, 50.0)
+			item.call("set_component_preview", module)
 		item.connect("placement_requested", Callable(self, "_arm_component_template"))
 		component_palette_items[key] = item
 		component_palette_box.add_child(item)
@@ -2651,6 +2833,7 @@ func _create_component_placement_ghost(template: LogicComponent) -> Control:
 	var preview_node := GraphNode.new()
 	ghost.add_child(preview_node)
 	_configure_component_node_view(preview_node, template, false, false)
+	preview_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	preview_node.position = Vector2.ZERO
 	_layout_detached_component_node(preview_node, template)
 	return ghost
@@ -2818,7 +3001,7 @@ func _component_node_size(component: LogicComponent) -> Vector2:
 		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_XOR, LogicComponentType.KIND_NOR:
 			return Vector2(124.0, 78.0)
 		LogicComponentType.KIND_NOT:
-			return Vector2(96.0, 48.0)
+			return Vector2(112.0, 54.0)
 		LogicComponentType.KIND_INPUT, LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP:
 			return Vector2(138.0, 72.0)
 		LogicComponentType.KIND_CONSTANT:
@@ -2826,7 +3009,7 @@ func _component_node_size(component: LogicComponent) -> Vector2:
 		_:
 			var row_count: int = maxi(1, maxi(component.input_count(), component.output_count()))
 			var state_height: float = 26.0 if component.is_stateful() else 0.0
-			return Vector2(244.0, maxf(64.0, float(row_count) * 31.0 + 16.0 + state_height))
+			return Vector2(264.0, maxf(64.0, float(row_count) * 34.0 + 46.0 + state_height))
 
 
 func _add_schematic_slots(
@@ -2874,7 +3057,7 @@ func _schematic_symbol_metrics(kind: StringName) -> Dictionary:
 	]:
 		return {"display_height": 66.0, "row_height": 22.0}
 	if kind == LogicComponentType.KIND_NOT:
-		return {"display_height": 36.0, "row_height": 36.0}
+		return {"display_height": 42.0, "row_height": 42.0}
 	if kind == LogicComponentType.KIND_JUNCTION:
 		return {"display_height": 28.0, "row_height": 28.0}
 	if kind in [LogicComponentType.KIND_INPUT, LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP]:
@@ -2889,6 +3072,11 @@ func _add_generic_component_slots(
 	) -> void:
 	var row_count: int = maxi(1, maxi(component.input_count(), component.output_count()))
 	var row_labels: Array = []
+	var heading := CircuitModuleRowType.new()
+	heading.name = "ModuleHeading"
+	heading.custom_minimum_size.y = 30.0
+	heading.configure(component.kind, component.display_name, "", "", -1, row_count, false, false, 1, 1)
+	node.add_child(heading)
 	for row_index: int in range(row_count):
 		var has_input: bool = row_index < component.input_count()
 		var has_output: bool = row_index < component.output_count()
@@ -2899,7 +3087,7 @@ func _add_generic_component_slots(
 		if has_output:
 			right_text = String(component.output_port_name(row_index))
 		var row := CircuitModuleRowType.new()
-		row.custom_minimum_size.y = 30.0
+		row.custom_minimum_size.y = 34.0
 		row.configure(
 			component.kind, component.display_name, left_text, right_text,
 			row_index, row_count, has_input, has_output,
@@ -2908,7 +3096,7 @@ func _add_generic_component_slots(
 		)
 		node.add_child(row)
 		node.set_slot(
-			row_index, has_input, PORT_TYPE, SIGNAL_LOW,
+			row_index + 1, has_input, PORT_TYPE, SIGNAL_LOW,
 			has_output, PORT_TYPE, SIGNAL_HIGH_Z
 		)
 		row_labels.append(row)
@@ -3036,12 +3224,6 @@ func _build_half_adder_side() -> void:
 	challenge.term_requested.connect(_open_mission_term)
 	task_box.add_child(challenge)
 	challenge.set_linked_text(_t(&"hardware.challenge.description"))
-	var hint := LinkedMissionTextType.new()
-	hint.add_theme_color_override("font_color", MUTED)
-	hint.add_theme_font_size_override("font_size", 13)
-	hint.term_requested.connect(_open_mission_term)
-	task_box.add_child(hint)
-	hint.set_linked_text(_t(&"hardware.challenge.hint"))
 	seal_button = Button.new()
 	seal_button.text = _t(&"hardware.seal.button")
 	seal_button.disabled = true
@@ -3088,11 +3270,6 @@ func _build_sealed_side() -> void:
 	interface.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	interface.add_theme_color_override("font_color", TEXT)
 	task_box.add_child(interface)
-	var proof := Label.new()
-	proof.text = _t(&"hardware.sealed.signature", [sealed_half_adder.source_signature.sha256_text().substr(0, 16).to_upper()])
-	proof.add_theme_font_size_override("font_size", 13)
-	proof.add_theme_color_override("font_color", PURPLE)
-	task_box.add_child(proof)
 	var continue_button := Button.new()
 	continue_button.text = _t(&"hardware.prologue.open_map")
 	continue_button.tooltip_text = _t(&"hardware.prologue.open_map.tooltip")
@@ -3125,14 +3302,21 @@ func _build_input_controls(include_b: bool = true) -> void:
 	side_box.add_child(signal_note)
 	var input_row := HBoxContainer.new()
 	side_box.add_child(input_row)
-	input_a_button = CheckButton.new()
+	input_a_button = SignalLevelButtonType.new()
 	input_a_button.button_pressed = false
 	input_a_button.toggled.connect(_on_test_input_toggled.bind(&"A"))
+	var a_label := Label.new()
+	a_label.text = "A"
+	input_row.add_child(a_label)
 	input_row.add_child(input_a_button)
-	input_b_button = CheckButton.new()
+	input_b_button = SignalLevelButtonType.new()
 	input_b_button.button_pressed = false
 	input_b_button.toggled.connect(_on_test_input_toggled.bind(&"B"))
 	input_b_button.visible = include_b
+	var b_label := Label.new()
+	b_label.text = "B"
+	b_label.visible = include_b
+	input_row.add_child(b_label)
 	input_row.add_child(input_b_button)
 	_update_input_button_text()
 
@@ -3141,14 +3325,36 @@ func _build_official_case_rows() -> void:
 	official_case_labels.clear()
 	for index: int in range(HalfAdderTestBenchType.OFFICIAL_CASES.size()):
 		var official_case: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		var try_input := Button.new()
+		try_input.name = "TryCase%d" % index
+		try_input.text = "%d %d" % [int(official_case["A"]), int(official_case["B"])]
+		try_input.custom_minimum_size = Vector2(62.0, 40.0)
+		try_input.tooltip_text = _t(&"hardware.cases.try.tooltip", [int(official_case["SUM"]), int(official_case["CARRY"])])
+		try_input.pressed.connect(_try_half_adder_input.bind(index))
+		row.add_child(try_input)
 		var label := Label.new()
 		label.text = _t(&"hardware.cases.row_not_run", [
 			index + 1, int(official_case["A"]), int(official_case["B"]),
 		])
-		label.add_theme_font_size_override("font_size", 13)
+		label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.add_theme_color_override("font_color", MUTED)
 		official_case_labels.append(label)
-		side_box.add_child(label)
+		row.add_child(label)
+		side_box.add_child(row)
+
+
+func _try_half_adder_input(index: int) -> void:
+	if _editor_locked() or official_sequence_active or current_phase != &"half_adder":
+		return
+	var example: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
+	input_a_button.button_pressed = bool(example["A"])
+	input_b_button.button_pressed = bool(example["B"])
+	status_label.text = _t(&"hardware.cases.try.selected", [int(example["A"]), int(example["B"]), int(example["SUM"]), int(example["CARRY"])])
+	status_label.add_theme_color_override("font_color", ACCENT)
 
 
 func _side_heading(title: String, subtitle: String) -> Control:
@@ -3174,6 +3380,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		status_label.add_theme_color_override("font_color", BAD)
 		return
 	graph.connect_node(from_node, from_port, to_node, to_port)
+	graph.set_connection_color_index(from_node, from_port, to_node, to_port, active_wire_color_index)
 	_stop_playback()
 	current_trace = null
 	_mark_trace_stale()
@@ -3215,6 +3422,13 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 
 func _on_connection_to_empty(from_node: StringName, from_port: int, release_position: Vector2) -> void:
 	if _editor_locked():
+		return
+	# Native GraphEdit can report "empty" when a nearby node overlaps its hit zone.
+	# Resolve the visible port before creating an endpoint, using the same rules.
+	var target: Dictionary = graph._input_port_at(release_position, 16.0, from_node, from_port)
+	if not target.is_empty():
+		if bool(target.get("valid", false)):
+			_on_connection_request(from_node, from_port, target.node, target.port)
 		return
 	if not graph.get_closest_connection_at_point(release_position, 16.0).is_empty():
 		status_label.text = _t(&"hardware.status.invalid_merge")
@@ -3654,15 +3868,20 @@ func _on_connection_drag_ended() -> void:
 	builtin_connection_drag_active = false
 	graph.end_builtin_connection_preview()
 	_reset_component_feedback()
-	status_label.text = _t(&"hardware.status.cable_released")
-	status_label.add_theme_color_override("font_color", MUTED)
+	if status_label.text in [
+		_t(&"hardware.status.cable_active", [_t(&"hardware.port.input")]),
+		_t(&"hardware.status.cable_active", [_t(&"hardware.port.output")]),
+	]:
+		status_label.text = _t(&"hardware.status.cable_released")
+		status_label.add_theme_color_override("font_color", MUTED)
 
 
 func _on_graph_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
 		_focus_graph_for_keyboard()
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and _has_active_graph_gesture():
 		_cancel_connection_drag()
+		get_viewport().set_input_as_handled()
 
 
 func _handle_graph_pan_key_event(event: InputEvent) -> bool:
@@ -3779,6 +3998,55 @@ func _keyboard_focus_accepts_text() -> bool:
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	return focused != null and focused.is_visible_in_tree() \
 		and (focused is LineEdit or focused is TextEdit)
+
+
+func _focus_circuit(all_components: bool = false) -> void:
+	if graph == null or not graph.is_visible_in_tree() or _view_navigation_locked():
+		return
+	var ids: Array[StringName] = []
+	if not all_components:
+		ids = _selected_node_ids(false)
+	var selected: bool = not ids.is_empty()
+	if ids.is_empty():
+		ids.assign(component_nodes.keys())
+	var bounds := Rect2()
+	var has_bounds: bool = false
+	for id: StringName in ids:
+		var node: GraphNode = component_nodes.get(id)
+		if node == null or not node.visible:
+			continue
+		var rect := Rect2(node.position_offset, node.size)
+		bounds = bounds.merge(rect) if has_bounds else rect
+		has_bounds = true
+	if not has_bounds:
+		return
+	var view := Rect2(Vector2(42.0, 36.0), graph.size - Vector2(84.0, 72.0))
+	# Reserve the occupied edge, without moving or closing the player's windows.
+	for window: Control in desktop_windows.values():
+		if window.visible and window.position.x < graph.size.x * 0.25:
+			var left: float = window.position.x + window.size.x + 24.0
+			if graph.size.x - left > 400.0:
+				view.position.x = maxf(view.position.x, left)
+				view.size.x = graph.size.x - view.position.x - 42.0
+	graph.zoom = clampf(minf(view.size.x / maxf(bounds.size.x, 1.0), view.size.y / maxf(bounds.size.y, 1.0)),
+		graph.zoom_min, minf(graph.zoom_max, 1.5 if selected else 1.0))
+	graph.scroll_offset = bounds.get_center() * graph.zoom - view.get_center()
+	graph.queue_signal_wire_redraw()
+	_focus_graph_for_keyboard()
+	status_label.text = _t(&"hardware.view.focused", [roundi(graph.zoom * 100.0)])
+	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _wire_description(connection: Dictionary) -> String:
+	var source: LogicComponent = component_catalog.get(StringName(connection.get("from_node", &"")))
+	var target: LogicComponent = component_catalog.get(StringName(connection.get("to_node", &"")))
+	if source == null or target == null:
+		return ""
+	var output: int = int(connection.get("from_port", 0))
+	var input: int = int(connection.get("to_port", 0))
+	return _t(&"hardware.wire.inspect", [
+		source.output_width(output), source.display_name, String(source.output_port_name(output)),
+		target.display_name, String(target.input_port_name(input))])
 
 
 func _color_hovered_wire(whole_net: bool) -> void:
@@ -3956,6 +4224,8 @@ func _sync_selection_feedback() -> void:
 	for component_id: StringName in component_row_labels:
 		var node: GraphNode = component_nodes.get(component_id)
 		var selected: bool = node != null and node.selected
+		if node != null and node.has_node("ModuleHeading"):
+			node.get_node("ModuleHeading").set_selection_active(selected)
 		for row_variant: Variant in component_row_labels[component_id]:
 			var row: Variant = row_variant
 			if row != null:
@@ -4189,13 +4459,8 @@ func _select_component_with_connected_route_nodes(component_id: StringName, addi
 
 
 func _local_point_hits_port(node: GraphNode, point: Vector2, radius: float) -> bool:
-	for port: int in range(node.get_input_port_count()):
-		if point.distance_to(node.get_input_port_position(port)) <= radius:
-			return true
-	for port: int in range(node.get_output_port_count()):
-		if point.distance_to(node.get_output_port_position(port)) <= radius:
-			return true
-	return false
+	# A nearby component's padding must not start a body drag over a visible port.
+	return not graph._port_at(node.get_transform() * point, radius * graph.zoom).is_empty()
 
 
 func _push_history_action(action: Dictionary) -> void:
@@ -4584,7 +4849,7 @@ func _on_component_gui_input(event: InputEvent, component_id: StringName) -> voi
 		if not pressed_node.selected:
 			_set_selected_ids([component_id])
 		body_drag_component_id = component_id
-		body_drag_pointer_origin = get_viewport().get_mouse_position()
+		body_drag_pointer_origin = pressed_node.get_global_transform() * mouse_event.position
 		body_drag_positions = _capture_node_positions()
 		body_drag_moved = false
 		_on_begin_node_move()
@@ -5161,29 +5426,15 @@ func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
 
 func _update_input_button_text() -> void:
 	if input_a_button != null:
-		_update_signal_toggle_placeholder(input_a_button, "A")
+		_update_signal_control(input_a_button, "A")
 	if input_b_button != null:
-		_update_signal_toggle_placeholder(input_b_button, "B")
+		_update_signal_control(input_b_button, "B")
 
 
-func _update_signal_toggle_placeholder(toggle: CheckButton, signal_name: String) -> void:
-	var high: bool = toggle.button_pressed
-	var state_text: String = _t(&"hardware.signal.high") if high else _t(&"hardware.signal.low")
-	toggle.text = "%s   %s  %d   %s" % [signal_name, state_text, int(high), "══▶" if high else "──▷"]
-	toggle.custom_minimum_size = Vector2(168.0, 48.0)
-	var color: Color = SIGNAL_HIGH if high else SIGNAL_LOW
-	for color_name: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-		toggle.add_theme_color_override(color_name, Color("f7fbff"))
-	var normal: StyleBoxFlat = _stylebox(color.darkened(0.72), 11, 3, color)
-	var hover: StyleBoxFlat = _stylebox(color.darkened(0.60), 11, 3, color.lightened(0.16))
-	var pressed: StyleBoxFlat = _stylebox(color.darkened(0.52), 11, 4, Color("f7fbff"))
-	for style_name: String in ["normal", "disabled"]:
-		toggle.add_theme_stylebox_override(style_name, normal)
-	for style_name: String in ["hover", "focus"]:
-		toggle.add_theme_stylebox_override(style_name, hover)
-	for style_name: String in ["pressed", "hover_pressed"]:
-		toggle.add_theme_stylebox_override(style_name, pressed)
-	toggle.tooltip_text = _t(&"hardware.test_bench.signal.tooltip", [signal_name, int(high)])
+func _update_signal_control(toggle: CheckButton, signal_name: String) -> void:
+	toggle.text = str(int(toggle.button_pressed))
+	toggle.tooltip_text = _t(&"hardware.test_bench.signal.tooltip", [signal_name, int(toggle.button_pressed)])
+	toggle.queue_redraw()
 
 
 func _run_debug() -> void:
@@ -5459,7 +5710,7 @@ func _finish_official_sequence() -> void:
 		level_completion_overlay.present_actions(
 			current_level_id,
 			_level_display_name(current_level_id),
-			_t(&"hardware.completion.summary.half_adder"),
+			_t(&"hardware.completion.ready_to_seal", ["HalfAdder"]),
 			_t(&"hardware.completion.chapter"),
 			&"hardware_foundations",
 			_t(&"hardware.seal.verified_button"),
@@ -5577,12 +5828,6 @@ func _run_prologue_debug() -> void:
 
 
 func _run_prologue_official() -> void:
-	if current_level_id == &"cpu":
-		_refresh_cpu_stage()
-		if cpu_stage_index < 4:
-			status_label.text = _t(&"hardware.cpu.stage.official_locked", [cpu_stage_index + 1])
-			status_label.add_theme_color_override("font_color", WARNING)
-			return
 	var circuit: LogicCircuit = _circuit_from_graph()
 	current_circuit = circuit
 	_begin_official_sequence(&"prologue", circuit)
@@ -5623,21 +5868,19 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 				call_deferred("_show_level_completion", current_level_id)
 		else:
 			seal_button.disabled = false
-			level_completion_overlay.present_actions(
-				current_level_id,
-				_level_display_name(current_level_id),
-				_t(StringName(COMPLETION_SUMMARY_KEYS.get(
-					current_level_id, &"hardware.completion.summary.tutorial"
-				))),
-				_t(&"hardware.completion.chapter"),
-				&"hardware_foundations",
-				_t(&"hardware.prologue.seal"),
-				_t(&"hardware.prologue.continue_next"),
-				_t(&"hardware.prologue.back_map")
-			)
 			seal_button.text = _t(&"hardware.prologue.seal_verified", [
 				StringName(current_level_definition.get("seal_name", &""))
 			])
+			level_completion_overlay.present_actions(
+				current_level_id,
+				_level_display_name(current_level_id),
+				_t(&"hardware.completion.ready_to_seal", [current_level_definition.get("seal_name", &"")]),
+				_t(&"hardware.completion.chapter"),
+				&"hardware_foundations",
+				seal_button.text,
+				_t(&"hardware.prologue.continue_next"),
+				_t(&"hardware.prologue.back_map")
+			)
 	else:
 		var error_suffix: String = ""
 		if final_result != null and not final_result.errors.is_empty():
@@ -6092,7 +6335,7 @@ func _build_prologue_side() -> void:
 		opcode_table.name = "CpuOpcodeTable"
 		opcode_table.text = _t(&"hardware.cpu.opcode_table")
 		opcode_table.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		opcode_table.add_theme_font_size_override("font_size", 12)
+		opcode_table.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 		opcode_table.add_theme_color_override("font_color", WARNING)
 		opcode_panel.add_child(opcode_table)
 		task_box.add_child(opcode_panel)
@@ -6163,25 +6406,24 @@ func _build_cpu_stage_panel() -> void:
 	task_box.add_child(cpu_stage_button)
 
 
-func _cpu_stage_required_indices(stage: int) -> Array[int]:
+func _cpu_stage_inputs(stage: int) -> Array:
 	match stage:
-		0: return [0, 1, 3, 5]
-		1: return [4, 6, 7, 8, 10, 11, 12, 13, 17]
-		2: return [2, 9, 14, 18]
-		3: return [15, 16]
+		0: return [[&"CONTROL", 0], [&"SOURCE_MUX", 0], [&"SOURCE_MUX", 2], [&"ALU", 1]]
+		1: return [[&"ALU", 0], [&"ALU", 2], [&"ALU", 3], [&"ALU", 4], [&"RESULT_MUX", 1], [&"RESULT_MUX", 2], [&"ACC", 0], [&"ACC", 1], [&"ACC_OUT", 0]]
+		2: return [[&"SOURCE_MUX", 1], [&"RESULT_MUX", 0], [&"RAM", 0], [&"MEM_OUT", 0]]
+		3: return [[&"RAM", 1], [&"RAM", 2]]
 	return []
 
 
 func _cpu_stage_complete(stage: int, circuit: LogicCircuit) -> bool:
-	var wires: Array = current_level_definition.get("reference_wires", [])
-	for index: int in _cpu_stage_required_indices(stage):
-		if index < 0 or index >= wires.size():
-			return false
-		var wire: Dictionary = wires[index]
-		if not circuit.has_connection(
-			StringName(wire["from"]), int(wire.get("from_port", 0)),
-			StringName(wire["to"]), int(wire.get("to_port", 0))
-		):
+	# An interface checklist is guidance, never an answer or behavioral gate.
+	for input: Array in _cpu_stage_inputs(stage):
+		var connected: bool = false
+		for wire: LogicWire in circuit.wires:
+			if wire.to_component == input[0] and wire.to_port == input[1]:
+				connected = true
+				break
+		if not connected:
 			return false
 	return true
 
@@ -6195,7 +6437,6 @@ func _refresh_cpu_stage(update_status: bool = false) -> void:
 		derived_stage += 1
 	var advanced: bool = derived_stage > cpu_stage_index
 	cpu_stage_index = derived_stage
-	_apply_cpu_stage_visibility()
 	if cpu_stage_label != null:
 		cpu_stage_label.text = _t(StringName("hardware.cpu.stage.%d" % mini(cpu_stage_index + 1, 5)))
 	if cpu_stage_button != null:
@@ -6204,7 +6445,7 @@ func _refresh_cpu_stage(update_status: bool = false) -> void:
 			&"hardware.cpu.stage.ready" if cpu_stage_index >= 4 else &"hardware.cpu.stage.check"
 		)
 	if official_button != null:
-		official_button.disabled = cpu_stage_index < 4 or official_sequence_active
+		official_button.disabled = official_sequence_active
 	if update_status or advanced:
 		status_label.text = _t(&"hardware.cpu.stage.all_ready") if cpu_stage_index >= 4 \
 			else _t(&"hardware.cpu.stage.advanced", [cpu_stage_index + 1])
@@ -6215,28 +6456,6 @@ func _validate_cpu_stage() -> void:
 	_refresh_cpu_stage(true)
 
 
-func _apply_cpu_stage_visibility() -> void:
-	var stage_groups: Array[Array] = [
-		[&"OP_IN", &"ARG_IN", &"CONTROL", &"SOURCE_MUX", &"ALU"],
-		[&"ACC", &"ADD_OP0", &"ADD_OP1", &"CIN_0", &"RESULT_MUX", &"ACC_OUT"],
-		[&"ADDR_IN", &"RAM", &"MEM_OUT"],
-	]
-	var available: Dictionary[StringName, bool] = {}
-	for group_index: int in range(stage_groups.size()):
-		if group_index > cpu_stage_index:
-			continue
-		for id_variant: Variant in stage_groups[group_index]:
-			available[StringName(id_variant)] = true
-	for component_id: StringName in component_nodes:
-		var node: GraphNode = component_nodes[component_id]
-		var is_available: bool = available.has(component_id) or cpu_stage_index >= 3
-		node.visible = true
-		node.modulate = Color.WHITE if is_available else Color(0.42, 0.46, 0.55, 0.18)
-		node.mouse_filter = Control.MOUSE_FILTER_STOP if is_available else Control.MOUSE_FILTER_IGNORE
-		node.draggable = is_available
-	graph.queue_signal_wire_redraw()
-
-
 func _is_storage_level() -> bool:
 	return &"storage" in (current_level_definition.get("feature_tags", []) as Array)
 
@@ -6245,7 +6464,7 @@ func _build_storage_monitor() -> void:
 	var heading := Label.new()
 	heading.text = _t(&"hardware.storage.monitor.title")
 	heading.add_theme_font_size_override("font_size", 15)
-	heading.add_theme_color_override("font_color", PURPLE)
+	heading.add_theme_color_override("font_color", ACCENT)
 	side_box.add_child(heading)
 	var explanation := Label.new()
 	explanation.text = _t(&"hardware.storage.monitor.explanation")
@@ -6353,13 +6572,13 @@ func _build_prologue_input_controls() -> void:
 	for component: LogicComponent in inputs:
 		var row := HBoxContainer.new()
 		var name_label := Label.new()
-		name_label.text = "%s [%d-bit]" % [component.signal_name, component.output_width(0)]
+		name_label.text = "%s · %d bit" % [component.signal_name, component.output_width(0)]
 		name_label.custom_minimum_size.x = 115.0
 		row.add_child(name_label)
 		if component.output_width(0) == 1:
-			var toggle := CheckButton.new()
+			var toggle := SignalLevelButtonType.new()
 			toggle.button_pressed = bool(defaults.get(component.signal_name, 0))
-			_update_signal_toggle_placeholder(toggle, String(component.signal_name))
+			_update_signal_control(toggle, String(component.signal_name))
 			toggle.toggled.connect(_on_prologue_toggle_changed.bind(component.signal_name, toggle))
 			row.add_child(toggle)
 			prologue_input_controls[component.signal_name] = toggle
@@ -6434,7 +6653,7 @@ func _storage_initial_state_text() -> String:
 
 
 func _on_prologue_toggle_changed(_pressed: bool, signal_name: StringName, control: CheckButton) -> void:
-	_update_signal_toggle_placeholder(control, String(signal_name))
+	_update_signal_control(control, String(signal_name))
 	_on_prologue_input_changed()
 
 
@@ -7255,6 +7474,26 @@ func _update_tutorial_checklist() -> void:
 	if tutorial_next_button != null:
 		tutorial_next_button.disabled = not complete
 		tutorial_next_button.text = _t(&"hardware.tutorial.begin_challenge") if complete else _t(&"hardware.tutorial.complete_five")
+	_update_tutorial_goal()
+
+
+func _update_tutorial_goal() -> void:
+	if current_level_id != &"tutorial" or hint_mode or mission_summary_button == null:
+		return
+	var states: Array[bool] = [tutorial_created_wire, tutorial_changed_input, tutorial_valid_run,
+		tutorial_removed_wire, tutorial_reconnected_wire]
+	var steps: Array[StringName] = [&"wire", &"input", &"run", &"remove", &"reconnect"]
+	var completed: int = 0
+	var next: StringName = &""
+	for index: int in range(states.size()):
+		if states[index]:
+			completed += 1
+		elif next.is_empty():
+			next = steps[index]
+	if not next.is_empty():
+		mission_summary_button.text = _t(&"hardware.goal.tutorial_step", [completed,
+			_t(StringName("hardware.tutorial.check.%s" % next))])
+		mission_summary_button.tooltip_text = mission_summary_button.text
 
 
 func _component_tooltip(component: LogicComponent) -> String:
@@ -7293,6 +7532,7 @@ func _show_component_inspector(component_id: StringName) -> void:
 	var title := Label.new()
 	title.text = _component_inspector_title(component)
 	title.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", ACCENT)
 	component_inspector_box.add_child(title)
 	var kind := Label.new()

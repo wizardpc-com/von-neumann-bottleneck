@@ -12,8 +12,9 @@ const ERASER_SAMPLE_SPACING: float = 4.0
 const SELECTION_DRAG_THRESHOLD: float = 4.0
 const WIRE_HOVER_RADIUS: float = 13.0
 const TARGET_GUIDE_RADIUS: float = 15.0
-const SETTLED_WIRE_THICKNESS: float = 8.0
-const FLOW_WIRE_THICKNESS: float = 4.5
+const SETTLED_WIRE_THICKNESS: float = 3.5
+const BUS_WIRE_THICKNESS: float = 5.5
+const FLOW_WIRE_THICKNESS: float = 2.5
 
 signal branch_connection_requested(
 	connection: Dictionary,
@@ -52,6 +53,10 @@ signal component_drop_requested(template_key: String, local_position: Vector2)
 signal component_placement_cancel_requested(reason: StringName)
 
 var connection_validator: Callable
+var connection_width_provider: Callable
+var connection_description: Callable
+var connection_net_provider: Callable
+var hovered_net: Array[Dictionary] = []
 var settled_wire_thickness: float = SETTLED_WIRE_THICKNESS
 var branch_edit_enabled: bool = true
 var branch_candidate: Dictionary = {}
@@ -177,11 +182,31 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 func _input(event: InputEvent) -> void:
 	if not branch_edit_enabled:
 		return
+	if not branch_candidate.is_empty() or not endpoint_candidate.is_empty():
+		if event is InputEventMouseMotion or (
+			event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed
+		):
+			_gui_input(make_input_local(event))
+			get_viewport().set_input_as_handled()
+			return
 	if event is InputEventMouseMotion and not builtin_connection_source.is_empty():
 		builtin_connection_pointer = _local_from_global((event as InputEventMouseMotion).position)
 		queue_redraw()
 	if event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
+		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed \
+				and _is_graph_hover_target(mouse_event.position):
+			var port: Dictionary = _port_at(_local_from_global(mouse_event.position), 14.0)
+			if not port.is_empty():
+				# Let the pointed port receive native GUI input before neighboring node padding.
+				move_child(get_node(NodePath(String(port.node))), get_child_count() - 1)
+		# Occupied inputs belong to the network-branch gesture. Claim the press
+		# before native GraphEdit also starts a backwards connection drag.
+		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed \
+				and _is_graph_hover_target(mouse_event.position) \
+				and _begin_wired_input_gesture(_local_from_global(mouse_event.position), mouse_event.shift_pressed):
+			get_viewport().set_input_as_handled()
+			return
 		if component_placement_enabled and mouse_event.pressed:
 			if mouse_event.button_index == MOUSE_BUTTON_RIGHT:
 				component_placement_cancel_requested.emit(&"right_click")
@@ -215,10 +240,45 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+func _is_in_input_hotzone(in_node: Object, in_port: int, mouse_position: Vector2) -> bool:
+	# GraphEdit supplies unscaled viewport coordinates to its hotzone callbacks.
+	# Resolve overlapping grab areas by distance, rather than child order.
+	var nearest: Dictionary = _port_at(mouse_position * zoom, 28.0)
+	return not nearest.is_empty() and not nearest.is_output \
+		and nearest.node == (in_node as GraphNode).name and nearest.port == in_port
+
+
+func _is_in_output_hotzone(in_node: Object, in_port: int, mouse_position: Vector2) -> bool:
+	var nearest: Dictionary = _port_at(mouse_position * zoom, 28.0)
+	return not nearest.is_empty() and nearest.is_output \
+		and nearest.node == (in_node as GraphNode).name and nearest.port == in_port
+
+
 func _is_node_hover_valid(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> bool:
 	if connection_validator.is_valid():
 		return bool(connection_validator.call(from_node, from_port, to_node, to_port))
 	return from_node != to_node
+
+
+func _begin_wired_input_gesture(point: Vector2, move_endpoint: bool) -> bool:
+	var pressed_port: Dictionary = _port_at(point, 28.0)
+	if pressed_port.is_empty() or bool(pressed_port.get("is_output", true)):
+		return false
+	var existing: Dictionary = _connection_to_input(StringName(pressed_port["node"]), int(pressed_port["port"]))
+	if existing.is_empty():
+		return false
+	if move_endpoint:
+		_begin_endpoint_move(existing, point)
+	else:
+		branch_candidate = existing.duplicate()
+		branch_anchor = displayed_port_position(
+			get_node(NodePath(String(existing["to_node"]))) as GraphNode,
+			int(existing["to_port"]), false
+		)
+		branch_pointer = branch_anchor
+		branch_target.clear()
+	queue_redraw()
+	return true
 
 
 func _placement_hits_existing_content(point: Vector2) -> bool:
@@ -231,6 +291,8 @@ func _placement_hits_existing_content(point: Vector2) -> bool:
 
 func _gui_input(event: InputEvent) -> void:
 	if not branch_edit_enabled:
+		if event is InputEventMouseMotion:
+			_update_hovered_connection(event.position)
 		return
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		if selection_dragging:
@@ -260,22 +322,9 @@ func _gui_input(event: InputEvent) -> void:
 			placement_pointer = mouse_event.position
 			placement_has_pointer = true
 			var pressed_port: Dictionary = _port_at(mouse_event.position, 28.0)
-			if not pressed_port.is_empty() and not bool(pressed_port.get("is_output", true)):
-				var existing: Dictionary = _connection_to_input(StringName(pressed_port["node"]), int(pressed_port["port"]))
-				if not existing.is_empty():
-					if mouse_event.shift_pressed:
-						_begin_endpoint_move(existing, mouse_event.position)
-					else:
-						branch_candidate = existing.duplicate()
-						branch_anchor = displayed_port_position(
-							get_node(NodePath(String(existing["to_node"]))) as GraphNode,
-							int(existing["to_port"]), false
-						)
-						branch_pointer = branch_anchor
-						branch_target.clear()
-					accept_event()
-					queue_redraw()
-					return
+			if _begin_wired_input_gesture(mouse_event.position, mouse_event.shift_pressed):
+				accept_event()
+				return
 			# Deterministic gesture priority: ports, component bodies, rendered wires,
 			# component placement, then empty-canvas marquee selection.
 			if not pressed_port.is_empty() or not _node_at(mouse_event.position).is_empty():
@@ -506,20 +555,35 @@ func _draw_settled_connections() -> void:
 			key, WirePaletteType.DEFAULT_INDEX
 		)))
 		var state: int = int(connection_signal_values.get(key, LogicSignalType.LOW))
-		_draw_settled_curve(curve, base, state)
+		_draw_settled_curve(curve, base, state, connection_stroke_width(connection))
 		if connection_flows.has(key):
 			_draw_connection_flow(curve, base, connection_flows[key])
 
 
-func _draw_settled_curve(curve: PackedVector2Array, base: Color, state: int) -> void:
-	draw_polyline(curve, Color("07101c", 0.92), SETTLED_WIRE_THICKNESS + 3.0, true)
+func connection_stroke_width(connection: Dictionary) -> float:
+	if connection_width_provider.is_valid() and int(connection_width_provider.call(
+		StringName(connection.get("from_node", &"")), int(connection.get("from_port", 0))
+	)) > 1:
+		return BUS_WIRE_THICKNESS
+	return SETTLED_WIRE_THICKNESS
+
+
+func _get_tooltip(at_position: Vector2) -> String:
+	var connection: Dictionary = get_closest_connection_at_point(at_position, WIRE_HOVER_RADIUS)
+	if not connection.is_empty() and connection_description.is_valid():
+		return String(connection_description.call(connection))
+	return ""
+
+
+func _draw_settled_curve(curve: PackedVector2Array, base: Color, state: int, width: float) -> void:
+	draw_polyline(curve, Color("07101c", 0.92), width + 2.5, true)
 	if state == LogicSignalType.HIGH_Z:
-		_draw_dashed_curve(curve, Color("8b929d", 0.82), SETTLED_WIRE_THICKNESS - 1.5)
+		_draw_dashed_curve(curve, Color("8b929d", 0.82), width)
 		return
 	var settled: Color = base.lightened(0.22) if state == LogicSignalType.HIGH \
-		else base.darkened(0.54)
-	settled.a = 1.0 if state == LogicSignalType.HIGH else 0.78
-	draw_polyline(curve, settled, SETTLED_WIRE_THICKNESS, true)
+		else base.darkened(0.30)
+	settled.a = 1.0 if state == LogicSignalType.HIGH else 0.86
+	draw_polyline(curve, settled, width, true)
 	if state == LogicSignalType.HIGH:
 		draw_polyline(curve, Color(base.lightened(0.48), 0.38), 2.0, true)
 
@@ -712,6 +776,12 @@ func _update_hovered_connection(point: Vector2) -> void:
 	if connection.is_empty():
 		_clear_hovered_connection()
 		return
+	if not _same_connection(hovered_connection, connection):
+		hovered_net.clear()
+		if connection_net_provider.is_valid():
+			hovered_net.assign(connection_net_provider.call(connection))
+		else:
+			hovered_net.append(connection)
 	hovered_connection = connection.duplicate()
 	hovered_wire_point = _closest_point_on_connection(connection, point)
 	queue_redraw()
@@ -721,18 +791,29 @@ func _clear_hovered_connection() -> void:
 	if hovered_connection.is_empty():
 		return
 	hovered_connection.clear()
+	hovered_net.clear()
 	queue_redraw()
 
 
 func _draw_hovered_connection() -> void:
 	if hovered_connection.is_empty():
 		return
+	if not is_node_connected(hovered_connection.from_node, hovered_connection.from_port,
+		hovered_connection.to_node, hovered_connection.to_port):
+		return
 	var source: GraphNode = get_node_or_null(NodePath(String(hovered_connection.get("from_node", "")))) as GraphNode
 	var target: GraphNode = get_node_or_null(NodePath(String(hovered_connection.get("to_node", "")))) as GraphNode
 	if source == null or target == null:
 		return
+	for member: Dictionary in hovered_net:
+		if not is_node_connected(member.from_node, member.from_port, member.to_node, member.to_port):
+			continue
+		var member_curve: PackedVector2Array = connection_curve(member)
+		if member_curve.size() < 2:
+			continue
+		draw_polyline(member_curve, Color("b5edff", 0.58), connection_stroke_width(member) + 2.0, true)
 	var curve: PackedVector2Array = connection_curve(hovered_connection)
-	draw_polyline(curve, Color("50d5ff", 0.13), 18.0, true)
+	draw_polyline(curve, Color("50d5ff", 0.13), 11.0, true)
 	draw_polyline(curve, Color("50d5ff", 0.86), 2.5, true)
 	draw_circle(hovered_wire_point, 7.0, Color("101725"))
 	draw_circle(hovered_wire_point, 5.0, Color("50d5ff"))
@@ -884,25 +965,32 @@ func _erase_at_point(point: Vector2) -> void:
 	if not component_id.is_empty() and not erase_component_ids.has(component_id):
 		erase_component_ids[component_id] = true
 		erase_component_requested.emit(component_id)
+		return
 	# The eraser is a cursor-tip contact patch, not a circular brush. Include half
 	# the rendered wire width so touching a visible wire counts, while nearby
 	# empty space remains safe.
-	var wire_hit_radius: float = SETTLED_WIRE_THICKNESS * 0.5 + ERASER_TIP_RADIUS
-	for connection: Dictionary in _connections_at(point, wire_hit_radius):
+	var closest: Dictionary = {}
+	var distance: float = INF
+	for connection: Dictionary in _connections_at(point, ERASER_TIP_RADIUS):
+		var candidate_distance: float = point.distance_squared_to(_closest_point_on_connection(connection, point))
+		if candidate_distance < distance:
+			distance = candidate_distance
+			closest = connection
+	if not closest.is_empty():
 		var key: String = _connection_key(
-			connection.get("from_node", &""), int(connection.get("from_port", -1)),
-			connection.get("to_node", &""), int(connection.get("to_port", -1))
+			closest.get("from_node", &""), int(closest.get("from_port", -1)),
+			closest.get("to_node", &""), int(closest.get("to_port", -1))
 		)
 		if erase_wire_keys.has(key):
-			continue
+			return
 		erase_wire_keys[key] = true
-		erase_wire_requested.emit(connection.duplicate())
+		erase_wire_requested.emit(closest.duplicate())
 
 
 func _connections_at(point: Vector2, radius: float) -> Array[Dictionary]:
 	var hits: Array[Dictionary] = []
-	var radius_squared: float = radius * radius
 	for connection: Dictionary in get_connection_list():
+		var radius_squared: float = pow(radius + connection_stroke_width(connection) * 0.5, 2.0)
 		var source: GraphNode = get_node_or_null(NodePath(String(connection.get("from_node", "")))) as GraphNode
 		var target: GraphNode = get_node_or_null(NodePath(String(connection.get("to_node", "")))) as GraphNode
 		if source == null or target == null:
@@ -1148,17 +1236,23 @@ func _same_connection(left: Dictionary, right: Dictionary) -> bool:
 
 
 func _port_at(point: Vector2, radius: float) -> Dictionary:
+	var nearest: Dictionary = {}
+	var nearest_distance: float = radius
 	for child: Node in get_children():
 		if not child is GraphNode or not (child as GraphNode).visible:
 			continue
 		var node := child as GraphNode
 		for port: int in range(node.get_input_port_count()):
-			if point.distance_to(displayed_port_position(node, port, false)) <= radius:
-				return {"node": node.name, "port": port, "is_output": false}
+			var distance: float = point.distance_to(displayed_port_position(node, port, false))
+			if distance <= nearest_distance:
+				nearest_distance = distance
+				nearest = {"node": node.name, "port": port, "is_output": false}
 		for port: int in range(node.get_output_port_count()):
-			if point.distance_to(displayed_port_position(node, port, true)) <= radius:
-				return {"node": node.name, "port": port, "is_output": true}
-	return {}
+			var distance: float = point.distance_to(displayed_port_position(node, port, true))
+			if distance <= nearest_distance:
+				nearest_distance = distance
+				nearest = {"node": node.name, "port": port, "is_output": true}
+	return nearest
 
 
 func _node_at(point: Vector2) -> StringName:

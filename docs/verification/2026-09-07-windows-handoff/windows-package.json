@@ -1,0 +1,10 @@
+{
+  "build": "polish-20260907T010358-76ef116",
+  "zip": "build/Von-Neumann-Bottleneck-Polish-20260907T010358.zip",
+  "zip_sha256": "3d93d4947328c51dab68b5f23ff3835b5b6084c775ab1c006219b6f51ecb7d03",
+  "zip_bytes": 56337399,
+  "exe_sha256": "1dc83a42ca49c0d339f3941aa005c98612e0c8d209f457525a3bab19f563bec0",
+  "source_tree_sha256": "59115cc030be5651a2aa263c66996dbb583c7aec9d81f39670631937cd72aac5",
+  "archive_integrity": "PASS",
+  "conventional_passes": 20
+}

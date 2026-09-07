@@ -47,8 +47,7 @@ func _init() -> void:
 
 func _run() -> void:
 	_assert(_current_locale() == "zh_CN", "Simplified Chinese must be the startup locale.")
-	# Blueprint section 3 makes the old hub an explicit secondary history entry.
-	_assert(_t(&"hub.subtitle") == "旧版记录与实验", "The legacy hub must identify itself separately from the new mainline.")
+	_assert(_t(&"hub.subtitle") == "从第一根线，到一台能计算的机器。再让它更快。", "The default hub must identify the restored build-to-data-movement route.")
 	_assert(_t(&"hub.options.quit") == "退出游戏", "The chapter Options menu must provide a localized quit action.")
 	_assert(_t(&"terminology.button") == "手册", "The Chinese bottom-right handbook entry must use the concise shared tool-button label.")
 	_assert(_t(&"hub.locality.title") == "第 2 章：让数据留在近处", "The hub must present the locality campaign as the formal second chapter.")
@@ -71,9 +70,21 @@ func _run() -> void:
 	_validate_mission_page_structure()
 
 	var used_keys: Array[StringName] = _localized_source_keys()
+	for key: StringName in [
+		&"hardware.hint.confirm.2", &"hardware.hint.confirm.3",
+		&"hardware.hint.confirm_button.2", &"hardware.hint.confirm_button.3",
+		&"hardware.goal.tutorial", &"hardware.goal.half_adder", &"hardware.goal.cpu",
+	]:
+		if key not in used_keys:
+			used_keys.append(key)
 	for key: StringName in LocalityCatalogType.new().localization_keys():
 		if key not in used_keys:
 			used_keys.append(key)
+	var narrative: GDScript = load("res://src/ui/mission_narrative_catalog.gd")
+	for chapter: StringName in [&"hardware_foundations", &"chapter_1", &"chapter_2"]:
+		var levels: Dictionary = narrative.HARDWARE_PAGES if chapter == &"hardware_foundations" else (narrative.SYSTEM_PAGES if chapter == &"chapter_1" else narrative.LOCALITY_PAGES)
+		for level: StringName in levels:
+			used_keys.append(narrative.next_capability_key(chapter, level))
 	used_keys.sort()
 	_assert(used_keys.size() > 300, "Localization coverage must include the complete current UI surface.")
 	for locale: String in ["zh_CN", "en"]:
@@ -81,7 +92,7 @@ func _run() -> void:
 		for key: StringName in used_keys:
 			_assert(_t(key) != String(key), "%s catalog is missing key %s." % [locale, key])
 		_validate_mission_links(locale)
-	_assert(_t(&"hub.subtitle") == "LEGACY RECORDS AND LABS", "English must identify the same secondary history entry.")
+	_assert(_t(&"hub.subtitle") == "From your first wire to a working computer. Then make it faster.", "English must identify the same restored default route.")
 	_assert(_t(&"hub.options.quit") == "Quit Game", "English must localize the chapter Options quit action.")
 	_assert(_t(&"terminology.button") == "Handbook", "The English bottom-right handbook entry must use the concise shared tool-button label.")
 	_assert(_t(&"hub.locality.title") == "CHAPTER 2: REDUCING DATA MOVEMENT", "The English hub must present the formal Chapter 2 identity.")

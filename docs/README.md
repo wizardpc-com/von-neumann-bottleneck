@@ -2,9 +2,15 @@
 
 Repository-local documentation is the source of truth for future human and Codex work.
 
-- [Approved Demo blueprint](design/DEMO_REDESIGN_BLUEPRINT.md): current eight-task product direction.
-- [Demo implementation status](status/demo-redesign.md): playable route, exact results, verification and explicit remaining items.
-- [ADR 0019](decisions/0019-eight-task-mainline-and-standard-modules.md): standard modules, new saves and superseded product gates.
+- [Mac development handoff](development/mac-handoff.md): current baseline, Mac setup, isolated checks, Windows verification and next native-playtest tasks.
+
+- [Visual and learning polish](status/visual-learning-polish.md): current signal controls, aligned schematics, instrument style, progressive Handbook, package and acceptance evidence.
+- [Visual and learning plan](exec-plans/active/visual-learning-polish.md): implemented scope and pending native desktop / human acceptance.
+- [Construction experience](status/construction-experience.md): earlier schematic, editing and learning improvements, package, evidence and human playtest gates.
+- [Experience plan](exec-plans/completed/construction-experience.md): protected baseline, reference observations and capability preservation.
+- [Recovery status](status/in-place-recovery.md): restored default route and earlier repair evidence.
+- [Recovery plan](exec-plans/completed/in-place-recovery.md): scope, protected baseline and capability recovery table.
+- [Demo blueprint](design/DEMO_REDESIGN_BLUEPRINT.md), [historical status](status/demo-redesign.md) and [ADR 0019](decisions/0019-eight-task-mainline-and-standard-modules.md): retained eight-task comparison; replacement-mainline, optional-workshop and fixed-desktop decisions are superseded.
 
 - `design/core-principles.md`: settled design direction, prototype choices, and open design questions.
 - `architecture/simulation.md`: current simulation pipeline, cost ownership, invariants, and model limits.

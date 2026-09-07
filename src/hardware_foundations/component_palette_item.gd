@@ -3,13 +3,13 @@ extends Control
 
 signal placement_requested(template_key: String)
 
-const SURFACE := Color("101725")
-const SURFACE_HOVER := Color("1b2a40")
+const SURFACE := Color("111e29")
+const SURFACE_HOVER := Color("1b3441")
 const BORDER := Color("354866")
 const ACCENT := Color("50d5ff")
 const TEXT := Color("e9f0fa")
 const MUTED := Color("91a0b9")
-const PREVIEW_RECT := Rect2(Vector2(12.0, 10.0), Vector2(72.0, 50.0))
+const PREVIEW_RECT := Rect2(Vector2(10.0, 8.0), Vector2(94.0, 54.0))
 
 var template_key: String = ""
 var component_kind: StringName = &""
@@ -25,6 +25,7 @@ func _ready() -> void:
 	mouse_default_cursor_shape = Control.CURSOR_DRAG
 	mouse_entered.connect(func() -> void: hovered = true; queue_redraw())
 	mouse_exited.connect(func() -> void: hovered = false; queue_redraw())
+	resized.connect(_layout_component_preview)
 	queue_redraw()
 
 
@@ -33,7 +34,7 @@ func configure(key: String, kind: StringName, label: String, widest_port: int = 
 	component_kind = kind
 	label_text = label
 	width_hint = maxi(1, widest_port)
-	custom_minimum_size = Vector2(220.0, 70.0)
+	custom_minimum_size = Vector2(260.0, 70.0)
 	tooltip_text = label
 	queue_redraw()
 
@@ -70,7 +71,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	preview.placement_enabled = false
 	preview.armed = true
 	preview.hovered = true
-	preview.size = Vector2(220.0, 70.0)
+	preview.size = Vector2(260.0, 70.0)
 	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	preview.modulate = Color(1.0, 1.0, 1.0, 0.92)
 	set_drag_preview(preview)
@@ -80,11 +81,12 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 func _draw() -> void:
 	var fill: Color = SURFACE_HOVER if hovered else SURFACE
 	var border: Color = ACCENT if armed else BORDER
-	draw_style_box(_stylebox(fill, border, 8.0, 2.0 if armed else 1.0), Rect2(Vector2.ZERO, size))
+	draw_style_box(_stylebox(fill, border, 5.0, 2.0 if armed else 1.0), Rect2(Vector2.ZERO, size))
+	draw_line(Vector2(105.0, 15.0), Vector2(105.0, size.y - 15.0), BORDER, 1.0)
 	var font: Font = get_theme_default_font()
-	draw_string(font, Vector2(94.0, 30.0), label_text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 106.0, 15, TEXT)
-	var detail: String = "%s · %d-bit ports" % [String(component_kind).to_upper(), width_hint]
-	draw_string(font, Vector2(94.0, 52.0), detail, HORIZONTAL_ALIGNMENT_LEFT, size.x - 106.0, 11, MUTED)
+	draw_string(font, Vector2(116.0, 29.0), label_text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 128.0, 16, TEXT)
+	var detail: String = Localization.text(&"hardware.palette.port_width", [width_hint])
+	draw_string(font, Vector2(116.0, 51.0), detail, HORIZONTAL_ALIGNMENT_LEFT, size.x - 128.0, 14, MUTED)
 
 
 func _layout_component_preview() -> void:

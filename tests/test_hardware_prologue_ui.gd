@@ -305,7 +305,7 @@ func _assert_cpu_playback(main: Control) -> void:
 			visible_names[String(rows[rows.size() / 2].call("visible_component_name"))] = true
 	_assert(
 		visible_names.has("Controller") and visible_names.has("ALU4")
-		and visible_names.has("ACC Register (4-bit)") and visible_names.has("RAM2x4")
+		and visible_names.has("ACC · Register4") and visible_names.has("RAM2x4")
 		and visible_names.has("SOURCE MUX") and visible_names.has("RESULT MUX"),
 		"CPU modules must render their role-specific complete names rather than generic or line-obscured abbreviations. names=%s" % [visible_names.keys()]
 	)
@@ -379,15 +379,16 @@ func _assert_module_text_clearance(main: Control, level_id: StringName) -> void:
 			continue
 		var row: Control = rows[rows.size() / 2]
 		var name: String = String(row.call("visible_component_name"))
-		var layout: Dictionary = row.call("name_layout")
+		var heading: Control = row.get_parent().get_node("ModuleHeading")
+		var layout: Dictionary = heading.call("name_layout")
 		var name_rect: Rect2 = layout.get("rect", Rect2())
 		var safe_rect: Rect2 = layout.get("safe_rect", Rect2())
 		var icon_rect: Rect2 = layout.get("icon_rect", Rect2())
 		_assert(
 			String(layout.get("text", "")) == name
 			and safe_rect.encloses(name_rect)
-			and name_rect.size.x > 4.0,
-			"%s %s must keep its complete name inside the row's port-free safe region; safe=%s name=%s." % [level_id, name, safe_rect, name_rect]
+			and name_rect.size.x > 4.0 and int(layout.get("font_size", 0)) >= 14,
+			"%s %s must keep its complete name in a readable dedicated header above the port rows; safe=%s name=%s." % [level_id, name, safe_rect, name_rect]
 		)
 		_assert(
 			not icon_rect.has_area() or (
@@ -398,7 +399,7 @@ func _assert_module_text_clearance(main: Control, level_id: StringName) -> void:
 		for port_layout: Dictionary in row.call("port_label_layouts"):
 			var port_rect: Rect2 = port_layout.get("rect", Rect2())
 			_assert(
-				not row.call("function_mark_rect").intersects(port_rect.grow(2.0)),
+				not row.call("function_mark_rect").intersects(port_rect.grow(2.0)) and int(port_layout.get("font_size", 0)) >= 12,
 				"%s %s must keep port text clear of its function glyph and complete name." % [level_id, name]
 			)
 
@@ -422,13 +423,13 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 		var template: LogicComponent = templates[key]
 		var item: Control = items[key]
 		var preview: Control = item.get("component_preview") as Control
-		var preview_node: GraphNode
-		if preview != null:
-			preview_node = preview.get_child(0) as GraphNode
+		var expected_symbol: bool = template.is_basic_gate() or template.kind == LogicComponentType.KIND_CONSTANT
 		_assert(
-			preview_node != null
-			and preview_node.custom_minimum_size.is_equal_approx(main.call("_component_node_size", template)),
-			"%s palette item %s must use the canvas component footprint instead of a name-only placeholder." % [level_id, template.kind]
+			preview != null and (preview is CircuitComponentSymbol if expected_symbol else preview is CircuitModuleRow)
+			and preview.get("component_kind") == template.kind
+			and preview.position.x + preview.size.x * preview.scale.x <= 105.0
+			and preview.position.y + preview.size.y * preview.scale.y <= item.size.y,
+			"%s palette item %s must reuse its actual schematic renderer and fit beside its description." % [level_id, template.kind]
 		)
 	if level_id != &"register":
 		return
@@ -442,14 +443,14 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 		return
 	var latch_template: LogicComponent = templates[latch_key]
 	var palette_preview: Control = (items[latch_key] as Control).get("component_preview") as Control
-	var palette_node: GraphNode = palette_preview.get_child(0) as GraphNode
+	var palette_row := palette_preview as CircuitModuleRow
 	var placement_preview: Control = main.call("_create_component_placement_ghost", latch_template)
 	var placement_node: GraphNode = placement_preview.get_child(0) as GraphNode
 	var canvas_node: GraphNode = (main.get("component_nodes") as Dictionary)[&"LATCH"] as GraphNode
 	_assert(
-		_component_visual_signature(palette_node) == _component_visual_signature(canvas_node)
+		palette_row != null and palette_row.shape_profile() == &"register_module"
 		and _component_visual_signature(placement_node) == _component_visual_signature(canvas_node),
-		"SRLatch must use one identical row, port, state, and shape presentation in the palette, placement ghost, and placed canvas node."
+		"SRLatch catalogue preserves the register symbol; placement ghost preserves the complete canvas rows, ports, state and geometry."
 	)
 	placement_preview.free()
 

@@ -1,8 +1,8 @@
 class_name CircuitComponentSymbol
 extends Control
 
-const SURFACE := Color("101725")
-const SYMBOL := Color("aebbd0")
+const SURFACE := Color("243a52")
+const SYMBOL := Color("d7e9f6")
 const SELECTION := Color("50d5ff")
 const PROCESS := Color("50d5ff")
 const SIGNAL_LOW := Color("ff6b7d")
@@ -90,7 +90,7 @@ func symbol_color() -> Color:
 
 
 func gate_label() -> String:
-	return String(component_kind) if component_kind in [&"and", &"or", &"xor", &"not", &"nor"] else ""
+	return String(component_kind).to_upper() if component_kind in [&"and", &"or", &"xor", &"not", &"nor"] else ""
 
 
 func name_layout() -> Dictionary:
@@ -99,35 +99,35 @@ func name_layout() -> Dictionary:
 	var text: String = ""
 	var center := Vector2(width * 0.5, center_y)
 	var max_width: float = 0.0
-	var preferred_font_size: int = 13
+	var preferred_font_size: int = 14
 	var color: Color = symbol_color()
 	match component_kind:
 		&"and":
 			var left: float = width * 0.28
 			var arc_center_x: float = width * 0.56
 			var radius: float = minf(display_height * 0.34, width * 0.22)
-			text = "and"
+			text = "AND"
 			center.x = (left + arc_center_x + radius) * 0.5
 			max_width = arc_center_x + radius - left - 10.0
 			color = _stage_color(symbol_color(), 0.20, 0.80)
 		&"or", &"xor", &"nor":
-			text = String(component_kind)
+			text = String(component_kind).to_upper()
 			center.x = width * 0.55
 			max_width = width * 0.36
 			color = _stage_color(symbol_color(), 0.20, 0.80)
 		&"not":
 			var left: float = width * 0.27
 			var tip: float = width * 0.69
-			text = "not"
+			text = "NOT"
 			center.x = lerpf(left, tip, 0.35)
 			max_width = (tip - left) * 0.58
-			preferred_font_size = 11
+			preferred_font_size = 13
 			color = _stage_color(symbol_color(), 0.20, 0.78)
 		&"input":
 			text = terminal_label
 			center = Vector2(width * 0.41, display_height * 0.22)
 			max_width = 52.0
-			preferred_font_size = 10
+			preferred_font_size = 13
 		&"constant":
 			text = str(int(output_value)) if output_known else "C"
 			center.x = width * 0.48
@@ -136,7 +136,7 @@ func name_layout() -> Dictionary:
 			text = terminal_label
 			center = Vector2(width * (0.59 if component_kind == &"output" else 0.55), display_height * 0.22)
 			max_width = 58.0 if component_kind == &"output" else 42.0
-			preferred_font_size = 10
+			preferred_font_size = 13
 	if text.is_empty():
 		return {}
 	var font_size: int = _fitted_font_size(text, preferred_font_size, max_width)
@@ -294,6 +294,12 @@ func _draw_and() -> void:
 	var output_color: Color = _stage_color(base, 0.56, 1.0)
 	_draw_input_lead(Vector2(0.0, input_y[0]), Vector2(left, input_y[0]), input_color)
 	_draw_input_lead(Vector2(0.0, input_y[1]), Vector2(left, input_y[1]), input_color)
+	var body := PackedVector2Array([Vector2(left, center_y - radius)])
+	for point_index: int in range(31):
+		var angle: float = lerpf(-PI * 0.5, PI * 0.5, float(point_index) / 30.0)
+		body.append(Vector2(arc_center_x, center_y) + Vector2(cos(angle), sin(angle)) * radius)
+	body.append(Vector2(left, center_y + radius))
+	draw_colored_polygon(body, SURFACE)
 	draw_line(Vector2(left, center_y - radius), Vector2(arc_center_x, center_y - radius), body_color, 4.0, true)
 	draw_line(Vector2(left, center_y - radius), Vector2(left, center_y + radius), body_color, 4.0, true)
 	draw_line(Vector2(left, center_y + radius), Vector2(arc_center_x, center_y + radius), body_color, 4.0, true)
@@ -329,6 +335,14 @@ func _draw_or(
 	var input_color: Color = _stage_color(base, 0.0, 0.48)
 	var body_color: Color = _stage_color(base, 0.20, 0.80)
 	var output_color: Color = _stage_color(base, 0.56, 1.0)
+	var body: PackedVector2Array = _cubic(
+		Vector2(left, top), Vector2(width * 0.49, top),
+		Vector2(width * 0.69, display_height * 0.17), Vector2(right, center_y))
+	body.append_array(_cubic(Vector2(right, center_y), Vector2(width * 0.69, display_height * 0.83),
+		Vector2(width * 0.49, bottom), Vector2(left, bottom)))
+	body.append_array(_cubic(Vector2(left, bottom), Vector2(width * 0.43, display_height * 0.72),
+		Vector2(width * 0.43, display_height * 0.28), Vector2(left, top)))
+	draw_colored_polygon(body, SURFACE)
 	_draw_input_lead(Vector2(0.0, input_y[0]), Vector2(width * 0.38, input_y[0]), input_color)
 	_draw_input_lead(Vector2(0.0, input_y[1]), Vector2(width * 0.38, input_y[1]), input_color)
 	draw_polyline(_cubic(
@@ -408,7 +422,8 @@ func _draw_not() -> void:
 		Vector2(tip, center_y),
 		Vector2(left, display_height * 0.15),
 	])
-	draw_polyline(triangle, body_color, 4.0, true)
+	draw_colored_polygon(triangle, SURFACE)
+	draw_polyline(triangle, body_color, 3.0, true)
 	draw_circle(Vector2(tip + bubble_radius, center_y), bubble_radius, SURFACE)
 	draw_circle(Vector2(tip + bubble_radius, center_y), bubble_radius, body_color, false, 3.5, true)
 	var output_start := Vector2(tip + bubble_radius * 2.0, center_y)

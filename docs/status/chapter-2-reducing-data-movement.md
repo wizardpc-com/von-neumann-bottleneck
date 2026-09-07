@@ -1,6 +1,6 @@
 # Chapter 2: Reducing Data Movement
 
-> Current default route: [eight-task Demo](demo-redesign.md). This document describes the retained optional workshop/legacy lab implementation. Its historical mandatory entry, prediction, Apply and review decisions are superseded for the new mainline by [ADR 0019](../decisions/0019-eight-task-mainline-and-standard-modules.md).
+> The original construction → Chapter 1 → Chapter 2 route is again the default Game experience. The 2026-09-05 [recovery status](in-place-recovery.md) governs the current interaction and Hint changes; historical eight-task replacement decisions have been withdrawn.
 
 Chapter 2 promotes the Cache Locality Lab v0.2 mechanisms into a seven-level investigation chapter. Its theme is not “install a Cache”; it is reducing expensive data movement so the CPU spends fewer cycles waiting.
 

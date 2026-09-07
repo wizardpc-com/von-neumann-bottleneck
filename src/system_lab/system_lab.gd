@@ -359,12 +359,12 @@ func _build_theme() -> void:
 	system_theme.set_stylebox("normal", "Button", _stylebox(Color("26334a"), 7, 1, Color("354866")))
 	system_theme.set_stylebox("hover", "Button", _stylebox(Color("30435f"), 7, 1, ACCENT))
 	system_theme.set_stylebox("pressed", "Button", _stylebox(Color("17283e"), 7, 1, ACCENT))
+	preload("res://src/ui/instrument_theme.gd").apply_to(system_theme)
 	theme = system_theme
 
 
 func _build_interface() -> void:
-	var background := ColorRect.new()
-	background.color = BACKGROUND
+	var background := preload("res://src/ui/technical_backdrop.gd").new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
 	var margin := MarginContainer.new()
@@ -489,6 +489,7 @@ func _build_header() -> Control:
 	var title := Label.new()
 	title.text = _t(&"system.chapter.title")
 	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", ACCENT)
 	title_box.add_child(title)
 	level_label = Label.new()
@@ -825,6 +826,7 @@ func _build_mission_instrument() -> Control:
 	var box := VBoxContainer.new()
 	mission_title_label = Label.new()
 	mission_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	mission_title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	mission_title_label.add_theme_color_override("font_color", ACCENT)
 	box.add_child(mission_title_label)
 	mission_body_label = LinkedMissionTextType.new()
@@ -859,6 +861,7 @@ func _build_mission_instrument() -> Control:
 	var prediction_title := Label.new()
 	prediction_title.text = _t(&"system.prediction.title")
 	prediction_title.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	prediction_title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	prediction_title.add_theme_color_override("font_color", PURPLE)
 	prediction_box.add_child(prediction_title)
 	prediction_question_label = Label.new()

@@ -400,7 +400,7 @@ func _run() -> void:
 	graph = main.get("graph")
 	nodes = main.get("component_nodes")
 	symbols = main.get("component_symbols")
-	_assert(float(graph.get("settled_wire_thickness")) >= 8.0 and graph.connection_lines_thickness == 0.0, "The custom single cable must stay heavy while the duplicate native stroke remains hidden.")
+	_assert(float(graph.get("settled_wire_thickness")) >= 3.0 and float(graph.get("settled_wire_thickness")) <= 4.0 and graph.connection_lines_thickness == 0.0, "Scalar cables must remain readable but subordinate to components, with no duplicate native stroke.")
 	_assert(graph.get_node_or_null("SignalWireLayer") == null, "Each settled cable must have one full-path renderer; a duplicate signal-wire layer would make it look like two stacked wires.")
 	var port_image: Image = main.theme.get_icon("port", "GraphNode").get_image()
 	var visible_port_pixels: Rect2i = port_image.get_used_rect()
@@ -417,18 +417,14 @@ func _run() -> void:
 	for template_key: String in palette_items:
 		var palette_item: Control = palette_items[template_key]
 		var palette_preview: Control = palette_item.get("component_preview") as Control
-		var palette_node: GraphNode
-		if palette_preview != null:
-			palette_node = palette_preview.get_child(0) as GraphNode
-		var palette_symbol := _first_component_symbol(palette_node)
 		var palette_template: LogicComponent = menu_templates[template_key]
 		_assert(
-			palette_preview != null
-			and palette_node != null
-			and palette_symbol != null
-			and palette_symbol.component_kind == palette_template.kind
-			and palette_node.custom_minimum_size.is_equal_approx(main.call("_component_node_size", palette_template)),
-			"Every palette entry must render a scaled copy of the same component node used on the circuit canvas."
+			palette_preview is CircuitComponentSymbol
+			and palette_preview.component_kind == palette_template.kind
+			and palette_preview.position.y >= 0.0
+			and palette_preview.position.y + palette_preview.size.y * palette_preview.scale.y <= palette_item.size.y
+			and palette_preview.position.x + palette_preview.size.x * palette_preview.scale.x <= 105.0,
+			"Palette entries must reuse the actual gate renderer, fit the preview column, and stay clear of aligned text."
 		)
 	var and_menu_item: int = _component_menu_item_for_kind(main, &"and")
 	_assert(and_menu_item >= 0, "The allowed-components menu must contain an AND gate item.")
@@ -712,14 +708,14 @@ func _run() -> void:
 	var compact_gate_size: Vector2 = (nodes[&"AND_1"] as GraphNode).size
 	_assert(compact_gate_size.x <= 170.0 and compact_gate_size.y <= 115.0, "Basic gates must stay compact instead of occupying large cards; actual=%s." % compact_gate_size)
 	var not_gate_size: Vector2 = (nodes[&"NOT_1"] as GraphNode).size
-	_assert(not_gate_size.x <= 110.0 and not_gate_size.x < compact_gate_size.x and not_gate_size.y < compact_gate_size.y, "The one-input NOT must be visibly shorter and smaller than a two-input gate; NOT=%s AND=%s." % [not_gate_size, compact_gate_size])
+	_assert(not_gate_size.x <= 116.0 and not_gate_size.x < compact_gate_size.x and not_gate_size.y < compact_gate_size.y, "The one-input NOT must be visibly shorter and smaller than a two-input gate; NOT=%s AND=%s." % [not_gate_size, compact_gate_size])
 	_assert(symbols.has(&"AND_1") and StringName(symbols[&"AND_1"].get("component_kind")) == &"and", "AND must be a procedural schematic symbol instead of a text-filled gate card.")
 	_assert(symbols.has(&"OR_1") and StringName(symbols[&"OR_1"].get("component_kind")) == &"or", "OR must be a distinct procedural schematic symbol.")
 	_assert(symbols.has(&"NOT_1") and StringName(symbols[&"NOT_1"].get("component_kind")) == &"not", "NOT must use the triangle-and-inversion-bubble schematic symbol.")
-	_assert((symbols[&"AND_1"] as CircuitComponentSymbol).gate_label() == "and", "The AND symbol must visibly carry its English name.")
-	_assert((symbols[&"OR_1"] as CircuitComponentSymbol).gate_label() == "or", "The OR symbol must visibly carry its English name.")
-	_assert((symbols[&"NOT_1"] as CircuitComponentSymbol).gate_label() == "not", "The NOT symbol must visibly carry its English name.")
-	for label_case: Array in [[&"AND_1", "and"], [&"OR_1", "or"], [&"NOT_1", "not"]]:
+	_assert((symbols[&"AND_1"] as CircuitComponentSymbol).gate_label() == "AND", "The AND symbol must visibly carry its English name.")
+	_assert((symbols[&"OR_1"] as CircuitComponentSymbol).gate_label() == "OR", "The OR symbol must visibly carry its English name.")
+	_assert((symbols[&"NOT_1"] as CircuitComponentSymbol).gate_label() == "NOT", "The NOT symbol must visibly carry its English name.")
+	for label_case: Array in [[&"AND_1", "AND"], [&"OR_1", "OR"], [&"NOT_1", "NOT"]]:
 		var named_symbol := symbols[label_case[0]] as CircuitComponentSymbol
 		var name_layout: Dictionary = named_symbol.name_layout()
 		_assert(
@@ -1214,8 +1210,8 @@ func _run() -> void:
 	_assert(not nodes.has(&"Profiler"), "Early logic section must not introduce the performance Profiler.")
 	_assert(
 		(main.get("input_a_button") as CheckButton).text.contains("0")
-		and (main.get("input_a_button") as CheckButton).text.contains("低")
-		and (main.get("input_a_button") as CheckButton).text.contains("──▷")
+		and (main.get("input_a_button") as CheckButton).get_script() == preload("res://src/ui/signal_level_button.gd")
+		and (main.get("input_a_button") as CheckButton).size.x <= 96.0
 		and (main.get("side_box") as Control).find_child("TruthTableDefinition", true, false) != null,
 		"The Half Adder Test Bench must show value plus directional shape and keep an immediately available truth-table definition."
 	)
@@ -1282,7 +1278,7 @@ func _run() -> void:
 		and (case_labels[1] as Label).text.contains("未运行")
 		and not (case_labels[0] as Label).text.contains("期望")
 		and not (case_labels[1] as Label).text.contains("期望"),
-		"Official cases must start one at a time without exposing expected outputs or future results."
+		"Official cases must show actual results one at a time; expected behavior remains separately available as specifications."
 	)
 	main.call("_finish_playback")
 	await process_frame
@@ -1362,9 +1358,10 @@ func _run() -> void:
 		(main.call("_mission_briefing_pages") as Array).size() == 5
 		and int(main.get("cpu_stage_index")) == 0
 		and (cpu_nodes[&"CONTROL"] as GraphNode).modulate.a > 0.9
-		and (cpu_nodes[&"ACC"] as GraphNode).modulate.a < 0.5
-		and (main.get("official_button") as Button).disabled,
-		"CPU onboarding must begin with a five-page contract and reveal only Stage A while the official program stays locked."
+		and (cpu_nodes[&"ACC"] as GraphNode).modulate.a > 0.9
+		and (cpu_nodes[&"RAM"] as GraphNode).draggable
+		and not (main.get("official_button") as Button).disabled,
+		"CPU opens its five-page contract with every module editable and the complete behavioral test available before any stage is connected."
 	)
 	var cpu_reference: Array = cpu_definition["reference_wires"]
 	for cpu_wire_index: int in [0, 1, 3, 5]:
@@ -1373,7 +1370,7 @@ func _run() -> void:
 	await process_frame
 	_assert(
 		int(main.get("cpu_stage_index")) == 1 and (cpu_nodes[&"ACC"] as GraphNode).modulate.a > 0.9,
-		"Completing the immediate path must unlock the ALU-to-ACC stage inside the same CPU level. stage=%s wires=%s" % [main.get("cpu_stage_index"), (main.get("graph") as GraphEdit).get_connection_list()]
+		"Connecting Stage A interfaces advances the optional input checklist without hiding later modules. stage=%s wires=%s" % [main.get("cpu_stage_index"), (main.get("graph") as GraphEdit).get_connection_list()]
 	)
 	main.call("_save_active_workbench")
 	main.call("_start_campaign_level", &"cpu", false)
@@ -1394,7 +1391,7 @@ func _run() -> void:
 		int(main.get("cpu_stage_index")) == 4
 		and not (main.get("official_button") as Button).disabled
 		and (main.get("cpu_stage_label") as Label).text.contains("7 步"),
-		"Completing all four CPU paths must unlock the final seven-step program. stage=%s wires=%s" % [main.get("cpu_stage_index"), (main.get("graph") as GraphEdit).get_connection_list()]
+		"Connecting all CPU interfaces must recommend the unchanged seven-step behavioral test. stage=%s wires=%s" % [main.get("cpu_stage_index"), (main.get("graph") as GraphEdit).get_connection_list()]
 	)
 	main.call("_run_official")
 	await _finish_official_sequence(main)
@@ -1439,10 +1436,9 @@ func _run() -> void:
 	_key(main, KEY_ESCAPE)
 	for _hub_frame: int in range(3):
 		await process_frame
-	# Blueprint section 3 replaces chapter selection with the mainline/workshop menu.
-	var returned_hub: Control = root.get_node_or_null("DemoMenu")
-	_assert(returned_hub != null, "A second Esc from the optional workshop map must return to the mainline menu.")
-	_assert(returned_hub != null and returned_hub.get("start_button") != null and root.get_node_or_null("DemoWorkbench") == null, "Returning Esc must leave the menu visible without starting or completing a mainline task.")
+	var returned_hub: Control = root.get_node_or_null("PrototypeHub")
+	_assert(returned_hub != null, "A second Esc from the original prologue map must return to chapter selection.")
+	_assert(returned_hub != null and returned_hub.get("system_entry_button") != null and root.get_node_or_null("DemoWorkbench") == null, "Returning Esc exposes the original chapter gates without entering the comparison host.")
 
 	main.queue_free()
 	await process_frame

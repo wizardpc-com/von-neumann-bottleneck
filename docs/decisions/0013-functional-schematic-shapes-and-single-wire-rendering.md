@@ -3,6 +3,8 @@
 - Status: Accepted
 - Date: 2026-08-19
 
+Presentation update, 2026-09-06: [construction experience](../status/construction-experience.md) uses uppercase gate labels, filled neutral surfaces, separate module headings, 12 px port labels, and one custom renderer with distinct scalar/bus strokes. The functional silhouettes, exact-path geometry and simulation boundaries below remain in force; the original casing and renderer implementation wording is historical.
+
 ## Context
 
 The first component-aligned animation pass stopped drawing substitute models, but higher-level components were still generic text rows and their processing feedback did not identify which values entered or which output changed. Level input, output, and constant hardware also reused overly similar round forms. Separately, GraphEdit drew every settled cable while a custom signal layer drew the same complete curve again; at bends and zoom levels one connection could look like two stacked wires.

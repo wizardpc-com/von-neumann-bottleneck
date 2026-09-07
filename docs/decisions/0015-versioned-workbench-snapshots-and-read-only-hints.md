@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted for the current CPU Building Prologue.
+Accepted for the current CPU Building Prologue. The 2026-09-05 recovery adds separate request/confirmation gates before H2 and H3, an explicit full-answer warning at H3, and last-viewed-level memory per Game/Test level during the editor session. Hints remain hidden until requested. Snapshot restoration still clears undo/redo and clipboard as specified below.
 
 ## Context
 

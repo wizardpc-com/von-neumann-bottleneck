@@ -3,15 +3,15 @@ extends RefCounted
 
 const HARDWARE_PAGES := {
 	&"tutorial": [
-		{&"title": &"hardware.briefing.stage.concept", &"body": &"hardware.briefing.tutorial.1"},
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.tutorial.1"},
 		{&"title": &"hardware.briefing.stage.understand", &"body": &"hardware.briefing.tutorial.gates"},
-		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.tutorial.2"},
+		{&"title": &"hardware.briefing.stage.operations", &"body": &"hardware.briefing.tutorial.2"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.tutorial.3"},
 	],
 	&"half_adder": [
-		{&"title": &"hardware.briefing.stage.concept", &"body": &"hardware.briefing.half_adder.1"},
-		{&"title": &"hardware.briefing.stage.understand", &"body": &"hardware.briefing.half_adder.2"},
-		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.half_adder.3"},
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.half_adder.1"},
+		{&"title": &"hardware.briefing.stage.truth_table", &"body": &"hardware.briefing.half_adder.2"},
+		{&"title": &"hardware.briefing.stage.modules", &"body": &"hardware.briefing.half_adder.3"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.half_adder.4"},
 	],
 	&"full_adder": [
@@ -41,10 +41,10 @@ const HARDWARE_PAGES := {
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.ram.3"},
 	],
 	&"cpu": [
-		{&"title": &"hardware.briefing.stage.concept", &"body": &"hardware.briefing.cpu.1"},
-		{&"title": &"hardware.briefing.stage.understand", &"body": &"hardware.briefing.cpu.2"},
-		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.cpu.3"},
-		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.cpu.4"},
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.cpu.1"},
+		{&"title": &"hardware.briefing.stage.opcodes", &"body": &"hardware.briefing.cpu.2"},
+		{&"title": &"hardware.briefing.stage.modules", &"body": &"hardware.briefing.cpu.3"},
+		{&"title": &"hardware.briefing.stage.stages", &"body": &"hardware.briefing.cpu.4"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.cpu.5"},
 	],
 	&"load_store": [
@@ -70,3 +70,14 @@ const LOCALITY_PAGES := {
 	&"blocking": [&"chapter2.level.blocking.briefing.1", &"chapter2.level.blocking.briefing.2"],
 	&"capstone": [&"chapter2.level.capstone.briefing.1", &"chapter2.level.capstone.briefing.2", &"chapter2.level.capstone.briefing.3"],
 }
+
+
+static func next_capability_key(chapter_id: StringName, level_id: StringName) -> StringName:
+	var chapters: Dictionary = {
+		&"hardware_foundations": HARDWARE_PAGES,
+		&"chapter_1": SYSTEM_PAGES,
+		&"chapter_2": LOCALITY_PAGES,
+	}
+	if chapters.has(chapter_id) and (chapters[chapter_id] as Dictionary).has(level_id):
+		return StringName("experience.next.%s.%s" % [chapter_id, level_id])
+	return &""

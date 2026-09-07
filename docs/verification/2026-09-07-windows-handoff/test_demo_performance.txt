@@ -1,0 +1,10 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+d1_upgrade stage=0 baseline={ "total_cycles": 158, "cpu_compute_cycles": 32, "cpu_wait_cycles": 126, "ram_service_cycles": 108, "bus_control_cycles": 9, "bus_transfer_cycles": 9, "memory_requests": 9, "bytes_transferred": 9, "hardware_cost": 21, "bus_segments_per_word": 1, "compute_cycles": 32, "wait_cycles": 126 }
+d1_upgrade stage=1 baseline={ "total_cycles": 144, "cpu_compute_cycles": 0, "cpu_wait_cycles": 144, "ram_service_cycles": 64, "bus_control_cycles": 16, "bus_transfer_cycles": 64, "memory_requests": 16, "bytes_transferred": 16, "hardware_cost": 30, "bus_segments_per_word": 4, "compute_cycles": 0, "wait_cycles": 144 }
+d2_cache stage=0 baseline={ "total_cycles": 257, "compute_cycles": 17, "wait_cycles": 240, "cache_hits": 0, "cache_misses": 0, "ram_bytes_transferred": 64, "hardware_cost": 0 }
+d2_group stage=0 baseline={ "total_cycles": 210, "compute_cycles": 34, "wait_cycles": 176, "cache_hits": 24, "cache_misses": 8, "ram_bytes_transferred": 128, "hardware_cost": 4 }
+d2_final stage=0 baseline={ "total_cycles": 642, "compute_cycles": 34, "wait_cycles": 608, "cache_hits": 0, "cache_misses": 32, "ram_bytes_transferred": 512, "hardware_cost": 7 }
+PASS: demo CPU reversal, cache repair, deterministic receipts and workload authority

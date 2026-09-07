@@ -297,6 +297,7 @@ func _build_theme() -> void:
 	prototype_theme.set_stylebox("normal", "Button", _stylebox(Color("26334a"), 7, 1, Color("354866")))
 	prototype_theme.set_stylebox("hover", "Button", _stylebox(Color("30435f"), 7, 1, ACCENT))
 	prototype_theme.set_stylebox("pressed", "Button", _stylebox(Color("17283e"), 7, 1, ACCENT))
+	preload("res://src/ui/instrument_theme.gd").apply_to(prototype_theme)
 	theme = prototype_theme
 
 
@@ -320,6 +321,7 @@ func _stylebox(color: Color, radius: int, border_width: int = 0, border_color: C
 
 
 func _build_interface() -> void:
+	add_child(preload("res://src/ui/technical_backdrop.gd").new())
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 14)
@@ -375,6 +377,7 @@ func _build_header() -> Control:
 	chapter_title_label = Label.new()
 	chapter_title_label.text = _t(&"chapter2.title")
 	chapter_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	chapter_title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	chapter_title_label.add_theme_color_override("font_color", ACCENT)
 	title_box.add_child(chapter_title_label)
 	chapter_subtitle_label = Label.new()
@@ -607,6 +610,7 @@ func _build_mission_instrument() -> Control:
 	panel.add_child(mission_type_label)
 	mission_title_label = Label.new()
 	mission_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	mission_title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	mission_title_label.add_theme_color_override("font_color", ACCENT)
 	mission_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(mission_title_label)

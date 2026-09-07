@@ -1,5 +1,7 @@
 # 0019 — Eight-task mainline and standard modules
 
+> Superseded product direction, 2026-09-05: the user withdrew replacement of the original mainline by eight tasks, demotion of construction to an optional workshop, and replacement of the floating desktop by a fixed workspace. The original Game route is restored. This document is retained as historical comparison evidence; simulation, provenance, save protection, and Git safety still apply. See [recovery status](../status/in-place-recovery.md).
+
 Status: accepted, 2026-09-05. Product authority: [approved blueprint](../design/DEMO_REDESIGN_BLUEPRINT.md).
 
 ## Decision

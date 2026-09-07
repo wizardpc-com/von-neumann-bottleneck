@@ -8,7 +8,66 @@
 
 The invocations below match successful repository-root runs; the machine-specific executable path has been normalized to `godot_console` for publication.
 
-## Eight-task mainline, 2026-09-05
+## Portable handoff verification, 2026-09-07
+
+Run `python3 scripts/verify-project.py --godot <Godot-4.7.1-executable> --gui --locale zh_CN` on Mac, or `python` with the Windows console executable. The helper verifies a fresh project copy and assigns isolated user directories; it does not alter the original workspace or use actual player saves. `--interaction-only` selects the short Tutorial replay. See [Mac setup](mac-handoff.md) for exact paths and save boundaries.
+
+The Windows fresh-copy run passes import, user-directory probing, all 20 conventional suites and 127 Tutorial GUI checks. It includes two test-only fixes: creating/checking calibration and save-fixture output directories before use. No simulation or game behavior changed for migration. [Published evidence](../verification/2026-09-07-windows-handoff/README.md) retains the final logs plus the prior complete Chinese/English 461-check routes and Windows package identity. Mac execution and native computer-use remain unverified until performed there.
+
+## Visual and learning polish, 2026-09-07
+
+Build `polish-20260907T010358-76ef116` has 20 passing conventional suites, including the new 558-check `test_learning_handbook.gd`. The independent ordinary Game GUI suite passes 461 checks in each language. It uses viewport mouse/keyboard dispatch to earn both construction branches, CPU and LOAD/STORE, then open Chapter 1. It also opens the Handbook, searches locked future concepts, views an available diagram and returns to the unchanged player design. No Test library, reference loading or progress setter substitutes for this route.
+
+The Handbook unit suite separately supplies progress states to test all 89 topic assignments, 21 Missions in both languages, prerequisite availability, search/locked views and progress invalidation. Those unit fixtures are not claimed as playthrough evidence. Illustrations render in both languages. Palette tests now check shared schematic renderer, kind, bounds and label separation; full placement ghost/canvas row and port geometry assertions remain. The compact signal tests retain numeric truth and toggle behavior.
+
+Evidence: `.godot/polish/20260907T003207/`. `final-checks/results.json` preserves the initial 18/20 outcome; `verification-summary.json` combines those 18 passes with `test_hardware_prologue_ui-revised.log` and `test_ui-revised.log`. The two failures were obsolete palette-structure and locked-selection expectations. `final-zh.log`, `final-en.log` and their screenshot/observation folders contain final Game replay evidence. `handbook-final.log` is the rendered 558-check pass. `package-verification.json` records awaited EXE Game/Test exit 0, its hash and the unchanged staged patch. The nonfatal Windows certificate-store warning remains; no script/test error remains in the passing logs.
+
+Use fresh repository-local APPDATA and LOCALAPPDATA for every run. The commands are:
+
+```powershell
+godot_console --headless --path . --script tests/test_learning_handbook.gd
+godot_console --path . --script tests/test_learning_handbook.gd -- --handbook-capture
+godot_console --path . --script tests/test_recovery_game_input.gd -- --locale=zh_CN --recovery-capture --evidence-dir=res://.godot/polish-recheck/zh
+godot_console --path . --script tests/test_recovery_game_input.gd -- --locale=en --recovery-capture --evidence-dir=res://.godot/polish-recheck/en
+```
+
+Computer-use was attempted but a fresh native screenshot showed Windows locked. The exported hub screenshot was instead obtained through the EXE's own rendering/movie output. This verifies exported resources and entry scene, not OS mouse input. A full native desktop run, High DPI, novice comprehension and difficulty/motivation acceptance remain open. See [current status](../status/visual-learning-polish.md).
+
+## Construction experience, 2026-09-06
+
+The [current experience record](../status/construction-experience.md) identifies build `experience-20260906T013002-76ef116`, package hashes and the exact evidence boundary. All 19 conventional suites pass on the final implementation. `test_recovery_game_input.gd` adds the twentieth suite and passes 454 checks in Chinese and 454 in English through the ordinary Game route. A separate 121-check Tutorial run verifies the final build label. These counts include the prior construction, hint, selection, clipboard, history and transformed-wiring checks; old thick-wire/casing assertions were replaced with scalar/bus and label-clearance contracts, not removed to obtain a pass.
+
+New coverage includes first-entry Mission navigation without scrolling, direct specification sections, Start Building, network inspection, Focus without topology/layout mutation, Half Adder debug input rows, nearest-port selection, CPU single-wire erase without collateral disconnection, explicit named sealing actions and next-capability previews. Feedback tests retain ratings, notes, Skip and navigation while asserting the default collapsed state. Save tests retain original seed/source reconciliation. The graph's new input priority preserves the original seed coordinates.
+
+Final conventional and English logs: `.godot/experience/20260905T230741/final-acceptance/`; Chinese complete-route logs/captures: `native-port-layer.log` / `native-port-layer/` under the same evidence root. Failed intermediate logs remain separate diagnostic evidence. Final EXE Game/Test headless startup exits 0; its full OS desktop replay remains unverified because Windows locked after an earlier candidate was observed at the original map. Physical mouse feel, High DPI and novice comprehension remain human gates.
+
+Use a fresh isolated APPDATA/LOCALAPPDATA directory for each language/run. The GUI script accepts `--evidence-dir=res://.godot/<unique-run>/` with `--recovery-capture`; `--interaction-only` runs the short Tutorial route. Captures from this script follow its GUI-built topology; the older generic `--capture` fixture path is not ordinary Game interaction evidence.
+
+## Historical original experience recovery, 2026-09-05
+
+The default Game route is restored. The [recovery record](../status/in-place-recovery.md) lists reproduced defects, compatibility, exact package hashes and human gates. Twenty suites pass: all 19 existing suites plus `test_recovery_game_input.gd`. That new suite dispatches GUI events from the configured ordinary Game entry and earns Tutorial, both construction branches, CPU and LOAD/STORE without a Test library, reference loader, progress setter or controller-action calls. It passes 413 checks in each of Chinese and English, including named designs, transformed editing, Mission, individually confirmed hints and window/fullscreen controls.
+
+Logs and JSON observations live in `.godot/recovery/20260905T175901/`. Use isolated data directories for reproduction:
+
+```powershell
+$godotConsole = 'godot_console'
+New-Item -ItemType Directory -Force .godot/recovery-check/runtime | Out-Null
+$env:APPDATA = (Resolve-Path .godot/recovery-check/runtime).Path
+$env:LOCALAPPDATA = $env:APPDATA
+& $godotConsole --headless --path . --editor --import --quit
+Get-ChildItem tests/test_*.gd | Where-Object BaseName -ne 'test_recovery_game_input' | ForEach-Object {
+    & $godotConsole --headless --path . --script $_.FullName
+    if ($LASTEXITCODE -ne 0) { throw ('Failed: ' + $_.Name) }
+}
+& $godotConsole --path . --script tests/test_recovery_game_input.gd
+& $godotConsole --path . --script tests/test_recovery_game_input.gd -- --locale=en
+```
+
+`--recovery-capture` additionally writes rendered screenshots; `--interaction-only` runs the short Tutorial editing check. The historical evidence directory used by the GUI script is created if absent. Existing simulation, save and localization tests remain intact. Old hub/return and CPU stage-gate assertions now protect the restored contract. The five comparison suites still cover the retained eight-task implementation.
+
+The release EXE's ordinary desktop startup visibly showed the restored hub and its unique build ID. Full OS-level desktop replay was stopped at the user-input guard; native Godot GUI dispatch covers the complete construction route. A separate headless EXE startup exited 0. These facts do not establish physical mouse feel, high-DPI comfort or novice comprehension. Hint snapshot restoration still clears edit history and clipboard under ADR 0015.
+
+## Historical eight-task comparison, 2026-09-05
 
 The final redesign has 19 passing suites: the 14 original suites and `test_demo_performance`, `test_demo_ui`, `test_demo_save`, `test_demo_input`, and `test_demo_localization`. Logs are in `.godot/redesign/final-tests/`; the pre-change 14-suite baseline remains in `.godot/redesign/baseline/`. The original simulation tests retain their semantics. Hardware return-navigation and legacy-hub title assertions now implement blueprint §3; new mainline tests assert the absence of workshop, prediction, Apply and playback gates rather than deleting their old coverage.
 

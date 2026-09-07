@@ -76,10 +76,10 @@ msgid "window.fullscreen.tooltip"
 msgstr "切换全屏显示（F11 或 Alt+Enter）"
 
 msgid "hub.subtitle"
-msgstr "旧版记录与实验"
+msgstr "从第一根线，到一台能计算的机器。再让它更快。"
 
 msgid "hub.mainline.return"
-msgstr "返回八关主线"
+msgstr "八关对照版本"
 
 msgid "hub.save.continue"
 msgstr "继续游戏"
@@ -124,10 +124,10 @@ msgid "hub.hardware.title"
 msgstr "硬件序章：构建 CPU"
 
 msgid "hub.hardware.eyebrow"
-msgstr "完整可玩序章原型"
+msgstr "序章 · 逻辑 / 运算 / 存储"
 
 msgid "hub.hardware.description"
-msgstr "完成自由连线后，分别从 HalfAdder 开始 CPU / 算术路线、从锁存器开始存储路线，最终把 ALU 与 RAM 连成四位累加器 CPU 并运行 LOAD/STORE。"
+msgstr "亲手接线，让逻辑门学会计算和记忆。\n\n每完成一个电路，就把它变成下一次构建的工具。"
 
 msgid "hub.hardware.play"
 msgstr "进入 CPU 构建序章"
@@ -139,7 +139,7 @@ msgid "hub.system.eyebrow"
 msgstr "CPU · RAM · BUS"
 
 msgid "hub.system.description"
-msgstr "组装玩家来源的 8-bit 系统，预测受控变化、追踪 CPU 等待，并诊断真实瓶颈。"
+msgstr "你的计算机已经会工作了。\n\n观察它在哪里等待，用一次改变验证自己的判断。"
 
 msgid "hub.system.open"
 msgstr "进入章节地图"
@@ -160,13 +160,13 @@ msgid "hub.locality.eyebrow"
 msgstr "缓存 · 局部性 · 工作集"
 
 msgid "hub.locality.description"
-msgstr "通过七次短调查，从重复的远程读取一路追查到缓存、局部性、工作集、分块与最终自主诊断。"
+msgstr "更少搬运，同样的结果。\n\n探索缓存、访问顺序和分块，让数据在需要时就在附近。"
 
 msgid "hub.locality.open"
 msgstr "进入章节地图"
 
 msgid "hub.note"
-msgstr "这些可玩切片验证不同的玩法假设；它们共同组成正在生长的游戏。"
+msgstr "每一个亲手完成的电路，都是下一步的起点。"
 
 msgid "device.program"
 msgstr "程序"
@@ -835,10 +835,10 @@ msgid "circuit.error.circular_dependency"
 msgstr "循环依赖：%s 在同一个仿真 tick 内形成反馈。"
 
 msgid "hardware.title"
-msgstr "硬件工坊 · 构建 CPU"
+msgstr "硬件基础 · 构建计算机"
 
 msgid "hardware.subtitle"
-msgstr "可选深入：逻辑门 → 运算与存储 → 小计算机"
+msgstr "序章：逻辑门 → 运算与存储 → 小计算机"
 
 msgid "hardware.hub.tooltip"
 msgstr "返回章节选择界面。"
@@ -853,115 +853,115 @@ msgid "hardware.briefing.stage.concept"
 msgstr "为什么要做"
 
 msgid "hardware.briefing.stage.goal"
-msgstr "接线目标"
+msgstr "任务与规则"
 
 msgid "hardware.briefing.stage.verify"
-msgstr "完成标志"
+msgstr "如何达标"
 
 msgid "hardware.briefing.stage.understand"
-msgstr "这关的关键"
+msgstr "行为与例子"
 
 msgid "hardware.briefing.continue"
-msgstr "继续"
+msgstr "下一页"
 
 msgid "hardware.briefing.previous"
 msgstr "上一页"
 
 msgid "hardware.briefing.start"
-msgstr "继续"
+msgstr "开始搭建"
 
 msgid "mission.navigation.last_page"
 msgstr "已到最后一页"
 
 msgid "hardware.briefing.move_note"
-msgstr "点击“继续”后，任务窗会缩到左下角并保留；也可随时点击右上角“—”缩小，点击“□”恢复大窗口。"
+msgstr "任务会收在左下角。想回看任何一页，点顶部目标或底部“任务”；窗口仍可拖动、收起和展开。"
 
 msgid "hardware.briefing.tutorial.1"
-msgstr "导线只传 0 或 1，统称[[signal|信号]]。低电平是醒目的红色 0 和细线方向标记；高电平是醒目的绿色 1 和加粗方向标记。数字、颜色、形状和方向会同时出现。\n\n高亮且可点击的关键词能直接打开 Handbook。现在就可以点击[[signal|信号]]试一次。"
+msgstr "让灯替你做一次判断：显示输入 A 的相反值。\n\n输入：A 是一位（1-bit），只有 0 和 1。\n输出：LAMP；A=0 时应为 1，A=1 时应为 0。\n元件：可用 NOT 门，自由放置、移动和接线。\n\n达标：接线 → 切换输入 → 运行 → 删线 → 接回。五项练习完成后，继续挑战。"
 
 msgid "hardware.briefing.tutorial.gates"
-msgstr "门会按固定规则改变信号：[[not_gate|NOT 门]]把 0 和 1 对调；[[and_gate|AND 门]]要等两个输入都是 1 才输出 1；[[or_gate|OR 门]]只要有一个输入是 1 就输出 1。先记住 NOT 的规则，这一关只要求你亲手接通它。"
+msgstr "本关使用 [[not_gate|NOT 门]]：输入 0，输出 1；输入 1，输出 0。\n\n点击元件可查看它的端口和作用。带下划线的蓝色术语能打开手册；后面的概念会随挑战逐步开放。"
 
 msgid "hardware.briefing.tutorial.2"
-msgstr "先搭一条最短的完整路线：\n\nA  →  [[not_gate|NOT]]  →  指示灯\n\nA 是你能切换的[[input_output|输入]]，指示灯是用来查看结果的输出。把 A 接到 NOT，再把 NOT 接到灯；切换 A 后，灯应该显示相反的状态。"
+msgstr "拖动主体移动元件；从输出端口拖到兼容输入接线。输出把信号送出去，输入把信号接进来。位宽必须相同，例如 4-bit 不能接到 1-bit。\n\n从已有线段拉出分支，接点会出现圆点；单纯交叉不相连。右键擦除，Ctrl+Z 撤销；Delete 保留固定测试端子，右键擦掉端子后也能撤销恢复。\n\n滚轮缩放，中键拖动画布。Home 聚焦选中元件，Shift+Home 看全部。更多操作可随时查手册。"
 
 msgid "hardware.briefing.tutorial.3"
-msgstr "按这个顺序试一遍：拉出一条[[wire|连线]] → 切换 A → 运行一次 → 删掉一条线 → 再接回去。线要从元件边缘的[[port|端口]]拖出；绿色外环表示能接，红色外环表示不能接。\n\n想先试一个输入时，使用[[debug_run|单次调试]]。五步都完成后就能进入下一关。"
+msgstr "在[[test_bench|测试台]]切换 A，点击“运行当前输入”。检查 0 和 1 两种情况。运行后删掉一条线，再接回去；任务窗会记录完成情况。\n\n开始后，任务窗收起为短目标。点窗口的展开按钮可重新查看所有页面；底部“任务”入口始终可以找回它。想主动获取解题思路，请点“提示”。"
 
 msgid "hardware.briefing.half_adder.1"
-msgstr "现在要把两个只能是 0 或 1 的数 A、B 加起来。做这件事的小电路叫[[half_adder|半加器]]。它有两个结果：[[sum|SUM]]表示这一位留下多少，[[carry|CARRY]]表示有没有多出来的 1 要交给下一位。\n\n例如 1 + 1 = 10，所以这时[[sum|SUM]]=0，[[carry|CARRY]]=1。"
+msgstr "让电路学会加法：搭建一个[[half_adder|半加器]]，计算 A+B。\n\n输入：A、B 各为 1-bit。\n输出：[[sum|SUM]] 是个位；[[carry|CARRY]] 是向下一位的进位。\n例子：1+1=二进制 10，所以 SUM=0、CARRY=1。\n\n可用 AND、OR、NOT；自由构建，解法不限。完整测试的四行全部通过后，封装成下关可用的 HalfAdder。"
 
 msgid "hardware.briefing.half_adder.2"
 msgstr "把所有输入情况和应有结果列在一起，就叫[[truth_table|真值表]]。两个输入各有 0、1 两种可能，所以一共只有四种：\n\nA B  │  SUM CARRY\n0 0  │   0     0\n0 1  │   1     0\n1 0  │   1     0\n1 1  │   0     1\n\n这张表只告诉你“要得到什么”，不会替你给出线路。"
 
 msgid "hardware.briefing.half_adder.3"
-msgstr "不要一次想两个输出。先看[[carry|CARRY]]：它只在 A、B 都是 1 时亮，哪一种门刚好符合？\n\n再看[[sum|SUM]]为 1 的两行：01 和 10。把每一行当成一个条件；需要 0 的输入先经过[[not_gate|NOT]]，再用[[and_gate|AND]]检查这一行，最后想想怎样合并两个条件。"
+msgstr "可用工具：[[and_gate|AND]]、[[or_gate|OR]] 和 [[not_gate|NOT]]，所有端口均为 1 位。\n\nAND：两个输入都为 1 时输出 1。\nOR：至少一个输入为 1 时输出 1。\nNOT：输出输入的相反值。\n\n从元件窗拖出新元件，按自己的思路组合。完整测试只检查表中的结果，接受不同的合法接法。"
 
 msgid "hardware.briefing.half_adder.4"
 msgstr "先在[[test_bench|测试台]]里一个案例一个案例切换 A/B，用[[debug_run|单次调试]]查看线路哪里不对。确认四种情况都能工作后，再运行[[official_test|完整真值表测试]]。\n\n四行全部通过时，“封装”按钮会亮起。[[encapsulation|封装]]就是把这套已验证的线路收进一个可重复使用的[[half_adder|HalfAdder]]元件里。"
 
 msgid "hardware.briefing.full_adder.1"
-msgstr "刚才的半加器只算 A+B。真正连续相加时，还要接住上一位送来的进位 CIN。能同时计算 A+B+CIN 的电路叫[[full_adder|全加器]]；它把新的进位从 COUT 送给下一位，这两个端口合称[[cin_cout|CIN / COUT]]。"
+msgstr "把加法接着往高位做。上一位送来的进位叫 CIN；把它也算进去，就得到[[full_adder|全加器]]。\n\n输入：A、B、CIN，各 1-bit。\n输出：SUM 是 A+B+CIN 的低位，COUT 是高位。\n例子：1+1+1=二进制 11，SUM 和 COUT 都是 1。\n\n复用你做好的 HalfAdder，按自己的方式接线；完整测试检查全部 8 种输入。"
 
 msgid "hardware.briefing.full_adder.2"
-msgstr "可以分两次相加：\n\nA、B → 第一个[[half_adder|Half Adder]] → 中间结果\n中间结果、CIN → 第二个 Half Adder → [[sum|SUM]]\n两个进位 → [[or_gate|OR]] → COUT\n\n桌面已经放好你封装的两个 Half Adder 和一个 OR。按端口含义完成组合。"
+msgstr "输入 A、B、CIN 都是 1-bit；SUM 是 A+B+CIN 的低位，COUT 是高位。\n\n提供你封装的两个 [[half_adder|Half Adder]]、OR，以及元件菜单中的合法器件。Half Adder 有两个输入，输出 SUM 和 CARRY。按端口规格自由构建，完整测试检查全部 8 种输入。"
 
 msgid "hardware.briefing.full_adder.3"
 msgstr "验收重点是 A=B=CIN=1：SUM 应为 1，COUT 也应为 1。全部 8 种输入通过后封存[[full_adder|Full Adder（全加器）]]。"
 
 msgid "hardware.briefing.alu.1"
-msgstr "同一组输入有时要相加，有时要做[[and_gate|AND]]、[[or_gate|OR]]或把 A 取反。把这些小计算集中在一个元件里，再按指令挑选结果，这个元件叫[[alu|ALU（算术逻辑单元）]]。"
+msgstr "让同一组输入做不同的运算。按控制位选择运算的模块叫[[alu|ALU（算术逻辑单元）]]。\n\n输入：A、B、CIN，以及 OP1、OP0，都是 1-bit。\n规则：00 做 AND；01 做 OR；10 做加法；11 做 NOT A。\n输出：RESULT 和加法进位 CARRY。\n\n使用已有元件自由搭建，四种运算都要通过完整测试。你的单比特 ALU 随后会被复用成四位 ALU4。"
 
 msgid "hardware.briefing.alu.2"
-msgstr "先并行算出四个候选结果，再交给[[multiplexer|MUX（多路选择器）]]。MUX 不做运算，只按 OP 选一路：\n\nOP1 OP0 = 00 → AND\nOP1 OP0 = 01 → OR\nOP1 OP0 = 10 → ADD\nOP1 OP0 = 11 → NOT A\n\n真正要判断的是：四个结果应进 MUX 的哪一路。CARRY 直接来自 Full Adder，只在 ADD 时有意义。"
+msgstr "运算规格：OP1 OP0 = 00 → A AND B；01 → A OR B；10 → A+B+CIN；11 → NOT A。RESULT 是结果低位，CARRY 在 ADD 时表示进位。\n\n[[multiplexer|MUX]]按选择端口的二进制值选出一个数据输入，本身不做运算。点击元件可查所有端口与位宽。"
 
 msgid "hardware.briefing.alu.3"
 msgstr "用[[debug_run|单次调试]]分别切换[[opcode|OP]]，确认每个选择都拿到了对应结果；再运行全部[[official_test|正式测试]]。通过后会生成四位[[alu|ALU4]]，它只是把你验证的一位结构并排复用四次。"
 
 msgid "hardware.briefing.latch.1"
-msgstr "以前的门只看“现在输入是什么”。这关要做一个能记住上一次状态的元件，这类元件叫[[latch|锁存器]]。本关使用 S（设为 1）和 R（清为 0）控制，因此叫[[sr_latch|SR 锁存器]]。"
+msgstr "让电路记住刚才发生的事。普通逻辑门只看当前输入；[[sr_latch|SR 锁存器]]还要保留状态。\n\n输入：S 设为 1，R 清为 0，均为 1-bit。\n输出：Q 是记住的值，NQ 是它的反相。\n规则：S=1、R=0 时 Q=1；S=0、R=1 时 Q=0；两者为 0 时保持。S=R=1 不在本关测试范围内。\n\n用 NOR 门自由搭建；完整序列会检查写入后是否仍能保持。"
 
 msgid "hardware.briefing.latch.2"
 msgstr "S 和 R 的意思是[[set_reset|Set / Reset]]：S=1 会把 Q 设为 1，R=1 会把 Q 清为 0；两者都回到 0 后，Q 仍要保持刚才的值。S=R=1 是本关不使用的冲突输入。"
 
 msgid "hardware.briefing.latch.3"
-msgstr "用两个[[nor_gate|NOR 门]]互相送回结果：\n\nS → 上方 NOR → NQ\nR → 下方 NOR → Q\nNQ ↘        ↖ Q\n\n上方输出接回下方输入，下方输出接回上方输入。S=R=0 时，交叉反馈继续维持刚才的 Q，这就是记忆。"
+msgstr "元件规格：[[nor_gate|NOR 门]]在两个输入都为 0 时输出 1，其余情况输出 0；本关所有端口都是 1-bit。\n\n行为例子：R=1 清零 → S=R=0 保持 0 → S=1 置位 → S=R=0 保持 1。合法的锁存器反馈会按本关状态规则计算。完整测试检查清零、保持、置位和再次保持。"
 
 msgid "hardware.briefing.latch.4"
 msgstr "按顺序测试：先 S=1,R=0 写入 1；再 S=0,R=0 看它能否保持；然后 S=0,R=1 清成 0；最后再次保持。全部[[official_test|正式案例]]通过后，封装为[[sr_latch|SRLatch]]。"
 
 msgid "hardware.briefing.register.1"
-msgstr "锁存器会直接听 S、R；我们再给它一个更好用的入口 D，并用[[load|LOAD]]决定要不要写。这样得到的单元叫[[register|寄存器]]。D 是准备写入的数据，Q 是保存后的结果，这对端口常写作[[d_q|D / Q]]。"
+msgstr "给存储器一个“现在保存”的开关。[[register|寄存器]]用 D 接收数据，用 [[d_q|LOAD]] 决定何时保存。\n\n输入：D、LOAD，均为 1-bit；输出：保存的 Q。\n规则：LOAD=1 时保存 D；LOAD=0 时 Q 保持不变。\n例子：先保存 1，再关闭 LOAD 并把 D 改为 0，Q 仍应为 1。\n\n复用你的 SRLatch，加上允许的门；完整测试通过后，封装 Register1 并获得四位 Register4。"
 
 msgid "hardware.briefing.register.2"
-msgstr "LOAD=0 时，S=R=0 才能保持；LOAD=1 时，D=1 应 SET，D=0 应 RESET。由此可推出：\n\nS = D AND LOAD\nR = NOT(D) AND LOAD\n\n用 NOT 和两个 AND 生成 S/R，再送入你封存的[[sr_latch|SR Latch（SR 锁存器）]]。"
+msgstr "输入 D、LOAD 和输出 Q 都是 1-bit。LOAD=1 时保存 D；LOAD=0 时保持 Q。\n\n例如：D=1、LOAD=1 后 Q=1；再令 LOAD=0、D=0，Q 仍为 1。\n\n可用 NOT、AND 和你封装的 SR Latch。锁存器的 S 置位、R 清零，S=R=0 保持；这些端口规则可随时在检查器查看。"
 
 msgid "hardware.briefing.register.3"
-msgstr "测试时不要只看刚写入的那一刻，还要让[[load|LOAD]]回到 0，再改变 D，确认 Q 不会跟着变。全部[[official_test|正式案例]]通过后封装[[register|Register1]]，并自动生成四位[[register|Register4]]。"
+msgstr "测试时不要只看刚写入的那一刻，还要让[[d_q|LOAD]]回到 0，再改变 D，确认 Q 不会跟着变。全部[[official_test|正式案例]]通过后封装[[register|Register1]]，并自动生成四位[[register|Register4]]。"
 
 msgid "hardware.briefing.ram.1"
-msgstr "一个寄存器只能记住一个数。把多个寄存器排在一起，并用地址选择“读哪一个、写哪一个”，就得到[[ram|RAM（内存）]]。这关只有地址 0 和 1，每个位置保存四位数。"
+msgstr "让两个存储位置各管各的数据。用地址选择读写位置，就得到[[ram|RAM（内存）]]。\n\nADDR[1] 选地址 0 或 1；DATA[4] 是写入值；WRITE[1] 控制是否写入；OUT[4] 显示当前地址的数据。\n\n4-bit 是四个二进制位，能表示 0000～1111，也就是十进制 0～15。\n\n复用 Register4、Decoder 和 Word MUX，自由连接。完整测试会检查两行分别写入、保持和读回，不能互相覆盖。"
 
 msgid "hardware.briefing.ram.2"
-msgstr "ADDR[1] 像房间号：Decoder 用 ADDR[1]+WRITE[1] 产生两条 LOAD[1]，只允许选中的 Register[4] 写入 DATA[4]；Word MUX 再用 ADDR[1] 选出 OUT[4]。\n\nDATA[4] 扇出到两个寄存器；ADDR[1] 同时决定写哪行和读哪行。"
+msgstr "接口规格：ADDR[1] 选择地址 0 或 1；DATA[4] 是待写入数据，WRITE[1]=1 时只更新所选地址。OUT[4] 随时显示当前地址的数据。\n\nDecoder 按 ADDR 和使能输出一路有效选择；Register[4] 在 LOAD=1 时保存输入；Word MUX 按选择位读出一个输入。端口规则可在检查器查看。"
 
 msgid "hardware.briefing.ram.3"
 msgstr "先分别向地址 0、1 写入不同的数，再关闭写入并来回切换地址，确认两个位置互不覆盖。[[official_test|正式测试]]通过后封装[[ram|RAM2x4]]。"
 
 msgid "hardware.briefing.cpu.1"
-msgstr "两条路线在此汇合：ALU 负责计算，RAM 负责记忆。[[controller|Controller（控制器）]]读取指令，[[accumulator|ACC（累加器）]]保存当前计算值。你将分四段接通数据路径和控制路径，而不是一次面对整块空白 CPU。"
+msgstr "把会算、会记的元件组成一台按指令工作的计算机。\n\n输入：OPCODE[2] 选择动作；ARG[4] 是指令给出的数；ADDR[1] 选择内存地址。\n输出：ACC[4] 是累加器当前的数，MEM[4] 是当前地址的数。四位数范围为 0～15，超出时只保留低四位。\n\n任务：实现指令表中的四种动作。关内阶段可分段检查，接线顺序自由；完整 7 步程序全部通过后封装 TinyComputer。"
 
 msgid "hardware.briefing.cpu.2"
 msgstr "OPCODE 是 2-bit 操作码，它与操作一一对应：\n\n00  LOAD_IMM  —— ARG[4] 写入 ACC\n01  ADD_IMM   —— ACC + ARG[4] 写回 ACC\n10  LOAD_MEM  —— RAM[ADDR] 写入 ACC\n11  STORE_MEM —— ACC 写入 RAM[ADDR]\n\nIMM 是写在指令里的[[immediate|立即数]]。"
 
 msgid "hardware.briefing.cpu.3"
-msgstr "元件分工：Source MUX 在 ARG/RAM 中选数；ALU 用 A=ACC、B=选中数据计算；Result MUX 在“直接装入”和“ALU 结果”中选择；ACC LOAD 控制是否写 ACC；RAM WRITE 控制是否写 RAM。常量 0/1 把 ALU 固定在加法模式。点击任意元件可查端口和位宽。"
+msgstr "模块规格：ALU 执行 4-bit 运算；ACC 在 LOAD=1 时保存输入，LOAD=0 时保持；RAM 根据 ADDR 读出一行，WRITE=1 时写入。MUX 按 SEL 在两个 4-bit 输入间选择。\n\nController 读取 2-bit OPCODE，输出四个 1-bit 控制信号：SOURCE_SEL、RESULT_SEL、ACC_LOAD、MEM_WRITE。点击元件主体查看各端口的选择规则；这些是题目规格。"
 
 msgid "hardware.briefing.cpu.4"
-msgstr "按画布中的阶段接线：\nA 立即数路径：OPCODE→Controller，ARG→Source MUX→ALU.B\nB 计算回写：ACC→ALU.A→Result MUX→ACC\nC 读内存：RAM.OUT→Source/Result MUX→ACC\nD 写内存：ACC→RAM.DATA，Controller.MEM_WRITE→RAM.WRITE\n\n先追 4-bit 数据，再查 1/2-bit 控制；Inspector 会写清每个端口的位宽和职责。"
+msgstr "阶段目标：\nA 操作数接口：OPCODE、立即数和运算输入。\nB 运算与保存：加法、装入、保持。\nC 内存读取：地址与被寻址字。\nD 内存写入：目标行与写使能。\n\n“检查接口”只检查这些输入是否接上，不判断你的程序是否正确，也不会替你接线。完整测试仍会检查每一步的 ACC 和 RAM 状态。"
 
 msgid "hardware.briefing.cpu.5"
-msgstr "四段接通后再启动 7 步[[program|正式程序]]，它会覆盖四种 OPCODE。失败时先对照当前步的数据去向，再查对应控制信号。全部通过后立即进入成功界面，可封存 TinyComputer 或返回地图。"
+msgstr "完整测试依次执行 7 条[[program|指令]]。每一步都会列出指令、运行前的状态、预期结果和实际结果。\n\n若某一步不符，先确认这条 Opcode 要做什么，再查看相应元件的端口。规格与 Opcode 表始终可查。\n\n全部通过后，封装 TinyComputer。接下来，你将用自己做出的计算机观察 LOAD 和 STORE 的数据搬运。"
 
 msgid "hardware.briefing.load_store.1"
 msgstr "这关不再搭新线路，而是运行你刚封装的小计算机。观察两种动作：[[load|LOAD]]把数据从[[ram|RAM]]带到[[cpu|CPU]]，[[store|STORE]]把 CPU 里的结果送回 RAM。\n\nRAM → LOAD → CPU → STORE → RAM"
@@ -1027,10 +1027,10 @@ msgid "hardware.toolbar.level_map.tooltip"
 msgstr "打开硬件序章地图，查看已完成、已解锁和仍需前置元件的关卡。"
 
 msgid "hardware.phase.tutorial"
-msgstr "1 / 2 · 连线教程"
+msgstr "序章 · 接线教程"
 
 msgid "hardware.phase.half_adder"
-msgstr "2 / 2 · 搭建 1 位半加器"
+msgstr "序章 · 搭建 1 位半加器"
 
 msgid "hardware.phase.complete"
 msgstr "完成 · 玩家拥有的抽象"
@@ -1045,7 +1045,7 @@ msgid "hardware.tutorial.status"
 msgstr "从“元件”菜单放置；左拖元件/端口移动或接线，空白拖框选择；Shift 增量多选/移动线端；右键划过删除。"
 
 msgid "hardware.tutorial.trace_hint"
-msgstr "追踪 — 推荐先尝试 A → NOT → 指示灯"
+msgstr "观察 A 和 LAMP 的 0/1；低电平也是正常信号。"
 
 msgid "hardware.tutorial.zero_delay"
 msgstr "普通连线延迟为 0 tick"
@@ -1057,7 +1057,7 @@ msgid "hardware.tutorial.heading_subtitle"
 msgstr "一个紧凑、可移动的桌面任务窗口"
 
 msgid "hardware.tutorial.prompt"
-msgstr "用桌面上已摆好的[[not_gate|NOT 门]]搭出：A → NOT → 指示灯。用[[wire|连线]]接好后切换 A，再做一次[[debug_run|单次调试]]。最后删掉一条线并重新接回去；“元件”中仍有可选门供自由实验。"
+msgstr "目标：A=0 时 LAMP=1；A=1 时 LAMP=0。完成下面五步后继续。展开任务窗可查规格和操作。"
 
 msgid "hardware.tutorial.checklist_title"
 msgstr "简短交互检查"
@@ -1114,16 +1114,16 @@ msgid "hardware.challenge.heading_subtitle"
 msgstr "请自行设计拓扑"
 
 msgid "hardware.challenge.description"
-msgstr "搭建一个[[half_adder|半加器]]：A、B 是输入，[[sum|SUM]]和[[carry|CARRY]]是两个输出。先分别解决 CARRY 和 SUM，再把两部分接到输出。"
+msgstr "目标：A、B 两个 1-bit 数相加，输出 SUM（低位）和 CARRY（进位）。四组输入全部正确后封装。展开任务可随时查看真值表和门的规则。"
 
 msgid "hardware.challenge.hint"
 msgstr "卡住时回想[[truth_table|真值表]]：CARRY 只在 11 时为 1；SUM 只在 01、10 时为 1。单次调试会指出哪一组输入不对，但不会直接给线路答案。"
 
 msgid "hardware.test_bench.signal.placeholder"
-msgstr "点击输入开关：红色、左侧低位形态表示 0；绿色、加粗向右形态表示 1。"
+msgstr "点击符号切换输入：空心 0 · 实心 1。"
 
 msgid "hardware.test_bench.signal.placeholder_general"
-msgstr "单比特信号同时用数字、红/绿和线条形态表示，不能只看颜色。"
+msgstr "空心 0 · 实心 1；多位输入可直接输入数值。"
 
 msgid "hardware.signal.low"
 msgstr "低"
@@ -1132,7 +1132,7 @@ msgid "hardware.signal.high"
 msgstr "高"
 
 msgid "hardware.test_bench.signal.tooltip"
-msgstr "测试台输入 %s 当前为 %d；点击切换 0/1。"
+msgstr "%s = %d；点击或按空格切换 0 / 1。"
 
 msgid "hardware.seal.button"
 msgstr "封装为 HalfAdder"
@@ -1540,7 +1540,7 @@ msgid "hardware.prologue.open_map.tooltip"
 msgstr "把已封存的 HalfAdder 带入后续 CPU / 算术构建路线。"
 
 msgid "hardware.prologue.map.phase"
-msgstr "硬件工坊 · 构建地图"
+msgstr "硬件基础 · 序章地图"
 
 msgid "hardware.prologue.map.title"
 msgstr "从门电路到可运行计算机"
@@ -1549,7 +1549,7 @@ msgid "hardware.prologue.map.subtitle"
 msgstr "学会计算 · 学会记忆 · 最后汇合成计算机"
 
 msgid "hardware.prologue.map.description"
-msgstr "工坊可以随时离开，不影响八关主线。算术路线：半加器 → 全加器 → ALU；存储路线：SR 锁存器 → 寄存器 → RAM。两条路线任选先后，最后接上控制器，组成小计算机。成果由你构建；门数不会自动换算成主线 CPU 的速度。"
+msgstr "从接线练习开始。算术路线：半加器 → 全加器 → ALU；存储路线：SR 锁存器 → 寄存器 → RAM。两条路线任选先后，最后汇合成 CPU，运行 LOAD/STORE，再进入系统与数据移动章节。"
 
 msgid "hardware.prologue.map.canvas_hint"
 msgstr "在中央依赖图中选择关卡；将鼠标移到节点上可查看目标与前置条件。"
@@ -1950,10 +1950,10 @@ msgid "hardware.hint.button"
 msgstr "提示"
 
 msgid "hardware.hint.button.tooltip"
-msgstr "进入独立的只读提示桌布；不会改变你的电路。"
+msgstr "进入独立只读画布，回到上次看过的层级；不会改动你的方案。"
 
 msgid "hardware.hint.return"
-msgstr "返回我的桌布"
+msgstr "返回我的方案"
 
 msgid "hardware.hint.return.tooltip"
 msgstr "离开提示并恢复刚才使用的玩家桌布。"
@@ -1962,7 +1962,7 @@ msgid "hardware.hint.next"
 msgstr "提示 %d/%d · 下一步"
 
 msgid "hardware.hint.next.tooltip"
-msgstr "逐步揭示下一层提示。"
+msgstr "请求下一层提示，确认后才会显示。"
 
 msgid "hardware.hint.phase"
 msgstr "提示桌布 · %d/%d"
@@ -1971,7 +1971,7 @@ msgid "hardware.hint.status"
 msgstr "正在查看第 %d/%d 级提示。"
 
 msgid "hardware.hint.read_only"
-msgstr "提示桌布为只读；元件和线路来自同一套真实电路模型。"
+msgstr "独立提示画布 · 只读。可以平移、缩放和查看元件。"
 
 msgid "hardware.hint.no_progress"
 msgstr "提示不会运行正式测试、封装元件或改变关卡进度。"
@@ -2010,13 +2010,13 @@ msgid "hardware.hint.half_adder.1"
 msgstr "先不连线。遮住真值表的一列，只看 CARRY：哪一行与其他三行不同？再只看 SUM：它的两行 1 有什么共同点？先选择较简单的输出。"
 
 msgid "hardware.hint.half_adder.2"
-msgstr "CARRY 只在 A、B 都为 1 时为 1；SUM 只在 A、B 不同时为 1。提示桌布只示范较简单的 CARRY 支路，SUM 仍需你用 AND、OR、NOT 组合出来。"
+msgstr "CARRY 只在 A、B 都为 1 时为 1。画布展示这条局部支路。\n\nSUM 为 1 的两行是 01 和 10：每一行可视为一个条件，需要 0 的输入先反相，再检查条件，最后合并它们。"
 
 msgid "hardware.hint.half_adder.3"
 msgstr "完整答案在 SUM 路径之外增加 A AND B 作为 CARRY；两个输出共享 A、B 信号。"
 
 msgid "hardware.hint.full_adder.1"
-msgstr "先把 A 与 B 相加，再把第一次的 SUM 与 CIN 相加；最后思考两次进位如何合并。"
+msgstr "一个 Half Adder 只能接两个加数。把 A+B+CIN 分成两次运算时，需要保留哪些中间结果？"
 
 msgid "hardware.hint.full_adder.2"
 msgstr "关键路径串联两个 HalfAdder，第二个 HalfAdder 的 SUM 就是最终 SUM。"
@@ -2034,7 +2034,7 @@ msgid "hardware.hint.alu.3"
 msgstr "完整答案连接四条候选运算路径、选择线、RESULT，并单独保留加法器的 CARRY。"
 
 msgid "hardware.hint.latch.1"
-msgstr "两个 NOR 可以互相读取对方的输出，从而在 S=R=0 时保留上一状态；不要同时令 S、R 为 1。"
+msgstr "分别考虑“置位”和“保持”：控制输入都回到 0 后，电路需要从哪里得到刚才的状态？先追踪一个值的变化。"
 
 msgid "hardware.hint.latch.2"
 msgstr "只展示上半关系：S 与下方 NOR 的 Q 输出一起进入上方 NOR，上方结果是 NQ。请用 R 在下方镜像这层关系，形成交叉反馈。"
@@ -2043,7 +2043,7 @@ msgid "hardware.hint.latch.3"
 msgstr "完整答案把交叉反馈 NOR 的两个输出分别接到 Q 与 NQ。"
 
 msgid "hardware.hint.register.1"
-msgstr "LOAD=0 时不应改变锁存器；LOAD=1 时，D 与 NOT D 应分别形成 SET 与 RESET。"
+msgstr "把 LOAD 的两种情况分开想：允许写入时 Q 应跟随什么，禁止写入时锁存器需要什么控制状态？"
 
 msgid "hardware.hint.register.2"
 msgstr "关键关系是 S = D AND LOAD，R = NOT(D) AND LOAD。提示桌布展示完整 SET 支路；用 NOT(D) 镜像出 RESET 支路。"
@@ -2790,13 +2790,13 @@ msgid "hardware.completion.chapter"
 msgstr "硬件基础 · 构建序章"
 
 msgid "hardware.completion.summary.tutorial"
-msgstr "你已经掌握了端口、电平、连线、断开与重新连接；桌布上的可见线路就是电路真正执行的拓扑。"
+msgstr "你已经能接通、运行和修补一张电路。红色 0 和绿色 1 都是正常信号；改变输入时，可以沿线观察结果怎样变化。"
 
 msgid "hardware.completion.summary.half_adder"
-msgstr "你已从真值表推出 SUM 与 CARRY，并封存了 HalfAdder。新元件 XOR（异或门）已解锁：它直接实现“两个输入不同时输出 1”，也就是 SUM 的关系。"
+msgstr "你把两个一位数变成了 SUM 和 CARRY，并得到可复用的 HalfAdder。新解锁的 XOR 门在两个输入不同时输出 1，正好表达了 SUM 的规则。"
 
 msgid "hardware.completion.summary.full_adder"
-msgstr "你通过组合较小的加法器处理了进位输入，第一次用已有抽象构建了更高层元件。"
+msgstr "你让 A+B 的计算接住了上一位的进位。小电路可以成为更大电路的积木，而不必每次从门开始。"
 
 msgid "hardware.completion.summary.alu"
 msgstr "你让控制信号选择不同算术结果，并理解了 ALU 如何把多种运算收进同一个数据通路。"
@@ -2805,7 +2805,7 @@ msgid "hardware.completion.summary.latch"
 msgstr "你利用反馈保存了一个状态，理解了组合逻辑与具有记忆的时序元件之间的分界。"
 
 msgid "hardware.completion.summary.register"
-msgstr "你用 LOAD 控制何时接收新数据，并把单比特存储抽象成了可复用寄存器。"
+msgstr "你让“数据是什么”和“何时保存”各有一个输入。关闭 LOAD 后，Q 仍保留上次保存的值。"
 
 msgid "hardware.completion.summary.ram"
 msgstr "你把地址、写入控制和数据端口组合成可寻址存储，观察了写入、保持与读取的状态变化。"
@@ -3603,7 +3603,7 @@ msgid "terminology.title"
 msgstr "术语手册"
 
 msgid "terminology.subtitle"
-msgstr "沿目录查阅游戏中的硬件、系统与性能概念，也可直接搜索"
+msgstr "读懂眼前的电路，一次学会一个概念。"
 
 msgid "terminology.close"
 msgstr "关闭"
@@ -3615,7 +3615,7 @@ msgid "terminology.result_count"
 msgstr "显示 %d / %d 项"
 
 msgid "terminology.footer"
-msgstr "Esc 关闭手册 · 手册只提供定义，不会替你完成关卡"
+msgstr "○ 尚未开放 · 当前任务中的规格随时可查 · 解题思路请主动查看提示"
 
 msgid "terminology.empty.title"
 msgstr "没有找到术语"
@@ -3684,31 +3684,31 @@ msgid "terminology.term.bit.title"
 msgstr "比特（bit）"
 
 msgid "terminology.term.bit.body"
-msgstr "表示二进制 0 或 1 的最小信息单位。多枚比特可以组合成更大的数值，例如 8-bit 数值由 8 枚比特组成。"
+msgstr "一位（bit）只能保存 0 或 1，像一盏只有灭、亮两种状态的灯。\n\n把多位放在一起，就能表示更多数值。4 位可以表示 0～15，共 16 种状态；每个端口旁的位宽告诉你它一次传递几位。"
 
 msgid "terminology.term.binary.title"
 msgstr "二进制（Binary）"
 
 msgid "terminology.term.binary.body"
-msgstr "只使用 0 和 1 表示信息的计数方式。数字电路把这两个值映射为低电平与高电平。"
+msgstr "二进制只用 0 和 1 写数。从右往左，每一位代表 1、2、4、8……\n\n某一位是 1，就加上那一位的数值；是 0，就不加。前导 0 不改变数值：0011 和 11 都表示十进制 3。"
 
 msgid "terminology.term.signal.title"
 msgstr "信号（Signal）"
 
 msgid "terminology.term.signal.body"
-msgstr "在端口与导线之间传递的逻辑状态。本游戏主要使用低电平 0、高电平 1 与高阻态 Z。"
+msgstr "信号是电路中正在传递的值。输入产生信号，线传递信号，元件读取输入并产生输出。\n\n1 位信号只有 0 和 1。多位信号是一组一起传递的位；连接时，输入和输出的位宽必须一致。"
 
 msgid "terminology.term.low_level.title"
 msgstr "低电平（0 / Low）"
 
 msgid "terminology.term.low_level.body"
-msgstr "表示逻辑 0 的信号状态。测试台使用红色 0、细线箭头和低位开关；画布输入端也用右向标签明确方向。"
+msgstr "低电平表示逻辑 0。空心三角和数字 0 表示这个状态；红色是辅助标记，不代表电路出错。\n\n0 也不是断线：一条正常的线可以一直传递 0。"
 
 msgid "terminology.term.high_level.title"
 msgstr "高电平（1 / High）"
 
 msgid "terminology.term.high_level.body"
-msgstr "表示逻辑 1 的信号状态。测试台使用绿色 1、粗线箭头和高位开关；画布输入端也用右向标签明确方向。"
+msgstr "高电平表示逻辑 1。实心三角和数字 1 表示这个状态，绿色是辅助标记。\n\n高低只表示值，不表示好坏。测试要判断的是输出是否符合要求。"
 
 msgid "terminology.term.high_impedance.title"
 msgstr "高阻态（High-Z / Z）"
@@ -3768,19 +3768,19 @@ msgid "terminology.term.port.title"
 msgstr "端口（Port）"
 
 msgid "terminology.term.port.body"
-msgstr "元件边缘用于接收或发送信号的连接点。端口有方向，部分端口还带有 A、B、SUM 等名称。"
+msgstr "端口是元件收发信号的地方。左侧通常是输入，右侧通常是输出；箭头指出信号方向。\n\n名称说明作用，位宽说明一次传几位。例如 A、B 是待运算的输入，SUM 是求和输出。1 位输出只能接到 1 位输入；多位端口同样要匹配位宽。\n\n接线被拒绝时，查看状态栏的方向、位宽或多驱动说明。"
 
 msgid "terminology.term.wire.title"
 msgstr "导线（Wire）"
 
 msgid "terminology.term.wire.body"
-msgstr "连接两个端口并传递信号的线路。普通导线只描述连接关系，本游戏不把导线本身算作额外延迟。"
+msgstr "从输出端口接到输入端口，信号就能到达那里。一条已有的线也可以拉出分支，送到另一个兼容输入。\n\n线的长短和画法不会拖慢计算。只有存在接点的分支才共享信号；两条线只是交叉时不会连接。"
 
 msgid "terminology.term.junction.title"
 msgstr "连接点 / 分支点（Junction）"
 
 msgid "terminology.term.junction.body"
-msgstr "把同一个输出信号分发到多个目的地的节点。分支不会复制计算，只共享同一信号。"
+msgstr "接点用实心圆表示：同一信号在这里分到几条线。分支不会改变或重新计算数值。\n\n从线段中间拉出新线，就能建立分支。没有接点的交叉处，两条线仍各自传递自己的信号。"
 
 msgid "terminology.term.combinational_loop.title"
 msgstr "组合环路（Combinational Loop）"
@@ -3798,7 +3798,7 @@ msgid "terminology.term.truth_table.title"
 msgstr "真值表（Truth Table）"
 
 msgid "terminology.term.truth_table.body"
-msgstr "列出所有输入组合以及每种组合应有输出的表格。例如两个输入 A、B 一共有 00、01、10、11 四行。"
+msgstr "真值表列出每组输入应该得到什么输出。它描述行为，你可以用不同的电路实现同一张表。\n\n两个一位输入 A、B 只有 00、01、10、11 四种组合。先读左边的输入，再看同一行右边的输出。下图用 AND 和 OR 举例。"
 
 msgid "terminology.term.topology.title"
 msgstr "拓扑（Topology）"
@@ -3894,7 +3894,7 @@ msgid "terminology.term.opcode.title"
 msgstr "操作码（Opcode / OP）"
 
 msgid "terminology.term.opcode.body"
-msgstr "告诉 ALU 或控制器应执行哪一种操作的控制值。OP0、OP1 是构成操作码的控制比特。"
+msgstr "Opcode（操作码）是选择动作的编号。先查当前关卡的 Opcode 表，再判断输入编号对应什么行为；不同元件的编号含义可以不同。\n\n在序章 ALU 中，OP1 OP0 = 00 选 AND，01 选 OR，10 选加法，11 选 NOT A。CPU 关会给出它自己的四条指令。"
 
 msgid "terminology.term.latch.title"
 msgstr "锁存器（Latch）"
@@ -3903,10 +3903,10 @@ msgid "terminology.term.latch.body"
 msgstr "能够保持一位状态的存储电路。与纯组合逻辑不同，它的当前输出可能取决于之前发生的输入。"
 
 msgid "terminology.term.sr_latch.title"
-msgstr "SR 锁存器（SR Latch / SRLatch）"
+msgstr "SR 锁存器（SR Latch）"
 
 msgid "terminology.term.sr_latch.body"
-msgstr "用 SET 和 RESET 控制一位状态的锁存器，常由两个交叉连接的 NOR 门组成。"
+msgstr "SR Latch 用 S（置位）和 R（复位）控制一位记忆 Q。\n\nS=1、R=0：让 Q 变成 1。\nS=0、R=1：让 Q 变成 0。\nS=R=0：保持上一次的 Q。\nS=R=1：本关禁止的组合。\n\n它与普通门不同：相同的当前输入，可能因为之前的状态不同而得到不同结果。"
 
 msgid "terminology.term.set_reset.title"
 msgstr "SET / RESET（置位 / 复位）"
@@ -3924,7 +3924,7 @@ msgid "terminology.term.register.title"
 msgstr "寄存器（Register）"
 
 msgid "terminology.term.register.body"
-msgstr "由多枚一位存储单元组成的快速小型存储。Register4 保存 4 位；LOAD=1 时写入 D，LOAD=0 时保持。"
+msgstr "寄存器保存一份可以反复使用的数据。D 是准备写入的数据，Q 是已经存住的值，LOAD 决定这一步是否写入。\n\nLOAD=1：把 D 存入 Q。\nLOAD=0：无论 D 怎样改变，Q 都保持原值。\n\nRegister1 保存 1 位；Register4 保存 4 位。"
 
 msgid "terminology.term.decoder.title"
 msgstr "译码器（Decoder）"
@@ -3948,7 +3948,7 @@ msgid "terminology.term.cpu.title"
 msgstr "CPU（中央处理器）"
 
 msgid "terminology.term.cpu.body"
-msgstr "读取指令、执行计算并通过 Bus 与 RAM 交换数据的处理器。CPU8 表示本游戏中的八位处理器来源。"
+msgstr "CPU 按指令执行动作：选择数据、计算，再保存结果。\n\n序章的小计算机使用 4 位数据。你会亲手连接 Controller、ALU、寄存器和 RAM；Opcode 表规定每条指令的行为。\n\n后续章节把已经理解的 CPU 抽象成系统元件，用更宽的数据研究计算与搬运的时间。"
 
 msgid "terminology.term.bus.title"
 msgstr "Bus（总线）"
@@ -4002,19 +4002,19 @@ msgid "terminology.term.program.title"
 msgstr "程序（Program）"
 
 msgid "terminology.term.program.body"
-msgstr "描述机器要依次执行哪些操作的指令或代码。本游戏中的 Program 面板允许编辑、解释并应用程序。"
+msgstr "程序是一组按顺序执行的指令。同一条指令在不同的数据或状态下运行，可能得到不同结果。\n\n序章 CPU 的完整测试会连续执行指令，ACC 和 RAM 的状态会传到下一步。后续章节提供程序编辑器，让你改变实际执行的操作。"
 
 msgid "terminology.term.dsl.title"
 msgstr "DSL（领域专用语言）"
 
 msgid "terminology.term.dsl.body"
-msgstr "为特定任务设计的小型语言。本游戏使用类 Python DSL 表达循环、load、store 与计算，但它不是完整 Python。"
+msgstr "本游戏的程序采用类似 Python 的小语言。变量保存数值；load 读取数据；store 写入数据；for 让缩进的一段操作重复执行。\n\n先读下面三行：读取 INPUT[0]，把得到的值加 1，再写入 OUTPUT[0]。中括号里的 0 是位置编号。\n\nvalue = load(INPUT[0])\nvalue += 1\nstore(OUTPUT[0], value)\n\n关内的程序说明可逐行查看。它只支持游戏列出的语法，不是完整 Python。"
 
 msgid "terminology.term.apply.title"
 msgstr "应用程序（Apply）"
 
 msgid "terminology.term.apply.body"
-msgstr "解析并确认当前编辑内容，使本次运行使用这份程序。主线点击“运行当前方案”就会完成应用与运行。旧实验仍有单独的 Apply 按钮。无效草稿会报错，不会冒充旧方案的运行结果。"
+msgstr "编辑框里的文字先是一份草稿。点击“应用程序”后，游戏检查语法，把它设为下一次运行的程序。\n\n改了代码但还没应用时，不会悄悄换掉正在使用的程序。若语法有误，先根据错误说明修正，再应用并运行。\n\n观察结果前，确认界面显示的是你刚应用的版本。"
 
 msgid "terminology.term.workload.title"
 msgstr "工作负载（Workload）"
@@ -4215,7 +4215,7 @@ msgid "terminology.term.data_request.body"
 msgstr "CPU 为读取或写入一个地址而发起的系统操作。请求可能在 Cache 命中，也可能经过 Bus 前往 RAM。"
 
 msgid "terminology.example.title"
-msgstr "看一个具体例子"
+msgstr "看一个例子"
 
 msgid "terminology.term.multiplexer.example"
 msgstr "假设四路输入分别是 D0=3、D1=7、D2=12、D3=1。选择信号 OP=10（二进制的 2）时，MUX 只把 D2 的 12 送到输出；其他三路即使有值，也不会通过。可以把它想成由 OP 控制的四选一岔道。"
@@ -4224,7 +4224,7 @@ msgid "terminology.term.alu.example"
 msgstr "令 A=6、B=3。OP 选择 ADD 时，输出是 9；选择 AND 时，二进制 0110 AND 0011 得到 0010，也就是 2。同一组输入不变，只换 OP，ALU 就会改做另一种运算。"
 
 msgid "terminology.term.sr_latch.example"
-msgstr "先给 S=1、R=0，Q 被设成 1。随后把 S 和 R 都改回 0，Q 仍保持 1，这就是“记住”。再给 S=0、R=1，Q 才被清成 0。NOR 型 SR 锁存器不要让 S 和 R 同时为 1。"
+msgstr "按顺序输入 (S,R)：(1,0) → (0,0) → (0,1)。Q 应依次为 1 → 1 → 0。\n\n中间一步没有新的置位请求，但 Q 仍为 1：这就是记忆。下图只展示行为；需要构建线索时，请主动查看 Hint。"
 
 msgid "terminology.term.decoder.example"
 msgstr "一个 2 位地址能表示 00、01、10、11。输入 ADDR=01 时，四根选择线中只有 W1=1，其余为 0。若这四根线连接四个寄存器的 LOAD 端，就只有 1 号寄存器会写入新数据。"
@@ -4575,30 +4575,248 @@ msgstr "SEL=0 输出 A；SEL=1 输出 B。它只选择，不计算。"
 msgid "hardware.inspector.behavior.ram2x4"
 msgstr "WRITE=1 时向 ADDR 指定单元写 DATA；OUT 读取当前地址。"
 msgid "hardware.inspector.behavior.control"
-msgstr "OP[2] 决定 SOURCE_SEL、RESULT_SEL、ACC_LOAD 与 MEM_WRITE；四个输出均为 1-bit。"
+msgstr "OP=00/01/10/11 时，SOURCE_SEL=0/0/1/0，RESULT_SEL=0/1/0/0，ACC_LOAD=1/1/1/0，MEM_WRITE=0/0/0/1。控制输出都是 1-bit。"
 msgid "hardware.inspector.behavior.constant"
 msgstr "无输入；输出始终等于标注的固定值。"
 
 msgid "hardware.cpu.stage.1"
-msgstr "阶段 A / 4 · 选择操作数\nLOAD_IMM / ADD_IMM 取 ARG；LOAD_MEM 取 RAM。让 SOURCE 选择来源，把 4-bit 操作数送入 ALU。"
+msgstr "阶段 A / 4 · 操作数接口\n检查 OPCODE、立即数与运算输入。完整测试随时可运行。"
 msgid "hardware.cpu.stage.2"
-msgstr "阶段 B / 4 · 决定写回什么\nADD_IMM 写回 ALU 的和；LOAD_IMM / LOAD_MEM 绕过加法直接写回所选数据；STORE_MEM 不改 ACC。由表推导 RESULT 与 ACC_LOAD。"
+msgstr "阶段 B / 4 · 运算与保存\n检查计算、装入与保持所需的输入。接上接口不等于行为正确。"
 msgid "hardware.cpu.stage.3"
-msgstr "阶段 C / 4 · 读取 RAM\nADDR[1] 选择一行。思考同一份 RAM.DATA_OUT[4] 在 LOAD_MEM、后续运算和外部观察中分别要到哪里；这是一次自然的总线扇出。"
+msgstr "阶段 C / 4 · 内存读取\n检查地址和被寻址字的接口；参照 LOAD_MEM 的状态规则。"
 msgid "hardware.cpu.stage.4"
-msgstr "阶段 D / 4 · 写入 RAM\nSTORE_MEM 要把 ACC 当前值写进 ADDR 指定行，同时保持 ACC 不变。RAM 还缺哪条 4-bit 数据和哪条 1-bit 写使能？"
+msgstr "阶段 D / 4 · 内存写入\n检查写入数据和写使能的接口；参照 STORE_MEM 的状态规则。"
 msgid "hardware.cpu.stage.5"
-msgstr "全部路径已接通。现在可运行 7 步正式程序，验证四种 OPCODE。"
+msgstr "接口已接上。运行完整 7 步程序，检查实际行为。"
 msgid "hardware.cpu.stage.check"
-msgstr "检查当前阶段"
+msgstr "检查接口"
 msgid "hardware.cpu.stage.ready"
-msgstr "正式程序已解锁"
+msgstr "接口检查完成"
 msgid "hardware.cpu.stage.advanced"
-msgstr "本段路径通过，已解锁阶段 %d。"
+msgstr "当前检查：阶段 %d 的输入接口。可按任意顺序继续搭建。"
 msgid "hardware.cpu.stage.all_ready"
-msgstr "四段路径通过，正式程序已解锁。"
+msgstr "接口已接上；请运行完整测试检查行为。"
 msgid "hardware.cpu.stage.official_locked"
 msgstr "正式程序尚未解锁；先完成当前阶段 %d。"
 
 msgid "hardware.cpu.opcode_table"
 msgstr "OP[2] · 数据流\n00 LOAD_IMM   ARG → ACC\n01 ADD_IMM    ACC + ARG → ACC\n10 LOAD_MEM   RAM[ADDR] → ACC\n11 STORE_MEM  ACC → RAM[ADDR]\nCTRL [SOURCE / RESULT / LOAD / WRITE]\n00 0010 · 01 0110\n10 1010 · 11 0001"
+
+msgid "hardware.hint.confirm.2"
+msgstr "将显示 H2：关键关系或局部子电路。\n\n这会透露一部分解法。确认查看，或留在 H1 自己尝试。"
+
+msgid "hardware.hint.confirm.3"
+msgstr "将显示完整参考答案（H3）。\n\n确认后可在独立只读画布中查看全部线路。你的方案保持不变。"
+
+msgid "hardware.hint.confirm_button.2"
+msgstr "确认查看 H2"
+
+msgid "hardware.hint.confirm_button.3"
+msgstr "确认显示完整参考答案"
+
+msgid "hardware.hint.cancel"
+msgstr "先不看，继续思考"
+
+msgid "hardware.goal.open"
+msgstr "本关目标：%s    ·    点击查看任务规格"
+
+msgid "hardware.goal.tutorial"
+msgstr "让灯显示 A 的相反值，完成五步操作"
+
+msgid "hardware.goal.half_adder"
+msgstr "A+B → SUM、CARRY；通过四组输入后封装"
+
+msgid "hardware.goal.cpu"
+msgstr "实现四种 Opcode；完整 7 步程序全部通过后封存"
+
+msgid "hardware.view.focus"
+msgstr "聚焦"
+
+msgid "hardware.view.focus.tooltip"
+msgstr "Home：聚焦选中元件；未选中时显示整张电路。Shift+Home：显示全部。只调整视野，不移动元件。"
+
+msgid "hardware.view.focused"
+msgstr "视野 %d%% · 滚轮缩放，中键拖动；Shift+Home 查看全部"
+
+msgid "hardware.wire.inspect"
+msgstr "%d-bit 线路\n%s.%s → %s.%s\n高亮部分属于同一网络。拖动分支，右键删除此线；交叉不相连。"
+
+msgid "hardware.briefing.build_now"
+msgstr "开始搭建"
+
+msgid "hardware.briefing.build_now.tooltip"
+msgstr "收起任务，回到电路。全部页面可从顶部目标或任务窗口重新打开。"
+
+msgid "hardware.briefing.stage.operations"
+msgstr "编辑操作"
+
+msgid "hardware.briefing.stage.truth_table"
+msgstr "真值表"
+
+msgid "hardware.briefing.stage.opcodes"
+msgstr "指令表"
+
+msgid "hardware.briefing.stage.modules"
+msgstr "元件与接口"
+
+msgid "hardware.briefing.stage.stages"
+msgstr "分段检查"
+
+msgid "hardware.cases.try.tooltip"
+msgstr "选中这一行输入。期望 SUM=%d、CARRY=%d。随后可运行当前输入；不会执行完整测试。"
+
+msgid "hardware.cases.try.selected"
+msgstr "试一试 A=%d、B=%d：期望 SUM=%d、CARRY=%d。运行当前输入查看实际结果。"
+
+msgid "hardware.goal.tutorial_step"
+msgstr "让灯显示 A 的相反值 · 已完成 %d/5 · 接下来：%s　·　查看任务"
+
+msgid "hardware.completion.continue"
+msgstr "继续下一项挑战"
+
+msgid "playtest.level_feedback.open"
+msgstr "留下本关反馈（可选）"
+
+msgid "experience.next.hardware_foundations.tutorial"
+msgstr "下一项能力：把两个 0/1 相加。你也可以从关卡地图选择存储分支，试着让电路记住一个值。"
+
+msgid "experience.next.hardware_foundations.half_adder"
+msgstr "接下来：接住上一位的进位，让你的加法器能参与更长的加法。"
+
+msgid "experience.next.hardware_foundations.full_adder"
+msgstr "接下来：让一套电路按控制位切换运算。加法只是它会做的第一件事。"
+
+msgid "experience.next.hardware_foundations.alu"
+msgstr "运算分支准备好了。存储分支会让数据留下来；两条分支最终在 CPU 汇合。"
+
+msgid "experience.next.hardware_foundations.latch"
+msgstr "接下来：给记忆加一个更好用的入口——指定一个值，再决定何时保存。"
+
+msgid "experience.next.hardware_foundations.register"
+msgstr "接下来：让多个寄存器各记一个数，再用地址选择其中一个。"
+
+msgid "experience.next.hardware_foundations.ram"
+msgstr "存储分支准备好了。完成运算分支后，就能把计算、控制和内存接成一台小计算机。"
+
+msgid "experience.next.hardware_foundations.cpu"
+msgstr "接下来：运行你自己的计算机，跟随一次读取和一次写入，看看数据在哪里走。"
+
+msgid "experience.next.hardware_foundations.load_store"
+msgstr "第一章的新问题：机器已经会算，为什么还会慢？从一次数据往返开始调查。"
+
+msgid "experience.next.chapter_1.assembly"
+msgstr "接下来：只让 CPU 算得更快。整台机器会按同样比例提速吗？"
+
+msgid "experience.next.chapter_1.cpu_speed"
+msgstr "接下来：沿数据路线寻找等待。计算之外，还有哪些工作占着时间？"
+
+msgid "experience.next.chapter_1.ram_wait"
+msgstr "接下来：内存准备好数据之后，搬运本身还要多久？"
+
+msgid "experience.next.chapter_1.bus_width"
+msgstr "接下来：把任务做大。观察最多的时间究竟增长在哪里。"
+
+msgid "experience.next.chapter_1.bottleneck"
+msgstr "第二章的新问题：如果每次远途取数都很慢，能不能让数据少走几趟？"
+
+msgid "experience.next.chapter_2.distant_reads"
+msgstr "接下来：试一块离 CPU 更近的存储，比较同一份工作的前后变化。"
+
+msgid "experience.next.chapter_2.nearby_storage"
+msgstr "接下来：换一份工作。这块近处存储还会每次都帮得上忙吗？"
+
+msgid "experience.next.chapter_2.cache_failure"
+msgstr "接下来：硬件保持原样。你能只靠安排数据访问的顺序来减少等待吗？"
+
+msgid "experience.next.chapter_2.access_order"
+msgstr "接下来：同一批数据再处理一遍。第一遍留下的数据还能找到吗？"
+
+msgid "experience.next.chapter_2.working_set"
+msgstr "接下来：容量暂时不变。试着重新安排每一小组工作的先后。"
+
+msgid "experience.next.chapter_2.blocking"
+msgstr "接下来：面对一份新任务，自己观察、判断、修改和复查。"
+
+msgid "experience.next.chapter_2.capstone"
+msgstr "这台机器还有优化空间。你可以保留当前方案，再比较另一种安排的时间和成本。"
+
+msgid "hardware.completion.ready_to_seal"
+msgstr "完整测试已通过。封装成 %s 后，就能在后面的挑战里把它当作元件使用；里面仍是你搭建的线路。"
+
+
+msgid "hardware.palette.port_width"
+msgstr "%d 位端口"
+
+
+msgid "terminology.progress"
+msgstr "已开放 %d / %d 条 · 新知识会随关卡逐步开放"
+
+
+msgid "terminology.unlock_at"
+msgstr "进入「%s」时开放"
+
+
+msgid "terminology.locked.body"
+msgstr "这部分知识将在「%s」可以游玩时开放。\n\n先完成当前挑战。需要使用的概念会在动手前开放，你不用提前背下整本手册。"
+
+
+msgid "terminology.term.half_adder.example"
+msgstr "A=1、B=1 时，相加得到二进制 10。两位分开输出：SUM=0，CARRY=1。\n\n读结果时把 CARRY 放在左边、SUM 放在右边。这里展示的是输出规格，不限定内部接法。"
+
+
+msgid "terminology.term.binary.example"
+msgstr "1101 的四个位权是 8、4、2、1，所以它表示 13。4 位相加超出 15 时，低四位从 0 重新计数；是否单独输出进位，要看本关端口规格。"
+
+
+msgid "terminology.term.signal.example"
+msgstr "把输入设为 0 并运行：NOT 输出 1。改成 1 再运行：NOT 输出 0。两次都可以是正确结果。"
+
+
+msgid "terminology.term.junction.example"
+msgstr "同一输出可以驱动两个兼容输入。它们会看到相同的值。不要把两个输出接到同一个输入：那会产生多个驱动源。"
+
+
+msgid "terminology.term.register.example"
+msgstr "先用 D=1、LOAD=1 写入；再用 D=0、LOAD=0，Q 应仍为 1；最后用 D=0、LOAD=1，Q 才变成 0。"
+
+
+msgid "terminology.diagram.signal.normal"
+msgstr "0 和 1 都是正常信号值"
+
+
+msgid "terminology.diagram.binary.weights"
+msgstr "从右向左：1、2、4、8……"
+
+
+msgid "terminology.diagram.junction.join"
+msgstr "有接点：同一信号"
+
+
+msgid "terminology.diagram.junction.cross"
+msgstr "无接点：互不连接"
+
+
+msgid "terminology.diagram.state.write"
+msgstr "写入 1"
+
+
+msgid "terminology.diagram.state.hold"
+msgstr "保持"
+
+
+msgid "terminology.diagram.state.clear"
+msgstr "写入 0"
+
+
+msgid "terminology.diagram.state.sequence"
+msgstr "从左到右逐步运行，观察 Q 是否保留"
+
+msgid "terminology.future_topics"
+msgstr "查看后续知识"
+
+msgid "terminology.term.opcode.example"
+msgstr "例：A=1、B=0、CIN=0。只改变 OP1 OP0，ALU 就会对同一组数据执行不同操作。观察每个编号的 RESULT；无需改变数据输入。"
+
+msgid "terminology.diagram.opcode.example"
+msgstr "ALU 例：A=1 · B=0 · CIN=0"

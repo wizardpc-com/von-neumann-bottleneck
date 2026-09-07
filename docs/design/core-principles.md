@@ -1,6 +1,6 @@
 # Core design principles
 
-The current product contract is [DEMO_REDESIGN_BLUEPRINT.md](DEMO_REDESIGN_BLUEPRINT.md), implemented in part as described in [Demo status](../status/demo-redesign.md). ADR 0019 supersedes the earlier mandatory gate-construction, prediction/diagnosis, Apply-click, node-count and playback/review decisions. Simulation, provenance and persistence invariants remain binding. The historical prototype choices below describe the retained legacy labs, not new mainline requirements.
+The current product contract preserves original construction and the arithmetic/storage → CPU → LOAD/STORE → Chapter 1 → Chapter 2 route, with incremental improvements to presentation, interaction and learning. The user's September 5 recovery and optimization instructions supersede the replacement-mainline, optional-workshop and fixed-desktop decisions in [DEMO_REDESIGN_BLUEPRINT.md](DEMO_REDESIGN_BLUEPRINT.md) and ADR 0019. Those documents describe the retained comparison implementation. Simulation, provenance, saves and the original chapters' execution and progression rules remain binding. See [construction experience](../status/construction-experience.md).
 
 ## Settled direction
 
@@ -10,11 +10,11 @@ The current product contract is [DEMO_REDESIGN_BLUEPRINT.md](DEMO_REDESIGN_BLUEP
 - Performance feedback must be causal and legible. Metrics and animation should tell the same story because both originate from one deterministic simulation trace.
 - Hardware is modeled as hardware. In particular, Cache contents are managed by the simulation rather than manually placed by the player.
 - Complexity should be earned by validated play. A prototype may use explicit simplifications instead of suggesting realism it does not implement.
-- Setup that creates no decision should not masquerade as gameplay. The current fixed machine topology is automatic; devices remain draggable only to support visual organization.
+- Topology is a player decision in construction levels. The locality machine's fixed topology is automatic because access order and hardware configuration are that chapter's decisions.
 - Investigation should be player-directed. Profiler exposes facts and trace navigation but does not prescribe the optimized program.
-- A performance investigation should let players change a design, run and compare actual results. Predictions and explanations are voluntary; they do not gate experiments or completion.
-- Required specifications and measured facts are available without a diagnosis gate. Optional hints add reasoning in stages; reference answers require an explicit request and remain read-only.
-- A valid passing run records completion immediately. Replay and optimization remain available without a modal interruption or mandatory finding review.
+- A performance investigation lets players run and compare actual results. Chapter 1 retains its predictions and controlled comparisons; Chapter 2 retains its observation and finding-review boundaries. Editing a program still requires Apply before execution.
+- Required specifications are always accessible. Optional hints add reasoning in stages; complete references require a separate warning and confirmation and remain read-only. Chapter-specific diagnosis feedback keeps its existing reveal timing.
+- Success clearly exposes the next action. Sealing, continuing, returning to a map and chapter finding review remain explicit player choices; there is no automatic jump to the next level.
 - An observation/solution pair should preserve qualifying evidence across its level boundary. Repeating an identical baseline is setup, not a new decision; the next level should inherit that immutable receipt as its Before state.
 - One level should carry one primary cognitive task. Observation may create a question, exploration may expose a mechanism, implementation may prove a technique, and a capstone may integrate them; a short level should not attempt all four at once.
 - Prefer experience before terminology. A mechanism may first appear in concrete language such as nearby storage or active data, then enter the Systems Notebook as Cache or Working Set only after the player has observed and explained it.

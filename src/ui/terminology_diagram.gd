@@ -34,6 +34,18 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), BACKGROUND, true)
 	draw_rect(Rect2(Vector2.ZERO, size), BORDER, false, 1.0)
 	match diagram_id:
+		&"signal":
+			_draw_signal()
+		&"binary":
+			_draw_binary()
+		&"junction":
+			_draw_junction()
+		&"truth_table", &"half_adder":
+			_draw_truth_table()
+		&"register":
+			_draw_storage_steps(false)
+		&"opcode":
+			_draw_opcode()
 		&"accumulator":
 			_draw_accumulator()
 		&"multiplexer":
@@ -41,7 +53,7 @@ func _draw() -> void:
 		&"alu":
 			_draw_alu()
 		&"sr_latch":
-			_draw_sr_latch()
+			_draw_storage_steps(true)
 		&"decoder":
 			_draw_decoder()
 		&"serialization":
@@ -109,25 +121,90 @@ func _draw_alu() -> void:
 	_draw_text(Rect2(alu.end.x + 12.0, alu.get_center().y + 2.0, size.x - alu.end.x - 30.0, 24.0), "9", TEXT, 19)
 
 
-func _draw_sr_latch() -> void:
-	var gate_size := Vector2(minf(150.0, size.x * 0.28), 62.0)
-	var gate_x: float = (size.x - gate_size.x) * 0.5
-	var upper := Rect2(Vector2(gate_x, 32.0), gate_size)
-	var lower := Rect2(Vector2(gate_x, size.y - gate_size.y - 32.0), gate_size)
-	_draw_box(upper, "NOR", _t(&"terminology.diagram.sr_latch.set_path"), ACCENT)
-	_draw_box(lower, "NOR", _t(&"terminology.diagram.sr_latch.reset_path"), ACCENT)
-	_draw_text(Rect2(14.0, 44.0, gate_x - 32.0, 24.0), "S = 1", GOOD, 15)
-	_draw_text(Rect2(14.0, lower.position.y + 12.0, gate_x - 32.0, 24.0), "R = 0", TEXT, 15)
-	_draw_arrow(Vector2(gate_x - 12.0, upper.get_center().y), _left_center(upper), GOOD)
-	_draw_arrow(Vector2(gate_x - 12.0, lower.get_center().y), _left_center(lower), MUTED)
-	_draw_arrow(_right_center(upper), Vector2(size.x - 18.0, upper.get_center().y), GOOD)
-	_draw_arrow(_right_center(lower), Vector2(size.x - 18.0, lower.get_center().y), MUTED)
-	_draw_text(Rect2(upper.end.x + 12.0, upper.position.y + 4.0, size.x - upper.end.x - 28.0, 24.0), "Q = 1", GOOD, 16)
-	_draw_text(Rect2(lower.end.x + 12.0, lower.position.y + 4.0, size.x - lower.end.x - 28.0, 24.0), "Q̅ = 0", MUTED, 16)
-	var loop_x: float = size.x * 0.76
-	_draw_polyline(PackedVector2Array([Vector2(upper.end.x, upper.end.y - 13.0), Vector2(loop_x, upper.end.y - 13.0), Vector2(loop_x, lower.position.y + 13.0), Vector2(lower.end.x, lower.position.y + 13.0)]), GOOD)
-	var left_loop_x: float = size.x * 0.24
-	_draw_polyline(PackedVector2Array([Vector2(lower.position.x, lower.position.y + 13.0), Vector2(left_loop_x, lower.position.y + 13.0), Vector2(left_loop_x, upper.end.y - 13.0), Vector2(upper.position.x, upper.end.y - 13.0)]), MUTED)
+func _draw_signal() -> void:
+	for state: int in [0, 1]:
+		var center := Vector2(size.x * (0.27 if state == 0 else 0.73), 103.0)
+		var color: Color = DANGER if state == 0 else GOOD
+		var shape := PackedVector2Array([center + Vector2(-28, -22), center + Vector2(-28, 22), center + Vector2(6, 0)])
+		if state == 1:
+			draw_colored_polygon(shape, color)
+		shape.append(shape[0])
+		draw_polyline(shape, color, 2.5, true)
+		draw_line(center + Vector2(6, 0), center + Vector2(34, 0), color, 2.5, true)
+		_draw_text(Rect2(center.x - 50, 137, 100, 30), str(state), TEXT, 23)
+		_draw_text(Rect2(center.x - 85, 35, 170, 26), _t(&"hardware.signal.low" if state == 0 else &"hardware.signal.high"), color, 17)
+	_draw_text(Rect2(12, 199, size.x - 24, 26), _t(&"terminology.diagram.signal.normal"), MUTED, 14)
+
+
+func _draw_binary() -> void:
+	var cell_width: float = minf(94.0, (size.x - 70.0) / 4.0)
+	var left: float = (size.x - cell_width * 4.0) * 0.5
+	for index: int in range(4):
+		var bit: int = 0 if index == 1 else 1
+		var x: float = left + cell_width * index
+		_draw_text(Rect2(x, 30, cell_width - 8, 28), str(1 << (3 - index)), MUTED, 16)
+		_draw_box(Rect2(x, 70, cell_width - 8, 60), str(bit), "", GOOD if bit else MUTED)
+	_draw_text(Rect2(14, 156, size.x - 28, 28), "1101 = 8 + 0 + 2 + 1 = 13", TEXT, 18)
+	_draw_text(Rect2(14, 202, size.x - 28, 24), _t(&"terminology.diagram.binary.weights"), MUTED, 14)
+
+
+func _draw_junction() -> void:
+	var half: float = size.x * 0.5
+	for index: int in range(2):
+		var x: float = half * (index + 0.5)
+		draw_line(Vector2(x - 60, 106), Vector2(x + 60, 106), ACCENT, 3.0, true)
+		if index == 0:
+			draw_line(Vector2(x, 106), Vector2(x, 159), ACCENT, 3.0, true)
+			draw_circle(Vector2(x, 106), 6.0, ACCENT)
+		else:
+			draw_line(Vector2(x, 54), Vector2(x, 159), WARNING, 3.0, true)
+		_draw_text(Rect2(half * index + 8, 186, half - 16, 28), _t(&"terminology.diagram.junction.join" if index == 0 else &"terminology.diagram.junction.cross"), TEXT, 15)
+
+
+func _draw_truth_table() -> void:
+	var labels: Array[String] = ["A", "B", "AND", "OR"]
+	if diagram_id == &"half_adder":
+		labels = ["A", "B", "SUM", "CARRY"]
+	var width: float = (size.x - 32.0) / 4.0
+	for column: int in range(4):
+		_draw_text(Rect2(16 + column * width, 16, width, 30), labels[column], ACCENT, 15)
+	for row: int in range(4):
+		var a: int = row / 2
+		var b: int = row % 2
+		var values: Array[int] = [a, b, a & b, a | b]
+		if diagram_id == &"half_adder":
+			values = [a, b, (a + b) % 2, (a + b) / 2]
+		draw_rect(Rect2(16, 53 + row * 43, size.x - 32, 39), Color(PANEL if row % 2 == 0 else BACKGROUND))
+		for column: int in range(4):
+			_draw_text(Rect2(16 + column * width, 58 + row * 43, width, 28), str(values[column]), GOOD if values[column] else TEXT, 18)
+
+
+func _draw_storage_steps(latch: bool) -> void:
+	var width: float = (size.x - 74.0) / 3.0
+	var inputs: Array[String] = ["D=1  LOAD=1", "D=0  LOAD=0", "D=0  LOAD=1"]
+	if latch:
+		inputs = ["S=1  R=0", "S=0  R=0", "S=0  R=1"]
+	var actions: Array[StringName] = [&"terminology.diagram.state.write", &"terminology.diagram.state.hold", &"terminology.diagram.state.clear"]
+	for index: int in range(3):
+		var rect := Rect2(16 + index * (width + 21), 74, width, 76)
+		_draw_text(Rect2(rect.position.x - 4, 29, width + 8, 28), inputs[index], MUTED, 14)
+		_draw_box(rect, "Q = %d" % (1 if index < 2 else 0), _t(actions[index]), GOOD if index < 2 else ACCENT)
+		if index < 2:
+			_draw_arrow(_right_center(rect) + Vector2(2, 0), _right_center(rect) + Vector2(19, 0), ACCENT)
+	_draw_text(Rect2(12, 189, size.x - 24, 36), _t(&"terminology.diagram.state.sequence"), TEXT, 14)
+
+
+func _draw_opcode() -> void:
+	_draw_text(Rect2(12, 14, size.x - 24, 28), _t(&"terminology.diagram.opcode.example"), TEXT, 16)
+	var codes: Array[String] = ["00", "01", "10", "11"]
+	var operations: Array[String] = ["AND", "OR", "ADD", "NOT A"]
+	var results: Array[int] = [0, 1, 1, 0]
+	for row: int in range(4):
+		var y: float = 55 + row * 43
+		draw_rect(Rect2(18, y, size.x - 36, 38), PANEL)
+		_draw_text(Rect2(25, y + 4, size.x * 0.22, 30), codes[row], ACCENT, 17)
+		_draw_text(Rect2(size.x * 0.32, y + 4, size.x * 0.30, 30), operations[row], TEXT, 16)
+		_draw_text(Rect2(size.x * 0.64, y + 4, size.x * 0.31, 30), "RESULT = %d" % results[row], GOOD if results[row] else TEXT, 16)
 
 
 func _draw_decoder() -> void:

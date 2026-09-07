@@ -2,6 +2,7 @@ class_name LevelCompletionOverlay
 extends Control
 
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
+const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
 
 signal continue_requested(level_id: StringName)
 signal primary_action_requested(level_id: StringName)
@@ -33,6 +34,8 @@ var chapter_label: Label
 var title_label: Label
 var level_label: Label
 var summary_label: Label
+var next_capability_label: Label
+var feedback_toggle: Button
 var continue_button: Button
 var primary_action_button: Button
 var return_button: Button
@@ -59,10 +62,20 @@ func _build_interface() -> void:
 	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(backdrop)
 
+	var frame := MarginContainer.new()
+	frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for edge: String in ["left", "right", "top", "bottom"]:
+		frame.add_theme_constant_override("margin_" + edge, 24)
+	add_child(frame)
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	frame.add_child(scroll)
 	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(center)
+	scroll.add_child(center)
 
 	panel = PanelContainer.new()
 	panel.name = "LevelCompletionPanel"
@@ -91,6 +104,7 @@ func _build_interface() -> void:
 	title_label.text = Localization.text(&"common.level_complete.title")
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title_label.add_theme_color_override("font_color", GOOD)
 	column.add_child(title_label)
 
@@ -98,6 +112,7 @@ func _build_interface() -> void:
 	level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	level_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	level_label.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	level_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	level_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(level_label)
 
@@ -107,6 +122,7 @@ func _build_interface() -> void:
 	var learned := Label.new()
 	learned.text = Localization.text(&"common.level_complete.learned")
 	learned.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	learned.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	learned.add_theme_color_override("font_color", ACCENT)
 	column.add_child(learned)
 
@@ -117,6 +133,29 @@ func _build_interface() -> void:
 	summary_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	summary_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(summary_label)
+	var next_panel := PanelContainer.new()
+	next_panel.name = "NextCapability"
+	next_panel.add_theme_stylebox_override("panel", _stylebox(Color("172c3b"), ACCENT.darkened(0.4), 8, 1))
+	next_capability_label = Label.new()
+	next_capability_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	next_capability_label.custom_minimum_size.y = 76.0
+	next_capability_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	next_capability_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	var next_margin := MarginContainer.new()
+	next_margin.add_theme_constant_override("margin_left", 16)
+	next_margin.add_theme_constant_override("margin_right", 16)
+	next_margin.add_theme_constant_override("margin_top", 10)
+	next_margin.add_theme_constant_override("margin_bottom", 10)
+	next_margin.add_child(next_capability_label)
+	next_panel.add_child(next_margin)
+	column.add_child(next_panel)
+	feedback_toggle = Button.new()
+	feedback_toggle.name = "ShowLevelFeedback"
+	feedback_toggle.text = Localization.text(&"playtest.level_feedback.open")
+	feedback_toggle.toggle_mode = true
+	feedback_toggle.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	feedback_toggle.toggled.connect(func(expanded: bool) -> void: feedback_box.visible = expanded)
+	column.add_child(feedback_toggle)
 
 	feedback_box = VBoxContainer.new()
 	feedback_box.name = "LevelFeedbackBox"
@@ -124,6 +163,7 @@ func _build_interface() -> void:
 	var feedback_title := Label.new()
 	feedback_title.text = Localization.text(&"playtest.level_feedback.title")
 	feedback_title.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	feedback_title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	feedback_title.add_theme_color_override("font_color", PURPLE)
 	feedback_box.add_child(feedback_title)
 	var feedback_hint := Label.new()
@@ -194,11 +234,16 @@ func present(
 	title_label.text = Localization.text(&"common.level_complete.title")
 	level_label.text = level_title
 	summary_label.text = summary
+	var next_key: StringName = MissionNarrativeCatalogType.next_capability_key(chapter_id, level_id)
+	next_capability_label.text = Localization.text(next_key) if not next_key.is_empty() else ""
+	next_capability_label.get_parent().get_parent().visible = not next_key.is_empty()
 	continue_button.text = Localization.text(&"common.level_complete.continue")
 	primary_action_button.hide()
 	return_button.hide()
-	feedback_box.visible = questionnaire_enabled
-	panel.custom_minimum_size = Vector2(760.0, 650.0) if questionnaire_enabled else Vector2(660.0, 430.0)
+	feedback_toggle.visible = questionnaire_enabled
+	feedback_toggle.set_pressed_no_signal(false)
+	feedback_box.hide()
+	panel.custom_minimum_size = Vector2(760.0, 510.0) if questionnaire_enabled else Vector2(700.0, 470.0)
 	_reset_feedback()
 	show()
 	continue_button.grab_focus()
@@ -217,6 +262,7 @@ func present_actions(
 	) -> void:
 	present(level_id, level_title, summary, chapter, chapter_id)
 	feedback_box.hide()
+	feedback_toggle.hide()
 	panel.custom_minimum_size = Vector2(700.0, 470.0)
 	primary_action_button.text = primary_text
 	primary_action_button.show()

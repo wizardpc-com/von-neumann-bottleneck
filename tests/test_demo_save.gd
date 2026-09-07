@@ -13,7 +13,11 @@ func check(condition: bool, message: String) -> void:
 		push_error(message)
 
 func write(path: String, value: String) -> void:
+	check(DirAccess.make_dir_recursive_absolute(path.get_base_dir()) == OK, "Fixture directory is available in a fresh checkout.")
 	var file := FileAccess.open(path, FileAccess.WRITE)
+	check(file != null, "Save fixture can be written.")
+	if file == null:
+		return
 	file.store_string(value)
 	file.close()
 

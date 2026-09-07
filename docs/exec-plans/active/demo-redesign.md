@@ -1,6 +1,6 @@
 # Demo redesign — M0 through M5
 
-Status: active, 2026-09-05. Approved product contract: `docs/design/DEMO_REDESIGN_BLUEPRINT.md`.
+Status: stopped and superseded, 2026-09-05. No further eight-task redesign is authorized. The implemented version remains available for comparison. Current work: [original experience recovery](../completed/in-place-recovery.md). The plan below is historical.
 
 ## Goal and boundaries
 

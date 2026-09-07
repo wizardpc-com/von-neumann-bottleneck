@@ -4,11 +4,11 @@
 
 **Project status:** early prototype / playable demo. This repository is not a complete game, a production-ready release, or a promise that the current progression and presentation are final.
 
-Von Neumann Bottleneck is a construction and optimization puzzle about computer data flow. Connect a working machine, run the task, then change where data goes and when it is reused to reduce waiting. The new eight-task mainline uses standard modules; deep gate construction is an optional workshop.
+Von Neumann Bottleneck is a construction and optimization puzzle about computer data flow. Connect a working machine, run the task, then change where data goes and when it is reused to reduce waiting. The default route builds arithmetic and storage circuits into a computer, then investigates and reduces data movement.
 
 ## Core idea
 
-- **Construct:** connect standard modules in the mainline; optionally build arithmetic and storage from gates in the workshop.
+- **Construct:** build arithmetic and storage from gates, seal working components, then connect them into a CPU.
 - **Observe:** follow authoritative simulation events through the components and routes shown on screen.
 - **Optimize:** compare computation, waiting and data movement, then improve the program or the parts within the task's limits.
 
@@ -16,36 +16,38 @@ The models are deliberately bounded teaching models. They make costs and causal 
 
 ## Playable Demo
 
-**Start game** follows eight tasks: source selection → staged storage → CPU comparison → RAM/Bus upgrades → cache reuse → access order → grouping → final optimization. **Continue game** restores the task, stage and draft. Hardware workshop and legacy records are secondary entries; they retain existing player-built designs and independent saves.
+Open **Hardware Foundations** from the default chapter hub. The original route is Tutorial → arithmetic/storage branches → CPU → LOAD/STORE → Chapter 1 → Chapter 2. Named designs, free editing, floating Mission and independent progressive hints are available in ordinary Game. The eight-task comparison remains a secondary entry with separate progress.
 
-The [redesign status](docs/status/demo-redesign.md) records behavior, calibrated results, save boundaries, fresh verification and the remaining UI/human acceptance items. This is a playable implementation of all eight tasks, not a claim that every blueprint polish criterion or human playtest has passed.
+The [visual and learning status](docs/status/visual-learning-polish.md) records the current package, compact signal symbols, aligned component previews, shared instrument styling and progressively unlocked illustrated Handbook. The [construction experience](docs/status/construction-experience.md) and [recovery record](docs/status/in-place-recovery.md) preserve the earlier editing, Mission and progression work. Native desktop and novice acceptance remain open.
 
 ## Screenshots
 
 <table>
   <tr>
     <td width="50%" valign="top">
-      <img src="docs/images/demo-menu.png" alt="Mainline start and optional workshop" width="100%">
-      <br><sub>Mainline menu — Start, Continue and optional workshop.</sub>
+      <img src="docs/images/polish-export.png" alt="Exported original chapter hub" width="100%">
+      <br><sub>Original chapter hub — construction, systems and data movement.</sub>
     </td>
     <td width="50%" valign="top">
-      <img src="docs/images/demo-circuit.png" alt="Mainline standard-module circuit workspace" width="100%">
-      <br><sub>Mainline circuit — visible player wiring and state.</sub>
+      <img src="docs/images/polish-mission.png" alt="Movable task specifications and compact input symbols" width="100%">
+      <br><sub>Mission — explicit goals, specification sections and Start Building.</sub>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <img src="docs/images/demo-cpu.png" alt="CPU comparison in the fixed workspace" width="100%">
-      <br><sub>CPU comparison — computation and waiting remain distinct.</sub>
+      <img src="docs/images/polish-handbook.png" alt="Illustrated Handbook at the first lesson" width="100%">
+      <br><sub>Handbook — current concepts and diagrams, gradually opened by play.</sub>
     </td>
     <td width="50%" valign="top">
-      <img src="docs/images/demo-cache.png" alt="Program and data addresses beside cache results" width="100%">
-      <br><sub>Cache optimization — program, addresses and results together.</sub>
+      <img src="docs/images/polish-success.png" alt="CPU success and explicit next step" width="100%">
+      <br><sub>Completion — your constructed component and the next capability.</sub>
     </td>
   </tr>
 </table>
 
 ## Quick Start
+
+**Development handoff:** Mac is the primary development/playtest machine; Windows verifies compatibility and exported builds. Start with the [Mac handoff guide](docs/development/mac-handoff.md) for the current baseline, isolated verification and remaining acceptance tasks.
 
 Install **Godot 4.7.1 stable** and make its executable available as `godot` on `PATH`, then:
 
@@ -63,26 +65,33 @@ The interface defaults to Simplified Chinese. Start with the English catalog usi
 godot --path . -- --locale=en
 ```
 
-An ordinary launch enters Game mode. Mainline progress lives in `demo_progress_v1.json`, with recoverable writes and behavior replay of accepted designs. It is separate from the legacy `savegame_v1.json` index and named workshop files. Opening Start again does not delete progress. Unknown/future save formats are protected from overwrite.
+An ordinary launch enters Game mode. The original `savegame_v1.json` recovery index and `hardware_workbenches_v1.json` named designs retain their provenance checks. The comparison version keeps independent `demo_progress_v1.json` progress; its achievements cannot unlock original construction. Both save families are preserved.
 
-`--test-mode` remains development-only and uses isolated temporary progress. Use an isolated user-data directory for clean ordinary Game playtests; do not use the legacy destructive reset command to prepare a mainline playtest.
+`--test-mode` is development-only. Use isolated APPDATA/LOCALAPPDATA for clean playtests; do not clear player files to prepare a test.
 
 ## Windows friend build
 
-Install Godot 4.7.1 export templates once, then create the self-contained Windows EXE and ZIP with:
+Current package: [Windows visual/learning playtest candidate](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/playtest-polish-20260907T010358). Build `polish-20260907T010358-76ef116` uses the original chapter hub. See [verification and limits](docs/status/visual-learning-polish.md), including the distinction between rendered Game replay and native desktop acceptance.
+
+Install Godot 4.7.1 export templates once, then export into a new output directory:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-playtest.ps1 -GodotExecutable 'C:\path\to\Godot_v4.7.1-stable_win64.exe'
+$buildDirectory = 'build/windows-' + (Get-Date -Format 'yyyyMMddTHHmmss')
+New-Item -ItemType Directory -Path $buildDirectory | Out-Null
+godot_console --headless --path . --export-release 'Windows Playtest' "$buildDirectory/Von-Neumann-Bottleneck.exe"
+if ($LASTEXITCODE -ne 0) { throw 'Godot export failed' }
+Copy-Item distribution/PLAYTEST-README.txt, assets/fonts/OFL-NotoSansSC.txt -Destination $buildDirectory
+Compress-Archive -Path "$buildDirectory/*" -DestinationPath "$buildDirectory.zip"
 ```
 
-The script writes `build/playtest/Von-Neumann-Bottleneck.exe` and `build/Von-Neumann-Bottleneck-Windows-Playtest.zip`. Friends only need to extract the ZIP and double-click the EXE; Godot and the repository are not required on their machine. See [`distribution/PLAYTEST-README.txt`](distribution/PLAYTEST-README.txt).
+Use a current build identifier and matching README before distribution; keep the source commit and package hashes. Friends only need to extract the ZIP and double-click the EXE; Godot and the repository are not required on their machine. See [`distribution/PLAYTEST-README.txt`](distribution/PLAYTEST-README.txt). The historical PowerShell helper replaces its fixed output folder; use unique outputs to retain verification baselines.
 
 ## Current Status
 
 - Engine: Godot 4.7.1 stable with strongly typed GDScript.
 - Runtime presentation: built-in Godot UI, graph controls, and procedural drawing; no external addons or asset pipeline.
 - Simulation: deterministic, UI-independent results and traces; animation timing does not affect outcomes.
-- Content: eight implemented mainline tasks, optional hardware workshop and retained legacy labs; human playtest acceptance remains open.
+- Content: original construction prologue and two optimization chapters; the eight-task comparison is retained. Shared schematic/editing improvements, structured construction specifications and 21 next-capability previews are implemented; physical mouse feel and novice acceptance remain open.
 - Localization: Simplified Chinese by default, with an English catalog as the first alternate locale.
 - Verification: addon-free local simulation and UI suites are documented, but the repository does not yet have a GitHub Actions workflow.
 

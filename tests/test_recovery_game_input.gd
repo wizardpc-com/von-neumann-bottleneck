@@ -568,6 +568,8 @@ func official_and_seal() -> void:
 func enter_level(id: StringName) -> void:
 	check(ui.current_phase == &"campaign" and not ui.campaign_level_buttons[id].disabled, "%s is unlocked by actual prior Game builds." % id)
 	await press(ui.campaign_level_buttons[id])
+	check(ui.mission_briefing_panel.find_child("SignalGuide", true, false) != null, "Mission explains this lesson's signal widths before construction.")
+	await capture(String(id) + "-signal-guide")
 	await dismiss_briefing()
 	await close_window(&"task")
 	await close_window(&"test_bench")

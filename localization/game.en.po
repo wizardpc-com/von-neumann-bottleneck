@@ -952,7 +952,7 @@ msgid "hardware.briefing.cpu.1"
 msgstr "Join parts that calculate and remember into a computer that follows instructions.\n\nInputs: OPCODE[2] selects an action; ARG[4] is a number supplied by the instruction; ADDR[1] selects memory.\nOutputs: ACC[4] is the number in the accumulator; MEM[4] is the selected memory value. Four-bit values range from 0 to 15; overflow keeps the low four bits.\n\nImplement the four actions in the instruction table. Use milestones to inspect parts of your circuit in any order. Pass the complete seven-step program to seal TinyComputer."
 
 msgid "hardware.briefing.cpu.2"
-msgstr "The 2-bit OPCODE maps exactly to one operation:\n\n00 LOAD_IMM — ARG[4] to ACC\n01 ADD_IMM — ACC + ARG[4] to ACC\n10 LOAD_MEM — RAM[ADDR] to ACC\n11 STORE_MEM — ACC to RAM[ADDR]\n\nIMM is an [[immediate|immediate value]] carried inside the instruction."
+msgstr "The Test Bench input OP is the 2-bit operation code (OPCODE). The large number and the two cells below show the same code:\n\n0 = 00  LOAD_IMM  — copy ARG[4] into ACC\n1 = 01  ADD_IMM   — add ARG[4] to ACC\n2 = 10  LOAD_MEM  — copy RAM[ADDR] into ACC\n3 = 11  STORE_MEM — copy ACC into RAM[ADDR]\n\nIMM is the [[immediate|immediate value]] written in the instruction."
 
 msgid "hardware.briefing.cpu.3"
 msgstr "Module specifications: ALU performs 4-bit arithmetic. ACC stores its input when LOAD=1 and holds when LOAD=0. RAM reads the row at ADDR and writes when WRITE=1. A MUX selects one of two 4-bit inputs using SEL.\n\nController reads 2-bit OPCODE and produces four 1-bit controls: SOURCE_SEL, RESULT_SEL, ACC_LOAD, MEM_WRITE. Click a module body for its port and selection rules; these are task specifications."
@@ -1120,10 +1120,10 @@ msgid "hardware.challenge.hint"
 msgstr "If you get stuck, return to the [[truth_table|truth table]]: CARRY is 1 only for 11, while SUM is 1 only for 01 and 10. Debug shows which input fails without giving away the wiring."
 
 msgid "hardware.test_bench.signal.placeholder"
-msgstr "Click a signal: outlined 0 · filled 1."
+msgstr "Click to switch between 0 and 1; a lit cell means 1."
 
 msgid "hardware.test_bench.signal.placeholder_general"
-msgstr "Outlined 0 · filled 1. Type a number for wider inputs."
+msgstr "Click a single-bit input to toggle it. Enter multi-bit values in decimal; the cells update below."
 
 msgid "hardware.signal.low"
 msgstr "LOW"
@@ -3684,13 +3684,13 @@ msgid "terminology.term.bit.title"
 msgstr "Bit"
 
 msgid "terminology.term.bit.body"
-msgstr "One bit holds either 0 or 1, like a lamp that is off or on.\n\nCombine bits to represent more values. Four bits have 16 possible states, from 0 to 15. A port's width tells you how many bits it carries at once."
+msgstr "One bit can be 0 or 1, like a light that is off or on. On the canvas, a dark cell is 0 and a lit cell is 1.\n\nWidth counts the cells carried together, not the current value: amber 1-bit carries 0–1, violet 2-bit carries 0–3, and blue 4-bit carries 0–15. Badges also state the count, so color is never the only cue."
 
 msgid "terminology.term.binary.title"
 msgstr "Binary"
 
 msgid "terminology.term.binary.body"
-msgstr "Binary writes numbers using only 0 and 1. From right to left, the places are worth 1, 2, 4, 8, and so on.\n\nAdd a place's value when its bit is 1; skip it when its bit is 0. Leading zeroes do not change the number: 0011 and 11 both mean decimal 3."
+msgstr "A row of zeros and ones can represent a larger number. Four cells count 8, 4, 2, 1 from left to right. Add the values of the lit cells to get the large decimal number on the canvas.\n\n0100 lights only the cell worth 4, so its value is 4. 1101 means 8+4+1, or 13. Leading zeros still occupy bits.\n\nThe 0x prefix in test records means hexadecimal: 0x4 also means 4, and 0xC means 12, or 1100. These are different ways to write the same value, not extra data."
 
 msgid "terminology.term.signal.title"
 msgstr "Signal"
@@ -4985,3 +4985,27 @@ msgstr "ENCAPSULATING"
 
 msgid "hardware.encapsulation.description"
 msgstr "Saving your verified circuit as a reusable component"
+
+msgid "signal.width"
+msgstr "%d bit"
+
+msgid "signal.width.range"
+msgstr "%d bits can represent 0–%d. Width counts the cells, not the current value."
+
+msgid "signal.bit.weight"
+msgstr "When lit, this cell adds %d to the value."
+
+msgid "signal.input.decimal"
+msgstr "Enter a decimal number from 0 to %d. The lit cells below show its bits."
+
+msgid "signal.guide.open"
+msgstr "Read the bits and values"
+
+msgid "signal.guide.basic"
+msgstr "Each cell is one bit: dark is 0, lit is 1. Match the counts on the width badges. Red/green endpoints show the current 0/1, not width."
+
+msgid "signal.guide.word"
+msgstr "The four cells count 8, 4, 2, 1. Add the lit cells to get the large number (0100 = 4). Match width badges; red/green endpoints only show the current 0/1."
+
+msgid "signal.range"
+msgstr "range 0–%d"

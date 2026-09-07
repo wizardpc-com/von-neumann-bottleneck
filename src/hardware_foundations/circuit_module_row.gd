@@ -1,6 +1,8 @@
 class_name CircuitModuleRow
 extends Control
 
+const SignalNotationType = preload("res://src/ui/signal_notation.gd")
+
 const SURFACE := Color("192b40")
 const SYMBOL := Color("d7e9f6")
 const PROCESS := Color("50d5ff")
@@ -308,7 +310,7 @@ func _draw_pin_direction(tip: Vector2) -> void:
 func _draw_port_labels() -> void:
 	for layout: Dictionary in port_label_layouts():
 		_draw_text(
-			layout["anchor"], layout["text"], SYMBOL,
+			layout["anchor"], layout["text"], SignalNotationType.width_color(input_width if layout["side"] == &"input" else output_width),
 			layout["alignment"], int(layout["font_size"])
 		)
 
@@ -633,7 +635,7 @@ func _stage_strength(start: float, finish: float) -> float:
 
 func _width_label(label: String, width: int) -> String:
 	var compact: String = _compact_port_label(label)
-	return "%s[%d]" % [compact, maxi(1, width)]
+	return "%s %s" % [compact, SignalNotationType.width_text(maxi(1, width))]
 
 
 func _compact_port_label(label: String) -> String:

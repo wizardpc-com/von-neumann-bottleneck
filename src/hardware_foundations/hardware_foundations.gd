@@ -18,6 +18,7 @@ const PrologueSimulatorType = preload("res://src/circuit/prologue_simulator.gd")
 const ReusableComponentType = preload("res://src/circuit/reusable_component.gd")
 const CircuitGraphEditType = preload("res://src/hardware_foundations/circuit_graph_edit.gd")
 const CircuitTraceOverlayType = preload("res://src/hardware_foundations/circuit_trace_overlay.gd")
+const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 const CircuitComponentSymbolType = preload("res://src/hardware_foundations/circuit_component_symbol.gd")
 const CircuitModuleRowType = preload("res://src/hardware_foundations/circuit_module_row.gd")
 const CircuitModuleThumbnailType = preload("res://src/hardware_foundations/circuit_module_thumbnail.gd")
@@ -1296,6 +1297,8 @@ func _show_mission_briefing_page() -> void:
 	mission_briefing_panel.add_child(body)
 	body.add_theme_font_size_override("normal_font_size", UiTypographyType.BODY_SIZE)
 	body.set_linked_text(_mission_briefing_body(mission_briefing_page))
+	if mission_briefing_page == 0:
+		mission_briefing_panel.add_child(SignalNotationType.guide(_lesson_signal_widths()))
 	if current_level_id == &"half_adder" and mission_briefing_page == 1:
 		body.size_flags_vertical = Control.SIZE_FILL
 		mission_briefing_panel.add_child(_build_half_adder_specification())
@@ -1448,7 +1451,7 @@ func _layout_mission_briefing() -> void:
 	var bench_window: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
 	var bench_size := Vector2(
 		clampf(area.x * 0.25, 360.0, 430.0),
-		clampf(area.y * 0.56, 320.0, 420.0)
+		clampf(area.y * 0.90, 360.0, 560.0) if current_phase == &"prologue" else clampf(area.y * 0.56, 320.0, 420.0)
 	)
 	bench_window.position = Vector2(margin, margin)
 	bench_window.size = bench_size
@@ -3155,7 +3158,7 @@ func _add_schematic_slots(
 	var row_height: float = float(metrics["row_height"])
 	var symbol := CircuitComponentSymbolType.new()
 	symbol.custom_minimum_size = Vector2(_component_node_size(component).x - 14.0, row_height)
-	symbol.configure(component.kind, String(component.signal_name), height)
+	symbol.configure(component.kind, String(component.signal_name), height, component.output_width(0) if component.kind == LogicComponentType.KIND_INPUT else component.input_width(0))
 	node.add_child(symbol)
 	if register_visuals:
 		component_symbols[component.id] = symbol
@@ -3436,13 +3439,15 @@ func _build_input_controls(include_b: bool = true) -> void:
 	signal_note.add_theme_font_size_override("font_size", 12)
 	signal_note.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(signal_note)
+	_add_signal_guide_toggle()
 	var input_row := HBoxContainer.new()
 	side_box.add_child(input_row)
 	input_a_button = SignalLevelButtonType.new()
 	input_a_button.button_pressed = false
 	input_a_button.toggled.connect(_on_test_input_toggled.bind(&"A"))
 	var a_label := Label.new()
-	a_label.text = "A"
+	a_label.text = "A · " + SignalNotationType.width_text(1)
+	a_label.add_theme_color_override("font_color", SignalNotationType.width_color(1))
 	input_row.add_child(a_label)
 	input_row.add_child(input_a_button)
 	input_b_button = SignalLevelButtonType.new()
@@ -3450,7 +3455,8 @@ func _build_input_controls(include_b: bool = true) -> void:
 	input_b_button.toggled.connect(_on_test_input_toggled.bind(&"B"))
 	input_b_button.visible = include_b
 	var b_label := Label.new()
-	b_label.text = "B"
+	b_label.text = "B · " + SignalNotationType.width_text(1)
+	b_label.add_theme_color_override("font_color", SignalNotationType.width_color(1))
 	b_label.visible = include_b
 	input_row.add_child(b_label)
 	input_row.add_child(input_b_button)
@@ -5375,7 +5381,8 @@ func _set_component_digital_port_states(
 		symbol.set_signal_state(
 			first_output.is_known(), first_output.is_known() and first_output.value != 0,
 			input_bits, input_known,
-			terminal_value.display_text() if terminal_value != null and terminal_value.width > 1 else ""
+			terminal_value.display_text() if terminal_value != null and terminal_value.width > 1 else "",
+			terminal_value.value if terminal_value != null and terminal_value.is_known() else 0
 		)
 	for port: int in range(node.get_input_port_count()):
 		var value: DigitalValue = inputs[port] if port < inputs.size() else DigitalValueType.low()
@@ -5549,6 +5556,14 @@ func _restore_graph_view_after_layout() -> void:
 		if layout_positions.has(component_id):
 			(component_nodes[component_id] as GraphNode).position_offset = layout_positions[component_id]
 	graph.scroll_offset = Vector2.ZERO
+	# Keep every starting terminal away from the wire-drag edge-pan zone.
+	# Fit the view only; preserve saved positions and existing port geometry.
+	if current_phase == &"prologue" and not hint_mode:
+		var extent := Vector2.ONE
+		for node: GraphNode in component_nodes.values():
+			extent = extent.max(node.position_offset + node.size)
+		var available: Vector2 = (graph.size - Vector2(70.0, 70.0)).max(Vector2.ONE)
+		graph.zoom = minf(graph.zoom, clampf(minf(available.x / extent.x, available.y / extent.y), graph.zoom_min, graph.zoom_max))
 
 
 func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
@@ -6515,8 +6530,6 @@ func _build_prologue_side() -> void:
 	side_box.add_child(_side_heading(
 		_t(&"hardware.prologue.bench.title"), _t(&"hardware.prologue.bench.subtitle")
 	))
-	if _is_storage_level():
-		_build_storage_monitor()
 	_build_prologue_input_controls()
 	var debug_button := Button.new()
 	debug_button.text = _t(&"hardware.cases.run_debug")
@@ -6527,6 +6540,9 @@ func _build_prologue_side() -> void:
 	debug_result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
+	_add_signal_guide_toggle()
+	if _is_storage_level():
+		_build_storage_monitor()
 	official_button = Button.new()
 	InstrumentThemeType.primary(official_button)
 	official_button.text = _t(&"hardware.cases.run_official")
@@ -6703,12 +6719,35 @@ func _observed_value_text(result: PrologueSimulationResult, signal_name: StringN
 	return value.display_text() if value != null else "—"
 
 
+func _lesson_signal_widths() -> Array[int]:
+	var widths: Array[int] = [1]
+	for component: LogicComponent in component_catalog.values():
+		for width: int in component.input_port_widths + component.output_port_widths:
+			if not widths.has(width):
+				widths.append(width)
+	widths.sort()
+	return widths
+
+
+func _add_signal_guide_toggle() -> void:
+	var button := Button.new()
+	button.text = _t(&"signal.guide.open")
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.flat = true
+	button.add_theme_color_override("font_color", ACCENT)
+	side_box.add_child(button)
+	var guide: VBoxContainer = SignalNotationType.guide(_lesson_signal_widths())
+	guide.visible = false
+	side_box.add_child(guide)
+	button.pressed.connect(func() -> void: guide.visible = not guide.visible)
+
+
 func _build_prologue_input_controls() -> void:
 	prologue_input_controls.clear()
 	var signal_note := Label.new()
 	signal_note.text = _t(&"hardware.test_bench.signal.placeholder_general")
 	signal_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	signal_note.add_theme_font_size_override("font_size", 12)
+	signal_note.add_theme_font_size_override("font_size", 13)
 	signal_note.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(signal_note)
 	var defaults: Dictionary = current_level_definition.get("debug_inputs", {})
@@ -6717,12 +6756,17 @@ func _build_prologue_input_controls() -> void:
 		if component.kind == LogicComponentType.KIND_INPUT:
 			inputs.append(component)
 	for component: LogicComponent in inputs:
+		var width: int = component.output_width(0)
 		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		var identity := VBoxContainer.new()
+		identity.custom_minimum_size.x = 90.0
 		var name_label := Label.new()
-		name_label.text = "%s · %d bit" % [component.signal_name, component.output_width(0)]
-		name_label.custom_minimum_size.x = 115.0
-		row.add_child(name_label)
-		if component.output_width(0) == 1:
+		name_label.text = String(component.signal_name)
+		identity.add_child(name_label)
+		identity.add_child(SignalNotationType.badge(width))
+		row.add_child(identity)
+		if width == 1:
 			var toggle := SignalLevelButtonType.new()
 			toggle.button_pressed = bool(defaults.get(component.signal_name, 0))
 			_update_signal_control(toggle, String(component.signal_name))
@@ -6730,14 +6774,20 @@ func _build_prologue_input_controls() -> void:
 			row.add_child(toggle)
 			prologue_input_controls[component.signal_name] = toggle
 		else:
+			var values := VBoxContainer.new()
+			row.add_child(values)
 			var value_input := SpinBox.new()
 			value_input.min_value = 0
-			value_input.max_value = DigitalValueType.mask_for_width(component.output_width(0))
+			value_input.max_value = DigitalValueType.mask_for_width(width)
 			value_input.step = 1
 			value_input.value = int(defaults.get(component.signal_name, 0))
-			value_input.custom_minimum_size.x = 105.0
+			value_input.custom_minimum_size.x = 120.0
+			value_input.tooltip_text = _t(&"signal.input.decimal", [int(value_input.max_value)])
 			value_input.value_changed.connect(_on_prologue_word_changed.bind(component.signal_name))
-			row.add_child(value_input)
+			values.add_child(value_input)
+			var bit_row: HBoxContainer = SignalNotationType.value_row(width, int(value_input.value))
+			values.add_child(bit_row)
+			value_input.value_changed.connect(func(value: float) -> void: SignalNotationType.refresh_value_row(bit_row, width, int(value)))
 			prologue_input_controls[component.signal_name] = value_input
 		side_box.add_child(row)
 
@@ -7670,6 +7720,9 @@ func _component_tooltip(component: LogicComponent) -> String:
 			description = _t(StringName("hardware.tooltip.%s" % String(component.kind)))
 			if description == "hardware.tooltip.%s" % String(component.kind):
 				description = "%s — %s" % [component.display_name, _t(&"hardware.tooltip.logic_component")]
+	if component.kind in [LogicComponentType.KIND_INPUT, LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP]:
+		var width: int = component.output_width(0) if component.kind == LogicComponentType.KIND_INPUT else component.input_width(0)
+		description = String(component.signal_name) + " · " + SignalNotationType.width_text(width) + "\n" + description + "\n" + _t(&"signal.width.range", [width, (1 << width) - 1])
 	return description
 
 

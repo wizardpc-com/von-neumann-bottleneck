@@ -952,7 +952,7 @@ msgid "hardware.briefing.cpu.1"
 msgstr "把会算、会记的元件组成一台按指令工作的计算机。\n\n输入：OPCODE[2] 选择动作；ARG[4] 是指令给出的数；ADDR[1] 选择内存地址。\n输出：ACC[4] 是累加器当前的数，MEM[4] 是当前地址的数。四位数范围为 0～15，超出时只保留低四位。\n\n任务：实现指令表中的四种动作。关内阶段可分段检查，接线顺序自由；完整 7 步程序全部通过后封装 TinyComputer。"
 
 msgid "hardware.briefing.cpu.2"
-msgstr "OPCODE 是 2-bit 操作码，它与操作一一对应：\n\n00  LOAD_IMM  —— ARG[4] 写入 ACC\n01  ADD_IMM   —— ACC + ARG[4] 写回 ACC\n10  LOAD_MEM  —— RAM[ADDR] 写入 ACC\n11  STORE_MEM —— ACC 写入 RAM[ADDR]\n\nIMM 是写在指令里的[[immediate|立即数]]。"
+msgstr "测试台上的 OP 是 2 位操作码（OPCODE）。大号数值与下方两格表示同一个代码：\n\n0 = 00  LOAD_IMM  —— ARG[4] 写入 ACC\n1 = 01  ADD_IMM   —— ACC + ARG[4] 写回 ACC\n2 = 10  LOAD_MEM  —— RAM[ADDR] 写入 ACC\n3 = 11  STORE_MEM —— ACC 写入 RAM[ADDR]\n\nIMM 是写在指令里的[[immediate|立即数]]。"
 
 msgid "hardware.briefing.cpu.3"
 msgstr "模块规格：ALU 执行 4-bit 运算；ACC 在 LOAD=1 时保存输入，LOAD=0 时保持；RAM 根据 ADDR 读出一行，WRITE=1 时写入。MUX 按 SEL 在两个 4-bit 输入间选择。\n\nController 读取 2-bit OPCODE，输出四个 1-bit 控制信号：SOURCE_SEL、RESULT_SEL、ACC_LOAD、MEM_WRITE。点击元件主体查看各端口的选择规则；这些是题目规格。"
@@ -1120,10 +1120,10 @@ msgid "hardware.challenge.hint"
 msgstr "卡住时回想[[truth_table|真值表]]：CARRY 只在 11 时为 1；SUM 只在 01、10 时为 1。单次调试会指出哪一组输入不对，但不会直接给线路答案。"
 
 msgid "hardware.test_bench.signal.placeholder"
-msgstr "点击符号切换输入：空心 0 · 实心 1。"
+msgstr "点击切换 0 / 1；亮格表示 1。"
 
 msgid "hardware.test_bench.signal.placeholder_general"
-msgstr "空心 0 · 实心 1；多位输入可直接输入数值。"
+msgstr "一位输入点击切换；多位输入填写十进制数，下方位格同步显示。"
 
 msgid "hardware.signal.low"
 msgstr "低"
@@ -3684,13 +3684,13 @@ msgid "terminology.term.bit.title"
 msgstr "比特（bit）"
 
 msgid "terminology.term.bit.body"
-msgstr "一位（bit）只能保存 0 或 1，像一盏只有灭、亮两种状态的灯。\n\n把多位放在一起，就能表示更多数值。4 位可以表示 0～15，共 16 种状态；每个端口旁的位宽告诉你它一次传递几位。"
+msgstr "一位（bit）只能是 0 或 1，像一盏只有灭、亮两种状态的灯。画布上暗格是 0，亮格是 1。\n\n位宽就是一起传递的格子数，不是当前数值：琥珀色 1 位表示 0～1，紫色 2 位表示 0～3，蓝色 4 位表示 0～15。色标也写出位数，不需要仅靠颜色判断。"
 
 msgid "terminology.term.binary.title"
 msgstr "二进制（Binary）"
 
 msgid "terminology.term.binary.body"
-msgstr "二进制只用 0 和 1 写数。从右往左，每一位代表 1、2、4、8……\n\n某一位是 1，就加上那一位的数值；是 0，就不加。前导 0 不改变数值：0011 和 11 都表示十进制 3。"
+msgstr "把多个 0 和 1 排成一行，就能表示更大的数。四个位格从左到右代表 8、4、2、1。把亮格对应的数相加，就是画布上的大号十进制数。\n\n0100 只有代表 4 的格子亮，所以是 4；1101 是 8+4+1，也就是 13。前面的 0 仍占一位。\n\n测试记录中的 0x 表示十六进制：0x4 也是 4；0xC 是 12，位格为 1100。它们只是同一个值的不同写法，不是额外的数据。"
 
 msgid "terminology.term.signal.title"
 msgstr "信号（Signal）"
@@ -4985,3 +4985,27 @@ msgstr "正在封装"
 
 msgid "hardware.encapsulation.description"
 msgstr "将验证通过的电路保存为可复用元件"
+
+msgid "signal.width"
+msgstr "%d 位"
+
+msgid "signal.width.range"
+msgstr "%d 位：可表示 0～%d。位宽是格子数量，不是当前数值。"
+
+msgid "signal.bit.weight"
+msgstr "这一格亮起时，给数值加 %d。"
+
+msgid "signal.input.decimal"
+msgstr "输入十进制数 0～%d；下方亮格显示它由哪些位组成。"
+
+msgid "signal.guide.open"
+msgstr "读懂位格与数值"
+
+msgid "signal.guide.basic"
+msgstr "每格是一位：暗格 0，亮格 1。按色标上的位数匹配端口；端点的红绿表示当前 0/1，不是位宽。"
+
+msgid "signal.guide.word"
+msgstr "四格从左到右代表 8、4、2、1；亮格相加就是大号数值（0100 = 4）。按色标位数匹配端口；端点红绿只表示当前 0/1。"
+
+msgid "signal.range"
+msgstr "范围 0～%d"

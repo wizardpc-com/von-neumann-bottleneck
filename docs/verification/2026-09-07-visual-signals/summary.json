@@ -1,0 +1,86 @@
+{
+  "completed_local_date": "2026-09-08",
+  "base_commit": "389a4ef",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "macOS Apple M2 / Retina 2x / OpenGL 4.1 Metal 90.5",
+  "change": "Names above terminal bodies; decimal values with one visible cell per bit; explicit amber 1-bit, violet 2-bit and blue 4-bit width badges; early Mission explanation, Handbook examples and synchronized Test Bench values.",
+  "invariants": "Original terminal size and port positions retained. No simulation, canonical value encoding, progression, official test cases, saved circuit schema, provenance, wire colors or independent Hint changes.",
+  "final_checks": {
+    "isolated_run": ".godot/verification/20260907T155626Z-272f42d3",
+    "import_and_actual_user_directory_probe": "PASS",
+    "all_20_suites": "PASS",
+    "english_ordinary_game_input_replay": "581 checks / 0 failures / PASS",
+    "scope": "Exact final runtime and test sources, including the final one-cell input toggle drawing. All source hashes below match the tested snapshot.",
+    "inspected_capture": "cpu-guide-en-final.png",
+    "log_note": "macOS emitted an IMKCFRunLoopWakeUpReliable mach-port message; no Godot script/resource errors or failed checks."
+  },
+  "chinese_checks": {
+    "isolated_complete_run": ".godot/verification/20260907T152525Z-9af2c269",
+    "all_20_suites_and_game_replay": "PASS / 581 checks / 0 failures; before final Test Bench ordering and toggle drawing follow-ups",
+    "latest_game_preparation_log": ".godot/mac-playtest/native-signal-bench.log",
+    "latest_game_preparation_result": "581 checks / 0 failures; includes final Test Bench order and height, differs from final runtime only in single-bit toggle artwork",
+    "scope": "Ordinary Game viewport-input preparation of earned prerequisites, not a claim of native hand construction."
+  },
+  "native_checks": [
+    {
+      "scene": "Tutorial",
+      "source": "Exact final source from 20260907T155626Z-272f42d3",
+      "log": ".godot/mac-playtest/native-signal-toggle.log",
+      "actions": "Entered ordinary Game through the hub with a fresh isolated player directory; clicked Start Building; hand-wired A to NOT to LAMP; input 1 and Run produced lamp 0; input 0 and Run produced lamp 1. Final toggle has one bit cell plus arrows. Windowed and fullscreen view inspected.",
+      "capture": "native-tutorial-final.png"
+    },
+    {
+      "scene": "Tutorial earlier candidate",
+      "actions": "Native two-wire construction, input toggle and Run, Command-Z and Command-Shift-Z; before terminal geometry was restored.",
+      "capture": "native-tutorial-first-pass.png"
+    },
+    {
+      "scene": "RAM value entry and focus",
+      "source": "20260907T152914Z-7ae61f4e",
+      "actions": "Used earned prerequisites from viewport-input preparation in the same process. Native decimal 4, 12, 0, 4 entry with Command-A and Return; bit rows showed 0100, 1100, 0000. Number entry retained text focus rather than triggering graph shortcuts. Native Home Focus at 150 percent and Inspector width/range inspected.",
+      "capture": "native-ram-4-before-bench-order.png"
+    },
+    {
+      "scene": "RAM write and hold",
+      "source": "20260907T154600Z-ea71ca15; final bench layout, before the last toggle glyph change",
+      "actions": "All three input controls visible at default bench height; short scroll reaches debug Run. Hand-wired DATA_IN to REG_0 data, WRITE_IN to REG_0 load, and REG_0 Q to OUT. Wrote 4, then disabled WRITE and changed DATA to 12; next debug result and stored Q remained 4. This deliberately partial debug circuit is not an official RAM solution.",
+      "capture": "native-ram-hold-before-toggle-glyph.png"
+    },
+    {
+      "scene": "CPU",
+      "source": "20260907T152914Z-7ae61f4e",
+      "actions": "Inspected first Mission width guide and decimal/binary instruction table after same-process earned prerequisite preparation. No new native full CPU construction. Final wording additionally identifies the Test Bench OP field as OPCODE.",
+      "capture": "native-cpu-instruction-table.png"
+    }
+  ],
+  "coverage": "Supported widths 1, 2, 4 exhaustively checked for decimal/bit equality and leading zeros; unknown cells do not imply known zero; real RAM result asserts decimal 12 plus 1100; input controls precede storage report; seven added Mission-first-page guide assertions.",
+  "limits": [
+    "Automated Game replay, native interaction and first-time human acceptance are distinct evidence. This increment is not release acceptance.",
+    "Windows native compatibility and physical trackpad behavior were not retested.",
+    "The computer-use tool rejected the Space key token; native Space-key behavior is not claimed as verified. Command-A, Return, Home, undo and redo coverage is scoped above.",
+    "Existing restart signature compatibility and the optional majority-vote level remain pending user approval; neither is implemented.",
+    "The existing user editor/game process was left open; the legacy product build label was not rewritten."
+  ],
+  "source_sha256": {
+    "localization/game.en.po": "1beb2dca25f26deade477b90e9927a51303895be822c3c15303dc7c396cbe40c",
+    "localization/game.zh_CN.po": "8024266f54ffad4172181632c1aed2d58df9e7ff12b6e73efb4588d9eb34154d",
+    "src/hardware_foundations/circuit_component_symbol.gd": "84f14073f2824dace9671c322ee8a73ebd6fa8e93db6d93d9ff2df4c6f2ffe79",
+    "src/hardware_foundations/circuit_module_row.gd": "c2a171167fc0891d19e8186cf1fc9722008482e5060c5eb476ab0fc5b21475e8",
+    "src/hardware_foundations/hardware_foundations.gd": "9f8ffcf71f68822d2291172ee84646c5800b83b89ab29280d6e2b38991dedcac",
+    "src/ui/signal_level_button.gd": "fe9f990bc0a586e82c3760adac97bb5e6422a2144eacbcda5d6ee1ec23ace281",
+    "src/ui/signal_notation.gd": "c56d303247931359bc62ee38b8b44bbca943db5e6a1a5ab407088655738308d6",
+    "src/ui/signal_notation.gd.uid": "ce239d5532353fa3c1aed98b7fb550de0d4c15516a4232ac7c54f46a445b9f4b",
+    "src/ui/terminology_diagram.gd": "f3c945da6bba8277674d09cf57ff3f93e69ba7e1401d93089bea6f827f10df46",
+    "tests/test_hardware_prologue_ui.gd": "467f8ba5613639a20b7d0ad1c984fa154ddebc4a844c52b193095629ddcdd21a",
+    "tests/test_recovery_game_input.gd": "76781ace60a96cbfc5275a1bd2853e9cf5260275fb3ba5115a10dd55d31d7c2c"
+  },
+  "image_sha256": {
+    "cpu-guide-en-final.png": "f97f4e42896f95850f31cfde7f24daa21e07b650cf6efa948f1b0468d4be109e",
+    "native-cpu-instruction-table.png": "d90353bbb2fa3cb75ea58a3eb524b4d516c0108ac7b2f22e92b850856e4d1f4b",
+    "native-ram-4-before-bench-order.png": "b6478296a93010d8ce8ff80669f7235313d16084e16570cbd68c3c5a084d473c",
+    "native-ram-hold-before-toggle-glyph.png": "743cec24465834cc7f4f31ea1b510d4ae9719f448e7295670bbbbd0dbddcfed3",
+    "native-tutorial-final.png": "3fb8544c80fd7644fdf66666d6e43f7fb118a2f1d5a14369bc8e7c368c31fbb2",
+    "native-tutorial-first-pass.png": "dfb1b7f96575da17eaaae5add979858840052a2c6aa43818452a83e2df176cb0",
+    "user-before.png": "aae8d838bcd66da63a3b3759ccc92fe25772e54284effdf315f1edca18db6b07"
+  }
+}

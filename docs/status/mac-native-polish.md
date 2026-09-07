@@ -278,3 +278,34 @@ subtitle fit and contained rays. Exact sources and images are recorded in the
 [verification summary](../verification/2026-09-07-encapsulation-identity/summary.json).
 These animation captures are from viewport-input replay, not claimed as a second
 manual CPU construction or a first-time human playtest.
+
+## Visual signal notation (2026-09-07)
+
+The user's DATA/WRITE screenshot showed role labels crowded inside input bodies,
+hexadecimal values without a visible bit count, and indistinguishable word and
+single-bit terminal presentation. The new notation moves terminal names above the
+body, shows decimal values and one cell per bit, and explicitly labels widths:
+amber 1 bit, violet 2 bits, blue 4 bits. Module port labels use the same width
+colors. Counts, digits and filled/empty cells carry meaning independently of color;
+existing red/green signal endpoints and player-selected wire colors remain distinct.
+
+The first Mission page explains the widths present in that lesson before building.
+The Handbook explains positional weights and hexadecimal notation, and the CPU
+instruction table pairs decimal values with their two-bit codes. Test Bench word
+inputs keep their existing SpinBox contract and show synchronized bit cells. Inputs
+and debug Run precede storage-state reports; the initial prologue bench is taller.
+Existing port positions, canonical circuit data, state transitions, official cases,
+progression and independent hints are unchanged. Initial view framing reserves
+space at the screen edge without moving saved components.
+
+The native checks and fresh isolated verification are recorded in
+[visual-signal evidence](../verification/2026-09-07-visual-signals/summary.json).
+This is a presentation and interaction increment, not release acceptance or an
+approval to migrate existing save signatures.
+
+Completed 2026-09-08: the final exact source passes all 20 isolated suites and
+581 English ordinary Game input checks. Native Tutorial hand-wiring verifies both
+1→0 and 0→1 with the single-cell toggle. Native RAM debug separately verifies
+writing 4 and holding it while the input changes to 12; CPU width and instruction
+explanations were inspected. Chinese replay passed 581 checks before the final
+toggle-only drawing change. Windows and first-time human acceptance remain open.

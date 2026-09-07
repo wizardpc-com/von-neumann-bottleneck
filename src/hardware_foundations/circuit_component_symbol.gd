@@ -1,6 +1,8 @@
 class_name CircuitComponentSymbol
 extends Control
 
+const SignalNotationType = preload("res://src/ui/signal_notation.gd")
+
 const SURFACE := Color("243a52")
 const SYMBOL := Color("d7e9f6")
 const SELECTION := Color("50d5ff")
@@ -12,6 +14,8 @@ const SIGNAL_HIGH_Z := Color("8b929d")
 var component_kind: StringName = &""
 var terminal_label: String = ""
 var terminal_display_text: String = ""
+var terminal_width: int = 1
+var terminal_numeric_value: int = 0
 var display_height: float = 46.0
 var output_known: bool = false
 var output_value: bool = false
@@ -29,9 +33,10 @@ func _ready() -> void:
 	queue_redraw()
 
 
-func configure(kind: StringName, label: String, height: float) -> void:
+func configure(kind: StringName, label: String, height: float, width: int = 1) -> void:
 	component_kind = kind
 	terminal_label = label
+	terminal_width = maxi(1, width)
 	display_height = height
 	queue_redraw()
 
@@ -41,13 +46,15 @@ func set_signal_state(
 		p_output_value: bool,
 		p_input_values: Array[bool],
 		p_input_known: Array[bool],
-		p_terminal_text: String = ""
+		p_terminal_text: String = "",
+		p_numeric_value: int = 0
 	) -> void:
 	output_known = p_output_known
 	output_value = p_output_value
 	input_values = p_input_values.duplicate()
 	input_known = p_input_known.duplicate()
 	terminal_display_text = p_terminal_text
+	terminal_numeric_value = p_numeric_value
 	queue_redraw()
 
 
@@ -129,8 +136,8 @@ func name_layout() -> Dictionary:
 			color = _stage_color(symbol_color(), 0.20, 0.78)
 		&"input":
 			text = terminal_label
-			center = Vector2(width * 0.41, display_height * 0.22)
-			max_width = 52.0
+			center = Vector2(43.0, -7.0)
+			max_width = 76.0
 			preferred_font_size = 13
 		&"constant":
 			text = str(int(output_value)) if output_known else "C"
@@ -138,8 +145,8 @@ func name_layout() -> Dictionary:
 			max_width = 24.0
 		&"output", &"lamp":
 			text = terminal_label
-			center = Vector2(width * (0.59 if component_kind == &"output" else 0.55), display_height * 0.22)
-			max_width = 58.0 if component_kind == &"output" else 42.0
+			center = Vector2(width - 43.0, -7.0)
+			max_width = 76.0
 			preferred_font_size = 13
 	if text.is_empty():
 		return {}
@@ -204,31 +211,14 @@ func visual_hit_test(point: Vector2, tolerance: float = 3.0) -> bool:
 	var width: float = size.x
 	var center_y: float = display_height * 0.5
 	match component_kind:
-		&"input":
-			var center := Vector2(width * 0.41, center_y)
-			var body := PackedVector2Array([
-				center + Vector2(-26.0, -22.0), center + Vector2(8.0, -22.0),
-				center + Vector2(26.0, 0.0), center + Vector2(8.0, 22.0),
-				center + Vector2(-26.0, 22.0),
-			])
-			return Geometry2D.is_point_in_polygon(point, body) or _near_segment(
-				point, center + Vector2(26.0, 0.0), Vector2(width, center.y), tolerance + 2.0
-			)
-		&"output":
-			var center := Vector2(width * 0.59, center_y)
-			var body := PackedVector2Array([
-				center + Vector2(-26.0, 0.0), center + Vector2(-8.0, -22.0),
-				center + Vector2(26.0, -22.0), center + Vector2(26.0, 22.0),
-				center + Vector2(-8.0, 22.0),
-			])
-			return Geometry2D.is_point_in_polygon(point, body) or _near_segment(
-				point, Vector2(0.0, center.y), center + Vector2(-26.0, 0.0), tolerance + 2.0
-			)
+		&"input", &"output":
+			var output: bool = component_kind == &"output"
+			var end := Vector2(0.0 if output else width, center_y)
+			var tip := Vector2(width - 100.0 if output else 100.0, center_y)
+			return Geometry2D.is_point_in_polygon(point, terminal_body()) or _near_segment(point, tip, end, tolerance + 2.0)
 		&"lamp":
-			var center := Vector2(width * 0.55, center_y)
-			return point.distance_to(center) <= 22.0 + tolerance or _near_segment(
-				point, Vector2(0.0, center.y), center - Vector2(22.0, 0.0), tolerance + 2.0
-			)
+			var center := Vector2(width - 43.0, center_y)
+			return point.distance_to(center) <= 23.0 + tolerance or _near_segment(point, Vector2(0.0, center_y), center - Vector2(22.0, 0.0), tolerance + 2.0)
 		&"and":
 			var left: float = width * 0.28
 			var arc_center_x: float = width * 0.56
@@ -442,25 +432,57 @@ func _draw_not() -> void:
 	)
 
 
+func terminal_body() -> PackedVector2Array:
+	var cy: float = display_height * 0.5
+	var points := PackedVector2Array([Vector2(6, cy - 21), Vector2(84, cy - 21), Vector2(100, cy), Vector2(84, cy + 23), Vector2(6, cy + 23)])
+	if component_kind == &"output":
+		for index: int in range(points.size()):
+			points[index].x = size.x - points[index].x
+	return points
+
+
 func _draw_source() -> void:
-	var width: float = size.x
-	var center := Vector2(width * 0.41, display_height * 0.5)
-	var signal_color: Color = _terminal_signal_color()
-	var body := PackedVector2Array([
-		center + Vector2(-26.0, -22.0),
-		center + Vector2(8.0, -22.0),
-		center + Vector2(26.0, 0.0),
-		center + Vector2(8.0, 22.0),
-		center + Vector2(-26.0, 22.0),
-		center + Vector2(-26.0, -22.0),
-	])
-	draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), SURFACE.lerp(signal_color, 0.12))
-	draw_polyline(body, SELECTION if selection_active else signal_color, 3.0, true)
-	_draw_output_lead(center + Vector2(26.0, 0.0), Vector2(width, center.y), signal_color)
-	_draw_processing_dot(
-		center + Vector2(12.0, 0.0), Vector2(width, center.y), 0.22, 1.0,
-		_processing_output_visual()
-	)
+	_draw_terminal_body()
+	var start := Vector2(100.0, display_height * 0.5)
+	var finish := Vector2(size.x, start.y)
+	_draw_terminal_lead(start, finish)
+	_draw_processing_dot(start, finish, 0.22, 1.0, _processing_output_visual())
+
+
+func _draw_terminal_body() -> void:
+	var body := terminal_body()
+	draw_colored_polygon(body, Color("132333"))
+	body.append(body[0])
+	draw_polyline(body, SELECTION if selection_active else SignalNotationType.width_color(terminal_width).darkened(0.25), 2.0, true)
+
+
+func _draw_terminal_lead(start: Vector2, finish: Vector2) -> void:
+	draw_line(start, finish, _terminal_signal_color(), 3.5 if terminal_width == 1 else 5.5, true)
+
+
+func _draw_width_badge() -> void:
+	var text: String = SignalNotationType.width_text(terminal_width)
+	var color: Color = SignalNotationType.width_color(terminal_width)
+	var width: float = _text_width(text, 11) + 8.0
+	var x: float = size.x - width if component_kind == &"input" else 0.0
+	var rect := Rect2(x, 0.0, width, 18.0)
+	draw_style_box(_cell_style(color.darkened(0.82), color.darkened(0.45)), rect)
+	_draw_centered(text, rect, 11, color)
+
+
+func _cell_style(fill: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.border_color = border
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(3)
+	return style
+
+
+func _draw_centered(text: String, rect: Rect2, font_size: int, color: Color) -> void:
+	var font: Font = get_theme_default_font()
+	var offset := Vector2(-font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size).x * 0.5, (font.get_ascent(font_size) - font.get_descent(font_size)) * 0.5)
+	draw_string(font, rect.get_center() + offset, text, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, color)
 
 
 func _draw_constant() -> void:
@@ -483,32 +505,21 @@ func _draw_constant() -> void:
 
 
 func _draw_observer(lamp: bool) -> void:
-	var width: float = size.x
-	var center := Vector2(width * (0.55 if lamp else 0.59), display_height * 0.5)
-	var signal_color: Color = _terminal_signal_color()
-	var entry_finish := center - Vector2(22.0 if lamp else 26.0, 0.0)
-	_draw_input_lead(Vector2(0.0, center.y), entry_finish, signal_color)
+	var center := Vector2(size.x - 43.0, display_height * 0.5)
+	var finish := Vector2(size.x - 100.0, display_height * 0.5)
 	if lamp:
-		draw_circle(center, 22.0, SURFACE.lerp(signal_color, 0.12))
-		draw_circle(center, 22.0, SELECTION if selection_active else signal_color, false, 3.0, true)
-		for index: int in range(8):
-			var direction := Vector2.from_angle(float(index) * TAU / 8.0)
-			draw_line(center + direction * 25.0, center + direction * 29.0, signal_color, 2.5, true)
+		finish = center - Vector2(23.0, 0.0)
+		var lit: bool = not input_known.is_empty() and input_known[0] and not input_values.is_empty() and input_values[0]
+		draw_circle(center, 23.0, Color("234238") if lit else Color("132333"))
+		draw_circle(center, 23.0, SELECTION if selection_active else SignalNotationType.width_color(1), false, 2.0, true)
+		if lit:
+			for index: int in range(8):
+				var direction := Vector2.from_angle(float(index) * TAU / 8.0)
+				draw_line(center + direction * 26.0, center + direction * 29.0, SIGNAL_HIGH, 2.0, true)
 	else:
-		var body := PackedVector2Array([
-			center + Vector2(-26.0, 0.0),
-			center + Vector2(-8.0, -22.0),
-			center + Vector2(26.0, -22.0),
-			center + Vector2(26.0, 22.0),
-			center + Vector2(-8.0, 22.0),
-			center + Vector2(-26.0, 0.0),
-		])
-		draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), SURFACE.lerp(signal_color, 0.12))
-		draw_polyline(body, SELECTION if selection_active else signal_color, 3.0, true)
-	_draw_processing_dot(
-		Vector2(0.0, center.y), center - Vector2(2.0, 0.0), 0.0, 0.76,
-		_processing_input_visual(0)
-	)
+		_draw_terminal_body()
+	_draw_terminal_lead(Vector2(0.0, display_height * 0.5), finish)
+	_draw_processing_dot(Vector2(0.0, display_height * 0.5), finish, 0.0, 0.76, _processing_input_visual(0))
 
 
 func _terminal_signal_color() -> Color:
@@ -521,28 +532,44 @@ func _terminal_signal_color() -> Color:
 
 func _terminal_value_text() -> String:
 	if not terminal_display_text.is_empty():
-		return terminal_display_text
+		return str(terminal_numeric_value) if _terminal_known() else "—"
 	if component_kind == &"input":
 		return str(int(output_value)) if output_known else "?"
 	var known: bool = not input_known.is_empty() and input_known[0]
 	return str(int(input_values[0])) if known and not input_values.is_empty() else "?"
 
 
+func _terminal_known() -> bool:
+	return output_known if component_kind == &"input" else not input_known.is_empty() and input_known[0]
+
+
+func terminal_bits() -> PackedStringArray:
+	var value: int = terminal_numeric_value if terminal_width > 1 else int(output_value) if component_kind == &"input" else int(input_values[0]) if not input_values.is_empty() else 0
+	return SignalNotationType.bits(terminal_width, value, _terminal_known())
+
+
 func _draw_terminal_value() -> void:
-	var center_x: float = size.x * (0.41 if component_kind == &"input" else 0.55 if component_kind == &"lamp" else 0.59)
-	var text: String = _terminal_value_text()
-	var font_size: int = _fitted_font_size(text, 23, 44.0)
-	var text_width: float = _text_width(text, font_size)
-	var position := Vector2(center_x - text_width * 0.5, display_height * 0.71)
-	for offset: Vector2 in [Vector2(-1.0, 0.0), Vector2(1.0, 0.0), Vector2(0.0, -1.0), Vector2(0.0, 1.0)]:
-		draw_string(
-			ThemeDB.fallback_font, position + offset, text,
-			HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, Color(SURFACE, 0.98)
-		)
-	draw_string(
-		ThemeDB.fallback_font, position, text,
-		HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, _terminal_signal_color().lightened(0.25)
-	)
+	_draw_width_badge()
+	var cx: float = 45.0 if component_kind == &"input" else size.x - 45.0
+	var cy: float = display_height * 0.5
+	if terminal_width == 1:
+		var color: Color = SignalNotationType.width_color(1)
+		var lit: bool = terminal_bits()[0] == "1"
+		var cell := Rect2(cx - 15.0, cy - 15.0 if component_kind == &"lamp" else cy - 10.0, 30.0, 30.0)
+		if component_kind != &"lamp":
+			draw_style_box(_cell_style(color if lit else Color("182b3c"), color.darkened(0.4)), cell)
+		_draw_centered(_terminal_value_text(), cell, 23, Color("101c29") if lit and component_kind != &"lamp" else SYMBOL)
+		return
+	_draw_centered(_terminal_value_text(), Rect2(cx - 35.0, cy - 20.0, 70.0, 27.0), 23, SYMBOL)
+	var digits := terminal_bits()
+	var cell_width: float = 16.0
+	var left: float = cx - float(terminal_width) * (cell_width + 2.0) * 0.5 + 1.0
+	var color: Color = SignalNotationType.width_color(terminal_width)
+	for index: int in range(terminal_width):
+		var rect := Rect2(left + index * (cell_width + 2.0), cy + 5.0, cell_width, 16.0)
+		var lit: bool = digits[index] == "1"
+		draw_style_box(_cell_style(color if lit else Color("182b3c"), color.darkened(0.4)), rect)
+		_draw_centered(digits[index], rect, 12, Color("101c29") if lit else Color("9eb2c5"))
 
 
 func _draw_junction() -> void:

@@ -18,6 +18,7 @@ func _run() -> void:
 	for _frame: int in range(4):
 		await process_frame
 
+	_assert_terminal_notation(main)
 	var library: Dictionary = main.get("component_library")
 	var completed: Dictionary = main.get("completed_levels")
 	completed[&"tutorial"] = true
@@ -152,6 +153,10 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	_assert(not (main.get("component_palette_items") as Dictionary).is_empty(), "%s must expose the same allowed supply as visible draggable palette items." % level_id)
 	_assert(_palette_kinds(main) == _expected_palette_kinds(level_id), "%s must expose its explicit suitable component set; expected=%s actual=%s." % [level_id, _expected_palette_kinds(level_id), _palette_kinds(main)])
 	_assert_palette_previews_match_canvas(main, level_id)
+	if level_id == &"ram":
+		var data: SpinBox = main.get("prologue_input_controls")[&"DATA"]
+		var monitor: Label = main.get("storage_state_label")
+		_assert(data.get_parent().get_parent().get_index() < monitor.get_index(), "RAM input and its visible bits must precede the committed-state report in the Test Bench.")
 	if level_id in [&"full_adder", &"alu"]:
 		var has_xor: bool = false
 		for template_variant: Variant in (main.get("component_menu_templates") as Dictionary).values():
@@ -267,8 +272,8 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 			_assert("0xC0" not in final_storage.text,
 				"The four-bit stored value 12 must display as 0xC, never 0xC0.")
 			var output_symbol: CircuitComponentSymbol = main.get("component_symbols")[&"OUT"]
-			_assert(output_symbol.call("_terminal_value_text") == "0xC",
-				"The visible RAM output terminal must retain its complete word value instead of showing only 1.")
+			_assert(output_symbol.call("_terminal_value_text") == "12" and output_symbol.terminal_bits() == PackedStringArray(["1", "1", "0", "0"]),
+				"The RAM output must show decimal 12 and all four bits 1100, retaining the complete value.")
 			main.call("_show_playback_batch", parallel_ram_batch, 0.5)
 			var nodes: Dictionary = main.get("component_nodes")
 			var row_labels: Dictionary = main.get("component_row_labels")
@@ -615,3 +620,23 @@ func _paths_equal(left: PackedVector2Array, right: PackedVector2Array) -> bool:
 		if not left[index].is_equal_approx(right[index]):
 			return false
 	return true
+
+
+func _assert_terminal_notation(main: Control) -> void:
+	var symbol := CircuitComponentSymbol.new()
+	main.add_child(symbol)
+	symbol.size = Vector2(124, 58)
+	for width: int in [1, 2, 4]:
+		symbol.configure(&"input", "DATA", 58.0, width)
+		for value: int in range(1 << width):
+			symbol.set_signal_state(true, value != 0, [], [], "0x%X" % value if width > 1 else "", value)
+			var digits: PackedStringArray = symbol.terminal_bits()
+			var reconstructed: int = 0
+			for digit: String in digits:
+				reconstructed = reconstructed * 2 + int(digit)
+			_assert(digits.size() == width and reconstructed == value and symbol.call("_terminal_value_text") == str(value), "Terminal cells must retain leading zeros and exactly match the decimal value for every supported input.")
+		symbol.set_signal_state(false, false, [], [], "Z" if width > 1 else "", 0)
+		_assert(not symbol.terminal_bits().has("0") and not symbol.terminal_bits().has("1"), "Undriven input cells must not falsely display a known zero.")
+		var layout: Dictionary = symbol.name_layout()
+		_assert((layout["rect"] as Rect2).end.y < symbol.terminal_body()[0].y, "The input role belongs above the component body, clear of values and bit cells.")
+	symbol.free()

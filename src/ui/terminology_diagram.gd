@@ -1,6 +1,8 @@
 class_name TerminologyDiagram
 extends Control
 
+const SignalNotationType = preload("res://src/ui/signal_notation.gd")
+
 const BACKGROUND := Color("101a2a")
 const PANEL := Color("18263a")
 const PANEL_ACTIVE := Color("17384a")
@@ -124,14 +126,13 @@ func _draw_alu() -> void:
 func _draw_signal() -> void:
 	for state: int in [0, 1]:
 		var center := Vector2(size.x * (0.27 if state == 0 else 0.73), 103.0)
-		var color: Color = DANGER if state == 0 else GOOD
-		var shape := PackedVector2Array([center + Vector2(-28, -22), center + Vector2(-28, 22), center + Vector2(6, 0)])
-		draw_colored_polygon(shape, Color("102c28") if state == 1 else Color("301e2b"))
-		shape.append(shape[0])
-		draw_polyline(shape, color, 2.5, true)
-		draw_line(center + Vector2(6, 0), center + Vector2(34, 0), color, 2.5, true)
-		_draw_text(Rect2(center.x - 50, 137, 100, 30), str(state), TEXT, 23)
-		_draw_text(Rect2(center.x - 85, 35, 170, 26), _t(&"hardware.signal.low" if state == 0 else &"hardware.signal.high"), color, 17)
+		var color: Color = SignalNotationType.width_color(1)
+		var cell := Rect2(center - Vector2(25, 25), Vector2(50, 50))
+		draw_rect(cell, color if state == 1 else PANEL, true)
+		draw_rect(cell, color, false, 2.0)
+		_draw_text(cell, str(state), BACKGROUND if state == 1 else TEXT, 25)
+		_draw_text(Rect2(center.x - 60, 35, 120, 26), SignalNotationType.width_text(1), color, 17)
+		_draw_text(Rect2(center.x - 85, 145, 170, 26), _t(&"hardware.signal.low" if state == 0 else &"hardware.signal.high"), TEXT, 16)
 	_draw_text(Rect2(12, 199, size.x - 24, 26), _t(&"terminology.diagram.signal.normal"), MUTED, 14)
 
 
@@ -139,11 +140,11 @@ func _draw_binary() -> void:
 	var cell_width: float = minf(94.0, (size.x - 70.0) / 4.0)
 	var left: float = (size.x - cell_width * 4.0) * 0.5
 	for index: int in range(4):
-		var bit: int = 0 if index == 2 else 1
+		var bit: int = 1 if index == 1 else 0
 		var x: float = left + cell_width * index
 		_draw_text(Rect2(x, 30, cell_width - 8, 28), str(1 << (3 - index)), MUTED, 16)
-		_draw_box(Rect2(x, 70, cell_width - 8, 60), str(bit), "", GOOD if bit else MUTED)
-	_draw_text(Rect2(14, 156, size.x - 28, 28), "1101 = 8 + 4 + 0 + 1 = 13", TEXT, 18)
+		_draw_box(Rect2(x, 70, cell_width - 8, 60), str(bit), "", SignalNotationType.width_color(4) if bit else MUTED)
+	_draw_text(Rect2(14, 156, size.x - 28, 28), "0100 = 0 + 4 + 0 + 0 = 4", TEXT, 18)
 	_draw_text(Rect2(14, 202, size.x - 28, 24), _t(&"terminology.diagram.binary.weights"), MUTED, 14)
 
 

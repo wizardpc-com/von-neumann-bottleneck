@@ -22,4 +22,8 @@ Original default progression, free editor, separate Hint levels, simulation, sou
 - Current candidate remains `polish-20260907T010358-76ef116`. Native Windows input was blocked by the lock screen; Mac playability is unverified.
 - Mac handoff guidance, a portable isolated verification helper, preserved feedback screenshots and selected portable evidence are ready.
 - Fresh-copy Windows verification passes resource import, actual user-directory isolation, all 20 conventional suites and 127 Tutorial GUI checks. Two tests now create/check their required output directories; no behavioral assertions were removed.
-- Source review and publication checks found no unrelated pending files or credential signatures. Commit/push and GitHub prerelease upload are the remaining handoff operations.
+- Source review and publication checks found no unrelated pending files or credential signatures. Third-party font license whitespace is preserved verbatim with a path-specific Git whitespace attribute; other staged whitespace checks pass.
+- Published source commit `1fef90db8debf45d69dd3973026a09763ce6fbbe` to the existing main branch by normal fast-forward. GitHub's 401 file blob IDs match the local committed tree.
+- Published prerelease `playtest-polish-20260907T010358` at that source commit. Both the Windows ZIP and build manifest report uploaded, and GitHub's SHA-256 digests exactly match the local artifacts. The ZIP is 56,337,399 bytes with SHA-256 `3d93d4947328c51dab68b5f23ff3835b5b6084c775ab1c006219b6f51ecb7d03`.
+- Rechecked all 21 actual player files against their protected hashes: unchanged. Local caches, backups and private player files were not published. No shared history or tag was rewritten.
+- Migration delivery is complete. The separate visual-learning acceptance plan remains active on Mac: native input, Retina/High DPI, beginner understanding and release readiness are not yet verified.

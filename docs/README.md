@@ -3,6 +3,7 @@
 Repository-local documentation is the source of truth for future human and Codex work.
 
 - [Mac development handoff](development/mac-handoff.md): current baseline, Mac setup, isolated checks, Windows verification and next native-playtest tasks.
+- [Completed migration delivery](exec-plans/completed/mac-development-handoff.md): published source, Windows prerelease and verification boundaries.
 
 - [Visual and learning polish](status/visual-learning-polish.md): current signal controls, aligned schematics, instrument style, progressive Handbook, package and acceptance evidence.
 - [Visual and learning plan](exec-plans/active/visual-learning-polish.md): implemented scope and pending native desktop / human acceptance.

@@ -1,0 +1,27 @@
+{
+  "source_commit": "1fef90db8debf45d69dd3973026a09763ce6fbbe",
+  "branch": "main",
+  "remote_file_count": 401,
+  "remote_blob_ids_match": true,
+  "release": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/playtest-polish-20260907T010358",
+  "prerelease": true,
+  "draft": false,
+  "assets": [
+    {
+      "name": "Von-Neumann-Bottleneck-Polish-20260907T010358.zip",
+      "bytes": 56337399,
+      "github_sha256": "3d93d4947328c51dab68b5f23ff3835b5b6084c775ab1c006219b6f51ecb7d03",
+      "matches_local": true
+    },
+    {
+      "name": "BUILD-MANIFEST.json",
+      "bytes": 920,
+      "github_sha256": "3b8cf1c79213126e5ecae577ebc272f45f46791cb4465b50d7d1b8a5466d7946",
+      "matches_local": true
+    }
+  ],
+  "windows_player_files_checked": 21,
+  "windows_player_files_unchanged": 21,
+  "mac_native_acceptance": "pending",
+  "production_release_acceptance": "pending"
+}

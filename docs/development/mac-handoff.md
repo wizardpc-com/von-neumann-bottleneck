@@ -8,6 +8,8 @@ Mac 是主要开发与原生交互试玩环境；Windows 用于兼容性、真�
 
 当前游戏构建标识：`polish-20260907T010358-76ef116`。标识中的旧 SHA 是制作该候选包时的本地基线，不是本次迁移提交 SHA。以 `git rev-parse HEAD` 和 GitHub 提交记录确定源码版本，不改写既有候选包。
 
+完整游戏与接手资料已在提交 `1fef90db8debf45d69dd3973026a09763ce6fbbe` 上传；其 401 个文件的 Git 对象哈希已逐一与 GitHub 核对。后续提交只补充迁移回执。Windows 预发布 ZIP 和构建清单的 GitHub SHA-256 均与本地相同，见 [发布回执](../verification/2026-09-07-windows-handoff/publication.json) 和 [完成记录](../exec-plans/completed/mac-development-handoff.md)。
+
 已完成：原编辑能力恢复、独立三级 Hint、可移动 Mission、清晰任务页签、紧凑电平符号、对齐元件预览、统一仪表风格及字体、随进度开放的 89 条手册知识（29 条带图）。详见 [当前状态](../status/visual-learning-polish.md)。本版尚未通过完整原生桌面试玩和新手验收。
 
 ## 先读这些文件
@@ -25,7 +27,7 @@ Mac 是主要开发与原生交互试玩环境；Windows 用于兼容性、真�
 使用 **Godot 4.7.1 stable 标准版**，不需要 .NET、Python 包或第三方 Godot 插件。Python 3 只用于验证辅助脚本。安装匹配版本的导出模板后才能导出平台包；不在迁移时顺手升级引擎。
 
 ```sh
-git clone git@github.com:wizardpc-com/von-neumann-bottleneck.git
+git clone https://github.com/wizardpc-com/von-neumann-bottleneck.git
 cd von-neumann-bottleneck
 git status --short --branch
 git log -3 --oneline

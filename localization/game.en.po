@@ -892,7 +892,7 @@ msgid "hardware.briefing.half_adder.1"
 msgstr "Teach a circuit to add: build a [[half_adder|Half Adder]] for A+B.\n\nInputs: A and B, one bit each.\nOutputs: [[sum|SUM]] is the low bit; [[carry|CARRY]] carries into the next bit.\nExample: 1+1 is binary 10, so SUM=0 and CARRY=1.\n\nUse AND, OR and NOT in any valid circuit. Pass all four test rows, then seal your HalfAdder for use in the next challenge."
 
 msgid "hardware.briefing.half_adder.2"
-msgstr "A [[truth_table|truth table]] lists every possible input and the output it should produce. Two inputs with two states give four cases:\n\nA B  │  SUM CARRY\n0 0  │   0     0\n0 1  │   1     0\n1 0  │   1     0\n1 1  │   0     1\n\nThe table tells you what the circuit must do, not how to wire it."
+msgstr "A [[truth_table|truth table]] lists every possible input and its required output. Two inputs with two states give four cases. Build a circuit that produces the SUM and CARRY shown in every row below."
 
 msgid "hardware.briefing.half_adder.3"
 msgstr "Available tools: [[and_gate|AND]], [[or_gate|OR]] and [[not_gate|NOT]]. All ports are one bit wide.\n\nAND: output 1 when both inputs are 1.\nOR: output 1 when at least one input is 1.\nNOT: output the opposite of its input.\n\nDrag new components from Components and combine them your way. The full test checks the specified outputs and accepts different legal circuits."
@@ -1054,7 +1054,7 @@ msgid "hardware.tutorial.heading"
 msgstr "WIRING TUTORIAL"
 
 msgid "hardware.tutorial.heading_subtitle"
-msgstr "A compact desktop task window"
+msgstr "Build your first signal path, from input to output"
 
 msgid "hardware.tutorial.prompt"
 msgstr "Goal: A=0 → LAMP=1; A=1 → LAMP=0. Complete the five actions below, then continue. Expand Mission for specifications and controls."

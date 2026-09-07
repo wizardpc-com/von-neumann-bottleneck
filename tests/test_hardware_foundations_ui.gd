@@ -1179,9 +1179,17 @@ func _run() -> void:
 	await process_frame
 	briefing_body = tutorial_task_window.find_child("MissionBriefingBody", true, false)
 	_assert(
-		briefing_body != null and briefing_body.get_parsed_text().contains("真值表")
-		and briefing_body.get_parsed_text().contains("0 0") and briefing_body.get_parsed_text().contains("1 1"),
-		"Half Adder briefing page 2 must define truth tables immediately and show all four required rows."
+		briefing_body != null and briefing_body.get_parsed_text().contains("真值表"),
+		"Half Adder briefing page 2 must define truth tables immediately."
+	)
+	var specification := tutorial_task_window.find_child("HalfAdderSpecification", true, false) as GridContainer
+	var specification_values: Array[String] = []
+	if specification != null:
+		for cell: Node in specification.get_children():
+			specification_values.append((cell.get_child(0) as Label).text)
+	_assert(
+		specification_values == ["A", "B", "SUM", "CARRY", "0", "0", "0", "0", "0", "1", "1", "0", "1", "0", "1", "0", "1", "1", "0", "1"],
+		"The aligned Half Adder specification must show all four required rows under the correct columns."
 	)
 	briefing_body.meta_clicked.emit(&"truth_table")
 	await process_frame

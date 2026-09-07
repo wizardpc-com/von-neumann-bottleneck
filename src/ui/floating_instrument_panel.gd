@@ -43,6 +43,13 @@ func setup(id: StringName, title_text: String) -> void:
 	header.mouse_default_cursor_shape = Control.CURSOR_MOVE
 	header.gui_input.connect(_on_header_input)
 	root.add_child(header)
+	var accent: Color = Color("67e8a5") if id == &"test_bench" else Color("ffbf69") if id == &"inspector" else Color("50d5ff")
+	var marker := ColorRect.new()
+	marker.color = accent
+	marker.custom_minimum_size = Vector2(3.0, 20.0)
+	marker.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	header.add_child(marker)
 	var rule := HSeparator.new()
 	var line := StyleBoxLine.new()
 	line.color = Color("355363")
@@ -50,11 +57,12 @@ func setup(id: StringName, title_text: String) -> void:
 	rule.add_theme_stylebox_override("separator", line)
 	root.add_child(rule)
 	var title := Label.new()
-	title.text = "⠿  %s" % title_text
+	title.text = title_text
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	title.add_theme_font_size_override("font_size", UiTypographyType.WINDOW_TITLE_SIZE)
 	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
+	title.add_theme_color_override("font_color", Color("e6f1f5"))
 	header.add_child(title)
 	_minimize_button = Button.new()
 	_minimize_button.name = "MinimizeButton"
@@ -87,6 +95,7 @@ func setup(id: StringName, title_text: String) -> void:
 	_footer.add_child(spacer)
 	var resize_grip := Label.new()
 	resize_grip.text = "◢"
+	resize_grip.add_theme_color_override("font_color", Color("597482"))
 	resize_grip.tooltip_text = Localization.text(&"window.resize.tooltip")
 	resize_grip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	resize_grip.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

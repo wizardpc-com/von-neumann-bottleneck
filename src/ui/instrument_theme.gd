@@ -6,6 +6,14 @@ const EDGE := Color("354b5a")
 const ACCENT := Color("50d5ff")
 
 
+static func primary(button: Button, accent: Color = ACCENT) -> void:
+	button.add_theme_stylebox_override("normal", panel(accent, accent))
+	button.add_theme_stylebox_override("hover", panel(accent.lightened(0.16), Color.WHITE))
+	button.add_theme_stylebox_override("pressed", panel(accent.darkened(0.16), accent))
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color"]:
+		button.add_theme_color_override(state, Color("071823"))
+
+
 static func panel(fill: Color, border: Color = EDGE, radius: int = 5) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
 	box.bg_color = fill

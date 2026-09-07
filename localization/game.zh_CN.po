@@ -892,7 +892,7 @@ msgid "hardware.briefing.half_adder.1"
 msgstr "让电路学会加法：搭建一个[[half_adder|半加器]]，计算 A+B。\n\n输入：A、B 各为 1-bit。\n输出：[[sum|SUM]] 是个位；[[carry|CARRY]] 是向下一位的进位。\n例子：1+1=二进制 10，所以 SUM=0、CARRY=1。\n\n可用 AND、OR、NOT；自由构建，解法不限。完整测试的四行全部通过后，封装成下关可用的 HalfAdder。"
 
 msgid "hardware.briefing.half_adder.2"
-msgstr "把所有输入情况和应有结果列在一起，就叫[[truth_table|真值表]]。两个输入各有 0、1 两种可能，所以一共只有四种：\n\nA B  │  SUM CARRY\n0 0  │   0     0\n0 1  │   1     0\n1 0  │   1     0\n1 1  │   0     1\n\n这张表只告诉你“要得到什么”，不会替你给出线路。"
+msgstr "把所有输入情况和应有结果列在一起，就叫[[truth_table|真值表]]。两个输入各有 0、1 两种可能，所以一共只有四种。对照下表，让电路在每一行都输出正确的 SUM 和 CARRY。"
 
 msgid "hardware.briefing.half_adder.3"
 msgstr "可用工具：[[and_gate|AND]]、[[or_gate|OR]] 和 [[not_gate|NOT]]，所有端口均为 1 位。\n\nAND：两个输入都为 1 时输出 1。\nOR：至少一个输入为 1 时输出 1。\nNOT：输出输入的相反值。\n\n从元件窗拖出新元件，按自己的思路组合。完整测试只检查表中的结果，接受不同的合法接法。"
@@ -1054,7 +1054,7 @@ msgid "hardware.tutorial.heading"
 msgstr "连线教程"
 
 msgid "hardware.tutorial.heading_subtitle"
-msgstr "一个紧凑、可移动的桌面任务窗口"
+msgstr "从输入到输出，搭建第一条信号路径"
 
 msgid "hardware.tutorial.prompt"
 msgstr "目标：A=0 时 LAMP=1；A=1 时 LAMP=0。完成下面五步后继续。展开任务窗可查规格和操作。"
@@ -1908,43 +1908,43 @@ msgid "common.cancel"
 msgstr "取消"
 
 msgid "hardware.workbench.button"
-msgstr "桌布：%s"
+msgstr "方案：%s"
 
 msgid "hardware.workbench.button.tooltip"
-msgstr "切换本关的桌布，或新建一个独立的电路方案。"
+msgstr "切换本关的方案，或新建一个独立的电路方案。"
 
 msgid "hardware.workbench.create"
-msgstr "＋ 新建桌布…"
+msgstr "＋ 新建方案…"
 
 msgid "hardware.workbench.create.title"
-msgstr "新建桌布"
+msgstr "新建方案"
 
 msgid "hardware.workbench.create.prompt"
-msgstr "输入一个容易辨认的方案名称。新桌布从本关的初始元件开始。"
+msgstr "输入一个容易辨认的方案名称。新方案从本关的初始元件开始。"
 
 msgid "hardware.workbench.create.placeholder"
 msgstr "例如：低门数方案"
 
 msgid "hardware.workbench.switch_failed"
-msgstr "无法切换到该桌布。"
+msgstr "无法切换到该方案。"
 
 msgid "hardware.workbench.loaded"
-msgstr "已切换到桌布“%s”；撤销记录从空白开始。"
+msgstr "已切换到方案“%s”；撤销记录从空白开始。"
 
 msgid "hardware.workbench.error.empty"
-msgstr "桌布名称不能为空。"
+msgstr "方案名称不能为空。"
 
 msgid "hardware.workbench.error.too_long"
-msgstr "桌布名称最多可用 %d 个字符。"
+msgstr "方案名称最多可用 %d 个字符。"
 
 msgid "hardware.workbench.error.invalid_character"
-msgstr "桌布名称不能包含换行或制表符。"
+msgstr "方案名称不能包含换行或制表符。"
 
 msgid "hardware.workbench.error.duplicate"
-msgstr "本关已经有同名桌布。"
+msgstr "本关已经有同名方案。"
 
 msgid "hardware.workbench.error.generic"
-msgstr "无法创建桌布。"
+msgstr "无法创建方案。"
 
 msgid "hardware.hint.button"
 msgstr "提示"
@@ -1956,7 +1956,7 @@ msgid "hardware.hint.return"
 msgstr "返回我的方案"
 
 msgid "hardware.hint.return.tooltip"
-msgstr "离开提示并恢复刚才使用的玩家桌布。"
+msgstr "离开提示并恢复刚才使用的玩家方案。"
 
 msgid "hardware.hint.next"
 msgstr "提示 %d/%d · 下一步"
@@ -1965,7 +1965,7 @@ msgid "hardware.hint.next.tooltip"
 msgstr "请求下一层提示，确认后才会显示。"
 
 msgid "hardware.hint.phase"
-msgstr "提示桌布 · %d/%d"
+msgstr "提示方案 · %d/%d"
 
 msgid "hardware.hint.status"
 msgstr "正在查看第 %d/%d 级提示。"
@@ -1983,16 +1983,16 @@ msgid "hardware.hint.scope.1"
 msgstr "仅显示当前提示所需的外部接口，不展示解题拓扑。"
 
 msgid "hardware.hint.scope.2"
-msgstr "桌布只展示一个精心挑选的关键子电路及必要上下文；无关元件保持隐藏。"
+msgstr "方案只展示一个精心挑选的关键子电路及必要上下文；无关元件保持隐藏。"
 
 msgid "hardware.hint.scope.3"
-msgstr "桌布展示完整参考拓扑，可沿每条真实线路检查答案。"
+msgstr "方案展示完整参考拓扑，可沿每条真实线路检查答案。"
 
 msgid "hardware.hint.reveal_next"
 msgstr "查看第 %d 级提示"
 
 msgid "hardware.hint.returned"
-msgstr "已返回你的桌布“%s”。"
+msgstr "已返回你的方案“%s”。"
 
 msgid "hardware.hint.generic"
 msgstr "先根据输入、输出和官方测试，把问题拆成更小的信号关系。"
@@ -2046,7 +2046,7 @@ msgid "hardware.hint.register.1"
 msgstr "把 LOAD 的两种情况分开想：允许写入时 Q 应跟随什么，禁止写入时锁存器需要什么控制状态？"
 
 msgid "hardware.hint.register.2"
-msgstr "关键关系是 S = D AND LOAD，R = NOT(D) AND LOAD。提示桌布展示完整 SET 支路；用 NOT(D) 镜像出 RESET 支路。"
+msgstr "关键关系是 S = D AND LOAD，R = NOT(D) AND LOAD。提示方案展示完整 SET 支路；用 NOT(D) 镜像出 RESET 支路。"
 
 msgid "hardware.hint.register.3"
 msgstr "完整答案把两条门控路径接入 SRLatch，并把其 Q 连接到关卡输出。"
@@ -2076,7 +2076,7 @@ msgid "hardware.hint.load_store.2"
 msgstr "只展示面向内存的一段：ADDR 进入 TinyComputer，MEM 暴露被寻址字。OP、ARG 与 ACC 留到完整参考。"
 
 msgid "hardware.hint.load_store.3"
-msgstr "完整参考桌布还连接 ACC 与 MEM 输出；本关拓扑固定，重点是读懂状态变化。"
+msgstr "完整参考方案还连接 ACC 与 MEM 输出；本关拓扑固定，重点是读懂状态变化。"
 
 msgid "system.chapter.title"
 msgstr "第 1 章：等待数据"

@@ -55,6 +55,23 @@ play evidence.
   Added focused regressions and corrected Mac select-all in the GUI replay helper.
 - Fresh fix evidence: `.godot/verification/20260907T053942Z-f10951d4/`:
   isolated import/probe, all 20 suites and 128 Tutorial GUI checks pass.
+- Visual follow-up: separate editing/playback rows, primary action emphasis,
+  instrument accent markers, dark terminal faces with colored state outlines,
+  aligned Half Adder specification cells, compact Mission heading and a Handbook
+  learning-progress rail. Chinese workbench wording now consistently says 方案.
+  Native 1336×768 window inspection found specification navigation below the fold;
+  tightened heading and cell spacing in response. Fresh isolated full Chinese
+  Game replay and all 20 suites pass at
+  `.godot/verification/20260907T072816Z-db1ac2be/`.
+- Native investigation confirms Mac motion events can have `button_mask=0` while
+  `Input.is_mouse_button_pressed(LEFT)` remains true. This prematurely cancels
+  component dragging and wire branching; a separate gesture fix follows.
+- Reopen correction: Half Adder did seal and its backup contains 12 wires and a
+  completion record, but the original loader rejects it after restart. A read-only
+  probe of that exact backup still passes all official cases, while its serialized
+  source signature differs solely with runtime component ordering. StringName
+  sorting also changes the default-seed fingerprint. Preserve the backup and
+  investigate deterministic ordering and backward compatibility separately.
 
 ## Open limitations
 

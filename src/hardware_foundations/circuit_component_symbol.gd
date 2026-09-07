@@ -450,8 +450,8 @@ func _draw_source() -> void:
 		center + Vector2(-26.0, 22.0),
 		center + Vector2(-26.0, -22.0),
 	])
-	draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), Color(signal_color, 0.92))
-	draw_polyline(body, SELECTION if selection_active else signal_color.lightened(0.18), 4.0, true)
+	draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), SURFACE.lerp(signal_color, 0.12))
+	draw_polyline(body, SELECTION if selection_active else signal_color, 3.0, true)
 	_draw_output_lead(center + Vector2(26.0, 0.0), Vector2(width, center.y), signal_color)
 	_draw_processing_dot(
 		center + Vector2(12.0, 0.0), Vector2(width, center.y), 0.22, 1.0,
@@ -485,8 +485,8 @@ func _draw_observer(lamp: bool) -> void:
 	var entry_finish := center - Vector2(22.0 if lamp else 26.0, 0.0)
 	_draw_input_lead(Vector2(0.0, center.y), entry_finish, signal_color)
 	if lamp:
-		draw_circle(center, 22.0, Color(signal_color, 0.92))
-		draw_circle(center, 22.0, SELECTION if selection_active else signal_color.lightened(0.18), false, 4.0, true)
+		draw_circle(center, 22.0, SURFACE.lerp(signal_color, 0.12))
+		draw_circle(center, 22.0, SELECTION if selection_active else signal_color, false, 3.0, true)
 		for index: int in range(8):
 			var direction := Vector2.from_angle(float(index) * TAU / 8.0)
 			draw_line(center + direction * 25.0, center + direction * 29.0, signal_color, 2.5, true)
@@ -499,8 +499,8 @@ func _draw_observer(lamp: bool) -> void:
 			center + Vector2(-8.0, 22.0),
 			center + Vector2(-26.0, 0.0),
 		])
-		draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), Color(signal_color, 0.92))
-		draw_polyline(body, SELECTION if selection_active else signal_color.lightened(0.18), 4.0, true)
+		draw_colored_polygon(PackedVector2Array(body.slice(0, 5)), SURFACE.lerp(signal_color, 0.12))
+		draw_polyline(body, SELECTION if selection_active else signal_color, 3.0, true)
 	_draw_processing_dot(
 		Vector2(0.0, center.y), center - Vector2(2.0, 0.0), 0.0, 0.76,
 		_processing_input_visual(0)
@@ -535,7 +535,7 @@ func _draw_terminal_value() -> void:
 		)
 	draw_string(
 		ThemeDB.fallback_font, position, text,
-		HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, Color("f7fbff")
+		HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, _terminal_signal_color().lightened(0.25)
 	)
 
 

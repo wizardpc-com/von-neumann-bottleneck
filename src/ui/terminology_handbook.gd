@@ -161,6 +161,7 @@ var entry_button: Button
 var modal: ColorRect
 var title_label: Label
 var subtitle_label: Label
+var learning_progress: ProgressBar
 var search_edit: LineEdit
 var category_selector: OptionButton
 var future_toggle: Button
@@ -302,6 +303,21 @@ func _build_interface() -> void:
 	subtitle_label = Label.new()
 	subtitle_label.add_theme_color_override("font_color", MUTED)
 	heading_box.add_child(subtitle_label)
+	learning_progress = ProgressBar.new()
+	learning_progress.name = "HandbookLearningProgress"
+	learning_progress.custom_minimum_size.y = 4.0
+	learning_progress.show_percentage = false
+	learning_progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	learning_progress.add_theme_stylebox_override("background", preload("res://src/ui/instrument_theme.gd").panel(Color("243945"), Color.TRANSPARENT, 2))
+	learning_progress.add_theme_stylebox_override("fill", preload("res://src/ui/instrument_theme.gd").panel(ACCENT, Color.TRANSPARENT, 2))
+	# A narrow progress rail; no control padding or extra interactive target.
+	for style_name: String in ["background", "fill"]:
+		var style := learning_progress.get_theme_stylebox(style_name) as StyleBoxFlat
+		style.content_margin_left = 0.0
+		style.content_margin_right = 0.0
+		style.content_margin_top = 0.0
+		style.content_margin_bottom = 0.0
+	heading_box.add_child(learning_progress)
 	close_button = Button.new()
 	close_button.custom_minimum_size = Vector2(104.0, 44.0)
 	close_button.pressed.connect(close_handbook)
@@ -444,6 +460,8 @@ func _refresh_terms(preferred_term_id: StringName = &"") -> void:
 		if is_term_unlocked(term["id"]):
 			available_term_ids.append(term["id"])
 	subtitle_label.text = _t(&"terminology.progress", [available_term_ids.size(), TERMS.size()])
+	learning_progress.max_value = TERMS.size()
+	learning_progress.value = available_term_ids.size()
 	var root_item: TreeItem = term_tree.create_item()
 	for category: Dictionary in CATEGORIES:
 		var current_category_id: StringName = category["id"]

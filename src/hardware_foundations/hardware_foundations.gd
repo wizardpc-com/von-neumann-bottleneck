@@ -37,6 +37,7 @@ const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
 const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
 const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
+const InstrumentThemeType = preload("res://src/ui/instrument_theme.gd")
 
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
@@ -1168,7 +1169,7 @@ func _begin_mission_briefing(preserve_page: bool = false) -> void:
 	mission_briefing_panel = VBoxContainer.new()
 	mission_briefing_panel.name = "MissionBriefing"
 	mission_briefing_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	mission_briefing_panel.add_theme_constant_override("separation", 14)
+	mission_briefing_panel.add_theme_constant_override("separation", 10)
 	task_box.add_child(mission_briefing_panel)
 	_show_mission_briefing_page()
 	var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
@@ -1189,7 +1190,8 @@ func _show_mission_briefing_page() -> void:
 	progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	progress.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	progress.add_theme_color_override("font_color", ACCENT)
-	mission_briefing_panel.add_child(progress)
+	var heading_row := HBoxContainer.new()
+	mission_briefing_panel.add_child(heading_row)
 	var heading := Label.new()
 	heading.text = _mission_briefing_stage_title(mission_briefing_page)
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -1197,7 +1199,9 @@ func _show_mission_briefing_page() -> void:
 	heading.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	heading.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	heading.add_theme_color_override("font_color", ACCENT)
-	mission_briefing_panel.add_child(heading)
+	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading_row.add_child(heading)
+	heading_row.add_child(progress)
 	var sections := HFlowContainer.new()
 	sections.name = "MissionSections"
 	sections.add_theme_constant_override("h_separation", 8)
@@ -1223,6 +1227,9 @@ func _show_mission_briefing_page() -> void:
 	mission_briefing_panel.add_child(body)
 	body.add_theme_font_size_override("normal_font_size", UiTypographyType.BODY_SIZE)
 	body.set_linked_text(_mission_briefing_body(mission_briefing_page))
+	if current_level_id == &"half_adder" and mission_briefing_page == 1:
+		body.size_flags_vertical = Control.SIZE_FILL
+		mission_briefing_panel.add_child(_build_half_adder_specification())
 	if mission_briefing_page == pages.size() - 1:
 		var move_note := Label.new()
 		move_note.text = _t(&"hardware.briefing.move_note")
@@ -1250,6 +1257,7 @@ func _show_mission_briefing_page() -> void:
 	)
 	mission_briefing_continue_button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
 	mission_briefing_continue_button.pressed.connect(_advance_mission_briefing)
+	InstrumentThemeType.primary(mission_briefing_continue_button)
 	var navigation_center := CenterContainer.new()
 	var navigation_row := HBoxContainer.new()
 	navigation_row.add_theme_constant_override("separation", 12)
@@ -1270,6 +1278,33 @@ func _show_mission_briefing_page() -> void:
 	navigation_row.add_child(navigation_balance)
 	navigation_center.add_child(navigation_row)
 	mission_briefing_panel.add_child(navigation_center)
+
+
+func _build_half_adder_specification() -> Control:
+	var table := GridContainer.new()
+	table.name = "HalfAdderSpecification"
+	table.columns = 4
+	table.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	table.add_theme_constant_override("h_separation", 2)
+	table.add_theme_constant_override("v_separation", 2)
+	var columns: Array[String] = ["A", "B", "SUM", "CARRY"]
+	for row_index: int in range(5):
+		for column: String in columns:
+			var cell := PanelContainer.new()
+			cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			var fill := Color("1c3544") if row_index == 0 else Color("132532") if row_index % 2 else Color("0e1d28")
+			var style: StyleBoxFlat = InstrumentThemeType.panel(fill, Color.TRANSPARENT, 2)
+			style.content_margin_top = 3.0
+			style.content_margin_bottom = 3.0
+			cell.add_theme_stylebox_override("panel", style)
+			var value := Label.new()
+			value.text = column if row_index == 0 else str(int(HalfAdderTestBenchType.OFFICIAL_CASES[row_index - 1][column]))
+			value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			value.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+			value.add_theme_color_override("font_color", ACCENT if column in ["SUM", "CARRY"] else TEXT)
+			cell.add_child(value)
+			table.add_child(cell)
+	return table
 
 
 func _start_building_from_briefing() -> void:
@@ -1578,15 +1613,23 @@ func _build_header() -> Control:
 
 func _build_toolbar() -> Control:
 	var toolbar := PanelContainer.new()
+	var rows := VBoxContainer.new()
+	rows.add_theme_constant_override("separation", 6)
+	toolbar.add_child(rows)
 	var row := HFlowContainer.new()
-	toolbar.add_child(row)
+	row.name = "EditingTools"
+	row.add_theme_constant_override("h_separation", 6)
+	rows.add_child(row)
+	var playback_row := HBoxContainer.new()
+	playback_row.name = "PlaybackTools"
+	rows.add_child(playback_row)
 	status_label = Label.new()
 	status_label.custom_minimum_size.x = 120.0
 	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status_label.clip_text = true
 	status_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	status_label.add_theme_color_override("font_color", MUTED)
-	row.add_child(status_label)
+	playback_row.add_child(status_label)
 	workbench_menu_button = MenuButton.new()
 	workbench_menu_button.name = "WorkbenchMenuButton"
 	workbench_menu_button.text = _t(&"hardware.workbench.button", [CircuitWorkbenchStoreType.DEFAULT_NAME])
@@ -1629,13 +1672,13 @@ func _build_toolbar() -> Control:
 	pause_button = Button.new()
 	pause_button.text = _t(&"hardware.trace.pause")
 	pause_button.pressed.connect(_toggle_playback)
-	row.add_child(pause_button)
+	playback_row.add_child(pause_button)
 	trace_step_button = Button.new()
 	trace_step_button.text = _t(&"common.step")
 	trace_step_button.pressed.connect(_step_playback)
-	row.add_child(trace_step_button)
+	playback_row.add_child(trace_step_button)
 	var playback_frequency := HBoxContainer.new()
-	row.add_child(playback_frequency)
+	playback_row.add_child(playback_frequency)
 	var clock_period_label := Label.new()
 	clock_period_label.text = _t(&"common.clock_period.label")
 	clock_period_label.tooltip_text = _t(&"common.clock_period.tooltip")
@@ -3230,6 +3273,7 @@ func _build_half_adder_side() -> void:
 	task_box.add_child(challenge)
 	challenge.set_linked_text(_t(&"hardware.challenge.description"))
 	seal_button = Button.new()
+	InstrumentThemeType.primary(seal_button, GOOD)
 	seal_button.text = _t(&"hardware.seal.button")
 	seal_button.disabled = true
 	seal_button.tooltip_text = _t(&"hardware.seal.tooltip")
@@ -3247,6 +3291,7 @@ func _build_half_adder_side() -> void:
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
 	official_button = Button.new()
+	InstrumentThemeType.primary(official_button)
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
 	side_box.add_child(official_button)
@@ -6364,6 +6409,7 @@ func _build_prologue_side() -> void:
 	task_box.add_child(map_button)
 	if not StringName(current_level_definition.get("seal_name", &"")).is_empty():
 		seal_button = Button.new()
+		InstrumentThemeType.primary(seal_button, GOOD)
 		seal_button.text = _t(&"hardware.prologue.seal")
 		seal_button.disabled = true
 		seal_button.pressed.connect(_seal_prologue_component)
@@ -6387,6 +6433,7 @@ func _build_prologue_side() -> void:
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
 	official_button = Button.new()
+	InstrumentThemeType.primary(official_button)
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
 	side_box.add_child(official_button)

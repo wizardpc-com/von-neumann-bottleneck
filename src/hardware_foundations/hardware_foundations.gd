@@ -402,6 +402,11 @@ func _input(event: InputEvent) -> void:
 	if terminology_handbook != null and terminology_handbook.handle_escape(event):
 		get_viewport().set_input_as_handled()
 		return
+	# A modal owns its keyboard as well as its pointer. Editor shortcuts must
+	# not recolor, select or mutate the board beneath a completion or Handbook.
+	if (terminology_handbook != null and terminology_handbook.is_open()) \
+			or (level_completion_overlay != null and level_completion_overlay.visible):
+		return
 	if event is InputEventKey and event.pressed and not event.echo \
 			and event.keycode == KEY_HOME and not _keyboard_focus_accepts_text() \
 			and not _view_navigation_locked() and not _has_active_graph_gesture():
@@ -1113,7 +1118,7 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 		bench_window.size = Vector2(left_width, bench_height)
 		task_window.position = Vector2(margin, margin + bench_height + gap)
 		task_window.size = Vector2(left_width, task_height)
-		if inspector_window.visible:
+		if inspector_window.visible or reset_windows:
 			inspector_window.position = Vector2(
 				area.x - margin - component_width - gap - 390.0,
 				margin
@@ -7581,7 +7586,8 @@ func _show_component_inspector(component_id: StringName) -> void:
 	if inspector_window != null:
 		inspector_window.show_instrument()
 		inspector_window.set_minimized(false)
-		_layout_desktop_windows(false)
+		# Inspecting a part must not rearrange the player's other instruments.
+		inspector_window.fit_to_parent(10.0)
 		_focus_desktop_window(&"inspector")
 	if not current_level_id.is_empty():
 		PlaytestData.record_tool_opened(&"hardware_foundations", current_level_id, &"component_inspector")

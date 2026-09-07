@@ -73,7 +73,8 @@ func key(code: Key, ctrl: bool = false, shift: bool = false) -> void:
 		event.keycode = code
 		event.physical_keycode = code
 		event.pressed = down
-		event.ctrl_pressed = ctrl
+		event.ctrl_pressed = ctrl and OS.get_name() != "macOS"
+		event.meta_pressed = ctrl and OS.get_name() == "macOS"
 		event.shift_pressed = shift
 		root.push_input(event, true)
 		await process_frame
@@ -647,6 +648,7 @@ func handbook_input_check() -> void:
 	await capture("handbook-future-locked")
 	await key(KEY_A, true)
 	await type_text("signal")
+	check(handbook.search_edit.text == "signal", "The platform select-all shortcut replaces the previous Handbook query exactly.")
 	check(handbook.detail_diagram.visible, "Searching the current signal concept exposes its high/low illustration.")
 	await capture("handbook-signal")
 	await key(KEY_ESCAPE)

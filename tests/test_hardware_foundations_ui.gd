@@ -245,10 +245,18 @@ func _run() -> void:
 	)
 	main.call("_undo_wire")
 	_assert(body_node.position_offset.is_equal_approx(body_start), "Body movement must remain one undoable layout action.")
+	var instruments_before_inspection: Dictionary = {}
+	for instrument_id: StringName in [&"task", &"test_bench", &"components"]:
+		var instrument: Control = main.get("desktop_windows")[instrument_id]
+		instruments_before_inspection[instrument_id] = instrument.get_rect()
 	main.call("_on_component_gui_input", body_press, &"NOT_1")
 	main.call("_input", body_release)
 	await process_frame
 	var inspector_window: Control = (main.get("desktop_windows") as Dictionary)[&"inspector"]
+	for instrument_id: StringName in [&"task", &"test_bench", &"components"]:
+		var instrument: Control = main.get("desktop_windows")[instrument_id]
+		_assert(instruments_before_inspection[instrument_id] == instrument.get_rect(),
+			"Opening Inspector must preserve %s geometry." % instrument_id)
 	var inspector_text: String = ""
 	for inspector_label: Node in inspector_window.find_children("*", "Label", true, false):
 		inspector_text += (inspector_label as Label).text + "\n"
@@ -258,6 +266,23 @@ func _run() -> void:
 		"Clicking a component must open a localized Inspector with port widths, behavior, and provenance."
 	)
 	main.call("_close_desktop_window", &"inspector")
+	var color_before_modal: int = main.get("active_wire_color_index")
+	var modal_color_key := InputEventKey.new()
+	modal_color_key.keycode = KEY_3
+	modal_color_key.pressed = true
+	var completion: Control = main.get("level_completion_overlay")
+	completion.show()
+	main.call("_input", modal_color_key)
+	_assert(main.get("active_wire_color_index") == color_before_modal,
+		"Completion keyboard input must not change the board's wire color.")
+	completion.hide()
+	var handbook: Control = main.get("terminology_handbook")
+	handbook.open_handbook()
+	handbook.term_tree.grab_focus()
+	main.call("_input", modal_color_key)
+	_assert(main.get("active_wire_color_index") == color_before_modal,
+		"Handbook tree focus must not expose editor shortcuts beneath the modal.")
+	handbook.close_handbook()
 	_assert(
 		not (main.get("input_b_button") as CheckButton).visible,
 		"Tutorial Test Bench must not show an input B control when the level has no B terminal."

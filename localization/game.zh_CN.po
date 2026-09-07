@@ -886,7 +886,7 @@ msgid "hardware.briefing.tutorial.2"
 msgstr "拖动主体移动元件；从输出端口拖到兼容输入接线。输出把信号送出去，输入把信号接进来。位宽必须相同，例如 4-bit 不能接到 1-bit。\n\n从已有线段拉出分支，接点会出现圆点；单纯交叉不相连。右键擦除，Ctrl+Z 撤销；Delete 保留固定测试端子，右键擦掉端子后也能撤销恢复。\n\n滚轮缩放，中键拖动画布。Home 聚焦选中元件，Shift+Home 看全部。更多操作可随时查手册。"
 
 msgid "hardware.briefing.tutorial.3"
-msgstr "在[[test_bench|测试台]]切换 A，点击“运行当前输入”。检查 0 和 1 两种情况。运行后删掉一条线，再接回去；任务窗会记录完成情况。\n\n开始后，任务窗收起为短目标。点窗口的展开按钮可重新查看所有页面；底部“任务”入口始终可以找回它。想主动获取解题思路，请点“提示”。"
+msgstr "在[[test_bench|测试台]]切换 A，点击“运行练习电路”。检查 0 和 1 两种情况。运行后删掉一条线，再接回去；任务窗会记录完成情况。\n\n开始后，任务窗收起为短目标。点窗口的展开按钮可重新查看所有页面；底部“任务”入口始终可以找回它。想主动获取解题思路，请点“提示”。"
 
 msgid "hardware.briefing.half_adder.1"
 msgstr "让电路学会加法：搭建一个[[half_adder|半加器]]，计算 A+B。\n\n输入：A、B 各为 1-bit。\n输出：[[sum|SUM]] 是个位；[[carry|CARRY]] 是向下一位的进位。\n例子：1+1=二进制 10，所以 SUM=0、CARRY=1。\n\n可用 AND、OR、NOT；自由构建，解法不限。完整测试的四行全部通过后，封装成下关可用的 HalfAdder。"
@@ -913,13 +913,13 @@ msgid "hardware.briefing.alu.1"
 msgstr "让同一组输入做不同的运算。按控制位选择运算的模块叫[[alu|ALU（算术逻辑单元）]]。\n\n输入：A、B、CIN，以及 OP1、OP0，都是 1-bit。\n规则：00 做 AND；01 做 OR；10 做加法；11 做 NOT A。\n输出：RESULT 和加法进位 CARRY。\n\n使用已有元件自由搭建，四种运算都要通过完整测试。你的单比特 ALU 随后会被复用成四位 ALU4。"
 
 msgid "hardware.briefing.alu.2"
-msgstr "运算规格：OP1 OP0 = 00 → A AND B；01 → A OR B；10 → A+B+CIN；11 → NOT A。RESULT 是结果低位，CARRY 在 ADD 时表示进位。\n\n[[multiplexer|MUX]]按选择端口的二进制值选出一个数据输入，本身不做运算。点击元件可查所有端口与位宽。"
+msgstr "运算规格：OP1 OP0 = 00 → A AND B；01 → A OR B；10 → A+B+CIN；11 → NOT A。RESULT 是结果低位，CARRY 只在 ADD 时检查进位；其他运算不检查 CARRY。\n\n[[multiplexer|MUX]]按选择端口的二进制值选出一个数据输入，本身不做运算。点击元件可查所有端口与位宽。"
 
 msgid "hardware.briefing.alu.3"
 msgstr "用[[debug_run|单次调试]]分别切换[[opcode|OP]]，确认每个选择都拿到了对应结果；再运行全部[[official_test|正式测试]]。通过后会生成四位[[alu|ALU4]]，它只是把你验证的一位结构并排复用四次。"
 
 msgid "hardware.briefing.latch.1"
-msgstr "让电路记住刚才发生的事。普通逻辑门只看当前输入；[[sr_latch|SR 锁存器]]还要保留状态。\n\n输入：S 设为 1，R 清为 0，均为 1-bit。\n输出：Q 是记住的值，NQ 是它的反相。\n规则：S=1、R=0 时 Q=1；S=0、R=1 时 Q=0；两者为 0 时保持。S=R=1 不在本关测试范围内。\n\n用 NOR 门自由搭建；完整序列会检查写入后是否仍能保持。"
+msgstr "让电路记住刚才发生的事。普通逻辑门只看当前输入；[[sr_latch|SR 锁存器]]还要保留状态。\n\n输入：S 是置位控制，R 是复位控制，均为 1-bit。\n输出：Q 是记住的值，NQ 是它的反相。\n规则：S=1、R=0 时 Q=1；S=0、R=1 时 Q=0；两者为 0 时保持。S=R=1 不在本关测试范围内。\n\n用 NOR 门自由搭建；完整序列会检查写入后是否仍能保持。"
 
 msgid "hardware.briefing.latch.2"
 msgstr "S 和 R 的意思是[[set_reset|Set / Reset]]：S=1 会把 Q 设为 1，R=1 会把 Q 清为 0；两者都回到 0 后，Q 仍要保持刚才的值。S=R=1 是本关不使用的冲突输入。"
@@ -967,7 +967,7 @@ msgid "hardware.briefing.load_store.1"
 msgstr "这关不再搭新线路，而是运行你刚封装的小计算机。观察两种动作：[[load|LOAD]]把数据从[[ram|RAM]]带到[[cpu|CPU]]，[[store|STORE]]把 CPU 里的结果送回 RAM。\n\nRAM → LOAD → CPU → STORE → RAM"
 
 msgid "hardware.briefing.load_store.2"
-msgstr "直接运行固定[[program|程序]]，沿[[trace|追踪记录]]观察 LOAD/STORE 的往返；不再重复搭建。这台机器已能算、能记，但 CPU 和 RAM 每次搬运都需要时间——下一章将问：它够快吗？"
+msgstr "运行你刚封装的固定[[program|程序]]，观察 ACC 与 RAM。最后一条 ADD 改变 ACC 时，地址 0 中的数是否也改变了？沿[[trace|追踪记录]]区分计算和 STORE 各在何时写入。这台机器已能算、能记，但 CPU 和 RAM 每次搬运都需要时间——下一章将问：它够快吗？"
 
 msgid "hardware.briefing.generic.goal"
 msgstr "先辨认固定输入、固定输出和本关允许使用的元件，再把任务拆成几条较小的信号关系。不要先照抄完整线路；每完成一段就用测试台观察它。"
@@ -2190,7 +2190,7 @@ msgid "system.status.topology_invalid"
 msgstr "当前系统缺少 %d 项有效连接或零件"
 
 msgid "system.status.level_complete"
-msgstr "证据链已完整；请先复盘 Trace、Profiler 与历史，再查看调查结论。"
+msgstr "所需实验已完成。对照回放与前后结果，再查看调查结论。"
 
 msgid "system.status.evidence_progress"
 msgstr "有效证据 %d / %d；继续完成同条件比较"
@@ -2247,10 +2247,10 @@ msgid "system.level.assembly.objective"
 msgstr "接通六条数据路线，确认程序，再让两个正式案例都得到正确结果。"
 
 msgid "system.level.assembly.briefing.1"
-msgstr "一台最简单的计算机需要三部分：[[cpu|CPU]]负责按步骤计算，[[ram|RAM]]负责保存数据，[[bus|总线]]负责在两者之间搬运数据。\n\nCPU  →  总线  →  RAM\nCPU  ←  总线  ←  RAM"
+msgstr "你已经造出了四位小计算机。接下来用独立的八位教学模型，研究计算与搬运各花多少时间。\n\n[[cpu|CPU]] 负责计算，[[ram|RAM]] 保存数据，[[bus|总线]] 搬运数据。\nCPU → 总线 → RAM\nCPU ← 总线 ← RAM"
 
 msgid "system.level.assembly.briefing.2"
-msgstr "把请求、写入数据和读回数据这三趟路都接通，一共是六段[[wire|连线]]。然后打开“程序”，点击[[apply|确认并应用]]，再到[[test_bench|测试台]]逐个运行两个正式案例。两次结果都正确就算完成。"
+msgstr "接通请求、写入数据和读回数据三条路线，共六段[[wire|连线]]。预置程序已经应用：读入一个数，加 1，再写回。\n\n到[[test_bench|测试台]]点击“运行全部官方用例”，确认两个结果都正确。只有修改程序草稿后，才需要“[[apply|确认并应用]]”。"
 
 msgid "system.level.cpu_speed.title"
 msgstr "CPU 变快以后"
@@ -2280,7 +2280,7 @@ msgid "system.level.ram_wait.objective"
 msgstr "先用慢内存，再只换成快内存；比较 CPU 等待时间的变化。"
 
 msgid "system.level.ram_wait.briefing.1"
-msgstr "[[cpu|CPU]]要用一个数时，会先向[[ram|RAM]]发请求；RAM 找到数后，再沿[[bus|总线]]送回来。在数还没到之前，CPU 只能停着等。我们把这段时间叫[[cpu_wait|CPU 等待]]。先猜一猜：这次时间主要花在计算、等待，还是两边差不多？"
+msgstr "上一关换快了 [[cpu|CPU]]，计算时间缩短了，[[cpu_wait|等待]]却没有减少。数据回来前，CPU 仍不能继续。\n\n这次保持快 CPU，沿请求、[[ram|RAM]] 处理和返回路线调查。先预测：时间主要花在计算、等待，还是两者接近？"
 
 msgid "system.level.ram_wait.briefing.2"
 msgstr "先固定 Fast [[cpu|CPU]]和[[bus|Bus8]]，用 Slow [[ram|RAM]]跑一次；然后只换成 Fast RAM。打开[[trace|追踪记录]]，可以看到“发出请求 → RAM 处理 → 数据返回”这条完整路线。"
@@ -2298,7 +2298,7 @@ msgid "system.level.bus_width.objective"
 msgstr "先用窄总线，再只换成宽总线；比较同一份数据被拆成了几段。"
 
 msgid "system.level.bus_width.briefing.1"
-msgstr "[[bus|总线]]像一条每次只能搬固定数量货物的通道。每个周期能搬多少位，叫[[bandwidth|带宽]]。8 位数据走 2 位总线要分 4 趟，走 8 位总线只要 1 趟；这种“拆成多趟传送”叫[[serialization|串行化]]。"
+msgstr "[[bus|总线]]每周期能搬运的位数叫[[bandwidth|带宽]]。本关每份数据为 8 位；Bus2 每周期搬 2 位，Bus8 每周期搬 8 位。\n\n通道一次放不下时，就要拆成多趟，这叫[[serialization|串行化]]。预测两种通道各需要几趟，再观察实际传输。"
 
 msgid "system.level.bus_width.briefing.2"
 msgstr "先锁定[[prediction|预测]]，用[[bus|Bus2]]跑一次；再保持[[cpu|CPU]]、[[ram|RAM]]、[[program|程序]]和数据不变，只换成 Bus8。沿桌面上的线路看数据包分成几段，并让两种配置都通过[[official_test|正式测试]]。"
@@ -2361,7 +2361,7 @@ msgid "system.mission.progress"
 msgstr "完成进度：%d / %d 份有效证据"
 
 msgid "system.mission.complete"
-msgstr "✓ 本关证据链完整；复盘后再查看调查结论。"
+msgstr "✓ 所需实验已完成。回顾结果后，查看调查结论。"
 
 msgid "system.mission.review_finding"
 msgstr "查看调查结论"
@@ -2706,7 +2706,7 @@ msgid "system.playback.step"
 msgstr "单步"
 
 msgid "system.playback.complete"
-msgstr "Trace 播放完成；结果早已由模拟器确定。"
+msgstr "回放结束。可以查看结果、比较记录，或继续修改机器。"
 
 msgid "system.event.read_request"
 msgstr "读取请求"
@@ -2943,10 +2943,10 @@ msgid "chapter2.status.first_experiment_one_change"
 msgstr "第一次实验只改变一个杠杆；先运行并观察结果，再组合方案。"
 
 msgid "chapter2.status.run_complete"
-msgstr "%s · 总计 %d cycles · CPU WAIT %d · RAM %d B。"
+msgstr "%s · 总计 %d 周期 · CPU WAIT %d · RAM %d B。"
 
 msgid "chapter2.status.capstone_complete"
-msgstr "已达到目标。现在可以结束章节，也可以继续压低 cycles 与成本。"
+msgstr "已达到目标。现在可以结束章节，也可以继续压低 周期 与成本。"
 
 msgid "chapter2.map.open"
 msgstr "地图"
@@ -2979,7 +2979,7 @@ msgid "chapter2.workbench.evidence_goal"
 msgstr "目标 · 收集原始证据并提交一个解释"
 
 msgid "chapter2.workbench.performance_goal"
-msgstr "目标 · 结果正确且不超过 %d cycles"
+msgstr "目标 · 结果正确且不超过 %d 周期"
 
 msgid "chapter2.tool.mission"
 msgstr "任务"
@@ -3033,7 +3033,7 @@ msgid "chapter2.progress.review_required"
 msgstr "证据 %d/%d · 回顾已完成的 Trace，再打开调查发现。"
 
 msgid "chapter2.progress.target_required"
-msgstr "证据 %d/%d · 结果正确，但仍高于 cycle 目标。"
+msgstr "证据 %d/%d · 结果正确，但仍高于 周期 目标。"
 
 msgid "chapter2.progress.complete"
 msgstr "完成 %d/%d · 证据支持你的结论。"
@@ -3042,13 +3042,13 @@ msgid "chapter2.progress.unknown_level"
 msgstr "不可用 %d/%d · 调查内容无效。"
 
 msgid "chapter2.test_bench.observation_goal"
-msgstr "证据运行\n正确执行 %d 个 pass；本观察关不设 cycle 目标。"
+msgstr "证据运行\n正确执行 %d 轮；本观察关不设 周期 目标。"
 
 msgid "chapter2.test_bench.performance_goal"
-msgstr "性能运行\n正确执行 %d 个 pass，且不超过 %d cycles。"
+msgstr "性能运行\n正确执行 %d 轮，且不超过 %d 周期。"
 
 msgid "chapter2.test_bench.official_data"
-msgstr "官方 4×4 数据 · %d 个程序 pass · deterministic Trace"
+msgstr "正式 4×4 数据 · 执行 %d 轮"
 
 msgid "chapter2.near_store.title"
 msgstr "近处存储"
@@ -3096,16 +3096,16 @@ msgid "chapter2.review.finding"
 msgstr "打开调查发现"
 
 msgid "chapter2.capstone.summary"
-msgstr "BASELINE → 最佳结果\n总周期：%d → %d cycles（减少 %d）\nCPU WAIT：%d → %d cycles（减少 %d）\n硬件成本：%d\n最佳配置：%s\n\n你在修改机器前先诊断了重复的远程取数。多种解法仍然有效。"
+msgstr "BASELINE → 最佳结果\n总周期：%d → %d 周期（减少 %d）\nCPU WAIT：%d → %d 周期（减少 %d）\n硬件成本：%d\n最佳配置：%s\n\n你在修改机器前先诊断了重复的远程取数。多种解法仍然有效。"
 
 msgid "chapter2.capstone.profiler.raw_summary"
-msgstr "%s\n原始证据 · 总计 %d cycles · CPU WAIT %d cycles"
+msgstr "%s\n原始证据 · 总计 %d 周期 · CPU WAIT %d 周期"
 
 msgid "chapter2.capstone.history.raw_title"
 msgstr "首次诊断前 · 原始运行证据"
 
 msgid "chapter2.capstone.history.raw_metrics"
-msgstr "总计 %d cycles · CPU WAIT %d cycles · 数据请求 %d"
+msgstr "总计 %d 周期 · CPU WAIT %d 周期 · 数据请求 %d"
 
 msgid "chapter2.capstone.history.diagnose_first"
 msgstr "先根据 Trace 与数据流提交诊断；完整内存拆分随后揭示。"
@@ -3177,7 +3177,7 @@ msgid "chapter2.history.none"
 msgstr "无"
 
 msgid "chapter2.history.total_delta"
-msgstr "总 cycles · %d → %d · Δ %s（%s）"
+msgstr "总 周期 · %d → %d · Δ %s（%s）"
 
 msgid "chapter2.history.wait_delta"
 msgstr "CPU WAIT · %d → %d · Δ %s"
@@ -3192,13 +3192,13 @@ msgid "chapter2.history.baseline_metrics"
 msgstr "总计 %d · CPU WAIT %d · 远端获取 %d · 近处返回 %d · RAM %d B · 成本 %d"
 
 msgid "chapter2.history.personal_best"
-msgstr "个人最佳 · %d cycles · CPU WAIT %d · 成本 %d\n%s"
+msgstr "个人最佳 · %d 周期 · CPU WAIT %d · 成本 %d\n%s"
 
 msgid "chapter2.history.run_again"
 msgstr "只改变一项并重新运行，以生成 Before → After 比较。"
 
 msgid "chapter2.history.config"
-msgstr "%s · %s · %d 个 pass · %s · 成本 %d"
+msgstr "%s · %s · %d 轮 · %s · 成本 %d"
 
 msgid "chapter2.history.change.memory_path"
 msgstr "数据路径"
@@ -3315,7 +3315,7 @@ msgid "chapter2.notebook.cpu_wait.title"
 msgstr "CPU WAIT"
 
 msgid "chapter2.notebook.cpu_wait.body"
-msgstr "处理器因请求的数据尚未返回而无法继续的 cycles。"
+msgstr "处理器因请求的数据尚未返回而无法继续的 周期。"
 
 msgid "chapter2.notebook.cpu_wait.diagram"
 msgstr "CPU 请求 → WAIT → 数据返回 → 计算"
@@ -3450,7 +3450,7 @@ msgid "chapter2.level.distant_reads.judgment.repeated_ram"
 msgstr "CPU 在等待，因为每个值都要前往 RAM 再返回。"
 
 msgid "chapter2.level.distant_reads.judgment.cpu_math"
-msgstr "加法本身消耗了大部分 cycles。"
+msgstr "加法本身消耗了大部分 周期。"
 
 msgid "chapter2.level.distant_reads.judgment.result_store"
 msgstr "反复延迟来自最后一次结果写入。"
@@ -3486,7 +3486,7 @@ msgid "chapter2.level.cache_failure.briefing.1"
 msgstr "上一关那块“近处存储”现在正式叫[[cache|Cache（缓存）]]。它一次保存的一小块连续数据叫[[cache_line|Cache line]]。需要的数据不在里面时叫[[miss|Miss]]，只能去[[ram|RAM]]取；空间不够而换掉旧数据时叫[[evict|Evict]]。"
 
 msgid "chapter2.level.cache_failure.briefing.2"
-msgstr "保持机器和[[program|程序]]不变，运行一次。按[[trace|追踪记录]]里的地址顺序看[[miss|Miss]]和[[evict|Evict]]：如果一条数据还没来得及再次使用就被换掉，[[cache|Cache]]自然帮不上忙。最后选择最符合证据的原因。"
+msgstr "保持机器和[[program|程序]]不变，运行一次。在[[trace|追踪记录]]中跟踪连续几个地址：分别取回了哪条 [[cache_line|line]]？再次需要它时，它还在近处吗？结合 [[miss|Miss]] 与 [[evict|Evict]] 记录，选择证据支持的原因。"
 
 msgid "chapter2.level.cache_failure.learned"
 msgstr "装上 Cache 并不够。跨步顺序在四条 line 间轮转，而近处只能容纳一条，数据在复用前就被替换。"
@@ -3513,7 +3513,7 @@ msgid "chapter2.level.access_order.briefing.1"
 msgstr "[[cache|Cache]]里的数据如果很快又被用到，就不用再次跑远路。让访问集中在刚取回的数据附近，这种“用得近、用得及时”的特点叫[[locality|局部性]]。上一关按列跳着取数；现在试着按行连续取。"
 
 msgid "chapter2.level.access_order.briefing.2"
-msgstr "打开“[[program|程序]]”，把[[column_first|按列优先]]改成[[row_first|按行优先]]，再点击“[[apply|确认并应用]]”。硬件、数据和[[cache|Cache]]大小都不要改；正式运行不超过 105 [[cycle|周期]]就完成。"
+msgstr "打开“[[program|程序]]”，调整两层循环的先后，也可用策略按钮载入草稿。检查代码后点击“[[apply|应用程序]]”。\n\n硬件、数据和 [[cache|Cache]] 大小保持不变。让正式结果正确且不超过 105 [[cycle|周期]]。"
 
 msgid "chapter2.level.access_order.learned"
 msgstr "连续访问在移动前复用了刚取回的 line。这种可利用的时间或地址邻近性叫 Locality（局部性）。"
@@ -3531,7 +3531,7 @@ msgid "chapter2.level.working_set.briefing.1"
 msgstr "[[program|程序]]会把同一批数据处理两遍，每一遍叫一个[[pass|轮次]]。在这段时间里会反复用到的全部数据，叫[[working_set|工作集]]。如果工作集比[[cache|Cache]]大，第一轮留下的数据可能在第二轮开始前就全被换掉。"
 
 msgid "chapter2.level.working_set.briefing.2"
-msgstr "不要改程序，运行一次固定的按行优先任务。比较第 1 轮和第 2 轮的远端获取：如果四条 line 都再次出现，说明问题不在顺序，而在“需要留下的数据多于近处容量”。最后选择对应解释。"
+msgstr "运行固定的按行优先任务。比较第 1 轮和第 2 轮：哪些 [[cache_line|line]] 又从远处取了一次？记录需要保留的数据量，再与近处容量比较，选择最符合证据的解释。"
 
 msgid "chapter2.level.working_set.learned"
 msgstr "访问顺序没有错，但该阶段需要四条 line，近处只能容纳一条。当前需要的数据就是 Working Set（工作集）。"
@@ -3570,7 +3570,7 @@ msgid "chapter2.level.capstone.description"
 msgstr "面对一个新任务，自己完成观察、判断、修改和复查。"
 
 msgid "chapter2.level.capstone.objective"
-msgstr "先保留原样跑一次，再根据证据只改一个因素；最终结果要正确且不超过 145 周期。"
+msgstr "先保留原样运行并诊断；第一次实验只改一个因素，之后可组合方案。正式结果要正确且不超过 145 周期。"
 
 msgid "chapter2.level.capstone.briefing.1"
 msgstr "这次不给现成诊断。先用给定配置运行一次，观察总[[cycle|周期]]、[[cpu_wait|CPU 等待]]和数据往返；最拖慢整次运行的原因叫[[bottleneck|瓶颈]]。先从证据判断它在哪里。"
@@ -3579,7 +3579,7 @@ msgid "chapter2.level.capstone.briefing.2"
 msgstr "第一次修改只动一个地方：访问顺序、[[cache|Cache]]大小或[[work_group|工作分组]]任选其一。用[[trace|追踪记录]]看事件，用[[profiler|性能分析器]]看时间分布，再做一次[[before_after|Before → After 比较]]。这样才能知道修改为什么有效。"
 
 msgid "chapter2.level.capstone.briefing.3"
-msgstr "最终要求有三项：保留最初的基线记录；选择与证据相符的瓶颈判断；让正式结果正确且不超过 145 周期。之后可以继续组合方案，但硬件成本也会一直显示。"
+msgstr "第一组单因素实验完成后，就可以组合访问顺序、缓存大小与工作分组。最终要求：保留最初的基线记录；判断有证据支持；正式结果正确且不超过 145 周期。\n\n达标后仍可继续比较周期与成本，保留自己的最佳方案。"
 
 msgid "chapter2.level.capstone.learned"
 msgstr "你完成了完整循环：观察、诊断、改变一个原因、再比较。多种软硬件解法都有效。"
@@ -3588,7 +3588,7 @@ msgid "chapter2.level.capstone.judgment.repeated_far_fetch"
 msgstr "CPU 重复等待同一批数据再次从远处内存取回。"
 
 msgid "chapter2.level.capstone.judgment.more_cpu_math"
-msgstr "大部分 cycles 花在 CPU 算术上。"
+msgstr "大部分 周期 花在 CPU 算术上。"
 
 msgid "chapter2.level.capstone.judgment.wrong_result"
 msgstr "机器很慢，是因为程序算出了错误结果。"
@@ -4242,7 +4242,7 @@ msgid "terminology.term.cpu_wait.example"
 msgstr "第 0 个周期，CPU 请求从 RAM 读取数据。RAM 和 Bus 用接下来的 12 个周期处理并传回数据；这段时间 CPU 没有拿到操作数，只能显示 WAIT。第 13 个周期数据返回后，CPU 才能继续下一次计算。"
 
 msgid "terminology.term.bottleneck.example"
-msgstr "假设一次工作中 CPU 需要 2 cycles、Bus 需要 4 cycles、RAM 需要 12 cycles。把 CPU 从 2 加快到 1 只能省 1 cycle；把 RAM 从 12 降到 4 才能省 8 cycles。此时 RAM 才是主要瓶颈。"
+msgstr "假设一次工作中 CPU 需要 2 周期、Bus 需要 4 周期、RAM 需要 12 周期。把 CPU 从 2 加快到 1 只能省 1 cycle；把 RAM 从 12 降到 4 才能省 8 周期。此时 RAM 才是主要瓶颈。"
 
 msgid "terminology.term.cache.example"
 msgstr "CPU 第一次读取地址 2 时，Cache 里没有对应数据，于是发生 Miss，并从 RAM 取回包含地址 0～3 的整条 cache line。紧接着读取地址 3 时，数据已经在这条 line 中，因此直接 Hit，不必再次访问 RAM。"
@@ -4958,3 +4958,24 @@ msgstr "微型计算机"
 
 msgid "hardware.palette.purpose.tiny_computer"
 msgstr "执行指令并读写存储器"
+
+msgid "mission.navigation.workbench"
+msgstr "回到工作台"
+
+msgid "system.test_bench.result_summary"
+msgstr "%s · %d 个输出 · %d 周期 · %s"
+
+msgid "system.test_bench.show_values"
+msgstr "展开全部预期与实际值"
+
+msgid "chapter2.test_bench.observation_detail"
+msgstr "结果正确 · 观察与判断"
+
+msgid "chapter2.status.judgment_supported"
+msgstr "判断与证据相符。现在可以选择一个因素，开始对照实验。"
+
+msgid "chapter2.work_group.single_pass"
+msgstr "整个数据集 · 完成一轮"
+
+msgid "system.test_bench.case_summary"
+msgstr "%s · %d 个输入"

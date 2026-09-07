@@ -58,8 +58,8 @@ func _run() -> void:
 	_assert(_t(&"trace.playback.next_evidence") == "下一关键证据" and _t(&"trace.playback.finish_now") == "结束播放", "The Chinese Trace controls must name evidence navigation rather than simulation mutation.")
 	_assert(_t(&"common.clock_period.label") == "播放频率" and _t(&"common.clock_period.tooltip").contains("Hz") and _t(&"common.clock_period.tooltip").contains("不改变模拟结果"), "The Chinese playback control must describe editable Hz as presentation-only.")
 	_assert(_t(&"chapter2.status.first_experiment_one_change") == "第一次实验只改变一个杠杆；先运行并观察结果，再组合方案。", "The Chinese capstone boundary must ask for one controlled first change without prescribing the lever.")
-	_assert(_t(&"chapter2.capstone.history.raw_metrics", [642, 608, 32]) == "总计 642 cycles · CPU WAIT 608 cycles · 数据请求 32", "The Chinese pre-diagnosis History copy must expose only raw totals with all placeholders intact.")
-	_assert(_t(&"chapter2.history.personal_best", [138, 104, 4, "1-line Cache"]) == "个人最佳 · 138 cycles · CPU WAIT 104 · 成本 4\n1-line Cache", "The Chinese Personal Best copy must preserve all four evidence placeholders.")
+	_assert(_t(&"chapter2.capstone.history.raw_metrics", [642, 608, 32]) == "总计 642 周期 · CPU WAIT 608 周期 · 数据请求 32", "The Chinese pre-diagnosis History copy must expose only raw totals with all placeholders intact.")
+	_assert(_t(&"chapter2.history.personal_best", [138, 104, 4, "1-line Cache"]) == "个人最佳 · 138 周期 · CPU WAIT 104 · 成本 4\n1-line Cache", "The Chinese Personal Best copy must preserve all four evidence placeholders.")
 	_assert(
 		_t(&"chapter2.profiler.tree.schedule") == "调度证据"
 		and _t(&"chapter2.profiler.tree.pass", [2]) == "第 2 轮"

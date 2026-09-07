@@ -225,3 +225,36 @@ native held-mouse claim.
 
 The ongoing [all-level review](../exec-plans/active/campaign-playability-review.md)
 tracks content assessment and pending major-design decisions separately.
+
+## Campaign playability review and presentation follow-up (2026-09-07)
+
+The complete 21-level review is in
+[Campaign playability review](../design/campaign-playability-review.md). Public
+Turing Complete developer notes and first-person player accounts inform questions
+about discovery, reuse and cognitive jumps; they are not measured player consensus.
+
+At source 8bceafe, Mac computer use completed every Chapter 1 and Chapter 2 level
+in ordinary Game. The prologue prerequisites were earned by a separate, explicitly
+identified viewport-input setup. Native results include the 316→268 CPU,
+268→124 RAM and 144→96 Bus comparisons, and Chapter 2's final 642→138 cycles at
+cost 4 after a 2-line Cache experiment failed to improve performance.
+
+The follow-up fixes readable, bounded test windows, literal source-code subscripts,
+misleading target/selection/history labels and mission navigation. Mission copy
+retains specifications but stops giving observation answers in the operation step.
+Chapter 1 can end the presentation early without changing its Trace or receipt.
+No level IDs, prerequisites, official cases, targets, saved provenance or
+simulation model were changed. Program-template developer comments remain because
+raw source participates in existing receipt signatures; compatibility work is
+still pending user approval.
+
+All 20 fresh suites and the English 567-check ordinary Game replay pass in
+`.godot/verification/20260907T131713Z-ad1da3c4/`. Updated-source native screenshots
+and final result are recorded in the linked verification summary once rechecked.
+
+Final native recheck caught and fixed the longest-case dropdown expanding a
+window off screen. The final 20 suites pass in
+`.godot/verification/20260907T132435Z-04e03a80/`; the final Chinese preparation
+replay passes 567 checks. Native full-value expansion reached the last byte and
+Finish Trace preserved every official result. See the
+[verification summary](../verification/2026-09-07-campaign-playability/summary.json).

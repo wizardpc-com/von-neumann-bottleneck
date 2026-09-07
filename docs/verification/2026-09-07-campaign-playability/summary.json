@@ -1,0 +1,56 @@
+{
+  "base_commit": "8bceafe",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "macOS Apple M2 / Retina",
+  "content_review": "All original 21 levels; no levels, prerequisites, official cases, targets or persisted signatures changed",
+  "native_assessment": {
+    "source": "8bceafe",
+    "chapters_1_and_2": "All 12 levels completed using native computer use in ordinary Game",
+    "prerequisites": "9 prologue levels earned by separately identified viewport-input setup, 567 checks / 0 failures",
+    "log": ".godot/mac-playtest/native-campaign-assessment.log",
+    "capstone": {
+      "baseline_cycles": 642,
+      "two_line_cycles": 642,
+      "two_line_cost": 7,
+      "low_cost_solution_cycles": 138,
+      "low_cost_solution_cost": 4
+    }
+  },
+  "final_checks": {
+    "isolated_run": ".godot/verification/20260907T132435Z-04e03a80",
+    "all_20_suites": "PASS",
+    "import_and_directory_probe": "PASS",
+    "english_567_check_replay": ".godot/verification/20260907T131713Z-ad1da3c4/game_gui_en.txt",
+    "english_scope": "Preceding presentation candidate; subsequent change only bounded Chapter 1 workload choices/results, covered by final suites",
+    "final_chinese_567_check_replay": ".godot/mac-playtest/native-campaign-final.log"
+  },
+  "native_rechecks": [
+    "Chapter 2 observation goal no longer shows false 105-cycle requirement",
+    "Chapter 2 last briefing action closes Mission and returns canvas focus",
+    "Chapter 2 test window stays on right and inside desktop",
+    "Unsupported observation choice shows a dot, not success check; no false unlock",
+    "Chapter 1 INPUT[i] and OUTPUT[i] visibly retain subscripts",
+    "Initial native recheck caught longest-case selector expanding beyond screen despite passing earlier checks; fixed and added deferred-layout regression",
+    "Final Chapter 1 small window and Retina fullscreen, 64-case dropdown selection, move and resize, expansion and scroll to last actual value 0x41",
+    "Final Chapter 1 official rerun then native Finish Trace retains three passing cases and totals 2352 / WAIT 1848"
+  ],
+  "preparation_for_rechecks": "Fresh isolated Game prologue viewport replay, then Chapter 1 UI handlers/official tests to earn prerequisites. This is setup, not native hand wiring.",
+  "limits": [
+    "No first-time human playtest or release acceptance",
+    "No Windows native EXE check this round",
+    "No physical trackpad or multi-monitor acceptance",
+    "CUA typeText lost punctuation; manual code typing not accepted",
+    "AX omitted floating windows after fullscreen transition; used CUA screenshot coordinates and clean engine viewport captures",
+    "Existing restart signature compatibility and template comment signatures require approved data work",
+    "Optional majority-vote challenge proposed, not implemented"
+  ],
+  "source_sha256": {
+    "src/system_lab/system_lab.gd": "fac1abe75f480a3153e6293e532e46ba1adf8c403ee634720317b39361815d22",
+    "src/ui/main.gd": "cec3b304e5d5fcfac27655ef8d94c8e73107f266249d74383e09729f1ef26e7f",
+    "localization/game.zh_CN.po": "b60bd1a1174a0180767b54ee336aa12e0b97b1cbf33a9d963a2e8c3ee9c50327",
+    "localization/game.en.po": "948e91bab9e3ebd665bf7d5b786bd0d7208be4ad3f7970ee05ac75d05a7b5acb",
+    "tests/test_system_lab_ui.gd": "e0dc1482899a899b5c1453263dab7adf9cac1b810ac8064043e6074e8506cb30",
+    "tests/test_locality_chapter_ui.gd": "50adc56941d3beb7f31b97042fffad5f7e15bc0b3e011880690f5e94dc6534fe",
+    "tests/test_localization.gd": "de62b609fdd38db81090449f50c3bb7707a662b16f74b6f68b3e059415258725"
+  }
+}

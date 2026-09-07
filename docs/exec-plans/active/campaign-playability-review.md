@@ -56,3 +56,37 @@ Do not replace puzzle discovery with automatic connections or unsolicited answer
   intended. Command+Tab dispatched to the app was not proof of OS focus-out.
 - Full 21-level content/rules review is drafted in
   `docs/design/campaign-playability-review.md`; native Chapters 1/2 follow.
+- Native Chapter 1 all five completed, including six hand-wired routes, deliberately
+  incorrect CPU prediction, three part comparisons and the 4/16/64 RAM diagnosis.
+- Native Chapter 2 all seven completed. The capstone included an unsupported
+  diagnosis, a 2-line non-improvement (642 cycles/cost 7) and the lower-cost
+  138-cycle/cost-4 combination. Exact coverage and limits are in the design review.
+- Implemented presentation-only fixes: correct level-specific test-node goals,
+  bounded scrollable test windows, compact large outputs with full expansion,
+  literal source subscripts, supported-vs-selected judgment marks, one-pass history,
+  final briefing action and Chapter 1 end-replay action. New level entry shows
+  Mission first while retaining movable/reopenable tools and their geometry.
+- Revised bilingual mission copy to preserve discovery, identify already-applied
+  source and the separate 8-bit teaching model, and clarify first experiment versus
+  later combinations. Kept every original test, target, prerequisite and signature.
+- Fresh run `.godot/verification/20260907T131713Z-ad1da3c4/` passes import/probe,
+  all 20 suites and English ordinary Game input replay (567 checks, zero failures).
+  Prior run had two obsolete Chinese literal-string assertions; updated the unit
+  word without removing metric or placeholder checks, then reran all suites.
+- Concrete optional three-input majority-vote application challenge is proposed
+  in the design review. User approval remains pending; no new level implemented.
+- Native updated-source recheck is underway. It uses a new isolated user directory;
+  prologue setup is the full Chinese viewport replay, followed by real Chapter 1
+  UI handlers/official tests for prerequisite preparation, not manual play evidence.
+
+- Native recheck found the longest 64-input OptionButton still expanding the system
+  window after deferred layout. Added compact workload choices, retained complete
+  input tooltips/expanded data, and tested every selection after layout settles.
+- Final import/probe and all 20 suites pass in
+  `.godot/verification/20260907T132435Z-04e03a80/`. Final Chinese Game setup replay
+  passes 567 checks, zero failures. Native recheck confirms small-window/fullscreen
+  layout, literal subscripts, 64-case selection, moving/resizing/expanding to the
+  final value, and unchanged formal results after ending playback.
+- Verification summary: `docs/verification/2026-09-07-campaign-playability/summary.json`.
+  All authorized campaign presentation work is complete. The optional new level
+  and data compatibility decisions remain pending; keep this plan active for them.

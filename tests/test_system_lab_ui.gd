@@ -253,6 +253,10 @@ func _run() -> void:
 	_assert((main.get("mission_previous_button") as Button).disabled and not (main.get("mission_continue_button") as Button).disabled, "Chapter 1 Mission must open on the first authored narrative page with forward navigation available.")
 	(main.get("mission_continue_button") as Button).pressed.emit()
 	_assert(int(main.get("mission_page")) == 1 and not (main.get("mission_previous_button") as Button).disabled, "Chapter 1 Mission must allow returning after advancing to the next narrative page.")
+	(main.get("mission_continue_button") as Button).pressed.emit()
+	_assert(not mission_window.visible and root.gui_get_focus_owner() == graph, "The last briefing action must return input focus to the workbench without changing the level.")
+	main.call("_open_instrument", &"mission")
+	main.call("_open_instrument", &"parts")
 	main.call("_open_instrument", &"program")
 	main.call("_open_instrument", &"profiler")
 	_assert(
@@ -366,6 +370,24 @@ func _run() -> void:
 	main.call("_run_official")
 	await process_frame
 	var final_receipt = main.get("latest_receipt")
+	_assert("INPUT[i]" in (main.get("program_explanation_label") as RichTextLabel).get_parsed_text(), "Program explanations must display literal array subscripts instead of interpreting [i] as italics.")
+	var final_card: VBoxContainer = (main.get("official_result_box") as VBoxContainer).get_child(2)
+	_assert((final_card.get_child(0) as Label).text.length() < 160, "A 64-output case must start with a compact readable summary.")
+	(final_card.get_child(1) as Button).button_pressed = true
+	_assert((final_card.get_child(2) as Label).visible and "0x41" in (final_card.get_child(2) as Label).text, "Expanding a large case must preserve every expected and actual value, including the final byte.")
+	main.call("_open_instrument", &"test_bench")
+	var test_window: Control = (main.get("instrument_windows") as Dictionary)[&"test_bench"]
+	var desktop: Control = main.get("desktop_host")
+	for selected_case: int in range((main.get("case_selector") as OptionButton).item_count):
+		(main.get("case_selector") as OptionButton).select(selected_case)
+		for _result_frame: int in range(3):
+			await process_frame
+		_assert(Rect2(Vector2.ZERO, desktop.size).encloses(test_window.get_rect()), "Every workload choice and expanded result must stay inside the desktop after deferred minimum-size updates.")
+	_assert("0x32" in (main.get("case_selector") as OptionButton).get_item_tooltip(2), "Compact workload choices must retain their full input in the tooltip.")
+	var trace_before_finish = main.get("current_trace")
+	var receipt_signature_before_finish: String = final_receipt.canonical_signature()
+	(main.get("finish_playback_button") as Button).pressed.emit()
+	_assert(main.get("current_trace") == trace_before_finish and final_receipt.canonical_signature() == receipt_signature_before_finish and not bool(main.get("playback_running")), "Ending presentation early must preserve the authoritative Trace and receipt exactly.")
 	_assert(final_receipt != null and final_receipt.all_passed, "Final investigation must first prove functional correctness.")
 	_assert(final_receipt.total_cases == 3, "The final diagnosis receipt must aggregate the merged 4/16/64 workloads.")
 	var final_trace_names := PackedStringArray()

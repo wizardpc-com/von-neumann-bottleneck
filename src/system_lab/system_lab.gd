@@ -57,7 +57,7 @@ const WINDOW_LAYOUT := {
 	&"mission": Rect2(16.0, 16.0, 420.0, 450.0),
 	&"parts": Rect2(1050.0, 20.0, 430.0, 390.0),
 	&"program": Rect2(35.0, 38.0, 610.0, 540.0),
-	&"test_bench": Rect2(455.0, 50.0, 590.0, 500.0),
+	&"test_bench": Rect2(875.0, 20.0, 600.0, 370.0),
 	&"profiler": Rect2(770.0, 24.0, 690.0, 510.0),
 	&"history": Rect2(510.0, 82.0, 600.0, 430.0),
 }
@@ -118,6 +118,7 @@ var editor: CodeEdit
 var program_validation_label: Label
 var program_apply_label: Label
 var program_explanation_label: RichTextLabel
+var finish_playback_button: Button
 var apply_program_button: Button
 var case_selector: OptionButton
 var debug_run_button: Button
@@ -968,6 +969,8 @@ func _build_test_bench_instrument() -> Control:
 	box.add_child(help)
 	case_selector = OptionButton.new()
 	case_selector.name = "SystemCaseSelector"
+	case_selector.fit_to_longest_item = false
+	case_selector.clip_text = true
 	box.add_child(case_selector)
 	var row := HBoxContainer.new()
 	box.add_child(row)
@@ -988,6 +991,7 @@ func _build_test_bench_instrument() -> Control:
 	box.add_child(test_status_label)
 	var scroll := ScrollContainer.new()
 	scroll.custom_minimum_size.y = 145.0
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(scroll)
 	official_result_box = VBoxContainer.new()
@@ -1072,6 +1076,11 @@ func _build_playback_bar() -> Control:
 	step_button.text = _t(&"system.playback.step")
 	step_button.pressed.connect(_step_playback)
 	row.add_child(step_button)
+	finish_playback_button = Button.new()
+	finish_playback_button.text = _t(&"trace.playback.finish_now")
+	finish_playback_button.disabled = true
+	finish_playback_button.pressed.connect(_finish_playback_early)
+	row.add_child(finish_playback_button)
 	var clock_period_label := Label.new()
 	clock_period_label.text = _t(&"common.clock_period.label")
 	clock_period_label.tooltip_text = _t(&"common.clock_period.tooltip")
@@ -1167,8 +1176,9 @@ func _start_level(level_id: StringName) -> void:
 	status_label.add_theme_color_override("font_color", WARNING)
 	_load_level_session()
 	_refresh_level_ui()
+	for id: StringName in instrument_windows:
+		_close_instrument(id)
 	_open_instrument(&"mission")
-	_open_instrument(&"parts")
 
 
 func _save_level_session() -> void:
@@ -1256,6 +1266,9 @@ func _refresh_level_ui() -> void:
 	case_selector.clear()
 	for case: Dictionary in current_level_definition.get("cases", []):
 		case_selector.add_item(_case_display(case))
+		case_selector.set_item_tooltip(case_selector.item_count - 1, _t(&"system.test_bench.case", [
+			String(case.get("name", "case")), _format_bytes(_typed_int_array(case.get("input", []))),
+		]))
 	diagnosis_row.visible = bool(current_level_definition.get("diagnosis_required", false))
 	profiler_tier_label.text = _t(&"system.profiler.tier", [int(current_level_definition.get("profiler_tier", 1))])
 	_clear_result_rows()
@@ -1278,14 +1291,18 @@ func _refresh_mission_page() -> void:
 	mission_body_label.set_linked_text(_t(StringName(pages[mission_page])))
 	mission_page_label.text = _t(&"hardware.briefing.progress", [mission_page + 1, pages.size()])
 	mission_previous_button.disabled = mission_page == 0
-	mission_continue_button.disabled = mission_page == pages.size() - 1
+	mission_continue_button.disabled = false
 	mission_continue_button.text = _t(
-		&"mission.navigation.last_page" if mission_continue_button.disabled
+		&"mission.navigation.workbench" if mission_page == pages.size() - 1
 		else &"hardware.briefing.continue"
 	)
 
 
 func _change_mission_page(delta: int) -> void:
+	if delta > 0 and mission_page == _system_mission_pages().size() - 1:
+		_close_instrument(&"mission")
+		graph.grab_focus()
+		return
 	mission_page = clampi(mission_page + delta, 0, _system_mission_pages().size() - 1)
 	_refresh_mission_page()
 
@@ -2074,7 +2091,9 @@ func _update_program_explanation(program: SystemProgram) -> void:
 		line_numbers.append(line_number)
 	line_numbers.sort()
 	for line_number: int in line_numbers:
-		lines.append("[color=#91a0b9]%d[/color]  %s" % [line_number, Localization.text_from_spec(specs[line_number])])
+		# Source such as INPUT[i] is literal code, not RichTextLabel markup.
+		var explanation: String = Localization.text_from_spec(specs[line_number]).replace("[", "[lb]")
+		lines.append("[color=#91a0b9]%d[/color]  %s" % [line_number, explanation])
 	program_explanation_label.text = "\n".join(lines)
 
 
@@ -2298,6 +2317,9 @@ func _clear_result_rows() -> void:
 
 
 func _add_result_row(trace: SystemTrace) -> void:
+	var card := VBoxContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	official_result_box.add_child(card)
 	var row := Label.new()
 	row.text = _t(&"system.test_bench.result", [
 		trace.test_name,
@@ -2306,9 +2328,32 @@ func _add_result_row(trace: SystemTrace) -> void:
 		int(trace.metrics.get("total_cycles", 0)),
 		_t(&"system.result.pass") if trace.passed else _t(&"system.result.fail"),
 	])
+	var full_result: String = row.text
+	var compact: bool = maxi(trace.expected_output.size(), trace.output_data.size()) > 8
+	if compact:
+		row.text = _t(&"system.test_bench.result_summary", [
+			trace.test_name, trace.output_data.size(), int(trace.metrics.get("total_cycles", 0)),
+			_t(&"system.result.pass") if trace.passed else _t(&"system.result.fail"),
+		])
 	row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_theme_color_override("font_color", GOOD if trace.passed else BAD)
-	official_result_box.add_child(row)
+	card.add_child(row)
+	if compact:
+		var details := Label.new()
+		details.text = full_result
+		for case: Dictionary in current_level_definition.get("cases", []):
+			if String(case.get("name", "")) == trace.test_name:
+				details.text = _t(&"system.test_bench.case", [trace.test_name,
+					_format_bytes(_typed_int_array(case.get("input", [])))]) + "\n" + full_result
+				break
+		details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		details.visible = false
+		var expand := Button.new()
+		expand.text = _t(&"system.test_bench.show_values")
+		expand.toggle_mode = true
+		expand.toggled.connect(func(pressed: bool) -> void: details.visible = pressed)
+		card.add_child(expand)
+		card.add_child(details)
 
 
 func _refresh_profiler(metrics: Dictionary = {}) -> void:
@@ -2508,6 +2553,7 @@ func _history_delta(change: int, baseline: int, include_percent: bool) -> String
 
 
 func _play_trace(trace: SystemTrace) -> void:
+	finish_playback_button.disabled = trace == null or trace.events.is_empty()
 	current_trace = trace
 	playback_index = 0
 	playback_elapsed = 0.0
@@ -2687,7 +2733,15 @@ func _step_playback() -> void:
 		_finish_playback()
 
 
+func _finish_playback_early() -> void:
+	if current_trace == null or playback_index >= current_trace.events.size():
+		return
+	PlaytestData.record_trace_action(&"chapter_1", current_level_id, &"finish_early")
+	_finish_playback()
+
+
 func _finish_playback() -> void:
+	finish_playback_button.disabled = true
 	playback_running = false
 	playback_index = current_trace.events.size() if current_trace != null else 0
 	playback_elapsed = 0.0
@@ -2703,6 +2757,8 @@ func _finish_playback() -> void:
 
 
 func _stop_playback() -> void:
+	if finish_playback_button != null:
+		finish_playback_button.disabled = true
 	playback_running = false
 	pending_history_after_playback = false
 	current_trace = null
@@ -2751,6 +2807,7 @@ func _open_instrument(id: StringName) -> void:
 	panel.show()
 	if panel.minimized:
 		panel.set_minimized(false)
+	panel.fit_to_parent(8.0)
 	_focus_instrument(id)
 	var button: Button = instrument_open_buttons.get(id)
 	if button != null:
@@ -2840,9 +2897,12 @@ func _capture_system_run() -> void:
 
 
 func _case_display(case: Dictionary) -> String:
+	var inputs: Array[int] = _typed_int_array(case.get("input", []))
+	if inputs.size() > 4:
+		return _t(&"system.test_bench.case_summary", [String(case.get("name", "case")), inputs.size()])
 	return _t(&"system.test_bench.case", [
 		String(case.get("name", "case")),
-		_format_bytes(_typed_int_array(case.get("input", []))),
+		_format_bytes(inputs),
 	])
 
 

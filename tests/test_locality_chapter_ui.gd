@@ -45,6 +45,7 @@ func _run() -> void:
 	main.call("_start_level", &"distant_reads")
 	await process_frame
 	var graph: GraphEdit = main.get("graph")
+	_assert("105" not in ((main.get("device_detail_labels") as Dictionary)[&"TestBench"] as Label).text, "An observation node must not advertise an unrelated 105-cycle completion target.")
 	_assert(
 		(main.get("mission_previous_button") as Button).disabled
 		and not (main.get("mission_continue_button") as Button).disabled,
@@ -52,6 +53,9 @@ func _run() -> void:
 	)
 	(main.get("mission_continue_button") as Button).pressed.emit()
 	_assert(int(main.get("mission_page")) == 1 and not (main.get("mission_previous_button") as Button).disabled, "Chapter 2 Mission must advance and expose Previous on later narrative pages.")
+	(main.get("mission_continue_button") as Button).pressed.emit()
+	_assert(not (main.get("instrument_windows") as Dictionary)[&"mission"].visible and root.gui_get_focus_owner() == graph, "The final mission action must close the briefing and restore canvas focus.")
+	main.call("_open_instrument", &"mission")
 	(main.get("mission_previous_button") as Button).pressed.emit()
 	_assert(not (graph.get_node("Cache") as GraphNode).visible, "2-1 must show the direct CPU → Bus → RAM path without a Cache node.")
 	_assert(graph.get_connection_list().size() == 4, "2-1 must contain only Program, direct-memory, and result routes.")
@@ -87,6 +91,7 @@ func _run() -> void:
 	_assert((main.get("level_completion_overlay") as Control).visible, "Reviewing a completed short investigation must present its concise conclusion.")
 
 	main.call("_start_level", &"nearby_storage")
+	_assert("pass 2" not in String(main.call("_history_config_text", (main.get("run_history") as Array)[0])), "A one-pass inherited baseline must not describe a nonexistent second pass.")
 	var cache_node: GraphNode = graph.get_node("Cache")
 	var device_buttons: Dictionary = main.get("device_instrument_buttons")
 	_assert(not _reveals_cache_term(cache_node.title) and not _reveals_cache_term((device_buttons[&"Cache"] as Button).text), "2-2 must describe the unexplained mechanism as nearby storage, including its graph action.")
@@ -181,6 +186,13 @@ func _run() -> void:
 	_assert(locality_state.call("concept_unlocked", &"blocking"), "Blocking/Tiling must unlock after the implementation succeeds.")
 
 	main.call("_start_level", &"capstone")
+	main.call("_open_instrument", &"test_bench")
+	for _layout_frame: int in range(3):
+		await process_frame
+	var test_window: Control = (main.get("instrument_windows") as Dictionary)[&"test_bench"]
+	var host: Control = main.get("instrument_host")
+	_assert(Rect2(Vector2.ZERO, host.size).encloses(test_window.get_rect()), "The capstone's 16-value debug grid must scroll inside the test window without expanding beyond the desktop.")
+	_assert("145" in ((main.get("device_detail_labels") as Dictionary)[&"TestBench"] as Label).text, "The final test node must display its actual 145-cycle goal.")
 	var capstone_cache_buttons: Dictionary = main.get("cache_card_buttons")
 	var capstone_block_buttons: Dictionary = main.get("block_card_buttons")
 	_assert(not (main.get("editor") as TextEdit).editable, "2-7 must keep program changes locked until the given baseline has produced evidence.")
@@ -205,8 +217,10 @@ func _run() -> void:
 	main.call("_select_cache", 4, true)
 	_assert(int(main.get("current_cache_lines")) == 1 and main.get("current_trace") == capstone_baseline, "A direct change attempt must not bypass the capstone diagnosis gate.")
 	main.call("_select_judgment", &"more_cpu_math")
+	_assert(not ((main.get("mission_judgment_buttons") as Dictionary)[&"more_cpu_math"] as Button).text.begins_with("✓"), "An unsupported diagnosis must not display a success checkmark.")
 	_assert(not (main.get("editor") as TextEdit).editable and (capstone_cache_buttons[4] as Button).disabled, "An unsupported diagnosis must keep every solution control locked.")
 	main.call("_select_judgment", &"repeated_far_fetch")
+	_assert(((main.get("mission_judgment_buttons") as Dictionary)[&"repeated_far_fetch"] as Button).text.begins_with("✓") and not ((main.get("mission_judgment_buttons") as Dictionary)[&"more_cpu_math"] as Button).text.begins_with("●"), "Correcting a diagnosis must mark only the supported option and clear the previous selection marker.")
 	var revealed_cycles: TreeItem = capstone_profiler.get_root().get_child(0)
 	var revealed_memory: TreeItem = capstone_profiler.get_root().get_child(1)
 	_assert((main.get("editor") as TextEdit).editable, "A correct evidence diagnosis must unlock program investigation.")

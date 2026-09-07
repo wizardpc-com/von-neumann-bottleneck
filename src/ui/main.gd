@@ -69,7 +69,7 @@ const STANDARD_LAYOUT: Dictionary = {
 const INSTRUMENT_LAYOUT: Dictionary = {
 	&"mission": Rect2(18, 18, 480, 430),
 	&"program": Rect2(20, 18, 560, 470),
-	&"test_bench": Rect2(380, 38, 650, 445),
+	&"test_bench": Rect2(885, 18, 600, 300),
 	&"profiler": Rect2(710, 18, 700, 470),
 	&"cache": Rect2(1080, 92, 410, 360),
 	&"blocking": Rect2(1020, 70, 450, 370),
@@ -845,9 +845,17 @@ func _build_test_bench_instrument() -> Control:
 	run_row.add_child(official_run_button)
 	result_label = Label.new()
 	result_label.text = _t(&"state.not_run")
+	result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	result_label.add_theme_font_size_override("font_size", 24)
 	panel.add_child(result_label)
-	return panel
+	# The debug grid is taller than the observation controls. Keep its minimum
+	# size inside a scroll area so showing it cannot push the window off screen.
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(panel)
+	return scroll
 
 
 func _build_profiler_instrument() -> Control:
@@ -1073,6 +1081,11 @@ func _start_level(level_id: StringName) -> void:
 		_t(&"chapter2.test_bench.performance_goal", [current_pass_count, target_cycles])
 		if target_cycles > 0 else _t(&"chapter2.test_bench.observation_goal", [current_pass_count])
 	)
+	device_detail_labels[&"TestBench"].text = (
+		_t(&"device.test_bench.detail", [target_cycles]) if target_cycles > 0
+		else _t(&"chapter2.test_bench.observation_detail")
+	)
+	device_detail_labels[&"TestBench"].tooltip_text = test_goal_label.text
 	debug_data_label.text = _t(&"chapter2.test_bench.official_data", [current_pass_count])
 
 	editor.set_block_signals(true)
@@ -1157,14 +1170,18 @@ func _refresh_mission_page() -> void:
 	mission_objective_label.set_linked_text(_t(StringName(pages[mission_page])))
 	mission_page_label.text = _t(&"hardware.briefing.progress", [mission_page + 1, pages.size()])
 	mission_previous_button.disabled = mission_page == 0
-	mission_continue_button.disabled = mission_page == pages.size() - 1
+	mission_continue_button.disabled = false
 	mission_continue_button.text = _t(
-		&"mission.navigation.last_page" if mission_continue_button.disabled
+		&"mission.navigation.workbench" if mission_page == pages.size() - 1
 		else &"hardware.briefing.continue"
 	)
 
 
 func _change_mission_page(delta: int) -> void:
+	if delta > 0 and mission_page == _chapter2_mission_pages().size() - 1:
+		_close_instrument(&"mission")
+		graph.grab_focus()
+		return
 	mission_page = clampi(mission_page + delta, 0, _chapter2_mission_pages().size() - 1)
 	_refresh_mission_page()
 
@@ -1178,13 +1195,17 @@ func _select_judgment(judgment_id: StringName) -> void:
 	selected_judgment = judgment_id
 	for option_id: StringName in mission_judgment_buttons:
 		var button: Button = mission_judgment_buttons[option_id]
-		var option_text: String = button.text.trim_prefix("✓ ")
-		button.text = ("✓ " if option_id == judgment_id else "") + option_text
+		var option_text: String = button.text.trim_prefix("✓ ").trim_prefix("● ")
+		var supported: bool = option_id == StringName(current_level.get("correct_judgment", &""))
+		var marker: String = ("✓ " if supported else "● ") if option_id == judgment_id else ""
+		button.text = marker + option_text
 	_evaluate_level_completion()
 	_refresh_level_decision_controls()
 	_rebuild_profiler()
 	if pending_completion_review:
 		_set_status(_t(&"chapter2.status.review_pending"), GOOD)
+	elif judgment_id == StringName(current_level.get("correct_judgment", &"")):
+		_set_status(_t(&"chapter2.status.judgment_supported"), GOOD)
 	elif not bool(LocalityChapter.completed_levels().get(current_level_id, false)):
 		_set_status(_t(&"chapter2.status.judgment_recheck"), WARNING)
 
@@ -1916,8 +1937,10 @@ func _refresh_block_controls() -> void:
 		button.text = ("✓ " if option == current_block_lines else "") + _block_choice_name(option)
 
 
-func _block_choice_name(lines: int) -> String:
+func _block_choice_name(lines: int, passes: int = 0) -> String:
 	if lines == 0:
+		if (current_pass_count if passes == 0 else passes) == 1:
+			return _t(&"chapter2.work_group.single_pass")
 		return _t(&"chapter2.work_group.whole")
 	return _t(
 		&"chapter2.blocking.card" if LocalityChapter.concept_unlocked(&"blocking") else &"chapter2.work_group.card",
@@ -2117,7 +2140,7 @@ func _history_config_text(record: Dictionary) -> String:
 	var memory_path: String = _cache_choice_name(0 if bool(record.get("bypass_cache", false)) else int(record.get("cache_lines", 0)))
 	return _t(&"chapter2.history.config", [
 		memory_path, _strategy_text(String(record.get("pattern", "unknown"))),
-		int(record.get("passes", 1)), _block_choice_name(int(record.get("block_lines", 0))),
+		int(record.get("passes", 1)), _block_choice_name(int(record.get("block_lines", 0)), int(record.get("passes", 1))),
 		int(record.get("cost", 0))
 	])
 

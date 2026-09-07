@@ -886,7 +886,7 @@ msgid "hardware.briefing.tutorial.2"
 msgstr "Drag a body to move a part. Drag from an output port to a compatible input: outputs send signals, inputs receive them. Widths must match; 4-bit cannot connect to 1-bit.\n\nDrag from an existing wire to branch; a dot marks the junction. Crossings stay separate. Right-click to erase; Ctrl+Z to undo. Delete preserves fixed test terminals; right-erasing a terminal is undoable too.\n\nZoom with the wheel, pan with middle-drag. Home focuses the selection; Shift+Home shows all. The handbook keeps the other controls available."
 
 msgid "hardware.briefing.tutorial.3"
-msgstr "Toggle A in the [[test_bench|Test Bench]] and choose Run Current Input. Check both 0 and 1. After running, erase a wire and reconnect it; Mission tracks these actions.\n\nAfter Start, Mission becomes a short goal. Expand it to revisit every page; the Mission taskbar button always brings it back. Request Hint only when you want solution guidance."
+msgstr "Toggle A in the [[test_bench|Test Bench]] and choose Run Practice Circuit. Check both 0 and 1. After running, erase a wire and reconnect it; Mission tracks these actions.\n\nAfter Start, Mission becomes a short goal. Expand it to revisit every page; the Mission taskbar button always brings it back. Request Hint only when you want solution guidance."
 
 msgid "hardware.briefing.half_adder.1"
 msgstr "Teach a circuit to add: build a [[half_adder|Half Adder]] for A+B.\n\nInputs: A and B, one bit each.\nOutputs: [[sum|SUM]] is the low bit; [[carry|CARRY]] carries into the next bit.\nExample: 1+1 is binary 10, so SUM=0 and CARRY=1.\n\nUse AND, OR and NOT in any valid circuit. Pass all four test rows, then seal your HalfAdder for use in the next challenge."
@@ -913,13 +913,13 @@ msgid "hardware.briefing.alu.1"
 msgstr "Let the same inputs perform different operations. An [[alu|ALU]] selects an arithmetic or logic operation using control bits.\n\nInputs: A, B, CIN, OP1 and OP0, all one bit.\nRules: 00 AND; 01 OR; 10 addition; 11 NOT A.\nOutputs: RESULT and the addition carry CARRY.\n\nBuild freely with your existing parts. All four operations must pass the full test. Your one-bit ALU can then be reused in a four-bit ALU4."
 
 msgid "hardware.briefing.alu.2"
-msgstr "Operation specification: OP1 OP0 = 00 → A AND B; 01 → A OR B; 10 → A+B+CIN; 11 → NOT A. RESULT is the low bit; CARRY is the carry for ADD.\n\nA [[multiplexer|MUX]] selects a data input using the binary value at its selector ports; it does not perform arithmetic. Inspect components for every port and width."
+msgstr "Operation specification: OP1 OP0 = 00 → A AND B; 01 → A OR B; 10 → A+B+CIN; 11 → NOT A. RESULT is the low bit. CARRY is checked only for ADD; other operations do not check CARRY.\n\nA [[multiplexer|MUX]] selects a data input using the binary value at its selector ports; it does not perform arithmetic. Inspect components for every port and width."
 
 msgid "hardware.briefing.alu.3"
 msgstr "Debug each OP choice, then run all official tests. Passing creates ALU4 by placing four copies of your verified one-bit structure side by side."
 
 msgid "hardware.briefing.latch.1"
-msgstr "Make a circuit remember. Ordinary gates read the current inputs; an [[sr_latch|SR Latch]] also retains a state.\n\nInputs: S sets to 1 and R resets to 0, both one bit.\nOutputs: Q is the stored bit; NQ is its opposite.\nRules: S=1, R=0 sets Q=1; S=0, R=1 sets Q=0; both 0 holds. S=R=1 is outside this level’s test cases.\n\nBuild freely with NOR gates. The full sequence checks that the state survives after the input returns to 0."
+msgstr "Make a circuit remember. Ordinary gates read the current inputs; an [[sr_latch|SR Latch]] also retains a state.\n\nInputs: S is the Set control and R the Reset control, both one bit.\nOutputs: Q is the stored bit; NQ is its opposite.\nRules: S=1, R=0 sets Q=1; S=0, R=1 sets Q=0; both 0 holds. S=R=1 is outside this level’s test cases.\n\nBuild freely with NOR gates. The full sequence checks that the state survives after the input returns to 0."
 
 msgid "hardware.briefing.latch.2"
 msgstr "S and R mean [[set_reset|Set / Reset]]: S=1 sets Q to 1, R=1 clears Q to 0, and S=R=0 must keep the last Q. S=R=1 is a conflicting input that this level does not use."
@@ -967,7 +967,7 @@ msgid "hardware.briefing.load_store.1"
 msgstr "No new wiring is needed. Run your sealed computer and watch two actions: [[load|LOAD]] brings data from [[ram|RAM]] to the [[cpu|CPU]], while [[store|STORE]] sends the CPU result back.\n\nRAM → LOAD → CPU → STORE → RAM"
 
 msgid "hardware.briefing.load_store.2"
-msgstr "Run the fixed program, then follow the [[trace|Trace]] step by step. Finish when the final values are correct and you can see the LOAD / STORE round trip."
+msgstr "Run your sealed computer with the fixed [[program|program]] and watch ACC and RAM. When the final ADD changes ACC, does the value at address 0 change too? Follow the [[trace|Trace]] to distinguish calculation from STORE. In the next chapter, investigate the time spent moving data."
 
 msgid "hardware.briefing.generic.goal"
 msgstr "Identify the fixed inputs, fixed outputs, and allowed components, then split the task into smaller signal relationships. Test each section as you build instead of copying a complete circuit first."
@@ -2247,10 +2247,10 @@ msgid "system.level.assembly.objective"
 msgstr "Connect all six request, write, and read routes, apply the program, and pass both official cases."
 
 msgid "system.level.assembly.briefing.1"
-msgstr "The simplest computer needs three parts: the [[cpu|CPU]] follows steps and calculates, [[ram|RAM]] stores data, and the [[bus|Bus]] carries data between them.\n\nCPU → Bus → RAM\nCPU ← Bus ← RAM"
+msgstr "You built a four-bit computer. Now use a separate eight-bit teaching model to investigate time spent computing and moving data.\n\n[[cpu|CPU]] computes, [[ram|RAM]] stores data, and the [[bus|Bus]] transports it.\nCPU → Bus → RAM\nCPU ← Bus ← RAM"
 
 msgid "system.level.assembly.briefing.2"
-msgstr "Connect all six [[wire|wire]] segments for requests, writes, and returned data. Open Program, choose [[apply|Confirm & Apply]], then use the [[test_bench|Test Bench]] to run both official cases one at a time."
+msgstr "Connect the request, write-data and read-data routes: six [[wire|wire]] segments in total. The supplied program is already applied: read a value, add 1, then write it back.\n\nIn the [[test_bench|Test Bench]], select Run all official cases and check both results. Use [[apply|Confirm and apply]] only after editing the program draft."
 
 msgid "system.level.cpu_speed.title"
 msgstr "AFTER THE CPU GETS FASTER"
@@ -2280,7 +2280,7 @@ msgid "system.level.ram_wait.objective"
 msgstr "Lock a prediction, keep CPU, Bus, program, and tests fixed, then change only RAM and explain the CPU-wait delta."
 
 msgid "system.level.ram_wait.briefing.1"
-msgstr "When the CPU needs a value, it asks RAM and waits for the value to travel back. That stopped time is [[cpu_wait|CPU WAIT]]. Predict whether this run spends more time computing, waiting, or about the same on both."
+msgstr "A faster [[cpu|CPU]] shortened computation, but [[cpu_wait|waiting]] stayed the same. The CPU still cannot continue until its data returns.\n\nKeep the fast CPU and follow the request, [[ram|RAM]] service and return path. Predict whether computation or waiting dominates, or whether they are similar."
 
 msgid "system.level.ram_wait.briefing.2"
 msgstr "Keep Fast CPU and Bus8 fixed. Run Slow RAM, then change only to Fast RAM. The [[trace|Trace]] shows request → RAM service → returned data."
@@ -2298,7 +2298,7 @@ msgid "system.level.bus_width.objective"
 msgstr "Lock a prediction, run Bus2 as the baseline, then change only Bus width and inspect segmented packets on the exact wires."
 
 msgid "system.level.bus_width.briefing.1"
-msgstr "A [[bus|Bus]] is a path that carries a fixed amount each cycle. That amount is its [[bandwidth|bandwidth]]. Eight bits need four trips over Bus2 but one trip over Bus8; splitting data into trips is [[serialization|serialization]]."
+msgstr "[[bandwidth|Bandwidth]] is the number of bits a [[bus|Bus]] can carry per cycle. Each value here has 8 bits. Bus2 carries 2 bits per cycle; Bus8 carries 8.\n\nWhen a value does not fit in one trip, it must be split across trips: [[serialization|serialization]]. Predict the trips each channel needs, then observe the transfers."
 
 msgid "system.level.bus_width.briefing.2"
 msgstr "Lock a prediction and run Bus2. Keep CPU, RAM, program, and data fixed, then change only to Bus8. Watch how many packet stages cross the wire and pass both official runs."
@@ -2361,7 +2361,7 @@ msgid "system.mission.progress"
 msgstr "Completion: %d / %d valid evidence item(s)"
 
 msgid "system.mission.complete"
-msgstr "✓ Evidence chain complete. Review it, then open the investigation finding."
+msgstr "✓ Required experiments complete. Review your results, then open the finding."
 
 msgid "system.mission.review_finding"
 msgstr "Review investigation finding"
@@ -2706,7 +2706,7 @@ msgid "system.playback.step"
 msgstr "STEP"
 
 msgid "system.playback.complete"
-msgstr "Trace playback complete; the simulator determined results before animation."
+msgstr "Replay finished. Inspect results, compare runs, or keep experimenting."
 
 msgid "system.event.read_request"
 msgstr "READ REQUEST"
@@ -3048,7 +3048,7 @@ msgid "chapter2.test_bench.performance_goal"
 msgstr "PERFORMANCE RUN\nCorrectly execute %d pass(es) at no more than %d cycles."
 
 msgid "chapter2.test_bench.official_data"
-msgstr "Official 4×4 data · %d program pass(es) · deterministic Trace"
+msgstr "Official 4×4 data · %d pass(es)"
 
 msgid "chapter2.near_store.title"
 msgstr "NEARBY STORAGE"
@@ -3486,7 +3486,7 @@ msgid "chapter2.level.cache_failure.briefing.1"
 msgstr "The nearby store now has its proper name: [[cache|Cache]]. One small block it holds is a [[cache_line|Cache line]]. If needed data is absent, that is a [[miss|Miss]] and RAM must supply it. Replacing old data when space runs out is an [[evict|Evict]]."
 
 msgid "chapter2.level.cache_failure.briefing.2"
-msgstr "Keep the machine and program fixed and run once. Follow addresses, Misses, and Evicts. If useful data is replaced before reuse, the Cache cannot help. Choose the explanation that matches that evidence."
+msgstr "Keep the machine and [[program|program]] unchanged and run once. Follow several consecutive addresses in the [[trace|Trace]]: which [[cache_line|line]] returns each time? Is it still nearby when needed again? Use the [[miss|Miss]] and [[evict|Evict]] records to choose the explanation supported by the evidence."
 
 msgid "chapter2.level.cache_failure.learned"
 msgstr "Installing a Cache is not enough. The strided order cycles through four lines while only one fits, so useful data is displaced before reuse."
@@ -3513,7 +3513,7 @@ msgid "chapter2.level.access_order.briefing.1"
 msgstr "If Cache data is reused soon, the CPU avoids another distant trip. Keeping accesses close in address and time is called [[locality|locality]]. The last program jumped by columns; now try reading each row continuously."
 
 msgid "chapter2.level.access_order.briefing.2"
-msgstr "Open Program, change [[column_first|column-first]] to [[row_first|row-first]], and Confirm & Apply. Keep hardware, data, and Cache size unchanged. Finish at 105 cycles or less."
+msgstr "Open [[program|Program]] and change the nesting order of the two loops, or load a draft with a strategy button. Review it, then select [[apply|Apply program]].\n\nKeep hardware, data and [[cache|Cache]] size unchanged. Produce the correct official result in at most 105 [[cycle|cycles]]."
 
 msgid "chapter2.level.access_order.learned"
 msgstr "Contiguous access reused each fetched line before moving on. This exploitable closeness in time or address is Locality."
@@ -3531,7 +3531,7 @@ msgid "chapter2.level.working_set.briefing.1"
 msgstr "The program handles the same data twice; each round is a [[pass|pass]]. All data needed repeatedly during that phase is the [[working_set|working set]]. If it is larger than Cache, pass 1's data may be gone before pass 2."
 
 msgid "chapter2.level.working_set.briefing.2"
-msgstr "Do not edit the fixed row-first program. Compare far fetches in pass 1 and pass 2. If all four lines return, the order is fine but the active data does not fit nearby. Choose that explanation."
+msgstr "Run the fixed row-first task. Compare passes 1 and 2: which [[cache_line|lines]] are fetched from far away again? Compare the data that needs to stay nearby with the available capacity, then choose the explanation supported by the evidence."
 
 msgid "chapter2.level.working_set.learned"
 msgstr "The access order was good, but the phase needed four lines while only one fit. The data needed now is the Working Set."
@@ -3570,7 +3570,7 @@ msgid "chapter2.level.capstone.description"
 msgstr "A new two-pass workload exposes all learned tools but gives no diagnosis hint."
 
 msgid "chapter2.level.capstone.objective"
-msgstr "First run the machine as given. Then use Trace, Profiler, and Before → After evidence to produce a correct result at 145 cycles or less. Hardware cost remains visible."
+msgstr "Run and diagnose the original setup first. Change one factor for the first experiment; then you may combine strategies. The official result must be correct and take at most 145 cycles."
 
 msgid "chapter2.level.capstone.briefing.1"
 msgstr "No diagnosis is supplied. Run the given setup first and inspect total cycles, CPU WAIT, and data trips. The main cause limiting the whole run is its [[bottleneck|bottleneck]]. Decide where the evidence points."
@@ -3579,7 +3579,7 @@ msgid "chapter2.level.capstone.briefing.2"
 msgstr "For the first change, alter only one thing: access order, Cache size, or Work Group. Use the [[trace|Trace]] for events and the [[profiler|Profiler]] for time, then make a Before → After comparison."
 
 msgid "chapter2.level.capstone.briefing.3"
-msgstr "Finish three requirements: keep the original baseline record, choose the evidence-backed bottleneck, and produce a correct official result at 145 cycles or less. Hardware cost remains visible."
+msgstr "After your first single-factor experiment, you may combine access order, cache size and work grouping. Finish with the original baseline recorded, an evidence-supported judgment, and a correct official result within 145 cycles.\n\nAfter reaching the target, keep comparing cycles and cost to improve your personal best."
 
 msgid "chapter2.level.capstone.learned"
 msgstr "You completed the full loop: observe, diagnose, change one cause, and compare. Multiple hardware/software solutions remain valid."
@@ -4958,3 +4958,24 @@ msgstr "Tiny Computer"
 
 msgid "hardware.palette.purpose.tiny_computer"
 msgstr "Execute instructions"
+
+msgid "mission.navigation.workbench"
+msgstr "Back to workbench"
+
+msgid "system.test_bench.result_summary"
+msgstr "%s · %d outputs · %d cycles · %s"
+
+msgid "system.test_bench.show_values"
+msgstr "Show expected and actual values"
+
+msgid "chapter2.test_bench.observation_detail"
+msgstr "Correct result · observe and explain"
+
+msgid "chapter2.status.judgment_supported"
+msgstr "The evidence supports your judgment. Choose one factor for your first comparison."
+
+msgid "chapter2.work_group.single_pass"
+msgstr "Whole data set · one pass"
+
+msgid "system.test_bench.case_summary"
+msgstr "%s · %d inputs"

@@ -20,6 +20,7 @@ const CircuitGraphEditType = preload("res://src/hardware_foundations/circuit_gra
 const CircuitTraceOverlayType = preload("res://src/hardware_foundations/circuit_trace_overlay.gd")
 const CircuitComponentSymbolType = preload("res://src/hardware_foundations/circuit_component_symbol.gd")
 const CircuitModuleRowType = preload("res://src/hardware_foundations/circuit_module_row.gd")
+const CircuitModuleThumbnailType = preload("res://src/hardware_foundations/circuit_module_thumbnail.gd")
 const ComponentPaletteItemType = preload("res://src/hardware_foundations/component_palette_item.gd")
 const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
 const CampaignMapViewType = preload("res://src/hardware_foundations/campaign_map_view.gd")
@@ -2831,7 +2832,9 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 	for key: String in component_menu_template_keys:
 		var template: LogicComponent = component_menu_templates[key]
 		var item: Control = ComponentPaletteItemType.new()
-		item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template))
+		item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template),
+			_t(StringName("hardware.palette.purpose.%s" % template.kind)),
+			_t(&"hardware.palette.ports", [template.input_count(), template.output_count(), _widest_component_port(template)]))
 		item.tooltip_text = _component_tooltip(template)
 		if template.is_basic_gate() or template.kind == LogicComponentType.KIND_CONSTANT:
 			var symbol := CircuitComponentSymbolType.new()
@@ -2839,9 +2842,8 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 			symbol.size = Vector2(108.0, 60.0)
 			item.call("set_component_preview", symbol)
 		else:
-			var module := CircuitModuleRowType.new()
-			module.configure(template.kind, "", "", "", 0, 1, true, true, 1, 1)
-			module.size = Vector2(108.0, 50.0)
+			var module := CircuitModuleThumbnailType.new()
+			module.configure_thumbnail(template.kind, template.input_port_widths, template.output_port_widths)
 			item.call("set_component_preview", module)
 		item.connect("placement_requested", Callable(self, "_arm_component_template"))
 		component_palette_items[key] = item
@@ -2858,11 +2860,11 @@ func _widest_component_port(component: LogicComponent) -> int:
 
 
 func _component_menu_label(component: LogicComponent) -> String:
-	var label: String = String(component.kind).to_upper() if component.is_basic_gate() else _component_display_name(component)
-	var widest_port: int = _widest_component_port(component)
-	if widest_port > 1:
-		label += "  ×%d" % widest_port
-	return label
+	var key := StringName("hardware.palette.name.%s" % component.kind)
+	var label: String = _t(key)
+	if component.kind == LogicComponentType.KIND_CONSTANT:
+		label += " · %s" % str(component.properties.get("value", 0))
+	return _component_display_name(component) if label == String(key) else label
 
 
 func _on_component_menu_item_pressed(item_id: int) -> void:

@@ -9,12 +9,14 @@ const BORDER := Color("354866")
 const ACCENT := Color("50d5ff")
 const TEXT := Color("e9f0fa")
 const MUTED := Color("91a0b9")
-const PREVIEW_RECT := Rect2(Vector2(10.0, 8.0), Vector2(94.0, 54.0))
+const PREVIEW_RECT := Rect2(Vector2(8.0, 17.0), Vector2(94.0, 54.0))
 
 var template_key: String = ""
 var component_kind: StringName = &""
 var label_text: String = ""
 var width_hint: int = 1
+var purpose_text: String = ""
+var ports_text: String = ""
 var placement_enabled: bool = true
 var armed: bool = false
 var hovered: bool = false
@@ -26,15 +28,19 @@ func _ready() -> void:
 	mouse_entered.connect(func() -> void: hovered = true; queue_redraw())
 	mouse_exited.connect(func() -> void: hovered = false; queue_redraw())
 	resized.connect(_layout_component_preview)
+	_build_labels()
 	queue_redraw()
 
 
-func configure(key: String, kind: StringName, label: String, widest_port: int = 1) -> void:
+func configure(key: String, kind: StringName, label: String, widest_port: int = 1,
+		purpose: String = "", ports: String = "") -> void:
 	template_key = key
 	component_kind = kind
 	label_text = label
 	width_hint = maxi(1, widest_port)
-	custom_minimum_size = Vector2(260.0, 70.0)
+	purpose_text = purpose
+	ports_text = ports
+	custom_minimum_size = Vector2(280.0, 88.0)
 	tooltip_text = label
 	queue_redraw()
 
@@ -71,7 +77,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	preview.placement_enabled = false
 	preview.armed = true
 	preview.hovered = true
-	preview.size = Vector2(260.0, 70.0)
+	preview.size = custom_minimum_size
 	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	preview.modulate = Color(1.0, 1.0, 1.0, 0.92)
 	set_drag_preview(preview)
@@ -83,10 +89,32 @@ func _draw() -> void:
 	var border: Color = ACCENT if armed else BORDER
 	draw_style_box(_stylebox(fill, border, 5.0, 2.0 if armed else 1.0), Rect2(Vector2.ZERO, size))
 	draw_line(Vector2(105.0, 15.0), Vector2(105.0, size.y - 15.0), BORDER, 1.0)
-	var font: Font = get_theme_default_font()
-	draw_string(font, Vector2(116.0, 29.0), label_text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 128.0, 16, TEXT)
-	var detail: String = Localization.text(&"hardware.palette.port_width", [width_hint])
-	draw_string(font, Vector2(116.0, 51.0), detail, HORIZONTAL_ALIGNMENT_LEFT, size.x - 128.0, 14, MUTED)
+
+
+func _build_labels() -> void:
+	# Labels use actual font metrics and ellipsis at narrow widths. Ignore mouse
+	# input so the whole card remains one click/drag target.
+	if has_node("CardText"):
+		return
+	var box := VBoxContainer.new()
+	box.name = "CardText"
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(box)
+	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	box.offset_left = 116.0
+	box.offset_right = -12.0
+	box.offset_top = 10.0
+	box.offset_bottom = -10.0
+	box.add_theme_constant_override("separation", 3)
+	var lines: Array[String] = [label_text, purpose_text, ports_text]
+	for index: int in range(lines.size()):
+		var label := Label.new()
+		label.text = lines[index]
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		label.add_theme_font_size_override("font_size", 16 if index == 0 else 12)
+		label.add_theme_color_override("font_color", TEXT if index == 0 else MUTED)
+		box.add_child(label)
 
 
 func _layout_component_preview() -> void:

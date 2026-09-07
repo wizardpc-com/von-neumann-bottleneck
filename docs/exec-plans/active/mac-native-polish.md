@@ -156,3 +156,17 @@ pending. Post-change native presentation checks are recorded below. Native Tutor
 have now been exercised successfully. Do not infer physical trackpad comfort,
 mixed-monitor DPI, Windows EXE behavior, beginner comprehension or release
 readiness from the baseline tests.
+
+## Screenshot follow-up: component selection and playability
+
+- User screenshot at 17:38 exposes overlapping `[1]` labels and collapsed module
+  bodies in the palette. The prior bounds checks only covered the outside of the
+  preview; they did not establish readability inside it.
+- Replace the one-row miniature with a complete module silhouette, real input and
+  output pin counts/widths, and the existing shared function glyph. Keep the full
+  canvas and placement ghost unchanged. Add localized names, one-line purposes,
+  and compact port metadata; shorten the placement instruction.
+- Verify all available module families in both languages visually, then exercise
+  actual native click/drag placement, cancellation, focus and undo in ordinary
+  Game. Record observations and further changes here; save migration remains
+  outside this UI follow-up until the pending data-change decision is answered.

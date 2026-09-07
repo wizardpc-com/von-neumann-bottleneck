@@ -436,6 +436,8 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 			and preview.position.y + preview.size.y * preview.scale.y <= item.size.y,
 			"%s palette item %s must reuse its actual schematic renderer and fit beside its description." % [level_id, template.kind]
 		)
+		if not expected_symbol:
+			_assert_module_thumbnail(preview, template)
 	if level_id != &"register":
 		return
 	var latch_key: String = ""
@@ -458,6 +460,30 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 		"SRLatch catalogue preserves the register symbol; placement ghost preserves the complete canvas rows, ports, state and geometry."
 	)
 	placement_preview.free()
+
+
+func _assert_module_thumbnail(preview: Control, component: LogicComponent) -> void:
+	var thumbnail := preview as CircuitModuleThumbnail
+	_assert(thumbnail != null, "Palette modules need a complete miniature, not a compressed port row.")
+	if thumbnail == null:
+		return
+	_assert(thumbnail.port_label_layouts().is_empty(), "Miniatures must not draw unnamed [1] port labels over their function mark.")
+	var body: PackedVector2Array = thumbnail.body_polygon()
+	var mark: Rect2 = thumbnail.function_mark_rect().grow(3.0)
+	for corner: Vector2 in [mark.position, mark.end, Vector2(mark.end.x, mark.position.y), Vector2(mark.position.x, mark.end.y)]:
+		_assert(Geometry2D.is_point_in_polygon(corner, body), "The complete function mark needs breathing room inside every miniature body.")
+	var pins: Array[Dictionary] = thumbnail.pin_segments()
+	_assert(pins.size() == component.input_count() + component.output_count(), "Miniature pins must represent the actual interface, including selector and enable inputs.")
+	var widths: Array[int] = component.input_port_widths + component.output_port_widths
+	for index: int in range(pins.size()):
+		var pin: Dictionary = pins[index]
+		_assert(int(pin.width) == widths[index], "Word and single-bit pins must not be falsely rendered as identical widths.")
+		var endpoint: Vector2 = pin.body
+		_assert(not mark.has_point(endpoint), "Pin leads must stop outside the function mark.")
+		var on_edge: bool = false
+		for edge: int in range(body.size()):
+			on_edge = on_edge or endpoint.distance_to(Geometry2D.get_closest_point_to_segment(endpoint, body[edge], body[(edge + 1) % body.size()])) < 0.1
+		_assert(on_edge, "Miniature pins must meet the module outline without gaps or crossing its interior.")
 
 
 func _component_visual_signature(node: GraphNode) -> String:

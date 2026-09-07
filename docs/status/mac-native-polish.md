@@ -120,3 +120,29 @@ The Mac default window correction uses the documented
 only for the initial fallback size; previously remembered window rectangles stay
 in pixels. Usable-screen bounds still constrain the result. Physical multi-screen
 behavior needs a separate native check.
+
+## 17:38 screenshot follow-up: component palette
+
+The user's word-MUX/decoder screenshot exposed an actual remaining defect:
+unnamed `[1]` port labels overlapped the function glyph and a single port row
+collapsed into a narrow rectangular preview. Bounds-only tests missed it.
+
+- A dedicated whole-module miniature now reuses the canvas function glyph and
+  family colors, with a readable body silhouette, actual pin count and distinct
+  one-bit/word lead widths. The full canvas and placement ghost are unchanged.
+- Cards now provide localized names, short purposes, and real input/output counts
+  with the maximum port width. Text uses Labels with measured ellipsis instead
+  of clipped custom drawing. Placement instructions are shorter.
+- Fresh isolated import, directory probe and all 20 suites passed in
+  `.godot/verification/20260907T095336Z-b7454d8a/`. The subsequently added internal
+  geometry checks also passed in the isolated prologue UI suite. All 19 component
+  types were rendered and inspected in Chinese and English; these are catalog
+  fixtures, not earned campaign progress.
+- Native ordinary Game entered Tutorial with a new isolated save and displayed
+  the new cards. It exposed two next fixes: the default palette height hides NOT
+  below the fold, and a native card drag arms placement without dropping a gate.
+  This round is therefore not a complete native-editing pass.
+- The native tool initially confused identical Godot window titles and retained
+  a stale menu capture. An independent temporary app identity and window title,
+  checked against periodic read-only viewport captures, resolved identification.
+  The editor was preserved. The temporary app/capture helper is not product code.

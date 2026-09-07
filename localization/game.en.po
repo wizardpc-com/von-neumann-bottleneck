@@ -985,7 +985,7 @@ msgid "hardware.component_menu.tooltip"
 msgstr "Drag a level-allowed component from the movable palette onto the desktop, or click it for repeated empty-canvas placement; Esc cancels."
 
 msgid "hardware.component_palette.hint"
-msgstr "Click a component to attach its dim preview to the pointer; left-click repeatedly to place it, or end with right-click or another action. Direct drag also works."
+msgstr "Drag onto the desk, or click to place repeatedly. Esc / right-click to finish."
 
 msgid "hardware.component_menu.unavailable"
 msgstr "No components can be placed here"
@@ -4841,3 +4841,120 @@ msgstr "Run a case to inspect its output values."
 
 msgid "hardware.goal.tutorial_complete"
 msgstr "All 5/5 actions complete · continue to arithmetic or storage"
+
+msgid "hardware.palette.ports"
+msgstr "%d in · %d out · max %db"
+
+msgid "hardware.palette.name.and"
+msgstr "AND gate"
+
+msgid "hardware.palette.purpose.and"
+msgstr "Both inputs are 1"
+
+msgid "hardware.palette.name.or"
+msgstr "OR gate"
+
+msgid "hardware.palette.purpose.or"
+msgstr "Either input is 1"
+
+msgid "hardware.palette.name.xor"
+msgstr "XOR gate"
+
+msgid "hardware.palette.purpose.xor"
+msgstr "Inputs differ"
+
+msgid "hardware.palette.name.not"
+msgstr "NOT gate"
+
+msgid "hardware.palette.purpose.not"
+msgstr "Invert the input"
+
+msgid "hardware.palette.name.nor"
+msgstr "NOR gate"
+
+msgid "hardware.palette.purpose.nor"
+msgstr "Both inputs are 0"
+
+msgid "hardware.palette.name.constant"
+msgstr "Constant"
+
+msgid "hardware.palette.purpose.constant"
+msgstr "Supply a fixed value"
+
+msgid "hardware.palette.name.half_adder"
+msgstr "Half Adder"
+
+msgid "hardware.palette.purpose.half_adder"
+msgstr "Add two bits"
+
+msgid "hardware.palette.name.full_adder"
+msgstr "Full Adder"
+
+msgid "hardware.palette.purpose.full_adder"
+msgstr "Add with carry-in"
+
+msgid "hardware.palette.name.mux4"
+msgstr "4-way MUX"
+
+msgid "hardware.palette.purpose.mux4"
+msgstr "Select one of four"
+
+msgid "hardware.palette.name.mux2_word"
+msgstr "Word MUX"
+
+msgid "hardware.palette.purpose.mux2_word"
+msgstr "Select one of two"
+
+msgid "hardware.palette.name.alu1"
+msgstr "1-bit ALU"
+
+msgid "hardware.palette.purpose.alu1"
+msgstr "Logic or addition"
+
+msgid "hardware.palette.name.alu4"
+msgstr "4-bit ALU"
+
+msgid "hardware.palette.purpose.alu4"
+msgstr "Compute a 4-bit word"
+
+msgid "hardware.palette.name.sr_latch"
+msgstr "SR Latch"
+
+msgid "hardware.palette.purpose.sr_latch"
+msgstr "Set, reset, hold"
+
+msgid "hardware.palette.name.register1"
+msgstr "1-bit Register"
+
+msgid "hardware.palette.purpose.register1"
+msgstr "Load or hold a bit"
+
+msgid "hardware.palette.name.register4"
+msgstr "4-bit Register"
+
+msgid "hardware.palette.purpose.register4"
+msgstr "Hold a 4-bit word"
+
+msgid "hardware.palette.name.decoder1_to_2"
+msgstr "1→2 Decoder"
+
+msgid "hardware.palette.purpose.decoder1_to_2"
+msgstr "Enable an address"
+
+msgid "hardware.palette.name.control"
+msgstr "Controller"
+
+msgid "hardware.palette.purpose.control"
+msgstr "Decode an instruction"
+
+msgid "hardware.palette.name.ram2x4"
+msgstr "2×4-bit RAM"
+
+msgid "hardware.palette.purpose.ram2x4"
+msgstr "Read or write a word"
+
+msgid "hardware.palette.name.tiny_computer"
+msgstr "Tiny Computer"
+
+msgid "hardware.palette.purpose.tiny_computer"
+msgstr "Execute instructions"

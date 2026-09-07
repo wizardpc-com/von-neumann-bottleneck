@@ -985,7 +985,7 @@ msgid "hardware.component_menu.tooltip"
 msgstr "从可移动元件窗口把本关允许的元件拖到桌面；也可单击元件后在空白处连续放置，Esc 取消。"
 
 msgid "hardware.component_palette.hint"
-msgstr "单击元件后，低亮预览将跟随鼠标；左键连续放置，右键或操作其它内容结束。也可直接拖到桌面。"
+msgstr "拖到桌面放置；或单击后连续放置。 Esc / 右键结束。"
 
 msgid "hardware.component_menu.unavailable"
 msgstr "本界面没有可放置元件"
@@ -4841,3 +4841,120 @@ msgstr "运行用例后查看实际输出值。"
 
 msgid "hardware.goal.tutorial_complete"
 msgstr "五项练习已完成 5/5 · 继续挑战运算或存储"
+
+msgid "hardware.palette.ports"
+msgstr "%d 入 · %d 出 · 最高 %d 位"
+
+msgid "hardware.palette.name.and"
+msgstr "AND · 与门"
+
+msgid "hardware.palette.purpose.and"
+msgstr "两路都为 1 时输出 1"
+
+msgid "hardware.palette.name.or"
+msgstr "OR · 或门"
+
+msgid "hardware.palette.purpose.or"
+msgstr "至少一路为 1 时输出 1"
+
+msgid "hardware.palette.name.xor"
+msgstr "XOR · 异或门"
+
+msgid "hardware.palette.purpose.xor"
+msgstr "两路不同时输出 1"
+
+msgid "hardware.palette.name.not"
+msgstr "NOT · 非门"
+
+msgid "hardware.palette.purpose.not"
+msgstr "把 0 与 1 互换"
+
+msgid "hardware.palette.name.nor"
+msgstr "NOR · 或非门"
+
+msgid "hardware.palette.purpose.nor"
+msgstr "两路都为 0 时输出 1"
+
+msgid "hardware.palette.name.constant"
+msgstr "常量"
+
+msgid "hardware.palette.purpose.constant"
+msgstr "持续输出固定值"
+
+msgid "hardware.palette.name.half_adder"
+msgstr "半加器"
+
+msgid "hardware.palette.purpose.half_adder"
+msgstr "相加两个位，得到和与进位"
+
+msgid "hardware.palette.name.full_adder"
+msgstr "全加器"
+
+msgid "hardware.palette.purpose.full_adder"
+msgstr "把低位的进位一起相加"
+
+msgid "hardware.palette.name.mux4"
+msgstr "四选一选择器"
+
+msgid "hardware.palette.purpose.mux4"
+msgstr "从四路信号中选择一路"
+
+msgid "hardware.palette.name.mux2_word"
+msgstr "二选一选择器"
+
+msgid "hardware.palette.purpose.mux2_word"
+msgstr "从两路数据中选择一路"
+
+msgid "hardware.palette.name.alu1"
+msgstr "1 位运算器"
+
+msgid "hardware.palette.purpose.alu1"
+msgstr "按操作码执行逻辑或加法"
+
+msgid "hardware.palette.name.alu4"
+msgstr "4 位运算器"
+
+msgid "hardware.palette.purpose.alu4"
+msgstr "一次处理四位数据"
+
+msgid "hardware.palette.name.sr_latch"
+msgstr "SR 锁存器"
+
+msgid "hardware.palette.purpose.sr_latch"
+msgstr "置位或复位，保留一个位"
+
+msgid "hardware.palette.name.register1"
+msgstr "1 位寄存器"
+
+msgid "hardware.palette.purpose.register1"
+msgstr "载入时更新，否则保持"
+
+msgid "hardware.palette.name.register4"
+msgstr "4 位寄存器"
+
+msgid "hardware.palette.purpose.register4"
+msgstr "保存一个四位数据"
+
+msgid "hardware.palette.name.decoder1_to_2"
+msgstr "1→2 译码器"
+
+msgid "hardware.palette.purpose.decoder1_to_2"
+msgstr "使能时按地址选通一路"
+
+msgid "hardware.palette.name.control"
+msgstr "控制器"
+
+msgid "hardware.palette.purpose.control"
+msgstr "将指令译成控制信号"
+
+msgid "hardware.palette.name.ram2x4"
+msgstr "2×4 位存储器"
+
+msgid "hardware.palette.purpose.ram2x4"
+msgstr "按地址读写两个存储位置"
+
+msgid "hardware.palette.name.tiny_computer"
+msgstr "微型计算机"
+
+msgid "hardware.palette.purpose.tiny_computer"
+msgstr "执行指令并读写存储器"

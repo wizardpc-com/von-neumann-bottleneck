@@ -467,6 +467,12 @@ func _has_active_graph_gesture() -> bool:
 func _notification(what: int) -> void:
 	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT:
 		graph_pan_keys.clear()
+		_finish_component_body_drag(false)
+		if graph != null:
+			graph.cancel_selection_drag()
+			graph.cancel_branch_drag()
+			graph.cancel_endpoint_move()
+			graph.finish_erase_stroke()
 
 
 func _handle_component_placement_global_input(event: InputEvent) -> bool:
@@ -4914,7 +4920,8 @@ func _handle_component_body_drag_global_input(event: InputEvent) -> bool:
 		return false
 	if event is InputEventMouseMotion:
 		var motion := event as InputEventMouseMotion
-		if (motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0:
+		# Native Mac motion may omit the mask while Godot still tracks the press.
+		if (motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0 and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			_finish_component_body_drag()
 			return false
 		var graph_delta: Vector2 = (motion.position - body_drag_pointer_origin) / graph.zoom
@@ -4942,11 +4949,11 @@ func _handle_component_body_drag_global_input(event: InputEvent) -> bool:
 	return false
 
 
-func _finish_component_body_drag() -> void:
+func _finish_component_body_drag(inspect_click: bool = true) -> void:
 	if body_drag_component_id.is_empty():
 		return
 	var clicked_component_id: StringName = body_drag_component_id
-	var inspect_after_release: bool = not body_drag_moved
+	var inspect_after_release: bool = inspect_click and not body_drag_moved
 	body_drag_component_id = &""
 	body_drag_positions.clear()
 	body_drag_moved = false

@@ -72,6 +72,22 @@ play evidence.
   source signature differs solely with runtime component ordering. StringName
   sorting also changes the default-seed fingerprint. Preserve the backup and
   investigate deterministic ordering and backward compatibility separately.
+- Gesture fix uses Godot's held-button state when a motion mask is empty, and
+  ends outstanding gestures on focus loss. All 20 suites pass, including a new
+  empty-mask/focus-loss/undo regression, at
+  `.godot/verification/20260907T074723Z-e861eefe/`. The English GUI run failed
+  before entering Tutorial and was stopped after its script error; it is **not**
+  a pass. Its map screenshot also exposes English title overflow for follow-up.
+- Post-fix native Game at 1336×768: NOT body movement and Command+Z succeed;
+  dragging from an existing A wire to a second gate creates `JUNCTION_001`.
+  The revised Half Adder specification displays every row and all navigation
+  buttons without scrolling. Inspector leaves other instruments in place.
+- Display metadata: Apple M2, built-in Liquid Retina; current 2940×1912 backing
+  pixels / 1470×956 logical display, 60 Hz (2× scale). Mixed-monitor testing is
+  still unavailable. Do not store hardware serial numbers in evidence.
+- Requested user approval for one-time migration from unstable legacy seed
+  fingerprints, retaining designs and full provenance/official-case checks.
+  No save-compatibility code or migration has been applied while that is pending.
 
 ## Open limitations
 

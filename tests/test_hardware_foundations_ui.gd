@@ -245,6 +245,28 @@ func _run() -> void:
 	)
 	main.call("_undo_wire")
 	_assert(body_node.position_offset.is_equal_approx(body_start), "Body movement must remain one undoable layout action.")
+	# Reproduce the observed Mac event: the press is held in Input, but the
+	# motion's button mask is empty. An unrelated offscreen press sets that state.
+	var native_press := InputEventMouseButton.new()
+	native_press.button_index = MOUSE_BUTTON_LEFT
+	native_press.pressed = true
+	native_press.position = Vector2(-1000.0, -1000.0)
+	Input.parse_input_event(native_press)
+	Input.flush_buffered_events()
+	main.call("_on_component_gui_input", body_press, &"NOT_1")
+	body_motion.button_mask = 0
+	main.call("_input", body_motion)
+	_assert(not body_node.position_offset.is_equal_approx(body_start),
+		"A held native press with an empty motion mask must still move the component.")
+	main.call("_notification", MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	_assert(StringName(main.get("body_drag_component_id")).is_empty(),
+		"Losing application focus must end the held gesture.")
+	native_press.pressed = false
+	Input.parse_input_event(native_press)
+	Input.flush_buffered_events()
+	main.call("_undo_wire")
+	_assert(body_node.position_offset.is_equal_approx(body_start),
+		"A native drag ended by focus loss must remain one undoable move.")
 	var instruments_before_inspection: Dictionary = {}
 	for instrument_id: StringName in [&"task", &"test_bench", &"components"]:
 		var instrument: Control = main.get("desktop_windows")[instrument_id]

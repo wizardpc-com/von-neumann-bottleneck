@@ -426,7 +426,7 @@ func _gui_input(event: InputEvent) -> void:
 		queue_redraw()
 	if event is InputEventMouseMotion and selection_dragging:
 		var selection_motion := event as InputEventMouseMotion
-		if (selection_motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0:
+		if (selection_motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0 and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			cancel_selection_drag()
 			return
 		selection_pointer = selection_motion.position
@@ -435,7 +435,7 @@ func _gui_input(event: InputEvent) -> void:
 		return
 	if event is InputEventMouseMotion and not endpoint_candidate.is_empty():
 		var endpoint_motion := event as InputEventMouseMotion
-		if (endpoint_motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0:
+		if (endpoint_motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0 and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			cancel_endpoint_move()
 			return
 		endpoint_pointer = endpoint_motion.position
@@ -450,7 +450,7 @@ func _gui_input(event: InputEvent) -> void:
 		return
 	if event is InputEventMouseMotion and erase_active:
 		var erase_motion := event as InputEventMouseMotion
-		if (erase_motion.button_mask & MOUSE_BUTTON_MASK_RIGHT) == 0:
+		if (erase_motion.button_mask & MOUSE_BUTTON_MASK_RIGHT) == 0 and not Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 			finish_erase_stroke()
 		else:
 			continue_erase_stroke(erase_motion.position)
@@ -458,7 +458,7 @@ func _gui_input(event: InputEvent) -> void:
 		return
 	if event is InputEventMouseMotion and not branch_candidate.is_empty():
 		var motion := event as InputEventMouseMotion
-		if (motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0:
+		if (motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0 and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			cancel_branch_drag()
 			return
 		branch_pointer = motion.position

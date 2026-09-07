@@ -438,6 +438,12 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 		)
 		if not expected_symbol:
 			_assert_module_thumbnail(preview, template)
+		var drag_card: Control = item.call("_make_drag_preview")
+		var drag_symbol: Control = drag_card.get("component_preview")
+		_assert(drag_card.get("label_text") == item.get("label_text") and drag_symbol != null
+			and drag_symbol.get("component_kind") == template.kind,
+			"Dragging a runtime-configured card must preserve its name and actual symbol, not reset to an anonymous glyph.")
+		drag_card.free()
 	if level_id != &"register":
 		return
 	var latch_key: String = ""

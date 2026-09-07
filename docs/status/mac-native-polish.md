@@ -1,6 +1,6 @@
 # Mac native play and workbench polish
 
-Current source build: `mac-polish-20260907T085543Z-f15c175`. This continues latest main `0ad0bff` using
+Baseline display build label: `mac-polish-20260907T085543Z-f15c175` (unchanged by the palette follow-up). This continues latest main `0ad0bff` using
 Godot `4.7.1.stable.official.a13da4feb` on Apple M2. The original construction
 campaign and both later system chapters remain the default Game route. The
 historical Windows package is unchanged; this source has not been accepted as
@@ -146,3 +146,56 @@ collapsed into a narrow rectangular preview. Bounds-only tests missed it.
   a stale menu capture. An independent temporary app identity and window title,
   checked against periodic read-only viewport captures, resolved identification.
   The editor was preserved. The temporary app/capture helper is not product code.
+
+## Native palette follow-through
+
+The next native pass reproduced the two palette issues above and corrected them:
+
+- First opening now sizes the palette against the settled Retina desktop. All
+  three Tutorial cards are visible without scrolling, while later player window
+  moves and resizes are retained.
+- A held native press whose motion omits its button mask can start the normal
+  Godot drag payload/preview. A drag preview explicitly preserves its configured
+  symbol and labels instead of losing runtime fields through Node.duplicate().
+- Drop hit testing and positioning use the release event. Native captured input
+  can differ from the physical OS cursor; using that cursor had misplaced the
+  item or prevented the drop entirely. Drops over floating instruments cancel.
+  A successful drag places one component and returns to editing. Clicking a card
+  still supports repeated placement, and each placement remains one undo step.
+
+Fresh ordinary Game, with a unique isolated save and no reference insertion:
+
+| Native action | Observed result |
+| --- | --- |
+| Tutorial palette | AND, OR and NOT fully visible; localized card text and whole silhouettes readable |
+| Drag AND onto canvas | Exactly one component at release position; no extra placement ghost |
+| Command+Z / Shift+Command+Z | Removed, restored and removed the dragged component |
+| Drag AND onto Test Bench | Cancelled without adding a component behind the window |
+| Click NOT, place twice, right-click | Two components placed; placement ended; two undos restored the board |
+| Tutorial construction | Manually wired, toggled input, deleted/reconnected a wire; earned 5/5 completion |
+| Half Adder construction | Read the two specification pages, manually wired 12 connections; all four official cases passed, sealed, continued to Full Adder |
+| Newly unlocked Half Adder card | Readable miniature; drag produced the complete two-input/two-output module; undo restored the initial Full Adder board |
+| Handbook | 36/89 terms available; CPU remained locked behind its original prerequisite; Command+A changed CPU search to binary; Escape returned focus to Handbook |
+| Retina/window | F11 restored a readable window and returned to fullscreen; component and wire state retained |
+
+The last native system capture after returning to fullscreen has an anomalous
+thin strip at its top edge. The read-only Godot viewport capture is clean. This
+separates the observed capture discrepancy from game rendering; it does not
+establish stable rapid fullscreen switching or physical mixed-monitor behavior.
+The test app used a separate temporary bundle identity so the user's editor
+session could remain open. No test capture helper is part of the game.
+
+CPU was manually completed in the earlier native round recorded above, not
+manually replayed in this palette follow-up. The final automated mainline replay
+covers CPU again, and must be reported separately from native play. Save-format
+and restart compatibility work remains pending the previously requested approval.
+
+Final follow-up verification uses the exact current runtime/assets/tests copied
+in `.godot/verification/20260907T105450Z-7953228f/`: import, actual directory
+probe and all 20 suites pass; Chinese and English ordinary Game each pass **528
+checks with zero failures**, including CPU and LOAD/STORE. Native observations
+above remain a separate evidence stream. The [summary](../verification/2026-09-07-mac-palette-polish/summary.json)
+records source hashes, unique player directories and remaining limits. Final
+[Chinese](../verification/2026-09-07-mac-palette-polish/palette-zh_CN.png) and
+[English](../verification/2026-09-07-mac-palette-polish/palette-en.png) catalog
+renders show all 19 card types; they do not represent campaign unlocks.

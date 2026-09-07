@@ -21,6 +21,8 @@ var placement_enabled: bool = true
 var armed: bool = false
 var hovered: bool = false
 var component_preview: Control
+var _drag_candidate: bool = false
+var _press_position := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -67,21 +69,76 @@ func set_armed(value: bool) -> void:
 func _gui_input(event: InputEvent) -> void:
 	var mouse := event as InputEventMouseButton
 	if mouse != null and mouse.button_index == MOUSE_BUTTON_LEFT and mouse.pressed and placement_enabled:
+		_drag_candidate = true
+		_press_position = mouse.position
 		placement_requested.emit(template_key)
+
+
+func _input(event: InputEvent) -> void:
+	if not _drag_candidate:
+		return
+	if event is InputEventMouseButton:
+		if not event.pressed or event.button_index == MOUSE_BUTTON_RIGHT:
+			_drag_candidate = false
+		return
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		_drag_candidate = false
+		return
+	var motion := event as InputEventMouseMotion
+	if motion == null or motion.button_mask != 0:
+		return
+	# Some native Mac motion events omit the button mask while Input still
+	# reports the held press. Keep the normal Godot drag/drop path on that stream.
+	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or not placement_enabled or not is_visible_in_tree():
+		_drag_candidate = false
+		return
+	var local_position: Vector2 = get_global_transform().affine_inverse() * motion.position
+	if local_position.distance_to(_press_position) >= 8.0:
+		_drag_candidate = false
+		force_drag(_drag_payload(), _make_drag_preview())
+		get_viewport().set_input_as_handled()
+
+
+func _notification(what: int) -> void:
+	if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_DRAG_BEGIN, NOTIFICATION_DRAG_END]:
+		_drag_candidate = false
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	if not placement_enabled or template_key.is_empty():
 		return null
-	var preview := duplicate() as ComponentPaletteItem
+	_drag_candidate = false
+	set_drag_preview(_make_drag_preview())
+	return _drag_payload()
+
+
+func _drag_payload() -> Dictionary:
+	return {"type": &"circuit_component_template", "template_key": template_key}
+
+
+func _make_drag_preview() -> ComponentPaletteItem:
+	# Runtime configuration is not an exported property: Node.duplicate() loses
+	# the symbol kind and produces an anonymous glyph in the dragged card.
+	var preview := ComponentPaletteItem.new()
+	preview.configure(template_key, component_kind, label_text, width_hint, purpose_text, ports_text)
+	if component_preview is CircuitModuleThumbnail:
+		var source := component_preview as CircuitModuleThumbnail
+		var module := CircuitModuleThumbnail.new()
+		module.configure_thumbnail(source.component_kind, source.input_widths, source.output_widths)
+		preview.set_component_preview(module)
+	elif component_preview is CircuitComponentSymbol:
+		var source := component_preview as CircuitComponentSymbol
+		var symbol := CircuitComponentSymbol.new()
+		symbol.configure(source.component_kind, source.terminal_label, source.display_height)
+		symbol.size = source.size
+		preview.set_component_preview(symbol)
 	preview.placement_enabled = false
 	preview.armed = true
 	preview.hovered = true
 	preview.size = custom_minimum_size
 	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	preview.modulate = Color(1.0, 1.0, 1.0, 0.92)
-	set_drag_preview(preview)
-	return {"type": &"circuit_component_template", "template_key": template_key}
+	return preview
 
 
 func _draw() -> void:

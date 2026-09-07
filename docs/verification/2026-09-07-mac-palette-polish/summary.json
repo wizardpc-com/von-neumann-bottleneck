@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-07",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "macOS / Apple M2 / Retina 2x",
+  "source": "4fc1f6e plus the native palette follow-through committed alongside this summary",
+  "source_sha256": {
+    "src/hardware_foundations/component_palette_item.gd": "e84e911110627f11d97000dac487c88d92dbd76bc69fa0aa153f5150c17a45cd",
+    "src/hardware_foundations/circuit_module_thumbnail.gd": "930a64bae3758b7d8410355b5e19f40977d63d918a7f56a34b17f5fcde9ae8e4",
+    "src/hardware_foundations/hardware_foundations.gd": "a65c79ff116c11e933c8d1a79439c92ead6a3cbd94a4f957efc5a763ff3146de",
+    "tests/test_recovery_game_input.gd": "0829b5b49fd27ae73e1b097df5e882ccad4843ce788d7e522c34046f985f18d8",
+    "tests/test_hardware_prologue_ui.gd": "6e54d306acee9f2de26fe5242e4e88e2e6c4d362ddc6337b684bcf08666d348e",
+    "tests/test_hardware_foundations_ui.gd": "e6e3ae35a7470831c29c792e87bbe008aad577304e282b1e88c2e71707e40b53"
+  },
+  "isolated_run": ".godot/verification/20260907T105450Z-7953228f",
+  "headless": {
+    "import": true,
+    "actual_user_directory_probe": true,
+    "suites_passed": 20
+  },
+  "ordinary_game_automated_replays": [
+    {
+      "name": "game_gui_zh_CN",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "game_gui_zh_CN.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260907T105450Z-7953228f/game_gui_zh_CN",
+      "checks": 528,
+      "failures": 0
+    },
+    {
+      "name": "game_gui_en",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "game_gui_en.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260907T105450Z-7953228f/game_gui_en",
+      "checks": 528,
+      "failures": 0
+    }
+  ],
+  "native_ordinary_game": {
+    "user_directory": "VonNeumannBottleneckChecks/native-palette-final-20260907",
+    "log": ".godot/mac-playtest/native-palette-release-fix.log",
+    "completed": [
+      "Tutorial 5/5",
+      "Half Adder 4/4, sealed and continued to Full Adder"
+    ],
+    "editing": [
+      "drag at release point",
+      "drop over Test Bench cancels",
+      "Command+Z / Shift+Command+Z",
+      "click-repeat twice / right-click cancel / undo twice",
+      "wire deletion and reconnection",
+      "earned Half Adder module drag / undo"
+    ],
+    "focus": [
+      "Command+A replaces Handbook search",
+      "locked CPU keeps unlock condition",
+      "Escape restores Handbook button focus"
+    ],
+    "window": "F11 window/fullscreen state and board retained; system capture top-strip discrepancy remains, clean Godot viewport render",
+    "cpu": "Earlier native round only; current full bilingual automated replays cover CPU again"
+  },
+  "visual_fixtures": [
+    "palette-zh_CN.png",
+    "palette-en.png"
+  ],
+  "visual_fixture_scope": "All 19 component types, actual Godot rendering; catalog fixture does not represent earned unlocks",
+  "limitations": [
+    "Restart save compatibility migration still awaits the earlier data-change approval",
+    "No current Windows executable validation",
+    "No physical trackpad, mixed-monitor or first-time-player acceptance",
+    "Passing checks and agent play do not establish release readiness"
+  ],
+  "player_file_note": "Original player files were not restored or migrated. Their current modification times precede this isolated verification; an older round hash record is not a valid before/after baseline for this round."
+}

@@ -170,6 +170,7 @@ var pasted_component_counter: int = 0
 var component_menu_templates: Dictionary = {}
 var component_menu_template_keys: Array[String] = []
 var component_palette_items: Dictionary[String, Control] = {}
+var component_palette_needs_initial_layout: bool = true
 var level_palette_templates: Array[LogicComponent] = []
 var armed_component_template_key: String = ""
 var placed_component_counter: int = 0
@@ -410,6 +411,9 @@ func _input(event: InputEvent) -> void:
 	if (terminology_handbook != null and terminology_handbook.is_open()) \
 			or (level_completion_overlay != null and level_completion_overlay.visible):
 		return
+	if _handle_palette_drop_release(event):
+		get_viewport().set_input_as_handled()
+		return
 	if event is InputEventKey and event.pressed and not event.echo \
 			and event.keycode == KEY_HOME and not _keyboard_focus_accepts_text() \
 			and not _view_navigation_locked() and not _has_active_graph_gesture():
@@ -428,6 +432,30 @@ func _input(event: InputEvent) -> void:
 	if not _handle_editor_shortcut(event):
 		return
 	get_viewport().set_input_as_handled()
+
+
+func _handle_palette_drop_release(event: InputEvent) -> bool:
+	if not event is InputEventMouseButton or event.pressed or event.button_index != MOUSE_BUTTON_LEFT \
+			or not get_viewport().gui_is_dragging():
+		return false
+	var payload: Variant = get_viewport().gui_get_drag_data()
+	if not payload is Dictionary or StringName(payload.get("type", &"")) != &"circuit_component_template":
+		return false
+	# Native captured input can move independently of the physical OS cursor.
+	# Use the release event for both hit testing and the snapped drop, just as
+	# the canvas preview does. Keep Godot's drag payload and preview lifecycle.
+	var allowed: bool = graph != null and graph.is_visible_in_tree() and not _editor_locked() \
+		and graph.get_global_rect().has_point(event.position)
+	for window: FloatingInstrumentPanel in desktop_windows.values():
+		if window.is_visible_in_tree() and window.get_global_rect().has_point(event.position):
+			allowed = false
+	get_viewport().gui_cancel_drag()
+	if allowed:
+		var local_position: Vector2 = graph.get_global_transform_with_canvas().affine_inverse() * event.position
+		_on_component_drop_requested(String(payload.get("template_key", "")), local_position)
+	else:
+		_cancel_component_placement()
+	return true
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -484,6 +512,8 @@ func _handle_component_placement_global_input(event: InputEvent) -> bool:
 	if not mouse_event.pressed:
 		return false
 	if mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+		if get_viewport().gui_is_dragging():
+			get_viewport().gui_cancel_drag()
 		_cancel_component_placement()
 		return true
 	if mouse_event.button_index != MOUSE_BUTTON_LEFT:
@@ -1075,8 +1105,9 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	var gap: float = clampf(margin * 0.75, 10.0, 16.0)
 	var usable_height: float = maxf(180.0, area.y - margin * 2.0)
 	var left_width: float = clampf(area.x * 0.27, 360.0, 440.0)
-	var component_width: float = clampf(area.x * 0.19, 280.0, 340.0)
+	var component_width: float = clampf(area.x * 0.21, 320.0, 360.0)
 	if reset_windows:
+		component_palette_needs_initial_layout = true
 		for window: FloatingInstrumentPanel in [task_window, bench_window]:
 			window.show_instrument()
 			window.set_minimized(false)
@@ -1109,7 +1140,7 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 		component_window.position = Vector2(area.x - margin - component_width, margin)
 		component_window.size = Vector2(
 			component_width,
-			clampf(usable_height * 0.56, 260.0, minf(520.0, usable_height))
+			minf(usable_height, maxf(420.0, usable_height * 0.70))
 		)
 		var task_ratio: float = 0.40
 		var bench_ratio: float = 0.52
@@ -1544,6 +1575,13 @@ func _show_desktop_window(id: StringName) -> void:
 	var window: FloatingInstrumentPanel = desktop_windows.get(id)
 	if window == null:
 		return
+	if id == &"components" and component_palette_needs_initial_layout:
+		# The initial hidden panel can be clamped before the desktop has its
+		# final Retina size. Size it once when first opened; keep later user edits.
+		var area: Vector2 = graph_stack.size
+		window.size = Vector2(clampf(area.x * 0.21, 320.0, 360.0), minf(area.y - 20.0, 440.0))
+		window.position = Vector2(area.x - window.size.x - 16.0, 16.0)
+		component_palette_needs_initial_layout = false
 	window.show_instrument()
 	window.set_minimized(false)
 	window.fit_to_parent(10.0)
@@ -2966,6 +3004,8 @@ func _on_empty_canvas_pressed(local_position: Vector2) -> void:
 func _on_component_drop_requested(template_key: String, local_position: Vector2) -> void:
 	_arm_component_template(template_key)
 	_place_component_template(template_key, local_position)
+	# A drag places one item. Repeated placement belongs to clicking the card.
+	_cancel_component_placement(false)
 
 
 func _on_component_placement_cancel_requested(_reason: StringName) -> void:

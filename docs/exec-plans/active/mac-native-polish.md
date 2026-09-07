@@ -170,3 +170,31 @@ readiness from the baseline tests.
   actual native click/drag placement, cancellation, focus and undo in ordinary
   Game. Record observations and further changes here; save migration remains
   outside this UI follow-up until the pending data-change decision is answered.
+
+- `4fc1f6e` commits the complete palette silhouettes, bilingual card hierarchy and
+  internal-geometry regressions. Native feedback then exposed initial hidden-panel
+  sizing and drag failures, addressed in the follow-up implementation.
+- Drag follow-up preserves Godot payloads/previews while using the release event
+  for target and snapped position. It cancels over floating instruments, ends
+  one-shot drag placement, and preserves click-to-repeat plus undo/redo. Preview
+  reconstruction retains runtime symbol configuration. The first palette open
+  waits for actual desktop dimensions and exposes all three Tutorial cards.
+- Current native ordinary Game: completed Tutorial and the four-case Half Adder
+  with manual wiring, sealed and continued to Full Adder; dragged the earned
+  reusable module and undid it. Also tested normal/invalid drops, click-repeat,
+  right-click cancellation, Command+Z / Shift+Command+Z, Handbook search focus,
+  locked CPU text and Escape focus return. No answer/reference insertion.
+- F11 window round trip preserved the board. System capture showed a thin corrupt
+  top strip after re-entry, while the saved viewport render was clean. Capture
+  reliability remains distinct from rendering and from mixed-display acceptance.
+- Fresh final isolated import, directory probe and all 20 suites pass in
+  `.godot/verification/20260907T105450Z-7953228f/`. Earlier run
+  `20260907T102937Z-44a5e78b` retains the too-short-window assertion failure and
+  the two wrong-drop-position failures that guided the follow-up; do not count
+  its intermediate pointer-only repair as final native evidence.
+- Final current-source Chinese and English ordinary Game replays each pass
+  528 checks, zero failures, including original CPU and LOAD/STORE progression.
+  Runtime/assets/tests in the verification copy match the final working source.
+  Bilingual all-19-card renders were inspected again at Retina resolution.
+  Source hashes, native scope and outstanding acceptance are in
+  `docs/verification/2026-09-07-mac-palette-polish/summary.json`.

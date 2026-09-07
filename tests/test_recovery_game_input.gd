@@ -281,6 +281,9 @@ func curve_point(target: StringName, input_index: int = 0) -> Vector2:
 func editing_roundtrip() -> void:
 	await close_window(&"task")
 	await close_window(&"test_bench")
+	await palette_drag_roundtrip(false)
+	await palette_drag_roundtrip(true)
+	await palette_drag_roundtrip(true, true)
 	var and_id: StringName = await place(&"and", ui.graph.global_position + Vector2(900, 390))
 	var or_id: StringName = await place(&"or", ui.graph.global_position + Vector2(1160, 475))
 	if and_id.is_empty() or or_id.is_empty():
@@ -323,6 +326,66 @@ func editing_roundtrip() -> void:
 	check(original_node.position_offset != original_pos and other_node.position_offset != other_pos, "Dragging a selected body moves the whole selection.")
 	await key(KEY_Z, true)
 	check(original_node.position_offset == original_pos and other_node.position_offset == other_pos, "One undo restores the multi-selection move.")
+
+func palette_drag_roundtrip(empty_motion_mask: bool, onto_instrument: bool = false) -> void:
+	var before: String = snapshot()
+	var original_ids: Array = ui.component_nodes.keys()
+	await press(ui.desktop_window_buttons[&"components"])
+	if onto_instrument:
+		await press(ui.desktop_window_buttons[&"test_bench"])
+	var item: Control
+	for candidate: Control in ui.component_palette_items.values():
+		if candidate.component_kind == &"and":
+			item = candidate
+			break
+	check(item != null, "Tutorial exposes a draggable AND card.")
+	if item == null:
+		return
+	var from: Vector2 = item.get_global_rect().get_center()
+	var to: Vector2 = ui.graph.global_position + Vector2(860, 300)
+	if onto_instrument:
+		to = ui.desktop_windows[&"test_bench"].get_global_rect().get_center()
+	await point(from)
+	var held := InputEventMouseButton.new()
+	held.button_index = MOUSE_BUTTON_LEFT
+	held.pressed = true
+	held.position = Vector2(-1000, -1000)
+	if empty_motion_mask:
+		Input.parse_input_event(held)
+		Input.flush_buffered_events()
+	var event := InputEventMouseButton.new()
+	event.position = from
+	event.global_position = from
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT
+	event.pressed = true
+	root.push_input(event, true)
+	await process_frame
+	var expected: Vector2 = ui.graph.graph_position_for_local_pointer(to - ui.graph.global_position, ui.graph.placement_preview_size)
+	for step: int in range(1, 9):
+		await point(from.lerp(to, step / 8.0), 0 if empty_motion_mask else MOUSE_BUTTON_MASK_LEFT, (to - from) / 8.0)
+	event = InputEventMouseButton.new()
+	event.position = to
+	event.global_position = to
+	event.button_index = MOUSE_BUTTON_LEFT
+	root.push_input(event, true)
+	if empty_motion_mask:
+		held.pressed = false
+		Input.parse_input_event(held)
+		Input.flush_buffered_events()
+	await settle()
+	check(ui.component_nodes.size() == original_ids.size() + (0 if onto_instrument else 1), "A palette drag creates one item on the canvas and none behind a floating instrument.")
+	for id: StringName in ui.component_nodes:
+		if not original_ids.has(id):
+			check(ui.component_nodes[id].position_offset.is_equal_approx(expected), "Palette drop matches the snapped ghost position: expected %s, got %s." % [expected, ui.component_nodes[id].position_offset])
+	check(ui.armed_component_template_key.is_empty(), "A completed drag returns to editing instead of leaving an extra placement ghost.")
+	if not onto_instrument:
+		await key(KEY_Z, true)
+	check(snapshot() == before, "Undo or an invalid drop preserves the original circuit exactly.")
+	if onto_instrument:
+		await close_window(&"test_bench")
+	await close_window(&"components")
+
 
 func complete_tutorial() -> void:
 	await close_window(&"task")

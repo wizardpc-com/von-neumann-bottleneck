@@ -649,7 +649,7 @@ func _run() -> void:
 	_assert(
 		task_window.size.x >= 320.0 and bench_window.size.x >= 320.0
 		and components_window.size.x >= 280.0
-		and components_window.size.y <= desktop_area.y * 0.60
+		and components_window.get_rect().end.y <= desktop_area.y
 		and components_window.position.x - task_window.get_rect().end.x >= desktop_area.x * 0.35,
 		"Default Hardware windows must be comfortably readable while preserving a large unobstructed center workspace."
 	)

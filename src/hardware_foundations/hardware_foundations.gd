@@ -4117,6 +4117,9 @@ func _focus_circuit(all_components: bool = false) -> void:
 
 
 func _wire_description(connection: Dictionary) -> String:
+	if (level_completion_overlay != null and level_completion_overlay.visible) \
+		or (terminology_handbook != null and terminology_handbook.is_open()):
+		return ""
 	var source: LogicComponent = component_catalog.get(StringName(connection.get("from_node", &"")))
 	var target: LogicComponent = component_catalog.get(StringName(connection.get("to_node", &"")))
 	if source == null or target == null:
@@ -7578,7 +7581,9 @@ func _update_tutorial_goal() -> void:
 	if not next.is_empty():
 		mission_summary_button.text = _t(&"hardware.goal.tutorial_step", [completed,
 			_t(StringName("hardware.tutorial.check.%s" % next))])
-		mission_summary_button.tooltip_text = mission_summary_button.text
+	else:
+		mission_summary_button.text = _t(&"hardware.goal.tutorial_complete")
+	mission_summary_button.tooltip_text = mission_summary_button.text
 
 
 func _component_tooltip(component: LogicComponent) -> String:

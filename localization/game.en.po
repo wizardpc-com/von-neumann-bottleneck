@@ -4766,7 +4766,7 @@ msgstr "With A=1 and B=1, the sum is binary 10. Its bits leave separately: SUM=0
 
 
 msgid "terminology.term.binary.example"
-msgstr "The places in 1101 are worth 8, 4, 2 and 1, so it represents 13. Four-bit arithmetic wraps after 15. Whether carry is exposed separately depends on the level's port specification."
+msgstr "The places in 1101 are worth 8, 4, 2 and 1, so it represents 13. Four-bit arithmetic wraps after 15. Whether carry is exposed separately depends on the level's port specification.\n\nWord displays use the prefix 0x for hexadecimal: 0–9 keep their usual values, and A–F mean 10–15. For example, 0xC is 12 and 0xD is the same 13 shown above. The notation changes; the stored bits do not."
 
 
 msgid "terminology.term.signal.example"
@@ -4838,3 +4838,6 @@ msgstr "The computer is already connected. Run the program and follow data betwe
 
 msgid "hardware.prologue.outputs_empty"
 msgstr "Run a case to inspect its output values."
+
+msgid "hardware.goal.tutorial_complete"
+msgstr "All 5/5 actions complete · continue to arithmetic or storage"

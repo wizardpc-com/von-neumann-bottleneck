@@ -4766,7 +4766,7 @@ msgstr "A=1、B=1 时，相加得到二进制 10。两位分开输出：SUM=0，
 
 
 msgid "terminology.term.binary.example"
-msgstr "1101 的四个位权是 8、4、2、1，所以它表示 13。4 位相加超出 15 时，低四位从 0 重新计数；是否单独输出进位，要看本关端口规格。"
+msgstr "1101 的四个位权是 8、4、2、1，所以它表示 13。4 位相加超出 15 时，低四位从 0 重新计数；是否单独输出进位，要看本关端口规格。\n\n后面的多位数值会用 0x 开头的十六进制显示：0～9 不变，A～F 分别表示 10～15。例如 0xC 就是 12，0xD 就是上图的 13。写法不同，保存的位没有改变。"
 
 
 msgid "terminology.term.signal.example"
@@ -4838,3 +4838,6 @@ msgstr "计算机已经接好。运行程序，跟随数据在 CPU 与 RAM 之�
 
 msgid "hardware.prologue.outputs_empty"
 msgstr "运行用例后查看实际输出值。"
+
+msgid "hardware.goal.tutorial_complete"
+msgstr "五项练习已完成 5/5 · 继续挑战运算或存储"

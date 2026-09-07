@@ -1177,6 +1177,10 @@ func _run() -> void:
 	_assert(bool((main.get("completed_levels") as Dictionary).get(&"tutorial", false)), "The five tutorial interactions must record the prerequisite completion immediately.")
 	var completion_overlay: Control = main.get("level_completion_overlay")
 	var completion_continue: Button = completion_overlay.get("continue_button")
+	_assert("5/5" in (main.get("mission_summary_button") as Button).text,
+		"The persistent tutorial goal must show all five actions complete when the completion window opens.")
+	_assert(String(main.call("_wire_description", graph.get_connection_list()[0])).is_empty(),
+		"The board must not create wire tooltips over the completion window.")
 	_assert(
 		completion_overlay.visible
 		and StringName(completion_overlay.get("current_level_id")) == &"tutorial"

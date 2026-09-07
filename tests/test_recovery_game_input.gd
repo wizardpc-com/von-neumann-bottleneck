@@ -581,6 +581,10 @@ func load_store_bridge() -> void:
 func _run() -> void:
 	root.mode = Window.MODE_WINDOWED
 	root.size = Vector2i(1600, 900)
+	# macOS may deliver its native fullscreen/window transition after the first
+	# viewport resize. Let that transition finish before dispatching scene input.
+	if OS.get_name() == "macOS":
+		await create_timer(1.0).timeout
 	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 	await settle(8)
 	check(current_scene.name == "PrototypeHub" and not root.get_node("GameMode").is_test_mode(), "The configured default scene is the original hub in ordinary Game mode.")
@@ -591,6 +595,10 @@ func _run() -> void:
 	await capture("prologue-map")
 	await press(ui.campaign_level_buttons[&"tutorial"])
 	check(ui.current_phase == &"tutorial" and ui.mission_briefing_active and not ui.hint_mode, "Tutorial first entry prominently displays Mission and no solution hint.")
+	if ui.mission_briefing_panel == null:
+		await capture("failed-tutorial-entry")
+		await finish()
+		return
 	var start_building: Control = ui.mission_briefing_panel.find_child("MissionStartBuilding", true, false)
 	var task_scroll: ScrollContainer = ui.desktop_windows[&"task"].find_child("TaskScroll", true, false) as ScrollContainer
 	check(task_scroll != null and task_scroll.get_global_rect().encloses(start_building.get_global_rect()), "First Mission exposes Start Building without scrolling or searching for the action.")

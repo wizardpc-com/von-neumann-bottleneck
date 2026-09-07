@@ -72,9 +72,13 @@ func _leave_fullscreen() -> void:
 		maxi(MINIMUM_WINDOWED_SIZE.x, int(float(usable.size.x) * 0.9)),
 		maxi(MINIMUM_WINDOWED_SIZE.y, int(float(usable.size.y) * 0.9))
 	)
+	var preferred: Vector2i = _windowed_size
+	if not _has_windowed_rect and OS.get_name() == "macOS":
+		# Window dimensions are pixels; the initial design size is in display points.
+		preferred = Vector2i(Vector2(DESIGN_SIZE) * DisplayServer.screen_get_scale(screen))
 	var target := Vector2i(
-		clampi(_windowed_size.x, mini(MINIMUM_WINDOWED_SIZE.x, usable.size.x), mini(maximum.x, usable.size.x)),
-		clampi(_windowed_size.y, mini(MINIMUM_WINDOWED_SIZE.y, usable.size.y), mini(maximum.y, usable.size.y))
+		clampi(preferred.x, mini(MINIMUM_WINDOWED_SIZE.x, usable.size.x), mini(maximum.x, usable.size.x)),
+		clampi(preferred.y, mini(MINIMUM_WINDOWED_SIZE.y, usable.size.y), mini(maximum.y, usable.size.y))
 	)
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	DisplayServer.window_set_size(target)

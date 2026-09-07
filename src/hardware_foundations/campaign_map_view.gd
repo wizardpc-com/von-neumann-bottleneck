@@ -11,7 +11,7 @@ const ACCENT := Color("50d5ff")
 const PURPLE := Color("c58cff")
 const GOOD := Color("67e8a5")
 
-const NODE_SIZE := Vector2(142.0, 78.0)
+const NODE_SIZE := Vector2(166.0, 92.0)
 const LEFT_RESERVED: float = 420.0
 const RIGHT_MARGIN: float = 28.0
 const TOP_MARGIN: float = 78.0
@@ -164,8 +164,10 @@ func _build_button_content(button: Button, data: Dictionary) -> void:
 	column.add_theme_constant_override("separation", 3)
 	margin.add_child(column)
 	var title := Label.new()
-	title.text = String(data.get("title", data.get("id", "?")))
+	title.text = String(data.get("short_title", data.get("title", data.get("id", "?"))))
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.max_lines_visible = 2
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	title.custom_minimum_size.y = 33.0
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 15)
@@ -174,6 +176,8 @@ func _build_button_content(button: Button, data: Dictionary) -> void:
 	column.add_child(title)
 	var state := Label.new()
 	state.text = "%s  %s" % [_status_glyph(data), String(data.get("status", ""))]
+	state.clip_text = true
+	state.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	state.add_theme_font_size_override("font_size", 11)
 	state.add_theme_color_override("font_color", _status_color(data))
 	state.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -351,7 +355,7 @@ func _draw_branch_labels() -> void:
 		var position: Vector2 = level_positions[first_id] + Vector2(0.0, -20.0)
 		draw_string(
 			ThemeDB.fallback_font, position, String(branch.get("title", branch_id)),
-			HORIZONTAL_ALIGNMENT_LEFT, NODE_SIZE.x, 13, Color(PURPLE, 0.92)
+			HORIZONTAL_ALIGNMENT_LEFT, minf(380.0, size.x - position.x - RIGHT_MARGIN), 13, Color(PURPLE, 0.92)
 		)
 
 

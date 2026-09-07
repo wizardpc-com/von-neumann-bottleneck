@@ -1261,7 +1261,7 @@ msgid "hardware.status.connected"
 msgstr "CONNECTED — %s → %s  ·  this output can feed more than one destination"
 
 msgid "hardware.status.topology_changed"
-msgstr "Topology changed — run all four official cases again."
+msgstr "Topology changed — run the complete official test again."
 
 msgid "hardware.status.wire_removed"
 msgstr "WIRE REMOVED — reconnect from any compatible output port"
@@ -4820,3 +4820,21 @@ msgstr "Example: A=1, B=0, CIN=0. Changing only OP1 OP0 selects a different oper
 
 msgid "terminology.diagram.opcode.example"
 msgstr "ALU example: A=1 · B=0 · CIN=0"
+
+msgid "hardware.prologue.map.short.tutorial"
+msgstr "Wiring Tutorial"
+
+msgid "hardware.prologue.map.short.half_adder"
+msgstr "1-bit Half Adder"
+
+msgid "hardware.briefing.observe"
+msgstr "Start observing"
+
+msgid "hardware.prologue.observe.subtitle"
+msgstr "Your sealed computer · fixed observation program"
+
+msgid "hardware.prologue.observe.status"
+msgstr "The computer is already connected. Run the program and follow data between CPU and RAM."
+
+msgid "hardware.prologue.outputs_empty"
+msgstr "Run a case to inspect its output values."

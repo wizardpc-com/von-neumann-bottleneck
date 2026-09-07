@@ -104,7 +104,8 @@ func display_text() -> String:
 	if width == 1:
 		return str(value)
 	var digits: int = maxi(1, int(ceil(float(width) / 4.0)))
-	return "0x" + ("%X" % value).pad_zeros(digits)
+	# pad_zeros parses decimal digits and treats A–F as a prefix (C becomes C0).
+	return "0x" + ("%X" % value).lpad(digits, "0")
 
 
 func canonical_signature() -> String:

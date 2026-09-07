@@ -149,7 +149,12 @@ func dismiss_briefing() -> void:
 func close_window(id: StringName) -> void:
 	var window: Control = ui.desktop_windows[id]
 	if window.visible:
-		await press(window.find_child("CloseButton", true, false))
+		# Another freely positioned instrument can cover this window's title bar.
+		# Its dock toggle is always exposed and closes it through ordinary input.
+		var dock_button: Button = ui.desktop_window_buttons.get(id)
+		await press(dock_button if dock_button != null and dock_button.is_visible_in_tree()
+			else window.find_child("CloseButton", true, false))
+		check(not window.visible, "The visible window close control closes %s." % id)
 
 func named_design() -> void:
 	await press(ui.workbench_menu_button)
@@ -330,7 +335,7 @@ func complete_tutorial() -> void:
 	await press(ui.desktop_window_buttons[&"test_bench"])
 	await frequency()
 	await press(ui.input_a_button)
-	await press(named_button(ui.side_box, text(&"hardware.practice.run")))
+	await press(named_button(ui.desktop_windows[&"test_bench"], text(&"hardware.practice.run")))
 	await wait_playback()
 	check(ui.completed_levels.has(&"tutorial") and ui.level_completion_overlay.visible, "Five real Tutorial actions earn ordinary Game completion and an explicit Continue.")
 	await capture("tutorial-success")

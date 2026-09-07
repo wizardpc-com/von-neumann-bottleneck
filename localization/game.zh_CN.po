@@ -1261,7 +1261,7 @@ msgid "hardware.status.connected"
 msgstr "已连接 — %s → %s · 该输出可以驱动多个目标"
 
 msgid "hardware.status.topology_changed"
-msgstr "拓扑已改变 — 请重新运行全部 4 个正式用例。"
+msgstr "拓扑已改变 — 请重新运行全部正式用例。"
 
 msgid "hardware.status.wire_removed"
 msgstr "连线已移除 — 可从任意兼容输出端口重新连接"
@@ -4820,3 +4820,21 @@ msgstr "例：A=1、B=0、CIN=0。只改变 OP1 OP0，ALU 就会对同一组数�
 
 msgid "terminology.diagram.opcode.example"
 msgstr "ALU 例：A=1 · B=0 · CIN=0"
+
+msgid "hardware.prologue.map.short.tutorial"
+msgstr "接线教程"
+
+msgid "hardware.prologue.map.short.half_adder"
+msgstr "一位半加器"
+
+msgid "hardware.briefing.observe"
+msgstr "开始观察"
+
+msgid "hardware.prologue.observe.subtitle"
+msgstr "你封存的计算机 · 固定观察程序"
+
+msgid "hardware.prologue.observe.status"
+msgstr "计算机已经接好。运行程序，跟随数据在 CPU 与 RAM 之间的往返。"
+
+msgid "hardware.prologue.outputs_empty"
+msgstr "运行用例后查看实际输出值。"

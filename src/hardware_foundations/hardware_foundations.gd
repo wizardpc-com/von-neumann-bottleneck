@@ -112,6 +112,7 @@ var campaign_map_view: CampaignMapViewType
 var trace_overlay: CircuitTraceOverlay
 var encapsulation_effect: EncapsulationEffect
 var side_box: VBoxContainer
+var bench_actions: VBoxContainer
 var task_box: VBoxContainer
 var component_palette_box: VBoxContainer
 var component_inspector_box: VBoxContainer
@@ -1007,7 +1008,26 @@ func _make_desktop_window_content(id: StringName) -> Control:
 		component_inspector_box = box
 	else:
 		side_box = box
+		var bench_content := VBoxContainer.new()
+		bench_content.add_child(scroll)
+		bench_actions = VBoxContainer.new()
+		bench_actions.name = "TestBenchActions"
+		bench_actions.hide()
+		bench_content.add_child(bench_actions)
+		return bench_content
 	return scroll
+
+
+func _clear_test_bench() -> void:
+	_clear_container(side_box)
+	_clear_container(bench_actions)
+	bench_actions.hide()
+	(side_box.get_parent() as ScrollContainer).scroll_vertical = 0
+
+
+func _add_bench_action(button: Button) -> void:
+	bench_actions.add_child(button)
+	bench_actions.show()
 
 
 func _add_desktop_window(id: StringName, title_text: String, content: Control) -> void:
@@ -1254,7 +1274,7 @@ func _show_mission_briefing_page() -> void:
 	mission_briefing_continue_button = Button.new()
 	mission_briefing_continue_button.name = "MissionBriefingContinue"
 	mission_briefing_continue_button.text = _t(
-		&"hardware.briefing.start" if mission_briefing_page == pages.size() - 1
+		(&"hardware.briefing.observe" if current_level_id == &"load_store" else &"hardware.briefing.start") if mission_briefing_page == pages.size() - 1
 		else &"hardware.briefing.continue"
 	)
 	mission_briefing_continue_button.custom_minimum_size = Vector2(
@@ -1274,7 +1294,7 @@ func _show_mission_briefing_page() -> void:
 	if mission_briefing_page < pages.size() - 1:
 		var start := Button.new()
 		start.name = "MissionStartBuilding"
-		start.text = _t(&"hardware.briefing.build_now")
+		start.text = _t(&"hardware.briefing.observe" if current_level_id == &"load_store" else &"hardware.briefing.build_now")
 		start.tooltip_text = _t(&"hardware.briefing.build_now.tooltip")
 		start.custom_minimum_size = Vector2(104.0, UiTypographyType.CONTROL_HEIGHT)
 		start.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
@@ -2414,7 +2434,7 @@ func _build_hint_snapshot(level: int) -> Dictionary:
 
 func _build_hint_side() -> void:
 	_clear_container(task_box)
-	_clear_container(side_box)
+	_clear_test_bench()
 	task_box.add_child(_side_heading(
 		_t(&"hardware.hint.title", [hint_level, 3]),
 		_level_display_name(current_level_id)
@@ -3224,7 +3244,7 @@ func _add_port_row(
 
 
 func _build_tutorial_side() -> void:
-	_clear_container(side_box)
+	_clear_test_bench()
 	_clear_container(task_box)
 	task_box.add_child(_side_heading(_t(&"hardware.tutorial.heading"), _t(&"hardware.tutorial.heading_subtitle")))
 	var prompt := LinkedMissionTextType.new()
@@ -3259,7 +3279,8 @@ func _build_tutorial_side() -> void:
 	var run_button := Button.new()
 	run_button.text = _t(&"hardware.practice.run")
 	run_button.pressed.connect(_run_debug)
-	side_box.add_child(run_button)
+	InstrumentThemeType.primary(run_button)
+	_add_bench_action(run_button)
 	debug_result_label = Label.new()
 	debug_result_label.text = _t(&"hardware.practice.lamp_empty")
 	debug_result_label.add_theme_font_size_override("font_size", 20)
@@ -3269,7 +3290,7 @@ func _build_tutorial_side() -> void:
 
 
 func _build_half_adder_side() -> void:
-	_clear_container(side_box)
+	_clear_test_bench()
 	_clear_container(task_box)
 	task_box.add_child(_side_heading(_t(&"hardware.challenge.heading"), _t(&"hardware.challenge.heading_subtitle")))
 	var challenge := LinkedMissionTextType.new()
@@ -3300,7 +3321,7 @@ func _build_half_adder_side() -> void:
 	InstrumentThemeType.primary(official_button)
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
-	side_box.add_child(official_button)
+	_add_bench_action(official_button)
 	var truth_table_note := LinkedMissionTextType.new()
 	truth_table_note.name = "TruthTableDefinition"
 	truth_table_note.add_theme_font_size_override("font_size", 13)
@@ -3313,7 +3334,7 @@ func _build_half_adder_side() -> void:
 
 
 func _build_sealed_side() -> void:
-	_clear_container(side_box)
+	_clear_test_bench()
 	_clear_container(task_box)
 	task_box.add_child(_side_heading(_t(&"hardware.sealed.library_heading"), _t(&"hardware.sealed.library_subtitle")))
 	var created := Label.new()
@@ -3417,11 +3438,13 @@ func _side_heading(title: String, subtitle: String) -> Control:
 	var box := VBoxContainer.new()
 	var title_label := Label.new()
 	title_label.text = title
+	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title_label.add_theme_font_size_override("font_size", 20)
 	title_label.add_theme_color_override("font_color", PURPLE)
 	box.add_child(title_label)
 	var subtitle_label := Label.new()
 	subtitle_label.text = subtitle
+	subtitle_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitle_label.add_theme_color_override("font_color", MUTED)
 	box.add_child(subtitle_label)
 	return box
@@ -5286,9 +5309,11 @@ func _set_component_digital_port_states(
 			input_bits.append(value.is_known() and value.value != 0)
 			input_known.append(value.is_known())
 		var first_output: DigitalValue = outputs[0] if not outputs.is_empty() else DigitalValueType.high_z()
+		var terminal_value: DigitalValue = first_output if symbol.component_kind == &"input" else inputs[0] if not inputs.is_empty() else null
 		symbol.set_signal_state(
 			first_output.is_known(), first_output.is_known() and first_output.value != 0,
-			input_bits, input_known
+			input_bits, input_known,
+			terminal_value.display_text() if terminal_value != null and terminal_value.width > 1 else ""
 		)
 	for port: int in range(node.get_input_port_count()):
 		var value: DigitalValue = inputs[port] if port < inputs.size() else DigitalValueType.low()
@@ -6015,7 +6040,7 @@ func _invalidate_official_evidence(message: String) -> void:
 	prologue_report = {}
 	if seal_button != null:
 		seal_button.disabled = true
-		seal_button.text = _t(&"hardware.seal.button")
+		seal_button.text = _t(&"hardware.seal.button" if current_phase == &"half_adder" else &"hardware.prologue.seal")
 	_reset_official_case_rows()
 	status_label.text = message
 	status_label.add_theme_color_override("font_color", WARNING)
@@ -6144,7 +6169,7 @@ func _open_campaign_map() -> void:
 
 func _build_campaign_side() -> void:
 	_clear_container(task_box)
-	_clear_container(side_box)
+	_clear_test_bench()
 	task_box.add_child(_side_heading(
 		_t(&"hardware.prologue.map.title"), _t(&"hardware.prologue.map.subtitle")
 	))
@@ -6246,6 +6271,7 @@ func _build_campaign_map_view() -> void:
 			"branch_id": level_catalog.level_branch_id(level_id),
 			"order": level_catalog.level_order(level_id),
 			"title": _level_display_name(level_id),
+			"short_title": _t(StringName("hardware.prologue.map.short.%s" % level_id)) if level_id in [&"tutorial", &"half_adder"] else _level_display_name(level_id),
 			"description": description,
 			"dependencies": level_catalog.dependencies(level_id),
 			"completed": completed,
@@ -6340,7 +6366,7 @@ func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> 
 	if locked_topology:
 		graph.branch_edit_enabled = false
 	_build_prologue_side()
-	status_label.text = _t(&"hardware.prologue.level.status")
+	status_label.text = _t(&"hardware.prologue.observe.status" if locked_topology else &"hardware.prologue.level.status")
 	status_label.add_theme_color_override("font_color", MUTED)
 	trace_caption_label.text = _t(&"hardware.prologue.level.trace")
 	diagnostics_label.text = _t(&"hardware.prologue.level.zero_wire_delay")
@@ -6378,12 +6404,12 @@ func _load_reference_wires(level: Dictionary) -> void:
 
 func _build_prologue_side() -> void:
 	_clear_container(task_box)
-	_clear_container(side_box)
+	_clear_test_bench()
 	storage_state_label = null
 	storage_reset_button = null
 	task_box.add_child(_side_heading(
 		_t(StringName(current_level_definition["title_key"])),
-		_t(&"hardware.prologue.level.subtitle")
+		_t(&"hardware.prologue.observe.subtitle" if current_level_id == &"load_store" else &"hardware.prologue.level.subtitle")
 	))
 	if current_level_id == &"cpu":
 		var opcode_panel := PanelContainer.new()
@@ -6405,7 +6431,7 @@ func _build_prologue_side() -> void:
 	var pages: Array = _mission_briefing_pages()
 	description.set_linked_text(_t(StringName((pages[pages.size() - 1] as Dictionary)[&"body"])))
 	var ownership_note := Label.new()
-	ownership_note.text = _t(&"hardware.prologue.level.ownership_note")
+	ownership_note.text = _t(&"hardware.prologue.observe.status" if current_level_id == &"load_store" else &"hardware.prologue.level.ownership_note")
 	ownership_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	ownership_note.add_theme_font_size_override("font_size", 13)
 	ownership_note.add_theme_color_override("font_color", MUTED)
@@ -6435,7 +6461,7 @@ func _build_prologue_side() -> void:
 	debug_button.pressed.connect(_run_debug)
 	side_box.add_child(debug_button)
 	debug_result_label = Label.new()
-	debug_result_label.text = _t(&"hardware.cases.actual_empty")
+	debug_result_label.text = _t(&"hardware.prologue.outputs_empty")
 	debug_result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
@@ -6443,7 +6469,7 @@ func _build_prologue_side() -> void:
 	InstrumentThemeType.primary(official_button)
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
-	side_box.add_child(official_button)
+	_add_bench_action(official_button)
 	if current_level_id == &"cpu":
 		_refresh_cpu_stage()
 	_build_prologue_case_rows()

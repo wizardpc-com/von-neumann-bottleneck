@@ -5,12 +5,14 @@ const LogicCircuitType = preload("res://src/circuit/logic_circuit.gd")
 const PrologueSimulatorType = preload("res://src/circuit/prologue_simulator.gd")
 const ReusableComponentType = preload("res://src/circuit/reusable_component.gd")
 const PrologueLevelCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
+const DigitalValueType = preload("res://src/circuit/digital_value.gd")
 
 var failures: Array[String] = []
 var simulator := PrologueSimulatorType.new()
 
 
 func _init() -> void:
+	_test_hexadecimal_display()
 	_test_width_validation()
 	_test_junction_zero_latency()
 	_test_xor_gate()
@@ -27,6 +29,16 @@ func _init() -> void:
 	for failure: String in failures:
 		push_error(failure)
 	quit(1)
+
+
+func _test_hexadecimal_display() -> void:
+	for value: int in range(16):
+		_assert(DigitalValueType.known(4, value).display_text() == "0x" + "0123456789ABCDEF"[value],
+			"Every four-bit value must display as one hexadecimal digit, including A–F.")
+	_assert(DigitalValueType.known(8, 12).display_text() == "0x0C",
+		"Hexadecimal padding must go before the number, never after an A–F digit.")
+	_assert(DigitalValueType.known(32, 0xFFFFFFFF).display_text() == "0xFFFFFFFF",
+		"A full 32-bit value must not gain decimal padding.")
 
 
 func _test_width_validation() -> void:

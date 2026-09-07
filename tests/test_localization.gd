@@ -47,6 +47,9 @@ func _init() -> void:
 
 func _run() -> void:
 	_assert(_current_locale() == "zh_CN", "Simplified Chinese must be the startup locale.")
+	var undo_key: String = "⌘Z" if OS.get_name() == "macOS" else "Ctrl+Z"
+	_assert(_t(&"hardware.toolbar.undo_wire.tooltip").contains(undo_key),
+		"Hardware shortcut hints must use the current platform's primary modifier.")
 	_assert(_t(&"hub.subtitle") == "从第一根线，到一台能计算的机器。再让它更快。", "The default hub must identify the restored build-to-data-movement route.")
 	_assert(_t(&"hub.options.quit") == "退出游戏", "The chapter Options menu must provide a localized quit action.")
 	_assert(_t(&"terminology.button") == "手册", "The Chinese bottom-right handbook entry must use the concise shared tool-button label.")

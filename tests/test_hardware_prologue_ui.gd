@@ -264,6 +264,11 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 			_assert(saw_parallel_ram_cells, "RAM's two Register4 cells must animate their boundary in parallel, not one after another.")
 			var final_storage: Label = main.get("storage_state_label")
 			_assert(final_storage != null and "0x5" in final_storage.text and "0xC" in final_storage.text, "RAM official sequence must leave M0=0x5 and M1=0xC visible in the committed-state monitor.")
+			_assert("0xC0" not in final_storage.text,
+				"The four-bit stored value 12 must display as 0xC, never 0xC0.")
+			var output_symbol: CircuitComponentSymbol = main.get("component_symbols")[&"OUT"]
+			_assert(output_symbol.call("_terminal_value_text") == "0xC",
+				"The visible RAM output terminal must retain its complete word value instead of showing only 1.")
 			main.call("_show_playback_batch", parallel_ram_batch, 0.5)
 			var nodes: Dictionary = main.get("component_nodes")
 			var row_labels: Dictionary = main.get("component_row_labels")

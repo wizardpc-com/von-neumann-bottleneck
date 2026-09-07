@@ -11,6 +11,7 @@ const SIGNAL_HIGH_Z := Color("8b929d")
 
 var component_kind: StringName = &""
 var terminal_label: String = ""
+var terminal_display_text: String = ""
 var display_height: float = 46.0
 var output_known: bool = false
 var output_value: bool = false
@@ -39,12 +40,14 @@ func set_signal_state(
 		p_output_known: bool,
 		p_output_value: bool,
 		p_input_values: Array[bool],
-		p_input_known: Array[bool]
+		p_input_known: Array[bool],
+		p_terminal_text: String = ""
 	) -> void:
 	output_known = p_output_known
 	output_value = p_output_value
 	input_values = p_input_values.duplicate()
 	input_known = p_input_known.duplicate()
+	terminal_display_text = p_terminal_text
 	queue_redraw()
 
 
@@ -53,6 +56,7 @@ func clear_signal_state() -> void:
 	output_value = false
 	input_values.clear()
 	input_known.clear()
+	terminal_display_text = ""
 	queue_redraw()
 
 
@@ -516,6 +520,8 @@ func _terminal_signal_color() -> Color:
 
 
 func _terminal_value_text() -> String:
+	if not terminal_display_text.is_empty():
+		return terminal_display_text
 	if component_kind == &"input":
 		return str(int(output_value)) if output_known else "?"
 	var known: bool = not input_known.is_empty() and input_known[0]
@@ -525,7 +531,7 @@ func _terminal_value_text() -> String:
 func _draw_terminal_value() -> void:
 	var center_x: float = size.x * (0.41 if component_kind == &"input" else 0.55 if component_kind == &"lamp" else 0.59)
 	var text: String = _terminal_value_text()
-	var font_size: int = 23
+	var font_size: int = _fitted_font_size(text, 23, 44.0)
 	var text_width: float = _text_width(text, font_size)
 	var position := Vector2(center_x - text_width * 0.5, display_height * 0.71)
 	for offset: Vector2 in [Vector2(-1.0, 0.0), Vector2(1.0, 0.0), Vector2(0.0, -1.0), Vector2(0.0, 1.0)]:

@@ -1228,6 +1228,18 @@ func _run() -> void:
 	(main.get("mission_briefing_continue_button") as Button).pressed.emit()
 	await process_frame
 	var half_adder_menu_kinds: Array[StringName] = []
+	var half_bench: Control = main.get("desktop_windows")[&"test_bench"]
+	var half_bench_scroll := half_bench.find_child("TestBenchScroll", true, false) as ScrollContainer
+	var half_official: Button = main.get("official_button")
+	var official_action_rect: Rect2 = half_official.get_global_rect()
+	half_bench_scroll.scroll_vertical = 10000
+	await process_frame
+	_assert(
+		half_bench.get_global_rect().encloses(half_official.get_global_rect())
+		and half_official.get_global_rect() == official_action_rect,
+		"Scrolling test cases must keep the complete official-test action visible and stationary."
+	)
+	half_bench_scroll.scroll_vertical = 0
 	for template_variant: Variant in (main.get("component_menu_templates") as Dictionary).values():
 		half_adder_menu_kinds.append(StringName(template_variant.kind))
 	_assert(&"xor" not in half_adder_menu_kinds and &"and" in half_adder_menu_kinds and &"or" in half_adder_menu_kinds and &"not" in half_adder_menu_kinds, "Half Adder itself must be built from earlier gates; XOR unlocks only afterward.")

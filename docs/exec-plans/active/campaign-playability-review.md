@@ -90,3 +90,14 @@ Do not replace puzzle discovery with automatic connections or unsolicited answer
 - Verification summary: `docs/verification/2026-09-07-campaign-playability/summary.json`.
   All authorized campaign presentation work is complete. The optional new level
   and data compatibility decisions remain pending; keep this plan active for them.
+- Campaign UI/content increment committed as `e6a20cc` after native rechecks.
+- A separate small artwork follow-up corrects the sealing effect's hard-coded
+  HalfAdder name/ports for every module, localizes its copy, uses real Labels and
+  keeps decorative rays within the workbench. This changes no sealing rules.
+  Chinese Game replay: 574 checks / 0 failures, seven module captures inspected
+  selectively. Final exact source, including bounded rays: all 20 suites and
+  English Game replay 574 checks / 0 failures pass in
+  `.godot/verification/20260907T134316Z-181439eb/`. English CPU frame inspected.
+  Evidence: `docs/verification/2026-09-07-encapsulation-identity/summary.json`.
+  All authorized increments are now verified; optional gameplay and persisted-data
+  compatibility changes still await the user decision.

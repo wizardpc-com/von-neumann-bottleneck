@@ -4979,3 +4979,9 @@ msgstr "Whole data set · one pass"
 
 msgid "system.test_bench.case_summary"
 msgstr "%s · %d inputs"
+
+msgid "hardware.encapsulation.title"
+msgstr "ENCAPSULATING"
+
+msgid "hardware.encapsulation.description"
+msgstr "Saving your verified circuit as a reusable component"

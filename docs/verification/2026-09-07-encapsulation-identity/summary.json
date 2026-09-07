@@ -1,0 +1,40 @@
+{
+  "base_commit": "e6a20cc",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "macOS Apple M2 / Retina",
+  "change": "Encapsulation names the actual verified module, uses accessible bilingual labels and shared typography, and bounds decorative rays within the workbench.",
+  "invariants": "No changes to sealing duration, official tests, simulation, component installation, campaign prerequisites, save schema or provenance.",
+  "final_checks": {
+    "isolated_run": ".godot/verification/20260907T134316Z-181439eb",
+    "import_and_actual_user_directory_probe": "PASS",
+    "all_20_suites": "PASS",
+    "english_ordinary_game_input_replay": "574 checks / 0 failures / PASS",
+    "scope": "Final exact runtime source including ray-boundary follow-up; all listed source hashes match the tested snapshot.",
+    "inspected_capture": "cpu-en-final.png"
+  },
+  "chinese_checks": {
+    "isolated_run": ".godot/verification/20260907T134039Z-e6d28ca3",
+    "import_and_actual_user_directory_probe": "PASS",
+    "all_20_suites": "PASS",
+    "ordinary_game_input_replay": "574 checks / 0 failures / PASS",
+    "scope": "Actual module names and bilingual layout, before the final decorative-ray boundary adjustment.",
+    "inspected_captures": [
+      "cpu-zh-before-ray-boundary.png",
+      "ram-zh-before-ray-boundary.png"
+    ]
+  },
+  "coverage": "Seven added ordinary Game replay checks assert the active sealing artwork names the actual earned module; UI suite verifies the earned component label.",
+  "limits": [
+    "Images are from viewport-input ordinary Game replay, not a new native manual CPU construction.",
+    "No new human beginner or Windows native acceptance in this increment.",
+    "Existing restart signature compatibility remains pending user approval; no migration performed."
+  ],
+  "source_sha256": {
+    "src/hardware_foundations/encapsulation_effect.gd": "85f2c9b78ba183a4f40fe63e13c4e035aab7c703bda0caaf3ec56cc24b5944f0",
+    "src/hardware_foundations/hardware_foundations.gd": "b59d0a1cfd31e6ad47ea29fdaec77100871e0af5136224bfc97fd5f8cfd4b56e",
+    "localization/game.en.po": "538147e29a287c54f3d71f62d4f68207531bba1dc14adf7c0ddb10dc7c670f07",
+    "localization/game.zh_CN.po": "47e71c10275764075b372f9a06d0134caba49a090ccc8e1cc2cafac1a7cdee96",
+    "tests/test_hardware_prologue_ui.gd": "9eb13138a638446b5e64c6358a240b19289906bc749dda2b7a1c29299614b8a5",
+    "tests/test_recovery_game_input.gd": "ec127079614a47145691b33f4edb14037212e3e6f4f1cfe71ab55f238b5556d4"
+  }
+}

@@ -287,6 +287,8 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 		_assert_cpu_playback(main)
 	main.call("_seal_prologue_component")
 	_assert(bool(main.get("sealing")), "%s sealing must begin with the encapsulation effect." % level_id)
+	var effect: Control = main.get("encapsulation_effect")
+	_assert(StringName(effect.get("component_name")) == expected_component and (effect.get("module_label") as Label).text == String(expected_component), "The sealing artwork must name this level's actual earned component rather than always showing HalfAdder.")
 	main.call("_finish_encapsulation")
 	await process_frame
 	_assert(StringName(main.get("current_phase")) == &"prologue_complete", "%s must enter a clear completed state after sealing." % level_id)

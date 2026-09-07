@@ -258,3 +258,23 @@ window off screen. The final 20 suites pass in
 replay passes 567 checks. Native full-value expansion reached the last byte and
 Finish Trace preserved every official result. See the
 [verification summary](../verification/2026-09-07-campaign-playability/summary.json).
+
+### Correct module identity during encapsulation
+
+During current-source Game replay, the CPU sealing artwork still displayed
+`HalfAdder CREATED` and `A B → SUM CARRY`, hard-coded for every module. The effect
+now receives the actual earned `seal_name`, presents it in a real accessible Label,
+and uses bilingual copy and the shared type hierarchy. The animated rays are
+bounded by the workbench. Sealing duration, topology validation, installation,
+save/provenance and next-level behavior are unchanged.
+
+Chinese ordinary Game replay passes 574 checks with zero failures in
+`.godot/verification/20260907T134039Z-e6d28ca3/`, including seven checks and captures
+of the actual sealing identity. CPU and RAM images were inspected. The final
+English run passes all 20 suites and 574 replay checks with zero failures in
+`.godot/verification/20260907T134316Z-181439eb/`, including the final ray-boundary
+follow-up. Its CPU frame was inspected for the actual TinyComputer name, English
+subtitle fit and contained rays. Exact sources and images are recorded in the
+[verification summary](../verification/2026-09-07-encapsulation-identity/summary.json).
+These animation captures are from viewport-input replay, not claimed as a second
+manual CPU construction or a first-time human playtest.

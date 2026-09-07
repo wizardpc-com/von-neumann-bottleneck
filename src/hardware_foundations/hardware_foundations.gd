@@ -6119,7 +6119,7 @@ func _seal_half_adder() -> void:
 	sealing = true
 	sealing_elapsed = 0.0
 	_stop_playback()
-	encapsulation_effect.begin()
+	encapsulation_effect.begin(&"HalfAdder")
 	status_label.text = _t(&"hardware.status.sealing")
 	status_label.add_theme_color_override("font_color", PURPLE)
 	seal_button.disabled = true
@@ -6858,7 +6858,7 @@ func _seal_prologue_component() -> void:
 	sealing = true
 	sealing_elapsed = 0.0
 	_stop_playback()
-	encapsulation_effect.begin()
+	encapsulation_effect.begin(StringName(current_level_definition.get("seal_name", &"")))
 	seal_button.disabled = true
 	status_label.text = _t(&"hardware.status.sealing")
 	status_label.add_theme_color_override("font_color", PURPLE)

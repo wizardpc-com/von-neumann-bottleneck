@@ -4979,3 +4979,9 @@ msgstr "整个数据集 · 完成一轮"
 
 msgid "system.test_bench.case_summary"
 msgstr "%s · %d 个输入"
+
+msgid "hardware.encapsulation.title"
+msgstr "正在封装"
+
+msgid "hardware.encapsulation.description"
+msgstr "将验证通过的电路保存为可复用元件"

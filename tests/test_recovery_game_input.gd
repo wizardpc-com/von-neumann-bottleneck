@@ -556,6 +556,8 @@ func official_and_seal() -> void:
 		if not ui.desktop_windows[&"task"].visible:
 			await press(ui.desktop_window_buttons[&"task"])
 		await press(ui.seal_button)
+	check(ui.encapsulation_effect.active and ui.encapsulation_effect.module_label.text == String(ui.current_level_definition.get("seal_name", &"HalfAdder")), "Sealing visibly names the actual verified module being saved.")
+	await capture(String(ui.current_level_id) + "-sealing")
 	await wait_playback()
 	check(ui.level_completion_overlay.visible, "Sealing shows success and lets the player choose the next step.")
 	check(not ui.level_completion_overlay.next_capability_label.text.is_empty(), "Completion explains the next capability on the original route.")

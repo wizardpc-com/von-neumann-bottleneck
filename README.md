@@ -71,7 +71,9 @@ An ordinary launch enters Game mode. The original `savegame_v1.json` recovery in
 
 ## Windows friend build
 
-Current package: [Windows visual/learning playtest candidate](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/playtest-polish-20260907T010358). Build `polish-20260907T010358-76ef116` uses the original chapter hub. See [verification and limits](docs/status/visual-learning-polish.md), including the distinction between rendered Game replay and native desktop acceptance.
+Current Mac source and native-play evidence: [Mac workbench polish](docs/status/mac-native-polish.md). The recorded restart-provenance issue is pending an approved compatibility fix.
+
+Historical package: [Windows visual/learning playtest candidate](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/playtest-polish-20260907T010358). Build `polish-20260907T010358-76ef116` uses the original chapter hub. See [verification and limits](docs/status/visual-learning-polish.md), including the distinction between rendered Game replay and native desktop acceptance.
 
 Install Godot 4.7.1 export templates once, then export into a new output directory:
 

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Von Neumann Bottleneck"
-config/version="polish-20260907T010358-76ef116"
+config/version="mac-polish-20260907T085543Z-f15c175"
 run/main_scene="res://src/ui/prototype_hub.tscn"
 config/features=PackedStringArray("4.7")
 

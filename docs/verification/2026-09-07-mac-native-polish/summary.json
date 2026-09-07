@@ -1,0 +1,67 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "source_baseline": "0ad0bffeea9053143cf19f2da11a5b64105079c0",
+  "final_code_commit": "d8c752f",
+  "build_id": "mac-polish-20260907T085543Z-f15c175",
+  "automated": {
+    "full_english": {
+      "suites": 20,
+      "gui_checks": 502,
+      "failures": 0
+    },
+    "full_chinese": {
+      "suites": 20,
+      "gui_checks": 502,
+      "failures": 0
+    },
+    "final_small_changes": {
+      "suites": 20,
+      "gui_checks": 142,
+      "failures": 0
+    },
+    "handbook": {
+      "checks": 558,
+      "failures": 0
+    }
+  },
+  "native": {
+    "entry": "ordinary Game, computer-use; original player directory, followed by isolated post-fix checks",
+    "mainline_completed": [
+      "tutorial",
+      "half_adder",
+      "full_adder",
+      "alu",
+      "latch",
+      "register",
+      "ram",
+      "cpu",
+      "load_store"
+    ],
+    "cpu_manual_wires": 19,
+    "cpu_official_steps_passed": 7,
+    "retina_scale": 2,
+    "postfix": [
+      "tutorial replay",
+      "component Command+C/V and Command+Z",
+      "Half Adder specification and fixed test action",
+      "Handbook binary/hex reading",
+      "initial Retina window fallback and fullscreen button return"
+    ],
+    "limitations": [
+      "Rapid consecutive F11 produced an unstable capture; not counted as a stable round-trip pass",
+      "Physical trackpad and mixed monitor DPI not verified",
+      "No Windows EXE validation of this source",
+      "No novice/release acceptance"
+    ]
+  },
+  "player_data": {
+    "original_files_unchanged_during_final_import": true,
+    "cpu_progress_backup": ".godot/mac-playtest/cpu-native-save-backup/",
+    "legacy_ordering_migration": "proposed; awaiting user authorization; not applied"
+  },
+  "runs": {
+    "english-full": "20260907T085708Z-82f678ac",
+    "chinese-full": "20260907T090007Z-ab01f760",
+    "final-interaction": "20260907T091751Z-b7310af3"
+  }
+}

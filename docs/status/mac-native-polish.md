@@ -1,0 +1,122 @@
+# Mac native play and workbench polish
+
+Current source build: `mac-polish-20260907T085543Z-f15c175`. This continues latest main `0ad0bff` using
+Godot `4.7.1.stable.official.a13da4feb` on Apple M2. The original construction
+campaign and both later system chapters remain the default Game route. The
+historical Windows package is unchanged; this source has not been accepted as
+a new Windows release.
+
+## Changes grounded in play
+
+- Editing and playback occupy separate toolbar rows. Primary test/seal actions,
+  restrained instrument accents, dark signal faces and consistent typography
+  make the current action and circuit easier to distinguish.
+- Mission specifications have compact headings, aligned Half Adder truth-table
+  cells and reachable navigation. Map titles wrap within bounded nodes in both
+  languages. LOAD/STORE now invites observation of the already wired computer.
+- Test actions stay below the scrolling cases. Switching levels resets that
+  scroll; inspecting a component preserves other instrument positions and sizes.
+- Mac pointer motion with an empty button mask no longer cancels a physically
+  held drag. Focus loss ends gestures. Completion and Handbook input cannot
+  change the board behind them. Hardware shortcut hints show Command on Mac.
+- Wide terminals show complete authoritative values rather than Boolean 1.
+  Hexadecimal padding puts zeros before digits A–F: four-bit 12 is `0xC`, not
+  `0xC0`. Simulation values, timing and signatures are unchanged.
+- The Handbook keeps its 89 topics, 29 illustrated entries and existing unlock
+  policy, with a progress rail and signal drawings matching the canvas. Its
+  binary diagram consistently shows `1101 = 8 + 4 + 0 + 1 = 13`.
+
+The images below are actual Godot renderer captures from isolated verification;
+they are not native computer-use screenshots. The binary image uses the Handbook
+availability test fixture (89 topics), not earned player progress.
+
+![Half Adder mission and instrument hierarchy](../images/mac-polish-mission.png)
+
+![Complete word values on the CPU data path](../images/mac-polish-cpu.png)
+
+![Binary weights and matching sum](../images/mac-polish-binary.png)
+
+## Native ordinary Game evidence
+
+These observations used the Mac computer-use surface, entering ordinary Game.
+They are separate from Godot viewport-event replay and unit fixtures. No Test
+bootstrap, reference-wire insertion or completion setter earned this progress.
+
+| Native activity | Observed result |
+| --- | --- |
+| Tutorial | Five required actions completed; port wiring, input toggle, precise right-click erase, Command+Z and Command+Shift+Z |
+| Half Adder | Alternate player-built topology, four official cases passed and sealed; body drag/undo and a midpoint branch creating JUNCTION_001 |
+| Full Adder / ALU | Eight / 32 official cases passed and sealed; ALU H1, H2 and H3 separately requested with confirmations, returning to the empty player design before building |
+| Latch / Register / RAM | Five temporal cases each passed; both stored words maintained their own values; RAM used Shift+Home at 77% before accurate port drags |
+| CPU | 19 manual wires, A/B/C/D interface stages, all seven instructions passed; TinyComputer sealed |
+| LOAD/STORE | The sealed player computer passed all seven fixed program steps; original map marks every prologue lesson complete |
+| Handbook and focus | 59/89 topics open after the bridge; Command+A replaces CPU search with Cache; future Cache shows only its unlock condition; Escape returns focus to Handbook entry |
+| Modal and numeric input | Number 3 behind completion leaves wire color unchanged; Command+A in playback frequency replaces the value without editing the board |
+| Retina/window | Built-in Liquid Retina, 2940×1912 backing / 1470×956 logical display (2×); F11 and native window zoom used, native capture at 1336×768 |
+
+The native arithmetic, storage and CPU continuation used commit `f15c175`.
+Its incorrect pre-fix word displays were observed and led to the subsequent
+presentation correction. The original player files were copied intact into
+`.godot/mac-playtest/cpu-native-save-backup/` before ending the process. Earlier
+backups and failed verification logs remain available locally.
+
+## Restart defect and approval boundary
+
+A native restart exposed a pre-existing save defect: `Array[StringName].sort()`
+can produce a different component order in a new Godot process. That changes
+source signatures and the default seed fingerprint, causing a correct sealed
+Half Adder to be rejected and the default workbench to be reset. A read-only
+probe of the original saved circuit still passes all four official cases.
+Same-process save tests did not expose this problem.
+
+A compatible deterministic-order correction and one-time legacy fingerprint
+migration were proposed. Because the user explicitly reserved data changes for
+approval, no conversion, signature relaxation or player-save cleanup has been
+applied. The complete native progress backup is retained. This issue prevents a
+claim of reliable restart continuity until the compatibility fix is authorized
+and validated across separate processes.
+
+## Verification and remaining acceptance
+
+Fresh verification uses `scripts/verify-project.py`, a copied project and a
+unique Mac player directory for every case, checked by an actual path probe.
+- English full Game: `.godot/verification/20260907T085708Z-82f678ac/`, all
+  20 suites and 502 viewport-input checks pass.
+- Chinese full Game: `.godot/verification/20260907T090007Z-ab01f760/`, all
+  20 suites and 502 viewport-input checks pass.
+- Final Handbook copy/render check: `.godot/mac-playtest/postfix-handbook.log`,
+  558 checks, zero failures; localization and actual directory probe also pass.
+- Subsequent native ordinary Game in a fresh isolated directory: Tutorial
+  completed again, Command+C/V creates a component and Command+Z removes it;
+  Half Adder specification/nav fits the native capture, and its test action stays stationary while
+  case rows scroll. This does not replace the earlier original-directory CPU play.
+
+- Final small fixes: `.godot/verification/20260907T091751Z-b7310af3/`, all 20
+  suites and 142 Tutorial viewport-input checks pass. This targeted run follows
+  the complete bilingual mainline passes above.
+- Final native: corrected first Retina window fallback is visibly larger than
+  the earlier 800-pixel-wide capture. F11 entered fullscreen; the visible exit
+  button restored the window size. Rapid consecutive F11 produced an unstable
+  capture, so that gesture is not counted as a clean round-trip pass. The final
+  binary diagram and hexadecimal explanation were read in the native Handbook.
+- Final original-checkout import is clean. Player-file hashes before/after that
+  import match; the original CPU progress backup remains untouched.
+
+The [verification summary](../verification/2026-09-07-mac-native-polish/summary.json)
+records source commit `d8c752f`, exact run IDs, pass counts and evidence limits.
+The [active plan](../exec-plans/active/mac-native-polish.md) retains intermediate
+failures and remaining work.
+
+Do not infer novice comprehension, physical trackpad comfort, mixed-monitor DPI,
+Windows EXE behavior or release readiness from the passing suites, automated
+replays or agent play. Those are distinct acceptance activities. Existing seed
+coordinates, free construction, independent Hint levels, simulation semantics,
+source provenance checks and save formats remain unchanged.
+
+## Display API reference
+
+The Mac default window correction uses the documented
+[Godot 4.7 display scale](https://docs.godotengine.org/en/4.7/classes/class_displayserver.html#class-displayserver-method-screen-get-scale)
+only for the initial fallback size; previously remembered window rectangles stay
+in pixels. Usable-screen bounds still constrain the result. Physical multi-screen
+behavior needs a separate native check.

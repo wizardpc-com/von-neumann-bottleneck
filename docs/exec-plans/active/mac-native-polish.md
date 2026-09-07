@@ -89,10 +89,70 @@ play evidence.
   fingerprints, retaining designs and full provenance/official-case checks.
   No save-compatibility code or migration has been applied while that is pending.
 
+- Full native ordinary Game continuation at `f15c175`: Half Adder 4/4, Full Adder
+  8/8, ALU 32/32, Latch 5/5, Register 5/5, RAM 5/5, CPU 7/7 and LOAD/STORE
+  7/7 pass. All construction wiring was performed through native computer-use;
+  CPU used 19 wires, with A/B/C/D interface progress and exact per-step output checks.
+  No Test bootstrap or reference insertion was used. ALU H1/H2/H3 were requested
+  separately and return restored the empty player workbench before manual wiring.
+- Native Handbook opens 59/89 terms after the bridge. Command+A replaced CPU with
+  Cache, future Cache retained only its unlock explanation, and Escape returned
+  focus to the Handbook entry. Native clipboard tooling occasionally reported a
+  timeout after successful paste; the actual field value was checked before continuing.
+- Latest original player files are copied without modification under
+  `.godot/mac-playtest/cpu-native-save-backup/`. No compatibility migration occurred.
+- Follow-up UI changes: fixed Test Bench action footer/reset scroll, wrapping map
+  headings and bounded bilingual node titles, native Command shortcut labels,
+  phase-correct seal/testing copy and observation-specific bridge wording. Word
+  terminals now display complete authoritative values; hexadecimal A–F padding
+  no longer changes 0xC into 0xC0. Neither numeric state nor signatures change.
+- `.godot/verification/20260907T085235Z-954ab7a3/` passes all 20 suites. Its English
+  GUI replay fails because the helper still searches the old Tutorial button
+  parent; the helper now searches the complete Test Bench. Failure logs retained.
+- Handbook binary diagram now consistently shows 1101 and 8 + 4 + 0 + 1 = 13;
+  signal illustration faces match the updated dark outlined canvas symbols.
+
+- Complete follow-up verification: English `.godot/verification/20260907T085708Z-82f678ac/`
+  and Chinese `.godot/verification/20260907T090007Z-ab01f760/` each pass all 20
+  suites and 502 ordinary Game viewport-input checks. The intermediate English
+  run `20260907T085423Z-994496c3` misclicked an obscured Mission close control;
+  replay cleanup now uses the visible dock toggle and checks that it closed.
+- Native post-change ordinary Game in a new isolated directory: Tutorial completed
+  again, Command+C/V and Command+Z observed, Half Adder full truth table/navigation
+  fits at 1336×768, and the official-test button stays fixed while case rows scroll.
+- Native post-change exposed an initial Retina window fallback that used 1600×900
+  pixels as though they were display points. Scale only that first Mac fallback,
+  retaining existing remembered rectangles and screen-bound clamping. Also refresh
+  the Tutorial banner to 5/5 on completion and suppress underlying wire descriptions
+  while completion/Handbook is visible.
+- Final bilingual Handbook text explains hexadecimal word notation alongside the
+  corrected binary diagram. The dedicated isolated directory probe, localization
+  test and rendered 558-check Handbook suite pass; logs are under
+  `.godot/mac-playtest/postfix-*.log`.
+
+- Final targeted run `.godot/verification/20260907T091751Z-b7310af3/` passes
+  all 20 suites and 142 Tutorial GUI checks. The prior `091319Z-03c1d691` caught
+  an incorrect Handbook visibility guard; it now uses is_open(). The subsequent
+  `091531Z-300737ca` had an intermittent first-entry miss during Mac native window
+  startup and was stopped after its script error. Replay now waits for the initial
+  window transition and exits with evidence instead of dereferencing a missing
+  Mission. All failed logs remain alongside passing runs.
+- Final native window review: first Retina fallback is visibly larger (capture
+  width about 1202 versus the previous 800); F11 enters fullscreen and the visible
+  exit button restores the size. Rapid consecutive F11 generated an unstable
+  capture and is not counted as a stable pass. Capture pixel dimensions are not
+  an independent measurement of window backing pixels.
+- Read corrected binary diagram and hexadecimal explanation in the final native
+  Handbook. Original-checkout final import passes with no errors, and original
+  player-file hashes before/after import match.
+- Commits: `d22bf91` modal/Inspector fixes; `ad26a0c` instrument/Mission polish;
+  `f15c175` native gestures; `c3bfea6` fixed test actions, word values and copy;
+  `d8c752f` Retina fallback, Handbook and completed-goal feedback. No push.
+
 ## Open limitations
 
-CPU native play, visual polish and post-change native checks remain pending.
-Native body dragging and mid-wire branching need further investigation; port
-dragging works. Do not infer physical trackpad comfort,
+The save-compatibility approval and rapid F11/mixed-monitor follow-up remain
+pending. Post-change native presentation checks are recorded below. Native Tutorial, Half Adder, CPU, body dragging and mid-wire branching
+have now been exercised successfully. Do not infer physical trackpad comfort,
 mixed-monitor DPI, Windows EXE behavior, beginner comprehension or release
 readiness from the baseline tests.

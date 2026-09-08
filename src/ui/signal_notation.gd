@@ -1,6 +1,52 @@
 class_name SignalNotation
 extends RefCounted
 
+const SCALAR_STROKE: float = 3.5
+const BUS_STROKE: float = 8.0
+const BUS_CORE := Color("101b28")
+static var _bus_port_icon: Texture2D
+
+
+static func wire_stroke_width(width: int) -> float:
+	return SCALAR_STROKE if width == 1 else BUS_STROKE
+
+
+static func draw_cable(surface: Control, points: PackedVector2Array, color: Color, width: int) -> void:
+	if points.size() < 2:
+		return
+	surface.draw_polyline(points, color, wire_stroke_width(width), true)
+	if width > 1:
+		# A single centered ribbon, never separate selectable parallel connections.
+		surface.draw_polyline(points, BUS_CORE, 3.0, true)
+
+
+static func bus_port_icon() -> Texture2D:
+	if _bus_port_icon == null:
+		# Same 24px interaction canvas and center as the scalar disk.
+		var image := Image.create(24, 24, false, Image.FORMAT_RGBA8)
+		for y: int in range(6, 18):
+			for x: int in range(6, 18):
+				if x < 9 or x >= 15 or y < 9 or y >= 15:
+					image.set_pixel(x, y, Color.WHITE)
+		_bus_port_icon = ImageTexture.create_from_image(image)
+	return _bus_port_icon
+
+
+static func wire_sample(width: int) -> Control:
+	var sample := Control.new()
+	sample.custom_minimum_size = Vector2(52, 28)
+	sample.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sample.draw.connect(func() -> void:
+		var color: Color = width_color(width)
+		draw_cable(sample, PackedVector2Array([Vector2(3, 14), Vector2(42, 14)]), color, width)
+		if width == 1:
+			sample.draw_circle(Vector2(43, 14), 5.0, color)
+		else:
+			sample.draw_rect(Rect2(37, 8, 12, 12), BUS_CORE)
+			sample.draw_rect(Rect2(37, 8, 12, 12), color, false, 2.0)
+	)
+	return sample
+
 # Width colors are stable; they do not encode the current voltage or wire color.
 static func width_color(width: int) -> Color:
 	match width:
@@ -76,6 +122,7 @@ static func guide(widths: Array[int]) -> VBoxContainer:
 	for width: int in widths:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 8)
+		row.add_child(wire_sample(width))
 		row.add_child(badge(width))
 		row.add_child(value_row(width, 1 if width == 1 else 2 if width == 2 else 4))
 		var limits := Label.new()
@@ -90,6 +137,13 @@ static func guide(widths: Array[int]) -> VBoxContainer:
 	note.add_theme_font_size_override("font_size", 13)
 	note.add_theme_color_override("font_color", Color("a9bacb"))
 	box.add_child(note)
+	var wire_note := Label.new()
+	wire_note.text = _t(&"signal.wire.guide.word" if widths.size() > 1 else &"signal.wire.guide.basic")
+	wire_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	wire_note.add_theme_font_size_override("font_size", 13)
+	wire_note.add_theme_color_override("font_color", Color("a9bacb"))
+	box.add_child(wire_note)
+	box.move_child(wire_note, 1)
 	return box
 
 

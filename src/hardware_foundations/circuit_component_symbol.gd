@@ -457,7 +457,7 @@ func _draw_terminal_body() -> void:
 
 
 func _draw_terminal_lead(start: Vector2, finish: Vector2) -> void:
-	draw_line(start, finish, _terminal_signal_color(), 3.5 if terminal_width == 1 else 5.5, true)
+	SignalNotationType.draw_cable(self, PackedVector2Array([start, finish]), _terminal_signal_color(), terminal_width)
 
 
 func _draw_width_badge() -> void:
@@ -575,9 +575,13 @@ func _draw_terminal_value() -> void:
 func _draw_junction() -> void:
 	var center := Vector2(size.x * 0.5, display_height * 0.5)
 	var color: Color = _stage_color(symbol_color(), 0.0, 1.0)
-	draw_line(Vector2(0.0, center.y), Vector2(size.x, center.y), color, 5.0, true)
-	draw_circle(center, 8.0, SURFACE)
-	draw_circle(center, 6.0, color)
+	SignalNotationType.draw_cable(self, PackedVector2Array([Vector2(0.0, center.y), Vector2(size.x, center.y)]), color, terminal_width)
+	if terminal_width > 1:
+		draw_rect(Rect2(center - Vector2(7, 7), Vector2(14, 14)), SURFACE)
+		draw_rect(Rect2(center - Vector2(6, 6), Vector2(12, 12)), color, false, 2.0)
+	else:
+		draw_circle(center, 8.0, SURFACE)
+		draw_circle(center, 6.0, color)
 	_draw_processing_dot(
 		Vector2(0.0, center.y), Vector2(size.x, center.y), 0.0, 1.0,
 		_processing_input_visual(0)
@@ -621,8 +625,7 @@ func _draw_processing_dot(
 	var point: Vector2 = start.lerp(finish, local_progress)
 	var color: Color = visual.get("color", PROCESS)
 	# Processing is a growing lead/surface state, not a detached data point.
-	draw_line(start, point, Color(color, 0.26), 8.0, true)
-	draw_line(start, point, color, 3.5, true)
+	SignalNotationType.draw_cable(self, PackedVector2Array([start, point]), color, terminal_width)
 
 
 func _processing_input_visual(index: int) -> Dictionary:

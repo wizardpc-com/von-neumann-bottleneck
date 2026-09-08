@@ -153,6 +153,7 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	_assert(not (main.get("component_palette_items") as Dictionary).is_empty(), "%s must expose the same allowed supply as visible draggable palette items." % level_id)
 	_assert(_palette_kinds(main) == _expected_palette_kinds(level_id), "%s must expose its explicit suitable component set; expected=%s actual=%s." % [level_id, _expected_palette_kinds(level_id), _palette_kinds(main)])
 	_assert_palette_previews_match_canvas(main, level_id)
+	_assert_mixed_width_interfaces(main)
 	if level_id == &"ram":
 		var data: SpinBox = main.get("prologue_input_controls")[&"DATA"]
 		var monitor: Label = main.get("storage_state_label")
@@ -640,3 +641,25 @@ func _assert_terminal_notation(main: Control) -> void:
 		var layout: Dictionary = symbol.name_layout()
 		_assert((layout["rect"] as Rect2).end.y < symbol.terminal_body()[0].y, "The input role belongs above the component body, clear of values and bit cells.")
 	symbol.free()
+
+
+func _assert_mixed_width_interfaces(main: Control) -> void:
+	var graph: CircuitGraphEdit = main.get("graph")
+	var catalog: Dictionary = main.get("component_catalog")
+	var nodes: Dictionary = main.get("component_nodes")
+	for component: LogicComponent in catalog.values():
+		var node: GraphNode = nodes[component.id]
+		for is_output: bool in [false, true]:
+			var count: int = component.output_count() if is_output else component.input_count()
+			for port: int in range(count):
+				var width: int = component.output_width(port) if is_output else component.input_width(port)
+				_assert(graph.port_bit_width(component.id, port, is_output) == width, "Reverse-input cable previews must use the actual input width, including mixed data/load modules.")
+				if width > 1:
+					var icon: Texture2D = node.get_slot_custom_icon_right(node.get_output_port_slot(port)) if is_output else node.get_slot_custom_icon_left(node.get_input_port_slot(port))
+					_assert(icon != null and icon.get_size() == Vector2(24, 24), "Bus sockets must retain the scalar port footprint so picking and existing saved layouts stay aligned.")
+					if icon != null:
+						var image := icon.get_image()
+						_assert(image.get_pixel(6, 6).a > 0.9 and image.get_pixel(12, 12).a == 0.0, "A wide port must read as a hollow square, distinct from a filled scalar disk even without color.")
+				if is_output:
+					var stroke: float = graph.connection_stroke_width({"from_node": component.id, "from_port": port})
+					_assert(stroke >= 7.0 if width > 1 else stroke <= 4.0, "Scalar and multi-bit connections must have visibly separated stroke ranges.")

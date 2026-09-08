@@ -3,6 +3,7 @@ extends GraphEdit
 
 const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
+const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 
 const SIGNAL_HIGH := Color("67e8a5")
 const SIGNAL_LOW := Color("ff6b7d")
@@ -12,9 +13,8 @@ const ERASER_SAMPLE_SPACING: float = 4.0
 const SELECTION_DRAG_THRESHOLD: float = 4.0
 const WIRE_HOVER_RADIUS: float = 13.0
 const TARGET_GUIDE_RADIUS: float = 15.0
-const SETTLED_WIRE_THICKNESS: float = 3.5
-const BUS_WIRE_THICKNESS: float = 5.5
-const FLOW_WIRE_THICKNESS: float = 2.5
+const SETTLED_WIRE_THICKNESS: float = SignalNotationType.SCALAR_STROKE
+const BUS_WIRE_THICKNESS: float = SignalNotationType.BUS_STROKE
 
 signal branch_connection_requested(
 	connection: Dictionary,
@@ -53,6 +53,7 @@ signal component_drop_requested(template_key: String, local_position: Vector2)
 signal component_placement_cancel_requested(reason: StringName)
 
 var connection_validator: Callable
+var connection_hover_validator: Callable
 var connection_width_provider: Callable
 var connection_description: Callable
 var connection_net_provider: Callable
@@ -255,6 +256,8 @@ func _is_in_output_hotzone(in_node: Object, in_port: int, mouse_position: Vector
 
 
 func _is_node_hover_valid(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> bool:
+	if connection_hover_validator.is_valid():
+		return bool(connection_hover_validator.call(from_node, from_port, to_node, to_port))
 	if connection_validator.is_valid():
 		return bool(connection_validator.call(from_node, from_port, to_node, to_port))
 	return from_node != to_node
@@ -514,8 +517,7 @@ func _draw() -> void:
 		if not valid:
 			color = Color("ff6b7d")
 	var preview: PackedVector2Array = get_connection_line(branch_anchor, end)
-	draw_polyline(preview, Color(color, 0.22), 16.0, true)
-	draw_polyline(preview, color, 5.0, true)
+	_draw_draft_curve(preview, color, connection_bit_width(branch_candidate))
 	draw_circle(branch_anchor, 8.0, Color("101725"))
 	draw_circle(branch_anchor, 6.0, color)
 	draw_circle(end, 10.0, Color(color, 0.18))
@@ -538,8 +540,12 @@ func _draw_builtin_connection_preview() -> void:
 	var origin: Vector2 = displayed_port_position(source, port, is_output)
 	var preview: PackedVector2Array = get_connection_line(origin, builtin_connection_pointer)
 	var color: Color = WirePaletteType.color(draft_color_index)
-	draw_polyline(preview, Color(color, 0.20), SETTLED_WIRE_THICKNESS + 7.0, true)
-	draw_polyline(preview, color.lightened(0.24), SETTLED_WIRE_THICKNESS - 1.0, true)
+	_draw_draft_curve(preview, color.lightened(0.24), port_bit_width(source.name, port, is_output))
+
+
+func _draw_draft_curve(curve: PackedVector2Array, color: Color, bits: int) -> void:
+	draw_polyline(curve, Color(color, 0.18), SignalNotationType.wire_stroke_width(bits) + 7.0, true)
+	SignalNotationType.draw_cable(self, curve, color, bits)
 
 
 func _draw_settled_connections() -> void:
@@ -555,17 +561,22 @@ func _draw_settled_connections() -> void:
 			key, WirePaletteType.DEFAULT_INDEX
 		)))
 		var state: int = int(connection_signal_values.get(key, LogicSignalType.LOW))
-		_draw_settled_curve(curve, base, state, connection_stroke_width(connection))
+		var bits: int = connection_bit_width(connection)
+		_draw_settled_curve(curve, base, state, bits)
 		if connection_flows.has(key):
-			_draw_connection_flow(curve, base, connection_flows[key])
+			_draw_connection_flow(curve, base, connection_flows[key], bits)
 
 
 func connection_stroke_width(connection: Dictionary) -> float:
-	if connection_width_provider.is_valid() and int(connection_width_provider.call(
-		StringName(connection.get("from_node", &"")), int(connection.get("from_port", 0))
-	)) > 1:
-		return BUS_WIRE_THICKNESS
-	return SETTLED_WIRE_THICKNESS
+	return SignalNotationType.wire_stroke_width(connection_bit_width(connection))
+
+
+func connection_bit_width(connection: Dictionary) -> int:
+	return port_bit_width(StringName(connection.get("from_node", &"")), int(connection.get("from_port", 0)), true)
+
+
+func port_bit_width(node: StringName, port: int, is_output: bool) -> int:
+	return maxi(1, int(connection_width_provider.call(node, port, is_output))) if connection_width_provider.is_valid() else 1
 
 
 func _get_tooltip(at_position: Vector2) -> String:
@@ -575,20 +586,21 @@ func _get_tooltip(at_position: Vector2) -> String:
 	return ""
 
 
-func _draw_settled_curve(curve: PackedVector2Array, base: Color, state: int, width: float) -> void:
+func _draw_settled_curve(curve: PackedVector2Array, base: Color, state: int, bits: int) -> void:
+	var width: float = SignalNotationType.wire_stroke_width(bits)
 	draw_polyline(curve, Color("07101c", 0.92), width + 2.5, true)
 	if state == LogicSignalType.HIGH_Z:
-		_draw_dashed_curve(curve, Color("8b929d", 0.82), width)
+		_draw_dashed_curve(curve, Color("8b929d", 0.82), bits)
 		return
 	var settled: Color = base.lightened(0.22) if state == LogicSignalType.HIGH \
 		else base.darkened(0.30)
 	settled.a = 1.0 if state == LogicSignalType.HIGH else 0.86
-	draw_polyline(curve, settled, width, true)
-	if state == LogicSignalType.HIGH:
+	SignalNotationType.draw_cable(self, curve, settled, bits)
+	if state == LogicSignalType.HIGH and bits == 1:
 		draw_polyline(curve, Color(base.lightened(0.48), 0.38), 2.0, true)
 
 
-func _draw_connection_flow(curve: PackedVector2Array, base: Color, flow: Dictionary) -> void:
+func _draw_connection_flow(curve: PackedVector2Array, base: Color, flow: Dictionary, bits: int) -> void:
 	var progress: float = clampf(float(flow.get("progress", 0.0)), 0.0, 1.0)
 	var prefix: PackedVector2Array = _path_prefix(curve, progress)
 	if prefix.size() < 2:
@@ -596,11 +608,10 @@ func _draw_connection_flow(curve: PackedVector2Array, base: Color, flow: Diction
 	var state: int = int(flow.get("state", LogicSignalType.LOW))
 	var flow_color: Color = Color("8b929d") if state == LogicSignalType.HIGH_Z \
 		else (base.lightened(0.55) if state == LogicSignalType.HIGH else base.lightened(0.08))
-	draw_polyline(prefix, Color(flow_color, 0.24), FLOW_WIRE_THICKNESS + 5.0, true)
-	draw_polyline(prefix, flow_color, FLOW_WIRE_THICKNESS, true)
+	SignalNotationType.draw_cable(self, prefix, flow_color, bits)
 
 
-func _draw_dashed_curve(curve: PackedVector2Array, color: Color, width: float) -> void:
+func _draw_dashed_curve(curve: PackedVector2Array, color: Color, bits: int) -> void:
 	var draw_length: float = 8.0
 	var gap_length: float = 6.0
 	var drawing: bool = true
@@ -616,10 +627,9 @@ func _draw_dashed_curve(curve: PackedVector2Array, color: Color, width: float) -
 		while travelled < segment_length:
 			var step: float = minf(remaining, segment_length - travelled)
 			if drawing:
-				draw_line(
-					start + direction * travelled,
-					start + direction * (travelled + step), color, width, true
-				)
+				SignalNotationType.draw_cable(self, PackedVector2Array([
+					start + direction * travelled, start + direction * (travelled + step)
+				]), color, bits)
 			travelled += step
 			remaining -= step
 			if remaining <= 0.001:
@@ -811,10 +821,10 @@ func _draw_hovered_connection() -> void:
 		var member_curve: PackedVector2Array = connection_curve(member)
 		if member_curve.size() < 2:
 			continue
-		draw_polyline(member_curve, Color("b5edff", 0.58), connection_stroke_width(member) + 2.0, true)
+		draw_polyline(member_curve, Color("b5edff", 0.25), connection_stroke_width(member) + 4.0, true)
+		SignalNotationType.draw_cable(self, member_curve, Color("b5edff"), connection_bit_width(member))
 	var curve: PackedVector2Array = connection_curve(hovered_connection)
-	draw_polyline(curve, Color("50d5ff", 0.13), 11.0, true)
-	draw_polyline(curve, Color("50d5ff", 0.86), 2.5, true)
+	SignalNotationType.draw_cable(self, curve, Color("50d5ff"), connection_bit_width(hovered_connection))
 	draw_circle(hovered_wire_point, 7.0, Color("101725"))
 	draw_circle(hovered_wire_point, 5.0, Color("50d5ff"))
 
@@ -1182,8 +1192,7 @@ func _draw_endpoint_preview() -> void:
 		if not valid:
 			color = Color("ff6b7d")
 	var preview: PackedVector2Array = get_connection_line(endpoint_anchor, finish)
-	draw_polyline(preview, Color(color, 0.2), 16.0, true)
-	draw_polyline(preview, color, 5.0, true)
+	_draw_draft_curve(preview, color, connection_bit_width(endpoint_candidate))
 	draw_circle(endpoint_anchor, 7.0, color)
 	draw_circle(finish, 10.0, Color(color, 0.2))
 	draw_circle(finish, 5.0, color)

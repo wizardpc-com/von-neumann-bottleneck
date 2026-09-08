@@ -5009,3 +5009,9 @@ msgstr "The four cells count 8, 4, 2, 1. Add the lit cells to get the large numb
 
 msgid "signal.range"
 msgstr "range 0–%d"
+
+msgid "signal.wire.guide.basic"
+msgstr "Thin solid wires join round pins and carry one bit. Choose wire colors to label their purpose."
+
+msgid "signal.wire.guide.word"
+msgstr "Thin solid wire + round pin: 1 bit. Ribbon + square socket: a multi-bit bus. A bus is one connection; match its bit count. Wire colors are yours to choose."

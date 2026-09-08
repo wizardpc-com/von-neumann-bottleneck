@@ -299,7 +299,9 @@ func editing_roundtrip() -> void:
 	await capture("wire-middle-branch")
 	await point(curve_point(and_id))
 	check(ui.graph.hovered_net.size() == 3, "Hover follows the three connected network segments, without crossing the NOT gate.")
-	check(ui.graph.get_tooltip(curve_point(and_id) - ui.graph.global_position).contains("1-bit"), "The wire probe explains width and endpoint direction.")
+	var wire_description: String = ui.graph.get_tooltip(curve_point(and_id) - ui.graph.global_position)
+	var scalar_label: String = "1 位" if root.get_node("Localization").current_locale() == "zh_CN" else "1-bit"
+	check(wire_description.contains(scalar_label) and wire_description.contains("→"), "The wire probe explains localized width and endpoint direction.")
 	await capture("network-inspection")
 	await click(curve_point(and_id), MOUSE_BUTTON_RIGHT)
 	check(ui.component_nodes.size() == count_before + 1 and ui.graph.get_connection_list().size() == 3, "Precise right-click removes only the targeted wire segment.")
@@ -621,6 +623,9 @@ func build_cpu() -> void:
 	await dismiss_briefing()
 	await close_window(&"task")
 	await close_window(&"test_bench")
+	await inspect_width_draft(&"RAM", 0, false, 1)
+	await inspect_width_draft(&"CONTROL", 0, false, 2)
+	await inspect_width_draft(&"RAM", 1, false, 4)
 	var before_invalid: int = ui.graph.get_connection_list().size()
 	await drag(port(&"OP_IN", 0, true), port(&"RAM", 0, false))
 	check(ui.graph.get_connection_list().size() == before_invalid and ui.status_label.text.contains("2") and ui.status_label.text.contains("1"), "A 2-bit to 1-bit rejection explains the width mismatch after release.")
@@ -649,9 +654,38 @@ func build_cpu() -> void:
 	var strokes: Dictionary = {}
 	for connection: Dictionary in ui.graph.get_connection_list():
 		strokes[ui.graph.connection_stroke_width(connection)] = true
-	check(strokes.has(3.5) and strokes.has(5.5), "CPU visibly distinguishes one-bit control wires from four-bit data buses.")
+	check(strokes.has(3.5) and strokes.has(8.0), "CPU keeps thin scalar cables distinct from wide ribbon buses, including mixed 1/2/4-bit modules.")
 	await capture("cpu-player-circuit")
 	await official_and_seal()
+
+func inspect_width_draft(node: StringName, input_port: int, is_output: bool, width: int) -> void:
+	var before: String = snapshot()
+	var start: Vector2 = port(node, input_port, is_output)
+	await point(start)
+	var down := InputEventMouseButton.new()
+	down.position = start
+	down.global_position = start
+	down.button_index = MOUSE_BUTTON_LEFT
+	down.button_mask = MOUSE_BUTTON_MASK_LEFT
+	down.pressed = true
+	root.push_input(down, true)
+	await settle(2)
+	await point(start + Vector2(-90, 55), MOUSE_BUTTON_MASK_LEFT, Vector2(-90, 55))
+	var draft: Dictionary = ui.graph.builtin_connection_source
+	check(draft.get("node", &"") == node and int(draft.get("port", -1)) == input_port and not bool(draft.get("is_output", true)), "A reverse cable gesture starts on the selected input socket.")
+	check(ui.graph.port_bit_width(node, input_port, is_output) == width, "The active reverse draft retains its actual %d-bit input width." % width)
+	var status_before: String = ui.status_label.text
+	ui.graph.visible_connection_targets()
+	check(ui.status_label.text == status_before, "Enumerating compatible sockets must not replace the active gesture message with an unrelated width error.")
+	await capture("cpu-reverse-%d-bit-draft" % width)
+	await key(KEY_ESCAPE)
+	var up := InputEventMouseButton.new()
+	up.position = start
+	up.global_position = start
+	up.button_index = MOUSE_BUTTON_LEFT
+	root.push_input(up, true)
+	await settle()
+	check(snapshot() == before and ui.graph.builtin_connection_source.is_empty(), "Cancelling a width preview preserves the player's circuit and clears its cable.")
 
 func load_store_bridge() -> void:
 	await enter_level(&"load_store")

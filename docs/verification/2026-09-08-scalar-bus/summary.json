@@ -1,0 +1,93 @@
+{
+  "date": "2026-09-08",
+  "base_commit": "2195862",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "macOS Apple M2 / Retina native display / OpenGL 4.1 Metal 90.5",
+  "change": "One-bit wires use thin solid strokes and round pins. Multi-bit buses use wider centered ribbons and hollow square sockets. Settled wires, reverse drafts, branch/reconnect previews, network hover, playback and component leads use the same notation. First Mission guides show line/pin samples with explicit bit counts.",
+  "interaction_fix": "Compatible-target enumeration no longer replaces the drag cue with diagnostics from unrelated ports. Actual hovered incompatible connections retain their existing rejection diagnostics. Reverse-input drafts query the input width rather than an unrelated output width.",
+  "invariants": "Preserved centered GraphEdit curve and hit testing, 24px port footprint, node positions, user-selected wire hues, topology/history behavior, zero wire latency, simulation, official cases, original progression, Hint levels, save schema and provenance. No width auto-conversion or new levels.",
+  "references": [
+    {
+      "url": "https://steamcommunity.com/app/1444480/announcements/?l=english",
+      "source": "Official Turing Complete updates",
+      "use": "Consistent component shapes, readable input pins and hovered pin labels. Our scalar/ribbon treatment is original procedural artwork, not a claim of an exact copied Turing Complete wire implementation."
+    },
+    {
+      "url": "https://store.steampowered.com/app/1444480/Turing_Complete/",
+      "source": "Official Turing Complete description",
+      "use": "Gradual learning through construction and freedom of solutions. No architecture/campaign rewrite follows from this reference."
+    }
+  ],
+  "final_automated_checks": {
+    "isolated_run": ".godot/verification/20260908T031758Z-15045423",
+    "import_and_actual_user_directory_probe": "PASS",
+    "all_20_suites": "PASS",
+    "english_ordinary_game_input_replay": "593 checks / 0 failures / PASS",
+    "chinese_ordinary_game_input_preparation": "593 checks / 0 failures / PASS",
+    "chinese_log": ".godot/mac-playtest/native-bus-final.log",
+    "scope": "Exact current runtime and test files match both tested copies byte for byte. Chinese viewport-input preparation earns all nine prologue levels before returning to the map in the same process for separate native QA. It does not supply a Test-mode library, load a reference answer, or set progress.",
+    "added_coverage": "Mixed data/load module input and output widths; 24px square socket image and hollow center; clearly separated stroke ranges; 1/2/4-bit reverse drafts and cancellation; read-only compatible-target enumeration. Existing CPU width rejection, precise wire deletion, history, hints, save and simulation checks remain.",
+    "log_note": "macOS emitted the IMKCFRunLoopWakeUpReliable mach-port message; all checks passed without Godot script or resource errors."
+  },
+  "native_final": {
+    "engine_process": "Temporary VNB Scalar and Bus Final app, Godot 4.7.1 with accessibility always; actual user editor/game left open.",
+    "player_directory": "VonNeumannBottleneckChecks/native-bus-final-20260908",
+    "scene": "RAM entered from the ordinary Game campaign map after earned prerequisite preparation.",
+    "actions": [
+      "Dragged DATA 4-bit output to the second Register4 1-bit load input. Connection was rejected; native status named the actual 4-to-1 mismatch. Board remained unwired.",
+      "Reverse-dragged first Register4 data input to DATA, connected WRITE to its load and Q to OUT. Debug reported OUT=0x3 and the canvas showed 3/0011. Control and data wires remained distinguishable in the same cyan color.",
+      "Dragged from the middle of the data bus to the second Register4 data socket. A square junction and three 4-bit branch segments appeared; graph had five total segments.",
+      "Command-Z removed the branch and restored three segments; Command-Shift-Z restored the square junction and five segments.",
+      "Command-A, typed 12 and Return stayed within the data SpinBox. The row changed to 1100=12; debug reported OUT=0xC and the output terminal showed decimal 12/1100.",
+      "Home fit the board at 91%; selecting Register4 then Home focused it at 150%. Inspector showed DATA[4], LOAD[1], Q[4]. Closed Inspector/Test Bench, used Shift-Home, and checked fullscreen. Connection topology stayed intact."
+    ],
+    "scope": "Native OS mouse/keyboard actions on a deliberately partial RAM debug circuit. This is not a complete official RAM solution, another hand-built CPU, or first-time human acceptance.",
+    "captures": [
+      "native-width-rejection.png",
+      "native-ram-final.png",
+      "native-ram-fullscreen.png"
+    ]
+  },
+  "earlier_checks": [
+    {
+      "run": ".godot/verification/20260908T030813Z-195eb77c",
+      "result": "20 suites passed; Chinese replay 581 checks, 2 failures from obsolete English-only width text and 5.5px stroke expectations. Both presentation expectations were corrected; behavior requirements retained."
+    },
+    {
+      "run": ".godot/verification/20260908T031037Z-293acbcd",
+      "result": "20 suites and English 590-check replay passed before the final diagnostic and guide-order follow-up. Draft screenshot exposed the unrelated-status bug."
+    },
+    {
+      "log": ".godot/mac-playtest/native-bus.log",
+      "result": "Chinese 590-check setup passed; native three-wire RAM debug returned 3. Screenshot native-ram-before-hover-fix.png predates the final diagnostic/guide-order follow-up."
+    }
+  ],
+  "limits": [
+    "Windows native validation, physical trackpad gestures and first-time human playtesting were not performed in this increment.",
+    "Existing save restart/signature compatibility migration and optional new level remain pending user decisions; neither was changed.",
+    "Automated replay and native QA are distinct evidence. This increment is not release acceptance.",
+    "Legacy product build label is unchanged; exact source identification is by Git commit and these hashes."
+  ],
+  "source_sha256": {
+    "localization/game.en.po": "a2705c2c08c377ceab45857065de7a73f4b468ddd2d520aa1d247e68c7da4079",
+    "localization/game.zh_CN.po": "1b75c5107e2343e543e4bc700349e823ffacd4d708d6eba559482a77c2b300b6",
+    "src/hardware_foundations/circuit_component_symbol.gd": "bc89ba2afb4407c7d28d34223a17e8303ad53a87a8deb2f05cd4f0998fe066ac",
+    "src/hardware_foundations/circuit_graph_edit.gd": "fdfc09a7acf0dbfb3d98df3a07615fcf324f04f56d8e9888e12b1b2daa78d11e",
+    "src/hardware_foundations/circuit_module_row.gd": "d18c96327bf2c68368935dcae4448ec04b697a969b7ac4ce43dc6a8c3f549da4",
+    "src/hardware_foundations/hardware_foundations.gd": "96934ab74ae20b99684c4b04c9b0091af0f377a233f6bbfcce555a3ccf9c5865",
+    "src/ui/signal_notation.gd": "86efb0ae6694bec6ae284920c0f7c8ce9b8067bf6fbbb426ffb932fe085364c3",
+    "tests/test_hardware_prologue_ui.gd": "7a7380ef1fd144fd519c8e676db10947ac939925b2828770ca066b26e8552ff8",
+    "tests/test_recovery_game_input.gd": "d80908da6e62e0e6ae9a0827e3a522c1f63c01f2174f02bd76ab792174588734"
+  },
+  "image_sha256": {
+    "native-ram-before-hover-fix.png": "60e3f37a6db7a28b8576e935b0b72af338720f7c8bf740f3ee721824884b7629",
+    "native-ram-final.png": "d3e9b4f79fc0c3028896e4b0c247e25916d5e407c752a700be557140dd29f2da",
+    "native-ram-fullscreen.png": "c8b9c7cc7a307cc77acc445c0f7364ce726c02745ead2108321811d65eb15049",
+    "native-width-rejection.png": "c33b92d5a17f11547a139e94de0c9a92bfb20c1b32eae7cce0e91df7087d0598",
+    "replay-en-cpu-player-circuit.png": "24cf7ed0d5885a57738be6de859c7e5b9574647bc60cf3456f0b7381e9f056ec",
+    "replay-en-cpu-reverse-1-bit-draft.png": "bf803b22774c3d937460d4bc9890c6b72cfdacd98c3022d25dcf16641d06a13d",
+    "replay-en-cpu-reverse-2-bit-draft.png": "4b653baaa85d19312759b42d707d0f35a771b5850df750a798f62d9b7357d3d4",
+    "replay-en-cpu-reverse-4-bit-draft.png": "d25be36126e96d27875a8724b83843ca743b9458a4809c327e978da8db432a84",
+    "replay-en-cpu-signal-guide.png": "770602447e5b1ecc70985d45c64d115f7379893d385f45b2bbc7e9e82ac645ec"
+  }
+}

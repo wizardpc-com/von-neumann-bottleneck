@@ -2723,8 +2723,9 @@ func _create_graph() -> void:
 	graph.connection_lines_curvature = 0.48
 	graph.set_draft_color_index(active_wire_color_index)
 	graph.add_valid_connection_type(PORT_TYPE, PORT_TYPE)
-	graph.connection_validator = Callable(self, "_is_hover_connection_valid")
-	graph.connection_width_provider = Callable(self, "_component_output_width")
+	graph.connection_validator = Callable(self, "_is_connection_compatible")
+	graph.connection_hover_validator = Callable(self, "_is_hover_connection_valid")
+	graph.connection_width_provider = Callable(self, "_component_port_width")
 	graph.connection_net_provider = Callable(self, "_connected_wire_net")
 	graph.connection_description = Callable(self, "_wire_description")
 	graph.connection_request.connect(_on_connection_request)
@@ -3127,6 +3128,12 @@ func _configure_component_node_view(
 	node.add_theme_constant_override("separation", 0)
 	node.get_titlebar_hbox().hide()
 	_add_schematic_slots(node, component, register_visuals)
+	for port: int in range(node.get_input_port_count()):
+		if component.input_width(port) > 1:
+			node.set_slot_custom_icon_left(node.get_input_port_slot(port), SignalNotationType.bus_port_icon())
+	for port: int in range(node.get_output_port_count()):
+		if component.output_width(port) > 1:
+			node.set_slot_custom_icon_right(node.get_output_port_slot(port), SignalNotationType.bus_port_icon())
 	_apply_component_node_style(node, component)
 
 
@@ -3986,6 +3993,11 @@ func _move_connection_endpoint_to_wire(
 	})
 	_topology_changed(_t(&"hardware.status.endpoint_moved_to_wire"), false, true)
 	return true
+
+
+func _is_connection_compatible(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> bool:
+	# Enumerating compatible ports is read-only; unrelated ports must not report errors.
+	return not _editor_locked() and current_circuit.connection_diagnostic(from_node, from_port, to_node, to_port).is_empty()
 
 
 func _is_hover_connection_valid(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> bool:
@@ -5217,6 +5229,13 @@ func _view_navigation_locked() -> bool:
 func _component_output_width(component_id: StringName, port: int) -> int:
 	var component: LogicComponent = component_catalog.get(component_id)
 	return component.output_width(port) if component != null else 1
+
+
+func _component_port_width(component_id: StringName, port: int, is_output: bool) -> int:
+	var component: LogicComponent = component_catalog.get(component_id)
+	if component == null:
+		return 1
+	return component.output_width(port) if is_output else component.input_width(port)
 
 
 func _graph_position_from_local(local_position: Vector2, half_size: Vector2) -> Vector2:

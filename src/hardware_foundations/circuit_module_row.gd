@@ -296,10 +296,10 @@ func _draw_pin_leads() -> void:
 	var left: float = _body_left(global_t)
 	var right: float = _body_right(global_t)
 	if has_input:
-		draw_line(Vector2(0.0, center_y), Vector2(left, center_y), SYMBOL, 4.0, true)
+		SignalNotationType.draw_cable(self, PackedVector2Array([Vector2(0.0, center_y), Vector2(left, center_y)]), SYMBOL, input_width)
 		_draw_pin_direction(Vector2(left - 10.0, center_y))
 	if has_output:
-		draw_line(Vector2(right, center_y), Vector2(size.x, center_y), SYMBOL, 4.0, true)
+		SignalNotationType.draw_cable(self, PackedVector2Array([Vector2(right, center_y), Vector2(size.x, center_y)]), SYMBOL, output_width)
 		_draw_pin_direction(Vector2(right + 18.0, center_y))
 
 
@@ -391,12 +391,12 @@ func _draw_processing_route() -> void:
 		var input_visual: Dictionary = _input_visual()
 		_draw_processing_token(
 			Vector2(0.0, center_y), Vector2(left + 5.0, center_y),
-			0.0, 0.36, input_visual
+			0.0, 0.36, input_visual, input_width
 		)
 	if _output_is_active():
 		_draw_processing_token(
 			Vector2(right - 5.0, center_y), Vector2(size.x, center_y),
-			0.64, 1.0, processing_output_visual
+			0.64, 1.0, processing_output_visual, output_width
 		)
 
 
@@ -405,7 +405,8 @@ func _draw_processing_token(
 		finish: Vector2,
 		stage_start: float,
 		stage_end: float,
-		visual: Dictionary
+		visual: Dictionary,
+		width: int
 	) -> void:
 	if processing_progress < stage_start or processing_progress > stage_end:
 		return
@@ -414,8 +415,7 @@ func _draw_processing_token(
 	)
 	var point: Vector2 = start.lerp(finish, local_progress)
 	var color: Color = visual.get("color", SIGNAL_HIGH_Z)
-	draw_line(start, point, Color(color, 0.24), 8.0, true)
-	draw_line(start, point, color, 3.5, true)
+	SignalNotationType.draw_cable(self, PackedVector2Array([start, point]), color, width)
 
 
 func _draw_mux_mark(center: Vector2, color: Color) -> void:

@@ -309,3 +309,23 @@ Completed 2026-09-08: the final exact source passes all 20 isolated suites and
 writing 4 and holding it while the input changes to 12; CPU width and instruction
 explanations were inspected. Chinese replay passed 581 checks before the final
 toggle-only drawing change. Windows and first-time human acceptance remain open.
+
+## Distinct scalar wires and multi-bit buses (2026-09-08)
+
+One-bit connections now use thin solid cables and round pins; multi-bit connections
+use wider centered ribbons and hollow square sockets. Drafts, reverse-input drags,
+branch/reconnect previews, network hover, causal playback and component leads share
+the notation. First Mission guides show actual line/pin samples beside bit counts.
+User wire colors, original curve/picking geometry and 24px port footprints remain.
+
+Draft review exposed a pre-existing status bug: compatible-target enumeration wrote
+errors for unrelated ports. Enumeration is now read-only; actual hovered incompatible
+ports still report their diagnostic. Reverse drafts read the selected input width.
+
+Final Godot 4.7.1 source passes all 20 isolated suites and 593 ordinary Game checks
+in each language. Native RAM checks separately cover an actual 4-to-1 rejection,
+reverse data connection, bus branching, Command-Z/Command-Shift-Z, decimal input
+focus, debug output 12/1100, 91%/150% framing and fullscreen. The native partial RAM
+circuit is not a claimed official solution. No gameplay, save or progression change.
+See [evidence and reference sources](../verification/2026-09-08-scalar-bus/summary.json).
+Windows, physical trackpad and first-time human acceptance remain unperformed.

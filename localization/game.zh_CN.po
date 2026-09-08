@@ -4640,7 +4640,7 @@ msgid "hardware.view.focused"
 msgstr "视野 %d%% · 滚轮缩放，中键拖动；Shift+Home 查看全部"
 
 msgid "hardware.wire.inspect"
-msgstr "%d-bit 线路\n%s.%s → %s.%s\n高亮部分属于同一网络。拖动分支，右键删除此线；交叉不相连。"
+msgstr "%d 位线路\n%s.%s → %s.%s\n高亮部分属于同一网络。拖动分支，右键删除此线；交叉不相连。"
 
 msgid "hardware.briefing.build_now"
 msgstr "开始搭建"
@@ -5009,3 +5009,9 @@ msgstr "四格从左到右代表 8、4、2、1；亮格相加就是大号数值�
 
 msgid "signal.range"
 msgstr "范围 0～%d"
+
+msgid "signal.wire.guide.basic"
+msgstr "细实线接圆端口：一条线传递一位 0/1。线色可自行标记用途。"
+
+msgid "signal.wire.guide.word"
+msgstr "细实线＋圆端口＝1 位；宽带线＋方端口＝多位总线。总线仍是一条连接，按标注的位数接线；线色可自选。"

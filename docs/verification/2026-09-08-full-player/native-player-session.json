@@ -1,0 +1,5163 @@
+{
+  "schema_version": 1,
+  "event_schema_version": 1,
+  "session": {
+    "id": "20260908-034249-9c0642807c50062d",
+    "started_at_utc": "2026-09-08T03:42:49",
+    "recovered": false,
+    "event_count": 290,
+    "ignored_record_count": 0
+  },
+  "level_summaries": [
+    {
+      "chapter_id": "chapter_1",
+      "level_id": "assembly",
+      "visits": 1,
+      "duration_ms": 110247,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 2,
+        "profiler": 1,
+        "mission": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "system_layout": 6
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "cpu": "cpu_balanced",
+        "ram": "ram_balanced",
+        "bus": "bus_8"
+      },
+      "final_metrics": {
+        "cycles": 44,
+        "cost": 27
+      },
+      "retries": 0
+    },
+    {
+      "chapter_id": "chapter_1",
+      "level_id": "bottleneck",
+      "visits": 1,
+      "duration_ms": 139583,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "profiler": 1,
+        "mission": 1
+      },
+      "trace_actions": {},
+      "modifications": {},
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "cpu": "cpu_balanced",
+        "ram": "ram_balanced",
+        "bus": "bus_4"
+      },
+      "final_metrics": {
+        "cycles": 2352,
+        "cost": 21
+      },
+      "retries": 0
+    },
+    {
+      "chapter_id": "chapter_1",
+      "level_id": "bus_width",
+      "visits": 1,
+      "duration_ms": 98354,
+      "official_runs": 2,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "parts": 1,
+        "profiler": 1,
+        "mission": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 1
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "cpu": "cpu_fast",
+        "ram": "ram_fast",
+        "bus": "bus_8"
+      },
+      "final_metrics": {
+        "cycles": 96,
+        "cost": 39
+      },
+      "retries": 1
+    },
+    {
+      "chapter_id": "chapter_1",
+      "level_id": "cpu_speed",
+      "visits": 1,
+      "duration_ms": 139369,
+      "official_runs": 2,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "parts": 1,
+        "history": 1,
+        "mission": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 1
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "cpu": "cpu_fast",
+        "ram": "ram_slow",
+        "bus": "bus_8"
+      },
+      "final_metrics": {
+        "cycles": 268,
+        "cost": 30
+      },
+      "retries": 1
+    },
+    {
+      "chapter_id": "chapter_1",
+      "level_id": "ram_wait",
+      "visits": 1,
+      "duration_ms": 159815,
+      "official_runs": 2,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "parts": 1,
+        "profiler": 1,
+        "mission": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 1
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "cpu": "cpu_fast",
+        "ram": "ram_fast",
+        "bus": "bus_8"
+      },
+      "final_metrics": {
+        "cycles": 124,
+        "cost": 39
+      },
+      "retries": 1
+    },
+    {
+      "chapter_id": "chapter_2",
+      "level_id": "access_order",
+      "visits": 1,
+      "duration_ms": 461280,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "program": 1,
+        "test_bench": 1,
+        "mission": 1
+      },
+      "trace_actions": {
+        "finish_early": 1
+      },
+      "modifications": {
+        "program": 1
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "pattern": "row-first",
+        "cache_lines": 1,
+        "bypass_cache": false,
+        "passes": 1,
+        "work_group_lines": 0
+      },
+      "final_metrics": {
+        "cycles": 105,
+        "cost": 4,
+        "wait_cycles": 88
+      },
+      "retries": 0
+    },
+    {
+      "chapter_id": "chapter_2",
+      "level_id": "blocking",
+      "visits": 1,
+      "duration_ms": 78183,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "blocking": 1,
+        "test_bench": 1,
+        "mission": 1
+      },
+      "trace_actions": {
+        "finish_early": 1
+      },
+      "modifications": {
+        "work_group": 1
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "pattern": "row-first",
+        "cache_lines": 1,
+        "bypass_cache": false,
+        "passes": 2,
+        "work_group_lines": 1
+      },
+      "final_metrics": {
+        "cycles": 138,
+        "cost": 4,
+        "wait_cycles": 104
+      },
+      "retries": 0
+    },
+    {
+      "chapter_id": "chapter_2",
+      "level_id": "cache_failure",
+      "visits": 1,
+      "duration_ms": 175608,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "mission": 1
+      },
+      "trace_actions": {
+        "pause": 1,
+        "next_evidence": 3,
+        "finish_early": 1
+      },
+      "modifications": {},
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "pattern": "column-first",
+        "cache_lines": 1,
+        "bypass_cache": false,
+        "passes": 1,
+        "work_group_lines": 0
+      },
+      "final_metrics": {
+        "cycles": 321,
+        "cost": 4,
+        "wait_cycles": 304
+      },
+      "retries": 0
+    },
+    {
+      "chapter_id": "chapter_2",
+      "level_id": "capstone",
+      "visits": 1,
+      "duration_ms": 322560,
+      "official_runs": 4,
+      "failures": 2,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "profiler": 1,
+        "mission": 2,
+        "cache": 3,
+        "program": 1,
+        "blocking": 1
+      },
+      "trace_actions": {
+        "finish_early": 4
+      },
+      "modifications": {
+        "cache": 3,
+        "program": 1,
+        "work_group": 1
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": true,
+      "capstone_first_modification": {
+        "from_lines": 1,
+        "from_bypass": false,
+        "to_lines": 2,
+        "to_bypass": false,
+        "post_completion": false,
+        "target": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      },
+      "final_config": {
+        "pattern": "column-first",
+        "cache_lines": 4,
+        "bypass_cache": false,
+        "passes": 2,
+        "work_group_lines": 0
+      },
+      "final_metrics": {
+        "cycles": 138,
+        "cost": 13,
+        "wait_cycles": 104
+      },
+      "retries": 3
+    },
+    {
+      "chapter_id": "chapter_2",
+      "level_id": "distant_reads",
+      "visits": 1,
+      "duration_ms": 154078,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "mission": 1
+      },
+      "trace_actions": {
+        "pause": 1,
+        "next_evidence": 2,
+        "finish_early": 1
+      },
+      "modifications": {},
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "pattern": "row-first",
+        "cache_lines": 0,
+        "bypass_cache": true,
+        "passes": 1,
+        "work_group_lines": 0
+      },
+      "final_metrics": {
+        "cycles": 257,
+        "cost": 0,
+        "wait_cycles": 240
+      },
+      "retries": 0
+    },
+    {
+      "chapter_id": "chapter_2",
+      "level_id": "nearby_storage",
+      "visits": 1,
+      "duration_ms": 154921,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "cache": 1,
+        "test_bench": 1,
+        "profiler": 1,
+        "mission": 1
+      },
+      "trace_actions": {
+        "pause": 1,
+        "next_evidence": 1,
+        "finish_early": 1
+      },
+      "modifications": {
+        "cache": 1
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "pattern": "row-first",
+        "cache_lines": 1,
+        "bypass_cache": false,
+        "passes": 1,
+        "work_group_lines": 0
+      },
+      "final_metrics": {
+        "cycles": 105,
+        "cost": 4,
+        "wait_cycles": 88
+      },
+      "retries": 0
+    },
+    {
+      "chapter_id": "chapter_2",
+      "level_id": "working_set",
+      "visits": 1,
+      "duration_ms": 51406,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "profiler": 1,
+        "mission": 1
+      },
+      "trace_actions": {
+        "finish_early": 1
+      },
+      "modifications": {},
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "final_config": {
+        "pattern": "row-first",
+        "cache_lines": 1,
+        "bypass_cache": false,
+        "passes": 2,
+        "work_group_lines": 0
+      },
+      "final_metrics": {
+        "cycles": 210,
+        "cost": 4,
+        "wait_cycles": 176
+      },
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "alu",
+      "visits": 1,
+      "duration_ms": 312321,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 16
+      },
+      "actions": {
+        "test_input_changed": 5
+      },
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "cpu",
+      "visits": 1,
+      "duration_ms": 406666,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "task": 1,
+        "test_bench": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 19
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "full_adder",
+      "visits": 1,
+      "duration_ms": 158932,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 8
+      },
+      "actions": {
+        "test_input_changed": 3
+      },
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "half_adder",
+      "visits": 1,
+      "duration_ms": 201395,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1,
+        "task": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 12
+      },
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "latch",
+      "visits": 1,
+      "duration_ms": 233774,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 6
+      },
+      "actions": {
+        "test_input_changed": 7
+      },
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "load_store",
+      "visits": 1,
+      "duration_ms": 787834,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {},
+      "trace_actions": {},
+      "modifications": {},
+      "actions": {},
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "ram",
+      "visits": 1,
+      "duration_ms": 412402,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 11
+      },
+      "actions": {
+        "test_input_changed": 5
+      },
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "register",
+      "visits": 1,
+      "duration_ms": 199801,
+      "official_runs": 1,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {
+        "test_bench": 1
+      },
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 8
+      },
+      "actions": {
+        "test_input_changed": 3
+      },
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    },
+    {
+      "chapter_id": "hardware_foundations",
+      "level_id": "tutorial",
+      "visits": 1,
+      "duration_ms": 127997,
+      "official_runs": 0,
+      "failures": 0,
+      "hint_uses": 0,
+      "max_hint_stage": 0,
+      "tools_opened": {},
+      "trace_actions": {},
+      "modifications": {
+        "hardware": 4
+      },
+      "actions": {
+        "test_input_changed": 1
+      },
+      "completed": true,
+      "completion_count": 1,
+      "post_completion_optimization": false,
+      "capstone_first_modification": {},
+      "retries": 0
+    }
+  ],
+  "feedback": {
+    "level": [],
+    "chapter": [],
+    "demo": [],
+    "skipped": [
+      {
+        "scope": "level",
+        "subject_id": "hardware_foundations/tutorial"
+      },
+      {
+        "scope": "level",
+        "subject_id": "hardware_foundations/half_adder"
+      },
+      {
+        "scope": "level",
+        "subject_id": "hardware_foundations/full_adder"
+      },
+      {
+        "scope": "level",
+        "subject_id": "hardware_foundations/alu"
+      },
+      {
+        "scope": "level",
+        "subject_id": "hardware_foundations/latch"
+      },
+      {
+        "scope": "level",
+        "subject_id": "hardware_foundations/register"
+      },
+      {
+        "scope": "level",
+        "subject_id": "hardware_foundations/ram"
+      },
+      {
+        "scope": "level",
+        "subject_id": "hardware_foundations/cpu"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_1/assembly"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_1/cpu_speed"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_1/ram_wait"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_1/bus_width"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_1/bottleneck"
+      },
+      {
+        "scope": "chapter",
+        "subject_id": "chapter_1"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_2/distant_reads"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_2/nearby_storage"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_2/cache_failure"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_2/access_order"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_2/working_set"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_2/blocking"
+      },
+      {
+        "scope": "level",
+        "subject_id": "chapter_2/capstone"
+      },
+      {
+        "scope": "chapter",
+        "subject_id": "chapter_2"
+      },
+      {
+        "scope": "demo",
+        "subject_id": "demo"
+      }
+    ]
+  },
+  "events": [
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 1.0,
+      "timestamp_utc": "2026-09-08T03:42:49",
+      "timestamp_unix_ms": 1788838969136.0,
+      "mode": "game",
+      "event": "session_start",
+      "payload": {
+        "started_at_utc": "2026-09-08T03:42:49",
+        "project_version": "mac-polish-20260907T085543Z-f15c175"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 2.0,
+      "timestamp_utc": "2026-09-08T03:43:27",
+      "timestamp_unix_ms": 1788839007536.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "tutorial"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 3.0,
+      "timestamp_utc": "2026-09-08T03:44:47",
+      "timestamp_unix_ms": 1788839087188.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "tutorial"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 4.0,
+      "timestamp_utc": "2026-09-08T03:44:49",
+      "timestamp_unix_ms": 1788839089101.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "tutorial"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 5.0,
+      "timestamp_utc": "2026-09-08T03:45:08",
+      "timestamp_unix_ms": 1788839108801.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "tutorial"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 6.0,
+      "timestamp_utc": "2026-09-08T03:45:11",
+      "timestamp_unix_ms": 1788839111649.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "erase_stroke",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "tutorial"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 7.0,
+      "timestamp_utc": "2026-09-08T03:45:35",
+      "timestamp_unix_ms": 1788839135532.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "tutorial"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 8.0,
+      "timestamp_utc": "2026-09-08T03:45:35",
+      "timestamp_unix_ms": 1788839135533.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "tutorial",
+        "duration_ms": 127997.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 9.0,
+      "timestamp_utc": "2026-09-08T03:46:12",
+      "timestamp_unix_ms": 1788839172849.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "hardware_foundations/tutorial"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 10.0,
+      "timestamp_utc": "2026-09-08T03:46:12",
+      "timestamp_unix_ms": 1788839172850.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 11.0,
+      "timestamp_utc": "2026-09-08T03:47:22",
+      "timestamp_unix_ms": 1788839242187.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 12.0,
+      "timestamp_utc": "2026-09-08T03:47:23",
+      "timestamp_unix_ms": 1788839243886.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 13.0,
+      "timestamp_utc": "2026-09-08T03:47:26",
+      "timestamp_unix_ms": 1788839246620.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 14.0,
+      "timestamp_utc": "2026-09-08T03:47:29",
+      "timestamp_unix_ms": 1788839249017.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 15.0,
+      "timestamp_utc": "2026-09-08T03:47:30",
+      "timestamp_unix_ms": 1788839250630.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 16.0,
+      "timestamp_utc": "2026-09-08T03:47:32",
+      "timestamp_unix_ms": 1788839252513.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 17.0,
+      "timestamp_utc": "2026-09-08T03:47:52",
+      "timestamp_unix_ms": 1788839272648.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 18.0,
+      "timestamp_utc": "2026-09-08T03:47:55",
+      "timestamp_unix_ms": 1788839275219.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 19.0,
+      "timestamp_utc": "2026-09-08T03:47:57",
+      "timestamp_unix_ms": 1788839277696.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 20.0,
+      "timestamp_utc": "2026-09-08T03:47:59",
+      "timestamp_unix_ms": 1788839279471.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 21.0,
+      "timestamp_utc": "2026-09-08T03:48:02",
+      "timestamp_unix_ms": 1788839282512.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 22.0,
+      "timestamp_utc": "2026-09-08T03:48:05",
+      "timestamp_unix_ms": 1788839285152.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 23.0,
+      "timestamp_utc": "2026-09-08T03:48:07",
+      "timestamp_unix_ms": 1788839287751.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 24.0,
+      "timestamp_utc": "2026-09-08T03:48:42",
+      "timestamp_unix_ms": 1788839322603.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "case_count": 4.0,
+        "passed": true,
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 25.0,
+      "timestamp_utc": "2026-09-08T03:49:12",
+      "timestamp_unix_ms": 1788839352468.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "task",
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 26.0,
+      "timestamp_utc": "2026-09-08T03:49:34",
+      "timestamp_unix_ms": 1788839374245.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "half_adder",
+        "duration_ms": 201395.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 27.0,
+      "timestamp_utc": "2026-09-08T03:51:07",
+      "timestamp_unix_ms": 1788839467466.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "hardware_foundations/half_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 28.0,
+      "timestamp_utc": "2026-09-08T03:51:07",
+      "timestamp_unix_ms": 1788839467468.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 29.0,
+      "timestamp_utc": "2026-09-08T03:52:00",
+      "timestamp_unix_ms": 1788839520550.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 30.0,
+      "timestamp_utc": "2026-09-08T03:52:03",
+      "timestamp_unix_ms": 1788839523093.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 31.0,
+      "timestamp_utc": "2026-09-08T03:52:05",
+      "timestamp_unix_ms": 1788839525630.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 32.0,
+      "timestamp_utc": "2026-09-08T03:52:08",
+      "timestamp_unix_ms": 1788839528026.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 33.0,
+      "timestamp_utc": "2026-09-08T03:52:10",
+      "timestamp_unix_ms": 1788839530343.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 34.0,
+      "timestamp_utc": "2026-09-08T03:52:12",
+      "timestamp_unix_ms": 1788839532233.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 35.0,
+      "timestamp_utc": "2026-09-08T03:52:14",
+      "timestamp_unix_ms": 1788839534742.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 36.0,
+      "timestamp_utc": "2026-09-08T03:52:16",
+      "timestamp_unix_ms": 1788839536799.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 37.0,
+      "timestamp_utc": "2026-09-08T03:52:19",
+      "timestamp_unix_ms": 1788839539404.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 38.0,
+      "timestamp_utc": "2026-09-08T03:52:41",
+      "timestamp_unix_ms": 1788839561172.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 39.0,
+      "timestamp_utc": "2026-09-08T03:52:43",
+      "timestamp_unix_ms": 1788839563454.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 40.0,
+      "timestamp_utc": "2026-09-08T03:52:45",
+      "timestamp_unix_ms": 1788839565646.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 41.0,
+      "timestamp_utc": "2026-09-08T03:53:17",
+      "timestamp_unix_ms": 1788839597747.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "case_count": 8.0,
+        "passed": true,
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 42.0,
+      "timestamp_utc": "2026-09-08T03:53:46",
+      "timestamp_unix_ms": 1788839626400.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "full_adder",
+        "duration_ms": 158932.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 43.0,
+      "timestamp_utc": "2026-09-08T03:54:42",
+      "timestamp_unix_ms": 1788839682149.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "hardware_foundations/full_adder"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 44.0,
+      "timestamp_utc": "2026-09-08T03:54:42",
+      "timestamp_unix_ms": 1788839682152.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 45.0,
+      "timestamp_utc": "2026-09-08T03:55:47",
+      "timestamp_unix_ms": 1788839747107.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 46.0,
+      "timestamp_utc": "2026-09-08T03:55:49",
+      "timestamp_unix_ms": 1788839749244.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 47.0,
+      "timestamp_utc": "2026-09-08T03:55:51",
+      "timestamp_unix_ms": 1788839751581.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 48.0,
+      "timestamp_utc": "2026-09-08T03:55:54",
+      "timestamp_unix_ms": 1788839754006.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 49.0,
+      "timestamp_utc": "2026-09-08T03:55:55",
+      "timestamp_unix_ms": 1788839755913.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 50.0,
+      "timestamp_utc": "2026-09-08T03:55:58",
+      "timestamp_unix_ms": 1788839758744.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 51.0,
+      "timestamp_utc": "2026-09-08T03:56:01",
+      "timestamp_unix_ms": 1788839761145.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 52.0,
+      "timestamp_utc": "2026-09-08T03:56:03",
+      "timestamp_unix_ms": 1788839763290.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 53.0,
+      "timestamp_utc": "2026-09-08T03:56:36",
+      "timestamp_unix_ms": 1788839796765.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 54.0,
+      "timestamp_utc": "2026-09-08T03:56:38",
+      "timestamp_unix_ms": 1788839798380.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 55.0,
+      "timestamp_utc": "2026-09-08T03:56:40",
+      "timestamp_unix_ms": 1788839800632.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 56.0,
+      "timestamp_utc": "2026-09-08T03:56:42",
+      "timestamp_unix_ms": 1788839802779.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 57.0,
+      "timestamp_utc": "2026-09-08T03:56:45",
+      "timestamp_unix_ms": 1788839805214.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 58.0,
+      "timestamp_utc": "2026-09-08T03:56:47",
+      "timestamp_unix_ms": 1788839807392.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 59.0,
+      "timestamp_utc": "2026-09-08T03:56:50",
+      "timestamp_unix_ms": 1788839810329.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 60.0,
+      "timestamp_utc": "2026-09-08T03:56:53",
+      "timestamp_unix_ms": 1788839813040.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 61.0,
+      "timestamp_utc": "2026-09-08T03:56:56",
+      "timestamp_unix_ms": 1788839816144.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 62.0,
+      "timestamp_utc": "2026-09-08T03:57:17",
+      "timestamp_unix_ms": 1788839837284.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 63.0,
+      "timestamp_utc": "2026-09-08T03:57:39",
+      "timestamp_unix_ms": 1788839859768.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 64.0,
+      "timestamp_utc": "2026-09-08T03:58:05",
+      "timestamp_unix_ms": 1788839885346.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 65.0,
+      "timestamp_utc": "2026-09-08T03:58:08",
+      "timestamp_unix_ms": 1788839888110.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 66.0,
+      "timestamp_utc": "2026-09-08T03:58:31",
+      "timestamp_unix_ms": 1788839911984.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 67.0,
+      "timestamp_utc": "2026-09-08T03:58:57",
+      "timestamp_unix_ms": 1788839937369.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "case_count": 32.0,
+        "passed": true,
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 68.0,
+      "timestamp_utc": "2026-09-08T03:59:54",
+      "timestamp_unix_ms": 1788839994473.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "alu",
+        "duration_ms": 312321.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 69.0,
+      "timestamp_utc": "2026-09-08T04:00:51",
+      "timestamp_unix_ms": 1788840051401.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "hardware_foundations/alu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 70.0,
+      "timestamp_utc": "2026-09-08T04:00:51",
+      "timestamp_unix_ms": 1788840051403.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 71.0,
+      "timestamp_utc": "2026-09-08T04:01:36",
+      "timestamp_unix_ms": 1788840096635.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 72.0,
+      "timestamp_utc": "2026-09-08T04:01:39",
+      "timestamp_unix_ms": 1788840099301.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 73.0,
+      "timestamp_utc": "2026-09-08T04:01:40",
+      "timestamp_unix_ms": 1788840100823.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 74.0,
+      "timestamp_utc": "2026-09-08T04:01:42",
+      "timestamp_unix_ms": 1788840102755.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 75.0,
+      "timestamp_utc": "2026-09-08T04:01:44",
+      "timestamp_unix_ms": 1788840104075.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 76.0,
+      "timestamp_utc": "2026-09-08T04:01:45",
+      "timestamp_unix_ms": 1788840105723.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 77.0,
+      "timestamp_utc": "2026-09-08T04:01:48",
+      "timestamp_unix_ms": 1788840108542.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 78.0,
+      "timestamp_utc": "2026-09-08T04:02:08",
+      "timestamp_unix_ms": 1788840128389.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 79.0,
+      "timestamp_utc": "2026-09-08T04:02:10",
+      "timestamp_unix_ms": 1788840130253.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 80.0,
+      "timestamp_utc": "2026-09-08T04:02:30",
+      "timestamp_unix_ms": 1788840150901.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 81.0,
+      "timestamp_utc": "2026-09-08T04:02:53",
+      "timestamp_unix_ms": 1788840173585.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 82.0,
+      "timestamp_utc": "2026-09-08T04:02:55",
+      "timestamp_unix_ms": 1788840175508.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 83.0,
+      "timestamp_utc": "2026-09-08T04:03:24",
+      "timestamp_unix_ms": 1788840204891.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 84.0,
+      "timestamp_utc": "2026-09-08T04:03:28",
+      "timestamp_unix_ms": 1788840208743.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 85.0,
+      "timestamp_utc": "2026-09-08T04:03:34",
+      "timestamp_unix_ms": 1788840214160.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "case_count": 5.0,
+        "passed": true,
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 86.0,
+      "timestamp_utc": "2026-09-08T04:04:45",
+      "timestamp_unix_ms": 1788840285177.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "latch",
+        "duration_ms": 233774.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 87.0,
+      "timestamp_utc": "2026-09-08T04:06:44",
+      "timestamp_unix_ms": 1788840404889.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "hardware_foundations/latch"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 88.0,
+      "timestamp_utc": "2026-09-08T04:06:44",
+      "timestamp_unix_ms": 1788840404891.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 89.0,
+      "timestamp_utc": "2026-09-08T04:07:33",
+      "timestamp_unix_ms": 1788840453180.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 90.0,
+      "timestamp_utc": "2026-09-08T04:07:35",
+      "timestamp_unix_ms": 1788840455145.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 91.0,
+      "timestamp_utc": "2026-09-08T04:07:37",
+      "timestamp_unix_ms": 1788840457748.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 92.0,
+      "timestamp_utc": "2026-09-08T04:07:39",
+      "timestamp_unix_ms": 1788840459833.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 93.0,
+      "timestamp_utc": "2026-09-08T04:07:42",
+      "timestamp_unix_ms": 1788840462013.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 94.0,
+      "timestamp_utc": "2026-09-08T04:07:43",
+      "timestamp_unix_ms": 1788840463349.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 95.0,
+      "timestamp_utc": "2026-09-08T04:07:45",
+      "timestamp_unix_ms": 1788840465455.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 96.0,
+      "timestamp_utc": "2026-09-08T04:07:48",
+      "timestamp_unix_ms": 1788840468044.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 97.0,
+      "timestamp_utc": "2026-09-08T04:07:50",
+      "timestamp_unix_ms": 1788840470555.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 98.0,
+      "timestamp_utc": "2026-09-08T04:08:07",
+      "timestamp_unix_ms": 1788840487972.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 99.0,
+      "timestamp_utc": "2026-09-08T04:08:11",
+      "timestamp_unix_ms": 1788840491976.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 100.0,
+      "timestamp_utc": "2026-09-08T04:08:13",
+      "timestamp_unix_ms": 1788840493912.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 101.0,
+      "timestamp_utc": "2026-09-08T04:08:55",
+      "timestamp_unix_ms": 1788840535519.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "case_count": 5.0,
+        "passed": true,
+        "chapter_id": "hardware_foundations",
+        "level_id": "register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 102.0,
+      "timestamp_utc": "2026-09-08T04:10:04",
+      "timestamp_unix_ms": 1788840604692.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "register",
+        "duration_ms": 199801.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 103.0,
+      "timestamp_utc": "2026-09-08T04:10:46",
+      "timestamp_unix_ms": 1788840646577.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "hardware_foundations/register"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 104.0,
+      "timestamp_utc": "2026-09-08T04:10:46",
+      "timestamp_unix_ms": 1788840646579.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 105.0,
+      "timestamp_utc": "2026-09-08T04:11:55",
+      "timestamp_unix_ms": 1788840715888.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "waypoint_to_input",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 106.0,
+      "timestamp_utc": "2026-09-08T04:13:46",
+      "timestamp_unix_ms": 1788840826939.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 107.0,
+      "timestamp_utc": "2026-09-08T04:13:49",
+      "timestamp_unix_ms": 1788840829171.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 108.0,
+      "timestamp_utc": "2026-09-08T04:13:51",
+      "timestamp_unix_ms": 1788840831227.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 109.0,
+      "timestamp_utc": "2026-09-08T04:13:53",
+      "timestamp_unix_ms": 1788840833829.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 110.0,
+      "timestamp_utc": "2026-09-08T04:13:56",
+      "timestamp_unix_ms": 1788840836956.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 111.0,
+      "timestamp_utc": "2026-09-08T04:13:58",
+      "timestamp_unix_ms": 1788840838477.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 112.0,
+      "timestamp_utc": "2026-09-08T04:14:19",
+      "timestamp_unix_ms": 1788840859411.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 113.0,
+      "timestamp_utc": "2026-09-08T04:14:22",
+      "timestamp_unix_ms": 1788840862116.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 114.0,
+      "timestamp_utc": "2026-09-08T04:14:24",
+      "timestamp_unix_ms": 1788840864642.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 115.0,
+      "timestamp_utc": "2026-09-08T04:14:27",
+      "timestamp_unix_ms": 1788840867806.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 116.0,
+      "timestamp_utc": "2026-09-08T04:14:30",
+      "timestamp_unix_ms": 1788840870831.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 117.0,
+      "timestamp_utc": "2026-09-08T04:15:28",
+      "timestamp_unix_ms": 1788840928715.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 118.0,
+      "timestamp_utc": "2026-09-08T04:15:35",
+      "timestamp_unix_ms": 1788840935226.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 119.0,
+      "timestamp_utc": "2026-09-08T04:15:40",
+      "timestamp_unix_ms": 1788840940960.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 120.0,
+      "timestamp_utc": "2026-09-08T04:15:42",
+      "timestamp_unix_ms": 1788840942980.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 121.0,
+      "timestamp_utc": "2026-09-08T04:16:17",
+      "timestamp_unix_ms": 1788840977382.0,
+      "mode": "game",
+      "event": "player_action",
+      "payload": {
+        "action": "test_input_changed",
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 122.0,
+      "timestamp_utc": "2026-09-08T04:16:24",
+      "timestamp_unix_ms": 1788840984612.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "case_count": 5.0,
+        "passed": true,
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 123.0,
+      "timestamp_utc": "2026-09-08T04:17:38",
+      "timestamp_unix_ms": 1788841058981.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "ram",
+        "duration_ms": 412402.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 124.0,
+      "timestamp_utc": "2026-09-08T04:19:03",
+      "timestamp_unix_ms": 1788841143053.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "hardware_foundations/ram"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 125.0,
+      "timestamp_utc": "2026-09-08T04:19:03",
+      "timestamp_unix_ms": 1788841143055.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 126.0,
+      "timestamp_utc": "2026-09-08T04:21:37",
+      "timestamp_unix_ms": 1788841297983.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 127.0,
+      "timestamp_utc": "2026-09-08T04:21:40",
+      "timestamp_unix_ms": 1788841300209.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 128.0,
+      "timestamp_utc": "2026-09-08T04:21:43",
+      "timestamp_unix_ms": 1788841303315.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 129.0,
+      "timestamp_utc": "2026-09-08T04:21:45",
+      "timestamp_unix_ms": 1788841305582.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 130.0,
+      "timestamp_utc": "2026-09-08T04:21:48",
+      "timestamp_unix_ms": 1788841308496.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "task",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 131.0,
+      "timestamp_utc": "2026-09-08T04:22:24",
+      "timestamp_unix_ms": 1788841344230.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 132.0,
+      "timestamp_utc": "2026-09-08T04:22:27",
+      "timestamp_unix_ms": 1788841347446.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 133.0,
+      "timestamp_utc": "2026-09-08T04:22:29",
+      "timestamp_unix_ms": 1788841349616.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 134.0,
+      "timestamp_utc": "2026-09-08T04:22:32",
+      "timestamp_unix_ms": 1788841352032.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 135.0,
+      "timestamp_utc": "2026-09-08T04:22:34",
+      "timestamp_unix_ms": 1788841354846.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 136.0,
+      "timestamp_utc": "2026-09-08T04:22:36",
+      "timestamp_unix_ms": 1788841356648.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 137.0,
+      "timestamp_utc": "2026-09-08T04:22:40",
+      "timestamp_unix_ms": 1788841360422.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 138.0,
+      "timestamp_utc": "2026-09-08T04:22:43",
+      "timestamp_unix_ms": 1788841363210.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 139.0,
+      "timestamp_utc": "2026-09-08T04:23:17",
+      "timestamp_unix_ms": 1788841397708.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 140.0,
+      "timestamp_utc": "2026-09-08T04:23:20",
+      "timestamp_unix_ms": 1788841400542.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 141.0,
+      "timestamp_utc": "2026-09-08T04:23:22",
+      "timestamp_unix_ms": 1788841402281.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 142.0,
+      "timestamp_utc": "2026-09-08T04:23:25",
+      "timestamp_unix_ms": 1788841405821.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 143.0,
+      "timestamp_utc": "2026-09-08T04:23:28",
+      "timestamp_unix_ms": 1788841408548.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 144.0,
+      "timestamp_utc": "2026-09-08T04:23:31",
+      "timestamp_unix_ms": 1788841411328.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 145.0,
+      "timestamp_utc": "2026-09-08T04:23:33",
+      "timestamp_unix_ms": 1788841413673.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "hardware",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 146.0,
+      "timestamp_utc": "2026-09-08T04:23:36",
+      "timestamp_unix_ms": 1788841416876.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 147.0,
+      "timestamp_utc": "2026-09-08T04:24:32",
+      "timestamp_unix_ms": 1788841472190.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "case_count": 7.0,
+        "passed": true,
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 148.0,
+      "timestamp_utc": "2026-09-08T04:25:49",
+      "timestamp_unix_ms": 1788841549721.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "cpu",
+        "duration_ms": 406666.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 149.0,
+      "timestamp_utc": "2026-09-08T04:47:38",
+      "timestamp_unix_ms": 1788842858031.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "hardware_foundations/cpu"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 150.0,
+      "timestamp_utc": "2026-09-08T04:47:38",
+      "timestamp_unix_ms": 1788842858035.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "load_store"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 151.0,
+      "timestamp_utc": "2026-09-08T05:00:45",
+      "timestamp_unix_ms": 1788843645859.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "case_count": 7.0,
+        "passed": true,
+        "chapter_id": "hardware_foundations",
+        "level_id": "load_store"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 152.0,
+      "timestamp_utc": "2026-09-08T05:00:45",
+      "timestamp_unix_ms": 1788843645869.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "chapter_id": "hardware_foundations",
+        "level_id": "load_store",
+        "duration_ms": 787834.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 153.0,
+      "timestamp_utc": "2026-09-08T05:01:45",
+      "timestamp_unix_ms": 1788843705475.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 154.0,
+      "timestamp_utc": "2026-09-08T05:02:39",
+      "timestamp_unix_ms": 1788843759175.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "system_layout",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 155.0,
+      "timestamp_utc": "2026-09-08T05:02:40",
+      "timestamp_unix_ms": 1788843760536.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "system_layout",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 156.0,
+      "timestamp_utc": "2026-09-08T05:02:44",
+      "timestamp_unix_ms": 1788843764419.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "system_layout",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 157.0,
+      "timestamp_utc": "2026-09-08T05:02:45",
+      "timestamp_unix_ms": 1788843765969.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "system_layout",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 158.0,
+      "timestamp_utc": "2026-09-08T05:02:50",
+      "timestamp_unix_ms": 1788843770190.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 159.0,
+      "timestamp_utc": "2026-09-08T05:03:29",
+      "timestamp_unix_ms": 1788843809185.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "system_layout",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 160.0,
+      "timestamp_utc": "2026-09-08T05:03:30",
+      "timestamp_unix_ms": 1788843810984.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "operation": "connect",
+        "target": "system_layout",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 161.0,
+      "timestamp_utc": "2026-09-08T05:03:33",
+      "timestamp_unix_ms": 1788843813530.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 162.0,
+      "timestamp_utc": "2026-09-08T05:03:35",
+      "timestamp_unix_ms": 1788843815713.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "passed_cases": 2.0,
+        "total_cases": 2.0,
+        "qualified_for_progression": true,
+        "cycles": 44.0,
+        "cost": 27.0,
+        "passed": true,
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 163.0,
+      "timestamp_utc": "2026-09-08T05:03:35",
+      "timestamp_unix_ms": 1788843815722.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "cpu": "cpu_balanced",
+          "ram": "ram_balanced",
+          "bus": "bus_8"
+        },
+        "metrics": {
+          "cycles": 44.0,
+          "cost": 27.0
+        },
+        "chapter_id": "chapter_1",
+        "level_id": "assembly",
+        "duration_ms": 110247.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 164.0,
+      "timestamp_utc": "2026-09-08T05:04:04",
+      "timestamp_unix_ms": 1788843844557.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "profiler",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 165.0,
+      "timestamp_utc": "2026-09-08T05:04:27",
+      "timestamp_unix_ms": 1788843867647.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_1",
+        "level_id": "assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 166.0,
+      "timestamp_utc": "2026-09-08T05:05:21",
+      "timestamp_unix_ms": 1788843921145.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_1/assembly"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 167.0,
+      "timestamp_utc": "2026-09-08T05:05:52",
+      "timestamp_unix_ms": 1788843952101.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 168.0,
+      "timestamp_utc": "2026-09-08T05:07:04",
+      "timestamp_unix_ms": 1788844024668.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 169.0,
+      "timestamp_utc": "2026-09-08T05:07:26",
+      "timestamp_unix_ms": 1788844046050.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "passed_cases": 2.0,
+        "total_cases": 2.0,
+        "qualified_for_progression": true,
+        "cycles": 316.0,
+        "cost": 21.0,
+        "passed": true,
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 170.0,
+      "timestamp_utc": "2026-09-08T05:07:27",
+      "timestamp_unix_ms": 1788844047902.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "parts",
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 171.0,
+      "timestamp_utc": "2026-09-08T05:08:09",
+      "timestamp_unix_ms": 1788844089667.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "part_kind": "cpu",
+        "from": "cpu_eco",
+        "to": "cpu_fast",
+        "target": "hardware",
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 172.0,
+      "timestamp_utc": "2026-09-08T05:08:11",
+      "timestamp_unix_ms": 1788844091459.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "passed_cases": 2.0,
+        "total_cases": 2.0,
+        "qualified_for_progression": true,
+        "cycles": 268.0,
+        "cost": 30.0,
+        "passed": true,
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 173.0,
+      "timestamp_utc": "2026-09-08T05:08:11",
+      "timestamp_unix_ms": 1788844091470.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "cpu": "cpu_fast",
+          "ram": "ram_slow",
+          "bus": "bus_8"
+        },
+        "metrics": {
+          "cycles": 268.0,
+          "cost": 30.0
+        },
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed",
+        "duration_ms": 139369.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 174.0,
+      "timestamp_utc": "2026-09-08T05:08:59",
+      "timestamp_unix_ms": 1788844139181.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "history",
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 175.0,
+      "timestamp_utc": "2026-09-08T05:09:30",
+      "timestamp_unix_ms": 1788844170582.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_1",
+        "level_id": "cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 176.0,
+      "timestamp_utc": "2026-09-08T05:10:25",
+      "timestamp_unix_ms": 1788844225562.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_1/cpu_speed"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 177.0,
+      "timestamp_utc": "2026-09-08T05:10:50",
+      "timestamp_unix_ms": 1788844250594.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 178.0,
+      "timestamp_utc": "2026-09-08T05:12:26",
+      "timestamp_unix_ms": 1788844346466.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 179.0,
+      "timestamp_utc": "2026-09-08T05:12:28",
+      "timestamp_unix_ms": 1788844348498.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "passed_cases": 2.0,
+        "total_cases": 2.0,
+        "qualified_for_progression": true,
+        "cycles": 268.0,
+        "cost": 30.0,
+        "passed": true,
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 180.0,
+      "timestamp_utc": "2026-09-08T05:12:30",
+      "timestamp_unix_ms": 1788844350159.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "parts",
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 181.0,
+      "timestamp_utc": "2026-09-08T05:13:28",
+      "timestamp_unix_ms": 1788844408659.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "part_kind": "ram",
+        "from": "ram_slow",
+        "to": "ram_fast",
+        "target": "hardware",
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 182.0,
+      "timestamp_utc": "2026-09-08T05:13:30",
+      "timestamp_unix_ms": 1788844410398.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "passed_cases": 2.0,
+        "total_cases": 2.0,
+        "qualified_for_progression": true,
+        "cycles": 124.0,
+        "cost": 39.0,
+        "passed": true,
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 183.0,
+      "timestamp_utc": "2026-09-08T05:13:30",
+      "timestamp_unix_ms": 1788844410409.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "cpu": "cpu_fast",
+          "ram": "ram_fast",
+          "bus": "bus_8"
+        },
+        "metrics": {
+          "cycles": 124.0,
+          "cost": 39.0
+        },
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait",
+        "duration_ms": 159815.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 184.0,
+      "timestamp_utc": "2026-09-08T05:13:34",
+      "timestamp_unix_ms": 1788844414967.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "profiler",
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 185.0,
+      "timestamp_utc": "2026-09-08T05:13:55",
+      "timestamp_unix_ms": 1788844435704.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_1",
+        "level_id": "ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 186.0,
+      "timestamp_utc": "2026-09-08T05:14:41",
+      "timestamp_unix_ms": 1788844481599.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_1/ram_wait"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 187.0,
+      "timestamp_utc": "2026-09-08T05:15:03",
+      "timestamp_unix_ms": 1788844503618.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 188.0,
+      "timestamp_utc": "2026-09-08T05:16:07",
+      "timestamp_unix_ms": 1788844567685.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 189.0,
+      "timestamp_utc": "2026-09-08T05:16:09",
+      "timestamp_unix_ms": 1788844569830.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "passed_cases": 1.0,
+        "total_cases": 1.0,
+        "qualified_for_progression": true,
+        "cycles": 144.0,
+        "cost": 30.0,
+        "passed": true,
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 190.0,
+      "timestamp_utc": "2026-09-08T05:16:11",
+      "timestamp_unix_ms": 1788844571544.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "parts",
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 191.0,
+      "timestamp_utc": "2026-09-08T05:16:40",
+      "timestamp_unix_ms": 1788844600259.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "part_kind": "bus",
+        "from": "bus_2",
+        "to": "bus_8",
+        "target": "hardware",
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 192.0,
+      "timestamp_utc": "2026-09-08T05:16:41",
+      "timestamp_unix_ms": 1788844601962.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "passed_cases": 1.0,
+        "total_cases": 1.0,
+        "qualified_for_progression": true,
+        "cycles": 96.0,
+        "cost": 39.0,
+        "passed": true,
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 193.0,
+      "timestamp_utc": "2026-09-08T05:16:41",
+      "timestamp_unix_ms": 1788844601972.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "cpu": "cpu_fast",
+          "ram": "ram_fast",
+          "bus": "bus_8"
+        },
+        "metrics": {
+          "cycles": 96.0,
+          "cost": 39.0
+        },
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width",
+        "duration_ms": 98354.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 194.0,
+      "timestamp_utc": "2026-09-08T05:16:46",
+      "timestamp_unix_ms": 1788844606643.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "profiler",
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 195.0,
+      "timestamp_utc": "2026-09-08T05:17:11",
+      "timestamp_unix_ms": 1788844631599.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_1",
+        "level_id": "bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 196.0,
+      "timestamp_utc": "2026-09-08T05:18:07",
+      "timestamp_unix_ms": 1788844687057.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_1/bus_width"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 197.0,
+      "timestamp_utc": "2026-09-08T05:18:24",
+      "timestamp_unix_ms": 1788844704462.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_1",
+        "level_id": "bottleneck"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 198.0,
+      "timestamp_utc": "2026-09-08T05:19:20",
+      "timestamp_unix_ms": 1788844760637.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_1",
+        "level_id": "bottleneck"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 199.0,
+      "timestamp_utc": "2026-09-08T05:19:22",
+      "timestamp_unix_ms": 1788844762839.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "passed_cases": 3.0,
+        "total_cases": 3.0,
+        "qualified_for_progression": true,
+        "cycles": 2352.0,
+        "cost": 21.0,
+        "passed": true,
+        "chapter_id": "chapter_1",
+        "level_id": "bottleneck"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 200.0,
+      "timestamp_utc": "2026-09-08T05:19:48",
+      "timestamp_unix_ms": 1788844788129.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "profiler",
+        "chapter_id": "chapter_1",
+        "level_id": "bottleneck"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 201.0,
+      "timestamp_utc": "2026-09-08T05:20:44",
+      "timestamp_unix_ms": 1788844844045.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "cpu": "cpu_balanced",
+          "ram": "ram_balanced",
+          "bus": "bus_4"
+        },
+        "metrics": {
+          "cycles": 2352.0,
+          "cost": 21.0
+        },
+        "chapter_id": "chapter_1",
+        "level_id": "bottleneck",
+        "duration_ms": 139583.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 202.0,
+      "timestamp_utc": "2026-09-08T05:21:04",
+      "timestamp_unix_ms": 1788844864109.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_1",
+        "level_id": "bottleneck"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 203.0,
+      "timestamp_utc": "2026-09-08T05:22:04",
+      "timestamp_unix_ms": 1788844924708.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_1/bottleneck"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 204.0,
+      "timestamp_utc": "2026-09-08T05:22:31",
+      "timestamp_unix_ms": 1788844951435.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "chapter",
+        "subject_id": "chapter_1"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 205.0,
+      "timestamp_utc": "2026-09-08T05:28:46",
+      "timestamp_unix_ms": 1788845326154.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 206.0,
+      "timestamp_utc": "2026-09-08T05:29:30",
+      "timestamp_unix_ms": 1788845370076.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 207.0,
+      "timestamp_utc": "2026-09-08T05:29:46",
+      "timestamp_unix_ms": 1788845386926.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 257.0,
+        "cost": 0.0,
+        "target_met": true,
+        "post_completion": false,
+        "passed": true,
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 208.0,
+      "timestamp_utc": "2026-09-08T05:29:48",
+      "timestamp_unix_ms": 1788845388892.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "pause",
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 209.0,
+      "timestamp_utc": "2026-09-08T05:29:50",
+      "timestamp_unix_ms": 1788845390292.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "next_evidence",
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 210.0,
+      "timestamp_utc": "2026-09-08T05:30:09",
+      "timestamp_unix_ms": 1788845409900.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "next_evidence",
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 211.0,
+      "timestamp_utc": "2026-09-08T05:30:34",
+      "timestamp_unix_ms": 1788845434840.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 212.0,
+      "timestamp_utc": "2026-09-08T05:30:36",
+      "timestamp_unix_ms": 1788845436398.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 213.0,
+      "timestamp_utc": "2026-09-08T05:31:20",
+      "timestamp_unix_ms": 1788845480232.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "pattern": "row-first",
+          "cache_lines": 0.0,
+          "bypass_cache": true,
+          "passes": 1.0,
+          "work_group_lines": 0.0
+        },
+        "metrics": {
+          "cycles": 257.0,
+          "cost": 0.0,
+          "wait_cycles": 240.0
+        },
+        "chapter_id": "chapter_2",
+        "level_id": "distant_reads",
+        "duration_ms": 154078.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 214.0,
+      "timestamp_utc": "2026-09-08T05:31:39",
+      "timestamp_unix_ms": 1788845499000.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_2/distant_reads"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 215.0,
+      "timestamp_utc": "2026-09-08T05:32:00",
+      "timestamp_unix_ms": 1788845520204.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 216.0,
+      "timestamp_utc": "2026-09-08T05:32:46",
+      "timestamp_unix_ms": 1788845566602.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 217.0,
+      "timestamp_utc": "2026-09-08T05:33:12",
+      "timestamp_unix_ms": 1788845592451.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "from_lines": 0.0,
+        "from_bypass": true,
+        "to_lines": 1.0,
+        "to_bypass": false,
+        "post_completion": false,
+        "target": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 218.0,
+      "timestamp_utc": "2026-09-08T05:33:15",
+      "timestamp_unix_ms": 1788845595443.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 219.0,
+      "timestamp_utc": "2026-09-08T05:33:17",
+      "timestamp_unix_ms": 1788845597587.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 105.0,
+        "cost": 4.0,
+        "target_met": true,
+        "post_completion": false,
+        "passed": true,
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 220.0,
+      "timestamp_utc": "2026-09-08T05:33:19",
+      "timestamp_unix_ms": 1788845599695.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "pause",
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 221.0,
+      "timestamp_utc": "2026-09-08T05:33:20",
+      "timestamp_unix_ms": 1788845600993.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "next_evidence",
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 222.0,
+      "timestamp_utc": "2026-09-08T05:33:42",
+      "timestamp_unix_ms": 1788845622159.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 223.0,
+      "timestamp_utc": "2026-09-08T05:33:45",
+      "timestamp_unix_ms": 1788845625009.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "profiler",
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 224.0,
+      "timestamp_utc": "2026-09-08T05:34:09",
+      "timestamp_unix_ms": 1788845649443.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 225.0,
+      "timestamp_utc": "2026-09-08T05:34:35",
+      "timestamp_unix_ms": 1788845675125.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "pattern": "row-first",
+          "cache_lines": 1.0,
+          "bypass_cache": false,
+          "passes": 1.0,
+          "work_group_lines": 0.0
+        },
+        "metrics": {
+          "cycles": 105.0,
+          "cost": 4.0,
+          "wait_cycles": 88.0
+        },
+        "chapter_id": "chapter_2",
+        "level_id": "nearby_storage",
+        "duration_ms": 154921.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 226.0,
+      "timestamp_utc": "2026-09-08T05:34:59",
+      "timestamp_unix_ms": 1788845699209.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_2/nearby_storage"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 227.0,
+      "timestamp_utc": "2026-09-08T05:35:24",
+      "timestamp_unix_ms": 1788845724006.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 228.0,
+      "timestamp_utc": "2026-09-08T05:36:17",
+      "timestamp_unix_ms": 1788845777354.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 229.0,
+      "timestamp_utc": "2026-09-08T05:36:19",
+      "timestamp_unix_ms": 1788845779423.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 321.0,
+        "cost": 4.0,
+        "target_met": true,
+        "post_completion": false,
+        "passed": true,
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 230.0,
+      "timestamp_utc": "2026-09-08T05:36:21",
+      "timestamp_unix_ms": 1788845781547.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "pause",
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 231.0,
+      "timestamp_utc": "2026-09-08T05:36:22",
+      "timestamp_unix_ms": 1788845782862.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "next_evidence",
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 232.0,
+      "timestamp_utc": "2026-09-08T05:36:44",
+      "timestamp_unix_ms": 1788845804444.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "next_evidence",
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 233.0,
+      "timestamp_utc": "2026-09-08T05:37:01",
+      "timestamp_unix_ms": 1788845821980.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "next_evidence",
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 234.0,
+      "timestamp_utc": "2026-09-08T05:37:12",
+      "timestamp_unix_ms": 1788845832219.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 235.0,
+      "timestamp_utc": "2026-09-08T05:37:12",
+      "timestamp_unix_ms": 1788845832878.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 236.0,
+      "timestamp_utc": "2026-09-08T05:38:19",
+      "timestamp_unix_ms": 1788845899614.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "pattern": "column-first",
+          "cache_lines": 1.0,
+          "bypass_cache": false,
+          "passes": 1.0,
+          "work_group_lines": 0.0
+        },
+        "metrics": {
+          "cycles": 321.0,
+          "cost": 4.0,
+          "wait_cycles": 304.0
+        },
+        "chapter_id": "chapter_2",
+        "level_id": "cache_failure",
+        "duration_ms": 175608.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 237.0,
+      "timestamp_utc": "2026-09-08T05:38:35",
+      "timestamp_unix_ms": 1788845915008.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_2/cache_failure"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 238.0,
+      "timestamp_utc": "2026-09-08T05:38:44",
+      "timestamp_unix_ms": 1788845924917.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_2",
+        "level_id": "access_order"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 239.0,
+      "timestamp_utc": "2026-09-08T05:39:10",
+      "timestamp_unix_ms": 1788845950506.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "program",
+        "chapter_id": "chapter_2",
+        "level_id": "access_order"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 240.0,
+      "timestamp_utc": "2026-09-08T05:45:43",
+      "timestamp_unix_ms": 1788846343655.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "direction": "row-first",
+        "post_completion": false,
+        "target": "program",
+        "chapter_id": "chapter_2",
+        "level_id": "access_order"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 241.0,
+      "timestamp_utc": "2026-09-08T05:45:45",
+      "timestamp_unix_ms": 1788846345012.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_2",
+        "level_id": "access_order"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 242.0,
+      "timestamp_utc": "2026-09-08T05:45:45",
+      "timestamp_unix_ms": 1788846345693.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 105.0,
+        "cost": 4.0,
+        "target_met": true,
+        "post_completion": false,
+        "passed": true,
+        "chapter_id": "chapter_2",
+        "level_id": "access_order"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 243.0,
+      "timestamp_utc": "2026-09-08T05:46:09",
+      "timestamp_unix_ms": 1788846369707.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "access_order"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 244.0,
+      "timestamp_utc": "2026-09-08T05:46:10",
+      "timestamp_unix_ms": 1788846370386.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_2",
+        "level_id": "access_order"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 245.0,
+      "timestamp_utc": "2026-09-08T05:46:26",
+      "timestamp_unix_ms": 1788846386197.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "pattern": "row-first",
+          "cache_lines": 1.0,
+          "bypass_cache": false,
+          "passes": 1.0,
+          "work_group_lines": 0.0
+        },
+        "metrics": {
+          "cycles": 105.0,
+          "cost": 4.0,
+          "wait_cycles": 88.0
+        },
+        "chapter_id": "chapter_2",
+        "level_id": "access_order",
+        "duration_ms": 461280.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 246.0,
+      "timestamp_utc": "2026-09-08T05:46:40",
+      "timestamp_unix_ms": 1788846400303.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_2/access_order"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 247.0,
+      "timestamp_utc": "2026-09-08T05:46:51",
+      "timestamp_unix_ms": 1788846411024.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_2",
+        "level_id": "working_set"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 248.0,
+      "timestamp_utc": "2026-09-08T05:47:13",
+      "timestamp_unix_ms": 1788846433831.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_2",
+        "level_id": "working_set"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 249.0,
+      "timestamp_utc": "2026-09-08T05:47:14",
+      "timestamp_unix_ms": 1788846434505.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 210.0,
+        "cost": 4.0,
+        "target_met": true,
+        "post_completion": false,
+        "passed": true,
+        "chapter_id": "chapter_2",
+        "level_id": "working_set"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 250.0,
+      "timestamp_utc": "2026-09-08T05:47:15",
+      "timestamp_unix_ms": 1788846435375.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "profiler",
+        "chapter_id": "chapter_2",
+        "level_id": "working_set"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 251.0,
+      "timestamp_utc": "2026-09-08T05:47:33",
+      "timestamp_unix_ms": 1788846453136.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "working_set"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 252.0,
+      "timestamp_utc": "2026-09-08T05:47:33",
+      "timestamp_unix_ms": 1788846453802.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_2",
+        "level_id": "working_set"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 253.0,
+      "timestamp_utc": "2026-09-08T05:47:42",
+      "timestamp_unix_ms": 1788846462430.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "pattern": "row-first",
+          "cache_lines": 1.0,
+          "bypass_cache": false,
+          "passes": 2.0,
+          "work_group_lines": 0.0
+        },
+        "metrics": {
+          "cycles": 210.0,
+          "cost": 4.0,
+          "wait_cycles": 176.0
+        },
+        "chapter_id": "chapter_2",
+        "level_id": "working_set",
+        "duration_ms": 51406.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 254.0,
+      "timestamp_utc": "2026-09-08T05:47:51",
+      "timestamp_unix_ms": 1788846471753.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_2/working_set"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 255.0,
+      "timestamp_utc": "2026-09-08T05:48:02",
+      "timestamp_unix_ms": 1788846482135.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_2",
+        "level_id": "blocking"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 256.0,
+      "timestamp_utc": "2026-09-08T05:48:23",
+      "timestamp_unix_ms": 1788846503476.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "blocking",
+        "chapter_id": "chapter_2",
+        "level_id": "blocking"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 257.0,
+      "timestamp_utc": "2026-09-08T05:48:43",
+      "timestamp_unix_ms": 1788846523466.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "from_lines": 0.0,
+        "to_lines": 1.0,
+        "post_completion": false,
+        "target": "work_group",
+        "chapter_id": "chapter_2",
+        "level_id": "blocking"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 258.0,
+      "timestamp_utc": "2026-09-08T05:48:44",
+      "timestamp_unix_ms": 1788846524816.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_2",
+        "level_id": "blocking"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 259.0,
+      "timestamp_utc": "2026-09-08T05:48:45",
+      "timestamp_unix_ms": 1788846525510.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 138.0,
+        "cost": 4.0,
+        "target_met": true,
+        "post_completion": false,
+        "passed": true,
+        "chapter_id": "chapter_2",
+        "level_id": "blocking"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 260.0,
+      "timestamp_utc": "2026-09-08T05:49:07",
+      "timestamp_unix_ms": 1788846547434.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "blocking"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 261.0,
+      "timestamp_utc": "2026-09-08T05:49:08",
+      "timestamp_unix_ms": 1788846548089.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_2",
+        "level_id": "blocking"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 262.0,
+      "timestamp_utc": "2026-09-08T05:49:20",
+      "timestamp_unix_ms": 1788846560318.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "pattern": "row-first",
+          "cache_lines": 1.0,
+          "bypass_cache": false,
+          "passes": 2.0,
+          "work_group_lines": 1.0
+        },
+        "metrics": {
+          "cycles": 138.0,
+          "cost": 4.0,
+          "wait_cycles": 104.0
+        },
+        "chapter_id": "chapter_2",
+        "level_id": "blocking",
+        "duration_ms": 78183.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 263.0,
+      "timestamp_utc": "2026-09-08T05:49:32",
+      "timestamp_unix_ms": 1788846572209.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_2/blocking"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 264.0,
+      "timestamp_utc": "2026-09-08T05:49:43",
+      "timestamp_unix_ms": 1788846583613.0,
+      "mode": "game",
+      "event": "level_start",
+      "payload": {
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 265.0,
+      "timestamp_utc": "2026-09-08T05:50:16",
+      "timestamp_unix_ms": 1788846616797.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "test_bench",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 266.0,
+      "timestamp_utc": "2026-09-08T05:53:47",
+      "timestamp_unix_ms": 1788846827097.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 642.0,
+        "cost": 4.0,
+        "target_met": false,
+        "post_completion": false,
+        "passed": false,
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 267.0,
+      "timestamp_utc": "2026-09-08T05:53:47",
+      "timestamp_unix_ms": 1788846827845.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "profiler",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 268.0,
+      "timestamp_utc": "2026-09-08T05:54:00",
+      "timestamp_unix_ms": 1788846840710.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 269.0,
+      "timestamp_utc": "2026-09-08T05:54:01",
+      "timestamp_unix_ms": 1788846841387.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 270.0,
+      "timestamp_utc": "2026-09-08T05:54:02",
+      "timestamp_unix_ms": 1788846842757.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 271.0,
+      "timestamp_utc": "2026-09-08T05:54:23",
+      "timestamp_unix_ms": 1788846863996.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "from_lines": 1.0,
+        "from_bypass": false,
+        "to_lines": 2.0,
+        "to_bypass": false,
+        "post_completion": false,
+        "target": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 272.0,
+      "timestamp_utc": "2026-09-08T05:54:25",
+      "timestamp_unix_ms": 1788846865364.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 642.0,
+        "cost": 7.0,
+        "target_met": false,
+        "post_completion": false,
+        "passed": false,
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 273.0,
+      "timestamp_utc": "2026-09-08T05:54:42",
+      "timestamp_unix_ms": 1788846882648.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 274.0,
+      "timestamp_utc": "2026-09-08T05:54:43",
+      "timestamp_unix_ms": 1788846883376.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 275.0,
+      "timestamp_utc": "2026-09-08T05:54:44",
+      "timestamp_unix_ms": 1788846884040.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "from_lines": 2.0,
+        "from_bypass": false,
+        "to_lines": 4.0,
+        "to_bypass": false,
+        "post_completion": false,
+        "target": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 276.0,
+      "timestamp_utc": "2026-09-08T05:54:45",
+      "timestamp_unix_ms": 1788846885417.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 138.0,
+        "cost": 13.0,
+        "target_met": true,
+        "post_completion": false,
+        "passed": true,
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 277.0,
+      "timestamp_utc": "2026-09-08T05:55:06",
+      "timestamp_unix_ms": 1788846906155.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 278.0,
+      "timestamp_utc": "2026-09-08T05:55:06",
+      "timestamp_unix_ms": 1788846906173.0,
+      "mode": "game",
+      "event": "level_complete",
+      "payload": {
+        "final_config": {
+          "pattern": "column-first",
+          "cache_lines": 4.0,
+          "bypass_cache": false,
+          "passes": 2.0,
+          "work_group_lines": 0.0
+        },
+        "metrics": {
+          "cycles": 138.0,
+          "cost": 13.0,
+          "wait_cycles": 104.0
+        },
+        "chapter_id": "chapter_2",
+        "level_id": "capstone",
+        "duration_ms": 322560.0
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 279.0,
+      "timestamp_utc": "2026-09-08T05:55:06",
+      "timestamp_unix_ms": 1788846906830.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 280.0,
+      "timestamp_utc": "2026-09-08T05:55:07",
+      "timestamp_unix_ms": 1788846907643.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "from_lines": 4.0,
+        "from_bypass": false,
+        "to_lines": 1.0,
+        "to_bypass": false,
+        "post_completion": true,
+        "target": "cache",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 281.0,
+      "timestamp_utc": "2026-09-08T05:55:09",
+      "timestamp_unix_ms": 1788846909008.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "program",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 282.0,
+      "timestamp_utc": "2026-09-08T05:55:22",
+      "timestamp_unix_ms": 1788846922989.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "direction": "row-first",
+        "post_completion": true,
+        "target": "program",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 283.0,
+      "timestamp_utc": "2026-09-08T05:55:24",
+      "timestamp_unix_ms": 1788846924338.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "blocking",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 284.0,
+      "timestamp_utc": "2026-09-08T05:55:25",
+      "timestamp_unix_ms": 1788846925017.0,
+      "mode": "game",
+      "event": "modification",
+      "payload": {
+        "from_lines": 0.0,
+        "to_lines": 1.0,
+        "post_completion": true,
+        "target": "work_group",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 285.0,
+      "timestamp_utc": "2026-09-08T05:55:26",
+      "timestamp_unix_ms": 1788846926391.0,
+      "mode": "game",
+      "event": "official_run",
+      "payload": {
+        "correct": true,
+        "cycles": 138.0,
+        "cost": 4.0,
+        "target_met": true,
+        "post_completion": true,
+        "passed": true,
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 286.0,
+      "timestamp_utc": "2026-09-08T05:55:48",
+      "timestamp_unix_ms": 1788846948986.0,
+      "mode": "game",
+      "event": "trace_action",
+      "payload": {
+        "action": "finish_early",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 287.0,
+      "timestamp_utc": "2026-09-08T05:55:49",
+      "timestamp_unix_ms": 1788846949653.0,
+      "mode": "game",
+      "event": "tool_opened",
+      "payload": {
+        "tool_id": "mission",
+        "chapter_id": "chapter_2",
+        "level_id": "capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 288.0,
+      "timestamp_utc": "2026-09-08T05:56:55",
+      "timestamp_unix_ms": 1788847015303.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "level",
+        "subject_id": "chapter_2/capstone"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 289.0,
+      "timestamp_utc": "2026-09-08T05:57:12",
+      "timestamp_unix_ms": 1788847032346.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "chapter",
+        "subject_id": "chapter_2"
+      }
+    },
+    {
+      "schema_version": 1.0,
+      "session_id": "20260908-034249-9c0642807c50062d",
+      "sequence": 290.0,
+      "timestamp_utc": "2026-09-08T05:57:27",
+      "timestamp_unix_ms": 1788847047000.0,
+      "mode": "game",
+      "event": "feedback_skipped",
+      "payload": {
+        "scope": "demo",
+        "subject_id": "demo"
+      }
+    }
+  ],
+  "privacy": {
+    "local_only": true,
+    "records_personal_identity": false,
+    "records_program_source": false,
+    "free_text_max_characters": 240
+  }
+}

@@ -80,6 +80,9 @@ func _run() -> void:
 	await process_frame
 	var graph: GraphEdit = main.get("graph")
 	_assert(graph.get_connection_list().is_empty(), "Assembly must begin laid out but unwired.")
+	main.call("_run_official")
+	var missing_routes: String = (main.get("test_status_label") as Label).text
+	_assert("RAM → BUS" in missing_routes and "BUS → CPU" in missing_routes, "A failed assembly run must name the two read-back segments instead of only reporting a missing-route count.")
 	main.call("_auto_connect")
 	await process_frame
 	_assert(graph.get_connection_list().size() == 6, "Standard wiring must visibly create the six authoritative typed routes.")

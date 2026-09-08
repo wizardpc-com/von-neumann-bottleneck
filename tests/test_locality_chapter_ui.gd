@@ -36,6 +36,11 @@ func _run() -> void:
 	for _frame: int in range(4):
 		await process_frame
 	_assert(main.get("terminology_handbook") != null, "Chapter 2 must expose the shared terminology handbook throughout its investigation map and levels.")
+	var chapter_map: Control = main.get("chapter_map")
+	for button: Button in (chapter_map.get("level_buttons") as Dictionary).values():
+		var column: VBoxContainer = button.get_child(0).get_child(0)
+		var card_status: Label = column.get_child(2)
+		_assert(button.get_global_rect().encloses(card_status.get_global_rect()), "Long chapter-map titles must leave their completion status inside the card border.")
 
 	var catalog = main.get("catalog")
 	_assert(locality_state.call("chapter_unlocked"), "Completing Chapter 1 must unlock Chapter 2 in Game mode.")
@@ -89,6 +94,8 @@ func _run() -> void:
 	main.call("_review_pending_finding")
 	_assert(bool(locality_state.call("completed_levels").get(&"distant_reads", false)), "2-1 must complete only after the player reviews the evidence-supported finding.")
 	_assert((main.get("level_completion_overlay") as Control).visible, "Reviewing a completed short investigation must present its concise conclusion.")
+	main.call("_start_level", &"distant_reads")
+	_assert((main.get("mission_progress_label") as Label).text == String(main.call("_t", &"chapter2.progress.complete", [2, 2])), "Reopening a completed observation must display full progress even before selecting a new judgment.")
 
 	main.call("_start_level", &"nearby_storage")
 	_assert("pass 2" not in String(main.call("_history_config_text", (main.get("run_history") as Array)[0])), "A one-pass inherited baseline must not describe a nonexistent second pass.")
@@ -157,6 +164,7 @@ func _run() -> void:
 	main.call("_run_simulation", "Official Test Set")
 	var working_set_trace: SimulationTraceType = main.get("current_trace")
 	_assert(int(working_set_trace.metrics["total_cycles"]) == 210 and int(working_set_trace.metrics["cache_misses"]) == 8, "2-5 must reload all four lines despite already-good row-first order.")
+	_assert((main.get("profiler_summary_label") as Label).get_theme_color("font_color") == main.GOOD, "A correct observation with no speed target must use success color rather than an unmet-target warning.")
 	main.call("_select_judgment", &"does_not_fit")
 	main.call("_finish_playback")
 	main.call("_review_pending_finding")
@@ -192,6 +200,10 @@ func _run() -> void:
 	var test_window: Control = (main.get("instrument_windows") as Dictionary)[&"test_bench"]
 	var host: Control = main.get("instrument_host")
 	_assert(Rect2(Vector2.ZERO, host.size).encloses(test_window.get_rect()), "The capstone's 16-value debug grid must scroll inside the test window without expanding beyond the desktop.")
+	var official_run: Button = main.get("official_run_button")
+	_assert(test_window.get_global_rect().encloses(official_run.get_global_rect()), "Opening the capstone must expose the entire official Run button before scrolling past debug values.")
+	var run_parent: Control = official_run.get_parent()
+	_assert(not run_parent.get_parent() is ScrollContainer and not run_parent.get_parent().get_parent() is ScrollContainer, "Official Run must remain pinned when the evidence and debug body scrolls.")
 	_assert("145" in ((main.get("device_detail_labels") as Dictionary)[&"TestBench"] as Label).text, "The final test node must display its actual 145-cycle goal.")
 	var capstone_cache_buttons: Dictionary = main.get("cache_card_buttons")
 	var capstone_block_buttons: Dictionary = main.get("block_card_buttons")
@@ -200,6 +212,11 @@ func _run() -> void:
 	main.call("_run_simulation", "Official Test Set")
 	var capstone_baseline: SimulationTraceType = main.get("current_trace")
 	_assert(int(capstone_baseline.metrics["total_cycles"]) == 642 and not bool(main.get("current_goal_met")), "2-7 must start from a new unresolved workload without suggesting a solution.")
+	_assert((main.get("result_label") as Label).get_theme_color("font_color") == main.WARNING, "A correct official result over the speed target must remain a warning, distinct from completing the goal.")
+	await process_frame
+	var result: Label = main.get("result_label")
+	var evidence_scroll: ScrollContainer = result.get_parent().get_parent()
+	_assert(evidence_scroll.get_global_rect().encloses(result.get_global_rect()), "The initial capstone result must show outcome, actual/expected values and time without scrolling through debug inputs.")
 	_assert(not catalog.call("capstone_modified_experiment_seen", locality_state.call("receipts_for", &"capstone")), "The exact authored capstone baseline must not count as the first modified experiment.")
 	var capstone_profiler: Tree = main.get("profiler_tree")
 	var raw_cycles: TreeItem = capstone_profiler.get_root().get_child(0)

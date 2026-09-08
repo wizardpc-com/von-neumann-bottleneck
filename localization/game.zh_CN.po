@@ -25,7 +25,7 @@ msgid "common.pause"
 msgstr "暂停"
 
 msgid "common.prototype_hub"
-msgstr "原型选择"
+msgstr "章节选择"
 
 msgid "common.replay"
 msgstr "重新播放"
@@ -307,7 +307,7 @@ msgid "locality.workbench.goal"
 msgstr "正式目标：结果正确 · 不超过 %d 周期 · 记录硬件成本"
 
 msgid "locality.hub.tooltip"
-msgstr "返回原型选择界面，不改变本实验。"
+msgstr "返回章节选择，不改变本实验。"
 
 msgid "locality.auto_layout.tooltip"
 msgstr "恢复标准视觉布局。元件位置不影响模拟结果。"
@@ -469,7 +469,7 @@ msgid "test_bench.run_official"
 msgstr "◆ 运行正式测试"
 
 msgid "test_bench.result"
-msgstr "%s · %d / %d · %d 周期"
+msgstr "%s\n实际值 %d · 目标值 %d\n用时 %d 周期"
 
 msgid "cache.description"
 msgstr "替换缓存元件。容量会改变硬件成本，也可能改变同一程序的追踪结果。"
@@ -2751,22 +2751,22 @@ msgid "system.device.bus_transfer"
 msgstr "TRANSFER"
 
 msgid "system.port.request"
-msgstr "request"
+msgstr "请求"
 
 msgid "system.port.write_data"
-msgstr "write data"
+msgstr "写入数据"
 
 msgid "system.port.read_data"
-msgstr "read data"
+msgstr "读回数据"
 
 msgid "system.port.request_lane"
-msgstr "request lane"
+msgstr "CPU 请求 → RAM"
 
 msgid "system.port.write_lane"
-msgstr "write lane"
+msgstr "CPU 数据 → RAM"
 
 msgid "system.port.read_lane"
-msgstr "read lane"
+msgstr "RAM 数据 → CPU"
 
 msgid "system.topology.missing_route"
 msgstr "系统缺少线路。请连接所有匹配颜色与名称的端口。"
@@ -2823,7 +2823,7 @@ msgid "system.completion.summary.assembly"
 msgstr "你连接了 CPU、Bus 与 RAM 的请求、写入和读取路径，并验证了显示线路就是系统拓扑。"
 
 msgid "system.completion.summary.cpu_speed"
-msgstr "你的预测遇到了受控反转：Eco → Fast 让算术快 4 倍，但不变的 CPU WAIT 把总周期改善限制在约 15%。"
+msgstr "你的对照实验表明：Eco → Fast 让算术快 4 倍，但 CPU 等待没有减少，所以总时间只改善约 15%。"
 
 msgid "system.completion.summary.ram_wait"
 msgstr "预测计算与等待的比例后，你只更换 RAM，并追踪了存储服务如何直接形成 CPU-wait 差值。"
@@ -2931,7 +2931,7 @@ msgid "chapter2.status.work_group_selected"
 msgstr "已选择工作分组：%s。"
 
 msgid "chapter2.status.judgment_recheck"
-msgstr "现有证据尚不支持这个判断。请重新检查 Trace 和 Profiler。"
+msgstr "现有证据尚不支持这个判断。点击“下一关键证据”，比较取数和计算各花了多久；回放结束后可重新播放。"
 
 msgid "chapter2.status.review_pending"
 msgstr "证据支持你的发现。先看完 Trace，再打开调查发现。"
@@ -3114,10 +3114,10 @@ msgid "chapter2.capstone.profiler.breakdown_locked"
 msgstr "提交 baseline 诊断后解锁完整 breakdown"
 
 msgid "chapter2.profiler.summary.direct"
-msgstr "%s\n总计 %d · CPU WAIT %d · 近处返回 %d · 远端获取 %d · RAM %d B"
+msgstr "%s\n总计 %d · CPU 等待 %d · 近处返回 %d 次 · 向近处装入 %d 次 · RAM 搬运 %d B"
 
 msgid "chapter2.profiler.summary.basic"
-msgstr "%s\n总计 %d · CPU WAIT %d · 近处返回 %d · 远端获取 %d · RAM %d B"
+msgstr "%s\n总计 %d · CPU 等待 %d · 近处返回 %d 次 · 向近处装入 %d 次 · RAM 搬运 %d B"
 
 msgid "chapter2.profiler.tree.ram_reads"
 msgstr "直接 RAM 读取"
@@ -3183,13 +3183,13 @@ msgid "chapter2.history.wait_delta"
 msgstr "CPU WAIT · %d → %d · Δ %s"
 
 msgid "chapter2.history.memory_delta"
-msgstr "远端获取 %d → %d · 近处返回 %d → %d · RAM %d → %d B"
+msgstr "向近处装入 %d → %d 次 · 近处返回 %d → %d 次 · RAM 搬运 %d → %d B"
 
 msgid "chapter2.history.baseline"
 msgstr "基线 · %s"
 
 msgid "chapter2.history.baseline_metrics"
-msgstr "总计 %d · CPU WAIT %d · 远端获取 %d · 近处返回 %d · RAM %d B · 成本 %d"
+msgstr "总计 %d · CPU 等待 %d · 向近处装入 %d 次 · 近处返回 %d 次 · RAM 搬运 %d B · 成本 %d"
 
 msgid "chapter2.history.personal_best"
 msgstr "个人最佳 · %d 周期 · CPU WAIT %d · 成本 %d\n%s"
@@ -4374,7 +4374,7 @@ msgid "playtest.chapter_feedback.title"
 msgstr "章节反馈"
 
 msgid "playtest.chapter_feedback.subtitle"
-msgstr "进入下一章前简单回顾一下；文本项均可留空。"
+msgstr "简单回顾本章体验；文本项均可留空。"
 
 msgid "playtest.chapter_feedback.best"
 msgstr "最好的一关"
@@ -5042,3 +5042,9 @@ msgstr "S 和 R 同时为 1，不能用来保存有效的一位状态。先只�
 
 msgid "hardware.status.same_side_port"
 msgstr "请把输出端口连接到输入端口；这里不会创建悬空线端。"
+
+msgid "system.port.direction_help"
+msgstr "左侧箭头进入元件，右侧箭头离开元件。读回路线：RAM 右端 → 总线左端，再从总线右端 → CPU 左端。"
+
+msgid "system.topology.missing_named_route"
+msgstr "还未接通：%s → %s · %s"

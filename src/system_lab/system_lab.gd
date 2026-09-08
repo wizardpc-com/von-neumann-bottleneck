@@ -770,11 +770,21 @@ func _add_device_node(id: StringName, kind: StringName, slots: Array[Dictionary]
 	graph.add_child(node)
 	for slot_index: int in range(slots.size()):
 		var slot: Dictionary = slots[slot_index]
-		var row := Label.new()
-		row.text = String(slot["label"])
-		row.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		row.add_theme_color_override("font_color", slot["color"])
-		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var row := HBoxContainer.new()
+		row.mouse_filter = Control.MOUSE_FILTER_PASS
+		row.tooltip_text = _t(&"system.port.direction_help")
+		for part: int in range(3):
+			var label := Label.new()
+			label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			label.add_theme_color_override("font_color", slot["color"])
+			if part == 1:
+				label.text = String(slot["label"])
+				label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			else:
+				label.text = "→" if bool(slot["input" if part == 0 else "output"]) else ""
+				label.custom_minimum_size.x = 18.0
+			row.add_child(label)
 		node.add_child(row)
 		node.set_slot(
 			slot_index,
@@ -2228,6 +2238,11 @@ func _prepare_run() -> bool:
 		status_label.text = _t(&"system.status.topology_invalid", [errors.size()])
 		status_label.add_theme_color_override("font_color", BAD)
 		playback_caption.text = _localized_topology_error(errors[0])
+		var details := PackedStringArray()
+		for error: String in errors:
+			details.append(_localized_topology_error(error))
+		test_status_label.text = "\n".join(details)
+		test_status_label.add_theme_color_override("font_color", BAD)
 		return false
 	return true
 
@@ -2922,6 +2937,16 @@ func _typed_int_array(values: Variant) -> Array[int]:
 
 func _localized_topology_error(error: String) -> String:
 	if "missing connection" in error:
+		for route: Dictionary in TopologyType.REQUIRED_CONNECTIONS:
+			var key := "%s:%s>%s:%s" % [route["from"], route["from_port"], route["to"], route["to_port"]]
+			if key not in error:
+				continue
+			var lane: StringName = &"system.port.request"
+			if "write" in String(route["from_port"]):
+				lane = &"system.port.write_data"
+			elif "read" in String(route["from_port"]):
+				lane = &"system.port.read_data"
+			return _t(&"system.topology.missing_named_route", [route["from"], route["to"], _t(lane)])
 		return _t(&"system.topology.missing_route")
 	if "missing" in error:
 		return _t(&"system.topology.missing_part")

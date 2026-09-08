@@ -3,7 +3,7 @@ extends Control
 
 signal level_requested(level_id: StringName)
 
-const NODE_SIZE := Vector2(168.0, 92.0)
+const NODE_SIZE := Vector2(168.0, 140.0)
 const LEFT_RESERVED := 330.0
 const ACCENT := Color("50d5ff")
 const GOOD := Color("67e8a5")
@@ -37,7 +37,7 @@ func configure(levels: Array[Dictionary], intro_title: String, intro_body: Strin
 		button.custom_minimum_size = NODE_SIZE
 		button.size = NODE_SIZE
 		button.disabled = not bool(data.get("unlocked", false))
-		button.tooltip_text = String(data.get("tooltip", ""))
+		button.tooltip_text = "%s\n%s" % [String(data.get("title", level_id)), String(data.get("tooltip", ""))]
 		button.add_theme_stylebox_override("normal", _stylebox(SURFACE, _state_color(data), 2))
 		button.add_theme_stylebox_override("hover", _stylebox(Color(_state_color(data), 0.18), _state_color(data), 3))
 		button.add_theme_stylebox_override("pressed", _stylebox(Color(_state_color(data), 0.28), _state_color(data), 3))
@@ -61,6 +61,10 @@ func configure(levels: Array[Dictionary], intro_title: String, intro_body: Strin
 		var title := Label.new()
 		title.text = String(data.get("title", level_id))
 		title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		title.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		title.max_lines_visible = 3
+		title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		title.clip_text = true
 		title.add_theme_font_size_override("font_size", 16)
 		title.add_theme_color_override("font_color", TEXT if not button.disabled else MUTED)
 		column.add_child(title)
@@ -84,7 +88,7 @@ func _relayout() -> void:
 	level_positions.clear()
 	for index: int in range(_levels.size()):
 		var level_id := StringName(_levels[index].get("id", &""))
-		var offset_y: float = -72.0 if index % 2 == 0 else 72.0
+		var offset_y: float = -90.0 if index % 2 == 0 else 90.0
 		var position := Vector2(LEFT_RESERVED + float(index) * step, center_y + offset_y)
 		level_positions[level_id] = position
 		var button: Button = level_buttons[level_id]

@@ -806,6 +806,7 @@ func _build_program_instrument() -> Control:
 
 
 func _build_test_bench_instrument() -> Control:
+	var bench := VBoxContainer.new()
 	var panel := VBoxContainer.new()
 	test_goal_label = Label.new()
 	test_goal_label.text = _t(&"test_bench.official_goal", [OFFICIAL_CYCLE_TARGET])
@@ -814,7 +815,6 @@ func _build_test_bench_instrument() -> Control:
 	panel.add_child(test_goal_label)
 	debug_grid = GridContainer.new()
 	debug_grid.columns = 4
-	panel.add_child(debug_grid)
 	for index: int in range(16):
 		var spin := SpinBox.new()
 		spin.min_value = -99
@@ -830,9 +830,8 @@ func _build_test_bench_instrument() -> Control:
 	debug_data_label.text = _t(&"test_bench.official_data")
 	debug_data_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	debug_data_label.add_theme_color_override("font_color", MUTED)
-	panel.add_child(debug_data_label)
 	var run_row := HBoxContainer.new()
-	panel.add_child(run_row)
+	bench.add_child(run_row)
 	debug_run_button = Button.new()
 	debug_run_button.text = _t(&"test_bench.run_debug")
 	debug_run_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -846,16 +845,19 @@ func _build_test_bench_instrument() -> Control:
 	result_label = Label.new()
 	result_label.text = _t(&"state.not_run")
 	result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	result_label.add_theme_font_size_override("font_size", 24)
+	result_label.add_theme_font_size_override("font_size", 20)
 	panel.add_child(result_label)
-	# The debug grid is taller than the observation controls. Keep its minimum
-	# size inside a scroll area so showing it cannot push the window off screen.
+	panel.add_child(debug_data_label)
+	panel.add_child(debug_grid)
+	# Keep Run outside the scrolling evidence/debug body, including the capstone
+	# where sixteen debug inputs otherwise hide both official and debug actions.
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(panel)
-	return scroll
+	bench.add_child(scroll)
+	return bench
 
 
 func _build_profiler_instrument() -> Control:
@@ -1339,8 +1341,9 @@ func _update_mission_progress() -> void:
 		&"complete" if complete
 		else (&"review_required" if pending_completion_review else StringName(completion.get("reason", &"run_required")))
 	)
+	var required: int = int(completion.get("required", 1))
 	mission_progress_label.text = _t(StringName("chapter2.progress.%s" % String(reason)), [
-		int(completion.get("progress", 0)), int(completion.get("required", 1))
+		required if complete else int(completion.get("progress", 0)), required
 	])
 	mission_progress_label.add_theme_color_override("font_color", GOOD if complete else WARNING)
 	var evidence_available: bool = not _completion_receipts().is_empty()
@@ -2025,7 +2028,10 @@ func _run_simulation(test_name: String) -> void:
 	result_label.text = _t(&"test_bench.result", [
 		outcome, current_trace.result_value, current_trace.expected_value, int(current_trace.metrics["total_cycles"])
 	])
-	result_label.add_theme_color_override("font_color", GOOD if current_trace.passed else BAD)
+	var result_color: Color = BAD
+	if current_trace.passed:
+		result_color = GOOD if test_name != "Official Test Set" or current_goal_met or target_cycles <= 0 else WARNING
+	result_label.add_theme_color_override("font_color", result_color)
 	device_state_labels[&"TestBench"].text = outcome
 	device_state_labels[&"Profiler"].text = _t(&"state.trace_ready")
 	device_detail_labels[&"ProgramController"].text = _t(&"device.program.executing", [_strategy_text(program.traversal_pattern())])
@@ -2220,7 +2226,8 @@ func _rebuild_profiler() -> void:
 			goal_text, int(metrics["total_cycles"]), int(metrics["compute_cycles"]), int(metrics["wait_cycles"]),
 			int(metrics["cache_hits"]), int(metrics["cache_misses"]), int(metrics["ram_bytes_transferred"]), int(metrics["hardware_cost"])
 		])
-	profiler_summary_label.add_theme_color_override("font_color", GOOD if current_goal_met else WARNING)
+	var result_satisfied: bool = current_trace.passed and (target_cycles <= 0 or current_goal_met)
+	profiler_summary_label.add_theme_color_override("font_color", GOOD if result_satisfied else WARNING)
 	var root: TreeItem = profiler_tree.create_item()
 	var cycles: TreeItem = profiler_tree.create_item(root)
 	cycles.set_text(0, _t(&"profiler.tree.cycles"))

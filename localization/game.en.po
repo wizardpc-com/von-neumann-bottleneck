@@ -25,7 +25,7 @@ msgid "common.pause"
 msgstr "Pause"
 
 msgid "common.prototype_hub"
-msgstr "Prototype Hub"
+msgstr "Chapter select"
 
 msgid "common.replay"
 msgstr "Replay"
@@ -469,7 +469,7 @@ msgid "test_bench.run_official"
 msgstr "◆ Run Official"
 
 msgid "test_bench.result"
-msgstr "%s · %d / %d · %d cycles"
+msgstr "%s\nActual %d · Expected %d\nTime: %d cycles"
 
 msgid "cache.description"
 msgstr "Replace the Cache component. Capacity changes hardware cost and may change the same program's trace."
@@ -2760,13 +2760,13 @@ msgid "system.port.read_data"
 msgstr "read data"
 
 msgid "system.port.request_lane"
-msgstr "request lane"
+msgstr "CPU request → RAM"
 
 msgid "system.port.write_lane"
-msgstr "write lane"
+msgstr "CPU data → RAM"
 
 msgid "system.port.read_lane"
-msgstr "read lane"
+msgstr "RAM data → CPU"
 
 msgid "system.topology.missing_route"
 msgstr "The system is missing a route. Connect every matching port name and color."
@@ -2823,7 +2823,7 @@ msgid "system.completion.summary.assembly"
 msgstr "You connected the CPU, Bus, and RAM request, write, and read routes, proving that the displayed wires are the system topology."
 
 msgid "system.completion.summary.cpu_speed"
-msgstr "Your prediction met a controlled surprise: Eco → Fast made arithmetic 4× faster, but unchanged CPU WAIT limited total improvement to about 15%."
+msgstr "Your comparison showed that Eco → Fast made arithmetic 4× faster, while unchanged CPU waiting limited total improvement to about 15%."
 
 msgid "system.completion.summary.ram_wait"
 msgstr "After predicting the balance, you changed only RAM and traced storage service directly into the CPU-wait delta."
@@ -2931,7 +2931,7 @@ msgid "chapter2.status.work_group_selected"
 msgstr "Work grouping selected: %s."
 
 msgid "chapter2.status.judgment_recheck"
-msgstr "That claim is not yet supported by the captured evidence. Recheck Trace and Profiler."
+msgstr "The evidence does not support this explanation yet. Use Next evidence to compare time spent fetching and computing; restart playback if it has ended."
 
 msgid "chapter2.status.review_pending"
 msgstr "The evidence supports your finding. Finish reviewing the Trace, then open the finding."
@@ -3114,10 +3114,10 @@ msgid "chapter2.capstone.profiler.breakdown_locked"
 msgstr "Full breakdown unlocks after your baseline diagnosis"
 
 msgid "chapter2.profiler.summary.direct"
-msgstr "%s\nTotal %d · CPU WAIT %d · Near returns %d · Far fetches %d · RAM %d B"
+msgstr "%s\nTotal %d · CPU WAIT %d · Near returns %d · Nearby fills %d · RAM transferred %d B"
 
 msgid "chapter2.profiler.summary.basic"
-msgstr "%s\nTotal %d · CPU WAIT %d · Near returns %d · Far fetches %d · RAM %d B"
+msgstr "%s\nTotal %d · CPU WAIT %d · Near returns %d · Nearby fills %d · RAM transferred %d B"
 
 msgid "chapter2.profiler.tree.ram_reads"
 msgstr "Direct RAM reads"
@@ -3183,13 +3183,13 @@ msgid "chapter2.history.wait_delta"
 msgstr "CPU WAIT · %d → %d · Δ %s"
 
 msgid "chapter2.history.memory_delta"
-msgstr "Far fetches %d → %d · Near returns %d → %d · RAM %d → %d B"
+msgstr "Nearby fills %d → %d · Near returns %d → %d · RAM transferred %d → %d B"
 
 msgid "chapter2.history.baseline"
 msgstr "BASELINE · %s"
 
 msgid "chapter2.history.baseline_metrics"
-msgstr "Total %d · CPU WAIT %d · Far fetches %d · Near returns %d · RAM %d B · Cost %d"
+msgstr "Total %d · CPU WAIT %d · Nearby fills %d · Near returns %d · RAM transferred %d B · Cost %d"
 
 msgid "chapter2.history.personal_best"
 msgstr "Personal best · %d cycles · CPU WAIT %d · Cost %d\n%s"
@@ -5042,3 +5042,9 @@ msgstr "S and R are both 1; this cannot hold a valid one-bit state. Enable only 
 
 msgid "hardware.status.same_side_port"
 msgstr "Connect an output port to an input port; no loose endpoint was created here."
+
+msgid "system.port.direction_help"
+msgstr "Left arrows enter a device; right arrows leave it. Read back: RAM right → Bus left, then Bus right → CPU left."
+
+msgid "system.topology.missing_named_route"
+msgstr "Not connected yet: %s → %s · %s"

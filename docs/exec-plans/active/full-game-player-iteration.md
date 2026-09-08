@@ -45,32 +45,62 @@ substantial verified increment as the user requested.
 | Register | Native complete + sealed | 8 manual wires; write D1 then LOAD0/D0 retains Q1; all 5 formal steps pass. |
 | RAM | Native complete + sealed | 10 manual wires; write M0=3/M1=12 then read both; all 5 formal steps pass. Reverse 4-bit input to WRITE incorrectly created junction; undo recovered. |
 | CPU | Native complete + sealed | 19 manual wires; stage auto-advancement; Shift+Home 75%; LOAD_IMM debug; all 7 program steps passed. Compact Mission hides current stage below opcode table. |
-| LOAD/STORE | Pending | |
-| Chapter 1: first system | Pending | |
-| Chapter 1: faster CPU | Pending | |
-| Chapter 1: RAM wait | Pending | |
-| Chapter 1: bus width | Pending | |
-| Chapter 1: bottleneck investigation | Pending | |
-| Chapter 2: repeated distant reads | Pending | |
-| Chapter 2: cache placement | Pending | |
-| Chapter 2: replacement | Pending | |
-| Chapter 2: access order | Pending | |
-| Chapter 2: second pass | Pending | |
-| Chapter 2: work grouping | Pending | |
-| Chapter 2: capstone | Pending | |
+| LOAD/STORE | Native complete | 7 official program steps; ACC=7, M0=3 remain distinct. Entered Chapter 1 via owned CPU/RAM handoff. |
+| Chapter 1: first system | Native complete | 6 hand-dragged routes after correcting two read-back segments; 2 official cases, 22 cycles each. Port direction and generic missing-route feedback caused avoidable confusion. |
+| Chapter 1: faster CPU | Native complete | Predicted small improvement; Eco → Fast 316 → 268, WAIT unchanged at 252. Completion incorrectly calls the correct prediction a surprise. |
+| Chapter 1: RAM wait | Native complete | Slow → Fast RAM 268 → 124, WAIT 252 → 108; inspected profiler. Floating evidence windows overlap. |
+| Chapter 1: bus width | Native complete | Bus2 → Bus8 144 → 96, transfer 64 → 16; same correct output. A persistent bit-group diagram would explain serialization better. |
+| Chapter 1: bottleneck investigation | Native complete | 4/16/64 cases: 112/448/1792; raw WAIT 88/352/1408. Chose RAM; revealed split CPU 504/RAM 1344/Bus 504 confirms 57% RAM. |
+| Chapter 2: repeated distant reads | Native complete | 257 cycles, WAIT 240; paused and stepped RAM addresses. Wrong arithmetic explanation rejected, but refers to unavailable Profiler. Correct explanation reviewed. |
+| Chapter 2: cache placement | Native complete | Inherited own baseline; installed 1-line storage; 105 cycles, 12 nearby returns/4 fills. Stepped direct nearby return of -2. Ambiguous 88 / 88 and far-fetch 0 → 4 labels. |
+| Chapter 2: replacement | Native complete; visual evidence through eviction | 321 cycles, 16 misses, 256 B; stepped miss line 1, RAM fetch, eviction of line 0. Correct explanation reviewed. Screen became stale during this level; process and AX actions remained active. |
+| Chapter 2: access order | Native complete + supplemental visual replay | Used visible strategy buttons, reviewed row/col draft, applied, official 105 cycles vs inherited 321. Later replay also verified editing, Command undo/redo, Apply and the 105-cycle result on screen. |
+| Chapter 2: second pass | Native complete + supplemental visual replay | 210 cycles, WAIT 176, 8 misses, 128 B; correct four-lines-versus-one capacity explanation reviewed. |
+| Chapter 2: work grouping | Native complete + supplemental visual replay | Selected 1-line group using Game button; 138 cycles, WAIT 104, 4 misses, 64 B, cost 4. Only one new legal choice limits discovery. |
+| Chapter 2: capstone | Native complete + supplemental visual replay | Scrolled native test bench to reveal Run; baseline 642, diagnosis; 2-line 642/cost 7; 4-line 138/cost 13; 1-line + row + blocking 138/cost 4. Final summary records best. Completed chapter/feedback flow using native buttons. |
 
 ## Issues and decisions
 
-Observed bench clipping in Tutorial/Half Adder/ALU is being repaired by putting inputs before optional explanations and retaining explicit width badges. Native first-pass completions above are e2218ff; the source fix is not yet the running game. Historical restart-signature instability
+Observed bench clipping in Tutorial/Half Adder/ALU was repaired in b155421 by putting inputs before optional explanations and retaining explicit width badges. Native first-pass completions above remain e2218ff; fixes have their own recheck evidence. Historical restart-signature instability
 is documented in `docs/status/mac-native-polish.md`; reproduce with isolated data
 and preserve the approval boundary. Earlier records remain historical evidence.
 
 ## Completion
 
-In progress. This plan closes only after the original full-game attempt and the
-authorized fixes/rechecks are actually complete, or its precise blocking boundary
-has been explained. No release acceptance is implied by test counts.
+The full original player pass and two authorized repair/recheck batches are complete.
+The plan remains active for the separately proposed save compatibility decision
+and future player iterations. Neither test counts nor this informed AI pass are
+release acceptance.
 
 2026-09-08 restart recheck: copied only this native pass data into a separate user directory; Continue rejected HalfAdder and its dependent arithmetic/CPU completions, while storage completion survived. Original native process remains open. Compatibility approval requested; no migration performed. Recheck copy confirms Tutorial input and result are visible without scrolling after the bench fix.
 
 First fix batch: Tutorial/RAM controls, fixed debug and formal actions, separate compact Mission space, concrete goals, CPU stage first, SR conflict feedback and rejected reverse-port drops. Native rechecks include palette Register4 placement, wrong/correct reverse bus, undo/redo, Tutorial input, RAM final layout and SR conflict text. Final run 20260908T045330Z-d24b1378 passes all 20 suites and Chinese Game replay; runtime/test hashes match. An earlier concurrent GUI run timed out at CPU H3; a subsequent independent complete run passes. Cause of the timeout is not proven. Native whole-game pass continues in the original e2218ff process.
+
+Second fix batch: taller map cards retain status under long titles; Chapter 1 ports show entry/exit arrows and explicit read-back names; failed runs name missing routes in the bench; Chapter 2 Run stays above scrolling debug inputs; results identify actual/expected values; nearby-fill language no longer calls bypass cache-miss zero a remote-read count; neutral prediction/navigation/ending copy. No simulation, authored objective, target, prerequisite or persistent format changes. The raw row-first template, including its developer-facing comment, stays byte-identical because saved receipts hash the whole text. Its cleanup remains behind the save-compatibility decision.
+
+All 21 original levels were completed through the same fresh Game process. During
+2-3, CG stopped supplying current screenshots while native AX actions continued.
+Switching the known QA window between fullscreen and windowed restored current
+images; the cause is unproven. Supplemental visual replays of 2-4, 2-5, 2-6 and
+2-7 now show the expected 105, 210, 138 and 138 cycles. These are screenshots of
+the original e2218ff process, not acceptance of the second fix batch. Editing and
+Command undo/redo were checked in 2-4; 2-7's original hidden Run was revealed by
+native scrolling. No further screen-restoration action is needed from the user.
+
+Supplemental replay also found completed observations reopening as 1/2 (capstone
+2/3) and correct target-free observations using warning color. Both are now
+presentation-only fixes; completion receipts, judgments and targets are unchanged.
+A second restart of a copy of the fully completed native player data again locked
+later chapters. No migration or artificial Game unlock was applied. Latest-source
+native presentation rechecks use the separate, visibly labeled Test mode; they
+are not counted as ordinary Game completion evidence.
+
+Final second-batch evidence: 20260908T063439Z-770259c1, all 20 suites plus Chinese
+Game replay 593/0, source hashes verified. Native Test-mode rechecks confirm map
+containment, six manual routes and 2/2 official cases, pinned Run and complete
+actual/expected/time fields, amber over-target output, green target-free output,
+and completed observation reopen at 2/2. Final result font/layout was adjusted
+once more after native observation found the time line clipped; then checks and
+native observation were repeated. Fullscreen transitions restored stale CUA
+frames, but do not prove the underlying window issue resolved. Windows and human
+beginner acceptance remain unperformed. No actual player data was accessed.

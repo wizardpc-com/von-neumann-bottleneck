@@ -198,6 +198,15 @@ func _run() -> void:
 		(main.get("editor_toolbar") as Control).visible and (main.get("graph") as GraphEdit).visible,
 		"Playable levels must restore their circuit canvas and editing toolbar after leaving the simplified map."
 	)
+	_assert(not tutorial_task_window.get_rect().intersects(tutorial_bench_window.get_rect()),
+		"The compact Tutorial Mission must not cover the Test Bench or its fixed Run action.")
+	var tutorial_input: Control = main.get("input_a_button")
+	var tutorial_scroll: ScrollContainer = (main.get("side_box") as Control).get_parent()
+	_assert(
+		tutorial_scroll.scroll_vertical == 0
+		and tutorial_scroll.get_global_rect().encloses(tutorial_input.get_global_rect()),
+		"The first Tutorial input must be fully visible without scrolling after starting the mission."
+	)
 	var clock_period_control: SpinBox = main.get("clock_period_control")
 	_assert(
 		clock_period_control != null

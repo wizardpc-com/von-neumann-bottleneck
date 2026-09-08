@@ -155,6 +155,7 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 	_assert_palette_previews_match_canvas(main, level_id)
 	_assert_mixed_width_interfaces(main)
 	if level_id == &"ram":
+		await _assert_rejected_port_drop_is_not_empty(main)
 		var data: SpinBox = main.get("prologue_input_controls")[&"DATA"]
 		var monitor: Label = main.get("storage_state_label")
 		_assert(data.get_parent().get_parent().get_index() < monitor.get_index(), "RAM input and its visible bits must precede the committed-state report in the Test Bench.")
@@ -663,3 +664,26 @@ func _assert_mixed_width_interfaces(main: Control) -> void:
 				if is_output:
 					var stroke: float = graph.connection_stroke_width({"from_node": component.id, "from_port": port})
 					_assert(stroke >= 7.0 if width > 1 else stroke <= 4.0, "Scalar and multi-bit connections must have visibly separated stroke ranges.")
+
+
+func _assert_rejected_port_drop_is_not_empty(main: Control) -> void:
+	await process_frame
+	var graph: GraphEdit = main.get("graph")
+	var nodes: Dictionary = main.get("component_nodes")
+	var original_count: int = nodes.size()
+	var original_signature: String = main.call("_circuit_from_graph").canonical_signature()
+	var write_port: Vector2 = graph.call("displayed_port_position", nodes[&"WRITE_IN"], 0, true)
+	main.call("_on_connection_from_empty", &"REG_0", 0, write_port)
+	_assert(nodes.size() == original_count and graph.get_connection_list().is_empty(),
+		"Reverse-dropping a 4-bit data input on WRITE's 1-bit output must reject, not create a dangling bus junction.")
+	var load_port: Vector2 = graph.call("displayed_port_position", nodes[&"REG_0"], 1, false)
+	main.call("_on_connection_to_empty", &"DATA_IN", 0, load_port)
+	_assert(main.call("_circuit_from_graph").canonical_signature() == original_signature and (main.get("wire_history") as Array).is_empty(),
+		"Rejected width mismatches in either direction must preserve topology and undo history.")
+	var data_port: Vector2 = graph.call("displayed_port_position", nodes[&"DATA_IN"], 0, true)
+	main.call("_on_connection_from_empty", &"REG_0", 0, data_port)
+	_assert(graph.get_connection_list().size() == 1 and nodes.size() == original_count,
+		"A compatible reverse drop must connect the visible output directly, without a junction.")
+	main.call("_undo_wire")
+	_assert(main.call("_circuit_from_graph").canonical_signature() == original_signature,
+		"Undo of the compatible reverse connection must restore the original circuit.")

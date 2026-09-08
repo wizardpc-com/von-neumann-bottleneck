@@ -5015,3 +5015,30 @@ msgstr "细实线接圆端口：一条线传递一位 0/1。线色可自行标�
 
 msgid "signal.wire.guide.word"
 msgstr "细实线＋圆端口＝1 位；宽带线＋方端口＝多位总线。总线仍是一条连接，按标注的位数接线；线色可自选。"
+
+msgid "hardware.goal.full_adder"
+msgstr "A+B+CIN → SUM、COUT；检查全部 8 种输入"
+
+msgid "hardware.goal.alu"
+msgstr "OP1 OP0：00 与 · 01 或 · 10 加法 · 11 取反 A"
+
+msgid "hardware.goal.latch"
+msgstr "S 置 1，R 清 0；S=R=0 时保持记忆"
+
+msgid "hardware.goal.register"
+msgstr "LOAD=1 写入 D；LOAD=0 保持 Q"
+
+msgid "hardware.goal.ram"
+msgstr "ADDR 选位置；WRITE=1 写入 DATA，WRITE=0 只读"
+
+msgid "hardware.goal.load_store"
+msgstr "运行 7 步程序，观察读取 → 相加 → 写回的数据路径"
+
+msgid "hardware.storage.action.conflict"
+msgstr "S=R=1（控制冲突）"
+
+msgid "hardware.storage.latch.conflict"
+msgstr "S 和 R 同时为 1，不能用来保存有效的一位状态。先只开启 S 或 R，再回到 0、0 保持。"
+
+msgid "hardware.status.same_side_port"
+msgstr "请把输出端口连接到输入端口；这里不会创建悬空线端。"

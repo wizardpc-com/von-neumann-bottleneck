@@ -5015,3 +5015,30 @@ msgstr "Thin solid wires join round pins and carry one bit. Choose wire colors t
 
 msgid "signal.wire.guide.word"
 msgstr "Thin solid wire + round pin: 1 bit. Ribbon + square socket: a multi-bit bus. A bus is one connection; match its bit count. Wire colors are yours to choose."
+
+msgid "hardware.goal.full_adder"
+msgstr "A+B+CIN → SUM, COUT; check all 8 inputs"
+
+msgid "hardware.goal.alu"
+msgstr "OP1 OP0: 00 AND · 01 OR · 10 ADD · 11 NOT A"
+
+msgid "hardware.goal.latch"
+msgstr "S sets 1, R resets 0; keep the value when S=R=0"
+
+msgid "hardware.goal.register"
+msgstr "LOAD=1 writes D; LOAD=0 holds Q"
+
+msgid "hardware.goal.ram"
+msgstr "ADDR selects a location; WRITE=1 stores DATA, WRITE=0 reads"
+
+msgid "hardware.goal.load_store"
+msgstr "Run 7 steps; follow the data through read → add → write back"
+
+msgid "hardware.storage.action.conflict"
+msgstr "S=R=1 (conflicting controls)"
+
+msgid "hardware.storage.latch.conflict"
+msgstr "S and R are both 1; this cannot hold a valid one-bit state. Enable only S or R, then return both to 0 to hold it."
+
+msgid "hardware.status.same_side_port"
+msgstr "Connect an output port to an input port; no loose endpoint was created here."

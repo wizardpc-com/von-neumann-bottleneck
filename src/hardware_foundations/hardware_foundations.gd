@@ -1495,6 +1495,7 @@ func _set_mission_compact(value: bool) -> void:
 		_layout_compact_task_window()
 		return
 	mission_compact = false
+	task_window.custom_minimum_size.y = 190.0
 	task_window.set_custom_minimized_state(false)
 	if not mission_briefing_active and not current_level_id.is_empty():
 		_begin_mission_briefing(true)
@@ -1521,10 +1522,11 @@ func _layout_compact_task_window(margin_override: float = -1.0) -> void:
 	var bench_window: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
 	var available_height: float = maxf(1.0, area.y - margin * 2.0)
 	var compact_height := clampf(
-		area.y * 0.36,
-		minf(220.0, available_height),
-		minf(300.0, available_height)
+		area.y * 0.24,
+		minf(160.0, available_height),
+		minf(200.0, available_height)
 	)
+	task_window.custom_minimum_size.y = 160.0
 	var compact_width: float = maxf(
 		bench_window.size.x,
 		maxf(task_window.get_combined_minimum_size().x + 12.0, bench_window.get_combined_minimum_size().x)
@@ -1541,6 +1543,10 @@ func _layout_compact_task_window(margin_override: float = -1.0) -> void:
 	bench_window.size.x = compact_width
 	task_window.position = Vector2(margin, area.y - margin - task_window.size.y)
 	task_window.fit_to_parent(margin)
+	# A compact Mission and its bench share one lane; neither may cover the
+	# other's fixed actions. Content scrolls within the remaining bench space.
+	var bench_space: float = task_window.position.y - bench_window.position.y - 10.0
+	bench_window.size.y = minf(bench_window.size.y, maxf(bench_window.get_combined_minimum_size().y, bench_space))
 	bench_window.fit_to_parent(margin)
 
 
@@ -3343,7 +3349,7 @@ func _build_tutorial_side() -> void:
 	tutorial_next_button.pressed.connect(_start_challenge)
 	task_box.add_child(tutorial_next_button)
 
-	side_box.add_child(_side_heading(_t(&"hardware.practice.heading"), _t(&"hardware.practice.heading_subtitle")))
+	side_box.add_child(_bench_heading(_t(&"hardware.practice.heading"), _t(&"hardware.practice.heading_subtitle")))
 	_build_input_controls(false)
 	var run_button := Button.new()
 	run_button.text = _t(&"hardware.practice.run")
@@ -3355,6 +3361,7 @@ func _build_tutorial_side() -> void:
 	debug_result_label.add_theme_font_size_override("font_size", 20)
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
+	_add_signal_guide_toggle()
 	_layout_desktop_windows()
 
 
@@ -3376,16 +3383,17 @@ func _build_half_adder_side() -> void:
 	seal_button.pressed.connect(_seal_half_adder)
 	task_box.add_child(seal_button)
 
-	side_box.add_child(_side_heading(_t(&"hardware.cases.heading"), _t(&"hardware.cases.heading_subtitle")))
+	side_box.add_child(_bench_heading(_t(&"hardware.cases.heading"), _t(&"hardware.cases.heading_subtitle")))
 	_build_input_controls()
 	var debug_button := Button.new()
 	debug_button.text = _t(&"hardware.cases.run_debug")
 	debug_button.pressed.connect(_run_debug)
-	side_box.add_child(debug_button)
+	_add_bench_action(debug_button)
 	debug_result_label = Label.new()
 	debug_result_label.text = _t(&"hardware.cases.actual_empty")
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
+	_add_signal_guide_toggle()
 	official_button = Button.new()
 	InstrumentThemeType.primary(official_button)
 	official_button.text = _t(&"hardware.cases.run_official")
@@ -3422,7 +3430,7 @@ func _build_sealed_side() -> void:
 	continue_button.pressed.connect(_open_campaign_map)
 	task_box.add_child(continue_button)
 
-	side_box.add_child(_side_heading(_t(&"hardware.sealed.bench_heading"), _t(&"hardware.sealed.bench_subtitle")))
+	side_box.add_child(_bench_heading(_t(&"hardware.sealed.bench_heading"), _t(&"hardware.sealed.bench_subtitle")))
 	_build_input_controls()
 	var debug_button := Button.new()
 	debug_button.text = _t(&"hardware.sealed.run_debug")
@@ -3432,6 +3440,7 @@ func _build_sealed_side() -> void:
 	debug_result_label.text = _t(&"hardware.sealed.result_empty")
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
+	_add_signal_guide_toggle()
 	var replay_button := Button.new()
 	replay_button.text = _t(&"hardware.sealed.run_official")
 	replay_button.pressed.connect(_run_sealed_official)
@@ -3440,14 +3449,8 @@ func _build_sealed_side() -> void:
 
 
 func _build_input_controls(include_b: bool = true) -> void:
-	var signal_note := Label.new()
-	signal_note.text = _t(&"hardware.test_bench.signal.placeholder")
-	signal_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	signal_note.add_theme_font_size_override("font_size", 12)
-	signal_note.add_theme_color_override("font_color", MUTED)
-	side_box.add_child(signal_note)
-	_add_signal_guide_toggle()
 	var input_row := HBoxContainer.new()
+	input_row.tooltip_text = _t(&"hardware.test_bench.signal.placeholder")
 	side_box.add_child(input_row)
 	input_a_button = SignalLevelButtonType.new()
 	input_a_button.button_pressed = false
@@ -3504,6 +3507,16 @@ func _try_half_adder_input(index: int) -> void:
 	input_b_button.button_pressed = bool(example["B"])
 	status_label.text = _t(&"hardware.cases.try.selected", [int(example["A"]), int(example["B"]), int(example["SUM"]), int(example["CARRY"])])
 	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+# Keep the first playable controls above the fold in the compact bench.
+func _bench_heading(title: String, explanation: String) -> Label:
+	var label := Label.new()
+	label.text = title
+	label.tooltip_text = explanation
+	label.add_theme_font_size_override("font_size", 20)
+	label.add_theme_color_override("font_color", PURPLE)
+	return label
 
 
 func _side_heading(title: String, subtitle: String) -> Control:
@@ -3578,8 +3591,11 @@ func _on_connection_to_empty(from_node: StringName, from_port: int, release_posi
 	# Resolve the visible port before creating an endpoint, using the same rules.
 	var target: Dictionary = graph._input_port_at(release_position, 16.0, from_node, from_port)
 	if not target.is_empty():
-		if bool(target.get("valid", false)):
-			_on_connection_request(from_node, from_port, target.node, target.port)
+		_on_connection_request(from_node, from_port, target.node, target.port)
+		return
+	if not graph._port_at(release_position, 16.0).is_empty():
+		status_label.text = _t(&"hardware.status.same_side_port")
+		status_label.add_theme_color_override("font_color", BAD)
 		return
 	if not graph.get_closest_connection_at_point(release_position, 16.0).is_empty():
 		status_label.text = _t(&"hardware.status.invalid_merge")
@@ -3590,6 +3606,16 @@ func _on_connection_to_empty(from_node: StringName, from_port: int, release_posi
 
 func _on_connection_from_empty(to_node: StringName, to_port: int, release_position: Vector2) -> void:
 	if _editor_locked():
+		return
+	# A rejected output port is not empty space. Resolve both directions before
+	# treating the release as a branch or a new movable endpoint.
+	var source: Dictionary = graph._port_at(release_position, 16.0)
+	if not source.is_empty():
+		if bool(source.get("is_output", false)):
+			_on_connection_request(source.node, source.port, to_node, to_port)
+		else:
+			status_label.text = _t(&"hardware.status.same_side_port")
+			status_label.add_theme_color_override("font_color", BAD)
 		return
 	var connection: Dictionary = graph.get_closest_connection_at_point(release_position, 18.0)
 	if connection.is_empty():
@@ -5997,6 +6023,10 @@ func _run_prologue_debug() -> void:
 		_format_digital_values(result.observed_values)
 	])
 	debug_result_label.add_theme_color_override("font_color", GOOD)
+	var debug_inputs: Dictionary = _current_prologue_inputs()
+	if current_level_id == &"latch" and int(debug_inputs.get(&"S", 0)) != 0 and int(debug_inputs.get(&"R", 0)) != 0:
+		debug_result_label.text += "\n" + _t(&"hardware.storage.latch.conflict")
+		debug_result_label.add_theme_color_override("font_color", WARNING)
 	status_label.text = _t(&"hardware.status.debug_complete")
 	status_label.add_theme_color_override("font_color", GOOD)
 	_play_prologue_events(
@@ -6503,6 +6533,8 @@ func _build_prologue_side() -> void:
 	_clear_test_bench()
 	storage_state_label = null
 	storage_reset_button = null
+	if current_level_id == &"cpu":
+		_build_cpu_stage_panel()
 	task_box.add_child(_side_heading(
 		_t(StringName(current_level_definition["title_key"])),
 		_t(&"hardware.prologue.observe.subtitle" if current_level_id == &"load_store" else &"hardware.prologue.level.subtitle")
@@ -6518,7 +6550,6 @@ func _build_prologue_side() -> void:
 		opcode_table.add_theme_color_override("font_color", WARNING)
 		opcode_panel.add_child(opcode_table)
 		task_box.add_child(opcode_panel)
-		_build_cpu_stage_panel()
 	var description := LinkedMissionTextType.new()
 	description.add_theme_color_override("font_color", TEXT)
 	description.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
@@ -6546,14 +6577,11 @@ func _build_prologue_side() -> void:
 	else:
 		seal_button = null
 
-	side_box.add_child(_side_heading(
-		_t(&"hardware.prologue.bench.title"), _t(&"hardware.prologue.bench.subtitle")
-	))
 	_build_prologue_input_controls()
 	var debug_button := Button.new()
 	debug_button.text = _t(&"hardware.cases.run_debug")
 	debug_button.pressed.connect(_run_debug)
-	side_box.add_child(debug_button)
+	_add_bench_action(debug_button)
 	debug_result_label = Label.new()
 	debug_result_label.text = _t(&"hardware.prologue.outputs_empty")
 	debug_result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -6763,12 +6791,6 @@ func _add_signal_guide_toggle() -> void:
 
 func _build_prologue_input_controls() -> void:
 	prologue_input_controls.clear()
-	var signal_note := Label.new()
-	signal_note.text = _t(&"hardware.test_bench.signal.placeholder_general")
-	signal_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	signal_note.add_theme_font_size_override("font_size", 13)
-	signal_note.add_theme_color_override("font_color", MUTED)
-	side_box.add_child(signal_note)
 	var defaults: Dictionary = current_level_definition.get("debug_inputs", {})
 	var inputs: Array[LogicComponent] = []
 	for component: LogicComponent in current_level_definition.get("components", []):
@@ -6778,8 +6800,11 @@ func _build_prologue_input_controls() -> void:
 		var width: int = component.output_width(0)
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 10)
-		var identity := VBoxContainer.new()
-		identity.custom_minimum_size.x = 90.0
+		row.tooltip_text = _t(&"hardware.test_bench.signal.placeholder_general")
+		var identity := HBoxContainer.new()
+		identity.alignment = BoxContainer.ALIGNMENT_BEGIN
+		identity.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		identity.custom_minimum_size.x = 136.0
 		var name_label := Label.new()
 		name_label.text = String(component.signal_name)
 		identity.add_child(name_label)
@@ -6837,6 +6862,8 @@ func _build_prologue_case_rows() -> void:
 func _storage_action_text(inputs: Dictionary) -> String:
 	match current_level_id:
 		&"latch":
+			if int(inputs.get(&"S", 0)) != 0 and int(inputs.get(&"R", 0)) != 0:
+				return _t(&"hardware.storage.action.conflict")
 			if int(inputs.get(&"S", 0)) != 0:
 				return _t(&"hardware.storage.action.set")
 			if int(inputs.get(&"R", 0)) != 0:

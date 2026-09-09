@@ -115,3 +115,60 @@ identical Game progress and constructed workbenches. All 21 isolated suites,
 [Evidence](../../verification/2026-09-08-save-recovery/README.md).
 This approval does not add optional levels or change raw DSL receipt signatures.
 Further beginner difficulty/motivation and Windows acceptance remain open.
+
+## Next UI increment, 2026-09-09: readable bus transfer groups
+
+Native reopened `bus_width` on 98cde8b: the device draws four decorative lanes
+regardless of selected 2/4/8-bit-per-cycle bandwidth. Mission states the numbers,
+but the machine does not visually connect one 8-bit word to transfer groups.
+Replace that decorative surface with eight bit cells grouped by current bandwidth,
+a persistent width/cycle caption and trace-derived data/progress during playback.
+Show only the current configuration, preserving prediction and baseline gating.
+Group order is a presentation illustration, not a new simulated bit-order protocol.
+Keep port geometry, free device movement, event durations, metrics, receipts and
+saves unchanged. Check real Trace/part switching and then ordinary Game native
+Bus2/Bus8 comparison, selection/movement, zoom and focus. This is a reversible
+presentation change within the approved continuing-polish scope.
+
+Reference reviewed: [Turing Complete's developer description](https://store.steampowered.com/app/1444480/Turing_Complete?l=english)
+emphasizes discovery through puzzles and freedom to construct. Our inference is to
+make a selected machine's behavior observable without changing the puzzle or
+supplying a completed circuit. Its shared tri-state bus is not imported into this
+chapter's separate deterministic bandwidth model.
+
+Native zoom during paused Bus2 playback reproduced detached overlay strokes.
+`SystemGraphEdit` already detects displayed geometry changes; notify its host to
+redraw the stored displayed event/progress when paused, including after single
+step (whose playback index already points to the next event). Clear that view
+reference on stop/finish/new Trace. Add regression checks for automatic paused
+zoom/pan/move updates and unchanged authoritative evidence.
+
+The same paused write-data frame exposed a second pre-existing error: the overlay
+selected the first route between each device pair, so write payload used request
+ports and their color. Select the existing typed route by event kind for both
+geometry and color. Regression checks use authoritative read/write/request events
+and assert both segment origins against actual corresponding port transforms.
+
+Native Bus2 → Bus8 switching also left the old green 144-cycle card visible,
+while a later passing run retained the header's rerun warning. Clear current
+result cards when hardware changes (History retains valid comparison receipts)
+and refresh the header from the newly produced debug/official status. Verify both
+boundaries without changing receipt or completion authority.
+
+Native overlapping Parts/Test Bench windows reproduced an input-order defect:
+Parts rendered in front, but the later Test Bench sibling intercepted its clicks.
+All three hosts now move the focused panel to the last sibling as well as raising
+its draw order. A viewport-dispatched click regression closes the foreground Parts
+window while leaving the overlapping Test Bench open. This follows Godot's
+[documented separation of z-index and input handling](https://docs.godotengine.org/en/stable/classes/class_canvasitem.html#class-canvasitem-property-z-index).
+
+The final native switch check also exposed a stale bottom playback caption after
+changing a part. The same rerun notice now replaces that old event caption; the
+regression covers result cards, test status and playback status together.
+
+Final increment verification: 20260909T030131Z-3ee57359, all 21 suites plus English
+ordinary Game input replay 593/0; 105 runtime files match the native copy. Chinese
+replay was 593/0 before the final playback-caption-only correction. Final native
+Game repeats Bus2/Bus8, overlapping Parts selection, status clearing and typed
+read/write observations; exit 0. Evidence and candidate/final distinctions are in
+[the iteration record](../../verification/2026-09-09-bus-diagram/README.md).

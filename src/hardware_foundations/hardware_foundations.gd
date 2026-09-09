@@ -1628,6 +1628,8 @@ func _focus_desktop_window(id: StringName) -> void:
 		return
 	desktop_z_counter += 1
 	window.z_index = desktop_z_counter
+	# Control input follows sibling order independently of draw order.
+	window.get_parent().move_child(window, -1)
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
 		button.text = _desktop_window_name(id)

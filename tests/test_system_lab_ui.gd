@@ -269,6 +269,7 @@ func _run() -> void:
 		and (instruments[&"profiler"] as Control).visible,
 		"Mission, Parts, Program, and Profiler windows must coexist."
 	)
+	await _test_overlapping_window_input(main)
 	var program_window: Control = instruments[&"program"]
 	var old_position: Vector2 = program_window.position
 	program_window.call("move_by", Vector2(35.0, 22.0))
@@ -322,12 +323,23 @@ func _run() -> void:
 	var overlay_start: Vector2 = overlay.get_global_transform().affine_inverse() * (cpu_node.get_global_transform() * cpu_node.get_output_port_position(0))
 	_assert(exact_path[0].is_equal_approx(overlay_start), "The animated curve must begin on the displayed port after GraphEdit scroll and zoom transforms.")
 	_assert(String((main.get("device_state_labels") as Dictionary)[&"CPU"].text) == _t(&"system.device.cpu_wait"), "Memory traffic must visibly put the actual CPU component into WAIT.")
+	main.set("playback_running", false)
+	var paused_signature: String = trace.canonical_signature()
+	graph.zoom = 0.91
+	graph.scroll_offset += Vector2(60.0, 24.0)
+	for _paused_frame: int in range(3):
+		await process_frame
+	_assert(_paths_equal(overlay.get("path"), main.call("_event_path", request_event)), "Paused Trace geometry must follow zoom and pan without an extra playback step.")
+	_assert(main.get("displayed_event") == request_event and is_equal_approx(float(main.get("displayed_event_progress")), 0.5) and trace.canonical_signature() == paused_signature, "Refreshing paused geometry must keep the exact displayed event, progress and authoritative evidence unchanged.")
 	var topology_signature: String = main.call("_topology_from_graph").canonical_signature()
 	(main.get("device_nodes") as Dictionary)[&"BUS"].position_offset += Vector2(75.0, 45.0)
 	await process_frame
 	_assert(main.call("_topology_from_graph").canonical_signature() == topology_signature, "Screen geometry must not change system identity or timing.")
 	var moved_path: PackedVector2Array = main.call("_event_path", request_event)
 	_assert(not _paths_equal(moved_path, exact_path), "Moving a component must update the exact visual route used by playback.")
+	for _moved_frame: int in range(3):
+		await process_frame
+	_assert(_paths_equal(overlay.get("path"), moved_path), "Dragging a device while paused must immediately relocate the displayed Trace to its actual ports.")
 
 	await _complete_comparison(main, chapter, &"cpu_speed", &"cpu")
 	var cpu_receipts: Array = chapter.call("receipts_for", &"cpu_speed")
@@ -565,11 +577,18 @@ func _complete_comparison(
 	await process_frame
 	_assert(not bool(chapter.call("completed_levels").get(level_id, false)), "%s must require a second controlled part observation." % level_id)
 	_assert(not selector.disabled, "%s must unlock the changed endpoint after a passing baseline receipt." % level_id)
+	if kind == &"bus":
+		_test_bus_trace_diagram(main, 2)
 	selector.select(1)
 	main.call("_on_part_selected", 1, kind)
+	await process_frame
+	_assert((main.get("official_result_box") as VBoxContainer).get_child_count() == 0 and (main.get("test_status_label") as Label).text == _t(&"system.status.hardware_changed") and (main.get("playback_caption") as Label).text == _t(&"system.status.hardware_changed"), "Changing a part must not leave the previous machine's green result visible as current evidence.")
 	main.call("_run_official")
 	await process_frame
 	_assert(bool(chapter.call("completed_levels").get(level_id, false)), "%s must complete after two distinct parts pass under one applied program." % level_id)
+	_assert((main.get("status_label") as Label).text != _t(&"system.status.hardware_changed"), "A new official run must clear the obsolete hardware-changed warning.")
+	if kind == &"bus":
+		_test_bus_trace_diagram(main, 8)
 	var history_panel: Control = (main.get("instrument_windows") as Dictionary)[&"history"]
 	var conclusion_button: Button = main.get("conclusion_button")
 	_assert(
@@ -593,6 +612,42 @@ func _complete_comparison(
 		"%s must open its own completion summary only after the player reviews the finding." % level_id
 	)
 	main.call("_dismiss_level_completion")
+
+
+func _test_bus_trace_diagram(main: Control, expected_width: int) -> void:
+	var surface: Control = (main.get("device_surfaces") as Dictionary)[&"BUS"]
+	var trace: SystemTrace = (main.get("latest_official_traces") as Array)[0]
+	var signature: String = trace.canonical_signature()
+	surface.call("clear_activity")
+	var idle: Dictionary = surface.call("bus_presentation")
+	_assert(int(idle["width"]) == expected_width and not bool(idle["transferring"]) and int(idle["group"]) == -1, "The idle bus diagram must track the selected part without inventing a live value or active transfer.")
+	var observed: Dictionary = {}
+	for event: SystemEvent in trace.events:
+		if event.kind not in [&"read_request", &"write_request", &"read_data", &"write_data"] or observed.has(event.kind):
+			continue
+		observed[event.kind] = true
+		var paths: Array = main.call("_event_paths", event)
+		var overlay: Control = main.get("trace_overlay")
+		for segment: int in range(2):
+			var device: GraphNode = (main.get("device_nodes") as Dictionary)[event.route_devices[segment]]
+			var port: int = 1 if event.kind == &"write_data" else (2 if event.kind == &"read_data" and segment == 1 else 0)
+			var expected_start: Vector2 = overlay.get_global_transform().affine_inverse() * (device.get_global_transform() * device.get_output_port_position(port))
+			_assert(paths.size() == 2 and (paths[segment] as PackedVector2Array)[0].is_equal_approx(expected_start), "Write payload must use write ports, read payload read-back ports, and both request kinds control ports.")
+		if event.kind == &"write_data":
+			var graph: GraphEdit = main.get("graph")
+			var expected_color: Color = preload("res://src/ui/wire_palette.gd").color(graph.call("get_connection_color_index", &"CPU", 1, &"BUS", 1))
+			_assert(main.call("_event_wire_color", event) == expected_color, "Write payload playback must retain the write cable's player color, not the request cable's color.")
+		for amount: float in [0.0, 0.49, 1.0]:
+			main.call("_show_event", event, amount)
+			var shown: Dictionary = surface.call("bus_presentation")
+			if event.kind in [&"read_request", &"write_request"]:
+				_assert(not bool(shown["transferring"]), "A request must not masquerade as payload bit transfer.")
+			else:
+				_assert(int(shown["value"]) == int(event.details["value"]) and int(shown["width"]) == int(event.details["bits_per_cycle"]) and int(shown["groups"]) == event.duration, "Read/write diagrams must use the actual authoritative word, bandwidth and transfer duration.")
+				_assert(int(shown["group"]) >= 0 and int(shown["group"]) < event.duration, "The end of playback must never highlight a nonexistent extra group.")
+	_assert(observed.size() == 4 and trace.canonical_signature() == signature, "Both payload directions and request preview must preserve all Trace events, metrics and results exactly.")
+	surface.call("clear_activity")
+	_assert(int(surface.call("bus_presentation")["width"]) == expected_width, "Clearing a Trace must restore the selected part's persistent capacity diagram.")
 
 
 func _lock_prediction(main: Control, option_index: int = 1) -> void:
@@ -707,3 +762,40 @@ func _t(key: StringName, args: Array = []) -> String:
 func _assert(condition: bool, message: String) -> void:
 	if not condition:
 		failures.append(message)
+
+
+func _test_overlapping_window_input(main: Control) -> void:
+	var windows: Dictionary = main.get("instrument_windows")
+	var front: Control = windows[&"parts"]
+	var back: Control = windows[&"test_bench"]
+	var front_rect := Rect2(front.position, front.size)
+	var back_rect := Rect2(back.position, back.size)
+	var back_visible: bool = back.visible
+	main.call("_open_instrument", &"test_bench")
+	main.call("_open_instrument", &"parts")
+	front.position = Vector2(80, 80)
+	back.position = front.position
+	front.size = Vector2(600, 500)
+	back.size = front.size
+	for _frame: int in range(3):
+		await process_frame
+	var close_button: Button = front.find_child("CloseButton", true, false)
+	var point: Vector2 = close_button.get_global_rect().get_center()
+	_assert(back.get_global_rect().has_point(point), "The Parts close button must overlap the still-open Test Bench for this input regression.")
+	for pressed: bool in [true, false]:
+		var click := InputEventMouseButton.new()
+		click.position = point
+		click.global_position = point
+		click.button_index = MOUSE_BUTTON_LEFT
+		click.pressed = pressed
+		click.button_mask = MOUSE_BUTTON_MASK_LEFT if pressed else 0
+		root.push_input(click, true)
+		await process_frame
+	_assert(not front.visible and back.visible, "Clicking the visually foreground Parts close button must close Parts only, without activating the overlapping Test Bench.")
+	front.position = front_rect.position
+	front.size = front_rect.size
+	back.position = back_rect.position
+	back.size = back_rect.size
+	if not back_visible:
+		main.call("_close_instrument", &"test_bench")
+	main.call("_open_instrument", &"parts")

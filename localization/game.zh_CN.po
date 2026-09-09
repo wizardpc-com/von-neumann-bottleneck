@@ -5057,3 +5057,15 @@ msgstr "已恢复验证通过的进度；部分旧电路未能验证。原记录
 
 msgid "save.recovery.failed"
 msgstr "存档兼容处理未完成，已暂停自动存档以保护原记录。请检查文件权限或备份，悬停查看详情。"
+
+msgid "system.bus.diagram.idle"
+msgstr "8 位数据 · 分组示意"
+
+msgid "system.bus.diagram.value"
+msgstr "8 位数据 · 数值 %d"
+
+msgid "system.bus.diagram.capacity"
+msgstr "每周期 %d 位 · 共 %d 周期"
+
+msgid "system.bus.diagram.progress"
+msgstr "每周期 %d 位 · 第 %d/%d 组"

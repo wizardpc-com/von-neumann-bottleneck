@@ -5057,3 +5057,15 @@ msgstr "Verified progress was restored; some old circuits could not be verified.
 
 msgid "save.recovery.failed"
 msgstr "Save recovery could not finish. Autosaving is paused to protect your records. Check file access or backups; hover for details."
+
+msgid "system.bus.diagram.idle"
+msgstr "8-bit data · groups"
+
+msgid "system.bus.diagram.value"
+msgstr "8-bit data · value %d"
+
+msgid "system.bus.diagram.capacity"
+msgstr "%d bits/cycle · %d cycles"
+
+msgid "system.bus.diagram.progress"
+msgstr "%d bits/cycle · group %d/%d"

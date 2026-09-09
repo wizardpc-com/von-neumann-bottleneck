@@ -1610,6 +1610,9 @@ func _focus_instrument(id: StringName) -> void:
 		return
 	instrument_z_counter += 1
 	instrument_windows[id].z_index = instrument_z_counter
+	# Control input follows sibling order independently of draw order.
+	var panel: FloatingInstrumentPanel = instrument_windows[id]
+	panel.get_parent().move_child(panel, -1)
 	focused_instrument = id
 
 

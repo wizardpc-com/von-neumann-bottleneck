@@ -91,6 +91,8 @@ var lab_host: Control
 var graph
 var desktop_host: Control
 var trace_overlay
+var displayed_event: SystemEvent
+var displayed_event_progress: float = 0.0
 var device_nodes: Dictionary[StringName, GraphNode] = {}
 var device_surfaces: Dictionary[StringName, Control] = {}
 var device_state_labels: Dictionary[StringName, Label] = {}
@@ -561,6 +563,7 @@ func _build_lab(parent: Control) -> void:
 	graph.right_disconnects = false
 	graph.connection_lines_thickness = 0.0
 	graph.connection_lines_curvature = 0.48
+	graph.displayed_geometry_changed.connect(_refresh_paused_event_geometry)
 	graph.connection_request.connect(_on_connection_request)
 	graph.disconnection_request.connect(_on_disconnection_request)
 	graph.connection_drag_started.connect(Callable(graph, "begin_connection_preview"))
@@ -1536,6 +1539,10 @@ func _on_part_selected(index: int, kind: StringName) -> void:
 	_refresh_profiler()
 	status_label.text = _t(&"system.status.hardware_changed")
 	status_label.add_theme_color_override("font_color", WARNING)
+	_clear_result_rows()
+	test_status_label.text = status_label.text
+	test_status_label.add_theme_color_override("font_color", WARNING)
+	playback_caption.text = status_label.text
 
 
 func _refresh_device_titles() -> void:
@@ -1546,6 +1553,8 @@ func _refresh_device_titles() -> void:
 		var selected: SystemPartSpec = catalog.part(selected_part_ids.get(kind, &""))
 		if selected != null:
 			(device_nodes[slot] as GraphNode).title = selected.display_name
+			if kind == PartSpecType.KIND_BUS:
+				device_surfaces[slot].call("set_bus_bandwidth", selected.bandwidth_bits_per_cycle)
 
 
 func _refresh_parts_summary() -> void:
@@ -2126,6 +2135,8 @@ func _run_debug_case() -> void:
 	_add_result_row(trace)
 	test_status_label.text = _t(&"system.test_bench.debug_pass") if trace.passed else _t(&"system.test_bench.debug_fail")
 	test_status_label.add_theme_color_override("font_color", GOOD if trace.passed else BAD)
+	status_label.text = test_status_label.text
+	status_label.add_theme_color_override("font_color", GOOD if trace.passed else BAD)
 	latest_receipt = null
 	pending_history_after_playback = false
 	_close_instrument(&"history")
@@ -2181,6 +2192,8 @@ func _run_official() -> void:
 	else:
 		test_status_label.text = _t(&"system.test_bench.official_fail", [latest_receipt.passed_cases, latest_receipt.total_cases])
 		test_status_label.add_theme_color_override("font_color", BAD)
+	status_label.text = test_status_label.text
+	status_label.add_theme_color_override("font_color", test_status_label.get_theme_color("font_color"))
 	pending_history_after_playback = is_progression_evidence and _comparison_kind() != &"none"
 	_close_instrument(&"history")
 	if not latest_official_traces.is_empty():
@@ -2568,6 +2581,7 @@ func _history_delta(change: int, baseline: int, include_percent: bool) -> String
 
 
 func _play_trace(trace: SystemTrace) -> void:
+	displayed_event = null
 	finish_playback_button.disabled = trace == null or trace.events.is_empty()
 	current_trace = trace
 	playback_index = 0
@@ -2581,7 +2595,14 @@ func _play_trace(trace: SystemTrace) -> void:
 		playback_caption.text = _t(&"system.playback.no_events")
 
 
+func _refresh_paused_event_geometry() -> void:
+	if not playback_running and displayed_event != null:
+		_show_event(displayed_event, displayed_event_progress)
+
+
 func _show_event(event: SystemEvent, progress: float) -> void:
+	displayed_event = event
+	displayed_event_progress = progress
 	_clear_device_feedback()
 	for device: StringName in event.route_devices:
 		if device_surfaces.has(device):
@@ -2648,16 +2669,25 @@ func _event_paths(event: SystemEvent) -> Array:
 		return []
 	var paths: Array = []
 	for index: int in range(event.route_devices.size() - 1):
-		var segment: PackedVector2Array = _connection_curve(event.route_devices[index], event.route_devices[index + 1])
+		var segment: PackedVector2Array = _connection_curve(event.route_devices[index], event.route_devices[index + 1], event.kind)
 		if segment.size() < 2:
 			return []
 		paths.append(segment)
 	return paths
 
 
-func _connection_curve(from_device: StringName, to_device: StringName) -> PackedVector2Array:
+func _route_carries_event(route: Dictionary, kind: StringName) -> bool:
+	var port: StringName = StringName(route["from_port"])
+	match kind:
+		&"read_request", &"write_request": return port in [&"request_out", &"ram_request_out"]
+		&"write_data": return port in [&"write_out", &"ram_write_out"]
+		&"read_data": return port in [&"read_out", &"cpu_read_out"]
+	return false
+
+
+func _connection_curve(from_device: StringName, to_device: StringName, kind: StringName) -> PackedVector2Array:
 	for route: Dictionary in TopologyType.REQUIRED_CONNECTIONS:
-		if StringName(route["from"]) != from_device or StringName(route["to"]) != to_device:
+		if StringName(route["from"]) != from_device or StringName(route["to"]) != to_device or not _route_carries_event(route, kind):
 			continue
 		var from_port: int = (OUTPUT_NAMES[from_device] as Array).find(StringName(route["from_port"]))
 		var to_port: int = (INPUT_NAMES[to_device] as Array).find(StringName(route["to_port"]))
@@ -2692,7 +2722,7 @@ func _event_wire_color(event: SystemEvent) -> Color:
 	var to_id: StringName = event.route_devices[1]
 	for route: Dictionary in TopologyType.REQUIRED_CONNECTIONS:
 		if StringName(route.get("from", &"")) != from_id \
-				or StringName(route.get("to", &"")) != to_id:
+				or StringName(route.get("to", &"")) != to_id or not _route_carries_event(route, event.kind):
 			continue
 		var from_port: int = (OUTPUT_NAMES[from_id] as Array).find(StringName(route["from_port"]))
 		var to_port: int = (INPUT_NAMES[to_id] as Array).find(StringName(route["to_port"]))
@@ -2756,6 +2786,7 @@ func _finish_playback_early() -> void:
 
 
 func _finish_playback() -> void:
+	displayed_event = null
 	finish_playback_button.disabled = true
 	playback_running = false
 	playback_index = current_trace.events.size() if current_trace != null else 0
@@ -2772,6 +2803,7 @@ func _finish_playback() -> void:
 
 
 func _stop_playback() -> void:
+	displayed_event = null
 	if finish_playback_button != null:
 		finish_playback_button.disabled = true
 	playback_running = false
@@ -2844,6 +2876,8 @@ func _focus_instrument(id: StringName) -> void:
 		return
 	instrument_z_counter += 1
 	panel.z_index = instrument_z_counter
+	# Control input follows sibling order independently of draw order.
+	panel.get_parent().move_child(panel, -1)
 
 
 func _on_desktop_resized() -> void:

@@ -10,6 +10,7 @@ const ERASER_TIP_RADIUS: float = 2.0
 const ERASER_SAMPLE_SPACING: float = 4.0
 const SELECTION_DRAG_THRESHOLD: float = 4.0
 
+signal displayed_geometry_changed()
 signal erase_stroke_started()
 signal erase_component_requested(component_id: StringName)
 signal erase_wire_requested(connection: Dictionary)
@@ -65,6 +66,7 @@ func _process(_delta: float) -> void:
 	displayed_zoom = zoom
 	displayed_node_transforms = current_transforms
 	queue_redraw()
+	displayed_geometry_changed.emit()
 
 
 func displayed_port_position(node: GraphNode, port: int, is_output: bool) -> Vector2:

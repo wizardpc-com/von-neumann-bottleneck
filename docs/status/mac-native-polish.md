@@ -338,3 +338,15 @@ focus, debug output 12/1100, 91%/150% framing and fullscreen. The native partial
 circuit is not a claimed official solution. No gameplay, save or progression change.
 See [evidence and reference sources](../verification/2026-09-08-scalar-bus/summary.json).
 Windows, physical trackpad and first-time human acceptance remain unperformed.
+
+
+## Bus groups and overlapping tools (2026-09-09)
+
+The Chapter 1 Bus now illustrates its eight-bit word in selected-bandwidth groups
+and displays trace-derived values and transfer progress. Native Bus2/Bus8 play
+retains the original 144→96 total-cycle and 64→16 transfer-cycle comparison.
+Native findings also repaired paused overlay geometry, write-data route/color,
+stale current result/status presentation and overlapping windows intercepting
+foreground clicks. All three desktop hosts synchronize input and visual order.
+The chapter catalog, difficulty, Hint stages, deterministic simulation and save
+formats are unchanged. [Evidence and remaining limits](../verification/2026-09-09-bus-diagram/README.md).

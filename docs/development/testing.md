@@ -1,5 +1,20 @@
 # Testing
 
+## Bus illustration and desktop input, 2026-09-09
+
+Run the normal isolated verifier with Godot 4.7.1 (`--gui --locale en` also checks
+the alternate-language Game input route). `test_system_lab_ui.gd` now checks real
+read/write/request port transforms, transfer values/bandwidth/groups and unchanged
+Trace identity; paused zoom/pan/move; stale result/caption clearing; and an actual
+viewport click through overlapping Parts/Test Bench windows. Generated viewport
+coordinates must use `push_input(event, true)` under content scaling.
+
+Native acceptance additionally opens Parts over Test Bench, changes Bus2 to Bus8,
+checks four groups versus one and reruns the 144→96 comparison. Pause/step and
+move/zoom the devices; the current highlight must remain on the correct typed
+route. Verify old results and event captions disappear on part changes, while
+History retains prior receipts. See [evidence](../verification/2026-09-09-bus-diagram/README.md).
+
 ## Save restart regression, 2026-09-08–09
 
 On Mac with Godot 4.7.1, the fresh isolated run `20260908T142245Z-83be88e2` passes all **21** conventional suites and **593** Chinese ordinary Game input checks. The new `test_save_signature_migration.gd` covers legacy nested identities, invalid/missing/changed circuits, backup conflict, unknown revision, interrupted conversion, named layout retention and seed adoption. Fixtures are not native play evidence.

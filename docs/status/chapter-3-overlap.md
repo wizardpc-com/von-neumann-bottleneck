@@ -15,3 +15,9 @@ movement, cable presentation and failure diagnostics were fixed from actual play
 Normal quit/Continue restores the six earned solutions and editable drafts.
 See [native results and remaining checks](../verification/2026-09-09-overlap-native/README.md).
 Application-switch cancellation, Windows and beginner-playability acceptance remain open.
+
+The subsequent mission pass puts goals before parameters and aligns colored batch
+values/durations in localized workload cards. Result selection shows per-workload
+outcomes and elapsed/target cycles. Chinese backpressure and English Cache
+synthesis were rerun natively; focused window-focus cancellation is covered by
+regression, with the real application-switch boundary still unaccepted.

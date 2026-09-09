@@ -5594,3 +5594,36 @@ msgstr "You avoided unnecessary eviction and refetch. Prefetch value depends on 
 
 msgid "overlap.synthesis.learned"
 msgstr "Both workloads passed. Your schedule explains overlap and wait while preserving results. Extra storage cannot accelerate a bandwidth-bound transfer engine."
+
+msgid "overlap.case.standard"
+msgstr "Workload A · baseline"
+
+msgid "overlap.case.changing"
+msgstr "Workload B · varying compute"
+
+msgid "overlap.case.bandwidth"
+msgstr "Workload B · transfer bound"
+
+msgid "overlap.case_limits"
+msgstr "Target ≤ %s cycles · storage budget %s"
+
+msgid "overlap.batch_index"
+msgstr "Batch"
+
+msgid "overlap.batch_value"
+msgstr "Data · 8 bits"
+
+msgid "overlap.batch_compute"
+msgstr "Compute · cycles"
+
+msgid "overlap.batch_transfer"
+msgstr "Transfer: %s cycles per batch"
+
+msgid "overlap.case_pass"
+msgstr "Passed"
+
+msgid "overlap.case_fail"
+msgstr "Not passed"
+
+msgid "overlap.case_result"
+msgstr "%s · %s · %s / %s cycles"

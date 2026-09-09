@@ -5594,3 +5594,36 @@ msgstr "你避免了不必要的逐出和再次搬运。预取的价值取决于
 
 msgid "overlap.synthesis.learned"
 msgstr "两组任务都已通过。相同结果下，你用调度解释了重叠与等待；带宽受限时，更多暂存不会让搬运器变快。"
+
+msgid "overlap.case.standard"
+msgstr "任务 A · 基准负载"
+
+msgid "overlap.case.changing"
+msgstr "任务 B · 计算时长变化"
+
+msgid "overlap.case.bandwidth"
+msgstr "任务 B · 搬运受限"
+
+msgid "overlap.case_limits"
+msgstr "目标 ≤ %s 周期 · 暂存预算 %s"
+
+msgid "overlap.batch_index"
+msgstr "批次编号"
+
+msgid "overlap.batch_value"
+msgstr "数据 · 8 位"
+
+msgid "overlap.batch_compute"
+msgstr "计算 · 周期"
+
+msgid "overlap.batch_transfer"
+msgstr "搬运：每批 %s 周期"
+
+msgid "overlap.case_pass"
+msgstr "达标"
+
+msgid "overlap.case_fail"
+msgstr "未达标"
+
+msgid "overlap.case_result"
+msgstr "%s · %s · %s / %s 周期"

@@ -50,6 +50,12 @@ func _run() -> void:
 			_assert(not buffer.position_offset.is_equal_approx(start), "Captured Mac motion with an omitted button mask must still move the pressed card.")
 			host._undo()
 			_assert(host.graph.get_node("A").position_offset.is_equal_approx(start), "One undo restores the whole body move.")
+			host._handle_body_drag(press)
+			host._handle_body_drag(motion)
+			host.armed = "buffer"
+			root.focus_exited.emit()
+			_assert(host.body_drag.is_empty() and host.armed.is_empty(), "Window focus loss must cancel both a held move and armed placement.")
+			_assert(host.graph.get_node("A").position_offset.is_equal_approx(start), "Focus cancellation restores the uncommitted card position.")
 			host._delete_part(&"A")
 			_assert(not host.board.nodes.has("A"), "Completion must retain editing.")
 			host._undo()

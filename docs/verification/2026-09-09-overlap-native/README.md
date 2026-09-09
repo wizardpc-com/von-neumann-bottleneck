@@ -83,3 +83,37 @@ the approved progression or add a new subsystem during this bug-fix pass.
 Mission specifications are available immediately, but longer text still needs
 scrolling. Future polish should prioritize quicker comparison between the public
 workloads and current state, without exposing the answer by default.
+
+## Mission and workload follow-up
+
+Continuing from `0691e95`, the native backpressure mission exposed raw
+`standard/changing` IDs and filled its first screen with arrays before explaining
+the objective. The mission now starts with its goal and output contract. Each
+workload has a localized name, target and storage budget, followed by aligned
+batch columns: cyan 8-bit values and gold computation durations with text units.
+The full narrative and all public specifications remain scrollable. The timeline
+uses the same names and shows each workload's outcome and elapsed/target cycles
+in the selector, without requiring the player to remember the previous view.
+
+Native ordinary Game rechecks on the earned isolated save:
+
+- Chinese backpressure: unchanged two-buffer program passed at 28/28 and 29/32.
+  Opened and scrolled the mission, selected both result traces, and inspected
+  windowed layout after dragging the window smaller (capture about 1060×708).
+  Mission, code editor and bottom actions remained accessible. Small-window text
+  is still reduced by the project's overall scaling; this is not a DPI matrix.
+- English synthesis: the saved manually built Cache alternative passed at 28/28
+  and 33/33. Inspected the final compact result selector and English batch table.
+  Normal Command-Q ended each native session.
+- Fresh isolated run `20260909T133754Z-71d6c9ca`: import, directory probe and all
+  19 suites passed; see `mission-followup-checks.json`. After shortening selector
+  text, the focused Chapter 3 UI suite passed again in Chinese and English.
+  No simulation, target, dependency or saved-format changes were made.
+
+Window `focus_exited` now shares the existing application-focus cancellation path.
+A focused regression emits that signal during a moved, unreleased card gesture
+and confirms both placement cancellation and restoration of the original position.
+This is automated evidence only. The separate Godot project manager could be
+captured, but an attempted input returned `noWindowsAvailable`; neither that nor
+the window minimize attempt established reliable native focus loss. The native
+application-switch acceptance gap remains open.

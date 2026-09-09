@@ -108,3 +108,10 @@ first-time human beginner acceptance require separate evidence.
 - Keep this plan open for reliable application-switch cancellation verification;
   computer-use switching timed out and that check was not accepted. Windows and
   actual novice difficulty/fun remain separate acceptance work.
+
+- Mission follow-up: replaced raw workload IDs and dense parameter paragraphs with
+  goal-first localized batch cards; result selector exposes outcome and elapsed /
+  target per workload. Chinese backpressure and English synthesis rerun natively.
+  Fresh 19 suites and final focused Chinese/English UI checks pass. Added window
+  focus cancellation regression; actual app-switch control still fails, so this
+  remaining acceptance item is not closed.

@@ -98,6 +98,7 @@ func _ready() -> void:
 	completion.feedback_submitted.connect(PlaytestData.submit_level_feedback)
 	completion.feedback_skipped.connect(func(chapter: StringName, id: StringName) -> void: PlaytestData.record_feedback_skipped(&"level",StringName("%s/%s" % [chapter,id])))
 	add_child(completion)
+	get_window().focus_exited.connect(_on_window_focus_exited)
 	_show_map()
 
 func _process(delta: float) -> void:
@@ -119,9 +120,12 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_END:
 		_cancel_placement()
 	if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_WM_CLOSE_REQUEST]:
-		_cancel_body_drag()
-		_cancel_placement()
-		_save_draft()
+		_on_window_focus_exited()
+
+func _on_window_focus_exited() -> void:
+	_cancel_body_drag()
+	_cancel_placement()
+	_save_draft()
 
 func _placement_allowed(position: Vector2) -> bool:
 	if not is_instance_valid(graph) or not graph.get_global_rect().has_point(position): return false
@@ -495,18 +499,58 @@ func _cancel_placement() -> void:
 	if is_instance_valid(graph): graph.set_component_placement_preview(false)
 
 func _build_mission() -> void:
-	var panel: FloatingInstrumentPanel = _panel("mission",_t("mission"),Vector2(16,18),Vector2(390,470))
+	var panel: FloatingInstrumentPanel = _panel("mission",_t("mission"),Vector2(16,18),Vector2(460,570))
 	var box := _scroll_box(panel)
-	box.add_child(_label(_t(level+".title")))
-	box.add_child(_label(_t("public_cases")))
-	for task: Dictionary in Catalog.cases(level):
-		box.add_child(_label(_t("case_spec") % [task.name,str(task.values),str(task.compute),task.transfer,task.target,task.budget],true))
-	box.add_child(_label(_t(level+".body"),true))
+	var objective: Label = _label(_t(level+".goal"),true)
+	objective.add_theme_color_override("font_color",GOLD)
+	objective.add_theme_font_size_override("font_size",Type.SUBTITLE_SIZE)
+	box.add_child(objective)
 	box.add_child(_label(_t("output_spec"),true))
 	if level == "arrival": box.add_child(_label(_t("independent_work"),true))
+	box.add_child(_label(_t("public_cases")))
+	for task: Dictionary in Catalog.cases(level):
+		_build_case_card(box,task)
+	box.add_child(_label(_t(level+".body"),true))
 	_button(box,"begin",func() -> void:
 		panel.hide()
 		_toggle("program" if level not in ["buffers","synthesis"] else "toolbox",true))
+
+func _case_name(task: Dictionary) -> String:
+	return _t("case."+String(task.name))
+
+func _build_case_card(parent: VBoxContainer, task: Dictionary) -> void:
+	var card := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("0c202e")
+	style.border_color = Color("315365")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	card.add_theme_stylebox_override("panel",style)
+	parent.add_child(card)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation",8)
+	card.add_child(column)
+	var caption: Label = _label(_case_name(task),true)
+	caption.add_theme_color_override("font_color",BLUE)
+	column.add_child(caption)
+	column.add_child(_label(_t("case_limits") % [task.target,task.budget],true))
+	var grid := GridContainer.new()
+	grid.columns = task.values.size()+1
+	grid.add_theme_constant_override("h_separation",8)
+	column.add_child(grid)
+	for row: int in range(3):
+		grid.add_child(_label(_t(["batch_index","batch_value","batch_compute"][row])))
+		for index: int in range(task.values.size()):
+			var cell: Label = _label(str(index) if row==0 else str(task.values[index]) if row==1 else str(task.compute[index]))
+			cell.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			cell.add_theme_color_override("font_color",BLUE if row==1 else GOLD if row==2 else Color("9caebc"))
+			grid.add_child(cell)
+	column.add_child(_label(_t("batch_transfer") % task.transfer,true))
 
 func _build_toolbox() -> void:
 	var panel: FloatingInstrumentPanel = _panel("toolbox",_t("toolbox"),Vector2(1150,18),Vector2(350,350))
@@ -589,7 +633,11 @@ func _run_official() -> void:
 	runs.assign(report.runs)
 	trace_stale = false
 	case_select.clear()
-	for index: int in range(runs.size()): case_select.add_item(_t("public_case") + " " + str(index+1))
+	for index: int in range(runs.size()):
+		var task: Dictionary = Catalog.cases(level)[index]
+		var run: SimulationTrace = runs[index]
+		var outcome: String = _t("case_pass") if run.passed and int(run.metrics.total_cycles)<=int(task.target) else _t("case_fail")
+		case_select.add_item(_t("case_result") % [_case_name(task),outcome,run.metrics.total_cycles,task.target])
 	_select_run(0)
 	_toggle("trace",true)
 	PlaytestData.record_official_run(&"chapter_3",StringName(level),report.passed,{"case_count":runs.size()})

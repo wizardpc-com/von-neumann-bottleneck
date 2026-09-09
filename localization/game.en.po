@@ -4371,7 +4371,7 @@ msgid "playtest.chapter_feedback.title"
 msgstr "Chapter check-in"
 
 msgid "playtest.chapter_feedback.subtitle"
-msgstr "A short look back before moving on. Text fields are optional."
+msgstr "Answer any one item, or skip. Every field is optional."
 
 msgid "playtest.chapter_feedback.best"
 msgstr "Best level"
@@ -4392,7 +4392,7 @@ msgid "playtest.demo_feedback.title"
 msgstr "Demo feedback"
 
 msgid "playtest.demo_feedback.subtitle"
-msgstr "One last short check-in. Text fields are optional."
+msgstr "A few final questions. Answer any one item, or skip."
 
 msgid "playtest.demo_feedback.satisfaction"
 msgstr "Overall satisfaction · 1–5"
@@ -5867,7 +5867,7 @@ msgid "exploration.selector4.summary"
 msgstr "You organized selection into a larger system. Try a different structure: what changes between hierarchy and decoding?"
 
 msgid "experience.next.hardware_foundations.selector4"
-msgstr "You organized selection into a larger system. Try a different structure: what changes between hierarchy and decoding?"
+msgstr "This branch does not gate the main path. Return to the tree to build the ALU, or keep another selector design for comparison."
 
 msgid "exploration.parity.title"
 msgstr "One bit went wrong"
@@ -5891,7 +5891,7 @@ msgid "exploration.parity.summary"
 msgstr "You built an error detector. Flip one debug input, then a second, to see why no alarm does not guarantee an error-free message."
 
 msgid "experience.next.hardware_foundations.parity"
-msgstr "You built an error detector. Flip one debug input, then a second, to see why no alarm does not guarantee an error-free message."
+msgstr "Return to the tree and choose the computation or storage path. Your design remains available for more experiments."
 
 msgid "exploration.alarm.title"
 msgstr "Keep the alarm"
@@ -5915,7 +5915,7 @@ msgid "exploration.alarm.summary"
 msgstr "A short event now persists, with an explicit clearing priority. State can remember what happened, not just store a number."
 
 msgid "experience.next.hardware_foundations.alarm"
-msgstr "A short event now persists, with an explicit clearing priority. State can remember what happened, not just store a number."
+msgstr "Explore registers and One Beat Late to see how state retains data and changes when it arrives."
 
 
 msgid "system.level.read_once.title"
@@ -5981,3 +5981,94 @@ msgstr "Bonus still available"
 
 msgid "bonus.economical"
 msgstr "Bonus: economical route. Correct output within 145 cycles, cost ≤4. Does not affect main-route unlocks."
+
+msgid "moments.button"
+msgstr "Feedback"
+
+msgid "moments.title"
+msgstr "Mark this moment · Anytime"
+
+msgid "moments.privacy"
+msgstr "Choosing a feeling saves it locally with the task and recent run. Text is optional. No automatic upload, keystroke log, source code or screenshots."
+
+msgid "moments.close"
+msgstr "Close"
+
+msgid "moments.stuck"
+msgstr "I am stuck"
+
+msgid "moments.blocked_action"
+msgstr "I cannot do what I want"
+
+msgid "moments.understood"
+msgstr "Now I understand"
+
+msgid "moments.fun"
+msgstr "This is interesting"
+
+msgid "moments.following"
+msgstr "I am only following along"
+
+msgid "moments.note"
+msgstr "One sentence (optional, 240 characters)"
+
+msgid "moments.save_note"
+msgstr "Save this note"
+
+msgid "moments.saved"
+msgstr "Saved locally. You can keep playing."
+
+msgid "moments.failed"
+msgstr "Not saved: "
+
+msgid "moments.choose_first"
+msgstr "Choose a feeling first, then add a note."
+
+msgid "moments.export"
+msgstr "Export this session"
+
+msgid "moments.folder"
+msgstr "Open export folder"
+
+msgid "moments.exported"
+msgstr "Local JSON exported. You choose whether to share it."
+
+msgid "moments.exit_optional"
+msgstr "Why leave the previous task? (optional)"
+
+msgid "moments.exit.other_task"
+msgstr "Try another task"
+
+msgid "moments.exit.rest"
+msgstr "Take a break"
+
+msgid "moments.exit.unclear_goal"
+msgstr "The goal is unclear"
+
+msgid "moments.exit.no_strategy"
+msgstr "I know the goal but not how"
+
+msgid "moments.exit.unexpected_operation"
+msgstr "An action behaved unexpectedly"
+
+msgid "moments.exit.repetitive"
+msgstr "It feels repetitive or boring"
+
+msgid "moments.source.unknown"
+msgstr "Source unspecified (not assumed human)"
+
+msgid "moments.source.external_player"
+msgstr "I am an external playtester"
+
+msgid "moments.source.developer"
+msgstr "I am a developer"
+
+
+msgid "moments.source.agent_native"
+msgstr "Source: agent native playtest"
+
+msgid "moments.source.automated"
+msgstr "Source: automated check"
+
+msgid "moments.disabled"
+msgstr "Feedback is disabled for this launch. No answers are saved."

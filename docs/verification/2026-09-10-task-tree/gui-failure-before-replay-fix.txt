@@ -1,0 +1,32 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: Empty-canvas marquee selects multiple component bodies.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] editing_roundtrip (res://tests/test_recovery_game_input.gd:335)
+       [2] drag (res://tests/test_recovery_game_input.gd:68)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Dragging a selected body moves the whole selection.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] editing_roundtrip (res://tests/test_recovery_game_input.gd:337)
+       [2] drag (res://tests/test_recovery_game_input.gd:68)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+WIRE INPUT FAILURE: A_IN -> HA_1 status=元件放置已取消。 source=(556.6226, 421.7315) target=(600.5048, 507.2263)
+ERROR: UI wire A_IN:0 → HA_1:0
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] wire (res://tests/test_recovery_game_input.gd:182)
+       [2] capture (res://tests/test_recovery_game_input.gd:138)
+ERROR: full_adder passes its complete unchanged behavior tests using only UI-built topology.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] official_and_seal (res://tests/test_recovery_game_input.gd:557)
+       [2] wait_playback (res://tests/test_recovery_game_input.gd:103)
+FAILED TEST TOPOLOGY: [{ "from_node": &"B_IN", "from_port": 0, "to_node": &"HA_1", "to_port": 1, "keep_alive": false }, { "from_node": &"HA_1", "from_port": 0, "to_node": &"HA_2", "to_port": 0, "keep_alive": false }, { "from_node": &"CIN_IN", "from_port": 0, "to_node": &"HA_2", "to_port": 1, "keep_alive": false }, { "from_node": &"HA_1", "from_port": 1, "to_node": &"OR_1", "to_port": 0, "keep_alive": false }, { "from_node": &"HA_2", "from_port": 1, "to_node": &"OR_1", "to_port": 1, "keep_alive": false }, { "from_node": &"HA_2", "from_port": 0, "to_node": &"SUM_OUT", "to_port": 0, "keep_alive": false }, { "from_node": &"OR_1", "from_port": 0, "to_node": &"COUT_OUT", "to_port": 0, "keep_alive": false }]
+Recovery GUI checks: 319; failures: 4

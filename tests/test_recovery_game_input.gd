@@ -93,7 +93,7 @@ func frequency() -> void:
 	await key(KEY_A, true)
 	await type_text("120")
 	await key(KEY_ENTER)
-	await click(ui.graph.get_global_rect().end - Vector2(70, 70))
+	await click(ui.graph.global_position + Vector2(28, ui.graph.size.y-28))
 	check(ui.clock_period_control.value == 120, "Playback Hz can be edited through its text field, then focus returns to the graph.")
 
 func wait_playback() -> void:
@@ -325,6 +325,8 @@ func editing_roundtrip() -> void:
 	check(ui.component_nodes.size() == before_paste + 1, "Copy/paste duplicates a selected player component through shortcuts.")
 	await key(KEY_Z, true)
 	check(ui.component_nodes.size() == before_paste, "Undo removes the pasted component.")
+	# The toolbox is intentionally open on entry; close it through its dock before a marquee extending across that area.
+	await close_window(&"components")
 	var original_pos: Vector2 = original_node.position_offset
 	var other_node: GraphNode = ui.component_nodes[or_id]
 	var other_pos: Vector2 = other_node.position_offset

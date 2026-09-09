@@ -26,6 +26,7 @@ LocalityChapter="*res://src/locality_chapter/locality_chapter_state.gd"
 OverlapChapter="*res://src/overlap_chapter/overlap_state.gd"
 GlobalSave="*res://src/save/global_save.gd"
 TaskNavigation="*res://src/campaign/task_navigation.gd"
+PlaytestMoments="*res://src/playtest/playtest_moments.gd"
 
 [display]
 

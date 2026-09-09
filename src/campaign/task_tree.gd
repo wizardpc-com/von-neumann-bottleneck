@@ -30,6 +30,7 @@ func _ready() -> void:
 	title.text = _t("title")
 	title.add_theme_font_size_override("font_size",30)
 	header.add_child(title)
+	header.add_child(PlaytestMoments.make_button())
 	search = LineEdit.new()
 	search.placeholder_text = _t("search")
 	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -61,8 +62,13 @@ func _ready() -> void:
 	help.add_theme_color_override("font_color",Color("91a0b9"))
 	column.add_child(help)
 	rows = TaskNavigation.tasks()
+	PlaytestData.record_map_action(&"map_open","")
+	for task: Dictionary in rows:
+		if task.unlocked: PlaytestData.record_map_action(&"eligible",task.key)
 	canvas.configure(rows)
-	canvas.task_selected.connect(_select)
+	canvas.task_selected.connect(func(key: String) -> void:
+		PlaytestData.record_map_action(&"detail_view",key)
+		_select(key))
 	search.text_changed.connect(func(value: String) -> void: canvas.set_search(value))
 	search.text_submitted.connect(func(_value: String) -> void: canvas.locate_match())
 	_select(TaskNavigation.selected)

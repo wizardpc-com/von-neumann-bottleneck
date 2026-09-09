@@ -87,7 +87,7 @@ func _run_all() -> void:
 			String(first_modification.get("target", "")) == "program"
 			and bool(capstone.get("post_completion_optimization", false))
 			and int(capstone.get("official_runs", 0)) == 3
-			and int(capstone.get("retries", 0)) == 2,
+			and int(capstone.get("retries", 0)) == 1,
 			"Capstone summary must preserve the first modification direction, retries, and post-completion optimization."
 		)
 		var level_feedback: Array = (document.get("feedback", {}) as Dictionary).get("level", [])

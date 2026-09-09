@@ -56,6 +56,7 @@ func _task(domain: String,id: String,region: int,title: String,body: String,deps
 func enter(key: String) -> bool:
 	for task: Dictionary in tasks():
 		if task.key == key and task.unlocked:
+			PlaytestData.record_map_action(&"task_start",key)
 			selected = key
 			pending = key
 			from_tree = true

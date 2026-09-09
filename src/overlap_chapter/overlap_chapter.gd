@@ -85,6 +85,7 @@ func _ready() -> void:
 	status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status.custom_minimum_size.x = 320
 	dock.add_child(status)
+	dock.add_child(PlaytestMoments.make_button())
 	for id: String in ["mission","toolbox","program","trace","handbook"]:
 		_button(dock,id,func() -> void: _toggle(id))
 	_button(dock,"hint",_request_hint)
@@ -92,6 +93,7 @@ func _ready() -> void:
 	confirmation = ConfirmationDialog.new()
 	confirmation.title = _t("hint")
 	confirmation.confirmed.connect(_advance_hint)
+	confirmation.canceled.connect(func() -> void: PlaytestData.record_hint_action(&"chapter_3",StringName(level),mini(3,hint_level+1),&"cancel"))
 	add_child(confirmation)
 	completion = preload("res://src/ui/level_completion_overlay.gd").new()
 	completion.questionnaire_enabled = PlaytestData.questionnaires_enabled()
@@ -680,8 +682,17 @@ func _run_official() -> void:
 		var outcome: String = _t("case_pass") if run.passed and int(run.metrics.total_cycles)<=int(task.target) else _t("case_fail")
 		case_select.add_item(_t("case_result") % [_case_name(task),outcome,run.metrics.total_cycles,task.target])
 	_select_run(0)
-	_toggle("trace",true)
-	PlaytestData.record_official_run(&"chapter_3",StringName(level),report.passed,{"case_count":runs.size()})
+	_toggle("trace",true,&"automatic")
+	var recorded_cases: Array[Dictionary] = []
+	var output_correct: bool = true
+	for index: int in range(runs.size()):
+		var run: SimulationTrace = runs[index]
+		output_correct = output_correct and run.passed
+		recorded_cases.append({"index":index,"passed":run.passed,"metrics":run.metrics,"target_cycles":Catalog.cases(level)[index].target})
+	PlaytestData.record_official_run(&"chapter_3",StringName(level),report.passed,{"case_count":runs.size(),"cases":recorded_cases,
+		"correct":output_correct,"target_met":report.passed,"result_class":"wrong_output_or_state" if not output_correct else "target_met" if report.passed else "correct_but_target_unmet",
+		"program_digest":editor.text.sha256_text(),"board_digest":JSON.stringify(board).sha256_text(),"case_set_version":JSON.stringify(Catalog.cases(level)).sha256_text(),
+		"post_completion":OverlapChapter.completed().has(level)})
 	if report.passed:
 		var newly_completed: bool = not OverlapChapter.completed().has(level)
 		OverlapChapter.record_pass(level,board,editor.text)
@@ -747,6 +758,7 @@ func _build_handbook() -> void:
 
 
 func _request_hint() -> void:
+	PlaytestData.record_hint_action(&"chapter_3",StringName(level),mini(3,hint_level+1),&"request")
 	if level.is_empty(): return
 	if hint_level == 0: _advance_hint(); return
 	if is_instance_valid(hint_overlay): return
@@ -756,6 +768,7 @@ func _request_hint() -> void:
 	confirmation.popup_centered(Vector2i(560,190))
 
 func _advance_hint() -> void:
+	PlaytestData.record_hint_action(&"chapter_3",StringName(level),mini(3,hint_level+1),&"confirm")
 	hint_level = mini(3,hint_level+1)
 	PlaytestData.record_hint(&"chapter_3",StringName(level),hint_level)
 	_show_hint(hint_level)
@@ -831,7 +844,7 @@ func _settle_panel(panel: FloatingInstrumentPanel, dimensions: Vector2) -> void:
 	panel.size = dimensions
 	panel.fit_to_parent()
 
-func _toggle(id: String, force: bool = false) -> void:
+func _toggle(id: String, force: bool = false, origin: StringName = &"manual") -> void:
 	_cancel_placement()
 	if id == "handbook":
 		terminology_handbook.open_handbook()
@@ -840,7 +853,7 @@ func _toggle(id: String, force: bool = false) -> void:
 	var panel: FloatingInstrumentPanel = panels[id]
 	panel.visible = true if force else not panel.visible
 	if panel.visible:
-		PlaytestData.record_tool_opened(&"chapter_3",StringName(level),StringName(id))
+		PlaytestData.record_tool_opened(&"chapter_3",StringName(level),StringName(id),origin)
 		workspace.move_child(panel,-1)
 		panel.call_deferred("fit_to_parent")
 		panel.position = Vector2(clampf(panel.position.x,0,maxf(0,workspace.size.x-panel.size.x)),clampf(panel.position.y,0,maxf(0,workspace.size.y-panel.size.y)))

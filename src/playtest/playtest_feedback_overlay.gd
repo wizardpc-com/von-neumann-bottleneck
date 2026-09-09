@@ -63,6 +63,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 2100
 	_build_interface()
+	visibility_changed.connect(func() -> void: PlaytestData.set_feedback_visible(visible,&"chapter"))
 	hide()
 
 
@@ -281,6 +282,7 @@ func _add_text_field(name_value: StringName, label_key: StringName) -> LineEdit:
 	edit.name = name_value
 	edit.placeholder_text = Localization.text(label_key)
 	edit.max_length = 240
+	edit.text_changed.connect(func(_text: String) -> void: _refresh_submit_state())
 	edit.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
 	form_box.add_child(edit)
 	return edit
@@ -293,18 +295,13 @@ func _connect_required_selector(selector: OptionButton) -> void:
 func _refresh_submit_state() -> void:
 	if submit_button == null:
 		return
+	var answered: bool = false
 	if current_scope == &"chapter":
-		submit_button.disabled = not (
-			_selector_has_value(best_level_selector)
-			and _selector_has_value(worst_level_selector)
-			and _selector_has_value(chapter_pace_selector)
-		)
+		answered = _selector_has_value(best_level_selector) or _selector_has_value(worst_level_selector) or _selector_has_value(chapter_pace_selector) or (confusing_edit != null and not confusing_edit.text.strip_edges().is_empty()) or (surprising_edit != null and not surprising_edit.text.strip_edges().is_empty())
 	elif current_scope == &"demo":
-		submit_button.disabled = not _selector_has_value(length_selector)
-		for selector: OptionButton in demo_ratings.values():
-			submit_button.disabled = submit_button.disabled or not _selector_has_value(selector)
-	else:
-		submit_button.disabled = true
+		answered = _selector_has_value(length_selector) or (favorite_edit != null and not favorite_edit.text.strip_edges().is_empty()) or (change_edit != null and not change_edit.text.strip_edges().is_empty())
+		for selector: OptionButton in demo_ratings.values(): answered = answered or _selector_has_value(selector)
+	submit_button.disabled = not answered
 
 
 func _selector_has_value(selector: OptionButton) -> bool:

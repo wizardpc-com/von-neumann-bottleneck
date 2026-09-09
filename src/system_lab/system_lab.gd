@@ -511,6 +511,7 @@ func _build_header() -> Control:
 	status_label.custom_minimum_size.x = 380.0
 	status_label.add_theme_color_override("font_color", WARNING)
 	row.add_child(status_label)
+	row.add_child(PlaytestMoments.make_button())
 	var mode_selector: GameModeSelectorType = GameModeSelectorType.new()
 	mode_selector.show_label = false
 	row.add_child(mode_selector)
@@ -2080,6 +2081,7 @@ func _apply_program() -> void:
 		return
 	var parsed: SystemProgram = ParserType.parse(editor.text)
 	if not parsed.is_valid():
+		PlaytestData.record_action(&"chapter_1",current_level_id,&"program_apply_rejected",{"reason":"parse_error"})
 		_validate_program_editor()
 		status_label.text = _t(&"system.status.program_invalid")
 		status_label.add_theme_color_override("font_color", BAD)
@@ -2189,7 +2191,21 @@ func _run_official() -> void:
 		catalog.test_set_signature(current_level_id),
 		selected_part_ids
 	)
-	PlaytestData.record_official_run(&"chapter_1", current_level_id, latest_receipt.all_passed, {
+	var recorded_cases: Array[Dictionary] = []
+	var reached_target: bool = latest_receipt.all_passed
+	if current_level_id in [&"read_once",&"two_orders"]:
+		reached_target = reached_target and int(catalog._application_status(current_level_id,[latest_receipt]).progress)>0
+	for item: SystemTrace in latest_official_traces:
+		recorded_cases.append({"name":item.test_name,"passed":item.passed,"metrics":item.metrics,"case_set_version":latest_receipt.test_set_signature})
+	PlaytestData.record_official_run(&"chapter_1", current_level_id, reached_target, {
+		"correct":latest_receipt.all_passed,
+		"post_completion":bool(SystemChapter.completed_levels().get(current_level_id,false)),
+		"target_met":reached_target,
+		"result_class":"wrong_output" if not latest_receipt.all_passed else "target_met" if reached_target else "correct_but_target_unmet",
+		"program_digest":latest_receipt.program_signature,
+		"case_set_version":latest_receipt.test_set_signature,
+		"cases":recorded_cases,
+
 		"passed_cases": latest_receipt.passed_cases,
 		"total_cases": latest_receipt.total_cases,
 		"qualified_for_progression": catalog.is_official_program_signature(
@@ -2244,6 +2260,7 @@ func _prepare_run() -> bool:
 	draft_dirty = editor.text != applied_program_source
 	_refresh_program_state()
 	if draft_dirty or applied_program == null or not applied_program.is_valid():
+		PlaytestData.record_action(&"chapter_1",current_level_id,&"run_blocked",{"reason":"apply_required"})
 		status_label.text = _t(&"system.status.apply_required")
 		status_label.add_theme_color_override("font_color", WARNING)
 		_open_instrument(&"program")
@@ -2272,6 +2289,7 @@ func _prepare_run() -> bool:
 	current_topology = _topology_from_graph()
 	var errors: PackedStringArray = current_topology.validation_errors()
 	if not errors.is_empty():
+		PlaytestData.record_action(&"chapter_1",current_level_id,&"run_blocked",{"reason":"invalid_topology","count":errors.size()})
 		status_label.text = _t(&"system.status.topology_invalid", [errors.size()])
 		status_label.add_theme_color_override("font_color", BAD)
 		playback_caption.text = _localized_topology_error(errors[0])

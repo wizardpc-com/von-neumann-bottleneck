@@ -110,6 +110,7 @@ func default_part_id(level_id: StringName, kind: StringName) -> StringName:
 
 func test_set_signature(level_id: StringName) -> String:
 	var cases: Array = _levels.get(level_id, {}).get("cases", [])
+	if level_id == &"two_orders": return JSON.stringify([order_cases("compute"),order_cases("move")]).sha256_text()
 	return JSON.stringify(cases).sha256_text()
 
 

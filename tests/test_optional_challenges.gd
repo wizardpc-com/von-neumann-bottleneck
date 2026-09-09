@@ -7,11 +7,11 @@ func check(ok: bool,message: String) -> void:
 func run() -> void:
 	var buffer: Dictionary = Catalog.reference_solution("synthesis")
 	var cache: Dictionary = {"board":Catalog.cache_board(),"program":Catalog.cache_program()}
-	check(Catalog.executed_route(Catalog.evaluate("synthesis",buffer.board,buffer.program)) == "buffer","Actual compute input must classify the buffer route")
-	check(Catalog.executed_route(Catalog.evaluate("synthesis",cache.board,cache.program)) == "cache","Actual compute input must classify the cache route")
+	check(Catalog.executed_route(Catalog.evaluate("synthesis",buffer.board,buffer.program),buffer.board) == "buffer","Actual compute input must classify the buffer route")
+	check(Catalog.executed_route(Catalog.evaluate("synthesis",cache.board,cache.program),cache.board) == "cache","Actual compute input must classify the cache route")
 	var unused: Dictionary = cache.board.duplicate(true)
 	unused.nodes.A = {"kind":"buffer"}
-	check(Catalog.executed_route(Catalog.evaluate("synthesis",unused,cache.program)) == "cache","An idle buffer cannot earn the buffer route")
+	check(Catalog.executed_route(Catalog.evaluate("synthesis",unused,cache.program),unused) == "cache","An idle buffer cannot earn the buffer route")
 	check(Catalog.no_repeated_transfer(Catalog.evaluate("distance",cache.board,cache.program)),"Timely single-line prefetch uses each transfer once")
 	check(not Catalog.no_repeated_transfer(Catalog.evaluate("distance",Catalog.seed("distance"),Catalog.starter("distance"))),"Eviction and refetch starter cannot earn the bonus")
 	var state: Node = root.get_node("OverlapChapter")

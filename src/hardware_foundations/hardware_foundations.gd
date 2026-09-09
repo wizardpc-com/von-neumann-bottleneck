@@ -876,6 +876,7 @@ func _build_interface() -> void:
 	diagnostics_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	diagnostics_label.add_theme_color_override("font_color", MUTED)
 	footer.add_child(diagnostics_label)
+	footer.add_child(PlaytestMoments.make_button())
 	for data: Array in [
 		[&"task", &"hardware.window.mission"],
 		[&"test_bench", &"device.test_bench"],
@@ -2377,6 +2378,7 @@ func _enter_hint_workbench() -> void:
 	_save_active_workbench()
 	hint_return_level_id = current_level_id
 	hint_mode = true
+	PlaytestData.record_hint_action(&"hardware_foundations",current_level_id,1,&"request")
 	_show_hint_level(viewed_hint_levels.get(_hint_view_key(), 1))
 
 
@@ -2436,13 +2438,15 @@ func _request_next_hint() -> void:
 	if not hint_mode or hint_level >= 3 or pending_hint_level > 0:
 		return
 	pending_hint_level = hint_level + 1
+	PlaytestData.record_hint_action(&"hardware_foundations",hint_return_level_id,pending_hint_level,&"request")
 	hint_confirmation_text.text = _t(StringName("hardware.hint.confirm.%d" % pending_hint_level))
 	hint_confirm_button.text = _t(StringName("hardware.hint.confirm_button.%d" % pending_hint_level))
 	hint_confirmation.show()
 	hint_cancel_button.grab_focus()
 
 
-func _cancel_hint_confirmation() -> void:
+func _cancel_hint_confirmation(record_cancel: bool = true) -> void:
+	if record_cancel and pending_hint_level > 0: PlaytestData.record_hint_action(&"hardware_foundations",hint_return_level_id,pending_hint_level,&"cancel")
 	pending_hint_level = 0
 	hint_confirmation.hide()
 	if hint_mode:
@@ -2453,7 +2457,8 @@ func _confirm_next_hint() -> void:
 	if not hint_mode or pending_hint_level != hint_level + 1:
 		return
 	var revealed_level: int = pending_hint_level
-	_cancel_hint_confirmation()
+	PlaytestData.record_hint_action(&"hardware_foundations",hint_return_level_id,revealed_level,&"confirm")
+	_cancel_hint_confirmation(false)
 	_show_hint_level(revealed_level)
 
 
@@ -3147,7 +3152,8 @@ func _on_component_drop_requested(template_key: String, local_position: Vector2)
 	_cancel_component_placement(false)
 
 
-func _on_component_placement_cancel_requested(_reason: StringName) -> void:
+func _on_component_placement_cancel_requested(reason: StringName) -> void:
+	PlaytestData.record_action(&"hardware_foundations",current_level_id,&"placement_cancel",{"reason":String(reason)})
 	_cancel_component_placement()
 
 
@@ -3652,6 +3658,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		return
 	var diagnostic: Dictionary = current_circuit.connect_ports_detailed(from_node, from_port, to_node, to_port)
 	if not diagnostic.is_empty():
+		PlaytestData.record_action(&"hardware_foundations",current_level_id,&"connection_rejected",{"diagnostic":diagnostic})
 		status_label.text = _t(&"hardware.status.invalid_connection", [Localization.text_from_spec(diagnostic)])
 		status_label.add_theme_color_override("font_color", BAD)
 		return
@@ -4818,6 +4825,8 @@ func _push_history_action(action: Dictionary) -> void:
 	if not current_level_id.is_empty():
 		PlaytestData.record_modification(&"hardware_foundations", current_level_id, &"hardware", {
 			"operation": String(stored.get("kind", &"edit")),
+			"added_wires": (stored.get("added",[]) as Array).size(),
+			"removed_wires": (stored.get("removed",[]) as Array).size(),
 		})
 	_queue_workbench_save()
 
@@ -4983,6 +4992,7 @@ func _undo_wire() -> void:
 		if not _apply_history_action(action, false):
 			continue
 		redo_history.append(action)
+		PlaytestData.record_action(&"hardware_foundations",current_level_id,&"undo",{"operation":action.get("kind","")})
 		_after_history_replay(action, _t(&"hardware.status.action_undone"))
 		return
 	status_label.text = _t(&"hardware.status.nothing_to_undo")
@@ -4997,6 +5007,7 @@ func _redo_edit() -> void:
 		if not _apply_history_action(action, true):
 			continue
 		wire_history.append(action)
+		PlaytestData.record_action(&"hardware_foundations",current_level_id,&"redo",{"operation":action.get("kind","")})
 		_after_history_replay(action, _t(&"hardware.status.action_redone"))
 		return
 	status_label.text = _t(&"hardware.status.nothing_to_redo")
@@ -6024,7 +6035,7 @@ func _finish_official_sequence() -> void:
 	official_passed = all_passed
 	PlaytestData.record_official_run(
 		&"hardware_foundations", current_level_id, all_passed,
-		{"case_count": results.size()}
+		PlaytestData.circuit_run_details(results,circuit.canonical_signature(),JSON.stringify(HalfAdderTestBenchType.OFFICIAL_CASES).sha256_text())
 	)
 	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
 	if official_passed:
@@ -6171,7 +6182,7 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 	official_passed = bool(prologue_report.get("passed", false))
 	PlaytestData.record_official_run(
 		&"hardware_foundations", current_level_id, official_passed,
-		{"case_count": (current_level_definition.get("official_steps", []) as Array).size()}
+		PlaytestData.circuit_run_details(prologue_report.get("steps",[]),circuit.canonical_signature(),JSON.stringify(current_level_definition.get("official_steps",[])).sha256_text())
 	)
 	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
 	var final_result: PrologueSimulationResult = prologue_report.get("final_result")

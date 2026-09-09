@@ -52,6 +52,8 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 2000
 	_build_interface()
+	visibility_changed.connect(func() -> void:
+		if not visible: PlaytestData.set_feedback_visible(false,&"completion"))
 	hide()
 
 
@@ -154,7 +156,9 @@ func _build_interface() -> void:
 	feedback_toggle.text = Localization.text(&"playtest.level_feedback.open")
 	feedback_toggle.toggle_mode = true
 	feedback_toggle.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
-	feedback_toggle.toggled.connect(func(expanded: bool) -> void: feedback_box.visible = expanded)
+	feedback_toggle.toggled.connect(func(expanded: bool) -> void:
+		feedback_box.visible = expanded
+		PlaytestData.set_feedback_visible(expanded,&"completion"))
 	column.add_child(feedback_toggle)
 
 	feedback_box = VBoxContainer.new()
@@ -299,7 +303,7 @@ func _on_continue_pressed() -> void:
 		var fun_rating: int = _rating_value(&"fun")
 		var clarity_rating: int = _rating_value(&"clarity")
 		var continue_rating: int = _rating_value(&"continue")
-		if fun_rating > 0 and clarity_rating > 0 and continue_rating > 0:
+		if fun_rating > 0 or clarity_rating > 0 or continue_rating > 0 or not feedback_note.text.strip_edges().is_empty():
 			feedback_submitted.emit(
 				finished_chapter, finished_level,
 				fun_rating, clarity_rating, continue_rating, feedback_note.text

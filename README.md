@@ -1,6 +1,6 @@
 # Von Neumann Bottleneck
 
-2026-09-10 开发中：总任务树连接四个区域，新增五条可选支线（共 34 个节点）及三个附加挑战；旧主线门槛不变。详见[实施与验收计划](docs/exec-plans/active/task-tree-and-side-missions.md)。自动检查已覆盖新增内容，完整原生试玩与反馈记录升级仍在进行。
+2026-09-10 开发中：总任务树连接四个区域，新增五条可选支线（共 34 个节点）及三个附加挑战；旧主线门槛不变。详见[实施与验收计划](docs/exec-plans/active/task-tree-and-side-missions.md)。自动检查已覆盖新增内容，本地反馈记录与多会话报告已升级；完整原生试玩仍在进行。
 
 > Connect a machine, make it work, then reduce the time it spends waiting for data.
 
@@ -67,7 +67,7 @@ The interface defaults to Simplified Chinese. Start with the English catalog usi
 godot --path . -- --locale=en
 ```
 
-An ordinary launch enters Game mode. The original `savegame_v1.json` recovery index and `hardware_workbenches_v1.json` named designs retain their provenance checks. The comparison version keeps independent `demo_progress_v1.json` progress; its achievements cannot unlock original construction. Both save families are preserved.
+An ordinary launch enters Game mode. The original `savegame_v1.json` recovery index and `hardware_workbenches_v1.json` named designs retain their provenance checks. Historical `demo_progress_v1.json` files remain preserved but have no runtime entry and cannot unlock original construction.
 
 `--test-mode` is development-only. Use isolated APPDATA/LOCALAPPDATA for clean playtests; do not clear player files to prepare a test.
 

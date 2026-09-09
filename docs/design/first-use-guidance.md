@@ -1,7 +1,7 @@
 # First-use guidance and illustrated lookup
 
 This is an inventory of the current learning surface, not evidence that a first-time
-player has understood it. All 29 playable nodes retain their behavior and prerequisites.
+player has understood it. All 29 prior playable nodes retain their behavior and prerequisites; five optional branches bring the total to 34.
 The original Mission pages remain reopenable. Toolbox cards and control tooltips
 explain optional actions at their point of use; reading is never a new unlock gate.
 
@@ -18,6 +18,9 @@ explain optional actions at their point of use; reading is never a new unlock ga
 | Hints | Hint entry and each confirmation identify increasing disclosure; H1/H2/H3 remain separate from the player board. |
 | Half Adder | Binary, SUM/CARRY, gate behavior, then a separate branch/junction page. Sealing is explained in the completion action. |
 | Selector (optional) | Public selection behavior and truth table; multiplexer reference is available when this branch first opens. |
+| Four-way selector (optional) | Four data lines versus two control bits; full numbering table on the second Mission page; gate and MUX lookup. |
+| Parity (optional) | Count odd/even ones across five 1-bit inputs; one-flip/two-flip example explains detection limits before building. |
+| Alarm (optional) | First state retention, then clear-priority truth/sequence rules; SRLatch and logic lookup. |
 | Full Adder | CIN/COUT and reuse before the complete formal test. |
 | ALU | Width guide and opcode contract before wiring; width and MUX diagrams are available. |
 | Latch | NOR and feedback, SET/RESET, then state-transition specifications. |
@@ -30,6 +33,8 @@ explain optional actions at their point of use; reading is never a new unlock ga
 | CPU speed / RAM wait | Prediction, one controlled change and wait/compute comparisons are introduced by Mission and the Profiler. |
 | Bus width | Bits per transfer versus datum width and serialization; bandwidth diagram. |
 | Bottleneck | Budget, comparison and diagnosis before the final verdict. |
+| Read once (optional) | Fixed hardware, twice-sum modulo 256 and each-case request limit; applied program and real metrics reuse earlier system lessons. |
+| Two orders (optional) | Two fixed workloads, separate saved part choices, budget 24 and each target listed before configuration. |
 | Distant reads | Request round trip and CPU waiting before observation. |
 | Nearby storage | Close storage behavior and first-fill/reuse before configuration; storage controls open when available. |
 | Cache failure | Line, miss and eviction explained before the access-pattern comparison. |
@@ -43,6 +48,8 @@ explain optional actions at their point of use; reading is never a new unlock ga
 | Prefetch | Hardware-managed cache and arrival-before-read; request/arrival and queue diagrams. |
 | Distance | Eviction of unused A by B and fetching A again, one step at a time. |
 | Synthesis | Existing buffer/cache options; both public workloads, costs and targets remain visible. |
+
+The three optional optimization goals are shown with their existing tasks: cost 4 / 145 cycles in Locality capstone, avoid repeated transfers in Distance, and retain two actually executed routes in Synthesis. They do not add prerequisites. Compatible own-solution copying explains that the target still needs retesting.
 
 ## Pacing and lookup contract
 

@@ -118,12 +118,14 @@ static func evaluate(id: String, board: Dictionary, program: String) -> Dictiona
 	return {"passed": passed, "runs": runs}
 
 
-static func executed_route(report: Dictionary) -> String:
+static func executed_route(report: Dictionary, board: Dictionary) -> String:
 	if not report.get("passed",false): return ""
 	var routes: Dictionary = {}
 	for trace: SimulationTrace in report.runs:
 		for event: SimulationEvent in trace.events:
-			if event.kind == &"compute": routes["cache" if event.source_device == &"CACHE" else "buffer"] = true
+			if event.kind == &"compute":
+				var kind: String = str(board.get("nodes",{}).get(String(event.source_device),{}).get("kind",""))
+				if kind in ["buffer","cache"]: routes[kind] = true
 	return String(routes.keys()[0]) if routes.size() == 1 else ""
 
 

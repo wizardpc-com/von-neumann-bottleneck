@@ -488,7 +488,7 @@ func _test_exploration_resume() -> void:
 	var player = _build_complete_hardware_player()
 	var catalog := PrologueLevelCatalogType.new()
 	var store := CircuitWorkbenchStoreType.new(workbench_path)
-	for id: StringName in [&"selector", &"delay"]:
+	for id: StringName in [&"selector", &"delay", &"selector4", &"parity", &"alarm"]:
 		var circuit: LogicCircuit = catalog.reference_circuit(id, player.component_library)
 		store.ensure_default(&"game", id, _snapshot(circuit))
 		player.mark_completed(id)
@@ -497,6 +497,8 @@ func _test_exploration_resume() -> void:
 	_assert(service.save_game(), "Optional application completion must be saveable without a fabricated chip reward.")
 	var reader = _service()
 	_assert(reader.load_game() and reader.game_player_content.completed_levels.has(&"selector") and reader.game_player_content.completed_levels.has(&"delay"), "Both application circuits must be reverified on restart.")
+	for id: StringName in [&"selector4", &"parity", &"alarm"]:
+		_assert(reader.game_player_content.completed_levels.has(id), "New optional task %s must restore from revalidated player circuits." % id)
 	var broken: Dictionary = store.workbench_snapshot(&"game", &"delay", "default")
 	broken["wires"] = []
 	store.save_workbench(&"game", &"delay", "default", broken)

@@ -1,8 +1,8 @@
 class_name PlaytestDataStore
 extends Node
 
-const SCHEMA_VERSION: int = 1
-const EXPORT_SCHEMA_VERSION: int = 1
+const SCHEMA_VERSION: int = 2
+const EXPORT_SCHEMA_VERSION: int = 2
 const MAX_SHORT_TEXT_LENGTH: int = 240
 const DEFAULT_STORAGE_DIRECTORY: String = "user://playtest_data"
 const ACTIVE_SESSION_FILE: String = "active_session.json"
@@ -13,6 +13,17 @@ var questionnaire_enabled: bool = true
 var storage_directory: String = DEFAULT_STORAGE_DIRECTORY
 var forced_mode: StringName = &""
 var last_error: String = ""
+
+var current_task_context: Dictionary = {}
+var source_kind: String = "unknown"
+var current_visit_id: String = ""
+var latest_run_id: String = ""
+var last_exit_context: Dictionary = {}
+var _segment_started_ms: int = -1
+var _foreground: bool = true
+var _feedback_visible: bool = false
+var _feedback_surfaces: Dictionary = {}
+var _process_token: String = str(Time.get_ticks_usec())
 
 var _initialized: bool = false
 var _ended: bool = false
@@ -41,7 +52,15 @@ func _ready() -> void:
 				reset_result.get("errors", []) as Array
 			))
 	_configure_from_command_line(arguments)
-	if telemetry_enabled:
+	for argument: String in arguments:
+		if argument.begins_with("--playtest-source="):
+			var value: String = argument.get_slice("=",1)
+			if value in ["external_player","developer","agent_native","automated","unknown"]: source_kind = value
+	if "--script" in arguments or DisplayServer.get_name() == "headless": source_kind = "automated"
+	_foreground = get_window().has_focus()
+	get_window().focus_entered.connect(func() -> void: _change_focus(true))
+	get_window().focus_exited.connect(func() -> void: _change_focus(false))
+	if telemetry_enabled or questionnaire_enabled:
 		start_session()
 
 
@@ -62,7 +81,7 @@ func start_session() -> bool:
 	if _initialized:
 		return true
 	last_error = ""
-	if not telemetry_enabled:
+	if not telemetry_enabled and not questionnaire_enabled:
 		return false
 	if not _ensure_directory(storage_directory):
 		return false
@@ -78,7 +97,13 @@ func start_session() -> bool:
 			"ignored_record_count": _read_error_count,
 		})
 		if not _active_level_key.is_empty():
-			_finish_active_level(&"level_exit", {"reason": "interrupted"})
+			var previous: Dictionary = _level_summaries.get(_active_level_key,{})
+			_append_event(&"level_exit", {"chapter_id":previous.get("chapter_id",""),"level_id":previous.get("level_id",""),
+				"reason":"interrupted","duration_ms":0,"duration_unknown":true})
+		_segment_started_ms = -1
+		_active_level_key = ""
+		current_visit_id = ""
+		latest_run_id = ""
 	return true
 
 
@@ -109,13 +134,19 @@ func recovered_session() -> bool:
 
 
 func level_started(chapter_id: StringName, level_id: StringName) -> bool:
+	current_task_context = {"chapter_id":String(chapter_id),"level_id":String(level_id)}
 	if not _can_record_level(chapter_id, level_id):
+		current_visit_id = ""
+		latest_run_id = ""
 		return false
 	var key: String = _level_key(chapter_id, level_id)
 	if _active_level_key == key:
 		return true
 	if not _active_level_key.is_empty():
 		_finish_active_level(&"level_exit", {"reason": "superseded"})
+	current_visit_id = _session_id+"-v"+str(_sequence+1)
+	latest_run_id = ""
+	_segment_started_ms = _now_ms()
 	return _append_event(&"level_start", {
 		"chapter_id": String(chapter_id),
 		"level_id": String(level_id),
@@ -131,10 +162,13 @@ func level_completed(chapter_id: StringName, level_id: StringName, details: Dict
 	var payload: Dictionary = _safe_details(details)
 	payload["chapter_id"] = String(chapter_id)
 	payload["level_id"] = String(level_id)
+	if bool(_level_summaries.get(key,{}).get("completed",false)): return true
 	return _finish_active_level(&"level_complete", payload)
 
 
 func level_exited(chapter_id: StringName, level_id: StringName, reason: StringName = &"map") -> bool:
+	last_exit_context = {"chapter_id":String(chapter_id),"level_id":String(level_id),"visit_id":current_visit_id,"reason":String(reason)}
+	current_task_context = {}
 	if not _can_record_level(chapter_id, level_id):
 		return false
 	if _active_level_key != _level_key(chapter_id, level_id):
@@ -148,9 +182,25 @@ func record_official_run(
 		passed: bool,
 		details: Dictionary = {}
 	) -> bool:
+	if not _can_record_level(chapter_id,level_id): return false
 	var payload: Dictionary = _safe_details(details)
 	payload["passed"] = passed
-	return _record_level_event(&"official_run", chapter_id, level_id, payload)
+	latest_run_id = _session_id+"-r"+str(_sequence+1)
+	payload["run_id"] = latest_run_id
+	payload.erase("cases")
+	payload["post_completion"] = bool(_level_summaries.get(_level_key(chapter_id,level_id),{}).get("completed",false)) or bool(payload.get("post_completion",false))
+	payload["result_class"] = payload.get("result_class","correct_output" if passed else "failed_unspecified")
+	var recorded: bool = _record_level_event(&"official_run", chapter_id, level_id, payload)
+	if recorded:
+		var index: int = 0
+		for case: Dictionary in details.get("cases",[]):
+			var detail: Dictionary = _safe_details(case)
+			detail["run_id"] = latest_run_id
+			detail["case_set_version"] = detail.get("case_set_version",payload.get("case_set_version","unspecified"))
+			detail["case_id"] = latest_run_id+"-c"+str(index)
+			_record_level_event(&"case_outcome",chapter_id,level_id,detail)
+			index += 1
+	return recorded
 
 
 func record_modification(
@@ -170,9 +220,9 @@ func record_hint(chapter_id: StringName, level_id: StringName, stage: int) -> bo
 	})
 
 
-func record_tool_opened(chapter_id: StringName, level_id: StringName, tool_id: StringName) -> bool:
+func record_tool_opened(chapter_id: StringName, level_id: StringName, tool_id: StringName, origin: StringName = &"manual") -> bool:
 	return _record_level_event(&"tool_opened", chapter_id, level_id, {
-		"tool_id": String(tool_id),
+		"tool_id": String(tool_id), "origin": String(origin),
 	})
 
 
@@ -201,15 +251,15 @@ func submit_level_feedback(
 		continue_rating: int,
 		note: String = ""
 	) -> bool:
-	if not _valid_rating(fun_rating) or not _valid_rating(clarity_rating) \
-			or not _valid_rating(continue_rating):
+	if fun_rating not in range(0,6) or clarity_rating not in range(0,6) or continue_rating not in range(0,6):
 		return false
+	if fun_rating == 0 and clarity_rating == 0 and continue_rating == 0 and note.strip_edges().is_empty(): return false
 	return _append_event(&"level_feedback", {
 		"chapter_id": String(chapter_id),
 		"level_id": String(level_id),
-		"fun": fun_rating,
-		"clarity": clarity_rating,
-		"want_to_continue": continue_rating,
+		"fun": fun_rating if fun_rating > 0 else null,
+		"clarity": clarity_rating if clarity_rating > 0 else null,
+		"want_to_continue": continue_rating if continue_rating > 0 else null,
 		"note": _bounded_text(note),
 	})
 
@@ -222,16 +272,16 @@ func submit_chapter_feedback(
 		surprising_point: String,
 		pace_rating: int
 	) -> bool:
-	if chapter_id.is_empty() or best_level_id.is_empty() or worst_level_id.is_empty() \
-			or not _valid_rating(pace_rating):
+	if chapter_id.is_empty() or pace_rating not in range(0,6):
 		return false
+	if best_level_id.is_empty() and worst_level_id.is_empty() and pace_rating == 0 and confusing_point.strip_edges().is_empty() and surprising_point.strip_edges().is_empty(): return false
 	return _append_event(&"chapter_feedback", {
 		"chapter_id": String(chapter_id),
 		"best_level_id": String(best_level_id),
 		"worst_level_id": String(worst_level_id),
 		"confusing_point": _bounded_text(confusing_point),
 		"surprising_point": _bounded_text(surprising_point),
-		"pace": pace_rating,
+		"pace": pace_rating if pace_rating > 0 else null,
 	})
 
 
@@ -243,17 +293,15 @@ func submit_demo_feedback(
 		change_or_remove: String,
 		continue_interest_rating: int
 	) -> bool:
-	if not _valid_rating(satisfaction_rating) or not _valid_rating(difficulty_rating) \
-			or not _valid_rating(continue_interest_rating) \
-			or length_feeling not in [&"too_short", &"about_right", &"too_long"]:
-		return false
+	if satisfaction_rating not in range(0,6) or difficulty_rating not in range(0,6) or continue_interest_rating not in range(0,6) or length_feeling not in [&"",&"too_short",&"about_right",&"too_long"]: return false
+	if satisfaction_rating == 0 and difficulty_rating == 0 and continue_interest_rating == 0 and length_feeling.is_empty() and favorite_content.strip_edges().is_empty() and change_or_remove.strip_edges().is_empty(): return false
 	return _append_event(&"demo_feedback", {
-		"satisfaction": satisfaction_rating,
-		"difficulty": difficulty_rating,
+		"satisfaction": satisfaction_rating if satisfaction_rating > 0 else null,
+		"difficulty": difficulty_rating if difficulty_rating > 0 else null,
 		"length_feeling": String(length_feeling),
 		"favorite_content": _bounded_text(favorite_content),
 		"change_or_remove": _bounded_text(change_or_remove),
-		"continue_interest": continue_interest_rating,
+		"continue_interest": continue_interest_rating if continue_interest_rating > 0 else null,
 	})
 
 
@@ -267,6 +315,7 @@ func record_feedback_skipped(scope: StringName, subject_id: StringName) -> bool:
 
 
 func export_current_session() -> String:
+	_flush_time_segment()
 	last_error = ""
 	if not _initialized or _session_id.is_empty():
 		last_error = "No active playtest session is available."
@@ -299,6 +348,8 @@ func export_current_session() -> String:
 			"recovered": _recovered,
 			"event_count": export_events.size(),
 			"ignored_record_count": ignored_records,
+			"source": source_kind,
+			"build_version": str(ProjectSettings.get_setting("application/config/version","development")),
 		},
 		"level_summaries": summaries,
 		"feedback": feedback,
@@ -496,19 +547,32 @@ func _finish_active_level(event_name: StringName, details: Dictionary) -> bool:
 	var payload: Dictionary = _safe_details(details)
 	payload["chapter_id"] = String(summary.get("chapter_id", ""))
 	payload["level_id"] = String(summary.get("level_id", ""))
-	payload["duration_ms"] = maxi(0, _now_ms() - _active_level_started_ms)
+	_flush_time_segment()
+	payload["duration_ms"] = 0
+	if event_name == &"level_exit":
+		last_exit_context = payload.duplicate(true)
+		last_exit_context["visit_id"] = current_visit_id
 	return _append_event(event_name, payload)
 
 
 func _append_event(event_name: StringName, payload: Dictionary) -> bool:
-	if not telemetry_enabled or not _initialized or _ended:
+	var feedback: bool = event_name in [&"level_feedback",&"chapter_feedback",&"demo_feedback",&"feedback_skipped",&"moment",&"moment_note",&"exit_reason"]
+	var session_event: bool = event_name in [&"session_start",&"session_end",&"session_resumed"]
+	if (feedback and not questionnaire_enabled) or (not feedback and not session_event and not telemetry_enabled) or not _initialized or _ended:
 		return false
 	var event: Dictionary = {
 		"schema_version": SCHEMA_VERSION,
 		"session_id": _session_id,
 		"sequence": _sequence + 1,
 		"timestamp_utc": _now_utc(),
-		"timestamp_unix_ms": _now_ms(),
+		"timestamp_unix_ms": int(Time.get_unix_time_from_system()*1000.0),
+		"monotonic_ms": _now_ms(),
+		"process_token": _process_token,
+		"visit_id": payload.get("visit_id",current_visit_id),
+		"source": source_kind,
+		"build_version": str(ProjectSettings.get_setting("application/config/version","development")),
+		"task_version": "tasks-20260910-v1",
+		"case_set_version": payload.get("case_set_version","unspecified"),
 		"mode": String(_current_mode()),
 		"event": String(event_name),
 		"payload": _json_safe(payload),
@@ -554,24 +618,37 @@ func _update_state_from_event(event: Dictionary) -> void:
 		&"level_start":
 			summary["visits"] = int(summary.get("visits", 0)) + 1
 			_active_level_key = key
-			_active_level_started_ms = int(event.get("timestamp_unix_ms", 0))
+			_active_level_started_ms = int(event.get("monotonic_ms",event.get("timestamp_unix_ms",0)))
+			current_visit_id = str(event.get("visit_id",""))
 		&"level_exit":
+			_segment_started_ms = -1
+			current_visit_id = ""
+			latest_run_id = ""
 			summary["duration_ms"] = int(summary.get("duration_ms", 0)) + int(payload.get("duration_ms", 0))
 			if _active_level_key == key:
 				_active_level_key = ""
 				_active_level_started_ms = 0
 		&"level_complete":
-			summary["duration_ms"] = int(summary.get("duration_ms", 0)) + int(payload.get("duration_ms", 0))
+			if int(event.get("schema_version",1)) == 1: summary["duration_ms"] = int(summary.get("duration_ms", 0)) + int(payload.get("duration_ms", 0))
 			summary["completed"] = true
 			summary["completion_count"] = int(summary.get("completion_count", 0)) + 1
 			if payload.has("final_config"):
 				summary["final_config"] = payload.get("final_config", {}).duplicate(true)
 			if payload.has("metrics"):
 				summary["final_metrics"] = payload.get("metrics", {}).duplicate(true)
-			if _active_level_key == key:
+			if int(event.get("schema_version",1)) == 1 and _active_level_key == key:
 				_active_level_key = ""
 				_active_level_started_ms = 0
+		&"visit_time":
+			var kind: String = str(payload.get("kind","unknown"))
+			var duration: int = int(payload.get("duration_ms",0))
+			summary[kind+"_ms"] = int(summary.get(kind+"_ms",0))+duration
+			if kind == "foreground": summary["duration_ms"] = int(summary.get("duration_ms",0))+duration
 		&"official_run":
+			if bool(summary.get("last_run_failed",false)) and not bool(payload.get("post_completion",false)):
+				summary["retries"] = int(summary.get("retries",0))+1
+			summary["last_run_failed"] = not bool(payload.get("passed",false))
+			if bool(payload.get("post_completion",false)): summary["post_completion_runs"] = int(summary.get("post_completion_runs",0))+1
 			summary["official_runs"] = int(summary.get("official_runs", 0)) + 1
 			if not bool(payload.get("passed", false)):
 				summary["failures"] = int(summary.get("failures", 0)) + 1
@@ -638,7 +715,8 @@ func _export_level_summaries() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for key: String in keys:
 		var summary: Dictionary = (_level_summaries[key] as Dictionary).duplicate(true)
-		summary["retries"] = maxi(0, int(summary.get("official_runs", 0)) - 1)
+		summary["retries"] = int(summary.get("retries",0))
+		summary["timing_note"] = "foreground checkpoints for v2; v1 duration is legacy wall time"
 		result.append(_json_safe(summary))
 	return result
 
@@ -658,7 +736,7 @@ func _read_event_file(path: String) -> Dictionary:
 			result["errors"] = int(result["errors"]) + 1
 			continue
 		var event := json.data as Dictionary
-		if int(event.get("schema_version", 0)) != SCHEMA_VERSION \
+		if int(event.get("schema_version", 0)) not in [1,SCHEMA_VERSION] \
 				or String(event.get("session_id", "")) != _session_id and not _session_id.is_empty():
 			result["errors"] = int(result["errors"]) + 1
 			continue
@@ -674,7 +752,7 @@ func _safe_details(details: Dictionary) -> Dictionary:
 		var lower_key: String = key.to_lower()
 		if lower_key in ["source", "program_source", "notebook_text", "free_text", "note"]:
 			continue
-		result[key] = _json_safe(details[key_variant])
+		result[key] = _observation_value(details[key_variant])
 	return result
 
 
@@ -707,7 +785,7 @@ func _valid_rating(value: int) -> bool:
 
 
 func _can_record_level(chapter_id: StringName, level_id: StringName) -> bool:
-	return _initialized and not _ended and not chapter_id.is_empty() and not level_id.is_empty()
+	return telemetry_enabled and _initialized and not _ended and not chapter_id.is_empty() and not level_id.is_empty()
 
 
 func _current_mode() -> StringName:
@@ -760,8 +838,72 @@ func _level_key(chapter_id: StringName, level_id: StringName) -> String:
 
 
 func _now_ms() -> int:
-	return int(Time.get_unix_time_from_system() * 1000.0)
+	return Time.get_ticks_msec()
 
 
 func _now_utc() -> String:
 	return Time.get_datetime_string_from_system(true, false)
+
+
+func _process(_delta: float) -> void:
+	if _segment_started_ms >= 0 and _now_ms()-_segment_started_ms >= 10000: _flush_time_segment()
+
+func _change_focus(foreground: bool) -> void:
+	_flush_time_segment()
+	_foreground = foreground
+
+func set_feedback_visible(visible: bool, surface: StringName = &"legacy") -> void:
+	_flush_time_segment()
+	if visible: _feedback_surfaces[surface] = true
+	else: _feedback_surfaces.erase(surface)
+	_feedback_visible = not _feedback_surfaces.is_empty()
+
+func _flush_time_segment() -> void:
+	if _segment_started_ms < 0 or _active_level_key.is_empty(): return
+	var elapsed: int = maxi(0,_now_ms()-_segment_started_ms)
+	_segment_started_ms = _now_ms()
+	var summary: Dictionary = _level_summaries.get(_active_level_key,{})
+	_append_event(&"visit_time",{"chapter_id":summary.get("chapter_id",""),"level_id":summary.get("level_id",""),
+		"kind":"background" if not _foreground else "feedback" if _feedback_visible else "foreground","duration_ms":elapsed})
+
+func mark_moment(kind: StringName,note: String = "") -> int:
+	if kind not in [&"stuck",&"blocked_action",&"understood",&"fun",&"following"]: return -1
+	var context: Dictionary = current_task_context
+	var payload: Dictionary = {"kind":String(kind),"chapter_id":context.get("chapter_id",""),"level_id":context.get("level_id",""),
+		"visit_id":current_visit_id,"run_id":latest_run_id,"near_sequence":_sequence,"note":_bounded_text(note)}
+	return _sequence if _append_event(&"moment",payload) else -1
+
+func add_moment_note(moment_sequence: int,note: String) -> bool:
+	if moment_sequence <= 0 or note.strip_edges().is_empty(): return false
+	return _append_event(&"moment_note",{"moment_sequence":moment_sequence,"note":_bounded_text(note)})
+
+func set_exit_reason(reason: StringName) -> bool:
+	if reason not in [&"other_task",&"rest",&"unclear_goal",&"no_strategy",&"unexpected_operation",&"repetitive"] or last_exit_context.is_empty(): return false
+	var payload: Dictionary = last_exit_context.duplicate(true)
+	payload["reason"] = String(reason)
+	return _append_event(&"exit_reason",payload)
+
+func record_map_action(action: StringName,key: String,details: Dictionary = {}) -> bool:
+	var payload: Dictionary = _safe_details(details)
+	payload["action"] = String(action)
+	payload["task_key"] = key
+	return _append_event(&"map_action",payload)
+
+func record_hint_action(chapter_id: StringName,level_id: StringName,stage: int,phase: StringName) -> bool:
+	return _record_level_event(&"hint_action",chapter_id,level_id,{"stage":stage,"phase":String(phase),"run_id":latest_run_id})
+
+## Only scalar case outcomes, never simulation objects or player source.
+func circuit_run_details(cases: Array,signature: String,case_version: String) -> Dictionary:
+	var outcomes: Array[Dictionary] = []
+	for index: int in range(cases.size()):
+		var entry: Dictionary = cases[index]
+		outcomes.append({"index":index,"passed":bool(entry.get("passed",false)),"result_class":"correct_output" if bool(entry.get("passed",false)) else "wrong_output","case_set_version":case_version})
+	return {"cases":outcomes,"case_count":cases.size(),"circuit_digest":signature.sha256_text(),"case_set_version":case_version}
+
+func _observation_value(value: Variant) -> Variant:
+	if value is Dictionary: return _safe_details(value)
+	if value is Array:
+		var values: Array = []
+		for item: Variant in value: values.append(_observation_value(item))
+		return values
+	return _json_safe(value)

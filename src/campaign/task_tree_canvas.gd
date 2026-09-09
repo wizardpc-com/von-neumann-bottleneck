@@ -21,11 +21,13 @@ var dragging: bool = false
 var moved: bool = false
 var press_position := Vector2.ZERO
 var query: String = ""
+var exposed: Dictionary = {}
 
 func _ready() -> void:
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	resized.connect(queue_redraw)
+	resized.connect(_report_exposure)
 	pan = TaskNavigation.camera if TaskNavigation.camera_saved else Vector2(30,30)
 	magnification = TaskNavigation.zoom
 	if not TaskNavigation.camera_saved: call_deferred("locate",TaskNavigation.selected)
@@ -119,6 +121,10 @@ func overview() -> void:
 
 func set_search(value: String) -> void:
 	query = value.strip_edges().to_lower()
+	var count: int = 0
+	for task: Dictionary in rows:
+		if _matches(task): count += 1
+	PlaytestData.record_map_action(&"search", "", {"result_count":count})
 	queue_redraw()
 
 func locate_match() -> void:
@@ -133,4 +139,13 @@ func _save() -> void:
 	TaskNavigation.camera = pan
 	TaskNavigation.zoom = magnification
 	TaskNavigation.camera_saved = true
+	call_deferred("_report_exposure")
 	queue_redraw()
+
+
+func _report_exposure() -> void:
+	for task: Dictionary in rows:
+		var rect := Rect2(positions.get(task.key,Vector2.ZERO)*magnification+pan,NODE_SIZE*magnification)
+		if Rect2(Vector2.ZERO,size).intersects(rect) and not exposed.has(task.key):
+			exposed[task.key] = true
+			PlaytestData.record_map_action(&"viewport_exposure",task.key,{"zoom":magnification,"eligible":task.unlocked})

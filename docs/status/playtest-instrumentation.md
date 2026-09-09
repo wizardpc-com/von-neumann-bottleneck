@@ -1,39 +1,41 @@
-# Playtest instrumentation
+# 本地试玩记录与反馈
 
-Current mainline: [eight-task Demo](demo-redesign.md) records semantic edits, hints, runs, event inspection, completion and exits through this observer under chapter `demo`. Its menu exports the local session. It has no automatic per-task questionnaire modal; the older feedback flow below remains in the optional workshop/legacy labs. Mainline completion never depends on telemetry or survey responses.
+2026-09-10：原构建序章及三个章节、34 个任务使用同一套本地观察器。八关运行版本已退役。记录不参与仿真、通关、解锁或存档重验；源码和操作规则仍由各章节负责。
 
-The frozen prologue, Chapter 1, and Chapter 2 Demo can now produce one anonymous local session containing behavior events, per-level ratings, chapter feedback, and final Demo feedback. This system is observational only; it does not change simulation, official evidence, completion, progression, scoring, Trace, Profiler, or playback.
+## 玩家怎样使用
 
-## Recorded behavior
+每个工作台及总任务树都有「反馈」按钮，也可按 F8。主动标记「卡住了」「想做但做不到」「突然懂了」「这里有趣」「只是在照做」，立即保存当时任务、访问、最近一次运行的关联；随后可补一条不超过 240 字的说明。返回地图后可选填上次离开的原因，不强行认定玩家放弃。
 
-- session start, recovery, end, and a unique anonymous session ID;
-- level start, completion, exit, elapsed time, official attempts, retries, and failed attempts;
-- progressive Hint use; player-opened Trace, Profiler, Notebook, and other existing investigation tools; and key Trace/Profiler actions;
-- bounded counters for Program, hardware topology/parts, Cache, Work Group, and relevant test-input changes;
-- Chapter 2 capstone first modification direction, final configuration, cycles/cost/wait metrics, and whether another official optimization run occurred after completion; and
-- Game or Test mode on every event and response.
+完成关卡的评分保持折叠，章节问卷仍可跳过。所有问卷任选一项即可提交，未答分数保存为 null。反馈面板能导出当前会话 JSON 并打开文件夹；不会上传。关闭自动记录 `--disable-playtest-telemetry` 后，主动反馈仍可独立使用；`--disable-playtest-feedback` 关闭问卷。
 
-The event payload allowlist excludes complete Program source, Notebook contents, free-form control contents, machine identity, accounts, network identifiers, and other unnecessary personal data. Only the explicitly optional feedback note fields store player text, capped at 240 characters.
+## 版本 2 的含义
 
-## Feedback flow
+- session 是一次启动（异常中断可恢复）的匿名记录，不等于一个独立玩家。
+- visit 是进入任务到离开；完成只是里程碑，完成后调整仍在同一次 visit。
+- run 只在正式仿真实际执行后产生； case_outcome 关联真实 case、指标和测试集版本。编译、未应用程序、无效拓扑等阻止运行的事件单列，不制造失败运行。
+- 前台、后台、反馈时间使用单调时钟分段，最多每 10 秒刷新。异常退出后未刷新尾段及中断间隔未知，不跨进程相减。旧 schema 1 的 duration 保留为旧墙钟时间，不冒充有效前台时长。
+- 区分错误输出、输出正确但目标未满足、目标达成和进度完成；失败后的下一次运行计作重试，通关后的优化单列。
+- Hint 请求、确认、取消、实际展示分开；修改记录具体操作，撤销、重做、放置取消和连接拒绝另记结果。手动打开与自动展开的工具标记来源。
+- 地图记录可用、实际进入视口、查看详情、进入任务；进入视口不等于玩家看过或理解。
+- source 为 external_player / developer / agent_native / automated / unknown。默认 unknown；玩家可在反馈里说明来源。代理和自动检查不进入真人分组。普通本轮原生验证使用 `--playtest-source=agent_native`。
 
-Each ordinary level completion adds three optional 1–5 ratings for fun, clarity, and desire to continue plus one optional short note. Continue is always available, so incomplete ratings or an empty note never block progression. Each chapter ends with one compact best/worst/confusion/surprise/pace form. The Chapter 2 ending then shows one compact Demo-wide satisfaction/difficulty/length/favorite/change/continue form. Every form has an explicit Skip action. Submitting or skipping the final Demo form opens a dedicated export handoff before returning to chapter selection.
+事件包含匿名 session、sequence、visit、run、case、日期、进程单调时间、构建与任务版本。配置/程序仅记录摘要和正式指标，不记录完整程序、Notebook、键鼠轨迹、截图、机器身份或账号。只有玩家主动填写的反馈字段保存文字。
 
-Questionnaires are disabled automatically for script, headless, and `--capture...` launches. `--disable-playtest-feedback` and `--disable-playtest-telemetry` disable the two concerns independently. Focused test or capture work may explicitly use `--enable-playtest-feedback` or `--enable-playtest-telemetry`.
+## 保存、恢复与导出
 
-## Storage, recovery, and export
+`user://playtest_data/session_<id>.jsonl` 每条即时刷新；`active_session.json` 用于异常恢复。读取 schema 1/2，坏尾行单独计数，旧日志保留。导出到 `user://playtest_data/exports/`。导出是主动操作，发布仓库不得包含真实玩家的日志、反馈或存档。
 
-The crash-tolerant authority is `user://playtest_data/session_<session_id>.jsonl`. Each accepted event is one schema-versioned JSON object and is flushed immediately. `active_session.json` identifies an unfinished session; the next launch resumes it, marks the recovery, preserves readable prior events, ignores a malformed trailing record, and closes any interrupted active level. A clean shutdown closes the session and removes only the active marker.
+## 汇总多个自愿提供的导出
 
-The final Demo handoff and chapter-selection Options panel both expose **Export Playtest Data**. It writes `user://playtest_data/exports/playtest_<session_id>_<timestamp>.json`, a single versioned JSON document containing session metadata, events, normalized level summaries, feedback, and the privacy contract. Success shows the exact path and an **Open Folder** action; failure is shown locally and does not affect play.
+```sh
+python3 scripts/report-playtests.py --output /tmp/vnb-report /path/to/export-a.json /path/to/export-b.json
+python3 -m unittest discover -s tests -p test_playtest_report.py
+```
 
-On the normal Windows Godot layout these files are under `%APPDATA%\Godot\app_userdata\Von Neumann Bottleneck\playtest_data`. The runtime resolves `user://` through Godot, so the operating-system location may differ on another platform.
+生成独立 `report.html` 和 `report.json`：任务路线、访问与尝试、时刻反馈三个视图；HTML 可筛选来源。按 session + sequence 去重，旧来源保持 unknown。报告显示样本数、完成/进入的 n/N、前台时长中位数与范围，也保留未完成访问、每次运行及案例、Hint 和反馈时间线。
 
-## Starting a clean internal playtest
+统计仅用于形成待验证的问题，不能直接推导流失、注意力或设计因果。无开始记录的完成不会进入“完成/开始”分子；无曝光记录的进入不会假定看过地图。历史缺字段保留未知。
 
-1. Close the game, then launch `Von-Neumann-Bottleneck.exe --test-mode --reset-local-test-state` (or `godot --path . -- --test-mode --reset-local-test-state` from the repository).
-2. The reset removes the global Game save, active anonymous session streams, and all Hardware workbenches, including named local test designs. Existing files under `playtest_data/exports/` remain intact.
-3. Play from the prologue through Chapter 2 without `--disable-playtest-telemetry`. Answer or skip each compact feedback surface.
-4. At the final Demo handoff, choose **Export Playtest Data**, note the displayed path, and use **Open Folder** if desired.
+## 验证边界
 
-Telemetry remains separate from the minimal Game Save/Continue service and is never authoritative progression input. Cross-session aggregation, cohort analysis, account identity, remote collection, and deletion/retention policy UI remain out of scope.
+`test_playtest_data`、`test_playtest_visits`、`test_playtest_feedback_ui` 及 Python 报告测试覆盖记录恢复、关闭自动记录、部分评分、焦点计时、完成后优化、坏尾行、重复导出及 HTML 文本转义。实际交互、导出与重启结果见本轮任务树验证记录；Windows 和真正新玩家的反馈另行验收。

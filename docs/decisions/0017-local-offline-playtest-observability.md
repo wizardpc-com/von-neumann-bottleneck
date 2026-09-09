@@ -32,3 +32,7 @@ An active marker permits interrupted-session recovery. A player-facing Options a
 - Telemetry or questionnaire failures cannot block play or change results.
 - The first schema intentionally favors stable counts and semantic actions over detailed editor replay.
 - Cross-session aggregation, uploads, retention controls, and a general persistent campaign remain future decisions rather than implicit features.
+
+## 2026-09-10 extension
+
+The adopted task-tree plan extends the observer to all four domains without changing its authority boundary. Schema 2 adds visits/runs/cases, monotonic foreground/background/feedback segments, source classification, optional in-play moments and a local multi-export report. Completion is a milestone within a visit; interrupted time is unknown. Partial responses remain valid with telemetry disabled. Schema 1 logs remain readable and explicitly retain legacy timing/source uncertainty. Uploads, identity and remote SDKs remain excluded. See [current instrumentation](../status/playtest-instrumentation.md).

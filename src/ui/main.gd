@@ -405,6 +405,7 @@ func _build_header() -> Control:
 	row.add_child(mode_selector)
 	fullscreen_button = FullscreenButtonType.new()
 	row.add_child(fullscreen_button)
+	row.add_child(PlaytestMoments.make_button())
 	var hub_button := Button.new()
 	hub_button.text = _t(&"common.prototype_hub")
 	hub_button.tooltip_text = _t(&"locality.hub.tooltip")
@@ -1181,7 +1182,9 @@ func _chapter2_mission_pages() -> Array:
 func _refresh_mission_page() -> void:
 	var pages: Array = _chapter2_mission_pages()
 	mission_page = clampi(mission_page, 0, pages.size() - 1)
-	mission_objective_label.set_linked_text(_t(StringName(pages[mission_page])))
+	var body: String = _t(StringName(pages[mission_page]))
+	if current_level_id == &"capstone" and mission_page == pages.size()-1: body += "\n\n"+_t(&"bonus.economical")
+	mission_objective_label.set_linked_text(body)
 	mission_page_label.text = _t(&"hardware.briefing.progress", [mission_page + 1, pages.size()])
 	mission_previous_button.disabled = mission_page == 0
 	mission_continue_button.disabled = false
@@ -2006,6 +2009,10 @@ func _run_simulation(test_name: String) -> void:
 		)
 		PlaytestData.record_official_run(&"chapter_2", current_level_id, telemetry_goal_passed, {
 			"correct": current_trace.passed,
+			"result_class": "wrong_output" if not current_trace.passed else "target_met" if telemetry_goal_passed else "correct_but_slow",
+			"program_digest": applied_program_source.sha256_text(),
+			"case_set_version": JSON.stringify(data).sha256_text(),
+			"cases": [{"passed":current_trace.passed,"metrics":current_trace.metrics,"target_cycles":telemetry_target_cycles}],
 			"cycles": int(current_trace.metrics.get("total_cycles", 0)),
 			"cost": int(current_trace.metrics.get("hardware_cost", 0)),
 			"target_met": telemetry_goal_passed,

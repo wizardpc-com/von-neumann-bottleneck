@@ -31,7 +31,7 @@ func record_pass(id: String, board: Dictionary, program: String) -> bool:
 	if id == "distance" and not GameMode.is_test_mode() and Catalog.no_repeated_transfer(report):
 		game_distance_bonus = {"board":board.duplicate(true),"program":program}
 	if id == "synthesis":
-		var route: String = Catalog.executed_route(report)
+		var route: String = Catalog.executed_route(report,board)
 		if not route.is_empty():
 			(game_routes if not GameMode.is_test_mode() else test_routes)[route] = {"board":board.duplicate(true),"program":program}
 	completed()[id] = {"board": board.duplicate(true), "program": program}
@@ -69,7 +69,7 @@ func restore_game(snapshot: Dictionary, ready: bool) -> void:
 		if snapshot.get("routes") is Dictionary: candidates.append_array(snapshot.routes.values())
 		for value: Variant in candidates:
 			if not valid_solution_shape(value): continue
-			var route: String = Catalog.executed_route(Catalog.evaluate("synthesis",value.board,value.program))
+			var route: String = Catalog.executed_route(Catalog.evaluate("synthesis",value.board,value.program),value.board)
 			if not route.is_empty(): game_routes[route] = value.duplicate(true)
 	progression_changed.emit()
 

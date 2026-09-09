@@ -2,8 +2,11 @@
 
 Repository-local documentation is the source of truth for future human and Codex work.
 
+- [Task tree and optional missions](exec-plans/active/task-tree-and-side-missions.md): current 34-node expansion and explicit remaining acceptance.
+- [Local playtest evidence](status/playtest-instrumentation.md): visits, case outcomes, voluntary moments and multi-export reports.
+
 - [Guided workbench and diagrams](verification/2026-09-09-guided-workbench/README.md): open tools, cable separation, focused Handbook, and this iteration's native/check evidence.
-- [First-use guidance](design/first-use-guidance.md): the 29-node teaching inventory and pacing boundaries.
+- [First-use guidance](design/first-use-guidance.md): the 34-node teaching inventory and pacing boundaries.
 
 - [Mac native polish](status/mac-native-polish.md): current Mac UI changes, ordinary Game play evidence and approved restart recovery and its native verification.
 - [Stable save recovery](verification/2026-09-08-save-recovery/README.md): byte-exact backups, provenance revalidation and repeat native startup.

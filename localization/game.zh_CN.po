@@ -4371,7 +4371,7 @@ msgid "playtest.chapter_feedback.title"
 msgstr "章节反馈"
 
 msgid "playtest.chapter_feedback.subtitle"
-msgstr "简单回顾本章体验；文本项均可留空。"
+msgstr "简单回顾本章体验；任选一项回答，也可以跳过。"
 
 msgid "playtest.chapter_feedback.best"
 msgstr "最好的一关"
@@ -4392,7 +4392,7 @@ msgid "playtest.demo_feedback.title"
 msgstr "Demo 总反馈"
 
 msgid "playtest.demo_feedback.subtitle"
-msgstr "最后几项简短问题；文本项均可留空。"
+msgstr "最后几项简短问题；任选一项回答，也可以跳过。"
 
 msgid "playtest.demo_feedback.satisfaction"
 msgstr "总体满意度 · 1–5"
@@ -5867,7 +5867,7 @@ msgid "exploration.selector4.summary"
 msgstr "你把选择组织成了更大的系统。试试另一种结构：分层和译码各有什么取舍？"
 
 msgid "experience.next.hardware_foundations.selector4"
-msgstr "你把选择组织成了更大的系统。试试另一种结构：分层和译码各有什么取舍？"
+msgstr "这条支线不会阻挡主线。回到任务树，继续组装 ALU，或保留另一份选择器方案作比较。"
 
 msgid "exploration.parity.title"
 msgstr "错了一位"
@@ -5891,7 +5891,7 @@ msgid "exploration.parity.summary"
 msgstr "你做出了错误探测器。继续在调试输入中翻转一位，再翻转第二位，亲自观察为什么“没有报警”不等于“绝对没有错误”。"
 
 msgid "experience.next.hardware_foundations.parity"
-msgstr "你做出了错误探测器。继续在调试输入中翻转一位，再翻转第二位，亲自观察为什么“没有报警”不等于“绝对没有错误”。"
+msgstr "回到任务树，选择计算或存储路线。这里的方案会保留，随时可以回来实验。"
 
 msgid "exploration.alarm.title"
 msgstr "报警别消失"
@@ -5915,7 +5915,7 @@ msgid "exploration.alarm.summary"
 msgstr "短暂事件现在能被保留下来，清除也有明确优先级。状态不只是存数，还能记录“曾经发生过什么”。"
 
 msgid "experience.next.hardware_foundations.alarm"
-msgstr "短暂事件现在能被保留下来，清除也有明确优先级。状态不只是存数，还能记录“曾经发生过什么”。"
+msgstr "继续探索寄存器与“晚一拍”，看看状态怎样保存数据，以及怎样改变数据到达的时机。"
 
 
 msgid "system.level.read_once.title"
@@ -5981,3 +5981,93 @@ msgstr "附加挑战仍可探索"
 
 msgid "bonus.economical"
 msgstr "附加挑战：省钱路线。保持正确且 ≤145 周期，成本 ≤4。不会影响主线解锁。"
+
+msgid "moments.button"
+msgstr "反馈"
+
+msgid "moments.title"
+msgstr "标记这一刻 · 随时可用"
+
+msgid "moments.privacy"
+msgstr "选择感受会立即存到本机，关联当前任务与最近运行。文字可选；不会自动上传，也不采集按键、源码或截图。"
+
+msgid "moments.close"
+msgstr "关闭"
+
+msgid "moments.stuck"
+msgstr "卡住了"
+
+msgid "moments.blocked_action"
+msgstr "想做但做不到"
+
+msgid "moments.understood"
+msgstr "这下明白了"
+
+msgid "moments.fun"
+msgstr "很有意思"
+
+msgid "moments.following"
+msgstr "只是照着做"
+
+msgid "moments.note"
+msgstr "补充一句（可选，最多 240 字）"
+
+msgid "moments.save_note"
+msgstr "保存这句话"
+
+msgid "moments.saved"
+msgstr "已保存在本机。可以继续玩。"
+
+msgid "moments.failed"
+msgstr "未保存："
+
+msgid "moments.choose_first"
+msgstr "先标记一种感受，再补充文字。"
+
+msgid "moments.export"
+msgstr "导出本次试玩"
+
+msgid "moments.folder"
+msgstr "打开导出文件夹"
+
+msgid "moments.exported"
+msgstr "已导出本机 JSON。由你决定是否分享。"
+
+msgid "moments.exit_optional"
+msgstr "刚才为何离开任务？（可选）"
+
+msgid "moments.exit.other_task"
+msgstr "先试试另一关"
+
+msgid "moments.exit.rest"
+msgstr "休息一下"
+
+msgid "moments.exit.unclear_goal"
+msgstr "不清楚目标"
+
+msgid "moments.exit.no_strategy"
+msgstr "知道目标，不知道怎么办"
+
+msgid "moments.exit.unexpected_operation"
+msgstr "操作结果和预想不同"
+
+msgid "moments.exit.repetitive"
+msgstr "觉得重复或无聊"
+
+msgid "moments.source.unknown"
+msgstr "试玩身份未说明（不默认当作真人）"
+
+msgid "moments.source.external_player"
+msgstr "我是外部试玩玩家"
+
+msgid "moments.source.developer"
+msgstr "我是开发者"
+
+msgid "moments.source.agent_native"
+msgstr "本次来源：代理原生试玩"
+
+msgid "moments.source.automated"
+msgstr "本次来源：自动检查"
+
+msgid "moments.disabled"
+msgstr "本次启动关闭了反馈记录。未保存任何回答。"

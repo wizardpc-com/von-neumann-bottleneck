@@ -116,3 +116,13 @@ Historical milestones and completed execution plans remain under `docs/status/` 
 ## License
 
 Released under the [MIT License](LICENSE). Copyright (c) 2026 wizardpc-com.
+
+### September 9 expansion checkpoint
+
+Two optional circuit applications branch from Half Adder and Register. A searchable,
+categorized toolbox and new named blank schemes preserve existing player designs.
+Chapter 3 adds six exploration nodes on asynchronous transfers, double buffering,
+backpressure and prefetch after Chapter 2 capstone. The retired eight-task runtime
+is removed. See the [active acceptance plan](docs/exec-plans/active/exploration-and-overlap-chapter.md)
+and [new model](docs/architecture/overlap-chapter.md); native Chapter 3 acceptance
+is still pending and this checkpoint is not a release declaration.

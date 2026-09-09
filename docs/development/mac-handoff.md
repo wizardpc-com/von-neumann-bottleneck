@@ -6,7 +6,7 @@
 
 仓库：<https://github.com/wizardpc-com/von-neumann-bottleneck>，默认分支 `main`。
 
-Mac 是主要开发与原生交互试玩环境；Windows 用于兼容性、真实鼠标与导出 EXE 验证。继续优化当前游戏，不重启八关重做。默认入口是原章节选择 → Hardware Foundations → 教程 → 算术/存储两分支 → CPU → LOAD/STORE → Chapter 1 → Chapter 2。八关运行版已于 2026-09-09 按用户要求移除；历史记录留在 Git，不读取或转换其玩家进度。
+Mac 是主要开发与原生交互试玩环境；Windows 用于兼容性、真实鼠标与导出 EXE 验证。继续优化当前游戏，不重启八关重做。默认入口是原章节选择 → Hardware Foundations → 教程 → 算术/存储两分支 → CPU → LOAD/STORE → Chapter 1 → Chapter 2 → Chapter 3。半加器与寄存器后各有一条可选应用支线，不阻挡旧主线。八关运行版已于 2026-09-09 按用户要求移除；历史记录留在 Git，不读取或转换其玩家进度。
 
 当前游戏构建标识：`polish-20260907T010358-76ef116`。标识中的旧 SHA 是制作该候选包时的本地基线，不是本次迁移提交 SHA。以 `git rev-parse HEAD` 和 GitHub 提交记录确定源码版本，不改写既有候选包。
 
@@ -39,7 +39,7 @@ GODOT="/Applications/Godot.app/Contents/MacOS/Godot"
 python3 scripts/verify-project.py --godot "$GODOT" --gui --locale zh_CN
 ```
 
-若已有 checkout，先检查本地改动，再 `git pull --ff-only`；不要覆盖未提交工作。Godot 安装名不同则调整 `GODOT` 路径。脚本会复制 Git 跟踪及非忽略的当前文件到 `.godot/verification/<run>/project`，重新导入资源，为每个检查分配独立玩家目录，并执行 21 套常规测试；`--gui` 加跑普通 Game 的完整 GUI 输入路线。`--interaction-only` 可缩短为教程交互，`--locale en` 检查英文。
+若已有 checkout，先检查本地改动，再 `git pull --ff-only`；不要覆盖未提交工作。Godot 安装名不同则调整 `GODOT` 路径。脚本会复制 Git 跟踪及非忽略的当前文件到 `.godot/verification/<run>/project`，重新导入资源，为每个检查分配独立玩家目录，并执行当前仓库的全部常规测试；`--gui` 加跑普通 Game 的完整 GUI 输入路线。`--interaction-only` 可缩短为教程交互，`--locale en` 检查英文。
 
 脚本只修改副本的玩家目录设置；首次导入时暂时省略全局字体配置以先生成字体缓存，此后所有检查恢复实际字体配置。原工作区和实际玩家存档不变；日志、失败结果和截图均保留，不自动删除。脚本在 Windows 上验证过，Mac 执行结果必须在本机重新记录。
 

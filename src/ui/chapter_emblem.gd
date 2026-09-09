@@ -39,6 +39,13 @@ func _draw() -> void:
 				draw_rect(Rect2(origin, Vector2(25.0, 28.0)), accent, false, 2.0)
 				if index < 2:
 					draw_line(origin + Vector2(26.0, 14.0), origin + Vector2(35.0, 14.0), accent, 2.0)
+		&"overlap":
+			for lane: int in range(2):
+				var lane_color := Color("50d5ff") if lane == 0 else accent
+				for batch: int in range(3):
+					var cell := Rect2(center + Vector2(-50+batch*29+lane*13,-19+lane*23),Vector2(24,15))
+					draw_rect(cell,Color(lane_color,0.6),true)
+					draw_rect(cell,lane_color,false,1)
 		_:
 			for row: int in range(2):
 				for column: int in range(5):

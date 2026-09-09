@@ -52,3 +52,5 @@ Repository-local documentation is the source of truth for future human and Codex
 - `exec-plans/completed/`: completed plans retained as implementation history.
 
 Keep root documents navigational. Update the most specific source-of-truth document instead of repeating the same details across files.
+
+- [Chapter 3 overlap model and persistence](architecture/overlap-chapter.md)

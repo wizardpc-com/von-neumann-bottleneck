@@ -27,6 +27,7 @@ var new_game_clear_workbenches: CheckBox
 var new_game_status: Label
 var new_game_confirm_button: Button
 var system_entry_button: Button
+var overlap_entry_button: Button
 var locality_entry_button: Button
 var terminology_handbook: TerminologyHandbookType
 var options_overlay: Control
@@ -45,6 +46,7 @@ func _ready() -> void:
 	_build_interface()
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	SystemChapter.progression_changed.connect(_refresh_locality_entry)
+	LocalityChapter.progression_changed.connect(_refresh_overlap_entry)
 	WindowMode.window_mode_changed.connect(_on_window_mode_changed)
 	_refresh_mode_description()
 	var arguments: PackedStringArray = OS.get_cmdline_user_args()
@@ -111,7 +113,7 @@ func _build_interface() -> void:
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 	var content := VBoxContainer.new()
-	content.custom_minimum_size = Vector2(1180.0, 650.0)
+	content.custom_minimum_size = Vector2(1480.0, 700.0)
 	center.add_child(content)
 	var title := Label.new()
 	title.text = Localization.text(&"game.title")
@@ -177,6 +179,11 @@ func _build_interface() -> void:
 		ACCENT,
 		"res://src/ui/main.tscn",
 		&"locality"
+	))
+	cards.add_child(_build_card(
+		Localization.text(&"overlap.title"), Localization.text(&"overlap.branch.3"),
+		Localization.text(&"overlap.map_goal"), Localization.text(&"overlap.map"), PURPLE,
+		"res://src/overlap_chapter/overlap_chapter.tscn", &"overlap"
 	))
 	var note := Label.new()
 	note.text = Localization.text(&"hub.note")
@@ -492,6 +499,7 @@ func _is_escape_press(event: InputEvent) -> bool:
 
 
 func _on_game_mode_changed(_mode: StringName) -> void:
+	_refresh_overlap_entry()
 	_refresh_mode_description()
 	_refresh_save_actions()
 	_refresh_system_entry()
@@ -555,7 +563,9 @@ func _build_card(
 	emblem.accent = color
 	box.add_child(emblem)
 	var title_label := Label.new()
-	title_label.text = title
+	title_label.text = title if entry_id.is_empty() else title.replace("：", "：\n").replace(": ", ":\n").replace(" · ", "\n")
+	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title_label.custom_minimum_size.y = 72
 	title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	box.add_child(title_label)
@@ -576,7 +586,17 @@ func _build_card(
 	elif entry_id == &"locality":
 		locality_entry_button = button
 		_refresh_locality_entry()
+	elif entry_id == &"overlap":
+		overlap_entry_button = button
+		_refresh_overlap_entry()
 	return panel
+
+
+func _refresh_overlap_entry() -> void:
+	if overlap_entry_button == null: return
+	overlap_entry_button.disabled = not OverlapChapter.chapter_unlocked()
+	overlap_entry_button.text = Localization.text(&"overlap.map") if not overlap_entry_button.disabled else Localization.text(&"overlap.locked")
+	overlap_entry_button.tooltip_text = Localization.text(&"overlap.map_goal")
 
 
 func _refresh_system_entry() -> void:

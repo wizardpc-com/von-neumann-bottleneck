@@ -87,7 +87,7 @@ Chapter 1 progression receipts additionally require the authored per-level progr
 - All three floating desktops synchronize focused panels' sibling order with their drawing order: Godot Control input picking does not follow `z_index`. Windows remain freely movable and independently closable.
 - `src/locality_chapter/` owns Chapter 2's seven-level runtime catalog, isolated Game/Test completion and receipt state, concept-unlock rules, trace-bound run receipts, and exact validation of the observation receipts that may become paired-level baselines. It reuses the generic registered identity/order/dependency contract without executing content dictionaries.
 - `src/content/locality/` registers the Chapter 2 branch and seven sequential descriptors. Locality-specific workload and UI metadata remains in the typed Chapter 2 catalog rather than stretching the campaign registry into a simulator.
-- `src/ui/prototype_hub.tscn` is the default chapter hub and selects Hardware Foundations, Chapter 1, or Chapter 2; the eight-task comparison runtime has been removed. In Game mode it exposes Continue plus a confirmed New Game action whose workbench deletion is separately opt-in; in Test mode those player save actions are hidden. Chapter 2 is gated behind Chapter 1 in Game mode and open in Test mode. Its modal Options overlay owns chapter-selection `Esc`, Resume, fullscreen switching, and explicit application exit.
+- `src/ui/prototype_hub.tscn` is the default chapter hub and selects Hardware Foundations and Chapters 1, 2, or 3; the eight-task comparison runtime has been removed. In Game mode it exposes Continue plus a confirmed New Game action whose workbench deletion is separately opt-in; in Test mode those player save actions are hidden. Chapter 2 is gated behind Chapter 1 in Game mode and open in Test mode. Its modal Options overlay owns chapter-selection `Esc`, Resume, fullscreen switching, and explicit application exit.
 - `src/ui/main.gd` wraps the established locality GraphEdit workbench in a seven-node map and per-level tool configuration. It owns Mission judgments, Program Apply, direct/Cache topology presentation, Work Group controls, staged/key-evidence/end playback navigation, an editable presentation Clock Period, progressive Profiler, inherited Before → After plus Personal Best history, post-playback finding review, diagnosis-gated capstone evidence, Systems Notebook, and Baseline → Best completion presentation; none of those determine simulation.
 - `src/ui/floating_instrument_panel.gd` provides embedded movable, resizable, independently closable windows and allows a host-owned compact action to replace generic title-strip minimization. Hardware Mission uses that action for its readable lower-left compact state; Hardware Test Bench/Components and Chapter 1/2 Mission disable minimization, while other chapter tools may retain it. Launcher buttons use close-equivalent toggling, so hiding and reopening preserves the panel's current geometry.
 - `src/ui/ui_typography.gd` owns the shared title, subtitle, body, caption, window-title, and compact-control dimensions used across chapter headers, Mission content, completion summaries, and the terminology handbook. `src/ui/terminology_handbook.gd` presents its cross-chapter catalog, including the presentation-only Clock Period, as a bounded topic → directory → term tree while retaining category filtering and search.
@@ -112,3 +112,12 @@ Chapter 1 progression receipts additionally require the authored per-level progr
 - There is no CI workflow yet. The locally verified commands and the CI prerequisite are recorded in `docs/development/testing.md`.
 
 Keep this map compact. Put subsystem mechanics in detailed docs and record consequential changes in `docs/decisions/` when a durable decision is actually made.
+
+## Chapter 3 overlap domain
+
+`src/overlap_chapter/` owns a bounded deterministic two-resource scheduler, six-node
+branch catalog, revalidated Game/Test solution state and an editable floating
+workbench. It produces `SimulationTrace`; UI playback only presents it. Chapter 2
+capstone opens this domain. See [model and persistence](docs/architecture/overlap-chapter.md).
+The existing mainline remains intact, with two optional circuit applications after
+Half Adder and Register. New applications start with fixed I/O and a blank interior.

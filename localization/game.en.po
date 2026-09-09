@@ -5168,3 +5168,429 @@ msgstr "All official tests passed — keep editing to explore another design."
 
 msgid "exploration.delay.accept"
 msgstr "Accept DATA=%s · OUT takes the previous value"
+
+msgid "overlap.title"
+msgstr "CHAPTER 3 · KEEP COMPUTE MOVING"
+
+msgid "overlap.map"
+msgstr "Level tree"
+
+msgid "overlap.hub"
+msgstr "Chapters"
+
+msgid "overlap.fullscreen"
+msgstr "Fullscreen / window"
+
+msgid "overlap.mission"
+msgstr "Mission"
+
+msgid "overlap.toolbox"
+msgstr "Tools"
+
+msgid "overlap.program"
+msgstr "Schedule"
+
+msgid "overlap.trace"
+msgstr "Timeline"
+
+msgid "overlap.handbook"
+msgstr "Handbook"
+
+msgid "overlap.hint"
+msgstr "Hint"
+
+msgid "overlap.run"
+msgstr "Run all workloads"
+
+msgid "overlap.undo"
+msgstr "Undo"
+
+msgid "overlap.redo"
+msgstr "Redo"
+
+msgid "overlap.begin"
+msgstr "Start exploring"
+
+msgid "overlap.play"
+msgstr "Play / pause"
+
+msgid "overlap.step"
+msgstr "Next cycle"
+
+msgid "overlap.map_goal"
+msgstr "Understand completion, explore buffering and prefetch, then combine the discoveries."
+
+msgid "overlap.map_status"
+msgstr "Completed levels remain editable."
+
+msgid "overlap.map_legend"
+msgstr "Arrows mark learning prerequisites; they are not delayed wires."
+
+msgid "overlap.map_intro"
+msgstr "You have reduced data movement. Now overlap unavoidable transfers with useful computation.\n\nOne transfer engine. One compute engine. Arrange requests, decide when to wait, and choose temporary storage.\n\nUpper path: explicit buffers and backpressure.\nLower path: hardware-managed Cache and prefetch.\n\nEvery workload, budget and target is public. Equivalent solutions are welcome."
+
+msgid "overlap.branch.0"
+msgstr "Start"
+
+msgid "overlap.branch.1"
+msgstr "Buffer cooperation"
+
+msgid "overlap.branch.2"
+msgstr "Prefetch"
+
+msgid "overlap.branch.3"
+msgstr "Synthesis"
+
+msgid "overlap.complete"
+msgstr "Complete · replay"
+
+msgid "overlap.available"
+msgstr "Available"
+
+msgid "overlap.locked"
+msgstr "Complete prerequisites"
+
+msgid "overlap.arrival.title"
+msgstr "Issued is not arrived"
+
+msgid "overlap.arrival.goal"
+msgstr "Do independent work and process batch 0 within 10 cycles."
+
+msgid "overlap.arrival.body"
+msgstr "Repair the small machine. fetch returns immediately, but the data still takes 6 cycles to arrive. The starting program consumes it immediately.\n\nYou also have 4 cycles of work independent of that data. Find a useful place for it, then consume data that has arrived.\n\nInspect the failed line and timeline: request, arrival and completion are distinct moments."
+
+msgid "overlap.buffers.title"
+msgstr "Two buffers take turns"
+
+msgid "overlap.buffers.goal"
+msgstr "Place and connect storage; process four batches in order, 40 → 28 cycles."
+
+msgid "overlap.buffers.body"
+msgstr "Each transfer takes 6 cycles and each computation takes 4. With one buffer, transfer often waits for compute to finish.\n\nThe interior starts empty. Place up to two buffers and connect data, ready and free. The starting program is serial and editable.\n\nNames A and B appear on your components. Program names must match your actual parts."
+
+msgid "overlap.backpressure.title"
+msgstr "Slow down without losing data"
+
+msgid "overlap.backpressure.goal"
+msgstr "Pass two variable-speed workloads with one program; no overwrites or duplicates."
+
+msgid "overlap.backpressure.body"
+msgstr "Two buffers are present, but the schedule uses a fixed tick 4 before reuse. Compute duration now varies.\n\nInspect which buffer is still in use. Coordinate with actual ready, free and compute-idle state so one program handles both public timing patterns.\n\nHolding back a producer to protect unconsumed data is backpressure, not dropping data."
+
+msgid "overlap.prefetch.title"
+msgstr "A little earlier"
+
+msgid "overlap.prefetch.goal"
+msgstr "Schedule prefetches to reduce the same four batches from 40 to 28 cycles."
+
+msgid "overlap.prefetch.body"
+msgstr "A one-line Cache fills and replaces entries automatically. A missing read waits; prefetch can start the transfer earlier.\n\nEdit the schedule so the transfer engine does useful work while compute is busy. Data must still arrive before use.\n\nYou cannot set Cache contents or slots. It differs from the explicit buffers in the other branch."
+
+msgid "overlap.distance.title"
+msgstr "Earlier is not always better"
+
+msgid "overlap.distance.goal"
+msgstr "Repair over-eager prefetch; keep correct results within 30 cycles."
+
+msgid "overlap.distance.body"
+msgstr "The starting schedule requests everything early. Yet Cache has only one line and the request queue holds only two items, including the active transfer.\n\nInspect evictions, repeated transfers and queuing. Which transfer displaces data before it is used?\n\nChange timing rather than setting cache contents. The one-line budget is fixed; costs come from actual transfers and waits."
+
+msgid "overlap.synthesis.title"
+msgstr "Keep compute moving"
+
+msgid "overlap.synthesis.goal"
+msgstr "Use a two-unit budget and one design for standard and bandwidth-bound tasks."
+
+msgid "overlap.synthesis.body"
+msgstr "Choose buffers or Cache and build the interior and schedule. Both routes can succeed; you need not use every tool.\n\nProcess each batch exactly once in order, then check both public workloads. In the second, transfers are slow and compute is fast. Would extra storage make the transfer engine faster?\n\nExplain and improve the bottleneck rather than forcing wait time to zero."
+
+msgid "overlap.edit_help"
+msgstr "Drag parts, connect, delete; Cmd/Ctrl-Z undoes. Command specs are in the handbook."
+
+msgid "overlap.stale"
+msgstr "Design changed · rerun; the previous timeline is only a comparison."
+
+msgid "overlap.width_mismatch"
+msgstr "Connect 8-bit data to data ports; 1-bit ready/free to control ports."
+
+msgid "overlap.transfer"
+msgstr "Transfer"
+
+msgid "overlap.compute"
+msgstr "Compute"
+
+msgid "overlap.buffer"
+msgstr "Buffer"
+
+msgid "overlap.cache"
+msgstr "Cache · automatic"
+
+msgid "overlap.transfer.note"
+msgstr "One transfer · queue holds 2"
+
+msgid "overlap.compute.note"
+msgstr "One computation · ordered output"
+
+msgid "overlap.buffer.note"
+msgstr "Empty → filling → ready → in use"
+
+msgid "overlap.cache.note"
+msgstr "1 line · hardware-managed LRU"
+
+msgid "overlap.tool_cost"
+msgstr "Holds 1 batch · cost 1"
+
+msgid "overlap.toolbox_help"
+msgstr "Click then place repeatedly on empty space, or drag directly. Right-click / Esc cancels. Select and Delete removes.\nBroad double cable: 8-bit data. Thin wire: 1-bit state."
+
+msgid "overlap.public_cases"
+msgstr "Public workloads and budget"
+
+msgid "overlap.case_spec"
+msgstr "%s\nBatch values %s\nCompute per batch %s cycles\nTransfer per batch %s cycles · target ≤ %s\nStorage budget %s units"
+
+msgid "overlap.output_spec"
+msgstr "Batches are numbered from 0 and hold one 8-bit value each. Output 2×value+1 for every batch, once and in order. Every official run starts empty."
+
+msgid "overlap.independent_work"
+msgstr "Also complete exactly work 4; it occupies the same compute engine."
+
+msgid "overlap.commands.arrival"
+msgstr "fetch A 0: request\nwork 4: independent work\nready A: wait for data\nconsume A: start compute\nidle: wait for compute"
+
+msgid "overlap.commands.buffer"
+msgstr "fetch A 0: request; ready A: wait for data\nconsume A: start compute; idle: wait for compute\nfree A: wait until free; tick N: fixed wait"
+
+msgid "overlap.commands.cache"
+msgstr "prefetch 0: request early\nread 0: wait for data, then start this batch\nidle: wait for compute; tick N: fixed wait"
+
+msgid "overlap.commands.both"
+msgstr "Buffer: fetch / ready / consume / free\nCache: prefetch / read\nShared: idle waits for compute; tick N waits N cycles"
+
+msgid "overlap.no_run"
+msgstr "Run to inspect actual transfer and compute intervals."
+
+msgid "overlap.public_case"
+msgstr "Workload"
+
+msgid "overlap.metrics"
+msgstr "Elapsed %s / target %s · compute busy %s · transfer busy %s\nOverlap %s · compute wait %s · output sum %s / %s"
+
+msgid "overlap.cache_metrics"
+msgstr "Hits %s · misses %s · evictions %s · request queue wait %s cycles"
+
+msgid "overlap.line_error"
+msgstr "Line %s: %s"
+
+msgid "overlap.too_slow"
+msgstr "Correct output; time target not met. Inspect both resource lanes."
+
+msgid "overlap.passed"
+msgstr "Passed · keep editing or explore the next branch on the map."
+
+msgid "overlap.try_again"
+msgstr "Not passed yet · the timeline records the failure and its moment."
+
+msgid "overlap.handbook.arrival"
+msgstr "Request ≠ arrival\nfetch / prefetch submits a request. The transfer engine finishes later. Compute uses ready data. The two engines may work independently; one engine cannot do two jobs at once."
+
+msgid "overlap.handbook.wires"
+msgstr "Width and connections\nCyan double cable = 8-bit data; gold thin wire = 1-bit state. Connect buffer ready to compute, and free to transfer. Port labels also show width.\n\nWires have no simulation delay. Multiple buffers on a device port are addressed by component name, not electrically shorted. This chapter uses an explicit simplified batch-transfer model."
+
+msgid "overlap.handbook.overlap"
+msgstr "Read the timeline\nHorizontal position is simulated time. Blue is transfer and purple is compute. Simultaneous blocks overlap; elapsed time is not the sum of both busy times.\n\nExample: 4 batches, transfer 6, compute 4. Serial takes 40; the schedule below takes 28 with 12 overlapping cycles. The same simulator generates these numbers."
+
+msgid "overlap.handbook.buffers"
+msgstr "Buffer lifecycle\nEmpty → filling → ready → in use → empty\nfetch requires empty storage; ready waits for arrival; consume begins use; compute completion frees storage. free waits for that signal.\n\nA fixed tick knows time has passed, not whether data is finished. Every batch needs the same safe handoff."
+
+msgid "overlap.handbook.cache"
+msgstr "Prefetch and Cache\nEach line holds one batch tagged by batch number. Fills and reads update LRU recency; a full cache evicts the least recently used line. Once read starts compute, its value is latched; later eviction does not alter that computation.\n\nPrefetch and read misses share one transfer engine and a two-entry FIFO, including the active transfer. A full queue stalls the issuer while active work continues. Cached or pending prefetches are coalesced."
+
+msgid "overlap.handbook.limits"
+msgstr "Timing depends on resources\nToo late: compute waits for data. Too early: useful data may be evicted and fetched again. Extra buffers do not increase the single transfer engine bandwidth.\n\nCompare public workloads using elapsed time, overlap, waits and actual requests. There is no arbitrary prefetch penalty."
+
+msgid "overlap.handbook.commands"
+msgstr "Instruction contract\nOne command per line; # starts a comment. Component names are case-insensitive. Issuing costs zero cycles; device work and waits advance time.\nfetch A 0: request batch 0 into A.\nready A / free A: wait for ready / empty.\nconsume A: asynchronously compute the batch in A.\nidle: wait for active compute.\ntick N: wait N cycles.\nwork N: synchronous independent work (first level only).\nprefetch 0: request batch 0 into Cache early.\nread 0: wait for cached batch 0, then start compute.\n\nProgram end drains already-started work. It does not request missing batches or repair invalid operations."
+
+msgid "overlap.hint_readonly"
+msgstr "Separate read-only hint canvas · your design is unchanged"
+
+msgid "overlap.hint_no_program"
+msgstr "This tier gives direction only."
+
+msgid "overlap.back_to_design"
+msgstr "Back to my design"
+
+msgid "overlap.hint_next"
+msgstr "Request next tier"
+
+msgid "overlap.hint_confirm.2"
+msgstr "The next tier reveals a partial structure and key relationships. View H2?"
+
+msgid "overlap.hint_confirm.3"
+msgstr "H3 reveals a complete working design and program. This may spoil discovery. View the full reference?"
+
+msgid "overlap.arrival.hint.1"
+msgstr "Which work is independent of the incoming data? Must you wait immediately after issuing?"
+
+msgid "overlap.arrival.hint.2"
+msgstr "Use ready to distinguish requested from usable. Independent work still occupies compute."
+
+msgid "overlap.arrival.hint.3"
+msgstr "The reference issues first, performs independent work during transfer, then waits for arrival and computes."
+
+msgid "overlap.buffers.hint.1"
+msgstr "Where can the next batch go while compute uses one buffer?"
+
+msgid "overlap.buffers.hint.2"
+msgstr "The partial board shows one buffer data/state interface. Connect another similarly, then arrange alternating use."
+
+msgid "overlap.buffers.hint.3"
+msgstr "The reference alternates A and B. free protects reuse; idle prevents competing for busy compute."
+
+msgid "overlap.backpressure.hint.1"
+msgstr "Elapsed time does not prove storage is empty. Which wire reports actual availability?"
+
+msgid "overlap.backpressure.hint.2"
+msgstr "ready protects reads, free protects writes; compute must also finish its previous batch."
+
+msgid "overlap.backpressure.hint.3"
+msgstr "The reference waits on state and adapts to both timing patterns instead of assuming a fixed tick."
+
+msgid "overlap.prefetch.hint.1"
+msgstr "Which batch will the next read use? Can its request be issued before current compute ends?"
+
+msgid "overlap.prefetch.hint.2"
+msgstr "Start the first transfer, then consider the next queued request. read still waits for data not yet present."
+
+msgid "overlap.prefetch.hint.3"
+msgstr "The reference maintains a bounded lead. Every computation uses cache data that actually arrived."
+
+msgid "overlap.distance.hint.1"
+msgstr "Inspect evictions before the first read. Had the displaced data been used?"
+
+msgid "overlap.distance.hint.2"
+msgstr "Move near-future batches early; keep distant batches from displacing them in the one-line Cache."
+
+msgid "overlap.distance.hint.3"
+msgstr "The reference ties requests to consumption, avoiding repeated transfers from prefetching everything before reading."
+
+msgid "overlap.synthesis.hint.1"
+msgstr "Start with one route you understand. Which resource dominates the second workload?"
+
+msgid "overlap.synthesis.hint.2"
+msgstr "Buffers need safe reuse; Cache needs useful timing. You do not need both systems."
+
+msgid "overlap.synthesis.hint.3"
+msgstr "This shows a double-buffer reference. A one-line Cache with suitable prefetch also passes. The bandwidth-bound task still waits."
+
+msgid "overlap.error.machine"
+msgstr "Use the transfer and compute engines with valid storage."
+
+msgid "overlap.error.budget"
+msgstr "Storage budget exceeded. Remove unused buffers or Cache."
+
+msgid "overlap.error.program_limit"
+msgstr "Program exceeds the 16000-character limit."
+
+msgid "overlap.error.command"
+msgstr "This command is unavailable here. Check the mission and handbook."
+
+msgid "overlap.error.syntax"
+msgstr "Invalid arguments. Check the handbook; cycle counts must be 1–128."
+
+msgid "overlap.error.compute_busy"
+msgstr "Compute is still busy. Wait with idle before starting another computation."
+
+msgid "overlap.error.buffer_or_batch"
+msgstr "Unknown buffer or batch. Batches are numbered from 0."
+
+msgid "overlap.error.transfer_route"
+msgstr "Missing transfer data route or free feedback wire."
+
+msgid "overlap.error.overwrite"
+msgstr "Buffer is not free and cannot be overwritten. Wait for free or use other empty storage."
+
+msgid "overlap.error.duplicate"
+msgstr "Batch requested twice. Process every batch exactly once."
+
+msgid "overlap.error.control_route"
+msgstr "The required ready / free feedback connection is missing."
+
+msgid "overlap.error.deadlock"
+msgstr "This state cannot become available: no active work can produce it. Check request and consume order."
+
+msgid "overlap.error.compute_route"
+msgstr "Buffer data is not connected to compute."
+
+msgid "overlap.error.not_ready"
+msgstr "The request was issued but data is not ready. Do not consume it yet."
+
+msgid "overlap.error.order"
+msgstr "Out-of-order or duplicate consumption. Output batches 0, 1, 2… in order."
+
+msgid "overlap.error.cache_route"
+msgstr "Connect one Cache correctly and use a valid batch number."
+
+msgid "overlap.error.limit"
+msgstr "Exceeded 4096 cycles. Check for waits on states that cannot occur."
+
+msgid "overlap.error.incomplete"
+msgstr "Not all batches were processed, or the first-level independent work amount is incorrect."
+
+msgid "overlap.event.request"
+msgstr "Request"
+
+msgid "overlap.event.transfer"
+msgstr "Transfer"
+
+msgid "overlap.event.compute"
+msgstr "Compute"
+
+msgid "overlap.event.ready"
+msgstr "Arrival"
+
+msgid "overlap.event.output"
+msgstr "Output"
+
+msgid "overlap.event.evict"
+msgstr "Evict"
+
+msgid "overlap.event.error"
+msgstr "Failure"
+
+msgid "overlap.state.empty"
+msgstr "Free"
+
+msgid "overlap.state.filling"
+msgstr "Filling"
+
+msgid "overlap.state.ready"
+msgstr "Ready"
+
+msgid "overlap.state.in_use"
+msgstr "In use"
+
+msgid "overlap.cache_contents"
+msgstr "Cached batches"
+
+msgid "overlap.enter_next"
+msgstr "Enter Chapter 3 · overlap transfer and compute"
+
+msgid "overlap.arrival.learned"
+msgstr "You separated request from arrival and used the waiting interval for independent work. Both exploration branches are open."
+
+msgid "overlap.buffers.learned"
+msgstr "Your two buffers overlapped transfer and compute for 12 cycles. Next, explore what happens when speed changes."
+
+msgid "overlap.backpressure.learned"
+msgstr "One state-based handoff handles both timing patterns without overwrites. free and ready are more reliable than fixed delays."
+
+msgid "overlap.prefetch.learned"
+msgstr "Requests now start early, but compute still uses data that actually arrived. Explore what happens when requests get too far ahead."
+
+msgid "overlap.distance.learned"
+msgstr "You avoided unnecessary eviction and refetch. Prefetch value depends on cache capacity and when data is used."
+
+msgid "overlap.synthesis.learned"
+msgstr "Both workloads passed. Your schedule explains overlap and wait while preserving results. Extra storage cannot accelerate a bandwidth-bound transfer engine."

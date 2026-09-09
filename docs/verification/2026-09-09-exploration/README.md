@@ -17,7 +17,7 @@ was copied from the earlier Bus play session; new branch completions were earned
   editing or claims a new packaged chip. The final two fixes have focused checks;
   completion editing will be revisited during the final expansion player pass.
 
-Isolated run `20260909T101234Z-2b151d05`: all 17 non-localization suites and
+Isolated run `20260909T101234Z-2b151d05`: all 16 non-localization suites and
 Chinese ordinary Game input 593/0 passed. Localization initially caught missing
 handbook links; after correction it passed in the same isolated project. Focused
 exploration test passed again after the native findings. These checks are development

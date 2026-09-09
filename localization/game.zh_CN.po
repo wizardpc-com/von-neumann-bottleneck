@@ -5168,3 +5168,429 @@ msgstr "正式测试通过 — 可以继续修改并探索另一种结构。"
 
 msgid "exploration.delay.accept"
 msgstr "接收 DATA=%s · OUT 取上一份"
+
+msgid "overlap.title"
+msgstr "第 3 章 · 别让计算原地等"
+
+msgid "overlap.map"
+msgstr "关卡树"
+
+msgid "overlap.hub"
+msgstr "章节选择"
+
+msgid "overlap.fullscreen"
+msgstr "全屏 / 窗口"
+
+msgid "overlap.mission"
+msgstr "任务"
+
+msgid "overlap.toolbox"
+msgstr "元件"
+
+msgid "overlap.program"
+msgstr "调度程序"
+
+msgid "overlap.trace"
+msgstr "时间线"
+
+msgid "overlap.handbook"
+msgstr "图解手册"
+
+msgid "overlap.hint"
+msgstr "提示"
+
+msgid "overlap.run"
+msgstr "运行全部任务"
+
+msgid "overlap.undo"
+msgstr "撤销"
+
+msgid "overlap.redo"
+msgstr "重做"
+
+msgid "overlap.begin"
+msgstr "开始探索"
+
+msgid "overlap.play"
+msgstr "播放 / 暂停"
+
+msgid "overlap.step"
+msgstr "下一周期"
+
+msgid "overlap.map_goal"
+msgstr "先理解完成时刻，再探索缓冲与预取；两条支线在最后汇合。"
+
+msgid "overlap.map_status"
+msgstr "已完成的关卡可继续修改方案。"
+
+msgid "overlap.map_legend"
+msgstr "箭头表示学习前置；它们不是有延迟的电线。"
+
+msgid "overlap.map_intro"
+msgstr "此前你减少了数据搬运。现在，把无法避免的搬运与有用的计算重叠起来。\n\n一台搬运器，一台计算器。你安排请求、选择何时等待，并决定数据暂存在哪里。\n\n上路：显式缓冲与反压。\n下路：硬件管理的 Cache 与预取。\n\n每关公布任务、预算和目标。等价方案都可以通过。"
+
+msgid "overlap.branch.0"
+msgstr "共同起点"
+
+msgid "overlap.branch.1"
+msgstr "缓冲协作"
+
+msgid "overlap.branch.2"
+msgstr "提前搬运"
+
+msgid "overlap.branch.3"
+msgstr "汇合挑战"
+
+msgid "overlap.complete"
+msgstr "已完成 · 可重玩"
+
+msgid "overlap.available"
+msgstr "已解锁 · 可进入"
+
+msgid "overlap.locked"
+msgstr "完成前置后解锁"
+
+msgid "overlap.arrival.title"
+msgstr "发出去，不等于到了"
+
+msgid "overlap.arrival.goal"
+msgstr "完成独立工作并处理第 0 批，总用时不超过 10 周期。"
+
+msgid "overlap.arrival.body"
+msgstr "桌上是一台待修复的小机器。fetch 发出请求后立即返回；数据还要搬运 6 周期。现有程序却立刻 consume。\n\n你还有 4 周期不依赖这份数据的工作。尝试把它安排在合适的地方，再让计算器使用已到达的数据。\n\n查看失败行和时间线；请求、到达、完成是三个不同的时刻。"
+
+msgid "overlap.buffers.title"
+msgstr "两只缓冲，轮流上场"
+
+msgid "overlap.buffers.goal"
+msgstr "自己放置并连线，按序处理四批数据，40 → 28 周期。"
+
+msgid "overlap.buffers.body"
+msgstr "搬运每批需要 6 周期，计算每批需要 4 周期。只有一只缓冲时，搬运常常要等计算结束。\n\n这里不预摆解题元件。元件台允许你使用最多两只缓冲；拖到桌上并接通数据、ready 和 free。初始程序是串行安排，可修改。\n\n缓冲名字 A、B 会显示在元件标题上；程序里的名字必须对应自己的元件。"
+
+msgid "overlap.backpressure.title"
+msgstr "慢一点，也别丢"
+
+msgid "overlap.backpressure.goal"
+msgstr "让同一程序通过两组变速任务，不能覆盖或重复数据。"
+
+msgid "overlap.backpressure.body"
+msgstr "机器里有两只缓冲，程序却只凭固定的 tick 4 判断什么时候能再次写入。计算有时慢、有时快。\n\n观察哪只缓冲仍在使用。利用真实的 ready、free 和计算器空闲状态协调它们，让同一程序适应公开的两组时长。\n\n暂停搬运以保护尚未用完的数据，就是反压。它不是丢弃数据。"
+
+msgid "overlap.prefetch.title"
+msgstr "提前一点"
+
+msgid "overlap.prefetch.goal"
+msgstr "安排预取，让同样的四批处理从 40 降到 28 周期。"
+
+msgid "overlap.prefetch.body"
+msgstr "这次数据放进只有一行的 Cache，由硬件填充和替换。read 缺少数据时会等待，prefetch 可以提前发起搬运。\n\n修改调度程序，让计算器工作时，搬运器也做下一件有用的事。数据仍要真正到达后才能使用。\n\n你不能指定 Cache 的内容或槽位；它与上一支线的显式缓冲不同。"
+
+msgid "overlap.distance.title"
+msgstr "不是越早越好"
+
+msgid "overlap.distance.goal"
+msgstr "修复过早预取；保持结果并降到 30 周期以内。"
+
+msgid "overlap.distance.body"
+msgstr "初始程序把全部请求都提前发出。但 Cache 只有一行，请求队列也只能容纳两项（包括正在搬运的项）。\n\n看时间线里的逐出、再次请求和排队。哪次搬运在数据被使用之前挤掉了它？\n\n调整预取时机，而不是手工塞缓存。预算只有一行，所有代价都来自实际搬运和等待。"
+
+msgid "overlap.synthesis.title"
+msgstr "别让计算停下来"
+
+msgid "overlap.synthesis.goal"
+msgstr "两单位预算，同一方案通过标准与带宽受限任务。"
+
+msgid "overlap.synthesis.body"
+msgstr "选用缓冲或 Cache，自己搭建内部结构和程序。两种路线都可能成功，不要求把全部工具放上去。\n\n先保证按序、不重复地处理每一批，再检查两组公开任务的用时。第二组搬运很慢、计算很快：加更多暂存空间会让搬运器变快吗？\n\n目标是解释并改善瓶颈，不是把等待数字强行降到零。"
+
+msgid "overlap.edit_help"
+msgstr "拖元件、接线、删除；⌘Z 撤销。指令规格在手册中。"
+
+msgid "overlap.stale"
+msgstr "方案已修改 · 请重新运行；旧时间线仅供对照。"
+
+msgid "overlap.width_mismatch"
+msgstr "8 位数据只接数据口；1 位 ready/free 只接控制口。"
+
+msgid "overlap.transfer"
+msgstr "搬运器"
+
+msgid "overlap.compute"
+msgstr "计算器"
+
+msgid "overlap.buffer"
+msgstr "显式缓冲"
+
+msgid "overlap.cache"
+msgstr "Cache · 自动替换"
+
+msgid "overlap.transfer.note"
+msgstr "一项搬运 · 队列共 2 项"
+
+msgid "overlap.compute.note"
+msgstr "一项计算 · 输出按批次"
+
+msgid "overlap.buffer.note"
+msgstr "空 → 搬运中 → 就绪 → 使用中"
+
+msgid "overlap.cache.note"
+msgstr "1 行 · LRU 硬件管理"
+
+msgid "overlap.tool_cost"
+msgstr "容量 1 批 · 成本 1"
+
+msgid "overlap.toolbox_help"
+msgstr "点击后在空地连续放置，或直接拖入。右键 / Esc 取消。选中后 Delete 删除。\n粗双线 8 位数据；细线 1 位状态。"
+
+msgid "overlap.public_cases"
+msgstr "公开任务与预算"
+
+msgid "overlap.case_spec"
+msgstr "%s\n批值 %s\n每批计算 %s 周期\n每批搬运 %s 周期 · 目标 ≤ %s\n暂存预算 %s 单位"
+
+msgid "overlap.output_spec"
+msgstr "批次从 0 编号，每批是一份 8 位数据。必须依次输出 2×批值+1，不能漏批、重复或乱序。每次正式运行都从空状态开始。"
+
+msgid "overlap.independent_work"
+msgstr "另外必须恰好完成 work 4；这项工作占用同一台计算器。"
+
+msgid "overlap.commands.arrival"
+msgstr "fetch A 0 发请求\nwork 4 独立工作\nready A 等数据到达\nconsume A 启动计算\nidle 等计算结束"
+
+msgid "overlap.commands.buffer"
+msgstr "fetch A 0 发请求；ready A 等到达\nconsume A 启动计算；idle 等计算结束\nfree A 等缓冲空闲；tick N 固定等待"
+
+msgid "overlap.commands.cache"
+msgstr "prefetch 0 提前发请求\nread 0 等数据并启动本批计算\nidle 等计算结束；tick N 固定等待"
+
+msgid "overlap.commands.both"
+msgstr "缓冲：fetch / ready / consume / free\nCache：prefetch / read\n共同：idle 等计算；tick N 等 N 周期"
+
+msgid "overlap.no_run"
+msgstr "运行后查看真实搬运与计算区间。"
+
+msgid "overlap.public_case"
+msgstr "公开任务"
+
+msgid "overlap.metrics"
+msgstr "总用时 %s / 目标 %s · 计算忙 %s · 搬运忙 %s\n重叠 %s · 计算器等待 %s · 输出总和 %s / %s"
+
+msgid "overlap.cache_metrics"
+msgstr "命中 %s · 未命中 %s · 逐出 %s · 发请求排队 %s 周期"
+
+msgid "overlap.line_error"
+msgstr "第 %s 行：%s"
+
+msgid "overlap.too_slow"
+msgstr "结果正确；尚未达到用时目标。查看两条时间轨道。"
+
+msgid "overlap.passed"
+msgstr "通过 · 可继续修改，或返回关卡树探索下一支。"
+
+msgid "overlap.try_again"
+msgstr "本次尚未通过 · 时间线保留失败原因与发生时刻。"
+
+msgid "overlap.handbook.arrival"
+msgstr "请求 ≠ 到达\nfetch / prefetch 是提交请求；搬运器在未来完成。计算器只能使用已就绪的数据。两台资源可以各自忙碌，同一台资源不能同时做两件事。"
+
+msgid "overlap.handbook.wires"
+msgstr "位宽与连接\n青色粗双线 = 8 位数据；金色细线 = 1 位状态。缓冲 ready 接计算器，free 接搬运器。端口标签同时标出位宽，不只依赖颜色。\n\n连线没有模拟延迟。多个缓冲接入设备的同一端口表示按程序中的元件名字寻址，不是把电压短接。此章是显式简化的批次搬运模型。"
+
+msgid "overlap.handbook.overlap"
+msgstr "读时间线\n横轴是模拟周期，蓝轨是搬运，紫轨是计算。上下同时有色块的区间就是重叠；总时间不能再把两条忙碌时间相加。\n\n示例：4 批，搬运 6、计算 4。串行 40；下图的两资源安排为 28，重叠 12。数字来自同一个模拟器。"
+
+msgid "overlap.handbook.buffers"
+msgstr "显式缓冲的生命周期\n空 → 搬运中 → 就绪 → 使用中 → 空\nfetch 只接受空缓冲；ready 等待到达；consume 开始使用；计算结束后自动变空。free 等待这个空闲信号。\n\n固定 tick 只知道时间过去了，不知道数据是否用完。所有批次都需要同样的安全交接规则。"
+
+msgid "overlap.handbook.cache"
+msgstr "预取与 Cache\n每行容纳一批，以批次编号为标签。填充和 read 更新 LRU 次序；满时逐出最久未用的一行。read 一旦开始计算，数值已锁存，之后逐出不会改变这次计算。\n\nprefetch 和缺失的 read 共用唯一搬运器，FIFO 队列总共两项。队列满时，发请求的程序等位置；搬运和已启动的计算继续。对已缓存或正在搬运的批次预取不会重复发请求。"
+
+msgid "overlap.handbook.limits"
+msgstr "提前多少，取决于资源\n太晚：计算器等数据。太早：有用的数据可能先被逐出，之后需要再搬一次。多放缓冲不增加唯一搬运器的带宽。\n\n对照公开任务，用总时间、重叠、等待和实际请求解释你的改进。没有人为附加的“预取惩罚”。"
+
+msgid "overlap.handbook.commands"
+msgstr "指令约定\n每行一条指令，# 后是注释；元件名字不区分大小写。发指令本身不计周期；只有设备工作或等待推动时间。\nfetch A 0：向 A 请求第 0 批。\nready A / free A：等 A 就绪 / 空闲。\nconsume A：使用 A，异步启动本批计算。\nidle：等待当前计算结束。\ntick N：固定等待 N 周期。\nwork N：同步做 N 周期独立工作（仅首关）。\nprefetch 0：提前请求第 0 批到 Cache。\nread 0：等第 0 批到 Cache，启动其计算。\n\n程序末尾会排空已经启动的工作，但不会补发遗漏批次，也不会修复无效操作。"
+
+msgid "overlap.hint_readonly"
+msgstr "独立提示画布 · 不会改动你的方案"
+
+msgid "overlap.hint_no_program"
+msgstr "此层仅给思考方向。"
+
+msgid "overlap.back_to_design"
+msgstr "返回自己的方案"
+
+msgid "overlap.hint_next"
+msgstr "请求下一层"
+
+msgid "overlap.hint_confirm.2"
+msgstr "下一层将显示局部结构与关键关系。继续查看 H2？"
+
+msgid "overlap.hint_confirm.3"
+msgstr "H3 将展示完整可行方案和程序，可能破坏探索乐趣。确认查看完整参考？"
+
+msgid "overlap.arrival.hint.1"
+msgstr "哪项工作不依赖正在搬运的数据？请求之后一定要立刻等待吗？"
+
+msgid "overlap.arrival.hint.2"
+msgstr "利用缓冲的 ready 状态把“已请求”和“可以使用”分开。独立工作仍占计算器。"
+
+msgid "overlap.arrival.hint.3"
+msgstr "完整参考先发请求，在搬运期间做独立工作，再等待到达并计算。"
+
+msgid "overlap.buffers.hint.1"
+msgstr "一只缓冲正在被计算器使用时，下一批还有哪里可以去？"
+
+msgid "overlap.buffers.hint.2"
+msgstr "局部图展示一只缓冲的数据与状态连接。另一只按同样的接口接入，再安排交替使用。"
+
+msgid "overlap.buffers.hint.3"
+msgstr "完整参考使用 A、B 轮换。free 确认用完后才复用；idle 防止抢占正在工作的计算器。"
+
+msgid "overlap.backpressure.hint.1"
+msgstr "时间过去了，并不能证明缓冲已经空了。哪根线给出真正的空闲状态？"
+
+msgid "overlap.backpressure.hint.2"
+msgstr "ready 保护读取，free 保护写入；计算器也要确认上一批已经结束。"
+
+msgid "overlap.backpressure.hint.3"
+msgstr "完整参考依靠状态等待，适应两组计算时长；它与固定 tick 的判断不同。"
+
+msgid "overlap.prefetch.hint.1"
+msgstr "下一次 read 将用哪一批？能否在当前计算结束前发出请求？"
+
+msgid "overlap.prefetch.hint.2"
+msgstr "先让第一份搬运开始，再考虑队列里下一份请求。read 自己仍会等待尚未到达的数据。"
+
+msgid "overlap.prefetch.hint.3"
+msgstr "完整参考保留有限的提前量；每次计算都使用真正到达的 Cache 数据。"
+
+msgid "overlap.distance.hint.1"
+msgstr "查看第一次 read 之前发生了哪些逐出。那些被挤掉的数据已经用过了吗？"
+
+msgid "overlap.distance.hint.2"
+msgstr "只让即将需要的批次提前搬运；不要让更远的批次抢占一行 Cache。"
+
+msgid "overlap.distance.hint.3"
+msgstr "完整参考让请求跟随消费进度，避免“先预取全部、再读取全部”的重复搬运。"
+
+msgid "overlap.synthesis.hint.1"
+msgstr "先选一条你理解的路线。第二组任务真正长的是搬运还是计算？"
+
+msgid "overlap.synthesis.hint.2"
+msgstr "缓冲路线需要保护复用；Cache 路线需要保护预取时机。无需同时使用两套。"
+
+msgid "overlap.synthesis.hint.3"
+msgstr "这里展示双缓冲参考；一行 Cache 与合适预取也能通过全部任务。带宽受限任务仍会等待。"
+
+msgid "overlap.error.machine"
+msgstr "需要唯一的搬运器与计算器，以及合法的暂存元件。"
+
+msgid "overlap.error.budget"
+msgstr "超过本关暂存预算。删除不需要的缓冲或 Cache。"
+
+msgid "overlap.error.program_limit"
+msgstr "程序过长，最多 16000 字符。"
+
+msgid "overlap.error.command"
+msgstr "本关不支持这条指令。查看任务与手册中的指令规格。"
+
+msgid "overlap.error.syntax"
+msgstr "指令参数不正确。查看手册；周期数须为 1～128。"
+
+msgid "overlap.error.compute_busy"
+msgstr "计算器仍在工作。需要等待 idle 后再启动下一项计算。"
+
+msgid "overlap.error.buffer_or_batch"
+msgstr "缓冲名字或批次编号不存在。批次从 0 开始编号。"
+
+msgid "overlap.error.transfer_route"
+msgstr "缺少搬运数据线或 free 反馈线。"
+
+msgid "overlap.error.overwrite"
+msgstr "这只缓冲尚未空闲，不能覆盖。等待 free，或使用另一只空缓冲。"
+
+msgid "overlap.error.duplicate"
+msgstr "同一批数据被重复请求。每批只处理一次。"
+
+msgid "overlap.error.control_route"
+msgstr "缺少对应的 ready / free 状态连接。"
+
+msgid "overlap.error.deadlock"
+msgstr "等待的状态不会自行出现：没有工作能推动它。检查请求和消费顺序。"
+
+msgid "overlap.error.compute_route"
+msgstr "缓冲数据没有连接到计算器。"
+
+msgid "overlap.error.not_ready"
+msgstr "请求已经发出，但数据尚未就绪。不要提前 consume。"
+
+msgid "overlap.error.order"
+msgstr "批次顺序错误或重复消费。必须按 0、1、2… 输出。"
+
+msgid "overlap.error.cache_route"
+msgstr "需要一只正确连线的 Cache，以及有效批次编号。"
+
+msgid "overlap.error.limit"
+msgstr "等待超过 4096 周期。检查是否一直等待无法出现的状态。"
+
+msgid "overlap.error.incomplete"
+msgstr "没有完整处理全部批次，或首关独立工作量不符合规格。"
+
+msgid "overlap.event.request"
+msgstr "请求"
+
+msgid "overlap.event.transfer"
+msgstr "搬运"
+
+msgid "overlap.event.compute"
+msgstr "计算"
+
+msgid "overlap.event.ready"
+msgstr "到达"
+
+msgid "overlap.event.output"
+msgstr "输出"
+
+msgid "overlap.event.evict"
+msgstr "逐出"
+
+msgid "overlap.event.error"
+msgstr "失败"
+
+msgid "overlap.state.empty"
+msgstr "空闲"
+
+msgid "overlap.state.filling"
+msgstr "搬运中"
+
+msgid "overlap.state.ready"
+msgstr "就绪"
+
+msgid "overlap.state.in_use"
+msgstr "使用中"
+
+msgid "overlap.cache_contents"
+msgstr "已缓存批次"
+
+msgid "overlap.enter_next"
+msgstr "进入第 3 章 · 让搬运与计算重叠"
+
+msgid "overlap.arrival.learned"
+msgstr "你区分了发请求和数据到达，并把独立工作放进了等待区间。两条探索支线已开放。"
+
+msgid "overlap.buffers.learned"
+msgstr "你让两只缓冲交替服务，真实地重叠了 12 周期搬运与计算。接下来看看速度变化时会怎样。"
+
+msgid "overlap.backpressure.learned"
+msgstr "同一套状态交接适应了两组计算时长，不覆盖数据。free 与 ready 比固定等待更可靠。"
+
+msgid "overlap.prefetch.learned"
+msgstr "你把请求提前了，但计算仍使用实际到达的数据。试着继续观察提前过多的后果。"
+
+msgid "overlap.distance.learned"
+msgstr "你避免了不必要的逐出和再次搬运。预取的价值取决于缓存容量与使用时机。"
+
+msgid "overlap.synthesis.learned"
+msgstr "两组任务都已通过。相同结果下，你用调度解释了重叠与等待；带宽受限时，更多暂存不会让搬运器变快。"

@@ -1,0 +1,32 @@
+class_name OverlapTimeline
+extends Control
+var trace: SimulationTrace
+var selected_cycle: int = -1
+func _ready() -> void:
+	custom_minimum_size = Vector2(700, 160)
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+func _draw() -> void:
+	if trace == null: return
+	var font: Font = ThemeDB.fallback_font
+	var total: int = maxi(1, int(trace.metrics.total_cycles))
+	var left: float = 122
+	var usable: float = maxf(100, size.x - left - 20)
+	for lane: int in range(2):
+		var y: float = 36 + lane * 56
+		draw_string(font, Vector2(0,y + 20), Localization.text(&"overlap.transfer" if lane == 0 else &"overlap.compute"), HORIZONTAL_ALIGNMENT_LEFT, 116, 17, Color("d8e7f2"))
+		draw_rect(Rect2(left,y,usable,32),Color("112431"))
+	for event: SimulationEvent in trace.events:
+		if event.kind not in [&"transfer", &"compute"]: continue
+		var lane: int = 0 if event.kind == &"transfer" else 1
+		var x: float = left + usable * float(event.cycle) / total
+		var width: float = usable * float(event.duration) / total
+		var color := Color("50d5ff") if lane == 0 else Color("ba92ff")
+		draw_rect(Rect2(x,36+lane*56,maxf(1,width-1),32),Color(color,0.7))
+		var batch: int = int(event.details.get("batch", -1))
+		if width > 26: draw_string(font,Vector2(x+5,58+lane*56), str(batch) if batch >= 0 else "∗",HORIZONTAL_ALIGNMENT_LEFT,width-8,17,Color.WHITE)
+	for mark: int in range(5):
+		var at: float = float(mark)/4
+		draw_string(font,Vector2(left+usable*at-6,20), str(roundi(total*at)),HORIZONTAL_ALIGNMENT_LEFT,50,14,Color("91a0b9"))
+	if selected_cycle >= 0:
+		var x: float = left + usable * clampf(float(selected_cycle)/total,0,1)
+		draw_line(Vector2(x,28),Vector2(x,130),Color("ffbf69"),2)

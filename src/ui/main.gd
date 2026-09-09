@@ -116,6 +116,7 @@ var mission_progress_label: Label
 var mission_judgment_box: VBoxContainer
 var mission_review_button: Button
 var mission_finish_button: Button
+var overlap_entry_button: Button
 var mission_judgment_buttons: Dictionary[StringName, Button] = {}
 var program_validation_label: Label
 var program_effect_label: Label
@@ -662,6 +663,11 @@ func _build_mission_instrument() -> Control:
 	mission_finish_button.visible = false
 	mission_finish_button.pressed.connect(_show_capstone_summary)
 	panel.add_child(mission_finish_button)
+	overlap_entry_button = Button.new()
+	overlap_entry_button.text = _t(&"overlap.enter_next")
+	overlap_entry_button.visible = false
+	overlap_entry_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/overlap_chapter/overlap_chapter.tscn"))
+	panel.add_child(overlap_entry_button)
 	var map_button := Button.new()
 	map_button.text = _t(&"chapter2.map.return")
 	map_button.pressed.connect(_show_chapter_map)
@@ -1351,6 +1357,7 @@ func _update_mission_progress() -> void:
 		button.disabled = not evidence_available or complete
 	mission_review_button.visible = _pending_review_ready()
 	mission_finish_button.visible = current_level_id == &"capstone" and complete
+	overlap_entry_button.visible = mission_finish_button.visible
 
 
 func _on_level_completion_continue(_level_id: StringName) -> void:

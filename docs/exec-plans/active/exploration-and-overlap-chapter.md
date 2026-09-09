@@ -87,3 +87,14 @@ first-time human beginner acceptance require separate evidence.
   Native ordinary Game alternate selector and two-register delay passed; normal
   restart retained both completions and the player board. See
   `docs/verification/2026-09-09-exploration/README.md`. Chapter 3 remains in progress.
+
+- Chapter 3 development checkpoint: deterministic model, six nodes, editable workbench,
+  buffer/state wiring, queued prefetch, trace/state replay, gated independent hints,
+  progressive diagrams, local feedback instrumentation and revalidated persistence
+  implemented. Core committed as `18e2233`. Both full isolated runs pass 19 suites;
+  ordinary original-Game input is 593/0 in Chinese and English.
+- Native Chapter 3 acceptance is blocked by the locked Mac. Computer use reports it
+  cannot unlock the machine; user unlock requested. Test render checks found and
+  fixed oversized windows and port/readability issues but are not counted as play.
+  The active plan remains open. Detailed next player steps and evidence:
+  `docs/verification/2026-09-09-overlap-development/README.md`.

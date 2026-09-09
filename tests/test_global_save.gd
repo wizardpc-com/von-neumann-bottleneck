@@ -36,6 +36,7 @@ func _run() -> void:
 	_test_chapter_gates_and_notebook_resume()
 	_test_dependency_invalidation_resume()
 	_test_exploration_resume()
+	_test_overlap_resume()
 	_test_corrupt_and_unknown_schema()
 	_test_new_game_and_mode_isolation()
 	for service: Node in services:
@@ -501,3 +502,31 @@ func _test_exploration_resume() -> void:
 	store.save_workbench(&"game", &"delay", "default", broken)
 	var rejecting = _service()
 	_assert(rejecting.load_game() and not rejecting.game_player_content.completed_levels.has(&"delay") and rejecting.game_player_content.completed_levels.has(&"selector") and rejecting.game_player_content.completed_levels.has(&"load_store"), "Invalid optional evidence must lose only its own completion, never the independent original route.")
+
+
+func _test_overlap_resume() -> void:
+	_clear_fixture_files()
+	var player = _build_complete_hardware_player()
+	_reset_chapters()
+	system_chapter.capture_prologue(player.component_library)
+	for id: StringName in [&"assembly", &"cpu_speed", &"ram_wait", &"bus_width", &"bottleneck"]: system_chapter.mark_completed(id)
+	for id: StringName in [&"distant_reads", &"nearby_storage", &"cache_failure", &"access_order", &"working_set", &"blocking", &"capstone"]: locality_chapter.mark_completed(id)
+	var overlap: Node = root.get_node("OverlapChapter")
+	var catalog = load("res://src/overlap_chapter/overlap_catalog.gd")
+	var solutions: Dictionary = {}
+	for id: String in catalog.IDS: solutions[id] = catalog.reference_solution(id)
+	overlap.restore_game({"schema_version":1,"solutions":solutions,"drafts":solutions},true)
+	var writer = _service()
+	writer.game_player_content = player
+	_assert(writer.save_game(true), "Chapter 3 solutions and drafts save through the existing atomic global service.")
+	var reader = _service()
+	_assert(reader.load_game() and overlap.game_solutions.size()==6 and overlap.game_drafts.size()==6,
+		"JSON round-trip must revalidate all six Chapter 3 solutions and retain drafts.")
+	_assert(reader.continue_scene_path().ends_with("overlap_chapter.tscn"), "Chapter 2 capstone opens Chapter 3 Continue.")
+	_assert(reader.start_new_game(false).ok and overlap.game_solutions.is_empty() and overlap.game_drafts.size()==6,
+		"New Game without clearing workbenches must retain Chapter 3 drafts without retaining unlocks.")
+	var fresh = _service()
+	fresh.load_game()
+	_assert(overlap.game_drafts.size()==6 and overlap.game_solutions.is_empty() and not fresh.has_resume_progress(),
+		"Retained drafts survive another process load without manufacturing progression.")
+	_assert(fresh.start_new_game(true).ok and overlap.game_drafts.is_empty(), "Explicitly clearing workbenches also clears new chapter drafts.")

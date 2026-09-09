@@ -98,3 +98,13 @@ first-time human beginner acceptance require separate evidence.
   fixed oversized windows and port/readability issues but are not counted as play.
   The active plan remains open. Detailed next player steps and evidence:
   `docs/verification/2026-09-09-overlap-development/README.md`.
+
+- Subsequent native pass: all six Chapter 3 nodes completed in ordinary Game,
+  including manual buffer wiring and an alternative Cache synthesis. Fixed native
+  palette/card input, error-line/failed-timeline and cable/hint display bugs.
+  Normal quit/Continue restored all six solutions and editable drafts. Fresh 19
+  suites pass; final focused UI regression also passes. See
+  `docs/verification/2026-09-09-overlap-native/README.md` for exact evidence.
+- Keep this plan open for reliable application-switch cancellation verification;
+  computer-use switching timed out and that check was not accepted. Windows and
+  actual novice difficulty/fun remain separate acceptance work.

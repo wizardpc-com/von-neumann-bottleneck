@@ -20,6 +20,8 @@ func _run() -> void:
 	_assert(overlap.passed and overlap.metrics.total_cycles == 28 and overlap.metrics.overlap == 12, "Two resources must actually overlap for 28 cycles, not sum busy time.")
 	var early: SimulationTrace = Sim.new().run("fetch A 0\nconsume A", Catalog.buffer_board(1), task)
 	_assert(early.metrics.error == "not_ready", "An issued request is not ready data.")
+	var followed_error: SimulationTrace = Sim.new().run("# first batch\nfetch A 0\nconsume A\nidle\n", Catalog.buffer_board(1), task)
+	_assert(followed_error.metrics.error_line == 3 and followed_error.metrics.total_cycles == 0, "Failure must retain the offending source line and stop before unfinished transfers complete.")
 	var overwrite: SimulationTrace = Sim.new().run(Catalog.starter("backpressure"), Catalog.buffer_board(2), Catalog.cases("backpressure")[0])
 	_assert(overwrite.metrics.error == "overwrite", "Fixed waits must expose overwriting an in-use buffer on the variable workload.")
 	var disconnected: Dictionary = Catalog.buffer_board(2)

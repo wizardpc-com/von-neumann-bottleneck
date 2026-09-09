@@ -54,3 +54,4 @@ Repository-local documentation is the source of truth for future human and Codex
 Keep root documents navigational. Update the most specific source-of-truth document instead of repeating the same details across files.
 
 - [Chapter 3 overlap model and persistence](architecture/overlap-chapter.md)
+- [Chapter 3 native player pass and fixes](verification/2026-09-09-overlap-native/README.md)

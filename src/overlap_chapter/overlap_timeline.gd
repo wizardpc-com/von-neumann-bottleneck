@@ -5,6 +5,7 @@ var selected_cycle: int = -1
 func _ready() -> void:
 	custom_minimum_size = Vector2(700, 160)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	clip_contents = true
 func _draw() -> void:
 	if trace == null: return
 	var font: Font = ThemeDB.fallback_font
@@ -17,15 +18,19 @@ func _draw() -> void:
 		draw_rect(Rect2(left,y,usable,32),Color("112431"))
 	for event: SimulationEvent in trace.events:
 		if event.kind not in [&"transfer", &"compute"]: continue
+		# An issued operation can extend beyond a failed run's stopping cycle.
+		var end_cycle: int = mini(event.cycle + event.duration, int(trace.metrics.total_cycles))
+		if end_cycle <= event.cycle: continue
 		var lane: int = 0 if event.kind == &"transfer" else 1
 		var x: float = left + usable * float(event.cycle) / total
-		var width: float = usable * float(event.duration) / total
+		var width: float = usable * float(end_cycle - event.cycle) / total
 		var color := Color("50d5ff") if lane == 0 else Color("ba92ff")
 		draw_rect(Rect2(x,36+lane*56,maxf(1,width-1),32),Color(color,0.7))
 		var batch: int = int(event.details.get("batch", -1))
 		if width > 26: draw_string(font,Vector2(x+5,58+lane*56), str(batch) if batch >= 0 else "∗",HORIZONTAL_ALIGNMENT_LEFT,width-8,17,Color.WHITE)
-	for mark: int in range(5):
-		var at: float = float(mark)/4
+	var mark_count: int = mini(4, total)
+	for mark: int in range(mark_count + 1):
+		var at: float = float(mark)/mark_count
 		draw_string(font,Vector2(left+usable*at-6,20), str(roundi(total*at)),HORIZONTAL_ALIGNMENT_LEFT,50,14,Color("91a0b9"))
 	if selected_cycle >= 0:
 		var x: float = left + usable * clampf(float(selected_cycle)/total,0,1)

@@ -31,6 +31,25 @@ func _run() -> void:
 		host.scrub.value = 0
 		_assert(signature==host.trace.canonical_signature(), "Timeline seeking must never recompute or change simulation.")
 		if id=="buffers":
+			var buffer: GraphNode = host.graph.get_node("A")
+			_assert(host.graph._node_at(host.graph.displayed_node_rect(buffer).get_center()) == &"A", "Full-card modules must support body selection and erasing, not become empty marquee space.")
+			for panel: Control in host.panels.values(): panel.hide()
+			var start: Vector2 = buffer.position_offset
+			var pointer: Vector2 = host.graph.get_global_transform_with_canvas() * host.graph.displayed_node_rect(buffer).get_center()
+			var press := InputEventMouseButton.new()
+			press.button_index = MOUSE_BUTTON_LEFT; press.pressed = true; press.position = pointer
+			_assert(host._handle_body_drag(press), "Card-body press must begin an editable move.")
+			var motion := InputEventMouseMotion.new()
+			motion.position = pointer + Vector2(120,80)
+			host._handle_body_drag(motion)
+			host._save_draft()
+			_assert(Vector2(host.board.nodes.A.x,host.board.nodes.A.y).is_equal_approx(start), "Autosave must not commit a still-held gesture into its undo baseline.")
+			var release := InputEventMouseButton.new()
+			release.button_index = MOUSE_BUTTON_LEFT; release.position = motion.position
+			host._handle_body_drag(release)
+			_assert(not buffer.position_offset.is_equal_approx(start), "Captured Mac motion with an omitted button mask must still move the pressed card.")
+			host._undo()
+			_assert(host.graph.get_node("A").position_offset.is_equal_approx(start), "One undo restores the whole body move.")
 			host._delete_part(&"A")
 			_assert(not host.board.nodes.has("A"), "Completion must retain editing.")
 			host._undo()

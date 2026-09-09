@@ -23,6 +23,7 @@ var panels: Dictionary = {}
 var undo_stack: Array[Dictionary] = []
 var redo_stack: Array[Dictionary] = []
 var armed: String = ""
+var body_drag: Dictionary = {}
 var hint_level: int = 0
 var hint_overlay: Control
 var completion: LevelCompletionOverlay
@@ -118,8 +119,86 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_END:
 		_cancel_placement()
 	if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_WM_CLOSE_REQUEST]:
+		_cancel_body_drag()
 		_cancel_placement()
 		_save_draft()
+
+func _placement_allowed(position: Vector2) -> bool:
+	if not is_instance_valid(graph) or not graph.get_global_rect().has_point(position): return false
+	if is_instance_valid(hint_overlay) or completion.visible or confirmation.visible: return false
+	for panel: FloatingInstrumentPanel in panels.values():
+		if panel.visible and panel.get_global_rect().has_point(position): return false
+	return true
+
+func _input(event: InputEvent) -> void:
+	if not is_instance_valid(graph): return
+	if _handle_body_drag(event):
+		get_viewport().set_input_as_handled()
+		return
+	if event is InputEventMouseMotion and not armed.is_empty():
+		graph.placement_pointer = graph.get_global_transform_with_canvas().affine_inverse() * event.position
+		graph.placement_has_pointer = _placement_allowed(event.position)
+		graph.queue_redraw()
+	if not event is InputEventMouseButton or event.pressed or event.button_index != MOUSE_BUTTON_LEFT or not get_viewport().gui_is_dragging(): return
+	var payload: Variant = get_viewport().gui_get_drag_data()
+	if not payload is Dictionary or StringName(payload.get("type", &"")) != &"circuit_component_template": return
+	# Match the existing circuit host: native captured drags use the release
+	# event position, which can differ from the OS cursor's hover position.
+	var allowed: bool = _placement_allowed(event.position)
+	get_viewport().gui_cancel_drag()
+	if allowed: _add_part(String(payload.template_key),graph.get_global_transform_with_canvas().affine_inverse() * event.position)
+	_cancel_placement()
+	get_viewport().set_input_as_handled()
+
+func _handle_body_drag(event: InputEvent) -> bool:
+	if not body_drag.is_empty():
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			_cancel_body_drag()
+			return true
+		if event is InputEventKey: return true
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+			_cancel_body_drag()
+			return true
+		if event is InputEventMouseMotion:
+			if not body_drag.moved and event.position.distance_to(body_drag.pointer) < 4: return true
+			body_drag.moved = true
+			var offset: Vector2 = (event.position - body_drag.pointer) / graph.zoom
+			for id: String in body_drag.positions:
+				var node: GraphNode = graph.get_node(NodePath(id))
+				node.position_offset = (body_drag.positions[id] + offset).snapped(Vector2.ONE * (graph.snapping_distance if graph.snapping_enabled else 1))
+			return true
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+			if body_drag.moved:
+				_remember()
+				_capture_layout()
+				_changed(false)
+			body_drag.clear()
+			return true
+		return false
+	if not event is InputEventMouseButton or not event.pressed or event.button_index != MOUSE_BUTTON_LEFT or not _placement_allowed(event.position): return false
+	var local: Vector2 = graph.get_global_transform_with_canvas().affine_inverse() * event.position
+	if not graph._port_at(local,28).is_empty(): return false
+	var id: StringName = graph._node_at(local)
+	if id.is_empty(): return false
+	_cancel_placement()
+	graph.grab_focus()
+	var clicked: GraphNode = graph.get_node(NodePath(id))
+	if event.shift_pressed: clicked.selected = not clicked.selected
+	elif not clicked.selected:
+		for child: Node in graph.get_children():
+			if child is GraphNode: child.selected = child == clicked
+	var positions: Dictionary = {}
+	for child: Node in graph.get_children():
+		if child is GraphNode and child.selected: positions[String(child.name)] = child.position_offset
+	if not positions.is_empty(): body_drag = {"pointer":event.position,"positions":positions,"moved":false}
+	return true
+
+func _cancel_body_drag() -> void:
+	if is_instance_valid(graph):
+		for id: String in body_drag.get("positions",{}):
+			var node: GraphNode = graph.get_node_or_null(NodePath(id))
+			if node != null: node.position_offset = body_drag.positions[id]
+	body_drag.clear()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
@@ -219,6 +298,8 @@ func _new_graph(read_only: bool) -> CircuitGraphEdit:
 	result.right_disconnects = true
 	result.branch_edit_enabled = not read_only
 	result.component_drop_enabled = not read_only
+	result.connection_lines_thickness = 0.0
+	result.connection_lines_antialiased = true
 	result.connection_width_provider = func(id: StringName, port: int, output: bool) -> int:
 		var node: GraphNode = result.get_node_or_null(NodePath(id))
 		return node.get_output_port_type(port) if output and node != null else node.get_input_port_type(port) if node != null else 1
@@ -227,6 +308,10 @@ func _new_graph(read_only: bool) -> CircuitGraphEdit:
 		var b: GraphNode = result.get_node_or_null(NodePath(to))
 		return a != null and b != null and a.get_output_port_type(output) == b.get_input_port_type(input) and from != to
 	if not read_only:
+		result.connection_drag_started.connect(func(id: StringName, port: int, output: bool) -> void:
+			result.set_draft_color_index(2 if result.port_bit_width(id,port,output)==1 else 0)
+			result.begin_builtin_connection_preview(id,port,output))
+		result.connection_drag_ended.connect(result.end_builtin_connection_preview)
 		result.connection_request.connect(_connect_wire)
 		result.disconnection_request.connect(_disconnect_wire)
 		result.component_drop_requested.connect(func(kind: String, position: Vector2) -> void:
@@ -253,6 +338,7 @@ func _render_board(target: CircuitGraphEdit, data: Dictionary, read_only: bool) 
 		var spec: Dictionary = data.nodes[id]
 		var kind: String = spec.kind
 		var node := GraphNode.new()
+		node.set_meta("full_card_hit_test", true)
 		node.name = id
 		node.title = id + " · " + _t(kind)
 		node.position_offset = Vector2(float(spec.get("x",0)),float(spec.get("y",0)))
@@ -302,7 +388,17 @@ func _render_board(target: CircuitGraphEdit, data: Dictionary, read_only: bool) 
 		node.add_child(live)
 	for wire: Array in data.wires:
 		target.connect_node(StringName(wire[0]),int(wire[1]),StringName(wire[2]),int(wire[3]))
+		target.set_connection_color_index(StringName(wire[0]),int(wire[1]),StringName(wire[2]),int(wire[3]),2 if target.port_bit_width(StringName(wire[0]),int(wire[1]),true)==1 else 0)
 	target.queue_redraw()
+	_refresh_wire_geometry.call_deferred(target,read_only)
+
+func _refresh_wire_geometry(target: CircuitGraphEdit, read_only: bool) -> void:
+	# GraphNode containers settle port rows after the board is rebuilt.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if is_instance_valid(target):
+		if read_only: target.scroll_offset = Vector2(-70,-150)
+		target.queue_redraw()
 
 func _connect_wire(from: StringName, output: int, to: StringName, input: int) -> void:
 	if not graph.connection_validator.call(from,output,to,input):
@@ -349,8 +445,14 @@ func _changed(render: bool = true) -> void:
 	status.text = _t("stale")
 	if is_instance_valid(metrics): metrics.text = _t("stale")
 	if render: _render_board(graph,board,false)
+	elif is_instance_valid(graph):
+		for child: Node in graph.get_children():
+			if child is GraphNode:
+				var live: Label = child.get_node_or_null("LiveState")
+				if live != null: live.text = ""
 
 func _save_draft() -> void:
+	if not body_drag.is_empty(): return
 	if level.is_empty() or not is_instance_valid(editor) or board.is_empty(): return
 	_capture_layout()
 	OverlapChapter.store_draft(level,board,editor.text)
@@ -419,7 +521,9 @@ func _build_toolbox() -> void:
 		item.set_component_preview(preview)
 		item.placement_requested.connect(func(key: String) -> void:
 			armed = key
-			graph.set_component_placement_preview(true,null,Vector2(210,155)))
+			var ghost := preload("res://src/overlap_chapter/overlap_part_preview.gd").new()
+			ghost.cache = key == "cache"
+			graph.set_component_placement_preview(true,ghost,Vector2(210,155)))
 		box.add_child(item)
 	_button(box,"undo",func() -> void: _undo())
 	_button(box,"redo",func() -> void: _undo(true))
@@ -567,6 +671,8 @@ func _request_hint() -> void:
 	if hint_level == 0: _advance_hint(); return
 	if is_instance_valid(hint_overlay): return
 	confirmation.dialog_text = _t("hint_confirm."+str(mini(3,hint_level+1)))
+	confirmation.ok_button_text = Localization.text(StringName("hardware.hint.confirm_button."+str(mini(3,hint_level+1))))
+	confirmation.cancel_button_text = Localization.text(&"hardware.hint.cancel")
 	confirmation.popup_centered(Vector2i(560,190))
 
 func _advance_hint() -> void:
@@ -604,11 +710,12 @@ func _show_hint(tier: int) -> void:
 	var hint_board: Dictionary = Catalog.terminal_board() if tier==1 else Catalog.buffer_board(1) if tier==2 and level not in ["prefetch","distance"] else answer.board
 	_render_board(canvas,hint_board,true)
 	canvas.zoom = 0.75
-	canvas.scroll_offset = Vector2(-20,-80)
+	canvas.scroll_offset = Vector2(-70,-150)
 	var code := CodeEdit.new()
 	code.editable = false
 	code.custom_minimum_size.x = 370
 	code.add_theme_font_size_override("font_size",19)
+	code.add_theme_color_override("font_readonly_color",Color("d8e7f2"))
 	code.text = _t("hint_no_program") if tier==1 else String(answer.program).get_slice("\n",0)+"\n…" if tier==2 else answer.program
 	row.add_child(code)
 	var footer := HBoxContainer.new()

@@ -9,5 +9,9 @@ preserved and the retired eight-task runtime is removed.
 - [Actual native exploration-branch play](../verification/2026-09-09-exploration/README.md)
 - [Active execution plan](../exec-plans/active/exploration-and-overlap-chapter.md)
 
-Chapter 3 development checks pass; actual mouse play is pending Mac unlock.
-Do not treat this status as release or beginner-playability acceptance.
+All six nodes have now been completed through native ordinary Game, including
+hand-built buffers and an alternative Cache synthesis. Drag/drop, card selection,
+movement, cable presentation and failure diagnostics were fixed from actual play.
+Normal quit/Continue restores the six earned solutions and editable drafts.
+See [native results and remaining checks](../verification/2026-09-09-overlap-native/README.md).
+Application-switch cancellation, Windows and beginner-playability acceptance remain open.

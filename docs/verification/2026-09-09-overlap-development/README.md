@@ -1,5 +1,8 @@
 # Chapter 3 development verification — 2026-09-09
 
+This earlier checkpoint is superseded for native-play status by the
+[subsequent six-level player pass](../2026-09-09-overlap-native/README.md).
+
 **Not release acceptance. Chapter 3 ordinary Game computer-use play is blocked by
 macOS lock screen.** The computer-use tool twice reported that the Mac was locked
 and automatic unlock failed. User unlock was requested. No chapter-three node is

@@ -1269,6 +1269,8 @@ func _node_at(point: Vector2) -> StringName:
 		if child is GraphNode and (child as GraphNode).visible:
 			var node := child as GraphNode
 			var node_local: Vector2 = node.get_transform().affine_inverse() * point
+			if bool(node.get_meta("full_card_hit_test", false)) and Rect2(Vector2.ZERO,node.size).has_point(node_local):
+				return node.name
 			for row_variant: Node in node.get_children():
 				if not row_variant is Control or not row_variant.has_method("visual_hit_test"):
 					continue

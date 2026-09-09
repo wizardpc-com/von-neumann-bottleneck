@@ -1,0 +1,67 @@
+{
+  "base_commit": "e5d7e256613b2cb60de3c89d647497a3497f9b61",
+  "mode": "ordinary Game",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "qa_user_directory": "VonNeumannBottleneckChecks/overlap-20260909",
+  "saved_solutions": {
+    "arrival": {
+      "nodes": [
+        "TRANSFER",
+        "COMPUTE",
+        "A"
+      ],
+      "wire_count": 4
+    },
+    "buffers": {
+      "nodes": [
+        "TRANSFER",
+        "COMPUTE",
+        "A",
+        "B"
+      ],
+      "wire_count": 8
+    },
+    "backpressure": {
+      "nodes": [
+        "TRANSFER",
+        "COMPUTE",
+        "A",
+        "B"
+      ],
+      "wire_count": 8
+    },
+    "prefetch": {
+      "nodes": [
+        "TRANSFER",
+        "COMPUTE",
+        "CACHE"
+      ],
+      "wire_count": 2
+    },
+    "distance": {
+      "nodes": [
+        "TRANSFER",
+        "COMPUTE",
+        "CACHE"
+      ],
+      "wire_count": 2
+    },
+    "synthesis": {
+      "nodes": [
+        "TRANSFER",
+        "COMPUTE",
+        "CACHE"
+      ],
+      "wire_count": 2
+    }
+  },
+  "saved_drafts": [
+    "arrival",
+    "buffers",
+    "backpressure",
+    "prefetch",
+    "distance",
+    "synthesis"
+  ],
+  "note": "Read from the isolated save after native play and normal quit/restart; no completion flags were injected."
+}

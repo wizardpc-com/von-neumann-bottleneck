@@ -63,8 +63,8 @@ func run(source: String, board: Dictionary, workload: Dictionary) -> SimulationT
 		_fail("program_limit")
 	var lines: PackedStringArray = source.split("\n")
 	for raw: String in lines:
-		line_number += 1
 		if not error.is_empty(): break
+		line_number += 1
 		var code: String = raw.get_slice("#", 0).strip_edges().replace("\t", " ")
 		if code.is_empty(): continue
 		var words: PackedStringArray = code.split(" ", false)

@@ -62,6 +62,8 @@ const DEFAULT_CLOCK_PERIOD_SECONDS: float = 0.5
 const MIN_PLAYBACK_FREQUENCY_HZ: float = 0.5
 const MAX_PLAYBACK_FREQUENCY_HZ: float = 120.0
 const COMPLETION_SUMMARY_KEYS := {
+	&"selector": &"exploration.selector.summary",
+	&"delay": &"exploration.delay.summary",
 	&"tutorial": &"hardware.completion.summary.tutorial",
 	&"half_adder": &"hardware.completion.summary.half_adder",
 	&"full_adder": &"hardware.completion.summary.full_adder",
@@ -170,6 +172,12 @@ var clipboard_paste_count: int = 0
 var pasted_component_counter: int = 0
 var component_menu_templates: Dictionary = {}
 var component_menu_template_keys: Array[String] = []
+var palette_search: LineEdit
+var palette_scope: OptionButton
+var palette_owned: CheckBox
+var palette_groups: Array[Control] = []
+var palette_cards: Array[Control] = []
+var palette_empty: Label
 var component_palette_items: Dictionary[String, Control] = {}
 var component_palette_needs_initial_layout: bool = true
 var level_palette_templates: Array[LogicComponent] = []
@@ -186,6 +194,8 @@ var body_drag_moved: bool = false
 
 var active_workbench_namespace: StringName = &""
 var active_workbench_name: String = ""
+var workbench_reference_snapshot: Dictionary = {}
+var new_workbench_blank: bool = false
 var workbench_seed_snapshot: Dictionary = {}
 var workbench_answer_wires: Array[Dictionary] = []
 var pending_workbench_wires: Array[Dictionary] = []
@@ -1938,6 +1948,9 @@ func _refresh_workbench_menu() -> void:
 	var create_id: int = popup.item_count
 	popup.add_item(_t(&"hardware.workbench.create"), create_id)
 	popup.set_item_metadata(popup.item_count - 1, {"action": &"create"})
+	if current_level_id != &"tutorial" and not bool(current_level_definition.get("locked_topology", false)):
+		popup.add_item(_t(&"hardware.workbench.create_blank"), popup.item_count)
+		popup.set_item_metadata(popup.item_count - 1, {"action": &"blank"})
 
 
 func _on_workbench_menu_item_pressed(item_id: int) -> void:
@@ -1951,13 +1964,14 @@ func _on_workbench_menu_item_pressed(item_id: int) -> void:
 	if not metadata is Dictionary:
 		return
 	var action := StringName((metadata as Dictionary).get("action", &""))
-	if action == &"create":
-		_show_new_workbench_dialog()
+	if action in [&"create", &"blank"]:
+		_show_new_workbench_dialog(action == &"blank")
 	elif action == &"switch":
 		_switch_workbench(String((metadata as Dictionary).get("name", "")))
 
 
-func _show_new_workbench_dialog() -> void:
+func _show_new_workbench_dialog(blank: bool = false) -> void:
+	new_workbench_blank = blank
 	if workbench_name_dialog == null or active_workbench_name.is_empty():
 		return
 	workbench_name_edit.clear()
@@ -1971,11 +1985,11 @@ func _hide_new_workbench_dialog() -> void:
 
 
 func _confirm_new_workbench() -> void:
-	if _create_named_workbench(workbench_name_edit.text):
+	if _create_named_workbench(workbench_name_edit.text, new_workbench_blank):
 		_hide_new_workbench_dialog()
 
 
-func _create_named_workbench(raw_name: String) -> bool:
+func _create_named_workbench(raw_name: String, blank: bool = false) -> bool:
 	if hint_mode or current_level_id.is_empty() or workbench_seed_snapshot.is_empty():
 		return false
 	_save_active_workbench()
@@ -1984,7 +1998,7 @@ func _create_named_workbench(raw_name: String) -> bool:
 		active_workbench_namespace,
 		current_level_id,
 		normalized_name,
-		workbench_seed_snapshot
+		_fixed_terminal_snapshot(workbench_seed_snapshot) if blank else workbench_seed_snapshot
 	)
 	if not error.is_empty():
 		status_label.text = _workbench_name_error_text(error)
@@ -2040,6 +2054,9 @@ func _prepare_level_workbench(answer_wires: Array, seed_with_answer: bool = fals
 	workbench_seed_snapshot = _snapshot_from_inventory(
 		workbench_answer_wires if seed_with_answer else []
 	)
+	workbench_reference_snapshot = workbench_seed_snapshot.duplicate(true)
+	if bool(current_level_definition.get("blank_start", false)):
+		workbench_seed_snapshot = _fixed_terminal_snapshot(workbench_seed_snapshot)
 	active_workbench_namespace = _current_workbench_namespace()
 	workbench_store.ensure_default(
 		active_workbench_namespace, current_level_id, workbench_seed_snapshot
@@ -2469,8 +2486,8 @@ func _build_hint_snapshot(level: int) -> Dictionary:
 			included_ids[String(component_id)] = true
 	var components: Array[Dictionary] = []
 	var layout: Dictionary = {}
-	var seed_layout: Dictionary = workbench_seed_snapshot.get("layout", {})
-	for data_variant: Variant in workbench_seed_snapshot.get("components", []):
+	var seed_layout: Dictionary = workbench_reference_snapshot.get("layout", {})
+	for data_variant: Variant in workbench_reference_snapshot.get("components", []):
 		if not data_variant is Dictionary:
 			continue
 		var data := data_variant as Dictionary
@@ -2544,6 +2561,8 @@ func _hint_text_key(level_id: StringName, level: int) -> StringName:
 			return [&"hardware.hint.cpu.1", &"hardware.hint.cpu.2", &"hardware.hint.cpu.3"][level - 1]
 		&"load_store":
 			return [&"hardware.hint.load_store.1", &"hardware.hint.load_store.2", &"hardware.hint.load_store.3"][level - 1]
+	if level_id in [&"selector", &"delay"]:
+		return StringName("exploration.%s.hint.%d" % [level_id, level])
 	return &"hardware.hint.generic"
 
 
@@ -2874,41 +2893,108 @@ func _rebuild_component_menu() -> void:
 
 func _rebuild_component_palette(placement_allowed: bool) -> void:
 	component_palette_items.clear()
+	palette_groups.clear()
+	palette_cards.clear()
 	if component_palette_box == null:
 		return
 	_clear_container(component_palette_box)
+	palette_search = LineEdit.new()
+	palette_search.name = "ComponentSearch"
+	palette_search.placeholder_text = _t(&"hardware.palette.search")
+	palette_search.text_changed.connect(func(_query: String) -> void: _filter_component_palette())
+	component_palette_box.add_child(palette_search)
+	var filters := HBoxContainer.new()
+	component_palette_box.add_child(filters)
+	palette_scope = OptionButton.new()
+	palette_scope.add_item(_t(&"hardware.palette.available"))
+	palette_scope.add_item(_t(&"hardware.palette.unlocked"))
+	palette_scope.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	palette_scope.item_selected.connect(func(_index: int) -> void: _filter_component_palette())
+	filters.add_child(palette_scope)
+	palette_owned = CheckBox.new()
+	palette_owned.text = _t(&"hardware.palette.owned")
+	palette_owned.toggled.connect(func(_value: bool) -> void: _filter_component_palette())
+	filters.add_child(palette_owned)
 	var hint := Label.new()
 	hint.text = _t(&"hardware.component_palette.hint")
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", MUTED)
 	component_palette_box.add_child(hint)
-	if not placement_allowed:
-		var unavailable := Label.new()
-		unavailable.text = _t(&"hardware.component_menu.unavailable")
-		unavailable.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		unavailable.add_theme_color_override("font_color", MUTED)
-		component_palette_box.add_child(unavailable)
-		return
-	for key: String in component_menu_template_keys:
-		var template: LogicComponent = component_menu_templates[key]
-		var item: Control = ComponentPaletteItemType.new()
-		item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template),
-			_t(StringName("hardware.palette.purpose.%s" % template.kind)),
-			_t(&"hardware.palette.ports", [template.input_count(), template.output_count(), _widest_component_port(template)]))
-		item.tooltip_text = _component_tooltip(template)
-		if template.is_basic_gate() or template.kind == LogicComponentType.KIND_CONSTANT:
-			var symbol := CircuitComponentSymbolType.new()
-			symbol.configure(template.kind, "", 60.0)
-			symbol.size = Vector2(108.0, 60.0)
-			item.call("set_component_preview", symbol)
-		else:
-			var module := CircuitModuleThumbnailType.new()
-			module.configure_thumbnail(template.kind, template.input_port_widths, template.output_port_widths)
-			item.call("set_component_preview", module)
-		item.connect("placement_requested", Callable(self, "_arm_component_template"))
-		component_palette_items[key] = item
-		component_palette_box.add_child(item)
+	var templates: Dictionary = component_menu_templates.duplicate()
+	for library_name: StringName in component_library:
+		var definition: ReusableComponent = component_library[library_name]
+		var template: LogicComponent = definition.instantiate(&"PALETTE_OWNED", String(library_name))
+		var key: String = _component_template_signature(template)
+		if not templates.has(key):
+			templates[key] = template
+	var palette_catalog = preload("res://src/hardware_foundations/component_palette_catalog.gd")
+	var keys: Array = templates.keys()
+	keys.sort()
+	for group_id: StringName in palette_catalog.GROUPS:
+		var group := VBoxContainer.new()
+		group.name = "Palette_%s" % group_id
+		component_palette_box.add_child(group)
+		palette_groups.append(group)
+		var heading := Label.new()
+		heading.text = _t(StringName("hardware.palette.group.%s" % group_id))
+		heading.add_theme_color_override("font_color", ACCENT)
+		group.add_child(heading)
+		for key: String in keys:
+			var template: LogicComponent = templates[key]
+			if palette_catalog.category(template) != group_id:
+				continue
+			var allowed: bool = placement_allowed and component_menu_templates.has(key)
+			var owned: bool = template.properties.has("library_name")
+			var purpose: String = _t(StringName("hardware.palette.purpose.%s" % template.kind))
+			var item: Control = ComponentPaletteItemType.new()
+			item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template),
+				purpose if allowed else _t(&"hardware.palette.not_allowed"),
+				_t(&"hardware.palette.ports", [template.input_count(), template.output_count(), _widest_component_port(template)]))
+			item.set("placement_enabled", allowed)
+			item.modulate.a = 1.0 if allowed else 0.55
+			item.tooltip_text = _component_tooltip(template)
+			if owned:
+				item.tooltip_text = _t(&"hardware.palette.owned") + "\n" + item.tooltip_text
+			item.set_meta("palette_allowed", allowed)
+			item.set_meta("palette_owned", owned)
+			item.set_meta("palette_search", (palette_catalog.search_words(template) + " " + _component_menu_label(template) + " " + purpose).to_lower())
+			if template.is_basic_gate() or template.kind == LogicComponentType.KIND_CONSTANT:
+				var symbol := CircuitComponentSymbolType.new()
+				symbol.configure(template.kind, "", 60.0)
+				symbol.size = Vector2(108.0, 60.0)
+				item.call("set_component_preview", symbol)
+			else:
+				var module := CircuitModuleThumbnailType.new()
+				module.configure_thumbnail(template.kind, template.input_port_widths, template.output_port_widths)
+				item.call("set_component_preview", module)
+			if allowed:
+				item.connect("placement_requested", Callable(self, "_arm_component_template"))
+				component_palette_items[key] = item
+			palette_cards.append(item)
+			group.add_child(item)
+	palette_empty = Label.new()
+	palette_empty.text = _t(&"hardware.palette.no_results")
+	palette_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	component_palette_box.add_child(palette_empty)
+	_filter_component_palette()
+
+
+func _filter_component_palette() -> void:
+	var query: String = palette_search.text.strip_edges().to_lower()
+	var any_visible: bool = false
+	for item: Control in palette_cards:
+		item.visible = (palette_scope.selected == 1 or bool(item.get_meta("palette_allowed"))) \
+			and (not palette_owned.button_pressed or bool(item.get_meta("palette_owned"))) \
+			and (query.is_empty() or query in String(item.get_meta("palette_search")))
+		any_visible = any_visible or item.visible
+	for group: Control in palette_groups:
+		var contains_match: bool = false
+		for child: Node in group.get_children():
+			if child.has_meta("palette_allowed") and child.visible:
+				contains_match = true
+		group.visible = contains_match
+	palette_empty.visible = not any_visible
 
 
 func _widest_component_port(component: LogicComponent) -> int:
@@ -6068,10 +6154,13 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 			_save_active_workbench()
 			player_content.mark_completed(current_level_id)
 			PlaytestData.level_completed(&"hardware_foundations", current_level_id)
-			current_phase = &"prologue_complete"
-			prologue_level_completed_view = true
-			graph.branch_edit_enabled = false
-			_build_prologue_complete_side()
+			if current_level_id in [&"selector", &"delay"]:
+				status_label.text = _t(&"exploration.status.passed")
+			else:
+				current_phase = &"prologue_complete"
+				prologue_level_completed_view = true
+				graph.branch_edit_enabled = false
+				_build_prologue_complete_side()
 			_refresh_workbench_menu()
 			_refresh_hint_controls()
 			if newly_completed:
@@ -6376,6 +6465,7 @@ func _build_campaign_map_view() -> void:
 			"id": branch_id,
 			"title": _t(level_catalog.branch_title_key(branch_id)),
 			"order": level_catalog.branch_order(branch_id),
+			"lane": -2.2 if branch_id == &"control_exploration" else (2.2 if branch_id == &"state_exploration" else NAN),
 		})
 	var level_descriptors: Array[Dictionary] = []
 	for level_id: StringName in level_catalog.level_ids():
@@ -6629,6 +6719,14 @@ func _cpu_stage_inputs(stage: int) -> Array:
 
 func _cpu_stage_complete(stage: int, circuit: LogicCircuit) -> bool:
 	# An interface checklist is guidance, never an answer or behavioral gate.
+	var uses_authored_ids: bool = true
+	for id: StringName in [&"CONTROL", &"SOURCE_MUX", &"RESULT_MUX", &"ALU", &"ACC", &"RAM"]:
+		uses_authored_ids = uses_authored_ids and circuit.components.has(id)
+	if not uses_authored_ids:
+		# Free designs use observable instruction behavior for staged guidance.
+		var steps: Array[Dictionary] = current_level_definition.get("official_steps", [])
+		var prefix_count: int = mini(steps.size(), [1, 3, 5, 7][clampi(stage, 0, 3)])
+		return bool(PrologueSimulatorType.new().run_sequence(circuit, steps.slice(0, prefix_count)).get("passed", false))
 	for input: Array in _cpu_stage_inputs(stage):
 		var connected: bool = false
 		for wire: LogicWire in circuit.wires:
@@ -6752,6 +6850,8 @@ func _storage_state_text(
 			return _t(&"hardware.storage.state.register", [
 				_observed_value_text(result, &"Q")
 			])
+		&"delay":
+			return _t(&"exploration.delay.monitor", [_observed_value_text(result, &"OUT")])
 		&"ram":
 			var registers: Dictionary = runtime_state.get(
 				"registers", result.runtime_state.get("registers", {})
@@ -6862,6 +6962,8 @@ func _build_prologue_case_rows() -> void:
 
 
 func _storage_action_text(inputs: Dictionary) -> String:
+	if current_level_id == &"delay":
+		return _t(&"exploration.delay.accept", [int(inputs.get(&"DATA", 0))]) if int(inputs.get(&"ACCEPT", 0)) != 0 else _t(&"hardware.storage.action.hold")
 	match current_level_id:
 		&"latch":
 			if int(inputs.get(&"S", 0)) != 0 and int(inputs.get(&"R", 0)) != 0:
@@ -7120,6 +7222,10 @@ func _prepare_storage_playback_state(
 			_store_initial_playback_output(initial_prior_outputs, &"LATCH", 1)
 			if not storage_playback_values.has(&"LATCH"):
 				storage_playback_values[&"LATCH"] = DigitalValueType.low()
+		&"delay":
+			for id: StringName in component_catalog:
+				if component_catalog[id].kind == LogicComponentType.KIND_REGISTER4:
+					storage_playback_values[id] = DigitalValueType.known(4, int(initial_runtime_state.get("registers", {}).get(id, 0)))
 		&"ram":
 			var registers: Dictionary = initial_runtime_state.get("registers", {})
 			storage_playback_values[&"REG_0"] = DigitalValueType.known(
@@ -7160,6 +7266,8 @@ func _update_storage_playback_monitor() -> void:
 			state_text = _t(&"hardware.storage.state.register", [
 				(storage_playback_values.get(&"LATCH", DigitalValueType.low()) as DigitalValue).display_text()
 			])
+		&"delay":
+			state_text = _t(&"exploration.delay.monitor", [(storage_playback_values.get(_delay_output_source(), DigitalValueType.known(4, 0)) as DigitalValue).display_text()])
 		&"ram":
 			state_text = _t(&"hardware.storage.state.ram", [
 				(storage_playback_values.get(&"REG_0", DigitalValueType.known(4, 0)) as DigitalValue).display_text(),
@@ -7985,3 +8093,37 @@ func _clear_container(container: Container) -> void:
 		# locked emitter; queueing deletion preserves the same visible transition
 		# and releases the detached control safely at the end of the frame.
 		child.queue_free()
+
+
+func _fixed_terminal_snapshot(source: Dictionary) -> Dictionary:
+	var result: Dictionary = source.duplicate(true)
+	var terminals: Array[Dictionary] = []
+	var layout: Dictionary = {}
+	for data: Dictionary in source.get("components", []):
+		if bool(data.get("fixed_terminal", false)):
+			terminals.append(data.duplicate(true))
+			var id: String = String(data["id"])
+			layout[id] = source.get("layout", {}).get(id, {}).duplicate(true)
+	result["components"] = terminals
+	result["layout"] = layout
+	result["wires"] = []
+	return result
+
+
+func _delay_output_source() -> StringName:
+	var cursor: StringName = &"OUT"
+	var seen: Dictionary = {}
+	var circuit: LogicCircuit = _circuit_from_graph()
+	while not seen.has(cursor):
+		seen[cursor] = true
+		var source: StringName = &""
+		for wire: LogicWire in circuit.wires:
+			if wire.to_component == cursor:
+				source = wire.from_component
+				break
+		if source.is_empty() or not circuit.components.has(source):
+			return &""
+		if not circuit.components[source].is_routing_node():
+			return source
+		cursor = source
+	return &""

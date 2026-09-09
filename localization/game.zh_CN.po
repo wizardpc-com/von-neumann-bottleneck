@@ -5066,3 +5066,105 @@ msgstr "每周期 %d 位 · 共 %d 周期"
 
 msgid "system.bus.diagram.progress"
 msgstr "每周期 %d 位 · 第 %d/%d 组"
+
+msgid "exploration.branch.control"
+msgstr "控制应用 · 可选"
+
+msgid "exploration.branch.state"
+msgstr "状态应用 · 可选"
+
+msgid "exploration.selector.title"
+msgstr "谁能通过？"
+
+msgid "exploration.selector.description"
+msgstr "两路信号共用一个出口。S=0 时 OUT 跟随 A；S=1 时 OUT 跟随 B。未被选中的输入不应影响出口。A、B、S 和 OUT 都是 1 位。"
+
+msgid "exploration.selector.spec"
+msgstr "从元件台选择[[logic_gate|逻辑门]]，自己安排内部电路。输入、输出已经固定；允许等价结构，不限定门的数量。正式测试公开全部 8 种 A/B/S 组合。通过后还可以试试另一种结构。"
+
+msgid "exploration.selector.hint.1"
+msgstr "分别看 S=0 和 S=1：哪些输入的变化应该被挡住？数据和选择信号承担不同角色。"
+
+msgid "exploration.selector.hint.2"
+msgstr "图中只展示 A 路的门控。让另一条路在相反的选择条件下打开，再考虑怎样合并两个结果。"
+
+msgid "exploration.selector.hint.3"
+msgstr "完整参考：A 与非 S 相与，B 与 S 相与，再取或。它只是一个可行方案；也可用 XOR 构造等价电路。"
+
+msgid "exploration.selector.summary"
+msgstr "你让控制信号选择数据的去向。输入在变化，未选中的一边仍不会干扰输出。"
+
+msgid "experience.next.hardware_foundations.selector"
+msgstr "可选探索：换一种门组合再验证。原来的全加器路线保持开放。"
+
+msgid "exploration.delay.title"
+msgstr "晚一拍"
+
+msgid "exploration.delay.description"
+msgstr "每当 ACCEPT=1，接收一次 4 位 DATA，OUT 更新为上一次接收的值。初始 OUT=0。依次接收 3、7、2，输出是 0、3、7。ACCEPT=0 时不接收，输出保持。"
+
+msgid "exploration.delay.spec"
+msgstr "ACCEPT 是 1 位控制；DATA、OUT 是 4 位数值（0～15）。每个测试步骤只有一次状态提交，所有[[register|寄存器]]同时读取提交前的值。使用你造好的[[register|寄存器]]，自由搭建。正式序列含连续接收、重复值、暂停和恢复。"
+
+msgid "exploration.delay.hint.1"
+msgstr "直接接线只能传递现在的数值。接收新数据时，哪里还保留着上一份？暂停接收时，哪些状态也应该暂停？"
+
+msgid "exploration.delay.hint.2"
+msgstr "参考画布只显示保存最近一次接收值的部分。输出还需要保留它更新之前的值。注意所有寄存器在同一步同时提交。"
+
+msgid "exploration.delay.hint.3"
+msgstr "完整参考：两级 Register4 串接；DATA 进入第一级，第一级 Q 接第二级 D，两级 LOAD 都接 ACCEPT。第二级 Q 是 OUT。"
+
+msgid "exploration.delay.summary"
+msgstr "你把现在和上一份数据分开保存。暂停、重复值和连续接收都遵守同一个提交规则。"
+
+msgid "experience.next.hardware_foundations.delay"
+msgstr "可选探索：暂停几步再继续。原 RAM 路线不受此支线影响。"
+
+msgid "exploration.delay.monitor"
+msgstr "上一份已接收数据 · OUT = %s"
+
+msgid "hardware.palette.search"
+msgstr "搜索名称、用途或缩写…"
+
+msgid "hardware.palette.available"
+msgstr "本关可用"
+
+msgid "hardware.palette.unlocked"
+msgstr "已解锁目录"
+
+msgid "hardware.palette.owned"
+msgstr "由你构建"
+
+msgid "hardware.palette.not_allowed"
+msgstr "本关不可用；可在对应构建关使用"
+
+msgid "hardware.palette.no_results"
+msgstr "没有匹配的元件。试试清空搜索或切换范围。"
+
+msgid "hardware.palette.group.compute"
+msgstr "逻辑与计算"
+
+msgid "hardware.palette.group.route"
+msgstr "选择与连接"
+
+msgid "hardware.palette.group.store"
+msgstr "保存数据"
+
+msgid "hardware.palette.group.observe"
+msgstr "观察与调试"
+
+msgid "hardware.workbench.create_blank"
+msgstr "新建空白方案…"
+
+msgid "hardware.goal.selector"
+msgstr "S=0 选择 A；S=1 选择 B。通过全部 8 种组合。"
+
+msgid "hardware.goal.delay"
+msgstr "每次 ACCEPT，输出上一份 DATA；暂停时保持。"
+
+msgid "exploration.status.passed"
+msgstr "正式测试通过 — 可以继续修改并探索另一种结构。"
+
+msgid "exploration.delay.accept"
+msgstr "接收 DATA=%s · OUT 取上一份"

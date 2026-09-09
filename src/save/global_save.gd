@@ -304,6 +304,19 @@ func _restore_hardware(manifest: Dictionary):
 		if level_id in [&"tutorial", &"load_store"]:
 			restored.mark_completed(level_id)
 			continue
+		if level_id in [&"selector", &"delay"]:
+			var verified: bool = false
+			for scheme: String in store.workbench_names(GAME_NAMESPACE, level_id):
+				var circuit: LogicCircuit = _circuit_from_workbench(store.workbench_snapshot(GAME_NAMESPACE, level_id, scheme))
+				if circuit != null and _library_bindings_match(circuit, restored.component_library) \
+						and _official_passes(level_id, circuit, restored.component_library, catalog):
+					verified = true
+					break
+			if verified:
+				restored.mark_completed(level_id)
+			else:
+				rejected.append(String(level_id))
+			continue
 		var reusable = _restore_reusable(level_id, designs, restored.component_library, catalog, store)
 		if reusable == null:
 			rejected.append(String(level_id))

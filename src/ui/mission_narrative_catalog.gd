@@ -2,6 +2,14 @@ class_name MissionNarrativeCatalog
 extends RefCounted
 
 const HARDWARE_PAGES := {
+	&"selector": [
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"exploration.selector.description"},
+		{&"title": &"hardware.briefing.stage.verify", &"body": &"exploration.selector.spec"},
+	],
+	&"delay": [
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"exploration.delay.description"},
+		{&"title": &"hardware.briefing.stage.verify", &"body": &"exploration.delay.spec"},
+	],
 	&"tutorial": [
 		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.tutorial.1"},
 		{&"title": &"hardware.briefing.stage.understand", &"body": &"hardware.briefing.tutorial.gates"},

@@ -82,3 +82,8 @@ first-time human beginner acceptance require separate evidence.
   directory isolation, all 16 retained suites and Chinese Game input 593/0.
   Tests for the removed fork were deleted with that fork, not counted as passing.
   Native hub inspection will accompany the new-content player pass.
+
+- Exploration checkpoint: two optional branches and toolbox discovery implemented.
+  Native ordinary Game alternate selector and two-register delay passed; normal
+  restart retained both completions and the player board. See
+  `docs/verification/2026-09-09-exploration/README.md`. Chapter 3 remains in progress.

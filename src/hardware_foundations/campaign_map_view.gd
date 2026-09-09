@@ -289,6 +289,11 @@ func _compute_branch_lanes() -> void:
 		if not branch_lanes.has(branch_id):
 			branch_lanes[branch_id] = 0.0
 
+	for branch: Dictionary in _branches:
+		var authored_lane: float = float(branch.get("lane", NAN))
+		if is_finite(authored_lane):
+			branch_lanes[StringName(branch["id"])] = authored_lane
+
 
 func _assign_sibling_lanes(branch_ids: Array[StringName], center: float) -> void:
 	if branch_ids.is_empty():

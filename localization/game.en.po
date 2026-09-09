@@ -5066,3 +5066,105 @@ msgstr "%d bits/cycle · %d cycles"
 
 msgid "system.bus.diagram.progress"
 msgstr "%d bits/cycle · group %d/%d"
+
+msgid "exploration.branch.control"
+msgstr "Control application · optional"
+
+msgid "exploration.branch.state"
+msgstr "State application · optional"
+
+msgid "exploration.selector.title"
+msgstr "Who gets through?"
+
+msgid "exploration.selector.description"
+msgstr "Two signals share an exit. When S=0, OUT follows A; when S=1, OUT follows B. The unselected input must not affect the output. All four signals are one bit."
+
+msgid "exploration.selector.spec"
+msgstr "Choose [[logic_gate|gates]] from the toolbox and build the interior. I/O is fixed; equivalent designs are accepted with no prescribed gate count. Official tests cover all 8 A/B/S combinations. After passing, try another structure."
+
+msgid "exploration.selector.hint.1"
+msgstr "Consider S=0 and S=1 separately: which changes should be blocked? Data and selection have different roles."
+
+msgid "exploration.selector.hint.2"
+msgstr "This board shows only the A-side gate. Enable the other route under the opposite selection condition, then combine the results."
+
+msgid "exploration.selector.hint.3"
+msgstr "Full reference: OR together A AND NOT S and B AND S. This is one solution; an XOR-based equivalent also works."
+
+msgid "exploration.selector.summary"
+msgstr "You used control to select data. Changes on the unselected side cannot disturb the output."
+
+msgid "experience.next.hardware_foundations.selector"
+msgstr "Optional exploration: verify another gate combination. The original Full Adder route stays open."
+
+msgid "exploration.delay.title"
+msgstr "One accepted sample later"
+
+msgid "exploration.delay.description"
+msgstr "Whenever ACCEPT=1, receive the four-bit DATA and update OUT to the previously accepted value. OUT starts at 0. Accepting 3, 7, 2 produces 0, 3, 7. ACCEPT=0 receives nothing and holds the output."
+
+msgid "exploration.delay.spec"
+msgstr "ACCEPT is one-bit control; DATA and OUT are four-bit values (0–15). Each test step has one state-commit boundary; all [[register|registers]] sample the values from before that boundary. Build freely with your [[register|registers]]. Tests include consecutive accepts, repeats, pauses and resumption."
+
+msgid "exploration.delay.hint.1"
+msgstr "A wire carries the current value. Where does the previous sample survive when a new one arrives? Which states must hold when acceptance pauses?"
+
+msgid "exploration.delay.hint.2"
+msgstr "This partial board stores the latest accepted sample. The output must retain its value from before the update. All registers commit together in the same step."
+
+msgid "exploration.delay.hint.3"
+msgstr "Full reference: chain two Register4 components. DATA feeds the first; its Q feeds the second D. ACCEPT feeds both LOAD inputs. The second Q is OUT."
+
+msgid "exploration.delay.summary"
+msgstr "You stored current and previous data separately. Pauses, repeated values and consecutive accepts obey the same commit rule."
+
+msgid "experience.next.hardware_foundations.delay"
+msgstr "Optional exploration: pause for several steps and resume. This branch does not gate the original RAM route."
+
+msgid "exploration.delay.monitor"
+msgstr "Previous accepted sample · OUT = %s"
+
+msgid "hardware.palette.search"
+msgstr "Search name, purpose or abbreviation…"
+
+msgid "hardware.palette.available"
+msgstr "This level"
+
+msgid "hardware.palette.unlocked"
+msgstr "Unlocked tools"
+
+msgid "hardware.palette.owned"
+msgstr "Built by you"
+
+msgid "hardware.palette.not_allowed"
+msgstr "Unavailable here; use in its construction levels"
+
+msgid "hardware.palette.no_results"
+msgstr "No matching tools. Clear the search or change the scope."
+
+msgid "hardware.palette.group.compute"
+msgstr "Logic & arithmetic"
+
+msgid "hardware.palette.group.route"
+msgstr "Selection & routing"
+
+msgid "hardware.palette.group.store"
+msgstr "Store data"
+
+msgid "hardware.palette.group.observe"
+msgstr "Observe & debug"
+
+msgid "hardware.workbench.create_blank"
+msgstr "New blank design…"
+
+msgid "hardware.goal.selector"
+msgstr "S=0 selects A; S=1 selects B. Pass all 8 combinations."
+
+msgid "hardware.goal.delay"
+msgstr "On ACCEPT, output the previous DATA. Hold while paused."
+
+msgid "exploration.status.passed"
+msgstr "All official tests passed — keep editing to explore another design."
+
+msgid "exploration.delay.accept"
+msgstr "Accept DATA=%s · OUT takes the previous value"

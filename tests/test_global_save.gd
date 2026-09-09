@@ -35,6 +35,7 @@ func _run() -> void:
 	_test_branch_resume_and_fail_closed_provenance()
 	_test_chapter_gates_and_notebook_resume()
 	_test_dependency_invalidation_resume()
+	_test_exploration_resume()
 	_test_corrupt_and_unknown_schema()
 	_test_new_game_and_mode_isolation()
 	for service: Node in services:
@@ -480,3 +481,23 @@ func _remove_tree(absolute_path: String) -> void:
 func _assert(condition: bool, message: String) -> void:
 	if not condition:
 		failures.append(message)
+
+
+func _test_exploration_resume() -> void:
+	var player = _build_complete_hardware_player()
+	var catalog := PrologueLevelCatalogType.new()
+	var store := CircuitWorkbenchStoreType.new(workbench_path)
+	for id: StringName in [&"selector", &"delay"]:
+		var circuit: LogicCircuit = catalog.reference_circuit(id, player.component_library)
+		store.ensure_default(&"game", id, _snapshot(circuit))
+		player.mark_completed(id)
+	var service = _service()
+	service.game_player_content = player
+	_assert(service.save_game(), "Optional application completion must be saveable without a fabricated chip reward.")
+	var reader = _service()
+	_assert(reader.load_game() and reader.game_player_content.completed_levels.has(&"selector") and reader.game_player_content.completed_levels.has(&"delay"), "Both application circuits must be reverified on restart.")
+	var broken: Dictionary = store.workbench_snapshot(&"game", &"delay", "default")
+	broken["wires"] = []
+	store.save_workbench(&"game", &"delay", "default", broken)
+	var rejecting = _service()
+	_assert(rejecting.load_game() and not rejecting.game_player_content.completed_levels.has(&"delay") and rejecting.game_player_content.completed_levels.has(&"selector") and rejecting.game_player_content.completed_levels.has(&"load_store"), "Invalid optional evidence must lose only its own completion, never the independent original route.")

@@ -32,13 +32,13 @@ func _test_real_prologue_catalog() -> void:
 	var catalog = PrologueLevelCatalogType.new()
 	_assert(catalog.validation_errors().is_empty(), "Built-in prologue content must pass registry validation.")
 	_assert(
-		catalog.branch_ids() == [&"foundations", &"arithmetic", &"storage", &"integration"],
+		catalog.branch_ids() == [&"foundations", &"arithmetic", &"storage", &"integration", &"control_exploration", &"state_exploration"],
 		"Campaign branches must retain deterministic authored order."
 	)
 	_assert(
 		catalog.level_ids() == [
 			&"tutorial", &"half_adder", &"full_adder", &"alu",
-			&"latch", &"register", &"ram", &"cpu", &"load_store",
+			&"latch", &"register", &"ram", &"cpu", &"load_store", &"selector", &"delay",
 		],
 		"Registry migration must preserve the complete current progression order."
 	)
@@ -52,7 +52,7 @@ func _test_real_prologue_catalog() -> void:
 	_assert(catalog.reward_names(&"register") == [&"Register1", &"Register4"], "Register reward ownership must include its generated word wrapper.")
 	_assert(
 		catalog.dependent_level_ids(&"half_adder") == [
-			&"full_adder", &"alu", &"cpu", &"load_store",
+			&"full_adder", &"alu", &"cpu", &"load_store", &"selector",
 		],
 		"Half Adder replacement must invalidate only its CPU/arithmetic descendants, never storage."
 	)

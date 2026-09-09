@@ -188,6 +188,8 @@ func _ready() -> void:
 	LocalityChapter.progression_changed.connect(_on_chapter_progression_changed)
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	_show_chapter_map()
+	var requested_task: StringName = TaskNavigation.consume("chapter_2")
+	if not requested_task.is_empty(): call_deferred("_start_level",requested_task)
 	set_process(true)
 	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
 	if "--capture-playtest-export" in user_arguments:
@@ -1006,6 +1008,7 @@ func _show_chapter_map() -> void:
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"chapter_2", current_level_id, &"map")
 	_clear_pending_review()
+	if TaskNavigation.return_to_tree(): return
 	if chapter_map_host == null or lab_host == null:
 		return
 	lab_host.hide()
@@ -2093,6 +2096,8 @@ func _record_run(program: DSLProgramType, data: Array[int]) -> void:
 			current_pass_count, current_block_lines, current_bypass_cache
 		)
 		LocalityChapter.record_receipt(current_level_id, receipt)
+		if current_level_id == &"capstone":
+			LocalityChapter.retain_economical(program.source,current_cache_lines,current_pass_count,current_block_lines,current_bypass_cache)
 	_update_history_label()
 
 

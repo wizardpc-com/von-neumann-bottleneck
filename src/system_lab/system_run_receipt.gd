@@ -9,6 +9,7 @@ var topology_signature: String = ""
 var test_set_signature: String = ""
 var part_ids: Dictionary[StringName, StringName] = {}
 var metrics: Dictionary = {}
+var case_metrics: Array[Dictionary] = []
 var trace_signatures: PackedStringArray = PackedStringArray()
 var passed_cases: int = 0
 var total_cases: int = 0
@@ -41,6 +42,7 @@ func populate_from_traces(
 	}
 	for trace_variant: Variant in traces:
 		var trace: SystemTrace = trace_variant
+		case_metrics.append(trace.metrics.duplicate(true))
 		if program_signature.is_empty():
 			program_signature = trace.program_signature
 			topology_signature = trace.topology_signature

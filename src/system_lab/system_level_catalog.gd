@@ -4,8 +4,19 @@ extends RefCounted
 const PartSpecType = preload("res://src/system_lab/system_part_spec.gd")
 
 const LEVEL_IDS: Array[StringName] = [
-	&"assembly", &"cpu_speed", &"ram_wait", &"bus_width", &"bottleneck",
+	&"assembly", &"cpu_speed", &"ram_wait", &"bus_width", &"bottleneck", &"read_once", &"two_orders",
 ]
+
+const PROGRAM_REPEATED := """acc = 0
+for i in range(N):
+    value = load(INPUT[i])
+    acc += value
+    value = load(INPUT[i])
+    acc += value
+store(OUTPUT[0], acc)"""
+const ORDER_BUDGET: int = 24
+# Calibrated by enumerate_system_orders.gd; exact targets finalized with its output.
+const ORDER_TARGETS := {"compute": 66, "move": 320}
 
 const PROGRAM_ASSEMBLY := """value = load(INPUT[0])
 value += 1
@@ -111,6 +122,7 @@ func requires_authored_program(level_id: StringName) -> bool:
 
 
 func is_official_program_signature(level_id: StringName, program_signature: String) -> bool:
+	if level_id == &"two_orders": return program_signature in [PROGRAM_CPU.sha256_text(),PROGRAM_COPY.sha256_text()]
 	return not requires_authored_program(level_id) or program_signature == official_program_signature(level_id)
 
 
@@ -131,6 +143,7 @@ func completion_status(level_id: StringName, receipts: Array, selected_diagnosis
 			and is_official_program_signature(level_id, receipt.program_signature)
 		):
 			matching.append(receipt)
+	if level_id in [&"read_once",&"two_orders"]: return _application_status(level_id,matching)
 	var comparison_kind := StringName(level.get("comparison_kind", &"none"))
 	var minimum_runs: int = int(level.get("minimum_runs", 1))
 	if comparison_kind == &"diagnosis":
@@ -300,6 +313,20 @@ func _build_levels() -> void:
 		&"cpu_balanced", &"ram_balanced", &"bus_4", &"diagnosis", 1, true)
 
 
+	var doubled_cases: Array[Dictionary] = []
+	for values: Array in [[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[0],[255,255,255],[7,7,7,7],[0,255,1,128,64]]:
+		var data: Array[int] = []; data.assign(values)
+		var sum: int = 0
+		for value: int in data: sum = (sum+2*value)&255
+		doubled_cases.append(_case("double-%d"%doubled_cases.size(),data,[sum]))
+	_register_level(&"read_once",5,[&"ram_wait"],5,PROGRAM_REPEATED,doubled_cases,
+		[&"cpu_fast"],[&"ram_slow"],[&"bus_8"],&"cpu_fast",&"ram_slow",&"bus_8",&"none",1,false)
+	_levels[&"read_once"]["requires_authored_program"] = false
+	_register_level(&"two_orders",6,[&"bottleneck"],5,PROGRAM_CPU,order_cases("compute"),
+		[&"cpu_eco",&"cpu_balanced",&"cpu_fast"],[&"ram_slow",&"ram_balanced",&"ram_fast"],
+		[&"bus_2",&"bus_4",&"bus_8"],&"cpu_balanced",&"ram_balanced",&"bus_4",&"none",2,false)
+
+
 func _register_level(
 		id: StringName,
 		order: int,
@@ -371,3 +398,53 @@ func _series(size: int) -> Array[int]:
 	for index: int in range(size):
 		result.append((index * 17 + 3) & 0xff)
 	return result
+
+
+func order_cases(order: String) -> Array[Dictionary]:
+	if order == "compute": return [_case("compute-a",[3],[99]),_case("compute-wrap",[220],[60])]
+	return [_case("move-a",_series(16),_series(16)),_case("move-b",[255,0,128,1,7,7,42,99],[255,0,128,1,7,7,42,99])]
+
+func cases_for_program(id: StringName,signature: String) -> Array:
+	if id == &"two_orders": return order_cases("move" if signature == PROGRAM_COPY.sha256_text() else "compute")
+	return definition(id).get("cases",[])
+
+func _application_status(id: StringName,receipts: Array) -> Dictionary:
+	var done: Dictionary = {}
+	for receipt: Variant in receipts:
+		var cases: Array = cases_for_program(id,receipt.program_signature)
+		if receipt.case_metrics.size() != cases.size(): continue
+		var qualifies: bool = true
+		var order: String = "move" if receipt.program_signature == PROGRAM_COPY.sha256_text() else "compute"
+		for i: int in range(cases.size()):
+			var metrics: Dictionary = receipt.case_metrics[i]
+			if id == &"read_once":
+				qualifies = qualifies and int(metrics.get("memory_requests",99999)) <= cases[i].input.size()+1
+			else:
+				qualifies = qualifies and int(metrics.get("hardware_cost",99999)) <= ORDER_BUDGET and int(metrics.get("total_cycles",99999)) <= int(ORDER_TARGETS[order])
+		if id == &"read_once":
+			for kind: StringName in [&"cpu",&"ram",&"bus"]:
+				qualifies = qualifies and receipt.part_ids.get(kind) == default_part_id(id,kind)
+		if qualifies: done[order if id == &"two_orders" else "read"] = true
+	var required: int = 2 if id == &"two_orders" else 1
+	return {"complete":done.size() == required,"progress":done.size(),"required":required,
+		"reason":&"complete" if done.size() == required else &"application_target","orders":done}
+
+func replay_application(id: StringName,source: String,parts: Dictionary) -> SystemRunReceipt:
+	var receipt := preload("res://src/system_lab/system_run_receipt.gd").new()
+	if id not in [&"read_once",&"two_orders"] or source.length()>16000: return receipt
+	var program = preload("res://src/system_lab/system_dsl_parser.gd").parse(source)
+	if not program.is_valid() or not is_official_program_signature(id,program.canonical_signature()): return receipt
+	var topology := preload("res://src/system_lab/system_topology.gd").new()
+	for kind: StringName in [&"cpu",&"ram",&"bus"]:
+		var part_id := StringName(parts.get(kind,&""))
+		if part_id not in definition(id).get("%s_parts"%kind,[]): return receipt
+		topology.set_part(StringName(String(kind).to_upper()),part(part_id))
+	topology.connect_required_routes()
+	var traces: Array = []
+	var simulator := preload("res://src/system_lab/system_simulation_core.gd").new()
+	for case: Dictionary in cases_for_program(id,program.canonical_signature()):
+		var input: Array[int] = []; input.assign(case.input)
+		var expected: Array[int] = []; expected.assign(case.expected)
+		traces.append(simulator.run(program,topology,input,expected,case.name))
+	receipt.populate_from_traces(id,traces,test_set_signature(id),parts)
+	return receipt

@@ -68,7 +68,7 @@ func _run() -> void:
 
 	var map_view = main.get("map_view")
 	var map_buttons: Dictionary = map_view.get("level_buttons")
-	_assert(map_buttons.size() == 5, "Chapter map must expose the accepted five-level investigation route.")
+	_assert(map_buttons.size() == 7, "Chapter map must expose five original investigations and two optional tasks.")
 	for button: Button in map_buttons.values():
 		_assert(not button.disabled, "Test mode must unlock every system chapter level.")
 	_assert(

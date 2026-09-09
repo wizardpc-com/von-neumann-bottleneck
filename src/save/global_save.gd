@@ -324,7 +324,7 @@ func _restore_hardware(manifest: Dictionary):
 		if level_id in [&"tutorial", &"load_store"]:
 			restored.mark_completed(level_id)
 			continue
-		if level_id in [&"selector", &"delay"]:
+		if level_id in [&"selector", &"delay", &"selector4", &"parity", &"alarm"]:
 			var verified: bool = false
 			for scheme: String in store.workbench_names(GAME_NAMESPACE, level_id):
 				var circuit: LogicCircuit = _circuit_from_workbench(store.workbench_snapshot(GAME_NAMESPACE, level_id, scheme))

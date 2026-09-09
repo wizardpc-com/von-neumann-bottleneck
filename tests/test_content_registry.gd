@@ -38,7 +38,7 @@ func _test_real_prologue_catalog() -> void:
 	_assert(
 		catalog.level_ids() == [
 			&"tutorial", &"half_adder", &"full_adder", &"alu",
-			&"latch", &"register", &"ram", &"cpu", &"load_store", &"selector", &"delay",
+			&"latch", &"register", &"ram", &"cpu", &"load_store", &"selector", &"selector4", &"parity", &"delay", &"alarm",
 		],
 		"Registry migration must preserve the complete current progression order."
 	)
@@ -52,7 +52,7 @@ func _test_real_prologue_catalog() -> void:
 	_assert(catalog.reward_names(&"register") == [&"Register1", &"Register4"], "Register reward ownership must include its generated word wrapper.")
 	_assert(
 		catalog.dependent_level_ids(&"half_adder") == [
-			&"full_adder", &"alu", &"cpu", &"load_store", &"selector",
+			&"full_adder", &"alu", &"cpu", &"load_store", &"selector", &"selector4", &"parity",
 		],
 		"Half Adder replacement must invalidate only its CPU/arithmetic descendants, never storage."
 	)

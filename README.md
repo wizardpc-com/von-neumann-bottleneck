@@ -1,5 +1,7 @@
 # Von Neumann Bottleneck
 
+2026-09-10 开发中：总任务树连接四个区域，新增五条可选支线（共 34 个节点）及三个附加挑战；旧主线门槛不变。详见[实施与验收计划](docs/exec-plans/active/task-tree-and-side-missions.md)。自动检查已覆盖新增内容，完整原生试玩与反馈记录升级仍在进行。
+
 > Connect a machine, make it work, then reduce the time it spends waiting for data.
 
 **Project status:** early prototype / playable demo. This repository is not a complete game, a production-ready release, or a promise that the current progression and presentation are final.

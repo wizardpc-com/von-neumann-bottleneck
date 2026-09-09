@@ -5783,3 +5783,201 @@ msgstr "交换分工：计算 B，同时重新填充 A。"
 
 msgid "overlap.command_card"
 msgstr "指令小卡 %s / %s"
+
+msgid "tree.title"
+msgstr "任务树"
+
+msgid "tree.open"
+msgstr "打开总任务树 · 自选下一步"
+
+msgid "tree.home"
+msgstr "章节入口"
+
+msgid "tree.search"
+msgstr "搜索任务名称 / Enter 定位"
+
+msgid "tree.locate"
+msgstr "定位所选"
+
+msgid "tree.overview"
+msgstr "全图"
+
+msgid "tree.enter"
+msgstr "进入任务"
+
+msgid "tree.controls"
+msgstr "拖动空白处平移 · 滚轮或双指缩放 · 点击节点查看规格 · ◇ 可选支线不阻挡主线"
+
+msgid "tree.optional"
+msgstr "◇ 探索支线 · 不阻挡主线"
+
+msgid "tree.main"
+msgstr "主线任务"
+
+msgid "tree.prerequisites"
+msgstr "需要先完成"
+
+msgid "tree.none"
+msgstr "从这里开始"
+
+msgid "tree.completed"
+msgstr "已完成 · 可以继续优化"
+
+msgid "tree.available"
+msgstr "可以开始"
+
+msgid "tree.locked"
+msgstr "尚未解锁。先完成上方未打勾的任务。"
+
+msgid "tree.locked_short"
+msgstr "未解锁"
+
+msgid "tree.region.0"
+msgstr "01 造出机器"
+
+msgid "tree.region.1"
+msgstr "02 找出等待"
+
+msgid "tree.region.2"
+msgstr "03 减少搬运"
+
+msgid "tree.region.3"
+msgstr "04 安排到达"
+
+
+msgid "exploration.selector4.title"
+msgstr "四路择一"
+
+msgid "exploration.selector4.description"
+msgstr "四路传感器共用一个出口。让编号选中的那一路通行，其余三路怎样变化都不能干扰输出。\n\n你已经做过两路选择。这次由你决定怎样组织四路，内部从空白开始；元件台提供基本门，允许不同结构。"
+
+msgid "exploration.selector4.spec"
+msgstr "所有端口均为 1 位。D0～D3 是数据，S1 和 S0 是选择编号，S1 为高位。\n\nS1 S0    OUT 跟随\n0   0       D0\n0   1       D1\n1   0       D2\n1   1       D3\n\n正式测试覆盖 4 个编号 × 16 种数据 = 64 种组合，只比较行为。可用复制操作重复自己搭好的局部结构；不要求固定元件数量。\n\n[[multiplexer|多路复用器（MUX）]]"
+
+msgid "exploration.selector4.hint.1"
+msgstr "先把四路分成两组：组内怎样选择，组间又怎样选择？也可以考虑为每个编号生成单独的通行条件。"
+
+msgid "exploration.selector4.hint.2"
+msgstr "局部画布展示一组两路选择：S0 控制 D0 / D1。思考怎样扩展到另一组，再由 S1 选择组。"
+
+msgid "exploration.selector4.hint.3"
+msgstr "参考使用三级两路选择逻辑。它只是一个解法；译码后合并以及其它等价电路也能通过。"
+
+msgid "exploration.selector4.summary"
+msgstr "你把选择组织成了更大的系统。试试另一种结构：分层和译码各有什么取舍？"
+
+msgid "experience.next.hardware_foundations.selector4"
+msgstr "你把选择组织成了更大的系统。试试另一种结构：分层和译码各有什么取舍？"
+
+msgid "exploration.parity.title"
+msgstr "错了一位"
+
+msgid "exploration.parity.description"
+msgstr "数据通过线路传来，可能有一位被翻转。发送方加了一位校验信息，让接收方能发现这类错误。\n\n四位数据 D0～D3 加 CHECK，一共五位。有效消息里，1 的数量必须是偶数。构建 ERROR 指示器：偶数个 1 输出 0，奇数个 1 输出 1。"
+
+msgid "exploration.parity.spec"
+msgstr "所有端口都是 1 位。CHECK 也是收到的输入，不需要由你生成。\n\n例子：数据 1010 + CHECK=0，共两个 1 → ERROR=0。\n翻转一位：0010 + 0，共一个 1 → ERROR=1。\n再翻转一位：0110 + 0，共两个 1 → ERROR=0。\n\n正式测试覆盖全部 32 种输入。注意：偶校验能发现任意单个位翻转，也能发现奇数个位翻转；偶数个位翻转可能漏过。它不能指出哪一位错了，也不能纠错。\n\n[[xor_gate|XOR（异或门）]]"
+
+msgid "exploration.parity.hint.1"
+msgstr "你需要记住的是 1 的数量为奇数还是偶数，不必算出完整数量。哪种已学过的门在输入翻转一次时会翻转输出？"
+
+msgid "exploration.parity.hint.2"
+msgstr "局部画布先合并前两位的奇偶性。把这个结果继续与下一位合并，最后包括 CHECK。"
+
+msgid "exploration.parity.hint.3"
+msgstr "参考把五位逐一 XOR。平衡树形的 XOR 结构也等价；正式测试不检查布局或门的 ID。"
+
+msgid "exploration.parity.summary"
+msgstr "你做出了错误探测器。继续在调试输入中翻转一位，再翻转第二位，亲自观察为什么“没有报警”不等于“绝对没有错误”。"
+
+msgid "experience.next.hardware_foundations.parity"
+msgstr "你做出了错误探测器。继续在调试输入中翻转一位，再翻转第二位，亲自观察为什么“没有报警”不等于“绝对没有错误”。"
+
+msgid "exploration.alarm.title"
+msgstr "报警别消失"
+
+msgid "exploration.alarm.description"
+msgstr "故障可能只闪一下。即使 FAULT 回到 0，ALARM 也必须保持 1，直到操作者 CLEAR。\n\n复用已完成的 SR 锁存器。内部空白，你来决定怎样让故障被记住，并让清除可靠生效。"
+
+msgid "exploration.alarm.spec"
+msgstr "FAULT、CLEAR、ALARM 都是 1 位。每一行代表下一次输入状态：\n\nCLEAR=1：ALARM=0，无论 FAULT 是什么。\nCLEAR=0 且 FAULT=1：ALARM=1。\n二者都是 0：保持上次 ALARM。\n\nCLEAR 优先。正式序列先清零，再覆盖保持、重复清除、同时故障与清除、清除后再次故障。直接把 FAULT / CLEAR 接到锁存器可能遇到同时置位与复位的问题；输入规则是题目规格，处理方法由你设计。\n\n[[sr_latch|SR 锁存器（SR Latch）]]"
+
+msgid "exploration.alarm.hint.1"
+msgstr "把“能否置位”与“是否清除”分开考虑。清除生效时，另一条控制路径应该怎样？"
+
+msgid "exploration.alarm.hint.2"
+msgstr "局部画布展示：只有没有 CLEAR 时，FAULT 才能送到置位端。清除端仍直接跟随 CLEAR。"
+
+msgid "exploration.alarm.hint.3"
+msgstr "参考使用 SET = FAULT AND NOT CLEAR，RESET = CLEAR，再读取 SRLatch 的 Q。等价的有状态电路同样有效。"
+
+msgid "exploration.alarm.summary"
+msgstr "短暂事件现在能被保留下来，清除也有明确优先级。状态不只是存数，还能记录“曾经发生过什么”。"
+
+msgid "experience.next.hardware_foundations.alarm"
+msgstr "短暂事件现在能被保留下来，清除也有明确优先级。状态不只是存数，还能记录“曾经发生过什么”。"
+
+
+msgid "system.level.read_once.title"
+msgstr "只取一次，就够了"
+
+msgid "system.level.read_once.description"
+msgstr "同一个数要加两次，真的要向内存读两次吗？\n\n硬件固定。程序已经算对，但每轮重复请求同一个输入。保留正确结果，改写程序，让取回的 value 多用一次。"
+
+msgid "system.level.read_once.objective"
+msgstr "目标：OUTPUT[0] = 输入总和的两倍，只保留低 8 位（超过 255 后从 0 继续）。\n\n每个数据集都要正确，内存请求最多 N+1 次：N 次读取 + 1 次写回。N=16 时，起点是 33 次，目标最多 17 次。\n\nvalue = load(INPUT[i]) 把数据放入变量；后续 acc += value 使用已有值，不再请求内存。编辑后先点“应用程序”，再正式测试。允许不同等价程序；规格不要求逐字匹配参考解。\n\n[[load|LOAD（装载 / 读取）]]"
+
+msgid "system.completion.summary.read_once"
+msgstr "你没有升级硬件，却减少了真实内存请求。数据一旦取回，就值得问问：还能再用一次吗？"
+
+msgid "system.level.two_orders.title"
+msgstr "一笔预算，两张订单"
+
+msgid "system.level.two_orders.description"
+msgstr "两位客户带来不同任务，却给出相同预算。为每张订单分别选择 CPU、RAM 和 Bus。\n\n计算订单：读取一个数，连续做 32 次加法，再写回。\n搬运订单：逐项复制输入，不做加法。\n\n元件台顶部切换订单。每张订单保留自己的配置，不要求同一套硬件同时完成两张订单。"
+
+msgid "system.level.two_orders.objective"
+msgstr "每张订单预算 ≤24。\n计算订单：每个测试 ≤66 周期。\n搬运订单：每个测试 ≤320 周期。\n\n工作程序固定，只更换元件。先看程序需要计算还是搬运，再在真实 Trace 中检查时间花在哪里。两个订单都达标后完成本支线；不阻挡后续主线。\n\n全顶配花费 39，超过预算。多种配置可以达标，不要求唯一答案。\n\n[[hardware_cost|硬件成本（Hardware Cost）]]"
+
+msgid "system.completion.summary.two_orders"
+msgstr "你把有限预算花在了各自需要的地方。最快的部件并不总是最值得买的部件；工作负载决定了取舍。"
+
+msgid "system.orders.compute"
+msgstr "订单 A · 计算 · ≤66 周期"
+
+msgid "system.orders.move"
+msgstr "订单 B · 搬运 · ≤320 周期"
+
+msgid "system.application.requests"
+msgstr "内存请求 %d / 最多 %d"
+
+msgid "system.application.target"
+msgstr "成本 %d / 预算 %d · 周期目标 ≤%d"
+
+msgid "system.progress.application_target"
+msgstr "输出正确还需要达到本任务的请求数 / 预算 / 周期目标。"
+
+msgid "experience.next.chapter_1.read_once"
+msgstr "你没有升级硬件，却减少了真实内存请求。数据一旦取回，就值得问问：还能再用一次吗？"
+
+msgid "experience.next.chapter_1.two_orders"
+msgstr "你把有限预算花在了各自需要的地方。最快的部件并不总是最值得买的部件；工作负载决定了取舍。"
+
+
+msgid "overlap.copy_previous"
+msgstr "复制上一关自己的方案 · 需重新测试"
+
+msgid "overlap.bonus.distance"
+msgstr "附加挑战：不重复搬运。在原周期目标内，每批只传一次，也不淘汰尚未使用的预取数据。"
+
+msgid "overlap.bonus.synthesis"
+msgstr "附加挑战：两种办法。分别保留一套实际通过 Buffer 路线和一套通过 Cache 路线的有效方案；闲置元件不计数。"
+
+msgid "overlap.bonus.done"
+msgstr "附加挑战已达成"
+
+msgid "overlap.bonus.pending"
+msgstr "附加挑战仍可探索"
+
+msgid "bonus.economical"
+msgstr "附加挑战：省钱路线。保持正确且 ≤145 周期，成本 ≤4。不会影响主线解锁。"

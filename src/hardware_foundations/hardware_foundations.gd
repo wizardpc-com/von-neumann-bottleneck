@@ -63,6 +63,10 @@ const MIN_PLAYBACK_FREQUENCY_HZ: float = 0.5
 const MAX_PLAYBACK_FREQUENCY_HZ: float = 120.0
 const COMPLETION_SUMMARY_KEYS := {
 	&"selector": &"exploration.selector.summary",
+	&"selector4": &"exploration.selector4.summary",
+	&"parity": &"exploration.parity.summary",
+	&"alarm": &"exploration.alarm.summary",
+
 	&"delay": &"exploration.delay.summary",
 	&"tutorial": &"hardware.completion.summary.tutorial",
 	&"half_adder": &"hardware.completion.summary.half_adder",
@@ -262,6 +266,8 @@ func _ready() -> void:
 	terminology_handbook = TerminologyHandbookType.new()
 	add_child(terminology_handbook)
 	_activate_content_state()
+	var requested_task: StringName = TaskNavigation.consume("hardware_foundations")
+	if not requested_task.is_empty(): call_deferred("_start_campaign_level",requested_task)
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
 	var preparing_capture: bool = (
@@ -1210,7 +1216,7 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 		var window_button: Button = desktop_window_buttons.get(window.instrument_id)
 		if window_button != null:
 			window_button.set_pressed_no_signal(window.visible)
-	_focus_desktop_window(&"task" if current_phase in [&"campaign", &"hint"] else &"test_bench")
+	_focus_desktop_window(&"task" if mission_briefing_active or current_phase in [&"campaign", &"hint"] else &"test_bench")
 	if mission_briefing_active:
 		_layout_mission_briefing()
 	elif mission_compact:
@@ -2571,7 +2577,7 @@ func _hint_text_key(level_id: StringName, level: int) -> StringName:
 			return [&"hardware.hint.cpu.1", &"hardware.hint.cpu.2", &"hardware.hint.cpu.3"][level - 1]
 		&"load_store":
 			return [&"hardware.hint.load_store.1", &"hardware.hint.load_store.2", &"hardware.hint.load_store.3"][level - 1]
-	if level_id in [&"selector", &"delay"]:
+	if level_id in [&"selector", &"delay", &"selector4", &"parity", &"alarm"]:
 		return StringName("exploration.%s.hint.%d" % [level_id, level])
 	return &"hardware.hint.generic"
 
@@ -6181,7 +6187,7 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 			_save_active_workbench()
 			player_content.mark_completed(current_level_id)
 			PlaytestData.level_completed(&"hardware_foundations", current_level_id)
-			if current_level_id in [&"selector", &"delay"]:
+			if current_level_id in [&"selector", &"delay", &"selector4", &"parity", &"alarm"]:
 				status_label.text = _t(&"exploration.status.passed")
 			else:
 				current_phase = &"prologue_complete"
@@ -6381,6 +6387,7 @@ func _open_campaign_map() -> void:
 	hint_level = 0
 	hint_return_level_id = &""
 	_reset_mission_briefing()
+	if TaskNavigation.return_to_tree(): return
 	current_phase = &"campaign"
 	current_level_id = &""
 	current_level_definition.clear()

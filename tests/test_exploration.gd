@@ -19,7 +19,7 @@ func _run() -> void:
 	var library: Dictionary = main.get("component_library")
 	_assert(catalog.dependencies(&"selector") == [&"half_adder"] and catalog.dependencies(&"delay") == [&"register"], "Exploration nodes must branch from earned tools.")
 	_assert(catalog.dependencies(&"full_adder") == [&"half_adder"] and catalog.dependencies(&"ram") == [&"register"], "Optional applications must never become old mainline prerequisites.")
-	for id: StringName in [&"selector", &"delay"]:
+	for id: StringName in [&"selector", &"delay", &"selector4", &"parity", &"alarm"]:
 		main.call("_start_prologue_level", id, false)
 		await process_frame
 		var definition: Dictionary = catalog.definition(id, library)
@@ -38,8 +38,12 @@ func _run() -> void:
 		var broken: LogicCircuit = reference.duplicate_circuit()
 		broken.wires.clear()
 		_assert(not Simulator.new().run_sequence(broken, definition["official_steps"])["passed"], "No-wire answers must fail both applications.")
+	main.call("_start_prologue_level", &"delay", false)
+	await process_frame
 	_assert(main.call("_storage_action_text", {&"DATA": 7, &"ACCEPT": 1}) != main.call("_storage_action_text", {&"DATA": 7, &"ACCEPT": 0}), "Delay acceptance and HOLD must not share misleading action captions.")
 	_test_alternative_selector(catalog, library)
+	main.call("_start_prologue_level", &"delay", false)
+	await process_frame
 	# Search must filter presentation, without changing the allowed supply or arming a part.
 	var original_keys: Array = main.get("component_menu_template_keys").duplicate()
 	var search: LineEdit = main.get("palette_search")

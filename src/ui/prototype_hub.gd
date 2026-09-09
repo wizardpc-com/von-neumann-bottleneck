@@ -151,6 +151,12 @@ func _build_interface() -> void:
 	save_recovery_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	save_recovery_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	content.add_child(save_recovery_label)
+	var task_tree_button := Button.new()
+	task_tree_button.name = "TaskTree"
+	task_tree_button.text = Localization.text(&"tree.open")
+	task_tree_button.custom_minimum_size.y = 54
+	task_tree_button.pressed.connect(func() -> void: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
+	content.add_child(task_tree_button)
 	var cards := HBoxContainer.new()
 	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(cards)

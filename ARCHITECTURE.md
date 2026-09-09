@@ -121,3 +121,7 @@ workbench. It produces `SimulationTrace`; UI playback only presents it. Chapter 
 capstone opens this domain. See [model and persistence](docs/architecture/overlap-chapter.md).
 The existing mainline remains intact, with two optional circuit applications after
 Half Adder and Register. New applications start with fixed I/O and a blank interior.
+
+## Task tree and optional applications (2026-09-10)
+
+`TaskNavigation` reads the four existing chapter owners and qualifies task IDs by domain; its camera and pending route are transient, not progression data. Existing hosts recheck unlocks before entry. New system applications retain accepted programs and part IDs in optional `application_designs` fields; restore replays the actual case sets before granting new-node completion. Original system gates and program-signature rules are unchanged. Overlap optional route archives and the locality economical design likewise use optional fields and simulation revalidation. No schema replacement or default-board migration is involved.

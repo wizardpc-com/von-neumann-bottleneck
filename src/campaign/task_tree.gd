@@ -1,0 +1,106 @@
+extends Control
+const Canvas = preload("res://src/campaign/task_tree_canvas.gd")
+var canvas: Control
+var details: Label
+var enter_button: Button
+var search: LineEdit
+var rows: Array[Dictionary] = []
+var selected: Dictionary = {}
+
+func _ready() -> void:
+	var skin := Theme.new()
+	skin.default_font_size = 20
+	preload("res://src/ui/instrument_theme.gd").apply_to(skin)
+	theme = skin
+	var background := preload("res://src/ui/technical_backdrop.gd").new()
+	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(background)
+	var margin := MarginContainer.new()
+	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for side: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+side,24)
+	add_child(margin)
+	var column := VBoxContainer.new()
+	margin.add_child(column)
+	var header := HBoxContainer.new()
+	column.add_child(header)
+	_button(header,"tree.home",func() -> void:
+		TaskNavigation.from_tree = false
+		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
+	var title := Label.new()
+	title.text = _t("title")
+	title.add_theme_font_size_override("font_size",30)
+	header.add_child(title)
+	search = LineEdit.new()
+	search.placeholder_text = _t("search")
+	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(search)
+	_button(header,"tree.locate",func() -> void: canvas.locate(TaskNavigation.selected))
+	_button(header,"tree.overview",func() -> void: canvas.overview())
+	var body := HBoxContainer.new()
+	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(body)
+	canvas = Canvas.new()
+	canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_child(canvas)
+	var side := VBoxContainer.new()
+	side.custom_minimum_size.x = 310
+	body.add_child(side)
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	side.add_child(scroll)
+	details = Label.new()
+	details.custom_minimum_size.x = 306
+	details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(details)
+	enter_button = _button(side,"tree.enter",func() -> void:
+		if not selected.is_empty(): TaskNavigation.enter(selected.key))
+	var help := Label.new()
+	help.text = _t("controls")
+	help.add_theme_color_override("font_color",Color("91a0b9"))
+	column.add_child(help)
+	rows = TaskNavigation.tasks()
+	canvas.configure(rows)
+	canvas.task_selected.connect(_select)
+	search.text_changed.connect(func(value: String) -> void: canvas.set_search(value))
+	search.text_submitted.connect(func(_value: String) -> void: canvas.locate_match())
+	_select(TaskNavigation.selected)
+
+func _select(key: String) -> void:
+	for task: Dictionary in rows:
+		if task.key != key: continue
+		selected = task
+		TaskNavigation.selected = key
+		var text: String = task.title+"\n\n"+_t("optional" if task.optional else "main")+"\n\n"+task.body
+		text += "\n\n"+_t("prerequisites")
+		if task.dependencies.is_empty(): text += "\n"+_t("none")
+		for dependency: String in task.dependencies:
+			for candidate: Dictionary in rows:
+				if candidate.key == dependency:
+					text += "\n"+("✓ " if candidate.completed else "○ ")+candidate.title
+		text += "\n\n"+_t("completed" if task.completed else "available" if task.unlocked else "locked")
+		if task.key == "chapter_2/capstone":
+			text += "\n\n"+("✓ " if not LocalityChapter.economical_design.is_empty() else "◇ ")+Localization.text(&"bonus.economical")
+		elif task.key in ["chapter_3/distance","chapter_3/synthesis"]:
+			text += "\n\n"+("✓ " if OverlapChapter.bonus_status(task.id).complete else "◇ ")+Localization.text(StringName("overlap.bonus."+task.id))
+		details.text = text
+		enter_button.disabled = not task.unlocked
+		canvas.queue_redraw()
+		return
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		TaskNavigation.from_tree = false
+		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+		get_viewport().set_input_as_handled()
+
+func _button(parent: Node,key: String,action: Callable) -> Button:
+	var button := Button.new()
+	button.text = Localization.text(StringName(key))
+	button.custom_minimum_size.y = 46
+	button.pressed.connect(action)
+	parent.add_child(button)
+	return button
+
+func _t(key: String) -> String: return Localization.text(StringName("tree."+key))

@@ -19,6 +19,8 @@ const CONCEPT_REQUIREMENTS: Dictionary[StringName, StringName] = {
 	&"blocking": &"blocking",
 }
 
+var economical_design: Dictionary = {}
+
 var game_completed: Dictionary[StringName, bool] = {}
 var test_completed: Dictionary[StringName, bool] = {}
 var game_receipts: Dictionary[StringName, Array] = {}
@@ -96,11 +98,13 @@ func game_snapshot() -> Dictionary:
 	return {
 		"schema_version": 1,
 		"completed_levels": _completed_level_ids(game_completed),
+		"economical_design": economical_design.duplicate(true),
 	}
 
 
 func restore_game(snapshot: Dictionary, chapter_ready: bool) -> void:
 	game_completed.clear()
+	economical_design.clear()
 	game_receipts.clear()
 	game_capstone_first_experiment_observed = false
 	if chapter_ready and int(snapshot.get("schema_version", 0)) == 1:
@@ -111,11 +115,14 @@ func restore_game(snapshot: Dictionary, chapter_ready: bool) -> void:
 				level_id, game_completed, true, false
 			):
 				game_completed[level_id] = true
+		if game_completed.has(&"capstone") and qualifies_economical(snapshot.get("economical_design",{})):
+			economical_design = snapshot.economical_design.duplicate(true)
 	progression_changed.emit()
 
 
 func reset_game_progress() -> void:
 	game_completed.clear()
+	economical_design.clear()
 	game_receipts.clear()
 	game_capstone_first_experiment_observed = false
 	progression_changed.emit()
@@ -144,3 +151,20 @@ func _level_set(source: Variant) -> Dictionary[StringName, bool]:
 		for level_id: Variant in source:
 			result[StringName(level_id)] = true
 	return result
+
+
+func retain_economical(source: String,cache_lines: int,passes: int,blocks: int,bypass: bool) -> void:
+	if GameMode.is_test_mode(): return
+	var design: Dictionary = {"source":source,"cache_lines":cache_lines,"passes":passes,"blocks":blocks,"bypass":bypass}
+	if qualifies_economical(design):
+		economical_design = design
+		persistent_state_changed.emit()
+
+func qualifies_economical(value: Variant) -> bool:
+	if not value is Dictionary or not value.get("source") is String or value.source.length()>16000: return false
+	if value.get("cache_lines") != 1 or value.get("passes") != 2 or value.get("blocks") not in [0,1,2,4] or value.get("bypass") != false: return false
+	var core := preload("res://src/simulation/simulation_core.gd").new()
+	var program = preload("res://src/simulation/dsl_parser.gd").parse(value.source)
+	if not program.is_valid(): return false
+	var trace: SimulationTrace = core.run_workload(program,core.official_data_copy(),1,"Economical recovery",2,int(value.blocks),false)
+	return trace.passed and int(trace.metrics.get("total_cycles",99999)) <= 145 and int(trace.metrics.get("hardware_cost",99999)) <= 4

@@ -45,7 +45,7 @@ func _run() -> void:
 	var campaign_map: Control = main.get("campaign_map_view")
 	_assert(campaign_map != null and is_instance_valid(campaign_map), "The campaign must use the central graphical dependency map instead of leaving the canvas empty.")
 	_assert(not (main.get("graph") as GraphEdit).visible, "Level select must hide the circuit canvas and its editor scrollbars behind the dedicated map.")
-	_assert(campaign_buttons.size() == 11 and (campaign_map.call("dependency_edges") as Array).size() == 11, "The graphical map must expose the nine original levels plus two optional applications and their eleven prerequisite edges.")
+	_assert(campaign_buttons.size() == 14 and (campaign_map.call("dependency_edges") as Array).size() == 14, "The graphical map must expose the nine original levels plus five optional applications and their fourteen prerequisite edges.")
 	_assert(
 		(campaign_map.call("level_position", &"tutorial") as Vector2).x < (campaign_map.call("level_position", &"half_adder") as Vector2).x
 		and (campaign_map.call("level_position", &"full_adder") as Vector2).y < (campaign_map.call("level_position", &"latch") as Vector2).y
@@ -1422,7 +1422,7 @@ func _run() -> void:
 	for _test_mode_frame: int in range(3):
 		await process_frame
 	var test_buttons: Dictionary = main.get("campaign_level_buttons")
-	var all_test_levels_unlocked: bool = test_buttons.size() == 11
+	var all_test_levels_unlocked: bool = test_buttons.size() == 14
 	for test_button: Button in test_buttons.values():
 		all_test_levels_unlocked = all_test_levels_unlocked and not test_button.disabled
 	_assert(all_test_levels_unlocked, "Test mode must make every registered campaign node enterable.")

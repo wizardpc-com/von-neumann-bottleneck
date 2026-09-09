@@ -2,6 +2,19 @@ class_name MissionNarrativeCatalog
 extends RefCounted
 
 const HARDWARE_PAGES := {
+	&"selector4": [
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"exploration.selector4.description"},
+		{&"title": &"hardware.briefing.stage.verify", &"body": &"exploration.selector4.spec"},
+	],
+	&"parity": [
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"exploration.parity.description"},
+		{&"title": &"hardware.briefing.stage.verify", &"body": &"exploration.parity.spec"},
+	],
+	&"alarm": [
+		{&"title": &"hardware.briefing.stage.goal", &"body": &"exploration.alarm.description"},
+		{&"title": &"hardware.briefing.stage.verify", &"body": &"exploration.alarm.spec"},
+	],
+
 	&"selector": [
 		{&"title": &"hardware.briefing.stage.goal", &"body": &"exploration.selector.description"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"exploration.selector.spec"},
@@ -65,6 +78,8 @@ const HARDWARE_PAGES := {
 }
 
 const SYSTEM_PAGES := {
+	&"read_once": [&"system.level.read_once.description", &"system.level.read_once.objective"],
+	&"two_orders": [&"system.level.two_orders.description", &"system.level.two_orders.objective"],
 	&"assembly": [&"system.level.assembly.briefing.1", &"system.level.assembly.briefing.2"],
 	&"cpu_speed": [&"system.level.cpu_speed.briefing.1", &"system.level.cpu_speed.briefing.2", &"system.level.cpu_speed.briefing.3"],
 	&"ram_wait": [&"system.level.ram_wait.briefing.1", &"system.level.ram_wait.briefing.2", &"system.level.ram_wait.briefing.3"],

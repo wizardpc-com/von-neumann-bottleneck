@@ -5,6 +5,8 @@ signal persistent_state_changed
 
 const SystemLevelCatalogType = preload("res://src/system_lab/system_level_catalog.gd")
 
+var application_designs: Dictionary = {}
+
 var prologue_ready: bool = false
 var cpu_source_signature: String = "reference-cpu4"
 var ram_source_signature: String = "reference-ram2x4"
@@ -25,6 +27,7 @@ func capture_prologue(component_library: Dictionary) -> bool:
 	if prologue_ready and (next_cpu_signature != cpu_source_signature or next_ram_signature != ram_source_signature):
 		game_completed.clear()
 		game_receipts.clear()
+		application_designs.clear()
 	cpu_source_signature = next_cpu_signature
 	ram_source_signature = next_ram_signature
 	prologue_ready = true
@@ -39,6 +42,7 @@ func invalidate_prologue() -> void:
 	prologue_ready = false
 	game_completed.clear()
 	game_receipts.clear()
+	application_designs.clear()
 	progression_changed.emit()
 	persistent_state_changed.emit()
 
@@ -93,6 +97,7 @@ func game_snapshot() -> Dictionary:
 		"cpu_source_signature": cpu_source_signature,
 		"ram_source_signature": ram_source_signature,
 		"completed_levels": _completed_level_ids(game_completed),
+		"application_designs": application_designs.duplicate(true),
 	}
 
 
@@ -102,6 +107,7 @@ func restore_game(snapshot: Dictionary, component_library: Dictionary, hardware_
 	ram_source_signature = "reference-ram2x4"
 	game_completed.clear()
 	game_receipts.clear()
+	application_designs.clear()
 	if hardware_gate_ready and int(snapshot.get("schema_version", 0)) == 1:
 		var signatures: Dictionary = _prologue_signatures(component_library)
 		if (
@@ -116,6 +122,9 @@ func restore_game(snapshot: Dictionary, component_library: Dictionary, hardware_
 			var requested: Dictionary[StringName, bool] = _level_set(snapshot.get("completed_levels", []))
 			var catalog := SystemLevelCatalogType.new(cpu_source_signature, ram_source_signature)
 			for level_id: StringName in catalog.level_ids():
+				if level_id in [&"read_once",&"two_orders"]:
+					_restore_application(level_id,snapshot.get("application_designs",{}),catalog)
+					continue
 				if bool(requested.get(level_id, false)) and catalog.is_unlocked(
 					level_id, game_completed, prologue_ready, false
 				):
@@ -129,6 +138,7 @@ func reset_game_progress() -> void:
 	ram_source_signature = "reference-ram2x4"
 	game_completed.clear()
 	game_receipts.clear()
+	application_designs.clear()
 	progression_changed.emit()
 	persistent_state_changed.emit()
 
@@ -171,3 +181,27 @@ func _level_set(source: Variant) -> Dictionary[StringName, bool]:
 		for level_id: Variant in source:
 			result[StringName(level_id)] = true
 	return result
+
+
+func retain_application(id: StringName,source: String,parts: Dictionary,receipt: Variant) -> void:
+	if GameMode.is_test_mode() or id not in [&"read_once",&"two_orders"]: return
+	var catalog := SystemLevelCatalogType.new(cpu_source_signature,ram_source_signature)
+	if int(catalog.completion_status(id,[receipt]).get("progress",0)) == 0: return
+	var variant: String = "move" if source == catalog.PROGRAM_COPY else "compute" if id == &"two_orders" else "read"
+	if not application_designs.has(String(id)): application_designs[String(id)] = {}
+	application_designs[String(id)][variant] = {"source":source,"parts":parts.duplicate()}
+	persistent_state_changed.emit()
+
+func _restore_application(id: StringName,saved: Variant,catalog: SystemLevelCatalog) -> void:
+	if not saved is Dictionary or not saved.get(String(id),{}) is Dictionary: return
+	if not catalog.is_unlocked(id,game_completed,prologue_ready): return
+	for value: Variant in saved.get(String(id),{}).values():
+		if not value is Dictionary or not value.get("source") is String or not value.get("parts") is Dictionary: continue
+		var receipt: SystemRunReceipt = catalog.replay_application(id,value.source,value.parts)
+		if int(catalog.completion_status(id,[receipt]).get("progress",0)) == 0: continue
+		var variant: String = "move" if value.source == catalog.PROGRAM_COPY else "compute" if id == &"two_orders" else "read"
+		if not application_designs.has(String(id)): application_designs[String(id)] = {}
+		application_designs[String(id)][variant] = value.duplicate(true)
+		if not game_receipts.has(id): game_receipts[id] = []
+		game_receipts[id].append(receipt)
+	if catalog.completion_status(id,game_receipts.get(id,[])).complete: game_completed[id] = true

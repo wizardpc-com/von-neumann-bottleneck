@@ -45,6 +45,8 @@ const COMPLETION_SUMMARY_KEYS := {
 	&"ram_wait": &"system.completion.summary.ram_wait",
 	&"bus_width": &"system.completion.summary.bus_width",
 	&"bottleneck": &"system.completion.summary.bottleneck",
+	&"read_once": &"system.completion.summary.read_once",
+	&"two_orders": &"system.completion.summary.two_orders",
 }
 
 const STANDARD_LAYOUT := {
@@ -115,6 +117,8 @@ var prediction_status_label: Label
 var mission_progress_label: Label
 var conclusion_button: Button
 var part_selectors: Dictionary[StringName, OptionButton] = {}
+var order_selector: OptionButton
+var order_configurations: Dictionary = {}
 var parts_summary_label: Label
 var editor: CodeEdit
 var program_validation_label: Label
@@ -176,6 +180,8 @@ func _ready() -> void:
 	GameMode.mode_changed.connect(_on_mode_changed)
 	SystemChapter.progression_changed.connect(_refresh_map)
 	_open_map()
+	var requested_task: StringName = TaskNavigation.consume("chapter_1")
+	if not requested_task.is_empty(): call_deferred("_start_level",requested_task)
 	set_process(true)
 	var arguments: PackedStringArray = OS.get_cmdline_user_args()
 	if "--capture-system" in arguments:
@@ -912,6 +918,12 @@ func _build_mission_instrument() -> Control:
 
 func _build_parts_instrument() -> Control:
 	var box := VBoxContainer.new()
+	order_selector = OptionButton.new()
+	order_selector.name = "OrderSelector"
+	order_selector.add_item(_t(&"system.orders.compute"))
+	order_selector.add_item(_t(&"system.orders.move"))
+	order_selector.item_selected.connect(_select_order)
+	box.add_child(order_selector)
 	var help := Label.new()
 	help.text = _t(&"system.parts.help")
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1123,6 +1135,7 @@ func _open_map() -> void:
 	_stop_playback()
 	current_level_id = &""
 	current_level_definition.clear()
+	if TaskNavigation.return_to_tree(): return
 	map_host.show()
 	lab_host.hide()
 	level_label.text = _t(&"system.chapter.subtitle")
@@ -1145,7 +1158,8 @@ func _refresh_map() -> void:
 		var status_key: StringName = &"system.map.completed" if is_completed else (&"system.map.unlocked" if unlocked else &"system.map.locked")
 		levels.append({
 			"id": level_id,
-			"eyebrow": _t(&"system.map.level", [index + 1]),
+			"eyebrow": _t(&"tree.optional") if index >= 5 else _t(&"system.map.level", [index + 1]),
+			"dependencies": catalog.dependencies(level_id),
 			"title": _t(catalog.title_key(level_id)),
 			"status": _t(status_key),
 			"tooltip": _t(catalog.description_key(level_id)),
@@ -1189,6 +1203,7 @@ func _start_level(level_id: StringName) -> void:
 	status_label.text = _t(&"system.status.ready")
 	status_label.add_theme_color_override("font_color", WARNING)
 	_load_level_session()
+	order_selector.select(1 if applied_program_source == catalog.PROGRAM_COPY else 0)
 	_refresh_level_ui()
 	for id: StringName in instrument_windows:
 		_close_instrument(id)
@@ -1233,6 +1248,11 @@ func _load_level_session() -> void:
 	graph.clear_connection_presentations()
 	_set_selected_system_devices([] as Array[StringName])
 	var session: Dictionary = level_sessions.get(_level_session_key(current_level_id), {})
+	if session.is_empty() and not GameMode.is_test_mode() and current_level_id in [&"read_once",&"two_orders"]:
+		var saved: Dictionary = SystemChapter.application_designs.get(String(current_level_id),{})
+		if not saved.is_empty():
+			var design: Dictionary = saved.values().back()
+			session = {"part_ids":design.parts,"draft_source":design.source,"applied_source":design.source}
 	var diagnosis_sandbox_locked: bool = _diagnosis_sandbox_locked()
 	locked_prediction_id = StringName(session.get("prediction_id", &""))
 	selected_part_ids.clear()
@@ -1274,12 +1294,13 @@ func _load_level_session() -> void:
 
 
 func _refresh_level_ui() -> void:
+	order_selector.visible = current_level_id == &"two_orders"
 	mission_title_label.text = _t(catalog.title_key(current_level_id))
 	mission_page = 0
 	_refresh_mission_page()
 	_refresh_prediction_ui()
 	case_selector.clear()
-	for case: Dictionary in current_level_definition.get("cases", []):
+	for case: Dictionary in _active_cases():
 		case_selector.add_item(_case_display(case))
 		case_selector.set_item_tooltip(case_selector.item_count - 1, _t(&"system.test_bench.case", [
 			String(case.get("name", "case")), _format_bytes(_typed_int_array(case.get("input", []))),
@@ -2089,7 +2110,7 @@ func _refresh_program_state() -> void:
 	if program_apply_label == null:
 		return
 	var diagnosis_sandbox_locked: bool = _diagnosis_sandbox_locked()
-	editor.editable = not diagnosis_sandbox_locked
+	editor.editable = not diagnosis_sandbox_locked and current_level_id != &"two_orders"
 	if draft_dirty:
 		program_apply_label.text = _t(&"system.program.draft_pending")
 		program_apply_label.add_theme_color_override("font_color", WARNING)
@@ -2121,7 +2142,7 @@ func _update_program_explanation(program: SystemProgram) -> void:
 func _run_debug_case() -> void:
 	if not _prepare_run():
 		return
-	var cases: Array = current_level_definition.get("cases", [])
+	var cases: Array = _active_cases()
 	if cases.is_empty():
 		return
 	var index: int = clampi(case_selector.selected, 0, cases.size() - 1)
@@ -2151,7 +2172,7 @@ func _run_official() -> void:
 		return
 	latest_official_traces.clear()
 	_clear_result_rows()
-	for case: Dictionary in current_level_definition.get("cases", []):
+	for case: Dictionary in _active_cases():
 		var trace: SystemTrace = core.run(
 			applied_program,
 			current_topology,
@@ -2182,6 +2203,7 @@ func _run_official() -> void:
 	)
 	if is_progression_evidence:
 		SystemChapter.record_receipt(current_level_id, latest_receipt)
+		SystemChapter.retain_application(current_level_id,applied_program_source,selected_part_ids,latest_receipt)
 	_refresh_comparison_part_lock()
 	if not is_progression_evidence:
 		test_status_label.text = _t(&"system.test_bench.custom_program_debug_only", [
@@ -2358,6 +2380,14 @@ func _add_result_row(trace: SystemTrace) -> void:
 		int(trace.metrics.get("total_cycles", 0)),
 		_t(&"system.result.pass") if trace.passed else _t(&"system.result.fail"),
 	])
+	if current_level_id == &"read_once":
+		var input_size: int = 0
+		for item: Dictionary in _active_cases():
+			if item.name == trace.test_name: input_size = item.input.size()
+		row.text += "\n"+_t(&"system.application.requests",[int(trace.metrics.get("memory_requests",0)),input_size+1])
+	elif current_level_id == &"two_orders":
+		var order: String = "move" if applied_program_source == catalog.PROGRAM_COPY else "compute"
+		row.text += "\n"+_t(&"system.application.target",[int(trace.metrics.get("hardware_cost",0)),catalog.ORDER_BUDGET,catalog.ORDER_TARGETS[order]])
 	var full_result: String = row.text
 	var compact: bool = maxi(trace.expected_output.size(), trace.output_data.size()) > 8
 	if compact:
@@ -2371,7 +2401,7 @@ func _add_result_row(trace: SystemTrace) -> void:
 	if compact:
 		var details := Label.new()
 		details.text = full_result
-		for case: Dictionary in current_level_definition.get("cases", []):
+		for case: Dictionary in _active_cases():
 			if String(case.get("name", "")) == trace.test_name:
 				details.text = _t(&"system.test_bench.case", [trace.test_name,
 					_format_bytes(_typed_int_array(case.get("input", [])))]) + "\n" + full_result
@@ -3018,3 +3048,24 @@ func _stylebox(color: Color, radius: int, border_width: int = 0, border_color: C
 	box.content_margin_top = 10.0
 	box.content_margin_bottom = 10.0
 	return box
+
+
+func _active_cases() -> Array:
+	return catalog.cases_for_program(current_level_id,applied_program.canonical_signature() if applied_program != null else "")
+
+func _select_order(index: int) -> void:
+	if current_level_id != &"two_orders": return
+	var previous: String = "move" if applied_program_source == catalog.PROGRAM_COPY else "compute"
+	order_configurations[previous] = selected_part_ids.duplicate()
+	var order: String = "move" if index == 1 else "compute"
+	var next_parts: Dictionary = order_configurations.get(order,{})
+	if next_parts.is_empty() and not GameMode.is_test_mode():
+		next_parts = SystemChapter.application_designs.get("two_orders",{}).get(order,{}).get("parts",{})
+	for kind: StringName in [&"cpu",&"ram",&"bus"]:
+		selected_part_ids[kind] = StringName(next_parts.get(kind,catalog.default_part_id(current_level_id,kind)))
+	_populate_part_selectors()
+	editor.text = catalog.PROGRAM_COPY if index == 1 else catalog.PROGRAM_CPU
+	_apply_program()
+	current_topology = _topology_from_graph()
+	_refresh_level_ui()
+	_refresh_device_titles()

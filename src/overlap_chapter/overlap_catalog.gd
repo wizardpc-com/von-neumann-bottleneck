@@ -116,3 +116,28 @@ static func evaluate(id: String, board: Dictionary, program: String) -> Dictiona
 		runs.append(trace)
 		passed = passed and trace.passed and int(trace.metrics.total_cycles) <= int(workload.target)
 	return {"passed": passed, "runs": runs}
+
+
+static func executed_route(report: Dictionary) -> String:
+	if not report.get("passed",false): return ""
+	var routes: Dictionary = {}
+	for trace: SimulationTrace in report.runs:
+		for event: SimulationEvent in trace.events:
+			if event.kind == &"compute": routes["cache" if event.source_device == &"CACHE" else "buffer"] = true
+	return String(routes.keys()[0]) if routes.size() == 1 else ""
+
+
+static func no_repeated_transfer(report: Dictionary) -> bool:
+	if not report.get("passed",false): return false
+	for trace: SimulationTrace in report.runs:
+		var transferred: Dictionary = {}
+		var used: Dictionary = {}
+		for event: SimulationEvent in trace.events:
+			var batch: int = int(event.details.get("batch",-1))
+			if event.kind == &"transfer":
+				if transferred.has(batch): return false
+				transferred[batch] = true
+			elif event.kind == &"compute": used[batch] = true
+			elif event.kind == &"evict" and not used.has(batch): return false
+		if transferred.is_empty(): return false
+	return true

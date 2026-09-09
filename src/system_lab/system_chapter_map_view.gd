@@ -83,13 +83,14 @@ func _relayout() -> void:
 	if _levels.is_empty() or size.x <= 0.0 or size.y <= 0.0:
 		return
 	var available_width: float = maxf(520.0, size.x - LEFT_RESERVED - 40.0 - NODE_SIZE.x)
-	var step: float = available_width / float(maxi(1, _levels.size() - 1))
+	var step: float = available_width / float(maxi(1, mini(5,_levels.size()) - 1))
 	var center_y: float = size.y * 0.5 - NODE_SIZE.y * 0.5
 	level_positions.clear()
 	for index: int in range(_levels.size()):
 		var level_id := StringName(_levels[index].get("id", &""))
-		var offset_y: float = -90.0 if index % 2 == 0 else 90.0
-		var position := Vector2(LEFT_RESERVED + float(index) * step, center_y + offset_y)
+		var offset_y: float = -80.0 if index < 5 else 150.0
+		var column: int = index if index < 5 else 2 if level_id == &"read_once" else 4
+		var position := Vector2(LEFT_RESERVED + float(column) * step, center_y + offset_y)
 		level_positions[level_id] = position
 		var button: Button = level_buttons[level_id]
 		button.position = position
@@ -102,17 +103,18 @@ func _draw() -> void:
 	draw_style_box(_stylebox(Color("111a2a", 0.94), ACCENT, 2), intro_rect)
 	draw_string(ThemeDB.fallback_font, intro_rect.position + Vector2(20.0, 45.0), _intro_title, HORIZONTAL_ALIGNMENT_LEFT, intro_rect.size.x - 40.0, 26, ACCENT)
 	draw_multiline_string(ThemeDB.fallback_font, intro_rect.position + Vector2(20.0, 88.0), _intro_body, HORIZONTAL_ALIGNMENT_LEFT, intro_rect.size.x - 40.0, 16, 24, TEXT)
-	for index: int in range(_levels.size() - 1):
-		var from_id := StringName(_levels[index].get("id", &""))
-		var to_id := StringName(_levels[index + 1].get("id", &""))
-		if not level_positions.has(from_id) or not level_positions.has(to_id):
-			continue
-		var start: Vector2 = level_positions[from_id] + Vector2(NODE_SIZE.x, NODE_SIZE.y * 0.5)
-		var finish: Vector2 = level_positions[to_id] + Vector2(0.0, NODE_SIZE.y * 0.5)
-		var points := PackedVector2Array([start, Vector2((start.x + finish.x) * 0.5, start.y), Vector2((start.x + finish.x) * 0.5, finish.y), finish])
-		var color: Color = _state_color(_levels[index + 1])
-		draw_polyline(points, Color("09101d"), 9.0, true)
-		draw_polyline(points, Color(color, 0.72), 3.0, true)
+	for data: Dictionary in _levels:
+		var to_id := StringName(data.get("id",&""))
+		for dependency: Variant in data.get("dependencies",[]):
+			var from_id := StringName(dependency)
+			if not level_positions.has(from_id) or not level_positions.has(to_id): continue
+			var start: Vector2 = level_positions[from_id]+Vector2(NODE_SIZE.x,NODE_SIZE.y/2)
+			var finish: Vector2 = level_positions[to_id]+Vector2(0,NODE_SIZE.y/2)
+			if level_positions[from_id].x == level_positions[to_id].x:
+				start = level_positions[from_id]+Vector2(NODE_SIZE.x/2,NODE_SIZE.y)
+				finish = level_positions[to_id]+Vector2(NODE_SIZE.x/2,0)
+			var points := PackedVector2Array([start,Vector2((start.x+finish.x)/2,start.y),Vector2((start.x+finish.x)/2,finish.y),finish])
+			draw_polyline(points,Color(_state_color(data),0.72),3.0,true)
 
 
 func _state_color(data: Dictionary) -> Color:

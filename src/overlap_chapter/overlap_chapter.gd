@@ -104,6 +104,8 @@ func _ready() -> void:
 	terminology_handbook.standalone_entry = false
 	add_child(terminology_handbook)
 	_show_map()
+	var requested_task: StringName = TaskNavigation.consume("chapter_3")
+	if not requested_task.is_empty(): call_deferred("_open_level",requested_task)
 
 func _process(delta: float) -> void:
 	if is_instance_valid(workspace):
@@ -232,6 +234,7 @@ func _show_map() -> void:
 	_save_draft()
 	if not level.is_empty(): PlaytestData.level_exited(&"chapter_3",StringName(level))
 	level = ""
+	if TaskNavigation.return_to_tree(): return
 	_reset_workspace()
 	goal.text = _t("map_goal")
 	status.text = _t("map_status")
@@ -514,6 +517,17 @@ func _build_mission() -> void:
 	objective.add_theme_font_size_override("font_size",Type.SUBTITLE_SIZE)
 	box.add_child(objective)
 	_button(box,"learn",func() -> void: _toggle("handbook"))
+	if level in ["backpressure","distance"] and not OverlapChapter.drafts().has(level):
+		_button(box,"copy_previous",func() -> void:
+			if OverlapChapter.copy_previous(level):
+				var copied: Dictionary = OverlapChapter.drafts()[level].duplicate(true)
+				# _open_level saves the current board first; install the copy locally before reopening.
+				board = copied.board
+				editor.text = copied.program
+				_open_level(level))
+	if level in ["distance","synthesis"]:
+		var bonus: Dictionary = OverlapChapter.bonus_status(level)
+		box.add_child(_label(("✓ " if bonus.complete else "◇ ")+_t("bonus."+level),true))
 	box.add_child(_label(_t("output_spec"),true))
 	if level == "arrival": box.add_child(_label(_t("independent_work"),true))
 	box.add_child(_label(_t("public_cases")))
@@ -675,6 +689,8 @@ func _run_official() -> void:
 			PlaytestData.level_completed(&"chapter_3",StringName(level),{"cycles":trace.metrics.total_cycles,"cost":trace.metrics.cost})
 			completion.present(StringName(level),_t(level+".title"),_t(level+".learned"),_t("title"),&"chapter_3")
 		status.text = _t("passed")
+		if level in ["distance","synthesis"]:
+			status.text += " · "+_t("bonus.done" if OverlapChapter.bonus_status(level).complete else "bonus.pending")
 		status.add_theme_color_override("font_color",GREEN)
 	else:
 		status.text = _t("try_again")

@@ -5783,3 +5783,201 @@ msgstr "Swap roles: compute B while A fills again."
 
 msgid "overlap.command_card"
 msgstr "Command card %s / %s"
+
+msgid "tree.title"
+msgstr "Task tree"
+
+msgid "tree.open"
+msgstr "Open task tree · Choose your next step"
+
+msgid "tree.home"
+msgstr "Chapters"
+
+msgid "tree.search"
+msgstr "Search tasks / Enter to locate"
+
+msgid "tree.locate"
+msgstr "Locate selection"
+
+msgid "tree.overview"
+msgstr "Overview"
+
+msgid "tree.enter"
+msgstr "Enter task"
+
+msgid "tree.controls"
+msgstr "Drag to pan · Scroll or pinch to zoom · Select for specifications · ◇ Optional branches do not gate the main route"
+
+msgid "tree.optional"
+msgstr "◇ Optional exploration · Does not gate the main route"
+
+msgid "tree.main"
+msgstr "Main route"
+
+msgid "tree.prerequisites"
+msgstr "Prerequisites"
+
+msgid "tree.none"
+msgstr "Start here"
+
+msgid "tree.completed"
+msgstr "Complete · Keep experimenting"
+
+msgid "tree.available"
+msgstr "Available"
+
+msgid "tree.locked"
+msgstr "Locked. Complete the unchecked prerequisites above."
+
+msgid "tree.locked_short"
+msgstr "Locked"
+
+msgid "tree.region.0"
+msgstr "01 Build a machine"
+
+msgid "tree.region.1"
+msgstr "02 Find the waiting"
+
+msgid "tree.region.2"
+msgstr "03 Move less data"
+
+msgid "tree.region.3"
+msgstr "04 Schedule arrivals"
+
+
+msgid "exploration.selector4.title"
+msgstr "One of four"
+
+msgid "exploration.selector4.description"
+msgstr "Four sensors share one outlet. Forward only the selected sensor; changes on the other three must not affect the result.\n\nYou have built a two-way selector. Now choose how to organize four sources. Start with empty internals and basic gates; different structures are valid."
+
+msgid "exploration.selector4.spec"
+msgstr "All ports carry one bit. D0–D3 are data. S1 S0 selects the source; S1 is the high bit.\n\nS1 S0    OUT follows\n0   0       D0\n0   1       D1\n1   0       D2\n1   1       D3\n\nOfficial tests cover 4 selections × 16 data patterns = 64 cases. Only behavior matters. You may copy your own subcircuits; no exact gate count is required.\n\n[[multiplexer|Multiplexer (MUX)]]"
+
+msgid "exploration.selector4.hint.1"
+msgstr "Try two groups: how would you choose within each group, then between groups? Alternatively, derive one enabling condition per source."
+
+msgid "exploration.selector4.hint.2"
+msgstr "The partial board shows one pair: S0 controls D0 / D1. Extend to the other pair, then let S1 select a group."
+
+msgid "exploration.selector4.hint.3"
+msgstr "The reference combines three two-way selectors. Decoding then combining, and other equivalent circuits, are also accepted."
+
+msgid "exploration.selector4.summary"
+msgstr "You organized selection into a larger system. Try a different structure: what changes between hierarchy and decoding?"
+
+msgid "experience.next.hardware_foundations.selector4"
+msgstr "You organized selection into a larger system. Try a different structure: what changes between hierarchy and decoding?"
+
+msgid "exploration.parity.title"
+msgstr "One bit went wrong"
+
+msgid "exploration.parity.description"
+msgstr "A transmitted bit might flip. An extra check bit helps the receiver detect this kind of error.\n\nD0–D3 plus CHECK make five bits. A valid message contains an even number of ones. Build ERROR: output 0 for an even count, 1 for an odd count."
+
+msgid "exploration.parity.spec"
+msgstr "Every port carries one bit. CHECK is a received input; you do not generate it.\n\nExample: data 1010 + CHECK=0 has two ones → ERROR=0.\nFlip one bit: 0010 + 0 has one one → ERROR=1.\nFlip another: 0110 + 0 has two ones → ERROR=0.\n\nTests cover all 32 inputs. Even parity detects any single-bit flip and any odd number of flips. An even number of flips can pass unnoticed. It cannot locate or repair the error.\n\n[[xor_gate|XOR gate]]"
+
+msgid "exploration.parity.hint.1"
+msgstr "You only need odd versus even, not the full count. Which familiar gate flips its result when one input flips?"
+
+msgid "exploration.parity.hint.2"
+msgstr "The partial board combines the parity of the first two bits. Combine that result with the next bit, eventually including CHECK."
+
+msgid "exploration.parity.hint.3"
+msgstr "The reference XORs all five bits in sequence. A balanced XOR tree is equivalent; tests do not inspect positions or internal IDs."
+
+msgid "exploration.parity.summary"
+msgstr "You built an error detector. Flip one debug input, then a second, to see why no alarm does not guarantee an error-free message."
+
+msgid "experience.next.hardware_foundations.parity"
+msgstr "You built an error detector. Flip one debug input, then a second, to see why no alarm does not guarantee an error-free message."
+
+msgid "exploration.alarm.title"
+msgstr "Keep the alarm"
+
+msgid "exploration.alarm.description"
+msgstr "A fault may last only an instant. After FAULT returns to 0, ALARM must stay on until the operator asserts CLEAR.\n\nReuse your completed SR latch. Start with empty internals and decide how to remember a fault while making clear reliable."
+
+msgid "exploration.alarm.spec"
+msgstr "FAULT, CLEAR and ALARM each carry one bit. Each row is the next input state:\n\nCLEAR=1: ALARM=0, regardless of FAULT.\nCLEAR=0 and FAULT=1: ALARM=1.\nBoth 0: keep the previous ALARM.\n\nCLEAR has priority. The official sequence resets first, then covers hold, repeated clear, simultaneous fault and clear, and faults after clearing. A raw latch can receive conflicting set/reset inputs; design how to honor the public rule.\n\n[[sr_latch|SR latch]]"
+
+msgid "exploration.alarm.hint.1"
+msgstr "Consider permission to set separately from clearing. What must happen to the other control path while clear is active?"
+
+msgid "exploration.alarm.hint.2"
+msgstr "The partial board allows FAULT to reach SET only when CLEAR is low. RESET still follows CLEAR directly."
+
+msgid "exploration.alarm.hint.3"
+msgstr "The reference uses SET = FAULT AND NOT CLEAR, RESET = CLEAR, then reads SRLatch Q. Equivalent stateful circuits are valid too."
+
+msgid "exploration.alarm.summary"
+msgstr "A short event now persists, with an explicit clearing priority. State can remember what happened, not just store a number."
+
+msgid "experience.next.hardware_foundations.alarm"
+msgstr "A short event now persists, with an explicit clearing priority. State can remember what happened, not just store a number."
+
+
+msgid "system.level.read_once.title"
+msgstr "One read is enough"
+
+msgid "system.level.read_once.description"
+msgstr "If a number must be added twice, must memory send it twice?\n\nHardware is fixed. The starter is correct but requests the same input twice each iteration. Keep the result correct and reuse the value already fetched."
+
+msgid "system.level.read_once.objective"
+msgstr "Goal: OUTPUT[0] is twice the input sum, keeping the low 8 bits (wrap after 255).\n\nEvery dataset must be correct with at most N+1 memory requests: N reads + one final write. At N=16 the starter uses 33 requests; the goal is at most 17.\n\nvalue = load(INPUT[i]) stores data in a variable. Later acc += value uses it without another request. Apply your edited program before official testing. Equivalent programs are accepted.\n\n[[load|LOAD]]"
+
+msgid "system.completion.summary.read_once"
+msgstr "You reduced real memory requests without upgrading hardware. Once data arrives, ask whether it can be used again."
+
+msgid "system.level.two_orders.title"
+msgstr "One budget, two orders"
+
+msgid "system.level.two_orders.description"
+msgstr "Two clients bring different workloads with the same budget. Choose CPU, RAM and Bus separately for each order.\n\nCompute: read one value, perform 32 additions, then write it.\nMove: copy every input item without arithmetic.\n\nSwitch orders at the top of Parts. Each order retains its own configuration; one shared machine is not required."
+
+msgid "system.level.two_orders.objective"
+msgstr "Budget ≤24 for each order.\nCompute: every case ≤66 cycles.\nMove: every case ≤320 cycles.\n\nPrograms are fixed; change the parts. Inspect the workload, then check where time goes in the actual Trace. Complete both orders to finish this optional branch.\n\nAll top-tier parts cost 39, above budget. Multiple configurations qualify; there is no single required answer.\n\n[[hardware_cost|Hardware Cost]]"
+
+msgid "system.completion.summary.two_orders"
+msgstr "You spent each budget where it mattered. The fastest part is not always the most useful purchase; the workload determines the tradeoff."
+
+msgid "system.orders.compute"
+msgstr "Order A · Compute · ≤66 cycles"
+
+msgid "system.orders.move"
+msgstr "Order B · Move · ≤320 cycles"
+
+msgid "system.application.requests"
+msgstr "Memory requests %d / limit %d"
+
+msgid "system.application.target"
+msgstr "Cost %d / budget %d · cycle target ≤%d"
+
+msgid "system.progress.application_target"
+msgstr "Correct output must also meet this task's request / budget / cycle goals."
+
+msgid "experience.next.chapter_1.read_once"
+msgstr "You reduced real memory requests without upgrading hardware. Once data arrives, ask whether it can be used again."
+
+msgid "experience.next.chapter_1.two_orders"
+msgstr "You spent each budget where it mattered. The fastest part is not always the most useful purchase; the workload determines the tradeoff."
+
+
+msgid "overlap.copy_previous"
+msgstr "Copy my previous solution · Retest required"
+
+msgid "overlap.bonus.distance"
+msgstr "Bonus: no repeated transfers. Meet the original cycle goal, transfer each batch once, and never evict prefetched data before use."
+
+msgid "overlap.bonus.synthesis"
+msgstr "Bonus: two approaches. Retain one passing Buffer execution and one passing Cache execution. Unused components do not count."
+
+msgid "overlap.bonus.done"
+msgstr "Bonus achieved"
+
+msgid "overlap.bonus.pending"
+msgstr "Bonus still available"
+
+msgid "bonus.economical"
+msgstr "Bonus: economical route. Correct output within 145 cycles, cost ≤4. Does not affect main-route unlocks."

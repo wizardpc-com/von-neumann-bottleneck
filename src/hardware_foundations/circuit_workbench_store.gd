@@ -5,10 +5,12 @@ const SCHEMA_VERSION: int = 2
 const LEGACY_SCHEMA_VERSION: int = 1
 const DEFAULT_NAME: String = "default"
 const MAX_NAME_LENGTH: int = 32
+const Migration = preload("res://src/save/stable_signature_migration.gd")
 
 var storage_path: String = ""
 var last_error: String = ""
 var disk_write_allowed: bool = true
+var migration_backup_path: String = ""
 var _namespaces: Dictionary = {}
 
 
@@ -22,12 +24,15 @@ func ensure_default(namespace_id: StringName, level_id: StringName, seed_snapsho
 	var entry: Dictionary = _level_entry(namespace_id, level_id, true)
 	var workbenches: Dictionary = entry["workbenches"]
 	var current_seed_fingerprint: String = seed_fingerprint(seed_snapshot)
+	var legacy_seed: bool = int(entry.get("seed_signature_version", 0)) < Migration.VERSION
 	if (
 		not workbenches.has(DEFAULT_NAME)
 		or String(entry.get("seed_fingerprint", "")) != current_seed_fingerprint
 	):
-		workbenches[DEFAULT_NAME] = seed_snapshot.duplicate(true)
+		if not legacy_seed or not workbenches.has(DEFAULT_NAME):
+			workbenches[DEFAULT_NAME] = seed_snapshot.duplicate(true)
 		entry["seed_fingerprint"] = current_seed_fingerprint
+	entry["seed_signature_version"] = Migration.VERSION
 	var active_name: String = String(entry.get("active", ""))
 	if active_name.is_empty() or not workbenches.has(active_name):
 		entry["active"] = DEFAULT_NAME
@@ -173,11 +178,13 @@ func manifest_snapshot() -> Dictionary:
 			ordered_levels[level_key] = {
 				"active": String(source_entry.get("active", DEFAULT_NAME)),
 				"seed_fingerprint": String(source_entry.get("seed_fingerprint", "")),
+				"seed_signature_version": int(source_entry.get("seed_signature_version", 0)),
 				"workbenches": ordered_workbenches,
 			}
 		ordered_namespaces[namespace_key] = ordered_levels
 	return {
 		"schema_version": SCHEMA_VERSION,
+		"signature_version": Migration.VERSION,
 		"namespaces": ordered_namespaces,
 	}
 
@@ -251,6 +258,11 @@ func _load_from_disk() -> void:
 		disk_write_allowed = false
 		return
 	var manifest := parsed as Dictionary
+	var signature_version: int = int(manifest.get("signature_version", 1))
+	if signature_version not in [1, Migration.VERSION]:
+		last_error = "Unsupported workbench signature version."
+		disk_write_allowed = false
+		return
 	var schema_version: int = int(manifest.get("schema_version", 0))
 	if schema_version not in [LEGACY_SCHEMA_VERSION, SCHEMA_VERSION]:
 		last_error = "Unsupported workbench save schema."
@@ -263,6 +275,23 @@ func _load_from_disk() -> void:
 		return
 	_namespaces = (namespaces as Dictionary).duplicate(true)
 	last_error = ""
+	if signature_version == 1:
+		var backup: Dictionary = Migration.preserve_file(storage_path)
+		if not bool(backup.get("ok", false)):
+			last_error = String(backup.get("error", "Legacy backup failed."))
+			disk_write_allowed = false
+			return
+		migration_backup_path = String(backup.get("path", ""))
+		var game: Dictionary = _namespaces.get("game", {})
+		for level: Variant in game.values():
+			if not level is Dictionary or not level.get("workbenches") is Dictionary:
+				continue
+			var workbenches: Dictionary = level["workbenches"]
+			for workbench: Variant in workbenches:
+				if workbenches[workbench] is Dictionary:
+					workbenches[workbench] = Migration.normalize_workbench(workbenches[workbench])
+		if not _persist():
+			disk_write_allowed = false
 
 
 func _persist() -> bool:
@@ -271,11 +300,20 @@ func _persist() -> bool:
 		return true
 	if not disk_write_allowed:
 		return false
-	var file := FileAccess.open(storage_path, FileAccess.WRITE)
+	var temporary: String = storage_path + ".tmp"
+	var file := FileAccess.open(temporary, FileAccess.WRITE)
 	if file == null:
 		last_error = "Could not open workbench save for writing."
 		return false
 	file.store_string(JSON.stringify(manifest_snapshot(), "\t", false, true))
 	file.flush()
+	file.close()
+	if not JSON.parse_string(FileAccess.get_file_as_string(temporary)) is Dictionary:
+		last_error = "Temporary workbench validation failed."
+		return false
+	var error: Error = DirAccess.rename_absolute(temporary, storage_path)
+	if error != OK:
+		last_error = "Could not replace workbench save: %s" % error_string(error)
+		return false
 	last_error = ""
 	return true

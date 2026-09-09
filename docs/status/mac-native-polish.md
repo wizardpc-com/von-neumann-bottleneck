@@ -1,5 +1,14 @@
 # Mac native play and workbench polish
 
+Current save status (2026-09-09): the user approved the compatibility repair. It is
+implemented with byte-exact backups, stable signatures and unchanged official
+provenance verification. Native recovery retains 9+5+7 progress, reruns the old
+Half Adder and CPU successfully, and survives a second ordinary Game startup.
+See [recovery evidence](../verification/2026-09-08-save-recovery/README.md) and
+[ADR 0020](../decisions/0020-stable-signatures-and-verified-legacy-recovery.md).
+References to pending migration approval below are historical, not current blockers.
+
+
 Baseline display build label: `mac-polish-20260907T085543Z-f15c175` (unchanged by the palette follow-up). This continues latest main `0ad0bff` using
 Godot `4.7.1.stable.official.a13da4feb` on Apple M2. The original construction
 campaign and both later system chapters remain the default Game route. The

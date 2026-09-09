@@ -273,5 +273,23 @@ func _canonical_properties() -> Dictionary:
 	keys.sort()
 	var result: Dictionary = {}
 	for key: String in keys:
-		result[key] = properties[key]
+		result[key] = canonical_json_value(properties[key])
 	return result
+
+
+# JSON loads numbers as floats. Keep equivalent integral properties identical
+# across an in-memory circuit and its saved/reloaded representation.
+static func canonical_json_value(value: Variant) -> Variant:
+	if value is float and is_finite(value) and absf(value) < 9007199254740992.0 and value == floorf(value):
+		return int(value)
+	if value is Dictionary:
+		var result: Dictionary = {}
+		for key: Variant in value:
+			result[key] = canonical_json_value(value[key])
+		return result
+	if value is Array:
+		var result: Array = []
+		for entry: Variant in value:
+			result.append(canonical_json_value(entry))
+		return result
+	return value

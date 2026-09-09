@@ -5048,3 +5048,12 @@ msgstr "Left arrows enter a device; right arrows leave it. Read back: RAM right 
 
 msgid "system.topology.missing_named_route"
 msgstr "Not connected yet: %s → %s · %s"
+
+msgid "save.recovery.complete"
+msgstr "Previous progress was reverified and restored. Original files are backed up. You can continue playing."
+
+msgid "save.recovery.partial"
+msgstr "Verified progress was restored; some old circuits could not be verified. Original records remain in backups. Hover for details."
+
+msgid "save.recovery.failed"
+msgstr "Save recovery could not finish. Autosaving is paused to protect your records. Check file access or backups; hover for details."

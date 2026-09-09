@@ -19,6 +19,7 @@ var mode_selector: GameModeSelectorType
 var mode_description_label: Label
 var fullscreen_button: FullscreenButtonType
 var save_actions: Control
+var save_recovery_label: Label
 var continue_button: Button
 var new_game_button: Button
 var new_game_overlay: Control
@@ -151,6 +152,12 @@ func _build_interface() -> void:
 	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
 	content.add_child(mode_description_label)
 	_build_save_actions(content)
+	save_recovery_label = Label.new()
+	save_recovery_label.name = "SaveRecoveryNotice"
+	save_recovery_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	save_recovery_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	save_recovery_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	content.add_child(save_recovery_label)
 	var cards := HBoxContainer.new()
 	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(cards)
@@ -502,6 +509,12 @@ func _on_game_mode_changed(_mode: StringName) -> void:
 
 
 func _refresh_save_actions() -> void:
+	if save_recovery_label != null:
+		save_recovery_label.visible = not GameMode.is_test_mode() and not GlobalSave.recovery_notice.is_empty()
+		save_recovery_label.text = Localization.text(GlobalSave.recovery_notice) if not GlobalSave.recovery_notice.is_empty() else ""
+		save_recovery_label.tooltip_text = GlobalSave.recovery_details
+		save_recovery_label.mouse_filter = Control.MOUSE_FILTER_PASS
+		save_recovery_label.add_theme_color_override("font_color", GOOD if GlobalSave.recovery_notice == &"save.recovery.complete" else WARNING)
 	if save_actions == null:
 		return
 	save_actions.visible = not GameMode.is_test_mode()

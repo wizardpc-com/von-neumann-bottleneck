@@ -140,7 +140,7 @@ func _sorted_component_ids() -> Array[StringName]:
 	var ids: Array[StringName] = []
 	for component_id: StringName in components:
 		ids.append(component_id)
-	ids.sort()
+	ids.sort_custom(func(left: StringName, right: StringName) -> bool: return String(left) < String(right))
 	return ids
 
 

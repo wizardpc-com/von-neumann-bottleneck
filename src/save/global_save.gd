@@ -8,6 +8,7 @@ const HalfAdderTestBenchType = preload("res://src/circuit/half_adder_test_bench.
 const PrologueSimulatorType = preload("res://src/circuit/prologue_simulator.gd")
 const PrologueLevelCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
 const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
+const Migration = preload("res://src/save/stable_signature_migration.gd")
 
 const SCHEMA_VERSION: int = 1
 const DEFAULT_STORAGE_PATH: String = "user://savegame_v1.json"
@@ -37,6 +38,9 @@ var loaded_save: bool = false
 var _loaded_from_backup: bool = false
 var _suspend_saves: bool = false
 var _signals_bound: bool = false
+var _legacy_signatures: bool = false
+var recovery_notice: StringName = &""
+var recovery_details: String = ""
 
 
 func _ready() -> void:
@@ -74,6 +78,9 @@ func configure_for_test(p_storage_path: String, p_workbench_storage_path: String
 	loaded_save = false
 	_loaded_from_backup = false
 	_suspend_saves = false
+	_legacy_signatures = false
+	recovery_notice = &""
+	recovery_details = ""
 	_set_game_player_content(PlayerContentStateType.new())
 
 
@@ -84,6 +91,9 @@ func load_game() -> bool:
 	disk_write_allowed = true
 	loaded_save = false
 	_loaded_from_backup = false
+	recovery_notice = &""
+	recovery_details = ""
+	_legacy_signatures = false
 	_reset_game_domains()
 	var result: Dictionary = _read_save(storage_path)
 	var status: StringName = StringName(result.get("status", &"corrupt"))
@@ -109,10 +119,58 @@ func load_game() -> bool:
 		result = backup_result
 		_loaded_from_backup = true
 		last_warning = "Recovered the previous valid global save backup."
-	_apply_save(result.get("data", {}) as Dictionary)
+	var snapshot: Dictionary = result.get("data", {})
+	_legacy_signatures = int(snapshot.get("signature_version", 1)) == 1
+	if _legacy_signatures:
+		# Preserve both recovery candidates before either can be rotated by saving.
+		for path: String in [storage_path, storage_path + BACKUP_SUFFIX]:
+			var backup: Dictionary = Migration.preserve_file(path)
+			if not bool(backup.get("ok", false)):
+				return _recovery_failed(String(backup.get("error", "Legacy backup failed.")))
+			if not String(backup.get("path", "")).is_empty():
+				recovery_details += String(backup["path"]) + "\n"
+	var workbenches := CircuitWorkbenchStoreType.new(workbench_storage_path)
+	if not workbenches.disk_write_allowed:
+		return _recovery_failed(workbenches.last_error)
+	if not workbenches.migration_backup_path.is_empty():
+		recovery_details += workbenches.migration_backup_path + "\n"
+	_apply_save(snapshot)
 	loaded_save = true
 	_suspend_saves = false
+	if _legacy_signatures:
+		var missing: Array[String] = _missing_progress(snapshot)
+		recovery_notice = &"save.recovery.complete" if missing.is_empty() else &"save.recovery.partial"
+		if not missing.is_empty():
+			last_warning += " Not restored: %s." % ", ".join(missing)
+		recovery_details += last_warning
+		if not _write_save(_save_snapshot()):
+			return _recovery_failed(last_error)
+	_legacy_signatures = false
 	return has_resume_progress()
+
+
+func _missing_progress(snapshot: Dictionary) -> Array[String]:
+	var missing: Array[String] = []
+	var previous: Dictionary = snapshot.get("game", {})
+	var current: Dictionary = _save_snapshot()["game"]
+	for domain: String in ["hardware", "system", "locality"]:
+		if not previous.get(domain) is Dictionary:
+			continue
+		var requested: Dictionary = _level_set(previous[domain].get("completed_levels", []))
+		var restored: Dictionary = _level_set(current[domain].get("completed_levels", []))
+		for level: StringName in requested:
+			if not restored.has(level):
+				missing.append("%s/%s" % [domain, level])
+	return missing
+
+
+func _recovery_failed(error: String) -> bool:
+	last_error = error
+	recovery_notice = &"save.recovery.failed"
+	recovery_details += error
+	disk_write_allowed = false
+	_suspend_saves = false
+	return false
 
 
 func save_game(force: bool = false) -> bool:
@@ -176,6 +234,8 @@ func start_new_game(clear_game_workbenches: bool) -> Dictionary:
 	_reset_game_domains()
 	last_error = workbench_error
 	last_warning = ""
+	recovery_notice = &""
+	recovery_details = ""
 	disk_write_allowed = true
 	loaded_save = false
 	_loaded_from_backup = false
@@ -192,6 +252,7 @@ func _save_snapshot() -> Dictionary:
 	var locality_chapter := _autoload(&"LocalityChapter")
 	return {
 		"schema_version": SCHEMA_VERSION,
+		"signature_version": Migration.VERSION,
 		"saved_at_utc": Time.get_datetime_string_from_system(true),
 		"game": {
 			"hardware": game_player_content.manifest_snapshot(),
@@ -212,6 +273,8 @@ func _apply_save(snapshot: Dictionary) -> void:
 	var hardware_gate_ready: bool = bool(game_player_content.completed_levels.get(&"load_store", false))
 	var system_value: Variant = game.get("system", {})
 	var system: Dictionary = system_value if system_value is Dictionary else {}
+	if _legacy_signatures:
+		system = _rebind_legacy_system(system, hardware)
 	if system_chapter != null:
 		system_chapter.restore_game(system, game_player_content.component_library, hardware_gate_ready)
 	var locality_value: Variant = game.get("locality", {})
@@ -288,6 +351,8 @@ func _restore_reusable(
 	):
 		return null
 	var source_signature: String = String(saved_design.get("source_signature", ""))
+	if _legacy_signatures:
+		source_signature = Migration.normalize_signature(source_signature)
 	for workbench_name: String in store.workbench_names(GAME_NAMESPACE, level_id):
 		var circuit: LogicCircuit = _circuit_from_workbench(
 			store.workbench_snapshot(GAME_NAMESPACE, level_id, workbench_name)
@@ -300,6 +365,33 @@ func _restore_reusable(
 			continue
 		return ReusableComponentType.new(component_name, behavior_kind, level_id, circuit)
 	return null
+
+
+func _rebind_legacy_system(system: Dictionary, hardware: Dictionary) -> Dictionary:
+	var designs: Dictionary[StringName, Dictionary] = _design_index(hardware.get("designs", []))
+	var old_cpu: Array[String] = []
+	var new_cpu: Array[String] = []
+	var old_ram: String = ""
+	var new_ram: String = ""
+	for name: StringName in [&"TinyComputer", &"ALU4", &"Register4", &"RAM2x4"]:
+		var verified = game_player_content.component_library.get(name)
+		var old_signature: String = String(designs.get(name, {}).get("source_signature", ""))
+		if verified == null or old_signature.is_empty() or Migration.normalize_signature(old_signature) != verified.source_signature:
+			return system
+		if name == &"RAM2x4":
+			old_ram = old_signature
+			new_ram = verified.source_signature
+		else:
+			old_cpu.append(old_signature)
+			new_cpu.append(verified.source_signature)
+	old_cpu.sort()
+	new_cpu.sort()
+	if String(system.get("cpu_source_signature", "")) != "|".join(old_cpu).sha256_text() or String(system.get("ram_source_signature", "")) != old_ram:
+		return system
+	var result: Dictionary = system.duplicate(true)
+	result["cpu_source_signature"] = "|".join(new_cpu).sha256_text()
+	result["ram_source_signature"] = new_ram
+	return result
 
 
 func _circuit_from_workbench(snapshot: Dictionary) -> LogicCircuit:
@@ -450,6 +542,8 @@ func _read_save(path: String) -> Dictionary:
 			"status": &"unknown_schema",
 			"error": "Unsupported global save schema %d." % schema_version,
 		}
+	if int(snapshot.get("signature_version", 1)) not in [1, Migration.VERSION]:
+		return {"status": &"unknown_schema", "error": "Unsupported global save signature version."}
 	if not snapshot.get("game", {}) is Dictionary:
 		return {"status": &"corrupt", "error": "Global save has no Game object."}
 	return {"status": &"ok", "data": snapshot.duplicate(true)}

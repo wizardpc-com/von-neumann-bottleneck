@@ -1,0 +1,31 @@
+[
+  {
+    "file": "savegame_v1.json",
+    "backup": "savegame_v1.json.pre-stable-50585f79c47c12c43d320ac75124eb22202a0c899cdc16f937f4d0f89a776dda.bak",
+    "sha256": "50585f79c47c12c43d320ac75124eb22202a0c899cdc16f937f4d0f89a776dda",
+    "byte_exact": true
+  },
+  {
+    "file": "savegame_v1.json.bak",
+    "backup": "savegame_v1.json.bak.pre-stable-50585f79c47c12c43d320ac75124eb22202a0c899cdc16f937f4d0f89a776dda.bak",
+    "sha256": "50585f79c47c12c43d320ac75124eb22202a0c899cdc16f937f4d0f89a776dda",
+    "byte_exact": true
+  },
+  {
+    "file": "hardware_workbenches_v1.json",
+    "backup": "hardware_workbenches_v1.json.pre-stable-e77a204e5ba2d5076872c4cba0cf8828959f7e1da287a06c52c3bb56b4956c3e.bak",
+    "sha256": "e77a204e5ba2d5076872c4cba0cf8828959f7e1da287a06c52c3bb56b4956c3e",
+    "byte_exact": true
+  },
+  {
+    "native_workbenches_layout_wires_colors_names_components_preserved": true
+  },
+  {
+    "progress": {
+      "hardware": 9,
+      "system": 5,
+      "locality": 7
+    },
+    "signature_version": 2
+  }
+]

@@ -2057,7 +2057,7 @@ func _snapshot_from_inventory(wires: Array = []) -> Dictionary:
 	var ids: Array[StringName] = []
 	for component_id: StringName in component_catalog:
 		ids.append(component_id)
-	ids.sort()
+	ids.sort_custom(func(left: StringName, right: StringName) -> bool: return String(left) < String(right))
 	for component_id: StringName in ids:
 		components.append((component_catalog[component_id] as LogicComponent).to_dictionary())
 		var position: Vector2 = layout_positions.get(component_id, Vector2.ZERO)

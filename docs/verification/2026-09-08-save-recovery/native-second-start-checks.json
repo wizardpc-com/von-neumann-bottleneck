@@ -1,0 +1,11 @@
+{
+  "game_manifest_equal_after_second_native_start": true,
+  "progress": {
+    "hardware": 9,
+    "system": 5,
+    "locality": 7
+  },
+  "original_backup_hashes_still_match": true,
+  "workbenches_preserved_after_half_adder_cpu_visit_and_restart": true,
+  "comparison": "Component arrays compared by ID; normalized source signatures and adopted seed markers excluded. All other component data, names, active boards, layout and ordered wires/colors equal."
+}

@@ -2110,8 +2110,10 @@ func _test_workbench_store_model() -> void:
 	)
 	var legacy_manifest: Dictionary = disk_store.call("manifest_snapshot")
 	legacy_manifest["schema_version"] = CircuitWorkbenchStoreType.LEGACY_SCHEMA_VERSION
+	legacy_manifest.erase("signature_version")
 	var legacy_entry: Dictionary = legacy_manifest["namespaces"]["game"]["tutorial"]
 	legacy_entry.erase("seed_fingerprint")
+	legacy_entry.erase("seed_signature_version")
 	var legacy_file := FileAccess.open(disk_path, FileAccess.WRITE)
 	legacy_file.store_string(JSON.stringify(legacy_manifest))
 	legacy_file.close()
@@ -2120,8 +2122,8 @@ func _test_workbench_store_model() -> void:
 	_assert(
 		migrated_store.call("active_name", &"game", &"tutorial") == "持久方案"
 		and JSON.stringify(migrated_store.call("workbench_snapshot", &"game", &"tutorial", "持久方案")) == persisted_named_snapshot
-		and JSON.stringify(migrated_store.call("workbench_snapshot", &"game", &"tutorial", "default")) == JSON.stringify(revised_seed),
-		"Schema-1 migration must refresh its unbound default once without replacing a named player workbench."
+		and migrated_store.call("workbench_snapshot", &"game", &"tutorial", "default") == JSON.parse_string(JSON.stringify(seed)),
+		"Legacy signature adoption must preserve both the unbound default and named player workbench before tracking future seed changes."
 	)
 	var incompatible_file := FileAccess.open(disk_path, FileAccess.WRITE)
 	incompatible_file.store_string('{"schema_version":99,"namespaces":{"future":true}}')

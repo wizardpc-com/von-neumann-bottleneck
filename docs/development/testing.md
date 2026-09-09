@@ -1,5 +1,17 @@
 # Testing
 
+## Save restart regression, 2026-09-08–09
+
+On Mac with Godot 4.7.1, the fresh isolated run `20260908T142245Z-83be88e2` passes all **21** conventional suites and **593** Chinese ordinary Game input checks. The new `test_save_signature_migration.gd` covers legacy nested identities, invalid/missing/changed circuits, backup conflict, unknown revision, interrupted conversion, named layout retention and seed adoption. Fixtures are not native play evidence.
+
+After the normal `verify-project.py --gui --locale zh_CN` run, use its already imported isolated project copy:
+
+```sh
+python3 scripts/verify-save-restart.py --godot /Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot --project .godot/verification/20260908T142245Z-83be88e2/project
+```
+
+Replace the run directory with the new run when repeating. The helper rejects the source checkout and runs a legacy writer, migration reader and stable reader as three independent Godot processes. It retains logs and a stable-library digest under the QA copy. All three pass. Separate [native recovery evidence](../verification/2026-09-08-save-recovery/README.md) continues the prior manually completed Game save, reruns HalfAdder/CPU and checks another restart. Actual player saves are excluded. Windows and human beginner acceptance remain open.
+
 ## Verified environment
 
 - Windows PowerShell

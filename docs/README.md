@@ -2,7 +2,8 @@
 
 Repository-local documentation is the source of truth for future human and Codex work.
 
-- [Mac native polish](status/mac-native-polish.md): current Mac UI changes, ordinary Game play evidence and the pending restart-compatibility decision.
+- [Mac native polish](status/mac-native-polish.md): current Mac UI changes, ordinary Game play evidence and approved restart recovery and its native verification.
+- [Stable save recovery](verification/2026-09-08-save-recovery/README.md): byte-exact backups, provenance revalidation and repeat native startup.
 - [Mac development handoff](development/mac-handoff.md): current baseline, Mac setup, isolated checks, Windows verification and next native-playtest tasks.
 - [Completed migration delivery](exec-plans/completed/mac-development-handoff.md): published source, Windows prerelease and verification boundaries.
 

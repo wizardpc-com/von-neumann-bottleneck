@@ -5048,3 +5048,12 @@ msgstr "左侧箭头进入元件，右侧箭头离开元件。读回路线：RAM
 
 msgid "system.topology.missing_named_route"
 msgstr "还未接通：%s → %s · %s"
+
+msgid "save.recovery.complete"
+msgstr "旧进度已重新验证并恢复，原文件已备份。可以继续游戏。"
+
+msgid "save.recovery.partial"
+msgstr "已恢复验证通过的进度；部分旧电路未能验证。原记录已保留在备份中，悬停查看详情。"
+
+msgid "save.recovery.failed"
+msgstr "存档兼容处理未完成，已暂停自动存档以保护原记录。请检查文件权限或备份，悬停查看详情。"

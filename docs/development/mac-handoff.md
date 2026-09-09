@@ -1,6 +1,6 @@
 # Mac 开发接手说明
 
-当前 Mac 后续进展见 [原生试玩与界面优化](../status/mac-native-polish.md)。已实际完成 Tutorial、Half Adder、CPU 与桥接实验；新的界面修正和重启存档问题见该记录。下面的 Windows 候选包信息保留为历史交付基线。
+当前 Mac 后续进展见 [原生试玩与界面优化](../status/mac-native-polish.md)。已实际完成 Tutorial、Half Adder、CPU 与桥接实验；新的界面修正见该记录；重启存档问题已按批准方案修复，见[恢复验证](../verification/2026-09-08-save-recovery/README.md)。下面的 Windows 候选包信息保留为历史交付基线。
 
 ## 当前基线与工作分工
 
@@ -39,7 +39,7 @@ GODOT="/Applications/Godot.app/Contents/MacOS/Godot"
 python3 scripts/verify-project.py --godot "$GODOT" --gui --locale zh_CN
 ```
 
-若已有 checkout，先检查本地改动，再 `git pull --ff-only`；不要覆盖未提交工作。Godot 安装名不同则调整 `GODOT` 路径。脚本会复制 Git 跟踪及非忽略的当前文件到 `.godot/verification/<run>/project`，重新导入资源，为每个检查分配独立玩家目录，并执行 20 套常规测试；`--gui` 加跑普通 Game 的完整 GUI 输入路线。`--interaction-only` 可缩短为教程交互，`--locale en` 检查英文。
+若已有 checkout，先检查本地改动，再 `git pull --ff-only`；不要覆盖未提交工作。Godot 安装名不同则调整 `GODOT` 路径。脚本会复制 Git 跟踪及非忽略的当前文件到 `.godot/verification/<run>/project`，重新导入资源，为每个检查分配独立玩家目录，并执行 21 套常规测试；`--gui` 加跑普通 Game 的完整 GUI 输入路线。`--interaction-only` 可缩短为教程交互，`--locale en` 检查英文。
 
 脚本只修改副本的玩家目录设置；首次导入时暂时省略全局字体配置以先生成字体缓存，此后所有检查恢复实际字体配置。原工作区和实际玩家存档不变；日志、失败结果和截图均保留，不自动删除。脚本在 Windows 上验证过，Mac 执行结果必须在本机重新记录。
 

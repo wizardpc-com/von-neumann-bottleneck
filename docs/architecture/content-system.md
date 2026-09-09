@@ -125,6 +125,8 @@ This is deliberate. A universal dictionary evaluator or data-authored script wou
 
 ## Global Save / Continue boundary
 
+Signature revision 2 fixes cross-process component ID ordering and integral JSON representation. Legacy global candidates and workbenches are backed up byte-for-byte before conversion. Only independently reconstructed, identity-matching, officially verified circuits recover reusable authority; old Chapter 1 gates must also match their original manifest. Each legacy level adopts a stable seed fingerprint once while preserving its default. Subsequent real seed changes retain existing reset behavior. Recovery status is visible in the hub; partial recovery keeps rejected originals in backups. See [ADR 0020](../decisions/0020-stable-signatures-and-verified-legacy-recovery.md) for failure, interruption and version boundaries.
+
 `GlobalSave` writes schema 1 to `user://savegame_v1.json` through a validated temporary file and retains one previous valid backup. A corrupt primary may recover that backup; an unknown future schema disables automatic writes so an older build cannot guess or overwrite it. Saving occurs at Game completion, reusable installation/invalidation, chapter/concept-gate changes, and normal exit—not per frame.
 
 Continue routes to the deepest valid chapter map. It does not resume an exact screen, draft, Trace position, or runtime memory value. New Game requires confirmation, clears the Game recovery index, preserves telemetry and exports, and preserves Hardware workbenches unless the player separately opts to clear only the Game workbench namespace. The existing `--reset-local-test-state` developer flag clears the global save together with raw local playtest/workbench state while retaining exports.

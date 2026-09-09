@@ -68,8 +68,8 @@ and preserve the approval boundary. Earlier records remain historical evidence.
 ## Completion
 
 The full original player pass and two authorized repair/recheck batches are complete.
-The plan remains active for the separately proposed save compatibility decision
-and future player iterations. Neither test counts nor this informed AI pass are
+The plan remains active for future player iterations. The separately approved save
+compatibility repair is complete; see the 2026-09-09 update below. Neither test counts nor this informed AI pass are
 release acceptance.
 
 2026-09-08 restart recheck: copied only this native pass data into a separate user directory; Continue rejected HalfAdder and its dependent arithmetic/CPU completions, while storage completion survived. Original native process remains open. Compatibility approval requested; no migration performed. Recheck copy confirms Tutorial input and result are visible without scrolling after the bench fix.
@@ -104,3 +104,14 @@ once more after native observation found the time line clipped; then checks and
 native observation were repeated. Fullscreen transitions restored stale CUA
 frames, but do not prove the underlying window issue resolved. Windows and human
 beginner acceptance remain unperformed. No actual player data was accessed.
+
+2026-09-09 approved save repair completed: explicit textual circuit/seed ordering,
+integral JSON identity normalization, content-addressed originals, unchanged
+source/official verification and one-time preservation of legacy defaults.
+The previous native full-player data recovers all 21 levels in ordinary Game;
+Half Adder and CPU formal reruns pass, normal exit and another startup retain
+identical Game progress and constructed workbenches. All 21 isolated suites,
+593 Chinese Game input checks and three separate-process migration checks pass.
+[Evidence](../../verification/2026-09-08-save-recovery/README.md).
+This approval does not add optional levels or change raw DSL receipt signatures.
+Further beginner difficulty/motivation and Windows acceptance remain open.

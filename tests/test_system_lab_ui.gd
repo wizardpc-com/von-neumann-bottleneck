@@ -20,6 +20,7 @@ func _run() -> void:
 	root.add_child(hub)
 	for _hub_frame: int in range(2):
 		await process_frame
+	_assert(not ResourceLoader.exists("res://src/demo/demo_menu.tscn") and root.get_node_or_null("DemoProgress") == null and hub.get("mainline_button") == null, "The removed eight-task fork must have no loadable menu, progress autoload or hub entry.")
 	_assert((hub.get("system_entry_button") as Button).disabled, "Game mode must gate Chapter 1 until the prologue provenance handoff.")
 	_assert(hub.get("terminology_handbook") != null, "Chapter selection must expose the shared terminology handbook.")
 	var save_actions: Control = hub.get("save_actions")

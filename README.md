@@ -16,7 +16,7 @@ The models are deliberately bounded teaching models. They make costs and causal 
 
 ## Playable Demo
 
-Open **Hardware Foundations** from the default chapter hub. The original route is Tutorial → arithmetic/storage branches → CPU → LOAD/STORE → Chapter 1 → Chapter 2. Named designs, free editing, floating Mission and independent progressive hints are available in ordinary Game. The eight-task comparison remains a secondary entry with separate progress.
+Open **Hardware Foundations** from the default chapter hub. The original route is Tutorial → arithmetic/storage branches → CPU → LOAD/STORE → Chapter 1 → Chapter 2. Named designs, free editing, floating Mission and independent progressive hints are available in ordinary Game. The eight-task runtime was removed on 2026-09-09; historical code remains in Git.
 
 The [visual and learning status](docs/status/visual-learning-polish.md) records the current package, compact signal symbols, aligned component previews, shared instrument styling and progressively unlocked illustrated Handbook. The [construction experience](docs/status/construction-experience.md) and [recovery record](docs/status/in-place-recovery.md) preserve the earlier editing, Mission and progression work. Native desktop and novice acceptance remain open.
 
@@ -93,7 +93,7 @@ Use a current build identifier and matching README before distribution; keep the
 - Engine: Godot 4.7.1 stable with strongly typed GDScript.
 - Runtime presentation: built-in Godot UI, graph controls, and procedural drawing; no external addons or asset pipeline.
 - Simulation: deterministic, UI-independent results and traces; animation timing does not affect outcomes.
-- Content: original construction prologue and two optimization chapters; the eight-task comparison is retained. Shared schematic/editing improvements, structured construction specifications and 21 next-capability previews are implemented; physical mouse feel and novice acceptance remain open.
+- Content: original construction prologue and two optimization chapters; the eight-task comparison has been removed. Shared schematic/editing improvements, structured construction specifications and 21 next-capability previews are implemented; physical mouse feel and novice acceptance remain open.
 - Localization: Simplified Chinese by default, with an English catalog as the first alternate locale.
 - Verification: addon-free local simulation and UI suites are documented, but the repository does not yet have a GitHub Actions workflow.
 

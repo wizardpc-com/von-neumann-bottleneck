@@ -78,9 +78,6 @@ msgstr "切换全屏显示（F11 或 Alt+Enter）"
 msgid "hub.subtitle"
 msgstr "从第一根线，到一台能计算的机器。再让它更快。"
 
-msgid "hub.mainline.return"
-msgstr "八关对照版本"
-
 msgid "hub.save.continue"
 msgstr "继续游戏"
 

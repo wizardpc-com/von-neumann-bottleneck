@@ -6,7 +6,7 @@
 
 仓库：<https://github.com/wizardpc-com/von-neumann-bottleneck>，默认分支 `main`。
 
-Mac 是主要开发与原生交互试玩环境；Windows 用于兼容性、真实鼠标与导出 EXE 验证。继续优化当前游戏，不重启八关重做。默认入口是原章节选择 → Hardware Foundations → 教程 → 算术/存储两分支 → CPU → LOAD/STORE → Chapter 1 → Chapter 2。八关版本只保留为独立对照，其进度不能证明原构建已完成。
+Mac 是主要开发与原生交互试玩环境；Windows 用于兼容性、真实鼠标与导出 EXE 验证。继续优化当前游戏，不重启八关重做。默认入口是原章节选择 → Hardware Foundations → 教程 → 算术/存储两分支 → CPU → LOAD/STORE → Chapter 1 → Chapter 2。八关运行版已于 2026-09-09 按用户要求移除；历史记录留在 Git，不读取或转换其玩家进度。
 
 当前游戏构建标识：`polish-20260907T010358-76ef116`。标识中的旧 SHA 是制作该候选包时的本地基线，不是本次迁移提交 SHA。以 `git rev-parse HEAD` 和 GitHub 提交记录确定源码版本，不改写既有候选包。
 

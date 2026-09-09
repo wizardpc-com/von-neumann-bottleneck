@@ -28,7 +28,7 @@ Hint 打开独立只读画布。H2、H3 各需再次请求和确认，H3 明确�
 当前任务需要的规格可以直接查阅；“查看后续知识”只显示尚未开放的标题与条件。
 电平、二进制、分支/交叉、半加器和存储行为增加了图示与例子。
 
-本版本保留 savegame_v1.json、hardware_workbenches_v1.json 和 demo_progress_v1.json。
+本版本使用 savegame_v1.json 和 hardware_workbenches_v1.json。八关版已移除；旧 demo_progress_v1.json 留在原处，不读取、不转换、不删除。
 不要用“新游戏”或清档准备对照试玩。游戏只记录本地匿名事件，不上传数据。
 已通过中英文各 461 项 Godot GUI 输入检查、20 套常规回归，并检查导出 EXE 画面。
 Windows 锁屏阻止了本版完整的原生桌面试玩；此包为候选试玩版，不是已验收的正式发布版。

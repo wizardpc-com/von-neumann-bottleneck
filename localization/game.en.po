@@ -78,9 +78,6 @@ msgstr "Toggle fullscreen (F11 or Alt+Enter)"
 msgid "hub.subtitle"
 msgstr "From your first wire to a working computer. Then make it faster."
 
-msgid "hub.mainline.return"
-msgstr "Eight-task comparison"
-
 msgid "hub.save.continue"
 msgstr "Continue"
 

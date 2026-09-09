@@ -13,7 +13,7 @@ Repository-local documentation is the source of truth for future human and Codex
 - [Experience plan](exec-plans/completed/construction-experience.md): protected baseline, reference observations and capability preservation.
 - [Recovery status](status/in-place-recovery.md): restored default route and earlier repair evidence.
 - [Recovery plan](exec-plans/completed/in-place-recovery.md): scope, protected baseline and capability recovery table.
-- [Demo blueprint](design/DEMO_REDESIGN_BLUEPRINT.md), [historical status](status/demo-redesign.md) and [ADR 0019](decisions/0019-eight-task-mainline-and-standard-modules.md): retained eight-task comparison; replacement-mainline, optional-workshop and fixed-desktop decisions are superseded.
+- [Demo blueprint](design/DEMO_REDESIGN_BLUEPRINT.md), [historical status](status/demo-redesign.md) and [ADR 0019](decisions/0019-eight-task-mainline-and-standard-modules.md): historical eight-task design, removed from runtime on 2026-09-09; replacement-mainline, optional-workshop and fixed-desktop decisions are superseded.
 
 - `design/core-principles.md`: settled design direction, prototype choices, and open design questions.
 - `architecture/simulation.md`: current simulation pipeline, cost ownership, invariants, and model limits.

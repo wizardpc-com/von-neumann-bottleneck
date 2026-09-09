@@ -39,7 +39,7 @@ func supported_locales() -> PackedStringArray:
 
 func text(key: StringName, arguments: Array = []) -> String:
 	var translated: String = TranslationServer.translate(key)
-	if OS.get_name() == "macOS" and String(key).begins_with("hardware."):
+	if OS.get_name() == "macOS" and (String(key).begins_with("hardware.") or String(key).begins_with("teaching.")):
 		translated = translated.replace("Ctrl+", "⌘")
 	if arguments.is_empty():
 		return translated

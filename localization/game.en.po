@@ -880,7 +880,7 @@ msgid "hardware.briefing.tutorial.gates"
 msgstr "This challenge uses a [[not_gate|NOT gate]]: 0 in gives 1 out; 1 in gives 0 out.\n\nSelect a component to inspect its ports and role. Underlined blue terms open the Handbook; later concepts become available as you progress."
 
 msgid "hardware.briefing.tutorial.2"
-msgstr "Drag a body to move a part. Drag from an output port to a compatible input: outputs send signals, inputs receive them. Widths must match; 4-bit cannot connect to 1-bit.\n\nDrag from an existing wire to branch; a dot marks the junction. Crossings stay separate. Right-click to erase; Ctrl+Z to undo. Delete preserves fixed test terminals; right-erasing a terminal is undoable too.\n\nZoom with the wheel, pan with middle-drag. Home focuses the selection; Shift+Home shows all. The handbook keeps the other controls available."
+msgstr "The toolbox is open: drag a card onto the canvas, or click it to place repeatedly. Esc or right-click ends placement.\n\nDrag from an output to an input of the same width to [[wire|connect]] them. Outputs send; inputs receive. Drag a part body to move it."
 
 msgid "hardware.briefing.tutorial.3"
 msgstr "Toggle A in the [[test_bench|Test Bench]] and choose Run Practice Circuit. Check both 0 and 1. After running, erase a wire and reconnect it; Mission tracks these actions.\n\nAfter Start, Mission becomes a short goal. Expand it to revisit every page; the Mission taskbar button always brings it back. Request Hint only when you want solution guidance."
@@ -5627,3 +5627,159 @@ msgstr "Not passed"
 
 msgid "overlap.case_result"
 msgstr "%s · %s · %s / %s cycles"
+
+msgid "terminology.recommended"
+msgstr "For this level"
+
+msgid "terminology.category.overlap"
+msgstr "Transfers and waiting"
+
+msgid "terminology.diagram.step"
+msgstr "Example %s / %s · arrows explore; your board is unchanged"
+
+msgid "terminology.diagram.width_value"
+msgstr "Value %s · range 0–%s"
+
+msgid "terminology.diagram.gate_try"
+msgstr "Change the input and observe the output; bright means 1."
+
+msgid "overlap.learn"
+msgstr "Explore this lesson in pictures"
+
+msgid "teaching.request"
+msgstr "Request issued"
+
+msgid "teaching.moving"
+msgstr "Transfer in progress"
+
+msgid "teaching.arrived"
+msgstr "Data arrives"
+
+msgid "teaching.arrival.0"
+msgstr "A request has been issued; data is not ready."
+
+msgid "teaching.arrival.1"
+msgstr "Transfer continues; independent work can overlap."
+
+msgid "teaching.arrival.2"
+msgstr "Use the data only after it arrives."
+
+msgid "teaching.model_note"
+msgstr "The transfer engine costs time; screen distance is illustrative."
+
+msgid "teaching.buffer.0"
+msgstr "Empty: free is 1; another batch may be fetched."
+
+msgid "teaching.buffer.1"
+msgstr "Filling: neither overwrite nor consume yet."
+
+msgid "teaching.buffer.2"
+msgstr "Ready: ready is 1; the data has arrived."
+
+msgid "teaching.buffer.3"
+msgstr "In use: it becomes free when computation finishes."
+
+msgid "teaching.distance.0"
+msgstr "One cache line, initially empty."
+
+msgid "teaching.distance.1"
+msgstr "Fetch A ahead of its later read."
+
+msgid "teaching.distance.2"
+msgstr "Fetching B evicts A before it is used."
+
+msgid "teaching.distance.3"
+msgstr "Reading A now requires another transfer."
+
+msgid "teaching.cache_auto"
+msgstr "Hardware replaces cache contents; slots are not player-managed."
+
+msgid "teaching.active"
+msgstr "Active transfer"
+
+msgid "teaching.queued"
+msgstr "Queued"
+
+msgid "teaching.queue.0"
+msgstr "Capacity 2 includes the active request."
+
+msgid "teaching.queue.1"
+msgstr "The first request starts; only one transfer runs at a time."
+
+msgid "teaching.queue.2"
+msgstr "A third request waits for a slot; transfers do not run in parallel."
+
+msgid "terminology.term.bit_width.title"
+msgstr "Width: how many bits?"
+
+msgid "terminology.term.bit_width.body"
+msgstr "One bit is 0 or 1, shown by a thin wire and round port. A multi-bit signal packs several bits into one bus, shown by a double-rail cable and square port.\n\nWidth sets the range, not the current value: four bits hold 0–15. A value of 1 on that bus still has four-bit width. Directly connected ports must have matching widths."
+
+msgid "terminology.term.async_transfer.title"
+msgstr "Request versus arrival"
+
+msgid "terminology.term.async_transfer.body"
+msgstr "fetch and prefetch issue transfers; returning from the instruction does not mean data has arrived. Use it after the completion event.\n\nTransfer and compute engines can each work on one task at once. Independent computation may overlap the wait. Wires add no cycles."
+
+msgid "terminology.term.double_buffer.title"
+msgstr "Two buffers and their states"
+
+msgid "terminology.term.double_buffer.body"
+msgstr "One buffer holds the data being used while another receives the next batch. Alternating them can reduce compute waiting.\n\nEach goes through empty, filling, ready and in use. ready permits consuming; free permits refilling. free becomes 1 only after computation finishes."
+
+msgid "terminology.term.backpressure.title"
+msgstr "Backpressure: wait when busy"
+
+msgid "terminology.term.backpressure.body"
+msgstr "Never overwrite data that the consumer still needs. Pause writes while free is 0 and resume when the buffer is empty: that is backpressure.\n\nready A waits for data; free A waits for an empty buffer; idle waits for computation. These wait for actual state instead of assuming a fixed number of cycles."
+
+msgid "terminology.term.prefetch.title"
+msgstr "Prefetch: request before use"
+
+msgid "terminology.term.prefetch.body"
+msgstr "prefetch requests future data while current work can continue. If that data has not arrived when read needs it, the read still waits.\n\nPrefetch and demand reads share the transfer engine. Cache fills and replaces automatically. Judge elapsed time, not hit count alone."
+
+msgid "terminology.term.prefetch_distance.title"
+msgstr "Look-ahead and eviction"
+
+msgid "terminology.term.prefetch_distance.body"
+msgstr "Requesting too late leaves compute waiting. Requesting too early may displace data still needed from a small cache.\n\nThe A/B example shows one wasted transfer: B replaces unused A, then A must be fetched again. Inspect eviction and repeated transfers before adjusting look-ahead."
+
+msgid "terminology.term.request_queue.title"
+msgstr "Request queue"
+
+msgid "terminology.term.request_queue.body"
+msgstr "The transfer engine handles one request at a time. A second may queue. Capacity is two including the active request.\n\nWhen full, issuing another request waits for a slot. More requests do not create more bandwidth or simultaneous transfers."
+
+msgid "teaching.edit_title"
+msgstr "Repair: erase and undo"
+
+msgid "teaching.edit"
+msgstr "A wrong connection is reversible. Right-click a wire to erase it, then reconnect output to input. Delete removes selected parts while preserving fixed test terminals.\n\nCtrl+Z undoes an edit; Ctrl+Shift+Z redoes it. Try erasing a wire and undoing it."
+
+msgid "teaching.view_title"
+msgstr "View: zoom and pan"
+
+msgid "teaching.view"
+msgstr "Use the wheel to zoom; hold the middle mouse button to pan.\n\nHome focuses selected parts; Shift+Home fits everything. These change the view, not your connections or results."
+
+msgid "teaching.branch_title"
+msgstr "One signal, two destinations"
+
+msgid "teaching.branch"
+msgstr "Drag from an existing [[wire|wire]] to another compatible input to branch it; a dot marks the junction.\n\nCrossing alone does not connect wires. Port widths must match; open the linked diagram to compare."
+
+msgid "teaching.double_buffer.0"
+msgstr "A is ready; empty B can receive the next batch."
+
+msgid "teaching.double_buffer.1"
+msgstr "Compute A while B fills; both engines are working."
+
+msgid "teaching.double_buffer.2"
+msgstr "A becomes free after use; B becomes ready on arrival."
+
+msgid "teaching.double_buffer.3"
+msgstr "Swap roles: compute B while A fills again."
+
+msgid "overlap.command_card"
+msgstr "Command card %s / %s"

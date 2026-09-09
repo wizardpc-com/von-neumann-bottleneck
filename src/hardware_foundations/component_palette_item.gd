@@ -15,6 +15,7 @@ var template_key: String = ""
 var component_kind: StringName = &""
 var label_text: String = ""
 var width_hint: int = 1
+var port_widths: Array[int] = [1]
 var purpose_text: String = ""
 var ports_text: String = ""
 var placement_enabled: bool = true
@@ -40,12 +41,19 @@ func configure(key: String, kind: StringName, label: String, widest_port: int = 
 	component_kind = kind
 	label_text = label
 	width_hint = maxi(1, widest_port)
+	port_widths.assign([width_hint])
 	purpose_text = purpose
 	ports_text = ports
-	custom_minimum_size = Vector2(280.0, 88.0)
+	custom_minimum_size = Vector2(280.0, 108.0)
 	tooltip_text = label
 	queue_redraw()
 
+func set_port_widths(widths: Array) -> void:
+	port_widths.clear()
+	for width: int in widths:
+		if width not in port_widths: port_widths.append(width)
+	port_widths.sort()
+	queue_redraw()
 
 func set_component_preview(preview: Control) -> void:
 	if component_preview != null and is_instance_valid(component_preview):
@@ -122,7 +130,17 @@ func _draw() -> void:
 	var fill: Color = SURFACE_HOVER if hovered else SURFACE
 	var border: Color = ACCENT if armed else BORDER
 	draw_style_box(_stylebox(fill, border, 5.0, 2.0 if armed else 1.0), Rect2(Vector2.ZERO, size))
-	draw_line(Vector2(105.0, 15.0), Vector2(105.0, size.y - 15.0), BORDER, 1.0)
+	draw_style_box(_stylebox(Color("0b1720"), Color("274552"), 5, 1), Rect2(6,8,98,size.y-16))
+	var slot_width: float = 94.0 / maxi(1,port_widths.size())
+	var notation = preload("res://src/ui/signal_notation.gd")
+	for index: int in range(port_widths.size()):
+		var width: int = port_widths[index]
+		var caption: String = notation.width_text(width)
+		var font: Font = get_theme_default_font()
+		var x: float = 8+index*slot_width+(slot_width-font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x)*0.5
+		draw_string(font,Vector2(x,size.y-17),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12,notation.width_color(width))
+	if armed:
+		draw_rect(Rect2(0,9,3,size.y-18),ACCENT)
 
 
 func _build_labels() -> void:
@@ -146,7 +164,10 @@ func _build_labels() -> void:
 		label.text = lines[index]
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		label.add_theme_font_size_override("font_size", 16 if index == 0 else 12)
+		if index == 1:
+			label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			label.max_lines_visible = 2
+		label.add_theme_font_size_override("font_size", 16 if index == 0 else 13)
 		label.add_theme_color_override("font_color", TEXT if index == 0 else MUTED)
 		box.add_child(label)
 

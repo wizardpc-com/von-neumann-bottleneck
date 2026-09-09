@@ -51,7 +51,7 @@ func _run() -> void:
 	terminology_handbook.call("open_handbook", &"truth_table")
 	var terminology_tree: Tree = terminology_handbook.get("term_tree")
 	var terminology_ids: Array = terminology_handbook.get("visible_term_ids")
-	_assert(terminology_ids.size() == 20 and _unique_count(terminology_ids) == 20, "Fresh Game must show only the first 20 readable entries by default.")
+	_assert(terminology_ids.size() == 21 and _unique_count(terminology_ids) == 21, "A direct specification link exposes the full first-lesson directory, not future lessons.")
 	_assert(
 		terminology_tree.get_root().get_child_count() == 1
 		and _tree_max_depth(terminology_tree.get_root()) == 3
@@ -67,7 +67,7 @@ func _run() -> void:
 	terminology_search.clear()
 	terminology_handbook.call("open_handbook", &"accumulator")
 	_assert(not (terminology_handbook.get("detail_diagram") as Control).visible, "Fresh Game must hide future CPU illustrations behind the original learning progression.")
-	_assert((terminology_handbook.get("available_term_ids") as Array).size() == 20, "Fresh Game keeps first-lesson specifications available without opening all future chapters.")
+	_assert((terminology_handbook.get("available_term_ids") as Array).size() == 21, "Fresh Game keeps first-lesson specifications available without opening all future chapters.")
 	var handbook_escape := InputEventKey.new()
 	handbook_escape.pressed = true
 	handbook_escape.keycode = KEY_ESCAPE
@@ -118,7 +118,7 @@ func _run() -> void:
 	_assert(graph.get_connection_list().size() == 6, "Fixed topology must contain all six programmatic links.")
 	_assert(instruments.size() == 7, "Chapter 2 must retain the four v0.2 instruments and add Mission, Work Group, and Notebook.")
 	for id: StringName in instruments:
-		_assert((instruments[id] as Control).visible == (id == &"mission"), "Only Mission should open automatically when a Chapter 2 level starts (%s)." % id)
+		_assert((instruments[id] as Control).visible == (id in [&"mission", &"cache"]), "Mission and the available storage tool should open automatically when a Chapter 2 level starts (%s)." % id)
 	var chapter2_mission: Control = instruments[&"mission"]
 	var chapter2_mission_minimize: Button = chapter2_mission.find_child("MinimizeButton", true, false)
 	_assert(not chapter2_mission_minimize.visible and (main.get("mission_title_label") as Label).get_theme_font_size("font_size") == UiTypographyType.TITLE_SIZE and (main.get("mission_objective_label") as RichTextLabel).get_theme_font_size("font_size") == UiTypographyType.BODY_SIZE, "Chapter 2 Mission must use the shared title/body sizes and omit minimization.")

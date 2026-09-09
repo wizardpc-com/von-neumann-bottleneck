@@ -12,6 +12,7 @@ func _run() -> void:
 	for id: String in Catalog.IDS:
 		host._open_level(id)
 		for _frame: int in range(5): await process_frame
+		_assert(host.panels.toolbox.visible and not host.panels.program.visible, "Entry shows available parts without opening all instruction tools: "+id)
 		_assert(host.editor.text == Catalog.starter(id), "New level starts with the published starter, not a silently applied answer.")
 		var original: String = JSON.stringify(host.board)
 		host._advance_hint()

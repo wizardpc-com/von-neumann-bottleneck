@@ -251,11 +251,14 @@ func hint_roundtrip(inspect_id: StringName = &"NOT_1") -> void:
 
 func place(kind: StringName, at: Vector2) -> StringName:
 	var before: Array = ui.component_nodes.keys()
-	await press(ui.desktop_window_buttons[&"components"])
+	if not ui.desktop_windows[&"components"].visible:
+		await press(ui.desktop_window_buttons[&"components"])
 	for item: Control in ui.component_palette_items.values():
 		if item.component_kind == kind:
 			await press(item)
 			break
+	var toolbox_rect: Rect2 = ui.desktop_windows[&"components"].get_global_rect()
+	if toolbox_rect.has_point(at): at.x = toolbox_rect.position.x - 80
 	var expected: Vector2 = ((at - ui.graph.global_position + ui.graph.scroll_offset) / ui.graph.zoom - ui.graph.placement_preview_size * 0.5).snapped(Vector2(20, 20))
 	await point(at)
 	await capture("placement-preview")
@@ -325,7 +328,9 @@ func editing_roundtrip() -> void:
 	var original_pos: Vector2 = original_node.position_offset
 	var other_node: GraphNode = ui.component_nodes[or_id]
 	var other_pos: Vector2 = other_node.position_offset
-	var rectangle: Rect2 = original_node.get_global_rect().merge(other_node.get_global_rect()).grow(12)
+	# Leave enough space around the bodies for a true empty-canvas start after
+	# the panel-aware camera fit; a small inset can land on the nearby NOT gate.
+	var rectangle: Rect2 = original_node.get_global_rect().merge(other_node.get_global_rect()).grow(80)
 	await drag(rectangle.position, rectangle.end)
 	check(original_node.selected and other_node.selected, "Empty-canvas marquee selects multiple component bodies.")
 	await drag(original_node.get_global_rect().get_center(), original_node.get_global_rect().get_center() + Vector2(40, -40))
@@ -336,7 +341,8 @@ func editing_roundtrip() -> void:
 func palette_drag_roundtrip(empty_motion_mask: bool, onto_instrument: bool = false, cancel_action: StringName = &"") -> void:
 	var before: String = snapshot()
 	var original_ids: Array = ui.component_nodes.keys()
-	await press(ui.desktop_window_buttons[&"components"])
+	if not ui.desktop_windows[&"components"].visible:
+		await press(ui.desktop_window_buttons[&"components"])
 	if onto_instrument:
 		await press(ui.desktop_window_buttons[&"test_bench"])
 	var item: Control
@@ -349,6 +355,8 @@ func palette_drag_roundtrip(empty_motion_mask: bool, onto_instrument: bool = fal
 		return
 	var from: Vector2 = item.get_global_rect().get_center()
 	var to: Vector2 = ui.graph.global_position + Vector2(860, 300)
+	var toolbox_rect: Rect2 = ui.desktop_windows[&"components"].get_global_rect()
+	if toolbox_rect.has_point(to): to.x = toolbox_rect.position.x - 80
 	if onto_instrument:
 		to = ui.desktop_windows[&"test_bench"].get_global_rect().get_center()
 	await point(from)
@@ -432,6 +440,7 @@ func complete_tutorial() -> void:
 	check(ui.current_level_id == &"half_adder", "Continue enters Half Adder through the original progression gate.")
 
 func camera_and_windows() -> void:
+	await close_window(&"components")
 	await close_window(&"task")
 	await close_window(&"test_bench")
 	var geometry_before: String = snapshot()
@@ -570,6 +579,7 @@ func official_and_seal() -> void:
 func enter_level(id: StringName) -> void:
 	check(ui.current_phase == &"campaign" and not ui.campaign_level_buttons[id].disabled, "%s is unlocked by actual prior Game builds." % id)
 	await press(ui.campaign_level_buttons[id])
+	check(ui.desktop_windows[&"components"].visible, "Every construction level opens its toolbox before editing.")
 	check(ui.mission_briefing_panel.find_child("SignalGuide", true, false) != null, "Mission explains this lesson's signal widths before construction.")
 	await capture(String(id) + "-signal-guide")
 	await dismiss_briefing()
@@ -777,7 +787,7 @@ func handbook_input_check() -> void:
 	var original: String = snapshot()
 	var handbook: Control = ui.terminology_handbook
 	await press(handbook.entry_button)
-	check(handbook.is_open() and handbook.visible_term_ids.size() == 20, "The ordinary Handbook opens with only the first lesson's 20 concepts.")
+	check(handbook.is_open() and handbook.visible_term_ids.size() == 3, "The ordinary Handbook recommends three current topics without hiding available specifications.")
 	await capture("handbook-first-lesson")
 	await press(handbook.search_edit)
 	await type_text("cache")

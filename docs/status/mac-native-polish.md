@@ -1,5 +1,13 @@
 # Mac native play and workbench polish
 
+2026-09-09 follow-up: available tools open on entry, palette cards show every port
+width, cable crossings have stronger separation, and the shared Handbook now has
+96 terms with at most three current-lesson recommendations and step-through
+examples. Tutorial separates placement, repair and view navigation; Chapter 3 uses
+the same Handbook and paged command cards. See the [29-node guidance inventory](../design/first-use-guidance.md)
+and [verification record](../verification/2026-09-09-guided-workbench/README.md).
+Older counts and package descriptions below remain historical evidence.
+
 Current save status (2026-09-09): the user approved the compatibility repair. It is
 implemented with byte-exact backups, stable signatures and unchanged official
 provenance verification. Native recovery retains 9+5+7 progress, reruns the old

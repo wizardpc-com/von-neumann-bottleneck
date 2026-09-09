@@ -588,13 +588,13 @@ func _get_tooltip(at_position: Vector2) -> String:
 
 func _draw_settled_curve(curve: PackedVector2Array, base: Color, state: int, bits: int) -> void:
 	var width: float = SignalNotationType.wire_stroke_width(bits)
-	draw_polyline(curve, Color("07101c", 0.92), width + 2.5, true)
+	draw_polyline(curve, Color("07101c", 0.92), width + 5.0, true)
 	if state == LogicSignalType.HIGH_Z:
 		_draw_dashed_curve(curve, Color("8b929d", 0.82), bits)
 		return
 	var settled: Color = base.lightened(0.22) if state == LogicSignalType.HIGH \
-		else base.darkened(0.30)
-	settled.a = 1.0 if state == LogicSignalType.HIGH else 0.86
+		else base.darkened(0.12)
+	settled.a = 1.0 if state == LogicSignalType.HIGH else 0.94
 	SignalNotationType.draw_cable(self, curve, settled, bits)
 	if state == LogicSignalType.HIGH and bits == 1:
 		draw_polyline(curve, Color(base.lightened(0.48), 0.38), 2.0, true)

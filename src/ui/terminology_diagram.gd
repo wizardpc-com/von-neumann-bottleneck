@@ -15,6 +15,7 @@ const MUTED := Color("91a0b9")
 const TEXT := Color("e9f0fa")
 
 var diagram_id: StringName = &""
+var example_step: int = 0
 
 
 func _ready() -> void:
@@ -26,6 +27,7 @@ func _ready() -> void:
 
 func set_diagram(value: StringName) -> void:
 	diagram_id = value
+	example_step = 0
 	visible = not diagram_id.is_empty()
 	queue_redraw()
 
@@ -35,7 +37,16 @@ func _draw() -> void:
 		return
 	draw_rect(Rect2(Vector2.ZERO, size), BACKGROUND, true)
 	draw_rect(Rect2(Vector2.ZERO, size), BORDER, false, 1.0)
+	if String(diagram_id).begins_with("gate_"):
+		_draw_gate_example()
+		return
 	match diagram_id:
+		&"widths": _draw_width_example()
+		&"arrival", &"prefetch": _draw_arrival_example()
+		&"buffer_states": _draw_buffer_example()
+		&"double_buffer": _draw_double_buffer_example()
+		&"prefetch_distance": _draw_distance_example()
+		&"queue": _draw_queue_example()
 		&"signal":
 			_draw_signal()
 		&"binary":
@@ -367,3 +378,94 @@ func _on_locale_changed(_locale: String) -> void:
 
 func _t(key: StringName) -> String:
 	return Localization.text(key)
+
+
+func example_count() -> int:
+	if String(diagram_id).begins_with("gate_"): return 2 if diagram_id == &"gate_not" else 4
+	match diagram_id:
+		&"widths": return 2
+		&"arrival", &"prefetch", &"queue": return 3
+		&"buffer_states", &"double_buffer", &"prefetch_distance": return 4
+	return 1
+
+
+func advance_example(direction: int) -> void:
+	example_step = posmod(example_step+direction,example_count())
+	queue_redraw()
+
+
+func _draw_width_example() -> void:
+	var width: int = 1 if example_step == 0 else 4
+	var color: Color = SignalNotationType.width_color(width)
+	var value: int = 1 if width == 1 else 5
+	_draw_text(Rect2(16,14,size.x-32,28),SignalNotationType.width_text(width),color,20)
+	SignalNotationType.draw_cable(self,PackedVector2Array([Vector2(30,76),Vector2(size.x-30,76)]),color,width)
+	if width == 1: draw_circle(Vector2(size.x-30,76),6,color)
+	else: draw_rect(Rect2(size.x-36,70,12,12),color,false,2)
+	var cell: float = minf(65,(size.x-40)/width)
+	var left: float = (size.x-cell*width)*0.5
+	for index: int in range(width):
+		var bit: int = (value >> (width-index-1)) & 1
+		_draw_box(Rect2(left+index*cell,110,cell-6,62),str(bit),str(1 << (width-index-1)),color if bit else MUTED)
+	_draw_text(Rect2(16,190,size.x-32,30),_t(&"terminology.diagram.width_value") % [value,(1<<width)-1],TEXT,16)
+
+
+func _draw_gate_example() -> void:
+	var gate: String = String(diagram_id).trim_prefix("gate_")
+	var a: int = example_step if gate == "not" else example_step/2
+	var b: int = example_step%2
+	var output: int = 1-a if gate == "not" else a & b if gate == "and" else a | b if gate == "or" else a ^ b if gate == "xor" else 1-(a|b)
+	var rect := Rect2(size.x*0.36,64,size.x*0.28,94)
+	_draw_box(rect,gate.to_upper(),"",ACCENT)
+	_draw_text(Rect2(8,50,size.x*0.25,30),"A = %d" % a,TEXT,20)
+	_draw_arrow(Vector2(24,94),Vector2(rect.position.x,94),WARNING if a else MUTED)
+	if gate != "not":
+		_draw_text(Rect2(8,158,size.x*0.25,30),"B = %d" % b,TEXT,20)
+		_draw_arrow(Vector2(24,136),Vector2(rect.position.x,136),WARNING if b else MUTED)
+	_draw_arrow(_right_center(rect),Vector2(size.x-30,rect.get_center().y),WARNING if output else MUTED)
+	_draw_text(Rect2(size.x*0.70,58,size.x*0.28,35),str(output),TEXT,24)
+	_draw_text(Rect2(16,204,size.x-32,26),_t(&"terminology.diagram.gate_try"),MUTED,14)
+
+
+func _draw_arrival_example() -> void:
+	var labels: Array[StringName] = [&"request",&"moving",&"arrived"]
+	var x: float = 20+(size.x-112)*float(example_step)/2.0
+	_draw_text(Rect2(12,12,size.x-24,30),_t(StringName("teaching."+String(labels[example_step]))),ACCENT,19)
+	SignalNotationType.draw_cable(self,PackedVector2Array([Vector2(38,115),Vector2(size.x-38,115)]),ACCENT,8)
+	_draw_box(Rect2(x,77,72, 70),"5", SignalNotationType.width_text(8),GOOD)
+	_draw_text(Rect2(12,170,size.x-24,30),_t(StringName("teaching.arrival."+str(example_step))),TEXT,16)
+	_draw_text(Rect2(12,211,size.x-24,24),_t(&"teaching.model_note"),MUTED,13)
+
+
+func _draw_buffer_example() -> void:
+	var states: Array[String] = ["empty","filling","ready","in_use"]
+	var cell: float = (size.x-38)/4
+	for index: int in range(4):
+		var rect := Rect2(16+index*cell,32,cell-6,66)
+		_draw_box(rect,str(index+1),_t(StringName("overlap.state."+states[index])),ACCENT if index==example_step else MUTED)
+	_draw_text(Rect2(16,125,size.x-32,30),"ready = %d       free = %d" % [1 if example_step==2 else 0,1 if example_step==0 else 0],WARNING,20)
+	_draw_text(Rect2(16,174,size.x-32,34),_t(StringName("teaching.buffer."+str(example_step))),TEXT,15)
+
+
+func _draw_distance_example() -> void:
+	var values: Array[String] = ["—","A","B","A"]
+	_draw_box(Rect2(size.x*0.3,34,size.x*0.4,100),"Cache · 1","",ACCENT)
+	_draw_text(Rect2(size.x*0.3,74,size.x*0.4,45),values[example_step],TEXT,30)
+	_draw_text(Rect2(14,147,size.x-28,35),_t(StringName("teaching.distance."+str(example_step))),TEXT,16)
+	_draw_text(Rect2(14,202,size.x-28,25),_t(&"teaching.cache_auto"),MUTED,14)
+
+
+func _draw_queue_example() -> void:
+	var cell: float = (size.x-70)*0.5
+	for index: int in range(2):
+		_draw_box(Rect2(22+index*(cell+20),60,cell,83),_t(&"teaching.active" if index==0 else &"teaching.queued"),str(index) if example_step>index else "—",ACCENT if example_step>index else MUTED)
+	_draw_text(Rect2(16,175,size.x-32,32),_t(StringName("teaching.queue."+str(example_step))),TEXT,15)
+
+
+func _draw_double_buffer_example() -> void:
+	var stages: Array = [["ready","empty"],["in_use","filling"],["empty","ready"],["filling","in_use"]]
+	var cell: float = (size.x-66)*0.5
+	for index: int in range(2):
+		var state: String = stages[example_step][index]
+		_draw_box(Rect2(20+index*(cell+26),54,cell,95),"A" if index==0 else "B",_t(StringName("overlap.state."+state)),GOOD if state=="in_use" else ACCENT)
+	_draw_text(Rect2(16,182,size.x-32,36),_t(StringName("teaching.double_buffer."+str(example_step))),TEXT,15)

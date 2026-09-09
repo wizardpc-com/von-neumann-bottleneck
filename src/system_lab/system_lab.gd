@@ -1175,6 +1175,7 @@ func _start_level(level_id: StringName) -> void:
 		_save_level_session()
 	_stop_playback()
 	current_level_id = level_id
+	terminology_handbook.set_lesson("system",String(current_level_id))
 	PlaytestData.level_started(&"chapter_1", current_level_id)
 	current_level_definition = catalog.definition(level_id)
 	latest_receipt = null
@@ -1191,6 +1192,7 @@ func _start_level(level_id: StringName) -> void:
 	_refresh_level_ui()
 	for id: StringName in instrument_windows:
 		_close_instrument(id)
+	_open_instrument(&"parts")
 	_open_instrument(&"mission")
 
 

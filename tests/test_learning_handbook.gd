@@ -30,9 +30,9 @@ func _run() -> void:
 	var localization: Node = root.get_node("Localization")
 	var player_signature: String = save.game_player_content.canonical_signature()
 	handbook.open_handbook()
-	check(handbook.visible_term_ids.size() == 20 and not handbook.future_toggle.button_pressed, "Future subjects do not flood the initial table of contents.")
+	check(handbook.visible_term_ids.size() == 3 and not handbook.future_toggle.button_pressed, "Future subjects do not flood the initial table of contents.")
 	handbook.open_handbook(&"cache")
-	check(handbook.available_term_ids.size() == 20, "Fresh Game opens only the 20 first-lesson concepts.")
+	check(handbook.available_term_ids.size() == 21, "First-lesson specifications remain available behind the three recommended topics.")
 	check(not handbook.is_term_unlocked(&"cache") and not handbook.detail_diagram.visible, "Opening a future term directly cannot reveal its diagram.")
 	check(handbook.detail_body_label.text.contains(localization.text(&"terminology.locked.body", [handbook._lesson_title(&"cache")])), "Future topics explain the actual lesson that opens them.")
 	check(save.game_player_content.canonical_signature() == player_signature, "Reading the handbook cannot mark lessons complete or install components.")
@@ -46,6 +46,7 @@ func _run() -> void:
 	# These snapshots exercise availability policy only. End-to-end Game tests
 	# separately earn these prerequisites by building and testing player circuits.
 	for level: StringName in handbook.prologue_catalog.level_ids():
+		_check_recommendations(handbook, "hardware", String(level))
 		for locale: String in ["zh_CN", "en"]:
 			localization.set_locale(locale)
 			var pages: Array = NarrativeType.HARDWARE_PAGES.get(level, [])
@@ -57,19 +58,30 @@ func _run() -> void:
 			check(not handbook.is_term_unlocked(&"alu") and not handbook.is_term_unlocked(&"cpu"), "Tutorial does not skip later construction stages.")
 	system.prologue_ready = true
 	for level: StringName in handbook.system_catalog.level_ids():
+		_check_recommendations(handbook, "system", String(level))
 		for locale: String in ["zh_CN", "en"]:
 			localization.set_locale(locale)
 			for key: StringName in NarrativeType.SYSTEM_PAGES[level]:
 				_check_required_links(handbook, localization.text(key), String(level))
 		system.game_completed[level] = true
 	for level: StringName in handbook.locality_catalog.level_ids():
+		_check_recommendations(handbook, "locality", String(level))
 		for locale: String in ["zh_CN", "en"]:
 			localization.set_locale(locale)
 			for key: StringName in NarrativeType.LOCALITY_PAGES[level]:
 				_check_required_links(handbook, localization.text(key), String(level))
 		locality.game_completed[level] = true
 	handbook.open_handbook()
-	check(handbook.available_term_ids.size() == 89, "Original campaign completion opens all 89 entries.")
+	check(handbook.available_term_ids.size() == 92, "Original campaign completion opens its 90 terms and two Chapter 3 arrival terms, not the later branch concepts.")
+	check(not handbook.is_term_unlocked(&"prefetch"), "Entering Chapter 3 does not introduce the later prefetch branch early.")
+	var overlap: Node = root.get_node("OverlapChapter")
+	for level: String in preload("res://src/overlap_chapter/overlap_catalog.gd").IDS:
+		_check_recommendations(handbook, "overlap", level)
+		overlap.game_solutions[level] = {} # Availability fixture only, never a played solution.
+	overlap.game_solutions.clear()
+	for context: StringName in handbook_type.RECOMMENDED:
+		check(handbook_type.RECOMMENDED[context].size() <= 3, "Each lesson recommends at most three subjects: "+String(context))
+	root.get_node("GameMode").set_mode(&"test")
 	for locale: String in ["zh_CN", "en"]:
 		localization.set_locale(locale)
 		for term: Dictionary in handbook_type.TERMS:
@@ -78,6 +90,10 @@ func _run() -> void:
 			check(not handbook.detail_body_label.text.begins_with("terminology."), "Entry is translated: %s %s" % [locale, term["id"]])
 			if term.has("diagram"):
 				check(handbook.detail_diagram.visible, "Illustrated entry renders: %s %s" % [locale, term["id"]])
+				var saved_before: String = save.game_player_content.canonical_signature()
+				for step: int in range(handbook.detail_diagram.example_count()):
+					handbook.detail_diagram.advance_example(1)
+				check(handbook.detail_diagram.example_step == 0 and saved_before == save.game_player_content.canonical_signature(), "Illustrative steps wrap without modifying the player's content: "+String(term["id"]))
 				if "--handbook-capture" in OS.get_cmdline_user_args() and term["id"] in [&"signal", &"binary", &"half_adder", &"sr_latch", &"register", &"junction"]:
 					await RenderingServer.frame_post_draw
 					var folder := "res://.godot/polish/handbook/"
@@ -86,6 +102,7 @@ func _run() -> void:
 	handbook.search_edit.text = "cache"
 	handbook.open_handbook(&"bit")
 	check(handbook.search_edit.text.is_empty() and handbook.term_tree.get_selected().get_metadata(0) == &"bit", "A Mission link clears stale search filters and opens the requested entry.")
+	root.get_node("GameMode").set_mode(&"game")
 	save.game_player_content.completed_levels.clear()
 	system.prologue_ready = false
 	system.game_completed.clear()
@@ -100,3 +117,10 @@ func _run() -> void:
 func _check_required_links(handbook: Variant, text: String, level: String) -> void:
 	for term: StringName in LinkedTextType.linked_term_ids(text):
 		check(handbook.is_term_unlocked(term), "Required specification is readable before solving %s: %s" % [level, term])
+
+
+func _check_recommendations(handbook: Variant, chapter: String, level: String) -> void:
+	var context := StringName(chapter + ":" + level)
+	check(handbook_type.RECOMMENDED.has(context), "Every playable lesson has focused guidance: " + String(context))
+	for term: StringName in handbook_type.RECOMMENDED.get(context, []):
+		check(handbook.is_term_unlocked(term), "Recommended knowledge is available before solving %s: %s" % [context, term])

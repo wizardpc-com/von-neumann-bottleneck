@@ -9,10 +9,16 @@ const LocalityCatalogType = preload("res://src/locality_chapter/locality_level_c
 
 # Availability follows the first playable lesson that needs the concept.
 const LESSON_TERMS := {
-	&"hardware:tutorial": [&"bit", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit", &"logic_gate", &"not_gate", &"input_output", &"port", &"wire", &"junction", &"tick", &"test_bench", &"debug_run", &"official_test", &"trace", &"clock_period", &"topology", &"truth_table"],
+	&"overlap:arrival": [&"async_transfer", &"request_queue"],
+	&"overlap:buffers": [&"double_buffer"],
+	&"overlap:backpressure": [&"backpressure"],
+	&"overlap:prefetch": [&"prefetch"],
+	&"overlap:distance": [&"prefetch_distance"],
+	&"hardware:tutorial": [&"bit_width", &"bit", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit", &"logic_gate", &"not_gate", &"input_output", &"port", &"wire", &"junction", &"tick", &"test_bench", &"debug_run", &"official_test", &"trace", &"clock_period", &"topology", &"truth_table"],
 	&"hardware:half_adder": [&"binary", &"and_gate", &"or_gate", &"xor_gate", &"abstraction", &"encapsulation", &"half_adder", &"sum", &"carry"],
 	&"hardware:full_adder": [&"full_adder", &"cin_cout"],
-	&"hardware:alu": [&"multiplexer", &"alu", &"opcode", &"wraparound"],
+	&"hardware:selector": [&"multiplexer"],
+	&"hardware:alu": [ &"alu", &"opcode", &"wraparound"],
 	&"hardware:latch": [&"nor_gate", &"combinational_loop", &"latch", &"sr_latch", &"set_reset"],
 	&"hardware:register": [&"d_q", &"register"],
 	&"hardware:ram": [&"decoder", &"address_write", &"ram"],
@@ -29,6 +35,38 @@ const LESSON_TERMS := {
 	&"locality:blocking": [&"blocking", &"tiling"],
 }
 
+const RECOMMENDED := {
+	&"hardware:tutorial": [&"signal", &"not_gate", &"wire"],
+	&"hardware:half_adder": [&"binary", &"half_adder", &"xor_gate"],
+	&"hardware:full_adder": [&"full_adder", &"cin_cout", &"encapsulation"],
+	&"hardware:alu": [&"bit_width", &"opcode", &"multiplexer"],
+	&"hardware:latch": [&"sr_latch", &"set_reset"],
+	&"hardware:register": [&"register", &"d_q"],
+	&"hardware:ram": [&"decoder", &"address_write", &"ram"],
+	&"hardware:cpu": [&"accumulator", &"controller", &"program"],
+	&"hardware:load_store": [&"load", &"store"],
+	&"hardware:selector": [&"multiplexer", &"signal"],
+	&"hardware:delay": [&"register", &"d_q"],
+	&"system:assembly": [&"bus", &"apply", &"latency"],
+	&"system:cpu_speed": [&"cpu_wait", &"controlled_change", &"profiler"],
+	&"system:ram_wait": [&"latency", &"cpu_wait"],
+	&"system:bus_width": [&"bandwidth", &"serialization"],
+	&"system:bottleneck": [&"bottleneck", &"hardware_cost"],
+	&"locality:distant_reads": [&"data_request", &"latency"],
+	&"locality:nearby_storage": [&"cache", &"hit", &"miss"],
+	&"locality:cache_failure": [&"evict", &"cache_line"],
+	&"locality:access_order": [&"access_order", &"spatial_locality"],
+	&"locality:working_set": [&"working_set", &"pass"],
+	&"locality:blocking": [&"blocking", &"tiling"],
+	&"locality:capstone": [&"working_set", &"blocking", &"bottleneck"],
+	&"overlap:arrival": [&"async_transfer", &"bit_width"],
+	&"overlap:buffers": [&"double_buffer", &"request_queue"],
+	&"overlap:backpressure": [&"backpressure", &"double_buffer"],
+	&"overlap:prefetch": [&"prefetch", &"request_queue"],
+	&"overlap:distance": [&"prefetch_distance", &"evict"],
+	&"overlap:synthesis": [&"double_buffer", &"prefetch_distance", &"bottleneck"],
+}
+
 const BACKDROP := Color(0.015, 0.027, 0.055, 0.88)
 const PANEL := Color("111b2c")
 const PANEL_DARK := Color("0b1322")
@@ -39,6 +77,7 @@ const TEXT := Color("e9f0fa")
 const ENTRY_BUTTON_WIDTH := 118.0
 
 const CATEGORIES: Array[Dictionary] = [
+	{"id": &"overlap", "key": &"terminology.category.overlap"},
 	{"id": &"basics", "key": &"terminology.category.basics"},
 	{"id": &"hardware", "key": &"terminology.category.hardware"},
 	{"id": &"system", "key": &"terminology.category.system"},
@@ -46,7 +85,8 @@ const CATEGORIES: Array[Dictionary] = [
 ]
 
 const DIRECTORIES: Array[Dictionary] = [
-	{"id": &"signals", "category": &"basics", "key": &"terminology.directory.signals", "terms": [&"bit", &"binary", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit"]},
+	{"id": &"overlap", "category": &"overlap", "key": &"terminology.category.overlap", "terms": [&"async_transfer", &"double_buffer", &"backpressure", &"prefetch", &"prefetch_distance", &"request_queue"]},
+	{"id": &"signals", "category": &"basics", "key": &"terminology.directory.signals", "terms": [&"bit_width", &"bit", &"binary", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit"]},
 	{"id": &"logic", "category": &"basics", "key": &"terminology.directory.logic", "terms": [&"logic_gate", &"not_gate", &"and_gate", &"or_gate", &"xor_gate", &"nor_gate"]},
 	{"id": &"circuit", "category": &"basics", "key": &"terminology.directory.circuit", "terms": [&"input_output", &"port", &"wire", &"junction", &"combinational_loop", &"tick", &"truth_table", &"topology"]},
 	{"id": &"testing", "category": &"basics", "key": &"terminology.directory.testing", "terms": [&"test_bench", &"debug_run", &"official_test", &"trace", &"clock_period", &"abstraction", &"encapsulation"]},
@@ -63,6 +103,14 @@ const DIRECTORIES: Array[Dictionary] = [
 ]
 
 const TERMS: Array[Dictionary] = [
+	{"id": &"bit_width", "category": &"basics", "title": &"terminology.term.bit_width.title", "body": &"terminology.term.bit_width.body", "diagram": &"widths"},
+	{"id": &"async_transfer", "category": &"overlap", "title": &"terminology.term.async_transfer.title", "body": &"terminology.term.async_transfer.body", "diagram": &"arrival"},
+	{"id": &"double_buffer", "category": &"overlap", "title": &"terminology.term.double_buffer.title", "body": &"terminology.term.double_buffer.body", "diagram": &"double_buffer"},
+	{"id": &"backpressure", "category": &"overlap", "title": &"terminology.term.backpressure.title", "body": &"terminology.term.backpressure.body", "diagram": &"buffer_states"},
+	{"id": &"prefetch", "category": &"overlap", "title": &"terminology.term.prefetch.title", "body": &"terminology.term.prefetch.body", "diagram": &"prefetch"},
+	{"id": &"prefetch_distance", "category": &"overlap", "title": &"terminology.term.prefetch_distance.title", "body": &"terminology.term.prefetch_distance.body", "diagram": &"prefetch_distance"},
+	{"id": &"request_queue", "category": &"overlap", "title": &"terminology.term.request_queue.title", "body": &"terminology.term.request_queue.body", "diagram": &"queue"},
+
 	{"id": &"bit", "category": &"basics", "title": &"terminology.term.bit.title", "body": &"terminology.term.bit.body", "diagram": &"signal"},
 	{"id": &"binary", "category": &"basics", "title": &"terminology.term.binary.title", "body": &"terminology.term.binary.body", "diagram": &"binary", "example": &"terminology.term.binary.example"},
 	{"id": &"signal", "category": &"basics", "title": &"terminology.term.signal.title", "body": &"terminology.term.signal.body", "diagram": &"signal", "example": &"terminology.term.signal.example"},
@@ -71,11 +119,11 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"high_impedance", "category": &"basics", "title": &"terminology.term.high_impedance.title", "body": &"terminology.term.high_impedance.body"},
 	{"id": &"short_circuit", "category": &"basics", "title": &"terminology.term.short_circuit.title", "body": &"terminology.term.short_circuit.body"},
 	{"id": &"logic_gate", "category": &"basics", "title": &"terminology.term.logic_gate.title", "body": &"terminology.term.logic_gate.body"},
-	{"id": &"not_gate", "category": &"basics", "title": &"terminology.term.not_gate.title", "body": &"terminology.term.not_gate.body"},
-	{"id": &"and_gate", "category": &"basics", "title": &"terminology.term.and_gate.title", "body": &"terminology.term.and_gate.body"},
-	{"id": &"or_gate", "category": &"basics", "title": &"terminology.term.or_gate.title", "body": &"terminology.term.or_gate.body"},
-	{"id": &"xor_gate", "category": &"basics", "title": &"terminology.term.xor_gate.title", "body": &"terminology.term.xor_gate.body"},
-	{"id": &"nor_gate", "category": &"basics", "title": &"terminology.term.nor_gate.title", "body": &"terminology.term.nor_gate.body"},
+	{"id": &"not_gate", "category": &"basics", "title": &"terminology.term.not_gate.title", "body": &"terminology.term.not_gate.body", "diagram": &"gate_not"},
+	{"id": &"and_gate", "category": &"basics", "title": &"terminology.term.and_gate.title", "body": &"terminology.term.and_gate.body", "diagram": &"gate_and"},
+	{"id": &"or_gate", "category": &"basics", "title": &"terminology.term.or_gate.title", "body": &"terminology.term.or_gate.body", "diagram": &"gate_or"},
+	{"id": &"xor_gate", "category": &"basics", "title": &"terminology.term.xor_gate.title", "body": &"terminology.term.xor_gate.body", "diagram": &"gate_xor"},
+	{"id": &"nor_gate", "category": &"basics", "title": &"terminology.term.nor_gate.title", "body": &"terminology.term.nor_gate.body", "diagram": &"gate_nor"},
 	{"id": &"input_output", "category": &"basics", "title": &"terminology.term.input_output.title", "body": &"terminology.term.input_output.body"},
 	{"id": &"port", "category": &"basics", "title": &"terminology.term.port.title", "body": &"terminology.term.port.body"},
 	{"id": &"wire", "category": &"basics", "title": &"terminology.term.wire.title", "body": &"terminology.term.wire.body", "diagram": &"junction", "example": &"terminology.term.junction.example"},
@@ -157,6 +205,7 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"data_request", "category": &"locality", "title": &"terminology.term.data_request.title", "body": &"terminology.term.data_request.body"},
 ]
 
+var standalone_entry: bool = true
 var entry_button: Button
 var modal: ColorRect
 var title_label: Label
@@ -164,6 +213,10 @@ var subtitle_label: Label
 var learning_progress: ProgressBar
 var search_edit: LineEdit
 var category_selector: OptionButton
+var recommended_toggle: Button
+var context_lesson: StringName = &"hardware:tutorial"
+var diagram_controls: HBoxContainer
+var diagram_step_label: Label
 var future_toggle: Button
 var term_tree: Tree
 var result_count_label: Label
@@ -201,12 +254,22 @@ func _ready() -> void:
 	_build_interface()
 	Localization.locale_changed.connect(_on_locale_changed)
 	_refresh_localized_copy()
+	entry_button.visible = standalone_entry
+
+
+func set_lesson(chapter: String, id: String) -> void:
+	context_lesson = StringName(chapter+":"+id)
+	recommended_toggle.set_pressed_no_signal(true)
+	future_toggle.set_pressed_no_signal(false)
+	search_edit.clear()
+	category_selector.select(0)
 
 
 func open_handbook(term_id: StringName = &"") -> void:
 	modal.show()
 	entry_button.hide()
 	if not term_id.is_empty():
+		recommended_toggle.set_pressed_no_signal(false)
 		search_edit.clear()
 		category_selector.select(0)
 		if not is_term_unlocked(term_id):
@@ -217,8 +280,8 @@ func open_handbook(term_id: StringName = &"") -> void:
 
 func close_handbook() -> void:
 	modal.hide()
-	entry_button.show()
-	entry_button.grab_focus()
+	entry_button.visible = standalone_entry
+	if standalone_entry: entry_button.grab_focus()
 
 
 func is_open() -> bool:
@@ -336,6 +399,11 @@ func _build_interface() -> void:
 	category_selector.custom_minimum_size.x = 245.0
 	category_selector.item_selected.connect(func(_index: int) -> void: _refresh_terms())
 	filter_row.add_child(category_selector)
+	recommended_toggle = Button.new()
+	recommended_toggle.toggle_mode = true
+	recommended_toggle.button_pressed = true
+	recommended_toggle.toggled.connect(func(_pressed: bool) -> void: _refresh_terms())
+	filter_row.add_child(recommended_toggle)
 	future_toggle = Button.new()
 	future_toggle.name = "HandbookFutureTopics"
 	future_toggle.toggle_mode = true
@@ -398,6 +466,22 @@ func _build_interface() -> void:
 	detail_diagram.name = "TerminologyDiagram"
 	detail_diagram.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail_box.add_child(detail_diagram)
+	detail_box.move_child(detail_diagram,3)
+	diagram_controls = HBoxContainer.new()
+	detail_box.add_child(diagram_controls)
+	detail_box.move_child(diagram_controls,4)
+	for direction: int in [-1,1]:
+		var step_button := Button.new()
+		step_button.text = "←" if direction < 0 else "→"
+		step_button.custom_minimum_size = Vector2(44,36)
+		step_button.pressed.connect(func() -> void:
+			detail_diagram.advance_example(direction)
+			_refresh_diagram_controls())
+		diagram_controls.add_child(step_button)
+	diagram_step_label = Label.new()
+	diagram_step_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	diagram_step_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	diagram_controls.add_child(diagram_step_label)
 	detail_example_heading_label = Label.new()
 	detail_example_heading_label.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
 	detail_example_heading_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
@@ -427,6 +511,7 @@ func _refresh_localized_copy() -> void:
 	close_button.text = _t(&"terminology.close")
 	search_edit.placeholder_text = _t(&"terminology.search.placeholder")
 	future_toggle.text = _t(&"terminology.future_topics")
+	recommended_toggle.text = _t(&"terminology.recommended")
 	footer_label.text = _t(&"terminology.footer")
 	detail_example_heading_label.text = _t(&"terminology.example.title")
 	var selected_category: StringName = _selected_category()
@@ -473,6 +558,8 @@ func _refresh_terms(preferred_term_id: StringName = &"") -> void:
 				continue
 			var matching_terms: Array[Dictionary] = []
 			for term_id: StringName in directory["terms"]:
+				if recommended_toggle.button_pressed and query.is_empty() and not future_toggle.button_pressed and category_id.is_empty() and term_id not in RECOMMENDED.get(context_lesson, []):
+					continue
 				if term_id not in available_term_ids and not future_toggle.button_pressed and query.is_empty():
 					continue
 				var term: Dictionary = _term_definition(term_id)
@@ -491,7 +578,7 @@ func _refresh_terms(preferred_term_id: StringName = &"") -> void:
 			directory_item.set_text(0, "%s  (%d)" % [_t(directory["key"]), matching_terms.size()])
 			directory_item.set_selectable(0, false)
 			directory_item.set_custom_color(0, GOOD)
-			directory_item.set_collapsed(query.is_empty())
+			directory_item.set_collapsed(query.is_empty() and not recommended_toggle.button_pressed)
 			for term: Dictionary in matching_terms:
 				var term_id: StringName = term["id"]
 				var term_item: TreeItem = term_tree.create_item(directory_item)
@@ -570,11 +657,12 @@ func _show_term(term_id: StringName) -> void:
 			continue
 		var category_name: String = _category_name(term["category"])
 		var directory_name: String = _directory_name_for_term(term_id)
-		detail_category_label.text = category_name if directory_name.is_empty() else "%s  ·  %s" % [category_name, directory_name]
+		detail_category_label.text = category_name if directory_name.is_empty() or directory_name == category_name else "%s  ·  %s" % [category_name, directory_name]
 		detail_title_label.text = _t(term["title"])
 		if not is_term_unlocked(term_id):
 			detail_body_label.text = _t(&"terminology.locked.body", [_lesson_title(term_id)])
 			detail_diagram.set_diagram(&"")
+			_refresh_diagram_controls()
 			detail_example_heading_label.hide()
 			detail_example_label.hide()
 			return
@@ -587,9 +675,15 @@ func _show_term(term_id: StringName) -> void:
 		detail_example_label.visible = has_example
 		detail_example_label.text = _t(example_key) if has_example else ""
 		detail_diagram.set_diagram(StringName(term.get("diagram", &"")))
+		_refresh_diagram_controls()
 		detail_scroll_container.scroll_vertical = 0
 		return
 	_show_empty_detail()
+
+
+func _refresh_diagram_controls() -> void:
+	diagram_controls.visible = detail_diagram.example_count() > 1 and detail_diagram.visible
+	diagram_step_label.text = _t(&"terminology.diagram.step",[detail_diagram.example_step+1,detail_diagram.example_count()])
 
 
 func is_term_unlocked(term_id: StringName) -> bool:
@@ -607,6 +701,8 @@ func is_term_unlocked(term_id: StringName) -> bool:
 			return prologue_catalog.is_unlocked(level_id, GlobalSave.game_player_content.completed_levels)
 		"system":
 			return system_catalog.is_unlocked(level_id, SystemChapter.game_completed, SystemChapter.prologue_ready)
+		"overlap":
+			return preload("res://src/overlap_chapter/overlap_catalog.gd").unlocked(String(level_id),OverlapChapter.completed(),OverlapChapter.chapter_unlocked(),false)
 		"locality":
 			return locality_catalog.is_unlocked(level_id, LocalityChapter.game_completed, bool(SystemChapter.game_completed.get(&"bottleneck", false)))
 	return false
@@ -625,6 +721,7 @@ func _lesson_title(term_id: StringName) -> String:
 		return ""
 	var level_id := StringName(parts[1])
 	match parts[0]:
+		"overlap": return _t(StringName("overlap."+String(level_id)+".title"))
 		"hardware": return _t(prologue_catalog.title_key(level_id))
 		"system": return _t(system_catalog.title_key(level_id))
 		"locality": return _t(locality_catalog.title_key(level_id))
@@ -636,6 +733,7 @@ func _show_empty_detail() -> void:
 	detail_title_label.text = _t(&"terminology.empty.title")
 	detail_body_label.text = _t(&"terminology.empty.body")
 	detail_diagram.set_diagram(&"")
+	_refresh_diagram_controls()
 	detail_example_heading_label.hide()
 	detail_example_label.hide()
 

@@ -643,7 +643,7 @@ func _run() -> void:
 	graph.scroll_offset = scroll_before_keys
 	focus_probe.queue_free()
 	var desktop_windows: Dictionary = main.get("desktop_windows")
-	_assert(desktop_windows.size() == 4 and (desktop_windows[&"task"] as Control).visible and (desktop_windows[&"test_bench"] as Control).visible and not (desktop_windows[&"components"] as Control).visible and not (desktop_windows[&"inspector"] as Control).visible, "Mission and Test Bench must open without covering the circuit; Components and Inspector remain on-demand desktop windows.")
+	_assert(desktop_windows.size() == 4 and (desktop_windows[&"task"] as Control).visible and (desktop_windows[&"test_bench"] as Control).visible and (desktop_windows[&"components"] as Control).visible and not (desktop_windows[&"inspector"] as Control).visible, "Mission and Test Bench must open without covering the circuit; Components opens on level entry while Inspector remains on demand.")
 	var task_window: Control = desktop_windows[&"task"]
 	var bench_window: Control = desktop_windows[&"test_bench"]
 	var components_window: Control = desktop_windows[&"components"]

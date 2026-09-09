@@ -1052,6 +1052,7 @@ func _start_level(level_id: StringName) -> void:
 		_set_status(_t(&"chapter2.status.invalid_level"), BAD)
 		return
 	current_level_id = level_id
+	terminology_handbook.set_lesson("locality",String(current_level_id))
 	PlaytestData.level_started(&"chapter_2", current_level_id)
 	current_level = definition
 	selected_judgment = &""
@@ -1113,6 +1114,8 @@ func _start_level(level_id: StringName) -> void:
 	_update_history_label()
 	_configure_mission()
 	_update_notebook()
+	if &"cache" in current_level.get("tools", []):
+		_open_instrument(&"cache")
 	_open_instrument(&"mission")
 
 

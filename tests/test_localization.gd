@@ -195,7 +195,7 @@ func _localized_source_keys() -> Array[StringName]:
 func _validate_mission_page_structure() -> void:
 	for level_id: StringName in MissionNarrativeCatalogType.HARDWARE_PAGES:
 		var pages: Array = MissionNarrativeCatalogType.HARDWARE_PAGES[level_id]
-		_assert(pages.size() >= 1 and pages.size() <= 5, "Hardware mission %s must use one to five useful narrative pages." % level_id)
+		_assert(pages.size() >= 1 and pages.size() <= (6 if level_id == &"tutorial" else 5), "Hardware mission %s must keep short bounded pages; Tutorial separates editing and viewing." % level_id)
 	for page_mapping: Dictionary in [MissionNarrativeCatalogType.SYSTEM_PAGES, MissionNarrativeCatalogType.LOCALITY_PAGES]:
 		for level_id: StringName in page_mapping:
 			var pages: Array = page_mapping[level_id]

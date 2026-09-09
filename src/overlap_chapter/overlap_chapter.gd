@@ -9,6 +9,7 @@ const Type = preload("res://src/ui/ui_typography.gd")
 const BLUE := Color("50d5ff")
 const GOLD := Color("ffbf69")
 const GREEN := Color("67e8a5")
+var terminology_handbook: TerminologyHandbook
 var level: String = ""
 var board: Dictionary = {}
 var graph: CircuitGraphEdit
@@ -99,6 +100,9 @@ func _ready() -> void:
 	completion.feedback_skipped.connect(func(chapter: StringName, id: StringName) -> void: PlaytestData.record_feedback_skipped(&"level",StringName("%s/%s" % [chapter,id])))
 	add_child(completion)
 	get_window().focus_exited.connect(_on_window_focus_exited)
+	terminology_handbook = preload("res://src/ui/terminology_handbook.gd").new()
+	terminology_handbook.standalone_entry = false
+	add_child(terminology_handbook)
 	_show_map()
 
 func _process(delta: float) -> void:
@@ -128,6 +132,7 @@ func _on_window_focus_exited() -> void:
 	_save_draft()
 
 func _placement_allowed(position: Vector2) -> bool:
+	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open(): return false
 	if not is_instance_valid(graph) or not graph.get_global_rect().has_point(position): return false
 	if is_instance_valid(hint_overlay) or completion.visible or confirmation.visible: return false
 	for panel: FloatingInstrumentPanel in panels.values():
@@ -135,6 +140,7 @@ func _placement_allowed(position: Vector2) -> bool:
 	return true
 
 func _input(event: InputEvent) -> void:
+	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open(): return
 	if not is_instance_valid(graph): return
 	if _handle_body_drag(event):
 		get_viewport().set_input_as_handled()
@@ -205,6 +211,10 @@ func _cancel_body_drag() -> void:
 	body_drag.clear()
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if terminology_handbook.handle_escape(event):
+		get_viewport().set_input_as_handled()
+		return
+	if terminology_handbook.is_open(): return
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	if event.keycode == KEY_ESCAPE:
 		if is_instance_valid(hint_overlay): hint_overlay.queue_free(); hint_overlay = null
@@ -286,13 +296,11 @@ func _open_level(id: String) -> void:
 	_build_program(program)
 	_build_trace()
 	_build_handbook()
-	panels.toolbox.hide()
+	panels.toolbox.show()
 	panels.trace.hide()
-	panels.handbook.hide()
+
 	# Empty construction starts with tools visible, not an authored answer machine.
-	if id in ["buffers","synthesis"]:
-		panels.program.hide()
-		panels.toolbox.show()
+	panels.program.hide()
 	dirty = false
 
 func _new_graph(read_only: bool) -> CircuitGraphEdit:
@@ -505,6 +513,7 @@ func _build_mission() -> void:
 	objective.add_theme_color_override("font_color",GOLD)
 	objective.add_theme_font_size_override("font_size",Type.SUBTITLE_SIZE)
 	box.add_child(objective)
+	_button(box,"learn",func() -> void: _toggle("handbook"))
 	box.add_child(_label(_t("output_spec"),true))
 	if level == "arrival": box.add_child(_label(_t("independent_work"),true))
 	box.add_child(_label(_t("public_cases")))
@@ -553,7 +562,7 @@ func _build_case_card(parent: VBoxContainer, task: Dictionary) -> void:
 	column.add_child(_label(_t("batch_transfer") % task.transfer,true))
 
 func _build_toolbox() -> void:
-	var panel: FloatingInstrumentPanel = _panel("toolbox",_t("toolbox"),Vector2(1150,18),Vector2(350,350))
+	var panel: FloatingInstrumentPanel = _panel("toolbox",_t("toolbox"),Vector2(1150,18),Vector2(390,400))
 	var box := _scroll_box(panel)
 	box.add_child(_label(_t("toolbox_help"),true))
 	var kinds: Array = ["cache"] if level in ["prefetch","distance"] else ["buffer","cache"] if level == "synthesis" else ["buffer"]
@@ -562,6 +571,7 @@ func _build_toolbox() -> void:
 		item.configure(kind,&"register4" if kind=="buffer" else &"ram2x4",_t(kind),8,_t(kind+".note"),_t("tool_cost"))
 		var preview := preload("res://src/overlap_chapter/overlap_part_preview.gd").new()
 		preview.cache = kind == "cache"
+		item.set_port_widths([8] if kind == "cache" else [1,8])
 		item.set_component_preview(preview)
 		item.placement_requested.connect(func(key: String) -> void:
 			armed = key
@@ -587,8 +597,25 @@ func _build_program(source: String) -> void:
 	editor.text_changed.connect(func() -> void:
 		if not draft_loading: _changed(false))
 	box.add_child(editor)
-	var help := _label(_t("commands."+("arrival" if level=="arrival" else "cache" if level in ["prefetch","distance"] else "both" if level=="synthesis" else "buffer")),true)
+	var commands: PackedStringArray = _t("commands."+("arrival" if level=="arrival" else "cache" if level in ["prefetch","distance"] else "both" if level=="synthesis" else "buffer")).split("\n")
+	var help := _label(commands[0],true)
 	help.add_theme_font_size_override("font_size",14)
+	var navigation := HBoxContainer.new()
+	box.add_child(navigation)
+	var page := Label.new()
+	page.text = _t("command_card") % [1,commands.size()]
+	page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	navigation.add_child(page)
+	var state: Dictionary = {"index":0}
+	for direction: int in [-1,1]:
+		var button := Button.new()
+		button.text = "←" if direction < 0 else "→"
+		button.custom_minimum_size = Vector2(42,32)
+		button.pressed.connect(func() -> void:
+			state.index = posmod(int(state.index)+direction,commands.size())
+			help.text = commands[state.index]
+			page.text = _t("command_card") % [int(state.index)+1,commands.size()])
+		navigation.add_child(button)
 	box.add_child(help)
 	_button(box,"run",_run_official)
 
@@ -700,19 +727,8 @@ func _show_cycle(cycle: int) -> void:
 		live.add_theme_color_override("font_color", GREEN)
 
 func _build_handbook() -> void:
-	var panel: FloatingInstrumentPanel = _panel("handbook",_t("handbook"),Vector2(350,40),Vector2(820,640))
-	var box := _scroll_box(panel)
-	box.add_child(_label(_t("handbook.arrival"),true))
-	box.add_child(_label(_t("handbook.wires"),true))
-	if level != "arrival":
-		box.add_child(_label(_t("handbook.overlap"),true))
-		var diagram := Timeline.new()
-		diagram.trace = Catalog.evaluate("buffers",Catalog.buffer_board(2),Catalog.buffer_program()).runs[0]
-		box.add_child(diagram)
-	if level in ["buffers","backpressure","synthesis"]: box.add_child(_label(_t("handbook.buffers"),true))
-	if level in ["prefetch","distance","synthesis"]: box.add_child(_label(_t("handbook.cache"),true))
-	if level in ["distance","synthesis"]: box.add_child(_label(_t("handbook.limits"),true))
-	box.add_child(_label(_t("handbook.commands"),true))
+	terminology_handbook.set_lesson("overlap",level)
+
 
 func _request_hint() -> void:
 	if level.is_empty(): return
@@ -801,6 +817,9 @@ func _settle_panel(panel: FloatingInstrumentPanel, dimensions: Vector2) -> void:
 
 func _toggle(id: String, force: bool = false) -> void:
 	_cancel_placement()
+	if id == "handbook":
+		terminology_handbook.open_handbook()
+		return
 	if not panels.has(id): return
 	var panel: FloatingInstrumentPanel = panels[id]
 	panel.visible = true if force else not panel.visible

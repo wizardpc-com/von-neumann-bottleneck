@@ -1,0 +1,261 @@
+{
+  "baseline": "2eaacd02bd315b251af9ce4bfd19df580f7a3b39",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "source_sha256": {
+    "localization/game.en.po": "21cb7504b8c54daa4955c87e462d70347465b7a1ff65124534abb59c85ccb34b",
+    "localization/game.zh_CN.po": "80fae26a307aac2339eef7cf854612b6643ec7058e3e2a6c09fc92e01b00c606",
+    "src/hardware_foundations/circuit_graph_edit.gd": "64f845683894add882d130417248db1d226959eed5cf0b937212dfadb9c42867",
+    "src/hardware_foundations/component_palette_item.gd": "f55ae7e5d1e2be259296088f91b370a5a9512b93357143da990a3768278e128f",
+    "src/hardware_foundations/hardware_foundations.gd": "892a1ab2167bc8267d3d516ecf97eabae6214376d996284c24887cf24478efd2",
+    "src/localization/localization.gd": "8ebe876fe1243f7a738e9434982d767061267aa354b6730ce7bd9a801a760662",
+    "src/overlap_chapter/overlap_chapter.gd": "25b53efe369d5fd5f8623be67c967fd2acb6fc9d1eae93488358b53b4178b5b5",
+    "src/system_lab/system_lab.gd": "56f834f8aab1e45ea1b7e4592cea748f6b7d1acebdf39b0d90b586d1c8a72cc1",
+    "src/ui/main.gd": "21b6d64c009847845757c85fe8ba5b7044f56169147c4b526d225c2a5880ef44",
+    "src/ui/mission_narrative_catalog.gd": "6a343c1161e53df98a845512427e34a089be8f265898daa72c881648f267290b",
+    "src/ui/terminology_diagram.gd": "e36d284cc3caaaa5c7fa9a326dd801222801887f52c49d46094947d3517770c1",
+    "src/ui/terminology_handbook.gd": "4d9c2dee9114569684e7ab52b7ef7f42f11b2cc238c7fd8c78939b6a82642570",
+    "tests/test_hardware_foundations_ui.gd": "d20cb7bcb2e57b35e9e4cff80f6a61a167f1b289b61c4f0ef50a02d0b8f3a6e1",
+    "tests/test_learning_handbook.gd": "801b0b99c2affd4daf131093f3ecb045b84c263c0d9b26e2caee872b5ce3aec8",
+    "tests/test_localization.gd": "0f7bbf35a9010aca0333e107fc86d90db0b71faa5eeb3cc6a724ff83406b9b0f",
+    "tests/test_overlap_ui.gd": "06f3676a93a1a923f697bf44b6dd481fe7e82bb95deeb61d90851c566d167a66",
+    "tests/test_recovery_game_input.gd": "32fd749bcbe793ac254909e796aef7c7c6152df2e84e4c8c3f2b2f1135aed978",
+    "tests/test_ui.gd": "a662fd8f4f3fdb5e50bd288abe716be496d523476a08ffa93ca31bdc95e9e9b9"
+  },
+  "conventional": [
+    {
+      "name": "test_circuit_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_circuit_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_circuit_simulation"
+    },
+    {
+      "name": "test_content_registry",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_content_registry.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_content_registry"
+    },
+    {
+      "name": "test_exploration",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_exploration.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_exploration"
+    },
+    {
+      "name": "test_global_save",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_global_save.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_global_save"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_hardware_foundations_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_hardware_foundations_ui"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_hardware_prologue_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_hardware_prologue_ui"
+    },
+    {
+      "name": "test_learning_handbook",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_learning_handbook.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_learning_handbook"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_localization"
+    },
+    {
+      "name": "test_overlap_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_overlap_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_overlap_simulation"
+    },
+    {
+      "name": "test_overlap_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_overlap_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_overlap_ui"
+    },
+    {
+      "name": "test_playtest_data",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_playtest_data.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_playtest_data"
+    },
+    {
+      "name": "test_playtest_feedback_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_playtest_feedback_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_playtest_feedback_ui"
+    },
+    {
+      "name": "test_prologue_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_prologue_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_prologue_simulation"
+    },
+    {
+      "name": "test_save_signature_migration",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_save_signature_migration.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_save_signature_migration"
+    },
+    {
+      "name": "test_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_simulation"
+    },
+    {
+      "name": "test_system_lab_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_system_lab_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_system_lab_simulation"
+    },
+    {
+      "name": "test_system_lab_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_system_lab_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_system_lab_ui"
+    },
+    {
+      "name": "test_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/test_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/test_ui"
+    }
+  ],
+  "final_focus_checks": [
+    {
+      "name": "hardware_final",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/hardware_final",
+      "log": "logs/hardware_final.txt"
+    },
+    {
+      "name": "prologue_final",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/prologue_final",
+      "log": "logs/prologue_final.txt"
+    },
+    {
+      "name": "handbook_final",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/handbook_final",
+      "log": "logs/handbook_final.txt"
+    }
+  ],
+  "complete_game_routes_before_last_briefing_size_adjustment": [
+    {
+      "name": "game_gui_zh_CN_final2",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/game_gui_zh_CN_final2",
+      "log": "logs/game_gui_zh_CN_final2.txt"
+    },
+    {
+      "name": "game_gui_en_final2",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/game_gui_en_final2",
+      "log": "logs/game_gui_en_final2.txt"
+    }
+  ],
+  "native_profile": "VonNeumannBottleneckChecks/overlap-20260909",
+  "native_receipt": "README.md",
+  "limits": [
+    "Windows not rerun",
+    "No new novice acceptance or release",
+    "Native pass reuses previously earned isolated progress"
+  ],
+  "local_evidence_root": ".godot/verification/20260909T152028Z-cab54078",
+  "final_layout_checks": [
+    {
+      "name": "hardware_final3",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/hardware_final3",
+      "log": "logs/hardware_final3.txt"
+    },
+    {
+      "name": "game_gui_zh_CN_final3",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/game_gui_zh_CN_final3",
+      "log": "logs/game_gui_zh_CN_final3.txt"
+    },
+    {
+      "name": "game_gui_en_final3",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260909T152028Z-cab54078/game_gui_en_final3",
+      "log": "logs/game_gui_en_final3.txt"
+    }
+  ],
+  "known_test_warnings": [
+    "Existing test_hardware_foundations_ui.gd input-event reuse warning at line 274; no test failure.",
+    "macOS IMKCFRunLoopWakeUpReliable informational output in native GUI runs."
+  ]
+}

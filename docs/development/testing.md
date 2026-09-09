@@ -1,5 +1,18 @@
 # Testing
 
+## Guided workbench and first-use coverage, 2026-09-09
+
+Use the same isolated verifier below in both languages. The current Handbook suite
+covers all 29 lesson recommendations before solving their prerequisites, 96 terms,
+and example-state changes without player-content mutation. The Game input route
+keeps tool windows open on entry and verifies CPU wiring after independent Hint
+return with the panel-aware camera. Full results, final reruns, failed intermediate
+diagnostics and separately observed native interactions are in the
+[guided workbench record](../verification/2026-09-09-guided-workbench/README.md).
+Run native play and renderer-based GUI replays separately: a covered/background
+Mac game window can stop delivering a requested render frame. A stopped run is
+not acceptance evidence.
+
 ## Bus illustration and desktop input, 2026-09-09
 
 Run the normal isolated verifier with Godot 4.7.1 (`--gui --locale en` also checks

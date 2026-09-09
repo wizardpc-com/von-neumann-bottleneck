@@ -1127,15 +1127,15 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	var gap: float = clampf(margin * 0.75, 10.0, 16.0)
 	var usable_height: float = maxf(180.0, area.y - margin * 2.0)
 	var left_width: float = clampf(area.x * 0.27, 360.0, 440.0)
-	var component_width: float = clampf(area.x * 0.21, 320.0, 360.0)
+	var component_width: float = clampf(area.x * 0.25, 360.0, 420.0)
 	if reset_windows:
 		component_palette_needs_initial_layout = true
 		for window: FloatingInstrumentPanel in [task_window, bench_window]:
 			window.show_instrument()
 			window.set_minimized(false)
-		# Keep the player-standard circuit and right-side outputs visible on entry.
-		# The toolbar menu and bottom Components button remain one click away.
-		component_window.hide()
+		# The toolbox is part of the normal entry, alongside the task.
+		component_window.show_instrument()
+		component_window.set_minimized(false)
 		inspector_window.hide()
 	var test_bench_button: Button = desktop_window_buttons.get(&"test_bench")
 	if test_bench_button != null:
@@ -1162,7 +1162,7 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 		component_window.position = Vector2(area.x - margin - component_width, margin)
 		component_window.size = Vector2(
 			component_width,
-			minf(usable_height, maxf(420.0, usable_height * 0.70))
+			minf(usable_height, maxf(420.0, usable_height * 0.95))
 		)
 		var task_ratio: float = 0.40
 		var bench_ratio: float = 0.52
@@ -1427,6 +1427,16 @@ func _finish_mission_briefing() -> void:
 		if child is CanvasItem:
 			(child as CanvasItem).show()
 	_focus_desktop_window(&"task")
+	call_deferred("_focus_after_briefing")
+
+
+func _focus_after_briefing() -> void:
+	var entered_level: StringName = current_level_id
+	# Card containers and the compact Mission must finish laying out first.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if current_level_id == entered_level and not mission_briefing_active:
+		_focus_circuit(true)
 
 
 func _reset_mission_briefing() -> void:
@@ -1470,8 +1480,8 @@ func _layout_mission_briefing() -> void:
 		_layout_compact_task_window(margin)
 		return
 	var briefing_size := Vector2(
-		clampf(area.x * 0.56, 640.0, 860.0),
-		clampf(area.y * 0.88, 530.0, 650.0)
+		clampf(area.x * 0.64, 640.0, 980.0),
+		clampf(area.y * 0.96, 530.0, 700.0)
 	)
 	task_window.size = briefing_size
 	task_window.position = (area - briefing_size) * 0.5
@@ -1609,7 +1619,7 @@ func _show_desktop_window(id: StringName) -> void:
 		# The initial hidden panel can be clamped before the desktop has its
 		# final Retina size. Size it once when first opened; keep later user edits.
 		var area: Vector2 = graph_stack.size
-		window.size = Vector2(clampf(area.x * 0.21, 320.0, 360.0), minf(area.y - 20.0, 440.0))
+		window.size = Vector2(clampf(area.x * 0.25, 360.0, 420.0), minf(area.y - 20.0, 650.0))
 		window.position = Vector2(area.x - window.size.x - 16.0, 16.0)
 		component_palette_needs_initial_layout = false
 	window.show_instrument()
@@ -2594,6 +2604,7 @@ func _show_tutorial(show_briefing: bool = true) -> void:
 	_stop_playback()
 	current_phase = &"tutorial"
 	current_level_id = &"tutorial"
+	terminology_handbook.set_lesson("hardware",String(current_level_id))
 	PlaytestData.level_started(&"hardware_foundations", current_level_id)
 	current_level_definition.clear()
 	phase_label.text = _t(&"hardware.phase.tutorial")
@@ -2628,6 +2639,7 @@ func _start_challenge(show_briefing: bool = true) -> void:
 	_stop_playback()
 	current_phase = &"half_adder"
 	current_level_id = &"half_adder"
+	terminology_handbook.set_lesson("hardware",String(current_level_id))
 	PlaytestData.level_started(&"hardware_foundations", current_level_id)
 	current_level_definition.clear()
 	phase_label.text = _t(&"hardware.phase.half_adder")
@@ -2931,6 +2943,11 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 	var palette_catalog = preload("res://src/hardware_foundations/component_palette_catalog.gd")
 	var keys: Array = templates.keys()
 	keys.sort()
+	if current_level_id == &"tutorial":
+		keys.sort_custom(func(a: String,b: String) -> bool:
+			var a_not: bool = templates[a].kind == &"not"
+			var b_not: bool = templates[b].kind == &"not"
+			return a_not if a_not != b_not else a < b)
 	for group_id: StringName in palette_catalog.GROUPS:
 		var group := VBoxContainer.new()
 		group.name = "Palette_%s" % group_id
@@ -2951,6 +2968,7 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 			item.call("configure", key, template.kind, _component_menu_label(template), _widest_component_port(template),
 				purpose if allowed else _t(&"hardware.palette.not_allowed"),
 				_t(&"hardware.palette.ports", [template.input_count(), template.output_count(), _widest_component_port(template)]))
+			item.call("set_port_widths", template.input_port_widths + template.output_port_widths)
 			item.set("placement_enabled", allowed)
 			item.modulate.a = 1.0 if allowed else 0.55
 			item.tooltip_text = _component_tooltip(template)
@@ -4298,6 +4316,11 @@ func _focus_circuit(all_components: bool = false) -> void:
 			if graph.size.x - left > 400.0:
 				view.position.x = maxf(view.position.x, left)
 				view.size.x = graph.size.x - view.position.x - 42.0
+	for window: Control in desktop_windows.values():
+		if window.visible and window.position.x > graph.size.x * 0.55:
+			var right: float = window.position.x - 24.0
+			if right - view.position.x > 240.0:
+				view.size.x = minf(view.size.x,right-view.position.x)
 	graph.zoom = clampf(minf(view.size.x / maxf(bounds.size.x, 1.0), view.size.y / maxf(bounds.size.y, 1.0)),
 		graph.zoom_min, minf(graph.zoom_max, 1.5 if selected else 1.0))
 	graph.scroll_offset = bounds.get_center() * graph.zoom - view.get_center()
@@ -5697,6 +5720,10 @@ func _restore_graph_view_after_layout() -> void:
 			extent = extent.max(node.position_offset + node.size)
 		var available: Vector2 = (graph.size - Vector2(70.0, 70.0)).max(Vector2.ONE)
 		graph.zoom = minf(graph.zoom, clampf(minf(available.x / extent.x, available.y / extent.y), graph.zoom_min, graph.zoom_max))
+	# Hint return skips the briefing, but still restores the open tool windows.
+	# Fit after their containers settle so output sockets cannot sit underneath them.
+	if not hint_mode and not mission_briefing_active and current_phase in [&"tutorial", &"half_adder", &"prologue"]:
+		call_deferred("_focus_after_briefing")
 
 
 func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
@@ -6558,6 +6585,7 @@ func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> 
 	_stop_playback()
 	current_phase = &"prologue"
 	current_level_id = level_id
+	terminology_handbook.set_lesson("hardware",String(current_level_id))
 	PlaytestData.level_started(&"hardware_foundations", current_level_id)
 	current_level_definition = level
 	prologue_level_completed_view = false

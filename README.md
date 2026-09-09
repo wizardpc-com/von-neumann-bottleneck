@@ -18,7 +18,7 @@ The models are deliberately bounded teaching models. They make costs and causal 
 
 Open **Hardware Foundations** from the default chapter hub. The original route is Tutorial → arithmetic/storage branches → CPU → LOAD/STORE → Chapter 1 → Chapter 2. Named designs, free editing, floating Mission and independent progressive hints are available in ordinary Game. The eight-task runtime was removed on 2026-09-09; historical code remains in Git.
 
-The [visual and learning status](docs/status/visual-learning-polish.md) records the current package, compact signal symbols, aligned component previews, shared instrument styling and progressively unlocked illustrated Handbook. The [construction experience](docs/status/construction-experience.md) and [recovery record](docs/status/in-place-recovery.md) preserve the earlier editing, Mission and progression work. Native desktop and novice acceptance remain open.
+The [guided workbench update](docs/verification/2026-09-09-guided-workbench/README.md) records open component tools, clearer cable separation and the 96-term illustrated Handbook with focused lesson recommendations. The [visual and learning status](docs/status/visual-learning-polish.md), [construction experience](docs/status/construction-experience.md) and [recovery record](docs/status/in-place-recovery.md) preserve earlier work and package evidence. Native checks are scoped in their records; novice and release acceptance remain open.
 
 ## Screenshots
 

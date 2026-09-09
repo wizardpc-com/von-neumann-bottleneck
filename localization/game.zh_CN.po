@@ -880,7 +880,7 @@ msgid "hardware.briefing.tutorial.gates"
 msgstr "本关使用 [[not_gate|NOT 门]]：输入 0，输出 1；输入 1，输出 0。\n\n点击元件可查看它的端口和作用。带下划线的蓝色术语能打开手册；后面的概念会随挑战逐步开放。"
 
 msgid "hardware.briefing.tutorial.2"
-msgstr "拖动主体移动元件；从输出端口拖到兼容输入接线。输出把信号送出去，输入把信号接进来。位宽必须相同，例如 4-bit 不能接到 1-bit。\n\n从已有线段拉出分支，接点会出现圆点；单纯交叉不相连。右键擦除，Ctrl+Z 撤销；Delete 保留固定测试端子，右键擦掉端子后也能撤销恢复。\n\n滚轮缩放，中键拖动画布。Home 聚焦选中元件，Shift+Home 看全部。更多操作可随时查手册。"
+msgstr "元件台已经打开：把卡片拖到画布放置，也可点击卡片后连续放置；Esc 或右键结束放置。\n\n从输出端口拖到同位宽的输入端口，就能[[wire|接线]]。输出送出信号，输入接收信号。拖动元件主体可以调整位置。"
 
 msgid "hardware.briefing.tutorial.3"
 msgstr "在[[test_bench|测试台]]切换 A，点击“运行练习电路”。检查 0 和 1 两种情况。运行后删掉一条线，再接回去；任务窗会记录完成情况。\n\n开始后，任务窗收起为短目标。点窗口的展开按钮可重新查看所有页面；底部“任务”入口始终可以找回它。想主动获取解题思路，请点“提示”。"
@@ -5627,3 +5627,159 @@ msgstr "未达标"
 
 msgid "overlap.case_result"
 msgstr "%s · %s · %s / %s 周期"
+
+msgid "terminology.recommended"
+msgstr "本关先看"
+
+msgid "terminology.category.overlap"
+msgstr "并行搬运与等待"
+
+msgid "terminology.diagram.step"
+msgstr "示意 %s / %s · 点箭头切换，方案不变"
+
+msgid "terminology.diagram.width_value"
+msgstr "当前值 %s · 可表示 0～%s"
+
+msgid "terminology.diagram.gate_try"
+msgstr "切换输入，观察输出；线亮表示 1。"
+
+msgid "overlap.learn"
+msgstr "先看本关图解"
+
+msgid "teaching.request"
+msgstr "发出请求"
+
+msgid "teaching.moving"
+msgstr "搬运进行中"
+
+msgid "teaching.arrived"
+msgstr "数据到达"
+
+msgid "teaching.arrival.0"
+msgstr "请求已发出，数据还不能使用。"
+
+msgid "teaching.arrival.1"
+msgstr "搬运尚未结束，可以做独立工作。"
+
+msgid "teaching.arrival.2"
+msgstr "到达后，才可以开始使用数据。"
+
+msgid "teaching.model_note"
+msgstr "耗时来自搬运器；图上距离仅示意进度。"
+
+msgid "teaching.buffer.0"
+msgstr "空闲：free 为 1，允许接收下一批。"
+
+msgid "teaching.buffer.1"
+msgstr "搬运中：不能覆盖，也不能提前使用。"
+
+msgid "teaching.buffer.2"
+msgstr "就绪：ready 为 1，数据已经到达。"
+
+msgid "teaching.buffer.3"
+msgstr "使用中：计算结束后才恢复空闲。"
+
+msgid "teaching.distance.0"
+msgstr "只有一行，开始时为空。"
+
+msgid "teaching.distance.1"
+msgstr "提前取来 A，等之后读取。"
+
+msgid "teaching.distance.2"
+msgstr "又取来 B，尚未使用的 A 被逐出。"
+
+msgid "teaching.distance.3"
+msgstr "现在要读 A，只好再次搬运。"
+
+msgid "teaching.cache_auto"
+msgstr "Cache 由硬件自动替换；不能指定槽位。"
+
+msgid "teaching.active"
+msgstr "正在搬运"
+
+msgid "teaching.queued"
+msgstr "排队等待"
+
+msgid "teaching.queue.0"
+msgstr "队列容量 2，包含正在搬运的请求。"
+
+msgid "teaching.queue.1"
+msgstr "第一项已开始，搬运器一次只搬一项。"
+
+msgid "teaching.queue.2"
+msgstr "再来一项需等待队列空位，不会并行搬运。"
+
+msgid "terminology.term.bit_width.title"
+msgstr "位宽：一份信号有几位？"
+
+msgid "terminology.term.bit_width.body"
+msgstr "1 位只有 0 和 1，用细线和圆端口表示。多位信号把多个二进制位装在一根总线上，用双轨线和方端口表示。\n\n位宽决定可表示的范围，不是当前数值。4 位可以表示 0～15；即使当前值是 1，它仍是 4 位。只有相同位宽的端口能直接相连。"
+
+msgid "terminology.term.async_transfer.title"
+msgstr "请求与到达"
+
+msgid "terminology.term.async_transfer.body"
+msgstr "fetch 或 prefetch 只发起搬运，指令返回不表示数据已到达。等到完成事件后才能使用它。\n\n搬运器与计算器可以各做一件事。可以把独立计算安排在等待期间；线路本身不增加周期。"
+
+msgid "terminology.term.double_buffer.title"
+msgstr "双缓冲与状态"
+
+msgid "terminology.term.double_buffer.body"
+msgstr "一只缓冲保存正在使用的数据，另一只可以接收下一批。两只缓冲轮流工作，减少计算器等数据的时间。\n\n每只缓冲依次经过空闲、搬运中、就绪、使用中；ready 表示可以读，free 表示可以重新写。free 要等计算结束才变为 1。"
+
+msgid "terminology.term.backpressure.title"
+msgstr "反压：忙时先等等"
+
+msgid "terminology.term.backpressure.body"
+msgstr "下游没用完的数据不能被下一批覆盖。free 为 0 时先暂停写入，等缓冲空闲再继续，这就是反压。\n\nready A 等 A 的数据；free A 等 A 空闲；idle 等计算器结束当前工作。它们等实际状态，比固定等几个周期更能适应变速任务。"
+
+msgid "terminology.term.prefetch.title"
+msgstr "预取：需要之前先请求"
+
+msgid "terminology.term.prefetch.body"
+msgstr "prefetch 提前请求之后会用到的数据，当前计算仍可继续。read 需要数据时，如果它还没到达，仍然必须等待。\n\n预取和普通读取共用搬运器；Cache 自动填充与替换。命中数不是唯一目标，要看总耗时是否减少。"
+
+msgid "terminology.term.prefetch_distance.title"
+msgstr "预取距离与逐出"
+
+msgid "terminology.term.prefetch_distance.body"
+msgstr "太晚请求会让计算等数据；太早请求又可能让有限的 Cache 提前换掉仍需要的数据。\n\n图中只用 A、B 两份数据说明一次浪费：A 还未使用便被 B 替换，之后需要再搬一次 A。观察时间线中的逐出和重复搬运，再调整提前量。"
+
+msgid "terminology.term.request_queue.title"
+msgstr "请求队列"
+
+msgid "terminology.term.request_queue.body"
+msgstr "搬运器一次只处理一个请求。第二个请求可以排队；本章容量为 2，正在搬运的请求也占一个位置。\n\n队列满了，发新请求的程序需要等待空位。增加请求数量不等于增加带宽，也不等于搬运会同时发生。"
+
+msgid "teaching.edit_title"
+msgstr "改错：删除与撤销"
+
+msgid "teaching.edit"
+msgstr "接错也没关系。右键擦掉一段线，再从输出接回输入。选中元件后按 Delete 可删除，固定的测试端子会保留。\n\nCtrl+Z 撤销刚才的编辑；Ctrl+Shift+Z 重做。可以先试着删一条线，再撤销恢复。"
+
+msgid "teaching.view_title"
+msgstr "看清：缩放与移动视野"
+
+msgid "teaching.view"
+msgstr "滚轮缩放，中键按住拖动整个视野。\n\nHome 聚焦选中元件；Shift+Home 看全部。它们只移动镜头，不改变线路、结果或存档里的方案。"
+
+msgid "teaching.branch_title"
+msgstr "一份信号，送到两处"
+
+msgid "teaching.branch"
+msgstr "从已有[[wire|线段]]中间拖到另一个兼容输入，就能分出支线；接点有圆点。\n\n两条线只是交叉时不会相连。位宽必须匹配；不确定时可点术语打开图解。"
+
+msgid "teaching.double_buffer.0"
+msgstr "A 已就绪；B 空闲，可以接收下一批。"
+
+msgid "teaching.double_buffer.1"
+msgstr "计算 A 的同时搬运 B；两台设备同时工作。"
+
+msgid "teaching.double_buffer.2"
+msgstr "A 用完变空闲；B 到达后变就绪。"
+
+msgid "teaching.double_buffer.3"
+msgstr "交换分工：计算 B，同时重新填充 A。"
+
+msgid "overlap.command_card"
+msgstr "指令小卡 %s / %s"

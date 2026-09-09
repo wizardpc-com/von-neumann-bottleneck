@@ -2,6 +2,9 @@
 
 Repository-local documentation is the source of truth for future human and Codex work.
 
+- [Guided workbench and diagrams](verification/2026-09-09-guided-workbench/README.md): open tools, cable separation, focused Handbook, and this iteration's native/check evidence.
+- [First-use guidance](design/first-use-guidance.md): the 29-node teaching inventory and pacing boundaries.
+
 - [Mac native polish](status/mac-native-polish.md): current Mac UI changes, ordinary Game play evidence and approved restart recovery and its native verification.
 - [Stable save recovery](verification/2026-09-08-save-recovery/README.md): byte-exact backups, provenance revalidation and repeat native startup.
 - [Mac development handoff](development/mac-handoff.md): current baseline, Mac setup, isolated checks, Windows verification and next native-playtest tasks.

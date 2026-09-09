@@ -1,5 +1,7 @@
 # Mac 开发接手说明
 
+2026-09-09 最新界面迭代：入关打开对应元件工具窗；教程分开介绍放置、改错与视野；手册扩充到 96 条，按当前关卡推荐最多三项，新增可逐步操作的图解。见[首次使用教学清单](../design/first-use-guidance.md)和[本轮验证](../verification/2026-09-09-guided-workbench/README.md)。下文 89 条手册及候选包描述是历史基线。
+
 当前 Mac 后续进展见 [原生试玩与界面优化](../status/mac-native-polish.md)。已实际完成 Tutorial、Half Adder、CPU 与桥接实验；新的界面修正见该记录；重启存档问题已按批准方案修复，见[恢复验证](../verification/2026-09-08-save-recovery/README.md)。下面的 Windows 候选包信息保留为历史交付基线。
 
 ## 当前基线与工作分工

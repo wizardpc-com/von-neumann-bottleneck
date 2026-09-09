@@ -1,0 +1,28 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+2026-09-09 23:29:56.297 Godot[91584:3608253] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+WIRE INPUT FAILURE: RESULT_MUX -> ACC status=拓扑已改变 — 请重新运行全部正式用例。 source=(1238.72, 486.08) target=(849.36, 362.08)
+ERROR: UI wire RESULT_MUX:0 → ACC:0
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] wire (res://tests/test_recovery_game_input.gd:182)
+       [2] capture (res://tests/test_recovery_game_input.gd:138)
+ERROR: The interface checklist accepts connected inputs without requiring the author's exact sources.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] build_cpu (res://tests/test_recovery_game_input.gd:652)
+       [2] connect_actions (res://tests/test_recovery_game_input.gd:590)
+       [3] wire (res://tests/test_recovery_game_input.gd:182)
+       [4] drag (res://tests/test_recovery_game_input.gd:68)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: cpu passes its complete unchanged behavior tests using only UI-built topology.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] official_and_seal (res://tests/test_recovery_game_input.gd:555)
+       [2] wait_playback (res://tests/test_recovery_game_input.gd:103)
+FAILED TEST TOPOLOGY: [{ "from_node": &"ADDR_IN", "from_port": 0, "to_node": &"RAM", "to_port": 0, "keep_alive": false }, { "from_node": &"ACC", "from_port": 0, "to_node": &"RAM", "to_port": 1, "keep_alive": false }, { "from_node": &"CONTROL", "from_port": 3, "to_node": &"RAM", "to_port": 2, "keep_alive": false }, { "from_node": &"RAM", "from_port": 0, "to_node": &"MEM_OUT", "to_port": 0, "keep_alive": false }, { "from_node": &"OP_IN", "from_port": 0, "to_node": &"CONTROL", "to_port": 0, "keep_alive": false }, { "from_node": &"ARG_IN", "from_port": 0, "to_node": &"SOURCE_MUX", "to_port": 0, "keep_alive": false }, { "from_node": &"RAM", "from_port": 0, "to_node": &"SOURCE_MUX", "to_port": 1, "keep_alive": false }, { "from_node": &"CONTROL", "from_port": 0, "to_node": &"SOURCE_MUX", "to_port": 2, "keep_alive": false }, { "from_node": &"SOURCE_MUX", "from_port": 0, "to_node": &"ALU", "to_port": 1, "keep_alive": false }, { "from_node": &"CIN_0", "from_port": 0, "to_node": &"ALU", "to_port": 2, "keep_alive": false }, { "from_node": &"ADD_OP0", "from_port": 0, "to_node": &"ALU", "to_port": 3, "keep_alive": false }, { "from_node": &"ADD_OP1", "from_port": 0, "to_node": &"ALU", "to_port": 4, "keep_alive": false }, { "from_node": &"SOURCE_MUX", "from_port": 0, "to_node": &"RESULT_MUX", "to_port": 0, "keep_alive": false }, { "from_node": &"ALU", "from_port": 0, "to_node": &"RESULT_MUX", "to_port": 1, "keep_alive": false }, { "from_node": &"CONTROL", "from_port": 1, "to_node": &"RESULT_MUX", "to_port": 2, "keep_alive": false }, { "from_node": &"CONTROL", "from_port": 2, "to_node": &"ACC", "to_port": 1, "keep_alive": false }, { "from_node": &"ACC", "from_port": 0, "to_node": &"ACC_OUT", "to_port": 0, "keep_alive": false }, { "from_node": &"ACC", "from_port": 0, "to_node": &"ALU", "to_port": 0, "keep_alive": false }]
+Recovery GUI checks: 571; failures: 3

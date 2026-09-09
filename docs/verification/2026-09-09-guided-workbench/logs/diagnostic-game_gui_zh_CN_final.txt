@@ -1,0 +1,19 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+2026-09-09 23:32:32.431 Godot[91707:3610678] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+ERROR: Empty-canvas marquee selects multiple component bodies.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] editing_roundtrip (res://tests/test_recovery_game_input.gd:333)
+       [2] drag (res://tests/test_recovery_game_input.gd:68)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Dragging a selected body moves the whole selection.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] editing_roundtrip (res://tests/test_recovery_game_input.gd:335)
+       [2] drag (res://tests/test_recovery_game_input.gd:68)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+Recovery GUI checks: 602; failures: 2

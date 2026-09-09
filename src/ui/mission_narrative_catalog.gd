@@ -14,12 +14,15 @@ const HARDWARE_PAGES := {
 		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.tutorial.1"},
 		{&"title": &"hardware.briefing.stage.understand", &"body": &"hardware.briefing.tutorial.gates"},
 		{&"title": &"hardware.briefing.stage.operations", &"body": &"hardware.briefing.tutorial.2"},
+		{&"title": &"teaching.edit_title", &"body": &"teaching.edit"},
+		{&"title": &"teaching.view_title", &"body": &"teaching.view"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.tutorial.3"},
 	],
 	&"half_adder": [
 		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.half_adder.1"},
 		{&"title": &"hardware.briefing.stage.truth_table", &"body": &"hardware.briefing.half_adder.2"},
 		{&"title": &"hardware.briefing.stage.modules", &"body": &"hardware.briefing.half_adder.3"},
+		{&"title": &"teaching.branch_title", &"body": &"teaching.branch"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.half_adder.4"},
 	],
 	&"full_adder": [

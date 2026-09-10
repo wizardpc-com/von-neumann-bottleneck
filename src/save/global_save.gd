@@ -195,7 +195,8 @@ func save_game(force: bool = false) -> bool:
 
 func _has_saved_overlap_drafts() -> bool:
 	var overlap := _autoload(&"OverlapChapter")
-	return overlap != null and not overlap.game_drafts.is_empty()
+	var layout := _autoload(&"LayoutChapter")
+	return (overlap != null and not overlap.game_drafts.is_empty()) or (layout != null and (not layout.game_drafts.is_empty() or not layout.game_named.is_empty()))
 
 
 func has_resume_progress() -> bool:
@@ -224,6 +225,8 @@ func continue_scene_path() -> String:
 
 func start_new_game(clear_game_workbenches: bool) -> Dictionary:
 	var overlap := _autoload(&"OverlapChapter")
+	var layout := _autoload(&"LayoutChapter")
+	var retained_layout: Dictionary = layout.game_snapshot() if layout != null and not clear_game_workbenches else {}
 	var retained_drafts: Dictionary = overlap.game_drafts.duplicate(true) if overlap != null and not clear_game_workbenches else {}
 	_suspend_saves = true
 	var removal_errors: Array[String] = []
@@ -250,8 +253,11 @@ func start_new_game(clear_game_workbenches: bool) -> Dictionary:
 	loaded_save = false
 	_loaded_from_backup = false
 	if overlap != null: overlap.game_drafts = retained_drafts
+	if layout != null and not retained_layout.is_empty():
+		layout.game_drafts = retained_layout.drafts
+		layout.game_named = retained_layout.named
 	_suspend_saves = false
-	if not retained_drafts.is_empty() and not save_game(true):
+	if (not retained_drafts.is_empty() or _has_saved_overlap_drafts()) and not save_game(true):
 		return {"ok": false, "workbenches_cleared": workbenches_cleared, "error": last_error}
 	return {
 		"ok": workbench_error.is_empty(),
@@ -271,6 +277,7 @@ func _save_snapshot() -> Dictionary:
 			"hardware": game_player_content.manifest_snapshot(),
 			"system": system_chapter.game_snapshot() if system_chapter != null else {},
 			"locality": locality_chapter.game_snapshot() if locality_chapter != null else {},
+			"layout": _autoload(&"LayoutChapter").game_snapshot() if _autoload(&"LayoutChapter") != null else {},
 			"overlap": _autoload(&"OverlapChapter").game_snapshot() if _autoload(&"OverlapChapter") != null else {},
 		},
 	}
@@ -303,6 +310,12 @@ func _apply_save(snapshot: Dictionary) -> void:
 	if overlap != null:
 		var value: Variant = game.get("overlap", {})
 		overlap.restore_game(value if value is Dictionary else {},
+			locality_chapter != null and bool(locality_chapter.game_completed.get(&"capstone", false)))
+
+	var layout := _autoload(&"LayoutChapter")
+	if layout != null:
+		var value: Variant = game.get("layout", {})
+		layout.restore_game(value if value is Dictionary else {},
 			locality_chapter != null and bool(locality_chapter.game_completed.get(&"capstone", false)))
 
 
@@ -519,6 +532,8 @@ func _reset_game_domains() -> void:
 		locality_chapter.restore_game({}, false)
 	var overlap := _autoload(&"OverlapChapter")
 	if overlap != null: overlap.restore_game({}, false)
+	var layout := _autoload(&"LayoutChapter")
+	if layout != null: layout.restore_game({}, false)
 
 
 func _set_game_player_content(next_state) -> void:
@@ -547,6 +562,10 @@ func _bind_persistent_sources() -> void:
 	var overlap := _autoload(&"OverlapChapter")
 	if overlap != null and not overlap.persistent_state_changed.is_connected(callback):
 		overlap.persistent_state_changed.connect(callback)
+
+	var layout := _autoload(&"LayoutChapter")
+	if layout != null and not layout.persistent_state_changed.is_connected(callback):
+		layout.persistent_state_changed.connect(callback)
 
 
 func _on_persistent_state_changed() -> void:

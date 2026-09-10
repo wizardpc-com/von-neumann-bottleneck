@@ -2,7 +2,7 @@ extends Node
 ## Transient navigation only. Completion remains owned by the existing chapter states.
 const SCENES := {"hardware_foundations": "res://src/hardware_foundations/hardware_foundations.tscn",
 	"chapter_1": "res://src/system_lab/system_lab.tscn", "chapter_2": "res://src/ui/main.tscn",
-	"chapter_3": "res://src/overlap_chapter/overlap_chapter.tscn"}
+	"chapter_3": "res://src/overlap_chapter/overlap_chapter.tscn", "chapter_4":"res://src/layout_chapter/layout_chapter.tscn"}
 const MAP_SCENE := "res://src/campaign/task_tree.tscn"
 var pending: String = ""
 var selected: String = "hardware_foundations/tutorial"
@@ -38,6 +38,10 @@ func tasks() -> Array[Dictionary]:
 			Localization.text(StringName("overlap."+id+".goal")),overlap.DEPS[id],
 			overlap.unlocked(id,OverlapChapter.completed(),OverlapChapter.chapter_unlocked()),
 			OverlapChapter.completed().has(id),false))
+	var layout = preload("res://src/layout_chapter/layout_catalog.gd")
+	for id: String in layout.IDS:
+		result.append(_task("chapter_4",id,4,layout.title(id),layout.goal(id),layout.DEPS[id],
+			layout.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked()),LayoutChapter.completed().has(id),false))
 	for task: Dictionary in result:
 		if task.body.is_empty() and task.id in ["tutorial","half_adder"]:
 			task.body = Localization.text(StringName("hardware.prologue.map.%s_description"%task.id))
@@ -45,6 +49,7 @@ func tasks() -> Array[Dictionary]:
 			"chapter_1/assembly": task.dependencies.append("hardware_foundations/load_store")
 			"chapter_2/distant_reads": task.dependencies.append("chapter_1/bottleneck")
 			"chapter_3/arrival": task.dependencies.append("chapter_2/capstone")
+			"chapter_4/fields": task.dependencies.append("chapter_2/capstone")
 	return result
 
 func _task(domain: String,id: String,region: int,title: String,body: String,deps: Array,available: bool,done: bool,optional: bool) -> Dictionary:

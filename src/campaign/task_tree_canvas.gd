@@ -1,8 +1,8 @@
 extends Control
 signal task_selected(key: String)
 const NODE_SIZE := Vector2(208,82)
-const WORLD_SIZE := Vector2(2310,1770)
-const COLORS := [Color("67e8a5"),Color("ffbf69"),Color("50d5ff"),Color("bc8cff")]
+const WORLD_SIZE := Vector2(2310,2170)
+const COLORS := [Color("67e8a5"),Color("ffbf69"),Color("50d5ff"),Color("bc8cff"),Color("f4a6cb")]
 const POSITIONS := {
 	"tutorial":Vector2(0,1),"half_adder":Vector2(1,0),"full_adder":Vector2(2,0),"alu":Vector2(3,0),
 	"latch":Vector2(1,2),"register":Vector2(2,2),"ram":Vector2(3,2),"cpu":Vector2(5,1),"load_store":Vector2(6,1),
@@ -12,7 +12,7 @@ const POSITIONS := {
 	"distant_reads":Vector2(0,0),"nearby_storage":Vector2(1,0),"cache_failure":Vector2(2,0),"access_order":Vector2(3,0),
 	"working_set":Vector2(4,0),"blocking":Vector2(5,0),"capstone":Vector2(6,0),
 	"arrival":Vector2(0,1),"buffers":Vector2(1,0),"backpressure":Vector2(2,0),"prefetch":Vector2(1,2),
-	"distance":Vector2(2,2),"synthesis":Vector2(3,1)}
+	"distance":Vector2(2,2),"synthesis":Vector2(3,1),"fields":Vector2(0,1),"records":Vector2(1,0),"hot_cold":Vector2(2,0),"relocation":Vector2(1,2),"batches":Vector2(2,2),"mixed":Vector2(3,1)}
 var rows: Array[Dictionary] = []
 var positions: Dictionary = {}
 var pan := Vector2.ZERO
@@ -37,7 +37,7 @@ func configure(tasks: Array[Dictionary]) -> void:
 	for task: Dictionary in rows:
 		var p: Vector2 = POSITIONS.get(task.id,Vector2.ZERO)
 		var region: int = task.region
-		var y: float = [220.0,790.0,1150.0,1400.0][region]
+		var y: float = [220.0,790.0,1150.0,1400.0,1800.0][region]
 		positions[task.key] = Vector2(80+p.x*300,y+p.y*112)
 	queue_redraw()
 
@@ -46,8 +46,8 @@ func _draw() -> void:
 	if rows.is_empty(): return
 	draw_set_transform(pan,0,Vector2.ONE*magnification)
 	var font: Font = get_theme_default_font()
-	for region: int in range(4):
-		var y: float = [55.0,730.0,1090.0,1330.0][region]
+	for region: int in range(5):
+		var y: float = [55.0,730.0,1090.0,1330.0,1730.0][region]
 		draw_string(font,Vector2(80,y),Localization.text(StringName("tree.region."+str(region))),HORIZONTAL_ALIGNMENT_LEFT,-1,32,COLORS[region])
 	for task: Dictionary in rows:
 		for dep: String in task.dependencies:

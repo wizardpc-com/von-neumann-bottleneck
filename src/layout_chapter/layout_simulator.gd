@@ -23,6 +23,7 @@ var output_slots: Array[Dictionary] = []
 
 func run(task: Dictionary, design: Dictionary) -> LayoutRun:
 	trace = Run.new()
+	trace.cache_capacity_lines = CACHE_LINES
 	trace.model_version = MODEL_VERSION
 	trace.case_signature = JSON.stringify(task).sha256_text()
 	trace.test_name = str(task.get("name","case"))
@@ -68,8 +69,7 @@ func run(task: Dictionary, design: Dictionary) -> LayoutRun:
 	return _finish()
 
 static func design_signature(design: Dictionary) -> String:
-	return JSON.stringify({"model":MODEL_VERSION,"recipe":Recipe.normalized(design.get("recipe",{})),
-		"strategy":str(design.get("strategy","direct")),"copy_fields":design.get("copy_fields",[]),"batch":int(design.get("batch",0))}).sha256_text()
+	return JSON.stringify({"model":MODEL_VERSION,"design":normalized_design(design)}).sha256_text()
 
 static func normalized_design(design: Dictionary) -> Dictionary:
 	var copy: Array[int] = []
@@ -82,6 +82,12 @@ static func validate_design(design: Dictionary, native_layout: bool) -> String:
 	if not problem.is_empty(): return problem
 	var strategy: String = str(design.get("strategy","direct"))
 	if strategy not in ["direct","full","batch"] or (native_layout and strategy != "direct"): return "strategy"
+	if not Recipe._integer(design.get("batch",4)) or int(design.get("batch",4))<1 or int(design.get("batch",4))>64: return "batch"
+	if not design.get("copy_fields",[0]) is Array or design.get("copy_fields",[0]).size()>4: return "copy_fields"
+	var all_fields: Array[int] = []
+	for field: Variant in design.get("copy_fields",[0]):
+		if not Recipe._integer(field) or int(field)<0 or int(field)>=4 or all_fields.has(int(field)): return "copy_fields"
+		all_fields.append(int(field))
 	if strategy != "direct":
 		if not design.get("copy_fields") is Array or design.copy_fields.is_empty(): return "copy_fields"
 		var used: Array[int] = []

@@ -31,3 +31,16 @@ Measured tradeoffs: native hot/cold mixed grouping 623 cycles vs record-major 10
 ## Remaining, not claimed
 
 Native 4-3–4-6 and broader old-level input checks; complete M3/M4/M5, remote local integration, candidate exports and platform checks. Windows runtime and real new-player comprehension/fun are unverified. The task tree currently has the fifth region but semantic zoom/polish is still pending. New chapter trace text and first-use pacing need further native polish.
+
+## M2 native full chapter pass
+
+Continued from the same earned Game profile. All six tasks now completed through CUA operations, without Hint 3 or imported reference schemes.
+
+- 4-3: manually separated temperature, dragged alarm into its group, retained ID/battery together. Group/field order differs from the reference. Both cases **623 cycles / 416 B**; source baseline 1007 cycles.
+- 4-4: ran direct baseline (A 307 passes; B 2456 fails), switched only order B to real temperature copying. Both orders pass: A remains **307**, B **442 prepare + 912 query + 8 output = 1362**; **68 B written**, 80 B peak.
+- 4-5: selected full copy and observed both cases fail before work: **80 B required against 48 B**, 0 B actually allocated/written. Selected batch mode (4 records) and ran both cases: **802 cycles, 352 B read + 68 B written, 16 B peak**. Event trace starts with actual allocation; exact tail mapping is also checked in the model suite.
+- 4-6: copied the player's earlier hot/cold grouping, chose full copy of temperature + alarm. Both cases pass at **2404 / 1515 cycles**, 144 B peak; saved **Full hot**. Switched the same design to batch 4, both pass at **1364 / 1131**, 32 B peak; saved **Batch hot**. Initial/own-best comparison is visible. Neither scheme overwrites the other.
+- Hint 1 opens a separate full-screen read-only surface. Requesting Hint 2 requires confirmation; cancelling leaves Hint 1. No answer was applied to the player's design. Hint visual layout and full H2/H3/native focus follow-up are still in the polish queue.
+- Final task tree visibly marks **all six new tasks completed**, keeps original Chapter 3 as an independent available branch, and requires both layout branches at the final merge.
+
+Player-facing issues queued from this pass: preparation choice too far down the tools scroll; starting action below the long mission body; scratch preview below the entire source; large traces make tail batches hard to inspect; error/dialog text partly raw English; Hint whitespace/layout. Start action and space/dialog text addressed immediately; the remaining items continue in M3.

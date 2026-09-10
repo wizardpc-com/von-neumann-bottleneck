@@ -66,7 +66,11 @@ func _ready() -> void:
 	workspace.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	root.add_child(workspace)
 	confirmation = ConfirmationDialog.new()
+	confirmation.title=_l("查看下一层提示","Reveal next hint")
+	confirmation.ok_button_text=_l("确认查看","Reveal")
+	confirmation.cancel_button_text=_l("暂不查看","Not yet")
 	confirmation.confirmed.connect(_hint_advance)
+	confirmation.canceled.connect(func() -> void: PlaytestData.record_hint_action(&"chapter_4",StringName(level),mini(3,hint_tier+1),&"cancel"))
 	add_child(confirmation)
 	completion = preload("res://src/ui/level_completion_overlay.gd").new()
 	completion.questionnaire_enabled = PlaytestData.questionnaires_enabled()
@@ -129,6 +133,7 @@ func _rebuild_tools() -> void:
 			if current.recipe.groups.size()<4: choices.append(_l("新组","New group"))
 			_option(row,choices,g,func(i: int) -> void: _move_group(field,i))
 	var block_row := HBoxContainer.new(); tools_box.add_child(block_row)
+	block_row.visible = C.IDS.find(level)>=2
 	block_row.add_child(_label(_l("每块记录数","Records / block")))
 	var blocks: Array = [0,1,2,4,8,16]
 	_option(block_row,[_l("全部","All"),"1","2","4","8","16"],maxi(0,blocks.find(int(current.recipe.block))),func(i: int) -> void: _remember(); _current().recipe.block=blocks[i]; _changed())
@@ -226,7 +231,12 @@ func _refresh_memory() -> void:
 
 func _build_mission() -> void:
 	var box: VBoxContainer = _box(_panel("mission",_l("任务与公开订单","Mission and public workloads"),Vector2(790,40),Vector2(650,550)))
+	_button(box,_l("开始安排 · 收起任务","Start arranging · close mission"),func() -> void: panels.mission.hide())
 	box.add_child(_label(C.goal(level),true))
+	if level == "mixed": box.add_child(_label(_l("可选目标（不挡通关）：两单总流量 ≤ 1300 B；或临时峰值 ≤ 16 B。可以用不同命名方案分别追求。","Optional goals: total traffic across both cases ≤ 1300 B; or peak scratch ≤ 16 B. Different named designs can pursue each goal."),true))
+	if level == "hot_cold": box.add_child(_label(_l("新工具：每块记录数。分组决定哪些字段在一起；分块决定一次把多少条记录排在一起。可以先分组，再尝试 2 或 4 条一块。","New tool: records per block. Groups choose neighboring fields; blocks choose how many records to arrange at once. Group first, then try blocks of 2 or 4."),true))
+	if level == "relocation": box.add_child(_label(_l("新工具：复制整理。源数据的排法固定；工具里的布局现在决定临时副本。订单 A 与 B 各有一份独立方案，用左侧订单选择切换。所有准备时间和写入都计入目标。","New tool: copying. The source is fixed; your layout now describes scratch data. Orders A and B keep separate designs, selected on the left. Preparation and writes count toward the target."),true))
+	if level in ["batches","mixed"]: box.add_child(_label(_l("分批顺序：复制一批 → 在这一批上做完所有查询与重复 → 释放 → 下一批。所有逻辑记录和输出顺序都保留；尾批只处理剩余记录。","Batch order: copy → finish all queries and repetitions on this batch → release → next. Preserve all records and output order; process only remaining records in the tail."),true))
 	box.add_child(_label(_l("四种颜色对应四个字段；每格是 4 B。黑色行框是一趟 16 B 搬运。先看查询需要什么，再决定哪些格子应该相邻。","Four colors identify four fields; each cell is 4 B. A framed row is a 16 B transfer. Read the query before choosing neighbors."),true))
 	for task: Dictionary in C.cases(level):
 		var text: String = _l("订单 ","Case ")+task.name+" · %d " % task.records.size()+_l("条记录","records")
@@ -264,13 +274,16 @@ func _run_all() -> void:
 	for i: int in range(runs.size()):
 		var run: LayoutRun = runs[i]
 		var m: Dictionary = run.metrics
-		var caption: String = _l("订单 ","Case ")+run.test_name+" · "+(_l("达标","Target met") if m.target_met else _l("输出正确，尚未达标","Correct output, target unmet") if run.passed else _l("运行未完成：","Incomplete: ")+str(m.error))
+		var caption: String = _l("订单 ","Case ")+run.test_name+" · "+(_l("达标","Target met") if m.target_met else _l("输出正确，尚未达标","Correct output, target unmet") if run.passed else _l("运行未完成：","Incomplete: ")+(_l("临时空间不足","Insufficient scratch space") if m.error == "space_limit" else str(m.error)))
 		caption += "\n"+_l("周期：准备 %d + 查询 %d + 输出 %d = %d","Cycles: prepare %d + query %d + output %d = %d") % [m.prepare_cycles,m.query_cycles,m.output_cycles,m.total_cycles]
 		caption += "\n"+_l("RAM 读取 %d B · 写入 %d B · 临时峰值 %d B","RAM read %d B · write %d B · scratch peak %d B") % [m.ram_read_bytes,m.ram_write_bytes,m.peak_extra_bytes]
 		if m.error == "space_limit": caption += "\n"+_l("这次申请需要 %d B；尚未分配或复制。","This allocation needs %d B; no allocation or copy occurred.") % int(m.required_extra_bytes)
 		caption += "\n"+_l("初始方案 %d 周期","Initial design: %d cycles") % int(baseline.runs[i].metrics.total_cycles)
 		if not best.is_empty(): caption += " · "+_l("我的已达标最佳 %d","My passing best: %d") % int(best.runs[i].metrics.total_cycles)
 		results.add_child(_label(caption,true))
+		var outputs := _label(_l("实际输出：","Actual: ")+str(run.output_values)+"\n"+_l("预期输出：","Expected: ")+str(run.expected_values),true)
+		outputs.hide(); results.add_child(outputs)
+		_button(results,_l("展开／收起逐项输出","Show / hide exact outputs"),func() -> void: outputs.visible=not outputs.visible)
 		case_rows.append({"name":run.test_name,"passed":run.passed,"target_met":m.target_met,"metrics":m.duplicate(true)})
 		_button(results,_l("查看订单 ","Inspect case ")+run.test_name,_select_trace.bind(i))
 	trace_list = ItemList.new(); trace_list.custom_minimum_size=Vector2(420,260); results.add_child(trace_list)
@@ -288,11 +301,16 @@ func _run_all() -> void:
 func _select_trace(index: int) -> void:
 	if runs.is_empty(): return
 	case_index=index
-	_refresh_memory()
+	var active: LayoutRun = runs[index]
+	source_view.configure(active.source_map,C.cases(level)[index].records,_l("此轮实际源地址","Source addresses in this run")+(_l(" · 历史结果"," · previous run") if stale else ""))
+	copy_view.hide()
+	if level == "relocation": call_deferred("_rebuild_tools")
 	trace_list.clear()
 	var run: LayoutRun = runs[index]
 	for event: SimulationEvent in run.events:
-		trace_list.add_item("%d · %s · %s · @%d · %d B" % [event.cycle,event.details.get("stage",""),String(event.kind),event.address,int(event.details.get("bytes",0))])
+		var phase: String = {"prepare":_l("准备","Prepare"),"query":_l("查询","Query"),"output":_l("输出","Output")}.get(event.details.get("stage",""),"")
+		var action: String = {"lookup":_l("查缓存","Lookup"),"fill":_l("搬回一行","Fill line"),"read":_l("读取值","Read value"),"compute":_l("计算","Compute"),"write":_l("写入副本","Write copy"),"allocate":_l("分配空间","Allocate"),"release":_l("释放空间","Release"),"evict":_l("替换缓存行","Evict line"),"output":_l("交付结果","Output"),"error":_l("停止：错误","Stop: error")}.get(String(event.kind),String(event.kind))
+		trace_list.add_item("%d · %s · %s · @%d · %d B" % [event.cycle,phase,action,event.address,int(event.details.get("bytes",0))])
 	PlaytestData.record_trace_action(&"chapter_4",StringName(level),&"case_selected")
 func _trace_selected(index: int) -> void:
 	if runs.is_empty(): return
@@ -300,7 +318,9 @@ func _trace_selected(index: int) -> void:
 	source_view.highlight(event)
 	for map: Dictionary in runs[case_index].scratch_maps:
 		var record: int = int(event.details.get("record",-1))
-		if record>=int(map.first_record) and record<int(map.first_record)+map.addresses.size()/maxi(1,_current().copy_fields.size()):
+		var last_record: int = int(map.first_record)
+		for cell: Dictionary in map.cells: last_record=maxi(last_record,int(map.first_record)+int(cell.record))
+		if record>=int(map.first_record) and record<=last_record:
 			copy_view.configure(map,C.cases(level)[case_index].records,_l("这一批实际复制到的临时区","Actual scratch addresses for this batch")); copy_view.show(); break
 	copy_view.highlight(event)
 	PlaytestData.record_trace_action(&"chapter_4",StringName(level),&"step")
@@ -328,7 +348,7 @@ func _hint_advance() -> void:
 		if level == "relocation": ref=ref.orders[["A","B"][case_index]]
 		var sc := ScrollContainer.new(); sc.size_flags_vertical=Control.SIZE_EXPAND_FILL; column.add_child(sc)
 		var view := Memory.new(); sc.add_child(view)
-		view.configure(R.mapping(ref.recipe,2 if hint_tier==2 else C.cases(level)[case_index].records.size()),C.cases(level)[case_index].records,_l("局部关系（只显示两条）","Partial relation (two records)") if hint_tier==2 else _l("完整分组与顺序","Complete grouping and order"))
+		view.configure(R.mapping(ref.recipe if hint_tier==3 else R.record_major(),2 if hint_tier==2 else C.cases(level)[case_index].records.size(),0,C.cases(level)[case_index].queries[0].fields if hint_tier==2 else [0,1,2,3]),C.cases(level)[case_index].records,_l("局部关系（只显示两条）","Partial relation (two records)") if hint_tier==2 else _l("完整分组与顺序","Complete grouping and order"))
 		if hint_tier==3 and C.IDS.find(level)>=3: column.add_child(_label(str({"strategy":ref.strategy,"copy_fields":ref.copy_fields,"batch":ref.batch}),true))
 	_button(column,_l("请求下一层","Request next tier"),_hint_request)
 func _leave() -> void:

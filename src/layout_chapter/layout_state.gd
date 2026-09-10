@@ -9,6 +9,8 @@ var game_named: Dictionary = {}
 var test_solutions: Dictionary = {}
 var test_drafts: Dictionary = {}
 var test_named: Dictionary = {}
+var game_bonuses: Dictionary = {}
+var test_bonuses: Dictionary = {}
 
 func chapter_unlocked() -> bool:
 	return GameMode.is_test_mode() or bool(LocalityChapter.completed_levels().get(&"capstone",false))
@@ -33,6 +35,15 @@ func record_pass(id: String, design: Dictionary) -> bool:
 	if not report.passed: return false
 	# Keep the best real total, re-evaluating saved designs with the same model.
 	if not completed().has(id) or cost(report)<cost(C.evaluate(id,completed()[id])): completed()[id] = normalize(design)
+	if id == "mixed":
+		var peak: int = 0
+		var traffic: int = 0
+		for run: LayoutRun in report.runs:
+			peak=maxi(peak,int(run.metrics.peak_extra_bytes))
+			traffic+=int(run.metrics.ram_read_bytes)+int(run.metrics.ram_write_bytes)
+		var bonuses: Dictionary = test_bonuses if GameMode.is_test_mode() else game_bonuses
+		if peak<=16: bonuses["space"] = normalize(design)
+		if traffic<=1300: bonuses["flow"] = normalize(design)
 	progression_changed.emit()
 	_changed()
 	return true
@@ -56,9 +67,9 @@ static func normalize(value: Dictionary) -> Dictionary:
 		for key: String in value.orders: result.orders[key] = S.normalized_design(value.orders[key])
 	return result
 func game_snapshot() -> Dictionary:
-	return {"schema_version":1,"model_version":S.MODEL_VERSION,"solutions":game_solutions.duplicate(true),"drafts":game_drafts.duplicate(true),"named":game_named.duplicate(true)}
+	return {"schema_version":1,"model_version":S.MODEL_VERSION,"solutions":game_solutions.duplicate(true),"drafts":game_drafts.duplicate(true),"named":game_named.duplicate(true),"bonuses":game_bonuses.duplicate(true)}
 func restore_game(snapshot: Dictionary, ready: bool) -> void:
-	game_solutions.clear(); game_drafts.clear(); game_named.clear()
+	game_solutions.clear(); game_drafts.clear(); game_named.clear(); game_bonuses.clear()
 	if int(snapshot.get("schema_version",0)) == 1:
 		for id: String in C.IDS:
 			var draft: Variant = snapshot.get("drafts",{}).get(id) if snapshot.get("drafts",{}) is Dictionary else null
@@ -71,6 +82,17 @@ func restore_game(snapshot: Dictionary, ready: bool) -> void:
 					if not title is String or title.is_empty() or title.length()>40 or not valid(id,saved[title]): continue
 					if not game_named.has(id): game_named[id] = {}
 					if game_named[id].size()<24: game_named[id][title] = normalize(saved[title])
+	if game_solutions.has("mixed") and snapshot.get("bonuses",{}) is Dictionary:
+		for key: String in ["space","flow"]:
+			var value: Variant = snapshot.get("bonuses",{}).get(key)
+			if not valid("mixed",value): continue
+			var report: Dictionary = C.evaluate("mixed",value)
+			if not report.passed: continue
+			var peak: int = 0
+			var traffic: int = 0
+			for run: LayoutRun in report.runs:
+				peak=maxi(peak,int(run.metrics.peak_extra_bytes)); traffic+=int(run.metrics.ram_read_bytes)+int(run.metrics.ram_write_bytes)
+			if (key == "space" and peak<=16) or (key == "flow" and traffic<=1300): game_bonuses[key]=normalize(value)
 	progression_changed.emit()
 func _changed() -> void:
 	if not GameMode.is_test_mode(): persistent_state_changed.emit()

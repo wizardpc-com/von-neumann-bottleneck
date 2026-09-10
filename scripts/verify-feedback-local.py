@@ -27,6 +27,9 @@ try:
         assert counts=={'event':1,'feedback':1},counts
         bodies=[json.loads(x[0]) for x in db.execute('SELECT body FROM events')]
         assert all(x['payload']['source']=='automated' for x in bodies)
+    subprocess.run([__import__('sys').executable,str(root/'server/private_report.py'),'--database',str(output/'feedback.sqlite'),'--output',str(output/'private-report')],check=True)
+    report=json.loads((output/'private-report/report.json').read_text())
+    assert report['visits'][0]['foreground_ms']==1234 and report['visits'][0]['background_ms']==0,report['visits']
     (output/'result.json').write_text(json.dumps({'passed':True,'counts':counts,'receiver':'loopback only','data':'synthetic only'},indent=2))
     print('PASS: Godot cross-process queue → HTTP → SQLite; duplicate remains one row; explicit opinion while automatic sharing off. '+str(output))
 finally:

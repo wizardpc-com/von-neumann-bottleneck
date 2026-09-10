@@ -82,3 +82,9 @@ Final Chinese ordinary Game run `20260910T170449Z-309ccbf8`: all 30 entries pass
 ![Current five-region prerequisite tree](task-tree-current.png)
 
 Renderer capture at 2940×1846 backing pixels, fresh automated session (locked progression), current real scene. It documents layout, not native completion or a promotional mock-up. Native observations above were separately performed through CUA.
+
+### Packaging correction and final feedback report check
+
+First frozen export `7906d6e` stopped on Godot's macOS universal requirement: ETC2/ASTC import was disabled. Enabled the required import setting; no simulation behavior changed. This failed package is not a candidate delivery.
+
+A final transport review found timing category and Hint stage metadata absent from the minimal upload whitelist. Added only bounded category/stage/case/tool/map metadata, retaining freeform/source exclusions. Targeted Godot transport and HTTP receiver tests pass. Stronger actual integration `.godot/feedback-integration/8af19a22-e3ae-4f4e-b577-b46604469c5f` passes offline/restart/dedup/opt-out/manual opinion **and verifies the generated private report contains exactly 1234 ms foreground time**, not zero or double-counted retry time.

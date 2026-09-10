@@ -11,7 +11,7 @@ for sequence,(event_id,client,received,body) in enumerate(rows,1):
     record=json.loads(body);payload=record['payload'];session=client+':'+payload.get('session_id','unknown')
     # Prefix visits too: absent IDs remain unknown, and installations are not called people.
     visit=client+':'+payload['visit_id'] if payload.get('visit_id') else ''
-    events.append({'schema_version':2,'session_id':session,'sequence':int(payload.get('sequence',sequence)),'visit_id':visit,'source':payload.get('source','unknown'),'mode':payload.get('mode','unknown'),'event':'level_feedback' if record['kind']=='feedback' else payload.get('event','unknown'),'payload':payload|{'visit_id':visit}})
+    events.append(payload | {'schema_version':2,'session_id':session,'sequence':int(payload.get('sequence',sequence)),'visit_id':visit,'source':payload.get('source','unknown'),'mode':payload.get('mode','unknown'),'event':'level_feedback' if record['kind']=='feedback' else payload.get('event','unknown'),'payload':payload|{'visit_id':visit}})
 result=report.summarize([{'events':events}]);a.output.mkdir(parents=True,exist_ok=True)
 (a.output/'report.json').write_text(json.dumps(result,ensure_ascii=False,indent=2))
 (a.output/'report.html').write_text(report.render(result))

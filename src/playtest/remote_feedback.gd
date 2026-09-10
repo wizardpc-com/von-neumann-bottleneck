@@ -6,9 +6,9 @@ const MAX_QUEUE: int = 256
 const MAX_DISK_BYTES: int = 524288
 const MAX_BATCH: int = 32
 const FLUSH_SECONDS: float = 45
-const TEXT_FIELDS := ["chapter_id","level_id","visit_id","session_id","source","mode","build_version","task_version","case_set_version","model_version","event","action","operation","result_class","reason","strategy","recipe_digest","run_id"]
-const NUMBER_FIELDS := ["sequence","duration_ms","cycles","cost","case_count","passed_cases","total_cases","added_wires","removed_wires","added_components","removed_components","explicit_wire_deletes","incident_wire_removals","total_cycles","prepare_cycles","query_cycles","output_cycles","ram_read_bytes","ram_write_bytes","peak_extra_bytes","required_extra_bytes","requests","fills","hits","evictions","batch","group_count","block","copy_field_count"]
-const BOOL_FIELDS := ["passed","correct","target_met","post_completion","budget_met"]
+const TEXT_FIELDS := ["kind","phase","target","case_id","tool_id","origin","program_digest","chapter_id","level_id","visit_id","session_id","source","mode","build_version","task_version","case_set_version","model_version","event","action","operation","result_class","reason","strategy","recipe_digest","run_id"]
+const NUMBER_FIELDS := ["stage","sequence","duration_ms","cycles","cost","case_count","passed_cases","total_cases","added_wires","removed_wires","added_components","removed_components","explicit_wire_deletes","incident_wire_removals","total_cycles","prepare_cycles","query_cycles","output_cycles","ram_read_bytes","ram_write_bytes","peak_extra_bytes","required_extra_bytes","requests","fills","hits","evictions","batch","group_count","block","copy_field_count"]
+const BOOL_FIELDS := ["duration_unknown","eligible","passed","correct","target_met","post_completion","budget_met"]
 var endpoint: String = ""
 var enabled: bool = false
 var consented_endpoint: String = ""
@@ -59,7 +59,7 @@ func _on_event(event: Dictionary) -> void:
 	if not enabled or not endpoint_allowed(): return
 	# Explicitly exclude freeform feedback from automatic telemetry. Sending it
 	# requires the separate active Send action, never an old-log scan.
-	if event.get("event","") not in ["level_start","level_exit","level_complete","visit_time","official_run","case_outcome","modification","player_action","hint_action","trace_action"]: return
+	if event.get("event","") not in ["map_action","hint_used","tool_opened","level_start","level_exit","level_complete","visit_time","official_run","case_outcome","modification","player_action","hint_action","trace_action"]: return
 	var payload: Dictionary = minimal_context(event)
 	_enqueue({"event_id":(str(event.get("session_id",""))+":"+str(event.get("sequence",0))).sha256_text(),"kind":"event","payload":payload})
 static func minimal_context(event: Dictionary) -> Dictionary:

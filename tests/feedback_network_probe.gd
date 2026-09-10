@@ -16,7 +16,7 @@ func run() -> void:
 		push_error("Durable event was lost between processes"); quit(1); return
 	transport.set_enabled(true)
 	if phase=="queue":
-		transport._on_event({"session_id":"synthetic-network-session","sequence":1,"source":"automated","mode":"test","event":"player_action","payload":{"chapter_id":"chapter_4","level_id":"fields","action":"layout_edit","added_wires":3}})
+		transport._on_event({"session_id":"synthetic-network-session","sequence":1,"source":"automated","mode":"test","event":"visit_time","visit_id":"synthetic-visit","payload":{"chapter_id":"chapter_4","level_id":"fields","kind":"foreground","duration_ms":1234}})
 		transport.flush()
 		for frame: int in range(500):
 			if transport.status=="failed_retryable": break
@@ -34,7 +34,7 @@ func run() -> void:
 	if not transport.queue.is_empty(): push_error("Queue lacks stored acknowledgement: "+transport.status); quit(1); return
 	if phase=="resume":
 		# Simulate duplicate delivery after a lost acknowledgement; same ID and payload.
-		transport._on_event({"session_id":"synthetic-network-session","sequence":1,"source":"automated","mode":"test","event":"player_action","payload":{"chapter_id":"chapter_4","level_id":"fields","action":"layout_edit","added_wires":3}})
+		transport._on_event({"session_id":"synthetic-network-session","sequence":1,"source":"automated","mode":"test","event":"visit_time","visit_id":"synthetic-visit","payload":{"chapter_id":"chapter_4","level_id":"fields","kind":"foreground","duration_ms":1234}})
 		transport.flush()
 		for frame: int in range(800):
 			if transport.queue.is_empty(): break

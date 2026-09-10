@@ -18,6 +18,10 @@ func run() -> void:
 	var payload: Dictionary = transport.queue[0].record.payload
 	check(not payload.has("note") and not payload.has("program_source") and not payload.has("design_name"),"Automatic allowlist excludes freeform and circuits.")
 	check(payload.added_wires==2,"Actual numeric counters retained.")
+	var timing: Dictionary = Transport.minimal_context({"event":"visit_time","sequence":12,"payload":{"kind":"foreground","duration_ms":1234,"duration_unknown":false}})
+	check(timing.kind=="foreground" and timing.duration_ms==1234 and timing.sequence==12 and not timing.duration_unknown,"Remote timing keeps duration category and ordering; missing category cannot be reported as zero time.")
+	var hint: Dictionary = Transport.minimal_context({"event":"hint_action","payload":{"phase":"reveal","stage":2,"program_source":"excluded"}})
+	check(hint.stage==2 and hint.phase=="reveal" and not hint.has("program_source"),"Hint metadata survives without source disclosure.")
 	var restored := Transport.new(); restored.state_path=transport.state_path; restored.endpoint="https://another.invalid"
 	restored._load_state()
 	check(not restored.enabled,"Endpoint change requires new consent.")

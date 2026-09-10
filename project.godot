@@ -55,6 +55,8 @@ locale/translations=PackedStringArray("res://localization/game.en.po", "res://lo
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
+
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.035, 0.047, 0.071, 1)

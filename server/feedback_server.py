@@ -12,14 +12,14 @@ import re
 import sqlite3
 import time
 
-TEXT = {'chapter_id':64,'level_id':64,'visit_id':100,'session_id':100,'source':24,'mode':16,
+TEXT = {'kind':64,'phase':80,'target':80,'case_id':80,'tool_id':80,'origin':80,'program_digest':80,'chapter_id':64,'level_id':64,'visit_id':100,'session_id':100,'source':24,'mode':16,
         'build_version':80,'task_version':80,'case_set_version':80,'model_version':80,'event':48,
         'action':64,'operation':64,'result_class':64,'reason':64,'strategy':24,'recipe_digest':64,'run_id':100}
-NUMBERS = {'sequence','duration_ms','cycles','cost','case_count','passed_cases','total_cases','added_wires','removed_wires',
+NUMBERS = {'stage','sequence','duration_ms','cycles','cost','case_count','passed_cases','total_cases','added_wires','removed_wires',
            'added_components','removed_components','explicit_wire_deletes','incident_wire_removals',
            'total_cycles','prepare_cycles','query_cycles','output_cycles','ram_read_bytes','ram_write_bytes',
            'peak_extra_bytes','required_extra_bytes','requests','fills','hits','evictions','batch','group_count','block','copy_field_count'}
-BOOLS = {'passed','correct','target_met','post_completion','budget_met'}
+BOOLS = {'duration_unknown','eligible','passed','correct','target_met','post_completion','budget_met'}
 IDENTIFIER = re.compile(r'^[a-zA-Z0-9_-]{16,100}$')
 MAX_BODY = 131072
 RETENTION_DAYS = 30

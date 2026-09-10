@@ -57,6 +57,10 @@ func _ready() -> void:
 	scroll.add_child(details)
 	enter_button = _button(side,"tree.enter",func() -> void:
 		if not selected.is_empty(): TaskNavigation.enter(selected.key))
+	var opinion := Button.new(); opinion.text="评价所选任务" if TranslationServer.get_locale().begins_with("zh") else "Feedback on selected task"
+	opinion.custom_minimum_size.y=42; side.add_child(opinion)
+	opinion.pressed.connect(func() -> void:
+		if not selected.is_empty(): PlaytestMoments.open_for_task(selected.key.get_slice("/",0),selected.id))
 	var help := Label.new()
 	help.text = _t("controls")
 	help.add_theme_color_override("font_color",Color("91a0b9"))

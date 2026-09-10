@@ -30,3 +30,7 @@ export_credentials.cfg
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Python local caches
+__pycache__/
+*.pyc

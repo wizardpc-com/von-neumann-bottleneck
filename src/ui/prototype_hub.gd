@@ -27,6 +27,7 @@ var new_game_clear_workbenches: CheckBox
 var new_game_status: Label
 var new_game_confirm_button: Button
 var system_entry_button: Button
+var layout_entry_button: Button
 var overlap_entry_button: Button
 var locality_entry_button: Button
 var terminology_handbook: TerminologyHandbookType
@@ -47,9 +48,10 @@ func _ready() -> void:
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	SystemChapter.progression_changed.connect(_refresh_locality_entry)
 	LocalityChapter.progression_changed.connect(_refresh_overlap_entry)
+	LocalityChapter.progression_changed.connect(_refresh_layout_entry)
 	WindowMode.window_mode_changed.connect(_on_window_mode_changed)
 	_refresh_mode_description()
-	var arguments: PackedStringArray = OS.get_cmdline_user_args()
+	var arguments: PackedStringArray = GameMode.capture_arguments()
 	if "--capture-new-game" in arguments:
 		call_deferred("_open_new_game_confirmation")
 	elif "--capture-options" in arguments:
@@ -191,6 +193,11 @@ func _build_interface() -> void:
 		Localization.text(&"overlap.map_goal"), Localization.text(&"overlap.map"), PURPLE,
 		"res://src/overlap_chapter/overlap_chapter.tscn", &"overlap"
 	))
+	cards.add_child(_build_card(
+		Localization.text(&"layout.hub.title"),Localization.text(&"layout.hub.eyebrow"),
+		Localization.text(&"layout.hub.description"),Localization.text(&"layout.hub.open"),Color("f4a6cb"),
+		"res://src/layout_chapter/layout_chapter.tscn",&"layout"
+	))
 	var note := Label.new()
 	note.text = Localization.text(&"hub.note")
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -206,6 +213,10 @@ func _build_interface() -> void:
 	terminology_handbook = TerminologyHandbookType.new()
 	add_child(terminology_handbook)
 	_build_options_menu()
+	var settings_button := Button.new(); settings_button.text="设置 · Esc" if Localization.current_locale().begins_with("zh") else "Settings · Esc"
+	add_child(settings_button); settings_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	settings_button.offset_left=-278; settings_button.offset_right=-128; settings_button.offset_top=16; settings_button.offset_bottom=60
+	settings_button.pressed.connect(_open_options_menu)
 	_build_new_game_confirmation()
 	_refresh_save_actions()
 
@@ -372,6 +383,9 @@ func _build_options_menu() -> void:
 	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen)
 	column.add_child(options_fullscreen_button)
 
+	var reduced := CheckButton.new(); reduced.text="减少界面动效" if Localization.current_locale().begins_with("zh") else "Reduce interface motion"
+	reduced.button_pressed=bool(ProjectSettings.get_setting("game/reduced_motion",false)); reduced.toggled.connect(WindowMode.set_reduced_motion); column.add_child(reduced)
+	var feedback := PlaytestMoments.make_button(); column.add_child(feedback)
 	options_export_button = _options_button(Localization.text(&"playtest.export.button"))
 	options_export_button.name = "OptionsExportPlaytestButton"
 	options_export_button.tooltip_text = Localization.text(&"playtest.export.tooltip")
@@ -595,8 +609,15 @@ func _build_card(
 	elif entry_id == &"overlap":
 		overlap_entry_button = button
 		_refresh_overlap_entry()
+	elif entry_id == &"layout":
+		layout_entry_button=button
+		_refresh_layout_entry()
 	return panel
 
+func _refresh_layout_entry() -> void:
+	if layout_entry_button == null: return
+	layout_entry_button.disabled=not LayoutChapter.chapter_unlocked()
+	layout_entry_button.text=Localization.text(&"layout.hub.open" if not layout_entry_button.disabled else &"overlap.locked")
 
 func _refresh_overlap_entry() -> void:
 	if overlap_entry_button == null: return

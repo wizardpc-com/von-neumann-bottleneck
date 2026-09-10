@@ -1,66 +1,47 @@
-冯·诺依曼瓶颈 — 电路视觉与学习引导试玩版
-构建：polish-20260907T010358-76ef116
+冯·诺依曼瓶颈 — 免费公开开发版候选
+构建：free-alpha-20260911-candidate1（准确源码提交与哈希见随包 build-manifest.json）
 
-解压后双击 Von-Neumann-Bottleneck.exe，无需安装 Godot。
-默认进入章节选择，点击“硬件基础”开始原序章；已有进度可以继续。
-路线：接线教程 → 算术/存储两条分支 → CPU → LOAD/STORE → 第 1 章 → 第 2 章。
-“八关对照版本”保留独立进度，不会替代或解锁原构建路线。
+免费、单机、无需账户、无需安装 Godot。未公开发行，当前是可交付试玩的候选构建。
+Mac 解压后打开 Von-Neumann-Bottleneck.app；Windows 解压后运行 Von-Neumann-Bottleneck.exe。
+Mac 使用本地 ad-hoc 签名，尚未申请 Apple 公证；Windows 原生分发验收待完成。
+不要为试玩关闭系统安全保护。公开下载渠道的签名/首次启动体验需要在发布前另行验收。
 
-元件主体可选中、拖动；从端口、已有线段或接点拉线可以分支。
-模块名、方向箭头和位宽标在元件上；较粗的线表示多位总线。悬停线路可查看同一网络。
-交叉不自动连接，分支有接点。右键精确擦除；Ctrl+Z 撤销，Ctrl+Y 重做。
-支持框选、Shift 多选、Ctrl+C/V。测试端子不能复制，Delete 保留它们；右键擦除可以撤销。
-滚轮缩放，中键拖动平移。可移动、收起或关闭各工具窗，底部入口可找回。
-Home 或“聚焦”放大选中元件；未选中时显示全部。Shift+Home 始终显示整张电路。
-上方短目标可以展开任务说明。任务有规格和 Previous/Next，不默认显示解法。
-任务页签可直接查看真值表、指令表、模块和分段检查；“开始搭建”随时回到画布。
-半加器测试台可点击 00/01/10/11 选输入，再运行当前输入。完整测试的要求保持不变。
-Hint 打开独立只读画布。H2、H3 各需再次请求和确认，H3 明确警告完整参考答案。
-返回提示前的方案会保留名称、拓扑、位置和线色；撤销/重做与剪贴板按原规则清空。
-运行当前输入与完整测试保持分开；播放频率 Hz 只改变演示速度。
-通过后自行选择封装或继续，不会自动跳关。右上角按钮切换全屏。
-通关页显示下一项能力；本关反馈默认折叠，需要时再展开填写。
+从“新游戏”开始；已有进度用“继续游戏”。总任务树可拖动、缩放、搜索和查看锁定任务规格。
+路线：序章造机器 → 第一章找等待 → 第二章减少搬运 → 第三章安排到达 / 第四章数据布局。
+共 40 个任务；探索支线不增加旧主线的通关门槛。八关替代版已彻底退役。
 
-本版采用统一的深色仪表界面、青色重点和清晰的中英文字体。
-测试输入用空心符号 0 / 实心符号 1 切换；颜色只作为辅助，低电平不是错误。
-元件卡使用与画布相同的原理图符号，名称与位宽在右侧对齐。
-手册初始开放 20 条基础知识，随原有关卡进度逐步开放全部 89 条。
-当前任务需要的规格可以直接查阅；“查看后续知识”只显示尚未开放的标题与条件。
-电平、二进制、分支/交叉、半加器和存储行为增加了图示与例子。
+元件台默认打开。自由选件、拖动、从端口和线段中间分支、删除、命名方案继续保留。
+Mac 用 ⌘Z 撤销、⇧⌘Z 重做；Windows 用 Ctrl+Z / Ctrl+Y。编辑文字时快捷键优先作用于文字。
+细线和圆端口表示 1 位信号，宽线和方端口表示多位总线；交叉不自动相连。
+右键/Esc 取消进行中的操作；工具窗可以移动和收起。任务与规格随时能回看。
+调试当前输入、完整测试和回放分开；动画速度不改变模拟结果。
+Hint 使用独立只读画布，H2/H3 各自主动请求并确认；提示不会替你接线或改布局。
+手册按当前任务推荐少量概念，后续知识逐步开放。设置入口可减少界面淡入动效。
 
-本版本使用 savegame_v1.json 和 hardware_workbenches_v1.json。八关版已移除；旧 demo_progress_v1.json 留在原处，不读取、不转换、不删除。
-不要用“新游戏”或清档准备对照试玩。游戏只记录本地匿名事件，不上传数据。
-已通过中英文各 461 项 Godot GUI 输入检查、20 套常规回归，并检查导出 EXE 画面。
-Windows 锁屏阻止了本版完整的原生桌面试玩；此包为候选试玩版，不是已验收的正式发布版。
-物理鼠标手感、High DPI、新手理解和节奏仍待真人试玩。
-建议先玩教程和半加器，仅查看任务、检查器、H1/H2；再评估 CPU 的模块说明与反馈。
+第四章：选择字段分组、排列和分块；后续任务引入实际复制成本与有限临时区。
+同样正确的输出可以有不同有效布局。准备/查询/输出时间、读写流量和临时峰值分别显示。
+点击运行结果的批次事件，可以看到该批真实地址；尾批保留余数记录。
 
-Von Neumann Bottleneck — Circuit visuals and learning guide
-Build: polish-20260907T010358-76ef116
+F8 或反馈按钮可对当前/选中任务写意见，未通关也能评价。评分默认不选，部分填写也能保存。
+行为记录默认只在本机；本候选没有配置回传服务器。可关闭本机操作统计，仍能保存主动意见。
+自动回传须另行同意，意见须单独点击发送；网络不可用不影响游玩。导出只在你主动操作时生成文件。
+随机安装标识不等于绝对匿名；不要在意见里填写敏感个人信息。
 
-Extract and run Von-Neumann-Bottleneck.exe. No Godot installation is required.
-The default chapter hub opens Hardware Foundations, both construction branches, CPU,
-LOAD/STORE, Chapter 1 and Chapter 2. The eight-task comparison keeps separate progress.
-Move/select components, branch existing wires, erase precisely, undo/redo and copy/paste.
-Module names, direction arrows and bit widths are visible; wider strokes identify buses.
-Hover a wire to inspect its network. Home focuses selection; Shift+Home shows the whole circuit.
-Mission remains a floating window with specifications and a persistent reopenable goal.
-Use section tabs for specifications or Start Building to return to the canvas at any point.
-Half Adder input rows select 00/01/10/11 for debugging; full tests keep their original requirements.
-Hints use a separate read-only canvas. H2 and H3 each require a request and confirmation.
-Returning preserves the named design, topology, layout and colors; undo/redo and clipboard
-are cleared under the original snapshot rule. Debug input, full tests and playback Hz remain distinct.
-Completion previews the next capability; per-level feedback is available behind an optional button.
-Compact outlined 0 / filled 1 symbols control test inputs. Color is a secondary cue.
-The component catalogue aligns shared schematic symbols, names and bit widths.
-The illustrated Handbook starts with 20 topics and opens all 89 through the original progression.
-Current Mission specifications remain accessible; future topics show their availability condition.
-Both save families are preserved. Do not clear player files for a comparison playtest.
-Chinese and English GUI replays pass 461 checks each; all 20 conventional suites pass.
-The exported EXE starts in Game and Test and its rendered original hub has been inspected.
-Windows was locked during computer-use acceptance, so a full native desktop replay is pending.
-This is a playtest candidate, not an accepted production release.
-Physical mouse feel, high DPI, novice understanding and pacing still require human playtesting.
+游戏进度：savegame_v1.json；电路方案：hardware_workbenches_v1.json。
+第四章进度、草稿和命名布局位于原进度文件的可选 layout 部分。更新前请完整备份存档目录。
+Mac 默认：~/Library/Application Support/Godot/app_userdata/Von Neumann Bottleneck/
+Windows 默认：%APPDATA%/Godot/app_userdata/Von Neumann Bottleneck/
+不要用清档准备对照试玩。新游戏会询问是否删除旧方案，默认保护作品。
+回退旧程序前先备份整套文件：旧程序可能不保留新章字段，不能保证自动向后兼容。
 
-Noto Sans SC is bundled under SIL Open Font License 1.1; see OFL-NotoSansSC.txt.
-Circuit art and illustrations are original code-drawn graphics. No Turing Complete assets are included.
+这不是“新手一定看得懂”的验收承诺。已验证和未验证范围见 KNOWN-ISSUES.md 与实际记录。
+Noto Sans SC：SIL OFL 1.1；Godot：MIT 及所附第三方声明。图形和图解为本项目代码绘制，未使用图灵完备的美术资源。
+
+Von Neumann Bottleneck — Free Public Alpha Candidate
+Five regions, forty tasks. Offline single-player; no payment, account or Godot installation required.
+Open the app (Mac) or EXE (Windows). Continue preserves existing progress. Optional branches do not gate the old mainline.
+Free construction, mid-wire branching, deletion, undo/redo, named designs and independently confirmed read-only hints remain available.
+Chapter 4 measures actual addresses, transfers, copy costs and bounded scratch memory. Different valid solutions are accepted.
+F8 opens optional task feedback, including unfinished tasks. Unanswered ratings stay empty. Sharing is off; this build has no server URL.
+The package is an unnotarized candidate. Windows native launch, external novice comprehension and comfort remain acceptance gates.
+Back up both save and workbench files before updating or reverting. See the manifest and accompanying notes for exact evidence.

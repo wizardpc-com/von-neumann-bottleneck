@@ -72,7 +72,8 @@ func _run() -> void:
 				_check_required_links(handbook, localization.text(key), String(level))
 		locality.game_completed[level] = true
 	handbook.open_handbook()
-	check(handbook.available_term_ids.size() == 92, "Original campaign completion opens its 90 terms and two Chapter 3 arrival terms, not the later branch concepts.")
+	check(handbook.is_term_unlocked(&"data_layout") and not handbook.is_term_unlocked(&"copy_cost"), "Layout rules appear at entry; conversion waits for its task.")
+	check(handbook.available_term_ids.size() == 93, "Original campaign completion opens 90 original terms, two Chapter 3 arrival terms and one Chapter 4 layout term, not later branch concepts.")
 	check(not handbook.is_term_unlocked(&"prefetch"), "Entering Chapter 3 does not introduce the later prefetch branch early.")
 	var overlap: Node = root.get_node("OverlapChapter")
 	for level: String in preload("res://src/overlap_chapter/overlap_catalog.gd").IDS:

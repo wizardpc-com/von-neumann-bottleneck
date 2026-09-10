@@ -434,7 +434,10 @@ func _disconnect_wire(from: StringName, output: int, to: StringName, input: int)
 	board.wires.erase(wire)
 	_changed()
 
+var telemetry_before: Dictionary = {}
+
 func _remember() -> void:
+	telemetry_before=board.duplicate(true)
 	undo_stack.append(board.duplicate(true))
 	if undo_stack.size() > 40: undo_stack.pop_front()
 	redo_stack.clear()
@@ -452,9 +455,26 @@ func _undo(redo: bool = false) -> void:
 	var destination: Array[Dictionary] = undo_stack if redo else redo_stack
 	destination.append(board.duplicate(true))
 	board = source.pop_back()
+	telemetry_before.clear()
+	PlaytestData.record_action(&"chapter_3",StringName(level),&"redo" if redo else &"undo")
 	_changed()
 
 func _changed(render: bool = true) -> void:
+	if not telemetry_before.is_empty() and telemetry_before!=board:
+		var added_nodes: int = 0
+		var removed_nodes: int = 0
+		var added_wires: int = 0
+		var removed_wires: int = 0
+		for key: String in board.nodes:
+			if not telemetry_before.nodes.has(key): added_nodes+=1
+		for key: String in telemetry_before.nodes:
+			if not board.nodes.has(key): removed_nodes+=1
+		for wire: Array in board.wires:
+			if not telemetry_before.wires.has(wire): added_wires+=1
+		for wire: Array in telemetry_before.wires:
+			if not board.wires.has(wire): removed_wires+=1
+		PlaytestData.record_modification(&"chapter_3",StringName(level),&"hardware",{"operation":"board_edit","added_components":added_nodes,"removed_components":removed_nodes,"added_wires":added_wires,"removed_wires":removed_wires,"explicit_wire_deletes":removed_wires if removed_nodes==0 else 0,"incident_wire_removals":removed_wires if removed_nodes>0 else 0})
+	telemetry_before.clear()
 	dirty = true
 	trace_stale = true
 	save_elapsed = 0

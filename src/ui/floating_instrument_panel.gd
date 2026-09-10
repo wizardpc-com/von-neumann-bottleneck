@@ -112,7 +112,9 @@ func set_content(content: Control) -> void:
 
 
 func show_instrument() -> void:
+	var newly_visible: bool = not visible
 	visible = true
+	if newly_visible: preload("res://src/ui/ui_motion.gd").reveal(self)
 	focus_requested.emit(instrument_id)
 
 

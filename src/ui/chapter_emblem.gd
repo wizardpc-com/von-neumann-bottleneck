@@ -28,6 +28,12 @@ func _draw() -> void:
 			draw_polyline(PackedVector2Array([start, corner, end]), Color(accent, 0.35), 1.5, true)
 			draw_circle(end, 3.0, accent if index == 1 else outline, false, 1.5, true)
 	match chapter:
+		&"layout":
+			var colors: Array[Color] = [Color("67e8a5"),Color("50d5ff"),Color("ffbf69"),Color("bc8cff")]
+			for row: int in range(2):
+				for col: int in range(4):
+					var at := center+Vector2(-50+col*26,-19+row*22)
+					draw_rect(Rect2(at,Vector2(20,15)),Color(colors[col] if row==0 else colors[0],0.7))
 		&"hardware":
 			var triangle := PackedVector2Array([center + Vector2(-22, -16), center + Vector2(-22, 16), center + Vector2(8, 0), center + Vector2(-22, -16)])
 			draw_polyline(triangle, accent, 2.5, true)

@@ -269,7 +269,7 @@ func _ready() -> void:
 	var requested_task: StringName = TaskNavigation.consume("hardware_foundations")
 	if not requested_task.is_empty(): call_deferred("_start_campaign_level",requested_task)
 	GameMode.mode_changed.connect(_on_game_mode_changed)
-	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
+	var user_arguments: PackedStringArray = GameMode.capture_arguments()
 	var preparing_capture: bool = (
 		"--capture-prologue-map" in user_arguments
 		or "--capture-prologue-ram-default" in user_arguments
@@ -4235,6 +4235,11 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 	var key_event := event as InputEventKey
 	if _keyboard_focus_accepts_text():
 		return false
+	# Mac's physical Delete key is Backspace. Text fields retain normal editing.
+	if key_event.keycode == KEY_BACKSPACE and not key_event.echo and not key_event.ctrl_pressed and not key_event.meta_pressed and not key_event.alt_pressed:
+		_cancel_component_placement(false)
+		_on_delete_nodes_request(_selected_node_ids(false))
+		return true
 	var editor_action: bool = (
 		(key_event.ctrl_pressed or key_event.meta_pressed)
 		and key_event.keycode in [KEY_Z, KEY_Y, KEY_A, KEY_X, KEY_C, KEY_V, KEY_F, KEY_E, KEY_R]
@@ -4823,11 +4828,18 @@ func _push_history_action(action: Dictionary) -> void:
 	wire_history.append(stored)
 	redo_history.clear()
 	if not current_level_id.is_empty():
-		PlaytestData.record_modification(&"hardware_foundations", current_level_id, &"hardware", {
-			"operation": String(stored.get("kind", &"edit")),
-			"added_wires": (stored.get("added",[]) as Array).size(),
-			"removed_wires": (stored.get("removed",[]) as Array).size(),
-		})
+		var counts: Dictionary = {"operation":String(stored.get("kind",&"edit")),"added_wires":stored.added.size(),"removed_wires":stored.removed.size(),"added_components":0,"removed_components":0,"explicit_wire_deletes":0,"incident_wire_removals":0}
+		for entry: Dictionary in added_components:
+			if entry.component.kind != LogicComponent.KIND_JUNCTION: counts.added_components+=1
+		for entry: Dictionary in removed_components:
+			if entry.component.kind != LogicComponent.KIND_JUNCTION: counts.removed_components+=1
+		if counts.operation in ["delete_component","delete_selection"]:
+			counts.incident_wire_removals=stored.removed.size()
+		elif counts.operation in ["disconnect","erase_stroke","clear_wires"]:
+			counts.explicit_wire_deletes=stored.removed.size()
+		# Branches and endpoint moves replace edges but are not explicit erasures.
+		# Undo/redo bypass this authority point and remain separate actions.
+		PlaytestData.record_modification(&"hardware_foundations",current_level_id,&"hardware",counts)
 	_queue_workbench_save()
 
 
@@ -5779,6 +5791,7 @@ func _run_debug() -> void:
 	if current_phase in [&"prologue", &"prologue_complete"]:
 		_run_prologue_debug()
 		return
+	PlaytestData.record_action(&"hardware_foundations",current_level_id,&"debug_run")
 	var a: bool = input_a_button.button_pressed
 	var b: bool = input_b_button.button_pressed
 	if current_phase == &"sealed":
@@ -6125,6 +6138,7 @@ func _ensure_official_case_visible(label: Label) -> void:
 func _run_prologue_debug() -> void:
 	if current_level_definition.is_empty():
 		return
+	PlaytestData.record_action(&"hardware_foundations",current_level_id,&"debug_run")
 	var circuit: LogicCircuit = _circuit_from_graph()
 	current_circuit = circuit
 	var report: Dictionary = prologue_simulator.run_sequence(

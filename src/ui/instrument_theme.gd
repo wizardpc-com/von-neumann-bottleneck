@@ -51,3 +51,23 @@ static func apply_to(target: Theme) -> void:
 	window.shadow_size = 12
 	window.shadow_offset = Vector2(0.0, 5.0)
 	target.set_stylebox("panel", "PanelContainer", window)
+
+	# Popups and trace selections belong to the same instrument family.
+	target.set_stylebox("panel","AcceptDialog",panel(SURFACE,EDGE,8))
+	var dialog_border: StyleBoxFlat = panel(SURFACE,ACCENT,8)
+	dialog_border.content_margin_top=32; dialog_border.shadow_size=14; dialog_border.shadow_color=Color(0,0,0,0.35)
+	target.set_stylebox("embedded_border","Window",dialog_border)
+	target.set_stylebox("embedded_unfocused_border","Window",dialog_border)
+	target.set_color("title_color","Window",Color("e9f0fa"))
+	target.set_font_size("title_font_size","Window",18)
+	target.set_stylebox("panel","ItemList",panel(Color("0b1722")))
+	for selection: String in ["selected","selected_focus"]:
+		target.set_stylebox(selection,"ItemList",panel(Color("193a4c"),ACCENT,3))
+	target.set_color("font_selected_color","ItemList",Color("ffffff"))
+	var scroll_colors: Dictionary = {"scroll":Color("101d29"),"grabber":Color("3b596b"),"grabber_highlight":Color("508094"),"grabber_pressed":ACCENT}
+	for control: String in ["VScrollBar","HScrollBar"]:
+		for state: String in scroll_colors:
+			var bar: StyleBoxFlat = panel(scroll_colors[state],Color.TRANSPARENT,4)
+			bar.content_margin_left=3; bar.content_margin_right=3
+			bar.content_margin_top=3; bar.content_margin_bottom=3
+			target.set_stylebox(state,control,bar)

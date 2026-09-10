@@ -152,7 +152,7 @@ func _prepare_copy(recipe: Dictionary, first: int, count: int, limit: int) -> vo
 		return
 	trace.metrics.peak_extra_bytes = maxi(int(trace.metrics.peak_extra_bytes),int(current_copy.bytes))
 	trace.scratch_maps.append(current_copy.duplicate(true))
-	_event(&"allocate",0,scratch_base,-1,-1,0,int(current_copy.bytes),&"MEMORY",&"SCRATCH")
+	_event(&"allocate",0,scratch_base,first,-1,0,int(current_copy.bytes),&"MEMORY",&"SCRATCH")
 	# Read source in public record/field order; writes follow the chosen destination mapping.
 	for record: int in range(first,first+count):
 		for field: int in copied_fields:
@@ -187,7 +187,7 @@ func _release_copy() -> void:
 		if int(key)>=scratch_base: memory.erase(key)
 	for line: int in cache.duplicate():
 		if line*Recipe.LINE_BYTES>=scratch_base: cache.erase(line)
-	_event(&"release",0,scratch_base,-1,-1,0,int(current_copy.bytes),&"SCRATCH",&"MEMORY")
+	_event(&"release",0,scratch_base,int(current_copy.first_record),-1,0,int(current_copy.bytes),&"SCRATCH",&"MEMORY")
 	current_copy = {}; scratch_end = scratch_base
 
 func _read(address: int, record: int, field: int) -> int:

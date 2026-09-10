@@ -1,0 +1,16 @@
+冯诺伊曼瓶颈 · 免费开发候选 / Free development candidate
+
+本包尚未公开发行。40 个任务不代表已验证的游玩小时数。
+Mac 原生试玩、自动回放、实际导出包验证的范围见仓库 docs/verification/20260910-five-chapter/README.md。
+Windows 包由同一提交导出；未经过本轮 Windows 实机验收，不承诺该平台已达到公开发布标准。
+Mac 使用本地临时签名，未经过 Apple 公证；首次分发、隔离属性与另一台 Mac 的安装路径仍需外部验证。
+新玩家是否独立理解、难度曲线、趣味性与长时间舒适度尚需真实外部试玩。
+不承诺 Steam Deck、手柄或 Linux。尚未连接 Steam 服务、排行榜或创意工坊。
+远程接收地址默认未配置，自动回传关闭；本机保存与反馈导出可以使用。网络不影响游戏进度。
+升级前保留存档和备份。回退旧二进制不保证识别新章节进度；不要用旧版覆盖唯一副本。
+
+Not publicly released. Windows is an exported candidate awaiting native validation.
+macOS is ad-hoc signed, not notarized; another-machine installation remains unverified.
+Automated tests and agent play do not establish new-player comprehension or enjoyment.
+No Steam integration, controller/Steam Deck/Linux support claim, leaderboard or workshop.
+Remote sharing defaults off and no production receiver is configured. Keep save backups before updating or rolling back.

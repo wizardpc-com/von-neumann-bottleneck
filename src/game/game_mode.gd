@@ -11,6 +11,7 @@ var developer_ui_enabled: bool = false
 
 
 func _ready() -> void:
+	if OS.has_feature("free_candidate"): return
 	var arguments: PackedStringArray = OS.get_cmdline_args()
 	arguments.append_array(OS.get_cmdline_user_args())
 	if "--test-mode" in arguments or "--mode=test" in arguments:
@@ -21,6 +22,7 @@ func _ready() -> void:
 
 
 func set_mode(mode: StringName) -> bool:
+	if OS.has_feature("free_candidate") and mode!=MODE_GAME: return false
 	if mode not in MODES:
 		return false
 	if current_mode == mode:
@@ -44,3 +46,7 @@ func mode_index() -> int:
 
 func mode_at(index: int) -> StringName:
 	return MODES[index] if index >= 0 and index < MODES.size() else MODE_GAME
+
+
+func capture_arguments() -> PackedStringArray:
+	return PackedStringArray() if OS.has_feature("free_candidate") else OS.get_cmdline_user_args()

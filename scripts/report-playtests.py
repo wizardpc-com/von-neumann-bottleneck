@@ -53,7 +53,7 @@ def summarize(documents):
             visit_id = legacy_active.get(sid)
         visit = None
         if visit_id:
-            visit = visits.setdefault(visit_id, {'visit_id': visit_id, 'session': sid, 'source': source, 'mode': mode, 'task': task if valid_task else 'unknown', 'started': False, 'completed': False, 'exit': None, 'exit_reason': None, 'foreground_ms': 0, 'background_ms': 0, 'feedback_ms': 0, 'legacy_wall_ms': 0, 'timing': 'unknown', 'runs': [], 'hints': [], 'operations': Counter(), 'timeline': [], 'interrupted_gap_unknown': False, 'retries_after_failure': 0, 'post_completion_runs': 0})
+            visit = visits.setdefault(visit_id, {'visit_id': visit_id, 'session': sid, 'source': source, 'mode': mode, 'task': task if valid_task else 'unknown', 'started': False, 'completed': False, 'exit': None, 'exit_reason': None, 'foreground_ms': 0, 'background_ms': 0, 'feedback_ms': 0, 'legacy_wall_ms': 0, 'timing': 'unknown', 'runs': [], 'hints': [], 'operations': Counter(), 'quantities': Counter(), 'timeline': [], 'interrupted_gap_unknown': False, 'retries_after_failure': 0, 'post_completion_runs': 0})
             if valid_task and name == 'level_start': visit['task'] = task
             if name not in ('visit_time', 'case_outcome'):
                 visit['timeline'].append({'sequence': event['sequence'], 'event': name, 'result': payload.get('result_class'), 'action': payload.get('action'), 'phase': payload.get('phase'), 'kind': payload.get('kind')})
@@ -108,12 +108,21 @@ def summarize(documents):
             visit['hints'].append({'stage': payload.get('stage'), 'phase': payload.get('phase', 'reveal'), 'sequence': event['sequence']})
         elif name in ('modification', 'player_action') and visit:
             visit['operations'][str(payload.get('action', payload.get('operation', payload.get('target', 'unknown'))))] += 1
+            if name=='modification':
+                for key in ('added_wires','removed_wires','added_components','removed_components','explicit_wire_deletes','incident_wire_removals'):
+                    if type(payload.get(key)) in (int,float) and payload[key]>=0: visit['quantities'][key]+=int(payload[key])
         elif name in ('moment', 'moment_note', 'level_feedback', 'chapter_feedback', 'demo_feedback'):
             moments.append({'source': source, 'mode': mode, 'session': sid, 'visit_id': visit_id, 'sequence': event['sequence'], 'task': task, 'event': name, 'payload': payload})
     for visit in visits.values():
         stat = tasks.get((visit['source'], visit['mode'], visit['task']))
         if stat and visit['timing'] == 'foreground_checkpoints' and visit['started']:
             stat['foreground_ms'].append(visit['foreground_ms'])
+    latest_feedback={}
+    for item in moments:
+        if item['event']=='level_feedback':
+            # Unknown visits are still grouped within their session, never called unique people.
+            key=(item['source'],item['mode'],item['session'],item['visit_id'],item['task'])
+            latest_feedback[key]=item
     output_tasks = []
     for stat in tasks.values():
         sets = stat.pop('sets')
@@ -124,16 +133,21 @@ def summarize(documents):
         stat['started_exposed'] = {'n': len(sets['started'] & sets['exposed']), 'N': len(sets['exposed'])}
         stat['completed_started'] = {'n': len(sets['completed'] & sets['started']), 'N': len(sets['started'])}
         stat['foreground_seconds'] = {'n': len(durations), 'median': round(median(durations)/1000, 2) if durations else None, 'min': min(durations)/1000 if durations else None, 'max': max(durations)/1000 if durations else None}
+        opinions=[item for item in latest_feedback.values() if (item['source'],item['mode'],item['task'])==(stat['source'],stat['mode'],stat['task'])]
+        stat['ratings']={}
+        for key in ('fun','clarity','want_to_continue'):
+            values=[item['payload'][key] for item in opinions if type(item['payload'].get(key)) in (int,float) and 1<=item['payload'][key]<=5]
+            stat['ratings'][key]={'n':len(values),'N':len(opinions),'median':median(values) if values else None}
         output_tasks.append(stat)
     return {'schema_version': 1, 'input_sessions': len({key[0] for key in events}), 'deduplicated_events': len(events), 'duplicate_events_ignored': duplicates, 'malformed_events_ignored': malformed,
             'limitations': ['Session counts are not unique people. Sources are kept separate; unknown is not human.', 'Visible means drawn in the viewport, not attention. Ratios are observations, not causal funnels.', 'Unfinished visits retain observed time; interruption gaps and legacy foreground time remain unknown.', 'Failure followed by another run is a retry; successful repeats and post-completion runs are separate.', 'No survival estimate or abandonment inference is made from incomplete visits.'],
-            'tasks': sorted(output_tasks, key=lambda item: (item['source'], item['mode'], item['task'])), 'visits': list(visits.values()), 'moments': moments}
+            'tasks': sorted(output_tasks, key=lambda item: (item['source'], item['mode'], item['task'])), 'visits': list(visits.values()), 'moments': moments, 'latest_task_feedback': list(latest_feedback.values())}
 
 
 def render(report):
     esc = lambda value: html.escape(str(value))
     sections = []
-    for title, key, columns in [('Tasks / routes', 'tasks', ['source','mode','task','sessions','completed_started','foreground_seconds','results']), ('Visits / attempts', 'visits', ['source','mode','task','completed','exit','exit_reason','foreground_ms','background_ms','feedback_ms','timing','runs','hints','operations']), ('Moments / feedback', 'moments', ['source','mode','task','visit_id','sequence','event','payload'])]:
+    for title, key, columns in [('Tasks / routes', 'tasks', ['source','mode','task','sessions','completed_started','foreground_seconds','ratings','results']), ('Visits / attempts', 'visits', ['source','mode','task','completed','exit','exit_reason','foreground_ms','background_ms','feedback_ms','timing','runs','hints','operations','quantities']), ('Moments / feedback', 'moments', ['source','mode','task','visit_id','sequence','event','payload'])]:
         rows = []
         for row in report[key]:
             cells = []

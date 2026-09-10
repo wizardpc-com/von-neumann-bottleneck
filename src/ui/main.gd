@@ -191,7 +191,7 @@ func _ready() -> void:
 	var requested_task: StringName = TaskNavigation.consume("chapter_2")
 	if not requested_task.is_empty(): call_deferred("_start_level",requested_task)
 	set_process(true)
-	var user_arguments: PackedStringArray = OS.get_cmdline_user_args()
+	var user_arguments: PackedStringArray = GameMode.capture_arguments()
 	if "--capture-playtest-export" in user_arguments:
 		call_deferred("_prepare_playtest_export_capture")
 	elif "--capture-demo" in user_arguments:

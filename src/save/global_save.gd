@@ -47,7 +47,7 @@ func _ready() -> void:
 	_bind_persistent_sources()
 	var arguments: PackedStringArray = OS.get_cmdline_args()
 	arguments.append_array(OS.get_cmdline_user_args())
-	if "--reset-local-test-state" in arguments:
+	if "--reset-local-test-state" in arguments and not OS.has_feature("free_candidate"):
 		var reset_result: Dictionary = start_new_game(false)
 		if bool(reset_result.get("ok", false)):
 			print("Global Game save reset; telemetry exports remain untouched.")

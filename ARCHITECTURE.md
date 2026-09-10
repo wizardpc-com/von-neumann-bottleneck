@@ -126,3 +126,11 @@ Half Adder and Register. New applications start with fixed I/O and a blank inter
 ## Task tree and optional applications (2026-09-10)
 
 `TaskNavigation` reads the four existing chapter owners and qualifies task IDs by domain; its camera and pending route are transient, not progression data. Existing hosts recheck unlocks before entry. New system applications retain accepted programs and part IDs in optional `application_designs` fields; restore replays the actual case sets before granting new-node completion. Original system gates and program-signature rules are unchanged. Overlap optional route archives and the locality economical design likewise use optional fields and simulation revalidation. No schema replacement or default-board migration is involved.
+
+## Five-region free candidate
+
+`src/layout_chapter/` is an independent bounded memory-layout model, not a rewrite of Circuit/System/Locality/Overlap simulation. Recipes bijectively map record/field identities to aligned addresses; preparation performs source reads and actual scratch writes; full and bounded-batch strategies share the measured memory path. [Model contract](docs/architecture/layout-chapter.md).
+
+The existing `TaskNavigation` adapts public tasks and prerequisites. `TaskTreeLayout` derives within-region ranks/lanes and cross-region placement from that DAG; the canvas owns only camera, rendering and selection. New nodes do not require coordinate edits; optional short overview labels can be added without changing progression. [Extension guide](docs/development/adding-tasks.md).
+
+`RemoteFeedback` observes future v2 events after separate consent; bounded asynchronous outbox and explicit opinions never affect results or saves. The loopback receiver is HTTP + SQLite, with durable acknowledgements, idempotence and scoped deletion. The candidate has no configured endpoint. [Local setup and privacy boundary](server/README.md). `UiMotion` provides 120 ms presentation-only panel fades; reducing motion does not affect simulation, playback or input acceptance.

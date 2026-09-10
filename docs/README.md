@@ -61,3 +61,12 @@ Keep root documents navigational. Update the most specific source-of-truth docum
 
 - [Chapter 3 overlap model and persistence](architecture/overlap-chapter.md)
 - [Chapter 3 native player pass and fixes](verification/2026-09-09-overlap-native/README.md)
+
+## Current five-region candidate
+
+- [Execution and remaining gates](exec-plans/active/five-chapter-free-alpha.md)
+- [Layout model](architecture/layout-chapter.md)
+- [Adding tasks without map coordinate changes](development/adding-tasks.md)
+- [Native evidence](verification/20260910-five-chapter/README.md)
+- [Candidate distribution](distribution/free-alpha.md)
+- [Optional local feedback server](../server/README.md)

@@ -6075,3 +6075,42 @@ msgstr "Feedback is disabled for this launch. No answers are saved."
 
 msgid "tree.region.4"
 msgstr "Put data in its place"
+
+msgid "layout.hub.title"
+msgstr "Chapter 4: Put data in its place"
+
+msgid "layout.hub.eyebrow"
+msgstr "Layout · Copy cost · Limited space"
+
+msgid "layout.hub.description"
+msgstr "Same data, different arrangement.\n\nCombine groups, copies and batches; decide which transfers are worth doing."
+
+msgid "layout.hub.open"
+msgstr "Open layout workbench"
+
+msgid "terminology.category.layout"
+msgstr "Layout and preparation"
+
+msgid "terminology.term.data_layout.title"
+msgstr "Data layout"
+
+msgid "terminology.term.data_layout.body"
+msgstr "The same values may occupy different addresses. Color identifies a field; the number identifies a record. Neighbors can change without changing identity. Both diagrams use real address mappings; each row is one 16 B line."
+
+msgid "terminology.term.field_group.title"
+msgstr "Field groups"
+
+msgid "terminology.term.field_group.body"
+msgstr "Groups choose fields that share an address region. Order within each group can follow records or fields, with an optional record block size. This is a small example, not the task solution."
+
+msgid "terminology.term.copy_cost.title"
+msgstr "Preparation cost"
+
+msgid "terminology.term.copy_cost.body"
+msgstr "Changing layout at runtime reads original values and writes scratch copies. Total time = preparation + query + output. Reads, writes and scratch count in the real model. A short query may save less than the move costs."
+
+msgid "terminology.term.bounded_batch.title"
+msgstr "Bounded batches and tails"
+
+msgid "terminology.term.bounded_batch.body"
+msgstr "Copy one batch, finish all its queries, then release it. Nine records in batches of four means 4 + 4 + 1. The tail is retained without inventing padding records."

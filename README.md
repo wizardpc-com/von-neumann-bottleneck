@@ -1,10 +1,10 @@
 # Von Neumann Bottleneck
 
-2026-09-10 开发中：总任务树连接四个区域，新增五条可选支线（共 34 个节点）及三个附加挑战；旧主线门槛不变。详见[实施与验收计划](docs/exec-plans/active/task-tree-and-side-missions.md)。自动检查已覆盖新增内容，本地反馈记录与多会话报告已升级；完整原生试玩仍在进行。
+2026-09-11 免费初版候选开发：保留原游戏，新增第四章「把数据摆对地方」完整六关，共五个区域、40 个任务。布局与复制来自真实地址、流量和空间模型；任务树按前置关系自动排布。详见[本轮计划](docs/exec-plans/active/five-chapter-free-alpha.md)、[原生验收记录](docs/verification/20260910-five-chapter/README.md)和[候选分发说明](docs/distribution/free-alpha.md)。
 
 > Connect a machine, make it work, then reduce the time it spends waiting for data.
 
-**Project status:** early prototype / playable demo. This repository is not a complete game, a production-ready release, or a promise that the current progression and presentation are final.
+**Project status:** free public-alpha candidate in development. Five playable regions and 40 tasks; public distribution, Windows native acceptance and external beginner playtesting remain separate gates. No paid features or account requirement.
 
 Von Neumann Bottleneck is a construction and optimization puzzle about computer data flow. Connect a working machine, run the task, then change where data goes and when it is reused to reduce waiting. The default route builds arithmetic and storage circuits into a computer, then investigates and reduces data movement.
 
@@ -16,13 +16,15 @@ Von Neumann Bottleneck is a construction and optimization puzzle about computer 
 
 The models are deliberately bounded teaching models. They make costs and causal flow visible without claiming physical or cycle-accurate hardware realism.
 
-## Playable Demo
+## Free alpha candidate
 
 Open **Hardware Foundations** from the default chapter hub. The original route is Tutorial → arithmetic/storage branches → CPU → LOAD/STORE → Chapter 1 → Chapter 2. Named designs, free editing, floating Mission and independent progressive hints are available in ordinary Game. The eight-task runtime was removed on 2026-09-09; historical code remains in Git.
 
 The [guided workbench update](docs/verification/2026-09-09-guided-workbench/README.md) records open component tools, clearer cable separation and the 96-term illustrated Handbook with focused lesson recommendations. The [visual and learning status](docs/status/visual-learning-polish.md), [construction experience](docs/status/construction-experience.md) and [recovery record](docs/status/in-place-recovery.md) preserve earlier work and package evidence. Native checks are scoped in their records; novice and release acceptance remain open.
 
-## Screenshots
+## Earlier visual baseline
+
+These screenshots predate the five-region candidate; they are retained as historical presentation evidence. Current native observations are in the verification record.
 
 <table>
   <tr>

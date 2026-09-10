@@ -26,6 +26,10 @@ func _gui_input(event: InputEvent) -> void:
 		drag_candidate = true
 		press_position = event.position
 func _input(event: InputEvent) -> void:
+	if (event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE) or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT):
+		drag_candidate=false; dragging_field=false; payload["committed"]=true
+		if get_viewport().gui_is_dragging(): get_viewport().gui_cancel_drag()
+		return
 	if dragging_field and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		dragging_field=false
 		# Native motion can start a drag on the last motion before release.

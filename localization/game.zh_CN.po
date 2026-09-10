@@ -6073,4 +6073,43 @@ msgid "moments.disabled"
 msgstr "本次启动关闭了反馈记录。未保存任何回答。"
 
 msgid "tree.region.4"
-msgstr "把数据摆对地方"
+msgstr "05 把数据摆对地方"
+
+msgid "layout.hub.title"
+msgstr "第 4 章：把数据摆对地方"
+
+msgid "layout.hub.eyebrow"
+msgstr "布局 · 整理成本 · 有限空间"
+
+msgid "layout.hub.description"
+msgstr "相同的数据，换一种摆法。\n\n自己组合分组、复制和分批，比较每次搬运是否值得。"
+
+msgid "layout.hub.open"
+msgstr "进入布局工作台"
+
+msgid "terminology.category.layout"
+msgstr "布局与整理"
+
+msgid "terminology.term.data_layout.title"
+msgstr "数据布局"
+
+msgid "terminology.term.data_layout.body"
+msgstr "同一份数据可以放在不同地址。颜色代表字段，编号代表哪条记录；改变邻居不会改变数据身份。图中两种排法来自实际地址映射，每行仍是一趟 16 B。"
+
+msgid "terminology.term.field_group.title"
+msgstr "字段分组"
+
+msgid "terminology.term.field_group.body"
+msgstr "分组决定哪些字段放在同一片地址。组内按记录或按字段排列；还可以限定每块处理的记录数。这里展示小样例，不是本关答案。"
+
+msgid "terminology.term.copy_cost.title"
+msgstr "整理成本"
+
+msgid "terminology.term.copy_cost.body"
+msgstr "运行时换布局要先读原值，再把副本写入临时区。总时间 = 准备 + 查询 + 输出。读、写和临时区都计入真实模型；一轮查询省下的时间，可能抵不过搬家的成本。"
+
+msgid "terminology.term.bounded_batch.title"
+msgstr "有限空间与尾批"
+
+msgid "terminology.term.bounded_batch.body"
+msgstr "一批数据复制后，完成这批的全部查询再释放。若 9 条记录每批 4 条，就是 4 + 4 + 1；最后一批不能漏掉，也不用填成不存在的记录。"

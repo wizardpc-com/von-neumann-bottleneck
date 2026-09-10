@@ -11,6 +11,8 @@ var _has_windowed_rect: bool = false
 
 
 func _ready() -> void:
+	var settings := ConfigFile.new()
+	if settings.load("user://presentation.cfg")==OK: ProjectSettings.set_setting("game/reduced_motion",bool(settings.get_value("display","reduced_motion",false)))
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_process_input(true)
 	if _display_is_headless():
@@ -128,3 +130,8 @@ func _requested_capture_size() -> Vector2i:
 
 func _display_is_headless() -> bool:
 	return DisplayServer.get_name() == "headless"
+
+func set_reduced_motion(value: bool) -> void:
+	ProjectSettings.set_setting("game/reduced_motion",value)
+	var settings := ConfigFile.new(); settings.set_value("display","reduced_motion",value)
+	settings.save("user://presentation.cfg")

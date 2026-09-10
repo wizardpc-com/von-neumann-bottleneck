@@ -9,6 +9,11 @@ const LocalityCatalogType = preload("res://src/locality_chapter/locality_level_c
 
 # Availability follows the first playable lesson that needs the concept.
 const LESSON_TERMS := {
+	&"layout:fields": [&"data_layout"],
+	&"layout:hot_cold": [&"field_group"],
+	&"layout:relocation": [&"copy_cost"],
+	&"layout:batches": [&"bounded_batch"],
+
 	&"overlap:arrival": [&"async_transfer", &"request_queue"],
 	&"overlap:buffers": [&"double_buffer"],
 	&"overlap:backpressure": [&"backpressure"],
@@ -36,6 +41,11 @@ const LESSON_TERMS := {
 }
 
 const RECOMMENDED := {
+	&"layout:fields": [&"data_layout"],
+	&"layout:hot_cold": [&"field_group"],
+	&"layout:relocation": [&"copy_cost"],
+	&"layout:batches": [&"bounded_batch"],
+
 	&"hardware:tutorial": [&"signal", &"not_gate", &"wire"],
 	&"hardware:half_adder": [&"binary", &"half_adder", &"xor_gate"],
 	&"hardware:full_adder": [&"full_adder", &"cin_cout", &"encapsulation"],
@@ -82,6 +92,7 @@ const TEXT := Color("e9f0fa")
 const ENTRY_BUTTON_WIDTH := 118.0
 
 const CATEGORIES: Array[Dictionary] = [
+	{"id": &"layout", "key": &"terminology.category.layout"},
 	{"id": &"overlap", "key": &"terminology.category.overlap"},
 	{"id": &"basics", "key": &"terminology.category.basics"},
 	{"id": &"hardware", "key": &"terminology.category.hardware"},
@@ -90,6 +101,7 @@ const CATEGORIES: Array[Dictionary] = [
 ]
 
 const DIRECTORIES: Array[Dictionary] = [
+	{"id": &"layout", "category": &"layout", "key": &"terminology.category.layout", "terms": [&"data_layout",&"field_group",&"copy_cost",&"bounded_batch"]},
 	{"id": &"overlap", "category": &"overlap", "key": &"terminology.category.overlap", "terms": [&"async_transfer", &"double_buffer", &"backpressure", &"prefetch", &"prefetch_distance", &"request_queue"]},
 	{"id": &"signals", "category": &"basics", "key": &"terminology.directory.signals", "terms": [&"bit_width", &"bit", &"binary", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit"]},
 	{"id": &"logic", "category": &"basics", "key": &"terminology.directory.logic", "terms": [&"logic_gate", &"not_gate", &"and_gate", &"or_gate", &"xor_gate", &"nor_gate"]},
@@ -108,6 +120,11 @@ const DIRECTORIES: Array[Dictionary] = [
 ]
 
 const TERMS: Array[Dictionary] = [
+	{"id": &"data_layout", "category": &"layout", "title": &"terminology.term.data_layout.title", "body": &"terminology.term.data_layout.body", "diagram": &"layout_data_layout"},
+	{"id": &"field_group", "category": &"layout", "title": &"terminology.term.field_group.title", "body": &"terminology.term.field_group.body", "diagram": &"layout_field_group"},
+	{"id": &"copy_cost", "category": &"layout", "title": &"terminology.term.copy_cost.title", "body": &"terminology.term.copy_cost.body", "diagram": &"layout_copy_cost"},
+	{"id": &"bounded_batch", "category": &"layout", "title": &"terminology.term.bounded_batch.title", "body": &"terminology.term.bounded_batch.body", "diagram": &"layout_bounded_batch"},
+
 	{"id": &"bit_width", "category": &"basics", "title": &"terminology.term.bit_width.title", "body": &"terminology.term.bit_width.body", "diagram": &"widths"},
 	{"id": &"async_transfer", "category": &"overlap", "title": &"terminology.term.async_transfer.title", "body": &"terminology.term.async_transfer.body", "diagram": &"arrival"},
 	{"id": &"double_buffer", "category": &"overlap", "title": &"terminology.term.double_buffer.title", "body": &"terminology.term.double_buffer.body", "diagram": &"double_buffer"},
@@ -706,6 +723,8 @@ func is_term_unlocked(term_id: StringName) -> bool:
 			return prologue_catalog.is_unlocked(level_id, GlobalSave.game_player_content.completed_levels)
 		"system":
 			return system_catalog.is_unlocked(level_id, SystemChapter.game_completed, SystemChapter.prologue_ready)
+		"layout":
+			return preload("res://src/layout_chapter/layout_catalog.gd").unlocked(String(level_id),LayoutChapter.completed(),LayoutChapter.chapter_unlocked())
 		"overlap":
 			return preload("res://src/overlap_chapter/overlap_catalog.gd").unlocked(String(level_id),OverlapChapter.completed(),OverlapChapter.chapter_unlocked(),false)
 		"locality":
@@ -726,6 +745,7 @@ func _lesson_title(term_id: StringName) -> String:
 		return ""
 	var level_id := StringName(parts[1])
 	match parts[0]:
+		"layout": return preload("res://src/layout_chapter/layout_catalog.gd").title(String(level_id))
 		"overlap": return _t(StringName("overlap."+String(level_id)+".title"))
 		"hardware": return _t(prologue_catalog.title_key(level_id))
 		"system": return _t(system_catalog.title_key(level_id))

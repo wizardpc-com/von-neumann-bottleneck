@@ -40,6 +40,8 @@ func _draw() -> void:
 	if String(diagram_id).begins_with("gate_"):
 		_draw_gate_example()
 		return
+	if String(diagram_id).begins_with("layout_"):
+		_draw_layout_example(); return
 	match diagram_id:
 		&"widths": _draw_width_example()
 		&"arrival", &"prefetch": _draw_arrival_example()
@@ -469,3 +471,29 @@ func _draw_double_buffer_example() -> void:
 		var state: String = stages[example_step][index]
 		_draw_box(Rect2(20+index*(cell+26),54,cell,95),"A" if index==0 else "B",_t(StringName("overlap.state."+state)),GOOD if state=="in_use" else ACCENT)
 	_draw_text(Rect2(16,182,size.x-32,36),_t(StringName("teaching.double_buffer."+str(example_step))),TEXT,15)
+
+func _draw_layout_example() -> void:
+	var chinese: bool = TranslationServer.get_locale().begins_with("zh")
+	if diagram_id==&"layout_copy_cost" or diagram_id==&"layout_bounded_batch":
+		var captions: Array = ["准备：读取 → 写入","查询这一批","释放 → 下一批"] if chinese else ["Prepare: read → write","Query this batch","Release → next"]
+		var width: float = (size.x-48)/3
+		for index: int in range(3):
+			var rect := Rect2(16+index*width,65,width-10,78)
+			draw_rect(rect,PANEL); _draw_text(rect,captions[index],ACCENT,17)
+		_draw_text(Rect2(16,163,size.x-32,42),"9 条 ÷ 每批 4 条 → 4 + 4 + 1（尾批）" if chinese else "9 records / 4 per batch → 4 + 4 + 1 (tail)",TEXT,18)
+		return
+	var recipe = preload("res://src/layout_chapter/layout_recipe.gd")
+	var colors: Array[Color] = [GOOD,ACCENT,WARNING,Color("bc8cff")]
+	var names: Array = ["温","号","电","警"] if chinese else ["T","ID","B","A"]
+	for panel_index: int in range(2):
+		var map: Dictionary = recipe.mapping(recipe.record_major() if panel_index==0 else recipe.field_major(),2)
+		var width: float = (size.x-48)/2
+		var x: float = 16+panel_index*(width+16)
+		_draw_text(Rect2(x,12,width,35),("按记录" if panel_index==0 else "按字段") if chinese else ("By record" if panel_index==0 else "By field"),TEXT,19)
+		for cell: Dictionary in map.cells:
+			var address: int = int(cell.address)
+			var at := Vector2(x+(address%16)/4*(width/4),60+int(address/16)*64)
+			var rect := Rect2(at,Vector2(width/4-5,50))
+			draw_rect(rect,Color(colors[cell.field],0.15)); draw_rect(Rect2(at,Vector2(3,50)),colors[cell.field])
+			_draw_text(rect,names[cell.field]+str(cell.record),colors[cell.field],17)
+	_draw_text(Rect2(16,196,size.x-32,34),"每格 4 B · 每行 16 B · 编号不变" if chinese else "4 B / cell · 16 B / line · same record IDs",MUTED,17)

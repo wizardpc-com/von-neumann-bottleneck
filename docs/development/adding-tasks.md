@@ -1,0 +1,11 @@
+# Extending the existing task tree
+
+Keep simulation and task acceptance in their domain catalog/state. Register public `id`, title/goal, dependencies and available/completed state in the existing `TaskNavigation.tasks()` adapter. IDs are domain-qualified. A new chapter additionally registers its scene in `SCENES`, one region title translation, chapter entry and explicit cross-region prerequisite. This is one game and one save family, not a new alternate campaign.
+
+`TaskTreeLayout.build(rows)` reads the prerequisite DAG. It assigns topological columns inside each region, parent-centered lanes and non-overlapping region rows; cross-region forks share a row. No per-task coordinates, fixed five-region geometry or world-size table is needed. Cycles/missing dependencies are authoring errors. Optional compact labels belong in `SHORT_TITLES`; absent entries fall back to the task title. Full titles and requirements stay in the selected detail panel. New data does not change old prerequisites by implication.
+
+For a new task: write a short player decision, public input/output and constraints, at least two actual cases plus failing counterexamples, a starter and independent progressively revealed hints. Test acceptance by behavior, not component IDs or layout matching. If a task introduces a mechanism, describe it before the first required use; add its Handbook lesson and illustration. Preserve existing named schemes; only new starters use new layouts.
+
+Run relevant simulation and UI tests, then the ordinary native Game path. `test_task_tree_layout.gd` injects a sixth region with two synthetic tasks solely to prove automatic layout, deterministic geometry and absence of node overlap. That fixture is not shipped content and never unlocks gameplay.
+
+Visual conventions: dark navy surfaces, cyan navigation/focus, green completed, amber constraints, purple timing, rose layout. Use color together with labels/shapes. At overview use a short task name and compact completion marker; at normal zoom show the task title and one short status. Keep the full requirement in the side panel. No duplicate floating explanation windows on the map. Shared window fades are short, optional, and never delay input.

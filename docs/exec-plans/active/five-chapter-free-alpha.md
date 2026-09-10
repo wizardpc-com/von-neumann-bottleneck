@@ -34,3 +34,9 @@ References checked this run: Intel memory layout transformations (access-pattern
 ## M1 checkpoint update
 
 M0 baseline: 24 suites and Chinese ordinary Game 602/602 checks passed. M1 native Game 4-1 and 4-2 completed with player-created non-reference recipes; see [actual evidence](../../verification/20260910-five-chapter/README.md). Fixed native drag release, emitting-widget lifetime and JSON-restored integer field IDs. Six-task catalog/model/UI scaffolding is present, but M2 native completion and M3–M5 remain open. Do not stop at this checkpoint.
+
+## M2–M4 update, 2026-09-11
+
+M2 all six tasks earned in native ordinary Game, with distinct non-reference layouts and full/batched alternatives; committed `a4cbb98`. M3 current task tree is a true prerequisite DAG with automatic task/region layout, full selected details and compact overview, plus first-use/trace/manual/feedback visual fixes. Forty-task playability review separates new native observations from historical and still-open human evidence. M4 optional transport, loopback receiver and private report are implemented; synthetic cross-process integration, transactional counts and revised/absent ratings pass. Latest all-suite/English Game run and three-process migration pass. See the verification record for exact identifiers and remaining gates.
+
+M5 proceeds with same-commit Mac/Windows candidates, default Game/offline behavior, licenses/manifests and distribution notes. Native final artifact checks remain separate from export success. No further chapter or platform service is being added.

@@ -183,7 +183,7 @@ func _ready() -> void:
 	var requested_task: StringName = TaskNavigation.consume("chapter_1")
 	if not requested_task.is_empty(): call_deferred("_start_level",requested_task)
 	set_process(true)
-	var arguments: PackedStringArray = OS.get_cmdline_user_args()
+	var arguments: PackedStringArray = GameMode.capture_arguments()
 	if "--capture-system" in arguments:
 		call_deferred("_capture_system_workspace")
 	elif "--capture-system-run" in arguments:
@@ -233,7 +233,7 @@ func _input(event: InputEvent) -> void:
 				_sample_hovered_system_wire()
 				get_viewport().set_input_as_handled()
 		return
-	if key_event.keycode == KEY_DELETE:
+	if key_event.keycode in [KEY_DELETE, KEY_BACKSPACE]:
 		_delete_selected_system_devices()
 		get_viewport().set_input_as_handled()
 		return
@@ -1548,6 +1548,7 @@ func _on_part_selected(index: int, kind: StringName) -> void:
 				break
 		return
 	var previous_part_id: StringName = selected_part_ids.get(kind, &"")
+	if previous_part_id == StringName(selector.get_item_metadata(index)): return
 	selected_part_ids[kind] = StringName(selector.get_item_metadata(index))
 	PlaytestData.record_modification(&"chapter_1", current_level_id, &"hardware", {
 		"part_kind": String(kind),
@@ -2142,6 +2143,7 @@ func _update_program_explanation(program: SystemProgram) -> void:
 
 
 func _run_debug_case() -> void:
+	PlaytestData.record_action(&"chapter_1",current_level_id,&"debug_run_request")
 	if not _prepare_run():
 		return
 	var cases: Array = _active_cases()

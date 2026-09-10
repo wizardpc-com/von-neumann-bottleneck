@@ -628,6 +628,16 @@ func _run() -> void:
 	focus_probe.text = "focus"
 	main.add_child(focus_probe)
 	focus_probe.grab_focus()
+	var backspace := InputEventKey.new()
+	backspace.keycode=KEY_BACKSPACE; backspace.pressed=true
+	main.call("_set_selected_ids", [&"NOT_1"] as Array[StringName])
+	_assert(not bool(main.call("_handle_editor_shortcut",backspace)) and (main.get("component_nodes") as Dictionary).has(&"NOT_1"), "Backspace in a text field must never delete a selected circuit component.")
+	graph.grab_focus()
+	_assert(bool(main.call("_handle_editor_shortcut",backspace)) and not (main.get("component_nodes") as Dictionary).has(&"NOT_1"), "Mac Backspace must delete the selected gate through the existing transaction.")
+	_shortcut(main, KEY_Z)
+	_assert((main.get("component_nodes") as Dictionary).has(&"NOT_1"), "Undo must restore the Backspace-deleted gate and its incident wires.")
+	main.call("_set_selected_ids", [] as Array[StringName])
+	focus_probe.grab_focus()
 	_key_down(main, KEY_D)
 	main.call("_process", 0.10)
 	_key_up(main, KEY_D)

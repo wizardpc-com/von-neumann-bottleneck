@@ -1,18 +1,16 @@
 extends Control
 signal task_selected(key: String)
-const NODE_SIZE := Vector2(208,82)
-const WORLD_SIZE := Vector2(2310,2170)
+const Layout = preload("res://src/campaign/task_tree_layout.gd")
+const NODE_SIZE: Vector2 = Layout.NODE_SIZE
 const COLORS := [Color("67e8a5"),Color("ffbf69"),Color("50d5ff"),Color("bc8cff"),Color("f4a6cb")]
-const POSITIONS := {
-	"tutorial":Vector2(0,1),"half_adder":Vector2(1,0),"full_adder":Vector2(2,0),"alu":Vector2(3,0),
-	"latch":Vector2(1,2),"register":Vector2(2,2),"ram":Vector2(3,2),"cpu":Vector2(5,1),"load_store":Vector2(6,1),
-	"selector":Vector2(2,-1),"selector4":Vector2(3,-1),"parity":Vector2(1,-1),"alarm":Vector2(1,3),"delay":Vector2(3,3),
-	"assembly":Vector2(0,0),"cpu_speed":Vector2(1,0),"ram_wait":Vector2(2,0),"bus_width":Vector2(3,0),"bottleneck":Vector2(4,0),
-	"read_once":Vector2(2,1),"two_orders":Vector2(4,1),
-	"distant_reads":Vector2(0,0),"nearby_storage":Vector2(1,0),"cache_failure":Vector2(2,0),"access_order":Vector2(3,0),
-	"working_set":Vector2(4,0),"blocking":Vector2(5,0),"capstone":Vector2(6,0),
-	"arrival":Vector2(0,1),"buffers":Vector2(1,0),"backpressure":Vector2(2,0),"prefetch":Vector2(1,2),
-	"distance":Vector2(2,2),"synthesis":Vector2(3,1),"fields":Vector2(0,1),"records":Vector2(1,0),"hot_cold":Vector2(2,0),"relocation":Vector2(1,2),"batches":Vector2(2,2),"mixed":Vector2(3,1)}
+var region_rects: Dictionary = {}
+var world_size := Vector2(2500,1900)
+const SHORT_TITLES := {
+ "tutorial":["接线","Wiring"],"half_adder":["半加器","Half adder"],"full_adder":["全加器","Full adder"],"alu":["ALU","ALU"],"latch":["锁存器","Latch"],"register":["寄存器","Register"],"ram":["RAM","RAM"],"cpu":["CPU","CPU"],"load_store":["存取指令","Load/store"],"selector":["两路选择","Select 2"],"selector4":["四路选择","Select 4"],"parity":["一位校验","Parity"],"alarm":["保留报警","Alarm"],"delay":["晚一拍","Delay"],
+ "assembly":["组装系统","Assemble"],"cpu_speed":["CPU 速度","CPU speed"],"ram_wait":["谁在等待","Waiting"],"bus_width":["总线宽度","Bus width"],"bottleneck":["瓶颈调查","Bottleneck"],"read_once":["只取一次","Read once"],"two_orders":["两张订单","Two orders"],
+ "distant_reads":["远处取数","Far reads"],"nearby_storage":["近处缓存","Cache"],"cache_failure":["缓存失效","Misses"],"access_order":["访问顺序","Order"],"working_set":["工作集","Working set"],"blocking":["分块查询","Blocking"],"capstone":["综合优化","Optimize"],
+ "arrival":["请求完成","Arrival"],"buffers":["双缓冲","Buffers"],"backpressure":["状态协调","Flow control"],"prefetch":["提前取数","Prefetch"],"distance":["预取距离","Distance"],"synthesis":["时序综合","Coordinate"],
+ "fields":["只取所需","Need only"],"records":["整条取来","Full record"],"hot_cold":["冷热分开","Hot / cold"],"relocation":["搬家成本","Move cost"],"batches":["有限分批","Batch"],"mixed":["两类查询","Two queries"]}
 var rows: Array[Dictionary] = []
 var positions: Dictionary = {}
 var pan := Vector2.ZERO
@@ -34,11 +32,11 @@ func _ready() -> void:
 
 func configure(tasks: Array[Dictionary]) -> void:
 	rows = tasks
-	for task: Dictionary in rows:
-		var p: Vector2 = POSITIONS.get(task.id,Vector2.ZERO)
-		var region: int = task.region
-		var y: float = [220.0,790.0,1150.0,1400.0,1800.0][region]
-		positions[task.key] = Vector2(80+p.x*300,y+p.y*112)
+	var layout: Dictionary = Layout.build(rows)
+	positions=layout.positions
+	region_rects=layout.regions
+	world_size=layout.size
+	for message: String in layout.errors: push_error(message)
 	queue_redraw()
 
 func _draw() -> void:
@@ -46,22 +44,39 @@ func _draw() -> void:
 	if rows.is_empty(): return
 	draw_set_transform(pan,0,Vector2.ONE*magnification)
 	var font: Font = get_theme_default_font()
-	for region: int in range(5):
-		var y: float = [55.0,730.0,1090.0,1330.0,1730.0][region]
-		draw_string(font,Vector2(80,y),Localization.text(StringName("tree.region."+str(region))),HORIZONTAL_ALIGNMENT_LEFT,-1,32,COLORS[region])
+	for region: int in region_rects:
+		var rect: Rect2 = region_rects[region]
+		var key: StringName = StringName("tree.region."+str(region))
+		var title: String = Localization.text(key)
+		if title==String(key): title="Chapter "+str(region)
+		draw_string(font,rect.position+Vector2(50,10),title,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(30,ceili(15/magnification)),_color(region))
 	for task: Dictionary in rows:
 		for dep: String in task.dependencies:
 			if not positions.has(dep): continue
 			var a: Vector2 = positions[dep]+Vector2(NODE_SIZE.x,NODE_SIZE.y/2)
 			var b: Vector2 = positions[task.key]+Vector2(0,NODE_SIZE.y/2)
 			var color := Color("354963")
-			if task.key == TaskNavigation.selected: color = COLORS[task.region]
-			var path := PackedVector2Array([a,Vector2((a.x+b.x)/2,a.y),Vector2((a.x+b.x)/2,b.y),b])
-			draw_polyline(path,color,2.0,true)
+			if task.key == TaskNavigation.selected: color = _color(task.region)
+			var points: PackedVector2Array
+			if dep.get_slice("/",0)!=task.domain:
+				# Chapter bridges travel through the free gutter, never across task cards.
+				var source_region: int = 0
+				for other: Dictionary in rows:
+					if other.key==dep: source_region=other.region; break
+				var gutter: float = (region_rects[source_region] as Rect2).end.y+45
+				points=PackedVector2Array([a,a+Vector2(24,0),Vector2(a.x+24,gutter),Vector2(b.x-32,gutter),Vector2(b.x-32,b.y),b])
+			else:
+				var curve := Curve2D.new()
+				var distance: float = maxf(30,(b.x-a.x)*0.5)
+				curve.add_point(a,Vector2.ZERO,Vector2(distance,0))
+				curve.add_point(b,Vector2(-distance,0),Vector2.ZERO)
+				points=curve.tessellate()
+			draw_polyline(points,Color(color,0.14),maxf(6,3/magnification),true)
+			draw_polyline(points,color,maxf(1.8,1.1/magnification),true)
 			draw_colored_polygon(PackedVector2Array([b,b+Vector2(-8,-5),b+Vector2(-8,5)]),color)
 	for task: Dictionary in rows:
 		var rect := Rect2(positions[task.key],NODE_SIZE)
-		var color: Color = COLORS[task.region] if task.unlocked else Color("63758b")
+		var color: Color = _color(task.region) if task.unlocked else Color("63758b")
 		var matched: bool = query.is_empty() or _matches(task)
 		if not matched: color.a = 0.28
 		var style := StyleBoxFlat.new()
@@ -69,15 +84,30 @@ func _draw() -> void:
 		style.border_color = color
 		style.set_border_width_all(3 if task.key == TaskNavigation.selected else 1)
 		style.set_corner_radius_all(10)
+		if task.key==TaskNavigation.selected:
+			style.shadow_color=Color(color,0.16); style.shadow_size=12
 		draw_style_box(style,rect)
+		if task.completed:
+			draw_circle(rect.position+Vector2(NODE_SIZE.x-12,12),5,color)
+		if task.optional:
+			var mid: Vector2 = rect.position+Vector2(0,NODE_SIZE.y/2)
+			draw_colored_polygon(PackedVector2Array([mid+Vector2(-8,0),mid+Vector2(0,-8),mid+Vector2(8,0),mid+Vector2(0,8)]),color)
+		if magnification<0.62:
+			var names: Array = SHORT_TITLES.get(task.id,[task.title,task.title])
+			var short_title: String = names[0 if Localization.current_locale().begins_with("zh") else 1]
+			var compact_size: int = ceili(14/magnification)
+			while font.get_string_size(short_title,HORIZONTAL_ALIGNMENT_LEFT,-1,compact_size).x>NODE_SIZE.x-22 and compact_size>18: compact_size-=1
+			while font.get_string_size(short_title,HORIZONTAL_ALIGNMENT_LEFT,-1,compact_size).x>NODE_SIZE.x-22 and short_title.length()>2:
+				short_title=short_title.left(short_title.length()-2)+"…"
+			draw_string(font,rect.position+Vector2(10,51),short_title,HORIZONTAL_ALIGNMENT_LEFT,-1,compact_size,color)
+			continue
 		var title: String = task.title
-		var font_size: int = 18
+		var font_size: int = maxi(18,ceili(16.0/magnification))
 		while font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x > NODE_SIZE.x-24 and title.length()>2:
 			title = title.left(title.length()-2)+"…"
 		draw_string(font,rect.position+Vector2(12,31),title,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)
-		var state: String = "completed" if task.completed else "available" if task.unlocked else "locked_short"
-		var caption: String = ("◇ " if task.optional else "")+Localization.text(StringName("tree."+state))
-		draw_string(font,rect.position+Vector2(12,62),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,15,color)
+		var caption: String = ("◇ " if task.optional else "")+(("已完成" if task.completed else "可进入" if task.unlocked else "未解锁") if Localization.current_locale().begins_with("zh") else ("Completed" if task.completed else "Available" if task.unlocked else "Locked"))
+		draw_string(font,rect.position+Vector2(12,62),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(15,ceili(12.0/magnification)),color)
 	draw_set_transform(Vector2.ZERO)
 
 func _gui_input(event: InputEvent) -> void:
@@ -91,11 +121,19 @@ func _gui_input(event: InputEvent) -> void:
 				if dragging and not moved and event.button_index == MOUSE_BUTTON_LEFT:
 					var world: Vector2 = (event.position-pan)/magnification
 					for task: Dictionary in rows:
-						if Rect2(positions[task.key],NODE_SIZE).has_point(world): task_selected.emit(task.key); break
+						if Rect2(positions[task.key],NODE_SIZE).has_point(world):
+							task_selected.emit(task.key)
+							if magnification<0.62: locate(task.key)
+							break
 				dragging = false
 	elif event is InputEventMouseMotion and dragging:
 		if event.position.distance_to(press_position)>4: moved = true
 		if moved: pan += event.relative; _save()
+	elif event is InputEventMouseMotion:
+		tooltip_text=""
+		var world: Vector2 = (event.position-pan)/magnification
+		for task: Dictionary in rows:
+			if Rect2(positions[task.key],NODE_SIZE).has_point(world): tooltip_text=task.title; break
 	elif event is InputEventMagnifyGesture:
 		_zoom_at(event.position,event.factor)
 	elif event is InputEventPanGesture:
@@ -104,7 +142,7 @@ func _gui_input(event: InputEvent) -> void:
 
 func _zoom_at(point: Vector2,factor: float) -> void:
 	var world: Vector2 = (point-pan)/magnification
-	magnification = clampf(magnification*factor,0.28,1.6)
+	magnification = clampf(magnification*factor,0.18,1.6)
 	pan = point-world*magnification
 	_save()
 
@@ -115,8 +153,8 @@ func locate(key: String) -> void:
 	_save()
 
 func overview() -> void:
-	magnification = clampf(minf(size.x/WORLD_SIZE.x,size.y/WORLD_SIZE.y),0.28,0.8)
-	pan = Vector2(15,15)
+	magnification = clampf(minf(size.x/world_size.x,size.y/world_size.y),0.18,0.8)
+	pan = (size-world_size*magnification)/2
 	_save()
 
 func set_search(value: String) -> void:
@@ -144,8 +182,13 @@ func _save() -> void:
 
 
 func _report_exposure() -> void:
+	# Compact nodes have no readable labels; do not count them as task exposure.
+	if magnification<0.62: return
 	for task: Dictionary in rows:
 		var rect := Rect2(positions.get(task.key,Vector2.ZERO)*magnification+pan,NODE_SIZE*magnification)
 		if Rect2(Vector2.ZERO,size).intersects(rect) and not exposed.has(task.key):
 			exposed[task.key] = true
 			PlaytestData.record_map_action(&"viewport_exposure",task.key,{"zoom":magnification,"eligible":task.unlocked})
+
+
+func _color(region: int) -> Color: return COLORS[posmod(region,COLORS.size())]

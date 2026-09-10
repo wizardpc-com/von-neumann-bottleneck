@@ -1,5 +1,6 @@
 class_name PlaytestDataStore
 extends Node
+signal event_appended(event: Dictionary)
 
 const SCHEMA_VERSION: int = 2
 const EXPORT_SCHEMA_VERSION: int = 2
@@ -41,7 +42,7 @@ var _read_error_count: int = 0
 
 func _ready() -> void:
 	var arguments: PackedStringArray = _command_line_arguments()
-	if "--reset-local-test-state" in arguments:
+	if "--reset-local-test-state" in arguments and not OS.has_feature("free_candidate"):
 		var reset_result: Dictionary = reset_local_test_state()
 		if bool(reset_result.get("ok", false)):
 			print("Local playtest state reset: %d file(s) removed; prior exports preserved." % (
@@ -51,6 +52,8 @@ func _ready() -> void:
 			push_error("Local playtest state reset failed: %s" % ", ".join(
 				reset_result.get("errors", []) as Array
 			))
+	var preferences := ConfigFile.new()
+	if preferences.load("user://feedback_preferences.cfg")==OK: telemetry_enabled=bool(preferences.get_value("privacy","local_actions",true))
 	_configure_from_command_line(arguments)
 	for argument: String in arguments:
 		if argument.begins_with("--playtest-source="):
@@ -254,7 +257,18 @@ func submit_level_feedback(
 	if fun_rating not in range(0,6) or clarity_rating not in range(0,6) or continue_rating not in range(0,6):
 		return false
 	if fun_rating == 0 and clarity_rating == 0 and continue_rating == 0 and note.strip_edges().is_empty(): return false
+	if chapter_id.is_empty() or level_id.is_empty(): return false
+	var visit: String = ""
+	var context: Dictionary = current_task_context if not current_task_context.is_empty() else last_exit_context
+	if str(context.get("chapter_id",""))==String(chapter_id) and str(context.get("level_id",""))==String(level_id):
+		visit=current_visit_id if not current_visit_id.is_empty() else str(context.get("visit_id",""))
+	var revision: int = 1
+	for previous: Dictionary in _events:
+		if previous.get("event")=="level_feedback" and previous.get("visit_id","")==visit:
+			var old: Dictionary = previous.get("payload",{})
+			if old.get("chapter_id")==String(chapter_id) and old.get("level_id")==String(level_id): revision+=1
 	return _append_event(&"level_feedback", {
+		"visit_id":visit,"revision":revision,"run_id":latest_run_id if not visit.is_empty() and visit==current_visit_id else "",
 		"chapter_id": String(chapter_id),
 		"level_id": String(level_id),
 		"fun": fun_rating if fun_rating > 0 else null,
@@ -595,6 +609,7 @@ func _append_event(event_name: StringName, payload: Dictionary) -> bool:
 	_sequence += 1
 	_events.append(event)
 	_update_state_from_event(event)
+	event_appended.emit(event.duplicate(true))
 	return true
 
 
@@ -907,3 +922,10 @@ func _observation_value(value: Variant) -> Variant:
 		for item: Variant in value: values.append(_observation_value(item))
 		return values
 	return _json_safe(value)
+
+func latest_level_feedback(chapter_id: String, level_id: String) -> Dictionary:
+	for index: int in range(_events.size()-1,-1,-1):
+		var event: Dictionary = _events[index]
+		var payload: Dictionary = event.get("payload",{})
+		if event.get("event")=="level_feedback" and payload.get("chapter_id")==chapter_id and payload.get("level_id")==level_id: return event.duplicate(true)
+	return {}

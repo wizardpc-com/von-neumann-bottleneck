@@ -1,0 +1,16 @@
+{
+  "source_commit": "6942a61ccdbc20d713bc6a85acf244c05a0387df",
+  "mac_release_binary_checks": {
+    "candidate_feature": true,
+    "capture_disabled": true,
+    "forty_tasks": true,
+    "game_only": true,
+    "isolated": true,
+    "remote_default_off": true,
+    "server_excluded": true,
+    "tests_excluded": true
+  },
+  "windows_export": "PE32+ GUI x86-64; ZIP CRC and file digests checked",
+  "windows_native_verified": false,
+  "public_release": false
+}

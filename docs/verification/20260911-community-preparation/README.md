@@ -67,3 +67,14 @@ full 40-task playthrough. Prior five-region acceptance remains in its dated reco
 No public service, credentials, identity, purchase, DNS or Steam action occurred.
 Docker/Linux service startup, public load/latency, actual Windows rendering and
 external beginner comprehension are not established by these checks.
+
+## Frozen delivery
+
+Content `6942a61ccdbc20d713bc6a85acf244c05a0387df`, output
+`build/free-alpha-20260911T062216Z-6942a61c/`, Godot 4.7.1. Both export logs
+have no errors/warnings; archives pass ZIP CRC and include per-file manifests.
+[Archive hashes](candidate-manifest.json) and [package checks](package-checks.json)
+are retained here. Actual Mac release binary probe passes in a copied QA app:
+40 tasks, Game-only, developer captures disabled, default remote off, no test/server
+resources, isolated userdata. Windows file is x86-64 PE GUI; it was not executed
+on Windows. These package checks do not claim a native exported full playthrough.

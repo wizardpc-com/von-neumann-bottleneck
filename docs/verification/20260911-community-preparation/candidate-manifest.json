@@ -1,0 +1,19 @@
+{
+  "source_commit": "6942a61ccdbc20d713bc6a85acf244c05a0387df",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "created_utc": "20260911T062216Z-6942a61c",
+  "public_release": false,
+  "upload_default": false,
+  "platforms": {
+    "macOS": {
+      "zip": "Von-Neumann-Bottleneck-macOS-6942a61c.zip",
+      "bytes": 77893712,
+      "sha256": "4a04fb2f20f50cde4a181e633cf17c76731a215b08e0ba13d54773204facd7af"
+    },
+    "Windows": {
+      "zip": "Von-Neumann-Bottleneck-Windows-6942a61c.zip",
+      "bytes": 55425226,
+      "sha256": "42ef6dbfc9035403d3c8d31102e58989d6d0e2874fac3e0cb5365994c0279318"
+    }
+  }
+}

@@ -9,3 +9,9 @@ For a new task: write a short player decision, public input/output and constrain
 Run relevant simulation and UI tests, then the ordinary native Game path. `test_task_tree_layout.gd` injects a sixth region with two synthetic tasks solely to prove automatic layout, deterministic geometry and absence of node overlap. That fixture is not shipped content and never unlocks gameplay.
 
 Visual conventions: dark navy surfaces, cyan navigation/focus, green completed, amber constraints, purple timing, rose layout. Use color together with labels/shapes. At overview use a short task name and compact completion marker; at normal zoom show the task title and one short status. Keep the full requirement in the side panel. No duplicate floating explanation windows on the map. Shared window fades are short, optional, and never delay input.
+
+Task details use a separate instrument card with title/type/state above a scrolling
+requirements area and fixed actions below. The normal selected accent follows the
+region; locked actions retain the disabled style. `test_task_tree_presentation.gd`
+checks all 40 task cards in both locales at 1280×720 and cancels stale map gestures
+on focus/fullscreen transitions or after an outside release.

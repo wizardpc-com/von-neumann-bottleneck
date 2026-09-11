@@ -20,12 +20,15 @@ var moved: bool = false
 var press_position := Vector2.ZERO
 var query: String = ""
 var exposed: Dictionary = {}
+var hovered_key: String = ""
+var last_canvas_size := Vector2.ZERO
 
 func _ready() -> void:
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	resized.connect(queue_redraw)
-	resized.connect(_report_exposure)
+	mouse_exited.connect(func() -> void: _set_hover(""))
+	WindowMode.window_mode_changing.connect(_cancel_drag)
+	resized.connect(_resize_view)
 	pan = TaskNavigation.camera if TaskNavigation.camera_saved else Vector2(30,30)
 	magnification = TaskNavigation.zoom
 	if not TaskNavigation.camera_saved: call_deferred("locate",TaskNavigation.selected)
@@ -81,8 +84,9 @@ func _draw() -> void:
 		if not matched: color.a = 0.28
 		var style := StyleBoxFlat.new()
 		style.bg_color = Color("142337") if task.unlocked else Color("101b2a")
-		style.border_color = color
-		style.set_border_width_all(3 if task.key == TaskNavigation.selected else 1)
+		style.border_color = color.lightened(0.35) if task.key==hovered_key else color
+		style.set_border_width_all(3 if task.key == TaskNavigation.selected else 2 if task.key==hovered_key else 1)
+		if task.key==hovered_key: style.bg_color=style.bg_color.lightened(0.06)
 		style.set_corner_radius_all(10)
 		if task.key==TaskNavigation.selected:
 			style.shadow_color=Color(color,0.16); style.shadow_size=12
@@ -127,18 +131,36 @@ func _gui_input(event: InputEvent) -> void:
 							break
 				dragging = false
 	elif event is InputEventMouseMotion and dragging:
+		if (event.button_mask & (MOUSE_BUTTON_MASK_LEFT|MOUSE_BUTTON_MASK_MIDDLE))==0:
+			_cancel_drag(); return
 		if event.position.distance_to(press_position)>4: moved = true
 		if moved: pan += event.relative; _save()
 	elif event is InputEventMouseMotion:
 		tooltip_text=""
+		var next_hover: String = ""
 		var world: Vector2 = (event.position-pan)/magnification
 		for task: Dictionary in rows:
-			if Rect2(positions[task.key],NODE_SIZE).has_point(world): tooltip_text=task.title; break
+			if Rect2(positions[task.key],NODE_SIZE).has_point(world):
+				tooltip_text=task.title; next_hover=task.key; break
+		_set_hover(next_hover)
 	elif event is InputEventMagnifyGesture:
 		_zoom_at(event.position,event.factor)
 	elif event is InputEventPanGesture:
 		pan -= event.delta*18; _save()
 	accept_event()
+
+func _set_hover(key: String) -> void:
+	if hovered_key==key: return
+	hovered_key=key
+	mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND if not key.is_empty() else Control.CURSOR_ARROW
+	queue_redraw()
+
+func _cancel_drag() -> void:
+	dragging=false; moved=false
+	_set_hover("")
+
+func _notification(what: int) -> void:
+	if what==NOTIFICATION_APPLICATION_FOCUS_OUT: _cancel_drag()
 
 func _zoom_at(point: Vector2,factor: float) -> void:
 	var world: Vector2 = (point-pan)/magnification
@@ -150,6 +172,14 @@ func locate(key: String) -> void:
 	if not positions.has(key): return
 	magnification = maxf(magnification,0.85)
 	pan = size/2-(positions[key]+NODE_SIZE/2)*magnification
+	last_canvas_size=size
+	_save()
+
+func _resize_view() -> void:
+	# Container layout and window changes must preserve the world point at center.
+	if last_canvas_size.x>0 and last_canvas_size.y>0:
+		pan+=(size-last_canvas_size)/2
+	last_canvas_size=size
 	_save()
 
 func overview() -> void:

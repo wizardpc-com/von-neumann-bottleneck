@@ -1,3 +1,9 @@
+Task tree clarity — @BUILD_ID@
+Source: @SOURCE_COMMIT@
+- Separate padded task card, fixed actions and stronger available-task emphasis.
+- Visible node hover, canceled stale map drags, stable Continue/window-resize centering.
+- Same five regions, 40 tasks, prerequisites, free construction and save rules.
+
 Settings and UI follow-up — @BUILD_ID@
 Source: @SOURCE_COMMIT@
 - Persistent Chinese/English, sound effects mute/volume, grouped scrollable settings.

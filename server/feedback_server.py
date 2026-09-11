@@ -20,7 +20,9 @@ NUMBERS = {'stage','sequence','duration_ms','cycles','cost','case_count','passed
            'added_components','removed_components','explicit_wire_deletes','incident_wire_removals',
            'total_cycles','prepare_cycles','query_cycles','output_cycles','ram_read_bytes','ram_write_bytes',
            'peak_extra_bytes','required_extra_bytes','requests','fills','hits','evictions','batch','group_count','block','copy_field_count'}
-BOOLS = {'duration_unknown','eligible','passed','correct','target_met','post_completion','budget_met'}
+NUMBERS |= {'foreground_ms','background_ms','feedback_ms','connections','connection_rejections','branches','wire_deletes','component_deletes','undo_count','redo_count','debug_runs','official_runs','max_hint_stage'}
+TEXT.update({key:80 for key in ['privacy_notice_version','consent_version','consent_timestamp','source_batch','background_cohort','sharing_mode','ruleset_version']})
+BOOLS = {'completed','duration_unknown','eligible','passed','correct','target_met','post_completion','budget_met'}
 IDENTIFIER = re.compile(r'^[a-zA-Z0-9_-]{16,100}$')
 MAX_BODY = min(131072, max(1024, int(os.environ.get("VNB_MAX_BODY_BYTES", "131072"))))
 RETENTION_DAYS = max(1, min(365, int(os.environ.get("VNB_RETENTION_DAYS", "30"))))

@@ -1703,8 +1703,14 @@ func _commit_system_editor_snapshot(kind: StringName, before: Dictionary) -> boo
 		"after": after.duplicate(true),
 	})
 	editor_redo_history.clear()
+	var removed_count: int = 0
+	for wire: Dictionary in before.get("connections",[]):
+		var found: bool = false
+		for other: Dictionary in after.get("connections",[]):
+			if _system_connection_key(wire)==_system_connection_key(other): found=true; break
+		if not found: removed_count+=1
 	PlaytestData.record_modification(&"chapter_1", current_level_id, &"system_layout", {
-		"operation": String(kind),
+		"operation": String(kind),"explicit_wire_deletes":removed_count,
 	})
 	_after_system_editor_mutation(
 		_system_editor_topology_signature(before) != _system_editor_topology_signature(after)
@@ -1752,6 +1758,7 @@ func _undo_system_edit() -> void:
 		status_label.text = _t(&"system.status.nothing_to_undo")
 		status_label.add_theme_color_override("font_color", MUTED)
 		return
+	PlaytestData.record_action(&"chapter_1",current_level_id,&"undo")
 	var action: Dictionary = editor_history.pop_back()
 	var before: Dictionary = action.get("before", {})
 	var after: Dictionary = action.get("after", {})
@@ -1769,6 +1776,7 @@ func _redo_system_edit() -> void:
 		status_label.text = _t(&"system.status.nothing_to_redo")
 		status_label.add_theme_color_override("font_color", MUTED)
 		return
+	PlaytestData.record_action(&"chapter_1",current_level_id,&"redo")
 	var action: Dictionary = editor_redo_history.pop_back()
 	var before: Dictionary = action.get("before", {})
 	var after: Dictionary = action.get("after", {})
@@ -2026,6 +2034,7 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 
 
 func _show_connection_error() -> void:
+	PlaytestData.record_action(&"chapter_1",current_level_id,&"connection_rejected")
 	status_label.text = _t(&"system.status.invalid_connection")
 	status_label.add_theme_color_override("font_color", BAD)
 

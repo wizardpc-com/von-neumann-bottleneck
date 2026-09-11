@@ -44,3 +44,11 @@ owner's later domain/DNS/HTTPS/privacy/public-release decisions.
   `server/test_storage.py` (2 migration/conflict/restore tests) pass 2026-09-11.
   Loopback Compose, Caddy and systemd examples supplied; Docker/Linux execution
   remains a later host check, not represented as performed.
+
+- Stage 2: basic/detailed/local choices, per-send opinion consent, separate score
+  choice and disabled public designs; notice/version/time/batch/cohort metadata.
+  Added semantic visit reducer, system editor undo/rejection/delete coverage and
+  durable deletion retry. Basic sharing excludes visits begun before consent.
+  Initial isolated full regression passed all 27 conventional suites; targeted new
+  `test_visit_summary.gd` passes branch/delete/time/case-count/privacy boundaries.
+  Final expanded integration and native UI checks remain below.

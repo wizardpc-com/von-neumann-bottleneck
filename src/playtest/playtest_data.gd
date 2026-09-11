@@ -1,6 +1,7 @@
 class_name PlaytestDataStore
 extends Node
 signal event_appended(event: Dictionary)
+var _visit_reducer = preload("res://src/playtest/visit_summary.gd").new()
 
 const SCHEMA_VERSION: int = 2
 const EXPORT_SCHEMA_VERSION: int = 2
@@ -610,6 +611,8 @@ func _append_event(event_name: StringName, payload: Dictionary) -> bool:
 	_events.append(event)
 	_update_state_from_event(event)
 	event_appended.emit(event.duplicate(true))
+	var visit_summary: Dictionary = _visit_reducer.observe(event)
+	if not visit_summary.is_empty(): _append_event(&"visit_summary",visit_summary)
 	return true
 
 
@@ -617,8 +620,10 @@ func _rebuild_state_from_events() -> void:
 	_level_summaries.clear()
 	_active_level_key = ""
 	_active_level_started_ms = 0
+	_visit_reducer.visits.clear()
 	for event: Dictionary in _events:
 		_update_state_from_event(event)
+		_visit_reducer.observe(event)
 
 
 func _update_state_from_event(event: Dictionary) -> void:

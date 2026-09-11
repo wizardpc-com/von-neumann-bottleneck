@@ -13,7 +13,7 @@ var target: Dictionary = {}
 var target_label: Label
 var ratings: Array[OptionButton] = []
 var opinion: LineEdit
-var remote_toggle: CheckButton
+var remote_toggle: OptionButton
 var remote_status: Label
 var saved_opinion: Dictionary = {}
 var content_scroll: ScrollContainer
@@ -85,11 +85,27 @@ func _ready() -> void:
 	var local_toggle := CheckButton.new(); local_toggle.text=_l("记录本机游玩操作（不含意见正文）","Record local play actions (no opinion text)"); local_toggle.button_pressed=PlaytestData.telemetry_enabled
 	local_toggle.toggled.connect(func(value: bool) -> void: PlaytestData.telemetry_enabled=value; _save_preferences(value))
 	remote_box.add_child(local_toggle)
-	remote_toggle=CheckButton.new(); remote_toggle.text=_l("同意回传今后的最小行为记录","Share minimal future play actions")
-	remote_toggle.button_pressed=RemoteFeedback.enabled; remote_toggle.disabled=not RemoteFeedback.endpoint_allowed()
-	remote_toggle.toggled.connect(func(value: bool) -> void:
-		RemoteFeedback.set_enabled(value); remote_toggle.set_pressed_no_signal(RemoteFeedback.enabled))
+	remote_toggle=OptionButton.new()
+	for label: String in [_l("仅保存在本机","Local only"),_l("分享基础统计 · 每次访问一份汇总","Share basic statistics · one summary per visit"),_l("参与详细试玩 · 逐次操作与运行","Detailed playtest · actions and runs")]: remote_toggle.add_item(label)
+	remote_toggle.select(["local","basic","detailed"].find(RemoteFeedback.sharing_mode))
+	remote_toggle.disabled=not RemoteFeedback.endpoint_allowed()
+	remote_toggle.item_selected.connect(func(index: int) -> void: RemoteFeedback.set_sharing_mode(["local","basic","detailed"][index]))
 	remote_box.add_child(remote_toggle)
+	var tier_help := Label.new(); tier_help.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	tier_help.text=_l("基础统计从下一次进入关卡开始：停留、完成、编辑次数和有限成绩。详细试玩额外分享逐次操作，不含电路或程序。切换分档会清空待发的行为记录。", "Basic sharing starts at your next task visit: time, completion, edit counts and bounded metrics. Detailed sharing adds individual actions, never circuits or programs. Changing mode clears pending action records.")
+	remote_box.add_child(tier_help)
+	var cohort := OptionButton.new()
+	for label: String in [_l("经验背景 · 不提供","Experience · unspecified"),_l("刚接触电路","New to circuits"),_l("有一些经验","Some experience"),_l("比较熟悉","Experienced")]: cohort.add_item(label)
+	var cohorts: Array[String] = ["unspecified","new_to_circuits","some_experience","experienced"]
+	cohort.select(maxi(0,cohorts.find(RemoteFeedback.background_cohort)))
+	cohort.item_selected.connect(func(index: int) -> void: RemoteFeedback.background_cohort=cohorts[index]; RemoteFeedback._save_state())
+	remote_box.add_child(cohort)
+	var score_choice := CheckButton.new(); score_choice.text=_l("单独同意提交实验榜成绩（不含方案）","Separately allow experimental scores (no designs)")
+	score_choice.disabled=not RemoteFeedback.endpoint_allowed(); score_choice.button_pressed=RemoteFeedback.scores_enabled
+	score_choice.toggled.connect(func(value: bool) -> void: RemoteFeedback.set_scores_enabled(value))
+	remote_box.add_child(score_choice)
+	var designs := Label.new(); designs.text=_l("公开方案：此版本不支持，也不会上传。","Public designs: unsupported; never uploaded.")
+	designs.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; remote_box.add_child(designs)
 	var send := Button.new(); send.text=_l("发送刚保存的这条评价","Send the opinion I just saved"); remote_box.add_child(send)
 	send.pressed.connect(func() -> void:
 		if saved_opinion.is_empty(): remote_status.text=_l("请先保存这条评价。","Save this opinion first.")
@@ -254,7 +270,7 @@ func _remote_updated() -> void:
 		"storage_error":["本机队列保存失败；尚不能确认发送","Local outbox could not be saved"],"deleted":["服务端已确认删除此安装的数据","Receiver confirmed deletion"],"deleting":["正在请求删除","Requesting deletion"],"delete_failed":["删除未获确认，请稍后重试","Deletion unconfirmed; retry later"]}
 	var pair: Array = labels.get(RemoteFeedback.status,[RemoteFeedback.status,RemoteFeedback.status])
 	remote_status.text=_l(str(pair[0]),str(pair[1]))+" · %d " % RemoteFeedback.queue.size()+_l("条等待","pending")
-	remote_toggle.set_pressed_no_signal(RemoteFeedback.enabled)
+	remote_toggle.select(maxi(0,["local","basic","detailed"].find(RemoteFeedback.sharing_mode)))
 func _save_preferences(value: bool) -> void:
 	var config := ConfigFile.new(); config.set_value("privacy","local_actions",value)
 	config.save("user://feedback_preferences.cfg")

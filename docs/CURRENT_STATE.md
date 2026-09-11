@@ -8,6 +8,11 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Current behavior
 
+Task-tree polish adds a padded detail card, separated title/body/status, fixed
+primary Enter action, node hover and canceled stale map drags. Continue and window
+resizing preserve the centered task after container layout. Final bilingual bounds
+and native observations: [tree evidence](verification/20260912-tree-polish/README.md).
+
 Latest follow-up: structured settings provide persistent Chinese/English and audio,
 scrolling content with fixed close controls, safe presentation defaults and local
 diagnostics. Configured receivers get a first local/basic sharing choice, with no
@@ -42,10 +47,10 @@ full source commit into the exported project settings, manifests, README, change
 notes and ZIP names. A frozen identity cannot be overwritten. The game shows that
 same ID; the release-binary probe checks it against its adjacent manifest.
 
-Current frozen artifact: **free-alpha-80105a7f5ea6**, content commit **80105a7**.
+Current frozen artifact: **free-alpha-427512c5a504**, content commit **427512c**.
 Later evidence-only commits do not rename or overwrite those archives.
-[Current verification and package hashes](verification/20260911-settings-followup/README.md).
-Older candidates `free-alpha-128632418664` and `free-alpha-9f8c34fac4fb` and its convergence report are historical.
+[Current verification and package hashes](verification/20260912-tree-polish/README.md).
+Earlier candidates, including `free-alpha-80105a7f5ea6`, and their reports are historical.
 The latest package remains offline by default and has not been publicly released.
 
 ## What remains

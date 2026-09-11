@@ -1,0 +1,14 @@
+{
+  "build_id": "free-alpha-427512c5a504",
+  "source_commit": "427512c5a504ecf78c5b69f0faa424391953c24c",
+  "passed": true,
+  "source_app": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/build/free-alpha-427512c5a504/macOS/Von-Neumann-Bottleneck.app",
+  "qa_app": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/package-qa/fc91623e65f9/Von-Neumann-Bottleneck.app",
+  "user_suffix": "VonNeumannBottleneckChecks/package-fc91623e65f9",
+  "binary_and_pack_unchanged": {
+    "Contents/MacOS/Von Neumann Bottleneck": "2c6a62995654b22675c99b870f78dee703f7a193549f770a7af94a0ad2c4dfcd",
+    "Contents/Resources/Von Neumann Bottleneck.pck": "c27cd7379bfbdb2e43d59645eea79f74ab172eae7cdc13f4a30b5cee3c8f1b01"
+  },
+  "qa_override_only": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/package-qa/fc91623e65f9/Von-Neumann-Bottleneck.app/Contents/MacOS/override.cfg",
+  "public_release": false
+}

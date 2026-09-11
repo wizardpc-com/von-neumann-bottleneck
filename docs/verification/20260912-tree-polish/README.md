@@ -45,3 +45,12 @@ under the prerequisite list to preserve the existing wording about tasks above.
 Normal exits and logs are clean. These are source-native observations; the older
 exported-package CUA mouse limitation, Windows, external beginners and long sessions
 are not marked passed. No narrative copy or simulation changes.
+
+## Frozen candidate
+
+`free-alpha-427512c5a504`, content `427512c5a504ecf78c5b69f0faa424391953c24c`.
+Both platform archives and packaged notes/hashes agree. The actual Mac binary probe
+passes identity, Game-only boundary, 40 tasks and remote default-off. No native
+exported mouse pass is claimed this round; the previously documented CUA failure
+remains a separate gate. Native observations above used the source QA copy.
+No public release; Windows x86_64 remains a validation candidate.

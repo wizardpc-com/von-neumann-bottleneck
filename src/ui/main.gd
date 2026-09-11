@@ -1971,6 +1971,7 @@ func _block_choice_name(lines: int, passes: int = 0) -> String:
 
 
 func _run_simulation(test_name: String) -> void:
+	if test_name!="Official Test Set": PlaytestData.record_action(&"chapter_2",current_level_id,&"debug_run_request")
 	if current_level_id.is_empty():
 		_set_status(_t(&"chapter2.status.select_level_first"), WARNING)
 		return
@@ -2008,6 +2009,7 @@ func _run_simulation(test_name: String) -> void:
 			or int(current_trace.metrics.get("total_cycles", 0)) <= telemetry_target_cycles
 		)
 		PlaytestData.record_official_run(&"chapter_2", current_level_id, telemetry_goal_passed, {
+			"strategy":"direct" if current_bypass_cache else "cache",
 			"correct": current_trace.passed,
 			"result_class": "wrong_output" if not current_trace.passed else "target_met" if telemetry_goal_passed else "correct_but_slow",
 			"program_digest": applied_program_source.sha256_text(),

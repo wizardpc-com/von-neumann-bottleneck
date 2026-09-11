@@ -32,6 +32,18 @@ func _run() -> void:
 		host.scrub.value = 0
 		_assert(signature==host.trace.canonical_signature(), "Timeline seeking must never recompute or change simulation.")
 		if id=="buffers":
+			var old_board: Dictionary = host.board.duplicate(true)
+			var original_wire: Array = host.board.wires[0]
+			var wire_info: Dictionary = {"from_node":original_wire[0],"from_port":original_wire[1],"to_node":original_wire[2],"to_port":original_wire[3]}
+			var history_size: int = host.undo_stack.size()
+			host._move_wire_endpoint(wire_info,&"missing_node",0)
+			_assert(host.board==old_board and host.undo_stack.size()==history_size,"Rejected endpoint drag keeps the original wire and history.")
+			var destination: StringName = &"B" if original_wire[2]=="A" else &"A"
+			host._move_wire_endpoint(wire_info,destination,int(original_wire[3]))
+			_assert(host.undo_stack.size()==history_size+1,"Endpoint move is one edit transaction.")
+			host._undo()
+			_assert(host.board==old_board,"One undo restores the complete endpoint move.")
+			for frame: int in range(5): await process_frame
 			var buffer: GraphNode = host.graph.get_node("A")
 			_assert(host.graph._node_at(host.graph.displayed_node_rect(buffer).get_center()) == &"A", "Full-card modules must support body selection and erasing, not become empty marquee space.")
 			for panel: Control in host.panels.values(): panel.hide()

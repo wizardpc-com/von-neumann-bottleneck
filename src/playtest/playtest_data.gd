@@ -152,7 +152,13 @@ func level_started(chapter_id: StringName, level_id: StringName) -> bool:
 	current_visit_id = _session_id+"-v"+str(_sequence+1)
 	latest_run_id = ""
 	_segment_started_ms = _now_ms()
+	var already_completed: bool = false
+	var navigation: Node = get_node_or_null("/root/TaskNavigation") if is_inside_tree() else null
+	if navigation != null:
+		for task: Dictionary in navigation.tasks():
+			if task.domain==String(chapter_id) and task.id==String(level_id): already_completed=task.completed; break
 	return _append_event(&"level_start", {
+		"completed":already_completed,
 		"chapter_id": String(chapter_id),
 		"level_id": String(level_id),
 	})
@@ -938,3 +944,10 @@ func latest_level_feedback(chapter_id: String, level_id: String) -> Dictionary:
 		var payload: Dictionary = event.get("payload",{})
 		if event.get("event")=="level_feedback" and payload.get("chapter_id")==chapter_id and payload.get("level_id")==level_id: return event.duplicate(true)
 	return {}
+
+func set_local_recording(value: bool) -> void:
+	if value==telemetry_enabled: return
+	if not value and not _active_level_key.is_empty(): _finish_active_level(&"level_exit",{"reason":"recording_disabled"})
+	telemetry_enabled=value
+	if value and not current_task_context.is_empty():
+		level_started(StringName(current_task_context.chapter_id),StringName(current_task_context.level_id))

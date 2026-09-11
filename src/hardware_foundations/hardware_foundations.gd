@@ -2778,6 +2778,7 @@ func _create_graph() -> void:
 	graph.connection_width_provider = Callable(self, "_component_port_width")
 	graph.connection_net_provider = Callable(self, "_connected_wire_net")
 	graph.connection_description = Callable(self, "_wire_description")
+	graph.connection_attempt_rejected.connect(func() -> void: PlaytestData.record_action(&"hardware_foundations",current_level_id,&"connection_rejected"))
 	graph.connection_request.connect(_on_connection_request)
 	graph.disconnection_request.connect(_on_disconnection_request)
 	graph.connection_to_empty.connect(_on_connection_to_empty)
@@ -3658,7 +3659,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		return
 	var diagnostic: Dictionary = current_circuit.connect_ports_detailed(from_node, from_port, to_node, to_port)
 	if not diagnostic.is_empty():
-		PlaytestData.record_action(&"hardware_foundations",current_level_id,&"connection_rejected",{"diagnostic":diagnostic})
+		graph.report_connection_rejection()
 		status_label.text = _t(&"hardware.status.invalid_connection", [Localization.text_from_spec(diagnostic)])
 		status_label.add_theme_color_override("font_color", BAD)
 		return

@@ -84,7 +84,7 @@ func _ready() -> void:
 	destination.text=_l("接收地址：","Receiver: ")+(RemoteFeedback.endpoint if RemoteFeedback.endpoint_allowed() else _l("此版本未配置，仍可本地保存和导出。","Not configured in this build; save and export still work."))
 	remote_box.add_child(destination)
 	var local_toggle := CheckButton.new(); local_toggle.text=_l("记录本机游玩操作（不含意见正文）","Record local play actions (no opinion text)"); local_toggle.button_pressed=PlaytestData.telemetry_enabled
-	local_toggle.toggled.connect(func(value: bool) -> void: PlaytestData.telemetry_enabled=value; _save_preferences(value))
+	local_toggle.toggled.connect(func(value: bool) -> void: PlaytestData.set_local_recording(value); _save_preferences(value))
 	remote_box.add_child(local_toggle)
 	remote_toggle=OptionButton.new()
 	for label: String in [_l("仅保存在本机","Local only"),_l("分享基础统计 · 每次访问一份汇总","Share basic statistics · one summary per visit"),_l("参与详细试玩 · 逐次操作与运行","Detailed playtest · actions and runs")]: remote_toggle.add_item(label)
@@ -107,12 +107,12 @@ func _ready() -> void:
 	remote_box.add_child(score_choice)
 	var designs := Label.new(); designs.text=_l("公开方案：此版本不支持，也不会上传。","Public designs: unsupported; never uploaded.")
 	designs.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; remote_box.add_child(designs)
-	var send := Button.new(); send.text=_l("发送刚保存的这条评价","Send the opinion I just saved"); remote_box.add_child(send)
+	var send := Button.new(); send.text=_l("发送刚保存的这条评价","Send the opinion I just saved"); remote_box.add_child(send); send.disabled=not RemoteFeedback.endpoint_allowed()
 	send.pressed.connect(func() -> void:
 		if saved_opinion.is_empty(): remote_status.text=_l("请先保存这条评价。","Save this opinion first.")
 		else: RemoteFeedback.send_feedback(saved_opinion))
-	var retry := Button.new(); retry.text=_l("重试等待回传的记录","Retry pending records"); remote_box.add_child(retry); retry.pressed.connect(RemoteFeedback.retry_pending)
-	var remove := Button.new(); remove.text=_l("关闭回传并请求删除已回传数据…","Stop sharing and request uploaded data deletion…"); remote_box.add_child(remove)
+	var retry := Button.new(); retry.text=_l("重试等待回传的记录","Retry pending records"); remote_box.add_child(retry); retry.disabled=not RemoteFeedback.endpoint_allowed(); retry.pressed.connect(RemoteFeedback.retry_pending)
+	var remove := Button.new(); remove.text=_l("关闭回传并请求删除已回传数据…","Stop sharing and request uploaded data deletion…"); remote_box.add_child(remove); remove.disabled=not RemoteFeedback.endpoint_allowed()
 	var confirm := ConfirmationDialog.new(); panel.add_child(confirm)
 	confirm.dialog_text=_l("删除此安装标识已回传的数据，并清空等待发送的记录。本机意见和游戏存档保留。确认？","Delete uploads for this installation and clear its pending queue? Local feedback and game saves stay available.")
 	remove.pressed.connect(func() -> void: confirm.popup_centered(Vector2i(540,180)))
@@ -175,13 +175,20 @@ func make_button() -> Button:
 	var button := Button.new()
 	button.name = "MomentFeedbackButton"
 	button.text = _t("button")
-	Localization.locale_changed.connect(func(_locale: String) -> void:
-		if is_instance_valid(button):
-			button.text = _t("button")
-			button.tooltip_text = _t("title")+" · F8")
+	var refresh := _refresh_entry_language.bind(weakref(button))
+	Localization.locale_changed.connect(refresh)
+	button.tree_exiting.connect(func() -> void:
+		if Localization.locale_changed.is_connected(refresh):
+			Localization.locale_changed.disconnect(refresh))
 	button.tooltip_text = _t("title")+" · F8"
 	button.pressed.connect(toggle)
 	return button
+
+func _refresh_entry_language(_locale: String, reference: WeakRef) -> void:
+	var button: Button = reference.get_ref()
+	if button != null:
+		button.text = _t("button")
+		button.tooltip_text = _t("title")+" · F8"
 
 func toggle() -> void:
 	if panel.visible: close(); return

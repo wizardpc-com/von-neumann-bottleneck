@@ -521,3 +521,18 @@ The Prologue Playability Rework Round 2 on 2026-08-28 reran all fourteen `tests/
 ## CI status
 
 There is intentionally no GitHub Actions workflow yet. Local commands are reliable, but exact Godot 4.7.1 provisioning on the selected GitHub runner has not been validated in this repository. Add CI only after the runner installation method is reproducible and the same commands have passed there once; do not configure a required status check before that job exists.
+
+## Community preparation, 2026-09-11
+
+Run receiver/storage/community contracts with `python3 server/test_receiver.py`,
+`python3 server/test_storage.py`, `python3 server/test_community.py`. These use only
+synthetic local data. After the ordinary isolated import and Godot suites, run
+`python3 scripts/verify-community-local.py --godot <4.7.1> --project <imported .godot copy>`.
+It runs four client processes against a loopback receiver: offline summary/opinion/
+score queue, restart/duplicate ACK, offline deletion, resumed confirmed deletion.
+The server uses Python only; development Godot fixtures are not server-side replay.
+Also rerun the legacy `verify-feedback-local.py` compatibility probe.
+`test_personal_records.gd` checks that local results remain available with telemetry
+off, and that record-page access does not change progression. `test_visit_summary.gd`
+checks semantic counters and pre-consent visit exclusion. Native record-page, feedback
+foldout, focus and display checks remain separate from these contracts.

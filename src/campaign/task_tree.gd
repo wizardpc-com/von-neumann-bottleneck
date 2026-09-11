@@ -105,8 +105,8 @@ func _select(key: String) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		TaskNavigation.from_tree = false
-		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
 		get_viewport().set_input_as_handled()
+		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
 
 func _button(parent: Node,key: String,action: Callable) -> Button:
 	var button := Button.new()

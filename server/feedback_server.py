@@ -62,6 +62,12 @@ def validate_record(record):
     if record['kind'] == 'feedback' and not any(record['payload'].get(k) for k in ('note','fun','clarity','want_to_continue')):
         raise ValueError('empty_feedback')
     p=record['payload']
+    if 'consent_version' in p:
+        if p['consent_version']!='sharing-2' or p.get('privacy_notice_version')!='2026-09-11': raise ValueError('consent_version')
+        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z',p.get('consent_timestamp','')): raise ValueError('consent_time')
+        if p.get('background_cohort') not in ['unspecified','new_to_circuits','some_experience','experienced']: raise ValueError('cohort')
+        if not re.fullmatch(r'[a-zA-Z0-9_.-]{1,64}',p.get('source_batch','')): raise ValueError('batch')
+        if p.get('sharing_mode') not in ['local','basic','detailed','opinion','score']: raise ValueError('sharing_mode')
     if record['kind']=='score': validate_score(p)
     if p.get('event')=='visit_summary':
         key=p.get('chapter_id','')+'/'+p.get('level_id','')
@@ -89,6 +95,9 @@ class Receiver(HTTPServer):
             self.db.execute('DELETE FROM clients WHERE id NOT IN (SELECT DISTINCT client_id FROM events)')
         self.rates={k:v for k,v in self.rates.items() if time.monotonic()-v[0]<60}
         self.last_cleanup=now
+    def handle_error(self,request,client_address):
+        # SocketServer's default handler prints a peer IP and traceback.
+        print('receiver_request_error',flush=True)
     def server_close(self):
         if hasattr(self,"db"): self.db.close()
         super().server_close()
@@ -127,7 +136,8 @@ class Handler(BaseHTTPRequestHandler):
         return count<RATE_LIMIT
     def do_GET(self):
         if self.path in ('/health','/v1/health'):
-            self.server.db.execute('SELECT 1')
+            try: self.server.db.execute('SELECT COUNT(*) FROM sqlite_master').fetchone()
+            except sqlite3.Error: return self.send(503,{'ok':False})
             return self.send(200,{'ok':True,'api_version':1,'schema_version':SCHEMA_VERSION,'retention_days':RETENTION_DAYS})
         url=urlsplit(self.path)
         if url.path in ('/v1/community/tasks','/v1/leaderboards'):
@@ -173,7 +183,7 @@ class Handler(BaseHTTPRequestHandler):
             if prior and not hmac.compare_digest(prior[0],digest): return self.send(403,{'error':'client_token'})
             if db.execute("SELECT 1 FROM tombstones WHERE client_id=?",(client,)).fetchone():
                 return self.send(410,{"error":"identity_deleted"})
-            score_count=sum(r['kind']=='score' for r in records)
+            score_count=sum(r['kind']=='score' and not db.execute('SELECT 1 FROM events WHERE id=?',(r['event_id'],)).fetchone() for r in records)
             if score_count and db.execute("SELECT COUNT(*) FROM events WHERE client_id=? AND kind='score' AND received>?",(client,int(time.time())-60)).fetchone()[0]+score_count>12:
                 return self.send(429,{'error':'score_rate_limit'})
             prepared=[]
@@ -198,6 +208,8 @@ class Handler(BaseHTTPRequestHandler):
             if not IDENTIFIER.fullmatch(client) or not re.fullmatch(r'[0-9a-f]{64}',token): raise ValueError()
             row=self.server.db.execute('SELECT deletion_hash FROM clients WHERE id=? UNION SELECT deletion_hash FROM tombstones WHERE client_id=?',(client,client)).fetchone()
             if row and not hmac.compare_digest(row[0],hashlib.sha256(token.encode()).hexdigest()): return self.send(403,{'error':'client_token'})
+            if not row and self.server.db.execute('SELECT COUNT(*) FROM tombstones').fetchone()[0]>=100000:
+                return self.send(503,{'error':'storage_limit'})
             with self.server.db:
                 self.server.db.execute('INSERT OR IGNORE INTO tombstones VALUES (?,?,?)',(client,hashlib.sha256(token.encode()).hexdigest(),int(time.time())))
                 self.server.db.execute('DELETE FROM events WHERE client_id=?',(client,))

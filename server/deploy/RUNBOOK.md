@@ -66,3 +66,7 @@ A deleted installation must obtain a new random identity after explicit re-conse
 References: [Docker loopback publishing](https://docs.docker.com/engine/network/port-publishing/),
 [Caddy request limits](https://caddyserver.com/docs/caddyfile/directives/request_body),
 [Caddy proxy routing](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy).
+
+The tombstone table also has a 100,000-row intake cap. At the cap, unknown-identity
+deletion requests receive 503 and remain pending on the client; existing identities
+can still be deleted. Review capacity rather than pruning still-needed tombstones.

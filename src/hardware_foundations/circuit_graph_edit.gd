@@ -16,6 +16,9 @@ const TARGET_GUIDE_RADIUS: float = 15.0
 const SETTLED_WIRE_THICKNESS: float = SignalNotationType.SCALAR_STROKE
 const BUS_WIRE_THICKNESS: float = SignalNotationType.BUS_STROKE
 
+signal connection_attempt_rejected
+var _rejection_reported: bool = false
+
 signal branch_connection_requested(
 	connection: Dictionary,
 	split_position: Vector2,
@@ -195,6 +198,15 @@ func _input(event: InputEvent) -> void:
 		queue_redraw()
 	if event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
+		if mouse_event.button_index==MOUSE_BUTTON_LEFT and mouse_event.pressed: _rejection_reported=false
+		if mouse_event.button_index==MOUSE_BUTTON_LEFT and not mouse_event.pressed and not builtin_connection_source.is_empty() and _is_graph_hover_target(mouse_event.position):
+			var target: Dictionary = _port_at(_local_from_global(mouse_event.position),28.0)
+			if not target.is_empty():
+				var source: Dictionary = builtin_connection_source
+				var valid: bool = bool(source.is_output)!=bool(target.is_output)
+				if valid:
+					valid=_is_node_hover_valid(source.node,source.port,target.node,target.port) if source.is_output else _is_node_hover_valid(target.node,target.port,source.node,source.port)
+				if not valid: report_connection_rejection()
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed \
 				and _is_graph_hover_target(mouse_event.position):
 			var port: Dictionary = _port_at(_local_from_global(mouse_event.position), 14.0)
@@ -377,6 +389,8 @@ func _gui_input(event: InputEvent) -> void:
 						endpoint_candidate.duplicate(),
 						StringName(endpoint_target["node"]), int(endpoint_target["port"])
 					)
+			elif not _port_at(mouse_event.position,30.0).is_empty():
+				report_connection_rejection()
 			elif _port_at(mouse_event.position, 30.0).is_empty():
 				var target_connection: Dictionary = get_closest_connection_at_point(mouse_event.position, 36.0)
 				if not target_connection.is_empty() and not _same_connection(target_connection, endpoint_candidate):
@@ -401,6 +415,8 @@ func _gui_input(event: InputEvent) -> void:
 						branch_candidate.duplicate(), branch_anchor,
 						StringName(branch_target["node"]), int(branch_target["port"])
 					)
+				elif not _port_at(mouse_event.position,30.0).is_empty():
+					report_connection_rejection()
 				elif _port_at(mouse_event.position, 30.0).is_empty():
 					branch_waypoint_requested.emit(
 						branch_candidate.duplicate(), branch_anchor, mouse_event.position
@@ -1296,3 +1312,8 @@ func _closest_point_on_connection(connection: Dictionary, point: Vector2) -> Vec
 			closest_distance = distance
 			closest = candidate
 	return closest
+
+func report_connection_rejection() -> void:
+	if _rejection_reported: return
+	_rejection_reported=true
+	connection_attempt_rejected.emit()

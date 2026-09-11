@@ -4,7 +4,7 @@ from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
-from storage import migrate, backup, merge, counts
+from storage import migrate, backup, merge, counts, MIGRATIONS
 
 class StorageTests(unittest.TestCase):
     def test_upgrade_restore_merge_and_deleted_identity(self):
@@ -27,6 +27,16 @@ class StorageTests(unittest.TestCase):
             self.assertEqual(counts(new)['tombstones'],1)
             merge(old,new); self.assertEqual(counts(old)['events'],0)
             with self.assertRaises(ValueError): backup(snap,new)
+    def test_failed_ddl_upgrade_is_atomic(self):
+        with sqlite3.connect(':memory:') as db:
+            original=list(MIGRATIONS[2])
+            MIGRATIONS[2].append('THIS IS NOT SQL')
+            try:
+                with self.assertRaises(sqlite3.Error): migrate(db)
+                self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],0)
+                self.assertEqual(db.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table'").fetchone()[0],0)
+            finally: MIGRATIONS[2][:]=original
+            migrate(db); self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],2)
     def test_conflict_rolls_back(self):
         with tempfile.TemporaryDirectory() as folder:
             paths=[Path(folder)/x for x in ['a','b']]

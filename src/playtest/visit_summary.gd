@@ -10,7 +10,7 @@ func observe(event: Dictionary) -> Dictionary:
 	var p: Dictionary = event.get("payload",{})
 	if id.is_empty(): return {}
 	if kind == "level_start":
-		var summary: Dictionary = {"visit_id":id,"chapter_id":p.get("chapter_id",""),"level_id":p.get("level_id",""),"completed":false,"duration_unknown":false,"strategy":"unknown"}
+		var summary: Dictionary = {"visit_id":id,"chapter_id":p.get("chapter_id",""),"level_id":p.get("level_id",""),"completed":bool(p.get("completed",false)),"duration_unknown":false,"strategy":"unknown"}
 		for key: String in COUNTERS: summary[key]=0
 		visits[id]=summary
 	if not visits.has(id): return {}

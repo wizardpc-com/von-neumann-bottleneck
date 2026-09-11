@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Von Neumann Bottleneck"
-config/version="free-alpha-20260911-candidate1"
+config/version="free-alpha-20260911-community-candidate2"
 config/icon="res://assets/branding/game-icon.svg"
 run/main_scene="res://src/ui/prototype_hub.tscn"
 config/features=PackedStringArray("4.7")

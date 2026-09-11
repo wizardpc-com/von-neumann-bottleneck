@@ -329,6 +329,7 @@ func _new_graph(read_only: bool) -> CircuitGraphEdit:
 			result.set_draft_color_index(2 if result.port_bit_width(id,port,output)==1 else 0)
 			result.begin_builtin_connection_preview(id,port,output))
 		result.connection_drag_ended.connect(result.end_builtin_connection_preview)
+		result.connection_attempt_rejected.connect(func() -> void: PlaytestData.record_action(&"chapter_3",StringName(level),&"connection_rejected"))
 		result.connection_request.connect(_connect_wire)
 		result.disconnection_request.connect(_disconnect_wire)
 		result.component_drop_requested.connect(func(kind: String, position: Vector2) -> void:
@@ -341,10 +342,8 @@ func _new_graph(read_only: bool) -> CircuitGraphEdit:
 		result.end_node_move.connect(func() -> void: _remember(); _capture_layout(); _changed(false))
 		result.erase_component_requested.connect(_delete_part)
 		result.erase_wire_requested.connect(func(wire: Dictionary) -> void: _disconnect_wire(wire.from_node,wire.from_port,wire.to_node,wire.to_port))
-		result.branch_connection_requested.connect(func(wire: Dictionary,_position:Vector2,to:StringName,port:int) -> void: _connect_wire(wire.from_node,wire.from_port,to,port))
-		result.connection_endpoint_move_requested.connect(func(wire: Dictionary,to:StringName,port:int) -> void:
-			_disconnect_wire(wire.from_node,wire.from_port,wire.to_node,wire.to_port)
-			_connect_wire(wire.from_node,wire.from_port,to,port))
+		result.branch_connection_requested.connect(func(wire: Dictionary,_position:Vector2,to:StringName,port:int) -> void: _connect_wire(wire.from_node,wire.from_port,to,port,&"branch"))
+		result.connection_endpoint_move_requested.connect(_move_wire_endpoint)
 	return result
 
 func _render_board(target: CircuitGraphEdit, data: Dictionary, read_only: bool) -> void:
@@ -417,14 +416,16 @@ func _refresh_wire_geometry(target: CircuitGraphEdit, read_only: bool) -> void:
 		if read_only: target.scroll_offset = Vector2(-70,-150)
 		target.queue_redraw()
 
-func _connect_wire(from: StringName, output: int, to: StringName, input: int) -> void:
+func _connect_wire(from: StringName, output: int, to: StringName, input: int, operation: StringName = &"connect") -> void:
 	if not graph.connection_validator.call(from,output,to,input):
+		graph.report_connection_rejection()
 		status.text = _t("width_mismatch")
 		return
 	var wire: Array = [String(from),output,String(to),input]
 	if board.wires.has(wire): return
 	_remember()
 	board.wires.append(wire)
+	telemetry_operation=String(operation)
 	_changed()
 
 func _disconnect_wire(from: StringName, output: int, to: StringName, input: int) -> void:
@@ -434,9 +435,23 @@ func _disconnect_wire(from: StringName, output: int, to: StringName, input: int)
 	board.wires.erase(wire)
 	_changed()
 
+func _move_wire_endpoint(wire: Dictionary,to: StringName,port: int) -> void:
+	var original: Array = [String(wire.from_node),int(wire.from_port),String(wire.to_node),int(wire.to_port)]
+	var replacement: Array = [String(wire.from_node),int(wire.from_port),String(to),port]
+	if original==replacement or not board.wires.has(original): return
+	if not graph.connection_validator.call(wire.from_node,wire.from_port,to,port):
+		graph.report_connection_rejection()
+		return
+	_remember(); board.wires.erase(original)
+	if not board.wires.has(replacement): board.wires.append(replacement)
+	telemetry_operation="move_endpoint"
+	_changed()
+
 var telemetry_before: Dictionary = {}
+var telemetry_operation: String = "board_edit"
 
 func _remember() -> void:
+	telemetry_operation="board_edit"
 	telemetry_before=board.duplicate(true)
 	undo_stack.append(board.duplicate(true))
 	if undo_stack.size() > 40: undo_stack.pop_front()
@@ -473,7 +488,7 @@ func _changed(render: bool = true) -> void:
 			if not telemetry_before.wires.has(wire): added_wires+=1
 		for wire: Array in telemetry_before.wires:
 			if not board.wires.has(wire): removed_wires+=1
-		PlaytestData.record_modification(&"chapter_3",StringName(level),&"hardware",{"operation":"board_edit","added_components":added_nodes,"removed_components":removed_nodes,"added_wires":added_wires,"removed_wires":removed_wires,"explicit_wire_deletes":removed_wires if removed_nodes==0 else 0,"incident_wire_removals":removed_wires if removed_nodes>0 else 0})
+		PlaytestData.record_modification(&"chapter_3",StringName(level),&"hardware",{"operation":telemetry_operation,"added_components":added_nodes,"removed_components":removed_nodes,"added_wires":added_wires,"removed_wires":removed_wires,"explicit_wire_deletes":removed_wires if removed_nodes==0 and telemetry_operation!="move_endpoint" else 0,"incident_wire_removals":removed_wires if removed_nodes>0 else 0})
 	telemetry_before.clear()
 	dirty = true
 	trace_stale = true
@@ -703,13 +718,15 @@ func _run_official() -> void:
 		case_select.add_item(_t("case_result") % [_case_name(task),outcome,run.metrics.total_cycles,task.target])
 	_select_run(0)
 	_toggle("trace",true,&"automatic")
+	var total_cycles: int = 0
+	for run: SimulationTrace in runs: total_cycles+=int(run.metrics.get("total_cycles",0))
 	var recorded_cases: Array[Dictionary] = []
 	var output_correct: bool = true
 	for index: int in range(runs.size()):
 		var run: SimulationTrace = runs[index]
 		output_correct = output_correct and run.passed
 		recorded_cases.append({"index":index,"passed":run.passed,"metrics":run.metrics,"target_cycles":Catalog.cases(level)[index].target})
-	PlaytestData.record_official_run(&"chapter_3",StringName(level),report.passed,{"case_count":runs.size(),"cases":recorded_cases,
+	PlaytestData.record_official_run(&"chapter_3",StringName(level),report.passed,{"cycles":total_cycles,"strategy":Catalog.executed_route(report,board),"case_count":runs.size(),"cases":recorded_cases,
 		"correct":output_correct,"target_met":report.passed,"result_class":"wrong_output_or_state" if not output_correct else "target_met" if report.passed else "correct_but_target_unmet",
 		"program_digest":editor.text.sha256_text(),"board_digest":JSON.stringify(board).sha256_text(),"case_set_version":JSON.stringify(Catalog.cases(level)).sha256_text(),
 		"post_completion":OverlapChapter.completed().has(level)})

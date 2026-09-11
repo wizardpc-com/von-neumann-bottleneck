@@ -34,3 +34,7 @@ Desktop.ini
 # Python local caches
 __pycache__/
 *.pyc
+
+# Receiver data, never distributed or committed
+/server/data/
+/server/*.sqlite*

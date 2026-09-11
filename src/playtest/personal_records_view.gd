@@ -38,7 +38,9 @@ func _ready() -> void:
 		if not RemoteFeedback.scores_enabled: online_status.text=_l("请先在反馈设置中单独同意成绩提交。","First allow score submission in feedback settings.")
 		elif score.is_empty(): online_status.text=_l("先在 Game 完成第四章综合关。","First complete the Chapter 4 capstone in Game.")
 		else: online_status.text=_l("成绩已加入本机待发队列。","Result queued locally.") if not RemoteFeedback.send_score(score).is_empty() else _l("未能加入队列；请检查反馈设置。","Could not queue; check feedback settings."))
-	online_status=_label(community,_l("此构建未配置服务；个人任务记录始终可离线使用。","No service configured in this build; personal records always work offline."))
+	var online_scroll := ScrollContainer.new(); online_scroll.custom_minimum_size.y=140; online_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; community.add_child(online_scroll)
+	online_status=_label(online_scroll,_l("此构建未配置服务；个人任务记录始终可离线使用。","No service configured in this build; personal records always work offline."))
+	online_status.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	online=HTTPRequest.new(); online.timeout=8; online.body_size_limit=131072; add_child(online); online.request_completed.connect(_received)
 func _rows() -> void:
 	for child: Node in content.get_children(): child.queue_free()
@@ -65,11 +67,11 @@ func _fetch(kind: String) -> void:
 func _received(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	if result!=HTTPRequest.RESULT_SUCCESS or code!=200: online_status.text=_l("暂时无法读取；本机进度不受影响。","Unavailable; local progress is unaffected."); return
 	var parsed: Variant = JSON.parse_string(body.get_string_from_utf8())
-	if not parsed is Dictionary: return
+	if not parsed is Dictionary: online_status.text=_l("响应格式无法读取。","Unreadable response."); return
 	if request_kind=="leaderboards":
 		var lines: PackedStringArray = []
 		for row: Dictionary in parsed.get("rows",[]): lines.append("#%d   %s   ·   %d" % [row.rank,row.player,row.total_cycles])
-		online_status.text=_l("实验榜 · 周期越少越好\n","Experimental board · fewer cycles is better\n")+("\n".join(lines.slice(0,5)) if not lines.is_empty() else _l("暂无成绩。","No results yet."))
+		online_status.text=_l("实验榜 · 周期越少越好\n","Experimental board · fewer cycles is better\n")+("\n".join(lines) if not lines.is_empty() else _l("暂无成绩。","No results yet."))
 	else:
 		var tasks: Dictionary = parsed.get("tasks",{})
 		var lines: PackedStringArray = []
@@ -77,7 +79,7 @@ func _received(result: int, code: int, _headers: PackedStringArray, body: Packed
 			if tasks.has(task.key):
 				var row: Dictionary = tasks[task.key]
 				lines.append(task.title+" · %d / %d" % [row.completions,row.starts]+(_l("（小样本）"," (small sample)") if row.small_sample else ""))
-		online_status.text=_l("已结束访问的完成 / 开始；仅同意分享者\n","Completed / started ended visits; consenting players only\n")+("\n".join(lines.slice(0,5)) if not lines.is_empty() else _l("暂无统计。","No statistics yet."))
+		online_status.text=_l("已结束访问的完成 / 开始；仅同意分享者\n","Completed / started ended visits; consenting players only\n")+("\n".join(lines) if not lines.is_empty() else _l("暂无统计。","No statistics yet."))
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE)
 func _button(parent: Node,text: String,callback: Callable) -> void:

@@ -1,0 +1,27 @@
+{
+  "source": "agent_native",
+  "mode": "game",
+  "manual_actions": true,
+  "summary": {
+    "chapter_id": "hardware_foundations",
+    "level_id": "tutorial",
+    "completed": true,
+    "duration_unknown": false,
+    "strategy": "unknown",
+    "foreground_ms": 90687,
+    "background_ms": 0,
+    "feedback_ms": 0,
+    "connections": 3,
+    "connection_rejections": 1,
+    "branches": 0,
+    "wire_deletes": 1,
+    "component_deletes": 0,
+    "incident_wire_removals": 0,
+    "undo_count": 1,
+    "redo_count": 1,
+    "debug_runs": 1,
+    "official_runs": 0,
+    "max_hint_stage": 0,
+    "reason": "map"
+  }
+}

@@ -1,3 +1,18 @@
+free-alpha-20260911-community-candidate2
+
+新增离线个人任务记录页：区域完成度、主线/支线/附加目标、个人最佳和保存方案数。
+回传默认关闭；基础汇总、详细试玩、主动意见和实验成绩分别由玩家选择。
+补齐访问汇总、离线补发、删除防复活、版本化社区统计与第四章综合关实验榜单。
+此包未配置服务器；未来榜单仅检查客户端成绩，不宣称服务端验证。
+改善中英文章节卡片、反馈说明、全屏按钮；增加 60/120 帧选项与后台节能。
+修复地图 Esc 报错、第三章改接撤销和显示偏好覆盖。
+
+Offline personal task records; separate voluntary sharing choices; semantic visit summaries.
+Portable local receiver, community aggregates and an experimental client-reported capstone board.
+No service configured; original 40 tasks and local progression remain independent of networking.
+Bilingual layout, feedback, display settings and endpoint-editing fixes.
+
+Earlier content release:
 free-alpha-20260911-candidate1
 
 新增第四章「把数据摆对地方」六关，形成序章与四章、共 40 个任务。

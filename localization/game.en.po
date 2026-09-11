@@ -5986,10 +5986,10 @@ msgid "moments.button"
 msgstr "Feedback"
 
 msgid "moments.title"
-msgstr "Mark this moment · Anytime"
+msgstr "Feedback · Available anytime"
 
 msgid "moments.privacy"
-msgstr "Choosing a feeling saves it locally with the task and recent run. Text is optional. No automatic upload, keystroke log, source code or screenshots."
+msgstr "Use Save for ratings and opinions; local by default. Moment markers save immediately. Text is shared only when you explicitly press Send."
 
 msgid "moments.close"
 msgstr "Close"

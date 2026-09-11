@@ -2,6 +2,9 @@
 
 Repository-local documentation is the source of truth for future human and Codex work.
 
+- [Offline community preparation](architecture/community-feedback.md): personal records, consent, visit summaries, community and experimental scores.
+- [Native and loopback evidence](verification/20260911-community-preparation/README.md), [owner deployment checklist](distribution/community-deployment-checklist.md), [operator migration runbook](../server/deploy/RUNBOOK.md).
+
 - [Task tree and optional missions](exec-plans/active/task-tree-and-side-missions.md): current 34-node expansion and explicit remaining acceptance.
 - [Local playtest evidence](status/playtest-instrumentation.md): visits, case outcomes, voluntary moments and multi-export reports.
 

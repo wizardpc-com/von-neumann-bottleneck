@@ -20,11 +20,12 @@ class CommunityTests(ReceiverTests):
         view=self.request('GET',route)[1]['tasks']['chapter_4/mixed']
         self.assertEqual(view['starts'],5); self.assertEqual(view['median_foreground_ms'],1234)
         self.assertEqual(view['completion_percent'],100)
-        self.assertEqual(self.request('GET','/v1/community/tasks')[1].get('tasks',self.request('GET','/v1/community/tasks')),{},'Synthetic sources do not enter player stats')
+        self.assertEqual(self.request('GET','/v1/community/tasks')[1]['tasks'],{},'Synthetic sources do not enter player stats')
         rule=RULES['boards']['chapter_4/mixed']
         score={**base,**{k:rule[k] for k in ['ruleset_version','model_version','case_set_version']},'build_version':'synthetic-build',
                'event':'score','passed':True,'passed_cases':2,'case_count':2,'total_cycles':2495,
-               'sharing_mode':'score','privacy_notice_version':'2026-09-11','consent_version':'sharing-2'}
+               'sharing_mode':'score','privacy_notice_version':'2026-09-11','consent_version':'sharing-2',
+               'consent_timestamp':'2026-09-11T00:00:00Z','source_batch':'synthetic','background_cohort':'unspecified'}
         for prefix,total in [('a',1364),('b',1131)]:
             score.update({prefix+'_total_cycles':total,prefix+'_prepare_cycles':100,prefix+'_query_cycles':total-109,
                 prefix+'_output_cycles':9,prefix+'_ram_read_bytes':352,prefix+'_ram_write_bytes':68,prefix+'_peak_extra_bytes':32})

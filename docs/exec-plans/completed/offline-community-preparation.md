@@ -60,3 +60,10 @@ owner's later domain/DNS/HTTPS/privacy/public-release decisions.
   Real four-process client loopback passes queue → resume/deduplicate → offline
   deletion → resumed deletion. Evidence: `docs/verification/20260911-community-preparation/loopback-result.json`.
   No server replay or public endpoint used. Native presentation review follows.
+
+- Stage 4 complete: final loopback, semantic Tutorial native pass, bilingual records/
+  feedback/settings and hub polish; atomic endpoint undo and migration rollback fixes.
+  See `docs/verification/20260911-community-preparation/README.md` for exact evidence
+  and initially failed checks. Original player data and downloaded plans preserved.
+  Deployment and external platform/novice gates remain explicitly outside this
+  offline implementation; no production endpoint is configured.

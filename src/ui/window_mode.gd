@@ -3,7 +3,8 @@ extends Node
 signal window_mode_changed(fullscreen: bool)
 
 const DESIGN_SIZE := Vector2i(1600, 900)
-const MINIMUM_WINDOWED_SIZE := Vector2i(960, 540)
+const MINIMUM_WINDOWED_SIZE := Vector2i(1280, 720)
+var frame_limit: int = 60
 
 var _windowed_size: Vector2i = DESIGN_SIZE
 var _windowed_position: Vector2i = Vector2i.ZERO
@@ -12,14 +13,21 @@ var _has_windowed_rect: bool = false
 
 func _ready() -> void:
 	var settings := ConfigFile.new()
-	if settings.load("user://presentation.cfg")==OK: ProjectSettings.set_setting("game/reduced_motion",bool(settings.get_value("display","reduced_motion",false)))
+	if settings.load("user://presentation.cfg")==OK:
+		ProjectSettings.set_setting("game/reduced_motion",bool(settings.get_value("display","reduced_motion",false)))
+		frame_limit=int(settings.get_value("display","frame_limit",60))
+	if frame_limit not in [0,60,120]: frame_limit=60
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_process_input(true)
 	if _display_is_headless():
 		return
+	Engine.max_fps=frame_limit
+	get_window().focus_entered.connect(func() -> void: Engine.max_fps=frame_limit)
+	get_window().focus_exited.connect(func() -> void: Engine.max_fps=15)
 	if _is_deterministic_capture():
 		call_deferred("_configure_capture_window")
 	else:
+		call_deferred("_configure_minimum_window")
 		call_deferred("_emit_current_mode")
 
 
@@ -79,8 +87,8 @@ func _leave_fullscreen() -> void:
 		# Window dimensions are pixels; the initial design size is in display points.
 		preferred = Vector2i(Vector2(DESIGN_SIZE) * DisplayServer.screen_get_scale(screen))
 	var target := Vector2i(
-		clampi(preferred.x, mini(MINIMUM_WINDOWED_SIZE.x, usable.size.x), mini(maximum.x, usable.size.x)),
-		clampi(preferred.y, mini(MINIMUM_WINDOWED_SIZE.y, usable.size.y), mini(maximum.y, usable.size.y))
+		clampi(preferred.x, mini(_minimum_pixels().x, usable.size.x), mini(maximum.x, usable.size.x)),
+		clampi(preferred.y, mini(_minimum_pixels().y, usable.size.y), mini(maximum.y, usable.size.y))
 	)
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	DisplayServer.window_set_size(target)
@@ -133,5 +141,19 @@ func _display_is_headless() -> bool:
 
 func set_reduced_motion(value: bool) -> void:
 	ProjectSettings.set_setting("game/reduced_motion",value)
-	var settings := ConfigFile.new(); settings.set_value("display","reduced_motion",value)
+	var settings := ConfigFile.new(); settings.load("user://presentation.cfg"); settings.set_value("display","reduced_motion",value)
 	settings.save("user://presentation.cfg")
+
+func _minimum_pixels() -> Vector2i:
+	var scale: float = DisplayServer.screen_get_scale(DisplayServer.window_get_current_screen()) if OS.get_name()=="macOS" else 1.0
+	return Vector2i(Vector2(MINIMUM_WINDOWED_SIZE)*scale)
+func _configure_minimum_window() -> void:
+	var usable: Rect2i = DisplayServer.screen_get_usable_rect(DisplayServer.window_get_current_screen())
+	var preferred: Vector2i = _minimum_pixels()
+	DisplayServer.window_set_min_size(Vector2i(mini(preferred.x,int(usable.size.x*0.9)),mini(preferred.y,int(usable.size.y*0.9))))
+func set_frame_limit(value: int) -> void:
+	if value not in [0,60,120]: return
+	frame_limit=value
+	if not _display_is_headless(): Engine.max_fps=value
+	var settings := ConfigFile.new(); settings.load("user://presentation.cfg")
+	settings.set_value("display","frame_limit",value); settings.save("user://presentation.cfg")

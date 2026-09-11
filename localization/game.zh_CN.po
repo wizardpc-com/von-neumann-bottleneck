@@ -5986,10 +5986,10 @@ msgid "moments.button"
 msgstr "反馈"
 
 msgid "moments.title"
-msgstr "标记这一刻 · 随时可用"
+msgstr "评价与反馈 · 随时可用"
 
 msgid "moments.privacy"
-msgstr "选择感受会立即存到本机，关联当前任务与最近运行。文字可选；不会自动上传，也不采集按键、源码或截图。"
+msgstr "评分与意见需点击保存，默认仅在本机。时刻标记会立即保存；任何文字都需要单独点击发送才会回传。"
 
 msgid "moments.close"
 msgstr "关闭"

@@ -30,7 +30,7 @@ Notice `2026-09-11`, consent `sharing-2`, UTC consent time, configurable nonpers
 experience cohort accompany new records. Source (`external_player`, `agent_native`,
 `automated`, `developer`, `unknown`) and Game/Test remain separate. No account,
 identity, names of saved designs, full circuit/program, input text, pointer path,
-clipboard, screenshot or filesystem path enters the transport. Existing nonreversible
+clipboard, screenshot or filesystem path enters the transport. Existing
 content digests are bounded diagnostic identifiers, not uploaded designs.
 
 Switching statistics tiers drops pending automatic records; withdrawing score consent
@@ -45,7 +45,9 @@ Exit finalizes a visit while the outbox still exists and cancels HTTP without wa
 `visit_summary.gd` reduces semantic transactions. Foreground/background/feedback time
 come from existing monotonic checkpoints. Interrupted visits retain measured segments
 and `duration_unknown=true`; offline hours are not assigned to play time. Completion
-means completion observed during this visit, not a server unlock. Empty/missing old
+comes from the local progress snapshot on entry and any completion during this visit,
+never a server unlock. Turning local recording off closes the measured visit;
+turning it back on starts a new segment instead of counting unrecorded time. Empty/missing old
 visits are not backfilled. Branch replacement edges do not inflate connection counts;
 component incident wires are separate from explicit wire erasures. Undo/redo are
 separate, official runs are distinct from cases and debug requests. Cases carry finite

@@ -16,10 +16,16 @@ MIGRATIONS = {
 def migrate(db):
     version = db.execute('PRAGMA user_version').fetchone()[0]
     if version > SCHEMA_VERSION: raise ValueError('future schema: use a newer receiver')
-    with db:
+    db.execute('SAVEPOINT schema_upgrade')
+    try:
         for next_version in range(version + 1, SCHEMA_VERSION + 1):
             for statement in MIGRATIONS[next_version]: db.execute(statement)
             db.execute('PRAGMA user_version = %d' % next_version)
+        db.execute('RELEASE SAVEPOINT schema_upgrade')
+    except Exception:
+        db.execute('ROLLBACK TO SAVEPOINT schema_upgrade')
+        db.execute('RELEASE SAVEPOINT schema_upgrade')
+        raise
 
 def backup(source, destination):
     if Path(destination).exists(): raise ValueError('destination exists; use a new snapshot name')

@@ -44,6 +44,13 @@ func run() -> void:
 	nav.from_tree = false
 	host.queue_free()
 	await process_frame
+	scene = load("res://src/campaign/task_tree.tscn").instantiate()
+	root.add_child(scene); current_scene=scene
+	await process_frame
+	var escape := InputEventKey.new(); escape.pressed=true; escape.keycode=KEY_ESCAPE
+	scene._unhandled_key_input(escape)
+	for frame: int in range(3): await process_frame
+	check(current_scene != null and current_scene.scene_file_path=="res://src/ui/prototype_hub.tscn","Escape consumes input before removing the map from the tree")
 	for failure: String in failures: push_error(failure)
 	print("PASS: task adapters, locked details, search, camera and ordinary host routing" if failures.is_empty() else "FAIL: task tree")
 	quit(0 if failures.is_empty() else 1)

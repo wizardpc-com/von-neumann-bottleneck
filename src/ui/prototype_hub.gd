@@ -160,6 +160,7 @@ func _build_interface() -> void:
 	task_tree_button.pressed.connect(func() -> void: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
 	content.add_child(task_tree_button)
 	var cards := HBoxContainer.new()
+	cards.name = "ChapterCards"
 	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(cards)
 	cards.add_child(_build_card(
@@ -385,6 +386,14 @@ func _build_options_menu() -> void:
 
 	var reduced := CheckButton.new(); reduced.text="减少界面动效" if Localization.current_locale().begins_with("zh") else "Reduce interface motion"
 	reduced.button_pressed=bool(ProjectSettings.get_setting("game/reduced_motion",false)); reduced.toggled.connect(WindowMode.set_reduced_motion); column.add_child(reduced)
+	var frame_choice := OptionButton.new()
+	for text: String in (["画面帧率 · 60（省电）","画面帧率 · 120","画面帧率 · 跟随显示器"] if Localization.current_locale().begins_with("zh") else ["Frame limit · 60 (power saving)","Frame limit · 120","Frame limit · display refresh"]): frame_choice.add_item(text)
+	frame_choice.select(maxi(0,[60,120,0].find(WindowMode.frame_limit)))
+	frame_choice.item_selected.connect(func(index: int) -> void: WindowMode.set_frame_limit([60,120,0][index]))
+	column.add_child(frame_choice)
+	var display_hint := Label.new(); display_hint.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	display_hint.text="切到后台时降低画面帧率；不改变仿真成绩。F11 / Alt+Enter 切换全屏。" if Localization.current_locale().begins_with("zh") else "Background rendering uses less power; simulation scores are unchanged. F11 / Alt+Enter: fullscreen."
+	column.add_child(display_hint)
 	var feedback := PlaytestMoments.make_button(); column.add_child(feedback)
 	options_export_button = _options_button(Localization.text(&"playtest.export.button"))
 	options_export_button.name = "OptionsExportPlaytestButton"
@@ -567,8 +576,8 @@ func _build_card(
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.add_theme_stylebox_override("panel", _stylebox(Color("11212d"), 6, 1, Color(color, 0.55)))
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 22)
-	margin.add_theme_constant_override("margin_right", 22)
+	margin.add_theme_constant_override("margin_left", 14)
+	margin.add_theme_constant_override("margin_right", 14)
 	margin.add_theme_constant_override("margin_top", 20)
 	margin.add_theme_constant_override("margin_bottom", 20)
 	panel.add_child(margin)
@@ -576,6 +585,9 @@ func _build_card(
 	margin.add_child(box)
 	var eyebrow_label := Label.new()
 	eyebrow_label.text = eyebrow
+	eyebrow_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	eyebrow_label.custom_minimum_size.y = 48.0
+	eyebrow_label.add_theme_font_size_override("font_size", 18)
 	eyebrow_label.add_theme_color_override("font_color", color)
 	box.add_child(eyebrow_label)
 	var emblem := preload("res://src/ui/chapter_emblem.gd").new()
@@ -586,7 +598,7 @@ func _build_card(
 	title_label.text = title if entry_id.is_empty() else title.replace("：", "：\n").replace(": ", ":\n").replace(" · ", "\n")
 	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title_label.custom_minimum_size.y = 72
-	title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
+	title_label.add_theme_font_size_override("font_size", 22)
 	title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	box.add_child(title_label)
 	var description_label := Label.new()
@@ -597,6 +609,8 @@ func _build_card(
 	box.add_child(description_label)
 	var button := Button.new()
 	button.text = button_text
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.clip_text = true
 	button.custom_minimum_size.y = 58.0
 	button.pressed.connect(func() -> void: get_tree().change_scene_to_file(scene_path))
 	box.add_child(button)

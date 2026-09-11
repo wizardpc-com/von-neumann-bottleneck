@@ -1,0 +1,10 @@
+# Example ONLY. Owner must supply a real hostname after separately approving deployment.
+feedback.example.invalid {
+    request_body {
+        max_size 128KB
+    }
+    @private path /admin/*
+    respond @private 404
+    reverse_proxy 127.0.0.1:8765
+    # Do not enable access logs containing IPs or query strings.
+}

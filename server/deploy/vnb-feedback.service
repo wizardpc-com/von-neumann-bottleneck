@@ -1,0 +1,17 @@
+[Unit]
+Description=VNB feedback receiver
+After=network.target
+[Service]
+User=vnb-feedback
+Group=vnb-feedback
+WorkingDirectory=/opt/vnb/server
+EnvironmentFile=/etc/vnb-feedback.env
+ExecStart=/usr/bin/python3 /opt/vnb/server/feedback_server.py
+Restart=on-failure
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/vnb-feedback
+[Install]
+WantedBy=multi-user.target

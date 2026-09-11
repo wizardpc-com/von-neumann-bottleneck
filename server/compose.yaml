@@ -1,0 +1,15 @@
+# Local only. Prepare ./data owned by UID 65532 before starting Docker.
+services:
+  receiver:
+    build: .
+    ports: ["127.0.0.1:8765:8765"]
+    volumes: ["./data:/data"]
+    environment:
+      VNB_RETENTION_DAYS: "30"
+      VNB_RATE_PER_MINUTE: "120"
+      VNB_MAX_BODY_BYTES: "131072"
+      VNB_MAX_BATCH_SIZE: "32"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped

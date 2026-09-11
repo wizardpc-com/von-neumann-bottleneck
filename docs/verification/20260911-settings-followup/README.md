@@ -57,3 +57,24 @@ are kept honestly as initial (one failed assertion in each); final affected-suit
 are separate, not edited into the old run. Chinese and English ordinary Game replays
 each passed 602 checks. Final settings, feedback UI and shared UI checks pass on the
 actual final runtime; all checks used dedicated QA directories.
+
+## Final native and frozen candidate receipt
+
+Content `80105a7f5ea6e0c1d0d5017ad81029fbfaa2930d`, frozen build
+**free-alpha-80105a7f5ea6**. Mac and Windows archives, packaged notes and hashes agree
+([manifest](candidate-manifest.json)). Actual Mac binary probe passes build identity,
+40 tasks, Game-only mode, excluded developer files, empty endpoint and upload off
+([probe](mac-package-probe.json)). Windows export remains untested on Windows.
+
+Final source-native reset dialog shows Chinese 确认/取消, with readable title/body;
+cancel works. Actual mouse enters the task tree and completion board; board displays
+0/40, five regional counts, main/side/bonus counts, no individual task list. QA-only
+loopback configuration explains its optional community toggle; production remains empty.
+Normal source exit succeeded. The earlier locked-screen reset gate is now closed.
+
+The exported QA copy was given a unique bundle identity and re-signed; the delivery
+app/archives were untouched. Its correct-build homepage rendered. CUA mouse commands
+returned noWindowsAvailable, including after window transition; keyboard navigation
+was not reliable enough to count as a completed route. This is **launch/render evidence
+only**, not a mouse smoke-test pass. Stopped only this own isolated candidate process.
+The owner candidate mouse gate remains open; source interaction is separate evidence.

@@ -1,0 +1,27 @@
+{
+  "build_id": "free-alpha-80105a7f5ea6",
+  "source_commit": "80105a7f5ea6e0c1d0d5017ad81029fbfaa2930d",
+  "source_native": {
+    "profile": "prelaunch-native-final-20260911",
+    "reset_en_title_body": true,
+    "reset_restored_zh_60fps_audio_on_70percent": true,
+    "reset_zh_final_localized_buttons": true,
+    "cancel": true,
+    "diagnostic_export": true,
+    "tab_reaches_new_export_folder": true,
+    "tree_mouse_entry": true,
+    "completion_only_board_40_tasks_5_regions": true,
+    "normal_quit": true
+  },
+  "exported_native": {
+    "qa_copy": "4486d118d754",
+    "unique_qa_identity_only": true,
+    "original_delivery_unchanged": true,
+    "homepage_correct_build_visible": true,
+    "mouse": "pending: CUA noWindowsAvailable in fullscreen and after window transition",
+    "mouse_gate_passed": false
+  },
+  "windows_native": "pending",
+  "external_beginner": "pending",
+  "public_release": false
+}

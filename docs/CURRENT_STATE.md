@@ -12,7 +12,10 @@ Latest follow-up: structured settings provide persistent Chinese/English and aud
 scrolling content with fixed close controls, safe presentation defaults and local
 diagnostics. Configured receivers get a first local/basic sharing choice, with no
 retroactive upload; public endpoint remains empty. See
-[prelaunch settings evidence](verification/20260911-prelaunch-settings/README.md).
+[prelaunch settings evidence](verification/20260911-prelaunch-settings/README.md) and
+[final follow-up](verification/20260911-settings-followup/README.md). Repeated exports
+preserve reports; export actions join keyboard navigation; confirmation buttons follow
+the selected language. Native reset/title/Tab checks are complete.
 
 - Startup prioritizes the task tree; five chapter artworks and descriptions remain.
   Continue selects the recent Game task on the map. `task_navigation.cfg` is a
@@ -39,10 +42,10 @@ full source commit into the exported project settings, manifests, README, change
 notes and ZIP names. A frozen identity cannot be overwritten. The game shows that
 same ID; the release-binary probe checks it against its adjacent manifest.
 
-Current frozen artifact: **free-alpha-128632418664**, content commit **1286324**.
+Current frozen artifact: **free-alpha-80105a7f5ea6**, content commit **80105a7**.
 Later evidence-only commits do not rename or overwrite those archives.
-[Current verification and package hashes](verification/20260911-prelaunch-settings/README.md).
-Older candidate `free-alpha-9f8c34fac4fb` and its convergence report are historical.
+[Current verification and package hashes](verification/20260911-settings-followup/README.md).
+Older candidates `free-alpha-128632418664` and `free-alpha-9f8c34fac4fb` and its convergence report are historical.
 The latest package remains offline by default and has not been publicly released.
 
 ## What remains

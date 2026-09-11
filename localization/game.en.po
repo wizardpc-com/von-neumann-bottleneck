@@ -6114,3 +6114,12 @@ msgstr "Bounded batches and tails"
 
 msgid "terminology.term.bounded_batch.body"
 msgstr "Copy one batch, finish all its queries, then release it. Nine records in batches of four means 4 + 4 + 1. The tail is retained without inventing padding records."
+
+msgid "hub.tree.title"
+msgstr "Your machine starts here"
+
+msgid "hub.tree.description"
+msgstr "Explore the branches. Build a machine, then make it wait less."
+
+msgid "hub.tree.enter"
+msgstr "Explore the task tree  →"

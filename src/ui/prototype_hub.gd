@@ -124,18 +124,6 @@ func _build_interface() -> void:
 	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", ACCENT)
 	content.add_child(title)
-	var subtitle := Label.new()
-	subtitle.text = Localization.text(&"hub.subtitle")
-	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle.add_theme_color_override("font_color", MUTED)
-	content.add_child(subtitle)
-	var build_label := Label.new()
-	build_label.name = "BuildIdentifier"
-	build_label.text = ProjectSettings.get_setting("application/config/version", "")
-	build_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	build_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
-	build_label.add_theme_color_override("font_color", MUTED)
-	content.add_child(build_label)
 	var mode_center := CenterContainer.new()
 	content.add_child(mode_center)
 	mode_selector = GameModeSelectorType.new()
@@ -146,19 +134,13 @@ func _build_interface() -> void:
 	mode_description_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
 	content.add_child(mode_description_label)
-	_build_save_actions(content)
+	_build_tree_entry(content)
 	save_recovery_label = Label.new()
 	save_recovery_label.name = "SaveRecoveryNotice"
 	save_recovery_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	save_recovery_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	save_recovery_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	content.add_child(save_recovery_label)
-	var task_tree_button := Button.new()
-	task_tree_button.name = "TaskTree"
-	task_tree_button.text = Localization.text(&"tree.open")
-	task_tree_button.custom_minimum_size.y = 54
-	task_tree_button.pressed.connect(func() -> void: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
-	content.add_child(task_tree_button)
 	var cards := HBoxContainer.new()
 	cards.name = "ChapterCards"
 	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -200,7 +182,9 @@ func _build_interface() -> void:
 		"res://src/layout_chapter/layout_chapter.tscn",&"layout"
 	))
 	var note := Label.new()
-	note.text = Localization.text(&"hub.note")
+	note.name = "BuildIdentifier"
+	note.text = Localization.text(&"hub.note")+"   ·   "+String(ProjectSettings.get_setting("application/config/version", ""))
+	note.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	note.add_theme_color_override("font_color", MUTED)
 	content.add_child(note)
@@ -220,6 +204,49 @@ func _build_interface() -> void:
 	settings_button.pressed.connect(_open_options_menu)
 	_build_new_game_confirmation()
 	_refresh_save_actions()
+
+
+func _build_tree_entry(content: VBoxContainer) -> void:
+	var panel := PanelContainer.new()
+	panel.name = "TaskTreeEntry"
+	panel.add_theme_stylebox_override("panel", _stylebox(Color("102a36"), 10, 2, ACCENT))
+	content.add_child(panel)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 38)
+	panel.add_child(row)
+	var primary := VBoxContainer.new()
+	primary.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(primary)
+	var heading := Label.new()
+	heading.text = Localization.text(&"hub.tree.title")
+	heading.add_theme_font_size_override("font_size", 30)
+	heading.add_theme_color_override("font_color", ACCENT)
+	primary.add_child(heading)
+	var description := Label.new()
+	description.text = Localization.text(&"hub.tree.description")
+	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description.add_theme_color_override("font_color", TEXT)
+	primary.add_child(description)
+	var button := Button.new()
+	button.name = "TaskTree"
+	button.text = Localization.text(&"hub.tree.enter")
+	button.custom_minimum_size = Vector2(0, 66)
+	button.add_theme_font_size_override("font_size", 24)
+	button.add_theme_color_override("font_color", Color("071b28"))
+	button.add_theme_color_override("font_hover_color", Color("071b28"))
+	button.add_theme_color_override("font_focus_color", Color("071b28"))
+	button.add_theme_color_override("font_pressed_color", Color("071b28"))
+	button.add_theme_stylebox_override("normal", _stylebox(ACCENT, 8, 1, ACCENT))
+	button.add_theme_stylebox_override("hover", _stylebox(Color("9ceaff"), 8, 2, Color.WHITE))
+	button.pressed.connect(func() -> void: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
+	primary.add_child(button)
+	var secondary := VBoxContainer.new()
+	secondary.custom_minimum_size.x = 530
+	row.add_child(secondary)
+	var preview := preload("res://src/ui/task_tree_preview.gd").new()
+	secondary.add_child(preview)
+	_build_save_actions(secondary)
+	button.call_deferred("grab_focus")
 
 
 func _build_save_actions(content: VBoxContainer) -> void:
@@ -587,7 +614,7 @@ func _build_card(
 	eyebrow_label.text = eyebrow
 	eyebrow_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	eyebrow_label.custom_minimum_size.y = 48.0
-	eyebrow_label.add_theme_font_size_override("font_size", 18)
+	eyebrow_label.add_theme_font_size_override("font_size", 16)
 	eyebrow_label.add_theme_color_override("font_color", color)
 	box.add_child(eyebrow_label)
 	var emblem := preload("res://src/ui/chapter_emblem.gd").new()

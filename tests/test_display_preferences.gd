@@ -16,6 +16,9 @@ func run() -> void:
 		for frame: int in range(8): await process_frame
 		var cards: Control = hub.find_child("ChapterCards",true,false)
 		valid = valid and cards.get_child_count()==5 and cards.size.x <= 1480.1 and cards.get_global_rect().end.y <= hub.size.y - 30.0
+		var entry: Control = hub.find_child("TaskTreeEntry",true,false)
+		var primary: Button = hub.find_child("TaskTree",true,false)
+		valid = valid and entry.get_global_rect().end.y <= cards.global_position.y and primary.has_focus()
 		for card: Control in cards.get_children():
 			valid = valid and card.size.x <= 300.0
 		hub.queue_free()

@@ -6113,3 +6113,12 @@ msgstr "有限空间与尾批"
 
 msgid "terminology.term.bounded_batch.body"
 msgstr "一批数据复制后，完成这批的全部查询再释放。若 9 条记录每批 4 条，就是 4 + 4 + 1；最后一批不能漏掉，也不用填成不存在的记录。"
+
+msgid "hub.tree.title"
+msgstr "章节任务树 · 展开你的机器"
+
+msgid "hub.tree.description"
+msgstr "沿着分支自由探索：造出机器，再让它少一些等待。"
+
+msgid "hub.tree.enter"
+msgstr "打开章节任务树  →"

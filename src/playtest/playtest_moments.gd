@@ -18,6 +18,7 @@ var remote_status: Label
 var score_toggle: CheckButton
 var saved_opinion: Dictionary = {}
 var content_scroll: ScrollContainer
+var entry_buttons: Array[WeakRef] = []
 
 func _ready() -> void:
 	var layer := CanvasLayer.new()
@@ -64,63 +65,63 @@ func _ready() -> void:
 	for key: String in ["fun","clarity","continue"]:
 		var choice := OptionButton.new()
 		choice.set_meta("rating_key",key)
-		choice.add_item(_l({"fun":"有趣吗","clarity":"目标清楚吗","continue":"想继续玩吗"}[key],{"fun":"Fun","clarity":"Goal clarity","continue":"Want to continue"}[key])+_l(" · 暂不评分"," · no rating"))
-		for score: int in range(1,6): choice.add_item(str(score)+_l(" / 5"," / 5"))
+		choice.add_item(Localization.text(StringName("sharing.rating."+key))+Localization.text(&"sharing.no_rating"))
+		for score: int in range(1,6): choice.add_item(str(score)+Localization.text(&"sharing.5"))
 		ratings.append(choice); box.add_child(choice)
 	opinion=LineEdit.new(); opinion.max_length=240
-	opinion.placeholder_text=_l("本关意见（未通关也能写，最多 240 字）","Opinion, even before passing (240 characters)")
+	opinion.placeholder_text=Localization.text(&"sharing.opinion_even_before_passing_240_characters")
 	box.add_child(opinion)
-	var save_opinion := Button.new(); save_opinion.text=_l("保存本关评价到本机","Save task feedback locally")
+	var save_opinion := Button.new(); save_opinion.text=Localization.text(&"sharing.save_task_feedback_locally")
 	save_opinion.custom_minimum_size.y=40; box.add_child(save_opinion)
 	save_opinion.pressed.connect(_save_opinion)
-	var remote_fold := CheckButton.new(); remote_fold.text=_l("可选回传与数据设置","Optional sharing and data settings")
+	var remote_fold := CheckButton.new(); remote_fold.text=Localization.text(&"sharing.optional_sharing_and_data_settings")
 	box.add_child(remote_fold)
 	var remote_box := VBoxContainer.new(); remote_box.hide(); box.add_child(remote_box)
 	remote_fold.toggled.connect(func(value: bool) -> void: remote_box.visible=value)
 	var remote_info := Label.new(); remote_info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	remote_info.text=_l("默认只保存在本机。回传使用随机安装标识，不含账户、方案名称或电路。行为回传仅从同意后开始，约每 45 秒一批。意见须单独点击发送。服务端保留 30 天；关闭回传不影响游玩。", "Local by default. Sharing uses a random installation ID, no account, design name or circuit. Future actions only, batched about every 45 seconds. Opinions need a separate Send. Receiver retention: 30 days. Playing works without sharing.")
+	remote_info.text=Localization.text(&"sharing.local_by_default_sharing_uses_a_random_installation_id_no_account_de")
 	remote_box.add_child(remote_info)
 	var destination := Label.new(); destination.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	destination.text=_l("接收地址：","Receiver: ")+(RemoteFeedback.endpoint if RemoteFeedback.endpoint_allowed() else _l("此版本未配置，仍可本地保存和导出。","Not configured in this build; save and export still work."))
+	destination.text=Localization.text(&"sharing.receiver")+(RemoteFeedback.endpoint if RemoteFeedback.endpoint_allowed() else Localization.text(&"sharing.not_configured_in_this_build_save_and_export_still_work"))
 	remote_box.add_child(destination)
-	var local_toggle := CheckButton.new(); local_toggle.text=_l("记录本机游玩操作（不含意见正文）","Record local play actions (no opinion text)"); local_toggle.button_pressed=PlaytestData.telemetry_enabled
+	var local_toggle := CheckButton.new(); local_toggle.text=Localization.text(&"sharing.record_local_play_actions_no_opinion_text"); local_toggle.button_pressed=PlaytestData.telemetry_enabled
 	local_toggle.toggled.connect(func(value: bool) -> void: PlaytestData.set_local_recording(value); _save_preferences(value))
 	remote_box.add_child(local_toggle)
 	remote_toggle=OptionButton.new()
-	for label: String in [_l("仅保存在本机","Local only"),_l("分享基础统计 · 每次访问一份汇总","Share basic statistics · one summary per visit"),_l("参与详细试玩 · 逐次操作与运行","Detailed playtest · actions and runs")]: remote_toggle.add_item(label)
+	for label: String in [Localization.text(&"sharing.local_only"),Localization.text(&"sharing.share_basic_statistics_one_summary_per_visit"),Localization.text(&"sharing.detailed_playtest_actions_and_runs")]: remote_toggle.add_item(label)
 	remote_toggle.select(["local","basic","detailed"].find(RemoteFeedback.sharing_mode))
 	remote_toggle.disabled=not RemoteFeedback.endpoint_allowed()
 	remote_toggle.item_selected.connect(func(index: int) -> void: RemoteFeedback.set_sharing_mode(["local","basic","detailed"][index]))
 	remote_box.add_child(remote_toggle)
 	var tier_help := Label.new(); tier_help.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	tier_help.text=_l("基础统计从下一次进入关卡开始：停留、完成、编辑次数和有限成绩。详细试玩额外分享逐次操作，不含电路或程序。切换分档会清空待发的行为记录。", "Basic sharing starts at your next task visit: time, completion, edit counts and bounded metrics. Detailed sharing adds individual actions, never circuits or programs. Changing mode clears pending action records.")
+	tier_help.text=Localization.text(&"sharing.basic_sharing_starts_at_your_next_task_visit_time_completion_edit_co")
 	remote_box.add_child(tier_help)
 	var cohort := OptionButton.new()
-	for label: String in [_l("经验背景 · 不提供","Experience · unspecified"),_l("刚接触电路","New to circuits"),_l("有一些经验","Some experience"),_l("比较熟悉","Experienced")]: cohort.add_item(label)
+	for label: String in [Localization.text(&"sharing.experience_unspecified"),Localization.text(&"sharing.new_to_circuits"),Localization.text(&"sharing.some_experience"),Localization.text(&"sharing.experienced")]: cohort.add_item(label)
 	var cohorts: Array[String] = ["unspecified","new_to_circuits","some_experience","experienced"]
 	cohort.select(maxi(0,cohorts.find(RemoteFeedback.background_cohort)))
 	cohort.item_selected.connect(func(index: int) -> void: RemoteFeedback.background_cohort=cohorts[index]; RemoteFeedback._save_state())
 	remote_box.add_child(cohort)
-	var score_choice := CheckButton.new(); score_toggle=score_choice; score_choice.text=_l("单独同意提交实验榜成绩（不含方案）","Separately allow experimental scores (no designs)")
+	var score_choice := CheckButton.new(); score_toggle=score_choice; score_choice.text=Localization.text(&"sharing.separately_allow_experimental_scores_no_designs")
 	score_choice.disabled=not RemoteFeedback.endpoint_allowed(); score_choice.button_pressed=RemoteFeedback.scores_enabled
 	score_choice.toggled.connect(func(value: bool) -> void: RemoteFeedback.set_scores_enabled(value))
 	remote_box.add_child(score_choice)
-	var designs := Label.new(); designs.text=_l("公开方案：此版本不支持，也不会上传。","Public designs: unsupported; never uploaded.")
+	var designs := Label.new(); designs.text=Localization.text(&"sharing.public_designs_unsupported_never_uploaded")
 	designs.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; remote_box.add_child(designs)
-	var send := Button.new(); send.text=_l("发送刚保存的这条评价","Send the opinion I just saved"); remote_box.add_child(send); send.disabled=not RemoteFeedback.endpoint_allowed()
+	var send := Button.new(); send.text=Localization.text(&"sharing.send_the_opinion_i_just_saved"); remote_box.add_child(send); send.disabled=not RemoteFeedback.endpoint_allowed()
 	send.pressed.connect(func() -> void:
-		if saved_opinion.is_empty(): remote_status.text=_l("请先保存这条评价。","Save this opinion first.")
+		if saved_opinion.is_empty(): remote_status.text=Localization.text(&"sharing.save_this_opinion_first")
 		else: RemoteFeedback.send_feedback(saved_opinion))
-	var retry := Button.new(); retry.text=_l("重试等待回传的记录","Retry pending records"); remote_box.add_child(retry); retry.disabled=not RemoteFeedback.endpoint_allowed(); retry.pressed.connect(RemoteFeedback.retry_pending)
-	var remove := Button.new(); remove.text=_l("关闭回传并请求删除已回传数据…","Stop sharing and request uploaded data deletion…"); remote_box.add_child(remove); remove.disabled=not RemoteFeedback.endpoint_allowed()
+	var retry := Button.new(); retry.text=Localization.text(&"sharing.retry_pending_records"); remote_box.add_child(retry); retry.disabled=not RemoteFeedback.endpoint_allowed(); retry.pressed.connect(RemoteFeedback.retry_pending)
+	var remove := Button.new(); remove.text=Localization.text(&"sharing.stop_sharing_and_request_uploaded_data_deletion"); remote_box.add_child(remove); remove.disabled=not RemoteFeedback.endpoint_allowed()
 	var confirm := ConfirmationDialog.new(); panel.add_child(confirm)
-	confirm.dialog_text=_l("删除此安装标识已回传的数据，并清空等待发送的记录。本机意见和游戏存档保留。确认？","Delete uploads for this installation and clear its pending queue? Local feedback and game saves stay available.")
+	confirm.dialog_text=Localization.text(&"sharing.delete_uploads_for_this_installation_and_clear_its_pending_queue_loc")
 	remove.pressed.connect(func() -> void: confirm.popup_centered(Vector2i(540,180)))
 	confirm.confirmed.connect(RemoteFeedback.delete_uploaded_data)
 	remote_status=Label.new(); remote_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; remote_box.add_child(remote_status)
 	RemoteFeedback.status_changed.connect(_remote_updated); _remote_updated()
 	moment_box=VBoxContainer.new(); box.add_child(moment_box)
-	var moment_heading := Label.new(); moment_heading.text=_l("记录一个具体时刻（可选）","Mark a specific moment (optional)"); moment_box.add_child(moment_heading)
+	var moment_heading := Label.new(); moment_heading.text=Localization.text(&"sharing.mark_a_specific_moment_optional"); moment_box.add_child(moment_heading)
 	var grid := GridContainer.new()
 	grid.columns = 2
 	moment_box.add_child(grid)
@@ -175,20 +176,12 @@ func make_button() -> Button:
 	var button := Button.new()
 	button.name = "MomentFeedbackButton"
 	button.text = _t("button")
-	var refresh := _refresh_entry_language.bind(weakref(button))
-	Localization.locale_changed.connect(refresh)
-	button.tree_exiting.connect(func() -> void:
-		if Localization.locale_changed.is_connected(refresh):
-			Localization.locale_changed.disconnect(refresh))
+	entry_buttons=entry_buttons.filter(func(reference: WeakRef) -> bool: return reference.get_ref()!=null)
+	entry_buttons.append(weakref(button))
 	button.tooltip_text = _t("title")+" · F8"
 	button.pressed.connect(toggle)
 	return button
 
-func _refresh_entry_language(_locale: String, reference: WeakRef) -> void:
-	var button: Button = reference.get_ref()
-	if button != null:
-		button.text = _t("button")
-		button.tooltip_text = _t("title")+" · F8"
 
 func toggle() -> void:
 	if panel.visible: close(); return
@@ -231,6 +224,11 @@ func _button(parent: Node,key: String,action: Callable) -> Button:
 func _t(key: String) -> String: return Localization.text(StringName("moments."+key))
 
 func _refresh_language() -> void:
+	for reference: WeakRef in entry_buttons:
+		var button: Button = reference.get_ref()
+		if button != null:
+			button.text=_t("button")
+			button.tooltip_text=_t("title")+" · F8"
 	_translate(panel)
 	exit_reason.set_item_text(0,_t("exit_optional"))
 	for index: int in range(1,exit_reason.item_count): exit_reason.set_item_text(index,_t("exit."+str(exit_reason.get_item_metadata(index))))
@@ -253,7 +251,7 @@ func _prepare_target() -> void:
 	var title: String = key
 	for task: Dictionary in TaskNavigation.tasks():
 		if task.key==key: title=task.title; break
-	target_label.text=_l("评价对象：","Feedback for: ")+title if not target.get("level_id","").is_empty() else _l("进入一关后可评分；也可在任务树选中关卡后留下意见。","Enter a task to rate it, or select one in the task tree.")
+	target_label.text=Localization.text(&"sharing.feedback_for")+title if not target.get("level_id","").is_empty() else Localization.text(&"sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree")
 	for rating: OptionButton in ratings: rating.select(0)
 	opinion.clear(); saved_opinion.clear(); moment_sequence=-1
 	content_scroll.scroll_vertical=0
@@ -267,20 +265,12 @@ func _save_opinion() -> void:
 	var chapter: String = str(target.get("chapter_id",""))
 	var level: String = str(target.get("level_id",""))
 	var saved: bool = PlaytestData.submit_level_feedback(StringName(chapter),StringName(level),ratings[0].selected,ratings[1].selected,ratings[2].selected,opinion.text)
-	status.text=_l("已保存到本机。再次保存会保留修订记录，统计只采用本次游玩的最新评价。","Saved locally. Revisions are retained; analysis uses the latest opinion for this visit.") if saved else _l("请先选择关卡，并至少填写一项评分或意见。","Choose a task and provide a rating or opinion.")
+	status.text=Localization.text(&"sharing.saved_locally_revisions_are_retained_analysis_uses_the_latest_opinio") if saved else Localization.text(&"sharing.choose_a_task_and_provide_a_rating_or_opinion")
 	if saved: saved_opinion=PlaytestData.latest_level_feedback(chapter,level)
 func _remote_updated() -> void:
-	var labels: Dictionary = {
-		"local_only":["仅本机保存","Local only"],"not_configured":["尚未配置接收地址；可保存和导出","No receiver configured; save and export available"],
-		"pending":["等待回传","Queued"],"ready":["已同意，只记录今后的操作","Enabled for future actions"],"sending":["发送中，等待落盘回执","Sending; awaiting stored receipt"],
-		"sent":["服务端已确认落盘","Receiver confirmed storage"],"failed_retryable":["暂未收到回执；记录仍在本机等待重试","No receipt yet; retained locally for retry"],
-		"rejected":["服务端拒绝，已暂停重试；可导出反馈","Rejected; paused. Local export remains available"],"queue_full":["等待队列已满；本机记录仍可导出","Queue full; local records can still be exported"],
-		"storage_error":["本机队列保存失败；尚不能确认发送","Local outbox could not be saved"],"deleted":["服务端已确认删除此安装的数据","Receiver confirmed deletion"],"deleting":["正在请求删除","Requesting deletion"],"delete_failed":["删除未获确认，请稍后重试","Deletion unconfirmed; retry later"]}
-	var pair: Array = labels.get(RemoteFeedback.status,[RemoteFeedback.status,RemoteFeedback.status])
-	remote_status.text=_l(str(pair[0]),str(pair[1]))+" · %d " % RemoteFeedback.queue.size()+_l("条等待","pending")
+	remote_status.text=Localization.text(StringName("sharing.status."+RemoteFeedback.status))+" · %d " % RemoteFeedback.queue.size()+Localization.text(&"sharing.pending")
 	remote_toggle.select(maxi(0,["local","basic","detailed"].find(RemoteFeedback.sharing_mode)))
 	if is_instance_valid(score_toggle): score_toggle.set_pressed_no_signal(RemoteFeedback.scores_enabled)
 func _save_preferences(value: bool) -> void:
 	var config := ConfigFile.new(); config.set_value("privacy","local_actions",value)
 	config.save("user://feedback_preferences.cfg")
-func _l(zh: String,en: String) -> String: return zh if TranslationServer.get_locale().begins_with("zh") else en

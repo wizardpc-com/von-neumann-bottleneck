@@ -65,7 +65,7 @@ func _test_prologue_and_half_adder_resume() -> void:
 	_assert(reader.load_game(), "A mid-prologue save must be resumable.")
 	_assert(
 		bool(reader.game_player_content.completed_levels.get(&"tutorial", false))
-		and reader.continue_scene_path().ends_with("hardware_foundations.tscn"),
+		and reader.continue_scene_path().ends_with("task_tree.tscn"),
 		"Continue must return a mid-prologue player to Hardware Foundations."
 	)
 
@@ -164,7 +164,7 @@ func _test_chapter_gates_and_notebook_resume() -> void:
 	var saved_document: Variant = JSON.parse_string(FileAccess.get_file_as_string(save_path))
 	_assert(
 		saved_document is Dictionary
-		and int((saved_document as Dictionary).get("schema_version", 0)) == 1
+		and int((saved_document as Dictionary).get("schema_version", 0)) == GlobalSaveType.SCHEMA_VERSION
 		and not _contains_key_recursive(saved_document, "receipts")
 		and not _contains_key_recursive(saved_document, "trace")
 		and not _contains_key_recursive(saved_document, "clipboard")
@@ -185,7 +185,7 @@ func _test_chapter_gates_and_notebook_resume() -> void:
 		and locality_chapter.concept_unlocked(&"cpu_wait")
 		and locality_chapter.concept_unlocked(&"cache")
 		and locality_chapter.concept_unlocked(&"locality")
-		and reader.continue_scene_path().ends_with("main.tscn"),
+		and reader.continue_scene_path().ends_with("task_tree.tscn"),
 		"Continue must restore Chapter 1→2 gates and derive Notebook unlocks from sanitized completion. hardware=%s system=%s locality=%s ready=%s warning=%s" % [reader.game_player_content.completed_levels, system_chapter.game_completed, locality_chapter.game_completed, system_chapter.prologue_ready, reader.last_warning]
 	)
 	_assert(
@@ -524,7 +524,7 @@ func _test_overlap_resume() -> void:
 	var reader = _service()
 	_assert(reader.load_game() and overlap.game_solutions.size()==6 and overlap.game_drafts.size()==6,
 		"JSON round-trip must revalidate all six Chapter 3 solutions and retain drafts.")
-	_assert(reader.continue_scene_path().ends_with("overlap_chapter.tscn"), "Chapter 2 capstone opens Chapter 3 Continue.")
+	_assert(reader.continue_scene_path().ends_with("task_tree.tscn"), "Chapter 2 capstone retains branch-aware Continue.")
 	_assert(reader.start_new_game(false).ok and overlap.game_solutions.is_empty() and overlap.game_drafts.size()==6,
 		"New Game without clearing workbenches must retain Chapter 3 drafts without retaining unlocks.")
 	var fresh = _service()

@@ -198,7 +198,7 @@ func _build_interface() -> void:
 	terminology_handbook = TerminologyHandbookType.new()
 	add_child(terminology_handbook)
 	_build_options_menu()
-	var settings_button := Button.new(); settings_button.text="设置 · Esc" if Localization.current_locale().begins_with("zh") else "Settings · Esc"
+	var settings_button := Button.new(); settings_button.text=Localization.text(&"hub.settings.settings_esc")
 	add_child(settings_button); settings_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	settings_button.offset_left=-278; settings_button.offset_right=-128; settings_button.offset_top=16; settings_button.offset_bottom=60
 	settings_button.pressed.connect(_open_options_menu)
@@ -411,15 +411,15 @@ func _build_options_menu() -> void:
 	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen)
 	column.add_child(options_fullscreen_button)
 
-	var reduced := CheckButton.new(); reduced.text="减少界面动效" if Localization.current_locale().begins_with("zh") else "Reduce interface motion"
+	var reduced := CheckButton.new(); reduced.text=Localization.text(&"hub.settings.reduce_interface_motion")
 	reduced.button_pressed=bool(ProjectSettings.get_setting("game/reduced_motion",false)); reduced.toggled.connect(WindowMode.set_reduced_motion); column.add_child(reduced)
 	var frame_choice := OptionButton.new()
-	for text: String in (["画面帧率 · 60（省电）","画面帧率 · 120","画面帧率 · 跟随显示器"] if Localization.current_locale().begins_with("zh") else ["Frame limit · 60 (power saving)","Frame limit · 120","Frame limit · display refresh"]): frame_choice.add_item(text)
+	for key: String in ["60","120","display"]: frame_choice.add_item(Localization.text(StringName("hub.settings.frame_"+key)))
 	frame_choice.select(maxi(0,[60,120,0].find(WindowMode.frame_limit)))
 	frame_choice.item_selected.connect(func(index: int) -> void: WindowMode.set_frame_limit([60,120,0][index]))
 	column.add_child(frame_choice)
 	var display_hint := Label.new(); display_hint.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	display_hint.text="切到后台时降低画面帧率；不改变仿真成绩。F11 / Alt+Enter 切换全屏。" if Localization.current_locale().begins_with("zh") else "Background rendering uses less power; simulation scores are unchanged. F11 / Alt+Enter: fullscreen."
+	display_hint.text=Localization.text(&"hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan")
 	column.add_child(display_hint)
 	var feedback := PlaytestMoments.make_button(); column.add_child(feedback)
 	options_export_button = _options_button(Localization.text(&"playtest.export.button"))
@@ -485,6 +485,7 @@ func _quit_game() -> void:
 
 
 func _continue_game() -> void:
+	TaskNavigation.prepare_continue()
 	var scene_path: String = GlobalSave.continue_scene_path()
 	if not scene_path.is_empty():
 		get_tree().change_scene_to_file(scene_path)
@@ -574,7 +575,7 @@ func _refresh_save_actions() -> void:
 	save_actions.visible = not GameMode.is_test_mode()
 	if continue_button == null:
 		return
-	var can_continue: bool = GlobalSave.has_resume_progress()
+	var can_continue: bool = not GlobalSave.continue_scene_path().is_empty()
 	continue_button.disabled = not can_continue
 	continue_button.tooltip_text = "" if can_continue else Localization.text(&"hub.save.continue_unavailable")
 

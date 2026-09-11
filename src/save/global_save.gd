@@ -10,7 +10,8 @@ const PrologueLevelCatalogType = preload("res://src/hardware_foundations/prologu
 const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
 const Migration = preload("res://src/save/stable_signature_migration.gd")
 
-const SCHEMA_VERSION: int = 1
+const SCHEMA_VERSION: int = 2
+const WRITER_VERSION: int = 2
 const DEFAULT_STORAGE_PATH: String = "user://savegame_v1.json"
 const DEFAULT_WORKBENCH_PATH: String = "user://hardware_workbenches_v1.json"
 const GAME_NAMESPACE: StringName = &"game"
@@ -100,6 +101,7 @@ func load_game() -> bool:
 	if status == &"unknown_schema":
 		last_error = String(result.get("error", "Unsupported future save schema."))
 		disk_write_allowed = false
+		recovery_notice=&"save.recovery.newer"
 		_suspend_saves = false
 		return false
 	if status in [&"missing", &"corrupt"]:
@@ -174,6 +176,7 @@ func _recovery_failed(error: String) -> bool:
 
 
 func save_game(force: bool = false) -> bool:
+	if not _writer_compatible(): return false
 	if storage_path.is_empty():
 		return true
 	if not disk_write_allowed:
@@ -210,20 +213,22 @@ func has_resume_progress() -> bool:
 
 
 func continue_scene_path() -> String:
-	var locality := _autoload(&"LocalityChapter")
-	if locality != null and bool(locality.game_completed.get(&"capstone", false)):
-		return "res://src/overlap_chapter/overlap_chapter.tscn"
-	if not has_resume_progress():
-		return ""
-	var system_chapter := _autoload(&"SystemChapter")
-	if system_chapter != null and bool(system_chapter.game_completed.get(&"bottleneck", false)):
-		return "res://src/ui/main.tscn"
-	if system_chapter != null and system_chapter.prologue_ready:
-		return "res://src/system_lab/system_lab.tscn"
-	return "res://src/hardware_foundations/hardware_foundations.tscn"
+	var navigation: Node = _autoload(&"TaskNavigation")
+	var recent: bool = navigation!=null and not navigation.last_visited_task.is_empty()
+	return "res://src/campaign/task_tree.tscn" if has_resume_progress() or _has_saved_overlap_drafts() or recent else ""
+
+func _writer_compatible() -> bool:
+	for path: String in [storage_path, storage_path + BACKUP_SUFFIX]:
+		if _read_save(path).get("status")==&"unknown_schema":
+			disk_write_allowed=false
+			last_error="A newer or unknown save requires a compatible game version. Writing is disabled."
+			return false
+	return true
 
 
 func start_new_game(clear_game_workbenches: bool) -> Dictionary:
+	if not disk_write_allowed or not _writer_compatible():
+		return {"ok":false,"workbenches_cleared":false,"error":last_error}
 	var overlap := _autoload(&"OverlapChapter")
 	var layout := _autoload(&"LayoutChapter")
 	var retained_layout: Dictionary = layout.game_snapshot() if layout != null and not clear_game_workbenches else {}
@@ -271,6 +276,7 @@ func _save_snapshot() -> Dictionary:
 	var locality_chapter := _autoload(&"LocalityChapter")
 	return {
 		"schema_version": SCHEMA_VERSION,
+		"minimum_writer_version": WRITER_VERSION,
 		"signature_version": Migration.VERSION,
 		"saved_at_utc": Time.get_datetime_string_from_system(true),
 		"game": {
@@ -595,7 +601,7 @@ func _read_save(path: String) -> Dictionary:
 		return {"status": &"corrupt", "error": "Global save is not a JSON object."}
 	var snapshot := parsed as Dictionary
 	var schema_version: int = int(snapshot.get("schema_version", 0))
-	if schema_version != SCHEMA_VERSION:
+	if schema_version not in [1, SCHEMA_VERSION] or int(snapshot.get("minimum_writer_version",1)) > WRITER_VERSION:
 		return {
 			"status": &"unknown_schema",
 			"error": "Unsupported global save schema %d." % schema_version,
@@ -604,10 +610,25 @@ func _read_save(path: String) -> Dictionary:
 		return {"status": &"unknown_schema", "error": "Unsupported global save signature version."}
 	if not snapshot.get("game", {}) is Dictionary:
 		return {"status": &"corrupt", "error": "Global save has no Game object."}
+	for key: String in snapshot:
+		if key not in ["schema_version","signature_version","saved_at_utc","game","minimum_writer_version"]:
+			return {"status":&"unknown_schema","error":"Unknown save fields; writing is disabled."}
+	var known_domains: Dictionary = _save_snapshot().game
+	for key: String in snapshot.get("game",{}):
+		if key not in ["hardware","system","locality","overlap","layout"]:
+			return {"status":&"unknown_schema","error":"Unknown chapter data; writing is disabled."}
+		var domain: Variant = snapshot.game[key]
+		if domain is Dictionary:
+			if int(domain.get("schema_version",1))>1:
+				return {"status":&"unknown_schema","error":"Newer chapter schema; writing is disabled."}
+			for field: String in domain:
+				if not known_domains[key].has(field):
+					return {"status":&"unknown_schema","error":"Unknown chapter fields; writing is disabled."}
 	return {"status": &"ok", "data": snapshot.duplicate(true)}
 
 
 func _write_save(snapshot: Dictionary) -> bool:
+	if not disk_write_allowed or not _writer_compatible(): return false
 	var target: String = _global_path(storage_path)
 	var temporary: String = target + TEMP_SUFFIX
 	var backup: String = target + BACKUP_SUFFIX

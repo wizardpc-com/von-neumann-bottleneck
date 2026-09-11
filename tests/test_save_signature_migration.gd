@@ -117,7 +117,7 @@ func _verify_recovery() -> void:
 	var reader = _service()
 	_assert(reader.load_game(), "Separate process must restore old full Game progress.")
 	_assert(reader.game_player_content.completed_levels.size() == 9 and system_chapter.game_completed.size() == 5 and locality_chapter.game_completed.size() == 7, "All 21 verified completions and generated wrapper gates must survive migration/restart: %s" % reader.last_warning)
-	_assert(reader.continue_scene_path().ends_with("overlap_chapter.tscn"), "Continue must reach the deepest verified chapter.")
+	_assert(reader.continue_scene_path().ends_with("task_tree.tscn"), "Continue must return to the branch-aware map.")
 	for filename: String in ["global", "workbenches"]:
 		var original: String = test_directory.path_join("legacy-%s.json" % filename)
 		var target: String = save_path if filename == "global" else workbench_path

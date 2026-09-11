@@ -6123,3 +6123,264 @@ msgstr "Explore the branches. Build a machine, then make it wait less."
 
 msgid "hub.tree.enter"
 msgstr "Explore the task tree  →"
+
+msgid "records.back_to_task_tree"
+msgstr "Back to task tree"
+
+msgid "records.my_task_record"
+msgstr "My task record"
+
+msgid "records.d_d_complete_main_d_d_side_d_d_bonus_d_d"
+msgstr "%d / %d complete   ·   Main %d / %d   ·   Side %d / %d   ·   Bonus %d / %d"
+
+msgid "records.progress_comes_from_local_saves_d_saved_designs_unrecorded_historica"
+msgstr "Progress comes from local saves. %d saved designs; unrecorded historical scores show —."
+
+msgid "records.all_regions"
+msgstr "All regions"
+
+msgid "records.optional_community_connects_only_when_requested"
+msgstr "Optional community · connects only when requested"
+
+msgid "records.alpha_experimental_community_board_not_replay_verified_by_a_server_n"
+msgstr "Alpha experimental community board. Not replay-verified by a server; no unlocks or rewards."
+
+msgid "records.community_task_statistics"
+msgstr "Community task statistics"
+
+msgid "records.chapter_4_capstone_board"
+msgstr "Chapter 4 capstone board"
+
+msgid "records.submit_my_capstone_result"
+msgstr "Submit my capstone result"
+
+msgid "records.first_allow_score_submission_in_feedback_settings"
+msgstr "First allow score submission in feedback settings."
+
+msgid "records.first_complete_the_chapter_4_capstone_in_game"
+msgstr "First complete the Chapter 4 capstone in Game."
+
+msgid "records.result_queued_locally"
+msgstr "Result queued locally."
+
+msgid "records.could_not_queue_check_feedback_settings"
+msgstr "Could not queue; check feedback settings."
+
+msgid "records.no_service_configured_in_this_build_personal_records_always_work_off"
+msgstr "No service configured in this build; personal records always work offline."
+
+msgid "records.side"
+msgstr " · side"
+
+msgid "records.best_s_designs_d"
+msgstr "Best %s   ·   Designs %d"
+
+msgid "records.feedback"
+msgstr "Feedback"
+
+msgid "records.community_service_not_configured_offline_play_is_complete"
+msgstr "Community service not configured; offline play is complete."
+
+msgid "records.reading"
+msgstr "Reading…"
+
+msgid "records.request_not_started_try_later"
+msgstr "Request not started; try later."
+
+msgid "records.unavailable_local_progress_is_unaffected"
+msgstr "Unavailable; local progress is unaffected."
+
+msgid "records.unreadable_response"
+msgstr "Unreadable response."
+
+msgid "records.experimental_board_fewer_cycles_is_better"
+msgstr "Experimental board · fewer cycles is better\n"
+
+msgid "records.no_results_yet"
+msgstr "No results yet."
+
+msgid "records.small_sample"
+msgstr " (small sample)"
+
+msgid "records.completed_started_ended_visits_consenting_players_only"
+msgstr "Completed / started ended visits; consenting players only\n"
+
+msgid "records.no_statistics_yet"
+msgstr "No statistics yet."
+
+msgid "sharing.no_rating"
+msgstr " · no rating"
+
+msgid "sharing.5"
+msgstr " / 5"
+
+msgid "sharing.opinion_even_before_passing_240_characters"
+msgstr "Opinion, even before passing (240 characters)"
+
+msgid "sharing.save_task_feedback_locally"
+msgstr "Save task feedback locally"
+
+msgid "sharing.optional_sharing_and_data_settings"
+msgstr "Optional sharing and data settings"
+
+msgid "sharing.local_by_default_sharing_uses_a_random_installation_id_no_account_de"
+msgstr "Local by default. Sharing uses a random installation ID, no account, design name or circuit. Future actions only, batched about every 45 seconds. Opinions need a separate Send. Receiver retention: 30 days. Playing works without sharing."
+
+msgid "sharing.receiver"
+msgstr "Receiver: "
+
+msgid "sharing.not_configured_in_this_build_save_and_export_still_work"
+msgstr "Not configured in this build; save and export still work."
+
+msgid "sharing.record_local_play_actions_no_opinion_text"
+msgstr "Record local play actions (no opinion text)"
+
+msgid "sharing.local_only"
+msgstr "Local only"
+
+msgid "sharing.share_basic_statistics_one_summary_per_visit"
+msgstr "Share basic statistics · one summary per visit"
+
+msgid "sharing.detailed_playtest_actions_and_runs"
+msgstr "Detailed playtest · actions and runs"
+
+msgid "sharing.basic_sharing_starts_at_your_next_task_visit_time_completion_edit_co"
+msgstr "Basic sharing starts at your next task visit: time, completion, edit counts and bounded metrics. Detailed sharing adds individual actions, never circuits or programs. Changing mode clears pending action records."
+
+msgid "sharing.experience_unspecified"
+msgstr "Experience · unspecified"
+
+msgid "sharing.new_to_circuits"
+msgstr "New to circuits"
+
+msgid "sharing.some_experience"
+msgstr "Some experience"
+
+msgid "sharing.experienced"
+msgstr "Experienced"
+
+msgid "sharing.separately_allow_experimental_scores_no_designs"
+msgstr "Separately allow experimental scores (no designs)"
+
+msgid "sharing.public_designs_unsupported_never_uploaded"
+msgstr "Public designs: unsupported; never uploaded."
+
+msgid "sharing.send_the_opinion_i_just_saved"
+msgstr "Send the opinion I just saved"
+
+msgid "sharing.save_this_opinion_first"
+msgstr "Save this opinion first."
+
+msgid "sharing.retry_pending_records"
+msgstr "Retry pending records"
+
+msgid "sharing.stop_sharing_and_request_uploaded_data_deletion"
+msgstr "Stop sharing and request uploaded data deletion…"
+
+msgid "sharing.delete_uploads_for_this_installation_and_clear_its_pending_queue_loc"
+msgstr "Delete uploads for this installation and clear its pending queue? Local feedback and game saves stay available."
+
+msgid "sharing.mark_a_specific_moment_optional"
+msgstr "Mark a specific moment (optional)"
+
+msgid "sharing.feedback_for"
+msgstr "Feedback for: "
+
+msgid "sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree"
+msgstr "Enter a task to rate it, or select one in the task tree."
+
+msgid "sharing.saved_locally_revisions_are_retained_analysis_uses_the_latest_opinio"
+msgstr "Saved locally. Revisions are retained; analysis uses the latest opinion for this visit."
+
+msgid "sharing.choose_a_task_and_provide_a_rating_or_opinion"
+msgstr "Choose a task and provide a rating or opinion."
+
+msgid "sharing.pending"
+msgstr "pending"
+
+msgid "records.metric.cycles"
+msgstr "%d cycles"
+
+msgid "records.metric.cost"
+msgstr "Cost %d"
+
+msgid "records.metric.passed_cases"
+msgstr "%d cases passed"
+
+msgid "records.metric.ram_read_bytes"
+msgstr "Read %d B"
+
+msgid "records.metric.ram_write_bytes"
+msgstr "Write %d B"
+
+msgid "records.metric.peak_extra_bytes"
+msgstr "Extra %d B"
+
+msgid "save.recovery.newer"
+msgstr "This save requires a newer version. Writing is disabled; open it with a compatible game version."
+
+msgid "hub.settings.settings_esc"
+msgstr "Settings · Esc"
+
+msgid "hub.settings.reduce_interface_motion"
+msgstr "Reduce interface motion"
+
+msgid "hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan"
+msgstr "Background rendering uses less power; simulation scores are unchanged. F11 / Alt+Enter: fullscreen."
+
+msgid "sharing.rating.fun"
+msgstr "Fun"
+
+msgid "sharing.rating.clarity"
+msgstr "Goal clarity"
+
+msgid "sharing.rating.continue"
+msgstr "Want to continue"
+
+msgid "sharing.status.local_only"
+msgstr "Local only"
+
+msgid "sharing.status.not_configured"
+msgstr "No receiver configured; save and export available"
+
+msgid "sharing.status.pending"
+msgstr "Queued"
+
+msgid "sharing.status.ready"
+msgstr "Enabled for future actions"
+
+msgid "sharing.status.sending"
+msgstr "Sending; awaiting stored receipt"
+
+msgid "sharing.status.sent"
+msgstr "Receiver confirmed storage"
+
+msgid "sharing.status.failed_retryable"
+msgstr "No receipt yet; retained locally for retry"
+
+msgid "sharing.status.rejected"
+msgstr "Rejected; paused. Local export remains available"
+
+msgid "sharing.status.queue_full"
+msgstr "Queue full; local records can still be exported"
+
+msgid "sharing.status.storage_error"
+msgstr "Local outbox could not be saved"
+
+msgid "sharing.status.deleted"
+msgstr "Receiver confirmed deletion"
+
+msgid "sharing.status.deleting"
+msgstr "Requesting deletion"
+
+msgid "sharing.status.delete_failed"
+msgstr "Deletion unconfirmed; retry later"
+
+msgid "hub.settings.frame_60"
+msgstr "Frame limit · 60 (power saving)"
+
+msgid "hub.settings.frame_120"
+msgstr "Frame limit · 120"
+
+msgid "hub.settings.frame_display"
+msgstr "Frame limit · display refresh"

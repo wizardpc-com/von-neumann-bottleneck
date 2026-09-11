@@ -50,6 +50,15 @@ func tasks() -> Array[Dictionary]:
 			"chapter_2/distant_reads": task.dependencies.append("chapter_1/bottleneck")
 			"chapter_3/arrival": task.dependencies.append("chapter_2/capstone")
 			"chapter_4/fields": task.dependencies.append("chapter_2/capstone")
+	for task: Dictionary in result:
+		task["region_title_key"]="tree.region."+str(task.region)
+		task["record_metrics"]=["passed_cases"] if task.domain=="hardware_foundations" else ["cycles","cost"] if task.domain=="chapter_1" else ["cycles","ram_read_bytes","ram_write_bytes","peak_extra_bytes"] if task.domain=="chapter_4" else ["cycles"]
+		task["bonus_goals"]=[]
+		match task.key:
+			"chapter_2/capstone": task.bonus_goals.append({"id":"economical","complete":not LocalityChapter.economical_design.is_empty()})
+			"chapter_3/distance", "chapter_3/synthesis": task.bonus_goals.append({"id":task.id,"complete":OverlapChapter.bonus_status(task.id).complete})
+			"chapter_4/mixed":
+				for id: String in ["space","flow"]: task.bonus_goals.append({"id":id,"complete":LayoutChapter.game_bonuses.has(id)})
 	return result
 
 func _task(domain: String,id: String,region: int,title: String,body: String,deps: Array,available: bool,done: bool,optional: bool) -> Dictionary:
@@ -81,3 +90,38 @@ func return_to_tree() -> bool:
 	if not from_tree or not pending.is_empty(): return false
 	get_tree().call_deferred("change_scene_to_file",MAP_SCENE)
 	return true
+
+# Separate navigation preferences never participate in progression or manifest restore.
+var last_visited_task: String = ""
+const NAVIGATION_PATH := "user://task_navigation.cfg"
+func _ready() -> void:
+	var settings := ConfigFile.new()
+	if settings.load(NAVIGATION_PATH)==OK:
+		var candidate: Variant = settings.get_value("navigation","last_visited_task","")
+		if candidate is String and candidate.length()<100: last_visited_task=candidate
+
+func remember_visit(domain: String, id: String) -> void:
+	if GameMode.is_test_mode(): return
+	var key: String = domain+"/"+id
+	if key==last_visited_task: return
+	for task: Dictionary in tasks():
+		if task.key==key and task.unlocked:
+			last_visited_task=key
+			var settings := ConfigFile.new()
+			settings.set_value("navigation","last_visited_task",key)
+			settings.save(NAVIGATION_PATH)
+			return
+
+func prepare_continue() -> void:
+	var available: Array[Dictionary] = tasks()
+	for task: Dictionary in available:
+		if task.key==last_visited_task:
+			selected=task.key
+			camera_saved=false
+			return
+	for task: Dictionary in available:
+		if task.unlocked and not task.completed:
+			selected=task.key
+			camera_saved=false
+			return
+	if not available.is_empty(): selected=available[0].key; camera_saved=false

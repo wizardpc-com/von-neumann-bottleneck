@@ -139,6 +139,9 @@ func recovered_session() -> bool:
 
 
 func level_started(chapter_id: StringName, level_id: StringName) -> bool:
+	if is_inside_tree() and get_node_or_null("/root/PlaytestData")==self:
+		var navigation: Node = get_node_or_null("/root/TaskNavigation")
+		if navigation != null: navigation.remember_visit(String(chapter_id),String(level_id))
 	current_task_context = {"chapter_id":String(chapter_id),"level_id":String(level_id)}
 	if not _can_record_level(chapter_id, level_id):
 		current_visit_id = ""

@@ -6122,3 +6122,264 @@ msgstr "沿着分支自由探索：造出机器，再让它少一些等待。"
 
 msgid "hub.tree.enter"
 msgstr "打开章节任务树  →"
+
+msgid "records.back_to_task_tree"
+msgstr "返回任务树"
+
+msgid "records.my_task_record"
+msgstr "我的任务记录"
+
+msgid "records.d_d_complete_main_d_d_side_d_d_bonus_d_d"
+msgstr "%d / %d 已完成   ·   主线 %d / %d   ·   支线 %d / %d   ·   附加目标 %d / %d"
+
+msgid "records.progress_comes_from_local_saves_d_saved_designs_unrecorded_historica"
+msgstr "进度来自本机存档。保存方案 %d 份；未记录的历史成绩显示为 —，不会猜测。"
+
+msgid "records.all_regions"
+msgstr "全部区域"
+
+msgid "records.optional_community_connects_only_when_requested"
+msgstr "可选社区 · 只在点击时访问网络"
+
+msgid "records.alpha_experimental_community_board_not_replay_verified_by_a_server_n"
+msgstr "Alpha 实验性社区榜单，暂未服务端重放验证。与解锁、奖励无关。"
+
+msgid "records.community_task_statistics"
+msgstr "查看社区任务统计"
+
+msgid "records.chapter_4_capstone_board"
+msgstr "查看第四章综合榜"
+
+msgid "records.submit_my_capstone_result"
+msgstr "提交我的综合关成绩"
+
+msgid "records.first_allow_score_submission_in_feedback_settings"
+msgstr "请先在反馈设置中单独同意成绩提交。"
+
+msgid "records.first_complete_the_chapter_4_capstone_in_game"
+msgstr "先在 Game 完成第四章综合关。"
+
+msgid "records.result_queued_locally"
+msgstr "成绩已加入本机待发队列。"
+
+msgid "records.could_not_queue_check_feedback_settings"
+msgstr "未能加入队列；请检查反馈设置。"
+
+msgid "records.no_service_configured_in_this_build_personal_records_always_work_off"
+msgstr "此构建未配置服务；个人任务记录始终可离线使用。"
+
+msgid "records.side"
+msgstr " · 支线"
+
+msgid "records.best_s_designs_d"
+msgstr "最佳 %s   ·   方案 %d"
+
+msgid "records.feedback"
+msgstr "评价"
+
+msgid "records.community_service_not_configured_offline_play_is_complete"
+msgstr "尚未配置社区服务；仍可完整离线游玩。"
+
+msgid "records.reading"
+msgstr "正在读取…"
+
+msgid "records.request_not_started_try_later"
+msgstr "请求未启动，请稍后再试。"
+
+msgid "records.unavailable_local_progress_is_unaffected"
+msgstr "暂时无法读取；本机进度不受影响。"
+
+msgid "records.unreadable_response"
+msgstr "响应格式无法读取。"
+
+msgid "records.experimental_board_fewer_cycles_is_better"
+msgstr "实验榜 · 周期越少越好\n"
+
+msgid "records.no_results_yet"
+msgstr "暂无成绩。"
+
+msgid "records.small_sample"
+msgstr "（小样本）"
+
+msgid "records.completed_started_ended_visits_consenting_players_only"
+msgstr "已结束访问的完成 / 开始；仅同意分享者\n"
+
+msgid "records.no_statistics_yet"
+msgstr "暂无统计。"
+
+msgid "sharing.no_rating"
+msgstr " · 暂不评分"
+
+msgid "sharing.5"
+msgstr " / 5"
+
+msgid "sharing.opinion_even_before_passing_240_characters"
+msgstr "本关意见（未通关也能写，最多 240 字）"
+
+msgid "sharing.save_task_feedback_locally"
+msgstr "保存本关评价到本机"
+
+msgid "sharing.optional_sharing_and_data_settings"
+msgstr "可选回传与数据设置"
+
+msgid "sharing.local_by_default_sharing_uses_a_random_installation_id_no_account_de"
+msgstr "默认只保存在本机。回传使用随机安装标识，不含账户、方案名称或电路。行为回传仅从同意后开始，约每 45 秒一批。意见须单独点击发送。服务端保留 30 天；关闭回传不影响游玩。"
+
+msgid "sharing.receiver"
+msgstr "接收地址："
+
+msgid "sharing.not_configured_in_this_build_save_and_export_still_work"
+msgstr "此版本未配置，仍可本地保存和导出。"
+
+msgid "sharing.record_local_play_actions_no_opinion_text"
+msgstr "记录本机游玩操作（不含意见正文）"
+
+msgid "sharing.local_only"
+msgstr "仅保存在本机"
+
+msgid "sharing.share_basic_statistics_one_summary_per_visit"
+msgstr "分享基础统计 · 每次访问一份汇总"
+
+msgid "sharing.detailed_playtest_actions_and_runs"
+msgstr "参与详细试玩 · 逐次操作与运行"
+
+msgid "sharing.basic_sharing_starts_at_your_next_task_visit_time_completion_edit_co"
+msgstr "基础统计从下一次进入关卡开始：停留、完成、编辑次数和有限成绩。详细试玩额外分享逐次操作，不含电路或程序。切换分档会清空待发的行为记录。"
+
+msgid "sharing.experience_unspecified"
+msgstr "经验背景 · 不提供"
+
+msgid "sharing.new_to_circuits"
+msgstr "刚接触电路"
+
+msgid "sharing.some_experience"
+msgstr "有一些经验"
+
+msgid "sharing.experienced"
+msgstr "比较熟悉"
+
+msgid "sharing.separately_allow_experimental_scores_no_designs"
+msgstr "单独同意提交实验榜成绩（不含方案）"
+
+msgid "sharing.public_designs_unsupported_never_uploaded"
+msgstr "公开方案：此版本不支持，也不会上传。"
+
+msgid "sharing.send_the_opinion_i_just_saved"
+msgstr "发送刚保存的这条评价"
+
+msgid "sharing.save_this_opinion_first"
+msgstr "请先保存这条评价。"
+
+msgid "sharing.retry_pending_records"
+msgstr "重试等待回传的记录"
+
+msgid "sharing.stop_sharing_and_request_uploaded_data_deletion"
+msgstr "关闭回传并请求删除已回传数据…"
+
+msgid "sharing.delete_uploads_for_this_installation_and_clear_its_pending_queue_loc"
+msgstr "删除此安装标识已回传的数据，并清空等待发送的记录。本机意见和游戏存档保留。确认？"
+
+msgid "sharing.mark_a_specific_moment_optional"
+msgstr "记录一个具体时刻（可选）"
+
+msgid "sharing.feedback_for"
+msgstr "评价对象："
+
+msgid "sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree"
+msgstr "进入一关后可评分；也可在任务树选中关卡后留下意见。"
+
+msgid "sharing.saved_locally_revisions_are_retained_analysis_uses_the_latest_opinio"
+msgstr "已保存到本机。再次保存会保留修订记录，统计只采用本次游玩的最新评价。"
+
+msgid "sharing.choose_a_task_and_provide_a_rating_or_opinion"
+msgstr "请先选择关卡，并至少填写一项评分或意见。"
+
+msgid "sharing.pending"
+msgstr "条等待"
+
+msgid "records.metric.cycles"
+msgstr "%d 周期"
+
+msgid "records.metric.cost"
+msgstr "成本 %d"
+
+msgid "records.metric.passed_cases"
+msgstr "%d 个用例通过"
+
+msgid "records.metric.ram_read_bytes"
+msgstr "读 %d B"
+
+msgid "records.metric.ram_write_bytes"
+msgstr "写 %d B"
+
+msgid "records.metric.peak_extra_bytes"
+msgstr "额外空间 %d B"
+
+msgid "save.recovery.newer"
+msgstr "此存档需要较新版本。已停止写入，请使用兼容版本打开。"
+
+msgid "hub.settings.settings_esc"
+msgstr "设置 · Esc"
+
+msgid "hub.settings.reduce_interface_motion"
+msgstr "减少界面动效"
+
+msgid "hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan"
+msgstr "切到后台时降低画面帧率；不改变仿真成绩。F11 / Alt+Enter 切换全屏。"
+
+msgid "sharing.rating.fun"
+msgstr "有趣吗"
+
+msgid "sharing.rating.clarity"
+msgstr "目标清楚吗"
+
+msgid "sharing.rating.continue"
+msgstr "想继续玩吗"
+
+msgid "sharing.status.local_only"
+msgstr "仅本机保存"
+
+msgid "sharing.status.not_configured"
+msgstr "尚未配置接收地址；可保存和导出"
+
+msgid "sharing.status.pending"
+msgstr "等待回传"
+
+msgid "sharing.status.ready"
+msgstr "已同意，只记录今后的操作"
+
+msgid "sharing.status.sending"
+msgstr "发送中，等待落盘回执"
+
+msgid "sharing.status.sent"
+msgstr "服务端已确认落盘"
+
+msgid "sharing.status.failed_retryable"
+msgstr "暂未收到回执；记录仍在本机等待重试"
+
+msgid "sharing.status.rejected"
+msgstr "服务端拒绝，已暂停重试；可导出反馈"
+
+msgid "sharing.status.queue_full"
+msgstr "等待队列已满；本机记录仍可导出"
+
+msgid "sharing.status.storage_error"
+msgstr "本机队列保存失败；尚不能确认发送"
+
+msgid "sharing.status.deleted"
+msgstr "服务端已确认删除此安装的数据"
+
+msgid "sharing.status.deleting"
+msgstr "正在请求删除"
+
+msgid "sharing.status.delete_failed"
+msgstr "删除未获确认，请稍后重试"
+
+msgid "hub.settings.frame_60"
+msgstr "画面帧率 · 60（省电）"
+
+msgid "hub.settings.frame_120"
+msgstr "画面帧率 · 120"
+
+msgid "hub.settings.frame_display"
+msgstr "画面帧率 · 跟随显示器"

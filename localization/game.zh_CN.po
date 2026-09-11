@@ -6446,3 +6446,6 @@ msgstr "查看数据清单"
 
 msgid "settings.inventory_detail"
 msgstr "基础统计包括关卡停留时间、完成状态、编辑与测试次数、Hint 层级和有限运行指标。不会发送完整电路、程序、截图或设备路径。文字意见和成绩需要另行提交。"
+
+msgid "common.confirm"
+msgstr "确认"

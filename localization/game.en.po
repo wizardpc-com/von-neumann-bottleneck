@@ -6447,3 +6447,6 @@ msgstr "View the data list"
 
 msgid "settings.inventory_detail"
 msgstr "Basic statistics include task time, completion, edit/test counts, Hint level and limited run metrics. No complete circuits, programs, screenshots or device paths. Opinions and scores require separate submission."
+
+msgid "common.confirm"
+msgstr "Confirm"

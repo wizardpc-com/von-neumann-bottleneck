@@ -12,7 +12,10 @@ func run() -> void:
 	store.telemetry_enabled=false
 	store.record_official_run(&"chapter_4",&"mixed",true,{"cycles":2495,"case_set_version":"synthetic-test","case_count":2})
 	check(service.best.get("chapter_4/mixed",{}).get("cycles")==2495,"Local result record remains available with telemetry off.")
-	check(root.get_node("GlobalSave")._save_snapshot()==before,"Personal record never grants completion.")
+	var after: Dictionary = root.get_node("GlobalSave")._save_snapshot()
+	# Snapshot generation time is not player progress.
+	before.erase("saved_at_utc"); after.erase("saved_at_utc")
+	check(after==before,"Personal record never grants completion.")
 	store.telemetry_enabled=telemetry
 	var view: Node = load("res://src/playtest/personal_records_view.tscn").instantiate(); root.add_child(view)
 	await process_frame

@@ -21,7 +21,10 @@ func run() -> void:
 	mode.set_mode(&"test"); nav.remember_visit("chapter_3","arrival")
 	check(nav.last_visited_task=="chapter_4/mixed","Test visits never replace Game navigation")
 	mode.set_mode(&"game")
-	check(root.get_node("GlobalSave")._save_snapshot()==before,"Navigation does not mutate progress")
+	var after: Dictionary = root.get_node("GlobalSave")._save_snapshot()
+	# Snapshot generation time is not player progress.
+	before.erase("saved_at_utc"); after.erase("saved_at_utc")
+	check(after==before,"Navigation does not mutate progress")
 	var save := Save.new(); save.configure_for_test("user://writer-guard.json","user://writer-workbenches.json")
 	var legacy: Dictionary = save._save_snapshot(); legacy.schema_version=1; legacy.erase("minimum_writer_version")
 	write(save.storage_path,legacy)

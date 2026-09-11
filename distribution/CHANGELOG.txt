@@ -2,6 +2,8 @@ Settings and UI follow-up — @BUILD_ID@
 Source: @SOURCE_COMMIT@
 - Persistent Chinese/English, sound effects mute/volume, grouped scrollable settings.
 - Safe presentation reset, local diagnostic export, first configured-receiver choice.
+- Repeated diagnostic exports retain every report; newly shown export actions join keyboard navigation.
+- Reset and data-deletion confirmation buttons follow the interface language.
 - Feedback labels refresh without discarding drafts; fullscreen cancels unfinished cable gestures.
 - Gameplay, forty tasks, save format and remote default-off policy unchanged.
 

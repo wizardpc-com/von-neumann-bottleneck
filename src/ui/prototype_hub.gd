@@ -416,9 +416,12 @@ func _build_options_menu() -> void:
 	options_open_export_folder_button=_options_button(Localization.text(&"playtest.export.open_folder"))
 	options_open_export_folder_button.pressed.connect(_open_latest_export_folder)
 	options_open_export_folder_button.hide(); body.add_child(options_open_export_folder_button)
+	options_open_export_folder_button.visibility_changed.connect(_refresh_settings_focus)
 	var reset := _options_button(Localization.text(&"settings.reset")); reset.name="ResetPresentation"; body.add_child(reset)
 	var confirm := ConfirmationDialog.new(); confirm.name="ResetPresentationConfirm"
 	confirm.title=Localization.text(&"settings.reset"); confirm.dialog_text=Localization.text(&"settings.reset_hint")
+	confirm.ok_button_text=Localization.text(&"common.confirm")
+	confirm.cancel_button_text=Localization.text(&"common.cancel")
 	confirm.get_label().autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; confirm.get_label().custom_minimum_size.x=480
 	add_child(confirm)
 	reset.pressed.connect(func() -> void: confirm.popup_centered(Vector2i(520,180)))
@@ -461,13 +464,18 @@ func _open_options_menu() -> void:
 	options_previous_focus = get_viewport().gui_get_focus_owner()
 	_refresh_options_fullscreen_label()
 	options_overlay.show()
+	_refresh_settings_focus()
+	options_resume_button.grab_focus()
+
+
+func _refresh_settings_focus() -> void:
+	if not is_instance_valid(options_overlay) or not options_overlay.is_visible_in_tree(): return
 	var controls: Array[Control] = []
 	for node: Node in options_overlay.find_children("*","Control",true,false):
 		if node.focus_mode==Control.FOCUS_ALL and node.is_visible_in_tree(): controls.append(node)
 	for index: int in range(controls.size()):
 		controls[index].focus_next=controls[index].get_path_to(controls[(index+1)%controls.size()])
 		controls[index].focus_previous=controls[index].get_path_to(controls[(index-1+controls.size())%controls.size()])
-	options_resume_button.grab_focus()
 
 
 func _close_options_menu() -> void:

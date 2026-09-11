@@ -117,7 +117,11 @@ func _ready() -> void:
 		else: RemoteFeedback.send_feedback(saved_opinion))
 	var retry := Button.new(); retry.text=Localization.text(&"sharing.retry_pending_records"); retry.set_meta("locale_field",["text","sharing.retry_pending_records"]); remote_box.add_child(retry); retry.disabled=not RemoteFeedback.endpoint_allowed(); retry.pressed.connect(RemoteFeedback.retry_pending)
 	var remove := Button.new(); remove.text=Localization.text(&"sharing.stop_sharing_and_request_uploaded_data_deletion"); remove.set_meta("locale_field",["text","sharing.stop_sharing_and_request_uploaded_data_deletion"]); remote_box.add_child(remove); remove.disabled=not RemoteFeedback.endpoint_allowed()
-	var confirm := ConfirmationDialog.new(); panel.add_child(confirm)
+	var confirm := ConfirmationDialog.new(); confirm.name="DeleteUploadsConfirm"; panel.add_child(confirm)
+	confirm.ok_button_text=Localization.text(&"common.confirm")
+	confirm.cancel_button_text=Localization.text(&"common.cancel")
+	confirm.get_label().autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	confirm.get_label().custom_minimum_size.x=500
 	confirm.dialog_text=Localization.text(&"sharing.delete_uploads_for_this_installation_and_clear_its_pending_queue_loc"); confirm.set_meta("locale_field",["dialog_text","sharing.delete_uploads_for_this_installation_and_clear_its_pending_queue_loc"])
 	remove.pressed.connect(func() -> void: confirm.popup_centered(Vector2i(540,180)))
 	confirm.confirmed.connect(RemoteFeedback.delete_uploaded_data)
@@ -244,6 +248,10 @@ func _refresh_language() -> void:
 	status.text = ""
 
 func _translate(node: Node) -> void:
+	if node is ConfirmationDialog:
+		# Built-in dialog buttons are internal children, outside the normal walk.
+		node.ok_button_text=Localization.text(&"common.confirm")
+		node.cancel_button_text=Localization.text(&"common.cancel")
 	if node.has_meta("locale_field"):
 		var field: Array = node.get_meta("locale_field")
 		node.set(field[0],Localization.text(StringName(field[1])))

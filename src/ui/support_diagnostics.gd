@@ -15,7 +15,15 @@ static func export_local() -> String:
 	var folder: String = "user://diagnostics"
 	if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(folder))!=OK: return ""
 	var path: String = folder.path_join("diagnostics-%d.json" % Time.get_unix_time_from_system())
+	var base_path: String = path.trim_suffix(".json")
+	var suffix: int = 1
+	while FileAccess.file_exists(path):
+		path="%s-%d.json" % [base_path,suffix]
+		suffix+=1
 	var file := FileAccess.open(path,FileAccess.WRITE)
 	if file==null: return ""
-	file.store_string(JSON.stringify(snapshot(),"\t")); file.close()
+	file.store_string(JSON.stringify(snapshot(),"\t")); file.flush()
+	var error: Error = file.get_error()
+	file.close()
+	if error!=OK: return ""
 	return ProjectSettings.globalize_path(path)

@@ -12,11 +12,11 @@ python3 scripts/build-free-candidate.py --godot /Users/yrq/Applications/Godot-4.
 
 The helper archives the specified commit to an ignored staging directory, imports with separate build userdata, exports both platforms from the same source, adds instructions/known issues/change log/project/font/engine licenses, checks ZIP integrity and writes per-file and archive SHA-256 manifests. It never copies player saves, test scripts, local logs, credentials or the feedback database. Candidate builds force ordinary Game and disable switching into Test mode. The first-use normal game is offline; feedback endpoint is empty and automatic upload is disabled.
 
-Mac is universal and ad-hoc signed, not notarized. Windows x86_64 is a validation candidate until tested on Windows. Export success does not establish installation or native play. Current evidence and exact source/hash are recorded in [verification](../verification/20260910-five-chapter/README.md).
+Mac is universal and ad-hoc signed, not notarized. Windows x86_64 is a validation candidate until tested on Windows. Export success does not establish installation or native play. Current evidence and exact source/hash are linked from [CURRENT_STATE](../CURRENT_STATE.md).
 
 ## Save and feedback boundaries
 
-Use the existing player save directory and backup mechanism. New layout state is additive and its completions are replay-validated. Back up the whole user data directory before updating or reverting; an older game can discard an unknown new chapter on subsequent saves. QA must use a separate user directory and verify it before starting ordinary Game. Do not distribute an isolation override with the public package.
+Use the existing player save directory and backup mechanism. New layout state is additive and its completions are replay-validated. Back up the whole user data directory before updating or reverting. Current schema-2 saves carry a minimum writer version; unsupported future fields or writer versions block replacement, and previously issued schema-1 games reject schema 2. Do not replace a protected current save with an older backup to bypass that guard. QA must use a separate user directory and verify it before starting ordinary Game. Do not distribute an isolation override with the public package.
 
 Ratings are optional, unanswered values remain absent, opinions may be saved on incomplete tasks. Agent and automated sources remain distinct from external players. [Local receiver setup](../../server/README.md) covers synthetic integration, consent, queue limits, receipts, deletion, private reports and retention. No service is deployed publicly in this scope.
 

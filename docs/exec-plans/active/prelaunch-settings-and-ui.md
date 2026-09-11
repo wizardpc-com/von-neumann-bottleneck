@@ -24,3 +24,8 @@ recreate an in-progress workbench. Reload only the hub; persistent feedback labe
 refresh without discarding draft/rating selections. Audio uses an Effects bus.
 Window transitions explicitly cancel unfinished hardware gestures. Defaults reset
 only presentation preferences, never saves, consent or networking configuration.
+
+Both full locale runs and 602-check Game replays pass. Native settings/first-choice,
+English/mute/33-percent restart and diagnostics operated. Tab offscreen focus repaired
+and rechecked. Final reset title-strip fix has targeted test evidence; Mac lock blocks
+its final native image. Loopback cross-process transport still passes synthetic checks.

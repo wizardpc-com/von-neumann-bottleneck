@@ -152,3 +152,12 @@ GlobalSave schema 2 accepts legacy schema 1 and advertises minimum writer 2. Fut
 writer/schema or unknown root/chapter data stops writes and keeps both files. The
 existing signature and solution revalidation remain unchanged. Frozen build identity
 is generated from the exact archived commit, not a manually reused candidate number.
+
+## Player settings and first receiver choice
+
+`Localization` reads the stored locale before scene creation (an explicit CLI locale
+still overrides it). `WindowMode` retains display/audio in presentation.cfg and
+applies the Effects bus. Hub language changes rebuild only the hub. Settings reset
+never changes progression or consent. `SharingFirstChoice` at the hub uses the
+existing RemoteFeedback setter and a per-endpoint/notice acknowledgement.
+`SupportDiagnostics` exports an explicit local whitelist without raw logs or IDs.

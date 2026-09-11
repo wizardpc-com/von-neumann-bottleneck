@@ -38,6 +38,10 @@ func run() -> void:
 		var panel: Control = hub.find_child("ChapterOptionsPanel",true,false)
 		check(hub.size==Vector2(1280,720) and Rect2(Vector2.ZERO,hub.size).encloses(panel.get_global_rect()),"Settings panel fits minimum viewport in "+locale)
 		check(panel.get_global_rect().encloses(hub.options_resume_button.get_global_rect()),"Close stays visible below scrolling content.")
+		var reset: Button = hub.find_child("ResetPresentation",true,false); reset.grab_focus()
+		for frame: int in range(4): await process_frame
+		var scroll: ScrollContainer = hub.find_child("SettingsScroll",true,false)
+		check(scroll.scroll_vertical>0 and scroll.get_global_rect().encloses(reset.get_global_rect()),"Keyboard focus scrolls to the offscreen reset action.")
 		var moments: Node = root.get_node("PlaytestMoments"); moments.opinion.text="keep my draft"; moments.ratings[0].select(3)
 		localization.set_locale("en" if locale=="zh_CN" else "zh_CN")
 		check(moments.opinion.text=="keep my draft" and moments.ratings[0].selected==3,"Live feedback translation preserves draft and ratings.")

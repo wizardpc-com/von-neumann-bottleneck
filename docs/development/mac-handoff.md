@@ -1,3 +1,7 @@
+> Historical handoff and setup reference. Current five-region state, candidate identity
+> and remaining gates: [CURRENT_STATE](../CURRENT_STATE.md). Dated counts and versions
+> below describe the original handoff, not the current release.
+
 # Mac 开发接手说明
 
 2026-09-10：34 节点总任务树、五条应用支线与本地反馈升级见[本轮验证](../verification/2026-09-10-task-tree/README.md)。24 套隔离检查通过；剩余原生试玩被 Mac 锁屏阻挡，任务计划仍 active。请先按该记录继续，勿将检查通过当作发布验收。

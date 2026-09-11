@@ -1,3 +1,9 @@
+Current settings follow-up adds `tests/test_prelaunch_settings.gd`: preference
+persistence, audio bus, consent independence, diagnostics whitelist and real 1280×720
+settings bounds/focus scrolling. Run in a fresh per-suite QA directory: first-choice
+assertions intentionally require no prior acknowledgement. See
+[settings evidence](../verification/20260911-prelaunch-settings/README.md).
+
 # Testing
 
 Current status: [CURRENT_STATE](../CURRENT_STATE.md). Use the isolated full verifier

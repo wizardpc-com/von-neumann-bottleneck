@@ -360,7 +360,7 @@ func _build_options_menu() -> void:
 	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(PANEL,ACCENT,8)); center.add_child(panel)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",14); panel.add_child(column)
 	_settings_label(column,"hub.options.title",28)
-	var scroll := ScrollContainer.new(); scroll.name="SettingsScroll"
+	var scroll := ScrollContainer.new(); scroll.name="SettingsScroll"; scroll.follow_focus=true
 	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL; column.add_child(scroll)
 	var body := VBoxContainer.new(); body.size_flags_horizontal=Control.SIZE_EXPAND_FILL
@@ -417,7 +417,10 @@ func _build_options_menu() -> void:
 	options_open_export_folder_button.pressed.connect(_open_latest_export_folder)
 	options_open_export_folder_button.hide(); body.add_child(options_open_export_folder_button)
 	var reset := _options_button(Localization.text(&"settings.reset")); reset.name="ResetPresentation"; body.add_child(reset)
-	var confirm := ConfirmationDialog.new(); confirm.dialog_text=Localization.text(&"settings.reset_hint"); add_child(confirm)
+	var confirm := ConfirmationDialog.new(); confirm.name="ResetPresentationConfirm"
+	confirm.title=Localization.text(&"settings.reset"); confirm.dialog_text=Localization.text(&"settings.reset_hint")
+	confirm.get_label().autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; confirm.get_label().custom_minimum_size.x=480
+	add_child(confirm)
 	reset.pressed.connect(func() -> void: confirm.popup_centered(Vector2i(520,180)))
 	confirm.confirmed.connect(func() -> void: WindowMode.reset_presentation(); call_deferred("_reload_settings_locale"))
 	var footer := HBoxContainer.new(); footer.add_theme_constant_override("separation",14); column.add_child(footer)

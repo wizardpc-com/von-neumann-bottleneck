@@ -1,3 +1,10 @@
+Settings and UI follow-up — @BUILD_ID@
+Source: @SOURCE_COMMIT@
+- Persistent Chinese/English, sound effects mute/volume, grouped scrollable settings.
+- Safe presentation reset, local diagnostic export, first configured-receiver choice.
+- Feedback labels refresh without discarding drafts; fullscreen cancels unfinished cable gestures.
+- Gameplay, forty tasks, save format and remote default-off policy unchanged.
+
 @BUILD_ID@
 
 本轮发布收敛：继续游戏定位最近任务；全局存档升级保护；离线记录隐藏社区入口。

@@ -5,11 +5,12 @@ These are acceptance gates, not promised new features.
 
 | Gate | Status | Required evidence |
 | --- | --- | --- |
-| Frozen candidate identity | **Verified** | `free-alpha-9f8c34fac4fb`; same source/build ID in exported project/game/archive/manifests/notes; both platforms from commit `9f8c34f` |
+| Frozen candidate identity | Rebuilding | Settings follow-up requires a new frozen ID; older `free-alpha-9f8c34fac4fb` remains historical |
 | Latest Windows native | **Pending** | Actual EXE start, tree/Continue, editing, keyboard/focus, DPI, save/restart |
 | Another Mac install | **Pending** | Download/unzip/first launch and save; signature/notarization decision and clean-machine checks |
 | External beginner play | **Pending** | Unassisted entry, Tutorial, branch selection, Hint understanding and concrete feedback |
 | Candidate mouse navigation | **Pending** | Recheck exported Mac board/Continue with reliable native mouse access; CUA returned noWindowsAvailable, source native route passed |
+| Final reset-dialog visual recheck | **Pending** | Source native inspection found title overlap; style/wrapping corrected and tested, but Mac locked before final visual recheck |
 | Remaining window/focus | **Pending** | Small display, Retina/mixed DPI, repeated focus loss during palette/wire drags, long sessions |
 | Public distribution | **Not authorized** | Owner chooses channel and validates installation/support/privacy information |
 

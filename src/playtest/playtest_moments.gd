@@ -39,7 +39,7 @@ func _ready() -> void:
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation",10)
-	content_scroll=ScrollContainer.new()
+	content_scroll=ScrollContainer.new(); content_scroll.follow_focus=true
 	content_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
 	content_scroll.custom_minimum_size=Vector2(500,550)
 	var outer := VBoxContainer.new()

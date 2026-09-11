@@ -55,7 +55,7 @@ static func apply_to(target: Theme) -> void:
 	# Popups and trace selections belong to the same instrument family.
 	target.set_stylebox("panel","AcceptDialog",panel(SURFACE,EDGE,8))
 	var dialog_border: StyleBoxFlat = panel(SURFACE,ACCENT,8)
-	dialog_border.content_margin_top=32; dialog_border.shadow_size=14; dialog_border.shadow_color=Color(0,0,0,0.35)
+	dialog_border.expand_margin_top=32; dialog_border.content_margin_top=32; dialog_border.shadow_size=14; dialog_border.shadow_color=Color(0,0,0,0.35)
 	target.set_stylebox("embedded_border","Window",dialog_border)
 	target.set_stylebox("embedded_unfocused_border","Window",dialog_border)
 	target.set_color("title_color","Window",Color("e9f0fa"))

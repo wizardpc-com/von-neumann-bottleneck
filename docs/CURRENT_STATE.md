@@ -8,6 +8,12 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Current behavior
 
+Latest follow-up: structured settings provide persistent Chinese/English and audio,
+scrolling content with fixed close controls, safe presentation defaults and local
+diagnostics. Configured receivers get a first local/basic sharing choice, with no
+retroactive upload; public endpoint remains empty. See
+[prelaunch settings evidence](verification/20260911-prelaunch-settings/README.md).
+
 - Startup prioritizes the task tree; five chapter artworks and descriptions remain.
   Continue selects the recent Game task on the map. `task_navigation.cfg` is a
   navigation preference only; deleted/unknown task IDs fall back to an available task.
@@ -33,7 +39,7 @@ full source commit into the exported project settings, manifests, README, change
 notes and ZIP names. A frozen identity cannot be overwritten. The game shows that
 same ID; the release-binary probe checks it against its adjacent manifest.
 
-Current frozen artifact: **free-alpha-9f8c34fac4fb**, content commit **9f8c34f**.
+Previous frozen artifact (before the settings follow-up): **free-alpha-9f8c34fac4fb**, content commit **9f8c34f**.
 Later evidence-only commits do not rename or overwrite those archives.
 
 Latest convergence evidence and the exact frozen artifact:

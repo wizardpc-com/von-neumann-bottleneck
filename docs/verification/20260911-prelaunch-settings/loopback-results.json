@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "counts": {
+    "event": 1,
+    "feedback": 1
+  },
+  "receiver": "loopback only",
+  "data": "synthetic only"
+}

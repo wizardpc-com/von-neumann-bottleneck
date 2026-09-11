@@ -6392,3 +6392,57 @@ msgstr "主线 %d / %d   ·   支线 %d / %d   ·   附加目标 %d / %d"
 
 msgid "records.board.local_note"
 msgstr "进度保存在本机。回到任务树，可以选择下一项挑战。"
+
+msgid "settings.interface"
+msgstr "语言"
+
+msgid "settings.display"
+msgstr "显示"
+
+msgid "settings.audio"
+msgstr "音频"
+
+msgid "settings.sound"
+msgstr "播放音效"
+
+msgid "settings.privacy"
+msgstr "数据与隐私"
+
+msgid "settings.privacy_hint"
+msgstr "默认只保存在本机。统计、文字意见与成绩的分享分别设置。"
+
+msgid "settings.support"
+msgstr "支持信息"
+
+msgid "settings.diagnostics"
+msgstr "导出诊断信息"
+
+msgid "settings.diagnostics_hint"
+msgstr "仅导出版本、显示与音频设置和队列数量，不包含方案、意见、身份标识或原始日志。"
+
+msgid "settings.export_failed"
+msgstr "导出失败，请检查存储空间和目录权限。"
+
+msgid "settings.export_ready"
+msgstr "已导出，可以打开所在文件夹。"
+
+msgid "settings.open_logs"
+msgstr "打开日志与本地数据文件夹"
+
+msgid "settings.reset"
+msgstr "恢复界面与音效默认设置"
+
+msgid "settings.reset_hint"
+msgstr "恢复中文、60 帧、普通动效和默认音量。进度、方案和隐私授权保持不变。"
+
+msgid "settings.sharing_title"
+msgstr "是否分享游玩统计？"
+
+msgid "settings.sharing_intro"
+msgstr "选择仅本地也能完整游玩。开启后从下一次进入关卡开始统计，不发送旧记录；稍后可在反馈设置中更改。"
+
+msgid "settings.inventory"
+msgstr "查看数据清单"
+
+msgid "settings.inventory_detail"
+msgstr "基础统计包括关卡停留时间、完成状态、编辑与测试次数、Hint 层级和有限运行指标。不会发送完整电路、程序、截图或设备路径。文字意见和成绩需要另行提交。"

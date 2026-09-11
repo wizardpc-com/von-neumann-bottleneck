@@ -51,6 +51,9 @@ func _ready() -> void:
 	LocalityChapter.progression_changed.connect(_refresh_layout_entry)
 	WindowMode.window_mode_changed.connect(_on_window_mode_changed)
 	_refresh_mode_description()
+	if WindowMode.reopen_settings:
+		WindowMode.reopen_settings=false; call_deferred("_open_options_menu")
+	var choice := preload("res://src/playtest/sharing_first_choice.gd").new(); add_child(choice)
 	var arguments: PackedStringArray = GameMode.capture_arguments()
 	if "--capture-new-game" in arguments:
 		call_deferred("_open_new_game_confirmation")
@@ -346,110 +349,99 @@ func _build_new_game_confirmation() -> void:
 
 
 func _build_options_menu() -> void:
-	options_overlay = Control.new()
-	options_overlay.name = "ChapterOptionsOverlay"
+	options_overlay=Control.new(); options_overlay.name="ChapterOptionsOverlay"
 	options_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	options_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	options_overlay.z_index = 1100
-	add_child(options_overlay)
-
-	var backdrop := ColorRect.new()
-	backdrop.color = Color("050a12", 0.78)
-	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
-	options_overlay.add_child(backdrop)
-
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	options_overlay.mouse_filter=Control.MOUSE_FILTER_STOP; options_overlay.z_index=1100; add_child(options_overlay)
+	var backdrop := ColorRect.new(); backdrop.color=Color("050a12",0.78)
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); options_overlay.add_child(backdrop)
+	var center := CenterContainer.new(); center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	options_overlay.add_child(center)
-
-	var panel := PanelContainer.new()
-	panel.name = "ChapterOptionsPanel"
-	panel.custom_minimum_size = Vector2(620.0, 440.0)
-	panel.add_theme_stylebox_override("panel", _stylebox(PANEL, 16, 2, PURPLE))
-	center.add_child(panel)
-
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 38)
-	margin.add_theme_constant_override("margin_right", 38)
-	margin.add_theme_constant_override("margin_top", 30)
-	margin.add_theme_constant_override("margin_bottom", 30)
-	panel.add_child(margin)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 14)
-	margin.add_child(column)
-
-	var title := Label.new()
-	title.text = Localization.text(&"hub.options.title")
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
-	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	title.add_theme_color_override("font_color", PURPLE)
-	column.add_child(title)
-
-	var hint := Label.new()
-	hint.text = Localization.text(&"hub.options.hint")
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	hint.add_theme_color_override("font_color", MUTED)
-	column.add_child(hint)
-
-	var spacer := Control.new()
-	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	column.add_child(spacer)
-
-	options_resume_button = _options_button(Localization.text(&"hub.options.resume"))
-	options_resume_button.name = "OptionsResumeButton"
-	options_resume_button.pressed.connect(_close_options_menu)
-	column.add_child(options_resume_button)
-
-	options_fullscreen_button = _options_button("")
-	options_fullscreen_button.name = "OptionsFullscreenButton"
-	options_fullscreen_button.tooltip_text = Localization.text(&"window.fullscreen.tooltip")
-	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen)
-	column.add_child(options_fullscreen_button)
-
-	var reduced := CheckButton.new(); reduced.text=Localization.text(&"hub.settings.reduce_interface_motion")
-	reduced.button_pressed=bool(ProjectSettings.get_setting("game/reduced_motion",false)); reduced.toggled.connect(WindowMode.set_reduced_motion); column.add_child(reduced)
-	var frame_choice := OptionButton.new()
+	var panel := PanelContainer.new(); panel.name="ChapterOptionsPanel"
+	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(PANEL,ACCENT,8)); center.add_child(panel)
+	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",14); panel.add_child(column)
+	_settings_label(column,"hub.options.title",28)
+	var scroll := ScrollContainer.new(); scroll.name="SettingsScroll"
+	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL; column.add_child(scroll)
+	var body := VBoxContainer.new(); body.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation",12); scroll.add_child(body)
+	_settings_label(body,"settings.interface",23)
+	var language := OptionButton.new(); language.name="LanguageChoice"
+	language.add_item("简体中文"); language.add_item("English")
+	language.select(0 if Localization.current_locale()=="zh_CN" else 1)
+	language.item_selected.connect(func(index: int) -> void:
+		if Localization.set_preferred_locale(["zh_CN","en"][index]): call_deferred("_reload_settings_locale"))
+	body.add_child(language)
+	_settings_label(body,"settings.display",23)
+	options_fullscreen_button=_options_button(""); options_fullscreen_button.name="OptionsFullscreenButton"
+	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen); body.add_child(options_fullscreen_button)
+	var reduced := CheckButton.new(); reduced.name="ReducedMotion"
+	reduced.text=Localization.text(&"hub.settings.reduce_interface_motion")
+	reduced.button_pressed=bool(ProjectSettings.get_setting("game/reduced_motion",false))
+	reduced.toggled.connect(WindowMode.set_reduced_motion); body.add_child(reduced)
+	var frame_choice := OptionButton.new(); frame_choice.name="FrameLimit"
 	for key: String in ["60","120","display"]: frame_choice.add_item(Localization.text(StringName("hub.settings.frame_"+key)))
 	frame_choice.select(maxi(0,[60,120,0].find(WindowMode.frame_limit)))
 	frame_choice.item_selected.connect(func(index: int) -> void: WindowMode.set_frame_limit([60,120,0][index]))
-	column.add_child(frame_choice)
-	var display_hint := Label.new(); display_hint.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	display_hint.text=Localization.text(&"hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan")
-	column.add_child(display_hint)
-	var feedback := PlaytestMoments.make_button(); column.add_child(feedback)
-	options_export_button = _options_button(Localization.text(&"playtest.export.button"))
-	options_export_button.name = "OptionsExportPlaytestButton"
-	options_export_button.tooltip_text = Localization.text(&"playtest.export.tooltip")
-	options_export_button.pressed.connect(_export_playtest_data)
-	column.add_child(options_export_button)
-	options_export_status = Label.new()
-	options_export_status.name = "OptionsExportStatus"
-	options_export_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	options_export_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	options_export_status.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
-	options_export_status.add_theme_color_override("font_color", MUTED)
-	column.add_child(options_export_status)
-	options_open_export_folder_button = _options_button(Localization.text(&"playtest.export.open_folder"))
-	options_open_export_folder_button.name = "OptionsOpenExportFolderButton"
+	body.add_child(frame_choice)
+	_settings_label(body,"hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan")
+	_settings_label(body,"settings.audio",23)
+	var sound := CheckButton.new(); sound.name="SoundEnabled"; sound.text=Localization.text(&"settings.sound")
+	sound.button_pressed=WindowMode.sound_enabled; body.add_child(sound)
+	var volume := HSlider.new(); volume.name="SoundVolume"; volume.max_value=100; volume.step=1
+	volume.value=roundf(WindowMode.sound_volume*100); volume.custom_minimum_size.y=32
+	volume.editable=WindowMode.sound_enabled; body.add_child(volume)
+	var volume_label := Label.new(); volume_label.text="%d%%" % volume.value; body.add_child(volume_label)
+	sound.toggled.connect(func(value: bool) -> void: WindowMode.set_sound(value,volume.value/100); volume.editable=value)
+	volume.value_changed.connect(func(value: float) -> void: WindowMode.set_sound(sound.button_pressed,value/100); volume_label.text="%d%%" % value)
+	_settings_label(body,"settings.privacy",23)
+	_settings_label(body,"settings.privacy_hint")
+	body.add_child(PlaytestMoments.make_button())
+	_settings_label(body,"settings.support",23)
+	var build := Label.new(); build.text=str(ProjectSettings.get_setting("application/config/version",""))
+	build.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(build)
+	options_export_button=_options_button(Localization.text(&"playtest.export.button")); options_export_button.name="OptionsExportPlaytestButton"
+	options_export_button.pressed.connect(_export_playtest_data); body.add_child(options_export_button)
+	var diagnostics := _options_button(Localization.text(&"settings.diagnostics")); diagnostics.name="ExportDiagnostics"
+	diagnostics.pressed.connect(func() -> void:
+		latest_export_path=preload("res://src/ui/support_diagnostics.gd").export_local()
+		options_export_status.text=Localization.text(&"settings.export_failed" if latest_export_path.is_empty() else &"settings.export_ready")
+		options_open_export_folder_button.visible=not latest_export_path.is_empty())
+	body.add_child(diagnostics)
+	_settings_label(body,"settings.diagnostics_hint")
+	var logs := _options_button(Localization.text(&"settings.open_logs")); body.add_child(logs)
+	logs.pressed.connect(func() -> void: OS.shell_open(ProjectSettings.globalize_path("user://")))
+	options_export_status=Label.new(); options_export_status.name="OptionsExportStatus"
+	options_export_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(options_export_status)
+	options_open_export_folder_button=_options_button(Localization.text(&"playtest.export.open_folder"))
 	options_open_export_folder_button.pressed.connect(_open_latest_export_folder)
-	options_open_export_folder_button.hide()
-	column.add_child(options_open_export_folder_button)
+	options_open_export_folder_button.hide(); body.add_child(options_open_export_folder_button)
+	var reset := _options_button(Localization.text(&"settings.reset")); reset.name="ResetPresentation"; body.add_child(reset)
+	var confirm := ConfirmationDialog.new(); confirm.dialog_text=Localization.text(&"settings.reset_hint"); add_child(confirm)
+	reset.pressed.connect(func() -> void: confirm.popup_centered(Vector2i(520,180)))
+	confirm.confirmed.connect(func() -> void: WindowMode.reset_presentation(); call_deferred("_reload_settings_locale"))
+	var footer := HBoxContainer.new(); footer.add_theme_constant_override("separation",14); column.add_child(footer)
+	options_resume_button=_options_button(Localization.text(&"hub.options.resume")); options_resume_button.name="OptionsResumeButton"
+	options_resume_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	options_resume_button.pressed.connect(_close_options_menu); footer.add_child(options_resume_button)
+	options_quit_button=_options_button(Localization.text(&"hub.options.quit")); options_quit_button.name="OptionsQuitButton"
+	options_quit_button.pressed.connect(_quit_game); footer.add_child(options_quit_button)
+	resized.connect(_fit_settings_panel); _fit_settings_panel()
+	_refresh_options_fullscreen_label(); options_overlay.hide()
 
-	options_quit_button = _options_button(Localization.text(&"hub.options.quit"))
-	options_quit_button.name = "OptionsQuitButton"
-	options_quit_button.add_theme_color_override("font_color", DANGER)
-	options_quit_button.add_theme_stylebox_override("normal", _stylebox(Color("30202c"), 9, 1, Color("653244")))
-	options_quit_button.add_theme_stylebox_override("hover", _stylebox(Color("402433"), 9, 2, DANGER))
-	options_quit_button.pressed.connect(_quit_game)
-	column.add_child(options_quit_button)
+func _settings_label(parent: Node, key: String, font_size: int=18) -> void:
+	var label := Label.new(); label.text=Localization.text(StringName(key))
+	label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; label.add_theme_font_size_override("font_size",font_size)
+	label.add_theme_color_override("font_color",ACCENT if font_size>=23 else TEXT); parent.add_child(label)
 
-	_refresh_options_fullscreen_label()
-	options_overlay.hide()
+func _fit_settings_panel() -> void:
+	var panel: Control = options_overlay.find_child("ChapterOptionsPanel",true,false)
+	panel.custom_minimum_size=Vector2(minf(760,size.x-48),minf(780,size.y-48))
+	panel.size=panel.custom_minimum_size
+
+func _reload_settings_locale() -> void:
+	WindowMode.reopen_settings=true
+	get_tree().reload_current_scene()
 
 
 func _options_button(text: String) -> Button:
@@ -466,6 +458,12 @@ func _open_options_menu() -> void:
 	options_previous_focus = get_viewport().gui_get_focus_owner()
 	_refresh_options_fullscreen_label()
 	options_overlay.show()
+	var controls: Array[Control] = []
+	for node: Node in options_overlay.find_children("*","Control",true,false):
+		if node.focus_mode==Control.FOCUS_ALL and node.is_visible_in_tree(): controls.append(node)
+	for index: int in range(controls.size()):
+		controls[index].focus_next=controls[index].get_path_to(controls[(index+1)%controls.size()])
+		controls[index].focus_previous=controls[index].get_path_to(controls[(index-1+controls.size())%controls.size()])
 	options_resume_button.grab_focus()
 
 

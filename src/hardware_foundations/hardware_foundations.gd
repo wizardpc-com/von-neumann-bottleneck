@@ -258,6 +258,7 @@ var continue_after_seal: bool = false
 
 
 func _ready() -> void:
+	WindowMode.window_mode_changing.connect(_cancel_window_gestures)
 	game_player_content = GlobalSave.game_player_content
 	_configure_workbench_store()
 	_build_theme()
@@ -522,15 +523,19 @@ func _has_active_graph_gesture() -> bool:
 
 
 func _notification(what: int) -> void:
-	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT:
-		graph_pan_keys.clear()
-		_finish_component_body_drag(false)
-		_cancel_component_placement()
-		if graph != null:
-			graph.cancel_selection_drag()
-			graph.cancel_branch_drag()
-			graph.cancel_endpoint_move()
-			graph.finish_erase_stroke()
+	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT: _cancel_window_gestures()
+
+func _cancel_window_gestures() -> void:
+	graph_pan_keys.clear()
+	_finish_component_body_drag(false)
+	_cancel_component_placement()
+	if graph != null:
+		if builtin_connection_drag_active:
+			graph.force_connection_drag_end(); builtin_connection_drag_active=false
+		graph.end_builtin_connection_preview()
+		graph.cancel_selection_drag(); graph.cancel_branch_drag(); graph.cancel_endpoint_move()
+		graph.finish_erase_stroke()
+	if is_inside_tree() and get_viewport().gui_is_dragging(): get_viewport().gui_cancel_drag()
 
 
 func _handle_component_placement_global_input(event: InputEvent) -> bool:

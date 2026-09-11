@@ -1,10 +1,14 @@
 extends Node
 
 signal window_mode_changed(fullscreen: bool)
+signal window_mode_changing
 
 const DESIGN_SIZE := Vector2i(1600, 900)
 const MINIMUM_WINDOWED_SIZE := Vector2i(1280, 720)
 var frame_limit: int = 60
+var sound_enabled: bool = true
+var sound_volume: float = 0.7
+var reopen_settings: bool = false
 
 var _windowed_size: Vector2i = DESIGN_SIZE
 var _windowed_position: Vector2i = Vector2i.ZERO
@@ -16,6 +20,10 @@ func _ready() -> void:
 	if settings.load("user://presentation.cfg")==OK:
 		ProjectSettings.set_setting("game/reduced_motion",bool(settings.get_value("display","reduced_motion",false)))
 		frame_limit=int(settings.get_value("display","frame_limit",60))
+		sound_enabled=bool(settings.get_value("audio","enabled",true))
+		sound_volume=clampf(float(settings.get_value("audio","volume",0.7)),0.0,1.0)
+	if not is_finite(sound_volume): sound_volume=0.7
+	_apply_sound()
 	if frame_limit not in [0,60,120]: frame_limit=60
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_process_input(true)
@@ -59,6 +67,8 @@ func is_fullscreen() -> bool:
 func toggle_fullscreen() -> void:
 	if _display_is_headless():
 		return
+	window_mode_changing.emit()
+	get_viewport().gui_cancel_drag()
 	if is_fullscreen():
 		_leave_fullscreen()
 	else:
@@ -157,3 +167,22 @@ func set_frame_limit(value: int) -> void:
 	if not _display_is_headless(): Engine.max_fps=value
 	var settings := ConfigFile.new(); settings.load("user://presentation.cfg")
 	settings.set_value("display","frame_limit",value); settings.save("user://presentation.cfg")
+
+func _apply_sound() -> void:
+	var index: int = AudioServer.get_bus_index("Effects")
+	if index<0:
+		AudioServer.add_bus(); index=AudioServer.bus_count-1
+		AudioServer.set_bus_name(index,"Effects")
+	AudioServer.set_bus_mute(index,not sound_enabled or sound_volume<=0)
+	AudioServer.set_bus_volume_db(index,linear_to_db(maxf(0.0001,sound_volume)))
+
+func set_sound(enabled: bool, volume: float) -> void:
+	if not is_finite(volume): return
+	sound_enabled=enabled; sound_volume=clampf(volume,0.0,1.0); _apply_sound()
+	var settings := ConfigFile.new(); settings.load("user://presentation.cfg")
+	settings.set_value("audio","enabled",sound_enabled); settings.set_value("audio","volume",sound_volume)
+	settings.save("user://presentation.cfg")
+
+func reset_presentation() -> void:
+	set_reduced_motion(false); set_frame_limit(60); set_sound(true,0.7)
+	get_node("/root/Localization").set_preferred_locale("zh_CN")

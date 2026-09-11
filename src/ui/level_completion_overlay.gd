@@ -216,6 +216,7 @@ func _build_interface() -> void:
 
 	audio_player = AudioStreamPlayer.new()
 	audio_player.name = "CompletionMusicPlayer"
+	audio_player.bus = &"Effects"
 	audio_player.volume_db = -13.0
 	add_child(audio_player)
 	audio_stop_timer = Timer.new()

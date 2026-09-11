@@ -9,6 +9,11 @@ const SUPPORTED_LOCALES := ["zh_CN", "en"]
 func _enter_tree() -> void:
 	var requested_locale: String = _locale_override()
 	if requested_locale.is_empty():
+		var preferences := ConfigFile.new()
+		if preferences.load("user://presentation.cfg")==OK:
+			requested_locale=str(preferences.get_value("interface","locale",""))
+			if requested_locale not in SUPPORTED_LOCALES: requested_locale=""
+	if requested_locale.is_empty():
 		var engine_locale: String = TranslationServer.standardize_locale(TranslationServer.get_locale())
 		var os_locale: String = TranslationServer.standardize_locale(OS.get_locale())
 		if engine_locale != os_locale and engine_locale in SUPPORTED_LOCALES:
@@ -76,3 +81,10 @@ func _update_window_title() -> void:
 	var window: Window = get_window()
 	if window != null:
 		window.title = text(&"game.window_title")
+
+func set_preferred_locale(locale: String) -> bool:
+	if locale not in SUPPORTED_LOCALES: return false
+	var settings := ConfigFile.new(); settings.load("user://presentation.cfg")
+	settings.set_value("interface","locale",locale)
+	if settings.save("user://presentation.cfg")!=OK: return false
+	return set_locale(locale)

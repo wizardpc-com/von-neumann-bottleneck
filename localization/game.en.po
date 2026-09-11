@@ -6393,3 +6393,57 @@ msgstr "Main %d / %d   ·   Side %d / %d   ·   Bonus goals %d / %d"
 
 msgid "records.board.local_note"
 msgstr "Progress is saved on this device. Return to the task tree to choose your next challenge."
+
+msgid "settings.interface"
+msgstr "Language"
+
+msgid "settings.display"
+msgstr "Display"
+
+msgid "settings.audio"
+msgstr "Audio"
+
+msgid "settings.sound"
+msgstr "Play sound effects"
+
+msgid "settings.privacy"
+msgstr "Data and privacy"
+
+msgid "settings.privacy_hint"
+msgstr "Local by default. Statistics, written feedback and scores have separate sharing controls."
+
+msgid "settings.support"
+msgstr "Support"
+
+msgid "settings.diagnostics"
+msgstr "Export diagnostics"
+
+msgid "settings.diagnostics_hint"
+msgstr "Exports build, display/audio settings and queue counts only. No designs, opinions, identifiers or raw logs."
+
+msgid "settings.export_failed"
+msgstr "Export failed. Check available storage and folder permissions."
+
+msgid "settings.export_ready"
+msgstr "Exported. You can open the containing folder."
+
+msgid "settings.open_logs"
+msgstr "Open logs and local data folder"
+
+msgid "settings.reset"
+msgstr "Reset interface and audio settings"
+
+msgid "settings.reset_hint"
+msgstr "Restore Chinese, 60 FPS, normal motion and default volume. Progress, designs and privacy choices stay unchanged."
+
+msgid "settings.sharing_title"
+msgstr "Share play statistics?"
+
+msgid "settings.sharing_intro"
+msgstr "Local-only play includes the full game. Sharing starts with your next task visit and excludes old records. You can change this in feedback settings."
+
+msgid "settings.inventory"
+msgstr "View the data list"
+
+msgid "settings.inventory_detail"
+msgstr "Basic statistics include task time, completion, edit/test counts, Hint level and limited run metrics. No complete circuits, programs, screenshots or device paths. Opinions and scores require separate submission."

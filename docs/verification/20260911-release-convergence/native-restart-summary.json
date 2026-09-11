@@ -1,0 +1,8 @@
+{
+  "schema_version": 2,
+  "minimum_writer_version": 2,
+  "hardware_completed": [
+    "tutorial"
+  ],
+  "navigation": "[navigation]\n\nlast_visited_task=\"hardware_foundations/latch\"\n"
+}

@@ -1,3 +1,7 @@
+> **HISTORICAL / SUPERSEDED as an active queue.** Implementation history only.
+> Current scope and remaining acceptance: [CURRENT_STATE](../../CURRENT_STATE.md) and [release blockers](../../../RELEASE_BLOCKERS.md).
+> Older task counts and candidate identities below describe their dated iteration.
+
 # 任务树、应用支线与可解释的本地试玩记录
 
 2026-09-10；基线 `14d6275`。用户采用《整体设计审计》最近两轮讨论，授权在既有游戏上实现下列扩展，并要求分批 commit / push main、开发后原生试玩迭代。

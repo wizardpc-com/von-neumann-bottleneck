@@ -1,15 +1,15 @@
 # Documentation map
 
-Repository-local documentation is the source of truth for future human and Codex work.
+Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The documents below are subsystem references or dated implementation history.
 
 - [Offline community preparation](architecture/community-feedback.md): personal records, consent, visit summaries, community and experimental scores.
 - [Native and loopback evidence](verification/20260911-community-preparation/README.md), [owner deployment checklist](distribution/community-deployment-checklist.md), [operator migration runbook](../server/deploy/RUNBOOK.md).
 
-- [Task tree and optional missions](exec-plans/active/task-tree-and-side-missions.md): current 34-node expansion and explicit remaining acceptance.
+- [Task tree and optional missions](exec-plans/active/task-tree-and-side-missions.md): historical 34-node expansion, now included in the 40-task game.
 - [Local playtest evidence](status/playtest-instrumentation.md): visits, case outcomes, voluntary moments and multi-export reports.
 
 - [Guided workbench and diagrams](verification/2026-09-09-guided-workbench/README.md): open tools, cable separation, focused Handbook, and this iteration's native/check evidence.
-- [First-use guidance](design/first-use-guidance.md): the 34-node teaching inventory and pacing boundaries.
+- [First-use guidance](design/first-use-guidance.md): the dated teaching inventory and pacing boundaries.
 
 - [Mac native polish](status/mac-native-polish.md): current Mac UI changes, ordinary Game play evidence and approved restart recovery and its native verification.
 - [Stable save recovery](verification/2026-09-08-save-recovery/README.md): byte-exact backups, provenance revalidation and repeat native startup.

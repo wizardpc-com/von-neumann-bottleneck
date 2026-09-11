@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build both free candidates from one committed Git archive, never live player data."""
-import argparse,datetime,hashlib,io,json,shutil,subprocess,tarfile,zipfile
+import argparse,datetime,hashlib,io,json,re,shutil,subprocess,tarfile,zipfile
 from pathlib import Path
 
 def main():
@@ -17,8 +17,18 @@ def main():
             dest=(project/member.name).resolve()
             if not dest.is_relative_to(project.resolve()) or not (member.isfile() or member.isdir()):raise ValueError('Unsupported archive member: '+member.name)
         source.extractall(project)
-    output=root/'build'/('free-alpha-'+stamp);output.mkdir(parents=True)
+    build_id='free-alpha-'+commit[:12]
+    output=root/'build'/build_id
+    if output.exists(): raise ValueError('Candidate already exists; never overwrite a frozen identity: '+build_id)
+    output.mkdir(parents=True)
     original=(project/'project.godot').read_text()
+    original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
+    original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"')
+    (project/'project.godot').write_text(original)
+    identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n\n'
+    for document in ['README.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
+        path=project/document
+        path.write_text(identity+path.read_text().replace('@BUILD_ID@',build_id).replace('@SOURCE_COMMIT@',commit))
     isolated=original.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="VonNeumannBottleneckChecks/build-'+stamp+'"')
     def run(name,args):
         result=subprocess.run([a.godot,'--headless','--path',str(project),*args],capture_output=True,text=True,timeout=600)
@@ -34,15 +44,15 @@ def main():
     run('licenses',['--script','res://candidate_license_probe.gd']);probe.unlink()
     (project/'project.godot').write_text(original)
     # Exporters themselves do not start the game. Native QA uses a separate override.
-    manifest={'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'platforms':{}}
+    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'platforms':{}}
     for platform,preset,binary in [('macOS','macOS Free Candidate','Von-Neumann-Bottleneck.app'),('Windows','Windows Playtest','Von-Neumann-Bottleneck.exe')]:
         folder=output/platform;folder.mkdir()
         run('export-'+platform,['--export-release',preset,str(folder/binary)])
         for src,name in [('distribution/PLAYTEST-README.txt','README.txt'),('distribution/KNOWN-ISSUES.txt','KNOWN-ISSUES.txt'),('distribution/CHANGELOG.txt','CHANGELOG.txt'),('LICENSE','LICENSE.txt'),('assets/fonts/OFL-NotoSansSC.txt','FONT-LICENSE.txt'),('candidate-licenses.txt','ENGINE-LICENSES.txt')]:shutil.copy2(project/src,folder/name)
         files={str(f.relative_to(folder)):hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(folder.rglob('*')) if f.is_file()}
-        platform_manifest={'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
+        platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n')
-        zip_path=output/('Von-Neumann-Bottleneck-'+platform+'-'+commit[:8]+'.zip')
+        zip_path=output/('Von-Neumann-Bottleneck-'+platform+'-'+build_id+'.zip')
         if platform=='macOS':subprocess.run(['/usr/bin/ditto','-c','-k','--sequesterRsrc','--keepParent',str(folder),str(zip_path)],check=True)
         else:
             with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED) as z:

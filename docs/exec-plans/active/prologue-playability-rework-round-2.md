@@ -1,3 +1,7 @@
+> **HISTORICAL / SUPERSEDED as an active queue.** Implementation history only.
+> Current scope and remaining acceptance: [CURRENT_STATE](../../CURRENT_STATE.md) and [release blockers](../../../RELEASE_BLOCKERS.md).
+> Older task counts and candidate identities below describe their dated iteration.
+
 # Prologue Playability Rework Round 2
 
 Status: implementation, automated regression, and normal-Windows capture audit complete 2026-08-28; physical-mouse and novice-comprehension acceptance remains active. The prior completed plan and automated results are historical evidence only; no Round 2 item is accepted from those results alone.

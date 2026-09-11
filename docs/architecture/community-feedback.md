@@ -4,9 +4,16 @@ The 40-task game, deterministic simulators, receipt validation and local unlock
 rules are unchanged. `PersonalRecords` observes locally verified official results
 through a separate signal, even when action telemetry is disabled. Its bounded
 journal is presentation-only; it cannot grant progression. Existing saved Chapter 4
-best designs are evaluated locally for the record page. Older unrecorded metrics
-show —. Named circuits and layout designs plus Chapter 3 drafts are counted from
+best designs are evaluated locally for the internal journal. Older unrecorded metrics
+remain absent. Named circuits and layout designs plus Chapter 3 drafts are counted from
 local files; reading task records does not migrate those files.
+
+Task record summaries consume `region_title_key`, `record_metrics` and `bonus_goals`
+from TaskNavigation metadata. They do not use a fixed region or bonus count. Circuit
+records retain verified case counts; systems retain cycles/cost, and layout retains cycles,
+reads/writes and peak scratch. The visible personal board now shows completion totals
+and region cards only, following the owner's latest UI direction. Task details and
+individual feedback remain on the task tree. No receiver means no community widgets or HTTPRequest.
 
 ## Data and authorization
 

@@ -1,3 +1,7 @@
+> **HISTORICAL / SUPERSEDED as an active queue.** Implementation history only.
+> Current scope and remaining acceptance: [CURRENT_STATE](../../CURRENT_STATE.md) and [release blockers](../../../RELEASE_BLOCKERS.md).
+> Older task counts and candidate identities below describe their dated iteration.
+
 # Demo redesign — M0 through M5
 
 Status: stopped and superseded, 2026-09-05. No further eight-task redesign is authorized. The implemented version remains available for comparison. Current work: [original experience recovery](../completed/in-place-recovery.md). The plan below is historical.

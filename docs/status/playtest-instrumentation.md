@@ -1,3 +1,5 @@
+> **Subsystem history.** Current count is five regions / 40 tasks; see [CURRENT_STATE](../CURRENT_STATE.md). Earlier counts below describe dated evidence.
+
 # 本地试玩记录与反馈
 
 2026-09-10：原构建序章及三个章节、34 个任务使用同一套本地观察器。八关运行版本已退役。记录不参与仿真、通关、解锁或存档重验；源码和操作规则仍由各章节负责。

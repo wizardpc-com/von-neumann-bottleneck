@@ -1,10 +1,10 @@
 # Architecture
 
-This file is the high-level map. Detailed simulation behavior lives in [`docs/architecture/simulation.md`](docs/architecture/simulation.md); current slice facts live in [`docs/status/cpu-building-prologue.md`](docs/status/cpu-building-prologue.md), [`docs/status/chapter-1-waiting-for-data.md`](docs/status/chapter-1-waiting-for-data.md), [`docs/status/chapter-2-reducing-data-movement.md`](docs/status/chapter-2-reducing-data-movement.md), and [`docs/status/playtest-instrumentation.md`](docs/status/playtest-instrumentation.md).
+Current product/release state lives only in [CURRENT_STATE](docs/CURRENT_STATE.md). This file is the high-level subsystem map. Detailed simulation behavior lives in [`docs/architecture/simulation.md`](docs/architecture/simulation.md); current slice facts live in [`docs/status/cpu-building-prologue.md`](docs/status/cpu-building-prologue.md), [`docs/status/chapter-1-waiting-for-data.md`](docs/status/chapter-1-waiting-for-data.md), [`docs/status/chapter-2-reducing-data-movement.md`](docs/status/chapter-2-reducing-data-movement.md), and [`docs/status/playtest-instrumentation.md`](docs/status/playtest-instrumentation.md).
 
 ## Default construction and optimization route
 
-`src/ui/prototype_hub.tscn` is the project entry. Ordinary Game opens the original Hardware Foundations desktop, its arithmetic/storage branches, CPU and LOAD/STORE bridge, then Chapter 1 and Chapter 2. `CircuitGraphEdit` retains free building, branched wires and transactional edits. Mission remains movable and reopenable; Hint uses a separate read-only board with individually confirmed H2/H3. Shared presentation adds distinct scalar/bus strokes, module headings, net inspection and view-only Focus. Mission exposes direct specification sections; success exposes explicit sealing and next-capability previews. See [construction experience](docs/status/construction-experience.md).
+`src/ui/prototype_hub.tscn` is the project entry. Ordinary Game opens the original Hardware Foundations desktop, its arithmetic/storage branches, CPU and LOAD/STORE bridge, then Chapter 1 and Chapter 2, with Chapters 3 and 4 branching into scheduling and data layout. `CircuitGraphEdit` retains free building, branched wires and transactional edits. Mission remains movable and reopenable; Hint uses a separate read-only board with individually confirmed H2/H3. Shared presentation adds distinct scalar/bus strokes, module headings, net inspection and view-only Focus. Mission exposes direct specification sections; success exposes explicit sealing and next-capability previews. See [construction experience](docs/status/construction-experience.md).
 
 The original chapters share `InstrumentTheme`, `TechnicalBackdrop` and bundled Noto Sans SC typography. `SignalNotation` supplies explicit width badges, stable width colors and bit-cell examples shared by terminals, Test Bench and Mission. One-bit cables are thin solid strokes with round pins; wider cables are centered ribbons with square sockets. The graph, drafts, hover/flow feedback and component leads share that notation without changing connection geometry. Compatibility enumeration is read-only; only actual hovered connections report diagnostics. Terminal bodies show decimal values and visible bits; signal names sit above them. Existing port geometry, simulation values and player wire colors are preserved. `SignalLevelButton` preserves the existing CheckButton input contract while drawing compact low/high symbols. Palette thumbnails reuse the canvas schematic and module renderers; placement ghosts retain the full GraphNode geometry. `TerminologyHandbook.LESSON_TERMS` derives subject availability from existing original progression, including each playable Mission's required specifications. It adds no persistent unlock authority or save fields. See [visual and learning polish](docs/status/visual-learning-polish.md).
 
@@ -143,3 +143,12 @@ separates basic/detailed statistics, individual opinions and experimental score
 consent. The versioned SQLite receiver adds deletion-safe migration and read-only
 community aggregates/boards without a game engine. Neither service controls unlocks.
 See [community and privacy contract](docs/architecture/community-feedback.md).
+
+## Release navigation and writer compatibility
+
+TaskNavigation stores the recent Game task separately from progression. Continue
+opens the map and locates that task; selecting a locked node never grants entry.
+GlobalSave schema 2 accepts legacy schema 1 and advertises minimum writer 2. Future
+writer/schema or unknown root/chapter data stops writes and keeps both files. The
+existing signature and solution revalidation remain unchanged. Frozen build identity
+is generated from the exact archived commit, not a manually reused candidate number.

@@ -1,3 +1,7 @@
+> **HISTORICAL / SUPERSEDED as an active queue.** Implementation history only.
+> Current scope and remaining acceptance: [CURRENT_STATE](../../CURRENT_STATE.md) and [release blockers](../../../RELEASE_BLOCKERS.md).
+> Older task counts and candidate identities below describe their dated iteration.
+
 # Five-chapter free alpha implementation
 
 2026-09-10. Adopted specification: [downloaded development plan](../../design/FIVE_CHAPTER_FREE_ALPHA_DEVELOPMENT_PLAN.md). Baseline `24d5c22`. The original downloaded Markdown and prompt at repository root are user files and remain untouched. Existing commit/push authorization continues; public deployment, payment, identity submission and release are excluded.

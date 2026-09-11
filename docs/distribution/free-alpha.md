@@ -30,4 +30,7 @@ All artwork is original procedural/vector work with bundled Noto Sans SC. Avoid 
 
 ## Current local artifacts
 
-Content commit `6942a61`, output `build/free-alpha-20260911T062216Z-6942a61c/`. Both ZIP files and adjacent manifest are ready for local review. [Exact checksums and package checks](../verification/20260911-community-preparation/candidate-manifest.json) and [native limits](../verification/20260911-community-preparation/README.md) are part of the handoff. `scripts/verify-mac-candidate.py` creates a temporary settings-override copy and checks the actual release binary while a sandbox protects the original player directory. Do not ship this QA override or substitute the specially identified CUA copy for the original candidate.
+See [CURRENT_STATE](../CURRENT_STATE.md) and its convergence evidence for the exact
+current source/build/archive mapping. The builder stamps the exported project and
+all package notes using its archived commit; checkout development versions are not
+candidate identities. Earlier reports and archives remain historical only.

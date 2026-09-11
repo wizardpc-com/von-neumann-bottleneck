@@ -1,3 +1,13 @@
+@BUILD_ID@
+
+本轮发布收敛：继续游戏定位最近任务；全局存档升级保护；离线记录隐藏社区入口。
+任务记录按任务类型显示指标、从元数据汇总数量；新增界面文案统一进入翻译目录。
+每个冻结提交独立构建身份；Mac 和 Windows 包均来自 @SOURCE_COMMIT@。
+
+Branch-aware Continue, writer compatibility, metadata-driven offline records,
+localized new interfaces and commit-derived candidate identity.
+
+--- Historical changelog (identities below are earlier releases) ---
 free-alpha-20260911-community-candidate2
 
 新增离线个人任务记录页：区域完成度、主线/支线/附加目标、个人最佳和保存方案数。

@@ -1,3 +1,7 @@
+> **HISTORICAL / SUPERSEDED as an active queue.** Implementation history only.
+> Current scope and remaining acceptance: [CURRENT_STATE](../../CURRENT_STATE.md) and [release blockers](../../../RELEASE_BLOCKERS.md).
+> Older task counts and candidate identities below describe their dated iteration.
+
 # Full original Game player pass and iteration
 
 2026-09-08; start e2218ff. The user asks for a player-led attempt of the entire

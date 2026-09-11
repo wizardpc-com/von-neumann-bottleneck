@@ -1,5 +1,13 @@
 # Testing
 
+Current status: [CURRENT_STATE](../CURRENT_STATE.md). Use the isolated full verifier
+below plus `tests/test_release_convergence.gd` (automatically included) for navigation,
+legacy/future writer compatibility, dynamic records and no-endpoint presentation.
+After export, run `python3 scripts/check-candidate-identity.py <candidate directory>`
+and `python3 scripts/verify-mac-candidate.py --app <candidate .app>`; the latter checks
+actual exported project build identity against its adjacent manifest. Native and
+external acceptance remain distinct. Dated test totals below are historical.
+
 ## Five-region candidate, 2026-09-11
 
 Current commands remain `scripts/verify-project.py --gui --locale zh_CN` and `--locale en` with Godot 4.7.1. They include automatic DAG extension and new layout/remote suites. Follow with `scripts/verify-save-restart.py` and `scripts/verify-feedback-local.py` on the imported isolated copy, sequentially. The receiver and report calibration run via `python3 server/test_receiver.py` and `python3 scripts/test-report-playtests.py`. Actual results and native scope are in [five-region evidence](../verification/20260910-five-chapter/README.md); historical totals below are not current acceptance. Do not run headless/GUI engine processes beside CUA native play on macOS: the shared app identity can lose its controllable window. Finish engine checks, then relaunch the native QA instance.

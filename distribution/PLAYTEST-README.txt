@@ -1,12 +1,13 @@
 冯·诺依曼瓶颈 — 免费公开开发版候选
-构建：free-alpha-20260911-candidate1（准确源码提交与哈希见随包 build-manifest.json）
+构建：@BUILD_ID@
+源码：@SOURCE_COMMIT@（校验见随包 BUILD-MANIFEST.json）
 
 免费、单机、无需账户、无需安装 Godot。未公开发行，当前是可交付试玩的候选构建。
 Mac 解压后打开 Von-Neumann-Bottleneck.app；Windows 解压后运行 Von-Neumann-Bottleneck.exe。
 Mac 使用本地 ad-hoc 签名，尚未申请 Apple 公证；Windows 原生分发验收待完成。
 不要为试玩关闭系统安全保护。公开下载渠道的签名/首次启动体验需要在发布前另行验收。
 
-从“新游戏”开始；已有进度用“继续游戏”。总任务树可拖动、缩放、搜索和查看锁定任务规格。
+从“章节任务树”开始；“继续游戏”会定位最近游玩的任务。总任务树可拖动、缩放、搜索和查看锁定任务规格。
 路线：序章造机器 → 第一章找等待 → 第二章减少搬运 → 第三章安排到达 / 第四章数据布局。
 共 40 个任务；探索支线不增加旧主线的通关门槛。八关替代版已彻底退役。
 
@@ -45,3 +46,5 @@ Chapter 4 measures actual addresses, transfers, copy costs and bounded scratch m
 F8 opens optional task feedback, including unfinished tasks. Unanswered ratings stay empty. Sharing is off; this build has no server URL.
 The package is an unnotarized candidate. Windows native launch, external novice comprehension and comfort remain acceptance gates.
 Back up both save and workbench files before updating or reverting. See the manifest and accompanying notes for exact evidence.
+
+存档格式已升级为 2，较旧版本应拒绝写入。不要用旧备份替换唯一的新存档。

@@ -1,8 +1,6 @@
 # Von Neumann Bottleneck
 
-2026-09-11 免费初版候选开发：保留原游戏，新增第四章「把数据摆对地方」完整六关，共五个区域、40 个任务。布局与复制来自真实地址、流量和空间模型；任务树按前置关系自动排布。详见[本轮计划](docs/exec-plans/active/five-chapter-free-alpha.md)、[原生验收记录](docs/verification/20260910-five-chapter/README.md)和[候选分发说明](docs/distribution/free-alpha.md)。
-
-2026-09-11：离线个人任务记录、分档自愿回传、可迁移接收服务与实验榜单已完成本地实现和联调。公开接收地址仍为空。见[实现说明](docs/architecture/community-feedback.md)、[实际验证](docs/verification/20260911-community-preparation/README.md)和[之后的部署清单](docs/distribution/community-deployment-checklist.md)。
+[**当前状态 / CURRENT_STATE**](docs/CURRENT_STATE.md) 是唯一当前入口。五个区域、40 个任务；源码开发版与冻结候选包分开标识。发布前必须核对[验收阻断](RELEASE_BLOCKERS.md)。
 
 > Connect a machine, make it work, then reduce the time it spends waiting for data.
 

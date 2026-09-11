@@ -5,7 +5,7 @@ These are acceptance gates, not promised new features.
 
 | Gate | Status | Required evidence |
 | --- | --- | --- |
-| Frozen candidate identity | Rebuilding | Settings follow-up requires a new frozen ID; older `free-alpha-9f8c34fac4fb` remains historical |
+| Frozen candidate identity | **Verified** | `free-alpha-128632418664`, content `1286324`; both archives and actual Mac release identity checked |
 | Latest Windows native | **Pending** | Actual EXE start, tree/Continue, editing, keyboard/focus, DPI, save/restart |
 | Another Mac install | **Pending** | Download/unzip/first launch and save; signature/notarization decision and clean-machine checks |
 | External beginner play | **Pending** | Unassisted entry, Tutorial, branch selection, Hint understanding and concrete feedback |

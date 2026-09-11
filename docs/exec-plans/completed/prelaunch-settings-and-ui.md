@@ -29,3 +29,8 @@ Both full locale runs and 602-check Game replays pass. Native settings/first-cho
 English/mute/33-percent restart and diagnostics operated. Tab offscreen focus repaired
 and rechecked. Final reset title-strip fix has targeted test evidence; Mac lock blocks
 its final native image. Loopback cross-process transport still passes synthetic checks.
+
+Implementation completed; candidate free-alpha-128632418664 exported and verified
+for identity/offline boundary. Final shared UI regression passes. Native visual
+reset confirmation/candidate mouse, Windows and external player gates remain listed
+in RELEASE_BLOCKERS; no public release or additional feature work in this scope.

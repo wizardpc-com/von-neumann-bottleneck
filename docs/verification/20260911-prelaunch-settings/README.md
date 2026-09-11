@@ -67,3 +67,19 @@ No Windows machine or external beginner was used. Another Mac installation,
 notarization, mixed DPI and long focus/drag stress remain owner acceptance gates.
 This audit does not claim the absence of every possible defect or prove fun/difficulty.
 No domain, secret, payment, server deployment or public release is part of this work.
+
+
+## Frozen candidate
+
+Content commit `12863241866420e9f626be6afb8cd1bf60cc41b9`; build
+`free-alpha-128632418664`. Both archives under `build/free-alpha-128632418664/`
+come from that commit. [Manifest/hashes](candidate-manifest.json) and the read-only
+identity/CRC/per-file-hash checker pass. [Actual Mac binary probe](mac-package-probe.json)
+passes Game-only restrictions, 40 tasks, empty endpoint, upload off, and isolated
+userdata. Windows is a valid x86_64 PE export, **not** a real-machine acceptance.
+The final shared UI test passes ([log](final-ui-contract.txt)).
+
+[Native scope summary](native-summary.json) distinguishes source interaction from
+candidate binary verification. Lock screen prevented final native candidate mouse
+and reset-frame inspection. No public upload or deployment. This final documentation
+receipt may be a later commit; it does not change the frozen content identity.

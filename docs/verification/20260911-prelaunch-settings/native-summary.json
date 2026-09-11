@@ -1,0 +1,20 @@
+{
+  "profile": "prelaunch-native-final-20260911",
+  "ordinary_Game_source": true,
+  "first_choice_local_and_escape": true,
+  "locale_switch": "zh_CN to en",
+  "after_normal_exit_and_restart": {
+    "locale": "en",
+    "sound_enabled": false,
+    "sound_volume": 0.33,
+    "first_choice_repeated": false
+  },
+  "tab_scroll_to_feedback": true,
+  "diagnostics_export": true,
+  "reset_dialog_visual_after_fix": "pending: Mac locked",
+  "actual_candidate_binary_probe": true,
+  "candidate_native_mouse": "pending",
+  "Windows_PE_x86_64": true,
+  "Windows_native": "pending",
+  "external_novice": "pending"
+}

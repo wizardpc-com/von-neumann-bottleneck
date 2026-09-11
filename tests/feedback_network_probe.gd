@@ -8,6 +8,7 @@ func _init() -> void:
 		if arg.begins_with("--phase="): phase=arg.trim_prefix("--phase=")
 	call_deferred("run")
 func run() -> void:
+	ProjectSettings.set_setting("application/feedback_endpoint",endpoint)
 	var transport := Transport.new(); transport.state_path="user://synthetic_outbox.json"
 	root.add_child(transport); transport.set_process(false)
 	transport.endpoint=endpoint

@@ -15,6 +15,7 @@ var ratings: Array[OptionButton] = []
 var opinion: LineEdit
 var remote_toggle: OptionButton
 var remote_status: Label
+var score_toggle: CheckButton
 var saved_opinion: Dictionary = {}
 var content_scroll: ScrollContainer
 
@@ -100,7 +101,7 @@ func _ready() -> void:
 	cohort.select(maxi(0,cohorts.find(RemoteFeedback.background_cohort)))
 	cohort.item_selected.connect(func(index: int) -> void: RemoteFeedback.background_cohort=cohorts[index]; RemoteFeedback._save_state())
 	remote_box.add_child(cohort)
-	var score_choice := CheckButton.new(); score_choice.text=_l("单独同意提交实验榜成绩（不含方案）","Separately allow experimental scores (no designs)")
+	var score_choice := CheckButton.new(); score_toggle=score_choice; score_choice.text=_l("单独同意提交实验榜成绩（不含方案）","Separately allow experimental scores (no designs)")
 	score_choice.disabled=not RemoteFeedback.endpoint_allowed(); score_choice.button_pressed=RemoteFeedback.scores_enabled
 	score_choice.toggled.connect(func(value: bool) -> void: RemoteFeedback.set_scores_enabled(value))
 	remote_box.add_child(score_choice)
@@ -271,6 +272,7 @@ func _remote_updated() -> void:
 	var pair: Array = labels.get(RemoteFeedback.status,[RemoteFeedback.status,RemoteFeedback.status])
 	remote_status.text=_l(str(pair[0]),str(pair[1]))+" · %d " % RemoteFeedback.queue.size()+_l("条等待","pending")
 	remote_toggle.select(maxi(0,["local","basic","detailed"].find(RemoteFeedback.sharing_mode)))
+	if is_instance_valid(score_toggle): score_toggle.set_pressed_no_signal(RemoteFeedback.scores_enabled)
 func _save_preferences(value: bool) -> void:
 	var config := ConfigFile.new(); config.set_value("privacy","local_actions",value)
 	config.save("user://feedback_preferences.cfg")

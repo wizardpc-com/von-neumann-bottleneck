@@ -49,3 +49,13 @@ Restore with the receiver stopped, retaining a separate safety copy first. Check
 ## Explicitly not deployed
 
 No domain, public port, hosting account, payment, Steam upload or identity submission. Public operation requires separately approved HTTPS termination, deployment region, proxy/access rules, operator credentials, backup access and retention, current privacy wording and load/security review. This bounded single-process loopback server is the local integration implementation, not a claim of public production readiness. Rankings, workshop identity and uploads are outside this scope.
+
+## Portable community preparation (2026-09-11)
+
+The receiver now migrates legacy databases to schema 2, retains deletion tombstones,
+and accepts explicit experimental score submissions. Read-only community endpoints
+are versioned and source-separated. No Godot runtime, real credentials, public domain
+or deployed host is included. See [architecture and field inventory](../docs/architecture/community-feedback.md)
+and [operator runbook](deploy/RUNBOOK.md). `storage.py` provides backup, restore,
+check and conflict-refusing idempotent merge. Run `test_storage.py` and
+`test_community.py` alongside the existing receiver checks.

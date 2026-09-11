@@ -134,3 +134,12 @@ Half Adder and Register. New applications start with fixed I/O and a blank inter
 The existing `TaskNavigation` adapts public tasks and prerequisites. `TaskTreeLayout` derives within-region ranks/lanes and cross-region placement from that DAG; the canvas owns only camera, rendering and selection. New nodes do not require coordinate edits; optional short overview labels can be added without changing progression. [Extension guide](docs/development/adding-tasks.md).
 
 `RemoteFeedback` observes future v2 events after separate consent; bounded asynchronous outbox and explicit opinions never affect results or saves. The loopback receiver is HTTP + SQLite, with durable acknowledgements, idempotence and scoped deletion. The candidate has no configured endpoint. [Local setup and privacy boundary](server/README.md). `UiMotion` provides 120 ms presentation-only panel fades; reducing motion does not affect simulation, playback or input acceptance.
+
+## Optional community preparation
+
+`PersonalRecords` provides an offline task journal independent of action telemetry;
+`visit_summary.gd` reduces completed visit transactions. The existing outbox now
+separates basic/detailed statistics, individual opinions and experimental score
+consent. The versioned SQLite receiver adds deletion-safe migration and read-only
+community aggregates/boards without a game engine. Neither service controls unlocks.
+See [community and privacy contract](docs/architecture/community-feedback.md).

@@ -29,6 +29,7 @@ LayoutChapter="*res://src/layout_chapter/layout_state.gd"
 GlobalSave="*res://src/save/global_save.gd"
 TaskNavigation="*res://src/campaign/task_navigation.gd"
 RemoteFeedback="*res://src/playtest/remote_feedback.gd"
+PersonalRecords="*res://src/playtest/personal_records.gd"
 PlaytestMoments="*res://src/playtest/playtest_moments.gd"
 
 [display]

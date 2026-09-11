@@ -1,0 +1,50 @@
+{
+  "queue": {
+    "passed": true,
+    "seconds": 0.728
+  },
+  "resume": {
+    "passed": true,
+    "seconds": 0.635
+  },
+  "community": {
+    "starts": 1,
+    "completions": 1,
+    "sample_installations": 1,
+    "completion_percent": null,
+    "median_foreground_ms": null,
+    "hint_distribution": null,
+    "strategies": null,
+    "small_sample": true
+  },
+  "board": {
+    "api_version": 1,
+    "label": "Alpha 实验性社区榜单，暂未服务端重放验证",
+    "verified": false,
+    "level_id": "chapter_4/mixed",
+    "ruleset_version": "layout-mixed-1",
+    "model_version": "layout-memory-1",
+    "case_set_version": "782ac833c729ff22be257dc78f6e1a6a890229f9aa43fb845201d712e58e25fc",
+    "source": "automated",
+    "mode": "test",
+    "rows": [
+      {
+        "rank": 1,
+        "player": "68c17f3f3e",
+        "total_cycles": 2495,
+        "ram_read_bytes": 960,
+        "ram_write_bytes": 272,
+        "peak_extra_bytes": 32
+      }
+    ],
+    "held_for_review": 0
+  },
+  "delete_offline": {
+    "passed": true,
+    "seconds": 0.84
+  },
+  "delete_resume": {
+    "passed": true,
+    "seconds": 0.635
+  }
+}

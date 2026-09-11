@@ -57,6 +57,9 @@ func _ready() -> void:
 	scroll.add_child(details)
 	enter_button = _button(side,"tree.enter",func() -> void:
 		if not selected.is_empty(): TaskNavigation.enter(selected.key))
+	var records := Button.new(); records.text="我的任务记录" if TranslationServer.get_locale().begins_with("zh") else "My task record"
+	records.custom_minimum_size.y=42; side.add_child(records)
+	records.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/playtest/personal_records_view.tscn"))
 	var opinion := Button.new(); opinion.text="评价所选任务" if TranslationServer.get_locale().begins_with("zh") else "Feedback on selected task"
 	opinion.custom_minimum_size.y=42; side.add_child(opinion)
 	opinion.pressed.connect(func() -> void:

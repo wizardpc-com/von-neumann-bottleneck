@@ -12,6 +12,8 @@ import re
 import sqlite3
 import time
 from storage import migrate, SCHEMA_VERSION
+from community import RULES, SCORE_NUMBERS, validate_score, aggregate, leaderboard
+from urllib.parse import urlsplit, parse_qs
 
 TEXT = {'kind':64,'phase':80,'target':80,'case_id':80,'tool_id':80,'origin':80,'program_digest':80,'chapter_id':64,'level_id':64,'visit_id':100,'session_id':100,'source':24,'mode':16,
         'build_version':80,'task_version':80,'case_set_version':80,'model_version':80,'event':48,
@@ -20,6 +22,7 @@ NUMBERS = {'stage','sequence','duration_ms','cycles','cost','case_count','passed
            'added_components','removed_components','explicit_wire_deletes','incident_wire_removals',
            'total_cycles','prepare_cycles','query_cycles','output_cycles','ram_read_bytes','ram_write_bytes',
            'peak_extra_bytes','required_extra_bytes','requests','fills','hits','evictions','batch','group_count','block','copy_field_count'}
+NUMBERS |= SCORE_NUMBERS
 NUMBERS |= {'foreground_ms','background_ms','feedback_ms','connections','connection_rejections','branches','wire_deletes','component_deletes','undo_count','redo_count','debug_runs','official_runs','max_hint_stage'}
 TEXT.update({key:80 for key in ['privacy_notice_version','consent_version','consent_timestamp','source_batch','background_cohort','sharing_mode','ruleset_version']})
 BOOLS = {'completed','duration_unknown','eligible','passed','correct','target_met','post_completion','budget_met'}
@@ -35,7 +38,7 @@ def validate_record(record):
         raise ValueError('record_fields')
     if not isinstance(record['event_id'],str) or not IDENTIFIER.fullmatch(record['event_id']):
         raise ValueError('event_id')
-    if record['kind'] not in ('event','feedback') or not isinstance(record['payload'],dict):
+    if record['kind'] not in ('event','feedback','score') or not isinstance(record['payload'],dict):
         raise ValueError('kind')
     allowed = set(TEXT) | NUMBERS | BOOLS
     if record['kind'] == 'feedback': allowed |= {'note','fun','clarity','want_to_continue','revision'}
@@ -58,6 +61,13 @@ def validate_record(record):
     if record['payload'].get('mode','game') not in ('game','test','unknown'): raise ValueError('mode')
     if record['kind'] == 'feedback' and not any(record['payload'].get(k) for k in ('note','fun','clarity','want_to_continue')):
         raise ValueError('empty_feedback')
+    p=record['payload']
+    if record['kind']=='score': validate_score(p)
+    if p.get('event')=='visit_summary':
+        key=p.get('chapter_id','')+'/'+p.get('level_id','')
+        if key not in RULES['tasks'] or not p.get('visit_id') or p.get('max_hint_stage',4)>3: raise ValueError('summary_task')
+        for k in ['foreground_ms','background_ms','feedback_ms']:
+            if type(p.get(k)) is not int or not 0<=p[k]<=7*86400000: raise ValueError('summary_duration')
     return record
 
 
@@ -119,6 +129,22 @@ class Handler(BaseHTTPRequestHandler):
         if self.path in ('/health','/v1/health'):
             self.server.db.execute('SELECT 1')
             return self.send(200,{'ok':True,'api_version':1,'schema_version':SCHEMA_VERSION,'retention_days':RETENTION_DAYS})
+        url=urlsplit(self.path)
+        if url.path in ('/v1/community/tasks','/v1/leaderboards'):
+            if not self.rate_ok(): return self.send(429,{'error':'rate_limit'})
+            try:
+                query=parse_qs(url.query,strict_parsing=True) if url.query else {}
+                if any(len(v)!=1 for v in query.values()): raise ValueError('duplicate_filter')
+                if set(query)-{'source','mode','level_id','ruleset_version','model_version','case_set_version'}: raise ValueError('unknown_filter')
+                source=query.get('source',['external_player'])[0]; mode=query.get('mode',['game'])[0]
+                if source not in ['external_player','automated','agent_native','developer','unknown'] or mode not in ['game','test']: raise ValueError('filter')
+                self.server.cleanup()
+                if url.path.endswith('/tasks'): return self.send(200,aggregate(self.server.db,source,mode))
+                key=query.get('level_id',[''])[0]
+                rule={k:query.get(k,[''])[0] for k in ['ruleset_version','model_version','case_set_version']}
+                return self.send(200,leaderboard(self.server.db,key,rule,source,mode))
+            except (ValueError,KeyError): return self.send(400,{'error':'invalid_query'})
+            except sqlite3.Error: return self.send(503,{'error':'storage_unavailable'})
         if self.path != '/admin/report': return self.send(404,{'error':'not_found'})
         token=self.headers.get('Authorization','')
         if not self.server.admin_token or not hmac.compare_digest(token,'Bearer '+self.server.admin_token):
@@ -147,6 +173,9 @@ class Handler(BaseHTTPRequestHandler):
             if prior and not hmac.compare_digest(prior[0],digest): return self.send(403,{'error':'client_token'})
             if db.execute("SELECT 1 FROM tombstones WHERE client_id=?",(client,)).fetchone():
                 return self.send(410,{"error":"identity_deleted"})
+            score_count=sum(r['kind']=='score' for r in records)
+            if score_count and db.execute("SELECT COUNT(*) FROM events WHERE client_id=? AND kind='score' AND received>?",(client,int(time.time())-60)).fetchone()[0]+score_count>12:
+                return self.send(429,{'error':'score_rate_limit'})
             prepared=[]
             for record in records:
                 encoded=json.dumps(record,sort_keys=True,separators=(',',':'),ensure_ascii=False)

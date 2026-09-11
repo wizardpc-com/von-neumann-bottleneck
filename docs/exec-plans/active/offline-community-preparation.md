@@ -52,3 +52,11 @@ owner's later domain/DNS/HTTPS/privacy/public-release decisions.
   Initial isolated full regression passed all 27 conventional suites; targeted new
   `test_visit_summary.gd` passes branch/delete/time/case-count/privacy boundaries.
   Final expanded integration and native UI checks remain below.
+
+- Stage 3: personal task record page, telemetry-independent official result journal,
+  read-only community API and one versioned experimental capstone board implemented.
+  `test_personal_records.gd` passes with telemetry disabled and unchanged progression.
+  Receiver/community contract tests pass, including an empty-query Python 3.9 fix.
+  Real four-process client loopback passes queue → resume/deduplicate → offline
+  deletion → resumed deletion. Evidence: `docs/verification/20260911-community-preparation/loopback-result.json`.
+  No server replay or public endpoint used. Native presentation review follows.

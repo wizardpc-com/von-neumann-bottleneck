@@ -58,6 +58,7 @@ func set_enabled(value: bool) -> bool:
 	return set_sharing_mode("detailed" if value else "local")
 func set_sharing_mode(value: String) -> bool:
 	if value not in ["local","basic","detailed"]: return false
+	if value==sharing_mode and consented_endpoint==endpoint and not deletion_pending: return _save_state()
 	if value != "local" and (deletion_pending or not endpoint_allowed()): status="not_configured"; status_changed.emit(); return false
 	if not inflight.is_empty() and request != null: request.cancel_request(); inflight.clear()
 	var retained: Array[Dictionary] = []
@@ -79,7 +80,7 @@ func _consent() -> void:
 		identity_deleted=false
 	consented_endpoint=endpoint
 	consent_timestamp=Time.get_datetime_string_from_system(true)+"Z"
-	if source_batch.is_empty(): source_batch=Crypto.new().generate_random_bytes(8).hex_encode()
+	if source_batch.is_empty(): source_batch=str(ProjectSettings.get_setting("application/feedback_source_batch","free-alpha")).left(64)
 func set_scores_enabled(value: bool) -> bool:
 	if value and (deletion_pending or not endpoint_allowed()): return false
 	scores_enabled=value
@@ -259,6 +260,22 @@ func delete_uploaded_data() -> void:
 func _exit_tree() -> void:
 	# Finish while the outbox still exists; never wait for HTTP during exit.
 	var store: Node = get_node_or_null("/root/PlaytestData")
-	if store != null: store.end_session()
+	if store != null and get_node_or_null("/root/RemoteFeedback")==self: store.end_session()
 	if request != null: request.cancel_request()
 	_save_state()
+
+func send_score(payload: Dictionary) -> String:
+	if not scores_enabled or deletion_pending or consented_endpoint!=endpoint or not endpoint_allowed(): return ""
+	var safe: Dictionary = minimal_context(payload)
+	for prefix: String in ["a","b"]:
+		for key: String in ["total_cycles","prepare_cycles","query_cycles","output_cycles","ram_read_bytes","ram_write_bytes","peak_extra_bytes"]:
+			var field: String = prefix+"_"+key
+			if payload.has(field): safe[field]=int(payload[field])
+	safe.merge(consent_metadata(),true); safe.sharing_mode="score"
+	var id: String = (client_id+JSON.stringify(safe)).sha256_text()
+	if receipts.has(id): return id
+	for item: Dictionary in queue:
+		if item.record.event_id==id: return id
+	if not _enqueue({"event_id":id,"kind":"score","payload":safe}): return ""
+	flush()
+	return id

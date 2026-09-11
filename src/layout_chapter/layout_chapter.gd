@@ -310,7 +310,7 @@ func _run_all() -> void:
 	trace_list.item_selected.connect(_trace_selected)
 	var all_correct: bool = true
 	for run: LayoutRun in runs: all_correct=all_correct and run.passed
-	PlaytestData.record_official_run(&"chapter_4",StringName(level),report.passed,{"case_count":runs.size(),"cases":case_rows,"correct":all_correct,"target_met":report.passed,"result_class":"target_met" if report.passed else "correct_but_slow" if all_correct else "runtime_error","cycles":LayoutChapter.cost(report),"model_version":S.MODEL_VERSION,"case_set_version":("layout-v1:"+level+JSON.stringify(C.cases(level))).sha256_text(),"recipe_digest":S.design_signature(design)})
+	PlaytestData.record_official_run(&"chapter_4",StringName(level),report.passed,{"strategy":str(design.get("strategy","direct")),"case_count":runs.size(),"cases":case_rows,"correct":all_correct,"target_met":report.passed,"result_class":"target_met" if report.passed else "correct_but_slow" if all_correct else "runtime_error","cycles":LayoutChapter.cost(report),"model_version":S.MODEL_VERSION,"case_set_version":("layout-v1:"+level+JSON.stringify(C.cases(level))).sha256_text(),"recipe_digest":S.design_signature(design)})
 	_select_trace(case_index)
 	_toggle("trace",true)
 	status.text=_l("全部订单达标 · 可以继续探索另一份方案。","All cases passed · try another design.") if report.passed else _l("查看结果：输出、时间与空间分别核对，再修改布局。","Inspect output, time and space separately, then adjust the layout.")

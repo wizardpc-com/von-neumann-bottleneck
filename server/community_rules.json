@@ -1,0 +1,63 @@
+{
+  "api_version": 1,
+  "boards": {
+    "chapter_4/mixed": {
+      "case_count": 2,
+      "case_set_version": "782ac833c729ff22be257dc78f6e1a6a890229f9aa43fb845201d712e58e25fc",
+      "cycle_floors": [
+        280,
+        126
+      ],
+      "cycle_limits": [
+        2450,
+        1550
+      ],
+      "model_version": "layout-memory-1",
+      "ruleset_version": "layout-mixed-1",
+      "scratch_limit": 160
+    }
+  },
+  "task_version": "tasks-20260910-v1",
+  "tasks": [
+    "hardware_foundations/tutorial",
+    "hardware_foundations/half_adder",
+    "hardware_foundations/full_adder",
+    "hardware_foundations/alu",
+    "hardware_foundations/latch",
+    "hardware_foundations/register",
+    "hardware_foundations/ram",
+    "hardware_foundations/cpu",
+    "hardware_foundations/load_store",
+    "hardware_foundations/selector",
+    "hardware_foundations/selector4",
+    "hardware_foundations/parity",
+    "hardware_foundations/delay",
+    "hardware_foundations/alarm",
+    "chapter_1/assembly",
+    "chapter_1/cpu_speed",
+    "chapter_1/ram_wait",
+    "chapter_1/bus_width",
+    "chapter_1/bottleneck",
+    "chapter_1/read_once",
+    "chapter_1/two_orders",
+    "chapter_2/distant_reads",
+    "chapter_2/nearby_storage",
+    "chapter_2/cache_failure",
+    "chapter_2/access_order",
+    "chapter_2/working_set",
+    "chapter_2/blocking",
+    "chapter_2/capstone",
+    "chapter_3/arrival",
+    "chapter_3/buffers",
+    "chapter_3/backpressure",
+    "chapter_3/prefetch",
+    "chapter_3/distance",
+    "chapter_3/synthesis",
+    "chapter_4/fields",
+    "chapter_4/records",
+    "chapter_4/hot_cold",
+    "chapter_4/relocation",
+    "chapter_4/batches",
+    "chapter_4/mixed"
+  ]
+}

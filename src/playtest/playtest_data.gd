@@ -1,6 +1,7 @@
 class_name PlaytestDataStore
 extends Node
 signal event_appended(event: Dictionary)
+signal official_result(event: Dictionary)
 var _visit_reducer = preload("res://src/playtest/visit_summary.gd").new()
 
 const SCHEMA_VERSION: int = 2
@@ -186,6 +187,9 @@ func record_official_run(
 		passed: bool,
 		details: Dictionary = {}
 	) -> bool:
+	var local_result: Dictionary = _safe_details(details)
+	local_result.merge({"chapter_id":String(chapter_id),"level_id":String(level_id),"passed":passed},true)
+	official_result.emit({"event":"official_run","mode":String(_current_mode()),"payload":local_result,"build_version":str(ProjectSettings.get_setting("application/config/version","development"))})
 	if not _can_record_level(chapter_id,level_id): return false
 	var payload: Dictionary = _safe_details(details)
 	payload["passed"] = passed

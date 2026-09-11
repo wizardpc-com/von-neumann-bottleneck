@@ -1,0 +1,3 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PACKAGE_CHECKS {"candidate_feature":true,"capture_disabled":true,"forty_tasks":true,"game_only":true,"isolated":true,"remote_default_off":true,"server_excluded":true,"tests_excluded":true}

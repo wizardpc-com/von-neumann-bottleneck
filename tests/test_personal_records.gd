@@ -16,7 +16,15 @@ func run() -> void:
 	store.telemetry_enabled=telemetry
 	var view: Node = load("res://src/playtest/personal_records_view.tscn").instantiate(); root.add_child(view)
 	await process_frame
-	check(view.data.total==40 and view.region_choice.item_count==6,"Offline record page shows all regions.")
+	check(view.data.total==40 and view.content.get_child_count()==5,"Offline completion board shows one card per region, no individual task rows.")
+	for locale: String in ["zh_CN","en"]:
+		root.get_node("Localization").set_locale(locale)
+		for width: float in [1280.0,960.0]:
+			view.size=Vector2(width,720)
+			await process_frame; await process_frame
+			var total: Label = view.find_child("CompletionTotal",true,false)
+			check(total.autowrap_mode==TextServer.AUTOWRAP_OFF and total.get_line_count()==1,"Completion count stays one line at supported widths.")
+			check(view.content.columns==(3 if width>=1250 else 2),"Regional cards adapt to available width.")
 	view.queue_free(); await process_frame
 	if failures.is_empty(): print("PASS: offline personal records, no progression authority, telemetry-independent local results")
 	else:

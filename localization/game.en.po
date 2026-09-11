@@ -6074,7 +6074,7 @@ msgid "moments.disabled"
 msgstr "Feedback is disabled for this launch. No answers are saved."
 
 msgid "tree.region.4"
-msgstr "Put data in its place"
+msgstr "05 Put data in its place"
 
 msgid "layout.hub.title"
 msgstr "Chapter 4: Put data in its place"
@@ -6384,3 +6384,12 @@ msgstr "Frame limit · 120"
 
 msgid "hub.settings.frame_display"
 msgstr "Frame limit · display refresh"
+
+msgid "records.board.completed"
+msgstr "Tasks completed"
+
+msgid "records.board.breakdown"
+msgstr "Main %d / %d   ·   Side %d / %d   ·   Bonus goals %d / %d"
+
+msgid "records.board.local_note"
+msgstr "Progress is saved on this device. Return to the task tree to choose your next challenge."

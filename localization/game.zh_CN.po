@@ -6383,3 +6383,12 @@ msgstr "画面帧率 · 120"
 
 msgid "hub.settings.frame_display"
 msgstr "画面帧率 · 跟随显示器"
+
+msgid "records.board.completed"
+msgstr "已完成任务"
+
+msgid "records.board.breakdown"
+msgstr "主线 %d / %d   ·   支线 %d / %d   ·   附加目标 %d / %d"
+
+msgid "records.board.local_note"
+msgstr "进度保存在本机。回到任务树，可以选择下一项挑战。"

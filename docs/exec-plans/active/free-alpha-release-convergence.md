@@ -16,3 +16,7 @@ Baseline main 773168f; preserve downloaded untracked plans and actual player dat
 No server deployment or Windows/novice acceptance claims. Commit coherent stages,
 record actual evidence, stop after the finite queue. Candidate identity must include
 its source commit; development checkout is labeled development, never a reused candidate.
+
+Latest approved UI refinement: personal board displays completion counts and five
+regional cards only; keep all individual tasks on the actual prerequisite tree.
+Reuse chapter artwork and colors, with readable labels and responsive columns.

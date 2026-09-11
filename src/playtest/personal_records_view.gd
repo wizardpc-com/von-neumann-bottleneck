@@ -1,6 +1,5 @@
 extends Control
-var content: VBoxContainer
-var region_choice: OptionButton
+var content: GridContainer
 var data: Dictionary
 var online_status: Label
 var online: HTTPRequest
@@ -18,17 +17,21 @@ func _ready() -> void:
 	var title := Label.new(); title.text=Localization.text(&"records.my_task_record"); title.add_theme_font_size_override("font_size",30); header.add_child(title)
 	header.add_child(PlaytestMoments.make_button())
 	data=PersonalRecords.snapshot()
-	_label(box,Localization.text(&"records.d_d_complete_main_d_d_side_d_d_bonus_d_d") % [data.completed,data.total,data.main_completed,data.main_total,data.side_completed,data.side_total,data.bonus_completed,data.bonus_total])
-	_label(box,Localization.text(&"records.progress_comes_from_local_saves_d_saved_designs_unrecorded_historica") % data.saved_schemes)
-	region_choice=OptionButton.new(); region_choice.add_item(Localization.text(&"records.all_regions"))
-	region_choice.set_item_metadata(0,-1)
-	for region: Dictionary in data.regions:
-		region_choice.add_item(Localization.text(StringName(region.title_key))+"   %d / %d" % [region.completed,region.total])
-		region_choice.set_item_metadata(region_choice.item_count-1,region.id)
-	region_choice.item_selected.connect(func(_index: int) -> void: _rows()); box.add_child(region_choice)
+	var overview := PanelContainer.new(); box.add_child(overview)
+	var summary := HBoxContainer.new(); summary.add_theme_constant_override("separation",28); overview.add_child(summary)
+	var count := _label(summary,"%d / %d" % [data.completed,data.total])
+	count.name="CompletionTotal"; count.autowrap_mode=TextServer.AUTOWRAP_OFF
+	count.add_theme_font_size_override("font_size",52)
+	var detail := VBoxContainer.new(); detail.size_flags_horizontal=Control.SIZE_EXPAND_FILL; summary.add_child(detail)
+	_label(detail,Localization.text(&"records.board.completed")).add_theme_font_size_override("font_size",24)
+	_label(detail,Localization.text(&"records.board.breakdown") % [data.main_completed,data.main_total,data.side_completed,data.side_total,data.bonus_completed,data.bonus_total])
 	var scroll := ScrollContainer.new(); scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL; scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; box.add_child(scroll)
-	content=VBoxContainer.new(); content.size_flags_horizontal=Control.SIZE_EXPAND_FILL; content.add_theme_constant_override("separation",8); scroll.add_child(content)
-	_rows()
+	content=GridContainer.new(); content.name="RegionCards"; content.columns=3
+	content.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("h_separation",16); content.add_theme_constant_override("v_separation",16); scroll.add_child(content)
+	for region: Dictionary in data.regions: _region_card(region)
+	resized.connect(_fit_columns); _fit_columns()
+	_label(box,Localization.text(&"records.board.local_note"))
 	if not RemoteFeedback.endpoint_allowed(): return
 	var fold := CheckButton.new(); fold.name="CommunityToggle"; fold.text=Localization.text(&"records.optional_community_connects_only_when_requested"); box.add_child(fold)
 	var community := VBoxContainer.new(); community.hide(); box.add_child(community); fold.toggled.connect(func(value: bool) -> void: community.visible=value)
@@ -45,23 +48,34 @@ func _ready() -> void:
 	online_status=_label(online_scroll,Localization.text(&"records.no_service_configured_in_this_build_personal_records_always_work_off"))
 	online_status.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	online=HTTPRequest.new(); online.timeout=8; online.body_size_limit=131072; add_child(online); online.request_completed.connect(_received)
-func _rows() -> void:
-	for child: Node in content.get_children(): child.queue_free()
+func _fit_columns() -> void:
+	if is_instance_valid(content): content.columns=3 if size.x>=1250.0 else (2 if size.x>=840.0 else 1)
+
+func _region_card(region: Dictionary) -> void:
+	var colors: Array = preload("res://src/campaign/task_tree_canvas.gd").COLORS
+	var accent: Color = colors[posmod(int(region.id),colors.size())]
+	var panel := PanelContainer.new(); panel.name="Region%d" % region.id
+	panel.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("11212d"),Color(accent,0.55),6))
+	content.add_child(panel)
+	var box := VBoxContainer.new(); box.add_theme_constant_override("separation",10); panel.add_child(box)
+	var title := _label(box,Localization.text(StringName(region.title_key)))
+	title.add_theme_font_size_override("font_size",23)
+	title.add_theme_color_override("font_color",Color("ecf3fa"))
+	var emblem := ChapterEmblem.new(); emblem.accent=accent
+	var domains: Dictionary = {"hardware_foundations":&"hardware","chapter_1":&"system","chapter_2":&"locality","chapter_3":&"overlap","chapter_4":&"layout"}
 	for task: Dictionary in data.tasks:
-		if region_choice.selected>0 and task.region!=region_choice.get_item_metadata(region_choice.selected): continue
-		var panel := PanelContainer.new(); content.add_child(panel)
-		var row := HBoxContainer.new(); row.add_theme_constant_override("separation",14); panel.add_child(row)
-		var title := _label(row,("✓  " if task.completed else "○  ")+task.title+(Localization.text(&"records.side") if task.optional else ""))
-		title.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		title.add_theme_color_override("font_color",Color("87dcc8") if task.completed else Color("bac7db"))
-		var values: PackedStringArray = []
-		for metric: String in task.record_metrics:
-			if task.best.has(metric): values.append(Localization.text(StringName("records.metric."+metric)) % int(task.best[metric]))
-		var score: String = " · ".join(values) if not values.is_empty() else "—"
-		var metrics := _label(row,Localization.text(&"records.best_s_designs_d") % [score,task.saved_schemes])
-		metrics.custom_minimum_size.x=300
-		metrics.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		_button(row,Localization.text(&"records.feedback"),func() -> void: PlaytestMoments.open_for_task(task.domain,task.id))
+		if task.region==region.id:
+			emblem.chapter=domains.get(str(task.domain),&"hardware"); break
+	box.add_child(emblem)
+	var count := _label(box,"%d / %d" % [region.completed,region.total])
+	count.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER; count.add_theme_font_size_override("font_size",32)
+	var progress := ProgressBar.new(); progress.max_value=maxi(1,region.total); progress.value=region.completed
+	progress.show_percentage=false; progress.custom_minimum_size.y=6
+	progress.add_theme_stylebox_override("background",InstrumentTheme.panel(Color("07141d"),Color.TRANSPARENT,3))
+	progress.add_theme_stylebox_override("fill",InstrumentTheme.panel(accent,Color.TRANSPARENT,3))
+	box.add_child(progress)
+
 func _fetch(kind: String) -> void:
 	if not RemoteFeedback.endpoint_allowed(): online_status.text=Localization.text(&"records.community_service_not_configured_offline_play_is_complete"); return
 	request_kind=kind

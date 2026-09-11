@@ -44,12 +44,31 @@ colors. Full regression after this change: `20260911T111205Z-1665736f`, all suit
 pass ([results](board-regression-results.json)). Native Chinese inspection then
 caught a total-count label wrapping vertically and squeezing the cards; disabling
 wrap on that numeric label fixed it. A focused 1280/960-width test passes in both
-locale settings ([log](board-final-test.log)). Final native English Game → task tree
+locale settings ([log](board-final-test.txt)). Final native English Game → task tree
 → personal board shows a single-line 1/40 and all five cards. F11 windowed and Escape
 return to the unchanged tree both work. The above earlier per-task-row observation
 is historical; the shipping page is now the completion board.
 
 ## Frozen candidate
 
-Exact content commit, generated build identity and package checks are appended after
-export. No public upload, DNS, server configuration, account or store action occurs.
+Frozen content: `9f8c34fac4fbdb08a6eb5370456b7923a801924f`.
+Build: `free-alpha-9f8c34fac4fb`. Both local archives are in
+`build/free-alpha-9f8c34fac4fb/`; [manifest and SHA256](candidate-manifest.json).
+The final evidence-only documentation commit is separate from this content identity.
+
+`check-candidate-identity.py` passes archive CRC, all file hashes, source/build IDs,
+archive names and packaged notices, before and after native QA. The actual Mac
+release-binary [probe](mac-package-probe.json) passes exported project identity,
+40 tasks, Game-only/capture restrictions, remote off and development files excluded.
+It denies access to the real player directory and uses a new Checks profile.
+Windows PE architecture is x86_64; no Windows machine was used.
+
+A separately identified/ad-hoc-signed QA copy opened the ordinary Chinese Game hub
+with the matching visible build label. F11 changed to windowed mode and normal
+quit exited 0. CUA repeatedly returned `noWindowsAvailable` on mouse clicks even
+though screenshots and keyboard were accessible. Consequently this does **not**
+accept exported-candidate mouse navigation or the new board interaction. Source
+native board observations remain separate above. [Observation record](candidate-native-observations.json).
+Delivery archives were not modified by the QA copy's identity/signature changes.
+
+No public upload, DNS, server configuration, account or store action occurred.

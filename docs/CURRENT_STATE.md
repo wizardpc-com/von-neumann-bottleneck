@@ -33,6 +33,9 @@ full source commit into the exported project settings, manifests, README, change
 notes and ZIP names. A frozen identity cannot be overwritten. The game shows that
 same ID; the release-binary probe checks it against its adjacent manifest.
 
+Current frozen artifact: **free-alpha-9f8c34fac4fb**, content commit **9f8c34f**.
+Later evidence-only commits do not rename or overwrite those archives.
+
 Latest convergence evidence and the exact frozen artifact:
 [release convergence verification](verification/20260911-release-convergence/README.md).
 Earlier dated reports are historical and do not establish acceptance of this build.

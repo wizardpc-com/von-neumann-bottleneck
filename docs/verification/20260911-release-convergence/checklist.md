@@ -8,6 +8,6 @@
 - [x] Chinese/English, offline record page without community buttons.
 - [x] Native menu/Continue/restart/window checks.
 - [x] Full isolated suites and normal Game input replay.
-- [ ] One frozen content commit, matching exported project/game/ZIP/manifests/notes.
-- [ ] Actual Mac release binary identity and offline boundary check.
+- [x] One frozen content commit, matching exported project/game/ZIP/manifests/notes.
+- [x] Actual Mac release binary identity and offline boundary check.
 - [x] Document external Windows/Mac/novice/focus gates without claiming completion.

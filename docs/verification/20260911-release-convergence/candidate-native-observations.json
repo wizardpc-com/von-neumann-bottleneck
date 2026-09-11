@@ -1,0 +1,18 @@
+{
+  "build_id": "free-alpha-9f8c34fac4fb",
+  "native_mac": {
+    "ordinary_game_home": true,
+    "visible_build_id_matches": true,
+    "F11_windowed": true,
+    "normal_quit_exit": 0,
+    "mouse_navigation": "Not accepted: CUA noWindowsAvailable repeatedly; source native board interaction passed separately",
+    "qa_copy_identity": "com.wizardpc.vnb.releaseqa.ebf06550f014",
+    "qa_copy_only_resigned": true,
+    "delivery_archives_unchanged_after_qa": true
+  },
+  "windows": {
+    "PE_x86_64": true,
+    "native": "Pending"
+  },
+  "external_novice": "Pending"
+}

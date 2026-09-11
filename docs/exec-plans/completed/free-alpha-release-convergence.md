@@ -1,4 +1,4 @@
-# Free Alpha release convergence — 2026-09-11
+# Free Alpha release convergence — completed 2026-09-11
 
 Approved bounded scope: nine audit repairs, no new content, rules, servers or public release.
 Baseline main 773168f; preserve downloaded untracked plans and actual player data.
@@ -20,3 +20,9 @@ its source commit; development checkout is labeled development, never a reused c
 Latest approved UI refinement: personal board displays completion counts and five
 regional cards only; keep all individual tasks on the actual prerequisite tree.
 Reuse chapter artwork and colors, with readable labels and responsive columns.
+
+Finite implementation and isolated regression complete. Frozen Mac/Windows candidate
+`free-alpha-9f8c34fac4fb` passes identity checks. Native source board/Continue and Mac
+export hub/F11/quit were observed; candidate mouse control and external platform,
+focus/DPI and novice gates remain explicitly pending in RELEASE_BLOCKERS.md.
+No public release. See docs/verification/20260911-release-convergence/README.md.

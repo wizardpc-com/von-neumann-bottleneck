@@ -58,3 +58,21 @@ not resolve the full active goal or final candidate delivery.
 English Tutorial follow-up also passed 212/0; rendered H1 explanation/actions
 inspected. Stage 1 is ready for its reviewable commit. The remaining stage queue
 above is intentionally still active; do not treat this checkpoint as goal completion.
+
+Bilingual continuation: native Chapter 4 source play in Chinese and English confirms
+that concatenated field/record labels (Battery10) need separation. The memory grid
+also had a Chinese-only tooltip and fixed unwrapped captions. Separate field, source
+record and value, wrap captions without scaling down text, keep four cells per real
+16 B row, and allow horizontal scrolling only when that grid cannot fit. Long
+floating titles trim with a full tooltip instead of expanding the window minimum.
+Scope remains presentation and explanatory wording; mapping, costs and rules stay
+unchanged. Verify both languages, resized diagrams, source identity/hit selection
+and native run feedback before committing this stage.
+
+Bilingual checkpoint verified: Chinese/English native 4-1 saved-design runs retain
+49/73 cycles; memory caption height settling and tiny record labels were corrected
+from checks/screens. Final typography, localization and layout-host checks pass;
+ordinary Tutorial replay is 212/0 in each locale. See
+[follow-up evidence](../../verification/20260913-bilingual-memory/README.md).
+This closes the scoped bilingual memory/window pass. The broader CPU and Chapters
+1–3 native iteration/final-candidate queue above remains open.

@@ -5170,7 +5170,7 @@ msgid "exploration.delay.accept"
 msgstr "接收 DATA=%s · OUT 取上一份"
 
 msgid "overlap.title"
-msgstr "第 3 章 · 与等待并行"
+msgstr "第 3 章：与等待并行"
 
 msgid "overlap.map"
 msgstr "关卡树"
@@ -6452,3 +6452,24 @@ msgstr "确认"
 
 msgid "overlap.hub.eyebrow"
 msgstr "缓冲 · 反压 · 预取"
+
+msgid "layout.memory.legend"
+msgstr "每格 4 B · 每行 16 B\n# 为原记录编号；空白格为对齐空间"
+
+msgid "layout.memory.cell_tooltip"
+msgstr "%s · 原记录 #%d\n值：%d · 地址：%d B"
+
+msgid "layout.mission.window_title"
+msgstr "任务与公开订单"
+
+msgid "layout.mission.begin"
+msgstr "开始安排 · 收起任务"
+
+msgid "layout.mission.read_grid"
+msgstr "四种颜色对应四个字段，# 是原记录编号。每格 4 B，每行 16 B。先看查询需要什么，再决定哪些字段相邻。"
+
+msgid "layout.mission.cache_rules"
+msgstr "每次从空缓存开始，同一订单内保留缓存。\n查询结果必须与原始数据的计算结果一致。"
+
+msgid "layout.tools.window_title"
+msgstr "布局工具"

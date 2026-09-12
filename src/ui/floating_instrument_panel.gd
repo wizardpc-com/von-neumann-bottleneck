@@ -58,8 +58,11 @@ func setup(id: StringName, title_text: String) -> void:
 	root.add_child(rule)
 	var title := Label.new()
 	title.text = title_text
+	title.name = "WindowTitle"
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	title.tooltip_text = title_text
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title.mouse_filter = Control.MOUSE_FILTER_PASS
 	title.add_theme_font_size_override("font_size", UiTypographyType.WINDOW_TITLE_SIZE)
 	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", Color("e6f1f5"))

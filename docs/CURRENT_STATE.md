@@ -8,6 +8,11 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Current behavior
 
+Latest bilingual follow-up separates memory field/record/value, localizes cell
+inspection, keeps measurement units together and makes long captions follow window
+width. Shared instrument headings trim with a full tooltip. Native Chinese/English
+layout runs preserve the same results; [evidence and boundaries](verification/20260913-bilingual-memory/README.md).
+
 Ongoing spatial-UI/player iteration: raised chapter surfaces, static ambient depth,
 narrow-card emblem containment and task-tree region trays. Native Tutorial review
 found Hint expansion replacing its explanation with ordinary briefing; fixed while

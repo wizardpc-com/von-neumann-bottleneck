@@ -1,0 +1,26 @@
+{
+  "source_qa_profile": "five-chapter-20260910",
+  "play_profile": "spatial-deep-20260913",
+  "source_files": 18,
+  "original_qa_unchanged": true,
+  "original_qa_hashes": {
+    "hardware_workbenches_v1.json": "e996ee89c4738164ce7c6c118f658e1d6e1c0428a012f77d259cdeb1e76bbf22",
+    "savegame_v1.json": "e5ee469b0c8fb6819169860015e6df843165c867385af6030559414a4dd9aa6b",
+    "savegame_v1.json.bak": "e5ee469b0c8fb6819169860015e6df843165c867385af6030559414a4dd9aa6b",
+    "logs/godot2026-09-11T00.28.50.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+    "logs/godot.log": "4577ea52e09b37aa5413de3064f512f43fce2bf93867933530cf72add2118906",
+    "logs/godot2026-09-11T00.55.08.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+    "logs/godot2026-09-11T01.07.25.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+    "logs/godot2026-09-11T00.39.08.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+    "playtest_data/session_20260910-165509-f1fa13741d62918a.jsonl": "b7345aca22def575c87fa357737597c49f8edc162cec50ae0a1e60b069e304d7",
+    "playtest_data/session_20260910-152435-87b59762fcec35c2.jsonl": "107c63eca08bf53fd396084739cc49157a13ac99360d1fe59d5d86ae792f9a5b",
+    "playtest_data/session_20260910-161143-72807c12aada3833.jsonl": "168c7550fc2c65ce3a89345dcbbcff6df024f13027a7ba49276ec68a167daf1c",
+    "playtest_data/session_20260910-154145-88d824f2cd825b6a.jsonl": "a2d58a6a74b7f6d3c4fef7940cd74b1445fe57e612d42794c96f8773c9f77c24",
+    "playtest_data/session_20260910-153344-d88d3c63ee1f63f8.jsonl": "545087fe1b8243e869ed5a7e655bc5c5d27ae75818e92be3384601c47ad5dcfb",
+    "playtest_data/session_20260910-152848-622095c7fcd0c4f9.jsonl": "b7bc157023d78176351710dee48147c9984015bea31d5fd87cc5b95a4e5148f2",
+    "playtest_data/session_20260910-153558-49f210f5cd85e00e.jsonl": "775d7183550fd2e54e5233c6d640c512713834db4d41ccd7c31669ba4ecb06a8",
+    "playtest_data/session_20260910-152222-0ccfee258b5a56d1.jsonl": "5e650c8bf946c053ade253565cf37f2a4d43373865c85d44fc247f785e7b6923",
+    "playtest_data/session_20260910-162850-9ce6df7a4aa25436.jsonl": "a3027809592cb9bb9093fe3dc673b9c2d8c21645a3698d45880da0c6626dd0ea",
+    "playtest_data/session_20260910-153139-5be83535c6d01af6.jsonl": "d51ed3164984e71296bb4d1b05c324a1332b18782e8ef3a02c750d1ea55603ad"
+  }
+}

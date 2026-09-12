@@ -127,7 +127,7 @@ msgid "hub.hardware.description"
 msgstr "Wire gates into circuits that calculate and remember.\n\nUse what you build to make something larger."
 
 msgid "hub.hardware.play"
-msgstr "Enter the Prologue"
+msgstr "Enter the prologue"
 
 msgid "hub.system.title"
 msgstr "Chapter 1: Where Time Goes"
@@ -139,7 +139,7 @@ msgid "hub.system.description"
 msgstr "The machine works.\n\nFind where it waits. Change one factor, then check your prediction."
 
 msgid "hub.system.open"
-msgstr "Open Chapter Map"
+msgstr "Open chapter map"
 
 msgid "hub.system.locked"
 msgstr "Complete Hardware Prologue LOAD/STORE in Game mode first, or enter directly in Test mode."
@@ -160,7 +160,7 @@ msgid "hub.locality.description"
 msgstr "Move less data. Get the same result.\n\nExplore caches, access order and blocking to use each fetch more fully."
 
 msgid "hub.locality.open"
-msgstr "Open Chapter Map"
+msgstr "Open chapter map"
 
 msgid "hub.note"
 msgstr "Each circuit you build puts another tool in your hands."
@@ -5170,7 +5170,7 @@ msgid "exploration.delay.accept"
 msgstr "Accept DATA=%s · OUT takes the previous value"
 
 msgid "overlap.title"
-msgstr "Chapter 3 · In the Meantime"
+msgstr "Chapter 3: In the Meantime"
 
 msgid "overlap.map"
 msgstr "Level tree"
@@ -6453,3 +6453,24 @@ msgstr "Confirm"
 
 msgid "overlap.hub.eyebrow"
 msgstr "Buffers · Backpressure · Prefetch"
+
+msgid "layout.memory.legend"
+msgstr "4 B per cell · 16 B per line\n# is the source record; blank cells are padding."
+
+msgid "layout.memory.cell_tooltip"
+msgstr "%s · source record #%d\nValue: %d · address: %d B"
+
+msgid "layout.mission.window_title"
+msgstr "Task and test cases"
+
+msgid "layout.mission.begin"
+msgstr "Start arranging · hide task"
+
+msgid "layout.mission.read_grid"
+msgstr "Colors identify the four fields; # marks the source record. Each cell is 4 B; each row is 16 B. Check what the query needs, then choose which fields to place together."
+
+msgid "layout.mission.cache_rules"
+msgstr "Each test case starts with an empty cache and keeps it until the case ends. Query results must exactly match those computed from the original data."
+
+msgid "layout.tools.window_title"
+msgstr "Layout tools"

@@ -1,3 +1,10 @@
+Unreleased — bilingual memory and window typography
+- Separate memory field, source record and value; localize cell inspection.
+- Wrap long diagram captions, preserve readable grid type, and keep units together.
+- Shorten layout tool headings and keep long floating titles clear of controls.
+- Clarify Chinese/English layout instructions; preserve all simulation and task rules.
+- Source/native/render evidence: docs/verification/20260913-bilingual-memory/README.md.
+
 Spatial interface iteration — @BUILD_ID@
 Source: @SOURCE_COMMIT@
 - Raised chapter surfaces, restrained ambient backdrop and layered existing chapter emblems.

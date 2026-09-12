@@ -1,0 +1,26 @@
+[
+  {
+    "name": "copy-import",
+    "passed": true,
+    "exit": 0,
+    "log": "copy-import.txt"
+  },
+  {
+    "name": "copy-localization",
+    "passed": true,
+    "exit": 0,
+    "log": "copy-localization.txt"
+  },
+  {
+    "name": "typography-final",
+    "passed": true,
+    "exit": 0,
+    "log": "typography-final.txt"
+  },
+  {
+    "name": "copy-mission-render",
+    "passed": true,
+    "exit": 0,
+    "log": "copy-mission-render.txt"
+  }
+]

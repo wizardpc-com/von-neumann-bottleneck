@@ -53,10 +53,10 @@ full source commit into the exported project settings, manifests, README, change
 notes and ZIP names. A frozen identity cannot be overwritten. The game shows that
 same ID; the release-binary probe checks it against its adjacent manifest.
 
-Current frozen artifact: **free-alpha-427512c5a504**, content commit **427512c**.
+Current frozen artifact: **free-alpha-aa755796594a**, content commit **aa75579**.
 Later evidence-only commits do not rename or overwrite those archives.
-[Current verification and package hashes](verification/20260912-tree-polish/README.md).
-Earlier candidates, including `free-alpha-80105a7f5ea6`, and their reports are historical.
+[Current verification and package hashes](verification/20260912-chinese-copy/README.md).
+Earlier candidates, including `free-alpha-427512c5a504` and `free-alpha-80105a7f5ea6`, and their reports are historical.
 The latest package remains offline by default and has not been publicly released.
 
 ## What remains

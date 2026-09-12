@@ -31,4 +31,4 @@ Retain the capstone first-experiment scope and parity's one-then-two-bit counter
 
 Rendered review also exposed an existing overlap between selector and parity in the legacy prologue map: same branch and depth placed both buttons on top of one another. Assign distinct display columns only; preserve prerequisite depth, edges and unlocking. Regression and fresh rendered replay cover this narrow UI correction.
 
-Status: implementation, independent checks, full suites and rendered/native review complete. Candidate export/identity receipt is the final remaining delivery step. No gameplay, model, save or existing English changes.
+Status: COMPLETE. Implementation, independent checks, full suites, rendered/native review and candidate export/identity receipt complete. Frozen content aa755796594a; see docs/verification/20260912-chinese-copy/README.md for evidence and remaining platform gates. No gameplay, model, save or existing English changes.

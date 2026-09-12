@@ -1,0 +1,20 @@
+{
+  "build_id": "free-alpha-7a18f039dc20",
+  "source_commit": "7a18f039dc20f530576e55ac523caa68aa8d6107",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "created_utc": "20260912T145209Z-7a18f039",
+  "public_release": false,
+  "upload_default": false,
+  "platforms": {
+    "macOS": {
+      "zip": "Von-Neumann-Bottleneck-macOS-free-alpha-7a18f039dc20.zip",
+      "bytes": 77919923,
+      "sha256": "835b5a5c536fc9e3a3781ca59be98d81be655cc8429bfc84102773d885e83a57"
+    },
+    "Windows": {
+      "zip": "Von-Neumann-Bottleneck-Windows-free-alpha-7a18f039dc20.zip",
+      "bytes": 55451395,
+      "sha256": "8481417ade88a01cde6c5c281b1accf02c195adc36874304e24ab567ae583ae7"
+    }
+  }
+}

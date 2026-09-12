@@ -1,4 +1,4 @@
-# Bilingual voice and scalable text
+# Bilingual voice and scalable text — COMPLETED
 
 Goal: review Chinese copy/layout and adapt English titles, intros and transitions
 with natural English idiom, matching the Chinese editorial intent rather than its
@@ -36,5 +36,6 @@ screen-space map text, meaningful short-title fallback and responsive hub.
 Final full isolated suites and English ordinary Game pass; Chinese replay and
 final bilingual rendering pass with exact revision boundaries in the evidence.
 Native homepage/locale/fullscreen/zoom/selection inspected. Native pan remains an
-explicit tool/acceptance gap. Next: freeze a local candidate, verify identity and
-release binary boundary, update artifact pointer and archive this plan.
+explicit tool/acceptance gap. Candidate free-alpha-7a18f039dc20 frozen; identity/file hashes and actual Mac
+release-binary boundary passed. Artifact pointers updated. Windows/native pan,
+exported mouse, external readers and mixed DPI remain explicit acceptance gaps.

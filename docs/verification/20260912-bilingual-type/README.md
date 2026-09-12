@@ -122,3 +122,14 @@ Native observations above used computer use; those captures use the render test.
 Pending: Windows real machine, another Mac/install/notarization, mixed DPI and long
 focus sessions, exported-package mouse navigation, and external English/Chinese
 readers. No claim of universal text clarity or beginner comprehension is made.
+
+### Frozen local candidate
+
+`free-alpha-7a18f039dc20`, content `7a18f039dc20f530576e55ac523caa68aa8d6107`.
+Both platform ZIPs are under `build/free-alpha-7a18f039dc20/`.
+`candidate-manifest.json` contains their exact hashes. Identity checker passed for
+archive names, all packaged files and notes. `mac-package-result.json` records the
+actual release binary probe: correct identity, Game-only mode, 40 tasks, empty remote
+endpoint, upload off, excluded development files and isolated user directory.
+The binary and PCK were not modified by that QA probe. This is not a release-binary
+mouse or Windows-native acceptance. No public release or server deployment occurred.

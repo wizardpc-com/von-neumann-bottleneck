@@ -31,6 +31,9 @@ func _run() -> void:
 	_assert(StringName(main.get("current_phase")) == &"campaign", "Sealed HalfAdder must lead to the session campaign map.")
 	var campaign_map: Control = main.get("campaign_map_view")
 	_assert(campaign_map != null and is_instance_valid(campaign_map), "Campaign selection must use the central graphical dependency map.")
+	var depths: Dictionary = campaign_map.get("level_depths")
+	_assert(depths[&"selector"] == depths[&"parity"], "Parallel applications retain the same prerequisite depth.")
+	_assert(campaign_map.call("level_position", &"selector") != campaign_map.call("level_position", &"parity"), "Parallel applications must not cover each other's title or click target.")
 	_assert(
 		StringName(campaign_map.call("level_state", &"full_adder")) == &"unlocked"
 		and StringName(campaign_map.call("level_state", &"latch")) == &"unlocked"

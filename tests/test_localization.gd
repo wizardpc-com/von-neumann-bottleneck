@@ -50,10 +50,10 @@ func _run() -> void:
 	var undo_key: String = "⌘Z" if OS.get_name() == "macOS" else "Ctrl+Z"
 	_assert(_t(&"hardware.toolbar.undo_wire.tooltip").contains(undo_key),
 		"Hardware shortcut hints must use the current platform's primary modifier.")
-	_assert(_t(&"hub.subtitle") == "从第一根线，到一台能计算的机器。再让它更快。", "The default hub must identify the restored build-to-data-movement route.")
+	_assert(_t(&"hub.subtitle") == "从一根线开始，搭出能计算的机器，再让它更快。", "The default hub must identify the restored build-to-data-movement route.")
 	_assert(_t(&"hub.options.quit") == "退出游戏", "The chapter Options menu must provide a localized quit action.")
 	_assert(_t(&"terminology.button") == "手册", "The Chinese bottom-right handbook entry must use the concise shared tool-button label.")
-	_assert(_t(&"hub.locality.title") == "第 2 章：让数据留在近处", "The hub must present the locality campaign as the formal second chapter.")
+	_assert(_t(&"hub.locality.title") == "第 2 章：少走远路", "The hub must present the locality campaign as the formal second chapter.")
 	_assert("v0.2" not in _t(&"hub.locality.eyebrow") and "v0.2" not in _t(&"hub.locality.open"), "The formal Chapter 2 hub card must not retain legacy-prototype identity copy.")
 	_assert(_t(&"trace.playback.next_evidence") == "下一关键证据" and _t(&"trace.playback.finish_now") == "结束播放", "The Chinese Trace controls must name evidence navigation rather than simulation mutation.")
 	_assert(_t(&"common.clock_period.label") == "播放频率" and _t(&"common.clock_period.tooltip").contains("Hz") and _t(&"common.clock_period.tooltip").contains("不改变模拟结果"), "The Chinese playback control must describe editable Hz as presentation-only.")

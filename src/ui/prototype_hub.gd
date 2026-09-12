@@ -175,7 +175,7 @@ func _build_interface() -> void:
 		&"locality"
 	))
 	cards.add_child(_build_card(
-		Localization.text(&"overlap.title"), Localization.text(&"overlap.branch.3"),
+		Localization.text(&"overlap.title"), Localization.text(&"overlap.hub.eyebrow"),
 		Localization.text(&"overlap.map_goal"), Localization.text(&"overlap.map"), PURPLE,
 		"res://src/overlap_chapter/overlap_chapter.tscn", &"overlap"
 	))

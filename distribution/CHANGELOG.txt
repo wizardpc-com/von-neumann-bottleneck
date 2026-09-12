@@ -1,3 +1,10 @@
+Chinese editorial audit — @BUILD_ID@
+Source: @SOURCE_COMMIT@
+- 凝练五章与应用任务标题，精简开场、收获和转场说明。
+- 保留技术规格、数字、提示层级；补齐第三章技术副标题。
+- 修正序章旧地图两个同层支线任务相互遮挡的问题。
+- Existing English, simulation, progression and save rules unchanged.
+
 Task tree clarity — @BUILD_ID@
 Source: @SOURCE_COMMIT@
 - Separate padded task card, fixed actions and stronger available-task emphasis.

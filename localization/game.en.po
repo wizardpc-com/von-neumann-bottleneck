@@ -6450,3 +6450,6 @@ msgstr "Basic statistics include task time, completion, edit/test counts, Hint l
 
 msgid "common.confirm"
 msgstr "Confirm"
+
+msgid "overlap.hub.eyebrow"
+msgstr "Synthesis"

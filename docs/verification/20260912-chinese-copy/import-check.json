@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "decisions": 82,
+  "changed_po_entries": 108,
+  "layout_titles": 6,
+  "compact_titles": 26,
+  "existing_english_changes": 0,
+  "protected_token_changes": 0,
+  "counts": {
+    "manual_replace": 59,
+    "unchanged": 5,
+    "reverted_to_baseline": 10,
+    "adopted_mimo": 8
+  }
+}

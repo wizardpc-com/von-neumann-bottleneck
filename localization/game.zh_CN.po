@@ -76,7 +76,7 @@ msgid "window.fullscreen.tooltip"
 msgstr "切换全屏显示（F11 或 Alt+Enter）"
 
 msgid "hub.subtitle"
-msgstr "从第一根线，到一台能计算的机器。再让它更快。"
+msgstr "从一根线开始，搭出能计算的机器，再让它更快。"
 
 msgid "hub.save.continue"
 msgstr "继续游戏"
@@ -118,25 +118,25 @@ msgid "hub.options.quit"
 msgstr "退出游戏"
 
 msgid "hub.hardware.title"
-msgstr "硬件序章：构建 CPU"
+msgstr "序章：一线成机"
 
 msgid "hub.hardware.eyebrow"
 msgstr "序章 · 逻辑 / 运算 / 存储"
 
 msgid "hub.hardware.description"
-msgstr "亲手接线，让逻辑门学会计算和记忆。\n\n每完成一个电路，就把它变成下一次构建的工具。"
+msgstr "亲手接线，让门电路完成计算、保存状态。\n\n把做好的电路收入工具箱，继续搭建更大的机器。"
 
 msgid "hub.hardware.play"
 msgstr "进入 CPU 构建序章"
 
 msgid "hub.system.title"
-msgstr "第 1 章：等待数据"
+msgstr "第 1 章：时间的去处"
 
 msgid "hub.system.eyebrow"
 msgstr "CPU · RAM · BUS"
 
 msgid "hub.system.description"
-msgstr "你的计算机已经会工作了。\n\n观察它在哪里等待，用一次改变验证自己的判断。"
+msgstr "机器已经运转。\n\n找出时间耗在哪里：每次改动一个因素，再用结果验证判断。"
 
 msgid "hub.system.open"
 msgstr "进入章节地图"
@@ -151,19 +151,19 @@ msgid "hardware.prologue.open_system"
 msgstr "用我的 CPU 与 RAM 进入第 1 章"
 
 msgid "hub.locality.title"
-msgstr "第 2 章：让数据留在近处"
+msgstr "第 2 章：少走远路"
 
 msgid "hub.locality.eyebrow"
 msgstr "缓存 · 局部性 · 工作集"
 
 msgid "hub.locality.description"
-msgstr "更少搬运，同样的结果。\n\n探索缓存、访问顺序和分块，让数据在需要时就在附近。"
+msgstr "少搬数据，结果不变。\n\n调整缓存、访问顺序和分块，让刚取回的数据多用几次。"
 
 msgid "hub.locality.open"
 msgstr "进入章节地图"
 
 msgid "hub.note"
-msgstr "每一个亲手完成的电路，都是下一步的起点。"
+msgstr "亲手搭起的电路，是下一步的积木。"
 
 msgid "device.program"
 msgstr "程序"
@@ -832,7 +832,7 @@ msgid "circuit.error.circular_dependency"
 msgstr "循环依赖：%s 在同一个仿真 tick 内形成反馈。"
 
 msgid "hardware.title"
-msgstr "硬件基础 · 构建计算机"
+msgstr "序章 · 一线成机"
 
 msgid "hardware.subtitle"
 msgstr "序章：逻辑门 → 运算与存储 → 小计算机"
@@ -1540,13 +1540,13 @@ msgid "hardware.prologue.map.phase"
 msgstr "硬件基础 · 序章地图"
 
 msgid "hardware.prologue.map.title"
-msgstr "从门电路到可运行计算机"
+msgstr "从门电路到小计算机"
 
 msgid "hardware.prologue.map.subtitle"
-msgstr "学会计算 · 学会记忆 · 最后汇合成计算机"
+msgstr "运算与存储，各走一程，最后汇合成计算机"
 
 msgid "hardware.prologue.map.description"
-msgstr "从接线练习开始。算术路线：半加器 → 全加器 → ALU；存储路线：SR 锁存器 → 寄存器 → RAM。两条路线任选先后，最后汇合成 CPU，运行 LOAD/STORE，再进入系统与数据移动章节。"
+msgstr "从接线练习开始。\n算术：半加器 → 全加器 → ALU。\n存储：SR 锁存器 → 寄存器 → RAM。\n两条路线先后任选，最后汇合成 CPU。运行 LOAD/STORE 后，进入系统与数据移动章节。"
 
 msgid "hardware.prologue.map.canvas_hint"
 msgstr "在中央依赖图中选择关卡；将鼠标移到节点上可查看目标与前置条件。"
@@ -1573,13 +1573,13 @@ msgid "hardware.prologue.map.node.locked"
 msgstr "等待前置关卡"
 
 msgid "hardware.prologue.map.tutorial_description"
-msgstr "练习接线、删线和重新接回，并观察 0/1 信号怎样走到指示灯。"
+msgstr "接线、删线、再接回，观察 0/1 信号如何改变指示灯。"
 
 msgid "hardware.prologue.map.half_adder_description"
-msgstr "用刚学过的门把 A、B 相加；四种输入情况都正确后，把电路保存成可重复使用的元件。"
+msgstr "用刚学的门把 A、B 相加；四种输入全部正确后，把电路保存为可复用元件。"
 
 msgid "hardware.prologue.map.generic_description"
-msgstr "完成这一关的搭建和测试后，就能把成果带到后面的关卡继续使用。"
+msgstr "电路通过测试，就能成为后续搭建的工具。"
 
 msgid "hardware.prologue.map.status"
 msgstr "选择一个已解锁关卡；完成的关卡可以重新搭建。"
@@ -1714,43 +1714,43 @@ msgid "hardware.prologue.full_adder.title"
 msgstr "全加器"
 
 msgid "hardware.prologue.full_adder.description"
-msgstr "在 A、B 之外再接住上一位送来的进位，把三者相加，并把新的进位交给下一位。"
+msgstr "将 A、B 与上一位的进位相加，再把新的进位交给下一位。"
 
 msgid "hardware.prologue.alu.title"
 msgstr "一位 ALU"
 
 msgid "hardware.prologue.alu.description"
-msgstr "让同一组输入能完成四种不同的小计算，再用控制信号选择这次要哪一个结果。"
+msgstr "同一组输入，四种运算。用控制信号选择输出结果。"
 
 msgid "hardware.prologue.latch.title"
 msgstr "SR 锁存器"
 
 msgid "hardware.prologue.latch.description"
-msgstr "做一个能记住 0 或 1 的小电路：写入以后，即使控制信号放开，它也要保留刚才的状态。"
+msgstr "保存一个 0 或 1。写入后松开控制信号，状态仍然保留。"
 
 msgid "hardware.prologue.register.title"
 msgstr "一位寄存器"
 
 msgid "hardware.prologue.register.description"
-msgstr "给刚做好的记忆元件增加数据入口和写入开关：关着时保持，打开时写入新值。"
+msgstr "给记忆元件加上数据入口和写入开关：关闭时保持，打开时写入新值。"
 
 msgid "hardware.prologue.ram.title"
 msgstr "2×4 RAM"
 
 msgid "hardware.prologue.ram.description"
-msgstr "把两个四位记忆位置放在一起，用地址选择这次读哪一个、写哪一个。"
+msgstr "把两个四位记忆位置放在一起，用地址决定这次读哪个、写哪个。"
 
 msgid "hardware.prologue.cpu.title"
 msgstr "四位累加器 CPU"
 
 msgid "hardware.prologue.cpu.description"
-msgstr "把已经做好的计算、记忆和控制部分接起来，让小计算机能按顺序读取、相加和保存数据。"
+msgstr "接上计算、记忆和控制三部分，让小计算机按顺序读取、相加、保存。"
 
 msgid "hardware.prologue.load_store.title"
 msgstr "LOAD/STORE 桥接实验"
 
 msgid "hardware.prologue.load_store.description"
-msgstr "不用再布线。直接运行刚做好的小计算机，观察数据怎样从内存进入计算部分，再把结果送回去。"
+msgstr "无需重新布线。运行刚搭好的小计算机，观察数据从内存进入计算部分，再把结果写回。"
 
 msgid "hardware.program.load_imm_3"
 msgstr "LOAD_IMM 3"
@@ -2076,10 +2076,10 @@ msgid "hardware.hint.load_store.3"
 msgstr "完整参考方案还连接 ACC 与 MEM 输出；本关拓扑固定，重点是读懂状态变化。"
 
 msgid "system.chapter.title"
-msgstr "第 1 章：等待数据"
+msgstr "第 1 章：时间的去处"
 
 msgid "system.chapter.subtitle"
-msgstr "从可运行的计算机走向可解释的性能证据"
+msgstr "机器已经运转，时间花在了哪里？"
 
 msgid "system.action.map"
 msgstr "章节地图"
@@ -2202,7 +2202,7 @@ msgid "system.map.intro.title"
 msgstr "等待从哪里来？"
 
 msgid "system.map.intro.body"
-msgstr "五个节点组成一条连续调查路线：先组装系统，再预测每次受控变化、运行实验、追踪 Trace 与 Profiler、解释 CPU WAIT，最后根据 4/16/64 工作负载诊断这套系统。\n\n本章不使用 Cache，也不要求软件优化。"
+msgstr "循着 CPU WAIT 查找等待：接好系统 → 预测一次改动 → 运行对照 → 查看 Trace 与 Profiler → 用 4/16/64 三组任务判断瓶颈。\n\n主线不使用 Cache，也不要求修改程序。可选支线会进一步探索如何减少重复读取。"
 
 msgid "system.map.prologue_required"
 msgstr "请先完成硬件序章的 LOAD/STORE，生成属于你的 CPU8 与 RAM64x8 来源。"
@@ -2235,10 +2235,10 @@ msgid "system.level.unknown.objective"
 msgstr "恢复有效关卡内容。"
 
 msgid "system.level.assembly.title"
-msgstr "接通第一台系统"
+msgstr "三器相连"
 
 msgid "system.level.assembly.description"
-msgstr "把负责计算、传送和存放数据的三个部分接起来，让第一台系统真正跑起来。"
+msgstr "连接计算、传送和存储三个部分，让系统运转起来。"
 
 msgid "system.level.assembly.objective"
 msgstr "接通六条数据路线，确认程序，再让两个正式案例都得到正确结果。"
@@ -2250,10 +2250,10 @@ msgid "system.level.assembly.briefing.2"
 msgstr "接通请求、写入数据和读回数据三条路线，共六段[[wire|连线]]。预置程序已经应用：读入一个数，加 1，再写回。\n\n到[[test_bench|测试台]]点击“运行全部官方用例”，确认两个结果都正确。只有修改程序草稿后，才需要“[[apply|确认并应用]]”。"
 
 msgid "system.level.cpu_speed.title"
-msgstr "CPU 变快以后"
+msgstr "快慢之间"
 
 msgid "system.level.cpu_speed.description"
-msgstr "只把负责计算的部分换快，看看整台机器会不会跟着快同样多。"
+msgstr "只提高计算部分的速度，整台机器会快同样多吗？"
 
 msgid "system.level.cpu_speed.objective"
 msgstr "先记下旧配置的时间，再只更换 CPU；比较前后结果并说明时间花在哪里。"
@@ -2268,10 +2268,10 @@ msgid "system.level.cpu_speed.briefing.3"
 msgstr "对比两次的总[[cycle|周期]]，再打开[[profiler|性能分析器]]看“计算”和[[cpu_wait|CPU 等待]]各占多少。两种 CPU 的[[official_test|正式案例]]都通过，而且比较使用同一套其他零件，就能完成。"
 
 msgid "system.level.ram_wait.title"
-msgstr "CPU 在等谁"
+msgstr "等待的来处"
 
 msgid "system.level.ram_wait.description"
-msgstr "沿着数据往返的路线，看看 CPU 为什么常常停下来等。"
+msgstr "沿着数据往返的路线，找出 CPU 在哪里等待。"
 
 msgid "system.level.ram_wait.objective"
 msgstr "先用慢内存，再只换成快内存；比较 CPU 等待时间的变化。"
@@ -2286,10 +2286,10 @@ msgid "system.level.ram_wait.briefing.3"
 msgstr "两次[[official_test|正式测试]]都要使用同一个[[program|程序]]和案例。最后比较[[profiler|性能分析器]]里的[[cpu_wait|CPU 等待]]数字：如果只有[[ram|RAM]]变了，这个差值就说明等待来自哪里。"
 
 msgid "system.level.bus_width.title"
-msgstr "一字节要走几次"
+msgstr "宽窄之间"
 
 msgid "system.level.bus_width.description"
-msgstr "同一份数据经过宽窄不同的通道，看看要分几趟才能运完。"
+msgstr "同一份数据走宽窄不同的通道，要分几趟才运得完？"
 
 msgid "system.level.bus_width.objective"
 msgstr "先用窄总线，再只换成宽总线；比较同一份数据被拆成了几段。"
@@ -2301,10 +2301,10 @@ msgid "system.level.bus_width.briefing.2"
 msgstr "先锁定[[prediction|预测]]，用[[bus|Bus2]]跑一次；再保持[[cpu|CPU]]、[[ram|RAM]]、[[program|程序]]和数据不变，只换成 Bus8。沿桌面上的线路看数据包分成几段，并让两种配置都通过[[official_test|正式测试]]。"
 
 msgid "system.level.bottleneck.title"
-msgstr "瓶颈调查"
+msgstr "循时寻因"
 
 msgid "system.level.bottleneck.description"
-msgstr "把任务从小到大跑三次，找出整台机器最拖后腿的部分。"
+msgstr "依次运行小、中、大三组任务，找出限制整机速度的环节。"
 
 msgid "system.level.bottleneck.objective"
 msgstr "跑完小、中、大三组案例，先作出判断，再查看完整时间拆分。"
@@ -2787,34 +2787,34 @@ msgid "hardware.completion.chapter"
 msgstr "硬件基础 · 构建序章"
 
 msgid "hardware.completion.summary.tutorial"
-msgstr "你已经能接通、运行和修补一张电路。红色 0 和绿色 1 都是正常信号；改变输入时，可以沿线观察结果怎样变化。"
+msgstr "电路已经接通，也能运行和修补。0 和 1 都是正常信号；改变输入，沿线观察结果。"
 
 msgid "hardware.completion.summary.half_adder"
-msgstr "你把两个一位数变成了 SUM 和 CARRY，并得到可复用的 HalfAdder。新解锁的 XOR 门在两个输入不同时输出 1，正好表达了 SUM 的规则。"
+msgstr "两个一位数相加，得到 SUM 和 CARRY，也得到可复用的 HalfAdder。新解锁的 XOR 在两个输入不同时输出 1，正好对应 SUM 的规则。"
 
 msgid "hardware.completion.summary.full_adder"
-msgstr "你让 A+B 的计算接住了上一位的进位。小电路可以成为更大电路的积木，而不必每次从门开始。"
+msgstr "A+B 再加上来自上一位的进位，便能接续更长的加法。小电路成了大电路的积木，不必每次从门开始。"
 
 msgid "hardware.completion.summary.alu"
-msgstr "你让控制信号选择不同算术结果，并理解了 ALU 如何把多种运算收进同一个数据通路。"
+msgstr "控制信号选定运算，ALU 将结果送入同一条数据通路。"
 
 msgid "hardware.completion.summary.latch"
-msgstr "你利用反馈保存了一个状态，理解了组合逻辑与具有记忆的时序元件之间的分界。"
+msgstr "借助反馈，电路留下了一个状态。这是组合逻辑与记忆电路的区别。"
 
 msgid "hardware.completion.summary.register"
-msgstr "你让“数据是什么”和“何时保存”各有一个输入。关闭 LOAD 后，Q 仍保留上次保存的值。"
+msgstr "数据与保存时机，分别由各自的输入决定。关掉 LOAD 后，Q 仍保留上次写入的值。"
 
 msgid "hardware.completion.summary.ram"
-msgstr "你把地址、写入控制和数据端口组合成可寻址存储，观察了写入、保持与读取的状态变化。"
+msgstr "你把地址、写入控制和数据端口接成可寻址存储，并核对了写入、保持与读取时的状态变化。"
 
 msgid "hardware.completion.summary.cpu"
-msgstr "你把 ALU、寄存器、控制与 RAM 汇合成一台小型计算机，建立了完整数据通路的所有权。"
+msgstr "ALU、寄存器、控制与 RAM 已接成一台小计算机。指令发出，数据便在其中流动。"
 
 msgid "hardware.completion.summary.load_store"
-msgstr "你让 CPU 经由 LOAD 与 STORE 访问外部存储，也看见了处理器必须等待数据往返的边界。"
+msgstr "CPU 经由 LOAD 与 STORE 访问外部存储。计算之外，还有数据往返带来的等待。"
 
 msgid "system.completion.chapter"
-msgstr "第一章 · 等待数据"
+msgstr "第 1 章 · 时间的去处"
 
 msgid "system.completion.summary.assembly"
 msgstr "你连接了 CPU、Bus 与 RAM 的请求、写入和读取路径，并验证了显示线路就是系统拓扑。"
@@ -2883,10 +2883,10 @@ msgid "hub.locality.locked"
 msgstr "先在第一章完成瓶颈诊断，再开始第二章。"
 
 msgid "chapter2.title"
-msgstr "第二章 · 让数据留在近处"
+msgstr "第 2 章：少走远路"
 
 msgid "chapter2.subtitle"
-msgstr "减少昂贵的数据移动，让 CPU 少等待。"
+msgstr "减少代价高的数据搬运，让 CPU 少等待。"
 
 msgid "chapter2.branch.title"
 msgstr "数据移动"
@@ -2955,7 +2955,7 @@ msgid "chapter2.map.intro.title"
 msgstr "调查路线"
 
 msgid "chapter2.map.intro.body"
-msgstr "CPU 仍在等待。沿着证据，从反复远程取数走向复用、访问顺序、工作集与分块。每个节点只要求一个主要判断。"
+msgstr "CPU 仍在等待。沿着数据的来路，依次调查远取、复用、访问顺序、工作集与分块。每关解决一个主要问题。"
 
 msgid "chapter2.map.level_index"
 msgstr "2-%d"
@@ -3417,7 +3417,7 @@ msgid "chapter2.notebook.blocking.related"
 msgstr "Working Set、Locality"
 
 msgid "chapter2.completion.chapter"
-msgstr "第二章 · 让数据留在近处"
+msgstr "第 2 章 · 少走远路"
 
 msgid "chapter2.level.unknown.title"
 msgstr "未知调查"
@@ -3426,10 +3426,10 @@ msgid "chapter2.level.unknown.description"
 msgstr "第二章内容无效。"
 
 msgid "chapter2.level.distant_reads.title"
-msgstr "为什么每次都要走那么远？"
+msgstr "远取之累"
 
 msgid "chapter2.level.distant_reads.description"
-msgstr "跟着一份数据走完整个来回，看看 CPU 为什么总在等。"
+msgstr "跟随一次数据往返，看看 CPU 的时间花在了哪里。"
 
 msgid "chapter2.level.distant_reads.objective"
 msgstr "运行一次，观察多次远距离取数，再判断时间主要花在哪里。"
@@ -3453,10 +3453,10 @@ msgid "chapter2.level.distant_reads.judgment.result_store"
 msgstr "反复延迟来自最后一次结果写入。"
 
 msgid "chapter2.level.nearby_storage.title"
-msgstr "把它留在近处"
+msgstr "留待再用"
 
 msgid "chapter2.level.nearby_storage.description"
-msgstr "把刚拿过的数据暂时放在近处，看看下一次能不能少走远路。"
+msgstr "将刚取回的数据留在缓存中，下次访问能否少一次远程读取？"
 
 msgid "chapter2.level.nearby_storage.objective"
 msgstr "保留上一关的结果，再启用近处存储；用同一程序比较前后两次运行。"
@@ -3471,10 +3471,10 @@ msgid "chapter2.level.nearby_storage.learned"
 msgstr "这种近处硬件叫 Cache。Miss 会从 RAM 获取一条 line；之后对该 line 的请求成为 Hit，省去远途。"
 
 msgid "chapter2.level.cache_failure.title"
-msgstr "它为什么没有帮上忙？"
+msgstr "留不住的数据"
 
 msgid "chapter2.level.cache_failure.description"
-msgstr "近处存储已经装上了，为什么这次还是不断跑远路？"
+msgstr "已经装上缓存，为什么仍要反复从远端取数？"
 
 msgid "chapter2.level.cache_failure.objective"
 msgstr "先不改任何设置；观察取数顺序，找出近处数据总被换掉的原因。"
@@ -3498,10 +3498,10 @@ msgid "chapter2.level.cache_failure.judgment.wrong_result"
 msgstr "长运行来自错误结果。"
 
 msgid "chapter2.level.access_order.title"
-msgstr "换个顺序"
+msgstr "先后有序"
 
 msgid "chapter2.level.access_order.description"
-msgstr "硬件完全不变，只换一个更顺手的取数顺序。"
+msgstr "保持硬件不变，只调整取数顺序，看看能省下多少搬运。"
 
 msgid "chapter2.level.access_order.objective"
 msgstr "只调整循环先后，让刚取来的数据能马上再次使用，并把总时间降到 105 周期以内。"
@@ -3516,10 +3516,10 @@ msgid "chapter2.level.access_order.learned"
 msgstr "连续访问在移动前复用了刚取回的 line。这种可利用的时间或地址邻近性叫 Locality（局部性）。"
 
 msgid "chapter2.level.working_set.title"
-msgstr "明明顺序已经对了"
+msgstr "容量有界"
 
 msgid "chapter2.level.working_set.description"
-msgstr "取数顺序已经很顺了，但第二轮为什么还要重新取一遍？"
+msgstr "访问顺序已经调整，为什么第二轮仍要重新取数？"
 
 msgid "chapter2.level.working_set.objective"
 msgstr "比较第一轮和第二轮，判断近处空间是否装得下这段时间需要的全部数据。"
@@ -3543,10 +3543,10 @@ msgid "chapter2.level.working_set.judgment.more_math"
 msgstr "第二个 pass 执行了异常昂贵的算术。"
 
 msgid "chapter2.level.blocking.title"
-msgstr "一次别做那么多"
+msgstr "分而复用"
 
 msgid "chapter2.level.blocking.description"
-msgstr "一次只处理一小组数据，让两轮工作趁数据还在近处时一起完成。"
+msgstr "一次处理一小组数据，在数据仍可复用时完成两轮工作。"
 
 msgid "chapter2.level.blocking.objective"
 msgstr "不升级硬件，把任务分成小组处理，并把总时间降到 145 周期以内。"
@@ -3561,7 +3561,7 @@ msgid "chapter2.level.blocking.learned"
 msgstr "让两个 pass 共同复用一条活跃 line，缩小了工作集。这种重组叫 Blocking，也叫 Tiling（分块）。"
 
 msgid "chapter2.level.capstone.title"
-msgstr "现在，自己调查"
+msgstr "循迹而行"
 
 msgid "chapter2.level.capstone.description"
 msgstr "面对一个新任务，自己完成观察、判断、修改和复查。"
@@ -3579,7 +3579,7 @@ msgid "chapter2.level.capstone.briefing.3"
 msgstr "第一组单因素实验完成后，就可以组合访问顺序、缓存大小与工作分组。最终要求：保留最初的基线记录；判断有证据支持；正式结果正确且不超过 145 周期。\n\n达标后仍可继续比较周期与成本，保留自己的最佳方案。"
 
 msgid "chapter2.level.capstone.learned"
-msgstr "你完成了完整循环：观察、诊断、改变一个原因、再比较。多种软硬件解法都有效。"
+msgstr "先观察和诊断，用一次单因素实验检验判断，再组合软硬件方案。通向相同结果的路，不止一条。"
 
 msgid "chapter2.level.capstone.judgment.repeated_far_fetch"
 msgstr "CPU 重复等待同一批数据再次从远处内存取回。"
@@ -4676,31 +4676,31 @@ msgid "playtest.level_feedback.open"
 msgstr "留下本关反馈（可选）"
 
 msgid "experience.next.hardware_foundations.tutorial"
-msgstr "下一项能力：把两个 0/1 相加。你也可以从关卡地图选择存储分支，试着让电路记住一个值。"
+msgstr "下一项能力：把两个 0/1 相加。也可以从地图进入存储分支，让电路先记住一个值。"
 
 msgid "experience.next.hardware_foundations.half_adder"
-msgstr "接下来：接住上一位的进位，让你的加法器能参与更长的加法。"
+msgstr "接下来：接住上一位的进位，让加法器能参与更长的加法。"
 
 msgid "experience.next.hardware_foundations.full_adder"
 msgstr "接下来：让一套电路按控制位切换运算。加法只是它会做的第一件事。"
 
 msgid "experience.next.hardware_foundations.alu"
-msgstr "运算分支准备好了。存储分支会让数据留下来；两条分支最终在 CPU 汇合。"
+msgstr "运算分支已经接通。与存储分支汇合后，就能搭建 CPU。"
 
 msgid "experience.next.hardware_foundations.latch"
-msgstr "接下来：给记忆加一个更好用的入口——指定一个值，再决定何时保存。"
+msgstr "接下来：为记忆加上数据入口，再决定何时写入。"
 
 msgid "experience.next.hardware_foundations.register"
-msgstr "接下来：让多个寄存器各记一个数，再用地址选择其中一个。"
+msgstr "接下来：让多个寄存器各记一个数，再用地址选出其中一个。"
 
 msgid "experience.next.hardware_foundations.ram"
-msgstr "存储分支准备好了。完成运算分支后，就能把计算、控制和内存接成一台小计算机。"
+msgstr "存储分支已经接通。与运算分支汇合后，就能把计算、控制和内存接成一台小计算机。"
 
 msgid "experience.next.hardware_foundations.cpu"
-msgstr "接下来：运行你自己的计算机，跟随一次读取和一次写入，看看数据在哪里走。"
+msgstr "接下来：运行自己的计算机，跟随一次读取和一次写入，观察数据如何流动。"
 
 msgid "experience.next.hardware_foundations.load_store"
-msgstr "第一章的新问题：机器已经会算，为什么还会慢？从一次数据往返开始调查。"
+msgstr "机器会计算了，为什么还会慢？从一次数据往返开始找原因。"
 
 msgid "experience.next.chapter_1.assembly"
 msgstr "接下来：只让 CPU 算得更快。整台机器会按同样比例提速吗？"
@@ -5092,7 +5092,7 @@ msgid "exploration.selector.hint.3"
 msgstr "完整参考：A 与非 S 相与，B 与 S 相与，再取或。它只是一个可行方案；也可用 XOR 构造等价电路。"
 
 msgid "exploration.selector.summary"
-msgstr "你让控制信号选择数据的去向。输入在变化，未选中的一边仍不会干扰输出。"
+msgstr "控制信号决定哪一路数据到达输出。未被选中的输入怎么变，都不会干扰结果。"
 
 msgid "experience.next.hardware_foundations.selector"
 msgstr "可选探索：换一种门组合再验证。原来的全加器路线保持开放。"
@@ -5116,7 +5116,7 @@ msgid "exploration.delay.hint.3"
 msgstr "完整参考：两级 Register4 串接；DATA 进入第一级，第一级 Q 接第二级 D，两级 LOAD 都接 ACCEPT。第二级 Q 是 OUT。"
 
 msgid "exploration.delay.summary"
-msgstr "你把现在和上一份数据分开保存。暂停、重复值和连续接收都遵守同一个提交规则。"
+msgstr "当前数据与上一份数据各有归处。暂停时保持输出，重复值和连续接收仍按同一条提交规则处理。"
 
 msgid "experience.next.hardware_foundations.delay"
 msgstr "可选探索：暂停几步再继续。原 RAM 路线不受此支线影响。"
@@ -5170,7 +5170,7 @@ msgid "exploration.delay.accept"
 msgstr "接收 DATA=%s · OUT 取上一份"
 
 msgid "overlap.title"
-msgstr "第 3 章 · 别让计算原地等"
+msgstr "第 3 章 · 与等待并行"
 
 msgid "overlap.map"
 msgstr "关卡树"
@@ -5218,7 +5218,7 @@ msgid "overlap.step"
 msgstr "下一周期"
 
 msgid "overlap.map_goal"
-msgstr "先理解完成时刻，再探索缓冲与预取；两条支线在最后汇合。"
+msgstr "先看清数据何时到达，再探索缓冲与预取。两条路线，最后汇合。"
 
 msgid "overlap.map_status"
 msgstr "已完成的关卡可继续修改方案。"
@@ -5227,7 +5227,7 @@ msgid "overlap.map_legend"
 msgstr "箭头表示学习前置；它们不是有延迟的电线。"
 
 msgid "overlap.map_intro"
-msgstr "此前你减少了数据搬运。现在，把无法避免的搬运与有用的计算重叠起来。\n\n一台搬运器，一台计算器。你安排请求、选择何时等待，并决定数据暂存在哪里。\n\n上路：显式缓冲与反压。\n下路：硬件管理的 Cache 与预取。\n\n每关公布任务、预算和目标。等价方案都可以通过。"
+msgstr "已经能省下的搬运，不必重来；省不下的，试着与计算并行。\n\n一台搬运器，一台计算器。安排请求、等待时机和暂存位置。\n\n上路：显式缓冲与反压。\n下路：硬件管理的 Cache 与预取。\n\n每关公布任务、预算和目标；等价方案都可以通过。"
 
 msgid "overlap.branch.0"
 msgstr "共同起点"
@@ -5251,7 +5251,7 @@ msgid "overlap.locked"
 msgstr "完成前置后解锁"
 
 msgid "overlap.arrival.title"
-msgstr "发出去，不等于到了"
+msgstr "尚在途中"
 
 msgid "overlap.arrival.goal"
 msgstr "完成独立工作并处理第 0 批，总用时不超过 10 周期。"
@@ -5260,7 +5260,7 @@ msgid "overlap.arrival.body"
 msgstr "桌上是一台待修复的小机器。fetch 发出请求后立即返回；数据还要搬运 6 周期。现有程序却立刻 consume。\n\n你还有 4 周期不依赖这份数据的工作。尝试把它安排在合适的地方，再让计算器使用已到达的数据。\n\n查看失败行和时间线；请求、到达、完成是三个不同的时刻。"
 
 msgid "overlap.buffers.title"
-msgstr "两只缓冲，轮流上场"
+msgstr "交替接力"
 
 msgid "overlap.buffers.goal"
 msgstr "自己放置并连线，按序处理四批数据，40 → 28 周期。"
@@ -5269,7 +5269,7 @@ msgid "overlap.buffers.body"
 msgstr "搬运每批需要 6 周期，计算每批需要 4 周期。只有一只缓冲时，搬运常常要等计算结束。\n\n这里不预摆解题元件。元件台允许你使用最多两只缓冲；拖到桌上并接通数据、ready 和 free。初始程序是串行安排，可修改。\n\n缓冲名字 A、B 会显示在元件标题上；程序里的名字必须对应自己的元件。"
 
 msgid "overlap.backpressure.title"
-msgstr "慢一点，也别丢"
+msgstr "进退有度"
 
 msgid "overlap.backpressure.goal"
 msgstr "让同一程序通过两组变速任务，不能覆盖或重复数据。"
@@ -5278,7 +5278,7 @@ msgid "overlap.backpressure.body"
 msgstr "机器里有两只缓冲，程序却只凭固定的 tick 4 判断什么时候能再次写入。计算有时慢、有时快。\n\n观察哪只缓冲仍在使用。利用真实的 ready、free 和计算器空闲状态协调它们，让同一程序适应公开的两组时长。\n\n暂停搬运以保护尚未用完的数据，就是反压。它不是丢弃数据。"
 
 msgid "overlap.prefetch.title"
-msgstr "提前一点"
+msgstr "先行一步"
 
 msgid "overlap.prefetch.goal"
 msgstr "安排预取，让同样的四批处理从 40 降到 28 周期。"
@@ -5287,7 +5287,7 @@ msgid "overlap.prefetch.body"
 msgstr "这次数据放进只有一行的 Cache，由硬件填充和替换。read 缺少数据时会等待，prefetch 可以提前发起搬运。\n\n修改调度程序，让计算器工作时，搬运器也做下一件有用的事。数据仍要真正到达后才能使用。\n\n你不能指定 Cache 的内容或槽位；它与上一支线的显式缓冲不同。"
 
 msgid "overlap.distance.title"
-msgstr "不是越早越好"
+msgstr "早亦有时"
 
 msgid "overlap.distance.goal"
 msgstr "修复过早预取；保持结果并降到 30 周期以内。"
@@ -5296,7 +5296,7 @@ msgid "overlap.distance.body"
 msgstr "初始程序把全部请求都提前发出。但 Cache 只有一行，请求队列也只能容纳两项（包括正在搬运的项）。\n\n看时间线里的逐出、再次请求和排队。哪次搬运在数据被使用之前挤掉了它？\n\n调整预取时机，而不是手工塞缓存。预算只有一行，所有代价都来自实际搬运和等待。"
 
 msgid "overlap.synthesis.title"
-msgstr "别让计算停下来"
+msgstr "各行其时"
 
 msgid "overlap.synthesis.goal"
 msgstr "两单位预算，同一方案通过标准与带宽受限任务。"
@@ -5578,7 +5578,7 @@ msgid "overlap.enter_next"
 msgstr "进入第 3 章 · 让搬运与计算重叠"
 
 msgid "overlap.arrival.learned"
-msgstr "你区分了发请求和数据到达，并把独立工作放进了等待区间。两条探索支线已开放。"
+msgstr "发出请求之后，数据尚需时间到达。独立计算可以填入这段等待，两条探索支线已开放。"
 
 msgid "overlap.buffers.learned"
 msgstr "你让两只缓冲交替服务，真实地重叠了 12 周期搬运与计算。接下来看看速度变化时会怎样。"
@@ -5587,13 +5587,13 @@ msgid "overlap.backpressure.learned"
 msgstr "同一套状态交接适应了两组计算时长，不覆盖数据。free 与 ready 比固定等待更可靠。"
 
 msgid "overlap.prefetch.learned"
-msgstr "你把请求提前了，但计算仍使用实际到达的数据。试着继续观察提前过多的后果。"
+msgstr "请求可以先行，计算仍要等数据实际到达。接下来，看看提前过多会怎样。"
 
 msgid "overlap.distance.learned"
-msgstr "你避免了不必要的逐出和再次搬运。预取的价值取决于缓存容量与使用时机。"
+msgstr "你避免了不必要的逐出和再次搬运。预取是否有效，取决于缓存容量和使用时机。"
 
 msgid "overlap.synthesis.learned"
-msgstr "两组任务都已通过。相同结果下，你用调度解释了重叠与等待；带宽受限时，更多暂存不会让搬运器变快。"
+msgstr "两组任务都已通过。调度改变了搬运与计算的重叠，也改变了等待；带宽受限时，更多暂存不会让搬运器变快。"
 
 msgid "overlap.case.standard"
 msgstr "任务 A · 基准负载"
@@ -5833,23 +5833,23 @@ msgid "tree.locked_short"
 msgstr "未解锁"
 
 msgid "tree.region.0"
-msgstr "01 造出机器"
+msgstr "01 一线成机"
 
 msgid "tree.region.1"
-msgstr "02 找出等待"
+msgstr "02 时间的去处"
 
 msgid "tree.region.2"
-msgstr "03 减少搬运"
+msgstr "03 少走远路"
 
 msgid "tree.region.3"
-msgstr "04 安排到达"
+msgstr "04 与等待并行"
 
 
 msgid "exploration.selector4.title"
 msgstr "四路择一"
 
 msgid "exploration.selector4.description"
-msgstr "四路传感器共用一个出口。让编号选中的那一路通行，其余三路怎样变化都不能干扰输出。\n\n你已经做过两路选择。这次由你决定怎样组织四路，内部从空白开始；元件台提供基本门，允许不同结构。"
+msgstr "四路传感器共用一个出口。让编号选中的那一路通行，其余三路怎样变化都不能干扰输出。\n\n你已经做过两路选择。这次自己决定怎样组织四路，内部从空白开始；元件台提供基本门，允许不同结构。"
 
 msgid "exploration.selector4.spec"
 msgstr "所有端口均为 1 位。D0～D3 是数据，S1 和 S0 是选择编号，S1 为高位。\n\nS1 S0    OUT 跟随\n0   0       D0\n0   1       D1\n1   0       D2\n1   1       D3\n\n正式测试覆盖 4 个编号 × 16 种数据 = 64 种组合，只比较行为。可用复制操作重复自己搭好的局部结构；不要求固定元件数量。\n\n[[multiplexer|多路复用器（MUX）]]"
@@ -5864,7 +5864,7 @@ msgid "exploration.selector4.hint.3"
 msgstr "参考使用三级两路选择逻辑。它只是一个解法；译码后合并以及其它等价电路也能通过。"
 
 msgid "exploration.selector4.summary"
-msgstr "你把选择组织成了更大的系统。试试另一种结构：分层和译码各有什么取舍？"
+msgstr "你把选择组织成了更大的系统。换一种结构再试：分层和译码各有什么取舍？"
 
 msgid "experience.next.hardware_foundations.selector4"
 msgstr "这条支线不会阻挡主线。回到任务树，继续组装 ALU，或保留另一份选择器方案作比较。"
@@ -5873,7 +5873,7 @@ msgid "exploration.parity.title"
 msgstr "错了一位"
 
 msgid "exploration.parity.description"
-msgstr "数据通过线路传来，可能有一位被翻转。发送方加了一位校验信息，让接收方能发现这类错误。\n\n四位数据 D0～D3 加 CHECK，一共五位。有效消息里，1 的数量必须是偶数。构建 ERROR 指示器：偶数个 1 输出 0，奇数个 1 输出 1。"
+msgstr "数据沿线路传来，可能有一位被翻转。用发送方附带的校验信息发现这类错误。\n\n四位数据 D0～D3 加 CHECK，共五位。有效消息中，1 的数量为偶数。构建 ERROR 指示器：偶数个 1 输出 0，奇数个 1 输出 1。"
 
 msgid "exploration.parity.spec"
 msgstr "所有端口都是 1 位。CHECK 也是收到的输入，不需要由你生成。\n\n例子：数据 1010 + CHECK=0，共两个 1 → ERROR=0。\n翻转一位：0010 + 0，共一个 1 → ERROR=1。\n再翻转一位：0110 + 0，共两个 1 → ERROR=0。\n\n正式测试覆盖全部 32 种输入。注意：偶校验能发现任意单个位翻转，也能发现奇数个位翻转；偶数个位翻转可能漏过。它不能指出哪一位错了，也不能纠错。\n\n[[xor_gate|XOR（异或门）]]"
@@ -5888,16 +5888,16 @@ msgid "exploration.parity.hint.3"
 msgstr "参考把五位逐一 XOR。平衡树形的 XOR 结构也等价；正式测试不检查布局或门的 ID。"
 
 msgid "exploration.parity.summary"
-msgstr "你做出了错误探测器。继续在调试输入中翻转一位，再翻转第二位，亲自观察为什么“没有报警”不等于“绝对没有错误”。"
+msgstr "错误探测器已经完成。先翻转一位，再翻转第二位，观察为什么“没有报警”并不等于“没有错误”。"
 
 msgid "experience.next.hardware_foundations.parity"
 msgstr "回到任务树，选择计算或存储路线。这里的方案会保留，随时可以回来实验。"
 
 msgid "exploration.alarm.title"
-msgstr "报警别消失"
+msgstr "留住一瞬"
 
 msgid "exploration.alarm.description"
-msgstr "故障可能只闪一下。即使 FAULT 回到 0，ALARM 也必须保持 1，直到操作者 CLEAR。\n\n复用已完成的 SR 锁存器。内部空白，你来决定怎样让故障被记住，并让清除可靠生效。"
+msgstr "故障可能一闪而过，报警却要留下。FAULT 回到 0 后，ALARM 仍须保持 1，直到操作者 CLEAR。\n\n复用 SR 锁存器，从空白电路开始，保存故障状态，并让清除优先。"
 
 msgid "exploration.alarm.spec"
 msgstr "FAULT、CLEAR、ALARM 都是 1 位。每一行代表下一次输入状态：\n\nCLEAR=1：ALARM=0，无论 FAULT 是什么。\nCLEAR=0 且 FAULT=1：ALARM=1。\n二者都是 0：保持上次 ALARM。\n\nCLEAR 优先。正式序列先清零，再覆盖保持、重复清除、同时故障与清除、清除后再次故障。直接把 FAULT / CLEAR 接到锁存器可能遇到同时置位与复位的问题；输入规则是题目规格，处理方法由你设计。\n\n[[sr_latch|SR 锁存器（SR Latch）]]"
@@ -5912,35 +5912,35 @@ msgid "exploration.alarm.hint.3"
 msgstr "参考使用 SET = FAULT AND NOT CLEAR，RESET = CLEAR，再读取 SRLatch 的 Q。等价的有状态电路同样有效。"
 
 msgid "exploration.alarm.summary"
-msgstr "短暂事件现在能被保留下来，清除也有明确优先级。状态不只是存数，还能记录“曾经发生过什么”。"
+msgstr "故障虽短，记录可以留下。清除优先，状态也能记住“曾经发生过什么”。"
 
 msgid "experience.next.hardware_foundations.alarm"
 msgstr "继续探索寄存器与“晚一拍”，看看状态怎样保存数据，以及怎样改变数据到达的时机。"
 
 
 msgid "system.level.read_once.title"
-msgstr "只取一次，就够了"
+msgstr "一取再用"
 
 msgid "system.level.read_once.description"
-msgstr "同一个数要加两次，真的要向内存读两次吗？\n\n硬件固定。程序已经算对，但每轮重复请求同一个输入。保留正确结果，改写程序，让取回的 value 多用一次。"
+msgstr "同一个数要加两次，真要向内存读两次吗？\n\n硬件固定。程序已算对，但每轮重复请求同一输入。保留正确结果，改程序，让取回的 value 多用一次。"
 
 msgid "system.level.read_once.objective"
 msgstr "目标：OUTPUT[0] = 输入总和的两倍，只保留低 8 位（超过 255 后从 0 继续）。\n\n每个数据集都要正确，内存请求最多 N+1 次：N 次读取 + 1 次写回。N=16 时，起点是 33 次，目标最多 17 次。\n\nvalue = load(INPUT[i]) 把数据放入变量；后续 acc += value 使用已有值，不再请求内存。编辑后先点“应用程序”，再正式测试。允许不同等价程序；规格不要求逐字匹配参考解。\n\n[[load|LOAD（装载 / 读取）]]"
 
 msgid "system.completion.summary.read_once"
-msgstr "你没有升级硬件，却减少了真实内存请求。数据一旦取回，就值得问问：还能再用一次吗？"
+msgstr "硬件未变，内存请求减少了。取回的数据，还能再用一次。"
 
 msgid "system.level.two_orders.title"
 msgstr "一笔预算，两张订单"
 
 msgid "system.level.two_orders.description"
-msgstr "两位客户带来不同任务，却给出相同预算。为每张订单分别选择 CPU、RAM 和 Bus。\n\n计算订单：读取一个数，连续做 32 次加法，再写回。\n搬运订单：逐项复制输入，不做加法。\n\n元件台顶部切换订单。每张订单保留自己的配置，不要求同一套硬件同时完成两张订单。"
+msgstr "两位客户的任务不同，预算却一样。为每张订单分别选择 CPU、RAM 和 Bus。\n\n计算订单：读取一个数，连续做 32 次加法，再写回。\n搬运订单：逐项复制输入，不做加法。\n\n在元件台顶部切换订单。每张订单保留自己的配置，不要求同一套硬件同时完成两张订单。"
 
 msgid "system.level.two_orders.objective"
 msgstr "每张订单预算 ≤24。\n计算订单：每个测试 ≤66 周期。\n搬运订单：每个测试 ≤320 周期。\n\n工作程序固定，只更换元件。先看程序需要计算还是搬运，再在真实 Trace 中检查时间花在哪里。两个订单都达标后完成本支线；不阻挡后续主线。\n\n全顶配花费 39，超过预算。多种配置可以达标，不要求唯一答案。\n\n[[hardware_cost|硬件成本（Hardware Cost）]]"
 
 msgid "system.completion.summary.two_orders"
-msgstr "你把有限预算花在了各自需要的地方。最快的部件并不总是最值得买的部件；工作负载决定了取舍。"
+msgstr "相同预算，花在不同的地方。最快的部件未必最合适，取舍要看工作负载。"
 
 msgid "system.orders.compute"
 msgstr "订单 A · 计算 · ≤66 周期"
@@ -6073,16 +6073,16 @@ msgid "moments.disabled"
 msgstr "本次启动关闭了反馈记录。未保存任何回答。"
 
 msgid "tree.region.4"
-msgstr "05 把数据摆对地方"
+msgstr "05 各就其位"
 
 msgid "layout.hub.title"
-msgstr "第 4 章：把数据摆对地方"
+msgstr "第 4 章：各就其位"
 
 msgid "layout.hub.eyebrow"
 msgstr "布局 · 整理成本 · 有限空间"
 
 msgid "layout.hub.description"
-msgstr "相同的数据，换一种摆法。\n\n自己组合分组、复制和分批，比较每次搬运是否值得。"
+msgstr "同样的数据，也有不同的排布。\n\n组合分组、复制和分批，比较每次搬运的收益与代价。"
 
 msgid "layout.hub.open"
 msgstr "进入布局工作台"
@@ -6115,10 +6115,10 @@ msgid "terminology.term.bounded_batch.body"
 msgstr "一批数据复制后，完成这批的全部查询再释放。若 9 条记录每批 4 条，就是 4 + 4 + 1；最后一批不能漏掉，也不用填成不存在的记录。"
 
 msgid "hub.tree.title"
-msgstr "章节任务树 · 展开你的机器"
+msgstr "任务树 · 展开你的机器"
 
 msgid "hub.tree.description"
-msgstr "沿着分支自由探索：造出机器，再让它少一些等待。"
+msgstr "沿着分支探索：搭起机器，再一点点收回等待的时间。"
 
 msgid "hub.tree.enter"
 msgstr "打开章节任务树  →"
@@ -6449,3 +6449,6 @@ msgstr "基础统计包括关卡停留时间、完成状态、编辑与测试次
 
 msgid "common.confirm"
 msgstr "确认"
+
+msgid "overlap.hub.eyebrow"
+msgstr "缓冲 · 反压 · 预取"

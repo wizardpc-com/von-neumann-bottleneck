@@ -6,11 +6,11 @@ const COLORS := [Color("67e8a5"),Color("ffbf69"),Color("50d5ff"),Color("bc8cff")
 var region_rects: Dictionary = {}
 var world_size := Vector2(2500,1900)
 const SHORT_TITLES := {
- "tutorial":["接线","Wiring"],"half_adder":["半加器","Half adder"],"full_adder":["全加器","Full adder"],"alu":["ALU","ALU"],"latch":["锁存器","Latch"],"register":["寄存器","Register"],"ram":["RAM","RAM"],"cpu":["CPU","CPU"],"load_store":["存取指令","Load/store"],"selector":["两路选择","Select 2"],"selector4":["四路选择","Select 4"],"parity":["一位校验","Parity"],"alarm":["保留报警","Alarm"],"delay":["晚一拍","Delay"],
- "assembly":["组装系统","Assemble"],"cpu_speed":["CPU 速度","CPU speed"],"ram_wait":["谁在等待","Waiting"],"bus_width":["总线宽度","Bus width"],"bottleneck":["瓶颈调查","Bottleneck"],"read_once":["只取一次","Read once"],"two_orders":["两张订单","Two orders"],
- "distant_reads":["远处取数","Far reads"],"nearby_storage":["近处缓存","Cache"],"cache_failure":["缓存失效","Misses"],"access_order":["访问顺序","Order"],"working_set":["工作集","Working set"],"blocking":["分块查询","Blocking"],"capstone":["综合优化","Optimize"],
- "arrival":["请求完成","Arrival"],"buffers":["双缓冲","Buffers"],"backpressure":["状态协调","Flow control"],"prefetch":["提前取数","Prefetch"],"distance":["预取距离","Distance"],"synthesis":["时序综合","Coordinate"],
- "fields":["只取所需","Need only"],"records":["整条取来","Full record"],"hot_cold":["冷热分开","Hot / cold"],"relocation":["搬家成本","Move cost"],"batches":["有限分批","Batch"],"mixed":["两类查询","Two queries"]}
+ "tutorial":["接线","Wiring"],"half_adder":["半加器","Half adder"],"full_adder":["全加器","Full adder"],"alu":["ALU","ALU"],"latch":["锁存器","Latch"],"register":["寄存器","Register"],"ram":["RAM","RAM"],"cpu":["CPU","CPU"],"load_store":["存取指令","Load/store"],"selector":["两路选择","Select 2"],"selector4":["四路选择","Select 4"],"parity":["一位校验","Parity"],"alarm":["留住一瞬","Alarm"],"delay":["晚一拍","Delay"],
+ "assembly":["三器相连","Assemble"],"cpu_speed":["快慢之间","CPU speed"],"ram_wait":["等待的来处","Waiting"],"bus_width":["宽窄之间","Bus width"],"bottleneck":["循时寻因","Bottleneck"],"read_once":["一取再用","Read once"],"two_orders":["两张订单","Two orders"],
+ "distant_reads":["远取之累","Far reads"],"nearby_storage":["留待再用","Cache"],"cache_failure":["留不住的数据","Misses"],"access_order":["先后有序","Order"],"working_set":["容量有界","Working set"],"blocking":["分而复用","Blocking"],"capstone":["循迹而行","Optimize"],
+ "arrival":["尚在途中","Arrival"],"buffers":["交替接力","Buffers"],"backpressure":["进退有度","Flow control"],"prefetch":["先行一步","Prefetch"],"distance":["早亦有时","Distance"],"synthesis":["各行其时","Coordinate"],
+ "fields":["只取所需","Need only"],"records":["一窥全貌","Full record"],"hot_cold":["冷热有别","Hot / cold"],"relocation":["搬迁有价","Move cost"],"batches":["化整为零","Batch"],"mixed":["两全之策","Two queries"]}
 var rows: Array[Dictionary] = []
 var positions: Dictionary = {}
 var pan := Vector2.ZERO

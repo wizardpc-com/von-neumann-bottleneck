@@ -308,8 +308,20 @@ func _relayout() -> void:
 		return
 	var left: float = minf(LEFT_RESERVED, maxf(24.0, size.x * 0.29))
 	var available_width: float = maxf(320.0, size.x - left - RIGHT_MARGIN - NODE_SIZE.x)
+	# Independent tasks can share a branch and prerequisite depth. Give each a
+	# distinct display column without changing its actual prerequisite graph.
+	var display_depths: Dictionary[StringName, int] = {}
+	var occupied: Dictionary = {}
 	var maximum_depth: int = 0
-	for depth: int in level_depths.values():
+	for level_id: StringName in _ordered_level_ids:
+		var branch_id := StringName(_levels[level_id].get("branch_id", &""))
+		var depth: int = level_depths[level_id]
+		var columns: Array = occupied.get(branch_id, [])
+		while depth in columns:
+			depth += 1
+		columns.append(depth)
+		occupied[branch_id] = columns
+		display_depths[level_id] = depth
 		maximum_depth = maxi(maximum_depth, depth)
 	var depth_step: float = available_width / float(maxi(1, maximum_depth))
 	var map_bottom: float = maxf(TOP_MARGIN + NODE_SIZE.y, size.y - BOTTOM_RESERVED)
@@ -322,7 +334,7 @@ func _relayout() -> void:
 	for level_id: StringName in _ordered_level_ids:
 		var branch_id := StringName(_levels[level_id].get("branch_id", &""))
 		var position := Vector2(
-			left + float(level_depths.get(level_id, 0)) * depth_step,
+			left + float(display_depths[level_id]) * depth_step,
 			center_y + float(branch_lanes.get(branch_id, 0.0)) * lane_gap,
 		)
 		level_positions[level_id] = position

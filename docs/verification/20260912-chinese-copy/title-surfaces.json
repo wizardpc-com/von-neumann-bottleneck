@@ -1,0 +1,43 @@
+{
+  "layout_titles": {
+    "fields": "只取所需",
+    "records": "一窥全貌",
+    "hot_cold": "冷热有别",
+    "relocation": "搬迁有价",
+    "batches": "化整为零",
+    "mixed": "两全之策"
+  },
+  "compact_titles": {
+    "assembly": "三器相连",
+    "cpu_speed": "快慢之间",
+    "ram_wait": "等待的来处",
+    "bus_width": "宽窄之间",
+    "bottleneck": "循时寻因",
+    "read_once": "一取再用",
+    "distant_reads": "远取之累",
+    "nearby_storage": "留待再用",
+    "cache_failure": "留不住的数据",
+    "access_order": "先后有序",
+    "working_set": "容量有界",
+    "blocking": "分而复用",
+    "capstone": "循迹而行",
+    "arrival": "尚在途中",
+    "buffers": "交替接力",
+    "backpressure": "进退有度",
+    "prefetch": "先行一步",
+    "distance": "早亦有时",
+    "synthesis": "各行其时",
+    "alarm": "留住一瞬",
+    "fields": "只取所需",
+    "records": "一窥全貌",
+    "hot_cold": "冷热有别",
+    "relocation": "搬迁有价",
+    "batches": "化整为零",
+    "mixed": "两全之策"
+  },
+  "english_policy": "Existing English text unchanged; new eyebrow key aliases old Synthesis label.",
+  "layout_header": {
+    "before": "第四章 · 把数据摆对地方",
+    "after": "第四章 · 各就其位"
+  }
+}

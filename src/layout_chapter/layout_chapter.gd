@@ -47,7 +47,7 @@ func _ready() -> void:
 	margin.add_child(root)
 	var header := HBoxContainer.new()
 	root.add_child(header)
-	title = _label(_l("第四章 · 把数据摆对地方","Chapter 4 · Put data in its place"))
+	title = _label(_l("第四章 · 各就其位","Chapter 4 · Put data in its place"))
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_size_override("font_size",25)
 	header.add_child(title)

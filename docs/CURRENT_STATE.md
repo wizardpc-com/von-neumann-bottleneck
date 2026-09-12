@@ -8,6 +8,12 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Current behavior
 
+Chinese title/intro/completion audit is integrated: 一线成机 / 时间的去处 / 少走远路 /
+与等待并行 / 各就其位. Concrete technical subtitles remain; existing English is
+unchanged. Legacy prologue applications with the same depth now occupy distinct
+display columns, without changing prerequisites. See [editorial decisions and
+verification](verification/20260912-chinese-copy/README.md).
+
 Task-tree polish adds a padded detail card, separated title/body/status, fixed
 primary Enter action, node hover and canceled stale map drags. Continue and window
 resizing preserve the centered task after container layout. Final bilingual bounds

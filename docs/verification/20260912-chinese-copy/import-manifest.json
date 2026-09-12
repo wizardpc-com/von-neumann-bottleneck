@@ -1,0 +1,663 @@
+{
+  "base_commit": "18b37fcb99731f89d26ca522acc22aaf6676a963",
+  "audit_zip_sha256": "69c0af180a7142a68466f3c0cab2cbca44cc0a597ef3020b24f41f61cc9d4e73",
+  "counts": {
+    "manual_replace": 59,
+    "unchanged": 5,
+    "reverted_to_baseline": 10,
+    "adopted_mimo": 8
+  },
+  "conflict": 0,
+  "missing_original_validator": true,
+  "protected_differences": [],
+  "changes": [
+    {
+      "key": "hub.hardware.title",
+      "before": "硬件序章：构建 CPU",
+      "after": "序章：一线成机",
+      "kind": "title"
+    },
+    {
+      "key": "hardware.title",
+      "before": "硬件基础 · 构建计算机",
+      "after": "序章 · 一线成机",
+      "kind": "title"
+    },
+    {
+      "key": "tree.region.0",
+      "before": "01 造出机器",
+      "after": "01 一线成机",
+      "kind": "title"
+    },
+    {
+      "key": "hub.system.title",
+      "before": "第 1 章：等待数据",
+      "after": "第 1 章：时间的去处",
+      "kind": "title"
+    },
+    {
+      "key": "system.chapter.title",
+      "before": "第 1 章：等待数据",
+      "after": "第 1 章：时间的去处",
+      "kind": "title"
+    },
+    {
+      "key": "tree.region.1",
+      "before": "02 找出等待",
+      "after": "02 时间的去处",
+      "kind": "title"
+    },
+    {
+      "key": "hub.locality.title",
+      "before": "第 2 章：让数据留在近处",
+      "after": "第 2 章：少走远路",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.title",
+      "before": "第二章 · 让数据留在近处",
+      "after": "第 2 章：少走远路",
+      "kind": "title"
+    },
+    {
+      "key": "tree.region.2",
+      "before": "03 减少搬运",
+      "after": "03 少走远路",
+      "kind": "title"
+    },
+    {
+      "key": "overlap.title",
+      "before": "第 3 章 · 别让计算原地等",
+      "after": "第 3 章 · 与等待并行",
+      "kind": "title"
+    },
+    {
+      "key": "tree.region.3",
+      "before": "04 安排到达",
+      "after": "04 与等待并行",
+      "kind": "title"
+    },
+    {
+      "key": "layout.hub.title",
+      "before": "第 4 章：把数据摆对地方",
+      "after": "第 4 章：各就其位",
+      "kind": "title"
+    },
+    {
+      "key": "tree.region.4",
+      "before": "05 把数据摆对地方",
+      "after": "05 各就其位",
+      "kind": "title"
+    },
+    {
+      "key": "system.chapter.subtitle",
+      "before": "从可运行的计算机走向可解释的性能证据",
+      "after": "机器已经运转，时间花在了哪里？",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.subtitle",
+      "before": "减少昂贵的数据移动，让 CPU 少等待。",
+      "after": "减少代价高的数据搬运，让 CPU 少等待。",
+      "kind": "copy"
+    },
+    {
+      "key": "overlap.map_goal",
+      "before": "先理解完成时刻，再探索缓冲与预取；两条支线在最后汇合。",
+      "after": "先看清数据何时到达，再探索缓冲与预取。两条路线，最后汇合。",
+      "kind": "copy"
+    },
+    {
+      "key": "hub.subtitle",
+      "before": "从第一根线，到一台能计算的机器。再让它更快。",
+      "after": "从一根线开始，搭出能计算的机器，再让它更快。",
+      "kind": "copy"
+    },
+    {
+      "key": "hub.note",
+      "before": "每一个亲手完成的电路，都是下一步的起点。",
+      "after": "亲手搭起的电路，是下一步的积木。",
+      "kind": "copy"
+    },
+    {
+      "key": "hub.hardware.description",
+      "before": "亲手接线，让逻辑门学会计算和记忆。\n\n每完成一个电路，就把它变成下一次构建的工具。",
+      "after": "亲手接线，让门电路完成计算、保存状态。\n\n把做好的电路收入工具箱，继续搭建更大的机器。",
+      "kind": "copy"
+    },
+    {
+      "key": "hub.system.description",
+      "before": "你的计算机已经会工作了。\n\n观察它在哪里等待，用一次改变验证自己的判断。",
+      "after": "机器已经运转。\n\n找出时间耗在哪里：每次改动一个因素，再用结果验证判断。",
+      "kind": "copy"
+    },
+    {
+      "key": "hub.locality.description",
+      "before": "更少搬运，同样的结果。\n\n探索缓存、访问顺序和分块，让数据在需要时就在附近。",
+      "after": "少搬数据，结果不变。\n\n调整缓存、访问顺序和分块，让刚取回的数据多用几次。",
+      "kind": "copy"
+    },
+    {
+      "key": "layout.hub.description",
+      "before": "相同的数据，换一种摆法。\n\n自己组合分组、复制和分批，比较每次搬运是否值得。",
+      "after": "同样的数据，也有不同的排布。\n\n组合分组、复制和分批，比较每次搬运的收益与代价。",
+      "kind": "copy"
+    },
+    {
+      "key": "hub.tree.title",
+      "before": "章节任务树 · 展开你的机器",
+      "after": "任务树 · 展开你的机器",
+      "kind": "copy"
+    },
+    {
+      "key": "hub.tree.description",
+      "before": "沿着分支自由探索：造出机器，再让它少一些等待。",
+      "after": "沿着分支探索：搭起机器，再一点点收回等待的时间。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.map.title",
+      "before": "从门电路到可运行计算机",
+      "after": "从门电路到小计算机",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.map.subtitle",
+      "before": "学会计算 · 学会记忆 · 最后汇合成计算机",
+      "after": "运算与存储，各走一程，最后汇合成计算机",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.map.description",
+      "before": "从接线练习开始。算术路线：半加器 → 全加器 → ALU；存储路线：SR 锁存器 → 寄存器 → RAM。两条路线任选先后，最后汇合成 CPU，运行 LOAD/STORE，再进入系统与数据移动章节。",
+      "after": "从接线练习开始。\n算术：半加器 → 全加器 → ALU。\n存储：SR 锁存器 → 寄存器 → RAM。\n两条路线先后任选，最后汇合成 CPU。运行 LOAD/STORE 后，进入系统与数据移动章节。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.map.intro.body",
+      "before": "五个节点组成一条连续调查路线：先组装系统，再预测每次受控变化、运行实验、追踪 Trace 与 Profiler、解释 CPU WAIT，最后根据 4/16/64 工作负载诊断这套系统。\n\n本章不使用 Cache，也不要求软件优化。",
+      "after": "循着 CPU WAIT 查找等待：接好系统 → 预测一次改动 → 运行对照 → 查看 Trace 与 Profiler → 用 4/16/64 三组任务判断瓶颈。\n\n主线不使用 Cache，也不要求修改程序。可选支线会进一步探索如何减少重复读取。",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.map.intro.body",
+      "before": "CPU 仍在等待。沿着证据，从反复远程取数走向复用、访问顺序、工作集与分块。每个节点只要求一个主要判断。",
+      "after": "CPU 仍在等待。沿着数据的来路，依次调查远取、复用、访问顺序、工作集与分块。每关解决一个主要问题。",
+      "kind": "copy"
+    },
+    {
+      "key": "overlap.map_intro",
+      "before": "此前你减少了数据搬运。现在，把无法避免的搬运与有用的计算重叠起来。\n\n一台搬运器，一台计算器。你安排请求、选择何时等待，并决定数据暂存在哪里。\n\n上路：显式缓冲与反压。\n下路：硬件管理的 Cache 与预取。\n\n每关公布任务、预算和目标。等价方案都可以通过。",
+      "after": "已经能省下的搬运，不必重来；省不下的，试着与计算并行。\n\n一台搬运器，一台计算器。安排请求、等待时机和暂存位置。\n\n上路：显式缓冲与反压。\n下路：硬件管理的 Cache 与预取。\n\n每关公布任务、预算和目标；等价方案都可以通过。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.map.tutorial_description",
+      "before": "练习接线、删线和重新接回，并观察 0/1 信号怎样走到指示灯。",
+      "after": "接线、删线、再接回，观察 0/1 信号如何改变指示灯。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.map.half_adder_description",
+      "before": "用刚学过的门把 A、B 相加；四种输入情况都正确后，把电路保存成可重复使用的元件。",
+      "after": "用刚学的门把 A、B 相加；四种输入全部正确后，把电路保存为可复用元件。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.map.generic_description",
+      "before": "完成这一关的搭建和测试后，就能把成果带到后面的关卡继续使用。",
+      "after": "电路通过测试，就能成为后续搭建的工具。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.full_adder.description",
+      "before": "在 A、B 之外再接住上一位送来的进位，把三者相加，并把新的进位交给下一位。",
+      "after": "将 A、B 与上一位的进位相加，再把新的进位交给下一位。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.alu.description",
+      "before": "让同一组输入能完成四种不同的小计算，再用控制信号选择这次要哪一个结果。",
+      "after": "同一组输入，四种运算。用控制信号选择输出结果。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.latch.description",
+      "before": "做一个能记住 0 或 1 的小电路：写入以后，即使控制信号放开，它也要保留刚才的状态。",
+      "after": "保存一个 0 或 1。写入后松开控制信号，状态仍然保留。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.register.description",
+      "before": "给刚做好的记忆元件增加数据入口和写入开关：关着时保持，打开时写入新值。",
+      "after": "给记忆元件加上数据入口和写入开关：关闭时保持，打开时写入新值。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.ram.description",
+      "before": "把两个四位记忆位置放在一起，用地址选择这次读哪一个、写哪一个。",
+      "after": "把两个四位记忆位置放在一起，用地址决定这次读哪个、写哪个。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.cpu.description",
+      "before": "把已经做好的计算、记忆和控制部分接起来，让小计算机能按顺序读取、相加和保存数据。",
+      "after": "接上计算、记忆和控制三部分，让小计算机按顺序读取、相加、保存。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.prologue.load_store.description",
+      "before": "不用再布线。直接运行刚做好的小计算机，观察数据怎样从内存进入计算部分，再把结果送回去。",
+      "after": "无需重新布线。运行刚搭好的小计算机，观察数据从内存进入计算部分，再把结果写回。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.level.assembly.description",
+      "before": "把负责计算、传送和存放数据的三个部分接起来，让第一台系统真正跑起来。",
+      "after": "连接计算、传送和存储三个部分，让系统运转起来。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.level.cpu_speed.description",
+      "before": "只把负责计算的部分换快，看看整台机器会不会跟着快同样多。",
+      "after": "只提高计算部分的速度，整台机器会快同样多吗？",
+      "kind": "copy"
+    },
+    {
+      "key": "system.level.ram_wait.description",
+      "before": "沿着数据往返的路线，看看 CPU 为什么常常停下来等。",
+      "after": "沿着数据往返的路线，找出 CPU 在哪里等待。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.level.bus_width.description",
+      "before": "同一份数据经过宽窄不同的通道，看看要分几趟才能运完。",
+      "after": "同一份数据走宽窄不同的通道，要分几趟才运得完？",
+      "kind": "copy"
+    },
+    {
+      "key": "system.level.bottleneck.description",
+      "before": "把任务从小到大跑三次，找出整台机器最拖后腿的部分。",
+      "after": "依次运行小、中、大三组任务，找出限制整机速度的环节。",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.level.distant_reads.description",
+      "before": "跟着一份数据走完整个来回，看看 CPU 为什么总在等。",
+      "after": "跟随一次数据往返，看看 CPU 的时间花在了哪里。",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.level.nearby_storage.description",
+      "before": "把刚拿过的数据暂时放在近处，看看下一次能不能少走远路。",
+      "after": "将刚取回的数据留在缓存中，下次访问能否少一次远程读取？",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.level.cache_failure.description",
+      "before": "近处存储已经装上了，为什么这次还是不断跑远路？",
+      "after": "已经装上缓存，为什么仍要反复从远端取数？",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.level.access_order.description",
+      "before": "硬件完全不变，只换一个更顺手的取数顺序。",
+      "after": "保持硬件不变，只调整取数顺序，看看能省下多少搬运。",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.level.working_set.description",
+      "before": "取数顺序已经很顺了，但第二轮为什么还要重新取一遍？",
+      "after": "访问顺序已经调整，为什么第二轮仍要重新取数？",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.level.blocking.description",
+      "before": "一次只处理一小组数据，让两轮工作趁数据还在近处时一起完成。",
+      "after": "一次处理一小组数据，在数据仍可复用时完成两轮工作。",
+      "kind": "copy"
+    },
+    {
+      "key": "exploration.selector4.description",
+      "before": "四路传感器共用一个出口。让编号选中的那一路通行，其余三路怎样变化都不能干扰输出。\n\n你已经做过两路选择。这次由你决定怎样组织四路，内部从空白开始；元件台提供基本门，允许不同结构。",
+      "after": "四路传感器共用一个出口。让编号选中的那一路通行，其余三路怎样变化都不能干扰输出。\n\n你已经做过两路选择。这次自己决定怎样组织四路，内部从空白开始；元件台提供基本门，允许不同结构。",
+      "kind": "copy"
+    },
+    {
+      "key": "exploration.parity.description",
+      "before": "数据通过线路传来，可能有一位被翻转。发送方加了一位校验信息，让接收方能发现这类错误。\n\n四位数据 D0～D3 加 CHECK，一共五位。有效消息里，1 的数量必须是偶数。构建 ERROR 指示器：偶数个 1 输出 0，奇数个 1 输出 1。",
+      "after": "数据沿线路传来，可能有一位被翻转。用发送方附带的校验信息发现这类错误。\n\n四位数据 D0～D3 加 CHECK，共五位。有效消息中，1 的数量为偶数。构建 ERROR 指示器：偶数个 1 输出 0，奇数个 1 输出 1。",
+      "kind": "copy"
+    },
+    {
+      "key": "exploration.alarm.description",
+      "before": "故障可能只闪一下。即使 FAULT 回到 0，ALARM 也必须保持 1，直到操作者 CLEAR。\n\n复用已完成的 SR 锁存器。内部空白，你来决定怎样让故障被记住，并让清除可靠生效。",
+      "after": "故障可能一闪而过，报警却要留下。FAULT 回到 0 后，ALARM 仍须保持 1，直到操作者 CLEAR。\n\n复用 SR 锁存器，从空白电路开始，保存故障状态，并让清除优先。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.level.read_once.description",
+      "before": "同一个数要加两次，真的要向内存读两次吗？\n\n硬件固定。程序已经算对，但每轮重复请求同一个输入。保留正确结果，改写程序，让取回的 value 多用一次。",
+      "after": "同一个数要加两次，真要向内存读两次吗？\n\n硬件固定。程序已算对，但每轮重复请求同一输入。保留正确结果，改程序，让取回的 value 多用一次。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.level.two_orders.description",
+      "before": "两位客户带来不同任务，却给出相同预算。为每张订单分别选择 CPU、RAM 和 Bus。\n\n计算订单：读取一个数，连续做 32 次加法，再写回。\n搬运订单：逐项复制输入，不做加法。\n\n元件台顶部切换订单。每张订单保留自己的配置，不要求同一套硬件同时完成两张订单。",
+      "after": "两位客户的任务不同，预算却一样。为每张订单分别选择 CPU、RAM 和 Bus。\n\n计算订单：读取一个数，连续做 32 次加法，再写回。\n搬运订单：逐项复制输入，不做加法。\n\n在元件台顶部切换订单。每张订单保留自己的配置，不要求同一套硬件同时完成两张订单。",
+      "kind": "copy"
+    },
+    {
+      "key": "experience.next.hardware_foundations.tutorial",
+      "before": "下一项能力：把两个 0/1 相加。你也可以从关卡地图选择存储分支，试着让电路记住一个值。",
+      "after": "下一项能力：把两个 0/1 相加。也可以从地图进入存储分支，让电路先记住一个值。",
+      "kind": "copy"
+    },
+    {
+      "key": "experience.next.hardware_foundations.half_adder",
+      "before": "接下来：接住上一位的进位，让你的加法器能参与更长的加法。",
+      "after": "接下来：接住上一位的进位，让加法器能参与更长的加法。",
+      "kind": "copy"
+    },
+    {
+      "key": "experience.next.hardware_foundations.alu",
+      "before": "运算分支准备好了。存储分支会让数据留下来；两条分支最终在 CPU 汇合。",
+      "after": "运算分支已经接通。与存储分支汇合后，就能搭建 CPU。",
+      "kind": "copy"
+    },
+    {
+      "key": "experience.next.hardware_foundations.latch",
+      "before": "接下来：给记忆加一个更好用的入口——指定一个值，再决定何时保存。",
+      "after": "接下来：为记忆加上数据入口，再决定何时写入。",
+      "kind": "copy"
+    },
+    {
+      "key": "experience.next.hardware_foundations.register",
+      "before": "接下来：让多个寄存器各记一个数，再用地址选择其中一个。",
+      "after": "接下来：让多个寄存器各记一个数，再用地址选出其中一个。",
+      "kind": "copy"
+    },
+    {
+      "key": "experience.next.hardware_foundations.ram",
+      "before": "存储分支准备好了。完成运算分支后，就能把计算、控制和内存接成一台小计算机。",
+      "after": "存储分支已经接通。与运算分支汇合后，就能把计算、控制和内存接成一台小计算机。",
+      "kind": "copy"
+    },
+    {
+      "key": "experience.next.hardware_foundations.cpu",
+      "before": "接下来：运行你自己的计算机，跟随一次读取和一次写入，看看数据在哪里走。",
+      "after": "接下来：运行自己的计算机，跟随一次读取和一次写入，观察数据如何流动。",
+      "kind": "copy"
+    },
+    {
+      "key": "experience.next.hardware_foundations.load_store",
+      "before": "第一章的新问题：机器已经会算，为什么还会慢？从一次数据往返开始调查。",
+      "after": "机器会计算了，为什么还会慢？从一次数据往返开始找原因。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.tutorial",
+      "before": "你已经能接通、运行和修补一张电路。红色 0 和绿色 1 都是正常信号；改变输入时，可以沿线观察结果怎样变化。",
+      "after": "电路已经接通，也能运行和修补。0 和 1 都是正常信号；改变输入，沿线观察结果。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.half_adder",
+      "before": "你把两个一位数变成了 SUM 和 CARRY，并得到可复用的 HalfAdder。新解锁的 XOR 门在两个输入不同时输出 1，正好表达了 SUM 的规则。",
+      "after": "两个一位数相加，得到 SUM 和 CARRY，也得到可复用的 HalfAdder。新解锁的 XOR 在两个输入不同时输出 1，正好对应 SUM 的规则。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.full_adder",
+      "before": "你让 A+B 的计算接住了上一位的进位。小电路可以成为更大电路的积木，而不必每次从门开始。",
+      "after": "A+B 再加上来自上一位的进位，便能接续更长的加法。小电路成了大电路的积木，不必每次从门开始。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.alu",
+      "before": "你让控制信号选择不同算术结果，并理解了 ALU 如何把多种运算收进同一个数据通路。",
+      "after": "控制信号选定运算，ALU 将结果送入同一条数据通路。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.latch",
+      "before": "你利用反馈保存了一个状态，理解了组合逻辑与具有记忆的时序元件之间的分界。",
+      "after": "借助反馈，电路留下了一个状态。这是组合逻辑与记忆电路的区别。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.register",
+      "before": "你让“数据是什么”和“何时保存”各有一个输入。关闭 LOAD 后，Q 仍保留上次保存的值。",
+      "after": "数据与保存时机，分别由各自的输入决定。关掉 LOAD 后，Q 仍保留上次写入的值。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.ram",
+      "before": "你把地址、写入控制和数据端口组合成可寻址存储，观察了写入、保持与读取的状态变化。",
+      "after": "你把地址、写入控制和数据端口接成可寻址存储，并核对了写入、保持与读取时的状态变化。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.cpu",
+      "before": "你把 ALU、寄存器、控制与 RAM 汇合成一台小型计算机，建立了完整数据通路的所有权。",
+      "after": "ALU、寄存器、控制与 RAM 已接成一台小计算机。指令发出，数据便在其中流动。",
+      "kind": "copy"
+    },
+    {
+      "key": "hardware.completion.summary.load_store",
+      "before": "你让 CPU 经由 LOAD 与 STORE 访问外部存储，也看见了处理器必须等待数据往返的边界。",
+      "after": "CPU 经由 LOAD 与 STORE 访问外部存储。计算之外，还有数据往返带来的等待。",
+      "kind": "copy"
+    },
+    {
+      "key": "chapter2.level.capstone.learned",
+      "before": "你完成了完整循环：观察、诊断、改变一个原因、再比较。多种软硬件解法都有效。",
+      "after": "先观察和诊断，用一次单因素实验检验判断，再组合软硬件方案。通向相同结果的路，不止一条。",
+      "kind": "copy"
+    },
+    {
+      "key": "exploration.selector.summary",
+      "before": "你让控制信号选择数据的去向。输入在变化，未选中的一边仍不会干扰输出。",
+      "after": "控制信号决定哪一路数据到达输出。未被选中的输入怎么变，都不会干扰结果。",
+      "kind": "copy"
+    },
+    {
+      "key": "exploration.delay.summary",
+      "before": "你把现在和上一份数据分开保存。暂停、重复值和连续接收都遵守同一个提交规则。",
+      "after": "当前数据与上一份数据各有归处。暂停时保持输出，重复值和连续接收仍按同一条提交规则处理。",
+      "kind": "copy"
+    },
+    {
+      "key": "exploration.selector4.summary",
+      "before": "你把选择组织成了更大的系统。试试另一种结构：分层和译码各有什么取舍？",
+      "after": "你把选择组织成了更大的系统。换一种结构再试：分层和译码各有什么取舍？",
+      "kind": "copy"
+    },
+    {
+      "key": "exploration.parity.summary",
+      "before": "你做出了错误探测器。继续在调试输入中翻转一位，再翻转第二位，亲自观察为什么“没有报警”不等于“绝对没有错误”。",
+      "after": "错误探测器已经完成。先翻转一位，再翻转第二位，观察为什么“没有报警”并不等于“没有错误”。",
+      "kind": "copy"
+    },
+    {
+      "key": "exploration.alarm.summary",
+      "before": "短暂事件现在能被保留下来，清除也有明确优先级。状态不只是存数，还能记录“曾经发生过什么”。",
+      "after": "故障虽短，记录可以留下。清除优先，状态也能记住“曾经发生过什么”。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.completion.summary.read_once",
+      "before": "你没有升级硬件，却减少了真实内存请求。数据一旦取回，就值得问问：还能再用一次吗？",
+      "after": "硬件未变，内存请求减少了。取回的数据，还能再用一次。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.completion.summary.two_orders",
+      "before": "你把有限预算花在了各自需要的地方。最快的部件并不总是最值得买的部件；工作负载决定了取舍。",
+      "after": "相同预算，花在不同的地方。最快的部件未必最合适，取舍要看工作负载。",
+      "kind": "copy"
+    },
+    {
+      "key": "overlap.arrival.learned",
+      "before": "你区分了发请求和数据到达，并把独立工作放进了等待区间。两条探索支线已开放。",
+      "after": "发出请求之后，数据尚需时间到达。独立计算可以填入这段等待，两条探索支线已开放。",
+      "kind": "copy"
+    },
+    {
+      "key": "overlap.prefetch.learned",
+      "before": "你把请求提前了，但计算仍使用实际到达的数据。试着继续观察提前过多的后果。",
+      "after": "请求可以先行，计算仍要等数据实际到达。接下来，看看提前过多会怎样。",
+      "kind": "copy"
+    },
+    {
+      "key": "overlap.distance.learned",
+      "before": "你避免了不必要的逐出和再次搬运。预取的价值取决于缓存容量与使用时机。",
+      "after": "你避免了不必要的逐出和再次搬运。预取是否有效，取决于缓存容量和使用时机。",
+      "kind": "copy"
+    },
+    {
+      "key": "overlap.synthesis.learned",
+      "before": "两组任务都已通过。相同结果下，你用调度解释了重叠与等待；带宽受限时，更多暂存不会让搬运器变快。",
+      "after": "两组任务都已通过。调度改变了搬运与计算的重叠，也改变了等待；带宽受限时，更多暂存不会让搬运器变快。",
+      "kind": "copy"
+    },
+    {
+      "key": "system.level.assembly.title",
+      "before": "接通第一台系统",
+      "after": "三器相连",
+      "kind": "title"
+    },
+    {
+      "key": "system.level.cpu_speed.title",
+      "before": "CPU 变快以后",
+      "after": "快慢之间",
+      "kind": "title"
+    },
+    {
+      "key": "system.level.ram_wait.title",
+      "before": "CPU 在等谁",
+      "after": "等待的来处",
+      "kind": "title"
+    },
+    {
+      "key": "system.level.bus_width.title",
+      "before": "一字节要走几次",
+      "after": "宽窄之间",
+      "kind": "title"
+    },
+    {
+      "key": "system.level.bottleneck.title",
+      "before": "瓶颈调查",
+      "after": "循时寻因",
+      "kind": "title"
+    },
+    {
+      "key": "system.level.read_once.title",
+      "before": "只取一次，就够了",
+      "after": "一取再用",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.level.distant_reads.title",
+      "before": "为什么每次都要走那么远？",
+      "after": "远取之累",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.level.nearby_storage.title",
+      "before": "把它留在近处",
+      "after": "留待再用",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.level.cache_failure.title",
+      "before": "它为什么没有帮上忙？",
+      "after": "留不住的数据",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.level.access_order.title",
+      "before": "换个顺序",
+      "after": "先后有序",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.level.working_set.title",
+      "before": "明明顺序已经对了",
+      "after": "容量有界",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.level.blocking.title",
+      "before": "一次别做那么多",
+      "after": "分而复用",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.level.capstone.title",
+      "before": "现在，自己调查",
+      "after": "循迹而行",
+      "kind": "title"
+    },
+    {
+      "key": "overlap.arrival.title",
+      "before": "发出去，不等于到了",
+      "after": "尚在途中",
+      "kind": "title"
+    },
+    {
+      "key": "overlap.buffers.title",
+      "before": "两只缓冲，轮流上场",
+      "after": "交替接力",
+      "kind": "title"
+    },
+    {
+      "key": "overlap.backpressure.title",
+      "before": "慢一点，也别丢",
+      "after": "进退有度",
+      "kind": "title"
+    },
+    {
+      "key": "overlap.prefetch.title",
+      "before": "提前一点",
+      "after": "先行一步",
+      "kind": "title"
+    },
+    {
+      "key": "overlap.distance.title",
+      "before": "不是越早越好",
+      "after": "早亦有时",
+      "kind": "title"
+    },
+    {
+      "key": "overlap.synthesis.title",
+      "before": "别让计算停下来",
+      "after": "各行其时",
+      "kind": "title"
+    },
+    {
+      "key": "exploration.alarm.title",
+      "before": "报警别消失",
+      "after": "留住一瞬",
+      "kind": "title"
+    },
+    {
+      "key": "overlap.hub.eyebrow",
+      "before": null,
+      "after": "缓冲 · 反压 · 预取",
+      "kind": "copy"
+    },
+    {
+      "key": "system.completion.chapter",
+      "before": "第一章 · 等待数据",
+      "after": "第 1 章 · 时间的去处",
+      "kind": "title"
+    },
+    {
+      "key": "chapter2.completion.chapter",
+      "before": "第二章 · 让数据留在近处",
+      "after": "第 2 章 · 少走远路",
+      "kind": "title"
+    }
+  ]
+}

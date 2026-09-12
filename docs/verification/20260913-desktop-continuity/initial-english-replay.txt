@@ -1,0 +1,11 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: First Mission exposes Start Building without scrolling or searching for the action.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_recovery_game_input.gd:752)
+       [2] press (res://tests/test_recovery_game_input.gd:120)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+Recovery GUI checks: 632; failures: 1

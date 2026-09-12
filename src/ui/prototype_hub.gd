@@ -202,19 +202,25 @@ func _build_interface() -> void:
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	note.add_theme_color_override("font_color", MUTED)
 	content.add_child(note)
+	var header_actions := HBoxContainer.new()
+	header_actions.name = "HeaderActions"
+	add_child(header_actions)
+	header_actions.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	header_actions.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	header_actions.offset_left = -278.0
+	header_actions.offset_top = 16.0
+	header_actions.offset_right = -16.0
+	header_actions.offset_bottom = 60.0
+	header_actions.add_theme_constant_override("separation",12)
 	fullscreen_button = FullscreenButtonType.new()
-	add_child(fullscreen_button)
-	fullscreen_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	fullscreen_button.offset_left = -116.0
-	fullscreen_button.offset_top = 16.0
-	fullscreen_button.offset_right = -16.0
-	fullscreen_button.offset_bottom = 60.0
+	header_actions.add_child(fullscreen_button)
 	terminology_handbook = TerminologyHandbookType.new()
 	add_child(terminology_handbook)
 	_build_options_menu()
 	var settings_button := Button.new(); settings_button.text=Localization.text(&"hub.settings.settings_esc")
-	add_child(settings_button); settings_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	settings_button.offset_left=-278; settings_button.offset_right=-128; settings_button.offset_top=16; settings_button.offset_bottom=60
+	settings_button.custom_minimum_size.x = 150.0
+	header_actions.add_child(settings_button)
+	header_actions.move_child(settings_button,0)
 	settings_button.pressed.connect(_open_options_menu)
 	_build_new_game_confirmation()
 	_refresh_save_actions()
@@ -684,7 +690,8 @@ func _build_card(
 	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.clip_text = true
 	button.custom_minimum_size.y = 58.0
-	button.pressed.connect(func() -> void: get_tree().change_scene_to_file(scene_path))
+	button.name = "ChapterEntry_"+String(entry_id)
+	button.pressed.connect(_open_chapter.bind(scene_path))
 	box.add_child(button)
 	if entry_id == &"system":
 		system_entry_button = button
@@ -747,3 +754,11 @@ func _stylebox(color: Color, radius: int, border_width: int = 0, border_color: C
 	box.content_margin_top = 14.0
 	box.content_margin_bottom = 14.0
 	return box
+
+
+func _open_chapter(scene_path: String) -> void:
+	# A chapter card starts a fresh navigation route, independent of the last
+	# task entered from the global tree. Progress and Continue stay untouched.
+	TaskNavigation.from_tree = false
+	TaskNavigation.pending = ""
+	get_tree().change_scene_to_file(scene_path)

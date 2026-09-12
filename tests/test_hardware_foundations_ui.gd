@@ -176,8 +176,8 @@ func _run() -> void:
 			and previous_button.disabled == (briefing_page == 0)
 			and continue_button.custom_minimum_size == Vector2(UiTypographyType.CONTINUE_WIDTH, UiTypographyType.CONTROL_HEIGHT)
 			and absf(continue_button.global_position.x + continue_button.size.x * 0.5 - (tutorial_task_window.global_position.x + tutorial_task_window.size.x * 0.5)) < 8.0
-			and continue_button.global_position.y > current_briefing_body.global_position.y,
-			"Mission navigation must expose Previous only after page 1 while keeping Continue compact and centered."
+			and continue_button.get_global_rect().end.y <= current_briefing_body.global_position.y,
+			"Mission navigation must expose Previous only after page 1, centered above the scrollable explanation."
 		)
 		if briefing_page == 1:
 			previous_button.pressed.emit()

@@ -1,0 +1,16 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: cpu_speed must expose an in-panel finding action without covering the evidence.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://capture_profiler.gd:515)
+ERROR: ram_wait must expose an in-panel finding action without covering the evidence.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://capture_profiler.gd:515)
+ERROR: bus_width must expose an in-panel finding action without covering the evidence.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://capture_profiler.gd:515)
+FAIL: 3 system-lab UI assertion(s) failed

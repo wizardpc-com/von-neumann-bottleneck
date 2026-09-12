@@ -6474,3 +6474,6 @@ msgstr "Each test case starts with an empty cache and keeps it until the case en
 
 msgid "layout.tools.window_title"
 msgstr "Layout tools"
+
+msgid "system.profiler.time_split"
+msgstr "CPU compute: %d cycles; waiting: %d cycles. This shows proportions, not event order."

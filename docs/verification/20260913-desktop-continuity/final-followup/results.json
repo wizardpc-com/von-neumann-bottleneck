@@ -1,0 +1,35 @@
+[
+  {
+    "name": "hardware",
+    "exit": 1,
+    "errors": [
+      "ERROR: Mission navigation must expose Previous only after page 1 while keeping Continue compact and centered.",
+      "ERROR: Mission navigation must expose Previous only after page 1 while keeping Continue compact and centered.",
+      "ERROR: Mission navigation must expose Previous only after page 1 while keeping Continue compact and centered.",
+      "ERROR: Mission navigation must expose Previous only after page 1 while keeping Continue compact and centered.",
+      "ERROR: Mission navigation must expose Previous only after page 1 while keeping Continue compact and centered.",
+      "ERROR: Mission navigation must expose Previous only after page 1 while keeping Continue compact and centered.",
+      "FAIL: 6 Hardware Foundations UI assertion(s) failed"
+    ]
+  },
+  {
+    "name": "prologue",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "typography",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "en",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "zh",
+    "exit": 0,
+    "errors": []
+  }
+]

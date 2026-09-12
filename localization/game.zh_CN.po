@@ -6473,3 +6473,6 @@ msgstr "每次从空缓存开始，同一订单内保留缓存。\n查询结果�
 
 msgid "layout.tools.window_title"
 msgstr "布局工具"
+
+msgid "system.profiler.time_split"
+msgstr "CPU 计算：%d 周期；等待：%d 周期。比例图不代表事件先后顺序。"

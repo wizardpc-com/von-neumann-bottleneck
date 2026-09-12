@@ -1,0 +1,37 @@
+[
+  {
+    "name": "profiler-en",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "profiler-zh",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "typography",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "test_ui",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "test_chapter_card_routes",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "test_prelaunch_settings",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "test_release_convergence",
+    "exit": 0,
+    "errors": []
+  }
+]

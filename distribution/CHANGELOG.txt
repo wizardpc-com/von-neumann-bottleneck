@@ -1,3 +1,10 @@
+Unreleased — desktop continuity and bilingual Mission layout
+- Keep Mission page actions visible above long English/Chinese explanations.
+- Restore player windows and camera after the separate Hint canvas.
+- Open the selected chapter card without stale task-tree redirection.
+- Show authoritative CPU compute/wait proportions with calm focused window frames.
+- Verification: docs/verification/20260913-desktop-continuity/README.md.
+
 Unreleased — bilingual memory and window typography
 - Separate memory field, source record and value; localize cell inspection.
 - Wrap long diagram captions, preserve readable grid type, and keep units together.

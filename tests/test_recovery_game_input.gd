@@ -195,6 +195,8 @@ func snapshot() -> String:
 	return JSON.stringify({"name": ui.active_workbench_name, "nodes": nodes, "circuit": ui.current_circuit.canonical_signature(), "colors": colors})
 
 func hint_roundtrip(inspect_id: StringName = &"NOT_1") -> void:
+	await close_window(&"components")
+	var view_before: Dictionary = ui._capture_player_view()
 	var before: String = snapshot()
 	check(not ui.hint_mode and not ui.hint_confirmation.visible, "Hints and spoiler confirmation are hidden by default.")
 	await press(ui.hint_button)
@@ -247,6 +249,11 @@ func hint_roundtrip(inspect_id: StringName = &"NOT_1") -> void:
 		var mismatch := FileAccess.open(evidence_root + "hint-return-diff.json", FileAccess.WRITE)
 		mismatch.store_string(JSON.stringify({"before": JSON.parse_string(before), "after": JSON.parse_string(snapshot())}, "\t"))
 	check(not ui.hint_mode and snapshot() == before, "Hint return preserves player name, topology, positions and wire colors exactly.")
+	check(ui.mission_compact==view_before.compact,"Hint return preserves the player's compact Mission state.")
+	check(is_equal_approx(ui.graph.zoom,view_before.zoom) and ui.graph.scroll_offset.is_equal_approx(view_before.scroll),"Hint return restores the player camera instead of fitting to the reference view.")
+	for row: Dictionary in view_before.windows:
+		var window: Control=ui.desktop_windows[row.id]
+		check(window.visible==row.state.visible and window.position.is_equal_approx(row.state.position) and window.size.is_equal_approx(row.state.size),"Hint preserves window visibility and geometry: "+String(row.id))
 	check(ui.wire_history.is_empty() and ui.redo_history.is_empty(), "Hint return retains the documented ADR 0015 history reset.")
 	await dismiss_briefing()
 	await press(ui.hint_button)
@@ -744,6 +751,12 @@ func _run() -> void:
 	var task_scroll: ScrollContainer = ui.desktop_windows[&"task"].find_child("TaskScroll", true, false) as ScrollContainer
 	check(task_scroll != null and task_scroll.get_global_rect().encloses(start_building.get_global_rect()), "First Mission exposes Start Building without scrolling or searching for the action.")
 	await capture("tutorial-mission")
+	root.size = Vector2i(1280, 720)
+	await settle(10)
+	check(task_scroll.get_global_rect().encloses(start_building.get_global_rect()), "First Mission actions stay visible at the minimum window size in either language.")
+	await capture("tutorial-mission-minimum")
+	root.size = Vector2i(1600, 900)
+	await settle(10)
 	await press(ui.mission_briefing_continue_button)
 	await press(ui.mission_briefing_previous_button)
 	check(ui.mission_briefing_page == 0, "Mission Previous/Next remain functional.")

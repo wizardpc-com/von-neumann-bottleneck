@@ -76,3 +76,21 @@ ordinary Tutorial replay is 212/0 in each locale. See
 [follow-up evidence](../../verification/20260913-bilingual-memory/README.md).
 This closes the scoped bilingual memory/window pass. The broader CPU and Chapters
 1–3 native iteration/final-candidate queue above remains open.
+
+CPU/Chapter 1 native continuation: CPU seven-step program passed; Hint return
+reopened hidden tools, expanded Mission and refitted the camera. Preserve transient
+window geometry/visibility and camera across Hint, while retaining the documented
+ADR 0015 history reset. A stale from_tree flag also redirected a chapter-card click
+to the previous CPU map selection; clear that transient route on explicit card entry.
+Native RAM-wait ran two 134-cycle cases, 268 total with 252 CPU-wait cycles. Add a
+read-only compute/wait proportion bar using those metrics, respecting existing
+Profiler reveal gates, and use subdued raised window surfaces with focused accents.
+No metrics are added together twice; RAM service remains part of wait.
+
+Desktop continuity checkpoint: final English full replay 633/0 and Chinese Tutorial
+218/0. English long Mission text hid its page actions; they now follow section tabs.
+Rendered Chapter 1 found a buried conclusion action and an English fullscreen
+header overflow; both corrected. Final bilingual Profiler, typography, shared UI,
+settings, card routing and release-convergence checks pass. Final computer-use
+recheck is pending because the Mac is locked; do not claim that native gate closed.
+See [desktop evidence](../../verification/20260913-desktop-continuity/README.md).

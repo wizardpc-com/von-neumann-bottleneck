@@ -31,6 +31,12 @@ func run() -> void:
 			root.add_child(hub)
 			for frame: int in range(6): await process_frame
 			labels_fit(hub,Rect2(Vector2.ZERO,Vector2(dimensions)))
+			var fullscreen: Button=hub.fullscreen_button
+			for active: bool in [true,false]:
+				fullscreen._refresh(active)
+				for frame: int in range(4): await process_frame
+				check(hub.get_global_rect().encloses(fullscreen.get_global_rect()),"Both fullscreen captions stay inside the hub: "+locale)
+			fullscreen._refresh(root.get_node("WindowMode").is_fullscreen())
 			var entry: Control=hub.find_child("TaskTreeEntry",true,false)
 			var scroll: ScrollContainer=hub.find_child("ChapterScroll",true,false)
 			check(scroll.scroll_vertical==0 and scroll.get_global_rect().encloses(entry.get_global_rect()),"Fresh hub keeps the entire primary task-tree entry visible.")

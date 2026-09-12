@@ -207,6 +207,8 @@ var workbench_save_queued: bool = false
 var hint_mode: bool = false
 var hint_level: int = 0
 var hint_return_level_id: StringName = &""
+var hint_player_view: Dictionary = {}
+var pending_hint_player_view: Dictionary = {}
 var viewed_hint_levels: Dictionary[String, int] = {}
 var pending_hint_level: int = 0
 var hint_confirmation: Control
@@ -1372,6 +1374,8 @@ func _show_mission_briefing_page() -> void:
 	navigation_row.add_child(navigation_balance)
 	navigation_center.add_child(navigation_row)
 	mission_briefing_panel.add_child(navigation_center)
+	# Keep actions above variable-length bilingual prose and diagrams.
+	mission_briefing_panel.move_child(navigation_center, 2)
 
 
 func _build_half_adder_specification() -> Control:
@@ -2381,6 +2385,7 @@ func _enter_hint_workbench() -> void:
 		return
 	_finish_mission_briefing()
 	_save_active_workbench()
+	hint_player_view = _capture_player_view()
 	hint_return_level_id = current_level_id
 	hint_mode = true
 	PlaytestData.record_hint_action(&"hardware_foundations",current_level_id,1,&"request")
@@ -2617,9 +2622,35 @@ func _exit_hint_workbench() -> void:
 	hint_mode = false
 	hint_level = 0
 	hint_return_level_id = &""
+	pending_hint_player_view = hint_player_view
+	hint_player_view = {}
 	_start_campaign_level(return_level, false)
 	status_label.text = _t(&"hardware.hint.returned", [active_workbench_name])
 	status_label.add_theme_color_override("font_color", GOOD)
+
+
+func _capture_player_view() -> Dictionary:
+	var windows: Array[Dictionary] = []
+	for id: StringName in desktop_windows:
+		var window: FloatingInstrumentPanel = desktop_windows[id]
+		windows.append({"id":id,"order":window.get_index(),"state":window.capture_view_state()})
+	windows.sort_custom(func(a: Dictionary,b: Dictionary) -> bool: return a.order<b.order)
+	return {"level":current_level_id,"windows":windows,"compact":mission_compact,
+		"expanded":mission_expanded_rect,"zoom":graph.zoom,"scroll":graph.scroll_offset}
+
+
+func _restore_player_view(view: Dictionary) -> void:
+	_set_mission_compact(bool(view.compact))
+	mission_expanded_rect = view.expanded
+	for row: Dictionary in view.windows:
+		var window: FloatingInstrumentPanel = desktop_windows[row.id]
+		window.restore_view_state(row.state)
+		if window.visible: _focus_desktop_window(row.id)
+		var button: Button = desktop_window_buttons.get(row.id)
+		if button != null: button.set_pressed_no_signal(window.visible)
+	graph.zoom = float(view.zoom)
+	graph.scroll_offset = view.scroll
+	_focus_graph_for_keyboard()
 
 
 func _show_tutorial(show_briefing: bool = true) -> void:
@@ -5749,12 +5780,22 @@ func _auto_layout() -> void:
 
 
 func _restore_graph_view_after_layout() -> void:
+	var target_graph: GraphEdit = graph
 	await get_tree().process_frame
-	if graph == null or current_phase == &"sealed":
+	if graph == null or graph != target_graph or current_phase == &"sealed":
 		return
 	for component_id: StringName in component_nodes:
 		if layout_positions.has(component_id):
 			(component_nodes[component_id] as GraphNode).position_offset = layout_positions[component_id]
+	if not hint_mode and not pending_hint_player_view.is_empty():
+		var view: Dictionary = pending_hint_player_view
+		pending_hint_player_view = {}
+		# Rebuilt labels/toolbars must settle before restoring the user's windows.
+		await get_tree().process_frame
+		await get_tree().process_frame
+		if graph == target_graph and current_level_id == view.level and not hint_mode:
+			_restore_player_view(view)
+		return
 	graph.scroll_offset = Vector2.ZERO
 	# Keep every starting terminal away from the wire-drag edge-pan zone.
 	# Fit the view only; preserve saved positions and existing port geometry.

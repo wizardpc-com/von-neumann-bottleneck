@@ -39,7 +39,7 @@ func _run() -> void:
 	)
 	hub.call("_close_new_game_confirmation")
 	var hub_fullscreen: Control = hub.get("fullscreen_button")
-	_assert(hub.get_rect().encloses(hub_fullscreen.get_rect()), "The three-card hub must keep its fullscreen action completely on screen.")
+	_assert(hub.get_global_rect().encloses(hub_fullscreen.get_global_rect()), "The three-card hub must keep its fullscreen action completely on screen.")
 	game_mode.call("set_mode", &"test")
 	await process_frame
 	_assert(not (hub.get("system_entry_button") as Button).disabled, "Test mode must expose the Chapter 1 hub entry immediately.")
@@ -414,6 +414,7 @@ func _run() -> void:
 	var profiler_labels: Dictionary = main.get("profiler_labels")
 	for locked_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
 		_assert(not (profiler_labels[locked_metric] as Label).visible, "%s must stay hidden before the first diagnosis." % locked_metric)
+	_assert(not (main.get("cpu_time_breakdown") as Control).visible,"The visual time split must not bypass the first-diagnosis gate.")
 	var shares_label: Label = profiler_labels[&"shares"]
 	_assert(shares_label.visible and "%" not in shares_label.text and _t(&"system.profiler.breakdown_locked") in shares_label.text, "The pre-diagnosis Profiler must explicitly lock the component breakdown without leaking percentages.")
 	var selector: OptionButton = main.get("diagnosis_selector")
@@ -432,6 +433,12 @@ func _run() -> void:
 	for revealed_metric: StringName in [&"cpu_compute_cycles", &"ram_service_cycles", &"bus_control_cycles", &"bus_transfer_cycles"]:
 		_assert((profiler_labels[revealed_metric] as Label).visible, "%s must be revealed after the first diagnosis." % revealed_metric)
 	_assert(shares_label.visible and "%" in shares_label.text, "Submitting a diagnosis must reveal the complete percentage breakdown as feedback.")
+	_assert((main.get("cpu_time_breakdown") as Control).visible,"The time split becomes visible with the same revealed metrics.")
+	var expected_compute_share: float=100.0*float(final_receipt.metrics.cpu_compute_cycles)/float(final_receipt.metrics.total_cycles)
+	_assert(is_equal_approx((main.get("cpu_time_bar") as ProgressBar).value,expected_compute_share),"The time bar shows authoritative compute share without double-counting RAM wait.")
+	main.call("_refresh_profiler")
+	_assert(not (main.get("cpu_time_breakdown") as Control).visible,"Invalidating results hides the old time split.")
+	main.call("_refresh_profiler",final_receipt.metrics)
 	for still_locked_selector: OptionButton in final_part_selectors.values():
 		_assert(still_locked_selector.disabled, "An incorrect diagnosis must not unlock hardware experimentation.")
 	_assert(not final_program_editor.editable, "An incorrect diagnosis must not unlock workload editing.")

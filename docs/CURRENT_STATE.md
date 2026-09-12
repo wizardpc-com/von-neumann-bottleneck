@@ -8,6 +8,12 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Current behavior
 
+Current desktop follow-up preserves window/camera presentation across Hint return,
+clears stale tree routing on explicit chapter-card entry, and places Mission page
+actions above long bilingual explanations. Chapter 1 adds a gated compute/wait
+proportion view and quieter focused instrument frames. See [evidence](verification/20260913-desktop-continuity/README.md);
+this is source work, not a newly frozen candidate.
+
 Latest bilingual follow-up separates memory field/record/value, localizes cell
 inspection, keeps measurement units together and makes long captions follow window
 width. Shared instrument headings trim with a full tooltip. Native Chinese/English

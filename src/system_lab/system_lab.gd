@@ -136,6 +136,8 @@ var diagnosis_selector: OptionButton
 var diagnosis_button: Button
 var profiler_labels: Dictionary[StringName, Label] = {}
 var profiler_tier_label: Label
+var cpu_time_breakdown: VBoxContainer
+var cpu_time_bar: ProgressBar
 var history_label: RichTextLabel
 
 var status_label: Label
@@ -829,7 +831,7 @@ func _add_instrument(id: StringName, title_text: String, content: Control) -> vo
 	var panel: FloatingInstrumentPanel = FloatingPanelType.new()
 	panel.name = "%sInstrument" % String(id).to_pascal_case()
 	panel.custom_minimum_size = Vector2(350.0, 250.0)
-	panel.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, ACCENT))
+	panel.add_theme_stylebox_override("panel", _instrument_surface(false))
 	desktop_host.add_child(panel)
 	panel.setup(id, title_text)
 	panel.set_minimizable(id != &"mission")
@@ -846,6 +848,7 @@ func _add_instrument(id: StringName, title_text: String, content: Control) -> vo
 func _build_mission_instrument() -> Control:
 	var box := VBoxContainer.new()
 	mission_title_label = Label.new()
+	mission_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	mission_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	mission_title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	mission_title_label.add_theme_color_override("font_color", ACCENT)
@@ -914,6 +917,8 @@ func _build_mission_instrument() -> Control:
 	conclusion_button.pressed.connect(_review_level_conclusion)
 	conclusion_button.hide()
 	box.add_child(conclusion_button)
+	# Completion remains reachable above a long explanation in either locale.
+	box.move_child(conclusion_button, 1)
 	return _scrollable(box)
 
 
@@ -1048,6 +1053,32 @@ func _build_profiler_instrument() -> Control:
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	help.add_theme_color_override("font_color", MUTED)
 	box.add_child(help)
+	cpu_time_breakdown = VBoxContainer.new()
+	cpu_time_breakdown.name = "CpuTimeBreakdown"
+	cpu_time_breakdown.add_theme_constant_override("separation",8)
+	box.add_child(cpu_time_breakdown)
+	var legend := HBoxContainer.new()
+	cpu_time_breakdown.add_child(legend)
+	for entry: Array in [[&"cpu_compute_cycles",ACCENT],[&"cpu_wait_cycles",WARNING]]:
+		var label := Label.new()
+		label.text = _profiler_metric_name(entry[0])
+		label.add_theme_color_override("font_color",entry[1])
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		legend.add_child(label)
+	cpu_time_bar = ProgressBar.new()
+	cpu_time_bar.name = "CpuTimeShare"
+	cpu_time_bar.custom_minimum_size.y = 20
+	cpu_time_bar.show_percentage = false
+	cpu_time_bar.step = 0.0
+	for band: Array in [["background",WARNING],["fill",ACCENT]]:
+		var style := StyleBoxFlat.new()
+		style.bg_color = band[1]
+		style.set_corner_radius_all(3)
+		style.set_content_margin_all(0)
+		cpu_time_bar.add_theme_stylebox_override(band[0],style)
+	cpu_time_breakdown.add_child(cpu_time_bar)
+	cpu_time_breakdown.hide()
 	for metric: StringName in [
 		&"total_cycles", &"cpu_compute_cycles", &"cpu_wait_cycles", &"ram_service_cycles",
 		&"memory_requests", &"bus_control_cycles", &"bus_transfer_cycles",
@@ -2471,6 +2502,12 @@ func _refresh_profiler(metrics: Dictionary = {}) -> void:
 		&"hardware_cost": 5,
 		&"shares": 5,
 	}
+	var total: int = int(metrics.get("total_cycles",0))
+	var compute: int = int(metrics.get("cpu_compute_cycles",0))
+	var waiting: int = int(metrics.get("cpu_wait_cycles",0))
+	cpu_time_breakdown.visible = has_trace and tier>=2 and (not diagnosis_gate_active or breakdown_revealed) and total>0 and compute+waiting==total
+	cpu_time_bar.value = 100.0*float(compute)/total if total>0 else 0.0
+	cpu_time_bar.tooltip_text = _t(&"system.profiler.time_split",[compute,waiting]) if cpu_time_breakdown.visible else ""
 	for metric: StringName in profiler_labels:
 		var label: Label = profiler_labels[metric]
 		label.visible = tier >= int(visibility[metric])
@@ -2931,10 +2968,19 @@ func _close_instrument(id: StringName) -> void:
 		button.set_pressed_no_signal(false)
 
 
+func _instrument_surface(focused: bool) -> StyleBoxFlat:
+	var frame: StyleBoxFlat = InstrumentTheme.surface(Color("111d29"),Color(ACCENT,0.65) if focused else InstrumentTheme.EDGE,8)
+	frame.content_margin_top = 10
+	frame.content_margin_bottom = 10
+	return frame
+
+
 func _focus_instrument(id: StringName) -> void:
 	var panel: FloatingInstrumentPanel = instrument_windows.get(id)
 	if panel == null:
 		return
+	for key: StringName in instrument_windows:
+		(instrument_windows[key] as FloatingInstrumentPanel).add_theme_stylebox_override("panel",_instrument_surface(key==id))
 	instrument_z_counter += 1
 	panel.z_index = instrument_z_counter
 	# Control input follows sibling order independently of draw order.

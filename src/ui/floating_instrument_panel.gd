@@ -281,3 +281,22 @@ func _clamp_position() -> void:
 		_edge_margin,
 		maxf(_edge_margin, parent_control.size.y - size.y - _edge_margin)
 	)
+
+
+# Transient presentation state for round trips through separate canvases.
+# This is not a player save format and contains no circuit or simulation state.
+func capture_view_state() -> Dictionary:
+	return {"position":position,"size":size,"visible":visible,"minimized":minimized,
+		"expanded_size":_expanded_size if minimized else size,
+		"minimum":_expanded_minimum_size if minimized else custom_minimum_size}
+
+
+func restore_view_state(state: Dictionary) -> void:
+	set_minimized(false)
+	custom_minimum_size = state.minimum
+	position = state.position
+	size = state.expanded_size
+	set_minimized(bool(state.minimized))
+	if not minimized: size = state.size
+	fit_to_parent(10.0)
+	visible = bool(state.visible)

@@ -43,9 +43,17 @@ func configure(tasks: Array[Dictionary]) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO,size),Color("0a1220"))
+	draw_rect(Rect2(Vector2.ZERO,size),Color(0.025,0.055,0.085,0.68))
 	if rows.is_empty(): return
 	draw_set_transform(pan,0,Vector2.ONE*magnification)
+	# Region trays are derived from the same dependency layout as the nodes.
+	# They distinguish chapters without becoming new navigation or progress gates.
+	for region: int in region_rects:
+		var tray: Rect2 = region_rects[region]
+		var tray_style: StyleBoxFlat = InstrumentTheme.surface(Color("0c1925"),Color(_color(region),0.16),18)
+		tray_style.shadow_size=24
+		draw_style_box(tray_style,tray)
+		draw_line(tray.position+Vector2(24,16),tray.position+Vector2(24,66),Color(_color(region),0.65),3,true)
 	for task: Dictionary in rows:
 		for dep: String in task.dependencies:
 			if not positions.has(dep): continue
@@ -76,14 +84,18 @@ func _draw() -> void:
 		var matched: bool = query.is_empty() or _matches(task)
 		if not matched: color.a = 0.28
 		var style := StyleBoxFlat.new()
-		style.bg_color = Color("142337") if task.unlocked else Color("101b2a")
+		style.bg_color = Color("1b3443") if task.unlocked else Color("132331")
 		style.border_color = color.lightened(0.35) if task.key==hovered_key else color
 		style.set_border_width_all(3 if task.key == TaskNavigation.selected else 2 if task.key==hovered_key else 1)
 		if task.key==hovered_key: style.bg_color=style.bg_color.lightened(0.06)
 		style.set_corner_radius_all(10)
+		style.shadow_color=Color(0,0,0,0.35)
+		style.shadow_size=8
+		style.shadow_offset=Vector2(0,5)
 		if task.key==TaskNavigation.selected:
 			style.shadow_color=Color(color,0.16); style.shadow_size=12
 		draw_style_box(style,rect)
+		draw_line(rect.position+Vector2(12,3),rect.position+Vector2(NODE_SIZE.x-12,3),Color(color,0.22),1,true)
 		if task.completed:
 			draw_circle(rect.position+Vector2(NODE_SIZE.x-12,12),5,color)
 		if task.optional:

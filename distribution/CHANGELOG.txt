@@ -1,3 +1,10 @@
+Spatial interface iteration — @BUILD_ID@
+Source: @SOURCE_COMMIT@
+- Raised chapter surfaces, restrained ambient backdrop and layered existing chapter emblems.
+- Task-tree regions share the same visual hierarchy; narrow-card illustrations stay inside their cards.
+- Hint explanations open readably and survive folding/unfolding without being replaced by Mission briefing.
+- 40 tasks, simulation rules and independent spoiler confirmations retained.
+
 Bilingual voice and scalable text — @BUILD_ID@
 Source: @SOURCE_COMMIT@
 - English chapter/task titles, introductions and completion text follow the Chinese editorial intent with natural English idiom.

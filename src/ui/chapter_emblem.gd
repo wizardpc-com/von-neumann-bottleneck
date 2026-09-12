@@ -12,14 +12,25 @@ func _ready() -> void:
 
 
 func _draw() -> void:
-	var center := Vector2(size.x * 0.5, 52.0)
+	# Keep the complete artwork inside narrow cards rather than joining a neighbor's
+	# leads. Only this decorative illustration scales; its text remains screen sized.
+	var artwork_scale: float = minf(1.0,size.x/260.0)
+	draw_set_transform(Vector2(size.x*0.5,(108.0-108.0*artwork_scale)*0.5),0,Vector2.ONE*artwork_scale)
+	var center := Vector2(0.0, 52.0)
 	var outline := Color(accent, 0.55)
 	for index: int in range(5):
 		var x: float = center.x - 44.0 + index * 22.0
 		draw_line(Vector2(x, 5.0), Vector2(x, 23.0), outline, 2.0, true)
 		draw_line(Vector2(x, 81.0), Vector2(x, 99.0), outline, 2.0, true)
 	var chip := Rect2(center - Vector2(66.0, 29.0), Vector2(132.0, 58.0))
-	draw_style_box(preload("res://src/ui/instrument_theme.gd").panel(Color(accent, 0.06), outline), chip)
+	# Small stacked plates give every chapter's existing symbol the same depth.
+	var base: StyleBoxFlat = InstrumentTheme.panel(Color("08131e"),Color(accent,0.13),5)
+	draw_style_box(base,Rect2(chip.position+Vector2(0,9),chip.size))
+	draw_style_box(InstrumentTheme.surface(Color("132a36"), outline,5), chip)
+	draw_line(chip.position+Vector2(10,2),chip.position+Vector2(chip.size.x-10,2),Color(accent,0.55),1,true)
+	for side: float in [-1.0,1.0]:
+		var at := center+Vector2(side*57,-21)
+		draw_circle(at,1.6,Color(accent,0.45),true)
 	for side: int in [-1, 1]:
 		for index: int in range(3):
 			var start := Vector2(center.x + side * 67.0, 34.0 + index * 18.0)

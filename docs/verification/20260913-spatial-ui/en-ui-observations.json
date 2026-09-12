@@ -1,0 +1,850 @@
+[
+	{
+		"check": "The configured default scene is the original hub in ordinary Game mode.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Normal Hardware card enters the original prerequisite map.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial first entry prominently displays Mission and no solution hint.",
+		"ok": true
+	},
+	{
+		"check": "First Mission exposes Start Building without scrolling or searching for the action.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Mission Previous/Next remain functional.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Mission section buttons go directly to requested specifications without visiting hints.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start building folds the first page and preserves the independently hidden hints.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The ordinary Handbook recommends three current topics without hiding available specifications.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Searching a future topic explains its unlock lesson without showing the diagram or answer.",
+		"ok": true
+	},
+	{
+		"check": "The platform select-all shortcut replaces the previous Handbook query exactly.",
+		"ok": true
+	},
+	{
+		"check": "Searching the current signal concept exposes its high/low illustration.",
+		"ok": true
+	},
+	{
+		"check": "Escape returns from handbook text focus with player topology, positions, name and colors intact.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual workbench menu opens New Design.",
+		"ok": true
+	},
+	{
+		"check": "Typing and confirming creates a named player design.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes task.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes test_bench.",
+		"ok": true
+	},
+	{
+		"check": "Component body follows the actual event displacement and 20-unit grid snapping.",
+		"ok": true
+	},
+	{
+		"check": "Undo restores body position.",
+		"ok": true
+	},
+	{
+		"check": "Redo reapplies body movement.",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → NOT_1:0",
+		"ok": true
+	},
+	{
+		"check": "A newly drawn wire retains the actively selected palette color.",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOT_1:0 → LAMP:0",
+		"ok": true
+	},
+	{
+		"check": "Hints and spoiler confirmation are hidden by default.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H1 enters only the independent interface canvas.",
+		"ok": true
+	},
+	{
+		"check": "H1 opens its readable explanation instead of inheriting a compact Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Expanding Hint keeps its explanation and never substitutes the player briefing.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requesting H2 does not reveal it.",
+		"ok": true
+	},
+	{
+		"check": "Escape cancels only the spoiler confirmation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Separate confirmation reveals the relevant H2 partial circuit.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H3 requires an explicit complete-answer warning.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Cancelling H3 keeps H2.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "H3 appears only after its own confirmation and cannot advance.",
+		"ok": true
+	},
+	{
+		"check": "Hint input cannot move, delete, or copy the reference.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes inspector.",
+		"ok": true
+	},
+	{
+		"check": "A read-only hint still accepts wheel zoom over a component.",
+		"ok": true
+	},
+	{
+		"check": "A read-only hint still accepts WASD panning.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Hint return preserves player name, topology, positions and wire colors exactly.",
+		"ok": true
+	},
+	{
+		"check": "Hint return retains the documented ADR 0015 history reset.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Reentry remembers the explicitly viewed level without upgrading it.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes task.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes test_bench.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial exposes a draggable AND card.",
+		"ok": true
+	},
+	{
+		"check": "Held drag shows the canvas ghost at the latest input position.",
+		"ok": true
+	},
+	{
+		"check": "A valid drag places one item; an invalid or cancelled drag places none, including on a later release.",
+		"ok": true
+	},
+	{
+		"check": "Palette drop matches the snapped ghost position: expected (900.0, 160.0), got (900.0, 160.0).",
+		"ok": true
+	},
+	{
+		"check": "A completed drag returns to editing instead of leaving an extra placement ghost.",
+		"ok": true
+	},
+	{
+		"check": "Undo or a cancelled drop preserves the original circuit exactly.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial exposes a draggable AND card.",
+		"ok": true
+	},
+	{
+		"check": "Held drag shows the canvas ghost at the latest input position.",
+		"ok": true
+	},
+	{
+		"check": "A valid drag places one item; an invalid or cancelled drag places none, including on a later release.",
+		"ok": true
+	},
+	{
+		"check": "Palette drop matches the snapped ghost position: expected (900.0, 160.0), got (900.0, 160.0).",
+		"ok": true
+	},
+	{
+		"check": "A completed drag returns to editing instead of leaving an extra placement ghost.",
+		"ok": true
+	},
+	{
+		"check": "Undo or a cancelled drop preserves the original circuit exactly.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial exposes a draggable AND card.",
+		"ok": true
+	},
+	{
+		"check": "Dragging over a floating instrument hides the invalid placement ghost.",
+		"ok": true
+	},
+	{
+		"check": "A valid drag places one item; an invalid or cancelled drag places none, including on a later release.",
+		"ok": true
+	},
+	{
+		"check": "A completed drag returns to editing instead of leaving an extra placement ghost.",
+		"ok": true
+	},
+	{
+		"check": "Undo or a cancelled drop preserves the original circuit exactly.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes test_bench.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial exposes a draggable AND card.",
+		"ok": true
+	},
+	{
+		"check": "Held drag shows the canvas ghost at the latest input position.",
+		"ok": true
+	},
+	{
+		"check": "escape cancels both the Godot drag payload and the placement ghost before release.",
+		"ok": true
+	},
+	{
+		"check": "A valid drag places one item; an invalid or cancelled drag places none, including on a later release.",
+		"ok": true
+	},
+	{
+		"check": "A completed drag returns to editing instead of leaving an extra placement ghost.",
+		"ok": true
+	},
+	{
+		"check": "Undo or a cancelled drop preserves the original circuit exactly.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial exposes a draggable AND card.",
+		"ok": true
+	},
+	{
+		"check": "Held drag shows the canvas ghost at the latest input position.",
+		"ok": true
+	},
+	{
+		"check": "escape cancels both the Godot drag payload and the placement ghost before release.",
+		"ok": true
+	},
+	{
+		"check": "A valid drag places one item; an invalid or cancelled drag places none, including on a later release.",
+		"ok": true
+	},
+	{
+		"check": "A completed drag returns to editing instead of leaving an extra placement ghost.",
+		"ok": true
+	},
+	{
+		"check": "Undo or a cancelled drop preserves the original circuit exactly.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial exposes a draggable AND card.",
+		"ok": true
+	},
+	{
+		"check": "Held drag shows the canvas ghost at the latest input position.",
+		"ok": true
+	},
+	{
+		"check": "focus_out cancels both the Godot drag payload and the placement ghost before release.",
+		"ok": true
+	},
+	{
+		"check": "A valid drag places one item; an invalid or cancelled drag places none, including on a later release.",
+		"ok": true
+	},
+	{
+		"check": "A completed drag returns to editing instead of leaving an extra placement ghost.",
+		"ok": true
+	},
+	{
+		"check": "Undo or a cancelled drop preserves the original circuit exactly.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Tutorial exposes a draggable AND card.",
+		"ok": true
+	},
+	{
+		"check": "Held drag shows the canvas ghost at the latest input position.",
+		"ok": true
+	},
+	{
+		"check": "right_click cancels both the Godot drag payload and the placement ghost before release.",
+		"ok": true
+	},
+	{
+		"check": "A valid drag places one item; an invalid or cancelled drag places none, including on a later release.",
+		"ok": true
+	},
+	{
+		"check": "A completed drag returns to editing instead of leaving an extra placement ghost.",
+		"ok": true
+	},
+	{
+		"check": "Undo or a cancelled drop preserves the original circuit exactly.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Palette input places the requested component.",
+		"ok": true
+	},
+	{
+		"check": "The drop matches its preview's snapped graph coordinates under the current zoom and pan.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Palette input places the requested component.",
+		"ok": true
+	},
+	{
+		"check": "The drop matches its preview's snapped graph coordinates under the current zoom and pan.",
+		"ok": true
+	},
+	{
+		"check": "Dragging from a rendered wire middle adds an explicit three-way junction.",
+		"ok": true
+	},
+	{
+		"check": "Hover follows the three connected network segments, without crossing the NOT gate.",
+		"ok": true
+	},
+	{
+		"check": "The wire probe explains localized width and endpoint direction.",
+		"ok": true
+	},
+	{
+		"check": "Precise right-click removes only the targeted wire segment.",
+		"ok": true
+	},
+	{
+		"check": "Undo restores the erased branch with original color and endpoints.",
+		"ok": true
+	},
+	{
+		"check": "Redo erases the same branch.",
+		"ok": true
+	},
+	{
+		"check": "An already wired input continues its network using exactly one new junction and no native phantom wire.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes inspector.",
+		"ok": true
+	},
+	{
+		"check": "Copy/paste duplicates a selected player component through shortcuts.",
+		"ok": true
+	},
+	{
+		"check": "Undo removes the pasted component.",
+		"ok": true
+	},
+	{
+		"check": "Empty-canvas marquee selects multiple component bodies.",
+		"ok": true
+	},
+	{
+		"check": "Dragging a selected body moves the whole selection.",
+		"ok": true
+	},
+	{
+		"check": "One undo restores the multi-selection move.",
+		"ok": true
+	},
+	{
+		"check": "Wheel input zooms the editable canvas.",
+		"ok": true
+	},
+	{
+		"check": "Middle-drag pans the camera without changing topology, positions, or wire colors.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Palette input places the requested component.",
+		"ok": true
+	},
+	{
+		"check": "The drop matches its preview's snapped graph coordinates under the current zoom and pan.",
+		"ok": true
+	},
+	{
+		"check": "UI wire JUNCTION_001:0 → NOT_NEW_005:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes inspector.",
+		"ok": true
+	},
+	{
+		"check": "Closing Inspector returns keyboard focus to the selected circuit.",
+		"ok": true
+	},
+	{
+		"check": "A transformed wire-node connection and later Delete remain editable.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Mission remains a movable desktop window.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes task.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The persistent short goal restores the closed Mission with Previous/Next.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes task.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The real fullscreen button changes the window mode.",
+		"ok": true
+	},
+	{
+		"check": "The short goal stays on screen in fullscreen.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The same fullscreen control returns to the window.",
+		"ok": true
+	},
+	{
+		"check": "Shift+Home fits the circuit without moving components or changing any wires.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Fit all keeps every component inside the canvas.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes inspector.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible Focus action enlarges a selected component without editing it.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The goal bar stays reachable at 1280×720.",
+		"ok": true
+	},
+	{
+		"check": "The movable Mission fits the smaller canvas.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start leaves a compact movable Mission.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes task.",
+		"ok": true
+	}
+]

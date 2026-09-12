@@ -27,6 +27,17 @@ static func panel(fill: Color, border: Color = EDGE, radius: int = 5) -> StyleBo
 	return box
 
 
+# A raised instrument surface. Keep button/input surfaces flatter so they do not
+# compete with the windows they belong to. Shadows never enlarge input geometry.
+static func surface(fill: Color = SURFACE, accent: Color = EDGE, radius: int = 8) -> StyleBoxFlat:
+	var box: StyleBoxFlat = panel(fill, accent, radius)
+	box.shadow_color = Color(0.0, 0.015, 0.025, 0.48)
+	box.shadow_size = 16
+	box.shadow_offset = Vector2(0, 7)
+	box.border_width_top = 2
+	return box
+
+
 static func apply_to(target: Theme) -> void:
 	target.default_font = preload("res://assets/fonts/interface_regular.tres")
 	for control_type: String in ["Button", "OptionButton", "MenuButton"]:
@@ -46,10 +57,7 @@ static func apply_to(target: Theme) -> void:
 	target.set_stylebox("panel", "TooltipPanel", panel(Color("0b1822"), Color("526977")))
 	target.set_font_size("font_size", "TooltipLabel", 14)
 	target.set_color("font_color", "TooltipLabel", Color("e9f0fa"))
-	var window: StyleBoxFlat = panel(SURFACE)
-	window.shadow_color = Color(0.0, 0.0, 0.0, 0.32)
-	window.shadow_size = 12
-	window.shadow_offset = Vector2(0.0, 5.0)
+	var window: StyleBoxFlat = surface(SURFACE)
 	target.set_stylebox("panel", "PanelContainer", window)
 
 	# Popups and trace selections belong to the same instrument family.

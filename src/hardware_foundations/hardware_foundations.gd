@@ -1529,7 +1529,7 @@ func _set_mission_compact(value: bool) -> void:
 	mission_compact = false
 	task_window.custom_minimum_size.y = 190.0
 	task_window.set_custom_minimized_state(false)
-	if not mission_briefing_active and not current_level_id.is_empty():
+	if not hint_mode and not mission_briefing_active and not current_level_id.is_empty():
 		_begin_mission_briefing(true)
 		return
 	if mission_briefing_active:
@@ -2493,6 +2493,15 @@ func _show_hint_level(level: int) -> void:
 	_refresh_workbench_menu()
 	_refresh_hint_controls()
 	_layout_desktop_windows()
+	# Entering a hint is an explicit request to read it. Do not inherit the compact
+	# player Mission, whose short viewport can hide the entire explanation.
+	mission_compact = false
+	var hint_window: FloatingInstrumentPanel = desktop_windows[&"task"]
+	hint_window.set_custom_minimized_state(false)
+	hint_window.custom_minimum_size.y = 190.0
+	hint_window.size = Vector2(clampf(graph_stack.size.x*0.30,390.0,500.0),clampf(graph_stack.size.y*0.68,320.0,480.0))
+	hint_window.position = Vector2(16,16)
+	hint_window.fit_to_parent(10.0)
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
 

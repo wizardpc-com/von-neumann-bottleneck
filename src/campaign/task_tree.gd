@@ -102,7 +102,7 @@ func _select(key: String) -> void:
 		selected = task
 		TaskNavigation.selected = key
 		var accent: Color = canvas._color(task.region)
-		var frame: StyleBoxFlat = InstrumentTheme.panel(Color("111e2b"),Color(accent,0.5),8)
+		var frame: StyleBoxFlat = InstrumentTheme.surface(Color("132330"),Color(accent,0.4),8)
 		frame.content_margin_left=18; frame.content_margin_right=18
 		frame.content_margin_top=18; frame.content_margin_bottom=18
 		detail_panel.add_theme_stylebox_override("panel",frame)

@@ -127,14 +127,15 @@ func _build_interface() -> void:
 	scroll.follow_focus = true
 	margin.add_child(scroll)
 	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 16)
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(content)
 	var title := Label.new()
 	title.text = Localization.text(&"game.title")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", UiTypographyType.HERO_TITLE_SIZE)
+	title.add_theme_font_size_override("font_size", 28)
 	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	title.add_theme_color_override("font_color", ACCENT)
+	title.add_theme_color_override("font_color", Color("bdceda"))
 	content.add_child(title)
 	var mode_center := CenterContainer.new()
 	content.add_child(mode_center)
@@ -154,6 +155,7 @@ func _build_interface() -> void:
 	save_recovery_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	content.add_child(save_recovery_label)
 	var cards := HBoxContainer.new()
+	cards.add_theme_constant_override("separation", 18)
 	cards.name = "ChapterCards"
 	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(cards)
@@ -221,18 +223,27 @@ func _build_interface() -> void:
 func _build_tree_entry(content: VBoxContainer) -> void:
 	var panel := PanelContainer.new()
 	panel.name = "TaskTreeEntry"
-	panel.add_theme_stylebox_override("panel", _stylebox(Color("102a36"), 10, 2, ACCENT))
+	var frame: StyleBoxFlat = InstrumentTheme.surface(Color("112634"), Color("3b6375"), 10)
+	frame.border_width_left = 3
+	frame.content_margin_left = 22
+	frame.content_margin_right = 22
+	frame.content_margin_top = 18
+	frame.content_margin_bottom = 18
+	panel.add_theme_stylebox_override("panel", frame)
 	content.add_child(panel)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 38)
 	panel.add_child(row)
 	var primary := VBoxContainer.new()
+	primary.add_theme_constant_override("separation", 14)
 	primary.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(primary)
 	var heading := Label.new()
 	heading.text = Localization.text(&"hub.tree.title")
 	heading.add_theme_font_size_override("font_size", 30)
-	heading.add_theme_color_override("font_color", ACCENT)
+	heading.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
+	heading.add_theme_color_override("font_color", Color("e6f4fb"))
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	primary.add_child(heading)
 	var description := Label.new()
 	description.text = Localization.text(&"hub.tree.description")
@@ -253,7 +264,8 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	button.pressed.connect(func() -> void: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
 	primary.add_child(button)
 	var secondary := VBoxContainer.new()
-	secondary.custom_minimum_size.x = 530
+	secondary.custom_minimum_size.x = 380
+	secondary.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(secondary)
 	var preview := preload("res://src/ui/task_tree_preview.gd").new()
 	secondary.add_child(preview)
@@ -632,14 +644,15 @@ func _build_card(
 	) -> Control:
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.add_theme_stylebox_override("panel", _stylebox(Color("11212d"), 6, 1, Color(color, 0.55)))
+	panel.add_theme_stylebox_override("panel", InstrumentTheme.surface(Color("101e2b"), Color(color, 0.28), 8))
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 14)
-	margin.add_theme_constant_override("margin_right", 14)
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_right", 8)
 	margin.add_theme_constant_override("margin_top", 20)
 	margin.add_theme_constant_override("margin_bottom", 20)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 12)
 	margin.add_child(box)
 	var eyebrow_label := Label.new()
 	eyebrow_label.text = eyebrow

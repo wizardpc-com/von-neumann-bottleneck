@@ -8,6 +8,13 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Current behavior
 
+Ongoing spatial-UI/player iteration: raised chapter surfaces, static ambient depth,
+narrow-card emblem containment and task-tree region trays. Native Tutorial review
+found Hint expansion replacing its explanation with ordinary briefing; fixed while
+retaining independent spoiler confirmations. This is an active cross-region pass,
+not a new frozen candidate or whole-game acceptance. See [active plan](exec-plans/active/spatial-ui-live-iteration.md)
+and [stage evidence](verification/20260913-spatial-ui/README.md).
+
 Bilingual editorial and typography pass: Chinese chapter titles remain 一线成机 /
 时间的去处 / 少走远路 / 与等待并行 / 各就其位. English uses A Machine Takes Shape /
 Where Time Goes / Less to Carry / In the Meantime / A Place for Everything.

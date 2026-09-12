@@ -1,0 +1,987 @@
+{
+  "base_commit": "945df2168c5bf82a8dbac01146e8ea622f9ec459",
+  "catalog_changes": [
+    {
+      "locale": "en",
+      "key": "hub.hardware.title",
+      "before": "CPU BUILDING PROLOGUE",
+      "after": "Prologue: A Machine Takes Shape",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.title",
+      "before": "Hardware Foundations · Build a Computer",
+      "after": "Prologue · A Machine Takes Shape",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "tree.region.0",
+      "before": "01 Build a machine",
+      "after": "01 A Machine Takes Shape",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "hub.system.title",
+      "before": "CHAPTER 1: WAITING FOR DATA",
+      "after": "Chapter 1: Where Time Goes",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "system.chapter.title",
+      "before": "CHAPTER 1: WAITING FOR DATA",
+      "after": "Chapter 1: Where Time Goes",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "system.completion.chapter",
+      "before": "Chapter 1 · Waiting for Data",
+      "after": "Chapter 1 · Where Time Goes",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "tree.region.1",
+      "before": "02 Find the waiting",
+      "after": "02 Where Time Goes",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "hub.locality.title",
+      "before": "CHAPTER 2: REDUCING DATA MOVEMENT",
+      "after": "Chapter 2: Less to Carry",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.title",
+      "before": "CHAPTER 2 · KEEP DATA CLOSE",
+      "after": "Chapter 2 · Less to Carry",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.completion.chapter",
+      "before": "Chapter 2 · Keep Data Close",
+      "after": "Chapter 2 · Less to Carry",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "tree.region.2",
+      "before": "03 Move less data",
+      "after": "03 Less to Carry",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.title",
+      "before": "CHAPTER 3 · KEEP COMPUTE MOVING",
+      "after": "Chapter 3 · In the Meantime",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "tree.region.3",
+      "before": "04 Schedule arrivals",
+      "after": "04 In the Meantime",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "layout.hub.title",
+      "before": "Chapter 4: Put data in its place",
+      "after": "Chapter 4: A Place for Everything",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "tree.region.4",
+      "before": "05 Put data in its place",
+      "after": "05 A Place for Everything",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.hub.eyebrow",
+      "before": "Synthesis",
+      "after": "Buffers · Backpressure · Prefetch",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.subtitle",
+      "before": "From your first wire to a working computer. Then make it faster.",
+      "after": "Start with a wire. Build a working machine. Then make it faster.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.note",
+      "before": "Every circuit you build is the beginning of the next challenge.",
+      "after": "Each circuit you build puts another tool in your hands.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.chapter.subtitle",
+      "before": "Turn a working computer into explainable performance evidence",
+      "after": "The machine works. Where does its time go?",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.hardware.description",
+      "before": "Wire gates into circuits that calculate and remember.\n\nEach circuit you finish becomes a tool for the next build.",
+      "after": "Wire gates into circuits that calculate and remember.\n\nUse what you build to make something larger.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.system.description",
+      "before": "Your computer works.\n\nFind where it waits, then test your explanation with one change.",
+      "after": "The machine works.\n\nFind where it waits. Change one factor, then check your prediction.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.locality.description",
+      "before": "Less movement. The same result.\n\nExplore caches, access order and blocking to keep data close when it is needed.",
+      "after": "Move less data. Get the same result.\n\nExplore caches, access order and blocking to use each fetch more fully.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "layout.hub.description",
+      "before": "Same data, different arrangement.\n\nCombine groups, copies and batches; decide which transfers are worth doing.",
+      "after": "Same data, different arrangement.\n\nTry groups, copies and batches. Weigh the work saved against the cost of moving.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.tree.title",
+      "before": "Your machine starts here",
+      "after": "A machine, branch by branch",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "hub.tree.description",
+      "before": "Explore the branches. Build a machine, then make it wait less.",
+      "after": "Choose a path. Build your machine, then reclaim the time it spends waiting.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.map.title",
+      "before": "From gates to a running computer",
+      "after": "From Gates to a Computer",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.map.subtitle",
+      "before": "Learn to compute · learn to remember · merge both into a computer",
+      "after": "Arithmetic and storage: two paths, one machine",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.map.description",
+      "before": "Start with wiring practice. Arithmetic: Half Adder → Full Adder → ALU. Storage: SR Latch → Register → RAM. Explore either branch first, join them into a CPU, run LOAD/STORE, then continue to systems and data movement.",
+      "after": "Start with wiring practice.\nArithmetic: Half Adder → Full Adder → ALU.\nStorage: SR Latch → Register → RAM.\nTake either branch first. Join them into a CPU, run LOAD/STORE, then investigate systems and data movement.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.map.intro.body",
+      "before": "Five nodes form one investigation: assemble the machine, predict each controlled change, run it, follow Trace and Profiler evidence, explain CPU WAIT, then diagnose the exact system across 4/16/64 workloads.\n\nThis chapter has no Cache and requires no software optimization.",
+      "after": "Follow CPU WAIT to its source: assemble the system, predict a change, run a comparison, then inspect Trace and Profiler. Use the 4/16/64 workloads to find the bottleneck.\n\nThe main path needs no Cache or program changes. An optional branch explores how software can avoid repeated reads.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.map.intro.body",
+      "before": "The CPU is still waiting. Follow the evidence from repeated distant reads to reuse, access order, working set, and blocking. Each node asks for one judgment only.",
+      "after": "The CPU is still waiting. Follow the data: distant reads, reuse, access order, working set and blocking. Each task asks you to make one main judgment.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.map_goal",
+      "before": "Understand completion, explore buffering and prefetch, then combine the discoveries.",
+      "after": "Find out when data arrives. Explore buffers and prefetch along two paths, then bring them together.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.map_intro",
+      "before": "You have reduced data movement. Now overlap unavoidable transfers with useful computation.\n\nOne transfer engine. One compute engine. Arrange requests, decide when to wait, and choose temporary storage.\n\nUpper path: explicit buffers and backpressure.\nLower path: hardware-managed Cache and prefetch.\n\nEvery workload, budget and target is public. Equivalent solutions are welcome.",
+      "after": "You have cut down on data movement. Now put unavoidable waiting time to work.\n\nOne transfer engine. One compute engine. Schedule requests, decide when to wait, and choose temporary storage.\n\nUpper path: explicit buffers and backpressure.\nLower path: hardware-managed Cache and prefetch.\n\nWorkloads, budgets and targets are given up front. Different valid solutions are welcome.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.map.generic_description",
+      "before": "Build and officially verify this node to unlock the abstractions that depend on it.",
+      "after": "Build the circuit and pass its tests. It becomes a tool for what comes next.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.map.tutorial_description",
+      "before": "Practice creating, deleting, branching, and reconnecting wires while reading live levels and signal flow.",
+      "after": "Connect, branch, delete and reconnect wires. Change the input and follow the signal.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.full_adder.description",
+      "before": "Use two sealed HalfAdders and one OR to handle A, B, and carry-in. Determine the topology instead of following a forced template.",
+      "after": "Add A, B and carry-in using two sealed HalfAdders and one OR. You choose how to connect them.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.alu.description",
+      "before": "Select among AND, OR, ADD, and NOT-A results. Passing generates an ALU4 word wrapper.",
+      "after": "One set of inputs, four operations: AND, OR, ADD and NOT-A. Select the result with control signals. Passing unlocks an ALU4 word wrapper.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.latch.description",
+      "before": "Store one bit with two cross-coupled NOR gates. Stable S=R=1 is invalid; only this level permits the explicit feedback loop.",
+      "after": "Store one bit with two cross-coupled NOR gates. Stable S=R=1 is invalid. This is the only level that permits this explicit feedback loop.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.register.description",
+      "before": "Add D and LOAD control around your SRLatch: hold when LOAD=0 and write when LOAD=1. Passing generates Register4.",
+      "after": "Give your SRLatch D and LOAD inputs: hold when LOAD=0; write when LOAD=1. Passing unlocks Register4.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.ram.description",
+      "before": "Use two Register4 components, an address decoder, and a word mux to build two independent four-bit storage locations.",
+      "after": "Build two independent four-bit storage locations from two Register4 components, an address decoder and a word mux.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.cpu.description",
+      "before": "Connect ALU4, accumulator, RAM, control, and data selectors into a tiny computer that runs LOAD_IMM, ADD_IMM, LOAD_MEM, and STORE_MEM.",
+      "after": "Join ALU4, an accumulator, RAM, control and data selectors into a small computer. It must run LOAD_IMM, ADD_IMM, LOAD_MEM and STORE_MEM.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.load_store.description",
+      "before": "Reuse the sealed TinyComputer to run a fixed program and watch data cross the CPU/RAM boundary. No repeated wiring is required.",
+      "after": "Run a fixed program on your sealed TinyComputer. Follow data across the CPU/RAM boundary; no new wiring is needed.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.assembly.description",
+      "before": "Join the player-provenance CPU8, 8-bit Bus, and RAM64x8 into one runnable computer.",
+      "after": "Connect your CPU8, an 8-bit Bus and RAM64x8 into a working system.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.cpu_speed.description",
+      "before": "This memory-heavy sum mixes arithmetic with repeated data trips. Predict whether 4× faster arithmetic makes the whole run 4× faster, then test it.",
+      "after": "Arithmetic gets 4× faster. Does this memory-heavy sum finish 4× faster too? Predict, then test.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.ram_wait.description",
+      "before": "Predict where CPU time goes, then follow repeated requests, RAM service, returned data, and the CPU's visible WAIT state.",
+      "after": "Follow a request to RAM and the data on its way back. Where does the CPU spend time in WAIT?",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.bus_width.description",
+      "before": "The same byte crosses each Bus width; predict how serialization changes, then count the stages on the exact wire.",
+      "after": "The same byte, a different Bus width. Predict how many stages it takes to cross, then count them on the wire.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.bottleneck.description",
+      "before": "Investigate one exact system across 4, 16, and 64 items. Use raw totals, CPU WAIT, workload growth, and Trace flow before the full breakdown is revealed.",
+      "after": "Run the same system with 4, 16 and 64 items. Use totals, CPU WAIT and Trace flow to find the bottleneck before revealing the full breakdown.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.distant_reads.description",
+      "before": "Observe one correct scan where every requested value crosses the Bus to RAM.",
+      "after": "Follow one correct scan. Every requested value makes a trip across the Bus to RAM.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.nearby_storage.description",
+      "before": "Add one tiny fast store and compare the same program and data before and after.",
+      "after": "Add a small, fast store. Run the same program on the same data and compare.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.cache_failure.description",
+      "before": "Observe a Cache that is present but repeatedly replaces the line needed next.",
+      "after": "The Cache is there. Why does it keep replacing the line needed next?",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.access_order.description",
+      "before": "Repair the previous run without replacing its one-line Cache.",
+      "after": "Keep the one-line Cache. Change the access order to avoid repeated fetches.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.working_set.description",
+      "before": "Observe two well-ordered passes whose needed data still cannot remain nearby.",
+      "after": "Two passes, both in a sensible order. Why must the second fetch the data again?",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.blocking.description",
+      "before": "Keep the same one-line Cache and reorganize when the two passes work on each line.",
+      "after": "Keep the one-line Cache. Work on a small group of data at a time, completing both passes before moving on.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.capstone.description",
+      "before": "A new two-pass workload exposes all learned tools but gives no diagnosis hint.",
+      "after": "A new task. Observe, diagnose, make a change and check the result.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "exploration.alarm.description",
+      "before": "A fault may last only an instant. After FAULT returns to 0, ALARM must stay on until the operator asserts CLEAR.\n\nReuse your completed SR latch. Start with empty internals and decide how to remember a fault while making clear reliable.",
+      "after": "A fault may last only an instant. After FAULT returns to 0, ALARM must stay on until the operator asserts CLEAR.\n\nUse your SR latch to remember the fault. Start with an empty circuit and give clear priority over fault.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.tutorial",
+      "before": "Next capability: add two bits. Or choose the storage branch on the map and make a circuit remember a value.",
+      "after": "Next, add two bits. Or take the storage branch and make a circuit remember a value.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.half_adder",
+      "before": "Next: accept the carry from another bit so your adder can take part in longer additions.",
+      "after": "Bring in the carry from the previous bit. Your adder can then take part in a longer sum.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.full_adder",
+      "before": "Next: use control bits to choose an operation. Addition is only the first thing your circuit can do.",
+      "after": "Next, use control bits to choose an operation. Addition is only the beginning.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.alu",
+      "before": "The arithmetic branch is ready. Storage lets data stay around; both branches eventually meet in the CPU.",
+      "after": "The arithmetic path is ready. Join it with the storage path to build the CPU.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.latch",
+      "before": "Next: give memory a simpler interface—supply a value, then decide when to save it.",
+      "after": "Give memory a data input and a switch: what should it keep, and when should it change?",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.register",
+      "before": "Next: let several registers keep different numbers, then select one using an address.",
+      "after": "Let several registers hold different numbers. Use an address to choose one.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.ram",
+      "before": "The storage branch is ready. With the arithmetic branch complete, calculation, control and memory can become a small computer.",
+      "after": "The storage path is ready. Join it with arithmetic and control to build a small computer.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.cpu",
+      "before": "Next: run your own computer and follow a read and a write to see where the data travels.",
+      "after": "Run your computer. Follow a read and a write to see where the data goes.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "experience.next.hardware_foundations.load_store",
+      "before": "The next chapter asks: your machine can calculate, so why is it slow? Investigate one round trip for data.",
+      "after": "Your machine can calculate. Why does it still wait? Start with one round trip for data.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.tutorial",
+      "before": "You can wire, run and repair a circuit. Red 0 and green 1 are both normal signals. Change the input and follow how the result changes.",
+      "after": "The circuit is connected, tested and ready to change. Both 0 and 1 are normal signals. Change the input and follow the result.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.half_adder",
+      "before": "You turned two bits into SUM and CARRY and obtained a reusable HalfAdder. The newly unlocked XOR gate outputs 1 when its inputs differ, matching the SUM rule.",
+      "after": "Two bits become SUM and CARRY. Your HalfAdder is ready to reuse. The newly unlocked XOR outputs 1 when its inputs differ, just like SUM.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.full_adder",
+      "before": "Your adder now accepts the carry from the previous bit. Small circuits can become parts of larger circuits without rebuilding every gate.",
+      "after": "Add the incoming carry to the two inputs, and a longer sum becomes possible. Small circuits are now building blocks for larger ones.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.alu",
+      "before": "You used control signals to select arithmetic results and saw how an ALU brings several operations into one data path.",
+      "after": "Control signals select the operation. The ALU sends its result down a shared data path.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.latch",
+      "before": "You stored state through feedback and discovered the boundary between combinational logic and a component with memory.",
+      "after": "Feedback lets a circuit keep a state. That is the step from combinational logic to memory.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.register",
+      "before": "Data and the decision to save it now have separate inputs. With LOAD off, Q keeps the last saved value.",
+      "after": "Separate inputs choose the data and when to save it. With LOAD off, Q keeps the last value written.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.ram",
+      "before": "You combined address, write control, and data ports into addressable memory, observing write, hold, and read state changes.",
+      "after": "Addresses, write control and data ports now form a working memory. You checked what happens when it writes, holds and reads.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.cpu",
+      "before": "You joined an ALU, registers, control, and RAM into a small computer and took ownership of a complete data path.",
+      "after": "An ALU, registers, control and RAM now work as one computer. Instructions send data through the machine you built.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.completion.summary.load_store",
+      "before": "You made the CPU reach external memory through LOAD and STORE, exposing the boundary where the processor must wait for data to return.",
+      "after": "LOAD and STORE connect the CPU to external memory. Calculation has a companion cost: waiting for data.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.capstone.learned",
+      "before": "You completed the full loop: observe, diagnose, change one cause, and compare. Multiple hardware/software solutions remain valid.",
+      "after": "You observed, diagnosed and compared. The first experiment changed one factor; later experiments can combine hardware and software choices.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "exploration.selector.summary",
+      "before": "You used control to select data. Changes on the unselected side cannot disturb the output.",
+      "after": "Control chooses which input reaches the output. The other input can change without disturbing the result.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "exploration.delay.summary",
+      "before": "You stored current and previous data separately. Pauses, repeated values and consecutive accepts obey the same commit rule.",
+      "after": "Current and previous data have separate places. Pauses, repeated values and consecutive accepts all follow the same commit rule.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "exploration.selector4.summary",
+      "before": "You organized selection into a larger system. Try a different structure: what changes between hierarchy and decoding?",
+      "after": "Four sources, one choice. Try another structure: how do a hierarchy and a decoder compare?",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "exploration.parity.summary",
+      "before": "You built an error detector. Flip one debug input, then a second, to see why no alarm does not guarantee an error-free message.",
+      "after": "Your error detector works. Flip one debug input, then a second. No alarm does not always mean no error.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "exploration.alarm.summary",
+      "before": "A short event now persists, with an explicit clearing priority. State can remember what happened, not just store a number.",
+      "after": "A brief fault leaves a lasting record, until clear takes priority. State can remember an event as well as a number.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.completion.summary.read_once",
+      "before": "You reduced real memory requests without upgrading hardware. Once data arrives, ask whether it can be used again.",
+      "after": "Same hardware, fewer memory requests. A value worth fetching may be worth using twice.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.completion.summary.two_orders",
+      "before": "You spent each budget where it mattered. The fastest part is not always the most useful purchase; the workload determines the tradeoff.",
+      "after": "Same budget, different choices. The workload decides which parts earn their keep.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.arrival.learned",
+      "before": "You separated request from arrival and used the waiting interval for independent work. Both exploration branches are open.",
+      "after": "A request is not an arrival. You used the gap for independent work. Both exploration paths are open.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.prefetch.learned",
+      "before": "Requests now start early, but compute still uses data that actually arrived. Explore what happens when requests get too far ahead.",
+      "after": "Requests start early; computation still needs data to arrive first. Next, see what happens when requests get too far ahead.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.distance.learned",
+      "before": "You avoided unnecessary eviction and refetch. Prefetch value depends on cache capacity and when data is used.",
+      "after": "You avoided eviction and another fetch. Useful prefetch depends on cache capacity and when the data is needed.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.synthesis.learned",
+      "before": "Both workloads passed. Your schedule explains overlap and wait while preserving results. Extra storage cannot accelerate a bandwidth-bound transfer engine.",
+      "after": "Both workloads passed. Your schedule shows where transfer and compute overlap, and where they wait. Extra storage cannot speed up a bandwidth-bound transfer engine.",
+      "kind": "copy"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.assembly.title",
+      "before": "CONNECT THE FIRST SYSTEM",
+      "after": "Three Parts, One Machine",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.cpu_speed.title",
+      "before": "AFTER THE CPU GETS FASTER",
+      "after": "The Waiting Remains",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.ram_wait.title",
+      "before": "WHO IS THE CPU WAITING FOR?",
+      "after": "Time on the Road",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.bus_width.title",
+      "before": "HOW MANY TRIPS FOR ONE BYTE?",
+      "after": "Room to Pass",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.bottleneck.title",
+      "before": "BOTTLENECK INVESTIGATION",
+      "after": "Follow the Delay",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.read_once.title",
+      "before": "One read is enough",
+      "after": "Once Is Enough",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.distant_reads.title",
+      "before": "Why Go All the Way Back?",
+      "after": "The Long Way Round",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.nearby_storage.title",
+      "before": "Leave It Nearby",
+      "after": "Keep It Handy",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.cache_failure.title",
+      "before": "Why Didn't It Help?",
+      "after": "Here, Then Gone",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.access_order.title",
+      "before": "Change the Order",
+      "after": "A Change of Order",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.working_set.title",
+      "before": "The Order Is Already Right",
+      "after": "Only So Much Room",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.blocking.title",
+      "before": "Do Less at Once",
+      "after": "A Little at a Time",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.level.capstone.title",
+      "before": "Now Investigate",
+      "after": "Follow the Clues",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.arrival.title",
+      "before": "Issued is not arrived",
+      "after": "Still on the Way",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.buffers.title",
+      "before": "Two buffers take turns",
+      "after": "Taking Turns",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.backpressure.title",
+      "before": "Slow down without losing data",
+      "after": "Give and Take",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.prefetch.title",
+      "before": "A little earlier",
+      "after": "One Step Ahead",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.distance.title",
+      "before": "Earlier is not always better",
+      "after": "Too Far Ahead",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "overlap.synthesis.title",
+      "before": "Keep compute moving",
+      "after": "All in Good Time",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "exploration.alarm.title",
+      "before": "Keep the alarm",
+      "after": "A Moment Remembered",
+      "kind": "title"
+    },
+    {
+      "locale": "zh_CN",
+      "key": "overlap.distance.title",
+      "before": "早亦有时",
+      "after": "过犹不及",
+      "kind": "title"
+    },
+    {
+      "locale": "en",
+      "key": "hub.hardware.play",
+      "before": "Enter the CPU Building Prologue",
+      "after": "Enter the Prologue",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.hardware.eyebrow",
+      "before": "PROLOGUE · LOGIC / ARITHMETIC / MEMORY",
+      "after": "Logic · Arithmetic · Memory",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.locality.eyebrow",
+      "before": "CACHE · LOCALITY · WORKING SET",
+      "after": "Cache · Locality · Working Set",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.system.open",
+      "before": "OPEN CHAPTER MAP",
+      "after": "Open Chapter Map",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.locality.open",
+      "before": "OPEN CHAPTER MAP",
+      "after": "Open Chapter Map",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.system.locked_action",
+      "before": "UNLOCK AFTER LOAD/STORE",
+      "after": "Complete LOAD/STORE",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hub.locality.locked_action",
+      "before": "COMPLETE CHAPTER 1",
+      "after": "Complete Chapter 1",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.phase.tutorial",
+      "before": "PROLOGUE · WIRING TUTORIAL",
+      "after": "Prologue · Wiring Tutorial",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.phase.half_adder",
+      "before": "PROLOGUE · BUILD A 1-BIT HALF ADDER",
+      "after": "Prologue · Build a 1-bit Half Adder",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.phase.complete",
+      "before": "COMPLETE  ·  PLAYER-OWNED ABSTRACTION",
+      "after": "Complete · Ready to Reuse",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.tutorial.heading",
+      "before": "WIRING TUTORIAL",
+      "after": "Wiring Tutorial",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "locality.workbench.title",
+      "before": "MACHINE WORKBENCH",
+      "after": "Machine Workbench",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "program.reference.title",
+      "before": "PYTHON-SHAPED REFERENCE",
+      "after": "Python-shaped Reference",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "program.explanation.title",
+      "before": "LINE-BY-LINE EXPLANATION",
+      "after": "Line-by-line Explanation",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "trace.playback.title",
+      "before": "TRACE PLAYBACK",
+      "after": "Trace Playback",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.tutorial.checklist_title",
+      "before": "SHORT INTERACTION CHECK",
+      "after": "Quick Interaction Check",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.library.title",
+      "before": "MY COMPONENT LIBRARY",
+      "after": "My Component Library",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.bench.title",
+      "before": "EXTERNAL TEST BENCH",
+      "after": "External Test Bench",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.prologue.complete.title",
+      "before": "COMPONENT COMPLETE",
+      "after": "Component Complete",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "system.map.intro.title",
+      "before": "WHERE DOES WAITING COME FROM?",
+      "after": "Where Does the Waiting Begin?",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "system.level.unknown.title",
+      "before": "UNKNOWN LEVEL",
+      "after": "Unknown Level",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "system.window.history.title",
+      "before": "RUN HISTORY",
+      "after": "Run History",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "system.program.explanation.title",
+      "before": "LINE-BY-LINE EXPLANATION",
+      "after": "Line-by-line Explanation",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.map.intro.title",
+      "before": "THE INVESTIGATION",
+      "after": "The Investigation",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.near_store.title",
+      "before": "NEARBY STORAGE",
+      "after": "Nearby Storage",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.capstone.history.raw_title",
+      "before": "BEFORE DIAGNOSIS · RAW RUN EVIDENCE",
+      "after": "Before Diagnosis · Run Evidence",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.history.comparison_title",
+      "before": "BEFORE → AFTER",
+      "after": "Before → After",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.notebook.title",
+      "before": "SYSTEMS NOTEBOOK",
+      "after": "Systems Notebook",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.notebook.controlled_comparison.title",
+      "before": "CONTROLLED COMPARISON",
+      "after": "Controlled Comparison",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.notebook.working_set.title",
+      "before": "WORKING SET",
+      "after": "Working Set",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "chapter2.notebook.blocking.title",
+      "before": "BLOCKING / TILING",
+      "after": "Blocking / Tiling",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.inspector.title",
+      "before": "COMPONENT INSPECTOR",
+      "after": "Component Inspector",
+      "kind": "microcopy"
+    },
+    {
+      "locale": "en",
+      "key": "hardware.encapsulation.title",
+      "before": "ENCAPSULATING",
+      "after": "Encapsulating",
+      "kind": "microcopy"
+    }
+  ],
+  "layout_english_before": [
+    "Only what we need",
+    "One record, all fields",
+    "Hot and cold",
+    "Moving has a cost",
+    "Make it fit in batches",
+    "One layout, two workloads"
+  ],
+  "layout_english_after": [
+    "Just What We Need",
+    "The Whole Picture",
+    "Separate Ways",
+    "The Price of Moving",
+    "Piece by Piece",
+    "Common Ground"
+  ]
+}

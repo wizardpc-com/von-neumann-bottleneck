@@ -76,7 +76,7 @@ msgid "window.fullscreen.tooltip"
 msgstr "Toggle fullscreen (F11 or Alt+Enter)"
 
 msgid "hub.subtitle"
-msgstr "From your first wire to a working computer. Then make it faster."
+msgstr "Start with a wire. Build a working machine. Then make it faster."
 
 msgid "hub.save.continue"
 msgstr "Continue"
@@ -118,52 +118,52 @@ msgid "hub.options.quit"
 msgstr "Quit Game"
 
 msgid "hub.hardware.title"
-msgstr "CPU BUILDING PROLOGUE"
+msgstr "Prologue: A Machine Takes Shape"
 
 msgid "hub.hardware.eyebrow"
-msgstr "PROLOGUE · LOGIC / ARITHMETIC / MEMORY"
+msgstr "Logic · Arithmetic · Memory"
 
 msgid "hub.hardware.description"
-msgstr "Wire gates into circuits that calculate and remember.\n\nEach circuit you finish becomes a tool for the next build."
+msgstr "Wire gates into circuits that calculate and remember.\n\nUse what you build to make something larger."
 
 msgid "hub.hardware.play"
-msgstr "Enter the CPU Building Prologue"
+msgstr "Enter the Prologue"
 
 msgid "hub.system.title"
-msgstr "CHAPTER 1: WAITING FOR DATA"
+msgstr "Chapter 1: Where Time Goes"
 
 msgid "hub.system.eyebrow"
 msgstr "CPU · RAM · BUS"
 
 msgid "hub.system.description"
-msgstr "Your computer works.\n\nFind where it waits, then test your explanation with one change."
+msgstr "The machine works.\n\nFind where it waits. Change one factor, then check your prediction."
 
 msgid "hub.system.open"
-msgstr "OPEN CHAPTER MAP"
+msgstr "Open Chapter Map"
 
 msgid "hub.system.locked"
 msgstr "Complete Hardware Prologue LOAD/STORE in Game mode first, or enter directly in Test mode."
 
 msgid "hub.system.locked_action"
-msgstr "UNLOCK AFTER LOAD/STORE"
+msgstr "Complete LOAD/STORE"
 
 msgid "hardware.prologue.open_system"
 msgstr "ENTER CHAPTER 1 WITH MY CPU AND RAM"
 
 msgid "hub.locality.title"
-msgstr "CHAPTER 2: REDUCING DATA MOVEMENT"
+msgstr "Chapter 2: Less to Carry"
 
 msgid "hub.locality.eyebrow"
-msgstr "CACHE · LOCALITY · WORKING SET"
+msgstr "Cache · Locality · Working Set"
 
 msgid "hub.locality.description"
-msgstr "Less movement. The same result.\n\nExplore caches, access order and blocking to keep data close when it is needed."
+msgstr "Move less data. Get the same result.\n\nExplore caches, access order and blocking to use each fetch more fully."
 
 msgid "hub.locality.open"
-msgstr "OPEN CHAPTER MAP"
+msgstr "Open Chapter Map"
 
 msgid "hub.note"
-msgstr "Every circuit you build is the beginning of the next challenge."
+msgstr "Each circuit you build puts another tool in your hands."
 
 msgid "device.program"
 msgstr "PROGRAM"
@@ -298,7 +298,7 @@ msgid "locality.subtitle"
 msgstr "PROTOTYPE v0.2  •  PROGRAM → TRACE → MACHINE → EVIDENCE"
 
 msgid "locality.workbench.title"
-msgstr "MACHINE WORKBENCH"
+msgstr "Machine Workbench"
 
 msgid "locality.workbench.goal"
 msgstr "Official target: correct result · ≤ %d cycles · hardware cost recorded"
@@ -364,7 +364,7 @@ msgid "program.draft.description"
 msgstr "This editor is a draft. Apply Program confirms it as the only source Test Bench may parse and execute."
 
 msgid "program.reference.title"
-msgstr "PYTHON-SHAPED REFERENCE"
+msgstr "Python-shaped Reference"
 
 msgid "program.reference.body"
 msgstr "# comment  ·  for name in range(4):  ·  indent with 4 spaces\nacc += load(A[row][col])  ·  store(OUT[0], acc)"
@@ -412,7 +412,7 @@ msgid "program.effect.invalid"
 msgstr "NO DRAFT EXECUTION PLAN — fix the parser error before applying"
 
 msgid "program.explanation.title"
-msgstr "LINE-BY-LINE EXPLANATION"
+msgstr "Line-by-line Explanation"
 
 msgid "program.explanation.invalid"
 msgstr "The parser must accept the draft before a line-by-line explanation can be generated."
@@ -478,7 +478,7 @@ msgid "cache.detail"
 msgstr "%d lines · %d ints · cost %d"
 
 msgid "trace.playback.title"
-msgstr "TRACE PLAYBACK"
+msgstr "Trace Playback"
 
 msgid "trace.playback.empty"
 msgstr "Run a test to inspect its execution record."
@@ -832,7 +832,7 @@ msgid "circuit.error.circular_dependency"
 msgstr "CIRCULAR DEPENDENCY: %s feeds back within the same simulation tick."
 
 msgid "hardware.title"
-msgstr "Hardware Foundations · Build a Computer"
+msgstr "Prologue · A Machine Takes Shape"
 
 msgid "hardware.subtitle"
 msgstr "Prologue: gates → arithmetic and memory → a computer"
@@ -1024,13 +1024,13 @@ msgid "hardware.toolbar.level_map.tooltip"
 msgstr "Open the Hardware Prologue map to review completed, unlocked, and prerequisite-gated levels."
 
 msgid "hardware.phase.tutorial"
-msgstr "PROLOGUE · WIRING TUTORIAL"
+msgstr "Prologue · Wiring Tutorial"
 
 msgid "hardware.phase.half_adder"
-msgstr "PROLOGUE · BUILD A 1-BIT HALF ADDER"
+msgstr "Prologue · Build a 1-bit Half Adder"
 
 msgid "hardware.phase.complete"
-msgstr "COMPLETE  ·  PLAYER-OWNED ABSTRACTION"
+msgstr "Complete · Ready to Reuse"
 
 msgid "hardware.trace.empty"
 msgstr "TRACE — run the circuit to see each causal step"
@@ -1048,7 +1048,7 @@ msgid "hardware.tutorial.zero_delay"
 msgstr "Wires have 0 tick delay"
 
 msgid "hardware.tutorial.heading"
-msgstr "WIRING TUTORIAL"
+msgstr "Wiring Tutorial"
 
 msgid "hardware.tutorial.heading_subtitle"
 msgstr "Build your first signal path, from input to output"
@@ -1057,7 +1057,7 @@ msgid "hardware.tutorial.prompt"
 msgstr "Goal: A=0 → LAMP=1; A=1 → LAMP=0. Complete the five actions below, then continue. Expand Mission for specifications and controls."
 
 msgid "hardware.tutorial.checklist_title"
-msgstr "SHORT INTERACTION CHECK"
+msgstr "Quick Interaction Check"
 
 msgid "hardware.tutorial.check.wire"
 msgstr "Create a valid wire"
@@ -1540,13 +1540,13 @@ msgid "hardware.prologue.map.phase"
 msgstr "Hardware Foundations · Prologue Map"
 
 msgid "hardware.prologue.map.title"
-msgstr "From gates to a running computer"
+msgstr "From Gates to a Computer"
 
 msgid "hardware.prologue.map.subtitle"
-msgstr "Learn to compute · learn to remember · merge both into a computer"
+msgstr "Arithmetic and storage: two paths, one machine"
 
 msgid "hardware.prologue.map.description"
-msgstr "Start with wiring practice. Arithmetic: Half Adder → Full Adder → ALU. Storage: SR Latch → Register → RAM. Explore either branch first, join them into a CPU, run LOAD/STORE, then continue to systems and data movement."
+msgstr "Start with wiring practice.\nArithmetic: Half Adder → Full Adder → ALU.\nStorage: SR Latch → Register → RAM.\nTake either branch first. Join them into a CPU, run LOAD/STORE, then investigate systems and data movement."
 
 msgid "hardware.prologue.map.canvas_hint"
 msgstr "Choose a level on the central dependency graph; hover a node to inspect its goal and prerequisites."
@@ -1573,13 +1573,13 @@ msgid "hardware.prologue.map.node.locked"
 msgstr "Waiting for prerequisites"
 
 msgid "hardware.prologue.map.tutorial_description"
-msgstr "Practice creating, deleting, branching, and reconnecting wires while reading live levels and signal flow."
+msgstr "Connect, branch, delete and reconnect wires. Change the input and follow the signal."
 
 msgid "hardware.prologue.map.half_adder_description"
 msgstr "Design a one-bit Half Adder from basic gates, pass all four A/B input combinations (the truth table), then seal it as HalfAdder."
 
 msgid "hardware.prologue.map.generic_description"
-msgstr "Build and officially verify this node to unlock the abstractions that depend on it."
+msgstr "Build the circuit and pass its tests. It becomes a tool for what comes next."
 
 msgid "hardware.prologue.map.status"
 msgstr "Choose an unlocked level. Completed levels remain replayable."
@@ -1618,7 +1618,7 @@ msgid "hardware.prologue.session_only"
 msgstr "Progress and the component library are session-local; no save format exists yet."
 
 msgid "hardware.prologue.library.title"
-msgstr "MY COMPONENT LIBRARY"
+msgstr "My Component Library"
 
 msgid "hardware.prologue.library.subtitle"
 msgstr "Player topology and generated word-wrapper provenance"
@@ -1660,7 +1660,7 @@ msgid "hardware.prologue.seal_verified"
 msgstr "Seal as %s"
 
 msgid "hardware.prologue.bench.title"
-msgstr "EXTERNAL TEST BENCH"
+msgstr "External Test Bench"
 
 msgid "hardware.prologue.bench.subtitle"
 msgstr "Editable debug values + fixed official cases/temporal program"
@@ -1693,7 +1693,7 @@ msgid "hardware.prologue.sealed_trace"
 msgstr "Player circuit → seal → %s · source signature preserved"
 
 msgid "hardware.prologue.complete.title"
-msgstr "COMPONENT COMPLETE"
+msgstr "Component Complete"
 
 msgid "hardware.prologue.complete.subtitle"
 msgstr "Your component is saved and ready to reuse."
@@ -1714,43 +1714,43 @@ msgid "hardware.prologue.full_adder.title"
 msgstr "Full Adder"
 
 msgid "hardware.prologue.full_adder.description"
-msgstr "Use two sealed HalfAdders and one OR to handle A, B, and carry-in. Determine the topology instead of following a forced template."
+msgstr "Add A, B and carry-in using two sealed HalfAdders and one OR. You choose how to connect them."
 
 msgid "hardware.prologue.alu.title"
 msgstr "One-bit ALU"
 
 msgid "hardware.prologue.alu.description"
-msgstr "Select among AND, OR, ADD, and NOT-A results. Passing generates an ALU4 word wrapper."
+msgstr "One set of inputs, four operations: AND, OR, ADD and NOT-A. Select the result with control signals. Passing unlocks an ALU4 word wrapper."
 
 msgid "hardware.prologue.latch.title"
 msgstr "SR Latch"
 
 msgid "hardware.prologue.latch.description"
-msgstr "Store one bit with two cross-coupled NOR gates. Stable S=R=1 is invalid; only this level permits the explicit feedback loop."
+msgstr "Store one bit with two cross-coupled NOR gates. Stable S=R=1 is invalid. This is the only level that permits this explicit feedback loop."
 
 msgid "hardware.prologue.register.title"
 msgstr "One-bit Register"
 
 msgid "hardware.prologue.register.description"
-msgstr "Add D and LOAD control around your SRLatch: hold when LOAD=0 and write when LOAD=1. Passing generates Register4."
+msgstr "Give your SRLatch D and LOAD inputs: hold when LOAD=0; write when LOAD=1. Passing unlocks Register4."
 
 msgid "hardware.prologue.ram.title"
 msgstr "2×4 RAM"
 
 msgid "hardware.prologue.ram.description"
-msgstr "Use two Register4 components, an address decoder, and a word mux to build two independent four-bit storage locations."
+msgstr "Build two independent four-bit storage locations from two Register4 components, an address decoder and a word mux."
 
 msgid "hardware.prologue.cpu.title"
 msgstr "Four-bit Accumulator CPU"
 
 msgid "hardware.prologue.cpu.description"
-msgstr "Connect ALU4, accumulator, RAM, control, and data selectors into a tiny computer that runs LOAD_IMM, ADD_IMM, LOAD_MEM, and STORE_MEM."
+msgstr "Join ALU4, an accumulator, RAM, control and data selectors into a small computer. It must run LOAD_IMM, ADD_IMM, LOAD_MEM and STORE_MEM."
 
 msgid "hardware.prologue.load_store.title"
 msgstr "LOAD/STORE Bridge"
 
 msgid "hardware.prologue.load_store.description"
-msgstr "Reuse the sealed TinyComputer to run a fixed program and watch data cross the CPU/RAM boundary. No repeated wiring is required."
+msgstr "Run a fixed program on your sealed TinyComputer. Follow data across the CPU/RAM boundary; no new wiring is needed."
 
 msgid "hardware.program.load_imm_3"
 msgstr "LOAD_IMM 3"
@@ -2076,10 +2076,10 @@ msgid "hardware.hint.load_store.3"
 msgstr "The complete reference also connects ACC and MEM outputs; this topology is fixed, so focus on reading state changes."
 
 msgid "system.chapter.title"
-msgstr "CHAPTER 1: WAITING FOR DATA"
+msgstr "Chapter 1: Where Time Goes"
 
 msgid "system.chapter.subtitle"
-msgstr "Turn a working computer into explainable performance evidence"
+msgstr "The machine works. Where does its time go?"
 
 msgid "system.action.map"
 msgstr "CHAPTER MAP"
@@ -2199,10 +2199,10 @@ msgid "system.status.diagnosis_retry"
 msgstr "The breakdown is unlocked; revisit the evidence and submit a revised diagnosis."
 
 msgid "system.map.intro.title"
-msgstr "WHERE DOES WAITING COME FROM?"
+msgstr "Where Does the Waiting Begin?"
 
 msgid "system.map.intro.body"
-msgstr "Five nodes form one investigation: assemble the machine, predict each controlled change, run it, follow Trace and Profiler evidence, explain CPU WAIT, then diagnose the exact system across 4/16/64 workloads.\n\nThis chapter has no Cache and requires no software optimization."
+msgstr "Follow CPU WAIT to its source: assemble the system, predict a change, run a comparison, then inspect Trace and Profiler. Use the 4/16/64 workloads to find the bottleneck.\n\nThe main path needs no Cache or program changes. An optional branch explores how software can avoid repeated reads."
 
 msgid "system.map.prologue_required"
 msgstr "Complete the Hardware Prologue LOAD/STORE bridge first to generate your CPU8 and RAM64x8 provenance."
@@ -2226,7 +2226,7 @@ msgid "system.level.header"
 msgstr "%d / 5 · %s"
 
 msgid "system.level.unknown.title"
-msgstr "UNKNOWN LEVEL"
+msgstr "Unknown Level"
 
 msgid "system.level.unknown.description"
 msgstr "Level content is unavailable."
@@ -2235,10 +2235,10 @@ msgid "system.level.unknown.objective"
 msgstr "Restore valid level content."
 
 msgid "system.level.assembly.title"
-msgstr "CONNECT THE FIRST SYSTEM"
+msgstr "Three Parts, One Machine"
 
 msgid "system.level.assembly.description"
-msgstr "Join the player-provenance CPU8, 8-bit Bus, and RAM64x8 into one runnable computer."
+msgstr "Connect your CPU8, an 8-bit Bus and RAM64x8 into a working system."
 
 msgid "system.level.assembly.objective"
 msgstr "Connect all six request, write, and read routes, apply the program, and pass both official cases."
@@ -2250,10 +2250,10 @@ msgid "system.level.assembly.briefing.2"
 msgstr "Connect the request, write-data and read-data routes: six [[wire|wire]] segments in total. The supplied program is already applied: read a value, add 1, then write it back.\n\nIn the [[test_bench|Test Bench]], select Run all official cases and check both results. Use [[apply|Confirm and apply]] only after editing the program draft."
 
 msgid "system.level.cpu_speed.title"
-msgstr "AFTER THE CPU GETS FASTER"
+msgstr "The Waiting Remains"
 
 msgid "system.level.cpu_speed.description"
-msgstr "This memory-heavy sum mixes arithmetic with repeated data trips. Predict whether 4× faster arithmetic makes the whole run 4× faster, then test it."
+msgstr "Arithmetic gets 4× faster. Does this memory-heavy sum finish 4× faster too? Predict, then test."
 
 msgid "system.level.cpu_speed.objective"
 msgstr "Lock a prediction, run Eco as the baseline, then change only CPU to Fast and explain total-cycle change from compute versus WAIT."
@@ -2268,10 +2268,10 @@ msgid "system.level.cpu_speed.briefing.3"
 msgstr "Compare total [[cycle|cycles]], then open the [[profiler|Profiler]] and compare compute time with [[cpu_wait|CPU WAIT]]. Pass the same official cases with both CPUs to finish."
 
 msgid "system.level.ram_wait.title"
-msgstr "WHO IS THE CPU WAITING FOR?"
+msgstr "Time on the Road"
 
 msgid "system.level.ram_wait.description"
-msgstr "Predict where CPU time goes, then follow repeated requests, RAM service, returned data, and the CPU's visible WAIT state."
+msgstr "Follow a request to RAM and the data on its way back. Where does the CPU spend time in WAIT?"
 
 msgid "system.level.ram_wait.objective"
 msgstr "Lock a prediction, keep CPU, Bus, program, and tests fixed, then change only RAM and explain the CPU-wait delta."
@@ -2286,10 +2286,10 @@ msgid "system.level.ram_wait.briefing.3"
 msgstr "Use the same program and official cases both times. Compare CPU WAIT in the Profiler; because only RAM changed, that difference tells you where the waiting came from."
 
 msgid "system.level.bus_width.title"
-msgstr "HOW MANY TRIPS FOR ONE BYTE?"
+msgstr "Room to Pass"
 
 msgid "system.level.bus_width.description"
-msgstr "The same byte crosses each Bus width; predict how serialization changes, then count the stages on the exact wire."
+msgstr "The same byte, a different Bus width. Predict how many stages it takes to cross, then count them on the wire."
 
 msgid "system.level.bus_width.objective"
 msgstr "Lock a prediction, run Bus2 as the baseline, then change only Bus width and inspect segmented packets on the exact wires."
@@ -2301,10 +2301,10 @@ msgid "system.level.bus_width.briefing.2"
 msgstr "Lock a prediction and run Bus2. Keep CPU, RAM, program, and data fixed, then change only to Bus8. Watch how many packet stages cross the wire and pass both official runs."
 
 msgid "system.level.bottleneck.title"
-msgstr "BOTTLENECK INVESTIGATION"
+msgstr "Follow the Delay"
 
 msgid "system.level.bottleneck.description"
-msgstr "Investigate one exact system across 4, 16, and 64 items. Use raw totals, CPU WAIT, workload growth, and Trace flow before the full breakdown is revealed."
+msgstr "Run the same system with 4, 16 and 64 items. Use totals, CPU WAIT and Trace flow to find the bottleneck before revealing the full breakdown."
 
 msgid "system.level.bottleneck.objective"
 msgstr "Pass the 4/16/64 official cases, submit CPU, RAM, Bus, or mixed as your first diagnosis, then compare it with the revealed breakdown."
@@ -2334,7 +2334,7 @@ msgid "system.window.profiler.title"
 msgstr "PROFILER"
 
 msgid "system.window.history.title"
-msgstr "RUN HISTORY"
+msgstr "Run History"
 
 msgid "system.window.mission.short"
 msgstr "MISSION"
@@ -2406,7 +2406,7 @@ msgid "system.program.applied"
 msgstr "✓ APPLIED"
 
 msgid "system.program.explanation.title"
-msgstr "LINE-BY-LINE EXPLANATION"
+msgstr "Line-by-line Explanation"
 
 msgid "system.dsl.error.tabs"
 msgstr "Line %d uses a tab; use four spaces."
@@ -2787,34 +2787,34 @@ msgid "hardware.completion.chapter"
 msgstr "Hardware Foundations · Prologue"
 
 msgid "hardware.completion.summary.tutorial"
-msgstr "You can wire, run and repair a circuit. Red 0 and green 1 are both normal signals. Change the input and follow how the result changes."
+msgstr "The circuit is connected, tested and ready to change. Both 0 and 1 are normal signals. Change the input and follow the result."
 
 msgid "hardware.completion.summary.half_adder"
-msgstr "You turned two bits into SUM and CARRY and obtained a reusable HalfAdder. The newly unlocked XOR gate outputs 1 when its inputs differ, matching the SUM rule."
+msgstr "Two bits become SUM and CARRY. Your HalfAdder is ready to reuse. The newly unlocked XOR outputs 1 when its inputs differ, just like SUM."
 
 msgid "hardware.completion.summary.full_adder"
-msgstr "Your adder now accepts the carry from the previous bit. Small circuits can become parts of larger circuits without rebuilding every gate."
+msgstr "Add the incoming carry to the two inputs, and a longer sum becomes possible. Small circuits are now building blocks for larger ones."
 
 msgid "hardware.completion.summary.alu"
-msgstr "You used control signals to select arithmetic results and saw how an ALU brings several operations into one data path."
+msgstr "Control signals select the operation. The ALU sends its result down a shared data path."
 
 msgid "hardware.completion.summary.latch"
-msgstr "You stored state through feedback and discovered the boundary between combinational logic and a component with memory."
+msgstr "Feedback lets a circuit keep a state. That is the step from combinational logic to memory."
 
 msgid "hardware.completion.summary.register"
-msgstr "Data and the decision to save it now have separate inputs. With LOAD off, Q keeps the last saved value."
+msgstr "Separate inputs choose the data and when to save it. With LOAD off, Q keeps the last value written."
 
 msgid "hardware.completion.summary.ram"
-msgstr "You combined address, write control, and data ports into addressable memory, observing write, hold, and read state changes."
+msgstr "Addresses, write control and data ports now form a working memory. You checked what happens when it writes, holds and reads."
 
 msgid "hardware.completion.summary.cpu"
-msgstr "You joined an ALU, registers, control, and RAM into a small computer and took ownership of a complete data path."
+msgstr "An ALU, registers, control and RAM now work as one computer. Instructions send data through the machine you built."
 
 msgid "hardware.completion.summary.load_store"
-msgstr "You made the CPU reach external memory through LOAD and STORE, exposing the boundary where the processor must wait for data to return."
+msgstr "LOAD and STORE connect the CPU to external memory. Calculation has a companion cost: waiting for data."
 
 msgid "system.completion.chapter"
-msgstr "Chapter 1 · Waiting for Data"
+msgstr "Chapter 1 · Where Time Goes"
 
 msgid "system.completion.summary.assembly"
 msgstr "You connected the CPU, Bus, and RAM request, write, and read routes, proving that the displayed wires are the system topology."
@@ -2877,13 +2877,13 @@ msgid "system.wire_color.lane_done"
 msgstr "Colored %d segment(s) in the same data lane."
 
 msgid "hub.locality.locked_action"
-msgstr "COMPLETE CHAPTER 1"
+msgstr "Complete Chapter 1"
 
 msgid "hub.locality.locked"
 msgstr "Diagnose the Chapter 1 bottleneck before beginning Chapter 2."
 
 msgid "chapter2.title"
-msgstr "CHAPTER 2 · KEEP DATA CLOSE"
+msgstr "Chapter 2 · Less to Carry"
 
 msgid "chapter2.subtitle"
 msgstr "Reduce expensive data movement so the CPU waits less."
@@ -2952,10 +2952,10 @@ msgid "chapter2.map.return"
 msgstr "RETURN TO MAP"
 
 msgid "chapter2.map.intro.title"
-msgstr "THE INVESTIGATION"
+msgstr "The Investigation"
 
 msgid "chapter2.map.intro.body"
-msgstr "The CPU is still waiting. Follow the evidence from repeated distant reads to reuse, access order, working set, and blocking. Each node asks for one judgment only."
+msgstr "The CPU is still waiting. Follow the data: distant reads, reuse, access order, working set and blocking. Each task asks you to make one main judgment."
 
 msgid "chapter2.map.level_index"
 msgstr "2-%d"
@@ -3048,7 +3048,7 @@ msgid "chapter2.test_bench.official_data"
 msgstr "Official 4×4 data · %d pass(es)"
 
 msgid "chapter2.near_store.title"
-msgstr "NEARBY STORAGE"
+msgstr "Nearby Storage"
 
 msgid "chapter2.near_store.description"
 msgstr "Choose whether a tiny fast store sits on the data path, then rerun the same program and data."
@@ -3099,7 +3099,7 @@ msgid "chapter2.capstone.profiler.raw_summary"
 msgstr "%s\nRaw evidence · Total %d cycles · CPU WAIT %d cycles"
 
 msgid "chapter2.capstone.history.raw_title"
-msgstr "BEFORE DIAGNOSIS · RAW RUN EVIDENCE"
+msgstr "Before Diagnosis · Run Evidence"
 
 msgid "chapter2.capstone.history.raw_metrics"
 msgstr "Total %d cycles · CPU WAIT %d cycles · Data requests %d"
@@ -3156,7 +3156,7 @@ msgid "chapter2.profiler.event_detail"
 msgstr "Cycle %d · source line %d\nA[%d][%d] → address %d · data block %d\nFetched A addresses %d..%d = %s"
 
 msgid "chapter2.history.comparison_title"
-msgstr "BEFORE → AFTER"
+msgstr "Before → After"
 
 msgid "chapter2.history.before"
 msgstr "Before · %s"
@@ -3300,7 +3300,7 @@ msgid "chapter2.event.message.fill_nearby_block"
 msgstr "Keep data block %d nearby and return value %d."
 
 msgid "chapter2.notebook.title"
-msgstr "SYSTEMS NOTEBOOK"
+msgstr "Systems Notebook"
 
 msgid "chapter2.notebook.description"
 msgstr "Terms appear only after you have observed the mechanism. Locked entries remain ???."
@@ -3321,7 +3321,7 @@ msgid "chapter2.notebook.cpu_wait.related"
 msgstr "Bottleneck"
 
 msgid "chapter2.notebook.controlled_comparison.title"
-msgstr "CONTROLLED COMPARISON"
+msgstr "Controlled Comparison"
 
 msgid "chapter2.notebook.controlled_comparison.body"
 msgstr "Compare two valid runs while changing exactly one condition."
@@ -3393,7 +3393,7 @@ msgid "chapter2.notebook.locality.related"
 msgstr "Cache Hit, access order"
 
 msgid "chapter2.notebook.working_set.title"
-msgstr "WORKING SET"
+msgstr "Working Set"
 
 msgid "chapter2.notebook.working_set.body"
 msgstr "The data that must remain available during the current phase of computation."
@@ -3405,7 +3405,7 @@ msgid "chapter2.notebook.working_set.related"
 msgstr "Cache capacity, Blocking"
 
 msgid "chapter2.notebook.blocking.title"
-msgstr "BLOCKING / TILING"
+msgstr "Blocking / Tiling"
 
 msgid "chapter2.notebook.blocking.body"
 msgstr "Reorganize computation so a small active group is fully reused before moving on."
@@ -3417,7 +3417,7 @@ msgid "chapter2.notebook.blocking.related"
 msgstr "Working Set, Locality"
 
 msgid "chapter2.completion.chapter"
-msgstr "Chapter 2 · Keep Data Close"
+msgstr "Chapter 2 · Less to Carry"
 
 msgid "chapter2.level.unknown.title"
 msgstr "Unknown Investigation"
@@ -3426,10 +3426,10 @@ msgid "chapter2.level.unknown.description"
 msgstr "Invalid Chapter 2 content."
 
 msgid "chapter2.level.distant_reads.title"
-msgstr "Why Go All the Way Back?"
+msgstr "The Long Way Round"
 
 msgid "chapter2.level.distant_reads.description"
-msgstr "Observe one correct scan where every requested value crosses the Bus to RAM."
+msgstr "Follow one correct scan. Every requested value makes a trip across the Bus to RAM."
 
 msgid "chapter2.level.distant_reads.objective"
 msgstr "Run once. Follow several loads from CPU to RAM and back, then identify what the CPU spends most of its time doing."
@@ -3453,10 +3453,10 @@ msgid "chapter2.level.distant_reads.judgment.result_store"
 msgstr "Writing the final result is the repeated delay."
 
 msgid "chapter2.level.nearby_storage.title"
-msgstr "Leave It Nearby"
+msgstr "Keep It Handy"
 
 msgid "chapter2.level.nearby_storage.description"
-msgstr "Add one tiny fast store and compare the same program and data before and after."
+msgstr "Add a small, fast store. Run the same program on the same data and compare."
 
 msgid "chapter2.level.nearby_storage.objective"
 msgstr "Capture a direct-RAM baseline, enable nearby storage, and rerun. Find the first far fetch and later nearby returns in Trace."
@@ -3471,10 +3471,10 @@ msgid "chapter2.level.nearby_storage.learned"
 msgstr "The nearby hardware is a Cache. A Miss fetches a line from RAM; later requests to that line are Hits and avoid the distant trip."
 
 msgid "chapter2.level.cache_failure.title"
-msgstr "Why Didn't It Help?"
+msgstr "Here, Then Gone"
 
 msgid "chapter2.level.cache_failure.description"
-msgstr "Observe a Cache that is present but repeatedly replaces the line needed next."
+msgstr "The Cache is there. Why does it keep replacing the line needed next?"
 
 msgid "chapter2.level.cache_failure.objective"
 msgstr "Do not change the machine. Run the fixed column-first program and use address order plus Miss/Evict evidence to explain 321 cycles."
@@ -3498,10 +3498,10 @@ msgid "chapter2.level.cache_failure.judgment.wrong_result"
 msgstr "The long run is caused by an incorrect result."
 
 msgid "chapter2.level.access_order.title"
-msgstr "Change the Order"
+msgstr "A Change of Order"
 
 msgid "chapter2.level.access_order.description"
-msgstr "Repair the previous run without replacing its one-line Cache."
+msgstr "Keep the one-line Cache. Change the access order to avoid repeated fetches."
 
 msgid "chapter2.level.access_order.objective"
 msgstr "Change and Apply only the loop order. Reach 105 cycles or less with the same data and one-line Cache."
@@ -3516,10 +3516,10 @@ msgid "chapter2.level.access_order.learned"
 msgstr "Contiguous access reused each fetched line before moving on. This exploitable closeness in time or address is Locality."
 
 msgid "chapter2.level.working_set.title"
-msgstr "The Order Is Already Right"
+msgstr "Only So Much Room"
 
 msgid "chapter2.level.working_set.description"
-msgstr "Observe two well-ordered passes whose needed data still cannot remain nearby."
+msgstr "Two passes, both in a sensible order. Why must the second fetch the data again?"
 
 msgid "chapter2.level.working_set.objective"
 msgstr "Run the fixed row-first workload. Compare pass 1 with pass 2 and explain why all four lines are fetched again."
@@ -3543,10 +3543,10 @@ msgid "chapter2.level.working_set.judgment.more_math"
 msgstr "The second pass performs unusually expensive arithmetic."
 
 msgid "chapter2.level.blocking.title"
-msgstr "Do Less at Once"
+msgstr "A Little at a Time"
 
 msgid "chapter2.level.blocking.description"
-msgstr "Keep the same one-line Cache and reorganize when the two passes work on each line."
+msgstr "Keep the one-line Cache. Work on a small group of data at a time, completing both passes before moving on."
 
 msgid "chapter2.level.blocking.objective"
 msgstr "Use Work Group to finish both passes for a small group before moving on. Reach 145 cycles or less without upgrading hardware."
@@ -3561,10 +3561,10 @@ msgid "chapter2.level.blocking.learned"
 msgstr "Keeping one active line nearby across both passes shrank the working set. This reorganization is Blocking, also called Tiling."
 
 msgid "chapter2.level.capstone.title"
-msgstr "Now Investigate"
+msgstr "Follow the Clues"
 
 msgid "chapter2.level.capstone.description"
-msgstr "A new two-pass workload exposes all learned tools but gives no diagnosis hint."
+msgstr "A new task. Observe, diagnose, make a change and check the result."
 
 msgid "chapter2.level.capstone.objective"
 msgstr "Run and diagnose the original setup first. Change one factor for the first experiment; then you may combine strategies. The official result must be correct and take at most 145 cycles."
@@ -3579,7 +3579,7 @@ msgid "chapter2.level.capstone.briefing.3"
 msgstr "After your first single-factor experiment, you may combine access order, cache size and work grouping. Finish with the original baseline recorded, an evidence-supported judgment, and a correct official result within 145 cycles.\n\nAfter reaching the target, keep comparing cycles and cost to improve your personal best."
 
 msgid "chapter2.level.capstone.learned"
-msgstr "You completed the full loop: observe, diagnose, change one cause, and compare. Multiple hardware/software solutions remain valid."
+msgstr "You observed, diagnosed and compared. The first experiment changed one factor; later experiments can combine hardware and software choices."
 
 msgid "chapter2.level.capstone.judgment.repeated_far_fetch"
 msgstr "The CPU repeatedly waits while data is fetched again from far memory."
@@ -4450,7 +4450,7 @@ msgstr "Return to Chapter Map"
 
 # Component Inspector
 msgid "hardware.inspector.title"
-msgstr "COMPONENT INSPECTOR"
+msgstr "Component Inspector"
 msgid "hardware.inspector.function"
 msgstr "FUNCTION"
 msgid "hardware.inspector.ports"
@@ -4676,31 +4676,31 @@ msgid "playtest.level_feedback.open"
 msgstr "Leave level feedback (optional)"
 
 msgid "experience.next.hardware_foundations.tutorial"
-msgstr "Next capability: add two bits. Or choose the storage branch on the map and make a circuit remember a value."
+msgstr "Next, add two bits. Or take the storage branch and make a circuit remember a value."
 
 msgid "experience.next.hardware_foundations.half_adder"
-msgstr "Next: accept the carry from another bit so your adder can take part in longer additions."
+msgstr "Bring in the carry from the previous bit. Your adder can then take part in a longer sum."
 
 msgid "experience.next.hardware_foundations.full_adder"
-msgstr "Next: use control bits to choose an operation. Addition is only the first thing your circuit can do."
+msgstr "Next, use control bits to choose an operation. Addition is only the beginning."
 
 msgid "experience.next.hardware_foundations.alu"
-msgstr "The arithmetic branch is ready. Storage lets data stay around; both branches eventually meet in the CPU."
+msgstr "The arithmetic path is ready. Join it with the storage path to build the CPU."
 
 msgid "experience.next.hardware_foundations.latch"
-msgstr "Next: give memory a simpler interface—supply a value, then decide when to save it."
+msgstr "Give memory a data input and a switch: what should it keep, and when should it change?"
 
 msgid "experience.next.hardware_foundations.register"
-msgstr "Next: let several registers keep different numbers, then select one using an address."
+msgstr "Let several registers hold different numbers. Use an address to choose one."
 
 msgid "experience.next.hardware_foundations.ram"
-msgstr "The storage branch is ready. With the arithmetic branch complete, calculation, control and memory can become a small computer."
+msgstr "The storage path is ready. Join it with arithmetic and control to build a small computer."
 
 msgid "experience.next.hardware_foundations.cpu"
-msgstr "Next: run your own computer and follow a read and a write to see where the data travels."
+msgstr "Run your computer. Follow a read and a write to see where the data goes."
 
 msgid "experience.next.hardware_foundations.load_store"
-msgstr "The next chapter asks: your machine can calculate, so why is it slow? Investigate one round trip for data."
+msgstr "Your machine can calculate. Why does it still wait? Start with one round trip for data."
 
 msgid "experience.next.chapter_1.assembly"
 msgstr "Next: speed up only the CPU. Will the whole machine become faster by the same amount?"
@@ -4978,7 +4978,7 @@ msgid "system.test_bench.case_summary"
 msgstr "%s · %d inputs"
 
 msgid "hardware.encapsulation.title"
-msgstr "ENCAPSULATING"
+msgstr "Encapsulating"
 
 msgid "hardware.encapsulation.description"
 msgstr "Saving your verified circuit as a reusable component"
@@ -5092,7 +5092,7 @@ msgid "exploration.selector.hint.3"
 msgstr "Full reference: OR together A AND NOT S and B AND S. This is one solution; an XOR-based equivalent also works."
 
 msgid "exploration.selector.summary"
-msgstr "You used control to select data. Changes on the unselected side cannot disturb the output."
+msgstr "Control chooses which input reaches the output. The other input can change without disturbing the result."
 
 msgid "experience.next.hardware_foundations.selector"
 msgstr "Optional exploration: verify another gate combination. The original Full Adder route stays open."
@@ -5116,7 +5116,7 @@ msgid "exploration.delay.hint.3"
 msgstr "Full reference: chain two Register4 components. DATA feeds the first; its Q feeds the second D. ACCEPT feeds both LOAD inputs. The second Q is OUT."
 
 msgid "exploration.delay.summary"
-msgstr "You stored current and previous data separately. Pauses, repeated values and consecutive accepts obey the same commit rule."
+msgstr "Current and previous data have separate places. Pauses, repeated values and consecutive accepts all follow the same commit rule."
 
 msgid "experience.next.hardware_foundations.delay"
 msgstr "Optional exploration: pause for several steps and resume. This branch does not gate the original RAM route."
@@ -5170,7 +5170,7 @@ msgid "exploration.delay.accept"
 msgstr "Accept DATA=%s · OUT takes the previous value"
 
 msgid "overlap.title"
-msgstr "CHAPTER 3 · KEEP COMPUTE MOVING"
+msgstr "Chapter 3 · In the Meantime"
 
 msgid "overlap.map"
 msgstr "Level tree"
@@ -5218,7 +5218,7 @@ msgid "overlap.step"
 msgstr "Next cycle"
 
 msgid "overlap.map_goal"
-msgstr "Understand completion, explore buffering and prefetch, then combine the discoveries."
+msgstr "Find out when data arrives. Explore buffers and prefetch along two paths, then bring them together."
 
 msgid "overlap.map_status"
 msgstr "Completed levels remain editable."
@@ -5227,7 +5227,7 @@ msgid "overlap.map_legend"
 msgstr "Arrows mark learning prerequisites; they are not delayed wires."
 
 msgid "overlap.map_intro"
-msgstr "You have reduced data movement. Now overlap unavoidable transfers with useful computation.\n\nOne transfer engine. One compute engine. Arrange requests, decide when to wait, and choose temporary storage.\n\nUpper path: explicit buffers and backpressure.\nLower path: hardware-managed Cache and prefetch.\n\nEvery workload, budget and target is public. Equivalent solutions are welcome."
+msgstr "You have cut down on data movement. Now put unavoidable waiting time to work.\n\nOne transfer engine. One compute engine. Schedule requests, decide when to wait, and choose temporary storage.\n\nUpper path: explicit buffers and backpressure.\nLower path: hardware-managed Cache and prefetch.\n\nWorkloads, budgets and targets are given up front. Different valid solutions are welcome."
 
 msgid "overlap.branch.0"
 msgstr "Start"
@@ -5251,7 +5251,7 @@ msgid "overlap.locked"
 msgstr "Complete prerequisites"
 
 msgid "overlap.arrival.title"
-msgstr "Issued is not arrived"
+msgstr "Still on the Way"
 
 msgid "overlap.arrival.goal"
 msgstr "Do independent work and process batch 0 within 10 cycles."
@@ -5260,7 +5260,7 @@ msgid "overlap.arrival.body"
 msgstr "Repair the small machine. fetch returns immediately, but the data still takes 6 cycles to arrive. The starting program consumes it immediately.\n\nYou also have 4 cycles of work independent of that data. Find a useful place for it, then consume data that has arrived.\n\nInspect the failed line and timeline: request, arrival and completion are distinct moments."
 
 msgid "overlap.buffers.title"
-msgstr "Two buffers take turns"
+msgstr "Taking Turns"
 
 msgid "overlap.buffers.goal"
 msgstr "Place and connect storage; process four batches in order, 40 → 28 cycles."
@@ -5269,7 +5269,7 @@ msgid "overlap.buffers.body"
 msgstr "Each transfer takes 6 cycles and each computation takes 4. With one buffer, transfer often waits for compute to finish.\n\nThe interior starts empty. Place up to two buffers and connect data, ready and free. The starting program is serial and editable.\n\nNames A and B appear on your components. Program names must match your actual parts."
 
 msgid "overlap.backpressure.title"
-msgstr "Slow down without losing data"
+msgstr "Give and Take"
 
 msgid "overlap.backpressure.goal"
 msgstr "Pass two variable-speed workloads with one program; no overwrites or duplicates."
@@ -5278,7 +5278,7 @@ msgid "overlap.backpressure.body"
 msgstr "Two buffers are present, but the schedule uses a fixed tick 4 before reuse. Compute duration now varies.\n\nInspect which buffer is still in use. Coordinate with actual ready, free and compute-idle state so one program handles both public timing patterns.\n\nHolding back a producer to protect unconsumed data is backpressure, not dropping data."
 
 msgid "overlap.prefetch.title"
-msgstr "A little earlier"
+msgstr "One Step Ahead"
 
 msgid "overlap.prefetch.goal"
 msgstr "Schedule prefetches to reduce the same four batches from 40 to 28 cycles."
@@ -5287,7 +5287,7 @@ msgid "overlap.prefetch.body"
 msgstr "A one-line Cache fills and replaces entries automatically. A missing read waits; prefetch can start the transfer earlier.\n\nEdit the schedule so the transfer engine does useful work while compute is busy. Data must still arrive before use.\n\nYou cannot set Cache contents or slots. It differs from the explicit buffers in the other branch."
 
 msgid "overlap.distance.title"
-msgstr "Earlier is not always better"
+msgstr "Too Far Ahead"
 
 msgid "overlap.distance.goal"
 msgstr "Repair over-eager prefetch; keep correct results within 30 cycles."
@@ -5296,7 +5296,7 @@ msgid "overlap.distance.body"
 msgstr "The starting schedule requests everything early. Yet Cache has only one line and the request queue holds only two items, including the active transfer.\n\nInspect evictions, repeated transfers and queuing. Which transfer displaces data before it is used?\n\nChange timing rather than setting cache contents. The one-line budget is fixed; costs come from actual transfers and waits."
 
 msgid "overlap.synthesis.title"
-msgstr "Keep compute moving"
+msgstr "All in Good Time"
 
 msgid "overlap.synthesis.goal"
 msgstr "Use a two-unit budget and one design for standard and bandwidth-bound tasks."
@@ -5578,7 +5578,7 @@ msgid "overlap.enter_next"
 msgstr "Enter Chapter 3 · overlap transfer and compute"
 
 msgid "overlap.arrival.learned"
-msgstr "You separated request from arrival and used the waiting interval for independent work. Both exploration branches are open."
+msgstr "A request is not an arrival. You used the gap for independent work. Both exploration paths are open."
 
 msgid "overlap.buffers.learned"
 msgstr "Your two buffers overlapped transfer and compute for 12 cycles. Next, explore what happens when speed changes."
@@ -5587,13 +5587,13 @@ msgid "overlap.backpressure.learned"
 msgstr "One state-based handoff handles both timing patterns without overwrites. free and ready are more reliable than fixed delays."
 
 msgid "overlap.prefetch.learned"
-msgstr "Requests now start early, but compute still uses data that actually arrived. Explore what happens when requests get too far ahead."
+msgstr "Requests start early; computation still needs data to arrive first. Next, see what happens when requests get too far ahead."
 
 msgid "overlap.distance.learned"
-msgstr "You avoided unnecessary eviction and refetch. Prefetch value depends on cache capacity and when data is used."
+msgstr "You avoided eviction and another fetch. Useful prefetch depends on cache capacity and when the data is needed."
 
 msgid "overlap.synthesis.learned"
-msgstr "Both workloads passed. Your schedule explains overlap and wait while preserving results. Extra storage cannot accelerate a bandwidth-bound transfer engine."
+msgstr "Both workloads passed. Your schedule shows where transfer and compute overlap, and where they wait. Extra storage cannot speed up a bandwidth-bound transfer engine."
 
 msgid "overlap.case.standard"
 msgstr "Workload A · baseline"
@@ -5833,16 +5833,16 @@ msgid "tree.locked_short"
 msgstr "Locked"
 
 msgid "tree.region.0"
-msgstr "01 Build a machine"
+msgstr "01 A Machine Takes Shape"
 
 msgid "tree.region.1"
-msgstr "02 Find the waiting"
+msgstr "02 Where Time Goes"
 
 msgid "tree.region.2"
-msgstr "03 Move less data"
+msgstr "03 Less to Carry"
 
 msgid "tree.region.3"
-msgstr "04 Schedule arrivals"
+msgstr "04 In the Meantime"
 
 
 msgid "exploration.selector4.title"
@@ -5864,7 +5864,7 @@ msgid "exploration.selector4.hint.3"
 msgstr "The reference combines three two-way selectors. Decoding then combining, and other equivalent circuits, are also accepted."
 
 msgid "exploration.selector4.summary"
-msgstr "You organized selection into a larger system. Try a different structure: what changes between hierarchy and decoding?"
+msgstr "Four sources, one choice. Try another structure: how do a hierarchy and a decoder compare?"
 
 msgid "experience.next.hardware_foundations.selector4"
 msgstr "This branch does not gate the main path. Return to the tree to build the ALU, or keep another selector design for comparison."
@@ -5888,16 +5888,16 @@ msgid "exploration.parity.hint.3"
 msgstr "The reference XORs all five bits in sequence. A balanced XOR tree is equivalent; tests do not inspect positions or internal IDs."
 
 msgid "exploration.parity.summary"
-msgstr "You built an error detector. Flip one debug input, then a second, to see why no alarm does not guarantee an error-free message."
+msgstr "Your error detector works. Flip one debug input, then a second. No alarm does not always mean no error."
 
 msgid "experience.next.hardware_foundations.parity"
 msgstr "Return to the tree and choose the computation or storage path. Your design remains available for more experiments."
 
 msgid "exploration.alarm.title"
-msgstr "Keep the alarm"
+msgstr "A Moment Remembered"
 
 msgid "exploration.alarm.description"
-msgstr "A fault may last only an instant. After FAULT returns to 0, ALARM must stay on until the operator asserts CLEAR.\n\nReuse your completed SR latch. Start with empty internals and decide how to remember a fault while making clear reliable."
+msgstr "A fault may last only an instant. After FAULT returns to 0, ALARM must stay on until the operator asserts CLEAR.\n\nUse your SR latch to remember the fault. Start with an empty circuit and give clear priority over fault."
 
 msgid "exploration.alarm.spec"
 msgstr "FAULT, CLEAR and ALARM each carry one bit. Each row is the next input state:\n\nCLEAR=1: ALARM=0, regardless of FAULT.\nCLEAR=0 and FAULT=1: ALARM=1.\nBoth 0: keep the previous ALARM.\n\nCLEAR has priority. The official sequence resets first, then covers hold, repeated clear, simultaneous fault and clear, and faults after clearing. A raw latch can receive conflicting set/reset inputs; design how to honor the public rule.\n\n[[sr_latch|SR latch]]"
@@ -5912,14 +5912,14 @@ msgid "exploration.alarm.hint.3"
 msgstr "The reference uses SET = FAULT AND NOT CLEAR, RESET = CLEAR, then reads SRLatch Q. Equivalent stateful circuits are valid too."
 
 msgid "exploration.alarm.summary"
-msgstr "A short event now persists, with an explicit clearing priority. State can remember what happened, not just store a number."
+msgstr "A brief fault leaves a lasting record, until clear takes priority. State can remember an event as well as a number."
 
 msgid "experience.next.hardware_foundations.alarm"
 msgstr "Explore registers and One Beat Late to see how state retains data and changes when it arrives."
 
 
 msgid "system.level.read_once.title"
-msgstr "One read is enough"
+msgstr "Once Is Enough"
 
 msgid "system.level.read_once.description"
 msgstr "If a number must be added twice, must memory send it twice?\n\nHardware is fixed. The starter is correct but requests the same input twice each iteration. Keep the result correct and reuse the value already fetched."
@@ -5928,7 +5928,7 @@ msgid "system.level.read_once.objective"
 msgstr "Goal: OUTPUT[0] is twice the input sum, keeping the low 8 bits (wrap after 255).\n\nEvery dataset must be correct with at most N+1 memory requests: N reads + one final write. At N=16 the starter uses 33 requests; the goal is at most 17.\n\nvalue = load(INPUT[i]) stores data in a variable. Later acc += value uses it without another request. Apply your edited program before official testing. Equivalent programs are accepted.\n\n[[load|LOAD]]"
 
 msgid "system.completion.summary.read_once"
-msgstr "You reduced real memory requests without upgrading hardware. Once data arrives, ask whether it can be used again."
+msgstr "Same hardware, fewer memory requests. A value worth fetching may be worth using twice."
 
 msgid "system.level.two_orders.title"
 msgstr "One budget, two orders"
@@ -5940,7 +5940,7 @@ msgid "system.level.two_orders.objective"
 msgstr "Budget ≤24 for each order.\nCompute: every case ≤66 cycles.\nMove: every case ≤320 cycles.\n\nPrograms are fixed; change the parts. Inspect the workload, then check where time goes in the actual Trace. Complete both orders to finish this optional branch.\n\nAll top-tier parts cost 39, above budget. Multiple configurations qualify; there is no single required answer.\n\n[[hardware_cost|Hardware Cost]]"
 
 msgid "system.completion.summary.two_orders"
-msgstr "You spent each budget where it mattered. The fastest part is not always the most useful purchase; the workload determines the tradeoff."
+msgstr "Same budget, different choices. The workload decides which parts earn their keep."
 
 msgid "system.orders.compute"
 msgstr "Order A · Compute · ≤66 cycles"
@@ -6074,16 +6074,16 @@ msgid "moments.disabled"
 msgstr "Feedback is disabled for this launch. No answers are saved."
 
 msgid "tree.region.4"
-msgstr "05 Put data in its place"
+msgstr "05 A Place for Everything"
 
 msgid "layout.hub.title"
-msgstr "Chapter 4: Put data in its place"
+msgstr "Chapter 4: A Place for Everything"
 
 msgid "layout.hub.eyebrow"
 msgstr "Layout · Copy cost · Limited space"
 
 msgid "layout.hub.description"
-msgstr "Same data, different arrangement.\n\nCombine groups, copies and batches; decide which transfers are worth doing."
+msgstr "Same data, different arrangement.\n\nTry groups, copies and batches. Weigh the work saved against the cost of moving."
 
 msgid "layout.hub.open"
 msgstr "Open layout workbench"
@@ -6116,10 +6116,10 @@ msgid "terminology.term.bounded_batch.body"
 msgstr "Copy one batch, finish all its queries, then release it. Nine records in batches of four means 4 + 4 + 1. The tail is retained without inventing padding records."
 
 msgid "hub.tree.title"
-msgstr "Your machine starts here"
+msgstr "A machine, branch by branch"
 
 msgid "hub.tree.description"
-msgstr "Explore the branches. Build a machine, then make it wait less."
+msgstr "Choose a path. Build your machine, then reclaim the time it spends waiting."
 
 msgid "hub.tree.enter"
 msgstr "Explore the task tree  →"
@@ -6452,4 +6452,4 @@ msgid "common.confirm"
 msgstr "Confirm"
 
 msgid "overlap.hub.eyebrow"
-msgstr "Synthesis"
+msgstr "Buffers · Backpressure · Prefetch"

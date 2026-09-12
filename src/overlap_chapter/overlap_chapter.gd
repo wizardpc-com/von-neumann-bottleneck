@@ -60,6 +60,7 @@ func _ready() -> void:
 	var header := HBoxContainer.new()
 	column.add_child(header)
 	title = Label.new()
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.text = _t("title") + (" · TEST" if GameMode.is_test_mode() else "")
 	title.add_theme_font_size_override("font_size",27)
 	title.add_theme_color_override("font_color",BLUE)

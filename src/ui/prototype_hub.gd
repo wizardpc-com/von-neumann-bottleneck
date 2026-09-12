@@ -114,12 +114,21 @@ func _build_interface() -> void:
 	var background := preload("res://src/ui/technical_backdrop.gd").new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(center)
+	var margin := MarginContainer.new()
+	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 36)
+	margin.add_theme_constant_override("margin_right", 36)
+	margin.add_theme_constant_override("margin_top", 72)
+	margin.add_theme_constant_override("margin_bottom", 56)
+	add_child(margin)
+	var scroll := ScrollContainer.new()
+	scroll.name = "ChapterScroll"
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	margin.add_child(scroll)
 	var content := VBoxContainer.new()
-	content.custom_minimum_size = Vector2(1480.0, 700.0)
-	center.add_child(content)
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(content)
 	var title := Label.new()
 	title.text = Localization.text(&"game.title")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -249,7 +258,19 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	var preview := preload("res://src/ui/task_tree_preview.gd").new()
 	secondary.add_child(preview)
 	_build_save_actions(secondary)
-	button.call_deferred("grab_focus")
+	call_deferred("_focus_tree_entry", button)
+
+
+func _focus_tree_entry(button: Button) -> void:
+	# Follow-focus must run after wrapped labels have settled their minimum sizes.
+	# Otherwise a narrow first frame can scroll the main entry out of view.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(button) or options_overlay.visible or new_game_overlay.visible: return
+	button.grab_focus()
+	await get_tree().process_frame
+	var scroll: ScrollContainer = find_child("ChapterScroll",true,false)
+	if is_instance_valid(scroll): scroll.scroll_vertical=0
 
 
 func _build_save_actions(content: VBoxContainer) -> void:
@@ -632,7 +653,7 @@ func _build_card(
 	emblem.accent = color
 	box.add_child(emblem)
 	var title_label := Label.new()
-	title_label.text = title if entry_id.is_empty() else title.replace("：", "：\n").replace(": ", ":\n").replace(" · ", "\n")
+	title_label.text = title.replace("：", "：\n").replace(": ", ":\n").replace(" · ", "\n")
 	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title_label.custom_minimum_size.y = 72
 	title_label.add_theme_font_size_override("font_size", 22)
@@ -641,6 +662,7 @@ func _build_card(
 	var description_label := Label.new()
 	description_label.text = description
 	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description_label.add_theme_constant_override("line_spacing", 3)
 	description_label.add_theme_color_override("font_color", MUTED)
 	description_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(description_label)

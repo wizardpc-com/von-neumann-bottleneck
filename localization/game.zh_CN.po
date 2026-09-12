@@ -5287,7 +5287,7 @@ msgid "overlap.prefetch.body"
 msgstr "这次数据放进只有一行的 Cache，由硬件填充和替换。read 缺少数据时会等待，prefetch 可以提前发起搬运。\n\n修改调度程序，让计算器工作时，搬运器也做下一件有用的事。数据仍要真正到达后才能使用。\n\n你不能指定 Cache 的内容或槽位；它与上一支线的显式缓冲不同。"
 
 msgid "overlap.distance.title"
-msgstr "早亦有时"
+msgstr "过犹不及"
 
 msgid "overlap.distance.goal"
 msgstr "修复过早预取；保持结果并降到 30 周期以内。"

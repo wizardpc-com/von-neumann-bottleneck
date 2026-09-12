@@ -8,11 +8,14 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Current behavior
 
-Chinese title/intro/completion audit is integrated: 一线成机 / 时间的去处 / 少走远路 /
-与等待并行 / 各就其位. Concrete technical subtitles remain; existing English is
-unchanged. Legacy prologue applications with the same depth now occupy distinct
-display columns, without changing prerequisites. See [editorial decisions and
-verification](verification/20260912-chinese-copy/README.md).
+Bilingual editorial and typography pass: Chinese chapter titles remain 一线成机 /
+时间的去处 / 少走远路 / 与等待并行 / 各就其位. English uses A Machine Takes Shape /
+Where Time Goes / Less to Carry / In the Meantime / A Place for Everything.
+Task-tree labels render at screen size with a readable floor and compact overview;
+the five-card hub wraps and scrolls at narrower sizes. See [bilingual evidence](verification/20260912-bilingual-type/README.md).
+The [earlier Chinese-only audit](verification/20260912-chinese-copy/README.md) remains
+historical. Legacy prologue applications with the same depth occupy distinct display
+columns without changing prerequisites.
 
 Task-tree polish adds a padded detail card, separated title/body/status, fixed
 primary Enter action, node hover and canceled stale map drags. Continue and window

@@ -95,10 +95,10 @@ func _run() -> void:
 		for key: StringName in used_keys:
 			_assert(_t(key) != String(key), "%s catalog is missing key %s." % [locale, key])
 		_validate_mission_links(locale)
-	_assert(_t(&"hub.subtitle") == "From your first wire to a working computer. Then make it faster.", "English must identify the same restored default route.")
+	_assert(_t(&"hub.subtitle") == "Start with a wire. Build a working machine. Then make it faster.", "English must identify the same restored default route.")
 	_assert(_t(&"hub.options.quit") == "Quit Game", "English must localize the chapter Options quit action.")
 	_assert(_t(&"terminology.button") == "Handbook", "The English bottom-right handbook entry must use the concise shared tool-button label.")
-	_assert(_t(&"hub.locality.title") == "CHAPTER 2: REDUCING DATA MOVEMENT", "The English hub must present the formal Chapter 2 identity.")
+	_assert(_t(&"hub.locality.title") == "Chapter 2: Less to Carry", "The English hub must present the formal Chapter 2 identity.")
 	_assert("v0.2" not in _t(&"hub.locality.eyebrow") and "v0.2" not in _t(&"hub.locality.open"), "The English Chapter 2 hub card must not regress to legacy-prototype identity copy.")
 	_assert(_t(&"trace.playback.next_evidence") == "Next evidence" and _t(&"trace.playback.finish_now") == "Finish Trace", "The English Trace controls must preserve their evidence-navigation semantics.")
 	_assert(_t(&"common.clock_period.label") == "Playback Frequency" and _t(&"common.clock_period.tooltip").contains("Hz") and _t(&"common.clock_period.tooltip").contains("never simulation results"), "The English playback control must preserve the presentation-only Hz boundary.")

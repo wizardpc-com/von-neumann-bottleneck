@@ -5,7 +5,7 @@ const Simulator = preload("res://src/layout_chapter/layout_simulator.gd")
 const IDS: Array[String] = ["fields","records","hot_cold","relocation","batches","mixed"]
 const DEPS := {"fields":[],"records":["fields"],"hot_cold":["records"],"relocation":["fields"],"batches":["relocation"],"mixed":["hot_cold","batches"]}
 const TITLES := ["只取所需", "一窥全貌", "冷热有别", "搬迁有价", "化整为零", "两全之策"]
-const EN_TITLES := ["Only what we need","One record, all fields","Hot and cold","Moving has a cost","Make it fit in batches","One layout, two workloads"]
+const EN_TITLES := ["Just What We Need", "The Whole Picture", "Separate Ways", "The Price of Moving", "Piece by Piece", "Common Ground"]
 const GOALS := [
 	"这一轮只统计温度。保留全部记录和字段，让一趟搬运带回更多有用的温度。",
 	"改为抽查少数记录，每条都要四个字段。上一关的布局还适合吗？",

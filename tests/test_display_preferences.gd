@@ -15,14 +15,18 @@ func run() -> void:
 		root.add_child(hub)
 		for frame: int in range(8): await process_frame
 		var cards: Control = hub.find_child("ChapterCards",true,false)
-		valid = valid and cards.get_child_count()==5 and cards.size.x <= 1480.1 and cards.get_global_rect().end.y <= hub.size.y - 30.0
+		var scroll: ScrollContainer = hub.find_child("ChapterScroll",true,false)
+		valid = valid and cards.get_child_count()==5 and cards.size.x <= scroll.size.x+0.1
 		var entry: Control = hub.find_child("TaskTreeEntry",true,false)
 		var primary: Button = hub.find_child("TaskTree",true,false)
 		valid = valid and entry.get_global_rect().end.y <= cards.global_position.y and primary.has_focus()
 		for card: Control in cards.get_children():
-			valid = valid and card.size.x <= 300.0
+			valid = valid and card.global_position.x>=scroll.global_position.x and card.get_global_rect().end.x<=scroll.get_global_rect().end.x+1
+		scroll.scroll_vertical=int(scroll.get_v_scroll_bar().max_value)
+		for frame: int in range(3): await process_frame
+		valid = valid and cards.get_global_rect().end.y<=scroll.get_global_rect().end.y+1
 		hub.queue_free()
 		await process_frame
 	if valid: print("PASS: display settings coexist, retain unrelated preferences and reject unsupported rates; five chapter cards fit in both languages")
-	else: push_error("Display preferences lost during another setting change")
+	else: push_error("Display preference preservation or reachable chapter-card layout failed")
 	quit(0 if valid else 1)

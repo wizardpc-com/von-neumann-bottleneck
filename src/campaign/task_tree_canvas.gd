@@ -6,11 +6,11 @@ const COLORS := [Color("67e8a5"),Color("ffbf69"),Color("50d5ff"),Color("bc8cff")
 var region_rects: Dictionary = {}
 var world_size := Vector2(2500,1900)
 const SHORT_TITLES := {
- "tutorial":["接线","Wiring"],"half_adder":["半加器","Half adder"],"full_adder":["全加器","Full adder"],"alu":["ALU","ALU"],"latch":["锁存器","Latch"],"register":["寄存器","Register"],"ram":["RAM","RAM"],"cpu":["CPU","CPU"],"load_store":["存取指令","Load/store"],"selector":["两路选择","Select 2"],"selector4":["四路选择","Select 4"],"parity":["一位校验","Parity"],"alarm":["留住一瞬","Alarm"],"delay":["晚一拍","Delay"],
- "assembly":["三器相连","Assemble"],"cpu_speed":["快慢之间","CPU speed"],"ram_wait":["等待的来处","Waiting"],"bus_width":["宽窄之间","Bus width"],"bottleneck":["循时寻因","Bottleneck"],"read_once":["一取再用","Read once"],"two_orders":["两张订单","Two orders"],
- "distant_reads":["远取之累","Far reads"],"nearby_storage":["留待再用","Cache"],"cache_failure":["留不住的数据","Misses"],"access_order":["先后有序","Order"],"working_set":["容量有界","Working set"],"blocking":["分而复用","Blocking"],"capstone":["循迹而行","Optimize"],
- "arrival":["尚在途中","Arrival"],"buffers":["交替接力","Buffers"],"backpressure":["进退有度","Flow control"],"prefetch":["先行一步","Prefetch"],"distance":["早亦有时","Distance"],"synthesis":["各行其时","Coordinate"],
- "fields":["只取所需","Need only"],"records":["一窥全貌","Full record"],"hot_cold":["冷热有别","Hot / cold"],"relocation":["搬迁有价","Move cost"],"batches":["化整为零","Batch"],"mixed":["两全之策","Two queries"]}
+ "tutorial":["接线","Wiring"],"half_adder":["半加器","Half adder"],"full_adder":["全加器","Full adder"],"alu":["ALU","ALU"],"latch":["锁存器","Latch"],"register":["寄存器","Register"],"ram":["RAM","RAM"],"cpu":["CPU","CPU"],"load_store":["存取指令","Load/store"],"selector":["两路选择","Select 2"],"selector4":["四路选择","Select 4"],"parity":["一位校验","Parity"],"alarm":["留住一瞬","Remember"],"delay":["晚一拍","Delay"],
+ "assembly":["三器相连","One Machine"],"cpu_speed":["快慢之间","Still Waiting"],"ram_wait":["等待的来处","Round Trip"],"bus_width":["宽窄之间","Room to Pass"],"bottleneck":["循时寻因","Find Delay"],"read_once":["一取再用","Read Once"],"two_orders":["两张订单","Two orders"],
+ "distant_reads":["远取之累","Far Reads"],"nearby_storage":["留待再用","Reuse"],"cache_failure":["留不住的数据","Eviction"],"access_order":["先后有序","Order"],"working_set":["容量有界","Working Set"],"blocking":["分而复用","Batches"],"capstone":["循迹而行","Investigate"],
+ "arrival":["尚在途中","Still on the Way"],"buffers":["交替接力","Taking Turns"],"backpressure":["进退有度","Give and Take"],"prefetch":["先行一步","One Step Ahead"],"distance":["过犹不及","Too Far Ahead"],"synthesis":["各行其时","In Good Time"],
+ "fields":["只取所需","What We Need"],"records":["一窥全貌","Whole Picture"],"hot_cold":["冷热有别","Separate Ways"],"relocation":["搬迁有价","Moving Costs"],"batches":["化整为零","Piece by Piece"],"mixed":["两全之策","Common Ground"]}
 var rows: Array[Dictionary] = []
 var positions: Dictionary = {}
 var pan := Vector2.ZERO
@@ -46,13 +46,6 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color("0a1220"))
 	if rows.is_empty(): return
 	draw_set_transform(pan,0,Vector2.ONE*magnification)
-	var font: Font = get_theme_default_font()
-	for region: int in region_rects:
-		var rect: Rect2 = region_rects[region]
-		var key: StringName = StringName("tree.region."+str(region))
-		var title: String = Localization.text(key)
-		if title==String(key): title="Chapter "+str(region)
-		draw_string(font,rect.position+Vector2(50,10),title,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(30,ceili(15/magnification)),_color(region))
 	for task: Dictionary in rows:
 		for dep: String in task.dependencies:
 			if not positions.has(dep): continue
@@ -96,23 +89,62 @@ func _draw() -> void:
 		if task.optional:
 			var mid: Vector2 = rect.position+Vector2(0,NODE_SIZE.y/2)
 			draw_colored_polygon(PackedVector2Array([mid+Vector2(-8,0),mid+Vector2(0,-8),mid+Vector2(8,0),mid+Vector2(0,8)]),color)
-		if magnification<0.62:
-			var names: Array = SHORT_TITLES.get(task.id,[task.title,task.title])
-			var short_title: String = names[0 if Localization.current_locale().begins_with("zh") else 1]
-			var compact_size: int = ceili(14/magnification)
-			while font.get_string_size(short_title,HORIZONTAL_ALIGNMENT_LEFT,-1,compact_size).x>NODE_SIZE.x-22 and compact_size>18: compact_size-=1
-			while font.get_string_size(short_title,HORIZONTAL_ALIGNMENT_LEFT,-1,compact_size).x>NODE_SIZE.x-22 and short_title.length()>2:
-				short_title=short_title.left(short_title.length()-2)+"…"
-			draw_string(font,rect.position+Vector2(10,51),short_title,HORIZONTAL_ALIGNMENT_LEFT,-1,compact_size,color)
-			continue
-		var title: String = task.title
-		var font_size: int = maxi(18,ceili(16.0/magnification))
-		while font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x > NODE_SIZE.x-24 and title.length()>2:
-			title = title.left(title.length()-2)+"…"
-		draw_string(font,rect.position+Vector2(12,31),title,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)
-		var caption: String = ("◇ " if task.optional else "")+(("已完成" if task.completed else "可进入" if task.unlocked else "未解锁") if Localization.current_locale().begins_with("zh") else ("Completed" if task.completed else "Available" if task.unlocked else "Locked"))
-		draw_string(font,rect.position+Vector2(12,62),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(15,ceili(12.0/magnification)),color)
 	draw_set_transform(Vector2.ZERO)
+	_draw_screen_text()
+
+# Shapes follow the world camera; glyphs are rasterized at their final screen size.
+# At overview scale, region titles and node shapes provide orientation. Tiny task
+# text is omitted; hovering or selecting still exposes the complete title.
+func node_text_layout(task: Dictionary) -> Dictionary:
+	var rect := Rect2(positions[task.key]*magnification+pan,NODE_SIZE*magnification)
+	if magnification<0.34: return {}
+	var compact: bool = magnification<0.62
+	var names: Array = SHORT_TITLES.get(task.id,[task.title,task.title])
+	var title: String = names[0 if Localization.current_locale().begins_with("zh") else 1] if compact else task.title
+	var font_size: int = 14 if compact else maxi(16,roundi(18*magnification))
+	var inset: float = maxf(7,12*magnification)
+	var width: float = rect.size.x-2*inset
+	var font: Font = get_theme_default_font()
+	# Preserve the identifying words instead of truncating a repeated chapter prefix.
+	if font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x>width:
+		title=names[0 if Localization.current_locale().begins_with("zh") else 1]
+	title=_fit_text(title,font,font_size,width)
+	var baseline: float = (rect.size.y-font.get_height(font_size))*0.5+font.get_ascent(font_size) if compact else 31*magnification
+	return {"rect":rect,"title":title,"font_size":font_size,"width":width,
+		"position":(rect.position+Vector2(inset,baseline)).round(),"compact":compact}
+
+func _fit_text(value: String,font: Font,font_size: int,width: float) -> String:
+	if font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=width: return value
+	var shortened: String=value
+	while not shortened.is_empty() and font.get_string_size(shortened+"…",HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x>width:
+		shortened=shortened.left(shortened.length()-1)
+	# Prefer English word boundaries, while keeping Chinese character boundaries.
+	var space: int=shortened.rfind(" ")
+	if space>shortened.length()/2: shortened=shortened.left(space)
+	return shortened.strip_edges()+"…"
+
+func _draw_screen_text() -> void:
+	var font: Font=get_theme_default_font()
+	for region: int in region_rects:
+		var rect: Rect2=region_rects[region]
+		var key:=StringName("tree.region."+str(region))
+		var title: String=Localization.text(key)
+		if title==String(key): title="Chapter "+str(region)
+		var font_size: int=maxi(16,roundi(30*magnification))
+		var width: float=rect.size.x*magnification-20
+		draw_string(font,((rect.position+Vector2(50,10))*magnification+pan).round(),_fit_text(title,font,font_size,width),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,_color(region))
+	for task: Dictionary in rows:
+		var layout: Dictionary=node_text_layout(task)
+		if layout.is_empty(): continue
+		var color:=Color("e2eef8") if task.unlocked else Color("9baabd")
+		if not query.is_empty() and not _matches(task): color.a=0.35
+		draw_string(font,layout.position,layout.title,HORIZONTAL_ALIGNMENT_LEFT,-1,layout.font_size,color)
+		if layout.compact: continue
+		var caption: String=("◇ " if task.optional else "")+(("已完成" if task.completed else "可进入" if task.unlocked else "未解锁") if Localization.current_locale().begins_with("zh") else ("Completed" if task.completed else "Available" if task.unlocked else "Locked"))
+		var caption_size: int=maxi(12,roundi(15*magnification))
+		var rect: Rect2=layout.rect
+		var at: Vector2=Vector2(layout.position.x,rect.position.y+62*magnification).round()
+		draw_string(font,at,_fit_text(caption,font,caption_size,layout.width),HORIZONTAL_ALIGNMENT_LEFT,-1,caption_size,color)
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:

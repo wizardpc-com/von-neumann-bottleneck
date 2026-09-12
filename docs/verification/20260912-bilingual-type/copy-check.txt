@@ -1,0 +1,3 @@
+en: 137 changes, protected values intact
+zh_CN: 1 changes, protected values intact
+PASS: exact catalog changes, keys, placeholders, links and numeric tokens

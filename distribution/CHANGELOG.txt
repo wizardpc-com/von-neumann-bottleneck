@@ -1,3 +1,10 @@
+Bilingual voice and scalable text — @BUILD_ID@
+Source: @SOURCE_COMMIT@
+- English chapter/task titles, introductions and completion text follow the Chinese editorial intent with natural English idiom.
+- Screen-size task-tree labels, clearer compact labels, responsive scrolling chapter cards and wrapping chapter headers.
+- 英文标题与叙述统一润色；修复窄屏首页溢出、初始焦点滚动和缩放文字过小。
+- Same 40 tasks, simulation, saved designs and privacy boundaries.
+
 Chinese editorial audit — @BUILD_ID@
 Source: @SOURCE_COMMIT@
 - 凝练五章与应用任务标题，精简开场、收获和转场说明。

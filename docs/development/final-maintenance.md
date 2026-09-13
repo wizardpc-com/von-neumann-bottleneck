@@ -89,4 +89,5 @@ Existing candidate directories are immutable. Run `check-candidate-identity.py` 
 `verify-mac-candidate.py` on the new output, then native installation/input checks.
 
 CI runs existing synthetic contracts and isolated engine suites, never deployment.
-Its first hosted run and every native platform gate remain explicit evidence items.
+The first full hosted run passes on Ubuntu; native platform gates remain explicit
+evidence items in the final-convergence record.

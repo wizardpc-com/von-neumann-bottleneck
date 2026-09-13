@@ -26,8 +26,8 @@ Real player data was copied and hashed before work; all runs use isolated userda
 - Local community/receiver tests: 5 passing tests, synthetic loopback data only.
 
 Targeted logs: `.godot/prepublic-audit/targeted-1789311506/` and later reruns.
-Full final suites, process-restart fixture, export identity and final native checks
-are still pending; this file does not claim release acceptance.
+This was the intermediate stage. Final suite/restart/export results appear below;
+final native checks remain open, and this file does not claim release acceptance.
 
 ## Native source observation
 
@@ -87,21 +87,21 @@ checks remain visible acceptance items.
 
 ## Frozen candidate
 
-Content commit: `0758388d22ae7f85c1af71cc7cb592a840966fff`.
-Candidate: `free-alpha-0758388d22ae`; subsequent documentation and non-content merge
+Content commit: `6c5c59df6c26ab3831b00c661c7d9992404fca4e`.
+Candidate: `free-alpha-6c5c59df6c26`; subsequent documentation and non-content merge
 commits do not rename this immutable content. Both exports use Godot
-`4.7.1.stable.official.a13da4feb`. Numeric native versions: Windows `0.5.0.85`, Mac `1.0.85`.
+`4.7.1.stable.official.a13da4feb`. Numeric native versions: Windows `0.5.0.86`, Mac `1.0.86`.
 
 | Platform | ZIP | SHA-256 |
 |---|---|---|
-| Mac | `Von-Neumann-Bottleneck-macOS-free-alpha-0758388d22ae.zip` | `36bec02371853ff746addf1c220556f9af549fea2e1278372239754d8df13868` |
-| Windows | `Von-Neumann-Bottleneck-Windows-free-alpha-0758388d22ae.zip` | `e610a22ed40394148140f46f3de98a5e39578e368221c2e8edaded4e2a67f615` |
+| Mac | `Von-Neumann-Bottleneck-macOS-free-alpha-6c5c59df6c26.zip` | `2ad2a649f0b8c3ecdfeb581ba02a57c999ed7aeb6d1b91917969fd5761fcc6f9` |
+| Windows | `Von-Neumann-Bottleneck-Windows-free-alpha-6c5c59df6c26.zip` | `a7a73386065ec7f21f427f37c87a727d303c96a60f1de436b9ec161eabd307c6` |
 
-Output directory: `build/free-alpha-0758388d22ae/`. Both complete archives pass
+Output directory: `build/free-alpha-6c5c59df6c26/`. Both complete archives pass
 `check-candidate-identity.py`: names, full source commit, adjacent manifests, every
 file digest and packaged README/change/known-issue notes agree.
 `verify-mac-candidate.py` passes against the actual release binary/PCK in an isolated
-copy (`.godot/package-qa/e7a07ff4683a/`). It confirms Game-only operation, no capture
+copy (`.godot/package-qa/19e325ac6511/`). It confirms Game-only operation, no capture
 backdoor, 40 tasks, empty/off receiver, excluded development files and exact packaged
 Chapter 1/2 workspace fingerprints matching the source build manifest. This is a
 release-runtime probe, not a mouse playthrough. Original binary/PCK hashes unchanged.
@@ -123,3 +123,22 @@ and empty wiring without awarding completion.
 
 The implementation phases are complete; M5 native acceptance is explicitly open.
 Do not interpret suite counts or candidate integrity as proof of newcomer clarity.
+
+## Remote integration record
+
+Git rejected workflow creation with the existing terminal token (`workflow` scope
+absent). The already-authorized GitHub connector created the same workflow without
+credential changes. Main requires linear history; the rejected local merge and original
+stage commits remain on local preservation branches. The three changes were replayed
+in order onto remote main and pushed normally. `6c5c59d` has exactly the same Git tree
+as previously tested `0758388`; the final candidate was freshly exported with the
+new source identity. The earlier local candidate is historical and unchanged.
+
+The initial workflow-only commit ran before implementation files were present and
+failed; this is not the final runtime CI result. Final content workflow run:
+https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/34766506031
+
+The final content CI run above completed successfully: both Python and Godot jobs
+passed on Ubuntu. This closes the first hosted-run check, not native Windows or Mac
+input acceptance. All 18 original player-data files still match their pre-update
+SHA-256 hashes; no player save was replaced by QA data.

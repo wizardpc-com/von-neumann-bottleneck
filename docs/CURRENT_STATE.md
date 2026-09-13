@@ -23,7 +23,7 @@ maintenance use explicit local contracts. No new content or public service.
 · [40-task inventory](development/task-matrix.md).
 Final full isolated suites pass. The final native source recheck is pending because
 the Mac locked during QA; previous native evidence below predates the final fix.
-New candidate: **free-alpha-0758388d22ae** from **0758388d22ae7f85c1af71cc7cb592a840966fff**. Mac/Windows exports, all archive hashes and packaged notes agree. The actual Mac release probe passes, including source/export workspace identities. Final candidate mouse interaction remains pending. Earlier artifacts stay immutable.
+New candidate: **free-alpha-6c5c59df6c26** from **6c5c59df6c26ab3831b00c661c7d9992404fca4e**. Mac/Windows exports, all archive hashes and packaged notes agree. The actual Mac release probe passes, including source/export workspace identities. Final candidate mouse interaction remains pending. Earlier artifacts stay immutable.
 
 ## Earlier behavior retained
 
@@ -95,7 +95,7 @@ the selected language. Native reset/title/Tab checks are complete.
 
 ## Build identity and current evidence
 
-**Current candidate: free-alpha-0758388d22ae.**
+**Current candidate: free-alpha-6c5c59df6c26.**
 [Final convergence evidence and hashes](verification/20260913-final-convergence/README.md).
 Later documentation/merge commits do not modify that frozen content.
 

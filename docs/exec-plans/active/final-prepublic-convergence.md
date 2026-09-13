@@ -77,7 +77,11 @@ F13/F14: 40-task catalog inventory and short owner workflows generated; matrix e
 does not invent per-task native or alternative-solution coverage.
 M5: final 37-suite run passes; frozen exports, identity and native gate remain open.
 
-M5 update: both immutable candidates exported from `0758388d22ae`, archive and actual
+M5 update: both immutable candidates exported from `6c5c59df6c26`, archive and actual
 Mac release checks pass, including workspace identity after bytecode export. Final
 native mouse/editing recheck remains open because the Mac is locked. This plan stays
 active for that bounded acceptance queue; no additional content work is authorized.
+
+Hosted CI for final content `6c5c59d` passes both Python and Godot jobs on Ubuntu.
+Original player data: 18/18 files remain byte-identical. Standing push authorization
+was fulfilled with a normal linear main push; no force push or credential change.

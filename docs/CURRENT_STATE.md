@@ -8,6 +8,14 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Current behavior
 
+Latest follow-up makes Chapter 2 code/actions visible before reference material,
+removes overlapping chapter-map nodes and clarifies bilingual quantity captions.
+Chapter 3 timeline labels use the theme font and exact elapsed time. Actual native
+task-tree dragging now tolerates captured motion without a button mask, while
+release/focus cancellation remains. Native runs, restart recovery and final checks:
+[readable investigations](verification/20260913-readable-investigations/README.md).
+This remains development source, not a newly frozen candidate.
+
 Current desktop follow-up preserves window/camera presentation across Hint return,
 clears stale tree routing on explicit chapter-card entry, and places Mission page
 actions above long bilingual explanations. Chapter 1 adds a gated compute/wait

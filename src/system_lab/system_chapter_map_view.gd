@@ -16,6 +16,7 @@ var level_positions: Dictionary[StringName, Vector2] = {}
 var _levels: Array[Dictionary] = []
 var _intro_title: String = ""
 var _intro_body: String = ""
+var _intro_panel: PanelContainer
 
 
 func _ready() -> void:
@@ -26,6 +27,29 @@ func configure(levels: Array[Dictionary], intro_title: String, intro_body: Strin
 	_levels = levels.duplicate(true)
 	_intro_title = intro_title
 	_intro_body = intro_body
+	if is_instance_valid(_intro_panel):
+		_intro_panel.queue_free()
+	_intro_panel = PanelContainer.new()
+	_intro_panel.add_theme_stylebox_override("panel", _stylebox(Color("111a2a", 0.94), ACCENT, 2))
+	add_child(_intro_panel)
+	var intro_margin := MarginContainer.new()
+	for side: String in ["left", "right", "top", "bottom"]:
+		intro_margin.add_theme_constant_override("margin_"+side,20)
+	_intro_panel.add_child(intro_margin)
+	var intro_scroll := ScrollContainer.new()
+	intro_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	intro_margin.add_child(intro_scroll)
+	var intro_column := VBoxContainer.new()
+	intro_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	intro_column.add_theme_constant_override("separation",16)
+	intro_scroll.add_child(intro_column)
+	for is_title: bool in [true,false]:
+		var label := Label.new()
+		label.text = _intro_title if is_title else _intro_body
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.add_theme_font_size_override("font_size",26 if is_title else 16)
+		label.add_theme_color_override("font_color",ACCENT if is_title else TEXT)
+		intro_column.add_child(label)
 	for button: Button in level_buttons.values():
 		if is_instance_valid(button):
 			button.queue_free()
@@ -88,21 +112,22 @@ func _relayout() -> void:
 	level_positions.clear()
 	for index: int in range(_levels.size()):
 		var level_id := StringName(_levels[index].get("id", &""))
-		var offset_y: float = -80.0 if index < 5 else 150.0
-		var column: int = index if index < 5 else 2 if level_id == &"read_once" else 4
+		var row: int = index / 5
+		var row_count: int = mini(5,_levels.size()-row*5)
+		var offset_y: float = -80.0 + row*230.0
+		var column: int = index%5 + 5-row_count
 		var position := Vector2(LEFT_RESERVED + float(column) * step, center_y + offset_y)
 		level_positions[level_id] = position
 		var button: Button = level_buttons[level_id]
 		button.position = position
 		button.size = NODE_SIZE
+	if is_instance_valid(_intro_panel):
+		_intro_panel.position = Vector2(24,48)
+		_intro_panel.size = Vector2(LEFT_RESERVED-54,maxf(160,size.y-96))
 	queue_redraw()
 
 
 func _draw() -> void:
-	var intro_rect := Rect2(24.0, 48.0, LEFT_RESERVED - 54.0, maxf(260.0, size.y - 96.0))
-	draw_style_box(_stylebox(Color("111a2a", 0.94), ACCENT, 2), intro_rect)
-	draw_string(ThemeDB.fallback_font, intro_rect.position + Vector2(20.0, 45.0), _intro_title, HORIZONTAL_ALIGNMENT_LEFT, intro_rect.size.x - 40.0, 26, ACCENT)
-	draw_multiline_string(ThemeDB.fallback_font, intro_rect.position + Vector2(20.0, 88.0), _intro_body, HORIZONTAL_ALIGNMENT_LEFT, intro_rect.size.x - 40.0, 16, 24, TEXT)
 	for data: Dictionary in _levels:
 		var to_id := StringName(data.get("id",&""))
 		for dependency: Variant in data.get("dependencies",[]):

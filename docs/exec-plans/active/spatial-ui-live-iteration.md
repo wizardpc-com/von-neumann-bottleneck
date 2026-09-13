@@ -94,3 +94,26 @@ header overflow; both corrected. Final bilingual Profiler, typography, shared UI
 settings, card routing and release-convergence checks pass. Final computer-use
 recheck is pending because the Mac is locked; do not claim that native gate closed.
 See [desktop evidence](../../verification/20260913-desktop-continuity/README.md).
+
+Chapter 2/3 continuation (native Mac still locked): baseline Test-mode render
+fixtures show Chapter 2 Program exposes only a few code lines beneath reference
+material and retains bright equal-weight window borders. Move code/apply/status
+ahead of optional reference, preserve existing locked-baseline behavior, and align
+window focus surfaces with Chapter 1. Chapter 3 timeline uses the theme font, names
+the cycle axis, and identifies batch blocks with # labels; keep all trace geometry
+and metrics authoritative. Verify rendered bilingual layouts and relevant suites
+before this checkpoint; native verification remains open.
+
+
+Chapter 2/3 readable-investigation checkpoint: native control is now available via
+an isolated uniquely named QA copy of the official engine. Arrival and buffers were
+solved through ordinary Game; buffers improved 40→28 with 12 overlap cycles and
+survived restart. Chapter 2 capstone ran 642→210→138 with unchanged output. Its map
+had overlapping sixth/seventh cards, now separated and checked natively in both
+languages. Native task-tree drag exposed premature cancellation on zero motion
+button-mask; final press/release capture now pans correctly, with outside release,
+focus and fullscreen cancellation checks. The duplicate new translation key found
+in rendering is corrected and guarded. See [checkpoint evidence](../../verification/20260913-readable-investigations/README.md).
+The old locked-screen condition above is historical. Remaining CPU/Chapter 1
+native rechecks, extended DPI/focus, candidate export and external platform gates
+remain open; this checkpoint does not complete the broader plan.

@@ -361,10 +361,10 @@ msgid "locality.status.profiler_inspect"
 msgstr "PROFILER INSPECT — cycle %d · source line %d · %s"
 
 msgid "program.draft.description"
-msgstr "This editor is a draft. Apply Program confirms it as the only source Test Bench may parse and execute."
+msgstr "Edit a draft here. Choose Apply Program before testing your changes."
 
 msgid "program.reference.title"
-msgstr "Python-shaped Reference"
+msgstr "Syntax at a Glance"
 
 msgid "program.reference.body"
 msgstr "# comment  ·  for name in range(4):  ·  indent with 4 spaces\nacc += load(A[row][col])  ·  store(OUT[0], acc)"
@@ -388,7 +388,7 @@ msgid "program.applied_starter"
 msgstr "APPLIED PROGRAM · %s starter"
 
 msgid "program.apply.button"
-msgstr "✓ Apply Program"
+msgstr "Apply Program"
 
 msgid "program.apply.tooltip"
 msgstr "Confirm this valid draft as the only program Test Bench may execute."
@@ -472,10 +472,10 @@ msgid "cache.description"
 msgstr "Replace the Cache component. Capacity changes hardware cost and may change the same program's trace."
 
 msgid "cache.card"
-msgstr "%d LINES\n%d ints capacity · cost %d"
+msgstr "CACHE LINES: %d\nCapacity: %d integers · Cost: %d"
 
 msgid "cache.detail"
-msgstr "%d lines · %d ints · cost %d"
+msgstr "Lines: %d · Integers: %d · Cost: %d"
 
 msgid "trace.playback.title"
 msgstr "Trace Playback"
@@ -3030,7 +3030,7 @@ msgid "chapter2.progress.review_required"
 msgstr "Evidence %d/%d · review the completed Trace, then open the finding."
 
 msgid "chapter2.progress.target_required"
-msgstr "Evidence %d/%d · correct, but still above the cycle target."
+msgstr "Evidence %d/%d · Correct result; cycle target not yet met."
 
 msgid "chapter2.progress.complete"
 msgstr "Complete %d/%d · the evidence supports your conclusion."
@@ -3039,13 +3039,13 @@ msgid "chapter2.progress.unknown_level"
 msgstr "Unavailable %d/%d · invalid investigation content."
 
 msgid "chapter2.test_bench.observation_goal"
-msgstr "EVIDENCE RUN\nCorrectly execute %d pass(es); there is no cycle target in this observation."
+msgstr "OBSERVATION RUN\nComplete all passes correctly: %d. No cycle target."
 
 msgid "chapter2.test_bench.performance_goal"
-msgstr "PERFORMANCE RUN\nCorrectly execute %d pass(es) at no more than %d cycles."
+msgstr "PERFORMANCE RUN\nPasses to complete: %d. Stay within %d cycles."
 
 msgid "chapter2.test_bench.official_data"
-msgstr "Official 4×4 data · %d pass(es)"
+msgstr "Official 4×4 data · Passes: %d"
 
 msgid "chapter2.near_store.title"
 msgstr "Nearby Storage"
@@ -3054,37 +3054,37 @@ msgid "chapter2.near_store.description"
 msgstr "Choose whether a tiny fast store sits on the data path, then rerun the same program and data."
 
 msgid "chapter2.near_store.off.card"
-msgstr "NO NEARBY STORAGE\nEvery value travels to RAM"
+msgstr "NO NEARBY STORAGE\nEvery read goes to RAM"
 
 msgid "chapter2.near_store.on.card"
-msgstr "NEARBY STORAGE · %d line(s)\n%d integers close to CPU · cost %d"
+msgstr "NEARBY STORAGE · LINES: %d\nCapacity: %d integers · Cost: %d"
 
 msgid "chapter2.near_store.off.name"
 msgstr "direct RAM path"
 
 msgid "chapter2.near_store.on.name"
-msgstr "nearby storage with %d line(s)"
+msgstr "nearby storage · Lines: %d"
 
 msgid "chapter2.near_store.off.detail"
 msgstr "Bypassed · CPU requests every value from RAM"
 
 msgid "chapter2.near_store.on.detail"
-msgstr "%d line(s) · %d integers retained nearby"
+msgstr "Lines: %d · Capacity: %d integers"
 
 msgid "chapter2.work_group.title"
 msgstr "WORK GROUP"
 
 msgid "chapter2.work_group.description"
-msgstr "The workload needs two passes. Choose how much data both passes finish before moving on."
+msgstr "The task makes two passes. Choose how much data to finish in both passes before moving to the next group."
 
 msgid "chapter2.work_group.whole"
-msgstr "WHOLE DATA SET\nFinish pass 1, then start pass 2"
+msgstr "Whole dataset\nFinish pass 1, then begin pass 2"
 
 msgid "chapter2.work_group.card"
-msgstr "%d LINE GROUP\nFinish both passes for %d integers, then move on"
+msgstr "Lines per group: %d\nFinish both passes on %d integers, then move on"
 
 msgid "chapter2.blocking.card"
-msgstr "BLOCK %d LINE(S)\n%d integers per tile"
+msgstr "Lines per tile: %d\nIntegers per tile: %d"
 
 msgid "chapter2.capstone.finish"
 msgstr "FINISH CHAPTER"
@@ -3195,7 +3195,7 @@ msgid "chapter2.history.run_again"
 msgstr "Make one change and rerun to create a Before → After comparison."
 
 msgid "chapter2.history.config"
-msgstr "%s · %s · %d pass(es) · %s · cost %d"
+msgstr "%s · %s · Passes: %d · %s · Cost: %d"
 
 msgid "chapter2.history.change.memory_path"
 msgstr "data path"
@@ -6477,3 +6477,9 @@ msgstr "Layout tools"
 
 msgid "system.profiler.time_split"
 msgstr "CPU compute: %d cycles; waiting: %d cycles. This shows proportions, not event order."
+
+msgid "overlap.cycles_axis"
+msgstr "Cycles"
+
+msgid "overlap.timeline.work"
+msgstr "Work"

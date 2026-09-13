@@ -46,6 +46,13 @@ func _init() -> void:
 
 
 func _run() -> void:
+	for locale: String in ["zh_CN", "en"]:
+		var keys: Dictionary = {}
+		for line: String in FileAccess.get_file_as_string("res://localization/game."+locale+".po").split("\n"):
+			if not line.begins_with("msgid ") or line == 'msgid ""':
+				continue
+			_assert(not keys.has(line), "Duplicate translation key can replace a task specification: "+locale+" "+line)
+			keys[line] = true
 	_assert(_current_locale() == "zh_CN", "Simplified Chinese must be the startup locale.")
 	var undo_key: String = "⌘Z" if OS.get_name() == "macOS" else "Ctrl+Z"
 	_assert(_t(&"hardware.toolbar.undo_wire.tooltip").contains(undo_key),

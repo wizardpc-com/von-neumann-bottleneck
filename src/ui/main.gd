@@ -521,6 +521,7 @@ func _add_device_node(
 		elif slot_index == 0:
 			port_label.text = detail
 		port_label.clip_text = true
+		port_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		port_label.tooltip_text = port_label.text
 		row.add_child(port_label)
 		if slot_index == 0:
@@ -561,7 +562,7 @@ func _add_instrument(parent: Control, id: StringName, title_text: String, conten
 	var instrument: FloatingInstrumentPanel = FloatingInstrumentPanelType.new()
 	instrument.name = "%sInstrument" % String(id).to_pascal_case()
 	instrument.custom_minimum_size = Vector2(360.0, 250.0)
-	instrument.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, ACCENT))
+	instrument.add_theme_stylebox_override("panel", _instrument_surface(false))
 	parent.add_child(instrument)
 	instrument.setup(id, title_text)
 	instrument.set_minimizable(id != &"mission")
@@ -801,6 +802,12 @@ func _build_program_instrument() -> Control:
 	program_explanation_label.custom_minimum_size.y = 150.0
 	program_explanation_label.add_theme_font_size_override("normal_font_size", 15)
 	panel.add_child(program_explanation_label)
+	# Editing and applying stay ahead of optional syntax/strategy reference.
+	panel.move_child(editor,1)
+	panel.move_child(program_validation_label,2)
+	panel.move_child(program_apply_label,3)
+	panel.move_child(apply_program_button,4)
+	panel.move_child(program_effect_label,5)
 	program_run_label = Label.new()
 	program_run_label.text = _t(&"program.receipt.not_executed_starter")
 	program_run_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1621,9 +1628,18 @@ func _close_instrument(id: StringName) -> void:
 				break
 
 
+func _instrument_surface(focused: bool) -> StyleBoxFlat:
+	var frame: StyleBoxFlat = InstrumentTheme.surface(Color("111d29"), Color(ACCENT,0.65) if focused else InstrumentTheme.EDGE,8)
+	frame.content_margin_top = 10
+	frame.content_margin_bottom = 10
+	return frame
+
+
 func _focus_instrument(id: StringName) -> void:
 	if not instrument_windows.has(id):
 		return
+	for key: StringName in instrument_windows:
+		(instrument_windows[key] as FloatingInstrumentPanel).add_theme_stylebox_override("panel",_instrument_surface(key==id))
 	instrument_z_counter += 1
 	instrument_windows[id].z_index = instrument_z_counter
 	# Control input follows sibling order independently of draw order.
@@ -1723,6 +1739,7 @@ func _validate_program_editor() -> DSLProgramType:
 		device_state_labels[&"ProgramController"].add_theme_color_override("font_color", BAD)
 		official_run_button.disabled = true
 		debug_run_button.disabled = true
+	device_detail_labels[&"ProgramController"].tooltip_text = device_detail_labels[&"ProgramController"].text
 	return program
 
 
@@ -1914,6 +1931,7 @@ func _refresh_cache_controls() -> void:
 			if LocalityChapter.concept_unlocked(&"cache")
 			else _t(&"chapter2.near_store.on.detail", [current_cache_lines, current_cache_lines * 4])
 		)
+	device_detail_labels[&"Cache"].tooltip_text = device_detail_labels[&"Cache"].text
 
 
 func _cache_card_text(lines: int, include_cost: bool) -> String:
@@ -2060,6 +2078,7 @@ func _run_simulation(test_name: String) -> void:
 	device_state_labels[&"TestBench"].text = outcome
 	device_state_labels[&"Profiler"].text = _t(&"state.trace_ready")
 	device_detail_labels[&"ProgramController"].text = _t(&"device.program.executing", [_strategy_text(program.traversal_pattern())])
+	device_detail_labels[&"ProgramController"].tooltip_text = device_detail_labels[&"ProgramController"].text
 	device_state_labels[&"ProgramController"].text = _t(&"state.trace_source")
 	device_state_labels[&"ProgramController"].add_theme_color_override("font_color", GOOD)
 	last_run_receipt_text = _t(&"program.receipt.last_executed", [

@@ -37,7 +37,13 @@ func _run() -> void:
 		await process_frame
 	_assert(main.get("terminology_handbook") != null, "Chapter 2 must expose the shared terminology handbook throughout its investigation map and levels.")
 	var chapter_map: Control = main.get("chapter_map")
+	var map_rects: Array[Rect2] = []
 	for button: Button in (chapter_map.get("level_buttons") as Dictionary).values():
+		var rect: Rect2 = button.get_global_rect()
+		_assert(chapter_map.get_global_rect().encloses(rect), "Every Chapter 2 task must remain within its map.")
+		for previous: Rect2 in map_rects:
+			_assert(not rect.intersects(previous), "A chapter task must not cover another selectable task.")
+		map_rects.append(rect)
 		var column: VBoxContainer = button.get_child(0).get_child(0)
 		var card_status: Label = column.get_child(2)
 		_assert(button.get_global_rect().encloses(card_status.get_global_rect()), "Long chapter-map titles must leave their completion status inside the card border.")
@@ -150,6 +156,7 @@ func _run() -> void:
 	var access_history: Array = main.get("run_history")
 	_assert(access_history.size() == 1 and int(access_history[0]["cycles"]) == 321 and String(access_history[0]["pattern"]) == "column-first", "2-4 must carry 2-3's failed access pattern forward as its Before evidence.")
 	main.call("_load_strategy", ProgramTemplatesType.ROW_FIRST, "row-first")
+	_assert(not (main.get("apply_program_button") as Button).text.contains("✓"), "Apply is an action, not a claim that the new draft is already applied.")
 	main.call("_apply_program")
 	main.call("_run_simulation", "Official Test Set")
 	var local_trace: SimulationTraceType = main.get("current_trace")
@@ -194,6 +201,11 @@ func _run() -> void:
 	_assert(locality_state.call("concept_unlocked", &"blocking"), "Blocking/Tiling must unlock after the implementation succeeds.")
 
 	main.call("_start_level", &"capstone")
+	main.call("_open_instrument", &"program")
+	for frame: int in range(6): await process_frame
+	var program_window: Control = main.instrument_windows[&"program"]
+	_assert(program_window.get_global_rect().encloses(main.editor.get_global_rect()) and program_window.get_global_rect().encloses(main.apply_program_button.get_global_rect()), "Code and Apply stay visible before optional syntax reference.")
+	main.call("_close_instrument", &"program")
 	main.call("_open_instrument", &"test_bench")
 	for _layout_frame: int in range(3):
 		await process_frame
@@ -232,6 +244,7 @@ func _run() -> void:
 	_assert(not (main.get("editor") as TextEdit).editable, "The baseline alone must not unlock program changes before a diagnosis.")
 	_assert((capstone_cache_buttons[4] as Button).disabled and (capstone_block_buttons[1] as Button).disabled, "Hardware and work-group decisions must remain locked until the raw evidence is diagnosed.")
 	main.call("_select_cache", 4, true)
+	_assert(main.device_detail_labels[&"Cache"].tooltip_text == main.device_detail_labels[&"Cache"].text,"Truncated cache labels reveal the current configuration, not a stale tooltip.")
 	_assert(int(main.get("current_cache_lines")) == 1 and main.get("current_trace") == capstone_baseline, "A direct change attempt must not bypass the capstone diagnosis gate.")
 	main.call("_select_judgment", &"more_cpu_math")
 	_assert(not ((main.get("mission_judgment_buttons") as Dictionary)[&"more_cpu_math"] as Button).text.begins_with("✓"), "An unsupported diagnosis must not display a success checkmark.")

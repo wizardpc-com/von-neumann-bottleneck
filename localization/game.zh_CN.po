@@ -361,10 +361,10 @@ msgid "locality.status.profiler_inspect"
 msgstr "分析器调查 — 周期 %d · 源代码第 %d 行 · %s"
 
 msgid "program.draft.description"
-msgstr "这里编辑的是草稿。点击“应用程序”后，它才会成为测试台能够解析和执行的唯一代码。"
+msgstr "在这里编辑草稿。点击“应用程序”后，测试台才会运行修改后的程序。"
 
 msgid "program.reference.title"
-msgstr "类 PYTHON 语法参考"
+msgstr "语法速查"
 
 msgid "program.reference.body"
 msgstr "# 注释  ·  for name in range(4):  ·  使用 4 个空格缩进\nacc += load(A[row][col])  ·  store(OUT[0], acc)"
@@ -388,7 +388,7 @@ msgid "program.applied_starter"
 msgstr "已应用程序 · %s初始程序"
 
 msgid "program.apply.button"
-msgstr "✓ 应用程序"
+msgstr "应用程序"
 
 msgid "program.apply.tooltip"
 msgstr "确认此有效草稿，将它设为测试台可以执行的唯一程序。"
@@ -2331,7 +2331,7 @@ msgid "system.window.test_bench.title"
 msgstr "测试台"
 
 msgid "system.window.profiler.title"
-msgstr "Profiler"
+msgstr "分析器"
 
 msgid "system.window.history.title"
 msgstr "运行历史"
@@ -2349,7 +2349,7 @@ msgid "system.window.test_bench.short"
 msgstr "测试"
 
 msgid "system.window.profiler.short"
-msgstr "Profiler"
+msgstr "分析器"
 
 msgid "system.window.history.short"
 msgstr "历史"
@@ -2994,7 +2994,7 @@ msgid "chapter2.tool.blocking"
 msgstr "工作分组"
 
 msgid "chapter2.tool.profiler"
-msgstr "Profiler"
+msgstr "分析器"
 
 msgid "chapter2.tool.notebook"
 msgstr "概念手册"
@@ -3030,7 +3030,7 @@ msgid "chapter2.progress.review_required"
 msgstr "证据 %d/%d · 回顾已完成的 Trace，再打开调查发现。"
 
 msgid "chapter2.progress.target_required"
-msgstr "证据 %d/%d · 结果正确，但仍高于 周期 目标。"
+msgstr "证据 %d/%d · 结果正确，但仍超过周期目标。"
 
 msgid "chapter2.progress.complete"
 msgstr "完成 %d/%d · 证据支持你的结论。"
@@ -3039,7 +3039,7 @@ msgid "chapter2.progress.unknown_level"
 msgstr "不可用 %d/%d · 调查内容无效。"
 
 msgid "chapter2.test_bench.observation_goal"
-msgstr "证据运行\n正确执行 %d 轮；本观察关不设 周期 目标。"
+msgstr "观察运行\n正确执行 %d 轮；本关不设周期目标。"
 
 msgid "chapter2.test_bench.performance_goal"
 msgstr "性能运行\n正确执行 %d 轮，且不超过 %d 周期。"
@@ -3054,37 +3054,37 @@ msgid "chapter2.near_store.description"
 msgstr "选择是否在数据路径上放置一小块快速存储，然后用同一程序和数据重新运行。"
 
 msgid "chapter2.near_store.off.card"
-msgstr "不使用近处存储\n每个值都前往 RAM"
+msgstr "不使用近处存储\n每次读取都访问 RAM"
 
 msgid "chapter2.near_store.on.card"
-msgstr "近处存储 · %d line\n靠近 CPU 保存 %d 个整数 · 成本 %d"
+msgstr "近处存储 · %d 行\n容量 %d 个整数 · 成本 %d"
 
 msgid "chapter2.near_store.off.name"
 msgstr "直接访问 RAM"
 
 msgid "chapter2.near_store.on.name"
-msgstr "%d line 近处存储"
+msgstr "%d 行近处存储"
 
 msgid "chapter2.near_store.off.detail"
 msgstr "已绕过 · CPU 每次都向 RAM 请求数值"
 
 msgid "chapter2.near_store.on.detail"
-msgstr "%d line · 在近处保存 %d 个整数"
+msgstr "%d 行 · 可保存 %d 个整数"
 
 msgid "chapter2.work_group.title"
 msgstr "工作分组"
 
 msgid "chapter2.work_group.description"
-msgstr "workload 需要两个 pass。选择两个 pass 在移向下一处前共同完成多少数据。"
+msgstr "任务需要遍历两轮。选择每次先完成多大一组数据的两轮处理，再移向下一组。"
 
 msgid "chapter2.work_group.whole"
-msgstr "整个数据集\n先完成 pass 1，再开始 pass 2"
+msgstr "整个数据集\n先完成第一轮，再开始第二轮"
 
 msgid "chapter2.work_group.card"
-msgstr "%d line 小组\n为 %d 个整数完成两个 pass，再向后移动"
+msgstr "%d 行一组\n为 %d 个整数完成两轮处理，再移向下一组"
 
 msgid "chapter2.blocking.card"
-msgstr "每块 %d line\n每个 tile 含 %d 个整数"
+msgstr "每块 %d 行\n每块含 %d 个整数"
 
 msgid "chapter2.capstone.finish"
 msgstr "完成章节"
@@ -3447,7 +3447,7 @@ msgid "chapter2.level.distant_reads.judgment.repeated_ram"
 msgstr "CPU 在等待，因为每个值都要前往 RAM 再返回。"
 
 msgid "chapter2.level.distant_reads.judgment.cpu_math"
-msgstr "加法本身消耗了大部分 周期。"
+msgstr "加法本身消耗了大部分周期。"
 
 msgid "chapter2.level.distant_reads.judgment.result_store"
 msgstr "反复延迟来自最后一次结果写入。"
@@ -3585,7 +3585,7 @@ msgid "chapter2.level.capstone.judgment.repeated_far_fetch"
 msgstr "CPU 重复等待同一批数据再次从远处内存取回。"
 
 msgid "chapter2.level.capstone.judgment.more_cpu_math"
-msgstr "大部分 周期 花在 CPU 算术上。"
+msgstr "大部分周期花在 CPU 算术上。"
 
 msgid "chapter2.level.capstone.judgment.wrong_result"
 msgstr "机器很慢，是因为程序算出了错误结果。"
@@ -6476,3 +6476,9 @@ msgstr "布局工具"
 
 msgid "system.profiler.time_split"
 msgstr "CPU 计算：%d 周期；等待：%d 周期。比例图不代表事件先后顺序。"
+
+msgid "overlap.cycles_axis"
+msgstr "周期"
+
+msgid "overlap.timeline.work"
+msgstr "独立工作"

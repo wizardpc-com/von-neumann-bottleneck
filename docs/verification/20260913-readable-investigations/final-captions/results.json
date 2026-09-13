@@ -1,0 +1,22 @@
+[
+  {
+    "name": "localization",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "locality-zh",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "locality-en",
+    "exit": 0,
+    "errors": []
+  },
+  {
+    "name": "system-ui",
+    "exit": 0,
+    "errors": []
+  }
+]

@@ -38,8 +38,15 @@ func run() -> void:
 		canvas._gui_input(motion)
 		check(canvas.dragging and canvas.pan==pan_before+Vector2(50,50),"Holding the mouse still pans the map normally.")
 		pan_before=canvas.pan; motion.button_mask=0
+		motion.position+=Vector2(50,50)
 		canvas._gui_input(motion)
-		check(not canvas.dragging and canvas.pan==pan_before,"Releasing outside the map cannot leave sticky panning.")
+		check(canvas.dragging and canvas.pan==pan_before+Vector2(50,50),"Captured motion without a button mask must continue the pressed map gesture.")
+		var release := InputEventMouseButton.new(); release.button_index=MOUSE_BUTTON_LEFT
+		release.position=canvas.get_global_transform_with_canvas()*Vector2(-20,-20)
+		canvas._input(release)
+		pan_before=canvas.pan
+		canvas._gui_input(motion)
+		check(not canvas.dragging and canvas.pan==pan_before,"Explicit release outside the map cannot leave sticky panning.")
 		canvas._gui_input(press); canvas.notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
 		check(not canvas.dragging and canvas.hovered_key.is_empty(),"Focus loss cancels map gesture and hover.")
 		canvas._gui_input(press); root.get_node("WindowMode").window_mode_changing.emit()

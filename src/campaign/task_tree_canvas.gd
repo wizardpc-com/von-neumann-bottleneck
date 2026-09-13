@@ -18,6 +18,7 @@ var magnification: float = 0.55
 var dragging: bool = false
 var moved: bool = false
 var press_position := Vector2.ZERO
+var drag_position := Vector2.ZERO
 var query: String = ""
 var exposed: Dictionary = {}
 var hovered_key: String = ""
@@ -165,6 +166,7 @@ func _gui_input(event: InputEvent) -> void:
 		elif event.button_index in [MOUSE_BUTTON_LEFT,MOUSE_BUTTON_MIDDLE]:
 			if event.pressed:
 				dragging = true; moved = false; press_position = event.position
+				drag_position = event.position
 			else:
 				if dragging and not moved and event.button_index == MOUSE_BUTTON_LEFT:
 					var world: Vector2 = (event.position-pan)/magnification
@@ -175,10 +177,11 @@ func _gui_input(event: InputEvent) -> void:
 							break
 				dragging = false
 	elif event is InputEventMouseMotion and dragging:
-		if (event.button_mask & (MOUSE_BUTTON_MASK_LEFT|MOUSE_BUTTON_MASK_MIDDLE))==0:
-			_cancel_drag(); return
+		# Captured native motion can omit its button mask. The preceding press,
+		# explicit release and focus notifications own the gesture lifetime.
 		if event.position.distance_to(press_position)>4: moved = true
-		if moved: pan += event.relative; _save()
+		if moved: pan += event.position-drag_position; _save()
+		drag_position = event.position
 	elif event is InputEventMouseMotion:
 		tooltip_text=""
 		var next_hover: String = ""
@@ -192,6 +195,12 @@ func _gui_input(event: InputEvent) -> void:
 	elif event is InputEventPanGesture:
 		pan -= event.delta*18; _save()
 	accept_event()
+
+func _input(event: InputEvent) -> void:
+	if not dragging or not event is InputEventMouseButton: return
+	if event.pressed or event.button_index not in [MOUSE_BUTTON_LEFT,MOUSE_BUTTON_MIDDLE]: return
+	var local: Vector2 = get_global_transform_with_canvas().affine_inverse()*event.position
+	if not Rect2(Vector2.ZERO,size).has_point(local): _cancel_drag()
 
 func _set_hover(key: String) -> void:
 	if hovered_key==key: return

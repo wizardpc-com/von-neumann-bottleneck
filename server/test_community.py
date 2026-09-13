@@ -8,7 +8,7 @@ class CommunityTests(ReceiverTests):
     def test_summary_and_board(self):
         base={'source':'automated','mode':'test','task_version':RULES['task_version'], 'chapter_id':'chapter_4','level_id':'mixed',
               'event':'visit_summary','visit_id':'synthetic-visit-1','foreground_ms':1234,'background_ms':456,'feedback_ms':0,
-              'completed':True,'max_hint_stage':2,'strategy':'batch'}
+              'completed':True,'completed_on_entry':False,'completed_during_visit':True,'post_completion':False,'max_hint_stage':2,'strategy':'batch'}
         def upload(index,p,kind='event',eid=None):
             return self.request('POST','/v1/events',{'client_id':'community-client-'+str(index),'deletion_token':'c'*64,
                 'records':[{'event_id':eid or 'community-event-'+str(index),'kind':kind,'payload':p}]})

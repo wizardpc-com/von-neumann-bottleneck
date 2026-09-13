@@ -15,7 +15,7 @@ func run() -> void:
 	if phase=="queue":
 		transport.set_sharing_mode("basic"); transport.set_scores_enabled(true)
 		transport._on_event({"event":"level_start","visit_id":"synthetic-community-visit"})
-		transport._on_event({"event":"visit_summary","visit_id":"synthetic-community-visit","session_id":"synthetic-community","sequence":1,"source":"automated","mode":"test","task_version":"tasks-20260910-v1","payload":{"chapter_id":"chapter_4","level_id":"mixed","foreground_ms":1234,"background_ms":567,"feedback_ms":80,"max_hint_stage":2,"completed":true,"connections":1,"branches":1,"official_runs":1}})
+		transport._on_event({"event":"visit_summary","visit_id":"synthetic-community-visit","session_id":"synthetic-community","sequence":1,"source":"automated","mode":"test","task_version":"tasks-20260910-v1","payload":{"chapter_id":"chapter_4","level_id":"mixed","foreground_ms":1234,"background_ms":567,"feedback_ms":80,"max_hint_stage":2,"completed":true,"completed_on_entry":false,"completed_during_visit":true,"post_completion":false,"connections":1,"branches":1,"official_runs":1}})
 		transport.send_feedback({"session_id":"synthetic-community","sequence":2,"source":"automated","mode":"test","payload":{"chapter_id":"chapter_4","level_id":"mixed","note":"synthetic opinion","fun":4}})
 		var design: Dictionary = C.starter_design(); design.strategy="batch"; design.copy_fields=[0,3]
 		design.recipe={"groups":[{"fields":[0,3],"order":"record"},{"fields":[1,2],"order":"record"}],"block":0}

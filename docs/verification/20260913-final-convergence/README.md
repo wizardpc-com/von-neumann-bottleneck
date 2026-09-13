@@ -45,3 +45,28 @@ One CUA app-discovery call stalled for about ten minutes. Mouse navigation subse
 worked; that stall is tool evidence, not gameplay acceptance. The initial fresh import
 hit the documented pre-import font boundary; re-import after font generation succeeded.
 Earlier failed tests and corrected expectations remain in ignored diagnostic directories.
+
+## Integrated checks and local lifecycle
+
+Full imported run `20260913T152408Z-c0866939`: 36/37 conventional suites passed,
+plus English ordinary Game replay 633/0. The remaining release-convergence suite
+exposed a settings script's direct singleton preload dependency; changed it to node
+lookup. Targeted rerun `targeted-1789313245` passes release convergence, final UI,
+prelaunch settings and transport/summary checks. This intermediate full run is not
+reported as an all-green final freeze.
+
+`targeted-1789313414` passes the final queue/summary tests. Three independent Godot
+processes preserve invalid draft/applied sources and empty wiring without granting
+completion (`workspace-process/0.txt`–`2.txt` in the imported QA directory).
+
+Real synthetic local integrations completed:
+- `.godot/community-integration/f3f7481c-14ae-426d-b7f7-b625eba5bc13/`:
+  queue/resume, exact duplicate ACK, community and experimental board reads,
+  withdrawal, offline deletion and confirmed tombstone after restart.
+- `.godot/feedback-integration/f0076aa9-caa0-4954-83df-da23cb2b8a3e/`:
+  Godot queue → HTTP → SQLite → private report; one duplicate stays one row;
+  a separately sent opinion works with automatic sharing off.
+- Python storage: 3 tests; community/receiver: 5 tests, all passing.
+
+All integration identities, notes and metrics are synthetic. No public endpoint,
+real player logs, credentials or production database were used.

@@ -4,8 +4,18 @@ import argparse
 from collections import Counter, defaultdict
 import html
 import json
+import math
 from pathlib import Path
 from statistics import median
+
+VERSION_FIELDS = ('task_version', 'model_version', 'case_set_version', 'build_version', 'source_batch', 'background_cohort')
+SUMMARY_COUNTS = ('connections','connection_rejections','branches','wire_deletes','component_deletes','incident_wire_removals','undo_count','redo_count','debug_runs','official_runs','max_hint_stage')
+
+def group_key(source, mode, task, versions):
+    return (source, mode, task) + tuple(versions.get(k, 'unknown') for k in VERSION_FIELDS)
+
+def nonnegative(value):
+    return type(value) is int and 0 <= value <= 10**10
 
 SOURCES = {'external_player', 'developer', 'agent_native', 'automated', 'unknown'}
 
@@ -20,7 +30,7 @@ def summarize(documents):
                 continue
             session_id = event.get('session_id') or session.get('id')
             sequence = event.get('sequence')
-            if not session_id or not isinstance(sequence, (int, float)):
+            if not isinstance(session_id,str) or not session_id or type(sequence) not in (int,float) or not math.isfinite(sequence) or sequence<0 or sequence!=int(sequence):
                 malformed += 1
                 continue
             key = (session_id, int(sequence))
@@ -33,6 +43,15 @@ def summarize(documents):
             copy['source'] = source if source in SOURCES else 'unknown'
             copy['session_id'] = session_id
             events[key] = copy
+    # Within one explicit v2 visit, a formal run may be the first event carrying
+    # its case/model identity. Attribute earlier checkpoints only when unambiguous.
+    contexts=defaultdict(lambda: defaultdict(set))
+    for event in events.values():
+        payload=event.get('payload',{});vid=event.get('visit_id') or payload.get('visit_id')
+        if not vid or event.get('schema_version',1)<2:continue
+        for field in VERSION_FIELDS:
+            value=event.get(field,payload.get(field,'unknown'))
+            if value not in ('unknown','unspecified','',None):contexts[(event['session_id'],vid)][field].add(str(value))
     visits, tasks, moments = {}, {}, []
     legacy_active = {}
     for (_, _), event in sorted(events.items()):
@@ -43,7 +62,12 @@ def summarize(documents):
         valid_task = task != '/' and bool(task)
         # Map and gameplay use the same public domain keys.
         task = task.replace('hardware/', 'hardware_foundations/').replace('system/', 'chapter_1/').replace('locality/', 'chapter_2/').replace('overlap/', 'chapter_3/')
-        stat = tasks.setdefault((source, mode, task), {'source': source, 'mode': mode, 'task': task, 'sets': defaultdict(set), 'results': Counter(), 'foreground_ms': [], 'runs': 0}) if valid_task else None
+        vid=event.get('visit_id') or payload.get('visit_id')
+        versions = {k: str(event.get(k, payload.get(k, 'unknown'))) for k in VERSION_FIELDS}
+        for field, values in contexts.get((event['session_id'],vid),{}).items():
+            if versions[field] in ('unknown','unspecified','','None') and len(values)==1:versions[field]=next(iter(values))
+        stat_key = group_key(source, mode, task, versions)
+        stat = tasks.setdefault(stat_key, {'source': source, 'mode': mode, 'task': task, **versions, 'sets': defaultdict(set), 'results': Counter(), 'foreground_ms': [], 'runs': 0}) if valid_task else None
         sid = event['session_id']
         visit_id = payload.get('visit_id') or event.get('visit_id')
         if name == 'level_start' and not visit_id:
@@ -53,17 +77,23 @@ def summarize(documents):
             visit_id = legacy_active.get(sid)
         visit = None
         if visit_id:
-            visit = visits.setdefault(visit_id, {'visit_id': visit_id, 'session': sid, 'source': source, 'mode': mode, 'task': task if valid_task else 'unknown', 'started': False, 'completed': False, 'exit': None, 'exit_reason': None, 'foreground_ms': 0, 'background_ms': 0, 'feedback_ms': 0, 'legacy_wall_ms': 0, 'timing': 'unknown', 'runs': [], 'hints': [], 'operations': Counter(), 'quantities': Counter(), 'timeline': [], 'interrupted_gap_unknown': False, 'retries_after_failure': 0, 'post_completion_runs': 0})
+            visit = visits.setdefault((sid, visit_id, stat_key), {'visit_id': visit_id, **versions, 'session': sid, 'source': source, 'mode': mode, 'task': task if valid_task else 'unknown', 'started': False, 'completed': False, 'completed_on_entry': None, 'completed_during_visit': None, 'post_completion': None, 'summary': None, 'exit': None, 'exit_reason': None, 'foreground_ms': 0, 'background_ms': 0, 'feedback_ms': 0, 'legacy_wall_ms': 0, 'timing': 'unknown', 'runs': [], 'hints': [], 'operations': Counter(), 'quantities': Counter(), 'timeline': [], 'interrupted_gap_unknown': False, 'retries_after_failure': 0, 'post_completion_runs': 0})
             if valid_task and name == 'level_start': visit['task'] = task
-            if name not in ('visit_time', 'case_outcome'):
+            if name not in ('visit_time', 'case_outcome', 'visit_summary'):
                 visit['timeline'].append({'sequence': event['sequence'], 'event': name, 'result': payload.get('result_class'), 'action': payload.get('action'), 'phase': payload.get('phase'), 'kind': payload.get('kind')})
         if name == 'map_action' and stat:
             action = payload.get('action')
             if action == 'viewport_exposure': action = 'exposed'
             if action in ('eligible', 'exposed', 'detail_view', 'task_start'):
                 stat['sets'][action].add(sid)
+        elif name == 'visit_summary' and visit:
+            visit['summary'] = payload
         elif name == 'level_start' and visit:
             visit['started'] = True
+            if type(payload.get('completed')) is bool:
+                visit['completed_on_entry'] = payload['completed']
+                visit['completed_during_visit'] = False
+                visit['post_completion'] = payload['completed']
             if stat: stat['sets']['started'].add(sid)
         elif name == 'visit_time' and visit:
             kind = payload.get('kind')
@@ -91,6 +121,7 @@ def summarize(documents):
             if stat: stat['sets']['completed'].add(sid)
             if visit:
                 visit['completed'] = True
+                visit['completed_during_visit'] = True
                 if event.get('schema_version', 1) == 1:
                     visit['legacy_wall_ms'] += max(0, int(payload.get('duration_ms', 0)))
                     visit['timing'] = 'legacy_wall_time'
@@ -112,16 +143,38 @@ def summarize(documents):
                 for key in ('added_wires','removed_wires','added_components','removed_components','explicit_wire_deletes','incident_wire_removals'):
                     if type(payload.get(key)) in (int,float) and payload[key]>=0: visit['quantities'][key]+=int(payload[key])
         elif name in ('moment', 'moment_note', 'level_feedback', 'chapter_feedback', 'demo_feedback'):
-            moments.append({'source': source, 'mode': mode, 'session': sid, 'visit_id': visit_id, 'sequence': event['sequence'], 'task': task, 'event': name, 'payload': payload})
+            moments.append({**versions, 'source': source, 'mode': mode, 'session': sid, 'visit_id': visit_id, 'sequence': event['sequence'], 'task': task, 'event': name, 'payload': payload})
     for visit in visits.values():
-        stat = tasks.get((visit['source'], visit['mode'], visit['task']))
-        if stat and visit['timing'] == 'foreground_checkpoints' and visit['started']:
+        stat = tasks.get(group_key(visit['source'], visit['mode'], visit['task'], visit))
+        summary = visit.pop('summary')
+        visit['semantic_counters'] = {k: None for k in SUMMARY_COUNTS}
+        if summary:
+            # A summary is authoritative for visit totals, not an invented event stream.
+            visit['started'] = True
+            if stat: stat['sets']['started'].add(visit['session'])
+            for key in ('foreground_ms','background_ms','feedback_ms'):
+                visit[key] = summary[key] if nonnegative(summary.get(key)) else None
+            visit['timing'] = 'visit_summary'
+            for key in SUMMARY_COUNTS:
+                if nonnegative(summary.get(key)): visit['semantic_counters'][key] = summary[key]
+            for key in ('completed_on_entry','completed_during_visit','post_completion'):
+                visit[key] = summary.get(key) if type(summary.get(key)) is bool else None
+            visit['completed'] = summary.get('completed') is True
+            visit['exit'] = summary.get('reason', 'unknown')
+            visit['interrupted_gap_unknown'] = summary.get('duration_unknown', False)
+            if stat:
+                count = visit['semantic_counters']['official_runs']
+                if count is not None: stat['runs'] += max(0, count-len(visit['runs']))
+                if visit['completed_during_visit'] is True: stat['sets']['completed'].add(visit['session'])
+        if visit['timing']=='unknown':
+            for key in ('foreground_ms','background_ms','feedback_ms'): visit[key]=None
+        if stat and visit['timing'] in ('foreground_checkpoints','visit_summary') and visit['started'] and visit['foreground_ms'] is not None:
             stat['foreground_ms'].append(visit['foreground_ms'])
     latest_feedback={}
     for item in moments:
         if item['event']=='level_feedback':
             # Unknown visits are still grouped within their session, never called unique people.
-            key=(item['source'],item['mode'],item['session'],item['visit_id'],item['task'])
+            key=group_key(item['source'],item['mode'],item['task'],item)+(item['session'],item['visit_id'])
             latest_feedback[key]=item
     output_tasks = []
     for stat in tasks.values():
@@ -133,21 +186,21 @@ def summarize(documents):
         stat['started_exposed'] = {'n': len(sets['started'] & sets['exposed']), 'N': len(sets['exposed'])}
         stat['completed_started'] = {'n': len(sets['completed'] & sets['started']), 'N': len(sets['started'])}
         stat['foreground_seconds'] = {'n': len(durations), 'median': round(median(durations)/1000, 2) if durations else None, 'min': min(durations)/1000 if durations else None, 'max': max(durations)/1000 if durations else None}
-        opinions=[item for item in latest_feedback.values() if (item['source'],item['mode'],item['task'])==(stat['source'],stat['mode'],stat['task'])]
+        opinions=[item for item in latest_feedback.values() if group_key(item['source'],item['mode'],item['task'],item)==group_key(stat['source'],stat['mode'],stat['task'],stat)]
         stat['ratings']={}
         for key in ('fun','clarity','want_to_continue'):
             values=[item['payload'][key] for item in opinions if type(item['payload'].get(key)) in (int,float) and 1<=item['payload'][key]<=5]
             stat['ratings'][key]={'n':len(values),'N':len(opinions),'median':median(values) if values else None}
         output_tasks.append(stat)
-    return {'schema_version': 1, 'input_sessions': len({key[0] for key in events}), 'deduplicated_events': len(events), 'duplicate_events_ignored': duplicates, 'malformed_events_ignored': malformed,
-            'limitations': ['Session counts are not unique people. Sources are kept separate; unknown is not human.', 'Visible means drawn in the viewport, not attention. Ratios are observations, not causal funnels.', 'Unfinished visits retain observed time; interruption gaps and legacy foreground time remain unknown.', 'Failure followed by another run is a retry; successful repeats and post-completion runs are separate.', 'No survival estimate or abandonment inference is made from incomplete visits.'],
+    return {'schema_version': 2, 'input_sessions': len({key[0] for key in events}), 'deduplicated_events': len(events), 'duplicate_events_ignored': duplicates, 'malformed_events_ignored': malformed,
+            'limitations': ['Task, model, case, build, batch and background cohorts are separate rows; missing versions stay unknown. Summary totals do not imply ordered actions; absent measurements remain null.', 'Session counts are not unique people. Sources are kept separate; unknown is not human.', 'Visible means drawn in the viewport, not attention. Ratios are observations, not causal funnels.', 'Unfinished visits retain observed time; interruption gaps and legacy foreground time remain unknown.', 'Failure followed by another run is a retry; successful repeats and post-completion runs are separate.', 'No survival estimate or abandonment inference is made from incomplete visits.'],
             'tasks': sorted(output_tasks, key=lambda item: (item['source'], item['mode'], item['task'])), 'visits': list(visits.values()), 'moments': moments, 'latest_task_feedback': list(latest_feedback.values())}
 
 
 def render(report):
     esc = lambda value: html.escape(str(value))
     sections = []
-    for title, key, columns in [('Tasks / routes', 'tasks', ['source','mode','task','sessions','completed_started','foreground_seconds','ratings','results']), ('Visits / attempts', 'visits', ['source','mode','task','completed','exit','exit_reason','foreground_ms','background_ms','feedback_ms','timing','runs','hints','operations','quantities']), ('Moments / feedback', 'moments', ['source','mode','task','visit_id','sequence','event','payload'])]:
+    for title, key, columns in [('Tasks / routes', 'tasks', ['source','mode','task','task_version','model_version','case_set_version','build_version','source_batch','background_cohort','sessions','completed_started','foreground_seconds','ratings','results']), ('Visits / attempts', 'visits', ['source','mode','task','completed','exit','exit_reason','foreground_ms','background_ms','feedback_ms','timing','completed_on_entry','completed_during_visit','semantic_counters','runs','hints','operations','quantities']), ('Moments / feedback', 'moments', ['source','mode','task','visit_id','sequence','event','payload'])]:
         rows = []
         for row in report[key]:
             cells = []

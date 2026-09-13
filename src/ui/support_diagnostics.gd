@@ -9,7 +9,7 @@ static func snapshot() -> Dictionary:
 		"reduced_motion":ProjectSettings.get_setting("game/reduced_motion",false),
 		"viewport":str(WindowMode.get_viewport().get_visible_rect().size),
 		"remote_configured":RemoteFeedback.endpoint_allowed(),"sharing_mode":RemoteFeedback.sharing_mode,
-		"pending_uploads":RemoteFeedback.queue.size()}
+		"pending_uploads":RemoteFeedback.queue.size(),"evicted_uploads":RemoteFeedback.evicted_records,"rejected_uploads":RemoteFeedback.rejected_records}
 
 static func export_local() -> String:
 	var folder: String = "user://diagnostics"

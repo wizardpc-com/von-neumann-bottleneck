@@ -59,3 +59,11 @@ or deployed host is included. See [architecture and field inventory](../docs/arc
 and [operator runbook](deploy/RUNBOOK.md). `storage.py` provides backup, restore,
 check and conflict-refusing idempotent merge. Run `test_storage.py` and
 `test_community.py` alongside the existing receiver checks.
+
+## Summary/report convergence
+
+Basic visit summaries are now consumed by `private_report.py` through the same local
+report implementation. Reports keep version/cohort rows separate, do not double count
+detail plus summary totals, and distinguish first completion from repeat visits.
+Community task responses retain a `versions` array; mixed versions have no aggregate
+completion percentage or median. See [maintenance](../docs/development/final-maintenance.md).

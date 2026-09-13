@@ -27,6 +27,20 @@ func run() -> void:
 	check(not restored.enabled,"Endpoint change requires new consent.")
 	transport.set_enabled(false)
 	check(transport.queue.is_empty(),"Withdrawal cancels pending automatic records.")
+	transport.queue.clear()
+	for index: int in range(256):
+		transport.queue.append({"record":{"event_id":str(index).sha256_text(),"kind":"event","payload":{"event":"player_action"}},"attempts":0,"next_at":0,"paused":false,"destination":transport.endpoint})
+	check(transport._enqueue({"event_id":"opinion".sha256_text(),"kind":"feedback","payload":{}}),"Explicit opinion displaces low-priority telemetry in a full queue.")
+	check(transport.queue.size()==256 and transport.evicted_records==1,"Queue remains bounded and eviction is counted.")
+	var retry_id: String=transport.queue[0].record.event_id
+	for attempt: int in range(12):
+		transport.inflight.assign([retry_id]);transport._retry(false,"offline")
+	check(not transport.queue[0].paused and transport.queue[0].next_at>Time.get_unix_time_from_system(),"Long outage still retries with bounded delay after eight failures.")
+	transport.inflight.assign([retry_id,transport.queue[1].record.event_id]);transport._retry(true,"http_400")
+	check(not transport.queue[0].paused and transport.queue[0].isolate,"Rejected batch is split to isolate the bad record.")
+	transport.inflight.assign([retry_id]);transport._retry(true,"http_400")
+	check(transport.queue[0].paused and not transport.queue[1].paused,"Only a individually rejected record is paused.")
+	transport.queue.clear()
 	var store := Store.new(); store.configure_for_storage("user://rating_contract_"+str(Time.get_ticks_usec())); store.start_session()
 	store.telemetry_enabled=false
 	store.level_started(&"chapter_4",&"fields")

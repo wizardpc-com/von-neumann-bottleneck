@@ -11,7 +11,7 @@ const MAX_BATCH: int = 32
 const FLUSH_SECONDS: float = 45
 const TEXT_FIELDS := ["kind","phase","target","case_id","tool_id","origin","program_digest","chapter_id","level_id","visit_id","session_id","source","mode","build_version","task_version","case_set_version","model_version","event","action","operation","result_class","reason","strategy","recipe_digest","run_id","privacy_notice_version","consent_version","consent_timestamp","source_batch","background_cohort","sharing_mode","ruleset_version"]
 const NUMBER_FIELDS := ["stage","sequence","duration_ms","cycles","cost","case_count","passed_cases","total_cases","added_wires","removed_wires","added_components","removed_components","explicit_wire_deletes","incident_wire_removals","total_cycles","prepare_cycles","query_cycles","output_cycles","ram_read_bytes","ram_write_bytes","peak_extra_bytes","required_extra_bytes","requests","fills","hits","evictions","batch","group_count","block","copy_field_count"]
-const BOOL_FIELDS := ["duration_unknown","eligible","passed","correct","target_met","post_completion","budget_met","completed"]
+const BOOL_FIELDS := ["duration_unknown","eligible","passed","correct","target_met","post_completion","budget_met","completed","completed_on_entry","completed_during_visit"]
 var endpoint: String = ""
 var enabled: bool = false
 var consented_endpoint: String = ""
@@ -27,6 +27,8 @@ var deleting: bool = false
 var client_id: String = ""
 var deletion_token: String = ""
 var queue: Array[Dictionary] = []
+var evicted_records: int = 0
+var rejected_records: int = 0
 var receipts: Dictionary = {}
 var status: String = "local_only"
 var last_error: String = ""
@@ -141,11 +143,28 @@ func send_feedback(event: Dictionary) -> String:
 	if not _enqueue({"event_id":id,"kind":"feedback","payload":payload}): return ""
 	flush()
 	return id
+func _priority(record: Dictionary) -> int:
+	if record.get("kind") in ["feedback", "score"]: return 3
+	if record.get("payload",{}).get("event") in ["visit_summary", "level_complete", "moment"]: return 2
+	return 0
+
 func _enqueue(record: Dictionary) -> bool:
-	if queue.size()>=MAX_QUEUE: status="queue_full"; status_changed.emit(); return false
+	var previous: Array[Dictionary] = queue.duplicate(true)
+	var old_evicted: int = evicted_records
+	var priority: int = _priority(record)
+	# Reserve room for opinions and visit totals while offline. Never evict in-flight work.
+	var limit: int = MAX_QUEUE-32 if priority==0 else MAX_QUEUE
+	if queue.size()>=limit:
+		var victim: int = -1
+		for index: int in range(queue.size()):
+			if _priority(queue[index].record)<priority and not inflight.has(str(queue[index].record.event_id)):
+				victim=index; break
+		if victim<0: status="queue_full"; status_changed.emit(); return false
+		queue.remove_at(victim); evicted_records+=1
 	var item: Dictionary = {"record":record,"attempts":0,"next_at":0,"paused":false,"destination":endpoint}
 	queue.append(item)
-	if not _save_state(): queue.pop_back(); return false
+	if not _save_state():
+		queue=previous; evicted_records=old_evicted; return false
 	status="pending"; status_changed.emit()
 	if queue.size()%MAX_BATCH==0: call_deferred("flush")
 	return true
@@ -160,8 +179,9 @@ func flush() -> void:
 		if item.record.kind == "event" and (not enabled or consented_endpoint!=endpoint): continue
 		if item.record.kind == "score" and (not scores_enabled or consented_endpoint!=endpoint): continue
 		if item.paused or int(item.next_at)>now: continue
+		if item.get("isolate",false) and not records.is_empty(): continue
 		records.append(item.record); inflight.append(item.record.event_id)
-		if records.size()>=MAX_BATCH: break
+		if records.size()>=(1 if item.get("isolate",false) else MAX_BATCH): break
 	if records.is_empty(): return
 	var body: String = JSON.stringify({"client_id":client_id,"deletion_token":deletion_token,"records":records})
 	if body.to_utf8_buffer().size()>131072: _retry(true,"body_limit"); return
@@ -192,18 +212,24 @@ func _response(result: int, code: int, _headers: PackedStringArray, bytes: Packe
 	while receipts.size()>64: receipts.erase(receipts.keys()[0])
 	status="sent"; last_error=""; _save_state(); status_changed.emit()
 func _retry(permanent: bool, reason: String) -> void:
+	var split_batch: bool = permanent and inflight.size()>1
 	for item: Dictionary in queue:
 		if inflight.has(str(item.record.event_id)):
-			item.attempts=int(item.attempts)+1
-			item.paused=permanent or int(item.attempts)>=8
-			item.next_at=int(Time.get_unix_time_from_system())+mini(300,int(pow(2,mini(8,int(item.attempts)))))
+			item.attempts=mini(1000,int(item.attempts)+1)
+			item.paused=permanent and not split_batch
+			item["permanent"]=item.paused
+			if split_batch: item["isolate"]=true
+			if item.paused: rejected_records+=1
+			# Bounded exponential delay plus jitter continues across long outages.
+			var delay: int = mini(900,int(pow(2,mini(10,int(item.attempts)))))
+			item.next_at=int(Time.get_unix_time_from_system())+delay+randi_range(0,maxi(1,delay/5))
 	inflight.clear(); status="rejected" if permanent else "failed_retryable"; last_error=reason
 	_save_state(); status_changed.emit()
 func retry_pending() -> void:
 	for item: Dictionary in queue: item.paused=false; item.next_at=0; item.attempts=0
 	_save_state(); flush()
 func _save_state() -> bool:
-	var body: String = JSON.stringify({"schema_version":2,"notice_version":NOTICE_VERSION,"sharing_mode":sharing_mode,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"scores_enabled":scores_enabled,"identity_deleted":identity_deleted,"deletion_pending":deletion_pending,"eligible_visits":eligible_visits,"enabled":enabled,"consented_endpoint":consented_endpoint,"client_id":client_id,"deletion_token":deletion_token,"queue":queue,"receipts":receipts})
+	var body: String = JSON.stringify({"schema_version":2,"notice_version":NOTICE_VERSION,"sharing_mode":sharing_mode,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"scores_enabled":scores_enabled,"identity_deleted":identity_deleted,"deletion_pending":deletion_pending,"eligible_visits":eligible_visits,"enabled":enabled,"consented_endpoint":consented_endpoint,"client_id":client_id,"deletion_token":deletion_token,"queue":queue,"receipts":receipts,"evicted_records":evicted_records,"rejected_records":rejected_records})
 	if body.to_utf8_buffer().size()>MAX_DISK_BYTES: status="queue_full"; return false
 	var file: FileAccess = FileAccess.open(state_path+".tmp",FileAccess.WRITE)
 	if file == null: status="storage_error"; return false
@@ -220,6 +246,8 @@ func _load_state() -> void:
 	var state: Variant = JSON.parse_string(file.get_as_text()); file.close()
 	if not state is Dictionary or int(state.get("schema_version",0)) not in [1,2]: status="storage_error"; return
 	if not state.get("client_id") is String or state.client_id.length()!=32 or not state.get("deletion_token") is String or state.deletion_token.length()!=64: status="storage_error"; return
+	evicted_records=maxi(0,int(state.get("evicted_records",0)))
+	rejected_records=maxi(0,int(state.get("rejected_records",0)))
 	client_id=state.client_id; deletion_token=state.deletion_token
 	consented_endpoint=str(state.get("consented_endpoint",""))
 	var same_consent: bool = state.get("notice_version","")==NOTICE_VERSION and consented_endpoint==endpoint and endpoint_allowed()
@@ -241,7 +269,7 @@ func _load_state() -> void:
 			var record: Dictionary = raw.record
 			if not record.get("event_id") is String or record.event_id.length()!=64 or record.get("kind") not in ["event","feedback","score"] or not record.get("payload") is Dictionary: continue
 			if str(raw.get("destination",""))!=endpoint or not same_consent: continue
-			queue.append({"record":record,"attempts":int(raw.get("attempts",0)),"next_at":int(raw.get("next_at",0)),"paused":bool(raw.get("paused",false)),"destination":str(raw.get("destination",""))})
+			queue.append({"record":record,"attempts":int(raw.get("attempts",0)),"next_at":int(raw.get("next_at",0)),"paused":bool(raw.get("permanent",bool(raw.get("paused",false)) and int(raw.get("attempts",0))<8)),"permanent":bool(raw.get("permanent",false)),"isolate":bool(raw.get("isolate",false)),"destination":str(raw.get("destination",""))})
 	status="pending" if not queue.is_empty() else "ready" if enabled else "local_only"
 
 func delete_uploaded_data() -> void:

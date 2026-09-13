@@ -6,7 +6,7 @@ func _init() -> void: call_deferred("run")
 func run() -> void:
 	var reducer := Summary.new()
 	var rows: Array[Dictionary] = [
-		{"event":"level_start"},
+		{"event":"level_start","payload":{"completed":false}},
 		{"event":"visit_time","payload":{"kind":"foreground","duration_ms":1234}},
 		{"event":"visit_time","payload":{"kind":"background","duration_ms":456}},
 		{"event":"modification","payload":{"operation":"branch","added_wires":3,"removed_wires":1}},
@@ -26,6 +26,10 @@ func run() -> void:
 	check(summary.component_deletes==1 and summary.incident_wire_removals==2,"Component and incident edges separated.")
 	check(summary.debug_runs==1 and summary.official_runs==1,"Official cases are not debug runs.")
 	check(summary.foreground_ms==1234 and summary.background_ms==456 and summary.max_hint_stage==2 and summary.completed,"Time, hint, completion reduced.")
+	check(summary.completed_on_entry==false and summary.completed_during_visit==true and summary.post_completion==false,"First completion is distinct from an already completed visit.")
+	reducer.observe({"event":"level_start","visit_id":"repeat","payload":{"completed":true}})
+	var repeat: Dictionary=reducer.observe({"event":"level_exit","visit_id":"repeat"})
+	check(repeat.completed and not repeat.completed_during_visit and repeat.post_completion,"Revisiting a completed task does not count as learning completion.")
 	var transport := Transport.new(); transport.state_path="user://summary_contract.json"; root.add_child(transport)
 	transport.endpoint="http://127.0.0.1:8765/v1"; transport.set_process(false); transport.queue.clear()
 	transport.set_sharing_mode("basic")

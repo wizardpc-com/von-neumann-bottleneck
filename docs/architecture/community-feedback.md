@@ -92,3 +92,28 @@ this result-validation boundary and would require a separate product decision.
 
 See [operator runbook](../../server/deploy/RUNBOOK.md) for schema migration,
 backup/restore, tombstones, DNS cutover, retention and later deployment prerequisites.
+
+
+## Final convergence follow-up
+
+The local report now consumes `visit_summary` directly, with semantic counter totals
+and null for uncollected fields. Detail events remain inspectable but are never added
+a second time to summary totals. Within an explicit v2 visit, version information is
+attributed to earlier checkpoints only when one unambiguous version is declared;
+unknown legacy records are not joined to newer sessions. Reports separate task/model/
+case/build versions and declared batch/background cohorts. A visit spanning different
+case/model identities is marked mixed by the summary reducer.
+
+`completed_on_entry`, `completed_during_visit` and `post_completion` separate a new
+completion from a replay of a completed task. Legacy summaries without these fields
+have unknown learning outcome. Community first-completion denominators contain known
+not-yet-completed visits only; small samples and mixed-version aggregate percentages
+remain hidden. Read-only version rows are available without influencing game unlocks.
+
+The upload outbox reserves 32 slots from granular traffic. Explicit opinions/scores
+and important summaries can evict lower-priority, non-in-flight records within the
+existing 256-record bound. Eviction/rejection counts survive restart and appear in
+local diagnostics. Transient failures keep retrying with capped delay and jitter;
+permanently rejected batches are split into individual requests, so one malformed
+record cannot pause unrelated opinions. Consent, endpoint binding and deletion
+remain unchanged. No public receiver was deployed.

@@ -10,7 +10,7 @@ func observe(event: Dictionary) -> Dictionary:
 	var p: Dictionary = event.get("payload",{})
 	if id.is_empty(): return {}
 	if kind == "level_start":
-		var summary: Dictionary = {"visit_id":id,"chapter_id":p.get("chapter_id",""),"level_id":p.get("level_id",""),"completed":bool(p.get("completed",false)),"duration_unknown":false,"strategy":"unknown"}
+		var summary: Dictionary = {"visit_id":id,"chapter_id":p.get("chapter_id",""),"level_id":p.get("level_id",""),"completed":bool(p.get("completed",false)),"completed_on_entry":p.get("completed",null),"completed_during_visit":false,"post_completion":p.get("completed",null),"duration_unknown":false,"strategy":"unknown"}
 		for key: String in COUNTERS: summary[key]=0
 		visits[id]=summary
 	if not visits.has(id): return {}
@@ -19,9 +19,15 @@ func observe(event: Dictionary) -> Dictionary:
 		"visit_time":
 			var key: String = str(p.get("kind",""))+"_ms"
 			if key in ["foreground_ms","background_ms","feedback_ms"]: s[key]+=maxi(0,int(p.get("duration_ms",0)))
-		"level_complete": s.completed=true
+		"level_complete":
+			s.completed=true
+			s.completed_during_visit=true
 		"official_run":
 			s.official_runs+=1
+			for field: String in ["model_version","case_set_version"]:
+				var identity: String=str(p.get(field,event.get(field,"unknown")))
+				if identity not in ["unknown","unspecified",""]:
+					s[field]=identity if not s.has(field) or s[field]==identity else "mixed"
 			var m: Dictionary = p.duplicate(); m.merge(p.get("metrics",{}),true)
 			for key: String in METRICS:
 				if m.has(key): s[key]=m[key]

@@ -27,6 +27,8 @@ def validate_score(p):
     if p.get('total_cycles')!=p['a_total_cycles']+p['b_total_cycles']: raise ValueError('case_sum')
     return p['total_cycles']>=1000 # Very fast plausible rows are held, never called verified.
 
+GROUP_FIELDS=("task_version","model_version","case_set_version","build_version","source_batch","background_cohort")
+
 def aggregate(db, source='external_player', mode='game'):
     groups={}
     for client,body in db.execute("SELECT client_id,body FROM events WHERE kind='event' ORDER BY received,id"):
@@ -34,18 +36,33 @@ def aggregate(db, source='external_player', mode='game'):
         if p.get('source')!=source or p.get('mode')!=mode or p.get('task_version')!=RULES['task_version'] or key not in RULES['tasks']: continue
         if p.get('event')!='visit_summary' or not p.get('visit_id'): continue
         # Distinct visit identities, not event retries or physical edges.
-        groups.setdefault(key,{})[(client,p['visit_id'])]=p
+        group=(key,tuple(str(p.get(field,"unknown")) for field in GROUP_FIELDS))
+        groups.setdefault(group,{})[(client,p['visit_id'])]=p
     tasks={}
-    for key,visits in groups.items():
+    for (key,versions),visits in groups.items():
         people=len({client for client,_ in visits}); rows=list(visits.values()); enough=people>=MIN_SAMPLE
-        completed=sum(p.get('completed') is True for p in rows)
+        learning=[p for p in rows if p.get('completed_on_entry') is False]
+        completed=sum(p.get('completed_during_visit') is True for p in learning)
+        repeat=sum(p.get('completed_on_entry') is True for p in rows)
+        learning_people=len({client for (client,_),p in visits.items() if p.get('completed_on_entry') is False})
         times=[p['foreground_ms'] for p in rows if not p.get('duration_unknown') and type(p.get('foreground_ms')) is int]
         hints={str(i):sum(p.get('max_hint_stage')==i for p in rows) for i in range(4)}
         strategies={s:sum(p.get('strategy')==s for p in rows) for s in ['direct','full','batch','cache','buffer','unknown']}
-        tasks[key]={'starts':len(rows),'completions':completed,'sample_installations':people,
-            'completion_percent':round(100*completed/len(rows),1) if enough else None,
+        entry={**dict(zip(GROUP_FIELDS,versions)),'starts':len(rows),'completions':completed,'sample_installations':people,
+            'learning_starts':len(learning),
+            'learning_median_foreground_ms':median([p['foreground_ms'] for p in learning if type(p.get('foreground_ms')) is int and not p.get('duration_unknown')]) if learning_people>=MIN_SAMPLE and any(type(p.get('foreground_ms')) is int and not p.get('duration_unknown') for p in learning) else None,
+            'repeat_visits':repeat,'completion_unknown_visits':len(rows)-len(learning)-repeat,
+            'completion_percent':round(100*completed/len(learning),1) if learning_people>=MIN_SAMPLE and learning else None,
             'median_foreground_ms':median(times) if enough and times else None,
             'hint_distribution':hints if enough else None,'strategies':strategies if enough else None,'small_sample':not enough}
+        tasks.setdefault(key,{'versions':[]})['versions'].append(entry)
+    for key,item in tasks.items():
+        versions=item['versions']
+        if len(versions)==1: item.update(versions[0])
+        else:
+            # Legacy clients can show counts, but never a misleading mixed-rule rate.
+            item.update(starts=sum(v['starts'] for v in versions),completions=sum(v['completions'] for v in versions),
+                completion_percent=None,median_foreground_ms=None,hint_distribution=None,strategies=None,small_sample=True)
     return {'api_version':1,'task_version':RULES['task_version'],'source':source,'mode':mode,
             'population':'consenting installations; visits may repeat; not all players', 'minimum_sample':MIN_SAMPLE,'tasks':tasks}
 

@@ -115,7 +115,7 @@ func remember_visit(domain: String, id: String) -> void:
 func prepare_continue() -> void:
 	var available: Array[Dictionary] = tasks()
 	for task: Dictionary in available:
-		if task.key==last_visited_task:
+		if task.key==last_visited_task and task.unlocked:
 			selected=task.key
 			camera_saved=false
 			return

@@ -32,6 +32,7 @@ var stale: bool = true
 var building: bool = false
 
 func _ready() -> void:
+	add_to_group("workspace_owners")
 	var skin := Theme.new()
 	skin.default_font_size = 18
 	preload("res://src/ui/instrument_theme.gd").apply_to(skin)
@@ -54,6 +55,7 @@ func _ready() -> void:
 	header.add_child(title)
 	_button(header,_l("任务树","Task tree"),_leave)
 	_button(header,_l("全屏","Fullscreen"),WindowMode.toggle_fullscreen)
+	header.add_child(WindowMode.settings_button())
 	header.add_child(PlaytestMoments.make_button())
 	var dock := HFlowContainer.new()
 	root.add_child(dock)
@@ -423,3 +425,6 @@ func _option(parent: Node, values: Array, selected: int, action: Callable) -> Op
 	option.select(selected); option.item_selected.connect(action); return option
 func _l(zh: String, en: String) -> String: return zh if Localization.current_locale().begins_with("zh") else en
 func _field(index: int) -> String: return _l(Memory.NAMES[index],Memory.EN_NAMES[index])
+
+func flush_workspace() -> void:
+	if not level.is_empty(): LayoutChapter.store_draft(level,design)

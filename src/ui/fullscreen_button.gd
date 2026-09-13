@@ -10,9 +10,14 @@ func _ready() -> void:
 	pressed.connect(WindowMode.toggle_fullscreen)
 	WindowMode.window_mode_changed.connect(_refresh)
 	_refresh(WindowMode.is_fullscreen())
+	call_deferred("_add_settings")
 
 
 func _refresh(fullscreen: bool) -> void:
 	text = Localization.text(
 		&"window.fullscreen.exit" if fullscreen else &"window.fullscreen.enter"
 	)
+
+func _add_settings() -> void:
+	if get_parent() is BoxContainer and get_tree().current_scene != null and get_tree().current_scene.scene_file_path != "res://src/ui/prototype_hub.tscn":
+		get_parent().add_child(WindowMode.settings_button())

@@ -37,6 +37,7 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size",30)
 	header.add_child(title)
 	header.add_child(PlaytestMoments.make_button())
+	header.add_child(WindowMode.settings_button())
 	search = LineEdit.new()
 	search.placeholder_text = _t("search")
 	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL

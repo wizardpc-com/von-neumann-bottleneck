@@ -42,6 +42,10 @@ var _signals_bound: bool = false
 var _legacy_signatures: bool = false
 var recovery_notice: StringName = &""
 var recovery_details: String = ""
+var _failure_dialog: AcceptDialog
+var _failure_export: FileDialog
+var _reported_save_error: String = ""
+var workbench_write_error: String = ""
 
 
 func _ready() -> void:
@@ -57,6 +61,7 @@ func _ready() -> void:
 	elif _is_automated_launch(arguments):
 		disk_write_allowed = false
 	else:
+		get_tree().auto_accept_quit = false
 		load_game()
 
 
@@ -66,7 +71,10 @@ func _exit_tree() -> void:
 
 
 func _notification(what: int) -> void:
-	if what in [NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_WM_CLOSE_REQUEST]:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and not get_tree().auto_accept_quit:
+		request_quit()
+	elif what == NOTIFICATION_APPLICATION_PAUSED:
+		get_tree().call_group("workspace_owners", "flush_workspace")
 		save_game()
 
 
@@ -176,7 +184,28 @@ func _recovery_failed(error: String) -> bool:
 
 
 func save_game(force: bool = false) -> bool:
+	var success: bool = _save_game_impl(force)
+	if not workbench_write_error.is_empty():
+		last_error=workbench_write_error
+		success=false
+	if success:
+		_reported_save_error = ""
+	elif is_inside_tree() and not _is_automated_launch(OS.get_cmdline_args()) and not _autoload(&"GameMode").is_test_mode():
+		if last_error.is_empty(): last_error = "Writing is disabled for this save."
+		if _reported_save_error != last_error:
+			_reported_save_error = last_error
+			call_deferred("_show_save_failure")
+	return success
+
+func _save_game_impl(force: bool = false) -> bool:
 	if not _writer_compatible(): return false
+	for name: StringName in [&"SystemChapter",&"LocalityChapter"]:
+		var chapter: Node=_autoload(name)
+		if chapter==null: continue
+		for workspace: Dictionary in chapter.game_workspaces.values():
+			if JSON.stringify(workspace).length()>100000:
+				last_error="Workspace exceeds the save size limit; export recovery before shortening it."
+				return false
 	if storage_path.is_empty():
 		return true
 	if not disk_write_allowed:
@@ -199,6 +228,9 @@ func save_game(force: bool = false) -> bool:
 func _has_saved_overlap_drafts() -> bool:
 	var overlap := _autoload(&"OverlapChapter")
 	var layout := _autoload(&"LayoutChapter")
+	var system := _autoload(&"SystemChapter")
+	var locality := _autoload(&"LocalityChapter")
+	if (system != null and not system.game_workspaces.is_empty()) or (locality != null and not locality.game_workspaces.is_empty()): return true
 	return (overlap != null and not overlap.game_drafts.is_empty()) or (layout != null and (not layout.game_drafts.is_empty() or not layout.game_named.is_empty()))
 
 
@@ -642,7 +674,11 @@ func _write_save(snapshot: Dictionary) -> bool:
 		return false
 	file.store_string(JSON.stringify(snapshot, "\t", false, true))
 	file.flush()
+	var write_error: Error=file.get_error()
 	file.close()
+	if write_error != OK:
+		last_error="Writing the temporary global save failed: " + error_string(write_error)
+		return false
 	if StringName(_read_save(temporary).get("status", &"corrupt")) != &"ok":
 		last_error = "Temporary global save validation failed."
 		_remove_file(temporary)
@@ -695,3 +731,65 @@ func _is_automated_launch(arguments: PackedStringArray) -> bool:
 		if argument.begins_with("--capture"):
 			return true
 	return false
+
+
+func request_quit() -> void:
+	get_tree().call_group("workspace_owners","flush_workspace")
+	if save_game():
+		get_tree().quit()
+	else:
+		_show_save_failure()
+
+func _show_save_failure() -> void:
+	if not is_inside_tree(): return
+	if not is_instance_valid(_failure_dialog):
+		_failure_dialog=AcceptDialog.new()
+		_failure_dialog.name="SaveFailureDialog"
+		_failure_dialog.min_size=Vector2i(520,230)
+		get_tree().root.add_child(_failure_dialog)
+		_failure_dialog.add_button(_autoload(&"Localization").text(&"save.failure.export"),false,"export")
+		_failure_dialog.add_button(_autoload(&"Localization").text(&"save.failure.quit"),false,"quit")
+		_failure_dialog.custom_action.connect(func(action: StringName) -> void:
+			if action==&"quit": get_tree().quit()
+			elif action==&"export": _choose_rescue_path())
+	_failure_dialog.title=_autoload(&"Localization").text(&"save.failure.title")
+	_failure_dialog.dialog_text=_autoload(&"Localization").text(&"save.failure.body")+"\n\n"+last_error
+	_failure_dialog.ok_button_text=_autoload(&"Localization").text(&"save.failure.stay")
+	_failure_dialog.popup_centered()
+
+func _choose_rescue_path() -> void:
+	if is_instance_valid(_failure_export): _failure_export.queue_free()
+	_failure_export=FileDialog.new()
+	_failure_export.access=FileDialog.ACCESS_FILESYSTEM
+	_failure_export.file_mode=FileDialog.FILE_MODE_SAVE_FILE
+	_failure_export.filters=PackedStringArray(["*.json ; Recovery data"])
+	_failure_export.current_file="vnb-recovery-"+str(int(Time.get_unix_time_from_system()))+".json"
+	get_tree().root.add_child(_failure_export)
+	_failure_export.file_selected.connect(func(path: String) -> void:
+		if export_rescue(path):
+			_failure_dialog.dialog_text=_autoload(&"Localization").text(&"save.failure.exported")+"\n"+path
+		else:
+			_failure_dialog.dialog_text=_autoload(&"Localization").text(&"save.failure.export_failed"))
+	_failure_export.popup_centered_ratio(0.7)
+
+func export_rescue(path: String) -> bool:
+	if path.is_empty(): return false
+	var destination: String = _global_path(path).simplify_path()
+	for protected: String in [storage_path, workbench_storage_path]:
+		var normal: String = _global_path(protected).simplify_path()
+		if destination in [normal, normal+".bak", normal+".tmp"]: return false
+	get_tree().call_group("workspace_owners", "flush_workspace")
+	var data: Dictionary={"recovery_format":1,"progress":_save_snapshot()}
+	var current_workbenches: Array = []
+	for owner: Node in get_tree().get_nodes_in_group("workspace_owners"):
+		if owner.has_method("workbench_recovery_data"): current_workbenches.append(owner.workbench_recovery_data())
+	data["current_workbenches"]=current_workbenches
+	# Keep rescue separate from normal saves; never bypass a future-writer guard.
+	if FileAccess.file_exists(_global_path(workbench_storage_path)):
+		data["workbenches_file"]=FileAccess.get_file_as_string(_global_path(workbench_storage_path))
+	var file := FileAccess.open(path,FileAccess.WRITE)
+	if file==null: return false
+	file.store_string(JSON.stringify(data,"\t",false,true));file.flush()
+	var success: bool=file.get_error()==OK
+	file.close()
+	return success

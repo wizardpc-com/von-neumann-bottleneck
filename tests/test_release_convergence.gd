@@ -16,7 +16,7 @@ func run() -> void:
 	var settings := ConfigFile.new(); settings.load(nav.NAVIGATION_PATH)
 	check(settings.get_value("navigation","last_visited_task")==nav.selected,"Recent task persists independently of telemetry and progress")
 	nav.last_visited_task="chapter_4/mixed"; nav.prepare_continue()
-	check(nav.selected=="chapter_4/mixed","Recent fourth-chapter selection is retained even when currently locked")
+	check(nav.selected=="hardware_foundations/tutorial","Locked recent task falls back to an available unfinished task")
 	check(not nav.enter("chapter_4/mixed"),"Navigation cannot unlock a task")
 	mode.set_mode(&"test"); nav.remember_visit("chapter_3","arrival")
 	check(nav.last_visited_task=="chapter_4/mixed","Test visits never replace Game navigation")

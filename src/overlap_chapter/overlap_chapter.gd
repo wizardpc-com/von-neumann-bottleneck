@@ -44,6 +44,7 @@ var save_elapsed: float = 0.0
 var draft_loading: bool = false
 
 func _ready() -> void:
+	add_to_group("workspace_owners")
 	var skin := Theme.new()
 	skin.default_font_size = Type.BODY_SIZE
 	preload("res://src/ui/instrument_theme.gd").apply_to(skin)
@@ -71,6 +72,7 @@ func _ready() -> void:
 		_save_draft()
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
 	_button(header,"fullscreen",WindowMode.toggle_fullscreen)
+	header.add_child(WindowMode.settings_button())
 	goal = Button.new()
 	goal.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	goal.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -924,3 +926,6 @@ func _button(parent: Node, key: String, action: Callable) -> Button:
 
 func _t(key: String) -> String:
 	return Localization.text(StringName("overlap."+key))
+
+func flush_workspace() -> void:
+	_save_draft()

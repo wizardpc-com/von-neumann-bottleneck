@@ -181,6 +181,8 @@ var pending_review_level_id: StringName = &""
 
 
 func _ready() -> void:
+	add_to_group("workspace_owners")
+	workspace_mode = &"test" if GameMode.is_test_mode() else &"game"
 	_build_theme()
 	_build_interface()
 	terminology_handbook = TerminologyHandbookType.new()
@@ -269,7 +271,14 @@ func _prepare_program_draft_capture() -> void:
 	_load_strategy(ProgramTemplatesType.ROW_FIRST, "row-first")
 
 
+var workspace_save_elapsed: float = 0.0
+var workspace_mode: StringName = &"game"
+
 func _process(delta: float) -> void:
+	workspace_save_elapsed += delta
+	if workspace_save_elapsed >= 2.0:
+		workspace_save_elapsed = 0.0
+		_save_level_workspace()
 	if not playback_running or current_trace == null:
 		return
 	if playback_index >= current_trace.events.size():
@@ -602,7 +611,12 @@ func _on_instrument_host_resized() -> void:
 
 
 func _build_mission_instrument() -> Control:
+	var container := VBoxContainer.new()
+	var footer := VBoxContainer.new()
 	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	container.add_child(scroll)
+	container.add_child(footer)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -657,7 +671,7 @@ func _build_mission_instrument() -> Control:
 	mission_review_button.text = _t(&"chapter2.review.finding")
 	mission_review_button.visible = false
 	mission_review_button.pressed.connect(_review_pending_finding)
-	panel.add_child(mission_review_button)
+	footer.add_child(mission_review_button)
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_child(spacer)
@@ -666,17 +680,17 @@ func _build_mission_instrument() -> Control:
 	mission_finish_button.text = _t(&"chapter2.capstone.finish")
 	mission_finish_button.visible = false
 	mission_finish_button.pressed.connect(_show_capstone_summary)
-	panel.add_child(mission_finish_button)
+	footer.add_child(mission_finish_button)
 	overlap_entry_button = Button.new()
 	overlap_entry_button.text = _t(&"overlap.enter_next")
 	overlap_entry_button.visible = false
 	overlap_entry_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/overlap_chapter/overlap_chapter.tscn"))
-	panel.add_child(overlap_entry_button)
+	footer.add_child(overlap_entry_button)
 	var map_button := Button.new()
 	map_button.text = _t(&"chapter2.map.return")
 	map_button.pressed.connect(_show_chapter_map)
-	panel.add_child(map_button)
-	return scroll
+	footer.add_child(map_button)
+	return container
 
 
 func _build_blocking_instrument() -> Control:
@@ -1011,6 +1025,7 @@ func _build_playback_panel() -> Control:
 
 
 func _show_chapter_map() -> void:
+	_save_level_workspace()
 	if level_completion_overlay != null:
 		level_completion_overlay.dismiss()
 	if not current_level_id.is_empty():
@@ -1062,6 +1077,7 @@ func _start_level(level_id: StringName) -> void:
 	if definition.is_empty():
 		_set_status(_t(&"chapter2.status.invalid_level"), BAD)
 		return
+	_save_level_workspace()
 	current_level_id = level_id
 	terminology_handbook.set_lesson("locality",String(current_level_id))
 	PlaytestData.level_started(&"chapter_2", current_level_id)
@@ -1071,6 +1087,14 @@ func _start_level(level_id: StringName) -> void:
 	current_block_lines = int(current_level.get("default_block_lines", 0))
 	current_cache_lines = int(current_level.get("default_cache_lines", 1))
 	current_bypass_cache = bool(current_level.get("bypass_cache", false)) or current_cache_lines == 0
+	var restored: Dictionary = LocalityChapter.workspace_for(level_id)
+	if not restored.is_empty() and not restored.get("stale",false):
+		var saved_lines: int=int(restored.get("cache_lines",current_cache_lines))
+		if saved_lines in current_level.get("cache_choices",[]): current_cache_lines=saved_lines
+		current_pass_count = int(current_level.get("pass_count",1))
+		var saved_blocks: int=int(restored.get("blocks",current_block_lines))
+		if saved_blocks in current_level.get("block_choices",[]): current_block_lines=saved_blocks
+		current_bypass_cache = current_cache_lines == 0
 	run_history.clear()
 	var paired_baseline: Variant = _paired_baseline_receipt(level_id)
 	if paired_baseline != null:
@@ -1114,14 +1138,20 @@ func _start_level(level_id: StringName) -> void:
 	applied_program_source = editor.text
 	last_executed_source = ""
 	last_run_receipt_text = ""
-	program_dirty = false
+	if not restored.is_empty():
+		var source: String = restored.get("applied_source",applied_program_source)
+		if DSLParserType.parse(source).is_valid(): applied_program_source=source
+		editor.set_block_signals(true)
+		editor.text=String(restored.get("draft_source",editor.text))
+		editor.set_block_signals(false)
+	program_dirty = editor.text != applied_program_source
 	debug_grid.visible = level_id == &"capstone"
 	debug_run_button.visible = level_id == &"capstone"
 	_configure_level_tools()
 	_refresh_level_decision_controls()
 	_configure_graph_for_level()
 	_auto_layout(false)
-	_invalidate_current_run(_t(&"chapter2.status.level_ready"))
+	_invalidate_current_run(_t(&"workspace.model_changed" if restored.get("stale",false) else &"workspace.restored" if not restored.is_empty() else &"chapter2.status.level_ready"))
 	_update_history_label()
 	_configure_mission()
 	_update_notebook()
@@ -1377,7 +1407,10 @@ func _update_mission_progress() -> void:
 
 
 func _on_level_completion_continue(_level_id: StringName) -> void:
-	if _level_id == &"capstone" and _present_chapter_feedback():
+	if _level_id == &"capstone":
+		_save_level_workspace()
+		TaskNavigation.selected="chapter_2/capstone"
+		get_tree().change_scene_to_file("res://src/campaign/task_tree.tscn")
 		return
 	_show_chapter_map()
 
@@ -1451,8 +1484,6 @@ func _open_playtest_export_folder(export_path: String) -> void:
 
 
 func _on_playtest_feedback_finished(scope: StringName, _subject_id: StringName) -> void:
-	if scope == &"chapter" and playtest_feedback_overlay.present_demo():
-		return
 	_show_chapter_map()
 
 
@@ -1507,6 +1538,8 @@ func _on_chapter_progression_changed() -> void:
 
 
 func _on_game_mode_changed(_mode: StringName) -> void:
+	_save_level_workspace()
+	workspace_mode = &"test" if GameMode.is_test_mode() else &"game"
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"chapter_2", current_level_id, &"mode_changed")
 	current_level_id = &""
@@ -1818,6 +1851,7 @@ func _refresh_level_decision_controls() -> void:
 
 
 func _capstone_baseline_pending() -> bool:
+	if GameMode.is_test_mode() or bool(LocalityChapter.completed_levels().get(&"capstone",false)): return false
 	return (
 		current_level_id == &"capstone"
 		and not catalog.capstone_baseline_seen(LocalityChapter.receipts_for(&"capstone"))
@@ -1845,6 +1879,7 @@ func _capstone_breakdown_locked() -> bool:
 
 
 func _capstone_first_experiment_pending() -> bool:
+	if bool(LocalityChapter.completed_levels().get(&"capstone",false)): return false
 	if (
 		current_level_id != &"capstone"
 		or GameMode.is_test_mode()
@@ -2123,7 +2158,7 @@ func _record_run(program: DSLProgramType, data: Array[int]) -> void:
 			current_level_id, current_trace, program.traversal_pattern(), data,
 			current_pass_count, current_block_lines, current_bypass_cache
 		)
-		LocalityChapter.record_receipt(current_level_id, receipt)
+		LocalityChapter.record_receipt(current_level_id, receipt, {"source":program.source,"cache_lines":current_cache_lines,"passes":current_pass_count,"blocks":current_block_lines,"bypass":current_bypass_cache})
 		if current_level_id == &"capstone":
 			LocalityChapter.retain_economical(program.source,current_cache_lines,current_pass_count,current_block_lines,current_bypass_cache)
 	_update_history_label()
@@ -2990,3 +3025,17 @@ func _set_status(message: String, color: Color) -> void:
 
 func _t(key: StringName, arguments: Array = []) -> String:
 	return Localization.text(key, arguments)
+
+
+func _exit_tree() -> void:
+	_save_level_workspace()
+
+func _save_level_workspace() -> void:
+	if current_level_id.is_empty() or not is_instance_valid(editor): return
+	LocalityChapter.retain_workspace(current_level_id,{
+		"draft_source":editor.text,"applied_source":applied_program_source,
+		"cache_lines":current_cache_lines,"passes":current_pass_count,
+		"blocks":current_block_lines,"bypass":current_bypass_cache},workspace_mode)
+
+func flush_workspace() -> void:
+	_save_level_workspace()

@@ -173,6 +173,7 @@ var terminology_handbook: TerminologyHandbookType
 
 
 func _ready() -> void:
+	add_to_group("workspace_owners")
 	active_mode = &"test" if GameMode.is_test_mode() else &"game"
 	_rebuild_catalog()
 	_build_theme()
@@ -306,7 +307,13 @@ func _focus_system_graph_for_keyboard() -> void:
 			graph_pan_keys[key] = true
 
 
+var workspace_save_elapsed: float = 0.0
+
 func _process(delta: float) -> void:
+	workspace_save_elapsed += delta
+	if workspace_save_elapsed >= 2.0:
+		workspace_save_elapsed = 0.0
+		_save_level_session()
 	_update_graph_keyboard_pan(delta)
 	if not playback_running or current_trace == null:
 		return
@@ -1237,10 +1244,15 @@ func _start_level(level_id: StringName) -> void:
 	_load_level_session()
 	order_selector.select(1 if applied_program_source == catalog.PROGRAM_COPY else 0)
 	_refresh_level_ui()
+	if not SystemChapter.workspace_for(current_level_id).is_empty(): status_label.text=_t(&"workspace.model_changed" if SystemChapter.workspace_for(current_level_id).get("stale",false) else &"workspace.restored")
 	for id: StringName in instrument_windows:
 		_close_instrument(id)
 	_open_instrument(&"parts")
 	_open_instrument(&"mission")
+
+
+func _exit_tree() -> void:
+	_save_level_session()
 
 
 func _save_level_session() -> void:
@@ -1269,6 +1281,7 @@ func _save_level_session() -> void:
 		"connections": connections,
 		"positions": positions,
 	}
+	SystemChapter.retain_workspace(current_level_id,level_sessions[_level_session_key(current_level_id)],active_mode)
 
 
 func _load_level_session() -> void:
@@ -1280,6 +1293,7 @@ func _load_level_session() -> void:
 	graph.clear_connection_presentations()
 	_set_selected_system_devices([] as Array[StringName])
 	var session: Dictionary = level_sessions.get(_level_session_key(current_level_id), {})
+	if session.is_empty(): session = SystemChapter.workspace_for(current_level_id)
 	if session.is_empty() and not GameMode.is_test_mode() and current_level_id in [&"read_once",&"two_orders"]:
 		var saved: Dictionary = SystemChapter.application_designs.get(String(current_level_id),{})
 		if not saved.is_empty():
@@ -1291,7 +1305,7 @@ func _load_level_session() -> void:
 	for kind: StringName in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
 		var default_part_id: StringName = catalog.default_part_id(current_level_id, kind)
 		var saved_part_id := StringName(session.get("part_ids", {}).get(kind, default_part_id))
-		selected_part_ids[kind] = default_part_id if diagnosis_sandbox_locked else saved_part_id
+		selected_part_ids[kind] = default_part_id if diagnosis_sandbox_locked or saved_part_id not in current_level_definition.get("%s_parts"%kind,[]) else saved_part_id
 	_populate_part_selectors()
 	var authored_source: String = String(current_level_definition.get("program_source", ""))
 	var source: String = authored_source if diagnosis_sandbox_locked else String(session.get("draft_source", authored_source))
@@ -1305,12 +1319,17 @@ func _load_level_session() -> void:
 	var saved_positions: Dictionary = session.get("positions", {})
 	for device_id: StringName in device_nodes:
 		var node: GraphNode = device_nodes[device_id]
-		node.position_offset = saved_positions.get(String(device_id), STANDARD_LAYOUT[device_id])
+		var point: Variant = saved_positions.get(String(device_id), STANDARD_LAYOUT[device_id])
+		if point is Array and point.size()==2: point=Vector2(float(point[0]),float(point[1]))
+		node.position_offset = point if point is Vector2 and point.is_finite() else STANDARD_LAYOUT[device_id]
 	var connections: Array = session.get("connections", [])
-	if connections.is_empty() and int(current_level_definition.get("order", 0)) > 0:
+	if not session.has("connections") and int(current_level_definition.get("order", 0)) > 0:
 		_connect_required_routes(false)
 	else:
-		for connection: Dictionary in connections:
+		for connection: Variant in connections:
+			if not connection is Dictionary: continue
+			if not connection.get("from_node","") in OUTPUT_NAMES or not connection.get("to_node","") in INPUT_NAMES: continue
+			if int(connection.get("from_port",-1)) not in range(OUTPUT_NAMES[connection.from_node].size()) or int(connection.get("to_port",-1)) not in range(INPUT_NAMES[connection.to_node].size()): continue
 			graph.connect_node(
 				StringName(connection["from_node"]), int(connection["from_port"]),
 				StringName(connection["to_node"]), int(connection["to_port"])
@@ -2260,7 +2279,7 @@ func _run_official() -> void:
 		current_level_id, latest_receipt.program_signature
 	)
 	if is_progression_evidence:
-		SystemChapter.record_receipt(current_level_id, latest_receipt)
+		SystemChapter.record_receipt(current_level_id, latest_receipt, {"source":applied_program_source,"parts":selected_part_ids.duplicate()})
 		SystemChapter.retain_application(current_level_id,applied_program_source,selected_part_ids,latest_receipt)
 	_refresh_comparison_part_lock()
 	if not is_progression_evidence:
@@ -3144,3 +3163,6 @@ func _select_order(index: int) -> void:
 	current_topology = _topology_from_graph()
 	_refresh_level_ui()
 	_refresh_device_titles()
+
+func flush_workspace() -> void:
+	_save_level_session()

@@ -431,8 +431,12 @@ func _application_status(id: StringName,receipts: Array) -> Dictionary:
 		"reason":&"complete" if done.size() == required else &"application_target","orders":done}
 
 func replay_application(id: StringName,source: String,parts: Dictionary) -> SystemRunReceipt:
+	if id not in [&"read_once",&"two_orders"]: return preload("res://src/system_lab/system_run_receipt.gd").new()
+	return replay_observation(id,source,parts)
+
+func replay_observation(id: StringName,source: String,parts: Dictionary) -> SystemRunReceipt:
 	var receipt := preload("res://src/system_lab/system_run_receipt.gd").new()
-	if id not in [&"read_once",&"two_orders"] or source.length()>16000: return receipt
+	if id not in level_ids() or source.length()>16000: return receipt
 	var program = preload("res://src/system_lab/system_dsl_parser.gd").parse(source)
 	if not program.is_valid() or not is_official_program_signature(id,program.canonical_signature()): return receipt
 	var topology := preload("res://src/system_lab/system_topology.gd").new()

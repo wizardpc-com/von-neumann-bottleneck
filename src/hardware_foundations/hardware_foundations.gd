@@ -260,6 +260,7 @@ var continue_after_seal: bool = false
 
 
 func _ready() -> void:
+	add_to_group("workspace_owners")
 	WindowMode.window_mode_changing.connect(_cancel_window_gestures)
 	game_player_content = GlobalSave.game_player_content
 	_configure_workbench_store()
@@ -2263,12 +2264,16 @@ func _save_active_workbench() -> bool:
 		or graph == null
 	):
 		return false
-	return workbench_store.save_workbench(
+	var success: bool = workbench_store.save_workbench(
 		active_workbench_namespace,
 		current_level_id,
 		active_workbench_name,
 		_capture_workbench_snapshot()
 	)
+	if not GameMode.is_test_mode():
+		GlobalSave.workbench_write_error = "" if success else workbench_store.last_error
+		if not success: GlobalSave.save_game()
+	return success
 
 
 func _tutorial_reference_wires() -> Array[Dictionary]:
@@ -8243,3 +8248,9 @@ func _delay_output_source() -> StringName:
 			return source
 		cursor = source
 	return &""
+
+func flush_workspace() -> void:
+	_flush_queued_workbench_save()
+
+func workbench_recovery_data() -> Dictionary:
+	return workbench_store.manifest_snapshot() if workbench_store != null else {}

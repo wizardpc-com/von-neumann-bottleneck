@@ -6482,3 +6482,36 @@ msgstr "周期"
 
 msgid "overlap.timeline.work"
 msgstr "独立工作"
+
+msgid "workspace.restored"
+msgstr "方案已恢复。草稿与已应用程序分别保留；请重新运行检查结果。"
+
+msgid "save.failure.title"
+msgstr "保存未完成"
+
+msgid "save.failure.body"
+msgstr "本次修改仍在内存中，尚未写入存档。可以继续游玩、选择其他位置导出救援文件，或明确选择退出。"
+
+msgid "save.failure.export"
+msgstr "导出救援文件"
+
+msgid "save.failure.quit"
+msgstr "不保存并退出"
+
+msgid "save.failure.stay"
+msgstr "继续游玩"
+
+msgid "save.failure.exported"
+msgstr "救援文件已保存。原存档未被替换，请保留此文件和原存档，供恢复使用。"
+
+msgid "save.failure.export_failed"
+msgstr "救援文件也未能写入，请选择其他可写入的位置。"
+
+msgid "settings.open"
+msgstr "设置"
+
+msgid "settings.shortcut"
+msgstr "设置 · F10"
+
+msgid "workspace.model_changed"
+msgstr "规则已更新，草稿仍保留；请检查并重新应用。"

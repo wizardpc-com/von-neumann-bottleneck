@@ -267,6 +267,9 @@ func _run() -> void:
 	main.call("_select_block_lines", 1, true)
 	_assert(int(main.get("current_block_lines")) == 0, "A second lever must remain blocked while the first experiment Trace is still unobserved.")
 	main.call("_start_level", &"capstone")
+	_assert(int(main.get("current_cache_lines")) == 4, "Re-entry retains the player configuration, without treating its old Trace as observed.")
+	main.call("_select_judgment", &"repeated_far_fetch")
+	main.call("_select_cache", 1, true)
 	main.call("_run_simulation", "Official Test Set")
 	main.call("_select_judgment", &"repeated_far_fetch")
 	main.call("_finish_playback")
@@ -294,7 +297,8 @@ func _run() -> void:
 	var summary_text: String = (completion_overlay.get("summary_label") as Label).text
 	_assert("642" in summary_text and "138" in summary_text and "4" in summary_text, "The final summary must compare the baseline with the best lower-cost solution.")
 	completion_overlay.call("_on_continue_pressed")
-	_assert((main.get("chapter_map_host") as Control).visible, "Continuing from the final summary must return to the Chapter 2 map.")
+	await process_frame
+	_assert(current_scene != null and current_scene.scene_file_path=="res://src/campaign/task_tree.tscn", "Final summary returns to the full task tree without forced chapter/demo feedback.")
 	main.call("_start_level", &"capstone")
 	await process_frame
 	var escape_event := InputEventKey.new()

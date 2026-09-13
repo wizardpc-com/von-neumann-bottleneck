@@ -40,10 +40,17 @@ var options_open_export_folder_button: Button
 var latest_export_path: String = ""
 var options_quit_button: Button
 var options_previous_focus: Control
+var settings_only: bool = false
+signal settings_closed
 
 
 func _ready() -> void:
 	_build_theme()
+	if settings_only:
+		_build_options_menu()
+		WindowMode.window_mode_changed.connect(_on_window_mode_changed)
+		_open_options_menu()
+		return
 	_build_interface()
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	SystemChapter.progression_changed.connect(_refresh_locality_entry)
@@ -79,6 +86,10 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if settings_only and _is_escape_press(event):
+		_close_options_menu()
+		get_viewport().set_input_as_handled()
+		return
 	if terminology_handbook != null and terminology_handbook.handle_escape(event):
 		get_viewport().set_input_as_handled()
 
@@ -136,7 +147,7 @@ func _build_interface() -> void:
 	title.add_theme_font_size_override("font_size", 28)
 	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", Color("bdceda"))
-	content.add_child(title)
+	content.add_child(preload("res://src/ui/brand_identity.gd").title_slot(Localization.current_locale(),title))
 	var mode_center := CenterContainer.new()
 	content.add_child(mode_center)
 	mode_selector = GameModeSelectorType.new()
@@ -485,8 +496,7 @@ func _fit_settings_panel() -> void:
 	panel.size=panel.custom_minimum_size
 
 func _reload_settings_locale() -> void:
-	WindowMode.reopen_settings=true
-	get_tree().reload_current_scene()
+	WindowMode.reload_localized_scene(settings_only)
 
 
 func _options_button(text: String) -> Button:
@@ -525,11 +535,11 @@ func _close_options_menu() -> void:
 	if is_instance_valid(options_previous_focus) and options_previous_focus.is_visible_in_tree():
 		options_previous_focus.grab_focus()
 	options_previous_focus = null
+	if settings_only: settings_closed.emit()
 
 
 func _quit_game() -> void:
-	GlobalSave.save_game()
-	get_tree().quit()
+	GlobalSave.request_quit()
 
 
 func _continue_game() -> void:

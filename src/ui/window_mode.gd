@@ -9,6 +9,9 @@ var frame_limit: int = 60
 var sound_enabled: bool = true
 var sound_volume: float = 0.7
 var reopen_settings: bool = false
+var settings_layer: CanvasLayer
+var _geometry_elapsed: float = 0.0
+var _saved_geometry: Dictionary = {}
 
 var _windowed_size: Vector2i = DESIGN_SIZE
 var _windowed_position: Vector2i = Vector2i.ZERO
@@ -35,6 +38,7 @@ func _ready() -> void:
 	if _is_deterministic_capture():
 		call_deferred("_configure_capture_window")
 	else:
+		call_deferred("_restore_window_geometry")
 		call_deferred("_configure_minimum_window")
 		call_deferred("_emit_current_mode")
 
@@ -44,6 +48,10 @@ func _input(event: InputEvent) -> void:
 		return
 	var key_event := event as InputEventKey
 	if not key_event.pressed or key_event.echo:
+		return
+	if key_event.keycode == KEY_F10:
+		open_settings()
+		get_viewport().set_input_as_handled()
 		return
 	var requested: bool = (
 		key_event.keycode == KEY_F11
@@ -186,3 +194,74 @@ func set_sound(enabled: bool, volume: float) -> void:
 func reset_presentation() -> void:
 	set_reduced_motion(false); set_frame_limit(60); set_sound(true,0.7)
 	get_node("/root/Localization").set_preferred_locale("zh_CN")
+
+
+func settings_button() -> Button:
+	var button := Button.new()
+	button.name="InLevelSettings"
+	button.text=Localization.text(&"settings.open")
+	button.tooltip_text=Localization.text(&"settings.shortcut")
+	button.custom_minimum_size=Vector2(80,38)
+	button.pressed.connect(open_settings)
+	return button
+
+func open_settings() -> void:
+	if is_instance_valid(settings_layer): return
+	get_viewport().gui_cancel_drag()
+	window_mode_changing.emit() # Existing hosts cancel gestures without editing their topology.
+	settings_layer=CanvasLayer.new(); settings_layer.layer=100
+	var host: Control=load("res://src/ui/prototype_hub.gd").new()
+	host.settings_only=true
+	host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	host.settings_closed.connect(func() -> void:
+		if is_instance_valid(settings_layer): settings_layer.queue_free()
+		settings_layer=null)
+	get_tree().root.add_child(settings_layer)
+	settings_layer.add_child(host)
+
+func reload_localized_scene(from_level: bool) -> void:
+	get_tree().call_group("workspace_owners","flush_workspace")
+	if not GlobalSave.save_game() and GlobalSave.disk_write_allowed:
+		return # Keep the current scene and unfinished work when storage fails.
+	var context: Dictionary=PlaytestData.current_task_context
+	if from_level and not context.is_empty():
+		TaskNavigation.selected=str(context.get("chapter_id",""))+"/"+str(context.get("level_id",""))
+		TaskNavigation.from_tree=true
+		TaskNavigation.pending=TaskNavigation.selected
+	if is_instance_valid(settings_layer): settings_layer.queue_free(); settings_layer=null
+	reopen_settings=not from_level
+	get_tree().reload_current_scene()
+	if from_level: call_deferred("open_settings")
+
+func _process(delta: float) -> void:
+	if _display_is_headless() or _is_deterministic_capture(): return
+	_geometry_elapsed+=delta
+	if _geometry_elapsed<2: return
+	_geometry_elapsed=0
+	_save_window_geometry()
+
+func _save_window_geometry() -> void:
+	if _display_is_headless() or _is_deterministic_capture(): return
+	var current: Dictionary={"fullscreen":is_fullscreen()}
+	if not is_fullscreen() and DisplayServer.window_get_mode()==DisplayServer.WINDOW_MODE_WINDOWED:
+		_windowed_size=DisplayServer.window_get_size()
+		_windowed_position=DisplayServer.window_get_position()
+		_has_windowed_rect=true
+	current["size"]=_windowed_size; current["position"]=_windowed_position
+	if current==_saved_geometry: return
+	_saved_geometry=current
+	var settings := ConfigFile.new(); settings.load("user://presentation.cfg")
+	for key: String in current: settings.set_value("window",key,current[key])
+	settings.save("user://presentation.cfg")
+
+func _restore_window_geometry() -> void:
+	var settings := ConfigFile.new()
+	if settings.load("user://presentation.cfg")!=OK or not settings.has_section("window"): return
+	var saved_size: Variant=settings.get_value("window","size",DESIGN_SIZE)
+	var saved_position: Variant=settings.get_value("window","position",Vector2i.ZERO)
+	if saved_size is Vector2i and saved_position is Vector2i:
+		_windowed_size=saved_size; _windowed_position=saved_position; _has_windowed_rect=true
+	if not bool(settings.get_value("window","fullscreen",true)): _leave_fullscreen()
+
+func _exit_tree() -> void:
+	_save_window_geometry()

@@ -6483,3 +6483,36 @@ msgstr "Cycles"
 
 msgid "overlap.timeline.work"
 msgstr "Work"
+
+msgid "workspace.restored"
+msgstr "Workspace restored · run to check."
+
+msgid "save.failure.title"
+msgstr "Could not save"
+
+msgid "save.failure.body"
+msgstr "Your latest changes are still in memory. Keep playing, export a recovery file to another location, or choose to quit without saving."
+
+msgid "save.failure.export"
+msgstr "Export recovery file"
+
+msgid "save.failure.quit"
+msgstr "Quit without saving"
+
+msgid "save.failure.stay"
+msgstr "Keep playing"
+
+msgid "save.failure.exported"
+msgstr "Recovery file saved. The original save was not replaced. Keep both files for recovery."
+
+msgid "save.failure.export_failed"
+msgstr "The recovery file could not be written. Choose another writable location."
+
+msgid "settings.open"
+msgstr "Settings"
+
+msgid "settings.shortcut"
+msgstr "Settings · F10"
+
+msgid "workspace.model_changed"
+msgstr "Rules changed. Draft kept; review and apply again."

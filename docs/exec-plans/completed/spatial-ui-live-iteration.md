@@ -1,5 +1,7 @@
 # Spatial UI and live player iteration
 
+Status: **COMPLETED — 2026-09-13**. External release gates remain in RELEASE_BLOCKERS.md.
+
 Goal: improve the game's visual finish, science-fiction character, spatial layering,
 typography and presentation, iterating from rendered and native player feedback.
 Keep reviewing related level content during those sessions and fix demonstrated
@@ -127,3 +129,19 @@ Chapter 1 RAM-wait reruns both cases at 134 each; the visible time strip matches
 metrics readable. No new rule or presentation change was needed for these checks.
 Continue with final full replay and a newly frozen candidate; do not use source
 success to close exported-package mouse or external platform gates.
+
+
+Final closure: isolated full source verification and English ordinary Game replay
+pass. Frozen `free-alpha-47a59d385103` contains the reviewed runtime; both archive
+identities/hashes and the actual Mac release-binary probe pass. Native exported Game
+now has reliable mouse control on this Mac: fresh-profile Tutorial was manually
+completed, including palette drag/undo, wiring, practice run, deletion/reconnection.
+Tree pan/zoom, normal quit/restart, Continue localization, saved wiring and persistent
+English/reduced-motion settings were observed. Bilingual windowed layouts remain
+readable. The post-play executable/PCK and archive hashes remain unchanged.
+See [final evidence](../../verification/20260913-spatial-candidate/README.md).
+
+All three scoped stages now have source and representative native evidence across
+the five regions. External novice, Windows, another Mac and extended DPI/focus
+acceptance remain explicit release gates, not unfinished replacement features.
+No chapter, rules, progression, simulation or persistent format changed in this plan.

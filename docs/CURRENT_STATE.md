@@ -14,24 +14,24 @@ Chapter 3 timeline labels use the theme font and exact elapsed time. Actual nati
 task-tree dragging now tolerates captured motion without a button mask, while
 release/focus cancellation remains. Native runs, restart recovery and final checks:
 [readable investigations](verification/20260913-readable-investigations/README.md).
-This remains development source, not a newly frozen candidate.
+These changes are included in the frozen candidate below.
 
 Current desktop follow-up preserves window/camera presentation across Hint return,
 clears stale tree routing on explicit chapter-card entry, and places Mission page
 actions above long bilingual explanations. Chapter 1 adds a gated compute/wait
 proportion view and quieter focused instrument frames. See [evidence](verification/20260913-desktop-continuity/README.md);
-this is source work, not a newly frozen candidate.
+the candidate below includes these changes and the native rechecks.
 
 Latest bilingual follow-up separates memory field/record/value, localizes cell
 inspection, keeps measurement units together and makes long captions follow window
 width. Shared instrument headings trim with a full tooltip. Native Chinese/English
 layout runs preserve the same results; [evidence and boundaries](verification/20260913-bilingual-memory/README.md).
 
-Ongoing spatial-UI/player iteration: raised chapter surfaces, static ambient depth,
+Completed spatial-UI/player iteration: raised chapter surfaces, static ambient depth,
 narrow-card emblem containment and task-tree region trays. Native Tutorial review
 found Hint expansion replacing its explanation with ordinary briefing; fixed while
-retaining independent spoiler confirmations. This is an active cross-region pass,
-not a new frozen candidate or whole-game acceptance. See [active plan](exec-plans/active/spatial-ui-live-iteration.md)
+retaining independent spoiler confirmations. Representative native sessions cover all five regions; external whole-game
+acceptance remains separate. See [completed plan](exec-plans/completed/spatial-ui-live-iteration.md)
 and [stage evidence](verification/20260913-spatial-ui/README.md).
 
 Bilingual editorial and typography pass: Chinese chapter titles remain 一线成机 /
@@ -82,10 +82,12 @@ full source commit into the exported project settings, manifests, README, change
 notes and ZIP names. A frozen identity cannot be overwritten. The game shows that
 same ID; the release-binary probe checks it against its adjacent manifest.
 
-Current frozen artifact: **free-alpha-7a18f039dc20**, content commit **7a18f03**.
+Current frozen artifact: **free-alpha-47a59d385103**, content commit **47a59d3**.
+The actual Mac candidate passed isolated release checks and native task-tree,
+Tutorial editing, completion, restart/Continue and English settings checks.
 Later evidence-only commits do not rename or overwrite those archives.
-[Current verification and package hashes](verification/20260912-bilingual-type/README.md).
-Earlier candidates, including `free-alpha-aa755796594a`, `free-alpha-427512c5a504` and `free-alpha-80105a7f5ea6`, and their reports are historical.
+[Current verification and package hashes](verification/20260913-spatial-candidate/README.md).
+Earlier candidates, including `free-alpha-7a18f039dc20`, `free-alpha-aa755796594a`, `free-alpha-427512c5a504` and `free-alpha-80105a7f5ea6`, and their reports are historical.
 The latest package remains offline by default and has not been publicly released.
 
 ## What remains

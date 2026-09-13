@@ -1,4 +1,4 @@
-# Final pre-public convergence — in progress
+# Final pre-public convergence — implementation and candidate evidence
 
 Baseline: `eec34c4`. Godot 4.7.1 stable, local Mac. No public release or live receiver.
 The supplied audit is a queue of findings, not proof that every proposal is a defect.
@@ -84,3 +84,42 @@ Final native recheck is blocked at the Mac lock screen. CUA reported automatic
 unlock paused due physical input; user was asked to unlock. No tool bypass or
 fabricated screenshot is used. Post-fix editing/restart and final candidate mouse
 checks remain visible acceptance items.
+
+## Frozen candidate
+
+Content commit: `0758388d22ae7f85c1af71cc7cb592a840966fff`.
+Candidate: `free-alpha-0758388d22ae`; subsequent documentation and non-content merge
+commits do not rename this immutable content. Both exports use Godot
+`4.7.1.stable.official.a13da4feb`. Numeric native versions: Windows `0.5.0.85`, Mac `1.0.85`.
+
+| Platform | ZIP | SHA-256 |
+|---|---|---|
+| Mac | `Von-Neumann-Bottleneck-macOS-free-alpha-0758388d22ae.zip` | `36bec02371853ff746addf1c220556f9af549fea2e1278372239754d8df13868` |
+| Windows | `Von-Neumann-Bottleneck-Windows-free-alpha-0758388d22ae.zip` | `e610a22ed40394148140f46f3de98a5e39578e368221c2e8edaded4e2a67f615` |
+
+Output directory: `build/free-alpha-0758388d22ae/`. Both complete archives pass
+`check-candidate-identity.py`: names, full source commit, adjacent manifests, every
+file digest and packaged README/change/known-issue notes agree.
+`verify-mac-candidate.py` passes against the actual release binary/PCK in an isolated
+copy (`.godot/package-qa/e7a07ff4683a/`). It confirms Game-only operation, no capture
+backdoor, 40 tasks, empty/off receiver, excluded development files and exact packaged
+Chapter 1/2 workspace fingerprints matching the source build manifest. This is a
+release-runtime probe, not a mouse playthrough. Original binary/PCK hashes unchanged.
+
+Final source restart repeated successfully against the final imported project:
+writer plus two independent reader processes retain invalid drafts, applied source
+and empty wiring without awarding completion.
+
+## Remaining acceptance queue
+
+1. Unlock this Mac, then recheck the fixed completed Chapter 2 capstone with actual
+   typing, Apply separation, map/home/restart recovery, pinned Mission footer and
+   Chinese/English in-level settings at the minimum window size.
+2. Operate the new candidate's tree, Tutorial palette/wires/delete/undo/Hint, quit and
+   Continue. Old `47a59d3` candidate mouse evidence does not close this new gate.
+3. Run the Windows EXE on actual Windows; another Mac first launch/signing decision,
+   external beginners and extended focus/Retina/mixed-DPI sessions remain external.
+4. No online endpoint, public release, purchase or identity setup has been performed.
+
+The implementation phases are complete; M5 native acceptance is explicitly open.
+Do not interpret suite counts or candidate integrity as proof of newcomer clarity.

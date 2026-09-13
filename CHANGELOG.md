@@ -6,6 +6,8 @@
 
 ### 2026-09-13 · 最后一轮发布前收敛
 
+本地候选：`free-alpha-0758388d22ae`，内容提交 `0758388d22ae`；尚未公开发行。
+
 - 第一、二章保存未应用草稿、已应用程序、部件与配置；重要观察记录按当前模型重新计算。恢复作品不授予通关。
 - 保存失败会提示，并提供独立恢复文件；继续游戏跳过锁定任务。
 - 关内复用完整设置，切换语言后回到原任务，记住窗口位置；第二章结束后回任务树。
@@ -45,6 +47,8 @@ README 改为中文首页与独立英文页，更新五区域介绍、运行方�
 ## English
 
 ### 2026-09-13 · Final pre-public convergence
+
+Local candidate: `free-alpha-0758388d22ae`, content commit `0758388d22ae`; not publicly released.
 
 - Preserve draft text, applied programs and configuration separately in Chapters 1/2. Recompute saved observations against the current model; restoration does not complete tasks.
 - Surface save failures with an independent recovery export. Continue skips locked tasks.

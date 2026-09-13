@@ -7,7 +7,7 @@ transfer earlier package acceptance to a new candidate without operating it.
 
 | Gate | Status | Required evidence |
 | --- | --- | --- |
-| Frozen candidate identity | **Replacement pending** | Previous: `free-alpha-47a59d385103`, content `47a59d3`; both archives and actual Mac release identity checked |
+| Frozen candidate identity | **Verified** | `free-alpha-0758388d22ae`, content `0758388d22ae`; both archives, all file hashes, packaged notes and actual Mac release/workspace identity checked |
 | Latest Windows native | **Pending** | Actual EXE start, tree/Continue, editing, keyboard/focus, DPI, save/restart |
 | Another Mac install | **Pending** | Download/unzip/first launch and save; signature/notarization decision and clean-machine checks |
 | External beginner play | **Pending** | Unassisted entry, Tutorial, branch selection, Hint understanding and concrete feedback |

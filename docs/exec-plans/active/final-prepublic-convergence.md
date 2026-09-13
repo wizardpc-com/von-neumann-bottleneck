@@ -76,3 +76,8 @@ F11/F12: local branding contract and pinned minimal CI implemented; hosted run p
 F13/F14: 40-task catalog inventory and short owner workflows generated; matrix explicitly
 does not invent per-task native or alternative-solution coverage.
 M5: final 37-suite run passes; frozen exports, identity and native gate remain open.
+
+M5 update: both immutable candidates exported from `0758388d22ae`, archive and actual
+Mac release checks pass, including workspace identity after bytecode export. Final
+native mouse/editing recheck remains open because the Mac is locked. This plan stays
+active for that bounded acceptance queue; no additional content work is authorized.

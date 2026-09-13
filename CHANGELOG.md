@@ -4,6 +4,15 @@
 
 ## 简体中文
 
+### 2026-09-14 · 原生试玩修正
+
+候选：`free-alpha-3b0afc5a4234`，内容提交 `3b0afc5a4234`，未公开发行。
+
+- 返回任务树保留视野；被遮住或收起的工具可一次唤起。
+- 第一章支线编号使用真实任务数；语法错误不再重复提示“程序为空”。
+- 原生检查确认草稿／语言／重启恢复，实际完成“一取再用”，重跑双缓冲与布局综合关。
+- [完整证据与导出包鼠标验收边界](docs/verification/20260914-native-followup/README.md)。
+
 ### 2026-09-13 · 最后一轮发布前收敛
 
 本地候选：`free-alpha-6c5c59df6c26`，内容提交 `6c5c59df6c26`；尚未公开发行。
@@ -45,6 +54,15 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-09-14 · Native playtest fixes
+
+Candidate: `free-alpha-3b0afc5a4234`, content `3b0afc5a4234`; not publicly released.
+
+- Preserve the view when returning to the tree; recall covered or minimized tools with one click.
+- Use the actual Chapter 1 task count; omit the redundant empty-program message after syntax errors.
+- Native checks cover draft/language/restart recovery, a player-built read-once solution, double buffering and the layout capstone.
+- [Evidence and remaining exported-input acceptance](docs/verification/20260914-native-followup/README.md).
 
 ### 2026-09-13 · Final pre-public convergence
 

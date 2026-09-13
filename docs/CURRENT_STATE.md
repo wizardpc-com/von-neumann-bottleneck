@@ -14,7 +14,7 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 Chapter 1 optimization and restart, Chapter 2 draft/locale/restart recovery, Chapter 3
 double-buffer and Chapter 4 mixed-layout reruns. Fixed tree re-entry camera drift,
 covered-tool recall, a stale 6/5 branch counter and redundant empty-source diagnosis.
-A newer candidate is being frozen; earlier package mouse acceptance is separate.
+Current candidate: **free-alpha-3b0afc5a4234**, content **3b0afc5a4234**. Source-native checks and export/runtime identity pass. The final exported hub is visible, but CUA mouse calls report `noWindowsAvailable`; its mouse walkthrough remains a manual gate. The owner requested no further speculative changes.
 
 ## Final pre-public convergence
 
@@ -31,7 +31,7 @@ maintenance use explicit local contracts. No new content or public service.
 · [40-task inventory](development/task-matrix.md).
 Final full isolated suites pass. The Mac lock-screen interruption was cleared in the 2026-09-14 source follow-up;
 see the new native evidence above.
-New candidate: **free-alpha-6c5c59df6c26** from **6c5c59df6c26ab3831b00c661c7d9992404fca4e**. Mac/Windows exports, all archive hashes and packaged notes agree. The actual Mac release probe passes, including source/export workspace identities. Final candidate mouse interaction remains pending. Earlier artifacts stay immutable.
+Previous convergence candidate: **free-alpha-6c5c59df6c26** from **6c5c59df6c26ab3831b00c661c7d9992404fca4e**. Mac/Windows exports, all archive hashes and packaged notes agree. The actual Mac release probe passes, including source/export workspace identities. Final candidate mouse interaction remains pending. Earlier artifacts stay immutable.
 
 ## Earlier behavior retained
 
@@ -103,7 +103,9 @@ the selected language. Native reset/title/Tab checks are complete.
 
 ## Build identity and current evidence
 
-**Current candidate: free-alpha-6c5c59df6c26.**
+**Current candidate: free-alpha-3b0afc5a4234.**
+[Native follow-up and package evidence](verification/20260914-native-followup/README.md).
+Previous convergence package: `free-alpha-6c5c59df6c26`.
 [Final convergence evidence and hashes](verification/20260913-final-convergence/README.md).
 Later documentation/merge commits do not modify that frozen content.
 

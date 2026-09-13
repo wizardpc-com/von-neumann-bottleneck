@@ -55,4 +55,35 @@ hit a test-only native-class name collision, then a preload-before-autoload boun
 Load the panel after autoload initialization; final added suite passes in
 `targeted-1789315479`. No runtime/simulation change was needed for these test fixtures.
 
-Final exported-candidate mouse walkthrough remains to be recorded below.
+## Frozen candidate and remaining boundary
+
+Final content: `3b0afc5a4234`; candidate `free-alpha-3b0afc5a4234`.
+Both archives and all file hashes/packaged notes pass identity checks. Actual Mac
+release runtime probe passes, including 40 tasks, Game-only features, empty/off remote
+endpoint and exact source/export workspace fingerprints (`package-qa/76c32bae8fe7`).
+
+The QA-only copy uses a unique app identity and isolated fresh user directory. Its
+actual Chinese hub visibly shows the correct candidate ID, one initially available
+region, locked later regions and disabled Continue. App discovery stalled for about
+27 minutes before returning the visible window. Both mouse entry attempts returned
+`noWindowsAvailable`, including after accessibility Raise. The screenshot remains a
+normal hub. This is not sufficient evidence of a game input bug, nor of a successful
+candidate mouse walkthrough. No speculative game change was made to work around it.
+
+Source-native interaction/restart checks are complete as recorded above; the final
+export's mouse/quit/Continue path remains pending manual verification on this Mac.
+Windows native, another Mac installation and extended DPI/focus/newcomer checks remain
+separate. The user requested stopping changes once no further major issues are found;
+implementation stops here, with the candidate and explicit acceptance boundaries.
+
+
+| Platform | ZIP SHA-256 |
+|---|---|
+| macOS | `7dafc172660ca896b215b62ccf91923b48b9e4c46f08222b360034e4a7687139` |
+| Windows | `eff8b3e2c8b25f1dc3caee8ea2b5cab0d79bdc86a9606cf231c4a2215e4b17be` |
+
+Final hosted CI passes, including all 38 Godot suites and Python contracts:
+https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/34767778611
+Original player data remains byte-identical across all 18 backed-up files.
+The candidate QA process was stopped from its idle hub after the control-tool
+failure; this does not count as an in-game quit/restart test.

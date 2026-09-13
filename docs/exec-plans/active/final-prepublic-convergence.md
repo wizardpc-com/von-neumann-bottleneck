@@ -96,3 +96,10 @@ Scope this follow-up to navigation and presentation; no simulation/save model ch
 Use shared FloatingInstrumentPanel visibility/overlap semantics in five existing
 hosts: covered/minimized tools raise and restore, an unobscured open tool still toggles
 closed. Verify with targeted contracts and native play, then freeze a fresh candidate.
+
+2026-09-14 outcome: native source recovery, tool recall, map return, task header and
+Chapter 1/3/4 results verified. New candidate `free-alpha-3b0afc5a4234` passes package
+and actual Mac runtime identity. Its hub renders normally; CUA app discovery stalled
+and click calls fail with `noWindowsAvailable`, so exported mouse acceptance remains
+open. User requested no further changes absent major defects. Stop implementation;
+retain the explicit manual/platform acceptance queue rather than inventing fixes.

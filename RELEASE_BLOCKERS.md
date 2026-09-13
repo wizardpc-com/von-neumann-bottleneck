@@ -2,12 +2,13 @@
 
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
-Final-convergence source native recheck paused at the Mac lock screen; do not
-transfer earlier package acceptance to a new candidate without operating it.
+Final source recheck now passes; the final exported candidate hub is visible but
+CUA mouse attempts return `noWindowsAvailable`. Do not transfer source/older package
+acceptance to the new candidate without operating it.
 
 | Gate | Status | Required evidence |
 | --- | --- | --- |
-| Frozen candidate identity | **Verified** | `free-alpha-6c5c59df6c26`, content `6c5c59df6c26`; both archives, all file hashes, packaged notes and actual Mac release/workspace identity checked |
+| Frozen candidate identity | **Verified** | `free-alpha-3b0afc5a4234`, content `3b0afc5a4234`; both archives, all file hashes, packaged notes and actual Mac release/workspace identity checked |
 | Latest Windows native | **Pending** | Actual EXE start, tree/Continue, editing, keyboard/focus, DPI, save/restart |
 | Another Mac install | **Pending** | Download/unzip/first launch and save; signature/notarization decision and clean-machine checks |
 | External beginner play | **Pending** | Unassisted entry, Tutorial, branch selection, Hint understanding and concrete feedback |

@@ -70,6 +70,27 @@ prologue CPU/RAM source signatures + selected compatible parts
 
 Chapter 1 progression receipts additionally require the authored per-level program signature. Custom programs can execute as debug evidence but cannot enter controlled comparisons. Before the first final diagnosis, the authored program and default machine parts remain fixed alongside the hidden breakdown.
 
+## Workspace and presentation continuity
+
+Chapter 1 and Chapter 2 keep task-scoped draft text, separately applied source and
+configuration in their existing state domains. `ChapterWorkspace` encodes bounded
+JSON; restoring a draft neither executes it nor awards progress. Observations are
+bounded recipes replayed against current model/source fingerprints. Export binds
+those fingerprints before scripts become bytecode. Unknown future save fields keep
+the existing writer protection. Model changes preserve editable text and a previous
+snapshot, while requiring configuration/results to be checked again.
+
+Scene changes, language changes and quit flush workspace owners. Failed file writes
+remain visible; optional independent recovery JSON includes available in-memory
+workbenches without replacing normal saves. It is local player content, not telemetry.
+
+`WindowMode` opens the hub's existing settings in a shared in-level overlay, cancels
+unfinished gestures, and persists windowed geometry. Language reload returns to the
+same task after flushing work. Branding uses one optional local `brand.cfg`, with
+language-specific text fallback and unchanged application/save identity.
+
+Maintenance, branding and receiver workflows: [owner guide](docs/development/final-maintenance.md).
+
 ## Subsystems
 
 - `src/game/game_mode.gd` owns the explicit session-wide Game/Test mode. Game is the default and hides mode/QA controls; only the `--test-mode` CLI authority exposes the shared selector and Test tooling. Test unlocks valid registered levels through a separate temporary content state and never changes simulation or Game-mode progression.

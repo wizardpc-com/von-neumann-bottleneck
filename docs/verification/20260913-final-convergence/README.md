@@ -70,3 +70,17 @@ Real synthetic local integrations completed:
 
 All integration identities, notes and metrics are synthetic. No public endpoint,
 real player logs, credentials or production database were used.
+
+## Final source checks
+
+`20260913T153717Z-afafba18`: all 37 conventional Godot suites pass after the
+singleton lookup fix. Import and isolated-user-directory probe also pass. The
+previous English ordinary Game replay was 633/0; that was before the final
+singleton/optional-brand wiring, so it is not a final native acceptance claim.
+Python branding contract passes. Source compilation of the packaging scripts passes
+with an isolated Python cache (the default macOS cache was sandbox-restricted).
+
+Final native recheck is blocked at the Mac lock screen. CUA reported automatic
+unlock paused due physical input; user was asked to unlock. No tool bypass or
+fabricated screenshot is used. Post-fix editing/restart and final candidate mouse
+checks remain visible acceptance items.

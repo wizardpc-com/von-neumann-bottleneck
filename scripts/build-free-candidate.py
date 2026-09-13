@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build both free candidates from one committed Git archive, never live player data."""
-import argparse,datetime,hashlib,io,json,re,shutil,subprocess,tarfile,zipfile
+import argparse,datetime,hashlib,io,json,re,shutil,subprocess,tarfile,zipfile,importlib.util
 from pathlib import Path
 
 def main():
@@ -21,12 +21,37 @@ def main():
     output=root/'build'/build_id
     if output.exists(): raise ValueError('Candidate already exists; never overwrite a frozen identity: '+build_id)
     output.mkdir(parents=True)
+    spec=importlib.util.spec_from_file_location('branding',project/'scripts/check-branding.py')
+    branding=importlib.util.module_from_spec(spec);spec.loader.exec_module(branding)
+    brand=branding.read_brand(project)
     original=(project/'project.godot').read_text()
+    original=re.sub(r'config/icon="[^"]*"','config/icon="'+brand['app_icon']+'"',original)
+    presets=(project/'export_presets.cfg').read_text()
+    # Native numeric versions identify the frozen Git content without reusing a date label.
+    revision=int(subprocess.check_output(['git','rev-list','--count',commit],cwd=root,text=True))
+    numeric='0.5.'+str(revision//65536)+'.'+str(revision%65536)
+    for key in ['file_version','product_version']:
+        presets=re.sub(r'application/'+key+r'="[^"]*"','application/'+key+'="'+numeric+'"',presets)
+    mac_version=str(1+revision//10000)+'.'+str((revision//100)%100)+'.'+str(revision%100)
+    presets=re.sub(r'application/version="[^"]*"','application/version="'+mac_version+'"',presets)
+    if brand.get('native_icon_windows'):
+        presets=presets.replace('[preset.0.options]','[preset.0.options]\napplication/icon="'+brand['native_icon_windows']+'"')
+    if brand.get('native_icon_macos'):
+        presets=presets.replace('[preset.1.options]','[preset.1.options]\napplication/icon="'+brand['native_icon_macos']+'"')
+    (project/'export_presets.cfg').write_text(presets)
     original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"')
+    # Bind binary-exported scripts to the same workspace model fingerprints as source.
+    workspace_versions={}
+    for state in ['src/system_lab/system_chapter_state.gd','src/locality_chapter/locality_chapter_state.gd']:
+        source=(project/state).read_text()
+        paths=json.loads(re.search(r'Workspace.fingerprint\((\[.*?\])\)',source).group(1))
+        signature='workspace-v1'+''.join(hashlib.sha256((project/path.removeprefix('res://')).read_bytes()).hexdigest() for path in paths)
+        workspace_versions[paths[0]]=hashlib.sha256(signature.encode()).hexdigest()
+    original=original.replace('[application]','[application]\nworkspace_versions='+json.dumps(workspace_versions))
     (project/'project.godot').write_text(original)
     identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n\n'
-    for document in ['README.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
+    for document in ['README.md','README.en.md','CHANGELOG.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
         path=project/document
         path.write_text(identity+path.read_text().replace('@BUILD_ID@',build_id).replace('@SOURCE_COMMIT@',commit))
     isolated=original.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="VonNeumannBottleneckChecks/build-'+stamp+'"')
@@ -44,7 +69,7 @@ def main():
     run('licenses',['--script','res://candidate_license_probe.gd']);probe.unlink()
     (project/'project.godot').write_text(original)
     # Exporters themselves do not start the game. Native QA uses a separate override.
-    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'platforms':{}}
+    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
     for platform,preset,binary in [('macOS','macOS Free Candidate','Von-Neumann-Bottleneck.app'),('Windows','Windows Playtest','Von-Neumann-Bottleneck.exe')]:
         folder=output/platform;folder.mkdir()
         run('export-'+platform,['--export-release',preset,str(folder/binary)])

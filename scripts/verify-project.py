@@ -18,6 +18,7 @@ def main():
     parser.add_argument('--gui', action='store_true', help='Also replay the ordinary Game GUI')
     parser.add_argument('--locale', choices=('zh_CN', 'en'), default='zh_CN')
     parser.add_argument('--interaction-only', action='store_true', help='Short Tutorial GUI replay')
+    parser.add_argument('--suite', action='append', help='Run only these conventional suite stems (repeatable)')
     args = parser.parse_args()
     engine = shutil.which(args.godot) or str(Path(args.godot).expanduser().resolve())
     version = subprocess.check_output([engine, '--version'], text=True).strip()
@@ -95,6 +96,10 @@ def main():
     if not run('user_directory', ['--headless', '--script', 'res://verify_user_directory.gd']):
         return 1
     suites = sorted((project / 'tests').glob('test_*.gd'))
+    if args.suite:
+        known = {p.stem for p in suites}
+        if set(args.suite)-known: parser.error('Unknown suites: '+str(set(args.suite)-known))
+        suites = [p for p in suites if p.stem in args.suite]
     for suite in suites:
         if suite.stem != 'test_recovery_game_input':
             run(suite.stem, ['--headless', '--script', 'res://tests/' + suite.name], True)

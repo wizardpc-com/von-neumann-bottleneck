@@ -534,7 +534,14 @@ The Prologue Playability Rework Round 2 on 2026-08-28 reran all fourteen `tests/
 
 ## CI status
 
-There is intentionally no GitHub Actions workflow yet. Local commands are reliable, but exact Godot 4.7.1 provisioning on the selected GitHub runner has not been validated in this repository. Add CI only after the runner installation method is reproducible and the same commands have passed there once; do not configure a required status check before that job exists.
+`.github/workflows/verify.yml` now runs the existing Python synthetic contracts and
+isolated Godot suites on push/PR. The official engine is fixed to 4.7.1 and its release
+checksum is checked. Runner execution is not yet established as a required check;
+inspect the first actual run before enabling branch protection. No secrets, exports
+or deployment run in this workflow. Native acceptance remains separate.
+
+Use `--suite test_chapter_workspaces --suite test_final_convergence` (repeatable) with
+the isolated verifier for narrow save/settings rechecks; omit `--suite` for the full run.
 
 ## Community preparation, 2026-09-11
 

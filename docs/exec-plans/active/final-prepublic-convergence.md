@@ -62,3 +62,17 @@ M2 report summary/version separation and queue recovery implemented with synthet
 regressions. M4 optional branding contract and pinned CI added; matrix/maintenance
 handoff being generated. Final native recheck, full runs and candidate remain open.
 See `docs/verification/20260913-final-convergence/README.md` for evidence boundaries.
+
+## Final implementation ledger
+
+F01/F02: task workspaces and bounded replayable observations implemented and verified
+through JSON and three-process restart. F03/F04/F05: summary consumption, separate
+version/cohort groups and entry/during completion semantics verified synthetically.
+F06: reserved queue priorities, persisted pressure counters and transient/permanent
+failure recovery verified, including actual loopback lifecycle. F07/F08: return to
+tree and shared settings/geometry implemented; final native recheck pending lock screen.
+F09/F10: visible save error/rescue and unlocked Continue fallback verified.
+F11/F12: local branding contract and pinned minimal CI implemented; hosted run pending.
+F13/F14: 40-task catalog inventory and short owner workflows generated; matrix explicitly
+does not invent per-task native or alternative-solution coverage.
+M5: final 37-suite run passes; frozen exports, identity and native gate remain open.

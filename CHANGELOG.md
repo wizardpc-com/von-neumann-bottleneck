@@ -4,6 +4,17 @@
 
 ## 简体中文
 
+### 2026-09-13 · 最后一轮发布前收敛
+
+- 第一、二章保存未应用草稿、已应用程序、部件与配置；重要观察记录按当前模型重新计算。恢复作品不授予通关。
+- 保存失败会提示，并提供独立恢复文件；继续游戏跳过锁定任务。
+- 关内复用完整设置，切换语言后回到原任务，记住窗口位置；第二章结束后回任务树。
+- 修复旧档已完成综合关误锁编辑器，任务说明底部操作保持可见。
+- 统计报告正确读取访问汇总，分离版本和玩家分组；暂时断网可持续补发，队列优先保留意见等重要记录。
+- 预留 Logo／图标替换接口，增加隔离 CI、40 任务维护表和操作手册。
+
+[本轮证据与候选状态](docs/verification/20260913-final-convergence/README.md)。未修改 40 任务、仿真和解锁规则，未配置公网服务。
+
 ### 2026-09-13 · 双语界面与空间层次打磨
 
 候选构建：`free-alpha-47a59d385103`。内容提交：`47a59d385103`。
@@ -32,6 +43,17 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-09-13 · Final pre-public convergence
+
+- Preserve draft text, applied programs and configuration separately in Chapters 1/2. Recompute saved observations against the current model; restoration does not complete tasks.
+- Surface save failures with an independent recovery export. Continue skips locked tasks.
+- Reuse full settings during play, restore the task after language changes and remember window geometry. Chapter 2 completion returns to the tree.
+- Fix a completed capstone's locked editor after legacy restart; keep Mission actions outside long scrolling explanations.
+- Read visit summaries correctly, separate version/cohort groups and recover queues after prolonged transient outages.
+- Add optional branding slots, isolated CI, a 40-task maintenance inventory and owner workflows.
+
+[Evidence and candidate status](docs/verification/20260913-final-convergence/README.md). The 40 tasks, simulation and unlock rules remain; no public service is configured.
 
 ### 2026-09-13 · Bilingual presentation and spatial UI polish
 

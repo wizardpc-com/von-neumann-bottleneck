@@ -17,14 +17,23 @@ static func texture(path: String) -> Texture2D:
 static func title_slot(locale: String, title: Label, values: Dictionary = {}) -> Control:
 	if values.is_empty(): values=settings()
 	var logo: Texture2D=texture(str(values.get("logo_zh" if locale.begins_with("zh") else "logo_en","")))
-	if logo==null or logo.get_width()<=0 or logo.get_height()<=0: return title
+	var symbol: Texture2D=texture(str(values.get("symbol","")))
+	if logo==null and symbol==null: return title
 	var box := CenterContainer.new()
 	box.name="BrandLogoSlot"; box.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	var view := TextureRect.new()
-	view.texture=logo; view.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
-	view.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	view.custom_minimum_size=Vector2(360,64)
-	view.mouse_filter=Control.MOUSE_FILTER_IGNORE; view.focus_mode=Control.FOCUS_NONE
-	box.add_child(view)
-	title.free()
+	var row := HBoxContainer.new();row.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation",12);box.add_child(row)
+	if symbol!=null:
+		var mark := TextureRect.new();mark.texture=symbol
+		mark.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;mark.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		mark.custom_minimum_size=Vector2(40,40);mark.mouse_filter=Control.MOUSE_FILTER_IGNORE
+		row.add_child(mark)
+	if logo!=null and logo.get_width()>0 and logo.get_height()>0:
+		var view := TextureRect.new()
+		view.texture=logo; view.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+		view.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		view.custom_minimum_size=Vector2(360,64)
+		view.mouse_filter=Control.MOUSE_FILTER_IGNORE; view.focus_mode=Control.FOCUS_NONE
+		row.add_child(view);title.free()
+	else: row.add_child(title)
 	return box

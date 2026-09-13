@@ -32,6 +32,8 @@ func _ready() -> void:
 	set_process_input(true)
 	if _display_is_headless():
 		return
+	var icon: Texture2D=preload("res://src/ui/brand_identity.gd").texture(str(preload("res://src/ui/brand_identity.gd").settings().get("app_icon","")))
+	if icon != null: DisplayServer.set_icon(icon.get_image())
 	Engine.max_fps=frame_limit
 	get_window().focus_entered.connect(func() -> void: Engine.max_fps=frame_limit)
 	get_window().focus_exited.connect(func() -> void: Engine.max_fps=15)
@@ -199,8 +201,8 @@ func reset_presentation() -> void:
 func settings_button() -> Button:
 	var button := Button.new()
 	button.name="InLevelSettings"
-	button.text=Localization.text(&"settings.open")
-	button.tooltip_text=Localization.text(&"settings.shortcut")
+	button.text=get_node("/root/Localization").text(&"settings.open")
+	button.tooltip_text=get_node("/root/Localization").text(&"settings.shortcut")
 	button.custom_minimum_size=Vector2(80,38)
 	button.pressed.connect(open_settings)
 	return button
@@ -221,13 +223,15 @@ func open_settings() -> void:
 
 func reload_localized_scene(from_level: bool) -> void:
 	get_tree().call_group("workspace_owners","flush_workspace")
-	if not GlobalSave.save_game() and GlobalSave.disk_write_allowed:
+	var save: Node=get_node("/root/GlobalSave")
+	if not save.save_game() and save.disk_write_allowed:
 		return # Keep the current scene and unfinished work when storage fails.
-	var context: Dictionary=PlaytestData.current_task_context
+	var context: Dictionary=get_node("/root/PlaytestData").current_task_context
+	var navigation: Node=get_node("/root/TaskNavigation")
 	if from_level and not context.is_empty():
-		TaskNavigation.selected=str(context.get("chapter_id",""))+"/"+str(context.get("level_id",""))
-		TaskNavigation.from_tree=true
-		TaskNavigation.pending=TaskNavigation.selected
+		navigation.selected=str(context.get("chapter_id",""))+"/"+str(context.get("level_id",""))
+		navigation.from_tree=true
+		navigation.pending=navigation.selected
 	if is_instance_valid(settings_layer): settings_layer.queue_free(); settings_layer=null
 	reopen_settings=not from_level
 	get_tree().reload_current_scene()

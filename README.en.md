@@ -36,6 +36,8 @@ A construction and optimization puzzle about computers and the data they move. S
 
 The game uses deterministic, deliberately simplified models. Ordinary wires add no latency; waiting and bandwidth belong to modeled components such as Bus, RAM and Cache. Playback speed never changes the result.
 
+This update preserves unfinished Chapter 1/2 work, brings settings into play, and improves save recovery and feedback reporting. See the [maintenance guide](docs/development/final-maintenance.md) for future branding, task changes and receiver setup, and the [verification record](docs/verification/20260913-final-convergence/README.md) for remaining acceptance checks.
+
 ## Getting started
 
 ### Run from source

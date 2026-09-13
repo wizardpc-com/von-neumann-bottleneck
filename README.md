@@ -36,6 +36,8 @@
 
 关卡采用确定性的简化模型。普通连线只表示连接，没有额外延迟；等待与带宽来自 Bus、RAM、Cache 等被建模的部件。动画快慢不改变计算结果。
 
+本轮补齐第一、二章草稿与已应用方案的独立保存、关内设置、保存失败恢复和统计报告修正。后续更换 Logo／图标、调整关卡及配置反馈服务，见[维护指南](docs/development/final-maintenance.md)。[本轮验证与未完成验收](docs/verification/20260913-final-convergence/README.md)。
+
 ## 开始游玩
 
 ### 从源码运行

@@ -8,7 +8,24 @@ chapter, simulation rule, progression threshold or server feature in this iterat
 Original free wiring, branch/delete/undo, floating instruments, named workbenches,
 provenance revalidation and separate three-stage Hint remain authoritative.
 
-## Current behavior
+## Final pre-public convergence
+
+Latest runtime adds separate Chapter 1/2 drafts/applied configuration and replayed
+observations, explicit save-failure recovery, unlocked Continue fallback, shared
+in-level settings, window geometry persistence and Chapter 2 return-to-tree flow.
+A native-found legacy capstone editor lock and clipped Mission footer are corrected.
+Summary reports now separate versions/cohorts and entry/during-visit completion;
+bounded outboxes recover after extended transient failures. Branding and task
+maintenance use explicit local contracts. No new content or public service.
+
+[Implementation and current verification](verification/20260913-final-convergence/README.md)
+· [Owner maintenance guide](development/final-maintenance.md)
+· [40-task inventory](development/task-matrix.md).
+Final full isolated suites pass. The final native source recheck is pending because
+the Mac locked during QA; previous native evidence below predates the final fix.
+A replacement candidate is being prepared; the previous artifact stays immutable.
+
+## Earlier behavior retained
 
 Latest follow-up makes Chapter 2 code/actions visible before reference material,
 removes overlapping chapter-map nodes and clarifies bilingual quantity captions.
@@ -84,7 +101,7 @@ full source commit into the exported project settings, manifests, README, change
 notes and ZIP names. A frozen identity cannot be overwritten. The game shows that
 same ID; the release-binary probe checks it against its adjacent manifest.
 
-Current frozen artifact: **free-alpha-47a59d385103**, content commit **47a59d3**.
+Previous frozen artifact (before final convergence): **free-alpha-47a59d385103**, content commit **47a59d3**.
 The actual Mac candidate passed isolated release checks and native task-tree,
 Tutorial editing, completion, restart/Continue and English settings checks.
 Later evidence-only commits do not rename or overwrite those archives.

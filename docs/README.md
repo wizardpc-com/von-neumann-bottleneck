@@ -6,7 +6,8 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 
 - [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [中英文更新说明 / Changelog](../CHANGELOG.md)
 - [Current state and frozen build](CURRENT_STATE.md) · [Release acceptance gates](../RELEASE_BLOCKERS.md)
-- [Latest candidate and native verification](verification/20260913-spatial-candidate/README.md) · [Current README image provenance](images/readme/README.md)
+- [Final convergence and evidence](verification/20260913-final-convergence/README.md) · [Maintenance / future branding](development/final-maintenance.md) · [40-task matrix](development/task-matrix.md)
+- [Previous candidate and native verification](verification/20260913-spatial-candidate/README.md) · [Current README image provenance](images/readme/README.md)
 - [Build and package the free Alpha](distribution/free-alpha.md) · [Isolated tests](development/testing.md)
 - [Chapter 3 model](architecture/overlap-chapter.md) · [Chapter 4 model](architecture/layout-chapter.md)
 

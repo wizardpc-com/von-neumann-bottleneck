@@ -5,6 +5,7 @@ from pathlib import Path
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('--app',type=Path,required=True);a=p.parse_args()
 root=Path(__file__).resolve().parents[1];original=a.app.resolve();stamp=uuid.uuid4().hex[:12]
 manifest=json.loads((original.parent/'BUILD-MANIFEST.json').read_text())
+release=json.loads((original.parent.parent/'manifest.json').read_text())
 work=root/'.godot/package-qa'/stamp;work.mkdir(parents=True);app=work/original.name
 shutil.copytree(original,app,symlinks=True)
 info=plistlib.loads((app/'Contents/Info.plist').read_bytes());binary=app/'Contents/MacOS'/info['CFBundleExecutable']
@@ -24,6 +25,8 @@ func _ready() -> void:
 		"forty_tasks":get_node("/root/TaskNavigation").tasks().size()==40,
 		"remote_default_off":not remote.enabled and remote.endpoint.is_empty(),
 		"build_identity":ProjectSettings.get_setting("application/config/version")=="EXPECTED_BUILD" and ProjectSettings.get_setting("application/config/build_commit")=="EXPECTED_COMMIT",
+		"system_workspace_identity":get_node("/root/SystemChapter").workspace_version()=="EXPECTED_SYSTEM",
+		"locality_workspace_identity":get_node("/root/LocalityChapter").workspace_version()=="EXPECTED_LOCALITY",
 		"tests_excluded":not ResourceLoader.exists("res://tests/test_layout_simulation.gd"),
 		"server_excluded":not FileAccess.file_exists("res://server/feedback_server.py")}
 	var passed: bool = true
@@ -33,7 +36,7 @@ func _ready() -> void:
 		var file=FileAccess.open("user://package_probe_result.json",FileAccess.WRITE)
 		file.store_string(JSON.stringify(checks)); file.close()
 	get_tree().quit(0 if passed else 1)
-'''.replace('SUFFIX',user_suffix).replace('EXPECTED_BUILD',manifest['build_id']).replace('EXPECTED_COMMIT',manifest['source_commit']))
+'''.replace('SUFFIX',user_suffix).replace('EXPECTED_BUILD',manifest['build_id']).replace('EXPECTED_COMMIT',manifest['source_commit']).replace('EXPECTED_SYSTEM',release['workspace_versions']['res://src/system_lab/system_level_catalog.gd']).replace('EXPECTED_LOCALITY',release['workspace_versions']['res://src/locality_chapter/locality_level_catalog.gd']))
 scene.write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="'+str(probe)+'" id="1"]\n[node name="PackageProbe" type="Node"]\nscript = ExtResource("1")\n')
 settings='[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="'+user_suffix+'"\n'
 override=binary.parent/'override.cfg';override.write_text(settings+'run/main_scene="'+str(scene)+'"\n')

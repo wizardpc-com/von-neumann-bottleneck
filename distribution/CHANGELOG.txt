@@ -1,3 +1,19 @@
+Final pre-public convergence — @BUILD_ID@
+Source: @SOURCE_COMMIT@
+- 第一、二章分开保存未应用草稿、已应用程序与配置；观察证据按当前模型重验。
+- 保存失败时显示提示，并可独立导出恢复文件；继续游戏跳过已锁定的近期任务。
+- 关内共用设置、语言切换恢复任务、窗口位置记忆；第二章结束后返回任务树。
+- 修复旧档已完成综合关误锁编辑器、长任务说明遮住操作按钮。
+- 访问汇总正确进入报告，版本与玩家分组分开；网络暂时失败可继续补发。
+- 预留品牌素材接口，增加隔离回归 CI 与关卡维护表。
+- No new tasks, simulation changes, public endpoint, account or release.
+- Chapter drafts and applied work persist separately; restoration grants no completion.
+- Save failures offer local recovery; settings are available during play.
+- Summary reporting preserves unknown data and separates versions; queues recover after outages.
+- Platform/native acceptance: docs/CURRENT_STATE.md and RELEASE_BLOCKERS.md.
+
+--- Earlier changes included in this content ---
+
 Readable investigations and native desktop continuity — @BUILD_ID@
 Source: @SOURCE_COMMIT@
 - Keep Chapter 2 code, draft status and Apply ahead of optional reference material.

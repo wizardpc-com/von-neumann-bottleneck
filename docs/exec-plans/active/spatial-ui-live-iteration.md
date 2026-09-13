@@ -117,3 +117,13 @@ in rendering is corrected and guarded. See [checkpoint evidence](../../verificat
 The old locked-screen condition above is historical. Remaining CPU/Chapter 1
 native rechecks, extended DPI/focus, candidate export and external platform gates
 remain open; this checkpoint does not complete the broader plan.
+
+
+Source-native closure of earlier rechecks: in the current isolated Game, CPU H1
+return retains the hidden Parts window, compact Mission, Test Bench position and
+zoomed camera. Rerunning the seven-step official program passes all seven cases.
+Chapter 1 RAM-wait reruns both cases at 134 each; the visible time strip matches
+16 compute + 252 wait = 268 total. Resizing the Profiler shorter keeps all current
+metrics readable. No new rule or presentation change was needed for these checks.
+Continue with final full replay and a newly frozen candidate; do not use source
+success to close exported-package mouse or external platform gates.

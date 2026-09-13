@@ -1,3 +1,15 @@
+Readable investigations and native desktop continuity — @BUILD_ID@
+Source: @SOURCE_COMMIT@
+- Keep Chapter 2 code, draft status and Apply ahead of optional reference material.
+- Separate all seven chapter-map cards; wrap chapter introductions in the shared font.
+- Clarify bilingual quantities and timeline batch labels; show exact zero elapsed time.
+- Fix native task-tree pan with captured mouse motion; retain release/focus cancellation.
+- Native CPU Hint return preserves the desktop; seven-step CPU rerun passes.
+- Native Chapter 1 time proportions match 16 compute + 252 wait = 268 cycles.
+- Native double buffering retains 28 cycles and 12 overlap cycles after restart.
+- Runtime evidence: docs/verification/20260913-readable-investigations/README.md.
+- Candidate and installation scope: docs/CURRENT_STATE.md and RELEASE_BLOCKERS.md.
+
 Unreleased — desktop continuity and bilingual Mission layout
 - Keep Mission page actions visible above long English/Chinese explanations.
 - Restore player windows and camera after the separate Hint canvas.

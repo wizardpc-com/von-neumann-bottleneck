@@ -11,7 +11,7 @@ These are acceptance gates, not promised new features.
 | External beginner play | **Pending** | Unassisted entry, Tutorial, branch selection, Hint understanding and concrete feedback |
 | Candidate mouse navigation | **Pending** | Recheck exported Mac board/Continue with reliable native mouse access; CUA returned noWindowsAvailable, source native route passed |
 | Final reset-dialog visual recheck | **Verified (source native)** | English/Chinese title/body and final localized buttons inspected; reset restored defaults, cancel and export Tab navigation operated |
-| Remaining window/focus | **Pending** | Source-native pan after typography update (CUA drag produced no confirmable movement); small display, Retina/mixed DPI, repeated focus loss during palette/wire drags, long sessions |
+| Remaining window/focus | **Pending** | Source-native tree pan, CPU Hint return and resized Chapter 1 time display checked on this Mac; extended small-display/Retina/mixed-DPI sessions and repeated focus loss during palette/wire drags still pending |
 | Public distribution | **Not authorized** | Owner chooses channel and validates installation/support/privacy information |
 
 No server, purchase, account or store submission is required for offline internal

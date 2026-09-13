@@ -1,0 +1,47 @@
+name: Isolated regression checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  python:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/check-branding.py
+      - run: python scripts/test-report-playtests.py
+      - run: python server/test_storage.py
+      - run: python server/test_receiver.py
+      - run: python server/test_community.py
+  godot:
+    runs-on: ubuntu-24.04
+    env:
+      GODOT_VERSION: 4.7.1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the exact official engine and verify its release checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/vnb-engine"
+          cd "$RUNNER_TEMP/vnb-engine"
+          release="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable"
+          archive="Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          curl --fail --location "$release/$archive" --output "$archive"
+          curl --fail --location "$release/SHA512-SUMS.txt" --output SHA512-SUMS.txt
+          awk -v file="$archive" '$2 == file || $2 == "*" file {print}' SHA512-SUMS.txt > engine.sha512
+          test -s engine.sha512
+          sha512sum --check engine.sha512
+          unzip "$archive"
+          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot
+          chmod +x godot
+      - run: python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: isolated-godot-results
+          path: .godot/verification/*/*.txt
+          retention-days: 7
+# No export, signing, secrets or deployment. Native platform acceptance remains manual.

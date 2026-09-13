@@ -51,7 +51,14 @@ func run() -> void:
 		check(not canvas.dragging and canvas.hovered_key.is_empty(),"Focus loss cancels map gesture and hover.")
 		canvas._gui_input(press); root.get_node("WindowMode").window_mode_changing.emit()
 		check(not canvas.dragging,"Fullscreen transition cancels map drag.")
+		# Keep a manually panned center across destruction/recreation, not only resize.
+		var world_center: Vector2=(canvas.size/2-canvas.pan)/canvas.magnification
 		scene.queue_free(); await process_frame
+		scene=load("res://src/campaign/task_tree.tscn").instantiate();root.add_child(scene)
+		scene.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT);scene.size=Vector2(1280,720)
+		for frame: int in range(4): await process_frame
+		check(((scene.canvas.size/2-scene.canvas.pan)/scene.canvas.magnification).distance_to(world_center)<1,"Returning from a task preserves the map center through intermediate container sizes")
+		scene.queue_free();await process_frame
 	for message: String in failures: push_error(message)
 	print("PASS: bilingual 40-task detail card bounds, unchanged gates, hover and canceled map gestures" if failures.is_empty() else "FAIL: task tree presentation")
 	quit(0 if failures.is_empty() else 1)

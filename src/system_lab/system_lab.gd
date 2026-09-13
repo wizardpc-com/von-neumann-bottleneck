@@ -1237,6 +1237,7 @@ func _start_level(level_id: StringName) -> void:
 	lab_host.show()
 	level_label.text = _t(&"system.level.header", [
 		int(current_level_definition.get("order", 0)) + 1,
+		catalog.level_ids().size(),
 		_t(catalog.title_key(level_id)),
 	])
 	status_label.text = _t(&"system.status.ready")
@@ -2957,7 +2958,7 @@ func _toggle_instrument(id: StringName) -> void:
 	var panel: FloatingInstrumentPanel = instrument_windows.get(id)
 	if panel == null:
 		return
-	if panel.visible:
+	if panel.should_hide_on_toggle():
 		_close_instrument(id)
 	else:
 		_open_instrument(id)

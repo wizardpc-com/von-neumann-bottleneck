@@ -85,3 +85,14 @@ active for that bounded acceptance queue; no additional content work is authoriz
 Hosted CI for final content `6c5c59d` passes both Python and Godot jobs on Ubuntu.
 Original player data: 18/18 files remain byte-identical. Standing push authorization
 was fulfilled with a normal linear main push; no force push or credential change.
+
+## 2026-09-14 native follow-up
+
+User requested continued player-led iteration. Normal Game now confirms Chapter 2
+invalid draft/map/locale/restart recovery and the fixed Mission footer. Found and
+reproduced map-center drift on re-entry, redundant empty-program diagnosis, Chapter 1
+branch header 6/5, and a covered floating tool requiring two toolbar clicks.
+Scope this follow-up to navigation and presentation; no simulation/save model change.
+Use shared FloatingInstrumentPanel visibility/overlap semantics in five existing
+hosts: covered/minimized tools raise and restore, an unobscured open tool still toggles
+closed. Verify with targeted contracts and native play, then freeze a fresh candidate.

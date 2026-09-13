@@ -53,6 +53,10 @@ func run() -> void:
 	lab=load("res://src/ui/main.tscn").instantiate(); root.add_child(lab); await process_frame
 	lab._start_level(&"capstone")
 	check(lab.editor.text=="INVALID DRAFT ???" and lab.applied_program_source==applied and lab.program_dirty,"Recreated Chapter 2 scene keeps draft/applied identity")
+	check(not lab.program_validation_label.text.contains(root.get_node("Localization").text(&"dsl.error.empty")),"Unsupported source explains the syntax error without a misleading empty-program message")
+	lab.editor.text=""
+	lab._on_program_changed()
+	check(lab.program_validation_label.text.contains(root.get_node("Localization").text(&"dsl.error.empty")),"A genuinely empty draft still explains that it is empty")
 	check(lab.current_cache_lines==2 and lab.current_trace==null,"Restored configuration requires a new run")
 	lab.queue_free(); await process_frame
 	system.reset_test_progress()

@@ -8,6 +8,14 @@ chapter, simulation rule, progression threshold or server feature in this iterat
 Original free wiring, branch/delete/undo, floating instruments, named workbenches,
 provenance revalidation and separate three-stage Hint remain authoritative.
 
+## Latest native follow-up
+
+[2026-09-14 player evidence](verification/20260914-native-followup/README.md): actual
+Chapter 1 optimization and restart, Chapter 2 draft/locale/restart recovery, Chapter 3
+double-buffer and Chapter 4 mixed-layout reruns. Fixed tree re-entry camera drift,
+covered-tool recall, a stale 6/5 branch counter and redundant empty-source diagnosis.
+A newer candidate is being frozen; earlier package mouse acceptance is separate.
+
 ## Final pre-public convergence
 
 Latest runtime adds separate Chapter 1/2 drafts/applied configuration and replayed
@@ -21,8 +29,8 @@ maintenance use explicit local contracts. No new content or public service.
 [Implementation and current verification](verification/20260913-final-convergence/README.md)
 · [Owner maintenance guide](development/final-maintenance.md)
 · [40-task inventory](development/task-matrix.md).
-Final full isolated suites pass. The final native source recheck is pending because
-the Mac locked during QA; previous native evidence below predates the final fix.
+Final full isolated suites pass. The Mac lock-screen interruption was cleared in the 2026-09-14 source follow-up;
+see the new native evidence above.
 New candidate: **free-alpha-6c5c59df6c26** from **6c5c59df6c26ab3831b00c661c7d9992404fca4e**. Mac/Windows exports, all archive hashes and packaged notes agree. The actual Mac release probe passes, including source/export workspace identities. Final candidate mouse interaction remains pending. Earlier artifacts stay immutable.
 
 ## Earlier behavior retained

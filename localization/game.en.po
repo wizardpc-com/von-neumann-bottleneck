@@ -2223,7 +2223,7 @@ msgid "system.map.locked"
 msgstr "○ LOCKED"
 
 msgid "system.level.header"
-msgstr "%d / 5 · %s"
+msgstr "%d / %d · %s"
 
 msgid "system.level.unknown.title"
 msgstr "Unknown Level"

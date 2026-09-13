@@ -32,6 +32,7 @@ func _ready() -> void:
 	resized.connect(_resize_view)
 	pan = TaskNavigation.camera if TaskNavigation.camera_saved else Vector2(30,30)
 	magnification = TaskNavigation.zoom
+	last_canvas_size = TaskNavigation.camera_view_size if TaskNavigation.camera_saved else Vector2.ZERO
 	if not TaskNavigation.camera_saved: call_deferred("locate",TaskNavigation.selected)
 
 func configure(tasks: Array[Dictionary]) -> void:
@@ -229,6 +230,7 @@ func locate(key: String) -> void:
 	_save()
 
 func _resize_view() -> void:
+	if size.x <= 0 or size.y <= 0: return # Ignore intermediate container dimensions.
 	# Container layout and window changes must preserve the world point at center.
 	if last_canvas_size.x>0 and last_canvas_size.y>0:
 		pan+=(size-last_canvas_size)/2
@@ -258,6 +260,7 @@ func _matches(task: Dictionary) -> bool:
 
 func _save() -> void:
 	TaskNavigation.camera = pan
+	if size.x > 0 and size.y > 0: TaskNavigation.camera_view_size = size
 	TaskNavigation.zoom = magnification
 	TaskNavigation.camera_saved = true
 	call_deferred("_report_exposure")

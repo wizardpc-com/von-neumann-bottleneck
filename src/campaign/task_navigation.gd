@@ -8,6 +8,7 @@ var pending: String = ""
 var selected: String = "hardware_foundations/tutorial"
 var from_tree: bool = false
 var camera: Vector2 = Vector2.ZERO
+var camera_view_size: Vector2 = Vector2.ZERO
 var zoom: float = 0.55
 var camera_saved: bool = false
 

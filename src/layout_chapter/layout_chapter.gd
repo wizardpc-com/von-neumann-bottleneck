@@ -410,7 +410,8 @@ func _settle(panel: FloatingInstrumentPanel, dimensions: Vector2) -> void:
 	if is_instance_valid(panel): panel.size=dimensions; panel.fit_to_parent()
 func _toggle(id: String, force: bool = false) -> void:
 	if not panels.has(id): return
-	panels[id].visible = true if force else not panels[id].visible
+	panels[id].visible = force or not panels[id].should_hide_on_toggle()
+	if panels[id].visible and panels[id].minimized: panels[id].set_minimized(false)
 	if panels[id].visible: workspace.move_child(panels[id],-1); panels[id].fit_to_parent(); PlaytestData.record_tool_opened(&"chapter_4",StringName(level),StringName(id))
 func _box(panel: FloatingInstrumentPanel) -> VBoxContainer:
 	var scroll := ScrollContainer.new(); scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_AUTO if panel.instrument_id in [&"memory", &"manual"] else ScrollContainer.SCROLL_MODE_DISABLED; panel.content_host.add_child(scroll)

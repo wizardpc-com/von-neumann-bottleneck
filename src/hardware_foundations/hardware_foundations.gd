@@ -1616,7 +1616,7 @@ func _toggle_desktop_window(id: StringName) -> void:
 	var window: FloatingInstrumentPanel = desktop_windows.get(id)
 	if window == null:
 		return
-	if window.visible:
+	if window.should_hide_on_toggle():
 		_close_desktop_window(id)
 	else:
 		_show_desktop_window(id)

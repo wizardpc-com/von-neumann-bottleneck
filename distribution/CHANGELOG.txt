@@ -1,3 +1,11 @@
+Native follow-up — @BUILD_ID@
+Source: @SOURCE_COMMIT@
+- Returning to the task tree preserves its camera through container layout.
+- Covered/minimized tools can be recalled with one click in all five regions.
+- Chapter 1 header uses the actual task count; syntax errors omit a redundant empty-program message.
+- Source native: draft/locale/restart, player read-once solution, double buffering and layout reruns.
+- Final candidate/platform evidence: docs/CURRENT_STATE.md and RELEASE_BLOCKERS.md.
+
 Final pre-public convergence — @BUILD_ID@
 Source: @SOURCE_COMMIT@
 - 第一、二章分开保存未应用草稿、已应用程序与配置；观察证据按当前模型重验。

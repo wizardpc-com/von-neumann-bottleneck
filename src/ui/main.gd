@@ -1625,7 +1625,7 @@ func _paired_baseline_receipt(level_id: StringName) -> Variant:
 func _toggle_instrument(id: StringName) -> void:
 	if not instrument_windows.has(id):
 		return
-	if instrument_windows[id].visible:
+	if instrument_windows[id].should_hide_on_toggle():
 		_close_instrument(id)
 	else:
 		_open_instrument(id, true)
@@ -1756,7 +1756,13 @@ func _validate_program_editor() -> DSLProgramType:
 		official_run_button.disabled = program_dirty
 		debug_run_button.disabled = program_dirty
 	else:
-		var error_text: String = Localization.text_list(program.error_specs, " | ")
+		# An unsupported statement may produce no executable instructions. Explain
+		# that syntax error without also claiming the player's text is empty.
+		var visible_errors: Array[Dictionary] = []
+		for spec: Dictionary in program.error_specs:
+			if program.error_specs.size() > 1 and spec.get("key", &"") == &"dsl.error.empty": continue
+			visible_errors.append(spec)
+		var error_text: String = Localization.text_list(visible_errors, " | ")
 		if error_text.is_empty():
 			error_text = " | ".join(program.errors)
 		program_validation_label.text = _t(&"program.validation.error", [error_text])

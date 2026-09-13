@@ -114,9 +114,20 @@ func set_content(content: Control) -> void:
 	content_host.add_child(content)
 
 
+func should_hide_on_toggle() -> bool:
+	# A toolbar click recalls a covered/minimized tool instead of hiding it unseen.
+	if not visible or minimized: return false
+	var siblings: Array[Node] = get_parent().get_children()
+	for index: int in range(get_index()+1, siblings.size()):
+		var sibling: Node = siblings[index]
+		if sibling is FloatingInstrumentPanel and sibling.visible and get_global_rect().intersects(sibling.get_global_rect()):
+			return false
+	return true
+
 func show_instrument() -> void:
 	var newly_visible: bool = not visible
 	visible = true
+	if minimized: set_minimized(false)
 	if newly_visible: preload("res://src/ui/ui_motion.gd").reveal(self)
 	focus_requested.emit(instrument_id)
 

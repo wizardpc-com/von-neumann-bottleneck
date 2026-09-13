@@ -891,8 +891,9 @@ func _toggle(id: String, force: bool = false, origin: StringName = &"manual") ->
 		return
 	if not panels.has(id): return
 	var panel: FloatingInstrumentPanel = panels[id]
-	panel.visible = true if force else not panel.visible
+	panel.visible = force or not panel.should_hide_on_toggle()
 	if panel.visible:
+		if panel.minimized: panel.set_minimized(false)
 		PlaytestData.record_tool_opened(&"chapter_3",StringName(level),StringName(id),origin)
 		workspace.move_child(panel,-1)
 		panel.call_deferred("fit_to_parent")

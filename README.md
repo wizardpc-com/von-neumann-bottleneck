@@ -1,132 +1,95 @@
-# Von Neumann Bottleneck
+# 冯·诺依曼瓶颈
 
-[**当前状态 / CURRENT_STATE**](docs/CURRENT_STATE.md) 是唯一当前入口。五个区域、40 个任务；源码开发版与冻结候选包分开标识。发布前必须核对[验收阻断](RELEASE_BLOCKERS.md)。
+**简体中文** · [English](README.en.md)
 
-> Connect a machine, make it work, then reduce the time it spends waiting for data.
+**从一根线搭起机器，再找回它等待数据的时间。**
 
-**Project status:** free public-alpha candidate in development. Five playable regions and 40 tasks; public distribution, Windows native acceptance and external beginner playtesting remain separate gates. No paid features or account requirement.
+一款关于计算机与数据流的构建解谜游戏。从逻辑门、寄存器到自己的小计算机，再探索缓存、缓冲、预取与数据布局。接出电路，观察运行，比较结果，寻找自己的解法。
 
-Von Neumann Bottleneck is a construction and optimization puzzle about computer data flow. Connect a working machine, run the task, then change where data goes and when it is reused to reduce waiting. The default route builds arithmetic and storage circuits into a computer, then investigates and reduces data movement.
+**五个区域 · 40 个任务 · 离线单机 · 中英文界面**
 
-## Core idea
+![当前中文首页：任务树入口与五个章节](docs/images/readme/hub-zh.png)
 
-- **Construct:** build arithmetic and storage from gates, seal working components, then connect them into a CPU.
-- **Observe:** follow authoritative simulation events through the components and routes shown on screen.
-- **Optimize:** compare computation, waiting and data movement, then improve the program or the parts within the task's limits.
+[更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
-The models are deliberately bounded teaching models. They make costs and causal flow visible without claiming physical or cycle-accurate hardware realism.
+## 在这里做什么
 
-## Free alpha candidate
+- **搭建自己的机器。** 从元件台选件，自由放置、接线、在线段中间分支；可以删除、撤销，并保存命名方案。
+- **沿着任务树探索。** 算术与存储分支汇入 CPU，应用支线提供新的用途。可选支线不增加原主线门槛，“继续游戏”会定位最近游玩的任务。
+- **看清每一次等待。** 调试输入、运行完整测试，再用回放、时间线和分析器查看计算、搬运与等待。
+- **让相同的工作少花时间。** 改变访问顺序、复用方式、调度或布局；结果正确还不够，也可以继续寻找更省搬运的方案。
+- **按需学习。** 任务规格随时可看，图解手册逐步开放；Hint 在独立只读画布中逐层揭示，后两级分别确认。
 
-Open the **task tree** from the default chapter hub. Settings provide Chinese/English, sound volume, display controls, privacy and local diagnostics. The original route is Tutorial → arithmetic/storage branches → CPU → LOAD/STORE → Chapter 1 → Chapter 2. Named designs, free editing, floating Mission and independent progressive hints are available in ordinary Game. The eight-task runtime was removed on 2026-09-09; historical code remains in Git.
+![当前任务树：从接线出发，分成算术与存储两路](docs/images/readme/tree-zh.png)
 
-The [guided workbench update](docs/verification/2026-09-09-guided-workbench/README.md) records open component tools, clearer cable separation and the 96-term illustrated Handbook with focused lesson recommendations. The [visual and learning status](docs/status/visual-learning-polish.md), [construction experience](docs/status/construction-experience.md) and [recovery record](docs/status/in-place-recovery.md) preserve earlier work and package evidence. Native checks are scoped in their records; novice and release acceptance remain open.
+*配图为当前源码的实际界面渲染，使用隔离新档；未添加示意 UI 或伪造通关状态。[配图来源](docs/images/readme/README.md)*
 
-## Earlier visual baseline
+## 五个区域，一条逐渐展开的路线
 
-These screenshots predate the five-region candidate; they are retained as historical presentation evidence. Current native observations are in the verification record.
+| 区域 | 你会探索什么 |
+| --- | --- |
+| 序章 · **一线成机** | 从逻辑门构建运算和存储，将自己的成果组合成 CPU。 |
+| 第一章 · **时间的去处** | 连接 CPU、Bus 与 RAM，分辨计算与等待，验证瓶颈判断。 |
+| 第二章 · **少走远路** | 研究缓存、局部性、工作集和分块，让取回的数据多用几次。 |
+| 第三章 · **与等待并行** | 安排缓冲、反压与预取，让数据搬运和计算配合起来。 |
+| 第四章 · **各就其位** | 组合字段、排列和分批，权衡真实复制成本、流量与有限空间。 |
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <img src="docs/images/polish-export.png" alt="Exported original chapter hub" width="100%">
-      <br><sub>Original chapter hub — construction, systems and data movement.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img src="docs/images/polish-mission.png" alt="Movable task specifications and compact input symbols" width="100%">
-      <br><sub>Mission — explicit goals, specification sections and Start Building.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <img src="docs/images/polish-handbook.png" alt="Illustrated Handbook at the first lesson" width="100%">
-      <br><sub>Handbook — current concepts and diagrams, gradually opened by play.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img src="docs/images/polish-success.png" alt="CPU success and explicit next step" width="100%">
-      <br><sub>Completion — your constructed component and the next capability.</sub>
-    </td>
-  </tr>
-</table>
+关卡采用确定性的简化模型。普通连线只表示连接，没有额外延迟；等待与带宽来自 Bus、RAM、Cache 等被建模的部件。动画快慢不改变计算结果。
 
-## Quick Start
+## 开始游玩
 
-**Development handoff:** Mac is the primary development/playtest machine; Windows verifies compatibility and exported builds. Start with the [Mac handoff guide](docs/development/mac-handoff.md) for the current baseline, isolated verification and remaining acceptance tasks.
+### 从源码运行
 
-Install **Godot 4.7.1 stable** and make its executable available as `godot` on `PATH`, then:
+安装 **Godot 4.7.1 stable**，将可执行文件加入 `PATH`，然后运行：
 
-```powershell
+```sh
 git clone https://github.com/wizardpc-com/von-neumann-bottleneck.git
 cd von-neumann-bottleneck
+godot --editor --path . --import
 godot --path .
 ```
 
-If your Godot executable uses another name, substitute that command. You can also import `project.godot` in the Godot editor and run the project there.
+也可以在 Godot 中导入 `project.godot`，完成资源导入后按 **“运行项目”／F5** 启动整个游戏。首页选择 **打开章节任务树**，从接线教程开始。
 
-The interface defaults to Simplified Chinese. Start with the English catalog using:
+游戏默认简体中文，可在 **设置 → 语言** 中切换 English；选择会保存。也可指定启动语言：
 
-```powershell
+```sh
 godot --path . -- --locale=en
 ```
 
-An ordinary launch enters Game mode. The original `savegame_v1.json` recovery index and `hardware_workbenches_v1.json` named designs retain their provenance checks. Historical `demo_progress_v1.json` files remain preserved but have no runtime entry and cannot unlock original construction.
+### 候选包与平台
 
-`--test-mode` is development-only. Use isolated APPDATA/LOCALAPPDATA for clean playtests; do not clear player files to prepare a test.
+目前是**免费 Alpha 候选阶段，最新候选尚未公开发行**。仓库中旧 Release 的试玩包不代表当前五区域版本。准确构建编号、包哈希及验收范围以 [CURRENT_STATE](docs/CURRENT_STATE.md) 为准。
 
-## Windows friend build
+收到候选包后，Mac 解压打开 `.app`，Windows 解压运行 `.exe`，无需另外安装 Godot。Mac 是主要开发与原生试玩环境；Windows 包已导出，仍需实机验收。另一台 Mac 安装／公证、外部新手和长时间 DPI／焦点测试也尚未完成。
 
-Current Mac source and native-play evidence: [Mac workbench polish](docs/status/mac-native-polish.md). The restart-provenance issue is repaired with verified legacy recovery; see the [native restart evidence](docs/verification/2026-09-08-save-recovery/README.md).
+自行生成同一提交的 Mac／Windows 候选包，请使用[统一构建流程](docs/distribution/free-alpha.md)，不要把不同提交的包混用同一个版本号。
 
-Historical package: [Windows visual/learning playtest candidate](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/playtest-polish-20260907T010358). Build `polish-20260907T010358-76ef116` uses the original chapter hub. See [verification and limits](docs/status/visual-learning-polish.md), including the distinction between rendered Game replay and native desktop acceptance.
+### 常用操作
 
-Install Godot 4.7.1 export templates once, then export into a new output directory:
+| 操作 | 方法 |
+| --- | --- |
+| 查找下一关 | 在任务树拖动、缩放、搜索；选择节点查看任务规格。 |
+| 放置元件 | 从默认打开的元件台拖到画布，或点击后连续放置。 |
+| 取消当前操作 | 右键或 Esc。 |
+| 撤销／重做 | Mac：⌘Z／⇧⌘Z；Windows：Ctrl+Z／Ctrl+Y。文本框优先处理文字编辑。 |
+| 切换全屏 | F11／Alt+Enter，或界面上的全屏按钮。 |
+| 评价当前任务 | F8 或“反馈”；未通关也可以评分、写意见。 |
 
-```powershell
-$buildDirectory = 'build/windows-' + (Get-Date -Format 'yyyyMMddTHHmmss')
-New-Item -ItemType Directory -Path $buildDirectory | Out-Null
-godot_console --headless --path . --export-release 'Windows Playtest' "$buildDirectory/Von-Neumann-Bottleneck.exe"
-if ($LASTEXITCODE -ne 0) { throw 'Godot export failed' }
-Copy-Item distribution/PLAYTEST-README.txt, assets/fonts/OFL-NotoSansSC.txt -Destination $buildDirectory
-Compress-Archive -Path "$buildDirectory/*" -DestinationPath "$buildDirectory.zip"
-```
+## 进度、设置与反馈
 
-Use a current build identifier and matching README before distribution; keep the source commit and package hashes. Friends only need to extract the ZIP and double-click the EXE; Godot and the repository are not required on their machine. See [`distribution/PLAYTEST-README.txt`](distribution/PLAYTEST-README.txt). The historical PowerShell helper replaces its fixed output folder; use unique outputs to retain verification baselines.
+进度和命名方案保存在本机。更新或回退版本前，请完整备份存档目录；不要通过清档准备试玩。具体位置和兼容性见[随包说明](distribution/PLAYTEST-README.txt)。
 
-## Current Status
+设置包含语言、音效音量、显示、减少动效和本地诊断。反馈默认留在本机；当前候选未配置远程服务器。自动统计分享、主动意见和实验成绩分别授权，拒绝上传不影响完整游玩。个人任务板可以离线查看总完成数和各区域进度。
 
-- Engine: Godot 4.7.1 stable with strongly typed GDScript.
-- Runtime presentation: built-in Godot UI, graph controls, and procedural drawing; no external addons or asset pipeline.
-- Simulation: deterministic, UI-independent results and traces; animation timing does not affect outcomes.
-- Content: original construction prologue and two optimization chapters; the eight-task comparison has been removed. Shared schematic/editing improvements, structured construction specifications and 21 next-capability previews are implemented; physical mouse feel and novice acceptance remain open.
-- Localization: Simplified Chinese by default, with an English catalog as the first alternate locale.
-- Verification: addon-free local simulation and UI suites are documented, but the repository does not yet have a GitHub Actions workflow.
+发现问题可提交 [GitHub Issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)，附上构建编号、系统、任务和复现步骤。游戏内导出不会自动发布到 GitHub，是否分享文件由你决定。
 
-See the slice status documents for implemented behavior, reference results, known limitations, and current playtest questions.
+## 开发与文档
 
-## Documentation
+- [当前状态](docs/CURRENT_STATE.md) · [发布前待验收项](RELEASE_BLOCKERS.md)
+- [中英文更新说明](CHANGELOG.md) · [文档导航](docs/README.md)
+- [架构](ARCHITECTURE.md) · [仿真模型](docs/architecture/simulation.md) · [内容与存档约定](docs/architecture/content-system.md)
+- [Mac 开发交接](docs/development/mac-handoff.md) · [隔离测试](docs/development/testing.md) · [候选包构建](docs/distribution/free-alpha.md)
+- [反馈与隐私设计](docs/architecture/community-feedback.md) · [后续部署清单](docs/distribution/community-deployment-checklist.md)
 
-- [Documentation map](docs/README.md)
-- [Architecture overview](ARCHITECTURE.md)
-- [Simulation architecture and model limits](docs/architecture/simulation.md)
-- [Content and player-state contract](docs/architecture/content-system.md)
-- [Localization boundary](docs/architecture/localization.md)
-- [Design principles](docs/design/core-principles.md)
-- [Testing commands and verified outcomes](docs/development/testing.md)
-- [Architecture decisions](docs/decisions/README.md)
-- [Execution-plan policy](PLANS.md)
-
-Historical milestones and completed execution plans remain under `docs/status/` and `docs/exec-plans/completed/` as implementation evidence.
-
-## License
-
-Released under the [MIT License](LICENSE). Copyright (c) 2026 wizardpc-com.
-
-### September 9 expansion checkpoint
-
-Two optional circuit applications branch from Half Adder and Register. A searchable,
-categorized toolbox and new named blank schemes preserve existing player designs.
-Chapter 3 adds six exploration nodes on asynchronous transfers, double buffering,
-backpressure and prefetch after Chapter 2 capstone. The retired eight-task runtime
-is removed. See the [active acceptance plan](docs/exec-plans/active/exploration-and-overlap-chapter.md)
-and [new model](docs/architecture/overlap-chapter.md); native Chapter 3 acceptance
-is still pending and this checkpoint is not a release declaration.
+代码采用 [MIT License](LICENSE)。字体采用 [Noto Sans SC / SIL OFL 1.1](assets/fonts/OFL-NotoSansSC.txt)；界面图形由本项目代码绘制。

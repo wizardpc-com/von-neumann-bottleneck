@@ -1,5 +1,7 @@
 # Current state — free Alpha
 
+[简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
+
 **Single current entry.** Five regions, 40 tasks: original construction prologue,
 waiting/data transport, cache/locality, overlap/prefetch and data layout. No new
 chapter, simulation rule, progression threshold or server feature in this iteration.

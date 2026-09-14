@@ -15,6 +15,7 @@ func move_panel(panel: Control, handle: Control, delta: Vector2) -> void:
 	var up := InputEventMouseButton.new(); up.button_index = MOUSE_BUTTON_LEFT; up.pressed = false
 	panel._input(up)
 func run() -> void:
+	await floating_input()
 	for locale: String in ["zh_CN", "en"]:
 		root.get_node("Localization").set_locale(locale)
 		var hub: Control = load("res://src/ui/prototype_hub.tscn").instantiate()
@@ -56,3 +57,49 @@ func run() -> void:
 	else:
 		for failure: String in failures: push_error(failure)
 	quit(0 if failures.is_empty() else 1)
+
+func pointer(at: Vector2, pressed: bool) -> void:
+	var event := InputEventMouseButton.new()
+	event.position=at; event.global_position=at
+	event.button_index=MOUSE_BUTTON_LEFT; event.pressed=pressed
+	root.push_input(event,true)
+	await process_frame
+
+func floating_input() -> void:
+	var desktop := Control.new()
+	desktop.size=Vector2(1100,800); desktop.scale=Vector2(0.75,0.75)
+	root.add_child(desktop)
+	var panel: Control = load("res://src/ui/floating_instrument_panel.gd").new()
+	panel.custom_minimum_size=Vector2(300,220)
+	desktop.add_child(panel); panel.setup(&"task","Mission")
+	panel.size=Vector2(400,300); panel.position=Vector2(50,50)
+	await settle()
+	var title: Control=panel.find_child("WindowTitle",true,false)
+	var start: Vector2=title.get_global_rect().get_center()
+	await pointer(start,true)
+	var motion := InputEventMouseMotion.new()
+	motion.position=start+Vector2(150,75); motion.global_position=motion.position
+	# Captured motion may omit the button mask and leave the title bounds.
+	root.push_input(motion,true); await process_frame
+	check(panel.position.is_equal_approx(Vector2(250,150)),"Scaled Mission title follows viewport pointer without speed drift.")
+	await pointer(motion.position,false)
+	var before: Vector2=panel.position
+	motion.position+=Vector2(30,30); motion.global_position=motion.position
+	root.push_input(motion,true); await process_frame
+	check(panel.position==before,"Release outside title ends the drag.")
+	await pointer(title.get_global_rect().get_center(),true)
+	panel.notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
+	root.push_input(motion,true); await process_frame
+	check(panel.position==before,"Floating Mission cancels on application focus loss.")
+	await pointer(motion.position,false)
+	desktop.queue_free(); await process_frame
+	for locale: String in ["zh_CN","en"]:
+		root.get_node("Localization").set_locale(locale)
+		var ui: Control=load("res://src/hardware_foundations/hardware_foundations.tscn").instantiate()
+		root.add_child(ui); ui.size=Vector2(1600,1000)
+		ui._show_tutorial(); await settle()
+		check(ui.graph_stack.global_position.y < 230,"Compact header leaves more canvas in "+locale)
+		var task: Control=ui.desktop_windows[&"task"]
+		check(ui.graph_stack.size.y-task.size.y >= 80,"Initial Mission leaves vertical dragging room in "+locale)
+		check(task.get_global_rect().encloses(ui.mission_briefing_continue_button.get_global_rect()),"Briefing navigation remains visible after compact sizing.")
+		ui.queue_free(); await process_frame

@@ -41,6 +41,7 @@ func setup(id: StringName, title_text: String) -> void:
 	header.custom_minimum_size.y = 38.0
 	header.mouse_filter = Control.MOUSE_FILTER_STOP
 	header.mouse_default_cursor_shape = Control.CURSOR_MOVE
+	header.tooltip_text = Localization.text(&"window.drag.tooltip")
 	header.gui_input.connect(_on_header_input)
 	root.add_child(header)
 	var accent: Color = Color("67e8a5") if id == &"test_bench" else Color("ffbf69") if id == &"inspector" else Color("50d5ff")
@@ -62,7 +63,7 @@ func setup(id: StringName, title_text: String) -> void:
 	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	title.tooltip_text = title_text
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.mouse_filter = Control.MOUSE_FILTER_PASS
+	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	title.add_theme_font_size_override("font_size", UiTypographyType.WINDOW_TITLE_SIZE)
 	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", Color("e6f1f5"))
@@ -251,14 +252,10 @@ func _on_header_input(event: InputEvent) -> void:
 			return
 		_dragging = event.pressed
 		if _dragging:
-			_pointer_origin = event.global_position
+			_pointer_origin = _pointer_in_parent(event.global_position)
 			_panel_origin = position
 			focus_requested.emit(instrument_id)
 			accept_event()
-	elif event is InputEventMouseMotion and _dragging:
-		position = _panel_origin + event.global_position - _pointer_origin
-		_clamp_position()
-		accept_event()
 
 
 func _on_resize_input(event: InputEvent) -> void:
@@ -267,15 +264,47 @@ func _on_resize_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		_resizing = event.pressed
 		if _resizing:
-			_pointer_origin = event.global_position
+			_pointer_origin = _pointer_in_parent(event.global_position)
 			_size_origin = size
 			focus_requested.emit(instrument_id)
 		accept_event()
-	elif event is InputEventMouseMotion and _resizing:
-		var delta: Vector2 = event.global_position - _pointer_origin
-		size = _size_origin
-		resize_by(delta)
-		accept_event()
+
+
+func _pointer_in_parent(point: Vector2) -> Vector2:
+	return (get_parent() as Control).get_global_transform_with_canvas().affine_inverse() * point
+
+
+func _input(event: InputEvent) -> void:
+	if not _dragging and not _resizing: return
+	if not is_visible_in_tree():
+		_cancel_gesture()
+		return
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		_cancel_gesture()
+	elif event is InputEventMouseButton and (not event.pressed or event.button_index == MOUSE_BUTTON_RIGHT):
+		_cancel_gesture()
+	elif event is InputEventMouseMotion:
+		var delta: Vector2 = _pointer_in_parent(event.global_position) - _pointer_origin
+		if _dragging:
+			position = _panel_origin + delta
+			_clamp_position()
+		else:
+			size = _size_origin
+			resize_by(delta)
+	else: return
+	get_viewport().set_input_as_handled()
+
+
+func _cancel_gesture() -> void:
+	_dragging = false
+	_resizing = false
+
+
+func _notification(what: int) -> void:
+	if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
+		_cancel_gesture()
+	elif what == NOTIFICATION_VISIBILITY_CHANGED and not is_visible_in_tree():
+		_cancel_gesture()
 
 
 func _clamp_position() -> void:

@@ -850,7 +850,7 @@ func _build_interface() -> void:
 	mission_summary_button.name = "MissionSummary"
 	mission_summary_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	mission_summary_button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	mission_summary_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	mission_summary_button.custom_minimum_size.y = 34.0
 	mission_summary_button.add_theme_color_override("font_color", ACCENT)
 	mission_summary_button.pressed.connect(_reopen_mission)
 	root_box.add_child(mission_summary_button)
@@ -1500,7 +1500,7 @@ func _layout_mission_briefing() -> void:
 		return
 	var briefing_size := Vector2(
 		clampf(area.x * 0.64, 640.0, 980.0),
-		clampf(area.y * 0.96, 530.0, 700.0)
+		clampf(area.y * 0.78, 420.0, 620.0)
 	)
 	task_window.size = briefing_size
 	task_window.position = (area - briefing_size) * 0.5
@@ -1684,27 +1684,18 @@ func _on_desktop_window_minimized(id: StringName, _minimized: bool) -> void:
 
 func _build_header() -> Control:
 	var header := PanelContainer.new()
-	header.custom_minimum_size.y = 74.0
+	header.name = "TaskHeader"
+	var chrome := InstrumentTheme.panel(InstrumentTheme.SURFACE)
+	chrome.content_margin_top = 4
+	chrome.content_margin_bottom = 4
+	header.add_theme_stylebox_override("panel", chrome)
 	var row := HBoxContainer.new()
 	header.add_child(row)
-	var title_box := VBoxContainer.new()
-	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(title_box)
-	var title := Label.new()
-	title.text = _t(&"hardware.title")
-	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
-	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	title.add_theme_color_override("font_color", ACCENT)
-	title_box.add_child(title)
-	var subtitle := Label.new()
-	subtitle.text = _t(&"hardware.subtitle")
-	subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	subtitle.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
-	subtitle.add_theme_color_override("font_color", MUTED)
-	title_box.add_child(subtitle)
 	phase_label = Label.new()
-	phase_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	phase_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	phase_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	phase_label.tooltip_text = _t(&"hardware.title") + "\n" + _t(&"hardware.subtitle")
+	phase_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	phase_label.add_theme_color_override("font_color", PURPLE)
 	phase_label.add_theme_font_size_override("font_size", 18)
 	row.add_child(phase_label)
@@ -1739,8 +1730,12 @@ func _build_header() -> Control:
 
 func _build_toolbar() -> Control:
 	var toolbar := PanelContainer.new()
+	var chrome := InstrumentTheme.panel(InstrumentTheme.SURFACE)
+	chrome.content_margin_top = 3
+	chrome.content_margin_bottom = 3
+	toolbar.add_theme_stylebox_override("panel", chrome)
 	var rows := VBoxContainer.new()
-	rows.add_theme_constant_override("separation", 6)
+	rows.add_theme_constant_override("separation", 2)
 	toolbar.add_child(rows)
 	var row := HFlowContainer.new()
 	row.name = "EditingTools"

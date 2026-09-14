@@ -18,6 +18,10 @@ const BUS_WIRE_THICKNESS: float = SignalNotationType.BUS_STROKE
 
 signal connection_attempt_rejected
 var _rejection_reported: bool = false
+# Pointer response is presentation only: no looping pulse or simulated wire delay.
+var draft_motion: float = 0.0
+var draft_last_pointer: Vector2
+var draft_was_active: bool = false
 
 signal branch_connection_requested(
 	connection: Dictionary,
@@ -109,7 +113,8 @@ func _ready() -> void:
 	set_process(true)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	_update_draft_motion(delta)
 	var geometry_changed: bool = (
 		not displayed_scroll_offset.is_equal_approx(scroll_offset)
 		or not is_equal_approx(displayed_zoom, zoom)
@@ -132,6 +137,25 @@ func _process(_delta: float) -> void:
 	displayed_zoom = zoom
 	displayed_node_transforms = current_transforms
 	queue_redraw()
+
+
+func _update_draft_motion(delta: float) -> void:
+	var active: bool = not builtin_connection_source.is_empty() or branch_dragging or not endpoint_candidate.is_empty()
+	var pointer: Vector2 = builtin_connection_pointer
+	if branch_dragging:
+		pointer = branch_pointer
+	elif not endpoint_candidate.is_empty():
+		pointer = endpoint_pointer
+	var previous: float = draft_motion
+	if not active or not draft_was_active or bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+		draft_motion = 0.0
+	else:
+		var speed: float = pointer.distance_to(draft_last_pointer) / maxf(delta, 0.001)
+		draft_motion = move_toward(draft_motion, clampf(speed / 900.0, 0.0, 1.0), delta * 8.0)
+	draft_last_pointer = pointer
+	draft_was_active = active
+	if not is_equal_approx(previous, draft_motion):
+		queue_redraw()
 
 
 func queue_signal_wire_redraw(_value: Variant = null) -> void:
@@ -536,8 +560,7 @@ func _draw() -> void:
 	_draw_draft_curve(preview, color, connection_bit_width(branch_candidate))
 	draw_circle(branch_anchor, 8.0, Color("101725"))
 	draw_circle(branch_anchor, 6.0, color)
-	draw_circle(end, 10.0, Color(color, 0.18))
-	draw_circle(end, 5.0, color)
+	_draw_draft_tip(end, color, connection_bit_width(branch_candidate), &"free" if branch_target.is_empty() else (&"valid" if valid else &"invalid"))
 
 
 func set_draft_color_index(color_index: int) -> void:
@@ -545,23 +568,65 @@ func set_draft_color_index(color_index: int) -> void:
 	queue_redraw()
 
 
-func _draw_builtin_connection_preview() -> void:
+func builtin_connection_preview() -> Dictionary:
 	var source: GraphNode = get_node_or_null(NodePath(String(
 		builtin_connection_source.get("node", "")
 	))) as GraphNode
-	if source == null:
-		return
+	if source == null or builtin_connection_source.is_empty():
+		return {}
 	var port: int = int(builtin_connection_source.get("port", 0))
 	var is_output: bool = bool(builtin_connection_source.get("is_output", true))
 	var origin: Vector2 = displayed_port_position(source, port, is_output)
-	var preview: PackedVector2Array = get_connection_line(origin, builtin_connection_pointer)
-	var color: Color = WirePaletteType.color(draft_color_index)
-	_draw_draft_curve(preview, color.lightened(0.24), port_bit_width(source.name, port, is_output))
+	var finish: Vector2 = builtin_connection_pointer
+	var state: StringName = &"free"
+	# Use the same nearest-port hotzone as native release, including wrong-side ports.
+	var target: Dictionary = _port_at(finish, 28.0)
+	if not target.is_empty() and not (target.node == source.name and target.port == port and target.is_output == is_output):
+		var valid: bool = bool(target.is_output) != is_output
+		if valid:
+			valid = _is_node_hover_valid(source.name, port, target.node, target.port) if is_output else _is_node_hover_valid(target.node, target.port, source.name, port)
+		state = &"valid" if valid else &"invalid"
+		if valid:
+			finish = displayed_port_position(get_node(NodePath(String(target.node))) as GraphNode, int(target.port), not is_output)
+	# Generate the same output-to-input curve as the committed wire, even when
+	# the player starts at the input. Reverse only the drawing order.
+	var curve: PackedVector2Array = get_connection_line(origin, finish) if is_output else get_connection_line(finish, origin)
+	if not is_output:
+		curve.reverse()
+	return {"curve": curve, "finish": finish, "state": state, "bits": port_bit_width(source.name, port, is_output)}
+
+
+func _draw_builtin_connection_preview() -> void:
+	var preview: Dictionary = builtin_connection_preview()
+	if preview.is_empty():
+		return
+	var color: Color = WirePaletteType.color(draft_color_index).lightened(0.24)
+	if preview.state == &"valid":
+		color = SIGNAL_HIGH
+	elif preview.state == &"invalid":
+		color = SIGNAL_LOW
+	_draw_draft_curve(preview.curve, color, int(preview.bits))
+	_draw_draft_tip(preview.finish, color, int(preview.bits), preview.state)
 
 
 func _draw_draft_curve(curve: PackedVector2Array, color: Color, bits: int) -> void:
-	draw_polyline(curve, Color(color, 0.18), SignalNotationType.wire_stroke_width(bits) + 7.0, true)
+	if curve.size() < 2:
+		return
+	draw_polyline(curve, Color(color, 0.10 + 0.08 * draft_motion), SignalNotationType.wire_stroke_width(bits) + 4.0 + 3.0 * draft_motion, true)
 	SignalNotationType.draw_cable(self, curve, color, bits)
+
+
+func _draw_draft_tip(point: Vector2, color: Color, bits: int, state: StringName) -> void:
+	var radius: float = 8.0 + 3.0 * draft_motion
+	draw_circle(point, radius + 3.0, Color(color, 0.15))
+	if state == &"invalid":
+		# Shape, not just red: a rejected endpoint never resembles a snapped plug.
+		draw_line(point - Vector2(5, 5), point + Vector2(5, 5), color, 2.5, true)
+		draw_line(point - Vector2(5, -5), point + Vector2(5, -5), color, 2.5, true)
+	elif bits > 1:
+		draw_rect(Rect2(point - Vector2.ONE * 5.0, Vector2.ONE * 10.0), color, state != &"valid", 2.0 if state == &"valid" else -1.0)
+	else:
+		draw_circle(point, 5.0, color, state != &"valid", 2.0 if state == &"valid" else -1.0, true)
 
 
 func _draw_settled_connections() -> void:
@@ -1210,8 +1275,7 @@ func _draw_endpoint_preview() -> void:
 	var preview: PackedVector2Array = get_connection_line(endpoint_anchor, finish)
 	_draw_draft_curve(preview, color, connection_bit_width(endpoint_candidate))
 	draw_circle(endpoint_anchor, 7.0, color)
-	draw_circle(finish, 10.0, Color(color, 0.2))
-	draw_circle(finish, 5.0, color)
+	_draw_draft_tip(finish, color, connection_bit_width(endpoint_candidate), &"free" if endpoint_target.is_empty() else (&"valid" if valid else &"invalid"))
 
 
 func _input_port_at(

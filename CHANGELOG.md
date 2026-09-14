@@ -4,6 +4,12 @@
 
 ## 简体中文
 
+### 2026-09-14 · 导线预览（源码更新）
+
+- 反向拖线保持接好后的曲线方向，接近有效端口时对齐，拒绝连接显示叉号。
+- 线头随鼠标移动轻微提亮，停下后收敛；保留单线／总线区别和减少动效设置。
+- 仅改变编辑反馈，导线仍无仿真延迟；现有候选包未覆盖更新。
+
 ### 2026-09-14 · 原生试玩修正
 
 候选：`free-alpha-3b0afc5a4234`，内容提交 `3b0afc5a4234`，未公开发行。
@@ -54,6 +60,12 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-09-14 · Wire previews (source update)
+
+- Reverse drags match the final cable curve; valid sockets snap and rejected endpoints show a cross.
+- Gentle pointer-driven feedback settles at rest and respects reduced motion and scalar/bus notation.
+- Presentation only: wires still have zero simulation latency. Existing candidate packages are unchanged.
 
 ### 2026-09-14 · Native playtest fixes
 

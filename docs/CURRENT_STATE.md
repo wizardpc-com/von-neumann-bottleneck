@@ -13,6 +13,9 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 The latest source follow-up compacts the hardware task header and leaves vertical space around
 Mission. Shared floating panels handle scaled drag/resize and focus cancellation.
 [Checks and native boundaries](verification/20260914-compact-desktop/README.md).
+Wire placement previews now keep the final curve when dragged backwards, distinguish
+compatible/rejected endpoints and respond briefly to pointer movement; reduced motion
+keeps static feedback. [Wire preview checks](verification/20260914-wire-preview/README.md).
 Both READMEs add earned CPU and double-buffer screenshots with short introductions.
 The frozen `free-alpha-60de5e54c95d` package below **predates this UI change**; it was
 not overwritten or represented as containing the newer source.

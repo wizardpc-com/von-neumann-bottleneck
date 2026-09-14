@@ -256,16 +256,26 @@ func _build_mission() -> void:
 	for task: Dictionary in C.cases(level):
 		var text: String = _l("订单 ","Case ")+task.name+" · %d " % task.records.size()+_l("条记录","records")
 		for q: Dictionary in task.queries:
-			var fields: Array[String] = []
-			for f: int in q.fields: fields.append(_field(f))
-			text += "\n"+(_l("求和：","Sum: ") if q.kind == "sum" else _l("逐项输出：","Output: "))+" + ".join(fields)+" ×%d" % int(q.get("repeat",1))
-			text += _l(" · 全部记录"," · all records") if q.get("indices",[]).is_empty() else " · #"+str(q.indices)
+			text += "\n" + _query_summary(q)
 		if task.target_cycles>0: text += "\n"+_l("总周期 ≤ ","Total cycles ≤ ")+str(task.target_cycles)
 		if task.target_bytes>0: text += "\n"+_l("RAM 总流量 ≤ ","Total RAM traffic ≤ ")+str(task.target_bytes)+" B"
 		if not task.native_layout: text += " · "+_l("临时空间 ≤ ","Scratch ≤ ")+str(task.scratch_limit)+" B"
 		box.add_child(_label(text,true))
 	box.add_child(_label(Localization.text(&"layout.mission.cache_rules"),true))
 	_button(box,Localization.text(&"layout.mission.begin"),_begin_arranging)
+
+func _query_summary(query: Dictionary) -> String:
+	var fields: PackedStringArray = []
+	for field: int in query.fields:
+		fields.append(_field(field))
+	var key: StringName = &"layout.mission.query.sum" if query.kind == "sum" else &"layout.mission.query.records"
+	var text: String = Localization.text(key, [_l("、", ", ").join(fields)])
+	text += Localization.text(&"layout.mission.query.repeat", [int(query.get("repeat", 1))])
+	var indices: PackedStringArray = []
+	for index: int in query.get("indices", []):
+		indices.append("#%d" % index)
+	return text + (Localization.text(&"layout.mission.query.all") if indices.is_empty() else Localization.text(&"layout.mission.query.selected", [_l("、", ", ").join(indices)]))
+
 var shared_handbook: TerminologyHandbook
 
 func _build_manual() -> void:

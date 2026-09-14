@@ -24,6 +24,8 @@ func _run() -> void:
 	var handbook: Variant = handbook_type.new()
 	root.add_child(handbook)
 	await process_frame
+	_check_diagram_models(handbook.detail_diagram)
+	_check_signal_diagram_models(handbook.detail_diagram)
 	var save: Node = root.get_node("GlobalSave")
 	var system: Node = root.get_node("SystemChapter")
 	var locality: Node = root.get_node("LocalityChapter")
@@ -85,6 +87,7 @@ func _run() -> void:
 	root.get_node("GameMode").set_mode(&"test")
 	for locale: String in ["zh_CN", "en"]:
 		localization.set_locale(locale)
+		_check_diagram_captions(handbook.detail_diagram, localization, locale)
 		for term: Dictionary in handbook_type.TERMS:
 			handbook.open_handbook(term["id"])
 			await process_frame
@@ -95,7 +98,7 @@ func _run() -> void:
 				for step: int in range(handbook.detail_diagram.example_count()):
 					handbook.detail_diagram.advance_example(1)
 				check(handbook.detail_diagram.example_step == 0 and saved_before == save.game_player_content.canonical_signature(), "Illustrative steps wrap without modifying the player's content: "+String(term["id"]))
-				if "--handbook-capture" in OS.get_cmdline_user_args() and term["id"] in [&"signal", &"binary", &"half_adder", &"sr_latch", &"register", &"junction"]:
+				if "--handbook-capture" in OS.get_cmdline_user_args() and term["id"] in [&"signal", &"binary", &"half_adder", &"sr_latch", &"register", &"junction", &"bit_width", &"data_layout", &"field_group", &"copy_cost", &"bounded_batch", &"multiplexer", &"alu", &"accumulator", &"cache"]:
 					await RenderingServer.frame_post_draw
 					var folder := "res://.godot/polish/handbook/"
 					DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(folder))
@@ -125,3 +128,92 @@ func _check_recommendations(handbook: Variant, chapter: String, level: String) -
 	check(handbook_type.RECOMMENDED.has(context), "Every playable lesson has focused guidance: " + String(context))
 	for term: StringName in handbook_type.RECOMMENDED.get(context, []):
 		check(handbook.is_term_unlocked(term), "Recommended knowledge is available before solving %s: %s" % [context, term])
+
+
+func _check_diagram_models(diagram: Control) -> void:
+	var view: Variant = diagram
+	view.set_diagram(&"widths")
+	check(view.example_count() == 3 and view.WIDTH_EXAMPLES == [1, 2, 4], "Width diagrams introduce the 2-bit selector/address width as well as scalar and 4-bit data.")
+	for term: StringName in [&"layout_data_layout", &"layout_field_group"]:
+		view.set_diagram(term)
+		var first_addresses: Dictionary = view.layout_example_mapping().addresses.duplicate()
+		for step: int in range(view.example_count()):
+			var map: Dictionary = view.layout_example_mapping()
+			var identities: Array[int] = []
+			for cell: Dictionary in map.cells:
+				identities.append(int(cell.record) * 4 + int(cell.field))
+				check(int(cell.address) % 4 == 0 and int(cell.address) >= 0 and int(cell.address) < 32,
+					"Every illustrated cell occupies a real aligned word inside the two-record mapping.")
+				if term == &"layout_field_group":
+					check((int(cell.address) < 16) == (int(cell.field) < 2), "The two example groups occupy separate actual memory lines.")
+			identities.sort()
+			check(identities == [0, 1, 2, 3, 4, 5, 6, 7] and int(map.bytes) == 32,
+				"Rearranging the illustration preserves all fields and both record identities.")
+			if step == 1:
+				check(map.addresses != first_addresses, "Changing order visibly changes actual addresses, not just the caption.")
+			view.advance_example(1)
+	view.set_diagram(&"layout_bounded_batch")
+	var covered_records: Array[int] = []
+	var sizes: Array[int] = []
+	var storage: Array[int] = []
+	var fill_widths: Array[float] = []
+	view.size.x = 420
+	for step: int in range(view.example_count()):
+		var batch: Dictionary = view.batch_example()
+		sizes.append(int(batch.count))
+		storage.append(int(batch.bytes))
+		fill_widths.append(view.batch_storage_fill().size.x)
+		for record: int in range(int(batch.first), int(batch.first) + int(batch.count)):
+			covered_records.append(record)
+		view.advance_example(1)
+	check(covered_records == [0, 1, 2, 3, 4, 5, 6, 7, 8], "Batch illustration covers each example record once without inventing tail records.")
+	check(sizes == [4, 4, 1] and storage == [64, 64, 16], "The tail uses its actual all-field mapping, rather than a full-batch space estimate.")
+	check(is_equal_approx(fill_widths[0], fill_widths[1]) and is_equal_approx(fill_widths[2] * 4.0, fill_widths[0]), "The last batch visibly occupies one quarter of the full-batch storage outline.")
+	view.set_diagram(&"layout_copy_cost")
+	check(view.example_count() == 3, "Copy-cost steps are separate from the batching example.")
+
+
+func _check_diagram_captions(diagram: Control, localization: Node, locale: String) -> void:
+	var view: Variant = diagram
+	var captions: Dictionary = {
+		&"terminology.diagram.layout.legend": Vector2(14, 57),
+		&"terminology.diagram.copy.step.0": Vector2(15, 73),
+		&"terminology.diagram.copy.step.1": Vector2(15, 73),
+		&"terminology.diagram.copy.step.2": Vector2(15, 73),
+		&"terminology.diagram.batch.sequence": Vector2(14, 48),
+	}
+	for key: StringName in captions:
+		var spec: Vector2 = captions[key]
+		var text: String = localization.text(key)
+		check(text != String(key), "Diagram caption is translated: %s %s" % [locale, key])
+		var layout: Dictionary = view.wrapped_text_layout(Rect2(0, 0, 336, spec.y), text, int(spec.x))
+		check(layout.measured.y <= spec.y and int(layout.font_size) >= 12,
+			"Diagram caption fits its 248px illustration at narrow width without clipping: %s %s" % [locale, key])
+
+
+func _check_signal_diagram_models(diagram: Control) -> void:
+	var view: Variant = diagram
+	var simulator: Variant = load("res://src/circuit/prologue_simulator.gd").new()
+	view.set_diagram(&"multiplexer")
+	for step: int in range(view.example_count()):
+		var example: Dictionary = view.multiplexer_example()
+		var inputs: Array[DigitalValue] = [DigitalValue.known(1, int(example.a)),
+			DigitalValue.known(1, int(example.b)), DigitalValue.known(1, int(example.select))]
+		var result: DigitalValue = simulator._mux2(inputs)
+		check(result.width == 1 and result.value == int(example.output), "Both handbook MUX selections match the actual one-bit model.")
+		view.advance_example(1)
+	view.set_diagram(&"alu")
+	var example: Dictionary = view.alu_example()
+	var inputs: Array[DigitalValue] = []
+	for port: String in ["a", "b", "cin", "op0", "op1"]:
+		inputs.append(DigitalValue.known(1, int(example[port])))
+	var outputs: Array[DigitalValue] = simulator._alu(inputs, 1)
+	check(outputs[0].value == int(example.result) and outputs[1].value == int(example.carry),
+		"The introductory ALU illustration separates the model's one-bit result and carry.")
+	view.set_diagram(&"cache")
+	for width: float in [336.0, 500.0, 720.0]:
+		view.size.x = width
+		var boxes: Dictionary = view.cache_example_boxes()
+		var arrow: PackedVector2Array = view.cache_hit_arrow()
+		check(arrow[0].x == boxes.cache.position.x and arrow[1].x == boxes.cpu.end.x and arrow[0].x > arrow[1].x,
+			"A hit returns data from Cache to CPU, with no overlapping boxes at width %d." % int(width))

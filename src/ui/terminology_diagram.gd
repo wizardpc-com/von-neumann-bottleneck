@@ -2,6 +2,11 @@ class_name TerminologyDiagram
 extends Control
 
 const SignalNotationType = preload("res://src/ui/signal_notation.gd")
+const LayoutRecipeType = preload("res://src/layout_chapter/layout_recipe.gd")
+const LayoutMemoryType = preload("res://src/layout_chapter/layout_memory_view.gd")
+const WIDTH_EXAMPLES: Array[int] = [1, 2, 4]
+const BATCH_RECORDS: int = 9
+const BATCH_CAPACITY: int = 4
 
 const BACKGROUND := Color("101a2a")
 const PANEL := Color("18263a")
@@ -102,38 +107,64 @@ func _draw_accumulator() -> void:
 	_draw_arrow(_right_center(original), _left_center(operation), ACCENT)
 	_draw_arrow(_bottom_center(operation), _top_center(write_back), WARNING)
 	_draw_arrow(_left_center(write_back), _right_center(reuse), GOOD)
-	_draw_arrow(_top_center(reuse), _bottom_center(original), ACCENT)
+
+
+func multiplexer_example() -> Dictionary:
+	return {"a": 0, "b": 1, "select": example_step, "output": example_step}
 
 
 func _draw_multiplexer() -> void:
-	var center := Rect2(Vector2(size.x * 0.40, 45.0), Vector2(size.x * 0.24, 130.0))
-	_draw_box(center, "MUX", _t(&"terminology.diagram.multiplexer.select"), ACCENT)
-	var values := ["D0 = 3", "D1 = 7", "D2 = 12", "D3 = 1"]
-	for index: int in range(values.size()):
-		var y: float = center.position.y + 18.0 + index * 27.0
-		var active: bool = index == 2
-		_draw_text(Rect2(16.0, y - 9.0, center.position.x - 30.0, 22.0), values[index], TEXT if not active else GOOD, 14)
-		_draw_arrow(Vector2(center.position.x - 18.0, y), Vector2(center.position.x, y), GOOD if active else MUTED)
-	var output_y: float = center.get_center().y
-	_draw_arrow(Vector2(center.end.x, output_y), Vector2(size.x - 18.0, output_y), GOOD)
-	_draw_text(Rect2(center.end.x + 12.0, output_y - 28.0, size.x - center.end.x - 30.0, 24.0), _t(&"terminology.diagram.multiplexer.output"), GOOD, 14)
-	_draw_text(Rect2(center.end.x + 12.0, output_y + 4.0, size.x - center.end.x - 30.0, 24.0), "12", TEXT, 18)
-	_draw_arrow(Vector2(center.get_center().x, size.y - 18.0), Vector2(center.get_center().x, center.end.y), WARNING)
-	_draw_text(Rect2(center.position.x, size.y - 43.0, center.size.x, 22.0), "OP = 10", WARNING, 14)
+	var state: Dictionary = multiplexer_example()
+	var center := Rect2(Vector2(size.x * 0.39, 52), Vector2(size.x * 0.26, 122))
+	var color: Color = SignalNotationType.width_color(1)
+	_draw_text(Rect2(12, 10, size.x - 24, 26), SignalNotationType.width_text(1), color, 17)
+	_draw_box(center, "MUX", "S = " + str(state.select), ACCENT)
+	for index: int in range(2):
+		var y: float = 84 + index * 64
+		var active: bool = index == int(state.select)
+		var value: int = int(state.a) if index == 0 else int(state.b)
+		var label: String = ("A" if index == 0 else "B") + " = " + str(value)
+		_draw_text(Rect2(12, y - 28, center.position.x - 24, 24), label, GOOD if active else TEXT, 17)
+		_draw_signal_arrow(Vector2(18, y), Vector2(center.position.x, y), value)
+	_draw_signal_arrow(_right_center(center), Vector2(size.x - 18, center.get_center().y), int(state.output))
+	_draw_text(Rect2(center.end.x + 4, 73, size.x - center.end.x - 12, 27), _t(&"terminology.diagram.multiplexer.output"), TEXT, 14)
+	_draw_text(Rect2(center.end.x + 4, 118, size.x - center.end.x - 12, 30), str(state.output), TEXT, 24)
+	_draw_signal_arrow(Vector2(center.get_center().x, 206), _bottom_center(center), int(state.select))
+	_draw_text(Rect2(12, 213, size.x - 24, 26), _t(&"terminology.diagram.multiplexer.try_select"), MUTED, 14)
+
+
+func alu_example() -> Dictionary:
+	return {"a": 1, "b": 1, "cin": 0, "op1": 1, "op0": 0, "result": 0, "carry": 1}
 
 
 func _draw_alu() -> void:
-	var alu := Rect2(Vector2(size.x * 0.35, 36.0), Vector2(size.x * 0.30, 150.0))
-	_draw_box(alu, "ALU", _t(&"terminology.diagram.alu.selected"), ACCENT)
-	_draw_arrow(Vector2(18.0, 74.0), Vector2(alu.position.x, 74.0), ACCENT)
-	_draw_arrow(Vector2(18.0, 145.0), Vector2(alu.position.x, 145.0), ACCENT)
-	_draw_text(Rect2(18.0, 42.0, alu.position.x - 34.0, 24.0), "A = 6", TEXT, 16)
-	_draw_text(Rect2(18.0, 113.0, alu.position.x - 34.0, 24.0), "B = 3", TEXT, 16)
-	_draw_arrow(Vector2(alu.get_center().x, size.y - 18.0), Vector2(alu.get_center().x, alu.end.y), WARNING)
-	_draw_text(Rect2(alu.position.x, size.y - 45.0, alu.size.x, 22.0), "OP = ADD", WARNING, 14)
-	_draw_arrow(Vector2(alu.end.x, alu.get_center().y), Vector2(size.x - 18.0, alu.get_center().y), GOOD)
-	_draw_text(Rect2(alu.end.x + 12.0, alu.get_center().y - 34.0, size.x - alu.end.x - 30.0, 24.0), _t(&"terminology.diagram.alu.result"), GOOD, 14)
-	_draw_text(Rect2(alu.end.x + 12.0, alu.get_center().y + 2.0, size.x - alu.end.x - 30.0, 24.0), "9", TEXT, 19)
+	var state: Dictionary = alu_example()
+	var alu := Rect2(Vector2(size.x * 0.38, 54), Vector2(size.x * 0.25, 120))
+	_draw_text(Rect2(12, 10, size.x - 24, 27), SignalNotationType.width_text(1), SignalNotationType.width_color(1), 17)
+	_draw_box(alu, "ALU", "ADD", ACCENT)
+	var inputs: Array[String] = ["a", "b", "cin"]
+	for index: int in range(inputs.size()):
+		var y: float = 77 + index * 36
+		var name: String = inputs[index]
+		_draw_text(Rect2(12, y - 27, alu.position.x - 24, 24), name.to_upper() + " = " + str(state[name]), TEXT, 16)
+		_draw_signal_arrow(Vector2(18, y), Vector2(alu.position.x, y), int(state[name]))
+	for index: int in range(2):
+		var name: String = "result" if index == 0 else "carry"
+		var y: float = 90 + index * 54
+		_draw_text(Rect2(alu.end.x + 4, y - 29, size.x - alu.end.x - 12, 25), name.to_upper() + " = " + str(state[name]), TEXT, 15)
+		_draw_signal_arrow(Vector2(alu.end.x, y), Vector2(size.x - 18, y), int(state[name]))
+	# The first ALU lesson has two scalar controls, not an implicit 2-bit socket.
+	_draw_signal_arrow(Vector2(alu.get_center().x - 16, 207), Vector2(alu.get_center().x - 16, alu.end.y), int(state.op1))
+	_draw_signal_arrow(Vector2(alu.get_center().x + 16, 207), Vector2(alu.get_center().x + 16, alu.end.y), int(state.op0))
+	_draw_text(Rect2(12, 215, size.x - 24, 25), "OP1 = 1      OP0 = 0", TEXT, 15)
+
+
+func _draw_signal_arrow(from: Vector2, to: Vector2, value: int) -> void:
+	var color: Color = SignalNotationType.width_color(1) if value == 1 else MUTED
+	SignalNotationType.draw_cable(self, PackedVector2Array([from, to]), color, 1)
+	var direction := (to - from).normalized()
+	var normal := Vector2(-direction.y, direction.x)
+	draw_colored_polygon(PackedVector2Array([to, to - direction * 8 + normal * 4, to - direction * 8 - normal * 4]), color)
 
 
 func _draw_signal() -> void:
@@ -273,17 +304,31 @@ func _draw_bottleneck() -> void:
 	_draw_text(Rect2(origin_x, size.y - 32.0, max_width, 22.0), _t(&"terminology.diagram.bottleneck.slowest"), DANGER, 14)
 
 
+func cache_example_boxes() -> Dictionary:
+	var box_size := Vector2(minf(135, (size.x - 60) * 0.5), 70)
+	return {"cpu": Rect2(Vector2(20, 60), box_size),
+		"cache": Rect2(Vector2(size.x - 20 - box_size.x, 60), box_size),
+		"ram": Rect2(Vector2(size.x - 20 - box_size.x, 154), box_size)}
+
+
+func cache_hit_arrow() -> PackedVector2Array:
+	var boxes: Dictionary = cache_example_boxes()
+	return PackedVector2Array([_left_center(boxes.cache), _right_center(boxes.cpu)])
+
+
 func _draw_cache() -> void:
-	var cpu := Rect2(Vector2(20.0, 80.0), Vector2(105.0, 70.0))
-	var cache := Rect2(Vector2(size.x * 0.38, 47.0), Vector2(135.0, 70.0))
-	var ram := Rect2(Vector2(size.x - 155.0, 150.0), Vector2(130.0, 70.0))
+	var boxes: Dictionary = cache_example_boxes()
+	var cpu: Rect2 = boxes.cpu
+	var cache: Rect2 = boxes.cache
+	var ram: Rect2 = boxes.ram
 	_draw_box(cpu, "CPU", _t(&"terminology.diagram.cache.load"), ACCENT)
 	_draw_box(cache, "CACHE", _t(&"terminology.diagram.cache.line"), GOOD)
 	_draw_box(ram, "RAM", _t(&"terminology.diagram.cache.memory"), WARNING)
-	_draw_arrow(_right_center(cpu), _left_center(cache), GOOD)
-	_draw_text(Rect2(cpu.end.x + 6.0, 53.0, cache.position.x - cpu.end.x - 12.0, 24.0), _t(&"terminology.diagram.cache.hit"), GOOD, 14)
-	_draw_polyline(PackedVector2Array([_bottom_center(cache), Vector2(cache.get_center().x, ram.get_center().y), _left_center(ram)]), WARNING)
-	_draw_text(Rect2(cache.position.x + 10.0, 159.0, ram.position.x - cache.position.x - 22.0, 24.0), _t(&"terminology.diagram.cache.miss"), WARNING, 14)
+	var hit: PackedVector2Array = cache_hit_arrow()
+	_draw_arrow(hit[0], hit[1], GOOD)
+	_draw_text(Rect2(14, 16, size.x - 28, 27), _t(&"terminology.diagram.cache.hit"), GOOD, 15)
+	_draw_arrow(_bottom_center(cache), _top_center(ram), WARNING)
+	_draw_wrapped_text(Rect2(14, 163, ram.position.x - 26, 61), _t(&"terminology.diagram.cache.miss"), WARNING, 14)
 
 
 func _draw_working_set() -> void:
@@ -385,7 +430,9 @@ func _t(key: StringName) -> String:
 func example_count() -> int:
 	if String(diagram_id).begins_with("gate_"): return 2 if diagram_id == &"gate_not" else 4
 	match diagram_id:
-		&"widths": return 2
+		&"widths": return WIDTH_EXAMPLES.size()
+		&"layout_data_layout", &"layout_field_group", &"multiplexer": return 2
+		&"layout_copy_cost", &"layout_bounded_batch": return 3
 		&"arrival", &"prefetch", &"queue": return 3
 		&"buffer_states", &"double_buffer", &"prefetch_distance": return 4
 	return 1
@@ -397,9 +444,9 @@ func advance_example(direction: int) -> void:
 
 
 func _draw_width_example() -> void:
-	var width: int = 1 if example_step == 0 else 4
+	var width: int = WIDTH_EXAMPLES[example_step]
 	var color: Color = SignalNotationType.width_color(width)
-	var value: int = 1 if width == 1 else 5
+	var value: int = 1 if width == 1 else 2 if width == 2 else 5
 	_draw_text(Rect2(16,14,size.x-32,28),SignalNotationType.width_text(width),color,20)
 	SignalNotationType.draw_cable(self,PackedVector2Array([Vector2(30,76),Vector2(size.x-30,76)]),color,width)
 	if width == 1: draw_circle(Vector2(size.x-30,76),6,color)
@@ -408,7 +455,10 @@ func _draw_width_example() -> void:
 	var left: float = (size.x-cell*width)*0.5
 	for index: int in range(width):
 		var bit: int = (value >> (width-index-1)) & 1
-		_draw_box(Rect2(left+index*cell,110,cell-6,62),str(bit),str(1 << (width-index-1)),color if bit else MUTED)
+		var rect := Rect2(left+index*cell,110,cell-6,62)
+		draw_rect(rect, PANEL_ACTIVE if bit else PANEL, true)
+		draw_rect(rect, color if bit else MUTED, false, 2.0)
+		_draw_text(rect, str(bit), color if bit else MUTED, 24)
 	_draw_text(Rect2(16,190,size.x-32,30),_t(&"terminology.diagram.width_value") % [value,(1<<width)-1],TEXT,16)
 
 
@@ -473,27 +523,121 @@ func _draw_double_buffer_example() -> void:
 	_draw_text(Rect2(16,182,size.x-32,36),_t(StringName("teaching.double_buffer."+str(example_step))),TEXT,15)
 
 func _draw_layout_example() -> void:
+	match diagram_id:
+		&"layout_copy_cost":
+			_draw_copy_cost_example()
+		&"layout_bounded_batch":
+			_draw_batch_example()
+		_:
+			_draw_layout_mapping_example()
+
+
+# Use the same address mapper and field identity as the playable memory view.
+# The grouping is deliberately a small neutral example, not the hot/cold solution.
+func layout_example_mapping() -> Dictionary:
+	var recipe: Dictionary = LayoutRecipeType.record_major() if example_step == 0 else LayoutRecipeType.field_major()
+	if diagram_id == &"layout_field_group":
+		var order: String = "record" if example_step == 0 else "field"
+		recipe = {"groups": [{"fields": [0, 1], "order": order}, {"fields": [2, 3], "order": order}], "block": 0}
+	return LayoutRecipeType.mapping(recipe, 2)
+
+
+func _draw_layout_mapping_example() -> void:
+	var map: Dictionary = layout_example_mapping()
+	var grouped: bool = diagram_id == &"layout_field_group"
+	var title_key := StringName("terminology.diagram.layout." + ("group_" if grouped else "") + ("record" if example_step == 0 else "field"))
+	_draw_text(Rect2(12, 10, size.x - 24, 28), _t(title_key), TEXT, 17)
+	var cell_width: float = (size.x - 84.0) / 4.0
+	for row: int in range(int(map.bytes) / LayoutRecipeType.LINE_BYTES):
+		var y: float = 48.0 + row * 63.0
+		draw_rect(Rect2(66, y, size.x - 78, 58), PANEL, true)
+		draw_rect(Rect2(66, y, size.x - 78, 58), BORDER, false, 1.0)
+		_draw_text(Rect2(6, y, 54, 58), str(row * LayoutRecipeType.LINE_BYTES) + " B", MUTED, 13)
 	var chinese: bool = TranslationServer.get_locale().begins_with("zh")
-	if diagram_id==&"layout_copy_cost" or diagram_id==&"layout_bounded_batch":
-		var captions: Array = ["准备：读取 → 写入","查询这一批","释放 → 下一批"] if chinese else ["Prepare: read → write","Query this batch","Release → next"]
-		var width: float = (size.x-48)/3
-		for index: int in range(3):
-			var rect := Rect2(16+index*width,65,width-10,78)
-			draw_rect(rect,PANEL); _draw_text(rect,captions[index],ACCENT,17)
-		_draw_text(Rect2(16,163,size.x-32,42),"9 条 ÷ 每批 4 条 → 4 + 4 + 1（尾批）" if chinese else "9 records / 4 per batch → 4 + 4 + 1 (tail)",TEXT,18)
-		return
-	var recipe = preload("res://src/layout_chapter/layout_recipe.gd")
-	var colors: Array[Color] = [GOOD,ACCENT,WARNING,Color("bc8cff")]
-	var names: Array = ["温","号","电","警"] if chinese else ["T","ID","B","A"]
-	for panel_index: int in range(2):
-		var map: Dictionary = recipe.mapping(recipe.record_major() if panel_index==0 else recipe.field_major(),2)
-		var width: float = (size.x-48)/2
-		var x: float = 16+panel_index*(width+16)
-		_draw_text(Rect2(x,12,width,35),("按记录" if panel_index==0 else "按字段") if chinese else ("By record" if panel_index==0 else "By field"),TEXT,19)
-		for cell: Dictionary in map.cells:
-			var address: int = int(cell.address)
-			var at := Vector2(x+(address%16)/4*(width/4),60+int(address/16)*64)
-			var rect := Rect2(at,Vector2(width/4-5,50))
-			draw_rect(rect,Color(colors[cell.field],0.15)); draw_rect(Rect2(at,Vector2(3,50)),colors[cell.field])
-			_draw_text(rect,names[cell.field]+str(cell.record),colors[cell.field],17)
-	_draw_text(Rect2(16,196,size.x-32,34),"每格 4 B · 每行 16 B · 编号不变" if chinese else "4 B / cell · 16 B / line · same record IDs",MUTED,17)
+	for cell: Dictionary in map.cells:
+		var address: int = int(cell.address)
+		var field: int = int(cell.field)
+		var rect := Rect2(70 + (address % LayoutRecipeType.LINE_BYTES) / LayoutRecipeType.WORD_BYTES * cell_width,
+			52 + int(address / LayoutRecipeType.LINE_BYTES) * 63, cell_width - 5, 50)
+		var color: Color = LayoutMemoryType.COLORS[field]
+		draw_rect(rect, Color(color, 0.15))
+		draw_rect(Rect2(rect.position, Vector2(3, rect.size.y)), color)
+		var field_name: String = (LayoutMemoryType.NAMES if chinese else LayoutMemoryType.EN_NAMES)[field]
+		_draw_text(Rect2(rect.position + Vector2(4, 2), Vector2(rect.size.x - 8, 24)), field_name, color, 15)
+		_draw_text(Rect2(rect.position + Vector2(4, 25), Vector2(rect.size.x - 8, 22)), "#" + str(cell.record), TEXT, 14)
+	_draw_wrapped_text(Rect2(12, 181, size.x - 24, 57), _t(&"terminology.diagram.layout.legend"), MUTED, 14)
+
+
+func _draw_copy_cost_example() -> void:
+	var keys: Array[StringName] = [&"terminology.diagram.copy.read", &"terminology.diagram.copy.write", &"terminology.diagram.copy.query"]
+	_draw_text(Rect2(12, 10, size.x - 24, 28), _t(&"terminology.diagram.copy.title"), TEXT, 17)
+	var width: float = (size.x - 58) / 3.0
+	for index: int in range(3):
+		var rect := Rect2(14 + index * (width + 15), 64, width, 74)
+		var color: Color = ACCENT if index == example_step else MUTED
+		_draw_box(rect, str(index + 1), _t(keys[index]), color)
+		if index < 2:
+			_draw_arrow(_right_center(rect) + Vector2(2, 0), _right_center(rect) + Vector2(13, 0), MUTED)
+	_draw_wrapped_text(Rect2(14, 163, size.x - 28, 73), _t(StringName("terminology.diagram.copy.step." + str(example_step))), TEXT, 15)
+
+
+func batch_example() -> Dictionary:
+	var first: int = example_step * BATCH_CAPACITY
+	var count: int = mini(BATCH_CAPACITY, BATCH_RECORDS - first)
+	# All four fields are copied in this example; aligned scratch storage comes
+	# from the actual mapper rather than a decorative, fixed-size batch picture.
+	var map: Dictionary = LayoutRecipeType.mapping(LayoutRecipeType.field_major(), count)
+	var full_map: Dictionary = LayoutRecipeType.mapping(LayoutRecipeType.field_major(), BATCH_CAPACITY)
+	return {"first": first, "count": count, "bytes": int(map.bytes), "capacity_bytes": int(full_map.bytes)}
+
+
+func _draw_batch_example() -> void:
+	var batch: Dictionary = batch_example()
+	_draw_text(Rect2(12, 10, size.x - 24, 28), _t(&"terminology.diagram.batch.title"), TEXT, 16)
+	var width: float = (size.x - 30) / float(BATCH_RECORDS)
+	for record: int in range(BATCH_RECORDS):
+		var active: bool = record >= int(batch.first) and record < int(batch.first) + int(batch.count)
+		var rect := Rect2(15 + record * width, 48, width - 4, 34)
+		draw_rect(rect, PANEL_ACTIVE if active else PANEL, true)
+		draw_rect(rect, ACCENT if active else BORDER, false, 1.0)
+		_draw_text(rect, "#" + str(record), TEXT if active else MUTED, 13)
+	var scratch := Rect2(20, 111, size.x - 40, 73)
+	draw_rect(scratch, PANEL, true)
+	draw_rect(scratch, ACCENT, false, 1.5)
+	_draw_arrow(Vector2(size.x * 0.5, 85), Vector2(size.x * 0.5, 108), ACCENT)
+	_draw_text(Rect2(scratch.position + Vector2(5, 4), Vector2(scratch.size.x - 10, 25)),
+		_t(&"terminology.diagram.batch.storage") % [int(batch.count), int(batch.bytes)], ACCENT, 16)
+	var range_text: String = _t(&"terminology.diagram.batch.single") % int(batch.first) if int(batch.count) == 1 else _t(&"terminology.diagram.batch.range") % [int(batch.first), int(batch.first) + int(batch.count) - 1]
+	_draw_text(Rect2(scratch.position + Vector2(5, 46), Vector2(scratch.size.x - 10, 22)), range_text, TEXT, 14)
+	var meter := Rect2(27, 143, size.x - 54, 10)
+	draw_rect(meter, BACKGROUND, true)
+	draw_rect(batch_storage_fill(), ACCENT, true)
+	for boundary: int in range(1, BATCH_CAPACITY):
+		var x: float = meter.position.x + meter.size.x * float(boundary) / BATCH_CAPACITY
+		draw_line(Vector2(x, meter.position.y), Vector2(x, meter.end.y), BORDER, 1.0)
+	draw_rect(meter, BORDER, false, 1.0)
+	_draw_wrapped_text(Rect2(12, 191, size.x - 24, 48), _t(&"terminology.diagram.batch.sequence"), MUTED, 14)
+
+
+func batch_storage_fill() -> Rect2:
+	var batch: Dictionary = batch_example()
+	var fraction: float = float(batch.bytes) / float(batch.capacity_bytes)
+	return Rect2(27, 143, (size.x - 54) * fraction, 10)
+
+
+func wrapped_text_layout(rect: Rect2, value: String, font_size: int) -> Dictionary:
+	var font: Font = get_theme_default_font()
+	var resolved_size: int = font_size
+	var measured: Vector2 = font.get_multiline_string_size(value, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, resolved_size)
+	while resolved_size > 12 and measured.y > rect.size.y:
+		resolved_size -= 1
+		measured = font.get_multiline_string_size(value, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, resolved_size)
+	return {"font_size": resolved_size, "measured": measured,
+		"max_lines": maxi(1, floori(rect.size.y / font.get_height(resolved_size)))}
+
+
+func _draw_wrapped_text(rect: Rect2, value: String, color: Color, font_size: int) -> void:
+	var font: Font = get_theme_default_font()
+	var layout: Dictionary = wrapped_text_layout(rect, value, font_size)
+	draw_multiline_string(font, rect.position + Vector2(0, font.get_ascent(int(layout.font_size))), value,
+		HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, int(layout.font_size), int(layout.max_lines), color)

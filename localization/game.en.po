@@ -913,7 +913,7 @@ msgid "hardware.briefing.alu.2"
 msgstr "Operation specification: OP1 OP0 = 00 → A AND B; 01 → A OR B; 10 → A+B+CIN; 11 → NOT A. RESULT is the low bit. CARRY is checked only for ADD; other operations do not check CARRY.\n\nA [[multiplexer|MUX]] selects a data input using the binary value at its selector ports; it does not perform arithmetic. Inspect components for every port and width."
 
 msgid "hardware.briefing.alu.3"
-msgstr "Debug each OP choice, then run all official tests. Passing creates ALU4 by placing four copies of your verified one-bit structure side by side."
+msgstr "Debug each OP choice, then run all official tests. Passing unlocks the four-bit ALU4. Logic operations act on each bit; addition carries from lower bits into higher bits."
 
 msgid "hardware.briefing.latch.1"
 msgstr "Make a circuit remember. Ordinary gates read the current inputs; an [[sr_latch|SR Latch]] also retains a state.\n\nInputs: S is the Set control and R the Reset control, both one bit.\nOutputs: Q is the stored bit; NQ is its opposite.\nRules: S=1, R=0 sets Q=1; S=0, R=1 sets Q=0; both 0 holds. S=R=1 is outside this level’s test cases.\n\nBuild freely with NOR gates. The full sequence checks that the state survives after the input returns to 0."
@@ -2241,7 +2241,7 @@ msgid "system.level.assembly.description"
 msgstr "Connect your CPU8, an 8-bit Bus and RAM64x8 into a working system."
 
 msgid "system.level.assembly.objective"
-msgstr "Connect all six request, write, and read routes, apply the program, and pass both official cases."
+msgstr "Connect all six wire segments for requests, writes and reads, review the supplied program, and pass both official cases."
 
 msgid "system.level.assembly.briefing.1"
 msgstr "You built a four-bit computer. Now use a separate eight-bit teaching model to investigate time spent computing and moving data.\n\n[[cpu|CPU]] computes, [[ram|RAM]] stores data, and the [[bus|Bus]] transports it.\nCPU → Bus → RAM\nCPU ← Bus ← RAM"
@@ -4215,10 +4215,10 @@ msgid "terminology.example.title"
 msgstr "A concrete example"
 
 msgid "terminology.term.multiplexer.example"
-msgstr "Suppose the four inputs are D0=3, D1=7, D2=12, and D3=1. With OP=10 (binary 2), the MUX forwards only D2, so the output is 12. The other values are present but do not pass through. Think of it as a four-way junction controlled by OP."
+msgstr "Take two 1-bit signals: A=0 and B=1. With S=0, the output follows A and is 0. With S=1, it follows B and is 1. The unselected input does not affect the output."
 
 msgid "terminology.term.alu.example"
-msgstr "Let A=6 and B=3. With OP set to ADD, the result is 9. With OP set to AND, binary 0110 AND 0011 produces 0010, or 2. The inputs stay the same; changing OP tells the ALU to perform a different operation."
+msgstr "For a 1-bit addition, set A=1, B=1 and CIN=0. OP1=1 and OP0=0 select ADD. The sum is binary 10: RESULT=0 and CARRY=1. These are separate 1-bit outputs; RESULT alone cannot hold 2."
 
 msgid "terminology.term.sr_latch.example"
 msgstr "Apply (S,R) in order: (1,0) → (0,0) → (0,1). Q should be 1 → 1 → 0.\n\nThe middle step has no new set request, yet Q remains 1: that is memory. The diagram shows behaviour. Request a Hint if you want construction guidance."
@@ -4311,7 +4311,7 @@ msgid "terminology.diagram.cache.load"
 msgstr "Read address 3"
 
 msgid "terminology.diagram.cache.line"
-msgstr "Has line 0–3"
+msgstr "Addresses 0–3"
 
 msgid "terminology.diagram.cache.memory"
 msgstr "Slower remote storage"
@@ -6525,3 +6525,73 @@ msgstr "Settings · ⌘,"
 
 msgid "window.fullscreen.tooltip.mac"
 msgstr "Toggle fullscreen · ⌃⌘F (or F11)"
+
+msgid "terminology.diagram.layout.record"
+msgstr "Example · record order"
+
+msgid "terminology.diagram.layout.field"
+msgstr "Example · field order"
+
+msgid "terminology.diagram.layout.group_record"
+msgstr "Example groups · record order within each"
+
+msgid "terminology.diagram.layout.group_field"
+msgstr "Example groups · field order within each"
+
+msgid "terminology.diagram.layout.legend"
+msgstr "Example: 2 records. Each cell is 4 B; each row is 16 B. A # always identifies the same record."
+
+msgid "terminology.diagram.copy.title"
+msgstr "Runtime conversion: prepare, then query"
+
+msgid "terminology.diagram.copy.read"
+msgstr "Read source"
+
+msgid "terminology.diagram.copy.write"
+msgstr "Write copy"
+
+msgid "terminology.diagram.copy.query"
+msgstr "Query copy"
+
+msgid "terminology.diagram.copy.step.0"
+msgstr "Read each value to be copied. Reading the source and writing the copy both count as preparation."
+
+msgid "terminology.diagram.copy.step.1"
+msgstr "After reading each value, write it to its new address in temporary storage. The copy needs extra space."
+
+msgid "terminology.diagram.copy.step.2"
+msgstr "Query after preparation. Compare the total time for preparation, queries and output, not queries alone."
+
+msgid "terminology.diagram.batch.title"
+msgstr "Example: 9 records, up to 4 per batch"
+
+msgid "terminology.diagram.batch.storage"
+msgstr "Records in this batch: %d · %d B"
+
+msgid "terminology.diagram.batch.single"
+msgstr "Copy every field of record #%d"
+
+msgid "terminology.diagram.batch.range"
+msgstr "Copy every field in this batch: #%d–#%d"
+
+msgid "terminology.diagram.batch.sequence"
+msgstr "Copy → query → release. Reuse the space; the tail holds only the remaining records."
+
+msgid "layout.mission.query.sum"
+msgstr "Fields to sum: %s"
+
+msgid "layout.mission.query.records"
+msgstr "Output fields in order: %s"
+
+msgid "layout.mission.query.repeat"
+msgstr " · repeat %d times"
+
+msgid "layout.mission.query.all"
+msgstr " · all records"
+
+msgid "layout.mission.query.selected"
+msgstr " · records %s"
+
+
+msgid "terminology.diagram.multiplexer.try_select"
+msgstr "Change S and see which input the output follows."

@@ -913,7 +913,7 @@ msgid "hardware.briefing.alu.2"
 msgstr "运算规格：OP1 OP0 = 00 → A AND B；01 → A OR B；10 → A+B+CIN；11 → NOT A。RESULT 是结果低位，CARRY 只在 ADD 时检查进位；其他运算不检查 CARRY。\n\n[[multiplexer|MUX]]按选择端口的二进制值选出一个数据输入，本身不做运算。点击元件可查所有端口与位宽。"
 
 msgid "hardware.briefing.alu.3"
-msgstr "用[[debug_run|单次调试]]分别切换[[opcode|OP]]，确认每个选择都拿到了对应结果；再运行全部[[official_test|正式测试]]。通过后会生成四位[[alu|ALU4]]，它只是把你验证的一位结构并排复用四次。"
+msgstr "用[[debug_run|单次调试]]分别切换[[opcode|OP]]，确认每个选择都拿到了对应结果；再运行全部[[official_test|正式测试]]。通过后获得四位[[alu|ALU4]]：逻辑运算逐位进行，加法会计入低位向高位的进位。"
 
 msgid "hardware.briefing.latch.1"
 msgstr "让电路记住刚才发生的事。普通逻辑门只看当前输入；[[sr_latch|SR 锁存器]]还要保留状态。\n\n输入：S 是置位控制，R 是复位控制，均为 1-bit。\n输出：Q 是记住的值，NQ 是它的反相。\n规则：S=1、R=0 时 Q=1；S=0、R=1 时 Q=0；两者为 0 时保持。S=R=1 不在本关测试范围内。\n\n用 NOR 门自由搭建；完整序列会检查写入后是否仍能保持。"
@@ -4215,10 +4215,10 @@ msgid "terminology.example.title"
 msgstr "看一个例子"
 
 msgid "terminology.term.multiplexer.example"
-msgstr "假设四路输入分别是 D0=3、D1=7、D2=12、D3=1。选择信号 OP=10（二进制的 2）时，MUX 只把 D2 的 12 送到输出；其他三路即使有值，也不会通过。可以把它想成由 OP 控制的四选一岔道。"
+msgstr "以两路 1 位信号为例：A=0、B=1。S=0 时，输出跟随 A，为 0；S=1 时，输出跟随 B，为 1。未选中的那一路不影响输出。"
 
 msgid "terminology.term.alu.example"
-msgstr "令 A=6、B=3。OP 选择 ADD 时，输出是 9；选择 AND 时，二进制 0110 AND 0011 得到 0010，也就是 2。同一组输入不变，只换 OP，ALU 就会改做另一种运算。"
+msgstr "以 1 位加法为例：A=1、B=1、CIN=0。OP1=1、OP0=0 选择 ADD，得到二进制 10：低位 RESULT=0，进位 CARRY=1。它们是两个独立的 1 位输出，不能把数值 2 放进 RESULT。"
 
 msgid "terminology.term.sr_latch.example"
 msgstr "按顺序输入 (S,R)：(1,0) → (0,0) → (0,1)。Q 应依次为 1 → 1 → 0。\n\n中间一步没有新的置位请求，但 Q 仍为 1：这就是记忆。下图只展示行为；需要构建线索时，请主动查看 Hint。"
@@ -4311,7 +4311,7 @@ msgid "terminology.diagram.cache.load"
 msgstr "读取地址 3"
 
 msgid "terminology.diagram.cache.line"
-msgstr "已有 line 0～3"
+msgstr "地址 0–3"
 
 msgid "terminology.diagram.cache.memory"
 msgstr "较慢的远端存储"
@@ -6524,3 +6524,73 @@ msgstr "设置 · ⌘,"
 
 msgid "window.fullscreen.tooltip.mac"
 msgstr "切换全屏 · ⌃⌘F（或 F11）"
+
+msgid "terminology.diagram.layout.record"
+msgstr "示例 · 按记录排列"
+
+msgid "terminology.diagram.layout.field"
+msgstr "示例 · 按字段排列"
+
+msgid "terminology.diagram.layout.group_record"
+msgstr "示例分组 · 组内按记录"
+
+msgid "terminology.diagram.layout.group_field"
+msgstr "示例分组 · 组内按字段"
+
+msgid "terminology.diagram.layout.legend"
+msgstr "示例：2 条记录。每格 4 B，每行 16 B；# 编号始终指向同一条记录。"
+
+msgid "terminology.diagram.copy.title"
+msgstr "运行时整理：先准备，再查询"
+
+msgid "terminology.diagram.copy.read"
+msgstr "读原值"
+
+msgid "terminology.diagram.copy.write"
+msgstr "写副本"
+
+msgid "terminology.diagram.copy.query"
+msgstr "用副本查询"
+
+msgid "terminology.diagram.copy.step.0"
+msgstr "先读要复制的原值。读原值与写副本都属于准备成本。"
+
+msgid "terminology.diagram.copy.step.1"
+msgstr "每个原值读出后，按新地址写入临时区。副本占用额外空间。"
+
+msgid "terminology.diagram.copy.step.2"
+msgstr "准备完再查询。比较准备、查询和输出的总时间，不能只看查询。"
+
+msgid "terminology.diagram.batch.title"
+msgstr "示例：9 条记录，每批最多 4 条"
+
+msgid "terminology.diagram.batch.storage"
+msgstr "本批临时区：%d 条记录 · %d B"
+
+msgid "terminology.diagram.batch.single"
+msgstr "本批复制记录 #%d 的全部字段"
+
+msgid "terminology.diagram.batch.range"
+msgstr "本批复制全部字段：#%d–#%d"
+
+msgid "terminology.diagram.batch.sequence"
+msgstr "复制 → 完成本批查询 → 释放；下一批复用临时区。尾批只处理剩余记录。"
+
+msgid "layout.mission.query.sum"
+msgstr "求和字段：%s"
+
+msgid "layout.mission.query.records"
+msgstr "依次输出字段：%s"
+
+msgid "layout.mission.query.repeat"
+msgstr " · 重复 %d 次"
+
+msgid "layout.mission.query.all"
+msgstr " · 全部记录"
+
+msgid "layout.mission.query.selected"
+msgstr " · 记录 %s"
+
+
+msgid "terminology.diagram.multiplexer.try_select"
+msgstr "切换 S，观察输出跟随哪一路。"

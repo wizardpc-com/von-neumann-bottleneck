@@ -11,14 +11,14 @@ const GOALS := [
 	"改为抽查少数记录，每条都要四个字段。上一关的布局还适合吗？",
 	"温度与告警常一起使用，编号与电量偶尔抽查。为冷热两类访问设计布局。",
 	"数据按记录送来。一次查询与反复查询是两张订单，分别决定是否值得先复制整理。",
-	"只有 48 B 临时空间。17 条记录不能整齐分完；每条数据都必须恰好参与计算。",
+	"在 48 B 临时空间限制内完成温度统计。每轮不能漏算或重复；分批时，末批只处理剩余记录。",
 	"相同方案要同时处理反复统计与稀疏抽查。选择整理哪些字段、何时分批，也可以保留原布局。"]
 const EN_GOALS := [
 	"Sum temperatures. Keep every record and field; bring back more useful data in each transfer.",
 	"Inspect a few records, reading all four fields. Does the previous layout still help?",
 	"Temperature and alarm are frequently read together; ID and battery are inspected occasionally.",
 	"Incoming data is record-major. Choose separately for a single query and repeated queries; count copying too.",
-	"Only 48 B of scratch space for 17 records. Process the final partial batch without missing or duplicating data.",
+	"Complete the temperature sums within 48 B of scratch space. Count each record once per query; if a batch is partial, process only the remaining records.",
 	"Use the same design for repeated scans and sparse inspections. Choose fields to copy and batch size, or read directly."]
 
 static func title(id: String) -> String:

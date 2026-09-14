@@ -14,6 +14,17 @@ func run() -> void:
 		root.add_child(host)
 		for frame: int in range(5): await process_frame
 		check(host.level == id and host.panels.tools.visible,"ordinary host route and visible tools "+id)
+		if id == "fields":
+			var localization: Node = root.get_node("Localization")
+			var original_locale: String = localization.current_locale()
+			for locale: String in ["zh_CN", "en"]:
+				localization.set_locale(locale)
+				var sum_text: String = host._query_summary({"kind":"sum", "fields":[0,3], "repeat":8})
+				var list_text: String = host._query_summary({"kind":"records", "fields":[0,1], "indices":[0,7], "repeat":2})
+				check(not sum_text.contains("×") and not list_text.contains(" + "), "query repetition is not drawn as multiplication and ordered outputs are not sums " + locale)
+				check(sum_text.contains("8") and list_text.contains("#0") and list_text.contains("#7"), "query summary preserves public repetition and record identities " + locale)
+				check(sum_text.contains("求和字段" if locale == "zh_CN" else "Fields to sum") and list_text.contains("依次输出字段" if locale == "zh_CN" else "Output fields in order"), "different query actions stay explicit " + locale)
+			localization.set_locale(original_locale)
 		host.design = C.reference_solution(id)
 		host._changed()
 		await process_frame

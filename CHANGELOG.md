@@ -103,3 +103,9 @@ The former eight-task replacement runtime has been removed. Older development re
 ### Documentation update
 
 The repository now has a Chinese homepage and a separate English README, refreshed five-region descriptions, startup/platform/feedback instructions and current-source bilingual hub/tree images. This changelog provides a player-facing overview; [CURRENT_STATE](docs/CURRENT_STATE.md) remains the technical evidence index.
+
+## 2026-09-14 · Competition entry / 参赛入口
+
+- 首页可直接切换中英文；修复首次打开元件台时第一张卡片被截断。
+- Added a bilingual home-screen language menu and kept the first component card fully visible.
+- Added bilingual first-session guidance and a player-friendly feedback form. Five regions / 40 tasks remain unchanged; this is not a public release.

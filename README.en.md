@@ -8,7 +8,9 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Five regions · 40 tasks · Offline single-player · Chinese and English**
 
-![Current English chapter hub with the task tree as its primary entry](docs/images/readme/hub-en.png)
+![Chapter 4 Common Ground: field grouping, actual memory addresses and measured costs for two workloads](docs/images/readme/layout-en.png)
+
+*Common Ground, Chapter 4: the same data serves two workloads. Arrange it, batch it, and compare the real cost of moving it. [Capture provenance and metrics](docs/images/readme/layout-manifest.json).*
 
 [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
@@ -22,9 +24,11 @@ A construction and optimization puzzle about computers and the data they move. S
 
 ![Current task tree branching from wiring into arithmetic and memory](docs/images/readme/tree-en.png)
 
-*Images are actual current-source interface renders using an isolated fresh profile. No mock UI or fabricated completion state was added. [Image provenance](docs/images/readme/README.md)*
+*The hub and task tree use an isolated fresh profile. The Chapter 4 image reruns an earned synthetic QA design. All are direct game renders, with no mock UI or fabricated results. [Image provenance](docs/images/readme/README.md)*
 
 ## Five regions, a growing machine
+
+![Current English chapter hub with the task tree as its primary entry](docs/images/readme/hub-en.png)
 
 | Region | What you explore |
 | --- | --- |
@@ -40,6 +44,8 @@ This update preserves unfinished Chapter 1/2 work, brings settings into play, an
 
 ## Getting started
 
+[Your first session](docs/distribution/astra-challenge/quickstart.en.md) · [Launch preparation](docs/distribution/astra-challenge/README.md)
+
 ### Run from source
 
 Install **Godot 4.7.1 stable**, make its executable available as `godot` on your `PATH`, then run:
@@ -53,7 +59,7 @@ godot --path .
 
 Alternatively, import `project.godot` in the Godot editor, wait for resource import and use **Run Project / F5**. Choose **Explore the task tree** and begin with Wiring Tutorial.
 
-The default interface language is Simplified Chinese. Select English in **Settings → Language**; your choice is saved. You can also choose it at launch:
+The default interface language is Simplified Chinese. Select English using the bilingual language menu at the **top of the home screen**, or in **Settings → Language**; your choice is saved. You can also choose it at launch:
 
 ```sh
 godot --path . -- --locale=en
@@ -77,6 +83,8 @@ To build Mac and Windows candidates from one commit, follow the [candidate build
 | Undo / redo | Mac: ⌘Z / ⇧⌘Z. Windows: Ctrl+Z / Ctrl+Y. Text fields handle text edits first. |
 | Toggle fullscreen | F11 / Alt+Enter, or the onscreen fullscreen button. |
 | Leave task feedback | F8 or Feedback; unfinished tasks can also receive ratings and comments. |
+
+Mac also supports **⌘,** for Settings and **⌃⌘F** for fullscreen. Drag a tool, Settings or Handbook by its title. Window positions are kept inside the available view.
 
 ## Saves, settings and feedback
 

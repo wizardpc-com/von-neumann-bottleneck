@@ -8,7 +8,9 @@
 
 **五个区域 · 40 个任务 · 离线单机 · 中英文界面**
 
-![当前中文首页：任务树入口与五个章节](docs/images/readme/hub-zh.png)
+![第四章「两全之策」实际运行：字段分组、内存地址与两份订单的成本比较](docs/images/readme/layout-zh.png)
+
+*第四章「两全之策」：同一份数据，两种查询需求。调整布局与分批，比较真实搬运成本。[截图来源与运行数值](docs/images/readme/layout-manifest.json)。*
 
 [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
@@ -22,9 +24,11 @@
 
 ![当前任务树：从接线出发，分成算术与存储两路](docs/images/readme/tree-zh.png)
 
-*配图为当前源码的实际界面渲染，使用隔离新档；未添加示意 UI 或伪造通关状态。[配图来源](docs/images/readme/README.md)*
+*任务树与首页使用隔离新档；第四章截图复用了已通关的合成 QA 方案并重新运行。均为游戏直接渲染，未添加示意 UI 或伪造结果。[配图来源](docs/images/readme/README.md)*
 
 ## 五个区域，一条逐渐展开的路线
+
+![当前中文首页：任务树入口与五个章节](docs/images/readme/hub-zh.png)
 
 | 区域 | 你会探索什么 |
 | --- | --- |
@@ -40,6 +44,8 @@
 
 ## 开始游玩
 
+[第一次游玩指引](docs/distribution/astra-challenge/quickstart.zh-CN.md) · [参赛准备与发布前清单](docs/distribution/astra-challenge/README.md)
+
 ### 从源码运行
 
 安装 **Godot 4.7.1 stable**，将可执行文件加入 `PATH`，然后运行：
@@ -53,7 +59,7 @@ godot --path .
 
 也可以在 Godot 中导入 `project.godot`，完成资源导入后按 **“运行项目”／F5** 启动整个游戏。首页选择 **打开章节任务树**，从接线教程开始。
 
-游戏默认简体中文，可在 **设置 → 语言** 中切换 English；选择会保存。也可指定启动语言：
+游戏默认简体中文，可在**首页顶部**直接切换 English，也可使用 **设置 → 语言**；选择会保存。也可指定启动语言：
 
 ```sh
 godot --path . -- --locale=en
@@ -75,7 +81,8 @@ godot --path . -- --locale=en
 | 放置元件 | 从默认打开的元件台拖到画布，或点击后连续放置。 |
 | 取消当前操作 | 右键或 Esc。 |
 | 撤销／重做 | Mac：⌘Z／⇧⌘Z；Windows：Ctrl+Z／Ctrl+Y。文本框优先处理文字编辑。 |
-| 切换全屏 | F11／Alt+Enter，或界面上的全屏按钮。 |
+| 切换全屏 | Mac：⌃⌘F；也支持 F11／Alt+Enter 或全屏按钮。 |
+| 打开设置／移动窗口 | Mac：⌘,；也支持 F10 或设置按钮。拖动仪表、设置或手册的标题栏移动窗口。 |
 | 评价当前任务 | F8 或“反馈”；未通关也可以评分、写意见。 |
 
 ## 进度、设置与反馈

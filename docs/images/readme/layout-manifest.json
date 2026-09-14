@@ -1,0 +1,39 @@
+{
+  "captured_on": "2026-09-14",
+  "source_base_commit": "713c89e8ea8ee2890d6600069ca4693c4a631722",
+  "mode": "Game",
+  "task": "chapter_4/mixed",
+  "profile": "copied earned synthetic QA profile; existing save loader revalidates progression",
+  "retouched": false,
+  "changes": "Only panel presentation adjusted; actual saved batch-4 solution rerun through existing controller",
+  "metrics": {
+    "case_A_cycles": 1364,
+    "case_B_cycles": 1131,
+    "peak_extra_bytes": 32
+  },
+  "runtime_sha256": {
+    "src/layout_chapter/layout_chapter.gd": "e51ddc9b68fcc365b48aa8326f7254791c3a22726a12ecebd545ca3f1e4fb12c",
+    "src/layout_chapter/layout_simulator.gd": "3d44328cf4e6928fb59df15fe15026f56d66a15e860f7978cf3d9128c949042c",
+    "src/ui/movable_dialog_panel.gd": "af235c25736960b2548aea8834a1d86b34687d5e959e9f81930dafa36f41947a",
+    "src/ui/window_mode.gd": "8ff5b6f7b05b2a7d0637ecd1257b6497a2d69bc23947ab31f42e4f17f4111718"
+  },
+  "images": [
+    {
+      "file": "layout-zh.png",
+      "sha256": "8d2e86cba491bcbd045b0a8dc13e47bed04bfe62314dace3d59844024d5562a9",
+      "dimensions": [
+        2940,
+        1846
+      ]
+    },
+    {
+      "file": "layout-en.png",
+      "sha256": "2951e06d77baa7a9cdf21959eb1bc21a61016b276203b0eb810685e9b7f5205a",
+      "dimensions": [
+        2940,
+        1846
+      ]
+    }
+  ],
+  "runtime_content_commit": "109bfb4a2a8569807cd5277094d32f09bd4a4333"
+}

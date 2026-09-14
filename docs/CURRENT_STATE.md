@@ -8,6 +8,10 @@ chapter, simulation rule, progression threshold or server feature in this iterat
 Original free wiring, branch/delete/undo, floating instruments, named workbenches,
 provenance revalidation and separate three-stage Hint remain authoritative.
 
+## Competition preparation
+
+The owner requested a bounded Astra Challenge iteration on 2026-09-14. Homepage language access and first palette-card visibility are improved; five regions and 40 tasks are unchanged. [Implementation and native evidence](verification/20260914-astra-entry/README.md) · [Submission preparation](distribution/astra-challenge/README.md). Final competition eligibility, public download and actual submission remain owner actions.
+
 ## Latest native follow-up
 
 [2026-09-14 player evidence](verification/20260914-native-followup/README.md): actual

@@ -31,3 +31,14 @@ before copying them here. Do not run the capture against a player's live profile
 
 中文：配图由当前实际场景直接渲染，采用隔离新档，没有拼接界面、添加解法或伪造进度。
 旧配图保留在历史记录中，当前 README 不再引用它们。今后更新图片时，请同步更新来源与哈希。
+
+## 2026-09-14 representative level
+
+`layout-zh.png` / `layout-en.png` lead both READMEs. These directly render Chapter 4
+Common Ground from a copied, earned synthetic QA profile restored through GlobalSave
+revalidation in Game mode. The existing run action reevaluates the saved batch-4
+design: A 1364 cycles, B 1131 cycles, 32 B peak scratch. Panels were moved/resized
+for legibility; source data, design and metrics were not fabricated or retouched.
+This is a real scene render, not proof of native mouse acceptance. `capture-layout.gd`
+requires an isolated imported project with a copied completed QA profile; never run
+it on player saves. `layout-manifest.json` stores dimensions, hashes and source identities.

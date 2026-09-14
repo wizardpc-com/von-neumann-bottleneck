@@ -1,0 +1,40 @@
+name: Playtest feedback / 游玩意见
+description: Tell us where you got stuck or what you enjoyed. No debugging knowledge needed.
+title: "[Playtest]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        English / 中文均可。未完成关卡也欢迎反馈。This report is public; omit personal information and private logs. You can also keep feedback local using F8 in the game.
+  - type: input
+    id: task
+    attributes:
+      label: Where were you? / 哪个关卡或界面？
+      placeholder: "Wiring tutorial, task tree, settings…"
+    validations:
+      required: true
+  - type: textarea
+    id: moment
+    attributes:
+      label: What happened? / 发生了什么？
+      description: What did you try, and what did you expect? Or tell us about an experiment you enjoyed.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform / 平台
+      options:
+        - Windows
+        - macOS
+        - Other / 其他
+  - type: input
+    id: build
+    attributes:
+      label: Build ID (optional) / 构建编号（选填）
+      description: Shown on the home screen and in Settings. You do not need to install Godot to report an issue.
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else? (optional) / 补充（选填）
+      description: A cropped screenshot, window size, or whether you used a hint can help. Do not attach your whole save folder by default.

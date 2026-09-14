@@ -1,0 +1,14 @@
+{
+  "name": "Von Neumann Bottleneck",
+  "tagline": "Build a computer. Discover what keeps it waiting.",
+  "description": "Build a computer from logic gates, then optimize the data movement that holds it back. A free, open-source systems puzzle game with 40 tasks across five regions: circuits, memory, caches, buffering and data layout. Offline play, Chinese and English.",
+  "pricing": "free",
+  "topics": [
+    "Indie Games",
+    "Education",
+    "Open Source"
+  ],
+  "repository_url": "https://github.com/wizardpc-com/von-neumann-bottleneck",
+  "public_download_url": null,
+  "maker_comment": "I wanted computer architecture to feel like something you can build, question and change.\n\nIn Von Neumann Bottleneck, you start with logic gates and work toward a small computer. Then the question changes: why is it waiting? You compare real simulation results, change how data moves, and try again. Different valid solutions are welcome.\n\nThe free Alpha has 40 tasks across five regions, optional branches, saved designs, and hints you reveal only when you want them. It runs offline in Chinese or English.\n\nChatGPT and Codex helped with implementation, code review, UI iteration and testing. The game itself does not call an AI model: its results come from deterministic simulation. I make the design decisions and check the builds.\n\nI am looking for specific feedback: where did you get stuck, what did you expect to happen, and which experiment made something click? You can leave task feedback even without finishing a level.\n\nPlease check the download notes for the supported platforms and known issues. Thanks for trying it."
+}

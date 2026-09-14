@@ -69,3 +69,17 @@ Settings and ⌃⌘F for fullscreen; F10/F11 and prior Windows shortcuts remain.
   Windows actual OS interaction is still pending.
 
 Final full run `.godot/verification/20260914T012605Z-580b799f` passes all 39 conventional suites plus the Chinese tutorial input replay (220 checks, zero failures). The later display-only byte-unit nonbreaking-space fix passes layout UI and bilingual typography in `.godot/verification/20260914T013408Z-98620c29`. Original player files: all 18 baseline hashes unchanged.
+
+## Frozen candidate and gallery
+
+- Candidate `free-alpha-60de5e54c95d`, full content commit `60de5e54c95dac4e928487fbb5f9bb80bc23e7d8`; no public release.
+- Both exports and `check-candidate-identity.py` pass: source/build IDs, archive names, file hashes and packaged notes agree.
+- `verify-mac-candidate.py` passes using the actual copied release binary/PCK, isolated userdata and explicit protection of original player data: `.godot/package-qa/296e9381cc3b`. Includes Game-only behavior, 40 tasks, remote off, workspace identities and exclusion of development files. The first attempt failed because nested sandbox setup was denied, before running the app; rerun with approved execution succeeded.
+- Mac ZIP SHA-256: `5d368add98ed71d839e0bad9c4011676ca6295c5a7d03a0b471536260c8f5aac`.
+- Windows ZIP SHA-256: `c1c0747506d3ae31b79c4580e24242eab069b4d2b7bdb8161a8cc8fd24ef24ae`. Windows actual execution remains pending.
+- Six fresh bilingual scene captures succeeded in isolated `astra-gallery-20260914`. Visually inspected all; selected tree/tutorial views plus the real layout rerun for the [six-image gallery](../../distribution/astra-challenge/gallery/manifest.json). No retouched gameplay or injected completion. These are source renders, not native package playthroughs.
+- Both GitHub READMEs now lead with the bilingual Chapter 4 capstone screenshot, published in documentation commit `60de5e5`; existing chapter artwork remains below.
+
+Final candidate mouse/focus checks, another Mac installation, Windows native, external players, competition eligibility and public download/submission remain owner gates. No gameplay content was added merely for contest eligibility.
+
+Local launch-kit ZIP: `build/VNB-Astra-launch-kit-60de5e54c95d.zip`; SHA-256 `81c6aba05703786865b1b944ccb93bb4b920e6c665ceb51a996459287cd17e38`. Validated six image hashes/dimensions, submission lengths (49/249), ZIP CRC and repository-local documentation links. Prepared only; download URL remains empty.

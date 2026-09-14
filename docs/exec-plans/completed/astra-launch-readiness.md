@@ -1,4 +1,4 @@
-# Astra competition readiness
+# Astra competition readiness — COMPLETED (local scope)
 
 2026-09-14. User authorizes competition-focused iteration; keep five regions / 40
 tasks and all original construction, simulation, save and Hint rules.
@@ -30,7 +30,7 @@ User data remains isolated. No level/catalog/model changes.
   circuit: 3/5 actions reached. Found first palette card clipped after initial layout;
   correction raises the palette minimum to show its first card.
 - Submission fields, bilingual first-session instructions, development-evidence
-  boundaries and showcase storyboard prepared. Final verification pending.
+  boundaries and showcase storyboard prepared. Final checks, native observations, gallery and frozen candidate are recorded in `docs/verification/20260914-astra-entry/README.md`.
 
 ## Remaining owner gates
 
@@ -45,3 +45,7 @@ fixed reading/settings surfaces with bounded title dragging; add macOS ⌘, sett
 and ⌃⌘F fullscreen, retain existing Windows shortcuts and text-first editing. Do
 not turn confirmations into freely interacting workbenches or change OS-global
 shortcuts. Verify cancellation, resize bounds and both locale layouts.
+
+## Completion
+
+Local scope complete: 39 conventional suites, Chinese tutorial replay 220/0; corrected English replay 220/0; source-native Tutorial/branch/restart and bilingual movable-window checks; six reviewed gallery images; candidate `free-alpha-60de5e54c95d` export and actual Mac binary identity checks. Owner gates above remain open. No public release or contest submission.

@@ -10,7 +10,7 @@ provenance revalidation and separate three-stage Hint remain authoritative.
 
 ## Competition preparation
 
-The owner requested a bounded Astra Challenge iteration on 2026-09-14. Homepage language access and first palette-card visibility are improved; five regions and 40 tasks are unchanged. [Implementation and native evidence](verification/20260914-astra-entry/README.md) · [Submission preparation](distribution/astra-challenge/README.md). Final competition eligibility, public download and actual submission remain owner actions.
+The owner requested a bounded Astra Challenge iteration on 2026-09-14. Homepage language access, first palette-card visibility, movable Settings/Handbook and Mac shortcuts are improved; five regions and 40 tasks are unchanged. [Implementation and native evidence](verification/20260914-astra-entry/README.md) · [Submission preparation](distribution/astra-challenge/README.md). Final competition eligibility, public download and actual submission remain owner actions.
 
 ## Latest native follow-up
 
@@ -18,7 +18,7 @@ The owner requested a bounded Astra Challenge iteration on 2026-09-14. Homepage 
 Chapter 1 optimization and restart, Chapter 2 draft/locale/restart recovery, Chapter 3
 double-buffer and Chapter 4 mixed-layout reruns. Fixed tree re-entry camera drift,
 covered-tool recall, a stale 6/5 branch counter and redundant empty-source diagnosis.
-Current candidate: **free-alpha-3b0afc5a4234**, content **3b0afc5a4234**. Source-native checks and export/runtime identity pass. The final exported hub is visible, but CUA mouse calls report `noWindowsAvailable`; its mouse walkthrough remains a manual gate. The owner requested no further speculative changes.
+Previous native-follow-up candidate: **free-alpha-3b0afc5a4234**, content **3b0afc5a4234**. Source-native checks and export/runtime identity pass. The final exported hub is visible, but CUA mouse calls report `noWindowsAvailable`; its mouse walkthrough remains a manual gate. The owner requested no further speculative changes.
 
 ## Final pre-public convergence
 
@@ -107,7 +107,9 @@ the selected language. Native reset/title/Tab checks are complete.
 
 ## Build identity and current evidence
 
-**Current candidate: free-alpha-3b0afc5a4234.**
+**Current candidate: free-alpha-60de5e54c95d**, content `60de5e54c95dac4e928487fbb5f9bb80bc23e7d8`. Both exports, identity/hash checks and the actual Mac release probe pass.
+[Latest competition UI, gallery and package evidence](verification/20260914-astra-entry/README.md).
+Previous candidate: `free-alpha-3b0afc5a4234`.
 [Native follow-up and package evidence](verification/20260914-native-followup/README.md).
 Previous convergence package: `free-alpha-6c5c59df6c26`.
 [Final convergence evidence and hashes](verification/20260913-final-convergence/README.md).

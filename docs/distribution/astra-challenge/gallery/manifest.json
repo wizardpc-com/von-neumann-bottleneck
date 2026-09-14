@@ -1,0 +1,62 @@
+{
+  "source_commit": "60de5e54c95dac4e928487fbb5f9bb80bc23e7d8",
+  "kind": "direct source rendering, not exported-package acceptance",
+  "capture": "../capture.gd; layout uses ../../../images/readme/capture-layout.gd",
+  "retouching": false,
+  "images": [
+    {
+      "file": "en-tree.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "754dd7134b0247beed61d4632b43161a61acf4c02973787953cbe05746a5eaf2",
+      "state": "fresh isolated profile, ordinary unlocked Tutorial; no injected completion"
+    },
+    {
+      "file": "en-tutorial.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "37ba441dbe6196ad8a26686daa6f60af908a40cf30e9ec344c936c39a7aadcd1",
+      "state": "fresh isolated profile, ordinary unlocked Tutorial; no injected completion"
+    },
+    {
+      "file": "en-layout.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "2951e06d77baa7a9cdf21959eb1bc21a61016b276203b0eb810685e9b7f5205a",
+      "state": "copied earned synthetic QA layout, rerun with real model"
+    },
+    {
+      "file": "zh_CN-tree.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "f3c7aca73d8be78023405c370991143f7af072743b05313a2d0c75ee18791933",
+      "state": "fresh isolated profile, ordinary unlocked Tutorial; no injected completion"
+    },
+    {
+      "file": "zh_CN-tutorial.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "84f77c019321a1e9cc5a246036cf75c3cfb637bc134ba423da2d688153f367fa",
+      "state": "fresh isolated profile, ordinary unlocked Tutorial; no injected completion"
+    },
+    {
+      "file": "zh_CN-layout.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "8d2e86cba491bcbd045b0a8dc13e47bed04bfe62314dace3d59844024d5562a9",
+      "state": "copied earned synthetic QA layout, rerun with real model"
+    }
+  ]
+}

@@ -109,3 +109,10 @@ The repository now has a Chinese homepage and a separate English README, refresh
 - 首页可直接切换中英文；修复首次打开元件台时第一张卡片被截断。
 - Added a bilingual home-screen language menu and kept the first component card fully visible.
 - Added bilingual first-session guidance and a player-friendly feedback form. Five regions / 40 tasks remain unchanged; this is not a public release.
+
+候选 / Candidate: `free-alpha-60de5e54c95d` (not publicly released).
+
+- 设置和手册可拖动标题移动，边界内保持关闭按钮可见；Mac 支持 ⌘, 设置、⌃⌘F 全屏。原有工具窗拖动／缩放和 Windows 快捷键保留。
+- Settings and Handbook support bounded title dragging; Mac adds ⌘, for Settings and ⌃⌘F for fullscreen. Existing floating tools and Windows shortcuts remain.
+- 两份 README 新增第四章综合关真实截图；中英文试玩说明和参赛素材包已备妥，尚未提交比赛。
+- Both READMEs feature a real Chapter 4 capstone run. Bilingual quickstarts and local contest materials are prepared; no contest submission has been made.

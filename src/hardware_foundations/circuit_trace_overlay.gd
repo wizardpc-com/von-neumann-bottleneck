@@ -8,6 +8,7 @@ var path: PackedVector2Array = PackedVector2Array()
 var value_text: String = ""
 var player_color: Color = Color("50d5ff")
 var wire_pulses: Array[Dictionary] = []
+var path_provider: Callable
 
 
 func _ready() -> void:
@@ -18,7 +19,7 @@ func show_wire(p_path: PackedVector2Array, p_progress: float, value: bool) -> vo
 	mode = &"wire"
 	wire_pulses = [{"path": p_path, "progress": p_progress, "value": value}]
 	path = p_path
-	progress = smoothstep(0.0, 1.0, clampf(p_progress, 0.0, 1.0))
+	progress = display_progress(p_progress)
 	signal_value = value
 	value_text = str(int(value))
 	queue_redraw()
@@ -45,14 +46,28 @@ func clear_event() -> void:
 func _draw() -> void:
 	if mode == &"parallel":
 		for wire_pulse: Dictionary in wire_pulses:
-			path = wire_pulse.get("path", PackedVector2Array())
-			progress = smoothstep(0.0, 1.0, clampf(float(wire_pulse.get("progress", 0.0)), 0.0, 1.0))
+			path = resolved_path(wire_pulse)
+			progress = display_progress(float(wire_pulse.get("progress", 0.0)))
 			signal_value = bool(wire_pulse.get("value", false))
 			value_text = String(wire_pulse.get("display", str(int(signal_value))))
 			player_color = wire_pulse.get("color", Color("50d5ff"))
 			_draw_wire_signal()
 	elif mode == &"wire":
 		_draw_wire_signal()
+
+
+func display_progress(raw_progress: float) -> float:
+	# Same path fraction as the cable reveal. Reduced motion pins the value at
+	# the receiver while the unchanged wave clock still controls progression.
+	return 1.0 if bool(ProjectSettings.get_setting("game/reduced_motion", false)) else clampf(raw_progress, 0.0, 1.0)
+
+
+func resolved_path(wire_pulse: Dictionary) -> PackedVector2Array:
+	# Resolve from endpoints at draw time, including while replay is paused.
+	# Stored coordinates are only a fallback for standalone diagram previews.
+	if path_provider.is_valid() and wire_pulse.has("from_node"):
+		return path_provider.call(wire_pulse.from_node, wire_pulse.from_port, wire_pulse.to_node, wire_pulse.to_port)
+	return wire_pulse.get("path", PackedVector2Array())
 
 
 func _draw_wire_signal() -> void:

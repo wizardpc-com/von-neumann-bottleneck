@@ -2826,6 +2826,7 @@ func _create_graph() -> void:
 	graph.connection_net_provider = Callable(self, "_connected_wire_net")
 	graph.connection_description = Callable(self, "_wire_description")
 	graph.connection_attempt_rejected.connect(func() -> void: PlaytestData.record_action(&"hardware_foundations",current_level_id,&"connection_rejected"))
+	graph.connection_rejection_diagnostic_requested.connect(_show_rejected_connection_diagnostic)
 	graph.connection_request.connect(_on_connection_request)
 	graph.disconnection_request.connect(_on_disconnection_request)
 	graph.connection_to_empty.connect(_on_connection_to_empty)
@@ -2857,6 +2858,8 @@ func _create_graph() -> void:
 	graph_stack.move_child(graph, 0)
 
 	trace_overlay = CircuitTraceOverlayType.new()
+	trace_overlay.path_provider = Callable(self, "_connection_curve")
+	graph.displayed_geometry_changed.connect(trace_overlay.queue_redraw)
 	trace_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	trace_overlay.z_index = 40
 	graph_stack.add_child(trace_overlay)
@@ -4194,15 +4197,20 @@ func _is_connection_compatible(from_node: StringName, from_port: int, to_node: S
 
 
 func _is_hover_connection_valid(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> bool:
+	# Native hover and custom preview drawing may query this repeatedly. The
+	# endpoint shape is transient feedback; only a rejected release owns status.
+	return _is_connection_compatible(from_node, from_port, to_node, to_port)
+
+
+func _show_rejected_connection_diagnostic(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	if _editor_locked():
-		return false
+		return
 	var diagnostic: Dictionary = current_circuit.connection_diagnostic(
 		from_node, from_port, to_node, to_port
 	)
 	if not diagnostic.is_empty() and status_label != null:
 		status_label.text = Localization.text_from_spec(diagnostic)
 		status_label.add_theme_color_override("font_color", BAD)
-	return diagnostic.is_empty()
 
 
 func _on_connection_drag_started(from_node: StringName, from_port: int, is_output: bool) -> void:
@@ -7477,6 +7485,8 @@ func _show_playback_batch(batch: Dictionary, progress: float) -> void:
 			var wire_high: bool = _event_is_high(event)
 			wire_pulses.append({
 				"path": path, "progress": progress, "value": wire_high,
+				"from_node": event.from_component, "from_port": event.from_port,
+				"to_node": event.to_component, "to_port": event.to_port,
 				"display": _event_value_text(event),
 				"color": WirePaletteType.color(graph.get_connection_color_index(
 					event.from_component, event.from_port, event.to_component, event.to_port
@@ -7740,12 +7750,13 @@ func _set_component_activity(
 		progress: float,
 		event: Variant = null
 	) -> void:
+	var visual_progress: float = 1.0 if bool(ProjectSettings.get_setting("game/reduced_motion", false)) else progress
 	var input_visuals: Array[Dictionary] = _event_input_visuals(event)
 	var output_visual: Dictionary = _event_output_visual(event)
 	var output_port: int = _event_output_port(event)
 	var symbol: CircuitComponentSymbol = component_symbols.get(component_id)
 	if symbol != null:
-		symbol.set_processing_state(progress, input_visuals, output_visual)
+		symbol.set_processing_state(visual_progress, input_visuals, output_visual)
 	var component: LogicComponent = component_catalog.get(component_id)
 	var rows: Array = component_row_labels.get(component_id, [])
 	if component == null or rows.is_empty():
@@ -7754,7 +7765,7 @@ func _set_component_activity(
 		var row: Variant = rows[row_index]
 		if row == null:
 			continue
-		row.set_processing_state(progress, input_visuals, output_visual, output_port)
+		row.set_processing_state(visual_progress, input_visuals, output_visual, output_port)
 
 
 func _event_input_visuals(event: Variant) -> Array[Dictionary]:

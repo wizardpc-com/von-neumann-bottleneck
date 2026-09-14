@@ -270,8 +270,9 @@ func _run() -> void:
 	main.call("_notification", MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	_assert(StringName(main.get("body_drag_component_id")).is_empty(),
 		"Losing application focus must end the held gesture.")
-	native_press.pressed = false
-	Input.parse_input_event(native_press)
+	var native_release: InputEventMouseButton = native_press.duplicate()
+	native_release.pressed = false
+	Input.parse_input_event(native_release)
 	Input.flush_buffered_events()
 	main.call("_undo_wire")
 	_assert(body_node.position_offset.is_equal_approx(body_start),
@@ -1017,6 +1018,25 @@ func _run() -> void:
 	var overlay: Control = main.get("trace_overlay")
 	var single_wire_pulses: Array = overlay.get("wire_pulses")
 	_assert(StringName(overlay.get("mode")) == &"parallel" and single_wire_pulses.size() == 1 and _paths_equal(single_wire_pulses[0]["path"], exact_curve), "Trace overlay must receive the exact wire path inside a parallel batch.")
+	for fraction: float in [0.1, 0.25, 0.75, 0.9]:
+		_assert(is_equal_approx(float(overlay.call("display_progress", fraction)), fraction), "Replay badge must use the same path fraction as the cable reveal at every point.")
+	main.set("playback_running", false)
+	var paused_scroll: Vector2 = graph.scroll_offset
+	var paused_zoom: float = graph.zoom
+	graph.scroll_offset += Vector2(75, -40)
+	graph.zoom = 0.8
+	for _geometry_frame: int in range(3):
+		await process_frame
+	var updated_badge_path: PackedVector2Array = overlay.call("resolved_path", single_wire_pulses[0])
+	var expected_badge_path: PackedVector2Array = main.call("_connection_curve", wire_event.from_component, wire_event.from_port, wire_event.to_component, wire_event.to_port)
+	_assert(_paths_equal(updated_badge_path, expected_badge_path) and not _paths_equal(updated_badge_path, exact_curve), "Paused replay must resolve its badge against the current pan/zoom instead of stale captured coordinates.")
+	graph.zoom = paused_zoom
+	for _restore_zoom_frame: int in range(3):
+		await process_frame
+	graph.scroll_offset = paused_scroll
+	for _restore_frame: int in range(3):
+		await process_frame
+	exact_curve = main.call("_connection_curve", wire_event.from_component, wire_event.from_port, wire_event.to_component, wire_event.to_port)
 	var not_event: CircuitEvent = _component_event(tutorial_trace, &"NOT_1")
 	main.call("_show_circuit_event", not_event, 0.5)
 	var not_symbol := symbols[&"NOT_1"] as CircuitComponentSymbol
@@ -1024,6 +1044,14 @@ func _run() -> void:
 	_assert(not_symbol.processing_input_visuals.size() == 1 and (not_symbol.processing_input_visuals[0].get("color") as Color).is_equal_approx(Color("67e8a5")), "The NOT input token must carry the actual high/green input value into the displayed triangle.")
 	_assert((not_symbol.processing_output_visual.get("color") as Color).is_equal_approx(Color("ff6b7d")), "The NOT output token must leave the inversion bubble with the actual low/red result.")
 	_assert(StringName(overlay.get("mode")).is_empty() and (overlay.get("wire_pulses") as Array).is_empty(), "A component wave must not draw a second approximate component model or radial halo in the trace overlay.")
+
+	ProjectSettings.set_setting("game/reduced_motion", true)
+	var reduced_elapsed: float = main.get("playback_elapsed")
+	var reduced_index: int = main.get("playback_index")
+	main.call("_show_circuit_event", not_event, 0.25)
+	_assert(is_equal_approx(not_symbol.processing_progress, 1.0) and is_equal_approx(float(overlay.call("display_progress", 0.25)), 1.0), "Reduced motion must replace travelling wire values and component processing with static wave feedback.")
+	_assert(is_equal_approx(float(main.get("playback_elapsed")), reduced_elapsed) and int(main.get("playback_index")) == reduced_index, "Reduced-motion presentation must not advance the wave clock or result state.")
+	ProjectSettings.set_setting("game/reduced_motion", false)
 
 	var input_b: CheckButton = main.get("input_b_button")
 	_connect(main, &"B_IN", 0, &"LAMP", 0)

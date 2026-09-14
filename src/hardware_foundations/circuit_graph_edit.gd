@@ -17,6 +17,8 @@ const SETTLED_WIRE_THICKNESS: float = SignalNotationType.SCALAR_STROKE
 const BUS_WIRE_THICKNESS: float = SignalNotationType.BUS_STROKE
 
 signal connection_attempt_rejected
+signal connection_rejection_diagnostic_requested(from_node: StringName, from_port: int, to_node: StringName, to_port: int)
+signal displayed_geometry_changed
 var _rejection_reported: bool = false
 # Pointer response is presentation only: no looping pulse or simulated wire delay.
 var draft_motion: float = 0.0
@@ -69,6 +71,9 @@ var settled_wire_thickness: float = SETTLED_WIRE_THICKNESS
 var branch_edit_enabled: bool = true
 var branch_candidate: Dictionary = {}
 var branch_anchor: Vector2 = Vector2.ZERO
+# Keep the selected point attached to this wire, not to a stale screen pixel.
+# An arc-length fraction also survives curve resampling when endpoints move.
+var branch_anchor_fraction: float = 0.0
 var branch_pointer: Vector2 = Vector2.ZERO
 var branch_dragging: bool = false
 var branch_target: Dictionary = {}
@@ -136,7 +141,56 @@ func _process(delta: float) -> void:
 	displayed_scroll_offset = scroll_offset
 	displayed_zoom = zoom
 	displayed_node_transforms = current_transforms
+	_refresh_drag_geometry()
 	queue_redraw()
+	displayed_geometry_changed.emit()
+
+
+func _refresh_drag_geometry() -> void:
+	if not branch_candidate.is_empty():
+		var curve: PackedVector2Array = connection_curve(branch_candidate)
+		if curve.size() >= 2:
+			var prefix: PackedVector2Array = _path_prefix(curve, branch_anchor_fraction)
+			branch_anchor = prefix[prefix.size() - 1]
+		if branch_dragging:
+			branch_target = _input_port_at(
+				branch_pointer, 30.0,
+				StringName(branch_candidate.get("from_node", &"")),
+				int(branch_candidate.get("from_port", -1))
+			)
+	if not endpoint_candidate.is_empty():
+		var source: GraphNode = get_node_or_null(NodePath(String(endpoint_candidate.get("from_node", "")))) as GraphNode
+		if source != null:
+			endpoint_anchor = displayed_port_position(source, int(endpoint_candidate.get("from_port", 0)), true)
+		endpoint_target = _input_port_at(
+			endpoint_pointer, 30.0,
+			StringName(endpoint_candidate.get("from_node", &"")),
+			int(endpoint_candidate.get("from_port", -1)), endpoint_candidate
+		)
+
+
+func _capture_branch_anchor(connection: Dictionary, point: Vector2) -> void:
+	branch_candidate = connection.duplicate()
+	branch_anchor = _closest_point_on_connection(connection, point)
+	branch_anchor_fraction = _curve_fraction_at(connection_curve(connection), branch_anchor)
+	branch_pointer = branch_anchor
+	branch_target.clear()
+
+
+func _curve_fraction_at(curve: PackedVector2Array, point: Vector2) -> float:
+	var total: float = 0.0
+	var closest_distance: float = INF
+	var closest_length: float = 0.0
+	for index: int in range(curve.size() - 1):
+		var start: Vector2 = curve[index]
+		var finish: Vector2 = curve[index + 1]
+		var closest: Vector2 = Geometry2D.get_closest_point_to_segment(point, start, finish)
+		var distance: float = closest.distance_squared_to(point)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_length = total + start.distance_to(closest)
+		total += start.distance_to(finish)
+	return clampf(closest_length / total, 0.0, 1.0) if total > 0.001 else 0.0
 
 
 func _update_draft_motion(delta: float) -> void:
@@ -230,7 +284,14 @@ func _input(event: InputEvent) -> void:
 				var valid: bool = bool(source.is_output)!=bool(target.is_output)
 				if valid:
 					valid=_is_node_hover_valid(source.node,source.port,target.node,target.port) if source.is_output else _is_node_hover_valid(target.node,target.port,source.node,source.port)
-				if not valid: report_connection_rejection()
+				if not valid:
+					if bool(source.is_output) != bool(target.is_output):
+						if source.is_output:
+							report_port_connection_rejection(source.node, source.port, target.node, target.port)
+						else:
+							report_port_connection_rejection(target.node, target.port, source.node, source.port)
+					else:
+						report_connection_rejection()
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed \
 				and _is_graph_hover_target(mouse_event.position):
 			var port: Dictionary = _port_at(_local_from_global(mouse_event.position), 14.0)
@@ -309,13 +370,10 @@ func _begin_wired_input_gesture(point: Vector2, move_endpoint: bool) -> bool:
 	if move_endpoint:
 		_begin_endpoint_move(existing, point)
 	else:
-		branch_candidate = existing.duplicate()
-		branch_anchor = displayed_port_position(
+		_capture_branch_anchor(existing, displayed_port_position(
 			get_node(NodePath(String(existing["to_node"]))) as GraphNode,
 			int(existing["to_port"]), false
-		)
-		branch_pointer = branch_anchor
-		branch_target.clear()
+		))
 	queue_redraw()
 	return true
 
@@ -370,10 +428,7 @@ func _gui_input(event: InputEvent) -> void:
 				return
 			var connection: Dictionary = get_closest_connection_at_point(mouse_event.position, 16.0)
 			if not connection.is_empty():
-				branch_candidate = connection.duplicate()
-				branch_anchor = _closest_point_on_connection(connection, mouse_event.position)
-				branch_pointer = branch_anchor
-				branch_target.clear()
+				_capture_branch_anchor(connection, mouse_event.position)
 				accept_event()
 				queue_redraw()
 				return
@@ -429,6 +484,8 @@ func _gui_input(event: InputEvent) -> void:
 			return
 		if not branch_candidate.is_empty():
 			if branch_dragging:
+				# Resolve again on release even if a pan/zoom layout just occurred.
+				_refresh_drag_geometry()
 				branch_target = _input_port_at(
 					mouse_event.position, 30.0,
 					StringName(branch_candidate.get("from_node", &"")),
@@ -518,6 +575,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
+	_refresh_drag_geometry()
 	_draw_settled_connections()
 	_draw_hovered_connection()
 	_draw_component_placement_preview()
@@ -682,7 +740,8 @@ func _draw_settled_curve(curve: PackedVector2Array, base: Color, state: int, bit
 
 
 func _draw_connection_flow(curve: PackedVector2Array, base: Color, flow: Dictionary, bits: int) -> void:
-	var progress: float = clampf(float(flow.get("progress", 0.0)), 0.0, 1.0)
+	var progress: float = 1.0 if bool(ProjectSettings.get_setting("game/reduced_motion", false)) \
+		else clampf(float(flow.get("progress", 0.0)), 0.0, 1.0)
 	var prefix: PackedVector2Array = _path_prefix(curve, progress)
 	if prefix.size() < 2:
 		return
@@ -1235,6 +1294,7 @@ func _connection_key(from_node: StringName, from_port: int, to_node: StringName,
 func cancel_branch_drag() -> void:
 	var was_dragging: bool = branch_dragging
 	branch_candidate.clear()
+	branch_anchor_fraction = 0.0
 	branch_target.clear()
 	branch_dragging = false
 	queue_redraw()
@@ -1381,3 +1441,10 @@ func report_connection_rejection() -> void:
 	if _rejection_reported: return
 	_rejection_reported=true
 	connection_attempt_rejected.emit()
+
+
+func report_port_connection_rejection(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	if _rejection_reported:
+		return
+	report_connection_rejection()
+	connection_rejection_diagnostic_requested.emit(from_node, from_port, to_node, to_port)

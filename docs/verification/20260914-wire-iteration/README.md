@@ -85,3 +85,18 @@ Wire stage commit: `2d5662c`.
 ![One-bit result and carry](en-alu-0.png)
 ![Cache Hit returns data to CPU](zh_CN-cache-0.png)
 ![Only the remaining record occupies the tail](en-bounded_batch-2.png)
+
+## Next reading-order iteration
+
+At 1280 × 720 the English mixed-layout Mission put optional goals, batching and
+grid reminders before its actual test cases; only the first case reached the
+initial viewport. The Mission now puts the goal and both case specifications first,
+then the retained optional goals/new-tool rules. Ordinary single queries no longer
+add a redundant “repeat 1 times”; repeated queries remain explicit.
+
+`20260914T034332Z-49b06ea0`: layout UI and localization pass. Eight bilingual
+Mission frames (fields, records, batches, mixed) were rendered with the same window
+size. The final mixed-layout initial view shows both cases and their separate limits.
+No queries, models, win conditions, fields, constraints or tool access changed.
+
+![Both required cases precede optional goals](mission-en-mixed.png)

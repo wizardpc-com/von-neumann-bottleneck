@@ -21,6 +21,8 @@ func run() -> void:
 				localization.set_locale(locale)
 				var sum_text: String = host._query_summary({"kind":"sum", "fields":[0,3], "repeat":8})
 				var list_text: String = host._query_summary({"kind":"records", "fields":[0,1], "indices":[0,7], "repeat":2})
+				var once_text: String = host._query_summary({"kind":"records", "fields":[0], "indices":[1]})
+				check(not once_text.contains("重复") and not once_text.contains("repeat"), "one ordinary query does not add a redundant repeat instruction " + locale)
 				check(not sum_text.contains("×") and not list_text.contains(" + "), "query repetition is not drawn as multiplication and ordered outputs are not sums " + locale)
 				check(sum_text.contains("8") and list_text.contains("#0") and list_text.contains("#7"), "query summary preserves public repetition and record identities " + locale)
 				check(sum_text.contains("求和字段" if locale == "zh_CN" else "Fields to sum") and list_text.contains("依次输出字段" if locale == "zh_CN" else "Output fields in order"), "different query actions stay explicit " + locale)

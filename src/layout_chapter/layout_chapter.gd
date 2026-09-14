@@ -248,11 +248,6 @@ func _build_mission() -> void:
 	var box: VBoxContainer = _box(_panel("mission",Localization.text(&"layout.mission.window_title"),Vector2(405,10),Vector2(780,590)))
 	_button(box,Localization.text(&"layout.mission.begin"),_begin_arranging)
 	box.add_child(_label(C.goal(level),true))
-	if level == "mixed": box.add_child(_label(_l("可选目标（不挡通关）：两单总流量 ≤ 1300 B；或临时峰值 ≤ 16 B。可以用不同命名方案分别追求。","Optional goals: total traffic across both cases ≤ 1300 B; or peak scratch ≤ 16 B. Different named designs can pursue each goal."),true))
-	if level == "hot_cold": box.add_child(_label(_l("新工具：每块记录数。分组决定哪些字段在一起；分块决定一次把多少条记录排在一起。可以先分组，再尝试 2 或 4 条一块。","New tool: records per block. Groups choose neighboring fields; blocks choose how many records to arrange at once. Group first, then try blocks of 2 or 4."),true))
-	if level == "relocation": box.add_child(_label(_l("新工具：复制整理。源数据的排法固定；工具里的布局现在决定临时副本。订单 A 与 B 各有一份独立方案，用左侧订单选择切换。所有准备时间和写入都计入目标。","New tool: copying. The source is fixed; your layout now describes scratch data. Orders A and B keep separate designs, selected on the left. Preparation and writes count toward the target."),true))
-	if level in ["batches","mixed"]: box.add_child(_label(_l("分批顺序：复制一批 → 在这一批上做完所有查询与重复 → 释放 → 下一批。所有逻辑记录和输出顺序都保留；尾批只处理剩余记录。","Batch order: copy → finish all queries and repetitions on this batch → release → next. Preserve all records and output order; process only remaining records in the tail."),true))
-	box.add_child(_label(Localization.text(&"layout.mission.read_grid"),true))
 	for task: Dictionary in C.cases(level):
 		var text: String = _l("订单 ","Case ")+task.name+" · %d " % task.records.size()+_l("条记录","records")
 		for q: Dictionary in task.queries:
@@ -261,6 +256,11 @@ func _build_mission() -> void:
 		if task.target_bytes>0: text += "\n"+_l("RAM 总流量 ≤ ","Total RAM traffic ≤ ")+str(task.target_bytes)+" B"
 		if not task.native_layout: text += " · "+_l("临时空间 ≤ ","Scratch ≤ ")+str(task.scratch_limit)+" B"
 		box.add_child(_label(text,true))
+	if level == "mixed": box.add_child(_label(_l("可选目标（不挡通关）：两单总流量 ≤ 1300 B；或临时峰值 ≤ 16 B。可以用不同命名方案分别追求。","Optional goals: total traffic across both cases ≤ 1300 B; or peak scratch ≤ 16 B. Different named designs can pursue each goal."),true))
+	if level == "hot_cold": box.add_child(_label(_l("新工具：每块记录数。分组决定哪些字段在一起；分块决定一次把多少条记录排在一起。可以先分组，再尝试 2 或 4 条一块。","New tool: records per block. Groups choose neighboring fields; blocks choose how many records to arrange at once. Group first, then try blocks of 2 or 4."),true))
+	if level == "relocation": box.add_child(_label(_l("新工具：复制整理。源数据的排法固定；工具里的布局现在决定临时副本。订单 A 与 B 各有一份独立方案，用左侧订单选择切换。所有准备时间和写入都计入目标。","New tool: copying. The source is fixed; your layout now describes scratch data. Orders A and B keep separate designs, selected on the left. Preparation and writes count toward the target."),true))
+	if level in ["batches","mixed"]: box.add_child(_label(_l("分批顺序：复制一批 → 在这一批上做完所有查询与重复 → 释放 → 下一批。所有逻辑记录和输出顺序都保留；尾批只处理剩余记录。","Batch order: copy → finish all queries and repetitions on this batch → release → next. Preserve all records and output order; process only remaining records in the tail."),true))
+	box.add_child(_label(Localization.text(&"layout.mission.read_grid"),true))
 	box.add_child(_label(Localization.text(&"layout.mission.cache_rules"),true))
 	_button(box,Localization.text(&"layout.mission.begin"),_begin_arranging)
 
@@ -270,7 +270,8 @@ func _query_summary(query: Dictionary) -> String:
 		fields.append(_field(field))
 	var key: StringName = &"layout.mission.query.sum" if query.kind == "sum" else &"layout.mission.query.records"
 	var text: String = Localization.text(key, [_l("、", ", ").join(fields)])
-	text += Localization.text(&"layout.mission.query.repeat", [int(query.get("repeat", 1))])
+	if int(query.get("repeat", 1)) > 1:
+		text += Localization.text(&"layout.mission.query.repeat", [int(query.repeat)])
 	var indices: PackedStringArray = []
 	for index: int in query.get("indices", []):
 		indices.append("#%d" % index)

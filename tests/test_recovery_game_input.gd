@@ -149,11 +149,13 @@ func dismiss_briefing() -> void:
 func close_window(id: StringName) -> void:
 	var window: Control = ui.desktop_windows[id]
 	if window.visible:
-		# Another freely positioned instrument can cover this window's title bar.
-		# Its dock toggle is always exposed and closes it through ordinary input.
+		# The dock recalls a covered window first; close the now-exposed title
+		# control if that first click raised it instead of hiding it.
 		var dock_button: Button = ui.desktop_window_buttons.get(id)
 		await press(dock_button if dock_button != null and dock_button.is_visible_in_tree()
 			else window.find_child("CloseButton", true, false))
+		if window.visible:
+			await press(window.find_child("CloseButton", true, false))
 		check(not window.visible, "The visible window close control closes %s." % id)
 
 func named_design() -> void:
@@ -765,6 +767,9 @@ func _run() -> void:
 	await press(ui.mission_briefing_panel.find_child("MissionSections", true, false).get_child(0))
 	await press(ui.mission_briefing_panel.find_child("MissionStartBuilding", true, false))
 	check(not ui.mission_briefing_active and ui.mission_compact and not ui.hint_mode, "Start building folds the first page and preserves the independently hidden hints.")
+	var first_card: Control = ui.palette_cards[0]
+	var palette_scroll: ScrollContainer = ui.component_palette_box.get_parent() as ScrollContainer
+	check(palette_scroll.get_global_rect().encloses(first_card.get_global_rect()), "The first palette card, purpose and width are fully visible on entry.")
 	await handbook_input_check()
 	await named_design()
 	await close_window(&"task")

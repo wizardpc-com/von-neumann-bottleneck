@@ -221,7 +221,7 @@ func open_settings() -> void:
 	get_tree().root.add_child(settings_layer)
 	settings_layer.add_child(host)
 
-func reload_localized_scene(from_level: bool) -> void:
+func reload_localized_scene(from_level: bool, return_to_settings: bool = true) -> void:
 	get_tree().call_group("workspace_owners","flush_workspace")
 	var save: Node=get_node("/root/GlobalSave")
 	if not save.save_game() and save.disk_write_allowed:
@@ -233,9 +233,9 @@ func reload_localized_scene(from_level: bool) -> void:
 		navigation.from_tree=true
 		navigation.pending=navigation.selected
 	if is_instance_valid(settings_layer): settings_layer.queue_free(); settings_layer=null
-	reopen_settings=not from_level
+	reopen_settings=return_to_settings and not from_level
 	get_tree().reload_current_scene()
-	if from_level: call_deferred("open_settings")
+	if from_level and return_to_settings: call_deferred("open_settings")
 
 func _process(delta: float) -> void:
 	if _display_is_headless() or _is_deterministic_capture(): return

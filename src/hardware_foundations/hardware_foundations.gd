@@ -1105,7 +1105,9 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 		&"task":
 			window.custom_minimum_size = Vector2(360.0, 190.0)
 		&"components":
-			window.custom_minimum_size = Vector2(270.0, 220.0)
+			# Keep search, filters and at least the first full card visible after
+			# the initial desktop is clamped before its final Retina layout.
+			window.custom_minimum_size = Vector2(360.0, 420.0)
 		&"inspector":
 			window.custom_minimum_size = Vector2(360.0, 280.0)
 		_:

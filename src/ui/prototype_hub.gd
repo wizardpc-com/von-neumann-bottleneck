@@ -218,11 +218,23 @@ func _build_interface() -> void:
 	add_child(header_actions)
 	header_actions.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	header_actions.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	header_actions.offset_left = -278.0
+	header_actions.offset_left = -524.0
 	header_actions.offset_top = 16.0
 	header_actions.offset_right = -16.0
 	header_actions.offset_bottom = 60.0
 	header_actions.add_theme_constant_override("separation",12)
+	var language := OptionButton.new()
+	language.name = "HubLanguageChoice"
+	language.custom_minimum_size = Vector2(230, 44)
+	# Autonyms remain recognizable before the player understands the current UI.
+	language.add_item("简体中文")
+	language.add_item("English")
+	language.select(0 if Localization.current_locale() == "zh_CN" else 1)
+	language.text = "简体中文 / English"
+	language.item_selected.connect(func(index: int) -> void:
+		if Localization.set_preferred_locale(["zh_CN", "en"][index]):
+			WindowMode.call_deferred("reload_localized_scene", false, false))
+	header_actions.add_child(language)
 	fullscreen_button = FullscreenButtonType.new()
 	header_actions.add_child(fullscreen_button)
 	terminology_handbook = TerminologyHandbookType.new()
@@ -231,7 +243,7 @@ func _build_interface() -> void:
 	var settings_button := Button.new(); settings_button.text=Localization.text(&"hub.settings.settings_esc")
 	settings_button.custom_minimum_size.x = 150.0
 	header_actions.add_child(settings_button)
-	header_actions.move_child(settings_button,0)
+	header_actions.move_child(settings_button,1)
 	settings_button.pressed.connect(_open_options_menu)
 	_build_new_game_confirmation()
 	_refresh_save_actions()

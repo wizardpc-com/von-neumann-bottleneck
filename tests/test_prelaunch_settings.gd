@@ -41,6 +41,11 @@ func run() -> void:
 		var hub: Control = load("res://src/ui/prototype_hub.tscn").instantiate(); root.add_child(hub)
 		hub.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT); hub.size=Vector2(1280,720); hub._open_options_menu()
 		for frame: int in range(5): await process_frame
+		var quick_language: OptionButton = hub.find_child("HubLanguageChoice",true,false)
+		check(quick_language.selected == (0 if locale == "zh_CN" else 1),"Homepage language reflects the saved/current locale.")
+		var header: Control = hub.find_child("HeaderActions",true,false)
+		check(Rect2(Vector2.ZERO,hub.size).encloses(header.get_global_rect()),"Homepage controls fit the minimum window in "+locale)
+		check(not header.get_global_rect().intersects(hub.find_child("TaskTreeEntry",true,false).get_global_rect()),"Language controls leave the task-tree entry unobstructed.")
 		var panel: Control = hub.find_child("ChapterOptionsPanel",true,false)
 		check(hub.size==Vector2(1280,720) and Rect2(Vector2.ZERO,hub.size).encloses(panel.get_global_rect()),"Settings panel fits minimum viewport in "+locale)
 		check(panel.get_global_rect().encloses(hub.options_resume_button.get_global_rect()),"Close stays visible below scrolling content.")

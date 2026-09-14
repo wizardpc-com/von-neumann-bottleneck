@@ -116,3 +116,14 @@ The repository now has a Chinese homepage and a separate English README, refresh
 - Settings and Handbook support bounded title dragging; Mac adds ⌘, for Settings and ⌃⌘F for fullscreen. Existing floating tools and Windows shortcuts remain.
 - 两份 README 新增第四章综合关真实截图；中英文试玩说明和参赛素材包已备妥，尚未提交比赛。
 - Both READMEs feature a real Chapter 4 capstone run. Bilingual quickstarts and local contest materials are prepared; no contest submission has been made.
+
+## 2026-09-14 · 任务桌面与玩法配图 / Task desktop and gameplay images
+
+- 序章顶部合并重复标题、减少空白；任务说明留出上下拖动空间，翻页和开始按钮继续可见。
+- 拖动／缩放按画布坐标跟随鼠标，松开、取消或失焦后停止；不改变电路和存档规则。
+- 中英文 README 新增四位 CPU 与双缓冲实际方案截图和简短介绍。
+- Compact construction header, more room to move Mission, and scaled floating-window gestures that stop on release or focus loss.
+- Both READMEs show saved CPU wiring and a measured double-buffer run.
+
+Source follow-up only; the previous frozen candidate remains unchanged.
+[Evidence / 验证记录](docs/verification/20260914-compact-desktop/README.md).

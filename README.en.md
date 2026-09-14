@@ -24,7 +24,21 @@ A construction and optimization puzzle about computers and the data they move. S
 
 ![Current task tree branching from wiring into arithmetic and memory](docs/images/readme/tree-en.png)
 
-*The hub and task tree use an isolated fresh profile. The Chapter 4 image reruns an earned synthetic QA design. All are direct game renders, with no mock UI or fabricated results. [Image provenance](docs/images/readme/README.md)*
+*All screenshots come from the game. The hub and task tree use an isolated fresh profile; the level showcases use designs from a separate QA save. [Image provenance and verification scope](docs/images/readme/README.md)*
+
+## Two different kinds of puzzle
+
+### Make the parts work together
+
+The prologue's **Four-bit Accumulator CPU** brings the arithmetic and memory branches together. Wire the modules you built into a small machine that loads, adds, stores and retrieves values. The internal wiring is yours to design; the values after each instruction reveal whether the whole machine works.
+
+![Prologue Four-bit Accumulator CPU: freely wired arithmetic, register and memory modules](docs/images/readme/cpu-en.png)
+
+### Put the waiting time to work
+
+In Chapter 3's **Taking Turns**, the next batch can arrive while the current one is being processed. Place buffers, connect their data and status signals, then coordinate the work. Extra parts alone won't do it: filling, using and releasing each buffer must happen at the right time. The timeline shows where you have removed waiting.
+
+![Chapter 3 Taking Turns: an editable double-buffer schedule and its transfer-compute timeline](docs/images/readme/buffers-en.png)
 
 ## Five regions, a growing machine
 
@@ -40,7 +54,7 @@ A construction and optimization puzzle about computers and the data they move. S
 
 The game uses deterministic, deliberately simplified models. Ordinary wires add no latency; waiting and bandwidth belong to modeled components such as Bus, RAM and Cache. Playback speed never changes the result.
 
-This update preserves unfinished Chapter 1/2 work, brings settings into play, and improves save recovery and feedback reporting. See the [maintenance guide](docs/development/final-maintenance.md) for future branding, task changes and receiver setup, and the [verification record](docs/verification/20260913-final-convergence/README.md) for remaining acceptance checks.
+See the [maintenance guide](docs/development/final-maintenance.md) for extending tasks, replacing artwork and configuring a feedback receiver.
 
 ## Getting started
 

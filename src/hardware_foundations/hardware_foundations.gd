@@ -1500,7 +1500,7 @@ func _layout_mission_briefing() -> void:
 		return
 	var briefing_size := Vector2(
 		clampf(area.x * 0.64, 640.0, 980.0),
-		clampf(area.y * 0.78, 420.0, 620.0)
+		minf(area.y * 0.78, 620.0)
 	)
 	task_window.size = briefing_size
 	task_window.position = (area - briefing_size) * 0.5

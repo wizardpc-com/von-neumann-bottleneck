@@ -11,7 +11,7 @@ Five regions/40 tasks and all simulation, editing, saving and Hint rules unchang
 - Hardware header now shows the current task once; repeated chapter subtitle remains
   available on hover and on chapter entry. Header/toolbar padding is reduced without
   reducing body text size or removing editing/playback controls.
-- Initial Mission uses 78% of available height (420–620 logical bounds), retaining
+- Initial Mission uses 78% of available height (capped at 620 logical pixels), retaining
   fixed Previous/Next/Start actions and scrolling content. At 1600×1000 layout,
   the canvas begins at y=223, with 708 height; Mission is 552 high, leaving 156
   logical pixels for vertical travel. Both languages produce these bounds.
@@ -44,3 +44,10 @@ minutes; no native pass is inferred. All such copies use isolated userdata; the
 user's Godot editor and pre-existing project settings/UID changes were preserved.
 Final Mac physical dragging, Windows and long-session DPI/focus remain pending.
 Automated viewport input and direct screenshots do not replace native acceptance.
+
+Final short-desktop follow-up removes the fixed 420px Mission floor. At a 440px
+desktop it leaves room to move while content scrolls. The desktop, hardware and
+bilingual typography suites pass again in `.godot/verification/20260914T023225Z-cae2893b`.
+The README images were captured from `4450c78` at the larger size, where this
+short-desktop correction does not change geometry. All image hashes and local
+README/provenance links pass. [Chinese Mission](mission-zh.png) / [English Mission](mission-en.png).

@@ -8,6 +8,15 @@ chapter, simulation rule, progression threshold or server feature in this iterat
 Original free wiring, branch/delete/undo, floating instruments, named workbenches,
 provenance revalidation and separate three-stage Hint remain authoritative.
 
+## Latest source UI follow-up
+
+The latest source follow-up compacts the hardware task header and leaves vertical space around
+Mission. Shared floating panels handle scaled drag/resize and focus cancellation.
+[Checks and native boundaries](verification/20260914-compact-desktop/README.md).
+Both READMEs add earned CPU and double-buffer screenshots with short introductions.
+The frozen `free-alpha-60de5e54c95d` package below **predates this UI change**; it was
+not overwritten or represented as containing the newer source.
+
 ## Competition preparation
 
 The owner requested a bounded Astra Challenge iteration on 2026-09-14. Homepage language access, first palette-card visibility, movable Settings/Handbook and Mac shortcuts are improved; five regions and 40 tasks are unchanged. [Implementation and native evidence](verification/20260914-astra-entry/README.md) · [Submission preparation](distribution/astra-challenge/README.md). Final competition eligibility, public download and actual submission remain owner actions.

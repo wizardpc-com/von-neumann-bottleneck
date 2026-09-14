@@ -102,4 +102,8 @@ func floating_input() -> void:
 		var task: Control=ui.desktop_windows[&"task"]
 		check(ui.graph_stack.size.y-task.size.y >= 80,"Initial Mission leaves vertical dragging room in "+locale)
 		check(task.get_global_rect().encloses(ui.mission_briefing_continue_button.get_global_rect()),"Briefing navigation remains visible after compact sizing.")
+		# At a shorter desktop the old 420px floor swallowed all vertical travel.
+		ui.graph_stack.size=Vector2(1280,440)
+		ui._layout_mission_briefing()
+		check(task.size.y <= 360,"Short desktops keep Mission movable instead of forcing it full height.")
 		ui.queue_free(); await process_frame

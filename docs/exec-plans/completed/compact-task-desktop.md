@@ -1,4 +1,4 @@
-# Compact task desktop and representative README gallery
+# Compact task desktop and representative README gallery — complete local scope
 
 2026-09-14. Preserve five regions, 40 tasks, simulation, editing, saved works and
 independent Hint rules. No new mechanics or public release.
@@ -17,3 +17,11 @@ in parent coordinates and cancel on release/Escape/focus loss; verify isolated U
 and ordinary Game interactions; capture actual earned QA runs for interesting
 levels, document provenance, commit/push reviewable stages. Exported-candidate and
 Windows native acceptance remain separate.
+
+## Result
+
+Runtime committed as `4450c78`. All 39 suites and ordinary Chinese/English Tutorial
+replays pass; bilingual direct renders inspected and README provenance recorded.
+Native baseline reproduced horizontal movement but constrained vertical room; final
+mouse recheck blocked by CUA noWindowsAvailable/ScreenCaptureKit -3811, explicitly
+retained in verification record. No new frozen package or public release.

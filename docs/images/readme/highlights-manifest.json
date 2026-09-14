@@ -1,0 +1,62 @@
+{
+  "source_commit": "4450c7806b778d22a8653613db4a29deb6088d8f",
+  "engine": "Godot 4.7.1 stable",
+  "capture": "capture-highlights.gd",
+  "mode": "ordinary Game; copied earned synthetic QA save restored via normal loaders",
+  "presentation": "only camera and window visibility/geometry changed; no retouching",
+  "cpu": "saved workbench restored; screenshot is before a new formal run",
+  "buffers": {
+    "compute_busy": 16,
+    "cost": 2,
+    "error": "",
+    "error_line": 0,
+    "evictions": 0,
+    "hits": 0,
+    "misses": 0,
+    "outputs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "overlap": 12,
+    "queue_wait": 0,
+    "total_cycles": 28,
+    "transfer_busy": 24,
+    "wait": 12
+  },
+  "images": [
+    {
+      "file": "cpu-zh.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "0e6b3f068bdccfd6bec1c4bb1fb08a530d3dd9188f0a9e86eccd86961cdc7181"
+    },
+    {
+      "file": "buffers-zh.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "c408b778ed894d6c85792a619b026444ddb77a13e31c88bcef86b69074fb69f3"
+    },
+    {
+      "file": "cpu-en.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "d5be06bc1429b21f97bd7eabe8dc4ef8be011f0397046ad83454db5034c69ddc"
+    },
+    {
+      "file": "buffers-en.png",
+      "dimensions": [
+        2940,
+        1846
+      ],
+      "sha256": "f280d119fd6e892162924a5564e7829e2c9c916f2915f1c60f87ce5e9fba950a"
+    }
+  ]
+}

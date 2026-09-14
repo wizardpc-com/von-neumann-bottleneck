@@ -42,3 +42,16 @@ for legibility; source data, design and metrics were not fabricated or retouched
 This is a real scene render, not proof of native mouse acceptance. `capture-layout.gd`
 requires an isolated imported project with a copied completed QA profile; never run
 it on player saves. `layout-manifest.json` stores dimensions, hashes and source identities.
+
+## 2026-09-14 CPU and double-buffer highlights
+
+`cpu-zh/en.png` and `buffers-zh/en.png` were directly rendered from runtime commit
+`4450c78`, using a copy of the previously earned synthetic QA save. No player save
+is distributed. CPU uses the normal workbench loader; the screenshot shows the
+saved wiring before a new formal run. Taking Turns reevaluates the saved board and
+program: 28 total cycles, 12 overlap cycles, output 46/46. Windows were arranged
+for legibility; no score, source data, topology or UI was retouched.
+
+[Capture helper](capture-highlights.gd) · [Source identity, metrics and image hashes](highlights-manifest.json)
+· [UI checks and native limitations](../../verification/20260914-compact-desktop/README.md).
+These images are source renders, not proof of new exported-package acceptance.

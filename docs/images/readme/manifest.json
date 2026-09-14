@@ -1,31 +1,38 @@
 {
-  "source_commit": "9454ffb7bd7444789d09c423eb59e3372f8bba65",
+  "captured_on": "2026-09-14",
+  "source_commit": "e24c34e2acb5adf0656615839b5d4245b999e012",
   "engine": "4.7.1.stable.official.a13da4feb",
   "profile": "isolated fresh profile; no completion setters",
+  "capture": "capture.gd; forced static redraw with PNG result checks",
+  "requested_size": [
+    1600,
+    1000
+  ],
+  "note": "Actual pixels follow Mac display scaling; no retouching. Source render, not package mouse acceptance.",
   "images": [
     {
       "file": "hub-zh.png",
       "width": 2940,
       "height": 1846,
-      "sha256": "75eecc22d4a0661b8834c858eb04b8256803c7ca7c4f81c326cd576a5e8e530b"
+      "sha256": "1d0a78e77b55786ce66b06e7bdf9ac2bc4167fc4713d1fc7e9d4a72bedb2b2f1"
     },
     {
       "file": "tree-zh.png",
       "width": 2940,
       "height": 1846,
-      "sha256": "24a9b57b0b6e006941577b65dfa029f621d3a3db21673ecf10a2f2aff6064f3a"
+      "sha256": "027f5a7eaa1551a0e419ecc1df087e5d3f749b30fc13dce24b9329359dc80f3d"
     },
     {
       "file": "hub-en.png",
       "width": 2940,
       "height": 1846,
-      "sha256": "5dc1610e5171ae4e1f1894130b914f58a12f78c6b193c853b21878e11cab06ec"
+      "sha256": "fbd7e2d0f97cf48a1a9ae68fa4712bdf7ad6c84f54501ed90c824ee8ce72150c"
     },
     {
       "file": "tree-en.png",
       "width": 2940,
       "height": 1846,
-      "sha256": "13256690292d1465a06f60a31e56eacaf48d7c3846bb29337ab9264d5b3f781e"
+      "sha256": "5719073cdf4242944f8c832d75c21d6fa9aba51cc018b42380bd0c2e2ae7207b"
     }
   ]
 }

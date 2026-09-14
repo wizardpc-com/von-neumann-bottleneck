@@ -2,8 +2,11 @@ extends SceneTree
 func _init() -> void: call_deferred("run")
 func snap(label: String) -> void:
  for frame: int in range(12): await process_frame
- await RenderingServer.frame_post_draw
- root.get_texture().get_image().save_png("res://.godot/"+label+".png")
+ RenderingServer.force_draw(false)
+ var result: Error = root.get_texture().get_image().save_png("res://.godot/"+label+".png")
+ if result != OK:
+  push_error("Cannot save README capture: " + label)
+  quit(1)
 func run() -> void:
  root.mode=Window.MODE_WINDOWED
  root.size=Vector2i(1600,1000)

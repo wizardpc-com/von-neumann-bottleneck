@@ -8,6 +8,23 @@ chapter, simulation rule, progression threshold or server feature in this iterat
 Original free wiring, branch/delete/undo, floating instruments, named workbenches,
 provenance revalidation and separate three-stage Hint remain authoritative.
 
+## Version snapshot · 2026-09-14
+
+| Item | Identity / scope |
+| --- | --- |
+| Latest runtime checked | `e24c34e` (later documentation-only commits do not change that runtime) |
+| Working checkout label | `free-alpha-development` |
+| Latest frozen package | `free-alpha-60de5e54c95d`, content `60de5e54c95dac4e928487fbb5f9bb80bc23e7d8` |
+| Source/package parity | **Not yet aligned:** the frozen package omits the later desktop, wire and guidance fixes |
+| Public release / receiver | Not released; endpoint empty and automatic sharing off |
+
+Before distribution, freeze a new commit with the existing builder and verify that
+exact package. Never relabel or overwrite an older candidate. The records below
+are dated evidence, not interchangeable acceptance for the latest source.
+
+[Repository freshness check](verification/20260914-repository-refresh/README.md):
+current documentation, four refreshed hub/tree images, task matrix and link/hash checks.
+
 ## Latest source UI follow-up
 
 The latest source follow-up compacts the hardware task header and leaves vertical space around
@@ -19,16 +36,16 @@ keeps static feedback. [Wire preview checks](verification/20260914-wire-preview/
 Wire replay now follows current geometry and shares progress with value badges;
 hover previews no longer overwrite status with rejected-release diagnostics. Mission
 specifications and progressive Handbook diagrams receive factual and readability
-corrections. [Ongoing evidence](verification/20260914-wire-iteration/README.md).
+corrections. [Wire and guidance verification](verification/20260914-wire-iteration/README.md).
 Both READMEs add earned CPU and double-buffer screenshots with short introductions.
-The frozen `free-alpha-60de5e54c95d` package below **predates this UI change**; it was
+The frozen `free-alpha-60de5e54c95d` package below **predates these source changes**; it was
 not overwritten or represented as containing the newer source.
 
 ## Competition preparation
 
 The owner requested a bounded Astra Challenge iteration on 2026-09-14. Homepage language access, first palette-card visibility, movable Settings/Handbook and Mac shortcuts are improved; five regions and 40 tasks are unchanged. [Implementation and native evidence](verification/20260914-astra-entry/README.md) · [Submission preparation](distribution/astra-challenge/README.md). Final competition eligibility, public download and actual submission remain owner actions.
 
-## Latest native follow-up
+## 2026-09-14 native follow-up (before the wire/guidance changes)
 
 [2026-09-14 player evidence](verification/20260914-native-followup/README.md): actual
 Chapter 1 optimization and restart, Chapter 2 draft/locale/restart recovery, Chapter 3
@@ -36,9 +53,9 @@ double-buffer and Chapter 4 mixed-layout reruns. Fixed tree re-entry camera drif
 covered-tool recall, a stale 6/5 branch counter and redundant empty-source diagnosis.
 Previous native-follow-up candidate: **free-alpha-3b0afc5a4234**, content **3b0afc5a4234**. Source-native checks and export/runtime identity pass. The final exported hub is visible, but CUA mouse calls report `noWindowsAvailable`; its mouse walkthrough remains a manual gate. The owner requested no further speculative changes.
 
-## Final pre-public convergence
+## 2026-09-13 convergence (retained implementation)
 
-Latest runtime adds separate Chapter 1/2 drafts/applied configuration and replayed
+The convergence stage added separate Chapter 1/2 drafts/applied configuration and replayed
 observations, explicit save-failure recovery, unlocked Continue fallback, shared
 in-level settings, window geometry persistence and Chapter 2 return-to-tree flow.
 A native-found legacy capstone editor lock and clipped Mission footer are corrected.
@@ -46,7 +63,7 @@ Summary reports now separate versions/cohorts and entry/during-visit completion;
 bounded outboxes recover after extended transient failures. Branding and task
 maintenance use explicit local contracts. No new content or public service.
 
-[Implementation and current verification](verification/20260913-final-convergence/README.md)
+[Convergence implementation and verification](verification/20260913-final-convergence/README.md)
 · [Owner maintenance guide](development/final-maintenance.md)
 · [40-task inventory](development/task-matrix.md).
 Final full isolated suites pass. The Mac lock-screen interruption was cleared in the 2026-09-14 source follow-up;
@@ -55,7 +72,7 @@ Previous convergence candidate: **free-alpha-6c5c59df6c26** from **6c5c59df6c26a
 
 ## Earlier behavior retained
 
-Latest follow-up makes Chapter 2 code/actions visible before reference material,
+The 2026-09-13 follow-up makes Chapter 2 code/actions visible before reference material,
 removes overlapping chapter-map nodes and clarifies bilingual quantity captions.
 Chapter 3 timeline labels use the theme font and exact elapsed time. Actual native
 task-tree dragging now tolerates captured motion without a button mask, while
@@ -63,13 +80,13 @@ release/focus cancellation remains. Native runs, restart recovery and final chec
 [readable investigations](verification/20260913-readable-investigations/README.md).
 These changes are included in the frozen candidate below.
 
-Current desktop follow-up preserves window/camera presentation across Hint return,
+The 2026-09-13 desktop follow-up preserves window/camera presentation across Hint return,
 clears stale tree routing on explicit chapter-card entry, and places Mission page
 actions above long bilingual explanations. Chapter 1 adds a gated compute/wait
 proportion view and quieter focused instrument frames. See [evidence](verification/20260913-desktop-continuity/README.md);
 the candidate below includes these changes and the native rechecks.
 
-Latest bilingual follow-up separates memory field/record/value, localizes cell
+The 2026-09-13 bilingual follow-up separates memory field/record/value, localizes cell
 inspection, keeps measurement units together and makes long captions follow window
 width. Shared instrument headings trim with a full tooltip. Native Chinese/English
 layout runs preserve the same results; [evidence and boundaries](verification/20260913-bilingual-memory/README.md).
@@ -95,7 +112,7 @@ primary Enter action, node hover and canceled stale map drags. Continue and wind
 resizing preserve the centered task after container layout. Final bilingual bounds
 and native observations: [tree evidence](verification/20260912-tree-polish/README.md).
 
-Latest follow-up: structured settings provide persistent Chinese/English and audio,
+The 2026-09-11 follow-up: structured settings provide persistent Chinese/English and audio,
 scrolling content with fixed close controls, safe presentation defaults and local
 diagnostics. Configured receivers get a first local/basic sharing choice, with no
 retroactive upload; public endpoint remains empty. See
@@ -123,13 +140,13 @@ the selected language. Native reset/title/Tab checks are complete.
 
 ## Build identity and current evidence
 
-**Current candidate: free-alpha-60de5e54c95d**, content `60de5e54c95dac4e928487fbb5f9bb80bc23e7d8`. Both exports, identity/hash checks and the actual Mac release probe pass.
+**Latest frozen candidate (behind source): free-alpha-60de5e54c95d**, content `60de5e54c95dac4e928487fbb5f9bb80bc23e7d8`. Both exports, identity/hash checks and the actual Mac release probe pass.
 [Latest competition UI, gallery and package evidence](verification/20260914-astra-entry/README.md).
 Previous candidate: `free-alpha-3b0afc5a4234`.
 [Native follow-up and package evidence](verification/20260914-native-followup/README.md).
 Previous convergence package: `free-alpha-6c5c59df6c26`.
 [Final convergence evidence and hashes](verification/20260913-final-convergence/README.md).
-Later documentation/merge commits do not modify that frozen content.
+Later source changes are not included. Documentation commits do not modify the frozen archives.
 
 The working checkout is `free-alpha-development`, not a frozen candidate. Packaging
 archives one commit and generates `free-alpha-<12-char commit>`, writes the ID and
@@ -141,7 +158,7 @@ Previous frozen artifact (before final convergence): **free-alpha-47a59d385103**
 The actual Mac candidate passed isolated release checks and native task-tree,
 Tutorial editing, completion, restart/Continue and English settings checks.
 Later evidence-only commits do not rename or overwrite those archives.
-[Current verification and package hashes](verification/20260913-spatial-candidate/README.md).
+[Historical 47a59d3 verification and package hashes](verification/20260913-spatial-candidate/README.md).
 Earlier candidates, including `free-alpha-7a18f039dc20`, `free-alpha-aa755796594a`, `free-alpha-427512c5a504` and `free-alpha-80105a7f5ea6`, and their reports are historical.
 The latest package remains offline by default and has not been publicly released.
 

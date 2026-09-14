@@ -1,96 +1,82 @@
-> Historical handoff and setup reference. Current five-region state, candidate identity
-> and remaining gates: [CURRENT_STATE](../CURRENT_STATE.md). Dated counts and versions
-> below describe the original handoff, not the current release.
-
 # Mac 开发接手说明
 
-2026-09-10：34 节点总任务树、五条应用支线与本地反馈升级见[本轮验证](../verification/2026-09-10-task-tree/README.md)。24 套隔离检查通过；剩余原生试玩被 Mac 锁屏阻挡，任务计划仍 active。请先按该记录继续，勿将检查通过当作发布验收。
+更新：2026-09-14。当前源码、冻结包和验收范围以 [CURRENT_STATE](../CURRENT_STATE.md) 为准；发布门槛见 [RELEASE_BLOCKERS](../../RELEASE_BLOCKERS.md)。
 
-2026-09-09 最新界面迭代：入关打开对应元件工具窗；教程分开介绍放置、改错与视野；手册扩充到 96 条，按当前关卡推荐最多三项，新增可逐步操作的图解。见[首次使用教学清单](../design/first-use-guidance.md)和[本轮验证](../verification/2026-09-09-guided-workbench/README.md)。下文 89 条手册及候选包描述是历史基线。
+## 当前入口与边界
 
-当前 Mac 后续进展见 [原生试玩与界面优化](../status/mac-native-polish.md)。已实际完成 Tutorial、Half Adder、CPU 与桥接实验；新的界面修正见该记录；重启存档问题已按批准方案修复，见[恢复验证](../verification/2026-09-08-save-recovery/README.md)。下面的 Windows 候选包信息保留为历史交付基线。
+仓库：[wizardpc-com/von-neumann-bottleneck](https://github.com/wizardpc-com/von-neumann-bottleneck)，默认分支 `main`。
+Mac 是主要开发与原生试玩环境；Windows 负责实际 EXE、输入与 DPI 验证。
+使用 **Godot 4.7.1 stable 标准版**，Python 3 用于隔离验证和打包辅助脚本。
+导出需要同版本模板；不在接手时顺手升级引擎。
 
-## 当前基线与工作分工
+普通 Game 从首页的任务树进入，五个区域共 40 个任务。章节卡片是另一种导航；
+“继续游戏”回到任务树并定位最近可用任务，不改变解锁。八关替代运行版已移除。
+保留自由选件、接线、线中分支、删除、撤销、命名工作台和独立三级 Hint。
 
-仓库：<https://github.com/wizardpc-com/von-neumann-bottleneck>，默认分支 `main`。
+先读根目录 `AGENTS.md`、`PLANS.md`、`README.md`、`ARCHITECTURE.md`，再读
+[文档索引](../README.md)、[测试说明](testing.md)、[维护指南](final-maintenance.md)和
+[最新导线／任务／手册验证](../verification/20260914-wire-iteration/README.md)。
+旧计划中已标注 HISTORICAL / SUPERSEDED 的内容不是新的实施队列。
 
-Mac 是主要开发与原生交互试玩环境；Windows 用于兼容性、真实鼠标与导出 EXE 验证。继续优化当前游戏，不重启八关重做。默认入口是原章节选择 → Hardware Foundations → 教程 → 算术/存储两分支 → CPU → LOAD/STORE → Chapter 1 → Chapter 2 → Chapter 3。半加器与寄存器后各有一条可选应用支线，不阻挡旧主线。八关运行版已于 2026-09-09 按用户要求移除；历史记录留在 Git，不读取或转换其玩家进度。
+## 启动与隔离验证
 
-当前游戏构建标识：`polish-20260907T010358-76ef116`。标识中的旧 SHA 是制作该候选包时的本地基线，不是本次迁移提交 SHA。以 `git rev-parse HEAD` 和 GitHub 提交记录确定源码版本，不改写既有候选包。
-
-完整游戏与接手资料已在提交 `1fef90db8debf45d69dd3973026a09763ce6fbbe` 上传；其 401 个文件的 Git 对象哈希已逐一与 GitHub 核对。后续提交只补充迁移回执。Windows 预发布 ZIP 和构建清单的 GitHub SHA-256 均与本地相同，见 [发布回执](../verification/2026-09-07-windows-handoff/publication.json) 和 [完成记录](../exec-plans/completed/mac-development-handoff.md)。
-
-已完成：原编辑能力恢复、独立三级 Hint、可移动 Mission、清晰任务页签、紧凑电平符号、对齐元件预览、统一仪表风格及字体、随进度开放的 89 条手册知识（29 条带图）。详见 [当前状态](../status/visual-learning-polish.md)。本版尚未通过完整原生桌面试玩和新手验收。
-
-## 先读这些文件
-
-1. 根目录 `AGENTS.md`、`PLANS.md`、`README.md`、`ARCHITECTURE.md`。
-2. [视觉与学习计划](../exec-plans/active/visual-learning-polish.md)、[当前状态](../status/visual-learning-polish.md)、[此前构建优化](../status/construction-experience.md)。
-3. [原版恢复要求](../design/IN_PLACE_RECOVERY_AND_OPTIMIZATION.md)、[ADR 0015](../decisions/0015-versioned-workbench-snapshots-and-read-only-hints.md)、[测试说明](testing.md)。
-
-旧蓝图中“八关替代主线、深层构建变工坊、固定桌面取代原工具窗”的决定已被撤回。保留历史文档，不据此恢复已撤回方向。
-
-用户最近指出的原始问题截图已保存：[重复且过大的输入控件](../images/feedback-input-controls.png)、[元件图形与说明未对齐](../images/feedback-component-preview.png)。当前候选包已对此修改，但尚未获得用户试玩确认。下一轮仍以科技感美术为重点，并提高叙述的可读性、逻辑性、引导性、手册图解和渐进解锁，面向愿意了解 CS 的新手；参考图灵完备的表达与操作习惯，保留本游戏既有功能及大致进度关系。
-
-## Mac 环境与首次启动
-
-使用 **Godot 4.7.1 stable 标准版**，不需要 .NET、Python 包或第三方 Godot 插件。Python 3 只用于验证辅助脚本。安装匹配版本的导出模板后才能导出平台包；不在迁移时顺手升级引擎。
+已有 checkout 先检查 `git status --short --branch` 和提交记录；拉取采用
+`git pull --ff-only`，保留本地修改。首次使用可从上面的仓库地址克隆。
+按本机安装位置设置引擎路径：
 
 ```sh
-git clone https://github.com/wizardpc-com/von-neumann-bottleneck.git
-cd von-neumann-bottleneck
-git status --short --branch
-git log -3 --oneline
-
 GODOT="/Applications/Godot.app/Contents/MacOS/Godot"
 "$GODOT" --version
 python3 scripts/verify-project.py --godot "$GODOT" --gui --locale zh_CN
+python3 scripts/verify-project.py --godot "$GODOT" --gui --locale en
 ```
 
-若已有 checkout，先检查本地改动，再 `git pull --ff-only`；不要覆盖未提交工作。Godot 安装名不同则调整 `GODOT` 路径。脚本会复制 Git 跟踪及非忽略的当前文件到 `.godot/verification/<run>/project`，重新导入资源，为每个检查分配独立玩家目录，并执行当前仓库的全部常规测试；`--gui` 加跑普通 Game 的完整 GUI 输入路线。`--interaction-only` 可缩短为教程交互，`--locale en` 检查英文。
+依次运行，不并行启动 Godot 验证或原生试玩。隔离脚本复制当前源码到
+`.godot/verification/<run>/project`，每项检查分配独立玩家目录并验证实际路径。
+`--gui --interaction-only` 仅回放 Tutorial；`--suite <测试文件名，不含 .gd>` 可重复指定定向测试。
+失败日志与截图保留；测试通过不等于新手理解或导出包验收。
 
-脚本只修改副本的玩家目录设置；首次导入时暂时省略全局字体配置以先生成字体缓存，此后所有检查恢复实际字体配置。原工作区和实际玩家存档不变；日志、失败结果和截图均保留，不自动删除。脚本在 Windows 上验证过，Mac 执行结果必须在本机重新记录。
-
-在原 checkout 中打开编辑器或游戏：
+日常编辑可在 Godot 中导入 `project.godot`，完成资源导入后运行项目；直接启动：
 
 ```sh
-"$GODOT" --headless --path . --editor --import --quit
-"$GODOT" --headless --path . --editor --import --quit
 "$GODOT" --path . --editor
-# 直接普通 Game：
+# 普通 Game：
 "$GODOT" --path .
 ```
 
-完全没有 `.godot` 缓存时，Godot 可能在首轮导入之前尝试加载全局字体，并报告尚未生成的 `.fontdata`；首轮导入完成后第二轮必须不再报告资源/脚本错误。不要把它解释为缺少字体源码，也不要提交 `.godot` 来掩盖导入问题。字体源文件、`.import` 设置、资源引用和许可证均在 Git 中。
+普通启动会使用真实玩家目录。原生 QA 应使用验证生成的副本及其独立目录；
+深层关卡只复制已经获得的 QA 存档并经过原有来源重验，不能插入完成标记代替游玩。
+若空缓存首次导入报告缺少尚未生成的字体缓存，检查隔离脚本的导入处理，
+不要提交 `.godot` 或删除字体引用来掩盖问题。
 
-macOS 可执行文件入口及 `user://` 路径依据 [Godot CLI 文档](https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html) 和 [数据路径文档](https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html)。
+## 存档与工作区保护
 
-迁移检查还修正了两项旧测试的环境依赖：`test_demo_performance.gd` 和 `test_demo_save.gd` 现在自行创建临时输出目录并检查文件打开结果。行为与性能断言保持完整；这些修正不改变游戏逻辑。
+Mac 正常用户目录为 `~/Library/Application Support/Godot/app_userdata/Von Neumann Bottleneck/`；
+检查目录位于 `~/Library/Application Support/VonNeumannBottleneckChecks/<run>/<case>/`。
+Mac 仅修改 `APPDATA` 不能隔离用户数据；必须检查引擎实际报告的目录。
 
-## 数据与资源边界
+当前主存档使用 schema 2，文件名仍为 `savegame_v1.json`。保留备份、最低写入版本检查和来源重验。
+第一、二章草稿与已应用程序分开恢复；恢复作品不授予成绩。不要将旧备份手动覆盖新版主存档。
+玩家数据、遥测、临时日志和缓存不提交；个人进度迁移应私下复制整套数据目录。
 
-普通 Mac 游戏存档默认位于 `~/Library/Application Support/Godot/app_userdata/Von Neumann Bottleneck/`。验证脚本使用独立的 `~/Library/Application Support/VonNeumannBottleneckChecks/<run>/<case>/`，并用实际运行探针确认隔离生效。Windows 验证脚本另将 APPDATA/LOCALAPPDATA 指向仓库内的测试目录。不要只在 Mac 设置 APPDATA 并假定它能隔离存档。
+## 原生操作与平台检查
 
-GitHub 包含源码、场景、关卡/双语内容、测试、`.uid`、字体及许可证、项目/导出配置、现状/决策/截图和精选验证记录。Windows 候选包放在 [GitHub prerelease](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/playtest-polish-20260907T010358)，不塞进 Git 历史。
+1. 从普通 Game 进入 Tutorial，实际测试元件台拖放、正反向接线、分支、删除、撤销、框选复制和文本焦点。
+2. 任务规格直接可看；H2/H3 各自确认。检查 Hint 返回后的工作台和相机恢复、退出后的方案恢复。
+3. 检查窗口移动／缩放、减少动效、暂停回放时平移缩放、松开和失焦取消。导线只有连接意义，动画不能改变仿真时间。
+4. Mac 检查 `⌘Z`、`⇧⌘Z`、`⌘,`、`⌃⌘F`；Windows 检查 `Ctrl+Z`、`Ctrl+Y`、`Alt+Enter`；两者均保留 F11。按界面提示复核，不能只靠源码推断兼容。
+5. 区分源码输入回放、直接渲染、原生鼠标和导出包证据。CUA 返回 `noWindowsAvailable` 时记录工具限制，不声称已完成鼠标操作。
 
-Windows 的实际存档、命名方案、遥测、备份、完整临时日志和 `.godot` 缓存留在原机器；不上传公共 GitHub。21 个玩家文件在视觉优化交付时均通过原始备份哈希核对。若用户以后需要迁移个人进度，单独私下复制整个相关数据目录，保护新旧版本文件；不要将新版完成标记转成旧版通关。
+最新未闭合项包括持续拖动／焦点与混合 DPI、Windows 实机、另一台 Mac 安装和外部新手。
+没有这些新证据时，不用旧候选或单元测试代替验收。
 
-## 开始开发时的具体任务
+## 分发与历史回执
 
-1. 确认 Mac 上实际可用的原生 computer-use 工具与系统权限，运行普通 Game。工具不可用或桌面锁定时明确记录，不冒充已操作。
-2. 从教程开始真实输入：选中拖动 → 放置/接线 → 线段中间分支 → 精确删线 → 撤销 → 框选/复制粘贴 → 文本框返回焦点 → 缩放/平移 → 窗口/全屏。确认位宽、端口与落点一致。
-3. 测试任务随时可找、规格直接可查；H1/H2/H3 逐层主动请求和确认；退出后名称、拓扑、位置、线色不变，继续编辑及完整测试。Hint 返回仍按 ADR 0015 清空撤销历史和剪贴板，不虚称保留。
-4. 重点试玩 Tutorial、Half Adder、CPU，检查符号与控件、手册逐步开放、任务可读性、模块关系和下一关动机。补测 Retina/缩放与快捷键/触控板差异。当前 GUI 代码使用 Ctrl 修饰键；Mac 的 Command 支持尚未验收，不预先宣称兼容。
-5. 根据实际观察继续局部优化美术、操作、叙述和引导，保留已有功能与大致关卡推进。不用自动加载答案或 Test 模式贯通代替普通 Game 验收，不降低测试要求，不再另写编辑器或仿真。
+采用[统一冻结流程](../distribution/free-alpha.md)，从一个明确提交生成 Mac／Windows 包，
+再检查身份、哈希、随包说明和真实操作。源码领先现有候选时必须新建构建编号，不能覆盖旧包。
+公网服务、签名／公证资料和正式发布由用户另行决定。
 
-已批准方向和可逆细节自行推进；重大玩法、架构、持久化、依赖或范围改变再询问。每次记录实际修改、自动测试、画面观察、原生操作和真人新手试玩的不同证据。通过部分检查不等于可以正式发布。
-
-## Windows 后续验证
-
-Windows 只拉取已经提交的明确版本并验证。拉取前检查本地改动；用 `git pull --ff-only`，保留历史包与存档。验证版本必须与 Mac 提交 SHA 对应。
-
-用匹配导出模板，在全新的输出目录导出 `Windows Playtest` preset；附上 `distribution/PLAYTEST-README.txt` 和 `assets/fonts/OFL-NotoSansSC.txt`，记录构建标识、源提交和 EXE/ZIP 哈希。Mac 上也可调用 Godot CLI 导出这个现有 preset，Windows 再实际运行 EXE。
-
-不要用旧 `scripts/build-playtest.ps1` 重复覆盖基线包：该历史辅助脚本会替换固定输出目录，也尚未复制新字体许可证。当前候选包由独立目录导出并已附许可。以后修改打包脚本应保持输出可追踪、旧包不丢失。
-
-本次迁移没有 macOS 导出包、签名、公证或已完成的 Mac 原生验收；这些不是已有成果。
+2026-09-07 的迁移、旧 Windows prerelease 和当时版本仅保留为历史：
+[迁移完成记录](../exec-plans/completed/mac-development-handoff.md)、
+[发布回执](../verification/2026-09-07-windows-handoff/publication.json)。
+这些旧包不代表当前五区域版本；9 月 8 日的存档修复见[历史验证](../verification/2026-09-08-save-recovery/README.md)。

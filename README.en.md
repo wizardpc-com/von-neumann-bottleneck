@@ -12,6 +12,8 @@ A construction and optimization puzzle about computers and the data they move. S
 
 *Common Ground, Chapter 4: the same data serves two workloads. Arrange it, batch it, and compare the real cost of moving it. [Capture provenance and metrics](docs/images/readme/layout-manifest.json).*
 
+**Source update (2026-09-14):** goals and required cases come first, Handbook diagrams unfold one example at a time, and wire feedback follows the current interaction. Hub/tree images below are refreshed; the existing frozen candidate predates these fixes.
+
 [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 ## What you do

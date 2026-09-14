@@ -1,0 +1,38 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260914T041306Z-16ab9036/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260914T041306Z-16ab9036/user_directory"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260914T041306Z-16ab9036/test_localization"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20260914T041306Z-16ab9036/test_release_convergence"
+    }
+  ]
+}

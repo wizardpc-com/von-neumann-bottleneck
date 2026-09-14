@@ -4,6 +4,16 @@
 
 ## 简体中文
 
+### 2026-09-14 · 任务与图解收敛（源码更新）
+
+- 任务先展示目标、必须通过的用例和限制，再展开辅助说明；单次查询不再重复标注“执行 1 次”。
+- 修正布局求和、尾批与一位 ALU 等说明；手册逐次展示位宽、字段分组、复制成本与分批示例，布局图使用真实地址映射。
+- 导线回放和数值标签随当前线路移动、缩放；悬停不再反复写入失败提示，松开拒绝连接时才报告。
+- 减少动效时保持静态反馈；中英文图解统一控件与排版。五区域 40 任务、仿真、存档与解锁规则不变。
+
+源码更新截至 `e24c34e`。最近冻结包仍为 `free-alpha-60de5e54c95d`，**尚未包含这些改动**。
+[验证与原生操作边界](docs/verification/20260914-wire-iteration/README.md) · [当前状态](docs/CURRENT_STATE.md)。
+
 ### 2026-09-14 · 导线预览（源码更新）
 
 - 反向拖线保持接好后的曲线方向，接近有效端口时对齐，拒绝连接显示叉号。
@@ -60,6 +70,16 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-09-14 · Tasks and illustrated guidance (source update)
+
+- Put goals, mandatory cases and limits before supporting guidance; omit redundant “repeat once” labels.
+- Correct layout sums, tail batches and one-bit ALU explanations. Show width, grouping, copying and batching examples one at a time, using real address mappings for layout diagrams.
+- Keep wire replay and value badges attached during movement and zoom. Hover no longer overwrites status with failure messages; a rejected release reports once.
+- Use static trace feedback with reduced motion and consistent bilingual diagram controls. The five regions, 40 tasks, simulation, saves and unlock rules are unchanged.
+
+Runtime changes through `e24c34e`. The latest frozen package remains `free-alpha-60de5e54c95d` and **does not include these changes**.
+[Checks and native boundaries](docs/verification/20260914-wire-iteration/README.md) · [Current state](docs/CURRENT_STATE.md).
 
 ### 2026-09-14 · Wire previews (source update)
 

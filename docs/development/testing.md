@@ -1,4 +1,4 @@
-Current settings follow-up adds `tests/test_prelaunch_settings.gd`: preference
+The 2026-09-11 settings follow-up added `tests/test_prelaunch_settings.gd`: preference
 persistence, audio bus, consent independence, diagnostics whitelist and real 1280×720
 settings bounds/focus scrolling. Run in a fresh per-suite QA directory: first-choice
 assertions intentionally require no prior acknowledgement. See
@@ -14,14 +14,26 @@ and `python3 scripts/verify-mac-candidate.py --app <candidate .app>`; the latter
 actual exported project build identity against its adjacent manifest. Native and
 external acceptance remain distinct. Dated test totals below are historical.
 
+## Current wire and guidance checks, 2026-09-14
+
+The isolated verifier discovers conventional `tests/test_*.gd` suites; avoid hardcoded
+suite totals. For this presentation scope, select `test_wire_drag_geometry` (including rejected-hover/release coverage),
+`test_hardware_foundations_ui`, `test_learning_handbook`, `test_layout_ui` and `test_localization` using repeatable `--suite` arguments.
+The full `--gui` route and shorter `--gui --interaction-only` Tutorial remain separate
+input replays. See [latest evidence](../verification/20260914-wire-iteration/README.md).
+
+Static capture helpers explicitly request `RenderingServer.force_draw(false)` and
+check PNG save results: waiting for a future draw can stall an idle/background Mac
+window. A capture is rendering evidence, not native mouse or package acceptance.
+
 ## Five-region candidate, 2026-09-11
 
 Current commands remain `scripts/verify-project.py --gui --locale zh_CN` and `--locale en` with Godot 4.7.1. They include automatic DAG extension and new layout/remote suites. Follow with `scripts/verify-save-restart.py` and `scripts/verify-feedback-local.py` on the imported isolated copy, sequentially. The receiver and report calibration run via `python3 server/test_receiver.py` and `python3 scripts/test-report-playtests.py`. Actual results and native scope are in [five-region evidence](../verification/20260910-five-chapter/README.md); historical totals below are not current acceptance. Do not run headless/GUI engine processes beside CUA native play on macOS: the shared app identity can lose its controllable window. Finish engine checks, then relaunch the native QA instance.
 
 ## Guided workbench and first-use coverage, 2026-09-09
 
-Use the same isolated verifier below in both languages. The current Handbook suite
-covers all 29 lesson recommendations before solving their prerequisites, 96 terms,
+Use the same isolated verifier below in both languages. The Handbook suite at that milestone
+covered all 29 lesson recommendations before solving their prerequisites, 96 terms,
 and example-state changes without player-content mutation. The Game input route
 keeps tool windows open on entry and verifies CPU wiring after independent Hint
 return with the panel-aware camera. Full results, final reruns, failed intermediate

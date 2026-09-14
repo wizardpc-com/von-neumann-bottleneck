@@ -6,8 +6,9 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 
 - [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [中英文更新说明 / Changelog](../CHANGELOG.md)
 - [Current state and frozen build](CURRENT_STATE.md) · [Release acceptance gates](../RELEASE_BLOCKERS.md)
-- [Final convergence and evidence](verification/20260913-final-convergence/README.md) · [Maintenance / future branding](development/final-maintenance.md) · [40-task matrix](development/task-matrix.md)
-- [Previous candidate and native verification](verification/20260913-spatial-candidate/README.md) · [Current README image provenance](images/readme/README.md)
+- [Latest wire / Mission / Handbook evidence](verification/20260914-wire-iteration/README.md) · [Desktop interaction evidence](verification/20260914-compact-desktop/README.md)
+- [Latest frozen package evidence](verification/20260914-astra-entry/README.md) (predates the source follow-up) · [README image provenance](images/readme/README.md)
+- [Maintenance / future branding](development/final-maintenance.md) · [40-task matrix](development/task-matrix.md) · [Earlier convergence](verification/20260913-final-convergence/README.md)
 - [Build and package the free Alpha](distribution/free-alpha.md) · [Isolated tests](development/testing.md)
 - [Chapter 3 model](architecture/overlap-chapter.md) · [Chapter 4 model](architecture/layout-chapter.md)
 
@@ -19,15 +20,15 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 - [Task tree and optional missions](exec-plans/active/task-tree-and-side-missions.md): historical 34-node expansion, now included in the 40-task game.
 - [Local playtest evidence](status/playtest-instrumentation.md): visits, case outcomes, voluntary moments and multi-export reports.
 
-- [Guided workbench and diagrams](verification/2026-09-09-guided-workbench/README.md): open tools, cable separation, focused Handbook, and this iteration's native/check evidence.
+- [Guided workbench and diagrams](verification/2026-09-09-guided-workbench/README.md): open tools, cable separation, focused Handbook, and that iteration's native/check evidence.
 - [First-use guidance](design/first-use-guidance.md): the dated teaching inventory and pacing boundaries.
 
-- [Mac native polish](status/mac-native-polish.md): current Mac UI changes, ordinary Game play evidence and approved restart recovery and its native verification.
+- [Mac native polish](status/mac-native-polish.md): dated Mac UI changes, ordinary Game play evidence and approved restart recovery and its native verification.
 - [Stable save recovery](verification/2026-09-08-save-recovery/README.md): byte-exact backups, provenance revalidation and repeat native startup.
-- [Mac development handoff](development/mac-handoff.md): current baseline, Mac setup, isolated checks, Windows verification and next native-playtest tasks.
+- [Mac development handoff](development/mac-handoff.md): current Mac setup, isolated checks, Windows verification and next native-playtest tasks.
 - [Completed migration delivery](exec-plans/completed/mac-development-handoff.md): published source, Windows prerelease and verification boundaries.
 
-- [Visual and learning polish](status/visual-learning-polish.md): current signal controls, aligned schematics, instrument style, progressive Handbook, package and acceptance evidence.
+- [Visual and learning polish](status/visual-learning-polish.md): earlier signal controls, aligned schematics, instrument style, progressive Handbook, package and acceptance evidence.
 - [Visual and learning plan](exec-plans/active/visual-learning-polish.md): implemented scope and pending native desktop / human acceptance.
 - [Construction experience](status/construction-experience.md): earlier schematic, editing and learning improvements, package, evidence and human playtest gates.
 - [Experience plan](exec-plans/completed/construction-experience.md): protected baseline, reference observations and capability preservation.
@@ -39,8 +40,8 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 - `architecture/simulation.md`: current simulation pipeline, cost ownership, invariants, and model limits.
 - `architecture/localization.md`: default locale, catalog boundary, language-neutral technical evidence, and the process for adding a locale.
 - `architecture/content-system.md`: explicit campaign registry, content-pack extension contract, player-owned state, global-save/workbench provenance reconciliation, and the boundary between authored content and executable mechanics.
-- `status/cpu-building-prologue.md`: current tutorial-to-CPU campaign, reusable-component progression, temporal model, final LOAD/STORE bridge, limitations, and playtest questions.
-- `status/chapter-1-waiting-for-data.md`: implemented five-level CPU/RAM/Bus investigation chapter, prediction and controlled-comparison flow, gated diagnosis evidence, exact cost model, limitations, and playtest questions.
+- `status/cpu-building-prologue.md`: original tutorial-to-CPU campaign, reusable-component progression, temporal model, final LOAD/STORE bridge, limitations, and playtest questions.
+- `status/chapter-1-waiting-for-data.md`: original five-investigation CPU/RAM/Bus chapter (two later applications are included in the current task matrix), prediction and controlled-comparison flow, gated diagnosis evidence, exact cost model, limitations, and playtest questions.
 - `status/chapter-2-reducing-data-movement.md`: implemented seven-level Cache/locality/working-set/blocking investigation, delayed Systems Notebook concepts, deterministic reference evidence, multiple capstone solutions, limitations, and playtest questions.
 - `status/playtest-instrumentation.md`: anonymous offline session events, concise feedback flow, crash recovery, export format, automation flags, and the clean-playtest procedure.
 - `status/hardware-foundations-01.md`: historical wiring/Half Adder milestone retained as design evidence.
@@ -76,11 +77,11 @@ Keep root documents navigational. Update the most specific source-of-truth docum
 - [Chapter 3 overlap model and persistence](architecture/overlap-chapter.md)
 - [Chapter 3 native player pass and fixes](verification/2026-09-09-overlap-native/README.md)
 
-## Current five-region candidate
+## Five-region implementation and maintenance
 
-- [Execution and remaining gates](exec-plans/active/five-chapter-free-alpha.md)
+- [Historical five-region implementation](exec-plans/active/five-chapter-free-alpha.md)
 - [Layout model](architecture/layout-chapter.md)
 - [Adding tasks without map coordinate changes](development/adding-tasks.md)
-- [Native evidence](verification/20260910-five-chapter/README.md)
+- [2026-09-10 native evidence](verification/20260910-five-chapter/README.md)
 - [Candidate distribution](distribution/free-alpha.md)
 - [Optional local feedback server](../server/README.md)

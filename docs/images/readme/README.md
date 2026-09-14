@@ -1,14 +1,20 @@
 # README images · 配图来源
 
-Captured on 2026-09-13 from source `9454ffb`, using Godot 4.7.1 stable on Mac.
-Tracked runtime and localization files were byte-compared with the imported QA
-project before capture; they match. The README documentation change does not
-change the runtime or the frozen `free-alpha-47a59d385103` candidate.
+The images come from separate dated source captures. They are not a single frozen
+candidate gallery; each manifest identifies the runtime that produced its pixels.
 
-- `hub-zh.png` / `hub-en.png`: current chapter hub, Chinese / English.
-- `tree-zh.png` / `tree-en.png`: the same fresh-profile prerequisite tree, framed to
-  show the construction region. Compact labels are the actual game's zoom behavior.
-- `manifest.json`: source identity, output dimensions and SHA-256 values.
+| Images | Source / date | Profile and evidence |
+| --- | --- | --- |
+| `hub-zh/en.png`, `tree-zh/en.png` | `e24c34e`, 2026-09-14 | Fresh isolated Game profile; [manifest](manifest.json) |
+| `layout-zh/en.png` | `109bfb4`, 2026-09-14 | Earned synthetic QA design, rerun; [manifest](layout-manifest.json) |
+| `cpu-zh/en.png`, `buffers-zh/en.png` | `4450c78`, 2026-09-14 | Earned synthetic QA workbench/schedule; [manifest](highlights-manifest.json) |
+
+The refreshed hub/tree use Godot 4.7.1 stable on Mac. Runtime and localization files
+were byte-compared with the imported QA copy before capture. The hub now includes
+the primary tree entry and home language menu. The tree shows the construction
+region and its links into the first investigation region. Chapter screenshots are
+retained as dated examples; they do not depict the later Mission/Handbook revisions.
+No screenshot update changes an existing frozen candidate.
 
 These are direct viewport captures of real project scenes, not painted mock-ups,
 retouched screenshots, or proof of a native playthrough. No solution or completed
@@ -27,9 +33,9 @@ godot --path <isolated-project> --script res://capture.gd -- --capture-size=1600
 ```
 
 The helper writes four PNGs under that copy's `.godot/` and exits. Review the images
-before copying them here. Do not run the capture against a player's live profile.
+before copying them here; the helper checks every PNG write and forces a draw for static scenes. Do not run the capture against a player's live profile.
 
-中文：配图由当前实际场景直接渲染，采用隔离新档，没有拼接界面、添加解法或伪造进度。
+中文：首页和任务树配图由最新源码实际场景直接渲染，采用隔离新档，没有拼接界面、添加解法或伪造进度。
 旧配图保留在历史记录中，当前 README 不再引用它们。今后更新图片时，请同步更新来源与哈希。
 
 ## 2026-09-14 representative level

@@ -12,6 +12,8 @@
 
 *第四章「两全之策」：同一份数据，两种查询需求。调整布局与分批，比较真实搬运成本。[截图来源与运行数值](docs/images/readme/layout-manifest.json)。*
 
+**源码近况（2026-09-14）：** 任务先列目标和必测用例，手册图解逐步展开，导线反馈随实际操作变化。下方首页与任务树配图已刷新；现有冻结候选尚未包含最近修正。
+
 [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 ## 在这里做什么

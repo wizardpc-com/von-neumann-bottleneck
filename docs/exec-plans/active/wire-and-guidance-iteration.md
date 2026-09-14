@@ -53,5 +53,9 @@ separate. No Windows real-machine or external beginner claim without actual evid
 - Nine illustration topics render in both locales, 36 final 1280 × 720 frames.
 - Native keyboard Continue/task entry/exit worked. Native mouse API repeatedly
   returned noWindowsAvailable; held drag/pan/zoom remains an explicit native gate.
-- Current queue: inspect dynamic Mission query presentation and remaining real-player
-  clarity/gesture evidence. Preserve existing candidate until a new freeze is requested.
+- Dynamic Mission query presentation is corrected and checked (`b485bea`): mandatory cases
+  precede supporting guidance; single queries omit redundant repeat-one labels.
+- Handbook controls and static captures are finalized (`e24c34e`), including the
+  final 242/0 Tutorial input replay.
+- Remaining queue: native held drag/pan/zoom, long focus/DPI sessions and external
+  player clarity evidence. Preserve the existing candidate until a new freeze is requested.

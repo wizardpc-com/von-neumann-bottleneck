@@ -30,7 +30,7 @@ Hints start hidden and remain independent read-only boards. H1, H2 and H3 are re
 
 Build: `experience-20260906T013002-76ef116`, Godot `4.7.1.stable.official.a13da4feb`.
 
-- [Windows ZIP](../../build/Von-Neumann-Bottleneck-Experience-20260906T013002.zip), 43,049,098 bytes. Extract and run `Von-Neumann-Bottleneck.exe`; Godot installation is unnecessary. ZIP SHA-256: `CE0CDCC44FE6F7DFEE4E5E22818C637CAABCB34B22ACD9B7EC64D27CB7AA7459`.
+- Historical local Windows ZIP `build/Von-Neumann-Bottleneck-Experience-20260906T013002.zip` (not a repository download), 43,049,098 bytes. Extract and run `Von-Neumann-Bottleneck.exe`; Godot installation is unnecessary. ZIP SHA-256: `CE0CDCC44FE6F7DFEE4E5E22818C637CAABCB34B22ACD9B7EC64D27CB7AA7459`.
 - EXE SHA-256: `EDAEAF0777A2BC852690BDCC0FECAEB5064FEC9AA32EFCC1F62999CE7F4A1340`. The archive contains only EXE, bilingual playtest instructions and a build manifest. Its EXE and README were read back and matched; 188 runtime resource hashes match the final source.
 - All 19 conventional suites passed on the final implementation. `final-acceptance/results.json` records exits, explicit PASS output and absence of script/parse failures. Simulation, save, localization, original chapters and the retained comparison are included.
 - The twentieth suite, `test_recovery_game_input.gd`, passed **454 checks in each language**. Chinese final-behavior evidence: `native-port-layer.log` and `native-port-layer/zh_CN-ui-observations.json`; English: `final-acceptance/en.log` and `final-acceptance/en/en-ui-observations.json`. The final build label was separately rendered in a Chinese Tutorial interaction run, `version-capture.log`, with 121 passing checks.

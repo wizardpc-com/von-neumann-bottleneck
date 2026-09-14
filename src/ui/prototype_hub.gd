@@ -416,12 +416,11 @@ func _build_options_menu() -> void:
 	options_overlay.mouse_filter=Control.MOUSE_FILTER_STOP; options_overlay.z_index=1100; add_child(options_overlay)
 	var backdrop := ColorRect.new(); backdrop.color=Color("050a12",0.78)
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); options_overlay.add_child(backdrop)
-	var center := CenterContainer.new(); center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	options_overlay.add_child(center)
-	var panel := PanelContainer.new(); panel.name="ChapterOptionsPanel"
-	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(PANEL,ACCENT,8)); center.add_child(panel)
+	var panel := preload("res://src/ui/movable_dialog_panel.gd").new(); panel.name="ChapterOptionsPanel"
+	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(PANEL,ACCENT,8)); options_overlay.add_child(panel)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",14); panel.add_child(column)
 	_settings_label(column,"hub.options.title",28)
+	panel.setup(column.get_child(0), Vector2(760, 780))
 	var scroll := ScrollContainer.new(); scroll.name="SettingsScroll"; scroll.follow_focus=true
 	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL; column.add_child(scroll)
@@ -504,8 +503,7 @@ func _settings_label(parent: Node, key: String, font_size: int=18) -> void:
 
 func _fit_settings_panel() -> void:
 	var panel: Control = options_overlay.find_child("ChapterOptionsPanel",true,false)
-	panel.custom_minimum_size=Vector2(minf(760,size.x-48),minf(780,size.y-48))
-	panel.size=panel.custom_minimum_size
+	panel.call("fit_to_bounds")
 
 func _reload_settings_locale() -> void:
 	WindowMode.reload_localized_scene(settings_only)

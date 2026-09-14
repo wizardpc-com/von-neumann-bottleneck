@@ -302,7 +302,7 @@ func _run_all() -> void:
 		if m.error == "space_limit": caption += "\n"+_l("这次申请需要 %d B；尚未分配或复制。","This allocation needs %d B; no allocation or copy occurred.") % int(m.required_extra_bytes)
 		caption += "\n"+_l("初始方案 %d 周期","Initial design: %d cycles") % int(baseline.runs[i].metrics.total_cycles)
 		if not best.is_empty(): caption += " · "+_l("我的已达标最佳 %d","My passing best: %d") % int(best.runs[i].metrics.total_cycles)
-		results.add_child(_label(caption,true))
+		results.add_child(_label(caption.replace(" B", "\u00a0B"),true))
 		var outputs := _label(_l("实际输出：","Actual: ")+str(run.output_values)+"\n"+_l("预期输出：","Expected: ")+str(run.expected_values),true)
 		outputs.hide(); results.add_child(outputs)
 		_button(results,_l("展开／收起逐项输出","Show / hide exact outputs"),func() -> void: outputs.visible=not outputs.visible)

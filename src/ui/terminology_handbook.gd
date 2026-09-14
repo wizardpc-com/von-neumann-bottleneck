@@ -366,12 +366,9 @@ func _build_interface() -> void:
 	modal.hide()
 	add_child(modal)
 
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	modal.add_child(center)
-	var shell := PanelContainer.new()
-	shell.custom_minimum_size = Vector2(1180.0, 710.0)
-	center.add_child(shell)
+	var shell := preload("res://src/ui/movable_dialog_panel.gd").new()
+	shell.name = "HandbookPanel"
+	modal.add_child(shell)
 	var shell_box := VBoxContainer.new()
 	shell.add_child(shell_box)
 
@@ -388,6 +385,9 @@ func _build_interface() -> void:
 	subtitle_label = Label.new()
 	subtitle_label.add_theme_color_override("font_color", MUTED)
 	heading_box.add_child(subtitle_label)
+	title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	subtitle_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	shell.setup(heading_box, Vector2(1180, 710))
 	learning_progress = ProgressBar.new()
 	learning_progress.name = "HandbookLearningProgress"
 	learning_progress.custom_minimum_size.y = 4.0

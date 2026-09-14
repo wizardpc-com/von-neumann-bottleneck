@@ -6516,3 +6516,12 @@ msgstr "Settings · F10"
 
 msgid "workspace.model_changed"
 msgstr "Rules changed. Draft kept; review and apply again."
+
+msgid "window.drag.tooltip"
+msgstr "Drag the title to move this window."
+
+msgid "settings.shortcut.mac"
+msgstr "Settings · ⌘,"
+
+msgid "window.fullscreen.tooltip.mac"
+msgstr "Toggle fullscreen · ⌃⌘F (or F11)"

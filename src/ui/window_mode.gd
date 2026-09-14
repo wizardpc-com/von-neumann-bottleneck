@@ -51,13 +51,16 @@ func _input(event: InputEvent) -> void:
 	var key_event := event as InputEventKey
 	if not key_event.pressed or key_event.echo:
 		return
-	if key_event.keycode == KEY_F10:
+	if key_event.keycode == KEY_F10 or (OS.get_name() == "macOS" and key_event.keycode == KEY_COMMA
+			and key_event.meta_pressed and not key_event.ctrl_pressed and not key_event.alt_pressed and not key_event.shift_pressed):
 		open_settings()
 		get_viewport().set_input_as_handled()
 		return
 	var requested: bool = (
 		key_event.keycode == KEY_F11
 		or (key_event.keycode == KEY_ENTER and key_event.alt_pressed)
+		or (OS.get_name() == "macOS" and key_event.keycode == KEY_F and key_event.meta_pressed
+			and key_event.ctrl_pressed and not key_event.alt_pressed and not key_event.shift_pressed)
 	)
 	if not requested:
 		return
@@ -202,7 +205,7 @@ func settings_button() -> Button:
 	var button := Button.new()
 	button.name="InLevelSettings"
 	button.text=get_node("/root/Localization").text(&"settings.open")
-	button.tooltip_text=get_node("/root/Localization").text(&"settings.shortcut")
+	button.tooltip_text=get_node("/root/Localization").text(&"settings.shortcut.mac" if OS.get_name()=="macOS" else &"settings.shortcut")
 	button.custom_minimum_size=Vector2(80,38)
 	button.pressed.connect(open_settings)
 	return button

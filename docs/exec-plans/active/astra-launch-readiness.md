@@ -36,3 +36,12 @@ User data remains isolated. No level/catalog/model changes.
 
 Final Windows/macOS package interaction, outside-player comprehension, exact
 contest eligibility/model attribution, chosen public download and submission.
+
+## Owner steering: window and OS conventions
+
+User explicitly asks for freely draggable windows and less platform cognitive
+load. Existing floating instruments already support drag/resize. Extend the two
+fixed reading/settings surfaces with bounded title dragging; add macOS ⌘, settings
+and ⌃⌘F fullscreen, retain existing Windows shortcuts and text-first editing. Do
+not turn confirmations into freely interacting workbenches or change OS-global
+shortcuts. Verify cancellation, resize bounds and both locale layouts.

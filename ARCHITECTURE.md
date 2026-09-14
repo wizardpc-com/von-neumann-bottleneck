@@ -86,7 +86,7 @@ workbenches without replacing normal saves. It is local player content, not tele
 
 `WindowMode` opens the hub's existing settings in a shared in-level overlay, cancels
 unfinished gestures, and persists windowed geometry. Language reload returns to the
-same task after flushing work. Branding uses one optional local `brand.cfg`, with
+same task after flushing work. Settings and Handbook use a bounded title-drag panel; its position is transient presentation state, and focus loss cancels the gesture. Mac settings/fullscreen shortcuts supplement the existing cross-platform buttons. Branding uses one optional local `brand.cfg`, with
 language-specific text fallback and unchanged application/save identity.
 
 Maintenance, branding and receiver workflows: [owner guide](docs/development/final-maintenance.md).

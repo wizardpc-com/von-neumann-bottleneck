@@ -47,3 +47,25 @@ another Mac installation, mixed-DPI/long-session behavior and external beginner
 understanding remain unverified. See [release gates](../../../RELEASE_BLOCKERS.md).
 
 New gallery and candidate identity are recorded separately after freezing content.
+
+## Window / platform follow-up
+
+Owner requested freely draggable windows and familiar OS controls. Existing
+instruments remain freely movable/resizable. Settings and Handbook now support
+bounded title dragging; text fields and buttons retain their own input. Focus loss,
+release, Escape and hidden surfaces cancel the gesture. Mac supports ⌘, for
+Settings and ⌃⌘F for fullscreen; F10/F11 and prior Windows shortcuts remain.
+
+- `.godot/verification/20260914T012010Z-4edb7b66`: six affected suites pass.
+- `.godot/verification/20260914T012210Z-348949ec`: desktop convention, save/settings,
+  handbook and localization checks pass, including dragging/clamping/cancellation.
+- Native final source: ⌘, opens English Settings; title drag moves it by the actual
+  pointer displacement; ⌃⌘F changes fullscreen to a 1280×720 content window.
+  Resume/Quit remain inside. Esc closes Settings; Handbook opens, its heading moves
+  the full panel and Close remains visible. Switched to Chinese, repeated ⌘, and
+  Settings title drag, then clicked Quit. Observed results, not only key dispatch.
+- Sources for conventions: [Apple](https://support.apple.com/en-ca/102650) and
+  [Microsoft](https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec).
+  Windows actual OS interaction is still pending.
+
+Final full run `.godot/verification/20260914T012605Z-580b799f` passes all 39 conventional suites plus the Chinese tutorial input replay (220 checks, zero failures). The later display-only byte-unit nonbreaking-space fix passes layout UI and bilingual typography in `.godot/verification/20260914T013408Z-98620c29`. Original player files: all 18 baseline hashes unchanged.

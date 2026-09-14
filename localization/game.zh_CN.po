@@ -6515,3 +6515,12 @@ msgstr "设置 · F10"
 
 msgid "workspace.model_changed"
 msgstr "规则已更新，草稿仍保留；请检查并重新应用。"
+
+msgid "window.drag.tooltip"
+msgstr "拖动标题栏移动窗口。"
+
+msgid "settings.shortcut.mac"
+msgstr "设置 · ⌘,"
+
+msgid "window.fullscreen.tooltip.mac"
+msgstr "切换全屏 · ⌃⌘F（或 F11）"

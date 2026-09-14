@@ -706,6 +706,8 @@ func _show_term(term_id: StringName) -> void:
 func _refresh_diagram_controls() -> void:
 	diagram_controls.visible = detail_diagram.example_count() > 1 and detail_diagram.visible
 	diagram_step_label.text = _t(&"terminology.diagram.step",[detail_diagram.example_step+1,detail_diagram.example_count()])
+	for index: int in range(2):
+		(diagram_controls.get_child(index) as Button).tooltip_text = _t(&"terminology.diagram.previous" if index == 0 else &"terminology.diagram.next")
 
 
 func is_term_unlocked(term_id: StringName) -> bool:

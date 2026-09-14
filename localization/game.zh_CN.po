@@ -3606,7 +3606,7 @@ msgid "terminology.close"
 msgstr "关闭"
 
 msgid "terminology.search.placeholder"
-msgstr "搜索名称、缩写或定义，例如：真值表、CPU、Miss"
+msgstr "搜索术语，例如 CPU、缓存"
 
 msgid "terminology.result_count"
 msgstr "显示 %d / %d 项"
@@ -5635,7 +5635,13 @@ msgid "terminology.category.overlap"
 msgstr "并行搬运与等待"
 
 msgid "terminology.diagram.step"
-msgstr "示意 %s / %s · 点箭头切换，方案不变"
+msgstr "示例 %s / %s"
+
+msgid "terminology.diagram.previous"
+msgstr "上一个示例，不修改方案。"
+
+msgid "terminology.diagram.next"
+msgstr "下一个示例，不修改方案。"
 
 msgid "terminology.diagram.width_value"
 msgstr "当前值 %s · 可表示 0～%s"

@@ -133,9 +133,11 @@ func text(key_name: StringName) -> String:
 
 func capture(label: String) -> void:
 	if "--recovery-capture" in OS.get_cmdline_user_args():
-		await RenderingServer.frame_post_draw
+		# A settled or reduced-motion scene need not request another frame.
+		# Render the current state explicitly instead of waiting indefinitely.
+		RenderingServer.force_draw(false)
 		var locale: String = root.get_node("Localization").current_locale()
-		root.get_texture().get_image().save_png(evidence_root + locale + "-" + label + ".png")
+		check(root.get_texture().get_image().save_png(evidence_root + locale + "-" + label + ".png") == OK, "The requested evidence frame is saved: " + label)
 
 func dismiss_briefing() -> void:
 	if not ui.mission_briefing_active:

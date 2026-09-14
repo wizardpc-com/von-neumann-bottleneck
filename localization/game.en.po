@@ -3606,7 +3606,7 @@ msgid "terminology.close"
 msgstr "Close"
 
 msgid "terminology.search.placeholder"
-msgstr "Search a name, abbreviation, or definition, such as truth table, CPU, or Miss"
+msgstr "Search terms, e.g. CPU or cache"
 
 msgid "terminology.result_count"
 msgstr "Showing %d of %d entries"
@@ -5635,7 +5635,13 @@ msgid "terminology.category.overlap"
 msgstr "Transfers and waiting"
 
 msgid "terminology.diagram.step"
-msgstr "Example %s / %s · arrows explore; your board is unchanged"
+msgstr "Example %s / %s"
+
+msgid "terminology.diagram.previous"
+msgstr "Previous example. Your design is unchanged."
+
+msgid "terminology.diagram.next"
+msgstr "Next example. Your design is unchanged."
 
 msgid "terminology.diagram.width_value"
 msgstr "Value %s · range 0–%s"

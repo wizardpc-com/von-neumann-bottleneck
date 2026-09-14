@@ -100,3 +100,21 @@ size. The final mixed-layout initial view shows both cases and their separate li
 No queries, models, win conditions, fields, constraints or tool access changed.
 
 ![Both required cases precede optional goals](mission-en-mixed.png)
+
+## Final low-noise controls and input replay
+
+Handbook search hints now fit the compact English field. The diagram strip shows
+only its example number; previous/next buttons keep the no-design-change explanation
+in localized tooltips. Search still covers name, abbreviation and definition.
+
+`20260914T035109Z-30e013a6`: Handbook/localization pass, and final Chinese Tutorial
+input replay completes **242 checks / 0 failures**. Its evidence helper now forces a
+render and checks PNG writes rather than indefinitely waiting for an unsolicited
+next `frame_post_draw`. The previous idle run `20260914T034748Z-f2305cdf` was
+terminated as incomplete; it is not counted as a pass. The current 36 final Handbook
+frames render at 1280 × 720, with the selected images above refreshed.
+
+A further native attempt launched official Godot into a separate QA profile. The
+computer-use API only identified the pre-existing editor, so no UI actions were
+sent to it. Only the new isolated Game process was terminated. Native mouse
+acceptance remains open; keyboard and replay evidence are not substitutes.

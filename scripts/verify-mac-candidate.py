@@ -17,6 +17,16 @@ probe.write_text('''extends Node
 func _ready() -> void:
 	var mode: Node = get_node("/root/GameMode")
 	var remote: Node = get_node("/root/RemoteFeedback")
+	var store_script: Script = load("res://src/hardware_foundations/circuit_workbench_store.gd")
+	var workbench_path: String = "user://package_workbench_probe.json"
+	var store = store_script.new(workbench_path)
+	store.ensure_default(&"game", &"probe", {"components": [], "wires": []})
+	var first_write: bool = store.save_active(&"game", &"probe", {"components": [{"id": "first"}], "wires": []})
+	var second_write: bool = store.save_active(&"game", &"probe", {"components": [{"id": "second"}], "wires": []})
+	var reloaded = store_script.new(workbench_path)
+	var persisted: Dictionary = reloaded.active_snapshot(&"game", &"probe")
+	var components: Array = persisted.get("components", [])
+	var repeated_workbench_save: bool = first_write and second_write and components.size() == 1 and String((components[0] as Dictionary).get("id", "")) == "second"
 	var checks: Dictionary = {
 		"isolated":OS.get_user_data_dir().ends_with("SUFFIX"),
 		"candidate_feature":OS.has_feature("free_candidate"),
@@ -27,6 +37,7 @@ func _ready() -> void:
 		"build_identity":ProjectSettings.get_setting("application/config/version")=="EXPECTED_BUILD" and ProjectSettings.get_setting("application/config/build_commit")=="EXPECTED_COMMIT",
 		"system_workspace_identity":get_node("/root/SystemChapter").workspace_version()=="EXPECTED_SYSTEM",
 		"locality_workspace_identity":get_node("/root/LocalityChapter").workspace_version()=="EXPECTED_LOCALITY",
+		"repeated_workbench_auto_save":repeated_workbench_save,
 		"tests_excluded":not ResourceLoader.exists("res://tests/test_layout_simulation.gd"),
 		"server_excluded":not FileAccess.file_exists("res://server/feedback_server.py")}
 	var passed: bool = true
@@ -50,4 +61,4 @@ if result.returncode or 'PACKAGE_CHECKS' not in output or 'false' in next((line 
 for name,digest in hashes.items():assert hashlib.sha256((app/name).read_bytes()).hexdigest()==digest
 report={'build_id':manifest['build_id'],'source_commit':manifest['source_commit'],'passed':True,'source_app':str(original),'qa_app':str(app),'user_suffix':user_suffix,'binary_and_pack_unchanged':hashes,'qa_override_only':str(override),'public_release':False}
 (work/'result.json').write_text(json.dumps(report,indent=2)+'\n')
-print('PASS: actual Mac release binary, Game-only/capture boundary, forty tasks, remote off, excluded development files, isolated user directory. '+str(work))
+print('PASS: actual Mac release binary, Game-only/capture boundary, forty tasks, repeated workbench auto-save, remote off, excluded development files, isolated user directory. '+str(work))

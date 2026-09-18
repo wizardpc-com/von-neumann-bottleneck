@@ -8,7 +8,7 @@
 
 **五个区域 · 40 个任务 · 离线单机 · 中英文界面**
 
-**[⬇️ 下载公开 Alpha v0.5.0-alpha.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)** · [Windows](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/download/v0.5.0-alpha.1/Von-Neumann-Bottleneck-Windows-free-alpha-d247a4a3161f.1.zip) · [macOS](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/download/v0.5.0-alpha.1/Von-Neumann-Bottleneck-macOS-free-alpha-d247a4a3161f.zip) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ 下载公开 Alpha v0.5.0-alpha.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)** · Windows · macOS · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **关键词：** 计算机体系结构 · 数据搬运 · 缓存与局部性 · 缓冲与预取 · 内存布局 · 教育解谜
 

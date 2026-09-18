@@ -8,13 +8,17 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Five regions · 40 tasks · Offline single-player · Chinese and English**
 
+**[⬇️ Download public Alpha v0.5.0-alpha.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)** · Windows · macOS · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+
+**Topics:** computer architecture · data movement · cache and locality · buffering and prefetching · memory layout · educational puzzle
+
 ![Chapter 4 Common Ground: field grouping, actual memory addresses and measured costs for two workloads](docs/images/readme/layout-en.png)
 
 *Common Ground, Chapter 4: the same data serves two workloads. Arrange it, batch it, and compare the real cost of moving it. [Capture provenance and metrics](docs/images/readme/layout-manifest.json).*
 
-**Source update (2026-09-14):** goals and required cases come first, Handbook diagrams unfold one example at a time, and wire feedback follows the current interaction. Hub/tree images below are refreshed; the existing frozen candidate predates these fixes.
+**Public release (2026-09-18):** `v0.5.0-alpha.1` is available now with five regions, 40 tasks, and Windows / macOS builds. Source development may continue after this point; use the frozen Release build when you want the published Alpha.
 
-[What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+[Download Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 ## What you do
 
@@ -60,6 +64,8 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 
 ## Getting started
 
+**Fastest route:** open the [`v0.5.0-alpha.1` Release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1), download the ZIP for your platform, extract it, and run the game.
+
 [Your first session](docs/distribution/astra-challenge/quickstart.en.md) · [Launch preparation](docs/distribution/astra-challenge/README.md)
 
 ### Run from source
@@ -81,11 +87,11 @@ The default interface language is Simplified Chinese. Select English using the b
 godot --path . -- --locale=en
 ```
 
-### Candidate builds and platforms
+### Public Alpha and platforms
 
-This is a **free Alpha candidate in development; the latest candidate has not been publicly released**. Older packages on the repository's Releases page do not represent the current five-region game. [CURRENT_STATE](docs/CURRENT_STATE.md) identifies the frozen build, package hashes and verification scope.
+The current public build is **`v0.5.0-alpha.1`**: [view the Release and downloads](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1). The Mac and Windows packages come from the same frozen commit and include build identity and hashes.
 
-If you receive a candidate ZIP, extract it and open the `.app` on Mac or the `.exe` on Windows. Godot is not required to play an exported build. Mac is the primary development and native-playtest platform. Windows has an exported candidate but still needs real-machine validation. Another Mac installation/notarization, external beginners and extended DPI/focus sessions remain pending too.
+Extract the Mac ZIP and open the `.app`, or extract the Windows ZIP and run the `.exe`; Godot is not required. The macOS build is ad-hoc signed and not notarized. The Windows build is published, but native Windows validation is still more limited. Alpha-stage platform compatibility issues may remain, so bug reports are welcome on GitHub Issues.
 
 To build Mac and Windows candidates from one commit, follow the [candidate build guide](docs/distribution/free-alpha.md). Each frozen commit receives its own build identity.
 

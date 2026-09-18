@@ -8,13 +8,17 @@
 
 **五个区域 · 40 个任务 · 离线单机 · 中英文界面**
 
+**[⬇️ 下载公开 Alpha v0.5.0-alpha.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)** · [Windows](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/download/v0.5.0-alpha.1/Von-Neumann-Bottleneck-Windows-free-alpha-d247a4a3161f.1.zip) · [macOS](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/download/v0.5.0-alpha.1/Von-Neumann-Bottleneck-macOS-free-alpha-d247a4a3161f.zip) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+
+**关键词：** 计算机体系结构 · 数据搬运 · 缓存与局部性 · 缓冲与预取 · 内存布局 · 教育解谜
+
 ![第四章「两全之策」实际运行：字段分组、内存地址与两份订单的成本比较](docs/images/readme/layout-zh.png)
 
 *第四章「两全之策」：同一份数据，两种查询需求。调整布局与分批，比较真实搬运成本。[截图来源与运行数值](docs/images/readme/layout-manifest.json)。*
 
-**源码近况（2026-09-14）：** 任务先列目标和必测用例，手册图解逐步展开，导线反馈随实际操作变化。下方首页与任务树配图已刷新；现有冻结候选尚未包含最近修正。
+**公开版本（2026-09-18）：** `v0.5.0-alpha.1` 已发布，包含五个区域、40 个任务以及 Windows / macOS 构建。后续源码可能继续演进；需要试玩时请优先使用 Release 中的冻结版本。
 
-[更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+[下载 Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 ## 在这里做什么
 
@@ -60,6 +64,8 @@
 
 ## 开始游玩
 
+**最简单的方式：** 前往 [`v0.5.0-alpha.1` Release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)，下载对应平台 ZIP，解压后直接运行。
+
 [第一次游玩指引](docs/distribution/astra-challenge/quickstart.zh-CN.md) · [参赛准备与发布前清单](docs/distribution/astra-challenge/README.md)
 
 ### 从源码运行
@@ -81,11 +87,11 @@ godot --path .
 godot --path . -- --locale=en
 ```
 
-### 候选包与平台
+### 公开 Alpha 与平台
 
-目前是**免费 Alpha 候选阶段，最新候选尚未公开发行**。仓库中旧 Release 的试玩包不代表当前五区域版本。准确构建编号、包哈希及验收范围以 [CURRENT_STATE](docs/CURRENT_STATE.md) 为准。
+当前公开版本是 **`v0.5.0-alpha.1`**：[查看 Release 与下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)。Mac 与 Windows 包来自同一冻结提交，并附带构建清单与哈希。
 
-收到候选包后，Mac 解压打开 `.app`，Windows 解压运行 `.exe`，无需另外安装 Godot。Mac 是主要开发与原生试玩环境；Windows 包已导出，仍需实机验收。另一台 Mac 安装／公证、外部新手和长时间 DPI／焦点测试也尚未完成。
+Mac 解压后打开 `.app`，Windows 解压后运行 `.exe`，无需另外安装 Godot。当前 macOS 构建为 ad-hoc 签名、未公证；Windows 构建已发布，但原生实机验证仍相对有限。Alpha 阶段仍可能存在平台兼容性问题，欢迎通过 GitHub Issues 反馈。
 
 自行生成同一提交的 Mac／Windows 候选包，请使用[统一构建流程](docs/distribution/free-alpha.md)，不要把不同提交的包混用同一个版本号。
 

@@ -5,6 +5,8 @@ const SCHEMA_VERSION: int = 2
 const LEGACY_SCHEMA_VERSION: int = 1
 const DEFAULT_NAME: String = "default"
 const MAX_NAME_LENGTH: int = 32
+const TEMP_SUFFIX: String = ".tmp"
+const BACKUP_SUFFIX: String = ".bak"
 const Migration = preload("res://src/save/stable_signature_migration.gd")
 
 var storage_path: String = ""
@@ -253,6 +255,8 @@ func _load_from_disk() -> void:
 		disk_write_allowed = false
 		return
 	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	file.close()
+	file = null
 	if not parsed is Dictionary:
 		last_error = "Workbench save is not a JSON object."
 		disk_write_allowed = false
@@ -300,7 +304,8 @@ func _persist() -> bool:
 		return true
 	if not disk_write_allowed:
 		return false
-	var temporary: String = storage_path + ".tmp"
+	var temporary: String = storage_path + TEMP_SUFFIX
+	var backup: String = storage_path + BACKUP_SUFFIX
 	var file := FileAccess.open(temporary, FileAccess.WRITE)
 	if file == null:
 		last_error = "Could not open workbench save for writing."
@@ -308,12 +313,34 @@ func _persist() -> bool:
 	file.store_string(JSON.stringify(manifest_snapshot(), "\t", false, true))
 	file.flush()
 	file.close()
-	if not JSON.parse_string(FileAccess.get_file_as_string(temporary)) is Dictionary:
+	file = null
+	var validation_file := FileAccess.open(temporary, FileAccess.READ)
+	if validation_file == null:
+		last_error = "Could not reopen temporary workbench save for validation."
+		return false
+	var parsed: Variant = JSON.parse_string(validation_file.get_as_text())
+	validation_file.close()
+	validation_file = null
+	if not parsed is Dictionary:
 		last_error = "Temporary workbench validation failed."
 		return false
-	var error: Error = DirAccess.rename_absolute(temporary, storage_path)
-	if error != OK:
-		last_error = "Could not replace workbench save: %s" % error_string(error)
+	if FileAccess.file_exists(backup):
+		var stale_backup_error: Error = DirAccess.remove_absolute(backup)
+		if stale_backup_error != OK:
+			last_error = "Could not remove the previous workbench backup: %s" % error_string(stale_backup_error)
+			return false
+	if FileAccess.file_exists(storage_path):
+		var backup_error: Error = DirAccess.rename_absolute(storage_path, backup)
+		if backup_error != OK:
+			last_error = "Could not rotate the previous workbench save: %s" % error_string(backup_error)
+			return false
+	var replace_error: Error = DirAccess.rename_absolute(temporary, storage_path)
+	if replace_error != OK:
+		if not FileAccess.file_exists(storage_path) and FileAccess.file_exists(backup):
+			DirAccess.rename_absolute(backup, storage_path)
+		last_error = "Could not replace workbench save: %s" % error_string(replace_error)
 		return false
+	if FileAccess.file_exists(backup):
+		DirAccess.remove_absolute(backup)
 	last_error = ""
 	return true

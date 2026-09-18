@@ -5,6 +5,10 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/freeze-public-alpha.yml'
+      - 'src/hardware_foundations/circuit_workbench_store.gd'
+      - 'scripts/verify-mac-candidate.py'
+      - 'scripts/build-free-candidate.py'
+      - 'scripts/check-candidate-identity.py'
   workflow_dispatch:
 
 permissions:

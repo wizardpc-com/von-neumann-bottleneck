@@ -1,0 +1,89 @@
+name: Freeze public Alpha candidate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/freeze-public-alpha.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-candidate:
+    runs-on: macos-14
+    timeout-minutes: 60
+    env:
+      GODOT_VERSION: 4.7.1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download official Godot and export templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/vnb-godot"
+          mkdir -p "$root"
+          cd "$root"
+          release="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable"
+          engine_archive="Godot_v${GODOT_VERSION}-stable_macos.universal.zip"
+          templates_archive="Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          curl --fail --location "$release/$engine_archive" --output "$engine_archive"
+          curl --fail --location "$release/$templates_archive" --output "$templates_archive"
+          curl --fail --location "$release/SHA512-SUMS.txt" --output SHA512-SUMS.txt
+          for file in "$engine_archive" "$templates_archive"; do
+            awk -v file="$file" '$2 == file || $2 == "*" file {print}' SHA512-SUMS.txt > "$file.sha512"
+            test -s "$file.sha512"
+            shasum -a 512 --check "$file.sha512"
+          done
+          unzip -q "$engine_archive"
+          xattr -dr com.apple.quarantine Godot.app 2>/dev/null || true
+          rm -rf "$RUNNER_TEMP/vnb-templates"
+          mkdir -p "$RUNNER_TEMP/vnb-templates"
+          unzip -q "$templates_archive" -d "$RUNNER_TEMP/vnb-templates"
+          template_dir="$HOME/Library/Application Support/Godot/export_templates/${GODOT_VERSION}.stable"
+          mkdir -p "$template_dir"
+          cp -R "$RUNNER_TEMP/vnb-templates/templates/." "$template_dir/"
+          "$root/Godot.app/Contents/MacOS/Godot" --version
+          test -f "$template_dir/windows_release_x86_64.exe"
+          test -f "$template_dir/macos.zip"
+
+      - name: Build immutable Mac and Windows candidate from this commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          godot="$RUNNER_TEMP/vnb-godot/Godot.app/Contents/MacOS/Godot"
+          python3 scripts/build-free-candidate.py --godot "$godot" --commit "$GITHUB_SHA"
+
+      - name: Verify candidate identity and actual Mac release binary
+        shell: bash
+        run: |
+          set -euo pipefail
+          build_id="free-alpha-${GITHUB_SHA:0:12}"
+          python3 scripts/check-candidate-identity.py "build/$build_id"
+          python3 scripts/verify-mac-candidate.py --app "build/$build_id/macOS/Von-Neumann-Bottleneck.app"
+          python3 - "$build_id" <<'PY'
+          import json, pathlib, sys
+          build_id=sys.argv[1]
+          manifest=json.loads((pathlib.Path('build')/build_id/'manifest.json').read_text())
+          print(json.dumps(manifest, indent=2))
+          PY
+
+      - name: Upload release-ready assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-alpha-candidate-${{ github.sha }}
+          path: |
+            build/free-alpha-*/Von-Neumann-Bottleneck-macOS-free-alpha-*.zip
+            build/free-alpha-*/Von-Neumann-Bottleneck-Windows-free-alpha-*.zip
+            build/free-alpha-*/manifest.json
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0

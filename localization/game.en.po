@@ -3519,16 +3519,16 @@ msgid "chapter2.level.working_set.title"
 msgstr "Only So Much Room"
 
 msgid "chapter2.level.working_set.description"
-msgstr "Two passes, both in a sensible order. Why must the second fetch the data again?"
+msgstr "The same data is processed twice. Will the second pass fetch less?"
 
 msgid "chapter2.level.working_set.objective"
-msgstr "Run the fixed row-first workload. Compare pass 1 with pass 2 and explain why all four lines are fetched again."
+msgstr "Run the fixed row-first workload. Compare pass 1 and pass 2: what stays nearby, and what needs to be fetched?"
 
 msgid "chapter2.level.working_set.briefing.1"
 msgstr "The [[program|program]] processes the same data twice; each traversal is a [[pass|pass]]. Predict whether the second pass will fetch less data. After running, compare what remains nearby and what must be fetched again."
 
 msgid "chapter2.level.working_set.briefing.2"
-msgstr "Run the fixed row-first task. Compare passes 1 and 2: which [[cache_line|lines]] are fetched from far away again? Compare the data that needs to stay nearby with the available capacity, then choose the explanation supported by the evidence."
+msgstr "Run the fixed row-first workload. Compare the fetch events in each [[pass|pass]] and the [[cache_line|lines]] present in Cache. Which explanation matches your observations?"
 
 msgid "chapter2.level.working_set.learned"
 msgstr "The access order was good, but the phase needed four lines while only one fit. The data needed now is the Working Set."
@@ -6687,7 +6687,7 @@ msgid "theme.other_path"
 msgstr "The other path remains open. Continue exploring, or return to a machine you have already built."
 
 msgid "theme.ending"
-msgstr "You changed the arrangement. Every step still takes place within the world.\n\nComputation takes time. Information must be stored and must arrive before it can be used. You learned how to work with these conditions together.\n\nThis main path is complete; side paths and better designs remain. Understanding does not require worship."
+msgstr "You changed the arrangement. Every step still takes place within the world.\n\nComputation takes time. Information must be stored and must arrive before it can be used. You learned how to work with these conditions together.\n\nThis main path is complete; side paths and better designs remain."
 
 msgid "theme.position.short"
 msgstr "Rearranging takes time, too. You have counted the cost of moving data."

@@ -4565,10 +4565,9 @@ func _run_current_debug() -> void:
 
 
 func _reset_current_simulation() -> void:
-	_clear_investigation_observations()
-	if current_phase == &"prologue" and _is_storage_level():
-		_reset_storage_debug_state()
+	if official_sequence_active or hint_mode:
 		return
+	_clear_investigation_observations()
 	_stop_playback()
 	current_trace = null
 	if current_phase == &"prologue":
@@ -4578,6 +4577,13 @@ func _reset_current_simulation() -> void:
 	live_state_key = ""
 	_clear_signal_states()
 	_schedule_live_refresh()
+	animate_next_live_refresh = false
+	if is_instance_valid(debug_result_label):
+		debug_result_label.text = _t(&"hardware.prologue.outputs_empty")
+		debug_result_label.add_theme_color_override("font_color", MUTED)
+	trace_caption_label.text = _t(&"hardware.trace.empty")
+	pause_button.text = _t(&"hardware.trace.resume")
+	_update_storage_monitor()
 	status_label.text = _t(&"hardware.status.simulation_reset")
 	status_label.add_theme_color_override("font_color", MUTED)
 
@@ -6934,26 +6940,7 @@ func _build_storage_monitor() -> void:
 func _reset_storage_debug_state() -> void:
 	if (not _is_storage_level() and current_level_id != &"load_store") or official_sequence_active:
 		return
-	_clear_investigation_observations()
-	_stop_playback()
-	prologue_runtime_state.clear()
-	prologue_prior_outputs.clear()
-	prologue_live_result = null
-	live_state_key = ""
-	_clear_signal_states()
-	for component_id: StringName in component_state_labels:
-		var component: LogicComponent = component_catalog.get(component_id)
-		var state: Label = component_state_labels.get(component_id)
-		if component == null or state == null:
-			continue
-		var text: String = _component_default_state_text(component)
-		component_idle_state_text[component_id] = text
-		state.text = text
-		state.add_theme_color_override("font_color", PURPLE)
-	_update_storage_monitor()
-	_schedule_live_refresh()
-	status_label.text = _t(&"hardware.storage.reset.done")
-	status_label.add_theme_color_override("font_color", PURPLE)
+	_reset_current_simulation()
 
 
 func _update_storage_monitor(
@@ -7034,11 +7021,7 @@ func _build_construction_investigation() -> void:
 	construction_investigation = ConstructionInvestigationType.new()
 	construction_investigation.configure(current_level_id, _t)
 	construction_investigation.inputs_requested.connect(_apply_investigation_inputs)
-	construction_investigation.reset_requested.connect(func() -> void:
-		if official_sequence_active: return
-		_clear_investigation_observations()
-		_reset_storage_debug_state()
-	)
+	construction_investigation.reset_requested.connect(_reset_current_simulation)
 	side_box.add_child(construction_investigation)
 
 

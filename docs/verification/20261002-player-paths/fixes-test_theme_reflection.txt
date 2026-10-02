@@ -1,0 +1,3 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: earned reflections, either branch order, joint ending and immutable progression

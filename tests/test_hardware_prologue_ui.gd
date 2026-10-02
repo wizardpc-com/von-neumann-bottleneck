@@ -726,6 +726,14 @@ func _exercise_investigation(main: Control, level: StringName) -> void:
 			_assert(last_result.observed_values[&"ACC"].value == [6,6,2,2,6,9,9,2][index], "Practice instructions operate on the real sealed TinyComputer")
 	_assert(main.call("_circuit_from_graph").canonical_signature() == before_topology, "Investigation preserves topology")
 	_assert(JSON.stringify(main.get("completed_levels")) == completed_before, "Investigation grants no completion")
-	main.call("_clear_investigation_observations")
-	_assert(panel.observations.is_empty(), "Observation history can be reset independently")
-	main.call("_reset_storage_debug_state")
+	panel.reset_requested.emit()
+	await process_frame
+	await process_frame
+	_assert(panel.observations.is_empty(), "Investigation reset clears actual observations")
+	_assert(main.get("prologue_runtime_state").is_empty() and main.get("prologue_prior_outputs").is_empty(), "Reset clears committed debug memory")
+	_assert(main.get("current_trace") == null and main.get("playback_batches").is_empty() and not main.get("playback_running"), "Reset clears old Trace and pending playback even in ALU")
+	_assert(main.get("debug_result_label").text == main.call("_t", &"hardware.prologue.outputs_empty"), "Reset clears stale result text")
+	_assert(main.get("trace_caption_label").text == main.call("_t", &"hardware.trace.empty"), "Reset clears stale Trace caption")
+	main.call("_step_playback")
+	_assert(main.get("playback_batches").is_empty(), "Step cannot resurrect reset evidence")
+	_assert(main.call("_circuit_from_graph").canonical_signature() == before_topology and JSON.stringify(main.get("completed_levels")) == completed_before, "Reset preserves topology and earned progression")

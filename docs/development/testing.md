@@ -591,3 +591,15 @@ in Test-mode blank-task fixtures, not ordinary Game progression or human playtes
 The launcher copies/imports the project and isolates its user directory. See
 [experiment instructions](../../experiments/README.md) and
 [exact evidence/limits](../verification/20261002-second-act/README.md).
+
+## Exact committed-source verification (2026-10-03)
+
+`python3 scripts/verify-committed-project.py --godot /path/to/Godot --ref <commit>`
+clones an exact local commit into an isolated detached checkout, runs all conventional
+suites, records tracked SHA-256 hashes, and compares the actual imported test copy.
+Only the two documented save-isolation settings may differ. Use repeatable `--suite`
+for targeted checks; omit for full regression. The wrapper does not test uncommitted
+edits. Its receipt verifies clean-before/after status and source identity, separately
+from viewport input or native play. New conventional suites cover decoded-cache
+invariants, editable plans, persistent state and an independent integration oracle.
+See [depth evidence](../verification/20261002-second-act-depth/README.md).

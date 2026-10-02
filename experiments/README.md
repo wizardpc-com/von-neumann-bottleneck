@@ -47,3 +47,19 @@ See the verification report for exact paths, failures, repairs and limitations.
 
 Design, model rules, omissions and incorporation gates:
 [second-act framework](../docs/design/second-act-framework.md).
+
+## Constructible representation and persistent state (2026-10-03)
+
+```sh
+python3 scripts/run-experiment.py representation_plan --godot /path/to/Godot
+python3 scripts/run-experiment.py intelligent_state --godot /path/to/Godot --locale en
+python3 scripts/run-experiment.py representation_plan --godot /path/to/Godot --replay depth
+python3 scripts/run-experiment.py representation_plan --godot /path/to/Godot --replay depth --locale en
+```
+
+The depth replay operates both new scenes with viewport input and known objectives;
+it is not the unknown-answer policy or native OS input. It records failed designs,
+boundary edits, undo/redo, paired orders, state spills, response delay and precision
+failures. The two original labs remain available. See
+[plan rules](representation/PLAN_README.md), [state rules](intelligent_workload/STATE_README.md)
+and [integration evidence](../docs/verification/20261002-second-act-depth/README.md).

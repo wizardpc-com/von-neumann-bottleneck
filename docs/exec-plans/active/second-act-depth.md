@@ -34,6 +34,12 @@ known-objective replay distinguished from novice understanding. Review all diffs
 update durable docs and report experimental boundaries and unresolved playability.
 
 ## Progress
-- Initial working tree clean. Read repository rules and referenced conversation.
-- Initial source inspection shows LRU touch at the loop indentation, outside the
-  one-line else. Await independent reproduction before concluding the audit claim.
+- Completed four owned workstreams; root reviewed models, UI, tests and governance diffs.
+- LRU allegation disproved; old test-copy bytes matched commit. Shared-cache invariants
+  and five rejected mutations strengthen the regression boundary without inventing a fix.
+- Editable mixed partitions and persistent contexts implemented with real costs;
+  independent algebraic/cost oracle passed. Formal runtime remains unchanged.
+- Targeted tests and first clean committed full regression passed (49 suites).
+- Known-objective bilingual viewport routes passed after popup-focus handling;
+  visible split-label issue repaired and fixed asset text simplified for stability.
+- Final freeze, repeated committed regression, evidence and handoff follow below.

@@ -73,9 +73,13 @@ func build() -> void:
 	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.split_offset = 590; page.add_child(body)
 	var editor := VBoxContainer.new(); editor.custom_minimum_size.x = 480; editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(editor)
 	make_label(text2("不可变资产（十进制字节，地址0–63）","Immutable asset (decimal bytes, addresses 0–63)"),editor,17)
-	var data := RichTextLabel.new(); data.name = "Asset"; data.custom_minimum_size.y = 108; data.fit_content = false
+	var data := Label.new(); data.name = "Asset"; data.custom_minimum_size.y = 108
+	data.autowrap_mode = TextServer.AUTOWRAP_OFF
+	data.add_theme_font_size_override("font_size",16)
 	var values: Array[int] = Model.asset()
-	for start: int in range(0,64,16): data.text += "%02d–%02d: %s\n" % [start,start+15,str(values.slice(start,start+16))]
+	var data_rows: Array[String] = []
+	for start: int in range(0,64,16): data_rows.append("%02d–%02d: %s" % [start,start+15,str(values.slice(start,start+16))])
+	data.text = "\n".join(data_rows)
 	editor.add_child(data)
 	draft_label = make_label("",editor,14)
 	blocks = Tree.new(); blocks.name = "Blocks"; blocks.columns = 4; blocks.hide_root = true; blocks.column_titles_visible = true

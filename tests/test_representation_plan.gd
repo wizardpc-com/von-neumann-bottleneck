@@ -43,6 +43,14 @@ func verify(trace: RefCounted) -> void:
 		for key: int in cache.keys: size += int(m.blocks[key].end)-int(m.blocks[key].start)
 		check(size == cache.used_bytes and cache.keys.size() == cache.lru.size(),"Observed cache membership agrees with actual decoded sizes")
 	check(trace.canonical_signature() == M.run(m.spec,m.plan).canonical_signature(),"Identical authoritative trace on rerun")
+func verify_visible_asset(lab: Control, locale: String) -> void:
+	var data: Label = lab.find_child("Asset",true,false) as Label
+	check(data != null,"Fixed asset display is a nonscrolling Label in "+locale)
+	if data == null: return
+	var rows: PackedStringArray = data.text.split("\n")
+	check(rows.size() == 4 and data.get_line_count() == 4 and data.get_visible_line_count() == 4,"All four asset rows are actually visible in "+locale)
+	for i: int in 4:
+		check(rows[i] == "%02d–%02d: %s" % [i*16,i*16+15,str(M.asset().slice(i*16,i*16+16))],"Displayed row independently matches immutable byte asset in "+locale)
 func run() -> void:
 	var initial: Array[Dictionary] = M.initial_plan()
 	var a: Array[Dictionary] = M.split(initial,0,16)
@@ -102,6 +110,7 @@ func run() -> void:
 	var lab: Control = load("res://experiments/representation/puzzle.tscn").instantiate(); root.add_child(lab); await process_frame
 	await process_frame
 	check(lab.split_at.get_parent().size.y <= 44,"Inline split controls fit one normal-height row in Chinese")
+	verify_visible_asset(lab,"Chinese")
 	lab.run_current(); check(not lab.completed[0],"UI baseline does not falsely complete")
 	var signature: String = lab.visible_trace.canonical_signature()
 	lab.edit_plan(mixed()); check(lab.visible_trace.canonical_signature() == signature,"Editing cannot mutate immutable run/spec/plan")
@@ -114,6 +123,7 @@ func run() -> void:
 	lab.english = true; lab.build(); await process_frame
 	await process_frame
 	check(lab.split_at.get_parent().size.y <= 44,"Inline split controls fit one normal-height row in English")
+	verify_visible_asset(lab,"English")
 	check(lab.run_button.text.begins_with("Run current") and lab.plan == mixed(),"Bilingual rebuild preserves editor and runs")
 	check(campaign_before == JSON.stringify(root.get_node("LocalityChapter").completed_levels()),"Experimental evidence cannot award campaign progression")
 	lab.queue_free(); await process_frame

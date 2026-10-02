@@ -91,3 +91,9 @@ Keep root documents navigational. Update the most specific source-of-truth docum
 - [2026-09-10 native evidence](verification/20260910-five-chapter/README.md)
 - [Candidate distribution](distribution/free-alpha.md)
 - [Optional local feedback server](../server/README.md)
+
+## Second-act depth
+
+- [Current experimental framework](design/second-act-framework.md)
+- [Depth verification and evidence boundaries](verification/20261002-second-act-depth/README.md)
+- [Historical supplied instructions](archive/20260910-five-chapter/README.md): COMPLETED identifies historical scope, not certification of every original promise.

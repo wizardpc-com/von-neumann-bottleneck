@@ -10,11 +10,11 @@ import uuid
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('experiment', choices=['representation', 'intelligent_workload'])
+    parser.add_argument('experiment', choices=['representation', 'intelligent_workload', 'representation_plan', 'intelligent_state'])
     parser.add_argument('--godot', required=True)
     parser.add_argument('--locale', choices=['en', 'zh_CN'], default='zh_CN')
     parser.add_argument('--prepare-only', action='store_true')
-    parser.add_argument('--replay', choices=['lab', 'proxy'])
+    parser.add_argument('--replay', choices=['lab', 'proxy', 'depth'])
     args = parser.parse_args()
     engine = shutil.which(args.godot) or str(Path(args.godot).expanduser().resolve())
     if not subprocess.check_output([engine, '--version'], text=True).startswith('4.7.1.stable.'):
@@ -50,9 +50,12 @@ def main():
         return
     command = [engine, '--path', str(project)]
     if args.replay:
-        command += ['--script', 'res://experiments/' + ('play_labs.gd' if args.replay == 'lab' else 'evidence_proxy/driver.gd')]
+        replays = {'lab': 'play_labs.gd', 'proxy': 'evidence_proxy/driver.gd', 'depth': 'play_depth.gd'}
+        command += ['--script', 'res://experiments/' + replays[args.replay]]
     else:
-        command += ['res://experiments/' + args.experiment + '/lab.tscn']
+        scenes = {'representation_plan': 'representation/puzzle.tscn',
+                  'intelligent_state': 'intelligent_workload/state_lab.tscn'}
+        command += ['res://experiments/' + scenes.get(args.experiment, args.experiment + '/lab.tscn')]
     command += ['--', '--locale=' + args.locale, '--evidence-dir=' + str(output / 'captures')]
     with (output / 'session.txt').open('w') as log:
         result = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT)

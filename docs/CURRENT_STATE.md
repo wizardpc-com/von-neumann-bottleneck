@@ -2,6 +2,17 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Second-act depth — 2026-10-03
+
+Editable mixed RAW/RLE partitions and a persistent-context workload are now isolated
+playable experiments. The official five regions / 40 tasks and save authority remain
+unchanged. The alleged baseline LRU omission was not reproduced; committed source
+matched the old test copy. New invariant, independent-oracle and committed-checkout
+verification strengthens evidence. See [current framework](design/second-act-framework.md),
+[depth verification](verification/20261002-second-act-depth/README.md) and
+[historical instructions archive](archive/20260910-five-chapter/README.md).
+The following dated entries describe earlier milestones.
+
 ## Second-act experiments - 2026-10-02
 
 Baseline `cd17d98`. Three connected representation experiments and one hidden linear

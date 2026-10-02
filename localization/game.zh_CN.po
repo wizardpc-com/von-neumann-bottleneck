@@ -2280,7 +2280,7 @@ msgid "system.level.ram_wait.briefing.1"
 msgstr "上一关换快了 [[cpu|CPU]]，计算时间缩短了，[[cpu_wait|等待]]却没有减少。数据回来前，CPU 仍不能继续。\n\n这次保持快 CPU，沿请求、[[ram|RAM]] 处理和返回路线调查。先预测：时间主要花在计算、等待，还是两者接近？"
 
 msgid "system.level.ram_wait.briefing.2"
-msgstr "先固定 Fast [[cpu|CPU]]和[[bus|Bus8]]，用 Slow [[ram|RAM]]跑一次；然后只换成 Fast RAM。打开[[trace|追踪记录]]，可以看到“发出请求 → RAM 处理 → 数据返回”这条完整路线。"
+msgstr "保持 Fast [[cpu|CPU]]和[[bus|Bus8]]，先观察 Slow [[ram|RAM]]。如果上关已用相同程序和数据运行过这台机器，可在测试台沿用经核验的观测；也可以重新运行。然后只换成 Fast RAM。打开[[trace|追踪记录]]，沿“发出请求 → RAM 处理 → 数据返回”寻找发生变化的区间。"
 
 msgid "system.level.ram_wait.briefing.3"
 msgstr "两次[[official_test|正式测试]]都要使用同一个[[program|程序]]和案例。最后比较[[profiler|性能分析器]]里的[[cpu_wait|CPU 等待]]数字：如果只有[[ram|RAM]]变了，这个差值就说明等待来自哪里。"
@@ -6621,3 +6621,15 @@ msgstr "清空实验记录与调试状态"
 
 msgid "investigation.alu.group"
 msgstr "选择信号 OP1=%d · OP0=%d"
+
+msgid "system.baseline.reuse"
+msgstr "沿用上关的同配置观测"
+
+msgid "system.baseline.reuse.help"
+msgstr "仅当上关已运行相同程序、数据与机器时可用。沿用前会重新核验；也可以直接运行本关基线。"
+
+msgid "system.baseline.reused"
+msgstr "已核验并沿用快 CPU 的观测作为本关起点。现在只改变 RAM，寻找等待变化的证据。"
+
+msgid "system.baseline.reused.short"
+msgstr "已核验并沿用上关观测"

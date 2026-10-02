@@ -2280,7 +2280,7 @@ msgid "system.level.ram_wait.briefing.1"
 msgstr "A faster [[cpu|CPU]] shortened computation, but [[cpu_wait|waiting]] stayed the same. The CPU still cannot continue until its data returns.\n\nKeep the fast CPU and follow the request, [[ram|RAM]] service and return path. Predict whether computation or waiting dominates, or whether they are similar."
 
 msgid "system.level.ram_wait.briefing.2"
-msgstr "Keep Fast CPU and Bus8 fixed. Run Slow RAM, then change only to Fast RAM. The [[trace|Trace]] shows request → RAM service → returned data."
+msgstr "Keep Fast [[cpu|CPU]] and [[bus|Bus8]], starting with Slow [[ram|RAM]]. If you already observed this machine with the same program and data in the previous task, reuse the revalidated observation in Test Bench, or run it again. Then change only to Fast RAM. Follow request → RAM service → data return in the [[trace|Trace]] and find the interval that changes."
 
 msgid "system.level.ram_wait.briefing.3"
 msgstr "Use the same program and official cases both times. Compare CPU WAIT in the Profiler; because only RAM changed, that difference tells you where the waiting came from."
@@ -6622,3 +6622,15 @@ msgstr "Clear observations and debug state"
 
 msgid "investigation.alu.group"
 msgstr "Selection signals OP1=%d · OP0=%d"
+
+msgid "system.baseline.reuse"
+msgstr "Reuse the matching previous observation"
+
+msgid "system.baseline.reuse.help"
+msgstr "Available only after observing the same program, data and machine in the previous task. Revalidated before reuse. You can still run a fresh baseline here."
+
+msgid "system.baseline.reused"
+msgstr "The fast-CPU observation was revalidated as this task’s baseline. Change only RAM and investigate the difference in waiting."
+
+msgid "system.baseline.reused.short"
+msgstr "Previous observation revalidated"

@@ -10,7 +10,9 @@ existing 0/1/2/4-line grouping with unchanged one-line Cache, two passes and 145
 target, plus bilingual experiment copy and a scrollable choices panel.
 ALU, RAM and LOAD/STORE now offer optional input experiments with actual debug
 observations; ALU official cases are grouped by operation. Official rules and
-player-owned construction remain unchanged.
+player-owned construction remain unchanged. The first chapter can optionally reuse
+the exact observed fast-CPU machine as the next RAM investigation baseline, after
+independent revalidation; prediction and changed-endpoint evidence remain required.
 [Fresh verification and boundaries](verification/20261002-theme-design/README.md).
 
 Compatibility: an exact audited alias accepts the pre-pilot Chapter 2 fingerprint

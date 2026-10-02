@@ -5,6 +5,7 @@ const CoreType = preload("res://src/system_lab/system_simulation_core.gd")
 const ParserType = preload("res://src/system_lab/system_dsl_parser.gd")
 const TopologyType = preload("res://src/system_lab/system_topology.gd")
 const TraceType = preload("res://src/system_lab/system_trace.gd")
+const BaselineContinuityType = preload("res://src/system_lab/system_baseline_continuity.gd")
 const ReceiptType = preload("res://src/system_lab/system_run_receipt.gd")
 const PartSpecType = preload("res://src/system_lab/system_part_spec.gd")
 const MapViewType = preload("res://src/system_lab/system_chapter_map_view.gd")
@@ -153,6 +154,7 @@ var draft_dirty: bool = false
 var locked_prediction_id: StringName = &""
 var applied_program: SystemProgram
 var applied_program_source: String = ""
+var reuse_baseline_button: Button
 var latest_receipt
 var revealed_breakdown_receipt_signature: String = ""
 var latest_official_traces: Array[SystemTrace] = []
@@ -1005,6 +1007,11 @@ func _build_test_bench_instrument() -> Control:
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	help.add_theme_color_override("font_color", MUTED)
 	box.add_child(help)
+	reuse_baseline_button = Button.new()
+	reuse_baseline_button.text = _t(&"system.baseline.reuse")
+	reuse_baseline_button.tooltip_text = _t(&"system.baseline.reuse.help")
+	reuse_baseline_button.pressed.connect(_reuse_previous_baseline)
+	box.add_child(reuse_baseline_button)
 	case_selector = OptionButton.new()
 	case_selector.name = "SystemCaseSelector"
 	case_selector.fit_to_longest_item = false
@@ -1535,6 +1542,32 @@ func _restore_authored_diagnosis_configuration() -> void:
 	_refresh_parts_summary()
 
 
+func _previous_baseline() -> SystemRunReceipt:
+	if current_level_id != &"ram_wait" or editor.text != applied_program_source:
+		return null
+	return BaselineContinuityType.matching_source(catalog, SystemChapter.receipts_for(&"cpu_speed"), applied_program, _topology_from_graph())
+
+
+func _reuse_previous_baseline() -> void:
+	var previous: SystemRunReceipt = _previous_baseline()
+	if previous == null or not _prepare_run():
+		return
+	# Revalidate the source and rerun the target cases. Never relabel saved metrics.
+	var source: SystemRunReceipt = catalog.replay_observation(&"cpu_speed", applied_program_source, selected_part_ids)
+	if not source.all_passed or source.canonical_signature() != previous.canonical_signature():
+		return
+	var baseline: SystemRunReceipt = catalog.replay_observation(current_level_id, applied_program_source, selected_part_ids)
+	if not baseline.all_passed or baseline.topology_signature != current_topology.canonical_signature():
+		return
+	SystemChapter.record_receipt(current_level_id, baseline, {"source": applied_program_source, "parts": selected_part_ids.duplicate()})
+	_refresh_comparison_part_lock()
+	_refresh_history()
+	_refresh_mission_progress()
+	status_label.text = _t(&"system.baseline.reused.short")
+	test_status_label.text = _t(&"system.baseline.reused")
+	_open_instrument(&"history")
+
+
 func _has_current_baseline_receipt() -> bool:
 	if not _is_part_comparison() or applied_program == null or not applied_program.is_valid():
 		return false
@@ -1563,6 +1596,9 @@ func _has_current_baseline_receipt() -> bool:
 
 
 func _refresh_comparison_part_lock() -> void:
+	if reuse_baseline_button != null:
+		reuse_baseline_button.visible = current_level_id == &"ram_wait" and not _has_current_baseline_receipt()
+		reuse_baseline_button.disabled = _previous_baseline() == null
 	for selector: OptionButton in part_selectors.values():
 		selector.disabled = false
 	if _diagnosis_sandbox_locked():

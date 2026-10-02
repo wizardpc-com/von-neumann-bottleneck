@@ -2646,7 +2646,7 @@ func _refresh_history() -> void:
 				var after_metric: int = int(after.metrics.get(String(metric), after.metrics.get(metric, 0)))
 				lines.append(_t(&"system.history.metric_delta", [
 					_profiler_metric_name(metric), before_metric, after_metric,
-					_history_delta(after_metric - before_metric, before_metric, false),
+					_history_delta(after_metric - before_metric, before_metric, comparison_kind == PartSpecType.KIND_BUS),
 				]))
 		else:
 			var baseline = receipts[receipts.size() - 1]

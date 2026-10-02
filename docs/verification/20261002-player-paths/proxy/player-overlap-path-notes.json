@@ -1,0 +1,22 @@
+[
+	{
+		"decision": "arrival-read-before-ready",
+		"evidence": "总用时 0 / 目标 10 · 计算忙 0 · 搬运忙 0\n重叠 0 · 计算器等待 0 · 输出总和 0 / 7\n第 3 行：请求已经发出，但数据尚未就绪。不要提前 consume。\n命中 0 · 未命中 0 · 逐出 0 · 发请求排队 0 周期",
+		"task": "arrival"
+	},
+	{
+		"decision": "arrival-ready-evidence",
+		"evidence": "总用时 10 / 目标 10 · 计算忙 8 · 搬运忙 6\n重叠 4 · 计算器等待 2 · 输出总和 7 / 7\n通过 · 可继续修改，或返回关卡树探索下一支。\n命中 0 · 未命中 0 · 逐出 0 · 发请求排队 0 周期",
+		"task": "arrival"
+	},
+	{
+		"decision": "buffers-serial-two-parts",
+		"evidence": "总用时 40 / 目标 28 · 计算忙 16 · 搬运忙 24\n重叠 0 · 计算器等待 24 · 输出总和 46 / 46\n结果正确；尚未达到用时目标。查看两条时间轨道。\n命中 0 · 未命中 0 · 逐出 0 · 发请求排队 0 周期",
+		"task": "buffers"
+	},
+	{
+		"decision": "buffers-overlap-evidence",
+		"evidence": "总用时 28 / 目标 28 · 计算忙 16 · 搬运忙 24\n重叠 12 · 计算器等待 12 · 输出总和 46 / 46\n通过 · 可继续修改，或返回关卡树探索下一支。\n命中 0 · 未命中 0 · 逐出 0 · 发请求排队 0 周期",
+		"task": "buffers"
+	}
+]

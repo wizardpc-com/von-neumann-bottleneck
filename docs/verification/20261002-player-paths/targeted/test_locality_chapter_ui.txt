@@ -1,0 +1,285 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:56)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:74)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2405)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:74)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2405)
+              [2] _select_judgment (res://src/ui/main.gd:1274)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:95)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2405)
+              [2] _complete_current_level (res://src/ui/main.gd:1349)
+              [3] _review_pending_finding (res://src/ui/main.gd:1319)
+              [4] _run (res://tests/test_locality_chapter_ui.gd:100)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:103)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:106)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:124)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:124)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:136)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:136)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _complete_current_level (res://src/ui/main.gd:1349)
+              [3] _review_pending_finding (res://src/ui/main.gd:1319)
+              [4] _run (res://tests/test_locality_chapter_ui.gd:140)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:145)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:146)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:146)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _select_judgment (res://src/ui/main.gd:1274)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:149)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _complete_current_level (res://src/ui/main.gd:1349)
+              [3] _review_pending_finding (res://src/ui/main.gd:1319)
+              [4] _run (res://tests/test_locality_chapter_ui.gd:152)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:155)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:161)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:161)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _complete_current_level (res://src/ui/main.gd:1349)
+              [3] _review_pending_finding (res://src/ui/main.gd:1319)
+              [4] _run (res://tests/test_locality_chapter_ui.gd:166)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:170)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:171)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:171)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _select_judgment (res://src/ui/main.gd:1274)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:175)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _complete_current_level (res://src/ui/main.gd:1349)
+              [3] _review_pending_finding (res://src/ui/main.gd:1319)
+              [4] _run (res://tests/test_locality_chapter_ui.gd:177)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:180)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:187)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:187)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:187)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:187)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:194)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:194)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2425)
+              [2] _complete_current_level (res://src/ui/main.gd:1349)
+              [3] _review_pending_finding (res://src/ui/main.gd:1319)
+              [4] _run (res://tests/test_locality_chapter_ui.gd:210)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:213)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _record_run (res://src/ui/main.gd:2186)
+              [2] _run_simulation (res://src/ui/main.gd:2105)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:234)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2401)
+              [2] _run_simulation (res://src/ui/main.gd:2106)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:234)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _rebuild_profiler (res://src/ui/main.gd:2401)
+              [2] _select_judgment (res://src/ui/main.gd:1274)
+              [3] _run (res://tests/test_locality_chapter_ui.gd:260)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _update_history_label (res://src/ui/main.gd:2191)
+          GDScript backtrace (most recent call first):
+              [0] _update_history_label (res://src/ui/main.gd:2191)
+              [1] _start_level (res://src/ui/main.gd:1171)
+              [2] _run (res://tests/test_locality_chapter_ui.gd:280)
+ERROR: 2-2 Run History must foreground Before → After total and CPU-wait deltas.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_locality_chapter_ui.gd:341)
+ERROR: 2-4 comparison must identify access order as the changed item.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_locality_chapter_ui.gd:341)
+ERROR: Run History must share the diagnosis gate and expose only total, CPU WAIT, and request count before the first diagnosis.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_locality_chapter_ui.gd:341)
+FAIL: 3 Chapter 2 UI assertion(s) failed

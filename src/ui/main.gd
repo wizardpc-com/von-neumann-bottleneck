@@ -139,6 +139,8 @@ var official_run_button: Button
 var debug_run_button: Button
 var result_label: Label
 var profiler_summary_label: Label
+var capstone_compare_box: VBoxContainer
+var capstone_compare_list: ItemList
 var profiler_detail_label: Label
 var profiler_tree: Tree
 var profiler_history_label: Label
@@ -401,6 +403,8 @@ func _build_header() -> Control:
 	status_label.text = _t(&"chapter2.status.map")
 	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	status_label.custom_minimum_size.x = 390.0
+	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status_label.add_theme_color_override("font_color", WARNING)
 	row.add_child(status_label)
 	var map_button := Button.new()
@@ -912,6 +916,16 @@ func _build_profiler_instrument() -> Control:
 	profiler_summary_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	profiler_summary_label.add_theme_color_override("font_color", WARNING)
 	panel.add_child(profiler_summary_label)
+	capstone_compare_box = VBoxContainer.new()
+	capstone_compare_box.visible = false
+	var compare_title := Label.new()
+	compare_title.text = _t(&"chapter2.history.observed_options")
+	compare_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	capstone_compare_box.add_child(compare_title)
+	capstone_compare_list = ItemList.new()
+	capstone_compare_list.custom_minimum_size.y = 100
+	capstone_compare_box.add_child(capstone_compare_list)
+	panel.add_child(capstone_compare_box)
 	profiler_tree = Tree.new()
 	profiler_tree.columns = 2
 	profiler_tree.column_titles_visible = true
@@ -1265,7 +1279,7 @@ func _select_judgment(judgment_id: StringName) -> void:
 	elif judgment_id == StringName(current_level.get("correct_judgment", &"")):
 		_set_status(_t(&"chapter2.status.judgment_supported"), GOOD)
 	elif not bool(LocalityChapter.completed_levels().get(current_level_id, false)):
-		_set_status(_t(&"chapter2.status.judgment_recheck"), WARNING)
+		_set_status(_t(&"chapter2.status.working_set_recheck" if current_level_id == &"working_set" else &"chapter2.status.judgment_recheck"), WARNING)
 
 
 func _evaluate_level_completion() -> void:
@@ -2175,6 +2189,16 @@ func _record_run(program: DSLProgramType, data: Array[int]) -> void:
 
 
 func _update_history_label() -> void:
+	if capstone_compare_box != null:
+		var options: Array[Dictionary] = []
+		if current_level_id == &"capstone" and not _capstone_breakdown_locked():
+			options = _capstone_observed_options()
+		capstone_compare_box.visible = options.size() >= 2
+		capstone_compare_list.clear()
+		for record: Dictionary in options:
+			var description: String = _t(&"chapter2.history.observed_option", [int(record["cycles"]), int(record["cost"]), _history_config_text(record)])
+			capstone_compare_list.add_item(description)
+			capstone_compare_list.set_item_tooltip(capstone_compare_list.item_count - 1, description)
 	if run_history.is_empty():
 		profiler_history_label.text = _t(&"profiler.history.empty")
 		return

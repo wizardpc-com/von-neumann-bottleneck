@@ -2289,16 +2289,16 @@ msgid "system.level.bus_width.title"
 msgstr "宽窄之间"
 
 msgid "system.level.bus_width.description"
-msgstr "同一份数据走宽窄不同的通道，要分几趟才运得完？"
+msgstr "传输快了多少，整项工作又快了多少？"
 
 msgid "system.level.bus_width.objective"
-msgstr "先用窄总线，再只换成宽总线；比较同一份数据被拆成了几段。"
+msgstr "只改变总线位宽；比较同一项工作的传输段数、传输周期与总周期。"
 
 msgid "system.level.bus_width.briefing.1"
 msgstr "[[bus|总线]]每周期能搬运的位数叫[[bandwidth|带宽]]。本关每份数据为 8 位；Bus2 每周期搬 2 位，Bus8 每周期搬 8 位。\n\n通道一次放不下时，就要拆成多趟，这叫[[serialization|串行化]]。预测两种通道各需要几趟，再观察实际传输。"
 
 msgid "system.level.bus_width.briefing.2"
-msgstr "先锁定[[prediction|预测]]，用[[bus|Bus2]]跑一次；再保持[[cpu|CPU]]、[[ram|RAM]]、[[program|程序]]和数据不变，只换成 Bus8。沿桌面上的线路看数据包分成几段，并让两种配置都通过[[official_test|正式测试]]。"
+msgstr "先锁定[[prediction|预测]]并运行 Bus2，保持[[cpu|CPU]]、[[ram|RAM]]、[[program|程序]]和数据不变，再换成 Bus8。两次[[official_test|正式测试]]后，在历史中比较传输时间和总时间：它们下降的比例一样吗？指出哪些时间改变了，哪些仍然存在。"
 
 msgid "system.level.bottleneck.title"
 msgstr "循时寻因"
@@ -6605,7 +6605,7 @@ msgid "investigation.open"
 msgstr "试一个小实验"
 
 msgid "investigation.instructions"
-msgstr "选择一组输入后，仍需点击「运行调试」。也可以自己改值。记录只来自本次电路的实际运行；重置、改线或正式测试会清空记录。"
+msgstr "选择一组输入后，仍需点击「运行调试」。也可以自己改值。首条之后只列出变化的输入。结果只来自本次电路的实际运行；重置、改线或正式测试会清空记录。"
 
 msgid "investigation.alu"
 msgstr "先固定 A、B、CIN，只改变 OP0、OP1。输出跟随哪一种运算？若不容易分辨，换一组数据再比较。Selector 支线可以帮助理解选择信号。"
@@ -6690,3 +6690,9 @@ msgstr "你改变了安排。每一步仍在世界之中。\n\n计算需要时�
 
 msgid "theme.position.short"
 msgstr "整理也要经过时间。你已把搬迁的代价计入结果。"
+
+msgid "investigation.alu.progress"
+msgstr "已测 %d/8 · 通过 %d"
+
+msgid "chapter2.status.working_set_recheck"
+msgstr "现有证据尚不支持这个判断。查看两轮交界处的 Trace：接下来请求哪一行？缓存当时保留哪一行？对照记录后再解释。"

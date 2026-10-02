@@ -702,6 +702,10 @@ func _exercise_investigation(main: Control, level: StringName) -> void:
 	_assert(panel != null, "%s exposes optional investigation inputs" % level)
 	var before_topology: String = main.call("_circuit_from_graph").canonical_signature()
 	var completed_before: String = JSON.stringify(main.get("completed_levels"))
+	if level == &"alu":
+		_assert(main.get("alu_case_groups").size() == 4, "ALU retains four expandable groups for all 32 official cases")
+		for group: VBoxContainer in main.get("alu_case_groups"):
+			_assert(group.get_child_count() == 8, "Each ALU group retains all eight data combinations")
 	var presets: Array[Dictionary] = preload("res://src/hardware_foundations/construction_investigation.gd").presets(level)
 	main.call("_reset_storage_debug_state")
 	var last_result: PrologueSimulationResult
@@ -724,6 +728,8 @@ func _exercise_investigation(main: Control, level: StringName) -> void:
 			_assert(last_result.observed_values[&"OUT"].value == [3,12,3,5,12][index], "RAM readback distinguishes independent address state")
 		if level == &"load_store":
 			_assert(last_result.observed_values[&"ACC"].value == [6,6,2,2,6,9,9,2][index], "Practice instructions operate on the real sealed TinyComputer")
+	if level == &"alu":
+		_assert(not panel.observations[1].contains("A=") and panel.observations[0].contains("A="), "Stable ALU data is printed once, changes remain visible")
 	_assert(main.call("_circuit_from_graph").canonical_signature() == before_topology, "Investigation preserves topology")
 	_assert(JSON.stringify(main.get("completed_levels")) == completed_before, "Investigation grants no completion")
 	panel.reset_requested.emit()

@@ -34,3 +34,12 @@ Native tests use CUA and are labelled separately. No proxy stands in for beginne
 - Confirmed reset bypass for non-storage ALU, English objective leak and ending text.
 
 - Stage 1 four relevant suites pass; shared reset regression covers ALU/RAM/LOAD-STORE stale playback, committed state, captions and topology/progression invariance.
+
+- Ordinary Game proxy exposed verbose experiment records and buried capstone
+  comparisons. Grouped ALU cases/changed-input records, Bus percentage comparison
+  and a compact actual-options list were implemented and relevant suites passed.
+- Fresh Chinese proxy passed997 +36 +32 checks across all requested paths. The
+  working-set failure screenshot exposed a misdirected generic response; corrected
+  to pass-boundary evidence and retested with locality/localization suites.
+- Earlier failed harness attempts and the repaired typed-array defect remain
+  documented separately. English clean replay and final full regression pending.

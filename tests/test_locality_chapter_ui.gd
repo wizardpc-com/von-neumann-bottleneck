@@ -172,6 +172,9 @@ func _run() -> void:
 	var working_set_trace: SimulationTraceType = main.get("current_trace")
 	_assert(int(working_set_trace.metrics["total_cycles"]) == 210 and int(working_set_trace.metrics["cache_misses"]) == 8, "2-5 must reload all four lines despite already-good row-first order.")
 	_assert((main.get("profiler_summary_label") as Label).get_theme_color("font_color") == main.GOOD, "A correct observation with no speed target must use success color rather than an unmet-target warning.")
+	main.call("_select_judgment", &"bad_order")
+	_assert(main.status_label.text == main.call("_t", &"chapter2.status.working_set_recheck"), "Wrong working-set explanation redirects to pass-boundary evidence without disclosing the result")
+	_assert(not bool(locality_state.call("completed_levels").get(&"working_set", false)), "An unsupported explanation cannot earn Working Set")
 	main.call("_select_judgment", &"does_not_fit")
 	main.call("_finish_playback")
 	main.call("_review_pending_finding")
@@ -250,6 +253,7 @@ func _run() -> void:
 		main.call("_t", &"chapter2.capstone.history.raw_metrics", [642, 608, 32]),
 		main.call("_t", &"chapter2.capstone.history.diagnose_first"),
 	])
+	_assert(not main.capstone_compare_box.visible, "Comparison list must not leak pre-diagnosis breakdown")
 	_assert(raw_history == expected_raw_history, "Run History must share the diagnosis gate and expose only total, CPU WAIT, and request count before the first diagnosis.")
 	_assert(not (main.get("editor") as TextEdit).editable, "The baseline alone must not unlock program changes before a diagnosis.")
 	_assert((capstone_cache_buttons[4] as Button).disabled and (capstone_block_buttons[1] as Button).disabled, "Hardware and work-group decisions must remain locked until the raw evidence is diagnosed.")
@@ -297,6 +301,7 @@ func _run() -> void:
 	_assert(int(software_solution.metrics["total_cycles"]) == 138 and int(software_solution.metrics["hardware_cost"]) == 4, "The capstone must also accept a lower-cost blocking solution.")
 	_assert((main.get("lab_host") as Control).visible and bool(locality_state.call("completed_levels").get(&"capstone", false)), "Further optimization must remain possible after chapter completion.")
 	var observed_options: Array = main.call("_capstone_observed_options")
+	_assert(main.capstone_compare_box.visible and main.capstone_compare_list.item_count == observed_options.size(), "Actual cost/cycle alternatives appear above the long event tree")
 	var observed_costs: Array[int] = []
 	for observed: Dictionary in observed_options:
 		if observed.cycles == 138: observed_costs.append(int(observed.cost))

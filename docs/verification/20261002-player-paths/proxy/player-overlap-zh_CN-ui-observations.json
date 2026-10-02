@@ -1,0 +1,146 @@
+[
+	{
+		"check": "Resume uses only previously UI-earned Game save",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-read-before-ready",
+		"ok": true
+	},
+	{
+		"check": "Early consume failure cannot earn arrival",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-ready-evidence",
+		"ok": true
+	},
+	{
+		"check": "Arrival earned through typed program",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: buffers-empty-board",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Two buffers are placed by palette drag",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible overlap wire TRANSFER → A",
+		"ok": true
+	},
+	{
+		"check": "Visible overlap wire A → COMPUTE",
+		"ok": true
+	},
+	{
+		"check": "Visible overlap wire A → COMPUTE",
+		"ok": true
+	},
+	{
+		"check": "Visible overlap wire A → TRANSFER",
+		"ok": true
+	},
+	{
+		"check": "Visible overlap wire TRANSFER → B",
+		"ok": true
+	},
+	{
+		"check": "Visible overlap wire B → COMPUTE",
+		"ok": true
+	},
+	{
+		"check": "Visible overlap wire B → COMPUTE",
+		"ok": true
+	},
+	{
+		"check": "Visible overlap wire B → TRANSFER",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: buffers-serial-two-parts",
+		"ok": true
+	},
+	{
+		"check": "Adding a second buffer alone is not an overlapping schedule",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: buffers-overlap-evidence",
+		"ok": true
+	},
+	{
+		"check": "Buffers passed from GUI wiring and typed schedule",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	}
+]

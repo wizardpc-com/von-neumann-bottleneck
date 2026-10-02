@@ -2289,16 +2289,16 @@ msgid "system.level.bus_width.title"
 msgstr "Room to Pass"
 
 msgid "system.level.bus_width.description"
-msgstr "The same byte, a different Bus width. Predict how many stages it takes to cross, then count them on the wire."
+msgstr "How much faster does the transfer become, and how much faster does the whole job become?"
 
 msgid "system.level.bus_width.objective"
-msgstr "Lock a prediction, run Bus2 as the baseline, then change only Bus width and inspect segmented packets on the exact wires."
+msgstr "Change only Bus width. Compare packet stages, transfer cycles and total cycles for the same job."
 
 msgid "system.level.bus_width.briefing.1"
 msgstr "[[bandwidth|Bandwidth]] is the number of bits a [[bus|Bus]] can carry per cycle. Each value here has 8 bits. Bus2 carries 2 bits per cycle; Bus8 carries 8.\n\nWhen a value does not fit in one trip, it must be split across trips: [[serialization|serialization]]. Predict the trips each channel needs, then observe the transfers."
 
 msgid "system.level.bus_width.briefing.2"
-msgstr "Lock a prediction and run Bus2. Keep CPU, RAM, program, and data fixed, then change only to Bus8. Watch how many packet stages cross the wire and pass both official runs."
+msgstr "Lock a prediction and run Bus2. Keep CPU, RAM, program and data fixed, then change only to Bus8. After both official runs, compare transfer time and total time in History. Do they fall by the same proportion? Point to the time that changed and the time that remained."
 
 msgid "system.level.bottleneck.title"
 msgstr "Follow the Delay"
@@ -6606,7 +6606,7 @@ msgid "investigation.open"
 msgstr "Try a small experiment"
 
 msgid "investigation.instructions"
-msgstr "Select inputs, then Run Debug. You can also change the values yourself. Observations come only from this circuit’s actual runs; reset, rewiring or official tests clear them."
+msgstr "Select inputs, then Run Debug. You can also change the values yourself. After the first observation, only changed inputs are listed. Results come only from this circuit’s actual runs; reset, rewiring or official tests clear them."
 
 msgid "investigation.alu"
 msgstr "Keep A, B and CIN fixed while changing OP0 and OP1. Which operation does the output follow? Try other data if the results are hard to distinguish. The optional Selector task explores selection signals."
@@ -6691,3 +6691,9 @@ msgstr "You changed the arrangement. Every step still takes place within the wor
 
 msgid "theme.position.short"
 msgstr "Rearranging takes time, too. You have counted the cost of moving data."
+
+msgid "investigation.alu.progress"
+msgstr "Tested %d/8 · passed %d"
+
+msgid "chapter2.status.working_set_recheck"
+msgstr "The evidence does not support this explanation yet. Inspect the Trace where one pass ends and the next begins: which line is requested, and which line is still cached? Compare those records before explaining."

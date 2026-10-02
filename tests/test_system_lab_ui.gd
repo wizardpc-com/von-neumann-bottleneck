@@ -597,6 +597,7 @@ func _complete_comparison(
 	_assert((main.get("status_label") as Label).text != _t(&"system.status.hardware_changed"), "A new official run must clear the obsolete hardware-changed warning.")
 	if kind == &"bus":
 		_test_bus_trace_diagram(main, 8)
+		_assert(main.history_label.text.contains("75%") and main.history_label.text.contains("33%"), "Bus History compares observed transfer and whole-job reductions, not just width arithmetic")
 	var history_panel: Control = (main.get("instrument_windows") as Dictionary)[&"history"]
 	var conclusion_button: Button = main.get("conclusion_button")
 	_assert(

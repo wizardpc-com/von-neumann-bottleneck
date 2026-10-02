@@ -42,6 +42,7 @@ func run() -> void:
 			check(scroll.scroll_vertical==0 and scroll.get_global_rect().encloses(entry.get_global_rect()),"Fresh hub keeps the entire primary task-tree entry visible.")
 			await capture(locale+"-hub-"+str(dimensions.x))
 			hub.queue_free(); await process_frame
+			await locality_feedback_fits(locale,dimensions)
 		nav.camera_saved=false
 		var tree: Control=load("res://src/campaign/task_tree.tscn").instantiate()
 		root.add_child(tree)
@@ -125,3 +126,21 @@ func memory_text_fits(locale: String) -> void:
 	check(heading.get_global_rect().end.x<=close.get_global_rect().position.x,"Title leaves room for window controls.")
 	check(heading.tooltip_text==heading.text,"Trimmed title retains complete tooltip.")
 	panel.queue_free(); await process_frame
+
+
+func locality_feedback_fits(locale: String, dimensions: Vector2i) -> void:
+	var main: Control = load("res://src/ui/main.tscn").instantiate()
+	root.add_child(main)
+	for frame: int in range(6): await process_frame
+	for status: StringName in [&"chapter2.status.working_set_recheck", &"chapter2.status.judgment_recheck"]:
+		main._set_status(root.get_node("Localization").text(status), main.WARNING)
+		for frame: int in range(6): await process_frame
+		var header: Control = main.status_label.get_parent()
+		var bounds := Rect2(Vector2.ZERO,Vector2(dimensions))
+		check(bounds.grow(1).encloses(header.get_global_rect()), "Long locality feedback cannot push navigation outside viewport: "+locale)
+		labels_fit(header,bounds)
+		for child: Node in header.get_children():
+			if child is Button and child.visible:
+				check(bounds.grow(1).encloses(child.get_global_rect()), "Locality header button remains accessible after feedback: "+locale)
+	await capture(locale+"-locality-feedback-"+str(dimensions.x))
+	main.queue_free(); await process_frame

@@ -14,6 +14,17 @@ and `python3 scripts/verify-mac-candidate.py --app <candidate .app>`; the latter
 actual exported project build identity against its adjacent manifest. Native and
 external acceptance remain distinct. Dated test totals below are historical.
 
+## Evidence-driven player paths, 2026-10-02
+
+`scripts/proxy-player-paths.gd` is not a conventional unit suite. Use the imported
+QA copy from the verifier and a fresh isolated user directory. It extends the ordinary Game input replay through
+system/locality investigations; `--resume=overlap` and `--resume=layout` continue
+only the same UI-earned QA save. Full commands and scope are in the
+[player-path evidence](../verification/20261002-player-paths/README.md).
+The macOS proxy uses Godot popup rendering for injected menu keys; it is not native
+OS input or a human beginner test. Inspect exit codes and full logs for script
+errors in addition to the final PASS marker.
+
 ## Current wire and guidance checks, 2026-09-14
 
 The isolated verifier discovers conventional `tests/test_*.gd` suites; avoid hardcoded

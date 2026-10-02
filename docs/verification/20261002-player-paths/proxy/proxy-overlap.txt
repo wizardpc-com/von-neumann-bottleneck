@@ -1,0 +1,22 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+PATH: arrival · arrival-read-before-ready · 总用时 0 / 目标 10 · 计算忙 0 · 搬运忙 0
+重叠 0 · 计算器等待 0 · 输出总和 0 / 7
+第 3 行：请求已经发出，但数据尚未就绪。不要提前 consume。
+命中 0 · 未命中 0 · 逐出 0 · 发请求排队 0 周期
+2026-10-02 22:22:04.898 Godot[91185:8776846] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+PATH: arrival · arrival-ready-evidence · 总用时 10 / 目标 10 · 计算忙 8 · 搬运忙 6
+重叠 4 · 计算器等待 2 · 输出总和 7 / 7
+通过 · 可继续修改，或返回关卡树探索下一支。
+命中 0 · 未命中 0 · 逐出 0 · 发请求排队 0 周期
+PATH: buffers · buffers-serial-two-parts · 总用时 40 / 目标 28 · 计算忙 16 · 搬运忙 24
+重叠 0 · 计算器等待 24 · 输出总和 46 / 46
+结果正确；尚未达到用时目标。查看两条时间轨道。
+命中 0 · 未命中 0 · 逐出 0 · 发请求排队 0 周期
+PATH: buffers · buffers-overlap-evidence · 总用时 28 / 目标 28 · 计算忙 16 · 搬运忙 24
+重叠 12 · 计算器等待 12 · 输出总和 46 / 46
+通过 · 可继续修改，或返回关卡树探索下一支。
+命中 0 · 未命中 0 · 逐出 0 · 发请求排队 0 周期
+Recovery GUI checks: 36; failures: 0
+PASS: recovery ordinary Game input

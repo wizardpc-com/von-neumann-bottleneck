@@ -1,0 +1,22 @@
+[
+	{
+		"decision": "fields-record-order",
+		"evidence": "[{\"error\":\"\",\"evictions\":6,\"fills\":8,\"hits\":0,\"output_cycles\":1,\"peak_extra_bytes\":0,\"prepare_cycles\":0,\"prepare_read_bytes\":0,\"prepare_write_bytes\":0,\"query_cycles\":144,\"query_read_bytes\":128,\"query_write_bytes\":0,\"ram_read_bytes\":128,\"ram_write_bytes\":0,\"requests\":8,\"result_class\":\"correct_output\",\"target_met\":false,\"total_cycles\":145},{\"error\":\"\",\"evictions\":10,\"fills\":12,\"hits\":0,\"output_cycles\":1,\"peak_extra_bytes\":0,\"prepare_cycles\":0,\"prepare_read_bytes\":0,\"prepare_write_bytes\":0,\"query_cycles\":216,\"query_read_bytes\":192,\"query_write_bytes\":0,\"ram_read_bytes\":192,\"ram_write_bytes\":0,\"requests\":12,\"result_class\":\"correct_output\",\"target_met\":false,\"total_cycles\":217}]",
+		"task": "fields"
+	},
+	{
+		"decision": "fields-by-field",
+		"evidence": "[{\"error\":\"\",\"evictions\":0,\"fills\":2,\"hits\":6,\"output_cycles\":1,\"peak_extra_bytes\":0,\"prepare_cycles\":0,\"prepare_read_bytes\":0,\"prepare_write_bytes\":0,\"query_cycles\":48,\"query_read_bytes\":32,\"query_write_bytes\":0,\"ram_read_bytes\":32,\"ram_write_bytes\":0,\"requests\":8,\"result_class\":\"correct_output\",\"target_met\":true,\"total_cycles\":49},{\"error\":\"\",\"evictions\":1,\"fills\":3,\"hits\":9,\"output_cycles\":1,\"peak_extra_bytes\":0,\"prepare_cycles\":0,\"prepare_read_bytes\":0,\"prepare_write_bytes\":0,\"query_cycles\":72,\"query_read_bytes\":48,\"query_write_bytes\":0,\"ram_read_bytes\":48,\"ram_write_bytes\":0,\"requests\":12,\"result_class\":\"correct_output\",\"target_met\":true,\"total_cycles\":73}]",
+		"task": "fields"
+	},
+	{
+		"decision": "relocation-direct-both",
+		"evidence": "[{\"error\":\"\",\"evictions\":15,\"fills\":17,\"hits\":0,\"output_cycles\":1,\"peak_extra_bytes\":0,\"prepare_cycles\":0,\"prepare_read_bytes\":0,\"prepare_write_bytes\":0,\"query_cycles\":306,\"query_read_bytes\":272,\"query_write_bytes\":0,\"ram_read_bytes\":272,\"ram_write_bytes\":0,\"requests\":17,\"result_class\":\"correct_output\",\"target_met\":true,\"total_cycles\":307},{\"error\":\"\",\"evictions\":134,\"fills\":136,\"hits\":0,\"output_cycles\":8,\"peak_extra_bytes\":0,\"prepare_cycles\":0,\"prepare_read_bytes\":0,\"prepare_write_bytes\":0,\"query_cycles\":2448,\"query_read_bytes\":2176,\"query_write_bytes\":0,\"ram_read_bytes\":2176,\"ram_write_bytes\":0,\"requests\":136,\"result_class\":\"correct_output\",\"target_met\":false,\"total_cycles\":2456}]",
+		"task": "relocation"
+	},
+	{
+		"decision": "relocation-copy-repeated-only",
+		"evidence": "[{\"error\":\"\",\"evictions\":15,\"fills\":17,\"hits\":0,\"output_cycles\":1,\"peak_extra_bytes\":0,\"prepare_cycles\":0,\"prepare_read_bytes\":0,\"prepare_write_bytes\":0,\"query_cycles\":306,\"query_read_bytes\":272,\"query_write_bytes\":0,\"ram_read_bytes\":272,\"ram_write_bytes\":0,\"requests\":17,\"result_class\":\"correct_output\",\"target_met\":true,\"total_cycles\":307},{\"error\":\"\",\"evictions\":55,\"fills\":57,\"hits\":96,\"output_cycles\":8,\"peak_extra_bytes\":80,\"prepare_cycles\":442,\"prepare_read_bytes\":272,\"prepare_write_bytes\":68,\"query_cycles\":912,\"query_read_bytes\":640,\"query_write_bytes\":0,\"ram_read_bytes\":912,\"ram_write_bytes\":68,\"requests\":170,\"result_class\":\"correct_output\",\"target_met\":true,\"total_cycles\":1362}]",
+		"task": "relocation"
+	}
+]

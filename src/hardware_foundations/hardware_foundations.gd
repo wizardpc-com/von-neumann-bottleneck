@@ -107,6 +107,9 @@ var prologue_live_result: PrologueSimulationResult
 var prologue_report: Dictionary = {}
 var prologue_runtime_state: Dictionary = {}
 var prologue_prior_outputs: Dictionary = {}
+var alu_case_groups: Array[VBoxContainer] = []
+var alu_group_buttons: Array[Button] = []
+var alu_case_outcomes: Dictionary = {}
 var construction_investigation: VBoxContainer
 var prologue_input_controls: Dictionary[StringName, Control] = {}
 var prologue_case_labels: Array[Label] = []
@@ -1090,6 +1093,9 @@ func _make_desktop_window_content(id: StringName) -> Control:
 
 
 func _clear_test_bench() -> void:
+	alu_case_groups.clear()
+	alu_group_buttons.clear()
+	alu_case_outcomes.clear()
 	construction_investigation = null
 	_clear_container(side_box)
 	_clear_container(bench_actions)
@@ -6108,6 +6114,10 @@ func _reveal_prologue_official_case() -> void:
 		"font_color", GOOD if bool(step.get("passed", false)) else BAD
 	)
 
+	if current_level_id == &"alu":
+		alu_case_outcomes[official_sequence_index] = bool(step.get("passed", false))
+		_refresh_alu_groups(official_sequence_index / 8)
+
 
 func _finish_official_sequence() -> void:
 	var kind: StringName = official_sequence_kind
@@ -6171,6 +6181,8 @@ func _cancel_official_sequence() -> void:
 
 
 func _reset_official_case_rows() -> void:
+	alu_case_outcomes.clear()
+	_refresh_alu_groups()
 	for index: int in range(official_case_labels.size()):
 		var official_case: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
 		var label: Label = official_case_labels[index]
@@ -6207,6 +6219,8 @@ func _official_step_inputs_text(step: Dictionary) -> String:
 
 
 func _ensure_official_case_visible(label: Label) -> void:
+	if current_level_id == &"alu":
+		_refresh_alu_groups(prologue_case_labels.find(label) / 8)
 	if label == null or not is_instance_valid(label) or side_box == null:
 		return
 	var scroll := side_box.get_parent() as ScrollContainer
@@ -6245,7 +6259,7 @@ func _run_prologue_debug() -> void:
 		return
 	_update_storage_monitor(result, prologue_runtime_state)
 	if is_instance_valid(construction_investigation):
-		construction_investigation.observe(_format_value_dictionary(_current_prologue_inputs()), _format_digital_values(result.observed_values))
+		construction_investigation.observe(_current_prologue_inputs(), _format_digital_values(result.observed_values))
 	debug_result_label.text = _t(&"hardware.prologue.debug.result", [
 		_format_digital_values(result.observed_values)
 	])
@@ -6269,6 +6283,7 @@ func _run_prologue_official() -> void:
 
 
 func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
+	_refresh_alu_groups()
 	prologue_report = prologue_simulator.run_sequence(
 		circuit,
 		current_level_definition.get("official_steps", []),
@@ -7091,15 +7106,21 @@ func _build_prologue_input_controls() -> void:
 
 func _build_prologue_case_rows() -> void:
 	prologue_case_labels.clear()
+	var group_rows: VBoxContainer = side_box
 	for index: int in range((current_level_definition.get("official_steps", []) as Array).size()):
 		var step: Dictionary = current_level_definition["official_steps"][index]
 		if current_level_id == &"alu" and index % 8 == 0:
-			var group := Label.new()
-			var inputs: Dictionary = step.get("inputs", {})
-			group.text = _t(&"investigation.alu.group", [inputs.get(&"OP1", 0), inputs.get(&"OP0", 0)])
+			var group := Button.new()
+			group.toggle_mode = true
 			group.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-			group.add_theme_color_override("font_color", ACCENT)
+			group.alignment = HORIZONTAL_ALIGNMENT_LEFT
 			side_box.add_child(group)
+			group_rows = VBoxContainer.new()
+			group_rows.visible = false
+			side_box.add_child(group_rows)
+			alu_group_buttons.append(group)
+			alu_case_groups.append(group_rows)
+			group.toggled.connect(func(open: bool) -> void: group_rows.visible = open)
 		var label := Label.new()
 		var case_inputs: String = _format_value_dictionary(step.get("inputs", {}))
 		var label_key := StringName(step.get("label_key", &""))
@@ -7116,7 +7137,23 @@ func _build_prologue_case_rows() -> void:
 		label.add_theme_font_size_override("font_size", 12)
 		label.add_theme_color_override("font_color", MUTED)
 		prologue_case_labels.append(label)
-		side_box.add_child(label)
+		group_rows.add_child(label)
+
+	_refresh_alu_groups()
+
+
+func _refresh_alu_groups(active: int = -1) -> void:
+	for group: int in alu_case_groups.size():
+		var tested: int = 0
+		var passed: int = 0
+		for index: int in range(group * 8, group * 8 + 8):
+			if alu_case_outcomes.has(index):
+				tested += 1
+				if alu_case_outcomes[index]: passed += 1
+		alu_group_buttons[group].text = _t(&"investigation.alu.group", [group / 2, group % 2]) + " · " + _t(&"investigation.alu.progress", [tested, passed])
+		var open: bool = group == active or passed < tested
+		alu_group_buttons[group].set_pressed_no_signal(open)
+		alu_case_groups[group].visible = open
 
 
 func _storage_action_text(inputs: Dictionary) -> String:

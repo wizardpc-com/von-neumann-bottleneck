@@ -33,6 +33,11 @@ settings and no simulation authority. It is default-off placeholder audio;
 [verification and listening sample](verification/20261002-trace-ambience/README.md)
 distinguish automated/backend checks from subjective listening.
 
+The hub now offers a reopenable [earned theme reflection](verification/20261002-theme-reflection/README.md),
+with independent time/placement paths and joint closure only after both terminal
+tasks. Short earned notes accompany CPU, waiting, Cache, buffers and relocation.
+No new narrative save flag or completion gate was introduced.
+
 ## Retained scope and historical evidence
 
 Five regions, 40 tasks: original construction prologue,

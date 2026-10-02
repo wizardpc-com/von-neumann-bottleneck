@@ -148,6 +148,11 @@ func _build_interface() -> void:
 	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	title.add_theme_color_override("font_color", Color("bdceda"))
 	content.add_child(preload("res://src/ui/brand_identity.gd").title_slot(Localization.current_locale(),title))
+	var opening := Label.new()
+	opening.text=Localization.text(&"theme.opening")
+	opening.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	opening.add_theme_color_override("font_color",MUTED)
+	content.add_child(opening)
 	var mode_center := CenterContainer.new()
 	content.add_child(mode_center)
 	mode_selector = GameModeSelectorType.new()
@@ -206,6 +211,11 @@ func _build_interface() -> void:
 		Localization.text(&"layout.hub.description"),Localization.text(&"layout.hub.open"),Color("f4a6cb"),
 		"res://src/layout_chapter/layout_chapter.tscn",&"layout"
 	))
+	var reflection := Button.new()
+	reflection.name="ThemeReflectionButton"
+	reflection.text=Localization.text(&"theme.open")
+	reflection.pressed.connect(_open_theme_reflection)
+	content.add_child(reflection)
 	var note := Label.new()
 	note.name = "BuildIdentifier"
 	note.text = Localization.text(&"hub.note")+"   ·   "+String(ProjectSettings.get_setting("application/config/version", ""))
@@ -797,3 +807,13 @@ func _open_chapter(scene_path: String) -> void:
 	TaskNavigation.from_tree = false
 	TaskNavigation.pending = ""
 	get_tree().change_scene_to_file(scene_path)
+
+
+func _open_theme_reflection() -> void:
+	if get_node_or_null("ThemeReflection") != null: return
+	var reflection = preload("res://src/ui/theme_reflection.gd").new()
+	var hardware: Dictionary = {} if GameMode.is_test_mode() else GlobalSave.game_player_content.completed_levels
+	var keys: Array[StringName] = reflection.milestones(hardware,SystemChapter.completed_levels(),LocalityChapter.completed_levels(),OverlapChapter.completed(),LayoutChapter.completed())
+	reflection.configure(keys,Localization.text)
+	add_child(reflection)
+	reflection.popup_centered(Vector2i(640,500))

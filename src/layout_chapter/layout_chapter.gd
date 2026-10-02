@@ -329,6 +329,11 @@ func _run_all() -> void:
 	_toggle("trace",true)
 	status.text=_l("全部订单达标 · 可以继续探索另一份方案。","All cases passed · try another design.") if report.passed else _l("查看结果：输出、时间与空间分别核对，再修改布局。","Inspect output, time and space separately, then adjust the layout.")
 	if report.passed:
+		if level == "relocation":
+			var reflection := Label.new()
+			reflection.text=Localization.text(&"theme.position.short")
+			reflection.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+			results.add_child(reflection)
 		var was_done: bool = LayoutChapter.completed().has(level)
 		if LayoutChapter.record_pass(level,design) and not was_done:
 			PlaytestData.level_completed(&"chapter_4",StringName(level),{"cycles":LayoutChapter.cost(report)})

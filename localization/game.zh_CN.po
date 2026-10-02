@@ -2808,7 +2808,7 @@ msgid "hardware.completion.summary.ram"
 msgstr "你把地址、写入控制和数据端口接成可寻址存储，并核对了写入、保持与读取时的状态变化。"
 
 msgid "hardware.completion.summary.cpu"
-msgstr "ALU、寄存器、控制与 RAM 已接成一台小计算机。指令发出，数据便在其中流动。"
+msgstr "ALU、寄存器、控制与 RAM 已接成一台小计算机。指令发出，数据便在其中流动。\n\n它开始按你的安排工作。"
 
 msgid "hardware.completion.summary.load_store"
 msgstr "CPU 经由 LOAD 与 STORE 访问外部存储。计算之外，还有数据往返带来的等待。"
@@ -2820,7 +2820,7 @@ msgid "system.completion.summary.assembly"
 msgstr "你连接了 CPU、Bus 与 RAM 的请求、写入和读取路径，并验证了显示线路就是系统拓扑。"
 
 msgid "system.completion.summary.cpu_speed"
-msgstr "你的对照实验表明：Eco → Fast 让算术快 4 倍，但 CPU 等待没有减少，所以总时间只改善约 15%。"
+msgstr "你的对照实验表明：Eco → Fast 让算术快 4 倍，但 CPU 等待没有减少，所以总时间只改善约 15%。\n\n计算短了，等待还在。"
 
 msgid "system.completion.summary.ram_wait"
 msgstr "预测计算与等待的比例后，你只更换 RAM，并追踪了存储服务如何直接形成 CPU-wait 差值。"
@@ -3468,7 +3468,7 @@ msgid "chapter2.level.nearby_storage.briefing.2"
 msgstr "上一关的直接访问结果会作为[[baseline|基线]]保留。启用 1-line 近处存储，用同一[[program|程序]]和数据再跑一次；在[[trace|追踪记录]]中找出“第一次远端获取”和“后来近处返回”。这种前后对照叫[[before_after|Before → After 比较]]。"
 
 msgid "chapter2.level.nearby_storage.learned"
-msgstr "这种近处硬件叫 Cache。Miss 会从 RAM 获取一条 line；之后对该 line 的请求成为 Hit，省去远途。"
+msgstr "这种近处硬件叫 Cache。Miss 会从 RAM 获取一条 line；之后对该 line 的请求成为 Hit，省去远途。\n\n取回的数据，又用了一次。"
 
 msgid "chapter2.level.cache_failure.title"
 msgstr "留不住的数据"
@@ -5581,7 +5581,7 @@ msgid "overlap.arrival.learned"
 msgstr "发出请求之后，数据尚需时间到达。独立计算可以填入这段等待，两条探索支线已开放。"
 
 msgid "overlap.buffers.learned"
-msgstr "你让两只缓冲交替服务，真实地重叠了 12 周期搬运与计算。接下来看看速度变化时会怎样。"
+msgstr "你让两只缓冲交替服务，真实地重叠了 12 周期搬运与计算。接下来看看速度变化时会怎样。\n\n这一批计算时，下一批已经在路上。"
 
 msgid "overlap.backpressure.learned"
 msgstr "同一套状态交接适应了两组计算时长，不覆盖数据。free 与 ready 比固定等待更可靠。"
@@ -6648,3 +6648,45 @@ msgstr "减少声音动态"
 
 msgid "settings.ambience.help"
 msgstr "可选试听：快慢之间与双缓冲。音量独立；后台静音。占位音色不代表最终配乐。"
+
+msgid "theme.opening"
+msgstr "先让一个信号到达。"
+
+msgid "theme.open"
+msgstr "回看走过的路"
+
+msgid "theme.close"
+msgstr "回到机器旁"
+
+msgid "theme.entry"
+msgstr "学习程序 · 运行记录\n\n这里留下的，是你已经完成的尝试。请核对记录中的每一步。"
+
+msgid "theme.build"
+msgstr "构造\n\n它开始按你的安排工作。加法、保存、选择与指令，来自你接起的结构。"
+
+msgid "theme.time"
+msgstr "时间\n\n计算短了，等待还在。把一部分工作加快，并没有让取回数据所需的时间消失。"
+
+msgid "theme.distance"
+msgstr "近处\n\n取回的数据，又用了一次。Cache 没有替你算出答案；它让一些重复使用不必再走远路。"
+
+msgid "theme.overlap"
+msgstr "等待之中\n\n这一批计算时，下一批已经在路上。等待没有被删除，但两种工作不再总是轮流发生。"
+
+msgid "theme.position"
+msgstr "位置\n\n整理也要经过时间。你把搬迁的准备成本算进了结果，再决定何时值得换一种排列。"
+
+msgid "theme.time_path"
+msgstr "你已经走完时间安排这条路径：何时请求、何时等待、何时继续，都成为可以检验的决定。"
+
+msgid "theme.position_path"
+msgstr "你已经走完位置安排这条路径：同一份信息，用什么顺序保存、搬运与读取，会留下不同的代价。"
+
+msgid "theme.other_path"
+msgstr "另一条路径仍然开放。可以继续探索，也可以回到已经做过的机器旁。"
+
+msgid "theme.ending"
+msgstr "你改变了安排。每一步仍在世界之中。\n\n计算需要时间，信息需要存放，使用之前需要抵达。你没有消灭这些条件，而是学会了让它们相互配合。\n\n这段主线已走完；支线与更好的方案仍在。理解，并不需要崇拜。"
+
+msgid "theme.position.short"
+msgstr "整理也要经过时间。你已把搬迁的代价计入结果。"

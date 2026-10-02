@@ -2808,7 +2808,7 @@ msgid "hardware.completion.summary.ram"
 msgstr "Addresses, write control and data ports now form a working memory. You checked what happens when it writes, holds and reads."
 
 msgid "hardware.completion.summary.cpu"
-msgstr "An ALU, registers, control and RAM now work as one computer. Instructions send data through the machine you built."
+msgstr "An ALU, registers, control and RAM now work as one computer. Instructions send data through the machine you built.\n\nIt works as you arranged it."
 
 msgid "hardware.completion.summary.load_store"
 msgstr "LOAD and STORE connect the CPU to external memory. Calculation has a companion cost: waiting for data."
@@ -2820,7 +2820,7 @@ msgid "system.completion.summary.assembly"
 msgstr "You connected the CPU, Bus, and RAM request, write, and read routes, proving that the displayed wires are the system topology."
 
 msgid "system.completion.summary.cpu_speed"
-msgstr "Your comparison showed that Eco → Fast made arithmetic 4× faster, while unchanged CPU waiting limited total improvement to about 15%."
+msgstr "Your comparison showed that Eco → Fast made arithmetic 4× faster, while unchanged CPU waiting limited total improvement to about 15%.\n\nLess time computing. The waiting remains."
 
 msgid "system.completion.summary.ram_wait"
 msgstr "After predicting the balance, you changed only RAM and traced storage service directly into the CPU-wait delta."
@@ -3468,7 +3468,7 @@ msgid "chapter2.level.nearby_storage.briefing.2"
 msgstr "The direct-memory result is kept as a [[baseline|baseline]]. Enable the one-line nearby store and rerun the same program and data. Find the first far fetch and later nearby returns; this is a [[before_after|Before → After comparison]]."
 
 msgid "chapter2.level.nearby_storage.learned"
-msgstr "The nearby hardware is a Cache. A Miss fetches a line from RAM; later requests to that line are Hits and avoid the distant trip."
+msgstr "The nearby hardware is a Cache. A Miss fetches a line from RAM; later requests to that line are Hits and avoid the distant trip.\n\nFetched once. Used again."
 
 msgid "chapter2.level.cache_failure.title"
 msgstr "Here, Then Gone"
@@ -5581,7 +5581,7 @@ msgid "overlap.arrival.learned"
 msgstr "A request is not an arrival. You used the gap for independent work. Both exploration paths are open."
 
 msgid "overlap.buffers.learned"
-msgstr "Your two buffers overlapped transfer and compute for 12 cycles. Next, explore what happens when speed changes."
+msgstr "Your two buffers overlapped transfer and compute for 12 cycles. Next, explore what happens when speed changes.\n\nWhile this batch computes, the next is on its way."
 
 msgid "overlap.backpressure.learned"
 msgstr "One state-based handoff handles both timing patterns without overwrites. free and ready are more reliable than fixed delays."
@@ -6649,3 +6649,45 @@ msgstr "Reduce sound dynamics"
 
 msgid "settings.ambience.help"
 msgstr "Optional preview in The Waiting Remains and the double-buffer task. Independent volume; silent in the background. Placeholder timbres, not final music."
+
+msgid "theme.opening"
+msgstr "Start by letting a signal through."
+
+msgid "theme.open"
+msgstr "Look back on the journey"
+
+msgid "theme.close"
+msgstr "Back to the machines"
+
+msgid "theme.entry"
+msgstr "Learning program · Run notes\n\nThese notes follow the experiments you have completed. Check each step against what you observed."
+
+msgid "theme.build"
+msgstr "Construction\n\nIt works as you arranged it. Addition, storage, selection and instructions arise from the structure you connected."
+
+msgid "theme.time"
+msgstr "Time\n\nLess time computing. The waiting remains. Speeding up one part did not remove the time needed to retrieve data."
+
+msgid "theme.distance"
+msgstr "Nearby\n\nFetched once. Used again. Cache did not calculate the answer for you; it let repeated uses avoid another trip."
+
+msgid "theme.overlap"
+msgstr "While waiting\n\nWhile this batch computes, the next is on its way. Waiting has not been deleted, but the two kinds of work no longer always take turns."
+
+msgid "theme.position"
+msgstr "Position\n\nRearranging takes time, too. You counted the cost of moving data before deciding when a different arrangement was worthwhile."
+
+msgid "theme.time_path"
+msgstr "You have completed the path through scheduling: when to request, wait and continue have become decisions you can test."
+
+msgid "theme.position_path"
+msgstr "You have completed the path through placement: the same information carries different costs depending on how it is stored, moved and read."
+
+msgid "theme.other_path"
+msgstr "The other path remains open. Continue exploring, or return to a machine you have already built."
+
+msgid "theme.ending"
+msgstr "You changed the arrangement. Every step still takes place within the world.\n\nComputation takes time. Information must be stored and must arrive before it can be used. You learned how to work with these conditions together.\n\nThis main path is complete; side paths and better designs remain. Understanding does not require worship."
+
+msgid "theme.position.short"
+msgstr "Rearranging takes time, too. You have counted the cost of moving data."

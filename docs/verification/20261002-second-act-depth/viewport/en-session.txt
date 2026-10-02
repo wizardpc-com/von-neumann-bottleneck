@@ -1,0 +1,14 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+2026-10-03 00:26:03.751 Godot[97143:8875041] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+MENU attempt=1 focus=1 want=1
+MENU attempt=1 focus=2 want=2
+MENU attempt=1 focus=1 want=1
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=2 want=2
+MENU attempt=1 focus=2 want=2
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=3 want=3
+MENU attempt=1 focus=1 want=1
+PASS: depth viewport acceptance 75

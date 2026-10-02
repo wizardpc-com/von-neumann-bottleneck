@@ -1,0 +1,49 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+2026-10-03 00:21:07.067 Godot[96721:8868499] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+MENU: RecordedOrder focus=1 want=1
+MENU: @OptionButton@216 focus=2 want=2
+MENU: @OptionButton@295 focus=1 want=1
+MENU: @OptionButton@216 focus=0 want=0
+ERROR: Visible choice menu opened
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] choose (res://experiments/viewport_input.gd:145)
+       [2] press (res://experiments/viewport_input.gd:106)
+       [3] settle (res://experiments/viewport_input.gd:25)
+MENU: @OptionButton@229 focus=-1 want=2
+ERROR: Visible selector accepts choice 2
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] choose (res://experiments/viewport_input.gd:152)
+       [2] popup_key (res://experiments/viewport_input.gd:137)
+       [3] settle (res://experiments/viewport_input.gd:25)
+ERROR: Exact resident plan also meets prompt service
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] _run (res://experiments/play_depth.gd:67)
+       [2] press (res://experiments/viewport_input.gd:106)
+       [3] settle (res://experiments/viewport_input.gd:25)
+MENU: @OptionButton@242 focus=-1 want=2
+ERROR: Visible selector accepts choice 2
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] choose (res://experiments/viewport_input.gd:152)
+       [2] popup_key (res://experiments/viewport_input.gd:137)
+       [3] settle (res://experiments/viewport_input.gd:25)
+ERROR: Oversized batch plus four contexts is rejected
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] _run (res://experiments/play_depth.gd:70)
+       [2] press (res://experiments/viewport_input.gd:106)
+       [3] settle (res://experiments/viewport_input.gd:25)
+MENU: @OptionButton@242 focus=0 want=0
+MENU: @OptionButton@255 focus=3 want=3
+MENU: @OptionButton@255 focus=1 want=1
+FAIL: depth viewport acceptance 84

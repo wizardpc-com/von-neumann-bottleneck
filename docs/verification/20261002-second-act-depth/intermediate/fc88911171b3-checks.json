@@ -1,0 +1,338 @@
+[
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Unpartitioned raw asset misses storage goal",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: plan-raw-baseline",
+		"ok": true
+	},
+	{
+		"check": "Block row selected through viewport",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Block row selected through viewport",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Player-built two-block mixed plan meets scan constraints",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: plan-mixed-scan",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Scan solution is not automatically good for hotspots",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: plan-hotspot-counterexample",
+		"ok": true
+	},
+	{
+		"check": "Block row selected through viewport",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Block row selected through viewport",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Editing does not rewrite prior Trace",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Small cached endpoint blocks meet hotspot constraints",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: plan-hotspot-improved",
+		"ok": true
+	},
+	{
+		"check": "Block row selected through viewport",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Merge edits the actual partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Undo restores partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Redo reapplies partition edit",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "One actual plan serves both orders",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": false
+	},
+	{
+		"check": "The requested evidence frame is saved: plan-paired-final",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Round-robin single-slot actual state thrashes",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: state-thrashing",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 2",
+		"ok": false
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Grouping avoids repeated spills but flushes all dirty states",
+		"ok": false
+	},
+	{
+		"check": "The requested evidence frame is saved: state-grouped",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": false
+	},
+	{
+		"check": "Grouped throughput plan delays other contexts",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: state-grouped-latency",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 2",
+		"ok": false
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Exact resident plan also meets prompt service",
+		"ok": false
+	},
+	{
+		"check": "The requested evidence frame is saved: state-resident-exact",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 2",
+		"ok": false
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Oversized batch plus four contexts is rejected",
+		"ok": false
+	},
+	{
+		"check": "The requested evidence frame is saved: state-memory-rejection",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 3",
+		"ok": false
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Two-bit persistent state loses numerical information",
+		"ok": false
+	},
+	{
+		"check": "The requested evidence frame is saved: state-low-precision-loss",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": false
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Eight-bit state is measured, not assigned a quality score",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: state-eight-bit",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: state-event-inspection",
+		"ok": true
+	}
+]

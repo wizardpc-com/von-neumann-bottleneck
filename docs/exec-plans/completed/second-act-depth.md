@@ -42,4 +42,10 @@ update durable docs and report experimental boundaries and unresolved playabilit
 - Targeted tests and first clean committed full regression passed (49 suites).
 - Known-objective bilingual viewport routes passed after popup-focus handling;
   visible split-label issue repaired and fixed asset text simplified for stability.
-- Final freeze, repeated committed regression, evidence and handoff follow below.
+- Frozen implementation52f1a79: final49-suite committed regression passed, no source
+  mismatches; final English/Chinese viewport routes passed75 checks each.
+- Full logs, source manifests, screenshots and failed intermediate runs are retained
+  in docs/verification/20261002-second-act-depth/. Four existing anchor warnings
+  remain; native OS and human novice acceptance are not claimed. No push.
+- INCORPORATE infrastructure/archive; KEEP EXPERIMENTAL both new playable routes;
+  DEFER registration, Prediction and new narrative/audio scope. Scope complete.

@@ -1,0 +1,7 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PLAN [{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 48, "codec": "raw" }, { "start": 48, "end": 64, "codec": "rle" }] => scan=134 hotspots=36 stored=52
+PLAN [{ "start": 0, "end": 14, "codec": "rle" }, { "start": 14, "end": 48, "codec": "raw" }, { "start": 48, "end": 64, "codec": "rle" }] => scan=135 hotspots=35 stored=54
+PLAN [{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 50, "codec": "raw" }, { "start": 50, "end": 64, "codec": "rle" }] => scan=135 hotspots=35 stored=54
+COUNTEREXAMPLE whole_rle scan=155 hot=552 tiny scan=150 tinyhot=24 twohot=189
+PASS: representation plan 10391 checks

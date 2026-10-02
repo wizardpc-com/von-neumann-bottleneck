@@ -1,0 +1,8657 @@
+[
+	{
+		"metrics": {
+			"accesses": [
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [],
+						"lru": [],
+						"sizes": {},
+						"slot_capacity": 8,
+						"used_bytes": 0
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": false,
+					"value": 5
+				},
+				{
+					"address": 1,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 2,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 3,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 4,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 5,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 6,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 7,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 8,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 9,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 10,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 11,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 12,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 13,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 14,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 15,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 16,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 91
+				},
+				{
+					"address": 17,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 128
+				},
+				{
+					"address": 18,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 165
+				},
+				{
+					"address": 19,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 202
+				},
+				{
+					"address": 20,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 239
+				},
+				{
+					"address": 21,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 20
+				},
+				{
+					"address": 22,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 57
+				},
+				{
+					"address": 23,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 94
+				},
+				{
+					"address": 24,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 131
+				},
+				{
+					"address": 25,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 168
+				},
+				{
+					"address": 26,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 205
+				},
+				{
+					"address": 27,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 242
+				},
+				{
+					"address": 28,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 23
+				},
+				{
+					"address": 29,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 60
+				},
+				{
+					"address": 30,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 97
+				},
+				{
+					"address": 31,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 134
+				},
+				{
+					"address": 32,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 171
+				},
+				{
+					"address": 33,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 208
+				},
+				{
+					"address": 34,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 245
+				},
+				{
+					"address": 35,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 26
+				},
+				{
+					"address": 36,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 63
+				},
+				{
+					"address": 37,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 100
+				},
+				{
+					"address": 38,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 137
+				},
+				{
+					"address": 39,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 174
+				},
+				{
+					"address": 40,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 211
+				},
+				{
+					"address": 41,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 248
+				},
+				{
+					"address": 42,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 29
+				},
+				{
+					"address": 43,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 66
+				},
+				{
+					"address": 44,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 103
+				},
+				{
+					"address": 45,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 140
+				},
+				{
+					"address": 46,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 177
+				},
+				{
+					"address": 47,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 214
+				},
+				{
+					"address": 48,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 49,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 50,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 51,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 52,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 53,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 54,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 55,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 56,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 57,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 58,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 59,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 60,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 61,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 62,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 63,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 64
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				}
+			],
+			"blocks": [
+				{
+					"codec": "raw",
+					"directory": [
+						0,
+						0,
+						64,
+						0
+					],
+					"encoded": [
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8
+					],
+					"end": 64,
+					"metadata_bytes": 4,
+					"payload_bytes": 64,
+					"start": 0,
+					"stored_bytes": 68,
+					"values": [
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8
+					]
+				}
+			],
+			"cache_hits": 63,
+			"cache_misses": 1,
+			"consume_cycles": 64,
+			"decode_cycles": 0,
+			"decode_ops": 0,
+			"decoded_values": 64,
+			"error": "",
+			"evictions": 0,
+			"expected": [
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				91,
+				128,
+				165,
+				202,
+				239,
+				20,
+				57,
+				94,
+				131,
+				168,
+				205,
+				242,
+				23,
+				60,
+				97,
+				134,
+				171,
+				208,
+				245,
+				26,
+				63,
+				100,
+				137,
+				174,
+				211,
+				248,
+				29,
+				66,
+				103,
+				140,
+				177,
+				214,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"outputs": [
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				91,
+				128,
+				165,
+				202,
+				239,
+				20,
+				57,
+				94,
+				131,
+				168,
+				205,
+				242,
+				23,
+				60,
+				97,
+				134,
+				171,
+				208,
+				245,
+				26,
+				63,
+				100,
+				137,
+				174,
+				211,
+				248,
+				29,
+				66,
+				103,
+				140,
+				177,
+				214,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"overfetch_values": 0,
+			"peak_cache_bytes": 64,
+			"plan": [
+				{
+					"codec": "raw",
+					"end": 64,
+					"start": 0
+				}
+			],
+			"request_cycles": 4,
+			"spec": {
+				"addresses": [
+					0,
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10,
+					11,
+					12,
+					13,
+					14,
+					15,
+					16,
+					17,
+					18,
+					19,
+					20,
+					21,
+					22,
+					23,
+					24,
+					25,
+					26,
+					27,
+					28,
+					29,
+					30,
+					31,
+					32,
+					33,
+					34,
+					35,
+					36,
+					37,
+					38,
+					39,
+					40,
+					41,
+					42,
+					43,
+					44,
+					45,
+					46,
+					47,
+					48,
+					49,
+					50,
+					51,
+					52,
+					53,
+					54,
+					55,
+					56,
+					57,
+					58,
+					59,
+					60,
+					61,
+					62,
+					63
+				],
+				"bandwidth": 1,
+				"cache_bytes": 64,
+				"data": [
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					91,
+					128,
+					165,
+					202,
+					239,
+					20,
+					57,
+					94,
+					131,
+					168,
+					205,
+					242,
+					23,
+					60,
+					97,
+					134,
+					171,
+					208,
+					245,
+					26,
+					63,
+					100,
+					137,
+					174,
+					211,
+					248,
+					29,
+					66,
+					103,
+					140,
+					177,
+					214,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8
+				],
+				"decoder": 8,
+				"latency": 4,
+				"name": "scan",
+				"scratch_limit": 64
+			},
+			"stored_bytes": 68,
+			"total_cycles": 136,
+			"traffic_bytes": 68,
+			"transfer_cycles": 68
+		},
+		"step": "plan-raw-baseline"
+	},
+	{
+		"metrics": {
+			"accesses": [
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [],
+						"lru": [],
+						"sizes": {},
+						"slot_capacity": 8,
+						"used_bytes": 0
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": false,
+					"value": 5
+				},
+				{
+					"address": 1,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 2,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 3,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 4,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 5,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 6,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 7,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 8,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 9,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 10,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 11,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 12,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 13,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 14,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 15,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 16,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": false,
+					"value": 91
+				},
+				{
+					"address": 17,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 128
+				},
+				{
+					"address": 18,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 165
+				},
+				{
+					"address": 19,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 202
+				},
+				{
+					"address": 20,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 239
+				},
+				{
+					"address": 21,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 20
+				},
+				{
+					"address": 22,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 57
+				},
+				{
+					"address": 23,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 94
+				},
+				{
+					"address": 24,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 131
+				},
+				{
+					"address": 25,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 168
+				},
+				{
+					"address": 26,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 205
+				},
+				{
+					"address": 27,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 242
+				},
+				{
+					"address": 28,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 23
+				},
+				{
+					"address": 29,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 60
+				},
+				{
+					"address": 30,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 97
+				},
+				{
+					"address": 31,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 134
+				},
+				{
+					"address": 32,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 171
+				},
+				{
+					"address": 33,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 208
+				},
+				{
+					"address": 34,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 245
+				},
+				{
+					"address": 35,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 26
+				},
+				{
+					"address": 36,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 63
+				},
+				{
+					"address": 37,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 100
+				},
+				{
+					"address": 38,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 137
+				},
+				{
+					"address": 39,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 174
+				},
+				{
+					"address": 40,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 211
+				},
+				{
+					"address": 41,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 248
+				},
+				{
+					"address": 42,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 29
+				},
+				{
+					"address": 43,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 66
+				},
+				{
+					"address": 44,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 103
+				},
+				{
+					"address": 45,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 140
+				},
+				{
+					"address": 46,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 177
+				},
+				{
+					"address": 47,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 214
+				},
+				{
+					"address": 48,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 49,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 50,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 51,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 52,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 53,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 54,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 55,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 56,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 57,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 58,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 59,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 60,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 61,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 62,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 63,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cache_before": {
+						"byte_budget": 64,
+						"keys": [
+							0,
+							1
+						],
+						"lru": [
+							0,
+							1
+						],
+						"sizes": {
+							"0": 16,
+							"1": 48
+						},
+						"slot_capacity": 8,
+						"used_bytes": 64
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				}
+			],
+			"blocks": [
+				{
+					"codec": "rle",
+					"directory": [
+						0,
+						0,
+						16,
+						0
+					],
+					"encoded": [
+						16,
+						0,
+						16,
+						5
+					],
+					"end": 16,
+					"metadata_bytes": 4,
+					"payload_bytes": 4,
+					"start": 0,
+					"stored_bytes": 8,
+					"values": [
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5
+					]
+				},
+				{
+					"codec": "raw",
+					"directory": [
+						16,
+						0,
+						64,
+						0
+					],
+					"encoded": [
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8
+					],
+					"end": 64,
+					"metadata_bytes": 4,
+					"payload_bytes": 48,
+					"start": 16,
+					"stored_bytes": 52,
+					"values": [
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8
+					]
+				}
+			],
+			"cache_hits": 62,
+			"cache_misses": 2,
+			"consume_cycles": 64,
+			"decode_cycles": 3,
+			"decode_ops": 17,
+			"decoded_values": 64,
+			"error": "",
+			"evictions": 0,
+			"expected": [
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				91,
+				128,
+				165,
+				202,
+				239,
+				20,
+				57,
+				94,
+				131,
+				168,
+				205,
+				242,
+				23,
+				60,
+				97,
+				134,
+				171,
+				208,
+				245,
+				26,
+				63,
+				100,
+				137,
+				174,
+				211,
+				248,
+				29,
+				66,
+				103,
+				140,
+				177,
+				214,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"outputs": [
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				5,
+				91,
+				128,
+				165,
+				202,
+				239,
+				20,
+				57,
+				94,
+				131,
+				168,
+				205,
+				242,
+				23,
+				60,
+				97,
+				134,
+				171,
+				208,
+				245,
+				26,
+				63,
+				100,
+				137,
+				174,
+				211,
+				248,
+				29,
+				66,
+				103,
+				140,
+				177,
+				214,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"overfetch_values": 0,
+			"peak_cache_bytes": 64,
+			"plan": [
+				{
+					"codec": "rle",
+					"end": 16,
+					"start": 0
+				},
+				{
+					"codec": "raw",
+					"end": 64,
+					"start": 16
+				}
+			],
+			"request_cycles": 8,
+			"spec": {
+				"addresses": [
+					0,
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10,
+					11,
+					12,
+					13,
+					14,
+					15,
+					16,
+					17,
+					18,
+					19,
+					20,
+					21,
+					22,
+					23,
+					24,
+					25,
+					26,
+					27,
+					28,
+					29,
+					30,
+					31,
+					32,
+					33,
+					34,
+					35,
+					36,
+					37,
+					38,
+					39,
+					40,
+					41,
+					42,
+					43,
+					44,
+					45,
+					46,
+					47,
+					48,
+					49,
+					50,
+					51,
+					52,
+					53,
+					54,
+					55,
+					56,
+					57,
+					58,
+					59,
+					60,
+					61,
+					62,
+					63
+				],
+				"bandwidth": 1,
+				"cache_bytes": 64,
+				"data": [
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					91,
+					128,
+					165,
+					202,
+					239,
+					20,
+					57,
+					94,
+					131,
+					168,
+					205,
+					242,
+					23,
+					60,
+					97,
+					134,
+					171,
+					208,
+					245,
+					26,
+					63,
+					100,
+					137,
+					174,
+					211,
+					248,
+					29,
+					66,
+					103,
+					140,
+					177,
+					214,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8
+				],
+				"decoder": 8,
+				"latency": 4,
+				"name": "scan",
+				"scratch_limit": 64
+			},
+			"stored_bytes": 60,
+			"total_cycles": 135,
+			"traffic_bytes": 60,
+			"transfer_cycles": 60
+		},
+		"step": "plan-mixed-scan"
+	},
+	{
+		"metrics": {
+			"accesses": [
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [],
+						"lru": [],
+						"sizes": {},
+						"slot_capacity": 8,
+						"used_bytes": 0
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": false,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": false,
+					"evicted": [],
+					"hit": false,
+					"value": 8
+				},
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": false,
+					"evicted": [],
+					"hit": false,
+					"value": 8
+				},
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 1,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": false,
+					"evicted": [],
+					"hit": false,
+					"value": 8
+				}
+			],
+			"blocks": [
+				{
+					"codec": "rle",
+					"directory": [
+						0,
+						0,
+						16,
+						0
+					],
+					"encoded": [
+						16,
+						0,
+						16,
+						5
+					],
+					"end": 16,
+					"metadata_bytes": 4,
+					"payload_bytes": 4,
+					"start": 0,
+					"stored_bytes": 8,
+					"values": [
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5
+					]
+				},
+				{
+					"codec": "raw",
+					"directory": [
+						16,
+						0,
+						64,
+						0
+					],
+					"encoded": [
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8
+					],
+					"end": 64,
+					"metadata_bytes": 4,
+					"payload_bytes": 48,
+					"start": 16,
+					"stored_bytes": 52,
+					"values": [
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8
+					]
+				}
+			],
+			"cache_hits": 2,
+			"cache_misses": 4,
+			"consume_cycles": 6,
+			"decode_cycles": 3,
+			"decode_ops": 17,
+			"decoded_values": 160,
+			"error": "",
+			"evictions": 0,
+			"expected": [
+				5,
+				8,
+				5,
+				8,
+				5,
+				8
+			],
+			"outputs": [
+				5,
+				8,
+				5,
+				8,
+				5,
+				8
+			],
+			"overfetch_values": 62,
+			"peak_cache_bytes": 16,
+			"plan": [
+				{
+					"codec": "rle",
+					"end": 16,
+					"start": 0
+				},
+				{
+					"codec": "raw",
+					"end": 64,
+					"start": 16
+				}
+			],
+			"request_cycles": 16,
+			"spec": {
+				"addresses": [
+					0,
+					63,
+					0,
+					63,
+					0,
+					63
+				],
+				"bandwidth": 1,
+				"cache_bytes": 32,
+				"data": [
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					91,
+					128,
+					165,
+					202,
+					239,
+					20,
+					57,
+					94,
+					131,
+					168,
+					205,
+					242,
+					23,
+					60,
+					97,
+					134,
+					171,
+					208,
+					245,
+					26,
+					63,
+					100,
+					137,
+					174,
+					211,
+					248,
+					29,
+					66,
+					103,
+					140,
+					177,
+					214,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8
+				],
+				"decoder": 8,
+				"latency": 4,
+				"name": "hotspots",
+				"scratch_limit": 64
+			},
+			"stored_bytes": 60,
+			"total_cycles": 189,
+			"traffic_bytes": 164,
+			"transfer_cycles": 164
+		},
+		"step": "plan-hotspot-counterexample"
+	},
+	{
+		"metrics": {
+			"accesses": [
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [],
+						"lru": [],
+						"sizes": {},
+						"slot_capacity": 8,
+						"used_bytes": 0
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": false,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 2,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": false,
+					"value": 8
+				},
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							2,
+							0
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 2,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							2,
+							0
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							2,
+							0
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 2,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							2,
+							0
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				}
+			],
+			"blocks": [
+				{
+					"codec": "rle",
+					"directory": [
+						0,
+						0,
+						16,
+						0
+					],
+					"encoded": [
+						16,
+						0,
+						16,
+						5
+					],
+					"end": 16,
+					"metadata_bytes": 4,
+					"payload_bytes": 4,
+					"start": 0,
+					"stored_bytes": 8,
+					"values": [
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5
+					]
+				},
+				{
+					"codec": "raw",
+					"directory": [
+						16,
+						0,
+						48,
+						0
+					],
+					"encoded": [
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214
+					],
+					"end": 48,
+					"metadata_bytes": 4,
+					"payload_bytes": 32,
+					"start": 16,
+					"stored_bytes": 36,
+					"values": [
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214
+					]
+				},
+				{
+					"codec": "rle",
+					"directory": [
+						48,
+						0,
+						64,
+						0
+					],
+					"encoded": [
+						16,
+						0,
+						16,
+						8
+					],
+					"end": 64,
+					"metadata_bytes": 4,
+					"payload_bytes": 4,
+					"start": 48,
+					"stored_bytes": 8,
+					"values": [
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8
+					]
+				}
+			],
+			"cache_hits": 4,
+			"cache_misses": 2,
+			"consume_cycles": 6,
+			"decode_cycles": 6,
+			"decode_ops": 34,
+			"decoded_values": 32,
+			"error": "",
+			"evictions": 0,
+			"expected": [
+				5,
+				8,
+				5,
+				8,
+				5,
+				8
+			],
+			"outputs": [
+				5,
+				8,
+				5,
+				8,
+				5,
+				8
+			],
+			"overfetch_values": 30,
+			"peak_cache_bytes": 32,
+			"plan": [
+				{
+					"codec": "rle",
+					"end": 16,
+					"start": 0
+				},
+				{
+					"codec": "raw",
+					"end": 48,
+					"start": 16
+				},
+				{
+					"codec": "rle",
+					"end": 64,
+					"start": 48
+				}
+			],
+			"request_cycles": 8,
+			"spec": {
+				"addresses": [
+					0,
+					63,
+					0,
+					63,
+					0,
+					63
+				],
+				"bandwidth": 1,
+				"cache_bytes": 32,
+				"data": [
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					91,
+					128,
+					165,
+					202,
+					239,
+					20,
+					57,
+					94,
+					131,
+					168,
+					205,
+					242,
+					23,
+					60,
+					97,
+					134,
+					171,
+					208,
+					245,
+					26,
+					63,
+					100,
+					137,
+					174,
+					211,
+					248,
+					29,
+					66,
+					103,
+					140,
+					177,
+					214,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8
+				],
+				"decoder": 8,
+				"latency": 4,
+				"name": "hotspots",
+				"scratch_limit": 64
+			},
+			"stored_bytes": 52,
+			"total_cycles": 36,
+			"traffic_bytes": 16,
+			"transfer_cycles": 16
+		},
+		"step": "plan-hotspot-improved"
+	},
+	{
+		"metrics": {
+			"accesses": [
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [],
+						"lru": [],
+						"sizes": {},
+						"slot_capacity": 8,
+						"used_bytes": 0
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": false,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 2,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0
+						],
+						"lru": [
+							0
+						],
+						"sizes": {
+							"0": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 16
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": false,
+					"value": 8
+				},
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							2,
+							0
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 2,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							2,
+							0
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				},
+				{
+					"address": 0,
+					"block": 0,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							2,
+							0
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 5
+				},
+				{
+					"address": 63,
+					"block": 2,
+					"cache_after": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							0,
+							2
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cache_before": {
+						"byte_budget": 32,
+						"keys": [
+							0,
+							2
+						],
+						"lru": [
+							2,
+							0
+						],
+						"sizes": {
+							"0": 16,
+							"2": 16
+						},
+						"slot_capacity": 8,
+						"used_bytes": 32
+					},
+					"cached": true,
+					"evicted": [],
+					"hit": true,
+					"value": 8
+				}
+			],
+			"blocks": [
+				{
+					"codec": "rle",
+					"directory": [
+						0,
+						0,
+						16,
+						0
+					],
+					"encoded": [
+						16,
+						0,
+						16,
+						5
+					],
+					"end": 16,
+					"metadata_bytes": 4,
+					"payload_bytes": 4,
+					"start": 0,
+					"stored_bytes": 8,
+					"values": [
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5,
+						5
+					]
+				},
+				{
+					"codec": "raw",
+					"directory": [
+						16,
+						0,
+						48,
+						0
+					],
+					"encoded": [
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214
+					],
+					"end": 48,
+					"metadata_bytes": 4,
+					"payload_bytes": 32,
+					"start": 16,
+					"stored_bytes": 36,
+					"values": [
+						91,
+						128,
+						165,
+						202,
+						239,
+						20,
+						57,
+						94,
+						131,
+						168,
+						205,
+						242,
+						23,
+						60,
+						97,
+						134,
+						171,
+						208,
+						245,
+						26,
+						63,
+						100,
+						137,
+						174,
+						211,
+						248,
+						29,
+						66,
+						103,
+						140,
+						177,
+						214
+					]
+				},
+				{
+					"codec": "rle",
+					"directory": [
+						48,
+						0,
+						64,
+						0
+					],
+					"encoded": [
+						16,
+						0,
+						16,
+						8
+					],
+					"end": 64,
+					"metadata_bytes": 4,
+					"payload_bytes": 4,
+					"start": 48,
+					"stored_bytes": 8,
+					"values": [
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8,
+						8
+					]
+				}
+			],
+			"cache_hits": 4,
+			"cache_misses": 2,
+			"consume_cycles": 6,
+			"decode_cycles": 6,
+			"decode_ops": 34,
+			"decoded_values": 32,
+			"error": "",
+			"evictions": 0,
+			"expected": [
+				5,
+				8,
+				5,
+				8,
+				5,
+				8
+			],
+			"outputs": [
+				5,
+				8,
+				5,
+				8,
+				5,
+				8
+			],
+			"overfetch_values": 30,
+			"peak_cache_bytes": 32,
+			"plan": [
+				{
+					"codec": "rle",
+					"end": 16,
+					"start": 0
+				},
+				{
+					"codec": "raw",
+					"end": 48,
+					"start": 16
+				},
+				{
+					"codec": "rle",
+					"end": 64,
+					"start": 48
+				}
+			],
+			"request_cycles": 8,
+			"spec": {
+				"addresses": [
+					0,
+					63,
+					0,
+					63,
+					0,
+					63
+				],
+				"bandwidth": 1,
+				"cache_bytes": 32,
+				"data": [
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					5,
+					91,
+					128,
+					165,
+					202,
+					239,
+					20,
+					57,
+					94,
+					131,
+					168,
+					205,
+					242,
+					23,
+					60,
+					97,
+					134,
+					171,
+					208,
+					245,
+					26,
+					63,
+					100,
+					137,
+					174,
+					211,
+					248,
+					29,
+					66,
+					103,
+					140,
+					177,
+					214,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8,
+					8
+				],
+				"decoder": 8,
+				"latency": 4,
+				"name": "hotspots",
+				"scratch_limit": 64
+			},
+			"stored_bytes": 52,
+			"total_cycles": 36,
+			"traffic_bytes": 16,
+			"transfer_cycles": 16
+		},
+		"step": "plan-paired-final"
+	},
+	{
+		"metrics": {
+			"agreement": 24,
+			"all_streams_first_cycle": 244,
+			"backing_state_bytes": 128,
+			"commit_cycles": 24,
+			"compute_cycles": 576,
+			"config": {
+				"batch": 1,
+				"order": "round_robin",
+				"prompt": false,
+				"reuse": true,
+				"slots": 1,
+				"state_bits": 32,
+				"weight_bits": 32
+			},
+			"error": "",
+			"evictions": 23,
+			"final_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"first_result_cycle": 58,
+			"first_stream_cycles": [
+				58,
+				120,
+				182,
+				244
+			],
+			"flush_writes": 1,
+			"mae": 0.0,
+			"max_error": 0.0,
+			"max_state_error": 0.0,
+			"outputs": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"peak_bytes": 100,
+			"reference": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"reference_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"request_cycles": 288,
+			"reserved_bytes": 100,
+			"response_cycles": [
+				58,
+				306,
+				554,
+				802,
+				1050,
+				1298,
+				120,
+				368,
+				616,
+				864,
+				1112,
+				1360,
+				182,
+				430,
+				678,
+				926,
+				1174,
+				1422,
+				244,
+				492,
+				740,
+				988,
+				1236,
+				1484
+			],
+			"samples": 24,
+			"state_bytes": 32,
+			"state_hits": 0,
+			"state_read_bytes": 768,
+			"state_reads": 24,
+			"state_write_bytes": 768,
+			"state_writes": 24,
+			"total_cycles": 1496,
+			"traffic_bytes": 2432,
+			"transfer_cycles": 608,
+			"weight_bytes": 32,
+			"weight_reads": 1
+		},
+		"step": "state-thrashing"
+	},
+	{
+		"metrics": {
+			"agreement": 24,
+			"all_streams_first_cycle": 814,
+			"backing_state_bytes": 128,
+			"commit_cycles": 24,
+			"compute_cycles": 576,
+			"config": {
+				"batch": 1,
+				"order": "grouped",
+				"prompt": false,
+				"reuse": true,
+				"slots": 1,
+				"state_bits": 32,
+				"weight_bits": 32
+			},
+			"error": "",
+			"evictions": 3,
+			"final_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"first_result_cycle": 58,
+			"first_stream_cycles": [
+				58,
+				310,
+				562,
+				814
+			],
+			"flush_writes": 1,
+			"mae": 0.0,
+			"max_error": 0.0,
+			"max_state_error": 0.0,
+			"outputs": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"peak_bytes": 100,
+			"reference": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"reference_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"request_cycles": 128,
+			"reserved_bytes": 100,
+			"response_cycles": [
+				58,
+				96,
+				134,
+				172,
+				210,
+				248,
+				310,
+				348,
+				386,
+				424,
+				462,
+				500,
+				562,
+				600,
+				638,
+				676,
+				714,
+				752,
+				814,
+				852,
+				890,
+				928,
+				966,
+				1004
+			],
+			"samples": 24,
+			"state_bytes": 32,
+			"state_hits": 20,
+			"state_read_bytes": 128,
+			"state_reads": 4,
+			"state_write_bytes": 128,
+			"state_writes": 4,
+			"total_cycles": 1016,
+			"traffic_bytes": 1152,
+			"transfer_cycles": 288,
+			"weight_bytes": 32,
+			"weight_reads": 1
+		},
+		"step": "state-grouped"
+	},
+	{
+		"metrics": {
+			"agreement": 24,
+			"all_streams_first_cycle": 814,
+			"backing_state_bytes": 128,
+			"commit_cycles": 24,
+			"compute_cycles": 576,
+			"config": {
+				"batch": 1,
+				"order": "grouped",
+				"prompt": false,
+				"reuse": true,
+				"slots": 1,
+				"state_bits": 32,
+				"weight_bits": 32
+			},
+			"error": "",
+			"evictions": 3,
+			"final_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"first_result_cycle": 58,
+			"first_stream_cycles": [
+				58,
+				310,
+				562,
+				814
+			],
+			"flush_writes": 1,
+			"mae": 0.0,
+			"max_error": 0.0,
+			"max_state_error": 0.0,
+			"outputs": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"peak_bytes": 100,
+			"reference": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"reference_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"request_cycles": 128,
+			"reserved_bytes": 100,
+			"response_cycles": [
+				58,
+				96,
+				134,
+				172,
+				210,
+				248,
+				310,
+				348,
+				386,
+				424,
+				462,
+				500,
+				562,
+				600,
+				638,
+				676,
+				714,
+				752,
+				814,
+				852,
+				890,
+				928,
+				966,
+				1004
+			],
+			"samples": 24,
+			"state_bytes": 32,
+			"state_hits": 20,
+			"state_read_bytes": 128,
+			"state_reads": 4,
+			"state_write_bytes": 128,
+			"state_writes": 4,
+			"total_cycles": 1016,
+			"traffic_bytes": 1152,
+			"transfer_cycles": 288,
+			"weight_bytes": 32,
+			"weight_reads": 1
+		},
+		"step": "state-grouped-latency"
+	},
+	{
+		"metrics": {
+			"agreement": 24,
+			"all_streams_first_cycle": 208,
+			"backing_state_bytes": 128,
+			"commit_cycles": 24,
+			"compute_cycles": 576,
+			"config": {
+				"batch": 1,
+				"order": "round_robin",
+				"prompt": true,
+				"reuse": true,
+				"slots": 4,
+				"state_bits": 32,
+				"weight_bits": 32
+			},
+			"error": "",
+			"evictions": 0,
+			"final_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"first_result_cycle": 58,
+			"first_stream_cycles": [
+				58,
+				108,
+				158,
+				208
+			],
+			"flush_writes": 4,
+			"mae": 0.0,
+			"max_error": 0.0,
+			"max_state_error": 0.0,
+			"outputs": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"peak_bytes": 196,
+			"reference": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"reference_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"request_cycles": 128,
+			"reserved_bytes": 196,
+			"response_cycles": [
+				58,
+				246,
+				398,
+				550,
+				702,
+				854,
+				108,
+				284,
+				436,
+				588,
+				740,
+				892,
+				158,
+				322,
+				474,
+				626,
+				778,
+				930,
+				208,
+				360,
+				512,
+				664,
+				816,
+				968
+			],
+			"samples": 24,
+			"state_bytes": 32,
+			"state_hits": 20,
+			"state_read_bytes": 128,
+			"state_reads": 4,
+			"state_write_bytes": 128,
+			"state_writes": 4,
+			"total_cycles": 1016,
+			"traffic_bytes": 1152,
+			"transfer_cycles": 288,
+			"weight_bytes": 32,
+			"weight_reads": 1
+		},
+		"step": "state-resident-exact"
+	},
+	{
+		"metrics": {
+			"agreement": 0,
+			"all_streams_first_cycle": 0,
+			"backing_state_bytes": 128,
+			"commit_cycles": 0,
+			"compute_cycles": 0,
+			"config": {
+				"batch": 4,
+				"order": "round_robin",
+				"prompt": true,
+				"reuse": true,
+				"slots": 4,
+				"state_bits": 32,
+				"weight_bits": 32
+			},
+			"error": "scratch_limit",
+			"evictions": 0,
+			"final_states": [],
+			"first_result_cycle": 0,
+			"first_stream_cycles": [],
+			"flush_writes": 0,
+			"mae": 0.0,
+			"max_error": 0.0,
+			"max_state_error": 0.0,
+			"outputs": [],
+			"peak_bytes": 0,
+			"reference": [],
+			"reference_states": [],
+			"request_cycles": 0,
+			"reserved_bytes": 304,
+			"response_cycles": [],
+			"samples": 24,
+			"state_bytes": 32,
+			"state_hits": 0,
+			"state_read_bytes": 0,
+			"state_reads": 0,
+			"state_write_bytes": 0,
+			"state_writes": 0,
+			"total_cycles": 0,
+			"traffic_bytes": 0,
+			"transfer_cycles": 0,
+			"weight_bytes": 32,
+			"weight_reads": 0
+		},
+		"step": "state-memory-rejection"
+	},
+	{
+		"metrics": {
+			"agreement": 21,
+			"all_streams_first_cycle": 180,
+			"backing_state_bytes": 8,
+			"commit_cycles": 24,
+			"compute_cycles": 576,
+			"config": {
+				"batch": 1,
+				"order": "round_robin",
+				"prompt": true,
+				"reuse": true,
+				"slots": 4,
+				"state_bits": 2,
+				"weight_bits": 32
+			},
+			"error": "",
+			"evictions": 0,
+			"final_states": [
+				[
+					-1.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				]
+			],
+			"first_result_cycle": 51,
+			"first_stream_cycles": [
+				51,
+				94,
+				137,
+				180
+			],
+			"flush_writes": 4,
+			"mae": 0.360111639663303,
+			"max_error": 0.960033983333333,
+			"max_state_error": 1.1018754765625,
+			"outputs": [
+				-0.83,
+				-0.83,
+				-0.83,
+				-0.83,
+				-0.83,
+				-0.83,
+				-0.37,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.41,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.0,
+				0.0
+			],
+			"peak_bytes": 76,
+			"reference": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"reference_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"request_cycles": 128,
+			"reserved_bytes": 76,
+			"response_cycles": [
+				51,
+				218,
+				370,
+				522,
+				674,
+				826,
+				94,
+				256,
+				408,
+				560,
+				712,
+				864,
+				137,
+				294,
+				446,
+				598,
+				750,
+				902,
+				180,
+				332,
+				484,
+				636,
+				788,
+				940
+			],
+			"samples": 24,
+			"state_bytes": 2,
+			"state_hits": 20,
+			"state_read_bytes": 8,
+			"state_reads": 4,
+			"state_write_bytes": 8,
+			"state_writes": 4,
+			"total_cycles": 960,
+			"traffic_bytes": 912,
+			"transfer_cycles": 232,
+			"weight_bytes": 32,
+			"weight_reads": 1
+		},
+		"step": "state-low-precision-loss"
+	},
+	{
+		"metrics": {
+			"agreement": 24,
+			"all_streams_first_cycle": 184,
+			"backing_state_bytes": 32,
+			"commit_cycles": 24,
+			"compute_cycles": 576,
+			"config": {
+				"batch": 1,
+				"order": "round_robin",
+				"prompt": true,
+				"reuse": true,
+				"slots": 4,
+				"state_bits": 8,
+				"weight_bits": 32
+			},
+			"error": "",
+			"evictions": 0,
+			"final_states": [
+				[
+					0.102362204724409,
+					0.118110236220472,
+					-0.362204724409449,
+					-0.21259842519685,
+					-0.173228346456693,
+					0.236220472440945,
+					-0.244094488188976,
+					-0.228346456692913
+				],
+				[
+					0.440944881889764,
+					-0.118110236220472,
+					0.338582677165354,
+					-0.267716535433071,
+					-0.102362204724409,
+					-0.37007874015748,
+					-0.0078740157480315,
+					0.377952755905512
+				],
+				[
+					0.779527559055118,
+					0.110236220472441,
+					-0.149606299212598,
+					-0.0708661417322835,
+					0.0551181102362205,
+					0.0,
+					-0.21259842519685,
+					0.0078740157480315
+				],
+				[
+					-0.464566929133858,
+					-0.283464566929134,
+					0.196850393700787,
+					0.377952755905512,
+					0.125984251968504,
+					0.307086614173228,
+					0.0393700787401575,
+					0.21259842519685
+				]
+			],
+			"first_result_cycle": 52,
+			"first_stream_cycles": [
+				52,
+				96,
+				140,
+				184
+			],
+			"flush_writes": 4,
+			"mae": 0.00296152118426788,
+			"max_error": 0.00676566133571177,
+			"max_state_error": 0.00615770853018371,
+			"outputs": [
+				-0.429291338582677,
+				-0.451811023622047,
+				-0.295196850393701,
+				-0.374094488188976,
+				0.13244094488189,
+				0.12740157480315,
+				0.189527559055118,
+				0.283779527559055,
+				0.427322834645669,
+				0.443858267716535,
+				0.318818897637795,
+				0.363700787401575,
+				0.595354330708661,
+				0.0724409448818898,
+				0.325984251968504,
+				0.44488188976378,
+				0.601811023622047,
+				0.586692913385827,
+				0.0139370078740157,
+				0.0599212598425196,
+				0.143543307086614,
+				0.0603149606299213,
+				0.0559055118110236,
+				0.0418110236220472
+			],
+			"peak_bytes": 100,
+			"reference": [
+				-0.434,
+				-0.4564,
+				-0.301793333333333,
+				-0.379332333333333,
+				0.130033983333333,
+				0.1239554225,
+				0.187141666666667,
+				0.283342083333333,
+				0.4210056875,
+				0.440953696875,
+				0.312053236302083,
+				0.361267936929687,
+				0.595975,
+				0.0749504166666668,
+				0.3249844375,
+				0.446906551041667,
+				0.601289258177083,
+				0.588704684481771,
+				0.0159583333333334,
+				0.0628729166666667,
+				0.139567395833333,
+				0.0620188072916667,
+				0.0578122247395834,
+				0.0434112794140626
+			],
+			"reference_states": [
+				[
+					0.1018754765625,
+					0.120473401302083,
+					-0.3625813625,
+					-0.214863916927083,
+					-0.1732307640625,
+					0.233830029166667,
+					-0.249224734635417,
+					-0.230626809895833
+				],
+				[
+					0.441493717447917,
+					-0.114343611979167,
+					0.335725497135417,
+					-0.267728547135417,
+					-0.100232543229167,
+					-0.373496767447917,
+					-0.00735534687499999,
+					0.3840451921875
+				],
+				[
+					0.781111958333333,
+					0.1048753484375,
+					-0.148610317447917,
+					-0.0743310458333333,
+					0.05446947578125,
+					-0.000370773437499985,
+					-0.206440716666667,
+					0.00628749348958332
+				],
+				[
+					-0.460081932291667,
+					-0.282096413802083,
+					0.194247603645833,
+					0.372233122135417,
+					0.127467696614583,
+					0.305453215104167,
+					0.03542867109375,
+					0.213414189583333
+				]
+			],
+			"request_cycles": 128,
+			"reserved_bytes": 100,
+			"response_cycles": [
+				52,
+				222,
+				374,
+				526,
+				678,
+				830,
+				96,
+				260,
+				412,
+				564,
+				716,
+				868,
+				140,
+				298,
+				450,
+				602,
+				754,
+				906,
+				184,
+				336,
+				488,
+				640,
+				792,
+				944
+			],
+			"samples": 24,
+			"state_bytes": 8,
+			"state_hits": 20,
+			"state_read_bytes": 32,
+			"state_reads": 4,
+			"state_write_bytes": 32,
+			"state_writes": 4,
+			"total_cycles": 968,
+			"traffic_bytes": 960,
+			"transfer_cycles": 240,
+			"weight_bytes": 32,
+			"weight_reads": 1
+		},
+		"step": "state-eight-bit"
+	}
+]

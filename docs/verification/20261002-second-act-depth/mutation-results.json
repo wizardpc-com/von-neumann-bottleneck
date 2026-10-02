@@ -1,0 +1,68 @@
+[
+  {
+    "mutation": "missing_miss_insertion",
+    "exit": 1,
+    "rejected": true,
+    "failure_count": 1,
+    "first_failures": [
+      "FAIL: miss insertion"
+    ],
+    "log": "missing_miss_insertion.txt"
+  },
+  {
+    "mutation": "missing_hit_promotion",
+    "exit": 1,
+    "rejected": true,
+    "failure_count": 20,
+    "first_failures": [
+      "ERROR: literal LRU after access 2",
+      "ERROR: oldest victim selection 3",
+      "ERROR: literal LRU after access 3",
+      "ERROR: independent literal hit sequence 4",
+      "ERROR: oldest victim selection 4"
+    ],
+    "log": "missing_hit_promotion.txt"
+  },
+  {
+    "mutation": "wrong_victim",
+    "exit": 1,
+    "rejected": true,
+    "failure_count": 275,
+    "first_failures": [
+      "ERROR: oldest victim selection 3",
+      "ERROR: literal LRU after access 3",
+      "ERROR: independent literal hit sequence 4",
+      "ERROR: oldest victim selection 4",
+      "ERROR: variable block evicts multiple oldest entries"
+    ],
+    "log": "wrong_victim.txt"
+  },
+  {
+    "mutation": "slot_overflow",
+    "exit": 1,
+    "rejected": true,
+    "failure_count": 546,
+    "first_failures": [
+      "ERROR: oldest victim selection 3",
+      "ERROR: literal LRU after access 3",
+      "ERROR: literal access 3 cache invariants",
+      "ERROR: independent literal hit sequence 4",
+      "ERROR: oldest victim selection 4"
+    ],
+    "log": "slot_overflow.txt"
+  },
+  {
+    "mutation": "byte_overflow",
+    "exit": 1,
+    "rejected": true,
+    "failure_count": 181,
+    "first_failures": [
+      "ERROR: variable block evicts multiple oldest entries",
+      "ERROR: multi-eviction exact bytes",
+      "ERROR: variable block cache invariants",
+      "ERROR: replacement removes old size before selecting victims",
+      "ERROR: replacement value and bytes"
+    ],
+    "log": "byte_overflow.txt"
+  }
+]

@@ -311,7 +311,11 @@ func _focus_system_graph_for_keyboard() -> void:
 
 var workspace_save_elapsed: float = 0.0
 
+var trace_ambience: Node
+
 func _process(delta: float) -> void:
+	if is_instance_valid(trace_ambience):
+		trace_ambience.advance(0.0 if displayed_event == null else displayed_event.cycle + displayed_event.duration * displayed_event_progress, playback_running and current_level_id == &"cpu_speed")
 	workspace_save_elapsed += delta
 	if workspace_save_elapsed >= 2.0:
 		workspace_save_elapsed = 0.0
@@ -2735,6 +2739,12 @@ func _history_delta(change: int, baseline: int, include_percent: bool) -> String
 
 
 func _play_trace(trace: SystemTrace) -> void:
+	if is_instance_valid(trace_ambience): trace_ambience.stop()
+	if current_level_id == &"cpu_speed" and trace != null:
+		if not is_instance_valid(trace_ambience):
+			trace_ambience = preload("res://src/ui/trace_ambience_player.gd").new()
+			add_child(trace_ambience)
+		trace_ambience.configure(trace.events, &"system", trace.metrics.get("total_cycles",0))
 	displayed_event = null
 	finish_playback_button.disabled = trace == null or trace.events.is_empty()
 	current_trace = trace
@@ -2957,6 +2967,7 @@ func _finish_playback() -> void:
 
 
 func _stop_playback() -> void:
+	if is_instance_valid(trace_ambience): trace_ambience.stop()
 	displayed_event = null
 	if finish_playback_button != null:
 		finish_playback_button.disabled = true

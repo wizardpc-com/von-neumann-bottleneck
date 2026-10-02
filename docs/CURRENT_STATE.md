@@ -28,6 +28,11 @@ September 14 snapshot below predates that README update and is historical; its
 "Not released" row does not describe current public availability. This design pass
 did not verify release assets or their source parity.
 
+Optional Trace ambience now covers `cpu_speed` and `buffers`, with independent
+settings and no simulation authority. It is default-off placeholder audio;
+[verification and listening sample](verification/20261002-trace-ambience/README.md)
+distinguish automated/backend checks from subjective listening.
+
 ## Retained scope and historical evidence
 
 Five regions, 40 tasks: original construction prologue,

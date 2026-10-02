@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Preview cycles=28 overlap=12 seconds=6.2 peak=0.01853793663753
+PASS: deterministic low-level ambience preview

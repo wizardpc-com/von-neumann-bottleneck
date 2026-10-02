@@ -112,7 +112,11 @@ func _ready() -> void:
 	var requested_task: StringName = TaskNavigation.consume("chapter_3")
 	if not requested_task.is_empty(): call_deferred("_open_level",requested_task)
 
+var trace_ambience: Node
+
 func _process(delta: float) -> void:
+	if is_instance_valid(trace_ambience):
+		trace_ambience.advance(scrub.value if is_instance_valid(scrub) else 0.0, playing and not trace_stale and level == "buffers")
 	if is_instance_valid(workspace):
 		for panel: FloatingInstrumentPanel in panels.values():
 			if panel.visible and (panel.size.y > workspace.size.y-16 or panel.position.y+panel.size.y > workspace.size.y-8):
@@ -750,6 +754,11 @@ func _run_official() -> void:
 func _select_run(index: int) -> void:
 	if index < 0 or index >= runs.size(): return
 	trace = runs[index]
+	if level == "buffers":
+		if not is_instance_valid(trace_ambience):
+			trace_ambience = preload("res://src/ui/trace_ambience_player.gd").new()
+			add_child(trace_ambience)
+		trace_ambience.configure(trace.events, &"overlap", trace.metrics.get("total_cycles",0))
 	timeline.trace = trace
 	timeline.queue_redraw()
 	scrub.max_value = int(trace.metrics.total_cycles)

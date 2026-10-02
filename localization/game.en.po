@@ -6640,3 +6640,12 @@ msgstr "Observed official configurations (cycles and cost)"
 
 msgid "chapter2.history.observed_option"
 msgstr "%d cycles · cost %d · %s"
+
+msgid "settings.ambience"
+msgstr "Run ambience (sound prototype)"
+
+msgid "settings.ambience.steady"
+msgstr "Reduce sound dynamics"
+
+msgid "settings.ambience.help"
+msgstr "Optional preview in The Waiting Remains and the double-buffer task. Independent volume; silent in the background. Placeholder timbres, not final music."

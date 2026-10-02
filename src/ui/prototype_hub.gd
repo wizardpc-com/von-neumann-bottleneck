@@ -455,6 +455,21 @@ func _build_options_menu() -> void:
 	var volume_label := Label.new(); volume_label.text="%d%%" % volume.value; body.add_child(volume_label)
 	sound.toggled.connect(func(value: bool) -> void: WindowMode.set_sound(value,volume.value/100); volume.editable=value)
 	volume.value_changed.connect(func(value: float) -> void: WindowMode.set_sound(sound.button_pressed,value/100); volume_label.text="%d%%" % value)
+	var ambience := CheckButton.new(); ambience.name="AmbienceEnabled"
+	ambience.text=Localization.text(&"settings.ambience")
+	ambience.button_pressed=WindowMode.ambience_enabled; body.add_child(ambience)
+	var ambience_volume := HSlider.new(); ambience_volume.name="AmbienceVolume"
+	ambience_volume.max_value=100; ambience_volume.step=1; ambience_volume.value=WindowMode.ambience_volume*100
+	ambience_volume.custom_minimum_size.y=32; body.add_child(ambience_volume)
+	var ambience_percent := Label.new(); ambience_percent.text="%d%%" % ambience_volume.value; body.add_child(ambience_percent)
+	var steady := CheckButton.new(); steady.name="AmbienceReducedDynamics"
+	steady.text=Localization.text(&"settings.ambience.steady")
+	steady.button_pressed=WindowMode.ambience_reduced_dynamics; body.add_child(steady)
+	var update_ambience := func() -> void: WindowMode.set_ambience(ambience.button_pressed,ambience_volume.value/100,steady.button_pressed)
+	ambience.toggled.connect(func(_value: bool) -> void: update_ambience.call())
+	ambience_volume.value_changed.connect(func(value: float) -> void: update_ambience.call(); ambience_percent.text="%d%%" % value)
+	steady.toggled.connect(func(_value: bool) -> void: update_ambience.call())
+	_settings_label(body,"settings.ambience.help")
 	_settings_label(body,"settings.privacy",23)
 	_settings_label(body,"settings.privacy_hint")
 	body.add_child(PlaytestMoments.make_button())

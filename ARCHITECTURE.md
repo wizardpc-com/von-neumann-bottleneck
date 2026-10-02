@@ -182,3 +182,15 @@ applies the Effects bus. Hub language changes rebuild only the hub. Settings res
 never changes progression or consent. `SharingFirstChoice` at the hub uses the
 existing RemoteFeedback setter and a per-endpoint/notice acknowledgement.
 `SupportDiagnostics` exports an explicit local whitelist without raw logs or IDs.
+
+### Optional Trace ambience prototype
+
+`src/ui/trace_ambience_profile.gd` copies positive-duration compute/transfer intervals
+from System/Overlap traces, unions duplicate coverage and measures true intersection.
+`trace_ambience_player.gd` is scene-owned presentation: quiet generated loops, smoothed
+gain, seek reset and focus/exit stop. Initially only `cpu_speed` and `buffers` connect
+their existing playback cursors. No simulator callback, event bus or progress authority
+is added. `WindowMode` owns an independent Ambience bus and optional `presentation.cfg`
+preferences, default off. Effects settings and savegame schemas remain unchanged.
+Headless checks evaluate envelopes without opening audio streams; real backend checks
+are recorded separately. See [prototype evidence](docs/verification/20261002-trace-ambience/README.md).

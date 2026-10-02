@@ -6639,3 +6639,12 @@ msgstr "已运行的正式方案（周期与成本）"
 
 msgid "chapter2.history.observed_option"
 msgstr "%d 周期 · 成本 %d · %s"
+
+msgid "settings.ambience"
+msgstr "运行氛围（声音原型）"
+
+msgid "settings.ambience.steady"
+msgstr "减少声音动态"
+
+msgid "settings.ambience.help"
+msgstr "可选试听：快慢之间与双缓冲。音量独立；后台静音。占位音色不代表最终配乐。"

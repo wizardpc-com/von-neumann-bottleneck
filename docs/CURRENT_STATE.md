@@ -2,9 +2,31 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-**Single current entry.** Five regions, 40 tasks: original construction prologue,
+## Source follow-up · 2026-10-02
+
+Repository synchronized to `98f2e47` before local work. [Theme and level-design audit](design/thought-within-world.md)
+covers all 40 tasks and specifies nine priority nodes. The local 2-6 pilot exposes
+existing 0/1/2/4-line grouping with unchanged one-line Cache, two passes and 145-cycle
+target, plus bilingual experiment copy and a scrollable choices panel.
+[Fresh verification and boundaries](verification/20261002-theme-design/README.md).
+
+Compatibility: the existing workspace fingerprint includes the entire locality
+catalog. This catalog edit marks earlier Chapter 2 workspaces/observations stale:
+draft source survives, configuration must be checked again and observations rerun.
+This is a local pilot, not a newly frozen or verified public package. Resolve that
+upgrade experience before including it in a release; no save-format migration or
+fingerprint bypass was introduced.
+
+The synchronized README advertises `v0.5.0-alpha.1`, and the tag was fetched. The
+September 14 snapshot below predates that README update and is historical; its
+"Not released" row does not describe current public availability. This design pass
+did not verify release assets or their source parity.
+
+## Retained scope and historical evidence
+
+Five regions, 40 tasks: original construction prologue,
 waiting/data transport, cache/locality, overlap/prefetch and data layout. No new
-chapter, simulation rule, progression threshold or server feature in this iteration.
+chapter, simulation rule, progression threshold or server feature in this pilot.
 Original free wiring, branch/delete/undo, floating instruments, named workbenches,
 provenance revalidation and separate three-stage Hint remain authoritative.
 

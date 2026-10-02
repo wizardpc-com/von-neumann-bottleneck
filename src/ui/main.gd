@@ -694,7 +694,11 @@ func _build_mission_instrument() -> Control:
 
 
 func _build_blocking_instrument() -> Control:
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	var panel := VBoxContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(panel)
 	var description := Label.new()
 	description.text = _t(&"chapter2.work_group.description")
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -707,7 +711,7 @@ func _build_blocking_instrument() -> Control:
 		card.pressed.connect(_select_block_lines.bind(lines, true))
 		block_card_buttons[lines] = card
 		panel.add_child(card)
-	return panel
+	return scroll
 
 
 func _build_notebook_instrument() -> Control:

@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+zh_CN-groups window=(1280, 720) viewport=(1280.0, 720.0)
+zh_CN-mission window=(1280, 720) viewport=(1280.0, 720.0)
+en-groups window=(1280, 720) viewport=(1280.0, 720.0)
+en-mission window=(1280, 720) viewport=(1280.0, 720.0)
+PASS: bilingual 1280x720 rendered blocking controls and mission

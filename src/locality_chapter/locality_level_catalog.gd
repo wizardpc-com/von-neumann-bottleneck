@@ -284,7 +284,7 @@ func _build_levels() -> void:
 	_register_level(&"working_set", 4, ProgramTemplatesType.ROW_FIRST, false, 1, [1], 2, [0], 0, false, 2,
 		[&"mission", &"test_bench", &"profiler", &"notebook"], &"judgment", 0,
 		&"does_not_fit", _judgments("working_set", [&"does_not_fit", &"bad_order", &"more_math"]))
-	_register_level(&"blocking", 5, ProgramTemplatesType.ROW_FIRST, false, 1, [1], 2, [0, 1], 0, false, 2,
+	_register_level(&"blocking", 5, ProgramTemplatesType.ROW_FIRST, false, 1, [1], 2, [0, 1, 2, 4], 0, false, 2,
 		[&"mission", &"test_bench", &"blocking", &"profiler", &"notebook"], &"performance", CAPSTONE_TARGET_CYCLES)
 	_register_level(&"capstone", 6, ProgramTemplatesType.COLUMN_FIRST, true, 1, [1, 2, 4], 2, [0, 1, 2, 4], 0, false, 2,
 		[&"mission", &"program", &"test_bench", &"cache", &"blocking", &"profiler", &"notebook"],

@@ -4,6 +4,8 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 
 ## Current entry points
 
+- [A Thought Within the World: 40-task audit and implementation queue](design/thought-within-world.md) · [Active plan](exec-plans/active/thought-within-world.md) · [2-6 pilot verification](verification/20261002-theme-design/README.md)
+
 - [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [中英文更新说明 / Changelog](../CHANGELOG.md)
 - [Current state and frozen build](CURRENT_STATE.md) · [Release acceptance gates](../RELEASE_BLOCKERS.md)
 - [Latest wire / Mission / Handbook evidence](verification/20260914-wire-iteration/README.md) · [Desktop interaction evidence](verification/20260914-compact-desktop/README.md)

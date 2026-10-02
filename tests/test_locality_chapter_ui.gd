@@ -180,6 +180,16 @@ func _run() -> void:
 	main.call("_start_level", &"blocking")
 	var blocking_history: Array = main.get("run_history")
 	_assert(blocking_history.size() == 1 and int(blocking_history[0]["cycles"]) == 210 and int(blocking_history[0]["block_lines"]) == 0, "2-6 must inherit the unblocked Working Set evidence instead of rerunning it.")
+	for group_size: int in [2, 4]:
+		var group_button: Button = main.get("block_card_buttons")[group_size]
+		_assert(group_button.visible and not group_button.disabled, "2-6 must expose larger groups as experiments, not hide every unsuccessful choice.")
+		group_button.pressed.emit()
+		main.call("_run_simulation", "Official Test Set")
+		var oversized: SimulationTraceType = main.get("current_trace")
+		_assert(oversized.passed and int(oversized.metrics["total_cycles"]) == 210 and int(oversized.metrics["cache_misses"]) == 8, "An oversized group must produce the correct result but refetch its lines across passes.")
+		main.call("_finish_playback")
+		main.call("_review_pending_finding")
+		_assert(not bool(locality_state.call("completed_levels").get(&"blocking", false)) and not locality_state.call("concept_unlocked", &"blocking"), "Grouping alone must not earn completion or reveal the successful finding.")
 	main.call("_select_block_lines", 1, true)
 	main.call("_run_simulation", "Official Test Set")
 	var blocked: SimulationTraceType = main.get("current_trace")

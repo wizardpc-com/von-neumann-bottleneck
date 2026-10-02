@@ -3546,16 +3546,16 @@ msgid "chapter2.level.blocking.title"
 msgstr "A Little at a Time"
 
 msgid "chapter2.level.blocking.description"
-msgstr "Keep the one-line Cache. Work on a small group of data at a time, completing both passes before moving on."
+msgstr "Keep the same hardware. How can grouping two passes reduce repeated fetches?"
 
 msgid "chapter2.level.blocking.objective"
 msgstr "Use Work Group to finish both passes for a small group before moving on. Reach 145 cycles or less without upgrading hardware."
 
 msgid "chapter2.level.blocking.briefing.1"
-msgstr "Instead of finishing pass 1 for all data and then pass 2, take a small [[work_group|work group]] and finish both passes before moving. This reordering is [[blocking|blocking]].\n\nOld: all pass 1 → all pass 2\nNew: group 1 both passes → group 2 both passes → …"
+msgstr "Both passes in the previous task returned the right result, but the second pass still fetched data from far away. Keep the hardware and change only when each part of the two passes runs.\n\nA [[work_group|work group]] contains a chosen number of [[cache_line|lines]]. Finish both passes for that group before moving to the next. How will group size affect repeated fetches?"
 
 msgid "chapter2.level.blocking.briefing.2"
-msgstr "Keep one-line Cache and the row-first program. Choose a nonzero Work Group, then watch whether both passes reuse each line before moving. Reach 145 cycles or less."
+msgstr "Keep one-line [[cache|Cache]] and the [[row_first|row-first]] program. Compare whole-array passes with groups of 1, 2, or 4 lines; trying every option is optional.\n\nInspect the two passes within each group in the [[profiler|Profiler]]. When must the same line be fetched again? Finish with the correct result in 145 [[cycle|cycles]] or less."
 
 msgid "chapter2.level.blocking.learned"
 msgstr "Keeping one active line nearby across both passes shrank the working set. This reorganization is Blocking, also called Tiling."

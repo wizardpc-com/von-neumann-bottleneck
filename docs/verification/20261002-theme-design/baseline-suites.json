@@ -1,0 +1,94 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/user_directory"
+    },
+    {
+      "name": "test_chapter_workspaces",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter_workspaces.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_chapter_workspaces"
+    },
+    {
+      "name": "test_content_registry",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_content_registry.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_content_registry"
+    },
+    {
+      "name": "test_layout_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_layout_simulation"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_localization"
+    },
+    {
+      "name": "test_overlap_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_overlap_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_overlap_simulation"
+    },
+    {
+      "name": "test_prologue_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prologue_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_prologue_simulation"
+    },
+    {
+      "name": "test_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_simulation"
+    },
+    {
+      "name": "test_system_lab_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_lab_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T112024Z-2b960487/test_system_lab_simulation"
+    }
+  ]
+}

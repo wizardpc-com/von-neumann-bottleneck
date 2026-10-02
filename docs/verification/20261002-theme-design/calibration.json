@@ -1,0 +1,888 @@
+{
+  "locality": [
+    {
+      "capacity": 1,
+      "correct": true,
+      "deterministic": true,
+      "group": 0,
+      "metrics": {
+        "cache_hits": 24,
+        "cache_misses": 8,
+        "compute_cycles": 34,
+        "hardware_cost": 4,
+        "ram_bytes_transferred": 128,
+        "total_cycles": 210,
+        "wait_cycles": 176
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 1,
+      "correct": true,
+      "deterministic": true,
+      "group": 1,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 4,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 1,
+      "correct": true,
+      "deterministic": true,
+      "group": 2,
+      "metrics": {
+        "cache_hits": 24,
+        "cache_misses": 8,
+        "compute_cycles": 34,
+        "hardware_cost": 4,
+        "ram_bytes_transferred": 128,
+        "total_cycles": 210,
+        "wait_cycles": 176
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 1,
+      "correct": true,
+      "deterministic": true,
+      "group": 4,
+      "metrics": {
+        "cache_hits": 24,
+        "cache_misses": 8,
+        "compute_cycles": 34,
+        "hardware_cost": 4,
+        "ram_bytes_transferred": 128,
+        "total_cycles": 210,
+        "wait_cycles": 176
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 2,
+      "correct": true,
+      "deterministic": true,
+      "group": 0,
+      "metrics": {
+        "cache_hits": 24,
+        "cache_misses": 8,
+        "compute_cycles": 34,
+        "hardware_cost": 7,
+        "ram_bytes_transferred": 128,
+        "total_cycles": 210,
+        "wait_cycles": 176
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 2,
+      "correct": true,
+      "deterministic": true,
+      "group": 1,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 7,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 2,
+      "correct": true,
+      "deterministic": true,
+      "group": 2,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 7,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 2,
+      "correct": true,
+      "deterministic": true,
+      "group": 4,
+      "metrics": {
+        "cache_hits": 24,
+        "cache_misses": 8,
+        "compute_cycles": 34,
+        "hardware_cost": 7,
+        "ram_bytes_transferred": 128,
+        "total_cycles": 210,
+        "wait_cycles": 176
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 4,
+      "correct": true,
+      "deterministic": true,
+      "group": 0,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 13,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 4,
+      "correct": true,
+      "deterministic": true,
+      "group": 1,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 13,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 4,
+      "correct": true,
+      "deterministic": true,
+      "group": 2,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 13,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 4,
+      "correct": true,
+      "deterministic": true,
+      "group": 4,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 13,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "row"
+    },
+    {
+      "capacity": 1,
+      "correct": true,
+      "deterministic": true,
+      "group": 0,
+      "metrics": {
+        "cache_hits": 0,
+        "cache_misses": 32,
+        "compute_cycles": 34,
+        "hardware_cost": 4,
+        "ram_bytes_transferred": 512,
+        "total_cycles": 642,
+        "wait_cycles": 608
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 1,
+      "correct": true,
+      "deterministic": true,
+      "group": 1,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 4,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 1,
+      "correct": true,
+      "deterministic": true,
+      "group": 2,
+      "metrics": {
+        "cache_hits": 0,
+        "cache_misses": 32,
+        "compute_cycles": 34,
+        "hardware_cost": 4,
+        "ram_bytes_transferred": 512,
+        "total_cycles": 642,
+        "wait_cycles": 608
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 1,
+      "correct": true,
+      "deterministic": true,
+      "group": 4,
+      "metrics": {
+        "cache_hits": 0,
+        "cache_misses": 32,
+        "compute_cycles": 34,
+        "hardware_cost": 4,
+        "ram_bytes_transferred": 512,
+        "total_cycles": 642,
+        "wait_cycles": 608
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 2,
+      "correct": true,
+      "deterministic": true,
+      "group": 0,
+      "metrics": {
+        "cache_hits": 0,
+        "cache_misses": 32,
+        "compute_cycles": 34,
+        "hardware_cost": 7,
+        "ram_bytes_transferred": 512,
+        "total_cycles": 642,
+        "wait_cycles": 608
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 2,
+      "correct": true,
+      "deterministic": true,
+      "group": 1,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 7,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 2,
+      "correct": true,
+      "deterministic": true,
+      "group": 2,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 7,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 2,
+      "correct": true,
+      "deterministic": true,
+      "group": 4,
+      "metrics": {
+        "cache_hits": 0,
+        "cache_misses": 32,
+        "compute_cycles": 34,
+        "hardware_cost": 7,
+        "ram_bytes_transferred": 512,
+        "total_cycles": 642,
+        "wait_cycles": 608
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 4,
+      "correct": true,
+      "deterministic": true,
+      "group": 0,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 13,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 4,
+      "correct": true,
+      "deterministic": true,
+      "group": 1,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 13,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 4,
+      "correct": true,
+      "deterministic": true,
+      "group": 2,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 13,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "column"
+    },
+    {
+      "capacity": 4,
+      "correct": true,
+      "deterministic": true,
+      "group": 4,
+      "metrics": {
+        "cache_hits": 28,
+        "cache_misses": 4,
+        "compute_cycles": 34,
+        "hardware_cost": 13,
+        "ram_bytes_transferred": 64,
+        "total_cycles": 138,
+        "wait_cycles": 104
+      },
+      "order": "column"
+    }
+  ],
+  "reference_endpoints": [
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "compute_busy": 8,
+        "cost": 1,
+        "error": "",
+        "error_line": 0,
+        "evictions": 0,
+        "hits": 0,
+        "misses": 0,
+        "outputs": [
+          0
+        ],
+        "overlap": 4,
+        "queue_wait": 0,
+        "total_cycles": 10,
+        "transfer_busy": 6,
+        "wait": 2
+      },
+      "task": "chapter_3/arrival"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "compute_busy": 16,
+        "cost": 2,
+        "error": "",
+        "error_line": 0,
+        "evictions": 0,
+        "hits": 0,
+        "misses": 0,
+        "outputs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "overlap": 12,
+        "queue_wait": 0,
+        "total_cycles": 28,
+        "transfer_busy": 24,
+        "wait": 12
+      },
+      "task": "chapter_3/buffers"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "compute_busy": 22,
+        "cost": 2,
+        "error": "",
+        "error_line": 0,
+        "evictions": 0,
+        "hits": 0,
+        "misses": 0,
+        "outputs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "overlap": 10,
+        "queue_wait": 0,
+        "total_cycles": 28,
+        "transfer_busy": 16,
+        "wait": 6
+      },
+      "task": "chapter_3/backpressure"
+    },
+    {
+      "case": 1,
+      "deterministic": true,
+      "metrics": {
+        "compute_busy": 22,
+        "cost": 2,
+        "error": "",
+        "error_line": 0,
+        "evictions": 0,
+        "hits": 0,
+        "misses": 0,
+        "outputs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "overlap": 9,
+        "queue_wait": 0,
+        "total_cycles": 29,
+        "transfer_busy": 16,
+        "wait": 7
+      },
+      "task": "chapter_3/backpressure"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "compute_busy": 16,
+        "cost": 1,
+        "error": "",
+        "error_line": 0,
+        "evictions": 3,
+        "hits": 0,
+        "misses": 4,
+        "outputs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "overlap": 12,
+        "queue_wait": 0,
+        "total_cycles": 28,
+        "transfer_busy": 24,
+        "wait": 12
+      },
+      "task": "chapter_3/prefetch"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "compute_busy": 24,
+        "cost": 1,
+        "error": "",
+        "error_line": 0,
+        "evictions": 3,
+        "hits": 2,
+        "misses": 2,
+        "outputs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "overlap": 10,
+        "queue_wait": 0,
+        "total_cycles": 30,
+        "transfer_busy": 16,
+        "wait": 6
+      },
+      "task": "chapter_3/distance"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "compute_busy": 16,
+        "cost": 2,
+        "error": "",
+        "error_line": 0,
+        "evictions": 0,
+        "hits": 0,
+        "misses": 0,
+        "outputs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "overlap": 12,
+        "queue_wait": 0,
+        "total_cycles": 28,
+        "transfer_busy": 24,
+        "wait": 12
+      },
+      "task": "chapter_3/synthesis"
+    },
+    {
+      "case": 1,
+      "deterministic": true,
+      "metrics": {
+        "compute_busy": 4,
+        "cost": 2,
+        "error": "",
+        "error_line": 0,
+        "evictions": 0,
+        "hits": 0,
+        "misses": 0,
+        "outputs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "overlap": 3,
+        "queue_wait": 0,
+        "total_cycles": 33,
+        "transfer_busy": 32,
+        "wait": 29
+      },
+      "task": "chapter_3/synthesis"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 0,
+        "fills": 2,
+        "hits": 6,
+        "output_cycles": 1,
+        "peak_extra_bytes": 0,
+        "prepare_cycles": 0,
+        "prepare_read_bytes": 0,
+        "prepare_write_bytes": 0,
+        "query_cycles": 48,
+        "query_read_bytes": 32,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 32,
+        "ram_write_bytes": 0,
+        "requests": 8,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 49
+      },
+      "task": "chapter_4/fields"
+    },
+    {
+      "case": 1,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 1,
+        "fills": 3,
+        "hits": 9,
+        "output_cycles": 1,
+        "peak_extra_bytes": 0,
+        "prepare_cycles": 0,
+        "prepare_read_bytes": 0,
+        "prepare_write_bytes": 0,
+        "query_cycles": 72,
+        "query_read_bytes": 48,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 48,
+        "ram_write_bytes": 0,
+        "requests": 12,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 73
+      },
+      "task": "chapter_4/fields"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 0,
+        "fills": 2,
+        "hits": 6,
+        "output_cycles": 8,
+        "peak_extra_bytes": 0,
+        "prepare_cycles": 0,
+        "prepare_read_bytes": 0,
+        "prepare_write_bytes": 0,
+        "query_cycles": 48,
+        "query_read_bytes": 32,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 32,
+        "ram_write_bytes": 0,
+        "requests": 8,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 56
+      },
+      "task": "chapter_4/records"
+    },
+    {
+      "case": 1,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 1,
+        "fills": 3,
+        "hits": 9,
+        "output_cycles": 12,
+        "peak_extra_bytes": 0,
+        "prepare_cycles": 0,
+        "prepare_read_bytes": 0,
+        "prepare_write_bytes": 0,
+        "query_cycles": 72,
+        "query_read_bytes": 48,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 48,
+        "ram_write_bytes": 0,
+        "requests": 12,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 84
+      },
+      "task": "chapter_4/records"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 24,
+        "fills": 26,
+        "hits": 74,
+        "output_cycles": 7,
+        "peak_extra_bytes": 0,
+        "prepare_cycles": 0,
+        "prepare_read_bytes": 0,
+        "prepare_write_bytes": 0,
+        "query_cycles": 616,
+        "query_read_bytes": 416,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 416,
+        "ram_write_bytes": 0,
+        "requests": 100,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 623
+      },
+      "task": "chapter_4/hot_cold"
+    },
+    {
+      "case": 1,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 24,
+        "fills": 26,
+        "hits": 74,
+        "output_cycles": 7,
+        "peak_extra_bytes": 0,
+        "prepare_cycles": 0,
+        "prepare_read_bytes": 0,
+        "prepare_write_bytes": 0,
+        "query_cycles": 616,
+        "query_read_bytes": 416,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 416,
+        "ram_write_bytes": 0,
+        "requests": 100,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 623
+      },
+      "task": "chapter_4/hot_cold"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 15,
+        "fills": 17,
+        "hits": 0,
+        "output_cycles": 1,
+        "peak_extra_bytes": 0,
+        "prepare_cycles": 0,
+        "prepare_read_bytes": 0,
+        "prepare_write_bytes": 0,
+        "query_cycles": 306,
+        "query_read_bytes": 272,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 272,
+        "ram_write_bytes": 0,
+        "requests": 17,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 307
+      },
+      "task": "chapter_4/relocation"
+    },
+    {
+      "case": 1,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 55,
+        "fills": 57,
+        "hits": 96,
+        "output_cycles": 8,
+        "peak_extra_bytes": 80,
+        "prepare_cycles": 442,
+        "prepare_read_bytes": 272,
+        "prepare_write_bytes": 68,
+        "query_cycles": 912,
+        "query_read_bytes": 640,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 912,
+        "ram_write_bytes": 68,
+        "requests": 170,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 1362
+      },
+      "task": "chapter_4/relocation"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 16,
+        "fills": 22,
+        "hits": 131,
+        "output_cycles": 8,
+        "peak_extra_bytes": 16,
+        "prepare_cycles": 442,
+        "prepare_read_bytes": 272,
+        "prepare_write_bytes": 68,
+        "query_cycles": 352,
+        "query_read_bytes": 80,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 352,
+        "ram_write_bytes": 68,
+        "requests": 170,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 802
+      },
+      "task": "chapter_4/batches"
+    },
+    {
+      "case": 1,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 16,
+        "fills": 22,
+        "hits": 131,
+        "output_cycles": 8,
+        "peak_extra_bytes": 16,
+        "prepare_cycles": 442,
+        "prepare_read_bytes": 272,
+        "prepare_write_bytes": 68,
+        "query_cycles": 352,
+        "query_read_bytes": 80,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 352,
+        "ram_write_bytes": 68,
+        "requests": 170,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 802
+      },
+      "task": "chapter_4/batches"
+    },
+    {
+      "case": 0,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 20,
+        "fills": 28,
+        "hits": 286,
+        "output_cycles": 16,
+        "peak_extra_bytes": 32,
+        "prepare_cycles": 612,
+        "prepare_read_bytes": 272,
+        "prepare_write_bytes": 136,
+        "query_cycles": 736,
+        "query_read_bytes": 176,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 448,
+        "ram_write_bytes": 136,
+        "requests": 348,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 1364
+      },
+      "task": "chapter_4/mixed"
+    },
+    {
+      "case": 1,
+      "deterministic": true,
+      "metrics": {
+        "error": "",
+        "evictions": 26,
+        "fills": 32,
+        "hits": 128,
+        "output_cycles": 27,
+        "peak_extra_bytes": 32,
+        "prepare_cycles": 612,
+        "prepare_read_bytes": 272,
+        "prepare_write_bytes": 136,
+        "query_cycles": 492,
+        "query_read_bytes": 240,
+        "query_write_bytes": 0,
+        "ram_read_bytes": 512,
+        "ram_write_bytes": 136,
+        "requests": 194,
+        "result_class": "correct_output",
+        "target_met": true,
+        "total_cycles": 1131
+      },
+      "task": "chapter_4/mixed"
+    }
+  ],
+  "valid": true
+}

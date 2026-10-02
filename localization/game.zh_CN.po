@@ -3546,16 +3546,16 @@ msgid "chapter2.level.blocking.title"
 msgstr "分而复用"
 
 msgid "chapter2.level.blocking.description"
-msgstr "一次处理一小组数据，在数据仍可复用时完成两轮工作。"
+msgstr "同样的硬件，把两轮任务分组安排，怎样才能少取几次数据？"
 
 msgid "chapter2.level.blocking.objective"
 msgstr "不升级硬件，把任务分成小组处理，并把总时间降到 145 周期以内。"
 
 msgid "chapter2.level.blocking.briefing.1"
-msgstr "与其先处理全部数据的第 1 轮，再处理全部数据的第 2 轮，不如先拿一小组数据，把两轮都做完再移动。这个小范围叫[[work_group|工作组]]，这种重排方法叫[[blocking|分块]]。\n\n旧：全部第 1 轮 → 全部第 2 轮\n新：小组 1 两轮 → 小组 2 两轮 → …"
+msgstr "上一关的两轮任务都得到了正确结果，但第二轮仍要从远处取数。现在保持硬件不变，只调整两轮工作的先后。\n\n“[[work_group|工作组]]”指定每组包含多少条 [[cache_line|line]]：先完成这一组的两轮，再处理下一组。组的大小会怎样影响重复取数？"
 
 msgid "chapter2.level.blocking.briefing.2"
-msgstr "保持 1-line [[cache|Cache]]和[[row_first|按行优先]]程序不变，在“工作分组”里选择一个非零大小。正式运行时看同一条[[cache_line|line]]是否被两轮连续使用；不超过 145 [[cycle|周期]]就完成。"
+msgstr "保持 1-line [[cache|Cache]]和[[row_first|按行优先]]程序不变。比较不分组与 1、2、4 行一组的安排；不必尝试全部选项。\n\n在[[profiler|性能分析器]]中查看每组的两个轮次，找出同一条 line 何时需要再次取回。正式结果正确且不超过 145 [[cycle|周期]]即可完成。"
 
 msgid "chapter2.level.blocking.learned"
 msgstr "让两个 pass 共同复用一条活跃 line，缩小了工作集。这种重组叫 Blocking，也叫 Tiling（分块）。"

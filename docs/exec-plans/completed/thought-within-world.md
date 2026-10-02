@@ -63,3 +63,9 @@
 - Theme integration scope: quiet opening line; short earned CPU/wait/cache completion notes; reopenable hub reflection derived from existing validated completion state. Real buffer solution replay verifies positive overlap before its reflection. Third/fourth chapter endings remain independent, joint closure requires synthesis and mixed, with no requirement to finish every optional node and no new persistent narrative flag. Designer traces stay limited to an unnamed learning program and verification/understanding notes. No novel dates, personalities, catastrophe or AI conclusions are fixed.
 
 - Theme verification: four fresh suites pass (reflection gates/branch order, layout UI, chapter routes, localization). Both-language fresh/earned ending render fixtures pass at 1280×720; representative images inspected. [Evidence](../../verification/20261002-theme-reflection/README.md). Whole-project regression and representative native interaction are the remaining execution gates before the final requirement audit.
+
+## 最终收束（2026-10-02）
+
+源码实现与本轮可执行开发范围已完成，七阶段本地提交截至 `b4adab1`。完整43套件通过，中英文普通Game序章至第一章入口各697检查通过。原生键盘完成设置打开、氛围开关、音量、减弱动态、关闭重开与退出；鼠标接口返回 noWindowsAvailable，未将其记作通过。详细[最终证据与逐项验收](../../verification/20261002-theme-final/README.md)。
+
+陌生热区任务依原准入条件完成实证评估并暂缓；并未用改数值伪装新访问模式。CPU保留既有分阶段构造，其余重点节点的实验/证据改善已实施。真人新手理解、长时听感、原生鼠标全流程及跨平台发行验证仍是后续验收，未以自动化结果替代。本计划关闭的是源码开发与规划交付，不宣称这些外部验收完成。

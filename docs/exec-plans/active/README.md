@@ -1,9 +1,8 @@
 # Execution queue
 
-Active from 2026-10-02: [A Thought Within the World](thought-within-world.md).
-The design audit and small Chapter 2 work-group pilot are delivered; other key-level,
-narrative and sound work remains a staged queue, with explicit compatibility and
-player-testing gates. The paragraph below describes the earlier release iteration.
+The [theme development plan](../completed/thought-within-world.md) is complete
+within its documented source-development scope. External listening/player/native
+mouse acceptance remains explicitly separate in its final evidence.
 
 The finite release-convergence implementation is completed and archived in
 [completed](../completed/free-alpha-release-convergence.md). The settings/UI follow-up is also

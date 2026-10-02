@@ -1,0 +1,38 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T124409Z-25f86c49/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T124409Z-25f86c49/user_directory"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T124409Z-25f86c49/test_localization"
+    },
+    {
+      "name": "game_gui_en",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "game_gui_en.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261002T124409Z-25f86c49/game_gui_en"
+    }
+  ]
+}

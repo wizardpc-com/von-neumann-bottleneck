@@ -38,6 +38,12 @@ with independent time/placement paths and joint closure only after both terminal
 tasks. Short earned notes accompany CPU, waiting, Cache, buffers and relocation.
 No new narrative save flag or completion gate was introduced.
 
+Final source-development verification: 43 suites passed; Chinese and English
+ordinary Game prologue routes each passed 697 checks. Native keyboard settings
+smoke passed; OS mouse injection was unavailable. [Final evidence and remaining
+acceptance boundaries](verification/20261002-theme-final/README.md). The unfamiliar
+hot-row task is explicitly deferred after DSL feasibility testing.
+
 ## Retained scope and historical evidence
 
 Five regions, 40 tasks: original construction prologue,

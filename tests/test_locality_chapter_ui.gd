@@ -302,6 +302,7 @@ func _run() -> void:
 	_assert((main.get("lab_host") as Control).visible and bool(locality_state.call("completed_levels").get(&"capstone", false)), "Further optimization must remain possible after chapter completion.")
 	var observed_options: Array = main.call("_capstone_observed_options")
 	_assert(main.capstone_compare_box.visible and main.capstone_compare_list.item_count == observed_options.size(), "Actual cost/cycle alternatives appear above the long event tree")
+	_assert(not main.profiler_history_label.text.contains(main.call("_t", &"chapter2.history.observed_options")), "Capstone alternative list is shown once, above Trace, not duplicated in detailed history")
 	var observed_costs: Array[int] = []
 	for observed: Dictionary in observed_options:
 		if observed.cycles == 138: observed_costs.append(int(observed.cost))

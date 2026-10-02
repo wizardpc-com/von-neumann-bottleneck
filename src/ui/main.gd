@@ -2254,13 +2254,6 @@ func _update_history_label() -> void:
 			lines.append(_t(&"chapter2.history.personal_best", [
 				int(best["cycles"]), int(best["wait_cycles"]), int(best["cost"]), _history_config_text(best)
 			]))
-	if current_level_id == &"capstone":
-		lines.append("")
-		lines.append(_t(&"chapter2.history.observed_options"))
-		for observed: Dictionary in _capstone_observed_options():
-			lines.append(_t(&"chapter2.history.observed_option", [
-				int(observed["cycles"]), int(observed["cost"]), _history_config_text(observed)
-			]))
 	profiler_history_label.text = "\n".join(lines)
 
 

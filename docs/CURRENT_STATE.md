@@ -8,6 +8,9 @@ Repository synchronized to `98f2e47` before local work. [Theme and level-design 
 covers all 40 tasks and specifies nine priority nodes. The local 2-6 pilot exposes
 existing 0/1/2/4-line grouping with unchanged one-line Cache, two passes and 145-cycle
 target, plus bilingual experiment copy and a scrollable choices panel.
+ALU, RAM and LOAD/STORE now offer optional input experiments with actual debug
+observations; ALU official cases are grouped by operation. Official rules and
+player-owned construction remain unchanged.
 [Fresh verification and boundaries](verification/20261002-theme-design/README.md).
 
 Compatibility: an exact audited alias accepts the pre-pilot Chapter 2 fingerprint

@@ -6600,3 +6600,24 @@ msgstr " · 记录 %s"
 
 msgid "terminology.diagram.multiplexer.try_select"
 msgstr "切换 S，观察输出跟随哪一路。"
+
+msgid "investigation.open"
+msgstr "试一个小实验"
+
+msgid "investigation.instructions"
+msgstr "选择一组输入后，仍需点击「运行调试」。也可以自己改值。记录只来自本次电路的实际运行；重置、改线或正式测试会清空记录。"
+
+msgid "investigation.alu"
+msgstr "先固定 A、B、CIN，只改变 OP0、OP1。输出跟随哪一种运算？若不容易分辨，换一组数据再比较。Selector 支线可以帮助理解选择信号。"
+
+msgid "investigation.ram"
+msgstr "两个地址能否各自记住一个数？依次写入、读回，再只改一个地址。最后一次读取能提供什么证据？"
+
+msgid "investigation.load_store"
+msgstr "你造的机器现在能改写记忆。试着存入两个数，取回一个并修改，再读取另一个。下列输入只是起点：预测 ACC 和 MEM，再运行验证。"
+
+msgid "investigation.reset"
+msgstr "清空实验记录与调试状态"
+
+msgid "investigation.alu.group"
+msgstr "选择信号 OP1=%d · OP0=%d"

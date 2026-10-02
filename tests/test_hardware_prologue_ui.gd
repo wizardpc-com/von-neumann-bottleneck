@@ -73,6 +73,7 @@ func _run() -> void:
 	_assert(graph.get_connection_list().size() == 5, "The LOAD/STORE bridge must reuse the sealed computer with an already connected external Test Bench.")
 	_assert(not bool(graph.get("branch_edit_enabled")), "The bridge topology must be locked so it is a program/data-flow demonstration, not repeated wiring.")
 	_assert((main.get("component_menu_button") as MenuButton).disabled, "A locked demonstration topology must not offer extra component placement.")
+	await _exercise_investigation(main, &"load_store")
 	var bridge_snapshot: String = JSON.stringify(main.call("_capture_workbench_snapshot"))
 	main.call("_enter_hint_workbench")
 	await process_frame
@@ -212,7 +213,11 @@ func _solve_and_seal(main: Control, level_id: StringName, expected_component: St
 			source_wire["to"], int(source_wire.get("to_port", 0))
 		)
 	await process_frame
+	if level_id in [&"alu", &"ram"]:
+		await _exercise_investigation(main, level_id)
 	if level_id == &"ram":
+		# Restore the authored starting input after optional experiments.
+		main.call("_apply_investigation_inputs", {&"ADDR": 0, &"DATA": 3, &"WRITE": 1})
 		main.call("_run_debug")
 		await process_frame
 		main.call("_finish_playback")
@@ -690,3 +695,37 @@ func _assert_rejected_port_drop_is_not_empty(main: Control) -> void:
 	main.call("_undo_wire")
 	_assert(main.call("_circuit_from_graph").canonical_signature() == original_signature,
 		"Undo of the compatible reverse connection must restore the original circuit.")
+
+
+func _exercise_investigation(main: Control, level: StringName) -> void:
+	var panel: VBoxContainer = main.get("construction_investigation")
+	_assert(panel != null, "%s exposes optional investigation inputs" % level)
+	var before_topology: String = main.call("_circuit_from_graph").canonical_signature()
+	var completed_before: String = JSON.stringify(main.get("completed_levels"))
+	var presets: Array[Dictionary] = preload("res://src/hardware_foundations/construction_investigation.gd").presets(level)
+	main.call("_reset_storage_debug_state")
+	var last_result: PrologueSimulationResult
+	for index: int in presets.size():
+		var state_before: String = JSON.stringify(main.get("prologue_runtime_state"))
+		var button := panel.find_child("Preset%d" % index, true, false) as Button
+		var input_before: Dictionary = main.call("_current_prologue_inputs")
+		button.pressed.emit()
+		if level == &"alu":
+			var input_after: Dictionary = main.call("_current_prologue_inputs")
+			_assert(input_before[&"A"] == input_after[&"A"] and input_before[&"B"] == input_after[&"B"] and input_before[&"CIN"] == input_after[&"CIN"], "ALU presets change control signals while preserving data")
+		_assert(JSON.stringify(main.get("prologue_runtime_state")) == state_before, "Selecting inputs must not execute or mutate memory")
+		main.call("_run_debug")
+		main.call("_finish_playback")
+		await process_frame
+		last_result = main.get("prologue_live_result")
+		_assert(last_result != null and last_result.is_valid(), "%s experiment runs the player's wired circuit" % level)
+		_assert(panel.observations.size() == index + 1, "Only actual debug runs append observations")
+		if level == &"ram":
+			_assert(last_result.observed_values[&"OUT"].value == [3,12,3,5,12][index], "RAM readback distinguishes independent address state")
+		if level == &"load_store":
+			_assert(last_result.observed_values[&"ACC"].value == [6,6,2,2,6,9,9,2][index], "Practice instructions operate on the real sealed TinyComputer")
+	_assert(main.call("_circuit_from_graph").canonical_signature() == before_topology, "Investigation preserves topology")
+	_assert(JSON.stringify(main.get("completed_levels")) == completed_before, "Investigation grants no completion")
+	main.call("_clear_investigation_observations")
+	_assert(panel.observations.is_empty(), "Observation history can be reset independently")
+	main.call("_reset_storage_debug_state")

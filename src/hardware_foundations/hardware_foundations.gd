@@ -1,6 +1,8 @@
 class_name HardwareFoundations
 extends Control
 
+const ConstructionInvestigationType = preload("res://src/hardware_foundations/construction_investigation.gd")
+
 const LogicComponentType = preload("res://src/circuit/logic_component.gd")
 const LogicCircuitType = preload("res://src/circuit/logic_circuit.gd")
 const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
@@ -105,6 +107,7 @@ var prologue_live_result: PrologueSimulationResult
 var prologue_report: Dictionary = {}
 var prologue_runtime_state: Dictionary = {}
 var prologue_prior_outputs: Dictionary = {}
+var construction_investigation: VBoxContainer
 var prologue_input_controls: Dictionary[StringName, Control] = {}
 var prologue_case_labels: Array[Label] = []
 var storage_state_label: Label
@@ -1087,6 +1090,7 @@ func _make_desktop_window_content(id: StringName) -> Control:
 
 
 func _clear_test_bench() -> void:
+	construction_investigation = null
 	_clear_container(side_box)
 	_clear_container(bench_actions)
 	bench_actions.hide()
@@ -4561,6 +4565,7 @@ func _run_current_debug() -> void:
 
 
 func _reset_current_simulation() -> void:
+	_clear_investigation_observations()
 	if current_phase == &"prologue" and _is_storage_level():
 		_reset_storage_debug_state()
 		return
@@ -5749,6 +5754,7 @@ func _update_live_diagnostics(state: CircuitLiveStateType) -> void:
 
 
 func _topology_changed(message: String, created: bool = true, removed: bool = false) -> void:
+	_clear_investigation_observations()
 	_stop_playback()
 	current_trace = null
 	_mark_trace_stale()
@@ -5910,6 +5916,7 @@ func _run_official() -> void:
 
 
 func _begin_official_sequence(kind: StringName, circuit: LogicCircuit) -> void:
+	_clear_investigation_observations()
 	_cancel_official_sequence()
 	official_passed = false
 	passing_topology_signature = ""
@@ -6231,6 +6238,8 @@ func _run_prologue_debug() -> void:
 			)
 		return
 	_update_storage_monitor(result, prologue_runtime_state)
+	if is_instance_valid(construction_investigation):
+		construction_investigation.observe(_format_value_dictionary(_current_prologue_inputs()), _format_digital_values(result.observed_values))
 	debug_result_label.text = _t(&"hardware.prologue.debug.result", [
 		_format_digital_values(result.observed_values)
 	])
@@ -6796,6 +6805,7 @@ func _build_prologue_side() -> void:
 		seal_button = null
 
 	_build_prologue_input_controls()
+	_build_construction_investigation()
 	var debug_button := Button.new()
 	debug_button.text = _t(&"hardware.cases.run_debug")
 	debug_button.pressed.connect(_run_debug)
@@ -6922,8 +6932,9 @@ func _build_storage_monitor() -> void:
 
 
 func _reset_storage_debug_state() -> void:
-	if not _is_storage_level():
+	if (not _is_storage_level() and current_level_id != &"load_store") or official_sequence_active:
 		return
+	_clear_investigation_observations()
 	_stop_playback()
 	prologue_runtime_state.clear()
 	prologue_prior_outputs.clear()
@@ -7017,6 +7028,37 @@ func _add_signal_guide_toggle() -> void:
 	button.pressed.connect(func() -> void: guide.visible = not guide.visible)
 
 
+func _build_construction_investigation() -> void:
+	if ConstructionInvestigationType.presets(current_level_id).is_empty():
+		return
+	construction_investigation = ConstructionInvestigationType.new()
+	construction_investigation.configure(current_level_id, _t)
+	construction_investigation.inputs_requested.connect(_apply_investigation_inputs)
+	construction_investigation.reset_requested.connect(func() -> void:
+		if official_sequence_active: return
+		_clear_investigation_observations()
+		_reset_storage_debug_state()
+	)
+	side_box.add_child(construction_investigation)
+
+
+func _clear_investigation_observations() -> void:
+	if is_instance_valid(construction_investigation):
+		construction_investigation.clear_observations()
+
+
+func _apply_investigation_inputs(values: Dictionary) -> void:
+	if official_sequence_active or hint_mode:
+		return
+	for key: StringName in values:
+		var control: Control = prologue_input_controls.get(key)
+		if control is CheckButton:
+			(control as CheckButton).button_pressed = bool(values[key])
+		elif control is SpinBox:
+			(control as SpinBox).value = int(values[key])
+	_on_prologue_input_changed()
+
+
 func _build_prologue_input_controls() -> void:
 	prologue_input_controls.clear()
 	var defaults: Dictionary = current_level_definition.get("debug_inputs", {})
@@ -7068,6 +7110,13 @@ func _build_prologue_case_rows() -> void:
 	prologue_case_labels.clear()
 	for index: int in range((current_level_definition.get("official_steps", []) as Array).size()):
 		var step: Dictionary = current_level_definition["official_steps"][index]
+		if current_level_id == &"alu" and index % 8 == 0:
+			var group := Label.new()
+			var inputs: Dictionary = step.get("inputs", {})
+			group.text = _t(&"investigation.alu.group", [inputs.get(&"OP1", 0), inputs.get(&"OP0", 0)])
+			group.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			group.add_theme_color_override("font_color", ACCENT)
+			side_box.add_child(group)
 		var label := Label.new()
 		var case_inputs: String = _format_value_dictionary(step.get("inputs", {}))
 		var label_key := StringName(step.get("label_key", &""))

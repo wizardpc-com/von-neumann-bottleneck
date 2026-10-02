@@ -6601,3 +6601,24 @@ msgstr " · records %s"
 
 msgid "terminology.diagram.multiplexer.try_select"
 msgstr "Change S and see which input the output follows."
+
+msgid "investigation.open"
+msgstr "Try a small experiment"
+
+msgid "investigation.instructions"
+msgstr "Select inputs, then Run Debug. You can also change the values yourself. Observations come only from this circuit’s actual runs; reset, rewiring or official tests clear them."
+
+msgid "investigation.alu"
+msgstr "Keep A, B and CIN fixed while changing OP0 and OP1. Which operation does the output follow? Try other data if the results are hard to distinguish. The optional Selector task explores selection signals."
+
+msgid "investigation.ram"
+msgstr "Can two addresses each remember a different number? Write, read back, then change just one address. What evidence does the final read provide?"
+
+msgid "investigation.load_store"
+msgstr "Your machine can now change memory. Store two numbers, retrieve and change one, then read the other. These inputs are a starting point: predict ACC and MEM, then run to check."
+
+msgid "investigation.reset"
+msgstr "Clear observations and debug state"
+
+msgid "investigation.alu.group"
+msgstr "Selection signals OP1=%d · OP0=%d"

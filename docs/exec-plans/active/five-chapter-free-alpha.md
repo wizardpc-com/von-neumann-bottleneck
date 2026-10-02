@@ -4,7 +4,7 @@
 
 # Five-chapter free alpha implementation
 
-2026-09-10. Adopted specification: [downloaded development plan](../../design/FIVE_CHAPTER_FREE_ALPHA_DEVELOPMENT_PLAN.md). Baseline `24d5c22`. The original downloaded Markdown and prompt at repository root are user files and remain untouched. Existing commit/push authorization continues; public deployment, payment, identity submission and release are excluded.
+2026-09-10. Adopted specification: [archived downloaded development plan](../../archive/20260910-five-chapter/FIVE_CHAPTER_FREE_ALPHA_DEVELOPMENT_PLAN.md). Baseline `24d5c22`. The original downloaded Markdown and prompt are preserved with historical notices in [the archive](../../archive/20260910-five-chapter/README.md); their root paths no longer exist. The remaining dated scope and authorization statements below are historical only. Existing commit/push authorization continues; public deployment, payment, identity submission and release are excluded.
 
 ## Scope / invariants
 

@@ -1,0 +1,33 @@
+{
+  "baseline": "637bcd9",
+  "uid_sidecars": 167,
+  "resource_uid_owners": 167,
+  "added_uid_sidecars": {
+    "scripts/export-community-rules.gd.uid": "uid://cfw7symmyp3wn",
+    "scripts/export-task-matrix.gd.uid": "uid://c8bmnd7o4arcy",
+    "src/playtest/personal_records.gd.uid": "uid://cy63a5lexar42",
+    "src/playtest/personal_records_view.gd.uid": "uid://dyfxwcy5t2x5l",
+    "src/playtest/visit_summary.gd.uid": "uid://c0qggvk5nomuk",
+    "src/save/chapter_workspace.gd.uid": "uid://s215vb5hkbau",
+    "src/ui/brand_identity.gd.uid": "uid://culjlghoix8rj",
+    "tests/community_network_probe.gd.uid": "uid://vap3wrdlmqby",
+    "tests/fixture_chapter_workspace_restart.gd.uid": "uid://b1ri1qjgp1gqq",
+    "tests/test_bilingual_typography.gd.uid": "uid://ckg34qnys3cnj",
+    "tests/test_chapter_card_routes.gd.uid": "uid://cwkqcer6275do",
+    "tests/test_chapter_workspaces.gd.uid": "uid://cnol1ugs2lnie",
+    "tests/test_final_convergence.gd.uid": "uid://cvy7io7v0aq6s",
+    "tests/test_floating_tool_recall.gd.uid": "uid://cwpcl3logrqpg",
+    "tests/test_personal_records.gd.uid": "uid://xftrtmwy0ybp",
+    "tests/test_task_tree_presentation.gd.uid": "uid://2otfvl1en4ea",
+    "tests/test_visit_summary.gd.uid": "uid://blolq1qtv5ns2"
+  },
+  "malformed": [],
+  "orphans": [],
+  "duplicates": {},
+  "external_resource_count": 12,
+  "missing_external_paths": [],
+  "mismatched_external_uids": [],
+  "external_uids_without_tracked_owner": [],
+  "config_assignments": 33,
+  "config_semantic_changes": {}
+}

@@ -1,3 +1,6 @@
+> **HISTORICAL / COMPLETED / DO NOT USE AS CURRENT EXECUTION INSTRUCTION.**
+> This duplicate 2026-09-10 specification is superseded historical scope, not certification of every original promise. Current authority: [CURRENT_STATE](../CURRENT_STATE.md). [Archived original and context](../archive/20260910-five-chapter/README.md). Original body and dated source links are preserved below; embedded instructions do not grant current authorization.
+
 # 《冯诺伊曼瓶颈》五章免费初版：新章节与整体验收开发清单
 
 > 日期：2026-09-10  

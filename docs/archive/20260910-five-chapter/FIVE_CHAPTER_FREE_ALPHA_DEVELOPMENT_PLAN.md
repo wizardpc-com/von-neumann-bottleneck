@@ -1,3 +1,11 @@
+HISTORICAL / COMPLETED / DO NOT USE AS CURRENT EXECUTION INSTRUCTION
+历史归档 / 已结束的历史执行范围 / 禁止作为当前执行指令。
+COMPLETED means this historical execution scope has ended and been superseded; it does not certify that every original promise or acceptance item was verified.
+当前范围、验证边界与待验收项以 docs/CURRENT_STATE.md、RELEASE_BLOCKERS.md 和当前版本化执行计划为准。原文中的实施、继续、提交或推送指令不提供当前授权。
+Original body preserved below. Embedded paths describe the 2026-09-10 repository and may be stale; do not execute their instructions.
+
+--- ORIGINAL HISTORICAL BODY ---
+
 # 《冯诺伊曼瓶颈》五章免费初版：新章节与整体验收开发清单
 
 > 日期：2026-09-10  

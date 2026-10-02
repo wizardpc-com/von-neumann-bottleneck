@@ -1,3 +1,11 @@
+HISTORICAL / COMPLETED / DO NOT USE AS CURRENT EXECUTION INSTRUCTION
+历史归档 / 已结束的历史执行范围 / 禁止作为当前执行指令。
+COMPLETED means this historical execution scope has ended and been superseded; it does not certify that every original promise or acceptance item was verified.
+当前范围、验证边界与待验收项以 docs/CURRENT_STATE.md、RELEASE_BLOCKERS.md 和当前版本化执行计划为准。原文中的实施、继续、提交或推送指令不提供当前授权。
+Original body preserved below. Embedded paths describe the 2026-09-10 repository and may be stale; do not execute their instructions.
+
+--- ORIGINAL HISTORICAL BODY ---
+
 请在当前 von-neumann-bottleneck 仓库直接实施 docs/design/FIVE_CHAPTER_FREE_ALPHA_DEVELOPMENT_PLAN.md。目标是“序章＋第一/二/三章＋新第四章”的五章免费公开开发版，包含一个完整新章节、现有任务与UI打磨、任务树、评价和数据采集、远程反馈本地联调以及分发准备。不要仅出计划，也不要再次把新章全部推迟到发布之后。
 
 先读 AGENTS.md、PLANS.md、最新代码/状态/未闭合验收，核对本地与文档基线24d5c22的差异，保护工作区和真实玩家数据。已有34节点任务树、支线、本地反馈v2均复用，不重复建设。该文件取代旧“首发冻结34关”的时间安排，不撤回旧体验保护规则。

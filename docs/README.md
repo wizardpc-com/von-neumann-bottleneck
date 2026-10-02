@@ -4,7 +4,7 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 
 ## Current entry points
 
-- [Evidence-driven ordinary Game paths and follow-up](verification/20261002-player-paths/README.md) · [Iteration plan](exec-plans/active/evidence-driven-playtest.md)
+- [Evidence-driven ordinary Game paths and follow-up](verification/20261002-player-paths/README.md) · [Iteration plan](exec-plans/completed/evidence-driven-playtest.md)
 
 - [A Thought Within the World: 40-task audit and implementation queue](design/thought-within-world.md) · [Completed plan](exec-plans/completed/thought-within-world.md) · [Final verification](verification/20261002-theme-final/README.md)
 

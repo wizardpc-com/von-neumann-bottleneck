@@ -2,6 +2,25 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Evidence-driven follow-up · 2026-10-02
+
+Baseline `6905a0b`. Shared construction reset now clears stale debug/Trace state;
+working-set objectives no longer reveal the experiment result, and the ending omits
+worship language. ALU retains 32 formal cases in expandable operation groups;
+optional experiment records show changed inputs. Bus History compares transfer and
+total reductions. Capstone surfaces only actually run cycle/cost alternatives.
+Wrong working-set explanations now redirect to pass-boundary evidence, and long
+localized header feedback wraps within the desktop.
+
+Ordinary Game proxy paths and iteration evidence are recorded in the
+[player-path verification](verification/20261002-player-paths/README.md).
+Five regions, 40 tasks, prerequisites, valid solutions, simulation/receipts and save
+authority are unchanged. Audio remains the default-off prototype. No new public
+package, native OS playthrough, beginner test or subjective audio acceptance is
+claimed. Final verification: all 43 conventional suites pass; Chinese proxy checks 997+36+32
+and final English 997 pass; separate legacy-write/migrate/reload processes 3/3 pass.
+The earlier implementation record follows for context.
+
 ## Source follow-up · 2026-10-02
 
 Repository synchronized to `98f2e47` before local work. [Theme and level-design audit](design/thought-within-world.md)

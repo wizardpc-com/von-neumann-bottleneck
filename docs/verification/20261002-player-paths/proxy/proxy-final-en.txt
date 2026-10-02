@@ -1,0 +1,65 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+2026-10-02 22:31:41.041 Godot[91408:8784184] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+PATH: alu · A=1 B=0 CIN=0; OP=0 · 1 · A=1  B=0  CIN=0  OP0=0  OP1=0 → CARRY=0  RESULT=0
+PATH: alu · A=1 B=0 CIN=0; OP=1 · 1 · A=1  B=0  CIN=0  OP0=0  OP1=0 → CARRY=0  RESULT=0
+2 · OP0=1 → CARRY=0  RESULT=1
+PATH: alu · A=1 B=0 CIN=0; OP=2 · 1 · A=1  B=0  CIN=0  OP0=0  OP1=0 → CARRY=0  RESULT=0
+2 · OP0=1 → CARRY=0  RESULT=1
+3 · OP0=0  OP1=1 → CARRY=0  RESULT=1
+PATH: alu · A=1 B=0 CIN=0; OP=3 · 1 · A=1  B=0  CIN=0  OP0=0  OP1=0 → CARRY=0  RESULT=0
+2 · OP0=1 → CARRY=0  RESULT=1
+3 · OP0=0  OP1=1 → CARRY=0  RESULT=1
+4 · OP0=1 → CARRY=0  RESULT=0
+PATH: ram · { "ADDR": 0, "DATA": 7, "WRITE": 1 } · 1 · ADDR=0  DATA=7  WRITE=1 → OUT=0x7
+PATH: ram · { "ADDR": 1, "DATA": 9, "WRITE": 1 } · 1 · ADDR=0  DATA=7  WRITE=1 → OUT=0x7
+2 · ADDR=1  DATA=9 → OUT=0x9
+PATH: ram · { "ADDR": 0, "DATA": 2, "WRITE": 1 } · 1 · ADDR=0  DATA=7  WRITE=1 → OUT=0x7
+2 · ADDR=1  DATA=9 → OUT=0x9
+3 · ADDR=0  DATA=2 → OUT=0x2
+PATH: ram · { "ADDR": 1, "WRITE": 0 } · 1 · ADDR=0  DATA=7  WRITE=1 → OUT=0x7
+2 · ADDR=1  DATA=9 → OUT=0x9
+3 · ADDR=0  DATA=2 → OUT=0x2
+4 · ADDR=1  WRITE=0 → OUT=0x9
+PATH: load_store · { "OP": 0, "ARG": 4, "ADDR": 1 } · 1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0
+PATH: load_store · { "OP": 3 } · 1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0
+2 · OP=3 → ACC=0x4  MEM=0x4
+PATH: load_store · { "OP": 0, "ARG": 13, "ADDR": 0 } · 1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0
+2 · OP=3 → ACC=0x4  MEM=0x4
+3 · ADDR=0  ARG=13  OP=0 → ACC=0xD  MEM=0x0
+PATH: load_store · { "OP": 3 } · 1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0
+2 · OP=3 → ACC=0x4  MEM=0x4
+3 · ADDR=0  ARG=13  OP=0 → ACC=0xD  MEM=0x0
+4 · OP=3 → ACC=0xD  MEM=0xD
+PATH: load_store · { "OP": 2, "ADDR": 1 } · 1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0
+2 · OP=3 → ACC=0x4  MEM=0x4
+3 · ADDR=0  ARG=13  OP=0 → ACC=0xD  MEM=0x0
+4 · OP=3 → ACC=0xD  MEM=0xD
+5 · ADDR=1  OP=2 → ACC=0x4  MEM=0x4
+PATH: assembly · Controlled official comparison · {"bus_control_cycles":4,"bus_segments_per_word":1,"bus_transfer_cycles":4,"bytes_transferred":4,"cpu_compute_cycles":4,"cpu_wait_cycles":40,"hardware_cost":27,"memory_requests":4,"ram_service_cycles":32,"total_cycles":44}
+MENU: PredictionSelector focus=1 want=1
+MENU: CpuPartSelector focus=1 want=1
+PATH: cpu_speed · Controlled official comparison · {"bus_control_cycles":18,"bus_segments_per_word":1,"bus_transfer_cycles":18,"bytes_transferred":18,"cpu_compute_cycles":16,"cpu_wait_cycles":252,"hardware_cost":30,"memory_requests":18,"ram_service_cycles":216,"total_cycles":268}
+MENU: PredictionSelector focus=1 want=1
+MENU: RamPartSelector focus=1 want=1
+PATH: ram_wait · Controlled official comparison · {"bus_control_cycles":18,"bus_segments_per_word":1,"bus_transfer_cycles":18,"bytes_transferred":18,"cpu_compute_cycles":16,"cpu_wait_cycles":108,"hardware_cost":39,"memory_requests":18,"ram_service_cycles":72,"total_cycles":124}
+MENU: PredictionSelector focus=1 want=1
+MENU: BusPartSelector focus=1 want=1
+PATH: bus_width · Controlled official comparison · {"bus_control_cycles":16,"bus_segments_per_word":1,"bus_transfer_cycles":16,"bytes_transferred":16,"cpu_compute_cycles":0,"cpu_wait_cycles":96,"hardware_cost":39,"memory_requests":16,"ram_service_cycles":64,"total_cycles":96}
+MENU: @OptionButton@7822 focus=0 want=0
+MENU: @OptionButton@7822 focus=1 want=1
+PATH: bottleneck · Controlled official comparison · {"bus_control_cycles":168,"bus_segments_per_word":2,"bus_transfer_cycles":336,"bytes_transferred":168,"cpu_compute_cycles":504,"cpu_wait_cycles":1848,"hardware_cost":21,"memory_requests":168,"ram_service_cycles":1344,"total_cycles":2352}
+PATH: distant_reads · Observed before review · {"cache_hits":0,"cache_misses":0,"compute_cycles":17,"hardware_cost":0,"ram_bytes_transferred":64,"total_cycles":257,"wait_cycles":240}
+PATH: nearby_storage · Observed before review · {"cache_hits":12,"cache_misses":4,"compute_cycles":17,"hardware_cost":4,"ram_bytes_transferred":64,"total_cycles":105,"wait_cycles":88}
+PATH: cache_failure · Observed before review · {"cache_hits":0,"cache_misses":16,"compute_cycles":17,"hardware_cost":4,"ram_bytes_transferred":256,"total_cycles":321,"wait_cycles":304}
+PATH: access_order · Observed before review · {"cache_hits":12,"cache_misses":4,"compute_cycles":17,"hardware_cost":4,"ram_bytes_transferred":64,"total_cycles":105,"wait_cycles":88}
+PATH: working_set · Observed before review · {"cache_hits":24,"cache_misses":8,"compute_cycles":34,"hardware_cost":4,"ram_bytes_transferred":128,"total_cycles":210,"wait_cycles":176}
+PATH: blocking · Group 4 · {"cache_hits":24,"cache_misses":8,"compute_cycles":34,"hardware_cost":4,"ram_bytes_transferred":128,"total_cycles":210,"wait_cycles":176}
+PATH: blocking · Group 2 · {"cache_hits":24,"cache_misses":8,"compute_cycles":34,"hardware_cost":4,"ram_bytes_transferred":128,"total_cycles":210,"wait_cycles":176}
+PATH: blocking · Group 1 · {"cache_hits":28,"cache_misses":4,"compute_cycles":34,"hardware_cost":4,"ram_bytes_transferred":64,"total_cycles":138,"wait_cycles":104}
+PATH: blocking · Observed before review · {"cache_hits":28,"cache_misses":4,"compute_cycles":34,"hardware_cost":4,"ram_bytes_transferred":64,"total_cycles":138,"wait_cycles":104}
+PATH: capstone · One lever: four-line cache · {"cache_hits":28,"cache_misses":4,"compute_cycles":34,"hardware_cost":13,"ram_bytes_transferred":64,"total_cycles":138,"wait_cycles":104}
+PATH: capstone · Observed before review · {"cache_hits":28,"cache_misses":4,"compute_cycles":34,"hardware_cost":4,"ram_bytes_transferred":64,"total_cycles":138,"wait_cycles":104}
+Recovery GUI checks: 997; failures: 0
+PASS: recovery ordinary Game input

@@ -26,9 +26,9 @@ hidden by that retry. This stage contains no human or native-path acceptance cla
 
 ## Stage 2: targeted iteration and evidence boundaries
 
-ALU official tests now retain all32 cases as four expandable operation groups.
+ALU official tests now retain all 32 cases as four expandable operation groups.
 An active or failed group remains expanded; completed passing groups collapse.
-Optional experiment observations retain at most8 executed samples: the first lists
+Optional experiment observations retain at most 8 executed samples: the first lists
 all inputs, later rows list only changes, and every row retains actual outputs.
 This keeps independent RAM addresses and CPU memory readback visible together.
 
@@ -78,7 +78,7 @@ was `20261002T134235Z-da6eb418`. Full logs and all captures remain under the ign
   after that navigation; clean replay is reported separately below.
 - Layout exploratory attempts toggled tools closed, then attempted a result button
   in a hidden panel. Navigation now uses the visible Task tree header. The v4
-  relocation replay passed38 checks, but its field baseline had inherited earlier
+  relocation replay passed 38 checks, but its field baseline had inherited earlier
   edits. Only a fresh replay may serve as the fields controlled comparison.
 
 These diagnostics distinguish harness faults from observed player-facing issues.
@@ -93,7 +93,7 @@ Chinese proxy candidate (before the subsequent failure-feedback correction):
 `VonNeumannBottleneckChecks/player-paths-20261002/zh-clean`. Started empty.
 The full construction → system → locality route passed **997 checks**. Two new
 processes loaded that same UI-earned save: buffers passed **36**, layout passed
-**32**. All three exit0, no failed assertion or GDScript error. The macOS IMK
+**32**. All three exit 0, no failed assertion or GDScript error. The macOS IMK
 mach-port warning is retained in the layout log; it did not prevent menu input.
 Logs, every assertion and experiment notes are retained in `proxy/`.
 
@@ -126,7 +126,7 @@ Logs, every assertion and experiment notes are retained in `proxy/`.
 Use `scripts/verify-project.py` to create/import an isolated copy (never the source
 checkout). In that copy only, assign a new unique `application/config/custom_user_dir_name`
 under `VonNeumannBottleneckChecks/`, with `config/use_custom_user_dir=true`.
-Run Godot4.7.1 on that copy, not headless:
+Run Godot 4.7.1 on that copy, not headless:
 
 ```sh
 Godot --path <isolated-project> --script scripts/proxy-player-paths.gd -- --locale=zh_CN --recovery-capture --evidence-dir=res://.godot/player-clean
@@ -163,11 +163,68 @@ feedback. LOAD/STORE still needs scrolling for a longer five-step record; the la
 ACC/MEM values are also visible on the constructed computer.
 
 
-The first English rerun passed997 assertions but its inspected failure screenshot
+The first English rerun passed 997 assertions but its inspected failure screenshot
 showed the long status Label pushing the header/tools beyond the viewport. It is
 not visual acceptance: [before](screenshots/en-feedback-overflow-before.png).
 The status Label now shares available width and wraps, instead of expanding the
 entire desktop horizontally. `test_bilingual_typography` now checks both long
-feedback messages and navigation bounds at1280×720 and1600×900 in both languages.
+feedback messages and navigation bounds at 1280×720 and 1600×900 in both languages.
 That suite, locality UI and localization passed in `20261002T143040Z-242506bf`;
 logs/results are the `feedback-*` files in `targeted/`. A final viewport rerun follows.
+
+
+## Final English viewport acceptance
+
+Fresh ordinary Game save in `VonNeumannBottleneckChecks/player-paths-20261002/en-final`,
+project `20261002T143040Z-242506bf`. Final run passed **997 checks**, exit 0, no failed
+assertion or script error; `proxy/proxy-final-en.txt` and the `final-en-*.json` files
+retain its results. No previously completed save or injected progress was used.
+This repeats construction → all five core system tasks → all seven locality tasks
+after the wrapping correction. Chinese buffers/layout coverage above remains valid;
+those runtime files did not change.
+
+Inspected [English feedback after repair](screenshots/en-final-working_set-wrong-explanation.png)
+shows the entire message, navigation and desktop inside 1600×900. The corresponding
+[entry](screenshots/en-final-working_set-entry.png) asks the experiment question
+without disclosing its result. [ALU records](screenshots/en-final-alu-experiment-evidence.png)
+and [actual capstone alternatives](screenshots/en-final-capstone-cost-comparison.png)
+are readable. The bilingual bounds suite separately covers 1280×720; that is automated
+layout evidence, not a claim that every proxy path was replayed at both sizes.
+
+
+## Final regression and handoff
+
+Source runtime: `1dfd438`. Fresh verifier `20261002T143500Z-8429dd6a` passed import,
+isolated user-directory probe and **all 43 conventional suites**. Full results and
+unabridged logs are in `regression/`. Coverage includes deterministic simulation and
+metrics, all chapter UI suites, bilingual catalogs/typography, baseline continuity,
+workspace replay, old/future/corrupt saves, theme authority and ambience lifecycle.
+The existing desktop-conventions fixture emits four anchor/size warnings; it passes.
+Archived log line-end spaces are trimmed for Git hygiene; no diagnostic lines
+were removed. No ERROR/FAIL was suppressed. The independent viewport runs above replace no unit
+coverage and are reported separately from this headless regression.
+
+`verify-save-restart.py` then passed **3/3 independent processes**: legacy writer,
+migration reader and stable reader. `restart/` retains logs, results and stable
+library digest. This synthetic compatibility fixture is distinct from the proxy's
+actual UI-earned save resumes; neither uses the player's real save directory.
+
+Commands actually used:
+
+```sh
+python3 scripts/verify-project.py --godot /Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot
+python3 scripts/verify-save-restart.py --godot /Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot --project .godot/verification/20261002T143500Z-8429dd6a/project
+```
+
+| Evidence class | Result / boundary |
+| --- | --- |
+| Automated unit/integration | 43/43; deterministic metrics, bilingual bounds and save authority included |
+| Agent-authored actual viewport actions | Chinese 997+36+32; final English 997; isolated ordinary Game; selected screenshots inspected |
+| Native OS actions | None added this round; viewport injection is not OS mouse input |
+| Human beginner / subjective listening | Still missing; proxy knows the task and cannot validate discovery, fun or fatigue |
+| Release package / Windows | Not rerun; source development only |
+
+Local commits are authorized; no push is required or performed. The original
+`project.godot` ordering change and unrelated untracked prompt/UID files are left
+untouched and excluded from these commits. Final diff inspection found no changes
+to task IDs, prerequisites, official cases, simulation rules or save formats.

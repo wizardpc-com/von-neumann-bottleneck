@@ -38,8 +38,15 @@ Native tests use CUA and are labelled separately. No proxy stands in for beginne
 - Ordinary Game proxy exposed verbose experiment records and buried capstone
   comparisons. Grouped ALU cases/changed-input records, Bus percentage comparison
   and a compact actual-options list were implemented and relevant suites passed.
-- Fresh Chinese proxy passed997 +36 +32 checks across all requested paths. The
+- Fresh Chinese proxy passed 997 +36 +32 checks across all requested paths. The
   working-set failure screenshot exposed a misdirected generic response; corrected
   to pass-boundary evidence and retested with locality/localization suites.
 - Earlier failed harness attempts and the repaired typed-array defect remain
-  documented separately. English clean replay and final full regression pending.
+  documented separately. Final English replay passed 997 checks after the screenshot-discovered header
+  overflow was repaired; all 43 conventional suites and the three-process save restart now pass.
+
+- Final screenshots verify the repaired English header and actual cost alternatives.
+- Completed: three known defects fixed, all requested proxy paths covered, targeted
+  iteration retested, bilingual/full regression and save compatibility verified.
+  Native OS, human beginner, subjective audio and release-package gates remain
+  explicitly outside this evidence. No new content/model expansion and no push.

@@ -42,3 +42,5 @@
 - 兼容性实查：`workspace_version()` 对整个locality目录文件内容计算指纹；本轮会使旧第二章配置和观测过期，保留草稿及旧版本快照的既有机制不变。旧已完成标记不因这一指纹直接删除，但旧观测不能继续充当新证据。发布前需专门验证升级体验；本轮未放宽指纹。
 
 - 最终渲染fixture等待Mac窗口模式转换后，中英文窗口及viewport均实测1280×720；检查四张截图，新增选项可滚动访问。默认Game启动检查通过，文档40唯一ID覆盖/链接检查及diff whitespace检查通过。未进行本轮原生全流程或真人试听。
+
+- 2026-10-02 compatibility follow-up: exact pre/post grouping fingerprints now preserve old Chapter 2 drafts and choices. Saved observations are recomputed; no earned progress is fabricated. Four fresh suites and independent legacy fixture writer/reader/stable-reader pass. The earlier stale-workspace finding above is resolved for this one audited transition; future fingerprints remain fail-closed. See [evidence](../../verification/20261002-choice-upgrade/README.md).

@@ -10,12 +10,13 @@ existing 0/1/2/4-line grouping with unchanged one-line Cache, two passes and 145
 target, plus bilingual experiment copy and a scrollable choices panel.
 [Fresh verification and boundaries](verification/20261002-theme-design/README.md).
 
-Compatibility: the existing workspace fingerprint includes the entire locality
-catalog. This catalog edit marks earlier Chapter 2 workspaces/observations stale:
-draft source survives, configuration must be checked again and observations rerun.
-This is a local pilot, not a newly frozen or verified public package. Resolve that
-upgrade experience before including it in a release; no save-format migration or
-fingerprint bypass was introduced.
+Compatibility: an exact audited alias accepts the pre-pilot Chapter 2 fingerprint
+only while the current fingerprint is the grouping-choice revision. Drafts and
+configuration survive; observations still rerun through the simulator and grant
+no completion. Unknown or later model versions remain stale. No save schema changes.
+[Upgrade checks](verification/20261002-choice-upgrade/README.md) include independent
+writer/reader/restart processes using a synthetic legacy fixture. This remains a
+local development build, not a newly verified public package.
 
 The synchronized README advertises `v0.5.0-alpha.1`, and the tag was fetched. The
 September 14 snapshot below predates that README update and is historical; its

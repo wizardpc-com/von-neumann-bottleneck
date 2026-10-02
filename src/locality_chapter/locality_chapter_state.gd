@@ -13,6 +13,12 @@ const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_le
 
 const RECEIPT_LIMIT := 12
 
+# Exact, audited content-only transition: 2-6 exposes two existing group sizes.
+# The core, DSL, official cases, targets and all old choices are unchanged.
+# Do not carry this alias forward when any model fingerprint changes again.
+const BEFORE_GROUP_CHOICES := "d4563879dd43d6f0feff9a84582489f167200b5113f571738f7645328e0e4459"
+const WITH_GROUP_CHOICES := "7104cc990372ed8b21f46941f13d099ccb063dc434e4e6e7ccd74294f96a7958"
+
 const CONCEPT_REQUIREMENTS: Dictionary[StringName, StringName] = {
 	&"cpu_wait": &"system:cpu_speed",
 	&"controlled_comparison": &"system:cpu_speed",
@@ -195,10 +201,16 @@ func workspace_version() -> String:
 		_workspace_fingerprint = Workspace.fingerprint(["res://src/locality_chapter/locality_level_catalog.gd", "res://src/simulation/simulation_core.gd", "res://src/simulation/dsl_parser.gd", "res://src/simulation/program_templates.gd", "res://src/content/locality/locality_content_manifest.gd"])
 	return _workspace_fingerprint
 
+
+func _compatible_workspace_version(version: String) -> bool:
+	var current: String = workspace_version()
+	return version == current or (current == WITH_GROUP_CHOICES and version == BEFORE_GROUP_CHOICES)
+
+
 func workspace_for(id: StringName) -> Dictionary:
 	var store: Dictionary = test_workspaces if GameMode.is_test_mode() else game_workspaces
 	var saved: Dictionary = store.get(String(id),{}).duplicate(true)
-	if not saved.is_empty() and saved.get("version","") != workspace_version():
+	if not saved.is_empty() and not _compatible_workspace_version(str(saved.get("version", ""))):
 		return {"draft_source":saved.get("draft_source",""),"stale":true}
 	return saved
 
@@ -228,7 +240,7 @@ func _discardable_receipt(entries: Array) -> int:
 	return 1
 
 func _replay_observation(id: StringName, recipe: Dictionary) -> Variant:
-	if recipe.get("version","") != workspace_version(): return null
+	if not _compatible_workspace_version(str(recipe.get("version", ""))): return null
 	var source: Variant=recipe.get("source","")
 	if not source is String or source.length()>16000: return null
 	if recipe.get("cache_lines") not in [0,1,2,4] or recipe.get("passes") not in [1,2] or recipe.get("blocks") not in [0,1,2,4] or not recipe.get("bypass") is bool: return null

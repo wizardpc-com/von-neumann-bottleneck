@@ -29,6 +29,24 @@ func run() -> void:
 	check(receipt!=null and receipt.passed,"Observed baseline recipe can be recomputed by the actual simulator")
 	locality.record_receipt(&"capstone",receipt,recipe)
 	var observations: Dictionary=JSON.parse_string(JSON.stringify(locality.game_snapshot()))
+	var prior_groups: Dictionary = observations.duplicate(true)
+	prior_groups["workspaces"] = {"capstone": draft.duplicate(true)}
+	prior_groups.workspaces.capstone.version = locality.BEFORE_GROUP_CHOICES
+	prior_groups.observations.capstone[0].version = locality.BEFORE_GROUP_CHOICES
+	# Persisted numbers are not evidence, even during a compatible content update.
+	prior_groups.observations.capstone[0]["metrics"] = {"total_cycles": 1}
+	locality.restore_game(prior_groups, true)
+	check(not locality.workspace_for(&"capstone").get("stale", false) and locality.workspace_for(&"capstone").cache_lines == 2, "The exact grouping-only update preserves previous choices and unfinished drafts")
+	check(locality.workspace_for(&"capstone").draft_source == draft.draft_source, "Compatible update preserves invalid text without applying it")
+	var migrated_receipts: Array = locality.receipts_for(&"capstone")
+	check(migrated_receipts.size() == 1 and int(migrated_receipts[0].metrics.total_cycles) == 642, "Compatible observations are recomputed, never trusted from saved metrics")
+	check(locality.game_completed.is_empty(), "Replaying a compatible observation alone grants no progress")
+	locality.retain_workspace(&"capstone", draft)
+	check(locality.game_workspaces.capstone.version == locality.workspace_version() and locality.game_workspaces.capstone.previous_version.version == locality.BEFORE_GROUP_CHOICES, "The next write records current identity and retains the original workspace")
+	var live_version: String = locality._workspace_fingerprint
+	locality._workspace_fingerprint = "different-model"
+	check(not locality._compatible_workspace_version(locality.BEFORE_GROUP_CHOICES) and locality._replay_observation(&"capstone", prior_groups.observations.capstone[0]) == null, "The content-only alias cannot authorize another future model")
+	locality._workspace_fingerprint = live_version
 	locality.restore_game(observations,true)
 	check(locality.receipts_for(&"capstone").size()==1 and locality.game_completed.is_empty(),"Actual recorded observation restores without granting completion")
 	observations.observations.capstone[0].version="incompatible"

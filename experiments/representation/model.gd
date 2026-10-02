@@ -2,6 +2,7 @@ extends RefCounted
 ## Isolated synchronous stored-asset model. Never reads UI, campaign or save state.
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const Event = preload("res://src/simulation/simulation_event.gd")
+const DecodedCache = preload("res://experiments/representation/decoded_cache.gd")
 const VERSION = "representation-rle-v1"
 
 static func encode(data: Array[int], codec: String) -> PackedByteArray:
@@ -74,11 +75,16 @@ static func run(spec: Dictionary, config: Dictionary) -> Trace:
 		trace.metrics.stored_bytes += bytes.size() + (4 if codec == "rle" else 0)
 	trace.metrics.scratch_bytes = size * capacity
 	# LRU holds decoded blocks. A miss always transfers/decompresses the full block.
-	var cache: Dictionary = {}; var lru: Array[int] = []
+	var cache := DecodedCache.new()
+	cache.configure(capacity)
 	var output: Array[int] = []; var expected: Array[int] = []
 	for address: int in spec.addresses:
 		if address < 0 or address >= data.size(): trace.metrics.error = "address"; return trace
 		var block: int = address / size
+		var cache_before: Dictionary = cache.snapshot()
+		var hit: bool = cache.has(block)
+		var evicted: Array[int] = []
+		var decoded: Array[int] = []
 		if not cache.has(block):
 			trace.metrics.cache_misses += 1
 			var bytes: PackedByteArray = blocks[block]
@@ -93,12 +99,14 @@ static func run(spec: Dictionary, config: Dictionary) -> Trace:
 			trace.metrics.traffic_bytes += moved; trace.metrics.transfer_cycles += transfer
 			trace.metrics.request_cycles += int(spec.latency); trace.metrics.decode_cycles += compute
 			trace.metrics.decoded_values += values.size(); trace.metrics.decode_ops += ops
-			if lru.size() >= capacity: cache.erase(lru.pop_front())
-			cache[block] = values
-		else: trace.metrics.cache_hits += 1
-		lru.erase(block); lru.append(block)
-		output.append(cache[block][address % size]); expected.append(data[address])
-		emit(trace,&"consume",1,{"address":address,"value":output[-1]})
+			evicted = cache.put(block, values, values.size())
+			decoded = values
+		else:
+			trace.metrics.cache_hits += 1
+			decoded = cache.fetch(block)
+		output.append(decoded[address % size]); expected.append(data[address])
+		emit(trace,&"consume",1,{"address":address,"value":output[-1],"block":block,
+			"cache_hit":hit,"cache_before":cache_before,"cache_after":cache.snapshot(),"evicted":evicted})
 		trace.metrics.consume_cycles += 1
 	trace.metrics.outputs = output
 	trace.result_value = output.reduce(func(a: int,b: int) -> int: return a+b,0)

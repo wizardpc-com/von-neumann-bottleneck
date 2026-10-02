@@ -116,8 +116,11 @@ func run(source: String, board: Dictionary, workload: Dictionary) -> SimulationT
 
 
 func _fetch(id: String, batch: int) -> void:
-	if not buffers.has(id) or not _batch_valid(batch):
-		_fail("buffer_or_batch")
+	if not buffers.has(id):
+		_fail("unknown_buffer")
+		return
+	if not _batch_valid(batch):
+		_fail("invalid_batch")
 		return
 	if not _link("TRANSFER", 0, id, 0) or not _link(id, 2, "TRANSFER", 0):
 		_fail("transfer_route")
@@ -135,7 +138,7 @@ func _fetch(id: String, batch: int) -> void:
 
 func _wait_buffer(id: String, empty: bool) -> void:
 	if not buffers.has(id):
-		_fail("buffer_or_batch")
+		_fail("unknown_buffer")
 		return
 	if not (_link(id, 2, "TRANSFER", 0) if empty else _link(id, 1, "COMPUTE", 1)):
 		_fail("control_route")
@@ -149,7 +152,10 @@ func _wait_buffer(id: String, empty: bool) -> void:
 
 
 func _consume(id: String) -> void:
-	if not buffers.has(id) or not _link(id, 0, "COMPUTE", 0):
+	if not buffers.has(id):
+		_fail("unknown_buffer")
+		return
+	if not _link(id, 0, "COMPUTE", 0):
 		_fail("compute_route")
 		return
 	if buffers[id].state != "ready":

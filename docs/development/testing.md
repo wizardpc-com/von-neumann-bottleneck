@@ -580,3 +580,14 @@ Also rerun the legacy `verify-feedback-local.py` compatibility probe.
 off, and that record-page access does not change progression. `test_visit_summary.gd`
 checks semantic counters and pre-consent visit exclusion. Native record-page, feedback
 foldout, focus and display checks remain separate from these contracts.
+
+## Isolated second-act experiments - 2026-10-02
+
+`test_second_act_experiments` and `test_evidence_proxy` run through the normal verifier
+(45 conventional suites in the final run). For playable lab input/captures use
+`scripts/run-experiment.py representation --godot <4.7.1> --replay lab`; repeat with
+`--locale en`. `--replay proxy --locale en` runs the bounded observation-only policy
+in Test-mode blank-task fixtures, not ordinary Game progression or human playtesting.
+The launcher copies/imports the project and isolates its user directory. See
+[experiment instructions](../../experiments/README.md) and
+[exact evidence/limits](../verification/20261002-second-act/README.md).

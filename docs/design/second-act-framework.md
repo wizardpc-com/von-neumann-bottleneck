@@ -1,7 +1,7 @@
 # 后半程：改变表示，承担猜测，服务一个工作负载
 
 状态：2026-10-02，实验方案。基线 `cd17d98`，正式五区域、40任务及前置不变。
-关联：[原主题设计](thought-within-world.md)、[执行计划](../exec-plans/active/second-act.md)。
+关联：[原主题设计](thought-within-world.md)、[执行计划](../exec-plans/completed/second-act.md)。
 
 ## 作品的因果链
 
@@ -110,6 +110,7 @@ batch8进一步缩短总时间，却违反首响应和目标峰值。近似带�
 ## 结论与后续进入条件
 
 - **INCORPORATE**：Capstone只保留一处实际方案列表，明细历史继续存在。
+  Buffers区分不存在的缓冲器与越界批次，保留相同失败时点；改动来自空板实际报错。
   已有40关只在实际观察到问题后修改；本轮没有根据有限代理停滞重写ALU/CPU。
 - **KEEP EXPERIMENTAL**：三个表示实验及隐藏推理实验；观察型代理作为回归工具，
   明确区分Test模式任务隔离、普通Game进度、真人认知验证。

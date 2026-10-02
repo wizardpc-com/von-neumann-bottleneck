@@ -4,6 +4,8 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 
 ## Current entry points
 
+- [Second-act framework and isolated playable labs](design/second-act-framework.md) - [Verification and proxy limits](verification/20261002-second-act/README.md)
+
 - [Evidence-driven ordinary Game paths and follow-up](verification/20261002-player-paths/README.md) · [Iteration plan](exec-plans/completed/evidence-driven-playtest.md)
 
 - [A Thought Within the World: 40-task audit and implementation queue](design/thought-within-world.md) · [Completed plan](exec-plans/completed/thought-within-world.md) · [Final verification](verification/20261002-theme-final/README.md)

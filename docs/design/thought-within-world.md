@@ -303,3 +303,18 @@
 最终验证：43 套件通过；普通 Game 代理中文 997+36+32、最终英文 997 检查通过；
 独立三进程旧存档恢复 3/3 通过。自动测试、代理截图、原生 OS 和真人验证的边界
 严格见[本轮 verification](../verification/20261002-player-paths/README.md)。
+
+## 后半程隔离切片（2026-10-02，cd17d98之后）
+
+本轮已实现三个连续Representation实验和一个隐藏推理workload，完整因果框架、
+规则与成本、INCORPORATE / KEEP EXPERIMENTAL / DEFER见
+[后半程框架](second-act-framework.md)。正式40关未扩展。Capstone重复清单已去重；
+Buffers空板实际报错暴露部件/批次混淆，现分开诊断而不改变失败时点或合法调度。
+
+有限无答案策略只接收公共UI证据，完成2-6/2-7的单变量比较与最优观测复验；
+ALU/CPU/Buffers停滞，未冒充完成或真人验证。它采用Test隔离fixture，不能代替
+普通Game完整认知路径。实际操作、修正与45套件回归见
+[新的verification](../verification/20261002-second-act/README.md)。
+
+新内容保留在experiments/，不写入正式任务/receipt/存档；不增加主题口号、
+世界观解释或音频内容。优先取得玩家自发比较的真人证据，再决定正式注册。

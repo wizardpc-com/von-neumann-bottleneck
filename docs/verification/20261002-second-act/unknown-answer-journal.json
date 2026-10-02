@@ -1,0 +1,671 @@
+[
+	{
+		"decision": {
+			"id": "run",
+			"reason": "Measure the visible starter before choosing a change."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run visible starter"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "\nWHY THIS MATTERS\nMission briefing 1 / 3\n1 · WHY THIS MATTERS\n2 · Task & rules\n3 · Check your work\nPrevious\nNext page\nStart building\n1 bit\n1\n = 1\nrange 0–1\nThin solid wires join round pins and carry one bit. Choose wire colors to label their purpose.\nEach cell is one bit: dark is 0, lit is 1. Match the counts on the width badges. Red/green endpoints show the current 0/1, not width.\nTask & rules\nMission briefing 2 / 3\n1 · WHY THIS MATTERS\n2 · Task & rules\n3 · Check your work\nPrevious\nNext page\nStart building\nCheck your work\nMission briefing 3 / 3\n1 · WHY THIS MATTERS\n2 · Task & rules\n3 · Check your work\nPrevious\nStart building\nMission folds into the lower-left corner. Reopen any page from the goal bar or Mission button. You can still move, fold and expand the window."
+		},
+		"task": "alu"
+	},
+	{
+		"decision": {
+			"id": "h1",
+			"reason": "First run did not supply a construction procedure; consult only Hint1."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run visible starter"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "TEST BENCH\n×\nA\n1 bit\n0\nB\n1 bit\n0\nCIN\n1 bit\n0\nOP0\n1 bit\n0\nOP1\n1 bit\n0\nTry a small experiment\nRun a case to inspect its output values.\nRead the bits and values\nSelection signals OP1=0 · OP0=0 · Tested 8/8 · passed 6\n#1  A=0  B=0  CIN=0  OP0=0  OP1=0  →  actual RESULT=0  ·  PASS\n#2  A=0  B=0  CIN=1  OP0=0  OP1=0  →  actual RESULT=0  ·  PASS\n#3  A=0  B=1  CIN=0  OP0=0  OP1=0  →  actual RESULT=0  ·  PASS\n#4  A=0  B=1  CIN=1  OP0=0  OP1=0  →  actual RESULT=0  ·  PASS\n#5  A=1  B=0  CIN=0  OP0=0  OP1=0  →  actual RESULT=0  ·  PASS\n#6  A=1  B=0  CIN=1  OP0=0  OP1=0  →  actual RESULT=0  ·  PASS\n#7  A=1  B=1  CIN=0  OP0=0  OP1=0  →  actual RESULT=0  ·  FAIL\n#8  A=1  B=1  CIN=1  OP0=0  OP1=0  →  actual RESULT=0  ·  FAIL\nSelection signals OP1=0 · OP0=1 · Tested 8/8 · passed 2\n#9  A=0  B=0  CIN=0  OP0=1  OP1=0  →  actual RESULT=0  ·  PASS\n#10  A=0  B=0  CIN=1  OP0=1  OP1=0  →  actual RESULT=0  ·  PASS\n#11  A=0  B=1  CIN=0  OP0=1  OP1=0  →  actual RESULT=0  ·  FAIL\n#12  A=0  B=1  CIN=1  OP0=1  OP1=0  →  actual RESULT=0  ·  FAIL\n#13  A=1  B=0  CIN=0  OP0=1  OP1=0  →  actual RESULT=0  ·  FAIL\n#14  A=1  B=0  CIN=1  OP0=1  OP1=0  →  actual RESULT=0  ·  FAIL\n#15  A=1  B=1  CIN=0  OP0=1  OP1=0  →  actual RESULT=0  ·  FAIL\n#16  A=1  B=1  CIN=1  OP0=1  OP1=0  →  actual RESULT=0  ·  FAIL\nSelection signals OP1=1 · OP0=0 · Tested 8/8 · passed 1\n#17  A=0  B=0  CIN=0  OP0=0  OP1=1  →  actual CARRY=0  RESULT=0  ·  PASS\n#18  A=0  B=0  CIN=1  OP0=0  OP1=1  →  actual CARRY=0  RESULT=0  ·  FAIL\n#19  A=0  B=1  CIN=0  OP0=0  OP1=1  →  actual CARRY=0  RESULT=0  ·  FAIL\n#20  A=0  B=1  CIN=1  OP0=0  OP1=1  →  actual CARRY=0  RESULT=0  ·  FAIL\n#21  A=1  B=0  CIN=0  OP0=0  OP1=1  →  actual CARRY=0  RESULT=0  ·  FAIL\n#22  A=1  B=0  CIN=1  OP0=0  OP1=1  →  actual CARRY=0  RESULT=0  ·  FAIL\n#23  A=1  B=1  CIN=0  OP0=0  OP1=1  →  actual CARRY=0  RESULT=0  ·  FAIL\n#24  A=1  B=1  CIN=1  OP0=0  OP1=1  →  actual CARRY=0  RESULT=0  ·  FAIL\nSelection signals OP1=1 · OP0=1 · Tested 8/8 · passed 4\n#25  A=0  B=0  CIN=0  OP0=1  OP1=1  →  actual RESULT=0  ·  FAIL\n#26  A=0  B=0  CIN=1  OP0=1  OP1=1  →  actual RESULT=0  ·  FAIL\n#27  A=0  B=1  CIN=0  OP0=1  OP1=1  →  actual RESULT=0  ·  FAIL\n#28  A=0  B=1  CIN=1  OP0=1  OP1=1  →  actual RESULT=0  ·  FAIL\n#29  A=1  B=0  CIN=0  OP0=1  OP1=1  →  actual RESULT=0  ·  PASS\n#30  A=1  B=0  CIN=1  OP0=1  OP1=1  →  actual RESULT=0  ·  PASS\n#31  A=1  B=1  CIN=0  OP0=1  OP1=1  →  actual RESULT=0  ·  PASS\n#32  A=1  B=1  CIN=1  OP0=1  OP1=1  →  actual RESULT=0  ·  PASS\nRun This Debug Case\nRun Official Cases One by One\n◢"
+		},
+		"task": "alu"
+	},
+	{
+		"decision": {
+			"id": "stop",
+			"reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run visible starter"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "Hint 1/3 · Next\nReturn to my design\nFullscreen\nBack to Chapters\nSettings\nComponents\nWire 1\nLevel Map\nAuto Layout\nFocus\nUndo\nRedo\nClear Wires\nCancel Cable\nViewing hint stage 1/3.\nReplay Trace\nStep\nPlayback Frequency\nMISSION\n—\n×\nHint stage 1/3\nOne-bit ALU\nProduce candidate operations in parallel, then select one with the opcode; do not make the opcode change the operators themselves.\nOnly the required external interface is shown; no solution topology is revealed.\nView hint stage 2\nReturn to my design\n◢\nSeparate hint canvas · Read-only. Pan, zoom, and inspect components.\nHints cannot run official tests, seal components, or change progression.\nFeedback\nMISSION\nHandbook"
+		},
+		"task": "alu"
+	},
+	{
+		"decision": {
+			"id": "run",
+			"reason": "Measure the visible starter before choosing a change."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run visible starter"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "\nTask & rules\nMission briefing 1 / 5\n1 · Task & rules\n2 · Instructions\n3 · Components & interfaces\n4 · Milestones\n5 · Check your work\nPrevious\nNext page\nStart building\n1 bit\n1\n = 1\nrange 0–1\n2 bit\n1\n0\n = 2\nrange 0–3\n4 bit\n0\n1\n0\n0\n = 4\nrange 0–15\nThin solid wire + round pin: 1 bit. Ribbon + square socket: a multi-bit bus. A bus is one connection; match its bit count. Wire colors are yours to choose.\nThe four cells count 8, 4, 2, 1. Add the lit cells to get the large number (0100 = 4). Match width badges; red/green endpoints only show the current 0/1.\nInstructions\nMission briefing 2 / 5\n1 · Task & rules\n2 · Instructions\n3 · Components & interfaces\n4 · Milestones\n5 · Check your work\nPrevious\nNext page\nStart building\nComponents & interfaces\nMission briefing 3 / 5\n1 · Task & rules\n2 · Instructions\n3 · Components & interfaces\n4 · Milestones\n5 · Check your work\nPrevious\nNext page\nStart building\nMilestones\nMission briefing 4 / 5\n1 · Task & rules\n2 · Instructions\n3 · Components & interfaces\n4 · Milestones\n5 · Check your work\nPrevious\nNext page\nStart building\nCheck your work\nMission briefing 5 / 5\n1 · Task & rules\n2 · Instructions\n3 · Components & interfaces\n4 · Milestones\n5 · Check your work\nPrevious\nStart building\nMission folds into the lower-left corner. Reopen any page from the goal bar or Mission button. You can still move, fold and expand the window."
+		},
+		"task": "cpu"
+	},
+	{
+		"decision": {
+			"id": "h1",
+			"reason": "First run did not supply a construction procedure; consult only Hint1."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run visible starter"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "TEST BENCH\n×\nOP\n2 bit\n0\n0\n = 0\nARG\n4 bit\n0\n0\n1\n1\n = 3\nADDR\n1 bit\n0\nRun a case to inspect its output values.\nRead the bits and values\n#1  LOAD_IMM 3 · ADDR=0  ARG=3  OP=0  →  actual ACC=0x0  MEM=0x0  ·  FAIL\n#2  STORE [0] · ADDR=0  ARG=0  OP=3  →  actual ACC=0x0  MEM=0x0  ·  FAIL\n#3  LOAD_IMM 5 · ADDR=1  ARG=5  OP=0  →  actual ACC=0x0  MEM=0x0  ·  FAIL\n#4  ADD_IMM 2 · ADDR=1  ARG=2  OP=1  →  actual ACC=0x0  MEM=0x0  ·  FAIL\n#5  STORE [1] · ADDR=1  ARG=0  OP=3  →  actual ACC=0x0  MEM=0x0  ·  FAIL\n#6  LOAD [0] · ADDR=0  ARG=0  OP=2  →  actual ACC=0x0  MEM=0x0  ·  FAIL\n#7  ADD_IMM 4 · ADDR=0  ARG=4  OP=1  →  actual ACC=0x0  MEM=0x0  ·  FAIL\nRun This Debug Case\nRun Official Cases One by One\n◢"
+		},
+		"task": "cpu"
+	},
+	{
+		"decision": {
+			"id": "stop",
+			"reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run visible starter"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "Hint 1/3 · Next\nReturn to my design\nExit fullscreen\nBack to Chapters\nSettings\nComponents\nWire 1\nLevel Map\nAuto Layout\nFocus\nUndo\nRedo\nClear Wires\nCancel Cable\nViewing hint stage 1/3.\nReplay Trace\nStep\nPlayback Frequency\nMISSION\n—\n×\nHint stage 1/3\nFour-bit Accumulator CPU\nFor each OP instruction, mark the data source and destination first. Then derive SOURCE / RESULT / LOAD / WRITE from the pinned instruction table. Control wires select and enable writes; they do not carry 4-bit data.\nOnly the required external interface is shown; no solution topology is revealed.\nView hint stage 2\nReturn to my design\n◢\nSeparate hint canvas · Read-only. Pan, zoom, and inspect components.\nHints cannot run official tests, seal components, or change progression.\nFeedback\nMISSION\nHandbook"
+		},
+		"task": "cpu"
+	},
+	{
+		"decision": {
+			"id": "run",
+			"reason": "Measure the visible starter before choosing a change."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "\nMISSION\n×\nIMPLEMENTATION · make one controlled change\nA Little at a Time\nMission briefing 1 / 2\nPrevious\nNext page\nEvidence 0/1 · run the official workload.\nRETURN TO MAP\n◢\nMISSION\n×\nIMPLEMENTATION · make one controlled change\nA Little at a Time\nMission briefing 2 / 2\nPrevious\nBack to workbench\nEvidence 0/1 · run the official workload.\nRETURN TO MAP\n◢\n"
+		},
+		"task": "blocking"
+	},
+	{
+		"decision": {
+			"id": "group:4",
+			"reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 4\nFinish both passes on 16 integers, then move on"
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nCORRECT · OVER TARGET\nActual 88 · Expected 88\nTime: 210 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nCORRECT · OVER TARGET\nTotal 210 · Compute 34 · Wait 176 · Hits 24 · Misses 8 · RAM 128 B · Cost 4\n  \nCycles 210 \nCompute 34 \nWaiting 176 \nCache lookup 32 \nBus request 16 \nRAM access 96 \nLine return 32 \n\n\n\n\n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 23 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 25 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \ncycle 27 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 45 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 47 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 49 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 51 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \ncycle 53 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 71 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 73 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 75 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 77 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \ncycle 79 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 97 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 99 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 101 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 103 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \n\ncycle 105 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 123 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 125 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 127 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 129 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \ncycle 131 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 149 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 151 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 153 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 155 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \ncycle 157 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 175 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 177 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 179 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 181 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \ncycle 183 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 201 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 203 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 205 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 207 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBASELINE · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nTotal 210 · CPU WAIT 176 · Nearby fills 8 · Near returns 24 · RAM transferred 128 B · Cost 4\nMake one change and rerun to create a Before → After comparison.\n◢"
+		},
+		"task": "blocking"
+	},
+	{
+		"decision": {
+			"id": "group:2",
+			"reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 2\nFinish both passes on 8 integers, then move on"
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:0",
+					"kind": "trial",
+					"label": "Whole dataset\nFinish pass 1, then begin pass 2"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nCORRECT · OVER TARGET\nActual 88 · Expected 88\nTime: 210 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nCORRECT · OVER TARGET\nTotal 210 · Compute 34 · Wait 176 · Hits 24 · Misses 8 · RAM 128 B · Cost 4\n  \nCycles 210 \nCompute 34 \nWaiting 176 \nCache lookup 32 \nBus request 16 \nRAM access 96 \nLine return 32 \n\n\n\n\n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 23 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 25 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \ncycle 27 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 45 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 47 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 49 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 51 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \ncycle 53 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 71 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 73 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 75 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 77 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \ncycle 79 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 97 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 99 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 101 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 103 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \n\ncycle 105 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 123 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 125 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 127 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 129 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \ncycle 131 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 149 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 151 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 153 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 155 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \ncycle 157 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 175 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 177 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 179 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 181 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \ncycle 183 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 201 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 203 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 205 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 207 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Lines per group: 4\nFinish both passes on 16 integers, then move on · Cost: 4\nOnly changed · work grouping\nTotal cycles · 210 → 210 · Δ 0 (0%)\nCPU WAIT · 176 → 176 · Δ 0\nNearby fills 8 → 8 · Near returns 24 → 24 · RAM transferred 128 → 128 B\n◢"
+		},
+		"task": "blocking"
+	},
+	{
+		"decision": {
+			"id": "group:1",
+			"reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 1\nFinish both passes on 4 integers, then move on"
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:0",
+					"kind": "trial",
+					"label": "Whole dataset\nFinish pass 1, then begin pass 2"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nCORRECT · OVER TARGET\nActual 88 · Expected 88\nTime: 210 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nCORRECT · OVER TARGET\nTotal 210 · Compute 34 · Wait 176 · Hits 24 · Misses 8 · RAM 128 B · Cost 4\n  \nCycles 210 \nCompute 34 \nWaiting 176 \nCache lookup 32 \nBus request 16 \nRAM access 96 \nLine return 32 \n\n\n\n\n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 23 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 25 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \ncycle 27 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 45 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 47 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 49 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 51 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 53 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 71 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 73 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 75 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 77 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \ncycle 79 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 97 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 99 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 101 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 103 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 105 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 123 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 125 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 127 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 129 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \ncycle 131 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 149 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 151 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 153 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 155 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \n\ncycle 157 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 175 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 177 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 179 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 181 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \ncycle 183 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 201 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 203 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 205 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 207 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Lines per group: 2\nFinish both passes on 8 integers, then move on · Cost: 4\nOnly changed · work grouping\nTotal cycles · 210 → 210 · Δ 0 (0%)\nCPU WAIT · 176 → 176 · Δ 0\nNearby fills 8 → 8 · Near returns 24 → 24 · RAM transferred 128 → 128 B\nPersonal best · 210 cycles · CPU WAIT 176 · Cost 4\nnearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\n◢"
+		},
+		"task": "blocking"
+	},
+	{
+		"decision": {
+			"id": "group:0",
+			"reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Whole dataset\nFinish pass 1, then begin pass 2"
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:0",
+					"kind": "trial",
+					"label": "Whole dataset\nFinish pass 1, then begin pass 2"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nTARGET MET\nActual 88 · Expected 88\nTime: 138 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nTARGET MET\nTotal 138 · Compute 34 · Wait 104 · Hits 28 · Misses 4 · RAM 64 B · Cost 4\n  \nCycles 138 \nCompute 34 \nWaiting 104 \nCache lookup 32 \nBus request 8 \nRAM access 48 \nLine return 16 \n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 23 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 25 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \n\ncycle 27 · Nearby line 0 returns value 7 without visiting RAM. data block 0 \ncycle 29 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 31 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 33 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \n\ncycle 35 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 53 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 55 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 57 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 59 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 61 · Nearby line 1 returns value 3 without visiting RAM. data block 1 \ncycle 63 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 65 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 67 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 69 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 87 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 89 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 91 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 93 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \n\ncycle 95 · Nearby line 2 returns value 9 without visiting RAM. data block 2 \ncycle 97 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 99 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 101 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \n\ncycle 103 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 121 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 123 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 125 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 127 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \n\ncycle 129 · Nearby line 3 returns value 10 without visiting RAM. data block 3 \ncycle 131 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 133 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 135 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\nOnly changed · work grouping\nTotal cycles · 210 → 138 · Δ -72 (-34%)\nCPU WAIT · 176 → 104 · Δ -72\nNearby fills 8 → 4 · Near returns 24 → 28 · RAM transferred 128 → 64 B\nPersonal best · 138 cycles · CPU WAIT 104 · Cost 4\nnearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\n◢"
+		},
+		"task": "blocking"
+	},
+	{
+		"decision": {
+			"id": "group:1",
+			"reason": "Recheck the lowest measured public Total: 138 cycles. This is observed best, not a claimed global optimum."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nCORRECT · OVER TARGET\nActual 88 · Expected 88\nTime: 210 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nCORRECT · OVER TARGET\nTotal 210 · Compute 34 · Wait 176 · Hits 24 · Misses 8 · RAM 128 B · Cost 4\n  \nCycles 210 \nCompute 34 \nWaiting 176 \nCache lookup 32 \nBus request 16 \nRAM access 96 \nLine return 32 \n\n\n\n\n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 23 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 25 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \ncycle 27 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 45 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 47 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 49 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 51 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \ncycle 53 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 71 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 73 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 75 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 77 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \ncycle 79 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 97 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 99 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 101 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 103 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \n\ncycle 105 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 123 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 125 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 127 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 129 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \ncycle 131 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 149 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 151 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 153 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 155 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \ncycle 157 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 175 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 177 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 179 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 181 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \ncycle 183 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 201 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 203 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 205 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 207 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nChanged · nothing\nTotal cycles · 210 → 210 · Δ 0 (0%)\nCPU WAIT · 176 → 176 · Δ 0\nNearby fills 8 → 8 · Near returns 24 → 24 · RAM transferred 128 → 128 B\nPersonal best · 138 cycles · CPU WAIT 104 · Cost 4\nnearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\n◢"
+		},
+		"task": "blocking"
+	},
+	{
+		"decision": {
+			"id": "stop",
+			"reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:0",
+					"kind": "trial",
+					"label": "Whole dataset\nFinish pass 1, then begin pass 2"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nTARGET MET\nActual 88 · Expected 88\nTime: 138 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nTARGET MET\nTotal 138 · Compute 34 · Wait 104 · Hits 28 · Misses 4 · RAM 64 B · Cost 4\n  \nCycles 138 \nCompute 34 \nWaiting 104 \nCache lookup 32 \nBus request 8 \nRAM access 48 \nLine return 16 \n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 23 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 25 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \n\ncycle 27 · Nearby line 0 returns value 7 without visiting RAM. data block 0 \ncycle 29 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 31 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 33 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \n\ncycle 35 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 53 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 55 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 57 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 59 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 61 · Nearby line 1 returns value 3 without visiting RAM. data block 1 \ncycle 63 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 65 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 67 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 69 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 87 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 89 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 91 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 93 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \n\ncycle 95 · Nearby line 2 returns value 9 without visiting RAM. data block 2 \ncycle 97 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 99 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 101 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \n\ncycle 103 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 121 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 123 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 125 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 127 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \n\ncycle 129 · Nearby line 3 returns value 10 without visiting RAM. data block 3 \ncycle 131 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 133 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 135 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\nOnly changed · work grouping\nTotal cycles · 210 → 138 · Δ -72 (-34%)\nCPU WAIT · 176 → 104 · Δ -72\nNearby fills 8 → 4 · Near returns 24 → 28 · RAM transferred 128 → 64 B\nPersonal best · 138 cycles · CPU WAIT 104 · Cost 4\nnearby storage · Lines: 1 · ROW-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\n◢"
+		},
+		"task": "blocking"
+	},
+	{
+		"decision": {
+			"id": "run",
+			"reason": "Measure the visible starter before choosing a change."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "\nMISSION\n×\nCAPSTONE · diagnose before changing anything\nFollow the Clues\nMission briefing 1 / 3\nPrevious\nNext page\nEvidence 0/3 · run the given machine before changing it.\nThe CPU repeatedly waits while data is fetched again from far memory.\nMost cycles are spent on CPU arithmetic.\nThe machine is slow because the program computes the wrong result.\nRETURN TO MAP\n◢\nMISSION\n×\nCAPSTONE · diagnose before changing anything\nFollow the Clues\nMission briefing 2 / 3\nPrevious\nNext page\nEvidence 0/3 · run the given machine before changing it.\nThe CPU repeatedly waits while data is fetched again from far memory.\nMost cycles are spent on CPU arithmetic.\nThe machine is slow because the program computes the wrong result.\nRETURN TO MAP\n◢\nMISSION\n×\nCAPSTONE · diagnose before changing anything\nFollow the Clues\nMission briefing 3 / 3\nPrevious\nBack to workbench\nEvidence 0/3 · run the given machine before changing it.\nThe CPU repeatedly waits while data is fetched again from far memory.\nMost cycles are spent on CPU arithmetic.\nThe machine is slow because the program computes the wrong result.\nRETURN TO MAP\n◢\n"
+		},
+		"task": "capstone"
+	},
+	{
+		"decision": {
+			"id": "group:4",
+			"reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 4\nFinish both passes on 16 integers, then move on"
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n▶ Run Debug\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nCORRECT · OVER TARGET\nActual 88 · Expected 88\nTime: 642 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nCORRECT · OVER TARGET\nTotal 642 · Compute 34 · Wait 608 · Hits 0 · Misses 32 · RAM 512 B · Cost 4\n  \nCycles 642 \nCompute 34 \nWaiting 608 \nCache lookup 32 \nBus request 64 \nRAM access 384 \nLine return 128 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 39 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 41 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 59 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 61 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 79 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 81 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 99 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 101 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 119 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 121 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 139 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 141 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 159 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 161 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 179 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 181 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 199 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 201 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 219 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 221 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 239 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 241 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 259 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 261 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 279 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 281 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 299 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 301 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 319 · Replace the least-recently-used nearby data block 2. data block 2 \n\ncycle 321 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 339 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 341 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 359 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 361 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 379 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 381 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 399 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 401 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 419 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 421 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 439 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 441 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 459 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 461 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 479 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 481 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 499 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 501 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 519 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 521 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 539 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 541 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 559 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 561 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 579 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 581 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 599 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 601 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 619 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 621 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 639 · Replace the least-recently-used nearby data block 2. data block 2 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBASELINE · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nTotal 642 · CPU WAIT 608 · Nearby fills 32 · Near returns 0 · RAM transferred 512 B · Cost 4\nMake one change and rerun to create a Before → After comparison.\n◢"
+		},
+		"task": "capstone"
+	},
+	{
+		"decision": {
+			"id": "group:2",
+			"reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 2\nFinish both passes on 8 integers, then move on"
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:0",
+					"kind": "trial",
+					"label": "Whole dataset\nFinish pass 1, then begin pass 2"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n▶ Run Debug\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nCORRECT · OVER TARGET\nActual 88 · Expected 88\nTime: 642 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nCORRECT · OVER TARGET\nTotal 642 · Compute 34 · Wait 608 · Hits 0 · Misses 32 · RAM 512 B · Cost 4\nObserved official configurations (cycles and cost)\n  \nCycles 642 \nCompute 34 \nWaiting 608 \nCache lookup 32 \nBus request 64 \nRAM access 384 \nLine return 128 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 39 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 41 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 59 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 61 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 79 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 81 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 99 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 101 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 119 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 121 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 139 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 141 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 159 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 161 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 179 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 181 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 199 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 201 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 219 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 221 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 239 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 241 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 259 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 261 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 279 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 281 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 299 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 301 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 319 · Replace the least-recently-used nearby data block 2. data block 2 \n\ncycle 321 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 339 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 341 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 359 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 361 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 379 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 381 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 399 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 401 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 419 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 421 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 439 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 441 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 459 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 461 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 479 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 481 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 499 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 501 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 519 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 521 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 539 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 541 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 559 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 561 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 579 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 581 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 599 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 601 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 619 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 621 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 639 · Replace the least-recently-used nearby data block 2. data block 2 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Lines per group: 4\nFinish both passes on 16 integers, then move on · Cost: 4\nOnly changed · work grouping\nTotal cycles · 642 → 642 · Δ 0 (0%)\nCPU WAIT · 608 → 608 · Δ 0\nNearby fills 32 → 32 · Near returns 0 → 0 · RAM transferred 512 → 512 B\n◢"
+		},
+		"task": "capstone"
+	},
+	{
+		"decision": {
+			"id": "group:1",
+			"reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 1\nFinish both passes on 4 integers, then move on"
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:0",
+					"kind": "trial",
+					"label": "Whole dataset\nFinish pass 1, then begin pass 2"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n▶ Run Debug\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nCORRECT · OVER TARGET\nActual 88 · Expected 88\nTime: 642 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nCORRECT · OVER TARGET\nTotal 642 · Compute 34 · Wait 608 · Hits 0 · Misses 32 · RAM 512 B · Cost 4\nObserved official configurations (cycles and cost)\n  \nCycles 642 \nCompute 34 \nWaiting 608 \nCache lookup 32 \nBus request 64 \nRAM access 384 \nLine return 128 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 39 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 41 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 59 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 61 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 79 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 81 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 99 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 101 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 119 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 121 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 139 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 141 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 159 · Replace the least-recently-used nearby data block 0. data block 0 \n\ncycle 161 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 179 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 181 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 199 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 201 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 219 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 221 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 239 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 241 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 259 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 261 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 279 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 281 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 299 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 301 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 319 · Replace the least-recently-used nearby data block 0. data block 0 \n\ncycle 321 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 339 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 341 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 359 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 361 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 379 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 381 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 399 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 401 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 419 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 421 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 439 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 441 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 459 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 461 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 479 · Replace the least-recently-used nearby data block 2. data block 2 \n\ncycle 481 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 499 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 501 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 519 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 521 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 539 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 541 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 559 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 561 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 579 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 581 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 599 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 601 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 619 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 621 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 639 · Replace the least-recently-used nearby data block 2. data block 2 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Lines per group: 2\nFinish both passes on 8 integers, then move on · Cost: 4\nOnly changed · work grouping\nTotal cycles · 642 → 642 · Δ 0 (0%)\nCPU WAIT · 608 → 608 · Δ 0\nNearby fills 32 → 32 · Near returns 0 → 0 · RAM transferred 512 → 512 B\nPersonal best · 642 cycles · CPU WAIT 608 · Cost 4\nnearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\n◢"
+		},
+		"task": "capstone"
+	},
+	{
+		"decision": {
+			"id": "group:0",
+			"reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Whole dataset\nFinish pass 1, then begin pass 2"
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:0",
+					"kind": "trial",
+					"label": "Whole dataset\nFinish pass 1, then begin pass 2"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n▶ Run Debug\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nTARGET MET\nActual 88 · Expected 88\nTime: 138 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nTARGET MET\nTotal 138 · Compute 34 · Wait 104 · Hits 28 · Misses 4 · RAM 64 B · Cost 4\nObserved official configurations (cycles and cost)\n  \nCycles 138 \nCompute 34 \nWaiting 104 \nCache lookup 32 \nBus request 8 \nRAM access 48 \nLine return 16 \n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 23 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 25 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \n\ncycle 27 · Nearby line 0 returns value 7 without visiting RAM. data block 0 \ncycle 29 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 31 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 33 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \n\ncycle 35 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 53 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 55 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 57 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 59 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 61 · Nearby line 1 returns value 3 without visiting RAM. data block 1 \ncycle 63 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 65 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 67 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 69 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 87 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 89 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 91 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 93 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \n\ncycle 95 · Nearby line 2 returns value 9 without visiting RAM. data block 2 \ncycle 97 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 99 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 101 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \n\ncycle 103 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 121 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 123 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 125 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 127 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \n\ncycle 129 · Nearby line 3 returns value 10 without visiting RAM. data block 3 \ncycle 131 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 133 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 135 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\nOnly changed · work grouping\nTotal cycles · 642 → 138 · Δ -504 (-79%)\nCPU WAIT · 608 → 104 · Δ -504\nNearby fills 32 → 4 · Near returns 0 → 28 · RAM transferred 512 → 64 B\nPersonal best · 138 cycles · CPU WAIT 104 · Cost 4\nnearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\n◢"
+		},
+		"task": "capstone"
+	},
+	{
+		"decision": {
+			"id": "group:1",
+			"reason": "Recheck the lowest measured public Total: 138 cycles. This is observed best, not a claimed global optimum."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:1",
+					"kind": "trial",
+					"label": "Lines per group: 1\nFinish both passes on 4 integers, then move on"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n▶ Run Debug\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nCORRECT · OVER TARGET\nActual 88 · Expected 88\nTime: 642 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nCORRECT · OVER TARGET\nTotal 642 · Compute 34 · Wait 608 · Hits 0 · Misses 32 · RAM 512 B · Cost 4\nObserved official configurations (cycles and cost)\n  \nCycles 642 \nCompute 34 \nWaiting 608 \nCache lookup 32 \nBus request 64 \nRAM access 384 \nLine return 128 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 39 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 41 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 59 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 61 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 79 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 81 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 99 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 101 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 119 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 121 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 139 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 141 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 159 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 161 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 179 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 181 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 199 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 201 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 219 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 221 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 239 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 241 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 259 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 261 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 279 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 281 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 299 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 301 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 319 · Replace the least-recently-used nearby data block 2. data block 2 \n\ncycle 321 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 339 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 341 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 359 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 361 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 379 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 381 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 399 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 401 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 419 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 421 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 439 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 441 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 459 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 461 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 479 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 481 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 499 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 501 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 519 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 521 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 539 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 541 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 559 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 561 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 579 · Replace the least-recently-used nearby data block 3. data block 3 \ncycle 581 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 599 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 601 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 619 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 621 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 639 · Replace the least-recently-used nearby data block 2. data block 2 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nChanged · nothing\nTotal cycles · 642 → 642 · Δ 0 (0%)\nCPU WAIT · 608 → 608 · Δ 0\nNearby fills 32 → 32 · Near returns 0 → 0 · RAM transferred 512 → 512 B\nPersonal best · 138 cycles · CPU WAIT 104 · Cost 4\nnearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\n◢"
+		},
+		"task": "capstone"
+	},
+	{
+		"decision": {
+			"id": "stop",
+			"reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "◆ Run Official"
+				},
+				{
+					"id": "group:0",
+					"kind": "trial",
+					"label": "Whole dataset\nFinish pass 1, then begin pass 2"
+				},
+				{
+					"id": "group:2",
+					"kind": "trial",
+					"label": "Lines per group: 2\nFinish both passes on 8 integers, then move on"
+				},
+				{
+					"id": "group:4",
+					"kind": "trial",
+					"label": "Lines per group: 4\nFinish both passes on 16 integers, then move on"
+				}
+			],
+			"evidence": "TEST BENCH\n—\n×\n▶ Run Debug\n◆ Run Official\nPERFORMANCE RUN\nPasses to complete: 2. Stay within 145 cycles.\nTARGET MET\nActual 88 · Expected 88\nTime: 138 cycles\nOfficial 4×4 data · Passes: 2\n◢\nPROFILER\n—\n×\nEvidence from the completed trace. Expand facts and inspect an event; no optimization advice is generated.\nTARGET MET\nTotal 138 · Compute 34 · Wait 104 · Hits 28 · Misses 4 · RAM 64 B · Cost 4\nObserved official configurations (cycles and cost)\n  \nCycles 138 \nCompute 34 \nWaiting 104 \nCache lookup 32 \nBus request 8 \nRAM access 48 \nLine return 16 \n\n\n\n\n\n\n\n\n\ncycle 1 · Line 0 is absent nearby; CPU waits for RAM. data block 0 \ncycle 21 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 23 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 25 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \n\ncycle 27 · Nearby line 0 returns value 7 without visiting RAM. data block 0 \ncycle 29 · Nearby line 0 returns value -2 without visiting RAM. data block 0 \ncycle 31 · Nearby line 0 returns value 5 without visiting RAM. data block 0 \ncycle 33 · Nearby line 0 returns value 11 without visiting RAM. data block 0 \n\ncycle 35 · Line 1 is absent nearby; CPU waits for RAM. data block 1 \ncycle 53 · Replace the least-recently-used nearby data block 0. data block 0 \ncycle 55 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 57 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 59 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 61 · Nearby line 1 returns value 3 without visiting RAM. data block 1 \ncycle 63 · Nearby line 1 returns value 0 without visiting RAM. data block 1 \ncycle 65 · Nearby line 1 returns value 8 without visiting RAM. data block 1 \ncycle 67 · Nearby line 1 returns value 4 without visiting RAM. data block 1 \n\ncycle 69 · Line 2 is absent nearby; CPU waits for RAM. data block 2 \ncycle 87 · Replace the least-recently-used nearby data block 1. data block 1 \ncycle 89 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 91 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 93 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \n\ncycle 95 · Nearby line 2 returns value 9 without visiting RAM. data block 2 \ncycle 97 · Nearby line 2 returns value 1 without visiting RAM. data block 2 \ncycle 99 · Nearby line 2 returns value 6 without visiting RAM. data block 2 \ncycle 101 · Nearby line 2 returns value 2 without visiting RAM. data block 2 \n\ncycle 103 · Line 3 is absent nearby; CPU waits for RAM. data block 3 \ncycle 121 · Replace the least-recently-used nearby data block 2. data block 2 \ncycle 123 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 125 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 127 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \n\ncycle 129 · Nearby line 3 returns value 10 without visiting RAM. data block 3 \ncycle 131 · Nearby line 3 returns value -1 without visiting RAM. data block 3 \ncycle 133 · Nearby line 3 returns value 12 without visiting RAM. data block 3 \ncycle 135 · Nearby line 3 returns value 13 without visiting RAM. data block 3 \nSelect a far-memory fetch to inspect its source line and returned data block.\nInspect in Trace\nRUN HISTORY (session)\nBefore → After\nBefore · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Whole dataset\nFinish pass 1, then begin pass 2 · Cost: 4\nAfter  · nearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\nOnly changed · work grouping\nTotal cycles · 642 → 138 · Δ -504 (-79%)\nCPU WAIT · 608 → 104 · Δ -504\nNearby fills 32 → 4 · Near returns 0 → 28 · RAM transferred 512 → 64 B\nPersonal best · 138 cycles · CPU WAIT 104 · Cost 4\nnearby storage · Lines: 1 · COLUMN-FIRST · Passes: 2 · Lines per group: 1\nFinish both passes on 4 integers, then move on · Cost: 4\n◢"
+		},
+		"task": "capstone"
+	},
+	{
+		"decision": {
+			"id": "run",
+			"reason": "Measure the visible starter before choosing a change."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "Mission\n—\n×\nPlace and connect storage; process four batches in order, 40 → 28 cycles.\nExplore this lesson in pictures\nBatches are numbered from 0 and hold one 8-bit value each. Output 2×value+1 for every batch, once and in order. Every official run starts empty.\nPublic workloads and budget\nWorkload A · baseline\nTarget ≤ 28 cycles · storage budget 2\nBatch\n0\n1\n2\n3\nData · 8 bits\n3\n7\n2\n9\nCompute · cycles\n4\n4\n4\n4\nTransfer: 6 cycles per batch\nEach transfer takes 6 cycles and each computation takes 4. With one buffer, transfer often waits for compute to finish.\n\nThe interior starts empty. Place up to two buffers and connect data, ready and free. The starting program is serial and editable.\n\nNames A and B appear on your components. Program names must match your actual parts.\nStart exploring\n◢"
+		},
+		"task": "buffers"
+	},
+	{
+		"decision": {
+			"id": "h1",
+			"reason": "First run did not supply a construction procedure; consult only Hint1."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "Not passed yet · the timeline records the failure and its moment.\nTimeline\n—\n×\nElapsed 0 / target 28 · compute busy 0 · transfer busy 0\nOverlap 0 · compute wait 0 · output sum 0 / 46\nLine 1: The schedule names a buffer that is not on the board. Place it or use the name of an existing buffer.\nHits 0 · misses 0 · evictions 0 · request queue wait 0 cycles\nWorkload A · baseline · Not passed · 0 / 28 cycles\nPlay / pause\nNext cycle\n◢"
+		},
+		"task": "buffers"
+	},
+	{
+		"decision": {
+			"id": "stop",
+			"reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect."
+		},
+		"fixture": "Test-mode blank starter; prerequisite library only",
+		"observation": {
+			"actions": [
+				{
+					"id": "run",
+					"kind": "run",
+					"label": "Run"
+				},
+				{
+					"id": "h1",
+					"kind": "hint1",
+					"label": "Hint1"
+				}
+			],
+			"evidence": "Separate read-only hint canvas · your design is unchanged · H1\nWhere can the next batch go while compute uses one buffer?\nfree 1\nDATA 8\nOne transfer · queue holds 2\nDATA 8\nready 1\nOne computation · ordered output\nBack to my design\nH1\nRequest next tier"
+		},
+		"task": "buffers"
+	}
+]

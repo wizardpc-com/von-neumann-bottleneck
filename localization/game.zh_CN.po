@@ -6696,3 +6696,9 @@ msgstr "已测 %d/8 · 通过 %d"
 
 msgid "chapter2.status.working_set_recheck"
 msgstr "现有证据尚不支持这个判断。查看两轮交界处的 Trace：接下来请求哪一行？缓存当时保留哪一行？对照记录后再解释。"
+
+msgid "overlap.error.unknown_buffer"
+msgstr "调度程序引用了板上不存在的缓冲器。放置该部件，或改用已有缓冲器的名称。"
+
+msgid "overlap.error.invalid_batch"
+msgstr "批次编号超出本工作负载范围。核对公开批次列表，编号从0开始。"

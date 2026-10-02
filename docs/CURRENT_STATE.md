@@ -2,6 +2,18 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Second-act experiments - 2026-10-02
+
+Baseline `cd17d98`. Three connected representation experiments and one hidden linear
+inference workload now run in isolated scenes, with actual encoding/decoding and
+measured quantization error. The supported campaign remains five regions / 40 tasks.
+Production changes are Capstone comparison deduplication and specific Buffers failure
+diagnostics; simulation rules, valid solutions and save formats are unchanged.
+[Framework and disposition](design/second-act-framework.md) -
+[Launch instructions](../experiments/README.md) -
+[45-suite regression, viewport evidence and bounded proxy limitations](verification/20261002-second-act/README.md).
+No ordinary Game unknown-player solve, native OS playthrough or human novice test is claimed.
+
 ## Evidence-driven follow-up · 2026-10-02
 
 Baseline `6905a0b`. Shared construction reset now clears stale debug/Trace state;

@@ -14,6 +14,11 @@ func _run() -> void:
 		for i: int in range(report.runs.size()):
 			_assert(report.runs[i].canonical_signature() == repeated.runs[i].canonical_signature(), "Deterministic whole trace " + id)
 	var task: Dictionary = Catalog.cases("buffers")[0]
+	for command: String in ["fetch A 0","ready A","consume A"]:
+		var missing: SimulationTrace=Sim.new().run(command,Catalog.terminal_board(),task)
+		_assert(not missing.passed and missing.metrics.error=="unknown_buffer" and missing.metrics.error_line==1 and missing.metrics.total_cycles==0,"Absent buffer gives a specific failure at original time/line")
+	var wrong_batch: SimulationTrace=Sim.new().run("fetch A 99",Catalog.buffer_board(1),task)
+	_assert(not wrong_batch.passed and wrong_batch.metrics.error=="invalid_batch" and wrong_batch.metrics.total_cycles==0,"Existing buffer with out-of-range batch has different evidence")
 	var serial: SimulationTrace = Sim.new().run(Catalog.serial_program(), Catalog.buffer_board(1), task)
 	var overlap: SimulationTrace = Sim.new().run(Catalog.buffer_program(), Catalog.buffer_board(2), task)
 	_assert(serial.passed and serial.metrics.total_cycles == 40, "Serial four-batch schedule must be 40 cycles.")

@@ -1,0 +1,24 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+MENU: @OptionButton@169 focus=1 want=1
+MENU: @OptionButton@252 focus=0 want=0
+MENU: @OptionButton@264 focus=0 want=0
+MENU: @OptionButton@264 focus=1 want=1
+MENU: @OptionButton@252 focus=1 want=1
+MENU: @OptionButton@264 focus=0 want=0
+MENU: @OptionButton@264 focus=1 want=1
+MENU: @OptionButton@252 focus=2 want=2
+MENU: @OptionButton@264 focus=0 want=0
+MENU: @OptionButton@264 focus=1 want=1
+MENU: @OptionButton@359 focus=1 want=1
+MENU: @OptionButton@347 focus=1 want=1
+MENU: @OptionButton@371 focus=0 want=0
+MENU: @OptionButton@371 focus=2 want=2
+MENU: @OptionButton@383 focus=1 want=1
+MENU: @OptionButton@438 focus=3 want=3
+MENU: @OptionButton@450 focus=1 want=1
+MENU: @OptionButton@462 focus=1 want=1
+MENU: @OptionButton@438 focus=1 want=1
+MENU: @OptionButton@450 focus=2 want=2
+PASS: viewport lab acceptance 97

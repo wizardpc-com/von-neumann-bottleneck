@@ -1,0 +1,37 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+POLICY alu { "id": "run", "reason": "Measure the visible starter before choosing a change." }
+POLICY alu { "id": "h1", "reason": "First run did not supply a construction procedure; consult only Hint1." }
+ERROR: Only first-tier hint consumed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] construction (res://experiments/evidence_proxy/driver.gd:98)
+       [2] settle (res://experiments/viewport_input.gd:25)
+POLICY alu { "id": "stop", "reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect." }
+POLICY cpu { "id": "run", "reason": "Measure the visible starter before choosing a change." }
+POLICY cpu { "id": "h1", "reason": "First run did not supply a construction procedure; consult only Hint1." }
+ERROR: Only first-tier hint consumed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] construction (res://experiments/evidence_proxy/driver.gd:98)
+       [2] settle (res://experiments/viewport_input.gd:25)
+POLICY cpu { "id": "stop", "reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect." }
+POLICY blocking { "id": "run", "reason": "Measure the visible starter before choosing a change." }
+POLICY blocking { "id": "group:4", "reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 4\nFinish both passes on 16 integers, then move on" }
+POLICY blocking { "id": "group:2", "reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 2\nFinish both passes on 8 integers, then move on" }
+POLICY blocking { "id": "group:1", "reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 1\nFinish both passes on 4 integers, then move on" }
+POLICY blocking { "id": "group:0", "reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Whole dataset\nFinish pass 1, then begin pass 2" }
+POLICY blocking { "id": "stop", "reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect." }
+POLICY capstone { "id": "run", "reason": "Measure the visible starter before choosing a change." }
+POLICY capstone { "id": "group:4", "reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 4\nFinish both passes on 16 integers, then move on" }
+POLICY capstone { "id": "group:2", "reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 2\nFinish both passes on 8 integers, then move on" }
+POLICY capstone { "id": "group:1", "reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Lines per group: 1\nFinish both passes on 4 integers, then move on" }
+POLICY capstone { "id": "group:0", "reason": "New public evidence observed. Hold other controls fixed and measure untried visible option: Whole dataset\nFinish pass 1, then begin pass 2" }
+POLICY capstone { "id": "stop", "reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect." }
+POLICY buffers { "id": "run", "reason": "Measure the visible starter before choosing a change." }
+POLICY buffers { "id": "h1", "reason": "First run did not supply a construction procedure; consult only Hint1." }
+POLICY buffers { "id": "stop", "reason": "No untried supported experiment. This policy cannot infer wiring or a diagnosis from prose; report a bounded stall, not a level defect." }
+FAIL: proxy actuator 21 decisions; stalls are not solves

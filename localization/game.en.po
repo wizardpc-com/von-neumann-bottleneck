@@ -6697,3 +6697,9 @@ msgstr "Tested %d/8 · passed %d"
 
 msgid "chapter2.status.working_set_recheck"
 msgstr "The evidence does not support this explanation yet. Inspect the Trace where one pass ends and the next begins: which line is requested, and which line is still cached? Compare those records before explaining."
+
+msgid "overlap.error.unknown_buffer"
+msgstr "The schedule names a buffer that is not on the board. Place it or use the name of an existing buffer."
+
+msgid "overlap.error.invalid_batch"
+msgstr "The batch index is outside this workload. Check the public batch list; numbering starts at 0."

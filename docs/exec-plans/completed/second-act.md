@@ -51,3 +51,15 @@ beginner/subjective audio/release validation remain separate and are not presume
   setting are background; latest user scope controls lore and expansion decisions.
 - Research anchors: Zstandard independent/seekable frames and Jacob et al. 2018
   integer quantization. These motivate tradeoffs, not our toy cycle constants.
+
+- Completed: `1c83c87` Capstone dedup; `adf2077` three playable representation
+  experiments, hidden inference, pure models, bounded policy and framework.
+- Actual GUI inspection corrected truncated run history, confounded stage-3 machine
+  settings and misleading execution OK; final Chinese 98 checks, English 97.
+- Unknown-answer policy recorded 23 decisions in Test fixtures. ALU/CPU/Buffers
+  stalled; 2-6/2-7 compared and revalidated observed best. No human/Game-solve claim.
+- Buffers observation justified separate unknown-buffer/invalid-batch diagnostics;
+  failure time and legal behavior retained, full 45 suites and Python checks pass.
+- Model/registration limits, no native/human evidence, and exact logs are documented
+  in docs/verification/20261002-second-act/README.md. No production new chapter,
+  lore, audio or persistent experiment progress added. No push.

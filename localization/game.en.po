@@ -3525,7 +3525,7 @@ msgid "chapter2.level.working_set.objective"
 msgstr "Run the fixed row-first workload. Compare pass 1 with pass 2 and explain why all four lines are fetched again."
 
 msgid "chapter2.level.working_set.briefing.1"
-msgstr "The program handles the same data twice; each round is a [[pass|pass]]. All data needed repeatedly during that phase is the [[working_set|working set]]. If it is larger than Cache, pass 1's data may be gone before pass 2."
+msgstr "The [[program|program]] processes the same data twice; each traversal is a [[pass|pass]]. Predict whether the second pass will fetch less data. After running, compare what remains nearby and what must be fetched again."
 
 msgid "chapter2.level.working_set.briefing.2"
 msgstr "Run the fixed row-first task. Compare passes 1 and 2: which [[cache_line|lines]] are fetched from far away again? Compare the data that needs to stay nearby with the available capacity, then choose the explanation supported by the evidence."
@@ -3564,7 +3564,7 @@ msgid "chapter2.level.capstone.title"
 msgstr "Follow the Clues"
 
 msgid "chapter2.level.capstone.description"
-msgstr "A new task. Observe, diagnose, make a change and check the result."
+msgstr "Conduct an independent investigation: observe, diagnose, change and check your method on a familiar task."
 
 msgid "chapter2.level.capstone.objective"
 msgstr "Run and diagnose the original setup first. Change one factor for the first experiment; then you may combine strategies. The official result must be correct and take at most 145 cycles."
@@ -6634,3 +6634,9 @@ msgstr "The fast-CPU observation was revalidated as this task’s baseline. Chan
 
 msgid "system.baseline.reused.short"
 msgstr "Previous observation revalidated"
+
+msgid "chapter2.history.observed_options"
+msgstr "Observed official configurations (cycles and cost)"
+
+msgid "chapter2.history.observed_option"
+msgstr "%d cycles · cost %d · %s"

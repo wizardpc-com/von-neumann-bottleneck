@@ -3525,7 +3525,7 @@ msgid "chapter2.level.working_set.objective"
 msgstr "比较第一轮和第二轮，判断近处空间是否装得下这段时间需要的全部数据。"
 
 msgid "chapter2.level.working_set.briefing.1"
-msgstr "[[program|程序]]会把同一批数据处理两遍，每一遍叫一个[[pass|轮次]]。在这段时间里会反复用到的全部数据，叫[[working_set|工作集]]。如果工作集比[[cache|Cache]]大，第一轮留下的数据可能在第二轮开始前就全被换掉。"
+msgstr "[[program|程序]]会把同一批数据处理两遍，每一遍叫一个[[pass|轮次]]。先预测：第二轮会比第一轮少取数据吗？运行后，逐轮比较哪些数据仍在近处，哪些又需要从远处取回。"
 
 msgid "chapter2.level.working_set.briefing.2"
 msgstr "运行固定的按行优先任务。比较第 1 轮和第 2 轮：哪些 [[cache_line|line]] 又从远处取了一次？记录需要保留的数据量，再与近处容量比较，选择最符合证据的解释。"
@@ -3564,7 +3564,7 @@ msgid "chapter2.level.capstone.title"
 msgstr "循迹而行"
 
 msgid "chapter2.level.capstone.description"
-msgstr "面对一个新任务，自己完成观察、判断、修改和复查。"
+msgstr "独立完成一次观察、判断、修改和复查；用熟悉的任务检验自己的方法。"
 
 msgid "chapter2.level.capstone.objective"
 msgstr "先保留原样运行并诊断；第一次实验只改一个因素，之后可组合方案。正式结果要正确且不超过 145 周期。"
@@ -6633,3 +6633,9 @@ msgstr "已核验并沿用快 CPU 的观测作为本关起点。现在只改变 
 
 msgid "system.baseline.reused.short"
 msgstr "已核验并沿用上关观测"
+
+msgid "chapter2.history.observed_options"
+msgstr "已运行的正式方案（周期与成本）"
+
+msgid "chapter2.history.observed_option"
+msgstr "%d 周期 · 成本 %d · %s"

@@ -2230,7 +2230,27 @@ func _update_history_label() -> void:
 			lines.append(_t(&"chapter2.history.personal_best", [
 				int(best["cycles"]), int(best["wait_cycles"]), int(best["cost"]), _history_config_text(best)
 			]))
+	if current_level_id == &"capstone":
+		lines.append("")
+		lines.append(_t(&"chapter2.history.observed_options"))
+		for observed: Dictionary in _capstone_observed_options():
+			lines.append(_t(&"chapter2.history.observed_option", [
+				int(observed["cycles"]), int(observed["cost"]), _history_config_text(observed)
+			]))
 	profiler_history_label.text = "\n".join(lines)
+
+
+func _capstone_observed_options() -> Array[Dictionary]:
+	var options: Array[Dictionary] = []
+	var seen: Dictionary = {}
+	for record: Dictionary in run_history:
+		if record.get("test", "") != "Official Test Set" or not bool(record.get("correct", false)):
+			continue
+		var identity: String = _history_config_text(record) + ":" + str(record.get("cycles", 0))
+		if seen.has(identity): continue
+		seen[identity] = true
+		options.append(record.duplicate(true))
+	return options
 
 
 func _history_config_text(record: Dictionary) -> String:

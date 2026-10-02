@@ -296,6 +296,11 @@ func _run() -> void:
 	var software_solution: SimulationTraceType = main.get("current_trace")
 	_assert(int(software_solution.metrics["total_cycles"]) == 138 and int(software_solution.metrics["hardware_cost"]) == 4, "The capstone must also accept a lower-cost blocking solution.")
 	_assert((main.get("lab_host") as Control).visible and bool(locality_state.call("completed_levels").get(&"capstone", false)), "Further optimization must remain possible after chapter completion.")
+	var observed_options: Array = main.call("_capstone_observed_options")
+	var observed_costs: Array[int] = []
+	for observed: Dictionary in observed_options:
+		if observed.cycles == 138: observed_costs.append(int(observed.cost))
+	_assert(4 in observed_costs and 13 in observed_costs and 7 not in observed_costs, "Capstone shows actually observed equivalent-speed costs, never an unrun two-line winner")
 	var capstone_history: String = (main.get("profiler_history_label") as Label).text
 	_assert("642" in capstone_history and "138" in capstone_history and ("个人最佳" in capstone_history or "Personal best" in capstone_history), "Run History must keep Baseline → Current visible and identify the best lower-cost solution after several experiments.")
 	var notebook_text: String = (main.get("notebook_label") as RichTextLabel).text

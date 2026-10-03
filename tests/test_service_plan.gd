@@ -133,6 +133,17 @@ func run() -> void:
 	await process_frame; await process_frame
 	check(lab.public_observation().measured.is_empty(), "Public observation never runs hidden candidate simulations")
 	lab.run_current(); var record_before: String = JSON.stringify(lab.history[0])
+	check(lab.response_chart.first_responses == [89,180,271,362],"Response chart uses measured per-stream cycles")
+	check(not lab.response_chart.exceeds(3),"Task1 does not invent a response deadline")
+	lab.response_chart.configure([89,415,741,1067],320,false)
+	check(lab.response_chart.exceeds(1) and lab.response_chart.exceeds(3) and not lab.response_chart.exceeds(0),"Only measured late streams are marked")
+	check(lab.response_chart.scale_cycles() == 1067,"Scale includes the latest actual response")
+	lab.response_chart.configure([0,0,0,0],320,false)
+	check(lab.response_chart.first_responses.is_empty(),"Missing execution cannot look like zero-latency success")
+	lab.select_run(0)
+	lab.task = 1; lab.select_run(0); await process_frame
+	check(lab.response_chart.deadline == 320 and lab.response_chart.exceeds(3),"Current contract deadline is rendered against the recorded baseline")
+	lab.task = 0; lab.select_run(0)
 	check(lab.status.text.contains("784") and lab.status.text.contains("2568"),"Baseline failure reports exact cycle and state-traffic excess")
 	check(lab.measured_feedback(M.run(resident).metrics,0).contains("108"),"Cache residency reports its actual peak budget excess")
 	check(lab.measured_feedback(M.run(all8).metrics,1).contains("误差"),"Exact-quality failure remains visible for quantized storage")
@@ -154,11 +165,16 @@ func run() -> void:
 	lab.selected_history = 0; lab.restore_history(); check(lab.plan == baseline, "Restore measured plan as new editable draft")
 	for locale: bool in [false, true]:
 		lab.english = locale; lab.build(); await process_frame; await process_frame
-		for node: Control in [lab.group_list, lab.tree, lab.detail, lab.run_button, lab.format_buttons[3]]:
-			check(node.get_global_rect().position.x >= 0 and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720, "Bilingual1280x720 evidence and controls stay inside viewport")
 		lab.hint_open = true; lab.refresh_mission(); await process_frame; await process_frame
-		check(lab.detail.get_global_rect().end.y <= 720, "Hint remains inside1280x720 viewport")
-	lab.show_public_data(); check(lab.detail.text.contains("streams"), "Actual initial states and inputs inspectable")
+		for node: Control in [lab.group_list,lab.run_button,lab.format_buttons[3]]:
+			check(node.get_global_rect().position.x >= 0 and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Bilingual1280x720 editor stays inside viewport")
+		for tab: int in 3:
+			lab.evidence_tabs.current_tab = tab; await process_frame; await process_frame
+			var nodes: Array = [lab.summary,lab.response_chart] if tab == 0 else ([lab.tree,lab.detail] if tab == 1 else [lab.public_detail])
+			for node: Control in nodes:
+				check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Each active evidence tab fits minimum viewport with hints")
+	lab.evidence_tabs.current_tab = 0; lab.show_public_data()
+	check(lab.evidence_tabs.current_tab == 2 and lab.public_detail.text.contains("streams"),"Public-data action opens visible actual data instead of hidden event detail")
 	lab.plan = grouped(); lab.task = 0; lab.run_current(); check(lab.unlocked == 1, "Actual accepted Trace unlocks next experimental contract")
 	check(campaign_before == JSON.stringify(root.get_node("LocalityChapter").completed_levels()), "No formal campaign authority")
 	for repeat: int in 8: lab.run_current()

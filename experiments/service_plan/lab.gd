@@ -41,6 +41,9 @@ var data_button: Button
 var restore_button: Button
 var mission: Label
 var status: Label
+var evidence_tabs: TabContainer
+var public_detail: RichTextLabel
+var response_chart: Control
 var summary: Label
 var detail: RichTextLabel
 var tree: Tree
@@ -135,14 +138,21 @@ func build() -> void:
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	restore_button = button(tr2("恢复为草稿", "Restore draft"), history_header, restore_history, "Restore")
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
-	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), evidence, 14)
+	evidence_tabs = TabContainer.new(); evidence_tabs.name = "EvidenceTabs"; evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(evidence_tabs)
+	var overview := VBoxContainer.new(); overview.name = "Overview"; evidence_tabs.add_child(overview)
+	var event_panel := VBoxContainer.new(); event_panel.name = "Events"; evidence_tabs.add_child(event_panel)
+	public_detail = RichTextLabel.new(); public_detail.name = "PublicDataView"; public_detail.custom_minimum_size.y = 150; evidence_tabs.add_child(public_detail)
+	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
+	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
+	response_chart = preload("res://experiments/service_plan/response_chart.gd").new(); response_chart.name = "ResponseChart"
+	overview.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
 	tree = Tree.new(); tree.name = "Trace"; tree.columns = 3; tree.column_titles_visible = true; tree.hide_root = true
-	tree.set_column_title(0, tr2("周期", "Cycle")); tree.set_column_title(1, tr2("费用", "Cost")); tree.set_column_title(2, tr2("事件", "Event")); tree.size_flags_vertical = Control.SIZE_EXPAND_FILL; tree.custom_minimum_size.y = 80; evidence.add_child(tree)
+	tree.set_column_title(0, tr2("周期", "Cycle")); tree.set_column_title(1, tr2("费用", "Cost")); tree.set_column_title(2, tr2("事件", "Event")); tree.size_flags_vertical = Control.SIZE_EXPAND_FILL; tree.custom_minimum_size.y = 80; event_panel.add_child(tree)
 	tree.item_selected.connect(func() -> void:
 		var item: TreeItem = tree.get_selected()
 		if item != null: detail.text = JSON.stringify(item.get_metadata(0), "  "))
-	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 110; detail.scroll_active = true; evidence.add_child(detail)
-	refresh_groups(); refresh_history(); refresh_actions()
+	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 110; detail.scroll_active = true; event_panel.add_child(detail)
+	refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history)
 	if persistent_session and not notice_key.is_empty(): status.text = session_notice()
 
@@ -212,6 +222,7 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 func select_run(index: int) -> void:
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
 	status.text = measured_feedback(m,task)
+	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	summary.text = tr2("总%d周期 · 全部%dB · 状态读写%dB · 峰值%dB\n费用 请求%d / 搬运%d / 运算%d / 提交%d / 编码%d\nA/B/C/D首响应%s · 读%d / 写%d (flush%d)\n分数误差%.6f · 最终状态误差%.6f · 外存%d→%dB", "Total%dcyc · all%dB · state%dB · peak%dB\nCosts request%d / transfer%d / compute%d / commit%d / codec%d\nA/B/C/D first%s · reads%d / writes%d (flush%d)\nScore error%.6f · state error%.6f · backing%d→%dB") % [m.total_cycles, m.traffic_bytes, m.state_read_bytes + m.state_write_bytes, m.peak_bytes, m.request_cycles, m.transfer_cycles, m.compute_cycles, m.commit_cycles, m.codec_cycles, str(m.first_stream_cycles), m.state_reads, m.state_writes, m.flush_writes, m.max_error, m.max_state_error, m.initial_backing_bytes, m.final_backing_bytes]
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:
@@ -220,13 +231,16 @@ func select_run(index: int) -> void:
 func restore_history() -> void:
 	if selected_history < 0: return
 	edit(history[selected_history].metrics.plan.duplicate(true), 0); slots.set_value_no_signal(plan.slots)
-func show_public_data() -> void:
+func refresh_public_data() -> void:
 	var streams: Array = []
 	for stream: int in 4:
 		var values: Array = []
 		for step: int in 6: values.append(Model.input(stream, step))
 		streams.append({"stream": char(65 + stream), "initial": Model.initial(stream), "inputs": values})
-	detail.text = tr2("每请求24运算；链路4B/周期，请求4周期；pack/unpack 8ops，RLE另加8值+run数；RLE64以8字节整值为run，RLE8以字节为run，8ops/周期。Q8每次更新另8ops。RAW64无损；Q8真实舍入。\n", "24ops/request; link4B/cycle, setup4cycles; pack/unpack8ops, RLE adds8values+run count; RLE64 runs8byte values, RLE8 runsbytes at8ops/cycle. Q8 adds8rounding ops/update. RAW64 lossless; Q8 actual rounding.\n") + JSON.stringify({"streams": streams, "weights": Model.WEIGHTS}, "  ")
+	public_detail.text = tr2("每请求24运算；链路4B/周期，请求4周期；pack/unpack 8ops，RLE另加8值+run数；RLE64以8字节整值为run，RLE8以字节为run，8ops/周期。Q8每次更新另8ops。RAW64无损；Q8真实舍入。\n", "24ops/request; link4B/cycle, setup4cycles; pack/unpack8ops, RLE adds8values+run count; RLE64 runs8byte values, RLE8 runsbytes at8ops/cycle. Q8 adds8rounding ops/update. RAW64 lossless; Q8 actual rounding.\n") + JSON.stringify({"streams": streams, "weights": Model.WEIGHTS}, "  ")
+func show_public_data() -> void:
+	refresh_public_data(); evidence_tabs.current_tab = 2
+
 func public_observation() -> Dictionary:
 	var public_data: Array = []
 	for stream: int in 4:

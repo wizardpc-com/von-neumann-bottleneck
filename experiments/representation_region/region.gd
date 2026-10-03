@@ -32,6 +32,7 @@ var redo_button: Button
 var run_button: Button
 var history_list: ItemList
 var reuse_button: Button
+var byte_boards: Array[Control] = []
 var order_choice: OptionButton
 var events: Tree
 var details: RichTextLabel
@@ -70,6 +71,7 @@ func make_button(text: String, parent: Node, action: Callable, handle: String) -
 func build() -> void:
 	for child: Node in get_children(): remove_child(child); child.queue_free()
 	task_buttons.clear()
+	byte_boards.clear()
 	var bg := ColorRect.new(); bg.color = Color("0b1720")
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(bg)
 	var margin := MarginContainer.new(); margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -105,6 +107,15 @@ func build() -> void:
 		var second: Array[int] = Catalog.asset(5)
 		for start: int in range(0,64,16): data_rows.append("%02d–%02d: %s" % [start,start+15,str(second.slice(start,start+16))])
 	data.text = "\n".join(data_rows)
+	make_label(text2("同值同色 · 顶边蓝=RAW，绿=RLE · 点击字节选中分块", "Equal bytes share a color · blue top=RAW, green=RLE · click a byte to select its block"),editor,13)
+	for asset_index: int in (2 if task == 4 else 1):
+		if task == 4: make_label(text2("资产A" if asset_index == 0 else "资产B", "Asset A" if asset_index == 0 else "Asset B"),editor,14)
+		var board = preload("res://experiments/representation_region/byte_board.gd").new()
+		board.name = "ByteBoard"+str(asset_index)
+		board.block_selected.connect(func(index: int) -> void: selected_block = index; refresh_plan())
+		editor.add_child(board); byte_boards.append(board)
+	make_button(text2("展开/收起原始字节列表", "Show/hide the raw byte list"),editor,func() -> void: data.visible = not data.visible,"ToggleAssetList")
+	data.visible = false
 	editor.add_child(data)
 	draft_label = make_label("",editor,14)
 	blocks = Tree.new(); blocks.name = "Blocks"; blocks.columns = 4; blocks.hide_root = true; blocks.column_titles_visible = true
@@ -244,6 +255,8 @@ func refresh_plan() -> void:
 
 func refresh_actions() -> void:
 	if split_at == null: return
+	for i: int in byte_boards.size():
+		byte_boards[i].configure(Model.asset(task) if i == 0 else Catalog.asset(5),plan,selected_block)
 	var block: Dictionary = plan[selected_block]
 	split_button.disabled = plan.size() >= Model.MAX_BLOCKS or int(split_at.value) <= int(block.start) or int(split_at.value) >= int(block.end)
 	merge_button.disabled = selected_block + 1 >= plan.size()

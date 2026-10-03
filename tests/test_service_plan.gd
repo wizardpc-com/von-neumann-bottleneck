@@ -166,11 +166,13 @@ func run() -> void:
 	var target_position: Vector2 = lab.group_list.get_item_rect(1).get_center()
 	check(lab.group_list._can_drop_data(target_position,payload),"Own group can be dragged to another visible row")
 	lab.group_list._drop_data(target_position,payload)
+	check(lab.measured_source.text.contains("草稿与此记录不同") and lab.measured_source.text.contains("24组"),"Measured source identifies original groups after draft edit")
 	check(lab.plan.groups[1] == [1] and lab.selected_group == 1,"Dragging moves the chosen whole group to the target index")
 	check(JSON.stringify(lab.history[0]) == record_before,"Group dragging preserves recorded evidence")
 	check(not lab.group_list._can_drop_data(target_position,payload),"Stale source label is refused after reorder")
 	check(not lab.group_list._can_drop_data(target_position,{"service_group_source":0}),"Foreign drag payload is refused")
 	lab.undo(); check(lab.plan == baseline,"Dragged edit can be undone")
+	check(not lab.measured_source.text.contains("草稿与此记录不同"),"Undo clears only the draft-difference marker")
 	lab.edit(M.merge(lab.plan, 0), 0); check(JSON.stringify(lab.history[0]) == record_before, "Editing group leaves measured history immutable")
 	lab.undo(); check(lab.plan == baseline, "UI undo restores constructed plan")
 	lab.redo(); check(lab.plan.groups[0].size() == 2, "UI redo restores merge")
@@ -184,7 +186,7 @@ func run() -> void:
 			check(node.get_global_rect().position.x >= 0 and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Bilingual1280x720 editor stays inside viewport")
 		for tab: int in 3:
 			lab.evidence_tabs.current_tab = tab; await process_frame; await process_frame
-			var nodes: Array = [lab.summary,lab.response_chart,lab.response_play,lab.response_step] if tab == 0 else ([lab.tree,lab.detail] if tab == 1 else [lab.public_detail])
+			var nodes: Array = [lab.measured_source,lab.summary,lab.response_chart,lab.response_play,lab.response_step] if tab == 0 else ([lab.tree,lab.detail] if tab == 1 else [lab.public_detail])
 			for node: Control in nodes:
 				check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Each active evidence tab fits minimum viewport with hints")
 	lab.evidence_tabs.current_tab = 0; lab.show_public_data()

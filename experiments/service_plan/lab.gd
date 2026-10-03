@@ -48,6 +48,7 @@ var public_detail: RichTextLabel
 var response_play: Button
 var response_step: Button
 var response_chart: Control
+var measured_source: Label
 var summary: Label
 var detail: RichTextLabel
 var tree: Tree
@@ -149,6 +150,7 @@ func build() -> void:
 	public_raw_button = button("",public_panel,func() -> void: public_raw = not public_raw; refresh_public_data(),"ToggleRawPublicData")
 	public_detail = RichTextLabel.new(); public_detail.name = "PublicDataView"; public_detail.custom_minimum_size.y = 150; public_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL; public_panel.add_child(public_detail)
 	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
+	measured_source = label("",overview,13)
 	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
 	response_chart = preload("res://experiments/service_plan/response_chart.gd").new(); response_chart.name = "ResponseChart"
 	overview.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
@@ -176,6 +178,7 @@ func refresh_groups() -> void:
 		for id: int in plan.groups[index]: tokens.append(char(65 + id / 6) + str(id % 6))
 		group_list.add_item("%02d   [ %s ]" % [index + 1, "  ".join(tokens)])
 	selected_group = clampi(selected_group, 0, plan.groups.size() - 1); group_list.select(selected_group); group_list.ensure_current_is_visible()
+	refresh_measured_source()
 	move_to.max_value = plan.groups.size()
 	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
 func refresh_actions() -> void:
@@ -233,6 +236,7 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 
 func select_run(index: int) -> void:
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
+	refresh_measured_source()
 	status.text = measured_feedback(m,task)
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	response_step.disabled = response_chart.first_responses.is_empty()
@@ -242,6 +246,16 @@ func select_run(index: int) -> void:
 	for event: Dictionary in record.events:
 		var row: TreeItem = tree.create_item(root_item); row.set_text(0, str(event.cycle)); row.set_text(1, str(event.duration)); row.set_text(2, event.kind); row.set_metadata(0, event.details.duplicate(true))
 	detail.text = JSON.stringify({"plan": m.plan, "final_states": m.final_states}, "  "); refresh_actions()
+func refresh_measured_source() -> void:
+	if measured_source == null: return
+	if selected_history < 0 or selected_history >= history.size():
+		measured_source.text = tr2("尚无实测来源。", "No measured source yet."); return
+	var measured: Dictionary = history[selected_history].metrics.plan
+	var formats: Array[String] = []
+	for stream: int in 4: formats.append(char(65+stream)+":"+str(measured.representations[stream]).to_upper())
+	measured_source.text = tr2("实测来源：%d组 / %d状态槽 · ", "Measured source: %d groups / %d slots · ") % [measured.groups.size(),measured.slots]+"  ".join(formats)
+	if measured != plan: measured_source.text += tr2("\n草稿与此记录不同；上方是记录所用方案。", "\nDraft differs from this record; the source above belongs to the measurement.")
+
 func restore_history() -> void:
 	if selected_history < 0: return
 	edit(history[selected_history].metrics.plan.duplicate(true), 0); slots.set_value_no_signal(plan.slots)

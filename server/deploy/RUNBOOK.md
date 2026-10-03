@@ -13,6 +13,10 @@ free for backups. Defaults: 30-day event retention, 128 KiB bodies, 32 records/b
 120 requests/minute/IP, 100,000 event safety cap. Stop intake with 503 at capacity;
 do not delete fresh data silently. Health is `/v1/health` (legacy `/health` retained).
 
+## Selected shared VPS
+
+For the owner's chosen host, follow [Ray VPS deployment](../../docs/distribution/ray-vps.md): standalone `compose.vps.yaml`, staging28081/prod18081 on loopback, separate `/srv/ray/data/vnb/` directories and projects. Do not merge the original8765 Compose; that host port is reserved for the other local service. The new Caddy templates default-deny all but exact health/upload/delete methods. Host installation remains NOT_RUN.
+
 ## Local installation / later host installation
 
 Use Python 3.9+ and `python3 feedback_server.py --database <local-file>` for loopback.

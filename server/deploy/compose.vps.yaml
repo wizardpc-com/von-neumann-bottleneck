@@ -1,0 +1,35 @@
+# Standalone template: NEVER merge with server/compose.yaml (old port can survive).
+# Render first with an explicit private env file and a distinct -p project name.
+services:
+  receiver:
+    image: "${VNB_IMAGE:?Set a locally built commit-tagged image or pinned digest}"
+    pull_policy: never
+    ports:
+      - "127.0.0.1:${VNB_HOST_PORT:?Set 28081 for staging or 18081 for approved prod}:8765"
+    volumes:
+      - type: bind
+        source: "${VNB_DATA_DIR:?Set the existing environment-specific data directory}"
+        target: /data
+        bind:
+          create_host_path: false
+    environment:
+      VNB_BIND: "0.0.0.0"
+      VNB_PORT: "8765"
+      VNB_DATABASE: "/data/feedback.sqlite"
+      VNB_RETENTION_DAYS: "30"
+      VNB_RATE_PER_MINUTE: "120"
+      VNB_MAX_BODY_BYTES: "131072"
+      VNB_MAX_BATCH_SIZE: "32"
+    user: "65532:65532"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.75
+    pids_limit: 128
+    logging:
+      driver: local
+      options:
+        max-size: "10m"
+        max-file: "3"

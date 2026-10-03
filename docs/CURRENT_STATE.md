@@ -2,6 +2,10 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Selected VPS deployment preparation — 2026-10-04
+
+The shared Shanghai VPS is now reflected in a [game-specific deployment contract](distribution/ray-vps.md), standalone staging/prod Compose inputs and default-deny proxy templates. Host ports28081/18081 avoid the other service's8765. Ten receiver/storage/community checks and static template checks passed. Docker/Caddy runtime, actual host configuration and public launch remain NOT_RUN; the game stays offline by default.
+
 ## Service candidate continuity — 2026-10-03
 
 Native informed play reached all three service contracts through constructed ordering, context capacity and per-stream representation changes. The service candidate now shares the instrument theme, supports undoable group dragging and gives measured failure diagnostics. Opt-in isolated service profiles preserve drafts/comparison plans across restarts; a scoped window-close ownership guard protects both candidate profiles from the campaign save handler preempting their unsaved-exit prompts. Model evidence remains authoritative. See [service guide](../experiments/service_plan/README.md).

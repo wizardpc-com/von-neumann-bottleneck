@@ -2,6 +2,10 @@
 
 Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The documents below are subsystem references or dated implementation history.
 
+## Game server deployment
+
+- [Selected Ray VPS contract, templates and remaining acceptance gates](distribution/ray-vps.md)
+
 ## Current entry points
 
 - [Second-act framework and isolated playable labs](design/second-act-framework.md) - [Verification and proxy limits](verification/20261002-second-act/README.md)

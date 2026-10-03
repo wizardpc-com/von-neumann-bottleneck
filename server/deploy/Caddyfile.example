@@ -1,10 +1,32 @@
-# Example ONLY. Owner must supply a real hostname after separately approving deployment.
+# FUTURE PUBLIC TEMPLATE ONLY. Do not load this placeholder into a live Caddy.
+# Real domain, approved release, privacy notice and host checks must precede use.
 feedback.example.invalid {
     request_body {
         max_size 128KB
     }
-    @private path /admin/*
-    respond @private 404
-    reverse_proxy 127.0.0.1:8765
-    # Do not enable access logs containing IPs or query strings.
+    @health {
+        method GET
+        path /v1/health
+    }
+    @events {
+        method POST
+        path /v1/events
+    }
+    @erase {
+        method DELETE
+        path /v1/data
+    }
+    handle @health {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle @events {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle @erase {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle {
+        respond 404
+    }
+    # Do not enable access logs containing IPs, bodies or query strings.
 }

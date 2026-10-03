@@ -4,6 +4,10 @@ The optional client is off by default. The free candidate has no receiver URL an
 
 A random installation ID scopes deduplication and deletion; it is not a claim of absolute anonymity. Feedback carries task, visit when known, source category, build/model/case versions, optional ratings and at most 240 characters. Metrics are observations, never leaderboard authority. Unknown ratings stay null. The endpoint is displayed in the UI. Changing receivers invalidates automatic consent and old queue destinations do not silently move to the new receiver.
 
+## Shared VPS deployment preparation
+
+The owner has selected a mainland China VPS. Use the [Ray VPS contract](../docs/distribution/ray-vps.md) and standalone `deploy/compose.vps.yaml` for its staging/prod port and data separation. The original Compose remains a standalone local example. No remote deployment or public endpoint activation occurred in this update.
+
 ## Local setup
 
 Python 3.9+ standard library; no packages required:

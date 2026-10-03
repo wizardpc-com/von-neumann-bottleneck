@@ -1,0 +1,32 @@
+# Local validation only; import as one site into the reviewed host configuration.
+http://127.0.0.1:18000 {
+    bind 127.0.0.1
+    request_body {
+        max_size 128KB
+    }
+    @health {
+        method GET
+        path /v1/health
+    }
+    @events {
+        method POST
+        path /v1/events
+    }
+    @erase {
+        method DELETE
+        path /v1/data
+    }
+    handle @health {
+        reverse_proxy 127.0.0.1:28081
+    }
+    handle @events {
+        reverse_proxy 127.0.0.1:28081
+    }
+    handle @erase {
+        reverse_proxy 127.0.0.1:28081
+    }
+    handle {
+        respond 404
+    }
+    # No access logs, static root, admin, leaderboard or community wildcard.
+}

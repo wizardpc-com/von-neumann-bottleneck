@@ -6,7 +6,7 @@ key is filled in. No purchase, DNS change, public hosting or release occurred.
 
 Before enabling public sharing:
 
-1. Select host/region and budget; measure loopback load and test actual player regions.
+1. Host selected: shared Shanghai VPS (2 CPU / 4 GB / 60 GB). Follow the [Ray VPS contract](ray-vps.md); measure loopback load and test actual player regions.
    A 1–2 CPU / 1–2 GB single process with SQLite is a starting assumption, not a promise.
 2. Obtain a stable domain; decide the actual privacy notice, retention including
    backups/tombstones, and applicable hosting/filing requirements with the provider.

@@ -82,8 +82,10 @@ func build() -> void:
 	status = label(tr2("构造组和顺序，选择逐流表示，再测量。实验进度只在内存。", "Construct groups/order and per-stream storage, then measure. Lab progress is session-only."), page, 14)
 	var body := HBoxContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.add_theme_constant_override("separation", 14); page.add_child(body)
 	var editor := VBoxContainer.new(); editor.custom_minimum_size.x = 430; body.add_child(editor)
-	label(tr2("服务组 · 从上到下执行；A0必须在A1前", "Service groups · execute top to bottom; A0 before A1"), editor)
-	group_list = ItemList.new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_EXPAND_FILL; group_list.custom_minimum_size.y = 100; editor.add_child(group_list)
+	label(tr2("服务组（可拖动）· 从上到下执行", "Drag service groups · execute top to bottom"), editor)
+	group_list = preload("res://experiments/service_plan/group_list.gd").new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_EXPAND_FILL; group_list.custom_minimum_size.y = 100; editor.add_child(group_list)
+	group_list.tooltip_text = tr2("可将整组拖到目标行；移动后仍需运行核验同流保序。", "Drag a whole group onto its target row; Run still validates stream order.")
+	group_list.group_moved.connect(func(source: int, target: int) -> void: edit(Model.move(plan,source,target-source),target))
 	group_list.item_selected.connect(func(index: int) -> void: selected_group = index; refresh_actions())
 	var motion := HBoxContainer.new(); editor.add_child(motion)
 	up_button = button(tr2("上移", "Move up"), motion, func() -> void: edit(Model.move(plan, selected_group, -1), selected_group - 1), "MoveUp")
@@ -135,7 +137,7 @@ func refresh_groups() -> void:
 		var tokens: PackedStringArray = []
 		for id: int in plan.groups[index]: tokens.append(char(65 + id / 6) + str(id % 6))
 		group_list.add_item("%02d   [ %s ]" % [index + 1, "  ".join(tokens)])
-	selected_group = clampi(selected_group, 0, plan.groups.size() - 1); group_list.select(selected_group)
+	selected_group = clampi(selected_group, 0, plan.groups.size() - 1); group_list.select(selected_group); group_list.ensure_current_is_visible()
 	move_to.max_value = plan.groups.size()
 	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
 func refresh_actions() -> void:

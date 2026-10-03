@@ -42,6 +42,8 @@ var restore_button: Button
 var mission: Label
 var status: Label
 var evidence_tabs: TabContainer
+var public_raw: bool = false
+var public_raw_button: Button
 var public_detail: RichTextLabel
 var response_play: Button
 var response_step: Button
@@ -143,7 +145,9 @@ func build() -> void:
 	evidence_tabs = TabContainer.new(); evidence_tabs.name = "EvidenceTabs"; evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(evidence_tabs)
 	var overview := VBoxContainer.new(); overview.name = "Overview"; evidence_tabs.add_child(overview)
 	var event_panel := VBoxContainer.new(); event_panel.name = "Events"; evidence_tabs.add_child(event_panel)
-	public_detail = RichTextLabel.new(); public_detail.name = "PublicDataView"; public_detail.custom_minimum_size.y = 150; evidence_tabs.add_child(public_detail)
+	var public_panel := VBoxContainer.new(); public_panel.name = "PublicData"; evidence_tabs.add_child(public_panel)
+	public_raw_button = button("",public_panel,func() -> void: public_raw = not public_raw; refresh_public_data(),"ToggleRawPublicData")
+	public_detail = RichTextLabel.new(); public_detail.name = "PublicDataView"; public_detail.custom_minimum_size.y = 150; public_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL; public_panel.add_child(public_detail)
 	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
 	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
 	response_chart = preload("res://experiments/service_plan/response_chart.gd").new(); response_chart.name = "ResponseChart"
@@ -241,13 +245,33 @@ func select_run(index: int) -> void:
 func restore_history() -> void:
 	if selected_history < 0: return
 	edit(history[selected_history].metrics.plan.duplicate(true), 0); slots.set_value_no_signal(plan.slots)
+func public_vector(values: Array) -> String:
+	if values.size() == 8:
+		var bytes: PackedByteArray = Model.pack(values,"raw64")
+		var repeated: bool = true
+		for i: int in range(1,8):
+			if bytes.slice(i*8,(i+1)*8) != bytes.slice(0,8): repeated = false; break
+		if repeated: return JSON.stringify(values[0])+" ×8"
+	return JSON.stringify(values)
+
 func refresh_public_data() -> void:
 	var streams: Array = []
 	for stream: int in 4:
 		var values: Array = []
-		for step: int in 6: values.append(Model.input(stream, step))
-		streams.append({"stream": char(65 + stream), "initial": Model.initial(stream), "inputs": values})
-	public_detail.text = tr2("每请求24运算；链路4B/周期，请求4周期；pack/unpack 8ops，RLE另加8值+run数；RLE64以8字节整值为run，RLE8以字节为run，8ops/周期。Q8每次更新另8ops。RAW64无损；Q8真实舍入。\n", "24ops/request; link4B/cycle, setup4cycles; pack/unpack8ops, RLE adds8values+run count; RLE64 runs8byte values, RLE8 runsbytes at8ops/cycle. Q8 adds8rounding ops/update. RAW64 lossless; Q8 actual rounding.\n") + JSON.stringify({"streams": streams, "weights": Model.WEIGHTS}, "  ")
+		for step: int in 6: values.append(Model.input(stream,step))
+		streams.append({"stream":char(65+stream),"initial":Model.initial(stream),"inputs":values})
+	var costs: String = tr2("每请求24次运算；链路4B/周期；请求启动4周期。\n打包/解包8次操作；RLE另加8值+run数，以8ops/周期处理。RLE64按8字节整值分run，RLE8按字节分run。Q8每次更新另加8次舍入操作。RAW64无损；Q8实际舍入。\n", "24 operations per request; link4B/cycle; setup4cycles.\nPack/unpack8 operations; RLE adds8 values+run count at8ops/cycle. RLE64 uses8-byte value runs; RLE8 uses byte runs. Q8 adds8 rounding operations per update. RAW64 is lossless; Q8 really rounds.\n")
+	public_raw_button.text = tr2("返回易读视图", "Readable view") if public_raw else tr2("查看完整原始JSON", "Full raw JSON")
+	if public_raw:
+		public_detail.text = costs+JSON.stringify({"streams":streams,"weights":Model.WEIGHTS},"  ")
+		return
+	var lines: Array[String] = [costs,tr2("权重：", "Weights: ")+JSON.stringify(Model.WEIGHTS),tr2("×8表示8个字节级一致的float64值；完整数组仍可在原始视图查看。", "×8 means8 byte-identical float64 values; raw view retains every array element.")]
+	for stream: Dictionary in streams:
+		lines.append("\n"+tr2("流 ", "Stream ")+str(stream.stream))
+		lines.append(tr2("初始状态：", "Initial state: ")+public_vector(stream.initial))
+		for step: int in stream.inputs.size(): lines.append(tr2("请求%d：", "Request%d: ") % step+public_vector(stream.inputs[step]))
+	public_detail.text = "\n".join(lines)
+
 func show_public_data() -> void:
 	refresh_public_data(); evidence_tabs.current_tab = 2
 

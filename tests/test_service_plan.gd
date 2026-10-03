@@ -188,7 +188,15 @@ func run() -> void:
 			for node: Control in nodes:
 				check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Each active evidence tab fits minimum viewport with hints")
 	lab.evidence_tabs.current_tab = 0; lab.show_public_data()
-	check(lab.evidence_tabs.current_tab == 2 and lab.public_detail.text.contains("streams"),"Public-data action opens visible actual data instead of hidden event detail")
+	check(lab.evidence_tabs.current_tab == 2 and lab.public_detail.text.contains("Stream A"),"Public-data action opens visible actual data instead of hidden event detail")
+	check(lab.public_detail.text.contains("×8"),"Repeated public values are compact without hiding full arrays")
+	lab.public_raw = true; lab.refresh_public_data()
+	check(lab.public_detail.text.contains('"streams"') and lab.public_detail.text.contains('"weights"'),"Full original public data remains available")
+	lab.public_raw = false; lab.refresh_public_data()
+	var negative_zero_word := PackedByteArray(); negative_zero_word.resize(8); negative_zero_word[7] = 128
+	var negative_zero: float = negative_zero_word.decode_double(0)
+	var signed_zeros: Array = [0.0,negative_zero,0.0,negative_zero,0.0,negative_zero,0.0,negative_zero]
+	check(not lab.public_vector(signed_zeros).contains("×8"),"Readable grouping preserves signed-zero byte differences")
 	lab.plan = grouped(); lab.task = 0; lab.run_current(); check(lab.unlocked == 1, "Actual accepted Trace unlocks next experimental contract")
 	check(campaign_before == JSON.stringify(root.get_node("LocalityChapter").completed_levels()), "No formal campaign authority")
 	for repeat: int in 8: lab.run_current()

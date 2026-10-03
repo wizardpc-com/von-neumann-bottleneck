@@ -2,6 +2,10 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Candidate visual evidence slice — 2026-10-03
+
+Exact byte boards expose repeated data and editable partition boundaries. Recorded-event playback now highlights the actual request, transfer, transform and consumption phases, with static stepping and reduced-motion support. Simulation, official progression and saves remain unchanged; see the candidate guide below. Audio and human novice acceptance remain unverified.
+
 ## Candidate save/resume slice — 2026-10-03
 
 The representation candidate now has opt-in isolated profiles, explicit save, stale-writer refusal and unsaved-exit protection. Drafts survive relaunch; recorded plans are recomputed for comparison only under matching model/contracts. Own recorded plans can be copied back into an undoable draft; failed orders explain their measured budget excess. Official five-region/40-task progression is unchanged. This is a candidate usability slice, not formal chapter integration or a new release. See [candidate profile guide](../experiments/representation_region/README.md).

@@ -16,3 +16,7 @@ First make the already-public 64-byte assets legible as spatial patterns and edi
 Planning the first visual change after native comparison/reuse tests. No new assets, licenses, network services or APIs required.
 
 Byte-board slice: exact 16×4 address grid, equal-value colors, RAW/RLE borders, click/keyboard partition selection and optional raw list. Two-assets task renders both independent inputs. Focused tests passed all three candidate suites; native input verified split, representation change and selecting another block through its byte. Values and plan data are defensively copied; no simulation or acceptance changed. Increased cell numerals after inspecting the real 1280-wide window.
+
+Recorded playback slice: copied actual Trace events, step/play/pause, phase highlighting, exact time/address labels, reduced-motion progress suppression, and no model mutation. Native Linux verified request/transfer/decode events, switching history and restart. Native inspection found stale event-list scroll position; fixed and verified that a newly selected record returns to its first event. Full isolated regression passed all 58 stages (import, user directory and 56 suites), with 143 focused visual checks. No runtime errors reported.
+
+Disposition: completed candidate visual/evidence slice, suitable for development-branch publication. Human novice comprehension, subjective fun, native Mac/Windows and audio remain unverified. Continuous development continues separately.

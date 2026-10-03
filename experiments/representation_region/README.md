@@ -119,3 +119,11 @@ Focused checks: `test_representation_session` and `test_representation_region`. 
 Select a performed run and choose **Try a variation of this plan** to copy that owned plan into its task draft. Older traces remain immutable; the displaced draft can be restored with Undo. Cross-task reuse preserves the departing draft and opens the recorded task. Reusing an identical draft adds no fake undo step. No reference answer is provided and no run/completion is granted by the copy.
 
 Failed orders now identify each measured budget excess and its public limit, in both languages and in historical records. This is diagnostic feedback, not a prescribed solution.
+
+## Byte patterns and recorded playback
+
+Public assets are rendered as exact 16×4 byte boards: equal values share colors, borders identify RAW/RLE partitions, and selecting a byte selects its editable block. Arrow keys move between partitions; the original numeric list remains available. Different assets remain separately visible in the paired task. The board visualizes the draft, while the right-hand record explicitly identifies the performed plan.
+
+Recorded events can be stepped or played through request, transfer, transform and consume phases. Event cycle, duration and address are copied from the actual Trace. Playback is initially paused; switching records clears playback state. Presentation speed is scaled for readability and is not a simulated clock or new execution. Reduced-motion presentation removes the animated progress line; manual stepping remains available. No sound was added in this slice.
+
+Native Linux input verified byte/block selection, playback, exact request/transfer/decode evidence and switching between recorded plans. Automated visual coverage checks defensive copies, both public assets, reduced-motion stepping and unchanged canonical Trace signatures. These are usability/evidence checks, not a claim that human players find the candidate fun.

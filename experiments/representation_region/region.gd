@@ -33,6 +33,9 @@ var run_button: Button
 var history_list: ItemList
 var reuse_button: Button
 var byte_boards: Array[Control] = []
+var trace_player: Control
+var trace_play: Button
+var trace_step: Button
 var order_choice: OptionButton
 var events: Tree
 var details: RichTextLabel
@@ -155,13 +158,25 @@ func build() -> void:
 	result = make_label("",evidence,14)
 	order_choice = OptionButton.new(); order_choice.name = "RecordedOrder"; evidence.add_child(order_choice)
 	order_choice.item_selected.connect(func(i: int) -> void: show_trace(i))
+	var playback_row := HBoxContainer.new(); evidence.add_child(playback_row)
+	trace_player = preload("res://experiments/representation_region/trace_player.gd").new()
+	trace_player.name = "TracePlayer"
+	trace_play = make_button(text2("回放真实事件", "Replay recorded events"),playback_row,trace_player.toggle_play,"TracePlay")
+	trace_step = make_button(text2("下一事件", "Next event"),playback_row,trace_player.step,"TraceStep")
+	trace_play.disabled = true; trace_step.disabled = true
+	trace_player.playing_changed.connect(func(value: bool) -> void: trace_play.text = text2("暂停回放", "Pause replay") if value else text2("回放真实事件", "Replay recorded events"))
+	trace_player.event_selected.connect(select_replay_event)
+	evidence.add_child(trace_player)
 	events = Tree.new(); events.name = "Events"; events.columns = 3; events.column_titles_visible = true; events.hide_root = true; events.custom_minimum_size.y = 190; events.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	for i: int in 3: events.set_column_title(i,[text2("起点","Start"),text2("周期","Cycles"),text2("事件","Event")][i])
 	evidence.add_child(events)
 	details = RichTextLabel.new(); details.name = "TraceDetails"; details.custom_minimum_size.y = 150; details.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(details)
 	events.item_selected.connect(func() -> void:
 		var row: TreeItem = events.get_selected()
-		if row != null: details.text = event_text(row.get_metadata(0)))
+		if row != null:
+			details.text = event_text(row.get_metadata(0))
+			var index: int = int(row.get_metadata(1))
+			if trace_player.current != index: trace_player.seek(index))
 	refresh_plan(); refresh_history(); refresh_tasks()
 	if not session_notice.is_empty(): status.text = session_notice
 	if selected_run >= 0 and selected_run < history.size(): select_run(selected_run)
@@ -307,8 +322,13 @@ func show_trace(index: int) -> void:
 	var limit_feedback: String = constraint_feedback(int(row.task),row.traces)
 	if not limit_feedback.is_empty(): result.text += "\n" + limit_feedback
 	events.clear(); var root_row: TreeItem = events.create_item()
+	var replay_events: Array = []
 	for event: RefCounted in visible_trace.events:
 		var item: TreeItem = events.create_item(root_row); item.set_text(0,str(event.cycle)); item.set_text(1,str(event.duration)); item.set_text(2,"%s @%d" % [str(event.kind),event.address]); item.set_metadata(0,{"kind":str(event.kind),"duration":event.duration,"details":event.details.duplicate(true)})
+		item.set_metadata(1,replay_events.size()); replay_events.append(event.to_dictionary())
+	if root_row.get_first_child() != null: events.scroll_to_item(root_row.get_first_child())
+	trace_player.configure(replay_events,english)
+	trace_play.disabled = replay_events.is_empty(); trace_step.disabled = replay_events.is_empty()
 	details.text = text2("选中事件查看实际字节、恢复输出、缓存前后和驱逐。\n记录方案：", "Select an event for actual bytes, restored values, cache before/after and evictions.\nRecorded plan: ")+plan_text(row.plan)
 
 func plan_text(recorded: Array) -> String:
@@ -432,3 +452,14 @@ func _notification(what: int) -> void:
 
 func _exit_tree() -> void:
 	if persistent_session: get_tree().auto_accept_quit = previous_auto_quit
+
+func select_replay_event(index: int) -> void:
+	if events == null or events.get_root() == null: return
+	var row: TreeItem = events.get_root().get_first_child()
+	var cursor: int = 0
+	while row != null:
+		if cursor == index:
+			if events.get_selected() != row: row.select(0)
+			events.ensure_cursor_is_visible()
+			return
+		row = row.get_next(); cursor += 1

@@ -9,6 +9,15 @@ func run() -> void:
 	root.add_child(main)
 	await process_frame; await process_frame
 	main.completed_levels = {&"tutorial":true}
+	main._start_campaign_level(&"tutorial")
+	for frame: int in 5: await process_frame
+	check(not main.mission_briefing_active and main.mission_compact,"Replay keeps the canvas clear with a compact reopenable mission")
+	check(main.desktop_windows[&"test_bench"].size.y >= 320,"Replay retains usable test-bench input space without the briefing layout")
+	main._reopen_mission(); await process_frame
+	check(main.mission_briefing_active,"Replay rules remain available through Mission")
+	main.completed_levels.clear(); main._start_campaign_level(&"tutorial"); await process_frame
+	check(main.mission_briefing_active,"First visit still presents the complete rules")
+	main.completed_levels = {&"tutorial":true}
 	check(main._next_campaign_level(&"tutorial") == &"half_adder","First completion retains the normal arithmetic route")
 	main.completed_levels = {&"tutorial":true,&"half_adder":true,&"full_adder":true,&"alu":true}
 	check(main._next_campaign_level(&"alu") == &"latch","Arithmetic-first route starts unfinished storage")

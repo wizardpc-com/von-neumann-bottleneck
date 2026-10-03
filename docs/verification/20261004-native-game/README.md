@@ -61,3 +61,9 @@ CPU/bridge progression, all-complete and unknown cases. All60 verification stage
 passed (import, isolated user directory and58 suites). Native re-run of the saved
 ALU passed32 cases; Continue then packaged it and opened the unfinished CPU rather
 than SRLatch. CPU execution is still pending.
+
+## Completed-level replay UI
+
+Completed tasks now reopen directly on the circuit with a compact, reopenable mission panel. First visits retain their full briefing. Deferred layout settlement preserves test-bench input space: an initial implementation collapsed the bench in native play despite passing headless checks, and was corrected before publication.
+
+Native ALU replay verified the unobstructed circuit, visible A/B/CIN/OP inputs, optional experiment expansion, and manually reopened task rules. This is informed developer QA, not independent novice testing. Full isolated verifier: 60 stages passed (import, user directory and 58 suites), evidence run `20261003T180501Z-2530ffc6`. CPU and later native playthrough remain pending; audio output was not heard in this environment.

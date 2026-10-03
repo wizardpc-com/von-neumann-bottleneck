@@ -6693,16 +6693,33 @@ func _start_campaign_level(level_id: StringName, show_briefing: bool = true) -> 
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	var replaying: bool = bool(completed_levels.get(level_id,false))
+	var open_briefing: bool = show_briefing and not replaying
 	match level_catalog.entry_kind(level_id):
 		&"tutorial":
-			_show_tutorial(show_briefing)
+			_show_tutorial(open_briefing)
 		&"half_adder":
-			_start_challenge(show_briefing)
+			_start_challenge(open_briefing)
 		&"circuit":
-			_start_prologue_level(level_id, show_briefing)
+			_start_prologue_level(level_id, open_briefing)
 		_:
 			status_label.text = _t(&"hardware.prologue.map.missing", [level_id])
 			status_label.add_theme_color_override("font_color", BAD)
+
+	if replaying and show_briefing and current_level_id == level_id:
+		_set_mission_compact(true)
+		call_deferred("_finish_replay_entry",level_id)
+
+
+func _finish_replay_entry(level_id: StringName) -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if current_level_id != level_id or mission_briefing_active: return
+	var bench: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
+	bench.size.y = clampf(graph_stack.size.y*0.90,360.0,560.0) if current_phase == &"prologue" else clampf(graph_stack.size.y*0.56,320.0,420.0)
+	_layout_compact_task_window()
+	(side_box.get_parent() as ScrollContainer).scroll_vertical = 0
+	_focus_circuit(true)
 
 
 func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> void:

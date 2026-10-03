@@ -202,6 +202,16 @@ func goal_text(goals: Dictionary) -> String:
 		parts.append("%s≤%d" % [label,goals[key]])
 	return ", ".join(parts)
 
+func order_within_limits(task_index: int, index: int, trace: Trace) -> bool:
+	# Presentation diagnosis only. Model.meets remains completion authority.
+	var specs: Array[Dictionary] = Catalog.orders(task_index)
+	var goals: Array[Dictionary] = Catalog.goals(task_index)
+	if index < 0 or index >= goals.size() or not trace.passed: return false
+	if trace.metrics.get("spec",{}) != specs[index]: return false
+	for metric: String in goals[index]:
+		if not trace.metrics.has(metric) or int(trace.metrics[metric]) > int(goals[index][metric]): return false
+	return true
+
 func constraint_feedback(task_index: int, traces: Array) -> String:
 	var failures: Array[String] = []
 	var goals: Array[Dictionary] = Catalog.goals(task_index)
@@ -308,7 +318,15 @@ func run_current() -> void:
 	completed[task] = completed[task] or accepted
 	selected_run = history.size()-1; refresh_history(); history_list.select(selected_run); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_run); refresh_tasks()
 	status.text = text2("全部公开约束成立；可以继续比较，也可打开下一任务。","All public constraints met; keep comparing or open the next task.") if accepted else text2("尚未满足全部约束。看流量、请求、解码与缓存事件再修改。","Limits not all met. Inspect traffic, requests, decode and cache events before editing.")
-	if not accepted: status.text = constraint_feedback(task,traces)
+	if not accepted:
+		status.text = constraint_feedback(task,traces)
+		for i: int in traces.size():
+			if not order_within_limits(task,i,traces[i]):
+				order_choice.select(i); show_trace(i); break
+	elif not completed.has(false):
+		status.text = text2("五份任务均已达标。保存你的方案与比较记录，或继续探索不同取舍。", "All five tasks met. Save your plans and comparisons, or explore different trade-offs.")
+	elif task == 4:
+		status.text = text2("本任务已达标。可以回看之前的任务，或继续比较其他方案。", "This task is met. Revisit earlier tasks or keep comparing alternatives.")
 
 func refresh_history() -> void:
 	history_list.clear()
@@ -324,7 +342,10 @@ func select_run(index: int) -> void:
 	selected_run = index; var row: Dictionary = history[index]
 	history_list.select(index); history_list.ensure_current_is_visible()
 	order_choice.clear()
-	for trace: Trace in row.traces: order_choice.add_item(str(trace.metrics.spec.name))
+	for i: int in row.traces.size():
+		var trace: Trace = row.traces[i]
+		var badge: String = text2("达标", "Met") if order_within_limits(int(row.task),i,trace) else text2("未达标", "Unmet")
+		order_choice.add_item("[%s] %s" % [badge,str(trace.metrics.spec.name)])
 	order_choice.select(0); show_trace(0)
 
 func show_trace(index: int) -> void:

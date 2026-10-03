@@ -62,6 +62,13 @@ func run() -> void:
 	check(scene.history[0].traces[0].canonical_signature() == signature,"Animation never mutates simulation evidence")
 	player.configure([],false); player.toggle_play(); player.step()
 	check(not player.playing and player.current == -1,"Empty recordings cannot fabricate events")
+	scene.change_task(2)
+	scene.plan = Model.represent(Model.initial_plan(),0,"rle")
+	scene.run_current()
+	check(scene.order_choice.selected == 1,"A new failed comparison opens the first unmet order")
+	check(scene.order_choice.get_item_text(0).begins_with("[达标]"),"Successful order remains individually identifiable")
+	check(scene.order_choice.get_item_text(1).begins_with("[未达标]"),"Unmet order is visibly named")
+	check(not scene.completed[2],"Showing a successful sub-order never completes the task")
 	scene.queue_free(); await process_frame
 	print("PASS: test_representation_visual " if failures == 0 else "FAIL: test_representation_visual ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

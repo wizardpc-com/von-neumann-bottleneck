@@ -67,6 +67,7 @@ func _run() -> void:
 	main.call("_start_prologue_level", &"load_store")
 	await process_frame
 	_assert_module_text_clearance(main, &"load_store")
+	_assert(not main.get("desktop_windows")[&"components"].visible, "Observation-only bridge opens without an empty component palette covering its circuit")
 	var graph: GraphEdit = main.get("graph")
 	var bridge_definition: Dictionary = main.get("current_level_definition")
 	_assert(_all_initial_components_used(bridge_definition), "LOAD/STORE must not pre-place components absent from its task topology.")

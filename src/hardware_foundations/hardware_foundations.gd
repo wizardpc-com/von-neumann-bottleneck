@@ -1173,6 +1173,8 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 		# The toolbox is part of the normal entry, alongside the task.
 		component_window.show_instrument()
 		component_window.set_minimized(false)
+		if current_phase == &"prologue" and bool(current_level_definition.get("locked_topology", false)):
+			component_window.hide()
 		inspector_window.hide()
 	var test_bench_button: Button = desktop_window_buttons.get(&"test_bench")
 	if test_bench_button != null:

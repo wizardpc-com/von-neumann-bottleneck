@@ -71,3 +71,9 @@ Native ALU replay verified the unobstructed circuit, visible A/B/CIN/OP inputs, 
 ## Optional experiment discoverability
 
 Native ALU play revealed that opening the optional experiment below five input rows left its first action outside the scroll viewport. The widget now reveals the first preset after expansion layout settles. It only scrolls its existing container; it does not select inputs, execute a circuit or award progress. Native replay confirmed the first presets become visible immediately and can be selected before separately running debug. Added a below-fold viewport regression; all 60 verifier stages passed again in the isolated run recorded for this change.
+
+## CPU and bridge native completion
+
+The same isolated save now has all nine core prologue tasks completed. CPU was wired through 19 native drag connections from its supplied components, using the earned ALU4/Register4/RAM2x4. All seven official program steps passed at 2 Hz; the verified topology was sealed as TinyComputer through the UI. The LOAD/STORE bridge reused that actual sealed component and passed its seven-step demonstration. Chapter feedback was skipped, without generating a subjective player rating. Closing/relaunching preserved completion and unlocked Chapter 1, whose native playthrough has begun but is not yet complete.
+
+The bridge exposed another layout issue: its empty, irrelevant parts palette consumed the right side of an observation-only task. Default entry now leaves that panel closed for locked prologue topology; it remains recallable. Native replay showed the data-flow diagram at 100% rather than the previous 75% with no missing input/output controls. Focused tests and all 60 verification stages passed; this does not alter simulation, progression, wire topology or stored circuits.

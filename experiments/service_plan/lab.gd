@@ -48,6 +48,10 @@ var public_detail: RichTextLabel
 var response_play: Button
 var response_step: Button
 var response_chart: Control
+var comparison_baseline: Dictionary = {}
+var comparison_detail: Label
+var pin_button: Button
+var clear_pin_button: Button
 var measured_source: Label
 var summary: Label
 var detail: RichTextLabel
@@ -152,6 +156,12 @@ func build() -> void:
 	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
 	measured_source = label("",overview,13)
 	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
+	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
+	evidence_tabs.set_tab_title(3,tr2("对照比较", "Compare"))
+	var compare_row := HBoxContainer.new(); comparison_panel.add_child(compare_row)
+	pin_button = button(tr2("以此记录为对照", "Pin this measurement"),compare_row,pin_comparison,"PinComparison")
+	clear_pin_button = button(tr2("清除对照", "Clear comparison"),compare_row,func() -> void: comparison_baseline.clear(); refresh_comparison(),"ClearComparison")
+	comparison_detail = label("",comparison_panel,14)
 	response_chart = preload("res://experiments/service_plan/response_chart.gd").new(); response_chart.name = "ResponseChart"
 	overview.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
 	var replay_row := HBoxContainer.new(); overview.add_child(replay_row)
@@ -166,7 +176,7 @@ func build() -> void:
 		var item: TreeItem = tree.get_selected()
 		if item != null: detail.text = JSON.stringify(item.get_metadata(0), "  "))
 	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 110; detail.scroll_active = true; event_panel.add_child(detail)
-	refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions()
+	refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history)
 	if persistent_session and not notice_key.is_empty(): status.text = session_notice()
 
@@ -236,7 +246,7 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 
 func select_run(index: int) -> void:
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
-	refresh_measured_source()
+	refresh_measured_source(); refresh_comparison()
 	status.text = measured_feedback(m,task)
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	response_step.disabled = response_chart.first_responses.is_empty()
@@ -246,6 +256,24 @@ func select_run(index: int) -> void:
 	for event: Dictionary in record.events:
 		var row: TreeItem = tree.create_item(root_item); row.set_text(0, str(event.cycle)); row.set_text(1, str(event.duration)); row.set_text(2, event.kind); row.set_metadata(0, event.details.duplicate(true))
 	detail.text = JSON.stringify({"plan": m.plan, "final_states": m.final_states}, "  "); refresh_actions()
+func pin_comparison() -> void:
+	if selected_history < 0 or selected_history >= history.size(): return
+	var metrics: Dictionary = history[selected_history].metrics
+	if not str(metrics.error).is_empty(): return
+	comparison_baseline = metrics.duplicate(true); refresh_comparison()
+
+func refresh_comparison() -> void:
+	if comparison_detail == null: return
+	var valid: bool = selected_history >= 0 and selected_history < history.size() and str(history[selected_history].metrics.error).is_empty()
+	pin_button.disabled = not valid; clear_pin_button.disabled = comparison_baseline.is_empty()
+	if comparison_baseline.is_empty():
+		comparison_detail.text = tr2("选择一条实测记录作为对照，再选择另一条查看变化。对照仅保留在本次窗口。", "Pin one measured record, then select another to compare. The pinned baseline lasts for this window only."); return
+	if not valid:
+		comparison_detail.text = tr2("保留对照；当前记录未完成有效测量。", "Baseline retained; current record has no valid measurement."); return
+	var m: Dictionary = history[selected_history].metrics
+	var b: Dictionary = comparison_baseline
+	comparison_detail.text = tr2("对照 %d周期 / 状态%dB / 峰值%dB / 最晚首响应%d\n当前减对照：周期%+d · 状态%+dB · 峰值%+dB · 最晚首响应%+d\n误差对照→当前：分数%s→%s；状态%s→%s", "Pinned: %dcyc / state%dB / peak%dB / latest first%d\nCurrent minus pinned: cycles%+d · state%+dB · peak%+dB · latest first%+d\nError pinned→current: score%s→%s; state%s→%s") % [b.total_cycles,b.state_read_bytes+b.state_write_bytes,b.peak_bytes,b.all_streams_first_cycle,m.total_cycles-b.total_cycles,m.state_read_bytes+m.state_write_bytes-b.state_read_bytes-b.state_write_bytes,m.peak_bytes-b.peak_bytes,m.all_streams_first_cycle-b.all_streams_first_cycle,String.num_scientific(b.max_error),String.num_scientific(m.max_error),String.num_scientific(b.max_state_error),String.num_scientific(m.max_state_error)]
+
 func refresh_measured_source() -> void:
 	if measured_source == null: return
 	if selected_history < 0 or selected_history >= history.size():

@@ -179,14 +179,21 @@ func run() -> void:
 	lab.run_current(); lab.active_trace.metrics.outputs[0] = 9876
 	check(JSON.stringify(lab.history[0]) == record_before and lab.history[1].metrics.outputs[0] != 9876, "History deep copies mutable Trace")
 	lab.selected_history = 0; lab.restore_history(); check(lab.plan == baseline, "Restore measured plan as new editable draft")
+	lab.select_run(0); lab.pin_comparison()
+	var pinned_before: String = JSON.stringify(lab.comparison_baseline)
+	lab.plan = resident.duplicate(true); lab.run_current()
+	check(lab.comparison_detail.text.contains("-880") and lab.comparison_detail.text.contains("+192"),"Comparison exposes cycle savings and peak-space tradeoff")
+	check(JSON.stringify(lab.comparison_baseline) == pinned_before and JSON.stringify(lab.history[0]) == record_before,"Comparison copies evidence without changing history")
+	lab.english = true; lab.refresh_comparison()
+	check(lab.comparison_detail.text.contains("Error pinned→current"),"Comparison retains both quality errors rather than declaring a universal winner")
 	for locale: bool in [false, true]:
 		lab.english = locale; lab.build(); await process_frame; await process_frame
 		lab.hint_open = true; lab.refresh_mission(); await process_frame; await process_frame
 		for node: Control in [lab.group_list,lab.run_button,lab.format_buttons[3]]:
 			check(node.get_global_rect().position.x >= 0 and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Bilingual1280x720 editor stays inside viewport")
-		for tab: int in 3:
+		for tab: int in 4:
 			lab.evidence_tabs.current_tab = tab; await process_frame; await process_frame
-			var nodes: Array = [lab.measured_source,lab.summary,lab.response_chart,lab.response_play,lab.response_step] if tab == 0 else ([lab.tree,lab.detail] if tab == 1 else [lab.public_detail])
+			var nodes: Array = [lab.measured_source,lab.summary,lab.response_chart,lab.response_play,lab.response_step] if tab == 0 else ([lab.tree,lab.detail] if tab == 1 else ([lab.public_detail] if tab == 2 else [lab.pin_button,lab.comparison_detail]))
 			for node: Control in nodes:
 				check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Each active evidence tab fits minimum viewport with hints")
 	lab.evidence_tabs.current_tab = 0; lab.show_public_data()
@@ -199,6 +206,11 @@ func run() -> void:
 	var negative_zero: float = negative_zero_word.decode_double(0)
 	var signed_zeros: Array = [0.0,negative_zero,0.0,negative_zero,0.0,negative_zero,0.0,negative_zero]
 	check(not lab.public_vector(signed_zeros).contains("×8"),"Readable grouping preserves signed-zero byte differences")
+	var previous_comparison: Dictionary = lab.comparison_baseline.duplicate(true)
+	lab.plan = M.move(baseline,4,-4); lab.run_current()
+	check(lab.pin_button.disabled and lab.comparison_detail.text.contains("no valid measurement"),"Rejected plans are not compared as successful zero-cost runs")
+	lab.pin_comparison(); check(lab.comparison_baseline == previous_comparison,"Invalid record cannot replace the pinned baseline")
+	lab.clear_pin_button.pressed.emit(); check(lab.comparison_baseline.is_empty() and lab.clear_pin_button.disabled,"Pinned comparison can be cleared without changing measurements")
 	lab.plan = grouped(); lab.task = 0; lab.run_current(); check(lab.unlocked == 1, "Actual accepted Trace unlocks next experimental contract")
 	check(campaign_before == JSON.stringify(root.get_node("LocalityChapter").completed_levels()), "No formal campaign authority")
 	for repeat: int in 8: lab.run_current()

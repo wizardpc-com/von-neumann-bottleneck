@@ -3,6 +3,7 @@ extends "res://experiments/viewport_input.gd"
 # Native popup focus may lag injected mouse input on macOS. Retry only UI keys;
 # never select an item or emit its signal directly. Keep attempts in the log.
 func choose(control: OptionButton, index: int) -> void:
+	if control.selected == index: return
 	var popup: PopupMenu = control.get_popup()
 	popup.prefer_native_menu = false
 	for attempt: int in 3:
@@ -24,9 +25,14 @@ func choose(control: OptionButton, index: int) -> void:
 			await popup_key(popup, KEY_ESCAPE)
 		if control.selected == index and not popup.visible:
 			check(true, "Visible selector accepts choice %d" % index)
+			root.grab_focus(); await create_timer(0.2).timeout
 			return
 	check(false, "Visible selector accepts choice %d" % index)
 
+
+func press(control: Control) -> void:
+	root.grab_focus(); await create_timer(0.1).timeout
+	await super.press(control)
 
 func handle(name: String) -> Control:
 	return ui.find_child(name, true, false) as Control

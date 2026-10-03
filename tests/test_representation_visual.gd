@@ -32,6 +32,8 @@ func run() -> void:
 	board.set_requests([]); check(board.request_counts.is_empty(),"No-request mode clears old markers")
 	board.queue_free(); await process_frame
 	var scene = load("res://experiments/representation_region/region.tscn").instantiate(); root.add_child(scene); await process_frame
+	var workspace: HSplitContainer = scene.find_child("WorkspaceSplit",true,false)
+	check(workspace != null and workspace.split_offset == 40,"Evidence pane is not collapsed by a fixed oversized offset")
 	check(scene.byte_boards.size() == 1 and scene.byte_boards[0].values == Model.asset(0),"Single asset view shows actual task bytes")
 	scene.change_task(4); await process_frame
 	check(scene.byte_boards.size() == 2,"Cross-asset task shows both public assets")
@@ -43,6 +45,7 @@ func run() -> void:
 	check(scene.byte_boards[0].request_counts == {20:3,43:3},"Hotspots expose public request locations without solving partitions")
 	check(scene.history.is_empty(),"Request preview does not fabricate a run")
 	scene.change_task(0); scene.run_current(); await process_frame
+	check(scene.history_list.is_selected(0),"Selected record is also selected in the visible history list")
 	var signature: String = scene.history[0].traces[0].canonical_signature()
 	var player = scene.trace_player
 	check(player.current == -1 and not player.playing,"Recorded playback starts paused")

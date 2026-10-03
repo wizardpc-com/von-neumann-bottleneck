@@ -97,7 +97,7 @@ func build() -> void:
 	mission = make_label(mission_text(),page,14); mission.name = "Mission"
 	var hint := make_button(text2("看一个线索（不揭示方案）","A clue, not a solution"),page,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
 	hint.tooltip_text = Catalog.hint(task,english)
-	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.split_offset = 590; page.add_child(body)
+	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.name = "WorkspaceSplit"; body.split_offset = 40; page.add_child(body)
 	var edit_scroll := ScrollContainer.new(); edit_scroll.name = "EditorScroll"; edit_scroll.custom_minimum_size.x = 530; edit_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(edit_scroll)
 	var editor := VBoxContainer.new(); editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.add_child(editor)
 	make_label(text2("公开资产（十进制字节，地址0–63）","Public assets (decimal bytes, addresses 0–63)"),editor,17)
@@ -322,6 +322,7 @@ func refresh_history() -> void:
 func select_run(index: int) -> void:
 	if index < 0 or index >= history.size(): return
 	selected_run = index; var row: Dictionary = history[index]
+	history_list.select(index); history_list.ensure_current_is_visible()
 	order_choice.clear()
 	for trace: Trace in row.traces: order_choice.add_item(str(trace.metrics.spec.name))
 	order_choice.select(0); show_trace(0)

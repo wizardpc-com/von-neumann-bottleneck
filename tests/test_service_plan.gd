@@ -211,6 +211,8 @@ func run() -> void:
 	check(not lab.public_vector(signed_zeros).contains("×8"),"Readable grouping preserves signed-zero byte differences")
 	var previous_comparison: Dictionary = lab.comparison_baseline.duplicate(true)
 	lab.plan = M.move(baseline,4,-4); lab.run_current()
+	check(lab.history_list.get_item_text(lab.selected_history).contains("Not run") and not lab.history_list.get_item_text(lab.selected_history).contains("0cyc"),"Rejected history entry does not advertise zero-cycle performance")
+	check(lab.summary.text.contains("No performance or quality result") and lab.status.text.contains("A1") and lab.status.text.contains("A0"),"Rejected dependency shows the offending request and no misleading zero metrics")
 	check(lab.pin_button.disabled and lab.comparison_detail.text.contains("no valid measurement"),"Rejected plans are not compared as successful zero-cost runs")
 	check(lab.comparison_chart.rows.is_empty() and not lab.comparison_chart.visible,"Invalid measurements cannot create empty-success visual bars")
 	lab.pin_comparison(); check(lab.comparison_baseline == previous_comparison,"Invalid record cannot replace the pinned baseline")
@@ -220,6 +222,8 @@ func run() -> void:
 	for repeat: int in 8: lab.run_current()
 	await process_frame; await process_frame
 	check(lab.history_list.get_v_scroll_bar().value > 0, "Latest measured history scrolls into view")
+	lab.build(); await process_frame; await process_frame
+	check(lab.history_list.get_v_scroll_bar().value > 0,"Rebuilt or restored history keeps the selected result visible")
 	lab.queue_free(); await process_frame
 	print("PASS: service plan (", checks, ")" if failures.is_empty() else "FAIL: service plan")
 	quit(0 if failures.is_empty() else 1)

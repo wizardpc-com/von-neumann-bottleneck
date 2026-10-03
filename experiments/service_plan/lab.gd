@@ -179,7 +179,7 @@ func build() -> void:
 		if item != null: detail.text = JSON.stringify(item.get_metadata(0), "  "))
 	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 110; detail.scroll_active = true; event_panel.add_child(detail)
 	refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
-	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history)
+	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history); history_list.call_deferred("ensure_current_is_visible")
 	if persistent_session and not notice_key.is_empty(): status.text = session_notice()
 
 func refresh_mission() -> void: mission.text = mission_text() + ("\n" + hint_text() if hint_open else "")
@@ -224,10 +224,26 @@ func refresh_history() -> void:
 	history_list.clear()
 	for index: int in history.size():
 		var m: Dictionary = history[index].metrics
+		if not str(m.error).is_empty():
+			history_list.add_item(("%d · T%d · " % [index+1,history[index].task+1])+tr2("未运行 · ", "Not run · ")+str(m.error)); continue
 		history_list.add_item("%d · T%d · %dcyc · state%dB · first%s" % [index + 1, history[index].task + 1, m.total_cycles, m.state_read_bytes + m.state_write_bytes, str(m.first_stream_cycles)])
+func invalid_feedback(metrics: Dictionary) -> String:
+	var error: String = str(metrics.error)
+	if error == "stream_dependency":
+		var steps: Array[int] = [0,0,0,0]
+		var groups: Array = metrics.plan.groups
+		for index: int in groups.size():
+			for id: int in groups[index]:
+				var stream: int = id / 6; var step: int = id % 6
+				if step != steps[stream]:
+					return tr2("未运行：第%d组的%s%d需要先完成%s%d；同一条流必须按顺序执行。可移动、拆组或撤销。", "Not run: group%d has %s%d before required %s%d. Preserve each stream's order; move, split or undo.") % [index+1,char(65+stream),step,char(65+stream),steps[stream]]
+				steps[stream] += 1
+	if error == "scratch_limit": return tr2("未运行：工作区预检超过512B；尝试拆小最大组或减少状态槽，再运行测量。", "Not run: workspace preflight exceeds512B; split the largest group or reduce context slots, then measure.")
+	return tr2("未运行，方案格式无效：", "Not run; invalid plan format: ")+error
+
 func measured_feedback(metrics: Dictionary, contract: int) -> String:
 	if contract < 0 or contract > 2: return tr2("未知任务。", "Unknown task.")
-	if not str(metrics.error).is_empty(): return tr2("拒绝：", "Rejected: ")+str(metrics.error)
+	if not str(metrics.error).is_empty(): return invalid_feedback(metrics)
 	if Model.accepted(metrics,contract): return tr2("当前任务约束成立；可以继续比较自己的其他方案。", "Current task limits met; keep comparing your own alternatives.")
 	var failures: Array[String] = []
 	var budgets: Array[Dictionary] = [{"name":tr2("总周期", "Total cycles"),"actual":int(metrics.total_cycles),"limit":1420}]
@@ -254,6 +270,7 @@ func select_run(index: int) -> void:
 	response_step.disabled = response_chart.first_responses.is_empty()
 	response_play.disabled = response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false))
 	summary.text = tr2("总%d周期 · 全部%dB · 状态读写%dB · 峰值%dB\n费用 请求%d / 搬运%d / 运算%d / 提交%d / 编码%d\nA/B/C/D首响应%s · 读%d / 写%d (flush%d)\n分数误差%.6f · 最终状态误差%.6f · 外存%d→%dB", "Total%dcyc · all%dB · state%dB · peak%dB\nCosts request%d / transfer%d / compute%d / commit%d / codec%d\nA/B/C/D first%s · reads%d / writes%d (flush%d)\nScore error%.6f · state error%.6f · backing%d→%dB") % [m.total_cycles, m.traffic_bytes, m.state_read_bytes + m.state_write_bytes, m.peak_bytes, m.request_cycles, m.transfer_cycles, m.compute_cycles, m.commit_cycles, m.codec_cycles, str(m.first_stream_cycles), m.state_reads, m.state_writes, m.flush_writes, m.max_error, m.max_state_error, m.initial_backing_bytes, m.final_backing_bytes]
+	if not str(m.error).is_empty(): summary.text = invalid_feedback(m)+"\n"+tr2("没有性能或精度结果：该方案在执行前被拒绝。修改草稿后重新运行；历史记录保留。", "No performance or quality result: this plan was rejected before execution. Edit and rerun; history is retained.")
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:
 		var row: TreeItem = tree.create_item(root_item); row.set_text(0, str(event.cycle)); row.set_text(1, str(event.duration)); row.set_text(2, event.kind); row.set_metadata(0, event.details.duplicate(true))

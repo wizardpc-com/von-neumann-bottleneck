@@ -3,6 +3,7 @@ extends Control
 signal block_selected(index: int)
 var values: Array[int] = []
 var partitions: Array[Dictionary] = []
+var request_counts: Dictionary = {}
 var selected: int = 0
 var hovered: int = -1
 const LEFT: float = 32.0
@@ -21,6 +22,12 @@ func configure(data: Array[int], plan: Array[Dictionary], selected_block: int) -
 	values = data.duplicate()
 	partitions = plan.duplicate(true)
 	selected = selected_block
+	queue_redraw()
+
+func set_requests(addresses: Array) -> void:
+	request_counts.clear()
+	for address: int in addresses:
+		if address >= 0 and address < values.size(): request_counts[address] = int(request_counts.get(address,0))+1
 	queue_redraw()
 
 func cell_rect(address: int) -> Rect2:
@@ -42,7 +49,7 @@ func _gui_input(event: InputEvent) -> void:
 		var address: int = address_at(event.position)
 		if address != hovered:
 			hovered = address
-			tooltip_text = "[%d] = %d" % [address,values[address]] if address >= 0 else ""
+			tooltip_text = "[%d] = %d · ×%d" % [address,values[address],int(request_counts.get(address,0))] if address >= 0 else ""
 			queue_redraw()
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		var index: int = block_at(address_at(event.position))
@@ -66,6 +73,7 @@ func _draw() -> void:
 		if index >= 0 and partitions[index].codec == "rle": edge = Color("62dca7")
 		draw_line(rect.position,rect.position+Vector2(rect.size.x,0),edge,2.0)
 		if index == selected: draw_rect(rect,Color(edge,0.6),false,1.0)
+		if request_counts.has(address): draw_line(rect.position+Vector2(3,rect.size.y-2),rect.end-Vector2(3,2),Color("f3c777"),3.0)
 		if address == hovered: draw_rect(rect,Color.WHITE,false,2.0)
 		draw_string(font,rect.position+Vector2(0,20),str(values[address]),HORIZONTAL_ALIGNMENT_CENTER,rect.size.x,14,Color("eef4f8"))
 	if has_focus(): draw_rect(Rect2(Vector2.ZERO,size),Color("50d5ff"),false,1.0)

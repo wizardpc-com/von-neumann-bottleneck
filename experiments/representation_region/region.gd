@@ -33,6 +33,8 @@ var run_button: Button
 var history_list: ItemList
 var reuse_button: Button
 var byte_boards: Array[Control] = []
+var public_order_choice: OptionButton
+var preview_order: int = 0
 var trace_player: Control
 var trace_play: Button
 var trace_step: Button
@@ -111,6 +113,14 @@ func build() -> void:
 		for start: int in range(0,64,16): data_rows.append("%02d–%02d: %s" % [start,start+15,str(second.slice(start,start+16))])
 	data.text = "\n".join(data_rows)
 	make_label(text2("同值同色 · 顶边蓝=RAW，绿=RLE · 点击字节选中分块", "Equal bytes share a color · blue top=RAW, green=RLE · click a byte to select its block"),editor,13)
+	public_order_choice = OptionButton.new(); public_order_choice.name = "PublicOrderPreview"
+	public_order_choice.add_item(text2("不标记请求", "No request markers"))
+	for public_order: Dictionary in Catalog.orders(task): public_order_choice.add_item(str(public_order.name))
+	preview_order = mini(preview_order,public_order_choice.item_count-1)
+	public_order_choice.select(preview_order)
+	public_order_choice.item_selected.connect(func(index: int) -> void: preview_order = index; refresh_request_preview())
+	editor.add_child(public_order_choice)
+	make_label(text2("金色底线=该订单请求地址；悬停×次数（每位客户），不表示缓存命中", "Gold underline=requested address; hover × count per client, not cache hits"),editor,12)
 	for asset_index: int in (2 if task == 4 else 1):
 		if task == 4: make_label(text2("资产A" if asset_index == 0 else "资产B", "Asset A" if asset_index == 0 else "Asset B"),editor,14)
 		var board = preload("res://experiments/representation_region/byte_board.gd").new()
@@ -268,10 +278,20 @@ func refresh_plan() -> void:
 	if task == 3: draft_label.text += text2("；保留源后实际存储/准备峰值%dB", "; retained-source storage/preparation peak%dB") % [64+online_writes]
 	refresh_actions()
 
+func refresh_request_preview() -> void:
+	var orders: Array[Dictionary] = Catalog.orders(task)
+	for board: Control in byte_boards:
+		var addresses: Array = []
+		if preview_order > 0 and preview_order <= orders.size():
+			var order: Dictionary = orders[preview_order-1]
+			if board.values == order.data: addresses = order.addresses
+		board.set_requests(addresses)
+
 func refresh_actions() -> void:
 	if split_at == null: return
 	for i: int in byte_boards.size():
 		byte_boards[i].configure(Model.asset(task) if i == 0 else Catalog.asset(5),plan,selected_block)
+	refresh_request_preview()
 	var block: Dictionary = plan[selected_block]
 	split_button.disabled = plan.size() >= Model.MAX_BLOCKS or int(split_at.value) <= int(block.start) or int(split_at.value) >= int(block.end)
 	merge_button.disabled = selected_block + 1 >= plan.size()

@@ -49,6 +49,7 @@ var response_play: Button
 var response_step: Button
 var response_chart: Control
 var comparison_baseline: Dictionary = {}
+var comparison_chart: Control
 var comparison_detail: Label
 var pin_button: Button
 var clear_pin_button: Button
@@ -162,6 +163,7 @@ func build() -> void:
 	pin_button = button(tr2("以此记录为对照", "Pin this measurement"),compare_row,pin_comparison,"PinComparison")
 	clear_pin_button = button(tr2("清除对照", "Clear comparison"),compare_row,func() -> void: comparison_baseline.clear(); refresh_comparison(),"ClearComparison")
 	comparison_detail = label("",comparison_panel,14)
+	comparison_chart = preload("res://experiments/service_plan/comparison_chart.gd").new(); comparison_chart.name = "ComparisonChart"; comparison_panel.add_child(comparison_chart)
 	response_chart = preload("res://experiments/service_plan/response_chart.gd").new(); response_chart.name = "ResponseChart"
 	overview.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
 	var replay_row := HBoxContainer.new(); overview.add_child(replay_row)
@@ -266,13 +268,15 @@ func refresh_comparison() -> void:
 	if comparison_detail == null: return
 	var valid: bool = selected_history >= 0 and selected_history < history.size() and str(history[selected_history].metrics.error).is_empty()
 	pin_button.disabled = not valid; clear_pin_button.disabled = comparison_baseline.is_empty()
+	comparison_chart.configure(comparison_baseline,history[selected_history].metrics if valid else {},english)
+	comparison_chart.visible = valid and not comparison_baseline.is_empty()
 	if comparison_baseline.is_empty():
 		comparison_detail.text = tr2("选择一条实测记录作为对照，再选择另一条查看变化。对照仅保留在本次窗口。", "Pin one measured record, then select another to compare. The pinned baseline lasts for this window only."); return
 	if not valid:
 		comparison_detail.text = tr2("保留对照；当前记录未完成有效测量。", "Baseline retained; current record has no valid measurement."); return
 	var m: Dictionary = history[selected_history].metrics
 	var b: Dictionary = comparison_baseline
-	comparison_detail.text = tr2("对照 %d周期 / 状态%dB / 峰值%dB / 最晚首响应%d\n当前减对照：周期%+d · 状态%+dB · 峰值%+dB · 最晚首响应%+d\n误差对照→当前：分数%s→%s；状态%s→%s", "Pinned: %dcyc / state%dB / peak%dB / latest first%d\nCurrent minus pinned: cycles%+d · state%+dB · peak%+dB · latest first%+d\nError pinned→current: score%s→%s; state%s→%s") % [b.total_cycles,b.state_read_bytes+b.state_write_bytes,b.peak_bytes,b.all_streams_first_cycle,m.total_cycles-b.total_cycles,m.state_read_bytes+m.state_write_bytes-b.state_read_bytes-b.state_write_bytes,m.peak_bytes-b.peak_bytes,m.all_streams_first_cycle-b.all_streams_first_cycle,String.num_scientific(b.max_error),String.num_scientific(m.max_error),String.num_scientific(b.max_state_error),String.num_scientific(m.max_state_error)]
+	comparison_detail.text = tr2("误差对照→当前：分数%s→%s；状态%s→%s", "Error pinned→current: score%s→%s; state%s→%s") % [String.num_scientific(b.max_error),String.num_scientific(m.max_error),String.num_scientific(b.max_state_error),String.num_scientific(m.max_state_error)]
 
 func refresh_measured_source() -> void:
 	if measured_source == null: return

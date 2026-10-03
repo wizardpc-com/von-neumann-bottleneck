@@ -1,9 +1,29 @@
 extends ItemList
 ## Direct manipulation of existing groups; no scheduling or acceptance authority.
 signal group_moved(source: int, target: int)
+const STREAM_COLORS: Array[Color] = [Color("50d5ff"),Color("a79aff"),Color("65d8ad"),Color("edb96b")]
+var icons: Dictionary = {}
 
 func _init() -> void:
 	focus_mode = Control.FOCUS_ALL
+	fixed_icon_size = Vector2i(28,12)
+
+func stream_mask(group: Array) -> int:
+	var mask: int = 0
+	for id: int in group:
+		if id >= 0 and id < 24: mask |= 1 << (id / 6)
+	return mask
+
+func group_icon(group: Array) -> Texture2D:
+	var mask: int = stream_mask(group)
+	if icons.has(mask): return icons[mask]
+	var image := Image.create(28,12,false,Image.FORMAT_RGBA8)
+	image.fill(Color.TRANSPARENT)
+	for stream: int in 4:
+		var color: Color = STREAM_COLORS[stream] if mask & (1 << stream) else Color("263c49")
+		image.fill_rect(Rect2i(stream*7,1,5,10),color)
+	var texture := ImageTexture.create_from_image(image); icons[mask] = texture
+	return texture
 
 func drag_payload(index: int) -> Dictionary:
 	if index < 0 or index >= item_count: return {}

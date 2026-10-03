@@ -109,7 +109,7 @@ func build() -> void:
 	var editor := VBoxContainer.new(); editor.custom_minimum_size.x = 430; body.add_child(editor)
 	label(tr2("服务组（可拖动）· 从上到下执行", "Drag service groups · execute top to bottom"), editor)
 	group_list = preload("res://experiments/service_plan/group_list.gd").new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_EXPAND_FILL; group_list.custom_minimum_size.y = 100; editor.add_child(group_list)
-	group_list.tooltip_text = tr2("可将整组拖到目标行；移动后仍需运行核验同流保序。", "Drag a whole group onto its target row; Run still validates stream order.")
+	group_list.tooltip_text = tr2("四格依次代表A/B/C/D；亮格表示组内包含该流。可拖动整组，运行核验同流保序。", "Four marks represent A/B/C/D; lit marks show streams present. Drag whole groups; Run validates stream order.")
 	group_list.group_moved.connect(func(source: int, target: int) -> void: edit(Model.move(plan,source,target-source),target))
 	group_list.item_selected.connect(func(index: int) -> void: selected_group = index; refresh_actions())
 	var motion := HBoxContainer.new(); editor.add_child(motion)
@@ -188,7 +188,7 @@ func refresh_groups() -> void:
 	for index: int in plan.groups.size():
 		var tokens: PackedStringArray = []
 		for id: int in plan.groups[index]: tokens.append(char(65 + id / 6) + str(id % 6))
-		group_list.add_item("%02d   [ %s ]" % [index + 1, "  ".join(tokens)])
+		group_list.add_item("%02d   [ %s ]" % [index + 1, "  ".join(tokens)],group_list.group_icon(plan.groups[index]))
 	selected_group = clampi(selected_group, 0, plan.groups.size() - 1); group_list.select(selected_group); group_list.ensure_current_is_visible()
 	refresh_measured_source()
 	move_to.max_value = plan.groups.size()

@@ -162,6 +162,8 @@ func run() -> void:
 	check(lab.measured_feedback(M.run(resident).metrics,0).contains("108"),"Cache residency reports its actual peak budget excess")
 	check(lab.measured_feedback(M.run(all8).metrics,1).contains("误差"),"Exact-quality failure remains visible for quantized storage")
 	check(lab.measured_feedback(M.run(lossless).metrics,2).contains("约束成立"),"Final-contract feedback makes no nonexistent next-task promise")
+	check(lab.group_list.stream_mask([0,1,6,23]) == 11,"Group visual marks represent present streams, not only the first request")
+	check(lab.group_list.stream_mask([12,13]) == 4 and lab.group_list.get_item_icon(0) != null,"Stream marks retain text labels and actual group membership")
 	var payload: Dictionary = lab.group_list.drag_payload(4)
 	var target_position: Vector2 = lab.group_list.get_item_rect(1).get_center()
 	check(lab.group_list._can_drop_data(target_position,payload),"Own group can be dragged to another visible row")

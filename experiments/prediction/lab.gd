@@ -51,7 +51,7 @@ func choice(text: String, handle: String, values: Array[String], selected: int, 
 func build() -> void:
 	for child: Node in get_children(): remove_child(child); child.queue_free()
 	var bg := ColorRect.new(); bg.color = Color("0b1720"); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(bg)
-	var scroll := ScrollContainer.new(); scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(scroll)
+	var scroll := ScrollContainer.new(); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(scroll)
 	var margin := MarginContainer.new(); margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for edge: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+edge,14)
 	scroll.add_child(margin)

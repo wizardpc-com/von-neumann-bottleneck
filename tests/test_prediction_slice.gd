@@ -101,6 +101,12 @@ func run() -> void:
 	check(lab.history[0].trace.canonical_signature()==signature and lab.goal_met(0),"history immutable and evidence goal follows actual regular win")
 	public.completed_runs[0].metrics.total_cycles=-1
 	check(lab.history[0].trace.metrics.total_cycles==150,"public dictionaries detached from receipts")
+	for viewport: Vector2i in [Vector2i(1280,720),Vector2i(1600,900)]:
+		root.size = viewport; lab.size = Vector2(viewport)
+		for english: bool in [false,true]:
+			lab.english = english; lab.task = 2; lab.build(); await process_frame; await process_frame
+			check(lab.mission.get_global_rect().end.x <= viewport.x, "Bilingual mission wraps inside viewport")
+			check(lab.events.get_global_rect().end.x <= viewport.x, "Evidence column remains inside viewport")
 	lab.queue_free(); await process_frame
 	print("PASS: prediction slice %d checks" % checks if failures.is_empty() else "FAIL: prediction slice "+str(failures))
 	quit(0 if failures.is_empty() else 1)

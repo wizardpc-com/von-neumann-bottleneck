@@ -56,6 +56,7 @@ func _ready() -> void:
 		if arg == "--locale=en": english = true
 		if arg == "--candidate-save": persistent_session = true
 	if persistent_session:
+		add_to_group("candidate_quit_owners")
 		previous_auto_quit = get_tree().auto_accept_quit
 		get_tree().auto_accept_quit = false
 		restore_session()

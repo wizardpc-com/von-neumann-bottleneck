@@ -42,19 +42,21 @@ func run() -> void:
 	check(Store.write_session(raw,path) != OK,"Do not overwrite unreadable data")
 	check(FileAccess.get_file_as_string(path) == "future data","Unreadable save preserved byte for byte")
 	check(Store.write_session(raw,"user://missing-dir/save.json") != OK,"Missing destination fails safely")
-	var scene = load("res://experiments/representation_region/region.tscn").instantiate()
-	root.add_child(scene); await process_frame
-	scene.persistent_session = true
 	# Use the real default candidate location, isolated by the verifier's per-suite directory.
 	check(Store.write_session(raw) == OK,"Candidate profile fixture")
-	scene.restore_session(); scene.build(); await process_frame
+	var scene = load("res://experiments/representation_region/region.tscn").instantiate()
+	scene.persistent_session = true
+	root.add_child(scene); await process_frame
+	check(scene.is_in_group("candidate_quit_owners"),"Representation owns its isolated window-close guard")
 	check(scene.task == 1 and scene.plan == plans[1],"Scene draft restored")
 	check(scene.history.size() == 1 and scene.history[0].traces.size() == Model.orders(1).size(),"Restore recomputes traces from plans")
 	check(scene.completed[1] == Model.meets(1,scene.history[0].traces),"Completion follows recomputation")
 	check(scene.find_child("SaveSession",true,false) != null,"Explicit save action available")
 	scene.edit_plan(Model.represent(scene.plan,0,"rle"))
 	check(scene.session_dirty,"Editing marks the profile unsaved")
-	scene.request_quit(); await process_frame
+	root.get_node("GlobalSave")._notification(Node.NOTIFICATION_WM_CLOSE_REQUEST)
+	await process_frame
+	scene._notification(Node.NOTIFICATION_WM_CLOSE_REQUEST); await process_frame
 	var dialog = scene.get_node_or_null("UnsavedSessionDialog")
 	check(dialog != null and dialog.visible,"Unsaved quit offers a decision without exiting")
 	dialog.hide()

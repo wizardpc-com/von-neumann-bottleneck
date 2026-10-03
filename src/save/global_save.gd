@@ -72,6 +72,9 @@ func _exit_tree() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST and not get_tree().auto_accept_quit:
+		# Persistent candidate scenes own their separate unsaved-session dialog.
+		# Their own close notification handles it; do not preempt it with campaign quit.
+		if not get_tree().get_nodes_in_group("candidate_quit_owners").is_empty(): return
 		request_quit()
 	elif what == NOTIFICATION_APPLICATION_PAUSED:
 		get_tree().call_group("workspace_owners", "flush_workspace")

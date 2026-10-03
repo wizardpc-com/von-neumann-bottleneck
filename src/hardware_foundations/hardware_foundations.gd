@@ -978,7 +978,7 @@ func _on_level_completion_primary_action(level_id: StringName) -> void:
 			_seal_prologue_component()
 
 
-func _continue_to_next_level(level_id: StringName) -> void:
+func _next_campaign_level(level_id: StringName) -> StringName:
 	var next_level: StringName = &""
 	match level_id:
 		&"tutorial": next_level = &"half_adder"
@@ -997,7 +997,17 @@ func _continue_to_next_level(level_id: StringName) -> void:
 			else:
 				next_level = &"cpu"
 		&"cpu": next_level = &"load_store"
-	if not next_level.is_empty() and _is_level_unlocked(next_level):
+	if not next_level.is_empty() and bool(completed_levels.get(next_level,false)):
+		# Completion may happen in either branch; Continue should not demand replay.
+		for candidate: StringName in [&"tutorial",&"half_adder",&"full_adder",&"alu",&"latch",&"register",&"ram",&"cpu",&"load_store"]:
+			if not bool(completed_levels.get(candidate,false)) and _is_level_unlocked(candidate): return candidate
+		return &""
+	return next_level if not next_level.is_empty() and _is_level_unlocked(next_level) else &""
+
+
+func _continue_to_next_level(level_id: StringName) -> void:
+	var next_level: StringName = _next_campaign_level(level_id)
+	if not next_level.is_empty():
 		_start_campaign_level(next_level)
 	else:
 		_open_campaign_map()

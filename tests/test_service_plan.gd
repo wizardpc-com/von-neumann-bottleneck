@@ -133,6 +133,10 @@ func run() -> void:
 	await process_frame; await process_frame
 	check(lab.public_observation().measured.is_empty(), "Public observation never runs hidden candidate simulations")
 	lab.run_current(); var record_before: String = JSON.stringify(lab.history[0])
+	check(lab.status.text.contains("784") and lab.status.text.contains("2568"),"Baseline failure reports exact cycle and state-traffic excess")
+	check(lab.measured_feedback(M.run(resident).metrics,0).contains("108"),"Cache residency reports its actual peak budget excess")
+	check(lab.measured_feedback(M.run(all8).metrics,1).contains("误差"),"Exact-quality failure remains visible for quantized storage")
+	check(lab.measured_feedback(M.run(lossless).metrics,2).contains("约束成立"),"Final-contract feedback makes no nonexistent next-task promise")
 	lab.edit(M.merge(lab.plan, 0), 0); check(JSON.stringify(lab.history[0]) == record_before, "Editing group leaves measured history immutable")
 	lab.undo(); check(lab.plan == baseline, "UI undo restores constructed plan")
 	lab.redo(); check(lab.plan.groups[0].size() == 2, "UI redo restores merge")

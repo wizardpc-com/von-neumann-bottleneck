@@ -87,3 +87,9 @@ The final mixed solution is lossless. Uniform RLE64 costs356B of state traffic,
 failing the320B contract because the varied streams expand. Uniform RAW8 is another
 valid final solution at1236cycles/80B, with real nonzero output/final-state error.
 These are QA examples, not loaded presets or inputs to the unknown-answer policy.
+
+## Native usability pass, 2026-10-03
+
+The candidate now uses the game's existing instrument theme, a visible primary run action and a localized clue button. Failure feedback reports actual measured budget excess for the current contract, including scientific-notation quality errors; it does not prescribe a storage format or request order. Model.accepted remains completion authority. Final-contract success no longer promises a nonexistent next task.
+
+Native Linux input at1280×842 verified the original interleaved baseline at2204cycles/3168B state traffic/266B peak, and the new exact784-cycle/2568B excess feedback. `test_service_plan` covers the unchanged models, bilingual1280×720 layout, peak-budget/quantization diagnostics and final-contract wording. A formatting error in the first scientific-error implementation was caught by tests and repaired before commit. Full native completion of the three service contracts and human novice enjoyment are not yet verified; session state is still ephemeral.

@@ -40,6 +40,7 @@ var tree: Tree
 
 func tr2(zh: String, en: String) -> String: return en if english else zh
 func _ready() -> void:
+	theme = Theme.new(); InstrumentTheme.apply_to(theme)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--locale=en": english = true
@@ -75,7 +76,7 @@ func build() -> void:
 	for index: int in 3:
 		var node: Button = button(tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: task = index; build(), "Task%d" % (index + 1))
 		node.disabled = index > unlocked; task_buttons.append(node)
-	hint_button = button("Hint1", stages, func() -> void: hint_open = not hint_open; refresh_mission(), "Hint1")
+	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void: hint_open = not hint_open; refresh_mission(), "Hint1")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
 	mission = label("", page, 14); refresh_mission()
 	status = label(tr2("构造组和顺序，选择逐流表示，再测量。实验进度只在内存。", "Construct groups/order and per-stream storage, then measure. Lab progress is session-only."), page, 14)
@@ -111,6 +112,7 @@ func build() -> void:
 	undo_button = button(tr2("撤销", "Undo"), actions, undo, "Undo")
 	redo_button = button(tr2("重做", "Redo"), actions, redo, "Redo")
 	run_button = button(tr2("运行并记录", "Run and record"), actions, run_current, "Run")
+	InstrumentTheme.primary(run_button,Color("50d5ff"))
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
 	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -164,9 +166,30 @@ func refresh_history() -> void:
 	for index: int in history.size():
 		var m: Dictionary = history[index].metrics
 		history_list.add_item("%d · T%d · %dcyc · state%dB · first%s" % [index + 1, history[index].task + 1, m.total_cycles, m.state_read_bytes + m.state_write_bytes, str(m.first_stream_cycles)])
+func measured_feedback(metrics: Dictionary, contract: int) -> String:
+	if contract < 0 or contract > 2: return tr2("未知任务。", "Unknown task.")
+	if not str(metrics.error).is_empty(): return tr2("拒绝：", "Rejected: ")+str(metrics.error)
+	if Model.accepted(metrics,contract): return tr2("当前任务约束成立；可以继续比较自己的其他方案。", "Current task limits met; keep comparing your own alternatives.")
+	var failures: Array[String] = []
+	var budgets: Array[Dictionary] = [{"name":tr2("总周期", "Total cycles"),"actual":int(metrics.total_cycles),"limit":1420}]
+	if contract == 0:
+		budgets.append({"name":tr2("峰值空间B", "Peak space B"),"actual":int(metrics.peak_bytes),"limit":350})
+	if contract != 1:
+		budgets.append({"name":tr2("状态读写B", "State traffic B"),"actual":int(metrics.state_read_bytes)+int(metrics.state_write_bytes),"limit":600 if contract == 0 else 320})
+	if contract > 0:
+		budgets.append({"name":tr2("最晚首响应周期", "Latest first response"),"actual":int(metrics.all_streams_first_cycle),"limit":320})
+	for budget: Dictionary in budgets:
+		if budget.actual > budget.limit: failures.append(tr2("%s %d / 上限%d，超出%d", "%s %d / limit%d, over by%d") % [budget.name,budget.actual,budget.limit,budget.actual-budget.limit])
+	var tolerance: float = 0.02 if contract == 2 else 0.000000001
+	for key: String in ["max_error","max_state_error"]:
+		if float(metrics[key]) > tolerance:
+			var name: String = tr2("分数误差", "Score error") if key == "max_error" else tr2("最终状态误差", "Final-state error")
+			failures.append(name+" "+String.num_scientific(float(metrics[key]))+" / "+String.num_scientific(tolerance))
+	return " · ".join(failures) if not failures.is_empty() else tr2("证据未满足当前任务。", "Evidence does not meet this task.")
+
 func select_run(index: int) -> void:
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
-	status.text = (tr2("满足当前任务；可进入下一任务。", "Meets current task; next task available.") if Model.accepted(m, task) else tr2("未满足当前任务；检查响应、写回、编码和误差。", "Misses current task; inspect responses, writes, codec costs and errors.")) if str(m.error).is_empty() else tr2("拒绝：", "Rejected: ") + str(m.error)
+	status.text = measured_feedback(m,task)
 	summary.text = tr2("总%d周期 · 全部%dB · 状态读写%dB · 峰值%dB\n费用 请求%d / 搬运%d / 运算%d / 提交%d / 编码%d\nA/B/C/D首响应%s · 读%d / 写%d (flush%d)\n分数误差%.6f · 最终状态误差%.6f · 外存%d→%dB", "Total%dcyc · all%dB · state%dB · peak%dB\nCosts request%d / transfer%d / compute%d / commit%d / codec%d\nA/B/C/D first%s · reads%d / writes%d (flush%d)\nScore error%.6f · state error%.6f · backing%d→%dB") % [m.total_cycles, m.traffic_bytes, m.state_read_bytes + m.state_write_bytes, m.peak_bytes, m.request_cycles, m.transfer_cycles, m.compute_cycles, m.commit_cycles, m.codec_cycles, str(m.first_stream_cycles), m.state_reads, m.state_writes, m.flush_writes, m.max_error, m.max_state_error, m.initial_backing_bytes, m.final_backing_bytes]
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:

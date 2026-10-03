@@ -20,3 +20,6 @@ Fresh focused and full checks, source diff review, native save → close → reo
 
 ## First slice verification
 2026-10-03: final isolated verifier 20261003T132423Z-13d89c0f passed 57 stages (import, isolated directory, 55 suites). Candidate session suite covers 37 checks, including malformed/future data, stale writer refusal and unsaved quit cancellation. Native Linux input confirmed save/restart restoring task2 with its own draft and both task1 comparisons; quit/cancel/retry/save-and-quit worked. Four invalid launcher profile cases rejected. An early JSON type guard failure was found and fixed before final validation. One native fullscreen startup rendered at an incorrect offset until F11 switched display mode; not claimed as resolved platform behavior. Audio dummy fallback prevents listening acceptance. No gameplay model or official save semantics changed.
+
+## Second bounded improvement
+Owner emphasized that fun is central. Add a reversible path from an actual recorded plan back to editable construction, reducing repetitive rebuilding and making another experiment cheap. This enables player choices; it is not proof of fun or novice comprehension. Focused tests cover immutable historical evidence, undo, cross-task preservation and repeated copy no-op.

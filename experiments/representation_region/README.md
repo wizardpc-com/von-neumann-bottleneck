@@ -113,3 +113,7 @@ Use **Save drafts and comparisons** before quitting. Unsaved exit offers Save an
 Storage is `representation-session.json` inside the explicitly separate `VonNeumannBottleneckCandidates/representation/<profile>` user directory. Ordinary player directories are not used. Malformed, future/unknown-schema, changed-contract or oversized files are preserved and not overwritten. A stale writer is rejected against its loaded content digest; this is not an interprocess lock, so only one running window should write a profile. A prior successful save is retained as `.bak`; write/rename failures leave a visible error. No automatic migration, recovery or deletion is attempted.
 
 Focused checks: `test_representation_session` and `test_representation_region`. Native Linux input confirmed draft edits, two actual comparisons, save, exit, restart into the same task/draft/history, then cancel and retry unsaved exit and save-and-quit. Known-objective agent testing does not establish novice understanding. Native Mac/Windows and audio acceptance remain unverified.
+
+## Iterate from your own evidence
+
+Select a performed run and choose **Try a variation of this plan** to copy that owned plan into its task draft. Older traces remain immutable; the displaced draft can be restored with Undo. Cross-task reuse preserves the departing draft and opens the recorded task. Reusing an identical draft adds no fake undo step. No reference answer is provided and no run/completion is granted by the copy.

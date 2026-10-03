@@ -31,6 +31,7 @@ var undo_button: Button
 var redo_button: Button
 var run_button: Button
 var history_list: ItemList
+var reuse_button: Button
 var order_choice: OptionButton
 var events: Tree
 var details: RichTextLabel
@@ -87,7 +88,7 @@ func build() -> void:
 		b.add_theme_font_size_override("font_size",13)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL; task_buttons.append(b)
 	mission = make_label(mission_text(),page,14); mission.name = "Mission"
-	var hint := make_button("Hint1",page,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
+	var hint := make_button(text2("看一个线索（不揭示方案）","A clue, not a solution"),page,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
 	hint.tooltip_text = Catalog.hint(task,english)
 	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.split_offset = 590; page.add_child(body)
 	var edit_scroll := ScrollContainer.new(); edit_scroll.name = "EditorScroll"; edit_scroll.custom_minimum_size.x = 530; edit_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(edit_scroll)
@@ -138,6 +139,8 @@ func build() -> void:
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; evidence_scroll.add_child(evidence)
 	make_label(text2("实际运行记录（选择旧记录复查）","Recorded runs (select an older run to inspect)"),evidence,17)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 90; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
+	reuse_button = make_button(text2("从选中方案继续试", "Try a variation of this plan"),evidence,reuse_recorded_plan,"ReusePlan")
+	reuse_button.tooltip_text = text2("复制自己的旧方案到对应任务草稿；旧记录不变，覆盖的草稿可撤销。", "Copy your recorded plan into its task draft. The record stays unchanged; Undo restores the previous draft.")
 	result = make_label("",evidence,14)
 	order_choice = OptionButton.new(); order_choice.name = "RecordedOrder"; evidence.add_child(order_choice)
 	order_choice.item_selected.connect(func(i: int) -> void: show_trace(i))
@@ -242,6 +245,7 @@ func run_current() -> void:
 
 func refresh_history() -> void:
 	history_list.clear()
+	reuse_button.disabled = selected_run < 0 or selected_run >= history.size()
 	for i: int in history.size():
 		var row: Dictionary = history[i]; var times: Array[String] = []
 		for trace: Trace in row.traces: times.append(str(trace.metrics.total_cycles))
@@ -353,6 +357,19 @@ func mark_session_dirty() -> void:
 	if not persistent_session: return
 	session_dirty = true
 	session_notice = ""
+
+func reuse_recorded_plan() -> void:
+	if selected_run < 0 or selected_run >= history.size(): return
+	var record_index: int = selected_run
+	var recorded: Dictionary = history[record_index]
+	if int(recorded.task) != task: change_task(int(recorded.task))
+	var copied: Array[Dictionary] = []
+	copied.assign(recorded.plan.duplicate(true))
+	if copied == plan:
+		status.text = text2("当前草稿已是这份方案；直接修改或运行即可。", "This plan is already your draft; edit or run it directly.")
+		return
+	edit_plan(copied)
+	status.text = text2("已取回方案#%d；可以改一点再运行。旧记录保留，原草稿可撤销恢复。", "Plan #%d is ready to vary and run. Its old record is preserved; Undo can restore the previous draft.") % [record_index+1]
 
 func request_quit() -> void:
 	if not persistent_session or not session_dirty:

@@ -2,6 +2,10 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Candidate save/resume slice — 2026-10-03
+
+The representation candidate now has opt-in isolated profiles, explicit save, stale-writer refusal and unsaved-exit protection. Drafts survive relaunch; recorded plans are recomputed for comparison only under matching model/contracts. Official five-region/40-task progression is unchanged. This is a candidate usability slice, not formal chapter integration or a new release. See [candidate profile guide](../experiments/representation_region/README.md).
+
 ## Second-act candidate content — 2026-10-03
 
 Five Representation tasks, three bounded-history Prediction investigations, and three

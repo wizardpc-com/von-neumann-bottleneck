@@ -1,8 +1,8 @@
-# Candidate representation region (session-only)
+# Candidate representation region
 
 Rules recorded before implementation. This isolated five-task region reuses the
 editable representation codec, directory, automatic decoded LRU and authoritative
-Trace. No campaign registry, save, receipt, Notebook or telemetry is involved.
+Trace. No campaign registry, ordinary campaign save, receipt, Notebook or telemetry is involved. Optional candidate-profile storage is described below.
 
 ## New preparation rule
 
@@ -103,3 +103,13 @@ languages, public controls, complete output/cost oracles, alternatives, invalid
 plans, authored spec/plan binding, preparation reversal and immutable history.
 These are programmatic contracts; no viewport-input or human comprehension claim
 is made by this suite. Root owns separate graphical acceptance.
+
+## Opt-in candidate profiles (2026-10-03)
+
+Run `python3 scripts/run-experiment.py representation_region --godot <Godot-4.7.1> --profile my-trial` to keep a separate candidate session across launches. Profile names accept 1–40 ASCII letters, digits or hyphens. Profiles are never allowed with automated replays or other experiments. The default launcher still creates disposable isolated sessions.
+
+Use **Save drafts and comparisons** before quitting. Unsaved exit offers Save and quit, Keep editing, or Quit without saving. Each task's draft and the most recent 100 comparison plans are retained; undo/redo is session-local. Candidate checkmarks are recomputed from retained comparison plans, not trusted saved flags. Old successes outside the retained history are not permanent campaign achievements. On restore, traces are recomputed under the exact matching model and public contract fingerprint, and the UI says so.
+
+Storage is `representation-session.json` inside the explicitly separate `VonNeumannBottleneckCandidates/representation/<profile>` user directory. Ordinary player directories are not used. Malformed, future/unknown-schema, changed-contract or oversized files are preserved and not overwritten. A stale writer is rejected against its loaded content digest; this is not an interprocess lock, so only one running window should write a profile. A prior successful save is retained as `.bak`; write/rename failures leave a visible error. No automatic migration, recovery or deletion is attempted.
+
+Focused checks: `test_representation_session` and `test_representation_region`. Native Linux input confirmed draft edits, two actual comparisons, save, exit, restart into the same task/draft/history, then cancel and retry unsaved exit and save-and-quit. Known-objective agent testing does not establish novice understanding. Native Mac/Windows and audio acceptance remain unverified.

@@ -43,6 +43,8 @@ var mission: Label
 var status: Label
 var evidence_tabs: TabContainer
 var public_detail: RichTextLabel
+var response_play: Button
+var response_step: Button
 var response_chart: Control
 var summary: Label
 var detail: RichTextLabel
@@ -146,6 +148,12 @@ func build() -> void:
 	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
 	response_chart = preload("res://experiments/service_plan/response_chart.gd").new(); response_chart.name = "ResponseChart"
 	overview.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
+	var replay_row := HBoxContainer.new(); overview.add_child(replay_row)
+	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,response_chart.toggle_play,"ResponsePlay")
+	response_play.custom_minimum_size.x = 220
+	response_step = button(tr2("下一响应", "Next response"),replay_row,response_chart.step_response,"ResponseStep")
+	response_play.disabled = true; response_step.disabled = true
+	response_chart.playback_changed.connect(func(value: bool) -> void: response_play.text = tr2("暂停回放", "Pause replay") if value else tr2("回放首响应顺序", "Replay first responses"))
 	tree = Tree.new(); tree.name = "Trace"; tree.columns = 3; tree.column_titles_visible = true; tree.hide_root = true
 	tree.set_column_title(0, tr2("周期", "Cycle")); tree.set_column_title(1, tr2("费用", "Cost")); tree.set_column_title(2, tr2("事件", "Event")); tree.size_flags_vertical = Control.SIZE_EXPAND_FILL; tree.custom_minimum_size.y = 80; event_panel.add_child(tree)
 	tree.item_selected.connect(func() -> void:
@@ -223,6 +231,8 @@ func select_run(index: int) -> void:
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
 	status.text = measured_feedback(m,task)
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
+	response_step.disabled = response_chart.first_responses.is_empty()
+	response_play.disabled = response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false))
 	summary.text = tr2("总%d周期 · 全部%dB · 状态读写%dB · 峰值%dB\n费用 请求%d / 搬运%d / 运算%d / 提交%d / 编码%d\nA/B/C/D首响应%s · 读%d / 写%d (flush%d)\n分数误差%.6f · 最终状态误差%.6f · 外存%d→%dB", "Total%dcyc · all%dB · state%dB · peak%dB\nCosts request%d / transfer%d / compute%d / commit%d / codec%d\nA/B/C/D first%s · reads%d / writes%d (flush%d)\nScore error%.6f · state error%.6f · backing%d→%dB") % [m.total_cycles, m.traffic_bytes, m.state_read_bytes + m.state_write_bytes, m.peak_bytes, m.request_cycles, m.transfer_cycles, m.compute_cycles, m.commit_cycles, m.codec_cycles, str(m.first_stream_cycles), m.state_reads, m.state_writes, m.flush_writes, m.max_error, m.max_state_error, m.initial_backing_bytes, m.final_backing_bytes]
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:

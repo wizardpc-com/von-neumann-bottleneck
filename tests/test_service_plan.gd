@@ -144,6 +144,20 @@ func run() -> void:
 	lab.task = 1; lab.select_run(0); await process_frame
 	check(lab.response_chart.deadline == 320 and lab.response_chart.exceeds(3),"Current contract deadline is rendered against the recorded baseline")
 	lab.task = 0; lab.select_run(0)
+	var measured_firsts: Array = lab.history[0].metrics.first_stream_cycles.duplicate()
+	lab.response_chart.toggle_play(); lab.response_chart._process(1.0)
+	check(lab.response_chart.playing and lab.response_chart.playback_cycle > 0 and lab.response_chart.playback_cycle < 89,"Replay progresses through recorded time without inventing a response")
+	lab.response_chart.step_response()
+	check(not lab.response_chart.playing and lab.response_chart.playback_cycle == 89,"Step pauses at the next actual first response")
+	ProjectSettings.set_setting("game/reduced_motion",true)
+	lab.response_chart.toggle_play(); check(not lab.response_chart.playing,"Reduced motion does not start continuous animation")
+	lab.response_chart.step_response(); check(lab.response_chart.playback_cycle == 180,"Reduced-motion stepping remains available")
+	ProjectSettings.set_setting("game/reduced_motion",false)
+	lab.response_chart.toggle_play(); lab.evidence_tabs.current_tab = 1; await process_frame
+	check(not lab.response_chart.playing,"Hidden response tab pauses its animation")
+	lab.evidence_tabs.current_tab = 0
+	check(lab.history[0].metrics.first_stream_cycles == measured_firsts,"Playback never changes recorded metrics")
+	lab.select_run(0)
 	check(lab.status.text.contains("784") and lab.status.text.contains("2568"),"Baseline failure reports exact cycle and state-traffic excess")
 	check(lab.measured_feedback(M.run(resident).metrics,0).contains("108"),"Cache residency reports its actual peak budget excess")
 	check(lab.measured_feedback(M.run(all8).metrics,1).contains("误差"),"Exact-quality failure remains visible for quantized storage")
@@ -170,7 +184,7 @@ func run() -> void:
 			check(node.get_global_rect().position.x >= 0 and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Bilingual1280x720 editor stays inside viewport")
 		for tab: int in 3:
 			lab.evidence_tabs.current_tab = tab; await process_frame; await process_frame
-			var nodes: Array = [lab.summary,lab.response_chart] if tab == 0 else ([lab.tree,lab.detail] if tab == 1 else [lab.public_detail])
+			var nodes: Array = [lab.summary,lab.response_chart,lab.response_play,lab.response_step] if tab == 0 else ([lab.tree,lab.detail] if tab == 1 else [lab.public_detail])
 			for node: Control in nodes:
 				check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Each active evidence tab fits minimum viewport with hints")
 	lab.evidence_tabs.current_tab = 0; lab.show_public_data()

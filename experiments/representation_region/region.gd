@@ -175,6 +175,7 @@ func build() -> void:
 	trace_player = preload("res://experiments/representation_region/trace_player.gd").new()
 	trace_player.name = "TracePlayer"
 	trace_play = make_button(text2("回放真实事件", "Replay recorded events"),playback_row,trace_player.toggle_play,"TracePlay")
+	trace_play.custom_minimum_size.x = 220
 	trace_step = make_button(text2("下一事件", "Next event"),playback_row,trace_player.step,"TraceStep")
 	trace_play.disabled = true; trace_step.disabled = true
 	trace_player.playing_changed.connect(func(value: bool) -> void: trace_play.text = text2("暂停回放", "Pause replay") if value else text2("回放真实事件", "Replay recorded events"))

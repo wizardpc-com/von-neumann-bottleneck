@@ -77,3 +77,9 @@ Native ALU play revealed that opening the optional experiment below five input r
 The same isolated save now has all nine core prologue tasks completed. CPU was wired through 19 native drag connections from its supplied components, using the earned ALU4/Register4/RAM2x4. All seven official program steps passed at 2 Hz; the verified topology was sealed as TinyComputer through the UI. The LOAD/STORE bridge reused that actual sealed component and passed its seven-step demonstration. Chapter feedback was skipped, without generating a subjective player rating. Closing/relaunching preserved completion and unlocked Chapter 1, whose native playthrough has begun but is not yet complete.
 
 The bridge exposed another layout issue: its empty, irrelevant parts palette consumed the right side of an observation-only task. Default entry now leaves that panel closed for locked prologue topology; it remains recallable. Native replay showed the data-flow diagram at 100% rather than the previous 75% with no missing input/output controls. Focused tests and all 60 verification stages passed; this does not alter simulation, progression, wire topology or stored circuits.
+
+## Chapter 1 first task and result navigation
+
+Native play manually connected all six CPU/Bus/RAM paths for 三器相连. Both official cases passed (22 cycles each), then actual Trace playback and the existing completion summary were checked. Restart preserved the topology and task completion; a fresh rerun again passed 2/2.
+
+The test results originally required reopening Mission to find the conclusion action. A matching explicit button now sits beside the results and uses the existing completion gate/summary. Native clicking opened the correct summary without auto-interrupting playback. The first task is verified, not the entire chapter. Focused system/UI suites and the complete 60-stage verifier passed for this change.

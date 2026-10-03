@@ -310,6 +310,11 @@ func _run() -> void:
 		not (main.get("level_completion_overlay") as Control).visible and conclusion_button.visible,
 		"Completing a run must leave its Trace observable and expose the finding as an explicit next action."
 	)
+	var test_conclusion: Button = main.get("test_conclusion_button")
+	_assert(test_conclusion.visible, "A passing task exposes its conclusion directly beside the test results")
+	test_conclusion.pressed.emit()
+	_assert((main.get("level_completion_overlay") as Control).visible, "Test-bench finding action opens the existing completion summary")
+	main.call("_dismiss_level_completion")
 	var trace = (main.get("latest_official_traces") as Array)[0]
 	var request_event = trace.events[0]
 	graph.zoom = 0.74

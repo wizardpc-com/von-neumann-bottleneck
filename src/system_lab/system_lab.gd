@@ -117,6 +117,7 @@ var prediction_lock_button: Button
 var prediction_status_label: Label
 var mission_progress_label: Label
 var conclusion_button: Button
+var test_conclusion_button: Button
 var part_selectors: Dictionary[StringName, OptionButton] = {}
 var order_selector: OptionButton
 var order_configurations: Dictionary = {}
@@ -1038,6 +1039,12 @@ func _build_test_bench_instrument() -> Control:
 	test_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	test_status_label.add_theme_color_override("font_color", MUTED)
 	box.add_child(test_status_label)
+	test_conclusion_button = Button.new()
+	test_conclusion_button.name = "TestBenchConclusionButton"
+	test_conclusion_button.text = _t(&"system.mission.review_finding")
+	test_conclusion_button.pressed.connect(_review_level_conclusion)
+	test_conclusion_button.hide()
+	box.add_child(test_conclusion_button)
 	var scroll := ScrollContainer.new()
 	scroll.custom_minimum_size.y = 145.0
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -2473,12 +2480,14 @@ func _refresh_mission_progress(selected_diagnosis: StringName = &"") -> void:
 		mission_progress_label.text = _t(&"system.mission.complete")
 		mission_progress_label.add_theme_color_override("font_color", GOOD)
 		conclusion_button.show()
+		test_conclusion_button.show()
 	else:
 		mission_progress_label.text = _t(&"system.mission.progress", [
 			int(completion.get("progress", 0)), int(completion.get("required", 1))
 		])
 		mission_progress_label.add_theme_color_override("font_color", WARNING)
 		conclusion_button.hide()
+		test_conclusion_button.hide()
 
 
 func _clear_result_rows() -> void:

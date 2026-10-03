@@ -106,7 +106,7 @@ is made by this suite. Root owns separate graphical acceptance.
 
 ## Opt-in candidate profiles (2026-10-03)
 
-Run `python3 scripts/run-experiment.py representation_region --godot <Godot-4.7.1> --profile my-trial` to keep a separate candidate session across launches. Profile names accept 1–40 ASCII letters, digits or hyphens. Profiles are never allowed with automated replays or other experiments. The default launcher still creates disposable isolated sessions.
+Run `python3 scripts/run-experiment.py representation_region --godot <Godot-4.7.1> --profile my-trial` to keep a separate candidate session across launches. Profile names accept 1–40 ASCII letters, digits or hyphens. Profiles are supported only by representation_region and service_plan, use separate candidate directories, and are never allowed with automated replays. The default launcher still creates disposable isolated sessions.
 
 Use **Save drafts and comparisons** before quitting. Unsaved exit offers Save and quit, Keep editing, or Quit without saving. Each task's draft and the most recent 100 comparison plans are retained; undo/redo is session-local. Candidate checkmarks are recomputed from retained comparison plans, not trusted saved flags. Old successes outside the retained history are not permanent campaign achievements. On restore, traces are recomputed under the exact matching model and public contract fingerprint, and the UI says so.
 

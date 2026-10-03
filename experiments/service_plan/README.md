@@ -1,7 +1,7 @@
 # Editable service plan (experimental)
 
 Goal: construct one request grouping/order and per-stream storage representation
-for four persistent numerical streams. This isolated lab has no campaign/save
+for four persistent numerical streams. This isolated lab has no campaign save
 authority. It reuses the existing recurrence weights and RLE byte codec, not a
 Transformer, trained model, physical CPU, or real service benchmark.
 
@@ -92,8 +92,22 @@ These are QA examples, not loaded presets or inputs to the unknown-answer policy
 
 The candidate now uses the game's existing instrument theme, a visible primary run action and a localized clue button. Failure feedback reports actual measured budget excess for the current contract, including scientific-notation quality errors; it does not prescribe a storage format or request order. Model.accepted remains completion authority. Final-contract success no longer promises a nonexistent next task.
 
-Native Linux input at1280×842 verified the original interleaved baseline at2204cycles/3168B state traffic/266B peak, and the new exact784-cycle/2568B excess feedback. `test_service_plan` covers the unchanged models, bilingual1280×720 layout, peak-budget/quantization diagnostics and final-contract wording. A formatting error in the first scientific-error implementation was caught by tests and repaired before commit. Full native completion of the three service contracts and human novice enjoyment are not yet verified; session state is still ephemeral.
+Native Linux input at1280×842 verified the original interleaved baseline at2204cycles/3168B state traffic/266B peak, and the new exact784-cycle/2568B excess feedback. `test_service_plan` covers the unchanged models, bilingual1280×720 layout, peak-budget/quantization diagnostics and final-contract wording. A formatting error in the first scientific-error implementation was caught by tests and repaired before commit. This first baseline check did not establish full native completion; the subsequent end-to-end pass is recorded below. Human novice enjoyment is still unverified, and that launch was ephemeral; opt-in resume is described below.
 
 Whole groups can now be dragged onto another visible row to occupy that index, with the same undoable edit semantics as the existing move controls. Only this list's current group payload is accepted; foreign or stale source payloads are refused. Reordering still must pass the same dependency/resource checks when run; dragging never creates a measured result. Numeric move and up/down controls remain available for distant destinations. Native Linux verified A1 moved afterA0 through a continuous pointer drag and Undo restored the original order. A short synthetic two-point drag only selected the item; the continuous desktop gesture exercised the actual drag/drop path. Tests independently cover placement, stale/foreign rejection, undo and unchanged history.
 
 Full isolated regression after this service UI series passed58 stages (import, user-directory isolation and56 suites). Native A-only RAW8 testing also confirmed both nonzero score/state errors are shown against the1e-9 exact-quality tolerance without formatting errors. No benchmark or human playability claim follows from these checks.
+
+### End-to-end native contracts
+
+An informed Linux desktop playthrough subsequently completed all three contracts through actual controls. Dragging A/B/C requests into per-stream order (plus the existing distant-move control for A5) produced1324cycles/528B state traffic/266B peak, with first responses[89,415,741,1067], meeting task1. Carrying that plan into task2 failed the first-response limit by747cycles. Restoring an earlier interleaved plan, returning A to RAW64 and choosing4slots produced1324cycles/528B/458B peak and firsts[89,158,227,296], meeting task2. That same plan missed task3 state traffic by208B. Choosing lossless RLE64 forA/B and RAW64 forC/D produced1280cycles/316B state traffic, firsts[78,136,205,274], zero reported score/state error and task3 success. These are performed comparisons, not scripted presets or a claim about human discovery. Six runs remained in this temporary native session.
+
+## Opt-in service profiles
+
+Run `python3 scripts/run-experiment.py service_plan --godot <Godot-4.7.1> --profile my-service`. Profiles use the separate `VonNeumannBottleneckCandidates/service/<profile>` directory and `service-session.json`; the representation profile directory is not reused. Without this option the launcher still starts a disposable trial. No profile is allowed with automated replays or unrelated experiments.
+
+Save explicitly or choose Save and quit at the unsaved-exit prompt. The draft, selected contract and latest80 recorded plans are retained; measurements and unlocks are recomputed under matching model-version/public-contract identity. Selection is clamped to recomputed availability. Undo/redo stays session-local. An unfinished draft may still violate request order or resource limits; saving it grants no success, and Run continues to reject it.
+
+Strict schema/262144-byte bounds reject unknown fields, versions and malformed plans. Unknown existing files are preserved and saving is disabled; stale writers are refused by loaded-content digest, not a multi-process lock. Run one writer per profile. The previous successful file is kept as`.bak`; failed writes keep the window open. No automatic migration, recovery or deletion.
+
+Native Linux verified two performed comparisons, save, additional unrun draft change, cancel exit, save-and-quit and restart with the exact draft and two recomputed records. An actual Alt+F4 test exposed GlobalSave preempting the candidate's dialog; a scoped close-owner guard fixed this for both service and representation profiles. Fresh native Alt+F4 now opens the correct prompt in both, and cancel/undo/save preserves their drafts. The global campaign close path is unchanged when no persistent candidate owns it. Final full regression:59 stages (import, isolated user directory,57 suites), including global-save and both session suites. Native Mac/Windows and human enjoyment remain unverified.

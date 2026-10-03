@@ -2,6 +2,13 @@ extends Control
 ## Editable plan presenter. Never supplies authoritative numerical results.
 const Model = preload("res://experiments/service_plan/model.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
+const SessionStore = preload("res://experiments/service_plan/session_store.gd")
+var persistent_session: bool = false
+var session_dirty: bool = false
+var save_blocked: bool = false
+var session_version: String = ""
+var notice_key: String = ""
+var previous_auto_quit: bool = true
 var plan: Dictionary = Model.initial_plan()
 var history: Array[Dictionary] = []
 var undo_stack: Array[Dictionary] = []
@@ -44,6 +51,11 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--locale=en": english = true
+		if arg == "--candidate-save": persistent_session = true
+	if persistent_session:
+		add_to_group("candidate_quit_owners")
+		previous_auto_quit = get_tree().auto_accept_quit; get_tree().auto_accept_quit = false
+		restore_session()
 	build()
 
 func label(text: String, parent: Node, size: int = 15) -> Label:
@@ -71,10 +83,10 @@ func build() -> void:
 	var header := HBoxContainer.new(); page.add_child(header)
 	var title := label(tr2("服务方案 · 谁先得到下一次结果？", "Service plan · Who gets the next result?"), header, 22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	language_button = button("中文 / EN", header, func() -> void: english = not english; build(), "Language")
-	button(tr2("退出", "Quit"), header, func() -> void: get_tree().quit(), "Quit")
+	button(tr2("退出", "Quit"), header, request_quit, "Quit")
 	var stages := HBoxContainer.new(); page.add_child(stages)
 	for index: int in 3:
-		var node: Button = button(tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: task = index; build(), "Task%d" % (index + 1))
+		var node: Button = button(tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
 		node.disabled = index > unlocked; task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void: hint_open = not hint_open; refresh_mission(), "Hint1")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
@@ -115,6 +127,9 @@ func build() -> void:
 	redo_button = button(tr2("重做", "Redo"), actions, redo, "Redo")
 	run_button = button(tr2("运行并记录", "Run and record"), actions, run_current, "Run")
 	InstrumentTheme.primary(run_button,Color("50d5ff"))
+	if persistent_session:
+		var save := button(tr2("保存本次探索", "Save this exploration"),editor,save_session,"SaveSession")
+		save.disabled = save_blocked; InstrumentTheme.primary(save,Color("62dca7"))
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
 	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -129,6 +144,7 @@ func build() -> void:
 	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 110; detail.scroll_active = true; evidence.add_child(detail)
 	refresh_groups(); refresh_history(); refresh_actions()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history)
+	if persistent_session and not notice_key.is_empty(): status.text = session_notice()
 
 func refresh_mission() -> void: mission.text = mission_text() + ("\n" + hint_text() if hint_open else "")
 func refresh_groups() -> void:
@@ -146,15 +162,19 @@ func refresh_actions() -> void:
 	undo_button.disabled = undo_stack.is_empty(); redo_button.disabled = redo_stack.is_empty(); restore_button.disabled = selected_history < 0
 func edit(next: Dictionary, selection: int) -> void:
 	if next == plan: return
+	mark_session_dirty()
 	undo_stack.append(plan.duplicate(true)); redo_stack.clear(); plan = next.duplicate(true); selected_group = selection
 	refresh_groups(); refresh_actions(); status.text = tr2("草稿已改；历史不变。运行时核验同流保序和512B容量。", "Draft changed; history preserved. Run validates stream dependencies and512B scratch.")
 func undo() -> void:
 	if undo_stack.is_empty(): return
+	mark_session_dirty()
 	redo_stack.append(plan.duplicate(true)); plan = undo_stack.pop_back(); slots.set_value_no_signal(plan.slots); refresh_groups(); refresh_actions()
 func redo() -> void:
 	if redo_stack.is_empty(): return
+	mark_session_dirty()
 	undo_stack.append(plan.duplicate(true)); plan = redo_stack.pop_back(); slots.set_value_no_signal(plan.slots); refresh_groups(); refresh_actions()
 func run_current() -> void:
+	mark_session_dirty()
 	active_trace = Model.run(plan); var events: Array[Dictionary] = []
 	for event: RefCounted in active_trace.events: events.append(event.to_dictionary().duplicate(true))
 	history.append({"task": task, "metrics": active_trace.metrics.duplicate(true), "events": events, "signature": active_trace.canonical_signature()})
@@ -218,3 +238,66 @@ func public_observation() -> Dictionary:
 		var m: Dictionary = record.metrics
 		observations.append({"task": record.task, "plan": m.plan.duplicate(true), "metrics": m.duplicate(true), "trace": record.events.duplicate(true)})
 	return {"mission": mission_text(), "hint1": hint_text(), "public_data": public_data, "weights": Model.WEIGHTS.duplicate(), "task": task, "unlocked": unlocked, "draft": plan.duplicate(true), "selected_group": selected_group, "formats": Model.REPRESENTATIONS.duplicate(), "streams": [{"name": "A", "coordinates": "repeated"}, {"name": "B", "coordinates": "repeated"}, {"name": "C", "coordinates": "varied"}, {"name": "D", "coordinates": "varied"}], "rules": {"stream_steps": 6, "all_ready": 0, "link_bytes_per_cycle": 4, "setup_cycles": 4, "decoded_context_bytes": 64, "scratch_bytes": 512, "compute_ops": 24}, "measured": observations, "actions": ["select_group", "merge", "split", "move_up", "move_down", "move_to", "set_slots", "cycle_format", "undo", "redo", "run", "restore", "task", "hint", "data"]}
+
+func change_task(index: int) -> void:
+	if index == task or index < 0 or index > unlocked: return
+	task = index; mark_session_dirty(); build()
+
+func mark_session_dirty() -> void:
+	if persistent_session: session_dirty = true; notice_key = "dirty"
+
+func session_notice() -> String:
+	match notice_key:
+		"blocked": return tr2("已有候选存档无法安全读取；已保留原文件并禁止覆盖。", "Existing candidate save cannot be read safely; original preserved, overwriting blocked.")
+		"new": return tr2("独立候选档；退出前保存本次探索。", "Isolated candidate profile; save this exploration before quitting.")
+		"restored": return tr2("已恢复草稿；%d条记录按同一模型重算。未授予主线进度。", "Draft restored; %d records recomputed under the same model. No campaign progress granted.") % history.size()
+		"saved": return tr2("已保存独立候选档；同一配置可继续。", "Isolated candidate profile saved; reopen the same profile to continue.")
+		"failed": return tr2("保存失败，已有存档未被覆盖；请保留当前窗口。", "Save failed without overwriting the existing save; keep this window open.")
+		"dirty": return tr2("草稿或记录尚未保存；退出前请保存。", "Draft or records are unsaved; save before quitting.")
+	return ""
+
+func restore_session() -> void:
+	var saved: Dictionary = SessionStore.read_session()
+	if not saved.ok: save_blocked = true; notice_key = "blocked"; return
+	session_version = str(saved.get("digest",""))
+	if saved.get("empty",false): notice_key = "new"; return
+	plan = saved.draft.duplicate(true)
+	for record: Dictionary in saved.runs:
+		var trace: Trace = Model.run(record.plan)
+		var events: Array[Dictionary] = []
+		for event: RefCounted in trace.events: events.append(event.to_dictionary().duplicate(true))
+		history.append({"task":int(record.task),"metrics":trace.metrics.duplicate(true),"events":events,"signature":trace.canonical_signature()})
+		if Model.accepted(trace.metrics,int(record.task)): unlocked = maxi(unlocked,mini(int(record.task)+1,2))
+	task = mini(int(saved.task),unlocked); selected_history = history.size()-1
+	notice_key = "restored"
+
+func save_session() -> void:
+	if not persistent_session or save_blocked: return
+	var records: Array = []
+	for record: Dictionary in history: records.append({"task":int(record.task),"plan":record.metrics.plan.duplicate(true)})
+	var raw: String = SessionStore.encode(task,plan,records)
+	var error: Error = SessionStore.write_session(raw,SessionStore.PATH,session_version)
+	if error == OK: session_version = raw.sha256_text(); session_dirty = false
+	notice_key = "saved" if error == OK else "failed"; status.text = session_notice()
+
+func request_quit() -> void:
+	if not persistent_session or not session_dirty: get_tree().quit(); return
+	var existing := get_node_or_null("UnsavedServiceDialog") as ConfirmationDialog
+	if existing != null: existing.popup_centered(Vector2i(520,180)); return
+	var dialog := ConfirmationDialog.new(); dialog.name = "UnsavedServiceDialog"
+	dialog.title = tr2("保存本次探索？", "Save this exploration?")
+	dialog.dialog_text = tr2("草稿或比较记录有未保存的变化。", "The draft or comparisons have unsaved changes.")
+	dialog.ok_button_text = tr2("保存并退出", "Save and quit"); dialog.cancel_button_text = tr2("继续编辑", "Keep editing")
+	dialog.add_button(tr2("不保存退出", "Quit without saving"),true,"discard")
+	dialog.confirmed.connect(func() -> void:
+		save_session()
+		if not session_dirty: get_tree().quit())
+	dialog.custom_action.connect(func(action: StringName) -> void:
+		if action == &"discard": get_tree().quit())
+	add_child(dialog); dialog.popup_centered(Vector2i(520,180))
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and persistent_session: request_quit()
+
+func _exit_tree() -> void:
+	if persistent_session: get_tree().auto_accept_quit = previous_auto_quit

@@ -1,0 +1,11 @@
+# Isolated service-plan resume
+
+Native informed play completed all three service contracts, but the lab loses the constructed schedule and comparison history on exit. Add opt-in candidate-only persistence and unsaved-exit protection, following the representation candidate's conservative workflow. The default launcher remains temporary; service and representation profiles use separate directories. No formal campaign state or acceptance changes.
+
+Persist the draft, selected contract and up to80 recorded plans, never trusted metrics or unlock flags. Restore by recomputing exact-model evidence and unlocks. Preserve unfinished structurally valid drafts even if they violate stream order or scratch capacity; these remain rejected by the simulator until repaired. Strict schema/size/version checks, stale-writer refusal and prior-save backup must preserve unknown files. No automatic migration or deletion. Save failures keep the window open.
+
+Acceptance: pure schema and file-error tests, recomputation and independent campaign-state checks, default/profile launcher isolation, native save/restart and cancel/save/quit paths, full regression, coherent commit then non-force publication.
+
+Native safety finding: actual Alt+F4 bypassed the new dialog because GlobalSave's independent close notification quit first. The same architecture also affected the existing representation profile. Fix is narrowly scoped: persistent candidate scenes register a lifetime-owned group; GlobalSave skips its campaign close handler only while that group exists, leaving the candidate's own close handler responsible. Ordinary campaign exit/save handling is unchanged. This requires global-save regression plus fresh native Alt+F4 acceptance before publication.
+
+Acceptance complete: strict schema/file/stale-write/recomputation tests,40 initial session checks plus window-close routing coverage, four invalid launcher/profile cases, minimum-viewport save controls, and native two-comparison save/restart/cancel/save-and-quit all passed. Actual Alt+F4 now reaches both service and representation dialogs; cancellation, undo and saving were inspected. Full final suite59/59 passed including ordinary global saves. Ready for development-branch publication; no formal campaign, release, Windows/Mac or human-fun acceptance is claimed.

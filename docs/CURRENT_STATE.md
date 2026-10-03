@@ -2,6 +2,10 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Service candidate continuity — 2026-10-03
+
+Native informed play reached all three service contracts through constructed ordering, context capacity and per-stream representation changes. The service candidate now shares the instrument theme, supports undoable group dragging and gives measured failure diagnostics. Opt-in isolated service profiles preserve drafts/comparison plans across restarts; a scoped window-close ownership guard protects both candidate profiles from the campaign save handler preempting their unsaved-exit prompts. Model evidence remains authoritative. See [service guide](../experiments/service_plan/README.md).
+
 ## Candidate visual evidence slice — 2026-10-03
 
 Exact byte boards expose repeated data and editable partition boundaries. Recorded-event playback now highlights the actual request, transfer, transform and consumption phases, with static stepping and reduced-motion support. Simulation, official progression and saves remain unchanged; see the candidate guide below. Audio and human novice acceptance remain unverified.

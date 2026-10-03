@@ -85,4 +85,4 @@ ordinary player save. [Verification](../docs/verification/20261003-second-act-co
 
 ### Continue a representation candidate session
 
-Opt in using `python3 scripts/run-experiment.py representation_region --godot /path/to/Godot --profile my-trial`. Reuse the same profile name to restore saved drafts and recomputed comparisons. Do not run multiple writers for one profile. Other experiments/replays remain disposable and cannot select profiles. See [profile safety and limits](representation_region/README.md#opt-in-candidate-profiles-2026-10-03).
+Opt in using `python3 scripts/run-experiment.py representation_region --godot /path/to/Godot --profile my-trial`. Reuse the same profile name to restore saved drafts and recomputed comparisons. Do not run multiple writers for one profile. The service_plan candidate also supports its own separate profiles; other experiments and all replays remain disposable and cannot select profiles. See [profile safety and limits](representation_region/README.md#opt-in-candidate-profiles-2026-10-03).

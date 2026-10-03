@@ -41,6 +41,7 @@ var trace_step: Button
 var order_choice: OptionButton
 var events: Tree
 var details: RichTextLabel
+var recorded_plan_label: Label
 var result: Label
 var mission: Label
 var draft_label: Label
@@ -165,6 +166,7 @@ func build() -> void:
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 90; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
 	reuse_button = make_button(text2("从选中方案继续试", "Try a variation of this plan"),evidence,reuse_recorded_plan,"ReusePlan")
 	reuse_button.tooltip_text = text2("复制自己的旧方案到对应任务草稿；旧记录不变，覆盖的草稿可撤销。", "Copy your recorded plan into its task draft. The record stays unchanged; Undo restores the previous draft.")
+	recorded_plan_label = make_label("",evidence,13); recorded_plan_label.name = "RecordedPlan"
 	result = make_label("",evidence,14)
 	order_choice = OptionButton.new(); order_choice.name = "RecordedOrder"; evidence.add_child(order_choice)
 	order_choice.item_selected.connect(func(i: int) -> void: show_trace(i))
@@ -302,6 +304,7 @@ func refresh_actions() -> void:
 	for i: int in byte_boards.size():
 		byte_boards[i].configure(Model.asset(task) if i == 0 else Catalog.asset(5),plan,selected_block)
 	refresh_request_preview()
+	refresh_recorded_plan_label()
 	var block: Dictionary = plan[selected_block]
 	split_button.disabled = plan.size() >= Model.MAX_BLOCKS or int(split_at.value) <= int(block.start) or int(split_at.value) >= int(block.end)
 	merge_button.disabled = selected_block + 1 >= plan.size()
@@ -341,6 +344,7 @@ func select_run(index: int) -> void:
 	if index < 0 or index >= history.size(): return
 	selected_run = index; var row: Dictionary = history[index]
 	history_list.select(index); history_list.ensure_current_is_visible()
+	refresh_recorded_plan_label()
 	order_choice.clear()
 	for i: int in row.traces.size():
 		var trace: Trace = row.traces[i]
@@ -372,6 +376,14 @@ func show_trace(index: int) -> void:
 	trace_player.configure(replay_events,english)
 	trace_play.disabled = replay_events.is_empty(); trace_step.disabled = replay_events.is_empty()
 	details.text = text2("选中事件查看实际字节、恢复输出、缓存前后和驱逐。\n记录方案：", "Select an event for actual bytes, restored values, cache before/after and evictions.\nRecorded plan: ")+plan_text(row.plan)
+
+func refresh_recorded_plan_label() -> void:
+	if not is_instance_valid(recorded_plan_label): return
+	if selected_run < 0 or selected_run >= history.size(): recorded_plan_label.text = ""; return
+	var row: Dictionary = history[selected_run]
+	var matches: bool = int(row.task) == task and row.plan == plan
+	var prefix: String = text2("记录方案（与草稿一致）：", "Recorded plan (matches draft): ") if matches else text2("记录方案（与当前草稿不同）：", "Recorded plan (differs from current draft): ")
+	recorded_plan_label.text = prefix+plan_text(row.plan)
 
 func plan_text(recorded: Array) -> String:
 	var lines: Array[String] = []

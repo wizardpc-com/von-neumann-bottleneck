@@ -60,7 +60,17 @@ func run() -> void:
 	check(not player.playing and player.current == 2,"Static stepping remains usable with reduced motion")
 	ProjectSettings.set_setting("game/reduced_motion",false)
 	check(scene.history[0].traces[0].canonical_signature() == signature,"Animation never mutates simulation evidence")
+	check(scene.recorded_plan_label.text.contains("与草稿一致"),"Recorded source is labeled before inspecting its cache")
+	scene.edit_plan(Model.represent(scene.plan,0,"rle"))
+	check(scene.recorded_plan_label.text.contains("与当前草稿不同"),"Editing highlights that evidence belongs to the old plan")
+	var cache_view: Dictionary = player.cache_evidence()
+	check(cache_view.cache_before.used_bytes == 0 and cache_view.cache_after.used_bytes == 64,"Consumption shows actual before/after decoded cache occupancy")
+	cache_view.cache_after.used_bytes = 1
+	check(player.cache_evidence().cache_after.used_bytes == 64,"Cache visualization returns defensive evidence copies")
+	player.seek(0)
+	check(not player.cache_evidence().has("cache_after"),"Request without an after snapshot does not invent one")
 	player.configure([],false); player.toggle_play(); player.step()
+	check(player.cache_evidence().is_empty(),"Empty recording has no speculative cache state")
 	check(not player.playing and player.current == -1,"Empty recordings cannot fabricate events")
 	scene.change_task(2)
 	scene.plan = Model.represent(Model.initial_plan(),0,"rle")
@@ -69,6 +79,11 @@ func run() -> void:
 	check(scene.order_choice.get_item_text(0).begins_with("[达标]"),"Successful order remains individually identifiable")
 	check(scene.order_choice.get_item_text(1).begins_with("[未达标]"),"Unmet order is visibly named")
 	check(not scene.completed[2],"Showing a successful sub-order never completes the task")
+	for i: int in scene.trace_player.recorded_events.size():
+		if scene.trace_player.recorded_events[i].kind == "consume":
+			scene.trace_player.seek(i)
+			check(scene.trace_player.cache_evidence().cache_after.used_bytes == 0,"Oversized decoded block is not drawn as retained")
+			break
 	scene.queue_free(); await process_frame
 	print("PASS: test_representation_visual " if failures == 0 else "FAIL: test_representation_visual ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

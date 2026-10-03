@@ -9,7 +9,7 @@ var elapsed: float = 0.0
 var english: bool = false
 
 func _init() -> void:
-	custom_minimum_size = Vector2(0,94)
+	custom_minimum_size = Vector2(0,174)
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	resized.connect(queue_redraw)
@@ -64,6 +64,34 @@ func phase(kind: String) -> int:
 	if kind == "consume": return 3
 	return -1
 
+func cache_evidence() -> Dictionary:
+	if current < 0 or current >= recorded_events.size(): return {}
+	var details: Dictionary = recorded_events[current].get("details",{})
+	var result: Dictionary = {}
+	for key: String in ["cache_before","cache_after"]:
+		if details.has(key): result[key] = details[key].duplicate(true)
+	return result
+
+func draw_cache_snapshot(font: Font, cache: Dictionary, y: float, after: bool) -> void:
+	var caption: String = ("After" if after else "Before") if english else ("之后" if after else "之前")
+	if cache.is_empty():
+		draw_string(font,Vector2(4,y+15),caption+(": not recorded for this event" if english else "：此事件未记录"),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,12,Color("90a7b7"))
+		return
+	var budget: int = int(cache.get("byte_budget",0))
+	var used: int = int(cache.get("used_bytes",0))
+	draw_string(font,Vector2(4,y+15),caption+" %d/%dB" % [used,budget],HORIZONTAL_ALIGNMENT_LEFT,110,12,Color("dfeaf2"))
+	var bar := Rect2(114,y,maxf(1,size.x-120),21)
+	draw_rect(bar,Color("101e2b")); draw_rect(bar,Color("354b5a"),false,1.0)
+	if budget <= 0: return
+	var cursor: float = bar.position.x
+	for key: int in cache.get("lru",[]):
+		var bytes: int = int(cache.get("sizes",{}).get(key,0))
+		var width: float = minf(bar.end.x-cursor,bar.size.x*float(bytes)/float(budget))
+		var segment := Rect2(cursor,y,width,21)
+		draw_rect(segment,Color.from_hsv(fmod(float(key)*0.618034,1.0),0.45,0.42))
+		if width >= 35: draw_string(font,segment.position+Vector2(0,15),"#%d" % [key],HORIZONTAL_ALIGNMENT_CENTER,width,12,Color("eef4f8"))
+		cursor += width
+
 func _draw() -> void:
 	var font: Font = get_theme_font("font","Label")
 	var labels: Array[String] = []
@@ -84,3 +112,8 @@ func _draw() -> void:
 			draw_line(rect.position+Vector2(4,30),rect.position+Vector2(4+(rect.size.x-8)*fraction,30),Color("62dca7"),3.0)
 	draw_string(font,Vector2(4,61),detail,HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),12,Color("dfeaf2"))
 	draw_string(font,Vector2(4,82),"Visual replay only; recorded cycles and results never change." if english else "仅回放已完成事件；动画速度不改变记录周期或结果。",HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),11,Color("90a7b7"))
+
+	var snapshots: Dictionary = cache_evidence()
+	draw_cache_snapshot(font,snapshots.get("cache_before",{}),99,false)
+	draw_cache_snapshot(font,snapshots.get("cache_after",{}),128,true)
+	draw_string(font,Vector2(114,164),"Decoded cache · blocks ordered oldest → newest" if english else "恢复后缓存 · 块按旧→新排列",HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-120),11,Color("90a7b7"))

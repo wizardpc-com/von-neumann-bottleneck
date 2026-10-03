@@ -67,3 +67,7 @@ than SRLatch. CPU execution is still pending.
 Completed tasks now reopen directly on the circuit with a compact, reopenable mission panel. First visits retain their full briefing. Deferred layout settlement preserves test-bench input space: an initial implementation collapsed the bench in native play despite passing headless checks, and was corrected before publication.
 
 Native ALU replay verified the unobstructed circuit, visible A/B/CIN/OP inputs, optional experiment expansion, and manually reopened task rules. This is informed developer QA, not independent novice testing. Full isolated verifier: 60 stages passed (import, user directory and 58 suites), evidence run `20261003T180501Z-2530ffc6`. CPU and later native playthrough remain pending; audio output was not heard in this environment.
+
+## Optional experiment discoverability
+
+Native ALU play revealed that opening the optional experiment below five input rows left its first action outside the scroll viewport. The widget now reveals the first preset after expansion layout settles. It only scrolls its existing container; it does not select inputs, execute a circuit or award progress. Native replay confirmed the first presets become visible immediately and can be selected before separately running debug. Added a below-fold viewport regression; all 60 verifier stages passed again in the isolated run recorded for this change.

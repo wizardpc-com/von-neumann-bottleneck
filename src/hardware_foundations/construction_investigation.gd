@@ -27,7 +27,6 @@ func configure(level: StringName, translate: Callable) -> void:
 	var body := VBoxContainer.new()
 	body.visible = false
 	add_child(body)
-	toggle.toggled.connect(func(value: bool) -> void: body.visible = value)
 	var question := Label.new()
 	question.text = translate.call(StringName("investigation." + String(level)))
 	question.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -50,6 +49,10 @@ func configure(level: StringName, translate: Callable) -> void:
 		button.text = "%d · %s" % [index + 1, "  ".join(parts)]
 		button.pressed.connect(func() -> void: inputs_requested.emit(values.duplicate(true)))
 		buttons.add_child(button)
+	toggle.toggled.connect(func(value: bool) -> void:
+		body.visible = value
+		if value: _reveal_first_choice(buttons.get_child(0) as Control)
+	)
 	var reset := Button.new()
 	reset.text = translate.call(&"investigation.reset")
 	reset.pressed.connect(func() -> void: reset_requested.emit())
@@ -58,6 +61,18 @@ func configure(level: StringName, translate: Callable) -> void:
 	evidence.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.add_child(evidence)
 	clear_observations()
+
+func _reveal_first_choice(choice: Control) -> void:
+	# Expansion changes minimum sizes; scroll only after containers settle.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(choice) or not choice.is_visible_in_tree(): return
+	var ancestor: Node = get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer:
+			(ancestor as ScrollContainer).ensure_control_visible(choice)
+			return
+		ancestor = ancestor.get_parent()
 
 func observe(inputs: Dictionary, outputs: String) -> void:
 	input_samples.append(inputs.duplicate(true))

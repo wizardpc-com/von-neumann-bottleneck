@@ -1,0 +1,62 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261003T055822Z-ccfcbc49/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261003T055822Z-ccfcbc49/user_directory"
+    },
+    {
+      "name": "test_candidate_policy",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_policy.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261003T055822Z-ccfcbc49/test_candidate_policy"
+    },
+    {
+      "name": "test_prediction_slice",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_slice.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261003T055822Z-ccfcbc49/test_prediction_slice"
+    },
+    {
+      "name": "test_representation_region",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_representation_region.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261003T055822Z-ccfcbc49/test_representation_region"
+    },
+    {
+      "name": "test_second_act_content",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_second_act_content.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261003T055822Z-ccfcbc49/test_second_act_content"
+    },
+    {
+      "name": "test_service_plan",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_plan.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261003T055822Z-ccfcbc49/test_service_plan"
+    }
+  ]
+}

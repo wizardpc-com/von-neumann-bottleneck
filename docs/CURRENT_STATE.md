@@ -2,6 +2,15 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Second-act candidate content — 2026-10-03
+
+Five Representation tasks, three bounded-history Prediction investigations, and three
+editable persistent-state Service Plan contracts are independently playable through
+[isolated launchers](../experiments/README.md). Official regions/tasks/save authority
+remain unchanged. Current disposition is KEEP EXPERIMENTAL; see the
+[framework](design/second-act-framework.md) and
+[content verification](verification/20261003-second-act-content/README.md).
+
 ## Second-act depth — 2026-10-03
 
 Editable mixed RAW/RLE partitions and a persistent-context workload are now isolated

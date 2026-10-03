@@ -1,0 +1,15 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CALIBRATION task0 { "rule": "off", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=150 traffic=40 useful=0 waste=0 pollution=0
+CALIBRATION task0 { "rule": "stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=102 traffic=44 useful=32 waste=4 pollution=0
+CALIBRATION task0 { "rule": "two_stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=108 traffic=44 useful=28 waste=4 pollution=0
+CALIBRATION task0 { "rule": "stride", "confidence": 2, "lookahead": 1, "cooldown": 2 } cycles=108 traffic=44 useful=28 waste=4 pollution=0
+CALIBRATION task1 { "rule": "off", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=144 traffic=24 useful=0 waste=0 pollution=0
+CALIBRATION task1 { "rule": "stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=168 traffic=68 useful=8 waste=20 pollution=6
+CALIBRATION task1 { "rule": "two_stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=144 traffic=44 useful=8 waste=12 pollution=1
+CALIBRATION task1 { "rule": "stride", "confidence": 2, "lookahead": 1, "cooldown": 2 } cycles=138 traffic=28 useful=4 waste=4 pollution=0
+CALIBRATION task2 { "rule": "off", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=120 traffic=8 useful=0 waste=0 pollution=0
+CALIBRATION task2 { "rule": "stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=180 traffic=72 useful=0 waste=24 pollution=10
+CALIBRATION task2 { "rule": "two_stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=120 traffic=8 useful=0 waste=0 pollution=0
+CALIBRATION task2 { "rule": "stride", "confidence": 2, "lookahead": 1, "cooldown": 2 } cycles=120 traffic=8 useful=0 waste=0 pollution=0
+PASS: prediction slice 5583 checks

@@ -97,3 +97,6 @@ Keep root documents navigational. Update the most specific source-of-truth docum
 - [Current experimental framework](design/second-act-framework.md)
 - [Depth verification and evidence boundaries](verification/20261002-second-act-depth/README.md)
 - [Historical supplied instructions](archive/20260910-five-chapter/README.md): COMPLETED identifies historical scope, not certification of every original promise.
+
+- [Second-act candidate content verification](verification/20261003-second-act-content/README.md):
+  five Representation tasks, Prediction, integrated service plans, bounded public-evidence proxy.

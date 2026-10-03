@@ -63,3 +63,22 @@ boundary edits, undo/redo, paired orders, state spills, response delay and preci
 failures. The two original labs remain available. See
 [plan rules](representation/PLAN_README.md), [state rules](intelligent_workload/STATE_README.md)
 and [integration evidence](../docs/verification/20261002-second-act-depth/README.md).
+
+## Candidate content — 2026-10-03
+
+```sh
+python3 scripts/run-experiment.py representation_region --godot /path/to/Godot
+python3 scripts/run-experiment.py prediction --godot /path/to/Godot
+python3 scripts/run-experiment.py service_plan --godot /path/to/Godot
+```
+
+These are independent scene-session experiments, not registered campaign regions.
+Representation has five editable partition tasks, Prediction three causal-history
+investigations, Service Plan three successive contracts using editable request groups.
+See each directory's README for exact rules. `--locale en` selects English.
+`--replay candidate` performs known-objective viewport QA for the selected domain;
+`--replay candidate-proxy` performs bounded public-observation decisions. These are
+Godot input injection, not native OS or human novice tests. Policies have no model,
+solution or future-stream access; finite heuristics can stall. Journals and screenshots
+are saved under the isolated run's captures directory. Neither launcher touches the
+ordinary player save. [Verification](../docs/verification/20261003-second-act-content/README.md).

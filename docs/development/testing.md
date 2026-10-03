@@ -603,3 +603,14 @@ edits. Its receipt verifies clean-before/after status and source identity, separ
 from viewport input or native play. New conventional suites cover decoded-cache
 invariants, editable plans, persistent state and an independent integration oracle.
 See [depth evidence](../verification/20261002-second-act-depth/README.md).
+
+## Candidate content verification — 2026-10-03
+
+Conventional discovery also runs `test_representation_region`, `test_prediction_slice`,
+`test_service_plan`, `test_candidate_policy` and `test_second_act_content`. These cover
+multiple solutions, causal history, cost/resource conservation, byte codecs, independent
+recurrence and malformed inputs. Candidate-policy tests include poisoned hidden fields,
+shifted public data and finite decision budgets. Use `run-experiment.py <domain>
+--godot <4.7.1> --replay candidate[-proxy] --locale en` for isolated actual viewport
+input (domains: representation_region, prediction, service_plan). Unknown-answer
+journals are separate from known-objective QA; neither establishes novice usability.

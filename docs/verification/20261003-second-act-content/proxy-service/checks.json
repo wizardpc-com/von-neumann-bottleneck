@@ -1,0 +1,1266 @@
+[
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service_plan-0-baseline",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed service plan",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service_plan-0-stop",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service_plan-1-baseline",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed service plan",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service_plan-1-stop",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service_plan-2-baseline",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed service plan",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed service plan",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed service plan",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed service plan",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service_plan-2-stop",
+		"ok": true
+	}
+]

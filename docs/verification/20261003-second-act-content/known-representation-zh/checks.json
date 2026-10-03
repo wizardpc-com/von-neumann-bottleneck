@@ -1,0 +1,610 @@
+[
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Initial RAW plan does not clear task 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "UI undo/redo preserves proposal",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured candidate task accepted 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: region-task1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Initial RAW plan does not clear task 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "UI undo/redo preserves proposal",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured candidate task accepted 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: region-task2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Initial RAW plan does not clear task 2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "UI undo/redo preserves proposal",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured candidate task accepted 2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: region-task3",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Initial RAW plan does not clear task 3",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Whole RLE fails combined online contracts",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: region-preparation-counterexample",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "UI undo/redo preserves proposal",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured candidate task accepted 3",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: region-task4",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Initial RAW plan does not clear task 4",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Asset A optimal boundaries do not generalize to B",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: region-generalization-counterexample",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible edits produce the proposed partition",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "UI undo/redo preserves proposal",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured candidate task accepted 4",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: region-task5",
+		"ok": true
+	}
+]

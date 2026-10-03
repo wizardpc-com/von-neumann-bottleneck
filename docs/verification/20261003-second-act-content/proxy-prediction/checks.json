@@ -1,0 +1,270 @@
+[
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Step reveals exactly the observed prefix",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-0-prefix",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-0-baseline",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Visible controls produce the proposed causal rule",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-0-stop",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Step reveals exactly the observed prefix",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-1-prefix",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-1-baseline",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Visible controls produce the proposed causal rule",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-1-stop",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Step reveals exactly the observed prefix",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-2-prefix",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-2-baseline",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Visible controls produce the proposed causal rule",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 0",
+		"ok": true
+	},
+	{
+		"check": "Visible controls produce the proposed causal rule",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-2-stop",
+		"ok": true
+	}
+]

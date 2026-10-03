@@ -1,0 +1,2 @@
+Private report written locally. Upload receipt counts do not establish players or retention.
+PASS: Godot cross-process queue → HTTP → SQLite; duplicate remains one row; explicit opinion while automatic sharing off. /Users/yrq/Documents/冯诺伊曼瓶颈/.godot/feedback-integration/67f69dc5-a17e-4de1-ba5e-e48d13a3b701

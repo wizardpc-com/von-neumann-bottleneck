@@ -1,0 +1,4093 @@
+{
+	"boundary": "public observation only; bounded authored heuristics, not human novice",
+	"decisions": [
+		{
+			"decision": {
+				"action": "run",
+				"reason": "Measure the visible starter without requesting unseen addresses."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic.",
+				"observed_addresses": [
+					0,
+					4
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "off"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 2
+					}
+				]
+			},
+			"task": 0
+		},
+		{
+			"decision": {
+				"action": "hint1",
+				"reason": "Read the public first hint; do not request future sequence data."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 150,
+							"baseline_traffic_bytes": 40,
+							"blocking_cycles": 60,
+							"cache_hits": 0,
+							"cache_misses": 10,
+							"compute_cycles": 80,
+							"demand_bytes": 40,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 8,
+							"fallback_cycles": 60,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 10,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 40,
+							"total_cycles": 150,
+							"traffic_bytes": 40,
+							"transfer_cycles": 20,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "off"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic.",
+				"observed_addresses": [
+					0,
+					4,
+					8,
+					12,
+					16,
+					20,
+					24,
+					28,
+					32,
+					36
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "off"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20,
+							24
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20,
+							24,
+							28
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							4,
+							8,
+							12,
+							16,
+							20,
+							24,
+							28,
+							32
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							12,
+							16,
+							20,
+							24,
+							28,
+							32,
+							36
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 10
+					}
+				]
+			},
+			"task": 0
+		},
+		{
+			"decision": {
+				"action": "try_policy",
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"reason": "Compare a rule available in the visible controls. Inspect actual demand time, fallback and wasted bytes."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 150,
+							"baseline_traffic_bytes": 40,
+							"blocking_cycles": 60,
+							"cache_hits": 0,
+							"cache_misses": 10,
+							"compute_cycles": 80,
+							"demand_bytes": 40,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 8,
+							"fallback_cycles": 60,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 10,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 40,
+							"total_cycles": 150,
+							"traffic_bytes": 40,
+							"transfer_cycles": 20,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "off"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic.",
+				"observed_addresses": [
+					0,
+					4,
+					8,
+					12,
+					16,
+					20,
+					24,
+					28,
+					32,
+					36
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "off"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20,
+							24
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20,
+							24,
+							28
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							4,
+							8,
+							12,
+							16,
+							20,
+							24,
+							28,
+							32
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							12,
+							16,
+							20,
+							24,
+							28,
+							32,
+							36
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "disabled",
+						"step": 10
+					}
+				]
+			},
+			"task": 0
+		},
+		{
+			"decision": {
+				"action": "stop",
+				"reason": "Public contract is met; this says nothing about untested streams."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 150,
+							"baseline_traffic_bytes": 40,
+							"blocking_cycles": 60,
+							"cache_hits": 0,
+							"cache_misses": 10,
+							"compute_cycles": 80,
+							"demand_bytes": 40,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 8,
+							"fallback_cycles": 60,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 10,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 40,
+							"total_cycles": 150,
+							"traffic_bytes": 40,
+							"transfer_cycles": 20,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "off"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 150,
+							"baseline_traffic_bytes": 40,
+							"blocking_cycles": 12,
+							"cache_hits": 8,
+							"cache_misses": 2,
+							"compute_cycles": 80,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 9,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 10,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 36,
+							"queue_wait_cycles": 0,
+							"request_cycles": 44,
+							"total_cycles": 102,
+							"traffic_bytes": 44,
+							"transfer_cycles": 22,
+							"useful_prediction_bytes": 32,
+							"wasted_prediction_bytes": 4,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": true,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic.",
+				"observed_addresses": [
+					0,
+					4,
+					8,
+					12,
+					16,
+					20,
+					24,
+					28,
+					32,
+					36
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							4
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": 12,
+						"history": [
+							0,
+							4,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							4,
+							8,
+							12
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": 20,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": 24,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": 28,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20,
+							24
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": 32,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20,
+							24,
+							28
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": 36,
+						"history": [
+							4,
+							8,
+							12,
+							16,
+							20,
+							24,
+							28,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": 40,
+						"history": [
+							8,
+							12,
+							16,
+							20,
+							24,
+							28,
+							32,
+							36
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 10
+					}
+				]
+			},
+			"task": 0
+		},
+		{
+			"decision": {
+				"action": "run",
+				"reason": "Measure the visible starter without requesting unseen addresses."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise it to run no slower than baseline. Failure is evidence.",
+				"observed_addresses": [
+					0,
+					4
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							4
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 2
+					}
+				]
+			},
+			"task": 1
+		},
+		{
+			"decision": {
+				"action": "hint1",
+				"reason": "Read the public first hint; do not request future sequence data."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 144,
+							"baseline_traffic_bytes": 24,
+							"blocking_cycles": 60,
+							"cache_hits": 2,
+							"cache_misses": 10,
+							"compute_cycles": 96,
+							"demand_bytes": 40,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 15,
+							"fallback_cycles": 60,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 6,
+							"prediction_bytes": 28,
+							"queue_wait_cycles": 0,
+							"request_cycles": 68,
+							"total_cycles": 168,
+							"traffic_bytes": 68,
+							"transfer_cycles": 34,
+							"useful_prediction_bytes": 8,
+							"wasted_prediction_bytes": 20,
+							"wrong_guesses": 5
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise it to run no slower than baseline. Failure is evidence.",
+				"observed_addresses": [
+					0,
+					4,
+					8,
+					12,
+					32,
+					0,
+					32,
+					0,
+					32,
+					0,
+					32,
+					0
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							4
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": 12,
+						"history": [
+							0,
+							4,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							4,
+							8,
+							12
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": 52,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": true,
+						"reason": "history_rule",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": 64,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": 64,
+						"history": [
+							4,
+							8,
+							12,
+							32,
+							0,
+							32,
+							0,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							12,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": 64,
+						"history": [
+							12,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							32,
+							0,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 12
+					}
+				]
+			},
+			"task": 1
+		},
+		{
+			"decision": {
+				"action": "try_policy",
+				"policy": {
+					"confidence": 3,
+					"cooldown": 2,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"reason": "Measured unused traffic motivates a stricter evidence gate or mismatch pause. Inspect actual demand time, fallback and wasted bytes."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 144,
+							"baseline_traffic_bytes": 24,
+							"blocking_cycles": 60,
+							"cache_hits": 2,
+							"cache_misses": 10,
+							"compute_cycles": 96,
+							"demand_bytes": 40,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 15,
+							"fallback_cycles": 60,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 6,
+							"prediction_bytes": 28,
+							"queue_wait_cycles": 0,
+							"request_cycles": 68,
+							"total_cycles": 168,
+							"traffic_bytes": 68,
+							"transfer_cycles": 34,
+							"useful_prediction_bytes": 8,
+							"wasted_prediction_bytes": 20,
+							"wrong_guesses": 5
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise it to run no slower than baseline. Failure is evidence.",
+				"observed_addresses": [
+					0,
+					4,
+					8,
+					12,
+					32,
+					0,
+					32,
+					0,
+					32,
+					0,
+					32,
+					0
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							4
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": 12,
+						"history": [
+							0,
+							4,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							4,
+							8,
+							12
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": 52,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": true,
+						"reason": "history_rule",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": 64,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": 64,
+						"history": [
+							4,
+							8,
+							12,
+							32,
+							0,
+							32,
+							0,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							12,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": 64,
+						"history": [
+							12,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							32,
+							0,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 12
+					}
+				]
+			},
+			"task": 1
+		},
+		{
+			"decision": {
+				"action": "stop",
+				"reason": "Public contract is met; this says nothing about untested streams."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 144,
+							"baseline_traffic_bytes": 24,
+							"blocking_cycles": 60,
+							"cache_hits": 2,
+							"cache_misses": 10,
+							"compute_cycles": 96,
+							"demand_bytes": 40,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 15,
+							"fallback_cycles": 60,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 6,
+							"prediction_bytes": 28,
+							"queue_wait_cycles": 0,
+							"request_cycles": 68,
+							"total_cycles": 168,
+							"traffic_bytes": 68,
+							"transfer_cycles": 34,
+							"useful_prediction_bytes": 8,
+							"wasted_prediction_bytes": 20,
+							"wrong_guesses": 5
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 144,
+							"baseline_traffic_bytes": 24,
+							"blocking_cycles": 36,
+							"cache_hits": 6,
+							"cache_misses": 6,
+							"compute_cycles": 96,
+							"demand_bytes": 24,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 5,
+							"fallback_cycles": 36,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 4,
+							"queue_wait_cycles": 0,
+							"request_cycles": 28,
+							"total_cycles": 144,
+							"traffic_bytes": 28,
+							"transfer_cycles": 14,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 4,
+							"wrong_guesses": 1
+						},
+						"policy": {
+							"confidence": 3,
+							"cooldown": 2,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": true,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise it to run no slower than baseline. Failure is evidence.",
+				"observed_addresses": [
+					0,
+					4,
+					8,
+					12,
+					32,
+					0,
+					32,
+					0,
+					32,
+					0,
+					32,
+					0
+				],
+				"policy": {
+					"confidence": 3,
+					"cooldown": 2,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							4,
+							8,
+							12
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 2,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "cooldown",
+						"step": 5
+					},
+					{
+						"cooldown": 1,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "cooldown",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0,
+							32
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							4,
+							8,
+							12,
+							32,
+							0,
+							32,
+							0,
+							32
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							12,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							12,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0,
+							32
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							32,
+							0,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 12
+					}
+				]
+			},
+			"task": 1
+		},
+		{
+			"decision": {
+				"action": "run",
+				"reason": "Measure the visible starter without requesting unseen addresses."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation3: two alternating hotspots. Compare at least two different rules: one with extra costs from wrong guesses, one no slower than baseline. Inspect the finite cache.",
+				"observed_addresses": [
+					0,
+					8
+				],
+				"policy": {
+					"confidence": 3,
+					"cooldown": 2,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 2
+					}
+				]
+			},
+			"task": 2
+		},
+		{
+			"decision": {
+				"action": "hint1",
+				"reason": "Read the public first hint; do not request future sequence data."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 12,
+							"cache_hits": 10,
+							"cache_misses": 2,
+							"compute_cycles": 96,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 0,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 8,
+							"total_cycles": 120,
+							"traffic_bytes": 8,
+							"transfer_cycles": 4,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 3,
+							"cooldown": 2,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation3: two alternating hotspots. Compare at least two different rules: one with extra costs from wrong guesses, one no slower than baseline. Inspect the finite cache.",
+				"observed_addresses": [
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8
+				],
+				"policy": {
+					"confidence": 3,
+					"cooldown": 2,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 12
+					}
+				]
+			},
+			"task": 2
+		},
+		{
+			"decision": {
+				"action": "try_policy",
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"reason": "Compare a rule available in the visible controls. Inspect actual demand time, fallback and wasted bytes."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 12,
+							"cache_hits": 10,
+							"cache_misses": 2,
+							"compute_cycles": 96,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 0,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 8,
+							"total_cycles": 120,
+							"traffic_bytes": 8,
+							"transfer_cycles": 4,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 3,
+							"cooldown": 2,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation3: two alternating hotspots. Compare at least two different rules: one with extra costs from wrong guesses, one no slower than baseline. Inspect the finite cache.",
+				"observed_addresses": [
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8
+				],
+				"policy": {
+					"confidence": 3,
+					"cooldown": 2,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 12
+					}
+				]
+			},
+			"task": 2
+		},
+		{
+			"decision": {
+				"action": "try_policy",
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "two_stride"
+				},
+				"reason": "Measured unused traffic motivates a stricter evidence gate or mismatch pause. Inspect actual demand time, fallback and wasted bytes."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 12,
+							"cache_hits": 10,
+							"cache_misses": 2,
+							"compute_cycles": 96,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 0,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 8,
+							"total_cycles": 120,
+							"traffic_bytes": 8,
+							"transfer_cycles": 4,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 3,
+							"cooldown": 2,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 72,
+							"cache_hits": 0,
+							"cache_misses": 12,
+							"compute_cycles": 96,
+							"demand_bytes": 48,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 16,
+							"fallback_cycles": 72,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 10,
+							"prediction_bytes": 24,
+							"queue_wait_cycles": 0,
+							"request_cycles": 72,
+							"total_cycles": 180,
+							"traffic_bytes": 72,
+							"transfer_cycles": 36,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 24,
+							"wrong_guesses": 5
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": false,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation3: two alternating hotspots. Compare at least two different rules: one with extra costs from wrong guesses, one no slower than baseline. Inspect the finite cache.",
+				"observed_addresses": [
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "out_of_range",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 12
+					}
+				]
+			},
+			"task": 2
+		},
+		{
+			"decision": {
+				"action": "stop",
+				"reason": "Public contract is met; this says nothing about untested streams."
+			},
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 12,
+							"cache_hits": 10,
+							"cache_misses": 2,
+							"compute_cycles": 96,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 0,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 8,
+							"total_cycles": 120,
+							"traffic_bytes": 8,
+							"transfer_cycles": 4,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 3,
+							"cooldown": 2,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 72,
+							"cache_hits": 0,
+							"cache_misses": 12,
+							"compute_cycles": 96,
+							"demand_bytes": 48,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 16,
+							"fallback_cycles": 72,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 10,
+							"prediction_bytes": 24,
+							"queue_wait_cycles": 0,
+							"request_cycles": 72,
+							"total_cycles": 180,
+							"traffic_bytes": 72,
+							"transfer_cycles": 36,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 24,
+							"wrong_guesses": 5
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 12,
+							"cache_hits": 10,
+							"cache_misses": 2,
+							"compute_cycles": 96,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 0,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 8,
+							"total_cycles": 120,
+							"traffic_bytes": 8,
+							"transfer_cycles": 4,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "two_stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": true,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation3: two alternating hotspots. Compare at least two different rules: one with extra costs from wrong guesses, one no slower than baseline. Inspect the finite cache.",
+				"observed_addresses": [
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "two_stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 12
+					}
+				]
+			},
+			"task": 2
+		}
+	],
+	"outcomes": [
+		{
+			"accepted": true,
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 150,
+							"baseline_traffic_bytes": 40,
+							"blocking_cycles": 60,
+							"cache_hits": 0,
+							"cache_misses": 10,
+							"compute_cycles": 80,
+							"demand_bytes": 40,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 8,
+							"fallback_cycles": 60,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 10,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 40,
+							"total_cycles": 150,
+							"traffic_bytes": 40,
+							"transfer_cycles": 20,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "off"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 150,
+							"baseline_traffic_bytes": 40,
+							"blocking_cycles": 12,
+							"cache_hits": 8,
+							"cache_misses": 2,
+							"compute_cycles": 80,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 9,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 10,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 36,
+							"queue_wait_cycles": 0,
+							"request_cycles": 44,
+							"total_cycles": 102,
+							"traffic_bytes": 44,
+							"transfer_cycles": 22,
+							"useful_prediction_bytes": 32,
+							"wasted_prediction_bytes": 4,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": true,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic.",
+				"observed_addresses": [
+					0,
+					4,
+					8,
+					12,
+					16,
+					20,
+					24,
+					28,
+					32,
+					36
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							4
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": 12,
+						"history": [
+							0,
+							4,
+							8
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							4,
+							8,
+							12
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": 20,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": 24,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": 28,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20,
+							24
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": 32,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							16,
+							20,
+							24,
+							28
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": 36,
+						"history": [
+							4,
+							8,
+							12,
+							16,
+							20,
+							24,
+							28,
+							32
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": 40,
+						"history": [
+							8,
+							12,
+							16,
+							20,
+							24,
+							28,
+							32,
+							36
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 10
+					}
+				]
+			},
+			"task": 0
+		},
+		{
+			"accepted": true,
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 144,
+							"baseline_traffic_bytes": 24,
+							"blocking_cycles": 60,
+							"cache_hits": 2,
+							"cache_misses": 10,
+							"compute_cycles": 96,
+							"demand_bytes": 40,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 15,
+							"fallback_cycles": 60,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 6,
+							"prediction_bytes": 28,
+							"queue_wait_cycles": 0,
+							"request_cycles": 68,
+							"total_cycles": 168,
+							"traffic_bytes": 68,
+							"transfer_cycles": 34,
+							"useful_prediction_bytes": 8,
+							"wasted_prediction_bytes": 20,
+							"wrong_guesses": 5
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 144,
+							"baseline_traffic_bytes": 24,
+							"blocking_cycles": 36,
+							"cache_hits": 6,
+							"cache_misses": 6,
+							"compute_cycles": 96,
+							"demand_bytes": 24,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 5,
+							"fallback_cycles": 36,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 4,
+							"queue_wait_cycles": 0,
+							"request_cycles": 28,
+							"total_cycles": 144,
+							"traffic_bytes": 28,
+							"transfer_cycles": 14,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 4,
+							"wrong_guesses": 1
+						},
+						"policy": {
+							"confidence": 3,
+							"cooldown": 2,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": true,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise it to run no slower than baseline. Failure is evidence.",
+				"observed_addresses": [
+					0,
+					4,
+					8,
+					12,
+					32,
+					0,
+					32,
+					0,
+					32,
+					0,
+					32,
+					0
+				],
+				"policy": {
+					"confidence": 3,
+					"cooldown": 2,
+					"lookahead": 1,
+					"rule": "stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 16,
+						"history": [
+							0,
+							4,
+							8,
+							12
+						],
+						"issue_reason": "issued",
+						"issued": true,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 2,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32
+						],
+						"issued": false,
+						"mismatch": true,
+						"reason": "cooldown",
+						"step": 5
+					},
+					{
+						"cooldown": 1,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "cooldown",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0,
+							32
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							4,
+							8,
+							12,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							4,
+							8,
+							12,
+							32,
+							0,
+							32,
+							0,
+							32
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							8,
+							12,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							12,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0,
+							32
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							32,
+							0,
+							32,
+							0,
+							32,
+							0,
+							32,
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "unstable_history",
+						"step": 12
+					}
+				]
+			},
+			"task": 1
+		},
+		{
+			"accepted": true,
+			"domain": "prediction",
+			"observation": {
+				"completed_runs": [
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 12,
+							"cache_hits": 10,
+							"cache_misses": 2,
+							"compute_cycles": 96,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 0,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 8,
+							"total_cycles": 120,
+							"traffic_bytes": 8,
+							"transfer_cycles": 4,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 3,
+							"cooldown": 2,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 72,
+							"cache_hits": 0,
+							"cache_misses": 12,
+							"compute_cycles": 96,
+							"demand_bytes": 48,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 16,
+							"fallback_cycles": 72,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 10,
+							"prediction_bytes": 24,
+							"queue_wait_cycles": 0,
+							"request_cycles": 72,
+							"total_cycles": 180,
+							"traffic_bytes": 72,
+							"transfer_cycles": 36,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 24,
+							"wrong_guesses": 5
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "stride"
+						}
+					},
+					{
+						"metrics": {
+							"baseline_cycles": 120,
+							"baseline_traffic_bytes": 8,
+							"blocking_cycles": 12,
+							"cache_hits": 10,
+							"cache_misses": 2,
+							"compute_cycles": 96,
+							"demand_bytes": 8,
+							"drain_cycles": 0,
+							"error": "",
+							"evictions": 0,
+							"fallback_cycles": 12,
+							"inflight_matches": 0,
+							"inflight_wait_cycles": 0,
+							"lookup_cycles": 12,
+							"peak_cache_bytes": 8,
+							"pollution_misses": 0,
+							"prediction_bytes": 0,
+							"queue_wait_cycles": 0,
+							"request_cycles": 8,
+							"total_cycles": 120,
+							"traffic_bytes": 8,
+							"transfer_cycles": 4,
+							"useful_prediction_bytes": 0,
+							"wasted_prediction_bytes": 0,
+							"wrong_guesses": 0
+						},
+						"policy": {
+							"confidence": 1,
+							"cooldown": 0,
+							"lookahead": 1,
+							"rule": "two_stride"
+						}
+					}
+				],
+				"control_ranges": {
+					"confidence": [
+						1,
+						2,
+						3
+					],
+					"cooldown": [
+						0,
+						2
+					],
+					"lookahead": [
+						1,
+						2
+					],
+					"rule": [
+						"off",
+						"stride",
+						"two_stride"
+					]
+				},
+				"goal_met": true,
+				"hint1": "Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.",
+				"mission": "Investigation3: two alternating hotspots. Compare at least two different rules: one with extra costs from wrong guesses, one no slower than baseline. Inspect the finite cache.",
+				"observed_addresses": [
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8,
+					0,
+					8
+				],
+				"policy": {
+					"confidence": 1,
+					"cooldown": 0,
+					"lookahead": 1,
+					"rule": "two_stride"
+				},
+				"revealed_decisions": [
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 1
+					},
+					{
+						"cooldown": 0,
+						"guess": -1,
+						"history": [
+							0,
+							8
+						],
+						"issued": false,
+						"mismatch": false,
+						"reason": "insufficient_history",
+						"step": 2
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 3
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 4
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 5
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 6
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 7
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 8
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 9
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 10
+					},
+					{
+						"cooldown": 0,
+						"guess": 8,
+						"history": [
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 11
+					},
+					{
+						"cooldown": 0,
+						"guess": 0,
+						"history": [
+							0,
+							8,
+							0,
+							8,
+							0,
+							8,
+							0,
+							8
+						],
+						"issue_reason": "already_cached",
+						"issued": false,
+						"mismatch": false,
+						"reason": "history_rule",
+						"step": 12
+					}
+				]
+			},
+			"task": 2
+		}
+	]
+}

@@ -1,0 +1,33 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+PROXY prediction task0 run Measure the visible starter without requesting unseen addresses.
+PROXY prediction task0 hint1 Read the public first hint; do not request future sequence data.
+PROXY prediction task0 try_policy Compare a rule available in the visible controls. Inspect actual demand time, fallback and wasted bytes.
+MENU attempt=1 focus=1 want=1
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=0 want=0
+PROXY prediction task0 stop Public contract is met; this says nothing about untested streams.
+PROXY prediction task1 run Measure the visible starter without requesting unseen addresses.
+PROXY prediction task1 hint1 Read the public first hint; do not request future sequence data.
+PROXY prediction task1 try_policy Measured unused traffic motivates a stricter evidence gate or mismatch pause. Inspect actual demand time, fallback and wasted bytes.
+MENU attempt=1 focus=1 want=1
+MENU attempt=1 focus=2 want=2
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=1 want=1
+PROXY prediction task1 stop Public contract is met; this says nothing about untested streams.
+PROXY prediction task2 run Measure the visible starter without requesting unseen addresses.
+PROXY prediction task2 hint1 Read the public first hint; do not request future sequence data.
+PROXY prediction task2 try_policy Compare a rule available in the visible controls. Inspect actual demand time, fallback and wasted bytes.
+MENU attempt=1 focus=1 want=1
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=0 want=0
+PROXY prediction task2 try_policy Measured unused traffic motivates a stricter evidence gate or mismatch pause. Inspect actual demand time, fallback and wasted bytes.
+MENU attempt=1 focus=2 want=2
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=0 want=0
+MENU attempt=1 focus=0 want=0
+PROXY prediction task2 stop Public contract is met; this says nothing about untested streams.
+PASS: candidate proxy actuator; bounded outcomes [true, true, true]

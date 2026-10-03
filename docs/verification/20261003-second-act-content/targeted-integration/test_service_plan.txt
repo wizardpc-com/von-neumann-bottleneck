@@ -1,0 +1,12 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SERVICE baseline { "cycles": 2204, "traffic": 4960, "state_bytes": 3168, "firsts": [89, 180, 271, 362], "peak": 266, "error": 0.0, "state_error": 0.0 }
+SERVICE grouped { "cycles": 1324, "traffic": 2320, "state_bytes": 528, "firsts": [89, 415, 741, 1067], "peak": 266, "error": 0.0, "state_error": 0.0 }
+SERVICE grouped2 { "cycles": 1276, "traffic": 2320, "state_bytes": 528, "firsts": [129, 443, 757, 1071], "peak": 338, "error": 0.0, "state_error": 0.0 }
+SERVICE resident { "cycles": 1324, "traffic": 2320, "state_bytes": 528, "firsts": [89, 158, 227, 296], "peak": 458, "error": 0.0, "state_error": 0.0 }
+SERVICE lossless { "cycles": 1280, "traffic": 2108, "state_bytes": 316, "firsts": [78, 136, 205, 274], "peak": 458, "error": 0.0, "state_error": 0.0 }
+SERVICE rle64 { "cycles": 1296, "traffic": 2148, "state_bytes": 356, "firsts": [78, 136, 209, 282], "peak": 468, "error": 0.0, "state_error": 0.0 }
+SERVICE mixed { "cycles": 1284, "traffic": 2080, "state_bytes": 288, "firsts": [77, 134, 203, 272], "peak": 458, "error": 0.00469545603675, "state_error": 0.00054883555815 }
+SERVICE all8 { "cycles": 1236, "traffic": 1872, "state_bytes": 80, "firsts": [76, 132, 188, 244], "peak": 402, "error": 0.00469545603675, "state_error": 0.00615770853018 }
+SERVICE rle8 { "cycles": 1256, "traffic": 1896, "state_bytes": 104, "firsts": [77, 134, 194, 254], "peak": 412, "error": 0.00469545603675, "state_error": 0.00615770853018 }
+PASS: service plan (3851)

@@ -1,0 +1,10 @@
+test_contract (__main__.CommunityTests) ... ok
+test_retention (__main__.CommunityTests) ... ok
+test_summary_and_board (__main__.CommunityTests) ... ok
+test_contract (test_receiver.ReceiverTests) ... ok
+test_retention (test_receiver.ReceiverTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.155s
+
+OK

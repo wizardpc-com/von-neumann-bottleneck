@@ -1,0 +1,3 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Isolated user directory: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261003T055822Z-ccfcbc49/user_directory

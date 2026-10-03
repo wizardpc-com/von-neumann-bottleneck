@@ -1,0 +1,33 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+PROXY representation_region task0 run Measure the visible starting plan before editing.
+PROXY representation_region task0 hint1 Read only the first evidence hint after the baseline.
+PROXY representation_region task0 try_plan Try one encoded block to measure actual compression and recovery cost.
+PROXY representation_region task0 try_plan Separate observed long runs from changing bytes, using the same boundaries for all visible assets.
+2026-10-03 13:53:40.293 Godot[4500:9296012] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+PROXY representation_region task0 stop The public result reports acceptance; no optimum claim.
+PROXY representation_region task1 run Measure the visible starting plan before editing.
+PROXY representation_region task1 hint1 Read only the first evidence hint after the baseline.
+PROXY representation_region task1 try_plan Try one encoded block to measure actual compression and recovery cost.
+PROXY representation_region task1 try_plan Separate observed long runs from changing bytes, using the same boundaries for all visible assets.
+PROXY representation_region task1 try_plan Isolate the few publicly requested addresses; measure extra directories against overfetch and preparation.
+PROXY representation_region task1 stop The public result reports acceptance; no optimum claim.
+PROXY representation_region task2 run Measure the visible starting plan before editing.
+PROXY representation_region task2 hint1 Read only the first evidence hint after the baseline.
+PROXY representation_region task2 try_plan Try one encoded block to measure actual compression and recovery cost.
+PROXY representation_region task2 try_plan Separate observed long runs from changing bytes, using the same boundaries for all visible assets.
+PROXY representation_region task2 stop The public result reports acceptance; no optimum claim.
+PROXY representation_region task3 run Measure the visible starting plan before editing.
+PROXY representation_region task3 hint1 Read only the first evidence hint after the baseline.
+PROXY representation_region task3 try_plan Try one encoded block to measure actual compression and recovery cost.
+PROXY representation_region task3 try_plan Isolate the few publicly requested addresses; measure extra directories against overfetch and preparation.
+PROXY representation_region task3 stop The public result reports acceptance; no optimum claim.
+PROXY representation_region task4 run Measure the visible starting plan before editing.
+PROXY representation_region task4 hint1 Read only the first evidence hint after the baseline.
+PROXY representation_region task4 try_plan Try one encoded block to measure actual compression and recovery cost.
+PROXY representation_region task4 try_plan Separate observed long runs from changing bytes, using the same boundaries for all visible assets.
+PROXY representation_region task4 try_plan Isolate the few publicly requested addresses; measure extra directories against overfetch and preparation.
+PROXY representation_region task4 try_plan Try coarse equal regions as a limited generalization hypothesis, then measure the actual cost.
+PROXY representation_region task4 stop No further supported byte-derived hypothesis; this policy cannot infer a richer design.
+PASS: candidate proxy actuator; bounded outcomes [true, true, true, true, false]

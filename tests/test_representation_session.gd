@@ -76,6 +76,12 @@ func run() -> void:
 	check(scene.undo_stack.size() == undo_size,"Repeated reuse of identical plan creates no fake undo step")
 	scene.save_session()
 	check(not scene.session_dirty,"Successful save clears unsaved state")
+	var baseline_traces: Array = [Model.run(Model.orders(0)[0],Model.initial_plan())]
+	check(scene.constraint_feedback(0,baseline_traces).contains("8B"),"Feedback explains exact storage shortfall without a solution")
+	var valid_plan: Array[Dictionary] = Model.represent(Model.split(Model.initial_plan(),0,16),0,"rle")
+	check(scene.constraint_feedback(0,[Model.run(Model.orders(0)[0],valid_plan)]).is_empty(),"Accepted plan has no false budget failure")
+	scene.english = true
+	check(scene.constraint_feedback(0,baseline_traces).contains("actual 68 / limit 60"),"English feedback states measured values and public limit")
 	scene.queue_free(); await process_frame
 	print("PASS: test_representation_session " if failures == 0 else "FAIL: test_representation_session ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

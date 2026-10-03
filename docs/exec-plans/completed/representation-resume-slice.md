@@ -23,3 +23,9 @@ Fresh focused and full checks, source diff review, native save → close → reo
 
 ## Second bounded improvement
 Owner emphasized that fun is central. Add a reversible path from an actual recorded plan back to editable construction, reducing repetitive rebuilding and making another experiment cheap. This enables player choices; it is not proof of fun or novice comprehension. Focused tests cover immutable historical evidence, undo, cross-task preservation and repeated copy no-op.
+
+## Third bounded improvement
+Native play showed a first attempt meets the cycle cap but exceeds storage; a generic unmet message makes the next experiment harder to reason about. Display the exact measured excess and public limit for each failed order, including when viewing older records. Do not reveal a codec/boundary solution or change acceptance. Tests compare RAW64 (68B vs60B) with a valid performed plan and English feedback.
+
+## Complete first iteration series
+Final verifier 20261003T133543Z-715a971b: 57/57 stages passed; candidate session suite 46 checks. Native input verified retrieving RAW64 from history across tasks, undo to prior RLE/RAW draft, running it again, and displaying the measured 8B storage excess (68 actual / 60 limit). No reference solutions or completion granted by reuse. Main remains unchanged; publish this bounded series on a development branch under the owner's explicit commit/push instruction. Next priorities are visual/animation feedback and richer player decisions; no whole-game fun claim.

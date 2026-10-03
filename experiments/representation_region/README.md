@@ -117,3 +117,5 @@ Focused checks: `test_representation_session` and `test_representation_region`. 
 ## Iterate from your own evidence
 
 Select a performed run and choose **Try a variation of this plan** to copy that owned plan into its task draft. Older traces remain immutable; the displaced draft can be restored with Undo. Cross-task reuse preserves the departing draft and opens the recorded task. Reusing an identical draft adds no fake undo step. No reference answer is provided and no run/completion is granted by the copy.
+
+Failed orders now identify each measured budget excess and its public limit, in both languages and in historical records. This is diagnostic feedback, not a prescribed solution.

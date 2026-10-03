@@ -166,6 +166,24 @@ func goal_text(goals: Dictionary) -> String:
 		parts.append("%s≤%d" % [label,goals[key]])
 	return ", ".join(parts)
 
+func constraint_feedback(task_index: int, traces: Array) -> String:
+	var failures: Array[String] = []
+	var goals: Array[Dictionary] = Catalog.goals(task_index)
+	if traces.size() != goals.size(): return text2("运行证据不完整。", "Run evidence is incomplete.")
+	for i: int in traces.size():
+		var trace: Trace = traces[i]
+		if not trace.passed:
+			failures.append(text2("订单%d：输出或输入校验未通过。", "Order %d: output or input validation failed.") % [i+1])
+			continue
+		for metric: String in goals[i]:
+			var actual: int = int(trace.metrics.get(metric, -1))
+			var limit: int = int(goals[i][metric])
+			if actual <= limit: continue
+			var label: String = text2("总周期", "cycles") if metric == "total_cycles" else (text2("存储", "storage") if metric == "stored_bytes" else text2("服务搬运", "service traffic"))
+			var unit: String = "" if metric == "total_cycles" else "B"
+			failures.append(text2("订单%d：%s超出%d%s（实际%d / 上限%d）。", "Order %d: %s exceeds the limit by %d%s (actual %d / limit %d).") % [i+1,label,actual-limit,unit,actual,limit])
+	return "\n".join(failures)
+
 func mission_text() -> String:
 	var lines: Array[String] = []
 	for i: int in Model.orders(task).size():
@@ -242,6 +260,7 @@ func run_current() -> void:
 	completed[task] = completed[task] or accepted
 	selected_run = history.size()-1; refresh_history(); history_list.select(selected_run); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_run); refresh_tasks()
 	status.text = text2("全部公开约束成立；可以继续比较，也可打开下一任务。","All public constraints met; keep comparing or open the next task.") if accepted else text2("尚未满足全部约束。看流量、请求、解码与缓存事件再修改。","Limits not all met. Inspect traffic, requests, decode and cache events before editing.")
+	if not accepted: status.text = constraint_feedback(task,traces)
 
 func refresh_history() -> void:
 	history_list.clear()
@@ -272,6 +291,8 @@ func show_trace(index: int) -> void:
 		for prior: Trace in old.traces:
 			if prior.metrics.spec == m.spec:
 				result.text += text2("\n对同订单上一记录：周期%+d，搬运%+dB，存储%+dB", "\nVersus prior same-order run: cycles%+d, traffic%+dB, stored%+dB") % [int(m.total_cycles)-int(prior.metrics.total_cycles),int(m.traffic_bytes)-int(prior.metrics.traffic_bytes),int(m.stored_bytes)-int(prior.metrics.stored_bytes)]
+	var limit_feedback: String = constraint_feedback(int(row.task),row.traces)
+	if not limit_feedback.is_empty(): result.text += "\n" + limit_feedback
 	events.clear(); var root_row: TreeItem = events.create_item()
 	for event: RefCounted in visible_trace.events:
 		var item: TreeItem = events.create_item(root_row); item.set_text(0,str(event.cycle)); item.set_text(1,str(event.duration)); item.set_text(2,"%s @%d" % [str(event.kind),event.address]); item.set_metadata(0,{"kind":str(event.kind),"duration":event.duration,"details":event.details.duplicate(true)})

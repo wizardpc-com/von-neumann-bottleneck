@@ -2686,6 +2686,8 @@ func _refresh_history() -> void:
 	else:
 		var comparison_kind := StringName(current_level_definition.get("comparison_kind", &"none"))
 		var pair: Array = _latest_controlled_pair(receipts, comparison_kind)
+		var recorded = pair[1] if pair.size() == 2 else receipts[receipts.size() - 1]
+		lines.append(_t(&"system.history.metric_scope", [recorded.total_cases]))
 		if pair.size() == 2:
 			var before = pair[0]
 			var after = pair[1]

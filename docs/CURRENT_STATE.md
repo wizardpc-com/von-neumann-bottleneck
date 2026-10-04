@@ -2,6 +2,14 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Measured comparison scope — 2026-10-04
+
+Chapter 1 History now explains how many official cases its summed timings cover,
+while hardware cost stays per machine. Final observations are explicitly labeled
+as recorded evidence, including after an unrun part selection. Native earned play
+continued through RAM, Bus and final diagnosis to Chapter 2 access. See
+[finding and verification](verification/20261004-comparison-scope/README.md).
+
 ## Performance and hardware cost — 2026-10-04
 
 Chapter 1 Run History now places recorded hardware cost beside measured timing,

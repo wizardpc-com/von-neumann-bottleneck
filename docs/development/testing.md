@@ -14,6 +14,13 @@ and `python3 scripts/verify-mac-candidate.py --app <candidate .app>`; the latter
 actual exported project build identity against its adjacent manifest. Native and
 external acceptance remain distinct. Dated test totals below are historical.
 
+## Measured comparison scope, 2026-10-04
+
+`test_system_cost_evidence` also verifies receipt-derived one-/two-/three-case
+scope and the recorded-observation caption, including unrun final hardware and a
+one-case debug run beside three-case official evidence. See
+[native comparison and regression](../verification/20261004-comparison-scope/README.md).
+
 ## Recorded hardware-cost comparison, 2026-10-04
 
 `test_system_cost_evidence` checks CPU/RAM/Bus baseline and comparison costs in both

@@ -2652,7 +2652,10 @@ msgid "system.history.baseline"
 msgstr "基线 · %s"
 
 msgid "system.history.observation"
-msgstr "当前证据 · %s"
+msgstr "已记录的观测 · %s"
+
+msgid "system.history.metric_scope"
+msgstr "每次运行 %d 组官方测试，周期数为合计；成本按一台机器计算。"
 
 msgid "system.history.baseline_metrics"
 msgstr "总周期 %d · CPU 等待 %d 周期"

@@ -476,7 +476,7 @@ func _run() -> void:
 	_assert(final_history_panel.visible, "Run History must come forward only after the final Trace finishes.")
 	_assert(
 		_t(&"system.history.observation", [main.call("_machine_summary", final_receipt)]) in final_history_text,
-		"The final single-machine evidence must be labeled as the current observation, not as a comparison baseline."
+		"The final single-machine evidence must be labeled as a recorded observation, not as a comparison baseline."
 	)
 	conclusion_button.pressed.emit()
 	await process_frame

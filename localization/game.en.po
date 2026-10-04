@@ -2652,7 +2652,10 @@ msgid "system.history.baseline"
 msgstr "BASELINE · %s"
 
 msgid "system.history.observation"
-msgstr "CURRENT EVIDENCE · %s"
+msgstr "RECORDED OBSERVATION · %s"
+
+msgid "system.history.metric_scope"
+msgstr "Official cases per run · %d. Timings are summed; cost is per machine."
 
 msgid "system.history.baseline_metrics"
 msgstr "Total %d cycles · CPU wait %d cycles"

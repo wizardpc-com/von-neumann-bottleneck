@@ -107,10 +107,15 @@ func bonus_status(id: String) -> Dictionary:
 		return {"complete":Catalog.no_repeated_transfer(Catalog.evaluate(id,value.board,value.program))}
 	return {"complete":false}
 
-func copy_previous(id: String) -> bool:
+func can_copy_previous(id: String) -> bool:
 	var source: String = {"backpressure":"buffers","distance":"prefetch"}.get(id,"")
 	if source.is_empty() or not completed().has(source) or drafts().has(id): return false
 	if not Catalog.unlocked(id,completed(),chapter_unlocked(),GameMode.is_test_mode()): return false
+	return true
+
+func copy_previous(id: String) -> bool:
+	if not can_copy_previous(id): return false
+	var source: String = {"backpressure":"buffers","distance":"prefetch"}.get(id,"")
 	var value: Dictionary = completed()[source]
 	store_draft(id,value.board,value.program)
 	return true

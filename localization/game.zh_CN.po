@@ -6717,3 +6717,9 @@ msgstr "之后 · 周期"
 
 msgid "chapter2.review.evidence"
 msgstr "查看证据与判断"
+
+msgid "overlap.copy_previous.kept"
+msgstr "已保留当前方案。仅在本关尚未编辑或保存时可复制。"
+
+msgid "overlap.copy_previous.unavailable"
+msgstr "暂无可复制的上一关兼容方案。"

@@ -42,6 +42,8 @@ var trace_stale: bool = true
 var dirty: bool = false
 var save_elapsed: float = 0.0
 var draft_loading: bool = false
+var copy_previous_button: Button
+var copy_previous_note: Label
 
 func _ready() -> void:
 	add_to_group("workspace_owners")
@@ -274,6 +276,8 @@ func _reset_workspace() -> void:
 	playing = false
 	graph = null
 	editor = null
+	copy_previous_button = null
+	copy_previous_note = null
 	trace = null
 	runs.clear()
 	panels.clear()
@@ -303,6 +307,7 @@ func _open_level(id: String) -> void:
 	workspace.add_child(graph)
 	_render_board(graph,board,false)
 	graph.scroll_offset = Vector2(-80,-100)
+	dirty = false
 	_build_mission()
 	_build_toolbox()
 	_build_program(program)
@@ -498,6 +503,7 @@ func _changed(render: bool = true) -> void:
 		PlaytestData.record_modification(&"chapter_3",StringName(level),&"hardware",{"operation":telemetry_operation,"added_components":added_nodes,"removed_components":removed_nodes,"added_wires":added_wires,"removed_wires":removed_wires,"explicit_wire_deletes":removed_wires if removed_nodes==0 and telemetry_operation!="move_endpoint" else 0,"incident_wire_removals":removed_wires if removed_nodes>0 else 0})
 	telemetry_before.clear()
 	dirty = true
+	_refresh_copy_previous()
 	trace_stale = true
 	save_elapsed = 0
 	playing = false
@@ -517,6 +523,7 @@ func _save_draft() -> void:
 	OverlapChapter.store_draft(level,board,editor.text)
 	dirty = false
 	save_elapsed = 0
+	_refresh_copy_previous()
 
 func _add_part(kind: String, position: Vector2) -> void:
 	if kind not in ["buffer","cache"] or level.is_empty(): return
@@ -561,14 +568,11 @@ func _build_mission() -> void:
 	objective.add_theme_font_size_override("font_size",Type.SUBTITLE_SIZE)
 	box.add_child(objective)
 	_button(box,"learn",func() -> void: _toggle("handbook"))
-	if level in ["backpressure","distance"] and not OverlapChapter.drafts().has(level):
-		_button(box,"copy_previous",func() -> void:
-			if OverlapChapter.copy_previous(level):
-				var copied: Dictionary = OverlapChapter.drafts()[level].duplicate(true)
-				# _open_level saves the current board first; install the copy locally before reopening.
-				board = copied.board
-				editor.text = copied.program
-				_open_level(level))
+	if level in ["backpressure","distance"]:
+		copy_previous_button = _button(box,"copy_previous",_copy_previous)
+		copy_previous_note = _label("",true)
+		box.add_child(copy_previous_note)
+		_refresh_copy_previous()
 	if level in ["distance","synthesis"]:
 		var bonus: Dictionary = OverlapChapter.bonus_status(level)
 		box.add_child(_label(("✓ " if bonus.complete else "◇ ")+_t("bonus."+level),true))
@@ -581,6 +585,26 @@ func _build_mission() -> void:
 	_button(box,"begin",func() -> void:
 		panel.hide()
 		_toggle("program" if level not in ["buffers","synthesis"] else "toolbox",true))
+
+func _refresh_copy_previous() -> void:
+	if not is_instance_valid(copy_previous_button): return
+	var has_work: bool = dirty or OverlapChapter.drafts().has(level)
+	var available: bool = not has_work and OverlapChapter.can_copy_previous(level)
+	copy_previous_button.disabled = not available
+	copy_previous_note.text = _t("copy_previous.kept" if has_work else "copy_previous.unavailable") if not available else ""
+	copy_previous_note.visible = not available
+	copy_previous_button.tooltip_text = copy_previous_note.text
+
+func _copy_previous() -> void:
+	if dirty or not OverlapChapter.copy_previous(level):
+		_refresh_copy_previous()
+		status.text = _t("copy_previous.kept" if dirty or OverlapChapter.drafts().has(level) else "copy_previous.unavailable")
+		return
+	var copied: Dictionary = OverlapChapter.drafts()[level].duplicate(true)
+	# _open_level saves the current board first; install the copy locally before reopening.
+	board = copied.board
+	editor.text = copied.program
+	_open_level(level)
 
 func _case_name(task: Dictionary) -> String:
 	return _t("case."+String(task.name))

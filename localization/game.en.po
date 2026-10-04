@@ -6718,3 +6718,9 @@ msgstr "After · cycles"
 
 msgid "chapter2.review.evidence"
 msgstr "Review evidence"
+
+msgid "overlap.copy_previous.kept"
+msgstr "Current work kept. Copy is only available before editing or saving this task."
+
+msgid "overlap.copy_previous.unavailable"
+msgstr "No previous compatible solution is available to copy."

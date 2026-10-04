@@ -94,6 +94,11 @@ New Game clears completions. Without the optional workbench-clear checkbox, over
 drafts remain on disk but do not count as resume progress. Selecting that checkbox
 also clears these drafts. Tests cover global JSON round-trip and both reset paths.
 
+Copying the player’s previous compatible solution is available only before the target
+task has a saved draft or unsaved edits. Mission keeps the control synchronized on
+edits and saves, displays a localized reason when disabled, and reports refused
+copy attempts without replacing current work. Copies still require official retesting.
+
 ## Research boundary
 
 The design uses the distinction between issue and completion, and producer/consumer

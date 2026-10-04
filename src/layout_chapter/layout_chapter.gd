@@ -93,6 +93,11 @@ func _ready() -> void:
 func _open(id: String) -> void:
 	if not C.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked(),GameMode.is_test_mode()): _leave(); return
 	level = id
+	# Chapter cards bypass TaskNavigation.enter(); remember the task actually opened.
+	# A matching tree selection keeps its existing pan/zoom on return.
+	if TaskNavigation.selected != "chapter_4/"+id:
+		TaskNavigation.selected = "chapter_4/"+id
+		TaskNavigation.camera_saved = false
 	PlaytestData.level_started(&"chapter_4",StringName(id))
 	design = LayoutChapter.drafts().get(id,C.starter_design()).duplicate(true)
 	if id == "relocation" and not design.has("orders"): design.orders = {"A":C.starter_design(),"B":C.starter_design()}

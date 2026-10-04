@@ -104,9 +104,14 @@ func _ready() -> void:
 func remember_visit(domain: String, id: String) -> void:
 	if GameMode.is_test_mode(): return
 	var key: String = domain+"/"+id
-	if key==last_visited_task: return
 	for task: Dictionary in tasks():
 		if task.key==key and task.unlocked:
+			# Direct next-task actions bypass enter(); follow the task actually opened.
+			# A matching tree selection keeps its existing pan/zoom on return.
+			if selected != key:
+				selected = key
+				camera_saved = false
+			if key==last_visited_task: return
 			last_visited_task=key
 			var settings := ConfigFile.new()
 			settings.set_value("navigation","last_visited_task",key)

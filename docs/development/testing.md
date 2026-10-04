@@ -14,6 +14,14 @@ and `python3 scripts/verify-mac-candidate.py --app <candidate .app>`; the latter
 actual exported project build identity against its adjacent manifest. Native and
 external acceptance remain distinct. Dated test totals below are historical.
 
+## Direct task return selection, 2026-10-04
+
+`test_direct_task_navigation` covers Tutorial’s next button and a prologue branch
+returning to their actual task-tree nodes, repeated/matching visits, camera retention,
+rejected visits, Test isolation and persisted Continue without progression changes.
+Synthetic fixtures and native earned-save scope are distinguished in
+[the verification record](../verification/20261004-direct-task-navigation/README.md).
+
 ## Native window geometry, 2026-10-04
 
 The standalone `scripts/verify-native-window-geometry.gd` requires a native display

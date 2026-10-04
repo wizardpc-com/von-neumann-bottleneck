@@ -1,5 +1,6 @@
 extends SceneTree
 const M = preload("res://experiments/service_plan/model.gd")
+const EP = preload("res://experiments/service_plan/event_presenter.gd")
 var checks: int = 0
 var failures: Array[String] = []
 func _init() -> void: call_deferred("run")
@@ -127,6 +128,23 @@ func run() -> void:
 	check(M.pack(M.unpack(M.pack(zeroes, "rle64"), "rle64"), "raw64") == M.pack(zeroes, "raw64"), "WordRLE preserves signedzero actual IEEE bytes")
 	check(not M.accepted(M.run(all8).metrics, 1), "Real Q8 errors reject exact quality contract")
 	check(M.run(all8).metrics.max_error > 0.0 and M.run(all8).metrics.max_state_error > 0.0, "Actual persistent precision errors are nonzero")
+	for english: bool in [false,true]:
+		for source: Dictionary in [baseline,resident]:
+			var trace: RefCounted = M.run(source)
+			for event: RefCounted in trace.events:
+				var data: Dictionary = event.to_dictionary(); var before: String = JSON.stringify(data)
+				var text: String = EP.summary(data,english)
+				check(text.contains(str(event.cycle)) and text.contains(str(event.duration)),"Summary preserves actual cycle and duration")
+				if event.details.has("stream"): check(EP.title(data,english).begins_with(char(65+event.details.stream)),"Event row identifies recorded stream")
+				if event.details.has("request_id"): check(EP.title(data,english).contains(char(65+event.details.request_id/6)+str(event.details.request_id%6)),"Request token comes from recorded request")
+				if event.details.has("bytes"): check(text.contains(str(event.details.bytes)+" B"),"Summary preserves actual transferred bytes")
+				if event.kind == &"state_write": check(text.contains(EP.reason(event.details,english)),"Eviction and final-flush writeback reasons remain distinct")
+				if event.kind == &"state_hit": check(text.contains("Later computation" if english else "后续运算"),"Reuse does not claim whole-service zero cost")
+				check(JSON.stringify(data) == before,"Formatting cannot mutate recorded evidence")
+		check(EP.title({"kind":"future"},english) == ("Unknown event" if english else "未知事件"),"Unknown event has localized fallback")
+		var missing: String = EP.summary({"kind":"state_write","details":{}},english)
+		check(missing.contains("missing" if english else "未记录") and not missing.contains("0 B") and not missing.contains("RAW64"),"Missing evidence never gets invented values")
+		check(EP.identity({"stream":-1}).is_empty() and EP.identity({"request_id":24}).is_empty() and EP.identity({"stream":0.5}).is_empty(),"Invalid identities never wrap to a valid stream")
 	var campaign_before: String = JSON.stringify(root.get_node("LocalityChapter").completed_levels())
 	root.content_scale_size = Vector2i(1280, 720); root.size = Vector2i(1280, 720)
 	var lab: Control = load("res://experiments/service_plan/lab.tscn").instantiate(); root.add_child(lab)
@@ -141,6 +159,18 @@ func run() -> void:
 	lab.response_chart.configure([0,0,0,0],320,false)
 	check(lab.response_chart.first_responses.is_empty(),"Missing execution cannot look like zero-latency success")
 	lab.select_run(0)
+	var write_row: TreeItem = lab.tree.get_root().get_first_child()
+	while write_row != null and write_row.get_metadata(0).kind != "state_write": write_row = write_row.get_next()
+	write_row.select(0); lab.tree.item_selected.emit()
+	check(lab.detail.text.contains("A") and lab.detail.text.contains("66 B") and lab.detail.text.contains("淘汰"),"Selected first writeback exposes identity bytes and reason")
+	lab.event_raw = true; lab.refresh_event_detail()
+	check(lab.detail.text.contains('"encoded"') and lab.detail.text.contains('"state_write"'),"Raw view retains complete original event")
+	var event_index: int = lab.selected_event_index
+	lab.english = true; lab.build(); await process_frame; await process_frame
+	check(lab.selected_event_index == event_index and lab.detail.text.contains('"encoded"'),"Language rebuild retains selected event and raw mode")
+	lab.event_raw = false; lab.refresh_event_detail()
+	check(lab.detail.text.contains("eviction") and lab.event_source.text == lab.measured_source.text,"Localized explanation and source follow same record")
+	lab.english = false; lab.build(); await process_frame; await process_frame
 	lab.task = 1; lab.select_run(0); await process_frame
 	check(lab.response_chart.deadline == 320 and lab.response_chart.exceeds(3),"Current contract deadline is rendered against the recorded baseline")
 	lab.task = 0; lab.select_run(0)
@@ -196,7 +226,7 @@ func run() -> void:
 			check(node.get_global_rect().position.x >= 0 and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Bilingual1280x720 editor stays inside viewport")
 		for tab: int in 4:
 			lab.evidence_tabs.current_tab = tab; await process_frame; await process_frame
-			var nodes: Array = [lab.measured_source,lab.summary,lab.response_chart,lab.response_play,lab.response_step] if tab == 0 else ([lab.tree,lab.detail] if tab == 1 else ([lab.public_detail] if tab == 2 else [lab.pin_button,lab.comparison_detail,lab.comparison_chart]))
+			var nodes: Array = [lab.measured_source,lab.summary,lab.response_chart,lab.response_play,lab.response_step] if tab == 0 else ([lab.event_source,lab.event_raw_button,lab.tree,lab.detail] if tab == 1 else ([lab.public_detail] if tab == 2 else [lab.pin_button,lab.comparison_detail,lab.comparison_chart]))
 			for node: Control in nodes:
 				check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Each active evidence tab fits minimum viewport with hints")
 	lab.evidence_tabs.current_tab = 0; lab.show_public_data()

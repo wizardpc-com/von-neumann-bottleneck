@@ -137,3 +137,25 @@ Comparison presentation now uses four instrument cards with paired measured bars
 Service groups also carry four fixed-position A/B/C/D colour marks for the streams actually present, while retaining the complete text tokens. Mixed groups light every included stream rather than taking only the first request's colour. Native merge A0+B0 and undo/save verified the marks and original draft return; focused service/session tests passed. Colours are supplementary, never the sole identity cue.
 
 During further native trial, increasing A/B-RLE64 context slots from1 to4 reduced1940→1280cycles and1896→316B state traffic, but raised266→458B peak, correctly failing task1's memory budget. A deliberately misplaced A0 then triggered dependency rejection. Rejection now identifies the first offending group/request and the prerequisite in both languages; Overview and history say not run rather than advertise zero-cost/zero-error results. Restored histories scroll to the selected record. Native undo/save/restart preserved the valid draft and rejected attempt; focused service/session checks passed. The final explicit rejection explanation is also retained in Overview after session-status messages.
+
+## Readable recorded events, 2026-10-04
+
+Events now show localized A/B/C/D and request identities, with a short explanation
+before optional complete raw event JSON. State transfers report the recorded byte
+count (including the two-byte directory entry), event cycles and representation;
+writeback distinguishes eviction from final flush. Resident reuse explains the
+avoided state read without calling later computation free. Missing/unknown fields
+remain unknown. The Events source caption names the measured plan and flags a
+changed draft; translation and raw-view changes never recalculate a record.
+
+Focused isolated `test_service_plan` and `test_service_session` passed on Godot
+4.7.1. Formatter checks cover both languages, actual trace fields, unknown/missing
+identities, raw evidence and history immutability; active-tab bounds remain tested
+at 1280×720 with Hint1. Actual cloud Linux mouse/key QA in a separate candidate
+profile confirmed A's eviction writeback at114 (66B/17cycles), B's read at135,
+A's resident reuse at316, final-flush writes, raw toggle, language retention,
+and changed-draft source. One-slot→four-slot results remain2204→1324cycles,
+3168→528B state traffic,266→458B peak; the latter still fails task1 by108B.
+Native screenshots were inspected in the tool record at1364×1024 and1280×842;
+minimum720-height bounds are automated, not native evidence. This is informed
+presentation QA, not novice understanding, exported-platform or audio acceptance.

@@ -1,5 +1,6 @@
 extends Control
 ## Editable plan presenter. Never supplies authoritative numerical results.
+const EventPresenter = preload("res://experiments/service_plan/event_presenter.gd")
 const Model = preload("res://experiments/service_plan/model.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/service_plan/session_store.gd")
@@ -59,6 +60,10 @@ var clear_pin_button: Button
 var measured_source: Label
 var summary: Label
 var detail: RichTextLabel
+var selected_event_index: int = -1
+var event_raw: bool = false
+var event_raw_button: Button
+var event_source: Label
 var tree: Tree
 
 func tr2(zh: String, en: String) -> String: return en if english else zh
@@ -95,6 +100,7 @@ func hint_text() -> String:
 	return tr2("Hint1 · 查看state_read/write是否同流反复出现，以及D的首响应。合组会省请求，但整组算完才返回。A/B每维相同，C/D每维变化；对照encoded字节和codec费用再选表示。", "Hint1 · Inspect repeated state reads/writes and D's first response. Merging saves setup, but delays responses until the group completes. A/B repeat coordinates; C/D vary. Compare actual encoded bytes and codec costs before choosing storage.")
 
 func build() -> void:
+	var previous_tab: int = evidence_tabs.current_tab if is_instance_valid(evidence_tabs) else 0
 	for child: Node in get_children(): remove_child(child); child.queue_free()
 	format_buttons.clear(); task_buttons.clear()
 	var background := ColorRect.new(); background.color = Color("0b1720"); background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(background)
@@ -183,14 +189,18 @@ func build() -> void:
 	response_step = button(tr2("下一响应", "Next response"),replay_row,response_chart.step_response,"ResponseStep")
 	response_play.disabled = true; response_step.disabled = true
 	response_chart.playback_changed.connect(func(value: bool) -> void: response_play.text = tr2("暂停回放", "Pause replay") if value else tr2("回放首响应顺序", "Replay first responses"))
+	event_source = label("",event_panel,13)
+	event_raw_button = button("",event_panel,func() -> void: event_raw = not event_raw; refresh_event_detail(),"ToggleRawEvent")
 	tree = Tree.new(); tree.name = "Trace"; tree.columns = 3; tree.column_titles_visible = true; tree.hide_root = true
 	tree.set_column_title(0, tr2("周期", "Cycle")); tree.set_column_title(1, tr2("费用", "Cost")); tree.set_column_title(2, tr2("事件", "Event")); tree.size_flags_vertical = Control.SIZE_EXPAND_FILL; tree.custom_minimum_size.y = 80; event_panel.add_child(tree)
+	tree.set_column_expand(0,false); tree.set_column_custom_minimum_width(0,65)
+	tree.set_column_expand(1,false); tree.set_column_custom_minimum_width(1,65)
 	tree.item_selected.connect(func() -> void:
-		var item: TreeItem = tree.get_selected()
-		if item != null: detail.text = JSON.stringify(item.get_metadata(0), "  "))
-	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 110; detail.scroll_active = true; event_panel.add_child(detail)
-	refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
+		selected_event_index = tree.get_selected().get_index(); refresh_event_detail())
+	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 130; detail.scroll_active = true; event_panel.add_child(detail)
+	refresh_event_detail(); refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history); history_list.call_deferred("ensure_current_is_visible")
+	evidence_tabs.current_tab = previous_tab
 	if persistent_session and not notice_key.is_empty(): status.text = session_notice()
 
 func refresh_mission() -> void: mission.text = mission_text() + ("\n" + hint_text() if hint_open else "")
@@ -229,7 +239,7 @@ func run_current() -> void:
 	for event: RefCounted in active_trace.events: events.append(event.to_dictionary().duplicate(true))
 	history.append({"task": task, "metrics": active_trace.metrics.duplicate(true), "events": events, "signature": active_trace.canonical_signature()})
 	if history.size() > 80: history.pop_front()
-	selected_history = history.size() - 1
+	selected_history = history.size() - 1; selected_event_index = -1
 	if Model.accepted(active_trace.metrics, task):
 		unlocked = maxi(unlocked, mini(task + 1, 2))
 		support_plans[task] = plan.duplicate(true)
@@ -278,6 +288,7 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 	return " · ".join(failures) if not failures.is_empty() else tr2("证据未满足当前任务。", "Evidence does not meet this task.")
 
 func select_run(index: int) -> void:
+	if index != selected_history: selected_event_index = -1
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
 	refresh_measured_source(); refresh_comparison()
 	status.text = measured_feedback(m,task)
@@ -288,8 +299,20 @@ func select_run(index: int) -> void:
 	if not str(m.error).is_empty(): summary.text = invalid_feedback(m)+"\n"+tr2("没有性能或精度结果：该方案在执行前被拒绝。修改草稿后重新运行；历史记录保留。", "No performance or quality result: this plan was rejected before execution. Edit and rerun; history is retained.")
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:
-		var row: TreeItem = tree.create_item(root_item); row.set_text(0, str(event.cycle)); row.set_text(1, str(event.duration)); row.set_text(2, event.kind); row.set_metadata(0, event.details.duplicate(true))
-	detail.text = JSON.stringify({"plan": m.plan, "final_states": m.final_states}, "  "); refresh_actions()
+		var row: TreeItem = tree.create_item(root_item); row.set_text(0, str(event.cycle)); row.set_text(1, str(event.duration)); row.set_text(2, EventPresenter.title(event,english)); row.set_tooltip_text(2,str(event.kind)); row.set_metadata(0, event.duplicate(true))
+	if selected_event_index >= 0 and selected_event_index < root_item.get_child_count():
+		root_item.get_child(selected_event_index).select(0); tree.call_deferred("ensure_cursor_is_visible")
+	refresh_event_detail(); refresh_actions()
+func refresh_event_detail() -> void:
+	if detail == null: return
+	event_raw_button.text = tr2("返回事件说明", "Show explanation") if event_raw else tr2("查看原始事件 JSON", "Show raw event JSON")
+	var item: TreeItem = tree.get_selected()
+	if item == null:
+		detail.text = tr2("选择一条实测事件，查看流身份、搬运原因与费用。", "Select a measured event for its stream, cause and cost.")
+		return
+	var event: Dictionary = item.get_metadata(0)
+	detail.text = JSON.stringify(event,"  ") if event_raw else EventPresenter.summary(event,english)
+
 func pin_comparison() -> void:
 	if selected_history < 0 or selected_history >= history.size(): return
 	var metrics: Dictionary = history[selected_history].metrics
@@ -313,12 +336,16 @@ func refresh_comparison() -> void:
 func refresh_measured_source() -> void:
 	if measured_source == null: return
 	if selected_history < 0 or selected_history >= history.size():
-		measured_source.text = tr2("尚无实测来源。", "No measured source yet."); return
+		measured_source.text = tr2("尚无实测来源。", "No measured source yet.")
+		if event_source != null: event_source.text = measured_source.text
+		return
 	var measured: Dictionary = history[selected_history].metrics.plan
 	var formats: Array[String] = []
 	for stream: int in 4: formats.append(char(65+stream)+":"+str(measured.representations[stream]).to_upper())
 	measured_source.text = tr2("实测来源：%d组 / %d状态槽 · ", "Measured source: %d groups / %d slots · ") % [measured.groups.size(),measured.slots]+"  ".join(formats)
 	if measured != plan: measured_source.text += tr2("\n草稿与此记录不同；上方是记录所用方案。", "\nDraft differs from this record; the source above belongs to the measurement.")
+
+	if event_source != null: event_source.text = measured_source.text
 
 func restore_history() -> void:
 	if selected_history < 0: return

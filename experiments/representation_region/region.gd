@@ -4,12 +4,17 @@ const Model = preload("res://experiments/representation_region/model.gd")
 const Catalog = preload("res://experiments/representation_region/catalog.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/representation_region/session_store.gd")
+var writer_lease: RefCounted
+var recovery_state: Dictionary = {}
+var support_plans: Dictionary = {}
 var persistent_session: bool = false
 var save_blocked: bool = false
 var session_notice: String = ""
 var session_version: String = ""
 var session_dirty: bool = false
 var previous_auto_quit: bool = true
+var leave_to_hub: bool = false
+var candidate_journey: bool = false
 var drafts: Dictionary = {}
 var english: bool = false
 var task: int = 0
@@ -55,11 +60,17 @@ func _ready() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--locale=en": english = true
 		if arg == "--candidate-save": persistent_session = true
+		if arg == "--candidate-journey": candidate_journey = true
 	if persistent_session:
 		add_to_group("candidate_quit_owners")
 		previous_auto_quit = get_tree().auto_accept_quit
 		get_tree().auto_accept_quit = false
+		writer_lease = SessionStore.Lease.new(SessionStore.PATH)
 		restore_session()
+		if not writer_lease.held:
+			save_blocked = true
+			session_notice = text2("此候选档已由另一窗口占用，或上次未正常关闭；本窗口禁止保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
+
 	build()
 
 func text2(zh: String, en: String) -> String: return en if english else zh
@@ -89,6 +100,8 @@ func build() -> void:
 	var title := make_label(text2("表示候选区 · 构造方案，比较真实服务","Candidate representation region · Build, measure, compare"),top,24)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	make_button("中文 / EN",top,func() -> void: english = not english; build(),"Language")
+	if candidate_journey: make_button(text2("返回首页", "Home"),top,request_hub,"CandidateHome")
+	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
 	make_button(text2("退出","Quit"),top,request_quit,"Quit")
 	make_label(text2("隔离候选 · 不改变主线存档 · 周期来自模型 · 五份任务 · 推荐按编号探索 · 第4任务计入在线准备","Isolated candidate · no campaign save changes · model cycles · five freely accessible tasks · recommended numbered order · task4 includes preparation"),page,13)
 	var nav := HBoxContainer.new(); page.add_child(nav)
@@ -160,11 +173,14 @@ func build() -> void:
 		var save_button := make_button(text2("保存本次方案与对照", "Save drafts and comparisons"),editor,save_session,"SaveSession")
 		save_button.disabled = save_blocked
 		InstrumentTheme.primary(save_button,Color("62dca7"))
+		add_recovery_controls(editor)
 	status = make_label(text2("选择区间，再分割/合并或改变该块表示。","Select a block, then split/merge or change its codec."),editor,14)
 	var evidence_scroll := ScrollContainer.new(); evidence_scroll.name = "EvidenceScroll"; evidence_scroll.custom_minimum_size.x = 430; evidence_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence_scroll)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; evidence_scroll.add_child(evidence)
 	make_label(text2("实际运行记录（选择旧记录复查）","Recorded runs (select an older run to inspect)"),evidence,17)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 90; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
+	var support_button := make_button(text2("取回本任务保留的达标方案", "Restore this task’s protected successful plan"),evidence,restore_support,"RestoreSupport")
+	support_button.disabled = not support_plans.has(task)
 	reuse_button = make_button(text2("从选中方案继续试", "Try a variation of this plan"),evidence,reuse_recorded_plan,"ReusePlan")
 	reuse_button.tooltip_text = text2("复制自己的旧方案到对应任务草稿；旧记录不变，覆盖的草稿可撤销。", "Copy your recorded plan into its task draft. The record stays unchanged; Undo restores the previous draft.")
 	recorded_plan_label = make_label("",evidence,13); recorded_plan_label.name = "RecordedPlan"
@@ -254,6 +270,10 @@ func change_task(index: int) -> void:
 	build()
 
 func refresh_tasks() -> void:
+	var closure := find_child("RegionClosure",true,false) as Button
+	if closure != null: closure.disabled = completed.has(false)
+	var support_button := find_child("RestoreSupport",true,false) as Button
+	if support_button != null: support_button.disabled = not support_plans.has(task)
 	for i: int in task_buttons.size():
 		task_buttons[i].disabled = false
 		task_buttons[i].text = Catalog.title(i,english) + (" ✓" if completed[i] else "")
@@ -318,6 +338,7 @@ func run_current() -> void:
 	var traces: Array[Trace] = []
 	for spec: Dictionary in Model.orders(task): traces.append(Model.run(spec,plan))
 	var accepted: bool = Model.meets(task,traces)
+	if accepted: support_plans[task] = plan.duplicate(true)
 	history.append({"task":task,"plan":plan.duplicate(true),"traces":traces,"accepted":accepted})
 	if history.size() > 100: history.pop_front()
 	completed[task] = completed[task] or accepted
@@ -428,6 +449,7 @@ func public_observation() -> Dictionary:
 
 func restore_session() -> void:
 	var saved: Dictionary = SessionStore.read_session()
+	recovery_state = saved if saved.get("error") == "recovery" else {}
 	if not saved.ok:
 		save_blocked = true
 		session_notice = text2("已有候选存档无法安全读取，已保留原文件并禁止覆盖。", "Existing candidate save could not be safely read; original preserved, saving blocked.")
@@ -445,6 +467,13 @@ func restore_session() -> void:
 		var accepted: bool = Model.meets(int(run.task),traces)
 		history.append({"task":int(run.task),"plan":run.plan.duplicate(true),"traces":traces,"accepted":accepted})
 		completed[int(run.task)] = completed[int(run.task)] or accepted
+		if accepted: support_plans[int(run.task)] = run.plan.duplicate(true)
+	for support: Dictionary in saved.supports:
+		var traces: Array[Trace] = []
+		for spec: Dictionary in Model.orders(int(support.task)): traces.append(Model.run(spec,support.plan))
+		if Model.meets(int(support.task),traces):
+			support_plans[int(support.task)] = support.plan.duplicate(true)
+			completed[int(support.task)] = true
 	selected_run = history.size()-1
 	session_notice = text2("已恢复草稿；%d条对照按相同模型重新计算。未授予主线进度。", "Drafts restored; %d comparisons recomputed with the matching model. No campaign progress granted.") % history.size()
 
@@ -455,13 +484,14 @@ func save_session() -> void:
 		saved_drafts.append(plan.duplicate(true) if i == task else drafts.get(i,{"plan":Model.initial_plan()}).plan.duplicate(true))
 	var runs: Array = []
 	for run: Dictionary in history: runs.append({"task":int(run.task),"plan":run.plan.duplicate(true)})
-	var raw: String = SessionStore.encode(task,saved_drafts,runs)
-	var error: Error = SessionStore.write_session(raw, SessionStore.PATH, session_version)
+	var raw: String = SessionStore.encode(task,saved_drafts,runs,support_records())
+	var error: Error = SessionStore.write_session(raw, SessionStore.PATH, session_version, writer_lease)
 	if error == OK:
 		session_version = raw.sha256_text()
 		session_dirty = false
 	session_notice = text2("已保存独立候选档；同一配置再次启动可继续。", "Saved isolated candidate profile; reopen the same profile to continue.") if error == OK else text2("保存失败，未覆盖已有存档；请保留当前窗口。", "Save failed without overwriting the existing save; keep this window open.")
 	status.text = session_notice
+	if error != OK: refresh_recovery_controls()
 
 func mark_session_dirty() -> void:
 	if not persistent_session: return
@@ -481,9 +511,21 @@ func reuse_recorded_plan() -> void:
 	edit_plan(copied)
 	status.text = text2("已取回方案#%d；可以改一点再运行。旧记录保留，原草稿可撤销恢复。", "Plan #%d is ready to vary and run. Its old record is preserved; Undo can restore the previous draft.") % [record_index+1]
 
+func request_hub() -> void:
+	leave_to_hub = true
+	request_leave()
+
 func request_quit() -> void:
+	leave_to_hub = false
+	request_leave()
+
+func finish_leave() -> void:
+	if leave_to_hub: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	else: get_tree().quit()
+
+func request_leave() -> void:
 	if not persistent_session or not session_dirty:
-		get_tree().quit()
+		finish_leave()
 		return
 	if get_node_or_null("UnsavedSessionDialog") != null:
 		(get_node("UnsavedSessionDialog") as ConfirmationDialog).popup_centered()
@@ -492,14 +534,14 @@ func request_quit() -> void:
 	dialog.name = "UnsavedSessionDialog"
 	dialog.title = text2("保存这次探索？", "Save this exploration?")
 	dialog.dialog_text = text2("草稿或对照记录有未保存的变化。", "Drafts or comparison records have unsaved changes.")
-	dialog.ok_button_text = text2("保存并退出", "Save and quit")
+	dialog.ok_button_text = text2("保存并离开", "Save and leave")
 	dialog.cancel_button_text = text2("继续编辑", "Keep editing")
-	dialog.add_button(text2("不保存退出", "Quit without saving"),true,"discard")
+	dialog.add_button(text2("不保存离开", "Leave without saving"),true,"discard")
 	dialog.confirmed.connect(func() -> void:
 		save_session()
-		if not session_dirty: get_tree().quit())
+		if not session_dirty: finish_leave())
 	dialog.custom_action.connect(func(action: StringName) -> void:
-		if action == &"discard": get_tree().quit())
+		if action == &"discard": finish_leave())
 	add_child(dialog)
 	dialog.popup_centered(Vector2i(520,180))
 
@@ -507,6 +549,7 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST and persistent_session: request_quit()
 
 func _exit_tree() -> void:
+	if writer_lease != null: writer_lease.release()
 	if persistent_session: get_tree().auto_accept_quit = previous_auto_quit
 
 func select_replay_event(index: int) -> void:
@@ -519,3 +562,83 @@ func select_replay_event(index: int) -> void:
 			events.ensure_cursor_is_visible()
 			return
 		row = row.get_next(); cursor += 1
+
+func support_records() -> Array:
+	var records: Array = []
+	for id: int in support_plans: records.append({"task":id,"plan":support_plans[id].duplicate(true)})
+	return records
+
+func restore_support() -> void:
+	if not support_plans.has(task): return
+	var restored: Array[Dictionary] = []; restored.assign(support_plans[task].duplicate(true))
+	edit_plan(restored)
+
+func add_recovery_controls(parent: Node) -> void:
+	if writer_lease == null or not writer_lease.held:
+		var stopped: String = SessionStore.Lease.stopped_owner(SessionStore.PATH)
+		if not stopped.is_empty():
+			make_button(text2("恢复已停止窗口的写入权", "Recover stopped window’s writer ownership"),parent,func() -> void: confirm_recovery(func() -> void: recover_writer(stopped)),"RecoverWriter")
+		return
+	if recovery_state.is_empty(): return
+	make_label(text2("检测到中断或损坏。选择要恢复的快照；全部原文件会保留。", "Interrupted or damaged save. Choose a snapshot; all original files will be preserved."),parent)
+	for choice: Dictionary in recovery_state.get("choices",[]):
+		var source: String = choice.path
+		var kind: String = text2("主档", "Main") if source == SessionStore.PATH else (text2("上次保存", "Previous save") if source.ends_with(".bak") else text2("未完成安装", "Interrupted install"))
+		var recovery_button := make_button(text2("恢复 ", "Recover ")+kind+" · T"+str(int(choice.task)+1)+" · "+str(choice.digest).substr(0,8),parent,func() -> void: confirm_recovery(func() -> void: recover_candidate(source)),"RecoverSnapshot")
+		recovery_button.tooltip_text = source.get_file()
+
+func recover_writer(expected_token: String) -> void:
+	var acquired: Dictionary = SessionStore.Lease.recover_and_acquire(SessionStore.PATH,expected_token)
+	if acquired.error != OK: recovery_failed(); return
+	writer_lease = acquired.lease
+	reload_recovered_session()
+
+func recover_candidate(source: String) -> void:
+	if SessionStore.recover_session(source,str(recovery_state.get("fingerprint","")),SessionStore.PATH,writer_lease) != OK: recovery_failed(); return
+	reload_recovered_session()
+
+func reload_recovered_session() -> void:
+	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear()
+	completed = [false,false,false,false,false]; drafts.clear(); undo_stack.clear(); redo_stack.clear()
+	restore_session(); build()
+
+func show_closure() -> void:
+	if completed.has(false): return
+	var existing := get_node_or_null("RegionReview") as AcceptDialog
+	if existing != null: remove_child(existing); existing.queue_free()
+	var review := AcceptDialog.new(); review.name = "RegionReview"
+	review.title = text2("表示区域 · 你的方案已回应五份任务", "Representation · Your plans answered all five tasks")
+	var lines: Array[String] = [text2("同一份信息，有了不同的承载方式。你已让它在存储、访问、准备和重复服务的约束下，完整抵达请求者。", "The same information now has different ways to travel. Your plans delivered it under storage, access, preparation and repeated-service constraints."), ""]
+	for id: int in 5:
+		var traces: Array[Trace] = []
+		for spec: Dictionary in Model.orders(id): traces.append(Model.run(spec,support_plans[id]))
+		var cycles: Array[String] = []
+		for trace: Trace in traces: cycles.append(str(trace.metrics.total_cycles))
+		lines.append(Catalog.title(id,english)+" · "+" / ".join(cycles)+text2(" 周期", " cycles"))
+	lines.append("")
+	lines.append(text2("这些结果来自保留的达标方案；你仍可回看、取回并尝试不同取舍。这段旅程到此可以收束，不需要等待服务或预测内容。", "These results come from your protected successful plans. Revisit, restore and explore other trade-offs whenever you like. This journey can close here, without waiting for service or prediction content."))
+	lines.append(text2("本次变化尚未保存；离开前请保存。", "This session has unsaved changes; save before leaving.") if session_dirty else text2("已保存的方案可在同一候选档继续。", "Saved plans can be resumed in this candidate profile."))
+	review.dialog_text = "\n".join(lines); review.ok_button_text = text2("回到我的工作台", "Back to my workbench")
+	add_child(review); review.popup_centered(Vector2i(700,440))
+
+func confirm_recovery(action: Callable) -> void:
+	if not session_dirty: action.call(); return
+	var existing := get_node_or_null("ReplaceUnsavedRecovery") as ConfirmationDialog
+	if existing != null: existing.popup_centered(); return
+	var dialog := ConfirmationDialog.new(); dialog.name = "ReplaceUnsavedRecovery"
+	dialog.title = text2("替换本窗口的未保存探索？", "Replace this window’s unsaved exploration?")
+	dialog.dialog_text = text2("恢复将重新读取磁盘快照，替换本窗口尚未保存的草稿和记录。磁盘原文件仍会保留。", "Recovery reloads the disk snapshot, replacing this window’s unsaved draft and runs. Original disk files remain preserved.")
+	dialog.ok_button_text = text2("恢复所选快照", "Recover selected snapshot")
+	dialog.confirmed.connect(func() -> void: action.call(); dialog.queue_free())
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog); dialog.popup_centered(Vector2i(560,200))
+
+func refresh_recovery_controls() -> void:
+	var disk: Dictionary = SessionStore.read_session()
+	recovery_state = disk if disk.get("error") == "recovery" else {}
+	if not disk.ok: save_blocked = true
+	build() # Only rebuild controls: current draft, history and supports stay intact.
+
+func recovery_failed() -> void:
+	refresh_recovery_controls()
+	status.text = text2("恢复未执行：文件或写入权已变化。当前草稿仍保留；请检查快照后重试，或保留窗口。", "Recovery was not performed: files or ownership changed. Your current draft is retained; review the snapshots and retry, or keep this window open.")

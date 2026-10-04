@@ -5,6 +5,8 @@ const Catalog = preload("res://experiments/representation_region/catalog.gd")
 const Base = preload("res://experiments/representation/plan_model.gd")
 const PATH := "user://representation-session.json"
 const MAX_BYTES := 262144
+const Files = preload("res://experiments/candidate_session/files.gd")
+const Lease = preload("res://experiments/candidate_session/writer_lease.gd")
 
 static func contract_id() -> String:
 	var specs: Array = []
@@ -30,8 +32,14 @@ static func decode(raw: String) -> Dictionary:
 	var parser := JSON.new()
 	if parser.parse(raw) != OK: return {"ok":false,"error":"json"}
 	var data: Variant = parser.data
-	if not data is Dictionary or data.size() != 6: return {"ok":false,"error":"schema"}
-	if not integer(data.get("schema"),1,1) or not data.get("model") is String or not data.get("contracts") is String:
+	if not data is Dictionary: return {"ok":false,"error":"schema"}
+	if not integer(data.get("schema"),1,2): return {"ok":false,"error":"version"}
+	if data.size() != (6 if int(data.schema) == 1 else 7): return {"ok":false,"error":"schema"}
+	var keys: Array = ["schema","model","contracts","task","drafts","runs"]
+	if int(data.schema) == 2: keys.append("supports")
+	for key: Variant in data:
+		if key not in keys: return {"ok":false,"error":"schema"}
+	if not integer(data.get("schema"),1,2) or not data.get("model") is String or not data.get("contracts") is String:
 		return {"ok":false,"error":"version"}
 	if data.model != Model.VERSION or data.contracts != contract_id():
 		return {"ok":false,"error":"version"}
@@ -49,39 +57,26 @@ static func decode(raw: String) -> Dictionary:
 		var plan := clean_plan(run.get("plan"))
 		if plan.is_empty(): return {"ok":false,"error":"run_plan"}
 		runs.append({"task":int(run.task),"plan":plan})
-	return {"ok":true,"task":int(data.task),"drafts":drafts,"runs":runs}
+	var supports: Array = []
+	if int(data.schema) == 2:
+		if not data.get("supports") is Array or data.supports.size() > 5: return {"ok":false,"error":"supports"}
+		var seen: Dictionary = {}
+		for run: Variant in data.supports:
+			if not run is Dictionary or run.size() != 2 or not integer(run.get("task"),0,4) or seen.has(int(run.task)): return {"ok":false,"error":"support"}
+			var plan = clean_plan(run.get("plan"))
+			if plan.is_empty(): return {"ok":false,"error":"support_plan"}
+			seen[int(run.task)] = true
+			supports.append({"task":int(run.task),"plan":plan})
+	return {"ok":true,"task":int(data.task),"drafts":drafts,"runs":runs,"supports":supports}
 
-static func encode(task: int, drafts: Array, runs: Array) -> String:
-	return JSON.stringify({"schema":1,"model":Model.VERSION,"contracts":contract_id(),"task":task,"drafts":drafts,"runs":runs})
+static func encode(task: int, drafts: Array, runs: Array, supports: Array = []) -> String:
+	return JSON.stringify({"schema":2,"model":Model.VERSION,"contracts":contract_id(),"task":task,"drafts":drafts,"runs":runs,"supports":supports})
 
 static func read_session(path: String = PATH) -> Dictionary:
-	if not FileAccess.file_exists(path): return {"ok":true,"empty":true,"digest":""}
-	var file := FileAccess.open(path,FileAccess.READ)
-	if file == null: return {"ok":false,"error":"read"}
-	if file.get_length() > MAX_BYTES: return {"ok":false,"error":"size"}
-	var raw := file.get_as_text()
-	var result := decode(raw)
-	result["digest"] = raw.sha256_text()
-	return result
+	return Files.read_session(path,decode)
 
-static func write_session(raw: String, path: String = PATH, expected_digest: String = "") -> Error:
-	if not decode(raw).ok: return ERR_INVALID_DATA
-	# Never overwrite unknown, corrupt or newer data implicitly.
-	var current := read_session(path)
-	if not current.ok: return ERR_INVALID_DATA
-	if current.get("digest", "") != expected_digest: return ERR_ALREADY_IN_USE
-	var temporary := path + ".tmp"
-	var backup := path + ".bak"
-	var file := FileAccess.open(temporary,FileAccess.WRITE)
-	if file == null: return FileAccess.get_open_error()
-	file.store_string(raw); file.flush()
-	var write_error := file.get_error(); file.close()
-	if write_error != OK: return write_error
-	if not read_session(temporary).ok: return ERR_FILE_CORRUPT
-	var had_previous := FileAccess.file_exists(path)
-	if had_previous:
-		var moved := DirAccess.rename_absolute(path,backup)
-		if moved != OK: return moved
-	var installed := DirAccess.rename_absolute(temporary,path)
-	if installed != OK and had_previous: DirAccess.rename_absolute(backup,path)
-	return installed
+static func write_session(raw: String, path: String = PATH, expected_digest: String = "", owner: RefCounted = null, stop_after: String = "") -> Error:
+	return Files.write_session(raw,path,expected_digest,decode,owner,stop_after)
+
+static func recover_session(source: String, expected_fingerprint: String, path: String = PATH, owner: RefCounted = null) -> Error:
+	return Files.recover_session(path,source,expected_fingerprint,decode,owner)

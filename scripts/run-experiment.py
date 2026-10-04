@@ -15,11 +15,14 @@ def main():
     parser.add_argument('--godot', required=True)
     parser.add_argument('--locale', choices=['en', 'zh_CN'], default='zh_CN')
     parser.add_argument('--prepare-only', action='store_true')
+    parser.add_argument('--journey', action='store_true', help='Enter the existing hub with the isolated representation journey enabled')
     parser.add_argument('--profile', help='Opt-in isolated candidate profile (letters, digits, hyphen; no campaign saves)')
     parser.add_argument('--replay', choices=['lab', 'proxy', 'depth', 'candidate', 'candidate-proxy'])
     args = parser.parse_args()
     if args.profile is not None and (args.experiment not in ['representation_region', 'service_plan'] or args.replay or not re.fullmatch(r'[A-Za-z0-9-]{1,40}', args.profile)):
         parser.error('--profile requires representation_region or service_plan, no replay, and a 1-40 character safe profile name')
+    if args.journey and (args.experiment != 'representation_region' or not args.profile or args.replay):
+        parser.error('--journey requires representation_region with --profile and no replay')
     engine = shutil.which(args.godot) or str(Path(args.godot).expanduser().resolve())
     if not subprocess.check_output([engine, '--version'], text=True).startswith('4.7.1.stable.'):
         parser.error('Godot 4.7.1 stable required')
@@ -60,10 +63,13 @@ def main():
         scenes = {'representation_plan': 'representation/puzzle.tscn',
                   'intelligent_state': 'intelligent_workload/state_lab.tscn',
                   'representation_region': 'representation_region/region.tscn'}
-        command += ['res://experiments/' + scenes.get(args.experiment, args.experiment + '/lab.tscn')]
+        if not args.journey:
+            command += ['res://experiments/' + scenes.get(args.experiment, args.experiment + '/lab.tscn')]
     command += ['--', '--locale=' + args.locale, '--experiment=' + args.experiment, '--evidence-dir=' + str(output / 'captures')]
     if args.profile:
         command += ['--candidate-save']
+    if args.journey:
+        command += ['--candidate-journey']
     with (output / 'session.txt').open('w') as log:
         result = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT)
     text = (output / 'session.txt').read_text()

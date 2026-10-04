@@ -1,0 +1,29 @@
+PASS: local branding assets and native icon contracts
+PASS: transaction quantities, debug/run/cases, duplicate exports, revised opinions and missing scores
+PASS: basic summary totals, mixed-detail deduplication, unknown fields and version/cohort separation
+PASS: late visit version attribution and malformed sequence isolation
+test_conflict_rolls_back (__main__.StorageTests.test_conflict_rolls_back) ... ok
+test_failed_ddl_upgrade_is_atomic (__main__.StorageTests.test_failed_ddl_upgrade_is_atomic) ... ok
+test_upgrade_restore_merge_and_deleted_identity (__main__.StorageTests.test_upgrade_restore_merge_and_deleted_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.007s
+
+OK
+test_contract (__main__.ReceiverTests.test_contract) ... ok
+test_retention (__main__.ReceiverTests.test_retention) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.100s
+
+OK
+test_contract (__main__.CommunityTests.test_contract) ... ok
+test_retention (__main__.CommunityTests.test_retention) ... ok
+test_summary_and_board (__main__.CommunityTests.test_summary_and_board) ... ok
+test_contract (test_receiver.ReceiverTests.test_contract) ... ok
+test_retention (test_receiver.ReceiverTests.test_retention) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.184s
+
+OK

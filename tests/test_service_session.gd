@@ -23,7 +23,7 @@ func run() -> void:
 	check(typeof(decoded.draft.groups[0][0]) == TYPE_INT,"JSON integer IDs restored to integers")
 	for invalid: String in ["{}","[]","{bad",raw.repeat(500)]: check(not Store.decode(invalid).ok,"Malformed or oversized snapshot refused")
 	var data: Dictionary = JSON.parse_string(raw)
-	for mutation: Dictionary in [{"schema":2},{"task":3},{"task":1.5},{"model":"future"},{"contracts":"changed"},{"unlocked":2},{"runs":[{"task":0,"plan":baseline,"accepted":true}]}]:
+	for mutation: Dictionary in [{"schema":3},{"task":3},{"task":1.5},{"model":"future"},{"contracts":"changed"},{"unlocked":2},{"runs":[{"task":0,"plan":baseline,"accepted":true}]}]:
 		var changed: Dictionary = data.duplicate(true); changed.merge(mutation,true)
 		check(not Store.decode(JSON.stringify(changed)).ok,"Unknown version, fields or forged result refused")
 	for mutation: Dictionary in [{"slots":0},{"slots":1.5},{"groups":[[0,0]]},{"representations":["secret","raw64","raw64","raw64"]},{"extra":"x"}]:

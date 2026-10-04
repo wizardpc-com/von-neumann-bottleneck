@@ -108,9 +108,9 @@ is made by this suite. Root owns separate graphical acceptance.
 
 Run `python3 scripts/run-experiment.py representation_region --godot <Godot-4.7.1> --profile my-trial` to keep a separate candidate session across launches. Profile names accept 1–40 ASCII letters, digits or hyphens. Profiles are supported only by representation_region and service_plan, use separate candidate directories, and are never allowed with automated replays. The default launcher still creates disposable isolated sessions.
 
-Use **Save drafts and comparisons** before quitting. Unsaved exit offers Save and quit, Keep editing, or Quit without saving. Each task's draft and the most recent 100 comparison plans are retained; undo/redo is session-local. Candidate checkmarks are recomputed from retained comparison plans, not trusted saved flags. Old successes outside the retained history are not permanent campaign achievements. On restore, traces are recomputed under the exact matching model and public contract fingerprint, and the UI says so.
+Use **Save drafts and comparisons** before quitting. Unsaved exit offers Save and quit, Keep editing, or Quit without saving. Each task's draft and the most recent 100 comparison plans are retained; undo/redo is session-local. Candidate checkmarks are recomputed from protected successful plans and recent comparison plans, never trusted saved flags. Each task keeps a successful immutable plan outside the 100-record history cap; the protected plan can be restored to its draft. These remain candidate results, not campaign achievements. On restore, traces are recomputed under the exact matching model and public contract fingerprint, and the UI says so.
 
-Storage is `representation-session.json` inside the explicitly separate `VonNeumannBottleneckCandidates/representation/<profile>` user directory. Ordinary player directories are not used. Malformed, future/unknown-schema, changed-contract or oversized files are preserved and not overwritten. A stale writer is rejected against its loaded content digest; this is not an interprocess lock, so only one running window should write a profile. A prior successful save is retained as `.bak`; write/rename failures leave a visible error. No automatic migration, recovery or deletion is attempted.
+Storage is `representation-session.json` inside the explicitly separate `VonNeumannBottleneckCandidates/representation/<profile>` user directory. Ordinary player directories are not used. Future/unknown-schema and changed-contract files are preserved and refused. Interrupted installs and corrupt mains expose explicit valid snapshot choices, preserving original bytes. Candidate schema1 is read and migrated only on explicit save to schema2; no global schema changes. A filesystem lease enforces one writable window per profile, independently of the digest check. Details and platform limits: [candidate lifecycle protocol](../candidate_session/README.md).
 
 Focused checks: `test_representation_session` and `test_representation_region`. Native Linux input confirmed draft edits, two actual comparisons, save, exit, restart into the same task/draft/history, then cancel and retry unsaved exit and save-and-quit. Known-objective agent testing does not establish novice understanding. Native Mac/Windows and audio acceptance remain unverified.
 
@@ -133,3 +133,18 @@ The optional public-order preview marks only requested byte addresses with a gol
 The default split now gives the evidence pane comparable space instead of squeezing it to its minimum width. The divider remains adjustable. Native 1280-wide Chinese/English checks verified both sides remain usable; selected history is explicitly highlighted and scrolled into view after reopening or rebuilding the screen.
 
 Recorded playback also shows actual decoded-cache occupancy before and after the selected event, with block IDs ordered by recorded LRU age. An absent snapshot stays explicitly absent. These bars show decoded cache bytes, not compressed storage; an oversized decoded block is not drawn as retained. The selected recorded partition stays visible above the metrics and explicitly says when it differs from the current draft.
+
+## Complete isolated journey (2026-10-04)
+
+Use the existing hub rather than a direct workbench launch:
+
+```sh
+python3 scripts/run-experiment.py representation_region --godot /path/to/godot --profile my-representation --journey
+```
+
+The opt-in hub card enters/resumes the same five-task region. Home, Quit and window
+close protect unsaved work; return to the hub releases writer ownership. All five
+verified supports enable Region review with actual per-order cycle costs. The review
+is an optional local closure, not another completion requirement. Original core40
+navigation/endings remain unchanged; service and prediction are not prerequisites.
+No candidate is registered or advertised in an ordinary launch.

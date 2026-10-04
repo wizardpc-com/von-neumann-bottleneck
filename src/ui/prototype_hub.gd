@@ -40,11 +40,13 @@ var options_open_export_folder_button: Button
 var latest_export_path: String = ""
 var options_quit_button: Button
 var options_previous_focus: Control
+var candidate_journey: bool = false
 var settings_only: bool = false
 signal settings_closed
 
 
 func _ready() -> void:
+	candidate_journey = candidate_journey or "--candidate-journey" in OS.get_cmdline_user_args()
 	_build_theme()
 	if settings_only:
 		_build_options_menu()
@@ -163,6 +165,7 @@ func _build_interface() -> void:
 	mode_description_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
 	content.add_child(mode_description_label)
+	if candidate_journey: _build_candidate_entry(content)
 	_build_tree_entry(content)
 	save_recovery_label = Label.new()
 	save_recovery_label.name = "SaveRecoveryNotice"
@@ -817,3 +820,18 @@ func _open_theme_reflection() -> void:
 	reflection.configure(keys,Localization.text)
 	add_child(reflection)
 	reflection.popup_centered(Vector2i(640,500))
+
+
+func _build_candidate_entry(content: VBoxContainer) -> void:
+	# Opt-in isolated candidate build only; no registered campaign level or unlock.
+	var english: bool = Localization.current_locale() == "en"
+	var panel := PanelContainer.new(); panel.name = "RepresentationCandidateEntry"; content.add_child(panel)
+	var column := VBoxContainer.new(); panel.add_child(column)
+	var title := Label.new(); title.text = "表示 · 独立候选旅程" if not english else "Representation · isolated candidate journey"; column.add_child(title)
+	var description := Label.new(); description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description.text = "同一份信息，不同的承载方式。构造、比较并完成已有五份任务；方案独立保存，可退出重开继续。下面的原有核心旅程与结尾保持不变。" if not english else "The same information, carried differently. Build, compare and complete five existing tasks. Save independently, quit and resume. The original core journey and ending below remain unchanged."
+	column.add_child(description)
+	var entry := Button.new(); entry.name = "EnterRepresentationCandidate"
+	entry.text = "进入 / 继续表示候选旅程" if not english else "Enter / resume representation candidate"
+	entry.custom_minimum_size.y = 42; column.add_child(entry)
+	entry.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://experiments/representation_region/region.tscn"))

@@ -3,6 +3,9 @@ extends Control
 const Model = preload("res://experiments/service_plan/model.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/service_plan/session_store.gd")
+var writer_lease: RefCounted
+var recovery_state: Dictionary = {}
+var support_plans: Dictionary = {}
 var persistent_session: bool = false
 var session_dirty: bool = false
 var save_blocked: bool = false
@@ -68,7 +71,12 @@ func _ready() -> void:
 	if persistent_session:
 		add_to_group("candidate_quit_owners")
 		previous_auto_quit = get_tree().auto_accept_quit; get_tree().auto_accept_quit = false
+		writer_lease = SessionStore.Lease.new(SessionStore.PATH)
 		restore_session()
+		if not writer_lease.held:
+			save_blocked = true
+			notice_key = "locked"
+
 	build()
 
 func label(text: String, parent: Node, size: int = 15) -> Label:
@@ -143,10 +151,13 @@ func build() -> void:
 	if persistent_session:
 		var save := button(tr2("保存本次探索", "Save this exploration"),editor,save_session,"SaveSession")
 		save.disabled = save_blocked; InstrumentTheme.primary(save,Color("62dca7"))
+		add_recovery_controls(editor)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
 	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	restore_button = button(tr2("恢复为草稿", "Restore draft"), history_header, restore_history, "Restore")
+	var support_button := button(tr2("达标方案", "Successful plan"),history_header,restore_support,"RestoreSupport")
+	support_button.disabled = not support_plans.has(task)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
 	evidence_tabs = TabContainer.new(); evidence_tabs.name = "EvidenceTabs"; evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(evidence_tabs)
 	var overview := VBoxContainer.new(); overview.name = "Overview"; evidence_tabs.add_child(overview)
@@ -194,6 +205,8 @@ func refresh_groups() -> void:
 	move_to.max_value = plan.groups.size()
 	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
 func refresh_actions() -> void:
+	var support_button := find_child("RestoreSupport",true,false) as Button
+	if support_button != null: support_button.disabled = not support_plans.has(task)
 	up_button.disabled = selected_group == 0; down_button.disabled = selected_group == plan.groups.size() - 1
 	merge_button.disabled = down_button.disabled; split_button.disabled = plan.groups[selected_group].size() < 2
 	undo_button.disabled = undo_stack.is_empty(); redo_button.disabled = redo_stack.is_empty(); restore_button.disabled = selected_history < 0
@@ -217,7 +230,9 @@ func run_current() -> void:
 	history.append({"task": task, "metrics": active_trace.metrics.duplicate(true), "events": events, "signature": active_trace.canonical_signature()})
 	if history.size() > 80: history.pop_front()
 	selected_history = history.size() - 1
-	if Model.accepted(active_trace.metrics, task): unlocked = maxi(unlocked, mini(task + 1, 2))
+	if Model.accepted(active_trace.metrics, task):
+		unlocked = maxi(unlocked, mini(task + 1, 2))
+		support_plans[task] = plan.duplicate(true)
 	for index: int in 3: task_buttons[index].disabled = index > unlocked
 	refresh_history(); history_list.select(selected_history); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_history); refresh_actions()
 func refresh_history() -> void:
@@ -359,6 +374,7 @@ func mark_session_dirty() -> void:
 
 func session_notice() -> String:
 	match notice_key:
+		"locked": return tr2("此候选档已由另一窗口占用，或上次未正常关闭；本窗口禁止保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
 		"blocked": return tr2("已有候选存档无法安全读取；已保留原文件并禁止覆盖。", "Existing candidate save cannot be read safely; original preserved, overwriting blocked.")
 		"new": return tr2("独立候选档；退出前保存本次探索。", "Isolated candidate profile; save this exploration before quitting.")
 		"restored": return tr2("已恢复草稿；%d条记录按同一模型重算。未授予主线进度。", "Draft restored; %d records recomputed under the same model. No campaign progress granted.") % history.size()
@@ -369,6 +385,7 @@ func session_notice() -> String:
 
 func restore_session() -> void:
 	var saved: Dictionary = SessionStore.read_session()
+	recovery_state = saved if saved.get("error") == "recovery" else {}
 	if not saved.ok: save_blocked = true; notice_key = "blocked"; return
 	session_version = str(saved.get("digest",""))
 	if saved.get("empty",false): notice_key = "new"; return
@@ -378,7 +395,13 @@ func restore_session() -> void:
 		var events: Array[Dictionary] = []
 		for event: RefCounted in trace.events: events.append(event.to_dictionary().duplicate(true))
 		history.append({"task":int(record.task),"metrics":trace.metrics.duplicate(true),"events":events,"signature":trace.canonical_signature()})
-		if Model.accepted(trace.metrics,int(record.task)): unlocked = maxi(unlocked,mini(int(record.task)+1,2))
+		if Model.accepted(trace.metrics,int(record.task)):
+			unlocked = maxi(unlocked,mini(int(record.task)+1,2))
+			support_plans[int(record.task)] = record.plan.duplicate(true)
+	for support: Dictionary in saved.supports:
+		if Model.accepted(Model.run(support.plan).metrics,int(support.task)):
+			support_plans[int(support.task)] = support.plan.duplicate(true)
+			unlocked = maxi(unlocked,mini(int(support.task)+1,2))
 	task = mini(int(saved.task),unlocked); selected_history = history.size()-1
 	notice_key = "restored"
 
@@ -386,10 +409,11 @@ func save_session() -> void:
 	if not persistent_session or save_blocked: return
 	var records: Array = []
 	for record: Dictionary in history: records.append({"task":int(record.task),"plan":record.metrics.plan.duplicate(true)})
-	var raw: String = SessionStore.encode(task,plan,records)
-	var error: Error = SessionStore.write_session(raw,SessionStore.PATH,session_version)
+	var raw: String = SessionStore.encode(task,plan,records,support_records())
+	var error: Error = SessionStore.write_session(raw,SessionStore.PATH,session_version,writer_lease)
 	if error == OK: session_version = raw.sha256_text(); session_dirty = false
 	notice_key = "saved" if error == OK else "failed"; status.text = session_notice()
+	if error != OK: refresh_recovery_controls()
 
 func request_quit() -> void:
 	if not persistent_session or not session_dirty: get_tree().quit(); return
@@ -411,4 +435,65 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST and persistent_session: request_quit()
 
 func _exit_tree() -> void:
+	if writer_lease != null: writer_lease.release()
 	if persistent_session: get_tree().auto_accept_quit = previous_auto_quit
+
+func support_records() -> Array:
+	var records: Array = []
+	for id: int in support_plans: records.append({"task":id,"plan":support_plans[id].duplicate(true)})
+	return records
+
+func restore_support() -> void:
+	if not support_plans.has(task): return
+	edit(support_plans[task].duplicate(true),0); slots.set_value_no_signal(plan.slots)
+
+func add_recovery_controls(parent: Node) -> void:
+	if writer_lease == null or not writer_lease.held:
+		var stopped: String = SessionStore.Lease.stopped_owner(SessionStore.PATH)
+		if not stopped.is_empty():
+			button(tr2("恢复已停止窗口的写入权", "Recover stopped window’s writer ownership"),parent,func() -> void: confirm_recovery(func() -> void: recover_writer(stopped)),"RecoverWriter")
+		return
+	if recovery_state.is_empty(): return
+	label(tr2("检测到中断或损坏。选择要恢复的快照；全部原文件会保留。", "Interrupted or damaged save. Choose a snapshot; all original files will be preserved."),parent)
+	for choice: Dictionary in recovery_state.get("choices",[]):
+		var source: String = choice.path
+		var kind: String = tr2("主档", "Main") if source == SessionStore.PATH else (tr2("上次保存", "Previous save") if source.ends_with(".bak") else tr2("未完成安装", "Interrupted install"))
+		var recovery_button := button(tr2("恢复 ", "Recover ")+kind+" · T"+str(int(choice.task)+1)+" · "+str(choice.digest).substr(0,8),parent,func() -> void: confirm_recovery(func() -> void: recover_candidate(source)),"RecoverSnapshot")
+		recovery_button.tooltip_text = source.get_file()
+
+func recover_writer(expected_token: String) -> void:
+	var acquired: Dictionary = SessionStore.Lease.recover_and_acquire(SessionStore.PATH,expected_token)
+	if acquired.error != OK: recovery_failed(); return
+	writer_lease = acquired.lease
+	reload_recovered_session()
+
+func recover_candidate(source: String) -> void:
+	if SessionStore.recover_session(source,str(recovery_state.get("fingerprint","")),SessionStore.PATH,writer_lease) != OK: recovery_failed(); return
+	reload_recovered_session()
+
+func reload_recovered_session() -> void:
+	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear()
+	unlocked = 0; undo_stack.clear(); redo_stack.clear()
+	restore_session(); build()
+
+func confirm_recovery(action: Callable) -> void:
+	if not session_dirty: action.call(); return
+	var existing := get_node_or_null("ReplaceUnsavedRecovery") as ConfirmationDialog
+	if existing != null: existing.popup_centered(); return
+	var dialog := ConfirmationDialog.new(); dialog.name = "ReplaceUnsavedRecovery"
+	dialog.title = tr2("替换本窗口的未保存探索？", "Replace this window’s unsaved exploration?")
+	dialog.dialog_text = tr2("恢复将重新读取磁盘快照，替换本窗口尚未保存的草稿和记录。磁盘原文件仍会保留。", "Recovery reloads the disk snapshot, replacing this window’s unsaved draft and runs. Original disk files remain preserved.")
+	dialog.ok_button_text = tr2("恢复所选快照", "Recover selected snapshot")
+	dialog.confirmed.connect(func() -> void: action.call(); dialog.queue_free())
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog); dialog.popup_centered(Vector2i(560,200))
+
+func refresh_recovery_controls() -> void:
+	var disk: Dictionary = SessionStore.read_session()
+	recovery_state = disk if disk.get("error") == "recovery" else {}
+	if not disk.ok: save_blocked = true
+	build() # Only rebuild controls: current draft, history and supports stay intact.
+
+func recovery_failed() -> void:
+	refresh_recovery_controls()
+	status.text = tr2("恢复未执行：文件或写入权已变化。当前草稿仍保留；请检查快照后重试，或保留窗口。", "Recovery was not performed: files or ownership changed. Your current draft is retained; review the snapshots and retry, or keep this window open.")

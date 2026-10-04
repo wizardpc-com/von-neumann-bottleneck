@@ -8067,12 +8067,15 @@ func _apply_component_node_style(node: GraphNode, component: LogicComponent) -> 
 
 
 func _update_tutorial_checklist() -> void:
+	# The checklist describes earned requirements, not a new practice run.
+	# Re-entering creates fresh interaction flags but must retain saved completion.
+	var earned: bool = bool(completed_levels.get(&"tutorial", false))
 	var states: Dictionary[StringName, bool] = {
-		&"wire": tutorial_created_wire,
-		&"input": tutorial_changed_input,
-		&"run": tutorial_valid_run,
-		&"remove": tutorial_removed_wire,
-		&"reconnect": tutorial_reconnected_wire,
+		&"wire": earned or tutorial_created_wire,
+		&"input": earned or tutorial_changed_input,
+		&"run": earned or tutorial_valid_run,
+		&"remove": earned or tutorial_removed_wire,
+		&"reconnect": earned or tutorial_reconnected_wire,
 	}
 	for key: StringName in states:
 		var label: Label = tutorial_check_labels.get(key)
@@ -8081,11 +8084,10 @@ func _update_tutorial_checklist() -> void:
 		var base_text: String = label.text.trim_prefix("○  ").trim_prefix("✓  ")
 		label.text = ("✓  " if states[key] else "○  ") + base_text
 		label.add_theme_color_override("font_color", GOOD if states[key] else MUTED)
-	var complete: bool = tutorial_created_wire and tutorial_changed_input and tutorial_valid_run and tutorial_removed_wire and tutorial_reconnected_wire
-	var newly_completed: bool = complete and not bool(completed_levels.get(&"tutorial", false))
-	if complete:
-		player_content.mark_completed(&"tutorial")
+	var complete: bool = earned or (tutorial_created_wire and tutorial_changed_input and tutorial_valid_run and tutorial_removed_wire and tutorial_reconnected_wire)
+	var newly_completed: bool = complete and not earned
 	if newly_completed:
+		player_content.mark_completed(&"tutorial")
 		PlaytestData.level_completed(&"hardware_foundations", &"tutorial")
 		call_deferred("_show_level_completion", &"tutorial")
 	if tutorial_next_button != null:
@@ -8099,6 +8101,8 @@ func _update_tutorial_goal() -> void:
 		return
 	var states: Array[bool] = [tutorial_created_wire, tutorial_changed_input, tutorial_valid_run,
 		tutorial_removed_wire, tutorial_reconnected_wire]
+	if bool(completed_levels.get(&"tutorial", false)):
+		states.fill(true)
 	var steps: Array[StringName] = [&"wire", &"input", &"run", &"remove", &"reconnect"]
 	var completed: int = 0
 	var next: StringName = &""

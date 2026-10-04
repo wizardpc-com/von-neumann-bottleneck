@@ -2,6 +2,14 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Tutorial replay continuity — 2026-10-04
+
+Returning to an earned Wiring Tutorial now retains its completed checklist, 5/5
+goal and usable Half Adder action. Fresh play still requires all five interactions;
+replay does not fabricate a new run or completion event. Native saved-profile
+restart and Chinese/English return paths were checked. See
+[reproduction, regression and scope](verification/20261004-tutorial-replay/README.md).
+
 ## Chapter 2 evidence provenance — 2026-10-04
 
 Mission now names the actual prior observation when a paired implementation starts

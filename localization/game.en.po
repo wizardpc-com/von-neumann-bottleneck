@@ -1257,6 +1257,9 @@ msgstr "INVALID CONNECTION — %s"
 msgid "hardware.status.connected"
 msgstr "CONNECTED — %s → %s  ·  this output can feed more than one destination"
 
+msgid "hardware.status.building"
+msgstr "Circuit updated — keep building, then run all official cases when ready."
+
 msgid "hardware.status.topology_changed"
 msgstr "Topology changed — run the complete official test again."
 

@@ -2,6 +2,14 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## First-build circuit guidance — 2026-10-04
+
+Initial wiring now gives calm “keep building” guidance instead of claiming an
+unperformed test is stale. Explicit debug/official runs retain the existing
+retest warning after edits; preview input changes do not count as a run. Bilingual
+native cloud play and 86 focused checks cover the distinction without changing
+circuit or save semantics. See [evidence and scope](verification/20261004-first-build-guidance/README.md).
+
 ## Tutorial replay continuity — 2026-10-04
 
 Returning to an earned Wiring Tutorial now retains its completed checklist, 5/5

@@ -14,6 +14,13 @@ and `python3 scripts/verify-mac-candidate.py --app <candidate .app>`; the latter
 actual exported project build identity against its adjacent manifest. Native and
 external acceptance remain distinct. Dated test totals below are historical.
 
+## First-build feedback, 2026-10-04
+
+`test_first_build_guidance` distinguishes accepted first wires and live previews
+from explicit debug/official runs, including Hint, reset and fresh-board boundaries.
+It also retains official-pass invalidation and failed-run behavior in both locales.
+See [baseline comparison and native scope](../verification/20261004-first-build-guidance/README.md).
+
 ## Direct task return selection, 2026-10-04
 
 `test_direct_task_navigation` covers Tutorial’s next button and a prologue branch

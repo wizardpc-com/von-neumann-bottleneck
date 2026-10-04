@@ -90,6 +90,8 @@ var live_refresh_queued: bool = false
 var live_state_key: String = ""
 var live_analysis_count: int = 0
 var official_report: Dictionary = {}
+# Presentation only: live previews are not player-requested test runs.
+var board_has_explicit_run: bool = false
 var official_passed: bool = false
 var passing_topology_signature: String = ""
 var sealed_half_adder: ReusableHalfAdder
@@ -2646,6 +2648,7 @@ func _exit_hint_workbench() -> void:
 	if not hint_mode or hint_return_level_id.is_empty():
 		return
 	var return_level: StringName = hint_return_level_id
+	var return_had_run: bool = bool(hint_player_view.get("explicit_run", false))
 	_cancel_hint_confirmation()
 	hint_mode = false
 	hint_level = 0
@@ -2653,6 +2656,7 @@ func _exit_hint_workbench() -> void:
 	pending_hint_player_view = hint_player_view
 	hint_player_view = {}
 	_start_campaign_level(return_level, false)
+	board_has_explicit_run = return_had_run
 	status_label.text = _t(&"hardware.hint.returned", [active_workbench_name])
 	status_label.add_theme_color_override("font_color", GOOD)
 
@@ -2664,7 +2668,8 @@ func _capture_player_view() -> Dictionary:
 		windows.append({"id":id,"order":window.get_index(),"state":window.capture_view_state()})
 	windows.sort_custom(func(a: Dictionary,b: Dictionary) -> bool: return a.order<b.order)
 	return {"level":current_level_id,"windows":windows,"compact":mission_compact,
-		"expanded":mission_expanded_rect,"zoom":graph.zoom,"scroll":graph.scroll_offset}
+		"expanded":mission_expanded_rect,"zoom":graph.zoom,"scroll":graph.scroll_offset,
+		"explicit_run":board_has_explicit_run}
 
 
 func _restore_player_view(view: Dictionary) -> void:
@@ -2806,6 +2811,7 @@ func _add_catalog_component(component: LogicComponent) -> void:
 
 
 func _create_graph() -> void:
+	board_has_explicit_run = false
 	_stop_playback()
 	_cancel_component_placement(false)
 	_capture_component_menu_templates()
@@ -3754,7 +3760,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 			tutorial_reconnected_wire = true
 		_update_tutorial_checklist()
 	else:
-		_invalidate_official_evidence(_t(&"hardware.status.topology_changed"))
+		_invalidate_official_evidence(_t(&"hardware.status.topology_changed"), not board_has_explicit_run)
 		if current_level_id == &"cpu":
 			_refresh_cpu_stage()
 
@@ -3775,7 +3781,7 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 			tutorial_removed_wire = true
 			_update_tutorial_checklist()
 		else:
-			_invalidate_official_evidence(_t(&"hardware.status.topology_changed"))
+			_invalidate_official_evidence(_t(&"hardware.status.topology_changed"), not board_has_explicit_run)
 			if current_level_id == &"cpu":
 				_refresh_cpu_stage()
 
@@ -5801,8 +5807,8 @@ func _topology_changed(message: String, created: bool = true, removed: bool = fa
 
 
 func _mark_trace_stale() -> void:
-	trace_caption_label.text = _t(&"hardware.trace.topology_changed")
-	diagnostics_label.text = _t(&"hardware.diagnostics.awaiting_run")
+	trace_caption_label.text = _t(&"hardware.trace.topology_changed" if board_has_explicit_run else &"hardware.trace.empty")
+	diagnostics_label.text = _t(&"hardware.diagnostics.awaiting_run" if board_has_explicit_run else &"hardware.diagnostics.empty")
 	_schedule_live_refresh()
 
 
@@ -5891,6 +5897,7 @@ func _run_debug() -> void:
 	if current_phase in [&"prologue", &"prologue_complete"]:
 		_run_prologue_debug()
 		return
+	board_has_explicit_run = true
 	PlaytestData.record_action(&"hardware_foundations",current_level_id,&"debug_run")
 	var a: bool = input_a_button.button_pressed
 	var b: bool = input_b_button.button_pressed
@@ -5944,6 +5951,7 @@ func _run_official() -> void:
 
 
 func _begin_official_sequence(kind: StringName, circuit: LogicCircuit) -> void:
+	board_has_explicit_run = true
 	_clear_investigation_observations()
 	_cancel_official_sequence()
 	official_passed = false
@@ -6247,6 +6255,7 @@ func _ensure_official_case_visible(label: Label) -> void:
 func _run_prologue_debug() -> void:
 	if current_level_definition.is_empty():
 		return
+	board_has_explicit_run = true
 	PlaytestData.record_action(&"hardware_foundations",current_level_id,&"debug_run")
 	var circuit: LogicCircuit = _circuit_from_graph()
 	current_circuit = circuit
@@ -6419,7 +6428,7 @@ func _circuit_from_graph() -> LogicCircuit:
 	return exported
 
 
-func _invalidate_official_evidence(message: String) -> void:
+func _invalidate_official_evidence(message: String, first_build_edit: bool = false) -> void:
 	_cancel_official_sequence()
 	official_passed = false
 	passing_topology_signature = ""
@@ -6429,8 +6438,8 @@ func _invalidate_official_evidence(message: String) -> void:
 		seal_button.disabled = true
 		seal_button.text = _t(&"hardware.seal.button" if current_phase == &"half_adder" else &"hardware.prologue.seal")
 	_reset_official_case_rows()
-	status_label.text = message
-	status_label.add_theme_color_override("font_color", WARNING)
+	status_label.text = _t(&"hardware.status.building") if first_build_edit else message
+	status_label.add_theme_color_override("font_color", ACCENT if first_build_edit else WARNING)
 
 
 func _seal_half_adder() -> void:

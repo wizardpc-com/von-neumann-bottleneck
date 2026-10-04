@@ -1257,6 +1257,9 @@ msgstr "无效连接 — %s"
 msgid "hardware.status.connected"
 msgstr "已连接 — %s → %s · 该输出可以驱动多个目标"
 
+msgid "hardware.status.building"
+msgstr "电路已更新 — 继续搭建，准备好后再运行全部正式用例。"
+
 msgid "hardware.status.topology_changed"
 msgstr "拓扑已改变 — 请重新运行全部正式用例。"
 

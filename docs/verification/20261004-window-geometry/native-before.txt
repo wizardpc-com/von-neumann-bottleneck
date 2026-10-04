@@ -1,0 +1,44 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+   at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+   at: init_output_device (drivers/alsa/audio_driver_alsa.cpp:97)
+WARNING: All audio drivers failed, falling back to the dummy driver.
+   at: initialize (servers/audio/audio_server.cpp:258)
+
+ERROR: Root Window minimum must match configured native minimum
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-native-window-geometry.gd:11)
+       [1] run (res://scripts/verify-native-window-geometry.gd:23)
+ERROR: Windowed restore uses the expected clamped dimensions
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-native-window-geometry.gd:11)
+       [1] run (res://scripts/verify-native-window-geometry.gd:31)
+ERROR: Windowed move must synchronize root Window immediately
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-native-window-geometry.gd:11)
+       [1] run (res://scripts/verify-native-window-geometry.gd:32)
+ERROR: Windowed resize must synchronize root Window immediately
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-native-window-geometry.gd:11)
+       [1] run (res://scripts/verify-native-window-geometry.gd:34)
+ERROR: Applying minimum size must preserve the just-restored windowed size
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-native-window-geometry.gd:11)
+       [1] run (res://scripts/verify-native-window-geometry.gd:37)
+ERROR: Settled windowed native and root sizes agree
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-native-window-geometry.gd:11)
+       [1] run (res://scripts/verify-native-window-geometry.gd:39)
+ERROR: Fullscreen round trip retains the remembered windowed size
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-native-window-geometry.gd:11)
+       [1] run (res://scripts/verify-native-window-geometry.gd:47)

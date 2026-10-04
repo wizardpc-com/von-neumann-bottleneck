@@ -14,6 +14,15 @@ and `python3 scripts/verify-mac-candidate.py --app <candidate .app>`; the latter
 actual exported project build identity against its adjacent manifest. Native and
 external acceptance remain distinct. Dated test totals below are historical.
 
+## Native window geometry, 2026-10-04
+
+The standalone `scripts/verify-native-window-geometry.gd` requires a native display
+and an imported isolated QA project/profile from the normal verifier. It changes
+that QA profile's window preferences. It is deliberately outside conventional
+headless-suite discovery and refuses headless execution. Run separately from
+native player-input checks; see [geometry evidence](../verification/20261004-window-geometry/README.md)
+for the command, baseline failure, final pass, restart/capture checks and platform limits.
+
 ## Evidence-driven player paths, 2026-10-02
 
 `scripts/proxy-player-paths.gd` is not a conventional unit suite. Use the imported

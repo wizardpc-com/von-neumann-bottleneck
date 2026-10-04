@@ -102,7 +102,7 @@ func _enter_fullscreen() -> void:
 		_windowed_size = DisplayServer.window_get_size()
 		_windowed_position = DisplayServer.window_get_position()
 		_has_windowed_rect = true
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	get_window().mode = Window.MODE_FULLSCREEN
 	call_deferred("_emit_current_mode")
 
 
@@ -121,25 +121,25 @@ func _leave_fullscreen() -> void:
 		clampi(preferred.x, mini(_minimum_pixels().x, usable.size.x), mini(maximum.x, usable.size.x)),
 		clampi(preferred.y, mini(_minimum_pixels().y, usable.size.y), mini(maximum.y, usable.size.y))
 	)
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	DisplayServer.window_set_size(target)
+	get_window().mode = Window.MODE_WINDOWED
+	get_window().size = target
 	var centered: Vector2i = usable.position + (usable.size - target) / 2
 	if _has_windowed_rect and usable.has_point(_windowed_position):
 		centered = Vector2i(
 			clampi(_windowed_position.x, usable.position.x, usable.end.x - target.x),
 			clampi(_windowed_position.y, usable.position.y, usable.end.y - target.y)
 		)
-	DisplayServer.window_set_position(centered)
+	get_window().position = centered
 	call_deferred("_emit_current_mode")
 
 
 func _configure_capture_window() -> void:
 	var capture_size: Vector2i = _requested_capture_size()
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	DisplayServer.window_set_size(capture_size)
+	get_window().mode = Window.MODE_WINDOWED
+	get_window().size = capture_size
 	var screen: int = DisplayServer.window_get_current_screen()
 	var usable: Rect2i = DisplayServer.screen_get_usable_rect(screen)
-	DisplayServer.window_set_position(usable.position + (usable.size - capture_size) / 2)
+	get_window().position = usable.position + (usable.size - capture_size) / 2
 	_emit_current_mode()
 
 
@@ -181,7 +181,8 @@ func _minimum_pixels() -> Vector2i:
 func _configure_minimum_window() -> void:
 	var usable: Rect2i = DisplayServer.screen_get_usable_rect(DisplayServer.window_get_current_screen())
 	var preferred: Vector2i = _minimum_pixels()
-	DisplayServer.window_set_min_size(Vector2i(mini(preferred.x,int(usable.size.x*0.9)),mini(preferred.y,int(usable.size.y*0.9))))
+	# Keep the root Window viewport and native size limits in sync.
+	get_window().min_size = Vector2i(mini(preferred.x,int(usable.size.x*0.9)),mini(preferred.y,int(usable.size.y*0.9)))
 func set_frame_limit(value: int) -> void:
 	if value not in [0,60,120]: return
 	frame_limit=value

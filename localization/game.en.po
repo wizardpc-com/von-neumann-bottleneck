@@ -6703,3 +6703,9 @@ msgstr "The schedule names a buffer that is not on the board. Place it or use th
 
 msgid "overlap.error.invalid_batch"
 msgstr "The batch index is outside this workload. Check the public batch list; numbering starts at 0."
+
+msgid "system.history.chart.before"
+msgstr "Before · cycles"
+
+msgid "system.history.chart.after"
+msgstr "After · cycles"

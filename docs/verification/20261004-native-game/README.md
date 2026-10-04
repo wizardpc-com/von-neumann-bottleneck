@@ -83,3 +83,9 @@ The bridge exposed another layout issue: its empty, irrelevant parts palette con
 Native play manually connected all six CPU/Bus/RAM paths for 三器相连. Both official cases passed (22 cycles each), then actual Trace playback and the existing completion summary were checked. Restart preserved the topology and task completion; a fresh rerun again passed 2/2.
 
 The test results originally required reopening Mission to find the conclusion action. A matching explicit button now sits beside the results and uses the existing completion gate/summary. Native clicking opened the correct summary without auto-interrupting playback. The first task is verified, not the entire chapter. Focused system/UI suites and the complete 60-stage verifier passed for this change.
+
+## CPU controlled comparison and cycle chart
+
+Native 快慢之间 was completed by locking a small-improvement prediction, running Eco CPU with Slow RAM / 8-bit Bus, then changing only CPU to Fast. Both fixed cases passed in both configurations: 158 to 134 cycles each; aggregate 316 to 268, compute 64 to 16, CPU wait unchanged at 252. Changing hardware cleared stale result rows. These are developer-play observations, not independent learning evidence.
+
+History now visualizes that exact controlled pair using two common-scale stacked cycle bars: cyan compute plus amber wait, with explicit totals and the existing textual evidence below. No receipt, a non-controlled pair, or invalid/unaccounted metrics yields no chart. New tests check exact receipt preservation and reject invalid totals. Full 60-stage verifier passed (`20261003T184608Z-84b3a26e`); native 1280×842 layout showed the chart and all comparison text without clipping. Restart preserved task completion but current-session receipts needed fresh runs; this change does not add persistent history.

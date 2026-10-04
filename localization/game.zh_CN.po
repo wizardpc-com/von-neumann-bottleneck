@@ -6702,3 +6702,9 @@ msgstr "调度程序引用了板上不存在的缓冲器。放置该部件，或
 
 msgid "overlap.error.invalid_batch"
 msgstr "批次编号超出本工作负载范围。核对公开批次列表，编号从0开始。"
+
+msgid "system.history.chart.before"
+msgstr "之前 · 周期"
+
+msgid "system.history.chart.after"
+msgstr "之后 · 周期"

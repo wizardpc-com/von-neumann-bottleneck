@@ -140,6 +140,7 @@ var profiler_labels: Dictionary[StringName, Label] = {}
 var profiler_tier_label: Label
 var cpu_time_breakdown: VBoxContainer
 var cpu_time_bar: ProgressBar
+var history_chart: Control
 var history_label: RichTextLabel
 
 var status_label: Label
@@ -1118,11 +1119,16 @@ func _build_profiler_instrument() -> Control:
 
 
 func _build_history_instrument() -> Control:
+	var box := VBoxContainer.new()
+	history_chart = preload("res://src/system_lab/system_comparison_chart.gd").new()
+	history_chart.hide()
+	box.add_child(history_chart)
 	history_label = RichTextLabel.new()
 	history_label.bbcode_enabled = true
-	history_label.scroll_active = true
-	history_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	return history_label
+	history_label.fit_content = true
+	history_label.scroll_active = false
+	box.add_child(history_label)
+	return _scrollable(box)
 
 
 func _scrollable(content: Control) -> ScrollContainer:
@@ -2611,6 +2617,7 @@ func _profiler_metric_name(metric: StringName) -> String:
 func _refresh_history() -> void:
 	if history_label == null or current_level_id.is_empty():
 		return
+	history_chart.hide()
 	var receipts: Array = []
 	var current_program_signature: String = applied_program.canonical_signature() if applied_program != null and applied_program.is_valid() else ""
 	var current_test_signature: String = catalog.test_set_signature(current_level_id)
@@ -2633,6 +2640,7 @@ func _refresh_history() -> void:
 		if pair.size() == 2:
 			var before = pair[0]
 			var after = pair[1]
+			history_chart.configure(before.metrics, after.metrics, _t)
 			lines.append("[color=#bc8cff]%s[/color]" % _t(&"system.history.comparison", [
 				_friendly_part_name(StringName(before.part_ids.get(comparison_kind, &""))),
 				_friendly_part_name(StringName(after.part_ids.get(comparison_kind, &""))),

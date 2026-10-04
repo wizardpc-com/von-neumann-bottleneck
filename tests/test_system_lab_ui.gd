@@ -352,6 +352,14 @@ func _run() -> void:
 	_assert(cpu_receipts.size() == 2, "The CPU investigation must retain exactly one Before and one After receipt.")
 	var cpu_before = cpu_receipts[0]
 	var cpu_after = cpu_receipts[1]
+	var comparison_chart: Control = main.get("history_chart")
+	_assert(comparison_chart.visible and comparison_chart.samples.size() == 2, "Controlled history exposes two measured cycle bars")
+	_assert(comparison_chart.samples[0] == cpu_before.metrics and comparison_chart.samples[1] == cpu_after.metrics, "Cycle bars preserve exact receipt metrics")
+	var invalid_metrics: Dictionary = cpu_before.metrics.duplicate(true)
+	invalid_metrics["total_cycles"] = 0
+	comparison_chart.configure(invalid_metrics,cpu_after.metrics,_t)
+	_assert(not comparison_chart.visible and comparison_chart.samples.is_empty(), "Unaccounted/invalid metrics cannot render a misleading cycle bar")
+	main.call("_refresh_history")
 	var history_text: String = String((main.get("history_label") as RichTextLabel).text)
 	var runtime_catalog = main.get("catalog")
 	var before_cpu_name: String = String(runtime_catalog.part(cpu_before.part_ids[&"cpu"]).display_name)

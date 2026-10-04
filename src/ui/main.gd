@@ -1446,6 +1446,20 @@ func _update_mission_progress() -> void:
 	mission_progress_label.text = _t(StringName("chapter2.progress.%s" % String(reason)), [
 		required if complete else int(completion.get("progress", 0)), required
 	])
+	# Completion receipts can include saved runs and a prior task's paired baseline.
+	# Neither means the currently displayed configuration has an official result.
+	if reason == &"target_required" and (
+		current_trace == null or current_trace.test_name != "Official Test Set" or not current_trace.passed
+	):
+		var baseline: Variant = _paired_baseline_receipt(current_level_id)
+		if not LocalityChapter.receipts_for(current_level_id).is_empty():
+			mission_progress_label.text = _t(&"chapter2.progress.saved_run_required", [
+				int(completion.get("progress", 0)), required
+			])
+		elif baseline != null:
+			mission_progress_label.text = _t(&"chapter2.progress.paired_run_required", [
+				int(completion.get("progress", 0)), required, _t(catalog.title_key(baseline.level_id))
+			])
 	mission_progress_label.add_theme_color_override("font_color", GOOD if complete else WARNING)
 	var evidence_available: bool = not _completion_receipts().is_empty()
 	for button: Button in mission_judgment_buttons.values():
@@ -3087,6 +3101,7 @@ func _invalidate_current_run(reason: String) -> void:
 	device_state_labels[&"Profiler"].text = _t(&"state.no_trace")
 	device_state_labels[&"TestBench"].text = _t(&"state.not_run")
 	_highlight_source_line(-1)
+	_update_mission_progress()
 	_set_status(reason, WARNING)
 
 

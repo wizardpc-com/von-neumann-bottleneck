@@ -2,6 +2,16 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Chapter 2 evidence provenance — 2026-10-04
+
+Mission now names the actual prior observation when a paired implementation starts
+with a carried baseline but no current official result. Revisiting an unfinished
+task or changing its configuration distinguishes saved task evidence from a current
+run. Current correct over-target results, earned completion, explicit finding review,
+and all receipt/model/save rules are unchanged. Chinese and English copy share the
+same provenance rules; focused regression tests cover both paired tasks, current
+results, configuration invalidation, revisits and retained completion.
+
 ## Selected VPS deployment preparation — 2026-10-04
 
 The shared Shanghai VPS is now reflected in a [game-specific deployment contract](distribution/ray-vps.md), standalone staging/prod Compose inputs and default-deny proxy templates. Host ports28081/18081 avoid the other service's8765. Ten receiver/storage/community checks and static template checks passed. Docker/Caddy runtime, actual host configuration and public launch remain NOT_RUN; the game stays offline by default.

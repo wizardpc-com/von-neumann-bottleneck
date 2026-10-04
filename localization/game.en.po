@@ -3032,6 +3032,12 @@ msgstr "Evidence %d/%d · review the completed Trace, then open the finding."
 msgid "chapter2.progress.target_required"
 msgstr "Evidence %d/%d · Correct result; cycle target not yet met."
 
+msgid "chapter2.progress.paired_run_required"
+msgstr "Evidence %d/%d · Baseline carried from “%s”. Run this configuration with the Official Test Set."
+
+msgid "chapter2.progress.saved_run_required"
+msgstr "Evidence %d/%d · Saved task evidence retained. Run this configuration with the Official Test Set."
+
 msgid "chapter2.progress.complete"
 msgstr "Complete %d/%d · the evidence supports your conclusion."
 

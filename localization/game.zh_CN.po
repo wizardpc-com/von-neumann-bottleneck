@@ -3032,6 +3032,12 @@ msgstr "证据 %d/%d · 回顾已完成的 Trace，再打开调查发现。"
 msgid "chapter2.progress.target_required"
 msgstr "证据 %d/%d · 结果正确，但仍超过周期目标。"
 
+msgid "chapter2.progress.paired_run_required"
+msgstr "证据 %d/%d · 已沿用「%s」的基线。请对当前配置运行正式测试。"
+
+msgid "chapter2.progress.saved_run_required"
+msgstr "证据 %d/%d · 已保留本任务的历史证据。请对当前配置运行正式测试。"
+
 msgid "chapter2.progress.complete"
 msgstr "完成 %d/%d · 证据支持你的结论。"
 

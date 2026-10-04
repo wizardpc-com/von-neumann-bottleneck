@@ -184,6 +184,8 @@ func _run() -> void:
 	_assert(bool(locality_state.call("completed_levels").get(&"cache_failure", false)), "2-3 must require the replacement-before-reuse explanation.")
 
 	main.call("_start_level", &"access_order")
+	_assert(main.get("current_trace") == null, "access_order entry has no current official result.")
+	_assert((main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.paired_run_required", [0, 1, main.call("_t", catalog.call("title_key", &"cache_failure"))]), "access_order must name the real prior-task baseline and request a current official run.")
 	var access_history: Array = main.get("run_history")
 	_assert(access_history.size() == 1 and int(access_history[0]["cycles"]) == 321 and String(access_history[0]["pattern"]) == "column-first", "2-4 must carry 2-3's failed access pattern forward as its Before evidence.")
 	main.call("_load_strategy", ProgramTemplatesType.ROW_FIRST, "row-first")
@@ -196,6 +198,8 @@ func _run() -> void:
 	main.call("_finish_playback")
 	main.call("_review_pending_finding")
 	_assert(locality_state.call("concept_unlocked", &"locality"), "Locality must unlock after the player implements the access-order repair.")
+	main.call("_start_level", &"access_order")
+	_assert((main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.complete", [1, 1]), "Completed implementation keeps its earned completion on reopening without a current trace.")
 	_assert("访问顺序" in (main.get("profiler_history_label") as Label).text or "access order" in (main.get("profiler_history_label") as Label).text, "2-4 comparison must identify access order as the changed item.")
 
 	main.call("_start_level", &"working_set")
@@ -212,6 +216,8 @@ func _run() -> void:
 	_assert(locality_state.call("concept_unlocked", &"working_set"), "Working Set must unlock only after the player explains the capacity mismatch.")
 
 	main.call("_start_level", &"blocking")
+	_assert(main.get("current_trace") == null, "blocking entry has no current official result.")
+	_assert((main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.paired_run_required", [0, 1, main.call("_t", catalog.call("title_key", &"working_set"))]), "blocking must name the real prior-task baseline and request a current official run.")
 	var blocking_history: Array = main.get("run_history")
 	_assert(blocking_history.size() == 1 and int(blocking_history[0]["cycles"]) == 210 and int(blocking_history[0]["block_lines"]) == 0, "2-6 must inherit the unblocked Working Set evidence instead of rerunning it.")
 	for group_size: int in [2, 4]:
@@ -221,10 +227,15 @@ func _run() -> void:
 		main.call("_run_simulation", "Official Test Set")
 		var oversized: SimulationTraceType = main.get("current_trace")
 		_assert(oversized.passed and int(oversized.metrics["total_cycles"]) == 210 and int(oversized.metrics["cache_misses"]) == 8, "An oversized group must produce the correct result but refetch its lines across passes.")
+		_assert((main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.target_required", [0, 1]), "Current correct over-target official run retains the actual target feedback.")
 		main.call("_finish_playback")
 		main.call("_review_pending_finding")
 		_assert(not bool(locality_state.call("completed_levels").get(&"blocking", false)) and not locality_state.call("concept_unlocked", &"blocking"), "Grouping alone must not earn completion or reveal the successful finding.")
+		if group_size == 2:
+			main.call("_start_level", &"blocking")
+			_assert(main.get("current_trace") == null and (main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.saved_run_required", [0, 1]), "Reopening an unfinished task distinguishes saved official evidence from the current unrun configuration.")
 	main.call("_select_block_lines", 1, true)
+	_assert(main.get("current_trace") == null and (main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.saved_run_required", [0, 1]), "Changing configuration retains historical evidence but requires a new current official result.")
 	main.call("_run_simulation", "Official Test Set")
 	var blocked: SimulationTraceType = main.get("current_trace")
 	_assert(int(blocked.metrics["total_cycles"]) == 138, "2-6 must turn work grouping into a measurable decision against the inherited 210-cycle baseline.")

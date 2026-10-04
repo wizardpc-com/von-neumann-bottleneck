@@ -6742,3 +6742,30 @@ msgstr "Output correct · request target met"
 
 msgid "system.application.read_once.summary_unmet"
 msgstr "Output correct · request target unmet"
+
+msgid "exploration.alarm.monitor"
+msgstr "ALARM=%s"
+
+msgid "system.application.order_cost"
+msgstr "Total hardware cost: %d / per-order budget %d"
+
+msgid "system.application.order.met"
+msgstr "Met"
+
+msgid "system.application.order.unmet"
+msgstr "Unmet"
+
+msgid "system.application.order.result"
+msgstr "Output correct %d / %d\n%s · Current order: %s"
+
+msgid "system.application.order.summary"
+msgstr "Current order: %s"
+
+msgid "system.application.order.limits"
+msgstr "Cost %s / %d · %s\nCycles %s / %d · %s"
+
+msgid "exploration.alarm.observed"
+msgstr "Observed: %s"
+
+msgid "exploration.alarm.prior"
+msgstr "Previous observation: %s"

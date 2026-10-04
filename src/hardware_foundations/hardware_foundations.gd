@@ -7001,7 +7001,7 @@ func _update_storage_monitor(
 	if result == null:
 		storage_state_label.text = _t(&"hardware.storage.state.cleared")
 	else:
-		storage_state_label.text = _t(&"hardware.storage.state.committed", [
+		storage_state_label.text = _t(&"exploration.alarm.observed" if current_level_id == &"alarm" else &"hardware.storage.state.committed", [
 			_storage_state_text(result, runtime_state)
 		])
 	storage_state_label.add_theme_color_override("font_color", PURPLE)
@@ -7022,6 +7022,8 @@ func _storage_state_text(
 			return _t(&"hardware.storage.state.register", [
 				_observed_value_text(result, &"Q")
 			])
+		&"alarm":
+			return _t(&"exploration.alarm.monitor", [_observed_value_text(result, &"ALARM")])
 		&"delay":
 			return _t(&"exploration.delay.monitor", [_observed_value_text(result, &"OUT")])
 		&"ram":
@@ -7190,6 +7192,12 @@ func _refresh_alu_groups(active: int = -1) -> void:
 
 
 func _storage_action_text(inputs: Dictionary) -> String:
+	if current_level_id == &"alarm":
+		if int(inputs.get(&"CLEAR", 0)) != 0:
+			return _t(&"hardware.storage.action.reset")
+		if int(inputs.get(&"FAULT", 0)) != 0:
+			return _t(&"hardware.storage.action.set")
+		return _t(&"hardware.storage.action.hold")
 	if current_level_id == &"delay":
 		return _t(&"exploration.delay.accept", [int(inputs.get(&"DATA", 0))]) if int(inputs.get(&"ACCEPT", 0)) != 0 else _t(&"hardware.storage.action.hold")
 	match current_level_id:
@@ -7218,6 +7226,8 @@ func _storage_action_text(inputs: Dictionary) -> String:
 
 func _storage_initial_state_text() -> String:
 	match current_level_id:
+		&"alarm":
+			return _t(&"exploration.alarm.monitor", ["—"])
 		&"latch":
 			return _t(&"hardware.storage.state.initial_latch")
 		&"register":
@@ -7406,7 +7416,7 @@ func _play_prologue_events(
 	) -> void:
 	current_trace = null
 	prologue_live_result = result
-	if _is_storage_level() and _events_have_state_transition(events):
+	if _is_storage_level() and (current_level_id == &"alarm" or _events_have_state_transition(events)):
 		_prepare_storage_playback_state(initial_runtime_state, initial_prior_outputs)
 	playback_index = 0
 	playback_elapsed = 0.0
@@ -7428,6 +7438,8 @@ func _play_prologue_events(
 		])
 	else:
 		_apply_prologue_live_result(result, not _events_have_state_transition(events))
+	if current_level_id == &"alarm" and not playback_running:
+		_update_storage_monitor(result, result.runtime_state)
 
 
 func _events_have_state_transition(events: Array) -> bool:
@@ -7443,6 +7455,18 @@ func _prepare_storage_playback_state(
 	) -> void:
 	storage_playback_values.clear()
 	match current_level_id:
+		&"alarm":
+			# Keep the last committed observation until playback finishes.
+			# The observer has no outputs; use its actual incoming port evidence.
+			var incoming: Array[LogicWire] = []
+			for wire: LogicWire in _circuit_from_graph().wires:
+				if wire.to_component == &"ALARM" and wire.to_port == 0:
+					incoming.append(wire)
+			if incoming.size() == 1:
+				var key: String = PrologueSimulationResultType.output_key(incoming[0].from_component, incoming[0].from_port)
+				var prior: DigitalValue = initial_prior_outputs.get(key)
+				if prior != null:
+					storage_playback_values[&"ALARM"] = prior.duplicate_value()
 		&"latch":
 			_store_initial_playback_output(initial_prior_outputs, &"NOR_Q", 1)
 			_store_initial_playback_output(initial_prior_outputs, &"NOR_NQ", 1)
@@ -7481,6 +7505,9 @@ func _update_storage_playback_monitor() -> void:
 		return
 	var state_text: String = _t(&"hardware.storage.state.unknown")
 	match current_level_id:
+		&"alarm":
+			var value: DigitalValue = storage_playback_values.get(&"ALARM")
+			state_text = _t(&"exploration.alarm.monitor", [value.display_text() if value != null else "—"])
 		&"latch":
 			if not storage_playback_values.has(&"NOR_Q") \
 					or not storage_playback_values.has(&"NOR_NQ"):
@@ -7501,7 +7528,7 @@ func _update_storage_playback_monitor() -> void:
 				(storage_playback_values.get(&"REG_0", DigitalValueType.known(4, 0)) as DigitalValue).display_text(),
 				(storage_playback_values.get(&"REG_1", DigitalValueType.known(4, 0)) as DigitalValue).display_text(),
 			])
-	storage_state_label.text = _t(&"hardware.storage.state.committed", [state_text])
+	storage_state_label.text = _t(&"exploration.alarm.prior" if current_level_id == &"alarm" else &"hardware.storage.state.committed", [state_text])
 	storage_state_label.add_theme_color_override("font_color", PURPLE)
 
 
@@ -7780,6 +7807,8 @@ func _finish_playback() -> void:
 		_apply_prologue_live_result(prologue_live_result)
 		_update_storage_monitor(prologue_live_result, prologue_runtime_state)
 		trace_caption_label.text = _t(&"hardware.trace.complete")
+	if current_level_id == &"alarm" and prologue_live_result != null:
+		_update_storage_monitor(prologue_live_result, prologue_runtime_state)
 	_queue_official_case_completion()
 
 
@@ -7797,7 +7826,7 @@ func _stop_playback() -> void:
 	if graph != null:
 		_reset_connection_activity()
 	_reset_component_feedback()
-	if prologue_live_result != null and prologue_live_result.is_valid():
+	if prologue_live_result != null and (current_level_id == &"alarm" or prologue_live_result.is_valid()):
 		_update_storage_monitor(prologue_live_result, prologue_runtime_state)
 
 
@@ -7808,6 +7837,8 @@ func _toggle_playback() -> void:
 	if playback_batches.is_empty() and current_trace != null:
 		_build_playback_batches(current_trace)
 	if playback_index >= playback_batches.size():
+		if current_level_id == &"alarm":
+			_update_storage_playback_monitor()
 		playback_index = 0
 		playback_elapsed = 0.0
 	playback_running = not playback_running
@@ -7822,6 +7853,8 @@ func _step_playback() -> void:
 	if playback_batches.is_empty() and current_trace != null:
 		_build_playback_batches(current_trace)
 	if playback_index >= playback_batches.size():
+		if current_level_id == &"alarm":
+			_update_storage_playback_monitor()
 		playback_index = 0
 	_show_playback_batch(playback_batches[playback_index], 1.0)
 	playback_index += 1

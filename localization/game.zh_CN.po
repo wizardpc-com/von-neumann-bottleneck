@@ -6741,3 +6741,30 @@ msgstr "输出正确 · 请求次数达标"
 
 msgid "system.application.read_once.summary_unmet"
 msgstr "输出正确 · 请求次数未达标"
+
+msgid "exploration.alarm.monitor"
+msgstr "ALARM=%s"
+
+msgid "system.application.order_cost"
+msgstr "系统总成本：%d / 每份订单预算 %d"
+
+msgid "system.application.order.met"
+msgstr "达标"
+
+msgid "system.application.order.unmet"
+msgstr "未达标"
+
+msgid "system.application.order.result"
+msgstr "输出正确 %d / %d\n%s · 本次订单：%s"
+
+msgid "system.application.order.summary"
+msgstr "本次订单：%s"
+
+msgid "system.application.order.limits"
+msgstr "成本 %s / %d · %s\n周期 %s / %d · %s"
+
+msgid "exploration.alarm.observed"
+msgstr "观测状态：%s"
+
+msgid "exploration.alarm.prior"
+msgstr "上次观测：%s"

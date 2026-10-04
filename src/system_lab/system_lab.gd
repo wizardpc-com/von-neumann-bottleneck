@@ -1697,7 +1697,7 @@ func _refresh_parts_summary() -> void:
 			continue
 		cost += part.hardware_cost
 		lines.append(_part_detail(part))
-	lines.append(_t(&"system.parts.total_cost", [cost]))
+	lines.append(_t(&"system.application.order_cost", [cost, catalog.ORDER_BUDGET]) if current_level_id == &"two_orders" else _t(&"system.parts.total_cost", [cost]))
 	parts_summary_label.text = "\n".join(lines)
 
 
@@ -2370,6 +2370,7 @@ func _run_official() -> void:
 
 
 	_refresh_read_once_result()
+	_refresh_order_result()
 
 
 func _refresh_read_once_result() -> void:
@@ -2381,6 +2382,21 @@ func _refresh_read_once_result() -> void:
 	test_status_label.text = _t(key, [latest_receipt.passed_cases, latest_receipt.total_cases])
 	test_status_label.add_theme_color_override("font_color", GOOD if target_met else WARNING)
 	status_label.text = _t(&"system.application.read_once.summary_met" if target_met else &"system.application.read_once.summary_unmet")
+	status_label.add_theme_color_override("font_color", GOOD if target_met else WARNING)
+
+
+func _refresh_order_result() -> void:
+	if current_level_id != &"two_orders" or latest_receipt == null or not latest_receipt.all_passed:
+		return
+	if not catalog.is_official_program_signature(current_level_id, latest_receipt.program_signature):
+		return
+	# A historical accepted order never turns a failed current rerun green.
+	var target_met: bool = int(catalog.completion_status(current_level_id, [latest_receipt]).progress) == 1
+	var order: String = "move" if latest_receipt.program_signature == catalog.PROGRAM_COPY.sha256_text() else "compute"
+	var verdict: String = _t(&"system.application.order.met" if target_met else &"system.application.order.unmet")
+	test_status_label.text = _t(&"system.application.order.result", [latest_receipt.passed_cases, latest_receipt.total_cases, _t(StringName("system.orders." + order)), verdict])
+	test_status_label.add_theme_color_override("font_color", GOOD if target_met else WARNING)
+	status_label.text = _t(&"system.application.order.summary", [verdict])
 	status_label.add_theme_color_override("font_color", GOOD if target_met else WARNING)
 
 
@@ -2530,9 +2546,6 @@ func _add_result_row(trace: SystemTrace) -> void:
 		int(trace.metrics.get("total_cycles", 0)),
 		_t(&"system.result.pass") if trace.passed else _t(&"system.result.fail"),
 	])
-	if current_level_id == &"two_orders":
-		var order: String = "move" if applied_program_source == catalog.PROGRAM_COPY else "compute"
-		row.text += "\n"+_t(&"system.application.target",[int(trace.metrics.get("hardware_cost",0)),catalog.ORDER_BUDGET,catalog.ORDER_TARGETS[order]])
 	var full_result: String = row.text
 	var compact: bool = maxi(trace.expected_output.size(), trace.output_data.size()) > 8
 	if compact:
@@ -2543,6 +2556,17 @@ func _add_result_row(trace: SystemTrace) -> void:
 	row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_theme_color_override("font_color", GOOD if trace.passed else BAD)
 	card.add_child(row)
+	if current_level_id == &"two_orders":
+		var order: String = "move" if applied_program_source == catalog.PROGRAM_COPY else "compute"
+		var cost: int = int(trace.metrics.get("hardware_cost", 99999))
+		var cycles: int = int(trace.metrics.get("total_cycles", 99999))
+		var limit: int = int(catalog.ORDER_TARGETS[order])
+		var budget := Label.new()
+		budget.name = "OrderBudget"
+		budget.text = _t(&"system.application.order.limits", [str(cost) if trace.metrics.has("hardware_cost") else "—", catalog.ORDER_BUDGET, _t(&"system.application.order.met" if cost <= catalog.ORDER_BUDGET else &"system.application.order.unmet"), str(cycles) if trace.metrics.has("total_cycles") else "—", limit, _t(&"system.application.order.met" if cycles <= limit else &"system.application.order.unmet")])
+		budget.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		budget.add_theme_color_override("font_color", GOOD if cost <= catalog.ORDER_BUDGET and cycles <= limit else WARNING)
+		card.add_child(budget)
 	if current_level_id == &"read_once":
 		for item: Dictionary in _active_cases():
 			if item.name != trace.test_name:

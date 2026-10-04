@@ -1,0 +1,8 @@
+{
+  "src/hardware_foundations/hardware_foundations.gd": "40c4551fac080019525be945cff9233835d09ffa935ab4d4574987f4cbe3ee79",
+  "src/system_lab/system_lab.gd": "bb2362b7909f0a73fb22e3b57fb6e381dc81166489669561677669a91683bb79",
+  "localization/game.en.po": "cddbc9b5f6334e9bf202c86bf62255faf0e5f4207cf823dfa428883f905c2506",
+  "localization/game.zh_CN.po": "236bf5c398a517f7a31f206b1a8029d5eb550325f0d035b76699ec044ff1bbff",
+  "tests/test_optional_result_feedback.gd": "cad9d93efdc6747c49bf10d10dc5a995470e01adf91f24c503ece69d9bca306b",
+  "tests/test_prologue_continuation.gd": "cdd5abe2bb7aa7d46da7aa017dddb44187429275b2e81fd865b278a4dea6165f"
+}

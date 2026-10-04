@@ -6724,3 +6724,21 @@ msgstr "Current work kept. Copy is only available before editing or saving this 
 
 msgid "overlap.copy_previous.unavailable"
 msgstr "No previous compatible solution is available to copy."
+
+msgid "system.application.read_once.met"
+msgstr "Output correct %d / %d; this run meets the request target."
+
+msgid "system.application.read_once.unmet"
+msgstr "Output correct %d / %d; this run misses the request target. Each case allows N+1 requests (17 for 16 inputs). Reduce repeated reads and retry."
+
+msgid "system.application.requests.met"
+msgstr "Request target met"
+
+msgid "system.application.requests.unmet"
+msgstr "Request limit exceeded"
+
+msgid "system.application.read_once.summary_met"
+msgstr "Output correct · request target met"
+
+msgid "system.application.read_once.summary_unmet"
+msgstr "Output correct · request target unmet"

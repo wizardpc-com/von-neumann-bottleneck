@@ -6723,3 +6723,21 @@ msgstr "已保留当前方案。仅在本关尚未编辑或保存时可复制。
 
 msgid "overlap.copy_previous.unavailable"
 msgstr "暂无可复制的上一关兼容方案。"
+
+msgid "system.application.read_once.met"
+msgstr "输出正确 %d / %d；本次请求次数目标已达成。"
+
+msgid "system.application.read_once.unmet"
+msgstr "输出正确 %d / %d；本次请求次数目标未达成。每组最多 N+1 次请求（16 个输入最多 17 次）。减少重复读取后重试。"
+
+msgid "system.application.requests.met"
+msgstr "请求次数达标"
+
+msgid "system.application.requests.unmet"
+msgstr "请求次数超限"
+
+msgid "system.application.read_once.summary_met"
+msgstr "输出正确 · 请求次数达标"
+
+msgid "system.application.read_once.summary_unmet"
+msgstr "输出正确 · 请求次数未达标"

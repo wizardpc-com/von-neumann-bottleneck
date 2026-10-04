@@ -2369,6 +2369,21 @@ func _run_official() -> void:
 		_refresh_mission_progress()
 
 
+	_refresh_read_once_result()
+
+
+func _refresh_read_once_result() -> void:
+	if current_level_id != &"read_once" or latest_receipt == null or not latest_receipt.all_passed:
+		return
+	# Current-run feedback must not inherit an earlier successful receipt or completion.
+	var target_met: bool = bool(catalog.completion_status(current_level_id, [latest_receipt]).complete)
+	var key: StringName = &"system.application.read_once.met" if target_met else &"system.application.read_once.unmet"
+	test_status_label.text = _t(key, [latest_receipt.passed_cases, latest_receipt.total_cases])
+	test_status_label.add_theme_color_override("font_color", GOOD if target_met else WARNING)
+	status_label.text = _t(&"system.application.read_once.summary_met" if target_met else &"system.application.read_once.summary_unmet")
+	status_label.add_theme_color_override("font_color", GOOD if target_met else WARNING)
+
+
 func _prepare_run() -> bool:
 	# Re-check the actual editor text at the evidence boundary. This also covers
 	# programmatic paste/set operations that do not emit TextEdit.text_changed.
@@ -2515,12 +2530,7 @@ func _add_result_row(trace: SystemTrace) -> void:
 		int(trace.metrics.get("total_cycles", 0)),
 		_t(&"system.result.pass") if trace.passed else _t(&"system.result.fail"),
 	])
-	if current_level_id == &"read_once":
-		var input_size: int = 0
-		for item: Dictionary in _active_cases():
-			if item.name == trace.test_name: input_size = item.input.size()
-		row.text += "\n"+_t(&"system.application.requests",[int(trace.metrics.get("memory_requests",0)),input_size+1])
-	elif current_level_id == &"two_orders":
+	if current_level_id == &"two_orders":
 		var order: String = "move" if applied_program_source == catalog.PROGRAM_COPY else "compute"
 		row.text += "\n"+_t(&"system.application.target",[int(trace.metrics.get("hardware_cost",0)),catalog.ORDER_BUDGET,catalog.ORDER_TARGETS[order]])
 	var full_result: String = row.text
@@ -2533,6 +2543,21 @@ func _add_result_row(trace: SystemTrace) -> void:
 	row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_theme_color_override("font_color", GOOD if trace.passed else BAD)
 	card.add_child(row)
+	if current_level_id == &"read_once":
+		for item: Dictionary in _active_cases():
+			if item.name != trace.test_name:
+				continue
+			var requests: int = int(trace.metrics.get("memory_requests", 0))
+			var limit: int = item.input.size() + 1
+			var budget := Label.new()
+			budget.name = "RequestBudget"
+			budget.text = _t(&"system.application.requests", [requests, limit]) + " · " + _t(
+				&"system.application.requests.met" if requests <= limit else &"system.application.requests.unmet"
+			)
+			budget.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			budget.add_theme_color_override("font_color", GOOD if requests <= limit else WARNING)
+			card.add_child(budget)
+			break
 	if compact:
 		var details := Label.new()
 		details.text = full_result

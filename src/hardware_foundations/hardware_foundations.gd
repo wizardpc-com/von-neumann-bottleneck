@@ -939,9 +939,13 @@ func _show_level_completion(level_id: StringName) -> void:
 		_t(&"hardware.completion.chapter"),
 		&"hardware_foundations"
 	)
-	level_completion_overlay.continue_button.text = _t(&"hardware.completion.continue")
+	var has_next: bool = not _next_campaign_level(level_id).is_empty()
+	level_completion_overlay.continue_button.text = _t(
+		&"hardware.completion.continue" if has_next else &"hardware.prologue.back_map"
+	)
 	level_completion_overlay.return_button.text = _t(&"hardware.prologue.back_map")
-	level_completion_overlay.return_button.show()
+	# The chapter-end primary action may open feedback before returning.
+	level_completion_overlay.return_button.visible = has_next or level_id == &"load_store"
 
 
 func _dismiss_level_completion() -> void:

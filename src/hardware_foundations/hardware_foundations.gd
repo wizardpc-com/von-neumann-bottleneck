@@ -7477,8 +7477,24 @@ func _prepare_storage_playback_state(
 				if prior != null:
 					storage_playback_values[&"ALARM"] = prior.duplicate_value()
 		&"latch":
-			_store_initial_playback_output(initial_prior_outputs, &"NOR_Q", 1)
-			_store_initial_playback_output(initial_prior_outputs, &"NOR_NQ", 1)
+			# Q/NQ belong to the player's output interface, not authored gate IDs.
+			var circuit: LogicCircuit = _circuit_from_graph()
+			for observer: LogicComponent in circuit.components.values():
+				if not observer.is_observer() or observer.signal_name not in [&"Q", &"NQ"]:
+					continue
+				var drivers: Array[DigitalValue] = []
+				var missing: bool = false
+				for wire: LogicWire in circuit.wires:
+					if wire.to_component != observer.id or wire.to_port != 0:
+						continue
+					var key: String = PrologueSimulationResultType.output_key(wire.from_component, wire.from_port)
+					var prior: DigitalValue = initial_prior_outputs.get(key)
+					if prior == null:
+						missing = true
+					else:
+						drivers.append(prior)
+				if not missing and not drivers.is_empty():
+					storage_playback_values[observer.signal_name] = DigitalValueType.resolve(drivers, observer.input_width(0))
 		&"register":
 			_store_initial_playback_output(initial_prior_outputs, &"LATCH", 1)
 			if not storage_playback_values.has(&"LATCH"):
@@ -7518,13 +7534,13 @@ func _update_storage_playback_monitor() -> void:
 			var value: DigitalValue = storage_playback_values.get(&"ALARM")
 			state_text = _t(&"exploration.alarm.monitor", [value.display_text() if value != null else "—"])
 		&"latch":
-			if not storage_playback_values.has(&"NOR_Q") \
-					or not storage_playback_values.has(&"NOR_NQ"):
+			if not storage_playback_values.has(&"Q") \
+					or not storage_playback_values.has(&"NQ"):
 				storage_state_label.text = _t(&"hardware.storage.state.initial_latch")
 				return
 			state_text = _t(&"hardware.storage.state.latch", [
-				(storage_playback_values[&"NOR_Q"] as DigitalValue).display_text(),
-				(storage_playback_values[&"NOR_NQ"] as DigitalValue).display_text(),
+				(storage_playback_values[&"Q"] as DigitalValue).display_text(),
+				(storage_playback_values[&"NQ"] as DigitalValue).display_text(),
 			])
 		&"register":
 			state_text = _t(&"hardware.storage.state.register", [
@@ -7693,6 +7709,13 @@ func _commit_state_event_readout(event: PrologueEvent) -> void:
 func _commit_storage_playback_value(event: PrologueEvent) -> void:
 	if not _is_storage_level() or event.value == null:
 		return
+	if current_level_id == &"latch":
+		# The complete case result binds both observations to the real topology.
+		# Publish them together at the state boundary; retain the prior snapshot
+		# for replay, including renamed gates, routed outputs and nonzero ports.
+		if event.kind == &"state_transition" and prologue_live_result != null and prologue_live_result.is_valid():
+			_update_storage_monitor(prologue_live_result)
+		return
 	var relevant: bool = event.component_id in (
 		current_level_definition.get("state_feedback_components", []) as Array
 	)
@@ -7839,6 +7862,18 @@ func _stop_playback() -> void:
 		_update_storage_monitor(prologue_live_result, prologue_runtime_state)
 
 
+func _restore_storage_playback_monitor() -> void:
+	if current_level_id == &"alarm":
+		_update_storage_playback_monitor()
+	elif current_level_id == &"latch":
+		# Live previews have no commit boundary and must not resurrect an older
+		# run's prior snapshot when their animation is replayed.
+		for batch: Dictionary in playback_batches:
+			if _events_have_state_transition(batch.get("events", [])):
+				_update_storage_playback_monitor()
+				return
+
+
 func _toggle_playback() -> void:
 	if playback_batches.is_empty() and (current_trace == null or current_trace.events.is_empty()):
 		status_label.text = _t(&"hardware.status.trace_control_requires_run")
@@ -7846,8 +7881,7 @@ func _toggle_playback() -> void:
 	if playback_batches.is_empty() and current_trace != null:
 		_build_playback_batches(current_trace)
 	if playback_index >= playback_batches.size():
-		if current_level_id == &"alarm":
-			_update_storage_playback_monitor()
+		_restore_storage_playback_monitor()
 		playback_index = 0
 		playback_elapsed = 0.0
 	playback_running = not playback_running
@@ -7862,8 +7896,7 @@ func _step_playback() -> void:
 	if playback_batches.is_empty() and current_trace != null:
 		_build_playback_batches(current_trace)
 	if playback_index >= playback_batches.size():
-		if current_level_id == &"alarm":
-			_update_storage_playback_monitor()
+		_restore_storage_playback_monitor()
 		playback_index = 0
 	_show_playback_batch(playback_batches[playback_index], 1.0)
 	playback_index += 1

@@ -2,6 +2,13 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Latch state replay — 2026-10-04
+
+The SR Latch Test Bench now follows the player's actual Q/NQ output connections
+through SET, HOLD, RESET and replay. Historical gate IDs no longer reverse the
+retained-state readout. Simulation, official checks and saves are unchanged.
+See [native reproduction and verification](verification/20261004-latch-playback/README.md).
+
 ## First-build circuit guidance — 2026-10-04
 
 Initial wiring now gives calm “keep building” guidance instead of claiming an

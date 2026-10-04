@@ -2,6 +2,14 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Storage caption replay — 2026-10-04
+
+RAM and CPU storage captions now start from each playback's actual prior state,
+including official restarts, Replay and Step. They no longer retain values from
+an earlier debug run while the Test Bench shows the new initial state. Native
+cloud construction continued through Register, RAM, CPU and LOAD/STORE with
+UI-earned components. See [finding and verification](verification/20261004-storage-captions/README.md).
+
 ## Latch state replay — 2026-10-04
 
 The SR Latch Test Bench now follows the player's actual Q/NQ output connections

@@ -171,6 +171,8 @@ var component_symbols: Dictionary[StringName, CircuitComponentSymbol] = {}
 var component_row_labels: Dictionary[StringName, Array] = {}
 var component_state_labels: Dictionary[StringName, Label] = {}
 var component_idle_state_text: Dictionary[StringName, String] = {}
+var playback_initial_component_state_text: Dictionary[StringName, String] = {}
+var playback_initial_storage_values: Dictionary = {}
 var layout_positions: Dictionary[StringName, Vector2] = {}
 var wire_history: Array[Dictionary] = []
 var redo_history: Array[Dictionary] = []
@@ -4602,6 +4604,8 @@ func _reset_current_simulation() -> void:
 		prologue_runtime_state.clear()
 		prologue_prior_outputs.clear()
 		prologue_live_result = null
+		_prepare_component_playback_state({}, {})
+		playback_initial_component_state_text.clear()
 	live_state_key = ""
 	_clear_signal_states()
 	_schedule_live_refresh()
@@ -7425,8 +7429,13 @@ func _play_prologue_events(
 	) -> void:
 	current_trace = null
 	prologue_live_result = result
+	playback_initial_component_state_text.clear()
+	playback_initial_storage_values.clear()
+	if _events_have_state_transition(events):
+		_prepare_component_playback_state(initial_runtime_state, initial_prior_outputs)
 	if _is_storage_level() and (current_level_id == &"alarm" or _events_have_state_transition(events)):
 		_prepare_storage_playback_state(initial_runtime_state, initial_prior_outputs)
+		playback_initial_storage_values = storage_playback_values.duplicate(true)
 	playback_index = 0
 	playback_elapsed = 0.0
 	_build_prologue_playback_batches(events)
@@ -7456,6 +7465,54 @@ func _events_have_state_transition(events: Array) -> bool:
 		if event != null and event.kind == &"state_transition":
 			return true
 	return false
+
+
+func _prepare_component_playback_state(
+		initial_runtime_state: Dictionary,
+		initial_prior_outputs: Dictionary
+	) -> void:
+	# These are presentation snapshots of the sequence's real starting state.
+	# A new official sequence must not retain captions from the previous debug run.
+	for component_id: StringName in component_state_labels:
+		var component: LogicComponent = component_catalog.get(component_id)
+		if component == null:
+			continue
+		var text: String
+		match component.kind:
+			LogicComponentType.KIND_SR_LATCH:
+				var q: DigitalValue = initial_prior_outputs.get(PrologueSimulationResultType.output_key(component_id, 0))
+				var nq: DigitalValue = initial_prior_outputs.get(PrologueSimulationResultType.output_key(component_id, 1))
+				text = _t(&"hardware.storage.component.latch", [
+					q.display_text() if q != null else "—",
+					nq.display_text() if nq != null else "—",
+				])
+			LogicComponentType.KIND_REGISTER1, LogicComponentType.KIND_REGISTER4:
+				var registers: Dictionary = initial_runtime_state.get("registers", {})
+				text = _t(&"hardware.storage.component.register", [
+					DigitalValueType.known(component.output_width(0), int(registers.get(component_id, 0))).display_text()
+				])
+			LogicComponentType.KIND_RAM2X4:
+				var memories: Dictionary = initial_runtime_state.get("ram", {})
+				var raw: Array = memories.get(component_id, [0, 0])
+				text = _t(&"hardware.storage.component.ram", [
+					DigitalValueType.known(4, int(raw[0]) if raw.size() > 0 else 0).display_text(),
+					DigitalValueType.known(4, int(raw[1]) if raw.size() > 1 else 0).display_text(),
+				])
+			_:
+				continue
+		playback_initial_component_state_text[component_id] = text
+	_restore_component_playback_state()
+
+
+func _restore_component_playback_state() -> void:
+	for component_id: StringName in playback_initial_component_state_text:
+		if not component_state_labels.has(component_id):
+			continue
+		var text: String = playback_initial_component_state_text[component_id]
+		component_idle_state_text[component_id] = text
+		var label: Label = component_state_labels[component_id]
+		label.text = text
+		label.add_theme_color_override("font_color", PURPLE)
 
 
 func _prepare_storage_playback_state(
@@ -7845,6 +7902,8 @@ func _finish_playback() -> void:
 
 
 func _stop_playback() -> void:
+	playback_initial_component_state_text.clear()
+	playback_initial_storage_values.clear()
 	playback_running = false
 	playback_index = 0
 	playback_elapsed = 0.0
@@ -7863,13 +7922,15 @@ func _stop_playback() -> void:
 
 
 func _restore_storage_playback_monitor() -> void:
+	_restore_component_playback_state()
 	if current_level_id == &"alarm":
 		_update_storage_playback_monitor()
-	elif current_level_id == &"latch":
+	else:
 		# Live previews have no commit boundary and must not resurrect an older
 		# run's prior snapshot when their animation is replayed.
 		for batch: Dictionary in playback_batches:
 			if _events_have_state_transition(batch.get("events", [])):
+				storage_playback_values = playback_initial_storage_values.duplicate(true)
 				_update_storage_playback_monitor()
 				return
 

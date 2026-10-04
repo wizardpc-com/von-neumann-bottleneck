@@ -14,6 +14,13 @@ and `python3 scripts/verify-mac-candidate.py --app <candidate .app>`; the latter
 actual exported project build identity against its adjacent manifest. Native and
 external acceptance remain distinct. Dated test totals below are historical.
 
+## Recorded hardware-cost comparison, 2026-10-04
+
+`test_system_cost_evidence` checks CPU/RAM/Bus baseline and comparison costs in both
+locales, per-machine rather than per-case aggregation, unrun selections, debug runs,
+unapplied drafts, duplicate reruns and unchanged prediction/completion gates.
+See [native scope and baseline regression](../verification/20261004-performance-cost/README.md).
+
 ## First-build feedback, 2026-10-04
 
 `test_first_build_guidance` distinguishes accepted first wires and live previews

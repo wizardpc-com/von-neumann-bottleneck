@@ -2,6 +2,14 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Performance and hardware cost — 2026-10-04
+
+Chapter 1 Run History now places recorded hardware cost beside measured timing,
+including the cost delta for a controlled comparison. The first CPU investigation
+asks players to compare time saved with hardware cost; it adds no completion gate.
+Current selections and unapplied drafts never replace the recorded evidence.
+See [native finding and verification](verification/20261004-performance-cost/README.md).
+
 ## Storage caption replay — 2026-10-04
 
 RAM and CPU storage captions now start from each playback's actual prior state,

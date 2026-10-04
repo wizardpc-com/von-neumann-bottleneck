@@ -2268,7 +2268,7 @@ msgid "system.level.cpu_speed.briefing.2"
 msgstr "Run Eco CPU first as a [[baseline|baseline]], the starting point for comparison. Then change only to Fast CPU and keep RAM, Bus, program, and cases fixed. Changing one cause at a time is a [[controlled_change|controlled comparison]]."
 
 msgid "system.level.cpu_speed.briefing.3"
-msgstr "Compare total [[cycle|cycles]], then open the [[profiler|Profiler]] and compare compute time with [[cpu_wait|CPU WAIT]]. Pass the same official cases with both CPUs to finish."
+msgstr "Compare total [[cycle|cycles]], then open the [[profiler|Profiler]] and compare compute time with [[cpu_wait|CPU WAIT]]. Pass the same official cases with both CPUs to finish.\n\nAlso compare the recorded hardware cost: how much extra hardware cost buys the time saved? Cost is evidence to compare, not a completion requirement here."
 
 msgid "system.level.ram_wait.title"
 msgstr "Time on the Road"
@@ -6772,3 +6772,9 @@ msgstr "Observed: %s"
 
 msgid "exploration.alarm.prior"
 msgstr "Previous observation: %s"
+
+msgid "system.history.recorded_cost"
+msgstr "Hardware cost at run · %d"
+
+msgid "system.history.cost_delta"
+msgstr "Hardware cost · %d → %d · Δ %s"

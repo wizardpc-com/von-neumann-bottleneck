@@ -2268,7 +2268,7 @@ msgid "system.level.cpu_speed.briefing.2"
 msgstr "先用 Eco [[cpu|CPU]]跑一次，把它当作比较起点；这个起点叫[[baseline|基线]]。接着只换成 Fast CPU，[[program|程序]]、[[ram|RAM]]、[[bus|总线]]和案例都别动。一次只改变一个东西，叫[[controlled_change|控制变量比较]]，这样才知道差别是谁造成的。"
 
 msgid "system.level.cpu_speed.briefing.3"
-msgstr "对比两次的总[[cycle|周期]]，再打开[[profiler|性能分析器]]看“计算”和[[cpu_wait|CPU 等待]]各占多少。两种 CPU 的[[official_test|正式案例]]都通过，而且比较使用同一套其他零件，就能完成。"
+msgstr "对比两次的总[[cycle|周期]]，再打开[[profiler|性能分析器]]看“计算”和[[cpu_wait|CPU 等待]]各占多少。两种 CPU 的[[official_test|正式案例]]都通过，而且比较使用同一套其他零件，就能完成。\n\n也比较运行记录中的硬件成本：省下的时间，需要多花多少硬件成本？成本只供比较，不是本关的通关门槛。"
 
 msgid "system.level.ram_wait.title"
 msgstr "等待的来处"
@@ -6771,3 +6771,9 @@ msgstr "观测状态：%s"
 
 msgid "exploration.alarm.prior"
 msgstr "上次观测：%s"
+
+msgid "system.history.recorded_cost"
+msgstr "运行时硬件成本 · %d"
+
+msgid "system.history.cost_delta"
+msgstr "硬件成本 · %d → %d · Δ %s"

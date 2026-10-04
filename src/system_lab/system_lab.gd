@@ -2706,6 +2706,11 @@ func _refresh_history() -> void:
 			lines.append(_t(&"system.history.wait_delta", [
 				before_wait, after_wait, _history_delta(after_wait - before_wait, before_wait, false),
 			]))
+			var before_cost: int = int(before.metrics.get("hardware_cost", 0))
+			var after_cost: int = int(after.metrics.get("hardware_cost", 0))
+			lines.append(_t(&"system.history.cost_delta", [
+				before_cost, after_cost, _history_delta(after_cost - before_cost, before_cost, false),
+			]))
 			var metric := _comparison_history_metric(comparison_kind)
 			if not metric.is_empty():
 				var before_metric: int = int(before.metrics.get(String(metric), before.metrics.get(metric, 0)))
@@ -2722,6 +2727,7 @@ func _refresh_history() -> void:
 				int(baseline.metrics.get("total_cycles", 0)),
 				int(baseline.metrics.get("cpu_wait_cycles", 0)),
 			]))
+			lines.append(_t(&"system.history.recorded_cost", [int(baseline.metrics.get("hardware_cost", 0))]))
 			if comparison_kind in [PartSpecType.KIND_CPU, PartSpecType.KIND_RAM, PartSpecType.KIND_BUS]:
 				lines.append(_t(&"system.history.next", [_part_kind_name(comparison_kind)]))
 	if bool(current_level_definition.get("diagnosis_required", false)) and latest_official_traces.size() > 1:

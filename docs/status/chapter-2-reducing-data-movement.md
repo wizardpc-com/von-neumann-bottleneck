@@ -75,3 +75,27 @@ The Systems Notebook contains the Chapter 1 concepts CPU WAIT, Controlled Compar
 - Procedural device cards and floating windows are playtest UI, not production art or audio.
 
 External playtesting should determine whether players use the carried-forward evidence instead of treating paired levels as unrelated tasks, inspect Trace before opening a finding, understand the 2-3 “Cache present but still slow” reversal, distinguish poor access order from an oversized working set, diagnose the capstone before guessing a replacement part, and discover more than one solution. Those results should drive pacing and copy changes before adding new cache mechanisms.
+
+## Result-to-evidence navigation (2026-10-04)
+
+The six short investigations expose a contextual Test Bench action immediately
+below a correct official result. While evidence is incomplete it reopens the
+existing Mission judgment area without interrupting playback. Once the existing
+pending-finding and completed-Trace gates are satisfied, the action uses the same
+explicit finding-review handler as Mission. Debug results, stale runs, completed
+tasks and the capstone's distinct experiment/summary flow do not expose it. No
+receipt, model, completion rule or save format changed.
+
+Focused locality/localization checks and the full isolated conventional verifier
+passed on Godot 4.7.1, along with the workflow's Python contracts. Added assertions
+cover pre-run/debug refusal, repeated activation, stale-input invalidation, wrong
+judgments before/after playback, unfinished playback and capstone exclusion.
+Native Linux input QA on a resumed, test-only earned save checked Chinese
+nearby-storage baseline/comparison (257 to 105 cycles), result-to-Mission
+navigation, stale-action clearing, explicit finding review and persisted unlock.
+English cache-failure QA checked the 321-cycle result, visible judgment choices,
+rejection of a wrong explanation even after finishing playback, then correction
+and explicit finding review through the same action. Both locales
+were inspected at 1364×1024; English was also inspected at 1280×842. This is
+informed developer QA, not novice or full-campaign evidence; 1280×720, exported
+platforms and audio quality were not revalidated in this slice.

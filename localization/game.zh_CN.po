@@ -6708,3 +6708,6 @@ msgstr "之前 · 周期"
 
 msgid "system.history.chart.after"
 msgstr "之后 · 周期"
+
+msgid "chapter2.review.evidence"
+msgstr "查看证据与判断"

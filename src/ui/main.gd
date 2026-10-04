@@ -114,6 +114,7 @@ var mission_continue_button: Button
 var mission_page: int = 0
 var mission_progress_label: Label
 var mission_judgment_box: VBoxContainer
+var test_evidence_button: Button
 var mission_review_button: Button
 var mission_finish_button: Button
 var overlap_entry_button: Button
@@ -885,6 +886,11 @@ func _build_test_bench_instrument() -> Control:
 	result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	result_label.add_theme_font_size_override("font_size", 20)
 	panel.add_child(result_label)
+	test_evidence_button = Button.new()
+	test_evidence_button.name = "TestBenchEvidenceButton"
+	test_evidence_button.hide()
+	test_evidence_button.pressed.connect(_review_test_evidence)
+	panel.add_child(test_evidence_button)
 	panel.add_child(debug_data_label)
 	panel.add_child(debug_grid)
 	# Keep Run outside the scrolling evidence/debug body, including the capstone
@@ -1308,6 +1314,29 @@ func _evaluate_level_completion() -> void:
 	_update_mission_progress()
 
 
+func _review_test_evidence() -> void:
+	# Navigation alone never supplies a judgment, finishes playback, or grants progress.
+	if not _test_evidence_available():
+		return
+	if _pending_review_ready():
+		_review_pending_finding()
+	else:
+		_open_instrument(&"mission", true)
+		var mission_scroll := mission_progress_label.get_parent().get_parent() as ScrollContainer
+		mission_scroll.ensure_control_visible.call_deferred(mission_judgment_box)
+
+
+func _test_evidence_available() -> bool:
+	return (
+		not current_level_id.is_empty()
+		and current_level_id != &"capstone"
+		and not bool(LocalityChapter.completed_levels().get(current_level_id, false))
+		and current_trace != null
+		and current_trace.test_name == "Official Test Set"
+		and current_trace.passed
+	)
+
+
 func _review_pending_finding() -> void:
 	if not _pending_review_ready():
 		return
@@ -1365,6 +1394,8 @@ func _complete_current_level() -> void:
 func _clear_pending_review() -> void:
 	pending_completion_review = false
 	pending_review_level_id = &""
+	if test_evidence_button != null:
+		test_evidence_button.hide()
 	if mission_review_button != null:
 		mission_review_button.visible = false
 
@@ -1419,6 +1450,8 @@ func _update_mission_progress() -> void:
 	var evidence_available: bool = not _completion_receipts().is_empty()
 	for button: Button in mission_judgment_buttons.values():
 		button.disabled = not evidence_available or complete
+	test_evidence_button.visible = _test_evidence_available()
+	test_evidence_button.text = _t(&"chapter2.review.finding" if _pending_review_ready() else &"chapter2.review.evidence")
 	mission_review_button.visible = _pending_review_ready()
 	mission_finish_button.visible = current_level_id == &"capstone" and complete
 	overlap_entry_button.visible = mission_finish_button.visible

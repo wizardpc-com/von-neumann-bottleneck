@@ -6709,3 +6709,6 @@ msgstr "Before · cycles"
 
 msgid "system.history.chart.after"
 msgstr "After · cycles"
+
+msgid "chapter2.review.evidence"
+msgstr "Review evidence"

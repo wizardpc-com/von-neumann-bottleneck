@@ -286,9 +286,9 @@ func _reset_workspace() -> void:
 		child.queue_free()
 	if is_instance_valid(hint_overlay): hint_overlay.queue_free(); hint_overlay = null
 
-func _open_level(id: String) -> void:
+func _open_level(id: String, save_current: bool = true) -> void:
 	if not Catalog.unlocked(id,OverlapChapter.completed(),OverlapChapter.chapter_unlocked(),GameMode.is_test_mode()): return
-	_save_draft()
+	if save_current: _save_draft()
 	level = id
 	PlaytestData.level_started(&"chapter_3",StringName(id))
 	_reset_workspace()
@@ -600,11 +600,9 @@ func _copy_previous() -> void:
 		_refresh_copy_previous()
 		status.text = _t("copy_previous.kept" if dirty or OverlapChapter.drafts().has(level) else "copy_previous.unavailable")
 		return
-	var copied: Dictionary = OverlapChapter.drafts()[level].duplicate(true)
-	# _open_level saves the current board first; install the copy locally before reopening.
-	board = copied.board
-	editor.text = copied.program
-	_open_level(level)
+	# The destination draft now owns the copy. Do not capture the old starter graph
+	# over its positions before rebuilding the workspace from that draft.
+	_open_level(level, false)
 
 func _case_name(task: Dictionary) -> String:
 	return _t("case."+String(task.name))

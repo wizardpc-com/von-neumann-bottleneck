@@ -144,13 +144,46 @@ func _test_copy_previous(host: Control) -> void:
 			state.test_solutions.erase(source)
 			host.copy_previous_button.pressed.emit()
 			_assert(host.copy_previous_button.disabled and not state.drafts().has(id) and host.status.text == host.copy_previous_note.text, "Missing previous solution produces honest refusal feedback: "+id)
-			state.test_solutions[source] = previous
+			for node_id: String in previous.board.nodes:
+				previous.board.nodes[node_id].x += 200
+				previous.board.nodes[node_id].y += 140
+			state.test_solutions[source] = previous.duplicate(true)
 			host._refresh_copy_previous()
 			host.copy_previous_button.pressed.emit()
 			await process_frame
 			_assert(host.editor.text == previous.program and state.drafts()[id].program == previous.program, "Valid copy installs the player's previous program: "+id)
 			_assert(host.copy_previous_button.disabled and state.completed()[source] == previous and host.board.nodes.keys() == previous.board.nodes.keys() and host.board.wires == previous.board.wires, "Successful copy disables repeat copy and preserves source: "+id)
+			_assert(host.board == previous.board and state.drafts()[id] == previous, "Copy preserves complete board coordinates/configuration and program: "+id)
+			for node_id: String in previous.board.nodes:
+				_assert(host.graph.get_node(NodePath(node_id)).position_offset == Vector2(previous.board.nodes[node_id].x, previous.board.nodes[node_id].y), "Copied graph uses source coordinates: "+id+"/"+node_id)
 			host._open_level("arrival")
 			_assert(host.copy_previous_button == null, "Navigating to an unrelated node drops stale controls")
 			host._open_level(id)
 			_assert(host.copy_previous_button.disabled and host.copy_previous_note.visible, "Reopening saved task preserves disabled state: "+id)
+
+			_assert(host.board == previous.board and host.editor.text == previous.program, "Reopening preserves copied layout and program: "+id)
+
+			var copied: Dictionary = state.drafts()[id].duplicate(true)
+			var movable: GraphNode = host.graph.get_node(NodePath("A" if id == "backpressure" else "CACHE"))
+			var before_move: Vector2 = movable.position_offset
+			# Cancel a held move before the next autosave/transition.
+			host.body_drag = {"positions":{String(movable.name):before_move},"moved":true}
+			movable.position_offset += Vector2(40,60)
+			host._cancel_body_drag()
+			_assert(movable.position_offset == before_move and host.board == copied.board and state.drafts()[id] == copied, "Cancelled move cannot mutate copied draft: "+id)
+			var all_drafts: Dictionary = state.drafts().duplicate(true)
+			var all_solutions: Dictionary = state.completed().duplicate(true)
+			host._open_level("unknown")
+			_assert(host.level == id and state.drafts() == all_drafts and state.completed() == all_solutions, "Unknown navigation cannot mutate copied work: "+id)
+			_assert(not state.copy_previous("unknown") and state.drafts() == all_drafts, "Unknown copy target cannot mutate drafts")
+			var restored: Node = load("res://src/overlap_chapter/overlap_state.gd").new()
+			restored.restore_game(JSON.parse_string(JSON.stringify({"schema_version":1,"solutions":all_solutions,"drafts":all_drafts})), true)
+			_assert(JSON.parse_string(JSON.stringify(restored.game_drafts[id])) == JSON.parse_string(JSON.stringify(copied)) and JSON.parse_string(JSON.stringify(restored.game_solutions[source])) == JSON.parse_string(JSON.stringify(previous)), "Restart round-trip preserves copied layout and source identity: "+id)
+			restored.free()
+			host.graph.get_node(NodePath("A" if id == "backpressure" else "CACHE")).position_offset += Vector2(40,60)
+			host._save_draft()
+			var edited: Dictionary = state.drafts()[id].duplicate(true)
+			host._copy_previous()
+			_assert(edited != copied and state.drafts()[id] == edited and state.completed()[source] == previous, "Moving copied work stays independent and refused copy keeps destination: "+id)
+			host._open_level(id)
+			_assert(host.board == edited.board, "Moved copied layout survives reopening: "+id)

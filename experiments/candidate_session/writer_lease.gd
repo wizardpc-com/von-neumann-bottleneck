@@ -86,7 +86,8 @@ static func _macos_snapshot_pids(exit_code: int, raw: String, self_pid: int) -> 
 		if not value.is_valid_int() or value.to_int() < 0 or str(value.to_int()) != value: return []
 		if value.to_int() == self_pid: saw_self = true
 		pids.append(value.to_int())
-	return pids if saw_self else []
+	if not saw_self: pids.clear()
+	return pids
 
 static func _macos_snapshot_stopped(exit_code: int, raw: String, pid: int, self_pid: int) -> bool:
 	var pids: Array[int] = _macos_snapshot_pids(exit_code,raw,self_pid)

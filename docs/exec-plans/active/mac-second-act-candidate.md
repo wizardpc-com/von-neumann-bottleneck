@@ -61,3 +61,10 @@ Sol Medium (B/C), as explicitly requested. No additional nested agents.
   not OS-native input or a human test. Existing replay opens the new detail disclosure.
 - Matching export-template directory is present but empty; app export blocked by
   absent 4.7.1 templates. Source-native acceptance remains planned.
+
+- Frozen checkpoint `d5767ed`: service recheck PASS (7268 model/UI assertions;
+  63 session checks), `.godot/verification/20261005T185109Z-c2a39ca7`.
+  Full regression caught a typed-array fallback error introduced in the final
+  capability-handling revision: the conditional empty array was untyped. Root
+  corrected it to clear/return the typed PID array. Full receipt and targeted
+  corrected-source evidence will both be retained; no failed assertion removed.

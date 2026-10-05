@@ -5,6 +5,15 @@ func open_scene(path: String) -> void:
 		ui = current_scene; await settle(); return
 	await super.open_scene(path)
 
+# Only the changed route is under test here. Detailed order-menu comparisons
+# remain in the existing Representation driver; do not repeat that popup path.
+func representation() -> void:
+	await open_scene("res://experiments/representation_region/region.tscn")
+	var plans: Array = [partition([16,64],["rle","raw"]),partition([16,24,40,48,64],["rle","rle","raw","rle","rle"]),partition([16,48,64],["rle","rle","rle"]),partition([8,64],["raw","rle"]),partition([18,46,64],["rle","raw","rle"])]
+	for id: int in 5:
+		await press(handle("Task"+str(id))); await build_partition(plans[id]); await press(handle("Run"))
+		check(ui.public_observation().accepted,"Own visible partition earns task%d across all authored orders" % id)
+
 func enter_from_hub(name: String) -> void:
 	await press(handle(name)); await settle(25); ui = current_scene
 

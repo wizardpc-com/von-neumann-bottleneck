@@ -138,3 +138,11 @@ all source hashes match and detached checkout stays clean. Sole failure is old
 the bounded RegionReviewScroll. Its assertion now reads visible RegionReviewContent;
 no runtime/source behavior changes. Run only that affected suite against the next
 committed test correction, then use the frozen9a runtime for rendered paths.
+
+Cross-domain9a rendered route reached and saved both domains, but failed two
+pre-existing order-menu input checks from the inherited detailed Representation
+replay. Preserve this run as failed. The route-specific driver now constructs and
+measures all5tasks without repeating the unrelated popup comparison path; all
+orders still must satisfy Model.meets. No runtime menu behavior is altered and
+pointer/menu reliability remains a separate external gate. Run a fresh profile
+with that minimal route, then independently resume it in English.

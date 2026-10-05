@@ -1,6 +1,6 @@
 # Service follow-up commissions
 
-Owner: Codex root. Baseline `ecda15f`; 2026-10-05. Status: focused verification passed; viewport/frozen verification pending.
+Owner: Codex root. Baseline `ecda15f`; 2026-10-05. Status: complete; bounded optional content delivered, external acceptance gates retained.
 
 ## Goal and scope
 
@@ -91,7 +91,7 @@ IDs: 0 single-context (one slot, 1420 cycles, first320, exact1e-9);
   into each dialog's own viewport and adding actual close assertions; runtime
   model/limits stay unchanged. Failed log `.godot/commission-zh-viewport.log`.
 
--0c6752c viewport retry also correctly FAILED its new close assertion: embedded
+- `0c6752c` viewport retry also correctly FAILED its new close assertion: embedded
   Window push alone did not route the mouse hit test. A minimal isolated dialog
   probe exposed local button321/440 vs Window position440/210. Root dispatch must
   add the embedded Window position. Corrected probe closes through one actual
@@ -100,7 +100,7 @@ IDs: 0 single-context (one slot, 1420 cycles, first320, exact1e-9);
   Next: commit the proven correction, rerun the previously blocked GUI journey
   and English independent resume without another full model regression.
 
--16a417f Chinese rendered journey PASS:305 checks, zero failures; it solved both
+- `16a417f` Chinese rendered journey PASS:305 checks, zero failures; it solved both
   commissions through visible editing, validated real compact error, closed both
   handoff dialogs, preserved the original ending, saved, returned Home/re-entered
   and rechecked retained plans. Log `.godot/commission-zh-final.log`.
@@ -109,3 +109,25 @@ IDs: 0 single-context (one slot, 1420 cycles, first320, exact1e-9);
 - For the independent English restart, the driver now explicitly sets both the
   content canvas and window to1280×720. This narrow QA-only adjustment verifies
   the minimum layout without repeating models or the entire solve.
+
+## Final handoff
+
+- `87f9a91` independent English restart PASS:31 checks, no failures, true1280×720
+  logical canvas/window. All three specifications revalidate retained recipes and
+  the original service ending remains earned. Images and full observations are
+  [preserved evidence](../../verification/20261005-service-commissions/README.md).
+- Plain no-script Mac service scene loaded9 saved test records; CUA screenshot
+  confirmed the actual workbench. Native click still returned -10005
+  `noWindowsAvailable`; Cmd-Q exited the candidate0 without runtime errors.
+  This is partial native evidence, not native pointer acceptance.
+- The existing4.7.1 export_templates directory remains empty: package NOT_RUN.
+  Human newcomer understanding and audio remain unverified. Optional commission
+  recipes share the existing latest80 history limit and carry no permanent badge.
+- Commit history is preserved on `codex/mac-second-act-20261005`. Authorized push
+  failed for absent local HTTPS authentication, not for missing user permission.
+  Original collaborator changes remain untouched. No main merge, production save
+  changes or deployment occurred.
+- Scope closed at two optional commissions. Next: authenticate/push the branch,
+  complete native/package gates when tooling is available, and arrange a bounded
+  unfamiliar-player pass before choosing a state introduction or formal inclusion.
+- Root and subagents release owned implementation files after evidence commit.

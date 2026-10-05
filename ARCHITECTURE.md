@@ -206,3 +206,10 @@ not cross these directories. The normal hub remains unchanged without the opt-in
 flag. Service Home delegates to its existing save/cancel/discard guard; final
 review recomputes all three protected plans, never current drafts or unlock flags.
 See [Mac candidate plan](docs/exec-plans/completed/mac-second-act-candidate.md).
+
+Service's optional `commissions.gd` catalog checks residency/final-archive limits
+over the same authoritative model results after all three original protected plans
+revalidate. It owns no simulation or progress authority. The lab records existing
+task2 recipes in the unchanged schema2 store and rechecks selected measurements;
+commission selection is transient and no permanent badge is saved. Lossless and
+compact archive specifications are alternatives. [Content scope and evidence](docs/verification/20261005-service-commissions/README.md).

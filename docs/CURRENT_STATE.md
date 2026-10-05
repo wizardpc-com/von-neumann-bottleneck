@@ -11,9 +11,13 @@ count final flushed backing bytes rather than cumulative traffic. Selected measu
 recipes can be handed off and restored; edited drafts need a new run. Existing
 schema2 profiles remain compatible, with no new campaign task IDs, permanent
 commission badges or forced prerequisite. The original ending stays available.
-See the [iteration plan](exec-plans/active/service-followup-commissions.md) and
-[play instructions](../experiments/service_plan/README.md). Verification is in progress;
-no new native-pointer, novice or packaged acceptance is claimed.
+See the [iteration plan](exec-plans/completed/service-followup-commissions.md) and
+[play instructions](../experiments/service_plan/README.md). Frozen regression74/74
+checks and affected runtime-fix checks pass; Chinese rendered journey305 and
+independent English minimum-canvas restart31 checks pass. Native saved-workbench
+view/normal quit succeeded, pointer input was blocked by the tool, and export
+templates remain absent. See [evidence and limits](verification/20261005-service-commissions/README.md);
+no novice or packaged acceptance is claimed.
 
 ## Mac second-act candidate journey — 2026-10-05
 

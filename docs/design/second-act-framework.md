@@ -13,7 +13,7 @@
 
 委托只验收选中的实测方案，沿用候选schema2保存配方；选择在本窗口有效，
 重开可重新验收保留的记录，不授予永久徽章。原三合同的保护方案与结尾不依赖
-追加委托，Prediction仍独立可选。参见[迭代计划](../exec-plans/active/service-followup-commissions.md)。
+追加委托，Prediction仍独立可选。参见[迭代计划](../exec-plans/completed/service-followup-commissions.md)。
 下列2026-10-03的独立入口/尚无持久化描述是当时状态，最新状态见
 [CURRENT_STATE](../CURRENT_STATE.md)。
 

@@ -217,4 +217,4 @@ three-contract plans keep their existing protection.
 
 Known-answer viewport/restart QA uses `experiments/play_commissions.gd` through an
 explicit isolated service journey launch; it is distinct from native OS input and
-human novice evidence. See [iteration plan](../../docs/exec-plans/active/service-followup-commissions.md).
+human novice evidence. See [iteration plan](../../docs/exec-plans/completed/service-followup-commissions.md).

@@ -213,3 +213,13 @@ revalidate. It owns no simulation or progress authority. The lab records existin
 task2 recipes in the unchanged schema2 store and rechecks selected measurements;
 commission selection is transient and no permanent badge is saved. Lossless and
 compact archive specifications are alternatives. [Content scope and evidence](docs/verification/20261005-service-commissions/README.md).
+
+The Service state-journey presenter consumes deep-copied recorded event prefixes
+through `experiments/service_plan/state_replay.gd`; it never reruns or decodes the
+model. Only trace read/decode/update/write/eviction/output facts update the shown
+locations. Display rounding never changes authoritative state or metrics.
+Candidate next-stage navigation retains independent writer leases and the unsaved
+guard. `candidate_session/journey_review.gd` reads explicitly bound saved candidate
+profiles, revalidates each domain's recipes under its own model, and compares
+transaction fingerprints before/after. It neither acquires leases nor recovers
+files, changes schemas, grants campaign progress or merges cross-model metrics.

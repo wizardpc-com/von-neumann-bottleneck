@@ -850,3 +850,68 @@ func _build_service_candidate_entry(content: VBoxContainer) -> void:
 	entry.text = "进入 / 继续服务候选旅程" if not english else "Enter / resume service candidate"
 	entry.custom_minimum_size.y = 42; column.add_child(entry)
 	entry.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://experiments/service_plan/lab.tscn"))
+	var review := Button.new(); review.name = "SavedSecondActReview"
+	review.text = "回顾已保存的第二幕方案" if not english else "Review saved second-act plans"
+	review.custom_minimum_size.y = 38; column.add_child(review); review.pressed.connect(show_candidate_review)
+
+# Review only explicitly bound candidate profiles, never campaign user files.
+func candidate_review_paths() -> Dictionary:
+	var context: Script = preload("res://experiments/candidate_session/context.gd")
+	var primary: String = str(ProjectSettings.get_setting("candidate/primary_domain",""))
+	var profile: String = str(ProjectSettings.get_setting("candidate/profile",""))
+	var directory: String = OS.get_user_data_dir().replace("\\","/").simplify_path()
+	if not primary in ["representation","service"] or profile.is_empty() or profile.length() > 40: return {}
+	for character: String in profile:
+		if not character in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-": return {}
+	if not directory.ends_with("/VonNeumannBottleneckCandidates/"+primary+"/"+profile): return {}
+	return {"representation":context.resolve_path("representation",primary,profile,directory),"service":context.resolve_path("service",primary,profile,directory)}
+
+func show_candidate_review() -> void:
+	if not candidate_journey: return
+	var english: bool = Localization.current_locale() == "en"
+	var paths: Dictionary = candidate_review_paths()
+	var result: Dictionary = {}
+	if not paths.is_empty():
+		result = preload("res://experiments/candidate_session/journey_review.gd").read_pair(paths.representation,paths.service)
+	var old := get_node_or_null("SavedJourneyReview") as AcceptDialog
+	if old != null: remove_child(old); old.queue_free()
+	var dialog := AcceptDialog.new(); dialog.name = "SavedJourneyReview"
+	dialog.title = "第二幕 · 已保存方案回顾" if not english else "Second act · Saved plan review"
+	dialog.ok_button_text = "回到旅程入口" if not english else "Back to journey entries"
+	var lines: Array[String] = ["此处重新验收同一候选档的已保存方案；未保存的窗口变化不在这份回顾中。两个阶段各用自己的机器和合同，指标分别看。" if not english else "Revalidate saved plans in this candidate profile. Unsaved window changes are outside this review. Each stage uses its own machine and contracts; compare its metrics separately."]
+	if paths.is_empty():
+		lines.append("当前启动未绑定隔离候选档，无法确认第二幕成果。请从带命名profile的候选入口启动。" if not english else "This launch is not bound to an isolated candidate profile. Start a named candidate profile to review its saved work.")
+	else:
+		for domain: String in ["representation","service"]:
+			var item: Dictionary = result[domain]
+			var title: String = ("表示" if not english else "Representation") if domain == "representation" else ("持续状态与服务" if not english else "Persistent state and service")
+			lines.append("")
+			lines.append(title+" · "+str(item.completed.size())+" / "+("5" if domain == "representation" else "3"))
+			match str(item.status):
+				"empty": lines.append("尚无已保存方案。进入该阶段，运行自己的方案并保存后再回顾。" if not english else "No saved plans yet. Enter this stage, measure your own plan, then Save before reviewing.")
+				"unavailable": lines.append(("无法确认：" if not english else "Cannot confirm: ")+str(item.error)+("。请进入原阶段检查恢复提示；此处不会替你恢复。" if not english else ". Enter the stage to inspect its recovery notice; this review does not recover files."))
+				"partial": lines.append("已有实测达标方案；其余任务仍可从原工作台继续。" if not english else "Some measured plans meet their contracts. Continue the remaining tasks in their workbench.")
+				"complete": lines.append("这一阶段的全部合同已由保存的方案重新验收。" if not english else "Saved plans revalidate all contracts in this stage.")
+			for evidence: Dictionary in item.evidence:
+				if domain == "representation":
+					var cycles: Array[String] = []
+					for metrics: Dictionary in evidence.metrics: cycles.append(str(metrics.total_cycles))
+					lines.append(("任务" if not english else "Task ")+str(int(evidence.task)+1)+" · "+" / ".join(cycles)+("周期（各订单）" if not english else " cycles (per order)"))
+				else:
+					var m: Dictionary = evidence.metrics
+					lines.append(("合同%d · %d周期 · 状态%dB · 首响应%s · 分数/状态误差%s / %s" if not english else "Contract%d · %d cycles · state%dB · first%s · score/state error%s / %s") % [int(evidence.task)+1,m.total_cycles,m.state_read_bytes+m.state_write_bytes,str(m.first_stream_cycles),String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)])
+		if bool(result.complete):
+			lines.append("")
+			lines.append("你安排了信息的承载，也让会改变的历史继续服务后来的请求。两段第二幕候选体验在此收束；可回看自己的方案，也可自由尝试追加委托或预测。A Thought Within the World。" if not english else "You arranged how information travels and kept changing history useful for later requests. These two second-act candidate journeys close here. Revisit your plans, or optionally explore commissions and prediction. A Thought Within the World.")
+		else:
+			lines.append("第二幕的联合回顾尚未成立；各阶段已有的独立结尾仍可回看。" if not english else "The combined second-act review is not earned yet; each earned stage ending remains available.")
+	var scroll := ScrollContainer.new(); scroll.name = "SavedJourneyReviewScroll"
+	scroll.custom_minimum_size = Vector2(740,360); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	dialog.add_child(scroll)
+	var text := Label.new(); text.name = "SavedJourneyReviewContent"; text.text = "\n\n".join(lines)
+	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; text.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(text)
+	var refresh: Button = dialog.add_button("刷新已保存方案" if not english else "Refresh saved plans",false,"refresh")
+	refresh.name = "RefreshSavedJourneyReview"
+	dialog.custom_action.connect(func(action: StringName) -> void:
+		if action == &"refresh": show_candidate_review())
+	add_child(dialog); dialog.popup_centered(Vector2i(780,480))

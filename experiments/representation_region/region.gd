@@ -14,6 +14,7 @@ var session_version: String = ""
 var session_dirty: bool = false
 var previous_auto_quit: bool = true
 var leave_to_hub: bool = false
+var leave_scene: String = ""
 var candidate_journey: bool = false
 var drafts: Dictionary = {}
 var english: bool = false
@@ -566,15 +567,24 @@ func reuse_recorded_plan() -> void:
 	status.text = text2("已取回方案#%d；可以改一点再运行。旧记录保留，原草稿可撤销恢复。", "Plan #%d is ready to vary and run. Its old record is preserved; Undo can restore the previous draft.") % [record_index+1]
 
 func request_hub() -> void:
+	leave_scene = "res://src/ui/prototype_hub.tscn"
 	leave_to_hub = true
 	request_leave()
 
 func request_quit() -> void:
+	leave_scene = ""
+	leave_to_hub = false
+	request_leave()
+
+func request_service() -> void:
+	if not candidate_journey or representation_review_evidence().size() != 5: return
+	leave_scene = "res://experiments/service_plan/lab.tscn"
 	leave_to_hub = false
 	request_leave()
 
 func finish_leave() -> void:
-	if leave_to_hub: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	if not leave_scene.is_empty(): get_tree().change_scene_to_file(leave_scene)
+	elif leave_to_hub: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
 	else: get_tree().quit()
 
 func request_leave() -> void:
@@ -656,24 +666,47 @@ func reload_recovered_session() -> void:
 	completed = [false,false,false,false,false]; drafts.clear(); undo_stack.clear(); redo_stack.clear()
 	restore_session(); build()
 
+# Revalidate protected recipes, including after recovery; booleans are not evidence.
+func representation_review_evidence() -> Array[Dictionary]:
+	var evidence: Array[Dictionary] = []
+	for id: int in 5:
+		if not support_plans.has(id): return []
+		var traces: Array[Trace] = []
+		for spec: Dictionary in Model.orders(id): traces.append(Model.run(spec,support_plans[id]))
+		if not Model.meets(id,traces): return []
+		var metrics: Array[Dictionary] = []
+		for trace: Trace in traces: metrics.append(trace.metrics.duplicate(true))
+		evidence.append({"task":id,"metrics":metrics})
+	return evidence
+
 func show_closure() -> void:
-	if completed.has(false): return
+	var evidence: Array[Dictionary] = representation_review_evidence()
+	if evidence.size() != 5: return
 	var existing := get_node_or_null("RegionReview") as AcceptDialog
 	if existing != null: remove_child(existing); existing.queue_free()
 	var review := AcceptDialog.new(); review.name = "RegionReview"
 	review.title = text2("表示区域 · 你的方案已回应五份任务", "Representation · Your plans answered all five tasks")
 	var lines: Array[String] = [text2("同一份信息，有了不同的承载方式。你已让它在存储、访问、准备和重复服务的约束下，完整抵达请求者。", "The same information now has different ways to travel. Your plans delivered it under storage, access, preparation and repeated-service constraints."), ""]
 	for id: int in 5:
-		var traces: Array[Trace] = []
-		for spec: Dictionary in Model.orders(id): traces.append(Model.run(spec,support_plans[id]))
 		var cycles: Array[String] = []
-		for trace: Trace in traces: cycles.append(str(trace.metrics.total_cycles))
+		for metrics: Dictionary in evidence[id].metrics: cycles.append(str(metrics.total_cycles))
 		lines.append(Catalog.title(id,english)+" · "+" / ".join(cycles)+text2(" 周期", " cycles"))
 	lines.append("")
 	lines.append(text2("这些结果来自保留的达标方案；你仍可回看、取回并尝试不同取舍。这段旅程到此可以收束，不需要等待服务或预测内容。", "These results come from your protected successful plans. Revisit, restore and explore other trade-offs whenever you like. This journey can close here, without waiting for service or prediction content."))
 	lines.append(text2("本次变化尚未保存；离开前请保存。", "This session has unsaved changes; save before leaving.") if session_dirty else text2("已保存的方案可在同一候选档继续。", "Saved plans can be resumed in this candidate profile."))
-	review.dialog_text = "\n".join(lines); review.ok_button_text = text2("回到我的工作台", "Back to my workbench")
-	add_child(review); review.popup_centered(Vector2i(700,440))
+	if candidate_journey:
+		lines.append(text2("下一段：静态信息有了合适的承载方式；现在，让会更新的历史继续留在系统中，并安排何时回应。服务使用另一台公开机器，表示方案不会自动移过去。", "Next: you have arranged how fixed information travels. Now retain changing history and decide when to respond. Service uses its own public machine; representation plans do not transfer automatically."))
+		var continuation: Button = review.add_button(text2("继续：历史与回应", "Continue: history and responses"),false,"service")
+		continuation.name = "ContinueServiceCandidate"
+		review.custom_action.connect(func(action: StringName) -> void:
+			if action == &"service": review.hide(); request_service())
+	var scroll := ScrollContainer.new(); scroll.name = "RegionReviewScroll"
+	scroll.custom_minimum_size = Vector2(700,320); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	review.add_child(scroll)
+	var content := Label.new(); content.name = "RegionReviewContent"; content.text = "\n".join(lines)
+	content.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; content.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(content)
+	review.ok_button_text = text2("回到我的工作台", "Back to my workbench")
+	add_child(review); review.popup_centered(Vector2i(740,460))
 
 func confirm_recovery(action: Callable) -> void:
 	if not session_dirty: action.call(); return

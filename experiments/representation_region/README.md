@@ -174,3 +174,15 @@ require separate play checks.
 
 Integrated Mac viewport/save/restart outcomes and OS-native/package limitations:
 [2026-10-05 evidence](../../docs/verification/20261005-mac-second-act/README.md).
+
+## Continue the second-act candidate
+
+In an explicitly enabled candidate journey, the earned five-task Region review
+offers **Continue: history and responses**. It rechecks your protected successful
+recipes and uses the existing Save/Discard/Cancel guard before entering Service.
+The same named sibling candidate profile retains its own plans; Representation
+recipes are not translated into Service plans. Home still has independent entries.
+Home's **Review saved second-act plans** revalidates all five Representation tasks
+and all three Service contracts from saved recipes. Unavailable/recovering profiles
+are explicitly unconfirmed, and drafts/unsaved work do not grant completion.
+Prediction and follow-up commissions are optional, outside that combined review.

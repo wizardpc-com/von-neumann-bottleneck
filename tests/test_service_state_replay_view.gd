@@ -41,7 +41,10 @@ func run() -> void:
 		check(scroll.get_global_rect().end.x <= 1280 and scroll.get_global_rect().end.y <= 720,"Bilingual replay scrolling stays bounded")
 		view.show_source_index(events.size()+100)
 		check(view.current_source_index == events.size()-1 and signals_seen.is_empty(),"Source selection clamps to nearest preceding frame without signal")
-		check(text_in(view.state_content).contains("A5") and text_in(view.state_content).contains("D5"),"Final replay retains returned request identities")
+		check(text_in(view.state_content).contains("A5") and text_in(view.state_content).contains("D5"),"Final replay retains latest returned request identities")
+		for stream: int in 4:
+			var returned := view.find_child("Returned"+char(65+stream),true,false) as Label
+			check(returned.text.contains("6") and returned.text.contains(char(65+stream)+"5") and not returned.text.contains(char(65+stream)+"0"),"Response overview shows count and latest output without listing all requests")
 		var last: Dictionary = view.frames.back()
 		check(last.state_read_bytes == trace.metrics.state_read_bytes and last.state_write_bytes == trace.metrics.state_write_bytes,"Final cumulative traffic matches measurement")
 		view.find_child("StateStart",true,false).pressed.emit()
@@ -56,7 +59,16 @@ func run() -> void:
 		for index: int in events.size():
 			if str(events[index].kind) == "compute": compute_index = index; break
 		view.show_source_index(compute_index)
-		check(text_in(view.state_content).contains(JSON.stringify(events[compute_index].details.before)) and text_in(view.state_content).contains(JSON.stringify(events[compute_index].details.after)),"Actual recorded before and after states are shown")
+		var before_text := view.find_child("StateBefore",true,false) as Label
+		var after_text := view.find_child("StateAfter",true,false) as Label
+		check(before_text != null and after_text != null and before_text.text.contains(String.num(float(events[compute_index].details.before[0]),6)) and after_text.text.contains(String.num(float(events[compute_index].details.after[0]),6)),"Rounded before and after display corresponds to actual selected event")
+		check(text_in(view.state_content).contains("6"),"Numerical detail identifies display rounding")
+		check(view.frames[compute_index].event.details.before == events[compute_index].details.before and view.frames[compute_index].event.details.after == events[compute_index].details.after,"Compact display retains full-precision recorded state")
+		var overview := view.find_child("StateOverview",true,false) as GridContainer
+		check(overview != null and overview.get_child_count() == 15,"One shared overview header and all four stream rows are retained")
+		for stream: int in 4:
+			var resident_text := view.find_child("Resident"+char(65+stream),true,false) as Label
+			check(not resident_text.text.contains("["),"Overview resident cells omit long arrays")
 		check(view.event_caption.text.contains(str(events[compute_index].cycle)),"Replay event timing comes from selected recorded event")
 		check(JSON.stringify(record) == before,"View navigation and localization preserve immutable source")
 		signals_seen.clear()

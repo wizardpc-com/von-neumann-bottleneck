@@ -101,3 +101,33 @@ supersedes it. No model, schema, protected-support rule or core registration cha
 Next: frozen-source Mac visible-input/resume evidence for this stage, then earned
 Representation→Service navigation and saved read-only combined review. Full goal
 and external native/novice/package/authentication gates remain active.
+
+### Frozen next-stage navigation interfaces
+
+Root alone owns Representation region, candidate Hub, navigation tests/docs.
+Mac lifecycle agent owns new `candidate_session/journey_review.gd` and its test: pure
+`evaluate(rep_read,service_read)` and read-only `read_pair(rep_path,service_path)`.
+Each domain returns status/accepted task IDs/current-model evidence/error; total
+completion requires5+3 verified saved recipes. Reading compares both before/after
+transaction fingerprints and never acquires/reclaims leases, picks backups or writes
+a save. Hub supplies only pure-resolved explicitly bound candidate paths. Store
+scripts load only where transaction files already exist to avoid path-initialization
+directory creation. An unavailable/recovering/changed profile is not empty progress.
+Representation's earned review gets an explicit optional Service continuation with
+the existing Save/Discard/Cancel guard; no plans or completion authority cross models.
+A saved combined review in the opt-in Hub remains read-only, with independent metrics
+and no cross-model score. Original domain endings and independent entries remain.
+
+### 2026-10-05 navigation / readability integration
+
+Chinese06d5405 input journey passed on a frozen isolated source: optional briefing
+all3pages, own measured edit, replay/source sync, Save/Home/reentry. Captures exposed
+overlong numerical arrays; compact4-stream overview now keeps precise event data
+and places rounded display values in focused details below the table.
+Fresh navigation review verification `20261005T204904Z-5fdc03d0`: candidate entry,
+read-only aggregate45 and Representation session pass; navigation test used a wrong
+child path and hung, so stopped and retained. Corrected new verification
+`20261005T205006Z-c5f82883` passes navigation24, integrated learning25 and compact
+view71 plus import/isolation. Next: freeze this integrated source once for full
+regression, actual cross-domain Save/Cancel/continue play and independent English
+restart/combined saved review; then document the remaining external gates.

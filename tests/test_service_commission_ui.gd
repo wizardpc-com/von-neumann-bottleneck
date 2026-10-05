@@ -56,6 +56,15 @@ func run() -> void:
 		check(scene.evidence_tabs.get_global_rect().end.y <= 721,"Optional scroll tab fits minimum logical height")
 		check(scene.commission_choice.get_global_rect().end.x <= 1281,"Bilingual spec selector fits minimum logical width")
 		check(scene.commission_brief.text.contains("160") and scene.commission_brief.text.contains("1e-9"),"Visible brief exposes the selected archive limits")
+	scene.change_task(0)
+	check(scene.response_chart.deadline == 0,"Original task1 has no first-response limit")
+	scene.start_commission(0)
+	check(scene.response_chart.deadline == 320,"Entering commission from task1 refreshes response chart deadline")
+	var file := FileAccess.open(Store.PATH,FileAccess.WRITE)
+	file.store_string(Store.encode(0,M.initial_plan(),[])); file.close()
+	scene.reload_recovered_session(); await process_frame
+	check(scene.commission_mode == -1 and scene.task == 0 and not scene.has_service_closure(),"Explicit old-snapshot reload clears unearned optional mode")
+	check(scene.evidence_tabs.current_tab == 0 and scene.mission_text().contains("600B"),"Recovery shows restored original contract rather than stale commission")
 	scene.queue_free(); await process_frame
 	print("PASS: test_service_commission_ui " if failures == 0 else "FAIL: test_service_commission_ui ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

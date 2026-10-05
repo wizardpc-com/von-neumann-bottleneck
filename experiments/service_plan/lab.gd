@@ -543,7 +543,7 @@ func recover_candidate(source: String) -> void:
 
 func reload_recovered_session() -> void:
 	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear()
-	unlocked = 0; undo_stack.clear(); redo_stack.clear()
+	unlocked = 0; commission_mode = -1; undo_stack.clear(); redo_stack.clear()
 	restore_session(); build()
 
 func confirm_recovery(action: Callable) -> void:
@@ -640,7 +640,7 @@ func start_commission(id: int) -> void:
 	if task != 2: task = 2; mark_session_dirty()
 	commission_mode = id; commission_choice.select(id); evidence_tabs.current_tab = 4
 	refresh_mission(); refresh_commission()
-	if selected_history >= 0: status.text = Commissions.feedback(history[selected_history].metrics,id,english)
+	if selected_history >= 0 and selected_history < history.size(): select_run(selected_history)
 
 func refresh_commission() -> void:
 	if commission_brief == null: return

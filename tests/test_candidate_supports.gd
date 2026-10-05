@@ -29,7 +29,7 @@ func run() -> void:
 	check(not scene.completed.has(false) and scene.support_plans.size() == 5,"Five tasks protect current-model successful plans")
 	scene.show_closure(); await process_frame
 	check(scene.has_node("RegionReview") and scene.get_node("RegionReview").visible,"Five-task journey has a reachable region closure")
-	check(scene.get_node("RegionReview").dialog_text.contains("周期"),"Region closure presents re-evaluated successful-plan costs")
+	check(scene.get_node("RegionReview").find_child("RegionReviewContent",true,false).text.contains("周期"),"Region closure presents re-evaluated successful-plan costs")
 	scene.get_node("RegionReview").hide()
 	var old_review: int = scene.get_node("RegionReview").get_instance_id()
 	scene.show_closure(); await process_frame

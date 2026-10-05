@@ -131,3 +131,10 @@ child path and hung, so stopped and retained. Corrected new verification
 view71 plus import/isolation. Next: freeze this integrated source once for full
 regression, actual cross-domain Save/Cancel/continue play and independent English
 restart/combined saved review; then document the remaining external gates.
+
+Frozen9a165d3 full regression `20261005T205336Z-ed62c348` finishes78/79 PASS;
+all source hashes match and detached checkout stays clean. Sole failure is old
+`test_candidate_supports` reading AcceptDialog.dialog_text after content moved to
+the bounded RegionReviewScroll. Its assertion now reads visible RegionReviewContent;
+no runtime/source behavior changes. Run only that affected suite against the next
+committed test correction, then use the frozen9a runtime for rendered paths.

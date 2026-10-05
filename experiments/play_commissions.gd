@@ -2,6 +2,23 @@ extends "res://experiments/play_journeys.gd"
 ## Authored-answer viewport QA; it does not establish novice or native pointer play.
 const C = preload("res://experiments/service_plan/commissions.gd")
 
+# Embedded dialog Controls report positions in their own Window viewport.
+# Dispatch the click there instead of interpreting it as a root-window position.
+func press(control: Control) -> void:
+	if control == null or control.get_viewport() == root:
+		await super.press(control); return
+	check(control.is_visible_in_tree(),"Dialog control exists and is visible")
+	var viewport: Viewport = control.get_viewport()
+	var center: Vector2 = control.get_global_rect().get_center()
+	var motion := InputEventMouseMotion.new(); motion.position = center; motion.global_position = center
+	viewport.push_input(motion,true); await process_frame
+	for down: bool in [true,false]:
+		var event := InputEventMouseButton.new()
+		event.position = center; event.global_position = center
+		event.button_index = MOUSE_BUTTON_LEFT; event.button_mask = 1 if down else 0; event.pressed = down
+		viewport.push_input(event,true); await process_frame
+	await settle()
+
 func prepare_window() -> void:
 	await super.prepare_window()
 	root.size = Vector2i(1280,720); await settle(10)
@@ -20,6 +37,7 @@ func deliver() -> void:
 	check(ui.has_node("CommissionDelivery") and ui.get_node("CommissionDelivery").visible,"Earned optional handoff acknowledgement opens")
 	await capture("commission-delivery")
 	await press(ui.get_node("CommissionDelivery").get_ok_button())
+	check(not ui.get_node("CommissionDelivery").visible,"Continue button closes handoff before subsequent edits")
 
 func service() -> void:
 	await super.service()
@@ -48,6 +66,7 @@ func service() -> void:
 
 func verify_saved() -> void:
 	await super.verify_saved()
+	check(not ui.get_node("ServiceReview").visible,"Original review closes before optional replay")
 	await press(handle("ServiceCommissions"))
 	var winners: Array[int] = [-1,-1,-1]
 	for index: int in ui.history.size():

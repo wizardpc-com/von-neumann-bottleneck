@@ -78,3 +78,15 @@ IDs: 0 single-context (one slot, 1420 cycles, first320, exact1e-9);
   New known-answer `play_commissions.gd` exercises visible edits, specifications,
   handoff, original ending, Save/Home and independent restart at1280×720.
 - Next: review diff, implementation commit, one frozen regression and viewport QA.
+
+- Frozen7f056c2:74/74 checks PASS,1767 files matched, clean before/after; receipt
+  `.godot/committed-verification/20261005T195912Z-a09be06a/receipt.json`.
+- Independent read review found stale response deadline on entry from task1, and
+  stale optional mode on explicit old-snapshot recovery. Corrected in4b73826;
+  frozen affected UI27/session63 checks pass, source parity/clean checkout pass at
+  `.godot/committed-verification/20261005T200129Z-710e4769/receipt.json`.
+- First Mac viewport run (4b73826, freshcommissionQA profile) exposed a QA actuator
+  coordinate error closing embedded handoff dialogs. Later selections were blocked,
+  so that run FAILED and is not acceptance evidence. Root is correcting dispatch
+  into each dialog's own viewport and adding actual close assertions; runtime
+  model/limits stay unchanged. Failed log `.godot/commission-zh-viewport.log`.

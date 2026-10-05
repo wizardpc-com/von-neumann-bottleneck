@@ -218,3 +218,16 @@ three-contract plans keep their existing protection.
 Known-answer viewport/restart QA uses `experiments/play_commissions.gd` through an
 explicit isolated service journey launch; it is distinct from native OS input and
 human novice evidence. See [iteration plan](../../docs/exec-plans/completed/service-followup-commissions.md).
+
+## State journey and optional introduction
+
+Service introduction opens three scrollable rules/operation pages and can be
+closed and reopened without a measurement or completion gate. After Run, select
+**State journey** to step through the selected measurement's actual event
+prefixes. Each stream shows backing storage, its decoded resident state, and
+returned requests. Initial encoded records do not claim unrecorded numerical
+values; decode, update, write and eviction events change the displayed locations.
+State bytes include each actual2B directory, while resident state always uses64B.
+Start/Previous/Next/End and the event inspector share the recorded source index.
+Draft edits never change replay evidence; Save retains the existing recipes and
+reconstructs their trace when reopening the same isolated candidate profile.

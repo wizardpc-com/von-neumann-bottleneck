@@ -2,6 +2,8 @@ extends Control
 ## Editable plan presenter. Never supplies authoritative numerical results.
 const EventPresenter = preload("res://experiments/service_plan/event_presenter.gd")
 const Model = preload("res://experiments/service_plan/model.gd")
+const StateReplayView = preload("res://experiments/service_plan/state_replay_view.gd")
+const Briefing = preload("res://experiments/service_plan/briefing.gd")
 const Commissions = preload("res://experiments/service_plan/commissions.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/service_plan/session_store.gd")
@@ -65,6 +67,8 @@ var comparison_chart: Control
 var comparison_detail: Label
 var pin_button: Button
 var clear_pin_button: Button
+var state_source: Label
+var state_replay: VBoxContainer
 var measured_source: Label
 var summary: Label
 var detail: RichTextLabel
@@ -138,6 +142,7 @@ func build() -> void:
 		var node: Button = button(tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
 		node.disabled = index > unlocked; task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void: hint_open = not hint_open; refresh_mission(), "Hint1")
+	button(tr2("服务入门", "Service introduction"), stages, show_briefing, "ServiceIntroduction")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
 	button(tr2("追加委托", "Follow-up commissions"),stages,func() -> void: start_commission(maxi(commission_mode,0)),"ServiceCommissions")
 	mission = label("", page, 14); refresh_mission()
@@ -200,6 +205,13 @@ func build() -> void:
 	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
 	evidence_tabs.set_tab_title(3,tr2("对照比较", "Compare"))
 	build_commissions()
+	var state_panel := VBoxContainer.new(); state_panel.name = "StateHistory"; evidence_tabs.add_child(state_panel)
+	evidence_tabs.set_tab_title(5,tr2("历史去向", "State journey"))
+	state_source = label("",state_panel,13); state_source.name = "StateMeasuredSource"
+	state_replay = StateReplayView.new(); state_replay.name = "StateReplay"
+	state_replay.size_flags_vertical = Control.SIZE_EXPAND_FILL; state_panel.add_child(state_replay)
+	state_replay.configure({},english)
+	state_replay.frame_changed.connect(select_state_event)
 	var compare_row := HBoxContainer.new(); comparison_panel.add_child(compare_row)
 	pin_button = button(tr2("以此记录为对照", "Pin this measurement"),compare_row,pin_comparison,"PinComparison")
 	clear_pin_button = button(tr2("清除对照", "Clear comparison"),compare_row,func() -> void: comparison_baseline.clear(); refresh_comparison(),"ClearComparison")
@@ -220,7 +232,8 @@ func build() -> void:
 	tree.set_column_expand(0,false); tree.set_column_custom_minimum_width(0,65)
 	tree.set_column_expand(1,false); tree.set_column_custom_minimum_width(1,65)
 	tree.item_selected.connect(func() -> void:
-		selected_event_index = tree.get_selected().get_index(); refresh_event_detail())
+		selected_event_index = tree.get_selected().get_index(); refresh_event_detail()
+		state_replay.show_source_index(selected_event_index))
 	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 130; detail.scroll_active = true; event_panel.add_child(detail)
 	refresh_event_detail(); refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history); history_list.call_deferred("ensure_current_is_visible")
@@ -332,7 +345,16 @@ func select_run(index: int) -> void:
 		var row: TreeItem = tree.create_item(root_item); row.set_text(0, str(event.cycle)); row.set_text(1, str(event.duration)); row.set_text(2, EventPresenter.title(event,english)); row.set_tooltip_text(2,str(event.kind)); row.set_metadata(0, event.duplicate(true))
 	if selected_event_index >= 0 and selected_event_index < root_item.get_child_count():
 		root_item.get_child(selected_event_index).select(0); tree.call_deferred("ensure_cursor_is_visible")
+	state_replay.configure(record,english,selected_event_index)
 	refresh_event_detail(); refresh_actions()
+
+func select_state_event(source_index: int) -> void:
+	selected_event_index = source_index
+	var root_item: TreeItem = tree.get_root()
+	if root_item != null and source_index >= 0 and source_index < root_item.get_child_count():
+		root_item.get_child(source_index).select(0)
+	refresh_event_detail()
+
 func refresh_event_detail() -> void:
 	if detail == null: return
 	event_raw_button.text = tr2("返回事件说明", "Show explanation") if event_raw else tr2("查看原始事件 JSON", "Show raw event JSON")
@@ -368,6 +390,7 @@ func refresh_measured_source() -> void:
 	if selected_history < 0 or selected_history >= history.size():
 		measured_source.text = tr2("尚无实测来源。", "No measured source yet.")
 		if event_source != null: event_source.text = measured_source.text
+		if state_source != null: state_source.text = measured_source.text
 		return
 	var measured: Dictionary = history[selected_history].metrics.plan
 	var formats: Array[String] = []
@@ -376,6 +399,7 @@ func refresh_measured_source() -> void:
 	if measured != plan: measured_source.text += tr2("\n草稿与此记录不同；上方是记录所用方案。", "\nDraft differs from this record; the source above belongs to the measurement.")
 
 	if event_source != null: event_source.text = measured_source.text
+	if state_source != null: state_source.text = measured_source.text
 
 func restore_history() -> void:
 	if selected_history < 0: return
@@ -674,3 +698,19 @@ func acknowledge_commission() -> void:
 	content.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; content.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(content)
 	review.ok_button_text = tr2("继续我的探索", "Continue exploring")
 	add_child(review); review.popup_centered(Vector2i(720,480))
+
+# A reopenable rules/operations guide; never edits a recipe or supplies a solution.
+func show_briefing() -> void:
+	var existing := get_node_or_null("ServiceBriefing") as AcceptDialog
+	if existing != null: remove_child(existing); existing.queue_free()
+	var dialog := AcceptDialog.new(); dialog.name = "ServiceBriefing"
+	dialog.title = tr2("服务入门 · 留下历史，再回答", "Service introduction · Retain history, then respond")
+	dialog.ok_button_text = tr2("回到我的方案", "Back to my plan")
+	var tabs := TabContainer.new(); tabs.name = "BriefingPages"
+	tabs.custom_minimum_size = Vector2(680,320); dialog.add_child(tabs)
+	for page: Dictionary in Briefing.pages(english):
+		var scroll := ScrollContainer.new(); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		tabs.add_child(scroll); tabs.set_tab_title(tabs.get_tab_count()-1,page.title)
+		var text := Label.new(); text.text = page.body; text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		text.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(text)
+	add_child(dialog); dialog.popup_centered(Vector2i(720,430))

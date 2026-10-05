@@ -2,22 +2,15 @@ extends "res://experiments/play_journeys.gd"
 ## Authored-answer viewport QA; it does not establish novice or native pointer play.
 const C = preload("res://experiments/service_plan/commissions.gd")
 
-# Embedded dialog Controls report positions in their own Window viewport.
-# Dispatch the click there instead of interpreting it as a root-window position.
+# Embedded dialog Controls use their Window's local coordinates. Root dispatch
+# must add the embedded Window position before its real GUI hit test.
 func press(control: Control) -> void:
-	if control == null or control.get_viewport() == root:
-		await super.press(control); return
-	check(control.is_visible_in_tree(),"Dialog control exists and is visible")
-	var viewport: Viewport = control.get_viewport()
-	var center: Vector2 = control.get_global_rect().get_center()
-	var motion := InputEventMouseMotion.new(); motion.position = center; motion.global_position = center
-	viewport.push_input(motion,true); await process_frame
-	for down: bool in [true,false]:
-		var event := InputEventMouseButton.new()
-		event.position = center; event.global_position = center
-		event.button_index = MOUSE_BUTTON_LEFT; event.button_mask = 1 if down else 0; event.pressed = down
-		viewport.push_input(event,true); await process_frame
-	await settle()
+	if control != null and control.get_viewport() != root and control.get_viewport() is Window:
+		var window := control.get_viewport() as Window
+		if window.is_embedded():
+			check(control.is_visible_in_tree(),"Dialog control exists and is visible")
+			await click(Vector2(window.position)+control.get_global_rect().get_center()); return
+	await super.press(control)
 
 func prepare_window() -> void:
 	await super.prepare_window()
@@ -38,6 +31,7 @@ func deliver() -> void:
 	await capture("commission-delivery")
 	await press(ui.get_node("CommissionDelivery").get_ok_button())
 	check(not ui.get_node("CommissionDelivery").visible,"Continue button closes handoff before subsequent edits")
+	if ui.get_node("CommissionDelivery").visible: quit(1)
 
 func service() -> void:
 	await super.service()

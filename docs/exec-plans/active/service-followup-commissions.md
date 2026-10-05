@@ -90,3 +90,12 @@ IDs: 0 single-context (one slot, 1420 cycles, first320, exact1e-9);
   so that run FAILED and is not acceptance evidence. Root is correcting dispatch
   into each dialog's own viewport and adding actual close assertions; runtime
   model/limits stay unchanged. Failed log `.godot/commission-zh-viewport.log`.
+
+-0c6752c viewport retry also correctly FAILED its new close assertion: embedded
+  Window push alone did not route the mouse hit test. A minimal isolated dialog
+  probe exposed local button321/440 vs Window position440/210. Root dispatch must
+  add the embedded Window position. Corrected probe closes through one actual
+  button click (`.godot/commission-dialog-probe-fixed.log`, visible=false).
+  This is an actuator-only correction; original runtime remains4b73826.
+  Next: commit the proven correction, rerun the previously blocked GUI journey
+  and English independent resume without another full model regression.

@@ -148,3 +148,26 @@ verified supports enable Region review with actual per-order cycle costs. The re
 is an optional local closure, not another completion requirement. Original core40
 navigation/endings remain unchanged; service and prediction are not prerequisites.
 No candidate is registered or advertised in an ordinary launch.
+
+## Preparation and cross-asset evidence (2026-10-05)
+
+The selected recording first shows preparation cycles, service cycles, their total,
+actual stored footprint and service traffic. Online storage explicitly includes the
+retained immutable source; logical representation bytes remain a separate detail.
+An all-order comparison keeps both independent preparation services or both asset
+orders visible under their one recorded plan. Selecting a row opens that order's
+actual Trace; reopening a failed run selects its first unmet order.
+
+Cost breakdowns and event details can be expanded with `ToggleTraceDetails`.
+Playback remains available while details are collapsed. Expansion is presentation
+only and survives language changes. `OrderComparison`, `PrimaryMetrics` and
+`CostBreakdown` expose these controls to UI checks. The recording is labeled with
+its run/task identity and immutable evidence ownership, including whether the
+current draft differs. Task 5's draft also reports storage for both assets before
+running, using each asset's real block evidence without predicting service costs.
+No acceptance budget, completion rule, saved format or model version changes.
+
+`test_representation_visual` covers both assets, authoritative preparation/service/
+storage comparison, detail expansion, language rebuilding and unchanged recorded
+Trace signatures after draft edits. Native readability and novice understanding
+require separate play checks.

@@ -15,14 +15,14 @@ def main():
     parser.add_argument('--godot', required=True)
     parser.add_argument('--locale', choices=['en', 'zh_CN'], default='zh_CN')
     parser.add_argument('--prepare-only', action='store_true')
-    parser.add_argument('--journey', action='store_true', help='Enter the existing hub with the isolated representation journey enabled')
+    parser.add_argument('--journey', action='store_true', help='Enter the existing hub with isolated representation and service journeys enabled')
     parser.add_argument('--profile', help='Opt-in isolated candidate profile (letters, digits, hyphen; no campaign saves)')
     parser.add_argument('--replay', choices=['lab', 'proxy', 'depth', 'candidate', 'candidate-proxy'])
     args = parser.parse_args()
     if args.profile is not None and (args.experiment not in ['representation_region', 'service_plan'] or args.replay or not re.fullmatch(r'[A-Za-z0-9-]{1,40}', args.profile)):
         parser.error('--profile requires representation_region or service_plan, no replay, and a 1-40 character safe profile name')
-    if args.journey and (args.experiment != 'representation_region' or not args.profile or args.replay):
-        parser.error('--journey requires representation_region with --profile and no replay')
+    if args.journey and (args.experiment not in ['representation_region', 'service_plan'] or not args.profile or args.replay):
+        parser.error('--journey requires representation_region or service_plan with --profile and no replay')
     engine = shutil.which(args.godot) or str(Path(args.godot).expanduser().resolve())
     if not subprocess.check_output([engine, '--version'], text=True).startswith('4.7.1.stable.'):
         parser.error('Godot 4.7.1 stable required')
@@ -46,6 +46,8 @@ def main():
     if 'config/custom_user_dir_name=' in settings or 'config/use_custom_user_dir=' in settings:
         raise RuntimeError('Review custom user directory settings')
     settings = settings.replace('[application]\n', '[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name=' + json.dumps('VonNeumannBottleneckCandidates/' + ('representation' if args.experiment == 'representation_region' else 'service') + '/' + args.profile if args.profile else 'VonNeumannBottleneckChecks/experiments/' + stamp) + '\n', 1)
+    if args.profile:
+        settings += '\n[candidate]\nprimary_domain=' + json.dumps('representation' if args.experiment == 'representation_region' else 'service') + '\nprofile=' + json.dumps(args.profile) + '\n'
     (project / 'project.godot').write_text('\n'.join(s for s in settings.split('\n') if not s.startswith('theme/custom_font=')))
     with (output / 'import.txt').open('w') as log:
         subprocess.run([engine, '--path', str(project), '--headless', '--editor', '--import', '--quit'], stdout=log, stderr=subprocess.STDOUT, check=True, timeout=180)

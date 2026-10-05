@@ -2,6 +2,20 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Mac second-act candidate journey — 2026-10-05
+
+The opt-in candidate hub now offers independent Representation and Service Plan
+journeys. Both retain their existing profile paths; cross-domain entry resolves
+the same named sibling candidate profile, with independent files and writer leases.
+Service Home uses the unsaved guard and its three-contract review derives from
+protected accepted plans. Representation puts preparation/service/storage first
+and compares all orders alongside immutable record provenance. Mac stopped-owner
+recovery requires verified boot identity and a successful native PID query;
+unknown identity/query results refuse. Production save schemas, core40, model
+contracts and Prediction prerequisites are unchanged. Current implementation and
+verification progress: [execution plan](exec-plans/active/mac-second-act-candidate.md).
+This is candidate integration, not a formal release or novice usability claim.
+
 ## Measured comparison scope — 2026-10-04
 
 Chapter 1 History now explains how many official cases its summed timings cover,

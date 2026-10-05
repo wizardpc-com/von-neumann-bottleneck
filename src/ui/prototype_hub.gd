@@ -165,7 +165,9 @@ func _build_interface() -> void:
 	mode_description_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
 	content.add_child(mode_description_label)
-	if candidate_journey: _build_candidate_entry(content)
+	if candidate_journey:
+		_build_candidate_entry(content)
+		_build_service_candidate_entry(content)
 	_build_tree_entry(content)
 	save_recovery_label = Label.new()
 	save_recovery_label.name = "SaveRecoveryNotice"
@@ -835,3 +837,16 @@ func _build_candidate_entry(content: VBoxContainer) -> void:
 	entry.text = "进入 / 继续表示候选旅程" if not english else "Enter / resume representation candidate"
 	entry.custom_minimum_size.y = 42; column.add_child(entry)
 	entry.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://experiments/representation_region/region.tscn"))
+
+func _build_service_candidate_entry(content: VBoxContainer) -> void:
+	var english: bool = Localization.current_locale() == "en"
+	var panel := PanelContainer.new(); panel.name = "ServiceCandidateEntry"; content.add_child(panel)
+	var column := VBoxContainer.new(); panel.add_child(column)
+	var title := Label.new(); title.text = "持续状态与服务 · 独立候选旅程" if not english else "Persistent state and service · isolated candidate journey"; column.add_child(title)
+	var description := Label.new(); description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description.text = "让历史留在合适的位置，再安排谁先得到回答。三份合同逐步探索搬运、及时响应与表示；方案独立保存，可返回和继续。表示与预测均不是进入前置。" if not english else "Keep history where it can serve the next request, then decide who receives an answer first. Three contracts explore traffic, timely responses and representation. Save, return and resume independently; representation and prediction are not prerequisites."
+	column.add_child(description)
+	var entry := Button.new(); entry.name = "EnterServiceCandidate"
+	entry.text = "进入 / 继续服务候选旅程" if not english else "Enter / resume service candidate"
+	entry.custom_minimum_size.y = 42; column.add_child(entry)
+	entry.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://experiments/service_plan/lab.tscn"))

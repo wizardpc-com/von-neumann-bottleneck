@@ -1,7 +1,8 @@
 extends RefCounted
 ## Candidate-only decisions; all measurements and unlocks are recomputed.
 const Model = preload("res://experiments/service_plan/model.gd")
-const PATH := "user://service-session.json"
+const Context = preload("res://experiments/candidate_session/context.gd")
+static var PATH: String = Context.save_path("service")
 const MAX_BYTES := 262144
 const Files = preload("res://experiments/candidate_session/files.gd")
 const Lease = preload("res://experiments/candidate_session/writer_lease.gd")

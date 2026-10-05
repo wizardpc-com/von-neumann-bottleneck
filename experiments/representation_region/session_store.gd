@@ -3,7 +3,8 @@ extends RefCounted
 const Model = preload("res://experiments/representation_region/model.gd")
 const Catalog = preload("res://experiments/representation_region/catalog.gd")
 const Base = preload("res://experiments/representation/plan_model.gd")
-const PATH := "user://representation-session.json"
+const Context = preload("res://experiments/candidate_session/context.gd")
+static var PATH: String = Context.save_path("representation")
 const MAX_BYTES := 262144
 const Files = preload("res://experiments/candidate_session/files.gd")
 const Lease = preload("res://experiments/candidate_session/writer_lease.gd")

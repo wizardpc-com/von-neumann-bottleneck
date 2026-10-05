@@ -24,6 +24,7 @@ func representation() -> void:
 		check(ui.public_observation().plan == plans[task],"UI undo/redo preserves proposal")
 		await press(handle("Run")); check(ui.public_observation().accepted,"Measured candidate task accepted "+str(task))
 		if ui.order_choice.item_count > 1: await choose(ui.order_choice,1)
+		if not ui.details_expanded: await press(handle("ToggleTraceDetails"))
 		await tree_row(ui.events,0); await capture("region-task"+str(task+1))
 
 func policy(rule: String, confidence: int = 1, cooldown: int = 0) -> Dictionary:
@@ -74,6 +75,8 @@ func service() -> void:
 	await capture("service-expansion-counterexample")
 	await build_service(service_draft(false,4,["rle64","rle64","raw64","raw64"])); await press(handle("Run"))
 	check(ui.active_trace.metrics.total_cycles == 1280 and ui.active_trace.metrics.max_error == 0.0,"Lossless mixed service has measured 1280 cycles")
+	var tabs: TabBar = ui.evidence_tabs.get_tab_bar()
+	await click(tabs.global_position + tabs.get_tab_rect(1).get_center())
 	await tree_row(ui.tree,0); await capture("service-lossless")
 	await build_service(service_draft(false,4,["raw8","raw8","raw8","raw8"])); await press(handle("Run"))
 	check(ui.active_trace.metrics.max_error > 0.0 and ui.active_trace.metrics.max_error <= 0.02,"Alternative compact service has real bounded numerical error")

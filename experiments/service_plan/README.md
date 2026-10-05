@@ -159,3 +159,32 @@ and changed-draft source. One-slot→four-slot results remain2204→1324cycles,
 Native screenshots were inspected in the tool record at1364×1024 and1280×842;
 minimum720-height bounds are automated, not native evidence. This is informed
 presentation QA, not novice understanding, exported-platform or audio acceptance.
+
+## Candidate service journey, 2026-10-05
+
+The shared candidate launcher accepts `service_plan --profile NAME --journey`.
+It opens the existing candidate hub; service and representation keep independent
+files under their original sibling profile directories. The lab recognizes
+`--candidate-journey`, exposing Home (`CandidateHome`) through the same unsaved
+Save / Keep editing / Discard guard as Quit. A failed or blocked save leaves the
+workbench open. Standalone disposable and persistent service launches remain available.
+
+The three unchanged contracts now carry compact observation guidance: where
+history resides and how grouping changes transfers; who waits for a first answer;
+and how storage changes bytes, codec work and quality. These observations expose
+existing rules and evidence without installing solution presets or extra gates.
+
+Service review (`ServiceClosure`, modal `ServiceReview`) opens only when all three
+protected successful plans still meet their own contracts under the current
+model. Review recomputes those plans and shows cycles, state traffic, peak bytes,
+all four first responses, and both quality errors. Current drafts, recent-history
+retention and the last unlocked task cannot stand in for completion evidence.
+The review closes this candidate journey with measured work and the existing
+“A Thought Within the World” theme; it adds no campaign progress or save fields.
+Unsaved and disposable sessions are explicitly identified in the review.
+
+Implementation verification is pending integration: `test_service_session`
+adds Home cancel/save/discard/blocked-save destination checks and bilingual,
+protected-plan-based closure checks; `test_service_plan` retains the existing
+model, valid-alternative and minimum-window presentation checks. Native Mac,
+exported-app and novice acceptance require separate evidence.

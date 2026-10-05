@@ -19,6 +19,16 @@ func saved_bytes(paths: Array[String]) -> Dictionary:
 func process_args(path: String, operation: String) -> PackedStringArray:
 	return ["--headless","--path",ProjectSettings.globalize_path("res://"),"--script","res://tests/fixtures/candidate_lease_process.gd","--","--lease-path="+path,"--operation="+operation]
 func run() -> void:
+	# Conservative native-query parsing is verified even on non-Mac test hosts.
+	var uuid: String = "12345678-abcd-4abc-8def-123456789abc"
+	check(Lease._macos_boot_context(uuid.to_upper()+"\n") == "macos:"+uuid,"Mac boot identity normalizes native UUID output")
+	for unknown: String in ["","kern.bootsessionuuid: "+uuid,"1234-abcd","00000000-0000-0000-0000-000000000000",uuid+"\npermission denied"]:
+		check(Lease._macos_boot_context(unknown).is_empty(),"Unknown/malformed Mac boot output refuses identity")
+	check(Lease._macos_snapshot_stopped(0," 11\n 22\n",33,11),"Successful native PID snapshot can prove absence")
+	check(not Lease._macos_snapshot_stopped(0," 11\n 22\n",22,11),"Live/reused PID remains protected")
+	for unknown: String in ["","22\n","11\nps: permission denied\n","11\n+22\n","11\n22 33\n"]:
+		check(not Lease._macos_snapshot_stopped(0,unknown,33,11),"Incomplete/malformed native PID snapshot refuses recovery")
+	check(not Lease._macos_snapshot_stopped(1,"11\n",33,11),"Native command failure never means stopped")
 	var drafts: Array = []
 	for i: int in 5: drafts.append(RM.initial_plan())
 	var rep_raw: String = Rep.encode(0,drafts,[])
@@ -87,6 +97,8 @@ func run() -> void:
 	var path: String = ProjectSettings.globalize_path("user://concurrent.json")
 	var lease = Lease.new(path); var second = Lease.new(path)
 	check(lease.held and not second.held,"Only one lease in a process")
+	var native_recovery: bool = not Lease.local_context().is_empty()
+	if OS.get_name() == "macOS": native_recovery = native_recovery and not Lease._macos_process_pids().is_empty()
 	check(Service.write_session(service_raw,"user://other-domain.json") == ERR_ALREADY_IN_USE,"Lease covers the whole profile across candidate domains")
 	check(Rep.write_session(rep_raw,path) == ERR_ALREADY_IN_USE,"Every public writer requires ownership")
 	check(Rep.write_session(rep_raw,path,"",lease) == OK,"Owned writer can install")
@@ -100,17 +112,35 @@ func run() -> void:
 	while not FileAccess.file_exists(path+".ready") and Time.get_ticks_msec() < deadline: await create_timer(0.05).timeout
 	check(FileAccess.file_exists(path+".ready"),"Independent holder became ready")
 	check(not Lease.new(path).held and Lease.stopped_owner(path).is_empty(),"Live independent writer cannot be stolen")
+	var owner_path: String = Lease.lock_path(path).path_join("owner.json")
+	var live_owner: String = FileAccess.get_file_as_string(owner_path)
+	check(OS.execute(OS.get_executable_path(),process_args(path,"stale-probe"),output,true) == 0,"A live sibling writer is never reported stopped")
+	check(FileAccess.get_file_as_string(owner_path) == live_owner,"Read-only sibling query retains owner bytes")
 	check(OS.kill(pid) == OK,"Abruptly stop isolated writer fixture")
-	while OS.get_name() == "Linux" and DirAccess.dir_exists_absolute("/proc/"+str(pid)) and Time.get_ticks_msec() < deadline: await create_timer(0.05).timeout
 	check(not Lease.new(path).held,"Crash does not silently discard lock")
-	if OS.get_name() == "Linux":
-		var owner_path: String = Lease.lock_path(path).path_join("owner.json")
+	if native_recovery:
+		deadline = Time.get_ticks_msec()+10000
+		while Lease.stopped_owner(path).is_empty() and Time.get_ticks_msec() < deadline: await create_timer(0.05).timeout
+		check(not Lease.stopped_owner(path).is_empty(),"Native query confirms abrupt holder has stopped")
 		var original_owner: String = FileAccess.get_file_as_string(owner_path)
-		var foreign_owner: Dictionary = JSON.parse_string(original_owner); foreign_owner.context = "foreign-pid-namespace"
-		raw_write(owner_path,JSON.stringify(foreign_owner))
-		check(Lease.stopped_owner(path).is_empty(),"Foreign host/boot/PID namespace cannot be guessed stale")
+		var owner: Dictionary = JSON.parse_string(original_owner)
+		for context: String in ["","foreign-boot-or-pid-namespace"]:
+			var foreign_owner: Dictionary = owner.duplicate(true); foreign_owner.context = context
+			raw_write(owner_path,JSON.stringify(foreign_owner))
+			check(Lease.stopped_owner(path).is_empty(),"Foreign/missing boot/process context cannot be guessed stale")
+		var legacy_owner: Dictionary = owner.duplicate(true); legacy_owner.erase("context")
+		raw_write(owner_path,JSON.stringify(legacy_owner))
+		check(Lease.stopped_owner(path).is_empty(),"Older owner without local identity remains protected")
+		var reused_owner: Dictionary = owner.duplicate(true); reused_owner.pid = OS.get_process_id()
+		raw_write(owner_path,JSON.stringify(reused_owner))
+		check(Lease.stopped_owner(path).is_empty(),"Stopped-owner record with a currently live PID cannot be reclaimed")
+		var malformed_owner: Dictionary = owner.duplicate(true); malformed_owner.token = "invalid-token"
+		raw_write(owner_path,JSON.stringify(malformed_owner))
+		check(Lease.stopped_owner(path).is_empty(),"Malformed owner token remains protected")
 		raw_write(owner_path,original_owner)
 		var token: String = Lease.stopped_owner(path)
+		check(Lease.recover_and_acquire(path,"00000000000000000000000000000000").error == ERR_ALREADY_IN_USE,"Recovery refuses a stale displayed token")
+		check(FileAccess.get_file_as_string(owner_path) == original_owner,"Refused recovery preserves exact owner record")
 		var race_args: PackedStringArray = process_args(path,"race"); race_args.append("--token="+token)
 		var racers: Array[int] = [OS.create_process(OS.get_executable_path(),race_args),OS.create_process(OS.get_executable_path(),race_args)]
 		raw_write(path+".go","start")
@@ -125,7 +155,13 @@ func run() -> void:
 		deadline = Time.get_ticks_msec()+10000
 		while Lease.stopped_owner(path).is_empty() and Time.get_ticks_msec() < deadline: await create_timer(0.05).timeout
 		check(OS.execute(OS.get_executable_path(),process_args(path,"recover"),output,true) == 0,"Explicit stopped-owner recovery in another process")
+		check(FileAccess.get_file_as_string((Lease.lock_path(path)+".abandoned-"+token).path_join("owner.json")) == original_owner,"Reclamation archives exact interrupted owner bytes")
 		check(FileAccess.get_file_as_string(path) == rep_raw,"Ownership recovery never changes save bytes")
+	else:
+		check(Lease.stopped_owner(path).is_empty(),"Unavailable native identity/query conservatively refuses recovery")
+		check(FileAccess.get_file_as_string(owner_path) == live_owner,"Unavailable native recovery retains interrupted owner bytes")
+		check(FileAccess.get_file_as_string(path) == rep_raw,"Unavailable native recovery retains save bytes")
+		print("SKIP: native stopped-owner recovery/race — host identity or process query unavailable; refusal verified")
 	# Gate makes competing recovery/acquisition conservative.
 	check(DirAccess.make_dir_absolute(Lease.lock_path(path)+".recovering") == OK,"Create isolated recovery-in-progress gate")
 	check(not Lease.new(path).held,"No new writer while recovery gate exists")

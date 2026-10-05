@@ -1,6 +1,10 @@
 extends SceneTree
 const Store = preload("res://experiments/service_plan/session_store.gd")
 const Model = preload("res://experiments/service_plan/model.gd")
+class LeaveProbe extends "res://experiments/service_plan/lab.gd":
+	var destinations: Array[bool] = []
+	func finish_leave() -> void: destinations.append(leave_to_hub)
+
 var checks: int = 0
 var failures: int = 0
 func _init() -> void: call_deferred("run")
@@ -47,11 +51,14 @@ func run() -> void:
 	remove_fixture(Store.PATH); write_raw(Store.PATH,raw)
 	root.content_scale_size = Vector2i(1280,720); root.size = Vector2i(1280,720)
 	var campaign_before: String = JSON.stringify(root.get_node("LocalityChapter").completed_levels())
-	var scene = load("res://experiments/service_plan/lab.tscn").instantiate(); scene.persistent_session = true; root.add_child(scene); await process_frame; await process_frame
+	var scene := LeaveProbe.new(); scene.persistent_session = true; scene.candidate_journey = true; root.add_child(scene); await process_frame; await process_frame
 	check(scene.plan == baseline and scene.task == 1 and scene.unlocked == 1,"Restore recomputes unlock and selected contract")
 	check(scene.history.size() == 1 and scene.history[0].signature == Model.run(per_stream).canonical_signature(),"Stored plans are recomputed, not trusted metrics")
 	check(scene.find_child("SaveSession",true,false) != null,"Opt-in save control exists")
 	check(not scene.session_dirty,"Restored session begins clean")
+	check(scene.find_child("CandidateHome",true,false) != null,"Journey Home control exists")
+	check(scene.find_child("ServiceClosure",true,false).disabled,"One protected contract cannot enable final service review")
+	scene.show_closure(); check(not scene.has_node("ServiceReview"),"Incomplete evidence cannot open closure")
 	check(scene.find_child("SaveSession",true,false).get_global_rect().end.y <= 720,"Profile save action fits minimum viewport")
 	scene.edit(unfinished,0); check(scene.session_dirty,"Editing marks session dirty")
 	check(scene.is_in_group("candidate_quit_owners"),"Persistent scene owns its window-close guard")
@@ -60,6 +67,45 @@ func run() -> void:
 	scene._notification(Node.NOTIFICATION_WM_CLOSE_REQUEST)
 	check(scene.has_node("UnsavedServiceDialog"),"Global save does not preempt the candidate window-close guard")
 	scene.get_node("UnsavedServiceDialog").hide()
+	scene.request_hub()
+	var guard := scene.get_node("UnsavedServiceDialog") as ConfirmationDialog
+	check(scene.leave_to_hub and guard.visible and scene.destinations.is_empty(),"Home uses the same unsaved guard and does not leave immediately")
+	guard.canceled.emit(); guard.hide()
+	check(scene.session_dirty and scene.plan == unfinished and scene.destinations.is_empty(),"Cancel retains unsaved draft and workbench")
+	scene.request_hub(); guard.custom_action.emit(&"discard"); guard.hide()
+	check(scene.destinations == [true] and scene.session_dirty,"Discard leaves toward Home without saving current draft")
+	check(Store.read_session().draft == baseline,"Discard leaves the saved snapshot unchanged")
+	scene.request_hub(); guard.confirmed.emit(); guard.hide()
+	check(scene.destinations == [true,true] and not scene.session_dirty,"Save and leave saves before completing Home navigation")
+	check(Store.read_session().draft == unfinished,"Home save retains the exact unfinished draft")
+	scene.request_quit()
+	check(scene.destinations == [true,true,false],"Clean Quit uses quit destination after Home")
+	var resident: Dictionary = baseline.duplicate(true); resident.slots = 4
+	var lossless: Dictionary = resident.duplicate(true); lossless.representations = ["rle64","rle64","raw64","raw64"]
+	check(Model.accepted(Model.run(resident).metrics,1) and Model.accepted(Model.run(lossless).metrics,2),"Prompt and final review fixtures meet real existing contracts")
+	scene.support_plans[1] = resident.duplicate(true); scene.support_plans[2] = lossless.duplicate(true)
+	scene.refresh_actions()
+	check(not scene.find_child("ServiceClosure",true,false).disabled,"Three protected accepted contracts enable review")
+	var before_review: String = JSON.stringify({"plan":scene.plan,"history":scene.history,"supports":scene.support_plans,"unlocked":scene.unlocked})
+	var evidence: Array[Dictionary] = scene.service_review_evidence()
+	check(evidence.size() == 3 and evidence[2] == Model.run(lossless).metrics,"Closure evidence recomputes protected plans rather than current draft or history")
+	for locale: bool in [false,true]:
+		scene.english = locale; scene.show_closure(); await process_frame
+		var review := scene.get_node("ServiceReview") as AcceptDialog
+		var content := review.get_node("ServiceReviewScroll/ServiceReviewContent") as Label
+		check(content.text.contains(str(evidence[2].total_cycles)) and content.text.contains(str(evidence[2].first_stream_cycles)),"Bilingual closure includes measured cycles and response times")
+		check(content.text.contains("A Thought Within the World"),"Final closure retains the theme without adding narrative facts")
+		check(content.autowrap_mode == TextServer.AUTOWRAP_WORD_SMART and review.has_node("ServiceReviewScroll") and review.size.x <= 1280 and review.size.y <= 720,"Bilingual review wraps inside minimum viewport")
+		review.hide()
+	check(before_review == JSON.stringify({"plan":scene.plan,"history":scene.history,"supports":scene.support_plans,"unlocked":scene.unlocked}),"Review leaves draft, history and progress untouched")
+	scene.support_plans[2] = baseline.duplicate(true)
+	check(not scene.has_service_closure(),"Unaccepted protected candidate cannot create final closure")
+	scene.support_plans[2] = lossless.duplicate(true)
+	scene.mark_session_dirty(); scene.save_blocked = true; scene.request_hub()
+	guard = scene.get_node("UnsavedServiceDialog") as ConfirmationDialog
+	guard.confirmed.emit(); guard.hide()
+	check(scene.destinations == [true,true,false] and scene.session_dirty,"Blocked save cannot complete Home navigation")
+	scene.save_blocked = false
 	scene.save_session(); check(not scene.session_dirty and Store.read_session().draft == unfinished,"Unfinished draft explicitly saved")
 	scene.english = true; scene.build(); await process_frame
 	check(scene.status.text.begins_with("Isolated candidate profile saved"),"Saved notice follows language changes")

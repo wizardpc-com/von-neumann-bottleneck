@@ -48,6 +48,10 @@ var events: Tree
 var details: RichTextLabel
 var recorded_plan_label: Label
 var result: Label
+var order_comparison: Tree
+var metric_details: Label
+var trace_details_group: VBoxContainer
+var details_expanded: bool = false
 var mission: Label
 var draft_label: Label
 var status: Label
@@ -184,7 +188,19 @@ func build() -> void:
 	reuse_button = make_button(text2("从选中方案继续试", "Try a variation of this plan"),evidence,reuse_recorded_plan,"ReusePlan")
 	reuse_button.tooltip_text = text2("复制自己的旧方案到对应任务草稿；旧记录不变，覆盖的草稿可撤销。", "Copy your recorded plan into its task draft. The record stays unchanged; Undo restores the previous draft.")
 	recorded_plan_label = make_label("",evidence,13); recorded_plan_label.name = "RecordedPlan"
-	result = make_label("",evidence,14)
+	result = make_label("",evidence,17); result.name = "PrimaryMetrics"
+	order_comparison = Tree.new(); order_comparison.name = "OrderComparison"
+	order_comparison.columns = 5; order_comparison.hide_root = true; order_comparison.column_titles_visible = true
+	order_comparison.custom_minimum_size.y = 104
+	for i: int in 5: order_comparison.set_column_title(i,[text2("订单 / 结果", "Order / result"),text2("准备", "Prepare"),text2("服务", "Serve"),text2("实际空间B", "Stored B"),text2("搬运B", "Traffic B")][i])
+	order_comparison.set_column_expand(0,true)
+	for i: int in range(1,5): order_comparison.set_column_expand(i,false); order_comparison.set_column_custom_minimum_width(i,58)
+	evidence.add_child(order_comparison)
+	order_comparison.item_selected.connect(func() -> void:
+		var item: TreeItem = order_comparison.get_selected()
+		if item != null:
+			var index: int = int(item.get_metadata(0))
+			order_choice.select(index); show_trace(index))
 	order_choice = OptionButton.new(); order_choice.name = "RecordedOrder"; evidence.add_child(order_choice)
 	order_choice.item_selected.connect(func(i: int) -> void: show_trace(i))
 	var playback_row := HBoxContainer.new(); evidence.add_child(playback_row)
@@ -197,10 +213,17 @@ func build() -> void:
 	trace_player.playing_changed.connect(func(value: bool) -> void: trace_play.text = text2("暂停回放", "Pause replay") if value else text2("回放真实事件", "Replay recorded events"))
 	trace_player.event_selected.connect(select_replay_event)
 	evidence.add_child(trace_player)
+	var detail_button := make_button(text2("展开 / 收起成本与事件细节", "Show / hide cost and event details"),evidence,func() -> void:
+		details_expanded = not details_expanded
+		trace_details_group.visible = details_expanded,"ToggleTraceDetails")
+	detail_button.tooltip_text = text2("细节来自选中记录；展开不运行也不修改方案。", "Details belong to the selected recording; expanding does not run or edit a plan.")
+	trace_details_group = VBoxContainer.new(); trace_details_group.name = "TraceDetailGroup"
+	trace_details_group.visible = details_expanded; evidence.add_child(trace_details_group)
+	metric_details = make_label("",trace_details_group,13); metric_details.name = "CostBreakdown"
 	events = Tree.new(); events.name = "Events"; events.columns = 3; events.column_titles_visible = true; events.hide_root = true; events.custom_minimum_size.y = 190; events.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	for i: int in 3: events.set_column_title(i,[text2("起点","Start"),text2("周期","Cycles"),text2("事件","Event")][i])
-	evidence.add_child(events)
-	details = RichTextLabel.new(); details.name = "TraceDetails"; details.custom_minimum_size.y = 150; details.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(details)
+	trace_details_group.add_child(events)
+	details = RichTextLabel.new(); details.name = "TraceDetails"; details.custom_minimum_size.y = 150; details.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_details_group.add_child(details)
 	events.item_selected.connect(func() -> void:
 		var row: TreeItem = events.get_selected()
 		if row != null:
@@ -310,6 +333,10 @@ func refresh_plan() -> void:
 		if i == selected_block: row.select(0)
 	draft_label.text = text2("当前草稿：%d块 · 实际编码后存储%dB · 所有字节恰好覆盖一次","Current draft: %d blocks · actual encoded storage %dB · every byte covered exactly once") % [plan.size(),stored]
 	if task == 3: draft_label.text += text2("；保留源后实际存储/准备峰值%dB", "; retained-source storage/preparation peak%dB") % [64+online_writes]
+	if task == 4:
+		var stored_b: int = 0
+		for block: Dictionary in Model.block_evidence(Catalog.asset(5),plan): stored_b += int(block.stored_bytes)
+		draft_label.text = text2("当前草稿：%d块 · 实际空间：资产A %dB / 资产B %dB\n两份资产共用划分与表示；运行后比较各订单服务成本。", "Current draft: %d blocks · actual storage: Asset A %dB / Asset B %dB\nBoth assets use the same partition and codecs; run to compare order service costs.") % [plan.size(),stored,stored_b]
 	refresh_actions()
 
 func refresh_request_preview() -> void:
@@ -373,23 +400,50 @@ func select_run(index: int) -> void:
 		var trace: Trace = row.traces[i]
 		var badge: String = text2("达标", "Met") if order_within_limits(int(row.task),i,trace) else text2("未达标", "Unmet")
 		order_choice.add_item("[%s] %s" % [badge,str(trace.metrics.spec.name)])
-	order_choice.select(0); show_trace(0)
+	refresh_order_comparison(row)
+	var first_unmet: int = 0
+	for i: int in row.traces.size():
+		if not order_within_limits(int(row.task),i,row.traces[i]): first_unmet = i; break
+	order_choice.select(first_unmet); show_trace(first_unmet)
+
+func refresh_order_comparison(record: Dictionary) -> void:
+	order_comparison.clear()
+	var root_row: TreeItem = order_comparison.create_item()
+	for i: int in record.traces.size():
+		var trace: Trace = record.traces[i]
+		var m: Dictionary = trace.metrics
+		var item: TreeItem = order_comparison.create_item(root_row)
+		item.set_metadata(0,i)
+		var met: bool = order_within_limits(int(record.task),i,trace)
+		item.set_text(0,"[%s] %s" % [text2("达标", "Met") if met else text2("未达标", "Unmet"),str(m.spec.name)])
+		item.set_tooltip_text(0,str(m.spec.name)+"\n"+goal_text(Catalog.goals(int(record.task))[i]))
+		for column: int in range(1,5): item.set_text(column,str(m[["preparation_cycles","service_cycles","stored_bytes","traffic_bytes"][column-1]]))
+		item.set_custom_color(0,Color("62dca7") if met else Color("f2ba70"))
 
 func show_trace(index: int) -> void:
 	var row: Dictionary = history[selected_run]
 	if index < 0 or index >= row.traces.size(): return
 	visible_trace = row.traces[index]
 	var m: Dictionary = visible_trace.metrics
-	result.text = text2("记录#%d（任务%d）：%d周期 = 准备%d + 服务%d\n存储%dB · 服务搬运%dB · 准备读%dB/写%dB · 编码%dops\n解码%d周期 · 请求%d · 消费%d · hit/miss %d/%d · cache峰值%dB", "Run#%d (task%d): %d cycles = prepare%d + serve%d\nStored%dB · service traffic%dB · prepare read%dB/write%dB · encode%dops\nDecode%dcycles · requests%d · consume%d · hit/miss %d/%d · cache peak%dB") % [selected_run+1,int(row.task)+1,m.total_cycles,m.preparation_cycles,m.service_cycles,m.stored_bytes,m.traffic_bytes,m.source_read_bytes,m.prepared_write_bytes,m.encode_ops,m.decode_cycles,m.request_cycles,m.consume_cycles,m.cache_hits,m.cache_misses,m.peak_cache_bytes]
-
-	result.text += text2("\n所有阶段总搬运%dB · 准备后端存储峰值%dB（不含恢复缓冲）", "\nAll-phase traffic%dB · preparation backing-storage peak%dB (excludes recovery scratch)") % [m.total_traffic_bytes,m.peak_preparation_bytes]
+	var met: bool = order_within_limits(int(row.task),index,visible_trace)
+	result.text = text2("记录#%d · %s · %s\n准备 %d周期 + 服务 %d周期 = 总计 %d周期\n实际空间 %dB · 服务搬运 %dB", "Run #%d · %s · %s\nPrepare %d cycles + serve %d cycles = total %d cycles\nActual storage %dB · service traffic %dB") % [selected_run+1,m.spec.name,text2("达标", "Met") if met else text2("未达标", "Unmet"),m.preparation_cycles,m.service_cycles,m.total_cycles,m.stored_bytes,m.traffic_bytes]
+	if m.spec.online:
+		result.text += text2("\n包含保留源%dB；本订单%d位客户共用一次准备、各自冷缓存。", "\nIncludes retained source %dB; this order’s %d clients share one preparation, each with a cold cache.") % [m.source_storage_bytes,m.spec.clients]
+	metric_details.text = text2("准备读%dB / 写%dB · 编码%dops（%d周期）\n解码%d周期 · 请求%d周期 · 消费%d周期 · hit/miss %d/%d · cache峰值%dB\n所有阶段搬运%dB · 准备后端存储峰值%dB（不含恢复缓冲）\n逻辑表示%dB；实际空间取自记录。", "Prepare read%dB / write%dB · encode%dops (%d cycles)\nDecode%dcycles · requests%dcycles · consume%dcycles · hit/miss %d/%d · cache peak%dB\nAll-phase traffic%dB · preparation backing-storage peak%dB (excludes recovery scratch)\nLogical representation%dB; actual storage comes from the recording.") % [m.source_read_bytes,m.prepared_write_bytes,m.encode_ops,m.encode_cycles,m.decode_cycles,m.request_cycles,m.consume_cycles,m.cache_hits,m.cache_misses,m.peak_cache_bytes,m.total_traffic_bytes,m.peak_preparation_bytes,m.representation_bytes]
 	if selected_run > 0:
 		var old: Dictionary = history[selected_run-1]
 		for prior: Trace in old.traces:
 			if prior.metrics.spec == m.spec:
-				result.text += text2("\n对同订单上一记录：周期%+d，搬运%+dB，存储%+dB", "\nVersus prior same-order run: cycles%+d, traffic%+dB, stored%+dB") % [int(m.total_cycles)-int(prior.metrics.total_cycles),int(m.traffic_bytes)-int(prior.metrics.traffic_bytes),int(m.stored_bytes)-int(prior.metrics.stored_bytes)]
+				metric_details.text += text2("\n对同订单上一记录：周期%+d，搬运%+dB，存储%+dB", "\nVersus prior same-order run: cycles%+d, traffic%+dB, stored%+dB") % [int(m.total_cycles)-int(prior.metrics.total_cycles),int(m.traffic_bytes)-int(prior.metrics.traffic_bytes),int(m.stored_bytes)-int(prior.metrics.stored_bytes)]
 	var limit_feedback: String = constraint_feedback(int(row.task),row.traces)
 	if not limit_feedback.is_empty(): result.text += "\n" + limit_feedback
+	var comparison_row: TreeItem = order_comparison.get_root().get_first_child()
+	while comparison_row != null:
+		if int(comparison_row.get_metadata(0)) == index:
+			if order_comparison.get_selected() != comparison_row: comparison_row.select(0)
+			break
+		comparison_row = comparison_row.get_next()
+
 	events.clear(); var root_row: TreeItem = events.create_item()
 	var replay_events: Array = []
 	for event: RefCounted in visible_trace.events:
@@ -406,7 +460,7 @@ func refresh_recorded_plan_label() -> void:
 	var row: Dictionary = history[selected_run]
 	var matches: bool = int(row.task) == task and row.plan == plan
 	var prefix: String = text2("记录方案（与草稿一致）：", "Recorded plan (matches draft): ") if matches else text2("记录方案（与当前草稿不同）：", "Recorded plan (differs from current draft): ")
-	recorded_plan_label.text = prefix+plan_text(row.plan)
+	recorded_plan_label.text = text2("记录#%d · 任务%d · 不变的实测依据\n", "Run #%d · task %d · immutable measured evidence\n") % [selected_run+1,int(row.task)+1] + prefix+plan_text(row.plan)
 
 func plan_text(recorded: Array) -> String:
 	var lines: Array[String] = []

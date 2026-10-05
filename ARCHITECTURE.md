@@ -194,3 +194,15 @@ is added. `WindowMode` owns an independent Ambience bus and optional `presentati
 preferences, default off. Effects settings and savegame schemas remain unchanged.
 Headless checks evaluate envelopes without opening audio streams; real backend checks
 are recorded separately. See [prototype evidence](docs/verification/20261002-trace-ambience/README.md).
+
+## Opt-in second-act candidate journeys
+
+`run-experiment.py representation_region|service_plan --profile NAME --journey`
+opens the original hub with two candidate entries. Candidate settings bind the
+launching domain and safe profile name; `candidate_session/context.gd` preserves
+that domain's `user://` file and resolves the other domain's original sibling
+profile. Store/model/schema authority stays in each existing domain; leases do
+not cross these directories. The normal hub remains unchanged without the opt-in
+flag. Service Home delegates to its existing save/cancel/discard guard; final
+review recomputes all three protected plans, never current drafts or unlock flags.
+See [Mac candidate plan](docs/exec-plans/active/mac-second-act-candidate.md).

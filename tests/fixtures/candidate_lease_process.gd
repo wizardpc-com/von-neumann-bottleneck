@@ -8,6 +8,9 @@ func run() -> void:
 		if arg.begins_with("--lease-path="): path = arg.trim_prefix("--lease-path=")
 		if arg.begins_with("--operation="): operation = arg.trim_prefix("--operation=")
 		if arg.begins_with("--token="): expected = arg.trim_prefix("--token=")
+	if operation == "stale-probe":
+		# The holder is a sibling, not a child of this querying process.
+		quit(0 if Lease.stopped_owner(path).is_empty() else 3); return
 	if operation == "race":
 		while not FileAccess.file_exists(path+".go"): await create_timer(0.01).timeout
 		var result: Dictionary = Lease.recover_and_acquire(path,expected)

@@ -7,6 +7,8 @@ const SessionStore = preload("res://experiments/service_plan/session_store.gd")
 var writer_lease: RefCounted
 var recovery_state: Dictionary = {}
 var support_plans: Dictionary = {}
+var candidate_journey: bool = false
+var leave_to_hub: bool = false
 var persistent_session: bool = false
 var session_dirty: bool = false
 var save_blocked: bool = false
@@ -73,6 +75,7 @@ func _ready() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--locale=en": english = true
 		if arg == "--candidate-save": persistent_session = true
+		if arg == "--candidate-journey": candidate_journey = true
 	if persistent_session:
 		add_to_group("candidate_quit_owners")
 		previous_auto_quit = get_tree().auto_accept_quit; get_tree().auto_accept_quit = false
@@ -96,8 +99,15 @@ func mission_text() -> String:
 	var goals: Array[String] = [tr2("1 · 少搬状态：总≤1420周期，状态读写≤600B，峰值≤350B；分数/最终状态必须精确。", "1 · Move less state: total≤1420 cycles, state reads+writes≤600B, peak≤350B; exact scores/final states."), tr2("2 · 及时服务：总≤1420周期，每流首响应≤320周期；分数/最终状态必须精确。", "2 · Prompt service: total≤1420 cycles, every stream first response≤320; exact scores/final states."), tr2("3 · 同一服务方案：总≤1420，首响应≤320，状态读写≤320B；分数/最终状态误差≤0.02。", "3 · One service plan: total≤1420, first responses≤320, state reads+writes≤320B; score/final-state errors≤0.02.")]
 	return common + goals[task] + tr2("\n硬容量512B；decoded状态64B/流，权重64B，最大组72B/项，另计真实编码临时空间。", "\nHard512B: decoded contexts64B/stream, weights64B, largest group72B/request, plus actual encoded temporary bytes.")
 
+func guidance_text() -> String:
+	var stages: Array[String] = [
+		tr2("观察：历史留在驻留槽或外存。对照状态读写与复用事件，再试分组。", "Observe: history lives in resident slots or backing storage. Compare state transfers and reuse, then vary grouping."),
+		tr2("观察：集中处理省搬运，但别人何时得到回答？对照四条流的首响应。", "Observe: concentrating work saves transfers, but who waits? Compare all four first responses."),
+		tr2("观察：同一编排换表示，会改变字节、编码费用和误差。对照真实成本与质量。", "Observe: the same schedule with different storage changes bytes, codec costs and error. Compare measured cost and quality.")]
+	return stages[task]
+
 func hint_text() -> String:
-	return tr2("Hint1 · 查看state_read/write是否同流反复出现，以及D的首响应。合组会省请求，但整组算完才返回。A/B每维相同，C/D每维变化；对照encoded字节和codec费用再选表示。", "Hint1 · Inspect repeated state reads/writes and D's first response. Merging saves setup, but delays responses until the group completes. A/B repeat coordinates; C/D vary. Compare actual encoded bytes and codec costs before choosing storage.")
+	return "Hint1 · " + guidance_text()
 
 func build() -> void:
 	var previous_tab: int = evidence_tabs.current_tab if is_instance_valid(evidence_tabs) else 0
@@ -110,6 +120,8 @@ func build() -> void:
 	var header := HBoxContainer.new(); page.add_child(header)
 	var title := label(tr2("服务方案 · 谁先得到下一次结果？", "Service plan · Who gets the next result?"), header, 22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	language_button = button("中文 / EN", header, func() -> void: english = not english; build(), "Language")
+	if candidate_journey: button(tr2("返回首页", "Home"),header,request_hub,"CandidateHome")
+	button(tr2("服务回顾", "Service review"),header,show_closure,"ServiceClosure")
 	button(tr2("退出", "Quit"), header, request_quit, "Quit")
 	var stages := HBoxContainer.new(); page.add_child(stages)
 	for index: int in 3:
@@ -217,6 +229,8 @@ func refresh_groups() -> void:
 func refresh_actions() -> void:
 	var support_button := find_child("RestoreSupport",true,false) as Button
 	if support_button != null: support_button.disabled = not support_plans.has(task)
+	var closure := find_child("ServiceClosure",true,false) as Button
+	if closure != null: closure.disabled = not has_service_closure()
 	up_button.disabled = selected_group == 0; down_button.disabled = selected_group == plan.groups.size() - 1
 	merge_button.disabled = down_button.disabled; split_button.disabled = plan.groups[selected_group].size() < 2
 	undo_button.disabled = undo_stack.is_empty(); redo_button.disabled = redo_stack.is_empty(); restore_button.disabled = selected_history < 0
@@ -442,20 +456,32 @@ func save_session() -> void:
 	notice_key = "saved" if error == OK else "failed"; status.text = session_notice()
 	if error != OK: refresh_recovery_controls()
 
+func request_hub() -> void:
+	leave_to_hub = true
+	request_leave()
+
 func request_quit() -> void:
-	if not persistent_session or not session_dirty: get_tree().quit(); return
+	leave_to_hub = false
+	request_leave()
+
+func finish_leave() -> void:
+	if leave_to_hub: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	else: get_tree().quit()
+
+func request_leave() -> void:
+	if not persistent_session or not session_dirty: finish_leave(); return
 	var existing := get_node_or_null("UnsavedServiceDialog") as ConfirmationDialog
 	if existing != null: existing.popup_centered(Vector2i(520,180)); return
 	var dialog := ConfirmationDialog.new(); dialog.name = "UnsavedServiceDialog"
 	dialog.title = tr2("保存本次探索？", "Save this exploration?")
 	dialog.dialog_text = tr2("草稿或比较记录有未保存的变化。", "The draft or comparisons have unsaved changes.")
-	dialog.ok_button_text = tr2("保存并退出", "Save and quit"); dialog.cancel_button_text = tr2("继续编辑", "Keep editing")
-	dialog.add_button(tr2("不保存退出", "Quit without saving"),true,"discard")
+	dialog.ok_button_text = tr2("保存并离开", "Save and leave"); dialog.cancel_button_text = tr2("继续编辑", "Keep editing")
+	dialog.add_button(tr2("不保存离开", "Leave without saving"),true,"discard")
 	dialog.confirmed.connect(func() -> void:
 		save_session()
-		if not session_dirty: get_tree().quit())
+		if not session_dirty: finish_leave())
 	dialog.custom_action.connect(func(action: StringName) -> void:
-		if action == &"discard": get_tree().quit())
+		if action == &"discard": finish_leave())
 	add_child(dialog); dialog.popup_centered(Vector2i(520,180))
 
 func _notification(what: int) -> void:
@@ -524,3 +550,48 @@ func refresh_recovery_controls() -> void:
 func recovery_failed() -> void:
 	refresh_recovery_controls()
 	status.text = tr2("恢复未执行：文件或写入权已变化。当前草稿仍保留；请检查快照后重试，或保留窗口。", "Recovery was not performed: files or ownership changed. Your current draft is retained; review the snapshots and retry, or keep this window open.")
+
+# Review derives only from independently protected, currently accepted plans.
+# Recent history, current draft and the last unlocked task are not completion evidence.
+func service_review_evidence() -> Array[Dictionary]:
+	var evidence: Array[Dictionary] = []
+	for id: int in 3:
+		if not support_plans.has(id): return []
+		var trace: Trace = Model.run(support_plans[id])
+		if not Model.accepted(trace.metrics,id): return []
+		evidence.append(trace.metrics.duplicate(true))
+	return evidence
+
+func has_service_closure() -> bool:
+	return service_review_evidence().size() == 3
+
+func show_closure() -> void:
+	var evidence: Array[Dictionary] = service_review_evidence()
+	if evidence.size() != 3: return
+	var existing := get_node_or_null("ServiceReview") as AcceptDialog
+	if existing != null: remove_child(existing); existing.queue_free()
+	var review := AcceptDialog.new(); review.name = "ServiceReview"; review.dialog_autowrap = true
+	review.title = tr2("服务 · 你的方案回应了三份合同", "Service · Your plans answered all three contracts")
+	var lines: Array[String] = [tr2("历史被留下、搬运并再次使用；请求者在不同时间收到结果。你构造的服务在公开成本与质量要求下完成了工作。", "History was retained, moved and reused; requesters received results at different times. Your service completed its work under the public cost and quality requirements."), ""]
+	for id: int in 3:
+		var m: Dictionary = evidence[id]
+		lines.append(tr2("合同%d · %d周期 · 状态%dB · 峰值%dB", "Contract%d · %d cycles · state%dB · peak%dB") % [id+1,m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes])
+		lines.append(tr2("A/B/C/D首响应%s · 分数误差%s · 状态误差%s", "A/B/C/D first%s · score error%s · state error%s") % [str(m.first_stream_cycles),String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)])
+	lines.append("")
+	lines.append(tr2("结果由保留的达标方案按当前模型重算。可继续取回方案，尝试不同取舍。A Thought Within the World。", "Results are recomputed from your protected successful plans under the current model. Restore them and explore other trade-offs. A Thought Within the World."))
+	if session_dirty:
+		lines.append(tr2("本次变化尚未保存；离开前请保存。", "This session has unsaved changes; save before leaving."))
+	elif persistent_session:
+		lines.append(tr2("已保存的方案可在同一候选档继续。", "Saved plans can be resumed in this candidate profile."))
+	else:
+		lines.append(tr2("本次为临时实验；退出后不会保留。", "This trial is temporary; quitting does not retain it."))
+	var scroll := ScrollContainer.new(); scroll.name = "ServiceReviewScroll"
+	scroll.custom_minimum_size = Vector2(720,360)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	review.add_child(scroll)
+	var content := Label.new(); content.name = "ServiceReviewContent"
+	content.text = "\n".join(lines); content.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(content)
+	review.ok_button_text = tr2("回到我的工作台", "Back to my workbench")
+	add_child(review); review.popup_centered(Vector2i(760,480))

@@ -84,6 +84,47 @@ func run() -> void:
 			scene.trace_player.seek(i)
 			check(scene.trace_player.cache_evidence().cache_after.used_bytes == 0,"Oversized decoded block is not drawn as retained")
 			break
+	scene.change_task(3)
+	scene.plan = Model.initial_plan(); scene.refresh_plan(); scene.run_current()
+	var prepare_index: int = scene.selected_run
+	var prepare_signature: String = scene.history[prepare_index].traces[0].canonical_signature()
+	var comparison_root: TreeItem = scene.order_comparison.get_root()
+	check(comparison_root.get_child_count() == 2,"Preparation comparison exposes both independent orders together")
+	for i: int in 2:
+		var measured: Dictionary = scene.history[prepare_index].traces[i].metrics
+		var compared: TreeItem = comparison_root.get_child(i)
+		check(compared.get_text(1) == str(measured.preparation_cycles) and compared.get_text(2) == str(measured.service_cycles),"Comparison uses authoritative preparation and service costs")
+		check(compared.get_text(3) == str(measured.stored_bytes),"Actual storage includes retained source rather than logical representation")
+	scene.order_choice.select(0); scene.show_trace(0)
+	check(scene.result.text.contains("实际空间 68B") and scene.result.text.contains("保留源64B"),"RAW preparation shows actual source-plus-directory storage")
+	check(not scene.trace_details_group.visible,"Event and cost details start collapsed")
+	var toggle: Button = scene.find_child("ToggleTraceDetails",true,false)
+	toggle.pressed.emit()
+	check(scene.trace_details_group.visible and scene.metric_details.text.contains("准备读0B / 写4B"),"Expanded preparation detail exposes exact read/write evidence")
+	check(scene.history[prepare_index].traces[0].canonical_signature() == prepare_signature,"Expanding details leaves the immutable recording unchanged")
+	scene.english = true; scene.build()
+	check(scene.result.text.contains("Actual storage") and scene.metric_details.text.contains("Logical representation"),"Preparation metrics and scope are bilingual")
+	check(scene.trace_details_group.visible,"Detail expansion survives a locale rebuild")
+	scene.change_task(4)
+	scene.plan = Model.represent(Model.initial_plan(),0,"rle"); scene.refresh_plan(); scene.run_current()
+	var paired_index: int = scene.selected_run
+	var paired_signature: String = scene.history[paired_index].traces[0].canonical_signature()
+	check(scene.draft_label.text.contains("Asset A") and scene.draft_label.text.contains("Asset B"),"Draft storage compares both assets under the same plan")
+	comparison_root = scene.order_comparison.get_root()
+	check(comparison_root.get_child_count() == 2,"Cross-asset recorded comparison keeps both asset orders visible")
+	for i: int in 2:
+		var measured: Dictionary = scene.history[paired_index].traces[i].metrics
+		var compared: TreeItem = comparison_root.get_child(i)
+		check(compared.get_text(0).contains(measured.spec.name),"Comparison identifies the actual asset order")
+		check(compared.get_text(3) == str(measured.stored_bytes) and compared.get_text(4) == str(measured.traffic_bytes),"Cross-asset costs come from each distinct Trace")
+	comparison_root.get_child(1).select(0); scene.order_comparison.item_selected.emit()
+	check(scene.order_choice.selected == 1 and scene.visible_trace == scene.history[paired_index].traces[1],"Choosing Asset B comparison opens its own recorded Trace")
+	check(scene.result.text.contains("Asset B revisits"),"Selected primary costs name the compared asset order")
+	scene.edit_plan(Model.represent(scene.plan,0,"raw"))
+	check(scene.recorded_plan_label.text.contains("immutable measured evidence") and scene.recorded_plan_label.text.contains("differs from current draft"),"Record authority and changed draft remain explicit in English")
+	check(scene.history[paired_index].traces[0].canonical_signature() == paired_signature,"Draft changes preserve paired measured evidence")
+	scene.select_run(paired_index)
+	check(scene.order_choice.selected == 0 and scene.order_choice.get_item_text(0).contains("Unmet"),"Reopening a failed recording selects the first unmet order")
 	scene.queue_free(); await process_frame
 	print("PASS: test_representation_visual " if failures == 0 else "FAIL: test_representation_visual ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

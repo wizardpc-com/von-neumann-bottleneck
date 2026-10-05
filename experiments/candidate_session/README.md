@@ -47,36 +47,55 @@ loss durability or filesystem/directory fsync, nor network-filesystem guarantees
 ## One writable instance per profile
 
 All candidate writers in the same directory share atomic `.candidate-writer/`
-creation. The owner records PID, random token and local Linux boot/PID-namespace identity, holds the lease from initial
+creation. The owner records PID, random token and local boot/process context, holds the lease from initial
 scene read through all saves/recovery, and releases it on scene exit. Store write
 and recovery entry points also require a valid lease (or acquire a short lease
 when used directly). A second instance may inspect/edit in memory but cannot save.
 Digest conflict detection is an additional safeguard, **not** the lock.
 
 An abrupt kill leaves the lock. Recovery is explicit, never automatic. On Linux,
-only a matching boot/PID-namespace identity and absent `/proc/<pid>` permit the recovery button; a live/reused PID,
-unknown owner or malformed token is conservatively refused. A separate atomic
+only a matching boot/PID-namespace identity and absent `/proc/<pid>` permit the
+recovery button; existing Linux owner records retain their exact context format.
+On macOS, `/usr/sbin/sysctl -n kern.bootsessionuuid` supplies a validated UUID,
+stored as `macos:<uuid>` in the same existing context field. Only that matching boot
+identity and a successful `/bin/ps -axo pid=` snapshot without the owner's PID
+permit recovery. The snapshot must include the querying process's own PID and
+contain only canonical PID rows. These native commands run directly without a
+shell, PATH lookup or privilege changes, and collect no command lines. The boot
+UUID is provided by [Apple's kernel](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/kern/kern_sysctl.c);
+the all-process flags follow [Apple's ps manual](https://github.com/apple-oss-distributions/adv_cmds/blob/main/ps/ps.1).
+A failed query, live/reused PID, unknown owner or malformed token is conservatively
+refused. A separate atomic
 recovery gate serializes claimants. Normal acquisition checks that gate before and
 after mkdir. The stopped lock is moved into a token-named abandoned directory,
 retaining the old owner record. Recovery acquires its new lease before releasing
 the gate, avoiding an ownerless interval and competing-reclaimer starvation. Two
 independent reclaimers cannot both own it.
 
-Windows/macOS clean acquisition/release use the same Godot filesystem operations,
-but this milestone has not verified them natively. Stopped-owner recovery is not
-enabled there. A crash while creating an owner record or recovering a lease may
+Windows clean acquisition/release uses the same Godot filesystem operations;
+stopped-owner recovery remains disabled there. Native macOS process interruption
+is covered by the lifecycle suite; running and recording it is required before
+claiming verification for a particular build. A crash while creating an owner
+record or recovering a lease may
 leave an incomplete lock/gate; it deliberately blocks writes instead of guessing.
 For such cases preserve the entire profile, close every candidate instance, and
 have an operator review the lock before moving it aside. Do not delete game saves
 or copy future data over an older profile. Shared-machine/network profile access
-is unsupported; foreign/missing boot or PID-namespace identity is refused conservatively, including older owner records.
+is unsupported; foreign/missing boot or process identity is refused conservatively,
+including older macOS owner records with empty context and records from previous
+boots. Such records require the same operator review rather than automatic recovery.
 
 ## Regression evidence
 
 `test_candidate_lifecycle` injects each install stage for first save and overwrite
 with an existing backup, retains originals, tests corrupt/future main, stale recovery,
-repeat save, independent-process writer exclusion, abrupt kill and two competing
-recovery processes. `test_candidate_supports` exceeds both history caps after
+repeat save, independent-process writer exclusion (including a sibling PID probe),
+abrupt kill and two competing recovery processes on Linux/macOS. It also checks
+unknown/native-query refusal and exact preservation of abandoned owner records.
+If the host denies native identity or process queries, the suite verifies refusal
+and byte preservation and prints an explicit `SKIP` for stopped-owner/race recovery;
+a passing run with that skip does not establish native crash recovery.
+`test_candidate_supports` exceeds both history caps after
 successful tasks, saves/recreates scenes, verifies all supported progress and
 retrievable plans, keeps unfinished drafts, and rejects forged support completion.
 The two existing session suites remain required. Native UI and exported-package

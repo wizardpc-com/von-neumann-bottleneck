@@ -99,3 +99,13 @@ IDs: 0 single-context (one slot, 1420 cycles, first320, exact1e-9);
   This is an actuator-only correction; original runtime remains4b73826.
   Next: commit the proven correction, rerun the previously blocked GUI journey
   and English independent resume without another full model regression.
+
+-16a417f Chinese rendered journey PASS:305 checks, zero failures; it solved both
+  commissions through visible editing, validated real compact error, closed both
+  handoff dialogs, preserved the original ending, saved, returned Home/re-entered
+  and rechecked retained plans. Log `.godot/commission-zh-final.log`.
+  Source identity:1767 files matched, clean checkout. Canvas was the default
+  1600×900 scaled into a1280×720 window; this is not a1280-wide layout claim.
+- For the independent English restart, the driver now explicitly sets both the
+  content canvas and window to1280×720. This narrow QA-only adjustment verifies
+  the minimum layout without repeating models or the entire solve.

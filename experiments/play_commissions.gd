@@ -14,6 +14,7 @@ func press(control: Control) -> void:
 
 func prepare_window() -> void:
 	await super.prepare_window()
+	root.content_scale_size = Vector2i(1280,720)
 	root.size = Vector2i(1280,720); await settle(10)
 
 func reveal_commission(control: Control) -> void:

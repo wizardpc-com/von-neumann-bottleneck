@@ -205,4 +205,4 @@ profile. Store/model/schema authority stays in each existing domain; leases do
 not cross these directories. The normal hub remains unchanged without the opt-in
 flag. Service Home delegates to its existing save/cancel/discard guard; final
 review recomputes all three protected plans, never current drafts or unlock flags.
-See [Mac candidate plan](docs/exec-plans/active/mac-second-act-candidate.md).
+See [Mac candidate plan](docs/exec-plans/completed/mac-second-act-candidate.md).

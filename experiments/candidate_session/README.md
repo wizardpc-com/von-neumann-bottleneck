@@ -100,3 +100,6 @@ successful tasks, saves/recreates scenes, verifies all supported progress and
 retrievable plans, keeps unfinished drafts, and rejects forged support completion.
 The two existing session suites remain required. Native UI and exported-package
 acceptance are separate evidence, never inferred from these tests.
+
+Mac lifecycle ran without a capability skip in the corrected frozen-source check;
+see [exact integration evidence and limits](../../docs/verification/20261005-mac-second-act/README.md).

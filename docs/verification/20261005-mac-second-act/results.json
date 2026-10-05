@@ -1,0 +1,92 @@
+{
+  "baseline": "c5a2b0cd5ac1e508f4e6e25ab4c6b3f862e22968",
+  "source_commit": "9cb3f922e2a8f9ddd50b0a7e061c4b67416b84d8",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "full_regression": {
+    "commit": "d5767ed1cd6ddff8a85db8c7988d16409a252cbf",
+    "passed": false,
+    "checks": 72,
+    "failures": [
+      {
+        "name": "test_candidate_lifecycle",
+        "exit": 0,
+        "passed": false,
+        "errors": [
+          "SCRIPT ERROR: Trying to assign an array of type \"Array\" to a variable of type \"Array[int]\".",
+          "SCRIPT ERROR: Trying to assign an array of type \"Array\" to a variable of type \"Array[int]\"."
+        ],
+        "log": "test_candidate_lifecycle.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261005T185247Z-1407f562/test_candidate_lifecycle"
+      }
+    ],
+    "source_mismatches": [],
+    "checked_files": 1756,
+    "clean_after": true,
+    "receipt": ".godot/committed-verification/20261005T185246Z-f5f1bc3a/receipt.json"
+  },
+  "corrected_source": {
+    "commit": "9cb3f922e2a8f9ddd50b0a7e061c4b67416b84d8",
+    "passed": true,
+    "source_mismatches": [],
+    "checks": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0
+      },
+      {
+        "name": "test_candidate_lifecycle",
+        "passed": true,
+        "exit": 0
+      },
+      {
+        "name": "test_candidate_supports",
+        "passed": true,
+        "exit": 0
+      }
+    ],
+    "receipt": ".godot/committed-verification/20261005T185502Z-24f4e413/receipt.json"
+  },
+  "viewport_known_answer": {
+    "representation-viewport": {
+      "checks": 173,
+      "failures": [],
+      "sha256": "044b123ad100a26a122d6b2705477f7691a1b4a2bf4d286c79f003d20cae6ae8",
+      "local_evidence": ".godot/night-native/representation-viewport/journey-checks.json"
+    },
+    "representation-restart": {
+      "checks": 14,
+      "failures": [],
+      "sha256": "9774fd0c96d7eece26ec3e163893d2f79ab1c57ea7e8cf323bc8ead670b4b07a",
+      "local_evidence": ".godot/night-native/representation-restart/journey-checks.json"
+    },
+    "service-viewport": {
+      "checks": 161,
+      "failures": [],
+      "sha256": "865fc6443559ca7d3458f16ba5ab92d8cb9a9d5ad8f45ce982d58c657fdd7dc0",
+      "local_evidence": ".godot/night-native/service-viewport/journey-checks.json"
+    },
+    "service-restart": {
+      "checks": 14,
+      "failures": [],
+      "sha256": "f04ad2e9817a68636811b6b0e15536ac4dcbc67b2d88e86615f6924aa0056b94",
+      "local_evidence": ".godot/night-native/service-restart/journey-checks.json"
+    }
+  },
+  "native_os": {
+    "startup_observed": true,
+    "original_core_entry_observed": true,
+    "fullscreen_window_toggle_observed": true,
+    "normal_quit_exit": 0,
+    "pointer_edit_run_save": "BLOCKED: CUA noWindowsAvailable on every pointer click/scroll; no native completion claimed"
+  },
+  "mac_app": "NOT_RUN: matching export-template directory empty",
+  "human_novice": "NOT_RUN",
+  "audio": "NOT_RUN; no new audio",
+  "push": "BLOCKED: auto-review rejected unverified destination/payload egress; no retry or workaround"
+}

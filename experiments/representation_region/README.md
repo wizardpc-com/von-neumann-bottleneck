@@ -171,3 +171,6 @@ No acceptance budget, completion rule, saved format or model version changes.
 storage comparison, detail expansion, language rebuilding and unchanged recorded
 Trace signatures after draft edits. Native readability and novice understanding
 require separate play checks.
+
+Integrated Mac viewport/save/restart outcomes and OS-native/package limitations:
+[2026-10-05 evidence](../../docs/verification/20261005-mac-second-act/README.md).

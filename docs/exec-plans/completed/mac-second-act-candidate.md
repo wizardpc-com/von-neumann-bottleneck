@@ -68,3 +68,26 @@ Sol Medium (B/C), as explicitly requested. No additional nested agents.
   capability-handling revision: the conditional empty array was untyped. Root
   corrected it to clear/return the typed PID array. Full receipt and targeted
   corrected-source evidence will both be retained; no failed assertion removed.
+
+### Final handoff — candidate implementation complete
+- Branch `codex/mac-second-act-20261005`; source checkpoints `d5767ed` and
+  `9cb3f92`. No user-original dirty files included. Models/schemas unchanged.
+- Full exact-source regression:72 checks,71 PASS; one typed-array script error,
+  fixed in9cb3f92. Corrected-source import/isolation/lifecycle/supports all PASS,
+  source identity clean,225 lifecycle checks with no native capability skip.
+- Mac known-answer viewport routes:Representation 173+restart 14,Service 161+
+  restart 14 checks, zero failures. Five representation tasks and three contracts
+  earned through visible edits; Save/Home/re-entry and independent-process review
+  retained protected successful plans and left core40 authority unchanged.
+- OS-native source startup, original core cards/tree/review, fullscreen/windowed
+  shortcut and normal Cmd-Q exit0 observed. Pointer/edit/run/save blocked by CUA
+  `noWindowsAvailable`; no native completion or beginner claim.
+- Matching export templates absent: `.app` export/package acceptance NOT_RUN.
+  No new audio, model expansion, production save migration or deployment.
+- Push auto-review rejected destination/payload egress; no push/workaround. Human
+  approval of this exact development branch to its GitHub repository is pending.
+- Durable evidence: [Mac candidate verification](../../verification/20261005-mac-second-act/README.md),
+  including JSON, inspected frames, commands, exact failed/full and repaired receipts.
+- Next smallest work: restore native pointer control or manually check short
+  edit/run/save/restart; then matching-template frozen export and novice pass.
+  Scope closed: do not add content to fill time. Runtime ownership released.

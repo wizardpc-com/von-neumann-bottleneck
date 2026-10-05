@@ -183,8 +183,9 @@ The review closes this candidate journey with measured work and the existing
 “A Thought Within the World” theme; it adds no campaign progress or save fields.
 Unsaved and disposable sessions are explicitly identified in the review.
 
-Implementation verification is pending integration: `test_service_session`
+Integrated focused and frozen checks passed the unchanged service sources; `test_service_session`
 adds Home cancel/save/discard/blocked-save destination checks and bilingual,
 protected-plan-based closure checks; `test_service_plan` retains the existing
 model, valid-alternative and minimum-window presentation checks. Native Mac,
-exported-app and novice acceptance require separate evidence.
+exported-app and novice acceptance have explicit remaining gates in the
+[Mac integration record](../../docs/verification/20261005-mac-second-act/README.md).

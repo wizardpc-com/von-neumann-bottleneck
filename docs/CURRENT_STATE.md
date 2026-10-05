@@ -12,8 +12,9 @@ protected accepted plans. Representation puts preparation/service/storage first
 and compares all orders alongside immutable record provenance. Mac stopped-owner
 recovery requires verified boot identity and a successful native PID query;
 unknown identity/query results refuse. Production save schemas, core40, model
-contracts and Prediction prerequisites are unchanged. Current implementation and
-verification progress: [execution plan](exec-plans/active/mac-second-act-candidate.md).
+contracts and Prediction prerequisites are unchanged. Implementation outcome and
+verification limits: [execution plan](exec-plans/completed/mac-second-act-candidate.md).
+See [source, Mac input and remaining gates](verification/20261005-mac-second-act/README.md).
 This is candidate integration, not a formal release or novice usability claim.
 
 ## Measured comparison scope — 2026-10-04

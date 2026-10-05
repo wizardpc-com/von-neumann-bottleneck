@@ -1,0 +1,80 @@
+# Service follow-up commissions
+
+Owner: Codex root. Baseline `ecda15f`; 2026-10-05. Status: focused verification passed; viewport/frozen verification pending.
+
+## Goal and scope
+
+The owner authorized another content iteration after the Mac candidate journey.
+Extend the earned three-contract Service Plan ending with two optional commissions:
+single-context duty, and archive handoff with freely selectable lossless/compact
+specifications. Use the existing 24 requests, editable schedule, codecs and actual
+Trace. Give each commission a concrete purpose, public limits, measured failure
+feedback and an acknowledgement. The original ending remains sufficient.
+
+No model rewrite, workload change, production progression/save access, new formal
+region, Prediction prerequisite, permanent achievement or save schema change.
+
+## Interfaces and ownership
+
+- Root: `lab.gd`, viewport driver, UI/session checks, README, state/framework,
+  plan/evidence/handoff; sole Git and Godot owner.
+- Service subagent: new `commissions.gd` public catalog/predicate and new
+  `test_service_commissions.gd`; no Git, engine or GUI operations.
+- Other prior threads remain finished. Pre-existing AGENTS/docs index/CLAUDE/
+  collaboration/brief changes remain outside ownership.
+
+Catalog API: `spec(id)`, `title(id,en)`, `briefing(id,en)`,
+`accepted(metrics,id)`, `feedback(metrics,id,en)`. All measurements come from Model.
+IDs: 0 single-context (one slot, 1420 cycles, first320, exact1e-9);
+1 lossless archive (final backing160B, same timing, exact1e-9);
+2 compact archive (final backing64B, same timing, both errors0.02).
+
+## Invariants and decisions
+
+- Core40, current models and three original contracts/supports are unchanged.
+- Optional commissions unlock only after all three protected plans revalidate.
+- A commission uses the existing task2 workbench; Run still records a normal
+  task2 recipe, never a forged task3/4 or saved measurement result.
+- Existing schema2 profiles remain readable and byte-format compatible. Commission
+  selection is window state. Saved recipes can be rechecked under any specification.
+- Optional results refer to retained measurement history (80 records), not permanent
+  badges. Draft changes never replace measured evidence. Existing successful plans
+  remain protected by the original support mechanism.
+- Lossless and compact archive specifications are alternatives, not two required
+  stamps. Public storage limits count actual final flush and directory bytes;
+  cumulative traffic is a different quantity.
+
+## Steps and minimal verification
+
+1. Calibrate plausible schedules/representations using the unchanged model in an
+   isolated existing QA project. Freeze limits from feasible and failure evidence.
+2. Implement catalog and optional integrated workbench flow with bilingual briefs,
+   failures, own-record restore, acknowledgement and original-ending return.
+3. Run new contract suite plus service/session/journey checks once; repair only
+   demonstrated failures. Inspect both locale viewports and isolated restart.
+4. Commit implementation. Run one frozen-source regression; record exact identity,
+   source parity and failures. Update plan/evidence and commit final handoff.
+
+## Progress and risks
+
+- 2026-10-05: approved push of prior three commits attempted; HTTPS terminal has
+  no credentials (`could not read Username`). Local branch/history are preserved.
+- Model calibration `.godot/commission-calibration.jsonl`: first round A/B/C/D,
+  then each stream's remaining requests, one slot, mixed lossless representation:
+  1412 cycles, first78/147/227/318, peak266B, state traffic632B, archive158B, exact.
+  Four-slot mixed:1280/158B/exact; four-slot RAW8:1236/40B, actual nonzero errors
+  below0.02. Grouped one-slot work delays D beyond320; four slots violate duty.
+- This is bounded candidate content under constitution Articles7/9/12 and A5.
+  Human novice understanding, native pointer input and exported app acceptance
+  remain separate gates from viewport QA. Export templates were absent last round.
+- Next: implement and verify; push remains an authentication blocker only.
+
+- Targeted fresh source verification: `.godot/verification/20261005T195651Z-7675104f`,
+  import + isolated-directory probe +5 suites allPASS. New catalog212 checks, UI23,
+  existing service7268, session63 and candidate journey14. Full logs inspected;
+  no script/parse/runtime errors. No baseline budgets/schema changes.
+- Integrated optional pane uses bounded scrolling, explicit selected-record source,
+  actual failure values and a handoff acknowledgement. Task3 exits optional mode.
+  New known-answer `play_commissions.gd` exercises visible edits, specifications,
+  handoff, original ending, Save/Home and independent restart at1280×720.
+- Next: review diff, implementation commit, one frozen regression and viewport QA.

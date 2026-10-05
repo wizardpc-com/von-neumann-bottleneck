@@ -189,3 +189,32 @@ protected-plan-based closure checks; `test_service_plan` retains the existing
 model, valid-alternative and minimum-window presentation checks. Native Mac,
 exported-app and novice acceptance have explicit remaining gates in the
 [Mac integration record](../../docs/verification/20261005-mac-second-act/README.md).
+
+## Optional follow-up commissions (2026-10-05)
+
+After all three protected original contracts revalidate, **Follow-up commissions**
+opens two optional requests in the same workbench. These are additional candidate
+content, not a new formal region or a prerequisite for either ending.
+
+- **One-slot duty**: at most one resident context, all24 requests completed in
+  ≤1420 cycles, every first response≤320, both errors≤1e-9. Reorder requests to
+  balance early responses with state reuse; four resident slots cannot qualify.
+- **Archive handoff**, freely choose a specification: lossless final archive≤160B
+  with both errors≤1e-9, or compact final archive≤64B with both errors≤0.02.
+  Both keep the same1420/320 timing. Final archive includes the real directory and
+  final-flush bytes; it differs from cumulative state transfers.
+
+Edit and Run using the existing controls. Handoff checks the selected immutable
+measurement and opens an acknowledgement when it meets the specification. An unrun
+draft cannot replace that record. Task3 returns to the original final contract;
+Service review remains available. The same24 requests and model remain unchanged.
+
+Save retains normal schema2 plan recipes in the existing isolated profile. After
+restart, reselect a commission and a retained measurement to check it again. The
+specification selection lasts for the current window. The latest80 measurements
+are retained, so commissions have no permanent achievement badge; original protected
+three-contract plans keep their existing protection.
+
+Known-answer viewport/restart QA uses `experiments/play_commissions.gd` through an
+explicit isolated service journey launch; it is distinct from native OS input and
+human novice evidence. See [iteration plan](../../docs/exec-plans/active/service-followup-commissions.md).

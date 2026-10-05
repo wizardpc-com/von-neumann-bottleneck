@@ -2,6 +2,7 @@ extends Control
 ## Editable plan presenter. Never supplies authoritative numerical results.
 const EventPresenter = preload("res://experiments/service_plan/event_presenter.gd")
 const Model = preload("res://experiments/service_plan/model.gd")
+const Commissions = preload("res://experiments/service_plan/commissions.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/service_plan/session_store.gd")
 var writer_lease: RefCounted
@@ -23,6 +24,11 @@ var english: bool = false
 var task: int = 0
 var unlocked: int = 0
 var hint_open: bool = false
+var commission_mode: int = -1
+var commission_choice: OptionButton
+var commission_brief: Label
+var commission_result: RichTextLabel
+var commission_ack: Button
 var selected_group: int = 0
 var selected_history: int = -1
 var active_trace: Trace
@@ -95,11 +101,15 @@ func button(text: String, parent: Node, action: Callable, id: String = "") -> Bu
 	node.custom_minimum_size.y = 32; node.pressed.connect(action); parent.add_child(node); return node
 
 func mission_text() -> String:
+	if commission_mode >= 0:
+		return Commissions.title(commission_mode,english)+tr2(" · 可选返修委托\n24份请求与机器不变；编辑自己的方案，运行，再按委托公开规格验收。可随时回到任务3与原结尾。", " · Optional follow-up\nSame24 requests and machine. Edit your plan, measure, then check the public specification. Task3 and the original ending remain available.")
 	var common: String = tr2("4条流×6次请求；同流保序，每组输入先到、整组算完再响应。脏淘汰和最终flush必须写回。\n", "4 streams × 6 requests; preserve each stream's order. Read group inputs, compute whole group, then respond. Dirty eviction and final flush write back.\n")
 	var goals: Array[String] = [tr2("1 · 少搬状态：总≤1420周期，状态读写≤600B，峰值≤350B；分数/最终状态必须精确。", "1 · Move less state: total≤1420 cycles, state reads+writes≤600B, peak≤350B; exact scores/final states."), tr2("2 · 及时服务：总≤1420周期，每流首响应≤320周期；分数/最终状态必须精确。", "2 · Prompt service: total≤1420 cycles, every stream first response≤320; exact scores/final states."), tr2("3 · 同一服务方案：总≤1420，首响应≤320，状态读写≤320B；分数/最终状态误差≤0.02。", "3 · One service plan: total≤1420, first responses≤320, state reads+writes≤320B; score/final-state errors≤0.02.")]
 	return common + goals[task] + tr2("\n硬容量512B；decoded状态64B/流，权重64B，最大组72B/项，另计真实编码临时空间。", "\nHard512B: decoded contexts64B/stream, weights64B, largest group72B/request, plus actual encoded temporary bytes.")
 
 func guidance_text() -> String:
+	if commission_mode == 0: return tr2("先对照各流首响应与状态重新载入事件；少驻留并不等于少搬运。", "Compare first responses and state reload events. Less residency does not guarantee less traffic.")
+	if commission_mode > 0: return tr2("区分累计状态流量与最终写回档案。误差由真实递归计算与编码产生。", "Distinguish cumulative state traffic from the final flushed archive. Recurrence and encoding produce actual errors.")
 	var stages: Array[String] = [
 		tr2("观察：历史留在驻留槽或外存。对照状态读写与复用事件，再试分组。", "Observe: history lives in resident slots or backing storage. Compare state transfers and reuse, then vary grouping."),
 		tr2("观察：集中处理省搬运，但别人何时得到回答？对照四条流的首响应。", "Observe: concentrating work saves transfers, but who waits? Compare all four first responses."),
@@ -129,6 +139,7 @@ func build() -> void:
 		node.disabled = index > unlocked; task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void: hint_open = not hint_open; refresh_mission(), "Hint1")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
+	button(tr2("追加委托", "Follow-up commissions"),stages,func() -> void: start_commission(maxi(commission_mode,0)),"ServiceCommissions")
 	mission = label("", page, 14); refresh_mission()
 	status = label(tr2("构造组和顺序，选择逐流表示，再测量。实验进度只在内存。", "Construct groups/order and per-stream storage, then measure. Lab progress is session-only."), page, 14)
 	var body := HBoxContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.add_theme_constant_override("separation", 14); page.add_child(body)
@@ -188,6 +199,7 @@ func build() -> void:
 	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
 	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
 	evidence_tabs.set_tab_title(3,tr2("对照比较", "Compare"))
+	build_commissions()
 	var compare_row := HBoxContainer.new(); comparison_panel.add_child(compare_row)
 	pin_button = button(tr2("以此记录为对照", "Pin this measurement"),compare_row,pin_comparison,"PinComparison")
 	clear_pin_button = button(tr2("清除对照", "Clear comparison"),compare_row,func() -> void: comparison_baseline.clear(); refresh_comparison(),"ClearComparison")
@@ -212,7 +224,7 @@ func build() -> void:
 	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 130; detail.scroll_active = true; event_panel.add_child(detail)
 	refresh_event_detail(); refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history); history_list.call_deferred("ensure_current_is_visible")
-	evidence_tabs.current_tab = previous_tab
+	evidence_tabs.current_tab = previous_tab if previous_tab != 4 or (commission_mode >= 0 and has_service_closure()) else 0
 	if persistent_session and not notice_key.is_empty(): status.text = session_notice()
 
 func refresh_mission() -> void: mission.text = mission_text() + ("\n" + hint_text() if hint_open else "")
@@ -231,6 +243,10 @@ func refresh_actions() -> void:
 	if support_button != null: support_button.disabled = not support_plans.has(task)
 	var closure := find_child("ServiceClosure",true,false) as Button
 	if closure != null: closure.disabled = not has_service_closure()
+	var extra := find_child("ServiceCommissions",true,false) as Button
+	if extra != null: extra.disabled = not has_service_closure()
+	if evidence_tabs != null and evidence_tabs.get_tab_count() > 4: evidence_tabs.set_tab_disabled(4,not has_service_closure())
+	refresh_commission()
 	up_button.disabled = selected_group == 0; down_button.disabled = selected_group == plan.groups.size() - 1
 	merge_button.disabled = down_button.disabled; split_button.disabled = plan.groups[selected_group].size() < 2
 	undo_button.disabled = undo_stack.is_empty(); redo_button.disabled = redo_stack.is_empty(); restore_button.disabled = selected_history < 0
@@ -305,7 +321,7 @@ func select_run(index: int) -> void:
 	if index != selected_history: selected_event_index = -1
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
 	refresh_measured_source(); refresh_comparison()
-	status.text = measured_feedback(m,task)
+	status.text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	response_step.disabled = response_chart.first_responses.is_empty()
 	response_play.disabled = response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false))
@@ -407,7 +423,8 @@ func public_observation() -> Dictionary:
 	return {"mission": mission_text(), "hint1": hint_text(), "public_data": public_data, "weights": Model.WEIGHTS.duplicate(), "task": task, "unlocked": unlocked, "draft": plan.duplicate(true), "selected_group": selected_group, "formats": Model.REPRESENTATIONS.duplicate(), "streams": [{"name": "A", "coordinates": "repeated"}, {"name": "B", "coordinates": "repeated"}, {"name": "C", "coordinates": "varied"}, {"name": "D", "coordinates": "varied"}], "rules": {"stream_steps": 6, "all_ready": 0, "link_bytes_per_cycle": 4, "setup_cycles": 4, "decoded_context_bytes": 64, "scratch_bytes": 512, "compute_ops": 24}, "measured": observations, "actions": ["select_group", "merge", "split", "move_up", "move_down", "move_to", "set_slots", "cycle_format", "undo", "redo", "run", "restore", "task", "hint", "data"]}
 
 func change_task(index: int) -> void:
-	if index == task or index < 0 or index > unlocked: return
+	if index < 0 or index > unlocked or (index == task and commission_mode < 0): return
+	commission_mode = -1
 	task = index; mark_session_dirty(); build()
 
 func mark_session_dirty() -> void:
@@ -595,3 +612,65 @@ func show_closure() -> void:
 	scroll.add_child(content)
 	review.ok_button_text = tr2("回到我的工作台", "Back to my workbench")
 	add_child(review); review.popup_centered(Vector2i(760,480))
+
+# Optional follow-ups reuse saved plan recipes; no new task IDs or completion flags.
+func build_commissions() -> void:
+	var scroll := ScrollContainer.new(); scroll.name = "Commissions"
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; evidence_tabs.add_child(scroll)
+	var panel := VBoxContainer.new(); panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(panel)
+	evidence_tabs.set_tab_title(4,tr2("追加委托", "Follow-ups"))
+	commission_choice = OptionButton.new(); commission_choice.name = "CommissionChoice"
+	for id: int in 3: commission_choice.add_item(Commissions.title(id,english),id)
+	commission_choice.selected = maxi(commission_mode,0); panel.add_child(commission_choice)
+	commission_choice.item_selected.connect(start_commission)
+	commission_brief = label("",panel,15); commission_brief.name = "CommissionBrief"
+	var notice := label(tr2("规格切换不改测量。成绩来自选中的实测记录，草稿须重新运行。保存沿用候选档，委托选择仅在本窗口；重开后可重新选择并验收保留的记录（最近80条）。", "Changing specifications does not change measurements. Check the selected record; run edited drafts again. Candidate Save retains recipes, with the latest80 records. Specification selection lasts for this window; reselect it after restart to check retained records."),panel,13)
+	notice.name = "CommissionPersistence"
+	commission_result = RichTextLabel.new(); commission_result.name = "CommissionResult"
+	commission_result.fit_content = true; commission_result.scroll_active = false; commission_result.custom_minimum_size.y = 100
+	panel.add_child(commission_result)
+	commission_ack = button(tr2("交付这份实测方案", "Hand over this measured plan"),panel,acknowledge_commission,"CommissionAcknowledge")
+	button(tr2("取回选中记录为草稿", "Restore selected record as draft"),panel,restore_history,"CommissionRestore")
+	evidence_tabs.tab_changed.connect(func(index: int) -> void:
+		if index == 4 and commission_mode < 0: start_commission(commission_choice.selected))
+	refresh_commission()
+
+func start_commission(id: int) -> void:
+	if id < 0 or id > 2 or not has_service_closure(): return
+	if task != 2: task = 2; mark_session_dirty()
+	commission_mode = id; commission_choice.select(id); evidence_tabs.current_tab = 4
+	refresh_mission(); refresh_commission()
+	if selected_history >= 0: status.text = Commissions.feedback(history[selected_history].metrics,id,english)
+
+func refresh_commission() -> void:
+	if commission_brief == null: return
+	var id: int = maxi(commission_mode,0)
+	commission_brief.text = Commissions.briefing(id,english)
+	commission_ack.disabled = true
+	if not has_service_closure():
+		commission_result.text = tr2("先完成原三份合同；服务回顾成立后，可自由接这些委托。", "Complete the original three contracts first. These commissions become available after your service review is earned."); return
+	if selected_history < 0 or selected_history >= history.size():
+		commission_result.text = tr2("尚无实测记录；先运行自己的方案。", "No measurement yet. Run your own plan first."); return
+	var m: Dictionary = history[selected_history].metrics
+	var lines: Array[String] = [tr2("记录%d · 以此记录的方案验收，未运行草稿不算。", "Record%d · Check this record's plan; unrun drafts do not count.") % (selected_history+1),Commissions.feedback(m,id,english)]
+	if str(m.error).is_empty():
+		lines.append(tr2("%d槽 · %d周期 · A/B/C/D首响应%s\n最终档案%dB（含目录与最终写回）· 累计状态读写%dB\n分数误差%s · 最终状态误差%s", "%d slots · %d cycles · A/B/C/D first%s\nFinal archive%dB (including directory and final flush) · cumulative state traffic%dB\nScore error%s · final-state error%s") % [m.plan.slots,m.total_cycles,str(m.first_stream_cycles),m.final_backing_bytes,m.state_read_bytes+m.state_write_bytes,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)])
+	if m.plan != plan: lines.append(tr2("当前草稿与记录不同；交付的是记录中的方案。", "Current draft differs; handoff uses the recorded plan."))
+	commission_result.text = "\n\n".join(lines)
+	commission_ack.disabled = commission_mode < 0 or not Commissions.accepted(m,id)
+
+func acknowledge_commission() -> void:
+	if commission_mode < 0 or not has_service_closure() or selected_history < 0 or selected_history >= history.size(): return
+	var m: Dictionary = history[selected_history].metrics
+	if not Commissions.accepted(m,commission_mode): return
+	var old := get_node_or_null("CommissionDelivery") as AcceptDialog
+	if old != null: remove_child(old); old.queue_free()
+	var review := AcceptDialog.new(); review.name = "CommissionDelivery"; review.dialog_autowrap = true
+	review.title = Commissions.title(commission_mode,english)
+	var text: String = tr2("这份实测方案已满足所选委托。相同请求，在不同驻留与档案规格下需要不同安排。\n\n", "This measured plan meets the selected commission. The same requests call for different arrangements under different residency and archive requirements.\n\n")+commission_result.text+"\n\n"+(session_notice() if persistent_session else tr2("临时实验；退出后不保留。", "Temporary trial; quitting does not retain it."))
+	var scroll := ScrollContainer.new(); scroll.custom_minimum_size = Vector2(680,320)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; review.add_child(scroll)
+	var content := Label.new(); content.name = "CommissionDeliveryContent"; content.text = text
+	content.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; content.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(content)
+	review.ok_button_text = tr2("继续我的探索", "Continue exploring")
+	add_child(review); review.popup_centered(Vector2i(720,480))

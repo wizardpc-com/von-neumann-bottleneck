@@ -2,6 +2,19 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Service follow-up candidate content — 2026-10-05
+
+Two optional commissions extend the earned three-contract Service workbench:
+one-slot duty and archive handoff with lossless/compact alternatives. They keep
+the existing24-request model and publicly measured timing/quality; archive limits
+count final flushed backing bytes rather than cumulative traffic. Selected measured
+recipes can be handed off and restored; edited drafts need a new run. Existing
+schema2 profiles remain compatible, with no new campaign task IDs, permanent
+commission badges or forced prerequisite. The original ending stays available.
+See the [iteration plan](exec-plans/active/service-followup-commissions.md) and
+[play instructions](../experiments/service_plan/README.md). Verification is in progress;
+no new native-pointer, novice or packaged acceptance is claimed.
+
 ## Mac second-act candidate journey — 2026-10-05
 
 The opt-in candidate hub now offers independent Representation and Service Plan

@@ -583,8 +583,8 @@ func request_service() -> void:
 	request_leave()
 
 func finish_leave() -> void:
-	if not leave_scene.is_empty(): get_tree().change_scene_to_file(leave_scene)
-	elif leave_to_hub: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	if not leave_scene.is_empty(): get_tree().call_deferred("change_scene_to_file",leave_scene)
+	elif leave_to_hub: get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 	else: get_tree().quit()
 
 func request_leave() -> void:

@@ -146,3 +146,11 @@ measures all5tasks without repeating the unrelated popup comparison path; all
 orders still must satisfy Model.meets. No runtime menu behavior is altered and
 pointer/menu reliability remains a separate external gate. Run a fresh profile
 with that minimal route, then independently resume it in English.
+
+Fresh9c Chinese minimal route218/218checks and process exit0 pass. Independent
+English16checks reached both restored stages and review but logs emitted a
+Godot embedded-window !is_inside_tree input error during clean continuation.
+Do not accept the English run despite its final PASS marker. Region finish_leave
+now defers scene changes to the next idle boundary so the old embedded window
+finishes input dispatch. This changes UI lifetime only; no model/session rule.
+Verify affected navigation and the short independent resume against this fix.

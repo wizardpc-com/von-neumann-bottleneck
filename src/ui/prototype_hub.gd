@@ -46,7 +46,7 @@ signal settings_closed
 
 
 func _ready() -> void:
-	candidate_journey = candidate_journey or "--candidate-journey" in OS.get_cmdline_user_args()
+	candidate_journey = candidate_journey or "--candidate-journey" in OS.get_cmdline_user_args() or preload("res://experiments/candidate_session/context.gd").configured_journey()
 	_build_theme()
 	if settings_only:
 		_build_options_menu()

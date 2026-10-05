@@ -14,6 +14,18 @@ The helper archives the specified commit to an ignored staging directory, import
 
 Mac is universal and ad-hoc signed, not notarized. Windows x86_64 is a validation candidate until tested on Windows. Export success does not establish installation or native play. Current evidence and exact source/hash are linked from [CURRENT_STATE](../CURRENT_STATE.md).
 
+For an explicitly isolated local second-act Mac candidate, the same frozen builder
+accepts `--platform macOS --mac-template /absolute/path/macos.zip
+--second-act-profile SafeProfile`. The custom template must be the matching official
+4.7.1 template (verify the official archive checksum before extraction). This avoids
+installing templates into Library. The profile is 1–40 letters, digits or hyphens;
+it binds the package to `VonNeumannBottleneckCandidates/representation/<profile>`
+and its validated Service sibling. The journey setting enables the two candidate
+entries and saved review without launch flags only in that bound directory. It
+does not migrate production progress. Build/import and release-binary QA still use
+separate `VonNeumannBottleneckChecks` directories. Default builder behavior remains
+the ordinary two-platform candidate above; do not reuse an existing frozen build ID.
+
 ## Save and feedback boundaries
 
 Use the existing player save directory and backup mechanism. New layout state is additive and its completions are replay-validated. Back up the whole user data directory before updating or reverting. Current schema-2 saves carry a minimum writer version; unsupported future fields or writer versions block replacement, and previously issued schema-1 games reject schema 2. Do not replace a protected current save with an older backup to bypass that guard. QA must use a separate user directory and verify it before starting ordinary Game. Do not distribute an isolation override with the public package.

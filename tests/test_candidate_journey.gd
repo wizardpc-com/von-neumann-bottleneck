@@ -16,6 +16,12 @@ func run() -> void:
 	check(Context.resolve_path("service","representation","../real",base) == "user://service-session.json","Unsafe profile never traverses a path")
 	check(Context.resolve_path("service","representation","QA","/synthetic/campaign") == "user://service-session.json","Unbound campaign path cannot become sibling authority")
 	check(Rep.PATH == "user://representation-session.json" and Service.PATH == "user://service-session.json","Ordinary tests and standalone defaults retain existing paths")
+	check(Context.configured_journey_for(true,"representation","QA",base),"Packaged journey opts in only with a bound candidate profile")
+	check(Context.configured_journey_for(true,"service","QA",base.replace("representation","service")),"Service-primary bound package resolves its sibling safely")
+	check(not Context.configured_journey_for(false,"representation","QA",base),"Default package/source startup remains opt-in")
+	check(not Context.configured_journey_for("true","representation","QA",base),"Wrong setting type cannot enable persistence")
+	check(not Context.configured_journey_for(true,"representation","../real",base),"Unsafe packaged profile cannot grant save authority")
+	check(not Context.configured_journey_for(true,"representation","QA","/synthetic/campaign"),"Campaign directory refuses automatic candidate persistence")
 	var save: Node = root.get_node("GlobalSave")
 	var before: Dictionary = save._save_snapshot(); before.erase("saved_at_utc")
 	for locale: String in ["zh_CN","en"]:

@@ -4,7 +4,14 @@ import argparse,datetime,hashlib,io,json,re,shutil,subprocess,tarfile,zipfile,im
 from pathlib import Path
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--godot',required=True);p.add_argument('--commit',default='HEAD');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--godot',required=True);p.add_argument('--commit',default='HEAD')
+    p.add_argument('--platform',choices=['both','macOS','Windows'],default='both')
+    p.add_argument('--mac-template',type=Path,help='Project-private matching official macos.zip')
+    p.add_argument('--second-act-profile',help='Opt-in isolated candidate profile; Mac-only build')
+    a=p.parse_args()
+    if a.mac_template and (not a.mac_template.is_file() or a.platform=='Windows'):p.error('--mac-template requires an existing macos.zip and Mac export')
+    if a.second_act_profile is not None and (a.platform!='macOS' or not re.fullmatch(r'[A-Za-z0-9-]{1,40}',a.second_act_profile)):p.error('--second-act-profile requires Mac-only export and a safe1–40 character profile')
+    template=a.mac_template.resolve() if a.mac_template else None
     root=Path(__file__).resolve().parents[1]
     commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True).strip()
     engine=subprocess.check_output([a.godot,'--version'],text=True).strip()
@@ -38,6 +45,8 @@ def main():
         presets=presets.replace('[preset.0.options]','[preset.0.options]\napplication/icon="'+brand['native_icon_windows']+'"')
     if brand.get('native_icon_macos'):
         presets=presets.replace('[preset.1.options]','[preset.1.options]\napplication/icon="'+brand['native_icon_macos']+'"')
+    if template:
+        presets=presets.replace('[preset.1.options]','[preset.1.options]\ncustom_template/debug='+json.dumps(str(template))+'\ncustom_template/release='+json.dumps(str(template)))
     (project/'export_presets.cfg').write_text(presets)
     original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"')
@@ -49,12 +58,17 @@ def main():
         signature='workspace-v1'+''.join(hashlib.sha256((project/path.removeprefix('res://')).read_bytes()).hexdigest() for path in paths)
         workspace_versions[paths[0]]=hashlib.sha256(signature.encode()).hexdigest()
     original=original.replace('[application]','[application]\nworkspace_versions='+json.dumps(workspace_versions))
+    if a.second_act_profile:
+        if '[candidate]' in original or 'config/custom_user_dir_name=' in original or 'config/use_custom_user_dir=' in original:raise ValueError('Review existing candidate/user-directory configuration')
+        original=original.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name='+json.dumps('VonNeumannBottleneckCandidates/representation/'+a.second_act_profile),1)
+        original+='\n[candidate]\nprimary_domain="representation"\nprofile='+json.dumps(a.second_act_profile)+'\njourney_enabled=true\n'
     (project/'project.godot').write_text(original)
     identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n\n'
     for document in ['README.md','README.en.md','CHANGELOG.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
         path=project/document
         path.write_text(identity+path.read_text().replace('@BUILD_ID@',build_id).replace('@SOURCE_COMMIT@',commit))
-    isolated=original.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="VonNeumannBottleneckChecks/build-'+stamp+'"')
+    isolated_base='\n'.join(line for line in original.splitlines() if not line.startswith(('config/use_custom_user_dir=','config/custom_user_dir_name=')))+'\n'
+    isolated=isolated_base.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="VonNeumannBottleneckChecks/build-'+stamp+'"')
     def run(name,args):
         result=subprocess.run([a.godot,'--headless','--path',str(project),*args],capture_output=True,text=True,timeout=600)
         text=result.stdout+result.stderr;(work/(name+'.log')).write_text(text)
@@ -70,10 +84,17 @@ def main():
     (project/'project.godot').write_text(original)
     # Exporters themselves do not start the game. Native QA uses a separate override.
     manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
-    for platform,preset,binary in [('macOS','macOS Free Candidate','Von-Neumann-Bottleneck.app'),('Windows','Windows Playtest','Von-Neumann-Bottleneck.exe')]:
+    if template:manifest['mac_template_sha256']=hashlib.sha256(template.read_bytes()).hexdigest()
+    if a.second_act_profile:manifest['candidate_journey']={'primary_domain':'representation','profile':a.second_act_profile,'isolated':True,'production_migration':False}
+    platforms=[('macOS','macOS Free Candidate','Von-Neumann-Bottleneck.app'),('Windows','Windows Playtest','Von-Neumann-Bottleneck.exe')]
+    for platform,preset,binary in platforms:
+        if a.platform!='both' and platform!=a.platform:continue
         folder=output/platform;folder.mkdir()
         run('export-'+platform,['--export-release',preset,str(folder/binary)])
         for src,name in [('distribution/PLAYTEST-README.txt','README.txt'),('distribution/KNOWN-ISSUES.txt','KNOWN-ISSUES.txt'),('distribution/CHANGELOG.txt','CHANGELOG.txt'),('LICENSE','LICENSE.txt'),('assets/fonts/OFL-NotoSansSC.txt','FONT-LICENSE.txt'),('candidate-licenses.txt','ENGINE-LICENSES.txt')]:shutil.copy2(project/src,folder/name)
+        if a.second_act_profile:
+            with (folder/'README.txt').open('a') as notes:
+                notes.write('\nSecond-act isolated candidate journey\nProfile: '+a.second_act_profile+'\nRepresentation five tasks and Service three contracts have separate plans and endings. Save before leaving; the earned Representation review can continue to Service. Home also has independent entries and a saved combined review. Prediction and follow-up commissions remain optional. This build uses an isolated candidate profile and does not read or migrate production progress.\n')
         files={str(f.relative_to(folder)):hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(folder.rglob('*')) if f.is_file()}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n')

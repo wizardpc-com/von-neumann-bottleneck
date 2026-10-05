@@ -82,6 +82,9 @@ func tr2(zh: String, en: String) -> String: return en if english else zh
 func _ready() -> void:
 	theme = Theme.new(); InstrumentTheme.apply_to(theme)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var packaged_journey: bool = SessionStore.Context.configured_journey()
+	candidate_journey = candidate_journey or packaged_journey
+	persistent_session = persistent_session or packaged_journey
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--locale=en": english = true
 		if arg == "--candidate-save": persistent_session = true

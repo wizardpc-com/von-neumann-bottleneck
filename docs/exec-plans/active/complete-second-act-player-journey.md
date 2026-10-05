@@ -154,3 +154,25 @@ Do not accept the English run despite its final PASS marker. Region finish_leave
 now defers scene changes to the next idle boundary so the old embedded window
 finishes input dispatch. This changes UI lifetime only; no model/session rule.
 Verify affected navigation and the short independent resume against this fix.
+
+### Local candidate packaging stage (within authorized Mac scope)
+
+Official4.7.1 export-template asset is available. Downloaded only into project
+`.godot/tools`, verify the whole archive against the already pinned official SHA512
+and its version, then extract only `templates/macos.zip`; do not install into
+Library or alter permissions. Use Godot's official custom-template options.
+Root owns all shared/config/build edits: add optional Mac-only/template/profile
+arguments to the existing frozen builder, keeping default exports unchanged.
+Packaged journey setting must require a valid explicitly bound candidate profile
+before enabling hub/scene persistence. Original profile filenames/schema/core40
+remain unchanged; production paths refuse that automatic startup configuration.
+Focused candidate path/lifecycle/navigation checks, then commit/build identity+real release-binary
+probe and native startup. No full source regression repeated for packaging options.
+No notarization, paid signing, security bypass or deployment.
+
+Pre-build result: `.godot/verification/20261005T212441Z-7e0642a1` import and
+actual QA directory PASS; candidate journey20, lifecycle225, second-act navigation24
+checks PASS. Python AST and rejection of unsafe/Windows journey arguments PASS.
+An earlier invocation named a nonexistent suite and stopped before tests; it is
+not acceptance. Build verifier now also requires both second-act scenes in the
+real PCK and automatic journey refusal in its unbound QA directory.

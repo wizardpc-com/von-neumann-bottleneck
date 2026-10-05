@@ -29,6 +29,8 @@ func _ready() -> void:
 	var repeated_workbench_save: bool = first_write and second_write and components.size() == 1 and String((components[0] as Dictionary).get("id", "")) == "second"
 	var checks: Dictionary = {
 		"isolated":OS.get_user_data_dir().ends_with("SUFFIX"),
+		"candidate_auto_start_refuses_qa_directory":not load("res://experiments/candidate_session/context.gd").configured_journey(),
+		"second_act_resources":ResourceLoader.exists("res://experiments/representation_region/region.tscn") and ResourceLoader.exists("res://experiments/service_plan/lab.tscn"),
 		"candidate_feature":OS.has_feature("free_candidate"),
 		"game_only":not mode.is_test_mode() and not mode.developer_tools_enabled() and not mode.set_mode(&"test"),
 		"capture_disabled":mode.capture_arguments().is_empty(),
@@ -57,7 +59,7 @@ profile=work/'protect-player.sb';profile.write_text('(version 1)\n(allow default
 result=subprocess.run(['/usr/bin/sandbox-exec','-f',str(profile),str(binary),'--headless','--quit-after','120','--log-file',str(work/'engine.log'),'--','--test-mode','--capture-cpu-success','--reset-local-test-state'],cwd=work,capture_output=True,text=True,timeout=60)
 output=result.stdout+result.stderr;(work/'probe.log').write_text(output)
 override.write_text(settings)
-if result.returncode or 'PACKAGE_CHECKS' not in output or 'false' in next((line for line in output.splitlines() if line.startswith('PACKAGE_CHECKS')),'false') or 'SCRIPT ERROR' in output:raise RuntimeError('Package probe failed; see '+str(work/'probe.log'))
+if result.returncode or 'PACKAGE_CHECKS' not in output or 'false' in next((line for line in output.splitlines() if line.startswith('PACKAGE_CHECKS')),'false') or 'SCRIPT ERROR' in output or 'ERROR:' in output:raise RuntimeError('Package probe failed; see '+str(work/'probe.log'))
 for name,digest in hashes.items():assert hashlib.sha256((app/name).read_bytes()).hexdigest()==digest
 report={'build_id':manifest['build_id'],'source_commit':manifest['source_commit'],'passed':True,'source_app':str(original),'qa_app':str(app),'user_suffix':user_suffix,'binary_and_pack_unchanged':hashes,'qa_override_only':str(override),'public_release':False}
 (work/'result.json').write_text(json.dumps(report,indent=2)+'\n')

@@ -48,6 +48,11 @@ static func summary(event: Dictionary, english: bool) -> String:
 		"eviction": lines.append(words("自动LRU释放此流的本地槽。", "Automatic LRU releases this stream's local slot.",english))
 		"compute": lines.append(words("用此请求更新八值状态，并计算分数。", "Update the eight-value state with this request and compute its score.",english))
 		"output": lines.append(words("将已计算的分数返回给此请求。", "Return the computed score for this request.",english))
+	if kind in ["output","commit"]:
+		for field: String in ["score","reference","error"]:
+			var value: Variant = d.get(field)
+			var name: String = words("实际分数", "Actual score",english) if field == "score" else (words("参考分数", "Reference score",english) if field == "reference" else words("分数误差", "Score error",english))
+			lines.append(name+": "+(String.num_scientific(float(value)) if (value is int or value is float) and is_finite(float(value)) else words("未记录", "not recorded",english)))
 	var evidence: PackedStringArray = []
 	for field: String in ["cycle","duration"]:
 		if event.has(field): evidence.append((words("起始周期", "Start cycle",english) if field == "cycle" else words("本事件周期", "Event cycles",english))+": "+str(event[field]))

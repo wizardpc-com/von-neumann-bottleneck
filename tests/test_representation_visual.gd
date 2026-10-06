@@ -125,6 +125,49 @@ func run() -> void:
 	check(scene.history[paired_index].traces[0].canonical_signature() == paired_signature,"Draft changes preserve paired measured evidence")
 	scene.select_run(paired_index)
 	check(scene.order_choice.selected == 0 and scene.order_choice.get_item_text(0).contains("Unmet"),"Reopening a failed recording selects the first unmet order")
+	# Real preparation records stay comparable across visits to another task.
+	scene.change_task(3)
+	scene.edit_plan(Model.represent(Model.split(Model.initial_plan(),0,8),1,"rle"))
+	scene.run_current()
+	var revised_index: int = scene.selected_run
+	var revised: Dictionary = scene.history[revised_index].traces[0].metrics
+	var earlier: Dictionary = scene.history[prepare_index].traces[0].metrics
+	var found: Dictionary = scene.prior_comparable_trace(revised_index,revised.spec)
+	check(int(found.get("run_index",-1)) == prepare_index and found.get("trace") == scene.history[prepare_index].traces[0],"Comparison finds the preceding same-task/order recording across an intervening asset task")
+	scene.show_trace(0)
+	check(scene.metric_details.text.contains("run #%d → #%d" % [prepare_index+1,revised_index+1]),"Comparison names both immutable source recordings")
+	check(scene.metric_details.text.contains("prepare%+d, serve%+d, total%+d cycles" % [int(revised.preparation_cycles)-int(earlier.preparation_cycles),int(revised.service_cycles)-int(earlier.service_cycles),int(revised.total_cycles)-int(earlier.total_cycles)]),"Preparation/service/total deltas use actual measured costs")
+	check(scene.metric_details.text.contains("Actual storage%+dB · service traffic%+dB · all-phase traffic%+dB" % [int(revised.stored_bytes)-int(earlier.stored_bytes),int(revised.traffic_bytes)-int(earlier.traffic_bytes),int(revised.total_traffic_bytes)-int(earlier.total_traffic_bytes)]),"Storage/service/all-phase traffic deltas keep their distinct scopes")
+	scene.select_run(prepare_index); scene.show_trace(0)
+	check(scene.prior_comparable_trace(prepare_index,earlier.spec).is_empty(),"Selecting an older first recording never uses a future matching recording")
+	check(scene.metric_details.text.contains("No earlier same-task, same-spec"),"Absent earlier comparison is explicit in English")
+	check(scene.prior_comparable_trace(-1,earlier.spec).is_empty() and scene.prior_comparable_trace(scene.history.size(),earlier.spec).is_empty(),"Invalid recording indices cannot inspect unrelated history")
+	var altered_spec: Dictionary = earlier.spec.duplicate(true); altered_spec.latency += 1
+	check(scene.prior_comparable_trace(revised_index,altered_spec).is_empty(),"Same order name with a different machine is not comparable")
+	# A recorded changed machine and a differently tagged task must be skipped.
+	var changed_traces: Array = []
+	for spec: Dictionary in Model.orders(3):
+		var changed: Dictionary = spec.duplicate(true); changed.latency += 1
+		changed_traces.append(Model.run(changed,scene.plan))
+	scene.history.append({"task":3,"plan":scene.plan.duplicate(true),"traces":changed_traces,"accepted":false})
+	scene.history.append({"task":4,"plan":scene.plan.duplicate(true),"traces":scene.history[revised_index].traces.duplicate(),"accepted":false})
+	var signatures: Array[String] = []
+	for record: Dictionary in scene.history:
+		for trace: RefCounted in record.traces: signatures.append(trace.canonical_signature())
+	scene.run_current()
+	var latest_index: int = scene.selected_run
+	found = scene.prior_comparable_trace(latest_index,revised.spec)
+	check(int(found.get("run_index",-1)) == revised_index,"Nearest earlier match skips changed complete specs and different task IDs")
+	scene.english = false; scene.build(); scene.show_trace(0)
+	check(scene.metric_details.text.contains("比较来源：记录#%d → #%d" % [revised_index+1,latest_index+1]) and scene.metric_details.text.contains("全阶段搬运"),"Chinese comparison exposes source identity and all cost scopes")
+	scene.select_run(prepare_index); scene.show_trace(0)
+	check(scene.metric_details.text.contains("暂无更早的同任务、同规格"),"Absent earlier comparison is explicit in Chinese")
+	var cursor: int = 0
+	for record_index: int in latest_index:
+		for trace: RefCounted in scene.history[record_index].traces:
+			check(trace.canonical_signature() == signatures[cursor],"History comparison and locale rebuilding do not mutate any recorded Trace")
+			cursor += 1
+	check(scene.history[prepare_index].traces[0].canonical_signature() == prepare_signature and scene.history[paired_index].traces[0].canonical_signature() == paired_signature,"Original preparation and cross-asset evidence remain intact")
 	scene.queue_free(); await process_frame
 	print("PASS: test_representation_visual " if failures == 0 else "FAIL: test_representation_visual ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

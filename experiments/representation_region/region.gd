@@ -4,6 +4,7 @@ const Model = preload("res://experiments/representation_region/model.gd")
 const Catalog = preload("res://experiments/representation_region/catalog.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/representation_region/session_store.gd")
+const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
 var writer_lease: RefCounted
 var recovery_state: Dictionary = {}
 var support_plans: Dictionary = {}
@@ -424,6 +425,18 @@ func refresh_order_comparison(record: Dictionary) -> void:
 		for column: int in range(1,5): item.set_text(column,str(m[["preparation_cycles","service_cycles","stored_bytes","traffic_bytes"][column-1]]))
 		item.set_custom_color(0,Color("62dca7") if met else Color("f2ba70"))
 
+func prior_comparable_trace(run_index: int, spec: Dictionary) -> Dictionary:
+	# Compare recorded evidence only, never drafts or a later run.
+	if run_index < 0 or run_index >= history.size(): return {}
+	var task_index: int = int(history[run_index].task)
+	for previous: int in range(run_index-1,-1,-1):
+		var recorded: Dictionary = history[previous]
+		if int(recorded.task) != task_index: continue
+		for trace: Trace in recorded.traces:
+			if trace.metrics.get("spec",{}) == spec:
+				return {"run_index":previous,"trace":trace}
+	return {}
+
 func show_trace(index: int) -> void:
 	var row: Dictionary = history[selected_run]
 	if index < 0 or index >= row.traces.size(): return
@@ -434,11 +447,13 @@ func show_trace(index: int) -> void:
 	if m.spec.online:
 		result.text += text2("\n包含保留源%dB；本订单%d位客户共用一次准备、各自冷缓存。", "\nIncludes retained source %dB; this order’s %d clients share one preparation, each with a cold cache.") % [m.source_storage_bytes,m.spec.clients]
 	metric_details.text = text2("准备读%dB / 写%dB · 编码%dops（%d周期）\n解码%d周期 · 请求%d周期 · 消费%d周期 · hit/miss %d/%d · cache峰值%dB\n所有阶段搬运%dB · 准备后端存储峰值%dB（不含恢复缓冲）\n逻辑表示%dB；实际空间取自记录。", "Prepare read%dB / write%dB · encode%dops (%d cycles)\nDecode%dcycles · requests%dcycles · consume%dcycles · hit/miss %d/%d · cache peak%dB\nAll-phase traffic%dB · preparation backing-storage peak%dB (excludes recovery scratch)\nLogical representation%dB; actual storage comes from the recording.") % [m.source_read_bytes,m.prepared_write_bytes,m.encode_ops,m.encode_cycles,m.decode_cycles,m.request_cycles,m.consume_cycles,m.cache_hits,m.cache_misses,m.peak_cache_bytes,m.total_traffic_bytes,m.peak_preparation_bytes,m.representation_bytes]
-	if selected_run > 0:
-		var old: Dictionary = history[selected_run-1]
-		for prior: Trace in old.traces:
-			if prior.metrics.spec == m.spec:
-				metric_details.text += text2("\n对同订单上一记录：周期%+d，搬运%+dB，存储%+dB", "\nVersus prior same-order run: cycles%+d, traffic%+dB, stored%+dB") % [int(m.total_cycles)-int(prior.metrics.total_cycles),int(m.traffic_bytes)-int(prior.metrics.traffic_bytes),int(m.stored_bytes)-int(prior.metrics.stored_bytes)]
+	var comparison: Dictionary = prior_comparable_trace(selected_run,m.spec)
+	if comparison.is_empty():
+		metric_details.text += text2("\n暂无更早的同任务、同规格订单记录可比较。", "\nNo earlier same-task, same-spec order recording to compare.")
+	else:
+		var prior: Trace = comparison.trace
+		var before: Dictionary = prior.metrics
+		metric_details.text += text2("\n比较来源：记录#%d → #%d · %s（同任务、同规格）\n本次减去旧记录：准备%+d、服务%+d、总计%+d周期\n实际空间%+dB · 服务搬运%+dB · 全阶段搬运%+dB", "\nComparison source: run #%d → #%d · %s (same task and spec)\nCurrent minus prior: prepare%+d, serve%+d, total%+d cycles\nActual storage%+dB · service traffic%+dB · all-phase traffic%+dB") % [int(comparison.run_index)+1,selected_run+1,m.spec.name,int(m.preparation_cycles)-int(before.preparation_cycles),int(m.service_cycles)-int(before.service_cycles),int(m.total_cycles)-int(before.total_cycles),int(m.stored_bytes)-int(before.stored_bytes),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.total_traffic_bytes)-int(before.total_traffic_bytes)]
 	var limit_feedback: String = constraint_feedback(int(row.task),row.traces)
 	if not limit_feedback.is_empty(): result.text += "\n" + limit_feedback
 	var comparison_row: TreeItem = order_comparison.get_root().get_first_child()
@@ -642,6 +657,8 @@ func restore_support() -> void:
 
 func add_recovery_controls(parent: Node) -> void:
 	if writer_lease == null or not writer_lease.held:
+		make_button(text2("重新检查写入权（保留本窗口探索）", "Recheck writer ownership (keep this exploration)"),parent,retry_writer.bind(false),"RetryWriter")
+		make_button(text2("重新读取已保存候选档", "Reload saved candidate profile"),parent,func() -> void: confirm_recovery(retry_writer.bind(true)),"ReloadCandidate")
 		var stopped: String = SessionStore.Lease.stopped_owner(SessionStore.PATH)
 		if not stopped.is_empty():
 			make_button(text2("恢复已停止窗口的写入权", "Recover stopped window’s writer ownership"),parent,func() -> void: confirm_recovery(func() -> void: recover_writer(stopped)),"RecoverWriter")
@@ -653,6 +670,29 @@ func add_recovery_controls(parent: Node) -> void:
 		var kind: String = text2("主档", "Main") if source == SessionStore.PATH else (text2("上次保存", "Previous save") if source.ends_with(".bak") else text2("未完成安装", "Interrupted install"))
 		var recovery_button := make_button(text2("恢复 ", "Recover ")+kind+" · T"+str(int(choice.task)+1)+" · "+str(choice.digest).substr(0,8),parent,func() -> void: confirm_recovery(func() -> void: recover_candidate(source)),"RecoverSnapshot")
 		recovery_button.tooltip_text = source.get_file()
+
+func retry_writer(reload_saved: bool = false) -> void:
+	if not persistent_session or (writer_lease != null and writer_lease.owns(SessionStore.PATH)): return
+	var expected: String = session_version
+	if reload_saved:
+		var disk: Dictionary = SessionStore.read_session()
+		if not disk.ok: recovery_failed(); return
+		expected = str(disk.get("digest",""))
+	var acquired: Dictionary = WriterRetry.attempt(SessionStore.PATH,expected,SessionStore.read_session)
+	if not acquired.ok:
+		save_blocked = true
+		refresh_recovery_controls()
+		session_notice = text2("尚未取得写入权；当前探索仍保留。关闭占用窗口后可重试；若磁盘存档已变化，须确认重新读取才能替换本窗口探索。", "Writer ownership was not acquired; your exploration is retained. Retry after the owning window closes. If the disk save changed, confirm Reload to replace this window’s exploration.")
+		if acquired.reason == "unreadable": session_notice = text2("候选档无法安全读取；保持禁止覆盖。请检查恢复快照，或保留当前窗口。", "Candidate save cannot be read safely; overwriting remains blocked. Review recovery snapshots or keep this window open.")
+		status.text = session_notice
+		return
+	writer_lease = acquired.lease
+	if reload_saved:
+		reload_recovered_session()
+		return
+	save_blocked = false; recovery_state.clear()
+	session_notice = text2("已取得写入权；本窗口的草稿、记录和未保存探索均保留，现在可以保存。", "Writer ownership acquired; this window’s draft, recordings and unsaved exploration are retained. You can now save.")
+	build(); status.text = session_notice
 
 func recover_writer(expected_token: String) -> void:
 	var acquired: Dictionary = SessionStore.Lease.recover_and_acquire(SessionStore.PATH,expected_token)

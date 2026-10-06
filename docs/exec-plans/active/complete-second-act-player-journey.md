@@ -372,3 +372,10 @@ lifecycle suites in isolated profiles, engines serial. Commit implementation,
 then retain one frozen integrated validation identity and inspect actual Mac UI/
 new local candidate where available. Preserve failed attempts, original frozen
 package and external/native-tool limits; no repeated whole-project test per edit.
+
+First integrated isolated check20261006T051851Z-4dc4e101: import/directory
+isolation and lifecycle225, writer retry104, retry UI40, representation visual209,
+service learning49 checks PASS; all full logs inspected for SCRIPT ERROR/ERROR/FAIL.
+Source findings are now implemented, not external acceptance. Root adds minimum
+bilingual reachability assertions before frozen checks/package. No model, schema,
+core registry or old candidate package changed.

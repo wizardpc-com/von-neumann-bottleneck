@@ -186,3 +186,12 @@ Home's **Review saved second-act plans** revalidates all five Representation tas
 and all three Service contracts from saved recipes. Unavailable/recovering profiles
 are explicitly unconfirmed, and drafts/unsaved work do not grant completion.
 Prediction and follow-up commissions are optional, outside that combined review.
+
+## Earlier matching measurements — 2026-10-06
+
+Cost details compare the selected recording with the nearest earlier recording
+of the same task and complete order specification, even when another task was
+measured in between. They name both record numbers and report preparation, service,
+total cycles, actual storage, service traffic and all-phase traffic separately.
+No matching earlier recording is stated explicitly. Future records and unrun
+drafts never supply this comparison; historical traces remain unchanged.

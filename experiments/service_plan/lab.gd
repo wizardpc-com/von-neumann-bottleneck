@@ -1,5 +1,6 @@
 extends Control
 ## Editable plan presenter. Never supplies authoritative numerical results.
+const QualityEvidence = preload("res://experiments/service_plan/quality_evidence.gd")
 const EventPresenter = preload("res://experiments/service_plan/event_presenter.gd")
 const Model = preload("res://experiments/service_plan/model.gd")
 const StateReplayView = preload("res://experiments/service_plan/state_replay_view.gd")
@@ -7,6 +8,7 @@ const Briefing = preload("res://experiments/service_plan/briefing.gd")
 const Commissions = preload("res://experiments/service_plan/commissions.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/service_plan/session_store.gd")
+const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
 var writer_lease: RefCounted
 var recovery_state: Dictionary = {}
 var support_plans: Dictionary = {}
@@ -193,6 +195,7 @@ func build() -> void:
 	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	restore_button = button(tr2("恢复为草稿", "Restore draft"), history_header, restore_history, "Restore")
+	button(tr2("精度依据", "Quality evidence"),history_header,show_quality_evidence,"QualityEvidence")
 	var support_button := button(tr2("达标方案", "Successful plan"),history_header,restore_support,"RestoreSupport")
 	support_button.disabled = not support_plans.has(task)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
@@ -255,6 +258,8 @@ func refresh_groups() -> void:
 	move_to.max_value = plan.groups.size()
 	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
 func refresh_actions() -> void:
+	var quality_button := find_child("QualityEvidence",true,false) as Button
+	if quality_button != null: quality_button.disabled = selected_history < 0 or selected_history >= history.size() or not str(history[selected_history].metrics.error).is_empty()
 	var support_button := find_child("RestoreSupport",true,false) as Button
 	if support_button != null: support_button.disabled = not support_plans.has(task)
 	var closure := find_child("ServiceClosure",true,false) as Button
@@ -326,10 +331,13 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 		budgets.append({"name":tr2("最晚首响应周期", "Latest first response"),"actual":int(metrics.all_streams_first_cycle),"limit":320})
 	for budget: Dictionary in budgets:
 		if budget.actual > budget.limit: failures.append(tr2("%s %d / 上限%d，超出%d", "%s %d / limit%d, over by%d") % [budget.name,budget.actual,budget.limit,budget.actual-budget.limit])
+	var witness: Dictionary = QualityEvidence.build(metrics)
 	var tolerance: float = 0.02 if contract == 2 else 0.000000001
 	for key: String in ["max_error","max_state_error"]:
 		if float(metrics[key]) > tolerance:
 			var name: String = tr2("分数误差", "Score error") if key == "max_error" else tr2("最终状态误差", "Final-state error")
+			var point: Dictionary = witness.get("score" if key == "max_error" else "state",{})
+			if not point.is_empty(): name += " ("+QualityEvidence.identity(point,key == "max_error")+")"
 			failures.append(name+" "+String.num_scientific(float(metrics[key]))+" / "+String.num_scientific(tolerance))
 	return " · ".join(failures) if not failures.is_empty() else tr2("证据未满足当前任务。", "Evidence does not meet this task.")
 
@@ -459,6 +467,9 @@ func mark_session_dirty() -> void:
 
 func session_notice() -> String:
 	match notice_key:
+		"writer-reacquired": return tr2("已取得写入权；本窗口的草稿、记录和未保存探索均保留，现在可以保存。", "Writer ownership acquired; this window’s draft, recordings and unsaved exploration are retained. You can now save.")
+		"writer-retry-failed": return tr2("尚未取得写入权；当前探索仍保留。关闭占用窗口后可重试；若磁盘存档已变化，须确认重新读取才能替换本窗口探索。", "Writer ownership was not acquired; your exploration is retained. Retry after the owning window closes. If the disk save changed, confirm Reload to replace this window’s exploration.")
+		"writer-unreadable": return tr2("候选档无法安全读取；保持禁止覆盖。请检查恢复快照，或保留当前窗口。", "Candidate save cannot be read safely; overwriting remains blocked. Review recovery snapshots or keep this window open.")
 		"locked": return tr2("此候选档已由另一窗口占用，或上次未正常关闭；本窗口禁止保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
 		"blocked": return tr2("已有候选存档无法安全读取；已保留原文件并禁止覆盖。", "Existing candidate save cannot be read safely; original preserved, overwriting blocked.")
 		"new": return tr2("独立候选档；退出前保存本次探索。", "Isolated candidate profile; save this exploration before quitting.")
@@ -546,6 +557,8 @@ func restore_support() -> void:
 
 func add_recovery_controls(parent: Node) -> void:
 	if writer_lease == null or not writer_lease.held:
+		button(tr2("重新检查写入权（保留本窗口探索）", "Recheck writer ownership (keep this exploration)"),parent,retry_writer.bind(false),"RetryWriter")
+		button(tr2("重新读取已保存候选档", "Reload saved candidate profile"),parent,func() -> void: confirm_recovery(retry_writer.bind(true)),"ReloadCandidate")
 		var stopped: String = SessionStore.Lease.stopped_owner(SessionStore.PATH)
 		if not stopped.is_empty():
 			button(tr2("恢复已停止窗口的写入权", "Recover stopped window’s writer ownership"),parent,func() -> void: confirm_recovery(func() -> void: recover_writer(stopped)),"RecoverWriter")
@@ -557,6 +570,26 @@ func add_recovery_controls(parent: Node) -> void:
 		var kind: String = tr2("主档", "Main") if source == SessionStore.PATH else (tr2("上次保存", "Previous save") if source.ends_with(".bak") else tr2("未完成安装", "Interrupted install"))
 		var recovery_button := button(tr2("恢复 ", "Recover ")+kind+" · T"+str(int(choice.task)+1)+" · "+str(choice.digest).substr(0,8),parent,func() -> void: confirm_recovery(func() -> void: recover_candidate(source)),"RecoverSnapshot")
 		recovery_button.tooltip_text = source.get_file()
+
+func retry_writer(reload_saved: bool = false) -> void:
+	if not persistent_session or (writer_lease != null and writer_lease.owns(SessionStore.PATH)): return
+	var expected: String = session_version
+	if reload_saved:
+		var disk: Dictionary = SessionStore.read_session()
+		if not disk.ok: recovery_failed(); return
+		expected = str(disk.get("digest",""))
+	var acquired: Dictionary = WriterRetry.attempt(SessionStore.PATH,expected,SessionStore.read_session)
+	if not acquired.ok:
+		save_blocked = true
+		notice_key = "writer-unreadable" if acquired.reason == "unreadable" else "writer-retry-failed"
+		refresh_recovery_controls(); status.text = session_notice()
+		return
+	writer_lease = acquired.lease
+	if reload_saved:
+		reload_recovered_session()
+		return
+	save_blocked = false; recovery_state.clear(); notice_key = "writer-reacquired"
+	build(); status.text = session_notice()
 
 func recover_writer(expected_token: String) -> void:
 	var acquired: Dictionary = SessionStore.Lease.recover_and_acquire(SessionStore.PATH,expected_token)
@@ -717,3 +750,18 @@ func show_briefing() -> void:
 		var text := Label.new(); text.text = page.body; text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		text.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(text)
 	add_child(dialog); dialog.popup_centered(Vector2i(720,430))
+
+func show_quality_evidence() -> void:
+	if selected_history < 0 or selected_history >= history.size(): return
+	var record: Dictionary = history[selected_history]
+	var tolerance: float = float(Commissions.spec(commission_mode).tolerance) if commission_mode >= 0 else (0.02 if task == 2 else 0.000000001)
+	var evidence: Dictionary = QualityEvidence.build(record.metrics,record.events)
+	var existing := get_node_or_null("MeasuredQualityReview") as AcceptDialog
+	if existing != null: remove_child(existing); existing.queue_free()
+	var review := AcceptDialog.new(); review.name = "MeasuredQualityReview"
+	review.title = tr2("记录%d · 精度依据", "Measurement%d · Quality evidence") % (selected_history+1)
+	var content := RichTextLabel.new(); content.name = "QualityContent"
+	content.custom_minimum_size = Vector2(660,260); content.scroll_active = true
+	content.text = measured_source.text+"\n\n"+QualityEvidence.text(evidence,tolerance,english)
+	review.add_child(content); review.ok_button_text = tr2("回到实测记录", "Back to measurement")
+	add_child(review); review.popup_centered(Vector2i(700,330))

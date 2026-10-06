@@ -2,6 +2,18 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Second-act blocker fixes — 2026-10-06
+
+Source follow-up adds nearest earlier same-task/order comparison across interleaved
+Representation visits, recorded Service quality witnesses (request and final-state
+coordinate), and explicit safe writer retry after another window releases its
+candidate lease. Unchanged disk preserves live exploration; changed disk requires
+confirmed reload. Unknown/recovering/future saves remain protected. Models,
+schema2, core40 and optional Prediction are unchanged. Initial five affected suites
+pass; frozen validation/new Mac export follow in the existing execution plan.
+The earlier frozen candidate below remains immutable; source changes do not confer
+novice, otherMac or formal release acceptance.
+
 ## Second-act continuity and local Mac package — 2026-10-05–06
 
 Representation's earned five-task review can optionally continue to Service with

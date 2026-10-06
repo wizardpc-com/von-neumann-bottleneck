@@ -103,3 +103,15 @@ acceptance are separate evidence, never inferred from these tests.
 
 Mac lifecycle ran without a capability skip in the corrected frozen-source check;
 see [exact integration evidence and limits](../../docs/verification/20261005-mac-second-act/README.md).
+
+## Normally released writer — 2026-10-06
+
+A refused window can explicitly Recheck writer ownership without losing its
+live draft, measurements or protected successful plans. Ordinary lease creation
+is retried; no owner is deleted or reclaimed. The disk must be safely readable
+and its digest must still match the version originally read by this window.
+Changed or unreadable files stay protected. Reload saved candidate profile uses
+the existing unsaved-work confirmation and checks the new disk version while
+holding ownership before replacing this window's exploration. Cancel keeps it.
+This does not migrate schema, grant campaign progress or promise power-loss durability.
+Focused checks: test_candidate_writer_retry and test_candidate_writer_retry_ui.

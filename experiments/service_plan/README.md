@@ -231,3 +231,13 @@ State bytes include each actual2B directory, while resident state always uses64B
 Start/Previous/Next/End and the event inspector share the recorded source index.
 Draft edits never change replay evidence; Save retains the existing recipes and
 reconstructs their trace when reopening the same isolated candidate profile.
+
+## Locating measured precision failures — 2026-10-06
+
+Quality evidence opens a bounded view of the selected recording: the maximum
+score error's request, maximum final-state error's stream/coordinate (indices0–7),
+actual/reference values and the current public tolerance. Scientific notation
+retains small visible errors. Ties use stable request/coordinate order.
+Readable output/commit events include their recorded score/reference/error;
+missing fields are identified rather than invented. Editing the draft cannot
+replace the recorded evidence. Models, exact/approximate limits and schema2 are unchanged.

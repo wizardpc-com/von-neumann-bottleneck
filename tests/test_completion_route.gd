@@ -8,7 +8,7 @@ func run() -> void:
 	root.content_scale_size = Vector2i(1280,720); root.size = Vector2i(1280,720)
 	var empty := {"representation":{"status":"empty"}, "service":{"status":"empty"}, "complete":false}
 	var all_saved := {"representation":{"status":"complete"}, "service":{"status":"complete"}, "complete":true}
-	check(Hub.recommended_stage(false, all_saved) == "core", "Second-act completion cannot invent a core ending")
+	check(Hub.recommended_stage(false, all_saved) == "review", "Independent earned second-act ending stays discoverable without inventing a core ending")
 	check(Hub.recommended_stage(true, empty) == "representation", "Earned core points to Representation")
 	check(Hub.recommended_stage(true, {"representation":{"status":"complete"},"service":{"status":"partial"}}) == "service", "Saved Representation leads to Service")
 	check(Hub.recommended_stage(true, all_saved) == "review", "Both completed saved domains lead to closure")

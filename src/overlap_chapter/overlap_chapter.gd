@@ -44,6 +44,7 @@ var save_elapsed: float = 0.0
 var draft_loading: bool = false
 var copy_previous_button: Button
 var copy_previous_note: Label
+var core_review_button: Button
 
 func _ready() -> void:
 	add_to_group("workspace_owners")
@@ -73,6 +74,12 @@ func _ready() -> void:
 	_button(header,"hub",func() -> void:
 		_save_draft()
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
+	core_review_button = Button.new()
+	core_review_button.name = "OverlapCoreReview"
+	core_review_button.text = "回看路径成果" if Localization.current_locale() != "en" else "Review this path"
+	core_review_button.custom_minimum_size.y = 38
+	core_review_button.pressed.connect(_open_core_review)
+	header.add_child(core_review_button)
 	_button(header,"fullscreen",WindowMode.toggle_fullscreen)
 	header.add_child(WindowMode.settings_button())
 	goal = Button.new()
@@ -103,6 +110,7 @@ func _ready() -> void:
 	completion = preload("res://src/ui/level_completion_overlay.gd").new()
 	completion.questionnaire_enabled = PlaytestData.questionnaires_enabled()
 	completion.continue_requested.connect(func(_id: StringName) -> void: _show_map())
+	completion.primary_action_requested.connect(func(_id: StringName) -> void: _open_core_review())
 	completion.feedback_submitted.connect(PlaytestData.submit_level_feedback)
 	completion.feedback_skipped.connect(func(chapter: StringName, id: StringName) -> void: PlaytestData.record_feedback_skipped(&"level",StringName("%s/%s" % [chapter,id])))
 	add_child(completion)
@@ -243,6 +251,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _show_map() -> void:
 	_save_draft()
+	core_review_button.visible = OverlapChapter.completed().has("synthesis")
 	if not level.is_empty(): PlaytestData.level_exited(&"chapter_3",StringName(level))
 	level = ""
 	if TaskNavigation.return_to_tree(): return
@@ -319,6 +328,7 @@ func _open_level(id: String, save_current: bool = true) -> void:
 	# Empty construction starts with tools visible, not an authored answer machine.
 	panels.program.hide()
 	dirty = false
+	core_review_button.visible = OverlapChapter.completed().has("synthesis")
 
 func _new_graph(read_only: bool) -> CircuitGraphEdit:
 	var result := Graph.new()
@@ -764,7 +774,11 @@ func _run_official() -> void:
 		OverlapChapter.record_pass(level,board,editor.text)
 		if newly_completed:
 			PlaytestData.level_completed(&"chapter_3",StringName(level),{"cycles":trace.metrics.total_cycles,"cost":trace.metrics.cost})
-			completion.present(StringName(level),_t(level+".title"),_t(level+".learned"),_t("title"),&"chapter_3")
+			if level == "synthesis":
+				completion.present_actions(StringName(level),_t(level+".title"),_t(level+".learned"),_t("title"),&"chapter_3",
+					"回看路径成果" if Localization.current_locale() != "en" else "Review this path",Localization.text(&"common.level_complete.continue"))
+			else:
+				completion.present(StringName(level),_t(level+".title"),_t(level+".learned"),_t("title"),&"chapter_3")
 		status.text = _t("passed")
 		if level in ["distance","synthesis"]:
 			status.text += " · "+_t("bonus.done" if OverlapChapter.bonus_status(level).complete else "bonus.pending")
@@ -772,6 +786,15 @@ func _run_official() -> void:
 	else:
 		status.text = _t("try_again")
 		status.add_theme_color_override("font_color",GOLD)
+	core_review_button.visible = OverlapChapter.completed().has("synthesis")
+
+func _open_core_review() -> void:
+	if not OverlapChapter.completed().has("synthesis"): return
+	_save_draft()
+	if not level.is_empty(): PlaytestData.level_exited(&"chapter_3",StringName(level))
+	TaskNavigation.from_tree = false
+	preload("res://experiments/candidate_session/navigation_intent.gd").pending_review = "core"
+	get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 
 func _select_run(index: int) -> void:
 	if index < 0 or index >= runs.size(): return

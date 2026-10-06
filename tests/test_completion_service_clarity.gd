@@ -1,6 +1,10 @@
 extends SceneTree
 const Lab = preload("res://experiments/service_plan/lab.gd")
 const Model = preload("res://experiments/service_plan/model.gd")
+const NavigationIntent = preload("res://experiments/candidate_session/navigation_intent.gd")
+class DeferredLeaveProbe extends "res://experiments/service_plan/lab.gd":
+	var destinations: Array[bool] = []
+	func _finish_hub_leave(review_journey: bool) -> void: destinations.append(review_journey)
 var checks: int = 0
 var failures: int = 0
 func _init() -> void: call_deferred("run")
@@ -11,6 +15,8 @@ func run() -> void:
 	root.size = Vector2i(1280,720); root.content_scale_size = Vector2i(1280,720)
 	var scene := Lab.new(); root.add_child(scene); await process_frame
 	check(scene.bill_button.disabled and scene.history.is_empty(),"Unrun draft has no measured bill")
+	check(scene.next_button.disabled and scene.event_raw_button.disabled,"No-data actions cannot offer progression or raw events")
+	scene.continue_service(); check(scene.task == 0,"Calling Next before earning support does not navigate")
 	scene.show_measured_bill()
 	check(not scene.has_node("MeasuredBillReview"),"Bill action cannot invent a record")
 	scene.show_specification(); await process_frame
@@ -22,6 +28,10 @@ func run() -> void:
 	check(scene.summary.text.contains("2204") and scene.summary.text.contains("3168") and scene.summary.text.contains("266"),"Compact overview retains baseline time traffic and peak evidence")
 	check(not scene.summary.text.contains("请求") and not scene.summary.text.contains("[89"),"Detailed bill and response array do not repeat on overview")
 	check(scene.status.text.contains("784") and scene.status.text.contains("2568"),"Exact unmet constraints remain visible")
+	var verdict_before: String = scene.measured_verdict.text
+	scene.notice_key = "saved"; scene.status.text = scene.session_notice()
+	check(scene.measured_verdict.text == verdict_before and scene.measured_verdict.text.contains("未达标"),"Save notice cannot replace selected measurement verdict")
+	scene.select_run(0)
 	check(scene.response_chart.first_responses == [89,180,271,362],"Who waits remains based on actual baseline first responses")
 	var edited: Dictionary = Model.initial_plan(); edited.slots = 4
 	scene.edit(edited,0)
@@ -43,11 +53,13 @@ func run() -> void:
 		specification = scene.get_node("ServiceSpecificationReview")
 		check(specification.get_node("ReviewContent").text.contains("512B") and specification.get_node("ReviewContent").text.contains("350B"),"Hidden shared rules and task peak budget remain discoverable")
 		specification.hide()
-		for id: String in ["DraftSource","MeasuredBill","ShowStateJourney","ServiceSpecification","Run","PublicData"]:
+		for id: String in ["DraftSource","MeasuredVerdict","ServiceNext","MeasuredBill","ShowStateJourney","ServiceSpecification","Run","PublicData"]:
 			var node := scene.find_child(id,true,false) as Control
-			check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Primary and detail controls fit bilingual minimum viewport: "+id)
+			check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Primary and detail controls fit bilingual minimum viewport: "+id+" "+str(node.get_global_rect()))
 		scene.find_child("ShowStateJourney",true,false).pressed.emit(); await process_frame
 		check(scene.evidence_tabs.current_tab == 5 and not scene.state_replay.frames.is_empty(),"Direct history-location action opens selected recorded state evidence")
+		scene.state_replay.find_child("StateEnd",true,false).pressed.emit(); await process_frame
+		check(not scene.event_raw_button.disabled,"Selecting a real recorded event enables complete JSON evidence")
 		scene.evidence_tabs.current_tab = 0
 		check(JSON.stringify(scene.history[0]) == original,"Detail access and localization retain immutable measurement")
 	scene.undo()
@@ -58,30 +70,74 @@ func run() -> void:
 	var rejected: String = scene.get_node("MeasuredBillReview").get_node("ReviewContent").text
 	check(rejected.contains("A1") and rejected.contains("A0") and rejected.contains("no measured"),"Rejected bill exposes actual dependency failure without zero-cost measurements")
 	check(scene.response_chart.first_responses.is_empty() and scene.state_replay.frames.is_empty(),"Rejected record clears response and state evidence")
+	check(scene.event_raw_button.disabled and scene.measured_verdict.text.contains("Not executed"),"Rejected measurement has no raw event action or passing verdict")
 	check(scene.history.size() == 2 and scene.support_plans.is_empty(),"Reading details neither reruns nor awards a successful plan")
 	scene.get_node("MeasuredBillReview").hide()
 	var grouped: Dictionary = Model.initial_plan(); grouped.groups = []
 	for id: int in 24: grouped.groups.append([id])
-	scene.edit(grouped,0); scene.run_current(); scene.change_task(1)
+	scene.edit(grouped,0); scene.run_current()
+	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("successful plan retained"),"Protected successful Task1 enables explicit next action")
+	scene.select_run(0)
+	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("Limits unmet"),"Selected failed alternative does not erase earned continuation")
+	scene.next_button.pressed.emit(); await process_frame
+	check(scene.task == 1 and scene.unlocked == 1,"Next follows the earned task without awarding further progress")
 	var exact: Dictionary = Model.initial_plan(); exact.slots = 4
-	scene.edit(exact,0); scene.run_current(); scene.change_task(2)
 	exact.representations = ["rle64","rle64","raw64","raw64"]
+	scene.edit(exact,0); scene.run_current(); scene.next_button.pressed.emit(); await process_frame
+	check(scene.task == 2 and scene.next_button.disabled and not scene.support_plans.has(2),"Compatible Task2 record cannot grant Task3 support by inspection")
+	check(scene.measured_verdict.text.contains("Limits met") and scene.measured_verdict.text.contains("No Task3"),"Verdict distinguishes compatible old measurement from unearned contract")
+	scene.continue_service(); check(not scene.has_node("ServiceReview"),"Direct continuation refuses unearned closure")
 	scene.edit(exact,0); scene.run_current()
 	check(scene.has_service_closure(),"Three actually accepted plans earn service closure")
+	check(not scene.next_button.disabled,"Three protected plans enable review action")
 	var supports: Dictionary = scene.support_plans.duplicate(true)
 	var draft: Dictionary = scene.plan.duplicate(true)
 	var history_before: String = JSON.stringify(scene.history)
 	scene.candidate_journey = true; scene.persistent_session = true; scene.session_dirty = true
+	NavigationIntent.pending_review = ""
 	scene.show_closure(); await process_frame
 	var journey_button := scene.get_node("ServiceReview").find_child("ServiceToJourney",true,false) as Button
 	check(journey_button != null,"Earned service review exposes journey continuation")
 	journey_button.pressed.emit(); await process_frame
 	var guard := scene.get_node("UnsavedServiceDialog") as ConfirmationDialog
 	check(guard.visible and scene.leave_to_hub and scene.session_dirty,"Closure continuation uses existing unsaved-Home guard")
+	check(not scene.get_node("ServiceReview").visible and scene.leave_to_journey and NavigationIntent.pending_review.is_empty(),"Dirty journey request retains hidden earned review and delays shared navigation intent")
 	guard.get_cancel_button().pressed.emit(); await process_frame
 	check(not guard.visible and scene.is_inside_tree() and scene.session_dirty,"Cancel retains the unsaved service workbench")
+	check(scene.get_node("ServiceReview").visible and not scene.leave_to_journey and NavigationIntent.pending_review.is_empty(),"Cancel preserves review and clears only local pending destination")
+	journey_button.pressed.emit(); await process_frame
+	scene.save_blocked = true; guard.confirmed.emit(); await process_frame
+	check(scene.session_dirty and scene.get_node("ServiceReview").visible and not guard.visible and not scene.leave_to_journey and NavigationIntent.pending_review.is_empty(),"Blocked save restores review without publishing journey intent or stacking dialogs")
+	guard.get_cancel_button().pressed.emit(); await process_frame
+	scene.save_blocked = false
+	scene.get_node("ServiceReview").hide(); scene.request_hub(); await process_frame
+	check(guard.visible and not scene.leave_to_journey and NavigationIntent.pending_review.is_empty(),"Ordinary Home clears earlier closure intent while still guarding unsaved work")
+	guard.get_cancel_button().pressed.emit(); await process_frame
+	check(not scene.get_node("ServiceReview").visible,"Cancel of ordinary Home does not unexpectedly reopen earned review")
 	check(scene.support_plans == supports and scene.plan == draft and JSON.stringify(scene.history) == history_before,"Canceled journey continuation preserves supports, draft and measured history")
 	scene.persistent_session = false
 	scene.queue_free(); await process_frame
+	var leave_probe := DeferredLeaveProbe.new(); root.add_child(leave_probe); await process_frame
+	NavigationIntent.pending_review = ""
+	leave_probe.request_hub(true)
+	check(leave_probe.destinations.is_empty() and NavigationIntent.pending_review.is_empty(),"Confirmed departure queues scene replacement and does not publish intent in Window callback")
+	leave_probe.leave_to_journey = false
+	await process_frame
+	check(leave_probe.destinations == [true],"Deferred departure preserves the confirmed journey destination")
+	leave_probe.request_hub()
+	check(leave_probe.destinations == [true],"Ordinary Home also leaves after its callback completes")
+	await process_frame
+	check(leave_probe.destinations == [true,false],"Deferred ordinary Home keeps its separate destination")
+	leave_probe.queue_free(); await process_frame
+	var localization: Node = root.get_node_or_null("Localization")
+	if localization != null:
+		var locale_before: String = str(localization.call("current_locale"))
+		localization.call("set_locale","en")
+		var locale_probe := Lab.new(); root.add_child(locale_probe); await process_frame
+		check(locale_probe.english,"Service entering from English shared interface retains the language")
+		locale_probe.language_button.pressed.emit(); await process_frame
+		check(not locale_probe.english and str(localization.call("current_locale")) == "zh_CN","Service language action updates shared stage language")
+		locale_probe.queue_free(); await process_frame
+		localization.call("set_locale",locale_before)
 	print("PASS: test_completion_service_clarity " if failures == 0 else "FAIL: test_completion_service_clarity ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

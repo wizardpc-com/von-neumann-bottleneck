@@ -9,6 +9,23 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; final661c107 evidence supersedes the initial named-design package.
 
+## 2026-10-06 resumed closure and native iteration — active
+
+User explicitly resumed development after94fef29. Prior stop statements below are
+historical. Remote developer94fef29/mainc5a2b0c and collaborator dirt unchanged.
+Concrete findings: natural core terminal results hide reflection; saved Service
+verdict is overwritten; Service closure returns Home without story; independent
+5+3 closure is obscured by core recommendation; advertised Prediction has no
+candidate entry/return. Root owns Hub, transient presentation intent, Prediction,
+integration, docs/Git/Godot/GUI. Agents: closure owns overlap/layout/task-tree UI
+and new test; service owns lab and existing clarity test; audit owns Representation
+region and new test. Models/schema/prerequisites remain unchanged. Each owns only
+these files. Native runs are serial with all engine checks.
+
+Steps: implement bounded earned actions and guarded return; native isolated play
+and refine concrete failures; targeted frozen checks; new candidate identity and
+actual package run; record exact observed versus untested behavior and delivery.
+
 ## 2026-10-06 completion round — implementation/package delivered
 
 The current user request supersedes the old NIGHT_BRIEF and the prior finite-stage stop.

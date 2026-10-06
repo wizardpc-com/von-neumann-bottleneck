@@ -31,6 +31,7 @@ func run() -> void:
 		var review := scene.get_node("RegionReview") as AcceptDialog
 		check(review.visible and review.find_child("ContinueServiceCandidate",true,false) != null,"Earned optional continuation is offered in both languages")
 		check(review.size.x <= 1280 and review.size.y <= 720,"Earned review fits minimum logical window")
+		check(review.find_child("RegionReviewContent",true,false).text.contains("temporary session") if en else review.find_child("RegionReviewContent",true,false).text.contains("临时会话"),"Unbound earned review never promises saved continuation")
 		check(review.find_child("RegionReviewContent",true,false).text.contains("不会自动") if not en else review.find_child("RegionReviewContent",true,false).text.contains("do not transfer"),"Review explains that plans do not transfer between models")
 		review.hide()
 	scene.persistent_session = true; scene.session_dirty = true

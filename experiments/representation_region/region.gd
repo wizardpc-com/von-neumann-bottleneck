@@ -18,6 +18,7 @@ var session_dirty: bool = false
 var previous_auto_quit: bool = true
 var leave_to_hub: bool = false
 var leave_scene: String = ""
+var leave_from_review: bool = false
 var candidate_journey: bool = false
 var drafts: Dictionary = {}
 var english: bool = false
@@ -64,6 +65,8 @@ var status: Label
 var visible_trace: Trace
 
 func _ready() -> void:
+	var localization := get_node_or_null("/root/Localization")
+	if localization != null: english = localization.current_locale() == "en"
 	theme = Theme.new()
 	InstrumentTheme.apply_to(theme)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -84,6 +87,12 @@ func _ready() -> void:
 			save_blocked = true
 			session_notice = text2("此候选档已由另一窗口占用，或上次未正常关闭；本窗口禁止保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
 
+	build()
+
+func toggle_language() -> void:
+	english = not english
+	var localization := get_node_or_null("/root/Localization")
+	if localization != null: localization.set_locale("en" if english else "zh_CN")
 	build()
 
 func text2(zh: String, en: String) -> String: return en if english else zh
@@ -112,7 +121,7 @@ func build() -> void:
 	var top := HBoxContainer.new(); page.add_child(top)
 	var title := make_label(text2("表示候选区 · 构造方案，比较真实服务","Candidate representation region · Build, measure, compare"),top,24)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	make_button("中文 / EN",top,func() -> void: english = not english; build(),"Language")
+	make_button("中文 / EN",top,toggle_language,"Language")
 	if candidate_journey: make_button(text2("返回首页", "Home"),top,request_hub,"CandidateHome")
 	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
 	make_button(text2("退出","Quit"),top,request_quit,"Quit")
@@ -188,6 +197,8 @@ func build() -> void:
 		InstrumentTheme.primary(save_button,Color("62dca7"))
 		add_recovery_controls(editor)
 	status = make_label(text2("选择区间，再分割/合并或改变该块表示。","Select a block, then split/merge or change its codec."),editor,14)
+	var completed_review := make_button(text2("成果回顾与下一步" if candidate_journey else "回顾五份成果", "Review and next step" if candidate_journey else "Review five achievements"),editor,show_closure,"CompletedRegionReview")
+	InstrumentTheme.primary(completed_review)
 	var evidence_scroll := ScrollContainer.new(); evidence_scroll.name = "EvidenceScroll"; evidence_scroll.custom_minimum_size.x = 430; evidence_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence_scroll)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; evidence_scroll.add_child(evidence)
 	make_label(text2("实际运行记录（选择旧记录复查）","Recorded runs (select an older run to inspect)"),evidence,17)
@@ -307,8 +318,11 @@ func change_task(index: int) -> void:
 	build()
 
 func refresh_tasks() -> void:
+	var earned_review: bool = representation_review_evidence().size() == 5
 	var closure := find_child("RegionClosure",true,false) as Button
-	if closure != null: closure.disabled = completed.has(false)
+	if closure != null: closure.disabled = not earned_review
+	var completion_action := find_child("CompletedRegionReview",true,false) as Button
+	if completion_action != null: completion_action.visible = earned_review
 	var support_button := find_child("RestoreSupport",true,false) as Button
 	if support_button != null: support_button.disabled = not support_plans.has(task)
 	for i: int in task_buttons.size():
@@ -392,7 +406,7 @@ func run_current() -> void:
 			if not order_within_limits(task,i,traces[i]):
 				order_choice.select(i); show_trace(i); break
 	elif not completed.has(false):
-		status.text = text2("五份任务均已达标。保存你的方案与比较记录，或继续探索不同取舍。", "All five tasks met. Save your plans and comparisons, or explore different trade-offs.")
+		status.text = text2("五份任务均已达标。下方可回顾自己的成果；保存方案与比较记录后继续，也可留在这里探索。", "All five tasks met. Review your achievements below; save your plans and comparisons to continue, or keep exploring here.")
 	elif task == 4:
 		status.text = text2("本任务已达标。可以回看之前的任务，或继续比较其他方案。", "This task is met. Revisit earlier tasks or keep comparing alternatives.")
 
@@ -631,11 +645,13 @@ func reuse_recorded_plan() -> void:
 	status.text = text2("已取回方案#%d；可以改一点再运行。旧记录保留，原草稿可撤销恢复。", "Plan #%d is ready to vary and run. Its old record is preserved; Undo can restore the previous draft.") % [record_index+1]
 
 func request_hub() -> void:
+	leave_from_review = false
 	leave_scene = "res://src/ui/prototype_hub.tscn"
 	leave_to_hub = true
 	request_leave()
 
 func request_quit() -> void:
+	leave_from_review = false
 	leave_scene = ""
 	leave_to_hub = false
 	request_leave()
@@ -651,6 +667,15 @@ func finish_leave() -> void:
 	elif leave_to_hub: get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 	else: get_tree().quit()
 
+func resume_region_review() -> void:
+	leave_from_review = false
+	leave_scene = ""
+	leave_to_hub = false
+	var guard := get_node_or_null("UnsavedSessionDialog") as ConfirmationDialog
+	if guard != null: guard.hide()
+	var review := get_node_or_null("RegionReview") as AcceptDialog
+	if review != null: review.popup_centered(Vector2i(740,460))
+
 func request_leave() -> void:
 	if not persistent_session or not session_dirty:
 		finish_leave()
@@ -665,9 +690,12 @@ func request_leave() -> void:
 	dialog.ok_button_text = text2("保存并离开", "Save and leave")
 	dialog.cancel_button_text = text2("继续编辑", "Keep editing")
 	dialog.add_button(text2("不保存离开", "Leave without saving"),true,"discard")
+	dialog.canceled.connect(func() -> void:
+		if leave_from_review: resume_region_review())
 	dialog.confirmed.connect(func() -> void:
 		save_session()
-		if not session_dirty: finish_leave())
+		if not session_dirty: finish_leave()
+		elif leave_from_review: resume_region_review())
 	dialog.custom_action.connect(func(action: StringName) -> void:
 		if action == &"discard": finish_leave())
 	add_child(dialog)
@@ -784,13 +812,17 @@ func show_closure() -> void:
 		lines.append(Catalog.title(id,english)+" · "+" / ".join(cycles)+text2(" 周期", " cycles"))
 	lines.append("")
 	lines.append(text2("这些结果来自保留的达标方案；你仍可回看、取回并尝试不同取舍。这段旅程到此可以收束，不需要等待服务或预测内容。", "These results come from your protected successful plans. Revisit, restore and explore other trade-offs whenever you like. This journey can close here, without waiting for service or prediction content."))
-	lines.append(text2("本次变化尚未保存；离开前请保存。", "This session has unsaved changes; save before leaving.") if session_dirty else text2("已保存的方案可在同一候选档继续。", "Saved plans can be resumed in this candidate profile."))
+	if not persistent_session:
+		lines.append(text2("当前为临时会话，方案与记录不会在退出后保留。", "This is a temporary session; plans and records are not retained after leaving."))
+	else:
+		lines.append(text2("本次变化尚未保存；离开前请保存。", "This session has unsaved changes; save before leaving.") if session_dirty else text2("已保存的方案可在同一候选档继续。", "Saved plans can be resumed in this candidate profile."))
 	if candidate_journey:
 		lines.append(text2("下一段：静态信息有了合适的承载方式；现在，让会更新的历史继续留在系统中，并安排何时回应。服务使用另一台公开机器，表示方案不会自动移过去。", "Next: you have arranged how fixed information travels. Now retain changing history and decide when to respond. Service uses its own public machine; representation plans do not transfer automatically."))
 		var continuation: Button = review.add_button(text2("继续：历史与回应", "Continue: history and responses"),false,"service")
 		continuation.name = "ContinueServiceCandidate"
 		review.custom_action.connect(func(action: StringName) -> void:
-			if action == &"service": review.hide(); request_service())
+			if action != &"service": return
+			leave_from_review = true; review.hide(); request_service())
 	var scroll := ScrollContainer.new(); scroll.name = "RegionReviewScroll"
 	scroll.custom_minimum_size = Vector2(700,320); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	review.add_child(scroll)

@@ -30,6 +30,7 @@ var confirmation: ConfirmationDialog
 var completion: LevelCompletionOverlay
 var stale: bool = true
 var building: bool = false
+var core_review_button: Button
 
 func _ready() -> void:
 	add_to_group("workspace_owners")
@@ -54,6 +55,9 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size",25)
 	header.add_child(title)
 	_button(header,_l("任务树","Task tree"),_leave)
+	core_review_button = _button(header,_l("回看路径成果","Review this path"),_open_core_review)
+	core_review_button.name = "LayoutCoreReview"
+	core_review_button.hide()
 	_button(header,_l("全屏","Fullscreen"),WindowMode.toggle_fullscreen)
 	header.add_child(WindowMode.settings_button())
 	header.add_child(PlaytestMoments.make_button())
@@ -117,6 +121,7 @@ func _open(id: String) -> void:
 	_refresh_memory()
 	panels.trace.hide(); panels.manual.hide(); panels.memory.hide()
 	workspace.move_child(panels.mission,-1)
+	core_review_button.visible = LayoutChapter.completed().has("mixed")
 
 func _current() -> Dictionary:
 	return design.orders[["A","B"][case_index]] if level == "relocation" else design
@@ -344,6 +349,19 @@ func _run_all() -> void:
 			PlaytestData.level_completed(&"chapter_4",StringName(level),{"cycles":LayoutChapter.cost(report)})
 			# Completion never changes the design or automatically starts another task.
 			_button(results,_l("已完成 · 返回任务树选择下一站","Completed · choose the next task"),_leave)
+	core_review_button.visible = LayoutChapter.completed().has("mixed")
+	if level == "mixed" and LayoutChapter.completed().has("mixed"):
+		var review: Button = _button(results,_l("回看路径成果与下一段旅程","Review this path and the journey ahead"),_open_core_review)
+		review.name = "LayoutResultCoreReview"
+
+func _open_core_review() -> void:
+	if not LayoutChapter.completed().has("mixed"): return
+	if not level.is_empty():
+		LayoutChapter.store_draft(level,design)
+		PlaytestData.level_exited(&"chapter_4",StringName(level))
+	TaskNavigation.from_tree = false
+	preload("res://experiments/candidate_session/navigation_intent.gd").pending_review = "core"
+	get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 func _select_trace(index: int) -> void:
 	if runs.is_empty(): return
 	case_index=index

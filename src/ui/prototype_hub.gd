@@ -56,6 +56,7 @@ func _ready() -> void:
 		_open_options_menu()
 		return
 	_build_interface()
+	call_deferred("_consume_review_intent")
 	GameMode.mode_changed.connect(_on_game_mode_changed)
 	SystemChapter.progression_changed.connect(_refresh_locality_entry)
 	LocalityChapter.progression_changed.connect(_refresh_overlap_entry)
@@ -931,8 +932,14 @@ func show_candidate_review() -> void:
 		if action == &"refresh": show_candidate_review())
 	add_child(dialog); dialog.popup_centered(Vector2i(780,480))
 
+func _consume_review_intent() -> void:
+	var intent: String = preload("res://experiments/candidate_session/navigation_intent.gd").take_review()
+	if intent == "core": _open_theme_reflection()
+	elif intent == "journey" and candidate_journey: show_completion_story()
+
 # Recommendations are presentation only; the existing task tree owns prerequisites.
 static func recommended_stage(core_finished: bool, review: Dictionary) -> String:
+	if bool(review.get("complete", false)) and str(review.get("representation", {}).get("status", "")) == "complete" and str(review.get("service", {}).get("status", "")) == "complete": return "review"
 	if not core_finished: return "core"
 	if str(review.get("representation", {}).get("status", "unavailable")) != "complete": return "representation"
 	if str(review.get("service", {}).get("status", "unavailable")) != "complete": return "service"
@@ -991,6 +998,10 @@ func _build_completion_route(content: VBoxContainer) -> void:
 	var story := Button.new(); story.name = "CompletionStory"
 	story.text = "回看第二幕旅程" if not english else "Revisit the second-act journey"
 	story.pressed.connect(show_completion_story); column.add_child(story)
+	var prediction := Button.new(); prediction.name = "EnterPredictionCandidate"
+	prediction.text = "可选：预测工坊（本次会话）" if not english else "Optional: Prediction workshop (temporary session)"
+	prediction.pressed.connect(func() -> void: get_tree().call_deferred("change_scene_to_file", "res://experiments/prediction/lab.tscn"))
+	column.add_child(prediction)
 
 func _show_completion_bridge() -> void:
 	if not candidate_journey: return

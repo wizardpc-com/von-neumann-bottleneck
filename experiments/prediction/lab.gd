@@ -4,7 +4,11 @@ const Model = preload("res://experiments/prediction/model.gd")
 const Catalog = preload("res://experiments/prediction/catalog.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const Event = preload("res://src/simulation/simulation_event.gd")
+const Context = preload("res://experiments/candidate_session/context.gd")
 var english: bool = false
+var candidate_journey: bool = false
+var previous_auto_quit: bool = true
+var leave_to_hub: bool = false
 var task: int = 0
 var policy: Dictionary = Model.default_policy()
 var history: Array[Dictionary] = []
@@ -27,8 +31,21 @@ var recorded_source: Label
 var step_button: Button
 
 func _ready() -> void:
+	var localization := get_node_or_null("/root/Localization")
+	if localization != null: english = localization.current_locale() == "en"
+	candidate_journey = candidate_journey or Context.configured_journey()
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--locale=en": english = true
+		if arg == "--candidate-journey": candidate_journey = true
+	previous_auto_quit = get_tree().auto_accept_quit
+	get_tree().auto_accept_quit = false
+	add_to_group("candidate_quit_owners")
+	build()
+
+func toggle_language() -> void:
+	english = not english
+	var localization := get_node_or_null("/root/Localization")
+	if localization != null: localization.set_locale("en" if english else "zh_CN")
 	build()
 
 func text2(zh: String, en: String) -> String: return en if english else zh
@@ -59,9 +76,10 @@ func build() -> void:
 	var page := VBoxContainer.new(); page.size_flags_horizontal = Control.SIZE_EXPAND_FILL; page.add_theme_constant_override("separation",8); margin.add_child(page)
 	var top := HBoxContainer.new(); page.add_child(top)
 	var title: Label = label(text2("预测工坊 · 从已知历史承担猜测","Prediction workshop · Guess from observed history"),top,24); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	button("中文 / EN","Language",top,func() -> void: english = not english; build())
-	button(text2("退出","Quit"),"Quit",top,func() -> void: get_tree().quit())
-	label(text2("隔离实验 · 不保存主线进度 · 未知下一地址 · 所有周期是公开教学模型","Isolated experiment · no campaign saves · next address is unknown · all cycles are teaching model units"),page,13)
+	button("中文 / EN","Language",top,toggle_language)
+	if candidate_journey: button(text2("返回首页","Home"),"CandidateHome",top,request_hub)
+	button(text2("退出","Quit"),"Quit",top,request_quit)
+	label(text2("可选临时探索 · 草稿与结果只在本次会话，离开后不保留 · 不增加主线进度","Optional temporary exploration · drafts and results last only for this session; leaving discards them · no campaign progress"),page,13)
 	var nav := HBoxContainer.new(); page.add_child(nav)
 	for i: int in 3:
 		var item: Button = button([text2("1 · 规律流","1 · Regular stream"),text2("2 · 规律改变","2 · Pattern changes"),text2("3 · 交替热点","3 · Alternating hotspots")][i],"Task"+str(i),nav,func() -> void: change_task(i))
@@ -96,6 +114,45 @@ func build() -> void:
 		var row: TreeItem = events.get_selected()
 		if row != null: details.text = event_text(row.get_metadata(0)))
 	refresh_history(); refresh()
+
+func has_session_work() -> bool:
+	return not history.is_empty() or active_trace != null or policy != Model.default_policy()
+
+func request_hub() -> void:
+	if not candidate_journey: return
+	leave_to_hub = true
+	request_leave()
+
+func request_quit() -> void:
+	leave_to_hub = false
+	request_leave()
+
+func request_leave() -> void:
+	if not has_session_work(): finish_leave(); return
+	var existing := get_node_or_null("LeavePredictionDialog") as ConfirmationDialog
+	if existing != null:
+		update_leave_dialog(existing); existing.popup_centered(Vector2i(560,200)); return
+	var dialog := ConfirmationDialog.new(); dialog.name = "LeavePredictionDialog"
+	update_leave_dialog(dialog)
+	dialog.confirmed.connect(finish_leave)
+	dialog.canceled.connect(func() -> void: leave_to_hub = false)
+	add_child(dialog); dialog.popup_centered(Vector2i(560,200))
+
+func update_leave_dialog(dialog: ConfirmationDialog) -> void:
+	dialog.title = text2("离开这次临时探索？", "Leave this temporary exploration?")
+	dialog.dialog_text = text2("预测规则、已揭示请求与完成记录只保留在本窗口。离开后会丢失；表示和服务的已保存方案不受影响。", "Prediction rules, revealed demands and completed runs exist only in this window. Leaving discards them; saved Representation and Service plans are unaffected.")
+	dialog.ok_button_text = text2("不保留，返回首页" if leave_to_hub else "不保留，退出", "Discard and return Home" if leave_to_hub else "Discard and quit")
+	dialog.cancel_button_text = text2("继续探索", "Keep exploring")
+
+func finish_leave() -> void:
+	if leave_to_hub: get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
+	else: get_tree().quit()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST: request_quit()
+
+func _exit_tree() -> void:
+	get_tree().auto_accept_quit = previous_auto_quit
 
 func mission_text() -> String:
 	return [text2("实验1：先记录关闭猜测的基线，再构造一个总周期更低且确实消费了预测数据的方案。逐步揭示历史，再比较等待与流量。","Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic."),

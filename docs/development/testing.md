@@ -666,3 +666,17 @@ for macOS window transitions and rejects non1280×720 captures. Its earned endin
 is an explicitly injected, model-evaluated known-answer presentation fixture, not
 native input or a player save. Results/captures are separate from package and human
 acceptance: [completion evidence](../verification/20261006-completion/README.md).
+
+## Earned closure follow-up, 2026-10-06
+
+Risk-specific suites: `test_core_closure_navigation` (actual terminal model runs,
+synthetic prerequisite recipes, both orders/locales, result/tree→reflection),
+`test_representation_closure_navigation` (earned review and guarded continuation),
+`test_completion_service_clarity` (persistent record verdict vs protected task,
+minimum-window controls, canceled/failed save and deferred departure),
+`test_prediction_navigation` (temporary work and leave/OS-close Cancel), and
+`test_candidate_language_navigation` (shared language across workbenches).
+These are automated controller/viewport checks, not a native full campaign.
+Pass full `test_` stems to `verify-project.py --suite`. Native play must omit
+`--capture*` arguments when verifying persistence: capture mode disables core
+writes by design. Finish native processes before headless verification.

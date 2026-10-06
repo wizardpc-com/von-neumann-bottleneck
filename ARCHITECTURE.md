@@ -244,3 +244,17 @@ unconfirmed, empty readable profiles show zero, and drafts grant nothing. Models
 leases, schema3 and production saves remain unchanged. Service keeps precise
 contract failures visible while full specifications and measured bills are opened
 on demand. Prediction remains a separate session-only optional experiment.
+
+### Earned closure navigation
+
+Core terminal results and task-tree entries route through
+`candidate_session/navigation_intent.gd`, a one-shot in-memory presentation request.
+Hub consumes it once and obtains the existing authoritative reflection or rechecks
+saved second-act plans. The intent grants no completion, persistent flag or save.
+Service publishes it only after guarded departure succeeds; Cancel/save failure
+returns to its originating review. Representation retains the same behavior for
+its earned Service continuation. A selected historical result meeting a new
+Service contract does not earn that task; the persistent verdict states both facts.
+Prediction has a candidate-only optional entry/Home with explicit temporary-work
+loss confirmation. Its model, history and policies remain session-only. All three
+workbenches inherit the shared language and preserve language choice across entry.

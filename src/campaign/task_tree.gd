@@ -74,6 +74,16 @@ func _ready() -> void:
 	side.add_child(detail_status)
 	enter_button = _button(side,"tree.enter",func() -> void:
 		if not selected.is_empty(): TaskNavigation.enter(selected.key))
+	var timing_done: bool = OverlapChapter.completed().has("synthesis")
+	var placement_done: bool = LayoutChapter.completed().has("mixed")
+	if timing_done or placement_done:
+		var review := Button.new()
+		review.name = "TaskTreeCoreReview"
+		var english: bool = Localization.current_locale() == "en"
+		review.text = ("回看核心收束" if not english else "Review the core ending") if timing_done and placement_done else ("回看路径成果与下一路" if not english else "Review this path and what comes next")
+		review.custom_minimum_size.y = 42
+		review.pressed.connect(_open_core_review)
+		side.add_child(review)
 	var records := Button.new(); records.text="我的任务记录" if TranslationServer.get_locale().begins_with("zh") else "My task record"
 	records.custom_minimum_size.y=42; side.add_child(records)
 	records.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/playtest/personal_records_view.tscn"))
@@ -96,6 +106,12 @@ func _ready() -> void:
 	search.text_changed.connect(func(value: String) -> void: canvas.set_search(value))
 	search.text_submitted.connect(func(_value: String) -> void: canvas.locate_match())
 	_select(TaskNavigation.selected)
+
+func _open_core_review() -> void:
+	if not OverlapChapter.completed().has("synthesis") and not LayoutChapter.completed().has("mixed"): return
+	TaskNavigation.from_tree = false
+	preload("res://experiments/candidate_session/navigation_intent.gd").pending_review = "core"
+	get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 
 func _select(key: String) -> void:
 	for task: Dictionary in rows:

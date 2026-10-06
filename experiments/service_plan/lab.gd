@@ -11,11 +11,13 @@ const SessionStore = preload("res://experiments/service_plan/session_store.gd")
 const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
 const Designs = preload("res://experiments/candidate_session/designs.gd")
 const DesignShelf = preload("res://experiments/candidate_session/design_shelf.gd")
+const NavigationIntent = preload("res://experiments/candidate_session/navigation_intent.gd")
 var writer_lease: RefCounted
 var recovery_state: Dictionary = {}
 var support_plans: Dictionary = {}
 var candidate_journey: bool = false
 var leave_to_hub: bool = false
+var leave_to_journey: bool = false
 var persistent_session: bool = false
 var session_dirty: bool = false
 var save_blocked: bool = false
@@ -63,6 +65,8 @@ var mission: Label
 var status: Label
 var draft_source: Label
 var bill_button: Button
+var measured_verdict: Label
+var next_button: Button
 var evidence_tabs: TabContainer
 var public_raw: bool = false
 var public_raw_button: Button
@@ -90,6 +94,8 @@ func tr2(zh: String, en: String) -> String: return en if english else zh
 func _ready() -> void:
 	theme = Theme.new(); InstrumentTheme.apply_to(theme)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var localization: Node = get_node_or_null("/root/Localization")
+	if localization != null: english = str(localization.call("current_locale")) == "en"
 	var packaged_journey: bool = SessionStore.Context.configured_journey()
 	candidate_journey = candidate_journey or packaged_journey
 	persistent_session = persistent_session or packaged_journey
@@ -149,7 +155,7 @@ func build() -> void:
 	add_child(margin); var page := VBoxContainer.new(); page.add_theme_constant_override("separation", 6); margin.add_child(page)
 	var header := HBoxContainer.new(); page.add_child(header)
 	var title := label(tr2("服务方案 · 谁先得到下一次结果？", "Service plan · Who gets the next result?"), header, 22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	language_button = button("中文 / EN", header, func() -> void: english = not english; build(), "Language")
+	language_button = button("中文 / EN", header, toggle_language, "Language")
 	if candidate_journey: button(tr2("返回首页", "Home"),header,request_hub,"CandidateHome")
 	button(tr2("服务回顾", "Service review"),header,show_closure,"ServiceClosure")
 	button(tr2("退出", "Quit"), header, request_quit, "Quit")
@@ -219,10 +225,12 @@ func build() -> void:
 	public_detail = RichTextLabel.new(); public_detail.name = "PublicDataView"; public_detail.custom_minimum_size.y = 150; public_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL; public_panel.add_child(public_detail)
 	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
 	measured_source = label("",overview,13)
+	measured_verdict = label("",overview,14); measured_verdict.name = "MeasuredVerdict"
 	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
 	var investigation := HBoxContainer.new(); overview.add_child(investigation)
 	bill_button = button(tr2("完整实测账单", "Measured bill"),investigation,show_measured_bill,"MeasuredBill")
 	button(tr2("查看历史在哪里", "Where is history?"),investigation,func() -> void: evidence_tabs.current_tab = 5,"ShowStateJourney")
+	next_button = button("",investigation,continue_service,"ServiceNext")
 	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
 	evidence_tabs.set_tab_title(3,tr2("对照比较", "Compare"))
 	build_commissions()
@@ -281,6 +289,7 @@ func refresh_groups() -> void:
 	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
 func refresh_actions() -> void:
 	refresh_design_shelf()
+	refresh_verdict()
 	bill_button.disabled = selected_history < 0 or selected_history >= history.size()
 	var quality_button := find_child("QualityEvidence",true,false) as Button
 	if quality_button != null: quality_button.disabled = selected_history < 0 or selected_history >= history.size() or not str(history[selected_history].metrics.error).is_empty()
@@ -295,6 +304,44 @@ func refresh_actions() -> void:
 	up_button.disabled = selected_group == 0; down_button.disabled = selected_group == plan.groups.size() - 1
 	merge_button.disabled = down_button.disabled; split_button.disabled = plan.groups[selected_group].size() < 2
 	undo_button.disabled = undo_stack.is_empty(); redo_button.disabled = redo_stack.is_empty(); restore_button.disabled = selected_history < 0
+
+func refresh_verdict() -> void:
+	if measured_verdict == null: return
+	var earned: bool = support_plans.has(task)
+	if selected_history < 0 or selected_history >= history.size():
+		measured_verdict.text = tr2("尚无实测判定；先运行当前草稿。", "No measured verdict; run your current draft first.")
+	else:
+		var m: Dictionary = history[selected_history].metrics
+		var met: bool = Commissions.accepted(m,commission_mode) if commission_mode >= 0 else Model.accepted(m,task)
+		var verdict: String = tr2("限制成立", "Limits met") if met else tr2("未达标", "Limits unmet")
+		if not str(m.error).is_empty(): verdict = tr2("未执行", "Not executed")
+		measured_verdict.text = tr2("记录%d · ", "Record%d · ") % (selected_history+1)+verdict
+		if commission_mode < 0:
+			measured_verdict.text += " · "+(tr2("任务%d达标方案已保留", "Task%d successful plan retained") % (task+1) if earned else tr2("尚无任务%d达标方案", "No Task%d successful plan retained") % (task+1))
+		measured_verdict.tooltip_text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
+	next_button.disabled = true
+	next_button.tooltip_text = tr2("下一步依据已保留的达标方案；只查看旧记录不会获得当前合同。请在当前任务运行达标方案。", "Next follows retained successful plans. Viewing an old record does not earn the current contract; run a qualifying plan in this task.")
+	if commission_mode >= 0:
+		next_button.text = tr2("回到任务3", "Back to Task3"); next_button.disabled = not support_plans.has(2)
+	elif task < 2:
+		next_button.text = tr2("继续任务%d", "Continue Task%d") % (task+2)
+		next_button.disabled = not earned or task+1 > unlocked
+	else:
+		next_button.text = tr2("回看服务成果", "Review service work"); next_button.disabled = not has_service_closure()
+
+func toggle_language() -> void:
+	english = not english
+	var localization: Node = get_node_or_null("/root/Localization")
+	if localization != null: localization.call("set_locale","en" if english else "zh_CN")
+	build()
+
+func continue_service() -> void:
+	# Navigation follows protected earned plans; viewing a compatible old record is insufficient.
+	if commission_mode >= 0:
+		if support_plans.has(2): change_task(2)
+	elif task < 2:
+		if support_plans.has(task) and task+1 <= unlocked: change_task(task+1)
+	elif has_service_closure(): show_closure()
 func edit(next: Dictionary, selection: int) -> void:
 	if next == plan: return
 	mark_session_dirty()
@@ -373,7 +420,7 @@ func select_run(index: int) -> void:
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	response_step.disabled = response_chart.first_responses.is_empty()
 	response_play.disabled = response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false))
-	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n历史在%d个自动驻留槽与外存间流转；结束写回后外存%dB。\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nHistory moves between %d automatic resident slots and backing storage; final flushed archive%dB.\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,m.plan.slots,m.final_backing_bytes,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)]
+	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n历史位置：%d个自动驻留槽↔外存；最终写回档案%dB。\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nHistory: %d resident slots ↔ backing; final flushed archive%dB.\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,m.plan.slots,m.final_backing_bytes,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)]
 	if not str(m.error).is_empty(): summary.text = invalid_feedback(m)+"\n"+tr2("没有性能或精度结果：该方案在执行前被拒绝。修改草稿后重新运行；历史记录保留。", "No performance or quality result: this plan was rejected before execution. Edit and rerun; history is retained.")
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:
@@ -394,6 +441,7 @@ func refresh_event_detail() -> void:
 	if detail == null: return
 	event_raw_button.text = tr2("返回事件说明", "Show explanation") if event_raw else tr2("查看原始事件 JSON", "Show raw event JSON")
 	var item: TreeItem = tree.get_selected()
+	event_raw_button.disabled = item == null
 	if item == null:
 		detail.text = tr2("选择一条实测事件，查看流身份、搬运原因与费用。", "Select a measured event for its stream, cause and cost.")
 		return
@@ -606,17 +654,38 @@ func save_session() -> void:
 	notice_key = "saved" if error == OK else "failed"; status.text = session_notice()
 	if error != OK: refresh_recovery_controls()
 
-func request_hub() -> void:
+func request_hub(review_journey: bool = false) -> void:
 	leave_to_hub = true
+	leave_to_journey = review_journey
+	if review_journey:
+		var review := get_node_or_null("ServiceReview") as AcceptDialog
+		if review != null: review.hide()
 	request_leave()
 
 func request_quit() -> void:
 	leave_to_hub = false
+	leave_to_journey = false
 	request_leave()
 
 func finish_leave() -> void:
-	if leave_to_hub: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	if leave_to_hub:
+		# Leave embedded Window callbacks before replacing their owning scene.
+		call_deferred("_finish_hub_leave",leave_to_journey)
 	else: get_tree().quit()
+
+func _finish_hub_leave(review_journey: bool) -> void:
+	var scene_tree: SceneTree = get_tree()
+	if scene_tree == null: return
+	NavigationIntent.pending_review = "journey" if review_journey else ""
+	if scene_tree.change_scene_to_file("res://src/ui/prototype_hub.tscn") != OK: NavigationIntent.pending_review = ""
+
+func resume_service_review() -> void:
+	# Never stack exclusive dialogs; the earned review is retained behind the leave guard.
+	var guard := get_node_or_null("UnsavedServiceDialog") as ConfirmationDialog
+	if guard != null: guard.hide()
+	var review := get_node_or_null("ServiceReview") as AcceptDialog
+	if review != null: review.popup_centered(Vector2i(760,480))
+	else: show_closure()
 
 func request_leave() -> void:
 	if not persistent_session or not session_dirty: finish_leave(); return
@@ -627,9 +696,14 @@ func request_leave() -> void:
 	dialog.dialog_text = tr2("草稿或比较记录有未保存的变化。", "The draft or comparisons have unsaved changes.")
 	dialog.ok_button_text = tr2("保存并离开", "Save and leave"); dialog.cancel_button_text = tr2("继续编辑", "Keep editing")
 	dialog.add_button(tr2("不保存离开", "Leave without saving"),true,"discard")
+	dialog.canceled.connect(func() -> void:
+		if leave_to_journey: resume_service_review()
+		leave_to_journey = false)
 	dialog.confirmed.connect(func() -> void:
 		save_session()
-		if not session_dirty: finish_leave())
+		if not session_dirty: finish_leave()
+		elif leave_to_journey:
+			resume_service_review(); leave_to_journey = false)
 	dialog.custom_action.connect(func(action: StringName) -> void:
 		if action == &"discard": finish_leave())
 	add_child(dialog); dialog.popup_centered(Vector2i(520,180))
@@ -771,7 +845,7 @@ func show_closure() -> void:
 		var next: Button = review.add_button(tr2("返回首页 · 回看旅程", "Home · revisit journey"),false,"journey")
 		next.name = "ServiceToJourney"
 		review.custom_action.connect(func(action: StringName) -> void:
-			if action == &"journey": review.hide(); request_hub())
+			if action == &"journey": request_hub(true))
 	review.ok_button_text = tr2("回到我的工作台", "Back to my workbench")
 	add_child(review); review.popup_centered(Vector2i(760,480))
 
@@ -802,6 +876,7 @@ func start_commission(id: int) -> void:
 	if task != 2: task = 2; mark_session_dirty()
 	commission_mode = id; commission_choice.select(id); evidence_tabs.current_tab = 4
 	refresh_mission(); refresh_commission()
+	refresh_verdict()
 	if selected_history >= 0 and selected_history < history.size(): select_run(selected_history)
 
 func refresh_commission() -> void:

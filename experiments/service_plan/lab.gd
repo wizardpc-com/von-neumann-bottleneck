@@ -604,6 +604,8 @@ func recover_candidate(source: String) -> void:
 func reload_recovered_session() -> void:
 	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear()
 	unlocked = 0; commission_mode = -1; undo_stack.clear(); redo_stack.clear()
+	task = 0; plan = Model.initial_plan(); selected_group = 0; selected_history = -1
+	active_trace = null; selected_event_index = -1; comparison_baseline.clear()
 	restore_session(); build()
 
 func confirm_recovery(action: Callable) -> void:

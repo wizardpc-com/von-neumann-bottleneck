@@ -23,6 +23,7 @@ var result: Label
 var observed: Label
 var status: Label
 var mission: Label
+var recorded_source: Label
 var step_button: Button
 
 func _ready() -> void:
@@ -85,6 +86,7 @@ func build() -> void:
 	var evidence := VBoxContainer.new(); evidence.custom_minimum_size.x = 420; evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
 	label(text2("不可变完成记录（编辑规则不会改写旧记录）","Immutable completed runs (edits preserve older receipts)"),evidence,18)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 80; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
+	recorded_source = label("",evidence,13); recorded_source.name = "RecordedSource"
 	result = label("",evidence,14); result.name = "Result"
 	events = Tree.new(); events.name = "Events"; events.columns = 3; events.hide_root = true; events.column_titles_visible = true; events.custom_minimum_size.y = 180
 	for i: int in 3: events.set_column_title(i,[text2("起点","Start"),text2("时长","Duration"),text2("证据事件","Evidence event")][i])
@@ -160,8 +162,26 @@ func goal_met(index: int) -> bool:
 func event_text(event: Event) -> String:
 	return "%s · t%d +%d · address%d\n%s" % [event.kind,event.cycle,event.duration,event.address,JSON.stringify(event.details,"  ")]
 
+func evidence_source() -> Dictionary:
+	if active_trace == null: return {}
+	var source_task: int = int(history[selected_run].task) if selected_run >= 0 else task
+	return {"task":source_task,"run_index":selected_run,"policy":active_policy.duplicate(true)}
+
+func source_caption() -> String:
+	var source: Dictionary = evidence_source()
+	if source.is_empty(): return text2("尚未运行当前草稿；没有选中的测量。", "Current draft has not run; no measurement selected.")
+	var names: Array[String] = [text2("规律流", "Regular stream"),text2("规律改变", "Pattern changes"),text2("交替热点", "Alternating hotspots")]
+	var recipe: Dictionary = source.policy
+	var rule_text: String = "%s/%d/×%d/pause%d" % [recipe.rule,recipe.confidence,recipe.lookahead,recipe.cooldown]
+	var matches: bool = int(source.task) == task and recipe == policy
+	var relation: String = text2("与当前任务及草稿一致", "matches current task and draft") if matches else text2("与当前任务或草稿不同", "differs from current task or draft")
+	if selected_run < 0:
+		return text2("正在逐步观察：%s · %s；总成本尚未揭示。", "Observing a prefix: %s · %s; final costs remain hidden.") % [names[int(source.task)],rule_text]
+	return text2("记录#%d · %s · %s · %s", "Record#%d · %s · %s · %s") % [selected_run+1,names[int(source.task)],rule_text,relation]
+
 func refresh() -> void:
 	mission.text = mission_text()
+	recorded_source.text = source_caption()
 	events.clear(); var root: TreeItem = events.create_item()
 	result.text = text2("完成运行后才显示总成本与独立基线。","Full costs and independent baseline appear only after the run finishes.")
 	observed.text = text2("尚无真实请求。下一地址未知。","No demands observed. Next address unknown.")
@@ -192,4 +212,4 @@ func public_observation() -> Dictionary:
 			decisions.append(active_trace.metrics.decisions[i].duplicate(true))
 	for row: Dictionary in history:
 		measured.append({"task":row.task,"policy":row.policy.duplicate(true),"metrics":row.trace.metrics.duplicate(true)})
-	return {"task":task,"mission":mission_text(),"hint1":hint_text(),"policy":policy.duplicate(true),"control_ranges":{"rule":["off","stride","two_stride"],"confidence":[1,2,3],"lookahead":[1,2],"cooldown":[0,2]},"observed_addresses":observed_addresses,"revealed_decisions":decisions,"completed_runs":measured,"goal_met":goal_met(task)}
+	return {"task":task,"evidence_source":evidence_source(),"mission":mission_text(),"hint1":hint_text(),"policy":policy.duplicate(true),"control_ranges":{"rule":["off","stride","two_stride"],"confidence":[1,2,3],"lookahead":[1,2],"cooldown":[0,2]},"observed_addresses":observed_addresses,"revealed_decisions":decisions,"completed_runs":measured,"goal_met":goal_met(task)}

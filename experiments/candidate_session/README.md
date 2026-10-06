@@ -115,3 +115,13 @@ the existing unsaved-work confirmation and checks the new disk version while
 holding ownership before replacing this window's exploration. Cancel keeps it.
 This does not migrate schema, grant campaign progress or promise power-loss durability.
 Focused checks: test_candidate_writer_retry and test_candidate_writer_retry_ui.
+
+## Confirmed complete reload state — 2026-10-06
+
+After confirming replacement, Representation and Service initialize task, draft
+and selections before reading the chosen saved profile. A smaller Representation
+snapshot cannot inherit a block index from the discarded larger draft. An empty
+profile displays the actual initial plan rather than leaving unsaved exploration
+marked clean. Service clears the discarded event/pinned comparison as well.
+Normal writer retry still retains the exploration; only confirmed Reload/recovery
+uses this replacement path. No schema changes or writes to empty profiles.

@@ -9,6 +9,15 @@ func _init() -> void: call_deferred("run")
 func check(value: bool, message: String) -> void:
 	checks += 1
 	if not value: failures += 1; push_error(message)
+func check_replay_detail(scene, message: String) -> void:
+	var index: int = scene.trace_player.current
+	check(index >= 0 and index < scene.trace_player.recorded_events.size(),message+": actual event selected")
+	if index < 0 or index >= scene.trace_player.recorded_events.size(): return
+	var event: Dictionary = scene.trace_player.recorded_events[index]
+	var row: TreeItem = scene.events.get_selected()
+	check(row != null and int(row.get_metadata(1)) == index,message+": tree and replay identify the same event")
+	check(scene.details.text == scene.event_text(event),message+": visible detail belongs to the replayed event")
+
 func run() -> void:
 	var board = Board.new(); root.add_child(board); board.size = Vector2(530,128)
 	var data: Array[int] = Model.asset(0)
@@ -168,6 +177,39 @@ func run() -> void:
 			check(trace.canonical_signature() == signatures[cursor],"History comparison and locale rebuilding do not mutate any recorded Trace")
 			cursor += 1
 	check(scene.history[prepare_index].traces[0].canonical_signature() == prepare_signature and scene.history[paired_index].traces[0].canonical_signature() == paired_signature,"Original preparation and cross-asset evidence remain intact")
+	# Playback controls must update the expanded event detail without a Tree click.
+	for use_english: bool in [false,true]:
+		scene.english = use_english; scene.build()
+		scene.select_run(revised_index); scene.show_trace(0)
+		var replay_signature: String = scene.visible_trace.canonical_signature()
+		var replay_label: String = "English" if use_english else "Chinese"
+		check(scene.trace_player.current == -1 and scene.details.text.begins_with("Select an event" if use_english else "选中事件"),replay_label+": selecting a recording starts with an unclaimed event detail")
+		scene.trace_player.step()
+		check_replay_detail(scene,replay_label+": step updates preparation detail")
+		scene.trace_player.step()
+		check_replay_detail(scene,replay_label+": consecutive step updates preparation write detail")
+		var service_index: int = -1
+		var consume_index: int = -1
+		for event_index: int in scene.trace_player.recorded_events.size():
+			var kind: String = str(scene.trace_player.recorded_events[event_index].kind)
+			if kind == "request" and service_index < 0: service_index = event_index
+			if kind == "consume" and consume_index < 0: consume_index = event_index
+		check(service_index > 1 and consume_index > service_index,replay_label+": real R4 trace contains preparation then service")
+		scene.trace_player.seek(service_index)
+		check_replay_detail(scene,replay_label+": seek crosses from preparation to service detail")
+		scene.trace_player.toggle_play(); scene.trace_player._process(1.0)
+		check(scene.trace_player.current == service_index+1,replay_label+": automatic playback advances an actual service event")
+		check_replay_detail(scene,replay_label+": automatic playback updates transfer detail")
+		scene.trace_player.set_playing(false); scene.trace_player.seek(consume_index)
+		check_replay_detail(scene,replay_label+": seek updates returned byte and cache detail")
+		check(scene.details.text.contains("Actual output" if use_english else "实际输出"),replay_label+": consume detail exposes the measured output")
+		check(scene.visible_trace.canonical_signature() == replay_signature,replay_label+": step/seek/playback preserve the original Trace")
+		scene.select_run(paired_index)
+		check(scene.trace_player.current == -1 and not scene.trace_player.playing,replay_label+": switching recordings resets playback")
+		check(scene.details.text.begins_with("Select an event" if use_english else "选中事件"),replay_label+": switching recordings clears previous preparation/service detail")
+		scene.trace_player.step()
+		check_replay_detail(scene,replay_label+": first step after switching uses the new recording")
+		check(scene.history[revised_index].traces[0].canonical_signature() == replay_signature and scene.history[paired_index].traces[0].canonical_signature() == paired_signature,replay_label+": switching recordings preserves both measured sources")
 	scene.queue_free(); await process_frame
 	print("PASS: test_representation_visual " if failures == 0 else "FAIL: test_representation_visual ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

@@ -707,6 +707,8 @@ func recover_candidate(source: String) -> void:
 func reload_recovered_session() -> void:
 	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear()
 	completed = [false,false,false,false,false]; drafts.clear(); undo_stack.clear(); redo_stack.clear()
+	task = 0; plan = Model.initial_plan(); selected_block = 0; selected_run = -1
+	preview_order = 0; visible_trace = null
 	restore_session(); build()
 
 # Revalidate protected recipes, including after recovery; booleans are not evidence.

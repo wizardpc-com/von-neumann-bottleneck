@@ -401,3 +401,44 @@ approval review: destination/payload confirmation required. No remote write or
 credential retry occurred; no workaround used. All local development and package
 work is complete for these three fixes. Await only that specific push approval;
 other bounded development remains permitted from concrete findings.
+
+### 2026-10-06 continuing finite-plan audit and evidence synchronization
+
+Human approved the exact developer-branch push of475df50. The actual authorized
+`git push origin HEAD` exited128: HTTPS username unavailable, terminal prompts
+disabled. This is now an authentication failure, not the earlier approval refusal.
+No remote write; continue independent implementation without credential bypass.
+
+The Service finite implementation audit finds no missing contract/commission/
+closure feature. Representation audit finds recorded replay details do not follow
+programmatic step/seek/play selection. Lifecycle audit finds full reload retains
+an out-of-range block selection, and empty-profile reload can retain an old draft
+while marking it clean. Root also finds optional Prediction history from another
+task displays beside the current mission without an explicit source caption.
+These are concrete state/presentation gaps, not permission to add more domains.
+
+Frozen scope: root owns Prediction lab/test, both scenes' complete reload reset,
+docs, all Git/Godot/GUI; Representation agent owns visual regression then only
+replay detail sync; Mac agent owns new isolated restore-selection regression.
+No shared navigation/config/model/schema changes. First run new regressions on
+unchanged runtime to distinguish reproduced failures from source hypotheses;
+then implement minimal reset/source/sync fixes and run only affected checks.
+Commit the coherent fix, freeze final affected regression/package once, and
+verify native representative behavior where available. Existing full regression
+remains distinct; no repeated full-project run per presentation change.
+
+Baseline verification distinguishes hypotheses from defects:20261006T062812Z-8097174d
+Representation visual261 PASS, including new step/seek/play details assertions.
+Godot's programmatic Tree selection actually updates the detail callback; do not
+change that runtime or claim a replay fix. Retain the regression as fresh evidence.
+Prediction source checks fail10/22 for missing attribution. Actual snapshot/empty
+reload baseline20261006T062906Z-ad601305 fails6/41, including confirmed out-of-bounds
+index3 atregion.gd:362 and both empty-profile stale drafts. Root resets complete
+reload state before reading, and adds optional Prediction source attribution only.
+
+Integrated20261006T063056Z-e1ab848b: restore42/retryUI48/Representation261/
+Service session63/navigation24 PASS. New Prediction minimum-layout assertion failed
+because its fixture retained the1600px scene size; setting the test viewport
+explicitly yields28 PASS in20261006T063148Z-14989c7c. Production layout unchanged;
+test anchors now fixed before size to avoid an anchor warning. Next frozen
+commit verification is the final six-suite check for this bounded change.

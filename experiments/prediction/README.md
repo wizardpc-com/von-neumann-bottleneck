@@ -116,3 +116,12 @@ catalog is exposed by Mission, Hint1, scene controls or public observations.
 This is address prediction, not CPU branch speculation, rollback, learning/AI,
 physical cycle accuracy or a predictor DSL. No claim about ordinary campaign
 progression, beginner comprehension, native input, gamepad or complete accessibility.
+
+## Recorded source attribution — 2026-10-06
+
+Selected completed evidence identifies its record, original investigation and
+measured rule, and whether it matches the current task/draft. Reviewing another
+investigation does not change the mission or edit the rule. Partial observation
+identifies only its current task/rule; final costs stay hidden. The detached
+`evidence_source` public field contains task, run_index and policy only, and is
+empty before running or after an edit. No saves/progression/model changes.

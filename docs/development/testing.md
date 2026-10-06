@@ -686,9 +686,11 @@ writes by design. Finish native processes before headless verification.
 `test_hub_first_screen` checks ordinary/candidate home in both languages at1280×720
 and1600×900, visible control bounds, no homepage scrolling, focus and safe recovery/
 New Game behavior. The existing display/typography checks now require all five
-chapter shortcuts inside the fixed surface instead of scrolling them into view.
+chapter shortcuts inside the explicit selection page instead of scrolling them into view.
+The homepage exposes exactly two game actions plus three utility controls; Tab,
+Escape and focus restoration are checked across the page boundary.
 Use the new suite's opt-in `--hub-capture` only in an isolated imported QA project
-with a rendered engine and `--capture-size=1280x720`; it records eight first-screen
+with a rendered engine and `--capture-size=1280x720`; it records sixteen home/selection
 PNGs. These renders do not prove native input, saved progression or novice comfort.
 Relevant neighbors are completion_route, prelaunch_settings, candidate_supports,
 second_act_navigation and core_closure_navigation.

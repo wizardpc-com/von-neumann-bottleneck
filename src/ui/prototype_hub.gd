@@ -44,6 +44,8 @@ var candidate_journey: bool = false
 var completion_story_page: int = 0
 var completion_story_pages: Array[Dictionary] = []
 var settings_only: bool = false
+var navigation_overlay: Control
+var navigation_previous_focus: Control
 signal settings_closed
 
 
@@ -106,6 +108,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_close_new_game_confirmation()
 	elif options_overlay.visible:
 		_close_options_menu()
+	elif navigation_overlay != null and navigation_overlay.visible:
+		_close_hub_navigation()
 	else:
 		_open_options_menu()
 	get_viewport().set_input_as_handled()
@@ -139,9 +143,10 @@ func _build_interface() -> void:
 	content.add_theme_constant_override("separation",10); surface.add_child(content)
 	_build_hub_header(content)
 	_build_tree_entry(content)
+	var navigation_content := _build_hub_navigation()
 	if candidate_journey:
 		var stages := HBoxContainer.new(); stages.name = "CandidateStages"
-		stages.add_theme_constant_override("separation",12); content.add_child(stages)
+		stages.add_theme_constant_override("separation",12); navigation_content.add_child(stages)
 		for domain: String in ["representation","service","prediction"]:
 			var column := VBoxContainer.new(); column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			stages.add_child(column)
@@ -150,13 +155,13 @@ func _build_interface() -> void:
 				"service": _build_service_candidate_entry(column)
 				"prediction": _build_prediction_entry(column)
 	var cards := HBoxContainer.new(); cards.name = "ChapterCards"
-	cards.add_theme_constant_override("separation",12); content.add_child(cards)
+	cards.add_theme_constant_override("separation",12); navigation_content.add_child(cards)
 	cards.add_child(_build_card(Localization.text(&"hub.hardware.title"),Localization.text(&"hub.hardware.eyebrow"),Localization.text(&"hub.hardware.description"),Localization.text(&"hub.hardware.play"),GOOD,"res://src/hardware_foundations/hardware_foundations.tscn"))
 	cards.add_child(_build_card(Localization.text(&"hub.system.title"),Localization.text(&"hub.system.eyebrow"),Localization.text(&"hub.system.description"),Localization.text(&"hub.system.open"),WARNING,"res://src/system_lab/system_lab.tscn",&"system"))
 	cards.add_child(_build_card(Localization.text(&"hub.locality.title"),Localization.text(&"hub.locality.eyebrow"),Localization.text(&"hub.locality.description"),Localization.text(&"hub.locality.open"),ACCENT,"res://src/ui/main.tscn",&"locality"))
 	cards.add_child(_build_card(Localization.text(&"overlap.title"),Localization.text(&"overlap.hub.eyebrow"),Localization.text(&"overlap.map_goal"),Localization.text(&"overlap.map"),PURPLE,"res://src/overlap_chapter/overlap_chapter.tscn",&"overlap"))
 	cards.add_child(_build_card(Localization.text(&"layout.hub.title"),Localization.text(&"layout.hub.eyebrow"),Localization.text(&"layout.hub.description"),Localization.text(&"layout.hub.open"),Color("f4a6cb"),"res://src/layout_chapter/layout_chapter.tscn",&"layout"))
-	_build_hub_footer(content)
+	_build_hub_footer(navigation_content)
 	terminology_handbook = TerminologyHandbookType.new(); terminology_handbook.standalone_entry = false; add_child(terminology_handbook)
 	_build_options_menu()
 	_build_new_game_confirmation()
@@ -208,24 +213,28 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	primary.add_theme_constant_override("separation",8)
 	primary.size_flags_horizontal = Control.SIZE_EXPAND_FILL; primary.size_flags_stretch_ratio = 1.45
 	primary.size_flags_vertical = Control.SIZE_SHRINK_CENTER; row.add_child(primary)
-	var heading := Label.new(); heading.text = Localization.text(&"hub.tree.title")
+	var heading := Label.new(); heading.text = "你的旅程" if Localization.current_locale() != "en" else "Your journey"
 	heading.add_theme_font_size_override("font_size",30); heading.add_theme_font_override("font",UiTypographyType.HEADING_FONT)
 	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; primary.add_child(heading)
-	var description := Label.new(); description.text = Localization.text(&"hub.tree.description")
-	if candidate_journey: description.text = "构造机器，看清等待，再改变安排。" if Localization.current_locale() != "en" else "Build, measure, and change the arrangement."
+	var description := Label.new(); description.text = "构造机器，看清等待，再改变安排。" if Localization.current_locale() != "en" else "Build, measure, and change the arrangement."
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	description.add_theme_color_override("font_color",MUTED); primary.add_child(description)
 	if candidate_journey: _build_completion_route(primary)
 	var button := Button.new(); button.name = "TaskTree"
-	button.text = ("核心任务树" if Localization.current_locale() != "en" else "Core task tree") if candidate_journey else Localization.text(&"hub.tree.enter")
+	button.text = ("核心任务树" if Localization.current_locale() != "en" else "Core task tree") if candidate_journey else ("开始旅程" if Localization.current_locale() != "en" else "Start journey")
 	button.custom_minimum_size.y = 48 if not candidate_journey else 42
-	button.pressed.connect(func() -> void: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
+	button.pressed.connect(func() -> void:
+		if not candidate_journey and not GlobalSave.continue_scene_path().is_empty(): _continue_game()
+		else: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
 	if not candidate_journey:
 		InstrumentTheme.primary(button); button.add_theme_color_override("font_focus_color",Color("071823")); primary.add_child(button)
 	var secondary := HBoxContainer.new(); secondary.name = "HubSecondaryActions"
-	secondary.add_theme_constant_override("separation",10); primary.add_child(secondary)
+	secondary.add_theme_constant_override("separation",10); primary.add_child(secondary); secondary.hide()
 	if candidate_journey: secondary.add_child(button)
 	_build_save_actions(secondary)
+	var browse := Button.new(); browse.name = "HubBrowseJourney"
+	browse.text = "选择旅程" if Localization.current_locale() != "en" else "Choose a journey"
+	browse.custom_minimum_size.y = 42; browse.pressed.connect(_open_hub_navigation); primary.add_child(browse)
 	var recovery := HBoxContainer.new(); recovery.name = "HubRecovery"
 	recovery.add_theme_constant_override("separation",10); primary.add_child(recovery)
 	save_recovery_label = Label.new(); save_recovery_label.name = "SaveRecoveryNotice"
@@ -247,10 +256,64 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	call_deferred("_focus_tree_entry",button)
 
 
+func _build_hub_navigation() -> VBoxContainer:
+	navigation_overlay = Control.new(); navigation_overlay.name = "HubNavigation"
+	navigation_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	navigation_overlay.mouse_filter = Control.MOUSE_FILTER_STOP; navigation_overlay.z_index = 800
+	add_child(navigation_overlay)
+	var background := ColorRect.new(); background.color = BACKGROUND
+	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); navigation_overlay.add_child(background)
+	var margin := MarginContainer.new(); margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for edge: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+edge,20)
+	navigation_overlay.add_child(margin)
+	var content := VBoxContainer.new(); content.name = "HubNavigationContent"
+	content.add_theme_constant_override("separation",16); margin.add_child(content)
+	var header := HBoxContainer.new(); content.add_child(header)
+	var title := Label.new(); title.text = "选择旅程" if Localization.current_locale() != "en" else "Choose a journey"
+	title.add_theme_font_size_override("font_size",30); title.add_theme_font_override("font",UiTypographyType.HEADING_FONT)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; header.add_child(title)
+	var close := Button.new(); close.name = "HubNavigationClose"
+	close.text = "返回 · Esc" if Localization.current_locale() != "en" else "Back · Esc"
+	close.custom_minimum_size = Vector2(132,42); close.pressed.connect(_close_hub_navigation); header.add_child(close)
+	var core := PanelContainer.new(); core.name = "HubNavigationCore"
+	core.add_theme_stylebox_override("panel",InstrumentTheme.surface(Color("101e2b"),Color("365463"),8)); content.add_child(core)
+	var row := HBoxContainer.new(); row.add_theme_constant_override("separation",16); core.add_child(row)
+	var label := Label.new(); label.text = "核心旅程" if Localization.current_locale() != "en" else "Core journey"
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL; label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	label.add_theme_font_size_override("font_size",18); row.add_child(label)
+	var secondary := find_child("HubSecondaryActions",true,false) as HBoxContainer
+	secondary.reparent(row); secondary.show()
+	if not candidate_journey:
+		var tree := Button.new(); tree.name = "HubCoreTreeEntry"
+		tree.text = "核心任务树" if Localization.current_locale() != "en" else "Core task tree"
+		tree.custom_minimum_size.y = 42
+		tree.pressed.connect(func() -> void: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
+		secondary.add_child(tree); secondary.move_child(tree,0)
+	navigation_overlay.hide()
+	return content
+
+
+func _open_hub_navigation() -> void:
+	if navigation_overlay == null or navigation_overlay.visible: return
+	navigation_previous_focus = get_viewport().gui_get_focus_owner()
+	(get_node("HubSurface") as Control).hide()
+	navigation_overlay.show()
+	(navigation_overlay.find_child("HubNavigationClose",true,false) as Button).grab_focus()
+
+
+func _close_hub_navigation() -> void:
+	if navigation_overlay == null or not navigation_overlay.visible: return
+	navigation_overlay.hide()
+	(get_node("HubSurface") as Control).show()
+	if is_instance_valid(navigation_previous_focus) and navigation_previous_focus.is_visible_in_tree(): navigation_previous_focus.grab_focus()
+	else: (find_child("HubBrowseJourney",true,false) as Button).grab_focus()
+	navigation_previous_focus = null
+
+
 func _focus_tree_entry(button: Button) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
-	if not is_instance_valid(button) or options_overlay.visible or new_game_overlay.visible: return
+	if not is_instance_valid(button) or options_overlay.visible or new_game_overlay.visible or (navigation_overlay != null and navigation_overlay.visible): return
 	var recommended := find_child("RecommendedJourneyAction",true,false) as Button
 	if candidate_journey and recommended != null: recommended.grab_focus()
 	else: button.grab_focus()
@@ -652,6 +715,9 @@ func _refresh_save_actions() -> void:
 	save_actions.visible = not GameMode.is_test_mode()
 	if continue_button == null: return
 	var can_continue: bool = not GlobalSave.continue_scene_path().is_empty()
+	if not candidate_journey:
+		var primary := find_child("TaskTree",true,false) as Button
+		if primary != null: primary.text = ("继续旅程" if Localization.current_locale() != "en" else "Continue journey") if can_continue else ("开始旅程" if Localization.current_locale() != "en" else "Start journey")
 	continue_button.disabled = not can_continue
 	continue_button.tooltip_text = "" if can_continue else Localization.text(&"hub.save.continue_unavailable")
 
@@ -901,7 +967,7 @@ func _build_completion_route(content: VBoxContainer) -> void:
 	progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(progress)
 	var stage: String = recommended_stage(core_finished,review)
 	var action := Button.new(); action.name = "RecommendedJourneyAction"; action.custom_minimum_size.y = 48
-	var captions: Dictionary = {"core":["开始 / 继续核心旅程","Start / continue the core journey"],"representation":["下一段：改变信息的承载","Next: change how information is carried"],"service":["下一段：让历史服务新的请求","Next: let history serve new requests"],"review":["回看这一段旅程","Revisit this journey"]}
+	var captions: Dictionary = {"core":["继续旅程" if not GlobalSave.continue_scene_path().is_empty() else "开始旅程","Continue journey" if not GlobalSave.continue_scene_path().is_empty() else "Start journey"],"representation":["下一段：改变信息的承载","Next: change how information is carried"],"service":["下一段：让历史服务新的请求","Next: let history serve new requests"],"review":["回看这一段旅程","Revisit this journey"]}
 	action.text = captions[stage][1 if english else 0]; action.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	InstrumentTheme.primary(action); action.add_theme_color_override("font_focus_color",Color("071823")); column.add_child(action)
 	action.pressed.connect(func() -> void:

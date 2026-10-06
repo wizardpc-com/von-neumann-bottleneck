@@ -14,18 +14,22 @@ func run() -> void:
 		var hub: Control = load("res://src/ui/prototype_hub.tscn").instantiate()
 		root.add_child(hub)
 		for frame: int in range(8): await process_frame
-		var cards: Control = hub.find_child("ChapterCards",true,false)
-		var surface: Control = hub.find_child("HubSurface",true,false)
-		valid = valid and cards.get_child_count()==5 and cards.size.x <= surface.size.x+0.1
-		var entry: Control = hub.find_child("TaskTreeEntry",true,false)
 		var primary: Button = hub.find_child("TaskTree",true,false)
-		valid = valid and entry.get_global_rect().end.y <= cards.global_position.y and primary.has_focus()
+		var surface: Control = hub.find_child("HubSurface",true,false)
+		valid = valid and primary.has_focus() and surface.get_global_rect().encloses(primary.get_global_rect())
+		hub.find_child("HubBrowseJourney",true,false).grab_focus()
+		hub.find_child("HubBrowseJourney",true,false).pressed.emit()
+		for frame: int in range(5): await process_frame
+		var page: Control = hub.find_child("HubNavigation",true,false)
+		var cards: Control = hub.find_child("ChapterCards",true,false)
+		valid = valid and page.visible and cards.get_child_count()==5 and page.get_global_rect().encloses(cards.get_global_rect())
 		for card: Control in cards.get_children():
-			valid = valid and card.global_position.x>=surface.global_position.x and card.get_global_rect().end.x<=surface.get_global_rect().end.x+1
+			valid = valid and page.get_global_rect().encloses(card.get_global_rect())
+		hub.find_child("HubNavigationClose",true,false).pressed.emit()
 		for frame: int in range(3): await process_frame
-		valid = valid and cards.get_global_rect().end.y<=surface.get_global_rect().end.y+1
+		valid = valid and not page.visible and hub.find_child("HubBrowseJourney",true,false).has_focus()
 		hub.queue_free()
 		await process_frame
-	if valid: print("PASS: display settings coexist, retain unrelated preferences and reject unsupported rates; five chapter entries fit without scrolling in both languages")
+	if valid: print("PASS: display settings coexist, retain unrelated preferences and reject unsupported rates; five chapter choices fit their explicit page without scrolling in both languages")
 	else: push_error("Display preference preservation or reachable chapter-card layout failed")
 	quit(0 if valid else 1)

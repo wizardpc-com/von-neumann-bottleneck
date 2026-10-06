@@ -25,7 +25,12 @@ func run() -> void:
 		var rep := hub.find_child("EnterRepresentationCandidate",true,false) as Button
 		check(recommended != null and recommended.has_focus(), "Recommended first action receives focus in " + locale)
 		check(recommended.get_global_rect().end.x <= 1280 and recommended.get_global_rect().end.y <= 720, "Recommended action fits minimum viewport")
-		check(tree.global_position.y < rep.global_position.y, "Core entry precedes optional independent second-act entry")
+		var browse := hub.find_child("HubBrowseJourney",true,false) as Button
+		check(not tree.is_visible_in_tree() and not rep.is_visible_in_tree(), "Secondary choices do not compete with first primary action")
+		browse.grab_focus(); browse.pressed.emit(); await process_frame; await process_frame
+		check(tree.is_visible_in_tree() and rep.is_visible_in_tree() and tree.global_position.y < rep.global_position.y, "Selection page keeps core entry before independent second-act entry")
+		hub.find_child("HubNavigationClose",true,false).pressed.emit(); await process_frame
+		check(browse.has_focus(), "Closing choice restores its launcher focus")
 		check(hub.candidate_review_paths().is_empty(), "Unbound QA profile has no candidate save authority")
 		hub._show_completion_bridge()
 		await process_frame; await process_frame

@@ -66,6 +66,18 @@ func tab() -> void:
 	root.push_input(release,true)
 	await process_frame
 
+func escape() -> void:
+	var press := InputEventKey.new(); press.keycode = KEY_ESCAPE; press.physical_keycode = KEY_ESCAPE; press.pressed = true
+	root.push_input(press,true); await process_frame
+	var release := InputEventKey.new(); release.keycode = KEY_ESCAPE; release.physical_keycode = KEY_ESCAPE; release.pressed = false
+	root.push_input(release,true); await process_frame
+
+func visible_buttons(surface: Control) -> Array[BaseButton]:
+	var buttons: Array[BaseButton] = []
+	for node: Control in visible_leaves(surface):
+		if node is BaseButton: buttons.append(node)
+	return buttons
+
 func check_focus(surface: Control, primary: Control, context: String) -> void:
 	check(root.gui_get_focus_owner() == primary,context+": primary action receives startup focus")
 	var leaves: Array[Control] = visible_leaves(surface)
@@ -141,32 +153,60 @@ func run() -> void:
 				if surface == null:
 					hub.queue_free(); await settle(); continue
 				check_bounds(surface,context)
+				var navigation := hub.find_child("HubNavigation",true,false) as Control
+				check(surface.is_visible_in_tree() and navigation != null and not navigation.is_visible_in_tree(),context+": only the simple homepage is visible initially")
+				check(visible_buttons(surface).size() == 5,context+": homepage has exactly five actions including the three header controls")
+				var header := hub.find_child("HeaderActions",true,false) as Control
+				check(header != null and visible_buttons(header).size() == 3,context+": header keeps language, settings and fullscreen only")
 				var primary := hub.find_child("RecommendedJourneyAction" if candidate else "TaskTree",true,false) as BaseButton
 				check(primary != null and primary.is_visible_in_tree() and not primary.disabled,context+": primary entry is visible and available")
-				var task_tree := hub.find_child("TaskTree",true,false) as BaseButton
-				check(task_tree != null and task_tree.is_visible_in_tree(),context+": original independent task-tree entry remains visible")
+				var browse := hub.find_child("HubBrowseJourney",true,false) as Button
+				check(browse != null and browse.is_visible_in_tree() and not browse.disabled,context+": secondary journey selector is visible")
+				for id: String in ["ContinueButton","NewGameButton","ThemeReflectionButton","HubTerminologyButton","EnterRepresentationCandidate","EnterServiceCandidate","EnterPredictionCandidate","SavedSecondActReview","CompletionStory","RecommendedJourneyInfo"]:
+					var action := hub.find_child(id,true,false) as BaseButton
+					check(action == null or not action.is_visible_in_tree(),context+": secondary action is outside homepage: "+id)
+				await capture_screen(context,dimensions)
+				if primary != null: await check_focus(surface,primary,context)
+				var snapshot: Dictionary = progress()
+				if browse == null or navigation == null:
+					hub.queue_free(); await settle(); continue
+				browse.grab_focus(); browse.pressed.emit(); await settle()
+				check(navigation.is_visible_in_tree() and not surface.is_visible_in_tree(),context+": selector replaces homepage instead of stacking actions")
+				check_bounds(navigation,context+"-navigation")
+				var tree := hub.find_child("TaskTree" if candidate else "HubCoreTreeEntry",true,false) as BaseButton
+				check(tree != null and tree.is_visible_in_tree() and not tree.disabled,context+": selector keeps an independent core task-tree entry")
+				for id: String in ["ContinueButton","NewGameButton","ThemeReflectionButton","HubTerminologyButton"]:
+					var action := hub.find_child(id,true,false) as BaseButton
+					check(action != null and action.is_visible_in_tree(),context+": selector keeps existing action "+id)
 				for chapter: String in ["hardware","system","locality","overlap","layout"]:
 					var button := hub.find_child("ChapterEntry_"+chapter,true,false) as BaseButton
 					if chapter == "hardware" and button == null: button = hub.find_child("ChapterEntry_",true,false) as BaseButton
 					check(button != null and button.is_visible_in_tree(),context+": independent "+chapter+" entry remains visible")
-				for id: String in ["EnterRepresentationCandidate","EnterServiceCandidate","EnterPredictionCandidate","SavedSecondActReview"]:
+				for id: String in ["EnterRepresentationCandidate","EnterServiceCandidate","EnterPredictionCandidate","SavedSecondActReview","CompletionStory","RecommendedJourneyInfo"]:
 					var button := hub.find_child(id,true,false) as BaseButton
 					check(button != null and button.is_visible_in_tree() if candidate else button == null,context+": candidate-only entry boundary "+id)
-				await capture_screen(context,dimensions)
-				if primary != null: await check_focus(surface,primary,context)
-				var snapshot: Dictionary = progress()
+				await capture_screen(context+"-navigation",dimensions)
+				var navigation_close := hub.find_child("HubNavigationClose",true,false) as Button
+				check(navigation_close != null and navigation_close.is_visible_in_tree() and not navigation_close.disabled,context+": selector has an available return action")
+				if navigation_close != null: await check_focus(navigation,navigation_close,context+"-navigation")
 				hub.new_game_button.pressed.emit(); await process_frame
 				check(hub.new_game_overlay.visible,context+": New Game opens its existing confirmation")
 				hub.new_game_clear_workbenches.button_pressed = true
 				hub.find_child("NewGameCancelButton",true,false).pressed.emit(); await settle()
 				check(not hub.new_game_overlay.visible and progress() == snapshot,context+": cancel with opt-in checkbox still retains progress")
-				check_bounds(surface,context+"-after-cancel")
+				check(navigation.is_visible_in_tree() and not surface.is_visible_in_tree(),context+": new-game cancel retains the selector page")
+				check_bounds(navigation,context+"-navigation-after-cancel")
+				await escape(); await settle()
+				check(surface.is_visible_in_tree() and not navigation.is_visible_in_tree() and root.gui_get_focus_owner() == browse,context+": Escape closes selector and restores Browse focus")
+				check_bounds(surface,context+"-after-selector")
 				save.recovery_notice = &"save.recovery.newer"
 				save.recovery_details = "Synthetic warning detail; no disk content was replaced."
 				hub._refresh_save_actions(); await settle()
+				check(surface.is_visible_in_tree() and not navigation.is_visible_in_tree(),context+": recovery warning remains on the simple homepage")
 				check(hub.save_recovery_label.is_visible_in_tree() and not hub.save_recovery_label.text.is_empty(),context+": recovery warning is visible")
 				check(hub.save_recovery_label.text.contains("writing disabled") if locale == "en" else hub.save_recovery_label.text.contains("禁止写入"),context+": write protection is visible before opening details")
 				check_bounds(surface,context+"-recovery")
+				check(visible_buttons(surface).size() <= 6,context+": recovery adds only its necessary details action to the simple homepage")
 				var recovery_button := hub.find_child("SaveRecoveryDetails",true,false) as Button
 				check(recovery_button != null and recovery_button.is_visible_in_tree() and not recovery_button.disabled,context+": complete recovery information remains reachable")
 				if recovery_button != null:

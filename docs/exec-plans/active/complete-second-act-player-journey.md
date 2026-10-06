@@ -10,7 +10,22 @@ an instruction to block or add unplanned content. Earlier progress below is
 historical; runtime10211e5 and the resumed closure evidence below are the current
 checkpoint. The earlier661c107 evidence remains specific to named designs.
 
-## 2026-10-06 fixed first-screen art and interaction — active
+## 2026-10-06 fixed first-screen art and interaction — final verification
+
+Second iteration: isolated 20261006T183005Z-9f4bff48 three targeted suites PASS;
+rendered home/selection16 frames PASS5473checks, actual minimum and1600 layouts
+fit. Home contains two game actions; selection keeps all old content. Root now
+freezes source and verifies neighboring suites/package. Agents released files.
+
+Steering after first freezeefc2d9d: user says entry must be as simple as possible,
+with fewer choices. Fixed dashboard alone is insufficient. Homepage now targets
+one primary Start/Continue plus one Choose Journey action; utility header stays.
+Independent chapters/stages, New Game and reviews move behind an explicit fixed
+selection page, preserving reachability/guards and Escape/focus return. Same
+ownership, no new art/model scope. First frozen9suite/8render/export evidence is
+intermediate, not final acceptance. Native first package launched but CUA capture
+failed; normal CmdQ followed, so no native geometry claim for that package.
+
 
 User requests a complete initial screen without vertical scrolling and less
 cognitive load. Baseline runtime10211e5/evidence5b5bb84. Root integrates and owns

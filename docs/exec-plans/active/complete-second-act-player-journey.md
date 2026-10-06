@@ -589,3 +589,59 @@ receipt. Do not create a loop of evidence-only pushes and repeated full checks.
 Overall goal remains active/unproven. Next substantive iteration needs a concrete
 player/platform finding or independent visual observation of the fullscreen strip;
 existing requests remain unanswered, and no answer is inferred from elapsed time.
+
+### 2026-10-06 user-deferred acceptance; named player designs increment
+
+The user explicitly asks to cross the remaining external play-test gaps and
+continue development, with human play-testing after this increment. Novice,
+other-Mac and fullscreen observations remain unverified follow-ups, no longer
+implementation blockers. Do not widen the model or invent another chapter.
+
+Bounded player problem: Constitution article8 asks for saving, naming, copying
+and improving owned designs. Both domains currently restore history but cannot
+name or retain an alternative after rolling history expires. Add a collection of
+at most24 named designs per candidate domain, accessible alongside measured
+history. Naming captures the selected measured plan, never the unrun draft.
+Restoring copies its plan to the original task draft, preserves the collection,
+and is undoable; it does not run or award progress. Invalid/unrun Service
+records cannot be collected. Deletion is an explicit local unsaved change.
+
+Frozen interfaces/file ownership before delegation:
+- Root: candidate_session/designs.gd and design_shelf.gd; both session_store.gd;
+  shared format tests, plan/status/evidence, all Git/Godot/GUI integration.
+- Representation agent: representation_region/region.gd, representation README,
+  tests/test_representation_design_shelf.gd.
+- Service agent: service_plan/lab.gd, service README,
+  tests/test_service_design_shelf.gd.
+- No agent changes Hub/navigation/configuration, models, existing tests or Git.
+
+Shared contracts: Designs.clean(value, validator, max_task) returns ok/designs
+or ok=false/error; Designs.remember(collection, record{task,plan}, name) returns
+a detached collection or validation error. Names trimmed,1..48 characters, no
+control characters; max24 unique task+plan entries; renaming same design updates
+one entry. Widget refresh(designs, selected_record, english) presents controls;
+signals remember_requested(name), restore_requested(index), remove_requested(index).
+Candidate SessionStore.encode gains final optional designs=[] parameter. Schema1/2
+read unchanged; schema3 adds required designs, validates all fields and retains
+existing supports. Empty collections continue writing schema2. Schema4/unknown
+fields refused. Only explicit Save writes; transactional snapshots, leases, digest
+checks and recovery unchanged. No production format/path migration.
+
+Verify formats/legacy/future refusal, selected-record vs dirty-draft ownership,
+collection survival past rolling history, original-task restore/Undo, no completion
+authority, and guarded Save/reopen. Focused checks during implementation; one
+frozen cross-domain regression at integration, then local Mac export and native
+collection/restart checks when available. Commit the coherent verified increment
+and push the development branch. Stop at this reviewable increment for human
+play-testing; no workshop/share/ranking or additional knowledge domain.
+
+Implementation integrated: both domain agents released owned files; root reviewed
+shared contracts and domain diff. First focused run20261006T105027Z-859f76e7
+passed six suites but service_session caught Save below720px minimum viewport.
+Root added a bounded Service evidence scroll container; corrected focused run
+20261006T105215Z-4d9b5102 passed service_design_shelf48, service_learning_ui51,
+service_session63 and service_state_replay_view71 checks, clean full logs. Shared
+review found draft selection erased pending names; input now survives unchanged
+measured identity, and new/renamed collection entries select their own row. Names
+clip instead of widening minimum layout. Final frozen regression/package/native
+verification is the next root-only step. No external acceptance claim.

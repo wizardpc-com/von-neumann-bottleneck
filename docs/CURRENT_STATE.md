@@ -2,6 +2,25 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Named second-act designs — 2026-10-06
+
+The user defers unfamiliar-player/other-Mac/fullscreen acceptance until after
+further development. These remain open observations, no longer implementation
+blockers. Representation and Service now expose My designs beside measured
+history: name up to24 independent alternatives, explicitly Save, reopen, and
+copy into the original task draft with Undo. Naming captures selected executed
+evidence rather than current unrun edits; the collection itself cannot grant
+completion or bypass Service prerequisites. History caps retain their old limits.
+
+Candidate-only schema3 stores names and recipes; schema1/2 still read, empty
+collections write schema2, and future/unknown fields remain protected. Existing
+transactional snapshots and leases apply. Models, core40, optional Prediction
+and production saves are unchanged. Minimum-window service evidence now scrolls
+so opening the collection keeps Save visible. Pending names survive unrelated
+draft selection. Focused checks pass after correcting the observed minimum-window
+regression. Frozen integration/export/native receipts will identify the new package
+separately from the previous9e candidate below.
+
 ## Confirmed reload follow-up — 2026-10-06
 
 Runtime9e1f601 fixes recovered selection bounds and empty-profile draft reset in

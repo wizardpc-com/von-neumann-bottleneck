@@ -5,6 +5,8 @@ const Catalog = preload("res://experiments/representation_region/catalog.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/representation_region/session_store.gd")
 const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
+const Designs = preload("res://experiments/candidate_session/designs.gd")
+const DesignShelf = preload("res://experiments/candidate_session/design_shelf.gd")
 var writer_lease: RefCounted
 var recovery_state: Dictionary = {}
 var support_plans: Dictionary = {}
@@ -24,6 +26,8 @@ var plan: Array[Dictionary] = Model.initial_plan()
 var undo_stack: Array[Array] = []
 var redo_stack: Array[Array] = []
 var history: Array[Dictionary] = []
+var designs: Array[Dictionary] = []
+var design_shelf: VBoxContainer
 var completed: Array[bool] = [false,false,false,false,false]
 var selected_block: int = 0
 var selected_run: int = -1
@@ -192,6 +196,11 @@ func build() -> void:
 	support_button.disabled = not support_plans.has(task)
 	reuse_button = make_button(text2("从选中方案继续试", "Try a variation of this plan"),evidence,reuse_recorded_plan,"ReusePlan")
 	reuse_button.tooltip_text = text2("复制自己的旧方案到对应任务草稿；旧记录不变，覆盖的草稿可撤销。", "Copy your recorded plan into its task draft. The record stays unchanged; Undo restores the previous draft.")
+	design_shelf = DesignShelf.new(); design_shelf.name = "DesignShelf"
+	design_shelf.connect("remember_requested",remember_design)
+	design_shelf.connect("restore_requested",restore_design)
+	design_shelf.connect("remove_requested",remove_design)
+	evidence.add_child(design_shelf)
 	recorded_plan_label = make_label("",evidence,13); recorded_plan_label.name = "RecordedPlan"
 	result = make_label("",evidence,17); result.name = "PrimaryMetrics"
 	order_comparison = Tree.new(); order_comparison.name = "OrderComparison"
@@ -359,6 +368,7 @@ func refresh_actions() -> void:
 		byte_boards[i].configure(Model.asset(task) if i == 0 else Catalog.asset(5),plan,selected_block)
 	refresh_request_preview()
 	refresh_recorded_plan_label()
+	refresh_design_shelf()
 	var block: Dictionary = plan[selected_block]
 	split_button.disabled = plan.size() >= Model.MAX_BLOCKS or int(split_at.value) <= int(block.start) or int(split_at.value) >= int(block.end)
 	merge_button.disabled = selected_block + 1 >= plan.size()
@@ -394,12 +404,14 @@ func refresh_history() -> void:
 		for trace: Trace in row.traces: times.append(str(trace.metrics.total_cycles))
 		history_list.add_item("#%d · T%d · %s · %s cycles · %dB" % [i+1,int(row.task)+1,text2("达标","Met") if row.accepted else text2("未达标","Unmet")," / ".join(times),int(row.traces[0].metrics.stored_bytes)])
 		history_list.set_item_tooltip(i,JSON.stringify(row.plan,"  "))
+	refresh_design_shelf()
 
 func select_run(index: int) -> void:
 	if index < 0 or index >= history.size(): return
 	selected_run = index; var row: Dictionary = history[index]
 	history_list.select(index); history_list.ensure_current_is_visible()
 	refresh_recorded_plan_label()
+	refresh_design_shelf()
 	order_choice.clear()
 	for i: int in row.traces.size():
 		var trace: Trace = row.traces[i]
@@ -531,6 +543,7 @@ func restore_session() -> void:
 	if saved.get("empty",false):
 		session_notice = text2("独立候选档：退出前点击保存。撤销栈仅在本次会话保留。", "Isolated candidate profile: save before quitting. Undo stacks are session-only.")
 		return
+	designs.assign(saved.get("designs",[]).duplicate(true))
 	for i: int in 5:
 		drafts[i] = {"plan":saved.drafts[i].duplicate(true),"undo":[],"redo":[],"selection":0}
 	task = int(saved.task); plan.assign(saved.drafts[task])
@@ -557,7 +570,7 @@ func save_session() -> void:
 		saved_drafts.append(plan.duplicate(true) if i == task else drafts.get(i,{"plan":Model.initial_plan()}).plan.duplicate(true))
 	var runs: Array = []
 	for run: Dictionary in history: runs.append({"task":int(run.task),"plan":run.plan.duplicate(true)})
-	var raw: String = SessionStore.encode(task,saved_drafts,runs,support_records())
+	var raw: String = SessionStore.encode(task,saved_drafts,runs,support_records(),designs)
 	var error: Error = SessionStore.write_session(raw, SessionStore.PATH, session_version, writer_lease)
 	if error == OK:
 		session_version = raw.sha256_text()
@@ -570,6 +583,39 @@ func mark_session_dirty() -> void:
 	if not persistent_session: return
 	session_dirty = true
 	session_notice = ""
+
+func refresh_design_shelf() -> void:
+	if design_shelf == null: return
+	var selected_record: Dictionary = {}
+	if selected_run >= 0 and selected_run < history.size():
+		selected_record = {"task":int(history[selected_run].task),"plan":history[selected_run].plan.duplicate(true)}
+	design_shelf.call("refresh",designs,selected_record,english)
+
+func remember_design(name: String) -> void:
+	if selected_run < 0 or selected_run >= history.size(): return
+	var measured: Dictionary = history[selected_run]
+	var remembered: Dictionary = Designs.remember(designs,{"task":int(measured.task),"plan":measured.plan},name)
+	if not remembered.ok:
+		status.text = text2("收藏已满：最多保留24份不同方案，可先移出一份。", "Collection is full: keep at most 24 distinct designs; remove one first.") if remembered.get("error") == "limit" else text2("未收藏：名称须为1–48个字且不含控制字符。", "Design not kept: use 1–48 characters without control characters.")
+		return
+	if remembered.designs == designs: return
+	designs.assign(remembered.designs)
+	mark_session_dirty(); refresh_design_shelf()
+	status.text = text2("已命名收藏选中的实测方案；退出前保存。当前草稿和旧记录保留。", "Selected measured plan kept by name; save before leaving. Your draft and recording are preserved.")
+
+func restore_design(index: int) -> void:
+	if index < 0 or index >= designs.size(): return
+	var recorded: Dictionary = designs[index].duplicate(true)
+	if int(recorded.task) != task: change_task(int(recorded.task))
+	var restored: Array[Dictionary] = []; restored.assign(recorded.plan)
+	edit_plan(restored)
+	status.text = text2("已取回“%s”到原任务草稿；可撤销恢复原草稿。尚未运行。", "“%s” restored to its original task draft; Undo restores the previous draft. It has not been run.") % str(recorded.name)
+
+func remove_design(index: int) -> void:
+	if index < 0 or index >= designs.size(): return
+	designs.remove_at(index)
+	mark_session_dirty(); refresh_design_shelf()
+	status.text = text2("已从本窗口移除收藏；保存后生效，实测记录保留。", "Design removed in this window; Save makes the change persistent. Recorded runs are preserved.")
 
 func reuse_recorded_plan() -> void:
 	if selected_run < 0 or selected_run >= history.size(): return
@@ -705,7 +751,7 @@ func recover_candidate(source: String) -> void:
 	reload_recovered_session()
 
 func reload_recovered_session() -> void:
-	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear()
+	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear(); designs.clear()
 	completed = [false,false,false,false,false]; drafts.clear(); undo_stack.clear(); redo_stack.clear()
 	task = 0; plan = Model.initial_plan(); selected_block = 0; selected_run = -1
 	preview_order = 0; visible_trace = null

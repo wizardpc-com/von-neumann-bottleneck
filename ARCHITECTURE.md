@@ -223,3 +223,11 @@ guard. `candidate_session/journey_review.gd` reads explicitly bound saved candid
 profiles, revalidates each domain's recipes under its own model, and compares
 transaction fingerprints before/after. It neither acquires leases nor recovers
 files, changes schemas, grants campaign progress or merges cross-model metrics.
+
+Second-act My designs uses candidate_session/designs.gd for detached bounded
+task+plan+name collections and design_shelf.gd for presentation. Each domain
+owns its collection inside the same guarded candidate snapshot; schema3 adds
+validated recipes without metrics or completion authority. Schema1/2 remain
+readable. UI copies into existing transactional drafts; only ordinary execution
+produces measured evidence. Named alternatives survive rolling history without
+expanding protected-success authority or production formats.

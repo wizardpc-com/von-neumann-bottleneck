@@ -120,6 +120,30 @@ Select a performed run and choose **Try a variation of this plan** to copy that 
 
 Failed orders now identify each measured budget excess and its public limit, in both languages and in historical records. This is diagnostic feedback, not a prescribed solution.
 
+### Keep named alternatives
+
+Expand **My designs** beside the recorded-history actions, select a measured run,
+and give that plan a name. Naming captures the selected recording even if the
+current draft has changed; an unrun draft cannot be collected. Names contain
+1–48 characters after trimming, with no control characters. Up to24 distinct
+task/plan pairs are kept independently of the rolling100-run history; naming the
+same task/plan again renames its entry. Collection plans are detached copies.
+
+**Copy into task draft** opens the design’s original task and uses the ordinary
+Undo transaction to preserve the displaced draft. It preserves history and
+collection, produces no new run and grants no progress. **Remove from collection**
+changes only this window’s collection until explicit **Save drafts and comparisons**.
+Naming/removal share the existing unsaved-exit, reload and recovery guards. Save
+retains the collection across reopening the same candidate profile; no campaign
+save is involved. Older schema1/2 profiles start with an empty collection; profiles
+with collections use candidate schema3, validated by the shared session codec.
+
+`DesignName`, `RememberDesign`, `NamedDesigns`, `RestoreDesign`, `RemoveDesign`
+and `ToggleDesignShelf` expose the UI to `test_representation_design_shelf`.
+This suite covers selected-record ownership, rename/save/reopen, cross-task
+restore/Undo, history-cap survival and removal/reload. Native input/readability
+and human discovery remain separate acceptance checks.
+
 ## Byte patterns and recorded playback
 
 Public assets are rendered as exact 16×4 byte boards: equal values share colors, borders identify RAW/RLE partitions, and selecting a byte selects its editable block. Arrow keys move between partitions; the original numeric list remains available. Different assets remain separately visible in the paired task. The board visualizes the draft, while the right-hand record explicitly identifies the performed plan.

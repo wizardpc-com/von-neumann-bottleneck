@@ -125,3 +125,20 @@ profile displays the actual initial plan rather than leaving unsaved exploration
 marked clean. Service clears the discarded event/pinned comparison as well.
 Normal writer retry still retains the exploration; only confirmed Reload/recovery
 uses this replacement path. No schema changes or writes to empty profiles.
+
+## Named player designs
+
+Both second-act domains expose a collapsed My designs collection beside measured
+history. Keep captures the selected actually executed plan, independent of unrun
+draft edits. Up to24 task+plan identities can be named (1–48 trimmed characters,
+no control characters); keeping the same identity renames it. Collections survive
+the100/80 rolling-history limits. Copy restores a detached task draft with existing
+Undo, never measured results or completion authority. Remove and naming are local
+unsaved edits protected by the existing leave guard; use explicit Save to persist.
+
+Candidate schema3 adds only validated designs{task,plan,name}, retaining supports.
+Schema1/2 remain readable with an empty collection; saves without designs keep
+schema2. Previous candidate binaries reject schema3 safely; open a new candidate
+with its own profile when comparing versions. Existing transactional snapshots,
+digest checks, future-format refusal and writer leases still govern all writes.
+No production migration, model/version change, workshop or sharing feature.

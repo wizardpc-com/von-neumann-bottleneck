@@ -110,6 +110,24 @@ Save explicitly or choose Save and quit at the unsaved-exit prompt. The draft, s
 
 Strict schema/262144-byte bounds reject unknown fields, versions and malformed plans. Future/unknown-version and changed-contract files are preserved and refused. Candidate schema1 remains readable; explicit save writes schema2 with independent successful support plans. A filesystem profile lease enforces one writable instance; digest checks additionally reject stale snapshots. Interrupted installs/corrupt mains expose explicit recovery choices and retain original bytes. See [candidate lifecycle protocol and limits](../candidate_session/README.md).
 
+The collapsed **My designs** collection beside measured history retains up to24
+named task/plan alternatives independently of the80-record history limit. Naming
+copies the selected successfully executed measurement, including a plan that misses
+its contract; a rejected run or an unrun draft cannot enter the collection. Names
+are trimmed,1–48 characters without control characters; naming the same task/plan
+updates its name. Copying returns to that plan's original, already unlocked task,
+leaves optional commission mode, and uses the existing Undo/Redo draft edit. It
+never executes a plan, creates protected supports or grants progression.
+
+Collection naming and removal are local unsaved changes; only explicit Save
+retains them after reopening. A nonempty collection writes candidate schema3;
+empty collections still write schema2, and legacy schema1/2 read with an empty
+collection. Writer leases, stale-digest refusal, unsaved-leave guards and explicit
+recovery protections continue to apply. `test_service_design_shelf` covers source
+ownership, rolling-history retention, original-task copy/Undo, save/reopen/reload,
+locked-task refusal and bilingual collection controls. Native input and novice
+understanding require integration observation.
+
 Native Linux verified two performed comparisons, save, additional unrun draft change, cancel exit, save-and-quit and restart with the exact draft and two recomputed records. An actual Alt+F4 test exposed GlobalSave preempting the candidate's dialog; a scoped close-owner guard fixed this for both service and representation profiles. Fresh native Alt+F4 now opens the correct prompt in both, and cancel/undo/save preserves their drafts. The global campaign close path is unchanged when no persistent candidate owns it. Final full regression:59 stages (import, isolated user directory,57 suites), including global-save and both session suites. Native Mac/Windows and human enjoyment remain unverified.
 
 ## Readable response evidence

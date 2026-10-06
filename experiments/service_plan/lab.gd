@@ -9,6 +9,8 @@ const Commissions = preload("res://experiments/service_plan/commissions.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const SessionStore = preload("res://experiments/service_plan/session_store.gd")
 const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
+const Designs = preload("res://experiments/candidate_session/designs.gd")
+const DesignShelf = preload("res://experiments/candidate_session/design_shelf.gd")
 var writer_lease: RefCounted
 var recovery_state: Dictionary = {}
 var support_plans: Dictionary = {}
@@ -22,6 +24,8 @@ var notice_key: String = ""
 var previous_auto_quit: bool = true
 var plan: Dictionary = Model.initial_plan()
 var history: Array[Dictionary] = []
+var designs: Array[Dictionary] = []
+var design_shelf: VBoxContainer
 var undo_stack: Array[Dictionary] = []
 var redo_stack: Array[Dictionary] = []
 var english: bool = false
@@ -191,7 +195,13 @@ func build() -> void:
 		var save := button(tr2("保存本次探索", "Save this exploration"),editor,save_session,"SaveSession")
 		save.disabled = save_blocked; InstrumentTheme.primary(save,Color("62dca7"))
 		add_recovery_controls(editor)
-	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
+	var evidence_scroll := ScrollContainer.new(); evidence_scroll.name = "EvidenceScroll"
+	evidence_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	evidence_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	evidence_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body.add_child(evidence_scroll)
+	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	evidence.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence_scroll.add_child(evidence)
 	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	restore_button = button(tr2("恢复为草稿", "Restore draft"), history_header, restore_history, "Restore")
@@ -199,6 +209,10 @@ func build() -> void:
 	var support_button := button(tr2("达标方案", "Successful plan"),history_header,restore_support,"RestoreSupport")
 	support_button.disabled = not support_plans.has(task)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
+	design_shelf = DesignShelf.new(); design_shelf.name = "DesignShelf"; evidence.add_child(design_shelf)
+	design_shelf.remember_requested.connect(remember_design)
+	design_shelf.restore_requested.connect(restore_design)
+	design_shelf.remove_requested.connect(remove_design)
 	evidence_tabs = TabContainer.new(); evidence_tabs.name = "EvidenceTabs"; evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(evidence_tabs)
 	var overview := VBoxContainer.new(); overview.name = "Overview"; evidence_tabs.add_child(overview)
 	var event_panel := VBoxContainer.new(); event_panel.name = "Events"; evidence_tabs.add_child(event_panel)
@@ -258,6 +272,7 @@ func refresh_groups() -> void:
 	move_to.max_value = plan.groups.size()
 	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
 func refresh_actions() -> void:
+	refresh_design_shelf()
 	var quality_button := find_child("QualityEvidence",true,false) as Button
 	if quality_button != null: quality_button.disabled = selected_history < 0 or selected_history >= history.size() or not str(history[selected_history].metrics.error).is_empty()
 	var support_button := find_child("RestoreSupport",true,false) as Button
@@ -415,6 +430,53 @@ func refresh_measured_source() -> void:
 func restore_history() -> void:
 	if selected_history < 0: return
 	edit(history[selected_history].metrics.plan.duplicate(true), 0); slots.set_value_no_signal(plan.slots)
+
+# Collection recipes belong to the selected completed measurement, not the draft.
+func selected_design_record() -> Dictionary:
+	if selected_history < 0 or selected_history >= history.size(): return {}
+	var record: Dictionary = history[selected_history]
+	var metrics: Dictionary = record.get("metrics",{})
+	if not metrics.has("error") or not str(metrics.error).is_empty(): return {}
+	if not metrics.get("plan") is Dictionary: return {}
+	var source: Dictionary = metrics.plan
+	if SessionStore.clean_plan(source).is_empty() or not Model.validate(source).is_empty(): return {}
+	return {"task":int(record.task),"plan":source.duplicate(true)}
+
+func refresh_design_shelf() -> void:
+	if is_instance_valid(design_shelf): design_shelf.refresh(designs,selected_design_record(),english)
+
+func remember_design(design_name: String) -> void:
+	var record: Dictionary = selected_design_record()
+	if record.is_empty(): return
+	var result: Dictionary = Designs.remember(designs,record,design_name)
+	if not result.ok:
+		status.text = tr2("收藏已满：最多24份不同方案，请先移除一份。", "Collection full: keep at most24 distinct designs. Remove one first.") if result.error == "limit" else tr2("未收藏：名称须为1–48个字符，不含控制字符。", "Design not kept: use1–48 characters without control characters.")
+		return
+	if designs == result.designs: return
+	designs = result.designs
+	mark_session_dirty(); refresh_design_shelf()
+	status.text = tr2("已收藏选中实测方案；保存本次探索以保留。", "Selected measured design kept; save this exploration to retain it.") if persistent_session else tr2("已收藏选中实测方案；临时实验退出后不保留。", "Selected measured design kept; this temporary trial does not retain it after quitting.")
+
+func restore_design(index: int) -> void:
+	if index < 0 or index >= designs.size(): return
+	var record: Dictionary = designs[index]
+	var original_task: int = int(record.task)
+	if original_task < 0 or original_task > unlocked: return
+	var source: Dictionary = SessionStore.clean_plan(record.plan)
+	if source.is_empty() or not Model.validate(source).is_empty(): return
+	var changed_context: bool = task != original_task or commission_mode >= 0
+	task = original_task; commission_mode = -1
+	if changed_context: mark_session_dirty()
+	edit(source,0); slots.set_value_no_signal(plan.slots)
+	refresh_mission(); refresh_actions()
+	if selected_history >= 0 and selected_history < history.size(): select_run(selected_history)
+	if evidence_tabs.current_tab == 4: evidence_tabs.current_tab = 0
+	status.text = tr2("已复制收藏到原任务草稿；可撤销修改，运行后才有新证据。", "Named design copied to its original task draft; Undo can restore the prior draft. Run to obtain new evidence.")
+
+func remove_design(index: int) -> void:
+	if index < 0 or index >= designs.size(): return
+	designs.remove_at(index); mark_session_dirty(); refresh_design_shelf()
+	status.text = tr2("收藏已移除；保存本次探索以保留此变化。", "Named design removed; save this exploration to retain the change.") if persistent_session else tr2("收藏已从本窗口移除。", "Named design removed from this window.")
 func public_vector(values: Array) -> String:
 	if values.size() == 8:
 		var bytes: PackedByteArray = Model.pack(values,"raw64")
@@ -486,6 +548,7 @@ func restore_session() -> void:
 	session_version = str(saved.get("digest",""))
 	if saved.get("empty",false): notice_key = "new"; return
 	plan = saved.draft.duplicate(true)
+	designs.assign(saved.get("designs",[]).duplicate(true))
 	for record: Dictionary in saved.runs:
 		var trace: Trace = Model.run(record.plan)
 		var events: Array[Dictionary] = []
@@ -505,7 +568,7 @@ func save_session() -> void:
 	if not persistent_session or save_blocked: return
 	var records: Array = []
 	for record: Dictionary in history: records.append({"task":int(record.task),"plan":record.metrics.plan.duplicate(true)})
-	var raw: String = SessionStore.encode(task,plan,records,support_records())
+	var raw: String = SessionStore.encode(task,plan,records,support_records(),designs)
 	var error: Error = SessionStore.write_session(raw,SessionStore.PATH,session_version,writer_lease)
 	if error == OK: session_version = raw.sha256_text(); session_dirty = false
 	notice_key = "saved" if error == OK else "failed"; status.text = session_notice()
@@ -602,7 +665,7 @@ func recover_candidate(source: String) -> void:
 	reload_recovered_session()
 
 func reload_recovered_session() -> void:
-	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear()
+	save_blocked = false; session_dirty = false; history.clear(); support_plans.clear(); designs.clear()
 	unlocked = 0; commission_mode = -1; undo_stack.clear(); redo_stack.clear()
 	task = 0; plan = Model.initial_plan(); selected_group = 0; selected_history = -1
 	active_trace = null; selected_event_index = -1; comparison_baseline.clear()

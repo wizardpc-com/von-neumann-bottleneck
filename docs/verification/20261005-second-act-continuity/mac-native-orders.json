@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-06",
+  "build_id": "free-alpha-f84c3d64a7e1",
+  "source_commit": "f84c3d64a7e14176041024a2be559affb2445092",
+  "profile": "MacSecondAct-f84c3d6",
+  "scope": "Actual frozen exported app; native CUA keyboard Tab/Shift-Tab/Return/Down; no source injection or loaded solution",
+  "launch_argument": "--windowed (existing presentation settings remain authoritative)",
+  "observations": [
+    "Hub retained candidate and core entry points.",
+    "Native keyboard entered Representation; selected task3 with both public specifications visible.",
+    "PublicOrderPreview popup visibly opened and listed no markers/Band scan/Band endpoints.",
+    "Down/Return selected Band endpoints; only addresses0 and63 carried gold request markers.",
+    "Initial actual [0,64) RAW plan ran once; both actual orders appeared in one history record with distinct failure feedback.",
+    "RecordedOrder popup visibly opened and showed both independently Unmet orders.",
+    "Down/Return selected Band endpoints: primary metrics changed to584cycles/544B traffic, comparison row selected the same order, source remained record1/task3/[0,64) RAW.",
+    "History remained one record with136/584cycles and68B storage; changing displayed order did not create a new run.",
+    "Native keyboard saved the candidate; readonly file audit verifies one recipe and zero supports.",
+    "Normal Cmd-Q exited0; process absent and writer lease released."
+  ],
+  "metrics": {
+    "plan": [
+      {
+        "start": 0,
+        "end": 64,
+        "codec": "raw"
+      }
+    ],
+    "task": 3,
+    "accepted": false,
+    "orders": [
+      {
+        "name": "Band scan",
+        "prepare_cycles": 0,
+        "service_cycles": 136,
+        "total_cycles": 136,
+        "storage_bytes": 68,
+        "traffic_bytes": 68
+      },
+      {
+        "name": "Band endpoints",
+        "prepare_cycles": 0,
+        "service_cycles": 584,
+        "total_cycles": 584,
+        "storage_bytes": 68,
+        "traffic_bytes": 544
+      }
+    ]
+  },
+  "saved": {
+    "runs": 1,
+    "supports": 0,
+    "sha256": "c990f14b3c115a7ee0781f496cdbe59152dd4e730572abbe5144e269ffff45d4",
+    "lease_absent": true,
+    "service_sibling_sha256_unchanged": "2abbba96c6bb634d055518a627361e22105facdb16037dd5d4534b1537c1b848"
+  },
+  "exit_code": 0,
+  "log": "mac-native-orders.txt",
+  "godot_script_errors": false,
+  "os_diagnostics": [
+    "TSM AdjustCapsLockLEDForKeyTransitionHandling",
+    "error messaging the mach port for IMKCFRunLoopWakeUpReliable"
+  ],
+  "original_log_sha256": "05ea944753aa69c8a3b6e232177a48e51d0b91dc9866aec2f4842718fe38bcc7",
+  "copied_log_normalization": "Only trailing blank lines removed.",
+  "archive_sha256_verified_unchanged": "c35407c6b582c4d411204a55a2352e93b5959f3a836902e2de6c51a3b9f7f971",
+  "limits": [
+    "Screenshots displayed in native CUA transcript; no stored native PNG claimed.",
+    "One attempt to activate Run before confirming focus produced no new record; only later visible measurement is acceptance.",
+    "Popup observations took155–160seconds through CUA; no game timing or performance conclusion follows.",
+    "Keyboard task3 public/recorded order paths passed; this does not supersede the old failed viewport input run or prove native pointer/drag/all-orders/all5+3.",
+    "No unfamiliar-player comprehension, other-Mac install or formal progression evidence."
+  ]
+}

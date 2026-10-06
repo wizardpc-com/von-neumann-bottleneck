@@ -19,8 +19,9 @@ Actual local Mac candidate **free-alpha-f84c3d64a7e1** is exported fromf84c3d6 u
 Its explicit isolated profile enables candidate entries on ordinary app startup,
 without production migration. Native keyboard entry/introduction, actual slot
 edit/run/save, independent windowed reopen with two recomputed records and normal
-exit were observed; CUA pointer remains unreliable. No novice, complete native5+3
-or other-Mac installation acceptance. Exact evidence, failed attempts,
+exit were observed. Native Representation task3 public/recorded order popups
+and synchronized result selection passed by keyboard; CUA pointer remains
+unreliable. No novice, complete native5+3 or other-Mac installation acceptance. Exact evidence, failed attempts,
 archive hash and next gates: [continuity verification](verification/20261005-second-act-continuity/README.md)
 and [active whole-journey plan](exec-plans/active/complete-second-act-player-journey.md).
 Branch push remains blocked by missing HTTPS authentication.

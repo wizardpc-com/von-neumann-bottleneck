@@ -239,3 +239,31 @@ formal integration decision and push authentication. Next use the frozen package
 for independent observation and repair only concrete findings; no additional tasks
 or model expansion. Current goal service reports paused; no further goal iteration
 is started in this handoff.
+
+
+### 2026-10-06 resumed native order-navigation acceptance
+
+The user goal continuation resumes the whole objective (goal service now active).
+Previous turn is progress: actual exported editing and independent restore evidence
+committed34a691e. No runtime changes exist; unrelated collaborator changes retained.
+Next safe available action is native keyboard acceptance of Representation's public
+and recorded order controls in the frozen Mac candidate, including a real two-order
+measurement and immutable record selection. This targets the outstanding native
+menu evidence; it does not count as pointer/drag, newcomer understanding or all5+3.
+Root owns GUI/Godot/Git plus this plan/evidence only. No parallel engines or agents.
+Do not rewrite menus unless an actual source defect is reproduced.
+
+
+Resumed stage result: actual release CUA keyboard task3 public preview popup and
+recorded-order popup both passed. Public endpoints mark0/63 only. Native whole-RAW
+record shows scan136/68B and endpoints584/544B, storage68B; selection updates exact
+order/result/table while keeping one source record. Save contains1recipe/0supports;
+Cmd-Q exit0, lease absent, Service sibling SHA unchanged. Log has macOS IMK/TSM
+input-method diagnostics, no Godot script error. Source/archivef84 unchanged.
+Receipt/log: docs/verification/20261005-second-act-continuity/mac-native-orders.*.
+A misfocused initial Run attempt had no record; accepted later Run is visibly proven.
+Popup observation latency through CUA is not game latency. Native pointer/drag,
+full5+3, novice and otherMac acceptance remain. No runtime changes or repeat tests.
+An asynchronous request now asks for actual independent-player/otherMac results;
+no response is assumed. Continue only with concrete safe outstanding acceptance
+or findings; do not expand mechanics to replace missing external evidence.

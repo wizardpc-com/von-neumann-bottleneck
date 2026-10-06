@@ -139,6 +139,20 @@ unsuccessful input attempts separately. A LaunchServices restart did not establi
 control input through CUA; the successful windowed restart is the accepted path.
 No runtime/source change or repeat full regression was needed for this evidence.
 
+Further native acceptance on2026-10-06 exercised Representation task3 public
+and recorded order popups through actual CUA keyboard input. Public preview
+selected Band endpoints and marked only addresses0/63. One actual whole-RAW run
+produced scan136cycles/68B traffic and endpoints584cycles/544B traffic, both68B
+storage, with per-order failure feedback. Selecting the recorded endpoints order
+updated primary metrics and comparison selection while retaining record#1 and its
+same recipe. Native Save retained one recipe/zero supports; Cmd-Q exited0 and
+released its lease. The Service sibling file was unchanged. [Order receipt](mac-native-orders.json)
+and [native log](mac-native-orders.txt) distinguish OS input-method diagnostics
+from absent Godot script errors. Native screenshots are in the CUA transcript.
+This establishes these two **keyboard** popup paths only; native pointer/drag,
+all-order/full5+3 and unfamiliar-player gates remain open. The old failed viewport
+popup run remains a failed run; it has not been retroactively accepted.
+
 ## Reproducible QA example and counterexample
 
 The rendered218-check route earns the third Service contract with24 interleaved

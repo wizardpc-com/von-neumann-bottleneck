@@ -13,7 +13,11 @@ specification and measured bill available on demand. No model, contract, registe
 40-task progression or save schema changes. Prediction remains standalone optional
 session-only exploration. Unconfirmed saved data is never displayed as known zero.
 
-Source/package freeze and exact new evidence are maintained in the
+Runtime **59941d9**, Mac candidate **free-alpha-59941d928875**, independent profile
+**Completion-59941d9**:19 frozen suites/import/isolation,1973-file identity,
+archive identity and14 release-binary checks PASS. Native ordinary entry and
+opening fresh review observed; subsequent pointer/quit tools failed, so final
+page/native Save/reopen remain unverified on this package. Exact evidence is in the
 [completion record](verification/20261006-completion/README.md), with
 [route, Claude interfaces and team questions](verification/20261006-completion/TEAM_REVIEW.md).
 This is an internal discussion candidate; new-user comprehension, sound, otherMac

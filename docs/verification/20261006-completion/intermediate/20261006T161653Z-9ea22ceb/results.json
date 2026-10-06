@@ -1,0 +1,23 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: Could not create directory: '/Users/ray/Library/Application Support/VonNeumannBottleneckChecks/20261006T161653Z-9ea22ceb'.",
+        "ERROR: Error attempting to create data dir: /Users/ray/Library/Application Support/VonNeumannBottleneckChecks/20261006T161653Z-9ea22ceb/import.",
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\"",
+        "ERROR: Could not open 'user://' directory: 'user://'.",
+        "SCRIPT ERROR: Parse Error: Expected expression for match pattern.",
+        "ERROR: Failed to load script \"res://src/ui/prototype_hub.gd\" with error \"Parse error\".",
+        "ERROR: Cannot save file '/Users/ray/Library/Application Support/Godot/editor_settings-4.7.tres'.",
+        "ERROR: Error saving editor settings to /Users/ray/Library/Application Support/Godot/editor_settings-4.7.tres"
+      ],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T161653Z-9ea22ceb/import"
+    }
+  ]
+}

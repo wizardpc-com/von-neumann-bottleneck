@@ -9,7 +9,7 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; final661c107 evidence supersedes the initial named-design package.
 
-## 2026-10-06 completion round — active
+## 2026-10-06 completion round — implementation/package delivered
 
 The current user request supersedes the old NIGHT_BRIEF and the prior finite-stage stop.
 Source baseline: local/remote developer branch bc9ad2d, runtime661c107; read-only SSH
@@ -52,7 +52,20 @@ preview persistence wording. First import exposed a match/lambda parse error; fi
 An intermediate run copied a presenter/test while its review fix was in flight;
 retain its failure and rerun the final stable snapshot. All agents released ownership.
 
-Fresh evidence pending. Required distinctions: code review, automated assertions,
+Final freeze59941d9:19/19 relevant suites + import/isolation PASS;1973 source
+identities match and all21 logs inspected. Final16 bilingual1280x720 captures
+inspected after rejecting OS fullscreen size drift. Mac free-alpha-59941d928875
+(profileCompletion-59941d9) exported; archive/file hashes and actual binary14checks
+PASS. Native ordinary Hub/0+0 saved review opening observed. Later CUA pointer
+-10005 and ineffective Cmd-Q limit native acceptance; identity-checked SIGTERM
+ended ownPID9976 only. No recipe/lease or production data touched. Fullscreen
+capture top-strip artifact remains separate. No new native full5+3/novice/audio/
+otherMac claim. Final receipts/team boundaries in20261006-completion verification.
+Finite scope closes here; final Git/remote confirmation is retained in the local
+handoff and delivery response. Future work follows
+team feedback/concrete findings, not new knowledge domains.
+
+Required distinctions: code review, automated assertions,
 rendered checks, native input, exported package and human comprehension/audio are
 separate. External novice/otherMac/listening acceptance remains NOT_RUN this round.
 Final integration will state remaining concrete gaps rather than claim release.

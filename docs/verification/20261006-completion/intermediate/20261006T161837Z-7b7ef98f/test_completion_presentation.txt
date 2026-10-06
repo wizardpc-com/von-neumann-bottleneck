@@ -1,0 +1,33 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Empty/unavailable stage hides stale achievements: unavailable
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_completion_presentation.gd:13)
+       [1] run (res://tests/test_completion_presentation.gd:74)
+ERROR: Empty/unavailable stage hides stale achievements: unavailable
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_completion_presentation.gd:13)
+       [1] run (res://tests/test_completion_presentation.gd:74)
+ERROR: Unbound launch produces unavailable presentation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_completion_presentation.gd:13)
+       [1] run (res://tests/test_completion_presentation.gd:86)
+ERROR: Unbound launch produces unavailable presentation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_completion_presentation.gd:13)
+       [1] run (res://tests/test_completion_presentation.gd:86)
+ERROR: Duplicate evidence rows do not inflate achievement counts
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_completion_presentation.gd:13)
+       [1] run (res://tests/test_completion_presentation.gd:93)
+ERROR: Missing numeric evidence is unavailable, never substituted with zero
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_completion_presentation.gd:13)
+       [1] run (res://tests/test_completion_presentation.gd:96)
+FAIL: test_completion_presentation 67 checks, 6 failures

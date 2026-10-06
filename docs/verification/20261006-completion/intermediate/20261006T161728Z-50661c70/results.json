@@ -1,0 +1,17 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Parse Error: Expected expression for match pattern.",
+        "ERROR: Failed to load script \"res://src/ui/prototype_hub.gd\" with error \"Parse error\"."
+      ],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T161728Z-50661c70/import"
+    }
+  ]
+}

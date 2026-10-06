@@ -1,0 +1,24 @@
+{
+  "source_commit": "59941d9288758d32a291c8a077fe2d406a076e36",
+  "build_id": "free-alpha-59941d928875",
+  "profile": "Completion-59941d9",
+  "method": "CUA native OS input; known-context limited observation",
+  "observed": [
+    "Ordinary app startup displays recommended route and fresh saved domain counts0/5+0/3",
+    "F11 switches fullscreen to windowed; windowed view clear",
+    "Tab twice then Return opens first page of fresh second-act saved review"
+  ],
+  "not_verified": [
+    "Native pointer next-page action: CUA windowNotFoundAtPosition -10005",
+    "Further native pages, earned closure and core-to-second-act transition",
+    "New native full5+3, Save/reopen, otherMac and novice comprehension",
+    "Normal quit: Cmd-Q did not end the process"
+  ],
+  "cleanup": {
+    "pid": 9976,
+    "identity_checked_command": "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-59941d928875/macOS/Von-Neumann-Bottleneck.app/Contents/MacOS/Von Neumann Bottleneck",
+    "signal": "SIGTERM",
+    "scope": "only own QA process, no candidate recipe/lease existed"
+  },
+  "display_risk": "Fullscreen screenshot repeated top-strip artifact; cause not localized; windowed view normal"
+}

@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+PASS: bilingual1280x720 rendered completion views; known-answer fixture only; no native/novice claim. /Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261006T162208Z-c89dd1e6/project/.godot/completion-captures

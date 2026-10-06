@@ -1,6 +1,6 @@
 # Complete second-act player journey
 
-Owner: Codex root. Baseline `b62ecd2`, 2026-10-05. Status: active.
+Owner: Codex root. Baseline `b62ecd2`, 2026-10-05. Status: blocked on external acceptance (2026-10-06).
 
 The continuing user goal is to implement the planning/direction and make the game
 more complete. A completed slice is progress, not completion of this objective.
@@ -294,3 +294,34 @@ proof. Goal remains active; this is the first no-progress external blocking audi
 after the prior native progress. Next meaningful action requires a new concrete
 player finding/platform result or restored authentication. Do not mark complete,
 paused, or blocked before the prescribed blocking threshold.
+
+
+### 2026-10-06 blocking audit2/3 and final handoff
+
+Audit2 was recorded in the ignored collaboration handoff: HEADc891973, fresh28
+hashes/current gates unchanged, no active Godot job and no independent-player or
+otherMac reply. No tests, GUI relaunch, push retries or implementation changes.
+This was no progress, not a verified wait. Audit3 now independently rechecks git,
+the same28 evidence hashes and actual frozen archive hash; all remain unchanged.
+Process inspection again finds no active game. The previous authorized dry-run
+handle is terminalexit128, not a live job. The external-results request is still
+unanswered. Three consecutive goal turns now have the same external impasse.
+
+The bounded candidate implementation is delivered; the complete requested goal
+is not proven. Required player-understanding/platform evidence cannot be generated
+by another informed replay. Current mouse tooling failures do not justify changing
+security settings or rewriting source without a reproduced source defect. No new
+known source finding is available; speculative mechanics would not satisfy these
+missing gates. Formal content integration remains pending evidence and the existing
+production-save restrictions. Authentication requires local owner action, not
+sharing credentials in chat. All unaffected authorized implementation and minimum
+native/package work have been completed and committed.
+
+Mark the whole goal blocked, not complete or user-paused. Preserve this active-plan
+path and full objective. Restart only on an external-state change: independent
+unassisted-player feedback (candidate version/action/observed misunderstanding),
+another Mac installation/save/resume result, a concrete reproducible UI defect or
+restored approved Git authentication. Use the existing frozenf84c3d6 candidate and
+receipts first; retain native full-route/pointer and formal acceptance limits.
+No main merge, history rewrite, production migration, upload, fee or permission
+change. Root ownership released; unrelated collaborator files remain untouched.

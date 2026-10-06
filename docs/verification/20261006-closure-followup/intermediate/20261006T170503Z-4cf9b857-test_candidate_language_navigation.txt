@@ -1,0 +1,51 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Expected indented block after "else" block.
+          at: GDScript::reload (res://experiments/representation_region/region.gd:817)
+          GDScript backtrace (most recent call first):
+              [0] open_workbench (res://tests/test_candidate_language_navigation.gd:14)
+              [1] run (res://tests/test_candidate_language_navigation.gd:44)
+ERROR: Failed to load script "res://experiments/representation_region/region.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] open_workbench (res://tests/test_candidate_language_navigation.gd:14)
+       [1] run (res://tests/test_candidate_language_navigation.gd:44)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: open_workbench (res://tests/test_candidate_language_navigation.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] open_workbench (res://tests/test_candidate_language_navigation.gd:15)
+              [1] run (res://tests/test_candidate_language_navigation.gd:44)
+SCRIPT ERROR: Cannot call method 'get' on a null value.
+          at: is_english (res://tests/test_candidate_language_navigation.gd:25)
+          GDScript backtrace (most recent call first):
+              [0] is_english (res://tests/test_candidate_language_navigation.gd:25)
+              [1] run (res://tests/test_candidate_language_navigation.gd:46)
+ERROR: Shared language inherited on entry: res://experiments/representation_region/region.gd / en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_language_navigation.gd:10)
+       [1] run (res://tests/test_candidate_language_navigation.gd:46)
+SCRIPT ERROR: Cannot call method 'find_child' on a null value.
+          at: run_caption (res://tests/test_candidate_language_navigation.gd:27)
+          GDScript backtrace (most recent call first):
+              [0] run_caption (res://tests/test_candidate_language_navigation.gd:27)
+              [1] run (res://tests/test_candidate_language_navigation.gd:47)
+ERROR: Language check observes actual Run control
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_language_navigation.gd:10)
+       [1] run (res://tests/test_candidate_language_navigation.gd:47)
+SCRIPT ERROR: Cannot call method 'find_child' on a null value.
+          at: run_caption (res://tests/test_candidate_language_navigation.gd:27)
+          GDScript backtrace (most recent call first):
+              [0] run_caption (res://tests/test_candidate_language_navigation.gd:27)
+              [1] run (res://tests/test_candidate_language_navigation.gd:48)
+ERROR: Run control uses inherited language
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_language_navigation.gd:10)
+       [1] run (res://tests/test_candidate_language_navigation.gd:48)
+SCRIPT ERROR: Cannot call method 'get' on a null value.
+          at: run (res://tests/test_candidate_language_navigation.gd:49)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_candidate_language_navigation.gd:49)

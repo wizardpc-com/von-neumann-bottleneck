@@ -1,0 +1,16 @@
+{
+  "size": [
+    1280,
+    720
+  ],
+  "count": 16,
+  "inspected": [
+    "zh_CN-hub",
+    "en-hub",
+    "zh_CN-service-baseline",
+    "en-service-baseline",
+    "en-earned-ending-fixture"
+  ],
+  "uninspected_repeated_views": "Other bridge/bill/story PNGs retained; unchanged panels previously inspected on59941d9. Not a claim of new full16 visual inspection.",
+  "mode": "--capture-size=1280x720, isolated profile ClosureRender-20261006; model-backed synthetic presenter receipts; no native input"
+}

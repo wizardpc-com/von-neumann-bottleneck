@@ -3,7 +3,22 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Internal completion round — 2026-10-06
+## Current playable closure checkpoint — 2026-10-06
+
+**10211e5 / free-alpha-10211e5b8777** supersedes the prior package pointer.
+[Fresh layered evidence](docs/verification/20261006-closure-followup/README.md):
+16 affected suites/import/isolation and14 binary checks pass. Actual native save,
+ending and restart are now observed on the new package, using explicitly imported
+prior native5+3 recipes plus a new Service run. Prediction is connected through an
+optional Hub entry and guarded Home; progress remains session-only.
+
+Remaining acceptance: unfamiliar-player understanding and full-route duration,
+listening, final visual/narrative choices, otherMac install/focus/DPI, Windows,
+signing/notarization and public release. Intermittent CUA pointer/capture problems
+are not a substitute for device acceptance. No new full40 or from-blank5+3 native
+claim. These human/formal gates do not erase the delivered implementation checkpoint.
+
+## Previous internal completion round — 2026-10-06
 
 Current source/package identity and new validation are recorded in
 [completion evidence](docs/verification/20261006-completion/README.md).

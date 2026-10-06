@@ -7,9 +7,10 @@ development. The authorized finite second-act implementation is now delivered,
 including existing5+3 journeys, learning continuity, protected saved review and
 named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
-historical; final661c107 evidence supersedes the initial named-design package.
+historical; runtime10211e5 and the resumed closure evidence below are the current
+checkpoint. The earlier661c107 evidence remains specific to named designs.
 
-## 2026-10-06 resumed closure and native iteration — active
+## 2026-10-06 resumed closure and native iteration — delivered
 
 User explicitly resumed development after94fef29. Prior stop statements below are
 historical. Remote developer94fef29/mainc5a2b0c and collaborator dirt unchanged.
@@ -25,6 +26,19 @@ these files. Native runs are serial with all engine checks.
 Steps: implement bounded earned actions and guarded return; native isolated play
 and refine concrete failures; targeted frozen checks; new candidate identity and
 actual package run; record exact observed versus untested behavior and delivery.
+
+Final runtime10211e5 is locally committed. Three actual6.1Sol agents (high/high/
+medium) completed disjoint changes and review; all released ownership. Affected
+16-suite freeze/import/isolation passed,2042-file identity. Service minimum-window
+regression and temporary wording parse/test mistakes were repaired; failed logs
+retained. New Mac package identity and14binary checks pass. Native freshPrediction
+run/cancel/return and prior-native-fixture Representation→Service review confirmed.
+A new Service record7 was run, Cancel restored review, Save returned directly to
+saved story4/4, normal exit and independent restart restored7records/draft/verdict.
+No new fullcampaign or from-blank5+3 claim; audio/novice/otherMac remain deferred.
+Only own QA profiles reversibly archived, leaving a fresh deliverable. Evidence:
+`docs/verification/20261006-closure-followup/`; current team/Claude handoff updated.
+Root finishes evidence commit/push, then releases all files. No scope expansion.
 
 ## 2026-10-06 completion round — implementation/package delivered
 

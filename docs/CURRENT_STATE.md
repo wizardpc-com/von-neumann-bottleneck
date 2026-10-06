@@ -2,7 +2,31 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Internal completion journey — 2026-10-06
+## Playable closure follow-up — 2026-10-06
+
+Current runtime **10211e5**, Mac **free-alpha-10211e5b8777**, profile
+**Closure-10211e5**. Core terminal results and task tree lead directly to earned
+reflection; Representation review safely resumes after canceled/failed departure;
+Service retains a measured verdict and support-gated next action. Saving and
+leaving Service's earned review opens the saved four-page ending. Independent5+3
+completion stays visible even before core completion. Optional Prediction now has
+Hub entry and guarded Home/Quit with explicit temporary progress. Shared language
+continues across all three workbenches. Models,40-task progression and stores unchanged.
+
+16 frozen affected suites plus import/isolation PASS;2042-file source identity;
+export/archive identity and14 actual binary checks PASS. New minimum-window
+Service regression was found and repaired before freeze. Native exact-package
+Prediction run/cancel/return, Representation review→Service, actual new service
+run, dirty departure Cancel, Save→final4/4 and independent restart restoring7
+records all observed. The5+3 starting recipes were imported from prior native QA;
+this is not a new full from-blank completion. Own QA folders archived, profile fresh.
+
+[Evidence and limits](verification/20261006-closure-followup/README.md) ·
+[Playable route / Claude / team handoff](verification/20261006-completion/TEAM_REVIEW.md).
+Novice comprehension, audio, otherMac/Windows and final style remain human acceptance;
+CUA pointer/fullscreen capture limitations remain separately documented.
+
+## Previous internal completion journey — 2026-10-06
 
 The candidate Hub now recommends core construction/bottleneck work, its earned
 core ending, Representation and Service, followed by a four-page saved-achievement

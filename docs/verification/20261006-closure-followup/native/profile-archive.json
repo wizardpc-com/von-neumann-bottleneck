@@ -1,0 +1,83 @@
+{
+  "profile": "Closure-10211e5",
+  "normal_native_quit": true,
+  "process_check": "No game/engine process; only own ps/rg commands matched",
+  "active_lease_before_move": false,
+  "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/native-closure-10211e5/profile-archive",
+  "method": "Reversible directory move after process/lease inspection, SHA256 before/after identical",
+  "production_access": false,
+  "files": [
+    {
+      "domain": "representation",
+      "path": "presentation.cfg",
+      "sha256": "41935d383194abcc59dc01929d620cadd78f70f5eba8be8cc9702f62e9cd2bd0",
+      "bytes": 81
+    },
+    {
+      "domain": "representation",
+      "path": "feedback_outbox_v1.json",
+      "sha256": "a523560230deeb7a2dfdfdedc2860b6ab82596b7245a5988c462ed6a0cc5ddb1",
+      "bytes": 479
+    },
+    {
+      "domain": "representation",
+      "path": "representation-session.json",
+      "sha256": "1b11512af89924e5731ed28dbfdb6903574dd64fd401f6b0cc79494f4ec95db8",
+      "bytes": 1977
+    },
+    {
+      "domain": "representation",
+      "path": "logs/godot.log",
+      "sha256": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "bytes": 150
+    },
+    {
+      "domain": "representation",
+      "path": "logs/godot2026-10-06T13.44.12.log",
+      "sha256": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "bytes": 150
+    },
+    {
+      "domain": "representation",
+      "path": "logs/godot2026-10-06T13.18.47.log",
+      "sha256": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "bytes": 150
+    },
+    {
+      "domain": "representation",
+      "path": "playtest_data/session_20261006-171140-b970ad1d28b8d7cd.jsonl",
+      "sha256": "67fe0f72b4aef1d27d5a82a914de878732b4232d2db2f47ec27d9be34f44c7ad",
+      "bytes": 868
+    },
+    {
+      "domain": "representation",
+      "path": "playtest_data/session_20261006-171848-b8a4792b818f7464.jsonl",
+      "sha256": "cd884e9df8edd3b41bff8ec5424eae7231dddc951e2a169817dd8e596c719971",
+      "bytes": 869
+    },
+    {
+      "domain": "representation",
+      "path": "playtest_data/session_20261006-174413-5cc500ecec6736ad.jsonl",
+      "sha256": "b010a5b6851f88267fe69139d3ea3ff397b04ccc269c5354c11233b3dcfaf0ec",
+      "bytes": 868
+    },
+    {
+      "domain": "service",
+      "path": "service-session.json",
+      "sha256": "4d002b70d64cb5faa8e210e8104e84474307d77830ca08695a68d728b06adb03",
+      "bytes": 2355
+    },
+    {
+      "domain": "service",
+      "path": "service-session.json.bak",
+      "sha256": "d0b8fb1a6b3204d14be90a3eb065719d32112f56287d85637e6d14055901e3a7",
+      "bytes": 2156
+    },
+    {
+      "domain": "service",
+      "path": "service-session.json.snapshots/d0b8fb1a6b3204d14be90a3eb065719d32112f56287d85637e6d14055901e3a7.json",
+      "sha256": "d0b8fb1a6b3204d14be90a3eb065719d32112f56287d85637e6d14055901e3a7",
+      "bytes": 2156
+    }
+  ]
+}

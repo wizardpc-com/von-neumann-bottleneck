@@ -1,0 +1,14 @@
+[
+  {
+    "source": "docs/verification/20261006-confirmed-reload/mac-native-representation-five-tasks-recipe.json",
+    "destination": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/Closure-10211e5/representation-session.json",
+    "sha256": "1b11512af89924e5731ed28dbfdb6903574dd64fd401f6b0cc79494f4ec95db8",
+    "scope": "prior genuine native QA recipe copied only to new isolated profile; not earned on current build"
+  },
+  {
+    "source": "docs/verification/20261006-confirmed-reload/mac-native-service-three-contracts-recipe.json",
+    "destination": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/service/Closure-10211e5/service-session.json",
+    "sha256": "d0b8fb1a6b3204d14be90a3eb065719d32112f56287d85637e6d14055901e3a7",
+    "scope": "prior genuine native QA recipe copied only to new isolated profile; not earned on current build"
+  }
+]

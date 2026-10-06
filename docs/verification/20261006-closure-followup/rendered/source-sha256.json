@@ -1,0 +1,6 @@
+{
+  "src/ui/prototype_hub.gd": "a88ea565b38454e7f4478ebcd68b3b2b7da1f81a8fcc3f737dd5a38f8d18f716",
+  "experiments/service_plan/lab.gd": "8e52210d7e15937fec28d72828455fe386032f7c143c647e6d120ea2b570192b",
+  "experiments/candidate_session/completion_presentation.gd": "cc6a70de931b86165fc7986881545222adb2851566cc6c8bc725908465d9b2aa",
+  "scripts/verify-completion-presentation.gd": "076ecdeeb0ef324cfc7ce3b7718ea16dd95d284aaab6c1806cfd8b87e2611075"
+}

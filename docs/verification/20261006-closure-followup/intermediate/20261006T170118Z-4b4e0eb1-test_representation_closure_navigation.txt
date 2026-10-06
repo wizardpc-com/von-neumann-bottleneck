@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Invalid assignment of property or key 'completed' with value of type 'Array' on a base object of type 'Control (region.gd)'.
+          at: run (res://tests/test_representation_closure_navigation.gd:30)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_representation_closure_navigation.gd:30)

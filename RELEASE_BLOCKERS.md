@@ -9,14 +9,17 @@ These are acceptance gates, not promised new features.
 selection/empty-profile reset and optional Prediction source attribution pass
 frozen affected checks;1856 source files match and binary/PCK14 checks pass.
 [Exact receipts](docs/verification/20261006-confirmed-reload/README.md).
-Native Service mouse slot edit/run/save and exit0 now observed: two real task1
-counterexamples, no supports. A subsequent sole .app launch entered Service and
-restored both saved records with matching recomputed metrics. Later CUA input
-returned windowNotFoundAtPosition; normal UI edits only concentrated A0..A5.
-No new successful plan/run/save. Cmd-Q failed; exact own QA PID83217 was ended
-by SIGTERM, leaving a protected dead-writer marker for explicit recovery.
-Native recovery, full pointer/drag route, unfamiliar player and otherMac
-remain open. Priorc78 native save/restart stays separate evidence.
+Actual native normal-UI route now earns/saves Representation5 and Service3,
+opens both reviews and the saved5/5+3/3 joint closure. Service task2 has an actual
+response counterexample and repaired run. Explicit stopped-writer recovery,
+dirty bridge Cancel/Save, Home/resume and independent clean continuation pass.
+Normal Cmd-Q ends all own QA processes; both leases release, recipe bytes stay
+unchanged after final restart. [Native receipt and actual recipes](docs/verification/20261006-confirmed-reload/mac-native-full-journey.json).
+Full pointer/drag, unfamiliar player and otherMac remain open. CUA pointer input
+is intermittent; fullscreen restart screenshots show duplicated/white top-strip
+pixels, while F11 windowed views are normal. Cause is not yet localized; do not
+claim a runtime defect or warning-free Mac display acceptance from these captures.
+Prior forced exits/failures are retained as historical evidence.
 User-authorized SSH developer-branch push succeeds; remote91524d7 verified.
 That commit's Linux CI passed81 Godot suites plus import/isolation and five
 Python checks; downloaded full Godot logs have no missing suite or error.

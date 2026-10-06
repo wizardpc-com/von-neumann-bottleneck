@@ -9,11 +9,16 @@ both candidate workbenches, and attributes optional Prediction evidence to its
 recorded task/rule. Six frozen affected suites,1856-file source identity and the
 actual Mac binary/PCK14-check probe pass. New local candidate is
 **free-alpha-9e1f6019c102**, independent profileMacSecondAct-9e1f601; prior packages
-retained. Native Service mouse slot edit/run/save and normal exit now observed;
-two real task1 counterexamples saved. A subsequent sole .app launch entered
-Service and restored both records under the same model. Later input failed;
-the isolated process was terminated and its dead-writer marker preserved.
-Full native5+3 and explicit writer recovery remain unverified.
+retained. Actual native follow-up now earns and saves all five Representation
+tasks and all three Service contracts through normal UI, including a task2
+response counterexample and repaired historical plan. Explicit stopped-writer
+recovery succeeds without deleting its archived marker. Dirty bridge Cancel
+preserves work; Save/continue and independent clean restart restore both stages.
+The Hub's saved review shows5/5 and3/3 with the joint closing text. Normal Cmd-Q
+leaves no game process or active lease, and final resume leaves recipe bytes
+unchanged. This is informed native acceptance, not novice/otherMac evidence.
+Intermittent CUA pointer failures, unverified drag and a fullscreen restart
+screenshot top-strip artifact remain distinct Mac/tool risks.
 [Evidence and limits](verification/20261006-confirmed-reload/README.md).
 User-authorized SSH push succeeded; remote developer branch91524d7 then passed
 the full Linux CI:81 Godot suites plus import/isolation and five Python checks.

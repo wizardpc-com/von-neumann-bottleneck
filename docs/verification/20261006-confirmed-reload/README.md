@@ -121,3 +121,23 @@ regression for the candidate runtime; native Mac acceptance remains separate.
 No redundant local whole-project rerun or artifact rebuild was performed.
 Raw CI logs retain whitespace and four non-failing anchor/size warnings from
 existing UI fixtures; they are not silently rewritten as warning-free results.
+
+Actual subsequent native follow-up closes the earlier dead-writer and full5+3
+limitations for an informed normal-UI route. [Detailed receipt](mac-native-full-journey.json),
+[actual Service recipe](mac-native-service-three-contracts-recipe.json) and
+[actual Representation recipe](mac-native-representation-five-tasks-recipe.json).
+No disk presets, direct scene drivers or model edits generated these records.
+Explicit recovery preserves old saved bytes and archives the stopped-owner marker.
+Service's three supports, T2 response counterexample/repair, Save/Home/restart and
+closure are observed. Representation's five task Runs, dirty bridge Cancel/Save,
+independent restart/clean bridge and saved5/5+3/3 joint closure are observed.
+Final saved hashes are Service `d0b8fb1a6b3204d14be90a3eb065719d32112f56287d85637e6d14055901e3a7`
+and Representation `1b11512af89924e5731ed28dbfdb6903574dd64fd401f6b0cc79494f4ec95db8`;
+normal Cmd-Q leaves no game process/active lease, and final restart leaves both
+recipes byte-identical. Numeric child exit status is unavailable for LaunchServices
+launches. [Latest final QA log](mac-native-final-resume.log) has no Godot error.
+Screenshots remain in the conversation. Intermittent CUA pointer -10005 and
+unverified drag remain; fullscreen restart captures show duplicated/white top-strip
+pixels, F11 windowed views normal, cause not localized. Neither beginner/otherMac
+nor optional Prediction/commission native walkthrough is claimed. Runtime/archive
+remain9e; prior failures are historical, not deleted or rewritten as passes.

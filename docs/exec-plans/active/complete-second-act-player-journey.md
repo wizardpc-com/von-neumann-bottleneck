@@ -23,14 +23,14 @@ approved developer-branch push apply; preserve unrelated collaborator changes.
 | Requirement | Current evidence | Remaining action / proof |
 |---|---|---|
 | Core40 entry, restoration, valid solutions and independent ending | Current frozen regression and actual release14-check probe; original registries/models unchanged | Preserve; no further source test expansion without new risk |
-| Representation five-task construction/measurement/save/review | Chinese full route218 checks; English saved restart16; earned bridge | External novice/native full-route evidence |
-| Service three-contract construction/measurement/save/review | Introduction/state replay and original3contract route pass | External novice comprehension |
+| Representation five-task construction/measurement/save/review | Actual9e native5 task Runs, Save/closure/independent restart; prior bilingual rendered checks retained | External novice evidence |
+| Service three-contract construction/measurement/save/review | Actual9e native3 contract supports, task2 counterexample/repair, Save/Home/independent restart/closure | External novice comprehension |
 | Optional extension stays optional, player-owned and finite | Two optional commissions;5+3 review excludes commissions/Prediction | Preserve original closure |
 | Coherent candidate route and earned final review | Save/Cancel/continue bridge and saved independently revalidated5+3 review pass | Formal campaign integration remains outside candidate acceptance |
 | Useful evidence rather than lists of numbers | Actual prefix state-location replay and selected-record/draft source distinction | Use independent observation to find concrete readability gaps |
 | Save/quit/restart and outcome protection | Targeted lifecycle225 + native exported Save/reopen/quit; no residual lease | Other Mac lifecycle/install evidence |
 | Local frozen playable Mac candidate and build identity | free-alpha-9e1f6019c102; official matching private template; hashes/release probe pass | Retain frozen package; no public upload |
-| Actual native pointer and unfamiliar-player understanding | Native9e Service mouse slot edit/run/save passes; independent restart entry remains blocked by CUA -10005 | Complete native drag/menu/5+3, other Mac and unfamiliar player evidence |
+| Actual native pointer and unfamiliar-player understanding | Actual native5+3 normal keyboard route and saved joint closure pass; pointer intermittency retained | Native drag, fullscreen top-strip diagnosis, other Mac and unfamiliar player evidence |
 | Reviewable source and shared handoff | Runtime/build9e1f601; exact receipts; native limits retained | Final evidence/plan handoff committed after source freeze |
 | Developer-branch push | User-authorized SSH push succeeds; remote9cfbb05 verified | Closed; publish subsequent committed evidence on the same developer branch |
 
@@ -507,3 +507,37 @@ navigation change. Preserve all collaborator files. Next concrete checks are
 explicit dead-writer recovery, accessible native successful Service plan and
 full5+3 route, followed by independent beginner/otherMac observations. Do not
 add another chapter or change targets to manufacture acceptance evidence.
+
+### 2026-10-06 actual native full candidate route
+
+The preserved stopped-writer marker is recovered explicitly in the exported UI;
+old recipe bytes remain until actual edits are saved, and the archived marker is
+retained. Root alone operates normal mouse/keyboard/scroll input. Service earns
+T1 with peak330B, produces a T2 first-response810 counterexample, restores its
+own historical interleaved four-slot plan to earn T2 first responses89/158/227/296,
+and earns T3 RAW8 with1236cycles/state80B/errors0.004695/0.006158. Six records and
+all three protected supports Save, Home/resume and independent restart correctly.
+
+Representation's five plans are constructed and run in the same exported app:
+135;34;113/38;105/888;130/36 cycles. The task4 display includes88 preparation
+cycles and76B retained-source storage. All authored orders pass. Dirty earned
+continuation opens Save/Cancel/Discard; Cancel retains five-task work, Save enters
+Service with its six records, and the Hub saved review shows5/5 and3/3 plus the
+joint closing text. Final independent restart restores all five Representation
+records and clean earned continuation restores Service without a save guard.
+Normal Cmd-Q leaves no process/active lease; both actual recipe bytes remain
+unchanged after final resume. LaunchServices child exit codes were not captured,
+so process absence is the exit evidence. Latest own QA log has no Godot errors.
+
+Runtime9e and its immutable ZIP remain unchanged; no redundant source suite or
+rebuild. Fresh full frozen LinuxCI91524d7 evidence remains valid. New native
+receipt/actual recipes are in20261006-confirmed-reload. This closes native5+3,
+explicit dead-writer recovery and independent continuation for this known-answer
+route. It does not establish beginner understanding, otherMac installation or
+pointer drag. Fullscreen restart screenshots show a duplicated/white top strip;
+F11 windowed screenshots normal, cause not localized. Keep that bounded risk for
+manual observation, without speculative engine/window rewrites. Overall external
+acceptance stays open; finite A–D implementation/native stage is delivered.
+Next: review this candidate with an unfamiliar player/another Mac, collect a
+concrete display/drag finding if reproduced, then repair only observed gaps.
+No speculative new chapter, formal campaign migration or public release.

@@ -1,0 +1,193 @@
+{
+  "runtime_commit": "9e1f6019c102e5e9ec358664c711d30b18bfa4e1",
+  "profile": "MacSecondAct-9e1f601",
+  "method": "Actual immutable .app, serial CUA native mouse/keyboard/scroll; normal UI only, no scripted scene driver or disk preset; informed known-answer verification, not novice play",
+  "writer_recovery": {
+    "previous_stopped_pid": 83217,
+    "recovered_pid": 96649,
+    "explicit_recover_button": true,
+    "old_saved_bytes_preserved_before_edits": true,
+    "abandoned_marker_retained": true,
+    "blind_lease_deletion": false
+  },
+  "service": {
+    "runs": 6,
+    "protected_tasks": [
+      1,
+      2,
+      3
+    ],
+    "successful_runs": [
+      {
+        "task": 1,
+        "cycles": 1324,
+        "total_bytes": 2320,
+        "state_bytes": 528,
+        "peak_bytes": 330,
+        "slots": 2,
+        "formats": [
+          "raw64",
+          "raw64",
+          "raw64",
+          "raw64"
+        ],
+        "first_stream_cycles": [
+          89,
+          393,
+          719,
+          810
+        ],
+        "max_score_error": 0,
+        "max_state_error": 0
+      },
+      {
+        "task": 2,
+        "cycles": 1324,
+        "total_bytes": 2320,
+        "state_bytes": 528,
+        "peak_bytes": 458,
+        "slots": 4,
+        "formats": [
+          "raw64",
+          "raw64",
+          "raw64",
+          "raw64"
+        ],
+        "first_stream_cycles": [
+          89,
+          158,
+          227,
+          296
+        ],
+        "max_score_error": 0,
+        "max_state_error": 0
+      },
+      {
+        "task": 3,
+        "cycles": 1236,
+        "total_bytes": 1872,
+        "state_bytes": 80,
+        "peak_bytes": 402,
+        "slots": 4,
+        "formats": [
+          "raw8",
+          "raw8",
+          "raw8",
+          "raw8"
+        ],
+        "first_stream_cycles": [
+          76,
+          132,
+          188,
+          244
+        ],
+        "max_score_error": 0.004695456036745401,
+        "max_state_error": 0.006157708530183714
+      }
+    ],
+    "counterexample": {
+      "task": 2,
+      "cycles": 1324,
+      "latest_first_response": 810,
+      "limit": 320,
+      "excess": 490,
+      "repair": "Restore first historical interleaved four-slot plan through UI, then Run"
+    },
+    "save_confirmed": true,
+    "closure_opened": true,
+    "home_resume_six_records": true,
+    "independent_process_restore_six_records": true
+  },
+  "representation": {
+    "runs": 5,
+    "protected_tasks": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "cycles_by_task": [
+      [
+        135
+      ],
+      [
+        34
+      ],
+      [
+        113,
+        38
+      ],
+      [
+        105,
+        888
+      ],
+      [
+        130,
+        36
+      ]
+    ],
+    "stored_bytes_by_task": [
+      [
+        60
+      ],
+      [
+        52
+      ],
+      [
+        26,
+        26
+      ],
+      [
+        76,
+        76
+      ],
+      [
+        48,
+        48
+      ]
+    ],
+    "task4_preparation_cycles": 88,
+    "task4_service_cycles": [
+      17,
+      800
+    ],
+    "all_orders_met": true,
+    "closure_opened": true,
+    "dirty_continuation_guard_observed": true,
+    "cancel_preserved_five_tasks": true,
+    "save_then_service_restored_existing_six_records": true,
+    "independent_process_restore_five_tasks": true,
+    "independent_clean_bridge_no_save_guard": true
+  },
+  "combined_saved_review": {
+    "representation": "5 / 5",
+    "service": "3 / 3",
+    "closing_text_observed": "A Thought Within the World",
+    "scroll_to_service_and_closing_text": true
+  },
+  "exits": {
+    "normal_cmd_q_after_service_save": true,
+    "normal_cmd_q_after_full_journey": true,
+    "normal_cmd_q_after_final_independent_resume": true,
+    "pgrep_after_each_exit_code": 1,
+    "process_exit_status": "LaunchServices launches: no captured numeric child exit status; process absence is independently verified",
+    "no_final_active_leases": true,
+    "no_forced_termination_in_this_followup": true
+  },
+  "final_saved_sha256": {
+    "service": "d0b8fb1a6b3204d14be90a3eb065719d32112f56287d85637e6d14055901e3a7",
+    "representation": "1b11512af89924e5731ed28dbfdb6903574dd64fd401f6b0cc79494f4ec95db8"
+  },
+  "final_independent_resume_recipe_bytes_unchanged": true,
+  "screenshots": "Native CUA screenshots retained in task conversation; no exported PNG files",
+  "limitations": [
+    "CUA pointer -10005 intermittently; keyboard and later native scrolling completed this route, drag not verified",
+    "Fullscreen restart screenshots show duplicated/white top strip; windowed F11 view normal; cause not localized",
+    "No native optional Prediction or full optional commission walkthrough this round",
+    "No unfamiliar player or other Mac installation result",
+    "Formal campaign integration/public release remain outside current authorization"
+  ],
+  "production_save_access": "None; only own named isolated QA profile read/saved; no migration",
+  "source_changes_this_round": false
+}

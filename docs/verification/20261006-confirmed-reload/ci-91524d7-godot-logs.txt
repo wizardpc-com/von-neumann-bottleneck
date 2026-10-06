@@ -1,0 +1,956 @@
+### 20261006T071447Z-8f44db1d/import.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (270 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | TaskTreeLayout[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | CircuitAnalyzer[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | CircuitEvent[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | CircuitLiveState[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | CircuitSimulator[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | CircuitTrace[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | DigitalValue[39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | HalfAdderTestBench[39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | LogicCircuit[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | LogicComponent[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | LogicSignal[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | LogicWire[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | PrologueEvent[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | PrologueSimulationResult[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | PrologueSimulator[39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | ReusableComponent[39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | ReusableHalfAdder[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | CampaignBranchDefinition[39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | CampaignContentRegistry[39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | CampaignLevelDefinition[39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | PlayerContentState[39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | CampaignMapView[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | CircuitComponentSymbol[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | CircuitGraphEdit[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | CircuitModuleRow[39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | CircuitModuleThumbnail[39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | CircuitTraceOverlay[39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | CircuitWorkbenchStore[39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | ComponentPaletteCatalog[39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | ComponentPaletteItem[39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | EncapsulationEffect[39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | HardwareFoundations[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | PrologueLevelCatalog[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | LayoutCatalog[39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | LayoutRecipe[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | LayoutRun[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | LayoutSimulator[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | LocalityLevelCatalog[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | LocalityRunReceipt[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | OverlapCatalog[39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | OverlapSimulator[39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | OverlapTimeline[39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | PlaytestDataStore[39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | PlaytestFeedbackOverlay[39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | ChapterWorkspace[39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | StableSignatureMigration[39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | DSLInstruction[39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | DSLParser[39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | DSLProgram[39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | ProgramTemplates[39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | SimulationCore[39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | SimulationEvent[39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | SimulationTrace[39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | SystemChapterMapView[39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | SystemDeviceSurface[39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | SystemDSLParser[39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | SystemEvent[39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | SystemGraphEdit[39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | SystemInstruction[39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | SystemLevelCatalog[39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | SystemPartSpec[39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | SystemProgram[39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | SystemRunReceipt[39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | SystemSimulationCore[39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | SystemTopology[39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | SystemTrace[39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | SystemTraceOverlay[39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | ChapterEmblem[39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | FloatingInstrumentPanel[39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | FullscreenButton[39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | GameModeSelector[39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | InstrumentTheme[39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | LevelCompletionOverlay[39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | LinkedMissionText[39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | MissionNarrativeCatalog[39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | SignalLevelButton[39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | SignalNotation[39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | TechnicalBackdrop[39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | TerminologyDiagram[39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | TerminologyHandbook[39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | TraceOverlay[39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | UiMotion[39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | UiTypography[39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | WirePalette[39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  99% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (2 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | game-icon.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | NotoSansSC-Variable.ttf[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (1 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | game-icon.svg[39m[0m
+[  50% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (1 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+### 20261006T071447Z-8f44db1d/test_alarm_order_feedback.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: alarm and order feedback
+
+### 20261006T071447Z-8f44db1d/test_bilingual_typography.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: bilingual hub bounds and 40 task labels across zoom/pan
+
+### 20261006T071447Z-8f44db1d/test_candidate_journey.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_candidate_journey 20 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_candidate_journey_review.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_candidate_journey_review 45 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_candidate_lifecycle.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+
+PASS: test_candidate_lifecycle 225 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_candidate_policy.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: candidate policy 238 checks
+
+### 20261006T071447Z-8f44db1d/test_candidate_restore_selection.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_candidate_restore_selection 42 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_candidate_supports.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_candidate_supports 35 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_candidate_writer_retry.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_candidate_writer_retry 104 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_candidate_writer_retry_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_candidate_writer_retry_ui 48 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_chapter_card_routes.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: all five chapter cards clear stale tree routes without changing Continue
+
+### 20261006T071447Z-8f44db1d/test_chapter_workspaces.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: separate drafts, applied state, observation replay, scene recovery and mode isolation
+
+### 20261006T071447Z-8f44db1d/test_circuit_simulation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: deterministic default-low tri-state circuit, multi-driver wiring, Half Adder, and encapsulation tests passed
+
+### 20261006T071447Z-8f44db1d/test_content_registry.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: deterministic campaign registry, synthetic content extension, and validation tests passed
+
+### 20261006T071447Z-8f44db1d/test_desktop_conventions.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). 
+If you want to set size, change the anchors or consider using set_deferred().
+     at: _set_size (scene/gui/control.cpp:1519)
+     GDScript backtrace (most recent call first):
+         [0] floating_input (res://tests/test_desktop_conventions.gd:99)
+WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). 
+If you want to set size, change the anchors or consider using set_deferred().
+     at: _set_size (scene/gui/control.cpp:1519)
+     GDScript backtrace (most recent call first):
+         [0] floating_input (res://tests/test_desktop_conventions.gd:99)
+WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). 
+If you want to set size, change the anchors or consider using set_deferred().
+     at: _set_size (scene/gui/control.cpp:1519)
+     GDScript backtrace (most recent call first):
+         [0] run (res://tests/test_desktop_conventions.gd:22)
+         [1] floating_input (res://tests/test_desktop_conventions.gd:109)
+WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). 
+If you want to set size, change the anchors or consider using set_deferred().
+     at: _set_size (scene/gui/control.cpp:1519)
+     GDScript backtrace (most recent call first):
+         [0] run (res://tests/test_desktop_conventions.gd:22)
+PASS: bilingual title drag, bounds, focus cancellation and macOS settings shortcut
+
+### 20261006T071447Z-8f44db1d/test_direct_task_navigation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: direct task navigation (26 checks)
+
+### 20261006T071447Z-8f44db1d/test_display_preferences.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: display settings coexist, retain unrelated preferences and reject unsupported rates; five chapter cards fit in both languages
+
+### 20261006T071447Z-8f44db1d/test_evidence_proxy.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: bounded observation policy ignores poisoned solution fields
+
+### 20261006T071447Z-8f44db1d/test_exploration.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: optional applications, alternative logic, blank schemes, staged hints and palette search
+
+### 20261006T071447Z-8f44db1d/test_final_convergence.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: shared settings, locale fallback and real write-failure rescue
+
+### 20261006T071447Z-8f44db1d/test_first_build_guidance.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: first-build guidance (86 checks)
+
+### 20261006T071447Z-8f44db1d/test_floating_tool_recall.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: covered, minimized, visible and separate tool recall
+
+### 20261006T071447Z-8f44db1d/test_global_save.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: minimal global Save/Continue, provenance reconciliation, chapter gates, New Game, and mode isolation tests passed
+
+### 20261006T071447Z-8f44db1d/test_hardware_foundations_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: global test mode, compact NOT, whole-symbol selection, graphical map, wiring, and Hardware UI tests passed
+
+### 20261006T071447Z-8f44db1d/test_hardware_prologue_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: two-branch prologue progression, player-owned sealing, word wrappers, CPU construction, and LOAD/STORE UI tests passed
+
+### 20261006T071447Z-8f44db1d/test_intelligent_state.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+STATE baseline { "config": { "slots": 1 }, "error": "", "total_cycles": 1496, "traffic_bytes": 2432, "request_cycles": 288, "transfer_cycles": 608, "compute_cycles": 576, "commit_cycles": 24, "peak_bytes": 100, "reserved_bytes": 100, "state_reads": 24, "state_writes": 24, "state_read_bytes": 768, "state_write_bytes": 768, "state_hits": 0, "evictions": 23, "flush_writes": 1, "weight_reads": 1, "first_result_cycle": 58, "all_streams_first_cycle": 244, "outputs": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "reference": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "final_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "reference_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "response_cycles": [58, 306, 554, 802, 1050, 1298, 120, 368, 616, 864, 1112, 1360, 182, 430, 678, 926, 1174, 1422, 244, 492, 740, 988, 1236, 1484], "first_stream_cycles": [58, 120, 182, 244], "max_error": 0.0, "mae": 0.0, "max_state_error": 0.0, "agreement": 24, "samples": 24, &"state_bytes": 32, &"weight_bytes": 32, &"backing_state_bytes": 128 }
+STATE grouped { "config": { "order": "grouped" }, "error": "", "total_cycles": 1016, "traffic_bytes": 1152, "request_cycles": 128, "transfer_cycles": 288, "compute_cycles": 576, "commit_cycles": 24, "peak_bytes": 100, "reserved_bytes": 100, "state_reads": 4, "state_writes": 4, "state_read_bytes": 128, "state_write_bytes": 128, "state_hits": 20, "evictions": 3, "flush_writes": 1, "weight_reads": 1, "first_result_cycle": 58, "all_streams_first_cycle": 814, "outputs": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "reference": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "final_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "reference_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "response_cycles": [58, 96, 134, 172, 210, 248, 310, 348, 386, 424, 462, 500, 562, 600, 638, 676, 714, 752, 814, 852, 890, 928, 966, 1004], "first_stream_cycles": [58, 310, 562, 814], "max_error": 0.0, "mae": 0.0, "max_state_error": 0.0, "agreement": 24, "samples": 24, &"state_bytes": 32, &"weight_bytes": 32, &"backing_state_bytes": 128 }
+STATE paired { "config": { "order": "paired", "slots": 2, "batch": 2 }, "error": "", "total_cycles": 968, "traffic_bytes": 1152, "request_cycles": 80, "transfer_cycles": 288, "compute_cycles": 576, "commit_cycles": 24, "peak_bytes": 168, "reserved_bytes": 168, "state_reads": 4, "state_writes": 4, "state_read_bytes": 128, "state_write_bytes": 128, "state_hits": 20, "evictions": 2, "flush_writes": 2, "weight_reads": 1, "first_result_cycle": 102, "all_streams_first_cycle": 584, "outputs": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "reference": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "final_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "reference_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "response_cycles": [102, 174, 246, 318, 390, 462, 104, 176, 248, 320, 392, 464, 582, 654, 726, 798, 870, 942, 584, 656, 728, 800, 872, 944], "first_stream_cycles": [102, 104, 582, 584], "max_error": 0.0, "mae": 0.0, "max_state_error": 0.0, "agreement": 24, "samples": 24, &"state_bytes": 32, &"weight_bytes": 32, &"backing_state_bytes": 128 }
+STATE resident { "config": { "slots": 4 }, "error": "", "total_cycles": 1016, "traffic_bytes": 1152, "request_cycles": 128, "transfer_cycles": 288, "compute_cycles": 576, "commit_cycles": 24, "peak_bytes": 196, "reserved_bytes": 196, "state_reads": 4, "state_writes": 4, "state_read_bytes": 128, "state_write_bytes": 128, "state_hits": 20, "evictions": 0, "flush_writes": 4, "weight_reads": 1, "first_result_cycle": 58, "all_streams_first_cycle": 208, "outputs": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "reference": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "final_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "reference_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "response_cycles": [58, 246, 398, 550, 702, 854, 108, 284, 436, 588, 740, 892, 158, 322, 474, 626, 778, 930, 208, 360, 512, 664, 816, 968], "first_stream_cycles": [58, 108, 158, 208], "max_error": 0.0, "mae": 0.0, "max_state_error": 0.0, "agreement": 24, "samples": 24, &"state_bytes": 32, &"weight_bytes": 32, &"backing_state_bytes": 128 }
+STATE batched { "config": { "order": "grouped", "batch": 2 }, "error": "", "total_cycles": 968, "traffic_bytes": 1152, "request_cycles": 80, "transfer_cycles": 288, "compute_cycles": 576, "commit_cycles": 24, "peak_bytes": 136, "reserved_bytes": 136, "state_reads": 4, "state_writes": 4, "state_read_bytes": 128, "state_write_bytes": 128, "state_hits": 20, "evictions": 3, "flush_writes": 1, "weight_reads": 1, "first_result_cycle": 90, "all_streams_first_cycle": 810, "outputs": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "reference": [-0.434, -0.4564, -0.30179333333333, -0.37933233333333, 0.13003398333333, 0.1239554225, 0.18714166666667, 0.28334208333333, 0.4210056875, 0.440953696875, 0.31205323630208, 0.36126793692969, 0.595975, 0.07495041666667, 0.3249844375, 0.44690655104167, 0.60128925817708, 0.58870468448177, 0.01595833333333, 0.06287291666667, 0.13956739583333, 0.06201880729167, 0.05781222473958, 0.04341127941406], "final_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "reference_states": [[0.1018754765625, 0.12047340130208, -0.3625813625, -0.21486391692708, -0.1732307640625, 0.23383002916667, -0.24922473463542, -0.23062680989583], [0.44149371744792, -0.11434361197917, 0.33572549713542, -0.26772854713542, -0.10023254322917, -0.37349676744792, -0.007355346875, 0.3840451921875], [0.78111195833333, 0.1048753484375, -0.14861031744792, -0.07433104583333, 0.05446947578125, -0.0003707734375, -0.20644071666667, 0.00628749348958], [-0.46008193229167, -0.28209641380208, 0.19424760364583, 0.37223312213542, 0.12746769661458, 0.30545321510417, 0.03542867109375, 0.21341418958333]], "response_cycles": [90, 92, 162, 164, 234, 236, 330, 332, 402, 404, 474, 476, 570, 572, 642, 644, 714, 716, 810, 812, 882, 884, 954, 956], "first_stream_cycles": [90, 330, 570, 810], "max_error": 0.0, "mae": 0.0, "max_state_error": 0.0, "agreement": 24, "samples": 24, &"state_bytes": 32, &"weight_bytes": 32, &"backing_state_bytes": 128 }
+PASS: persistent context, explicit writes/flush, precision, schedules and isolated UI (16860)
+
+### 20261006T071447Z-8f44db1d/test_latch_playback_readout.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: latch playback readout (636 checks)
+
+### 20261006T071447Z-8f44db1d/test_layout_navigation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: layout card return, selected tree route, persisted Continue and unavailable navigation
+
+### 20261006T071447Z-8f44db1d/test_layout_simulation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+MEASURE fields/A/records cycles=145 bytes=128 peak=0 passed=true error=
+MEASURE fields/B/records cycles=217 bytes=192 peak=0 passed=true error=
+MEASURE fields/A/fields cycles=49 bytes=32 peak=0 passed=true error=
+MEASURE fields/B/fields cycles=73 bytes=48 peak=0 passed=true error=
+MEASURE fields/A/hot cycles=81 bytes=64 peak=0 passed=true error=
+MEASURE fields/B/hot cycles=121 bytes=96 peak=0 passed=true error=
+MEASURE fields/A/reverse_hot cycles=81 bytes=64 peak=0 passed=true error=
+MEASURE fields/B/reverse_hot cycles=121 bytes=96 peak=0 passed=true error=
+MEASURE records/A/records cycles=56 bytes=32 peak=0 passed=true error=
+MEASURE records/B/records cycles=84 bytes=48 peak=0 passed=true error=
+MEASURE records/A/fields cycles=152 bytes=128 peak=0 passed=true error=
+MEASURE records/B/fields cycles=228 bytes=192 peak=0 passed=true error=
+MEASURE records/A/hot cycles=88 bytes=64 peak=0 passed=true error=
+MEASURE records/B/hot cycles=132 bytes=96 peak=0 passed=true error=
+MEASURE records/A/reverse_hot cycles=88 bytes=64 peak=0 passed=true error=
+MEASURE records/B/reverse_hot cycles=132 bytes=96 peak=0 passed=true error=
+MEASURE hot_cold/A/records cycles=1007 bytes=800 peak=0 passed=true error=
+MEASURE hot_cold/B/records cycles=1007 bytes=800 peak=0 passed=true error=
+MEASURE hot_cold/A/fields cycles=655 bytes=448 peak=0 passed=true error=
+MEASURE hot_cold/B/fields cycles=655 bytes=448 peak=0 passed=true error=
+MEASURE hot_cold/A/hot cycles=623 bytes=416 peak=0 passed=true error=
+MEASURE hot_cold/B/hot cycles=623 bytes=416 peak=0 passed=true error=
+MEASURE hot_cold/A/reverse_hot cycles=623 bytes=416 peak=0 passed=true error=
+MEASURE hot_cold/B/reverse_hot cycles=623 bytes=416 peak=0 passed=true error=
+MEASURE relocation/A/records cycles=307 bytes=272 peak=0 passed=true error=
+MEASURE relocation/B/records cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE relocation/A/fields cycles=307 bytes=272 peak=0 passed=true error=
+MEASURE relocation/B/fields cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE relocation/A/hot cycles=307 bytes=272 peak=0 passed=true error=
+MEASURE relocation/B/hot cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE relocation/A/reverse_hot cycles=307 bytes=272 peak=0 passed=true error=
+MEASURE relocation/B/reverse_hot cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE relocation/A/full cycles=557 bytes=420 peak=80 passed=true error=
+MEASURE relocation/B/full cycles=1362 bytes=980 peak=80 passed=true error=
+MEASURE relocation/A/batch4 cycles=557 bytes=420 peak=16 passed=true error=
+MEASURE relocation/B/batch4 cycles=802 bytes=420 peak=16 passed=true error=
+MEASURE relocation/A/batch8 cycles=557 bytes=420 peak=32 passed=true error=
+MEASURE relocation/B/batch8 cycles=802 bytes=420 peak=32 passed=true error=
+MEASURE relocation/A/hotfull cycles=791 bytes=552 peak=144 passed=true error=
+MEASURE relocation/B/hotfull cycles=2044 bytes=1560 peak=144 passed=true error=
+MEASURE relocation/A/hotbatch cycles=791 bytes=552 peak=32 passed=true error=
+MEASURE relocation/B/hotbatch cycles=1036 bytes=552 peak=32 passed=true error=
+MEASURE batches/A/records cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE batches/B/records cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE batches/A/fields cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE batches/B/fields cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE batches/A/hot cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE batches/B/hot cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE batches/A/reverse_hot cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE batches/B/reverse_hot cycles=2456 bytes=2176 peak=0 passed=true error=
+MEASURE batches/A/full cycles=0 bytes=0 peak=0 passed=false error=space_limit
+MEASURE batches/B/full cycles=0 bytes=0 peak=0 passed=false error=space_limit
+MEASURE batches/A/batch4 cycles=802 bytes=420 peak=16 passed=true error=
+MEASURE batches/B/batch4 cycles=802 bytes=420 peak=16 passed=true error=
+MEASURE batches/A/batch8 cycles=802 bytes=420 peak=32 passed=true error=
+MEASURE batches/B/batch8 cycles=802 bytes=420 peak=32 passed=true error=
+MEASURE batches/A/hotfull cycles=0 bytes=0 peak=0 passed=false error=space_limit
+MEASURE batches/B/hotfull cycles=0 bytes=0 peak=0 passed=false error=space_limit
+MEASURE batches/A/hotbatch cycles=1036 bytes=552 peak=32 passed=true error=
+MEASURE batches/B/hotbatch cycles=1036 bytes=552 peak=32 passed=true error=
+MEASURE mixed/A/records cycles=2784 bytes=2208 peak=0 passed=true error=
+MEASURE mixed/B/records cycles=1191 bytes=912 peak=0 passed=true error=
+MEASURE mixed/A/fields cycles=2784 bytes=2208 peak=0 passed=true error=
+MEASURE mixed/B/fields cycles=1191 bytes=912 peak=0 passed=true error=
+MEASURE mixed/A/hot cycles=2784 bytes=2208 peak=0 passed=true error=
+MEASURE mixed/B/hot cycles=1191 bytes=912 peak=0 passed=true error=
+MEASURE mixed/A/reverse_hot cycles=2784 bytes=2208 peak=0 passed=true error=
+MEASURE mixed/B/reverse_hot cycles=1191 bytes=912 peak=0 passed=true error=
+MEASURE mixed/A/full cycles=3898 bytes=3220 peak=80 passed=true error=
+MEASURE mixed/B/full cycles=1953 bytes=1572 peak=80 passed=true error=
+MEASURE mixed/A/batch4 cycles=3178 bytes=2500 peak=16 passed=true error=
+MEASURE mixed/B/batch4 cycles=1649 bytes=1268 peak=16 passed=true error=
+MEASURE mixed/A/batch8 cycles=3658 bytes=2980 peak=32 passed=true error=
+MEASURE mixed/B/batch8 cycles=1841 bytes=1460 peak=32 passed=true error=
+MEASURE mixed/A/hotfull cycles=2404 bytes=1624 peak=144 passed=true error=
+MEASURE mixed/B/hotfull cycles=1515 bytes=1032 peak=144 passed=true error=
+MEASURE mixed/A/hotbatch cycles=1364 bytes=584 peak=32 passed=true error=
+MEASURE mixed/B/hotbatch cycles=1131 bytes=648 peak=32 passed=true error=
+PASS: layout mapping, real flow, copy costs, bounds, tails and determinism
+
+### 20261006T071447Z-8f44db1d/test_layout_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: layout six hosts, gates, targets, undo and independent hints
+
+### 20261006T071447Z-8f44db1d/test_learning_handbook.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Handbook checks: 984; failures: 0
+PASS: progressive learning handbook
+
+### 20261006T071447Z-8f44db1d/test_locality_chapter_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: complete seven-level Chapter 2 progression, concept reveals, comparisons, and multiple capstone solutions passed
+
+### 20261006T071447Z-8f44db1d/test_localization.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: Chinese default, English catalog, key coverage, and locale-independent simulation tests passed
+
+### 20261006T071447Z-8f44db1d/test_optional_challenges.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: optional challenges, executed routes, safe copying and recovery
+
+### 20261006T071447Z-8f44db1d/test_optional_result_feedback.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: optional result feedback
+
+### 20261006T071447Z-8f44db1d/test_overlap_simulation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+MEASURE arrival/standard {"compute_busy":8,"cost":1,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0],"overlap":4,"queue_wait":0,"total_cycles":10,"transfer_busy":6,"wait":2}
+MEASURE buffers/standard {"compute_busy":16,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":12,"queue_wait":0,"total_cycles":28,"transfer_busy":24,"wait":12}
+MEASURE backpressure/standard {"compute_busy":22,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":10,"queue_wait":0,"total_cycles":28,"transfer_busy":16,"wait":6}
+MEASURE backpressure/changing {"compute_busy":22,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":9,"queue_wait":0,"total_cycles":29,"transfer_busy":16,"wait":7}
+MEASURE prefetch/standard {"compute_busy":16,"cost":1,"error":"","error_line":0,"evictions":3,"hits":0,"misses":4,"outputs":[0,1,2,3],"overlap":12,"queue_wait":0,"total_cycles":28,"transfer_busy":24,"wait":12}
+MEASURE distance/standard {"compute_busy":24,"cost":1,"error":"","error_line":0,"evictions":3,"hits":2,"misses":2,"outputs":[0,1,2,3],"overlap":10,"queue_wait":0,"total_cycles":30,"transfer_busy":16,"wait":6}
+MEASURE synthesis/standard {"compute_busy":16,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":12,"queue_wait":0,"total_cycles":28,"transfer_busy":24,"wait":12}
+MEASURE synthesis/bandwidth {"compute_busy":4,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":3,"queue_wait":0,"total_cycles":33,"transfer_busy":32,"wait":29}
+PASS: deterministic overlap, backpressure, prefetch limits and alternative synthesis
+
+### 20261006T071447Z-8f44db1d/test_overlap_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: Chapter 3 topology, hints, timeline, editable completion and revalidated persistence
+
+### 20261006T071447Z-8f44db1d/test_personal_records.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: offline personal records, no progression authority, telemetry-independent local results
+
+### 20261006T071447Z-8f44db1d/test_playtest_data.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: durable playtest session, recovery, feedback, summary, export, and clean-reset tests passed
+
+### 20261006T071447Z-8f44db1d/test_playtest_feedback_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: non-blocking localized level, chapter, Demo feedback, and final export handoff UI tests passed
+
+### 20261006T071447Z-8f44db1d/test_playtest_visits.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: monotonic visits, focus, milestones, cases, optional feedback and interrupted sessions
+
+### 20261006T071447Z-8f44db1d/test_prediction_record_source.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: prediction record source 28 checks
+
+### 20261006T071447Z-8f44db1d/test_prediction_slice.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CALIBRATION task0 { "rule": "off", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=150 traffic=40 useful=0 waste=0 pollution=0
+CALIBRATION task0 { "rule": "stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=102 traffic=44 useful=32 waste=4 pollution=0
+CALIBRATION task0 { "rule": "two_stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=108 traffic=44 useful=28 waste=4 pollution=0
+CALIBRATION task0 { "rule": "stride", "confidence": 2, "lookahead": 1, "cooldown": 2 } cycles=108 traffic=44 useful=28 waste=4 pollution=0
+CALIBRATION task1 { "rule": "off", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=144 traffic=24 useful=0 waste=0 pollution=0
+CALIBRATION task1 { "rule": "stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=168 traffic=68 useful=8 waste=20 pollution=6
+CALIBRATION task1 { "rule": "two_stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=144 traffic=44 useful=8 waste=12 pollution=1
+CALIBRATION task1 { "rule": "stride", "confidence": 2, "lookahead": 1, "cooldown": 2 } cycles=138 traffic=28 useful=4 waste=4 pollution=0
+CALIBRATION task2 { "rule": "off", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=120 traffic=8 useful=0 waste=0 pollution=0
+CALIBRATION task2 { "rule": "stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=180 traffic=72 useful=0 waste=24 pollution=10
+CALIBRATION task2 { "rule": "two_stride", "confidence": 1, "lookahead": 1, "cooldown": 0 } cycles=120 traffic=8 useful=0 waste=0 pollution=0
+CALIBRATION task2 { "rule": "stride", "confidence": 2, "lookahead": 1, "cooldown": 2 } cycles=120 traffic=8 useful=0 waste=0 pollution=0
+PASS: prediction slice 5591 checks
+
+### 20261006T071447Z-8f44db1d/test_prelaunch_settings.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: language/audio persistence, safe reset, first choice, diagnostic privacy and bounded bilingual settings
+
+### 20261006T071447Z-8f44db1d/test_prologue_continuation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: prologue continuation
+
+### 20261006T071447Z-8f44db1d/test_prologue_simulation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: deterministic reusable-component, latch, register, RAM, and tiny-computer prologue tests passed
+
+### 20261006T071447Z-8f44db1d/test_release_convergence.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: branch Continue, future-save protection, dynamic metadata and complete offline record UI
+
+### 20261006T071447Z-8f44db1d/test_remote_feedback.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: optional transport, privacy, consent and feedback revisions
+
+### 20261006T071447Z-8f44db1d/test_representation_cache.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: representation cache 1395 checks; per-access invariants, independent victims, byte budget and costs
+
+### 20261006T071447Z-8f44db1d/test_representation_plan.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PLAN [{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 48, "codec": "raw" }, { "start": 48, "end": 64, "codec": "rle" }] => scan=134 hotspots=36 stored=52
+PLAN [{ "start": 0, "end": 14, "codec": "rle" }, { "start": 14, "end": 48, "codec": "raw" }, { "start": 48, "end": 64, "codec": "rle" }] => scan=135 hotspots=35 stored=54
+PLAN [{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 50, "codec": "raw" }, { "start": 50, "end": 64, "codec": "rle" }] => scan=135 hotspots=35 stored=54
+COUNTEREXAMPLE whole_rle scan=155 hot=552 tiny scan=150 tinyhot=24 twohot=189
+PASS: representation plan 10403 checks
+
+### 20261006T071447Z-8f44db1d/test_representation_region.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+REGION QA task0 plan[{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 64, "codec": "raw" }] metrics[[135, 60, 60, 0]]
+REGION QA task0 plan[{ "start": 0, "end": 14, "codec": "rle" }, { "start": 14, "end": 48, "codec": "raw" }, { "start": 48, "end": 64, "codec": "rle" }] metrics[[135, 54, 54, 0]]
+REGION QA task1 plan[{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 24, "codec": "rle" }, { "start": 24, "end": 40, "codec": "raw" }, { "start": 40, "end": 48, "codec": "rle" }, { "start": 48, "end": 64, "codec": "rle" }] metrics[[34, 52, 16, 0]]
+REGION QA task1 plan[{ "start": 0, "end": 12, "codec": "rle" }, { "start": 12, "end": 24, "codec": "rle" }, { "start": 24, "end": 40, "codec": "raw" }, { "start": 40, "end": 52, "codec": "rle" }, { "start": 52, "end": 64, "codec": "rle" }] metrics[[34, 52, 16, 0]]
+REGION QA task2 plan[{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 48, "codec": "rle" }, { "start": 48, "end": 64, "codec": "rle" }] metrics[[113, 26, 26, 0], [38, 26, 16, 0]]
+REGION QA task2 plan[{ "start": 0, "end": 15, "codec": "rle" }, { "start": 15, "end": 32, "codec": "rle" }, { "start": 32, "end": 49, "codec": "rle" }, { "start": 49, "end": 64, "codec": "rle" }] metrics[[126, 36, 36, 0], [36, 36, 16, 0]]
+REGION QA task3 plan[{ "start": 0, "end": 8, "codec": "raw" }, { "start": 8, "end": 64, "codec": "rle" }] metrics[[105, 76, 12, 88], [888, 76, 160, 88]]
+REGION QA task3 plan[{ "start": 0, "end": 12, "codec": "raw" }, { "start": 12, "end": 64, "codec": "rle" }] metrics[[104, 76, 16, 83], [907, 76, 192, 83]]
+REGION QA task4 plan[{ "start": 0, "end": 18, "codec": "rle" }, { "start": 18, "end": 46, "codec": "raw" }, { "start": 46, "end": 64, "codec": "rle" }] metrics[[130, 48, 48, 0], [36, 48, 16, 0]]
+REGION QA task4 plan[{ "start": 0, "end": 19, "codec": "rle" }, { "start": 19, "end": 46, "codec": "raw" }, { "start": 46, "end": 64, "codec": "rle" }] metrics[[129, 47, 47, 0], [38, 49, 18, 0]]
+REVERSAL raw[81, 1096] rle[111, 769]
+PASS: test_representation_region: 3329 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_representation_session.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_representation_session 47 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_representation_visual.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_representation_visual 261 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_save_signature_migration.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: stable save signatures, legacy provenance, backup, restart and seed preservation ()
+
+### 20261006T071447Z-8f44db1d/test_second_act_content.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: independent second-act content review 69
+
+### 20261006T071447Z-8f44db1d/test_second_act_experiments.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+REP 0/0 { "codec": "raw", "block": 4, "cache": 1 } 192 traffic=64
+REP 0/0 { "codec": "raw", "block": 4, "cache": 2 } 192 traffic=64
+REP 0/0 { "codec": "raw", "block": 16, "cache": 1 } 144 traffic=64
+REP 0/0 { "codec": "raw", "block": 16, "cache": 2 } 144 traffic=64
+REP 0/0 { "codec": "raw", "block": 64, "cache": 1 } 132 traffic=64
+REP 0/0 { "codec": "rle", "block": 4, "cache": 1 } 272 traffic=128
+REP 0/0 { "codec": "rle", "block": 4, "cache": 2 } 272 traffic=128
+REP 0/0 { "codec": "rle", "block": 16, "cache": 1 } 124 traffic=32
+REP 0/0 { "codec": "rle", "block": 16, "cache": 2 } 124 traffic=32
+REP 0/0 { "codec": "rle", "block": 64, "cache": 1 } 91 traffic=14
+REP 1/0 { "codec": "raw", "block": 4, "cache": 1 } 192 traffic=64
+REP 1/0 { "codec": "raw", "block": 4, "cache": 2 } 192 traffic=64
+REP 1/0 { "codec": "raw", "block": 16, "cache": 1 } 144 traffic=64
+REP 1/0 { "codec": "raw", "block": 16, "cache": 2 } 144 traffic=64
+REP 1/0 { "codec": "raw", "block": 64, "cache": 1 } 132 traffic=64
+REP 1/0 { "codec": "rle", "block": 4, "cache": 1 } 272 traffic=128
+REP 1/0 { "codec": "rle", "block": 4, "cache": 2 } 272 traffic=128
+REP 1/0 { "codec": "rle", "block": 16, "cache": 1 } 124 traffic=32
+REP 1/0 { "codec": "rle", "block": 16, "cache": 2 } 124 traffic=32
+REP 1/0 { "codec": "rle", "block": 64, "cache": 1 } 91 traffic=14
+REP 1/1 { "codec": "raw", "block": 4, "cache": 1 } 144 traffic=64
+REP 1/1 { "codec": "raw", "block": 4, "cache": 2 } 144 traffic=64
+REP 1/1 { "codec": "raw", "block": 16, "cache": 1 } 88 traffic=64
+REP 1/1 { "codec": "raw", "block": 16, "cache": 2 } 88 traffic=64
+REP 1/1 { "codec": "raw", "block": 64, "cache": 1 } 76 traffic=64
+REP 1/1 { "codec": "rle", "block": 4, "cache": 1 } 224 traffic=128
+REP 1/1 { "codec": "rle", "block": 4, "cache": 2 } 224 traffic=128
+REP 1/1 { "codec": "rle", "block": 16, "cache": 1 } 152 traffic=32
+REP 1/1 { "codec": "rle", "block": 16, "cache": 2 } 152 traffic=32
+REP 1/1 { "codec": "rle", "block": 64, "cache": 1 } 138 traffic=14
+REP 1/2 { "codec": "raw", "block": 4, "cache": 1 } 192 traffic=64
+REP 1/2 { "codec": "raw", "block": 4, "cache": 2 } 192 traffic=64
+REP 1/2 { "codec": "raw", "block": 16, "cache": 1 } 144 traffic=64
+REP 1/2 { "codec": "raw", "block": 16, "cache": 2 } 144 traffic=64
+REP 1/2 { "codec": "raw", "block": 64, "cache": 1 } 132 traffic=64
+REP 1/2 { "codec": "rle", "block": 4, "cache": 1 } 368 traffic=224
+REP 1/2 { "codec": "rle", "block": 4, "cache": 2 } 368 traffic=224
+REP 1/2 { "codec": "rle", "block": 16, "cache": 1 } 248 traffic=152
+REP 1/2 { "codec": "rle", "block": 16, "cache": 2 } 248 traffic=152
+REP 1/2 { "codec": "rle", "block": 64, "cache": 1 } 218 traffic=134
+REP 2/0 { "codec": "raw", "block": 4, "cache": 1 } 192 traffic=64
+REP 2/0 { "codec": "raw", "block": 4, "cache": 2 } 192 traffic=64
+REP 2/0 { "codec": "raw", "block": 16, "cache": 1 } 144 traffic=64
+REP 2/0 { "codec": "raw", "block": 16, "cache": 2 } 144 traffic=64
+REP 2/0 { "codec": "raw", "block": 64, "cache": 1 } 132 traffic=64
+REP 2/0 { "codec": "rle", "block": 4, "cache": 1 } 288 traffic=128
+REP 2/0 { "codec": "rle", "block": 4, "cache": 2 } 288 traffic=128
+REP 2/0 { "codec": "rle", "block": 16, "cache": 1 } 132 traffic=32
+REP 2/0 { "codec": "rle", "block": 16, "cache": 2 } 132 traffic=32
+REP 2/0 { "codec": "rle", "block": 64, "cache": 1 } 99 traffic=14
+REP 2/1 { "codec": "raw", "block": 4, "cache": 1 } 18 traffic=8
+REP 2/1 { "codec": "raw", "block": 4, "cache": 2 } 18 traffic=8
+REP 2/1 { "codec": "raw", "block": 16, "cache": 1 } 42 traffic=32
+REP 2/1 { "codec": "raw", "block": 16, "cache": 2 } 42 traffic=32
+REP 2/1 { "codec": "raw", "block": 64, "cache": 1 } 70 traffic=64
+REP 2/1 { "codec": "rle", "block": 4, "cache": 1 } 30 traffic=16
+REP 2/1 { "codec": "rle", "block": 4, "cache": 2 } 30 traffic=16
+REP 2/1 { "codec": "rle", "block": 16, "cache": 1 } 36 traffic=16
+REP 2/1 { "codec": "rle", "block": 16, "cache": 2 } 36 traffic=16
+REP 2/1 { "codec": "rle", "block": 64, "cache": 1 } 37 traffic=14
+INFER { "bits": 32, "batch": 1, "reuse": false } { "total_cycles": 928, "traffic_bytes": 2048, "compute_cycles": 256, "transfer_cycles": 512, "request_cycles": 128, "peak_bytes": 68, "first_result_cycle": 29, "correct": 32, "samples": 32, "max_error": 0.0, "mae": 0.0, "outputs": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 32, "batch": 1, "reuse": false }, &"weight_bytes": 32, &"agreement": 1.0 }
+INFER { "bits": 32, "batch": 1, "reuse": true } { "total_cycles": 680, "traffic_bytes": 1056, "compute_cycles": 256, "transfer_cycles": 264, "request_cycles": 128, "peak_bytes": 68, "first_result_cycle": 29, "correct": 32, "samples": 32, "max_error": 0.0, "mae": 0.0, "outputs": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 32, "batch": 1, "reuse": true }, &"weight_bytes": 32, &"agreement": 1.0 }
+INFER { "bits": 32, "batch": 4, "reuse": false } { "total_cycles": 640, "traffic_bytes": 1280, "compute_cycles": 256, "transfer_cycles": 320, "request_cycles": 32, "peak_bytes": 176, "first_result_cycle": 77, "correct": 32, "samples": 32, "max_error": 0.0, "mae": 0.0, "outputs": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 32, "batch": 4, "reuse": false }, &"weight_bytes": 32, &"agreement": 1.0 }
+INFER { "bits": 32, "batch": 4, "reuse": true } { "total_cycles": 584, "traffic_bytes": 1056, "compute_cycles": 256, "transfer_cycles": 264, "request_cycles": 32, "peak_bytes": 176, "first_result_cycle": 77, "correct": 32, "samples": 32, "max_error": 0.0, "mae": 0.0, "outputs": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 32, "batch": 4, "reuse": true }, &"weight_bytes": 32, &"agreement": 1.0 }
+INFER { "bits": 32, "batch": 8, "reuse": false } { "total_cycles": 592, "traffic_bytes": 1152, "compute_cycles": 256, "transfer_cycles": 288, "request_cycles": 16, "peak_bytes": 320, "first_result_cycle": 141, "correct": 32, "samples": 32, "max_error": 0.0, "mae": 0.0, "outputs": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 32, "batch": 8, "reuse": false }, &"weight_bytes": 32, &"agreement": 1.0 }
+INFER { "bits": 32, "batch": 8, "reuse": true } { "total_cycles": 568, "traffic_bytes": 1056, "compute_cycles": 256, "transfer_cycles": 264, "request_cycles": 16, "peak_bytes": 320, "first_result_cycle": 141, "correct": 32, "samples": 32, "max_error": 0.0, "mae": 0.0, "outputs": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 32, "batch": 8, "reuse": true }, &"weight_bytes": 32, &"agreement": 1.0 }
+INFER { "bits": 8, "batch": 1, "reuse": false } { "total_cycles": 768, "traffic_bytes": 1408, "compute_cycles": 256, "transfer_cycles": 352, "request_cycles": 128, "peak_bytes": 48, "first_result_cycle": 24, "correct": 32, "samples": 32, "max_error": 0.00941207349081, "mae": 0.00287844488189, "outputs": [0.20944881889764, -1.06246719160105, 0.49711286089239, 1.09658792650919, 0.70341207349081, -0.79632545931759, -0.32703412073491, 1.11863517060367, -0.23464566929134, 0.80419947506562, -0.79317585301837, 0.21312335958005, -0.21259842519685, -0.10131233595801, 0.09133858267717, 0.3490813648294, -1.5249343832021, -0.07926509186352, 1.12230971128609, 0.12703412073491, 0.80787401574803, 0.91916010498688, -0.4503937007874, -0.33910761154856, -0.01627296587927, -0.52335958005249, 0.0761154855643, 0.54540682414698, -0.48241469816273, -1.83569553805774, 0.09816272965879, 0.20944881889764], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 8, "batch": 1, "reuse": false }, &"weight_bytes": 12, &"agreement": 1.0 }
+INFER { "bits": 8, "batch": 1, "reuse": true } { "total_cycles": 675, "traffic_bytes": 1036, "compute_cycles": 256, "transfer_cycles": 259, "request_cycles": 128, "peak_bytes": 48, "first_result_cycle": 24, "correct": 32, "samples": 32, "max_error": 0.00941207349081, "mae": 0.00287844488189, "outputs": [0.20944881889764, -1.06246719160105, 0.49711286089239, 1.09658792650919, 0.70341207349081, -0.79632545931759, -0.32703412073491, 1.11863517060367, -0.23464566929134, 0.80419947506562, -0.79317585301837, 0.21312335958005, -0.21259842519685, -0.10131233595801, 0.09133858267717, 0.3490813648294, -1.5249343832021, -0.07926509186352, 1.12230971128609, 0.12703412073491, 0.80787401574803, 0.91916010498688, -0.4503937007874, -0.33910761154856, -0.01627296587927, -0.52335958005249, 0.0761154855643, 0.54540682414698, -0.48241469816273, -1.83569553805774, 0.09816272965879, 0.20944881889764], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 8, "batch": 1, "reuse": true }, &"weight_bytes": 12, &"agreement": 1.0 }
+INFER { "bits": 8, "batch": 4, "reuse": false } { "total_cycles": 600, "traffic_bytes": 1120, "compute_cycles": 256, "transfer_cycles": 280, "request_cycles": 32, "peak_bytes": 156, "first_result_cycle": 72, "correct": 32, "samples": 32, "max_error": 0.00941207349081, "mae": 0.00287844488189, "outputs": [0.20944881889764, -1.06246719160105, 0.49711286089239, 1.09658792650919, 0.70341207349081, -0.79632545931759, -0.32703412073491, 1.11863517060367, -0.23464566929134, 0.80419947506562, -0.79317585301837, 0.21312335958005, -0.21259842519685, -0.10131233595801, 0.09133858267717, 0.3490813648294, -1.5249343832021, -0.07926509186352, 1.12230971128609, 0.12703412073491, 0.80787401574803, 0.91916010498688, -0.4503937007874, -0.33910761154856, -0.01627296587927, -0.52335958005249, 0.0761154855643, 0.54540682414698, -0.48241469816273, -1.83569553805774, 0.09816272965879, 0.20944881889764], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 8, "batch": 4, "reuse": false }, &"weight_bytes": 12, &"agreement": 1.0 }
+INFER { "bits": 8, "batch": 4, "reuse": true } { "total_cycles": 579, "traffic_bytes": 1036, "compute_cycles": 256, "transfer_cycles": 259, "request_cycles": 32, "peak_bytes": 156, "first_result_cycle": 72, "correct": 32, "samples": 32, "max_error": 0.00941207349081, "mae": 0.00287844488189, "outputs": [0.20944881889764, -1.06246719160105, 0.49711286089239, 1.09658792650919, 0.70341207349081, -0.79632545931759, -0.32703412073491, 1.11863517060367, -0.23464566929134, 0.80419947506562, -0.79317585301837, 0.21312335958005, -0.21259842519685, -0.10131233595801, 0.09133858267717, 0.3490813648294, -1.5249343832021, -0.07926509186352, 1.12230971128609, 0.12703412073491, 0.80787401574803, 0.91916010498688, -0.4503937007874, -0.33910761154856, -0.01627296587927, -0.52335958005249, 0.0761154855643, 0.54540682414698, -0.48241469816273, -1.83569553805774, 0.09816272965879, 0.20944881889764], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 8, "batch": 4, "reuse": true }, &"weight_bytes": 12, &"agreement": 1.0 }
+INFER { "bits": 8, "batch": 8, "reuse": false } { "total_cycles": 572, "traffic_bytes": 1072, "compute_cycles": 256, "transfer_cycles": 268, "request_cycles": 16, "peak_bytes": 300, "first_result_cycle": 136, "correct": 32, "samples": 32, "max_error": 0.00941207349081, "mae": 0.00287844488189, "outputs": [0.20944881889764, -1.06246719160105, 0.49711286089239, 1.09658792650919, 0.70341207349081, -0.79632545931759, -0.32703412073491, 1.11863517060367, -0.23464566929134, 0.80419947506562, -0.79317585301837, 0.21312335958005, -0.21259842519685, -0.10131233595801, 0.09133858267717, 0.3490813648294, -1.5249343832021, -0.07926509186352, 1.12230971128609, 0.12703412073491, 0.80787401574803, 0.91916010498688, -0.4503937007874, -0.33910761154856, -0.01627296587927, -0.52335958005249, 0.0761154855643, 0.54540682414698, -0.48241469816273, -1.83569553805774, 0.09816272965879, 0.20944881889764], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 8, "batch": 8, "reuse": false }, &"weight_bytes": 12, &"agreement": 1.0 }
+INFER { "bits": 8, "batch": 8, "reuse": true } { "total_cycles": 563, "traffic_bytes": 1036, "compute_cycles": 256, "transfer_cycles": 259, "request_cycles": 16, "peak_bytes": 300, "first_result_cycle": 136, "correct": 32, "samples": 32, "max_error": 0.00941207349081, "mae": 0.00287844488189, "outputs": [0.20944881889764, -1.06246719160105, 0.49711286089239, 1.09658792650919, 0.70341207349081, -0.79632545931759, -0.32703412073491, 1.11863517060367, -0.23464566929134, 0.80419947506562, -0.79317585301837, 0.21312335958005, -0.21259842519685, -0.10131233595801, 0.09133858267717, 0.3490813648294, -1.5249343832021, -0.07926509186352, 1.12230971128609, 0.12703412073491, 0.80787401574803, 0.91916010498688, -0.4503937007874, -0.33910761154856, -0.01627296587927, -0.52335958005249, 0.0761154855643, 0.54540682414698, -0.48241469816273, -1.83569553805774, 0.09816272965879, 0.20944881889764], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 8, "batch": 8, "reuse": true }, &"weight_bytes": 12, &"agreement": 1.0 }
+INFER { "bits": 4, "batch": 1, "reuse": false } { "total_cycles": 736, "traffic_bytes": 1280, "compute_cycles": 256, "transfer_cycles": 320, "request_cycles": 128, "peak_bytes": 44, "first_result_cycle": 23, "correct": 32, "samples": 32, "max_error": 0.12380952380952, "mae": 0.04386011904762, "outputs": [0.21904761904762, -1.12380952380952, 0.48571428571429, 1.20952380952381, 0.75238095238095, -0.88571428571429, -0.45714285714286, 1.15238095238095, -0.19047619047619, 0.82857142857143, -0.80952380952381, 0.20952380952381, -0.24761904761905, -0.11428571428571, 0.01904761904762, 0.44761904761905, -1.48571428571429, -0.17142857142857, 1.14285714285714, 0.0952380952381, 0.81904761904762, 0.95238095238095, -0.39047619047619, -0.25714285714286, -0.12380952380952, -0.58095238095238, 0.14285714285714, 0.57142857142857, -0.47619047619048, -1.81904761904762, 0.08571428571429, 0.21904761904762], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 4, "batch": 1, "reuse": false }, &"weight_bytes": 8, &"agreement": 1.0 }
+INFER { "bits": 4, "batch": 1, "reuse": true } { "total_cycles": 674, "traffic_bytes": 1032, "compute_cycles": 256, "transfer_cycles": 258, "request_cycles": 128, "peak_bytes": 44, "first_result_cycle": 23, "correct": 32, "samples": 32, "max_error": 0.12380952380952, "mae": 0.04386011904762, "outputs": [0.21904761904762, -1.12380952380952, 0.48571428571429, 1.20952380952381, 0.75238095238095, -0.88571428571429, -0.45714285714286, 1.15238095238095, -0.19047619047619, 0.82857142857143, -0.80952380952381, 0.20952380952381, -0.24761904761905, -0.11428571428571, 0.01904761904762, 0.44761904761905, -1.48571428571429, -0.17142857142857, 1.14285714285714, 0.0952380952381, 0.81904761904762, 0.95238095238095, -0.39047619047619, -0.25714285714286, -0.12380952380952, -0.58095238095238, 0.14285714285714, 0.57142857142857, -0.47619047619048, -1.81904761904762, 0.08571428571429, 0.21904761904762], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 4, "batch": 1, "reuse": true }, &"weight_bytes": 8, &"agreement": 1.0 }
+INFER { "bits": 4, "batch": 4, "reuse": false } { "total_cycles": 592, "traffic_bytes": 1088, "compute_cycles": 256, "transfer_cycles": 272, "request_cycles": 32, "peak_bytes": 152, "first_result_cycle": 71, "correct": 32, "samples": 32, "max_error": 0.12380952380952, "mae": 0.04386011904762, "outputs": [0.21904761904762, -1.12380952380952, 0.48571428571429, 1.20952380952381, 0.75238095238095, -0.88571428571429, -0.45714285714286, 1.15238095238095, -0.19047619047619, 0.82857142857143, -0.80952380952381, 0.20952380952381, -0.24761904761905, -0.11428571428571, 0.01904761904762, 0.44761904761905, -1.48571428571429, -0.17142857142857, 1.14285714285714, 0.0952380952381, 0.81904761904762, 0.95238095238095, -0.39047619047619, -0.25714285714286, -0.12380952380952, -0.58095238095238, 0.14285714285714, 0.57142857142857, -0.47619047619048, -1.81904761904762, 0.08571428571429, 0.21904761904762], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 4, "batch": 4, "reuse": false }, &"weight_bytes": 8, &"agreement": 1.0 }
+INFER { "bits": 4, "batch": 4, "reuse": true } { "total_cycles": 578, "traffic_bytes": 1032, "compute_cycles": 256, "transfer_cycles": 258, "request_cycles": 32, "peak_bytes": 152, "first_result_cycle": 71, "correct": 32, "samples": 32, "max_error": 0.12380952380952, "mae": 0.04386011904762, "outputs": [0.21904761904762, -1.12380952380952, 0.48571428571429, 1.20952380952381, 0.75238095238095, -0.88571428571429, -0.45714285714286, 1.15238095238095, -0.19047619047619, 0.82857142857143, -0.80952380952381, 0.20952380952381, -0.24761904761905, -0.11428571428571, 0.01904761904762, 0.44761904761905, -1.48571428571429, -0.17142857142857, 1.14285714285714, 0.0952380952381, 0.81904761904762, 0.95238095238095, -0.39047619047619, -0.25714285714286, -0.12380952380952, -0.58095238095238, 0.14285714285714, 0.57142857142857, -0.47619047619048, -1.81904761904762, 0.08571428571429, 0.21904761904762], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 4, "batch": 4, "reuse": true }, &"weight_bytes": 8, &"agreement": 1.0 }
+INFER { "bits": 4, "batch": 8, "reuse": false } { "total_cycles": 568, "traffic_bytes": 1056, "compute_cycles": 256, "transfer_cycles": 264, "request_cycles": 16, "peak_bytes": 296, "first_result_cycle": 135, "correct": 32, "samples": 32, "max_error": 0.12380952380952, "mae": 0.04386011904762, "outputs": [0.21904761904762, -1.12380952380952, 0.48571428571429, 1.20952380952381, 0.75238095238095, -0.88571428571429, -0.45714285714286, 1.15238095238095, -0.19047619047619, 0.82857142857143, -0.80952380952381, 0.20952380952381, -0.24761904761905, -0.11428571428571, 0.01904761904762, 0.44761904761905, -1.48571428571429, -0.17142857142857, 1.14285714285714, 0.0952380952381, 0.81904761904762, 0.95238095238095, -0.39047619047619, -0.25714285714286, -0.12380952380952, -0.58095238095238, 0.14285714285714, 0.57142857142857, -0.47619047619048, -1.81904761904762, 0.08571428571429, 0.21904761904762], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 4, "batch": 8, "reuse": false }, &"weight_bytes": 8, &"agreement": 1.0 }
+INFER { "bits": 4, "batch": 8, "reuse": true } { "total_cycles": 562, "traffic_bytes": 1032, "compute_cycles": 256, "transfer_cycles": 258, "request_cycles": 16, "peak_bytes": 296, "first_result_cycle": 135, "correct": 32, "samples": 32, "max_error": 0.12380952380952, "mae": 0.04386011904762, "outputs": [0.21904761904762, -1.12380952380952, 0.48571428571429, 1.20952380952381, 0.75238095238095, -0.88571428571429, -0.45714285714286, 1.15238095238095, -0.19047619047619, 0.82857142857143, -0.80952380952381, 0.20952380952381, -0.24761904761905, -0.11428571428571, 0.01904761904762, 0.44761904761905, -1.48571428571429, -0.17142857142857, 1.14285714285714, 0.0952380952381, 0.81904761904762, 0.95238095238095, -0.39047619047619, -0.25714285714286, -0.12380952380952, -0.58095238095238, 0.14285714285714, 0.57142857142857, -0.47619047619048, -1.81904761904762, 0.08571428571429, 0.21904761904762], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 4, "batch": 8, "reuse": true }, &"weight_bytes": 8, &"agreement": 1.0 }
+INFER { "bits": 2, "batch": 1, "reuse": false } { "total_cycles": 736, "traffic_bytes": 1216, "compute_cycles": 256, "transfer_cycles": 320, "request_cycles": 128, "peak_bytes": 42, "first_result_cycle": 23, "correct": 28, "samples": 32, "max_error": 1.214, "mae": 0.36802083333333, "outputs": [0.53333333333333, -0.6, 0.33333333333333, 1.26666666666667, 0.13333333333333, -1.0, -0.06666666666667, 0.86666666666667, -0.26666666666667, 0.66666666666667, -0.46666666666667, 0.46666666666667, -0.66666666666667, 0.26666666666667, 1.2, 0.06666666666667, -1.06666666666667, -0.13333333333333, 0.8, -0.33333333333333, 0.6, 1.53333333333333, -1.66666666666667, -0.73333333333333, 0.2, -0.93333333333333, 0.0, 0.93333333333333, -0.2, -1.33333333333333, -0.4, 0.53333333333333], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 2, "batch": 1, "reuse": false }, &"weight_bytes": 6, &"agreement": 0.875 }
+INFER { "bits": 2, "batch": 1, "reuse": true } { "total_cycles": 674, "traffic_bytes": 1030, "compute_cycles": 256, "transfer_cycles": 258, "request_cycles": 128, "peak_bytes": 42, "first_result_cycle": 23, "correct": 28, "samples": 32, "max_error": 1.214, "mae": 0.36802083333333, "outputs": [0.53333333333333, -0.6, 0.33333333333333, 1.26666666666667, 0.13333333333333, -1.0, -0.06666666666667, 0.86666666666667, -0.26666666666667, 0.66666666666667, -0.46666666666667, 0.46666666666667, -0.66666666666667, 0.26666666666667, 1.2, 0.06666666666667, -1.06666666666667, -0.13333333333333, 0.8, -0.33333333333333, 0.6, 1.53333333333333, -1.66666666666667, -0.73333333333333, 0.2, -0.93333333333333, 0.0, 0.93333333333333, -0.2, -1.33333333333333, -0.4, 0.53333333333333], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 2, "batch": 1, "reuse": true }, &"weight_bytes": 6, &"agreement": 0.875 }
+INFER { "bits": 2, "batch": 4, "reuse": false } { "total_cycles": 592, "traffic_bytes": 1072, "compute_cycles": 256, "transfer_cycles": 272, "request_cycles": 32, "peak_bytes": 150, "first_result_cycle": 71, "correct": 28, "samples": 32, "max_error": 1.214, "mae": 0.36802083333333, "outputs": [0.53333333333333, -0.6, 0.33333333333333, 1.26666666666667, 0.13333333333333, -1.0, -0.06666666666667, 0.86666666666667, -0.26666666666667, 0.66666666666667, -0.46666666666667, 0.46666666666667, -0.66666666666667, 0.26666666666667, 1.2, 0.06666666666667, -1.06666666666667, -0.13333333333333, 0.8, -0.33333333333333, 0.6, 1.53333333333333, -1.66666666666667, -0.73333333333333, 0.2, -0.93333333333333, 0.0, 0.93333333333333, -0.2, -1.33333333333333, -0.4, 0.53333333333333], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 2, "batch": 4, "reuse": false }, &"weight_bytes": 6, &"agreement": 0.875 }
+INFER { "bits": 2, "batch": 4, "reuse": true } { "total_cycles": 578, "traffic_bytes": 1030, "compute_cycles": 256, "transfer_cycles": 258, "request_cycles": 32, "peak_bytes": 150, "first_result_cycle": 71, "correct": 28, "samples": 32, "max_error": 1.214, "mae": 0.36802083333333, "outputs": [0.53333333333333, -0.6, 0.33333333333333, 1.26666666666667, 0.13333333333333, -1.0, -0.06666666666667, 0.86666666666667, -0.26666666666667, 0.66666666666667, -0.46666666666667, 0.46666666666667, -0.66666666666667, 0.26666666666667, 1.2, 0.06666666666667, -1.06666666666667, -0.13333333333333, 0.8, -0.33333333333333, 0.6, 1.53333333333333, -1.66666666666667, -0.73333333333333, 0.2, -0.93333333333333, 0.0, 0.93333333333333, -0.2, -1.33333333333333, -0.4, 0.53333333333333], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 2, "batch": 4, "reuse": true }, &"weight_bytes": 6, &"agreement": 0.875 }
+INFER { "bits": 2, "batch": 8, "reuse": false } { "total_cycles": 568, "traffic_bytes": 1048, "compute_cycles": 256, "transfer_cycles": 264, "request_cycles": 16, "peak_bytes": 294, "first_result_cycle": 135, "correct": 28, "samples": 32, "max_error": 1.214, "mae": 0.36802083333333, "outputs": [0.53333333333333, -0.6, 0.33333333333333, 1.26666666666667, 0.13333333333333, -1.0, -0.06666666666667, 0.86666666666667, -0.26666666666667, 0.66666666666667, -0.46666666666667, 0.46666666666667, -0.66666666666667, 0.26666666666667, 1.2, 0.06666666666667, -1.06666666666667, -0.13333333333333, 0.8, -0.33333333333333, 0.6, 1.53333333333333, -1.66666666666667, -0.73333333333333, 0.2, -0.93333333333333, 0.0, 0.93333333333333, -0.2, -1.33333333333333, -0.4, 0.53333333333333], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 2, "batch": 8, "reuse": false }, &"weight_bytes": 6, &"agreement": 0.875 }
+INFER { "bits": 2, "batch": 8, "reuse": true } { "total_cycles": 562, "traffic_bytes": 1030, "compute_cycles": 256, "transfer_cycles": 258, "request_cycles": 16, "peak_bytes": 294, "first_result_cycle": 135, "correct": 28, "samples": 32, "max_error": 1.214, "mae": 0.36802083333333, "outputs": [0.53333333333333, -0.6, 0.33333333333333, 1.26666666666667, 0.13333333333333, -1.0, -0.06666666666667, 0.86666666666667, -0.26666666666667, 0.66666666666667, -0.46666666666667, 0.46666666666667, -0.66666666666667, 0.26666666666667, 1.2, 0.06666666666667, -1.06666666666667, -0.13333333333333, 0.8, -0.33333333333333, 0.6, 1.53333333333333, -1.66666666666667, -0.73333333333333, 0.2, -0.93333333333333, 0.0, 0.93333333333333, -0.2, -1.33333333333333, -0.4, 0.53333333333333], "reference": [0.21, -1.062, 0.49733333333333, 1.106, 0.702, -0.79733333333333, -0.33333333333333, 1.12266666666667, -0.232, 0.81066666666667, -0.792, 0.20933333333333, -0.21533333333333, -0.10266666666667, 0.09266666666667, 0.35, -1.52133333333333, -0.086, 1.122, 0.11866666666667, 0.81, 0.92266666666667, -0.45266666666667, -0.34, -0.02066666666667, -0.528, 0.08066666666667, 0.54466666666667, -0.47933333333333, -1.834, 0.09733333333333, 0.21], "error": "", "config": { "bits": 2, "batch": 8, "reuse": true }, &"weight_bytes": 6, &"agreement": 0.875 }
+PASS: second-act codecs, measured tradeoffs, inference quality and isolated UI
+
+### 20261006T071447Z-8f44db1d/test_second_act_independent.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: independent algebraic state and representation cost oracles
+
+### 20261006T071447Z-8f44db1d/test_second_act_navigation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_second_act_navigation 24 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_service_commission_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_service_commission_ui 27 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_service_commissions.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_service_commissions 212 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_service_learning_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_service_learning_ui 51 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_service_plan.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SERVICE baseline { "cycles": 2204, "traffic": 4960, "state_bytes": 3168, "firsts": [89, 180, 271, 362], "peak": 266, "error": 0.0, "state_error": 0.0 }
+SERVICE grouped { "cycles": 1324, "traffic": 2320, "state_bytes": 528, "firsts": [89, 415, 741, 1067], "peak": 266, "error": 0.0, "state_error": 0.0 }
+SERVICE grouped2 { "cycles": 1276, "traffic": 2320, "state_bytes": 528, "firsts": [129, 443, 757, 1071], "peak": 338, "error": 0.0, "state_error": 0.0 }
+SERVICE resident { "cycles": 1324, "traffic": 2320, "state_bytes": 528, "firsts": [89, 158, 227, 296], "peak": 458, "error": 0.0, "state_error": 0.0 }
+SERVICE lossless { "cycles": 1280, "traffic": 2108, "state_bytes": 316, "firsts": [78, 136, 205, 274], "peak": 458, "error": 0.0, "state_error": 0.0 }
+SERVICE rle64 { "cycles": 1296, "traffic": 2148, "state_bytes": 356, "firsts": [78, 136, 209, 282], "peak": 468, "error": 0.0, "state_error": 0.0 }
+SERVICE mixed { "cycles": 1284, "traffic": 2080, "state_bytes": 288, "firsts": [77, 134, 203, 272], "peak": 458, "error": 0.00469545603675, "state_error": 0.00054883555815 }
+SERVICE all8 { "cycles": 1236, "traffic": 1872, "state_bytes": 80, "firsts": [76, 132, 188, 244], "peak": 402, "error": 0.00469545603675, "state_error": 0.00615770853018 }
+SERVICE rle8 { "cycles": 1256, "traffic": 1896, "state_bytes": 104, "firsts": [77, 134, 194, 254], "peak": 412, "error": 0.00469545603675, "state_error": 0.00615770853018 }
+PASS: service plan (7268)
+
+### 20261006T071447Z-8f44db1d/test_service_session.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_service_session 63 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_service_state_replay.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_service_state_replay 3118 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_service_state_replay_view.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: test_service_state_replay_view 71 checks, 0 failures
+
+### 20261006T071447Z-8f44db1d/test_simulation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: Python-shaped DSL, deterministic simulation, route, and cache-goal tests passed
+
+### 20261006T071447Z-8f44db1d/test_storage_caption_playback.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: storage caption playback (150 checks)
+
+### 20261006T071447Z-8f44db1d/test_system_applications.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: application alternatives, per-case limits, budget enumeration and recovery
+
+### 20261006T071447Z-8f44db1d/test_system_baseline_continuity.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: exact baseline continuity, revalidation, provenance and evidence boundaries
+
+### 20261006T071447Z-8f44db1d/test_system_cost_evidence.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: 158 bilingual system cost-evidence checks
+
+### 20261006T071447Z-8f44db1d/test_system_lab_simulation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: deterministic 8-bit system chapter simulation, topology, DSL, and bottleneck tests passed
+
+### 20261006T071447Z-8f44db1d/test_system_lab_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: five-level system chapter map, prediction, controlled comparison, evidence reveal, exact-path animation, and diagnosis tests passed
+
+### 20261006T071447Z-8f44db1d/test_task_tree.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: task adapters, locked details, search, camera and ordinary host routing
+
+### 20261006T071447Z-8f44db1d/test_task_tree_layout.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: automatic task/region DAG, future extension, deterministic non-overlapping nodes
+
+### 20261006T071447Z-8f44db1d/test_task_tree_presentation.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: bilingual 40-task detail card bounds, unchanged gates, hover and canceled map gestures
+
+### 20261006T071447Z-8f44db1d/test_theme_reflection.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: earned reflections, either branch order, joint ending and immutable progression
+
+### 20261006T071447Z-8f44db1d/test_trace_ambience.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: interval unions, overlap, independent audio lifecycle and immutable simulation
+
+### 20261006T071447Z-8f44db1d/test_tutorial_replay.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: tutorial earned-completion replay
+
+### 20261006T071447Z-8f44db1d/test_ui.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: staged animation, floating instruments, explicit Program apply/explanation/strategies, Profiler, and Cache tradeoff tests passed
+
+### 20261006T071447Z-8f44db1d/test_visit_summary.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: semantic visit summaries and basic sharing boundaries
+
+### 20261006T071447Z-8f44db1d/test_wire_drag_geometry.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: wire drag geometry, current split submission, pure hover and release diagnostics
+
+### 20261006T071447Z-8f44db1d/user_directory.txt
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Isolated user directory: /home/runner/.local/share/VonNeumannBottleneckChecks/20261006T071447Z-8f44db1d/user_directory
+

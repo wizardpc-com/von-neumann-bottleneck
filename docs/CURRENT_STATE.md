@@ -10,10 +10,14 @@ recorded task/rule. Six frozen affected suites,1856-file source identity and the
 actual Mac binary/PCK14-check probe pass. New local candidate is
 **free-alpha-9e1f6019c102**, independent profileMacSecondAct-9e1f601; prior packages
 retained. Native Service mouse slot edit/run/save and normal exit now observed;
-two real task1 counterexamples saved. Independent restart reaches the hub but
-CUA cannot enter Service; the stalled QA process was ended, so no new successful
-native restore/recovery claim. [Evidence and limits](verification/20261006-confirmed-reload/README.md).
-User-authorized SSH push succeeded; remote developer branch verified at9cfbb05.
+two real task1 counterexamples saved. A subsequent sole .app launch entered
+Service and restored both records under the same model. Later input failed;
+the isolated process was terminated and its dead-writer marker preserved.
+Full native5+3 and explicit writer recovery remain unverified.
+[Evidence and limits](verification/20261006-confirmed-reload/README.md).
+User-authorized SSH push succeeded; remote developer branch91524d7 then passed
+the full Linux CI:81 Godot suites plus import/isolation and five Python checks.
+All83 Godot logs were inspected; no missing suite/error. Runtime matches9e1f601.
 Finite source scope is implemented; external acceptance and formal integration
 remain distinct. Models/schema2/core40/production saves remain unchanged.
 

@@ -484,3 +484,26 @@ repeated engine suite required. Root alone owns this evidence/status handoff.
 Next: manual entry/resume and pointer/drag observation of the frozen package,
 then independent novice/otherMac feedback and bounded repairs if reproduced.
 Finite content/source work remains implemented; external acceptance is open.
+
+### 2026-10-06 independent native restore and full remote regression
+
+The authorized SSH push is confirmed at91524d7. Its actual GitHub Actions run
+37428444712 succeeds:81 Godot suites, import/isolation and five Python checks.
+All83 downloaded Godot logs inspected with exact suite-set comparison: no errors
+or missing checks. Runtime9e1f601..91524d7 differs only in documentation/evidence;
+this closes the fresh full frozen-source regression on Linux without another
+local full run. Mac native/GUI-only acceptance is a separate gate.
+
+Sole .app CUA launch PID83217 enters Service and independently restores the actual
+two saved records with matching metrics. A0..A5 are concentrated through normal
+UI; B1 selection succeeds but subsequent pointer/keyboard operation fails with
+windowNotFoundAtPosition. No new successful plan, Run or Save. Cmd-Q fails;
+identity-checked SIGTERM ends only this QA process. Saved bytes stay unchanged,
+and the dead Service writer marker is preserved for explicit confirmed recovery.
+Never mark that forced termination as normal exit or a recovery success.
+
+Root owns evidence/status documentation only; no runtime/API/model/schema/shared
+navigation change. Preserve all collaborator files. Next concrete checks are
+explicit dead-writer recovery, accessible native successful Service plan and
+full5+3 route, followed by independent beginner/otherMac observations. Do not
+add another chapter or change targets to manufacture acceptance evidence.

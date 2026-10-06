@@ -1,0 +1,84 @@
+python	Run python scripts/check-branding.py	﻿2026-10-06T07:14:45.3192477Z ##[group]Run python scripts/check-branding.py
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3192980Z ^[[36;1mpython scripts/check-branding.py^[[0m
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3423617Z shell: /usr/bin/bash -e {0}
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3423937Z env:
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3424174Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3475530Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3475893Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3476167Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3476435Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3476710Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.3476943Z ##[endgroup]
+python	Run python scripts/check-branding.py	2026-10-06T07:14:45.4125583Z PASS: local branding assets and native icon contracts
+python	Run python scripts/test-report-playtests.py	﻿2026-10-06T07:14:45.4175447Z ##[group]Run python scripts/test-report-playtests.py
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4175729Z ^[[36;1mpython scripts/test-report-playtests.py^[[0m
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4225746Z shell: /usr/bin/bash -e {0}
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4225912Z env:
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4226090Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4226359Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4226636Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4226871Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4227111Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4227349Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4227553Z ##[endgroup]
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4786894Z PASS: transaction quantities, debug/run/cases, duplicate exports, revised opinions and missing scores
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4787672Z PASS: basic summary totals, mixed-detail deduplication, unknown fields and version/cohort separation
+python	Run python scripts/test-report-playtests.py	2026-10-06T07:14:45.4788495Z PASS: late visit version attribution and malformed sequence isolation
+python	Run python server/test_storage.py	﻿2026-10-06T07:14:45.4840737Z ##[group]Run python server/test_storage.py
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4840959Z ^[[36;1mpython server/test_storage.py^[[0m
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4886202Z shell: /usr/bin/bash -e {0}
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4886373Z env:
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4886545Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4886810Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4887071Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4887311Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4887546Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4887782Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+python	Run python server/test_storage.py	2026-10-06T07:14:45.4888058Z ##[endgroup]
+python	Run python server/test_storage.py	2026-10-06T07:14:45.5747795Z test_conflict_rolls_back (__main__.StorageTests.test_conflict_rolls_back) ... ok
+python	Run python server/test_storage.py	2026-10-06T07:14:45.5751673Z test_failed_ddl_upgrade_is_atomic (__main__.StorageTests.test_failed_ddl_upgrade_is_atomic) ... ok
+python	Run python server/test_storage.py	2026-10-06T07:14:45.5864934Z test_upgrade_restore_merge_and_deleted_identity (__main__.StorageTests.test_upgrade_restore_merge_and_deleted_identity) ... ok
+python	Run python server/test_storage.py	2026-10-06T07:14:45.5865710Z 
+python	Run python server/test_storage.py	2026-10-06T07:14:45.5865895Z ----------------------------------------------------------------------
+python	Run python server/test_storage.py	2026-10-06T07:14:45.5866282Z Ran 3 tests in 0.022s
+python	Run python server/test_storage.py	2026-10-06T07:14:45.5866433Z 
+python	Run python server/test_storage.py	2026-10-06T07:14:45.5866524Z OK
+python	Run python server/test_receiver.py	﻿2026-10-06T07:14:45.5946577Z ##[group]Run python server/test_receiver.py
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.5946822Z ^[[36;1mpython server/test_receiver.py^[[0m
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.5998620Z shell: /usr/bin/bash -e {0}
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.5998794Z env:
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.5998976Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.5999251Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.5999520Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.5999765Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.6000009Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.6000255Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.6000479Z ##[endgroup]
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.7387276Z test_contract (__main__.ReceiverTests.test_contract) ... ok
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.7636040Z test_retention (__main__.ReceiverTests.test_retention) ... ok
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.7677576Z 
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.7677812Z ----------------------------------------------------------------------
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.7678286Z Ran 2 tests in 0.108s
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.7678380Z 
+python	Run python server/test_receiver.py	2026-10-06T07:14:45.7678438Z OK
+python	Run python server/test_community.py	﻿2026-10-06T07:14:45.7793809Z ##[group]Run python server/test_community.py
+python	Run python server/test_community.py	2026-10-06T07:14:45.7794022Z ^[[36;1mpython server/test_community.py^[[0m
+python	Run python server/test_community.py	2026-10-06T07:14:45.7845050Z shell: /usr/bin/bash -e {0}
+python	Run python server/test_community.py	2026-10-06T07:14:45.7845191Z env:
+python	Run python server/test_community.py	2026-10-06T07:14:45.7845337Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_community.py	2026-10-06T07:14:45.7845573Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+python	Run python server/test_community.py	2026-10-06T07:14:45.7845800Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_community.py	2026-10-06T07:14:45.7846004Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_community.py	2026-10-06T07:14:45.7846217Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+python	Run python server/test_community.py	2026-10-06T07:14:45.7846424Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+python	Run python server/test_community.py	2026-10-06T07:14:45.7846602Z ##[endgroup]
+python	Run python server/test_community.py	2026-10-06T07:14:45.9120934Z test_contract (__main__.CommunityTests.test_contract) ... ok
+python	Run python server/test_community.py	2026-10-06T07:14:45.9183335Z test_retention (__main__.CommunityTests.test_retention) ... ok
+python	Run python server/test_community.py	2026-10-06T07:14:45.9309675Z test_summary_and_board (__main__.CommunityTests.test_summary_and_board) ... ok
+python	Run python server/test_community.py	2026-10-06T07:14:45.9822156Z test_contract (test_receiver.ReceiverTests.test_contract) ... ok
+python	Run python server/test_community.py	2026-10-06T07:14:45.9861803Z test_retention (test_receiver.ReceiverTests.test_retention) ... ok
+python	Run python server/test_community.py	2026-10-06T07:14:45.9876182Z 
+python	Run python server/test_community.py	2026-10-06T07:14:45.9876563Z ----------------------------------------------------------------------
+python	Run python server/test_community.py	2026-10-06T07:14:45.9877082Z Ran 5 tests in 0.152s
+python	Run python server/test_community.py	2026-10-06T07:14:45.9877403Z 
+python	Run python server/test_community.py	2026-10-06T07:14:45.9877645Z OK

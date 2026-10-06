@@ -93,3 +93,31 @@ protected sessions and separate/joint reviews. Independent beginner/otherMac,
 full native pointer/menu route and formal/public integration remain open. Next
 step is acceptance of this frozen candidate and fixes from actual feedback;
 no additional chapter count or new simulator is implied by those gates.
+
+Subsequent sole CUA .app launch PID83217 confirms independent native Service
+restore: entry shows the saved draft and two records recomputed under the same
+model; metrics match the actual recipe above. Normal mouse edits concentrate
+A0..A5 first. B1 is selected, but destination editing then fails with CUA
+`-10005 windowNotFoundAtPosition`; window transitions and Tab/Shift-Tab do not
+restore operation. No new Run/Save or successful plan is claimed. Cmd-Q leaves
+the process alive; after exact binary identity verification, SIGTERM ends only
+that QA instance. No game process remains. **The dead Service writer marker
+remains protected**, and the actual saved bytes are unchanged; it was not
+manually removed. Explicit native dead-writer recovery remains pending.
+[Bounded restored-record receipt](mac-native-restored-records.json).
+This supersedes the earlier attempted restore limitation without changing its
+historical failure evidence; it does not establish full native5+3 or novice play.
+
+SSH remote commit91524d7 passed the actual
+[GitHub Actions run37428444712](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37428444712).
+[Final job status](ci-91524d7-status.json). Official Godot4.7.1 release SHA512 is
+checked by the workflow. Downloaded [full83 Godot logs](ci-91524d7-godot-logs.txt)
+were inspected:81 conventional suites PASS, import and isolated-directory probe,
+no missing/unexpected suite or error. [Per-log hashes and scope](ci-91524d7-evidence.json).
+The GUI-only `test_recovery_game_input` is intentionally outside this headless
+workflow. Five [Python checks](ci-91524d7-python-checks.txt) also succeed. Only documentation/evidence differs
+between runtime9e1f601 and CI91524d7, so this is a fresh full frozen-source Linux
+regression for the candidate runtime; native Mac acceptance remains separate.
+No redundant local whole-project rerun or artifact rebuild was performed.
+Raw CI logs retain whitespace and four non-failing anchor/size warnings from
+existing UI fixtures; they are not silently rewritten as warning-free results.

@@ -1,0 +1,49 @@
+{
+  "runtime_commit": "9e1f6019c102e5e9ec358664c711d30b18bfa4e1",
+  "profile": "MacSecondAct-9e1f601",
+  "launch": "Sole CUA .app launch, no simultaneous direct binary process",
+  "pid": 83217,
+  "observed": [
+    "Default candidate hub",
+    "Fullscreen to windowed transition",
+    "Mouse entry into Service",
+    "Restored draft; 2 records recomputed under same model; no mainline progress granted",
+    "History metrics match actual previous saved recipe",
+    "Draft reordered through normal UI: A0..A5 moved first; B1 selected, B moves not completed"
+  ],
+  "record_metrics": {
+    "task": 1,
+    "total_cycles": 1324,
+    "total_bytes": 2320,
+    "state_bytes": 528,
+    "peak_bytes": 458,
+    "first_stream_cycles": [
+      89,
+      158,
+      227,
+      296
+    ],
+    "max_score_error": 0,
+    "max_state_error": 0
+  },
+  "independent_native_restore_confirmed": true,
+  "new_run_or_save": false,
+  "input_failure": "CUA -10005 windowNotFoundAtPosition; window transitions and Tab/Shift-Tab did not restore operation; Cmd-Q left exact QA process alive",
+  "cleanup": "Verified exact .app binary identity, SIGTERM own PID83217 only; pgrep exit1 after termination",
+  "final_lease_directories": {
+    "service": true,
+    "representation": false
+  },
+  "lease_note": "Forced termination retained dead-writer marker; preserved, not manually deleted. Native confirmed writer recovery still pending.",
+  "saved_recipe_sha256": "30e934d2e66958b2a2b44c79fa8e11eee83318e7bbeb66ac1802074879883a42",
+  "recipe_unchanged": true,
+  "screenshots": "CUA screenshots in task conversation; no stored PNG artifact",
+  "not_claimed": [
+    "Native successful task1 plan",
+    "Full native5+3",
+    "Normal exit for this launch",
+    "Native dead-writer recovery",
+    "Novice understanding",
+    "OtherMac installation"
+  ]
+}

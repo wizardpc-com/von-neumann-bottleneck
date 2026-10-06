@@ -10,12 +10,16 @@ selection/empty-profile reset and optional Prediction source attribution pass
 frozen affected checks;1856 source files match and binary/PCK14 checks pass.
 [Exact receipts](docs/verification/20261006-confirmed-reload/README.md).
 Native Service mouse slot edit/run/save and exit0 now observed: two real task1
-counterexamples, no supports. Independent restart reached the hub; CUA entry
-returns noWindowsAvailable despite window/keyboard/rebinding attempts. The own
-stalled QA process required SIGTERM (exit143); no new successful restore claim.
-New native recovery, full pointer/drag route, unfamiliar player and otherMac
+counterexamples, no supports. A subsequent sole .app launch entered Service and
+restored both saved records with matching recomputed metrics. Later CUA input
+returned windowNotFoundAtPosition; normal UI edits only concentrated A0..A5.
+No new successful plan/run/save. Cmd-Q failed; exact own QA PID83217 was ended
+by SIGTERM, leaving a protected dead-writer marker for explicit recovery.
+Native recovery, full pointer/drag route, unfamiliar player and otherMac
 remain open. Priorc78 native save/restart stays separate evidence.
-User-authorized SSH developer-branch push succeeds; remote9cfbb05 verified.
+User-authorized SSH developer-branch push succeeds; remote91524d7 verified.
+That commit's Linux CI passed81 Godot suites plus import/isolation and five
+Python checks; downloaded full Godot logs have no missing suite or error.
 The historical HTTPS authentication blocker is closed. No main merge or public
 release is implied.
 
@@ -45,7 +49,7 @@ separate from public Alpha and the historical two-platform freeze below.
 | Native pointer/drag and full5+3 informed play | **Pending** | Keyboard popup evidence is partial; previous CUA pointer failures do not establish mouse usability |
 | Unfamiliar-player understanding and other Mac installation | **Pending external evidence** | No result for this candidate has been received; authored-answer replay and this Mac do not substitute |
 | Formal content integration | **Pending** | Candidate navigation/save are permitted technical acceptance paths, not formal campaign registration or release |
-| Developer-branch push | **Closed by subsequent SSH push** | Earlier HTTPS dry-run failed; current user-authorized SSH push succeeded and remote9cfbb05 was verified |
+| Developer-branch push | **Closed by subsequent SSH push** | Earlier HTTPS dry-run failed; user-authorized SSH push succeeded, remote91524d7 verified and its CI passed |
 | Public distribution | **Not authorized** | No upload, main merge, paid signing or deployment |
 
 The28-file evidence manifest and actual archive hash were checked afresh on

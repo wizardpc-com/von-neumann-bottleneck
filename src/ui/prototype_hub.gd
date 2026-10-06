@@ -130,232 +130,195 @@ func _build_interface() -> void:
 	var background := preload("res://src/ui/technical_backdrop.gd").new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 36)
-	margin.add_theme_constant_override("margin_right", 36)
-	margin.add_theme_constant_override("margin_top", 72)
-	margin.add_theme_constant_override("margin_bottom", 56)
-	add_child(margin)
-	var scroll := ScrollContainer.new()
-	scroll.name = "ChapterScroll"
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.follow_focus = true
-	margin.add_child(scroll)
-	var content := VBoxContainer.new()
-	content.add_theme_constant_override("separation", 16)
-	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(content)
-	var title := Label.new()
-	title.text = Localization.text(&"game.title")
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 28)
-	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	title.add_theme_color_override("font_color", Color("bdceda"))
-	content.add_child(preload("res://src/ui/brand_identity.gd").title_slot(Localization.current_locale(),title))
-	var opening := Label.new()
-	opening.text=Localization.text(&"theme.opening")
-	opening.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	opening.add_theme_color_override("font_color",MUTED)
-	content.add_child(opening)
-	var mode_center := CenterContainer.new()
-	content.add_child(mode_center)
-	mode_selector = GameModeSelectorType.new()
-	mode_selector.name = "GameModeSelector"
-	mode_center.add_child(mode_selector)
-	mode_description_label = Label.new()
-	mode_description_label.visible = GameMode.developer_tools_enabled()
-	mode_description_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
-	content.add_child(mode_description_label)
-	if candidate_journey:
-		_build_completion_route(content)
+	# The surface is a fixed viewport layout. Only dialogs contain scrollable prose.
+	var surface := MarginContainer.new(); surface.name = "HubSurface"
+	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for edge: String in ["left","right","top","bottom"]: surface.add_theme_constant_override("margin_"+edge,20)
+	add_child(surface)
+	var content := VBoxContainer.new(); content.name = "HubContent"
+	content.add_theme_constant_override("separation",10); surface.add_child(content)
+	_build_hub_header(content)
 	_build_tree_entry(content)
 	if candidate_journey:
-		_build_candidate_entry(content)
-		_build_service_candidate_entry(content)
-	save_recovery_label = Label.new()
-	save_recovery_label.name = "SaveRecoveryNotice"
-	save_recovery_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	save_recovery_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	save_recovery_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
-	content.add_child(save_recovery_label)
-	var cards := HBoxContainer.new()
-	cards.add_theme_constant_override("separation", 18)
-	cards.name = "ChapterCards"
-	cards.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(cards)
-	cards.add_child(_build_card(
-		Localization.text(&"hub.hardware.title"),
-		Localization.text(&"hub.hardware.eyebrow"),
-		Localization.text(&"hub.hardware.description"),
-		Localization.text(&"hub.hardware.play"),
-		GOOD,
-		"res://src/hardware_foundations/hardware_foundations.tscn"
-	))
-	cards.add_child(_build_card(
-		Localization.text(&"hub.system.title"),
-		Localization.text(&"hub.system.eyebrow"),
-		Localization.text(&"hub.system.description"),
-		Localization.text(&"hub.system.open"),
-		WARNING,
-		"res://src/system_lab/system_lab.tscn",
-		&"system"
-	))
-	cards.add_child(_build_card(
-		Localization.text(&"hub.locality.title"),
-		Localization.text(&"hub.locality.eyebrow"),
-		Localization.text(&"hub.locality.description"),
-		Localization.text(&"hub.locality.open"),
-		ACCENT,
-		"res://src/ui/main.tscn",
-		&"locality"
-	))
-	cards.add_child(_build_card(
-		Localization.text(&"overlap.title"), Localization.text(&"overlap.hub.eyebrow"),
-		Localization.text(&"overlap.map_goal"), Localization.text(&"overlap.map"), PURPLE,
-		"res://src/overlap_chapter/overlap_chapter.tscn", &"overlap"
-	))
-	cards.add_child(_build_card(
-		Localization.text(&"layout.hub.title"),Localization.text(&"layout.hub.eyebrow"),
-		Localization.text(&"layout.hub.description"),Localization.text(&"layout.hub.open"),Color("f4a6cb"),
-		"res://src/layout_chapter/layout_chapter.tscn",&"layout"
-	))
-	var reflection := Button.new()
-	reflection.name="ThemeReflectionButton"
-	reflection.text=Localization.text(&"theme.open")
-	reflection.pressed.connect(_open_theme_reflection)
-	content.add_child(reflection)
-	var note := Label.new()
-	note.name = "BuildIdentifier"
-	note.text = Localization.text(&"hub.note")+"   ·   "+String(ProjectSettings.get_setting("application/config/version", ""))
-	note.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
-	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	note.add_theme_color_override("font_color", MUTED)
-	content.add_child(note)
-	var header_actions := HBoxContainer.new()
-	header_actions.name = "HeaderActions"
-	add_child(header_actions)
-	header_actions.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	header_actions.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	header_actions.offset_left = -524.0
-	header_actions.offset_top = 16.0
-	header_actions.offset_right = -16.0
-	header_actions.offset_bottom = 60.0
-	header_actions.add_theme_constant_override("separation",12)
-	var language := OptionButton.new()
-	language.name = "HubLanguageChoice"
-	language.custom_minimum_size = Vector2(230, 44)
-	# Autonyms remain recognizable before the player understands the current UI.
-	language.add_item("简体中文")
-	language.add_item("English")
-	language.select(0 if Localization.current_locale() == "zh_CN" else 1)
-	language.text = "简体中文 / English"
-	language.item_selected.connect(func(index: int) -> void:
-		if Localization.set_preferred_locale(["zh_CN", "en"][index]):
-			WindowMode.call_deferred("reload_localized_scene", false, false))
-	header_actions.add_child(language)
-	fullscreen_button = FullscreenButtonType.new()
-	header_actions.add_child(fullscreen_button)
-	terminology_handbook = TerminologyHandbookType.new()
-	add_child(terminology_handbook)
+		var stages := HBoxContainer.new(); stages.name = "CandidateStages"
+		stages.add_theme_constant_override("separation",12); content.add_child(stages)
+		for domain: String in ["representation","service","prediction"]:
+			var column := VBoxContainer.new(); column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			stages.add_child(column)
+			match domain:
+				"representation": _build_candidate_entry(column)
+				"service": _build_service_candidate_entry(column)
+				"prediction": _build_prediction_entry(column)
+	var cards := HBoxContainer.new(); cards.name = "ChapterCards"
+	cards.add_theme_constant_override("separation",12); content.add_child(cards)
+	cards.add_child(_build_card(Localization.text(&"hub.hardware.title"),Localization.text(&"hub.hardware.eyebrow"),Localization.text(&"hub.hardware.description"),Localization.text(&"hub.hardware.play"),GOOD,"res://src/hardware_foundations/hardware_foundations.tscn"))
+	cards.add_child(_build_card(Localization.text(&"hub.system.title"),Localization.text(&"hub.system.eyebrow"),Localization.text(&"hub.system.description"),Localization.text(&"hub.system.open"),WARNING,"res://src/system_lab/system_lab.tscn",&"system"))
+	cards.add_child(_build_card(Localization.text(&"hub.locality.title"),Localization.text(&"hub.locality.eyebrow"),Localization.text(&"hub.locality.description"),Localization.text(&"hub.locality.open"),ACCENT,"res://src/ui/main.tscn",&"locality"))
+	cards.add_child(_build_card(Localization.text(&"overlap.title"),Localization.text(&"overlap.hub.eyebrow"),Localization.text(&"overlap.map_goal"),Localization.text(&"overlap.map"),PURPLE,"res://src/overlap_chapter/overlap_chapter.tscn",&"overlap"))
+	cards.add_child(_build_card(Localization.text(&"layout.hub.title"),Localization.text(&"layout.hub.eyebrow"),Localization.text(&"layout.hub.description"),Localization.text(&"layout.hub.open"),Color("f4a6cb"),"res://src/layout_chapter/layout_chapter.tscn",&"layout"))
+	_build_hub_footer(content)
+	terminology_handbook = TerminologyHandbookType.new(); terminology_handbook.standalone_entry = false; add_child(terminology_handbook)
 	_build_options_menu()
-	var settings_button := Button.new(); settings_button.text=Localization.text(&"hub.settings.settings_esc")
-	settings_button.custom_minimum_size.x = 150.0
-	header_actions.add_child(settings_button)
-	header_actions.move_child(settings_button,1)
-	settings_button.pressed.connect(_open_options_menu)
 	_build_new_game_confirmation()
 	_refresh_save_actions()
 
 
+func _build_hub_header(content: VBoxContainer) -> void:
+	var row := HBoxContainer.new(); row.name = "HubHeader"
+	row.add_theme_constant_override("separation",24); content.add_child(row)
+	var title := Label.new(); title.text = Localization.text(&"game.title")
+	title.add_theme_font_size_override("font_size",22)
+	title.add_theme_font_override("font",UiTypographyType.HEADING_FONT)
+	title.add_theme_color_override("font_color",Color("bdceda"))
+	var brand: Control = preload("res://src/ui/brand_identity.gd").title_slot(Localization.current_locale(),title)
+	brand.size_flags_horizontal = Control.SIZE_EXPAND_FILL; brand.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	# Optional owner artwork uses the same compact header as the text fallback.
+	for texture: TextureRect in brand.find_children("*","TextureRect",true,false):
+		texture.custom_minimum_size = Vector2(minf(texture.custom_minimum_size.x,300),40)
+	row.add_child(brand)
+	var actions := HBoxContainer.new(); actions.name = "HeaderActions"
+	actions.add_theme_constant_override("separation",10); row.add_child(actions)
+	mode_selector = GameModeSelectorType.new(); mode_selector.name = "GameModeSelector"; mode_selector.show_label = false
+	actions.add_child(mode_selector)
+	mode_description_label = Label.new(); mode_description_label.hide(); content.add_child(mode_description_label)
+	var language := OptionButton.new(); language.name = "HubLanguageChoice"
+	language.custom_minimum_size = Vector2(150,42)
+	language.add_item("简体中文"); language.add_item("English")
+	language.select(0 if Localization.current_locale() == "zh_CN" else 1)
+	language.item_selected.connect(func(index: int) -> void:
+		if Localization.set_preferred_locale(["zh_CN","en"][index]): WindowMode.call_deferred("reload_localized_scene",false,false))
+	actions.add_child(language)
+	var settings := Button.new(); settings.name = "HubSettings"
+	settings.text = "设置" if Localization.current_locale() != "en" else "Settings"
+	settings.tooltip_text = Localization.text(&"hub.settings.settings_esc")
+	settings.custom_minimum_size = Vector2(100,42); settings.pressed.connect(_open_options_menu); actions.add_child(settings)
+	fullscreen_button = FullscreenButtonType.new(); actions.add_child(fullscreen_button)
+	fullscreen_button.custom_minimum_size.y = 42
+
+
 func _build_tree_entry(content: VBoxContainer) -> void:
-	var panel := PanelContainer.new()
-	panel.name = "TaskTreeEntry"
-	var frame: StyleBoxFlat = InstrumentTheme.surface(Color("112634"), Color("3b6375"), 10)
-	frame.border_width_left = 3
-	frame.content_margin_left = 22
-	frame.content_margin_right = 22
-	frame.content_margin_top = 18
-	frame.content_margin_bottom = 18
-	panel.add_theme_stylebox_override("panel", frame)
-	content.add_child(panel)
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 38)
-	panel.add_child(row)
-	var primary := VBoxContainer.new()
-	primary.add_theme_constant_override("separation", 14)
-	primary.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(primary)
-	var heading := Label.new()
-	heading.text = Localization.text(&"hub.tree.title")
-	heading.add_theme_font_size_override("font_size", 30)
-	heading.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	heading.add_theme_color_override("font_color", Color("e6f4fb"))
-	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	primary.add_child(heading)
-	var description := Label.new()
-	description.text = Localization.text(&"hub.tree.description")
+	var panel := PanelContainer.new(); panel.name = "TaskTreeEntry"
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var frame: StyleBoxFlat = InstrumentTheme.surface(Color("0e202d"),Color("365463"),10)
+	frame.content_margin_left = 24; frame.content_margin_right = 24
+	frame.content_margin_top = 16; frame.content_margin_bottom = 16
+	panel.add_theme_stylebox_override("panel",frame); content.add_child(panel)
+	var row := HBoxContainer.new(); row.add_theme_constant_override("separation",28); panel.add_child(row)
+	var primary := VBoxContainer.new(); primary.name = "HubMainAction"
+	primary.add_theme_constant_override("separation",8)
+	primary.size_flags_horizontal = Control.SIZE_EXPAND_FILL; primary.size_flags_stretch_ratio = 1.45
+	primary.size_flags_vertical = Control.SIZE_SHRINK_CENTER; row.add_child(primary)
+	var heading := Label.new(); heading.text = Localization.text(&"hub.tree.title")
+	heading.add_theme_font_size_override("font_size",30); heading.add_theme_font_override("font",UiTypographyType.HEADING_FONT)
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; primary.add_child(heading)
+	var description := Label.new(); description.text = Localization.text(&"hub.tree.description")
+	if candidate_journey: description.text = "构造机器，看清等待，再改变安排。" if Localization.current_locale() != "en" else "Build, measure, and change the arrangement."
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	description.add_theme_color_override("font_color", TEXT)
-	primary.add_child(description)
-	var button := Button.new()
-	button.name = "TaskTree"
-	button.text = Localization.text(&"hub.tree.enter")
-	button.custom_minimum_size = Vector2(0, 66)
-	button.add_theme_font_size_override("font_size", 24)
-	button.add_theme_color_override("font_color", Color("071b28"))
-	button.add_theme_color_override("font_hover_color", Color("071b28"))
-	button.add_theme_color_override("font_focus_color", Color("071b28"))
-	button.add_theme_color_override("font_pressed_color", Color("071b28"))
-	button.add_theme_stylebox_override("normal", _stylebox(ACCENT, 8, 1, ACCENT))
-	button.add_theme_stylebox_override("hover", _stylebox(Color("9ceaff"), 8, 2, Color.WHITE))
+	description.add_theme_color_override("font_color",MUTED); primary.add_child(description)
+	if candidate_journey: _build_completion_route(primary)
+	var button := Button.new(); button.name = "TaskTree"
+	button.text = ("核心任务树" if Localization.current_locale() != "en" else "Core task tree") if candidate_journey else Localization.text(&"hub.tree.enter")
+	button.custom_minimum_size.y = 48 if not candidate_journey else 42
 	button.pressed.connect(func() -> void: get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
-	primary.add_child(button)
-	var secondary := VBoxContainer.new()
-	secondary.custom_minimum_size.x = 380
-	secondary.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	row.add_child(secondary)
-	var preview := preload("res://src/ui/task_tree_preview.gd").new()
-	secondary.add_child(preview)
+	if not candidate_journey:
+		InstrumentTheme.primary(button); button.add_theme_color_override("font_focus_color",Color("071823")); primary.add_child(button)
+	var secondary := HBoxContainer.new(); secondary.name = "HubSecondaryActions"
+	secondary.add_theme_constant_override("separation",10); primary.add_child(secondary)
+	if candidate_journey: secondary.add_child(button)
 	_build_save_actions(secondary)
-	call_deferred("_focus_tree_entry", button)
+	var recovery := HBoxContainer.new(); recovery.name = "HubRecovery"
+	recovery.add_theme_constant_override("separation",10); primary.add_child(recovery)
+	save_recovery_label = Label.new(); save_recovery_label.name = "SaveRecoveryNotice"
+	save_recovery_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	save_recovery_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	save_recovery_label.add_theme_font_size_override("font_size",14); recovery.add_child(save_recovery_label)
+	var details := Button.new(); details.name = "SaveRecoveryDetails"
+	details.text = "查看详情" if Localization.current_locale() != "en" else "View notice"
+	details.custom_minimum_size.y = 42; details.pressed.connect(_show_recovery_notice); recovery.add_child(details)
+	var illustration := VBoxContainer.new(); illustration.name = "HubMachine"
+	illustration.custom_minimum_size.x = 300; illustration.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	illustration.add_theme_constant_override("separation",8); row.add_child(illustration)
+	var art := preload("res://src/ui/hub_machine_art.gd").new()
+	art.name = "HubMachineArt"; art.size_flags_vertical = Control.SIZE_EXPAND_FILL; illustration.add_child(art)
+	var opening := Label.new(); opening.text = Localization.text(&"theme.opening")
+	opening.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	opening.add_theme_font_size_override("font_size",14); opening.add_theme_color_override("font_color",MUTED)
+	illustration.add_child(opening)
+	call_deferred("_focus_tree_entry",button)
 
 
 func _focus_tree_entry(button: Button) -> void:
-	# Follow-focus must run after wrapped labels have settled their minimum sizes.
-	# Otherwise a narrow first frame can scroll the main entry out of view.
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if not is_instance_valid(button) or options_overlay.visible or new_game_overlay.visible: return
-	var recommended := find_child("RecommendedJourneyAction", true, false) as Button
+	var recommended := find_child("RecommendedJourneyAction",true,false) as Button
 	if candidate_journey and recommended != null: recommended.grab_focus()
 	else: button.grab_focus()
-	await get_tree().process_frame
-	var scroll: ScrollContainer = find_child("ChapterScroll",true,false)
-	if is_instance_valid(scroll): scroll.scroll_vertical=0
 
 
-func _build_save_actions(content: VBoxContainer) -> void:
-	var center := CenterContainer.new()
-	center.name = "SaveActions"
-	content.add_child(center)
-	save_actions = center
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
-	center.add_child(row)
-	continue_button = Button.new()
-	continue_button.name = "ContinueButton"
+func _build_save_actions(content: BoxContainer) -> void:
+	var row := HBoxContainer.new(); row.name = "SaveActions"
+	row.add_theme_constant_override("separation",10); content.add_child(row); save_actions = row
+	continue_button = Button.new(); continue_button.name = "ContinueButton"
 	continue_button.text = Localization.text(&"hub.save.continue")
-	continue_button.custom_minimum_size = Vector2(210.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
-	continue_button.pressed.connect(_continue_game)
-	row.add_child(continue_button)
-	new_game_button = Button.new()
-	new_game_button.name = "NewGameButton"
+	continue_button.custom_minimum_size = Vector2(132,42); continue_button.pressed.connect(_continue_game); row.add_child(continue_button)
+	new_game_button = Button.new(); new_game_button.name = "NewGameButton"
 	new_game_button.text = Localization.text(&"hub.save.new_game")
-	new_game_button.custom_minimum_size = Vector2(210.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
-	new_game_button.pressed.connect(_open_new_game_confirmation)
-	row.add_child(new_game_button)
+	new_game_button.custom_minimum_size = Vector2(132,42); new_game_button.pressed.connect(_open_new_game_confirmation); row.add_child(new_game_button)
+
+
+func _build_hub_footer(content: VBoxContainer) -> void:
+	var row := HBoxContainer.new(); row.name = "HubFooter"
+	row.add_theme_constant_override("separation",10); content.add_child(row)
+	var english: bool = Localization.current_locale() == "en"
+	var reflection := Button.new(); reflection.name = "ThemeReflectionButton"
+	reflection.text = "核心成果" if not english else "Core achievements"
+	reflection.custom_minimum_size.y = 42; reflection.pressed.connect(_open_theme_reflection); row.add_child(reflection)
+	if candidate_journey:
+		var story := Button.new(); story.name = "CompletionStory"
+		story.text = "旅程回顾" if not english else "Journey review"
+		story.custom_minimum_size.y = 42; story.pressed.connect(show_completion_story); row.add_child(story)
+		var evidence := Button.new(); evidence.name = "SavedSecondActReview"
+		evidence.text = "已保存成果明细" if not english else "Saved evidence"
+		evidence.custom_minimum_size.y = 42; evidence.pressed.connect(show_candidate_review); row.add_child(evidence)
+		var route := Button.new(); route.name = "RecommendedJourneyInfo"
+		route.text = "旅程说明" if not english else "Route details"
+		route.custom_minimum_size.y = 42; route.pressed.connect(_show_route_info); row.add_child(route)
+	var handbook := Button.new(); handbook.name = "HubTerminologyButton"
+	handbook.text = Localization.text(&"terminology.button")
+	handbook.custom_minimum_size.y = 42
+	handbook.pressed.connect(func() -> void: terminology_handbook.open_handbook())
+	row.add_child(handbook)
+	var note := Label.new(); note.name = "BuildIdentifier"
+	note.text = ("内部评审 · " if not english else "Internal review · ") if candidate_journey else ""
+	note.text += String(ProjectSettings.get_setting("application/config/version",""))
+	note.add_theme_font_size_override("font_size",14); note.add_theme_color_override("font_color",MUTED)
+	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT; note.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	note.size_flags_vertical = Control.SIZE_SHRINK_CENTER; row.add_child(note)
+
+
+func _show_recovery_notice() -> void:
+	if GlobalSave.recovery_notice.is_empty(): return
+	var old := get_node_or_null("SaveRecoveryReview")
+	if old != null: remove_child(old); old.queue_free()
+	var dialog := AcceptDialog.new(); dialog.name = "SaveRecoveryReview"
+	dialog.title = "存档提示" if Localization.current_locale() != "en" else "Save notice"
+	dialog.dialog_text = Localization.text(GlobalSave.recovery_notice)
+	if not GlobalSave.recovery_details.is_empty(): dialog.dialog_text += "\n\n"+GlobalSave.recovery_details
+	dialog.dialog_autowrap = true; dialog.get_label().custom_minimum_size.x = 540
+	add_child(dialog); dialog.popup_centered(Vector2i(580,240))
+
+
+func _show_route_info() -> void:
+	var old := get_node_or_null("RecommendedJourneyInfoReview")
+	if old != null: remove_child(old); old.queue_free()
+	var english: bool = Localization.current_locale() == "en"
+	var dialog := AcceptDialog.new(); dialog.name = "RecommendedJourneyInfoReview"
+	dialog.title = "旅程说明" if not english else "Route details"
+	dialog.dialog_text = "造出机器 → 看见等待 → 局部性 → 时序与位置（两路并行）→ 核心收束 → 表示 → 服务 → 扩展收束。\n\n推荐顺序不增加解锁条件。应用支线、预测与追加委托可选。核心、表示、服务分别保存；预测仅保留本次会话。" if not english else "Build a machine → Discover waiting → Locality → Timing and placement (parallel paths) → Core ending → Representation → Service → Extended ending.\n\nRecommendations add no prerequisites. Applications, Prediction and commissions are optional. Core, Representation and Service save independently; Prediction lasts for this session."
+	if candidate_review_paths().is_empty(): dialog.dialog_text += "\n\n当前启动未绑定候选存档；第二幕默认仅本次会话。使用命名候选包才能确认保存与继续。" if not english else "\n\nThis launch is not bound to a candidate profile; second-act work is session-only by default. Use a named candidate package to confirm saved continuation."
+	dialog.dialog_autowrap = true; dialog.get_label().custom_minimum_size.x = 580
+	add_child(dialog); dialog.popup_centered(Vector2i(620,310))
 
 
 func _build_new_game_confirmation() -> void:
@@ -670,16 +633,24 @@ func _on_game_mode_changed(_mode: StringName) -> void:
 
 func _refresh_save_actions() -> void:
 	if save_recovery_label != null:
-		save_recovery_label.visible = not GameMode.is_test_mode() and not GlobalSave.recovery_notice.is_empty()
-		save_recovery_label.text = Localization.text(GlobalSave.recovery_notice) if not GlobalSave.recovery_notice.is_empty() else ""
-		save_recovery_label.tooltip_text = GlobalSave.recovery_details
+		var has_notice: bool = not GameMode.is_test_mode() and not GlobalSave.recovery_notice.is_empty()
+		save_recovery_label.get_parent().visible = has_notice
+		save_recovery_label.visible = has_notice
+		var english: bool = Localization.current_locale() == "en"
+		var notices: Dictionary = {
+			&"save.recovery.complete": ["存档恢复已完成", "Save recovery complete"],
+			&"save.recovery.partial": ["部分成果未能恢复 · 查看详情", "Some work could not be restored"],
+			&"save.recovery.failed": ["恢复未完成 · 自动保存已暂停", "Recovery incomplete · autosave paused"],
+			&"save.recovery.newer": ["需新版打开 · 当前禁止写入", "Newer game required · writing disabled"]
+		}
+		save_recovery_label.text = notices.get(GlobalSave.recovery_notice,["存档提示", "Save notice"])[1 if english else 0]
+		save_recovery_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		save_recovery_label.tooltip_text = Localization.text(GlobalSave.recovery_notice)+"\n"+GlobalSave.recovery_details if has_notice else ""
 		save_recovery_label.mouse_filter = Control.MOUSE_FILTER_PASS
 		save_recovery_label.add_theme_color_override("font_color", GOOD if GlobalSave.recovery_notice == &"save.recovery.complete" else WARNING)
-	if save_actions == null:
-		return
+	if save_actions == null: return
 	save_actions.visible = not GameMode.is_test_mode()
-	if continue_button == null:
-		return
+	if continue_button == null: return
 	var can_continue: bool = not GlobalSave.continue_scene_path().is_empty()
 	continue_button.disabled = not can_continue
 	continue_button.tooltip_text = "" if can_continue else Localization.text(&"hub.save.continue_unavailable")
@@ -696,84 +667,47 @@ func _refresh_mode_description() -> void:
 	)
 
 
-func _build_card(
-		title: String,
-		eyebrow: String,
-		description: String,
-	button_text: String,
-	color: Color,
-	scene_path: String,
-	entry_id: StringName = &""
-	) -> Control:
-	var panel := PanelContainer.new()
-	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.add_theme_stylebox_override("panel", InstrumentTheme.surface(Color("101e2b"), Color(color, 0.28), 8))
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 8)
-	margin.add_theme_constant_override("margin_right", 8)
-	margin.add_theme_constant_override("margin_top", 20)
-	margin.add_theme_constant_override("margin_bottom", 20)
-	panel.add_child(margin)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 12)
-	margin.add_child(box)
-	var eyebrow_label := Label.new()
-	eyebrow_label.text = eyebrow
-	eyebrow_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	eyebrow_label.custom_minimum_size.y = 48.0
-	eyebrow_label.add_theme_font_size_override("font_size", 16)
-	eyebrow_label.add_theme_color_override("font_color", color)
-	box.add_child(eyebrow_label)
-	var emblem := preload("res://src/ui/chapter_emblem.gd").new()
-	emblem.chapter = &"hardware" if entry_id.is_empty() else entry_id
-	emblem.accent = color
-	box.add_child(emblem)
-	var title_label := Label.new()
-	title_label.text = title.replace("：", "：\n").replace(": ", ":\n").replace(" · ", "\n")
-	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title_label.custom_minimum_size.y = 72
-	title_label.add_theme_font_size_override("font_size", 22)
-	title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	box.add_child(title_label)
-	var description_label := Label.new()
-	description_label.text = description
-	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	description_label.add_theme_constant_override("line_spacing", 3)
-	description_label.add_theme_color_override("font_color", MUTED)
-	description_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	box.add_child(description_label)
-	var button := Button.new()
-	button.text = button_text
-	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	button.clip_text = true
-	button.custom_minimum_size.y = 58.0
-	button.name = "ChapterEntry_"+String(entry_id)
-	button.pressed.connect(_open_chapter.bind(scene_path))
-	box.add_child(button)
-	if entry_id == &"system":
-		system_entry_button = button
-		_refresh_system_entry()
-	elif entry_id == &"locality":
-		locality_entry_button = button
-		_refresh_locality_entry()
-	elif entry_id == &"overlap":
-		overlap_entry_button = button
-		_refresh_overlap_entry()
-	elif entry_id == &"layout":
-		layout_entry_button=button
-		_refresh_layout_entry()
+func _build_card(title: String, eyebrow: String, description: String, button_text: String, color: Color, scene_path: String, entry_id: StringName = &"") -> Control:
+	var english: bool = Localization.current_locale() == "en"
+	var chapter: String = "hardware" if entry_id.is_empty() else String(entry_id)
+	var captions: Dictionary = {
+		"hardware": ["序章 · 造出机器", "Prologue · Construction", "信号成为计算", "Make a machine"],
+		"system": ["第一章 · 系统", "1 · System", "看见等待", "Find the waiting"],
+		"locality": ["第二章 · 局部性", "2 · Locality", "复用每次搬运", "Reuse each fetch"],
+		"overlap": ["第三章 · 时序", "3 · Timing", "让工作重叠", "Overlap the work"],
+		"layout": ["第四章 · 位置", "4 · Placement", "改变数据安排", "Arrange the data"]
+	}
+	var panel := PanelContainer.new(); panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.tooltip_text = title+"\n"+eyebrow+"\n"+description
+	panel.add_theme_stylebox_override("panel",InstrumentTheme.surface(Color("101e2b"),Color(color,0.4),8))
+	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",4); panel.add_child(column)
+	var index := Label.new(); index.text = captions[chapter][1 if english else 0]
+	index.add_theme_font_size_override("font_size",14); index.add_theme_color_override("font_color",color)
+	index.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(index)
+	var headline := Label.new(); headline.text = captions[chapter][3 if english else 2]
+	headline.add_theme_font_size_override("font_size",18); headline.add_theme_font_override("font",UiTypographyType.HEADING_FONT)
+	headline.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(headline)
+	var button := Button.new(); button.name = "ChapterEntry_"+String(entry_id)
+	button.text = button_text; button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.custom_minimum_size.y = 42; button.pressed.connect(_open_chapter.bind(scene_path)); column.add_child(button)
+	match entry_id:
+		&"system": system_entry_button = button; _refresh_system_entry()
+		&"locality": locality_entry_button = button; _refresh_locality_entry()
+		&"overlap": overlap_entry_button = button; _refresh_overlap_entry()
+		&"layout": layout_entry_button = button; _refresh_layout_entry()
 	return panel
 
 func _refresh_layout_entry() -> void:
 	if layout_entry_button == null: return
 	layout_entry_button.disabled=not LayoutChapter.chapter_unlocked()
-	layout_entry_button.text=Localization.text(&"layout.hub.open" if not layout_entry_button.disabled else &"overlap.locked")
+	layout_entry_button.text=Localization.text(&"layout.hub.open") if not layout_entry_button.disabled else ("完成第二章综合任务" if Localization.current_locale() != "en" else "Complete Chapter 2 capstone")
+	layout_entry_button.tooltip_text = Localization.text(&"layout.hub.description") if not layout_entry_button.disabled else layout_entry_button.text
 
 func _refresh_overlap_entry() -> void:
 	if overlap_entry_button == null: return
 	overlap_entry_button.disabled = not OverlapChapter.chapter_unlocked()
-	overlap_entry_button.text = Localization.text(&"overlap.map") if not overlap_entry_button.disabled else Localization.text(&"overlap.locked")
-	overlap_entry_button.tooltip_text = Localization.text(&"overlap.map_goal")
+	overlap_entry_button.text = Localization.text(&"overlap.map") if not overlap_entry_button.disabled else ("完成第二章综合任务" if Localization.current_locale() != "en" else "Complete Chapter 2 capstone")
+	overlap_entry_button.tooltip_text = Localization.text(&"overlap.map_goal") if not overlap_entry_button.disabled else overlap_entry_button.text
 
 
 func _refresh_system_entry() -> void:
@@ -836,39 +770,32 @@ func _open_theme_reflection() -> void:
 	reflection.popup_centered(Vector2i(640,500))
 
 
+func _candidate_stage(content: VBoxContainer, node_name: String, heading: String, accent: Color, entry_name: String, caption: String, scene_path: String, details: String) -> void:
+	var panel := PanelContainer.new(); panel.name = node_name; panel.tooltip_text = details
+	panel.add_theme_stylebox_override("panel",InstrumentTheme.surface(Color("101e2b"),Color(accent,0.35),8)); content.add_child(panel)
+	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",6); panel.add_child(column)
+	var title := Label.new(); title.text = heading; title.add_theme_font_size_override("font_size",18)
+	title.add_theme_font_override("font",UiTypographyType.HEADING_FONT); title.add_theme_color_override("font_color",accent)
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(title)
+	var entry := Button.new(); entry.name = entry_name; entry.text = caption; entry.custom_minimum_size.y = 42
+	entry.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; entry.tooltip_text = details; column.add_child(entry)
+	entry.pressed.connect(func() -> void: get_tree().call_deferred("change_scene_to_file",scene_path))
+
 func _build_candidate_entry(content: VBoxContainer) -> void:
-	# Opt-in isolated candidate build only; no registered campaign level or unlock.
 	var english: bool = Localization.current_locale() == "en"
-	var panel := PanelContainer.new(); panel.name = "RepresentationCandidateEntry"; content.add_child(panel)
-	var column := VBoxContainer.new(); panel.add_child(column)
-	var title := Label.new(); title.text = "第二幕 · 表示" if not english else "Second act · Representation"; column.add_child(title)
-	var description := Label.new(); description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	description.text = "同一份信息，不同的承载方式。构造、比较并完成已有五份任务；方案独立保存，可退出重开继续。推荐在核心收束后继续，也可独立进入。" if not english else "The same information, carried differently. Build, compare and complete five existing tasks. Save independently, quit and resume. Recommended after the core ending; independent entry remains available."
-	if candidate_review_paths().is_empty():
-		description.text = "同一份信息，不同的承载方式。此入口未绑定命名候选档；默认是临时实验。" if not english else "The same information, carried differently. This entry has no named candidate profile; it is a temporary experiment by default."
-	column.add_child(description)
-	var entry := Button.new(); entry.name = "EnterRepresentationCandidate"
-	entry.text = "进入 / 继续表示候选旅程" if not english else "Enter / resume representation candidate"
-	entry.custom_minimum_size.y = 42; column.add_child(entry)
-	entry.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://experiments/representation_region/region.tscn"))
+	var details: String = "同一份信息，不同的承载方式。完成已有五份任务；推荐在核心收束后继续，也可独立进入。" if not english else "The same information, carried differently. Complete five existing tasks. Recommended after the core ending; independent entry remains available."
+	details += (" 未绑定候选档，默认仅本次会话。" if not english else " No candidate profile is bound; session-only by default.") if candidate_review_paths().is_empty() else (" 方案独立保存，可退出并继续。" if not english else " Plans save independently; quit and resume.")
+	_candidate_stage(content,"RepresentationCandidateEntry","表示 · 改变承载" if not english else "Representation",PURPLE,"EnterRepresentationCandidate",(("表示（仅本次会话）" if not english else "Representation (session only)") if candidate_review_paths().is_empty() else ("进入 / 继续表示" if not english else "Enter / resume Representation")),"res://experiments/representation_region/region.tscn",details)
 
 func _build_service_candidate_entry(content: VBoxContainer) -> void:
 	var english: bool = Localization.current_locale() == "en"
-	var panel := PanelContainer.new(); panel.name = "ServiceCandidateEntry"; content.add_child(panel)
-	var column := VBoxContainer.new(); panel.add_child(column)
-	var title := Label.new(); title.text = "第二幕 · 持续状态与服务" if not english else "Second act · Persistent state and service"; column.add_child(title)
-	var description := Label.new(); description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	description.text = "让历史留在合适的位置，再安排谁先得到回答。三份合同逐步探索搬运、及时响应与表示；方案独立保存，可返回和继续。表示与预测均不是进入前置。" if not english else "Keep history where it can serve the next request, then decide who receives an answer first. Three contracts explore traffic, timely responses and representation. Save, return and resume independently; representation and prediction are not prerequisites."
-	if candidate_review_paths().is_empty():
-		description.text = "让历史服务后来的请求。此入口未绑定命名候选档；默认是临时实验。" if not english else "Let history serve later requests. This entry has no named candidate profile; it is a temporary experiment by default."
-	column.add_child(description)
-	var entry := Button.new(); entry.name = "EnterServiceCandidate"
-	entry.text = "进入 / 继续服务候选旅程" if not english else "Enter / resume service candidate"
-	entry.custom_minimum_size.y = 42; column.add_child(entry)
-	entry.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://experiments/service_plan/lab.tscn"))
-	var review := Button.new(); review.name = "SavedSecondActReview"
-	review.text = "查看已保存的成果明细" if not english else "Inspect saved achievement details"
-	review.custom_minimum_size.y = 38; column.add_child(review); review.pressed.connect(show_candidate_review)
+	var details: String = "让历史服务后来的请求。三份合同探索搬运、响应与表示；表示与预测不是进入前置。" if not english else "Let history serve later requests. Three contracts explore traffic, responses and representation. Representation and Prediction are not prerequisites."
+	details += (" 未绑定候选档，默认仅本次会话。" if not english else " No candidate profile is bound; session-only by default.") if candidate_review_paths().is_empty() else (" 方案独立保存，可退出并继续。" if not english else " Plans save independently; quit and resume.")
+	_candidate_stage(content,"ServiceCandidateEntry","服务 · 留住历史" if not english else "Service",GOOD,"EnterServiceCandidate",(("服务（仅本次会话）" if not english else "Service (session only)") if candidate_review_paths().is_empty() else ("进入 / 继续服务" if not english else "Enter / resume Service")),"res://experiments/service_plan/lab.tscn",details)
+
+func _build_prediction_entry(content: VBoxContainer) -> void:
+	var english: bool = Localization.current_locale() == "en"
+	_candidate_stage(content,"PredictionCandidateEntry","预测 · 可选探索" if not english else "Prediction · optional",WARNING,"EnterPredictionCandidate","进入预测（本次会话）" if not english else "Explore Prediction (session only)","res://experiments/prediction/lab.tscn","独立的临时探索，不是表示或服务的进入前置。" if not english else "A separate temporary exploration; not a prerequisite for Representation or Service.")
 
 # Review only explicitly bound candidate profiles, never campaign user files.
 func candidate_review_paths() -> Dictionary:
@@ -956,28 +883,27 @@ func _saved_completion_review() -> Dictionary:
 
 func _build_completion_route(content: VBoxContainer) -> void:
 	var english: bool = Localization.current_locale() == "en"
-	var panel := PanelContainer.new(); panel.name = "RecommendedJourney"; content.add_child(panel)
-	var column := VBoxContainer.new(); panel.add_child(column)
-	var heading := Label.new()
-	heading.text = "推荐旅程 · 内部评审候选" if not english else "Recommended journey · internal review candidate"
-	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(heading)
+	var column := VBoxContainer.new(); column.name = "RecommendedJourney"
+	column.add_theme_constant_override("separation",6); content.add_child(column)
 	var route := Label.new(); route.name = "RecommendedJourneyRoute"
-	route.text = "造出机器 → 认识等待 → 局部性 → 时序与位置（两路并行）→ 核心收束 → 表示 → 服务 → 扩展收束" if not english else "Build a machine → Discover waiting → Locality → Timing and placement (parallel paths) → Core ending → Representation → Service → Extended ending"
+	route.text = "核心 → 表示 → 服务 → 回顾" if not english else "Core → Representation → Service → Review"
+	route.add_theme_font_size_override("font_size",14); route.add_theme_color_override("font_color",MUTED)
 	route.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(route)
 	var core_finished: bool = &"theme.ending" in _core_reflection_keys()
 	var review: Dictionary = _saved_completion_review()
 	var progress := Label.new(); progress.name = "RecommendedJourneyProgress"
-	var pieces: Array[String] = [(("核心：已收束" if core_finished else "核心：从任务树继续") if not english else ("Core: ending earned" if core_finished else "Core: continue on the task tree"))]
-	for domain: String in ["representation", "service"]:
-		var label: String = ("表示" if domain == "representation" else "服务") if not english else domain.capitalize()
-		var item: Dictionary = review.get(domain, {})
-		var status: String = str(item.get("status", "unavailable"))
-		pieces.append(label + ("：待确认保存成果" if not english else ": saved work unconfirmed") if status == "unavailable" else label + ": %d/%d" % [item.get("completed", []).size(), 5 if domain == "representation" else 3])
-	progress.text = " · ".join(pieces); progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(progress)
-	var stage: String = recommended_stage(core_finished, review)
-	var action := Button.new(); action.name = "RecommendedJourneyAction"; action.custom_minimum_size.y = 44
-	var captions: Dictionary = {"core": ["开始 / 继续核心旅程", "Start / continue the core journey"], "representation": ["下一段：改变信息的承载", "Next: change how information is carried"], "service": ["下一段：让历史服务新的请求", "Next: let history serve new requests"], "review": ["回看这一段旅程", "Revisit this journey"]}
-	action.text = captions[stage][1 if english else 0]; column.add_child(action)
+	var pieces: Array[String] = [("核心已收束" if core_finished else "核心待继续") if not english else ("Core earned" if core_finished else "Core open")]
+	for domain: String in ["representation","service"]:
+		var label: String = ("表示" if domain == "representation" else "服务") if not english else ("Rep" if domain == "representation" else "Service")
+		var item: Dictionary = review.get(domain,{})
+		pieces.append(label+("待确认" if not english else " unconfirmed") if str(item.get("status","unavailable")) == "unavailable" else label+" %d/%d" % [item.get("completed",[]).size(),5 if domain == "representation" else 3])
+	progress.text = " · ".join(pieces); progress.add_theme_font_size_override("font_size",14)
+	progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(progress)
+	var stage: String = recommended_stage(core_finished,review)
+	var action := Button.new(); action.name = "RecommendedJourneyAction"; action.custom_minimum_size.y = 48
+	var captions: Dictionary = {"core":["开始 / 继续核心旅程","Start / continue the core journey"],"representation":["下一段：改变信息的承载","Next: change how information is carried"],"service":["下一段：让历史服务新的请求","Next: let history serve new requests"],"review":["回看这一段旅程","Revisit this journey"]}
+	action.text = captions[stage][1 if english else 0]; action.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	InstrumentTheme.primary(action); action.add_theme_color_override("font_focus_color",Color("071823")); column.add_child(action)
 	action.pressed.connect(func() -> void:
 		match stage:
 			"core":
@@ -987,21 +913,6 @@ func _build_completion_route(content: VBoxContainer) -> void:
 			"service": get_tree().change_scene_to_file("res://experiments/service_plan/lab.tscn")
 			"review": show_completion_story()
 	)
-	var note := Label.new()
-	note.text = "推荐顺序不增加解锁条件。应用支线与追加委托可选；核心、表示、服务分别保存。预测是独立的临时探索。" if not english else "Recommendations add no prerequisites. Applications and commissions are optional. Core, Representation and Service save independently. Prediction is a separate temporary exploration."
-	if candidate_review_paths().is_empty():
-		note.text = "当前为未绑定存档的开发预览；第二幕默认仅本次会话，不能据此确认保存或继续。持久旅程请使用命名候选包。推荐顺序不增加解锁条件。" if not english else "Unbound developer preview: second-act work is session-only by default; saved continuation cannot be confirmed. Use a named candidate package for the persistent journey. Recommendations add no prerequisites."
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; note.add_theme_font_size_override("font_size", 16); column.add_child(note)
-	var core_review := Button.new(); core_review.name = "RecommendedCoreReview"
-	core_review.text = "回看核心成果" if not english else "Revisit core achievements"
-	core_review.pressed.connect(_open_theme_reflection); column.add_child(core_review)
-	var story := Button.new(); story.name = "CompletionStory"
-	story.text = "回看第二幕旅程" if not english else "Revisit the second-act journey"
-	story.pressed.connect(show_completion_story); column.add_child(story)
-	var prediction := Button.new(); prediction.name = "EnterPredictionCandidate"
-	prediction.text = "可选：预测工坊（本次会话）" if not english else "Optional: Prediction workshop (temporary session)"
-	prediction.pressed.connect(func() -> void: get_tree().call_deferred("change_scene_to_file", "res://experiments/prediction/lab.tscn"))
-	column.add_child(prediction)
 
 func _show_completion_bridge() -> void:
 	if not candidate_journey: return

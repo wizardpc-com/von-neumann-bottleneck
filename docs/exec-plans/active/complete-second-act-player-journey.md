@@ -10,6 +10,36 @@ an instruction to block or add unplanned content. Earlier progress below is
 historical; runtime10211e5 and the resumed closure evidence below are the current
 checkpoint. The earlier661c107 evidence remains specific to named designs.
 
+## 2026-10-06 fixed first-screen art and interaction — active
+
+User requests a complete initial screen without vertical scrolling and less
+cognitive load. Baseline runtime10211e5/evidence5b5bb84. Root integrates and owns
+existing layout tests, this plan/status/evidence, Git/Godot/native GUI and builds.
+Agent earned_closure owns prototype_hub.gd plus optional hub-only presentation;
+service_clarity owns test_hub_first_screen.gd; journey_audit reviews read-only.
+Existing collaborator files remain untouched. No model, save format, progression,
+asset licensing, global theme rewrite or new knowledge domain.
+
+Replace stacked duplicate navigation and five verbose chapter cards with a fixed
+screen: clear brand/utility header, one recommended primary action, compact stage
+and chapter access, restrained static presentation. Preserve independent entries,
+earned evidence, safe New Game, recovery notices and focus. Keep readable type and
+hit areas rather than shrinking everything. Detailed explanations stay available
+on demand. Verify bounds/no overlap/focus in both languages at1280x720 and1600x900,
+relevant existing navigation/settings tests, actual rendered frames and native
+packaged entry/actions. Then freeze a new isolated candidate, keep old artifacts,
+and report observed limits honestly. Update this same plan through delivery.
+
+First iteration: exact headless layout found no bounds failures initially; the
+new observer incorrectly missed an internal AcceptDialog label, corrected to
+get_label(). Independent review repaired severe-save-warning wording, exact
+Chapter2 capstone lock explanations and visible session-only preview captions.
+An actual8px English recovery overflow was then found and repaired using20px outer
+margins/10px gaps, without shrinking type. Rendered8views now pass8617 assertions;
+all eight actual1280/1600 frames inspected. Rejected OS-fullscreen-size captures
+and initial failures retained. Root freezes source next for neighboring checks
+and a new native package; no full-route replay is needed for this presentation-only change.
+
 ## 2026-10-06 resumed closure and native iteration — delivered
 
 User explicitly resumed development after94fef29. Prior stop statements below are

@@ -38,8 +38,8 @@ func run() -> void:
 				check(hub.get_global_rect().encloses(fullscreen.get_global_rect()),"Both fullscreen captions stay inside the hub: "+locale)
 			fullscreen._refresh(root.get_node("WindowMode").is_fullscreen())
 			var entry: Control=hub.find_child("TaskTreeEntry",true,false)
-			var scroll: ScrollContainer=hub.find_child("ChapterScroll",true,false)
-			check(scroll.scroll_vertical==0 and scroll.get_global_rect().encloses(entry.get_global_rect()),"Fresh hub keeps the entire primary task-tree entry visible.")
+			var surface: Control=hub.find_child("HubSurface",true,false)
+			check(surface.get_global_rect().encloses(entry.get_global_rect()),"Fresh hub keeps the entire primary task-tree entry visible.")
 			await capture(locale+"-hub-"+str(dimensions.x))
 			hub.queue_free(); await process_frame
 			await locality_feedback_fits(locale,dimensions)

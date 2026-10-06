@@ -1,0 +1,31 @@
+{
+  "build_id": "free-alpha-f84c3d64a7e1",
+  "source_commit": "f84c3d64a7e14176041024a2be559affb2445092",
+  "profile": "MacSecondAct-f84c3d6",
+  "scope": "actual exported release app; CUA native keyboard; no QA input driver or startup opt-in flags",
+  "observed": [
+    "Hub candidate entries and saved review visible on ordinary launch",
+    "F11 switched fullscreen to window mode",
+    "Tab/Shift-Tab/Return opened Service workbench",
+    "New profile had no history/supports and preserved original contracts",
+    "Optional Service introduction opened with three tabs",
+    "Initial own run showed2204cycles,3168B state traffic, first responses89/180/271/362, zero numerical error; did not pass task1",
+    "Save displayed saved candidate notice",
+    "Cmd-Q terminated first process and removed writer lease",
+    "Independent release-process restart reopened Service: one recipe re-evaluated and same metrics visible",
+    "Second Cmd-Q exited0 with clean log and no writer lease"
+  ],
+  "saved_runs": 1,
+  "saved_supports": 0,
+  "save_sha256": "a51700310156033086561b5b03d73fb4523b3e1b1808f8ad5007131864b30072",
+  "native_resume_exit": 0,
+  "native_resume_log": "mac-native-resume.log",
+  "pointer_observed": false,
+  "pointer_error": "CUA -10005 windowNotFoundAtPosition in fullscreen and window mode",
+  "limitations": [
+    "No unfamiliar player or second Mac installation evidence",
+    "No native drag/menu/complete5+3 route acceptance",
+    "First GUI launch process exit code unavailable; second release process exit0 verified",
+    "Native CUA screenshots displayed in tool transcript, not copied PNGs"
+  ]
+}

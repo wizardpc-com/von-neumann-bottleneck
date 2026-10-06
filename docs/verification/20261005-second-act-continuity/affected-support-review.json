@@ -1,0 +1,40 @@
+{
+  "commit": "fa5f55a2c392f7ac1daf5a0c0a6057e3fd58b31d",
+  "passed": true,
+  "verification_exit": 0,
+  "clean_after": true,
+  "checkout_status": "",
+  "source_mismatches": [],
+  "checked_files": 1797,
+  "project_settings_exception": "Only two custom save-directory lines removed for comparison",
+  "results": {
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "platform": "darwin",
+    "results": [
+      {
+        "name": "import",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "import.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261005T205554Z-b8247076/import"
+      },
+      {
+        "name": "user_directory",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "user_directory.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261005T205554Z-b8247076/user_directory"
+      },
+      {
+        "name": "test_candidate_supports",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_candidate_supports.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261005T205554Z-b8247076/test_candidate_supports"
+      }
+    ]
+  }
+}

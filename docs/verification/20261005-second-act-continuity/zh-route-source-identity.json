@@ -1,0 +1,17 @@
+{
+  "source_commit": "9cbbb1065e14fc08cec9dc194a6abecc5fe29205",
+  "runtime_commit": "9a165d38b14094d652ff2e28be0f1b431299148a",
+  "checked_files": 1797,
+  "source_mismatches": [],
+  "clean_checkout": true,
+  "changes_since_runtime_freeze": [
+    "docs/exec-plans/active/complete-second-act-player-journey.md",
+    "experiments/play_second_act.gd",
+    "tests/test_candidate_supports.gd"
+  ],
+  "project_settings_exceptions": [
+    "named custom QA user directory",
+    "candidate primary_domain/profile settings"
+  ],
+  "profile": "secondActQA-20261005-final"
+}

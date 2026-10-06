@@ -1,0 +1,11 @@
+{
+  "origin": "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_export_templates.tpz",
+  "version": "4.7.1.stable",
+  "archive_bytes": 1280486955,
+  "sha512": "afcc83d8d3d298038f19c58744a0d660fa75dd4baa33cb55d1011bb2565a2a8c2381728924564cb909e37c205a23f21b521b23bd057993afd43ae4da0b2f9d47",
+  "expected_sha512": "afcc83d8d3d298038f19c58744a0d660fa75dd4baa33cb55d1011bb2565a2a8c2381728924564cb909e37c205a23f21b521b23bd057993afd43ae4da0b2f9d47",
+  "macos_zip_bytes": 123444191,
+  "macos_zip_sha256": "f9de131f5ed0210924b9b156aea43b1e20fd720dd97690e151081a65c0937a3e",
+  "project_private_path": "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/export-templates-4.7.1/macos.zip",
+  "global_template_directory_unchanged": true
+}

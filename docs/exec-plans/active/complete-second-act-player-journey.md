@@ -22,17 +22,17 @@ approved developer-branch push apply; preserve unrelated collaborator changes.
 
 | Requirement | Current evidence | Remaining action / proof |
 |---|---|---|
-| Core40 entry, restoration, valid solutions and independent ending | Frozen7f056c2 conventional regression; current registries unchanged | Repeat only when affected; broader new integration gets one final frozen regression |
-| Representation five-task construction/measurement/save/review | Mac candidate journey records and current source | Audit onboarding and next-stage affordance; do not replace R1–R5 |
-| Service three-contract construction/measurement/save/review | Protected supports, Chinese305/English31 follow-up checks | Add understandable state continuity and an operation/rules introduction |
-| Optional extension stays optional, player-owned and finite | Two follow-up commissions; schema2 recipes revalidate | Preserve original closure; no extra mandatory stamps |
-| A coherent second-act candidate route and earned final review | Both domains enter via opt-in hub, but are independent entries | Inspect/integrate explicit earned Representation→Service bridge and combined read-only review without production registration |
-| Useful evidence rather than lists of numbers | Recorded cost/order/first-response comparisons | Actual prefix state-location replay, retained-history source and before/after state explanation |
-| Save/quit/restart and outcome protection | Mac lease/native PID guards, supported plan retention | Verify affected lifecycle transitions; candidate paths/versions remain unchanged |
-| Local frozen playable Mac candidate and build identity | Source rendering/normal Cmd-Q; templates absent last check | Inspect actual local packaging resources; attempt supported candidate export when available, preserve source identity |
-| Actual native pointer and unfamiliar-player understanding | Pointer tool -10005; no novice evidence | Keep explicit external gates; automated/informed play cannot close them |
-| Reviewable source and shared handoff | Local commits throughb62ecd2 | Commit every verified stage; update this plan and exact evidence |
-| Developer-branch push | Authorized attempt failed HTTPS authentication | Resume only when authentication exists; do not silently recreate divergent remote history |
+| Core40 entry, restoration, valid solutions and independent ending | Current frozen regression and actual release14-check probe; original registries/models unchanged | Preserve; no further source test expansion without new risk |
+| Representation five-task construction/measurement/save/review | Chinese full route218 checks; English saved restart16; earned bridge | External novice/native full-route evidence |
+| Service three-contract construction/measurement/save/review | Introduction/state replay and original3contract route pass | External novice comprehension |
+| Optional extension stays optional, player-owned and finite | Two optional commissions;5+3 review excludes commissions/Prediction | Preserve original closure |
+| Coherent candidate route and earned final review | Save/Cancel/continue bridge and saved independently revalidated5+3 review pass | Formal campaign integration remains outside candidate acceptance |
+| Useful evidence rather than lists of numbers | Actual prefix state-location replay and selected-record/draft source distinction | Use independent observation to find concrete readability gaps |
+| Save/quit/restart and outcome protection | Targeted lifecycle225 + native exported Save/reopen/quit; no residual lease | Other Mac lifecycle/install evidence |
+| Local frozen playable Mac candidate and build identity | free-alpha-f84c3d64a7e1; official matching private template; hashes/release probe pass | Retain frozen package; no public upload |
+| Actual native pointer and unfamiliar-player understanding | Source state/end pointer observed; exported native keyboard path passes; pointer -10005 remains | Complete native drag/menu/5+3, other Mac and unfamiliar player evidence |
+| Reviewable source and shared handoff | Runtime/build throughf84c3d6; exact receipts and screenshots | Commit evidence/plan handoff for this round |
+| Developer-branch push | Authorized attempt still fails missing HTTPS authentication | Await authentication; no divergent-history workaround |
 
 Uncertain/missing evidence is not achieved. The full goal stays active while a row
 is incomplete. External gates do not prevent independent authorized implementation.
@@ -176,3 +176,26 @@ checks PASS. Python AST and rejection of unsafe/Windows journey arguments PASS.
 An earlier invocation named a nonexistent suite and stopped before tests; it is
 not acceptance. Build verifier now also requires both second-act scenes in the
 real PCK and automatic journey refusal in its unbound QA directory.
+
+
+### 2026-10-06 verified stage handoff
+
+Runtime6a02c3e affected support35/navigation24 checks and independent English16
+checks pass with clean logs. Readonly packaging audit found no actionable defect;
+f84c3d6 adds guarded profile auto-start and optional private-template/Mac-only
+builder flags. Actual universal release export, identity/all hashes and14 package
+checks pass. Ordinary exported app shows opt-in entries; native keyboard reaches
+Service/introduction, runs its own initial plan, saves and independently reopens
+one recipe with no awarded support. Normal release-process Cmd-Q exits0, no errors
+or writer lease. Source State/End pointer succeeded; exported CUA pointer failed
+-10005, so no native drag/menu/full-route acceptance claimed.
+
+Evidence: `docs/verification/20261005-second-act-continuity/README.md` and copied
+receipts/screenshots. Source/build `f84c3d64a7e14176041024a2be559affb2445092`, profile
+`MacSecondAct-f84c3d6`, archiveSHA256
+`c35407c6b582c4d411204a55a2352e93b5959f3a836902e2de6c51a3b9f7f971`.
+No novice answer has arrived; assume evidence unavailable, never assume approval.
+This authorized implementation/package stage is finished. Stop adding content;
+next whole-goal work is independent observation and concrete finding repairs,
+then a formal-integration decision under the constitution. Goal remains active
+because external acceptance rows are incomplete, not because more tasks are needed.

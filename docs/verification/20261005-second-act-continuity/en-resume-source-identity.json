@@ -1,0 +1,13 @@
+{
+  "source_commit": "6a02c3e4f403645778522ce6f17d77d3c96dcb72",
+  "runtime_freeze": "9a165d38b14094d652ff2e28be0f1b431299148a",
+  "checked_files": 1797,
+  "source_mismatches": [],
+  "clean_checkout": true,
+  "project_settings_exceptions": [
+    "named custom QA directory",
+    "candidate primary_domain/profile settings",
+    "blank separator belonging to added candidate section"
+  ],
+  "profile": "secondActQA-20261005-final"
+}

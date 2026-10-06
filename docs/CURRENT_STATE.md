@@ -2,6 +2,28 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Second-act continuity and local Mac package — 2026-10-05–06
+
+Representation's earned five-task review can optionally continue to Service with
+Save/Discard/Cancel. The Hub revalidates saved5+3 recipes for a read-only combined
+review. Service adds a reopenable three-page introduction and recorded-prefix
+state journey: backing, decoded residency, writeback and actual responses stay
+distinct from drafts. Existing40 tasks, endings, models and optional Prediction
+remain. Frozen9a full regression78/79 passed; its sole obsolete test assertion was
+corrected and affected35 checks passed. Chinese rendered route218 and independent
+English resume16 checks pass with clean logs; subsequent lifetime/startup changes
+passed affected checks. This is not a single rerun79/79 claim.
+
+Actual local Mac candidate **free-alpha-f84c3d64a7e1** is exported fromf84c3d6 under
+`build/free-alpha-f84c3d64a7e1/`. Identity/hashes and14 real release-binary checks pass.
+Its explicit isolated profile enables candidate entries on ordinary app startup,
+without production migration. Native keyboard entry/introduction/run/save/reopen
+and normal exit were observed; CUA pointer remains unreliable. No novice, complete
+native5+3 or other-Mac installation acceptance. Exact evidence, failed attempts,
+archive hash and next gates: [continuity verification](verification/20261005-second-act-continuity/README.md)
+and [active whole-journey plan](exec-plans/active/complete-second-act-player-journey.md).
+Branch push remains blocked by missing HTTPS authentication.
+
 ## Service follow-up candidate content — 2026-10-05
 
 Two optional commissions extend the earned three-contract Service workbench:

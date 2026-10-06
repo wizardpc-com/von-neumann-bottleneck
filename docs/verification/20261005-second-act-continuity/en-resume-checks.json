@@ -1,0 +1,66 @@
+[
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Saved5+3 measured recipes earn the combined candidate review",
+		"ok": true
+	},
+	{
+		"check": "Review exposes both independently verified stage counts",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: second-act-saved-review",
+		"ok": true
+	},
+	{
+		"check": "Dialog control exists and is visible",
+		"ok": true
+	},
+	{
+		"check": "Return closes combined review",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Independent restart restores protected representation evidence",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Dialog control exists and is visible",
+		"ok": true
+	},
+	{
+		"check": "Clean earned continuation restores saved service in same profile",
+		"ok": true
+	},
+	{
+		"check": "State journey is reachable from continued service",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Continued final service displays24 actual returned requests",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: second-act-service-state",
+		"ok": true
+	},
+	{
+		"check": "Entire second-act candidate route preserves core40 save authority",
+		"ok": true
+	}
+]

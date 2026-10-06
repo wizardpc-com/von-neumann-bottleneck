@@ -1,0 +1,46 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261005T212441Z-7e0642a1/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261005T212441Z-7e0642a1/user_directory"
+    },
+    {
+      "name": "test_candidate_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261005T212441Z-7e0642a1/test_candidate_journey"
+    },
+    {
+      "name": "test_candidate_lifecycle",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_lifecycle.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261005T212441Z-7e0642a1/test_candidate_lifecycle"
+    },
+    {
+      "name": "test_second_act_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_second_act_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261005T212441Z-7e0642a1/test_second_act_navigation"
+    }
+  ]
+}

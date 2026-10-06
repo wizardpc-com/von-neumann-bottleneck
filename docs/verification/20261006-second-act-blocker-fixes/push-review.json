@@ -1,0 +1,10 @@
+{
+  "action": "git push origin HEAD",
+  "branch": "codex/mac-second-act-20261005",
+  "requested_head": "4c90b6f6ac9578351018aab6fcd0fd1255308213",
+  "destination": "https://github.com/wizardpc-com/von-neumann-bottleneck.git",
+  "result": "automatic_approval_review_rejected_before_execution",
+  "remote_write_performed": false,
+  "reason": "Reviewer requires trusted user confirmation for this destination and code payload despite the standing developer-branch push authorization. No workaround attempted.",
+  "prior_authentication": "Previous attempted dry-run lacked HTTPS username; not rechecked by this rejected action."
+}

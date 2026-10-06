@@ -61,6 +61,9 @@ another Mac installation remain unverified. The retry UI uses real local lease
 and Store tests, not a newly observed two-process native walkthrough. Existing
 lifecycle225 includes actual process protection; no power-loss promise. Formal
 registration is pending and production save migration remains unauthorized.
-Local HTTPS push authentication remains unavailable at the prior attempted check.
+The current authorized developer-branch push was rejected before execution by
+automatic approval review, which requires explicit destination/payload confirmation.
+[Receipt](push-review.json). Earlier HTTPS authentication failure remains a separate
+unresolved condition; this rejection did not perform a new authentication check.
 Continue bounded fixes from concrete observations; do not use those external gaps
 as a blanket source-development stop or replace them with invented acceptance.

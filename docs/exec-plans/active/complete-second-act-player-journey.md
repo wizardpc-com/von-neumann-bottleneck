@@ -395,3 +395,9 @@ claimed as newly observed native walkthroughs. Next: use this candidate for
 independent feedback and pursue concrete usability/source findings; external
 acceptance is a separate pending gate, not an automatic stop for all development.
 Root commits evidence/current state; all agent/runtime file ownership released.
+
+Developer-branch push of4c90b6f was rejected before execution by automatic
+approval review: destination/payload confirmation required. No remote write or
+credential retry occurred; no workaround used. All local development and package
+work is complete for these three fixes. Await only that specific push approval;
+other bounded development remains permitted from concrete findings.

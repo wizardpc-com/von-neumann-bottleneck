@@ -325,3 +325,16 @@ restored approved Git authentication. Use the existing frozenf84c3d6 candidate a
 receipts first; retain native full-route/pointer and formal acceptance limits.
 No main merge, history rewrite, production migration, upload, fee or permission
 change. Root ownership released; unrelated collaborator files remain untouched.
+
+### 2026-10-06 resumed external-block audit
+
+The goal was restored to active afterf507ff0. A fresh three-turn audit was used;
+the previous blocked count was not reused. All three resumed turns made no
+implementation or acceptance progress. HEADf507ff0 and collaborator-only local
+changes remained unchanged. Audit3 freshly confirms all28 receipt hashes and the
+actual frozen archive SHA256c35407c6b582c4d411204a55a2352e93b5959f3a836902e2de6c51a3b9f7f971.
+Audit2 found no live Godot/candidate process; no live job is being awaited.
+No independent-player/otherMac result, concrete source defect or authentication
+recovery arrived. No source test, GUI replay or push attempt was repeated.
+The same external acceptance impasse remains: markblocked again, preserving the
+full objective, frozen candidate and the restart conditions above.

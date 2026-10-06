@@ -1,0 +1,57 @@
+{
+  "runtime_commit": "9e1f6019c102e5e9ec358664c711d30b18bfa4e1",
+  "build_id": "free-alpha-9e1f6019c102",
+  "profile": "MacSecondAct-9e1f601",
+  "method": "Serial native CUA mouse clicks/drags in actual immutable .app; informed operation, no scene driver/disk preset",
+  "windowed_native_checks": {
+    "hub_to_original_task_tree": true,
+    "task_tree_blank_drag_pan": true,
+    "tutorial_entry": true,
+    "two_port_drag_connections": true,
+    "input_toggle_and_measured_run": "A=1, LAMP=0; tutorial3/5",
+    "right_click_wire_delete": "1 wire removed; tutorial4/5",
+    "port_drag_reconnect": "tutorial5/5; earned completion summary",
+    "next_challenge": "half_adder; unlocked by native tutorial",
+    "palette_and_gate_drag_drop": true,
+    "new_component_id": "AND_NEW_001",
+    "component_move_drag": true,
+    "move_undo_button": true,
+    "independent_restart_continue": "HalfAdder selected; Tutorial completed; arithmetic/storage branches available",
+    "independent_workbench_restore": "AND_NEW_001 retained at layout x800/y160 after movement undo; half_adder remains unfinished"
+  },
+  "display": {
+    "initial_fullscreen_capture": "Duplicated/white top strip with repeated purple OS capture icon; reproduced again",
+    "f11_windowed_capture": "Normal top title bar and game content",
+    "cause": "Unlocalized; screenshots alone cannot distinguish OS/capture artifact from actual visible display defect",
+    "system_security_changes": false
+  },
+  "exits": {
+    "normal_cmd_q": 2,
+    "post_quit_cua_error": "procNotFound -600; expected after app disappearance",
+    "independent_pgrep_exit_codes": [
+      1,
+      1
+    ],
+    "numeric_child_exit_status": "Unavailable for LaunchServices launches",
+    "forced_termination": false,
+    "both_candidate_active_leases_absent": true
+  },
+  "second_act_saved_bytes_unchanged": {
+    "representation": "1b11512af89924e5731ed28dbfdb6903574dd64fd401f6b0cc79494f4ec95db8",
+    "service": "d0b8fb1a6b3204d14be90a3eb065719d32112f56287d85637e6d14055901e3a7"
+  },
+  "actual_core_qa_artifacts": {
+    "mac-native-pointer-workbenches.json": "6ac6dee2e768e20d4dad14ef55e9e438b41dc6b1f6b960d629aa6789365cff59",
+    "mac-native-pointer-core-save.json": "5eec971f0d3f51bbf0e88f18b33d4375b4d4c0faba3d7df74e965ec98b3af802",
+    "mac-native-pointer-final-log.txt": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b"
+  },
+  "screenshots": "Retained in task conversation; no exported PNG files",
+  "production_save_access": false,
+  "runtime_changes": false,
+  "limits": [
+    "Windowed representative pointer/drag route on this Mac only; extended focus loss/mixed DPI not established",
+    "No full HalfAdder or remaining39 native task completion claim",
+    "No unfamiliar player or other Mac installation acceptance",
+    "Fullscreen displayed artifact cause still pending independent visual observation"
+  ]
+}

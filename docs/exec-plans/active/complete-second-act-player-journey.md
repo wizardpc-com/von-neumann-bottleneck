@@ -30,7 +30,7 @@ approved developer-branch push apply; preserve unrelated collaborator changes.
 | Useful evidence rather than lists of numbers | Actual prefix state-location replay and selected-record/draft source distinction | Use independent observation to find concrete readability gaps |
 | Save/quit/restart and outcome protection | Targeted lifecycle225 + native exported Save/reopen/quit; no residual lease | Other Mac lifecycle/install evidence |
 | Local frozen playable Mac candidate and build identity | free-alpha-9e1f6019c102; official matching private template; hashes/release probe pass | Retain frozen package; no public upload |
-| Actual native pointer and unfamiliar-player understanding | Actual native5+3 normal keyboard route and saved joint closure pass; pointer intermittency retained | Native drag, fullscreen top-strip diagnosis, other Mac and unfamiliar player evidence |
+| Actual native pointer and unfamiliar-player understanding | Actual native5+3 route; windowed tree/wire/palette/component drags, Tutorial completion and independent core Continue/workbench restore pass | Extended focus/DPI, fullscreen top-strip diagnosis, other Mac and unfamiliar player evidence |
 | Reviewable source and shared handoff | Runtime/build9e1f601; exact receipts; native limits retained | Final evidence/plan handoff committed after source freeze |
 | Developer-branch push | User-authorized SSH push succeeds; remote9cfbb05 verified | Closed; publish subsequent committed evidence on the same developer branch |
 
@@ -541,3 +541,29 @@ acceptance stays open; finite A–D implementation/native stage is delivered.
 Next: review this candidate with an unfamiliar player/another Mac, collect a
 concrete display/drag finding if reproduced, then repair only observed gaps.
 No speculative new chapter, formal campaign migration or public release.
+
+### 2026-10-06 native pointer route follow-up
+
+Previous goal turn made progress: actual native5+3 supports/closure/independent
+continuation and evidence commit20e54ed. Re-audit leaves native drag, display and
+external player/platform acceptance; proceed with safe local observations.
+Same immutable9e .app/own MacSecondAct-9e1f601 profile, root sole GUI executor:
+windowed Hub/tree entry and blank-drag pan pass; Tutorial port drags earn both
+wires, input1 measured lamp0, right-click delete/reconnect earns5/5 completion.
+Next enters HalfAdder; palette drag adds AND_NEW_001, body drag moves it, Undo
+restores its position. Normal Cmd-Q then independent .app Continue locates
+HalfAdder with earned Tutorial/available arithmetic/storage branches; reentry
+restores the extra AND at x800/y160. HalfAdder remains unfinished; this is an
+operation check, not another whole-campaign or novice completion claim.
+
+Both Cmd-Q exits independently leave no process (pgrep1); post-exit CUA
+procNotFound is expected. Own final engine log has no errors, both second-act
+recipes retain exact prior hashes, active leases absent. Actual core QA
+workbenches/save and observation receipt are in20261006-confirmed-reload.
+No runtime/model/save-format change or redundant regression/rebuild.
+Fullscreen initial capture reproduces the duplicated white/OS-purple-icon strip;
+windowed content/titlebar normal. Cause remains unlocalized; optional human
+visual observation requested to distinguish capture artifact. No security changes.
+This closes a representative windowed native drag gate. External novice/otherMac,
+extended focus/DPI and fullscreen diagnosis remain open; next repair must follow
+a concrete reproduced finding, not speculative new content or model rewriting.

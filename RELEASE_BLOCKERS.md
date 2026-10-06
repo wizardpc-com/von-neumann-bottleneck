@@ -15,8 +15,12 @@ response counterexample and repaired run. Explicit stopped-writer recovery,
 dirty bridge Cancel/Save, Home/resume and independent clean continuation pass.
 Normal Cmd-Q ends all own QA processes; both leases release, recipe bytes stay
 unchanged after final restart. [Native receipt and actual recipes](docs/verification/20261006-confirmed-reload/mac-native-full-journey.json).
-Full pointer/drag, unfamiliar player and otherMac remain open. CUA pointer input
-is intermittent; fullscreen restart screenshots show duplicated/white top-strip
+Windowed representative native pointer/drag now passes on this frozen package:
+task-tree pan, Tutorial port wiring/run/delete/reconnect and earned completion,
+HalfAdder palette placement/move/undo, independent Continue/workbench restoration.
+[Actual receipt and QA workbench](docs/verification/20261006-confirmed-reload/mac-native-pointer-route.json).
+Extended focus/DPI, unfamiliar player and otherMac remain open. Earlier CUA pointer
+input was intermittent; fullscreen restart screenshots show duplicated/white top-strip
 pixels, while F11 windowed views are normal. Cause is not yet localized; do not
 claim a runtime defect or warning-free Mac display acceptance from these captures.
 Prior forced exits/failures are retained as historical evidence.

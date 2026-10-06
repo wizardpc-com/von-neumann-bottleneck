@@ -1,0 +1,375 @@
+{
+	"schema_version": 2,
+	"signature_version": 2,
+	"namespaces": {
+		"game": {
+			"half_adder": {
+				"active": "default",
+				"seed_fingerprint": "bebfce98460dd1432b6ac22dc16c97ef65e426127e2cb87458c742d0c7cbd230",
+				"seed_signature_version": 2,
+				"workbenches": {
+					"default": {
+						"schema_version": 1,
+						"components": [
+							{
+								"id": "AND_1",
+								"kind": "and",
+								"display_name": "AND · 1",
+								"signal_name": "",
+								"fixed_terminal": false,
+								"input_port_names": [
+									"A",
+									"B"
+								],
+								"output_port_names": [
+									"Y"
+								],
+								"input_port_widths": [
+									1,
+									1
+								],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "AND_1_COPY_002",
+								"kind": "and",
+								"display_name": "AND · CARRY",
+								"signal_name": "",
+								"fixed_terminal": false,
+								"input_port_names": [
+									"A",
+									"B"
+								],
+								"output_port_names": [
+									"Y"
+								],
+								"input_port_widths": [
+									1,
+									1
+								],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "AND_2",
+								"kind": "and",
+								"display_name": "AND · 2",
+								"signal_name": "",
+								"fixed_terminal": false,
+								"input_port_names": [
+									"A",
+									"B"
+								],
+								"output_port_names": [
+									"Y"
+								],
+								"input_port_widths": [
+									1,
+									1
+								],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "AND_NEW_001",
+								"kind": "and",
+								"display_name": "AND",
+								"signal_name": "",
+								"fixed_terminal": false,
+								"input_port_names": [
+									"A",
+									"B"
+								],
+								"output_port_names": [
+									"Y"
+								],
+								"input_port_widths": [
+									1,
+									1
+								],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "A_IN",
+								"kind": "input",
+								"display_name": "TEST BENCH A",
+								"signal_name": "A",
+								"fixed_terminal": true,
+								"input_port_names": [],
+								"output_port_names": [
+									"OUT"
+								],
+								"input_port_widths": [],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "B_IN",
+								"kind": "input",
+								"display_name": "TEST BENCH B",
+								"signal_name": "B",
+								"fixed_terminal": true,
+								"input_port_names": [],
+								"output_port_names": [
+									"OUT"
+								],
+								"input_port_widths": [],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "CARRY_OUT",
+								"kind": "output",
+								"display_name": "PROBE CARRY",
+								"signal_name": "CARRY",
+								"fixed_terminal": true,
+								"input_port_names": [
+									"IN"
+								],
+								"output_port_names": [],
+								"input_port_widths": [
+									1
+								],
+								"output_port_widths": [],
+								"properties": {}
+							},
+							{
+								"id": "NOT_1",
+								"kind": "not",
+								"display_name": "NOT · 1",
+								"signal_name": "",
+								"fixed_terminal": false,
+								"input_port_names": [
+									"A"
+								],
+								"output_port_names": [
+									"Y"
+								],
+								"input_port_widths": [
+									1
+								],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "NOT_1_COPY_001",
+								"kind": "not",
+								"display_name": "NOT · 2",
+								"signal_name": "",
+								"fixed_terminal": false,
+								"input_port_names": [
+									"A"
+								],
+								"output_port_names": [
+									"Y"
+								],
+								"input_port_widths": [
+									1
+								],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "OR_1",
+								"kind": "or",
+								"display_name": "OR · 1",
+								"signal_name": "",
+								"fixed_terminal": false,
+								"input_port_names": [
+									"A",
+									"B"
+								],
+								"output_port_names": [
+									"Y"
+								],
+								"input_port_widths": [
+									1,
+									1
+								],
+								"output_port_widths": [
+									1
+								],
+								"properties": {}
+							},
+							{
+								"id": "SUM_OUT",
+								"kind": "output",
+								"display_name": "PROBE SUM",
+								"signal_name": "SUM",
+								"fixed_terminal": true,
+								"input_port_names": [
+									"IN"
+								],
+								"output_port_names": [],
+								"input_port_widths": [
+									1
+								],
+								"output_port_widths": [],
+								"properties": {}
+							}
+						],
+						"layout": {
+							"AND_1": {
+								"x": 920.0,
+								"y": 60.0
+							},
+							"AND_1_COPY_002": {
+								"x": 960.0,
+								"y": 480.0
+							},
+							"AND_2": {
+								"x": 920.0,
+								"y": 340.0
+							},
+							"AND_NEW_001": {
+								"x": 800.0,
+								"y": 160.0
+							},
+							"A_IN": {
+								"x": 535.0,
+								"y": 110.0
+							},
+							"B_IN": {
+								"x": 535.0,
+								"y": 425.0
+							},
+							"CARRY_OUT": {
+								"x": 1320.0,
+								"y": 480.0
+							},
+							"NOT_1": {
+								"x": 780.0,
+								"y": 140.0
+							},
+							"NOT_1_COPY_001": {
+								"x": 780.0,
+								"y": 320.0
+							},
+							"OR_1": {
+								"x": 1120.0,
+								"y": 220.0
+							},
+							"SUM_OUT": {
+								"x": 1310.0,
+								"y": 230.0
+							}
+						},
+						"wires": []
+					}
+				}
+			},
+			"tutorial": {
+				"active": "default",
+				"seed_fingerprint": "29ac30935150fb03d69de84dd06485ca668cb4352cf9d20eb18ca9071938fad1",
+				"seed_signature_version": 2,
+				"workbenches": {
+					"default": {
+						"schema_version": 1.0,
+						"components": [
+							{
+								"id": "A_IN",
+								"kind": "input",
+								"display_name": "TEST INPUT A",
+								"signal_name": "A",
+								"fixed_terminal": true,
+								"input_port_names": [],
+								"output_port_names": [
+									"OUT"
+								],
+								"input_port_widths": [],
+								"output_port_widths": [
+									1.0
+								],
+								"properties": {}
+							},
+							{
+								"id": "LAMP",
+								"kind": "lamp",
+								"display_name": "OUTPUT LAMP",
+								"signal_name": "LAMP",
+								"fixed_terminal": true,
+								"input_port_names": [
+									"IN"
+								],
+								"output_port_names": [],
+								"input_port_widths": [
+									1.0
+								],
+								"output_port_widths": [],
+								"properties": {}
+							},
+							{
+								"id": "NOT_1",
+								"kind": "not",
+								"display_name": "NOT",
+								"signal_name": "",
+								"fixed_terminal": false,
+								"input_port_names": [
+									"A"
+								],
+								"output_port_names": [
+									"Y"
+								],
+								"input_port_widths": [
+									1.0
+								],
+								"output_port_widths": [
+									1.0
+								],
+								"properties": {}
+							}
+						],
+						"layout": {
+							"A_IN": {
+								"x": 510.0,
+								"y": 170.0
+							},
+							"LAMP": {
+								"x": 1110.0,
+								"y": 170.0
+							},
+							"NOT_1": {
+								"x": 760.0,
+								"y": 170.0
+							}
+						},
+						"wires": [
+							{
+								"from": "A_IN",
+								"from_port": 0.0,
+								"to": "NOT_1",
+								"to_port": 0.0,
+								"color_index": 0.0
+							},
+							{
+								"from": "NOT_1",
+								"from_port": 0.0,
+								"to": "LAMP",
+								"to_port": 0.0,
+								"color_index": 0.0
+							}
+						]
+					}
+				}
+			}
+		}
+	}
+}

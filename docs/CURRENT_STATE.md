@@ -17,8 +17,11 @@ preserves work; Save/continue and independent clean restart restore both stages.
 The Hub's saved review shows5/5 and3/3 with the joint closing text. Normal Cmd-Q
 leaves no game process or active lease, and final resume leaves recipe bytes
 unchanged. This is informed native acceptance, not novice/otherMac evidence.
-Intermittent CUA pointer failures, unverified drag and a fullscreen restart
-screenshot top-strip artifact remain distinct Mac/tool risks.
+Windowed native task-tree drag, Tutorial wiring/run/delete/reconnect/completion,
+HalfAdder palette placement/move/undo and independent Continue/workbench restore
+now pass on this same package. Earlier intermittent CUA pointer failures,
+extended focus/DPI and the fullscreen restart screenshot top-strip artifact
+remain distinct Mac/tool risks; no novice/otherMac acceptance is implied.
 [Evidence and limits](verification/20261006-confirmed-reload/README.md).
 User-authorized SSH push succeeded; remote developer branch91524d7 then passed
 the full Linux CI:81 Godot suites plus import/isolation and five Python checks.

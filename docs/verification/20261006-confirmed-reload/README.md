@@ -141,3 +141,19 @@ unverified drag remain; fullscreen restart captures show duplicated/white top-st
 pixels, F11 windowed views normal, cause not localized. Neither beginner/otherMac
 nor optional Prediction/commission native walkthrough is claimed. Runtime/archive
 remain9e; prior failures are historical, not deleted or rewritten as passes.
+
+Subsequent [native pointer route](mac-native-pointer-route.json) now passes in
+windowed mode on the same immutable app: Hub/tree entry and drag-pan, Tutorial
+port wiring/input/run/delete/reconnect and earned5/5 completion, HalfAdder palette
+drop/component movement/Undo, normal exit and independent Continue/workbench
+restore. [Actual workbenches](mac-native-pointer-workbenches.json),
+[actual isolated core save](mac-native-pointer-core-save.json) and
+[final engine log](mac-native-pointer-final-log.txt) are exact own QA artifacts.
+The extra AND restores at x800/y160; HalfAdder remains unfinished. Both second-act
+recipes retain the hashes above, both active leases absent. Two normal Cmd-Q exits
+leave no game process; post-exit CUA procNotFound is expected. This representative
+windowed drag proof supersedes the prior unverified-drag limitation for these
+operations, not extended focus/DPI or other machines. Fullscreen initial capture
+again shows the duplicated white/OS-purple-icon strip; normal windowed screenshots
+do not identify its cause. No runtime edit, repeated source regression, public
+release or human-beginner claim.

@@ -1,0 +1,48 @@
+{
+	"schema_version": 2,
+	"minimum_writer_version": 2,
+	"signature_version": 2,
+	"saved_at_utc": "2026-10-06T10:23:51",
+	"game": {
+		"hardware": {
+			"schema_version": 1,
+			"completed_levels": [
+				"tutorial"
+			],
+			"designs": []
+		},
+		"system": {
+			"schema_version": 1,
+			"workspaces": {},
+			"observations": {},
+			"prologue_ready": false,
+			"cpu_source_signature": "reference-cpu4",
+			"ram_source_signature": "reference-ram2x4",
+			"completed_levels": [],
+			"application_designs": {}
+		},
+		"locality": {
+			"schema_version": 1,
+			"workspaces": {},
+			"observations": {},
+			"first_experiment_observed": false,
+			"completed_levels": [],
+			"economical_design": {}
+		},
+		"layout": {
+			"schema_version": 1,
+			"model_version": "layout-memory-1",
+			"solutions": {},
+			"drafts": {},
+			"named": {},
+			"bonuses": {}
+		},
+		"overlap": {
+			"schema_version": 1,
+			"solutions": {},
+			"drafts": {},
+			"routes": {},
+			"distance_bonus": {}
+		}
+	}
+}

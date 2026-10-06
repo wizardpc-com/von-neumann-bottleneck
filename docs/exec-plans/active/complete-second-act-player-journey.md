@@ -645,3 +645,18 @@ review found draft selection erased pending names; input now survives unchanged
 measured identity, and new/renamed collection entries select their own row. Names
 clip instead of widening minimum layout. Final frozen regression/package/native
 verification is the next root-only step. No external acceptance claim.
+
+Named-design increment handed off: runtime commit6d02ac7 pushed successfully.
+Frozen absolute-path run20261006T105615Z-a6c4a716:15 suites plus import/isolation
+PASS,1904 source files exact/clean, all logs inspected without error/warning/skip.
+Actual Mac export/identity and14-check release-binary/PCK probe PASS, candidate
+free-alpha-6d02ac756a1d, ZIP SHA8155ed1d7cf2da8d036916351c91312ece47b05d20d7dc95a999ca90a057fc1a.
+Native attempt blocked by Mac lock screen before UI interaction; tools cannot
+unlock. No new OS-input claim. Only own unchanged QA seeds were reversibly
+archived after checking no process/lease; new profile starts empty for human
+play-test, old profiles/packages preserved. Evidence20261006-named-designs.
+CI37453419379 for runtime6d02ac7 was in progress when read; not claimed passed.
+Finite implementation increment complete. The user's deferred manual acceptance
+remains open; stop implementation now and hand off candidate for their play-test.
+Next repairs should follow concrete play-test findings; no more knowledge domains
+or campaign migration implied. This plan stays active for those external receipts.

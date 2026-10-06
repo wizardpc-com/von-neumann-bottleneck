@@ -1,0 +1,18 @@
+[
+  {
+    "domain": "representation",
+    "source": "docs/verification/20261006-confirmed-reload/mac-native-representation-five-tasks-recipe.json",
+    "target": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/MacDesigns-6d02ac7/representation-session.json",
+    "sha256": "1b11512af89924e5731ed28dbfdb6903574dd64fd401f6b0cc79494f4ec95db8",
+    "schema": 2,
+    "archived_at": ".godot/named-designs-native-deferred/representation/MacDesigns-6d02ac7"
+  },
+  {
+    "domain": "service",
+    "source": "docs/verification/20261006-confirmed-reload/mac-native-service-three-contracts-recipe.json",
+    "target": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/service/MacDesigns-6d02ac7/service-session.json",
+    "sha256": "d0b8fb1a6b3204d14be90a3eb065719d32112f56287d85637e6d14055901e3a7",
+    "schema": 2,
+    "archived_at": ".godot/named-designs-native-deferred/service/MacDesigns-6d02ac7"
+  }
+]

@@ -126,6 +126,29 @@ process exited0, clean log and removed writer lease. [Observation receipt](mac-n
 [restart log](mac-native-resume.log). Native screenshots are in the CUA transcript;
 the PNGs above are explicitly rendered-driver evidence.
 
+Follow-up on2026-10-06 completes the missing **actual edit** boundary: native
+keyboard changed slots1→4; the old record stayed unchanged and draft provenance
+was visible. Run produced1324cycles/528B state traffic/458B peak, with first
+responses89/158/227/296 and zero quality error. Task1 correctly failed peak350B
+by108B. Save retained both recipes. After normal quit and confirmed process exit,
+an independent actual release executable launched with `--windowed` visibly
+restored the4-slot draft and both recomputed records. Its Cmd-Q exited0 with a
+[clean log](mac-native-edited-resume.txt), released lease and byte-identical save.
+[Edited-resume receipt](mac-native-edited-resume.json) records observations and
+unsuccessful input attempts separately. A LaunchServices restart did not establish
+control input through CUA; the successful windowed restart is the accepted path.
+No runtime/source change or repeat full regression was needed for this evidence.
+
+## Reproducible QA example and counterexample
+
+The rendered218-check route earns the third Service contract with24 interleaved
+single requests,4slots, A/B:RLE64 and C/D:RAW64:1280cycles,316B state traffic,
+first responses78/136/205/274 and zero score/final-state error. This is a constructed
+QA example, absent from exported presets; it is not unfamiliar-player discovery.
+A true task1 counterexample is the native4-slot all-RAW64 plan above: time and
+state traffic improve but458B peak fails350B. Uniform RLE64 is also a final-contract
+counterexample:356B traffic exceeds320B. See [model calibration](../../../experiments/service_plan/README.md#calibrated-examples-model-cycles-not-hardware-timing).
+
 Remaining: unfamiliar-player comprehension, reliable native drag/order-popup path,
 complete native5+3 play and installation on another Mac. This package is a local
 candidate, not formal acceptance or production migration. Approved branch push

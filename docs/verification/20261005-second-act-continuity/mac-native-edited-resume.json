@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-06",
+  "source_commit": "f84c3d64a7e14176041024a2be559affb2445092",
+  "build_id": "free-alpha-f84c3d64a7e1",
+  "profile": "MacSecondAct-f84c3d6",
+  "scope": "Actual exported app; native CUA keyboard; no input driver, source edits, authored saved preset or production save access",
+  "editing": {
+    "slots_before": 1,
+    "slots_after": 4,
+    "representations": [
+      "raw64",
+      "raw64",
+      "raw64",
+      "raw64"
+    ],
+    "groups": "24 single requests interleaved A0/B0/C0/D0 through A5/B5/C5/D5",
+    "old_record_preserved": true,
+    "draft_distinction_visible": true
+  },
+  "observed_measurement": {
+    "cycles": 1324,
+    "state_read_write_bytes": 528,
+    "peak_bytes": 458,
+    "first_responses": [
+      89,
+      158,
+      227,
+      296
+    ],
+    "score_error": 0,
+    "final_state_error": 0,
+    "task": 1,
+    "accepted": false,
+    "failure": "Peak458B exceeds350B by108B"
+  },
+  "save": {
+    "notice_visible": true,
+    "draft_slots": 4,
+    "runs": 2,
+    "supports": 0,
+    "sha256_after_save": "2abbba96c6bb634d055518a627361e22105facdb16037dd5d4534b1537c1b848",
+    "sha256_after_independent_resume": "2abbba96c6bb634d055518a627361e22105facdb16037dd5d4534b1537c1b848",
+    "lease_absent_after_quit": true
+  },
+  "independent_resume": {
+    "launch": "Actual release executable --windowed; original edit process had already exited",
+    "native_entry": "Tab focus then Shift-Tab/Return from Hub to Service",
+    "visible_notice": "已恢复草稿；2条记录按同一模型重算。未授予主线进度。",
+    "draft_slots_visible": 4,
+    "both_records_visible": true,
+    "recomputed_metrics_match": true,
+    "normal_cmd_q_exit_code": 0,
+    "log": "mac-native-edited-resume.txt",
+    "log_clean": true,
+    "process_absent_after_quit": true,
+    "log_copy_normalization": "Only trailing blank lines removed; original retained at .godot/second-act-export-native-edit-windowed.log",
+    "original_log_sha256": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b"
+  },
+  "archive_sha256_verified_unchanged": "c35407c6b582c4d411204a55a2352e93b5959f3a836902e2de6c51a3b9f7f971",
+  "failed_attempts": [
+    "Initial duplicate owned candidate instances caused inconclusive input. Only verified root-owned direct launch stopped with TERM/exit143; this attempt is not acceptance. Older instance subsequently exited via native Quit; sampling found it already absent, so no deadlock finding.",
+    "A subsequent LaunchServices restart exposed Hub but CUA controls gained no visible focus; Raise/F11 did not establish reentry and pointer returned -10005 noWindowsAvailable. It exited normally before the successful independent --windowed release launch."
+  ],
+  "limits": [
+    "Native screenshots are in the CUA transcript, not exported PNG evidence.",
+    "LaunchServices resume input remains unreliable through CUA; successful edited resume used --windowed.",
+    "No unfamiliar-player, other-Mac, complete native5+3 or native drag/order-popup acceptance.",
+    "Edited task1 plan is a valid measured counterexample and earns no support."
+  ]
+}

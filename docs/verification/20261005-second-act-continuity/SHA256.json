@@ -1,5 +1,5 @@
 {
-  "README.md": "2717b8c7a68541d4980a8169b03438c9417d41ac874a4e69c632a2dbbdc70148",
+  "README.md": "6d83bd33d5de8d19b11328bb0080b9fdec834ae73f09748d786462dd91d7c2d0",
   "affected-support-review.json": "cb9433b8672fee3033d76827142299aaa40bf4f0ec10fd6827cded5619cf999e",
   "embedded-window-focused.json": "c333172edbda978425cf291c6e378c88083ae620817528e78ca2fed067b8f8bb",
   "en-resume-checks.json": "de62668c536f09b6f3601d0ca34b16c369340a33ea00d67f514f424af1f933cf",
@@ -9,6 +9,8 @@
   "en-service-state.png": "ba7c01054aea655fd567c0af9daf482d7bc5e4b97e2479ca3564e079a543eb72",
   "frozen-regression.json": "cc9df98df804ed832f1c31b5448533aceb0d204fb0312dc4fd50d6486fec8da3",
   "mac-build-manifest.json": "4de502fbeb9070b294638c55c624d4b38cc98dc8092f2bc8f949be9ae81346b1",
+  "mac-native-edited-resume.json": "7f6328b7b42abfd9268c4be004cffbafd77d673b6ea3537e42cdbcde9073f2d8",
+  "mac-native-edited-resume.txt": "656711defcfe953c787ceebdef021e7aedaaa04370a4c83aa703f763a608640d",
   "mac-native-observation.json": "b3fbb15c73068ef5c6adece7e6e9fb65e0151e50189e84360dce1f2c42208ce9",
   "mac-native-resume.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
   "mac-release-probe.json": "e961ebaddf3ff6725b23a834e3dc52f765f05953d65f57aac9fef85c4b7bca57",

@@ -205,3 +205,37 @@ Readonly GitHub metadata confirmed the connected wizardpc-com account owns
 origin wizardpc-com/von-neumann-bottleneck and has push rights; the identical
 developer-branch retry was approved, then Git exited128 for absent local HTTPS
 credentials. No push/main merge/history rewrite occurred. See push-receipt.json.
+
+### Completion audit follow-up — 2026-10-06
+
+Previous goal turn was progress: authoritative implementation, actual frozen Mac
+package and clean native Save/reopen were delivered. Current unchanged source
+HEAD3cd45a0; unrelated collaborator files remain unstaged. Re-read current brief:
+D explicitly requires actual exported editing/run/save/restart. Prior native
+package path measured only the initial unedited recipe. Root will verify one
+visible slot edit, Run, Save and independent restore in its own named candidate
+profile, with no source or model changes. Three existing agents audit A/B/C
+readonly with no Git/Godot/GUI. Do not invent new content or require a complete
+native5+3 walkthrough as a substitute for this concrete minimum. Record exact
+remaining technical versus unfamiliar-player/formal-integration gates.
+
+
+### 2026-10-06 actual exported edit/restore handoff
+
+Readonly A/B/C audits found no new implementation gap. Root completed native
+slots1→4 edit with immutable prior record/draft distinction, measured task1
+counterexample1324cycles/528B/458B (peak exceeds350B by108B), Save and independent
+actual release-executable --windowed restore. Both recipes were re-evaluated and
+4-slot draft restored visibly; Cmd-Q exit0, clean log, no lease, identical save
+SHA2562abbba96c6bb634d055518a627361e22105facdb16037dd5d4534b1537c1b848.
+Archive identity still matchesf84c3d6. No implementation/model changes or repeated
+full regression; only evidence/plan/status updated. Native failed input attempts
+are not acceptance and are preserved in mac-native-edited-resume.json.
+
+Bounded implementation/package requirements A–D now have technical evidence,
+including actual edit. Whole-goal external rows remain: unfamiliar-player
+comprehension, reliable native drag/order-popup/full5+3, another Mac installation,
+formal integration decision and push authentication. Next use the frozen package
+for independent observation and repair only concrete findings; no additional tasks
+or model expansion. Current goal service reports paused; no further goal iteration
+is started in this handoff.

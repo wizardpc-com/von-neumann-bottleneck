@@ -3,9 +3,20 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current entry checkpoint — 2026-10-06
+## Current unified journey checkpoint — 2026-10-06
 
-**5efc8ec / free-alpha-5efc8ecb3d1f** is the latest candidate. Simplified home,
+**d26ff8d62cfd / free-alpha-d26ff8d62cfd** is the latest candidate. Unified task
+map and exact-task save/return/continue replace the separate candidate lobby.
+20 frozen affected suites,22 rendered views, explicit candidate host checks and14
+binary checks pass; actual native save/return/restart observations are recorded.
+[Layered evidence and unverified edges](docs/verification/20261006-unified-journey/README.md).
+The gates below remain: listening, unfamiliar-player understanding and duration,
+final visual/narrative polish (including Prediction workbench), other devices/OS,
+formal distribution/signing. This delivered increment is not a claim of those gates.
+
+## Previous entry checkpoint — 2026-10-06
+
+**5efc8ec / free-alpha-5efc8ecb3d1f** is the prior entry candidate. Simplified home,
 explicit selection and native keyboard entry/return are verified;9 affected
 suites,16 exact-size rendered frames and14 binary checks pass.
 [Layered evidence](docs/verification/20261006-first-screen/README.md).

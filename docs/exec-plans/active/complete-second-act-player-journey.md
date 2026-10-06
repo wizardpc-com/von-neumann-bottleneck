@@ -10,7 +10,22 @@ an instruction to block or add unplanned content. Earlier progress below is
 historical; runtime10211e5 and the resumed closure evidence below are the current
 checkpoint. The earlier661c107 evidence remains specific to named designs.
 
-## 2026-10-06 unified journey and product entry — active
+## 2026-10-06 unified journey and product entry — delivered checkpoint
+
+Delivered runtime d26ff8d62cfd, Mac free-alpha-d26ff8d62cfd, profile Journey-d26ff8d.
+20 frozen affected suites/import/isolation PASS;2195-file committed identity clean.
+Explicit candidate host51checks, home4021/map2124 rendered checks (22images),
+export identity and14binarychecks PASS. Native exact-package map→Rep5/Service1/
+Prediction1, actual measured runs, RepCancel/Save→map, ServiceSave→map, temporary
+Prediction discard, honest home Reopen and normal shutdown/restart with Rep record
+restored observed. Own QA profile hashes preserved via reversible archive; fresh
+candidate delivered. Evidence: docs/verification/20261006-unified-journey.
+
+No new full-route/from-blank completion, listening, novice/time, otherMac/Windows or
+final artistic/formal acceptance. Native Service restart and saved-target fallback
+without navigation preference remain unverified here. Prior unchanged model/ending
+receipts stay attributed to their original SHA. Current finite scope is complete;
+no extension merely to occupy the night. Team/Claude interfaces updated.
 
 User explicitly requests that Representation, Service and optional Prediction
 belong inside the task tree, with coherent enter/return/continue operations and

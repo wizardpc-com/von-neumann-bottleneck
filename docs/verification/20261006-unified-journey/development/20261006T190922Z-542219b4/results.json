@@ -1,0 +1,54 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T190922Z-542219b4/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T190922Z-542219b4/user_directory"
+    },
+    {
+      "name": "test_completion_route",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_route.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T190922Z-542219b4/test_completion_route"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T190922Z-542219b4/test_hub_first_screen"
+    },
+    {
+      "name": "test_tree_journey_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_journey_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T190922Z-542219b4/test_tree_journey_presentation"
+    },
+    {
+      "name": "test_unified_journey_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_unified_journey_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T190922Z-542219b4/test_unified_journey_navigation"
+    }
+  ]
+}

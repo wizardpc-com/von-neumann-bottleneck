@@ -2,9 +2,25 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Simplified entry checkpoint — 2026-10-06
+## Unified journey checkpoint — 2026-10-06
 
-Current runtime **5efc8ec**, Mac **free-alpha-5efc8ecb3d1f**, profile **Home-5efc8ec**.
+Current runtime **d26ff8d62cfd**, Mac **free-alpha-d26ff8d62cfd**, profile
+**Journey-d26ff8d**. Home has two game actions with richer static artwork and no
+scrolling. Journey map now contains the original40 plus actual Representation5,
+Service3 and optional Prediction3 tasks. Exact selection, guarded return and
+Continue share navigation; saved recipes remain authoritative. Temporary work gets
+an honest Reopen action. Achievements/save management lives under Settings.
+
+20 frozen affected suites/import/isolation PASS,2195-file source identity;22 rendered
+bilingual views,51-check explicit candidate suite and14 binary checks PASS. Native
+map→three workbenches, real Representation/Service runs, save/cancel/return,
+Prediction discard and independent restart restoring Representation observed.
+Own QA profiles archived; delivered profile fresh. No full new playthrough, audio,
+novice/other-device/formal acceptance claim. [Evidence](verification/20261006-unified-journey/README.md).
+
+## Previous simplified entry checkpoint — 2026-10-06
+
+Prior runtime **5efc8ec**, Mac **free-alpha-5efc8ecb3d1f**, profile **Home-5efc8ec**.
 Homepage has only Start/Continue and Choose journey as game actions. Fixed selection
 page contains chapters/stages/reviews; Escape restores home focus. Static machine
 art and clear type replace a scrolling dashboard. Existing closure below unchanged.

@@ -1,0 +1,29 @@
+[
+  {
+    "domain": "representation",
+    "original": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/Journey-d26ff8d",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261006-unified-journey/representation/Journey-d26ff8d",
+    "hashes": {
+      "task_navigation.cfg": "abcac090352dfcd1a2674b8aa3d09775fb1159b188e8228ed4b528186a5e72e8",
+      "presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+      "feedback_outbox_v1.json": "c9961598571cd7ef7b0064698c638b20f636ed68d69dcb18f3e39d065bdbbc85",
+      "representation-session.json": "1fb37f910a7de2c7929b6080df0d8d6dd0f5714e227489e4597750aa507fbf34",
+      "logs/godot.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "logs/godot2026-10-06T15.28.23.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "playtest_data/session_20261006-191402-90b6e988d2040e92.jsonl": "ae8fd29955c59c59f320db9f7da6bc511812832409c016a54c1e2c9cb93e80bb",
+      "playtest_data/session_20261006-192824-a7deaebf1f9a773d.jsonl": "94e6c06577cefd97d8be7789ca52297794b4b3699fce8bf1bef5d77aa15d4771"
+    },
+    "source_absent": true,
+    "byte_identity": true
+  },
+  {
+    "domain": "service",
+    "original": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/service/Journey-d26ff8d",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261006-unified-journey/service/Journey-d26ff8d",
+    "hashes": {
+      "service-session.json": "9df739f48cb0d401d4b47a0f2f76f86404986fb41e6027b564e4385a9d606e7a"
+    },
+    "source_absent": true,
+    "byte_identity": true
+  }
+]

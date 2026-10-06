@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+2026-10-06 15:12:45.199 Godot[76083:263919] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+PASS: test_hub_first_screen 4021 checks, 0 failures

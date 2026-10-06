@@ -1,0 +1,49 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Compile Error: Identifier not found: TaskNavigation
+          at: GDScript::reload (res://experiments/representation_region/region.gd:90)
+SCRIPT ERROR: Compile Error: Identifier not found: TaskNavigation
+          at: GDScript::reload (res://experiments/service_plan/lab.gd:115)
+SCRIPT ERROR: Compile Error: Identifier not found: TaskNavigation
+          at: GDScript::reload (res://experiments/prediction/lab.gd:43)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/test_unified_journey_navigation.gd:0)
+ERROR: Failed to load script "res://tests/test_unified_journey_navigation.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Parameter "p_script->implicit_initializer" is null.
+   at: _super_implicit_constructor (modules/gdscript/gdscript.cpp:146)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_unified_journey_navigation.gd:61)
+ERROR: Representation consumes the exact tree target after restoring its task4 save
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_unified_journey_navigation.gd:28)
+       [1] run (res://tests/test_unified_journey_navigation.gd:63)
+
+================================================================
+handle_crash: Program crashed with signal 11
+Engine version: Godot Engine v4.7.1.stable.official (a13da4feb8d8aefc283c3763d33a2f170a18d541)
+Dumping the backtrace. Please include this when reporting the bug on: https://github.com/godotengine/godot/issues
+Load address: 104ebc000
+
+[1] 187251744 (libsystem_platform.dylib+3744) - _sigtramp + 56
+[2] 109a8aa30 (main+4bcea30) - ZSTD_decompressStream_simpleArgs + 4812844
+[3] 105bc20c4 (main+d060c4) - main + 6005016
+[4] 105b2bba8 (main+c6fba8) - main + 5389308
+[5] 105b2b93c (main+c6f93c) - main + 5388688
+[6] 105b2e04c (main+c7204c) - main + 5398688
+[7] 10b497a64 (main+65dba64) - GL_ShadingRateQCOM + 22732908
+[8] 109951de0 (main+4a95de0) - ZSTD_decompressStream_simpleArgs + 3531740
+[9] 1099554b8 (main+4a994b8) - ZSTD_decompressStream_simpleArgs + 3545780
+[10] 109c361b4 (main+4d7a1b4) - ZSTD_decompressStream_simpleArgs + 6563760
+[11] 107d6954c (main+2ead54c) - SDL_GetPerformanceFrequency + 17783432
+[12] 10562d33c (main+77133c) - main + 152464
+[13] 1055a6028 (main+6ea028) - mvk::SPIRVToMSLConverter::convert(mvk::SPIRVToMSLConversionConfiguration&, mvk::SPIRVToMSLConversionResult&, bool, bool, bool)
+[14] 10560835c (main+74c35c) - main (in Godot) + 944
+[15] 186e7c4e4 (dyld+204e4) - start + 6992
+-- END OF C++ BACKTRACE --
+================================================================
+GDScript backtrace (most recent call first):
+    [0] run (res://tests/test_unified_journey_navigation.gd:64)
+-- END OF GDSCRIPT BACKTRACE --
+================================================================

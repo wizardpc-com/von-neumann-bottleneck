@@ -1,0 +1,46 @@
+{
+  "source_commit": "c78d5941b3052daf3ed0a468e319248119e71775",
+  "build_id": "free-alpha-c78d5941b305",
+  "profile": "MacSecondAct-c78d594",
+  "native_keyboard": true,
+  "actual_edit": [
+    "raw8",
+    "raw8",
+    "raw8",
+    "raw8"
+  ],
+  "slots": 1,
+  "groups": 24,
+  "measured": {
+    "cycles": 1556,
+    "state_traffic_bytes": 480,
+    "peak_bytes": 210,
+    "first_responses": [
+      76,
+      140,
+      204,
+      268
+    ],
+    "max_score_error": 0.004695456036745401,
+    "score_request": "B1",
+    "max_state_error": 0.006157708530183714,
+    "state_coordinate": "C[6]"
+  },
+  "quality_modal_actual_reference_visible": true,
+  "records_after_manual_interaction": 3,
+  "manual_interaction_handling": "CUA reported user changed app; re-queried state and preserved all three records",
+  "supports": 0,
+  "save_sha256": "82c007c1c4043e7a62b926c88708a6dedc37698a5016c38c01ea5fb2e2e8fdde",
+  "initial_exit": 0,
+  "independent_restart_observed_restored_records": 3,
+  "independent_restart_exit": 0,
+  "save_bytes_unchanged_on_restart": true,
+  "lease_released": true,
+  "screenshots": "CUA transcript only; no native PNG file is claimed",
+  "limits": [
+    "native pointer/drag and complete five-plus-three route not rerun",
+    "writer retry native two-process UI not newly observed; isolated live lease/UI tests passed",
+    "no novice or otherMac acceptance",
+    "macOS input-method diagnostics exist in initial log; no Godot SCRIPT ERROR/ERROR"
+  ]
+}

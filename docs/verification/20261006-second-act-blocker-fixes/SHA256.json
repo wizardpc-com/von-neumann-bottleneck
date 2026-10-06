@@ -1,0 +1,20 @@
+{
+  "README.md": "a76dd6f64f2b2cbe35626fd9e0a1bd4c9cbe506363649ec95c9b37d162230e80",
+  "frozen-affected-results.json": "5002c8aba9f904781d9c6a0bc00b2f0308d5375f81600bc3b41233bddd670bc6",
+  "import.txt": "412a7ad388744e34d515628a00811ca2ff2221fa2aa4dc3399e536a49a48a72c",
+  "mac-manifest.json": "74efcbad0040bb52c9e0860416dbaa4f776af5504e2be08d06eb797e63d55f69",
+  "mac-native-quality-resume.json": "4da8624fc3e5cd66b4d3001d1f351e66979a7b732e24bad8ccf0e30bddc3a9cb",
+  "mac-native.txt": "1fa457ae51c2f60d2239b76146d8a8c0df7c36e06d3834b5916e835eec8dfdb7",
+  "mac-release-probe.json": "69213442ce195ca99b504fcb3fdb89760f4a0a10d4b435fcf1094ddd86862fca",
+  "mac-release-probe.txt": "f9c63d5f6ea2a3600bc3cb307f6a4f444f1d895b4582e4d51f2153241384174e",
+  "mac-resume.txt": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+  "source-identity.json": "19a7606f35cde5a0bab79a0284a1b838382051abade14b7b4d5b9592690ab70d",
+  "test_candidate_lifecycle.txt": "e4b77c9aa3c7afc201df2e91db8ece2efc394249f28ff159591651b4b5c81a05",
+  "test_candidate_writer_retry.txt": "21866fb32d1c0b42ac4d4dbec2b4580e1b7e42ffd7ab81abd7d3f5d63002bf49",
+  "test_candidate_writer_retry_ui.txt": "40ba2a877bb74d39a8185fee77b08eb3d1bd57223b2180ba25cd3a8b8ead5785",
+  "test_representation_visual.txt": "32d589af7015d6627ded27a27440845eb75cff87d932a94b2d303c85e0e9042d",
+  "test_second_act_navigation.txt": "9d085ae587a248a76b2554cb13d87e4fcb573d66d7def702de6be0d5f589dc5a",
+  "test_service_learning_ui.txt": "a16a44ed4423232ce9141ef715b3cceb9158d5d0f7eeaa10f70234fe4ef9ac9e",
+  "test_service_session.txt": "790c708ee8aa966a0f9932768d19c0eb131875e0d9951ab83b7a321ff2276c8e",
+  "user_directory.txt": "6bf7d42ec4f2fd43e335032d363fda25b87a98e4b51c48527444205505e05fb0"
+}

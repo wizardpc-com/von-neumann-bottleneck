@@ -9,8 +9,10 @@ Representation visits, recorded Service quality witnesses (request and final-sta
 coordinate), and explicit safe writer retry after another window releases its
 candidate lease. Unchanged disk preserves live exploration; changed disk requires
 confirmed reload. Unknown/recovering/future saves remain protected. Models,
-schema2, core40 and optional Prediction are unchanged. Initial five affected suites
-pass; frozen validation/new Mac export follow in the existing execution plan.
+schema2, core40 and optional Prediction are unchanged. Frozen seven affected suites
+pass; new local Mac candidate **free-alpha-c78d5941b305** has verified package
+identity and actual native RAW8 edit/run/quality-view/save/independent restart.
+[Evidence and limits](verification/20261006-second-act-blocker-fixes/README.md).
 The earlier frozen candidate below remains immutable; source changes do not confer
 novice, otherMac or formal release acceptance.
 
@@ -26,7 +28,7 @@ corrected and affected35 checks passed. Chinese rendered route218 and independen
 English resume16 checks pass with clean logs; subsequent lifetime/startup changes
 passed affected checks. This is not a single rerun79/79 claim.
 
-Actual local Mac candidate **free-alpha-f84c3d64a7e1** is exported fromf84c3d6 under
+Previous local Mac candidate **free-alpha-f84c3d64a7e1** is exported fromf84c3d6 under
 `build/free-alpha-f84c3d64a7e1/`. Identity/hashes and14 real release-binary checks pass.
 Its explicit isolated profile enables candidate entries on ordinary app startup,
 without production migration. Native keyboard entry/introduction, actual slot

@@ -379,3 +379,19 @@ service learning49 checks PASS; all full logs inspected for SCRIPT ERROR/ERROR/F
 Source findings are now implemented, not external acceptance. Root adds minimum
 bilingual reachability assertions before frozen checks/package. No model, schema,
 core registry or old candidate package changed.
+
+Frozen c78d594 affected regression20261006T052142Z-a56496ef: all seven suites
+and import/isolation PASS;1832 committed files match, collaborator AGENTS/docs index
+excluded and two QA path settings normalized. New Mac exportfree-alpha-c78d5941b305
+passes archive identity and real binary/PCK14 checks. Native keyboard RAW8 edits,
+run, quality modal, Save and independent restart observed; both exits0, three
+records retained and lease released. Exact receipt/limits in
+`docs/verification/20261006-second-act-blocker-fixes/README.md`.
+
+This round's three concrete findings are implemented and verified; no model,
+schema, core progression or old artifact change. Native two-process retry and
+Representation interleaved comparison are covered by isolated UI tests, not
+claimed as newly observed native walkthroughs. Next: use this candidate for
+independent feedback and pursue concrete usability/source findings; external
+acceptance is a separate pending gate, not an automatic stop for all development.
+Root commits evidence/current state; all agent/runtime file ownership released.

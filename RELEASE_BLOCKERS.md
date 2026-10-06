@@ -3,9 +3,20 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Local second-act Mac candidate — 2026-10-06
+## Latest local second-act follow-up — 2026-10-06
 
-The latest bounded candidate is **free-alpha-f84c3d64a7e1**, source/build
+**free-alpha-c78d5941b305** supersedes the local package pointer below, retaining
+its predecessor. Frozen source affected regression, archive identity and actual
+binary/PCK14 checks pass. Native Service RAW8 edits, measured precision witnesses,
+Save and independent restart pass. [Exact evidence](docs/verification/20261006-second-act-blocker-fixes/README.md).
+Representation interleaved comparisons and writer-retry protection pass isolated
+UI/lease tests; no new native two-process retry or full native5+3 claim.
+Unfamiliar-player/otherMac/pointer/formal/push-auth gates remain pending. These
+external gates do not prohibit concrete bounded candidate development.
+
+## Previous local second-act Mac candidate — 2026-10-06
+
+The previous bounded candidate is **free-alpha-f84c3d64a7e1**, source/build
 `f84c3d64a7e14176041024a2be559affb2445092`. It is a local Mac-only candidate,
 separate from public Alpha and the historical two-platform freeze below.
 [Exact receipts and failed-attempt limits](docs/verification/20261005-second-act-continuity/README.md).

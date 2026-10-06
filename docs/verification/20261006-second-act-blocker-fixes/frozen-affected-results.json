@@ -1,0 +1,78 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/user_directory"
+    },
+    {
+      "name": "test_candidate_lifecycle",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_lifecycle.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/test_candidate_lifecycle"
+    },
+    {
+      "name": "test_candidate_writer_retry",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_writer_retry.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/test_candidate_writer_retry"
+    },
+    {
+      "name": "test_candidate_writer_retry_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_writer_retry_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/test_candidate_writer_retry_ui"
+    },
+    {
+      "name": "test_representation_visual",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_representation_visual.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/test_representation_visual"
+    },
+    {
+      "name": "test_second_act_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_second_act_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/test_second_act_navigation"
+    },
+    {
+      "name": "test_service_learning_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_learning_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/test_service_learning_ui"
+    },
+    {
+      "name": "test_service_session",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_session.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T052142Z-a56496ef/test_service_session"
+    }
+  ]
+}

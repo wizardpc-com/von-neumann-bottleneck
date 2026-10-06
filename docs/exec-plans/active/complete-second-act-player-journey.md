@@ -199,3 +199,9 @@ This authorized implementation/package stage is finished. Stop adding content;
 next whole-goal work is independent observation and concrete finding repairs,
 then a formal-integration decision under the constitution. Goal remains active
 because external acceptance rows are incomplete, not because more tasks are needed.
+
+Final push: automatic review initially refused unverified origin ownership.
+Readonly GitHub metadata confirmed the connected wizardpc-com account owns
+origin wizardpc-com/von-neumann-bottleneck and has push rights; the identical
+developer-branch retry was approved, then Git exited128 for absent local HTTPS
+credentials. No push/main merge/history rewrite occurred. See push-receipt.json.

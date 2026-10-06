@@ -1,0 +1,13 @@
+{
+  "branch": "codex/mac-second-act-20261005",
+  "attempted_head": "94746d7",
+  "destination": "https://github.com/wizardpc-com/von-neumann-bottleneck.git",
+  "initial_auto_review": "Rejected: origin ownership not verified; no push executed",
+  "ownership_verification": "GitHub connector authenticated account wizardpc-com matches repository owner; repository public; push permission true",
+  "retry_auto_review": "Approved using the verified ownership evidence",
+  "git_exit": 128,
+  "git_error": "fatal: could not read Username for 'https://github.com': terminal prompts disabled",
+  "pushed": false,
+  "main_merged": false,
+  "history_rewritten": false
+}

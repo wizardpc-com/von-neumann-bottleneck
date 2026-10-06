@@ -10,6 +10,76 @@ an instruction to block or add unplanned content. Earlier progress below is
 historical; runtime10211e5 and the resumed closure evidence below are the current
 checkpoint. The earlier661c107 evidence remains specific to named designs.
 
+## 2026-10-06 unified journey and product entry — active
+
+User explicitly requests that Representation, Service and optional Prediction
+belong inside the task tree, with coherent enter/return/continue operations and
+a richer entrance. Baseline runtime5efc8ec/evidence891aafc; remote dev891aafc and
+mainc5a2b0c verified. Collaborator dirt remains excluded. Earlier finite stopping
+statements do not cancel this new authorized increment.
+
+Scope: represent actual existing second-act tasks in the same navigable map;
+route to the selected task, restore safely, return to its node after the existing
+Save/Discard/Cancel guard, and base displayed accomplishments on authoritative
+saved evidence. Show optional Prediction honestly. Enrich the two-action home
+using existing presentation boundaries; remove the disconnected secondary lobby
+as the organizing model. No new simulator/content quota, model/contract/schema
+change, forced prerequisites, old progress invalidation, real-save migration,
+world-history conclusion, new dependency, public release or main merge.
+
+Constitution4/11/12 permits coherent candidate navigation while preserving two
+endings, optional Prediction and separate simulation/save authorities. User's
+latest request supersedes historical separate-entry presentation; it does not
+by itself establish formal release or approval to fabricate persistent progress.
+Recommended relationships must be visibly distinct from hard prerequisites.
+
+Root controls scope/interfaces/docs/Git/Godot/native GUI/build, primarily reviewing
+and integrating. Existing actual6.1Sol high earned_closure is sole campaign/shared
+navigation implementation owner;6.1Sol high service_clarity owns Hub/art;6.1Sol
+medium journey_audit independently reviews rules and owns agreed new focused
+verification. All initially read-only pending interface agreement; no parallel
+engines or shared-file edits. Root records final file claims before implementation.
+
+Implementation contract agreed: keep TaskNavigation.tasks() as the original40
+for campaign receipts/personal records; journey_tasks() adds actual5+3+3 in the
+same map in candidate mode. A read-only second_act_tasks adapter revalidates saved
+recipes through existing journey_review. Representation remains freely selectable,
+Service retains its existing unlocked algorithm, Prediction remains optional and
+session-only. recommended_from is a separate dashed relationship, not a gate.
+No new saved schema. Existing navigation preference may hold a domain-qualified
+last visit, but never completion. Home consumes open_tree/start_or_continue,
+home_action_text/next_task_title/candidate_journey_enabled.
+
+Exact claims: earned_closure owns src/campaign/task_navigation.gd, task_tree.gd,
+task_tree_canvas.gd, task_tree_layout.gd, new second_act_tasks.gd and
+experiments/candidate_session/navigation_intent.gd. service_clarity owns
+src/ui/prototype_hub.gd, hub_machine_art.gd and test_hub_first_screen,
+test_display_preferences, test_completion_route. journey_audit owns only navigation
+hooks in representation_region/region.gd, service_plan/lab.gd, prediction/lab.gd
+and new test_unified_journey_navigation.gd. Root owns all docs and other integration
+checks. No overlapping edits. Hosts restore before consuming target; navigation
+success occurs only after existing departure guards. Homepage retains two actions
+with stronger title/static visual composition; management lives in settings.
+
+Steps: inspect true restore/task/progression seams and agree narrow adapter;
+implement map and workbench navigation plus home visual in disjoint files;
+check task reachability, earned-vs-draft display, cancel/save/discard, locale/minimum
+window and old40 compatibility with focused tests; render and actual isolated
+native play; freeze relevant regression and package; update this same plan and
+team/Claude handoff. Reuse prior unchanged model/closure evidence with attribution.
+Open implementation decisions: task-level adapter and public continuation
+semantics, transient Prediction return, suitable map overview navigation. Resolve
+from current interfaces before code, surface any genuinely required schema/rule change.
+
+Integration checkpoint: three6.1Sol workers released their files; root integrated
+exact-task hosts and fixed preloaded-script navigation lookup, typed adapter arrays,
+and deferred home focus after scene departure. Independent review caught and fixed
+the core→Representation bridge bypass and temporary Prediction resume wording.
+Handbook Escape restores management focus. No model/schema change. Fresh isolated
+old/core and session checks passed after repairing one stale test assumption about
+map camera preservation. Final frozen regression, rendered views and native package
+checks follow; intermediate failures remain evidence rather than acceptance.
+
 ## 2026-10-06 fixed first-screen art and interaction — delivered
 
 Final runtime5efc8ec: frozen20261006T183149Z-d092a7ce nine suites/import/isolation

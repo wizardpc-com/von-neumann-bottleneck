@@ -15,13 +15,18 @@ func partition(bounds: Array, codecs: Array) -> Array[Dictionary]:
 		plan.append({"start":start,"end":bounds[i],"codec":codecs[i]}); start = int(bounds[i])
 	return plan
 func run() -> void:
-	var plain_hub = load("res://src/ui/prototype_hub.tscn").instantiate(); root.add_child(plain_hub); await process_frame
-	check(plain_hub.find_child("RepresentationCandidateEntry",true,false) == null,"Ordinary core hub does not advertise unregistered candidates")
-	plain_hub.queue_free(); await process_frame
-	var candidate_hub = load("res://src/ui/prototype_hub.tscn").instantiate(); candidate_hub.candidate_journey = true; root.add_child(candidate_hub); await process_frame
-	check(candidate_hub.find_child("EnterRepresentationCandidate",true,false) != null,"Opt-in hub exposes representation entry/resume")
-	check(candidate_hub.find_child("ContinueButton",true,false) != null,"Original core Continue remains available")
-	candidate_hub.queue_free(); await process_frame
+	var nav: Node = root.get_node("TaskNavigation")
+	check(nav.tasks().size() == 40,"Original core catalog is independent of protected candidate evidence")
+	var candidate_hub = load("res://src/ui/prototype_hub.tscn").instantiate(); candidate_hub.candidate_journey = true
+	root.add_child(candidate_hub); current_scene = candidate_hub; await process_frame
+	check(candidate_hub.find_child("RecommendedJourneyAction",true,false) != null,"Opt-in Hub exposes the unified journey action")
+	var browse := candidate_hub.find_child("HubBrowseJourney",true,false) as Button
+	check(browse != null,"Core and candidate journeys share the map entry")
+	if browse != null: browse.pressed.emit()
+	for frame: int in 4: await process_frame
+	check(current_scene != null and current_scene.scene_file_path == nav.MAP_SCENE,"Unified entry reaches the real task tree")
+	check(current_scene.get("rows").size() == (51 if nav.candidate_journey_enabled() else 40),"Candidate rows retain the actual opt-in boundary")
+	current_scene.queue_free(); current_scene = null; await process_frame
 	var solutions: Array = [partition([16,64],["rle","raw"]),partition([16,24,40,48,64],["rle","rle","raw","rle","rle"]),partition([16,48,64],["rle","rle","rle"]),partition([8,64],["raw","rle"]),partition([18,46,64],["rle","raw","rle"])]
 	var scene = load("res://experiments/representation_region/region.tscn").instantiate(); scene.persistent_session = true; root.add_child(scene); await process_frame
 	for task: int in 5:
@@ -47,7 +52,7 @@ func run() -> void:
 	check(scene.plan == RM.initial_plan(),"Failed/exploratory draft preserved independently")
 	scene.edit_plan(solutions[4]); scene.request_hub(); await process_frame
 	check(scene.get_node("UnsavedSessionDialog").visible and scene.leave_to_hub,"Returning home protects unsaved exploration")
-	scene.get_node("UnsavedSessionDialog").hide()
+	scene.get_node("UnsavedSessionDialog").hide(); scene.get_node("UnsavedSessionDialog").canceled.emit()
 	check(scene.session_dirty,"Cancel return-home keeps unsaved work")
 	for task: int in 5:
 		scene.change_task(task); scene.restore_support()

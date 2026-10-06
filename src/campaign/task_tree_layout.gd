@@ -16,8 +16,10 @@ static func build(tasks: Array[Dictionary]) -> Dictionary:
 	for region: int in members:
 		region_parents[region]=[]
 		for task: Dictionary in members[region]:
-			for dep: String in task.dependencies:
-				if not by_key.has(dep): result.errors.append("Missing prerequisite: "+dep); continue
+			for dep: String in _layout_parents(task):
+				if not by_key.has(dep):
+					if dep in task.dependencies: result.errors.append("Missing prerequisite: "+dep)
+					continue
 				var parent: int = by_key[dep].region
 				if parent!=region and not region_parents[region].has(parent): region_parents[region].append(parent)
 	var region_rank: Dictionary = _ranks(region_parents)
@@ -28,7 +30,7 @@ static func build(tasks: Array[Dictionary]) -> Dictionary:
 		var parents: Dictionary = {}
 		for task: Dictionary in members[region]:
 			parents[task.key]=[]
-			for dep: String in task.dependencies:
+			for dep: String in _layout_parents(task):
 				if by_key.has(dep) and by_key[dep].region==region: parents[task.key].append(dep)
 		var ranks: Dictionary = _ranks(parents)
 		if ranks.size()!=parents.size(): result.errors.append("Cyclic task dependencies"); return result
@@ -93,3 +95,11 @@ static func _barycenter(parents: Array,positions: Dictionary) -> float:
 	var sum: float = 0
 	for parent: Variant in parents: sum+=float(positions.get(parent,0))
 	return sum/maxi(1,parents.size())
+
+static func _layout_parents(task: Dictionary) -> Array[String]:
+	# Suggested routes organize presentation without changing availability.
+	var parents: Array[String] = []
+	parents.assign(task.dependencies)
+	for key: String in task.get("recommended_from",[]):
+		if key not in parents: parents.append(key)
+	return parents

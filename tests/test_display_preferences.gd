@@ -17,19 +17,31 @@ func run() -> void:
 		var primary: Button = hub.find_child("TaskTree",true,false)
 		var surface: Control = hub.find_child("HubSurface",true,false)
 		valid = valid and primary.has_focus() and surface.get_global_rect().encloses(primary.get_global_rect())
-		hub.find_child("HubBrowseJourney",true,false).grab_focus()
-		hub.find_child("HubBrowseJourney",true,false).pressed.emit()
+		var title := hub.find_child("HubWorkTitle",true,false) as Label
+		valid = valid and title.text == localization.text(&"game.title") and surface.get_global_rect().encloses(title.get_global_rect())
+		var settings_button := hub.find_child("HubSettings",true,false) as Button
+		settings_button.grab_focus(); settings_button.pressed.emit()
+		for frame: int in range(3): await process_frame
+		var manage := hub.find_child("HubManageProgress",true,false) as Button
+		valid = valid and hub.options_overlay.visible and manage.is_visible_in_tree()
+		manage.grab_focus(); manage.pressed.emit()
 		for frame: int in range(5): await process_frame
 		var page: Control = hub.find_child("HubNavigation",true,false)
-		var cards: Control = hub.find_child("ChapterCards",true,false)
-		valid = valid and page.visible and cards.get_child_count()==5 and page.get_global_rect().encloses(cards.get_global_rect())
-		for card: Control in cards.get_children():
-			valid = valid and page.get_global_rect().encloses(card.get_global_rect())
+		valid = valid and page.visible and not hub.options_overlay.visible and not surface.visible
+		for id: String in ["ContinueButton","NewGameButton","ThemeReflectionButton","HubTerminologyButton","HubNavigationClose"]:
+			var action := hub.find_child(id,true,false) as Button
+			valid = valid and action.is_visible_in_tree() and page.get_global_rect().encloses(action.get_global_rect())
+		valid = valid and hub.find_child("ChapterCards",true,false) == null and hub.find_child("CandidateStages",true,false) == null
 		hub.find_child("HubNavigationClose",true,false).pressed.emit()
 		for frame: int in range(3): await process_frame
-		valid = valid and not page.visible and hub.find_child("HubBrowseJourney",true,false).has_focus()
+		valid = valid and not page.visible and settings_button.has_focus()
 		hub.queue_free()
 		await process_frame
-	if valid: print("PASS: display settings coexist, retain unrelated preferences and reject unsupported rates; five chapter choices fit their explicit page without scrolling in both languages")
-	else: push_error("Display preference preservation or reachable chapter-card layout failed")
+	var embedded = load("res://src/ui/prototype_hub.tscn").instantiate(); embedded.settings_only = true
+	root.add_child(embedded)
+	for frame: int in range(5): await process_frame
+	valid = valid and embedded.find_child("HubManageProgress",true,false) == null and embedded.options_overlay.visible
+	embedded.queue_free(); await process_frame
+	if valid: print("PASS: display settings retain unrelated preferences and reject unsupported rates; bilingual work title and bounded management remain reachable; embedded settings add no Hub entry")
+	else: push_error("Display preference preservation or reachable title/management layout failed")
 	quit(0 if valid else 1)

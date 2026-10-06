@@ -29,9 +29,10 @@ func _ready() -> void:
 	margin.add_child(column)
 	var header := HBoxContainer.new()
 	column.add_child(header)
-	_button(header,"tree.home",func() -> void:
+	var home := _button(header,"tree.home",func() -> void:
 		TaskNavigation.from_tree = false
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
+	home.text = "首页" if Localization.current_locale() != "en" else "Home"
 	var title := Label.new()
 	title.text = _t("title")
 	title.add_theme_font_size_override("font_size",30)
@@ -44,6 +45,16 @@ func _ready() -> void:
 	header.add_child(search)
 	_button(header,"tree.locate",func() -> void: canvas.locate(TaskNavigation.selected))
 	_button(header,"tree.overview",func() -> void: canvas.overview())
+	var navigation := HBoxContainer.new(); navigation.name = "JourneyRegionNavigation"
+	navigation.add_theme_constant_override("separation",12); column.add_child(navigation)
+	var section_label := Label.new(); section_label.text = "定位区域" if Localization.current_locale() != "en" else "Locate a region"
+	section_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER; navigation.add_child(section_label)
+	var region_choice := OptionButton.new(); region_choice.name = "JourneyRegionChoice"
+	region_choice.custom_minimum_size = Vector2(300,42); navigation.add_child(region_choice)
+	var legend := Label.new(); legend.name = "JourneyConnectionLegend"
+	legend.text = "实线：前置  ·  虚线：推荐，无新增门槛" if Localization.current_locale() != "en" else "Solid: prerequisite · Dashed: recommendation, no new gate"
+	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; legend.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	legend.size_flags_vertical = Control.SIZE_SHRINK_CENTER; legend.add_theme_font_size_override("font_size",14); navigation.add_child(legend)
 	var body := HBoxContainer.new()
 	body.add_theme_constant_override("separation",18)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -84,7 +95,7 @@ func _ready() -> void:
 		review.custom_minimum_size.y = 42
 		review.pressed.connect(_open_core_review)
 		side.add_child(review)
-	var records := Button.new(); records.text="我的任务记录" if TranslationServer.get_locale().begins_with("zh") else "My task record"
+	var records := Button.new(); records.text="核心任务记录" if Localization.current_locale() != "en" else "Core task records"
 	records.custom_minimum_size.y=42; side.add_child(records)
 	records.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/playtest/personal_records_view.tscn"))
 	var opinion := Button.new(); opinion.text="评价所选任务" if TranslationServer.get_locale().begins_with("zh") else "Feedback on selected task"
@@ -95,11 +106,23 @@ func _ready() -> void:
 	help.text = _t("controls")
 	help.add_theme_color_override("font_color",Color("91a0b9"))
 	column.add_child(help)
-	rows = TaskNavigation.tasks()
+	rows = TaskNavigation.journey_tasks()
 	PlaytestData.record_map_action(&"map_open","")
 	for task: Dictionary in rows:
 		if task.unlocked: PlaytestData.record_map_action(&"eligible",task.key)
 	canvas.configure(rows)
+	region_choice.add_item("整个旅程" if Localization.current_locale() != "en" else "Whole journey")
+	region_choice.set_item_metadata(0,-1)
+	var seen_regions: Array[int] = []
+	for task: Dictionary in rows:
+		if int(task.region) in seen_regions: continue
+		seen_regions.append(int(task.region))
+		region_choice.add_item(str(task.get("region_title",Localization.text(StringName("tree.region."+str(task.region))))))
+		region_choice.set_item_metadata(region_choice.item_count-1,int(task.region))
+	region_choice.item_selected.connect(func(index: int) -> void:
+		var region: int = int(region_choice.get_item_metadata(index))
+		if region < 0: canvas.overview()
+		else: canvas.focus_region(region))
 	canvas.task_selected.connect(func(key: String) -> void:
 		PlaytestData.record_map_action(&"detail_view",key)
 		_select(key))
@@ -127,14 +150,23 @@ func _select(key: String) -> void:
 		detail_kind.text=_t("optional" if task.optional else "main")
 		detail_kind.add_theme_color_override("font_color",accent)
 		detail_status.text=("✓ " if task.completed else "● " if task.unlocked else "○ ")+_t("completed" if task.completed else "available" if task.unlocked else "locked")
+		if str(task.get("evidence_status","")) == "unavailable": detail_status.text = "成果待确认；进入工作台检查存档提示。" if Localization.current_locale() != "en" else "Saved work unconfirmed; inspect the workbench's save notice."
+		elif str(task.get("progress_source","")) == "session": detail_status.text = "可选临时探索；离开后不保留。" if Localization.current_locale() != "en" else "Optional temporary exploration; not retained after leaving."
+		elif task.has("progress_source") and task.completed: detail_status.text += " · "+("已保存方案重新验收" if Localization.current_locale() != "en" else "saved plan revalidated")
 		detail_status.add_theme_color_override("font_color",accent if task.unlocked else Color("acb9cb"))
 		var text: String = task.body
 		text += "\n\n"+_t("prerequisites")
-		if task.dependencies.is_empty(): text += "\n"+_t("none")
+		if task.dependencies.is_empty() and str(task.get("eligibility_note","")).is_empty(): text += "\n"+_t("none")
 		for dependency: String in task.dependencies:
 			for candidate: Dictionary in rows:
 				if candidate.key == dependency:
 					text += "\n"+("✓ " if candidate.completed else "○ ")+candidate.title
+		if not str(task.get("eligibility_note","")).is_empty(): text += "\n\n"+str(task.eligibility_note)
+		if not task.get("recommended_from",[]).is_empty():
+			text += "\n\n"+("推荐承接（不作为前置）" if Localization.current_locale() != "en" else "Suggested preparation (not prerequisites)")
+			for key_from: String in task.recommended_from:
+				for candidate: Dictionary in rows:
+					if candidate.key == key_from: text += "\n"+candidate.title
 		if task.key == "chapter_2/capstone":
 			text += "\n\n"+("✓ " if not LocalityChapter.economical_design.is_empty() else "◇ ")+Localization.text(&"bonus.economical")
 		elif task.key in ["chapter_3/distance","chapter_3/synthesis"]:

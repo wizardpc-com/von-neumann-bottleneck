@@ -21,16 +21,19 @@ func run() -> void:
 		root.add_child(hub)
 		for i: int in 5: await process_frame
 		var recommended := hub.find_child("RecommendedJourneyAction",true,false) as Button
-		var tree := hub.find_child("TaskTree",true,false) as Button
-		var rep := hub.find_child("EnterRepresentationCandidate",true,false) as Button
-		check(recommended != null and recommended.has_focus(), "Recommended first action receives focus in " + locale)
-		check(recommended.get_global_rect().end.x <= 1280 and recommended.get_global_rect().end.y <= 720, "Recommended action fits minimum viewport")
-		var browse := hub.find_child("HubBrowseJourney",true,false) as Button
-		check(not tree.is_visible_in_tree() and not rep.is_visible_in_tree(), "Secondary choices do not compete with first primary action")
-		browse.grab_focus(); browse.pressed.emit(); await process_frame; await process_frame
-		check(tree.is_visible_in_tree() and rep.is_visible_in_tree() and tree.global_position.y < rep.global_position.y, "Selection page keeps core entry before independent second-act entry")
+		check(recommended != null and recommended.has_focus(), "Shared first action receives focus in " + locale)
+		check(recommended.get_global_rect().end.x <= 1280 and recommended.get_global_rect().end.y <= 720, "Primary action fits minimum viewport")
+		var navigation: Node = root.get_node("TaskNavigation")
+		check(recommended.text == navigation.home_action_text(), "Primary caption comes from shared continuation")
+		check((hub.find_child("HubResumeTitle",true,false) as Label).text == navigation.next_task_title(), "Next-task title comes from the same continuation target")
+		check(hub.find_child("EnterRepresentationCandidate",true,false) == null and hub.find_child("CandidateStages",true,false) == null, "Second-act entry belongs on the shared task tree")
+		var settings := hub.find_child("HubSettings",true,false) as Button
+		settings.grab_focus(); settings.pressed.emit(); await process_frame
+		(hub.find_child("HubManageProgress",true,false) as Button).pressed.emit(); await process_frame
+		var page := hub.find_child("HubNavigation",true,false) as Control
+		check(page.visible and not hub.options_overlay.visible and (hub.find_child("CompletionStory",true,false) as Button).is_visible_in_tree(), "Saved story and evidence remain discoverable through achievements/save management")
 		hub.find_child("HubNavigationClose",true,false).pressed.emit(); await process_frame
-		check(browse.has_focus(), "Closing choice restores its launcher focus")
+		check(settings.has_focus(), "Closing management restores its Settings launcher focus")
 		check(hub.candidate_review_paths().is_empty(), "Unbound QA profile has no candidate save authority")
 		hub._show_completion_bridge()
 		await process_frame; await process_frame

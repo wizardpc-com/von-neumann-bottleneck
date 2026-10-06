@@ -87,7 +87,10 @@ func _ready() -> void:
 			save_blocked = true
 			session_notice = text2("此候选档已由另一窗口占用，或上次未正常关闭；本窗口禁止保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
 
-	build()
+	var requested: int = get_node("/root/TaskNavigation").take_pending("representation")
+	if requested >= 0: change_task(requested)
+	else: build()
+	get_node("/root/TaskNavigation").remember_candidate_visit("representation",task)
 
 func toggle_language() -> void:
 	english = not english
@@ -122,7 +125,7 @@ func build() -> void:
 	var title := make_label(text2("表示候选区 · 构造方案，比较真实服务","Candidate representation region · Build, measure, compare"),top,24)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	make_button("中文 / EN",top,toggle_language,"Language")
-	if candidate_journey: make_button(text2("返回首页", "Home"),top,request_hub,"CandidateHome")
+	if candidate_journey: make_button(text2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页", "Home"),top,request_hub,"CandidateHome")
 	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
 	make_button(text2("退出","Quit"),top,request_quit,"Quit")
 	make_label(text2("隔离候选 · 不改变主线存档 · 周期来自模型 · 五份任务 · 推荐按编号探索 · 第4任务计入在线准备","Isolated candidate · no campaign save changes · model cycles · five freely accessible tasks · recommended numbered order · task4 includes preparation"),page,13)
@@ -312,6 +315,7 @@ func change_task(index: int) -> void:
 	if index != task: mark_session_dirty()
 	drafts[task] = {"plan":plan.duplicate(true),"undo":undo_stack.duplicate(true),"redo":redo_stack.duplicate(true),"selection":selected_block}
 	task = index
+	get_node("/root/TaskNavigation").remember_candidate_visit("representation",task)
 	if persistent_session: session_notice = text2("当前任务选择未保存；退出前点击保存。", "Current task selection is unsaved; save before quitting.")
 	var saved: Dictionary = drafts.get(task,{"plan":Model.initial_plan(),"undo":[],"redo":[],"selection":0})
 	plan.assign(saved.plan); undo_stack.assign(saved.undo); redo_stack.assign(saved.redo); selected_block = int(saved.selection)
@@ -663,9 +667,16 @@ func request_service() -> void:
 	request_leave()
 
 func finish_leave() -> void:
+	if leave_to_hub and get_node("/root/TaskNavigation").return_to_tree(): return
+	if leave_scene == "res://experiments/service_plan/lab.tscn":
+		call_deferred("_finish_service_leave")
+		return
 	if not leave_scene.is_empty(): get_tree().call_deferred("change_scene_to_file",leave_scene)
 	elif leave_to_hub: get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 	else: get_tree().quit()
+
+func _finish_service_leave() -> void:
+	if not get_node("/root/TaskNavigation").enter_candidate("service",0): cancel_leave()
 
 func resume_region_review() -> void:
 	leave_from_review = false
@@ -675,6 +686,12 @@ func resume_region_review() -> void:
 	if guard != null: guard.hide()
 	var review := get_node_or_null("RegionReview") as AcceptDialog
 	if review != null: review.popup_centered(Vector2i(740,460))
+
+func cancel_leave() -> void:
+	if leave_from_review: resume_region_review()
+	else:
+		leave_scene = ""
+		leave_to_hub = false
 
 func request_leave() -> void:
 	if not persistent_session or not session_dirty:
@@ -690,12 +707,11 @@ func request_leave() -> void:
 	dialog.ok_button_text = text2("保存并离开", "Save and leave")
 	dialog.cancel_button_text = text2("继续编辑", "Keep editing")
 	dialog.add_button(text2("不保存离开", "Leave without saving"),true,"discard")
-	dialog.canceled.connect(func() -> void:
-		if leave_from_review: resume_region_review())
+	dialog.canceled.connect(cancel_leave)
 	dialog.confirmed.connect(func() -> void:
 		save_session()
 		if not session_dirty: finish_leave()
-		elif leave_from_review: resume_region_review())
+		else: cancel_leave())
 	dialog.custom_action.connect(func(action: StringName) -> void:
 		if action == &"discard": finish_leave())
 	add_child(dialog)

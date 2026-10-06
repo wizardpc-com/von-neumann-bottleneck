@@ -40,7 +40,10 @@ func _ready() -> void:
 	previous_auto_quit = get_tree().auto_accept_quit
 	get_tree().auto_accept_quit = false
 	add_to_group("candidate_quit_owners")
-	build()
+	var requested: int = get_node("/root/TaskNavigation").take_pending("prediction")
+	if requested >= 0: change_task(requested)
+	else: build()
+	get_node("/root/TaskNavigation").remember_candidate_visit("prediction",task)
 
 func toggle_language() -> void:
 	english = not english
@@ -77,7 +80,7 @@ func build() -> void:
 	var top := HBoxContainer.new(); page.add_child(top)
 	var title: Label = label(text2("预测工坊 · 从已知历史承担猜测","Prediction workshop · Guess from observed history"),top,24); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button("中文 / EN","Language",top,toggle_language)
-	if candidate_journey: button(text2("返回首页","Home"),"CandidateHome",top,request_hub)
+	if candidate_journey: button(text2("任务地图","Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页","Home"),"CandidateHome",top,request_hub)
 	button(text2("退出","Quit"),"Quit",top,request_quit)
 	label(text2("可选临时探索 · 草稿与结果只在本次会话，离开后不保留 · 不增加主线进度","Optional temporary exploration · drafts and results last only for this session; leaving discards them · no campaign progress"),page,13)
 	var nav := HBoxContainer.new(); page.add_child(nav)
@@ -141,10 +144,12 @@ func request_leave() -> void:
 func update_leave_dialog(dialog: ConfirmationDialog) -> void:
 	dialog.title = text2("离开这次临时探索？", "Leave this temporary exploration?")
 	dialog.dialog_text = text2("预测规则、已揭示请求与完成记录只保留在本窗口。离开后会丢失；表示和服务的已保存方案不受影响。", "Prediction rules, revealed demands and completed runs exist only in this window. Leaving discards them; saved Representation and Service plans are unaffected.")
-	dialog.ok_button_text = text2("不保留，返回首页" if leave_to_hub else "不保留，退出", "Discard and return Home" if leave_to_hub else "Discard and quit")
+	var destination: String = text2("任务地图", "task map") if get_node("/root/TaskNavigation").from_tree else text2("首页", "Home")
+	dialog.ok_button_text = text2("不保留，返回"+destination if leave_to_hub else "不保留，退出", "Discard and return "+destination if leave_to_hub else "Discard and quit")
 	dialog.cancel_button_text = text2("继续探索", "Keep exploring")
 
 func finish_leave() -> void:
+	if leave_to_hub and get_node("/root/TaskNavigation").return_to_tree(): return
 	if leave_to_hub: get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 	else: get_tree().quit()
 
@@ -167,6 +172,8 @@ func edit_policy() -> void:
 	restart()
 
 func change_task(index: int) -> void:
+	if index < 0 or index >= 3: return
+	get_node("/root/TaskNavigation").remember_candidate_visit("prediction",index)
 	task = index; active_trace = null; revealed = 0; selected_run = -1; build()
 
 func restart() -> void:

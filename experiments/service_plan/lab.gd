@@ -112,7 +112,10 @@ func _ready() -> void:
 			save_blocked = true
 			notice_key = "locked"
 
-	build()
+	var requested: int = get_node("/root/TaskNavigation").take_pending("service")
+	if requested >= 0 and requested <= unlocked and requested != task: change_task(requested)
+	else: build()
+	get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
 
 func label(text: String, parent: Node, size: int = 15) -> Label:
 	var node := Label.new(); node.text = text; node.autowrap_mode = TextServer.AUTOWRAP_OFF if parent is HBoxContainer else TextServer.AUTOWRAP_WORD_SMART
@@ -156,7 +159,7 @@ func build() -> void:
 	var header := HBoxContainer.new(); page.add_child(header)
 	var title := label(tr2("服务方案 · 谁先得到下一次结果？", "Service plan · Who gets the next result?"), header, 22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	language_button = button("中文 / EN", header, toggle_language, "Language")
-	if candidate_journey: button(tr2("返回首页", "Home"),header,request_hub,"CandidateHome")
+	if candidate_journey: button(tr2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else tr2("返回首页", "Home"),header,request_hub,"CandidateHome")
 	button(tr2("服务回顾", "Service review"),header,show_closure,"ServiceClosure")
 	button(tr2("退出", "Quit"), header, request_quit, "Quit")
 	var stages := HBoxContainer.new(); page.add_child(stages)
@@ -602,7 +605,7 @@ func public_observation() -> Dictionary:
 func change_task(index: int) -> void:
 	if index < 0 or index > unlocked or (index == task and commission_mode < 0): return
 	commission_mode = -1
-	task = index; mark_session_dirty(); build()
+	task = index; get_node("/root/TaskNavigation").remember_candidate_visit("service",task); mark_session_dirty(); build()
 
 func mark_session_dirty() -> void:
 	if persistent_session: session_dirty = true; notice_key = "dirty"
@@ -668,6 +671,7 @@ func request_quit() -> void:
 	request_leave()
 
 func finish_leave() -> void:
+	if leave_to_hub and not leave_to_journey and get_node("/root/TaskNavigation").return_to_tree(): return
 	if leave_to_hub:
 		# Leave embedded Window callbacks before replacing their owning scene.
 		call_deferred("_finish_hub_leave",leave_to_journey)
@@ -687,6 +691,11 @@ func resume_service_review() -> void:
 	if review != null: review.popup_centered(Vector2i(760,480))
 	else: show_closure()
 
+func cancel_leave() -> void:
+	if leave_to_journey: resume_service_review()
+	leave_to_journey = false
+	leave_to_hub = false
+
 func request_leave() -> void:
 	if not persistent_session or not session_dirty: finish_leave(); return
 	var existing := get_node_or_null("UnsavedServiceDialog") as ConfirmationDialog
@@ -696,14 +705,11 @@ func request_leave() -> void:
 	dialog.dialog_text = tr2("草稿或比较记录有未保存的变化。", "The draft or comparisons have unsaved changes.")
 	dialog.ok_button_text = tr2("保存并离开", "Save and leave"); dialog.cancel_button_text = tr2("继续编辑", "Keep editing")
 	dialog.add_button(tr2("不保存离开", "Leave without saving"),true,"discard")
-	dialog.canceled.connect(func() -> void:
-		if leave_to_journey: resume_service_review()
-		leave_to_journey = false)
+	dialog.canceled.connect(cancel_leave)
 	dialog.confirmed.connect(func() -> void:
 		save_session()
 		if not session_dirty: finish_leave()
-		elif leave_to_journey:
-			resume_service_review(); leave_to_journey = false)
+		else: cancel_leave())
 	dialog.custom_action.connect(func(action: StringName) -> void:
 		if action == &"discard": finish_leave())
 	add_child(dialog); dialog.popup_centered(Vector2i(520,180))

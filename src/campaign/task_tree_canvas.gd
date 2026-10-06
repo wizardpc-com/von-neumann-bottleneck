@@ -2,7 +2,7 @@ extends Control
 signal task_selected(key: String)
 const Layout = preload("res://src/campaign/task_tree_layout.gd")
 const NODE_SIZE: Vector2 = Layout.NODE_SIZE
-const COLORS := [Color("67e8a5"),Color("ffbf69"),Color("50d5ff"),Color("bc8cff"),Color("f4a6cb")]
+const COLORS := [Color("67e8a5"),Color("ffbf69"),Color("50d5ff"),Color("bc8cff"),Color("f4a6cb"),Color("a6b4ff"),Color("75dcc0"),Color("e2c87d")]
 var region_rects: Dictionary = {}
 var world_size := Vector2(2500,1900)
 const SHORT_TITLES := {
@@ -57,29 +57,8 @@ func _draw() -> void:
 		draw_style_box(tray_style,tray)
 		draw_line(tray.position+Vector2(24,16),tray.position+Vector2(24,66),Color(_color(region),0.65),3,true)
 	for task: Dictionary in rows:
-		for dep: String in task.dependencies:
-			if not positions.has(dep): continue
-			var a: Vector2 = positions[dep]+Vector2(NODE_SIZE.x,NODE_SIZE.y/2)
-			var b: Vector2 = positions[task.key]+Vector2(0,NODE_SIZE.y/2)
-			var color := Color("354963")
-			if task.key == TaskNavigation.selected: color = _color(task.region)
-			var points: PackedVector2Array
-			if dep.get_slice("/",0)!=task.domain:
-				# Chapter bridges travel through the free gutter, never across task cards.
-				var source_region: int = 0
-				for other: Dictionary in rows:
-					if other.key==dep: source_region=other.region; break
-				var gutter: float = (region_rects[source_region] as Rect2).end.y+45
-				points=PackedVector2Array([a,a+Vector2(24,0),Vector2(a.x+24,gutter),Vector2(b.x-32,gutter),Vector2(b.x-32,b.y),b])
-			else:
-				var curve := Curve2D.new()
-				var distance: float = maxf(30,(b.x-a.x)*0.5)
-				curve.add_point(a,Vector2.ZERO,Vector2(distance,0))
-				curve.add_point(b,Vector2(-distance,0),Vector2.ZERO)
-				points=curve.tessellate()
-			draw_polyline(points,Color(color,0.14),maxf(6,3/magnification),true)
-			draw_polyline(points,color,maxf(1.8,1.1/magnification),true)
-			draw_colored_polygon(PackedVector2Array([b,b+Vector2(-8,-5),b+Vector2(-8,5)]),color)
+		for dep: String in task.dependencies: _draw_edge(task,dep,false)
+		for dep: String in task.get("recommended_from",[]): _draw_edge(task,dep,true)
 	for task: Dictionary in rows:
 		var rect := Rect2(positions[task.key],NODE_SIZE)
 		var color: Color = _color(task.region) if task.unlocked else Color("63758b")
@@ -105,6 +84,30 @@ func _draw() -> void:
 			draw_colored_polygon(PackedVector2Array([mid+Vector2(-8,0),mid+Vector2(0,-8),mid+Vector2(8,0),mid+Vector2(0,8)]),color)
 	draw_set_transform(Vector2.ZERO)
 	_draw_screen_text()
+
+func _draw_edge(task: Dictionary,dep: String,recommended: bool) -> void:
+	if not positions.has(dep): return
+	var a: Vector2 = positions[dep]+Vector2(NODE_SIZE.x,NODE_SIZE.y/2)
+	var b: Vector2 = positions[task.key]+Vector2(0,NODE_SIZE.y/2)
+	var color := Color("59736a") if recommended else Color("354963")
+	if task.key == TaskNavigation.selected: color = _color(task.region)
+	var points: PackedVector2Array
+	if dep.get_slice("/",0) != task.domain:
+		var source_region: int = 0
+		for other: Dictionary in rows:
+			if other.key == dep: source_region = other.region; break
+		var gutter: float = (region_rects[source_region] as Rect2).end.y+45
+		points = PackedVector2Array([a,a+Vector2(24,0),Vector2(a.x+24,gutter),Vector2(b.x-32,gutter),Vector2(b.x-32,b.y),b])
+	else:
+		var curve := Curve2D.new(); var distance: float = maxf(30,(b.x-a.x)*0.5)
+		curve.add_point(a,Vector2.ZERO,Vector2(distance,0)); curve.add_point(b,Vector2(-distance,0),Vector2.ZERO)
+		points = curve.tessellate()
+	if recommended:
+		for index: int in range(points.size()-1): draw_dashed_line(points[index],points[index+1],Color(color,0.65),maxf(1.8,1.1/magnification),10,true)
+	else:
+		draw_polyline(points,Color(color,0.14),maxf(6,3/magnification),true)
+		draw_polyline(points,color,maxf(1.8,1.1/magnification),true)
+		draw_colored_polygon(PackedVector2Array([b,b+Vector2(-8,-5),b+Vector2(-8,5)]),color)
 
 # Shapes follow the world camera; glyphs are rasterized at their final screen size.
 # At overview scale, region titles and node shapes provide orientation. Tiny task
@@ -143,6 +146,8 @@ func _draw_screen_text() -> void:
 		var rect: Rect2=region_rects[region]
 		var key:=StringName("tree.region."+str(region))
 		var title: String=Localization.text(key)
+		for task: Dictionary in rows:
+			if task.region == region and task.has("region_title"): title = task.region_title; break
 		if title==String(key): title="Chapter "+str(region)
 		var font_size: int=maxi(16,roundi(30*magnification))
 		var width: float=rect.size.x*magnification-20
@@ -155,6 +160,8 @@ func _draw_screen_text() -> void:
 		draw_string(font,layout.position,layout.title,HORIZONTAL_ALIGNMENT_LEFT,-1,layout.font_size,color)
 		if layout.compact: continue
 		var caption: String=("◇ " if task.optional else "")+(("已完成" if task.completed else "可进入" if task.unlocked else "未解锁") if Localization.current_locale().begins_with("zh") else ("Completed" if task.completed else "Available" if task.unlocked else "Locked"))
+		if str(task.get("evidence_status","")) == "unavailable": caption = "成果待确认" if Localization.current_locale().begins_with("zh") else "Work unconfirmed"
+		elif str(task.get("progress_source","")) == "session": caption = "仅本次会话" if Localization.current_locale().begins_with("zh") else "Session only"
 		var caption_size: int=maxi(12,roundi(15*magnification))
 		var rect: Rect2=layout.rect
 		var at: Vector2=Vector2(layout.position.x,rect.position.y+62*magnification).round()
@@ -235,6 +242,13 @@ func _resize_view() -> void:
 	if last_canvas_size.x>0 and last_canvas_size.y>0:
 		pan+=(size-last_canvas_size)/2
 	last_canvas_size=size
+	_save()
+
+func focus_region(region: int) -> void:
+	if not region_rects.has(region): return
+	var rect: Rect2 = region_rects[region]
+	magnification = clampf(minf(size.x/rect.size.x,size.y/rect.size.y)*0.9,0.18,1.0)
+	pan = size/2-rect.get_center()*magnification
 	_save()
 
 func overview() -> void:

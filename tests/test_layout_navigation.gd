@@ -8,12 +8,20 @@ func settle() -> void:
 func clear_scene() -> void:
 	if current_scene != null: current_scene.queue_free(); current_scene=null
 	await settle()
-func card() -> void:
+func map_entry() -> void:
 	var hub: Control=load("res://src/ui/prototype_hub.tscn").instantiate()
 	root.add_child(hub); current_scene=hub
 	await settle()
-	hub.find_child("ChapterEntry_layout",true,false).pressed.emit()
+	hub.find_child("HubBrowseJourney",true,false).pressed.emit()
 	await settle()
+	var nav: Node=root.get_node("TaskNavigation")
+	check(current_scene.scene_file_path==nav.MAP_SCENE,"Unified Hub entry opens the actual task map")
+	for task: Dictionary in current_scene.get("rows"):
+		if task.domain=="chapter_4" and task.unlocked and not task.completed:
+			current_scene._select(task.key)
+			current_scene.get("enter_button").pressed.emit()
+			await settle()
+			return
 func run() -> void:
 	var nav: Node=root.get_node("TaskNavigation")
 	var mode: Node=root.get_node("GameMode")
@@ -24,11 +32,11 @@ func run() -> void:
 	locality.game_completed[&"capstone"]=true
 	var completion_before: Dictionary=layout.completed().duplicate(true)
 	nav.selected="hardware_foundations/tutorial"; nav.camera_saved=true
-	await card()
-	check(current_scene.get("level")=="fields","Chapter card chooses the first unfinished available task")
-	check(nav.selected=="chapter_4/fields" and not nav.camera_saved,"Direct entry replaces stale selection and requests recentering")
+	await map_entry()
+	check(current_scene.get("level")=="fields","Unified map chooses the first unfinished available task")
+	check(nav.selected=="chapter_4/fields" and nav.camera_saved,"Exact map entry selects the real task and retains the current tree camera")
 	current_scene._leave(); await settle()
-	check(current_scene.get("selected").get("key","")=="chapter_4/fields","First card entry returns to its current tree node")
+	check(current_scene.get("selected").get("key","")=="chapter_4/fields","First map entry returns to its current tree node")
 	check(layout.completed()==completion_before,"Opening and returning never awards completion")
 	# The ordinary tree route must retain the player's camera.
 	nav.camera=Vector2(123,456); nav.camera_view_size=Vector2(900,600); nav.camera_saved=true
@@ -42,11 +50,11 @@ func run() -> void:
 	check(nav.selected=="chapter_4/fields","Reloaded Continue locates the visited task")
 	check(layout.completed()==completion_before,"Tree entry and Continue preserve completion")
 	await clear_scene()
-	# A card still chooses the next unfinished task rather than stale tree selection.
+	# The map still chooses the next unfinished task rather than stale tree selection.
 	layout.game_solutions["fields"]=preload("res://src/layout_chapter/layout_catalog.gd").reference_solution("fields")
 	var next_before: Dictionary=layout.completed().duplicate(true)
-	await card()
-	check(current_scene.get("level")=="records" and nav.selected=="chapter_4/records","Card chooses and selects the next unfinished task")
+	await map_entry()
+	check(current_scene.get("level")=="records" and nav.selected=="chapter_4/records","Map chooses and selects the next unfinished task")
 	current_scene._leave(); await settle()
 	check(current_scene.get("selected").get("key","")=="chapter_4/records","Next unfinished task is selected on return")
 	check(layout.completed()==next_before,"Next-task navigation preserves completed progress")
@@ -56,11 +64,11 @@ func run() -> void:
 	locality.game_completed.clear()
 	nav.selected="hardware_foundations/tutorial"; nav.camera_saved=true
 	check(not nav.enter("chapter_4/mixed") and not nav.enter("chapter_4/missing"),"Locked and unknown nodes reject entry")
-	await card()
-	check(current_scene.scene_file_path==nav.MAP_SCENE,"Unavailable direct chapter returns to tree")
+	await map_entry()
+	check(current_scene.scene_file_path==nav.MAP_SCENE,"Unavailable chapter map returns to tree")
 	check(nav.selected=="hardware_foundations/tutorial","Unavailable chapter preserves selection")
 	check(layout.completed()==completion_before,"Rejected routes preserve completion")
 	await clear_scene()
 	for failure: String in failures: push_error(failure)
-	print("PASS: layout card return, selected tree route, persisted Continue and unavailable navigation" if failures.is_empty() else "FAIL: layout navigation")
+	print("PASS: layout unified map return, selected tree route, persisted Continue and unavailable navigation" if failures.is_empty() else "FAIL: layout navigation")
 	quit(0 if failures.is_empty() else 1)

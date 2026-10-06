@@ -685,12 +685,27 @@ writes by design. Finish native processes before headless verification.
 
 `test_hub_first_screen` checks ordinary/candidate home in both languages at1280×720
 and1600×900, visible control bounds, no homepage scrolling, focus and safe recovery/
-New Game behavior. The existing display/typography checks now require all five
-chapter shortcuts inside the explicit selection page instead of scrolling them into view.
+New Game behavior. The existing display checks cover the fixed home and achievements/save management.
+All task selection now uses the unified map.
 The homepage exposes exactly two game actions plus three utility controls; Tab,
 Escape and focus restoration are checked across the page boundary.
 Use the new suite's opt-in `--hub-capture` only in an isolated imported QA project
-with a rendered engine and `--capture-size=1280x720`; it records sixteen home/selection
+with a rendered engine and `--capture-size=1280x720`; it records sixteen home/management
 PNGs. These renders do not prove native input, saved progression or novice comfort.
 Relevant neighbors are completion_route, prelaunch_settings, candidate_supports,
 second_act_navigation and core_closure_navigation.
+
+## Unified candidate journey map — 2026-10-06
+
+`test_unified_journey_navigation` uses explicitly synthetic saved recipes to check
+restore-before-task-selection, per-task Representation drafts, shared Service
+draft and real support-based gates, Save/Discard/Cancel and temporary Prediction
+exit. `test_tree_journey_presentation` composes core40 plus the read-only5+3+3
+adapter and checks actual bilingual map controls, deterministic layout and task
+locating. Its `--journey-map-capture` requires an isolated rendered engine at
+1280×720; ordinary fixture assertions do not establish native input. Repeat the
+host suite with `--candidate-journey` in an imported isolated QA project to verify
+the real opted-in path. Candidate enablement and profile binding stay production
+checks, not test overrides. Relevant neighbors include task_tree/layout/presentation,
+direct_task_navigation, completion_route, session stores, second_act_navigation,
+prediction_navigation, core_closure_navigation and prelaunch settings.

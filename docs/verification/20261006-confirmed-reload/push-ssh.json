@@ -1,0 +1,12 @@
+{
+  "authorization": "User: 另外现在已经和github ssh成功链接，你可以push了",
+  "branch": "codex/mac-second-act-20261005",
+  "destination": "git@github.com:wizardpc-com/von-neumann-bottleneck.git",
+  "command": "GIT_SSH_COMMAND='ssh -o BatchMode=yes -o StrictHostKeyChecking=yes' git push origin HEAD",
+  "exit": 0,
+  "output": "To github.com:wizardpc-com/von-neumann-bottleneck.git\n * [new branch] HEAD -> codex/mac-second-act-20261005",
+  "remote_write": true,
+  "ls_remote_verified_sha": "9cfbb05b7e3764ef54664fe275d42b32295f452d",
+  "main_merge": false,
+  "old_https_receipt": "push-authentication.json retained as historical failed attempt"
+}

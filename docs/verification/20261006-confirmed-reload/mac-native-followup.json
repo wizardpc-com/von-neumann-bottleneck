@@ -1,0 +1,72 @@
+{
+  "runtime_commit": "9e1f6019c102e5e9ec358664c711d30b18bfa4e1",
+  "profile": "MacSecondAct-9e1f601",
+  "method": "Actual exported binary; CUA native actions and screenshots; no source edits",
+  "first_session": {
+    "session_id": 63263,
+    "pid": 69837,
+    "exit": 0,
+    "observed": [
+      "Service entry",
+      "ctrl+super+f window transition",
+      "mouse slot edit1->4",
+      "Run twice",
+      "Save confirmation"
+    ],
+    "metrics": {
+      "task": 1,
+      "total_cycles": 1324,
+      "total_bytes": 2320,
+      "state_bytes": 528,
+      "peak_bytes": 458,
+      "peak_limit": 350,
+      "first_stream_cycles": [
+        89,
+        158,
+        227,
+        296
+      ],
+      "max_score_error": 0,
+      "max_state_error": 0
+    },
+    "runs": 2,
+    "supports": 0,
+    "locked_task2_click": "No task transition; second run still task1"
+  },
+  "save_sha256": "30e934d2e66958b2a2b44c79fa8e11eee83318e7bbeb66ac1802074879883a42",
+  "save_unchanged_after_restart_attempt": true,
+  "first_save_lease_released": true,
+  "restart_attempt": {
+    "session_id": 13682,
+    "pid": 75776,
+    "arguments": [
+      "--windowed"
+    ],
+    "observed": [
+      "Default hub",
+      "Window transition"
+    ],
+    "service_entry_confirmed": false,
+    "failures": [
+      "CUA click -10005 noWindowsAvailable",
+      "Raise and keyboard focus attempts did not establish entry",
+      "Fresh CUA binding still failed",
+      "Cmd-Q did not stop the launched QA process; startup log empty"
+    ],
+    "cleanup": "Exact command identity checked before SIGTERM to own QA PID75776 only",
+    "exit": 143
+  },
+  "final_writer_directories_present": {
+    "service": false,
+    "representation": false
+  },
+  "final_game_processes": "pgrep -fl Von Neumann Bottleneck|Godot: exit1, no matches",
+  "not_claimed": [
+    "Successful independent native restore in this session",
+    "Native recovery walkthrough",
+    "Full native5+3",
+    "Novice comprehension",
+    "OtherMac installation"
+  ],
+  "log_classification": "First session has OS IMK/TSM diagnostics, no Godot SCRIPT ERROR/ERROR; restart log is empty, not evidence of clean startup"
+}

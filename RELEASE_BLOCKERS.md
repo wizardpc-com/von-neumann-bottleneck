@@ -9,11 +9,15 @@ These are acceptance gates, not promised new features.
 selection/empty-profile reset and optional Prediction source attribution pass
 frozen affected checks;1856 source files match and binary/PCK14 checks pass.
 [Exact receipts](docs/verification/20261006-confirmed-reload/README.md).
-Native hub/Service entry/start/quit observed. New native recovery/edited-save,
-full pointer route, unfamiliar player and otherMac remain open; pointer attempt
-still returns noWindowsAvailable. Priorc78 native save/restart is separate evidence.
-Human approved475df50 developer-branch push; actual attempt exits128 missing HTTPS
-username, no remote write. No new source domain or formal/public release implied.
+Native Service mouse slot edit/run/save and exit0 now observed: two real task1
+counterexamples, no supports. Independent restart reached the hub; CUA entry
+returns noWindowsAvailable despite window/keyboard/rebinding attempts. The own
+stalled QA process required SIGTERM (exit143); no new successful restore claim.
+New native recovery, full pointer/drag route, unfamiliar player and otherMac
+remain open. Priorc78 native save/restart stays separate evidence.
+User-authorized SSH developer-branch push succeeds; remote9cfbb05 verified.
+The historical HTTPS authentication blocker is closed. No main merge or public
+release is implied.
 
 ## Earlier local second-act follow-up — 2026-10-06
 
@@ -41,7 +45,7 @@ separate from public Alpha and the historical two-platform freeze below.
 | Native pointer/drag and full5+3 informed play | **Pending** | Keyboard popup evidence is partial; previous CUA pointer failures do not establish mouse usability |
 | Unfamiliar-player understanding and other Mac installation | **Pending external evidence** | No result for this candidate has been received; authored-answer replay and this Mac do not substitute |
 | Formal content integration | **Pending** | Candidate navigation/save are permitted technical acceptance paths, not formal campaign registration or release |
-| Developer-branch push | **Blocked by local HTTPS authentication** | Origin ownership verified;2026-10-06 authorized `git push --dry-run origin HEAD` exited128 for absent username, no remote write |
+| Developer-branch push | **Closed by subsequent SSH push** | Earlier HTTPS dry-run failed; current user-authorized SSH push succeeded and remote9cfbb05 was verified |
 | Public distribution | **Not authorized** | No upload, main merge, paid signing or deployment |
 
 The28-file evidence manifest and actual archive hash were checked afresh on

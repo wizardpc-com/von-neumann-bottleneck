@@ -39,7 +39,7 @@ SHA256 `75cf25ca1b6c6e84224c65876be09c88c221ae1244ec896c948b142bc127595a`.
 Identity command passes source/archive/file hashes/notes; [actual release binary/PCK probe](mac-release-probe.json)
 and [14 checks](mac-release-probe.txt) pass in QA `68c0fd723dad`.
 
-Native CUA observes the new default hub and enters Service using keyboard. Pointer
+Initial native session: CUA observes the new default hub and enters Service using keyboard. Pointer
 click returns `-10005 noWindowsAvailable`. Input attempts after a frontmost change
 are re-observed, but slot editing/save are not established in this session. No new
 native saved record was created; no claimed novice or full5+3 result. A separate
@@ -56,10 +56,36 @@ preserved, exit1. The default app then launched normally through CUA; do not
 attribute that hub to a successful Prediction override. Prediction's new caption
 has bilingual minimum-layout/prefix-hiding tests; no native Prediction claim.
 
-[Approved push attempt](push-authentication.json) actually exited128, missing
+[Earlier approved HTTPS push attempt](push-authentication.json) actually exited128, missing
 GitHub HTTPS username with prompts disabled. No remote write; this supersedes the
-prior approval refusal for475df50. Credentials must be restored through the user's
-normal login flow before the authorized developer-branch push can succeed.
+prior approval refusal for475df50. This is historical; the SSH follow-up below succeeds.
+
+Follow-up native session63263 on the same immutable package/profile now confirms
+mouse slot edit1→4, two Run results and actual Save. Both remain task1: clicking
+locked task2 did not transition. Measured1324cycles/2320B total/528B state/458B
+peak, first responses[89,158,227,296], exact score/state; peak exceeds350 by108B.
+The [actual saved recipe](mac-native-saved-recipe.json) contains two runs, no
+supports, four-slot RAW64 draft. SaveSHA256
+`30e934d2e66958b2a2b44c79fa8e11eee83318e7bbeb66ac1802074879883a42`.
+Cmd-Q exits0; writer lease released. [Log](mac-native-followup.txt) retains OS
+IMK/TSM diagnostics; no Godot error. CUA screenshots are in the conversation,
+not stored PNG artifacts. [Full bounded receipt](mac-native-followup.json).
+
+Independent restart session13682 reaches the hub, but CUA pointer entry returns
+`-10005 noWindowsAvailable` even after Raise, keyboard and new binding attempts.
+No Service restore was observed. The [startup log](mac-native-resume-attempt.txt)
+is empty; Cmd-Q did not stop own PID75776. After verifying its exact QA command,
+root sent SIGTERM only to that process (exit143). No remaining game process or
+candidate lease, and saved recipe bytes unchanged. This attempted restart is
+**not** clean-startup/restore evidence. Priorc78 successful native restart remains
+separate. Window transition improves first-session pointer input but does not
+close general pointer/drag or full5+3 acceptance.
+
+The user explicitly authorized SSH push after establishing authentication.
+[Actual SSH push](push-ssh.json) exits0; read-only `git ls-remote` confirms remote
+`codex/mac-second-act-20261005` at`9cfbb05b7e3764ef54664fe275d42b32295f452d`.
+Strict host verification stayed enabled. No remotes modified, main merge, force
+push, candidate upload or unrelated collaborator files committed.
 
 Finite A–D source requirements are implemented across the existing linked stages:
 Representation5, Service3, optional commissions, introductions, navigation,

@@ -9,9 +9,11 @@ both candidate workbenches, and attributes optional Prediction evidence to its
 recorded task/rule. Six frozen affected suites,1856-file source identity and the
 actual Mac binary/PCK14-check probe pass. New local candidate is
 **free-alpha-9e1f6019c102**, independent profileMacSecondAct-9e1f601; prior packages
-retained. Native hub/Service entry/start/quit observed; no new native edited-save
-or recovery claim. [Evidence and limits](verification/20261006-confirmed-reload/README.md).
-Approved Git push475df50 actually failed missing HTTPS credentials; no remote write.
+retained. Native Service mouse slot edit/run/save and normal exit now observed;
+two real task1 counterexamples saved. Independent restart reaches the hub but
+CUA cannot enter Service; the stalled QA process was ended, so no new successful
+native restore/recovery claim. [Evidence and limits](verification/20261006-confirmed-reload/README.md).
+User-authorized SSH push succeeded; remote developer branch verified at9cfbb05.
 Finite source scope is implemented; external acceptance and formal integration
 remain distinct. Models/schema2/core40/production saves remain unchanged.
 
@@ -51,7 +53,7 @@ and synchronized result selection passed by keyboard; CUA pointer remains
 unreliable. No novice, complete native5+3 or other-Mac installation acceptance. Exact evidence, failed attempts,
 archive hash and next gates: [continuity verification](verification/20261005-second-act-continuity/README.md)
 and [active whole-journey plan](exec-plans/active/complete-second-act-player-journey.md).
-Branch push remains blocked by missing HTTPS authentication.
+That earlier HTTPS failure is historical; the current SSH push above succeeds.
 
 ## Service follow-up candidate content — 2026-10-05
 

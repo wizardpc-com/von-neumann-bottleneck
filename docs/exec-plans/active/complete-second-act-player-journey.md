@@ -30,9 +30,9 @@ approved developer-branch push apply; preserve unrelated collaborator changes.
 | Useful evidence rather than lists of numbers | Actual prefix state-location replay and selected-record/draft source distinction | Use independent observation to find concrete readability gaps |
 | Save/quit/restart and outcome protection | Targeted lifecycle225 + native exported Save/reopen/quit; no residual lease | Other Mac lifecycle/install evidence |
 | Local frozen playable Mac candidate and build identity | free-alpha-9e1f6019c102; official matching private template; hashes/release probe pass | Retain frozen package; no public upload |
-| Actual native pointer and unfamiliar-player understanding | Source state/end pointer observed; exported native keyboard path passes; pointer -10005 remains | Complete native drag/menu/5+3, other Mac and unfamiliar player evidence |
+| Actual native pointer and unfamiliar-player understanding | Native9e Service mouse slot edit/run/save passes; independent restart entry remains blocked by CUA -10005 | Complete native drag/menu/5+3, other Mac and unfamiliar player evidence |
 | Reviewable source and shared handoff | Runtime/build9e1f601; exact receipts; native limits retained | Final evidence/plan handoff committed after source freeze |
-| Developer-branch push | Human-approved475df50 actual push fails missing HTTPS authentication | Await authentication; no divergent-history workaround |
+| Developer-branch push | User-authorized SSH push succeeds; remote9cfbb05 verified | Closed; publish subsequent committed evidence on the same developer branch |
 
 Uncertain/missing evidence is not achieved. The full goal stays active while a row
 is incomplete. External gates do not prevent independent authorized implementation.
@@ -464,3 +464,23 @@ rows into completed features. Next concrete step is feedback/accessible native
 acceptance and credential restoration for the authorized developer-branch push.
 No further mechanics without a concrete player problem or new finite direction.
 Root/agents release runtime ownership; collaborator files preserved.
+
+### 2026-10-06 SSH push and bounded native save follow-up
+
+User restored GitHub SSH and explicitly authorized push. Actual `git push origin
+HEAD` succeeds without changing remotes; independent `ls-remote` verifies remote
+developer branch9cfbb05. Historical HTTPS authentication gate is closed.
+
+Immutable9e Mac/profile now has actual mouse slot1→4 edit, two task1 Runs and
+Save confirmation, normal exit0 and no lease. Both1324cycles/528B state/458B peak
+counterexamples are saved with no supports; task2 remained locked. Native restore
+is not claimed: independent startup reaches hub but pointer returns-10005,
+keyboard/Raise/new binding do not establish entry; own QA PID75776 stays after
+Cmd-Q with empty startup log, requiring identity-checked SIGTERM/exit143. Final
+game processes/leases absent and saved bytes unchanged. Receipts/log/recipe in
+20261006-confirmed-reload; screenshots in conversation. No runtime change or
+repeated engine suite required. Root alone owns this evidence/status handoff.
+
+Next: manual entry/resume and pointer/drag observation of the frozen package,
+then independent novice/otherMac feedback and bounded repairs if reproduced.
+Finite content/source work remains implemented; external acceptance is open.

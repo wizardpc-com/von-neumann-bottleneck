@@ -1,0 +1,5 @@
+2026-10-06 02:57:05.633 Von Neumann Bottleneck[69837:2357562] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-06 02:57:06.956 Von Neumann Bottleneck[69837:2357562] TSM AdjustCapsLockLEDForKeyTransitionHandling - _ISSetPhysicalKeyboardCapsLockLED Inhibit
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+

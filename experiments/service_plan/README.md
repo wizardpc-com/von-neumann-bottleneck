@@ -259,3 +259,8 @@ retains small visible errors. Ties use stable request/coordinate order.
 Readable output/commit events include their recorded score/reference/error;
 missing fields are identified rather than invented. Editing the draft cannot
 replace the recorded evidence. Models, exact/approximate limits and schema2 are unchanged.
+
+The Service collection lives in its own **Designs / 我的方案** evidence tab,
+after State journey. It adds no permanent row above the existing result/chart
+controls; original evidence pages and Save still fit1280×720 with hints in both
+languages. Open the collection foldout inside that tab to name/copy/remove.

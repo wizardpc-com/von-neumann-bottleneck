@@ -660,3 +660,20 @@ Finite implementation increment complete. The user's deferred manual acceptance
 remains open; stop implementation now and hand off candidate for their play-test.
 Next repairs should follow concrete play-test findings; no more knowledge domains
 or campaign migration implied. This plan stays active for those external receipts.
+
+Final CI audit returned failure37453419379: all new suites passed, but existing
+service_plan minimum-window assertions found six evidence controls beyond the
+visible viewport with hints. Local focused selection omitted that combined
+model/UI suite; prior stop/handoff is superseded by this reproduced gap. Root
+owns lab/new shelf test repair. Replace the added Service evidence scroll layout
+with a separate Designs evidence tab (existing tab indices0–5 retained); the
+collection no longer adds a permanent row or expands core results. Preserve
+existing viewport assertions, recheck only affected Service suites on frozen
+repair, export a new immutable package and push. Old package remains historical,
+not relabeled. No model/codec/rule change.
+
+Layout repair verified20261006T110952Z-1ad79ed5: service_plan, named shelf,
+session and commission UI all PASS; original assertions unchanged. CI artifact
+inspection confirms84 suites present,83 pass, only service_plan fails on prior
+layout; existing desktop fixture warnings retained. Repair is collection
+placement only. Commit/frozen4-suite repair/package identity next.

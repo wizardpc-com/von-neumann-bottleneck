@@ -128,7 +128,7 @@ uses this replacement path. No schema changes or writes to empty profiles.
 
 ## Named player designs
 
-Both second-act domains expose a collapsed My designs collection beside measured
+Both second-act domains expose a collapsed My designs collection alongside measured
 history. Keep captures the selected actually executed plan, independent of unrun
 draft edits. Up to24 task+plan identities can be named (1–48 trimmed characters,
 no control characters); keeping the same identity renames it. Collections survive

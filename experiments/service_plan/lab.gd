@@ -195,13 +195,7 @@ func build() -> void:
 		var save := button(tr2("保存本次探索", "Save this exploration"),editor,save_session,"SaveSession")
 		save.disabled = save_blocked; InstrumentTheme.primary(save,Color("62dca7"))
 		add_recovery_controls(editor)
-	var evidence_scroll := ScrollContainer.new(); evidence_scroll.name = "EvidenceScroll"
-	evidence_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	evidence_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	evidence_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	body.add_child(evidence_scroll)
-	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	evidence.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence_scroll.add_child(evidence)
+	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
 	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	restore_button = button(tr2("恢复为草稿", "Restore draft"), history_header, restore_history, "Restore")
@@ -209,10 +203,6 @@ func build() -> void:
 	var support_button := button(tr2("达标方案", "Successful plan"),history_header,restore_support,"RestoreSupport")
 	support_button.disabled = not support_plans.has(task)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
-	design_shelf = DesignShelf.new(); design_shelf.name = "DesignShelf"; evidence.add_child(design_shelf)
-	design_shelf.remember_requested.connect(remember_design)
-	design_shelf.restore_requested.connect(restore_design)
-	design_shelf.remove_requested.connect(remove_design)
 	evidence_tabs = TabContainer.new(); evidence_tabs.name = "EvidenceTabs"; evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(evidence_tabs)
 	var overview := VBoxContainer.new(); overview.name = "Overview"; evidence_tabs.add_child(overview)
 	var event_panel := VBoxContainer.new(); event_panel.name = "Events"; evidence_tabs.add_child(event_panel)
@@ -255,6 +245,12 @@ func build() -> void:
 		selected_event_index = tree.get_selected().get_index(); refresh_event_detail()
 		state_replay.show_source_index(selected_event_index))
 	detail = RichTextLabel.new(); detail.name = "Details"; detail.custom_minimum_size.y = 130; detail.scroll_active = true; event_panel.add_child(detail)
+	var design_panel := VBoxContainer.new(); design_panel.name = "MyDesigns"; evidence_tabs.add_child(design_panel)
+	evidence_tabs.set_tab_title(6,tr2("我的方案", "Designs"))
+	design_shelf = DesignShelf.new(); design_shelf.name = "DesignShelf"; design_panel.add_child(design_shelf)
+	design_shelf.remember_requested.connect(remember_design)
+	design_shelf.restore_requested.connect(restore_design)
+	design_shelf.remove_requested.connect(remove_design)
 	refresh_event_detail(); refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history); history_list.call_deferred("ensure_current_is_visible")
 	evidence_tabs.current_tab = previous_tab if previous_tab != 4 or (commission_mode >= 0 and has_service_closure()) else 0

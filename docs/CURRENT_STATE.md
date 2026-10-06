@@ -15,14 +15,16 @@ completion or bypass Service prerequisites. History caps retain their old limits
 Candidate-only schema3 stores names and recipes; schema1/2 still read, empty
 collections write schema2, and future/unknown fields remain protected. Existing
 transactional snapshots and leases apply. Models, core40, optional Prediction
-and production saves are unchanged. Minimum-window service evidence now scrolls
-so opening the collection keeps Save visible. Pending names survive unrelated
+and production saves are unchanged. Service collection has its own evidence tab
+so opening it keeps Save and the existing result pages visible. Pending names survive unrelated
 draft selection. Frozen15-suite integration,1904-file source identity and actual Mac binary14-check
 probe pass. New candidate **free-alpha-6d02ac756a1d**, profileMacDesigns-6d02ac7,
 ZIP SHA2568155ed1d7cf2da8d036916351c91312ece47b05d20d7dc95a999ca90a057fc1a.
 Native new-feature attempt was blocked by the locked Mac; no new OS-input
 acceptance claimed. Own QA seed copies are reversibly archived, leaving a fresh
-empty profile for human play-testing. Runtime commit6d02ac7 was pushed to the
+empty profile for human play-testing. Runtime commit6d02ac7 was pushed; its CI subsequently found a result-page
+viewport regression. Root corrected collection placement; final package identity
+is being superseded below after targeted frozen verification. Existing
 existing development branch. [Verification and play-test steps](verification/20261006-named-designs/README.md).
 
 ## Confirmed reload follow-up — 2026-10-06

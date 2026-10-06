@@ -28,7 +28,7 @@ func run() -> void:
 	var scene := LeaveProbe.new(); scene.persistent_session = true; root.add_child(scene)
 	await process_frame; await process_frame
 	var shelf := scene.design_shelf
-	check(not shelf.content.visible,"Named collection starts collapsed beside history")
+	check(not shelf.content.visible,"Named collection starts collapsed in its independent evidence tab")
 	check(shelf.remember_button.disabled,"Unrun draft has no collectable measured record")
 	scene.remember_design("Unrun")
 	check(scene.designs.is_empty(),"Naming an unrun draft does not create a design")
@@ -38,6 +38,7 @@ func run() -> void:
 	shelf.design_name.text = "Pending player name"
 	scene.group_list.item_selected.emit(0)
 	check(shelf.design_name.text == "Pending player name","Selecting a draft group preserves the pending name for the same measured source")
+	scene.evidence_tabs.current_tab = 6
 	shelf.toggle.button_pressed = true
 	await process_frame; await process_frame
 	check(scene.find_child("SaveSession",true,false).get_global_rect().end.y <= 720,"Opening collection keeps Save inside minimum viewport")
@@ -106,6 +107,7 @@ func run() -> void:
 	for locale: bool in [false,true]:
 		reopened.english = locale; reopened.build(); await process_frame; await process_frame
 		check(not reopened.design_shelf.content.visible,"Bilingual rebuilt shelf stays compact by default")
+		reopened.evidence_tabs.current_tab = 6
 		reopened.design_shelf.toggle.button_pressed = true; await process_frame; await process_frame
 		for control_name: String in ["DesignName","RememberDesign","NamedDesigns","RestoreDesign","RemoveDesign"]:
 			var control := reopened.find_child(control_name,true,false) as Control

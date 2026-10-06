@@ -1,0 +1,70 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T063309Z-6e12e9ac/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T063309Z-6e12e9ac/user_directory"
+    },
+    {
+      "name": "test_candidate_restore_selection",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_restore_selection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T063309Z-6e12e9ac/test_candidate_restore_selection"
+    },
+    {
+      "name": "test_candidate_writer_retry_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_writer_retry_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T063309Z-6e12e9ac/test_candidate_writer_retry_ui"
+    },
+    {
+      "name": "test_prediction_record_source",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_record_source.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T063309Z-6e12e9ac/test_prediction_record_source"
+    },
+    {
+      "name": "test_representation_visual",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_representation_visual.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T063309Z-6e12e9ac/test_representation_visual"
+    },
+    {
+      "name": "test_second_act_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_second_act_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T063309Z-6e12e9ac/test_second_act_navigation"
+    },
+    {
+      "name": "test_service_session",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_session.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T063309Z-6e12e9ac/test_service_session"
+    }
+  ]
+}

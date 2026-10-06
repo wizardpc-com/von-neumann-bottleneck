@@ -1,0 +1,39 @@
+{
+  "build_id": "free-alpha-9e1f6019c102",
+  "source_commit": "9e1f6019c102e5e9ec358664c711d30b18bfa4e1",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "created_utc": "20261006T063353Z-9e1f6019",
+  "public_release": false,
+  "upload_default": false,
+  "workspace_versions": {
+    "res://src/system_lab/system_level_catalog.gd": "e479b3d0b15c50f6697faad55b9e461e94db21df07d99d5c38e0cf6414bde5a7",
+    "res://src/locality_chapter/locality_level_catalog.gd": "7104cc990372ed8b21f46941f13d099ccb063dc434e4e6e7ccd74294f96a7958"
+  },
+  "branding": {
+    "revision": "placeholder-1",
+    "app_icon": "res://assets/branding/game-icon.svg",
+    "logo_zh": "",
+    "logo_en": "",
+    "symbol": "",
+    "native_icon_windows": "",
+    "native_icon_macos": ""
+  },
+  "native_versions": {
+    "windows": "0.5.0.214",
+    "macos": "1.2.14"
+  },
+  "platforms": {
+    "macOS": {
+      "zip": "Von-Neumann-Bottleneck-macOS-free-alpha-9e1f6019c102.zip",
+      "bytes": 78328939,
+      "sha256": "75cf25ca1b6c6e84224c65876be09c88c221ae1244ec896c948b142bc127595a"
+    }
+  },
+  "mac_template_sha256": "f9de131f5ed0210924b9b156aea43b1e20fd720dd97690e151081a65c0937a3e",
+  "candidate_journey": {
+    "primary_domain": "representation",
+    "profile": "MacSecondAct-9e1f601",
+    "isolated": true,
+    "production_migration": false
+  }
+}

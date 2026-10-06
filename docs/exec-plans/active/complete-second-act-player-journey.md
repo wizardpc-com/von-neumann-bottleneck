@@ -1,6 +1,6 @@
 # Complete second-act player journey
 
-Owner: Codex root. Baseline `b62ecd2`, 2026-10-05. Status: active candidate blocker fixes (2026-10-06).
+Owner: Codex root. Baseline `b62ecd2`, 2026-10-05. Status: finite candidate source scope implemented; external acceptance open (2026-10-06).
 
 The continuing user goal is to implement the planning/direction and make the game
 more complete. A completed slice is progress, not completion of this objective.
@@ -29,10 +29,10 @@ approved developer-branch push apply; preserve unrelated collaborator changes.
 | Coherent candidate route and earned final review | Save/Cancel/continue bridge and saved independently revalidated5+3 review pass | Formal campaign integration remains outside candidate acceptance |
 | Useful evidence rather than lists of numbers | Actual prefix state-location replay and selected-record/draft source distinction | Use independent observation to find concrete readability gaps |
 | Save/quit/restart and outcome protection | Targeted lifecycle225 + native exported Save/reopen/quit; no residual lease | Other Mac lifecycle/install evidence |
-| Local frozen playable Mac candidate and build identity | free-alpha-f84c3d64a7e1; official matching private template; hashes/release probe pass | Retain frozen package; no public upload |
+| Local frozen playable Mac candidate and build identity | free-alpha-9e1f6019c102; official matching private template; hashes/release probe pass | Retain frozen package; no public upload |
 | Actual native pointer and unfamiliar-player understanding | Source state/end pointer observed; exported native keyboard path passes; pointer -10005 remains | Complete native drag/menu/5+3, other Mac and unfamiliar player evidence |
-| Reviewable source and shared handoff | Runtime/build throughf84c3d6; exact receipts and screenshots | Commit evidence/plan handoff for this round |
-| Developer-branch push | Authorized attempt still fails missing HTTPS authentication | Await authentication; no divergent-history workaround |
+| Reviewable source and shared handoff | Runtime/build9e1f601; exact receipts; native limits retained | Final evidence/plan handoff committed after source freeze |
+| Developer-branch push | Human-approved475df50 actual push fails missing HTTPS authentication | Await authentication; no divergent-history workaround |
 
 Uncertain/missing evidence is not achieved. The full goal stays active while a row
 is incomplete. External gates do not prevent independent authorized implementation.
@@ -442,3 +442,25 @@ because its fixture retained the1600px scene size; setting the test viewport
 explicitly yields28 PASS in20261006T063148Z-14989c7c. Production layout unchanged;
 test anchors now fixed before size to avoid an anchor warning. Next frozen
 commit verification is the final six-suite check for this bounded change.
+
+### 2026-10-06 finite source handoff
+
+Runtime9e1f601 closes the reproduced reload/state/source gaps. Frozen affected
+six-suite20261006T063309Z-6e12e9ac PASS;1856 committed files match. New local Mac
+free-alpha-9e1f6019c102 archive/identity and actual binary/PCK14 checks PASS.
+Native default hub/Service entry observed; separate default startup65566 exits0.
+No new native slot-save/recovery/Prediction claim; pointer noWindowsAvailable,
+frontmost input interruptions and official template scene-override refusal kept
+as limitations. Exact receipts in20261006-confirmed-reload.
+
+A–D finite implementation audit is now closed: protected Mac candidate lifecycle,
+Representation5, Service3, optional commissions, learning/state/quality evidence,
+entry/continue/save/return/review/closures and frozen local candidate are present.
+Do not treat historical49 quotas, superseded experiments or completed theme plans
+as a new queue. The overall acceptance objective is not marked complete: novice,
+otherMac, full native pointer/menu and formal integration remain external gates.
+Keep this plan active for that acceptance rather than silently converting those
+rows into completed features. Next concrete step is feedback/accessible native
+acceptance and credential restoration for the authorized developer-branch push.
+No further mechanics without a concrete player problem or new finite direction.
+Root/agents release runtime ownership; collaborator files preserved.

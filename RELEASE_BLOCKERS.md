@@ -3,7 +3,19 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Latest local second-act follow-up — 2026-10-06
+## Current local candidate follow-up — 2026-10-06
+
+**free-alpha-9e1f6019c102** is the current local Mac artifact. Confirmed reload
+selection/empty-profile reset and optional Prediction source attribution pass
+frozen affected checks;1856 source files match and binary/PCK14 checks pass.
+[Exact receipts](docs/verification/20261006-confirmed-reload/README.md).
+Native hub/Service entry/start/quit observed. New native recovery/edited-save,
+full pointer route, unfamiliar player and otherMac remain open; pointer attempt
+still returns noWindowsAvailable. Priorc78 native save/restart is separate evidence.
+Human approved475df50 developer-branch push; actual attempt exits128 missing HTTPS
+username, no remote write. No new source domain or formal/public release implied.
+
+## Earlier local second-act follow-up — 2026-10-06
 
 **free-alpha-c78d5941b305** supersedes the local package pointer below, retaining
 its predecessor. Frozen source affected regression, archive identity and actual

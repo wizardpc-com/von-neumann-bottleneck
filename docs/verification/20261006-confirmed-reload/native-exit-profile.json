@@ -1,0 +1,12 @@
+{
+  "service": {
+    "save_exists": false,
+    "writer_directory": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/service/MacSecondAct-9e1f601/.candidate-writer",
+    "lease_exists": false
+  },
+  "representation": {
+    "save_exists": false,
+    "writer_directory": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/MacSecondAct-9e1f601/.candidate-writer",
+    "lease_exists": false
+  }
+}

@@ -1,0 +1,44 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Out of bounds get index '3' (on base: 'Array[Dictionary]')
+          at: refresh_actions (res://experiments/representation_region/region.gd:362)
+          GDScript backtrace (most recent call first):
+              [0] refresh_actions (res://experiments/representation_region/region.gd:362)
+              [1] refresh_plan (res://experiments/representation_region/region.gd:345)
+              [2] build (res://experiments/representation_region/region.gd:238)
+              [3] reload_recovered_session (res://experiments/representation_region/region.gd:710)
+              [4] recover_candidate (res://experiments/representation_region/region.gd:705)
+              [5] <anonymous lambda> (res://tests/test_candidate_restore_selection.gd:50)
+              [6] <anonymous lambda> (res://experiments/representation_region/region.gd:762)
+              [7] run (res://tests/test_candidate_restore_selection.gd:53)
+ERROR: Fewer-block snapshot resets the selected block before rebuilding its editor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_restore_selection.gd:13)
+       [1] run (res://tests/test_candidate_restore_selection.gd:54)
+ERROR: Codec and merge controls describe the first restored block
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_restore_selection.gd:13)
+       [1] run (res://tests/test_candidate_restore_selection.gd:58)
+ERROR: Confirmed empty reload restores the initial task and actual default plan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_restore_selection.gd:13)
+       [1] run (res://tests/test_candidate_restore_selection.gd:89)
+ERROR: Empty Representation reload resets block/record selection and disables record reuse
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_restore_selection.gd:13)
+       [1] run (res://tests/test_candidate_restore_selection.gd:93)
+ERROR: Confirmed empty reload restores the initial task and actual default plan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_restore_selection.gd:13)
+       [1] run (res://tests/test_candidate_restore_selection.gd:89)
+ERROR: Empty Service reload resets group/record selection and disables record reuse
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_restore_selection.gd:13)
+       [1] run (res://tests/test_candidate_restore_selection.gd:96)
+FAIL: test_candidate_restore_selection 41 checks, 6 failures

@@ -2,6 +2,19 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Confirmed reload follow-up — 2026-10-06
+
+Runtime9e1f601 fixes recovered selection bounds and empty-profile draft reset in
+both candidate workbenches, and attributes optional Prediction evidence to its
+recorded task/rule. Six frozen affected suites,1856-file source identity and the
+actual Mac binary/PCK14-check probe pass. New local candidate is
+**free-alpha-9e1f6019c102**, independent profileMacSecondAct-9e1f601; prior packages
+retained. Native hub/Service entry/start/quit observed; no new native edited-save
+or recovery claim. [Evidence and limits](verification/20261006-confirmed-reload/README.md).
+Approved Git push475df50 actually failed missing HTTPS credentials; no remote write.
+Finite source scope is implemented; external acceptance and formal integration
+remain distinct. Models/schema2/core40/production saves remain unchanged.
+
 ## Second-act blocker fixes — 2026-10-06
 
 Source follow-up adds nearest earlier same-task/order comparison across interleaved

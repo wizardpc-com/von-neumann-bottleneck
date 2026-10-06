@@ -10,7 +10,15 @@ an instruction to block or add unplanned content. Earlier progress below is
 historical; runtime10211e5 and the resumed closure evidence below are the current
 checkpoint. The earlier661c107 evidence remains specific to named designs.
 
-## 2026-10-06 fixed first-screen art and interaction — final verification
+## 2026-10-06 fixed first-screen art and interaction — delivered
+
+Final runtime5efc8ec: frozen20261006T183149Z-d092a7ce nine suites/import/isolation
+PASS,2110 source files exact.16 rendered frames PASS5473checks; all inspected.
+Mac free-alpha-5efc8ecb3d1f identity/14binarychecks PASS. Native exact package
+Tab+Return selector, Escape home/focus and primary→task tree observed. CmdQ normal
+shutdown confirmed by ps; only own QA profiles reversibly archived with hashes.
+No full-route/audio/novice/other-device acceptance inferred. Evidence under
+20261006-first-screen. Finite entry scope delivered, no further task expansion.
 
 Second iteration: isolated 20261006T183005Z-9f4bff48 three targeted suites PASS;
 rendered home/selection16 frames PASS5473checks, actual minimum and1600 layouts

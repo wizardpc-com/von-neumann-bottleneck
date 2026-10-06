@@ -1,0 +1,4 @@
+Rendered Godot 4.7.1, tool exec session97302, exit0.
+PASS: test_hub_first_screen5473checks,0failures.
+16 actual PNGs, all individually inspected; both pages fit, both languages/sizes/modes.
+Rendering is not native OS input evidence.

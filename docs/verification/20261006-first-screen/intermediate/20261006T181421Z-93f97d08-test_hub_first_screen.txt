@@ -1,0 +1,51 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: ordinary-zh_CN-1280x720: compact warning preserves full original explanation and recovery details
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hub_first_screen.gd:11)
+       [1] run (res://tests/test_hub_first_screen.gd:172)
+       [2] settle (res://tests/test_hub_first_screen.gd:13)
+ERROR: candidate-zh_CN-1280x720: compact warning preserves full original explanation and recovery details
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hub_first_screen.gd:11)
+       [1] run (res://tests/test_hub_first_screen.gd:172)
+       [2] settle (res://tests/test_hub_first_screen.gd:13)
+ERROR: ordinary-en-1280x720: compact warning preserves full original explanation and recovery details
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hub_first_screen.gd:11)
+       [1] run (res://tests/test_hub_first_screen.gd:172)
+       [2] settle (res://tests/test_hub_first_screen.gd:13)
+ERROR: candidate-en-1280x720: compact warning preserves full original explanation and recovery details
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hub_first_screen.gd:11)
+       [1] run (res://tests/test_hub_first_screen.gd:172)
+       [2] settle (res://tests/test_hub_first_screen.gd:13)
+ERROR: ordinary-zh_CN-1600x900: compact warning preserves full original explanation and recovery details
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hub_first_screen.gd:11)
+       [1] run (res://tests/test_hub_first_screen.gd:172)
+       [2] settle (res://tests/test_hub_first_screen.gd:13)
+ERROR: candidate-zh_CN-1600x900: compact warning preserves full original explanation and recovery details
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hub_first_screen.gd:11)
+       [1] run (res://tests/test_hub_first_screen.gd:172)
+       [2] settle (res://tests/test_hub_first_screen.gd:13)
+ERROR: ordinary-en-1600x900: compact warning preserves full original explanation and recovery details
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hub_first_screen.gd:11)
+       [1] run (res://tests/test_hub_first_screen.gd:172)
+       [2] settle (res://tests/test_hub_first_screen.gd:13)
+ERROR: candidate-en-1600x900: compact warning preserves full original explanation and recovery details
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hub_first_screen.gd:11)
+       [1] run (res://tests/test_hub_first_screen.gd:172)
+       [2] settle (res://tests/test_hub_first_screen.gd:13)
+FAIL: test_hub_first_screen 8585 checks, 8 failures

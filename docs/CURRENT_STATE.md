@@ -2,9 +2,20 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Playable closure follow-up — 2026-10-06
+## Simplified entry checkpoint — 2026-10-06
 
-Current runtime **10211e5**, Mac **free-alpha-10211e5b8777**, profile
+Current runtime **5efc8ec**, Mac **free-alpha-5efc8ecb3d1f**, profile **Home-5efc8ec**.
+Homepage has only Start/Continue and Choose journey as game actions. Fixed selection
+page contains chapters/stages/reviews; Escape restores home focus. Static machine
+art and clear type replace a scrolling dashboard. Existing closure below unchanged.
+9 frozen affected suites,16 rendered bilingual views, export identity and14 binary
+checks PASS. Native keyboard selector/return/focus and main task-tree entry observed.
+Own QA profiles archived; package starts fresh. Human/audio/device gates remain.
+[Fresh evidence](verification/20261006-first-screen/README.md).
+
+## Previous playable closure follow-up — 2026-10-06
+
+Prior runtime **10211e5**, Mac **free-alpha-10211e5b8777**, profile
 **Closure-10211e5**. Core terminal results and task tree lead directly to earned
 reflection; Representation review safely resumes after canceled/failed departure;
 Service retains a measured verdict and support-gated next action. Saving and

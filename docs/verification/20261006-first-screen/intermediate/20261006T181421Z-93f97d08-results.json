@@ -1,0 +1,48 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T181421Z-93f97d08/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T181421Z-93f97d08/user_directory"
+    },
+    {
+      "name": "test_completion_route",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_route.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T181421Z-93f97d08/test_completion_route"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: ordinary-zh_CN-1280x720: compact warning preserves full original explanation and recovery details",
+        "ERROR: candidate-zh_CN-1280x720: compact warning preserves full original explanation and recovery details",
+        "ERROR: ordinary-en-1280x720: compact warning preserves full original explanation and recovery details",
+        "ERROR: candidate-en-1280x720: compact warning preserves full original explanation and recovery details",
+        "ERROR: ordinary-zh_CN-1600x900: compact warning preserves full original explanation and recovery details",
+        "ERROR: candidate-zh_CN-1600x900: compact warning preserves full original explanation and recovery details",
+        "ERROR: ordinary-en-1600x900: compact warning preserves full original explanation and recovery details",
+        "ERROR: candidate-en-1600x900: compact warning preserves full original explanation and recovery details",
+        "FAIL: test_hub_first_screen 8585 checks, 8 failures"
+      ],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T181421Z-93f97d08/test_hub_first_screen"
+    }
+  ]
+}

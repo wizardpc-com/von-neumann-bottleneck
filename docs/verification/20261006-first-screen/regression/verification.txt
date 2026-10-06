@@ -1,0 +1,12 @@
+Evidence and isolated project: /Users/ray/Documents/von-neumann-bottleneck/.godot/committed-verification/20261006T183149Z-d092a7ce/checkout/.godot/verification/20261006T183150Z-dd175261
+import: PASS (import.txt)
+user_directory: PASS (user_directory.txt)
+test_bilingual_typography: PASS (test_bilingual_typography.txt)
+test_candidate_supports: PASS (test_candidate_supports.txt)
+test_completion_route: PASS (test_completion_route.txt)
+test_core_closure_navigation: PASS (test_core_closure_navigation.txt)
+test_display_preferences: PASS (test_display_preferences.txt)
+test_hub_first_screen: PASS (test_hub_first_screen.txt)
+test_prediction_navigation: PASS (test_prediction_navigation.txt)
+test_prelaunch_settings: PASS (test_prelaunch_settings.txt)
+test_second_act_navigation: PASS (test_second_act_navigation.txt)

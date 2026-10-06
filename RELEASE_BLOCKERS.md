@@ -3,7 +3,15 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current playable closure checkpoint — 2026-10-06
+## Current entry checkpoint — 2026-10-06
+
+**5efc8ec / free-alpha-5efc8ecb3d1f** is the latest candidate. Simplified home,
+explicit selection and native keyboard entry/return are verified;9 affected
+suites,16 exact-size rendered frames and14 binary checks pass.
+[Layered evidence](docs/verification/20261006-first-screen/README.md).
+The human/audio/device/formal gates below remain unchanged.
+
+## Previous playable closure checkpoint — 2026-10-06
 
 **10211e5 / free-alpha-10211e5b8777** supersedes the prior package pointer.
 [Fresh layered evidence](docs/verification/20261006-closure-followup/README.md):

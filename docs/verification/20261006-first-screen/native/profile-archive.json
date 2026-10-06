@@ -1,0 +1,26 @@
+[
+  {
+    "source": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/Home-efc2d9d",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/native-profile-archives/20261006-first-screen/representation/Home-efc2d9d",
+    "files": {
+      "presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+      "feedback_outbox_v1.json": "fe36e92433fd2c8469761608fad04773313d4d0b2f7a43f6e32922659a5272d5",
+      "logs/godot.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "playtest_data/session_20261006-182243-d9f54a1a126c7d18.jsonl": "1648203908d541bd258cacacab576e7238a4d73aadccdefd2c2ff41138c6f55c"
+    },
+    "byte_identity": true
+  },
+  {
+    "source": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/Home-5efc8ec",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/native-profile-archives/20261006-first-screen/representation/Home-5efc8ec",
+    "files": {
+      "presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+      "feedback_outbox_v1.json": "9b31f523269e4bfbbd0cdf3b51599657cc4029cf8e412fcdcd5299d7541e1bc1",
+      "logs/godot.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "logs/godot2026-10-06T14.35.55.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "playtest_data/session_20261006-183325-65ef00b7a6121e6d.jsonl": "9ffc89006fc232877542b3dfd06bbf616c93b2b0634189059ee97c40b12424a8",
+      "playtest_data/session_20261006-183556-83e5c3c9e6b88147.jsonl": "52f7280414f7f6f0e5ce5003d91c4bd46fb2302d202e1d3e2449d4f5bc9b0bd9"
+    },
+    "byte_identity": true
+  }
+]

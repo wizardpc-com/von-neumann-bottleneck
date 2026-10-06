@@ -1,0 +1,42 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T181655Z-bc557d15/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T181655Z-bc557d15/user_directory"
+    },
+    {
+      "name": "test_completion_route",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_route.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T181655Z-bc557d15/test_completion_route"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: candidate-en-1280x720-recovery: homepage surface remains inside viewport [P: (0.0, 0.0), S: (1280.0, 728.0)]",
+        "ERROR: candidate-en-1280x720-after-recovery-details: homepage surface remains inside viewport [P: (0.0, 0.0), S: (1280.0, 728.0)]",
+        "FAIL: test_hub_first_screen 8593 checks, 2 failures"
+      ],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261006T181655Z-bc557d15/test_hub_first_screen"
+    }
+  ]
+}

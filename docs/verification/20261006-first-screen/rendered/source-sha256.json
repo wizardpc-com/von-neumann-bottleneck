@@ -1,0 +1,5 @@
+{
+  "src/ui/prototype_hub.gd": "9f527d7999fbcb61b04338a0a7c9d2aa6dd9968baca0e47cf5490fc429a1229a",
+  "src/ui/hub_machine_art.gd": "c254ed29c860272cea803826a8b0f2b048cb6e216f1fde24439f3fbeb0963053",
+  "tests/test_hub_first_screen.gd": "9543fe58fd939204e002c1ec927d953b604724707da01ed537a79380aaa1f6d6"
+}

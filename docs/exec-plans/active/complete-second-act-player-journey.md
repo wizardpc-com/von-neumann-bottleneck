@@ -567,3 +567,25 @@ visual observation requested to distinguish capture artifact. No security change
 This closes a representative windowed native drag gate. External novice/otherMac,
 extended focus/DPI and fullscreen diagnosis remain open; next repair must follow
 a concrete reproduced finding, not speculative new content or model rewriting.
+
+### 2026-10-06 current-head CI and completion audit
+
+Previous goal turn made progress: native pointer/Continue proof and commit43039fa.
+Current re-audit finds no new owned source change or received external acceptance.
+Observed live CI37449798188 for43039fa was awaited to terminal success, not
+restarted. [Actual run](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37449798188).
+All83 downloaded Godot logs inspected: exact81 conventional suite set matches
+verify-project.py discovery, no missing/error/failing log. GUI-only recovery
+input is excluded by that verifier and is not claimed as a CI suite. Full Python
+output confirms all five commands pass. Four existing desktop fixture anchor
+warnings and Actions Node runtime notices remain; no warning-free claim.
+Raw logs/inspection retained locally at .godot/ci-43039fa; prior committed frozen
+CI receipts remain valid because9e..43039fa contains only docs/evidence.
+
+This closes current-head Linux CI, not unfamiliar-player/otherMac or extended
+display acceptance. No new gameplay rule, runtime, model, save schema or package.
+Only this plan is edited/committed; skip redundant push CI for this documentation
+receipt. Do not create a loop of evidence-only pushes and repeated full checks.
+Overall goal remains active/unproven. Next substantive iteration needs a concrete
+player/platform finding or independent visual observation of the fullscreen strip;
+existing requests remain unanswered, and no answer is inferred from elapsed time.

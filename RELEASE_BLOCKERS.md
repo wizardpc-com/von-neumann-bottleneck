@@ -2,6 +2,32 @@
 
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
+
+## Local second-act Mac candidate — 2026-10-06
+
+The latest bounded candidate is **free-alpha-f84c3d64a7e1**, source/build
+`f84c3d64a7e14176041024a2be559affb2445092`. It is a local Mac-only candidate,
+separate from public Alpha and the historical two-platform freeze below.
+[Exact receipts and failed-attempt limits](docs/verification/20261005-second-act-continuity/README.md).
+
+| Gate | Current status | Evidence / remaining requirement |
+| --- | --- | --- |
+| Frozen Mac identity and source/package parity | **Verified for this Mac candidate** | Official4.7.1 template; actual universal export; archive SHA256 `c35407c6b582c4d411204a55a2352e93b5959f3a836902e2de6c51a3b9f7f971`; real binary/PCK14 checks |
+| Candidate continuity and outcome protection | **Technically verified** | Five Representation/three Service visible-input route, independent bilingual resume, protected recipe and Mac lifecycle checks; no campaign migration |
+| Actual exported operation and restore | **Representative native checks verified** | Service slot edit/run/save and independent release restart; Representation task3 public/recorded order keyboard menus and synchronized metrics; normal exit0 and released leases |
+| Native pointer/drag and full5+3 informed play | **Pending** | Keyboard popup evidence is partial; previous CUA pointer failures do not establish mouse usability |
+| Unfamiliar-player understanding and other Mac installation | **Pending external evidence** | No result for this candidate has been received; authored-answer replay and this Mac do not substitute |
+| Formal content integration | **Pending** | Candidate navigation/save are permitted technical acceptance paths, not formal campaign registration or release |
+| Developer-branch push | **Blocked by local HTTPS authentication** | Origin ownership verified;2026-10-06 authorized `git push --dry-run origin HEAD` exited128 for absent username, no remote write |
+| Public distribution | **Not authorized** | No upload, main merge, paid signing or deployment |
+
+The28-file evidence manifest and actual archive hash were checked afresh on
+2026-10-06. No implementation changes or repeated full regression were required.
+The original40 tasks and independent endings remain. Full-goal acceptance is open;
+additional mechanics cannot substitute for the pending player/platform evidence.
+
+## Earlier general release gates (historical freeze, still separate)
+
 Source checks through `e24c34e` and the frozen `60de5e54c95d` release-binary probe
 are separate evidence. The frozen package predates the wire, desktop and guidance
 follow-ups. The latest source-native mouse attempt returned `noWindowsAvailable`;

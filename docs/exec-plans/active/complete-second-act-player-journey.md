@@ -267,3 +267,30 @@ full5+3, novice and otherMac acceptance remain. No runtime changes or repeat tes
 An asynchronous request now asks for actual independent-player/otherMac results;
 no response is assumed. Continue only with concrete safe outstanding acceptance
 or findings; do not expand mechanics to replace missing external evidence.
+
+
+### 2026-10-06 external acceptance blocking audit1
+
+Previous goal turn was progress: native task3 order controls were actually operated
+and evidence committed8b54884. Current continuation made no new implementation
+or completed acceptance gate. Current source/runtime and unrelated changes are
+unchanged.28 committed evidence hashes and actual Mac archive SHA256 revalidated.
+No live Godot/native job exists; do not label this as waiting on a running job.
+Git origin matches the verified owned repository; authorized dry-run HEAD push
+session76480 ended128 for missing HTTPS username. No remote mutation.
+
+No independent-player/otherMac response has arrived to the pending request.
+Missing player-understanding/platform evidence and credentials still require an
+external change. The root release-blocker page incorrectly stopped at the older
+60de5e54c95d freeze; it now links the current Mac-onlyf84 candidate separately,
+without closing older Windows, native pointer or external gates. This is evidence
+reconciliation, not new game content or progress through the missing acceptance.
+
+No known source defect remains to repair safely from current findings. Repeating
+known answers through all5+3 would expand testing beyond the requested minimum
+and would still not establish unfamiliar-player understanding or another Mac.
+Do not invent mechanics, lower goals or grant formal progress in place of that
+proof. Goal remains active; this is the first no-progress external blocking audit
+after the prior native progress. Next meaningful action requires a new concrete
+player finding/platform result or restored authentication. Do not mark complete,
+paused, or blocked before the prescribed blocking threshold.

@@ -231,3 +231,16 @@ validated recipes without metrics or completion authority. Schema1/2 remain
 readable. UI copies into existing transactional drafts; only ordinary execution
 produces measured evidence. Named alternatives survive rolling history without
 expanding protected-success authority or production formats.
+
+## Internal completion journey presentation
+
+The bound candidate Hub offers a recommended core→Representation→Service route
+without changing task registration or prerequisites. Core reflection retains its
+existing two-terminal achievement rule and offers a reversible Representation
+bridge; Service's earned review returns through the existing unsaved Home guard.
+`experiments/candidate_session/completion_presentation.gd` formats only detached
+`journey_review` snapshots into four reopenable pages. Unavailable evidence remains
+unconfirmed, empty readable profiles show zero, and drafts grant nothing. Models,
+leases, schema3 and production saves remain unchanged. Service keeps precise
+contract failures visible while full specifications and measured bills are opened
+on demand. Prediction remains a separate session-only optional experiment.

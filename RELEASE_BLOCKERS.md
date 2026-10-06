@@ -3,9 +3,21 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current local candidate follow-up — 2026-10-06
+## Internal completion round — 2026-10-06
 
-**free-alpha-9e1f6019c102** is the current local Mac artifact. Confirmed reload
+Current source/package identity and new validation are recorded in
+[completion evidence](docs/verification/20261006-completion/README.md).
+Recommended navigation, Service information hierarchy and earned closing pages
+are candidate implementation, not a formal release or educational/artistic
+acceptance. Novice comprehension, listening, otherMac installation, extended
+focus/DPI and final style remain open. Prediction is separate session-only
+exploration; it is not a connected saved chapter. Historical package receipts below
+remain attributed to their original builds and must not be combined into a new
+full-route native claim.
+
+## Historical local candidate follow-up — 2026-10-06
+
+**free-alpha-9e1f6019c102** is the earlier complete native5+3 Mac artifact. Confirmed reload
 selection/empty-profile reset and optional Prediction source attribution pass
 frozen affected checks;1856 source files match and binary/PCK14 checks pass.
 [Exact receipts](docs/verification/20261006-confirmed-reload/README.md).

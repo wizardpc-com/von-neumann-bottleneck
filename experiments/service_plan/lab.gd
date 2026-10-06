@@ -61,6 +61,8 @@ var data_button: Button
 var restore_button: Button
 var mission: Label
 var status: Label
+var draft_source: Label
+var bill_button: Button
 var evidence_tabs: TabContainer
 var public_raw: bool = false
 var public_raw_button: Button
@@ -132,6 +134,11 @@ func guidance_text() -> String:
 func hint_text() -> String:
 	return "Hint1 · " + guidance_text()
 
+func mission_overview_text() -> String:
+	# Keep the current contract visible; shared execution rules remain reopenable.
+	if commission_mode >= 0: return Commissions.title(commission_mode,english)+tr2(" · 可选委托；完整限制见追加委托页。", " · Optional; full limits are in Follow-ups.")
+	return mission_text().split("\n")[1]
+
 func build() -> void:
 	var previous_tab: int = evidence_tabs.current_tab if is_instance_valid(evidence_tabs) else 0
 	for child: Node in get_children(): remove_child(child); child.queue_free()
@@ -153,12 +160,13 @@ func build() -> void:
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void: hint_open = not hint_open; refresh_mission(), "Hint1")
 	button(tr2("服务入门", "Service introduction"), stages, show_briefing, "ServiceIntroduction")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
+	button(tr2("完整规格", "Full specification"),stages,show_specification,"ServiceSpecification")
 	button(tr2("追加委托", "Follow-up commissions"),stages,func() -> void: start_commission(maxi(commission_mode,0)),"ServiceCommissions")
 	mission = label("", page, 14); refresh_mission()
 	status = label(tr2("构造组和顺序，选择逐流表示，再测量。实验进度只在内存。", "Construct groups/order and per-stream storage, then measure. Lab progress is session-only."), page, 14)
 	var body := HBoxContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.add_theme_constant_override("separation", 14); page.add_child(body)
 	var editor := VBoxContainer.new(); editor.custom_minimum_size.x = 430; body.add_child(editor)
-	label(tr2("服务组（可拖动）· 从上到下执行", "Drag service groups · execute top to bottom"), editor)
+	draft_source = label("",editor,14); draft_source.name = "DraftSource"
 	group_list = preload("res://experiments/service_plan/group_list.gd").new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_EXPAND_FILL; group_list.custom_minimum_size.y = 100; editor.add_child(group_list)
 	group_list.tooltip_text = tr2("四格依次代表A/B/C/D；亮格表示组内包含该流。可拖动整组，运行核验同流保序。", "Four marks represent A/B/C/D; lit marks show streams present. Drag whole groups; Run validates stream order.")
 	group_list.group_moved.connect(func(source: int, target: int) -> void: edit(Model.move(plan,source,target-source),target))
@@ -212,6 +220,9 @@ func build() -> void:
 	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
 	measured_source = label("",overview,13)
 	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
+	var investigation := HBoxContainer.new(); overview.add_child(investigation)
+	bill_button = button(tr2("完整实测账单", "Measured bill"),investigation,show_measured_bill,"MeasuredBill")
+	button(tr2("查看历史在哪里", "Where is history?"),investigation,func() -> void: evidence_tabs.current_tab = 5,"ShowStateJourney")
 	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
 	evidence_tabs.set_tab_title(3,tr2("对照比较", "Compare"))
 	build_commissions()
@@ -256,8 +267,9 @@ func build() -> void:
 	evidence_tabs.current_tab = previous_tab if previous_tab != 4 or (commission_mode >= 0 and has_service_closure()) else 0
 	if persistent_session and not notice_key.is_empty(): status.text = session_notice()
 
-func refresh_mission() -> void: mission.text = mission_text() + ("\n" + hint_text() if hint_open else "")
+func refresh_mission() -> void: mission.text = mission_overview_text() + ("\n" + hint_text() if hint_open else "")
 func refresh_groups() -> void:
+	draft_source.text = tr2("当前草稿 · %d组 / %d状态槽；从上到下执行（可拖动）", "Current draft · %d groups / %d slots; execute top to bottom (drag to move)") % [plan.groups.size(),plan.slots]
 	group_list.clear()
 	for index: int in plan.groups.size():
 		var tokens: PackedStringArray = []
@@ -269,6 +281,7 @@ func refresh_groups() -> void:
 	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
 func refresh_actions() -> void:
 	refresh_design_shelf()
+	bill_button.disabled = selected_history < 0 or selected_history >= history.size()
 	var quality_button := find_child("QualityEvidence",true,false) as Button
 	if quality_button != null: quality_button.disabled = selected_history < 0 or selected_history >= history.size() or not str(history[selected_history].metrics.error).is_empty()
 	var support_button := find_child("RestoreSupport",true,false) as Button
@@ -360,7 +373,7 @@ func select_run(index: int) -> void:
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	response_step.disabled = response_chart.first_responses.is_empty()
 	response_play.disabled = response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false))
-	summary.text = tr2("总%d周期 · 全部%dB · 状态读写%dB · 峰值%dB\n费用 请求%d / 搬运%d / 运算%d / 提交%d / 编码%d\nA/B/C/D首响应%s · 读%d / 写%d (flush%d)\n分数误差%.6f · 最终状态误差%.6f · 外存%d→%dB", "Total%dcyc · all%dB · state%dB · peak%dB\nCosts request%d / transfer%d / compute%d / commit%d / codec%d\nA/B/C/D first%s · reads%d / writes%d (flush%d)\nScore error%.6f · state error%.6f · backing%d→%dB") % [m.total_cycles, m.traffic_bytes, m.state_read_bytes + m.state_write_bytes, m.peak_bytes, m.request_cycles, m.transfer_cycles, m.compute_cycles, m.commit_cycles, m.codec_cycles, str(m.first_stream_cycles), m.state_reads, m.state_writes, m.flush_writes, m.max_error, m.max_state_error, m.initial_backing_bytes, m.final_backing_bytes]
+	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n历史在%d个自动驻留槽与外存间流转；结束写回后外存%dB。\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nHistory moves between %d automatic resident slots and backing storage; final flushed archive%dB.\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,m.plan.slots,m.final_backing_bytes,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)]
 	if not str(m.error).is_empty(): summary.text = invalid_feedback(m)+"\n"+tr2("没有性能或精度结果：该方案在执行前被拒绝。修改草稿后重新运行；历史记录保留。", "No performance or quality result: this plan was rejected before execution. Edit and rerun; history is retained.")
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:
@@ -502,6 +515,29 @@ func refresh_public_data() -> void:
 
 func show_public_data() -> void:
 	refresh_public_data(); evidence_tabs.current_tab = 2
+
+func show_specification() -> void:
+	var text: String = mission_text()+"\n\n"+(Commissions.briefing(commission_mode,english)+"\n\n" if commission_mode >= 0 else "")+str(Briefing.pages(english)[2].body)+"\n\n"+tr2("各任务只改变验收限制。编辑草稿、运行、选择记录；旧记录始终使用它自己的方案。公开数据页保留完整输入和成本，历史去向页展示实际事件中的状态位置。", "Each task changes only acceptance limits. Edit, run and select a record; old measurements keep their own plans. Public data retains full inputs and costs; State journey shows locations from actual recorded events.")
+	show_detail_dialog("ServiceSpecificationReview",tr2("完整服务规格", "Full service specification"),text)
+
+func measured_bill_text(record: Dictionary) -> String:
+	var m: Dictionary = record.metrics
+	var result: String = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
+	if not str(m.error).is_empty(): return result+"\n\n"+tr2("执行前被拒绝；没有实测性能、响应或精度账单。", "Rejected before execution; no measured performance, response or quality bill.")
+	return result+"\n\n"+tr2("总%d周期 · 全部搬运%dB · 状态读写%dB · 峰值%dB\n周期费用：请求启动%d / 搬运%d / 运算%d / 提交%d / 编码%d\nA/B/C/D首响应%s\n状态读%d次 / 写%d次（最终flush%d次）· 复用%d次 / 淘汰%d次\n分数误差%s · 最终状态误差%s\n外存%d→%dB（含目录；最终档案与累计状态流量不同）", "Total%d cycles · all transfers%dB · state traffic%dB · peak%dB\nCycle costs: request setup%d / transfer%d / compute%d / commit%d / codec%d\nA/B/C/D first responses%s\nState reads%d / writes%d (final flush%d) · reuse%d / evictions%d\nScore error%s · final-state error%s\nBacking storage%d→%dB (includes directory; final archive differs from cumulative state traffic)") % [m.total_cycles,m.traffic_bytes,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,m.request_cycles,m.transfer_cycles,m.compute_cycles,m.commit_cycles,m.codec_cycles,str(m.first_stream_cycles),m.state_reads,m.state_writes,m.flush_writes,m.state_hits,m.evictions,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error),m.initial_backing_bytes,m.final_backing_bytes]
+
+func show_measured_bill() -> void:
+	if selected_history < 0 or selected_history >= history.size(): return
+	show_detail_dialog("MeasuredBillReview",tr2("记录%d · 完整实测账单", "Record%d · Measured bill") % (selected_history+1),measured_source.text+"\n\n"+measured_bill_text(history[selected_history]))
+
+func show_detail_dialog(id: String, title_text: String, text: String) -> void:
+	var existing := get_node_or_null(id) as AcceptDialog
+	if existing != null: remove_child(existing); existing.queue_free()
+	var review := AcceptDialog.new(); review.name = id; review.title = title_text
+	var content := RichTextLabel.new(); content.name = "ReviewContent"
+	content.custom_minimum_size = Vector2(660,300); content.scroll_active = true; content.text = text
+	review.add_child(content); review.ok_button_text = tr2("回到工作台", "Back to workbench")
+	add_child(review); review.popup_centered(Vector2i(700,380))
 
 func public_observation() -> Dictionary:
 	var public_data: Array = []
@@ -731,6 +767,11 @@ func show_closure() -> void:
 	content.text = "\n".join(lines); content.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(content)
+	if candidate_journey:
+		var next: Button = review.add_button(tr2("返回首页 · 回看旅程", "Home · revisit journey"),false,"journey")
+		next.name = "ServiceToJourney"
+		review.custom_action.connect(func(action: StringName) -> void:
+			if action == &"journey": review.hide(); request_hub())
 	review.ok_button_text = tr2("回到我的工作台", "Back to my workbench")
 	add_child(review); review.popup_centered(Vector2i(760,480))
 

@@ -2,6 +2,23 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Internal completion journey — 2026-10-06
+
+The candidate Hub now recommends core construction/bottleneck work, its earned
+core ending, Representation and Service, followed by a four-page saved-achievement
+closure. It preserves independent entries and parallel timing/placement paths.
+Core→Representation is reversible; Service→Home retains Save/Discard/Cancel.
+Service's overview separates current draft and measured history, with full public
+specification and measured bill available on demand. No model, contract, registered
+40-task progression or save schema changes. Prediction remains standalone optional
+session-only exploration. Unconfirmed saved data is never displayed as known zero.
+
+Source/package freeze and exact new evidence are maintained in the
+[completion record](verification/20261006-completion/README.md), with
+[route, Claude interfaces and team questions](verification/20261006-completion/TEAM_REVIEW.md).
+This is an internal discussion candidate; new-user comprehension, sound, otherMac
+and final visual/narrative acceptance are still deferred.
+
 ## Named second-act designs — 2026-10-06
 
 Representation and Service now retain up to24 named player designs independently

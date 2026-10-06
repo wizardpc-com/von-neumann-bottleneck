@@ -41,6 +41,8 @@ var latest_export_path: String = ""
 var options_quit_button: Button
 var options_previous_focus: Control
 var candidate_journey: bool = false
+var completion_story_page: int = 0
+var completion_story_pages: Array[Dictionary] = []
 var settings_only: bool = false
 signal settings_closed
 
@@ -166,9 +168,11 @@ func _build_interface() -> void:
 	mode_description_label.add_theme_color_override("font_color", WARNING if GameMode.is_test_mode() else MUTED)
 	content.add_child(mode_description_label)
 	if candidate_journey:
+		_build_completion_route(content)
+	_build_tree_entry(content)
+	if candidate_journey:
 		_build_candidate_entry(content)
 		_build_service_candidate_entry(content)
-	_build_tree_entry(content)
 	save_recovery_label = Label.new()
 	save_recovery_label.name = "SaveRecoveryNotice"
 	save_recovery_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -323,7 +327,9 @@ func _focus_tree_entry(button: Button) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if not is_instance_valid(button) or options_overlay.visible or new_game_overlay.visible: return
-	button.grab_focus()
+	var recommended := find_child("RecommendedJourneyAction", true, false) as Button
+	if candidate_journey and recommended != null: recommended.grab_focus()
+	else: button.grab_focus()
 	await get_tree().process_frame
 	var scroll: ScrollContainer = find_child("ChapterScroll",true,false)
 	if is_instance_valid(scroll): scroll.scroll_vertical=0
@@ -817,9 +823,14 @@ func _open_chapter(scene_path: String) -> void:
 func _open_theme_reflection() -> void:
 	if get_node_or_null("ThemeReflection") != null: return
 	var reflection = preload("res://src/ui/theme_reflection.gd").new()
-	var hardware: Dictionary = {} if GameMode.is_test_mode() else GlobalSave.game_player_content.completed_levels
-	var keys: Array[StringName] = reflection.milestones(hardware,SystemChapter.completed_levels(),LocalityChapter.completed_levels(),OverlapChapter.completed(),LayoutChapter.completed())
+	var keys: Array[StringName] = _core_reflection_keys()
 	reflection.configure(keys,Localization.text)
+	if candidate_journey and &"theme.ending" in keys:
+		var next: Button = reflection.add_button("下一段：改变承载" if Localization.current_locale() != "en" else "Next: a different representation", false, "representation")
+		next.name = "CoreToRepresentation"
+		reflection.custom_action.connect(func(action: StringName) -> void:
+			if action == &"representation":
+				reflection.hide(); reflection.queue_free(); _show_completion_bridge())
 	add_child(reflection)
 	reflection.popup_centered(Vector2i(640,500))
 
@@ -829,9 +840,11 @@ func _build_candidate_entry(content: VBoxContainer) -> void:
 	var english: bool = Localization.current_locale() == "en"
 	var panel := PanelContainer.new(); panel.name = "RepresentationCandidateEntry"; content.add_child(panel)
 	var column := VBoxContainer.new(); panel.add_child(column)
-	var title := Label.new(); title.text = "表示 · 独立候选旅程" if not english else "Representation · isolated candidate journey"; column.add_child(title)
+	var title := Label.new(); title.text = "第二幕 · 表示" if not english else "Second act · Representation"; column.add_child(title)
 	var description := Label.new(); description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	description.text = "同一份信息，不同的承载方式。构造、比较并完成已有五份任务；方案独立保存，可退出重开继续。下面的原有核心旅程与结尾保持不变。" if not english else "The same information, carried differently. Build, compare and complete five existing tasks. Save independently, quit and resume. The original core journey and ending below remain unchanged."
+	description.text = "同一份信息，不同的承载方式。构造、比较并完成已有五份任务；方案独立保存，可退出重开继续。推荐在核心收束后继续，也可独立进入。" if not english else "The same information, carried differently. Build, compare and complete five existing tasks. Save independently, quit and resume. Recommended after the core ending; independent entry remains available."
+	if candidate_review_paths().is_empty():
+		description.text = "同一份信息，不同的承载方式。此入口未绑定命名候选档；默认是临时实验。" if not english else "The same information, carried differently. This entry has no named candidate profile; it is a temporary experiment by default."
 	column.add_child(description)
 	var entry := Button.new(); entry.name = "EnterRepresentationCandidate"
 	entry.text = "进入 / 继续表示候选旅程" if not english else "Enter / resume representation candidate"
@@ -842,16 +855,18 @@ func _build_service_candidate_entry(content: VBoxContainer) -> void:
 	var english: bool = Localization.current_locale() == "en"
 	var panel := PanelContainer.new(); panel.name = "ServiceCandidateEntry"; content.add_child(panel)
 	var column := VBoxContainer.new(); panel.add_child(column)
-	var title := Label.new(); title.text = "持续状态与服务 · 独立候选旅程" if not english else "Persistent state and service · isolated candidate journey"; column.add_child(title)
+	var title := Label.new(); title.text = "第二幕 · 持续状态与服务" if not english else "Second act · Persistent state and service"; column.add_child(title)
 	var description := Label.new(); description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	description.text = "让历史留在合适的位置，再安排谁先得到回答。三份合同逐步探索搬运、及时响应与表示；方案独立保存，可返回和继续。表示与预测均不是进入前置。" if not english else "Keep history where it can serve the next request, then decide who receives an answer first. Three contracts explore traffic, timely responses and representation. Save, return and resume independently; representation and prediction are not prerequisites."
+	if candidate_review_paths().is_empty():
+		description.text = "让历史服务后来的请求。此入口未绑定命名候选档；默认是临时实验。" if not english else "Let history serve later requests. This entry has no named candidate profile; it is a temporary experiment by default."
 	column.add_child(description)
 	var entry := Button.new(); entry.name = "EnterServiceCandidate"
 	entry.text = "进入 / 继续服务候选旅程" if not english else "Enter / resume service candidate"
 	entry.custom_minimum_size.y = 42; column.add_child(entry)
 	entry.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://experiments/service_plan/lab.tscn"))
 	var review := Button.new(); review.name = "SavedSecondActReview"
-	review.text = "回顾已保存的第二幕方案" if not english else "Review saved second-act plans"
+	review.text = "查看已保存的成果明细" if not english else "Inspect saved achievement details"
 	review.custom_minimum_size.y = 38; column.add_child(review); review.pressed.connect(show_candidate_review)
 
 # Review only explicitly bound candidate profiles, never campaign user files.
@@ -915,3 +930,112 @@ func show_candidate_review() -> void:
 	dialog.custom_action.connect(func(action: StringName) -> void:
 		if action == &"refresh": show_candidate_review())
 	add_child(dialog); dialog.popup_centered(Vector2i(780,480))
+
+# Recommendations are presentation only; the existing task tree owns prerequisites.
+static func recommended_stage(core_finished: bool, review: Dictionary) -> String:
+	if not core_finished: return "core"
+	if str(review.get("representation", {}).get("status", "unavailable")) != "complete": return "representation"
+	if str(review.get("service", {}).get("status", "unavailable")) != "complete": return "service"
+	return "review" if bool(review.get("complete", false)) else "service"
+
+func _core_reflection_keys() -> Array[StringName]:
+	var hardware: Dictionary = {} if GameMode.is_test_mode() else GlobalSave.game_player_content.completed_levels
+	return preload("res://src/ui/theme_reflection.gd").milestones(hardware, SystemChapter.completed_levels(), LocalityChapter.completed_levels(), OverlapChapter.completed(), LayoutChapter.completed())
+
+func _saved_completion_review() -> Dictionary:
+	var paths: Dictionary = candidate_review_paths()
+	if paths.is_empty(): return {}
+	return preload("res://experiments/candidate_session/journey_review.gd").read_pair(paths.representation, paths.service)
+
+func _build_completion_route(content: VBoxContainer) -> void:
+	var english: bool = Localization.current_locale() == "en"
+	var panel := PanelContainer.new(); panel.name = "RecommendedJourney"; content.add_child(panel)
+	var column := VBoxContainer.new(); panel.add_child(column)
+	var heading := Label.new()
+	heading.text = "推荐旅程 · 内部评审候选" if not english else "Recommended journey · internal review candidate"
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(heading)
+	var route := Label.new(); route.name = "RecommendedJourneyRoute"
+	route.text = "造出机器 → 认识等待 → 局部性 → 时序与位置（两路并行）→ 核心收束 → 表示 → 服务 → 扩展收束" if not english else "Build a machine → Discover waiting → Locality → Timing and placement (parallel paths) → Core ending → Representation → Service → Extended ending"
+	route.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(route)
+	var core_finished: bool = &"theme.ending" in _core_reflection_keys()
+	var review: Dictionary = _saved_completion_review()
+	var progress := Label.new(); progress.name = "RecommendedJourneyProgress"
+	var pieces: Array[String] = [(("核心：已收束" if core_finished else "核心：从任务树继续") if not english else ("Core: ending earned" if core_finished else "Core: continue on the task tree"))]
+	for domain: String in ["representation", "service"]:
+		var label: String = ("表示" if domain == "representation" else "服务") if not english else domain.capitalize()
+		var item: Dictionary = review.get(domain, {})
+		var status: String = str(item.get("status", "unavailable"))
+		pieces.append(label + ("：待确认保存成果" if not english else ": saved work unconfirmed") if status == "unavailable" else label + ": %d/%d" % [item.get("completed", []).size(), 5 if domain == "representation" else 3])
+	progress.text = " · ".join(pieces); progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; column.add_child(progress)
+	var stage: String = recommended_stage(core_finished, review)
+	var action := Button.new(); action.name = "RecommendedJourneyAction"; action.custom_minimum_size.y = 44
+	var captions: Dictionary = {"core": ["开始 / 继续核心旅程", "Start / continue the core journey"], "representation": ["下一段：改变信息的承载", "Next: change how information is carried"], "service": ["下一段：让历史服务新的请求", "Next: let history serve new requests"], "review": ["回看这一段旅程", "Revisit this journey"]}
+	action.text = captions[stage][1 if english else 0]; column.add_child(action)
+	action.pressed.connect(func() -> void:
+		match stage:
+			"core":
+				if GlobalSave.continue_scene_path().is_empty(): get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE)
+				else: _continue_game()
+			"representation": _show_completion_bridge()
+			"service": get_tree().change_scene_to_file("res://experiments/service_plan/lab.tscn")
+			"review": show_completion_story()
+	)
+	var note := Label.new()
+	note.text = "推荐顺序不增加解锁条件。应用支线与追加委托可选；核心、表示、服务分别保存。预测是独立的临时探索。" if not english else "Recommendations add no prerequisites. Applications and commissions are optional. Core, Representation and Service save independently. Prediction is a separate temporary exploration."
+	if candidate_review_paths().is_empty():
+		note.text = "当前为未绑定存档的开发预览；第二幕默认仅本次会话，不能据此确认保存或继续。持久旅程请使用命名候选包。推荐顺序不增加解锁条件。" if not english else "Unbound developer preview: second-act work is session-only by default; saved continuation cannot be confirmed. Use a named candidate package for the persistent journey. Recommendations add no prerequisites."
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; note.add_theme_font_size_override("font_size", 16); column.add_child(note)
+	var core_review := Button.new(); core_review.name = "RecommendedCoreReview"
+	core_review.text = "回看核心成果" if not english else "Revisit core achievements"
+	core_review.pressed.connect(_open_theme_reflection); column.add_child(core_review)
+	var story := Button.new(); story.name = "CompletionStory"
+	story.text = "回看第二幕旅程" if not english else "Revisit the second-act journey"
+	story.pressed.connect(show_completion_story); column.add_child(story)
+
+func _show_completion_bridge() -> void:
+	if not candidate_journey: return
+	var old := get_node_or_null("CompletionBridge")
+	if old != null: remove_child(old); old.queue_free()
+	var english: bool = Localization.current_locale() == "en"
+	var page: Dictionary = preload("res://experiments/candidate_session/completion_presentation.gd").bridge(english)
+	var dialog := ConfirmationDialog.new(); dialog.name = "CompletionBridge"; dialog.title = str(page.title)
+	dialog.ok_button_text = "进入表示" if not english else "Enter Representation"
+	dialog.cancel_button_text = "稍后再来" if not english else "Later"
+	var text := Label.new(); text.text = str(page.body); text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if candidate_review_paths().is_empty():
+		text.text += "\n\n此启动未绑定候选存档，默认仅本次会话。请用命名候选包保存并继续。" if not english else "\n\nThis launch is not bound to a candidate profile; it is session-only by default. Use a named candidate package to save and resume."
+	text.custom_minimum_size = Vector2(560, 170); dialog.add_child(text)
+	dialog.confirmed.connect(func() -> void: get_tree().call_deferred("change_scene_to_file", "res://experiments/representation_region/region.tscn"))
+	add_child(dialog); dialog.popup_centered(Vector2i(620, 290))
+
+func show_completion_story() -> void:
+	if not candidate_journey: return
+	var english: bool = Localization.current_locale() == "en"
+	completion_story_pages = preload("res://experiments/candidate_session/completion_presentation.gd").pages(_saved_completion_review(), english)
+	completion_story_page = 0
+	var old := get_node_or_null("CompletionStoryDialog")
+	if old != null: remove_child(old); old.queue_free()
+	var dialog := AcceptDialog.new(); dialog.name = "CompletionStoryDialog"
+	dialog.title = "A Thought Within the World"
+	dialog.ok_button_text = "返回旅程" if not english else "Back to journey"
+	var scroll := ScrollContainer.new(); scroll.name = "StoryScroll"
+	scroll.custom_minimum_size = Vector2(620, 300); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; dialog.add_child(scroll)
+	var body := Label.new(); body.name = "StoryText"; body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(body)
+	var previous: Button = dialog.add_button("上一页" if not english else "Previous", true, "previous"); previous.name = "StoryPrevious"
+	var next: Button = dialog.add_button("下一页" if not english else "Next", false, "next"); next.name = "StoryNext"
+	var detail: Button = dialog.add_button("成果明细" if not english else "Evidence", false, "evidence"); detail.name = "StoryEvidence"
+	dialog.custom_action.connect(func(action: StringName) -> void:
+		if action == &"evidence": dialog.hide(); show_candidate_review(); return
+		completion_story_page = clampi(completion_story_page + (1 if action == &"next" else -1), 0, completion_story_pages.size() - 1)
+		_refresh_completion_story())
+	add_child(dialog); _refresh_completion_story(); dialog.popup_centered(Vector2i(670, 420))
+
+func _refresh_completion_story() -> void:
+	if completion_story_pages.is_empty(): return
+	var dialog := get_node("CompletionStoryDialog") as AcceptDialog
+	var page: Dictionary = completion_story_pages[completion_story_page]
+	(dialog.find_child("StoryText", true, false) as Label).text = "%d / %d   %s\n\n%s" % [completion_story_page + 1, completion_story_pages.size(), page.title, page.body]
+	(dialog.find_child("StoryPrevious", true, false) as Button).disabled = completion_story_page == 0
+	(dialog.find_child("StoryNext", true, false) as Button).disabled = completion_story_page == completion_story_pages.size() - 1
+	(dialog.get_node("StoryScroll") as ScrollContainer).scroll_vertical = 0

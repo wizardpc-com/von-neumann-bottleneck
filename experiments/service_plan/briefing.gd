@@ -9,7 +9,7 @@ static func pages(en: bool = false) -> Array[Dictionary]:
 			},
 			{
 				"title": "2 · Operations",
-				"body": "Select a service group to join the next group, split it, or move the whole group by dragging or using the move controls. Execution goes from top to bottom. Each group reads all inputs, computes all its requests, then returns its results.\n\nClick A/B/C/D to cycle each client's storage representation. Set 1–4 automatic LRU slots; Undo/Redo lets you revise your draft. Run validates dependencies and capacity, then records measured costs, responses and quality.\n\nSelect a recording to inspect its own plan and events. Draft edits do not change old results; restore a recorded plan to vary it. Save in the candidate profile before returning Home; reopen that profile to continue. You can skip this introduction and reopen it later."
+				"body": "Select a service group to join the next group, split it, or move the whole group by dragging or using the move controls. Execution goes from top to bottom. Each group reads all inputs, computes all its requests, then returns its results.\n\nClick A/B/C/D to cycle each client's storage representation. Set 1–4 automatic LRU slots; Undo/Redo lets you revise your draft. Run validates dependencies and capacity, then records measured costs, responses and quality.\n\nOverview shows your measured plan, costs, quality and who waits for the first answer. Where is history? opens the recorded state journey. Measured bill, Quality evidence and Public data hold the detailed costs, coordinates and full values; Full specification reopens all contract rules.\n\nSelect a recording to inspect its own plan and events. Draft edits do not change old results; restore a recorded plan to vary it. Save in the candidate profile before returning Home; reopen that profile to continue. You can skip this introduction and reopen it later."
 			},
 			{
 				"title": "3 · Public rules",
@@ -23,7 +23,7 @@ static func pages(en: bool = false) -> Array[Dictionary]:
 		},
 		{
 			"title": "2 · 操作与继续",
-			"body": "选中服务组，可合并下一组、拆组；拖动或使用移动按钮调整整组位置。从上到下执行，每组先读取全部输入，算完整组，再逐项返回结果。\n\n点击A/B/C/D切换各客户的存储表示，选择1–4个自动LRU状态槽。撤销/重做可修改草稿。点击运行，先核验依赖和容量，再记录实测成本、响应与质量。\n\n选择旧记录，查看它自己的方案和事件。编辑草稿不会改变旧结果；可取回记录方案继续修改。在候选档中保存后返回首页，再进入同一候选档可继续。本说明可以跳过，也可再次打开。"
+			"body": "选中服务组，可合并下一组、拆组；拖动或使用移动按钮调整整组位置。从上到下执行，每组先读取全部输入，算完整组，再逐项返回结果。\n\n点击A/B/C/D切换各客户的存储表示，选择1–4个自动LRU状态槽。撤销/重做可修改草稿。点击运行，先核验依赖和容量，再记录实测成本、响应与质量。\n\n结果概览先显示实测方案、成本、质量和谁在等首个回答。「查看历史在哪里」打开实测状态去向。完整实测账单、精度依据、公开数据分别保留详细费用、误差坐标和完整数值；完整规格可重看全部合同规则。\n\n选择旧记录，查看它自己的方案和事件。编辑草稿不会改变旧结果；可取回记录方案继续修改。在候选档中保存后返回首页，再进入同一候选档可继续。本说明可以跳过，也可再次打开。"
 		},
 		{
 			"title": "3 · 公开规则",

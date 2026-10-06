@@ -652,3 +652,17 @@ shifted public data and finite decision budgets. Use `run-experiment.py <domain>
 --godot <4.7.1> --replay candidate[-proxy] --locale en` for isolated actual viewport
 input (domains: representation_region, prediction, service_plan). Unknown-answer
 journals are separate from known-objective QA; neither establishes novice usability.
+
+## Completion presentation — 2026-10-06
+
+Use `test_completion_route`, `test_completion_presentation` and
+`test_completion_service_clarity` for the new recommendation/bridge/story and
+Service hierarchy. Neighboring navigation, saved review, session and affected UI
+suites are selected in the completion verification record. The renderer helper
+`scripts/verify-completion-presentation.gd` runs only inside an imported isolated
+`VonNeumannBottleneckChecks` project. Launch it with the pinned engine's `--script`
+argument, `--windowed --resolution 1280x720 -- --capture-size=1280x720`. It waits
+for macOS window transitions and rejects non1280×720 captures. Its earned ending
+is an explicitly injected, model-evaluated known-answer presentation fixture, not
+native input or a player save. Results/captures are separate from package and human
+acceptance: [completion evidence](../verification/20261006-completion/README.md).

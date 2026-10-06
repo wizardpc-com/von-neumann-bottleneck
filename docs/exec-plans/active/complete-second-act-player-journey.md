@@ -9,6 +9,54 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; final661c107 evidence supersedes the initial named-design package.
 
+## 2026-10-06 completion round — active
+
+The current user request supersedes the old NIGHT_BRIEF and the prior finite-stage stop.
+Source baseline: local/remote developer branch bc9ad2d, runtime661c107; read-only SSH
+ls-remote confirms remote mainc5a2b0c and developerbc9ad2d. Existing uncommitted
+AGENTS.md/docs index/CLAUDE.md/collaboration/root Chinese brief belong to collaborators
+and are excluded from this round. Supplied completion briefs are now retained at
+`docs/briefs/20261006-completion/`; direct user instructions override their older
+model/push wording. Root is the sole integrator; actual subagents use6.1Sol high/high/medium.
+
+Goal: a bounded internal review journey from core entry and earned core closure,
+through Representation and Service to a saved-evidence extension closure. Preserve
+all40 tasks, parallel overlap/layout prerequisites, legal solutions, current models,
+schema3, independent profiles, protected supports and production save separation.
+No new simulator, lore resolution, public deployment, main merge or audio import.
+
+Ownership: root owns Hub/navigation integration, completion route tests, this plan,
+status/evidence/handoff and packaging; Service agent owns service_plan/lab.gd,
+briefing.gd and test_completion_service_clarity; closure agent owns new
+candidate_session/completion_presentation.gd and test_completion_presentation;
+audit agent is read-only. Git/Godot/GUI are serial and root-only. Profiles distinct;
+no real player saves. All unrelated files remain untouched.
+
+Steps: (1) inspect real route and existing evidence; (2) clarify recommended entry,
+core-to-second-act bridge and earned closure; (3) reduce Service overload and targeted
+Representation teaching gaps; (4) inspect combined diff and run risk-specific isolated
+UI/navigation/closure/session regression once; (5) freeze local commit, export named
+Mac candidate, verify package identity and actual launch separately; (6) record
+route, counterexample, Claude boundaries and at most4 team decisions. No repeated
+full5+3 replay; old runtime9e native proof and661 collection proof remain dated.
+
+Implementation now includes the top-level recommended route (core entry remains before
+independent second-act cards), earned core-to-Representation bridge, finite4-page
+saved-evidence story and Service closure→Home using the existing dirty guard. The
+Service view separates current draft, compact measured results, full specification,
+measured bill and state-location inquiry. Representation teaching was inspected and
+left intact because prepare/service/storage/cross-asset separation already exists.
+Prediction remains a separate optional session-only launcher; no misleading Hub link.
+Independent review found and repaired unavailable≠zero presentation and unbound
+preview persistence wording. First import exposed a match/lambda parse error; fixed.
+An intermediate run copied a presenter/test while its review fix was in flight;
+retain its failure and rerun the final stable snapshot. All agents released ownership.
+
+Fresh evidence pending. Required distinctions: code review, automated assertions,
+rendered checks, native input, exported package and human comprehension/audio are
+separate. External novice/otherMac/listening acceptance remains NOT_RUN this round.
+Final integration will state remaining concrete gaps rather than claim release.
+
 ## Direction and boundaries
 
 Use `docs/briefs/codex-night/GAME_CONSTITUTION.md` Articles4–12/A5 and the current

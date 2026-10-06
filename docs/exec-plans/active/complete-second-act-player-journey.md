@@ -1,6 +1,6 @@
 # Complete second-act player journey
 
-Owner: Codex root. Baseline `b62ecd2`, 2026-10-05. Status: blocked on external acceptance (2026-10-06).
+Owner: Codex root. Baseline `b62ecd2`, 2026-10-05. Status: active candidate blocker fixes (2026-10-06).
 
 The continuing user goal is to implement the planning/direction and make the game
 more complete. A completed slice is progress, not completion of this objective.
@@ -338,3 +338,37 @@ No independent-player/otherMac result, concrete source defect or authentication
 recovery arrived. No source test, GUI replay or push attempt was repeated.
 The same external acceptance impasse remains: markblocked again, preserving the
 full objective, frozen candidate and the restart conditions above.
+
+### 2026-10-06 user-directed blocker fixes
+
+The user explicitly asks to continue development and resolve blockers. External
+novice/otherMac evidence remains pending, but it is not a stop condition for
+bounded candidate improvements. Fresh source review identifies three concrete
+player-facing gaps, superseding the previous no-known-source-finding conclusion:
+
+- Representation: comparing only the immediately preceding run loses an older
+  same-task/order comparison when another task intervenes. Search earlier measured
+  records by identical full spec/task, never future records or unrun drafts.
+- Service: precision failures report a maximum without identifying the offending
+  request or final-state coordinate. Present existing recorded actual/reference
+  values and public tolerance, including readable output-event evidence.
+- Lifecycle: a refused second window cannot reacquire a normally released lease.
+  Offer explicit ordinary acquisition, checking the original disk digest while
+  held. Preserve live exploration; changed/unreadable disk remains protected.
+
+Root owns docs, shared integration, UI retry wiring/tests, all Git/Godot/GUI.
+Existing Representation agent owns region.gd/test_representation_visual.gd;
+Service agent owns lab.gd/event_presenter.gd/quality_evidence.gd and learning UI
+checks. Mac agent owns only new writer_retry.gd and its isolated test. Root edits
+region/lab only after their respective owners release them. No simultaneous scene
+edits, model/save schema change, production migration or new content domain.
+Frozen retry API: attempt(path, expected_digest, reader) returns ok/reason/lease;
+ordinary acquisition only, failed checks release the new lease without writing.
+Frozen comparison API: prior_comparable_trace(run_index,spec) returns earlier
+run_index/trace or empty. All quality evidence consumes selected recorded facts.
+
+Run minimal affected representation, learning, writer retry/UI and existing
+lifecycle suites in isolated profiles, engines serial. Commit implementation,
+then retain one frozen integrated validation identity and inspect actual Mac UI/
+new local candidate where available. Preserve failed attempts, original frozen
+package and external/native-tool limits; no repeated whole-project test per edit.

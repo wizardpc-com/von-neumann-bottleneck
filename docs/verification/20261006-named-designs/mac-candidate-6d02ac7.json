@@ -1,0 +1,16 @@
+{
+  "source_commit": "6d02ac756a1dfa0697fa96a8a7e46b227b897ee4",
+  "build_id": "free-alpha-6d02ac756a1d",
+  "platform": "macOS",
+  "app": "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-6d02ac756a1d/macOS/Von-Neumann-Bottleneck.app",
+  "profile": "MacDesigns-6d02ac7",
+  "zip": "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-6d02ac756a1d/Von-Neumann-Bottleneck-macOS-free-alpha-6d02ac756a1d.zip",
+  "bytes": 78335119,
+  "sha256": "8155ed1d7cf2da8d036916351c91312ece47b05d20d7dc95a999ca90a057fc1a",
+  "official_template_sha256": "f9de131f5ed0210924b9b156aea43b1e20fd720dd97690e151081a65c0937a3e",
+  "identity_verified": true,
+  "package_probe_checks": 14,
+  "native_new_collection": "not run: Mac locked; CUA automatic unlock failed",
+  "qa_only_seed_archived": true,
+  "production_accessed": false
+}

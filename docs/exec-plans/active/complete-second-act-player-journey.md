@@ -1,11 +1,13 @@
 # Complete second-act player journey
 
-Owner: Codex root. Baseline `b62ecd2`, 2026-10-05. Status: finite candidate source scope implemented; external acceptance open (2026-10-06).
+Owner: Codex root. Baseline `b62ecd2`, 2026-10-05. Status: authorized candidate development delivered; human play-test receipts deferred (2026-10-06).
 
-The continuing user goal is to implement the planning/direction and make the game
-more complete. A completed slice is progress, not completion of this objective.
-The previous goal turn made authoritative progress: optional service commissions,
-runtime fixes, fresh regression/rendered resume evidence and committed handoff.
+The current user direction explicitly defers external play-test gaps until after
+development. The authorized finite second-act implementation is now delivered,
+including existing5+3 journeys, learning continuity, protected saved review and
+named player designs. Deferred human receipts remain follow-up evidence, not
+an instruction to block or add unplanned content. Earlier progress below is
+historical; final661c107 evidence supersedes the initial named-design package.
 
 ## Direction and boundaries
 
@@ -29,13 +31,16 @@ approved developer-branch push apply; preserve unrelated collaborator changes.
 | Coherent candidate route and earned final review | Save/Cancel/continue bridge and saved independently revalidated5+3 review pass | Formal campaign integration remains outside candidate acceptance |
 | Useful evidence rather than lists of numbers | Actual prefix state-location replay and selected-record/draft source distinction | Use independent observation to find concrete readability gaps |
 | Save/quit/restart and outcome protection | Targeted lifecycle225 + native exported Save/reopen/quit; no residual lease | Other Mac lifecycle/install evidence |
-| Local frozen playable Mac candidate and build identity | free-alpha-9e1f6019c102; official matching private template; hashes/release probe pass | Retain frozen package; no public upload |
+| Local frozen playable Mac candidate and build identity | free-alpha-661c107165ac; official matching private template; hashes/release probe14 pass | Retain frozen package; no public upload |
 | Actual native pointer and unfamiliar-player understanding | Actual native5+3 route; windowed tree/wire/palette/component drags, Tutorial completion and independent core Continue/workbench restore pass | Extended focus/DPI, fullscreen top-strip diagnosis, other Mac and unfamiliar player evidence |
-| Reviewable source and shared handoff | Runtime/build9e1f601; exact receipts; native limits retained | Final evidence/plan handoff committed after source freeze |
-| Developer-branch push | User-authorized SSH push succeeds; remote9cfbb05 verified | Closed; publish subsequent committed evidence on the same developer branch |
+| Reviewable source and shared handoff | Runtime/build661c107; frozen repair and full84-suite CI; exact receipts/native limits retained | Final evidence/plan handoff; preserve unrelated collaborator files |
+| Developer-branch push | User-authorized SSH push succeeds; runtime661c107 pushed | Closed; final evidence on same developer branch |
+| Named player designs | Detached up to24/domain; schema3 legacy protection; focused tests; native naming/Save/cold restart both domains | Human Copy/Undo usability observation deferred |
 
-Uncertain/missing evidence is not achieved. The full goal stays active while a row
-is incomplete. External gates do not prevent independent authorized implementation.
+Uncertain/missing evidence is not achieved. The human explicitly defers external
+acceptance; implementation delivery does not claim formal release, novice or
+otherMac acceptance. Stop this finite round after final evidence commit/push.
+Next development should follow concrete findings in the deferred play-test.
 
 ## Current implementation stage: service learning continuity
 
@@ -677,3 +682,28 @@ session and commission UI all PASS; original assertions unchanged. CI artifact
 inspection confirms84 suites present,83 pass, only service_plan fails on prior
 layout; existing desktop fixture warnings retained. Repair is collection
 placement only. Commit/frozen4-suite repair/package identity next.
+
+Final corrected handoff supersedes initial6d package: runtime661c107 pushed,
+frozen repair20261006T111149Z-eabd48ae four affected Service suites/import/isolation
+PASS,1940 source identities exact. CI37454899885 terminal SUCCESS:84 Godot suites,
+86 full logs inspected, five Python commands pass. Existing desktop fixture/runner
+warnings separate; original viewport assertions retained. Final candidate
+free-alpha-661c107165ac exported/identity verified, actual binary14-check probe PASS.
+ZIP SHAf9be4eca21b45839980429971ae8da71b774dcd237a65e0c54ff85ae2df7b129.
+
+Mac later unlocked: native Representation Run/name/dirty-draft independence/Copy,
+Save-guard exit and independent restart PASS; native Service valid counterexample
+Run/name/explicit Save/normal exit/independent restart PASS. One run/design per
+fresh domain, no supports or unlocks. Final no process/writer, unchanged session
+bytes verified. Own fresh QA folders reversibly archived, empty default profile
+for human play-test. Native Undo/Service Copy not newly observed; tests cover them.
+No repeated native full5+3/novice/otherMac/DPI acceptance implied. Full evidence
+20261006-named-designs includes initial CI failure, corrected frozen run, final CI,
+package hashes, actual own recipes and CUA observation limits.
+
+Implementation stops at this finite, reviewable increment. Next: human plays
+existing5+3 and naming/copy/save/restart, supplies concrete friction, then bounded
+risk-specific repair. Active plan retains deferred external receipts; do not use
+them to block further authorized development or fabricate unplanned chapters.
+Root releases file ownership after final evidence commit/push. Production saves,
+main and unrelated collaborator files untouched.

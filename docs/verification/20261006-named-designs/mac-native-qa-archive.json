@@ -1,0 +1,16 @@
+{
+  "representation": {
+    "source": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/MacDesigns-661c107",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/named-designs-native-completed/representation/MacDesigns-661c107",
+    "session_sha256": "b598059b4c4905ccabd9622700c5b9acd66f8083d1f5226e09be221cf7391a46",
+    "active_writer": false,
+    "default_profile_absent": true
+  },
+  "service": {
+    "source": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/service/MacDesigns-661c107",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/named-designs-native-completed/service/MacDesigns-661c107",
+    "session_sha256": "d20a5eee1cdd45c3dcb844ebc03c01b16cce29ca0e783cd15cbc09ee067be0cc",
+    "active_writer": false,
+    "default_profile_absent": true
+  }
+}

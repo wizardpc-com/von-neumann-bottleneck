@@ -4,28 +4,29 @@
 
 ## Named second-act designs — 2026-10-06
 
-The user defers unfamiliar-player/other-Mac/fullscreen acceptance until after
-further development. These remain open observations, no longer implementation
-blockers. Representation and Service now expose My designs beside measured
-history: name up to24 independent alternatives, explicitly Save, reopen, and
-copy into the original task draft with Undo. Naming captures selected executed
-evidence rather than current unrun edits; the collection itself cannot grant
-completion or bypass Service prerequisites. History caps retain their old limits.
+Representation and Service now retain up to24 named player designs independently
+of rolling history. Names capture selected actual measurements, while Copy restores
+the original task draft with Undo and cannot grant progress. Candidate schema3
+adds names/recipes; schema1/2 and protected future-format handling remain. Service
+My designs has its own evidence tab, keeping existing result pages and Save visible.
+Models, original40, optional Prediction and production saves are unchanged.
 
-Candidate-only schema3 stores names and recipes; schema1/2 still read, empty
-collections write schema2, and future/unknown fields remain protected. Existing
-transactional snapshots and leases apply. Models, core40, optional Prediction
-and production saves are unchanged. Service collection has its own evidence tab
-so opening it keeps Save and the existing result pages visible. Pending names survive unrelated
-draft selection. Frozen15-suite integration,1904-file source identity and actual Mac binary14-check
-probe pass. New candidate **free-alpha-6d02ac756a1d**, profileMacDesigns-6d02ac7,
-ZIP SHA2568155ed1d7cf2da8d036916351c91312ece47b05d20d7dc95a999ca90a057fc1a.
-Native new-feature attempt was blocked by the locked Mac; no new OS-input
-acceptance claimed. Own QA seed copies are reversibly archived, leaving a fresh
-empty profile for human play-testing. Runtime commit6d02ac7 was pushed; its CI subsequently found a result-page
-viewport regression. Root corrected collection placement; final package identity
-is being superseded below after targeted frozen verification. Existing
-existing development branch. [Verification and play-test steps](verification/20261006-named-designs/README.md).
+Final runtime **661c107**, candidate **free-alpha-661c107165ac**, profile
+**MacDesigns-661c107**. Frozen15-suite integration passed; CI then exposed a real
+Service viewport regression. Corrected placement passed four affected suites on
+1940 exact frozen source files. Final full CI37454899885 passes84 Godot suites
+and five Python commands. Mac export/identity and14 release-binary checks pass.
+Native input in both domains now confirms naming, explicit Save, normal exit,
+and independent restart restoring names/history/drafts without unlocking tasks.
+Representation additionally confirms dirty-draft independence and Copy. Native
+Undo/Service Copy were not repeated; prior9e complete native5+3 proof remains.
+
+Final ZIP SHA256f9be4eca21b45839980429971ae8da71b774dcd237a65e0c54ff85ae2df7b129.
+Only own QA folders were reversibly archived after process/lease/hash checks,
+leaving a fresh profile for human play-testing. Source pushed to the existing
+development branch. No main merge, notarization or public release. The user defers
+novice/otherMac/display acceptance; these no longer block implementation.
+[Evidence, retained failures and next play-test](verification/20261006-named-designs/README.md).
 
 ## Confirmed reload follow-up — 2026-10-06
 

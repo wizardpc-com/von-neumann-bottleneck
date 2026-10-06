@@ -1,0 +1,275 @@
+{
+  "conclusion": "success",
+  "headSha": "661c107165aca9ca5210c615f9edba87ec22be7f",
+  "jobs": [
+    {
+      "completedAt": "2026-10-06T11:13:01Z",
+      "conclusion": "success",
+      "databaseId": 112239991794,
+      "name": "python",
+      "startedAt": "2026-10-06T11:12:50Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-06T11:12:51Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-06T11:12:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:57Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-10-06T11:12:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:57Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v5",
+          "number": 3,
+          "startedAt": "2026-10-06T11:12:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:57Z",
+          "conclusion": "success",
+          "name": "Run python scripts/check-branding.py",
+          "number": 4,
+          "startedAt": "2026-10-06T11:12:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:57Z",
+          "conclusion": "success",
+          "name": "Run python scripts/test-report-playtests.py",
+          "number": 5,
+          "startedAt": "2026-10-06T11:12:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:58Z",
+          "conclusion": "success",
+          "name": "Run python server/test_storage.py",
+          "number": 6,
+          "startedAt": "2026-10-06T11:12:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:58Z",
+          "conclusion": "success",
+          "name": "Run python server/test_receiver.py",
+          "number": 7,
+          "startedAt": "2026-10-06T11:12:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:58Z",
+          "conclusion": "success",
+          "name": "Run python server/test_community.py",
+          "number": 8,
+          "startedAt": "2026-10-06T11:12:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:58Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v5",
+          "number": 15,
+          "startedAt": "2026-10-06T11:12:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:58Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 16,
+          "startedAt": "2026-10-06T11:12:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:58Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-06T11:12:58Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37454899885/job/112239991794"
+    },
+    {
+      "completedAt": "2026-10-06T11:15:29Z",
+      "conclusion": "success",
+      "databaseId": 112239992147,
+      "name": "godot",
+      "startedAt": "2026-10-06T11:12:50Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-06T11:12:51Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-06T11:12:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:57Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-10-06T11:12:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:12:58Z",
+          "conclusion": "success",
+          "name": "Download the exact official engine and verify its release checksum",
+          "number": 3,
+          "startedAt": "2026-10-06T11:12:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:15:27Z",
+          "conclusion": "success",
+          "name": "Run python3 scripts/verify-project.py --godot \"$RUNNER_TEMP/vnb-engine/godot\"",
+          "number": 4,
+          "startedAt": "2026-10-06T11:12:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:15:27Z",
+          "conclusion": "success",
+          "name": "Run actions/upload-artifact@v4",
+          "number": 5,
+          "startedAt": "2026-10-06T11:15:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:15:28Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 10,
+          "startedAt": "2026-10-06T11:15:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-06T11:15:28Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-06T11:15:28Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37454899885/job/112239992147"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37454899885",
+  "artifact_full_logs_inspected": 86,
+  "godot_suites_passed": 84,
+  "engine_errors": [],
+  "known_fixture_warnings": [
+    "test_desktop_conventions.txt"
+  ],
+  "python_commands_passed": [
+    "scripts/check-branding.py",
+    "scripts/test-report-playtests.py",
+    "server/test_storage.py",
+    "server/test_receiver.py",
+    "server/test_community.py"
+  ],
+  "artifact_log_sha256": {
+    "import.txt": "aecfc79f0e9c0be422fef1489821b9530e02ea7517318757a813ec5d794372a9",
+    "test_alarm_order_feedback.txt": "9a1fb21d1d9f1aa212e6bc7b1361c51717826a534873f2a3d2acc96a2d1f0e97",
+    "test_bilingual_typography.txt": "07b0593a4bda85629bdf75df5049d34898bb7c6a784d3727cbb62c72d186d500",
+    "test_candidate_designs.txt": "88e161029ee3a8f0656c7e5861f1f97cc5d4d89bcae899ae76817da48a7835dd",
+    "test_candidate_journey.txt": "af0470e3e4bf09977c61fbc58f00c4da3e0ddd139c5d22c171f2ed660cf33713",
+    "test_candidate_journey_review.txt": "1fe1aaf1da000130a92b54fd7f9f3e4943d00ce412178efefab63156b212c0da",
+    "test_candidate_lifecycle.txt": "e4b77c9aa3c7afc201df2e91db8ece2efc394249f28ff159591651b4b5c81a05",
+    "test_candidate_policy.txt": "5b02dfbd2a3e985c0190c23f34336a496793822bc5c82e0faf121cc5316bb9eb",
+    "test_candidate_restore_selection.txt": "f112afc52f4e9d53a81c3aa455419cfe4f221656a732b2577543df3574f7f9b5",
+    "test_candidate_supports.txt": "9fe393a9fddd840e635aa204053d6465a8948d33444042096699a05bbd4e4ac4",
+    "test_candidate_writer_retry.txt": "21866fb32d1c0b42ac4d4dbec2b4580e1b7e42ffd7ab81abd7d3f5d63002bf49",
+    "test_candidate_writer_retry_ui.txt": "40ba2a877bb74d39a8185fee77b08eb3d1bd57223b2180ba25cd3a8b8ead5785",
+    "test_chapter_card_routes.txt": "9dba617f8af89a4de21c2ec81779ba4dc9d3740d329220b1a2cd6db27fc4363c",
+    "test_chapter_workspaces.txt": "6464f81f567595b5d58cd7673ff9ae3f258ecf1fc9fa0e44cf76da3a7772a5bf",
+    "test_circuit_simulation.txt": "4c443c3900d56311c5bf6060558870d53fdaeebff144a01514ac771a9cd58fbe",
+    "test_content_registry.txt": "109c0fcac48a18d2fb9ba4eb1e4de94ee40e69d78a107665cbc8ba9a8d834166",
+    "test_desktop_conventions.txt": "081448bccc02716d7fd0bb84965ed540f9c3909483ed18731d12f7db1220ce40",
+    "test_direct_task_navigation.txt": "d74ac7084ef78df98149ff79bd4da81583177764d97c56d1ec31a9d0d697f298",
+    "test_display_preferences.txt": "f1c469eb74d063926e884b82d89c99d819b2006b8e09608cb21ca2e53cf78dde",
+    "test_evidence_proxy.txt": "9baecc8c4fd629b00db25f61edd114ddf2c1e16a603bb7ca501a582ffe0d9823",
+    "test_exploration.txt": "ce6a0aa8b890f3843c29494acb6540a7f42669ca800e27cd7694236bd2177bdb",
+    "test_final_convergence.txt": "0480e3be47cad30b2ae86ed041daaa9ac7d6243aafc8521b6fba3edde442ec0b",
+    "test_first_build_guidance.txt": "ee2f5d7fdb935a2965ff9b764606b4cdea70e650f99af0b6b5ea420500ab6ad4",
+    "test_floating_tool_recall.txt": "b2d6b6365521639d9f4064df8e74fcd63139491ceb2b6888093fb9a88b7f48ce",
+    "test_global_save.txt": "b7cf9a589c21490e8f9aeee25c37b333484a53146f896d02f945351eab53f8b6",
+    "test_hardware_foundations_ui.txt": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2",
+    "test_hardware_prologue_ui.txt": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e",
+    "test_intelligent_state.txt": "842a2d316e1902c0f19326bc3166befbcaad78d811048fe9fdb0a3cb913ba3b4",
+    "test_latch_playback_readout.txt": "88aa9d2d24e2dbd5e985f49c301e3e64d355c3fa5d9d4e2e16d9a796b715922f",
+    "test_layout_navigation.txt": "860935aeeb6d5243fdda344bf5ec3d57f13d5ad36093e8dc59ecfdc12772cff5",
+    "test_layout_simulation.txt": "2c0a248a94da17c990981491f86fc389d6f44f5668e39a27f961a556922ff8f4",
+    "test_layout_ui.txt": "fdfb659a8eac4538f00ffa3275a81402d4068fb321f7aa9ae8f710c6d55ec842",
+    "test_learning_handbook.txt": "5973c60888143a92f43b658cacc954b4a7fd699a792ad97e9bd57d549540b113",
+    "test_locality_chapter_ui.txt": "a2f18f38be5ea8dc69964a061fdeff4a4d4a94f062fe240f855e1f5e9ce1fb8e",
+    "test_localization.txt": "1335c9219accbc513d566d1a342f2ff1496884a344edcb572fa4cbe0aa3bf95f",
+    "test_optional_challenges.txt": "4c7e8f0947f29587ef35dbd14f8e91993854e4998acbe470cbeccb79bcb90980",
+    "test_optional_result_feedback.txt": "b3e331facf4131318383c8c613d97dcfd978e2560a4daecfd3937f9be550f1c3",
+    "test_overlap_simulation.txt": "6dd2580b0f4fff0e69318f2a9665196d24154dbd19c416558e3809d07d0504fe",
+    "test_overlap_ui.txt": "0d714fa5585ce2c51cbb2f9f53793f6aafab6d57d191fe0ae00ff3eddfd7c8bc",
+    "test_personal_records.txt": "b93f036f7b17aae3012a2e039b9215827d9c4d9781935b57c5e4c0512641b08a",
+    "test_playtest_data.txt": "52edd5199915423f7e731491d3e2ec4e71ed013c726147077138dc135e4a5095",
+    "test_playtest_feedback_ui.txt": "bc98fb999e9726344633893bab6e43a9630f473f0aadec5a5fb6c369249392f9",
+    "test_playtest_visits.txt": "5babafe49dd7116881b83b16b8fe42fcb1a780d2ecd83a1d1bd76283fe6e2c71",
+    "test_prediction_record_source.txt": "35339004e6b58471d4a3fe4f418a940f05b65cdb9596b0e62f60da66e668fb2c",
+    "test_prediction_slice.txt": "622f05bef437296dd749b274709acbc297b5f3fee3aeda83d53a02ecd89640a3",
+    "test_prelaunch_settings.txt": "c16418e14686be50612f4da57214b2a85d6e3d1e97a90f120f3dd6225a153882",
+    "test_prologue_continuation.txt": "ae567af2d16d5929db846213a8c37a0a7b21fa4140b3cb89d684e8c5e4832882",
+    "test_prologue_simulation.txt": "6250b1296a4f67e1cd38259d6dca4c7a86d16d30824436a1553cb1b917fcb956",
+    "test_release_convergence.txt": "231f57b61fc6fbd08fcf75835be2e63fe9486cabf10e6176248c02925f08624e",
+    "test_remote_feedback.txt": "a89c21f5ffaa5706f486e7855c49df091f0a618d0aade95ab565fc0f4567b269",
+    "test_representation_cache.txt": "bda45b41f248eb7b997be799143e5cea9e2bae1976be7839adef118fdc7383e1",
+    "test_representation_design_shelf.txt": "c4522adff8c2e1de224d8fb004f7ad79dc1115c5ae329a4fc3e4eca0cdfb8c23",
+    "test_representation_plan.txt": "5e42f0ffd1c2394112c75b9617786be1e0810babedf220ac29b99b56c9b76506",
+    "test_representation_region.txt": "58253617873b4d3efb75eec3e46333f525fbbdd19690bcbabb48740b1b5f89bd",
+    "test_representation_session.txt": "1ffcf1c4f65c7dbb20eff5fd1c9d40ec76ace6806e50ef98864e1451bf025f68",
+    "test_representation_visual.txt": "110fc221465c17fa2d894897111917af374e98d3e1255aa7dc0947ce5c4f5c84",
+    "test_save_signature_migration.txt": "6b8d9f2ae7be8ffd8c69302fa8fca79555ac2b5d295ccbf05521364020be9b20",
+    "test_second_act_content.txt": "714f2d6d3e72c00ecb83e70c2cf429a280c6f93a7d8cc29a30dc3839abd19bb6",
+    "test_second_act_experiments.txt": "73758c6f90f58fe8329f6b9bcfdbead5a77a19bc23de7c9df9101e4446479f8a",
+    "test_second_act_independent.txt": "5c3250cb737eab377a64ac311772b00855ee7d12907d87e221ac6cab9d4c4baf",
+    "test_second_act_navigation.txt": "9d085ae587a248a76b2554cb13d87e4fcb573d66d7def702de6be0d5f589dc5a",
+    "test_service_commission_ui.txt": "d9c2737027da8e0f14ab9e39668389bca28ef38d062367bb6bab8ea99480efe6",
+    "test_service_commissions.txt": "13df718902abad29e06a775f6b3ed6658de8d5eac9a64395a62ea2ead54f7f19",
+    "test_service_design_shelf.txt": "8b141e5bebf8f25e60d3171686c0913ce14f83f977a85b0ca828cc23bd84beff",
+    "test_service_learning_ui.txt": "a16a44ed4423232ce9141ef715b3cceb9158d5d0f7eeaa10f70234fe4ef9ac9e",
+    "test_service_plan.txt": "f9bdd71ba95723a57d9c9e08e924a831319b830f6423172653eca31a8178a109",
+    "test_service_session.txt": "790c708ee8aa966a0f9932768d19c0eb131875e0d9951ab83b7a321ff2276c8e",
+    "test_service_state_replay.txt": "34f898bcf1ce6872eb7f7c93178a27dfad807c53daba9615ce2638a49896ad06",
+    "test_service_state_replay_view.txt": "6eebe786d4b7ed80a513e740b9dd9b47514faa73a46aee88deead4717c89e892",
+    "test_simulation.txt": "678dff2a584c34e93fb36eafaa41b87cde7e5756727e3a5950c3d5b9050352aa",
+    "test_storage_caption_playback.txt": "4fe2824d62262d1bca70705a0762c2061715cfcd2184dafbc6418ce4efc4a38a",
+    "test_system_applications.txt": "31ec1b8015a464f6340682116761c12eeed6280385a7389f5c7f13515051f2c5",
+    "test_system_baseline_continuity.txt": "98403dc6cb8748057f09e997e6414d4eefbedac94f729dd854e30a7c837851c5",
+    "test_system_cost_evidence.txt": "c04a64cbc1a5a2ccc8ad3880a6cb324db396c51f499b02f10c6372955fd45db4",
+    "test_system_lab_simulation.txt": "f2bd24204d952ee9bcfbf44403757dbe0deb95720afd9f4e2016036b13bf35f1",
+    "test_system_lab_ui.txt": "6c788b06d195deea76d3d974e8e5e4af24dd6dc918caf396aa65e58ad39e9afc",
+    "test_task_tree.txt": "4cb93d722aa9a35f5b0163dca54b9a04e5f0487c6945a12b128ea16d850e5f17",
+    "test_task_tree_layout.txt": "7fae6101ab13319b245d43f2e99ab5ba2a97480593d78d4e47df01a8a0072dbb",
+    "test_task_tree_presentation.txt": "1786c64768f2ff2148c370d743b086f2b8cec9b71eeab1ffc0b65c9c73b1711d",
+    "test_theme_reflection.txt": "074cc37f4feb3918928808b7f08e0665481a094010d68b28541ab705b27c4312",
+    "test_trace_ambience.txt": "0b7ce6af562a8bdbf812d12845cb9aae66a284b9e391c392ed9e7a1e9384f5eb",
+    "test_tutorial_replay.txt": "c9a77e91cdf6b9414d616dbe7ceebb1e7fe10d0f25017597cbfd8511da78d668",
+    "test_ui.txt": "f35a36435d78efabaaca586f63416f571c5db1ebb9e773acdefd8b1c6b613bfe",
+    "test_visit_summary.txt": "3efff7b3516aa3041dbf89e3a7d6fb045312b33bc66617210ee51c04f0b28c34",
+    "test_wire_drag_geometry.txt": "bb94cfe67ac7bf92f17d8bfea54b5cfa870ac0cd7070ac7b079d57f702656e06",
+    "user_directory.txt": "2adbd49ee4270dc70aba2f999379a59533f75cebb475b403415cb686bbf60042"
+  }
+}

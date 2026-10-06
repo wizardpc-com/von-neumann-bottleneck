@@ -1,0 +1,14 @@
+{
+  "run": 37453419379,
+  "source_commit": "6d02ac756a1dfa0697fa96a8a7e46b227b897ee4",
+  "conclusion": "failure",
+  "godot_suite_count": 84,
+  "passed_suites": 83,
+  "failed": [
+    "test_service_plan.txt"
+  ],
+  "warning_logs": [
+    "test_desktop_conventions.txt"
+  ],
+  "artifact_logs_inspected": 86
+}

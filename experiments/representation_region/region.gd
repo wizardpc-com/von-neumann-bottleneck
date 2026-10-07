@@ -341,6 +341,7 @@ func mission_text() -> String:
 
 func change_task(index: int) -> void:
 	if index < 0 or index >= 5: return
+	if index == task and is_instance_valid(blocks) and blocks.is_inside_tree(): return
 	var changed: bool = index != task
 	if changed: mark_session_dirty()
 	drafts[task] = {"plan":plan.duplicate(true),"undo":undo_stack.duplicate(true),"redo":redo_stack.duplicate(true),"selection":selected_block}
@@ -657,6 +658,9 @@ func restore_design(index: int) -> void:
 	var recorded: Dictionary = designs[index].duplicate(true)
 	if int(recorded.task) != task: change_task(int(recorded.task))
 	var restored: Array[Dictionary] = []; restored.assign(recorded.plan)
+	if restored == plan:
+		status.text = text2("当前草稿已是“%s”；直接修改或运行即可。", "“%s” is already your draft; edit or run it directly.") % str(recorded.name)
+		return
 	edit_plan(restored)
 	status.text = text2("已取回“%s”到原任务草稿；可撤销恢复原草稿。尚未运行。", "“%s” restored to its original task draft; Undo restores the previous draft. It has not been run.") % str(recorded.name)
 

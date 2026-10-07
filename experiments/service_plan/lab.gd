@@ -358,16 +358,27 @@ func continue_service() -> void:
 func edit(next: Dictionary, selection: int) -> void:
 	if next == plan: return
 	mark_session_dirty()
-	undo_stack.append(plan.duplicate(true)); redo_stack.clear(); plan = next.duplicate(true); selected_group = selection
+	undo_stack.append(draft_edit_state()); redo_stack.clear(); plan = next.duplicate(true); selected_group = selection
 	refresh_groups(); refresh_actions(); status.text = tr2("草稿已改；历史不变。运行时核验同流保序和512B容量。", "Draft changed; history preserved. Run validates stream dependencies and512B scratch.")
 func undo() -> void:
 	if undo_stack.is_empty(): return
 	mark_session_dirty()
-	redo_stack.append(plan.duplicate(true)); plan = undo_stack.pop_back(); slots.set_value_no_signal(plan.slots); refresh_groups(); refresh_actions()
+	redo_stack.append(draft_edit_state()); restore_edit_state(undo_stack.pop_back(),false)
 func redo() -> void:
 	if redo_stack.is_empty(): return
 	mark_session_dirty()
-	undo_stack.append(plan.duplicate(true)); plan = redo_stack.pop_back(); slots.set_value_no_signal(plan.slots); refresh_groups(); refresh_actions()
+	undo_stack.append(draft_edit_state()); restore_edit_state(redo_stack.pop_back(),true)
+
+# Editing context is session-only; Save still serializes only the existing recipe.
+func draft_edit_state() -> Dictionary:
+	return {"plan":plan.duplicate(true),"selection":selected_group}
+
+func restore_edit_state(state: Dictionary, redone: bool) -> void:
+	plan = state.plan; selected_group = int(state.selection)
+	slots.set_value_no_signal(plan.slots); refresh_groups(); refresh_actions()
+	status.text = tr2("已重做草稿；旧实测不变。", "Draft redone; recorded measurements are unchanged.") if redone else tr2("已撤销草稿修改；旧实测不变。", "Draft edit undone; recorded measurements are unchanged.")
+	status.text += " "+(tr2("尚未保存；退出前请保存。", "Unsaved; save before leaving.") if persistent_session else tr2("临时会话；退出后不保留。", "Temporary session; work is not retained after leaving."))
+
 func run_current() -> void:
 	mark_session_dirty()
 	active_trace = Model.run(plan); var events: Array[Dictionary] = []

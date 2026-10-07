@@ -536,7 +536,9 @@ func restore_design(index: int) -> void:
 	if source.is_empty() or not Model.validate(source).is_empty(): return
 	var changed_context: bool = task != original_task or commission_mode >= 0
 	task = original_task; commission_mode = -1
-	if changed_context: mark_session_dirty()
+	if changed_context:
+		get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
+		mark_session_dirty()
 	edit(source,0); slots.set_value_no_signal(plan.slots)
 	refresh_mission(); refresh_actions()
 	if selected_history >= 0 and selected_history < history.size(): select_run(selected_history)
@@ -889,7 +891,10 @@ func build_commissions() -> void:
 
 func start_commission(id: int) -> void:
 	if id < 0 or id > 2 or not has_service_closure(): return
-	if task != 2: task = 2; mark_session_dirty()
+	if task != 2:
+		task = 2
+		get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
+		mark_session_dirty()
 	commission_mode = id; commission_choice.select(id); evidence_tabs.current_tab = 4
 	refresh_mission(); refresh_commission()
 	refresh_verdict()

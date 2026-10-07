@@ -3,6 +3,13 @@ var failures: Array[String] = []
 func _init() -> void: call_deferred("run")
 func check(ok: bool, message: String) -> void:
 	if not ok: failures.append(message)
+func settle() -> void:
+	for frame: int in 5: await process_frame
+func escape() -> void:
+	var press := InputEventKey.new(); press.keycode = KEY_ESCAPE; press.physical_keycode = KEY_ESCAPE; press.pressed = true
+	root.push_input(press,true); await process_frame
+	var release := InputEventKey.new(); release.keycode = KEY_ESCAPE; release.physical_keycode = KEY_ESCAPE
+	root.push_input(release,true); await settle()
 func run() -> void:
 	var Hub: Script = load("res://src/ui/prototype_hub.gd")
 	root.content_scale_size = Vector2i(1280,720); root.size = Vector2i(1280,720)
@@ -54,9 +61,52 @@ func run() -> void:
 		check(hub.completion_story_page == count - 1 and (story.find_child("StoryNext",true,false) as Button).disabled, "Pages have a finite ending and no forced progress")
 		story.custom_action.emit(&"previous")
 		check(hub.completion_story_page == count - 2, "Short story is revisitable")
-		story.custom_action.emit(&"evidence"); await process_frame
-		check(hub.get_node("SavedJourneyReview").visible, "Exact saved evidence remains one action away")
-		hub.get_node("SavedJourneyReview").hide(); hub.show_completion_story(); await process_frame
+		var retained_page: int = hub.completion_story_page
+		var retained_pages: Array = hub.completion_story_pages.duplicate(true)
+		var retained_text: String = (story.find_child("StoryText",true,false) as Label).text
+		(story.find_child("StoryEvidence",true,false) as Button).pressed.emit(); await settle()
+		var evidence := hub.get_node("SavedJourneyReview") as AcceptDialog
+		check(evidence.visible and not story.visible, "Exact saved evidence remains one action away without stacked dialogs")
+		check(evidence.ok_button_text == ("Back to journey review" if locale == "en" else "回到旅程回顾"), "Evidence opened from the story names its return destination")
+		evidence.get_ok_button().pressed.emit(); await settle()
+		check(story.visible and not evidence.visible and hub.completion_story_page == retained_page, "Confirming evidence returns to the same story page")
+		check(hub.completion_story_pages == retained_pages and (story.find_child("StoryText",true,false) as Label).text == retained_text, "Returning preserves the displayed evidence snapshot and text")
+		var story_next := story.find_child("StoryNext",true,false) as Button
+		check(story_next.has_focus(), "The next story action receives keyboard focus after evidence")
+		story_next.pressed.emit(); await settle()
+		check(hub.completion_story_page == retained_page+1, "The restored focus can continue to the next story page")
+		(story.find_child("StoryEvidence",true,false) as Button).pressed.emit(); await settle()
+		evidence = hub.get_node("SavedJourneyReview") as AcceptDialog
+		await escape()
+		check(story.visible and not evidence.visible and hub.completion_story_page == count-1, "Escape returns evidence to the same final story page")
+		check((story.find_child("StoryEvidence",true,false) as Button).has_focus(), "Final story page restores a usable evidence action instead of disabled Next")
+		(story.find_child("StoryPrevious",true,false) as Button).pressed.emit(); await settle()
+		(story.find_child("StoryEvidence",true,false) as Button).pressed.emit(); await settle()
+		evidence = hub.get_node("SavedJourneyReview") as AcceptDialog
+		var old_evidence_id: int = evidence.get_instance_id()
+		(evidence.find_child("RefreshSavedJourneyReview",true,false) as Button).pressed.emit(); await settle()
+		evidence = hub.get_node("SavedJourneyReview") as AcceptDialog
+		check(evidence.get_instance_id() != old_evidence_id and evidence.visible and not story.visible, "Refresh replaces only the detail dialog")
+		evidence.get_ok_button().pressed.emit(); await settle()
+		check(story.visible and hub.completion_story_page == retained_page and story_next.has_focus(), "Refreshed evidence keeps the original page and return focus")
+		check(hub.completion_story_pages == retained_pages, "Refreshing detail never writes completion into the story snapshot")
+		# Standalone evidence must not revive a hidden story or its return callbacks.
+		story.hide(); hub.show_candidate_review(); await settle()
+		evidence = hub.get_node("SavedJourneyReview") as AcceptDialog
+		check(evidence.ok_button_text == ("Back to journey entries" if locale == "en" else "回到旅程入口"), "Independent evidence retains its original destination")
+		(evidence.find_child("RefreshSavedJourneyReview",true,false) as Button).pressed.emit(); await settle()
+		evidence = hub.get_node("SavedJourneyReview") as AcceptDialog
+		evidence.get_ok_button().pressed.emit(); await settle()
+		check(not story.visible and not evidence.visible, "Closing standalone refreshed evidence never opens a story")
+		# A superseded evidence callback cannot resurrect an obsolete story.
+		hub.show_completion_story(); await settle()
+		var old_story := hub.get_node("CompletionStoryDialog") as AcceptDialog
+		old_story.custom_action.emit(&"evidence"); await settle()
+		evidence = hub.get_node("SavedJourneyReview") as AcceptDialog
+		evidence.get_ok_button().pressed.emit()
+		hub.show_completion_story(); await settle()
+		story = hub.get_node("CompletionStoryDialog") as AcceptDialog
+		check(story.visible and not evidence.visible and hub.get_children().filter(func(node: Node) -> bool: return node.name == "CompletionStoryDialog").size() == 1, "Queued return cannot revive a replaced story or duplicate its dialog")
 		check(hub.completion_story_page == 0, "Reopening starts safely at the beginning")
 		hub.get_node("CompletionStoryDialog").hide()
 		# Synthetic in-memory accepted terminal recipes; never a native/core play claim.

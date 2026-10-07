@@ -882,8 +882,12 @@ func candidate_review_paths() -> Dictionary:
 	if not directory.ends_with("/VonNeumannBottleneckCandidates/"+primary+"/"+profile): return {}
 	return {"representation":context.resolve_path("representation",primary,profile,directory),"service":context.resolve_path("service",primary,profile,directory)}
 
-func show_candidate_review() -> void:
+func show_candidate_review(return_to_story: bool = false) -> void:
 	if not candidate_journey: return
+	var story := get_node_or_null("CompletionStoryDialog") as AcceptDialog
+	var story_page: int = completion_story_page
+	if story != null: story.hide()
+	if not return_to_story: story = null
 	var english: bool = Localization.current_locale() == "en"
 	var paths: Dictionary = candidate_review_paths()
 	var result: Dictionary = {}
@@ -892,8 +896,14 @@ func show_candidate_review() -> void:
 	var old := get_node_or_null("SavedJourneyReview") as AcceptDialog
 	if old != null: remove_child(old); old.queue_free()
 	var dialog := AcceptDialog.new(); dialog.name = "SavedJourneyReview"
+	var dialog_id: int = dialog.get_instance_id()
+	var story_id: int = story.get_instance_id() if story != null else 0
 	dialog.title = "第二幕 · 已保存方案回顾" if not english else "Second act · Saved plan review"
-	dialog.ok_button_text = "回到旅程入口" if not english else "Back to journey entries"
+	dialog.ok_button_text = ("回到旅程回顾" if not english else "Back to journey review") if story != null else ("回到旅程入口" if not english else "Back to journey entries")
+	if story != null:
+		var resume: Callable = func() -> void: call_deferred("_resume_completion_story",dialog_id,story_id,story_page)
+		dialog.confirmed.connect(resume)
+		dialog.canceled.connect(resume)
 	var lines: Array[String] = ["此处重新验收同一候选档的已保存方案；未保存的窗口变化不在这份回顾中。两个阶段各用自己的机器和合同，指标分别看。" if not english else "Revalidate saved plans in this candidate profile. Unsaved window changes are outside this review. Each stage uses its own machine and contracts; compare its metrics separately."]
 	if paths.is_empty():
 		lines.append("当前启动未绑定隔离候选档，无法确认第二幕成果。请从带命名profile的候选入口启动。" if not english else "This launch is not bound to an isolated candidate profile. Start a named candidate profile to review its saved work.")
@@ -929,8 +939,31 @@ func show_candidate_review() -> void:
 	var refresh: Button = dialog.add_button("刷新已保存方案" if not english else "Refresh saved plans",false,"refresh")
 	refresh.name = "RefreshSavedJourneyReview"
 	dialog.custom_action.connect(func(action: StringName) -> void:
-		if action == &"refresh": show_candidate_review())
+		if action == &"refresh": call_deferred("_refresh_candidate_review",dialog_id,story_id))
 	add_child(dialog); dialog.popup_centered(Vector2i(780,480))
+
+func _refresh_candidate_review(dialog_id: int, story_id: int) -> void:
+	var dialog := instance_from_id(dialog_id) as AcceptDialog
+	var story: AcceptDialog = instance_from_id(story_id) as AcceptDialog if story_id != 0 else null
+	if not is_instance_valid(dialog) or get_node_or_null("SavedJourneyReview") != dialog or not dialog.visible: return
+	if story_id != 0 and (not is_instance_valid(story) or get_node_or_null("CompletionStoryDialog") != story): return
+	var return_to_story: bool = is_instance_valid(story) and get_node_or_null("CompletionStoryDialog") == story
+	show_candidate_review(return_to_story)
+
+func _resume_completion_story(dialog_id: int, story_id: int, page: int) -> void:
+	# AcceptDialog emits before finishing its close; resume only afterwards, and
+	# never revive a story replaced while the detail dialog was being dismissed.
+	var dialog := instance_from_id(dialog_id) as AcceptDialog
+	var story := instance_from_id(story_id) as AcceptDialog
+	if not is_instance_valid(dialog) or get_node_or_null("SavedJourneyReview") != dialog: return
+	if not is_instance_valid(story) or get_node_or_null("CompletionStoryDialog") != story: return
+	dialog.hide()
+	completion_story_page = clampi(page,0,completion_story_pages.size()-1)
+	_refresh_completion_story()
+	story.popup_centered(Vector2i(670,420))
+	var next := story.find_child("StoryNext",true,false) as Button
+	var focus: Button = next if not next.disabled else story.find_child("StoryEvidence",true,false) as Button
+	focus.grab_focus()
 
 func _consume_review_intent() -> void:
 	var intent: String = preload("res://experiments/candidate_session/navigation_intent.gd").take_review()
@@ -1005,6 +1038,8 @@ func _show_completion_bridge() -> void:
 
 func show_completion_story() -> void:
 	if not candidate_journey: return
+	var evidence := get_node_or_null("SavedJourneyReview") as AcceptDialog
+	if evidence != null: evidence.hide()
 	var english: bool = Localization.current_locale() == "en"
 	completion_story_pages = preload("res://experiments/candidate_session/completion_presentation.gd").pages(_saved_completion_review(), english)
 	completion_story_page = 0
@@ -1021,7 +1056,7 @@ func show_completion_story() -> void:
 	var next: Button = dialog.add_button("下一页" if not english else "Next", false, "next"); next.name = "StoryNext"
 	var detail: Button = dialog.add_button("成果明细" if not english else "Evidence", false, "evidence"); detail.name = "StoryEvidence"
 	dialog.custom_action.connect(func(action: StringName) -> void:
-		if action == &"evidence": dialog.hide(); show_candidate_review(); return
+		if action == &"evidence": dialog.hide(); show_candidate_review(true); return
 		completion_story_page = clampi(completion_story_page + (1 if action == &"next" else -1), 0, completion_story_pages.size() - 1)
 		_refresh_completion_story())
 	add_child(dialog); _refresh_completion_story(); dialog.popup_centered(Vector2i(670, 420))

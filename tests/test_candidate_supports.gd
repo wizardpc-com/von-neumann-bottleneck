@@ -34,7 +34,21 @@ func run() -> void:
 	check(not scene.completed.has(false) and scene.support_plans.size() == 5,"Five tasks protect current-model successful plans")
 	scene.show_closure(); await process_frame
 	check(scene.has_node("RegionReview") and scene.get_node("RegionReview").visible,"Five-task journey has a reachable region closure")
-	check(scene.get_node("RegionReview").find_child("RegionReviewContent",true,false).text.contains("周期"),"Region closure presents re-evaluated successful-plan costs")
+	for task: int in 5:
+		# Costs now precede reflection in separate outcome cards. Re-run the
+		# protected recipe independently: neither draft nor completion flags nor
+		# the UI's own summary can supply the expected measured values.
+		var measured: Array[SimulationTrace] = []
+		for spec: Dictionary in RM.orders(task): measured.append(RM.run(spec,scene.support_plans[task]))
+		check(RM.meets(task,measured),"Region outcome is supported by a revalidated successful recipe for task"+str(task))
+		var outcome: Node = scene.get_node("RegionReview").find_child("RegionOutcome"+str(task),true,false)
+		check(outcome != null,"Region closure keeps a separate outcome card for task"+str(task))
+		if outcome == null: continue
+		for order: int in measured.size():
+			var metrics: Dictionary = measured[order].metrics
+			var label := outcome.find_child("RegionOutcomeMetrics"+str(order),true,false) as Label
+			var expected: String = ("Order %d · prepare%d + serve%d = %d cycles · stored%dB · service traffic%dB" if scene.english else "订单%d · 准备%d＋服务%d＝%d周期 · 空间%dB · 服务搬运%dB") % [order+1,metrics.preparation_cycles,metrics.service_cycles,metrics.total_cycles,metrics.stored_bytes,metrics.traffic_bytes]
+			check(label != null and label.text == expected,"Region outcome presents independently measured preparation, service, total, storage and service traffic for task%d/order%d" % [task,order])
 	scene.get_node("RegionReview").hide()
 	var old_review: int = scene.get_node("RegionReview").get_instance_id()
 	scene.show_closure(); await process_frame

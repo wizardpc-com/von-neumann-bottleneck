@@ -1601,7 +1601,15 @@ func _run() -> void:
 		await process_frame
 	var returned_hub: Control = root.get_node_or_null("PrototypeHub")
 	_assert(returned_hub != null, "A second Esc from the original prologue map must return to chapter selection.")
-	_assert(returned_hub != null and returned_hub.get("system_entry_button") != null and root.get_node_or_null("DemoWorkbench") == null, "Returning Esc exposes the original chapter gates without entering the comparison host.")
+	_assert(returned_hub != null and returned_hub.find_child("HubBrowseJourney", true, false) != null and root.get_node_or_null("DemoWorkbench") == null, "Returning Esc exposes the shared journey entry without entering the removed comparison host.")
+	if returned_hub != null:
+		(returned_hub.find_child("HubBrowseJourney", true, false) as Button).pressed.emit()
+		for frame: int in range(6): await process_frame
+		var navigation: Node = root.get_node("TaskNavigation")
+		_assert(current_scene != null and current_scene.scene_file_path == navigation.MAP_SCENE and (navigation.call("tasks") as Array).size() == 40, "The returned Hub routes to the unified forty-task map.")
+		if current_scene != null and current_scene.scene_file_path == navigation.MAP_SCENE:
+			current_scene.call("_select", "chapter_1/assembly")
+			_assert(current_scene.get("selected").get("key", "") == "chapter_1/assembly" and (current_scene.get("enter_button") as Button).disabled == not bool(root.get_node("SystemChapter").get("prologue_ready")), "The unified map retains the original Game-mode Chapter 1 provenance gate after Test-mode return.")
 
 	main.queue_free()
 	await process_frame

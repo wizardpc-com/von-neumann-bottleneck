@@ -22,12 +22,35 @@ func _run() -> void:
 	var hub: Control = hub_scene.instantiate()
 	root.add_child(hub)
 	await process_frame
-	_assert((hub.get("locality_entry_button") as Button).disabled, "The hub must gate Chapter 2 until Chapter 1's diagnosis is complete.")
+	var navigation: Node = root.get_node("TaskNavigation")
+	var journey: Control = load(navigation.MAP_SCENE).instantiate(); root.add_child(journey)
+	journey.call("_select", "chapter_2/distant_reads")
+	_assert((navigation.call("tasks") as Array).size() == 40 and journey.get("selected").get("key", "") == "chapter_2/distant_reads", "The shared journey retains forty core tasks and the exact Chapter 2 observation.")
+	_assert((journey.get("enter_button") as Button).disabled and not navigation.call("enter", "chapter_2/distant_reads"), "The actual Chapter 2 task remains gated until Chapter 1's diagnosis is complete.")
+	journey.queue_free(); await process_frame
 	for level_id: StringName in [&"assembly", &"cpu_speed", &"ram_wait", &"bus_width", &"bottleneck"]:
 		system_state.call("mark_completed", level_id)
 	await process_frame
-	_assert(not (hub.get("locality_entry_button") as Button).disabled, "The hub must open Chapter 2 immediately after Chapter 1 completion.")
-	hub.queue_free()
+	current_scene = hub
+	(hub.find_child("HubBrowseJourney", true, false) as Button).pressed.emit()
+	for frame: int in range(6): await process_frame
+	_assert(current_scene != null and current_scene.scene_file_path == navigation.MAP_SCENE, "The Hub journey action opens the shared task tree.")
+	if current_scene == null or current_scene.scene_file_path != navigation.MAP_SCENE:
+		quit(1); return
+	current_scene.call("_select", "chapter_2/distant_reads")
+	_assert(not (current_scene.get("enter_button") as Button).disabled, "Chapter 1 completion makes the actual Chapter 2 observation enterable.")
+	var before_entry: Dictionary = locality_state.call("completed_levels").duplicate(true)
+	(current_scene.get("enter_button") as Button).pressed.emit()
+	for frame: int in range(6): await process_frame
+	_assert(current_scene != null and current_scene.scene_file_path == navigation.SCENES.chapter_2 and String(current_scene.get("current_level_id")) == "distant_reads", "The shared tree routes to the exact first Chapter 2 observation.")
+	_assert(navigation.pending.is_empty() and navigation.selected == "chapter_2/distant_reads", "Exact chapter routing consumes pending selection.")
+	var route_escape := InputEventKey.new(); route_escape.keycode = KEY_ESCAPE; route_escape.pressed = true
+	current_scene.call("_unhandled_key_input", route_escape)
+	for frame: int in range(6): await process_frame
+	_assert(current_scene != null and current_scene.scene_file_path == navigation.MAP_SCENE and current_scene.get("selected").get("key", "") == "chapter_2/distant_reads", "Returning selects the actual Chapter 2 task.")
+	_assert(locality_state.call("completed_levels") == before_entry, "Opening and returning cannot fabricate Chapter 2 completion.")
+	if current_scene != null: current_scene.queue_free(); current_scene = null
+	navigation.from_tree = false
 	await process_frame
 
 	var scene: PackedScene = load("res://src/ui/main.tscn")

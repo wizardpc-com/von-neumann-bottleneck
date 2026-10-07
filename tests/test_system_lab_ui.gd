@@ -21,7 +21,13 @@ func _run() -> void:
 	for _hub_frame: int in range(2):
 		await process_frame
 	_assert(not ResourceLoader.exists("res://src/demo/demo_menu.tscn") and root.get_node_or_null("DemoProgress") == null and hub.get("mainline_button") == null, "The removed eight-task fork must have no loadable menu, progress autoload or hub entry.")
-	_assert((hub.get("system_entry_button") as Button).disabled, "Game mode must gate Chapter 1 until the prologue provenance handoff.")
+	var navigation: Node = root.get_node("TaskNavigation")
+	var journey: Control = load(navigation.MAP_SCENE).instantiate(); root.add_child(journey)
+	journey.call("_select", "chapter_1/assembly")
+	_assert((navigation.call("tasks") as Array).size() == 40 and journey.get("selected").get("key", "") == "chapter_1/assembly", "The shared journey preserves all forty core tasks and the exact Chapter 1 target.")
+	_assert((journey.get("enter_button") as Button).disabled and not navigation.call("enter", "chapter_1/assembly"), "Game mode must gate the actual Chapter 1 task until the prologue provenance handoff.")
+	journey.queue_free(); await process_frame
+	hub.call("_open_hub_navigation")
 	_assert(hub.get("terminology_handbook") != null, "Chapter selection must expose the shared terminology handbook.")
 	var save_actions: Control = hub.get("save_actions")
 	var continue_button: Button = hub.get("continue_button")
@@ -39,14 +45,19 @@ func _run() -> void:
 	)
 	hub.call("_close_new_game_confirmation")
 	var hub_fullscreen: Control = hub.get("fullscreen_button")
-	_assert(hub.get_global_rect().encloses(hub_fullscreen.get_global_rect()), "The three-card hub must keep its fullscreen action completely on screen.")
+	_assert(hub.get_global_rect().encloses(hub_fullscreen.get_global_rect()), "The unified hub must keep its fullscreen action completely on screen.")
 	game_mode.call("set_mode", &"test")
 	await process_frame
-	_assert(not (hub.get("system_entry_button") as Button).disabled, "Test mode must expose the Chapter 1 hub entry immediately.")
+	journey = load(navigation.MAP_SCENE).instantiate(); root.add_child(journey)
+	journey.call("_select", "chapter_1/assembly")
+	_assert(not (journey.get("enter_button") as Button).disabled, "Test mode must expose the actual Chapter 1 task immediately.")
+	journey.queue_free(); await process_frame
 	_assert(not save_actions.visible, "Test mode must hide player-facing Continue/New Game controls from the QA session.")
 	_assert(not bool(chapter.call("capture_prologue", {})), "Test mode must not fabricate or overwrite Game-mode prologue provenance.")
-	hub.queue_free()
-	await process_frame
+	current_scene = hub
+	(hub.find_child("HubBrowseJourney", true, false) as Button).pressed.emit()
+	for frame: int in range(6): await process_frame
+	await _check_journey_route("chapter_1/assembly", "assembly")
 	chapter.call("reset_test_progress")
 
 	var scene: PackedScene = load("res://src/system_lab/system_lab.tscn")
@@ -821,3 +832,23 @@ func _test_overlapping_window_input(main: Control) -> void:
 	if not back_visible:
 		main.call("_close_instrument", &"test_bench")
 	main.call("_open_instrument", &"parts")
+
+
+func _check_journey_route(key: String, level_id: String) -> void:
+	var navigation: Node = root.get_node("TaskNavigation")
+	_assert(current_scene != null and current_scene.scene_file_path == navigation.MAP_SCENE, "The Hub journey action opens the actual shared task tree.")
+	if current_scene == null or current_scene.scene_file_path != navigation.MAP_SCENE: return
+	var completed_before: Dictionary = root.get_node("SystemChapter").call("completed_levels").duplicate(true)
+	current_scene.call("_select", key)
+	(current_scene.get("enter_button") as Button).pressed.emit()
+	for frame: int in range(6): await process_frame
+	_assert(current_scene != null and current_scene.scene_file_path == navigation.SCENES[key.get_slice("/", 0)] and String(current_scene.get("current_level_id")) == level_id, "The shared tree enters the exact selected chapter task.")
+	_assert(navigation.pending.is_empty() and navigation.selected == key, "Entering consumes pending routing and remembers the actual task.")
+	var escape := InputEventKey.new(); escape.keycode = KEY_ESCAPE; escape.pressed = true
+	current_scene.call("_unhandled_key_input", escape)
+	for frame: int in range(6): await process_frame
+	_assert(current_scene != null and current_scene.scene_file_path == navigation.MAP_SCENE and current_scene.get("selected").get("key", "") == key, "Returning to the shared map selects the actual opened task.")
+	_assert(root.get_node("SystemChapter").call("completed_levels") == completed_before, "Entering and returning through the shared map cannot award chapter completion.")
+	if current_scene != null: current_scene.queue_free(); current_scene = null
+	navigation.from_tree = false
+	await process_frame

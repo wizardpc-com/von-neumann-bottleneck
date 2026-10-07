@@ -90,6 +90,7 @@ func run() -> void:
 				var scene := WorkbenchProbe.new(); root.add_child(scene); await settle()
 				# Show persistent controls without claiming a disk profile or acquiring a writer.
 				scene.persistent_session = true; scene.candidate_journey = true
+				scene.build()
 				scene.change_task(task_index); await settle()
 				await fit_scene(scene,dimensions)
 				check(scene.trace_player.english == scene.english and scene.trace_player.recorded_events.is_empty(),"Fresh empty replay uses the workbench language without inventing events")
@@ -161,6 +162,7 @@ func run() -> void:
 		var earned := WorkbenchProbe.new(); root.add_child(earned); await settle()
 		await fit_scene(earned,Vector2i(1280,720))
 		earned.persistent_session = true; earned.candidate_journey = true
+		earned.build()
 		for index: int in 5:
 			earned.change_task(index)
 			var accepted: Array[Dictionary] = []; accepted.assign(earned_plans[index])

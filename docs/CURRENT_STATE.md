@@ -2,6 +2,21 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Owned-work continuity checkpoint — 2026-10-07
+
+Current runtime **53585621dabe**, Mac **free-alpha-53585621dabe**, isolated profile
+**Continuity-5358562**. Restoring cross-contract Service designs and starting earned
+commissions now remembers the actual contract. Closing/refreshing saved evidence
+from the journey story preserves its page and usable focus. No model/schema changes.
+
+Seven frozen affected suites/import/isolation PASS;2536 source identities exact.
+Export/identity and14actual binarychecks PASS. Native Chinese empty-profile story
+page2→evidence→OK→samepage/Next focus observed; CUA pointer/window errors retained.
+Own QA profile archived unchanged, no running engine or real-save edits. Service
+native cross-contract save/restart, native Esc/refresh/earned ending, full new route,
+listening, novice and device acceptance remain open.
+[Evidence, playable route and Claude boundary](verification/20261007-owned-work-continuity/README.md).
+
 ## Operation feedback checkpoint — 2026-10-07
 
 Current runtime **45f81ae9549a**, Mac **free-alpha-45f81ae9549a**, independent profile

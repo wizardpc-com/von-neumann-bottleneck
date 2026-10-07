@@ -9,6 +9,37 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; the newest dated section below identifies the current checkpoint. The earlier661c107 evidence remains specific to named designs.
 
+## 2026-10-07 owned-work continuity — candidate delivered
+
+The referenced ChatGPT discussion returns its latest five turns only (no older
+cursor). Human intent confirms a finite complete artwork and team review; earlier
+AI-divinity discussion is unavailable, so no new world/awareness claims are inferred.
+Existing constitution remains authoritative: earned outcomes lead into A Thought
+Within the World, with ancestor background open. Remote development940ef0f and
+mainc5a2b0c checked unchanged; preserve unrelated collaborator files.
+
+Bounded findings: Service restoring a named design from another contract, or
+starting a commission, changes the active task without updating existing navigation
+memory; Continue can reopen the old contract. Story evidence exits lose the original
+story page, breaking the return from actual saved evidence to reflection.
+
+Ownership: earned_closure (6.1Sol high) Hub and completion_route test; service_clarity
+(6.1Sol high) Service lab and design_shelf test; journey_audit (6.1Sol medium) read-only.
+Root owns docs/integration/Git/Godot/GUI/build. No model, prerequisite, schema or
+completion authority changes. Verify successful and rejected switches, evidence
+OK/Esc/refresh and independent entry; reuse unchanged prior evidence. Then frozen
+focused checks, candidate export and bounded native attempt. Human understanding,
+audio and full-route acceptance remain separate.
+
+Final runtime53585621dabe:7frozen suites/import/isolation PASS,2536identity;
+export/archiveidentity/14binarychecks PASS. Native page2→evidence→OK→page2 with
+Next focused verified in Chinese emptyprofile; no earned progress injected.
+Initial test-only early preload failed/time-out, corrected runtime-load probe passes;
+logs retained. Root native CmdQ/no-process confirmed, own4 QA files archived exact.
+No full/native Service saved-context restart or audio/human/device claim.
+Evidence docs/verification/20261007-owned-work-continuity. Workers released files.
+Implementation scope closed; plan retains external acceptance receipts.
+
 ## 2026-10-07 operation feedback — candidate delivered; native scope explicit
 
 Final runtime45f81ae9549a / free-alpha-45f81ae9549a delivered; profileOperation-45f81ae.

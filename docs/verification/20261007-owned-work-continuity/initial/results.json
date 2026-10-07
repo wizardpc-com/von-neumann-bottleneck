@@ -1,0 +1,85 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/user_directory"
+    },
+    {
+      "name": "test_completion_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/test_completion_presentation"
+    },
+    {
+      "name": "test_completion_route",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_route.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/test_completion_route"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/test_release_convergence"
+    },
+    {
+      "name": "test_service_commission_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_commission_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/test_service_commission_ui"
+    },
+    {
+      "name": "test_service_context_navigation",
+      "exit": -1,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Compile Error: Identifier not found: GlobalSave",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "ERROR: Failed to load script \"res://tests/test_service_context_navigation.gd\" with error \"Compilation failed\".",
+        "ERROR: Parameter \"p_script->implicit_initializer\" is null.",
+        "SCRIPT ERROR: Invalid call. Nonexistent function 'take_pending' in base 'Node (NavigationProbe)'.",
+        "SCRIPT ERROR: Invalid call. Nonexistent function 'candidate_key' in base 'Node (NavigationProbe)'."
+      ],
+      "log": "test_service_context_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/test_service_context_navigation"
+    },
+    {
+      "name": "test_service_design_shelf",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_design_shelf.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/test_service_design_shelf"
+    },
+    {
+      "name": "test_unified_journey_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_unified_journey_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071305Z-3565b24d/test_unified_journey_navigation"
+    }
+  ]
+}

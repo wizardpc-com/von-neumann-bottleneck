@@ -1,0 +1,12 @@
+{
+  "source": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/Continuity-5358562",
+  "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261007-owned-work-continuity/representation/Continuity-5358562",
+  "files": {
+    "presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+    "feedback_outbox_v1.json": "42fdbe83f3b122aae3998a8e096661e439d78318fba8c8a34bb8616020808880",
+    "logs/godot.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+    "playtest_data/session_20261007-071933-56ba21431bc42392.jsonl": "a1fe75590323b843716f02a10fe69e9b43684638075924a7c51b4209e8e3713f"
+  },
+  "byte_identical": true,
+  "active_path_absent": true
+}

@@ -3,9 +3,18 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current operation feedback checkpoint — 2026-10-07
+## Current owned-work continuity checkpoint — 2026-10-07
 
-**45f81ae9549a / free-alpha-45f81ae9549a** is the current runnable internal candidate.
+**53585621dabe / free-alpha-53585621dabe** is the current internal candidate.
+Seven affected frozen suites and actual binary checks pass. Native empty-profile
+story evidence returns to page2 with Next focused. Service cross-contract saved
+continuation and native Esc/refresh/earned ending remain unverified; existing full
+route, audio, human comprehension, devices and distribution gates remain open.
+[Exact evidence](docs/verification/20261007-owned-work-continuity/README.md).
+
+## Previous operation feedback checkpoint — 2026-10-07
+
+**45f81ae9549a / free-alpha-45f81ae9549a** is a previous runnable internal candidate.
 Save-notice consistency, split validity and evidence-specific Prediction feedback
 are repaired. Final progress geometry verified in24 bilingual1280×720 captures;
 affected frozen suites and14actual binarychecks pass. Native save/restart and

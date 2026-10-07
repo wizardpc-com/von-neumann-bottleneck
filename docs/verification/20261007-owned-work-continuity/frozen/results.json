@@ -1,0 +1,78 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/user_directory"
+    },
+    {
+      "name": "test_completion_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/test_completion_presentation"
+    },
+    {
+      "name": "test_completion_route",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_route.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/test_completion_route"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/test_release_convergence"
+    },
+    {
+      "name": "test_service_commission_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_commission_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/test_service_commission_ui"
+    },
+    {
+      "name": "test_service_context_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_context_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/test_service_context_navigation"
+    },
+    {
+      "name": "test_service_design_shelf",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_design_shelf.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/test_service_design_shelf"
+    },
+    {
+      "name": "test_unified_journey_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_unified_journey_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261007T071733Z-34c0c598/test_unified_journey_navigation"
+    }
+  ]
+}

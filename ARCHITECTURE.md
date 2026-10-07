@@ -258,3 +258,13 @@ Service contract does not earn that task; the persistent verdict states both fac
 Prediction has a candidate-only optional entry/Home with explicit temporary-work
 loss confirmation. Its model, history and policies remain session-only. All three
 workbenches inherit the shared language and preserve language choice across entry.
+
+### Candidate workbench presentation (2026-10-07)
+
+Representation keeps partition editing, Run and Save outside asset/evidence
+scrolling. Earned review stays above the evidence reader; reading and long feedback
+can scroll independently. Prediction uses the shared instrument palette, fixed
+rule/run controls, visible investigation purpose and separate specification, result,
+event and history pages. Re-selecting its current task preserves partial observation;
+New run resets it. These hosts still consume their existing authoritative traces
+and unchanged independent save/session boundaries.

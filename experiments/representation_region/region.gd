@@ -122,25 +122,34 @@ func build() -> void:
 	add_child(margin)
 	var page := VBoxContainer.new(); page.add_theme_constant_override("separation",8); margin.add_child(page)
 	var top := HBoxContainer.new(); page.add_child(top)
-	var title := make_label(text2("表示候选区 · 构造方案，比较真实服务","Candidate representation region · Build, measure, compare"),top,24)
+	var title := make_label(text2("表示 · 改变信息的承载","Representation · Change how information is carried"),top,24)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	make_button("中文 / EN",top,toggle_language,"Language")
 	if candidate_journey: make_button(text2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页", "Home"),top,request_hub,"CandidateHome")
 	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
 	make_button(text2("退出","Quit"),top,request_quit,"Quit")
-	make_label(text2("隔离候选 · 不改变主线存档 · 周期来自模型 · 五份任务 · 推荐按编号探索 · 第4任务计入在线准备","Isolated candidate · no campaign save changes · model cycles · five freely accessible tasks · recommended numbered order · task4 includes preparation"),page,13)
 	var nav := HBoxContainer.new(); page.add_child(nav)
 	for i: int in 5:
 		var b := make_button(Catalog.title(i,english),nav,func() -> void: change_task(i),"Task"+str(i))
 		b.add_theme_font_size_override("font_size",13)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL; task_buttons.append(b)
-	mission = make_label(mission_text(),page,14); mission.name = "Mission"
-	var hint := make_button(text2("看一个线索（不揭示方案）","A clue, not a solution"),page,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
-	hint.tooltip_text = Catalog.hint(task,english)
 	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.name = "WorkspaceSplit"; body.split_offset = 40; page.add_child(body)
-	var edit_scroll := ScrollContainer.new(); edit_scroll.name = "EditorScroll"; edit_scroll.custom_minimum_size.x = 530; edit_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(edit_scroll)
-	var editor := VBoxContainer.new(); editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.add_child(editor)
-	make_label(text2("公开资产（十进制字节，地址0–63）","Public assets (decimal bytes, addresses 0–63)"),editor,17)
+	var editor := VBoxContainer.new(); editor.name = "RepresentationEditor"
+	editor.custom_minimum_size.x = 530; editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	editor.add_theme_constant_override("separation",8); body.add_child(editor)
+	# Reading can grow independently. Selecting/editing/running a plan never requires scrolling it.
+	var edit_scroll := ScrollContainer.new(); edit_scroll.name = "EditorScroll"
+	edit_scroll.custom_minimum_size = Vector2(530,100)
+	edit_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	edit_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	edit_scroll.follow_focus = true; editor.add_child(edit_scroll)
+	var reading := VBoxContainer.new(); reading.name = "TaskAssetReading"
+	reading.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.add_child(reading)
+	mission = make_label(mission_text(),reading,14); mission.name = "Mission"
+	var hint := make_button(text2("看一个线索（不揭示方案）","A clue, not a solution"),reading,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
+	hint.tooltip_text = Catalog.hint(task,english)
+	make_label(text2("五份任务可独立探索 · 第4任务计入在线准备 · 候选方案与核心存档分开", "Five freely accessible tasks · task4 includes online preparation · candidate plans save separately from core progress"),reading,13)
+	make_label(text2("公开资产（十进制字节，地址0–63）","Public assets (decimal bytes, addresses 0–63)"),reading,17)
 	var data := Label.new(); data.name = "Asset"; data.custom_minimum_size.y = 104 if task != 4 else 210
 	data.autowrap_mode = TextServer.AUTOWRAP_OFF
 	data.add_theme_font_size_override("font_size",13)
@@ -152,32 +161,32 @@ func build() -> void:
 		var second: Array[int] = Catalog.asset(5)
 		for start: int in range(0,64,16): data_rows.append("%02d–%02d: %s" % [start,start+15,str(second.slice(start,start+16))])
 	data.text = "\n".join(data_rows)
-	make_label(text2("同值同色 · 顶边蓝=RAW，绿=RLE · 点击字节选中分块", "Equal bytes share a color · blue top=RAW, green=RLE · click a byte to select its block"),editor,13)
+	make_label(text2("同值同色 · 顶边蓝=RAW，绿=RLE · 点击字节选中分块", "Equal bytes share a color · blue top=RAW, green=RLE · click a byte to select its block"),reading,13)
 	public_order_choice = OptionButton.new(); public_order_choice.name = "PublicOrderPreview"
 	public_order_choice.add_item(text2("不标记请求", "No request markers"))
 	for public_order: Dictionary in Catalog.orders(task): public_order_choice.add_item(str(public_order.name))
 	preview_order = mini(preview_order,public_order_choice.item_count-1)
 	public_order_choice.select(preview_order)
 	public_order_choice.item_selected.connect(func(index: int) -> void: preview_order = index; refresh_request_preview())
-	editor.add_child(public_order_choice)
-	make_label(text2("金色底线=该订单请求地址；悬停×次数（每位客户），不表示缓存命中", "Gold underline=requested address; hover × count per client, not cache hits"),editor,12)
+	reading.add_child(public_order_choice)
+	make_label(text2("金色底线=该订单请求地址；悬停×次数（每位客户），不表示缓存命中", "Gold underline=requested address; hover × count per client, not cache hits"),reading,12)
 	for asset_index: int in (2 if task == 4 else 1):
-		if task == 4: make_label(text2("资产A" if asset_index == 0 else "资产B", "Asset A" if asset_index == 0 else "Asset B"),editor,14)
+		if task == 4: make_label(text2("资产A" if asset_index == 0 else "资产B", "Asset A" if asset_index == 0 else "Asset B"),reading,14)
 		var board = preload("res://experiments/representation_region/byte_board.gd").new()
 		board.name = "ByteBoard"+str(asset_index)
 		board.block_selected.connect(func(index: int) -> void: selected_block = index; refresh_plan())
-		editor.add_child(board); byte_boards.append(board)
-	make_button(text2("展开/收起原始字节列表", "Show/hide the raw byte list"),editor,func() -> void: data.visible = not data.visible,"ToggleAssetList")
+		reading.add_child(board); byte_boards.append(board)
+	make_button(text2("展开/收起原始字节列表", "Show/hide the raw byte list"),reading,func() -> void: data.visible = not data.visible,"ToggleAssetList")
 	data.visible = false
-	editor.add_child(data)
-	draft_label = make_label("",editor,14)
+	reading.add_child(data)
+	draft_label = make_label("",editor,14); draft_label.name = "DraftSummary"
 	blocks = Tree.new(); blocks.name = "Blocks"; blocks.columns = 4; blocks.hide_root = true; blocks.column_titles_visible = true
 	for i: int in 4: blocks.set_column_title(i,[text2("区间 [起点,终点)","Range [start,end)"),text2("表示","Codec"),text2("存储B","Stored B"),text2("载荷+目录","Payload + directory")][i])
-	blocks.custom_minimum_size.y = 190; blocks.size_flags_vertical = Control.SIZE_EXPAND_FILL; editor.add_child(blocks)
+	blocks.custom_minimum_size.y = 112; editor.add_child(blocks)
 	blocks.item_selected.connect(func() -> void:
 		var row: TreeItem = blocks.get_selected()
 		if row != null: selected_block = int(row.get_metadata(0)); refresh_actions())
-	var edit := HBoxContainer.new(); editor.add_child(edit)
+	var edit := HBoxContainer.new(); edit.name = "PartitionActions"; editor.add_child(edit)
 	var split_label: Label = make_label(text2("分割地址","Split at"),edit,14)
 	split_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	split_label.custom_minimum_size.x = 80
@@ -186,23 +195,42 @@ func build() -> void:
 	split_at.value_changed.connect(func(_v: float) -> void: refresh_actions())
 	split_button = make_button(text2("分割","Split"),edit,func() -> void: edit_plan(Model.split(plan,selected_block,int(split_at.value))),"Split")
 	merge_button = make_button(text2("合并右块","Merge right"),edit,func() -> void: edit_plan(Model.merge(plan,selected_block)),"Merge")
-	var codec_row := HBoxContainer.new(); editor.add_child(codec_row)
-	raw_button = make_button(text2("选中块 → 原始","Selected → Raw"),codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"raw")),"Raw")
-	rle_button = make_button(text2("选中块 → RLE","Selected → RLE"),codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"rle")),"RLE")
+	var codec_row := HBoxContainer.new(); codec_row.name = "CodecActions"; editor.add_child(codec_row)
+	raw_button = make_button(text2("选中块 → 原始","Block → Raw"),codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"raw")),"Raw")
+	rle_button = make_button(text2("选中块 → RLE","Block → RLE"),codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"rle")),"RLE")
 	undo_button = make_button(text2("撤销","Undo"),codec_row,undo,"Undo")
 	redo_button = make_button(text2("重做","Redo"),codec_row,redo,"Redo")
-	make_label(text2("最多8块；合并保留左块表示。每块4B地址目录；RLE另有2B原长头和(count,value)对。解码操作=输出字节+run数。","At most 8 blocks; merging keeps the left codec. Every block has a 4B address directory. RLE adds a 2B length header and (count,value) pairs. Decode work=output bytes+runs."),editor,13)
-	run_button = make_button(text2("运行当前方案 · 保存对照","Run current plan · record comparison"),editor,run_current,"Run")
+	make_label(text2("最多8块；合并保留左块表示。每块4B地址目录；RLE另有2B原长头和(count,value)对。解码操作=输出字节+run数。","At most 8 blocks; merging keeps the left codec. Every block has a 4B address directory. RLE adds a 2B length header and (count,value) pairs. Decode work=output bytes+runs."),reading,13)
+	var execute := HBoxContainer.new(); execute.name = "ExecutionActions"; editor.add_child(execute)
+	run_button = make_button(text2("运行当前草稿", "Run current draft"),execute,run_current,"Run")
+	run_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	run_button.tooltip_text = text2("实际运行并新增对照记录；不会替代旧记录，也不会写入存档。", "Measure this draft and add a comparison. Existing recordings stay unchanged; Save is separate.")
 	InstrumentTheme.primary(run_button)
+	run_button.add_theme_color_override("font_focus_color",Color("071823"))
 	if persistent_session:
-		var save_button := make_button(text2("保存本次方案与对照", "Save drafts and comparisons"),editor,save_session,"SaveSession")
+		var save_button := make_button(text2("保存探索", "Save exploration"),execute,save_session,"SaveSession")
+		save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		save_button.tooltip_text = text2("保存各任务草稿、实测对照与收藏；撤销栈仅在本窗口保留。", "Save task drafts, measured comparisons and named designs. Undo stacks remain in this window.")
 		save_button.disabled = save_blocked
 		InstrumentTheme.primary(save_button,Color("62dca7"))
-		add_recovery_controls(editor)
-	status = make_label(text2("选择区间，再分割/合并或改变该块表示。","Select a block, then split/merge or change its codec."),editor,14)
-	var completed_review := make_button(text2("成果回顾与下一步" if candidate_journey else "回顾五份成果", "Review and next step" if candidate_journey else "Review five achievements"),editor,show_closure,"CompletedRegionReview")
+		save_button.add_theme_color_override("font_focus_color",Color("071823"))
+		add_recovery_controls(reading)
+	var feedback := ScrollContainer.new(); feedback.name = "FeedbackScroll"
+	feedback.custom_minimum_size.y = 54; feedback.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	editor.add_child(feedback)
+	status = make_label(text2("选择分块，分割 / 合并或改变表示，再运行当前草稿。", "Select a block, split / merge or change its codec, then run the draft."),feedback,14)
+	status.name = "WorkbenchFeedback"; status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var evidence_column := VBoxContainer.new(); evidence_column.name = "RepresentationEvidence"
+	evidence_column.custom_minimum_size.x = 430; evidence_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_child(evidence_column)
+	var completed_review := make_button(text2("成果回顾与下一步" if candidate_journey else "回顾五份成果", "Review and next step" if candidate_journey else "Review five achievements"),evidence_column,show_closure,"CompletedRegionReview")
+	completed_review.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	InstrumentTheme.primary(completed_review)
-	var evidence_scroll := ScrollContainer.new(); evidence_scroll.name = "EvidenceScroll"; evidence_scroll.custom_minimum_size.x = 430; evidence_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence_scroll)
+	completed_review.add_theme_color_override("font_focus_color",Color("071823"))
+	var evidence_scroll := ScrollContainer.new(); evidence_scroll.name = "EvidenceScroll"
+	evidence_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; evidence_scroll.follow_focus = true
+	evidence_scroll.custom_minimum_size.x = 430; evidence_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	evidence_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence_column.add_child(evidence_scroll)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; evidence_scroll.add_child(evidence)
 	make_label(text2("实际运行记录（选择旧记录复查）","Recorded runs (select an older run to inspect)"),evidence,17)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 90; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
@@ -241,6 +269,7 @@ func build() -> void:
 	trace_player.playing_changed.connect(func(value: bool) -> void: trace_play.text = text2("暂停回放", "Pause replay") if value else text2("回放真实事件", "Replay recorded events"))
 	trace_player.event_selected.connect(select_replay_event)
 	evidence.add_child(trace_player)
+	trace_player.configure([],english)
 	var detail_button := make_button(text2("展开 / 收起成本与事件细节", "Show / hide cost and event details"),evidence,func() -> void:
 		details_expanded = not details_expanded
 		trace_details_group.visible = details_expanded,"ToggleTraceDetails")

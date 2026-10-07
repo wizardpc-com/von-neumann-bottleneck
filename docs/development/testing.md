@@ -709,3 +709,19 @@ the real opted-in path. Candidate enablement and profile binding stay production
 checks, not test overrides. Relevant neighbors include task_tree/layout/presentation,
 direct_task_navigation, completion_route, session stores, second_act_navigation,
 prediction_navigation, core_closure_navigation and prelaunch settings.
+
+## Candidate workbench operation layout, 2026-10-07
+
+Use `test_prediction_workbench_presentation` and
+`test_representation_workbench_presentation` through the isolated verifier. They
+check actual scene/root geometry, fixed actions, long text, immutable measurements
+and the existing departure guards. Representation includes all five tasks and
+earned-review fixtures; these are authored fixtures, not novice play evidence.
+
+For actual renders, use the imported isolated copy and run each script separately
+with `--windowed --resolution 1280x720 -- --workbench-capture --capture-size=1280x720`.
+The existing `--capture-size` path is required to bypass Retina minimum-window and
+saved-window restoration; `--workbench-capture` alone is insufficient. Rendering
+samples Representation's densest two-asset task rather than repeating its complete
+headless matrix. PNGs go to `.godot/workbench-captures` in that isolated project.
+Never use capture flags for native persistence acceptance.

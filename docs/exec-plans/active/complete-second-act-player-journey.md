@@ -10,6 +10,38 @@ an instruction to block or add unplanned content. Earlier progress below is
 historical; runtime10211e5 and the resumed closure evidence below are the current
 checkpoint. The earlier661c107 evidence remains specific to named designs.
 
+## 2026-10-07 workbench refinement — active
+
+New user request continues bounded iteration after a0ced8d. Remote development
+and main were rechecked unchanged. Actual previous native observations identify
+two concrete gaps: Representation actions below the asset scroll, and Prediction's
+unmatched default controls/unused space. Improve these existing workbenches without
+new tasks, model semantics, persistence formats or shared navigation changes.
+
+Ownership: root sole integrator/docs/Git/Godot/native/build; existing 6.1Sol high
+worker earned_closure owns prediction/lab.gd and new prediction presentation test;
+6.1Sol high service_clarity owns representation_region/region.gd and new
+representation presentation test; 6.1Sol medium journey_audit is read-only reviewer.
+Preserve collaborator AGENTS/docs index/Claude/collaboration/brief changes.
+
+Development found and repaired Prediction completed-text overflow and an English
+Result tab/node-name collision. An isolated diagnostic identified the old closure
+width check comparing1600 logical coordinates against1280 physical width; the test
+now sets both dimensions explicitly. Preserve initial failing evidence, including
+root stopping only the identified stuck test PID28853 after its null-node abort.
+
+The first render attempt correctly failed actual pixel-size checks: asynchronous
+window preferences restored fullscreen, and Prediction test instantiated a script
+instead of the full-rect scene. Capture now uses the real scene (Representation
+probe mirrors its root anchors), sets geometry after ready, and checks full viewport
+equality. Root also repaired the observed English empty TracePlayer caption.
+
+Verify changed action visibility and bilingual minimum-window geometry, unchanged
+observed-vs-hidden and draft-vs-record boundaries, existing affected navigation and
+session guards. Inspect actual renders and isolated native operation; freeze and
+package a runnable checkpoint. Reuse unchanged model/earned-closure evidence from
+prior checkpoints, without claiming fresh full-route or novice/audio acceptance.
+
 ## 2026-10-06 unified journey and product entry — delivered checkpoint
 
 Delivered runtime d26ff8d62cfd, Mac free-alpha-d26ff8d62cfd, profile Journey-d26ff8d.

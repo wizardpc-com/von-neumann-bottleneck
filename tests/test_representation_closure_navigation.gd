@@ -20,6 +20,7 @@ func control(scene: Node, handle: String) -> Button:
 
 func run() -> void:
 	root.size = Vector2i(1280,720)
+	root.content_scale_size = Vector2i(1280,720)
 	var old_path: String = Store.PATH
 	Store.PATH = "user://representation-closure-navigation.json"
 	var scene = load("res://experiments/representation_region/region.tscn").instantiate()

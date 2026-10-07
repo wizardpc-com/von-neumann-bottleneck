@@ -3,15 +3,25 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current unified journey checkpoint — 2026-10-06
+## Current workbench checkpoint — 2026-10-07
 
-**d26ff8d62cfd / free-alpha-d26ff8d62cfd** is the latest candidate. Unified task
+**c84c58ec2a02 / free-alpha-c84c58ec2a02** is the current runnable candidate.
+Representation fixed actions and Prediction visual/evidence organization have
+fresh frozen automated and rendered checks. **New-package native operation is
+blocked by the locked Mac and remains NOT_RUN.** Passing binaries/rendering does
+not close this gate. [Evidence](docs/verification/20261007-workbench-polish/README.md).
+Human understanding, listening, other devices, final style and formal distribution
+remain separate. No model/save/route redesign is implied by this refinement.
+
+## Previous unified journey checkpoint — 2026-10-06
+
+**d26ff8d62cfd / free-alpha-d26ff8d62cfd** is the prior candidate. Unified task
 map and exact-task save/return/continue replace the separate candidate lobby.
 20 frozen affected suites,22 rendered views, explicit candidate host checks and14
 binary checks pass; actual native save/return/restart observations are recorded.
 [Layered evidence and unverified edges](docs/verification/20261006-unified-journey/README.md).
 The gates below remain: listening, unfamiliar-player understanding and duration,
-final visual/narrative polish (including Prediction workbench), other devices/OS,
+final visual/narrative polish, other devices/OS,
 formal distribution/signing. This delivered increment is not a claim of those gates.
 
 ## Previous entry checkpoint — 2026-10-06

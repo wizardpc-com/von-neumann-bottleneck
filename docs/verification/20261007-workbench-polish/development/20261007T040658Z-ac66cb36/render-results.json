@@ -1,0 +1,54 @@
+[
+  {
+    "name": "prediction",
+    "exit": 1,
+    "errors": [
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "ERROR: Capture has actual minimum-window dimensions",
+      "FAIL: test_prediction_workbench_presentation 1217 checks, 20 failures"
+    ]
+  },
+  {
+    "name": "representation",
+    "exit": 1,
+    "errors": [
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Blocks",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: SplitAt",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Split",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Merge",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Raw",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: RLE",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Undo",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Redo",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Run",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: SaveSession",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: DraftSummary",
+      "ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: FeedbackScroll",
+      "ERROR: representation-zh_CN-initial: actual capture dimensions match",
+      "ERROR: representation-zh_CN-assets: actual capture dimensions match",
+      "ERROR: representation-zh_CN-measured: actual capture dimensions match",
+      "ERROR: representation-en-initial: actual capture dimensions match",
+      "ERROR: representation-en-assets: actual capture dimensions match",
+      "ERROR: representation-en-measured: actual capture dimensions match",
+      "FAIL: test_representation_workbench_presentation 8385 checks, 18 failures"
+    ]
+  }
+]

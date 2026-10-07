@@ -2,9 +2,25 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Unified journey checkpoint — 2026-10-06
+## Workbench refinement checkpoint — 2026-10-07
 
-Current runtime **d26ff8d62cfd**, Mac **free-alpha-d26ff8d62cfd**, profile
+Current runtime **c84c58ec2a02**, Mac **free-alpha-c84c58ec2a02**, independent
+profile **Workbench-c84c58e**. Representation editing/Run/Save and earned review
+stay visible beside independent readers. Prediction now shares the instrument
+palette with visible task purpose, fixed actions and separate evidence pages;
+re-selecting the current task preserves partial observation. Save/model rules unchanged.
+
+11 frozen affected suites/import/isolation PASS,2321-file source identity;26 actual
+1280×720 bilingual images inspected, explicit candidate51checks and actual binary14
+checks PASS. **Native play on this package is NOT_RUN: Mac was locked at the CUA
+attempt.** No game process remains; the file-free own QA directory was reversibly
+archived and profile starts fresh. Prior native receipts are historical, not this
+package's acceptance. [Evidence and blocked native checklist](verification/20261007-workbench-polish/README.md).
+Audio, novice understanding, device coverage and final style remain unverified.
+
+## Previous unified journey checkpoint — 2026-10-06
+
+Prior runtime **d26ff8d62cfd**, Mac **free-alpha-d26ff8d62cfd**, profile
 **Journey-d26ff8d**. Home has two game actions with richer static artwork and no
 scrolling. Journey map now contains the original40 plus actual Representation5,
 Service3 and optional Prediction3 tasks. Exact selection, guarded return and

@@ -7,10 +7,17 @@ development. The authorized finite second-act implementation is now delivered,
 including existing5+3 journeys, learning continuity, protected saved review and
 named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
-historical; runtime10211e5 and the resumed closure evidence below are the current
-checkpoint. The earlier661c107 evidence remains specific to named designs.
+historical; the newest dated section below identifies the current checkpoint. The earlier661c107 evidence remains specific to named designs.
 
-## 2026-10-07 workbench refinement — active
+## 2026-10-07 workbench refinement — candidate delivered; native blocked
+
+Runtime c84c58ec2a02; free-alpha-c84c58ec2a02 with independent Workbench-c84c58e.
+11 frozen affected suites/import/isolation PASS;2321 source files exact;26 bilingual
+1280×720 rendered views inspected and PASS; candidate51 and binary14 checks PASS.
+Native CUA attempt blocked by locked Mac; user asked to unlock, no native actions
+observed. No game process remains; own file-free profile directory archived.
+Implementation/package scope is complete, but native acceptance is explicitly open.
+Evidence: docs/verification/20261007-workbench-polish. No further scope expansion.
 
 New user request continues bounded iteration after a0ced8d. Remote development
 and main were rechecked unchanged. Actual previous native observations identify

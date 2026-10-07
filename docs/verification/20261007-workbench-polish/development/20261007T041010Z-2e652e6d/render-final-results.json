@@ -1,0 +1,15 @@
+[
+  {
+    "name": "prediction",
+    "exit": 1,
+    "errors": [
+      "ERROR: Display window has minimum-window dimensions: (2940, 1846)",
+      "FAIL: test_prediction_workbench_presentation 1263 checks, 1 failures"
+    ]
+  },
+  {
+    "name": "representation",
+    "exit": 0,
+    "errors": []
+  }
+]

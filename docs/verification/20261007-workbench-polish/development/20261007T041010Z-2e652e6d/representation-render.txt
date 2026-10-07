@@ -1,0 +1,34 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: representation-zh_CN-initial: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:66)
+ERROR: representation-zh_CN-assets: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:66)
+ERROR: representation-zh_CN-measured: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:66)
+ERROR: representation-en-initial: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:66)
+ERROR: representation-en-assets: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:66)
+ERROR: representation-en-measured: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:66)
+FAIL: test_representation_workbench_presentation 8551 checks, 6 failures

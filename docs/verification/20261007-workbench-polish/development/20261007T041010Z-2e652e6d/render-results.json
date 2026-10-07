@@ -1,0 +1,34 @@
+[
+  {
+    "name": "prediction",
+    "exit": 1,
+    "errors": [
+      "ERROR: Actual root window has minimum-window dimensions: (2560, 1440)",
+      "ERROR: Display window has minimum-window dimensions: (2940, 1846)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-initial (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-hint (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-step (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-completed (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-events (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-history (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-task2-hint (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-task2-spec (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-task3-hint (2560, 1440)",
+      "ERROR: Capture has actual minimum-window dimensions: prediction-zh_CN-task3-spec (2560, 1440)",
+      "FAIL: test_prediction_workbench_presentation 1243 checks, 12 failures"
+    ]
+  },
+  {
+    "name": "representation",
+    "exit": 1,
+    "errors": [
+      "ERROR: representation-zh_CN-initial: actual capture dimensions match",
+      "ERROR: representation-zh_CN-assets: actual capture dimensions match",
+      "ERROR: representation-zh_CN-measured: actual capture dimensions match",
+      "ERROR: representation-en-initial: actual capture dimensions match",
+      "ERROR: representation-en-assets: actual capture dimensions match",
+      "ERROR: representation-en-measured: actual capture dimensions match",
+      "FAIL: test_representation_workbench_presentation 8551 checks, 6 failures"
+    ]
+  }
+]

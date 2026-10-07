@@ -1,0 +1,18 @@
+{
+  "profile": "Workbench-c84c58e",
+  "paths": {
+    "representation": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/Workbench-c84c58e",
+    "service": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/service/Workbench-c84c58e"
+  },
+  "exists": {
+    "representation": false,
+    "service": false
+  },
+  "native_attempt": "blocked by locked Mac before launch",
+  "process_check": "No Godot or candidate process after attempted launch",
+  "empty_directory_archived_to": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261007-workbench-polish/representation/Workbench-c84c58e",
+  "archived_files": [],
+  "archived_subdirectories": [
+    "objectdb_snapshots"
+  ]
+}

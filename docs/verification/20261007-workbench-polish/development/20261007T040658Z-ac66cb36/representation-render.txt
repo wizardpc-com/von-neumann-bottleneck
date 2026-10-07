@@ -1,0 +1,118 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Blocks
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: SplitAt
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Split
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Merge
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Raw
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: RLE
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Undo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Redo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: Run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: SaveSession
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: DraftSummary
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: zh_CN-T1-1280x720-assets: reading scrolls do not move fixed operations: FeedbackScroll
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] check_unchanged_rects (res://tests/test_representation_workbench_presentation.gd:42)
+       [2] run (res://tests/test_representation_workbench_presentation.gd:94)
+       [3] settle (res://tests/test_representation_workbench_presentation.gd:16)
+ERROR: representation-zh_CN-initial: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:52)
+ERROR: representation-zh_CN-assets: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:52)
+ERROR: representation-zh_CN-measured: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:52)
+ERROR: representation-en-initial: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:52)
+ERROR: representation-en-assets: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:52)
+ERROR: representation-en-measured: actual capture dimensions match
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_workbench_presentation.gd:14)
+       [1] screenshot (res://tests/test_representation_workbench_presentation.gd:52)
+FAIL: test_representation_workbench_presentation 8385 checks, 18 failures

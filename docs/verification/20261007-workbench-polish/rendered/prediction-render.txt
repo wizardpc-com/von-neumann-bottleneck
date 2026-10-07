@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+DISPLAY_DIAGNOSTIC: (1280, 720); viewport (1280, 720)
+DISPLAY_DIAGNOSTIC: (1280, 720); viewport (1280, 720)
+PASS: test_prediction_workbench_presentation 1261 checks, 0 failures

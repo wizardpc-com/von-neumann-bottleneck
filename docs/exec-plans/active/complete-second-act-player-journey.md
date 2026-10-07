@@ -15,7 +15,8 @@ Intermediate source4ecb7fb passed13 frozen suites/2413-file identity and20 rende
 views. New-package native run/save/independent restart restored Representation5
 with correct notice; Prediction3 Off120 then stride180 correctly reports missing
 non-Off safe evidence. Native discovered third progress line below the feedback
-scroll: final minimal follow-up increases56→96 and checks initial3/earned4 lines
+scroll: first follow-up96 failed (97px text; English surface750). Final follow-up100
+plus shorter English operation copy passes1413 rendered checks, initial3/earned4 lines
 in both locales. Preserve4ecb evidence; do not claim it covers final layout.
 
 Mac unlocked; root entered c84c58e packaged game with isolated Workbench-c84c58e

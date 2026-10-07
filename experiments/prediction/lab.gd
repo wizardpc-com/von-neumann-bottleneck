@@ -141,13 +141,13 @@ func build() -> void:
 	(editor.get_parent() as Control).custom_minimum_size.x = 470
 	var left_tabs := TabContainer.new(); left_tabs.name = "PredictionRuleTabs"; left_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; left_tabs.all_tabs_in_front = false; left_tabs.use_hidden_tabs_for_min_size = false; editor.add_child(left_tabs)
 	var rules: VBoxContainer = _tab_page(left_tabs,text2("构造规则","Build a rule"))
-	var instruction: Label = label(text2("选择规则，再逐步揭示真实请求。运行到结束才记录完整测量。", "Choose a rule, then reveal actual demands. Run to the end to keep a full measurement."),rules,16)
+	var instruction: Label = label(text2("选择规则，再逐步揭示真实请求。运行到结束才记录完整测量。", "Choose a rule; reveal demands or run to record results."),rules,16)
 	instruction.name = "FirstOperation"
 	rule = choice(text2("规则","Rule"),"Rule",[text2("关闭猜测","Off"),text2("最近步长","Last stride"),text2("双步长循环","Two-stride cycle")],["off","stride","two_stride"].find(str(policy.rule)),rules)
 	confidence = choice(text2("所需重复次数","Required repetitions"),"Confidence",["1","2","3"],int(policy.confidence)-1,rules)
 	lookahead = choice(text2("预测步长倍数","Stride multiplier"),"Lookahead",["1","2"],int(policy.lookahead)-1,rules)
 	cooldown = choice(text2("错猜后暂停请求数","Pause after mismatch"),"Cooldown",["0","2"],0 if int(policy.cooldown)==0 else 1,rules)
-	var draft_note: Label = label(text2("改变规则会清空当前观察前缀；本次已完成记录仍保留。", "Changing the rule clears the current observed prefix; completed records in this session remain."),rules,14)
+	var draft_note: Label = label(text2("改变规则会清空当前观察前缀；本次已完成记录仍保留。", "Rule edits clear this prefix; completed records remain."),rules,14)
 	draft_note.name = "DraftBoundary"; draft_note.add_theme_color_override("font_color",MUTED)
 	var specification: VBoxContainer = _tab_page(left_tabs,text2("任务与机器","Task and machine"))
 	var specification_scroll := ScrollContainer.new(); specification_scroll.name = "SpecificationScroll"
@@ -163,7 +163,7 @@ func build() -> void:
 	button(text2("运行到结束","Run to end"),"Run",actions,run_current)
 	button(text2("新一轮","New run"),"Restart",actions,restart)
 	button(text2("Hint1 · 看线索","Hint1 · A clue"),"Hint1",editor,func() -> void: status.text = hint_text())
-	status = _bounded_label(editor,"Status",96)
+	status = _bounded_label(editor,"Status",100)
 	var evidence: VBoxContainer = _workbench_panel(body,"PredictionEvidencePanel")
 	var evidence_title: Label = label(text2("观察与实测记录","Observation and measured records"),evidence,18)
 	evidence_title.add_theme_font_override("font",Typography.HEADING_FONT)

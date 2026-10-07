@@ -9,7 +9,14 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; the newest dated section below identifies the current checkpoint. The earlier661c107 evidence remains specific to named designs.
 
-## 2026-10-07 operation feedback — active native iteration
+## 2026-10-07 operation feedback — native follow-up finalizing
+
+Intermediate source4ecb7fb passed13 frozen suites/2413-file identity and20 rendered
+views. New-package native run/save/independent restart restored Representation5
+with correct notice; Prediction3 Off120 then stride180 correctly reports missing
+non-Off safe evidence. Native discovered third progress line below the feedback
+scroll: final minimal follow-up increases56→96 and checks initial3/earned4 lines
+in both locales. Preserve4ecb evidence; do not claim it covers final layout.
 
 Mac unlocked; root entered c84c58e packaged game with isolated Workbench-c84c58e
 profile, navigated unified map to Representation task5. Native keyboard works;

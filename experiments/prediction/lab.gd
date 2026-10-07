@@ -163,7 +163,7 @@ func build() -> void:
 	button(text2("运行到结束","Run to end"),"Run",actions,run_current)
 	button(text2("新一轮","New run"),"Restart",actions,restart)
 	button(text2("Hint1 · 看线索","Hint1 · A clue"),"Hint1",editor,func() -> void: status.text = hint_text())
-	status = _bounded_label(editor,"Status",56)
+	status = _bounded_label(editor,"Status",96)
 	var evidence: VBoxContainer = _workbench_panel(body,"PredictionEvidencePanel")
 	var evidence_title: Label = label(text2("观察与实测记录","Observation and measured records"),evidence,18)
 	evidence_title.add_theme_font_override("font",Typography.HEADING_FONT)

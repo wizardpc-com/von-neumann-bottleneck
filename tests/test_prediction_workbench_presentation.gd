@@ -49,6 +49,15 @@ func bounds(scene: Control) -> void:
 		if reading == null: reading = item
 		check(view.encloses(reading.get_global_rect()),"Visible reading area stays in window: "+id+" "+str(reading.get_global_rect()))
 		check(item.get_theme_font_size("font_size") >= 14,"Readable explanation size: "+id)
+func progress_fits(scene: Control,context: String) -> void:
+	var label := control(scene,"Status") as Label
+	var reading := control(scene,"StatusScroll") as ScrollContainer
+	check(label != null and reading != null,context+": progress reading area exists")
+	if label == null or reading == null: return
+	check(label.text == scene.call("progress_text"),context+": geometry checks the actual progress rather than a clue")
+	check(reading.get_global_rect().encloses(label.get_global_rect()),context+": every progress line is visible: "+str(label.get_global_rect())+" in "+str(reading.get_global_rect()))
+	check(label.get_minimum_size().y <= reading.size.y,context+": full progress text fits without clipping")
+	check(reading.get_v_scroll_bar().max_value <= reading.get_v_scroll_bar().page+1.0,context+": progress needs no scrolling")
 func capture(name: String) -> void:
 	if not "--workbench-capture" in OS.get_cmdline_user_args(): return
 	check(DisplayServer.get_name() != "headless","Workbench captures require a rendering display")
@@ -132,6 +141,9 @@ func run() -> void:
 			var expected: String = ("基线" if locale == "zh_CN" else "baseline") if index == 1 else ("至少两种" if locale == "zh_CN" else "at least two")
 			check(scene.get("task") == index and purpose.contains(expected),"Current investigation retains its explicit objective")
 			bounds(scene)
+			if index == 2:
+				progress_fits(scene,locale+" Investigation3 initial")
+				await capture("prediction-"+locale+"-task3-progress")
 			scene.call("run_current"); await settle(); bounds(scene)
 			(control(scene,"Hint1") as Button).pressed.emit(); await settle(); bounds(scene)
 			check((control(scene,"Status") as Label).text == scene.call("hint_text"),"Later investigation retains the complete requested clue")
@@ -142,6 +154,15 @@ func run() -> void:
 			check(root.get_visible_rect().encloses(control(scene,"SpecificationScroll").get_global_rect()),"Task specification reading area fits the window")
 			check(root.get_visible_rect().encloses(control(scene,"Step").get_global_rect()),"Specification never displaces the main operation")
 			await capture("prediction-"+locale+"-task"+str(index+1)+"-spec")
+			if index == 2:
+				rule_tabs.current_tab = 0
+				for rule_index: int in [1,2]:
+					(control(scene,"Rule") as OptionButton).select(rule_index)
+					scene.call("edit_policy"); scene.call("run_current"); await settle()
+				check(scene.call("goal_met",2),"Actual slower and safe rule records earn the Investigation3 objective")
+				check((control(scene,"Status") as Label).text.split("\n").size() == 4,"Earned feedback retains all four progress lines")
+				bounds(scene); progress_fits(scene,locale+" Investigation3 earned")
+				await capture("prediction-"+locale+"-task3-earned")
 		scene.queue_free(); await settle()
 		check(auto_accept_quit == original_auto_quit,"Workbench exit restores close handling")
 	localization.set_locale(original_locale)

@@ -230,10 +230,10 @@ func build() -> void:
 	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
 	measured_source = label("",overview,13)
 	measured_verdict = label("",overview,14); measured_verdict.name = "MeasuredVerdict"
-	summary = label(tr2("尚未运行。所有目标公开；数值从实际Trace产生。", "No measured run yet. Goals are public; results come from actual Trace."), overview, 14)
+	summary = label(tr2("四条流不断更新历史、请求下一次结果。安排组与驻留，再运行自己的草稿。", "Four streams update history and request their next result. Arrange groups and residency, then run your draft."), overview, 14)
 	var investigation := HBoxContainer.new(); overview.add_child(investigation)
 	bill_button = button(tr2("完整实测账单", "Measured bill"),investigation,show_measured_bill,"MeasuredBill")
-	button(tr2("查看历史在哪里", "Where is history?"),investigation,func() -> void: evidence_tabs.current_tab = 5,"ShowStateJourney")
+	button(tr2("查看该时刻历史", "History at this moment"),investigation,show_response_history,"ShowStateJourney")
 	next_button = button("",investigation,continue_service,"ServiceNext")
 	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
 	evidence_tabs.set_tab_title(3,tr2("对照比较", "Compare"))
@@ -250,7 +250,7 @@ func build() -> void:
 	clear_pin_button = button(tr2("清除对照", "Clear comparison"),compare_row,func() -> void: comparison_baseline.clear(); refresh_comparison(),"ClearComparison")
 	comparison_detail = label("",comparison_panel,14)
 	comparison_chart = preload("res://experiments/service_plan/comparison_chart.gd").new(); comparison_chart.name = "ComparisonChart"; comparison_panel.add_child(comparison_chart)
-	response_chart = preload("res://experiments/service_plan/response_chart.gd").new(); response_chart.name = "ResponseChart"
+	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"
 	overview.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
 	var replay_row := HBoxContainer.new(); overview.add_child(replay_row)
 	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,response_chart.toggle_play,"ResponsePlay")
@@ -442,9 +442,10 @@ func select_run(index: int) -> void:
 	refresh_measured_source(); refresh_comparison()
 	status.text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
+	response_chart.configure_record(record,selected_history+1)
 	response_step.disabled = response_chart.first_responses.is_empty()
 	response_play.disabled = response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false))
-	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n历史位置：%d个自动驻留槽↔外存；最终写回档案%dB。\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nHistory: %d resident slots ↔ backing; final flushed archive%dB.\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,m.plan.slots,m.final_backing_bytes,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)]
+	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)]
 	if not str(m.error).is_empty(): summary.text = invalid_feedback(m)+"\n"+tr2("没有性能或精度结果：该方案在执行前被拒绝。修改草稿后重新运行；历史记录保留。", "No performance or quality result: this plan was rejected before execution. Edit and rerun; history is retained.")
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:
@@ -453,6 +454,13 @@ func select_run(index: int) -> void:
 		root_item.get_child(selected_event_index).select(0); tree.call_deferred("ensure_cursor_is_visible")
 	state_replay.configure(record,english,selected_event_index)
 	refresh_event_detail(); refresh_actions()
+
+func show_response_history() -> void:
+	var source_index: int = response_chart.current_source_index()
+	if source_index >= 0:
+		select_state_event(source_index)
+		state_replay.show_source_index(source_index)
+	evidence_tabs.current_tab = 5
 
 func select_state_event(source_index: int) -> void:
 	selected_event_index = source_index

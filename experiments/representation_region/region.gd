@@ -7,6 +7,7 @@ const SessionStore = preload("res://experiments/representation_region/session_st
 const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
 const Designs = preload("res://experiments/candidate_session/designs.gd")
 const DesignShelf = preload("res://experiments/candidate_session/design_shelf.gd")
+const OrderCostStrip = preload("res://experiments/representation_region/order_cost_strip.gd")
 var writer_lease: RefCounted
 var recovery_state: Dictionary = {}
 var support_plans: Dictionary = {}
@@ -54,6 +55,8 @@ var order_choice: OptionButton
 var events: Tree
 var details: RichTextLabel
 var recorded_plan_label: Label
+var cost_source: Label
+var cost_view: OrderCostStrip
 var result: Label
 var order_comparison: Tree
 var metric_details: Label
@@ -145,6 +148,11 @@ func build() -> void:
 	edit_scroll.follow_focus = true; editor.add_child(edit_scroll)
 	var reading := VBoxContainer.new(); reading.name = "TaskAssetReading"
 	reading.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.add_child(reading)
+	var purpose_panel := PanelContainer.new(); purpose_panel.name = "TaskPurpose"
+	purpose_panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("102330"),Color("2d5266")))
+	reading.add_child(purpose_panel)
+	var purpose := make_label(purpose_text(),purpose_panel,14)
+	purpose.add_theme_color_override("font_color",Color("77d8df"))
 	mission = make_label(mission_text(),reading,14); mission.name = "Mission"
 	var hint := make_button(text2("看一个线索（不揭示方案）","A clue, not a solution"),reading,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
 	hint.tooltip_text = Catalog.hint(task,english)
@@ -227,6 +235,8 @@ func build() -> void:
 	completed_review.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	InstrumentTheme.primary(completed_review)
 	completed_review.add_theme_color_override("font_focus_color",Color("071823"))
+	cost_source = make_label("",evidence_column,14); cost_source.name = "MeasuredCostSource"
+	cost_view = OrderCostStrip.new(); cost_view.name = "MeasuredOrderCosts"; evidence_column.add_child(cost_view)
 	var evidence_scroll := ScrollContainer.new(); evidence_scroll.name = "EvidenceScroll"
 	evidence_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; evidence_scroll.follow_focus = true
 	evidence_scroll.custom_minimum_size.x = 430; evidence_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -339,6 +349,15 @@ func mission_text() -> String:
 	if task == 3: lines.append(text2("在线准备：RAW引用64B源，只写4B目录；RLE读取原区间、编码、写载荷+目录。存储/峰值包含保留的64B源。八位客户共用一次准备。", "Online preparation: RAW references the retained64B source and writes4B directory; RLE reads source, encodes, writes payload+directory. Storage/peak include64B source. Eight clients share preparation."))
 	return "\n".join(lines)
 
+func purpose_text() -> String:
+	match task:
+		0: return text2("用途 · 完整扫描混合资产，让表示同时满足时间与空间约束。", "Purpose · Deliver a mixed-asset scan within its time and storage limits.")
+		1: return text2("用途 · 反复读取内部热点；同一份表示回应重复访问。", "Purpose · Serve repeated interior reads from the same representation.")
+		2: return text2("用途 · 同一方案既要完成全扫描，也要回应稀疏的端点读取。", "Purpose · One plan must answer both a full scan and sparse endpoint reads.")
+		3: return text2("用途 · 先准备，再服务。两份订单分别实测：短读1位客户／全扫描8位冷缓存客户；每份订单只准备一次。", "Purpose · Prepare, then serve: one short reader / eight cold scans. Each order pays preparation once; its total includes that cost.")
+		4: return text2("用途 · 资产A扫描＋资产B复访，共用同一分块与表示。各自编码、各自实测；两份订单都须达标，不能拼用不同方案。", "Purpose · Asset A scan + asset B revisits share one partition and codec plan. Each asset is encoded and measured separately; both orders must meet their limits.")
+	return ""
+
 func change_task(index: int) -> void:
 	if index < 0 or index >= 5: return
 	if index == task and is_instance_valid(blocks) and blocks.is_inside_tree(): return
@@ -437,6 +456,8 @@ func run_current() -> void:
 	status.text = text2("全部公开约束成立；可以继续比较，也可打开下一任务。","All public constraints met; keep comparing or open the next task.") if accepted else text2("尚未满足全部约束。看流量、请求、解码与缓存事件再修改。","Limits not all met. Inspect traffic, requests, decode and cache events before editing.")
 	if not accepted:
 		status.text = constraint_feedback(task,traces)
+		var reading_cue: String = evidence_reading_cue(task,traces)
+		if not reading_cue.is_empty(): status.text += "\n"+reading_cue
 		for i: int in traces.size():
 			if not order_within_limits(task,i,traces[i]):
 				order_choice.select(i); show_trace(i); break
@@ -505,6 +526,7 @@ func show_trace(index: int) -> void:
 	visible_trace = row.traces[index]
 	var m: Dictionary = visible_trace.metrics
 	var met: bool = order_within_limits(int(row.task),index,visible_trace)
+	refresh_cost_overview(index)
 	result.text = text2("记录#%d · %s · %s\n准备 %d周期 + 服务 %d周期 = 总计 %d周期\n实际空间 %dB · 服务搬运 %dB", "Run #%d · %s · %s\nPrepare %d cycles + serve %d cycles = total %d cycles\nActual storage %dB · service traffic %dB") % [selected_run+1,m.spec.name,text2("达标", "Met") if met else text2("未达标", "Unmet"),m.preparation_cycles,m.service_cycles,m.total_cycles,m.stored_bytes,m.traffic_bytes]
 	if m.spec.online:
 		result.text += text2("\n包含保留源%dB；本订单%d位客户共用一次准备、各自冷缓存。", "\nIncludes retained source %dB; this order’s %d clients share one preparation, each with a cold cache.") % [m.source_storage_bytes,m.spec.clients]
@@ -537,11 +559,52 @@ func show_trace(index: int) -> void:
 
 func refresh_recorded_plan_label() -> void:
 	if not is_instance_valid(recorded_plan_label): return
+	refresh_cost_overview()
 	if selected_run < 0 or selected_run >= history.size(): recorded_plan_label.text = ""; return
 	var row: Dictionary = history[selected_run]
 	var matches: bool = int(row.task) == task and row.plan == plan
 	var prefix: String = text2("记录方案（与草稿一致）：", "Recorded plan (matches draft): ") if matches else text2("记录方案（与当前草稿不同）：", "Recorded plan (differs from current draft): ")
 	recorded_plan_label.text = text2("记录#%d · 任务%d · 不变的实测依据\n", "Run #%d · task %d · immutable measured evidence\n") % [selected_run+1,int(row.task)+1] + prefix+plan_text(row.plan)
+
+func refresh_cost_overview(current_order: int = -1) -> void:
+	if not is_instance_valid(cost_view) or not is_instance_valid(cost_source): return
+	if selected_run < 0 or selected_run >= history.size():
+		cost_source.text = text2("订单成本 · 紫=准备，青=服务（各订单独立）", "Order costs · purple=prepare, cyan=serve; independent orders")
+		var unmeasured: Array[Dictionary] = []
+		cost_view.configure(unmeasured,english)
+		return
+	var record: Dictionary = history[selected_run]
+	var matches: bool = int(record.task) == task and record.plan == plan
+	cost_source.text = text2("实测#%d · 任务%d · %s · 紫=准备，青=服务", "Measured #%d · task %d · %s · purple=prepare, cyan=serve") % [selected_run+1,int(record.task)+1,text2("与草稿一致", "matches draft") if matches else text2("与当前草稿不同", "differs from draft")]
+	var rows: Array[Dictionary] = []
+	var tips: Array[String] = []
+	for index: int in record.traces.size():
+		var trace: Trace = record.traces[index]
+		var metrics: Dictionary = trace.metrics
+		var label: String = text2("订单%d", "Order %d") % [index+1]
+		if int(record.task) == 3: label = text2("%d位客户", "%d clients") % metrics.spec.clients
+		elif int(record.task) == 4: label = text2("资产A" if index == 0 else "资产B", "Asset A" if index == 0 else "Asset B")
+		rows.append({"name":label,"metrics":metrics,"met":order_within_limits(int(record.task),index,trace)})
+		tips.append(str(metrics.spec.name)+": "+goal_text(Catalog.goals(int(record.task))[index]))
+	if current_order < 0: current_order = int(cost_view.selected_order)
+	cost_view.configure(rows,english,current_order)
+	cost_view.tooltip_text = "\n".join(tips)
+
+func evidence_reading_cue(task_index: int, traces: Array) -> String:
+	var cues: Array[String] = []
+	var goals: Array[Dictionary] = Catalog.goals(task_index)
+	for index: int in mini(traces.size(),goals.size()):
+		var trace: Trace = traces[index]
+		if not trace.passed: continue
+		for metric: String in goals[index]:
+			if int(trace.metrics.get(metric,-1)) <= int(goals[index][metric]): continue
+			var cue: String = ""
+			match metric:
+				"total_cycles": cue = text2("总周期：先看顶部准备＋服务，再展开成本与事件细节。", "Cycles: read preparation + service above, then expand cost and event details.")
+				"stored_bytes": cue = text2("空间：看顶部实际空间；在线准备包含保留源，不是缓存峰值。", "Storage: read actual stored bytes above; online storage includes retained source, not cache peak.")
+				"traffic_bytes": cue = text2("搬运：看顶部服务搬运；准备读写另在成本细节中。", "Traffic: read service traffic above; preparation reads/writes are separate in cost details.")
+			if not cue.is_empty() and not cues.has(cue): cues.append(cue)
+	return "\n".join(cues)
 
 func plan_text(recorded: Array) -> String:
 	var lines: Array[String] = []
@@ -857,11 +920,6 @@ func show_closure() -> void:
 	var review := AcceptDialog.new(); review.name = "RegionReview"
 	review.title = text2("表示区域 · 你的方案已回应五份任务", "Representation · Your plans answered all five tasks")
 	var lines: Array[String] = [text2("同一份信息，有了不同的承载方式。你已让它在存储、访问、准备和重复服务的约束下，完整抵达请求者。", "The same information now has different ways to travel. Your plans delivered it under storage, access, preparation and repeated-service constraints."), ""]
-	for id: int in 5:
-		var cycles: Array[String] = []
-		for metrics: Dictionary in evidence[id].metrics: cycles.append(str(metrics.total_cycles))
-		lines.append(Catalog.title(id,english)+" · "+" / ".join(cycles)+text2(" 周期", " cycles"))
-	lines.append("")
 	lines.append(text2("这些结果来自保留的达标方案；你仍可回看、取回并尝试不同取舍。这段旅程到此可以收束，不需要等待服务或预测内容。", "These results come from your protected successful plans. Revisit, restore and explore other trade-offs whenever you like. This journey can close here, without waiting for service or prediction content."))
 	if not persistent_session:
 		lines.append(text2("当前为临时会话，方案与记录不会在退出后保留。", "This is a temporary session; plans and records are not retained after leaving."))
@@ -877,8 +935,26 @@ func show_closure() -> void:
 	var scroll := ScrollContainer.new(); scroll.name = "RegionReviewScroll"
 	scroll.custom_minimum_size = Vector2(700,320); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	review.add_child(scroll)
+	var review_page := VBoxContainer.new(); review_page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	review_page.add_theme_constant_override("separation",8); scroll.add_child(review_page)
+	var achievements := make_label(text2("五份保留方案 · 每份订单均重新验证达标", "Five protected plans · every order revalidated"),review_page,18)
+	achievements.name = "RegionReviewAchievements"; achievements.add_theme_color_override("font_color",Color("62dca7"))
+	for id: int in 5:
+		var outcome := PanelContainer.new(); outcome.name = "RegionOutcome"+str(id)
+		outcome.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("102330"),Color("2d5266")))
+		review_page.add_child(outcome)
+		var rows := VBoxContainer.new(); outcome.add_child(rows)
+		var heading := make_label(Catalog.title(id,english),rows,16)
+		heading.add_theme_color_override("font_color",Color("77d8df"))
+		for index: int in evidence[id].metrics.size():
+			var m: Dictionary = evidence[id].metrics[index]
+			var measured := make_label(text2("订单%d · 准备%d＋服务%d＝%d周期 · 空间%dB · 服务搬运%dB", "Order %d · prepare%d + serve%d = %d cycles · stored%dB · service traffic%dB") % [index+1,m.preparation_cycles,m.service_cycles,m.total_cycles,m.stored_bytes,m.traffic_bytes],rows,14)
+			measured.name = "RegionOutcomeMetrics"+str(index)
+		if id == 3: make_label(text2("两订单各准备一次；8位客户服务共计，空间包含保留的64B源。", "Each order prepares once; eight-client service is aggregated. Storage includes the retained64B source."),rows,14)
+		elif id == 4: make_label(text2("订单1=资产A；订单2=资产B。共用同一分块与表示，各自独立达标。", "Order1=asset A; order2=asset B. One shared partition and codec plan; independently met limits."),rows,14)
 	var content := Label.new(); content.name = "RegionReviewContent"; content.text = "\n".join(lines)
-	content.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; content.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(content)
+	content.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_theme_font_size_override("font_size",14); review_page.add_child(content)
 	review.ok_button_text = text2("回到我的工作台", "Back to my workbench")
 	add_child(review); review.popup_centered(Vector2i(740,460))
 

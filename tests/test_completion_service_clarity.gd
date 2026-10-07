@@ -16,6 +16,7 @@ func run() -> void:
 	var scene := Lab.new(); root.add_child(scene); await process_frame
 	check(scene.bill_button.disabled and scene.history.is_empty(),"Unrun draft has no measured bill")
 	check(scene.next_button.disabled and scene.event_raw_button.disabled,"No-data actions cannot offer progression or raw events")
+	check(scene.response_chart.frames.is_empty() and scene.summary.text.contains("历史"),"Entry explains continuous history and the player's draft without inventing a state snapshot")
 	scene.continue_service(); check(scene.task == 0,"Calling Next before earning support does not navigate")
 	scene.show_measured_bill()
 	check(not scene.has_node("MeasuredBillReview"),"Bill action cannot invent a record")
@@ -28,6 +29,20 @@ func run() -> void:
 	check(scene.summary.text.contains("2204") and scene.summary.text.contains("3168") and scene.summary.text.contains("266"),"Compact overview retains baseline time traffic and peak evidence")
 	check(not scene.summary.text.contains("请求") and not scene.summary.text.contains("[89"),"Detailed bill and response array do not repeat on overview")
 	check(scene.status.text.contains("784") and scene.status.text.contains("2568"),"Exact unmet constraints remain visible")
+	var witness: Dictionary = scene.response_chart.witness_snapshot()
+	check(scene.response_chart.playback_cycle == 362 and witness.event.kind == "output" and witness.event.details.stream == 3,"First real run shows the recorded moment of D's latest first response")
+	check(witness.residents[3].present and witness.residents[3].dirty and not witness.residents[0].present,"Overview projects actual resident and dirty history at that response, rather than final state")
+	check(scene.response_chart.current_source_index() == witness.source_index and int(witness.source_index) < scene.history[0].events.size()-1,"Overview's marked time remains traceable to an intermediate source event")
+	scene.response_chart.playback_cycle = 88
+	witness = scene.response_chart.witness_snapshot()
+	check(witness.responses.is_empty() and witness.residents[0].present,"Just before A's real output completes, its updated history is resident but no response has returned")
+	scene.response_chart.playback_cycle = 362
+	scene.response_step.pressed.emit()
+	witness = scene.response_chart.witness_snapshot()
+	check(scene.response_chart.playback_cycle == 89 and witness.event.details.stream == 0 and witness.residents[0].present,"Existing Step synchronizes A's first response with the actual A history location")
+	scene.find_child("ShowStateJourney",true,false).pressed.emit()
+	check(scene.state_replay.current_source_index == scene.response_chart.current_source_index() and scene.selected_event_index == scene.response_chart.current_source_index(),"History detail opens the exact overview event rather than the beginning or final state")
+	scene.evidence_tabs.current_tab = 0; scene.select_run(0)
 	var verdict_before: String = scene.measured_verdict.text
 	scene.notice_key = "saved"; scene.status.text = scene.session_notice()
 	check(scene.measured_verdict.text == verdict_before and scene.measured_verdict.text.contains("未达标"),"Save notice cannot replace selected measurement verdict")
@@ -53,7 +68,7 @@ func run() -> void:
 		specification = scene.get_node("ServiceSpecificationReview")
 		check(specification.get_node("ReviewContent").text.contains("512B") and specification.get_node("ReviewContent").text.contains("350B"),"Hidden shared rules and task peak budget remain discoverable")
 		specification.hide()
-		for id: String in ["DraftSource","MeasuredVerdict","ServiceNext","MeasuredBill","ShowStateJourney","ServiceSpecification","Run","PublicData"]:
+		for id: String in ["DraftSource","MeasuredVerdict","ServiceNext","MeasuredBill","ShowStateJourney","ServiceSpecification","Run","PublicData","ResponseChart","ResponsePlay","ResponseStep"]:
 			var node := scene.find_child(id,true,false) as Control
 			check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Primary and detail controls fit bilingual minimum viewport: "+id+" "+str(node.get_global_rect()))
 		scene.find_child("ShowStateJourney",true,false).pressed.emit(); await process_frame
@@ -70,6 +85,7 @@ func run() -> void:
 	var rejected: String = scene.get_node("MeasuredBillReview").get_node("ReviewContent").text
 	check(rejected.contains("A1") and rejected.contains("A0") and rejected.contains("no measured"),"Rejected bill exposes actual dependency failure without zero-cost measurements")
 	check(scene.response_chart.first_responses.is_empty() and scene.state_replay.frames.is_empty(),"Rejected record clears response and state evidence")
+	check(scene.response_chart.frames.is_empty() and scene.response_chart.witness_snapshot().is_empty() and scene.response_chart.current_source_index() == -1,"Rejected measurement also clears the combined history and response snapshot")
 	check(scene.event_raw_button.disabled and scene.measured_verdict.text.contains("Not executed"),"Rejected measurement has no raw event action or passing verdict")
 	check(scene.history.size() == 2 and scene.support_plans.is_empty(),"Reading details neither reruns nor awards a successful plan")
 	scene.get_node("MeasuredBillReview").hide()
@@ -81,6 +97,15 @@ func run() -> void:
 	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("Limits unmet"),"Selected failed alternative does not erase earned continuation")
 	scene.next_button.pressed.emit(); await process_frame
 	check(scene.task == 1 and scene.unlocked == 1,"Next follows the earned task without awarding further progress")
+	scene.select_run(scene.history.size()-1)
+	var transfer_record: String = JSON.stringify(scene.history[-1])
+	var transfer_metrics: Dictionary = scene.history[-1].metrics
+	check(transfer_metrics.total_cycles <= 1420 and transfer_metrics.all_streams_first_cycle > 320,"Real contract1 support provides a fast overall but late-first-response counterexample")
+	for en: bool in [false,true]:
+		scene.english = en; scene.build(); await process_frame
+		var bridge: String = scene.response_chart.contract_caption()
+		check(bridge.contains(str(transfer_metrics.total_cycles)) and bridge.contains(str(transfer_metrics.all_streams_first_cycle)) and bridge.contains("320") and bridge.contains("timely" if en else "及时"),"Contract2 explains total completion versus individual response using the same actual record")
+		check(JSON.stringify(scene.history[-1]) == transfer_record and not scene.support_plans.has(1),"Reading the response bridge cannot rerun or earn contract2")
 	var exact: Dictionary = Model.initial_plan(); exact.slots = 4
 	exact.representations = ["rle64","rle64","raw64","raw64"]
 	scene.edit(exact,0); scene.run_current(); scene.next_button.pressed.emit(); await process_frame

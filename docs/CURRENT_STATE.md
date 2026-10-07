@@ -2,9 +2,21 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Owned-work continuity checkpoint — 2026-10-07
+## Predictable editing checkpoint — 2026-10-07
 
-Current runtime **53585621dabe**, Mac **free-alpha-53585621dabe**, isolated profile
+Current runtime **2f47e75180c2**, Mac **free-alpha-2f47e75180c2**, isolated profile
+**Editing-2f47e75**. Service undo/redo preserves selected groups and accurate unsaved
+feedback. Representation same-task clicks preserve editing UI; identical named-plan
+copies no longer advertise a nonexistent Undo step. No model/save-format changes.
+Nine frozen suites/import/isolation PASS; 2,576 source identities match. Export,
+identity and 14 packaged-binary checks PASS. Native Home→map→Service Down/Save/
+Undo/Redo/Save confirmed selection and notices; normal exit, own QA profiles archived.
+Representation native checks, full earned route, audio, novice/device acceptance
+remain open. [Evidence and handoff](verification/20261007-predictable-editing/README.md).
+
+## Previous owned-work continuity checkpoint — 2026-10-07
+
+Prior runtime **53585621dabe**, Mac **free-alpha-53585621dabe**, isolated profile
 **Continuity-5358562**. Restoring cross-contract Service designs and starting earned
 commissions now remembers the actual contract. Closing/refreshing saved evidence
 from the journey story preserves its page and usable focus. No model/schema changes.

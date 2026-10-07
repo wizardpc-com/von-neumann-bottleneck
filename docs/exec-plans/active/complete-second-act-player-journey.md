@@ -9,6 +9,28 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; the newest dated section below identifies the current checkpoint. The earlier661c107 evidence remains specific to named designs.
 
+## 2026-10-07 predictable undo — candidate delivered
+
+User requests further optimization. Remote dcf0dee/mainc5a2b0c unchanged; unrelated
+collaborator changes preserved. Root coordinates, sole Git/engine/GUI/build owner.
+Sol service_clarity owns Service lab and new undo-context test; earned_closure
+owns Representation region and new edit-context test. Scope: Save→Undo/Redo must not retain a saved
+success message; undoing a group move must restore the selected request group.
+Representation same-task clicks must preserve pending design names/replay UI; copying
+an identical named plan must not advertise a newly created Undo step. Preserve
+model, completion, existing save format and navigation. In-memory selection
+history only. Verify actual edits/move/join/split/restore and history immutability;
+run focused frozen checks and export a new candidate. Human/native claims stay
+separate; stop at a coherent reversible editing improvement.
+
+Final runtime2f47e75180c2: nine frozen suites/import/isolation PASS, 2,576 source
+identities exact; export/identity/14 packaged checks PASS. Native Chinese fresh
+Home→map→Service Down→Save→Undo→Redo→Save verifies selected A0 and unsaved notices.
+Normal quit/no-process confirmed. Eight own QA files archived with equal hashes;
+real saves untouched. Representation native edits, full route and audio/human/device
+acceptance remain open. Evidence: docs/verification/20261007-predictable-editing.
+Workers released ownership. Bounded implementation complete; no new domain expansion.
+
 ## 2026-10-07 owned-work continuity — candidate delivered
 
 The referenced ChatGPT discussion returns its latest five turns only (no older

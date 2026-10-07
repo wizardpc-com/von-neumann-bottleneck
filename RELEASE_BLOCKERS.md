@@ -3,9 +3,18 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current owned-work continuity checkpoint — 2026-10-07
+## Current predictable editing checkpoint — 2026-10-07
 
-**53585621dabe / free-alpha-53585621dabe** is the current internal candidate.
+**2f47e75180c2 / free-alpha-2f47e75180c2** is the current internal candidate.
+Nine affected frozen suites and 14 actual binary checks pass. Native Service
+Down→Save→Undo→Redo confirms selected-group restoration and accurate unsaved
+notices. Representation native editing and full earned-route acceptance remain
+open, as do audio, novice comprehension, devices and distribution.
+[Exact evidence](docs/verification/20261007-predictable-editing/README.md).
+
+## Previous owned-work continuity checkpoint — 2026-10-07
+
+**53585621dabe / free-alpha-53585621dabe** is a prior internal candidate.
 Seven affected frozen suites and actual binary checks pass. Native empty-profile
 story evidence returns to page2 with Next focused. Service cross-contract saved
 continuation and native Esc/refresh/earned ending remain unverified; existing full

@@ -1,0 +1,24 @@
+[
+  {
+    "source": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/Editing-2f47e75",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261007-predictable-editing/representation/Editing-2f47e75",
+    "hashes": {
+      "task_navigation.cfg": "5fb18c53af04c0e9328bde763c5447c21e156ff625471d2f638485ceedcdbc9d",
+      "presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+      "feedback_outbox_v1.json": "91d556d291acffa3c23ff82c257a0ede9bd8a9573fdb2d20863c49b0eb2a0ad4",
+      "logs/godot.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "playtest_data/session_20261007-104741-decd0366d83a88d3.jsonl": "e07d12e28b823a5342f8793fb90adaab48fc93ffab708f9ff7a261c562f1568a"
+    },
+    "matched": true
+  },
+  {
+    "source": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/service/Editing-2f47e75",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261007-predictable-editing/service/Editing-2f47e75",
+    "hashes": {
+      "service-session.json": "5a5ae96333b248457420a88b4e4e85176246dd16dff7ef5f8e3ddafb3634b987",
+      "service-session.json.bak": "5a5ae96333b248457420a88b4e4e85176246dd16dff7ef5f8e3ddafb3634b987",
+      "service-session.json.snapshots/5a5ae96333b248457420a88b4e4e85176246dd16dff7ef5f8e3ddafb3634b987.json": "5a5ae96333b248457420a88b4e4e85176246dd16dff7ef5f8e3ddafb3634b987"
+    },
+    "matched": true
+  }
+]

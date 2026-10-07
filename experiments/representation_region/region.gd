@@ -341,11 +341,12 @@ func mission_text() -> String:
 
 func change_task(index: int) -> void:
 	if index < 0 or index >= 5: return
-	if index != task: mark_session_dirty()
+	var changed: bool = index != task
+	if changed: mark_session_dirty()
 	drafts[task] = {"plan":plan.duplicate(true),"undo":undo_stack.duplicate(true),"redo":redo_stack.duplicate(true),"selection":selected_block}
 	task = index
 	get_node("/root/TaskNavigation").remember_candidate_visit("representation",task)
-	if persistent_session: session_notice = text2("当前任务选择未保存；退出前点击保存。", "Current task selection is unsaved; save before quitting.")
+	if persistent_session and changed: session_notice = text2("当前任务选择未保存；退出前点击保存。", "Current task selection is unsaved; save before quitting.")
 	var saved: Dictionary = drafts.get(task,{"plan":Model.initial_plan(),"undo":[],"redo":[],"selection":0})
 	plan.assign(saved.plan); undo_stack.assign(saved.undo); redo_stack.assign(saved.redo); selected_block = int(saved.selection)
 	build()
@@ -439,7 +440,8 @@ func run_current() -> void:
 			if not order_within_limits(task,i,traces[i]):
 				order_choice.select(i); show_trace(i); break
 	elif not completed.has(false):
-		status.text = text2("五份任务均已达标。下方可回顾自己的成果；保存方案与比较记录后继续，也可留在这里探索。", "All five tasks met. Review your achievements below; save your plans and comparisons to continue, or keep exploring here.")
+		var review_action: Button = find_child("CompletedRegionReview",true,false) as Button
+		status.text = text2("五份任务均已达标。点击“%s”回顾成果；保存方案与比较记录后继续，也可留在这里探索。", "All five tasks met. Open “%s” to revisit your achievements; save your plans and comparisons to continue, or keep exploring here.") % review_action.text
 	elif task == 4:
 		status.text = text2("本任务已达标。可以回看之前的任务，或继续比较其他方案。", "This task is met. Revisit earlier tasks or keep comparing alternatives.")
 

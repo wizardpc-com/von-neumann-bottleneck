@@ -192,6 +192,7 @@ func build() -> void:
 	label(tr2("第几项后拆", "Split after item"), splits, 14)
 	split_at = SpinBox.new(); split_at.name = "SplitBoundary"; split_at.min_value = 1; split_at.max_value = 23; split_at.value = 1; splits.add_child(split_at)
 	split_button = button(tr2("拆成两组", "Split group"), splits, func() -> void: edit(Model.split(plan, selected_group, int(split_at.value)), selected_group), "Split")
+	split_at.value_changed.connect(func(_value: float) -> void: refresh_split_action())
 	var capacity := HBoxContainer.new(); editor.add_child(capacity)
 	label(tr2("自动LRU状态槽", "Automatic LRU slots"), capacity)
 	slots = SpinBox.new(); slots.name = "Slots"; slots.min_value = 1; slots.max_value = 4; slots.value = plan.slots; capacity.add_child(slots)
@@ -305,8 +306,17 @@ func refresh_actions() -> void:
 	if evidence_tabs != null and evidence_tabs.get_tab_count() > 4: evidence_tabs.set_tab_disabled(4,not has_service_closure())
 	refresh_commission()
 	up_button.disabled = selected_group == 0; down_button.disabled = selected_group == plan.groups.size() - 1
-	merge_button.disabled = down_button.disabled; split_button.disabled = plan.groups[selected_group].size() < 2
+	merge_button.disabled = down_button.disabled; refresh_split_action()
 	undo_button.disabled = undo_stack.is_empty(); redo_button.disabled = redo_stack.is_empty(); restore_button.disabled = selected_history < 0
+
+func refresh_split_action() -> void:
+	var group_size: int = plan.groups[selected_group].size()
+	var last_boundary: int = maxi(1,group_size-1)
+	# Clamp before changing the range so selection changes do not emit an edit signal.
+	split_at.set_value_no_signal(clampi(int(split_at.value),1,last_boundary))
+	split_at.max_value = last_boundary
+	split_at.editable = group_size > 1
+	split_button.disabled = group_size < 2 or int(split_at.value) >= group_size
 
 func refresh_verdict() -> void:
 	if measured_verdict == null: return

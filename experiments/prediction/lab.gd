@@ -133,7 +133,7 @@ func build() -> void:
 	for i: int in 3:
 		var item: Button = button([text2("1 · 规律流","1 · Regular stream"),text2("2 · 规律改变","2 · Pattern changes"),text2("3 · 交替热点","3 · Alternating hotspots")][i],"Task"+str(i),nav,func() -> void: change_task(i))
 		item.size_flags_horizontal = Control.SIZE_EXPAND_FILL; item.disabled = i == task
-	var purpose: Label = label([text2("调查目标：记录关闭猜测的基线，再找到有用且更快的预测。","Investigation: record an Off baseline, then find useful predictions that reduce time."),text2("调查目标：记录比基线更慢且有浪费或污染的规则，再找到不慢于基线的安排。","Investigation: record a slower rule with waste or pollution, then find a rule no slower than the baseline."),text2("调查目标：比较至少两种规则，留下错猜额外成本与不慢于基线的证据。","Investigation: compare at least two different rules, keeping extra-cost and no-slower evidence.")][task],page,14)
+	var purpose: Label = label(purpose_text(),page,14)
 	purpose.name = "TaskPurpose"
 	var body := HBoxContainer.new(); body.name = "PredictionWorkspace"
 	body.add_theme_constant_override("separation",16); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; page.add_child(body)
@@ -230,10 +230,15 @@ func _notification(what: int) -> void:
 func _exit_tree() -> void:
 	get_tree().auto_accept_quit = previous_auto_quit
 
+func purpose_text() -> String:
+	return [text2("调查目标：记录关闭猜测的基线，再找到有用且更快的预测。","Investigation: record an Off baseline, then find useful predictions that reduce time."),
+	text2("调查目标：记录更慢且有浪费或污染的规则，再用非关闭规则做到不慢于基线。","Investigation: record a slower rule with waste or pollution, then a non-Off rule no slower than baseline."),
+	text2("调查目标：比较至少两种规则；记录更慢且有浪费或污染的规则，以及不慢于基线的非关闭规则。","Investigation: compare at least two rules; record a slower rule with waste or pollution and a non-Off rule no slower than baseline.")][task]
+
 func mission_text() -> String:
 	return [text2("实验1：先记录关闭猜测的基线，再构造一个总周期更低且确实消费了预测数据的方案。逐步揭示历史，再比较等待与流量。","Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic."),
-	text2("实验2：相同机器，流会改变。记录一个比关闭猜测更慢且有浪费/污染的规则，再修改规则找到不慢于基线的方案。失败也是证据。","Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise it to run no slower than baseline. Failure is evidence."),
-	text2("实验3：两个热点交替。比较至少两种不同规则，找到一份错猜造成额外成本的记录和一份不慢于基线的记录。观察有限缓存里发生了什么。","Investigation3: two alternating hotspots. Compare at least two different rules: one with extra costs from wrong guesses, one no slower than baseline. Inspect the finite cache.")][task]
+	text2("实验2：相同机器，流会改变。记录一个比关闭猜测更慢且有浪费/污染的规则，再修改为非关闭规则，找到不慢于基线的方案。关闭猜测不算这份安全修订。失败也是证据。","Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise to a non-Off rule no slower than baseline. Off does not count as this safe revision. Failure is evidence."),
+	text2("实验3：两个热点交替。比较至少两种不同规则，找到一份比基线更慢且有浪费/污染的记录，以及一份不慢于基线的非关闭规则记录。关闭猜测不算这份安全修订。观察有限缓存里发生了什么。","Investigation3: two alternating hotspots. Compare at least two different rules: one slower than baseline with waste/pollution, and one non-Off rule no slower than baseline. Off does not count as this safe revision. Inspect the finite cache.")][task]
 
 func hint_text() -> String:
 	return text2("只比较已观察的地址差值。先留一份关闭猜测记录；在Trace中核对预测发出时的历史、下一次真实请求、在途等待、驱逐与未被使用的搬运。一次变动一个规则条件。","Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.")
@@ -281,7 +286,7 @@ func select_run(index: int) -> void:
 	selected_run = index; active_trace = history[index].trace; active_policy = history[index].policy.duplicate(true)
 	revealed = active_trace.metrics.accesses.size(); refresh()
 
-func goal_met(index: int) -> bool:
+func evidence_progress(index: int) -> Dictionary:
 	var baseline: bool = false; var gain: bool = false; var failure: bool = false; var safe: bool = false
 	var rules: Dictionary = {}
 	for row: Dictionary in history:
@@ -292,8 +297,28 @@ func goal_met(index: int) -> bool:
 		gain = gain or (int(m.total_cycles)<int(m.baseline_cycles) and int(m.useful_prediction_bytes)>0)
 		failure = failure or (int(m.total_cycles)>int(m.baseline_cycles) and (int(m.wasted_prediction_bytes)>0 or int(m.pollution_misses)>0))
 		safe = safe or (str(row.policy.rule)!="off" and int(m.total_cycles)<=int(m.baseline_cycles))
-	if index==0: return baseline and gain
-	return failure and safe and (index==1 or rules.size()>=2)
+	return {"baseline":baseline,"gain":gain,"failure":failure,"safe":safe,"rule_count":rules.size()}
+
+func goal_met(index: int) -> bool:
+	var progress: Dictionary = evidence_progress(index)
+	if index==0: return bool(progress.baseline) and bool(progress.gain)
+	return bool(progress.failure) and bool(progress.safe) and (index==1 or int(progress.rule_count)>=2)
+
+func progress_text() -> String:
+	var progress: Dictionary = evidence_progress(task)
+	var recorded: String = text2("已记录","recorded")
+	var pending: String = text2("待记录","pending")
+	var lines: Array[String] = []
+	if task == 0:
+		lines.append(text2("关闭猜测基线：", "Off baseline: ")+(recorded if progress.baseline else pending))
+		lines.append(text2("有用且更快：", "Useful and faster: ")+(recorded if progress.gain else pending))
+	else:
+		lines.append(text2("更慢且有浪费/污染：", "Slower with waste/pollution: ")+(recorded if progress.failure else pending))
+		lines.append(text2("非关闭且不慢于基线：", "Non-Off, no slower than baseline: ")+(recorded if progress.safe else pending))
+		if task == 2: lines.append(text2("不同规则：%d种（至少2种）", "Different rules: %d (at least 2)") % int(progress.rule_count))
+	var summary: String = "\n".join(lines)
+	if goal_met(task): return text2("证据目标已满足；可继续比较。", "Evidence objective met; keep comparing.")+"\n"+summary
+	return summary
 
 func event_text(event: Event) -> String:
 	return "%s · t%d +%d · address%d\n%s" % [event.kind,event.cycle,event.duration,event.address,JSON.stringify(event.details,"  ")]
@@ -338,7 +363,7 @@ func refresh() -> void:
 			var m: Dictionary = active_trace.metrics
 			observed.text = observed.text.replace(text2("下一地址：未知","Next address: unknown"),text2("本轮结束","Run ended"))
 			result.text = text2("总%d = 查找%d + 计算%d + 阻塞%d + 尾部%d\n基线%d周期/%dB · 实际%dB；预测有用%dB/浪费%dB\n回退%d · 排队%d · 在途匹配等待%d · 污染miss%d\n输出%s", "Total%d = lookup%d + compute%d + blocking%d + drain%d\nBaseline%d cycles/%dB · actual%dB; useful%dB/wasted%dB predictions\nFallback%d · queue%d · matching in-flight wait%d · pollution misses%d\nOutputs%s") % [m.total_cycles,m.lookup_cycles,m.compute_cycles,m.blocking_cycles,m.drain_cycles,m.baseline_cycles,m.baseline_traffic_bytes,m.traffic_bytes,m.useful_prediction_bytes,m.wasted_prediction_bytes,m.fallback_cycles,m.queue_wait_cycles,m.inflight_wait_cycles,m.pollution_misses,str(m.outputs)]
-	status.text = text2("证据目标已满足；可继续比较其他方案。","Evidence objective met; continue comparing alternatives.") if goal_met(task) else text2("记录基线、失败和修改后的规则；三个流都可自由实验。","Record baseline, failure and a revised rule; all three streams are open.")
+	status.text = progress_text()
 
 func public_observation() -> Dictionary:
 	var observed_addresses: Array[int] = []; var decisions: Array[Dictionary] = []; var measured: Array[Dictionary] = []

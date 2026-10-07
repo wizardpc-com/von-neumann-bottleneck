@@ -9,6 +9,20 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; the newest dated section below identifies the current checkpoint. The earlier661c107 evidence remains specific to named designs.
 
+## 2026-10-07 operation feedback — active native iteration
+
+Mac unlocked; root entered c84c58e packaged game with isolated Workbench-c84c58e
+profile, navigated unified map to Representation task5. Native keyboard works;
+CUA pointer reports windowNotFoundAtPosition (tool limitation, not game evidence).
+Bounded scope: align Prediction instructions/progress with existing authoritative
+goals; prevent invalid Service split actions; correct Representation restored-save
+notice and direction-dependent review wording. No new tasks, simulation or formats.
+Ownership: root sole docs/Git/Godot/GUI/build; earned_closure Prediction lab and
+its focused tests; service_clarity Service lab and focused split test;
+journey_audit Representation region and focused restored-notice test.
+Workers do not run engines. Preserve all collaborator dirt. Native game is active;
+root will stop it before isolated checks. Existing valid evidence stays attributed.
+
 ## 2026-10-07 workbench refinement — candidate delivered; native blocked
 
 Runtime c84c58ec2a02; free-alpha-c84c58ec2a02 with independent Workbench-c84c58e.

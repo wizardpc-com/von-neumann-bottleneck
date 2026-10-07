@@ -3,9 +3,22 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current workbench checkpoint — 2026-10-07
+## Current operation feedback checkpoint — 2026-10-07
 
-**c84c58ec2a02 / free-alpha-c84c58ec2a02** is the current runnable candidate.
+**45f81ae9549a / free-alpha-45f81ae9549a** is the current runnable internal candidate.
+Save-notice consistency, split validity and evidence-specific Prediction feedback
+are repaired. Final progress geometry verified in24 bilingual1280×720 captures;
+affected frozen suites and14actual binarychecks pass. Native save/restart and
+Prediction feedback were observed on same-turn4ecb7fb; final follow-up changes only
+Prediction height/two English sentences. Final package opens/Home/exits, but CUA
+AX/input issues left its workbench native confirmation open. Service native split
+also remains untested. These are not replaced by automated PASS statements.
+[Exact scopes, failures and receipt](docs/verification/20261007-operation-feedback/README.md).
+Existing human/audio/device/final-style/distribution gates below remain unchanged.
+
+## Previous workbench checkpoint — 2026-10-07
+
+**c84c58ec2a02 / free-alpha-c84c58ec2a02** is a prior runnable candidate.
 Representation fixed actions and Prediction visual/evidence organization have
 fresh frozen automated and rendered checks. **New-package native operation is
 blocked by the locked Mac and remains NOT_RUN.** Passing binaries/rendering does

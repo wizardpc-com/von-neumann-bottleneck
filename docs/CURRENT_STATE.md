@@ -2,9 +2,27 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Workbench refinement checkpoint — 2026-10-07
+## Operation feedback checkpoint — 2026-10-07
 
-Current runtime **c84c58ec2a02**, Mac **free-alpha-c84c58ec2a02**, independent
+Current runtime **45f81ae9549a**, Mac **free-alpha-45f81ae9549a**, independent profile
+**Operation-45f81ae**. Prediction instructions/progress now match its existing
+non-Off evidence requirement; all three/four progress lines fit1280×720. Service
+split bounds track the selected group. Representation same-task resume preserves
+real saved/recovery notices and completion points to the actual review button.
+
+13 frozen affected suites passed at4ecb7fb; final Prediction-only layout/copy follow-up
+passed4 affected frozen suites with2413-file identity.24 bilingual1280×720 rendered
+views inspected,1413checks,502 rendered-source files matched final commit. Final
+export/identity/14binarychecks PASS. Native4ecb7fb run/save/restart restored actual
+Representation5 records and correct notice; Prediction Off120/stride180 feedback
+and discard observed. Final45f81ae launch/Home/exit observed, but CUA AX/pointer
+errors prevented final-panel native verification. Service native split, full new
+route, audio, novice and device acceptance remain open. Own3 QA profiles archived
+with matching hashes; delivered profile fresh. [Layered evidence](verification/20261007-operation-feedback/README.md).
+
+## Previous workbench refinement checkpoint — 2026-10-07
+
+Prior runtime **c84c58ec2a02**, Mac **free-alpha-c84c58ec2a02**, independent
 profile **Workbench-c84c58e**. Representation editing/Run/Save and earned review
 stay visible beside independent readers. Prediction now shares the instrument
 palette with visible task purpose, fixed actions and separate evidence pages;

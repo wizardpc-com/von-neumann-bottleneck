@@ -1,0 +1,44 @@
+[
+  {
+    "profile": "Workbench-c84c58e",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261007-operation-feedback/representation/Workbench-c84c58e",
+    "files_sha256": {
+      "task_navigation.cfg": "abcac090352dfcd1a2674b8aa3d09775fb1159b188e8228ed4b528186a5e72e8",
+      "presentation.cfg": "764d1909351becae41440817e73ac6a838b108dfbaf99a2224406893f7346e21",
+      "feedback_outbox_v1.json": "d3d69587ef86e1098dd0921620ad700cc0e8c0e9f62da5bc1d7480866f4c91a9",
+      "representation-session.json": "1fb37f910a7de2c7929b6080df0d8d6dd0f5714e227489e4597750aa507fbf34",
+      "logs/godot.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "playtest_data/session_20261007-060035-dbef6f4f87f3d92e.jsonl": "8180811d45460b5d4732bcc9aeb328a6a6738159a27eb430890e7b4e3ac2958f"
+    },
+    "preserved": true,
+    "active_path_absent": true
+  },
+  {
+    "profile": "Operation-4ecb7fb",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261007-operation-feedback/representation/Operation-4ecb7fb",
+    "files_sha256": {
+      "task_navigation.cfg": "9e2ecaea053f5f8bf6e8c597ffa99d726438895bed47afae561ad4d424e654a0",
+      "presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+      "feedback_outbox_v1.json": "c159ae787da47d78c274ac7ff758a48c0239f15b9eddfeda0fe9d33cd01e15ed",
+      "representation-session.json": "1fb37f910a7de2c7929b6080df0d8d6dd0f5714e227489e4597750aa507fbf34",
+      "logs/godot2026-10-07T02.21.03.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "logs/godot.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "playtest_data/session_20261007-062104-1202e1f0114f6dde.jsonl": "3e8e447495e21faf7d00de7cdf6ef6751a3baac51beee5da860321806735860f",
+      "playtest_data/session_20261007-061622-42b425620f976622.jsonl": "5a2967eee8e6512ff0c4b36686d8520c2564449751e22c9d16521ecfdb54ba36"
+    },
+    "preserved": true,
+    "active_path_absent": true
+  },
+  {
+    "profile": "Operation-45f81ae",
+    "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/20261007-operation-feedback/representation/Operation-45f81ae",
+    "files_sha256": {
+      "presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+      "feedback_outbox_v1.json": "28d045d088c80948083a4599ef62216b3b50d59b44f884eea95c68d1ff4cebca",
+      "logs/godot.log": "abb1ab9f4bd9b10e65205e22f18b7c71e3487861efda2274a515afeae568c74b",
+      "playtest_data/session_20261007-063513-ddc88d09f7d661b9.jsonl": "616b8279b4cccfae56221b21eb490796b22caaa5be040ad208446aa7e1b60d52"
+    },
+    "preserved": true,
+    "active_path_absent": true
+  }
+]

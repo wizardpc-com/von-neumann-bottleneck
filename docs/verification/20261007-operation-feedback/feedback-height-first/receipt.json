@@ -1,0 +1,105 @@
+{
+  "commit": "cd7931e32f07473c167cecdf5a95da74e9a43594",
+  "passed": false,
+  "verification_exit": 1,
+  "clean_after": true,
+  "checkout_status": "",
+  "source_mismatches": [],
+  "checked_files": 2413,
+  "project_settings_exception": "Only two custom save-directory lines removed for comparison",
+  "results": {
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "platform": "darwin",
+    "results": [
+      {
+        "name": "import",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "import.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T063025Z-49b5b15c/import"
+      },
+      {
+        "name": "user_directory",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "user_directory.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T063025Z-49b5b15c/user_directory"
+      },
+      {
+        "name": "test_prediction_goal_feedback",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_prediction_goal_feedback.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T063025Z-49b5b15c/test_prediction_goal_feedback"
+      },
+      {
+        "name": "test_prediction_navigation",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_prediction_navigation.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T063025Z-49b5b15c/test_prediction_navigation"
+      },
+      {
+        "name": "test_prediction_workbench_presentation",
+        "exit": 1,
+        "passed": false,
+        "errors": [
+          "ERROR: zh_CN Investigation3 earned: every progress line is visible: [P: (28.0, 600.0), S: (586.0, 97.0)] in [P: (28.0, 600.0), S: (592.0, 96.0)]",
+          "ERROR: zh_CN Investigation3 earned: full progress text fits without clipping",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Trace and raw detail remain reachable on their evidence page",
+          "ERROR: Recorded history remains reachable in the minimum window",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 750.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+          "ERROR: Visible reading area stays in window: Result [P: (660.0, 407.0), S: (592.0, 319.0)]",
+          "ERROR: Visible reading area stays in window: Status [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: en Investigation3 earned: every progress line is visible: [P: (28.0, 630.0), S: (586.0, 97.0)] in [P: (28.0, 630.0), S: (592.0, 96.0)]",
+          "ERROR: en Investigation3 earned: full progress text fits without clipping",
+          "FAIL: test_prediction_workbench_presentation 1293 checks, 39 failures"
+        ],
+        "log": "test_prediction_workbench_presentation.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T063025Z-49b5b15c/test_prediction_workbench_presentation"
+      },
+      {
+        "name": "test_release_convergence",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_release_convergence.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T063025Z-49b5b15c/test_release_convergence"
+      }
+    ]
+  }
+}

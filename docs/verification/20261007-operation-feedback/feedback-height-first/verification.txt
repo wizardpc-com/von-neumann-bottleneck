@@ -1,0 +1,7 @@
+Evidence and isolated project: /Users/ray/Documents/von-neumann-bottleneck/.godot/committed-verification/20261007T063024Z-ea9769a2/checkout/.godot/verification/20261007T063025Z-49b5b15c
+import: PASS (import.txt)
+user_directory: PASS (user_directory.txt)
+test_prediction_goal_feedback: PASS (test_prediction_goal_feedback.txt)
+test_prediction_navigation: PASS (test_prediction_navigation.txt)
+test_prediction_workbench_presentation: FAIL (test_prediction_workbench_presentation.txt)
+test_release_convergence: PASS (test_release_convergence.txt)

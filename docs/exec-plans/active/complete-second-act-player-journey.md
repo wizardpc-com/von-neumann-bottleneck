@@ -9,7 +9,18 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; the newest dated section below identifies the current checkpoint. The earlier661c107 evidence remains specific to named designs.
 
-## 2026-10-07 operation feedback — native follow-up finalizing
+## 2026-10-07 operation feedback — candidate delivered; native scope explicit
+
+Final runtime45f81ae9549a / free-alpha-45f81ae9549a delivered; profileOperation-45f81ae.
+13 frozen intermediate suites then4 final affected suites PASS/2413identity;
+24 final bilingual rendered views/1413checks and502 rendered-source matches PASS;
+export/identity/14actualbinarychecks PASS. Native final launch/Home/exit observed,
+but AX/input limitation left final-panel confirmation open. Same-turn4ecb native
+run/save/restart/Prediction feedback applies to unchanged behavior only. Service
+native split, complete new route, listening/novice/device/finalstyle still open.
+Own3 profiles reversibly archived with exact hashes; no real save touched.
+Evidence docs/verification/20261007-operation-feedback. Finite scope closed;
+no additional systems or mandatory tasks. All worker claims released.
 
 Intermediate source4ecb7fb passed13 frozen suites/2413-file identity and20 rendered
 views. New-package native run/save/independent restart restored Representation5

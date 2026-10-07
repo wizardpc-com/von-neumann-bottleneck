@@ -1,0 +1,4 @@
+Evidence and isolated project: /Users/ray/Documents/von-neumann-bottleneck/.godot/committed-verification/20261007T160356Z-f5ded267/checkout/.godot/verification/20261007T160358Z-5dc5dc12
+import: PASS (import.txt)
+user_directory: PASS (user_directory.txt)
+test_candidate_supports: PASS (test_candidate_supports.txt)

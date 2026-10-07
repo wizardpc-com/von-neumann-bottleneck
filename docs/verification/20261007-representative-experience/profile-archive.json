@@ -1,0 +1,14 @@
+{
+  "source": "/Users/ray/Library/Application Support/VonNeumannBottleneckCandidates/representation/Experience-1a33d19",
+  "archive": "/Users/ray/Documents/von-neumann-bottleneck/.godot/qa-profile-archive/representative-1a33d19/representation",
+  "matching_sha256": {
+    "presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+    "feedback_outbox_v1.json": "7dd79dbdabe5545637a935750576e85c71cc2f20da02eee93d59ba923b1b94ea",
+    "logs/godot.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "playtest_data/active_session.json": "492d402f2a246ae3ba1b4d055e56dda575aa4c64192635e373b3f506d4fde1d0",
+    "playtest_data/session_20261007-161358-d73828722807c581.jsonl": "66741f37a63c62b0aaf4c740a6373413c66176cbe262633561184671eda0934b",
+    "playtest_data/session_20261007-160644-35da9eeb0cefb2ab.jsonl": "b0123d23a575a5a7b5fc7de451da819338848703438ecb3d008d94732246bb7c"
+  },
+  "gameplay_save_present": false,
+  "reason": "Restore fresh delivered candidate after bounded native probe"
+}

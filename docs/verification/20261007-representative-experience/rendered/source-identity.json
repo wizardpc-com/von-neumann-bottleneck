@@ -1,0 +1,6 @@
+{
+  "commit": "ff1b3c41106322ba1276b28747fa10c816d22bb8",
+  "compared_runtime_resources": 332,
+  "mismatches": [],
+  "renderer": "scripts/verify-representative-experience.gd"
+}

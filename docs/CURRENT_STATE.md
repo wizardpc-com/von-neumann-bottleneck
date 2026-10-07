@@ -2,9 +2,25 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Predictable editing checkpoint — 2026-10-07
+## Representative experience checkpoint — 2026-10-07
 
-Current runtime **2f47e75180c2**, Mac **free-alpha-2f47e75180c2**, isolated profile
+Current candidate **free-alpha-1a33d19e2aa7**, profile **Experience-1a33d19**.
+Runtime codeff1b3c4; final1a33d19 changes only the earned-card verification.
+Representation now keeps preparation/service costs visible per order, explains
+cross-asset requirements, and presents five actual earned outcomes before Service.
+Service pairs recorded history locations with first-response times and opens the
+matching event. No model/schema/gate changes.
+
+Final complete CI37649120202 PASS:102Godot suites plus Python;18 bilingual renders,
+export/identity and14actual binarychecks PASS. Native final Home/map observed, but
+CUA window/input errors prevented Service interaction verification. No full native
+journey, save/restart, listening, novice/device or final artistic acceptance claimed.
+Own QA profile archived; candidate starts fresh. [Evidence, playable route, Claude
+boundaries and team questions](verification/20261007-representative-experience/README.md).
+
+## Previous predictable editing checkpoint — 2026-10-07
+
+Prior runtime **2f47e75180c2**, Mac **free-alpha-2f47e75180c2**, isolated profile
 **Editing-2f47e75**. Service undo/redo preserves selected groups and accurate unsaved
 feedback. Representation same-task clicks preserve editing UI; identical named-plan
 copies no longer advertise a nonexistent Undo step. No model/save-format changes.

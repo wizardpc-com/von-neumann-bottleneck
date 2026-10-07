@@ -3,9 +3,19 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current predictable editing checkpoint — 2026-10-07
+## Current representative experience checkpoint — 2026-10-07
 
-**2f47e75180c2 / free-alpha-2f47e75180c2** is the current internal candidate.
+**1a33d19e2aa7 / free-alpha-1a33d19e2aa7** is the current internal candidate.
+Final full CI is green (102Godot suites and Python). Measured per-order costs,
+earned outcome cards and recorded state/response view are implemented;18rendered
+fixtures and14binarychecks pass. Native Home/map only: CUA input/window failures
+leave Service controls and full route unverified. Listening, novice comprehension,
+devices and final style/distribution gates remain open.
+[Layered evidence](docs/verification/20261007-representative-experience/README.md).
+
+## Previous predictable editing checkpoint — 2026-10-07
+
+**2f47e75180c2 / free-alpha-2f47e75180c2** is a prior internal candidate.
 Nine affected frozen suites and 14 actual binary checks pass. Native Service
 Down→Save→Undo→Redo confirms selected-group restoration and accurate unsaved
 notices. Representation native editing and full earned-route acceptance remain

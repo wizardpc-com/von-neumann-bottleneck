@@ -9,6 +9,55 @@ named player designs. Deferred human receipts remain follow-up evidence, not
 an instruction to block or add unplanned content. Earlier progress below is
 historical; the newest dated section below identifies the current checkpoint. The earlier661c107 evidence remains specific to named designs.
 
+## 2026-10-07 representative experience — candidate delivered
+
+User adopted the latest discussion: stability closure plus a visible Representation
+→state/service experience, not another round limited to small operation fixes.
+Baseline local/remote37aca83, runtime2f47e75; mainc5a2b0c unchanged. Actual latest
+CI37611316116 has four failing suites, including representation_workbench_presentation;
+classification must follow raw artifacts, not the older three-failure discussion.
+
+Ownership: journey_audit (Sol medium) owns hardware_foundations_ui, locality_chapter_ui,
+system_lab_ui tests; earned_closure (Sol high) owns Representation region, its local
+presentation helper and workbench test; service_clarity (Sol high) owns Service lab,
+local presentation helper and completion_service_clarity test. Root owns shared
+completion presentation/Hub, integration, documentation, all Git/Godot/GUI/build.
+No worker recursively delegates. Preserve unrelated AGENTS/docs-index/collaboration
+and old night-brief changes. Shared navigation/save/theme changes remain root-only.
+
+Stability checkpoint `1f3b334`: all four previously failing suites pass in an exact
+committed isolated checkout, including actual tree entry/return and original gates.
+Raw CI failures retained; no production changes or skipped checks in this checkpoint.
+
+Stages: inspect CI artifacts and retain protected gate semantics; establish a stable
+checkpoint; implement goal→evidence→next-experiment guidance for preparation/cross-asset
+and state reuse→response; present a coherent, trace-backed representative segment;
+run relevant bilingual checks and one final full committed regression because current
+full CI is red; capture representative real renders; build/check/play candidate and
+record unverified native/audio/human scope. Avoid repeated all-suite runs during edits.
+
+Protect deterministic models, budgets, accepted alternatives, core ending, schemas,
+draft/history/saved distinctions. Prediction and commissions remain optional. No new
+knowledge domain, new persistent authority, paid assets or final-world lore. Existing
+original procedural visuals may be extended locally; sound is optional and must not
+be claimed heard without listening. Deliver screenshots and a runnable package with
+before/after meaning, not just logs. Update this section at each checkpoint.
+
+Progress: runtimeff1b3c4 now renders fixed independent-order costs, five earned
+outcome cards and the recorded four-stream state/response view.18 bilingual720p
+fixtures rendered;332 runtime resources match final runtime. Initial typed-array,
+viewport and replay-init failures repaired; five affected suites PASS. Frozen full
+run102 suites:101PASS, only old candidate_supports narrative-node assertion failed.
+1a33d19 changes that test only to independently re-evaluate each protected recipe
+and compare every card/order metric;54checksPASS,2604source identities exact.
+Final CI37649120202 SUCCESS:102Godot suites/Python. Macfree-alpha-1a33d19e2aa7
+export/identity/14binarychecksPASS. Native Home/map/dropdown observed; CUA text input
+and window errors block new Service click-through; recorded as unverified. Own
+profile archived with6matching hashes, no game process or real-save change. Explicit
+native shutdown limitation recorded. Root/workers release ownership; this bounded
+increment delivered, human/listening/style/device acceptance remains open. Next
+manual route and Claude boundaries in20261007-representative-experience/README.md.
+
 ## 2026-10-07 predictable undo — candidate delivered
 
 User requests further optimization. Remote dcf0dee/mainc5a2b0c unchanged; unrelated

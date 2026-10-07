@@ -1,0 +1,30 @@
+{
+  "captures": [
+    "zh_CN-preparation-baseline.png",
+    "zh_CN-cross-asset-baseline.png",
+    "zh_CN-earned-representation-handoff.png",
+    "zh_CN-service-entry.png",
+    "zh_CN-state-reuse.png",
+    "zh_CN-response-handoff.png",
+    "zh_CN-waiting-evidence.png",
+    "zh_CN-first-response.png",
+    "zh_CN-matching-state-evidence.png",
+    "en-preparation-baseline.png",
+    "en-cross-asset-baseline.png",
+    "en-earned-representation-handoff.png",
+    "en-service-entry.png",
+    "en-state-reuse.png",
+    "en-response-handoff.png",
+    "en-waiting-evidence.png",
+    "en-first-response.png",
+    "en-matching-state-evidence.png"
+  ],
+  "kind": "rendered_model_fixture",
+  "native_input": false,
+  "novice_acceptance": false,
+  "saved_player_progress": false,
+  "size": [
+    1280,
+    720
+  ]
+}

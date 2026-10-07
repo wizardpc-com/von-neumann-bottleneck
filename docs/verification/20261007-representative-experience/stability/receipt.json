@@ -1,0 +1,64 @@
+{
+  "commit": "1f3b334980bfe33f1912b0f7ffd0648b372bb45b",
+  "passed": true,
+  "verification_exit": 0,
+  "clean_after": true,
+  "checkout_status": "",
+  "source_mismatches": [],
+  "checked_files": 2601,
+  "project_settings_exception": "Only two custom save-directory lines removed for comparison",
+  "results": {
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "platform": "darwin",
+    "results": [
+      {
+        "name": "import",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "import.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T153854Z-b95ddd45/import"
+      },
+      {
+        "name": "user_directory",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "user_directory.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T153854Z-b95ddd45/user_directory"
+      },
+      {
+        "name": "test_hardware_foundations_ui",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_hardware_foundations_ui.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T153854Z-b95ddd45/test_hardware_foundations_ui"
+      },
+      {
+        "name": "test_locality_chapter_ui",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_locality_chapter_ui.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T153854Z-b95ddd45/test_locality_chapter_ui"
+      },
+      {
+        "name": "test_representation_workbench_presentation",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_representation_workbench_presentation.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T153854Z-b95ddd45/test_representation_workbench_presentation"
+      },
+      {
+        "name": "test_system_lab_ui",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_system_lab_ui.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261007T153854Z-b95ddd45/test_system_lab_ui"
+      }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Invalid type in function 'configure' in base 'Control (order_cost_strip.gd)'. The array of argument 1 (Array) does not have the same element type as the expected typed array argument.
+          at: refresh_cost_overview (res://experiments/representation_region/region.gd:573)
+          GDScript backtrace (most recent call first):
+              [0] refresh_cost_overview (res://experiments/representation_region/region.gd:573)
+              [1] refresh_recorded_plan_label (res://experiments/representation_region/region.gd:562)
+              [2] refresh_actions (res://experiments/representation_region/region.gd:438)
+              [3] <anonymous lambda> (res://experiments/representation_region/region.gd:196)
+              [4] refresh_plan (res://experiments/representation_region/region.gd:415)
+              [5] build (res://experiments/representation_region/region.gd:300)
+              [6] change_task (res://experiments/representation_region/region.gd:372)
+              [7] _ready (res://experiments/representation_region/region.gd:94)
+              [8] run (res://tests/test_representation_edit_context.gd:35)
+SCRIPT ERROR: Invalid type in function 'configure' in base 'Control (order_cost_strip.gd)'. The array of argument 1 (Array) does not have the same element type as the expected typed array argument.
+          at: refresh_cost_overview (res://experiments/representation_region/region.gd:573)
+          GDScript backtrace (most recent call first):
+              [0] refresh_cost_overview (res://experiments/representation_region/region.gd:573)
+              [1] refresh_recorded_plan_label (res://experiments/representation_region/region.gd:562)
+              [2] refresh_actions (res://experiments/representation_region/region.gd:438)
+              [3] refresh_plan (res://experiments/representation_region/region.gd:422)
+              [4] build (res://experiments/representation_region/region.gd:300)
+              [5] change_task (res://experiments/representation_region/region.gd:372)
+              [6] _ready (res://experiments/representation_region/region.gd:94)
+              [7] run (res://tests/test_representation_edit_context.gd:35)
+SCRIPT ERROR: Invalid type in function 'configure' in base 'Control (order_cost_strip.gd)'. The array of argument 1 (Array) does not have the same element type as the expected typed array argument.
+          at: refresh_cost_overview (res://experiments/representation_region/region.gd:573)
+          GDScript backtrace (most recent call first):
+              [0] refresh_cost_overview (res://experiments/representation_region/region.gd:573)
+              [1] refresh_recorded_plan_label (res://experiments/representation_region/region.gd:562)
+              [2] refresh_actions (res://experiments/representation_region/region.gd:438)
+              [3] <anonymous lambda> (res://experiments/representation_region/region.gd:196)
+              [4] refresh_plan (res://experiments/representation_region/region.gd:415)
+              [5] build (res://experiments/representation_region/region.gd:300)
+              [6] change_task (res://experiments/representation_region/region.gd:372)
+              [7] _ready (res://experiments/representation_region/region.gd:94)
+              [8] run (res://tests/test_representation_edit_context.gd:35)
+              [9] settle (res://tests/test_representation_edit_context.gd:12)
+SCRIPT ERROR: Invalid type in function 'configure' in base 'Control (order_cost_strip.gd)'. The array of argument 1 (Array) does not have the same element type as the expected typed array argument.
+          at: refresh_cost_overview (res://experiments/representation_region/region.gd:573)
+          GDScript backtrace (most recent call first):
+              [0] refresh_cost_overview (res://experiments/representation_region/region.gd:573)
+              [1] refresh_recorded_plan_label (res://experiments/representation_region/region.gd:562)
+              [2] refresh_actions (res://experiments/representation_region/region.gd:438)
+              [3] refresh_plan (res://experiments/representation_region/region.gd:422)
+              [4] build (res://experiments/representation_region/region.gd:300)
+              [5] change_task (res://experiments/representation_region/region.gd:372)
+              [6] _ready (res://experiments/representation_region/region.gd:94)
+              [7] run (res://tests/test_representation_edit_context.gd:35)
+              [8] settle (res://tests/test_representation_edit_context.gd:12)
+PASS: test_representation_edit_context 39 checks, 0 failures

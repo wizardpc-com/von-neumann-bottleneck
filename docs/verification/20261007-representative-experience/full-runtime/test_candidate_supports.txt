@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Region closure presents re-evaluated successful-plan costs
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_candidate_supports.gd:11)
+       [1] run (res://tests/test_candidate_supports.gd:37)
+FAIL: test_candidate_supports 37 checks, 1 failures

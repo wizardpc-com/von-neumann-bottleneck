@@ -1,0 +1,24 @@
+{
+  "build_id": "free-alpha-1a33d19e2aa7",
+  "source_commit": "1a33d19e2aa787527f8594a34e74d25aa25b9792",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "macOS",
+  "native_validation": "See verification record; export is not native acceptance",
+  "files_sha256": {
+    "CHANGELOG.txt": "ceeff34da3376cd6814358450db0d731f180a9a0c744bb0e6301c8472fee9d5a",
+    "ENGINE-LICENSES.txt": "83d1228be30e56c9549fee1b322c8c46fb6cb08ac5545a799a62582613687fff",
+    "FONT-LICENSE.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "KNOWN-ISSUES.txt": "42629655d04ae7a64f8d9cad6037ee44e9a54837f627d5902bde36b53213b6cf",
+    "LICENSE.txt": "4169e9c39ab401f2f7850040164eb760e58ec606b7a547477c17de9b3a3c9b30",
+    "README.txt": "3763a8a8db0a4e1adc1735cbd43dd5063fa6be113cc03abf233b375e3e3888ed",
+    "Von-Neumann-Bottleneck.app/Contents/Info.plist": "744ec12d0f10aedf354cc5912a1689e1f2eab0779e697c9ccff282aa6e37feab",
+    "Von-Neumann-Bottleneck.app/Contents/MacOS/Von Neumann Bottleneck": "4a776fda7301993ac2ccd24647195621372ed3edbe1973cc9808dda928e496c9",
+    "Von-Neumann-Bottleneck.app/Contents/PkgInfo": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+    "Von-Neumann-Bottleneck.app/Contents/Resources/PrivacyInfo.xcprivacy": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+    "Von-Neumann-Bottleneck.app/Contents/Resources/Von Neumann Bottleneck.pck": "2e64a2d4995136b10eda18a1abbd77f66c54d2e319f336053490f3c8f9cca282",
+    "Von-Neumann-Bottleneck.app/Contents/Resources/en.lproj/InfoPlist.strings": "a2e09c8badd87f88becad0a6ffbf65d0c5d1624eedd3bdf31faa1aa78acf24ed",
+    "Von-Neumann-Bottleneck.app/Contents/Resources/icon.icns": "a41a86cd4abb0cbeceea1e5b5023f65faf685feb01b2bdb898dcd4575157403d",
+    "Von-Neumann-Bottleneck.app/Contents/Resources/zh_CN.lproj/InfoPlist.strings": "feb5e820d68ed31f871d2bdaf8d14935ed343a7a875ddd774d5556da8dfd951a",
+    "Von-Neumann-Bottleneck.app/Contents/_CodeSignature/CodeResources": "dcc5f57e723272f2e6c93f8914bed55e43e58b13fa15e735737ba0481bd8ceb1"
+  }
+}

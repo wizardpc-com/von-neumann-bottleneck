@@ -1,0 +1,7 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Returning Esc exposes the original chapter gates without entering the comparison host.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_hardware_foundations_ui.gd:1613)
+FAIL: 1 Hardware Foundations UI assertion(s) failed

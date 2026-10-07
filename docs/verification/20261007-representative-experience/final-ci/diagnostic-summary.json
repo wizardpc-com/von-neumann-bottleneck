@@ -1,0 +1,624 @@
+{
+  "tests": [
+    {
+      "suite": "test_representation_cache",
+      "pass_lines": [
+        "PASS: representation cache 1395 checks; per-access invariants, independent victims, byte budget and costs"
+      ]
+    },
+    {
+      "suite": "test_layout_navigation",
+      "pass_lines": [
+        "PASS: layout unified map return, selected tree route, persisted Continue and unavailable navigation"
+      ]
+    },
+    {
+      "suite": "test_candidate_policy",
+      "pass_lines": [
+        "PASS: candidate policy 238 checks"
+      ]
+    },
+    {
+      "suite": "test_theme_reflection",
+      "pass_lines": [
+        "PASS: earned reflections, either branch order, joint ending and immutable progression"
+      ]
+    },
+    {
+      "suite": "test_second_act_content",
+      "pass_lines": [
+        "PASS: independent second-act content review 69"
+      ]
+    },
+    {
+      "suite": "test_service_plan",
+      "pass_lines": [
+        "PASS: service plan (7268)"
+      ]
+    },
+    {
+      "suite": "test_representation_workbench_presentation",
+      "pass_lines": [
+        "PASS: test_representation_workbench_presentation 9303 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_optional_challenges",
+      "pass_lines": [
+        "PASS: optional challenges, executed routes, safe copying and recovery"
+      ]
+    },
+    {
+      "suite": "test_save_signature_migration",
+      "pass_lines": [
+        "PASS: stable save signatures, legacy provenance, backup, restart and seed preservation ()"
+      ]
+    },
+    {
+      "suite": "test_task_tree",
+      "pass_lines": [
+        "PASS: task adapters, locked details, search, camera and ordinary host routing"
+      ]
+    },
+    {
+      "suite": "test_direct_task_navigation",
+      "pass_lines": [
+        "PASS: direct task navigation (26 checks)"
+      ]
+    },
+    {
+      "suite": "test_global_save",
+      "pass_lines": [
+        "PASS: minimal global Save/Continue, provenance reconciliation, chapter gates, New Game, and mode isolation tests passed"
+      ]
+    },
+    {
+      "suite": "test_layout_ui",
+      "pass_lines": [
+        "PASS: layout six hosts, gates, targets, undo and independent hints"
+      ]
+    },
+    {
+      "suite": "test_representation_edit_context",
+      "pass_lines": [
+        "PASS: test_representation_edit_context 39 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_representation_session",
+      "pass_lines": [
+        "PASS: test_representation_session 47 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_learning_handbook",
+      "pass_lines": [
+        "PASS: progressive learning handbook"
+      ]
+    },
+    {
+      "suite": "test_prelaunch_settings",
+      "pass_lines": [
+        "PASS: language/audio persistence, safe reset, first choice, diagnostic privacy and bounded bilingual settings"
+      ]
+    },
+    {
+      "suite": "test_playtest_visits",
+      "pass_lines": [
+        "PASS: monotonic visits, focus, milestones, cases, optional feedback and interrupted sessions"
+      ]
+    },
+    {
+      "suite": "test_simulation",
+      "pass_lines": [
+        "PASS: Python-shaped DSL, deterministic simulation, route, and cache-goal tests passed"
+      ]
+    },
+    {
+      "suite": "test_remote_feedback",
+      "pass_lines": [
+        "PASS: optional transport, privacy, consent and feedback revisions"
+      ]
+    },
+    {
+      "suite": "test_second_act_navigation",
+      "pass_lines": [
+        "PASS: test_second_act_navigation 26 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_tree_journey_presentation",
+      "pass_lines": [
+        "PASS: test_tree_journey_presentation 2100 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_hub_first_screen",
+      "pass_lines": [
+        "PASS: test_hub_first_screen 3973 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_representation_visual",
+      "pass_lines": [
+        "PASS: test_representation_visual 261 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_optional_result_feedback",
+      "pass_lines": [
+        "PASS: optional result feedback"
+      ]
+    },
+    {
+      "suite": "test_service_design_shelf",
+      "pass_lines": [
+        "PASS: test_service_design_shelf 48 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_circuit_simulation",
+      "pass_lines": [
+        "PASS: deterministic default-low tri-state circuit, multi-driver wiring, Half Adder, and encapsulation tests passed"
+      ]
+    },
+    {
+      "suite": "test_completion_route",
+      "pass_lines": [
+        "PASS: recommended route, canceled bridge, finite bilingual story, evidence and unchanged progress"
+      ]
+    },
+    {
+      "suite": "test_service_context_navigation",
+      "pass_lines": [
+        "PASS: test_service_context_navigation 21 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_release_convergence",
+      "pass_lines": [
+        "PASS: branch Continue, future-save protection, dynamic metadata and complete offline record UI"
+      ]
+    },
+    {
+      "suite": "test_candidate_lifecycle",
+      "pass_lines": [
+        "PASS: test_candidate_lifecycle 225 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_prologue_continuation",
+      "pass_lines": [
+        "PASS: prologue continuation"
+      ]
+    },
+    {
+      "suite": "test_hardware_prologue_ui",
+      "pass_lines": [
+        "PASS: two-branch prologue progression, player-owned sealing, word wrappers, CPU construction, and LOAD/STORE UI tests passed"
+      ]
+    },
+    {
+      "suite": "test_evidence_proxy",
+      "pass_lines": [
+        "PASS: bounded observation policy ignores poisoned solution fields"
+      ]
+    },
+    {
+      "suite": "test_service_state_replay_view",
+      "pass_lines": [
+        "PASS: test_service_state_replay_view 71 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_representation_restored_notice",
+      "pass_lines": [
+        "PASS: test_representation_restored_notice 64 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_unified_journey_navigation",
+      "pass_lines": [
+        "PASS: test_unified_journey_navigation 26 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_prologue_simulation",
+      "pass_lines": [
+        "PASS: deterministic reusable-component, latch, register, RAM, and tiny-computer prologue tests passed"
+      ]
+    },
+    {
+      "suite": "test_candidate_restore_selection",
+      "pass_lines": [
+        "PASS: test_candidate_restore_selection 42 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_completion_presentation",
+      "pass_lines": [
+        "PASS: test_completion_presentation 78 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_candidate_writer_retry",
+      "pass_lines": [
+        "PASS: test_candidate_writer_retry 104 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_task_tree_presentation",
+      "pass_lines": [
+        "PASS: bilingual 40-task detail card bounds, unchanged gates, hover and canceled map gestures"
+      ]
+    },
+    {
+      "suite": "test_service_state_replay",
+      "pass_lines": [
+        "PASS: test_service_state_replay 3118 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_candidate_journey_review",
+      "pass_lines": [
+        "PASS: test_candidate_journey_review 45 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_representation_plan",
+      "pass_lines": [
+        "PASS: representation plan 10403 checks"
+      ]
+    },
+    {
+      "suite": "test_first_build_guidance",
+      "pass_lines": [
+        "PASS: first-build guidance (86 checks)"
+      ]
+    },
+    {
+      "suite": "test_bilingual_typography",
+      "pass_lines": [
+        "PASS: bilingual hub bounds and 40 task labels across zoom/pan"
+      ]
+    },
+    {
+      "suite": "test_final_convergence",
+      "pass_lines": [
+        "PASS: shared settings, locale fallback and real write-failure rescue"
+      ]
+    },
+    {
+      "suite": "test_locality_chapter_ui",
+      "pass_lines": [
+        "PASS: complete seven-level Chapter 2 progression, concept reveals, comparisons, and multiple capstone solutions passed"
+      ]
+    },
+    {
+      "suite": "test_candidate_writer_retry_ui",
+      "pass_lines": [
+        "PASS: test_candidate_writer_retry_ui 48 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_representation_closure_navigation",
+      "pass_lines": [
+        "PASS: test_representation_closure_navigation 28 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_second_act_experiments",
+      "pass_lines": [
+        "PASS: second-act codecs, measured tradeoffs, inference quality and isolated UI"
+      ]
+    },
+    {
+      "suite": "test_candidate_supports",
+      "pass_lines": [
+        "PASS: test_candidate_supports 54 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_candidate_designs",
+      "pass_lines": [
+        "PASS: test_candidate_designs 56 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_service_split_actions",
+      "pass_lines": [
+        "PASS: Service split actions: 30 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_wire_drag_geometry",
+      "pass_lines": [
+        "PASS: wire drag geometry, current split submission, pure hover and release diagnostics"
+      ]
+    },
+    {
+      "suite": "test_completion_service_clarity",
+      "pass_lines": [
+        "PASS: test_completion_service_clarity 94 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_candidate_journey",
+      "pass_lines": [
+        "PASS: test_candidate_journey 23 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_core_closure_navigation",
+      "pass_lines": [
+        "PASS: test_core_closure_navigation 244 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_playtest_feedback_ui",
+      "pass_lines": [
+        "PASS: non-blocking localized level, chapter, Demo feedback, and final export handoff UI tests passed"
+      ]
+    },
+    {
+      "suite": "test_latch_playback_readout",
+      "pass_lines": [
+        "PASS: latch playback readout (636 checks)"
+      ]
+    },
+    {
+      "suite": "test_overlap_simulation",
+      "pass_lines": [
+        "PASS: deterministic overlap, backpressure, prefetch limits and alternative synthesis"
+      ]
+    },
+    {
+      "suite": "test_prediction_goal_feedback",
+      "pass_lines": [
+        "PASS: test_prediction_goal_feedback 47 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_display_preferences",
+      "pass_lines": [
+        "PASS: display settings retain unrelated preferences and reject unsupported rates; bilingual work title and bounded management remain reachable; embedded settings add no Hub entry"
+      ]
+    },
+    {
+      "suite": "test_representation_design_shelf",
+      "pass_lines": [
+        "PASS: test_representation_design_shelf 38 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_trace_ambience",
+      "pass_lines": [
+        "PASS: interval unions, overlap, independent audio lifecycle and immutable simulation"
+      ]
+    },
+    {
+      "suite": "test_service_commissions",
+      "pass_lines": [
+        "PASS: test_service_commissions 212 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_task_tree_layout",
+      "pass_lines": [
+        "PASS: automatic task/region DAG, future extension, deterministic non-overlapping nodes"
+      ]
+    },
+    {
+      "suite": "test_prediction_navigation",
+      "pass_lines": [
+        "PASS: test_prediction_navigation 31 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_playtest_data",
+      "pass_lines": [
+        "PASS: durable playtest session, recovery, feedback, summary, export, and clean-reset tests passed"
+      ]
+    },
+    {
+      "suite": "test_candidate_language_navigation",
+      "pass_lines": [
+        "PASS: test_candidate_language_navigation 83 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_system_applications",
+      "pass_lines": [
+        "PASS: application alternatives, per-case limits, budget enumeration and recovery"
+      ]
+    },
+    {
+      "suite": "test_service_commission_ui",
+      "pass_lines": [
+        "PASS: test_service_commission_ui 27 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_prediction_record_source",
+      "pass_lines": [
+        "PASS: prediction record source 28 checks"
+      ]
+    },
+    {
+      "suite": "test_overlap_ui",
+      "pass_lines": [
+        "PASS: Chapter 3 topology, hints, timeline, editable completion and revalidated persistence"
+      ]
+    },
+    {
+      "suite": "test_system_lab_simulation",
+      "pass_lines": [
+        "PASS: deterministic 8-bit system chapter simulation, topology, DSL, and bottleneck tests passed"
+      ]
+    },
+    {
+      "suite": "test_prediction_slice",
+      "pass_lines": [
+        "PASS: prediction slice 5591 checks"
+      ]
+    },
+    {
+      "suite": "test_representation_region",
+      "pass_lines": [
+        "PASS: test_representation_region: 3329 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_floating_tool_recall",
+      "pass_lines": [
+        "PASS: covered, minimized, visible and separate tool recall"
+      ]
+    },
+    {
+      "suite": "test_chapter_card_routes",
+      "pass_lines": [
+        "PASS: all five original chapters use exact task-map entry and return without awarding progress"
+      ]
+    },
+    {
+      "suite": "test_alarm_order_feedback",
+      "pass_lines": [
+        "PASS: alarm and order feedback"
+      ]
+    },
+    {
+      "suite": "test_chapter_workspaces",
+      "pass_lines": [
+        "PASS: separate drafts, applied state, observation replay, scene recovery and mode isolation"
+      ]
+    },
+    {
+      "suite": "test_prediction_workbench_presentation",
+      "pass_lines": [
+        "PASS: test_prediction_workbench_presentation 1293 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_layout_simulation",
+      "pass_lines": [
+        "PASS: layout mapping, real flow, copy costs, bounds, tails and determinism"
+      ]
+    },
+    {
+      "suite": "test_storage_caption_playback",
+      "pass_lines": [
+        "PASS: storage caption playback (150 checks)"
+      ]
+    },
+    {
+      "suite": "test_second_act_independent",
+      "pass_lines": [
+        "PASS: independent algebraic state and representation cost oracles"
+      ]
+    },
+    {
+      "suite": "test_visit_summary",
+      "pass_lines": [
+        "PASS: semantic visit summaries and basic sharing boundaries"
+      ]
+    },
+    {
+      "suite": "test_exploration",
+      "pass_lines": [
+        "PASS: optional applications, alternative logic, blank schemes, staged hints and palette search"
+      ]
+    },
+    {
+      "suite": "test_tutorial_replay",
+      "pass_lines": [
+        "PASS: tutorial earned-completion replay"
+      ]
+    },
+    {
+      "suite": "test_system_lab_ui",
+      "pass_lines": [
+        "PASS: five-level system chapter map, prediction, controlled comparison, evidence reveal, exact-path animation, and diagnosis tests passed"
+      ]
+    },
+    {
+      "suite": "test_ui",
+      "pass_lines": [
+        "PASS: staged animation, floating instruments, explicit Program apply/explanation/strategies, Profiler, and Cache tradeoff tests passed"
+      ]
+    },
+    {
+      "suite": "test_desktop_conventions",
+      "pass_lines": [
+        "PASS: bilingual title drag, bounds, focus cancellation and macOS settings shortcut"
+      ]
+    },
+    {
+      "suite": "test_system_baseline_continuity",
+      "pass_lines": [
+        "PASS: exact baseline continuity, revalidation, provenance and evidence boundaries"
+      ]
+    },
+    {
+      "suite": "test_content_registry",
+      "pass_lines": [
+        "PASS: deterministic campaign registry, synthetic content extension, and validation tests passed"
+      ]
+    },
+    {
+      "suite": "test_personal_records",
+      "pass_lines": [
+        "PASS: offline personal records, no progression authority, telemetry-independent local results"
+      ]
+    },
+    {
+      "suite": "test_system_cost_evidence",
+      "pass_lines": [
+        "PASS: 158 bilingual system cost-evidence checks"
+      ]
+    },
+    {
+      "suite": "test_service_learning_ui",
+      "pass_lines": [
+        "PASS: test_service_learning_ui 51 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_service_undo_context",
+      "pass_lines": [
+        "PASS: test_service_undo_context 96 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_hardware_foundations_ui",
+      "pass_lines": [
+        "PASS: global test mode, compact NOT, whole-symbol selection, graphical map, wiring, and Hardware UI tests passed"
+      ]
+    },
+    {
+      "suite": "test_intelligent_state",
+      "pass_lines": [
+        "PASS: persistent context, explicit writes/flush, precision, schedules and isolated UI (16860)"
+      ]
+    },
+    {
+      "suite": "test_service_session",
+      "pass_lines": [
+        "PASS: test_service_session 63 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "test_localization",
+      "pass_lines": [
+        "PASS: Chinese default, English catalog, key coverage, and locale-independent simulation tests passed"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "test_desktop_conventions.txt": [
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). "
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Cannot call method 'get_theme_color' on a null value.
+          at: run (res://tests/test_representation_workbench_presentation.gd:96)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_representation_workbench_presentation.gd:96)
+              [1] fit_scene (res://tests/test_representation_workbench_presentation.gd:30)
+              [2] settle (res://tests/test_representation_workbench_presentation.gd:17)

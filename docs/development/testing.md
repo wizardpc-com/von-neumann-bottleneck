@@ -8,6 +8,17 @@ assertions intentionally require no prior acknowledgement. See
 
 ## Continuous signal candidate
 
+`test_creation_prediction_work_view` checks three P units, pending/finished rounds,
+both locales, saved snapshot/replay output and costs, subsequent Commit/Reveal and
+protected saved bytes. Its `-- --creation-prediction-work-capture` renderer mode
+captures eight logical1280×720 views plus displayed-work/prediction sidecars.
+These are controller fixtures, not native pointer proof.
+`test_system_trace_source_binding` exercises actual official Trace stepping and
+real editable CodeEdit insertion/text_changed: shifted line backgrounds and caret
+must remain detached from a different draft, while Trace/metrics/receipts/history
+stay intact. Exact executed source can be located again. Run these with the
+isolated verifier and the affected System/Creation UI suites.
+
 The boundary follow-up adds `test_creation_preparation_binding`,
 `test_locality_restored_baseline` and `test_hardware_seal_navigation` to the isolated
 verifier. They cover frozen A/B preparation after Keep/relearning, nine actual

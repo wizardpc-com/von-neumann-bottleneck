@@ -16,6 +16,12 @@ Chapter 1 is a five-level, prerequisite-gated performance investigation after th
 
 Programs are editable through a bounded Python-shaped DSL, but software optimization is not required. Editing creates a draft; only **Confirm & Apply** replaces executable source. Every supported line is explained from the parsed instruction rather than from separate hidden logic. Custom programs may still run as debug experiments, but only the authored per-level program can create a progression receipt; this keeps the controlled CPU/RAM/Bus evidence comparable.
 
+Source highlighting belongs to the displayed Trace's exact `program_source`.
+Editing an unapplied draft clears line backgrounds, including backgrounds moved
+by CodeEdit insertion. Old playback never relocates the new draft's caret; its
+Trace, metrics, receipt and cost history remain available. Restoring the executed
+source permits source location again.
+
 ## Deterministic model
 
 - All external values are 8-bit and arithmetic wraps modulo 256.

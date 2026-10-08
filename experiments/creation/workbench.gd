@@ -1011,7 +1011,9 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 	var tracks: Array = [[],[],[]]
 	var captions: Array = ["","",""]
 	var marks: Array = []
-	if kind == "prediction" or (task >= 3 and task < 6 and not session.prediction.is_empty()):
+	# An explicit saved-work or run view owns its tracks. Task navigation may
+	# fall back to the retained round only when no result has been selected.
+	if kind == "prediction" or (kind.is_empty() and task >= 3 and task < 6 and not session.prediction.is_empty()):
 		var prefix: Array = session.prediction.get("prefix",[]).duplicate()
 		var guesses: Array = []
 		for row: Dictionary in session.prediction.get("rows",[]):

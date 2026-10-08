@@ -78,6 +78,10 @@ without a preparation snapshot may display the current learning record only when
 its model identity matches the frozen prediction model. Viewing evidence never
 changes protected works or charges preparation again.
 
+Explicit saved-work snapshot/replay views own the visible output even when a
+prediction task retains an unfinished or completed round. Viewing a work does not
+discard that round; Commit/Reveal returns to its own frozen prediction evidence.
+
 G1 observes a legal generated result. G2 denotes the player's confirmed selection;
 G3 preserves that actual chosen work/recipe. One successful transactional Keep can
 complete G2 and G3. Optional fixed-seed comparison explains interventions but is not

@@ -260,3 +260,37 @@ identities equal verified copy/commit. Evidence boundaries/ retains all failures
 four1280views and currentMaclocked record. Goal active; progress this turn. Root
 finishes evidence/status commit and userauthorized developerpush. All workers
 released; originalfourcollaboratorfiles untouched; no main/public release.
+
+
+## Display-source follow-up
+
+At3b4226e the previous goalturn is progress; remote and scoped payloads verified.
+Current read-only audits cover Creation saved-work/P-mode paths, System/Locality
+navigation/evidence and Representation/Service closure. Service audit found no new
+implementation defect. Fresh CUA inventory still Maclocked; independentcodework
+continues. Preserve originalfourcollaboratorfiles, root soleGit/Godot/GUI/docs.
+
+Two concrete sources violate existing presentation contracts. Creation P1/P2/P3
+active prediction fallback overrides explicit saved snapshot/replay output while
+costs/rules describe the work. Give explicit result its own track without clearing
+pendingprediction. System Trace playback highlights oldsource line in a changed
+unapplied draft and moves thatdraft's caret. Clear highlight on edit and require
+exactcurrentTrace program_source before highlighting/locating; retain realmetrics
+and history. creationworker owns workbench+newpredictionworkviewtest; navworker
+ownsSystemLab+newtracesourcebindingtest. No simulation/schema/gate rewrite.
+Root verifies actual savedwork/continuedprediction and measuredTrace/editor edit
+paths, necessaryrenderer checks, independent review and matchinglocalMac package,
+then userauthorized commit/push. Priorbaseline/widerjourneys remain separate.
+
+
+Seven distinct scoped suites PASS in initial focused verification. Final Creation
+renderer218checks/eightactual1280captures PASS, with explicit savedwork output and
+pending/finished predictions retained. Actual CodeEdit insertion uncovered shifted
+background after the firstline-index-onlyclear; failed dual-locale log retained.
+Repair clears backgrounds only onedit; exactsource/caret guard remains. Final
+System source46checks plus affectedSystemUI/cost suitesPASS. No retainedTrace/
+metrics/receipts/history changes. Initial invalidsuite name exited2 afterimport;
+existingSystemLabUI reran fromsameimportedcopy withfreshuniqueprofiles, no repeated
+import. Independent read-only review found no blocker. Root reviewed finalshifted
+background fix; workersreleased. Root commitsmatching source, theninternalMac
+export/binarycheck and evidence/status/developerpush. Goal active/progress.

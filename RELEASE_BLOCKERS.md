@@ -3,7 +3,26 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current displayed-source checkpoint — 2026-10-08
+## Current recovery and compatibility checkpoint — 2026-10-08
+
+Runtime `6027e25626d4`, branch `codex/mac-second-act-20261005`: future recipe works
+remain readable without interpreting unknown rules, initial context or costs;
+Layout draft previews clear historical event selection; interrupted Core board
+rotation restores archived, validated transaction bytes before normal provenance
+verification. Simulation, schemas and original forty-task gates remain unchanged.
+
+Godot **4.7.1 stable**, original assets: eleven distinct affected suites finalPASS,
+Creation renderer47/four1280×720 views, actual Layout16 and Core75checks PASS after
+retained intermediate failures. Six modified scripts match verified copy/commit.
+[Exact evidence](docs/verification/20261008-draft-and-wider-routes/recovery-compatibility/README.md).
+
+Internal Mac `build/free-alpha-6027e25626d4/macOS/Von-Neumann-Bottleneck.app`,
+isolated profile `Recovery-6027e25`: export/identity/strict codesign and16 actual
+binary checks PASS. Native input NOT_RUN: fresh CUA inventory reports Mac locked.
+Novice/listening/artistic/device/Windows/formal distribution acceptance remains open;
+broad whole-game goal active.
+
+## Previous displayed-source checkpoint — 2026-10-08
 
 Runtime `7c7f8f06f8e2` / `free-alpha-7c7f8f06f8e2` is the current internal Mac
 candidate. Explicit saved-work display inside retained prediction tasks and actual

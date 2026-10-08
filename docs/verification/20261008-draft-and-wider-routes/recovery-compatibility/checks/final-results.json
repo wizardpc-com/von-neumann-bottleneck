@@ -1,0 +1,82 @@
+[
+  {
+    "name": "final-test_layout_preview_selection",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "final-test_layout_preview_selection.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_preview_selection.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-b1e728ef740342bc9779419e4292a41a/final-test_layout_preview_selection"
+  },
+  {
+    "name": "final-test_workbench_interrupted_recovery",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "final-test_workbench_interrupted_recovery.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_workbench_interrupted_recovery.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-f5e8cd89aa5f4d1c804b4985ba6f83c7/final-test_workbench_interrupted_recovery"
+  },
+  {
+    "name": "final-test_workbench_write_failure",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "final-test_workbench_write_failure.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_workbench_write_failure.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-e6d6c3a747cf40758268c0095d46cb54/final-test_workbench_write_failure"
+  },
+  {
+    "name": "final-test_global_save",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "final-test_global_save.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_global_save.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-6b4153e6ad974de4a36f85a6391793c2/final-test_global_save"
+  },
+  {
+    "name": "final-test_save_signature_migration",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "final-test_save_signature_migration.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_save_signature_migration.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-ba1681a4e6e94a9ab596c2d66fb6c3f1/final-test_save_signature_migration"
+  }
+]

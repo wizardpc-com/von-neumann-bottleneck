@@ -347,3 +347,10 @@ root soleGit/engine builds matching internal Mac, records evidence and pushes
 userauthorized developmentbranch. Fresh CUA Maclocked; no nativeinput. Goalactive,
 progress this turn, originalfourcollaboratorfiles preserved. No schema/model/gate
 rewrite, no main/public release.
+
+
+Frozen recovery runtime6027e25626d4 exported as Recovery-6027e25. Import/licenses/
+export/archiveidentity/strictcodesign/actualbinary16checks PASS. Sixscript hashes
+equal QA/commit. Evidence recovery-compatibility/ retains initial failures and four
+1280views; freshMaclocked record. Rootfinishes scoped evidence/status and authorized
+developerpush, then releasesfiles. Goalactive/progress, no main/publicrelease.

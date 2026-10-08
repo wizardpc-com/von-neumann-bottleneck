@@ -1,0 +1,34 @@
+[
+  {
+    "file": "future-model-en.png",
+    "size": [
+      1280,
+      720
+    ],
+    "sha256": "ad318d3a83610b5c569dcf2be143dbbb1291aa4cd9ef5da082ad13a121a0a51e"
+  },
+  {
+    "file": "future-model-zh.png",
+    "size": [
+      1280,
+      720
+    ],
+    "sha256": "68ba791c75ba70da041bfa6d670440827c7ce46074c09aad264f95177f4f5c4f"
+  },
+  {
+    "file": "future-sampler-en.png",
+    "size": [
+      1280,
+      720
+    ],
+    "sha256": "796e47d49cf18346d56ec44706feb52270cdfdd8b9b223569e91249b08024e2a"
+  },
+  {
+    "file": "future-sampler-zh.png",
+    "size": [
+      1280,
+      720
+    ],
+    "sha256": "ac774e7ec629b9d98601197122aa71ceeb2fae82190dceb643815837152f9365"
+  }
+]

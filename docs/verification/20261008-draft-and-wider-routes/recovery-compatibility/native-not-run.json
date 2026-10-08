@@ -1,0 +1,6 @@
+{
+  "source": "Current-turn cua.getState tool result, manually recorded",
+  "status": "NOT_RUN",
+  "error": "Native apps: Error: The Mac is locked and automatic unlock could not unlock it. Ask the user to unlock the Mac manually before continuing.",
+  "app_input_executed": false
+}

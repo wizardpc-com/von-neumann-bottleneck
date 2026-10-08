@@ -1,0 +1,34 @@
+[
+  {
+    "name": "edit-final",
+    "suite": "test_creation_edit_controls",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T201936Z-d695aae7/project",
+      "--script",
+      "res://tests/test_creation_edit_controls.gd",
+      "--",
+      "--creation-edit-capture",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "workbench-final",
+    "suite": "test_creation_workbench",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T201936Z-d695aae7/project",
+      "--script",
+      "res://tests/test_creation_workbench.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  }
+]

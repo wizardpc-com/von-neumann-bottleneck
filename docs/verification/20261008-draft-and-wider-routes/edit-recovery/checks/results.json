@@ -1,0 +1,78 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/user_directory"
+    },
+    {
+      "name": "test_creation_edit_controls",
+      "exit": 0,
+      "errors": [],
+      "passed": true,
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/test_creation_edit_controls",
+      "log": "test_creation_edit_controls.txt"
+    },
+    {
+      "name": "test_creation_profile_navigation",
+      "exit": 0,
+      "errors": [],
+      "passed": true,
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/test_creation_profile_navigation",
+      "log": "test_creation_profile_navigation.txt"
+    },
+    {
+      "name": "test_creation_navigation",
+      "exit": 0,
+      "errors": [],
+      "passed": true,
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/test_creation_navigation",
+      "log": "test_creation_navigation.txt"
+    },
+    {
+      "name": "test_creation_writer_retry_ui",
+      "exit": 0,
+      "errors": [],
+      "passed": true,
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/test_creation_writer_retry_ui",
+      "log": "test_creation_writer_retry_ui.txt"
+    },
+    {
+      "name": "test_creation_draft_undo",
+      "exit": 0,
+      "errors": [],
+      "passed": true,
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/test_creation_draft_undo",
+      "log": "test_creation_draft_undo.txt"
+    },
+    {
+      "name": "test_creation_choice_completion",
+      "exit": 0,
+      "errors": [],
+      "passed": true,
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/test_creation_choice_completion",
+      "log": "test_creation_choice_completion.txt"
+    },
+    {
+      "name": "test_representation_closure_navigation",
+      "exit": 0,
+      "errors": [],
+      "passed": true,
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T201936Z-d695aae7/test_representation_closure_navigation",
+      "log": "test_representation_closure_navigation.txt"
+    }
+  ]
+}

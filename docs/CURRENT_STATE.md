@@ -2,7 +2,31 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current confirmed-work checkpoint — 2026-10-08
+## Current editing and recovery checkpoint — 2026-10-08
+
+Runtime `6fbfb1219ff0`, branch `codex/mac-second-act-20261005`, keeps sample drafts
+within their existing16-example save bound. Task/language rebuilds retain
+unsubmitted sample/name and invalidInitial without making them a legal executable
+recipe. Confirmed profile replacement updates the remembered Journey task;
+`--creation-profile=` drives both workbench restoration and map completion reads.
+Real Representation write refusal reconstructs the source earned review with
+focus, guarded Service continuation and unsaved exploration intact.
+
+Godot **4.7.1 stable**, original assets: eight distinct affected suites PASS,
+editor renderer130checks/four1280×720 views, actual launch-profile16checks and
+bilingual real write-refusal review55checks/two1280×720 views PASS. Seven changed
+script identities equal the verified imported copy/commit. Prior whole baseline,
+wider journeys and independent Creation restart evidence remain separate and
+were not repeated. [Exact scoped evidence](verification/20261008-draft-and-wider-routes/edit-recovery/README.md).
+
+Current internal Mac candidate:
+`build/free-alpha-6fbfb1219ff0/macOS/Von-Neumann-Bottleneck.app`, isolated profile
+`Edits-6fbfb12`; export/archive identity,16 actual binary checks and strict codesign
+PASS. Previous confirmed-work G2/G3 and prediction residency corrections remain.
+Native OS input, blind novice understanding, listening/artistic effect, other
+hardware/Windows and formal distribution remain unverified; broad goal active.
+
+## Previous confirmed-work checkpoint — 2026-10-08
 
 Runtime `ebcf7df2dbd0` on `codex/mac-second-act-20261005` closes G2/G3 when the
 player actually confirms one legal work. Output variation is optional; repeated

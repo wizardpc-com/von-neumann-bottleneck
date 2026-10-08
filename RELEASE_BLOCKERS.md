@@ -3,7 +3,18 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current confirmed-work checkpoint — 2026-10-08
+## Current editing and recovery checkpoint — 2026-10-08
+
+Runtime `6fbfb1219ff0` / `free-alpha-6fbfb1219ff0` is the current internal Mac
+candidate. Bounded sample additions, task/language transient inputs, launch-profile
+map identity, recovered task selection and true write-failure review restoration
+are verified. Eight affected suites,130 editor renderer checks,16 actual profile
+launch checks,55 bilingual failure-review checks and16 actual binary checks PASS.
+Export/identity/codesign PASS. Native OS input remains NOT_RUN (prior Mac locked);
+blind novice/listening/artistic/device/Windows and public-distribution acceptance
+remain open. Broad goal active. [Exact evidence](docs/verification/20261008-draft-and-wider-routes/edit-recovery/README.md).
+
+## Previous confirmed-work checkpoint — 2026-10-08
 
 Runtime `ebcf7df2dbd0` / `free-alpha-ebcf7df2dbd0` is the current internal Mac
 candidate. The previously open G2 mismatch is resolved: actual confirmed legal

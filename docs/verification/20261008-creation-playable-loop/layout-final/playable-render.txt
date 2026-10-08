@@ -1,0 +1,17 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: Available action: PinCreationAQuick
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] press (res://tests/test_creation_workbench.gd:14)
+       [2] run (res://tests/test_creation_playable_loop.gd:44)
+       [3] press (res://tests/test_creation_workbench.gd:30)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+SCRIPT ERROR: Invalid access to property or key 'output' on a base object of type 'Dictionary'.
+          at: run (res://tests/test_creation_playable_loop.gd:45)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_creation_playable_loop.gd:45)
+              [1] press (res://tests/test_creation_workbench.gd:30)
+              [2] settle (res://tests/test_creation_workbench.gd:10)

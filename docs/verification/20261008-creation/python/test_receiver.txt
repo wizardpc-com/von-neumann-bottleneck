@@ -1,0 +1,48 @@
+test_contract (__main__.ReceiverTests.test_contract) ... C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 409: 'Conflict'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 401: 'Unauthorized'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 400: 'Bad Request'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 403: 'Forbidden'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_retention (__main__.ReceiverTests.test_retention) ... ok
+tearDownClass (__main__.ReceiverTests) ... ERROR
+
+======================================================================
+ERROR: tearDownClass (__main__.ReceiverTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 701, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\Lenovo\\AppData\\Local\\Temp\\tmpsj5c5h5c\\backup.sqlite'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\冯诺依曼瓶颈\von-neumann-bottleneck\server\test_receiver.py", line 23, in tearDownClass
+    cls.process.terminate();cls.process.wait(timeout=5);cls.tmp.cleanup()
+                                                        ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 705, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 930, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\Lenovo\\AppData\\Local\\Temp\\tmpsj5c5h5c\\backup.sqlite'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.465s
+
+FAILED (errors=1)

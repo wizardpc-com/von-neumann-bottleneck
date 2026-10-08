@@ -1,0 +1,27 @@
+[
+  {
+    "script": "scripts/check-branding.py",
+    "exit": 0,
+    "log": ".godot/creation-python/check-branding.txt"
+  },
+  {
+    "script": "scripts/test-report-playtests.py",
+    "exit": 0,
+    "log": ".godot/creation-python/test-report-playtests.txt"
+  },
+  {
+    "script": "server/test_storage.py",
+    "exit": 1,
+    "log": ".godot/creation-python/test_storage.txt"
+  },
+  {
+    "script": "server/test_receiver.py",
+    "exit": 1,
+    "log": ".godot/creation-python/test_receiver.txt"
+  },
+  {
+    "script": "server/test_community.py",
+    "exit": 1,
+    "log": ".godot/creation-python/test_community.txt"
+  }
+]

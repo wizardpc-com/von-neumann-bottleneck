@@ -1,5 +1,16 @@
 # Architecture
 
+## Continuous signal candidate
+
+`experiments/creation/` adds one bounded C→P→G execution domain: finite-context
+sample learning, real predictive packets, committed prefix-only prediction and
+output-feedback generation. `model.gd` and `codec.gd` own results and event costs;
+`session.gd` owns frozen checks, revalidated supports and protected work/recipe
+snapshots through existing candidate file transactions and leases. `workbench.gd`
+presents those results. `src/campaign/creation_tasks.gd` appends opt-in candidate
+regions without changing core progression. See its [runtime contract](experiments/creation/CONTRACT.md)
+and [player/development entry](experiments/creation/README.md).
+
 Current product/release state lives only in [CURRENT_STATE](docs/CURRENT_STATE.md). This file is the high-level subsystem map. Detailed simulation behavior lives in [`docs/architecture/simulation.md`](docs/architecture/simulation.md); dated subsystem implementation records live in [`docs/status/cpu-building-prologue.md`](docs/status/cpu-building-prologue.md), [`docs/status/chapter-1-waiting-for-data.md`](docs/status/chapter-1-waiting-for-data.md), [`docs/status/chapter-2-reducing-data-movement.md`](docs/status/chapter-2-reducing-data-movement.md), and [`docs/status/playtest-instrumentation.md`](docs/status/playtest-instrumentation.md).
 
 ## Default construction and optimization route

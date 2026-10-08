@@ -11,7 +11,7 @@ import uuid
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('experiment', choices=['representation', 'intelligent_workload', 'representation_plan', 'intelligent_state', 'representation_region', 'prediction', 'service_plan'])
+    parser.add_argument('experiment', choices=['representation', 'intelligent_workload', 'representation_plan', 'intelligent_state', 'representation_region', 'prediction', 'service_plan', 'creation'])
     parser.add_argument('--godot', required=True)
     parser.add_argument('--locale', choices=['en', 'zh_CN'], default='zh_CN')
     parser.add_argument('--prepare-only', action='store_true')
@@ -19,10 +19,10 @@ def main():
     parser.add_argument('--profile', help='Opt-in isolated candidate profile (letters, digits, hyphen; no campaign saves)')
     parser.add_argument('--replay', choices=['lab', 'proxy', 'depth', 'candidate', 'candidate-proxy'])
     args = parser.parse_args()
-    if args.profile is not None and (args.experiment not in ['representation_region', 'service_plan'] or args.replay or not re.fullmatch(r'[A-Za-z0-9-]{1,40}', args.profile)):
-        parser.error('--profile requires representation_region or service_plan, no replay, and a 1-40 character safe profile name')
-    if args.journey and (args.experiment not in ['representation_region', 'service_plan'] or not args.profile or args.replay):
-        parser.error('--journey requires representation_region or service_plan with --profile and no replay')
+    if args.profile is not None and (args.experiment not in ['representation_region', 'service_plan', 'creation'] or args.replay or not re.fullmatch(r'[A-Za-z0-9-]{1,40}', args.profile)):
+        parser.error('--profile requires representation_region, service_plan or creation, no replay, and a 1-40 character safe profile name')
+    if args.journey and (args.experiment not in ['representation_region', 'service_plan', 'creation'] or not args.profile or args.replay):
+        parser.error('--journey requires representation_region, service_plan or creation with --profile and no replay')
     engine = shutil.which(args.godot) or str(Path(args.godot).expanduser().resolve())
     if not subprocess.check_output([engine, '--version'], text=True).startswith('4.7.1.stable.'):
         parser.error('Godot 4.7.1 stable required')
@@ -45,9 +45,16 @@ def main():
     settings = (project / 'project.godot').read_text()
     if 'config/custom_user_dir_name=' in settings or 'config/use_custom_user_dir=' in settings:
         raise RuntimeError('Review custom user directory settings')
-    settings = settings.replace('[application]\n', '[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name=' + json.dumps('VonNeumannBottleneckCandidates/' + ('representation' if args.experiment == 'representation_region' else 'service') + '/' + args.profile if args.profile else 'VonNeumannBottleneckChecks/experiments/' + stamp) + '\n', 1)
+    primary = 'representation' if args.experiment in ['representation_region', 'creation'] else 'service'
+    settings = settings.replace('[application]\n', '[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name=' + json.dumps('VonNeumannBottleneckCandidates/' + primary + '/' + args.profile if args.profile else 'VonNeumannBottleneckChecks/experiments/' + stamp) + '\n', 1)
     if args.profile:
-        settings += '\n[candidate]\nprimary_domain=' + json.dumps('representation' if args.experiment == 'representation_region' else 'service') + '\nprofile=' + json.dumps(args.profile) + '\n'
+        settings += '\n[candidate]\nprimary_domain=' + json.dumps(primary) + '\nprofile=' + json.dumps(args.profile) + '\n'
+        if args.journey:
+            settings += 'journey_enabled=true\n'
+        if args.experiment == 'creation':
+            settings += 'creation_enabled=true\n'
+    elif args.experiment == 'creation':
+        settings += '\n[candidate]\ncreation_enabled=true\n'
     (project / 'project.godot').write_text('\n'.join(s for s in settings.split('\n') if not s.startswith('theme/custom_font=')))
     with (output / 'import.txt').open('w') as log:
         subprocess.run([engine, '--path', str(project), '--headless', '--editor', '--import', '--quit'], stdout=log, stderr=subprocess.STDOUT, check=True, timeout=180)
@@ -64,7 +71,8 @@ def main():
     else:
         scenes = {'representation_plan': 'representation/puzzle.tscn',
                   'intelligent_state': 'intelligent_workload/state_lab.tscn',
-                  'representation_region': 'representation_region/region.tscn'}
+                  'representation_region': 'representation_region/region.tscn',
+                  'creation': 'creation/workbench.tscn'}
         if not args.journey:
             command += ['res://experiments/' + scenes.get(args.experiment, args.experiment + '/lab.tscn')]
     command += ['--', '--locale=' + args.locale, '--experiment=' + args.experiment, '--evidence-dir=' + str(output / 'captures')]
@@ -72,6 +80,8 @@ def main():
         command += ['--candidate-save']
     if args.journey:
         command += ['--candidate-journey']
+    if args.experiment == 'creation':
+        command += ['--creation-journey']
     with (output / 'session.txt').open('w') as log:
         result = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT)
     text = (output / 'session.txt').read_text()

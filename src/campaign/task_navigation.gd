@@ -4,6 +4,7 @@ const SCENES := {"hardware_foundations": "res://src/hardware_foundations/hardwar
 	"chapter_1": "res://src/system_lab/system_lab.tscn", "chapter_2": "res://src/ui/main.tscn",
 	"chapter_3": "res://src/overlap_chapter/overlap_chapter.tscn", "chapter_4":"res://src/layout_chapter/layout_chapter.tscn"}
 const SecondAct = preload("res://src/campaign/second_act_tasks.gd")
+const Creation = preload("res://src/campaign/creation_tasks.gd")
 const MAP_SCENE := "res://src/campaign/task_tree.tscn"
 var pending: String = ""
 var selected: String = "hardware_foundations/tutorial"
@@ -74,6 +75,7 @@ func candidate_journey_enabled() -> bool: return SecondAct.enabled()
 func journey_tasks() -> Array[Dictionary]:
 	var result: Array[Dictionary] = tasks()
 	if candidate_journey_enabled(): result.append_array(SecondAct.build(SecondAct.saved_review(),Localization.current_locale() == "en"))
+	if Creation.enabled(): result.append_array(Creation.build(Localization.current_locale() == "en"))
 	return result
 
 func enter(key: String) -> bool:
@@ -82,6 +84,7 @@ func enter(key: String) -> bool:
 		var previous := {"selected":selected,"pending":pending,"from_tree":from_tree}
 		selected = key; pending = key; from_tree = true
 		var destination: String = SCENES.get(task.domain,SecondAct.SCENES.get(task.domain,""))
+		if task.domain == "creation": destination = Creation.SCENE
 		if get_tree().change_scene_to_file(destination) != OK:
 			selected = previous.selected; pending = previous.pending; from_tree = previous.from_tree
 			return false
@@ -89,10 +92,10 @@ func enter(key: String) -> bool:
 		return true
 	return false
 
-func candidate_key(domain: String,index: int) -> String: return SecondAct.key_for(domain,index)
+func candidate_key(domain: String,index: int) -> String: return Creation.key_for(index) if domain == "creation" else SecondAct.key_for(domain,index)
 
 func enter_candidate(domain: String,index: int) -> bool:
-	var key: String = SecondAct.key_for(domain,index)
+	var key: String = candidate_key(domain,index)
 	return not key.is_empty() and enter(key)
 
 func consume(domain: String) -> StringName:
@@ -106,7 +109,7 @@ func _clear_pending(expected: String) -> void:
 
 func take_pending(domain: String) -> int:
 	if pending.get_slice("/",0) != domain: return -1
-	var index: int = SecondAct.index_for(pending)
+	var index: int = Creation.index_for(pending) if domain == "creation" else SecondAct.index_for(pending)
 	pending = ""
 	return index
 
@@ -190,8 +193,8 @@ func remember_visit(domain: String, id: String) -> void:
 
 func remember_candidate_visit(domain: String,index: int) -> void:
 	# The host records what it actually opened; saved eligibility is checked at entry.
-	if not candidate_journey_enabled(): return
-	var key: String = SecondAct.key_for(domain,index)
+	if not candidate_journey_enabled() and not (domain == "creation" and Creation.enabled()): return
+	var key: String = candidate_key(domain,index)
 	if key.is_empty(): return
 	if selected != key: selected = key; camera_saved = false
 	if GameMode.is_test_mode() or key == last_visited_task: return

@@ -1,0 +1,403 @@
+{
+	"id": "db65de8c34a8fb31fe07833d525d1ff0687f856b6a29113931e51473a1fb5fa0",
+	"mapping": "light-shapes-v1",
+	"name": "QA · en",
+	"output": [
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		3,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		2,
+		0,
+		2,
+		0,
+		2,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		2,
+		0,
+		2,
+		0,
+		1,
+		0,
+		1,
+		0,
+		3,
+		0,
+		3,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		3,
+		0,
+		2,
+		0,
+		1,
+		0,
+		3,
+		0,
+		3,
+		0,
+		1,
+		0,
+		3,
+		0,
+		3
+	],
+	"parent": "392911e48117d865db771d2a0e1fa198dafef031f9f89cdea8f6609d4ba5957d",
+	"recipe": {
+		"initial": [
+			0,
+			1
+		],
+		"length": 64,
+		"machine": {
+			"bytes_per_cycle": 4,
+			"cache_rows": 4,
+			"cpu_ops_per_cycle": 4,
+			"memory_bytes": 8192,
+			"request_cycles": 2
+		},
+		"model": {
+			"examples": [
+				[
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2
+				],
+				[
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3
+				]
+			],
+			"order": 1,
+			"parent": "",
+			"rows": [
+				{
+					"context": [],
+					"counts": [
+						24,
+						12,
+						6,
+						6
+					]
+				},
+				{
+					"context": [
+						0
+					],
+					"counts": [
+						0,
+						12,
+						6,
+						6
+					]
+				},
+				{
+					"context": [
+						1
+					],
+					"counts": [
+						12,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						2
+					],
+					"counts": [
+						5,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						3
+					],
+					"counts": [
+						5,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"source_digest": "c9064401f3898297411a23d8ecdd02a60c1436157c7fec2d20a21940b8754c65",
+			"version": 1
+		},
+		"model_id": "9ef3356e1f82ada6ea8d4385261140235ef5f0069125467c77adf5bd8ade4441",
+		"prng_version": "park-miller-v1",
+		"sampler": "weighted",
+		"sampler_version": "integer-counts-v1",
+		"seed": 17,
+		"version": 1
+	},
+	"training": {
+		"cost": {
+			"cpu_ops": 325,
+			"peak_bytes": 182,
+			"total_cycles": 533,
+			"transfer_bytes": 513
+		},
+		"events": [
+			{
+				"bytes": 1,
+				"cycles": 4,
+				"example": 0,
+				"index": 0,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 3,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"bytes": 1,
+				"cycles": 3,
+				"example": 0,
+				"index": 1,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 4,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					0
+				],
+				"cycles": 3,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"bytes": 1,
+				"cycles": 4,
+				"example": 0,
+				"index": 2,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 2,
+				"before": 1,
+				"bytes": 4,
+				"context": [],
+				"cycles": 3,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					1
+				],
+				"cycles": 4,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"bytes": 1,
+				"cycles": 3,
+				"example": 0,
+				"index": 3,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 3,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					0
+				],
+				"cycles": 4,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"bytes": 1,
+				"cycles": 3,
+				"example": 0,
+				"index": 4,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 3,
+				"before": 2,
+				"bytes": 4,
+				"context": [],
+				"cycles": 4,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					2
+				],
+				"cycles": 3,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"bytes": 1,
+				"cycles": 3,
+				"example": 0,
+				"index": 5,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"after": 2,
+				"before": 1,
+				"bytes": 4,
+				"context": [],
+				"cycles": 4,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 1
+			}
+		],
+		"machine": {
+			"bytes_per_cycle": 4,
+			"cache_rows": 4,
+			"cpu_ops_per_cycle": 4,
+			"memory_bytes": 8192,
+			"request_cycles": 2
+		},
+		"model_id": "9ef3356e1f82ada6ea8d4385261140235ef5f0069125467c77adf5bd8ade4441"
+	}
+}

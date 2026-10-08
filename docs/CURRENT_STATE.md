@@ -2,7 +2,51 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Representative experience checkpoint — 2026-10-07
+## Mac playable-loop follow-up — 2026-10-08
+
+Current working branch `codex/mac-second-act-20261005` integrates the two reviewed
+remote commits through `e46f866`, plus the cumulative handoff v2 and this follow-up.
+Original collaborator changes are preserved. Candidate-only additions expose a
+single-CPU cost reversal on the actual 1536-cell material, safe continuation after
+manual prediction, actual prediction-event evidence, and invalid-input protection.
+The controlled A/B and full saved-work focus are now exercised with original assets.
+
+Godot **4.7.1 stable**, original Noto Sans SC: nineteen distinct focused suites pass
+across the recorded runs, plus a **162-check bilingual rendered interaction route**
+and independent write/fork/read processes. The intermediate Flow layout failure was
+fixed; the earlier renderer's profile-archiving error is retained as failed evidence.
+No full-suite rerun or exported release was needed for this bounded integration.
+
+Local imported Mac checkpoint: `.godot/experiments/51753e9acde6/project/`, profile
+`CreationReview-20261008`. Use the [review/run instructions and receipts](verification/20261008-creation-playable-loop/README.md).
+Real native OS pointer/keyboard acceptance, beginner comprehension, artistic effect,
+audio and other-device checks remain unverified. The recorded route uses Godot
+viewport input and known answers; it is not a blind playtest.
+
+## Earlier compression → content prediction → creation checkpoint — 2026-10-08
+
+The latest development line `bf0299f` is integrated into main; implementation
+checkpoint `3c74346` adds the new work. Nine new candidate
+units share a learned finite-context model and real machine/event costs through
+lossless restore, commit-before-reveal prediction, explicit output feedback and
+saved works with complete recipes. Original 40 tasks and existing second-act
+content remain available. This is bounded candidate content, not final artistic
+or human-learning acceptance.
+
+Local runnable project: `build/creation-20261008/`, including Godot 4.7.1 and separate
+player/QA profiles. `Play-Journey.cmd` enters the journey; `Play-Workbench.cmd`
+opens C/P/G directly; `Review-QA-Works.cmd` opens two actual saved QA works.
+This is an imported project checkpoint, not a new exported public release.
+
+Full pre-hardening regression: 105 Godot suites plus import/isolation PASS.
+Final save-validation hardening: all three affected suites PASS. Viewport QA
+before that narrow hardening: 472 checks and ten bilingual captures PASS.
+Branding/playtest Python checks PASS; three unchanged server suites fail Windows
+SQLite temporary-file cleanup (WinError 32). No complete CI PASS is claimed.
+Native full-route input, novice learning, audio and cross-device acceptance remain
+NOT_RUN. [Source identities, actual works, costs and team/Claude handoff](verification/20261008-creation/README.md).
+
+## Previous representative experience checkpoint — 2026-10-07
 
 Current candidate **free-alpha-1a33d19e2aa7**, profile **Experience-1a33d19**.
 Runtime codeff1b3c4; final1a33d19 changes only the earned-card verification.

@@ -8,6 +8,8 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 
 ## Current entry points
 
+- [Compression → content prediction → creation candidate](verification/20261008-creation/README.md)
+
 - [Second-act framework and isolated playable labs](design/second-act-framework.md) - [Verification and proxy limits](verification/20261002-second-act/README.md)
 
 - [Evidence-driven ordinary Game paths and follow-up](verification/20261002-player-paths/README.md) · [Iteration plan](exec-plans/completed/evidence-driven-playtest.md)

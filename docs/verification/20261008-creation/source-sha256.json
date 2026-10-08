@@ -1,0 +1,18 @@
+{
+  "experiments/creation/calibrate.gd": "3be53c99b23e001016d3ce0db982cae07e44dd69fbaf7ffddf9e0c1f8b1a259e",
+  "experiments/creation/catalog.gd": "1a65fa237bb848de7c4cd4a18767a41e856d187e466a1760f8e3acfaae1163f9",
+  "experiments/creation/codec.gd": "51a061e8bace27d12b404acc9548956f553caac4083da1cf2bb7e4258a213c9f",
+  "experiments/creation/model.gd": "a4b498823f54a9dffa31cc54b476946325bcace4885fb03ddf8f5ed97fe5f5ff",
+  "experiments/creation/session.gd": "f0b73bdad3fc4b2c63d2a77379d87046623724c563f92b0cd653b1799733e78c",
+  "experiments/creation/signal_view.gd": "2a32e27b4eb5f6ad43321abb9c38ad0dd4c8818130048ce3323081cd558d38bc",
+  "experiments/creation/workbench.gd": "d52ec6df7470863b335bcb4ba0e4ea3a1d6b2fc8f186b81d3f637fa1017d74d8",
+  "experiments/creation/workbench.tscn": "4522aa4ab9ec809f018916fc3e2ceda9f26f933f3fc424c946326bd13c107562",
+  "scripts/run-experiment.py": "ae3583f37065bba77104a53ccf3e273134bf69aa8db9ec5ce5c7fcb443d90865",
+  "scripts/verify-creation-restart.py": "67c2f0251e504c9480f4dee842a2cd5d478a65e0c7db5b4d3e934dffc182a8b3",
+  "src/campaign/creation_tasks.gd": "63f2ae33e67259e93b0d75ed545f71613a14f00f75176c525178a7f005030378",
+  "src/campaign/task_navigation.gd": "9baa8ffae64bb58de22e54be9e16bdd00133928c2bcb2466389f28c7c81350f7",
+  "tests/fixture_creation_restart.gd": "01ce2458d22211ba4dd3736fa40834558e07a232bb340f9038c6b79829dfe4ca",
+  "tests/test_creation_contract.gd": "40f1bdb45a3d862d93cbe40e1ee240542f70798ecd8f0436f88f1dd62092a894",
+  "tests/test_creation_navigation.gd": "dedd7a23eb1c931fb05a6273b1096c4f4655ee9491fca3d7f476c20ad5c01ccd",
+  "tests/test_creation_workbench.gd": "f72933eeb5dd763d6f61b0dc51fa391f4fa8f0c152aa3fd17cd84e0cd99c56e9"
+}

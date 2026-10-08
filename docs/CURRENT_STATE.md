@@ -4,7 +4,8 @@
 
 ## Compression → content prediction → creation candidate — 2026-10-08
 
-The latest development line `bf0299f` is integrated into main. Nine new candidate
+The latest development line `bf0299f` is integrated into main; implementation
+checkpoint `3c74346` adds the new work. Nine new candidate
 units share a learned finite-context model and real machine/event costs through
 lossless restore, commit-before-reveal prediction, explicit output feedback and
 saved works with complete recipes. Original 40 tasks and existing second-act

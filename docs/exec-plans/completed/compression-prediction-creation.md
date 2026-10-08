@@ -64,7 +64,7 @@ cross-device acceptance are separate. Historical checks are never new evidence.
 
 ## Completed scope and evidence
 
-2026-10-08: M0–M3 implemented as bounded candidate content. The continuous path is
+2026-10-08: M0–M3 implemented in `3c74346` as bounded candidate content. The continuous path is
 expanded into nine units, with earned evidence for comparable codecs, actual
 machine changes and memory comparisons. Same-model restore → prediction → feedback
 is playable, works are protected, and the existing journey contains the entry and

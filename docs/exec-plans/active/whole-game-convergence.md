@@ -304,3 +304,46 @@ in display-sources/ retains initial invalidsuite invocation and actual shiftedli
 failure, plus repairedSystem46/UI/cost checks. Goal active, actualprogress; root
 finishes evidence/statuscommit and authorizeddeveloperpush. Allworkersreleased,
 onlyoriginalfourcollaboratorfiles retained. Native/human/artistic/device gates open.
+
+
+## Incompatible snapshot and interrupted board recovery
+
+At345cb81 previous goalturn is actualruntime/rendered/export/push progress.
+Current audits find three existing protection/source defects, preserving fullgoal:
+Creation readonlyworkbench parses unsupportedfuture recipe fields despite Session
+retaining validoutput; Layout draft mapping retains historicalevent selections;
+Core board save missingmain in rename crashwindow is mistaken for freshstore and
+can overwrite recovery candidates/deny priorsealedprogress. RootsoleGit/engine/
+GUI/docs. Creationworker ownsworkbench+futureworkbenchtest; navworker memoryview+
+previewselectiontest; serviceworker CircuitWorkbenchStore+interruptedrecoverytest.
+Preserveoriginalfourcollaboratorfiles; no model/schema/gate/authoritychanges.
+
+Unknownrecipes showactualoutput/name/id and explicituninterpretablemetadata only;
+Replay/Fork continue torefuse. Mappingconfigure clears oldhighlight and realhistory
+selection rebinds ownmapping. For boards, existingmain remainsauthoritative and
+allmissing remainsfresh; onlymissingmain withtransactions initiates recovery.
+Validatedtmp isnewpending snapshot, preferredovervalidbak; damagedtmp mayfallback
+tovalidbak. Anyfuture candidate or no validcandidate refusesautomaticdowngrade/
+writes. Beforeinstallation immutablehasharchives preservealltransactionbytes;
+archive/installfailure refuseswrites. Independentrecoverytemp installs exactbytes,
+thenexistingmigration/load andGlobalSave circuitrevalidation remainauthority.
+Retain originalcandidatefiles; future/invalid refusal never writesdefaultover them.
+Rootapproved thisbounded existingformat recovery, no newpersistenceplatform.
+
+Necessary focused tests: truefuturefile readonlyG3/Play/Focus andbytes; actualLayout
+read→fieldedit→historyreselection; realStore persist/crashwindow/namedboards and
+GlobalSave HalfAdder topologyrevalidation, damaged/future/archivefailure/newstore
+cases. Rootreview/integration, affectedrenderer only, exactsourcefrozenMac export/
+binarycheck andauthorizeddevcommit/push. Keep broad/human/native acceptance open.
+
+Final eleven distinct affected suites PASS; future-work renderer47/four actual
+1280×720 bilingual views inspected, Layout16 actual run/edit/history checks and
+Core75 real interrupted Store/provenance checks PASS. Initial reserved-keyword
+parse, JSON integral-version membership rejection and shared-locale draft failure
+are retained; fixes preserve assertions. Only affected Core/save suites reran.
+Sixscript identities match imported QA copy. Independent read-only review no new
+blocker; root reviewed subsequent validation corrections. Workers released;
+root soleGit/engine builds matching internal Mac, records evidence and pushes
+userauthorized developmentbranch. Fresh CUA Maclocked; no nativeinput. Goalactive,
+progress this turn, originalfourcollaboratorfiles preserved. No schema/model/gate
+rewrite, no main/public release.

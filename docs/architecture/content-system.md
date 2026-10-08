@@ -91,6 +91,16 @@ Every level automatically seeds `default` from its pristine inventory. A newly n
 
 Undo/redo actions, clipboard, selection, debug inputs, official receipts, trace playback, and stateful runtime values are never serialized. Switching therefore restores the circuit/layout but starts a fresh operation history. Required fixed Test Bench terminals come from current trusted level content when loading; an unsupported component kind or invalid wire cannot introduce executable behavior.
 
+If the main workbench file is absent after an interrupted save rotation, the store
+examines the existing temporary and backup files before seeding any default. A
+supported, structurally valid temporary is the newer intended snapshot; otherwise
+a valid backup can recover. Any unknown version, no valid candidate, archive
+conflict or failed installation blocks writes. Every transaction source is first
+preserved in an immutable hash-named archive; a separate verified temporary
+installs the selected bytes. An existing main retains authority, and entirely
+absent files still mean first use. Recovery does not grant completion: GlobalSave
+still reconstructs and officially verifies the circuit provenance.
+
 The three hint stages reuse the same snapshot loader but never the player namespace. Stage 1 shows only fixed terminals and conceptual copy, stage 2 loads a content-authored key subgraph, and stage 3 loads the existing complete reference topology. Hint graphs are read-only and have no official-test/seal controls. Exiting rebuilds the previously active player workbench, so a reference answer can never become player evidence by UI side effect.
 
 ## Adding content built from existing mechanics

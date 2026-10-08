@@ -33,6 +33,7 @@ func _text_label(font_size: int, color: Color) -> Label:
 	return label
 
 func configure(map: Dictionary, data: Array, caption: String) -> void:
+	selected_address = -1; selected_record = -1; selected_field = -1
 	mapping = map; records = data; title = caption
 	_layout_text()
 

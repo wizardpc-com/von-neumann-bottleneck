@@ -874,7 +874,7 @@ func refresh() -> void:
 			rebuild_editor_preserving_inputs())
 	rules.clear()
 	var root: TreeItem = rules.create_item()
-	var displayed_rules: Dictionary = latest.get("recipe",latest.get("work",{}).get("recipe",{})).get("model",model)
+	var displayed_rules: Dictionary = {} if _unsupported_saved_recipe() else latest.get("recipe",latest.get("work",{}).get("recipe",{})).get("model",model)
 	for row: Dictionary in displayed_rules.get("rows",[]):
 		var item: TreeItem = rules.create_item(root)
 		item.set_text(0,Catalog.symbols(row.context) if not row.context.is_empty() else text2("全局回退","global fallback"))
@@ -903,9 +903,18 @@ func refresh() -> void:
 	refresh_cost_comparison()
 	if is_instance_valid(status): status.text = status_text
 
+func _unsupported_saved_recipe() -> bool:
+	var work: Dictionary = latest.get("work",{})
+	if work.is_empty(): return false
+	var recipe: Dictionary = work.get("recipe",{})
+	var model: Variant = recipe.get("model",{})
+	return recipe.get("version",0) != 1 or not model is Dictionary or model.get("version",0) != Model.VERSION or recipe.get("sampler_version","") != "integer-counts-v1" or recipe.get("prng_version","") != Model.PRNG_VERSION
+
 func measurement_text() -> String:
 	var lines := PackedStringArray()
 	var saved_work: Dictionary = latest.get("work",{})
+	if _unsupported_saved_recipe():
+		return text2("已保存作品：","Saved work: ")+str(saved_work.get("name",""))+"\n"+text2("作品 ID：","Work ID: ")+str(saved_work.get("id",""))+"\n"+text2("此配方版本暂不能解释；只展示已保存输出，不解析规则、起始片段或成本。","This recipe version cannot be interpreted here. Only saved output is shown; rules, initial passage and costs are not interpreted.")
 	var measured_recipe: Dictionary = latest.get("recipe",saved_work.get("recipe",{}))
 	if measured_recipe.has("model_id"):
 		lines.append(text2("这份结果的模型：","Result model: ")+str(measured_recipe.model_id))
@@ -1028,9 +1037,10 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 		captions = [text2("已揭晓真值 · 下一格仍封住","Revealed truth · next cell remains sealed"),text2("已提交预测 · ? 是起始上下文","Committed predictions · ? marks initial context"),text2("揭晓后修正 · 下划线是失配","Corrections after reveal · underline = mismatch")]
 	elif kind in ["generation","snapshot","replay"]:
 		var output: Array = latest.get("output",[])
-		var initial: Array = latest.get("recipe",latest.get("work",{}).get("recipe",{})).get("initial",[])
+		var initial: Array = [] if _unsupported_saved_recipe() else latest.get("recipe",latest.get("work",{}).get("recipe",{})).get("initial",[])
 		tracks = [comparison[0].get("output",[]) if comparison.size() == 2 and kind == "generation" else [],initial.duplicate(),output]
 		captions = [text2("前一份实测草稿（若有）","Previous measured draft (if any)"),text2("起始片段 · 不存在标准下一段","Initial passage · no standard continuation"),text2("你的实际光纹 · 可以留下","Your actual signal · yours to keep")]
+		if _unsupported_saved_recipe(): captions[1] = text2("配方暂不可解释 · 起始片段未展示","Recipe cannot be interpreted · initial passage not shown")
 		if kind == "generation" and not pinned_creation.is_empty():
 			tracks = [pinned_creation.output,initial.duplicate(),output]
 			captions = [text2("A · 已钉住的实际输出","A · pinned actual output"),text2("起始片段 · 无标准答案","Initial passage · no target answer"),text2("当前输出 · 下划线仅标记与 A 不同","Current output · underline = differs from A")]

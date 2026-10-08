@@ -828,3 +828,17 @@ that correctly activates candidate recovery protection, rather than a fresh prof
 
 Use `verify-creation-restart.py` after engine/GUI completion for independent-process
 save/fork/read. [Exact commands, retained intermediate failures and boundaries](../verification/20261008-creation-playable-loop/README.md).
+
+## Unsupported works, Layout previews and interrupted boards — 2026-10-08
+
+Run `test_creation_future_workbench`, `test_layout_preview_selection` and
+`test_workbench_interrupted_recovery` with the isolated verifier. The first writes
+real future-version QA recipes and verifies bilingual G3/Play/Focus, refused
+Replay/Fork and unchanged file bytes. Its opt-in `--creation-future-work-capture`
+renders four 1280×720 workbench views. Layout uses an actual official trace,
+field edit and history reselection. Core uses actual Store transaction bytes and
+HalfAdder truth-table verification, then ordinary GlobalSave provenance recovery;
+it covers damaged/future files and conflicting archives or recovery temporaries.
+These controller, renderer and fault fixtures do not establish native OS input.
+Relevant neighbors: Creation workbench/state/focus, Layout UI/trace storage,
+workbench write failure, GlobalSave and signature migration.

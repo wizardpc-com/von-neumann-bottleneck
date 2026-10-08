@@ -1,0 +1,51 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Overlap: viewport Ctrl+Z undoes the actual edit
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_redo_shortcuts.gd:7)
+       [1] run (res://tests/test_chapter_redo_shortcuts.gd:39)
+       [2] key (res://tests/test_chapter_redo_shortcuts.gd:16)
+ERROR: Overlap: bare Y, key release and echo cannot consume redo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_redo_shortcuts.gd:7)
+       [1] run (res://tests/test_chapter_redo_shortcuts.gd:43)
+       [2] key (res://tests/test_chapter_redo_shortcuts.gd:16)
+ERROR: Overlap: viewport Ctrl+Y gives focused text priority
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_redo_shortcuts.gd:7)
+       [1] run (res://tests/test_chapter_redo_shortcuts.gd:47)
+       [2] key (res://tests/test_chapter_redo_shortcuts.gd:16)
+ERROR: Overlap: open read-only Hint blocks design redo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_redo_shortcuts.gd:7)
+       [1] run (res://tests/test_chapter_redo_shortcuts.gd:57)
+       [2] key (res://tests/test_chapter_redo_shortcuts.gd:16)
+ERROR: Layout: viewport Ctrl+Z undoes the actual edit
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_redo_shortcuts.gd:7)
+       [1] run (res://tests/test_chapter_redo_shortcuts.gd:39)
+       [2] key (res://tests/test_chapter_redo_shortcuts.gd:16)
+ERROR: Layout: bare Y, key release and echo cannot consume redo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_redo_shortcuts.gd:7)
+       [1] run (res://tests/test_chapter_redo_shortcuts.gd:43)
+       [2] key (res://tests/test_chapter_redo_shortcuts.gd:16)
+ERROR: Layout: viewport Ctrl+Y gives focused text priority
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_redo_shortcuts.gd:7)
+       [1] run (res://tests/test_chapter_redo_shortcuts.gd:47)
+       [2] key (res://tests/test_chapter_redo_shortcuts.gd:16)
+ERROR: Layout: open read-only Hint blocks design redo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_redo_shortcuts.gd:7)
+       [1] run (res://tests/test_chapter_redo_shortcuts.gd:57)
+       [2] key (res://tests/test_chapter_redo_shortcuts.gd:16)
+FAIL: ["Overlap: viewport Ctrl+Z undoes the actual edit", "Overlap: bare Y, key release and echo cannot consume redo", "Overlap: viewport Ctrl+Y gives focused text priority", "Overlap: open read-only Hint blocks design redo", "Layout: viewport Ctrl+Z undoes the actual edit", "Layout: bare Y, key release and echo cannot consume redo", "Layout: viewport Ctrl+Y gives focused text priority", "Layout: open read-only Hint blocks design redo"]

@@ -1,0 +1,80 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T212445Z-5398544c/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T212445Z-5398544c/user_directory"
+    },
+    {
+      "name": "test_chapter_redo_shortcuts",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Overlap: viewport Ctrl+Z undoes the actual edit",
+        "ERROR: Overlap: bare Y, key release and echo cannot consume redo",
+        "ERROR: Overlap: viewport Ctrl+Y gives focused text priority",
+        "ERROR: Overlap: open read-only Hint blocks design redo",
+        "ERROR: Layout: viewport Ctrl+Z undoes the actual edit",
+        "ERROR: Layout: bare Y, key release and echo cannot consume redo",
+        "ERROR: Layout: viewport Ctrl+Y gives focused text priority",
+        "ERROR: Layout: open read-only Hint blocks design redo",
+        "FAIL: [\"Overlap: viewport Ctrl+Z undoes the actual edit\", \"Overlap: bare Y, key release and echo cannot consume redo\", \"Overlap: viewport Ctrl+Y gives focused text priority\", \"Overlap: open read-only Hint blocks design redo\", \"Layout: viewport Ctrl+Z undoes the actual edit\", \"Layout: bare Y, key release and echo cannot consume redo\", \"Layout: viewport Ctrl+Y gives focused text priority\", \"Layout: open read-only Hint blocks design redo\"]"
+      ],
+      "log": "test_chapter_redo_shortcuts.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T212445Z-5398544c/test_chapter_redo_shortcuts"
+    },
+    {
+      "name": "test_desktop_conventions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_desktop_conventions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T212445Z-5398544c/test_desktop_conventions"
+    },
+    {
+      "name": "test_layout_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T212445Z-5398544c/test_layout_navigation"
+    },
+    {
+      "name": "test_layout_recipe_sources",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_recipe_sources.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T212445Z-5398544c/test_layout_recipe_sources"
+    },
+    {
+      "name": "test_layout_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T212445Z-5398544c/test_layout_ui"
+    },
+    {
+      "name": "test_overlap_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_overlap_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T212445Z-5398544c/test_overlap_ui"
+    }
+  ]
+}

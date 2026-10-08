@@ -2,7 +2,24 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current recovery and compatibility checkpoint — 2026-10-08
+## Current keyboard checkpoint — 2026-10-08
+
+Runtime `ade587d50e02`, branch `codex/mac-second-act-20261005`: Chapter3/4 now support
+documented Ctrl+Y redo through existing transactions, with text/Hint/event boundaries
+and Ctrl/Cmd+ShiftZ preserved. No simulation/schema/gate/geometry change.
+
+Godot **4.7.1 stable**, original assets: six distinct affected suites finalPASS;
+new14checks both headless and actual rendered viewportPASS after retained test-only
+Mac modifier correction. Three scripts equal importedcopy/commit. Pre-existing
+four desktop anchor warnings retained; no new script errors.
+[Exact evidence and requirement review](verification/20261008-draft-and-wider-routes/keyboard-redo/README.md).
+
+Internal Mac `build/free-alpha-ade587d50e02/macOS/Von-Neumann-Bottleneck.app`, profile
+`Redo-ade587d`: export/identity/strictcodesign and16 actual binarychecksPASS.
+FreshCUA Maclocked, native input NOT_RUN. Blind learner/listening/artistic/device/
+Windows/formal-distribution acceptance remains open; broad whole-game goal active.
+
+## Previous recovery and compatibility checkpoint — 2026-10-08
 
 Runtime `6027e25626d4`, branch `codex/mac-second-act-20261005`: future recipe works
 remain readable without interpreting unknown rules, initial context or costs;

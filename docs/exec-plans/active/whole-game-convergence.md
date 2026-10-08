@@ -162,3 +162,17 @@ bound across the whole round; other metric tampering still fails. No schema chan
 Tests cover exact resource boundary, preserved active round on failure, frozen
 machine, future/readonly protection and original candidate payload compatibility.
 Service uses concise display precision while retaining raw costs/thresholds/events.
+
+
+Selected-work checkpoint verified runtime ebcf7df2dbd0. All workers released;
+root sole Git/Godot/GUI.14 distinct affected suites PASS with retained initial
+fixtures/rounding failures; final G2 bilingual actual input101checks and four1280
+captures PASS; Service review26checks/two1280captures PASS. Independent write/
+fork/read3processes preserve the latest actual confirmed G2/G3 and exact originals;
+first original-vs-fork assertion failure retained and corrected. Nine changed
+script identities equal verified QA/commit. Frozen Mac Choice-ebcf7df export,
+identity/codesign and16binary checks PASS. Evidence appended under existing dated
+bundle selected-work/. Current G2 completion mismatch closed compatibly; no main/
+public distribution or real-save changes. Goal active for native/human/artistic/
+listening/device acceptance; concrete progress resets any blocked audit. Root
+prepares evidence/status commit and authorized developer push, preserving4dirt.

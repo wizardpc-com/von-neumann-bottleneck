@@ -3,7 +3,20 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current draft and wider-route checkpoint — 2026-10-08
+## Current confirmed-work checkpoint — 2026-10-08
+
+Runtime `ebcf7df2dbd0` / `free-alpha-ebcf7df2dbd0` is the current internal Mac
+candidate. The previously open G2 mismatch is resolved: actual confirmed legal
+work completes G2/G3 without compulsory output variation; legacy records retain
+strictly validated progress. Bounded prediction residency and readable Service
+summaries are verified.14 distinct affected suites,101 G2 viewport checks,26
+Service review checks, three independent Creation processes and16 actual binary
+checks PASS; export/identity/codesign PASS. Intermediate failures remain recorded.
+Native OS input remains NOT_RUN (prior Mac locked); blind novice understanding,
+listening/artistic/device/Windows and formal distribution gates remain open.
+Broad goal stays active. [Exact evidence](docs/verification/20261008-draft-and-wider-routes/selected-work/README.md).
+
+## Previous draft and wider-route checkpoint — 2026-10-08
 
 Runtime `db104d3688d1` / `free-alpha-db104d3688d1` is the latest internal Mac
 candidate. Draft ownership/Undo, saved-work closing actions and physical Layout

@@ -1,0 +1,118 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/user_directory"
+    },
+    {
+      "name": "test_completion_service_clarity",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_service_clarity.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_completion_service_clarity"
+    },
+    {
+      "name": "test_creation_choice_completion",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_choice_completion.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_choice_completion"
+    },
+    {
+      "name": "test_creation_comparison",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_comparison.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_comparison"
+    },
+    {
+      "name": "test_creation_contract",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Practice switch rejects insufficient memory",
+        "ERROR: Rejected switch atomically preserves all active round state",
+        "ERROR: Pending old guess reveals safely against old truth",
+        "FAIL: creation contract [\"Practice switch rejects insufficient memory\", \"Rejected switch atomically preserves all active round state\", \"Pending old guess reveals safely against old truth\"]"
+      ],
+      "log": "test_creation_contract.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_contract"
+    },
+    {
+      "name": "test_creation_draft_undo",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_draft_undo.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_draft_undo"
+    },
+    {
+      "name": "test_creation_measured_closure",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_measured_closure.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_measured_closure"
+    },
+    {
+      "name": "test_creation_prediction_flow",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_prediction_flow.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_prediction_flow"
+    },
+    {
+      "name": "test_creation_prediction_memory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_prediction_memory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_prediction_memory"
+    },
+    {
+      "name": "test_creation_route_flow",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_route_flow.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_route_flow"
+    },
+    {
+      "name": "test_creation_state_regressions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_state_regressions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_creation_state_regressions"
+    },
+    {
+      "name": "test_service_number_display",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Rounding carries to the next exponent",
+        "FAIL: test_service_number_display 24 checks, 1 failures"
+      ],
+      "log": "test_service_number_display.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T195800Z-decb1d29/test_service_number_display"
+    }
+  ]
+}

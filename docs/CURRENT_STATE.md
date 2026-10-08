@@ -2,7 +2,33 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current draft and wider-route checkpoint — 2026-10-08
+## Current confirmed-work checkpoint — 2026-10-08
+
+Runtime `ebcf7df2dbd0` on `codex/mac-second-act-20261005` closes G2/G3 when the
+player actually confirms one legal work. Output variation is optional; repeated
+works remain legitimate. Failed saves roll back completion and works together;
+strictly verified historical G2 payloads retain their progress. Prediction cache
+residency uses available model rows, with exact replay compatibility for old
+conservative costs. Service summaries use readable precision while raw evidence
+and acceptance thresholds remain unchanged.
+
+Godot **4.7.1 stable**, original assets:14 distinct affected suites PASS after
+recorded repairs; import/isolation PASS. Final bilingual G2 viewport input101
+checks/four1280×720 views and Service review26 checks/two1280×720 views PASS.
+Three independent Creation write/fork/read processes preserve the latest chosen
+completion and exact original/fork recipes. All nine changed script identities
+match committed source and verified copy. Earlier full baseline/wider routes were
+not repeated; intermediate assertion and nonminimum capture failures are retained.
+
+Current internal Mac candidate:
+`build/free-alpha-ebcf7df2dbd0/macOS/Von-Neumann-Bottleneck.app`, isolated profile
+`Choice-ebcf7df`; export/archive identity,16 actual binary checks and strict
+codesign PASS. [Exact scope and evidence](verification/20261008-draft-and-wider-routes/selected-work/README.md).
+The prior G2 legacy completion mismatch is resolved in current source. Native
+OS input, blind novice understanding, listening/artistic effect, other devices/
+Windows and formal distribution remain unverified; the broad goal remains active.
+
+## Previous draft and wider-route checkpoint — 2026-10-08
 
 Runtime `db104d3688d1`, branch `codex/mac-second-act-20261005`: Creation has
 24-step transient draft/model Undo/Redo, constantly visible authoritative cost

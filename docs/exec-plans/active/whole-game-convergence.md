@@ -354,3 +354,26 @@ export/archiveidentity/strictcodesign/actualbinary16checks PASS. Sixscript hashe
 equal QA/commit. Evidence recovery-compatibility/ retains initial failures and four
 1280views; freshMaclocked record. Rootfinishes scoped evidence/status and authorized
 developerpush, then releasesfiles. Goalactive/progress, no main/publicrelease.
+
+## Documented redo shortcut follow-up
+
+Atd7f69f5 previousgoalturn repair/verification/export/push is progress. Fresh
+requirements audit rereads handoff README/supplementary execution+playtest checklist
+and Constitution with actual current sources. Creation/Representation/Service
+ordinary player-path static audits find no new concrete defect; those are not
+native/novice acceptance. Navigation audit identifies documented Ctrl+Y absent in
+Overlap/Layout, while buttons and ShiftZ work. navigationworker owns both hosts
+and newtest; root soleGit/engine/GUI/docs. Preserve existing text, Hint and key
+press/echo boundaries, all design/history/simulation authority. No schema/model/
+gate change. Verify real edit→viewport Z→Y restores exact design and relevant UI/
+Undo neighbors only; matching committed Mac, evidence and authorizeddevpush.
+Originalfourcollaboratorfiles preserved. Complete goal remains unproven while
+native/human/listening/artistic/device acceptance is missing; no scope expansion.
+
+Six distinct affected suites finalPASS; new shortcut14checks headless and rendered
+viewportPASS after retained test-only Mac CtrlZ/Meta correction. Five UI/navigation/
+desktop neighbors PASS; pre-existing four unequal-anchor warnings retained. Root
+reviews tiny runtime diff; all3script hashes equal importedcopy. No geometrychange
+or redundantcaptures/fullsimulationrepeat. FreshCUA stillMaclocked. Corrected stale
+content-system limitation to actualGlobalSave writes2/reads1, no formatcodechange.
+Root freezes source, matchinginternalMac and evidence/devpush; broadgoal active.

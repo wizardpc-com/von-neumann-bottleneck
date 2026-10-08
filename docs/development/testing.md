@@ -842,3 +842,13 @@ it covers damaged/future files and conflicting archives or recovery temporaries.
 These controller, renderer and fault fixtures do not establish native OS input.
 Relevant neighbors: Creation workbench/state/focus, Layout UI/trace storage,
 workbench write failure, GlobalSave and signature migration.
+
+## Chapter keyboard redo — 2026-10-08
+
+`test_chapter_redo_shortcuts` dispatches real viewport InputEventKey events after
+ordinary Overlap buffer placement and Layout field editing. It checks Ctrl+Z,
+Ctrl+Y and existing Ctrl+Shift+Z against exact board/design snapshots, plus bareY,
+release/echo, focused text and read-only Hint protection. These synthetic viewport
+events establish handler behavior, not native Windows/Mac keyboard operation.
+Relevant neighbors: overlap_ui, layout_ui/navigation/recipe_sources and desktop
+conventions. No new geometry or simulation changes require repeated screenshots.

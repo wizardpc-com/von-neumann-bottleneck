@@ -487,6 +487,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var focus: Control = get_viewport().gui_get_focus_owner()
 	if focus is LineEdit or focus is TextEdit: return
 	if event.is_command_or_control_pressed() and event.keycode == KEY_Z: _undo(event.shift_pressed); get_viewport().set_input_as_handled()
+	elif event.ctrl_pressed and event.keycode == KEY_Y: _undo(true); get_viewport().set_input_as_handled()
 func _panel(id: String, caption: String, at: Vector2, dimensions: Vector2) -> FloatingInstrumentPanel:
 	var panel := Instrument.new(); panel.custom_minimum_size=Vector2(280,190); panel.setup(StringName(id),caption)
 	panel.position=at; panel.size=dimensions; workspace.add_child(panel); panels[id]=panel

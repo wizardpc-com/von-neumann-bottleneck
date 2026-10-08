@@ -144,7 +144,7 @@ Continue routes to the deepest valid chapter map. It does not resume an exact sc
 ## Current limitations
 
 - Current reusable definitions preserve a player circuit snapshot/signature, but opaque placement still selects one of the trusted built-in behavior kinds. Arbitrary recursively nested player-defined components are not implemented.
-- The global save supports schema 1 only; unknown future schemas fail closed. Named workbench topology remains a separate version-2 seed-fingerprinted disk snapshot with a bounded version-1 migration. There is no cloud sync, save-slot UI, general migration framework, mod loader, workshop, or untrusted content execution.
+- The global recovery index writes schema 2 and reads supported schema 1 records; unknown future schemas, writer revisions and fields fail closed. The filename remains `savegame_v1.json`. Named workbench topology remains a separate version-2 seed-fingerprinted disk snapshot with a bounded version-1 migration. There is no cloud sync, save-slot UI, general migration framework, mod loader, workshop, or untrusted content execution.
 - Workbenches can currently be created and switched but not renamed, deleted, shared, or exported.
 - The Hardware Foundations scene controller is still large. Campaign knowledge has moved out, but view extraction should be driven by measured change pressure rather than a broad rewrite.
 - New storage timing, bus contention, Cache behavior, or locality objectives require explicit deterministic domain design. The bounded Chapter 1 system domain and Chapter 2 locality domain reuse Test Bench/player-evidence patterns where natural without becoming a speculative universal simulator.

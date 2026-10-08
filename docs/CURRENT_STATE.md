@@ -2,7 +2,29 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current measured-result and closure checkpoint — 2026-10-08
+## Current displayed-source checkpoint — 2026-10-08
+
+Runtime `7c7f8f06f8e2`, branch `codex/mac-second-act-20261005`: selected saved-work
+snapshot/replay owns visible output even inside P tasks with retained prediction.
+Commit/Reveal resumes that round intact. System Trace source highlighting binds
+to exact executed text; real draft insertion clears shifted backgrounds without
+moving its caret or changing measured Trace, metrics, receipts or cost history.
+No simulation/save-schema/original forty-task gate change.
+
+Godot **4.7.1 stable**, original assets: seven distinct affected suites PASS;
+final Creation renderer218checks/eight1280×720 capture identities and real editable
+CodeEdit source46checks PASS after retained failures. Four changed scripts equal
+verified project/commit. Prior full baseline, journeys and restarts remain separate.
+[Exact evidence](verification/20261008-draft-and-wider-routes/display-sources/README.md).
+
+Current internal Mac candidate:
+`build/free-alpha-7c7f8f06f8e2/macOS/Von-Neumann-Bottleneck.app`, isolated profile
+`Sources-7c7f8f0`; export/archive identity, strict codesign and16 actual binary
+checks PASS. Fresh CUA inventory: Mac locked; native interaction remains unverified.
+Blind novice/listening/artistic/device/Windows/formal distribution acceptance
+remains open. Broad whole-game goal active.
+
+## Previous measured-result and closure checkpoint — 2026-10-08
 
 Runtime `e7894522c40b`, branch `codex/mac-second-act-20261005`: Creation revisits
 retain the displayed result's preparation/model identity after keeping A or

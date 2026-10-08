@@ -1,0 +1,37 @@
+[
+  {
+    "name": "work-view-render",
+    "suite": "test_creation_prediction_work_view",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_creation_prediction_work_view.gd",
+      "--",
+      "--creation-prediction-work-capture"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "source-insert-final",
+    "suite": "test_system_trace_source_binding",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_system_trace_source_binding.gd"
+    ],
+    "exit": 1,
+    "errors": [
+      "ERROR: zh_CN: insertion leaves no source background on a shifted line",
+      "ERROR: en: insertion leaves no source background on a shifted line",
+      "FAIL: [\"zh_CN: insertion leaves no source background on a shifted line\", \"en: insertion leaves no source background on a shifted line\"]"
+    ],
+    "passed": false
+  }
+]

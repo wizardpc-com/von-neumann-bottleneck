@@ -3,7 +3,18 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current measured-result and closure checkpoint — 2026-10-08
+## Current displayed-source checkpoint — 2026-10-08
+
+Runtime `7c7f8f06f8e2` / `free-alpha-7c7f8f06f8e2` is the current internal Mac
+candidate. Explicit saved-work display inside retained prediction tasks and actual
+CodeEdit/Trace source binding are verified. Seven distinct suites,218 renderer
+checks/eight1280 capture identities,46 source checks and16 actual binary checks
+PASS; export/identity/codesign PASS. Genuine shifted-background failure retained.
+Fresh CUA inventory Maclocked: native interaction NOT_RUN. Blind novice/listening/
+artistic/device/Windows/formal distribution gates remain open; broad goal active.
+[Exact evidence](docs/verification/20261008-draft-and-wider-routes/display-sources/README.md).
+
+## Previous measured-result and closure checkpoint — 2026-10-08
 
 Runtime `e7894522c40b` / `free-alpha-e7894522c40b` is the current internal Mac
 candidate. Frozen preparation attribution, restored Locality Before and timed

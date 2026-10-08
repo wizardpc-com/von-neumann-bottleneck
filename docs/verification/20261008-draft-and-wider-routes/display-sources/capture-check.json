@@ -1,0 +1,90 @@
+[
+  {
+    "capture": "finished-replay-en.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_kind": "replay",
+    "pending": false,
+    "finished": true,
+    "source": "fixture-driven controller; no native pointer acceptance"
+  },
+  {
+    "capture": "finished-replay-zh.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_kind": "replay",
+    "pending": false,
+    "finished": true,
+    "source": "fixture-driven controller; no native pointer acceptance"
+  },
+  {
+    "capture": "finished-snapshot-en.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_kind": "snapshot",
+    "pending": false,
+    "finished": true,
+    "source": "fixture-driven controller; no native pointer acceptance"
+  },
+  {
+    "capture": "finished-snapshot-zh.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_kind": "snapshot",
+    "pending": false,
+    "finished": true,
+    "source": "fixture-driven controller; no native pointer acceptance"
+  },
+  {
+    "capture": "pending-replay-en.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_kind": "replay",
+    "pending": true,
+    "finished": false,
+    "source": "fixture-driven controller; no native pointer acceptance"
+  },
+  {
+    "capture": "pending-replay-zh.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_kind": "replay",
+    "pending": true,
+    "finished": false,
+    "source": "fixture-driven controller; no native pointer acceptance"
+  },
+  {
+    "capture": "pending-snapshot-en.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_kind": "snapshot",
+    "pending": true,
+    "finished": false,
+    "source": "fixture-driven controller; no native pointer acceptance"
+  },
+  {
+    "capture": "pending-snapshot-zh.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_kind": "snapshot",
+    "pending": true,
+    "finished": false,
+    "source": "fixture-driven controller; no native pointer acceptance"
+  }
+]

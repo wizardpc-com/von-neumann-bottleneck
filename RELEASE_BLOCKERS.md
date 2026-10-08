@@ -18,7 +18,11 @@ four desktop anchor warnings retained; no new script errors.
 Internal Mac `build/free-alpha-ade587d50e02/macOS/Von-Neumann-Bottleneck.app`, profile
 `Redo-ade587d`: export/identity/strictcodesign and16 actual binarychecksPASS.
 FreshCUA Maclocked, native input NOT_RUN. Blind learner/listening/artistic/device/
-Windows/formal-distribution acceptance remains open; broad whole-game goal active.
+Windows/formal-distribution acceptance remains open. Execution is blocked on
+external acceptance: three consecutive goal-turn native inventories report the
+Mac locked, and no new located implementation defect remains after the latest
+repair. The whole-game objective is unproven; this is not completion. Unlocking
+the Mac enables the next native journey check. Current runtime/package is unchanged.
 
 ## Previous recovery and compatibility checkpoint — 2026-10-08
 

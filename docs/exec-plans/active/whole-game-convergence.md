@@ -384,3 +384,33 @@ Requirement-review maps source scopes to existing proof and openhuman/native gat
 no new concrete domain defect fromthreeaudits besides correctedCtrlY. Rootfinish
 evidence/status/devpush; allfilesreleased, originalfourpreserved. Goalactive,
 progress thisturn; do not substitute technical count forwholegame acceptance.
+
+## External acceptance blocker audit — 2026-10-08
+
+Atdda7af0 the previous turn is progress: actualCtrlY repair, freshviewport checks,
+matchingMac and confirmedpush. This turn rereads liveGit/status, requirement review,
+Creation M2/M3/finaldeliverables, Constitution12/13 and retained chosenwork artifacts.
+Current28payload hashes equal committedHEAD; actualbinary result and finalshortcut
+results remainPASS. The same Maclocked nativeinventory error is confirmed again,
+after the recovery and keyboard turns' independent observations (three consecutive
+goalturns). Ordinary source audits of Creation, Representation/Service and navigation
+have no remaining located implementation defect after the verified CtrlY repair.
+This is not proof the fullgame is bug-free or the goalcomplete.
+
+No ongoingengine/build/check processes: initial sandbox processinventory unavailable,
+authorized specificpgrep succeeds with exit1/no matches; allknown QA/Git sessions
+terminal. Remote exactdda7af0 verified. Repeating those checks, generating another
+identical package or adding speculativefeatures would not supply missing proof.
+Native mouse/keyboard/fulljourney needs an unlockedMac; independent learner,
+listening/artistic and device evidence needs appropriate externalobservation.
+No productiondata or systemsecurity changes can substitute. ExistingM3 explicitly
+allows boundedcandidate development whilehumanproof ispending; this candidate work
+is delivered, while the user's broader wholegame objective remainsunproven.
+
+Execution is blocked on externalacceptance access; keep fullobjective intact and
+request goalstatus blocked after recording/pushing this audit. Do not markcomplete,
+shrinksuccess or claim automaticresumption. Resume whenMac is unlocked and user
+requestscontinuedwork: soleGUI runner uses frozenade587d50e02/Redo-ade587d, performs
+native C→P→G/save/reopen plus original/candidate paths, repairs observedfailures,
+then finishes remaining layeredacceptance. Originalfourcollaboratorfiles preserved,
+no runtimechange, no newpackage, no main/publicrelease.

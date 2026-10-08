@@ -1893,6 +1893,7 @@ func _is_automated_workbench_session() -> bool:
 
 
 func _return_to_prototype_hub() -> void:
+	if _seal_navigation_busy(): return
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"hardware_foundations", current_level_id, &"chapter_selection")
 	_save_active_workbench()
@@ -2025,6 +2026,7 @@ func _on_workbench_menu_item_pressed(item_id: int) -> void:
 
 
 func _show_new_workbench_dialog(blank: bool = false) -> void:
+	if _seal_navigation_busy(): return
 	new_workbench_blank = blank
 	if workbench_name_dialog == null or active_workbench_name.is_empty():
 		return
@@ -2044,6 +2046,7 @@ func _confirm_new_workbench() -> void:
 
 
 func _create_named_workbench(raw_name: String, blank: bool = false) -> bool:
+	if _seal_navigation_busy(): return false
 	if hint_mode or current_level_id.is_empty() or workbench_seed_snapshot.is_empty():
 		return false
 	_save_active_workbench()
@@ -2067,6 +2070,7 @@ func _create_named_workbench(raw_name: String, blank: bool = false) -> bool:
 
 
 func _switch_workbench(workbench_name: String) -> bool:
+	if _seal_navigation_busy(): return false
 	if hint_mode or workbench_name.is_empty() or workbench_name == active_workbench_name:
 		return false
 	_save_active_workbench()
@@ -2411,6 +2415,7 @@ func _on_hint_button_pressed() -> void:
 
 
 func _enter_hint_workbench() -> void:
+	if _seal_navigation_busy(): return
 	if official_sequence_active \
 		or current_level_id.is_empty() \
 		or current_phase not in [&"tutorial", &"half_adder", &"prologue"]:
@@ -5487,6 +5492,13 @@ func _editor_locked() -> bool:
 		or current_phase in [&"sealed", &"campaign", &"prologue_complete"]
 
 
+func _seal_navigation_busy() -> bool:
+	if not sealing: return false
+	status_label.text = _t(&"hardware.status.sealing")
+	status_label.add_theme_color_override("font_color", PURPLE)
+	return true
+
+
 func _view_navigation_locked() -> bool:
 	return sealing or current_phase in [&"campaign", &"prologue_complete"]
 
@@ -6527,6 +6539,7 @@ func _build_sealed_graph() -> void:
 
 
 func _open_campaign_map() -> void:
+	if _seal_navigation_busy(): return
 	_dismiss_level_completion()
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"hardware_foundations", current_level_id, &"map")
@@ -6708,6 +6721,7 @@ func _level_display_name(level_id: StringName) -> String:
 
 
 func _start_campaign_level(level_id: StringName, show_briefing: bool = true) -> void:
+	if _seal_navigation_busy(): return
 	if not _is_level_unlocked(level_id):
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)
@@ -6742,6 +6756,7 @@ func _finish_replay_entry(level_id: StringName) -> void:
 
 
 func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> void:
+	if _seal_navigation_busy(): return
 	if not _is_level_unlocked(level_id):
 		status_label.text = _t(&"hardware.prologue.map.locked")
 		status_label.add_theme_color_override("font_color", BAD)

@@ -70,6 +70,14 @@ advance and rejection is recorded; rendering has no access to this random state.
 Application completion and prediction residency
 ----------------------------------------------
 
+Displayed preparation belongs to the measured result. Ordinary generation carries
+its complete learning record; saved snapshots/replays use the protected work's
+record and transport uses its recorded preparation. Revisiting B after keeping A
+or learning C must retain B's preparation and show B's model identity. Prediction
+without a preparation snapshot may display the current learning record only when
+its model identity matches the frozen prediction model. Viewing evidence never
+changes protected works or charges preparation again.
+
 G1 observes a legal generated result. G2 denotes the player's confirmed selection;
 G3 preserves that actual chosen work/recipe. One successful transactional Keep can
 complete G2 and G3. Optional fixed-seed comparison explains interventions but is not

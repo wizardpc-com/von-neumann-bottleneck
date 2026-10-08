@@ -732,7 +732,7 @@ func generate_work() -> void:
 	if not result.get("ok",false):
 		set_status(text2("生成未完成：","Generation failed: ")+failure_text(result))
 		return
-	latest = result.duplicate(true)
+	latest = session.generated.duplicate(true)
 	latest.kind = "generation"
 	set_evidence_expanded(false)
 	if not pinned_creation.is_empty():
@@ -906,7 +906,23 @@ func refresh() -> void:
 func measurement_text() -> String:
 	var lines := PackedStringArray()
 	var saved_work: Dictionary = latest.get("work",{})
-	var training: Dictionary = saved_work.get("training",{}).get("cost",{}) if not saved_work.is_empty() else session.data.get("training",{}).get("cost",{})
+	var measured_recipe: Dictionary = latest.get("recipe",saved_work.get("recipe",{}))
+	if measured_recipe.has("model_id"):
+		lines.append(text2("这份结果的模型：","Result model: ")+str(measured_recipe.model_id))
+	var training: Dictionary = {}
+	if not saved_work.is_empty():
+		training = saved_work.get("training",{}).get("cost",{})
+	elif latest.get("kind","") == "generation":
+		training = latest.get("training",{}).get("cost",{})
+	elif latest.get("kind","") == "transport":
+		training = latest.get("preparation",{})
+	else:
+		# Prediction carries a frozen model identity, but no preparation snapshot.
+		# Only show the current record when it is known to belong to that model.
+		var measured_model: Dictionary = latest.get("recipe",{}).get("model",latest.get("model",session.data.get("model",{})))
+		var preparation: Dictionary = session.data.get("training",{})
+		if not measured_model.is_empty() and preparation.get("model_id","") == Model.identity(measured_model):
+			training = preparation.get("cost",{})
 	if not training.is_empty(): lines.append(text2("已记录准备（不每次重收）：","Recorded preparation (not charged again): ")+cost_text(training))
 	var model: Dictionary = latest.get("recipe",saved_work.get("recipe",{})).get("model",session.data.get("model",{}))
 	if latest.get("kind","") == "snapshot":

@@ -214,3 +214,41 @@ models/core40 change. Evidence edit-recovery/ appended under dated existingbundl
 Goal active, previous and currentturn are real progress; native/human/audio/
 artistic/device/formalrelease remain unverified. Root finishes status/evidence
 commit and userauthorized developerpush.
+
+
+## Frozen preparation, restored baselines and encapsulation boundaries
+
+At8b7db67 prior turn is progress: actual edits/renderer/export/remote evidence.
+Fresh CUA inventory still reports Maclocked; no native input executed. Root sole
+Git/Godot/GUI/docs; creationworker owns workbench+newpreparationbindingtest,
+serviceworker HardwareFoundations+newsealnavigationtest, navworker localityUI
+main.gd+newrestoredbaselinetest. No shared runtimefile edits, no worker engines.
+Preserve4originalcollaboratorfiles. Root integration/necessaryverification only.
+
+Static paths identify three concrete failures to reproduce and repair. Frozen
+A/B output revisit can display currentA/C training costs as B preparation; bind
+actual generation's own training snapshot, keeping savedwork/replay contracts.
+Locality UI restoration pop_front loses the genuine capstone baseline once
+savedreceipt history exceeds8; use existing live remove_at(1) trimming rule so
+Before source/cycles remain stable. Encapsulation closes its success overlay while
+1.55s effect is still sealing; board/Hint/map navigation can clear the authoritative
+pending snapshot/definition, leading to wrong completion or nullHalfAdder path.
+Guard these replacing navigation entries for the existing short transaction;
+keep simulation/earned component semantics and fileformats unchanged.
+
+Targeted affected suites first; actual generation A/B data, capstone receipts and
+formal FullAdder pass/seal fixtures, then necessary renderer checks. Do not repeat
+fullbaseline, modelcalibrations or priorwiderjourneys without a newreason. Frozen
+matching Mac candidate and authorized devcommit/push after coherent verification.
+
+
+Boundary runtime review complete. Ten distinct affected suites PASS: eight in the
+initial focused run; preparation final renderer47checks/fouractual1280views and
+FullAdder seal final25checks PASS after correcting test-only ordering/prerequisite
+fixtures. Initial failures and the fixture timeout remain retained. Locality15
+checks use nine real official receipts and actual tree re-entry. Independent
+read-only review found no blocker. Root soleGit/engine; workers released. Six
+GDScripts will be checked against the imported copy and commit before packaging.
+No simulation/state/schema/core40 rewrite, protected work bytes preserved. Prior
+baseline/wider journeys remain separate. Root builds matching internal Mac,
+records scoped evidence and pushes authorized development branch; goal active.

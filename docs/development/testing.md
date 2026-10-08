@@ -8,6 +8,16 @@ assertions intentionally require no prior acknowledgement. See
 
 ## Continuous signal candidate
 
+The boundary follow-up adds `test_creation_preparation_binding`,
+`test_locality_restored_baseline` and `test_hardware_seal_navigation` to the isolated
+verifier. They cover frozen A/B preparation after Keep/relearning, nine actual
+official capstone receipts through task-tree re-entry, and actual FullAdder
+verification/timed encapsulation through attempted board/Hint/map/Home changes.
+Prerequisite access in the latter two is an explicit fixture, not an earned journey.
+`test_creation_preparation_binding -- --creation-preparation-capture --capture-size=1280x720`
+renders four bilingual measured B views in a fresh QA profile. These controller
+fixtures prove result attribution and renderer bounds, not native pointer input.
+
 `test_creation_edit_controls` covers the existing16-example save bound, protected
 full-selection work and unsubmitted/invalid inputs across task/language rebuilds.
 Its `-- --creation-edit-capture --capture-size=1280x720` renderer mode exercises

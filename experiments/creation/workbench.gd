@@ -42,6 +42,10 @@ var causal_tabs: TabContainer
 var focused_cell: int = -1
 var focused_lane: int = 2
 var focused_source: String = ""
+var observation_anchor: Dictionary = {}
+var inspected_context: Array = []
+var inspected_counts: Array = []
+var restoring_observation: bool = false
 var inspector: Label
 var costs: Label
 var events: Tree
@@ -73,6 +77,7 @@ var cost_comparison_status: Label
 var cost_comparison_view: Control
 var cost_comparison_details: Label
 var recovery_dialog: ConfirmationDialog
+var writer_dialog: ConfirmationDialog
 var leave_dialog: ConfirmationDialog
 
 func text2(zh: String, en: String) -> String:
@@ -188,9 +193,9 @@ func build() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button("中文 / EN","Language",header,toggle_language)
 	button(text2("保存草稿","Save draft"),"SaveDraft",header,save_draft).disabled = not writable
-	if not recovery_choices.is_empty(): button(text2("恢复候选档","Recover profile"),"RecoverProfile",header,func() -> void: recovery_dialog.popup_centered(Vector2i(620,280)))
 	button(text2("返回旅程","Journey"),"Journey",header,func() -> void: request_leave(true))
 	button(text2("退出","Quit"),"Quit",header,func() -> void: request_leave(false))
+	if not writable: _build_writer_controls(page)
 	var navigation := HBoxContainer.new()
 	page.add_child(navigation)
 	task_choice = OptionButton.new()
@@ -534,6 +539,8 @@ func set_status(value: String) -> void:
 
 func failure_text(result: Dictionary) -> String:
 	var code: String = str(result.get("error","unknown"))
+	if code == "work_limit": return text2("作品库已满（12件）。本次生成仍保留在草稿中。", "The collection is full (12 works). This generation remains in the draft.")
+	if code == "name": return text2("作品名称须包含1–80个字符。", "A work name must contain 1–80 characters.")
 	var messages: Dictionary = {"restore_first":text2("请先用当前模型成功复原一次原文。","Restore a source successfully with the current model first."),"predict_first":text2("请先用当前模型完成一次提交／揭晓，再接上回灌。","Complete a commit/reveal stream with the current model before connecting feedback."),"mode":text2("请先主动连接本章的输入模式。","Connect this chapter's input mode explicitly."),"memory_limit":text2("这台机器内存不足；提高公开内存预算或减少样例/输出。","This machine lacks memory; increase its public budget or reduce examples/output."),"work_index":text2("先在作品列表选中一件作品。","Select a work from the collection first."),"generate_first":text2("配方已改变。请运行新的生成，再确认保存。","The recipe changed. Generate again before confirming a saved work."),"training_bounds":text2("选择1–16段合法样例，再学习。","Select 1–16 valid examples before learning.")}
 	return str(messages.get(code,code))+(" ("+str(result.required_bytes)+" B)" if result.has("required_bytes") else "")
 
@@ -556,7 +563,15 @@ func train_model() -> void:
 	set_status(text2("新模型来自所选样例。准备费用与计数更新均已记录。","New rules were learned from selected examples. Preparation cost and count updates are recorded."))
 	refresh()
 	refresh_tracks()
-	causal_panel.show_evidence(Explanation.training(latest.rule_changes,english),{"rule_changes":latest.rule_changes})
+	var training_summary: String = Explanation.training(latest.rule_changes,english)
+	if not observation_anchor.is_empty():
+		var context: Array = observation_anchor.get("context",[])
+		var before_counts: Array = observation_anchor.get("counts",[]).duplicate()
+		var after_counts: Array = []
+		for row: Dictionary in result.model.get("rows",[]):
+			if row.context == context: after_counts = row.counts.duplicate()
+		training_summary = text2("保留第 %d 格观察：上次上下文 [%s]，规则计数 %s → %s。空数组表示没有可核对计数；新运行会展示实际采用的上下文。", "Retained cell %d: previous context [%s], rule counts %s → %s. An empty array means no recorded counts. The next run shows the context actually used.")%[int(observation_anchor.cell)+1,Catalog.symbols(context),str(before_counts),str(after_counts)]+"\n"+training_summary
+	causal_panel.show_evidence(training_summary,{"rule_changes":latest.rule_changes})
 	causal_tabs.current_tab = causal_panel.get_index()
 
 func transport(chosen_codec: String) -> void:
@@ -887,11 +902,18 @@ func cost_text(cost: Dictionary) -> String:
 	return "%s %s · %s ops · %s B · %s %s B"%[str(cost.get("total_cycles",0)),text2("周期","cycles"),str(cost.get("cpu_ops",0)),str(cost.get("transfer_bytes",0)),text2("峰值","peak"),str(cost.get("peak_bytes",0))]
 
 func refresh_tracks(preserve_focus: bool = false) -> void:
+	if not is_instance_valid(signal_view): return
 	var previous_page: int = signal_view.page
 	refresh_keep_actions()
 	_refresh_creation_comparison()
-	if not is_instance_valid(signal_view): return
 	var kind: String = str(latest.get("kind",""))
+	# Learning has no new output cells. Keep the detached observation anchor until
+	# a new visible run can revisit it; never predict a future cell to fill it in.
+	if kind == "training" and not observation_anchor.is_empty():
+		focused_cell = -1
+		signal_view.set_tracks([[],[],[]],[text2("重新学习 · 尚未产生新输出", "Relearned · no new output yet"),"",""])
+		inspector.text = text2("观察位置 %d 已保留，运行同一输入后继续追因。", "Observation at cell %d is retained. Run the same input to revisit its cause.")%[int(observation_anchor.cell)+1]
+		return
 	var tracks: Array = [[],[],[]]
 	var captions: Array = ["","",""]
 	var marks: Array = []
@@ -933,6 +955,8 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 	else:
 		captions = [text2("还没有已发生输出","No output has occurred"),text2("同一模型等待连接","Same model awaits connection"),text2("按模式按钮建立实际路径","Connect the actual path with the mode button")]
 	signal_view.set_tracks(tracks,captions,marks)
+	if restore_observation():
+		return
 	if preserve_focus and focused_cell >= 0 and focused_cell < signal_view.output_length():
 		signal_view.page = previous_page
 		inspect_cell(focused_cell,focused_lane)
@@ -941,8 +965,62 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 		inspector.text = text2("点选一格查看真实来源。A ● / B ■ / C ▲ / D ◇","Select a cell to trace its source. A ● / B ■ / C ▲ / D ◇")
 		if is_instance_valid(causal_panel): causal_panel.clear_evidence()
 
+func displayed_generation(lane: int) -> Dictionary:
+	if latest.get("kind","") == "generation" and lane == 0:
+		if not pinned_creation.is_empty(): return pinned_creation
+		if comparison.size() == 2: return comparison[0]
+	return latest
+
+func observation_identity(lane: int = 2) -> Dictionary:
+	var kind: String = str(latest.get("kind",""))
+	if kind == "transport": return {"kind":kind,"source":latest.get("source",[]).duplicate()}
+	if kind == "prediction":
+		var passage: String = str(session.prediction.get("kind",""))
+		var identity: Dictionary = {"kind":kind,"passage":passage}
+		# Training replay is public source material and can change with the examples.
+		# Practice/check identities use only their public kind, never sealed symbols.
+		if passage == "training": identity.source = latest.get("recipe",{}).get("model",{}).get("examples",[]).slice(0,1).duplicate(true)
+		return identity
+	if kind == "generation":
+		var visible: Dictionary = displayed_generation(lane)
+		var identity: Dictionary = {"kind":kind,"initial":visible.get("recipe",{}).get("initial",[]).duplicate()}
+		if lane == 0: identity.reference = JSON.stringify([visible.get("recipe",{}),visible.get("output",[])]).sha256_text()
+		return identity
+	return {}
+
+func restore_observation() -> bool:
+	if observation_anchor.is_empty(): return false
+	var identity: Dictionary = observation_identity(int(observation_anchor.lane))
+	if identity.is_empty() or identity.get("kind","") != observation_anchor.identity.get("kind",""): return false
+	var lane: int = clampi(int(observation_anchor.lane),0,2)
+	var visible: int = signal_view.lanes[lane].size()
+	if visible == 0: return false
+	var equivalent: bool = identity == observation_anchor.identity
+	var wanted: int = int(observation_anchor.cell)
+	var index: int = mini(wanted,visible-1)
+	playing = false
+	if is_instance_valid(play_button): play_button.text = text2("播放", "Play")
+	restoring_observation = true
+	inspect_cell(index,lane)
+	restoring_observation = false
+	# Clamp the page to the currently revealed cells, even while a later focus is
+	# waiting for a new prediction stream to reveal the same position.
+	signal_view.page = int(observation_anchor.page)
+	signal_view.turn_page(0)
+	if not equivalent:
+		var notice: String = text2("输入已改变：此格是最近可见位置，不是同输入因果对照。", "Input changed: this is the nearest visible cell, not a same-input causal comparison.")
+		inspector.text += " · "+notice
+		causal_panel.summary_label.text += "\n"+notice
+		observation_anchor = {"cell":index,"lane":lane,"page":signal_view.page,"identity":identity.duplicate(true),"context":inspected_context.duplicate(),"counts":inspected_counts.duplicate()}
+	elif index != wanted:
+		inspector.text += text2(" · 第 %d 格尚未揭晓；揭晓后恢复原焦点。", " · Cell %d is still sealed; focus returns after reveal.")%[wanted+1]
+	return true
+
 func show_cause(index: int, summary: String, record: Dictionary, counts: Array = [], context: Array = []) -> void:
 	focused_cell = index
+	inspected_context = context.duplicate(); inspected_counts = counts.duplicate()
+	if not observation_anchor.is_empty() and (not restoring_observation or index == int(observation_anchor.cell)):
+		observation_anchor.context = context.duplicate(); observation_anchor.counts = counts.duplicate()
 	signal_view.selected = index
 	signal_view.selected_lane = focused_lane
 	signal_view.context_count = context.size()
@@ -954,6 +1032,9 @@ func show_cause(index: int, summary: String, record: Dictionary, counts: Array =
 	causal_tabs.current_tab = causal_panel.get_index()
 
 func inspect_cell(index: int, lane: int = 2) -> void:
+	if not restoring_observation:
+		var identity: Dictionary = observation_identity(lane)
+		if not identity.is_empty(): observation_anchor = {"cell":index,"lane":lane,"page":signal_view.page,"identity":identity.duplicate(true)}
 	focused_lane = lane
 	focused_source = text2("当前输出", "Current output")
 	var visible: Dictionary = latest
@@ -990,6 +1071,7 @@ func inspect_cell(index: int, lane: int = 2) -> void:
 func inspect_rule() -> void:
 	var row: TreeItem = rules.get_selected()
 	if row == null: return
+	observation_anchor.clear()
 	var record: Dictionary = row.get_metadata(0)
 	focused_cell = -1
 	signal_view.selected = -1
@@ -1002,6 +1084,7 @@ func inspect_rule() -> void:
 func inspect_event() -> void:
 	var row: TreeItem = events.get_selected()
 	if row == null: return
+	observation_anchor.clear()
 	var record: Dictionary = row.get_metadata(0)
 	focused_cell = -1
 	signal_view.selected = -1
@@ -1070,6 +1153,92 @@ func finish_leave() -> void:
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
 	else: get_tree().quit()
 
+func _build_writer_controls(parent: Node) -> void:
+	var row := HBoxContainer.new()
+	row.name = "WriterControls"
+	parent.add_child(row)
+	button(text2("重试保存权限","Retry writer"),"RetryWriter",row,func() -> void: retry_writer())
+	button(text2("重载已存档","Reload saved"),"ReloadSaved",row,func() -> void: confirm_writer(true))
+	var stopped: String = Session.Lease.stopped_owner(session.path)
+	if not stopped.is_empty():
+		button(text2("恢复已停止窗口的权限","Recover stopped writer"),"RecoverWriter",row,func() -> void: confirm_writer(false,stopped))
+	if not recovery_choices.is_empty():
+		button(text2("选择恢复副本","Choose recovery copy"),"RecoverProfile",row,func() -> void: recovery_dialog.popup_centered(Vector2i(620,280)))
+	label(text2("只读探索可保留；重载需确认。","Read-only exploration is retained; reload requires confirmation."),row,12).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+func confirm_writer(reload_saved: bool, stopped: String = "") -> void:
+	writer_dialog = ConfirmationDialog.new()
+	writer_dialog.name = "WriterProtection"
+	writer_dialog.title = text2("确认重载存档" if reload_saved else "确认恢复写入权限", "Confirm saved reload" if reload_saved else "Confirm writer recovery")
+	writer_dialog.dialog_text = text2("重载会替换本窗口未保存的草稿、结果和对照；受保护作品从存档重新读取。", "Reload replaces this window's unsaved draft, results and comparisons. Protected works are reread from the saved profile.") if reload_saved else text2("仅恢复已经确认停止的窗口权限，保留当前探索；已变动的存档仍需另行确认重载。", "Recover only the exact owner confirmed stopped, retaining this exploration. A changed saved profile still needs a separate confirmed reload.")
+	writer_dialog.ok_button_text = text2("确认重载" if reload_saved else "恢复权限", "Reload saved" if reload_saved else "Recover writer")
+	writer_dialog.cancel_button_text = text2("保留当前探索", "Keep current exploration")
+	writer_dialog.confirmed.connect(func() -> void: retry_writer(reload_saved,stopped))
+	writer_dialog.canceled.connect(writer_dialog.queue_free)
+	add_child(writer_dialog)
+	writer_dialog.popup_centered(Vector2i(620,240))
+
+func retry_writer(reload_saved: bool = false, stopped: String = "") -> void:
+	var editor_state: Dictionary = _capture_editor_state()
+	# Re-query the owner when explicit reload is confirmed: normal retry itself
+	# never reclaims another window and never replaces this live draft.
+	if reload_saved and stopped.is_empty(): stopped = Session.Lease.stopped_owner(session.path)
+	var result: Dictionary = session.retry_writer(reload_saved) if stopped.is_empty() else session.recover_writer(stopped,reload_saved)
+	writable = bool(result.get("writable",false))
+	var reason: String = str(result.get("reason",""))
+	if reason == "recovery":
+		recovery_choices = result.get("choices",[]).duplicate(true)
+		recovery_fingerprint = str(result.get("fingerprint",""))
+		status_text = text2("写入权限已取得；事务未完成，请明确选择校验副本后再保存。", "Writer acquired; installation is interrupted. Choose a validated recovery copy before saving.")
+	elif writable:
+		recovery_choices.clear(); recovery_fingerprint = ""
+		if reload_saved: _clear_replaced_exploration()
+		status_text = text2("已重载存档；原探索已按确认替换。", "Saved profile reloaded; the previous exploration was replaced as confirmed.") if reload_saved else text2("已取得写入权限，当前草稿与探索结果保留。", "Writer acquired; this draft and exploration results are retained.")
+	else:
+		var messages: Dictionary = {
+			"busy":text2("另一窗口仍持有权限，或无法确认已停止。请关闭该窗口后重试；当前探索保留。", "Another window owns this profile, or its stopped state cannot be confirmed. Close that window and retry; this exploration is retained."),
+			"changed":text2("存档已改变；当前探索保留。若要采用新存档，请点「重载已存档」并确认。", "The saved profile changed; this exploration is retained. Choose Reload saved and confirm to adopt it."),
+			"unreadable":text2("存档版本或内容无法安全写入；原字节保留。若有校验副本，请选择恢复副本。", "The saved version or contents cannot be safely written; original bytes remain. Choose a validated recovery copy if available.")}
+		status_text = str(messages.get(reason,reason))
+	build()
+	if not reload_saved or not writable: _restore_editor_state(editor_state)
+
+func _capture_editor_state() -> Dictionary:
+	var saved: Dictionary = {"inputs":{},"tabs":{},"work":works.get_selected_items(),"page":signal_view.page}
+	for handle: String in ["WorkName","CustomExample","Initial"]:
+		var input := find_child(handle,true,false) as LineEdit
+		if input != null: saved.inputs[handle] = input.text
+	for handle: String in ["DraftTabs","EvidenceTabs"]:
+		var tabs := find_child(handle,true,false) as TabContainer
+		if tabs != null: saved.tabs[handle] = tabs.current_tab
+	var focus: Control = get_viewport().gui_get_focus_owner()
+	if focus != null: saved.focus = str(focus.name)
+	return saved
+
+func _restore_editor_state(saved: Dictionary) -> void:
+	for handle: String in saved.get("inputs",{}):
+		var input := find_child(handle,true,false) as LineEdit
+		if input != null: input.text = str(saved.inputs[handle])
+	for handle: String in saved.get("tabs",{}):
+		var tabs := find_child(handle,true,false) as TabContainer
+		if tabs != null: tabs.current_tab = clampi(int(saved.tabs[handle]),0,tabs.get_tab_count()-1)
+	for index: int in saved.get("work",[]):
+		if index < works.item_count: works.select(index)
+	signal_view.page = int(saved.get("page",0)); signal_view.turn_page(0)
+	refresh()
+	var handle: String = str(saved.get("focus",""))
+	if not handle.is_empty():
+		var focus := find_child(handle,true,false) as Control
+		if focus != null: focus.grab_focus()
+
+func _clear_replaced_exploration() -> void:
+	latest.clear(); records.clear(); comparison.clear()
+	pinned_creation.clear(); compared_creation.clear(); creation_report.clear()
+	transport_comparisons.clear(); selected_cost_comparison = -1
+	prediction_recipe.clear(); observation_anchor.clear()
+	focused_cell = -1; focused_source = ""; focused_lane = 2
+	event_page = 0; task = clampi(int(session.data.task),0,8)
+
 func _build_recovery_dialog() -> void:
 	if recovery_choices.is_empty(): return
 	recovery_dialog = ConfirmationDialog.new()
@@ -1094,8 +1263,7 @@ func _build_recovery_dialog() -> void:
 		writable = session.lease != null and session.lease.owns(session.path)
 		recovery_choices = []
 		recovery_fingerprint = ""
-		task = clampi(int(session.data.task),0,8)
-		latest = {}
+		_clear_replaced_exploration()
 		set_status(text2("已明确恢复所选副本；原文件已保全。","The selected copy was explicitly restored; original bytes remain preserved."))
 		build())
 	add_child(recovery_dialog)

@@ -112,6 +112,7 @@ func create_workbench(
 	var error: StringName = name_error(name)
 	if not error.is_empty():
 		return error
+	var previous_namespaces: Dictionary = _namespaces.duplicate(true)
 	var entry: Dictionary = _level_entry(namespace_id, level_id, true)
 	var workbenches: Dictionary = entry["workbenches"]
 	for existing_variant: Variant in workbenches:
@@ -119,7 +120,10 @@ func create_workbench(
 			return &"duplicate"
 	workbenches[name] = seed_snapshot.duplicate(true)
 	entry["active"] = name
-	_persist()
+	if not _persist():
+		# A failed creation must not leave a phantom active board in memory.
+		_namespaces = previous_namespaces
+		return &"write_failed"
 	return &""
 
 
@@ -133,9 +137,14 @@ func switch_workbench(
 	if not workbenches.has(workbench_name):
 		last_error = "Unknown workbench: %s" % workbench_name
 		return false
+	var previous_active: String = String(entry.get("active", DEFAULT_NAME))
 	entry["active"] = workbench_name
 	last_error = ""
-	return _persist()
+	if not _persist():
+		# The UI keeps its old selection on failure; the store must agree.
+		entry["active"] = previous_active
+		return false
+	return true
 
 
 func clear_namespace(namespace_id: StringName) -> bool:
@@ -303,6 +312,7 @@ func _persist() -> bool:
 		last_error = ""
 		return true
 	if not disk_write_allowed:
+		if last_error.is_empty(): last_error = "Workbench save is read-only."
 		return false
 	var temporary: String = storage_path + TEMP_SUFFIX
 	var backup: String = storage_path + BACKUP_SUFFIX

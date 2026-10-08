@@ -31,6 +31,8 @@ func _ready() -> void:
 		"isolated":OS.get_user_data_dir().ends_with("SUFFIX"),
 		"candidate_auto_start_refuses_qa_directory":not load("res://experiments/candidate_session/context.gd").configured_journey(),
 		"second_act_resources":ResourceLoader.exists("res://experiments/representation_region/region.tscn") and ResourceLoader.exists("res://experiments/service_plan/lab.tscn"),
+		"creation_export_configuration":bool(ProjectSettings.get_setting("candidate/creation_enabled",false))==EXPECTED_CREATION,
+		"creation_resources":not EXPECTED_CREATION or ResourceLoader.exists("res://experiments/creation/workbench.tscn"),
 		"candidate_feature":OS.has_feature("free_candidate"),
 		"game_only":not mode.is_test_mode() and not mode.developer_tools_enabled() and not mode.set_mode(&"test"),
 		"capture_disabled":mode.capture_arguments().is_empty(),
@@ -49,7 +51,7 @@ func _ready() -> void:
 		var file=FileAccess.open("user://package_probe_result.json",FileAccess.WRITE)
 		file.store_string(JSON.stringify(checks)); file.close()
 	get_tree().quit(0 if passed else 1)
-'''.replace('SUFFIX',user_suffix).replace('EXPECTED_BUILD',manifest['build_id']).replace('EXPECTED_COMMIT',manifest['source_commit']).replace('EXPECTED_SYSTEM',release['workspace_versions']['res://src/system_lab/system_level_catalog.gd']).replace('EXPECTED_LOCALITY',release['workspace_versions']['res://src/locality_chapter/locality_level_catalog.gd']))
+'''.replace('SUFFIX',user_suffix).replace('EXPECTED_CREATION',json.dumps(release.get('candidate_journey',{}).get('creation_enabled',False))).replace('EXPECTED_BUILD',manifest['build_id']).replace('EXPECTED_COMMIT',manifest['source_commit']).replace('EXPECTED_SYSTEM',release['workspace_versions']['res://src/system_lab/system_level_catalog.gd']).replace('EXPECTED_LOCALITY',release['workspace_versions']['res://src/locality_chapter/locality_level_catalog.gd']))
 scene.write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="'+str(probe)+'" id="1"]\n[node name="PackageProbe" type="Node"]\nscript = ExtResource("1")\n')
 settings='[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="'+user_suffix+'"\n'
 override=binary.parent/'override.cfg';override.write_text(settings+'run/main_scene="'+str(scene)+'"\n')

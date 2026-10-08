@@ -592,12 +592,42 @@ func official_and_seal() -> void:
 	check(not ui.level_completion_overlay.next_capability_label.text.is_empty(), "Completion explains the next capability on the original route.")
 	if ui.level_completion_overlay.visible:
 		await press(ui.level_completion_overlay.return_button)
-	check(ui.current_phase == &"campaign", "Explicit return after sealing restores the original map.")
+	check(current_scene != null and current_scene.scene_file_path == "res://src/campaign/task_tree.tscn", "Explicit return after sealing restores the unified journey map.")
+
+func on_task_tree() -> bool:
+	return current_scene != null and current_scene.scene_file_path == "res://src/campaign/task_tree.tscn"
+
+func enter_task(task_key: String) -> bool:
+	check(on_task_tree(), "Task entry uses the visible unified journey map: "+task_key)
+	if not on_task_tree(): return false
+	var tree = current_scene
+	await press(tree.search)
+	await key(KEY_A,true)
+	await type_text(task_key)
+	await key(KEY_ENTER)
+	await settle()
+	check(tree.canvas.positions.has(task_key), "Journey search locates the requested public task: "+task_key)
+	if not tree.canvas.positions.has(task_key): return false
+	# Observe the canvas camera and public node position; selection and entry still
+	# travel through actual mouse/keyboard dispatch, never TaskNavigation.enter.
+	var at: Vector2 = tree.canvas.global_position + tree.canvas.pan + (tree.canvas.positions[task_key] + tree.canvas.NODE_SIZE/2)*tree.canvas.magnification
+	check(tree.canvas.get_global_rect().has_point(at), "Located task is reachable in the viewport: "+task_key)
+	await click(at)
+	check(tree.selected.get("key","") == task_key and not tree.enter_button.disabled, "Task is selected and unlocked by actual prior Game builds: "+task_key)
+	if tree.selected.get("key","") != task_key or tree.enter_button.disabled: return false
+	await press(tree.enter_button)
+	await settle(8)
+	check(not on_task_tree(), "Journey enter opens the selected task: "+task_key)
+	return not on_task_tree()
 
 func enter_level(id: StringName) -> void:
-	check(ui.current_phase == &"campaign" and not ui.campaign_level_buttons[id].disabled, "%s is unlocked by actual prior Game builds." % id)
-	await press(ui.campaign_level_buttons[id])
-	check(ui.desktop_windows[&"components"].visible, "Every construction level opens its toolbox before editing.")
+	if not await enter_task("hardware_foundations/"+String(id)): return
+	ui = current_scene
+	check(ui.name == "HardwareFoundations" and ui.current_level_id == id, "Journey opens the exact construction task: "+String(id))
+	if bool(ui.current_level_definition.get("locked_topology",false)):
+		check(not ui.desktop_windows[&"components"].visible and not ui.graph.branch_edit_enabled,"Fixed-topology LOAD/STORE presents the earned machine without construction tools.")
+	else:
+		check(ui.desktop_windows[&"components"].visible,"Every editable construction level opens its toolbox before editing.")
 	check(ui.mission_briefing_panel.find_child("SignalGuide", true, false) != null, "Mission explains this lesson's signal widths before construction.")
 	await capture(String(id) + "-signal-guide")
 	await dismiss_briefing()
@@ -611,32 +641,37 @@ func connect_actions(actions: Array) -> void:
 
 func build_prerequisites() -> void:
 	await enter_level(&"full_adder")
+	if not is_instance_valid(ui) or current_scene != ui or ui.current_level_id != &"full_adder": return
 	await connect_actions([
 		["A_IN", "HA_1"], ["B_IN", "HA_1", 0, 1], ["HA_1", "HA_2"], ["CIN_IN", "HA_2", 0, 1],
 		["HA_1", "OR_1", 1, 0], ["HA_2", "OR_1", 1, 1], ["HA_2", "SUM_OUT"], ["OR_1", "COUT_OUT"]])
 	await official_and_seal()
-	if ui.current_phase != &"campaign": return
+	if not on_task_tree(): return
 	await enter_level(&"alu")
+	if not is_instance_valid(ui) or current_scene != ui or ui.current_level_id != &"alu": return
 	await connect_actions([
 		["A_IN", "AND_1"], ["B_IN", "AND_1", 0, 1], ["A_IN", "OR_1"], ["B_IN", "OR_1", 0, 1], ["A_IN", "NOT_1"],
 		["A_IN", "FULL_ADDER"], ["B_IN", "FULL_ADDER", 0, 1], ["CIN_IN", "FULL_ADDER", 0, 2],
 		["AND_1", "MUX"], ["OR_1", "MUX", 0, 1], ["FULL_ADDER", "MUX", 0, 2], ["NOT_1", "MUX", 0, 3],
 		["OP0_IN", "MUX", 0, 4], ["OP1_IN", "MUX", 0, 5], ["MUX", "RESULT_OUT"], ["FULL_ADDER", "CARRY_OUT", 1, 0]])
 	await official_and_seal()
-	if ui.current_phase != &"campaign": return
+	if not on_task_tree(): return
 	await enter_level(&"latch")
+	if not is_instance_valid(ui) or current_scene != ui or ui.current_level_id != &"latch": return
 	await connect_actions([
 		["S_IN", "NOR_Q"], ["R_IN", "NOR_NQ", 0, 1], ["NOR_NQ", "NOR_Q", 0, 1],
 		["NOR_Q", "NOR_NQ"], ["NOR_NQ", "Q_OUT"], ["NOR_Q", "NQ_OUT"]])
 	await official_and_seal()
-	if ui.current_phase != &"campaign": return
+	if not on_task_tree(): return
 	await enter_level(&"register")
+	if not is_instance_valid(ui) or current_scene != ui or ui.current_level_id != &"register": return
 	await connect_actions([
 		["D_IN", "NOT_D"], ["D_IN", "AND_S"], ["LOAD_IN", "AND_S", 0, 1], ["NOT_D", "AND_R"],
 		["LOAD_IN", "AND_R", 0, 1], ["AND_S", "LATCH"], ["AND_R", "LATCH", 0, 1], ["LATCH", "Q_OUT"]])
 	await official_and_seal()
-	if ui.current_phase != &"campaign": return
+	if not on_task_tree(): return
 	await enter_level(&"ram")
+	if not is_instance_valid(ui) or current_scene != ui or ui.current_level_id != &"ram": return
 	await connect_actions([
 		["ADDR_IN", "DECODER"], ["WRITE_IN", "DECODER", 0, 1], ["DATA_IN", "REG_0"], ["DATA_IN", "REG_1"],
 		["DECODER", "REG_0", 0, 1], ["DECODER", "REG_1", 1, 1], ["REG_0", "MUX"], ["REG_1", "MUX", 0, 1],
@@ -645,6 +680,7 @@ func build_prerequisites() -> void:
 
 func build_cpu() -> void:
 	await enter_level(&"cpu")
+	if not is_instance_valid(ui) or current_scene != ui or ui.current_level_id != &"cpu": return
 	check(not ui.official_button.disabled and ui.component_nodes[&"RAM"].draggable, "CPU exposes all modules and complete tests before connecting any stage.")
 	await press(ui.mission_summary_button)
 	await capture("cpu-mission")
@@ -717,6 +753,7 @@ func inspect_width_draft(node: StringName, input_port: int, is_output: bool, wid
 
 func load_store_bridge() -> void:
 	await enter_level(&"load_store")
+	if not is_instance_valid(ui) or current_scene != ui or ui.current_level_id != &"load_store": return
 	check(not ui.graph.branch_edit_enabled and ui.graph.get_connection_list().size() == 5, "LOAD/STORE retains its original fixed external Test Bench, backed by the UI-built CPU.")
 	await press(ui.desktop_window_buttons[&"test_bench"])
 	await press(ui.official_button)
@@ -724,10 +761,10 @@ func load_store_bridge() -> void:
 	check(ui.current_phase == &"prologue_complete" and ui.completed_levels.has(&"load_store"), "The unchanged LOAD/STORE program completes through the earned CPU and RAM.")
 	await capture("load-store-complete")
 	await press(ui.level_completion_overlay.return_button)
-	await press(ui.hub_button)
-	check(current_scene.name == "PrototypeHub" and not current_scene.system_entry_button.disabled, "Returning to the default hub exposes Chapter 1 after verified prologue completion.")
-	await press(current_scene.system_entry_button)
-	check(current_scene.name == "SystemLab" and root.get_node("SystemChapter").prologue_ready, "Chapter 1 opens through the ordinary Game card with earned hardware sources.")
+	check(on_task_tree(), "Returning from LOAD/STORE exposes the unified journey after verified prologue completion.")
+	if not await enter_task("chapter_1/assembly"): return
+	ui = current_scene
+	check(current_scene.name == "SystemLab" and root.get_node("SystemChapter").prologue_ready, "Chapter 1 opens through the ordinary journey task with earned hardware sources.")
 	await capture("chapter-1-entry")
 
 func _run() -> void:
@@ -741,11 +778,13 @@ func _run() -> void:
 	await settle(8)
 	check(current_scene.name == "PrototypeHub" and not root.get_node("GameMode").is_test_mode(), "The configured default scene is the original hub in ordinary Game mode.")
 	await capture("default-hub")
-	await press(named_button(current_scene, text(&"hub.hardware.play")))
-	ui = current_scene
-	check(ui.name == "HardwareFoundations" and ui.current_phase == &"campaign", "Normal Hardware card enters the original prerequisite map.")
+	await press(current_scene.find_child("HubBrowseJourney",true,false))
+	check(on_task_tree(), "Ordinary hub opens the unified journey map.")
 	await capture("prologue-map")
-	await press(ui.campaign_level_buttons[&"tutorial"])
+	if not await enter_task("hardware_foundations/tutorial"):
+		await finish()
+		return
+	ui = current_scene
 	check(ui.current_phase == &"tutorial" and ui.mission_briefing_active and not ui.hint_mode, "Tutorial first entry prominently displays Mission and no solution hint.")
 	if ui.mission_briefing_panel == null:
 		await capture("failed-tutorial-entry")
@@ -799,14 +838,14 @@ func _run() -> void:
 		await finish()
 		return
 	await complete_tutorial()
-	if ui.current_level_id == &"half_adder":
+	if is_instance_valid(ui) and current_scene == ui and ui.current_level_id == &"half_adder":
 		await build_half_adder()
-	if ui.current_phase == &"campaign":
-		await build_prerequisites()
-	if ui.current_phase == &"campaign" and not ui.campaign_level_buttons[&"cpu"].disabled:
-		await build_cpu()
-	if ui.current_phase == &"campaign" and not ui.campaign_level_buttons[&"load_store"].disabled:
-		await load_store_bridge()
+	if on_task_tree(): await build_prerequisites()
+	if on_task_tree(): await build_cpu()
+	if on_task_tree(): await load_store_bridge()
+	for required: StringName in [&"tutorial",&"half_adder",&"full_adder",&"alu",&"latch",&"register",&"ram",&"cpu",&"load_store"]:
+		check(root.get_node("GlobalSave").game_player_content.completed_levels.get(required,false), "Full ordinary Game replay earns the original prerequisite: "+String(required))
+	check(current_scene != null and current_scene.name == "SystemLab", "Full ordinary Game replay reaches Chapter 1 through the earned journey gate.")
 	await finish()
 
 

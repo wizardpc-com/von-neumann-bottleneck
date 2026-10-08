@@ -4,6 +4,7 @@ const Model = preload("res://experiments/creation/model.gd")
 const Codec = preload("res://experiments/creation/codec.gd")
 const Files = preload("res://experiments/candidate_session/files.gd")
 const Lease = preload("res://experiments/candidate_session/writer_lease.gd")
+const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
 const UNITS := ["C1_restore","C2_cost","C3_conditions","P1_commit","P2_memory","P3_check","G1_feedback","G2_intent","G3_keep"]
 var data: Dictionary = fresh()
 var dirty: bool = false
@@ -37,6 +38,7 @@ static func fresh() -> Dictionary:
 
 func open(save_path: String = "") -> Dictionary:
 	close()
+	_reset_exploration()
 	path = default_path() if save_path.is_empty() else save_path
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path).get_base_dir())
 	var loaded: Dictionary = Files.read_session(path,decode)
@@ -55,6 +57,64 @@ func open(save_path: String = "") -> Dictionary:
 
 func close() -> void:
 	if lease != null: lease.release(); lease = null
+
+func _reset_exploration() -> void:
+	data = fresh(); dirty = false; error = ""; digest = ""
+	prediction.clear(); generated.clear(); last_transport.clear()
+	_future.clear(); _frozen.clear(); _prediction_machine.clear(); _prediction_events.clear()
+	_transport_model = ""; _prediction_model = ""
+	_transport_runs.clear(); _prediction_runs.clear()
+
+static func _read_profile(save_path: String) -> Dictionary:
+	return Files.read_session(save_path,decode)
+
+## Normal retry preserves the live exploration. Reload is only for an explicitly
+## confirmed replacement; the UI must confirm that choice before passing true.
+func retry_writer(reload_saved: bool = false) -> Dictionary:
+	if path.is_empty(): return {"ok":false,"writable":false,"reason":"unreadable"}
+	if lease != null and lease.owns(path): return _accept_writer(lease,reload_saved,true)
+	var expected: String = digest
+	if reload_saved:
+		var disk: Dictionary = _read_profile(path)
+		if not disk.ok: return {"ok":false,"writable":false,"reason":"unreadable"}
+		expected = str(disk.get("digest",""))
+	var acquired: Dictionary = WriterRetry.attempt(path,expected,_read_profile)
+	if not acquired.ok: return {"ok":false,"writable":false,"reason":acquired.reason}
+	return _accept_writer(acquired.lease,reload_saved)
+
+## Reclaim only the exact owner proven stopped by the existing native lease API.
+## A readable changed file still requires a separately confirmed reload.
+func recover_writer(expected_token: String, reload_saved: bool = false) -> Dictionary:
+	if path.is_empty(): return {"ok":false,"writable":false,"reason":"unreadable"}
+	if lease != null and lease.owns(path): return _accept_writer(lease,reload_saved,true)
+	var disk: Dictionary = _read_profile(path)
+	if not disk.ok and disk.get("error","") != "recovery":
+		return {"ok":false,"writable":false,"reason":"unreadable"}
+	var acquired: Dictionary = Lease.recover_and_acquire(path,expected_token)
+	if acquired.get("error",ERR_ALREADY_IN_USE) != OK:
+		return {"ok":false,"writable":false,"reason":"busy"}
+	return _accept_writer(acquired.lease,reload_saved,true)
+
+func _accept_writer(acquired: RefCounted, reload_saved: bool, allow_recovery: bool = false) -> Dictionary:
+	# Re-read while holding ownership. Neither a stale display nor a pre-acquisition
+	# read can authorize replacing newer, unknown or interrupted profile bytes.
+	var disk: Dictionary = _read_profile(path)
+	if not disk.ok:
+		if allow_recovery and disk.get("error","") == "recovery":
+			lease = acquired
+			return {"ok":true,"writable":false,"reason":"recovery","choices":disk.get("choices",[]).duplicate(true),"fingerprint":disk.get("fingerprint","")}
+		acquired.release()
+		return {"ok":false,"writable":false,"reason":"unreadable"}
+	if not reload_saved and str(disk.get("digest","")) != digest:
+		acquired.release()
+		return {"ok":false,"writable":false,"reason":"changed"}
+	lease = acquired
+	if reload_saved:
+		_reset_exploration()
+		data = fresh() if disk.get("empty",false) else disk.data.duplicate(true)
+		digest = str(disk.get("digest",""))
+		_restore_permissions()
+	return {"ok":true,"writable":true,"reason":""}
 
 func save() -> Error:
 	if path.is_empty() or lease == null: return ERR_UNCONFIGURED

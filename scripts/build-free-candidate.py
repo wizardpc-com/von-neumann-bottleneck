@@ -8,9 +8,11 @@ def main():
     p.add_argument('--platform',choices=['both','macOS','Windows'],default='both')
     p.add_argument('--mac-template',type=Path,help='Project-private matching official macos.zip')
     p.add_argument('--second-act-profile',help='Opt-in isolated candidate profile; Mac-only build')
+    p.add_argument('--creation-journey',action='store_true',help='Include the C/P/G candidate in the isolated second-act journey')
     a=p.parse_args()
     if a.mac_template and (not a.mac_template.is_file() or a.platform=='Windows'):p.error('--mac-template requires an existing macos.zip and Mac export')
     if a.second_act_profile is not None and (a.platform!='macOS' or not re.fullmatch(r'[A-Za-z0-9-]{1,40}',a.second_act_profile)):p.error('--second-act-profile requires Mac-only export and a safe1–40 character profile')
+    if a.creation_journey and not a.second_act_profile:p.error('--creation-journey requires --second-act-profile')
     template=a.mac_template.resolve() if a.mac_template else None
     root=Path(__file__).resolve().parents[1]
     commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True).strip()
@@ -62,6 +64,7 @@ def main():
         if '[candidate]' in original or 'config/custom_user_dir_name=' in original or 'config/use_custom_user_dir=' in original:raise ValueError('Review existing candidate/user-directory configuration')
         original=original.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name='+json.dumps('VonNeumannBottleneckCandidates/representation/'+a.second_act_profile),1)
         original+='\n[candidate]\nprimary_domain="representation"\nprofile='+json.dumps(a.second_act_profile)+'\njourney_enabled=true\n'
+        if a.creation_journey:original+='creation_enabled=true\n'
     (project/'project.godot').write_text(original)
     identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n\n'
     for document in ['README.md','README.en.md','CHANGELOG.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
@@ -86,6 +89,7 @@ def main():
     manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
     if template:manifest['mac_template_sha256']=hashlib.sha256(template.read_bytes()).hexdigest()
     if a.second_act_profile:manifest['candidate_journey']={'primary_domain':'representation','profile':a.second_act_profile,'isolated':True,'production_migration':False}
+    if a.creation_journey:manifest['candidate_journey']['creation_enabled']=True
     platforms=[('macOS','macOS Free Candidate','Von-Neumann-Bottleneck.app'),('Windows','Windows Playtest','Von-Neumann-Bottleneck.exe')]
     for platform,preset,binary in platforms:
         if a.platform!='both' and platform!=a.platform:continue
@@ -95,6 +99,7 @@ def main():
         if a.second_act_profile:
             with (folder/'README.txt').open('a') as notes:
                 notes.write('\nSecond-act isolated candidate journey\nProfile: '+a.second_act_profile+'\nRepresentation five tasks and Service three contracts have separate plans and endings. Save before leaving; the earned Representation review can continue to Service. Home recommends core construction/bottleneck work, the core ending, Representation, Service, and a saved four-page closing review. Timing and placement remain parallel; optional tasks are not required by this recommendation. The Journey map contains all core tasks, five Representation tasks, three Service contracts and three optional Prediction investigations. Select a task to enter its workbench and return through its existing save guard. Prediction remains temporary and is discarded on leaving; follow-up commissions remain optional. This build uses an isolated candidate profile and does not read or migrate production progress.\n')
+                if a.creation_journey:notes.write('\nCompression, content prediction and creation are also enabled: nine candidate units share the light-pattern workbench, learned rules and machine. The address-prediction investigations above remain separate and optional. Creation drafts, protected works and complete recipes use their own candidate session file; saved snapshots can be viewed, replayed or forked. This is offline candidate content, not a production-save migration.\n')
         files={str(f.relative_to(folder)):hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(folder.rglob('*')) if f.is_file()}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n')

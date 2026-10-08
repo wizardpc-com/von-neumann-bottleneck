@@ -8,6 +8,17 @@ assertions intentionally require no prior acknowledgement. See
 
 ## Continuous signal candidate
 
+The 2026-10-08 convergence follow-up adds `test_creation_writer_retry`,
+`test_creation_writer_retry_ui`, `test_creation_observation_focus`, and
+`test_workbench_write_failure`. They check real failed writes, retained active
+boards, ordinary/stopped writer retry, explicit reload/copy confirmation, retained
+unsubmitted UI inputs and source-correct selected-cell observations. Run these
+with the isolated verifier; the stopped-owner cases require a supported native
+process query and print SKIP if unavailable. Renderer UI evidence is separate:
+run `test_creation_writer_retry_ui.gd -- --writer-capture` inside its already
+imported QA copy using a fresh unique user directory. It exercises viewport
+clicks, not native OS input.
+
 Use the same isolated verifier with `--suite test_creation_contract`,
 `--suite test_creation_navigation`, and `--suite test_creation_workbench`.
 The contract suite checks real packets, prefix isolation, causal costs and
@@ -74,7 +85,10 @@ for the command, baseline failure, final pass, restart/capture checks and platfo
 `scripts/proxy-player-paths.gd` is not a conventional unit suite. Use the imported
 QA copy from the verifier and a fresh isolated user directory. It extends the ordinary Game input replay through
 system/locality investigations; `--resume=overlap` and `--resume=layout` continue
-only the same UI-earned QA save. Full commands and scope are in the
+only the same UI-earned QA save in that historical version. These `--resume`
+branches currently still reference retired hub cards and need adaptation before
+reuse; the base ordinary Game replay is updated for the unified journey.
+Full historical commands and scope are in the
 [player-path evidence](../verification/20261002-player-paths/README.md).
 The macOS proxy uses Godot popup rendering for injected menu keys; it is not native
 OS input or a human beginner test. Inspect exit codes and full logs for script

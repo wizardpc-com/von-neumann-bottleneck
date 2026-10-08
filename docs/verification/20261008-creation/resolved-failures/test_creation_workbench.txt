@@ -1,0 +1,217 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: 1280x720 bounds: Train [P: (24.0, 828.0), S: (334.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Transport [P: (390.0, 875.0), S: (136.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Raw [P: (530.0, 875.0), S: (131.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: ToPredict [P: (665.0, 875.0), S: (126.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Status [P: (12.0, 929.0), S: (1256.0, 30.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Practice [P: (502.0, 875.0), S: (52.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Check [P: (558.0, 875.0), S: (80.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Commit [P: (642.0, 875.0), S: (94.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Reveal [P: (740.0, 875.0), S: (94.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Status [P: (12.0, 929.0), S: (1256.0, 30.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Generate [P: (551.0, 875.0), S: (122.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:71)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: ToGenerate [P: (390.0, 875.0), S: (157.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:71)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: KeepCurrent [P: (677.0, 875.0), S: (108.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:71)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Status [P: (12.0, 929.0), S: (1256.0, 30.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:71)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Train [P: (24.0, 1337.0), S: (334.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Transport [P: (390.0, 1384.0), S: (175.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Raw [P: (569.0, 1384.0), S: (136.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: ToPredict [P: (709.0, 1384.0), S: (181.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Status [P: (12.0, 1438.0), S: (1256.0, 30.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:44)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Practice [P: (558.0, 1379.0), S: (78.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Check [P: (640.0, 1379.0), S: (111.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Commit [P: (755.0, 1379.0), S: (118.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Reveal [P: (877.0, 1379.0), S: (105.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Status [P: (12.0, 1433.0), S: (1256.0, 30.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:56)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Generate [P: (609.0, 1379.0), S: (152.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:71)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: ToGenerate [P: (390.0, 1379.0), S: (215.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:71)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: KeepCurrent [P: (765.0, 1379.0), S: (122.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:71)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Status [P: (12.0, 1433.0), S: (1256.0, 30.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:22)
+       [2] run (res://tests/test_creation_workbench.gd:71)
+       [3] press (res://tests/test_creation_workbench.gd:16)
+       [4] settle (res://tests/test_creation_workbench.gd:10)
+FAIL: creation workbench failures=28 / 172

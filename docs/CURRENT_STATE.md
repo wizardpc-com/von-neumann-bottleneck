@@ -2,7 +2,29 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Representative experience checkpoint — 2026-10-07
+## Compression → content prediction → creation candidate — 2026-10-08
+
+The latest development line `bf0299f` is integrated into main. Nine new candidate
+units share a learned finite-context model and real machine/event costs through
+lossless restore, commit-before-reveal prediction, explicit output feedback and
+saved works with complete recipes. Original 40 tasks and existing second-act
+content remain available. This is bounded candidate content, not final artistic
+or human-learning acceptance.
+
+Local runnable project: `build/creation-20261008/`, including Godot 4.7.1 and separate
+player/QA profiles. `Play-Journey.cmd` enters the journey; `Play-Workbench.cmd`
+opens C/P/G directly; `Review-QA-Works.cmd` opens two actual saved QA works.
+This is an imported project checkpoint, not a new exported public release.
+
+Full pre-hardening regression: 105 Godot suites plus import/isolation PASS.
+Final save-validation hardening: all three affected suites PASS. Viewport QA
+before that narrow hardening: 472 checks and ten bilingual captures PASS.
+Branding/playtest Python checks PASS; three unchanged server suites fail Windows
+SQLite temporary-file cleanup (WinError 32). No complete CI PASS is claimed.
+Native full-route input, novice learning, audio and cross-device acceptance remain
+NOT_RUN. [Source identities, actual works, costs and team/Claude handoff](verification/20261008-creation/README.md).
+
+## Previous representative experience checkpoint — 2026-10-07
 
 Current candidate **free-alpha-1a33d19e2aa7**, profile **Experience-1a33d19**.
 Runtime codeff1b3c4; final1a33d19 changes only the earned-card verification.

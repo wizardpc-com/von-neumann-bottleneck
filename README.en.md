@@ -18,6 +18,11 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Public release (2026-09-18):** `v0.5.0-alpha.1` is available now with five regions, 40 tasks, and Windows / macOS builds. Source development may continue after this point; use the frozen Release build when you want the published Alpha.
 
+**New candidate (2026-10-08):** Nine compression → content prediction → creation
+units join the existing journey. Carry one learned model through restoration,
+prediction, output feedback and saved light-pattern works.
+[Run the candidate, inspect actual works and read verification limits](docs/verification/20261008-creation/README.md).
+
 [Download Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 ## What you do

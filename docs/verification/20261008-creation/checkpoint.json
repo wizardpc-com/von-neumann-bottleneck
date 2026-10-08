@@ -1,0 +1,21 @@
+{
+  "kind": "imported runnable project; not exported binary",
+  "folder": "build/creation-20261008",
+  "baseline": "bf0299f75065b5b44050472f5a6b08855dc4ac41",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "source_manifest": "source-sha256.json",
+  "checks": [
+    {
+      "name": "journey",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    },
+    {
+      "name": "workbench",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    }
+  ]
+}

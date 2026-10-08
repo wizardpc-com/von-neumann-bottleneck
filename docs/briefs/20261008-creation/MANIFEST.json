@@ -1,0 +1,32 @@
+{
+  "kind": "documentation-only",
+  "date": "2026-10-08",
+  "game_code_changed": false,
+  "godot_executed": false,
+  "files": {
+    "docs/briefs/20261008-creation/00_README.md": {
+      "bytes": 2922,
+      "sha256": "1075425cf515b97a42c706f734ca7b8527628b2f30fe46b68d5f96128650130a"
+    },
+    "docs/briefs/20261008-creation/01_DESIGN.md": {
+      "bytes": 29548,
+      "sha256": "3d9ff6fae633989890b0d3829b93385ea378f3f0d2f05112bc4ef08193e74cf3"
+    },
+    "docs/briefs/20261008-creation/02_MODEL_AND_INHERITANCE.md": {
+      "bytes": 25015,
+      "sha256": "66144be707300cbecf847766c4df886753975d56d0967e22769e561eb4a036f0"
+    },
+    "docs/briefs/20261008-creation/03_CODEX_TASK.md": {
+      "bytes": 11305,
+      "sha256": "3a1c7b1f3d96f07e27f659a0c8508dba2ddb87cc16a6b4dea4b51972d0d72dbb"
+    },
+    "docs/briefs/20261008-creation/04_START_PROMPT.txt": {
+      "bytes": 1727,
+      "sha256": "e21bfd4db02fd9d30bbfd1fff3c97125f3f42451faabf7ba4fd55d4ab9e49857"
+    },
+    "docs/briefs/20261008-creation/sources/RAY_DISCUSSION_ORIGINAL.md": {
+      "bytes": 14892,
+      "sha256": "ce1bf6a5573e30c2b494b3615fa146623ff32400637dd0cbbbf9ce3f60292682"
+    }
+  }
+}

@@ -1,0 +1,3 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Isolated user directory: C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/von-neumann-bottleneck/.godot/verification/20261008T080833Z-11fcde46/runtime/VonNeumannBottleneckChecks/20261008T080833Z-11fcde46/user_directory

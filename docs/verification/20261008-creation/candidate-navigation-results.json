@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "exit": 0,
+  "actual_candidate_flag": true,
+  "errors": [],
+  "source_hashes": {
+    "tests\\test_creation_navigation.gd": "dedd7a23eb1c931fb05a6273b1096c4f4655ee9491fca3d7f476c20ad5c01ccd",
+    "src\\campaign\\task_navigation.gd": "9baa8ffae64bb58de22e54be9e16bdd00133928c2bcb2466389f28c7c81350f7",
+    "src\\campaign\\creation_tasks.gd": "63f2ae33e67259e93b0d75ed545f71613a14f00f75176c525178a7f005030378"
+  }
+}

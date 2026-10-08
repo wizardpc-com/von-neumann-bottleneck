@@ -6,6 +6,23 @@ assertions intentionally require no prior acknowledgement. See
 
 # Testing
 
+## Continuous signal candidate
+
+Use the same isolated verifier with `--suite test_creation_contract`,
+`--suite test_creation_navigation`, and `--suite test_creation_workbench`.
+The contract suite checks real packets, prefix isolation, causal costs and
+protected recipes. Navigation checks the actual autoload; additionally run its
+script in an imported isolated copy with `-- --candidate-journey` for the combined
+sixty-node route. The ordinary core still has forty tasks.
+
+Run `scripts/verify-creation-restart.py --godot <engine> --project <isolated-project>`
+for three independent processes: save, reopen/fork, reopen both. Run the workbench
+script with a renderer and `-- --creation-capture` for known-answer viewport input
+and bilingual 1280×720 captures. These do not establish native OS input, novice
+understanding or artistic acceptance. `experiments/creation/calibrate.gd` runs only
+inside a QA user directory and records actual public-catalog comparisons and
+complete QA works, separately from a player's chosen work.
+
 Current status: [CURRENT_STATE](../CURRENT_STATE.md). Use the isolated full verifier
 below plus `tests/test_release_convergence.gd` (automatically included) for navigation,
 legacy/future writer compatibility, dynamic records and no-endpoint presentation.

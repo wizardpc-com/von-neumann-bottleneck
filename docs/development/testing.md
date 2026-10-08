@@ -8,6 +8,17 @@ assertions intentionally require no prior acknowledgement. See
 
 ## Continuous signal candidate
 
+`test_creation_choice_completion` covers one actual legal work/Keep, repeated-work
+choice, seed-only variation, lost-writer rollback and strict legacy G2 compatibility.
+Use `-- --creation-capture` in an imported renderer copy with a fresh own QA profile
+for bilingual G2 input/capture. `test_creation_prediction_memory` covers exact-byte
+limits, rejected-round preservation, frozen costs and strict legacy-bound replay.
+`test_service_number_display` checks six-significant-digit summaries against raw
+records and boundary violations; `-- --service-number-capture` renders its actual
+recomputed review in both languages. These are scoped agent checks, not novice or
+native-OS evidence. Repeat only failed/affected suites; restart separately.
+
+
 The bounded Creation draft-history/closure follow-up adds
 `test_creation_draft_undo` and `test_creation_measured_closure`. Run the affected
 session/UI suites in the isolated verifier. Renderer checks use the imported copy

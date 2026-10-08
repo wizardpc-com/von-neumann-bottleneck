@@ -728,8 +728,6 @@ func generate_work() -> void:
 	comparison.append(result.duplicate(true))
 	if comparison.size() > 2: comparison.pop_front()
 	session.complete("G1_feedback",{"model_id":result.get("model_id",""),"length":result.output.size(),"feedback":"generated","cost":result.cost.duplicate(true)})
-	if comparison.size() == 2 and comparison[0].output != comparison[1].output:
-		session.complete("G2_intent",{"before_model":comparison[0].get("model_id",""),"after_model":comparison[1].get("model_id",""),"different_output":true})
 	set_status(text2("这份输出来自你的学得模型和回灌。可以比较、命名，再选择留下。","This output came from your learned model and feedback. Compare, name, and choose what to keep."))
 	if not pinned_creation.is_empty():
 		set_status(text2("B 已生成，A 保持原样。实测页列出配方变化；创作配方页可定位首次分歧、保留 A/B 或继续改。", "B generated; A stays fixed. Measurements lists recipe changes; Creation recipe lets you locate the first difference, keep A/B or edit again."))

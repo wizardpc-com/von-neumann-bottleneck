@@ -264,7 +264,8 @@ func failed_round_and_raw_contract() -> void:
 	var model: Dictionary = session._frozen.duplicate(true)
 	var machine: Dictionary = session._prediction_machine.duplicate(true)
 	var events: Array = session._prediction_events.duplicate(true)
-	session.data.draft.machine.cache_rows = 21; session.data.draft.machine.memory_bytes = 256
+	session.data.draft.machine.cache_rows = 21; session.data.draft.machine.memory_bytes = 64
+	# Even occupied-row accounting cannot hold this real model/prefix at 64B.
 	var failed: Dictionary = session.begin_prediction("practice")
 	check(not failed.ok and failed.error == "memory_limit", "Practice switch rejects insufficient memory")
 	check(session.prediction == before and session._future == future and session._frozen == model and session._prediction_machine == machine and session._prediction_events == events, "Rejected switch atomically preserves all active round state")

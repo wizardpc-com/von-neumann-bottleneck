@@ -133,3 +133,32 @@ novice, listening/artistic/device/native acceptance cannot be closed by known-an
 checks. No broad completion claim. Exact evidence and package pointers:
 docs/verification/20261008-draft-and-wider-routes/README.md. Original four collaborator
 files preserved. Root prepares evidence/status commit and authorized branch push.
+
+
+## Selected work and prediction memory correction
+
+Previous goal turn changed authoritative source and yielded earned route/restart/
+export evidence: progress, not a wait. Current source9bbee16 and original four
+collaborator changes inspected. Ownership: root Creation session/workbench/catalog,
+choice regression and shared docs/Git/Godot/GUI; review read-only G2 compatibility;
+predictionworker prediction-memory regression; costworker service/lab numeric display
+and new display regression. No concurrent shared-file edits or worker engine/Git.
+
+DESIGN§8.2 and MODEL§8.4 require direct legal satisfactory works to complete without
+forcing two differing runs, and player confirmation to constitute a chosen work.
+Correct candidate G2 by removing automatic differing-output completion and awarding
+it with the transactional confirmed Keep. Fixed-seed comparison remains optional;
+repeat/deterministic works remain legal. Existing v1 generation support shape stays,
+legacy verified G2 records remain readable/progress-preserved and are not retrospectively
+called causal-intent proof. Failed saves roll back both G2/G3 and works together.
+This explicitly scopes the candidate gate correction; original40 prerequisites and
+simulation generation semantics remain unchanged.
+
+Prediction cache memory was over-reserved relative to training/generation and the
+contract's occupied rows. Use min(cache capacity,model rows) consistently for new
+prediction rounds/replays. Revalidate legacy row costs only when they exactly match
+the known prior conservative bound within the recorded memory, with a consistent
+bound across the whole round; other metric tampering still fails. No schema change.
+Tests cover exact resource boundary, preserved active round on failure, frozen
+machine, future/readonly protection and original candidate payload compatibility.
+Service uses concise display precision while retaining raw costs/thresholds/events.

@@ -56,12 +56,14 @@ delete the other or any saved work. **Keep editing** retains A. Saved chosen wor
 still support ordinary snapshot playback, recipe replay and forking. This feature
 does not change the model, session schema or candidate progression gates.
 
-Known boundary: the old G2 completion call only tests that two consecutive outputs
-differ, although its catalog goal asks for a fixed-seed change. This patch deliberately
-leaves that existing completion behavior and saved supports unchanged. Its completion
-mark is not a causal-evidence certificate. Revising the gate and persistent paired
-proof needs a separate compatibility/design review. The new report is observational
-and must not be silently reused as a new completion gate.
+G2 completion follows the actual confirmed choice: keeping one legal generated work
+transactionally completes G2 and G3. Different outputs or seed-only variation do not
+automatically complete G2; repeated or deterministic works remain legitimate choices.
+Fixed-seed comparison is optional guidance, with its actual recipe/effect report;
+completion is never a causal-evidence or beauty certificate. Historical v1 generation-
+only G2 records remain readable and keep their prior progress, after exact recipe
+replay, without manufacturing a saved work or claiming controlled intent. No candidate
+schema migration or original-campaign gate change is required.
 
 See [bounded verification](../../docs/verification/20261008-creation-comparison/README.md).
 
@@ -186,3 +188,11 @@ frozen prediction bindings; run again for fresh evidence. Unsubmitted titles,
 custom passage text and invalid Initial text remain available. A new edit clears
 Redo. History is transient and does not survive profile reload or process restart.
 Changed/future/read-only files cannot authorize history restoration or forks.
+
+
+Prediction residency reserves 11 bytes for each available cacheable rule row, capped
+by configured slots, consistently with training/generation. The committed round owns
+its machine; later draft edits cannot change its costs. Old prediction supports remain
+readable only when every row exactly replays under the prior conservative full-slot
+bound and that bound fits their recorded memory. A round cannot mix accounting rules;
+all other costs and predictions retain their strict checks.

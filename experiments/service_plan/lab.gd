@@ -91,6 +91,27 @@ var event_source: Label
 var tree: Tree
 
 func tr2(zh: String, en: String) -> String: return en if english else zh
+
+static func display_number(value: float) -> String:
+	# Six significant digits for summaries. Raw witnesses/metrics retain their
+	# full values; scaling rather than fixed decimals never erases tiny errors.
+	if value == 0.0: return "0"
+	if not is_finite(value): return str(value)
+	var magnitude: float = absf(value)
+	var exponent: int = 0
+	while magnitude >= 10.0:
+		magnitude /= 10.0
+		exponent += 1
+	while magnitude < 1.0:
+		magnitude *= 10.0
+		exponent -= 1
+	# Rounding can carry into the next exponent (9.999999 -> 10).
+	if String.num(magnitude,5).to_float() >= 10.0:
+		magnitude /= 10.0
+		exponent += 1
+	if exponent >= -4 and exponent <= 5:
+		return String.num(value,maxi(0,5-exponent)).trim_suffix(".0")
+	return String.num(-magnitude if value < 0.0 else magnitude,5).trim_suffix(".0")+"e"+str(exponent)
 func _ready() -> void:
 	theme = Theme.new(); InstrumentTheme.apply_to(theme)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -433,7 +454,7 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 			var name: String = tr2("分数误差", "Score error") if key == "max_error" else tr2("最终状态误差", "Final-state error")
 			var point: Dictionary = witness.get("score" if key == "max_error" else "state",{})
 			if not point.is_empty(): name += " ("+QualityEvidence.identity(point,key == "max_error")+")"
-			failures.append(name+" "+String.num_scientific(float(metrics[key]))+" / "+String.num_scientific(tolerance))
+			failures.append(name+" "+display_number(float(metrics[key]))+" / "+display_number(tolerance)+tr2("，超限 ", "; over limit by ")+display_number(float(metrics[key])-tolerance))
 	return " · ".join(failures) if not failures.is_empty() else tr2("证据未满足当前任务。", "Evidence does not meet this task.")
 
 func select_run(index: int) -> void:
@@ -445,7 +466,7 @@ func select_run(index: int) -> void:
 	response_chart.configure_record(record,selected_history+1)
 	response_step.disabled = response_chart.first_responses.is_empty()
 	response_play.disabled = response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false))
-	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)]
+	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,display_number(m.max_error),display_number(m.max_state_error)]
 	if not str(m.error).is_empty(): summary.text = invalid_feedback(m)+"\n"+tr2("没有性能或精度结果：该方案在执行前被拒绝。修改草稿后重新运行；历史记录保留。", "No performance or quality result: this plan was rejected before execution. Edit and rerun; history is retained.")
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:
@@ -498,7 +519,7 @@ func refresh_comparison() -> void:
 		comparison_detail.text = tr2("保留对照；当前记录未完成有效测量。", "Baseline retained; current record has no valid measurement."); return
 	var m: Dictionary = history[selected_history].metrics
 	var b: Dictionary = comparison_baseline
-	comparison_detail.text = tr2("误差对照→当前：分数%s→%s；状态%s→%s", "Error pinned→current: score%s→%s; state%s→%s") % [String.num_scientific(b.max_error),String.num_scientific(m.max_error),String.num_scientific(b.max_state_error),String.num_scientific(m.max_state_error)]
+	comparison_detail.text = tr2("误差对照→当前：分数%s→%s；状态%s→%s", "Error pinned→current: score%s→%s; state%s→%s") % [display_number(b.max_error),display_number(m.max_error),display_number(b.max_state_error),display_number(m.max_state_error)]
 
 func refresh_measured_source() -> void:
 	if measured_source == null: return
@@ -606,7 +627,7 @@ func measured_bill_text(record: Dictionary) -> String:
 	var m: Dictionary = record.metrics
 	var result: String = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
 	if not str(m.error).is_empty(): return result+"\n\n"+tr2("执行前被拒绝；没有实测性能、响应或精度账单。", "Rejected before execution; no measured performance, response or quality bill.")
-	return result+"\n\n"+tr2("总%d周期 · 全部搬运%dB · 状态读写%dB · 峰值%dB\n周期费用：请求启动%d / 搬运%d / 运算%d / 提交%d / 编码%d\nA/B/C/D首响应%s\n状态读%d次 / 写%d次（最终flush%d次）· 复用%d次 / 淘汰%d次\n分数误差%s · 最终状态误差%s\n外存%d→%dB（含目录；最终档案与累计状态流量不同）", "Total%d cycles · all transfers%dB · state traffic%dB · peak%dB\nCycle costs: request setup%d / transfer%d / compute%d / commit%d / codec%d\nA/B/C/D first responses%s\nState reads%d / writes%d (final flush%d) · reuse%d / evictions%d\nScore error%s · final-state error%s\nBacking storage%d→%dB (includes directory; final archive differs from cumulative state traffic)") % [m.total_cycles,m.traffic_bytes,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,m.request_cycles,m.transfer_cycles,m.compute_cycles,m.commit_cycles,m.codec_cycles,str(m.first_stream_cycles),m.state_reads,m.state_writes,m.flush_writes,m.state_hits,m.evictions,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error),m.initial_backing_bytes,m.final_backing_bytes]
+	return result+"\n\n"+tr2("总%d周期 · 全部搬运%dB · 状态读写%dB · 峰值%dB\n周期费用：请求启动%d / 搬运%d / 运算%d / 提交%d / 编码%d\nA/B/C/D首响应%s\n状态读%d次 / 写%d次（最终flush%d次）· 复用%d次 / 淘汰%d次\n分数误差%s · 最终状态误差%s\n外存%d→%dB（含目录；最终档案与累计状态流量不同）", "Total%d cycles · all transfers%dB · state traffic%dB · peak%dB\nCycle costs: request setup%d / transfer%d / compute%d / commit%d / codec%d\nA/B/C/D first responses%s\nState reads%d / writes%d (final flush%d) · reuse%d / evictions%d\nScore error%s · final-state error%s\nBacking storage%d→%dB (includes directory; final archive differs from cumulative state traffic)") % [m.total_cycles,m.traffic_bytes,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,m.request_cycles,m.transfer_cycles,m.compute_cycles,m.commit_cycles,m.codec_cycles,str(m.first_stream_cycles),m.state_reads,m.state_writes,m.flush_writes,m.state_hits,m.evictions,display_number(m.max_error),display_number(m.max_state_error),m.initial_backing_bytes,m.final_backing_bytes]
 
 func show_measured_bill() -> void:
 	if selected_history < 0 or selected_history >= history.size(): return
@@ -861,7 +882,7 @@ func show_closure() -> void:
 	for id: int in 3:
 		var m: Dictionary = evidence[id]
 		lines.append(tr2("合同%d · %d周期 · 状态%dB · 峰值%dB", "Contract%d · %d cycles · state%dB · peak%dB") % [id+1,m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes])
-		lines.append(tr2("A/B/C/D首响应%s · 分数误差%s · 状态误差%s", "A/B/C/D first%s · score error%s · state error%s") % [str(m.first_stream_cycles),String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)])
+		lines.append(tr2("A/B/C/D首响应%s · 分数误差%s · 状态误差%s", "A/B/C/D first%s · score error%s · state error%s") % [str(m.first_stream_cycles),display_number(m.max_error),display_number(m.max_state_error)])
 	lines.append("")
 	lines.append(tr2("结果由保留的达标方案按当前模型重算。可继续取回方案，尝试不同取舍。A Thought Within the World。", "Results are recomputed from your protected successful plans under the current model. Restore them and explore other trade-offs. A Thought Within the World."))
 	if session_dirty:
@@ -931,7 +952,7 @@ func refresh_commission() -> void:
 	var m: Dictionary = history[selected_history].metrics
 	var lines: Array[String] = [tr2("记录%d · 以此记录的方案验收，未运行草稿不算。", "Record%d · Check this record's plan; unrun drafts do not count.") % (selected_history+1),Commissions.feedback(m,id,english)]
 	if str(m.error).is_empty():
-		lines.append(tr2("%d槽 · %d周期 · A/B/C/D首响应%s\n最终档案%dB（含目录与最终写回）· 累计状态读写%dB\n分数误差%s · 最终状态误差%s", "%d slots · %d cycles · A/B/C/D first%s\nFinal archive%dB (including directory and final flush) · cumulative state traffic%dB\nScore error%s · final-state error%s") % [m.plan.slots,m.total_cycles,str(m.first_stream_cycles),m.final_backing_bytes,m.state_read_bytes+m.state_write_bytes,String.num_scientific(m.max_error),String.num_scientific(m.max_state_error)])
+		lines.append(tr2("%d槽 · %d周期 · A/B/C/D首响应%s\n最终档案%dB（含目录与最终写回）· 累计状态读写%dB\n分数误差%s · 最终状态误差%s", "%d slots · %d cycles · A/B/C/D first%s\nFinal archive%dB (including directory and final flush) · cumulative state traffic%dB\nScore error%s · final-state error%s") % [m.plan.slots,m.total_cycles,str(m.first_stream_cycles),m.final_backing_bytes,m.state_read_bytes+m.state_write_bytes,display_number(m.max_error),display_number(m.max_state_error)])
 	if m.plan != plan: lines.append(tr2("当前草稿与记录不同；交付的是记录中的方案。", "Current draft differs; handoff uses the recorded plan."))
 	commission_result.text = "\n\n".join(lines)
 	commission_ack.disabled = commission_mode < 0 or not Commissions.accepted(m,id)

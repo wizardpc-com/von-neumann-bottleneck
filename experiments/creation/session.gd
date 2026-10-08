@@ -240,7 +240,7 @@ func begin_prediction(kind: String = "practice") -> Dictionary:
 	var next_machine: Dictionary = data.draft.machine.duplicate(true)
 	var next_future: Array = _sequence(kind,next_model)
 	if next_future.size() < 3: return {"ok":false,"error":"short_example"}
-	var required: int = next_model.examples[0].size()+next_future.size()*2+16 if kind == "memorize" else Model.canonical_bytes(next_model).size()+next_future.size()*2+16+int(next_machine.cache_rows)*11
+	var required: int = next_model.examples[0].size()+next_future.size()*2+16 if kind == "memorize" else _prediction_peak(next_model,next_machine,next_future.size())
 	if required > next_machine.memory_bytes: return {"ok":false,"error":"memory_limit","required_bytes":required}
 	_frozen = next_model; _prediction_machine = next_machine; _future = next_future
 	prediction = {"prefix":_future.slice(0,2),"rows":[],"pending":{},"finished":false,"kind":kind,
@@ -273,7 +273,7 @@ func reveal_prediction() -> Dictionary:
 	var row := {"index":index,"predicted":int(guess.symbol),"truth":truth,"correct":int(guess.symbol)==truth,
 		"context":guess.context.duplicate(),"counts":guess.counts.duplicate()}
 	_prediction_events.append({"phase":"predict","kind":"reveal","ops":2,"bytes":1,"cycles":0,"index":index,"symbol":truth})
-	var peak: int = _frozen.examples[0].size()+_future.size()*2+16 if prediction.kind == "memorize" else Model.canonical_bytes(_frozen).size()+_future.size()*2+16+int(_prediction_machine.cache_rows)*11
+	var peak: int = _frozen.examples[0].size()+_future.size()*2+16 if prediction.kind == "memorize" else _prediction_peak(_frozen,_prediction_machine,_future.size())
 	var cost: Dictionary = Model.summarize(_prediction_events,_prediction_machine,peak)
 	row["cost"] = cost.duplicate(true)
 	prediction.rows.append(row); prediction.prefix.append(truth); prediction.pending = {}
@@ -287,12 +287,16 @@ func reveal_prediction() -> Dictionary:
 		if _prediction_runs.size()>8: _prediction_runs.pop_front()
 	return {"ok":true,"row":row.duplicate(true),"finished":prediction.finished,"cost":cost}
 
+static func _prediction_peak(model: Dictionary, machine: Dictionary, sequence_length: int) -> int:
+	# Cache capacity cannot reserve rows absent from this finite frozen model.
+	return Model.canonical_bytes(model).size()+sequence_length*2+16+mini(int(machine.cache_rows),model.rows.size())*11
+
 func prediction_evidence() -> Dictionary:
 	# Detached presentation evidence contains only events already committed/revealed.
 	# Summarize a copy so inspecting costs cannot mutate the active trace or cache.
 	if prediction.is_empty(): return {}
 	var events: Array = _prediction_events.duplicate(true)
-	var peak: int = _frozen.examples[0].size()+_future.size()*2+16 if prediction.kind == "memorize" else Model.canonical_bytes(_frozen).size()+_future.size()*2+16+int(_prediction_machine.cache_rows)*11
+	var peak: int = _frozen.examples[0].size()+_future.size()*2+16 if prediction.kind == "memorize" else _prediction_peak(_frozen,_prediction_machine,_future.size())
 	return {"events":events,"cost":Model.summarize(events,_prediction_machine,peak),
 		"recipe":{"model":_frozen.duplicate(true),"model_id":prediction.model_id,"machine":_prediction_machine.duplicate(true)}}
 
@@ -317,6 +321,7 @@ func save_work(title: String) -> Dictionary:
 	var previous_supports: Dictionary = data.supports.duplicate(true)
 	var previous_dirty: bool = dirty
 	data.works.append(work); dirty = true
+	complete("G2_intent",{})
 	complete("G3_keep",{})
 	var saved: Error = save()
 	if saved != OK:
@@ -368,7 +373,7 @@ func complete(unit_id: String, _evidence: Dictionary = {}) -> void:
 		support = {"kind":"prediction","model":_frozen.duplicate(true),"machine":_prediction_machine.duplicate(true),"check":prediction.kind,"rows":prediction.rows.duplicate(true)}
 	elif unit_id.begins_with("G") and not generated.is_empty():
 		support = {"kind":"generation","recipe":generated.recipe.duplicate(true),"output":generated.output.duplicate()}
-		if unit_id == "G3_keep" and not _kept(data.works,support): return
+		if unit_id in ["G2_intent","G3_keep"] and not _kept(data.works,support): return
 	if not support.is_empty() and unit_id not in ["C2_cost","C3_conditions","P2_memory"]: data.supports[unit_id] = support; dirty = true
 	if unit_id in ["C2_cost","C3_conditions","P2_memory"]:
 		var runs: Array = _prediction_runs if unit_id == "P2_memory" else _transport_runs
@@ -485,7 +490,9 @@ static func decode(raw: String) -> Dictionary:
 			if sequence.size()<3 or support.rows.size()!=sequence.size()-2: return {"ok":false,"error":"schema"}
 			var model_bytes: int = Model.canonical_bytes(support.model).size()
 			var checked_events: Array = [{"phase":"predict","kind":"model_load","ops":model_bytes,"bytes":model_bytes,"cycles":0}]
-			var peak: int = model_bytes+sequence.size()*2+16+int(support.machine.cache_rows)*11
+			var peak: int = _prediction_peak(support.model,support.machine,sequence.size())
+			var legacy_peak: int = model_bytes+sequence.size()*2+16+int(support.machine.cache_rows)*11
+			var recorded_peak: int = -1
 			if peak > support.machine.memory_bytes: return {"ok":false,"error":"schema"}
 			for index: int in support.rows.size():
 				var row: Variant = support.rows[index]
@@ -494,7 +501,14 @@ static func decode(raw: String) -> Dictionary:
 				if row.index != index+2 or row.truth != sequence[index+2] or row.predicted != decision.symbol or row.context != decision.context or row.counts != decision.counts or row.correct != (row.predicted == row.truth): return {"ok":false,"error":"schema"}
 				checked_events.append_array(decision.events)
 				checked_events.append({"phase":"predict","kind":"reveal","ops":2,"bytes":1,"cycles":0,"index":index+2,"symbol":sequence[index+2]})
-				if row.cost != Model.summarize(checked_events,support.machine,peak): return {"ok":false,"error":"schema"}
+				var current_cost: Dictionary = Model.summarize(checked_events,support.machine,peak)
+				if row.cost != current_cost:
+					# Preserve strictly replayed v1 rounds recorded with the old full-
+					# capacity bound. No other cost, insufficient memory or mixed
+					# accounting can pass through this compatibility exception.
+					if legacy_peak > support.machine.memory_bytes or row.cost != Model.summarize(checked_events,support.machine,legacy_peak): return {"ok":false,"error":"schema"}
+				if recorded_peak >= 0 and int(row.cost.peak_bytes) != recorded_peak: return {"ok":false,"error":"schema"}
+				recorded_peak = int(row.cost.peak_bytes)
 		elif support.get("kind") == "generation":
 			if not str(id).begins_with("G"): return {"ok":false,"error":"schema"}
 			if not _keys(support,["kind","recipe","output"]) or not support.recipe is Dictionary: return {"ok":false,"error":"schema"}

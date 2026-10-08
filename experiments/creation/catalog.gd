@@ -11,7 +11,7 @@ const GOALS_ZH := [
 	"对照最近1项与2项历史：A 后面既可能是 B 也可能是 C。重新学习后再练习，记录哪些上下文被区分，以及规则的代价。",
 	"练习可以调试；冻结检查独立开始。只用已见数据解释失败；看过检查答案会如实标记。检查不是通用泛化证明。",
 	"主动断开标准下一段，接上自己的输出。选择起始片段，用同一个学得模型延续。此后没有隐藏原文，也没有正确率。",
-	"固定随机种子，改一组样例、起始片段、记忆或采样方式。保留两份实测草稿，比较来路和光纹，由你决定喜欢哪一份。",
+	"可以固定随机种子，改样例、起始片段、记忆或采样，比较来路与光纹。也可直接确认保存满意的合法作品；不要求两次输出不同。",
 	"命名并确认一件实际输出。保存快照和完整配方；播放快照、按配方再生、继续分叉分别操作。你的选择形成结尾。"
 ]
 const GOALS_EN := [
@@ -22,7 +22,7 @@ const GOALS_EN := [
 	"Compare one and two symbols of history: A may lead to B or C. Learn again and practise. Inspect which contexts separate and what their rules cost.",
 	"Practice permits debugging; begin a separate frozen check. Explain errors using revealed data. Seen check answers are labelled. A check is no universal generalization proof.",
 	"Disconnect the standard continuation and connect your own output. Choose an initial passage and extend it with the same learned model. There is no hidden original or accuracy score.",
-	"Keep a random seed; change examples, initial context, history or sampling. Keep two measured drafts and compare provenance and patterns. You choose which you prefer.",
+	"You may fix a seed and compare changes to examples, initial context, history or sampling. Or confirm and keep one legal work you like; two different outputs are not required.",
 	"Name and confirm real output. Save its snapshot and full recipe. Play the snapshot, regenerate the recipe, and fork as distinct actions. Your choice forms the ending."
 ]
 const SAMPLE_NAMES_ZH := ["ABAC · 两步规律", "ABAD · 一个分岔", "ABCD · 四色行进", "AABB · 双拍", "ACAD · 另一条路"]

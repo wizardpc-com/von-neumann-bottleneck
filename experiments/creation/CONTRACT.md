@@ -65,3 +65,22 @@ output snapshot. There is no correctness target or aesthetic pass score in this 
 Weighted sampling subtracts one from each Park-Miller state, rejects the incomplete
 upper bucket, and uses the remaining integer modulo the total count. Every random
 advance and rejection is recorded; rendering has no access to this random state.
+
+
+Application completion and prediction residency
+----------------------------------------------
+
+G1 observes a legal generated result. G2 denotes the player's confirmed selection;
+G3 preserves that actual chosen work/recipe. One successful transactional Keep can
+complete G2 and G3. Optional fixed-seed comparison explains interventions but is not
+a required count or aesthetic gate; arbitrary output differences never substitute
+for confirmation. Prior v1 G2 generation supports preserve earned progress after
+recipe validation, without retroactively certifying controlled intervention.
+
+Prediction workspace is canonical model bytes + 2 bytes per sequence symbol +16
+bytes, plus11 bytes per cacheable row capped by configured capacity. Memorization
+uses its separately documented position-copy workspace. New prediction costs use
+the bounded rule table just as learn/generate/codec do. Saved prior full-capacity
+prediction costs are accepted only after exact replay of all fields, sufficient
+recorded memory and one consistent accounting bound for the entire round. This
+narrow compatibility rule does not accept altered cycle/operation/transfer costs.

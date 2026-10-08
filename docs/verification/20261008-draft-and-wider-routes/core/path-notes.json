@@ -1,0 +1,147 @@
+[
+	{
+		"decision": "A=1 B=0 CIN=0; OP=0",
+		"evidence": "1 · A=1  B=0  CIN=0  OP0=0  OP1=0 → CARRY=0  RESULT=0",
+		"task": "alu"
+	},
+	{
+		"decision": "A=1 B=0 CIN=0; OP=1",
+		"evidence": "1 · A=1  B=0  CIN=0  OP0=0  OP1=0 → CARRY=0  RESULT=0\n2 · OP0=1 → CARRY=0  RESULT=1",
+		"task": "alu"
+	},
+	{
+		"decision": "A=1 B=0 CIN=0; OP=2",
+		"evidence": "1 · A=1  B=0  CIN=0  OP0=0  OP1=0 → CARRY=0  RESULT=0\n2 · OP0=1 → CARRY=0  RESULT=1\n3 · OP0=0  OP1=1 → CARRY=0  RESULT=1",
+		"task": "alu"
+	},
+	{
+		"decision": "A=1 B=0 CIN=0; OP=3",
+		"evidence": "1 · A=1  B=0  CIN=0  OP0=0  OP1=0 → CARRY=0  RESULT=0\n2 · OP0=1 → CARRY=0  RESULT=1\n3 · OP0=0  OP1=1 → CARRY=0  RESULT=1\n4 · OP0=1 → CARRY=0  RESULT=0",
+		"task": "alu"
+	},
+	{
+		"decision": "{ \"ADDR\": 0, \"DATA\": 7, \"WRITE\": 1 }",
+		"evidence": "1 · ADDR=0  DATA=7  WRITE=1 → OUT=0x7",
+		"task": "ram"
+	},
+	{
+		"decision": "{ \"ADDR\": 1, \"DATA\": 9, \"WRITE\": 1 }",
+		"evidence": "1 · ADDR=0  DATA=7  WRITE=1 → OUT=0x7\n2 · ADDR=1  DATA=9 → OUT=0x9",
+		"task": "ram"
+	},
+	{
+		"decision": "{ \"ADDR\": 0, \"DATA\": 2, \"WRITE\": 1 }",
+		"evidence": "1 · ADDR=0  DATA=7  WRITE=1 → OUT=0x7\n2 · ADDR=1  DATA=9 → OUT=0x9\n3 · ADDR=0  DATA=2 → OUT=0x2",
+		"task": "ram"
+	},
+	{
+		"decision": "{ \"ADDR\": 1, \"WRITE\": 0 }",
+		"evidence": "1 · ADDR=0  DATA=7  WRITE=1 → OUT=0x7\n2 · ADDR=1  DATA=9 → OUT=0x9\n3 · ADDR=0  DATA=2 → OUT=0x2\n4 · ADDR=1  WRITE=0 → OUT=0x9",
+		"task": "ram"
+	},
+	{
+		"decision": "{ \"OP\": 0, \"ARG\": 4, \"ADDR\": 1 }",
+		"evidence": "1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0",
+		"task": "load_store"
+	},
+	{
+		"decision": "{ \"OP\": 3 }",
+		"evidence": "1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0\n2 · OP=3 → ACC=0x4  MEM=0x4",
+		"task": "load_store"
+	},
+	{
+		"decision": "{ \"OP\": 0, \"ARG\": 13, \"ADDR\": 0 }",
+		"evidence": "1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0\n2 · OP=3 → ACC=0x4  MEM=0x4\n3 · ADDR=0  ARG=13  OP=0 → ACC=0xD  MEM=0x0",
+		"task": "load_store"
+	},
+	{
+		"decision": "{ \"OP\": 3 }",
+		"evidence": "1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0\n2 · OP=3 → ACC=0x4  MEM=0x4\n3 · ADDR=0  ARG=13  OP=0 → ACC=0xD  MEM=0x0\n4 · OP=3 → ACC=0xD  MEM=0xD",
+		"task": "load_store"
+	},
+	{
+		"decision": "{ \"OP\": 2, \"ADDR\": 1 }",
+		"evidence": "1 · ADDR=1  ARG=4  OP=0 → ACC=0x4  MEM=0x0\n2 · OP=3 → ACC=0x4  MEM=0x4\n3 · ADDR=0  ARG=13  OP=0 → ACC=0xD  MEM=0x0\n4 · OP=3 → ACC=0xD  MEM=0xD\n5 · ADDR=1  OP=2 → ACC=0x4  MEM=0x4",
+		"task": "load_store"
+	},
+	{
+		"decision": "Controlled official comparison",
+		"evidence": "{\"bus_control_cycles\":4,\"bus_segments_per_word\":1,\"bus_transfer_cycles\":4,\"bytes_transferred\":4,\"cpu_compute_cycles\":4,\"cpu_wait_cycles\":40,\"hardware_cost\":27,\"memory_requests\":4,\"ram_service_cycles\":32,\"total_cycles\":44}",
+		"task": "assembly"
+	},
+	{
+		"decision": "Controlled official comparison",
+		"evidence": "{\"bus_control_cycles\":18,\"bus_segments_per_word\":1,\"bus_transfer_cycles\":18,\"bytes_transferred\":18,\"cpu_compute_cycles\":16,\"cpu_wait_cycles\":252,\"hardware_cost\":30,\"memory_requests\":18,\"ram_service_cycles\":216,\"total_cycles\":268}",
+		"task": "cpu_speed"
+	},
+	{
+		"decision": "Controlled official comparison",
+		"evidence": "{\"bus_control_cycles\":18,\"bus_segments_per_word\":1,\"bus_transfer_cycles\":18,\"bytes_transferred\":18,\"cpu_compute_cycles\":16,\"cpu_wait_cycles\":108,\"hardware_cost\":39,\"memory_requests\":18,\"ram_service_cycles\":72,\"total_cycles\":124}",
+		"task": "ram_wait"
+	},
+	{
+		"decision": "Controlled official comparison",
+		"evidence": "{\"bus_control_cycles\":16,\"bus_segments_per_word\":1,\"bus_transfer_cycles\":16,\"bytes_transferred\":16,\"cpu_compute_cycles\":0,\"cpu_wait_cycles\":96,\"hardware_cost\":39,\"memory_requests\":16,\"ram_service_cycles\":64,\"total_cycles\":96}",
+		"task": "bus_width"
+	},
+	{
+		"decision": "Controlled official comparison",
+		"evidence": "{\"bus_control_cycles\":168,\"bus_segments_per_word\":2,\"bus_transfer_cycles\":336,\"bytes_transferred\":168,\"cpu_compute_cycles\":504,\"cpu_wait_cycles\":1848,\"hardware_cost\":21,\"memory_requests\":168,\"ram_service_cycles\":1344,\"total_cycles\":2352}",
+		"task": "bottleneck"
+	},
+	{
+		"decision": "Observed before review",
+		"evidence": "{\"cache_hits\":0,\"cache_misses\":0,\"compute_cycles\":17,\"hardware_cost\":0,\"ram_bytes_transferred\":64,\"total_cycles\":257,\"wait_cycles\":240}",
+		"task": "distant_reads"
+	},
+	{
+		"decision": "Observed before review",
+		"evidence": "{\"cache_hits\":12,\"cache_misses\":4,\"compute_cycles\":17,\"hardware_cost\":4,\"ram_bytes_transferred\":64,\"total_cycles\":105,\"wait_cycles\":88}",
+		"task": "nearby_storage"
+	},
+	{
+		"decision": "Observed before review",
+		"evidence": "{\"cache_hits\":0,\"cache_misses\":16,\"compute_cycles\":17,\"hardware_cost\":4,\"ram_bytes_transferred\":256,\"total_cycles\":321,\"wait_cycles\":304}",
+		"task": "cache_failure"
+	},
+	{
+		"decision": "Observed before review",
+		"evidence": "{\"cache_hits\":12,\"cache_misses\":4,\"compute_cycles\":17,\"hardware_cost\":4,\"ram_bytes_transferred\":64,\"total_cycles\":105,\"wait_cycles\":88}",
+		"task": "access_order"
+	},
+	{
+		"decision": "Observed before review",
+		"evidence": "{\"cache_hits\":24,\"cache_misses\":8,\"compute_cycles\":34,\"hardware_cost\":4,\"ram_bytes_transferred\":128,\"total_cycles\":210,\"wait_cycles\":176}",
+		"task": "working_set"
+	},
+	{
+		"decision": "Group 4",
+		"evidence": "{\"cache_hits\":24,\"cache_misses\":8,\"compute_cycles\":34,\"hardware_cost\":4,\"ram_bytes_transferred\":128,\"total_cycles\":210,\"wait_cycles\":176}",
+		"task": "blocking"
+	},
+	{
+		"decision": "Group 2",
+		"evidence": "{\"cache_hits\":24,\"cache_misses\":8,\"compute_cycles\":34,\"hardware_cost\":4,\"ram_bytes_transferred\":128,\"total_cycles\":210,\"wait_cycles\":176}",
+		"task": "blocking"
+	},
+	{
+		"decision": "Group 1",
+		"evidence": "{\"cache_hits\":28,\"cache_misses\":4,\"compute_cycles\":34,\"hardware_cost\":4,\"ram_bytes_transferred\":64,\"total_cycles\":138,\"wait_cycles\":104}",
+		"task": "blocking"
+	},
+	{
+		"decision": "Observed before review",
+		"evidence": "{\"cache_hits\":28,\"cache_misses\":4,\"compute_cycles\":34,\"hardware_cost\":4,\"ram_bytes_transferred\":64,\"total_cycles\":138,\"wait_cycles\":104}",
+		"task": "blocking"
+	},
+	{
+		"decision": "One lever: four-line cache",
+		"evidence": "{\"cache_hits\":28,\"cache_misses\":4,\"compute_cycles\":34,\"hardware_cost\":13,\"ram_bytes_transferred\":64,\"total_cycles\":138,\"wait_cycles\":104}",
+		"task": "capstone"
+	},
+	{
+		"decision": "Observed before review",
+		"evidence": "{\"cache_hits\":28,\"cache_misses\":4,\"compute_cycles\":34,\"hardware_cost\":4,\"ram_bytes_transferred\":64,\"total_cycles\":138,\"wait_cycles\":104}",
+		"task": "capstone"
+	}
+]

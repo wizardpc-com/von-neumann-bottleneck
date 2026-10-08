@@ -1,0 +1,25 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "separate_processes": true,
+  "profile": "VonNeumannBottleneckChecks/creation-restart-5abfb72942b9",
+  "checks": [
+    {
+      "phase": "write",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    },
+    {
+      "phase": "fork",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    },
+    {
+      "phase": "read",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    }
+  ]
+}

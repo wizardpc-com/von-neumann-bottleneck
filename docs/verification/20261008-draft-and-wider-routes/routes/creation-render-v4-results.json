@@ -1,0 +1,21 @@
+[
+  {
+    "suite": "test_creation_measured_closure",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project",
+      "--script",
+      "res://tests/test_creation_measured_closure.gd",
+      "--",
+      "--creation-contract-capture"
+    ],
+    "exit": -15,
+    "errors": [
+      "ERROR: Successful keep offers a detached actual saved-work closure",
+      "ERROR: Visible action ViewKeptWork",
+      "SCRIPT ERROR: Invalid access to property or key 'visible' on a base object of type 'Nil'."
+    ],
+    "passed": false
+  }
+]

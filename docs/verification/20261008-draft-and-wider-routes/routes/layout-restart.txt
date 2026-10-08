@@ -1,0 +1,13 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: Separate process revalidates all six completions and preserves drafts/named designs exactly
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] layout_restart_evidence (res://scripts/proxy-layout-path.gd:86)
+       [2] layout_path (res://scripts/proxy-layout-path.gd:125)
+       [3] _run (res://scripts/proxy-player-paths.gd:327)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+Recovery GUI checks: 12; failures: 1

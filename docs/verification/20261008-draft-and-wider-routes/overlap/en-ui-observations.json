@@ -1,0 +1,154 @@
+[
+	{
+		"check": "QA profile loads and revalidates actual earned sources",
+		"ok": true
+	},
+	{
+		"check": "Resume names a supported player path stage",
+		"ok": true
+	},
+	{
+		"check": "Resume uses only previously UI-earned Game save",
+		"ok": true
+	},
+	{
+		"check": "Current stage offers its real journey return action",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Stage return restores the unified journey tree",
+		"ok": true
+	},
+	{
+		"check": "Restart has the previous process's earned timing expectation",
+		"ok": true
+	},
+	{
+		"check": "Restart expectation is a complete detached timing snapshot",
+		"ok": true
+	},
+	{
+		"check": "Independent restart revalidates earned timing task: arrival",
+		"ok": true
+	},
+	{
+		"check": "Independent restart revalidates earned timing task: buffers",
+		"ok": true
+	},
+	{
+		"check": "Independent restart revalidates earned timing task: backpressure",
+		"ok": true
+	},
+	{
+		"check": "Independent restart revalidates earned timing task: prefetch",
+		"ok": true
+	},
+	{
+		"check": "Independent restart revalidates earned timing task: distance",
+		"ok": true
+	},
+	{
+		"check": "Independent restart revalidates earned timing task: synthesis",
+		"ok": true
+	},
+	{
+		"check": "Restart retains all actual timing solutions, drafts, routes, and distance evidence",
+		"ok": true
+	},
+	{
+		"check": "Task entry uses the visible unified journey map: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Journey search locates the requested public task: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Located task is reachable in the viewport: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Task is selected and unlocked by actual prior Game builds: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Journey enter opens the selected task: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Exact stage workspace opened: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Real TaskTree entry restores the exact final machine draft",
+		"ok": true
+	},
+	{
+		"check": "Real TaskTree entry restores the exact typed final program",
+		"ok": true
+	},
+	{
+		"check": "Restored final work exposes its real path-review control",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: timing-restart-final-draft",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Restart path review follows its real Home route",
+		"ok": true
+	},
+	{
+		"check": "Restart reopens the earned path review through visible input",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: timing-restart-path-review",
+		"ok": true
+	},
+	{
+		"check": "Restart review closes through its visible control",
+		"ok": true
+	},
+	{
+		"check": "Review and return preserve every earned timing result and draft",
+		"ok": true
+	},
+	{
+		"check": "Independent restart saves the revalidated timing work successfully",
+		"ok": true
+	},
+	{
+		"check": "Saving restored timing work does not alter its earned evidence",
+		"ok": true
+	},
+	{
+		"check": "Actual UI-earned Game sources and chapter receipts are persisted to the QA profile",
+		"ok": true
+	},
+	{
+		"check": "QA Game save exists for an independent restart",
+		"ok": true
+	},
+	{
+		"check": "QA source circuits exist for independent provenance revalidation",
+		"ok": true
+	}
+]

@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project",
+    "--script",
+    "res://experiments/play_journeys.gd",
+    "--",
+    "--locale=en",
+    "--experiment=representation_region",
+    "--candidate-save",
+    "--candidate-journey",
+    "--evidence-dir=res://.godot/wider-representation_region-v3/",
+    "--capture"
+  ],
+  "user_dir": "VonNeumannBottleneckCandidates/representation/QA-Wider-20261008-representation-en-v3",
+  "exit": 0,
+  "errors": [],
+  "passed": true
+}

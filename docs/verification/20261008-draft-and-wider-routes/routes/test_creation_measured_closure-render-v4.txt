@@ -1,0 +1,21 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: Successful keep offers a detached actual saved-work closure
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_measured_closure.gd:8)
+       [1] run (res://tests/test_creation_measured_closure.gd:66)
+       [2] settle (res://tests/test_creation_measured_closure.gd:10)
+ERROR: Visible action ViewKeptWork
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_measured_closure.gd:8)
+       [1] click (res://tests/test_creation_measured_closure.gd:21)
+       [2] settle (res://tests/test_creation_measured_closure.gd:10)
+SCRIPT ERROR: Invalid access to property or key 'visible' on a base object of type 'Nil'.
+          at: run (res://tests/test_creation_measured_closure.gd:79)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_creation_measured_closure.gd:79)
+              [1] click (res://tests/test_creation_measured_closure.gd:30)
+              [2] settle (res://tests/test_creation_measured_closure.gd:10)

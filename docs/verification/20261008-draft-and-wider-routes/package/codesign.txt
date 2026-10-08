@@ -1,0 +1,2 @@
+Command: codesign --verify --deep --strict build/free-alpha-db104d3688d1/macOS/Von-Neumann-Bottleneck.app
+Exit: 0

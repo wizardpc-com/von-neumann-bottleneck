@@ -2,7 +2,33 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current Mac preservation and observation checkpoint — 2026-10-08
+## Current draft and wider-route checkpoint — 2026-10-08
+
+Runtime `db104d3688d1`, branch `codex/mac-second-act-20261005`: Creation has
+24-step transient draft/model Undo/Redo, constantly visible authoritative cost
+and outcome, and exact saved-work viewing/forking after Keep. Restoring a draft
+cannot revive an old output or undo protected works/progress. Layout traces follow
+actual physical source/scratch allocation and A/B recording; batch reuse names
+its actual executed order B. No simulation/schema/gate migration.
+
+Godot **4.7.1 stable**, original assets:28 distinct affected suites covered across
+repair runs; final four headless repairs plus import/isolation PASS. Final bilingual
+Creation renderer670 checks and eight1280×720 captures PASS; three independent
+Creation save/fork/read processes PASS. Actual UI-earned/persisted core+system+
+locality route1221 checks PASS. All six Layout and six Overlap tasks earned with
+counterexamples; review/return/independent restart PASS. Representation five tasks
+(186checks) and Service three contracts(171checks), plus18 restart checks each PASS.
+Intermediate failures are retained; viewport known answers are agent evidence.
+
+Current internal Mac candidate:
+`build/free-alpha-db104d3688d1/macOS/Von-Neumann-Bottleneck.app`, profile
+`Drafts-db104d3`; export/archive identity,16 actual binary checks and strict codesign checks PASS.
+[Exact source, failures, routes, package and restart evidence](verification/20261008-draft-and-wider-routes/README.md).
+G2's documented legacy differing-output completion boundary remains open.
+Native OS input, novice/listening/artistic/device/Windows and formal distribution
+remain unverified; the broad whole-game goal remains active.
+
+## Previous Mac preservation and observation checkpoint — 2026-10-08
 
 Runtime/source `563acb805042` on `codex/mac-second-act-20261005` repairs failed
 workbench creation/selection, explicit Creation writer recovery and retained

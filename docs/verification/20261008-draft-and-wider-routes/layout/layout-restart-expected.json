@@ -1,0 +1,459 @@
+{
+	"mixed_draft": {
+		"batch": 4,
+		"copy_fields": [
+			0,
+			3
+		],
+		"recipe": {
+			"block": 0,
+			"groups": [
+				{
+					"fields": [
+						0,
+						3
+					],
+					"order": "record"
+				},
+				{
+					"fields": [
+						1,
+						2
+					],
+					"order": "record"
+				}
+			]
+		},
+		"strategy": "batch"
+	},
+	"state": {
+		"bonuses": {
+			"flow": {
+				"batch": 4,
+				"copy_fields": [
+					0,
+					3
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								3
+							],
+							"order": "record"
+						},
+						{
+							"fields": [
+								1,
+								2
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "batch"
+			}
+		},
+		"drafts": {
+			"batches": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								1,
+								2,
+								3
+							],
+							"order": "field"
+						}
+					]
+				},
+				"strategy": "batch"
+			},
+			"fields": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								1,
+								2,
+								3
+							],
+							"order": "field"
+						}
+					]
+				},
+				"strategy": "direct"
+			},
+			"hot_cold": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								3
+							],
+							"order": "record"
+						},
+						{
+							"fields": [
+								1,
+								2
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "direct"
+			},
+			"mixed": {
+				"batch": 4,
+				"copy_fields": [
+					0,
+					3
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								3
+							],
+							"order": "record"
+						},
+						{
+							"fields": [
+								1,
+								2
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "batch"
+			},
+			"records": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								1,
+								2,
+								3
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "direct"
+			},
+			"relocation": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"orders": {
+					"A": {
+						"batch": 4,
+						"copy_fields": [
+							0
+						],
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "field"
+								}
+							]
+						},
+						"strategy": "direct"
+					},
+					"B": {
+						"batch": 4,
+						"copy_fields": [
+							0
+						],
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "field"
+								}
+							]
+						},
+						"strategy": "full"
+					}
+				},
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								1,
+								2,
+								3
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "direct"
+			}
+		},
+		"model_version": "layout-memory-1",
+		"named": {
+			"mixed": {
+				"Layout six-task QA": {
+					"batch": 4,
+					"copy_fields": [
+						0,
+						3
+					],
+					"recipe": {
+						"block": 0,
+						"groups": [
+							{
+								"fields": [
+									0,
+									3
+								],
+								"order": "record"
+							},
+							{
+								"fields": [
+									1,
+									2
+								],
+								"order": "record"
+							}
+						]
+					},
+					"strategy": "batch"
+				}
+			}
+		},
+		"schema_version": 1,
+		"solutions": {
+			"batches": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								1,
+								2,
+								3
+							],
+							"order": "field"
+						}
+					]
+				},
+				"strategy": "batch"
+			},
+			"fields": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								1,
+								2,
+								3
+							],
+							"order": "field"
+						}
+					]
+				},
+				"strategy": "direct"
+			},
+			"hot_cold": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								3
+							],
+							"order": "record"
+						},
+						{
+							"fields": [
+								1,
+								2
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "direct"
+			},
+			"mixed": {
+				"batch": 4,
+				"copy_fields": [
+					0,
+					3
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								3
+							],
+							"order": "record"
+						},
+						{
+							"fields": [
+								1,
+								2
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "batch"
+			},
+			"records": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								1,
+								2,
+								3
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "direct"
+			},
+			"relocation": {
+				"batch": 4,
+				"copy_fields": [
+					0
+				],
+				"orders": {
+					"A": {
+						"batch": 4,
+						"copy_fields": [
+							0
+						],
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "field"
+								}
+							]
+						},
+						"strategy": "direct"
+					},
+					"B": {
+						"batch": 4,
+						"copy_fields": [
+							0
+						],
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "field"
+								}
+							]
+						},
+						"strategy": "full"
+					}
+				},
+				"recipe": {
+					"block": 0,
+					"groups": [
+						{
+							"fields": [
+								0,
+								1,
+								2,
+								3
+							],
+							"order": "record"
+						}
+					]
+				},
+				"strategy": "direct"
+			}
+		}
+	}
+}

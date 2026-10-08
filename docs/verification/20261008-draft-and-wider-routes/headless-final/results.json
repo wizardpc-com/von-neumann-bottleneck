@@ -1,0 +1,54 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T194624Z-fb1f5fe9/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T194624Z-fb1f5fe9/user_directory"
+    },
+    {
+      "name": "test_creation_causal_panel",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_causal_panel.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T194624Z-fb1f5fe9/test_creation_causal_panel"
+    },
+    {
+      "name": "test_creation_draft_undo",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_draft_undo.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T194624Z-fb1f5fe9/test_creation_draft_undo"
+    },
+    {
+      "name": "test_creation_measured_closure",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_measured_closure.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T194624Z-fb1f5fe9/test_creation_measured_closure"
+    },
+    {
+      "name": "test_creation_workbench",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T194624Z-fb1f5fe9/test_creation_workbench"
+    }
+  ]
+}

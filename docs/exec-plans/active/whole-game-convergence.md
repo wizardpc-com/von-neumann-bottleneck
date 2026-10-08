@@ -83,3 +83,53 @@ Broad goal remains active; future convergence should address the historical
 proxy resume helpers and wider earned routes, then native/human/device gaps when
 available. Keep release gates separate; do not use test totals as artistic proof.
 All worker ownership released. Root sole Git/Godot/GUI. Unrelated dirt preserved.
+
+## Wider-route and creation contract increment
+
+Ownership: root sole Git/Godot/GUI/docs; cost_conditions owns Layout UI plus new
+trace storage test; prediction_flow owns proxy-player-paths; review owns Creation
+session/workbench plus measured-closure and undo tests. No shared resource/model/
+format/gate changes. Workers do not run Godot or mutate Git.
+
+Concrete findings: Layout uses logical record identity to select storage and can
+retain B event indices after selecting A; batch reuse copies an unexecuted root
+recipe rather than either actual relocation order; relocation telemetry omits its
+executed orders. Creation lacks a constantly visible measured summary, saved-work
+closing entry, and undoable recipe forks required by design/model briefs. Fix these
+in their existing bounded UI/session domains and verify the affected paths.
+
+The previous 760-check original Game input route was in-memory: its automated
+launch did not persist savegame/workbench files. It proves earned play, not a
+restartable core profile. A fresh proxy route must earn and persist the source
+circuits through real input before wider restart/resume verification. Never copy
+real player saves or invent progress to fill this gap.
+
+G2 legacy gate versus direct satisfactory work remains explicitly unresolved; do
+not call existing support a causal-intent certificate or silently migrate it.
+Native lock is still an external-input limitation; independent concrete repairs
+and renderer paths make progress, so the whole-game goal stays active.
+
+
+Wider-route checkpoint runtime db104d3688d1 implemented and verified. All worker
+files released; root sole engine/Git/GUI. Creation transient24-step history excludes
+works/supports/revealed flags; measured summary/kept exact-work closure and source-
+correct focus restored. Layout physical allocation attribution, order-B recipe
+reuse and executed-order telemetry corrected. Real unified-tree helpers earn and
+persist source circuits rather than manufacturing restart support.
+
+28 distinct affected suites pass across repaired evidence; final headless4/4+
+import/isolation PASS. Renderer670 Creation checks /8bilingual1280captures and3
+Creation restart processes PASS. Actual persisted core+system+locality1221checks
+PASS; six Layout earned (initial269 with modal helper failure), repairedcloseout45
+and independentrestart24PASS; six Overlap207+restart38PASS. Representation186+
+restart18 and Service171+restart18PASS. Popup actuator failures are retained and
+selection now uses the actual public comparison table with exact-trace assertions.
+Matching Mac export free-alpha-db104d3688d1, identity/codesign PASS; package probe
+receipt in dated evidence. No main/public-release change, no real save edits.
+
+Next unresolved work remains explicit: G2 legacy completion vs direct satisfactory
+work/controlled paired proof requires compatibility/design review; unknown-answer
+novice, listening/artistic/device/native acceptance cannot be closed by known-answer
+checks. No broad completion claim. Exact evidence and package pointers:
+docs/verification/20261008-draft-and-wider-routes/README.md. Original four collaborator
+files preserved. Root prepares evidence/status commit and authorized branch push.

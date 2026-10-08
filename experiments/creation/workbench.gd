@@ -19,6 +19,8 @@ var task: int = 0
 var source_kind: int = 0
 var codec: String = "predictive"
 var latest: Dictionary = {}
+# A restored draft has no current run; rebuilds must not resurrect a saved work.
+var suppress_snapshot_fallback: bool = false
 var records: Array[Dictionary] = []
 var comparison: Array[Dictionary] = []
 var pinned_creation: Dictionary = {}
@@ -37,6 +39,10 @@ var signal_view: Control
 var status: Label
 var provenance: Label
 var machine_strip: Label
+var measured_summary: Label
+var saved_work_closure: HFlowContainer
+var saved_work_caption: Label
+var kept_work: Dictionary = {}
 var causal_panel: VBoxContainer
 var causal_tabs: TabContainer
 var focused_cell: int = -1
@@ -173,7 +179,7 @@ func scroll_column(parent: Node) -> VBoxContainer:
 
 func build() -> void:
 	playing = false
-	if task == 8 and latest.is_empty() and not session.data.works.is_empty():
+	if task == 8 and not suppress_snapshot_fallback and latest.is_empty() and not session.data.works.is_empty():
 		var saved: Dictionary = session.data.works[-1]
 		latest = {"kind":"snapshot","output":saved.output.duplicate(),"work":saved.duplicate(true)}
 	for child: Node in get_children():
@@ -182,9 +188,12 @@ func build() -> void:
 	add_child(preload("res://src/ui/technical_backdrop.gd").new())
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for edge: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+edge,12)
+	# Preserve the signal and evidence minima at 720px while keeping horizontal gutters.
+	for edge: String in ["left","right"]: margin.add_theme_constant_override("margin_"+edge,12)
+	for edge: String in ["top","bottom"]: margin.add_theme_constant_override("margin_"+edge,6)
 	add_child(margin)
 	var page := VBoxContainer.new()
+	page.add_theme_constant_override("separation",2)
 	margin.add_child(page)
 	var header := HBoxContainer.new()
 	page.add_child(header)
@@ -207,6 +216,8 @@ func build() -> void:
 	task_choice.select(task)
 	task_choice.item_selected.connect(change_task)
 	navigation.add_child(task_choice)
+	button(text2("撤销","Undo"),"UndoDraft",navigation,func() -> void: restore_draft_history(false))
+	button(text2("重做","Redo"),"RedoDraft",navigation,func() -> void: restore_draft_history(true))
 	button(text2("上一单元","Previous"),"Previous",navigation,func() -> void: change_task(maxi(0,task-1)))
 	button(text2("下一单元","Next"),"Next",navigation,func() -> void: change_task(mini(8,task+1)))
 	var mission: Label = label(Catalog.goal(task,english),page,14)
@@ -232,6 +243,7 @@ func build() -> void:
 	train_button = button(text2("从当前样例学习","Learn selected examples"),"Train",left,train_model)
 	label(text2("修改草稿不会暗改已学模型。点「学习」才建立新版本；每段样例独立，不首尾拼接。","Draft edits do not change learned rules. Learn explicitly to make a new version; examples are independent."),left,12)
 	var right: VBoxContainer = panel(body,"SignalEvidence")
+	right.add_theme_constant_override("separation",4)
 	var evidence_header := HBoxContainer.new()
 	right.add_child(evidence_header)
 	provenance = label("",evidence_header,12)
@@ -242,8 +254,21 @@ func build() -> void:
 	machine_strip = label("",right,11)
 	machine_strip.name = "MachineResources"
 	machine_strip.add_theme_color_override("font_color",Color("a9bbc9"))
+	measured_summary = label("",right,12)
+	measured_summary.name = "LiveMeasurementSummary"
+	saved_work_closure = HFlowContainer.new()
+	saved_work_closure.name = "SavedWorkClosure"
+	right.add_child(saved_work_closure)
+	saved_work_caption = label("",saved_work_closure,13)
+	saved_work_caption.custom_minimum_size = Vector2(180,36)
+	saved_work_caption.autowrap_mode = TextServer.AUTOWRAP_OFF
+	saved_work_caption.clip_text = true
+	saved_work_caption.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	button(text2("观看完整作品","View full saved work"),"ViewKeptWork",saved_work_closure,view_kept_work)
+	button(text2("修改此作品","Edit this work"),"ContinueCreation",saved_work_closure,continue_creation)
 	signal_area = VBoxContainer.new()
 	signal_area.name = "SignalPresentation"
+	signal_area.add_theme_constant_override("separation",4)
 	right.add_child(signal_area)
 	signal_view = SignalView.new()
 	signal_view.name = "SignalView"
@@ -262,7 +287,7 @@ func build() -> void:
 	button(text2("展开证据","Expand evidence"),"ExpandEvidence",playback,func() -> void: set_evidence_expanded(true))
 	var inspection_scroll := ScrollContainer.new()
 	inspection_scroll.name = "InspectionScroll"
-	inspection_scroll.custom_minimum_size.y = 42
+	inspection_scroll.custom_minimum_size.y = 32
 	inspection_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	inspection_scroll.focus_mode = Control.FOCUS_ALL
 	signal_area.add_child(inspection_scroll)
@@ -272,6 +297,8 @@ func build() -> void:
 	var evidence_tabs := TabContainer.new()
 	causal_tabs = evidence_tabs
 	evidence_tabs.name = "EvidenceTabs"
+	# Keep the candidate row visible beneath the tab bar at the base viewport.
+	evidence_tabs.custom_minimum_size.y = 88
 	evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	evidence_tabs.use_hidden_tabs_for_min_size = false
 	right.add_child(evidence_tabs)
@@ -375,7 +402,7 @@ func _build_examples(parent: Node) -> void:
 	button(text2("清空所选样例","Clear selection"),"ClearExamples",parent,func() -> void:
 		session.data.draft.examples = []
 		edit_draft()
-		build())
+		rebuild_editor_preserving_inputs())
 	label(text2("准备费用来自实际读取、计数更新与模型写入，可在事件页查看。","Preparation pays for actual sample reads, count updates and model writes; inspect Events."),parent,12)
 
 func _build_machine(parent: Node) -> void:
@@ -407,7 +434,7 @@ func _build_machine(parent: Node) -> void:
 func apply_machine_condition(index: int) -> void:
 	session.data.draft.machine = preload("res://experiments/creation/condition_examples.gd").machine(index)
 	edit_draft()
-	build()
+	rebuild_editor_preserving_inputs()
 	set_status(text2("机器条件已应用。原文、规则盒与旧实测保持；请运行对照。","Machine condition applied. Source, rules and prior measurements remain; run a comparison."))
 
 func valid_initial_input() -> bool:
@@ -611,6 +638,11 @@ func begin_prediction(kind: String) -> void:
 	if not result.get("ok",false):
 		set_status(text2("预测未开始：","Prediction did not start: ")+failure_text(result))
 		return
+	# A different prediction method/passage has a different evidence domain.
+	# Same-source reruns retain their inspected cell; cross-domain runs do not.
+	if observation_anchor.get("identity",{}).get("kind","") == "prediction" and str(observation_anchor.get("identity",{}).get("passage","")) != kind:
+		observation_anchor.clear()
+		focused_cell = -1
 	latest = session.prediction_evidence()
 	latest.kind = "prediction"
 	prediction_recipe = {"model_id":session.prediction.model_id,"order":int(session.data.model.order),"kind":kind,"machine":session.data.draft.machine.duplicate(true)}
@@ -735,7 +767,9 @@ func keep_work() -> void:
 		set_status(text2("作品未保存：","Work was not saved: ")+failure_text(result))
 		return
 	set_status(text2("已留下这件作品及完整配方。新的东西在这套系统中发生了。","This work and its full recipe are kept. Something new happened within this system."))
+	kept_work = result.work.duplicate(true)
 	refresh()
+	works.select(session.data.works.size()-1)
 
 func play_work() -> void:
 	var result: Dictionary = session.play_work(selected_work())
@@ -762,17 +796,17 @@ func replay_work() -> void:
 		refresh_tracks()
 
 func fork_work() -> void:
+	var editor_state: Dictionary = _capture_editor_state()
+	var invalid_initial: bool = not valid_initial_input()
 	var result: Dictionary = session.fork_work(selected_work())
 	if not result.get("ok",false):
 		set_status(str(result.get("error","select_work")))
 		return
-	latest = {}
-	comparison.clear()
-	pinned_creation.clear()
-	compared_creation.clear()
-	creation_report.clear()
+	_clear_active_draft_presentation()
 	set_status(text2("从已保存配方建立新草稿。旧作品继续保留。","A new draft starts from the saved recipe. The old work remains protected."))
 	build()
+	if not invalid_initial: editor_state.inputs.erase("Initial")
+	_restore_editor_state(editor_state)
 
 func save_draft() -> void:
 	var saved: Error = session.save()
@@ -782,12 +816,19 @@ func save_draft() -> void:
 func refresh() -> void:
 	refresh_keep_actions()
 	_refresh_creation_comparison()
+	for handle: String in ["UndoDraft","RedoDraft"]:
+		var action := find_child(handle,true,false) as Button
+		if action != null: action.disabled = not writable or (not session.can_undo() if handle == "UndoDraft" else not session.can_redo())
 	if not is_instance_valid(provenance): return
 	var model: Dictionary = session.data.get("model",{})
 	var model_id: String = "—" if model.is_empty() else Model.identity(model).substr(0,12)
 	var mode: String = str(session.data.get("mode","compress"))
 	var machine: Dictionary = session.data.draft.machine
 	machine_strip.text = "%s · CPU %s %s · RAM %s B · %s %s %s · %s %s B/%s + %s %s"%[text2("当前机器","Current machine"),str(machine.cpu_ops_per_cycle),text2("运算/周期","ops/cycle"),str(machine.memory_bytes),text2("自动缓存","auto cache"),str(machine.cache_rows),text2("规则行","rule rows"),text2("通道","bus"),str(machine.bytes_per_cycle),text2("周期","cycle"),str(machine.request_cycles),text2("周期/请求","cycles/request")]
+	measured_summary.text = live_measurement_text()
+	saved_work_closure.visible = not kept_work.is_empty()
+	(find_child("ContinueCreation",true,false) as Button).disabled = not writable
+	saved_work_caption.text = text2("已留下：","Kept: ")+str(kept_work.get("name",""))
 	var names: Dictionary = {"compress":text2("原文→包→恢复","source→packet→restore"),"predict":text2("已见→提交→真值","seen→commit→truth"),"generate":text2("输出→上下文","output→context")}
 	provenance.text = "%s · %s · %s %s · %s"%[names.get(mode,mode),text2("当前草稿模型","current draft model"),model_id,text2("（冻结）","(frozen)"),text2("未保存草稿","unsaved draft") if session.dirty else text2("已保存","saved")]
 	if not writable: provenance.text += " · "+text2("只读档","read-only profile")
@@ -818,7 +859,7 @@ func refresh() -> void:
 		button("×","RemoveExample"+str(i),row,func() -> void:
 			session.data.draft.examples.remove_at(i)
 			session.mark_dirty()
-			build())
+			rebuild_editor_preserving_inputs())
 	rules.clear()
 	var root: TreeItem = rules.create_item()
 	var displayed_rules: Dictionary = latest.get("recipe",latest.get("work",{}).get("recipe",{})).get("model",model)
@@ -898,6 +939,31 @@ func measurement_text() -> String:
 	lines.append(text2("周期来自顺序事件；包字节与含规则行读写的总搬运字节分列。重复与高熵均不判作品美感。","Cycles come from sequential events; packet size is distinct from total traffic including rule accesses. Neither repetition nor high entropy judges beauty."))
 	return "\n".join(lines)
 
+func live_measurement_text() -> String:
+	# The same detached result owns the operation/traffic totals shown in detail.
+	# Draft controls and presentation time never reconstruct measurement values.
+	var kind: String = str(latest.get("kind",""))
+	if kind == "snapshot":
+		return text2("保护快照 · %d 格 · 无本次运算／搬运实测", "Saved snapshot · %d cells · no current ops / traffic measurement")%latest.get("output",[]).size()
+	var cost: Dictionary = latest.get("cost",{})
+	if cost.is_empty(): return text2("尚无本次实测 · 运行后查看搬运、运算与结果。", "No current measurement · run to see traffic, operations and result.")
+	var result: String = ""
+	var origin: String = text2("实测", "Measured")
+	if kind == "transport":
+		result = text2("无损一致", "exact restoration") if latest.get("lossless",false) else text2("恢复不一致", "restoration differs")
+	elif kind == "prediction":
+		var observed: Dictionary = session.prediction
+		result = text2("已揭晓 %d · 命中 %d", "revealed %d · hits %d")%[observed.get("rows",[]).size(),int(observed.get("hits",0))]
+		if not observed.get("pending",{}).is_empty(): result += text2(" · 下一格已提交，未揭晓", " · next committed, sealed")
+	elif kind == "training":
+		origin = text2("学习实测", "Learning measurement")
+		result = text2("%d 行规则", "%d rule rows")%latest.get("model",{}).get("rows",[]).size()
+	elif kind == "replay":
+		origin = text2("本次配方再生实测", "Current recipe replay")
+		result = text2("与快照一致", "matches snapshot") if latest.get("matches",false) else text2("与快照不同", "differs from snapshot")
+	elif kind == "generation": result = text2("生成 %d 格 · 无标准答案", "generated %d cells · no target")%latest.get("output",[]).size()
+	return "%s · %s ops · %s B · %s %s · %s"%[origin,str(cost.get("cpu_ops",0)),str(cost.get("transfer_bytes",0)),str(cost.get("total_cycles",0)),text2("周期", "cycles"),result]
+
 func cost_text(cost: Dictionary) -> String:
 	return "%s %s · %s ops · %s B · %s %s B"%[str(cost.get("total_cycles",0)),text2("周期","cycles"),str(cost.get("cpu_ops",0)),str(cost.get("transfer_bytes",0)),text2("峰值","peak"),str(cost.get("peak_bytes",0))]
 
@@ -952,6 +1018,10 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 	elif task < 3:
 		tracks[0] = Catalog.source(source_kind)
 		captions = [text2("发送端原文 · 尚未发送","Sender original · not sent yet"),text2("规则猜测 · 等待运行","Rule guesses · awaiting run"),text2("接收端 · 等待合法包","Receiver · awaiting a valid packet")]
+	elif str(session.data.mode) == "generate":
+		captions = [text2("当前配方尚无新输出","No new output from this recipe"),text2("起始片段 · 等待生成","Initial passage · awaiting generation"),text2("点击「按我的配方生成」重新运行","Run again with Generate my recipe")]
+	elif str(session.data.mode) == "predict":
+		captions = [text2("尚未开启本轮预测","No prediction round has started"),text2("同一规则盒已接到未见输入","Same rules connected to unseen input"),text2("选择练习或冻结检查，然后先提交再揭晓","Choose practice or a frozen check, then commit before reveal")]
 	else:
 		captions = [text2("还没有已发生输出","No output has occurred"),text2("同一模型等待连接","Same model awaits connection"),text2("按模式按钮建立实际路径","Connect the actual path with the mode button")]
 	signal_view.set_tracks(tracks,captions,marks)
@@ -1215,6 +1285,34 @@ func _capture_editor_state() -> Dictionary:
 	if focus != null: saved.focus = str(focus.name)
 	return saved
 
+func rebuild_editor_preserving_inputs() -> void:
+	var editor_state: Dictionary = _capture_editor_state()
+	build()
+	_restore_editor_state(editor_state)
+
+func restore_draft_history(redo: bool) -> void:
+	if not writable: return
+	var editor_state: Dictionary = _capture_editor_state()
+	var invalid_initial: bool = not valid_initial_input()
+	var result: Dictionary = session.redo_draft() if redo else session.undo_draft()
+	if not result.get("ok",false):
+		set_status(text2("无法恢复草稿：","Draft cannot be restored: ")+str(result.get("error","")))
+		refresh()
+		return
+	if not invalid_initial: editor_state.inputs.erase("Initial")
+	_clear_active_draft_presentation()
+	build()
+	_restore_editor_state(editor_state)
+	set_status(text2("已重做草稿；旧作品和实测保留，请重新运行。" if redo else "已撤销草稿；旧作品和实测保留，请重新运行。", "Draft redone; saved works and measurements remain. Run again." if redo else "Draft undone; saved works and measurements remain. Run again.")+(text2(" 起始栏仍有未提交文本。", " Initial still contains unsubmitted text.") if invalid_initial else ""))
+
+func _clear_active_draft_presentation() -> void:
+	suppress_snapshot_fallback = true
+	latest.clear(); kept_work.clear(); comparison.clear()
+	pinned_creation.clear(); compared_creation.clear(); creation_report.clear()
+	prediction_recipe.clear(); observation_anchor.clear()
+	inspected_context.clear(); inspected_counts.clear()
+	focused_cell = -1; focused_source = ""; focused_lane = 2; event_page = 0
+
 func _restore_editor_state(saved: Dictionary) -> void:
 	for handle: String in saved.get("inputs",{}):
 		var input := find_child(handle,true,false) as LineEdit
@@ -1232,7 +1330,9 @@ func _restore_editor_state(saved: Dictionary) -> void:
 		if focus != null: focus.grab_focus()
 
 func _clear_replaced_exploration() -> void:
+	suppress_snapshot_fallback = false
 	latest.clear(); records.clear(); comparison.clear()
+	kept_work.clear()
 	pinned_creation.clear(); compared_creation.clear(); creation_report.clear()
 	transport_comparisons.clear(); selected_cost_comparison = -1
 	prediction_recipe.clear(); observation_anchor.clear()
@@ -1438,8 +1538,8 @@ func choose_creation_result(use_b: bool) -> void:
 	session.data.training = chosen.training.duplicate(true)
 	session.data.parent_work = chosen.parent_work
 	session.data.mode = "generate"
+	session.mark_dirty()
 	session.generated = chosen.duplicate(true)
-	session.dirty = true
 	latest = chosen.duplicate(true)
 	latest.kind = "generation"
 	change_task(8)
@@ -1452,11 +1552,36 @@ func focus_work() -> void:
 	if not result.get("ok",false):
 		set_status(text2("先在作品列表选中一件已保存作品。", "Select a saved work first."))
 		return
+	show_saved_work(result.work)
+
+func view_kept_work() -> void:
+	if kept_work.is_empty(): return
+	show_saved_work(kept_work)
+
+func continue_creation() -> void:
+	if not writable or kept_work.is_empty(): return
+	var index: int = -1
+	for i: int in session.data.works.size():
+		if session.data.works[i].id == kept_work.get("id",""): index = i; break
+	var editor_state: Dictionary = _capture_editor_state()
+	var invalid_initial: bool = not valid_initial_input()
+	var result: Dictionary = session.fork_work(index)
+	if not result.get("ok",false):
+		set_status(text2("无法继续修改作品：", "Cannot continue this work: ")+failure_text(result))
+		return
+	_clear_active_draft_presentation()
+	build()
+	if not invalid_initial: editor_state.inputs.erase("Initial")
+	_restore_editor_state(editor_state)
+	set_status(text2("从已保存作品建立可撤销的新草稿；旧作品原样保留。", "An undoable draft starts from the saved work; the protected work stays intact."))
+
+func show_saved_work(work: Dictionary) -> void:
+	if is_instance_valid(work_focus): return
 	work_focus_return = get_viewport().gui_get_focus_owner()
 	work_focus = WorkFocus.new()
 	work_focus.name = "SavedWorkFocus"
 	work_focus.theme = theme
-	work_focus.configure(result.work,english)
+	work_focus.configure(work,english)
 	work_focus.dismissed.connect(func() -> void:
 		if is_instance_valid(work_focus_return): work_focus_return.grab_focus())
 	add_child(work_focus)

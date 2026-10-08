@@ -8,6 +8,16 @@ assertions intentionally require no prior acknowledgement. See
 
 ## Continuous signal candidate
 
+The bounded Creation draft-history/closure follow-up adds
+`test_creation_draft_undo` and `test_creation_measured_closure`. Run the affected
+session/UI suites in the isolated verifier. Renderer checks use the imported copy
+and a fresh unique QA user directory for every run; `--creation-contract-capture`
+on either new suite captures bilingual logical1280×720 states. The workbench suite
+retains `--creation-capture`. Never reuse a profile left with a stopped writer.
+Undo/Redo are transient; use `verify-creation-restart.py` separately to prove saved
+works and forks across processes.
+
+
 The 2026-10-08 convergence follow-up adds `test_creation_writer_retry`,
 `test_creation_writer_retry_ui`, `test_creation_observation_focus`, and
 `test_workbench_write_failure`. They check real failed writes, retained active
@@ -85,9 +95,13 @@ for the command, baseline failure, final pass, restart/capture checks and platfo
 `scripts/proxy-player-paths.gd` is not a conventional unit suite. Use the imported
 QA copy from the verifier and a fresh isolated user directory. It extends the ordinary Game input replay through
 system/locality investigations; `--resume=overlap` and `--resume=layout` continue
-only the same UI-earned QA save in that historical version. These `--resume`
-branches currently still reference retired hub cards and need adaptation before
-reuse; the base ordinary Game replay is updated for the unified journey.
+only the same UI-earned QA save in that historical version. The unified-tree proxy now earns and persists the original source circuits before
+system/locality continuation. The base ordinary Game script remains in-memory under
+its automated launch and cannot alone supply a restartable core profile. Full
+`proxy-layout-path.gd` and `proxy-overlap-path.gd` extend a byte-for-byte copy of that
+actual QA-earned capstone profile; their independent restart branches compare all
+revalidated results and retained drafts. Always use a fresh QA directory for each
+branch, preserve the source QA snapshot, and inspect the full log/exit result.
 Full historical commands and scope are in the
 [player-path evidence](../verification/20261002-player-paths/README.md).
 The macOS proxy uses Godot popup rendering for injected menu keys; it is not native

@@ -167,3 +167,22 @@ prediction trace; pending events contain no future truth. Invalid initial text
 clears executable generation and blocks Generate/Keep until corrected.
 
 [4.7.1 original-asset route, actual chosen works and review checklist](../../docs/verification/20261008-creation-playable-loop/README.md).
+
+## Measured work and draft history
+
+Traffic, operations, cycles and the actual result remain visible above the signal
+while Cause details are open. A pending prediction reports only revealed outcomes;
+playing a protected snapshot has no current run cost. Recipe replay has fresh
+measured costs and is labelled separately.
+
+After keeping a named work, **View full saved work** opens that exact saved output,
+even if another run follows. Watching is optional. **Edit this work** forks its
+saved recipe into a new undoable draft; the protected work remains unchanged.
+
+**Undo / Redo** keeps up to24 draft steps for the current session, including recipe
+edits, learning and forks. It does not erase works, successful support recipes,
+seen answers or recorded measurements. Restoring a draft clears current output and
+frozen prediction bindings; run again for fresh evidence. Unsubmitted titles,
+custom passage text and invalid Initial text remain available. A new edit clears
+Redo. History is transient and does not survive profile reload or process restart.
+Changed/future/read-only files cannot authorize history restoration or forks.

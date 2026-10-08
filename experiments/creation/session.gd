@@ -6,6 +6,7 @@ const Files = preload("res://experiments/candidate_session/files.gd")
 const Lease = preload("res://experiments/candidate_session/writer_lease.gd")
 const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
 const UNITS := ["C1_restore","C2_cost","C3_conditions","P1_commit","P2_memory","P3_check","G1_feedback","G2_intent","G3_keep"]
+const MAX_DRAFT_HISTORY := 24
 var data: Dictionary = fresh()
 var dirty: bool = false
 var error: String = ""
@@ -23,6 +24,13 @@ var _transport_model: String = ""
 var _prediction_model: String = ""
 var _transport_runs: Array = []
 var _prediction_runs: Array = []
+var undo_stack: Array[Dictionary] = []
+var redo_stack: Array[Dictionary] = []
+var _draft_anchor: Dictionary = {}
+var _readable_profile: bool = false
+
+func _init() -> void:
+	_draft_anchor = _draft_snapshot()
 
 static func default_path() -> String:
 	return "user://creation-candidate/session.json"
@@ -53,6 +61,7 @@ func open(save_path: String = "") -> Dictionary:
 	lease = Lease.new(path)
 	dirty = false; error = ""
 	_restore_permissions()
+	_readable_profile = true; _draft_anchor = _draft_snapshot()
 	return {"ok":true,"writable":lease.owns(path),"empty":loaded.get("empty",false)}
 
 func close() -> void:
@@ -64,6 +73,8 @@ func _reset_exploration() -> void:
 	_future.clear(); _frozen.clear(); _prediction_machine.clear(); _prediction_events.clear()
 	_transport_model = ""; _prediction_model = ""
 	_transport_runs.clear(); _prediction_runs.clear()
+	undo_stack.clear(); redo_stack.clear(); _readable_profile = false
+	_draft_anchor = _draft_snapshot()
 
 static func _read_profile(save_path: String) -> Dictionary:
 	return Files.read_session(save_path,decode)
@@ -114,6 +125,7 @@ func _accept_writer(acquired: RefCounted, reload_saved: bool, allow_recovery: bo
 		data = fresh() if disk.get("empty",false) else disk.data.duplicate(true)
 		digest = str(disk.get("digest",""))
 		_restore_permissions()
+		_readable_profile = true; _draft_anchor = _draft_snapshot()
 	return {"ok":true,"writable":true,"reason":""}
 
 func save() -> Error:
@@ -132,7 +144,56 @@ func recover(source: String, fingerprint: String) -> Error:
 	return result
 
 func mark_dirty() -> void:
+	_record_draft_change()
 	dirty = true; generated = {}
+
+func _draft_snapshot() -> Dictionary:
+	return {"draft":data.draft.duplicate(true),"model":data.model.duplicate(true),"training":data.training.duplicate(true),"parent_work":data.parent_work,"mode":data.mode,"transport_model":_transport_model,"prediction_model":_prediction_model}
+
+func _record_draft_change() -> void:
+	var current: Dictionary = _draft_snapshot()
+	if current == _draft_anchor: return
+	if _readable_profile and lease != null and lease.owns(path):
+		undo_stack.append(_draft_anchor.duplicate(true))
+		if undo_stack.size() > MAX_DRAFT_HISTORY: undo_stack.pop_front()
+		redo_stack.clear()
+	_draft_anchor = current
+
+func can_undo() -> bool:
+	return _readable_profile and lease != null and lease.owns(path) and not undo_stack.is_empty()
+
+func can_redo() -> bool:
+	return _readable_profile and lease != null and lease.owns(path) and not redo_stack.is_empty()
+
+func _history_writable() -> bool:
+	if not _readable_profile or lease == null or not lease.owns(path): return false
+	var disk: Dictionary = _read_profile(path)
+	return disk.get("ok",false) and str(disk.get("digest","")) == digest
+
+func undo_draft() -> Dictionary:
+	return _restore_draft_step(undo_stack,redo_stack)
+
+func redo_draft() -> Dictionary:
+	return _restore_draft_step(redo_stack,undo_stack)
+
+func _restore_draft_step(source: Array[Dictionary], destination: Array[Dictionary]) -> Dictionary:
+	# This operation is transient: no save, works, supports or seen-check flags are
+	# in its snapshots. A future/changed file cannot authorize restoring permissions.
+	if not _history_writable(): return {"ok":false,"error":"readonly"}
+	if source.is_empty(): return {"ok":false,"error":"history_empty"}
+	destination.append(_draft_snapshot())
+	if destination.size() > MAX_DRAFT_HISTORY: destination.pop_front()
+	var restored: Dictionary = source.pop_back()
+	for key: String in ["draft","model","training","parent_work","mode"]:
+		data[key] = restored[key].duplicate(true) if restored[key] is Dictionary else restored[key]
+	_transport_model = str(restored.transport_model); _prediction_model = str(restored.prediction_model)
+	_clear_active_run()
+	_draft_anchor = _draft_snapshot(); dirty = true
+	return {"ok":true}
+
+func _clear_active_run() -> void:
+	prediction.clear(); generated.clear(); last_transport.clear()
+	_future.clear(); _frozen.clear(); _prediction_machine.clear(); _prediction_events.clear()
 
 func train() -> Dictionary:
 	var previous: String = Model.identity(data.model) if not data.model.is_empty() else ""
@@ -143,6 +204,7 @@ func train() -> Dictionary:
 	data.training = {"cost":result.cost.duplicate(true),"events":result.events.slice(0,16),"model_id":Model.identity(data.model),"machine":data.draft.machine.duplicate(true)}
 	prediction.clear(); _future.clear(); generated.clear(); last_transport.clear()
 	_transport_model = ""; _prediction_model = ""; dirty = true
+	_record_draft_change()
 	return result
 
 func transport(symbols: Array, codec: String) -> Dictionary:
@@ -157,6 +219,7 @@ func transport(symbols: Array, codec: String) -> Dictionary:
 		if _transport_runs.size()>8: _transport_runs.pop_front()
 		if result.lossless and codec == "predictive" and not data.model.is_empty() and result.get("model_id", "") == Model.identity(data.model):
 			_transport_model = Model.identity(data.model)
+			_draft_anchor.transport_model = _transport_model
 	return last_transport.duplicate(true) if result.ok else result
 
 func set_mode(mode: String) -> Dictionary:
@@ -165,6 +228,7 @@ func set_mode(mode: String) -> Dictionary:
 	if mode == "predict" and (identity.is_empty() or _transport_model != identity): return {"ok":false,"error":"restore_first"}
 	if mode == "generate" and (identity.is_empty() or _prediction_model != identity): return {"ok":false,"error":"predict_first"}
 	data.mode = mode; dirty = true
+	_draft_anchor.mode = mode
 	return {"ok":true,"model_id":identity}
 
 func begin_prediction(kind: String = "practice") -> Dictionary:
@@ -218,6 +282,7 @@ func reveal_prediction() -> Dictionary:
 	prediction.finished = prediction.prefix.size() == _future.size()
 	if prediction.finished and prediction.kind != "memorize":
 		_prediction_model = prediction.model_id
+		_draft_anchor.prediction_model = _prediction_model
 		_prediction_runs.append({"kind":"prediction","model":_frozen.duplicate(true),"machine":_prediction_machine.duplicate(true),"check":prediction.kind,"rows":prediction.rows.duplicate(true)})
 		if _prediction_runs.size()>8: _prediction_runs.pop_front()
 	return {"ok":true,"row":row.duplicate(true),"finished":prediction.finished,"cost":cost}
@@ -279,6 +344,7 @@ static func _run_recipe(recipe: Dictionary) -> Dictionary:
 	return Model.generate(recipe.model,recipe.initial,int(recipe.length),int(recipe.seed),str(recipe.sampler),recipe.machine)
 
 func fork_work(index: int) -> Dictionary:
+	if not _history_writable(): return {"ok":false,"error":"readonly"}
 	var replay: Dictionary = replay_work(index)
 	if not replay.ok or not replay.get("matches",false): return {"ok":false,"error":"incompatible_recipe"}
 	var work: Dictionary = data.works[index]
@@ -287,7 +353,7 @@ func fork_work(index: int) -> Dictionary:
 	data.draft = {"machine":r.machine.duplicate(true),"examples":r.model.examples.duplicate(true),"order":int(r.model.order),
 		"initial":r.initial.duplicate(),"length":int(r.length),"seed":int(r.seed),"sampler":r.sampler}
 	data.training = work.training.duplicate(true); data.parent_work = work.id; data.mode = "generate"
-	generated.clear(); dirty = true
+	_record_draft_change(); _clear_active_run(); dirty = true
 	return {"ok":true,"parent":work.id}
 
 func complete(unit_id: String, _evidence: Dictionary = {}) -> void:

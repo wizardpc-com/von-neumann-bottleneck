@@ -1,0 +1,22 @@
+[
+  {
+    "file": "scripts/check-branding.py",
+    "exit": 0
+  },
+  {
+    "file": "scripts/test-report-playtests.py",
+    "exit": 0
+  },
+  {
+    "file": "server/test_storage.py",
+    "exit": 0
+  },
+  {
+    "file": "server/test_receiver.py",
+    "exit": 0
+  },
+  {
+    "file": "server/test_community.py",
+    "exit": 0
+  }
+]

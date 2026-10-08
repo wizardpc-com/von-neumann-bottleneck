@@ -1,0 +1,3 @@
+codesign --verify --deep --strict: exit0
+Universal x86_64 arm64; Signature=adhoc; Identifier=com.wizardpc.von-neumann-bottleneck
+Not notarized, not a public release.

@@ -2,7 +2,31 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Mac playable-loop follow-up — 2026-10-08
+## Current Mac preservation and observation checkpoint — 2026-10-08
+
+Runtime/source `563acb805042` on `codex/mac-second-act-20261005` repairs failed
+workbench creation/selection, explicit Creation writer recovery and retained
+source-cell observations through model/machine reruns. Frozen A has its own
+identity/counts; normal writer retry keeps unsaved inputs, and adopting newer
+saved contents requires explicit confirmation. Original circuits and unrelated
+collaborator files remain preserved.
+
+Godot **4.7.1 stable** and original assets:119-suite pre-change baseline plus
+import/isolation PASS; affected final checks PASS; five Python gates PASS.
+Fresh real renderer:472 bilingual C/P/G checks,81 minimum-size writer checks,
+and760 English ordinary Game input checks with all nine original prerequisites
+and Chapter1 earned. Independent write/fork/read processes and16 actual exported
+binary checks PASS. Failed intermediate assertions/engine logs are retained.
+No final full119-suite rerun or human playtest is inferred from these checks.
+
+Current local Mac candidate: `build/free-alpha-563acb805042/macOS/Von-Neumann-Bottleneck.app`,
+profile `Convergence-563acb8`, includes Representation/Service and nine C/P/G units.
+[Exact build/archive hashes, route and recovery evidence](verification/20261008-whole-game-convergence/README.md).
+Native exported input could not run because the Mac is locked. Beginner
+comprehension, listening, artistic effect, other devices/Windows and formal
+release acceptance remain open. The broad whole-game goal remains active.
+
+## Previous Mac playable-loop follow-up — 2026-10-08
 
 Current working branch `codex/mac-second-act-20261005` integrates the two reviewed
 remote commits through `e46f866`, plus the cumulative handoff v2 and this follow-up.

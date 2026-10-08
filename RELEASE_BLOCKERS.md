@@ -3,9 +3,20 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current representative experience checkpoint — 2026-10-07
+## Current preservation/observation checkpoint — 2026-10-08
 
-**1a33d19e2aa7 / free-alpha-1a33d19e2aa7** is the current internal candidate.
+Runtime `563acb805042` / local `free-alpha-563acb805042` is the latest internal
+Mac candidate. Core board rollback, Creation writer recovery and source-correct
+observation continuity are verified with original assets and isolated saves.
+119-suite baseline and five Python gates pass; final affected/renderer/restart
+checks and16 actual exported binary checks pass. Native exported interaction
+remains NOT_RUN: CUA reports the Mac locked. The broad whole-game goal, human
+understanding/listening/artistic/device and public distribution gates remain open.
+[Exact evidence and retained intermediate failures](docs/verification/20261008-whole-game-convergence/README.md).
+
+## Previous representative experience checkpoint — 2026-10-07
+
+**1a33d19e2aa7 / free-alpha-1a33d19e2aa7** is a previous internal candidate.
 Final full CI is green (102Godot suites and Python). Measured per-order costs,
 earned outcome cards and recorded state/response view are implemented;18rendered
 fixtures and14binarychecks pass. Native Home/map only: CUA input/window failures

@@ -74,3 +74,12 @@ Creation lacks explicit recovery after stopped writer; core create/switch can cl
 success or change active when persist fails; same-input reruns clear selected cell.
 No goal-completion claim. No external blocker yet: meaningful implementation work
 is available. External novice/artistic/platform acceptance remains pending.
+
+Root finished this coherent increment: runtime563acb805042, isolated Mac export
+free-alpha-563acb805042, package identity+16 binary checks,3 restart processes PASS.
+Native exported input attempt returned Mac locked; no native acceptance claimed.
+Full evidence is docs/verification/20261008-whole-game-convergence/README.md.
+Broad goal remains active; future convergence should address the historical
+proxy resume helpers and wider earned routes, then native/human/device gaps when
+available. Keep release gates separate; do not use test totals as artistic proof.
+All worker ownership released. Root sole Git/Godot/GUI. Unrelated dirt preserved.

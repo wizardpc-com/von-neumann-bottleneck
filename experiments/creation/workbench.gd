@@ -92,11 +92,9 @@ func text2(zh: String, en: String) -> String:
 func _ready() -> void:
 	var localization := get_node_or_null("/root/Localization")
 	if localization != null: english = localization.current_locale() == "en"
-	var path: String = ""
 	for argument: String in OS.get_cmdline_user_args():
 		if argument == "--locale=en": english = true
-		if argument.begins_with("--creation-profile="): path = argument.trim_prefix("--creation-profile=")
-	var opened: Dictionary = session.open() if path.is_empty() else session.open(path)
+	var opened: Dictionary = session.open(Session.launch_path())
 	writable = bool(opened.get("writable",false))
 	recovery_choices = opened.get("choices",[]).duplicate(true)
 	recovery_fingerprint = str(opened.get("fingerprint",""))
@@ -381,6 +379,10 @@ func _build_examples(parent: Node) -> void:
 		choice.button_pressed = sample in session.data.draft.examples
 		choice.toggled.connect(func(enabled: bool) -> void:
 			var examples: Array = session.data.draft.examples
+			if enabled and not sample in examples and examples.size() >= 16:
+				choice.set_pressed_no_signal(false)
+				set_status(text2("最多选择16段样例；请先移除一段。","Select at most 16 examples; remove one first."))
+				return
 			if enabled and not sample in examples: examples.append(sample.duplicate())
 			if not enabled: examples.erase(sample)
 			edit_draft())
@@ -395,6 +397,9 @@ func _build_examples(parent: Node) -> void:
 		var parsed: Dictionary = Catalog.parse_symbols(entry.text)
 		if not parsed.ok or parsed.symbols.is_empty():
 			set_status(text2("样例需包含合法符号：","Example needs legal symbols: ")+str(parsed.get("error","empty")))
+			return
+		if session.data.draft.examples.size() >= 16:
+			set_status(text2("最多选择16段样例；请先移除一段。","Select at most 16 examples; remove one first."))
 			return
 		session.data.draft.examples.append(parsed.symbols)
 		edit_draft()
@@ -541,17 +546,25 @@ func _build_actions(parent: Node) -> void:
 		if task == 8: InstrumentTheme.primary(keep)
 
 func toggle_language() -> void:
+	var editor_state: Dictionary = _capture_editor_state()
 	var previous_focus: int = focused_cell
 	var previous_page: int = signal_view.page
 	english = not english
 	var localization := get_node_or_null("/root/Localization")
 	if localization != null: localization.set_locale("en" if english else "zh_CN")
 	build()
+	_restore_editor_state(editor_state)
 	if previous_focus >= 0 and previous_focus < signal_view.output_length():
 		signal_view.page = previous_page
 		inspect_cell(previous_focus,focused_lane)
 
 func change_task(index: int) -> void:
+	var editor_state: Dictionary = _capture_editor_state()
+	# Valid recipe values rebuild from the authoritative draft. Only unsubmitted
+	# text survives navigation; each task still chooses its intended initial tab.
+	if valid_initial_input(): editor_state.inputs.erase("Initial")
+	editor_state.tabs.clear()
+	editor_state.erase("focus")
 	evidence_expanded = false
 	task = clampi(index,0,8)
 	session.data.task = task
@@ -559,6 +572,7 @@ func change_task(index: int) -> void:
 	var navigation := get_node_or_null("/root/TaskNavigation")
 	if navigation != null: navigation.remember_candidate_visit("creation",task)
 	build()
+	_restore_editor_state(editor_state)
 
 func set_status(value: String) -> void:
 	status_text = value
@@ -1336,6 +1350,8 @@ func _clear_replaced_exploration() -> void:
 	prediction_recipe.clear(); observation_anchor.clear()
 	focused_cell = -1; focused_source = ""; focused_lane = 2
 	event_page = 0; task = clampi(int(session.data.task),0,8)
+	var navigation := get_node_or_null("/root/TaskNavigation")
+	if navigation != null: navigation.remember_candidate_visit("creation",task)
 
 func _build_recovery_dialog() -> void:
 	if recovery_choices.is_empty(): return

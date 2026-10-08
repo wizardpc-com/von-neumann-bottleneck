@@ -176,3 +176,28 @@ bundle selected-work/. Current G2 completion mismatch closed compatibly; no main
 public distribution or real-save changes. Goal active for native/human/artistic/
 listening/device acceptance; concrete progress resets any blocked audit. Root
 prepares evidence/status commit and authorized developer push, preserving4dirt.
+
+
+## Bound drafts and recovery context follow-up
+
+At6f7568a previous goal turn changed runtime, earned evidence and remote state:
+progress. Readonly audits found concrete uncovered user paths. Root reserves
+Git/Godot/GUI/docs. creationworker owns workbench+new edit-controls test, including
+sample16 guard, retained transient text during unit rebuild, recovered-task visit
+sync. navigationworker owns Session path resolver+creation_tasks+named-profile
+regression; communicate resolver before workbench call integration. serviceworker
+owns Representation region+closure-navigation test for real write-failure recovery.
+Original4collaborator files preserved.
+
+The schema already bounds examples to16, but bothUI append paths admit17 and make
+otherwise legal drafts/works impossible to save. Reject before append, explain and
+restore checkbox without changing the schema/model. Existing editing contract
+already retains invalidInitial/custom/title through Undo and writer retry; extend
+that preservation through normal task rebuild without committing invalidtext.
+Custom --creation-profile currently affects workbench but notmap completion reads;
+share its existing resolution and include filepath in cache identity. Recovered
+task must synchronize existing remembered candidatevisit. Representation actual
+write failure rebuilds away RegionReview; reconstruct it when canceling departure
+so the source review and unsaved work remain. No gameplay/model/schema/prereq
+rewrite. Necessary targeted suites, bilingual affected viewport checks and serial
+engine runs only; package exact final source after integration.

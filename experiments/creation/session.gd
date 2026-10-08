@@ -35,6 +35,14 @@ func _init() -> void:
 static func default_path() -> String:
 	return "user://creation-candidate/session.json"
 
+static func launch_path(arguments: PackedStringArray = []) -> String:
+	var selected_path: String = ""
+	var launch_arguments: PackedStringArray = OS.get_cmdline_user_args() if arguments.is_empty() else arguments
+	for argument: String in launch_arguments:
+		if argument.begins_with("--creation-profile="):
+			selected_path = argument.trim_prefix("--creation-profile=")
+	return default_path() if selected_path.is_empty() else selected_path
+
 static func fresh() -> Dictionary:
 	var a: Array = []; var b: Array = []
 	for index: int in 24:

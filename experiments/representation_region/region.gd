@@ -784,6 +784,7 @@ func resume_region_review() -> void:
 	if guard != null: guard.hide()
 	var review := get_node_or_null("RegionReview") as AcceptDialog
 	if review != null: review.popup_centered(Vector2i(740,460))
+	else: show_closure()
 
 func cancel_leave() -> void:
 	if leave_from_review: resume_region_review()

@@ -8,6 +8,18 @@ assertions intentionally require no prior acknowledgement. See
 
 ## Continuous signal candidate
 
+`test_creation_edit_controls` covers the existing16-example save bound, protected
+full-selection work and unsubmitted/invalid inputs across task/language rebuilds.
+Its `-- --creation-edit-capture --capture-size=1280x720` renderer mode exercises
+real viewport buttons and captures both languages. `test_creation_profile_navigation`
+checks independent named/default saved evidence; additionally run it with
+`-- --creation-profile=user://creation-profile-navigation/named.json` in its own
+QA directory to verify actual launch/map/workbench identity. Representation
+`test_representation_closure_navigation -- --closure-recovery-capture --capture-size=1280x720`
+checks real write refusal and reconstructed bilingual source review/focus. Its
+signals are authored fixtures; captures prove renderer geometry, not native input.
+
+
 `test_creation_choice_completion` covers one actual legal work/Keep, repeated-work
 choice, seed-only variation, lost-writer rollback and strict legacy G2 compatibility.
 Use `-- --creation-capture` in an imported renderer copy with a fresh own QA profile

@@ -196,3 +196,12 @@ its machine; later draft edits cannot change its costs. Old prediction supports 
 readable only when every row exactly replays under the prior conservative full-slot
 bound and that bound fits their recorded memory. A round cannot mix accounting rules;
 all other costs and predictions retain their strict checks.
+
+
+Both public and custom example controls stop at the existing16-passage save bound,
+preserve rejected input and explain the limit. Unit/language rebuilds retain
+unsubmitted sample/name and invalidInitial text; invalid input cannot silently
+become an older legal recipe. Tasks still select their intended editing tab.
+After explicitly adopting a replacement profile, Journey remembers that recovered
+task. `--creation-profile=` selects the same existing launch profile for workbench
+and map evidence; empty values retain the default, and the last value wins.

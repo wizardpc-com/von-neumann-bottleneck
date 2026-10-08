@@ -3,7 +3,19 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current editing and recovery checkpoint — 2026-10-08
+## Current measured-result and closure checkpoint — 2026-10-08
+
+Runtime `e7894522c40b` / `free-alpha-e7894522c40b` is the current internal Mac
+candidate. Frozen preparation attribution, restored Locality Before and timed
+Hardware encapsulation navigation are verified. Ten distinct affected suites,
+47 preparation renderer checks/four1280views,15 Locality and25 seal checks, plus16
+actual binary checks PASS; export/identity/codesign PASS. Initial test-fixture
+failures remain retained. Fresh CUA inventory: Mac locked, native input NOT_RUN.
+Blind novice/listening/artistic/device/Windows and formal-distribution acceptance
+remain open; broad goal active.
+[Exact evidence](docs/verification/20261008-draft-and-wider-routes/boundaries/README.md).
+
+## Previous editing and recovery checkpoint — 2026-10-08
 
 Runtime `6fbfb1219ff0` / `free-alpha-6fbfb1219ff0` is the current internal Mac
 candidate. Bounded sample additions, task/language transient inputs, launch-profile

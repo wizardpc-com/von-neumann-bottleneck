@@ -2,7 +2,30 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current editing and recovery checkpoint — 2026-10-08
+## Current measured-result and closure checkpoint — 2026-10-08
+
+Runtime `e7894522c40b`, branch `codex/mac-second-act-20261005`: Creation revisits
+retain the displayed result's preparation/model identity after keeping A or
+learning C; saved work bytes remain protected. Locality history re-entry retains
+its original measured Before. Hardware board/Hint/map/Home transitions retain
+pending verified encapsulation until the existing timer finishes, then resume.
+Simulation, save schema and original forty-task gates are unchanged.
+
+Godot **4.7.1 stable**, original assets: ten distinct affected suites PASS after
+retained test-fixture repairs. Preparation renderer47checks/four1280×720 bilingual
+views PASS; nine actual Locality receipts/re-entry15checks and actual FullAdder
+verification/timed seal/navigation25checks PASS. Six changed scripts match verified
+copy/commit; prior full baseline/wider journey/restart evidence remains separate.
+[Exact evidence](verification/20261008-draft-and-wider-routes/boundaries/README.md).
+
+Current internal Mac candidate:
+`build/free-alpha-e7894522c40b/macOS/Von-Neumann-Bottleneck.app`, isolated profile
+`Boundaries-e789452`; export/archive identity, strict codesign and16 actual binary
+checks PASS. Fresh CUA inventory reports Mac locked; native OS input remains
+unverified. Blind novice understanding, listening/artistic effect, other hardware/
+Windows and formal distribution remain unverified. Broad goal active.
+
+## Previous editing and recovery checkpoint — 2026-10-08
 
 Runtime `6fbfb1219ff0`, branch `codex/mac-second-act-20261005`, keeps sample drafts
 within their existing16-example save bound. Task/language rebuilds retain

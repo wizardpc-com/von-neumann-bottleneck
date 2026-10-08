@@ -252,3 +252,11 @@ GDScripts will be checked against the imported copy and commit before packaging.
 No simulation/state/schema/core40 rewrite, protected work bytes preserved. Prior
 baseline/wider journeys remain separate. Root builds matching internal Mac,
 records scoped evidence and pushes authorized development branch; goal active.
+
+
+Frozen boundary runtime e7894522c40b packaged as Boundaries-e789452. Import/licenses/
+export, archive identity, strict codesign and actualbinary16checks PASS. Sixscript
+identities equal verified copy/commit. Evidence boundaries/ retains all failures,
+four1280views and currentMaclocked record. Goal active; progress this turn. Root
+finishes evidence/status commit and userauthorized developerpush. All workers
+released; originalfourcollaboratorfiles untouched; no main/public release.

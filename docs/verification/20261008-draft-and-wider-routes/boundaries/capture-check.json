@@ -1,0 +1,42 @@
+[
+  {
+    "capture": "keep-a-review-b-en.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_cycles": 285,
+    "draft_cycles": 533,
+    "source": "fixture-driven controller; no viewport button acceptance"
+  },
+  {
+    "capture": "keep-a-review-b-zh.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_cycles": 285,
+    "draft_cycles": 533,
+    "source": "fixture-driven controller; no viewport button acceptance"
+  },
+  {
+    "capture": "learn-c-review-b-en.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_cycles": 285,
+    "draft_cycles": 96,
+    "source": "fixture-driven controller; no viewport button acceptance"
+  },
+  {
+    "capture": "learn-c-review-b-zh.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "displayed_cycles": 285,
+    "draft_cycles": 96,
+    "source": "fixture-driven controller; no viewport button acceptance"
+  }
+]

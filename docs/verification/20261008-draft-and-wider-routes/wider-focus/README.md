@@ -1,6 +1,9 @@
 # Representation and Service keyboard availability — 2026-10-09
 
-Runtime `e48689f7edc7d3f5c0c10ae303bef1e442ec0f9c`, development branch
+Current runtime `f90597bf999a`: [continuous-focus follow-up](continuation/README.md),
+including a later discovered Tab restart and retained failing test.
+
+Initial availability runtime `e48689f7edc7d3f5c0c10ae303bef1e442ec0f9c`, development branch
 `codex/mac-second-act-20261005`. Godot `4.7.1.stable.official.a13da4feb`, original
 resources and official matching Mac template. Root sole Git/Godot/native runner;
 Sol worker owned region.gd, lab.gd and new test, then released them for integration.

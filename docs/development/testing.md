@@ -858,7 +858,9 @@ conventions. No new geometry or simulation changes require repeated screenshots.
 
 Use `test_candidate_disabled_focus` through the isolated verifier. It dispatches
 viewport Tab/Enter across Representation and Service, checking unavailable-action
-skips, dynamically re-enabled actions and valid focus preservation on refresh.
+skips, dynamically re-enabled actions, valid focus preservation on refresh and
+continuation when the focused action becomes disabled. Final Undo/Redo stays within
+its enabled reverse history action; recorded evidence is not changed.
 Closure support plans are explicit validated fixtures, not native completion.
 Run once with the renderer in the imported isolated project and a new data directory
 for the same input checks; geometry is unchanged. Neighbors: representation closure/

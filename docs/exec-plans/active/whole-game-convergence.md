@@ -466,3 +466,13 @@ Root owns branch push and all engine/Git work; original four files untouched.
 Whole objective remains active. Wider native Representation/Service and external
 acceptance are still needed; repeated automatic checks cannot replace them.
 No main merge or public release.
+
+
+Continuation probe found RLE self-disable cleared focus and next Tab returned to
+Language. Follow-up runtime `f90597bf999a` defers focus until availability settles;
+Undo/Redo uses its enabled reverse operation. First Redo continuation test failure
+retained, three edit/undo/commission neighbors passed, final 22 focused checks passed
+headless/rendered. Matching final Mac/Continuity-f90597b identity, signature and
+16 binary checks passed; new exact native app attempt still Mac locked. No duplicate
+baseline or unchanged package rebuild. Evidence in wider-focus/continuation/README.md.
+Full goal active, actual progress; native/human gaps preserved.

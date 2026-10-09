@@ -4,12 +4,16 @@
 
 ## Current wider-workbench focus checkpoint — 2026-10-09
 
-Runtime `e48689f7edc7`, branch `codex/mac-second-act-20261005`: Representation and
-Service disabled actions leave the Tab chain; newly available actions rejoin it.
-Service Next/Ack applies final availability once to preserve valid focus on refresh.
-Seven affected suites (354 checks) and 18 rendered viewport checks on Apple M2
-passed, using original resources and Godot 4.7.1. Matching Mac export, identity,
-strict signature and 16 release binary checks passed; profile `Wider-e48689f`.
+Runtime `f90597bf999a`, branch `codex/mac-second-act-20261005`: Representation and
+Service disabled actions leave the Tab chain. When an edit disables its focused
+button, focus continues after refresh; exhausted Undo/Redo hands off to its enabled
+reverse operation. Next/Ack retains valid focus through refresh.
+
+Initial availability repair passed seven suites (354 checks). Follow-up retained a
+real Tab restart and first failed Redo continuation; final focused 22 checks passed
+headless and on the Apple M2 renderer. Original resources/Godot 4.7.1. Matching Mac
+export, identity, strict signature and 16 binary checks passed; isolated profile
+`Continuity-f90597b`.
 
 Native wider-route attempt stopped at Mac locked; no new native acceptance claim.
 Earlier C/P/G/restart and focus evidence retains its runtime attribution. Native

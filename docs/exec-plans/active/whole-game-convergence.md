@@ -605,3 +605,16 @@ native-region-resume bundle. Next meaningful action is actual original-map/edito
 input after unlock; human/audio/artistic/platform gates need external observations.
 [Audit](../../verification/20261009-native-region-resume/continuation-audit.md).
 Root soleGit/Godot/UI; owns only this plan/CurrentState/ReleaseBlockers/audit/hash.
+
+## Third locked-continuation handoff — 2026-10-09
+
+At821f5e2 fresh exactbefbdd2 CUA repeats Maclocked/automaticunlockfailed before
+input. Exact-name engine/game pgrep both exit1; no live engine task to await.
+Four original collaborator paths remain only unrelated dirt. Same native-access
+condition across three consecutive turns; first corrected acceptance docs, second
+no progress. No concrete independent repair is available after scoped reviews.
+Whole goal to blocked/incomplete, not complete; actual original native input and
+independent human/platform evidence require an external-state change. Keep matching
+befbdd2 candidate and existing own saves; no repeat tests/export or invented feature.
+Root owns only this plan/CurrentState/continuation-audit/hash for final doc handoff,
+then releases. Unlock Mac to resume the existing package and actual uncovered path.

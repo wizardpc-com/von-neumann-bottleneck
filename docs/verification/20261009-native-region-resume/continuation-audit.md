@@ -59,3 +59,20 @@ package's original task-map/editor path in an isolated profile. Do not repeat th
 already earned eight-task route or rebuild an unchanged runtime. Independent
 beginner/listening/artistic/device evidence needs actual observations as specified
 in the supplied checklist. Broad objective remains active and incomplete.
+
+## Third consecutive locked continuation
+
+At source821f5e2, the same exact-package CUA request again reports Maclocked and
+failed automatic unlock before input. Fresh exact-name process checks for Godot
+and Von Neumann Bottleneck both return1/no output; no engine job remains to wait
+for. Worktree still has only four original collaborator paths. No runtime edit,
+new independently located defect, repeated test/export or public release.
+
+This is the third consecutive continuation with the same lock condition. The
+first completed acceptance-documentation correction; the second had no progress.
+The remaining actual original-path input and independent human/platform evidence
+cannot be supplied by additional green tests or speculative features. Whole-game
+goal is blocked/incomplete pending native access or external observations.
+Unlock the Mac and resume the existing exact package; do not rebuild unchanged
+runtime or redo the already earned eight-task route. Existing successful native
+observations remain valid at their recorded source versions.

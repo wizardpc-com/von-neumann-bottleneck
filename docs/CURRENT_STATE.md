@@ -18,11 +18,12 @@ Native new-package consecutive Enter reached final Back focus, then closed the
 story; normal quit confirmed, both saved session files still byte-identical.
 Current-commit GitHub CI143 suites and Python jobs PASS.
 Full original40 native and independent human/platform acceptance remain open;
-whole-game objective active, not complete. Original four collaborator paths
+whole-game objective blocked, not complete. Original four collaborator paths
 preserved; authorized development-branch commit/push only.
 [Actual plans, own session copies and fresh logs](verification/20261009-native-region-resume/README.md).
 
-Current continuation: remote heads unchanged; Creation and original-input Sol
+Current continuation (third consecutive locked turn): goal blocked/incomplete.
+Remote heads unchanged; Creation and original-input Sol
 read-only audits found no new definite defect. Fresh exact-package native launch
 attempt reports Mac locked before input. Full original40 native continuation and
 external acceptance remain pending; no unchanged-runtime rebuild or repeated QA.

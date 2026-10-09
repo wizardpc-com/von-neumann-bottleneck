@@ -530,3 +530,22 @@ RLE14B succeeded, then GUI input/window binding failed. Left exact process80322
 and unsaved draft alive; original saved bytes unchanged. Source audit found no
 input-disabling path, so no speculative freeze fix. Next restore native control
 before fixed-input and wider route; no parallel local Godot while app is alive.
+
+
+## Native-window access diagnostic — 2026-10-09
+
+At ef61f832a2c6 the exact package PID80322 remains live (ps and CUA inventory).
+Two fresh exact-app bindings return AXError.cannotComplete. One read-only sample
+shows AppKit/main-thread nanosleep and waiting workers, not a visible script loop;
+engine frames are mostly unsymbolicated. Existing focus-exit15FPS is compatible
+with idle sampling but cannot prove responsiveness or explain the failure.
+No native input/save, runtime change, second engine or repeat regression/export.
+Remote heads exactly match tracked refs; no new content to integrate. Full local
+sample plus committed callgraph/receipt:
+[diagnostic](../../verification/20261009-native-window-access/README.md).
+Previous turn made repair/verification/push progress; current new diagnostic narrows
+the evidence without declaring a freeze. This is the second consecutive turn with
+this access barrier, not the three-turn blocked threshold. Goal active/incomplete;
+resume same app and unsaved T3 before wider native/external acceptance. Four unrelated
+collaborator files remain preserved. Root sole Git/engine/UI; owns only diagnostic
+evidence and this plan until reviewed, committed and pushed.

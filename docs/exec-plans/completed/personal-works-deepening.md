@@ -39,7 +39,7 @@ never changes results, costs, completion, saved bytes or recipes. Unknown versio
 remain protected; historical successes keep their provenance. No production saves.
 
 ## Steps and verification
-1. Audit latest code and agree narrow additive contracts (in progress).
+1. Audit latest code and agree narrow additive contracts.
 2. Implement comparison receipts, snapshot performance, concrete C/P commissions.
 3. Calibrate real costs/predictions; inspect/fix continuous interaction at1280×720
    in both languages; native input on isolated own profile when accessible.
@@ -68,3 +68,22 @@ Observed G pair12differences/first10, P check17/22→21/22 at increased bytes/cy
 Original scripts' chapter-navigation/OS-window fixture errors remain recorded.
 Sol exhibition has sole native GUI slot; root only docs/evidence until release.
 Freeze/package/commit/push/remote CI and final native boundaries still pending.
+
+
+2026-10-09 frozen checkpoint update: implementation77c57dc committed and pushed to
+existing codex/mac-second-act-20261005, remote SHA verified. No merge. Native
+saved-B focus/scrub9/explanation observed; clean exit preserves original2works.
+Slow native tooling prevents separate intermediate pause/step timing proof; full
+native fork/restart not claimed. Root-built official4.7.1 Mac candidate
+free-alpha-77c57dc69262 passes import/export, strict signature, ZIP identity and
+16actual exported-binary checks under protected QA profile. Current Python CI
+passes all jobs; full Godot gate still running. Original4collaboratorpaths intact.
+
+
+2026-10-09 completed scoped round: CI37976393864 passes147Godot suites plus
+import/user isolation and allPython jobs. All149 detailed logs inspected with no
+error markers; source/runtime hashes match frozen77c57dc. Final docs retain actual
+native limits, standalone Mac path, recipes/works, failures repaired and user review
+segment. Completed implementation and bounded experience review, not universal
+artistic/newcomer/Windows/audio acceptance. No required scoped runtime work remains.
+Evidence-only closing commit follows runtime without repeating unchanged tests.

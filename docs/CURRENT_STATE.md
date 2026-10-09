@@ -13,8 +13,13 @@ of64 symbols, first at10; order1/2 checks score17/22 and21/22 with real costs.
 Bilingual final renderer paths and independent-process saved-work replay/fork pass.
 The prior native PID3760 was no longer running at round start; no existing game
 process or player draft was terminated by this round.
-The actual P3 control overflow found in focused checks is repaired. Native/package/
-remote integration status and the exact runnable checkpoint are tracked in the
+The actual P3 control overflow found in focused checks is repaired. Runtime77c57dc
+is frozen in build/free-alpha-77c57dc69262: official4.7.1 export, strict signature
+and16 actual binary checks pass. Bounded native saved-B focus/scrub/explanation
+and clean exit preserve both works; intermediate pause timing remains unproven.
+Same-runtime GitHub CI37976393864 passes147Godot suites plus import/isolation
+and allPython jobs; all149 detailed logs inspected without error markers.
+The exact runnable checkpoint and evidence boundaries are tracked in the
 [round evidence](verification/20261009-personal-works/README.md). No production
 save migration, main merge or public distribution. Artistic/newcomer/platform
 acceptance remains distinct from this bounded candidate implementation.

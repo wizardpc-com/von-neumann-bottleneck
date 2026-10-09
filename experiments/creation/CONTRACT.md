@@ -96,3 +96,45 @@ the bounded rule table just as learn/generate/codec do. Saved prior full-capacit
 prediction costs are accepted only after exact replay of all fields, sufficient
 recorded memory and one consistent accounting bound for the entire round. This
 narrow compatibility rule does not accept altered cycle/operation/transfer costs.
+
+Personal-work deepening (2026-10-09)
+-----------------------------------
+
+G2 still records confirmed choice, not a causal or aesthetic certificate. Its
+optional `comparison` envelope uses `controlled-design-v1`: two full immutable
+`{recipe, output}` snapshots. Both recipes are re-learned/replayed on loading.
+Seed, initial passage, length, machine and implementation versions must match;
+exactly one passage, history order or sampler is changed. A source digest change
+without changed rule rows/order is not structural evidence. Equal outputs remain
+valid design observations; only actual different output establishes an observed
+effect for that pair. The first difference exposes its recorded contexts/counts;
+later differences inherit changed feedback and are not independent causal tests.
+
+Legacy unextended G2 supports retain their original choice/generation provenance.
+An ordinary later Keep cannot erase an existing comparison receipt. Work IDs,
+training snapshots, mapping and recipes remain unchanged. Unknown comparison
+versions preserve validated works read-only. Older binaries may reject the new
+optional support or check-v2 identity; do not open the extended profile in an
+older binary expecting write compatibility. No automatic migration is performed.
+
+`practice-v2` and `check-v2` are separate authored streams of the public ABAC
+family with rare BA→D exceptions. They reuse the same prefix-only frozen model
+calls and cost events. `check-v2` has an independent persisted seen flag, set at
+first reveal. Legacy check-v1 streams and supports are unchanged. These small
+fixed materials demonstrate bounded uncertainty, not generalization guarantees.
+
+C3's public orders share the exact1536-symbol source and a player-learned model;
+only CPU throughput differs (1/64 operations per cycle). Deadlines240000/223000
+cycles apply to the measured complete transport, including encode/decode/model
+loading/channel work. Preparation was already performed and is disclosed
+separately. Orders accept any actual lossless path meeting the stated deadline;
+the UI does not impose a particular codec. Session-only delivery receipts do not
+replace historical C3 completion evidence or silently award a new certificate.
+
+Saved-work exhibition consumes detached saved output and host-validated replay
+records. `light-trace-v1` uses16 fixed columns and ordered revealed cells;
+`light-shapes-v1` remains selectable with its original interpretation. Viewing
+mapping is disclosed separately from saved mapping. Cursor, playback tempo and
+reduced-motion/static view are presentation state only. No extra model, PRNG,
+score, cost or persistent write is performed by the renderer. The host locates
+the corresponding replay event or forks the same protected work identity.

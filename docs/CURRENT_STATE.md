@@ -2,7 +2,24 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current native closure and completion focus — 2026-10-09
+## Personal-work deepening — 2026-10-09
+
+Latest C/P/G increment continues4483e30, preserving the later integration beyond
+main/creatione46f866. It adds replay-validated controlled-design receipts distinct
+from G2 confirmed choice, snapshot-only pause/step/scrub light performance with
+legacy mapping and source/fork return, public two-deadline delivery choices, and
+separate same-family practice/check-v2 streams. Actual controlled A/B changes12
+of64 symbols, first at10; order1/2 checks score17/22 and21/22 with real costs.
+Bilingual final renderer paths and independent-process saved-work replay/fork pass.
+The prior native PID3760 was no longer running at round start; no existing game
+process or player draft was terminated by this round.
+The actual P3 control overflow found in focused checks is repaired. Native/package/
+remote integration status and the exact runnable checkpoint are tracked in the
+[round evidence](verification/20261009-personal-works/README.md). No production
+save migration, main merge or public distribution. Artistic/newcomer/platform
+acceptance remains distinct from this bounded candidate implementation.
+
+## Previous native closure and completion focus — 2026-10-09
 
 The previous native-window barrier cleared. Actual frozen Mac runtime426009f,
 original assets and own Continuity-f90597b profile completed Representation5/5

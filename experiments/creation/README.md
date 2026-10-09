@@ -38,8 +38,9 @@ Generate an actual work, then **Pin A** (also on G2's action row). Pinning keeps
 full in-memory snapshot and locks seed, initial passage and length. In Examples /
 history, change one passage, learn explicitly, and generate B. A is unchanged by
 later learning, generation, playback, language changes or navigation. End the
-comparison before pinning a new A; this temporary pair does not survive leaving
-the workbench/restarting and is not included in Save draft.
+comparison before pinning a new A. The editing pair is temporary and is not
+included in Save draft; explicitly keeping a member of a valid design comparison
+now preserves its full versioned A/B receipt for later reading.
 
 Creation recipe and Measurements show actual changed conditions, including which
 passages were added/removed/replaced and the first differing cell (one-based).
@@ -54,7 +55,8 @@ errors against a target. First difference pauses and moves playback to that cell
 when needed, then uses the existing protected-work save path. Keeping one does not
 delete the other or any saved work. **Keep editing** retains A. Saved chosen works
 still support ordinary snapshot playback, recipe replay and forking. This feature
-does not change the model, session schema or candidate progression gates.
+does not change the model or candidate progression gates. Its optional saved
+comparison envelope is documented in the runtime contract.
 
 G2 completion follows the actual confirmed choice: keeping one legal generated work
 transactionally completes G2 and G3. Different outputs or seed-only variation do not
@@ -205,3 +207,33 @@ become an older legal recipe. Tasks still select their intended editing tab.
 After explicitly adopting a replacement profile, Journey remembers that recovered
 task. `--creation-profile=` selects the same existing launch profile for workbench
 and map evidence; empty values retain the default, and the last value wins.
+
+## Personal-work deepening candidate — 2026-10-09
+
+C3 now offers two explicit delivery orders with deadlines240000/223000 cycles.
+Accept each order and choose RAW or predictive; the receipt reports actual full
+transport cost. Both orders retain the same original and learned model, with only
+CPU throughput changing. The cost ledger retains bounded session receipts;
+learning remains separately measured preparation. End the order pair before
+changing its learned model. Deadline success is independent of older C3 progress.
+
+P3 adds **Family practice / Family frozen check**, with a public stable/rare-
+exception sample. Choosing that material and learning is explicit. The check is
+a separate fixed stream, becomes seen on first reveal, and preserves old checks.
+Two history cells distinguish contexts while still leaving an ambiguous BA
+successor; inspect actual revealed rows rather than assuming longer is perfect.
+
+Pin A, change one example or history/sampler with seed/start/length/machine fixed,
+then generate B. Keeping either can save a `controlled-design-v1` receipt alongside
+its actual immutable work. An equal output is a valid observation without changed-
+output proof. Seed-only or merely renamed/provenance-changed data is not certified
+as structural intervention. G2's confirmed-choice completion is still distinct.
+
+**Focus on work** now offers an ordered light performance, pause/step/scrub/speed,
+static overview, reduced motion, explanation and recipe views. The same saved
+symbols drive all views. Return to the selected real generation event or fork
+that exact work. The new `light-trace-v1` viewer is reversible; saved
+`light-shapes-v1` snapshots are not rewritten. Playback seconds are not simulation
+cycles. Silent play remains complete; no music or final art acceptance is claimed.
+
+[This round's playable checkpoint, actual works and verification](../../docs/verification/20261009-personal-works/README.md).

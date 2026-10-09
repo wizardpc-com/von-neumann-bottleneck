@@ -6,6 +6,14 @@ var output: Array = []
 var selected: int = -1
 var columns: int = 16
 var cell_size: float = 36
+const TRACE_MAPPING: String = "light-trace-v1"
+var viewing_mapping: String = "light-shapes-v1"
+var revealed: int = -1
+
+func set_presentation(mapping: String, count: int) -> void:
+	viewing_mapping = mapping
+	revealed = count
+	update_layout()
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -18,7 +26,7 @@ func set_output(value: Array) -> void:
 	update_layout()
 
 func update_layout() -> void:
-	columns = maxi(4,mini(32,int(maxf(144,size.x-16)/36)))
+	columns = 16 if viewing_mapping == TRACE_MAPPING else maxi(4,mini(32,int(maxf(144,size.x-16)/36)))
 	cell_size = maxf(16,(size.x-16)/columns)
 	custom_minimum_size = Vector2(160,maxf(90,ceili(float(output.size())/columns)*cell_size+16))
 	queue_redraw()
@@ -32,6 +40,12 @@ func _draw() -> void:
 		var rect: Rect2 = cell_rect(index)
 		var value: int = int(output[index])
 		var color: Color = COLORS[clampi(value,0,3)]
+		var lit: bool = revealed < 0 or index < revealed
+		if not lit: color = color.darkened(0.86)
+		if viewing_mapping == TRACE_MAPPING and lit:
+			draw_circle(rect.get_center(),minf(12,cell_size*0.32),Color(color,0.07))
+			if index > 0 and index % columns != 0:
+				draw_line(cell_rect(index-1).get_center(),rect.get_center(),Color(color,0.18),1.0,true)
 		draw_rect(rect,color.darkened(0.80),true)
 		var center: Vector2 = rect.position+rect.size*Vector2(0.35,0.5)
 		var radius: float = minf(6,cell_size*0.17)

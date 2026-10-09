@@ -1,0 +1,482 @@
+{
+	"id": "d41ba46301b8fd7b09c2b097ef7833434a20e9581937d8ab69c53c432fd7f589",
+	"mapping": "light-shapes-v1",
+	"name": "Two paths · A",
+	"output": [
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		3,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		3,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		3,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		3,
+		0,
+		1,
+		0,
+		3,
+		0,
+		1,
+		0,
+		3
+	],
+	"parent": "",
+	"recipe": {
+		"initial": [
+			0,
+			1
+		],
+		"length": 64,
+		"machine": {
+			"bytes_per_cycle": 1,
+			"cache_rows": 21,
+			"cpu_ops_per_cycle": 64,
+			"memory_bytes": 8192,
+			"request_cycles": 64
+		},
+		"model": {
+			"examples": [
+				[
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2
+				],
+				[
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3,
+					0,
+					1,
+					0,
+					3
+				]
+			],
+			"order": 2,
+			"parent": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+			"rows": [
+				{
+					"context": [],
+					"counts": [
+						24,
+						12,
+						6,
+						6
+					]
+				},
+				{
+					"context": [
+						0
+					],
+					"counts": [
+						0,
+						12,
+						6,
+						6
+					]
+				},
+				{
+					"context": [
+						1
+					],
+					"counts": [
+						12,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						2
+					],
+					"counts": [
+						5,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						3
+					],
+					"counts": [
+						5,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						0,
+						1
+					],
+					"counts": [
+						12,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						0,
+						2
+					],
+					"counts": [
+						5,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						0,
+						3
+					],
+					"counts": [
+						5,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						1,
+						0
+					],
+					"counts": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				{
+					"context": [
+						2,
+						0
+					],
+					"counts": [
+						0,
+						5,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						3,
+						0
+					],
+					"counts": [
+						0,
+						5,
+						0,
+						0
+					]
+				}
+			],
+			"source_digest": "c9064401f3898297411a23d8ecdd02a60c1436157c7fec2d20a21940b8754c65",
+			"version": 1
+		},
+		"model_id": "f2a7f52567cda7f6aa3647be16dd3aee696066444da8145ccc3e988b17cd2610",
+		"prng_version": "park-miller-v1",
+		"sampler": "weighted",
+		"sampler_version": "integer-counts-v1",
+		"seed": 17,
+		"version": 1
+	},
+	"training": {
+		"cost": {
+			"cpu_ops": 479,
+			"peak_bytes": 326,
+			"total_cycles": 12731,
+			"transfer_bytes": 755
+		},
+		"events": [
+			{
+				"bytes": 1,
+				"cycles": 66,
+				"example": 0,
+				"index": 0,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 1,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					0
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 2,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 2,
+				"before": 1,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					1
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					0,
+					1
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 3,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					0
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					1,
+					0
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 4,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 3,
+				"before": 2,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					2
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			}
+		],
+		"machine": {
+			"bytes_per_cycle": 1,
+			"cache_rows": 21,
+			"cpu_ops_per_cycle": 64,
+			"memory_bytes": 8192,
+			"request_cycles": 64
+		},
+		"model_id": "f2a7f52567cda7f6aa3647be16dd3aee696066444da8145ccc3e988b17cd2610"
+	}
+}

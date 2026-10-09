@@ -1,0 +1,228 @@
+{
+	"author_setup": [
+		{
+			"action": "select public examples and history",
+			"indices": [
+				5
+			],
+			"order": 2
+		}
+	],
+	"captures": [
+		{
+			"name": "01-order-1",
+			"viewport": "(2940, 1846)"
+		},
+		{
+			"name": "01-order-2",
+			"viewport": "(2940, 1846)"
+		}
+	],
+	"checks": 22,
+	"compression": [
+		{
+			"codec": "raw",
+			"cost": {
+				"cpu_ops": 10492,
+				"peak_bytes": 2356,
+				"total_cycles": 235928,
+				"transfer_bytes": 3996
+			},
+			"machine": {
+				"bytes_per_cycle": 1,
+				"cache_rows": 21,
+				"cpu_ops_per_cycle": 1,
+				"memory_bytes": 8192,
+				"request_cycles": 64
+			},
+			"metrics": {
+				"checksum_bytes": 32,
+				"codec": "raw",
+				"header_bytes": 20,
+				"mismatches": 0,
+				"model_bytes": 0,
+				"packet_bytes": 436,
+				"padding_bits": 0,
+				"payload_bits": 3072,
+				"payload_bytes": 384,
+				"raw_symbol_bits": 3072,
+				"seed_symbols": 0
+			},
+			"model_id": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+			"order": 0,
+			"receipt": {
+				"codec": "raw",
+				"machine": {
+					"bytes_per_cycle": 1,
+					"cache_rows": 21,
+					"cpu_ops_per_cycle": 1,
+					"memory_bytes": 8192,
+					"request_cycles": 64
+				},
+				"model_id": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+				"order": 0,
+				"result": {
+					"budget": 240000,
+					"cycles": 235928,
+					"ok": true
+				},
+				"source_id": "fadd86a51603e2894871e6ce12c56dd25e6fca52c98095133f8f4f8f0a8f8588"
+			}
+		},
+		{
+			"codec": "predictive",
+			"cost": {
+				"cpu_ops": 79805,
+				"peak_bytes": 2409,
+				"total_cycles": 294932,
+				"transfer_bytes": 4311
+			},
+			"machine": {
+				"bytes_per_cycle": 1,
+				"cache_rows": 21,
+				"cpu_ops_per_cycle": 1,
+				"memory_bytes": 8192,
+				"request_cycles": 64
+			},
+			"metrics": {
+				"checksum_bytes": 32,
+				"codec": "predictive",
+				"header_bytes": 20,
+				"mismatches": 5,
+				"model_bytes": 155,
+				"packet_bytes": 401,
+				"padding_bits": 4,
+				"payload_bits": 1548,
+				"payload_bytes": 194,
+				"raw_symbol_bits": 3072,
+				"seed_symbols": 2
+			},
+			"model_id": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+			"order": 0,
+			"receipt": {
+				"codec": "predictive",
+				"machine": {
+					"bytes_per_cycle": 1,
+					"cache_rows": 21,
+					"cpu_ops_per_cycle": 1,
+					"memory_bytes": 8192,
+					"request_cycles": 64
+				},
+				"model_id": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+				"order": 0,
+				"result": {
+					"budget": 240000,
+					"cycles": 294932,
+					"ok": false
+				},
+				"source_id": "fadd86a51603e2894871e6ce12c56dd25e6fca52c98095133f8f4f8f0a8f8588"
+			}
+		},
+		{
+			"codec": "raw",
+			"cost": {
+				"cpu_ops": 10492,
+				"peak_bytes": 2356,
+				"total_cycles": 225601,
+				"transfer_bytes": 3996
+			},
+			"machine": {
+				"bytes_per_cycle": 1,
+				"cache_rows": 21,
+				"cpu_ops_per_cycle": 64,
+				"memory_bytes": 8192,
+				"request_cycles": 64
+			},
+			"metrics": {
+				"checksum_bytes": 32,
+				"codec": "raw",
+				"header_bytes": 20,
+				"mismatches": 0,
+				"model_bytes": 0,
+				"packet_bytes": 436,
+				"padding_bits": 0,
+				"payload_bits": 3072,
+				"payload_bytes": 384,
+				"raw_symbol_bits": 3072,
+				"seed_symbols": 0
+			},
+			"model_id": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+			"order": 1,
+			"receipt": {
+				"codec": "raw",
+				"machine": {
+					"bytes_per_cycle": 1,
+					"cache_rows": 21,
+					"cpu_ops_per_cycle": 64,
+					"memory_bytes": 8192,
+					"request_cycles": 64
+				},
+				"model_id": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+				"order": 1,
+				"result": {
+					"budget": 223000,
+					"cycles": 225601,
+					"ok": false
+				},
+				"source_id": "fadd86a51603e2894871e6ce12c56dd25e6fca52c98095133f8f4f8f0a8f8588"
+			}
+		},
+		{
+			"codec": "predictive",
+			"cost": {
+				"cpu_ops": 79805,
+				"peak_bytes": 2409,
+				"total_cycles": 216375,
+				"transfer_bytes": 4311
+			},
+			"machine": {
+				"bytes_per_cycle": 1,
+				"cache_rows": 21,
+				"cpu_ops_per_cycle": 64,
+				"memory_bytes": 8192,
+				"request_cycles": 64
+			},
+			"metrics": {
+				"checksum_bytes": 32,
+				"codec": "predictive",
+				"header_bytes": 20,
+				"mismatches": 5,
+				"model_bytes": 155,
+				"packet_bytes": 401,
+				"padding_bits": 4,
+				"payload_bits": 1548,
+				"payload_bytes": 194,
+				"raw_symbol_bits": 3072,
+				"seed_symbols": 2
+			},
+			"model_id": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+			"order": 1,
+			"receipt": {
+				"codec": "predictive",
+				"machine": {
+					"bytes_per_cycle": 1,
+					"cache_rows": 21,
+					"cpu_ops_per_cycle": 64,
+					"memory_bytes": 8192,
+					"request_cycles": 64
+				},
+				"model_id": "5df927d35c1a4e400ca416db1e6c3435970090bb2c4ab13982f980b732992e8d",
+				"order": 1,
+				"result": {
+					"budget": 223000,
+					"cycles": 216375,
+					"ok": true
+				},
+				"source_id": "fadd86a51603e2894871e6ce12c56dd25e6fca52c98095133f8f4f8f0a8f8588"
+			}
+		}
+	],
+	"evidence_kind": "rendered-controller-fixture",
+	"failures": [
+		"Action available",
+		"Family prediction starts successfully"
+	],
+	"locale": "zh_CN",
+	"native_input": false,
+	"prediction": []
+}

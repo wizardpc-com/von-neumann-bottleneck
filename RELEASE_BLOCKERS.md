@@ -17,12 +17,19 @@ four desktop anchor warnings retained; no new script errors.
 
 Internal Mac `build/free-alpha-ade587d50e02/macOS/Von-Neumann-Bottleneck.app`, profile
 `Redo-ade587d`: export/identity/strictcodesign and16 actual binarychecksPASS.
-FreshCUA Maclocked, native input NOT_RUN. Blind learner/listening/artistic/device/
-Windows/formal-distribution acceptance remains open. Execution is blocked on
-external acceptance: three consecutive goal-turn native inventories report the
-Mac locked, and no new located implementation defect remains after the latest
-repair. The whole-game objective is unproven; this is not completion. Unlocking
-the Mac enables the next native journey check. Current runtime/package is unchanged.
+Native resume now earned C1–G3 in this actual exported package through native
+mouse/keyboard actions, confirmed a named64-cell work, quit/relaunched the same app,
+and replayed its recipe with identical output/costs. Before/after restart files are
+byte-identical; native Fork/Save preserved work/support bytes and recorded its parent.
+[Actual observation record and own-profile copies](docs/verification/20261008-draft-and-wider-routes/native-resume/README.md).
+
+The previous Mac-locked condition has changed. Later CUA pointer routing failed;
+native keyboard completed the route. System Quit attempts were inconclusive;
+in-game settings Quit produced procNotFound and actual relaunch succeeded. Narrow
+fullscreen capture noise remains unresolved. Known-answer operator evidence does
+not supply independent beginner/listening/artistic/device/Windows/distribution or
+native original40/Representation/Service earned-route acceptance. Broad goal remains
+active and unproven. Runtime/package unchanged; no repetitive tests or rebuild.
 
 ## Previous recovery and compatibility checkpoint — 2026-10-08
 

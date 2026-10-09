@@ -414,3 +414,23 @@ requestscontinuedwork: soleGUI runner uses frozenade587d50e02/Redo-ade587d, perf
 native C→P→G/save/reopen plus original/candidate paths, repairs observedfailures,
 then finishes remaining layeredacceptance. Originalfourcollaboratorfiles preserved,
 no runtimechange, no newpackage, no main/publicrelease.
+
+
+## Native resume checkpoint — 2026-10-08
+
+At de862eb the goal is active and fresh CUA access no longer reports Mac locked.
+Root alone operates actual frozen ade587d50e02/Redo-ade587d app. Actual C1–G3 earned
+through UI without support insertion; named64-cell work saved, full modal inspected,
+G3 draft saved, in-game home settings Quit terminates (subsequent procNotFound),
+exact app relaunched and G3 resumed. Before/after restart bytes equal. Actual recipe
+replay matches snapshot/costs; Fork/Save leaves work/supports intact with correct
+parent. Details and own isolated save copies in native-resume/README.md. Input
+mistakes and CUA pointer routing failures retained; keyboard succeeds. Fullscreen
+capture strip origin and system Quit attempts remain unresolved. No newly located
+runtime defect, no source/package change or redundant baseline rerun. Prior blocking
+condition changed; goal not blocked/complete merely due remaining broad acceptance.
+
+Independent beginner/listening/artistic/device/Windows/distribution and native earned
+original40/Representation/Service remain open. Existing technical wider-route proof
+is separate. Root reviews evidence/docs, preserves original four collaborator files,
+updates local handoff and performs authorized development-branch commit/push only.

@@ -564,7 +564,7 @@ func change_task(index: int) -> void:
 	# text survives navigation; each task still chooses its intended initial tab.
 	if valid_initial_input(): editor_state.inputs.erase("Initial")
 	editor_state.tabs.clear()
-	editor_state.erase("focus")
+	if editor_state.get("focus","") not in ["Unit","Previous","Next"]: editor_state.erase("focus")
 	evidence_expanded = false
 	task = clampi(index,0,8)
 	session.data.task = task
@@ -901,7 +901,13 @@ func refresh() -> void:
 	elif task == 8 and works.item_count > 0: works.select(works.item_count-1)
 	costs.text = measurement_text()
 	refresh_cost_comparison()
+	_sync_button_focus()
 	if is_instance_valid(status): status.text = status_text
+
+func _sync_button_focus() -> void:
+	for control: Node in find_children("*","BaseButton",true,false):
+		var action := control as BaseButton
+		action.focus_mode = Control.FOCUS_NONE if action.disabled else Control.FOCUS_ALL
 
 func _unsupported_saved_recipe() -> bool:
 	var work: Dictionary = latest.get("work",{})
@@ -1009,6 +1015,7 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 	var previous_page: int = signal_view.page
 	refresh_keep_actions()
 	_refresh_creation_comparison()
+	_sync_button_focus()
 	var kind: String = str(latest.get("kind",""))
 	# Learning has no new output cells. Keep the detached observation anchor until
 	# a new visible run can revisit it; never predict a future cell to fill it in.
@@ -1367,7 +1374,9 @@ func _restore_editor_state(saved: Dictionary) -> void:
 	var handle: String = str(saved.get("focus",""))
 	if not handle.is_empty():
 		var focus := find_child(handle,true,false) as Control
-		if focus != null: focus.grab_focus()
+		if handle in ["UndoDraft","RedoDraft"] and focus is BaseButton and focus.is_visible_in_tree() and focus.disabled:
+			focus = find_child("RedoDraft" if handle == "UndoDraft" else "UndoDraft",true,false) as Control
+		if focus != null and focus.is_visible_in_tree() and focus.focus_mode != Control.FOCUS_NONE and not (focus is BaseButton and focus.disabled): focus.grab_focus()
 
 func _clear_replaced_exploration() -> void:
 	suppress_snapshot_fallback = false

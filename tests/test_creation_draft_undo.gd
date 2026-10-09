@@ -28,7 +28,12 @@ func click(scene: Control, name: String) -> void:
 			root.push_input(event,true); await process_frame
 	await settle()
 	var focus: Control = root.gui_get_focus_owner()
-	check(focus != null and str(focus.name) == name,"Restored draft action retains keyboard focus "+name)
+	var restored := scene.find_child(name,true,false) as Button
+	var expected: String = name
+	if restored != null and restored.disabled and name in ["UndoDraft","RedoDraft"]:
+		expected = "RedoDraft" if name == "UndoDraft" else "UndoDraft"
+	var target := scene.find_child(expected,true,false) as Button
+	check(target != null and target.is_visible_in_tree() and not target.disabled and focus == target,"Restored draft action retains valid keyboard focus "+expected)
 func write_raw(path: String, raw: String) -> void:
 	var file := FileAccess.open(path,FileAccess.WRITE)
 	check(file != null,"Isolated fixture is writable")

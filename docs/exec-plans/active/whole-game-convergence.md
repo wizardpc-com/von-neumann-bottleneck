@@ -448,3 +448,21 @@ saved one earned support; tasks2–5 and Service remain unplayed this turn. Wide
 disabled Review focus observed, needs scoped follow-up. All source/evidence boundaries
 in keyboard-focus/README.md. Root soleengine/Git/GUI, workers released, originalfour
 untouched. Goal active, meaningful progress; no whole-game completion/main/release.
+
+
+## Wider workbench keyboard availability — 2026-10-09
+
+Previous goal turn at `0704d7c` made concrete progress. This native attempt found
+Mac locked; no new operator proof. Root confirmed no engine process before QA.
+The Sol worker repaired the observed disabled Region Review focus and equivalent
+Service actions, preserving enablement conditions. Next/Ack applies final state
+once to preserve valid focus through refresh.
+
+Runtime `e48689f7edc7`: seven suites (354 checks) and 18 rendered checks on Apple M2
+passed; changed scripts match QA, commit and build. Matching `Wider-e48689f` Mac
+export, identity, signature and 16 binary checks passed. Full outputs and scope:
+[wider focus evidence](../../verification/20261008-draft-and-wider-routes/wider-focus/README.md).
+Root owns branch push and all engine/Git work; original four files untouched.
+Whole objective remains active. Wider native Representation/Service and external
+acceptance are still needed; repeated automatic checks cannot replace them.
+No main merge or public release.

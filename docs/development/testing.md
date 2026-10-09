@@ -852,3 +852,15 @@ release/echo, focused text and read-only Hint protection. These synthetic viewpo
 events establish handler behavior, not native Windows/Mac keyboard operation.
 Relevant neighbors: overlap_ui, layout_ui/navigation/recipe_sources and desktop
 conventions. No new geometry or simulation changes require repeated screenshots.
+
+
+## Candidate disabled-action keyboard navigation — 2026-10-09
+
+Use `test_candidate_disabled_focus` through the isolated verifier. It dispatches
+viewport Tab/Enter across Representation and Service, checking unavailable-action
+skips, dynamically re-enabled actions and valid focus preservation on refresh.
+Closure support plans are explicit validated fixtures, not native completion.
+Run once with the renderer in the imported isolated project and a new data directory
+for the same input checks; geometry is unchanged. Neighbors: representation closure/
+edit context, Service undo/split/commission UI and completion_service_clarity.
+[Exact verification and native limits](../verification/20261008-draft-and-wider-routes/wider-focus/README.md).

@@ -2,7 +2,22 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current Creation focus checkpoint — 2026-10-09
+## Current wider-workbench focus checkpoint — 2026-10-09
+
+Runtime `e48689f7edc7`, branch `codex/mac-second-act-20261005`: Representation and
+Service disabled actions leave the Tab chain; newly available actions rejoin it.
+Service Next/Ack applies final availability once to preserve valid focus on refresh.
+Seven affected suites (354 checks) and 18 rendered viewport checks on Apple M2
+passed, using original resources and Godot 4.7.1. Matching Mac export, identity,
+strict signature and 16 release binary checks passed; profile `Wider-e48689f`.
+
+Native wider-route attempt stopped at Mac locked; no new native acceptance claim.
+Earlier C/P/G/restart and focus evidence retains its runtime attribution. Native
+Representation2–5/Service/original40 and human/artistic/device/Windows/distribution
+acceptance remain unproven; goal active, four collaborator files preserved.
+[Full evidence](verification/20261008-draft-and-wider-routes/wider-focus/README.md).
+
+## Previous Creation focus checkpoint — 2026-10-09
 
 Runtime `f14444ff8f36`, branch `codex/mac-second-act-20261005`: Creation navigation
 retains focus; disabled actions leave Tab order, exhausted Undo/Redo focuses its

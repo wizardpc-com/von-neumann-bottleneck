@@ -3,7 +3,22 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current keyboard checkpoint — 2026-10-08
+## Current wider-workbench focus checkpoint — 2026-10-09
+
+Runtime `e48689f7edc7`, branch `codex/mac-second-act-20261005`: Representation and
+Service disabled actions leave the Tab chain; newly available actions rejoin it.
+Service Next/Ack applies final availability once to preserve valid focus on refresh.
+Seven affected suites (354 checks) and 18 rendered viewport checks on Apple M2
+passed, using original resources and Godot 4.7.1. Matching Mac export, identity,
+strict signature and 16 release binary checks passed; profile `Wider-e48689f`.
+
+Native wider-route attempt stopped at Mac locked; no new native acceptance claim.
+Earlier C/P/G/restart and focus evidence retains its runtime attribution. Native
+Representation2–5/Service/original40 and human/artistic/device/Windows/distribution
+acceptance remain unproven; goal active, four collaborator files preserved.
+[Exact scope and pending native acceptance](docs/verification/20261008-draft-and-wider-routes/wider-focus/README.md).
+
+## Previous keyboard checkpoint — 2026-10-08
 
 Runtime `ade587d50e02`, branch `codex/mac-second-act-20261005`: Chapter3/4 now support
 documented Ctrl+Y redo through existing transactions, with text/Hint/event boundaries

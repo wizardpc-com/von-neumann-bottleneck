@@ -549,3 +549,19 @@ this access barrier, not the three-turn blocked threshold. Goal active/incomplet
 resume same app and unsaved T3 before wider native/external acceptance. Four unrelated
 collaborator files remain preserved. Root sole Git/engine/UI; owns only diagnostic
 evidence and this plan until reviewed, committed and pushed.
+
+
+## Repeated native-window barrier — 2026-10-09
+
+At da4b3b7, third consecutive goal turn repeats exact-app AXError.cannotComplete.
+Fresh ps/pgrep confirms only the same alivePID80322; no other engine job or worker
+remains. Remote heads unchanged, current-runtime CI143/Mac probe terminal PASS,
+all174 retained evidence hashes valid. Previous diagnostic turn completed evidence
+and push but did not restore play. No new located source defect or independent
+integration; missing native/external requirements cannot be replaced by repeats.
+Broad goal to blocked after authorized audit handoff commit/push, not complete.
+Keep same live native package and unsaved T3; restore access before earned wider
+closure/save/reopen and human/platform acceptance. Four original collaborator paths
+preserved. Exact checks and limitations:
+[blocked audit](../../verification/20261009-native-window-access/blocked-audit.md).
+Root owns only CurrentState/plan/audit/hash until review/commit/push.

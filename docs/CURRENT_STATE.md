@@ -2,7 +2,20 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current split-input checkpoint — 2026-10-09
+## Current native-window barrier — 2026-10-09
+
+At da4b3b7, exact runtime426009f process80322 remains alive; fresh CUA binding
+still returns AXError.cannotComplete. Same access barrier across three consecutive
+goal turns, despite earlier repair/verification and diagnostic progress. All other
+engine jobs and workers are terminal; remote heads unchanged. Current-runtime
+CI143/Mac probe remain PASS with all174 evidence hashes verified. No new native
+input or concrete independent repair; no repeated tests/export or second Godot.
+Full objective is blocked, not complete. Unsaved T3 draft retained in the live
+isolated app. Resume after native control is restored; wider native closure and
+independent human/platform acceptance remain unproven.
+[Fresh repeated-barrier audit](verification/20261009-native-window-access/blocked-audit.md).
+
+## Previous split-input checkpoint — 2026-10-09
 
 Mac unlocked; frozen f905 native input earned and saved Representation1–2
 (135/60/60 and34/52/16 cycles/storage/traffic). A right-block boundary input

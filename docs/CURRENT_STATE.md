@@ -2,6 +2,18 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Current split-input checkpoint — 2026-10-09
+
+Mac unlocked; frozen f905 native input earned and saved Representation1–2
+(135/60/60 and34/52/16 cycles/storage/traffic). A right-block boundary input
+followed by Tab misrouted Enter to Raw because Split availability used the old
+value. SplitAt now updates from integer text before Tab; no model/schema/gate change.
+Godot4.7.1 fresh focus28/context39/Representation3329 and M2 renderer focus28 PASS.
+Native fixed-runtime verification and wider route remain next. Goal active;
+previous lock-based blocked checkpoint is historical. Four collaborator files
+preserved, development-branch commit/push only.
+[Native observations, own save and regression logs](verification/20261009-split-input/README.md).
+
 ## Current wider-workbench focus checkpoint — 2026-10-09
 
 Runtime `f90597bf999a`, branch `codex/mac-second-act-20261005`: Representation and

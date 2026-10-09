@@ -13,10 +13,12 @@ func check(ok: bool, message: String) -> void:
 func settle() -> void:
 	for frame: int in 6: await process_frame
 
-func key(code: Key) -> void:
+func key(code: Key, unicode: int = 0, command: bool = false) -> void:
 	for down: bool in [true,false]:
 		var event := InputEventKey.new()
-		event.keycode = code; event.physical_keycode = code; event.pressed = down
+		event.keycode = code; event.physical_keycode = code; event.unicode = unicode; event.pressed = down
+		event.meta_pressed = command and OS.get_name() == "macOS"
+		event.ctrl_pressed = command and not event.meta_pressed
 		root.push_input(event,true); await process_frame
 	await settle()
 
@@ -56,6 +58,23 @@ func run() -> void:
 	check(focused("Raw"),"Newly enabled Raw re-enters the Region Tab chain")
 	await key(KEY_ENTER)
 	check(region.plan[0].codec == "raw" and focused("RLE"),"Viewport Raw activation continues focus to enabled RLE")
+	# Prepare the observed right-block state; boundary edits below use viewport keys.
+	region.edit_plan(partition([16,64],["rle","rle"]))
+	region.blocks.get_root().get_child(1).select(0); region.blocks.item_selected.emit(); await settle()
+	check(region.selected_block == 1 and int(region.split_at.value) == 16 and button(region,"Split").disabled,"Right block starts with its left-edge boundary unavailable")
+	var split_line: LineEdit = region.split_at.get_line_edit()
+	split_line.grab_focus(); await key(KEY_A,0,true)
+	await key(KEY_1,49); await key(KEY_6,54)
+	check(int(region.split_at.value) == 16 and button(region,"Split").disabled,"Viewport typing boundary16 keeps right-block Split unavailable")
+	await key(KEY_A,0,true)
+	await key(KEY_2,50)
+	check(button(region,"Split").disabled,"First typed digit2 remains outside the selected right block")
+	await key(KEY_4,52)
+	check(split_line.text == "24" and int(region.split_at.value) == 24 and not button(region,"Split").disabled,"Viewport typing2 then4 enables valid boundary24 before leaving the field")
+	await key(KEY_TAB)
+	check(focused("Split"),"Tab after a valid boundary reaches Split rather than Raw")
+	await key(KEY_ENTER)
+	check(region.plan == partition([16,24,64],["rle","rle","rle"]),"Viewport Enter splits at24 without changing the selected codec")
 	var plans: Array = [partition([16,64],["rle","raw"]),partition([16,24,40,48,64],["rle","rle","raw","rle","rle"]),partition([16,48,64],["rle","rle","rle"]),partition([8,64],["raw","rle"]),partition([18,46,64],["rle","raw","rle"])]
 	for index: int in 5: region.support_plans[index] = plans[index]
 	region.refresh_tasks(); await settle()

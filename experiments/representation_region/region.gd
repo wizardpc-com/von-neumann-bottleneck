@@ -217,7 +217,7 @@ func build() -> void:
 	split_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	split_label.custom_minimum_size.x = 80
 	split_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	split_at = SpinBox.new(); split_at.name = "SplitAt"; split_at.min_value = 1; split_at.max_value = 63; split_at.value = 16; split_at.custom_minimum_size.x = 85; edit.add_child(split_at)
+	split_at = SpinBox.new(); split_at.name = "SplitAt"; split_at.min_value = 1; split_at.max_value = 63; split_at.value = 16; split_at.update_on_text_changed = true; split_at.custom_minimum_size.x = 85; edit.add_child(split_at)
 	split_at.value_changed.connect(func(_v: float) -> void: refresh_actions())
 	split_button = make_button(text2("分割","Split"),edit,func() -> void: edit_plan(Model.split(plan,selected_block,int(split_at.value))),"Split")
 	merge_button = make_button(text2("合并右块","Merge right"),edit,func() -> void: edit_plan(Model.merge(plan,selected_block)),"Merge")

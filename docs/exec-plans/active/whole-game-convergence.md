@@ -511,3 +511,14 @@ not complete. Resume after manual Mac unlock to earn Representation2–5/ending/
 save/reopen and Service in isolated profiles, then continue original40 and external
 acceptance. Root owns only this plan and current-state handoff for commit/push;
 runtime/package unchanged, development branch only, no main merge/public release.
+
+## Native unlock and split-input follow-up — 2026-10-09
+
+Mac barrier changed; objective active. Actual f905 Home/map/Representation route
+earned and saved tasks1–2. Typed valid boundary24 followed by Tab exposed stale
+Split availability; fix uses the existing live SpinBox integer update. Fresh
+Godot4.7.1 focus28/context39/model3329 and M2 viewport28 PASS; source no semantic
+or persistence change. Root next commits/exports matching runtime and continues
+native fixed-input plus tasks3–5/review/reopen and Service. Full own-profile and
+raw logs in docs/verification/20261009-split-input. Original40 and independent
+human/platform acceptance remain open. Original four collaborator files preserved.

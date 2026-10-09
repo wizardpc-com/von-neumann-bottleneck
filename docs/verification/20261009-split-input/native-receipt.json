@@ -1,0 +1,28 @@
+{
+  "runtime": "f90597bf999a9fa09b08ac89fa0b4512f5835de6",
+  "app": "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-f90597bf999a/macOS/Von-Neumann-Bottleneck.app",
+  "profile": "Continuity-f90597b",
+  "input": "actual CUA native keyboard after native Home/map/Representation entry",
+  "save": "native-f905-t1-t2-session.json",
+  "observed_metrics": {
+    "task1": {
+      "cycles": 135,
+      "storage_bytes": 60,
+      "traffic_bytes": 60
+    },
+    "task2": {
+      "cycles": 34,
+      "storage_bytes": 52,
+      "traffic_bytes": 16
+    }
+  },
+  "task2_workaround": "Enter commits SpinBox text before Tab; direct text then Tab misrouted to Raw",
+  "quit": "Cmd+Q followed by procNotFound",
+  "pending": [
+    "fixed-runtime native input",
+    "Representation3-5 and review/reopen",
+    "Service",
+    "native original40",
+    "independent human and platform acceptance"
+  ]
+}

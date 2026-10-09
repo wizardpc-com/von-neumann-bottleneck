@@ -565,3 +565,18 @@ closure/save/reopen and human/platform acceptance. Four original collaborator pa
 preserved. Exact checks and limitations:
 [blocked audit](../../verification/20261009-native-window-access/blocked-audit.md).
 Root owns only CurrentState/plan/audit/hash until review/commit/push.
+
+## Native earned region closure and completion focus — 2026-10-09
+
+Access barrier cleared; root recovered same T3 draft and completed all five
+Representation and three Service tasks in runtime426009f through actual keyboard
+edit/run/save/review. Normal quit/reopen retained exact own-profile bytes, all
+supports and seven/six records. Actual earned four-page story exposed disabled
+Next retaining focus. Sol implemented a narrow focus transfer and real bilingual
+viewport input regression; root's fresh official4.7.1 headless route/presentation
+and M2 rendered route PASS. No model/schema/gate change. Matching new package and
+native ending-focus check follow; do not repeat the eight-task solve. Broad goal
+active/incomplete, original40 native and independent human/platform acceptance
+remain open. Four collaborator paths preserved. Root owns source/test integration,
+this plan, CurrentState, testing and native-region-resume evidence; sole Git/engine.
+[Evidence](../../verification/20261009-native-region-resume/README.md).

@@ -2,7 +2,23 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current native-window barrier — 2026-10-09
+## Current native closure and completion focus — 2026-10-09
+
+The previous native-window barrier cleared. Actual frozen Mac runtime426009f,
+original assets and own Continuity-f90597b profile completed Representation5/5
+and Service3/3 through native edit/run/save/review, normal quit and reopen.
+Seven Representation and six Service records plus all eight saved plans retained
+identical bytes. The earned four-page story displayed their recomputed metrics.
+Split text→Tab→Split is now native-verified. A final-page disabled Next retained
+focus; the narrow follow-up moves focus to Back and excludes unavailable page
+controls from Tab. Official Godot4.7.1 route/presentation and Apple M2 rendered
+viewport keyboard regression PASS. Matching new package/native check pending.
+Full original40 native and independent human/platform acceptance remain open;
+whole-game objective active, not complete. Original four collaborator paths
+preserved; authorized development-branch commit/push only.
+[Actual plans, own session copies and fresh logs](verification/20261009-native-region-resume/README.md).
+
+## Historical native-window barrier — 2026-10-09
 
 At da4b3b7, exact runtime426009f process80322 remains alive; fresh CUA binding
 still returns AXError.cannotComplete. Same access barrier across three consecutive

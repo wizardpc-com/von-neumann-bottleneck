@@ -866,3 +866,14 @@ Run once with the renderer in the imported isolated project and a new data direc
 for the same input checks; geometry is unchanged. Neighbors: representation closure/
 edit context, Service undo/split/commission UI and completion_service_clarity.
 [Exact verification and native limits](../verification/20261008-draft-and-wider-routes/wider-focus/README.md).
+
+## Completion story keyboard boundaries, 2026-10-09
+
+Run isolated `test_completion_route` and `test_completion_presentation` after story
+focus changes. Route sends actual viewport key-down/up events for Shift-Tab,
+consecutive Enter, Previous/Next boundaries and Back close in both languages.
+For renderer verification, use the imported QA copy, assign a fresh independent
+QA custom user directory, then run Godot `--path <QA project> --script
+res://tests/test_completion_route.gd` without `--headless`. Headless fixtures and
+rendered viewport input are separate from actual exported-package/native input.
+[Native earned closure and full regression logs](../verification/20261009-native-region-resume/README.md).

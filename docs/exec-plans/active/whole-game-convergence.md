@@ -491,3 +491,23 @@ This supplies fresh current-runtime regression evidence, not native/human accept
 The broad objective remains active; next meaningful work needs unlocked Mac native
 routes, an external observation or a concrete defect. Preserve the four collaborator
 files and development-branch-only publication permissions.
+
+## Native/external proof impasse — 2026-10-09
+
+At `cdc248723fbb`, fresh status preserves the same four collaborator files. Exact
+`free-alpha-f90597bf999a` CUA launch again reports Mac locked and manual unlock
+required; no native input occurred. The same lock recurred in three consecutive
+goal turns, although source repair and then current-runtime Linux evidence still
+made progress in the first two. This turn has no further meaningful independent
+work: CI is terminal success, all workers have released ownership, escalated
+`pgrep -fl 'Godot|Von-Neumann-Bottleneck'` exits1 with no process, remote heads are
+unchanged, and all149 committed CI payload hashes remain intact. The initial
+sandbox process inventory failed and was not treated as an empty inventory.
+
+The full requirements map remains unproven for native wider earned routes and
+external human/device/platform acceptance. No repeated regression/export or
+speculative feature was used to replace missing evidence. Goal status is blocked,
+not complete. Resume after manual Mac unlock to earn Representation2–5/ending/
+save/reopen and Service in isolated profiles, then continue original40 and external
+acceptance. Root owns only this plan and current-state handoff for commit/push;
+runtime/package unchanged, development branch only, no main merge/public release.

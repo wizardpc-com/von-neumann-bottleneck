@@ -18,7 +18,8 @@ export, identity, strict signature and 16 binary checks passed; isolated profile
 Native wider-route attempt stopped at Mac locked; no new native acceptance claim.
 Earlier C/P/G/restart and focus evidence retains its runtime attribution. Native
 Representation2–5/Service/original40 and human/artistic/device/Windows/distribution
-acceptance remain unproven; goal active, four collaborator files preserved.
+acceptance remain unproven; goal blocked pending native/external evidence,
+four collaborator files preserved.
 [Full evidence](verification/20261008-draft-and-wider-routes/wider-focus/README.md).
 
 The existing push CI at `d5dd5d4be778` has now completed successfully on Ubuntu
@@ -27,6 +28,14 @@ branding/report and Python jobs passed. No script errors or skips; four known
 desktop anchor warnings retained. No local rerun or runtime/package change.
 [Current-runtime Linux receipt and original logs](verification/20261008-draft-and-wider-routes/linux-ci/README.md).
 This does not close the native/human acceptance gaps above.
+
+The next fresh exact-app attempt again reported a locked Mac. This barrier has
+recurred across three consecutive goal turns; the first two still completed source
+repairs and CI evidence respectively. Now all jobs are terminal, no new remote
+content or concrete defect is available, and the remaining proof requires native
+input/external observations. The objective is blocked, not completed. After manual
+Mac unlock, resume earned Representation2–5/ending/save/reopen and Service routes
+in an isolated profile; retain original40 and independent human/platform gates.
 
 ## Previous Creation focus checkpoint — 2026-10-09
 

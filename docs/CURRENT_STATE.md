@@ -21,6 +21,13 @@ Representation2–5/Service/original40 and human/artistic/device/Windows/distrib
 acceptance remain unproven; goal active, four collaborator files preserved.
 [Full evidence](verification/20261008-draft-and-wider-routes/wider-focus/README.md).
 
+The existing push CI at `d5dd5d4be778` has now completed successfully on Ubuntu
+24.04 with checksum-verified Godot4.7.1: all 143 headless suites, import/isolation,
+branding/report and Python jobs passed. No script errors or skips; four known
+desktop anchor warnings retained. No local rerun or runtime/package change.
+[Current-runtime Linux receipt and original logs](verification/20261008-draft-and-wider-routes/linux-ci/README.md).
+This does not close the native/human acceptance gaps above.
+
 ## Previous Creation focus checkpoint — 2026-10-09
 
 Runtime `f14444ff8f36`, branch `codex/mac-second-act-20261005`: Creation navigation

@@ -476,3 +476,18 @@ headless/rendered. Matching final Mac/Continuity-f90597b identity, signature and
 16 binary checks passed; new exact native app attempt still Mac locked. No duplicate
 baseline or unchanged package rebuild. Evidence in wider-focus/continuation/README.md.
 Full goal active, actual progress; native/human gaps preserved.
+
+## Current-runtime Linux regression receipt — 2026-10-09
+
+The next exact frozen Mac attempt remained locked. Sol's read-only continuation,
+modal and rebuild audit found no new concrete defect. Remote heads had no new
+content to integrate. Root discovered the existing live push CI for `d5dd5d4be778`,
+waited for its terminal result and inspected the complete logs/artifact: successful
+official Godot4.7.1 Linux import/isolation and all 143 suites, plus Python checks.
+No errors/skips; four known desktop anchor warnings and CI action advisories retained.
+[Durable receipt](../../verification/20261008-draft-and-wider-routes/linux-ci/README.md).
+Runtime/package unchanged; no extra engine run, export or speculative edit.
+This supplies fresh current-runtime regression evidence, not native/human acceptance.
+The broad objective remains active; next meaningful work needs unlocked Mac native
+routes, an external observation or a concrete defect. Preserve the four collaborator
+files and development-branch-only publication permissions.

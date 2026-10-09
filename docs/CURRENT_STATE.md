@@ -2,7 +2,25 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current keyboard checkpoint — 2026-10-08
+## Current Creation focus checkpoint — 2026-10-09
+
+Runtime `f14444ff8f36`, branch `codex/mac-second-act-20261005`: Creation navigation
+retains focus; disabled actions leave Tab order, exhausted Undo/Redo focuses its
+enabled reverse action. Godot4.7.1 draft68 and keyboard22 headless/rendered checks
+PASS. Matching Mac export/identity/strict signature and16 binary checks PASS.
+Native new-package Tab skips disabled history and consecutive Enter reaches C2/C3
+with Next focused; saved task2 has empty model/supports/works. Prior ade package
+native Representation task1 earned mixed60B/135cycles after failed RAW68B/136cycles.
+No model/schema/gate change or repeat full baseline.
+[Full evidence, initial failures and scope](verification/20261008-draft-and-wider-routes/keyboard-focus/README.md).
+
+Internal Mac `build/free-alpha-f14444ff8f36/macOS/Von-Neumann-Bottleneck.app`,
+profile `Focus-f14444f`. The earlier full native C/P/G/restart evidence remains
+attributed to ade. Wider native Representation2–5/Service/original40, beginner,
+audio/artistic/device/Windows/distribution acceptance remain open; whole-game
+goal active. Four collaborator files preserved; development-branch push only.
+
+## Previous keyboard checkpoint — 2026-10-08
 
 Runtime `ade587d50e02`, branch `codex/mac-second-act-20261005`: Chapter3/4 now support
 documented Ctrl+Y redo through existing transactions, with text/Hint/event boundaries

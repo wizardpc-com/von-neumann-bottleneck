@@ -434,3 +434,17 @@ Independent beginner/listening/artistic/device/Windows/distribution and native e
 original40/Representation/Service remain open. Existing technical wider-route proof
 is separate. Root reviews evidence/docs, preserves original four collaborator files,
 updates local handoff and performs authorized development-branch commit/push only.
+
+
+## Creation focus and native Representation checkpoint — 2026-10-09
+
+Runtime f14444ff8f36 fixes rebuilt navigation focus, disabled Tab actions and final
+Undo/Redo reverse focus. Initial draft assertion failure retained; final draft68,
+keyboard22 headless+M2 renderer PASS. Matching internal Mac/Focus-f14444f export,
+identity, strictcodesign and16 binary checks PASS. Actual native consecutive Enter
+C1→C2→C3 keeps Next focus; own saved draft no model/support/work. Earlier actual
+ade/Redo Representation task1 RAW failure136cycles/68B→mixed success135cycles/60B,
+saved one earned support; tasks2–5 and Service remain unplayed this turn. Wider
+disabled Review focus observed, needs scoped follow-up. All source/evidence boundaries
+in keyboard-focus/README.md. Root soleengine/Git/GUI, workers released, originalfour
+untouched. Goal active, meaningful progress; no whole-game completion/main/release.

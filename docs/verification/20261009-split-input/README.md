@@ -38,3 +38,16 @@ independent novice/artistic/listening/device/Windows/distribution acceptance rem
 open. Four unrelated collaborator files preserved; no production migration,
 main merge or public release. Goal active after Mac unlock; old locked-state
 records describe historical attempts, not the present barrier.
+
+## Follow-through
+
+Runtime426009f was committed/pushed, remote exact SHA verified. Matching official
+Mac package and16 binary checks PASS; new Home restored the two native saved runs.
+Task3 entry/fullRLE worked, but later native input/CG window binding failed; the
+process and unsaved draft remain alive. See [package scope](package/README.md).
+Actual push [CI](linux-ci/README.md) completed all143 suites plus Python jobs.
+Original four collaborator files remain untouched. Wider objective active and
+incomplete; no public release/main merge.
+
+Raw CI/build logs retain trailing spaces and blank EOFs from their sources;
+`git diff --check` reports those evidence-only bytes. Authored code/docs are clean.

@@ -522,3 +522,11 @@ or persistence change. Root next commits/exports matching runtime and continues
 native fixed-input plus tasks3–5/review/reopen and Service. Full own-profile and
 raw logs in docs/verification/20261009-split-input. Original40 and independent
 human/platform acceptance remain open. Original four collaborator files preserved.
+
+Root follow-through runtime426009f: committed/pushed and exact remote verified.
+Mac export/identity/strict signature/16 actual binary checks PASS; all143 Linux CI
+suites plus Python jobs PASS. New native Home restored T1/T2; actual T3 entry and
+RLE14B succeeded, then GUI input/window binding failed. Left exact process80322
+and unsaved draft alive; original saved bytes unchanged. Source audit found no
+input-disabling path, so no speculative freeze fix. Next restore native control
+before fixed-input and wider route; no parallel local Godot while app is alive.

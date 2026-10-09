@@ -9,7 +9,11 @@ Mac unlocked; frozen f905 native input earned and saved Representation1–2
 followed by Tab misrouted Enter to Raw because Split availability used the old
 value. SplitAt now updates from integer text before Tab; no model/schema/gate change.
 Godot4.7.1 fresh focus28/context39/Representation3329 and M2 renderer focus28 PASS.
-Native fixed-runtime verification and wider route remain next. Goal active;
+Matching runtime426009f was committed/pushed; Mac identity/signature/16 binary
+checks and Linux CI143 suites/Python jobs PASS. Native new Home restores T1/T2;
+T3 entry/RLE worked, then GUI inputs and CUA CG-window binding failed. Process
+and unsaved T3 remain alive; fixed text/Tab and wider closure still unverified.
+Goal active;
 previous lock-based blocked checkpoint is historical. Four collaborator files
 preserved, development-branch commit/push only.
 [Native observations, own save and regression logs](verification/20261009-split-input/README.md).

@@ -87,3 +87,21 @@ native limits, standalone Mac path, recipes/works, failures repaired and user re
 segment. Completed implementation and bounded experience review, not universal
 artistic/newcomer/Windows/audio acceptance. No required scoped runtime work remains.
 Evidence-only closing commit follows runtime without repeating unchanged tests.
+
+
+2026-10-09 full-objective continuation at012f261: three independent read-only
+audits identify no missing runtime requirement; the newest evidence had omitted
+the first generation using its carried sample5model and used only seeks/manual
+ticks for dynamic proof. Strengthened real-renderer route now retains that first
+feedback recipe/output, performs actual viewport Play/Pause/hold/Step/resume via
+real frame timing, and passes100checks. Fresh independent reopen20PASS. One real
+visual defect corrected: trace glow was hidden by cell background drawing order.
+No model/schema/cost/old-mapping change. Frozen012f261 Mac import/export/strict
+signature/16binarychecksPASS. Detailed full-goal audit and native/CI closing
+receipts: docs/verification/20261009-personal-works-continuity/README.md.
+
+Final current-runtime CI37978491613 passes147suites plus import/isolation and
+allPython jobs;149detailed logs inspected. Bounded native B focus and post-Play
+completed view observed corrected glow; clean exit preserves originalA/B and
+existingchild. Full requirement audit passed with explicit external/native timing
+boundaries. Final evidence-only commit/push closes this scoped goal.

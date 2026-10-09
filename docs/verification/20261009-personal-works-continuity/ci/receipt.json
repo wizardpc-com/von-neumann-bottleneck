@@ -1,0 +1,155 @@
+{
+  "source_commit": "012f26137feff642545800cb5e29710c2bba1431",
+  "run_url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37978491613",
+  "jobs": [
+    {
+      "id": 113982712477,
+      "name": "godot",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37978491613,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Download the exact official engine and verify its release checksum",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run python3 scripts/verify-project.py --godot \"$RUNNER_TEMP/vnb-engine/godot\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        }
+      ]
+    },
+    {
+      "id": 113982712801,
+      "name": "python",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37978491613,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run python scripts/check-branding.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run python scripts/test-report-playtests.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run python server/test_storage.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run python server/test_receiver.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run python server/test_community.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11640401457,
+      "name": "isolated-godot-results",
+      "size_in_bytes": 55668,
+      "url": "https://api.github.com/repos/wizardpc-com/von-neumann-bottleneck/actions/artifacts/11640401457",
+      "archive_download_url": "https://api.github.com/repos/wizardpc-com/von-neumann-bottleneck/actions/artifacts/11640401457/zip",
+      "expired": false,
+      "created_at": "2026-10-09T19:20:11Z",
+      "expires_at": "2026-10-16T19:20:11Z",
+      "updated_at": "2026-10-09T19:20:11Z",
+      "digest": "sha256:d55e6fa8ea8b76539bf9f14795ac015b60bf8688c2faaaf52c0190337026f4f1",
+      "workflow_run": {
+        "id": 37978491613,
+        "repository_id": 1334741077,
+        "head_repository_id": 1334741077,
+        "head_branch": "codex/mac-second-act-20261005",
+        "head_sha": "012f26137feff642545800cb5e29710c2bba1431"
+      }
+    }
+  ]
+}

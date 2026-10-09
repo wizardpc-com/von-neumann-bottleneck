@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+GEOMETRY locale=false causalCollapsed=101.0 ledgerExpanded=(866.0, 379.0) bars=[P: (390.0, 346.0), S: (860.0, 210.0)]
+GEOMETRY locale=true causalCollapsed=101.0 ledgerExpanded=(866.0, 379.0) bars=[P: (390.0, 346.0), S: (860.0, 210.0)]
+PASS: creation evidence reading 20 checks

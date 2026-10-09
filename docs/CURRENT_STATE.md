@@ -2,6 +2,22 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Representative continuity and live performance — 2026-10-09
+
+Runtime012f261 retains the full C/P/G increment and fixes trace glow being covered
+by cell backgrounds. The actual same model5df927d35c1a… is now recorded through
+both delivery conditions, practice/check and first output-feedback generation
+before explicit creative edits. Timed viewport Play→Pause6→hold→Step7→resume64
+passes without manual process ticks; fresh independent-process20checks preserve
+both protected works and fork correctly. The first fixture's embedded-window
+input routing error is documented and repaired. Source renderer100checks and
+focused exhibition14PASS. Official4.7.1 Mac free-alpha-012f26137fef export/strict
+signature/16binarychecksPASS. Same-runtimeCI37978491613 passes147Godot suites
+plus import/isolation and allPython jobs;149full logs inspected. Final receipt is in the
+[requirement-by-requirement audit and actual works](verification/20261009-personal-works-continuity/README.md).
+No model/save/schema changes, merge, publication or production save access.
+Native timing, external artistic/learning and Windows acceptance remain distinct.
+
 ## Personal-work deepening — 2026-10-09
 
 Latest C/P/G increment continues4483e30, preserving the later integration beyond

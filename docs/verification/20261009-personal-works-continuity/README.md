@@ -70,3 +70,37 @@ res://scripts/verify-personal-works.gd --windowed -- --locale=zh_CN
 Only QA project.godot uses window mode0 and new custom user directory
 `VonNeumannBottleneckChecks/personal-works-continuity-final`. Fresh focused
 exhibition14checks pass before rendering. No production files accessed.
+
+## Frozen current checkpoint
+
+Runtime `012f26137feff642545800cb5e29710c2bba1431` on
+`codex/mac-second-act-20261005`. Actual Mac app:
+`build/free-alpha-012f26137fef/macOS/Von-Neumann-Bottleneck.app`.
+The package uses the same isolated PersonalWorks-20261009 candidate profile; no
+production migration. Import/export, strict signature and16actual binary checks
+pass. [Manifest](build/manifest.json), [binary probe](build/probe.txt),
+[signature](build/signature.txt). Exact ZIP SHA256:
+`65c91d4519df565503bf52f7fa22b8ab4b5c4cc7962f511417cec0fc440fccd3`.
+The official4.7.1 export prints the same generic embedded-ICU compatibility note;
+no script errors. This is not notarized or publicly released.
+
+## Current integration and closure
+
+[CI37978491613](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37978491613)
+on exact012f261 passes147Godot suites, import/user-directory checks and allPython
+jobs. All149detailed logs inspected, no error/failure markers; source hashes match
+the executed/committed runtime. [Receipt](ci/receipt.json) and
+[full-log inspection](ci/inspection.json). Existing desktop anchor and Actions
+Node deprecation warnings remain distinct from failures. Detailed artifacts were
+saved locally with read-only `gh run download`; raw whitespace is preserved.
+
+Bounded current native review opens savedB, observes corrected glow/trail and
+after Play the complete64-cell display, then exits normally. Slow167–200s
+observations prevent claiming native intermediate pause timing. Exact commands,
+observations, protected file comparisons and limits: [native receipt](native/README.md).
+
+The full objective audit passes for this representative playable increment.
+No required implementation, package or integration work remains. Human/artistic
+feedback and Windows acceptance are explicitly unclaimed; no fourth domain or
+unrequested engine rewrite was introduced. Only the existing development branch
+is pushed, with final evidence-only `[skip ci]` closure to avoid redundant reruns.

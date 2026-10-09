@@ -145,6 +145,11 @@ func button(text: String, parent: Node, action: Callable, id: String = "") -> Bu
 	var node := Button.new(); node.text = text; node.name = id if not id.is_empty() else "Action"
 	node.custom_minimum_size.y = 32; node.pressed.connect(action); parent.add_child(node); return node
 
+func set_action_disabled(action: BaseButton, unavailable: bool) -> void:
+	action.disabled = unavailable
+	action.focus_mode = Control.FOCUS_NONE if unavailable else Control.FOCUS_ALL
+	if unavailable and action.has_focus(): action.release_focus()
+
 func mission_text() -> String:
 	if commission_mode >= 0:
 		return Commissions.title(commission_mode,english)+tr2(" · 可选返修委托\n24份请求与机器不变；编辑自己的方案，运行，再按委托公开规格验收。可随时回到任务3与原结尾。", " · Optional follow-up\nSame24 requests and machine. Edit your plan, measure, then check the public specification. Task3 and the original ending remain available.")
@@ -186,7 +191,7 @@ func build() -> void:
 	var stages := HBoxContainer.new(); page.add_child(stages)
 	for index: int in 3:
 		var node: Button = button(tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
-		node.disabled = index > unlocked; task_buttons.append(node)
+		set_action_disabled(node,index > unlocked); task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void: hint_open = not hint_open; refresh_mission(), "Hint1")
 	button(tr2("服务入门", "Service introduction"), stages, show_briefing, "ServiceIntroduction")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
@@ -232,7 +237,7 @@ func build() -> void:
 	InstrumentTheme.primary(run_button,Color("50d5ff"))
 	if persistent_session:
 		var save := button(tr2("保存本次探索", "Save this exploration"),editor,save_session,"SaveSession")
-		save.disabled = save_blocked; InstrumentTheme.primary(save,Color("62dca7"))
+		set_action_disabled(save,save_blocked); InstrumentTheme.primary(save,Color("62dca7"))
 		add_recovery_controls(editor)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
 	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
@@ -240,7 +245,7 @@ func build() -> void:
 	restore_button = button(tr2("恢复为草稿", "Restore draft"), history_header, restore_history, "Restore")
 	button(tr2("精度依据", "Quality evidence"),history_header,show_quality_evidence,"QualityEvidence")
 	var support_button := button(tr2("达标方案", "Successful plan"),history_header,restore_support,"RestoreSupport")
-	support_button.disabled = not support_plans.has(task)
+	set_action_disabled(support_button,not support_plans.has(task))
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
 	evidence_tabs = TabContainer.new(); evidence_tabs.name = "EvidenceTabs"; evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(evidence_tabs)
 	var overview := VBoxContainer.new(); overview.name = "Overview"; evidence_tabs.add_child(overview)
@@ -277,7 +282,7 @@ func build() -> void:
 	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,response_chart.toggle_play,"ResponsePlay")
 	response_play.custom_minimum_size.x = 220
 	response_step = button(tr2("下一响应", "Next response"),replay_row,response_chart.step_response,"ResponseStep")
-	response_play.disabled = true; response_step.disabled = true
+	set_action_disabled(response_play,true); set_action_disabled(response_step,true)
 	response_chart.playback_changed.connect(func(value: bool) -> void: response_play.text = tr2("暂停回放", "Pause replay") if value else tr2("回放首响应顺序", "Replay first responses"))
 	event_source = label("",event_panel,13)
 	event_raw_button = button("",event_panel,func() -> void: event_raw = not event_raw; refresh_event_detail(),"ToggleRawEvent")
@@ -315,20 +320,20 @@ func refresh_groups() -> void:
 func refresh_actions() -> void:
 	refresh_design_shelf()
 	refresh_verdict()
-	bill_button.disabled = selected_history < 0 or selected_history >= history.size()
+	set_action_disabled(bill_button,selected_history < 0 or selected_history >= history.size())
 	var quality_button := find_child("QualityEvidence",true,false) as Button
-	if quality_button != null: quality_button.disabled = selected_history < 0 or selected_history >= history.size() or not str(history[selected_history].metrics.error).is_empty()
+	if quality_button != null: set_action_disabled(quality_button,selected_history < 0 or selected_history >= history.size() or not str(history[selected_history].metrics.error).is_empty())
 	var support_button := find_child("RestoreSupport",true,false) as Button
-	if support_button != null: support_button.disabled = not support_plans.has(task)
+	if support_button != null: set_action_disabled(support_button,not support_plans.has(task))
 	var closure := find_child("ServiceClosure",true,false) as Button
-	if closure != null: closure.disabled = not has_service_closure()
+	if closure != null: set_action_disabled(closure,not has_service_closure())
 	var extra := find_child("ServiceCommissions",true,false) as Button
-	if extra != null: extra.disabled = not has_service_closure()
+	if extra != null: set_action_disabled(extra,not has_service_closure())
 	if evidence_tabs != null and evidence_tabs.get_tab_count() > 4: evidence_tabs.set_tab_disabled(4,not has_service_closure())
 	refresh_commission()
-	up_button.disabled = selected_group == 0; down_button.disabled = selected_group == plan.groups.size() - 1
-	merge_button.disabled = down_button.disabled; refresh_split_action()
-	undo_button.disabled = undo_stack.is_empty(); redo_button.disabled = redo_stack.is_empty(); restore_button.disabled = selected_history < 0
+	set_action_disabled(up_button,selected_group == 0); set_action_disabled(down_button,selected_group == plan.groups.size() - 1)
+	set_action_disabled(merge_button,down_button.disabled); refresh_split_action()
+	set_action_disabled(undo_button,undo_stack.is_empty()); set_action_disabled(redo_button,redo_stack.is_empty()); set_action_disabled(restore_button,selected_history < 0)
 
 func refresh_split_action() -> void:
 	var group_size: int = plan.groups[selected_group].size()
@@ -337,7 +342,7 @@ func refresh_split_action() -> void:
 	split_at.set_value_no_signal(clampi(int(split_at.value),1,last_boundary))
 	split_at.max_value = last_boundary
 	split_at.editable = group_size > 1
-	split_button.disabled = group_size < 2 or int(split_at.value) >= group_size
+	set_action_disabled(split_button,group_size < 2 or int(split_at.value) >= group_size)
 
 func refresh_verdict() -> void:
 	if measured_verdict == null: return
@@ -353,15 +358,16 @@ func refresh_verdict() -> void:
 		if commission_mode < 0:
 			measured_verdict.text += " · "+(tr2("任务%d达标方案已保留", "Task%d successful plan retained") % (task+1) if earned else tr2("尚无任务%d达标方案", "No Task%d successful plan retained") % (task+1))
 		measured_verdict.tooltip_text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
-	next_button.disabled = true
+	var next_unavailable: bool = true
 	next_button.tooltip_text = tr2("下一步依据已保留的达标方案；只查看旧记录不会获得当前合同。请在当前任务运行达标方案。", "Next follows retained successful plans. Viewing an old record does not earn the current contract; run a qualifying plan in this task.")
 	if commission_mode >= 0:
-		next_button.text = tr2("回到任务3", "Back to Task3"); next_button.disabled = not support_plans.has(2)
+		next_button.text = tr2("回到任务3", "Back to Task3"); next_unavailable = not support_plans.has(2)
 	elif task < 2:
 		next_button.text = tr2("继续任务%d", "Continue Task%d") % (task+2)
-		next_button.disabled = not earned or task+1 > unlocked
+		next_unavailable = not earned or task+1 > unlocked
 	else:
-		next_button.text = tr2("回看服务成果", "Review service work"); next_button.disabled = not has_service_closure()
+		next_button.text = tr2("回看服务成果", "Review service work"); next_unavailable = not has_service_closure()
+	set_action_disabled(next_button,next_unavailable)
 
 func toggle_language() -> void:
 	english = not english
@@ -410,7 +416,7 @@ func run_current() -> void:
 	if Model.accepted(active_trace.metrics, task):
 		unlocked = maxi(unlocked, mini(task + 1, 2))
 		support_plans[task] = plan.duplicate(true)
-	for index: int in 3: task_buttons[index].disabled = index > unlocked
+	for index: int in 3: set_action_disabled(task_buttons[index],index > unlocked)
 	refresh_history(); history_list.select(selected_history); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_history); refresh_actions()
 func refresh_history() -> void:
 	history_list.clear()
@@ -464,8 +470,8 @@ func select_run(index: int) -> void:
 	status.text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	response_chart.configure_record(record,selected_history+1)
-	response_step.disabled = response_chart.first_responses.is_empty()
-	response_play.disabled = response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false))
+	set_action_disabled(response_step,response_chart.first_responses.is_empty())
+	set_action_disabled(response_play,response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false)))
 	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,display_number(m.max_error),display_number(m.max_state_error)]
 	if not str(m.error).is_empty(): summary.text = invalid_feedback(m)+"\n"+tr2("没有性能或精度结果：该方案在执行前被拒绝。修改草稿后重新运行；历史记录保留。", "No performance or quality result: this plan was rejected before execution. Edit and rerun; history is retained.")
 	tree.clear(); var root_item: TreeItem = tree.create_item()
@@ -494,7 +500,7 @@ func refresh_event_detail() -> void:
 	if detail == null: return
 	event_raw_button.text = tr2("返回事件说明", "Show explanation") if event_raw else tr2("查看原始事件 JSON", "Show raw event JSON")
 	var item: TreeItem = tree.get_selected()
-	event_raw_button.disabled = item == null
+	set_action_disabled(event_raw_button,item == null)
 	if item == null:
 		detail.text = tr2("选择一条实测事件，查看流身份、搬运原因与费用。", "Select a measured event for its stream, cause and cost.")
 		return
@@ -510,7 +516,7 @@ func pin_comparison() -> void:
 func refresh_comparison() -> void:
 	if comparison_detail == null: return
 	var valid: bool = selected_history >= 0 and selected_history < history.size() and str(history[selected_history].metrics.error).is_empty()
-	pin_button.disabled = not valid; clear_pin_button.disabled = comparison_baseline.is_empty()
+	set_action_disabled(pin_button,not valid); set_action_disabled(clear_pin_button,comparison_baseline.is_empty())
 	comparison_chart.configure(comparison_baseline,history[selected_history].metrics if valid else {},english)
 	comparison_chart.visible = valid and not comparison_baseline.is_empty()
 	if comparison_baseline.is_empty():
@@ -944,10 +950,11 @@ func refresh_commission() -> void:
 	if commission_brief == null: return
 	var id: int = maxi(commission_mode,0)
 	commission_brief.text = Commissions.briefing(id,english)
-	commission_ack.disabled = true
 	if not has_service_closure():
+		set_action_disabled(commission_ack,true)
 		commission_result.text = tr2("先完成原三份合同；服务回顾成立后，可自由接这些委托。", "Complete the original three contracts first. These commissions become available after your service review is earned."); return
 	if selected_history < 0 or selected_history >= history.size():
+		set_action_disabled(commission_ack,true)
 		commission_result.text = tr2("尚无实测记录；先运行自己的方案。", "No measurement yet. Run your own plan first."); return
 	var m: Dictionary = history[selected_history].metrics
 	var lines: Array[String] = [tr2("记录%d · 以此记录的方案验收，未运行草稿不算。", "Record%d · Check this record's plan; unrun drafts do not count.") % (selected_history+1),Commissions.feedback(m,id,english)]
@@ -955,7 +962,7 @@ func refresh_commission() -> void:
 		lines.append(tr2("%d槽 · %d周期 · A/B/C/D首响应%s\n最终档案%dB（含目录与最终写回）· 累计状态读写%dB\n分数误差%s · 最终状态误差%s", "%d slots · %d cycles · A/B/C/D first%s\nFinal archive%dB (including directory and final flush) · cumulative state traffic%dB\nScore error%s · final-state error%s") % [m.plan.slots,m.total_cycles,str(m.first_stream_cycles),m.final_backing_bytes,m.state_read_bytes+m.state_write_bytes,display_number(m.max_error),display_number(m.max_state_error)])
 	if m.plan != plan: lines.append(tr2("当前草稿与记录不同；交付的是记录中的方案。", "Current draft differs; handoff uses the recorded plan."))
 	commission_result.text = "\n\n".join(lines)
-	commission_ack.disabled = commission_mode < 0 or not Commissions.accepted(m,id)
+	set_action_disabled(commission_ack,commission_mode < 0 or not Commissions.accepted(m,id))
 
 func acknowledge_commission() -> void:
 	if commission_mode < 0 or not has_service_closure() or selected_history < 0 or selected_history >= history.size(): return

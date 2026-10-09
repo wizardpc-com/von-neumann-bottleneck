@@ -114,6 +114,11 @@ func make_button(text: String, parent: Node, action: Callable, handle: String) -
 	node.custom_minimum_size.y = 38; node.pressed.connect(action); parent.add_child(node)
 	return node
 
+func set_action_disabled(action: BaseButton, unavailable: bool) -> void:
+	action.disabled = unavailable
+	action.focus_mode = Control.FOCUS_NONE if unavailable else Control.FOCUS_ALL
+	if unavailable and action.has_focus(): action.release_focus()
+
 func build() -> void:
 	for child: Node in get_children(): remove_child(child); child.queue_free()
 	task_buttons.clear()
@@ -219,7 +224,7 @@ func build() -> void:
 		var save_button := make_button(text2("保存探索", "Save exploration"),execute,save_session,"SaveSession")
 		save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		save_button.tooltip_text = text2("保存各任务草稿、实测对照与收藏；撤销栈仅在本窗口保留。", "Save task drafts, measured comparisons and named designs. Undo stacks remain in this window.")
-		save_button.disabled = save_blocked
+		set_action_disabled(save_button,save_blocked)
 		InstrumentTheme.primary(save_button,Color("62dca7"))
 		save_button.add_theme_color_override("font_focus_color",Color("071823"))
 		add_recovery_controls(reading)
@@ -245,7 +250,7 @@ func build() -> void:
 	make_label(text2("实际运行记录（选择旧记录复查）","Recorded runs (select an older run to inspect)"),evidence,17)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 90; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
 	var support_button := make_button(text2("取回本任务保留的达标方案", "Restore this task’s protected successful plan"),evidence,restore_support,"RestoreSupport")
-	support_button.disabled = not support_plans.has(task)
+	set_action_disabled(support_button,not support_plans.has(task))
 	reuse_button = make_button(text2("从选中方案继续试", "Try a variation of this plan"),evidence,reuse_recorded_plan,"ReusePlan")
 	reuse_button.tooltip_text = text2("复制自己的旧方案到对应任务草稿；旧记录不变，覆盖的草稿可撤销。", "Copy your recorded plan into its task draft. The record stays unchanged; Undo restores the previous draft.")
 	design_shelf = DesignShelf.new(); design_shelf.name = "DesignShelf"
@@ -275,7 +280,7 @@ func build() -> void:
 	trace_play = make_button(text2("回放真实事件", "Replay recorded events"),playback_row,trace_player.toggle_play,"TracePlay")
 	trace_play.custom_minimum_size.x = 220
 	trace_step = make_button(text2("下一事件", "Next event"),playback_row,trace_player.step,"TraceStep")
-	trace_play.disabled = true; trace_step.disabled = true
+	set_action_disabled(trace_play,true); set_action_disabled(trace_step,true)
 	trace_player.playing_changed.connect(func(value: bool) -> void: trace_play.text = text2("暂停回放", "Pause replay") if value else text2("回放真实事件", "Replay recorded events"))
 	trace_player.event_selected.connect(select_replay_event)
 	evidence.add_child(trace_player)
@@ -374,13 +379,13 @@ func change_task(index: int) -> void:
 func refresh_tasks() -> void:
 	var earned_review: bool = representation_review_evidence().size() == 5
 	var closure := find_child("RegionClosure",true,false) as Button
-	if closure != null: closure.disabled = not earned_review
+	if closure != null: set_action_disabled(closure,not earned_review)
 	var completion_action := find_child("CompletedRegionReview",true,false) as Button
 	if completion_action != null: completion_action.visible = earned_review
 	var support_button := find_child("RestoreSupport",true,false) as Button
-	if support_button != null: support_button.disabled = not support_plans.has(task)
+	if support_button != null: set_action_disabled(support_button,not support_plans.has(task))
 	for i: int in task_buttons.size():
-		task_buttons[i].disabled = false
+		set_action_disabled(task_buttons[i],false)
 		task_buttons[i].text = Catalog.title(i,english) + (" ✓" if completed[i] else "")
 
 func edit_plan(next: Array[Dictionary]) -> void:
@@ -438,10 +443,10 @@ func refresh_actions() -> void:
 	refresh_recorded_plan_label()
 	refresh_design_shelf()
 	var block: Dictionary = plan[selected_block]
-	split_button.disabled = plan.size() >= Model.MAX_BLOCKS or int(split_at.value) <= int(block.start) or int(split_at.value) >= int(block.end)
-	merge_button.disabled = selected_block + 1 >= plan.size()
-	raw_button.disabled = block.codec == "raw"; rle_button.disabled = block.codec == "rle"
-	undo_button.disabled = undo_stack.is_empty(); redo_button.disabled = redo_stack.is_empty()
+	set_action_disabled(split_button,plan.size() >= Model.MAX_BLOCKS or int(split_at.value) <= int(block.start) or int(split_at.value) >= int(block.end))
+	set_action_disabled(merge_button,selected_block + 1 >= plan.size())
+	set_action_disabled(raw_button,block.codec == "raw"); set_action_disabled(rle_button,block.codec == "rle")
+	set_action_disabled(undo_button,undo_stack.is_empty()); set_action_disabled(redo_button,redo_stack.is_empty())
 
 func run_current() -> void:
 	mark_session_dirty()
@@ -469,7 +474,7 @@ func run_current() -> void:
 
 func refresh_history() -> void:
 	history_list.clear()
-	reuse_button.disabled = selected_run < 0 or selected_run >= history.size()
+	set_action_disabled(reuse_button,selected_run < 0 or selected_run >= history.size())
 	for i: int in history.size():
 		var row: Dictionary = history[i]; var times: Array[String] = []
 		for trace: Trace in row.traces: times.append(str(trace.metrics.total_cycles))
@@ -554,7 +559,7 @@ func show_trace(index: int) -> void:
 		item.set_metadata(1,replay_events.size()); replay_events.append(event.to_dictionary())
 	if root_row.get_first_child() != null: events.scroll_to_item(root_row.get_first_child())
 	trace_player.configure(replay_events,english)
-	trace_play.disabled = replay_events.is_empty(); trace_step.disabled = replay_events.is_empty()
+	set_action_disabled(trace_play,replay_events.is_empty()); set_action_disabled(trace_step,replay_events.is_empty())
 	details.text = text2("选中事件查看实际字节、恢复输出、缓存前后和驱逐。\n记录方案：", "Select an event for actual bytes, restored values, cache before/after and evictions.\nRecorded plan: ")+plan_text(row.plan)
 
 func refresh_recorded_plan_label() -> void:

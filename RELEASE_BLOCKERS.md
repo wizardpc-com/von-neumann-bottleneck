@@ -15,9 +15,21 @@ focus/close, official Godot4.7.1/original assets, export/identity/strict signatu
 Earlier native C1–G3/confirmed work/restart/replay/fork remains attributed to ade,
 not a fabricated combined run in the current profile. Full original40 native,
 unfamiliar-player understanding, audio/artistic, other-device/Windows and formal
-distribution acceptance remain open. A fresh next native attempt reports Mac
-locked; this does not invalidate the completed earlier native observations.
-No runtime change or repeated full verification is justified by that observation.
+distribution acceptance remain open. Current continuation `ccbda74cd4aa` repaired
+obsolete deleted-wire tooltip ownership; actual exported-app same-position delete
+clears text/outer frame and preserves the main window. Native Tutorial/HalfAdder
+remain attributed to befbdd2; matching ccbda74 FullAdder8/8 was earned/sealed, ALU
+entry and normal process restart restored it. Focused lifecycle27/geometry/M2
+renderer and matching Mac16 checks PASS. A combined GUI SIGBUS is retained, cause
+unproven; separate identical-source render retry PASS. After network recovery,
+current ccbda74 CI144 suites/import/isolation/Python PASS;
+complete logs inspected. Additional actual ALU32/32 sealed ALU1/generated ALU4
+and reached SR entry. All40 native repetition is additional coverage, not a
+mandatory development gate; original-game technical routes/restores remain verified.
+Independent player/artistic/platform/formal distribution acceptance stays open.
+No absolute zero-bug or public-release claim.
+[Requirement-level gate correction](docs/verification/20261009-native-core-tooltip/requirement-audit.md).
+[Original-core continuation](docs/verification/20261009-native-core-tooltip/README.md).
 [Current requirement audit](docs/verification/20261009-native-region-resume/continuation-audit.md).
 
 ## Historical wider-workbench focus checkpoint — 2026-10-09

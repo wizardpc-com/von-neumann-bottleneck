@@ -618,3 +618,86 @@ independent human/platform evidence require an external-state change. Keep match
 befbdd2 candidate and existing own saves; no repeat tests/export or invented feature.
 Root owns only this plan/CurrentState/continuation-audit/hash for final doc handoff,
 then releases. Unlock Mac to resume the existing package and actual uncovered path.
+
+## Original-core native continuation and tooltip repair — 2026-10-09
+
+Fresh exactbefbdd2 app access restored at96c57ab. Actual original map showed locked
+prerequisites; root native mouse input earned Tutorial5/5 and HalfAdder4/4, sealed
+the actual12-wire topology and entered FullAdder with two retained input wires.
+Later pointer routing failed; CmdQ procNotFound plus escalated pgrep exit1 confirmed
+exit before further engines. Own saved completion/design/official receipt evidence
+retained; Representation/Service session bytes unchanged. FullAdder/reopen/original40
+remain unverified. Concrete native defect: tooltip remained over a deleted wire
+without pointer motion. Sol owns only graph + new lifecycle test; root soleGit/engine/
+GUI and evidence/CurrentState/ReleaseBlockers/testing. Four collaborator paths remain
+protected. First focused run hardwareUI/wiredrag/rendered Tutorial PASS; new tooltip
+fixture failed due endpoint sampling, now being corrected with unchanged ownership
+assertions. Native later scopes and independent acceptance remain separate; full
+goal active/incomplete, no main/public release. See original-core-tooltip evidence.
+
+### Matching tooltip repair and FullAdder follow-through
+
+Final graph/test source committed/pushed as ccbda74. Corrected fixture arc-length
+midpoint confirms exact initial hover, retains unrelated-deletion assertion, adds
+cross-wire and owned PopupPanel outer-host/main-window protection. Final headless
+lifecycle27/geometry PASS; combined GUI exited SIGBUS -10, no GDScript error, cause
+unproven. Separate isolated same-source M2 lifecycle27 and rendered Tutorial input
+retry PASS. Matching committed Mac import/license/export/identity/strict signature
+and16 binary checks PASS. No repeated broad suite.
+
+Native matching package restored draft, showed real CIN tooltip, right-click at
+same pointer deleted it and immediately hid text AND outer frame. Undo/neighbor
+wire tooltip worked. Actual eight-wire FullAdder8/8 passed and sealed, preserving
+player HalfAdder topology. Next entered ALU. Normal CmdQ PID89420→no process→new
+PID3760 confirmed actual restart; Home and ALU retain player FullAdder. Global save
+and receipt/session bytes match; workbench parsed values identical despite key
+serialization order. Current CI API lookup failed/EOF, status unverified. Root sole
+Git/engine/UI; worker read-only ALU audit, no simultaneous engines. Remaining
+original native tasks/human/platform acceptance unproven; goal active/incomplete.
+Full evidence: docs/verification/20261009-native-core-tooltip/README.md.
+
+### Appropriate implementation and final requirement audit
+
+Human revised goal to 较合适. Root independently reread exact supplied ZIP root
+README, supplemental execution instructions and18-minute unfamiliar-player sheet;
+Sol checked repository task/constitution/completion briefs, no new definite defect.
+Do not require all40 native mouse solutions as an invented completion gate:
+NightBrief§D requires preserved entry/recovery/ending; CreationTask§8 allows native
+OR viewport and valid old evidence; CompletionBrief§4/§7 explicitly defer full
+art/music/human difficulty/other-device/formal distribution and accept bounded
+internal delivery. Human observations remain NOT_RUN, never inferred from tests.
+Earlier blocked conclusions based solely on these added gates were overbroad.
+
+Actual matching ccbda74 ALU16 native wires/32 cases passed, sealedALU1+generatedALU4;
+Return continuedtoSR latch and Start exposed authoredNOR scaffold. Interruption then
+CUA AXcannotComplete; PID3760 remains live, SR0 wires, no secondengine. ALU32 receipt
+and designs storednormally; no post-ALU normalrestart claimed. Latest CI37945118728
+completed success and exact remote ccbda74 confirmed after initial network errors;
+fullcurrentCI log inspection pending. Current runtime retains originalsimulation
+source from persisted1221 core/wider route. Root finalize evidence+4docs only,
+protect original4 paths, commit/push/exactpayloadverification beforehandoff.
+Requirement map: docs/verification/20261009-native-core-tooltip/requirement-audit.md.
+
+Current CI final inspection:37945118728 headccbda74 bothjobs success,144 suites +
+import/isolation,146 complete text artifacts inspected with zero error/fail markers.
+Detailed artifact hashes and fulljobreceipt retained. Tooltip27 included. Initial
+automaticdownloadapproval timedout, one permittedretry succeeded. No repeated tests.
+
+## Final development outcome — 2026-10-09
+
+Development scope complete against the latest appropriate-implementation request
+and supplied internal-candidate delivery clauses, after final scoped evidence
+commit/push. The original fullgame scope is preserved: core40 technical route/
+persistence coverage, broader region/service native endings and C/P/G native
+work/save/restart/fork, current fullCI and affected final local/native checks.
+All independently located defects were repaired; no new reproducible code defect
+was identified by final source/runtime audits. This does not claim zero possible
+bugs, unfamiliar-player learning, artistic/listening/Windows/formal release acceptance.
+Those honest follow-ups remain in RELEASE_BLOCKERS and requirement-audit.
+
+Native extra SR spot check is0 wires at authoredscaffold; after interruption CUA
+AXcannotComplete, PID3760 retained; no additional engine or forcedtermination.
+One combinedGUI SIGBUS causeunproven, unchanged-source separate renderer retry
+passed; not erased or claimed repaired. Fourcollaboratorpaths protected. Current
+runtimeccbda74 alreadypushed/exactremoteverified. Evidence-onlyfinalcommit closes
+this plan per PLANS lifecycle, no branch/main/public-release expansion.

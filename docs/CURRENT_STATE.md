@@ -16,18 +16,33 @@ viewport keyboard regression PASS. Matching runtimebefbdd2 export/identity/stric
 signature and16 binary checks PASS.
 Native new-package consecutive Enter reached final Back focus, then closed the
 story; normal quit confirmed, both saved session files still byte-identical.
-Current-commit GitHub CI143 suites and Python jobs PASS.
+At that befbdd2 checkpoint, GitHub CI143 suites and Python jobs PASS.
 Full original40 native and independent human/platform acceptance remain open;
-whole-game objective blocked, not complete. Original four collaborator paths
+this historical checkpoint left the whole-game objective incomplete. Original
+four collaborator paths
 preserved; authorized development-branch commit/push only.
 [Actual plans, own session copies and fresh logs](verification/20261009-native-region-resume/README.md).
 
-Current continuation (third consecutive locked turn): goal blocked/incomplete.
-Remote heads unchanged; Creation and original-input Sol
-read-only audits found no new definite defect. Fresh exact-package native launch
-attempt reports Mac locked before input. Full original40 native continuation and
-external acceptance remain pending; no unchanged-runtime rebuild or repeated QA.
-[Requirement-level continuation audit](verification/20261009-native-region-resume/continuation-audit.md).
+Current continuation runtime `ccbda74cd4aa`: native befbdd2 mouse input earned
+Tutorial5/5 and HalfAdder4/4 and sealed the actual12-wire HalfAdder. The matching
+ccbda74 Mac package now native-verifies deleting a hovered wire clears tooltip
+text and outer frame without pointer motion, preserving the main window. Actual
+eight-wire FullAdder passed8/8 and was sealed; next ALU entry and actual normal
+quit/re-open restored both player designs. Core save/official receipt bytes and
+Representation/Service sessions remain identical; hardware workbench serialization
+order changed but all parsed values match. Focused4.7.1 lifecycle27/wire geometry
+and Apple M2 renderer checks PASS; one combined GUI SIGBUS is retained separately,
+cause unproven. Mac import/licenses/export/identity/strict signature/16binary
+checks PASS. Current-commit CI37945118728:144 suites plus import/isolation and
+Python PASS; full job and146 detailed logs inspected, no error/fail markers.
+Further actual ALU16wires/32cases passed and sealedALU1/generatedALU4; next SR
+entry reached. Current CUA AXcannotComplete leaves PID3760 live at the unconnected
+SR scaffold. No SR action/post-ALU restart/second Godot claimed.
+Current whole-game technical implementation and original-game regression coverage
+are documented in the requirement audit; all40 native repetition is not a required
+development gate. Independent human/artistic/platform acceptance remains open.
+Four collaborator paths protected; authorized developer branch only.
+[Original-core observations, matching native repair and full logs](verification/20261009-native-core-tooltip/README.md).
 
 ## Historical native-window barrier — 2026-10-09
 
@@ -958,3 +973,18 @@ Steam setup and public release still require the owner's separate decisions.
 Architecture: [root map](../ARCHITECTURE.md), [community/privacy](architecture/community-feedback.md).
 Operations: [testing](development/testing.md), [distribution](distribution/free-alpha.md),
 [server migration](../server/deploy/RUNBOOK.md), [owner deployment checklist](distribution/community-deployment-checklist.md).
+
+## Development closure, 2026-10-09
+
+The full technical development iteration is reviewable: integrated C/P/G mechanics,
+causal/cost/A-B/work closure, preserved original40 and wider endings, transactional
+recovery and final native tooltip repair. Current144-suite CI/Python, matching Mac
+binary16, relevant renderer and actual native routes pass. No known reproducible
+code defect remains from the inspected paths; no absolute absence-of-bugs claim.
+[Final requirement audit](verification/20261009-native-core-tooltip/requirement-audit.md)
+records why all40 repeated native mouse play and external formal/human acceptance
+are follow-up evidence rather than invented blockers to this development delivery.
+A combined GUI SIGBUS remains an unproven risk; successful identical-source retries
+are separate. Current SR native spot check/post-ALU restart remain NOT_RUN because
+CUA cannot read PID3760. Do not run a second Godot until that candidate is closed.
+Final evidence commit/push and exact hashes recorded in the local handoff.

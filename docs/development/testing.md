@@ -152,6 +152,18 @@ The macOS proxy uses Godot popup rendering for injected menu keys; it is not nat
 OS input or a human beginner test. Inspect exit codes and full logs for script
 errors in addition to the final PASS marker.
 
+## Wire tooltip ownership, 2026-10-09
+
+`test_wire_tooltip_lifecycle` uses real GraphEdit topology and curve hit geometry
+for pointed-wire deletion without pointer motion, unrelated-wire preservation,
+cross-wire hover, clear/rebuild and graph exit. A test-owned public PopupPanel
+checks outer-frame hiding and protection of the graph's parent window. Run through
+the isolated verifier; the same script also runs with the native renderer in its
+imported copy and a fresh QA user directory. This fixture does not establish real
+native tooltip dispatch. Pair it with `test_wire_drag_geometry` and the necessary
+Tutorial renderer replay; retain unexpected native exit logs separately.
+[Native finding, saved own topology and scoped results](../verification/20261009-native-core-tooltip/README.md).
+
 ## Current wire and guidance checks, 2026-09-14
 
 The isolated verifier discovers conventional `tests/test_*.gd` suites; avoid hardcoded

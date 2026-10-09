@@ -47,11 +47,15 @@ func run() -> void:
 	button(region,"Split").grab_focus(); await key(KEY_TAB)
 	check(focused("RLE"),"Region edit Tab skips disabled Merge and Raw")
 	await key(KEY_ENTER)
-	check(region.plan[0].codec == "rle" and button(region,"Raw").focus_mode == Control.FOCUS_ALL,"Viewport Enter changes codec and enables Raw")
+	check(region.plan[0].codec == "rle" and button(region,"Raw").focus_mode == Control.FOCUS_ALL and focused("Undo"),"Viewport RLE activation enables Raw and continues focus to Undo")
+	await key(KEY_ENTER)
+	check(region.plan[0].codec == "raw" and focused("Redo"),"Exhausting Region Undo continues focus to enabled Redo")
+	await key(KEY_ENTER)
+	check(region.plan[0].codec == "rle" and focused("Undo"),"Exhausting Region Redo continues focus to enabled Undo")
 	button(region,"Split").grab_focus(); await key(KEY_TAB)
 	check(focused("Raw"),"Newly enabled Raw re-enters the Region Tab chain")
 	await key(KEY_ENTER)
-	check(region.plan[0].codec == "raw" and not focused("Raw"),"Viewport activation disables Raw and releases its old focus")
+	check(region.plan[0].codec == "raw" and focused("RLE"),"Viewport Raw activation continues focus to enabled RLE")
 	var plans: Array = [partition([16,64],["rle","raw"]),partition([16,24,40,48,64],["rle","rle","raw","rle","rle"]),partition([16,48,64],["rle","rle","rle"]),partition([8,64],["raw","rle"]),partition([18,46,64],["rle","raw","rle"])]
 	for index: int in 5: region.support_plans[index] = plans[index]
 	region.refresh_tasks(); await settle()
@@ -81,6 +85,11 @@ func run() -> void:
 	check(focused("ServiceNext"),"Refreshing an enabled continuation preserves its keyboard focus")
 	button(service,"Task1").grab_focus(); await key(KEY_TAB)
 	check(focused("Task2"),"Newly unlocked Task2 enters the Service Tab chain")
+	var recorded: String = JSON.stringify({"history":service.history,"supports":service.support_plans,"unlocked":service.unlocked})
+	service.undo_button.grab_focus(); await key(KEY_ENTER)
+	check(service.plan == ServiceModel.initial_plan() and focused("Redo"),"Service final Undo retains continuation in its enabled Redo action")
+	await key(KEY_ENTER)
+	check(service.plan == per_stream and focused("Undo") and JSON.stringify({"history":service.history,"supports":service.support_plans,"unlocked":service.unlocked}) == recorded,"Service final Redo returns to Undo without running or changing protected evidence")
 	var resident: Dictionary = ServiceModel.initial_plan().duplicate(true); resident.slots = 4
 	var lossless: Dictionary = resident.duplicate(true); lossless.representations = ["rle64","rle64","raw64","raw64"]
 	service.support_plans[1] = resident

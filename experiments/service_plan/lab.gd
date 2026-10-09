@@ -146,9 +146,22 @@ func button(text: String, parent: Node, action: Callable, id: String = "") -> Bu
 	node.custom_minimum_size.y = 32; node.pressed.connect(action); parent.add_child(node); return node
 
 func set_action_disabled(action: BaseButton, unavailable: bool) -> void:
+	var was_focused: bool = action.has_focus()
 	action.disabled = unavailable
 	action.focus_mode = Control.FOCUS_NONE if unavailable else Control.FOCUS_ALL
-	if unavailable and action.has_focus(): action.release_focus()
+	if unavailable and was_focused:
+		action.release_focus()
+		call_deferred("continue_action_focus",weakref(action))
+
+func continue_action_focus(origin_ref: WeakRef) -> void:
+	var origin := origin_ref.get_ref() as BaseButton
+	if origin == null or not origin.is_inside_tree() or not origin.is_visible_in_tree() or not origin.disabled: return
+	if get_viewport().gui_get_focus_owner() != null: return
+	var next: Control
+	if origin == undo_button and not redo_button.disabled: next = redo_button
+	elif origin == redo_button and not undo_button.disabled: next = undo_button
+	else: next = origin.find_next_valid_focus()
+	if next != null and next != origin and next.is_visible_in_tree() and next.focus_mode != Control.FOCUS_NONE and not (next is BaseButton and next.disabled): next.grab_focus()
 
 func mission_text() -> String:
 	if commission_mode >= 0:

@@ -580,3 +580,13 @@ active/incomplete, original40 native and independent human/platform acceptance
 remain open. Four collaborator paths preserved. Root owns source/test integration,
 this plan, CurrentState, testing and native-region-resume evidence; sole Git/engine.
 [Evidence](../../verification/20261009-native-region-resume/README.md).
+
+Follow-through: sourcebefbdd2 committed/pushed to existing developer branch.
+Matching Mac export/identity/signature/16 actual binary checks PASS. Native exact
+new package restored six Service records and all three contracts; first story
+page5/5+3/3, repeated Enter to last page focused Back, further Enter closed story.
+Normal Cmd+Q exit/procNotFound and exact-name pgrep no engines; both own session
+files still byte-identical. Current-commit GitHub CI37927597539 success, no local
+full rerun. Matching-package logs/manifest/observations retained alongside earlier
+route. Broad objective active/incomplete; independent external and original40
+native proof remain open, four original collaborator files preserved.

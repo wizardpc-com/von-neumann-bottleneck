@@ -61,8 +61,9 @@ These fixtures do not establish native OS input or independent novice acceptance
 ## Limits
 
 Native evidence above is attributed to runtime426009f; it precedes the new story
-focus correction. Matching new-package/native focus evidence will be recorded
-separately. Full original forty-task native journey, independent beginner,
+focus correction. Matching runtimebefbdd2 now passed actual native ending
+focus/close and saved byte preservation; see [exact package observations](matching-package/native-observations.md).
+Full original forty-task native journey, independent beginner,
 audio/artistic, other-device, Windows and distribution acceptance remain open.
 Fullscreen capture noise and native pointer routing remain unresolved; keyboard
 and windowed views supplied the actual route observations. This closes the

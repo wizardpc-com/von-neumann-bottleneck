@@ -12,7 +12,11 @@ identical bytes. The earned four-page story displayed their recomputed metrics.
 Split text→Tab→Split is now native-verified. A final-page disabled Next retained
 focus; the narrow follow-up moves focus to Back and excludes unavailable page
 controls from Tab. Official Godot4.7.1 route/presentation and Apple M2 rendered
-viewport keyboard regression PASS. Matching new package/native check pending.
+viewport keyboard regression PASS. Matching runtimebefbdd2 export/identity/strict
+signature and16 binary checks PASS.
+Native new-package consecutive Enter reached final Back focus, then closed the
+story; normal quit confirmed, both saved session files still byte-identical.
+Current-commit GitHub CI143 suites and Python jobs PASS.
 Full original40 native and independent human/platform acceptance remain open;
 whole-game objective active, not complete. Original four collaborator paths
 preserved; authorized development-branch commit/push only.

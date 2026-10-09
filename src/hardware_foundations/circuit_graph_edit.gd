@@ -96,6 +96,9 @@ var selection_start: Vector2 = Vector2.ZERO
 var selection_pointer: Vector2 = Vector2.ZERO
 var selection_toggle_mode: bool = false
 var hovered_connection: Dictionary = {}
+var wire_tooltip: Control
+var wire_tooltip_connection: Dictionary = {}
+var requested_tooltip_connection: Dictionary = {}
 var hovered_wire_point: Vector2 = Vector2.ZERO
 var builtin_connection_source: Dictionary = {}
 var builtin_connection_pointer: Vector2 = Vector2.ZERO
@@ -119,6 +122,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_validate_wire_hover()
 	_update_draft_motion(delta)
 	var geometry_changed: bool = (
 		not displayed_scroll_offset.is_equal_approx(scroll_offset)
@@ -720,9 +724,55 @@ func port_bit_width(node: StringName, port: int, is_output: bool) -> int:
 
 func _get_tooltip(at_position: Vector2) -> String:
 	var connection: Dictionary = get_closest_connection_at_point(at_position, WIRE_HOVER_RADIUS)
+	requested_tooltip_connection = connection.duplicate()
 	if not connection.is_empty() and connection_description.is_valid():
 		return String(connection_description.call(connection))
 	return ""
+
+
+func _make_custom_tooltip(for_text: String) -> Object:
+	_hide_wire_tooltip()
+	var panel := PanelContainer.new()
+	panel.theme_type_variation = &"TooltipPanel"
+	var label := Label.new()
+	label.theme_type_variation = &"TooltipLabel"
+	label.text = for_text
+	panel.add_child(label)
+	wire_tooltip = panel
+	wire_tooltip_connection = requested_tooltip_connection.duplicate()
+	return panel
+
+
+func _hide_wire_tooltip() -> void:
+	# Use the content's public enclosing-window API, without looking up private
+	# popup nodes. Never hide the graph's normal window when content shares it.
+	if is_instance_valid(wire_tooltip):
+		var tooltip_window: Window = wire_tooltip.get_window()
+		wire_tooltip.hide()
+		if tooltip_window != null and tooltip_window != get_window():
+			tooltip_window.hide()
+	wire_tooltip = null
+	wire_tooltip_connection.clear()
+
+
+func _wire_still_exists(connection: Dictionary) -> bool:
+	return not connection.is_empty() and is_node_connected(
+		connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+
+
+func _validate_wire_hover() -> void:
+	if not hovered_connection.is_empty() and not _wire_still_exists(hovered_connection):
+		_clear_hovered_connection()
+	if not wire_tooltip_connection.is_empty() and not _wire_still_exists(wire_tooltip_connection):
+		_hide_wire_tooltip()
+	for index: int in range(hovered_net.size() - 1, -1, -1):
+		if not _wire_still_exists(hovered_net[index]):
+			hovered_net.remove_at(index)
+			queue_redraw()
+
+
+func _exit_tree() -> void:
+	_hide_wire_tooltip()
 
 
 func _draw_settled_curve(curve: PackedVector2Array, base: Color, state: int, bits: int) -> void:
@@ -927,6 +977,7 @@ func _update_hovered_connection(point: Vector2) -> void:
 		_clear_hovered_connection()
 		return
 	if not _same_connection(hovered_connection, connection):
+		_hide_wire_tooltip()
 		hovered_net.clear()
 		if connection_net_provider.is_valid():
 			hovered_net.assign(connection_net_provider.call(connection))
@@ -938,6 +989,7 @@ func _update_hovered_connection(point: Vector2) -> void:
 
 
 func _clear_hovered_connection() -> void:
+	_hide_wire_tooltip()
 	if hovered_connection.is_empty():
 		return
 	hovered_connection.clear()
@@ -1241,6 +1293,7 @@ func remove_connection_presentation(
 	connection_color_indices.erase(key)
 	connection_signal_values.erase(key)
 	connection_flows.erase(key)
+	_validate_wire_hover()
 	queue_redraw()
 
 

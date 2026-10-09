@@ -34,9 +34,13 @@ func click(action: Button, viewport: Window = null) -> void:
 	expose(action); await settle()
 	var point: Vector2 = action.get_global_rect().get_center()
 	check(viewport.get_visible_rect().has_point(point),"Rendered button center in viewport: "+action.text)
-	var motion := InputEventMouseMotion.new(); motion.position = point; viewport.push_input(motion,true)
+	# Embedded Window input is routed by its parent viewport in window coordinates.
+	if viewport != root and viewport.is_embedded():
+		point += Vector2(viewport.position)
+		viewport = root
+	var motion := InputEventMouseMotion.new(); motion.position = point; motion.global_position = point; viewport.push_input(motion,true)
 	for down: bool in [true,false]:
-		var event := InputEventMouseButton.new(); event.position=point; event.button_index=MOUSE_BUTTON_LEFT; event.pressed=down
+		var event := InputEventMouseButton.new(); event.position=point; event.global_position=point; event.button_index=MOUSE_BUTTON_LEFT; event.pressed=down
 		viewport.push_input(event,true); await process_frame
 	await settle()
 func press(scene, id: String) -> void: await click(scene.find_child(id,true,false) as Button)
@@ -111,7 +115,12 @@ func run() -> void:
 	# Same carried machine; explicit author setup changes the selected samples.
 	scene.change_task(7); await settle()
 	await press(scene,"ToGenerate")
+	check(scene.session.data.mode=="generate" and Model.identity(scene.session.data.model)==carried_model,"P→G inherits the actual sample5 rule box")
 	scene.change_task(7); await settle()
+	await press(scene,"Generate")
+	check(scene.latest.get("recipe",{}).get("model_id","")==carried_model,"First feedback output uses the carried C/P model before creative edits")
+	report.carried_generation=scene.latest.duplicate(true)
+	await capture("03-carried-feedback")
 	await author_examples(scene,[0,1],2)
 	scene.session.data.draft.seed=17; scene.session.data.draft.initial=[0,1]; scene.session.data.draft.length=64; scene.session.data.draft.sampler="weighted"
 	scene.edit_draft(); scene.rebuild_editor_preserving_inputs(); await settle()
@@ -138,6 +147,23 @@ func run() -> void:
 	check(is_instance_valid(scene.work_focus),"Saved exhibition opens")
 	if not is_instance_valid(scene.work_focus): return
 	var view = scene.work_focus
+	var playback_start: int = Time.get_ticks_msec()
+	await click(view.play_button,view)
+	await create_timer(1.0).timeout
+	await click(view.play_button,view)
+	var paused_at: int = view.cursor
+	check(paused_at>0 and paused_at<64 and not view.playing,"Real renderer clock advances, viewport Pause stops playback")
+	await capture("07-live-paused",view)
+	await create_timer(0.75).timeout
+	check(view.cursor==paused_at,"Pause holds cursor across real elapsed frames")
+	await click(view.play_button.get_parent().get_child(1) as Button,view)
+	check(view.cursor==paused_at+1 and not view.playing,"Viewport Step advances exactly one saved symbol")
+	await capture("07-live-step",view)
+	await click(view.play_button,view)
+	await create_timer(17.0).timeout
+	check(view.cursor==64 and not view.playing and view.work==saved[1],"Real timed playback finishes exact saved output without mutation")
+	report.live_playback={"clock":"actual renderer frames; no manual process calls","pause_cursor":paused_at,"step_cursor":paused_at+1,"completed_cursor":view.cursor,"elapsed_ms":Time.get_ticks_msec()-playback_start,"work_id":saved[1].id,"viewport_input":true,"native_input":false}
+	await capture("07-live-finished",view)
 	view.static_overview=false; view.seek(32); await capture("07-performance-mid",view)
 	view.seek(64); await capture("08-performance-complete",view)
 	view.tabs.current_tab=1; view.select_cell(int(report.comparison.first_difference)); await capture("09-performance-explanation",view)

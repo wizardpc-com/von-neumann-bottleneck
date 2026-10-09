@@ -13,7 +13,9 @@ Personal-work deepening adds `test_creation_design_evidence`,
 isolated verifier plus affected workbench/choice/legacy-focus/prediction suites.
 `test_creation_future_workbench` also checks unavailable exhibition actions.
 `scripts/verify-personal-works.gd` runs an explicit known-answer rendered
-C→P→G→saved-work→fork path with `--evidence-dir=<absolute directory>` and
+C→P→G→saved-work→fork path, including the carried model’s first feedback output
+and actual timed viewport Play/Pause/Step/resume (embedded Window input is routed
+through the parent viewport), with `--evidence-dir=<absolute directory>` and
 `--locale=zh_CN` or `en`. Use a fresh isolated QA profile for each locale, pinned
 4.7.1, `--windowed --resolution 1280x720` and
 `-- --capture-size=1280x720`. On macOS set only the

@@ -42,11 +42,11 @@ func _draw() -> void:
 		var color: Color = COLORS[clampi(value,0,3)]
 		var lit: bool = revealed < 0 or index < revealed
 		if not lit: color = color.darkened(0.86)
+		draw_rect(rect,color.darkened(0.80),true)
 		if viewing_mapping == TRACE_MAPPING and lit:
 			draw_circle(rect.get_center(),minf(12,cell_size*0.32),Color(color,0.07))
 			if index > 0 and index % columns != 0:
 				draw_line(cell_rect(index-1).get_center(),rect.get_center(),Color(color,0.18),1.0,true)
-		draw_rect(rect,color.darkened(0.80),true)
 		var center: Vector2 = rect.position+rect.size*Vector2(0.35,0.5)
 		var radius: float = minf(6,cell_size*0.17)
 		match value:

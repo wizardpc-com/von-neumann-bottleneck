@@ -3,7 +3,24 @@
 Current scope and artifact pointer: [docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 These are acceptance gates, not promised new features.
 
-## Current wider-workbench focus checkpoint — 2026-10-09
+## Current acceptance checkpoint — 2026-10-09
+
+Runtime `befbdd2ec35a`, evidence `6ae24cf`, current developer branch: native
+Representation5/5 and Service3/3 editing/run/save/review/normal quit/reopen are
+verified with exact own-profile byte identity. Matching new Mac story keyboard
+focus/close, official Godot4.7.1/original assets, export/identity/strict signature,
+16 actual binary checks and current-commit CI143+Python jobs PASS.
+[Actual scope and evidence](docs/verification/20261009-native-region-resume/README.md).
+
+Earlier native C1–G3/confirmed work/restart/replay/fork remains attributed to ade,
+not a fabricated combined run in the current profile. Full original40 native,
+unfamiliar-player understanding, audio/artistic, other-device/Windows and formal
+distribution acceptance remain open. A fresh next native attempt reports Mac
+locked; this does not invalidate the completed earlier native observations.
+No runtime change or repeated full verification is justified by that observation.
+[Current requirement audit](docs/verification/20261009-native-region-resume/continuation-audit.md).
+
+## Historical wider-workbench focus checkpoint — 2026-10-09
 
 Runtime `f90597bf999a`, branch `codex/mac-second-act-20261005`: Representation and
 Service disabled actions leave the Tab chain. When an edit disables its focused

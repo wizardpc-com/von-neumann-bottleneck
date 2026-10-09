@@ -22,6 +22,12 @@ whole-game objective active, not complete. Original four collaborator paths
 preserved; authorized development-branch commit/push only.
 [Actual plans, own session copies and fresh logs](verification/20261009-native-region-resume/README.md).
 
+Current continuation: remote heads unchanged; Creation and original-input Sol
+read-only audits found no new definite defect. Fresh exact-package native launch
+attempt reports Mac locked before input. Full original40 native continuation and
+external acceptance remain pending; no unchanged-runtime rebuild or repeated QA.
+[Requirement-level continuation audit](verification/20261009-native-region-resume/continuation-audit.md).
+
 ## Historical native-window barrier — 2026-10-09
 
 At da4b3b7, exact runtime426009f process80322 remains alive; fresh CUA binding

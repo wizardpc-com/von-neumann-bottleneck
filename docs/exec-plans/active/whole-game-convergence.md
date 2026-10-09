@@ -590,3 +590,18 @@ files still byte-identical. Current-commit GitHub CI37927597539 success, no loca
 full rerun. Matching-package logs/manifest/observations retained alongside earlier
 route. Broad objective active/incomplete; independent external and original40
 native proof remain open, four original collaborator files preserved.
+
+## Fresh continuation acceptance audit — 2026-10-09
+
+Previous turn was real source/native/package/CI progress. Current6ae24cf preserves
+four collaborator paths. Remote heads unchanged; no new content to integrate.
+Selective integration retains identical Creation model/codec to e46f. Two Sol
+read-only audits found no new definite defect in Creation ownership/rounds/A-B or
+original editor/map/Overlap/Layout input. Fresh exactbefbdd2 CUA attempt reports
+Maclocked before input; first turn with this new lock state. No repeated QA/export,
+new engine, speculative source change or whole-goal completion. Root corrects stale
+ReleaseBlockers current label and records requirement evidence/gaps in existing
+native-region-resume bundle. Next meaningful action is actual original-map/editor
+input after unlock; human/audio/artistic/platform gates need external observations.
+[Audit](../../verification/20261009-native-region-resume/continuation-audit.md).
+Root soleGit/Godot/UI; owns only this plan/CurrentState/ReleaseBlockers/audit/hash.

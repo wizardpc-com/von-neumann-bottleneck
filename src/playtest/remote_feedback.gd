@@ -312,7 +312,9 @@ func send_score(payload: Dictionary) -> String:
 
 
 static func feedback_id(event: Dictionary) -> String:
-	return ("feedback:"+str(event.get("session_id",""))+":"+str(event.get("sequence",0))).sha256_text()
+	# JSON reload represents integral sequence numbers as float. Normalize that
+	# representation so a persisted opinion never acquires a second receipt ID.
+	return ("feedback:"+str(event.get("session_id",""))+":"+str(int(event.get("sequence",0)))).sha256_text()
 
 func feedback_state(id: String) -> String:
 	if id.is_empty(): return "local"

@@ -115,6 +115,7 @@ def main():
                  'feedback_id':event_id,'task':row['task'],'triage_status':row['triage']['status'],
                  'duplicate_rows':1,'deleted_after_restore':True,'binary_and_pack_unchanged':hashes,
                  'qa_overrides':'main scene, stable isolated QA profile, synthetic phase/output; endpoint/build/content unchanged',
+                 'synthetic_controller_sha256':hashlib.sha256(probe.read_bytes()).hexdigest(),
                  'private_report':str(private/'report.html'),'qa_data':str(work)}
         (work/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
         print('PASS: package → HTTP → committed SQLite → same-ID private report/triage → delete/restore. '+str(work))

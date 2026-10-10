@@ -12,6 +12,9 @@ func check(value: bool, message: String) -> void:
 func settle() -> void:
 	for frame: int in 6: await get_tree().process_frame
 
+func protected_work_matches(previous: Dictionary) -> bool:
+	return FileAccess.get_sha256(host.session.path)==str(previous.get("work_file_sha256","")) and host.session.data.works.size()==1 and str(host.session.data.works[0].id)==str(previous.work.id) and host.session.replay_work(0).get("matches",false)
+
 func _ready() -> void:
 	call_deferred("run")
 
@@ -49,17 +52,24 @@ func run() -> void:
 		host.change_task(8); host.change_task(6)
 		remote.set_sharing_mode("local")
 		check(remote.queue.size()==1 and remote.queue[0].record.kind=="feedback","withdraw statistics retains only explicitly sent opinion")
-		host.train_model(); host.generate_work(); host.name_input.text="Synthetic acceptance work"; host.keep_work()
+		# Follow the actual restore → sealed prediction → feedback mode gates.
+		host.change_task(0); host.train_model(); host.transport("predictive")
+		host.change_task(3); host.switch_mode("predict"); host.begin_prediction("practice")
+		host.commit_prediction(); host.reveal_prediction(); host.continue_prediction()
+		check(host.session.prediction.get("finished",false),"actual sealed prediction completed before feedback mode")
+		host.change_task(6); host.switch_mode("generate"); host.generate_work()
+		host.name_input.text="Synthetic acceptance work"; host.keep_work()
 		check(not host.kept_work.is_empty(),"real model generated and saved a protected work offline")
 		evidence["work"]=host.kept_work.duplicate(true)
 		evidence["work_path"]=ProjectSettings.globalize_path(host.session.path)
+		evidence["work_file_sha256"]=FileAccess.get_sha256(host.session.path)
 		moments.open_for_task("creation","C1_restore")
 		moments.opinion.text="SYNTHETIC private unsent draft"; moments.close()
 		check(remote.queue.size()==1,"unsent text remains outside transport")
 	else:
 		var previous: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(output.path_join("offline.json")))
 		var id: String = str(previous.feedback_id)
-		check(host.session.data.works.has(previous.work),"independent process restores exact protected work")
+		check(protected_work_matches(previous),"independent process restores byte-identical protected work and replays its complete recipe")
 		moments.open_for_task("creation","C1_restore")
 		check(moments.opinion.text=="SYNTHETIC private unsent draft","independent process restores private unsent draft")
 		moments.close()
@@ -80,7 +90,7 @@ func run() -> void:
 				if remote.status=="deleted": break
 				await get_tree().create_timer(0.1).timeout
 			check(remote.status=="deleted" and remote.identity_deleted and remote.queue.is_empty(),"explicit server deletion acknowledged and queue canceled")
-		check(host.session.data.works.has(previous.work),"feedback transport and deletion preserve protected work")
+		check(protected_work_matches(previous),"feedback transport and deletion preserve byte-identical protected work")
 		evidence["feedback_id"]=id; evidence["displayed_status"]=moments.opinion_status.text
 		moments.close()
 	var context: Dictionary = store.task_feedback_context("creation","G2_intent")

@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+PATH: layout · independent-restart · All 6 UI-earned solutions, draft and named design revalidated; no progress injection
+Recovery GUI checks: 24; failures: 0
+PASS: recovery ordinary Game input

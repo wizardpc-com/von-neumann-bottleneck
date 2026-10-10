@@ -1,0 +1,3 @@
+CUA getApp exact free-alpha-f90597bf999a/macOS/Von-Neumann-Bottleneck.app after package QA terminal:
+The Mac is locked and automatic unlock could not unlock it. Ask the user to unlock the Mac manually before continuing.
+No native interaction in this package established.

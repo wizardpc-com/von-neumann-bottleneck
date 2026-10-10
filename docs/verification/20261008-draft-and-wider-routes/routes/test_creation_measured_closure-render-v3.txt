@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+SCRIPT ERROR: Invalid access to property or key 'work' on a base object of type 'previously freed'.
+          at: run (res://tests/test_creation_measured_closure.gd:92)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_creation_measured_closure.gd:92)
+              [1] click (res://tests/test_creation_measured_closure.gd:28)
+              [2] settle (res://tests/test_creation_measured_closure.gd:10)

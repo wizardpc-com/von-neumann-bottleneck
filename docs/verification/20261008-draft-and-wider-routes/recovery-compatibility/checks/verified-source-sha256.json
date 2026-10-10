@@ -1,0 +1,8 @@
+{
+  "experiments/creation/workbench.gd": "26b326cf21a20113950d9c6f619c88a32c72ac108c117bd2b1ff0b8ca31c70d1",
+  "src/hardware_foundations/circuit_workbench_store.gd": "0fe9323db5d45676d76fb14b25b8eabc16395b5914729c22e61bed1a866c95f2",
+  "src/layout_chapter/layout_memory_view.gd": "c62c04e0a54ceb96465c601c60afac9853d7b4b5813750299d23e089ed3587a8",
+  "tests/test_creation_future_workbench.gd": "0ab04ede78be98fb7bd63e9c2f9ac4a3782ddba52817fc69ecd0c9405a3fa5a5",
+  "tests/test_layout_preview_selection.gd": "a81954c258510333fe6cfea1b4c1e3d5cec2638064d64196116b985ed53bc2bc",
+  "tests/test_workbench_interrupted_recovery.gd": "455ea04aa276682e6018fd3e86feab936da735c5dc62a8994d4b7664fdea7588"
+}

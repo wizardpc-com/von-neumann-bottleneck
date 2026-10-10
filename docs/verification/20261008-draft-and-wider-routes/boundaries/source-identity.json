@@ -1,0 +1,13 @@
+{
+  "runtime_commit": "e7894522c40bb26a149101c45e6efc72dccb0a76",
+  "verified_project": ".godot/verification/20261008T203804Z-29b9b749/project",
+  "files_sha256": {
+    "experiments/creation/workbench.gd": "88337827aa672ec462a2e6e82c00a54056ee48a57f35c548b1f336fe6817c7d4",
+    "src/hardware_foundations/hardware_foundations.gd": "378313951e7566cf1aa2c77e8fa9fadde81fdbbcdf191f1394724ebf7e27ccec",
+    "src/ui/main.gd": "655e6d73e8668934c306814b59b5f31589e7daba963e18981a83b0cb9c03c80c",
+    "tests/test_creation_preparation_binding.gd": "46cbf2ca158958b223d16433343c10ef10be8a94c28818bdc39b987b8ff0e241",
+    "tests/test_hardware_seal_navigation.gd": "784029fea81f3ee64b47fa7cb136cedcdb2ce0c5c15d50887300c98daddadf46",
+    "tests/test_locality_restored_baseline.gd": "dd7e56b03713b33bc29f588b93663366d9383e0bba3810e30499e105bb46749d"
+  },
+  "passed": true
+}

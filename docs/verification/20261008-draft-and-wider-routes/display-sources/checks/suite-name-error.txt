@@ -1,0 +1,1 @@
+Manual transcript record: initial verifier exited2 after successful import/isolation. Unknown suites: {test_system_chapter_ui}. Correct existing suite is test_system_lab_ui; reused same imported project with fresh per-suite profiles.

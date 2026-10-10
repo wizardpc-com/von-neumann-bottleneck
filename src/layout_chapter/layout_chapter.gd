@@ -133,7 +133,12 @@ func _rebuild_tools() -> void:
 		child.queue_free()
 	var current: Dictionary = _current()
 	if level == "relocation":
-		_option(tools_box,[_l("订单 A · 只查一次","Order A · once"),_l("订单 B · 反复八次","Order B · eight times")],case_index,func(i: int) -> void: case_index=i; _rebuild_tools(); _refresh_memory())
+		var order_choice: OptionButton = _option(tools_box,[_l("订单 A · 只查一次","Order A · once"),_l("订单 B · 反复八次","Order B · eight times")],case_index,func(i: int) -> void:
+			case_index=i
+			_rebuild_tools()
+			if not runs.is_empty(): _select_trace(i)
+			else: _refresh_memory())
+		order_choice.name = "LayoutOrderChoice"
 	if C.IDS.find(level)>=3:
 		tools_box.add_child(_label(_l("查询前的整理","Preparation before queries")))
 		var strategies: Array = ["direct","full"] if level == "relocation" else ["direct","full","batch"]
@@ -186,9 +191,17 @@ func _rebuild_tools() -> void:
 		if i<=0: return
 		_remember(); design=LayoutChapter.named()[level][names.get_item_text(i)].duplicate(true); _changed())
 	var previous: String = {"records":"fields","hot_cold":"records","batches":"relocation","mixed":"hot_cold"}.get(level,"")
+	var previous_recipe: Dictionary = {}
 	if not previous.is_empty() and LayoutChapter.completed().has(previous):
-		_button(tools_box,_l("复制我的上一关布局","Copy my previous layout"),func() -> void:
-			_remember(); _current().recipe=LayoutChapter.completed()[previous].recipe.duplicate(true); _changed())
+		var saved: Dictionary = LayoutChapter.completed()[previous]
+		# Relocation executes independent A/B orders; its root recipe is only a
+		# container and must not be presented as a layout the player ran.
+		if previous == "relocation": saved = saved.get("orders",{}).get("B",{})
+		previous_recipe = saved.get("recipe",{}).duplicate(true)
+	if not previous_recipe.is_empty():
+		var copy_previous: Button = _button(tools_box,_l("上一关订单 B 布局","Previous order B layout") if previous == "relocation" else _l("复制我的上一关布局","Copy my previous layout"),func() -> void:
+			_remember(); _current().recipe=previous_recipe.duplicate(true); _changed())
+		copy_previous.name = "LayoutCopyPrevious"
 	building = false
 
 func _move_group(field: int, target: int) -> void:
@@ -334,7 +347,7 @@ func _run_all() -> void:
 	trace_list.item_selected.connect(_trace_selected)
 	var all_correct: bool = true
 	for run: LayoutRun in runs: all_correct=all_correct and run.passed
-	PlaytestData.record_official_run(&"chapter_4",StringName(level),report.passed,{"strategy":str(design.get("strategy","direct")),"case_count":runs.size(),"cases":case_rows,"correct":all_correct,"target_met":report.passed,"result_class":"target_met" if report.passed else "correct_but_slow" if all_correct else "runtime_error","cycles":LayoutChapter.cost(report),"model_version":S.MODEL_VERSION,"case_set_version":("layout-v1:"+level+JSON.stringify(C.cases(level))).sha256_text(),"recipe_digest":S.design_signature(design)})
+	PlaytestData.record_official_run(&"chapter_4",StringName(level),report.passed,{"strategy":str(design.get("strategy","direct")),"case_count":runs.size(),"cases":case_rows,"correct":all_correct,"target_met":report.passed,"result_class":"target_met" if report.passed else "correct_but_slow" if all_correct else "runtime_error","cycles":LayoutChapter.cost(report),"model_version":S.MODEL_VERSION,"case_set_version":("layout-v1:"+level+JSON.stringify(C.cases(level))).sha256_text(),"recipe_digest":_measured_recipe_digest()})
 	_select_trace(case_index)
 	_toggle("trace",true)
 	status.text=_l("全部订单达标 · 可以继续探索另一份方案。","All cases passed · try another design.") if report.passed else _l("查看结果：输出、时间与空间分别核对，再修改布局。","Inspect output, time and space separately, then adjust the layout.")
@@ -354,6 +367,12 @@ func _run_all() -> void:
 		var review: Button = _button(results,_l("回看路径成果与下一段旅程","Review this path and the journey ahead"),_open_core_review)
 		review.name = "LayoutResultCoreReview"
 
+func _measured_recipe_digest() -> String:
+	if level != "relocation": return S.design_signature(design)
+	var measured: Array = []
+	for run: LayoutRun in runs: measured.append([run.test_name,run.recipe_signature])
+	return JSON.stringify({"model":S.MODEL_VERSION,"orders":measured}).sha256_text()
+
 func _open_core_review() -> void:
 	if not LayoutChapter.completed().has("mixed"): return
 	if not level.is_empty():
@@ -363,7 +382,7 @@ func _open_core_review() -> void:
 	preload("res://experiments/candidate_session/navigation_intent.gd").pending_review = "core"
 	get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 func _select_trace(index: int) -> void:
-	if runs.is_empty(): return
+	if index < 0 or index >= runs.size(): return
 	case_index=index
 	var active: LayoutRun = runs[index]
 	source_view.show()
@@ -380,20 +399,51 @@ func _select_trace(index: int) -> void:
 		trace_indices.append(event_index)
 		var phase: String = {"prepare":_l("准备","Prepare"),"query":_l("查询","Query"),"output":_l("输出","Output")}.get(event.details.get("stage",""),"")
 		var action: String = {"lookup":_l("查缓存","Lookup"),"fill":_l("搬回一行","Fill line"),"read":_l("读取值","Read value"),"compute":_l("计算","Compute"),"write":_l("写入副本","Write copy"),"allocate":_l("分配空间","Allocate"),"release":_l("释放空间","Release"),"evict":_l("替换缓存行","Evict line"),"output":_l("交付结果","Output"),"error":_l("停止：错误","Stop: error")}.get(String(event.kind),String(event.kind))
-		trace_list.add_item("%d · %s · %s · @%d · %d B" % [event.cycle,phase,action,event.address,int(event.details.get("bytes",0))])
+		var address: String = "@%d"%event.address if event.address >= 0 else _l("无物理地址", "no physical address")
+		trace_list.add_item("%d · %s · %s · %s · %d B" % [event.cycle,phase,action,address,int(event.details.get("bytes",0))])
 	PlaytestData.record_trace_action(&"chapter_4",StringName(level),&"case_selected")
 func _trace_selected(index: int) -> void:
-	if runs.is_empty(): return
-	var event: SimulationEvent = runs[case_index].events[trace_indices[index]]
-	source_view.highlight(event)
-	for map: Dictionary in runs[case_index].scratch_maps:
-		var record: int = int(event.details.get("record",-1))
-		var last_record: int = int(map.first_record)
-		for cell: Dictionary in map.cells: last_record=maxi(last_record,int(map.first_record)+int(cell.record))
-		if record>=int(map.first_record) and record<=last_record:
-			copy_view.configure(map,C.cases(level)[case_index].records,_l("这一批实际复制到的临时区","Actual scratch addresses for this batch")+" · #%d–%d" % [map.first_record,last_record]); copy_view.show(); source_view.hide(); break
-	copy_view.highlight(event)
+	if case_index < 0 or case_index >= runs.size() or index < 0 or index >= trace_indices.size(): return
+	var run: LayoutRun = runs[case_index]
+	var event_index: int = trace_indices[index]
+	if event_index < 0 or event_index >= run.events.size(): return
+	var event: SimulationEvent = run.events[event_index]
+	var history: String = _l(" · 历史结果", " · previous run") if stale else ""
+	source_view.configure(run.source_map,C.cases(level)[case_index].records,_l("此轮实际源地址", "Source addresses in this run")+history)
+	source_view.show(); copy_view.hide()
+	# Clear the opposite region too. A logical identity may exist in both regions,
+	# but only the event's physical address identifies the storage actually used.
+	for view: Control in [source_view,copy_view]:
+		view.selected_address = -1; view.selected_record = -1; view.selected_field = -1
+		view.queue_redraw()
+	if _address_in_map(event.address,run.source_map):
+		source_view.highlight(event)
+	elif event.address >= 0:
+		var map: Dictionary = _scratch_at_event(run,event_index)
+		if _address_in_map(event.address,map):
+			var last_record: int = int(map.first_record)
+			for cell: Dictionary in map.cells: last_record=maxi(last_record,int(map.first_record)+int(cell.record))
+			copy_view.configure(map,C.cases(level)[case_index].records,_l("这一批实际复制到的临时区", "Actual scratch addresses for this batch")+" · #%d–%d"%[map.first_record,last_record]+history)
+			copy_view.highlight(event); copy_view.show(); source_view.hide()
 	PlaytestData.record_trace_action(&"chapter_4",StringName(level),&"step")
+
+func _address_in_map(address: int, map: Dictionary) -> bool:
+	return address >= 0 and not map.is_empty() and address >= int(map.get("base",0)) and address < int(map.get("base",0))+int(map.get("bytes",0))
+
+func _scratch_at_event(run: LayoutRun, event_index: int) -> Dictionary:
+	# Batches reuse an address range. Resolve the actual allocation preceding this
+	# event, including for evictions which have no logical record/field identity.
+	var active: Dictionary = {}
+	for at: int in range(event_index+1):
+		var event: SimulationEvent = run.events[at]
+		if event.kind == &"allocate":
+			active = {}
+			for map: Dictionary in run.scratch_maps:
+				if int(map.get("base",-1)) == event.address and int(map.first_record) == int(event.details.get("record",-1)):
+					active = map
+					break
+		elif event.kind == &"release" and at < event_index: active = {}
+	return active
 
 func _hint_request() -> void:
 	PlaytestData.record_hint_action(&"chapter_4",StringName(level),mini(3,hint_tier+1),&"request")
@@ -437,6 +487,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var focus: Control = get_viewport().gui_get_focus_owner()
 	if focus is LineEdit or focus is TextEdit: return
 	if event.is_command_or_control_pressed() and event.keycode == KEY_Z: _undo(event.shift_pressed); get_viewport().set_input_as_handled()
+	elif event.ctrl_pressed and event.keycode == KEY_Y: _undo(true); get_viewport().set_input_as_handled()
 func _panel(id: String, caption: String, at: Vector2, dimensions: Vector2) -> FloatingInstrumentPanel:
 	var panel := Instrument.new(); panel.custom_minimum_size=Vector2(280,190); panel.setup(StringName(id),caption)
 	panel.position=at; panel.size=dimensions; workspace.add_child(panel); panels[id]=panel

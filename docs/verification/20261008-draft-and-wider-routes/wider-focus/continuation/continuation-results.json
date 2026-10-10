@@ -1,0 +1,41 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "source_sha256": {
+    "experiments/representation_region/region.gd": "1a80402c1363fce84ebfded86845eb6cff4e56c1f1c9753df0e887a9b7acff46",
+    "experiments/service_plan/lab.gd": "d1fa1fcd7ecb45919482a9d8ea2f9a3328fc715baae6fc1a0a2bf4884c74119b",
+    "tests/test_candidate_disabled_focus.gd": "3da5a4a6bfb34d968289e06aa9cd75596446aa21db1c3ac997bad02f08036e3a"
+  },
+  "results": [
+    {
+      "name": "continuation-test_candidate_disabled_focus",
+      "command": [
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T041504Z-b801ccad/project",
+        "--headless",
+        "--script",
+        "res://tests/test_candidate_disabled_focus.gd"
+      ],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T041504Z-b801ccad/continuation-test_candidate_disabled_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "continuation-test_candidate_disabled_focus.txt"
+    },
+    {
+      "name": "continuation-test_candidate_disabled_focus-rendered",
+      "command": [
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T041504Z-b801ccad/project",
+        "--script",
+        "res://tests/test_candidate_disabled_focus.gd"
+      ],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T041504Z-b801ccad/continuation-test_candidate_disabled_focus-rendered",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "continuation-test_candidate_disabled_focus-rendered.txt"
+    }
+  ]
+}

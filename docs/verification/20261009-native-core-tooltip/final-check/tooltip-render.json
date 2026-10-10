@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T142729Z-6c86f145/project",
+    "--script",
+    "res://tests/test_wire_tooltip_lifecycle.gd"
+  ],
+  "exit": 0,
+  "custom_user_dir": "VonNeumannBottleneckChecks/tooltip-4662186c6691431e93a7c58e2b88ea86/tooltip-render",
+  "passed": true
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "name": "review-final",
+    "suite": "test_representation_closure_navigation",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T201936Z-d695aae7/project",
+      "--script",
+      "res://tests/test_representation_closure_navigation.gd",
+      "--",
+      "--closure-recovery-capture",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "profile-launch-final",
+    "suite": "test_creation_profile_navigation",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T201936Z-d695aae7/project",
+      "--script",
+      "res://tests/test_creation_profile_navigation.gd",
+      "--",
+      "--creation-profile=user://creation-profile-navigation/named.json"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  }
+]

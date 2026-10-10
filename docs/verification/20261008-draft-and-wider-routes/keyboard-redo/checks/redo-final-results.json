@@ -1,0 +1,36 @@
+[
+  {
+    "name": "redo-headless",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T212445Z-5398544c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_chapter_redo_shortcuts.gd"
+    ],
+    "log": "redo-headless.txt",
+    "custom_user_dir": "VonNeumannBottleneckChecks/Redo-01ed4503308b4cce8e2ac106f994315f/redo-headless"
+  },
+  {
+    "name": "redo-rendered",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T212445Z-5398544c/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_chapter_redo_shortcuts.gd"
+    ],
+    "log": "redo-rendered.txt",
+    "custom_user_dir": "VonNeumannBottleneckChecks/Redo-f3e5f353cf7c41d690ec24b0776818d9/redo-rendered"
+  }
+]

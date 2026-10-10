@@ -4,7 +4,9 @@ const Model = preload("res://experiments/creation/model.gd")
 const Codec = preload("res://experiments/creation/codec.gd")
 const Files = preload("res://experiments/candidate_session/files.gd")
 const Lease = preload("res://experiments/candidate_session/writer_lease.gd")
+const WriterRetry = preload("res://experiments/candidate_session/writer_retry.gd")
 const UNITS := ["C1_restore","C2_cost","C3_conditions","P1_commit","P2_memory","P3_check","G1_feedback","G2_intent","G3_keep"]
+const MAX_DRAFT_HISTORY := 24
 var data: Dictionary = fresh()
 var dirty: bool = false
 var error: String = ""
@@ -22,9 +24,24 @@ var _transport_model: String = ""
 var _prediction_model: String = ""
 var _transport_runs: Array = []
 var _prediction_runs: Array = []
+var undo_stack: Array[Dictionary] = []
+var redo_stack: Array[Dictionary] = []
+var _draft_anchor: Dictionary = {}
+var _readable_profile: bool = false
+
+func _init() -> void:
+	_draft_anchor = _draft_snapshot()
 
 static func default_path() -> String:
 	return "user://creation-candidate/session.json"
+
+static func launch_path(arguments: PackedStringArray = []) -> String:
+	var selected_path: String = ""
+	var launch_arguments: PackedStringArray = OS.get_cmdline_user_args() if arguments.is_empty() else arguments
+	for argument: String in launch_arguments:
+		if argument.begins_with("--creation-profile="):
+			selected_path = argument.trim_prefix("--creation-profile=")
+	return default_path() if selected_path.is_empty() else selected_path
 
 static func fresh() -> Dictionary:
 	var a: Array = []; var b: Array = []
@@ -37,13 +54,14 @@ static func fresh() -> Dictionary:
 
 func open(save_path: String = "") -> Dictionary:
 	close()
+	_reset_exploration()
 	path = default_path() if save_path.is_empty() else save_path
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path).get_base_dir())
 	var loaded: Dictionary = Files.read_session(path,decode)
 	if not loaded.ok:
 		if loaded.has("readonly_works"):
 			data = fresh(); data.works = loaded.readonly_works
-			error = "incompatible_readonly"
+			error = "raw_restore_readonly" if loaded.get("reason", "") == "raw_restore_evidence" else "incompatible_readonly"
 			return {"ok":true,"writable":false,"readonly":true,"error":error}
 		error = str(loaded.get("error","read")); return loaded
 	data = fresh() if loaded.get("empty",false) else loaded.data
@@ -51,10 +69,72 @@ func open(save_path: String = "") -> Dictionary:
 	lease = Lease.new(path)
 	dirty = false; error = ""
 	_restore_permissions()
+	_readable_profile = true; _draft_anchor = _draft_snapshot()
 	return {"ok":true,"writable":lease.owns(path),"empty":loaded.get("empty",false)}
 
 func close() -> void:
 	if lease != null: lease.release(); lease = null
+
+func _reset_exploration() -> void:
+	data = fresh(); dirty = false; error = ""; digest = ""
+	prediction.clear(); generated.clear(); last_transport.clear()
+	_future.clear(); _frozen.clear(); _prediction_machine.clear(); _prediction_events.clear()
+	_transport_model = ""; _prediction_model = ""
+	_transport_runs.clear(); _prediction_runs.clear()
+	undo_stack.clear(); redo_stack.clear(); _readable_profile = false
+	_draft_anchor = _draft_snapshot()
+
+static func _read_profile(save_path: String) -> Dictionary:
+	return Files.read_session(save_path,decode)
+
+## Normal retry preserves the live exploration. Reload is only for an explicitly
+## confirmed replacement; the UI must confirm that choice before passing true.
+func retry_writer(reload_saved: bool = false) -> Dictionary:
+	if path.is_empty(): return {"ok":false,"writable":false,"reason":"unreadable"}
+	if lease != null and lease.owns(path): return _accept_writer(lease,reload_saved,true)
+	var expected: String = digest
+	if reload_saved:
+		var disk: Dictionary = _read_profile(path)
+		if not disk.ok: return {"ok":false,"writable":false,"reason":"unreadable"}
+		expected = str(disk.get("digest",""))
+	var acquired: Dictionary = WriterRetry.attempt(path,expected,_read_profile)
+	if not acquired.ok: return {"ok":false,"writable":false,"reason":acquired.reason}
+	return _accept_writer(acquired.lease,reload_saved)
+
+## Reclaim only the exact owner proven stopped by the existing native lease API.
+## A readable changed file still requires a separately confirmed reload.
+func recover_writer(expected_token: String, reload_saved: bool = false) -> Dictionary:
+	if path.is_empty(): return {"ok":false,"writable":false,"reason":"unreadable"}
+	if lease != null and lease.owns(path): return _accept_writer(lease,reload_saved,true)
+	var disk: Dictionary = _read_profile(path)
+	if not disk.ok and disk.get("error","") != "recovery":
+		return {"ok":false,"writable":false,"reason":"unreadable"}
+	var acquired: Dictionary = Lease.recover_and_acquire(path,expected_token)
+	if acquired.get("error",ERR_ALREADY_IN_USE) != OK:
+		return {"ok":false,"writable":false,"reason":"busy"}
+	return _accept_writer(acquired.lease,reload_saved,true)
+
+func _accept_writer(acquired: RefCounted, reload_saved: bool, allow_recovery: bool = false) -> Dictionary:
+	# Re-read while holding ownership. Neither a stale display nor a pre-acquisition
+	# read can authorize replacing newer, unknown or interrupted profile bytes.
+	var disk: Dictionary = _read_profile(path)
+	if not disk.ok:
+		if allow_recovery and disk.get("error","") == "recovery":
+			lease = acquired
+			return {"ok":true,"writable":false,"reason":"recovery","choices":disk.get("choices",[]).duplicate(true),"fingerprint":disk.get("fingerprint","")}
+		acquired.release()
+		return {"ok":false,"writable":false,"reason":"unreadable"}
+	if not reload_saved and str(disk.get("digest","")) != digest:
+		acquired.release()
+		return {"ok":false,"writable":false,"reason":"changed"}
+	lease = acquired
+	if reload_saved:
+		_reset_exploration()
+		data = fresh() if disk.get("empty",false) else disk.data.duplicate(true)
+		digest = str(disk.get("digest",""))
+		_restore_permissions()
+		_readable_profile = true; _draft_anchor = _draft_snapshot()
+	return {"ok":true,"writable":true,"reason":""}
 
 func save() -> Error:
 	if path.is_empty() or lease == null: return ERR_UNCONFIGURED
@@ -72,7 +152,56 @@ func recover(source: String, fingerprint: String) -> Error:
 	return result
 
 func mark_dirty() -> void:
+	_record_draft_change()
 	dirty = true; generated = {}
+
+func _draft_snapshot() -> Dictionary:
+	return {"draft":data.draft.duplicate(true),"model":data.model.duplicate(true),"training":data.training.duplicate(true),"parent_work":data.parent_work,"mode":data.mode,"transport_model":_transport_model,"prediction_model":_prediction_model}
+
+func _record_draft_change() -> void:
+	var current: Dictionary = _draft_snapshot()
+	if current == _draft_anchor: return
+	if _readable_profile and lease != null and lease.owns(path):
+		undo_stack.append(_draft_anchor.duplicate(true))
+		if undo_stack.size() > MAX_DRAFT_HISTORY: undo_stack.pop_front()
+		redo_stack.clear()
+	_draft_anchor = current
+
+func can_undo() -> bool:
+	return _readable_profile and lease != null and lease.owns(path) and not undo_stack.is_empty()
+
+func can_redo() -> bool:
+	return _readable_profile and lease != null and lease.owns(path) and not redo_stack.is_empty()
+
+func _history_writable() -> bool:
+	if not _readable_profile or lease == null or not lease.owns(path): return false
+	var disk: Dictionary = _read_profile(path)
+	return disk.get("ok",false) and str(disk.get("digest","")) == digest
+
+func undo_draft() -> Dictionary:
+	return _restore_draft_step(undo_stack,redo_stack)
+
+func redo_draft() -> Dictionary:
+	return _restore_draft_step(redo_stack,undo_stack)
+
+func _restore_draft_step(source: Array[Dictionary], destination: Array[Dictionary]) -> Dictionary:
+	# This operation is transient: no save, works, supports or seen-check flags are
+	# in its snapshots. A future/changed file cannot authorize restoring permissions.
+	if not _history_writable(): return {"ok":false,"error":"readonly"}
+	if source.is_empty(): return {"ok":false,"error":"history_empty"}
+	destination.append(_draft_snapshot())
+	if destination.size() > MAX_DRAFT_HISTORY: destination.pop_front()
+	var restored: Dictionary = source.pop_back()
+	for key: String in ["draft","model","training","parent_work","mode"]:
+		data[key] = restored[key].duplicate(true) if restored[key] is Dictionary else restored[key]
+	_transport_model = str(restored.transport_model); _prediction_model = str(restored.prediction_model)
+	_clear_active_run()
+	_draft_anchor = _draft_snapshot(); dirty = true
+	return {"ok":true}
+
+func _clear_active_run() -> void:
+	prediction.clear(); generated.clear(); last_transport.clear()
+	_future.clear(); _frozen.clear(); _prediction_machine.clear(); _prediction_events.clear()
 
 func train() -> Dictionary:
 	var previous: String = Model.identity(data.model) if not data.model.is_empty() else ""
@@ -83,6 +212,7 @@ func train() -> Dictionary:
 	data.training = {"cost":result.cost.duplicate(true),"events":result.events.slice(0,16),"model_id":Model.identity(data.model),"machine":data.draft.machine.duplicate(true)}
 	prediction.clear(); _future.clear(); generated.clear(); last_transport.clear()
 	_transport_model = ""; _prediction_model = ""; dirty = true
+	_record_draft_change()
 	return result
 
 func transport(symbols: Array, codec: String) -> Dictionary:
@@ -95,7 +225,9 @@ func transport(symbols: Array, codec: String) -> Dictionary:
 		last_transport["preparation"] = data.training.get("cost",{}).duplicate(true)
 		_transport_runs.append({"kind":"transport","model":data.model.duplicate(true),"machine":data.draft.machine.duplicate(true),"source":symbols.duplicate(),"codec":codec})
 		if _transport_runs.size()>8: _transport_runs.pop_front()
-		if result.lossless and not data.model.is_empty(): _transport_model = Model.identity(data.model)
+		if result.lossless and codec == "predictive" and not data.model.is_empty() and result.get("model_id", "") == Model.identity(data.model):
+			_transport_model = Model.identity(data.model)
+			_draft_anchor.transport_model = _transport_model
 	return last_transport.duplicate(true) if result.ok else result
 
 func set_mode(mode: String) -> Dictionary:
@@ -104,17 +236,21 @@ func set_mode(mode: String) -> Dictionary:
 	if mode == "predict" and (identity.is_empty() or _transport_model != identity): return {"ok":false,"error":"restore_first"}
 	if mode == "generate" and (identity.is_empty() or _prediction_model != identity): return {"ok":false,"error":"predict_first"}
 	data.mode = mode; dirty = true
+	_draft_anchor.mode = mode
 	return {"ok":true,"model_id":identity}
 
 func begin_prediction(kind: String = "practice") -> Dictionary:
 	if data.mode != "predict" or data.model.is_empty(): return {"ok":false,"error":"mode"}
 	if kind not in ["practice","check","training","memorize"]: return {"ok":false,"error":"kind"}
-	_frozen = data.model.duplicate(true); _prediction_machine = data.draft.machine.duplicate(true)
-	# These are distinct complete authored sequences. They never enter predict().
-	_future = _sequence(kind,_frozen)
-	if _future.size() < 3: return {"ok":false,"error":"short_example"}
-	var required: int = _frozen.examples[0].size()+_future.size()*2+16 if kind == "memorize" else Model.canonical_bytes(_frozen).size()+_future.size()*2+16+int(_prediction_machine.cache_rows)*11
-	if required > _prediction_machine.memory_bytes: return {"ok":false,"error":"memory_limit","required_bytes":required}
+	# Build and validate a complete candidate before replacing the active round.
+	# A rejected switch must preserve its old pending guess, truth and cost state.
+	var next_model: Dictionary = data.model.duplicate(true)
+	var next_machine: Dictionary = data.draft.machine.duplicate(true)
+	var next_future: Array = _sequence(kind,next_model)
+	if next_future.size() < 3: return {"ok":false,"error":"short_example"}
+	var required: int = next_model.examples[0].size()+next_future.size()*2+16 if kind == "memorize" else _prediction_peak(next_model,next_machine,next_future.size())
+	if required > next_machine.memory_bytes: return {"ok":false,"error":"memory_limit","required_bytes":required}
+	_frozen = next_model; _prediction_machine = next_machine; _future = next_future
 	prediction = {"prefix":_future.slice(0,2),"rows":[],"pending":{},"finished":false,"kind":kind,
 		"seen":kind in ["check","memorize"] and "check-v1" in data.seen_checks,"total":_future.size()-2,"hits":0,"model_id":Model.identity(_frozen)}
 	_prediction_events = [{"phase":"predict","kind":"model_load","ops":Model.canonical_bytes(_frozen).size(),"bytes":Model.canonical_bytes(_frozen).size(),"cycles":0}]
@@ -145,7 +281,7 @@ func reveal_prediction() -> Dictionary:
 	var row := {"index":index,"predicted":int(guess.symbol),"truth":truth,"correct":int(guess.symbol)==truth,
 		"context":guess.context.duplicate(),"counts":guess.counts.duplicate()}
 	_prediction_events.append({"phase":"predict","kind":"reveal","ops":2,"bytes":1,"cycles":0,"index":index,"symbol":truth})
-	var peak: int = _frozen.examples[0].size()+_future.size()*2+16 if prediction.kind == "memorize" else Model.canonical_bytes(_frozen).size()+_future.size()*2+16+int(_prediction_machine.cache_rows)*11
+	var peak: int = _frozen.examples[0].size()+_future.size()*2+16 if prediction.kind == "memorize" else _prediction_peak(_frozen,_prediction_machine,_future.size())
 	var cost: Dictionary = Model.summarize(_prediction_events,_prediction_machine,peak)
 	row["cost"] = cost.duplicate(true)
 	prediction.rows.append(row); prediction.prefix.append(truth); prediction.pending = {}
@@ -154,9 +290,23 @@ func reveal_prediction() -> Dictionary:
 	prediction.finished = prediction.prefix.size() == _future.size()
 	if prediction.finished and prediction.kind != "memorize":
 		_prediction_model = prediction.model_id
+		_draft_anchor.prediction_model = _prediction_model
 		_prediction_runs.append({"kind":"prediction","model":_frozen.duplicate(true),"machine":_prediction_machine.duplicate(true),"check":prediction.kind,"rows":prediction.rows.duplicate(true)})
 		if _prediction_runs.size()>8: _prediction_runs.pop_front()
 	return {"ok":true,"row":row.duplicate(true),"finished":prediction.finished,"cost":cost}
+
+static func _prediction_peak(model: Dictionary, machine: Dictionary, sequence_length: int) -> int:
+	# Cache capacity cannot reserve rows absent from this finite frozen model.
+	return Model.canonical_bytes(model).size()+sequence_length*2+16+mini(int(machine.cache_rows),model.rows.size())*11
+
+func prediction_evidence() -> Dictionary:
+	# Detached presentation evidence contains only events already committed/revealed.
+	# Summarize a copy so inspecting costs cannot mutate the active trace or cache.
+	if prediction.is_empty(): return {}
+	var events: Array = _prediction_events.duplicate(true)
+	var peak: int = _frozen.examples[0].size()+_future.size()*2+16 if prediction.kind == "memorize" else _prediction_peak(_frozen,_prediction_machine,_future.size())
+	return {"events":events,"cost":Model.summarize(events,_prediction_machine,peak),
+		"recipe":{"model":_frozen.duplicate(true),"model_id":prediction.model_id,"machine":_prediction_machine.duplicate(true)}}
 
 func generate() -> Dictionary:
 	if data.mode != "generate" or data.model.is_empty(): return {"ok":false,"error":"mode"}
@@ -175,9 +325,17 @@ func save_work(title: String) -> Dictionary:
 	var work := {"name":title.strip_edges(),"output":generated.output.duplicate(),"recipe":generated.recipe.duplicate(true),
 		"mapping":"light-shapes-v1","parent":str(generated.parent_work),"training":generated.training.duplicate(true)}
 	work["id"] = JSON.stringify(work).sha256_text()
+	var previous_works: Array = data.works.duplicate(true)
+	var previous_supports: Dictionary = data.supports.duplicate(true)
+	var previous_dirty: bool = dirty
 	data.works.append(work); dirty = true
+	complete("G2_intent",{})
 	complete("G3_keep",{})
 	var saved: Error = save()
+	if saved != OK:
+		data.works = previous_works
+		data.supports = previous_supports
+		dirty = previous_dirty
 	return {"ok":saved == OK,"work":work.duplicate(true),"error":"" if saved == OK else error}
 
 func play_work(index: int) -> Dictionary:
@@ -199,6 +357,7 @@ static func _run_recipe(recipe: Dictionary) -> Dictionary:
 	return Model.generate(recipe.model,recipe.initial,int(recipe.length),int(recipe.seed),str(recipe.sampler),recipe.machine)
 
 func fork_work(index: int) -> Dictionary:
+	if not _history_writable(): return {"ok":false,"error":"readonly"}
 	var replay: Dictionary = replay_work(index)
 	if not replay.ok or not replay.get("matches",false): return {"ok":false,"error":"incompatible_recipe"}
 	var work: Dictionary = data.works[index]
@@ -207,13 +366,14 @@ func fork_work(index: int) -> Dictionary:
 	data.draft = {"machine":r.machine.duplicate(true),"examples":r.model.examples.duplicate(true),"order":int(r.model.order),
 		"initial":r.initial.duplicate(),"length":int(r.length),"seed":int(r.seed),"sampler":r.sampler}
 	data.training = work.training.duplicate(true); data.parent_work = work.id; data.mode = "generate"
-	generated.clear(); dirty = true
+	_record_draft_change(); _clear_active_run(); dirty = true
 	return {"ok":true,"parent":work.id}
 
 func complete(unit_id: String, _evidence: Dictionary = {}) -> void:
 	if unit_id not in UNITS: return
 	var support: Dictionary = {}
 	if unit_id.begins_with("C") and not last_transport.is_empty() and last_transport.get("lossless",false):
+		if unit_id == "C1_restore" and (last_transport.get("codec", "") != "predictive" or last_transport.get("model_id", "") != Model.identity(data.model)): return
 		support = {"kind":"transport","model":data.model.duplicate(true),"machine":last_transport.machine.duplicate(true),
 			"source":last_transport.source.duplicate(),"codec":last_transport.codec}
 	elif unit_id.begins_with("P") and prediction.get("finished",false) and prediction.kind != "memorize":
@@ -221,7 +381,7 @@ func complete(unit_id: String, _evidence: Dictionary = {}) -> void:
 		support = {"kind":"prediction","model":_frozen.duplicate(true),"machine":_prediction_machine.duplicate(true),"check":prediction.kind,"rows":prediction.rows.duplicate(true)}
 	elif unit_id.begins_with("G") and not generated.is_empty():
 		support = {"kind":"generation","recipe":generated.recipe.duplicate(true),"output":generated.output.duplicate()}
-		if unit_id == "G3_keep" and not _kept(data.works,support): return
+		if unit_id in ["G2_intent","G3_keep"] and not _kept(data.works,support): return
 	if not support.is_empty() and unit_id not in ["C2_cost","C3_conditions","P2_memory"]: data.supports[unit_id] = support; dirty = true
 	if unit_id in ["C2_cost","C3_conditions","P2_memory"]:
 		var runs: Array = _prediction_runs if unit_id == "P2_memory" else _transport_runs
@@ -235,11 +395,11 @@ func _restore_permissions() -> void:
 	_transport_model = ""; _prediction_model = ""
 	var current: String = Model.identity(data.model) if not data.model.is_empty() else ""
 	for support: Dictionary in data.supports.values():
-		if support.kind == "transport" and Model.identity(support.model) == current: _transport_model = current
+		if support.kind == "transport" and support.codec == "predictive" and Model.identity(support.model) == current: _transport_model = current
 		elif support.kind == "prediction" and Model.identity(support.model) == current: _prediction_model = current
 		elif support.kind == "comparison":
 			for run: Dictionary in support.runs:
-				if run.kind == "transport" and Model.identity(run.model) == current: _transport_model = current
+				if run.kind == "transport" and run.codec == "predictive" and Model.identity(run.model) == current: _transport_model = current
 				elif run.kind == "prediction" and Model.identity(run.model) == current: _prediction_model = current
 
 static func _comparable(unit: String, a: Dictionary, b: Dictionary) -> bool:
@@ -306,6 +466,7 @@ static func decode(raw: String) -> Dictionary:
 		if not reproduced.ok or reproduced.output != work.output: return {"ok":false,"error":"schema"}
 		if not _valid_training(work.recipe.model,work.training): return {"ok":false,"error":"schema"}
 	if incompatible: return {"ok":false,"error":"version","readonly_works":value.works.duplicate(true)}
+	var legacy_raw_restore: bool = false
 	for id: Variant in value.supports:
 		if id not in UNITS or not value.supports[id] is Dictionary: return {"ok":false,"error":"schema"}
 		var support: Dictionary = value.supports[id]
@@ -316,16 +477,17 @@ static func decode(raw: String) -> Dictionary:
 				if not run is Dictionary or run.get("kind") not in ["transport","prediction"]: return {"ok":false,"error":"schema"}
 				var fixture: Dictionary = fresh()
 				fixture.seen_checks = value.seen_checks.duplicate()
-				fixture.supports["C1_restore" if run.kind == "transport" else "P1_commit"] = run
-				if not decode(JSON.stringify(fixture)).ok: return {"ok":false,"error":"schema"}
+				if run.kind == "transport":
+					if not _valid_transport_support(run): return {"ok":false,"error":"schema"}
+				else:
+					fixture.supports["P1_commit"] = run
+					if not decode(JSON.stringify(fixture)).ok: return {"ok":false,"error":"schema"}
 			if not _comparable(id,support.runs[0],support.runs[1]): return {"ok":false,"error":"schema"}
 			continue
 		if support.get("kind") == "transport":
 			if not str(id).begins_with("C"): return {"ok":false,"error":"schema"}
-			if not _keys(support,["kind","model","machine","source","codec"]): return {"ok":false,"error":"schema"}
-			if not support.model is Dictionary or not support.machine is Dictionary or not support.source is Array or not support.codec is String: return {"ok":false,"error":"schema"}
-			var restored: Dictionary = Codec.run_transport(support.source,support.model,support.machine,support.codec)
-			if not restored.get("ok",false) or not restored.get("lossless",false): return {"ok":false,"error":"schema"}
+			if not _valid_transport_support(support): return {"ok":false,"error":"schema"}
+			if id == "C1_restore" and support.codec != "predictive": legacy_raw_restore = true
 		elif support.get("kind") == "prediction":
 			if not str(id).begins_with("P"): return {"ok":false,"error":"schema"}
 			if not _keys(support,["kind","model","machine","check","rows"]) or not support.model is Dictionary or not support.rows is Array or not support.machine is Dictionary: return {"ok":false,"error":"schema"}
@@ -336,7 +498,9 @@ static func decode(raw: String) -> Dictionary:
 			if sequence.size()<3 or support.rows.size()!=sequence.size()-2: return {"ok":false,"error":"schema"}
 			var model_bytes: int = Model.canonical_bytes(support.model).size()
 			var checked_events: Array = [{"phase":"predict","kind":"model_load","ops":model_bytes,"bytes":model_bytes,"cycles":0}]
-			var peak: int = model_bytes+sequence.size()*2+16+int(support.machine.cache_rows)*11
+			var peak: int = _prediction_peak(support.model,support.machine,sequence.size())
+			var legacy_peak: int = model_bytes+sequence.size()*2+16+int(support.machine.cache_rows)*11
+			var recorded_peak: int = -1
 			if peak > support.machine.memory_bytes: return {"ok":false,"error":"schema"}
 			for index: int in support.rows.size():
 				var row: Variant = support.rows[index]
@@ -345,7 +509,14 @@ static func decode(raw: String) -> Dictionary:
 				if row.index != index+2 or row.truth != sequence[index+2] or row.predicted != decision.symbol or row.context != decision.context or row.counts != decision.counts or row.correct != (row.predicted == row.truth): return {"ok":false,"error":"schema"}
 				checked_events.append_array(decision.events)
 				checked_events.append({"phase":"predict","kind":"reveal","ops":2,"bytes":1,"cycles":0,"index":index+2,"symbol":sequence[index+2]})
-				if row.cost != Model.summarize(checked_events,support.machine,peak): return {"ok":false,"error":"schema"}
+				var current_cost: Dictionary = Model.summarize(checked_events,support.machine,peak)
+				if row.cost != current_cost:
+					# Preserve strictly replayed v1 rounds recorded with the old full-
+					# capacity bound. No other cost, insufficient memory or mixed
+					# accounting can pass through this compatibility exception.
+					if legacy_peak > support.machine.memory_bytes or row.cost != Model.summarize(checked_events,support.machine,legacy_peak): return {"ok":false,"error":"schema"}
+				if recorded_peak >= 0 and int(row.cost.peak_bytes) != recorded_peak: return {"ok":false,"error":"schema"}
+				recorded_peak = int(row.cost.peak_bytes)
 		elif support.get("kind") == "generation":
 			if not str(id).begins_with("G"): return {"ok":false,"error":"schema"}
 			if not _keys(support,["kind","recipe","output"]) or not support.recipe is Dictionary: return {"ok":false,"error":"schema"}
@@ -355,7 +526,17 @@ static func decode(raw: String) -> Dictionary:
 			if not result.ok or result.output != support.output: return {"ok":false,"error":"schema"}
 			if id == "G3_keep" and not _kept(value.works,support): return {"ok":false,"error":"schema"}
 		else: return {"ok":false,"error":"schema"}
+	if legacy_raw_restore:
+		# All works and other supports were checked above. Preserve the original
+		# profile read-only; never reinterpret RAW as valid restoration evidence.
+		return {"ok":false,"error":"schema","reason":"raw_restore_evidence","readonly_works":value.works.duplicate(true)}
 	return {"ok":true,"data":value,"task":int(value.task)}
+
+static func _valid_transport_support(support: Dictionary) -> bool:
+	if not _keys(support,["kind","model","machine","source","codec"]): return false
+	if not support.model is Dictionary or not support.machine is Dictionary or not support.source is Array or not support.codec is String: return false
+	var restored: Dictionary = Codec.run_transport(support.source,support.model,support.machine,support.codec)
+	return restored.get("ok",false) and restored.get("lossless",false)
 
 static func _kept(works: Array, support: Dictionary) -> bool:
 	for work: Dictionary in works:

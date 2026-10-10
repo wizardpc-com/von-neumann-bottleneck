@@ -26,6 +26,16 @@ does not migrate production progress. Build/import and release-binary QA still u
 separate `VonNeumannBottleneckChecks` directories. Default builder behavior remains
 the ordinary two-platform candidate above; do not reuse an existing frozen build ID.
 
+Add `--creation-journey` to that isolated Mac command to include the nine
+compression/content-prediction/creation units in the same journey. This opt-in
+requires `--second-act-profile`; the default forty-task build stays unchanged.
+The original address-prediction investigations remain optional separate tasks.
+Creation saves use `creation-candidate/session.json` inside the bound candidate
+profile, with explicit writer retry, stopped-owner recovery and validated-copy
+selection. Normal retry preserves the current exploration; adopting changed
+saved contents requires confirmed reload. The manifest records this feature and
+`verify-mac-candidate.py` checks the actual exported configuration/resources.
+
 ## Save and feedback boundaries
 
 Use the existing player save directory and backup mechanism. New layout state is additive and its completions are replay-validated. Back up the whole user data directory before updating or reverting. Current schema-2 saves carry a minimum writer version; unsupported future fields or writer versions block replacement, and previously issued schema-1 games reject schema 2. Do not replace a protected current save with an older backup to bypass that guard. QA must use a separate user directory and verify it before starting ordinary Game. Do not distribute an isolation override with the public package.

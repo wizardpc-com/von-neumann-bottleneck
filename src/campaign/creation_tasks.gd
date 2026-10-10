@@ -4,6 +4,7 @@ const Catalog = preload("res://experiments/creation/catalog.gd")
 const Files = preload("res://experiments/candidate_session/files.gd")
 const SCENE := "res://experiments/creation/workbench.tscn"
 static var fingerprint: String = ""
+static var cached_path: String = ""
 static var saved: Dictionary = {}
 
 static func enabled() -> bool:
@@ -16,10 +17,11 @@ static func index_for(key: String) -> int:
 	var index: int = Catalog.IDS.find(key.get_slice("/",1)) if key.begins_with("creation/") else -1
 	return index if index >= 0 and key == key_for(index) else -1
 
-static func build(english: bool) -> Array[Dictionary]:
-	var current: String = Files.fingerprint(Session.default_path())
-	if saved.is_empty() or current != fingerprint:
-		saved = Files.read_session(Session.default_path(),Session.decode); fingerprint = current
+static func build(english: bool, arguments: PackedStringArray = []) -> Array[Dictionary]:
+	var path: String = Session.launch_path(arguments)
+	var current: String = Files.fingerprint(path)
+	if saved.is_empty() or path != cached_path or current != fingerprint:
+		saved = Files.read_session(path,Session.decode); fingerprint = current; cached_path = path
 	var support: Dictionary = saved.get("data",{}).get("supports",{}) if saved.get("ok",false) else {}
 	var rows: Array[Dictionary] = []
 	for index: int in Catalog.IDS.size():

@@ -1,0 +1,66 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Condition "p_pattern.is_empty()" is true. Returning: nullptr
+   at: find_child (scene/main/node.cpp:1991)
+   GDScript backtrace (most recent call first):
+       [0] _restore_editor_state (res://experiments/creation/workbench.gd:1229)
+       [1] retry_writer (res://experiments/creation/workbench.gd:1204)
+       [2] <anonymous lambda> (res://experiments/creation/workbench.gd:1160)
+       [3] press (res://tests/test_creation_writer_retry_ui.gd:16)
+       [4] run (res://tests/test_creation_writer_retry_ui.gd:51)
+       [5] settle (res://tests/test_creation_writer_retry_ui.gd:11)
+ERROR: Condition "p_pattern.is_empty()" is true. Returning: nullptr
+   at: find_child (scene/main/node.cpp:1991)
+   GDScript backtrace (most recent call first):
+       [0] _restore_editor_state (res://experiments/creation/workbench.gd:1229)
+       [1] retry_writer (res://experiments/creation/workbench.gd:1204)
+       [2] <anonymous lambda> (res://experiments/creation/workbench.gd:1160)
+       [3] press (res://tests/test_creation_writer_retry_ui.gd:16)
+       [4] run (res://tests/test_creation_writer_retry_ui.gd:54)
+       [5] press (res://tests/test_creation_writer_retry_ui.gd:24)
+       [6] settle (res://tests/test_creation_writer_retry_ui.gd:11)
+ERROR: Condition "p_pattern.is_empty()" is true. Returning: nullptr
+   at: find_child (scene/main/node.cpp:1991)
+   GDScript backtrace (most recent call first):
+       [0] _restore_editor_state (res://experiments/creation/workbench.gd:1229)
+       [1] retry_writer (res://experiments/creation/workbench.gd:1204)
+       [2] run (res://tests/test_creation_writer_retry_ui.gd:63)
+       [3] press (res://tests/test_creation_writer_retry_ui.gd:24)
+       [4] settle (res://tests/test_creation_writer_retry_ui.gd:11)
+ERROR: Condition "p_pattern.is_empty()" is true. Returning: nullptr
+   at: find_child (scene/main/node.cpp:1991)
+   GDScript backtrace (most recent call first):
+       [0] _restore_editor_state (res://experiments/creation/workbench.gd:1229)
+       [1] retry_writer (res://experiments/creation/workbench.gd:1204)
+       [2] <anonymous lambda> (res://experiments/creation/workbench.gd:1160)
+       [3] press (res://tests/test_creation_writer_retry_ui.gd:16)
+       [4] run (res://tests/test_creation_writer_retry_ui.gd:51)
+       [5] settle (res://tests/test_creation_writer_retry_ui.gd:11)
+ERROR: Condition "p_pattern.is_empty()" is true. Returning: nullptr
+   at: find_child (scene/main/node.cpp:1991)
+   GDScript backtrace (most recent call first):
+       [0] _restore_editor_state (res://experiments/creation/workbench.gd:1229)
+       [1] retry_writer (res://experiments/creation/workbench.gd:1204)
+       [2] <anonymous lambda> (res://experiments/creation/workbench.gd:1160)
+       [3] press (res://tests/test_creation_writer_retry_ui.gd:16)
+       [4] run (res://tests/test_creation_writer_retry_ui.gd:54)
+       [5] press (res://tests/test_creation_writer_retry_ui.gd:24)
+       [6] settle (res://tests/test_creation_writer_retry_ui.gd:11)
+ERROR: Condition "p_pattern.is_empty()" is true. Returning: nullptr
+   at: find_child (scene/main/node.cpp:1991)
+   GDScript backtrace (most recent call first):
+       [0] _restore_editor_state (res://experiments/creation/workbench.gd:1229)
+       [1] retry_writer (res://experiments/creation/workbench.gd:1204)
+       [2] run (res://tests/test_creation_writer_retry_ui.gd:63)
+       [3] press (res://tests/test_creation_writer_retry_ui.gd:24)
+       [4] settle (res://tests/test_creation_writer_retry_ui.gd:11)
+ERROR: Condition "p_pattern.is_empty()" is true. Returning: nullptr
+   at: find_child (scene/main/node.cpp:1991)
+   GDScript backtrace (most recent call first):
+       [0] _restore_editor_state (res://experiments/creation/workbench.gd:1229)
+       [1] retry_writer (res://experiments/creation/workbench.gd:1204)
+       [2] <anonymous lambda> (res://experiments/creation/workbench.gd:1176)
+       [3] run (res://tests/test_creation_writer_retry_ui.gd:102)
+       [4] press (res://tests/test_creation_writer_retry_ui.gd:24)
+       [5] settle (res://tests/test_creation_writer_retry_ui.gd:11)
+PASS: creation writer retry UI 59 checks

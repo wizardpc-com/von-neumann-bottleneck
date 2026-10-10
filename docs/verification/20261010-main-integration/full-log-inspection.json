@@ -1,0 +1,13 @@
+{
+  "logs_inspected": 146,
+  "suites": 144,
+  "failed": [],
+  "warnings": [
+    "test_desktop_conventions.txt:WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+    "test_desktop_conventions.txt:WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+    "test_desktop_conventions.txt:WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+    "test_desktop_conventions.txt:WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). "
+  ],
+  "all_steps_pass": true,
+  "python_checks": "branding/report/storage/receiver/community PASS"
+}

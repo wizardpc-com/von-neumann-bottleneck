@@ -1,0 +1,9 @@
+{
+  "origin": "/Users/ray/Library/Application Support/VonNeumannBottleneckChecks/wider-paths-20261008/core-system-locality-en",
+  "target": "/Users/ray/Library/Application Support/VonNeumannBottleneckChecks/wider-paths-20261008/layout-en",
+  "sha256": {
+    "proxy-save.json": "d5bf230c34682ecdf10a12abdb9969d76a985c5e8595f75effafbf66fa79e2e0",
+    "proxy-save.json.bak": "d5bf230c34682ecdf10a12abdb9969d76a985c5e8595f75effafbf66fa79e2e0",
+    "proxy-workbenches.json": "3502b7a9afd206bbc938e8fee8362edbe9d67282d523174b1233562f7509cbe9"
+  }
+}

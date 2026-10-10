@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/ray/Documents/von-neumann-bottleneck/.godot/wider-paths-20261008/project",
+    "--script",
+    "res://scripts/proxy-player-paths.gd",
+    "--",
+    "--locale=en",
+    "--recovery-capture",
+    "--evidence-dir=res://.godot/wider-play/"
+  ],
+  "exit": 0,
+  "errors": [],
+  "passed": true
+}

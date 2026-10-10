@@ -1,0 +1,209 @@
+Analysis of sampling Von Neumann Bottleneck (pid 80322) every 10 milliseconds
+Process:         Von Neumann Bottleneck [80322]
+Path:            /Users/USER/Documents/*/Von-Neumann-Bottleneck.app/Contents/MacOS/Von Neumann Bottleneck
+Load Address:    0x102158000
+Identifier:      com.wizardpc.von-neumann-bottleneck
+Version:         0.5.0 (1.2.78)
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  launchd [1]
+Target Type:     live task
+
+Date/Time:       2026-10-09 04:19:07.618 -0400
+Launch Time:     2026-10-09 03:42:54.195 -0400
+OS Version:      macOS 26.6.2 (25G83)
+Report Version:  7
+Analysis Tool:   /usr/bin/sample
+
+Physical footprint:         270.8M
+Physical footprint (peak):  387.0M
+Idle exit:                  untracked
+----
+
+Call graph:
+    58 Thread_5338638   DispatchQueue_1: com.apple.main-thread  (serial)
+    + 58 start  (in dyld) + 6992  [0x186e7c4e4]
+    +   58 main  (in Von Neumann Bottleneck) + 924  [0x102895b3c]
+    +     58 -[NSApplication run]  (in AppKit) + 368  [0x18b72d13c]
+    +       58 -[NSApplication(NSEventRouting) nextEventMatchingMask:untilDate:inMode:dequeue:]  (in AppKit) + 72  [0x18c2cf678]
+    +         58 -[NSApplication(NSEventRouting) _nextEventMatchingEventMask:untilDate:inMode:dequeue:]  (in AppKit) + 688  [0x18c2cf96c]
+    +           58 _DPSNextEvent  (in AppKit) + 576  [0x18b73a084]
+    +             58 _DPSBlockUntilNextEventMatchingListInMode  (in AppKit) + 228  [0x18bde63d0]
+    +               58 _BlockUntilNextEventMatchingListInMode  (in HIToolbox) + 48  [0x19427c14c]
+    +                 58 ReceiveNextEventCommon  (in HIToolbox) + 488  [0x1940f28bc]
+    +                   58 RunCurrentEventLoopInMode  (in HIToolbox) + 320  [0x1940ef560]
+    +                     58 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x1873d6264]
+    +                       58 __CFRunLoopRun  (in CoreFoundation) + 924  [0x1873038ec]
+    +                         58 __CFRunLoopDoObservers  (in CoreFoundation) + 648  [0x187304240]
+    +                           58 __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__  (in CoreFoundation) + 36  [0x187304344]
+    +                             58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x6e97a4  [0x1028417a4]
+    +                               58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x75fbf8  [0x1028b7bf8]
+    +                                 58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x302fc54  [0x105187c54]
+    +                                   58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x166c7ac  [0x1037c47ac]
+    +                                     58 nanosleep  (in libsystem_c.dylib) + 220  [0x1870e2cc0]
+    +                                       58 __semwait_signal  (in libsystem_kernel.dylib) + 8  [0x187207308]
+    58 Thread_5338950: com.apple.NSEventThread
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 _NSEventThread  (in AppKit) + 184  [0x18b85bcac]
+    +       58 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x1873d6264]
+    +         58 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x1873039f4]
+    +           58 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x187305108]
+    +             58 mach_msg  (in libsystem_kernel.dylib) + 24  [0x187203fc0]
+    +               58 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x18720c9c0]
+    +                 58 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x1872165a4]
+    +                   58 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x187203c34]
+    58 Thread_5338955
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x313beec  [0x105293eec]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338956: WorkerThread 0
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338957: WorkerThread 1
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338958: WorkerThread 2
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338959: WorkerThread 3
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338960: WorkerThread 4
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338961: WorkerThread 5
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338962: WorkerThread 6
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338963: WorkerThread 7
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5338984: caulk.messenger.shared:17
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 caulk::thread_proxy<std::tuple<caulk::thread::attributes, void (caulk::concurrent::details::worker_thread::*)(), std::tuple<caulk::concurrent::details::worker_thread*>>>(void*)  (in caulk) + 96  [0x193b9794c]
+    +       58 caulk::concurrent::details::worker_thread::run()  (in caulk) + 32  [0x193b97cac]
+    +         58 caulk::semaphore::timed_wait(double)  (in caulk) + 224  [0x193b97e00]
+    +           58 semaphore_wait_trap  (in libsystem_kernel.dylib) + 8  [0x187203bb0]
+    58 Thread_5338985: caulk.messenger.shared:high
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 caulk::thread_proxy<std::tuple<caulk::thread::attributes, void (caulk::concurrent::details::worker_thread::*)(), std::tuple<caulk::concurrent::details::worker_thread*>>>(void*)  (in caulk) + 96  [0x193b9794c]
+    +       58 caulk::concurrent::details::worker_thread::run()  (in caulk) + 32  [0x193b97cac]
+    +         58 caulk::semaphore::timed_wait(double)  (in caulk) + 224  [0x193b97e00]
+    +           58 semaphore_wait_trap  (in libsystem_kernel.dylib) + 8  [0x187203bb0]
+    58 Thread_5339008: caulk::deferred_logger
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 caulk::thread_proxy<std::tuple<caulk::thread::attributes, void (caulk::concurrent::details::worker_thread::*)(), std::tuple<caulk::concurrent::details::worker_thread*>>>(void*)  (in caulk) + 96  [0x193b9794c]
+    +       58 caulk::concurrent::details::worker_thread::run()  (in caulk) + 32  [0x193b97cac]
+    +         58 caulk::semaphore::timed_wait(double)  (in caulk) + 224  [0x193b97e00]
+    +           58 semaphore_wait_trap  (in libsystem_kernel.dylib) + 8  [0x187203bb0]
+    58 Thread_5339015: com.apple.audio.IOThread.client
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 HALC_IOThread::Entry(void*)  (in CoreAudio) + 88  [0x18a756000]
+    +       58 invocation function for block in HALC_ProxyIOContext::HALC_ProxyIOContext(unsigned int, unsigned int)  (in CoreAudio) + 172  [0x18a597fa0]
+    +         57 HALC_ProxyIOContext::IOWorkLoop()  (in CoreAudio) + 4952  [0x18a599994]
+    +         ! 57 caulk::mach::semaphore::wait_signal_or_error(caulk::mach::semaphore&)  (in caulk) + 36  [0x193bb52c8]
+    +         !   57 semaphore_wait_signal_trap  (in libsystem_kernel.dylib) + 8  [0x187203bbc]
+    +         1 HALC_ProxyIOContext::IOWorkLoop()  (in CoreAudio) + 10448  [0x18a59af0c]
+    +           1 ???  (in CoreAudio)  load address 0x1246b4000 + 0xd990  [0x1246c1990]
+    +             1 ???  (in CoreAudio)  load address 0x1246b4000 + 0x108d38  [0x1247bcd38]
+    +               1 ???  (in CoreAudio)  load address 0x1246b4000 + 0x2dd4  [0x1246b6dd4]
+    +                 1 ???  (in CoreAudio)  load address 0x1246b4000 + 0x2ffc  [0x1246b6ffc]
+    +                   1 AudioConverterFillComplexBufferRealtimeSafe  (in AudioToolboxCore) + 88  [0x189f0f498]
+    +                     1 with_resolved_rt(OpaqueAudioConverter*, caulk::rt_function_ref<int (AudioConverterAPI*)>)  (in AudioToolboxCore) + 60  [0x189f0ee00]
+    +                       1 caulk::rt_function_ref<int (AudioConverterAPI*)>::functor_invoker<AudioConverterFillComplexBufferRealtimeSafe::$_0>(caulk::details::erased_callable_rt<int (AudioConverterAPI*)> const&, AudioConverterAPI*)  (in AudioToolboxCore) + 92  [0x189f0f500]
+    +                         1 acv2::AudioConverterV2::fillComplexBuffer(int (*)(OpaqueAudioConverter*, unsigned int*, AudioBufferList*, AudioStreamPacketDescription**, void*), void*, unsigned int*, AudioBufferList*, AudioStreamPacketDescription*, AudioStreamPacketDependencyDescription*, ConverterContext)  (in AudioToolboxCore) + 880  [0x189f09eb0]
+    +                           1 acv2::AudioConverterChain::ProduceOutput(caulk::function_ref<caulk::expected<unsigned int, int> (ACAudioSpan&)>, ACBaseAudioSpan&, ConverterContext)  (in AudioToolboxCore) + 312  [0x189e34f3c]
+    +                             1 acv2::CBRConverter::ProduceOutput(ACAudioSpan&, ConverterContext)  (in AudioToolboxCore) + 64  [0x18a068528]
+    +                               1 acv2::AudioConverterChain::ObtainInput(acv2::AudioConverterBase&, unsigned int, ConverterContext)  (in AudioToolboxCore) + 644  [0x189e35940]
+    +                                 1 caulk::function_ref<caulk::expected<unsigned int, int> (ACAudioSpan&)>::functor_invoker<acv2::AudioConverterV2::fillComplexBuffer(int (*)(OpaqueAudioConverter*, unsigned int*, AudioBufferList*, AudioStreamPacketDescription**, void*), void*, unsigned int*, AudioBufferList*, AudioStreamPacketDescription*, AudioStreamPacketDependencyDescription*, ConverterContext)::$_2>(caulk::details::erased_callable<caulk::expected<unsigned int, int> (ACAudioSpan&)> const&, ACAudioSpan&)  (in AudioToolboxCore) + 152  [0x189f0a438]
+    +                                   1 ???  (in CoreAudio)  load address 0x1246b4000 + 0x3160  [0x1246b7160]
+    +                                     1 ???  (in CoreAudio)  load address 0x1246b4000 + 0x103180  [0x1247b7180]
+    +                                       1 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x1673690  [0x1037cb690]
+    +                                         1 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x27c70a0  [0x10491f0a0]
+    +                                           1 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x27ca0d4  [0x1049220d4]
+    +                                             1 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x35e51fc  [0x10573d1fc]
+    58 Thread_5339035
+    + 58 thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+    +   58 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+    +     58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x9311cc  [0x102a891cc]
+    +       58 ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x9312f0  [0x102a892f0]
+    +         58 std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+    +           58 _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+    +             58 __psynch_cvwait  (in libsystem_kernel.dylib) + 8  [0x18720750c]
+    58 Thread_5346266
+    + 58 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x187242c10]
+    +   58 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x187243f0c]
+    +     58 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x1872059f0]
+    58 Thread_5354248
+      58 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x187242c10]
+        58 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x187243f0c]
+          58 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x1872059f0]
+
+Total number in stack (recursive counted multiple, when >=5):
+        15       _pthread_start  (in libsystem_pthread.dylib) + 136  [0x187247c58]
+        15       thread_start  (in libsystem_pthread.dylib) + 8  [0x187242c1c]
+        10       __psynch_cvwait  (in libsystem_kernel.dylib) + 0  [0x187207504]
+        10       _pthread_cond_wait  (in libsystem_pthread.dylib) + 980  [0x187248128]
+        10       std::condition_variable::wait(std::unique_lock<std::mutex>&)  (in libc++.1.dylib) + 32  [0x18715d858]
+        9       ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x167249c  [0x1037ca49c]
+        8       ???  (in Von Neumann Bottleneck)  load address 0x102158000 + 0x3f02978  [0x10605a978]
+
+Sort by top of stack, same collapsed (when >= 5):
+        __psynch_cvwait  (in libsystem_kernel.dylib)        580
+        semaphore_wait_trap  (in libsystem_kernel.dylib)        174
+        __workq_kernreturn  (in libsystem_kernel.dylib)        116
+        __semwait_signal  (in libsystem_kernel.dylib)        58
+        mach_msg2_trap  (in libsystem_kernel.dylib)        58
+        semaphore_wait_signal_trap  (in libsystem_kernel.dylib)        57
+

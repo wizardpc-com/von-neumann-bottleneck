@@ -245,6 +245,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif event.is_command_or_control_pressed() and event.keycode == KEY_Z:
 		_undo(event.shift_pressed)
 		get_viewport().set_input_as_handled()
+	elif event.ctrl_pressed and event.keycode == KEY_Y:
+		var focus: Control = get_viewport().gui_get_focus_owner()
+		if focus is LineEdit or focus is TextEdit: return
+		_undo(true)
+		get_viewport().set_input_as_handled()
 	elif event.keycode in [KEY_DELETE, KEY_BACKSPACE] and not level.is_empty():
 		_delete_selected()
 		get_viewport().set_input_as_handled()

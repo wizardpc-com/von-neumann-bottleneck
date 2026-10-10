@@ -1,0 +1,11 @@
+[
+  {
+    "name": "writer",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "profile": "VonNeumannBottleneckChecks/convergence-render-5c03cabe9163-writer",
+    "script": "tests/test_creation_writer_retry_ui.gd",
+    "log": "writer.txt"
+  }
+]

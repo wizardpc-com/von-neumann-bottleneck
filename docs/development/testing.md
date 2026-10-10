@@ -8,6 +8,71 @@ assertions intentionally require no prior acknowledgement. See
 
 ## Continuous signal candidate
 
+`test_creation_prediction_work_view` checks three P units, pending/finished rounds,
+both locales, saved snapshot/replay output and costs, subsequent Commit/Reveal and
+protected saved bytes. Its `-- --creation-prediction-work-capture` renderer mode
+captures eight logical1280×720 views plus displayed-work/prediction sidecars.
+These are controller fixtures, not native pointer proof.
+`test_system_trace_source_binding` exercises actual official Trace stepping and
+real editable CodeEdit insertion/text_changed: shifted line backgrounds and caret
+must remain detached from a different draft, while Trace/metrics/receipts/history
+stay intact. Exact executed source can be located again. Run these with the
+isolated verifier and the affected System/Creation UI suites.
+
+The boundary follow-up adds `test_creation_preparation_binding`,
+`test_locality_restored_baseline` and `test_hardware_seal_navigation` to the isolated
+verifier. They cover frozen A/B preparation after Keep/relearning, nine actual
+official capstone receipts through task-tree re-entry, and actual FullAdder
+verification/timed encapsulation through attempted board/Hint/map/Home changes.
+Prerequisite access in the latter two is an explicit fixture, not an earned journey.
+`test_creation_preparation_binding -- --creation-preparation-capture --capture-size=1280x720`
+renders four bilingual measured B views in a fresh QA profile. These controller
+fixtures prove result attribution and renderer bounds, not native pointer input.
+
+`test_creation_edit_controls` covers the existing16-example save bound, protected
+full-selection work and unsubmitted/invalid inputs across task/language rebuilds.
+Its `-- --creation-edit-capture --capture-size=1280x720` renderer mode exercises
+real viewport buttons and captures both languages. `test_creation_profile_navigation`
+checks independent named/default saved evidence; additionally run it with
+`-- --creation-profile=user://creation-profile-navigation/named.json` in its own
+QA directory to verify actual launch/map/workbench identity. Representation
+`test_representation_closure_navigation -- --closure-recovery-capture --capture-size=1280x720`
+checks real write refusal and reconstructed bilingual source review/focus. Its
+signals are authored fixtures; captures prove renderer geometry, not native input.
+
+
+`test_creation_choice_completion` covers one actual legal work/Keep, repeated-work
+choice, seed-only variation, lost-writer rollback and strict legacy G2 compatibility.
+Use `-- --creation-capture` in an imported renderer copy with a fresh own QA profile
+for bilingual G2 input/capture. `test_creation_prediction_memory` covers exact-byte
+limits, rejected-round preservation, frozen costs and strict legacy-bound replay.
+`test_service_number_display` checks six-significant-digit summaries against raw
+records and boundary violations; `-- --service-number-capture` renders its actual
+recomputed review in both languages. These are scoped agent checks, not novice or
+native-OS evidence. Repeat only failed/affected suites; restart separately.
+
+
+The bounded Creation draft-history/closure follow-up adds
+`test_creation_draft_undo` and `test_creation_measured_closure`. Run the affected
+session/UI suites in the isolated verifier. Renderer checks use the imported copy
+and a fresh unique QA user directory for every run; `--creation-contract-capture`
+on either new suite captures bilingual logical1280×720 states. The workbench suite
+retains `--creation-capture`. Never reuse a profile left with a stopped writer.
+Undo/Redo are transient; use `verify-creation-restart.py` separately to prove saved
+works and forks across processes.
+
+
+The 2026-10-08 convergence follow-up adds `test_creation_writer_retry`,
+`test_creation_writer_retry_ui`, `test_creation_observation_focus`, and
+`test_workbench_write_failure`. They check real failed writes, retained active
+boards, ordinary/stopped writer retry, explicit reload/copy confirmation, retained
+unsubmitted UI inputs and source-correct selected-cell observations. Run these
+with the isolated verifier; the stopped-owner cases require a supported native
+process query and print SKIP if unavailable. Renderer UI evidence is separate:
+run `test_creation_writer_retry_ui.gd -- --writer-capture` inside its already
+imported QA copy using a fresh unique user directory. It exercises viewport
+clicks, not native OS input.
+
 Use the same isolated verifier with `--suite test_creation_contract`,
 `--suite test_creation_navigation`, and `--suite test_creation_workbench`.
 The contract suite checks real packets, prefix isolation, causal costs and
@@ -74,11 +139,30 @@ for the command, baseline failure, final pass, restart/capture checks and platfo
 `scripts/proxy-player-paths.gd` is not a conventional unit suite. Use the imported
 QA copy from the verifier and a fresh isolated user directory. It extends the ordinary Game input replay through
 system/locality investigations; `--resume=overlap` and `--resume=layout` continue
-only the same UI-earned QA save. Full commands and scope are in the
+only the same UI-earned QA save in that historical version. The unified-tree proxy now earns and persists the original source circuits before
+system/locality continuation. The base ordinary Game script remains in-memory under
+its automated launch and cannot alone supply a restartable core profile. Full
+`proxy-layout-path.gd` and `proxy-overlap-path.gd` extend a byte-for-byte copy of that
+actual QA-earned capstone profile; their independent restart branches compare all
+revalidated results and retained drafts. Always use a fresh QA directory for each
+branch, preserve the source QA snapshot, and inspect the full log/exit result.
+Full historical commands and scope are in the
 [player-path evidence](../verification/20261002-player-paths/README.md).
 The macOS proxy uses Godot popup rendering for injected menu keys; it is not native
 OS input or a human beginner test. Inspect exit codes and full logs for script
 errors in addition to the final PASS marker.
+
+## Wire tooltip ownership, 2026-10-09
+
+`test_wire_tooltip_lifecycle` uses real GraphEdit topology and curve hit geometry
+for pointed-wire deletion without pointer motion, unrelated-wire preservation,
+cross-wire hover, clear/rebuild and graph exit. A test-owned public PopupPanel
+checks outer-frame hiding and protection of the graph's parent window. Run through
+the isolated verifier; the same script also runs with the native renderer in its
+imported copy and a fresh QA user directory. This fixture does not establish real
+native tooltip dispatch. Pair it with `test_wire_drag_geometry` and the necessary
+Tutorial renderer replay; retain unexpected native exit logs separately.
+[Native finding, saved own topology and scoped results](../verification/20261009-native-core-tooltip/README.md).
 
 ## Current wire and guidance checks, 2026-09-14
 
@@ -742,3 +826,66 @@ saved-window restoration; `--workbench-capture` alone is insufficient. Rendering
 samples Representation's densest two-asset task rather than repeating its complete
 headless matrix. PNGs go to `.godot/workbench-captures` in that isolated project.
 Never use capture flags for native persistence acceptance.
+
+## Creation playable-loop checks, 2026-10-08
+
+New focused suites: `test_creation_condition_examples`, `test_creation_prediction_flow`,
+`test_creation_input_validation`, `test_creation_playable_loop`. Use the existing
+isolated verifier with repeatable `--suite` arguments. The playable-loop script also
+runs with a renderer and `-- --creation-capture`; it exercises real viewport clicks
+in both languages, single-variable machine comparison, causal mismatch, controlled
+A/B, save/focus/replay/fork and host reopen. It uses separate locale-specific QA
+session files. Do not move the main file away from its backups to reset a locale:
+that correctly activates candidate recovery protection, rather than a fresh profile.
+
+Use `verify-creation-restart.py` after engine/GUI completion for independent-process
+save/fork/read. [Exact commands, retained intermediate failures and boundaries](../verification/20261008-creation-playable-loop/README.md).
+
+## Unsupported works, Layout previews and interrupted boards — 2026-10-08
+
+Run `test_creation_future_workbench`, `test_layout_preview_selection` and
+`test_workbench_interrupted_recovery` with the isolated verifier. The first writes
+real future-version QA recipes and verifies bilingual G3/Play/Focus, refused
+Replay/Fork and unchanged file bytes. Its opt-in `--creation-future-work-capture`
+renders four 1280×720 workbench views. Layout uses an actual official trace,
+field edit and history reselection. Core uses actual Store transaction bytes and
+HalfAdder truth-table verification, then ordinary GlobalSave provenance recovery;
+it covers damaged/future files and conflicting archives or recovery temporaries.
+These controller, renderer and fault fixtures do not establish native OS input.
+Relevant neighbors: Creation workbench/state/focus, Layout UI/trace storage,
+workbench write failure, GlobalSave and signature migration.
+
+## Chapter keyboard redo — 2026-10-08
+
+`test_chapter_redo_shortcuts` dispatches real viewport InputEventKey events after
+ordinary Overlap buffer placement and Layout field editing. It checks Ctrl+Z,
+Ctrl+Y and existing Ctrl+Shift+Z against exact board/design snapshots, plus bareY,
+release/echo, focused text and read-only Hint protection. These synthetic viewport
+events establish handler behavior, not native Windows/Mac keyboard operation.
+Relevant neighbors: overlap_ui, layout_ui/navigation/recipe_sources and desktop
+conventions. No new geometry or simulation changes require repeated screenshots.
+
+
+## Candidate disabled-action keyboard navigation — 2026-10-09
+
+Use `test_candidate_disabled_focus` through the isolated verifier. It dispatches
+viewport Tab/Enter across Representation and Service, checking unavailable-action
+skips, dynamically re-enabled actions, valid focus preservation on refresh and
+continuation when the focused action becomes disabled. Final Undo/Redo stays within
+its enabled reverse history action; recorded evidence is not changed.
+Closure support plans are explicit validated fixtures, not native completion.
+Run once with the renderer in the imported isolated project and a new data directory
+for the same input checks; geometry is unchanged. Neighbors: representation closure/
+edit context, Service undo/split/commission UI and completion_service_clarity.
+[Exact verification and native limits](../verification/20261008-draft-and-wider-routes/wider-focus/README.md).
+
+## Completion story keyboard boundaries, 2026-10-09
+
+Run isolated `test_completion_route` and `test_completion_presentation` after story
+focus changes. Route sends actual viewport key-down/up events for Shift-Tab,
+consecutive Enter, Previous/Next boundaries and Back close in both languages.
+For renderer verification, use the imported QA copy, assign a fresh independent
+QA custom user directory, then run Godot `--path <QA project> --script
+res://tests/test_completion_route.gd` without `--headless`. Headless fixtures and
+rendered viewport input are separate from actual exported-package/native input.
+[Native earned closure and full regression logs](../verification/20261009-native-region-resume/README.md).

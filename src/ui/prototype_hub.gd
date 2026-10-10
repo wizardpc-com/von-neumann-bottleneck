@@ -1066,6 +1066,16 @@ func _refresh_completion_story() -> void:
 	var dialog := get_node("CompletionStoryDialog") as AcceptDialog
 	var page: Dictionary = completion_story_pages[completion_story_page]
 	(dialog.find_child("StoryText", true, false) as Label).text = "%d / %d   %s\n\n%s" % [completion_story_page + 1, completion_story_pages.size(), page.title, page.body]
-	(dialog.find_child("StoryPrevious", true, false) as Button).disabled = completion_story_page == 0
-	(dialog.find_child("StoryNext", true, false) as Button).disabled = completion_story_page == completion_story_pages.size() - 1
+	var previous := dialog.find_child("StoryPrevious", true, false) as Button
+	var next := dialog.find_child("StoryNext", true, false) as Button
+	var previous_had_focus: bool = previous.has_focus()
+	var next_had_focus: bool = next.has_focus()
+	previous.disabled = completion_story_page == 0
+	previous.focus_mode = Control.FOCUS_NONE if previous.disabled else Control.FOCUS_ALL
+	next.disabled = completion_story_page == completion_story_pages.size() - 1
+	next.focus_mode = Control.FOCUS_NONE if next.disabled else Control.FOCUS_ALL
+	if next_had_focus and next.disabled: dialog.get_ok_button().grab_focus()
+	elif previous_had_focus and previous.disabled:
+		var return_focus: Button = next if not next.disabled else dialog.get_ok_button()
+		return_focus.grab_focus()
 	(dialog.get_node("StoryScroll") as ScrollContainer).scroll_vertical = 0

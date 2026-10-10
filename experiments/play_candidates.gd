@@ -23,7 +23,12 @@ func representation() -> void:
 		await build_partition(plans[task]); await press(handle("Undo")); await press(handle("Redo"))
 		check(ui.public_observation().plan == plans[task],"UI undo/redo preserves proposal")
 		await press(handle("Run")); check(ui.public_observation().accepted,"Measured candidate task accepted "+str(task))
-		if ui.order_choice.item_count > 1: await choose(ui.order_choice,1)
+		if ui.order_choice.item_count > 1:
+			# The public comparison table and menu share the same recorded-order
+			# selection callback. Use its visible row through real mouse input.
+			await tree_row(ui.order_comparison,1)
+			check(ui.order_choice.selected == 1,"Visible comparison row selects recorded order 1")
+			check(ui.visible_trace == ui.history[ui.selected_run].traces[1],"Selected comparison row displays the exact authoritative recorded trace")
 		if not ui.details_expanded: await press(handle("ToggleTraceDetails"))
 		await tree_row(ui.events,0); await capture("region-task"+str(task+1))
 

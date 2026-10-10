@@ -1,0 +1,121 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/user_directory"
+    },
+    {
+      "name": "test_creation_comparison",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_comparison.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_creation_comparison"
+    },
+    {
+      "name": "test_creation_cost_ledger",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_cost_ledger.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_creation_cost_ledger"
+    },
+    {
+      "name": "test_creation_measured_closure",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_measured_closure.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_creation_measured_closure"
+    },
+    {
+      "name": "test_creation_preparation_binding",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Ordinary B measurement uses B preparation",
+        "ERROR: Keep A then locate B shows B preparation despite active A model",
+        "ERROR: keep-a-review-b visible cost page binds B preparation in both locales",
+        "ERROR: keep-a-review-b visible cost page binds B preparation in both locales",
+        "ERROR: Learning C without generating cannot relabel frozen B preparation",
+        "ERROR: learn-c-review-b visible cost page binds B preparation in both locales",
+        "ERROR: learn-c-review-b visible cost page binds B preparation in both locales",
+        "ERROR: Snapshot preparation comes from protected A",
+        "ERROR: Recipe replay retains protected A preparation with fresh replay cost",
+        "ERROR: Detached ordinary generation retains its preparation after later learning",
+        "ERROR: Prediction can show the known matching model preparation",
+        "FAIL: [\"Ordinary B measurement uses B preparation\", \"Keep A then locate B shows B preparation despite active A model\", \"keep-a-review-b visible cost page binds B preparation in both locales\", \"keep-a-review-b visible cost page binds B preparation in both locales\", \"Learning C without generating cannot relabel frozen B preparation\", \"learn-c-review-b visible cost page binds B preparation in both locales\", \"learn-c-review-b visible cost page binds B preparation in both locales\", \"Snapshot preparation comes from protected A\", \"Recipe replay retains protected A preparation with fresh replay cost\", \"Detached ordinary generation retains its preparation after later learning\", \"Prediction can show the known matching model preparation\"]"
+      ],
+      "log": "test_creation_preparation_binding.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_creation_preparation_binding"
+    },
+    {
+      "name": "test_creation_workbench",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_creation_workbench"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_prologue_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_hardware_prologue_ui"
+    },
+    {
+      "name": "test_hardware_seal_navigation",
+      "exit": -1,
+      "passed": false,
+      "errors": [
+        "ERROR: Cannot install an empty reusable component for level half_adder.",
+        "ERROR: FullAdder opens without an earned reusable reward",
+        "ERROR: Create a genuine alternate board before sealing",
+        "ERROR: Return to the source board before official verification",
+        "SCRIPT ERROR: Invalid access to property or key 'reference_wires' on a base object of type 'Dictionary'."
+      ],
+      "log": "test_hardware_seal_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_hardware_seal_navigation"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_locality_restored_baseline",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_restored_baseline.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_locality_restored_baseline"
+    },
+    {
+      "name": "test_workbench_write_failure",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_workbench_write_failure.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T203804Z-29b9b749/test_workbench_write_failure"
+    }
+  ]
+}

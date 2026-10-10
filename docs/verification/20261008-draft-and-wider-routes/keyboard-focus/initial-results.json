@@ -1,0 +1,66 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T035259Z-0e5feebf/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T035259Z-0e5feebf/user_directory"
+    },
+    {
+      "name": "test_creation_draft_undo",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Restored draft action retains keyboard focus RedoDraft",
+        "ERROR: Restored draft action retains keyboard focus RedoDraft",
+        "FAIL: [\"Restored draft action retains keyboard focus RedoDraft\", \"Restored draft action retains keyboard focus RedoDraft\"]"
+      ],
+      "log": "test_creation_draft_undo.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T035259Z-0e5feebf/test_creation_draft_undo"
+    },
+    {
+      "name": "test_creation_edit_controls",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_edit_controls.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T035259Z-0e5feebf/test_creation_edit_controls"
+    },
+    {
+      "name": "test_creation_keyboard_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_keyboard_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T035259Z-0e5feebf/test_creation_keyboard_focus"
+    },
+    {
+      "name": "test_creation_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T035259Z-0e5feebf/test_creation_navigation"
+    },
+    {
+      "name": "test_creation_workbench",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T035259Z-0e5feebf/test_creation_workbench"
+    }
+  ]
+}

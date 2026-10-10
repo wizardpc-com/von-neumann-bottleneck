@@ -39,6 +39,7 @@ func run() -> void:
 		check(session.set_mode("generate").ok and session.generate().ok,"Checked model changes to output feedback")
 		var kept: Dictionary = session.save_work("QA alternating light")
 		check(kept.ok,"Writer explicitly keeps and saves a generated work")
+		check(session.data.supports.has("G2_intent") and session.data.supports.has("G3_keep"),"One confirmed work completes G2 and G3 before process exit")
 		if kept.ok:
 			write_text(EXPECTED_PATH,JSON.stringify({"id":kept.work.id,"output":kept.work.output,"recipe":kept.work.recipe}))
 		print("CALIBRATION restart original=",session.data.works[0].output," model=",Model.identity(session.data.model))
@@ -48,6 +49,8 @@ func run() -> void:
 		check(played.ok and played.output == expected.output and played.work.recipe == expected.recipe and played.work.id == expected.id,"Fresh reader retains the exact original output, full recipe and identity")
 		var replay: Dictionary = session.replay_work(0)
 		check(replay.ok and replay.matches,"Fresh process regenerates from complete saved recipe")
+		var selected: Dictionary = session.data.works[-1]
+		check(session.data.supports.has("G2_intent") and session.data.supports.G2_intent.output == selected.output and session.data.supports.G2_intent.recipe == selected.recipe and session.data.supports.has("G3_keep"),"Independent restart retains completion for the latest actually chosen work")
 		if phase == "fork":
 			check(session.fork_work(0).ok,"Reader forks compatible actual saved work")
 			session.data.draft.initial = [1]

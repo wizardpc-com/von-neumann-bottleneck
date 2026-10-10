@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CALIBRATION restart original=[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1] model=d27eba7aafb54a9a793997d9d725ed136737c6573b25819b5e80730009128004
+PASS: creation restart write

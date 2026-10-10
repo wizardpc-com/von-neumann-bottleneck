@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Rounding carries to the next exponent
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_number_display.gd:9)
+       [1] run (res://tests/test_service_number_display.gd:14)
+FAIL: test_service_number_display 24 checks, 1 failures

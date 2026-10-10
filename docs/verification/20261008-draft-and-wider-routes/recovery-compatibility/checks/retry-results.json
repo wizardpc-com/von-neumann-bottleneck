@@ -1,0 +1,248 @@
+[
+  {
+    "name": "import-retry",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "import-retry.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--editor",
+      "--import",
+      "--quit"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-e8aa8b564c8549049d11987dcd500935/import-retry"
+  },
+  {
+    "name": "test_creation_future_workbench",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_creation_future_workbench.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_future_workbench.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-7804b16d58f841f49fa074722888f3b6/test_creation_future_workbench"
+  },
+  {
+    "name": "test_creation_work_focus",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_creation_work_focus.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_work_focus.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-cc7bb132682f46098ebfe24b55b9f524/test_creation_work_focus"
+  },
+  {
+    "name": "test_creation_state_regressions",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_creation_state_regressions.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_state_regressions.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-896edfe573644995bcf1d1aac7257223/test_creation_state_regressions"
+  },
+  {
+    "name": "test_creation_workbench",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_creation_workbench.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_workbench.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-eb699904ea25412597af9e5f3db29b28/test_creation_workbench"
+  },
+  {
+    "name": "test_layout_preview_selection",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: en: actual field edit moves the selected identity in the new unrun preview",
+      "FAIL: [\"en: actual field edit moves the selected identity in the new unrun preview\"]"
+    ],
+    "log": "test_layout_preview_selection.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_preview_selection.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-535712a385a4433988623b3db93492c1/test_layout_preview_selection"
+  },
+  {
+    "name": "test_layout_trace_storage",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_layout_trace_storage.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_trace_storage.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-547038bbf3ba4807986141b991e4b707/test_layout_trace_storage"
+  },
+  {
+    "name": "test_layout_ui",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_layout_ui.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_ui.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-03790b688bc64b04976f8989546d87d4/test_layout_ui"
+  },
+  {
+    "name": "test_workbench_interrupted_recovery",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Reopening installs the newer validated temporary verbatim",
+      "ERROR: Recovery retains named alternatives and actual active selection",
+      "ERROR: Both pre-install originals are archived byte-for-byte",
+      "ERROR: GlobalSave reopens against recovered workbench topology",
+      "ERROR: Ordinary provenance revalidation preserves the verified reward and completion",
+      "ERROR: backup-only: recovery selects only safe supported candidates",
+      "ERROR: backup-only: complete topology is loaded",
+      "ERROR: backup-only: backup original remains archived",
+      "ERROR: temporary-only: recovery selects only safe supported candidates",
+      "ERROR: temporary-only: complete topology is loaded",
+      "ERROR: temporary-only: temporary original remains archived",
+      "ERROR: Parse JSON failed. Error at line 0: Expected key",
+      "ERROR: bad-temporary: recovery selects only safe supported candidates",
+      "ERROR: bad-temporary: complete topology is loaded",
+      "ERROR: bad-temporary: backup original remains archived",
+      "ERROR: bad-temporary: temporary original remains archived",
+      "ERROR: Parse JSON failed. Error at line 0: Expected key",
+      "ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'broken'",
+      "ERROR: Parse JSON failed. Error at line 0: Expected key",
+      "ERROR: legacy: recovery selects only safe supported candidates",
+      "ERROR: legacy: complete topology is loaded",
+      "ERROR: legacy: backup original remains archived",
+      "ERROR: legacy: temporary original remains archived",
+      "ERROR: Legacy recovery additionally preserves pre-migration main bytes",
+      "ERROR: recovery-temp-reuse: recovery selects only safe supported candidates",
+      "ERROR: recovery-temp-reuse: complete topology is loaded",
+      "ERROR: recovery-temp-reuse: backup original remains archived",
+      "ERROR: recovery-temp-reuse: temporary original remains archived",
+      "FAIL: [\"Reopening installs the newer validated temporary verbatim\", \"Recovery retains named alternatives and actual active selection\", \"Both pre-install originals are archived byte-for-byte\", \"GlobalSave reopens against recovered workbench topology\", \"Ordinary provenance revalidation preserves the verified reward and completion\", \"backup-only: recovery selects only safe supported candidates\", \"backup-only: complete topology is loaded\", \"backup-only: backup original remains archived\", \"temporary-only: recovery selects only safe supported candidates\", \"temporary-only: complete topology is loaded\", \"temporary-only: temporary original remains archived\", \"bad-temporary: recovery selects only safe supported candidates\", \"bad-temporary: complete topology is loaded\", \"bad-temporary: backup original remains archived\", \"bad-temporary: temporary original remains archived\", \"legacy: recovery selects only safe supported candidates\", \"legacy: complete topology is loaded\", \"legacy: backup original remains archived\", \"legacy: temporary original remains archived\", \"Legacy recovery additionally preserves pre-migration main bytes\", \"recovery-temp-reuse: recovery selects only safe supported candidates\", \"recovery-temp-reuse: complete topology is loaded\", \"recovery-temp-reuse: backup original remains archived\", \"recovery-temp-reuse: temporary original remains archived\"]"
+    ],
+    "log": "test_workbench_interrupted_recovery.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_workbench_interrupted_recovery.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-a5744950f7294e84a6ac81f0e461b364/test_workbench_interrupted_recovery"
+  },
+  {
+    "name": "test_workbench_write_failure",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_workbench_write_failure.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_workbench_write_failure.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-044dcf0cb7464e4485c022d800c1b2e4/test_workbench_write_failure"
+  },
+  {
+    "name": "test_global_save",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_global_save.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_global_save.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-62816b24e1ed47409702f42b2dc10d88/test_global_save"
+  },
+  {
+    "name": "test_save_signature_migration",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "test_save_signature_migration.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_save_signature_migration.gd"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-3f0e496831ee480cb45b679c287156ad/test_save_signature_migration"
+  },
+  {
+    "name": "future-work-render",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "future-work-render.txt",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T211409Z-f89106f7/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_creation_future_workbench.gd",
+      "--",
+      "--creation-future-work-capture"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/Recovery-da04f2466e46495f9f01deb18a494fdc/future-work-render"
+  }
+]

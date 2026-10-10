@@ -1,6 +1,9 @@
 extends "res://tests/test_recovery_game_input.gd"
 ## Agent-authored viewport proxy, not native OS or human beginner evidence.
 var path_notes: Array[Dictionary] = []
+var resume_stage: String = ""
+var qa_default_profile: bool = false
+var qa_workbench_store: RefCounted
 
 func note(task: String, decision: String, evidence: String) -> void:
 	path_notes.append({"task":task,"decision":decision,"evidence":evidence})
@@ -19,6 +22,8 @@ func popup_key(popup: PopupMenu, code: Key) -> void:
 	await settle(2)
 
 func choose(control: OptionButton, index: int) -> void:
+	check(is_instance_valid(control) and index >= 0 and index < control.item_count,"Requested selector and item are available")
+	if not is_instance_valid(control) or index < 0 or index >= control.item_count: return
 	var popup: PopupMenu=control.get_popup()
 	# macOS native menus cannot receive viewport-injected events; use the
 	# same PopupMenu items in its Godot-rendered mode for this proxy only.
@@ -77,9 +82,20 @@ func official_and_seal() -> void:
 	if ui.current_level_id in [&"alu",&"ram"]: await investigation(String(ui.current_level_id))
 	await super.official_and_seal()
 
+func bind_qa_workbench_store() -> void:
+	# The automated host deliberately uses an in-memory store. Retain its public
+	# blank seed in one QA-only disk store across the newly instantiated scenes.
+	# No snapshot is applied to the graph and no completion state is supplied.
+	if qa_workbench_store == null:
+		qa_workbench_store = preload("res://src/hardware_foundations/circuit_workbench_store.gd").new(root.get_node("GlobalSave").workbench_storage_path)
+	qa_workbench_store.ensure_default(ui.active_workbench_namespace,ui.current_level_id,ui.workbench_seed_snapshot)
+	ui.workbench_store = qa_workbench_store
+	check(qa_workbench_store.disk_write_allowed,"QA circuit store allows real player designs to persist")
+
 func enter_level(id: StringName) -> void:
 	await super.enter_level(id)
-	if id == &"load_store":
+	if is_instance_valid(ui) and current_scene == ui and ui.current_level_id == id: bind_qa_workbench_store()
+	if id == &"load_store" and is_instance_valid(ui) and current_scene == ui and ui.current_level_id == id:
 		await investigation("load_store")
 		await close_window(&"test_bench")
 
@@ -96,11 +112,45 @@ func finish_trace() -> void:
 	await press(ui.finish_playback_button)
 	await settle()
 
+func journey_from_current() -> bool:
+	if on_task_tree(): return true
+	ui = current_scene
+	var target: Control
+	if ui.name == "PrototypeHub": target = ui.find_child("HubBrowseJourney",true,false)
+	elif ui.name == "SystemLab": target = ui.find_child("ChapterMapButton",true,false)
+	elif ui.name == "Main": target = ui.find_child("Chapter2MapButton",true,false)
+	elif ui.name == "OverlapChapterWorkbench": target = named_button(ui,text(&"overlap.map"))
+	elif ui.name == "LayoutWorkbench": target = named_button(ui,local_caption("任务树","Task tree"))
+	check(target != null,"Current stage offers its real journey return action")
+	if target == null: return false
+	await press(target)
+	await settle(8)
+	check(on_task_tree(),"Stage return restores the unified journey tree")
+	return on_task_tree()
+
+func stage_task(task_key: String, scene_name: String) -> bool:
+	if not failures.is_empty(): return false
+	if not await journey_from_current(): return false
+	if not await enter_task(task_key): return false
+	ui = current_scene
+	check(ui.name == scene_name,"Exact stage workspace opened: "+task_key)
+	return ui.name == scene_name
+
+func system_return() -> bool:
+	if ui.level_completion_overlay.visible:
+		await press(ui.level_completion_overlay.continue_button)
+		if is_instance_valid(ui) and current_scene == ui and ui.playtest_feedback_overlay.visible:
+			await press(ui.playtest_feedback_overlay.skip_button)
+	else:
+		await press(ui.find_child("ChapterMapButton",true,false))
+	await settle(8)
+	check(on_task_tree(),"Completed system task returns through its visible journey action")
+	return on_task_tree()
+
 func system_path() -> void:
-	ui=current_scene
 	for level: StringName in [&"assembly",&"cpu_speed",&"ram_wait",&"bus_width",&"bottleneck"]:
 		if root.get_node("SystemChapter").completed_levels().get(level,false): continue
-		await press(ui.map_view.level_buttons[level])
+		if not await stage_task("chapter_1/"+String(level),"SystemLab"): return
 		await capture(String(level)+"-entry")
 		await press(ui.find_child("AutoWireButton",true,false))
 		if level in [&"cpu_speed",&"ram_wait",&"bus_width"] and ui.locked_prediction_id.is_empty():
@@ -120,6 +170,8 @@ func system_path() -> void:
 			await open_tool(&"test_bench")
 			await press(ui.official_run_button)
 			await finish_trace()
+		check(ui.latest_receipt != null,"System comparison produced an authoritative receipt: "+String(level))
+		if ui.latest_receipt == null: return
 		if level == &"bottleneck":
 			await open_tool(&"test_bench")
 			await choose(ui.diagnosis_selector,0)
@@ -134,10 +186,10 @@ func system_path() -> void:
 		note(String(level),"Controlled official comparison",JSON.stringify(ui.latest_receipt.metrics))
 		await capture(String(level)+"-evidence")
 		check(root.get_node("SystemChapter").completed_levels().get(level,false),"System Game route earned "+String(level))
-		if ui.level_completion_overlay.visible: await press(ui.level_completion_overlay.return_button)
-		else: await press(ui.find_child("ChapterMapButton",true,false))
-	await press(named_button(ui,text(&"common.prototype_hub")))
-	await press(current_scene.locality_entry_button)
+		if not root.get_node("SystemChapter").completed_levels().get(level,false): return
+		if not await system_return(): return
+	for required: StringName in [&"assembly",&"cpu_speed",&"ram_wait",&"bus_width",&"bottleneck"]:
+		check(root.get_node("SystemChapter").completed_levels().get(required,false),"System stage retains every required earned result: "+String(required))
 
 func locality_run() -> void:
 	await open_tool(&"test_bench")
@@ -145,10 +197,9 @@ func locality_run() -> void:
 	await finish_trace()
 
 func locality_path() -> void:
-	ui=current_scene
 	for level: StringName in [&"distant_reads",&"nearby_storage",&"cache_failure",&"access_order",&"working_set",&"blocking",&"capstone"]:
 		if root.get_node("LocalityChapter").completed_levels().get(level,false): continue
-		await press(ui.chapter_map.level_buttons[level])
+		if not await stage_task("chapter_2/"+String(level),"Main"): return
 		await capture(String(level)+"-entry")
 		if level == &"nearby_storage":
 			await open_tool(&"cache")
@@ -158,6 +209,8 @@ func locality_path() -> void:
 			await press(ui.row_strategy_button)
 			await press(ui.apply_program_button)
 		await locality_run()
+		check(ui.current_trace != null,"Locality experiment produced an authoritative trace: "+String(level))
+		if ui.current_trace == null: return
 		if level in [&"distant_reads",&"cache_failure",&"working_set"]:
 			await open_tool(&"mission")
 			var judgment: StringName = {&"distant_reads":&"repeated_ram",&"cache_failure":&"replacement",&"working_set":&"does_not_fit"}[level]
@@ -196,55 +249,82 @@ func locality_path() -> void:
 		await open_tool(&"mission")
 		await press(ui.mission_finish_button if level == &"capstone" else ui.mission_review_button)
 		check(root.get_node("LocalityChapter").completed_levels().get(level,false),"Locality Game route earned "+String(level))
+		if not root.get_node("LocalityChapter").completed_levels().get(level,false): return
+		check(ui.level_completion_overlay.visible,"Earned locality review exposes its explicit continue action")
+		if not ui.level_completion_overlay.visible: return
 		await press(ui.level_completion_overlay.continue_button)
-		if level == &"capstone": return
-		if not ui.chapter_map_host.visible:
-			await press(ui.find_child("Chapter2MapButton",true,false))
+		await settle(8)
+		check(on_task_tree(),"Locality completion restores the unified journey tree")
+		if not on_task_tree(): return
+	for required: StringName in [&"distant_reads",&"nearby_storage",&"cache_failure",&"access_order",&"working_set",&"blocking",&"capstone"]:
+		check(root.get_node("LocalityChapter").completed_levels().get(required,false),"Locality stage retains every required earned result: "+String(required))
 
 func finish() -> void:
-	if failures.is_empty() and current_scene.name == "SystemLab": await system_path()
-	if failures.is_empty() and current_scene.name == "Main": await locality_path()
+	var core_extension: bool = resume_stage in ["","construction","system","locality"] and not "--interaction-only" in OS.get_cmdline_user_args()
+	if failures.is_empty() and core_extension:
+		if resume_stage != "locality": await system_path()
+		if failures.is_empty(): await locality_path()
+	if core_extension:
+		for required: StringName in [&"assembly",&"cpu_speed",&"ram_wait",&"bus_width",&"bottleneck"]:
+			check(root.get_node("SystemChapter").completed_levels().get(required,false),"Complete QA route earns every system task: "+String(required))
+		for required: StringName in [&"distant_reads",&"nearby_storage",&"cache_failure",&"access_order",&"working_set",&"blocking",&"capstone"]:
+			check(root.get_node("LocalityChapter").completed_levels().get(required,false),"Complete QA route earns every locality task: "+String(required))
+	var save: Node = root.get_node("GlobalSave")
+	check(save.save_game(),"Actual UI-earned Game sources and chapter receipts are persisted to the QA profile")
+	check(FileAccess.file_exists(save.storage_path),"QA Game save exists for an independent restart")
+	check(FileAccess.file_exists(save.workbench_storage_path),"QA source circuits exist for independent provenance revalidation")
 	var file := FileAccess.open(evidence_root+"path-notes.json",FileAccess.WRITE)
 	file.store_string(JSON.stringify(path_notes,"\t"))
 	await super.finish()
 
 func _run() -> void:
-	# Harness-only disk isolation. No solution, receipt or completion is supplied.
-	assert(OS.get_user_data_dir().contains("VonNeumannBottleneckChecks/"))
-	var save: Node = root.get_node("GlobalSave")
-	save.configure_for_test("user://proxy-save.json", "user://proxy-workbenches.json")
-	save.load_game()
-	var resume: String = ""
+	# Both profiles are inside an isolated QA user directory; never bind a player
+	# profile. qa-default may contain a byte-for-byte copy of an earlier QA run.
+	if not OS.get_user_data_dir().contains("VonNeumannBottleneckChecks/"):
+		check(false,"Proxy requires an isolated QA user-data directory")
+		await super.finish()
+		return
 	for arg: String in OS.get_cmdline_user_args():
-		if arg.begins_with("--resume="): resume=arg.trim_prefix("--resume=")
-	if resume.is_empty():
+		if arg.begins_with("--resume="): resume_stage = arg.trim_prefix("--resume=")
+		if arg == "--proxy-profile=qa-default": qa_default_profile = true
+	var save: Node = root.get_node("GlobalSave")
+	save.configure_for_test(save.DEFAULT_STORAGE_PATH if qa_default_profile else "user://proxy-save.json",save.DEFAULT_WORKBENCH_PATH if qa_default_profile else "user://proxy-workbenches.json")
+	var has_profile: bool = FileAccess.file_exists(save.storage_path) or FileAccess.file_exists(save.storage_path+save.BACKUP_SUFFIX)
+	if has_profile:
+		check(save.load_game(),"QA profile loads and revalidates actual earned sources")
+	else:
+		check(resume_stage.is_empty(),"A resume stage requires an existing UI-earned QA profile")
+	if not failures.is_empty(): await super.finish(); return
+	if resume_stage.is_empty():
 		await super._run()
 		return
-	root.mode=Window.MODE_WINDOWED
-	root.size=Vector2i(1600,900)
+	check(resume_stage in ["construction","system","locality","overlap","layout"],"Resume names a supported player path stage")
+	if not failures.is_empty(): await super.finish(); return
+	root.mode = Window.MODE_WINDOWED
+	root.size = Vector2i(1600,900)
 	await create_timer(1.0).timeout
 	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 	await settle(8)
 	check(not root.get_node("GameMode").is_test_mode(),"Resume uses only previously UI-earned Game save")
-	if resume == "construction":
-		await press(named_button(current_scene,text(&"hub.hardware.play")))
-		ui=current_scene
+	if not await journey_from_current(): await super.finish(); return
+	if resume_stage == "construction":
 		for level: StringName in [&"alu",&"ram"]:
 			await enter_level(level)
+			if not is_instance_valid(ui) or current_scene != ui or ui.current_level_id != level: break
+			# --script workbenches start in memory. Rebuild through real port gestures
+			# rather than loading a reference or manufacturing earned progress.
+			if level == &"alu":
+				await connect_actions([["A_IN","AND_1"],["B_IN","AND_1",0,1],["A_IN","OR_1"],["B_IN","OR_1",0,1],["A_IN","NOT_1"],["A_IN","FULL_ADDER"],["B_IN","FULL_ADDER",0,1],["CIN_IN","FULL_ADDER",0,2],["AND_1","MUX"],["OR_1","MUX",0,1],["FULL_ADDER","MUX",0,2],["NOT_1","MUX",0,3],["OP0_IN","MUX",0,4],["OP1_IN","MUX",0,5],["MUX","RESULT_OUT"],["FULL_ADDER","CARRY_OUT",1,0]])
+			else:
+				await connect_actions([["ADDR_IN","DECODER"],["WRITE_IN","DECODER",0,1],["DATA_IN","REG_0"],["DATA_IN","REG_1"],["DECODER","REG_0",0,1],["DECODER","REG_1",1,1],["REG_0","MUX"],["REG_1","MUX",0,1],["ADDR_IN","MUX",0,2],["MUX","OUT"]])
 			await investigation(String(level))
-			await press(ui.desktop_window_buttons[&"task"])
-			await press(named_button(ui,text(&"hardware.prologue.back_map")))
-		await load_store_bridge()
-	elif resume == "system":
-		check(not current_scene.system_entry_button.disabled,"UI-earned prologue survives restart")
-		await press(current_scene.system_entry_button)
-	elif resume == "locality": await press(current_scene.locality_entry_button)
-	elif resume == "overlap":
-		await press(current_scene.overlap_entry_button)
-		await overlap_path()
-	elif resume == "layout":
-		await press(current_scene.layout_entry_button)
-		await layout_path()
+			await super.official_and_seal()
+			if not on_task_tree(): check(false,"Construction resume returns to journey"); break
+		if failures.is_empty(): await load_store_bridge()
+	elif resume_stage in ["system","locality"]:
+		pass # finish explicitly runs the requested stage and its locality continuation.
+	elif resume_stage == "overlap": await overlap_path()
+	elif resume_stage == "layout": await layout_path()
 	await finish()
 
 func replace_program(source: String) -> void:
@@ -267,30 +347,38 @@ func overlap_run(tag: String) -> void:
 	note(ui.level,tag,ui.metrics.text)
 
 func overlap_wire(from: String, to: String, output: int, input: int) -> void:
-	var a: GraphNode=ui.graph.get_node(from)
-	var b: GraphNode=ui.graph.get_node(to)
+	var a: GraphNode=ui.graph.get_node_or_null(from)
+	var b: GraphNode=ui.graph.get_node_or_null(to)
+	check(a != null and b != null,"Requested overlap endpoints exist: "+from+" → "+to)
+	if a == null or b == null: return
 	await drag(a.get_global_transform()*a.get_output_port_position(output),b.get_global_transform()*b.get_input_port_position(input))
 	check(ui.graph.is_node_connected(from,output,to,input),"Visible overlap wire "+from+" → "+to)
 
 func overlap_path() -> void:
-	ui=current_scene
-	await press(ui.map_view.level_buttons[&"arrival"])
+	if not await stage_task("chapter_3/arrival","OverlapChapterWorkbench"): return
+	check(not root.get_node("OverlapChapter").completed().has("arrival") and not root.get_node("OverlapChapter").completed().has("buffers"),"Overlap failure/unlock replay requires an untouched QA branch")
+	if not failures.is_empty(): return
 	await overlap_run("arrival-read-before-ready")
 	check(not root.get_node("OverlapChapter").completed().has("arrival"),"Early consume failure cannot earn arrival")
 	await overlap_tool("program")
 	await replace_program("fetch A 0\nwork 4\nready A\nconsume A\nidle")
 	await overlap_run("arrival-ready-evidence")
 	check(root.get_node("OverlapChapter").completed().has("arrival"),"Arrival earned through typed program")
+	if not root.get_node("OverlapChapter").completed().has("arrival"): return
 	await press(ui.completion.continue_button)
-	await press(ui.map_view.level_buttons[&"buffers"])
+	await settle(8)
+	if not await stage_task("chapter_3/buffers","OverlapChapterWorkbench"): return
 	await capture("buffers-empty-board")
 	for id: String in ui.panels:
 		if id != "toolbox" and ui.panels[id].visible: await press(ui.panels[id].find_child("CloseButton",true,false))
 	var palette: Control
 	for item: Node in ui.panels.toolbox.find_children("*","",true,false):
 		if item.get_script()==preload("res://src/hardware_foundations/component_palette_item.gd"): palette=item; break
+	check(palette != null,"Buffer palette exists for real placement")
+	if palette == null: return
 	for at: Vector2 in [Vector2(510,320),Vector2(510,580)]: await drag(palette.get_global_rect().get_center(),at)
 	check(ui.board.nodes.has("A") and ui.board.nodes.has("B"),"Two buffers are placed by palette drag")
+	if not ui.board.nodes.has("A") or not ui.board.nodes.has("B"): return
 	await press(ui.panels.toolbox.find_child("CloseButton",true,false))
 	for name: String in ["A","B"]:
 		await overlap_wire("TRANSFER",name,0,0)
@@ -303,18 +391,13 @@ func overlap_path() -> void:
 	await replace_program("fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle")
 	await overlap_run("buffers-overlap-evidence")
 	check(root.get_node("OverlapChapter").completed().has("buffers"),"Buffers passed from GUI wiring and typed schedule")
+	if not root.get_node("OverlapChapter").completed().has("buffers"): return
 	await press(ui.completion.continue_button)
 
-func select_task(task: String) -> void:
-	var tree: Control=current_scene
-	await press(tree.search)
-	await key(KEY_A,true)
-	await type_text(task)
-	await key(KEY_ENTER)
-	await capture(task.replace("/","-")+"-tree")
-	check(not tree.enter_button.disabled,"Requested task is earned and available: "+task)
-	await press(tree.enter_button)
-	ui=current_scene
+func select_task(task: String) -> bool:
+	if not await stage_task(task,"LayoutWorkbench"): return false
+	await capture(task.replace("/","-")+"-tree-entry")
+	return true
 
 func local_caption(zh: String, en: String) -> String:
 	return zh if root.get_node("Localization").current_locale()=="zh_CN" else en
@@ -339,10 +422,7 @@ func layout_run(tag: String) -> void:
 	await capture(tag)
 
 func layout_path() -> void:
-	ui=current_scene
-	if ui.level != "fields":
-		await layout_button("任务树","Task tree")
-		await select_task("chapter_4/fields")
+	if not await select_task("chapter_4/fields"): return
 	check(ui.level=="fields","Fields prerequisite selected through task tree")
 	await press(named_button(ui,text(&"layout.mission.begin")))
 	await layout_run("fields-record-order")
@@ -350,8 +430,9 @@ func layout_path() -> void:
 	await choose(layout_options()[0],1)
 	await layout_run("fields-by-field")
 	check(root.get_node("LayoutChapter").completed().has("fields"),"Fields earned by visible ordering choice")
+	if not root.get_node("LayoutChapter").completed().has("fields"): return
 	await layout_button("任务树","Task tree")
-	await select_task("chapter_4/relocation")
+	if not await select_task("chapter_4/relocation"): return
 	await press(named_button(ui,text(&"layout.mission.begin")))
 	await layout_run("relocation-direct-both")
 	await layout_tools()
@@ -364,5 +445,5 @@ func layout_path() -> void:
 func named_design() -> void:
 	# The stock --script harness disables workbench writes. Enable only this QA
 	# store so the real sealed circuits can be revalidated after process restart.
-	ui.workbench_store.storage_path = "user://proxy-workbenches.json"
+	bind_qa_workbench_store()
 	await super.named_design()

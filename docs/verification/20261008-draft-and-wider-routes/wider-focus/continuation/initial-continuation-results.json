@@ -1,0 +1,95 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "source_sha256": {
+    "experiments/representation_region/region.gd": "7d3663ea8606319932930854ab7be43ddb53dc3f570ef6db55d72183c944ec45",
+    "experiments/service_plan/lab.gd": "3e0c08dc914fc3a8f878e3198e33ce7b850617f73748171e134ff0c8c094157e",
+    "tests/test_candidate_disabled_focus.gd": "b453fd17c30107621bdd8e6bb0af74be2b1dc8a901604c64b19b539296a9b6ce"
+  },
+  "results": [
+    {
+      "name": "continuation-test_candidate_disabled_focus",
+      "command": [
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T041504Z-b801ccad/project",
+        "--headless",
+        "--script",
+        "res://tests/test_candidate_disabled_focus.gd"
+      ],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T041504Z-b801ccad/continuation-test_candidate_disabled_focus",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Exhausting Region Redo continues focus to enabled Undo",
+        "FAIL: [\"Exhausting Region Redo continues focus to enabled Undo\"]"
+      ],
+      "log": "continuation-test_candidate_disabled_focus.txt"
+    },
+    {
+      "name": "continuation-test_representation_edit_context",
+      "command": [
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T041504Z-b801ccad/project",
+        "--headless",
+        "--script",
+        "res://tests/test_representation_edit_context.gd"
+      ],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T041504Z-b801ccad/continuation-test_representation_edit_context",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "continuation-test_representation_edit_context.txt"
+    },
+    {
+      "name": "continuation-test_service_undo_context",
+      "command": [
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T041504Z-b801ccad/project",
+        "--headless",
+        "--script",
+        "res://tests/test_service_undo_context.gd"
+      ],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T041504Z-b801ccad/continuation-test_service_undo_context",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "continuation-test_service_undo_context.txt"
+    },
+    {
+      "name": "continuation-test_service_commission_ui",
+      "command": [
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T041504Z-b801ccad/project",
+        "--headless",
+        "--script",
+        "res://tests/test_service_commission_ui.gd"
+      ],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T041504Z-b801ccad/continuation-test_service_commission_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "continuation-test_service_commission_ui.txt"
+    },
+    {
+      "name": "continuation-test_candidate_disabled_focus-rendered",
+      "command": [
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T041504Z-b801ccad/project",
+        "--script",
+        "res://tests/test_candidate_disabled_focus.gd"
+      ],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261009T041504Z-b801ccad/continuation-test_candidate_disabled_focus-rendered",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Exhausting Region Redo continues focus to enabled Undo",
+        "FAIL: [\"Exhausting Region Redo continues focus to enabled Undo\"]"
+      ],
+      "log": "continuation-test_candidate_disabled_focus-rendered.txt"
+    }
+  ]
+}

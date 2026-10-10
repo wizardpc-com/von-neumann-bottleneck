@@ -1,0 +1,67 @@
+{
+  "experiments/creation/session.gd": {
+    "source_sha256": "83e0dd6bbf020a76bf8a229be1ff75b9666f29f58bde0156a2f24c01fe0c4aa0",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/experiments/creation/session.gd",
+    "qa_sha256": "83e0dd6bbf020a76bf8a229be1ff75b9666f29f58bde0156a2f24c01fe0c4aa0"
+  },
+  "experiments/creation/workbench.gd": {
+    "source_sha256": "3b30459818ae6d394af3a2813a1e238f3fb82d881ecde3e58678e1f9ec8c716c",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/experiments/creation/workbench.gd",
+    "qa_sha256": "3b30459818ae6d394af3a2813a1e238f3fb82d881ecde3e58678e1f9ec8c716c"
+  },
+  "src/layout_chapter/layout_chapter.gd": {
+    "source_sha256": "b61e1b9b8324fac461b2aa4409563ed3a4d21f08a78985bcf3c0a0a9ff418b9a",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/src/layout_chapter/layout_chapter.gd",
+    "qa_sha256": "b61e1b9b8324fac461b2aa4409563ed3a4d21f08a78985bcf3c0a0a9ff418b9a"
+  },
+  "experiments/candidate_input.gd": {
+    "source_sha256": "07f2708de6249b570f126ddd5f10173c928bd19cd31a36e53bc5edcf2fc20ae3",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/experiments/candidate_input.gd",
+    "qa_sha256": "07f2708de6249b570f126ddd5f10173c928bd19cd31a36e53bc5edcf2fc20ae3"
+  },
+  "experiments/play_candidates.gd": {
+    "source_sha256": "0eae8aeac119b214b1fea0e6162f06fa4a28bf79006de63ef38faae81a04e88d",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/experiments/play_candidates.gd",
+    "qa_sha256": "0eae8aeac119b214b1fea0e6162f06fa4a28bf79006de63ef38faae81a04e88d"
+  },
+  "experiments/play_journeys.gd": {
+    "source_sha256": "30dab3b793436b4f72cbd3200b3ca71770e6dfbe3410d58d242f9c8f587de753",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/experiments/play_journeys.gd",
+    "qa_sha256": "30dab3b793436b4f72cbd3200b3ca71770e6dfbe3410d58d242f9c8f587de753"
+  },
+  "scripts/proxy-player-paths.gd": {
+    "source_sha256": "a0158f5e629db64f3f15dc8d42b49c503aa810adb7ad25f5eed328c2ebd6af8a",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/scripts/proxy-player-paths.gd",
+    "qa_sha256": "a0158f5e629db64f3f15dc8d42b49c503aa810adb7ad25f5eed328c2ebd6af8a"
+  },
+  "scripts/proxy-layout-path.gd": {
+    "source_sha256": "98d2ccdc12620abc3dac5b45368b8f67c7dcf2c24333fb4464d211c3a89f5a63",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191152Z-41686a6a/project/scripts/proxy-layout-path.gd",
+    "qa_sha256": "98d2ccdc12620abc3dac5b45368b8f67c7dcf2c24333fb4464d211c3a89f5a63"
+  },
+  "scripts/proxy-overlap-path.gd": {
+    "source_sha256": "8244969b01138f1c8fcf7fc3aa2ec5849ee846335f69756fe9519570e54e5a5c",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191152Z-41686a6a/project/scripts/proxy-overlap-path.gd",
+    "qa_sha256": "8244969b01138f1c8fcf7fc3aa2ec5849ee846335f69756fe9519570e54e5a5c"
+  },
+  "tests/test_creation_draft_undo.gd": {
+    "source_sha256": "f5a8b21cb28a2ca04f5d6034cb53b4bbd7b50c064d3b1e96d6e8d488d286698e",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/tests/test_creation_draft_undo.gd",
+    "qa_sha256": "f5a8b21cb28a2ca04f5d6034cb53b4bbd7b50c064d3b1e96d6e8d488d286698e"
+  },
+  "tests/test_creation_measured_closure.gd": {
+    "source_sha256": "edc59ca2a639f5987fafe137fadb24b631b5e4bcd4ff1be13d86c11270cffda4",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/tests/test_creation_measured_closure.gd",
+    "qa_sha256": "edc59ca2a639f5987fafe137fadb24b631b5e4bcd4ff1be13d86c11270cffda4"
+  },
+  "tests/test_layout_recipe_sources.gd": {
+    "source_sha256": "c0f3b8dc85c35748d08dd98d67c9f884aab9eb85d6bc8e55d5a2f19729b58508",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/tests/test_layout_recipe_sources.gd",
+    "qa_sha256": "c0f3b8dc85c35748d08dd98d67c9f884aab9eb85d6bc8e55d5a2f19729b58508"
+  },
+  "tests/test_layout_trace_storage.gd": {
+    "source_sha256": "efc87a1fb271f7907d9a0d7a38b4adb42c6fb2a9fee0d1bd886dd47ebc655f27",
+    "qa_copy": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T191635Z-60214908/project/tests/test_layout_trace_storage.gd",
+    "qa_sha256": "efc87a1fb271f7907d9a0d7a38b4adb42c6fb2a9fee0d1bd886dd47ebc655f27"
+  }
+}

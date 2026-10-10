@@ -1,0 +1,37 @@
+{
+  "old_pid": 89420,
+  "quit_process_query_exit": 1,
+  "new_pid": 3760,
+  "candidate": "free-alpha-ccbda74cd4aa",
+  "files": {
+    "hardware_workbenches_v1.json": {
+      "before_sha256": "590ca4856b2bba22efc456ace995496dee2b371b01984a04c948c9d87ce575f2",
+      "after_sha256": "fb47faef91f8cab9bc23d0ae018a6a7598ad6c9441cf743794b1006d7cd2f172",
+      "identical": false,
+      "structural_equal": true,
+      "before_canonical_sha256": "4b91bbb80b3d3287db6081be0cca3ba948e14763406c7b1cc35f00fac7a284b1",
+      "after_canonical_sha256": "0defa2f83d37213134d9f0d07ab1dd309a11b89acbd042535e21522f39d4058c",
+      "note": "Serialization byte order changed on re-entry; all parsed values, including wires, properties, positions and interfaces, are identical."
+    },
+    "savegame_v1.json": {
+      "before_sha256": "327d5bb242cb6cb474959ded7545f317b790031413358b0a2ca975b55b60f37f",
+      "after_sha256": "327d5bb242cb6cb474959ded7545f317b790031413358b0a2ca975b55b60f37f",
+      "identical": true
+    },
+    "personal_task_records_v1.json": {
+      "before_sha256": "3dece6f16897c51e75b4c3ceae45a5e2e56cde2cc393d559c451fc1caf907419",
+      "after_sha256": "3dece6f16897c51e75b4c3ceae45a5e2e56cde2cc393d559c451fc1caf907419",
+      "identical": true
+    },
+    "representation-session.json": {
+      "before_sha256": "5601461850e4f75e9b16dfed9ae3f894d4b0b1c4622b94da9a50cd8ac578db95",
+      "after_sha256": "5601461850e4f75e9b16dfed9ae3f894d4b0b1c4622b94da9a50cd8ac578db95",
+      "identical": true
+    },
+    "service-session.json": {
+      "before_sha256": "d6c78be5884ed0018b5d101db6d54216af247611b93a334e0ce823f48285690e",
+      "after_sha256": "d6c78be5884ed0018b5d101db6d54216af247611b93a334e0ce823f48285690e",
+      "identical": true
+    }
+  }
+}

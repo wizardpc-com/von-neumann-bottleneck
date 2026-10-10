@@ -1,0 +1,28 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "separate_processes": true,
+  "profile": "VonNeumannBottleneckChecks/creation-restart-b0866c83432e",
+  "checks": [
+    {
+      "phase": "write",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    },
+    {
+      "phase": "fork",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    },
+    {
+      "phase": "read",
+      "passed": false,
+      "exit": 1,
+      "errors": [
+        "FAIL: creation restart [\"Independent restart retains the exact original chosen-work completion\"]",
+        "ERROR: Independent restart retains the exact original chosen-work completion"
+      ]
+    }
+  ]
+}

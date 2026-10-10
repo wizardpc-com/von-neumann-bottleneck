@@ -1,0 +1,20 @@
+{
+	"displayed_model_id": "29208d322c2793aeaac2290b18fc8116987b668109bbb65e0dafc3c05796a319",
+	"displayed_preparation": {
+		"cpu_ops": 197,
+		"peak_bytes": 148,
+		"total_cycles": 285,
+		"transfer_bytes": 291
+	},
+	"draft_model_id": "34f3a0c1ee4b8a2340ead2a73963504e10d83698f5300f36f4cb13a5373c35ce",
+	"draft_preparation": {
+		"cpu_ops": 97,
+		"peak_bytes": 109,
+		"total_cycles": 96,
+		"transfer_bytes": 119
+	},
+	"english": true,
+	"measurement_text": "Result model: 29208d322c2793aeaac2290b18fc8116987b668109bbb65e0dafc3c05796a319\nRecorded preparation (not charged again): 285 cycles · 197 ops · 291 B · peak 148 B\nCanonical rule bytes: 79 B\nCurrent run: 525 cycles · 1161 ops · 182 B · peak 188 B\nSequential phase cycles: generate: 301 / output: 224\nMeasured comparisons (frozen conditions):\npredictive · N=1536 · fadd86a5 · CPU 4 / bus 4 / cache 4 / req 2 · 20092 cycles · 38303 ops · 4543 B · peak 2389 B\npractice · history 1 · 9ef3356e · 7 / 10 · seen check false · 124 cycles · 193 ops · 138 B · peak 173 B\nlearning · 29208d32 · history 1 · 285 cycles · 197 ops · 291 B · peak 148 B\nlearning · 34f3a0c1 · history 1 · 96 cycles · 97 ops · 119 B · peak 109 B\nPinned A / latest generated B comparison:\nOne controlled change; seed, initial passage and length are fixed.\nexamples: 2 → 1 (1 passage edits)\nA[2] A B A D A B A D A B A D A B A D A B A D A B A D → ∅\nFirst difference: cell 10 (counting from 1).\nDifferent is not better. A seed change alone is not evidence of an intended effect.\nTwo measured drafts: outputs differ\n1 · 9ef3356e1f82 · history 1 · seed 17 · weighted\n2 · 29208d322c27 · history 1 · seed 17 · weighted\nCycles come from sequential events; packet size is distinct from total traffic including rule accesses. Neither repetition nor high entropy judges beauty.",
+	"source": "fixture-driven controller; no viewport button acceptance",
+	"stage": "learn-c-review-b"
+}

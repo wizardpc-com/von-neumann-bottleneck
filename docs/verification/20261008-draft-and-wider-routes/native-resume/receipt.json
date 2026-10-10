@@ -1,0 +1,27 @@
+{
+  "runtime_commit": "ade587d50e02561767417649c2da2b58ce150c89",
+  "profile": "Redo-ade587d",
+  "restart_bytes_equal": true,
+  "fork_preserves_works_and_supports": true,
+  "fork_parent": "478739dc14e3f53132c51f6881e17b00da40f1640f9f92b3549bdf0b5446f40c",
+  "completed": [
+    "C1_restore",
+    "C2_cost",
+    "C3_conditions",
+    "G1_feedback",
+    "G2_intent",
+    "G3_keep",
+    "P1_commit",
+    "P2_memory",
+    "P3_check"
+  ],
+  "work_name": "回灌光纹·原生试玩",
+  "output_length": 64,
+  "output_symbols": "ABACABACABACABADABACABACABACABACABACABADABACABADABACABADABADABAD",
+  "model_id": "f2a7f52567cda7f6aa3647be16dd3aee696066444da8145ccc3e988b17cd2610",
+  "files": {
+    "after-fork.json": "c1060f154bf6e304f40bf17f81cf40e28da48df6fab518bebe2a896907d64d58",
+    "after-restart.json": "ce4320646d4338be64f6bf406dbf0c7edc4da763e7de7f1c3496a0de921ad3de",
+    "before-restart.json": "ce4320646d4338be64f6bf406dbf0c7edc4da763e7de7f1c3496a0de921ad3de"
+  }
+}

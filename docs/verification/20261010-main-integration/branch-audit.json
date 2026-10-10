@@ -1,0 +1,36 @@
+{
+  "main": "e46f8664e044c545a130e825363c72d77eca8513",
+  "development": "8115b8e563196c373c5212c47c5c5aa044ca553e",
+  "stable": "4483e30dc4beffed9c279b2752834dea3a81060d",
+  "common_ancestor": "bf0299f75065b5b44050472f5a6b08855dc4ac41",
+  "main_changed_paths": 184,
+  "unchanged_main_blobs": 171,
+  "evolved_main_paths": [
+    "ARCHITECTURE.md",
+    "docs/CURRENT_STATE.md",
+    "docs/README.md",
+    "docs/development/testing.md",
+    "experiments/creation/CONTRACT.md",
+    "experiments/creation/README.md",
+    "experiments/creation/catalog.gd",
+    "experiments/creation/session.gd",
+    "experiments/creation/signal_view.gd",
+    "experiments/creation/workbench.gd",
+    "src/campaign/creation_tasks.gd",
+    "tests/fixture_creation_restart.gd",
+    "tests/test_creation_contract.gd"
+  ],
+  "all_original_paths_retained": true,
+  "staged_tree_exactly_matches_stable": true,
+  "merge_strategy": "linear tree delta from main; no redundant base replay",
+  "main_ruleset": {
+    "id": 20882250,
+    "enforcement": "active",
+    "rules": [
+      "deletion",
+      "non_fast_forward",
+      "required_linear_history"
+    ],
+    "bypass_actors": []
+  }
+}

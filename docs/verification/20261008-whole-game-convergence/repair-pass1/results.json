@@ -1,0 +1,130 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/user_directory"
+    },
+    {
+      "name": "test_creation_contract",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_contract.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_contract"
+    },
+    {
+      "name": "test_creation_evidence_identity",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_evidence_identity.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_evidence_identity"
+    },
+    {
+      "name": "test_creation_observation_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_observation_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_observation_focus"
+    },
+    {
+      "name": "test_creation_playable_loop",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_playable_loop.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_playable_loop"
+    },
+    {
+      "name": "test_creation_route_flow",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_route_flow.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_route_flow"
+    },
+    {
+      "name": "test_creation_state_regressions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_state_regressions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_state_regressions"
+    },
+    {
+      "name": "test_creation_workbench",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_workbench"
+    },
+    {
+      "name": "test_creation_writer_retry",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_writer_retry.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_writer_retry"
+    },
+    {
+      "name": "test_creation_writer_retry_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_writer_retry_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_creation_writer_retry_ui"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_foundations_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_hardware_foundations_ui"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_prologue_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_hardware_prologue_ui"
+    },
+    {
+      "name": "test_save_signature_migration",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_save_signature_migration.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_save_signature_migration"
+    },
+    {
+      "name": "test_workbench_write_failure",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Restart restores original selection and subsequent edits",
+        "ERROR: Failed switch cannot redirect edits into another saved board",
+        "FAIL: [\"Restart restores original selection and subsequent edits\", \"Failed switch cannot redirect edits into another saved board\"]"
+      ],
+      "log": "test_workbench_write_failure.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T183348Z-225a1151/test_workbench_write_failure"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "codesign",
+    "--verify",
+    "--deep",
+    "--strict",
+    "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-ebcf7df2dbd0/macOS/Von-Neumann-Bottleneck.app"
+  ],
+  "exit": 0,
+  "stdout": "",
+  "stderr": "",
+  "passed": true
+}

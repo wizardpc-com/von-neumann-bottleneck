@@ -1,0 +1,16 @@
+{
+  "runtime_commit": "ebcf7df2dbd0b1c3db36fa2f2465d8831d7523fd",
+  "verified_project": ".godot/verification/20261008T195941Z-31fb40e7/project",
+  "files_sha256": {
+    "experiments/creation/catalog.gd": "ee028acf1e02bc4beeb912a8c4142ba1c60179e9c3bf15f1d5cc218174d904ef",
+    "experiments/creation/session.gd": "3d0c13e032917d028768b9bac876da44eabe24819358bcfa04d8908455358e28",
+    "experiments/creation/workbench.gd": "5605f8eca17976ec24ef7e40b076efcb1c26be1bb23e2f30844e590f37fe602d",
+    "experiments/service_plan/lab.gd": "1eca9c7b9e50c109989030a437c5017738d00ab45a86f536174244ecea11d888",
+    "tests/fixture_creation_restart.gd": "60183c5e4e3c6aa132b0d0bc995d1a53590ef3cc7b2dabe92a98a2c47aa6bcb4",
+    "tests/test_creation_choice_completion.gd": "607795954cd6bdf59d48b58581ca89b8642f114ba54d454c6e1bbe09a0f422f1",
+    "tests/test_creation_contract.gd": "baed340ad129f9703f220e4c78107054fe73847621bbf9d81d5bc20cbf3e599e",
+    "tests/test_creation_prediction_memory.gd": "ce99ae620dc25844a90b819aa5d46ca6c49772dfff0ad9e31cd8593620b265d7",
+    "tests/test_service_number_display.gd": "8465100c33ef32fd55c55329d27f33c3b611d826e6b952547a3799890167d187"
+  },
+  "passed": true
+}

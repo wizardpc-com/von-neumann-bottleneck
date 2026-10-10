@@ -1,0 +1,9 @@
+{
+  "runtime_commit": "ade587d50e02561767417649c2da2b58ce150c89",
+  "verified_project": "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T212445Z-5398544c/project",
+  "source_sha256": {
+    "src/overlap_chapter/overlap_chapter.gd": "1b4f9da067e22cf17e8e4a69ec9f7ce3d23054e8010dcda9a32bd8916e73f8b0",
+    "src/layout_chapter/layout_chapter.gd": "84d80b2acc5846d9a2d26f3927a118feaf77dabe99b2ab90e9d319a040010940",
+    "tests/test_chapter_redo_shortcuts.gd": "f0ee79fcff5edc71b6f6dff911cff69323eb79b75e6acba1d04a231f8be3d3e7"
+  }
+}

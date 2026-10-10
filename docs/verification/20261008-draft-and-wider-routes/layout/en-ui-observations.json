@@ -1,0 +1,98 @@
+[
+	{
+		"check": "QA profile loads and revalidates actual earned sources",
+		"ok": true
+	},
+	{
+		"check": "Resume names a supported player path stage",
+		"ok": true
+	},
+	{
+		"check": "Resume uses only previously UI-earned Game save",
+		"ok": true
+	},
+	{
+		"check": "Current stage offers its real journey return action",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Stage return restores the unified journey tree",
+		"ok": true
+	},
+	{
+		"check": "Restart expectation from the original actual UI run exists",
+		"ok": true
+	},
+	{
+		"check": "Restart expectation is a valid detached state snapshot",
+		"ok": true
+	},
+	{
+		"check": "Separate process revalidates all six completions and preserves drafts/named designs exactly",
+		"ok": true
+	},
+	{
+		"check": "Task entry uses the visible unified journey map: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Journey search locates the requested public task: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "Located task is reachable in the viewport: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "Task is selected and unlocked by actual prior Game builds: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Journey enter opens the selected task: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "Exact stage workspace opened: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: chapter_4-mixed-tree-entry",
+		"ok": true
+	},
+	{
+		"check": "Real tree entry restores the exact saved mixed-task draft after restart",
+		"ok": true
+	},
+	{
+		"check": "Named saved design survives independent restart",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: layout-six-restart",
+		"ok": true
+	},
+	{
+		"check": "Actual UI-earned Game sources and chapter receipts are persisted to the QA profile",
+		"ok": true
+	},
+	{
+		"check": "QA Game save exists for an independent restart",
+		"ok": true
+	},
+	{
+		"check": "QA source circuits exist for independent provenance revalidation",
+		"ok": true
+	}
+]

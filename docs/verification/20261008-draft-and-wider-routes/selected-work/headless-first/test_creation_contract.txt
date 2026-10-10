@@ -1,0 +1,24 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CALIBRATION generation parent=657fe362fed0477a0257e4ee122aeecd7e88b183d578baf62ca862fcb05f6032 first=[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1] child=[0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2] cycles=138
+CALIBRATION short raw/predictive bytes=53/102; long bytes=1076/613 cycles=34894/42177; high-request-latency RAW/predictive cycles=600911/568096
+ERROR: Practice switch rejects insufficient memory
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_contract.gd:12)
+       [1] failed_round_and_raw_contract (res://tests/test_creation_contract.gd:269)
+       [2] run (res://tests/test_creation_contract.gd:286)
+ERROR: Rejected switch atomically preserves all active round state
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_contract.gd:12)
+       [1] failed_round_and_raw_contract (res://tests/test_creation_contract.gd:270)
+       [2] run (res://tests/test_creation_contract.gd:286)
+ERROR: Pending old guess reveals safely against old truth
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_contract.gd:12)
+       [1] failed_round_and_raw_contract (res://tests/test_creation_contract.gd:272)
+       [2] run (res://tests/test_creation_contract.gd:286)
+CALIBRATION memory order1/order2 same-practice hits=7/9 of 10
+FAIL: creation contract ["Practice switch rejects insufficient memory", "Rejected switch atomically preserves all active round state", "Pending old guess reveals safely against old truth"]

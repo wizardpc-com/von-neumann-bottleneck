@@ -6,8 +6,14 @@
 sample learning, real predictive packets, committed prefix-only prediction and
 output-feedback generation. `model.gd` and `codec.gd` own results and event costs;
 `session.gd` owns frozen checks, revalidated supports and protected work/recipe
-snapshots through existing candidate file transactions and leases. `workbench.gd`
-presents those results. `src/campaign/creation_tasks.gd` appends opt-in candidate
+snapshots through existing candidate file transactions and leases. Confirmed Keep
+completes G2/G3 transactionally; generated variation alone does not confer choice.
+Prediction uses available rule rows for cache residency and strictly replays
+legacy conservative recorded bounds. Its bounded
+transient draft Undo/Redo restores recipes and models without rewinding protected
+works, completion supports or seen answers; restoration clears current run bindings.
+`workbench.gd` keeps authoritative measured totals visible and presents a saved-work
+closing entry bound to the actual protected snapshot. `src/campaign/creation_tasks.gd` appends opt-in candidate
 regions without changing core progression. See its [runtime contract](experiments/creation/CONTRACT.md)
 and [player/development entry](experiments/creation/README.md).
 

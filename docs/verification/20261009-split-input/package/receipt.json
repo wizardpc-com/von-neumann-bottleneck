@@ -1,0 +1,34 @@
+{
+  "runtime": "426009f1c052ea0f00bd28fa498724d4da5bfb0b",
+  "identity": "PASS source/build and all archive/file hashes",
+  "codesign": "codesign --verify --deep --strict: exit0",
+  "source_qa_commit_export_match": true,
+  "native": {
+    "observed": [
+      "Home build426009f identity",
+      "Continue task2 restores both actual supports/runs and current34cycles52B16B",
+      "6Tab+Enter task3",
+      "16Tab+Enter whole RLE14B with Undo focus",
+      "F11 toggles window mode"
+    ],
+    "not_verified": [
+      "typed split and Tab in fixed native package",
+      "task3 measured run/save",
+      "Representation4-5/review/reopen",
+      "Service and native original40"
+    ],
+    "input_failures": [
+      "Tab/ShiftTab/Return after wholeRLE no visible GUI change",
+      "pointer noWindowsAvailable",
+      "CUA reset then exact path getApp cgWindowNotFound twice",
+      "bundle ID ambiguous due same-identity QA packages",
+      "running display name Invalid app"
+    ],
+    "process": "read-only ps confirmed exact new app PID80322; no other Godot",
+    "preservation": "left native process and unsaved task3 draft alive; did not kill or modify live save",
+    "saved_t1_t2_bytes_unchanged": true,
+    "no_runtime_freeze_claim": true
+  },
+  "ci_download_note": "connector ZIP URL403; authenticated gh fallback requested",
+  "original_collaborator_files_preserved": true
+}

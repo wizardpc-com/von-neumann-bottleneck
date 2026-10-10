@@ -1,0 +1,74 @@
+[
+	{
+		"check": "Candidate entry starts on the real Home or journey map",
+		"ok": true
+	},
+	{
+		"check": "Candidate hub is explicitly enabled",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Candidate task node is reachable after search",
+		"ok": true
+	},
+	{
+		"check": "Actual candidate task is selected and available: representation/cross_assets",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Entry opens persistent candidate journey",
+		"ok": true
+	},
+	{
+		"check": "Journey enters the exact first or persisted candidate task",
+		"ok": true
+	},
+	{
+		"check": "Candidate has a real return path",
+		"ok": true
+	},
+	{
+		"check": "Protected successful plans survive disk read",
+		"ok": true
+	},
+	{
+		"check": "Restart restores measured plan history",
+		"ok": true
+	},
+	{
+		"check": "Restored workbench is clean",
+		"ok": true
+	},
+	{
+		"check": "Complete candidate can still close after restoration",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured journey review is reachable",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: restored-review-representation_region",
+		"ok": true
+	},
+	{
+		"check": "Candidate work preserves original core40 authority",
+		"ok": true
+	}
+]

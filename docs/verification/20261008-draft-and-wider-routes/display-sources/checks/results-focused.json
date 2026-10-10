@@ -1,0 +1,107 @@
+[
+  {
+    "name": "test_creation_prediction_work_view",
+    "suite": "test_creation_prediction_work_view",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_creation_prediction_work_view.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "test_creation_workbench",
+    "suite": "test_creation_workbench",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_creation_workbench.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "test_creation_prediction_flow",
+    "suite": "test_creation_prediction_flow",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_creation_prediction_flow.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "test_creation_measured_closure",
+    "suite": "test_creation_measured_closure",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_creation_measured_closure.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "test_system_trace_source_binding",
+    "suite": "test_system_trace_source_binding",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_system_trace_source_binding.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "test_system_cost_evidence",
+    "suite": "test_system_cost_evidence",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_system_cost_evidence.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "test_system_lab_ui",
+    "suite": "test_system_lab_ui",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261008T205231Z-4f944f95/project",
+      "--script",
+      "res://tests/test_system_lab_ui.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "passed": true
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "runtime_commit": "6fbfb1219ff0678161bc7cca693101c4c2f2879e",
+  "verified_project": ".godot/verification/20261008T201936Z-d695aae7/project",
+  "files_sha256": {
+    "experiments/creation/session.gd": "2d738e700b4521a6fd1e215697d0edd10085bc9adb7b737da2f9355229b05c9d",
+    "experiments/creation/workbench.gd": "bda2f11eb91ba718f0dc3ef3fe3f7807d64a32ef5fb6d58c9890cb28aa1265f7",
+    "experiments/representation_region/region.gd": "0ea3c63964d30c5304363a5d5cb9155d146ad4bc863e919f50581349e9ba9271",
+    "src/campaign/creation_tasks.gd": "5c32b047c26e511b15158a39601e6df0b1cd4c9368be3822f2a82ca59f36fb64",
+    "tests/test_creation_edit_controls.gd": "fcdced5ee4b7d42b4bf0df2641d522d254e8bc975051c3270e1c40ad440b6978",
+    "tests/test_creation_profile_navigation.gd": "a4adbbedd5eddf36188ba34c7ef52f72cb4e6107d54f55d0765a37052a775373",
+    "tests/test_representation_closure_navigation.gd": "42f0e0b9280669a76c22ba590abed53b70507558f6dacb3910aca0a21fb48bc8"
+  },
+  "passed": true
+}

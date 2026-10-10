@@ -1,0 +1,703 @@
+# Whole-game convergence
+
+User goal: keep improving and playing until the entire game has no obvious bugs
+and closely implements the supplied constraints. Keep the full goal active; no
+candidate-only technical checkpoint proves completion. User authorizes delegation,
+commits and developer-branch pushes. Public releases/main merge remain separate.
+
+Baseline: `9854717`, current `codex/mac-second-act-20261005`; only pre-existing
+AGENTS/index/night brief/collaboration dirt. Previous goal turn delivered concrete
+progress (integrated/runtime changes, actual rendered and restart evidence, push).
+
+## Requirements and proof map
+
+- AGENTS invariants: Godot4.7.1, deterministic UI-independent simulation, zero wire
+  latency, component costs, hardware cache, preservation. Proof: relevant simulation
+  suites + source review, isolated data and exact source/package identity.
+- Constitution Articles1–4: coherent finite construction/data-movement game and
+  independent core/second-act endings. Proof: task registry/matrix, actual journey
+  and earned closure route, retained task40 progression. Human experience remains
+  distinct; no added lore, classroom scope or universal-model rewrite.
+- Articles5–8: owned plans, explicit operational rules, optional layered hints,
+  meaningful choices, accepted alternatives and comparable measured records.
+  Proof: actual edits/run/failed case/undo/hint/save/reopen, model alternatives and
+  detached history/provenance. Never weaken goals or insert completion.
+- Articles9–10: actual system/work before reflection, readable bilingual controls,
+  truthful traces, static/reduced-motion/offline completeness. Proof: real renderer
+  and native checks on representative workbenches; listening/artistic/blind-player
+  proof cannot be inferred from test counts.
+- Articles11–14: transactional preservation, future-format refusal, recovery,
+  bounded candidate versus production authority, safe distribution, layered
+  evidence and concise integration. Proof: fault injection/restart/concurrency,
+  release-binary isolation, original assets and committed source checks.
+- Night brief A–D: Representation5 + Service3 actual entry/edit/run/counterexample/
+  save/return/resume/review, original40 continuity, local Mac candidate. Existing
+  evidence is attributed to its source, not assumed valid for newly changed code.
+- Creation briefs M0–M3 and design§9.1: same real machine/model, lossless packets,
+  prefix-only prediction, controlled creative intervention, snapshot/full recipe,
+  focus through retraining, saved full artwork and guarded route/restart.
+  Proof: real UI source cost reversal, matched prediction trace, controlled A/B,
+  source identity and saved-work reopening. G2's legacy completion is not a causal
+  certificate; no silent persistent-gate migration.
+
+## Current execution
+
+1. One complete target-engine baseline regression on9854717; inspect all logs.
+2. Parallel disjoint concrete repairs: core transactional workbench create/switch;
+   Creation stopped-writer recovery through existing shared lease primitives;
+   Creation same-source observation anchors through model edits/retraining/reruns.
+3. Root integration of explicit recovery controls and opt-in exported creation
+   journey. Preserve normal public40 default and production profiles.
+4. Run affected fault/restart/geometry suites once, then actual representative
+   rendered/native routes; repair findings, not just test expectations.
+5. Commit verified coherent changes, export matching local Mac candidate and probe
+   the actual binary; push developer branch and record receipts. Continue broader
+   goal audit; completion remains unproven while explicit evidence is missing.
+
+Ownership: root sole Git/Godot/GUI, builder/shared docs/integration; prediction_flow
+core circuit_workbench_store + workbench failure test; review creation/session +
+writer retry test; cost_conditions creation/workbench observation anchor + test.
+Root waits for workbench release before adding writer retry hooks. Shared files,
+lease/model, localization and project settings are not worker-owned.
+
+## Progress 2026-10-08
+
+Full regression PASS:119 suites plus import/isolation in
+.godot/verification/20261008T182158Z-faee1a04, frozen9854717. Five Python gates PASS.
+Workers released all implementation files. Root integration adds explicit writer
+controls and preserves unsubmitted inputs. C/P/G renderer472 checks and dedicated
+1280writer81 checks PASS. Original Game replay now follows the unified tree;
+first Chinese run earned9 prerequisites/Chapter1 with a fixed-topology assertion
+mismatch; fresh final English run PASS:760checks/zero failures,9 prerequisites earned
+and Chapter1 entered. See the dated convergence record. Concrete source findings are not covered by green happy-path tests:
+Creation lacks explicit recovery after stopped writer; core create/switch can claim
+success or change active when persist fails; same-input reruns clear selected cell.
+No goal-completion claim. No external blocker yet: meaningful implementation work
+is available. External novice/artistic/platform acceptance remains pending.
+
+Root finished this coherent increment: runtime563acb805042, isolated Mac export
+free-alpha-563acb805042, package identity+16 binary checks,3 restart processes PASS.
+Native exported input attempt returned Mac locked; no native acceptance claimed.
+Full evidence is docs/verification/20261008-whole-game-convergence/README.md.
+Broad goal remains active; future convergence should address the historical
+proxy resume helpers and wider earned routes, then native/human/device gaps when
+available. Keep release gates separate; do not use test totals as artistic proof.
+All worker ownership released. Root sole Git/Godot/GUI. Unrelated dirt preserved.
+
+## Wider-route and creation contract increment
+
+Ownership: root sole Git/Godot/GUI/docs; cost_conditions owns Layout UI plus new
+trace storage test; prediction_flow owns proxy-player-paths; review owns Creation
+session/workbench plus measured-closure and undo tests. No shared resource/model/
+format/gate changes. Workers do not run Godot or mutate Git.
+
+Concrete findings: Layout uses logical record identity to select storage and can
+retain B event indices after selecting A; batch reuse copies an unexecuted root
+recipe rather than either actual relocation order; relocation telemetry omits its
+executed orders. Creation lacks a constantly visible measured summary, saved-work
+closing entry, and undoable recipe forks required by design/model briefs. Fix these
+in their existing bounded UI/session domains and verify the affected paths.
+
+The previous 760-check original Game input route was in-memory: its automated
+launch did not persist savegame/workbench files. It proves earned play, not a
+restartable core profile. A fresh proxy route must earn and persist the source
+circuits through real input before wider restart/resume verification. Never copy
+real player saves or invent progress to fill this gap.
+
+G2 legacy gate versus direct satisfactory work remains explicitly unresolved; do
+not call existing support a causal-intent certificate or silently migrate it.
+Native lock is still an external-input limitation; independent concrete repairs
+and renderer paths make progress, so the whole-game goal stays active.
+
+
+Wider-route checkpoint runtime db104d3688d1 implemented and verified. All worker
+files released; root sole engine/Git/GUI. Creation transient24-step history excludes
+works/supports/revealed flags; measured summary/kept exact-work closure and source-
+correct focus restored. Layout physical allocation attribution, order-B recipe
+reuse and executed-order telemetry corrected. Real unified-tree helpers earn and
+persist source circuits rather than manufacturing restart support.
+
+28 distinct affected suites pass across repaired evidence; final headless4/4+
+import/isolation PASS. Renderer670 Creation checks /8bilingual1280captures and3
+Creation restart processes PASS. Actual persisted core+system+locality1221checks
+PASS; six Layout earned (initial269 with modal helper failure), repairedcloseout45
+and independentrestart24PASS; six Overlap207+restart38PASS. Representation186+
+restart18 and Service171+restart18PASS. Popup actuator failures are retained and
+selection now uses the actual public comparison table with exact-trace assertions.
+Matching Mac export free-alpha-db104d3688d1, identity/codesign PASS; package probe
+receipt in dated evidence. No main/public-release change, no real save edits.
+
+Next unresolved work remains explicit: G2 legacy completion vs direct satisfactory
+work/controlled paired proof requires compatibility/design review; unknown-answer
+novice, listening/artistic/device/native acceptance cannot be closed by known-answer
+checks. No broad completion claim. Exact evidence and package pointers:
+docs/verification/20261008-draft-and-wider-routes/README.md. Original four collaborator
+files preserved. Root prepares evidence/status commit and authorized branch push.
+
+
+## Selected work and prediction memory correction
+
+Previous goal turn changed authoritative source and yielded earned route/restart/
+export evidence: progress, not a wait. Current source9bbee16 and original four
+collaborator changes inspected. Ownership: root Creation session/workbench/catalog,
+choice regression and shared docs/Git/Godot/GUI; review read-only G2 compatibility;
+predictionworker prediction-memory regression; costworker service/lab numeric display
+and new display regression. No concurrent shared-file edits or worker engine/Git.
+
+DESIGN§8.2 and MODEL§8.4 require direct legal satisfactory works to complete without
+forcing two differing runs, and player confirmation to constitute a chosen work.
+Correct candidate G2 by removing automatic differing-output completion and awarding
+it with the transactional confirmed Keep. Fixed-seed comparison remains optional;
+repeat/deterministic works remain legal. Existing v1 generation support shape stays,
+legacy verified G2 records remain readable/progress-preserved and are not retrospectively
+called causal-intent proof. Failed saves roll back both G2/G3 and works together.
+This explicitly scopes the candidate gate correction; original40 prerequisites and
+simulation generation semantics remain unchanged.
+
+Prediction cache memory was over-reserved relative to training/generation and the
+contract's occupied rows. Use min(cache capacity,model rows) consistently for new
+prediction rounds/replays. Revalidate legacy row costs only when they exactly match
+the known prior conservative bound within the recorded memory, with a consistent
+bound across the whole round; other metric tampering still fails. No schema change.
+Tests cover exact resource boundary, preserved active round on failure, frozen
+machine, future/readonly protection and original candidate payload compatibility.
+Service uses concise display precision while retaining raw costs/thresholds/events.
+
+
+Selected-work checkpoint verified runtime ebcf7df2dbd0. All workers released;
+root sole Git/Godot/GUI.14 distinct affected suites PASS with retained initial
+fixtures/rounding failures; final G2 bilingual actual input101checks and four1280
+captures PASS; Service review26checks/two1280captures PASS. Independent write/
+fork/read3processes preserve the latest actual confirmed G2/G3 and exact originals;
+first original-vs-fork assertion failure retained and corrected. Nine changed
+script identities equal verified QA/commit. Frozen Mac Choice-ebcf7df export,
+identity/codesign and16binary checks PASS. Evidence appended under existing dated
+bundle selected-work/. Current G2 completion mismatch closed compatibly; no main/
+public distribution or real-save changes. Goal active for native/human/artistic/
+listening/device acceptance; concrete progress resets any blocked audit. Root
+prepares evidence/status commit and authorized developer push, preserving4dirt.
+
+
+## Bound drafts and recovery context follow-up
+
+At6f7568a previous goal turn changed runtime, earned evidence and remote state:
+progress. Readonly audits found concrete uncovered user paths. Root reserves
+Git/Godot/GUI/docs. creationworker owns workbench+new edit-controls test, including
+sample16 guard, retained transient text during unit rebuild, recovered-task visit
+sync. navigationworker owns Session path resolver+creation_tasks+named-profile
+regression; communicate resolver before workbench call integration. serviceworker
+owns Representation region+closure-navigation test for real write-failure recovery.
+Original4collaborator files preserved.
+
+The schema already bounds examples to16, but bothUI append paths admit17 and make
+otherwise legal drafts/works impossible to save. Reject before append, explain and
+restore checkbox without changing the schema/model. Existing editing contract
+already retains invalidInitial/custom/title through Undo and writer retry; extend
+that preservation through normal task rebuild without committing invalidtext.
+Custom --creation-profile currently affects workbench but notmap completion reads;
+share its existing resolution and include filepath in cache identity. Recovered
+task must synchronize existing remembered candidatevisit. Representation actual
+write failure rebuilds away RegionReview; reconstruct it when canceling departure
+so the source review and unsaved work remain. No gameplay/model/schema/prereq
+rewrite. Necessary targeted suites, bilingual affected viewport checks and serial
+engine runs only; package exact final source after integration.
+
+
+Editing/recovery runtime6fbfb1219ff0 verified. Eight distinct affected suites PASS;
+final editor viewport130checks/four1280captures, workbench394, actual named-launch
+16checks, bilingual actual write-refusal review55/two1280captures PASS. Seven
+script identities match verifiedQA/commit. One invalid suite-name invocation was
+corrected without repeating import; raw results retained. FrozenMac Edits-6fbfb12
+export/identity/codesign/16binarychecksPASS. Independent review finds no blocker;
+allworkers released, root onlyGit/engine/GUI. Original4dirt retained, no schema/
+models/core40 change. Evidence edit-recovery/ appended under dated existingbundle.
+Goal active, previous and currentturn are real progress; native/human/audio/
+artistic/device/formalrelease remain unverified. Root finishes status/evidence
+commit and userauthorized developerpush.
+
+
+## Frozen preparation, restored baselines and encapsulation boundaries
+
+At8b7db67 prior turn is progress: actual edits/renderer/export/remote evidence.
+Fresh CUA inventory still reports Maclocked; no native input executed. Root sole
+Git/Godot/GUI/docs; creationworker owns workbench+newpreparationbindingtest,
+serviceworker HardwareFoundations+newsealnavigationtest, navworker localityUI
+main.gd+newrestoredbaselinetest. No shared runtimefile edits, no worker engines.
+Preserve4originalcollaboratorfiles. Root integration/necessaryverification only.
+
+Static paths identify three concrete failures to reproduce and repair. Frozen
+A/B output revisit can display currentA/C training costs as B preparation; bind
+actual generation's own training snapshot, keeping savedwork/replay contracts.
+Locality UI restoration pop_front loses the genuine capstone baseline once
+savedreceipt history exceeds8; use existing live remove_at(1) trimming rule so
+Before source/cycles remain stable. Encapsulation closes its success overlay while
+1.55s effect is still sealing; board/Hint/map navigation can clear the authoritative
+pending snapshot/definition, leading to wrong completion or nullHalfAdder path.
+Guard these replacing navigation entries for the existing short transaction;
+keep simulation/earned component semantics and fileformats unchanged.
+
+Targeted affected suites first; actual generation A/B data, capstone receipts and
+formal FullAdder pass/seal fixtures, then necessary renderer checks. Do not repeat
+fullbaseline, modelcalibrations or priorwiderjourneys without a newreason. Frozen
+matching Mac candidate and authorized devcommit/push after coherent verification.
+
+
+Boundary runtime review complete. Ten distinct affected suites PASS: eight in the
+initial focused run; preparation final renderer47checks/fouractual1280views and
+FullAdder seal final25checks PASS after correcting test-only ordering/prerequisite
+fixtures. Initial failures and the fixture timeout remain retained. Locality15
+checks use nine real official receipts and actual tree re-entry. Independent
+read-only review found no blocker. Root soleGit/engine; workers released. Six
+GDScripts will be checked against the imported copy and commit before packaging.
+No simulation/state/schema/core40 rewrite, protected work bytes preserved. Prior
+baseline/wider journeys remain separate. Root builds matching internal Mac,
+records scoped evidence and pushes authorized development branch; goal active.
+
+
+Frozen boundary runtime e7894522c40b packaged as Boundaries-e789452. Import/licenses/
+export, archive identity, strict codesign and actualbinary16checks PASS. Sixscript
+identities equal verified copy/commit. Evidence boundaries/ retains all failures,
+four1280views and currentMaclocked record. Goal active; progress this turn. Root
+finishes evidence/status commit and userauthorized developerpush. All workers
+released; originalfourcollaboratorfiles untouched; no main/public release.
+
+
+## Display-source follow-up
+
+At3b4226e the previous goalturn is progress; remote and scoped payloads verified.
+Current read-only audits cover Creation saved-work/P-mode paths, System/Locality
+navigation/evidence and Representation/Service closure. Service audit found no new
+implementation defect. Fresh CUA inventory still Maclocked; independentcodework
+continues. Preserve originalfourcollaboratorfiles, root soleGit/Godot/GUI/docs.
+
+Two concrete sources violate existing presentation contracts. Creation P1/P2/P3
+active prediction fallback overrides explicit saved snapshot/replay output while
+costs/rules describe the work. Give explicit result its own track without clearing
+pendingprediction. System Trace playback highlights oldsource line in a changed
+unapplied draft and moves thatdraft's caret. Clear highlight on edit and require
+exactcurrentTrace program_source before highlighting/locating; retain realmetrics
+and history. creationworker owns workbench+newpredictionworkviewtest; navworker
+ownsSystemLab+newtracesourcebindingtest. No simulation/schema/gate rewrite.
+Root verifies actual savedwork/continuedprediction and measuredTrace/editor edit
+paths, necessaryrenderer checks, independent review and matchinglocalMac package,
+then userauthorized commit/push. Priorbaseline/widerjourneys remain separate.
+
+
+Seven distinct scoped suites PASS in initial focused verification. Final Creation
+renderer218checks/eightactual1280captures PASS, with explicit savedwork output and
+pending/finished predictions retained. Actual CodeEdit insertion uncovered shifted
+background after the firstline-index-onlyclear; failed dual-locale log retained.
+Repair clears backgrounds only onedit; exactsource/caret guard remains. Final
+System source46checks plus affectedSystemUI/cost suitesPASS. No retainedTrace/
+metrics/receipts/history changes. Initial invalidsuite name exited2 afterimport;
+existingSystemLabUI reran fromsameimportedcopy withfreshuniqueprofiles, no repeated
+import. Independent read-only review found no blocker. Root reviewed finalshifted
+background fix; workersreleased. Root commitsmatching source, theninternalMac
+export/binarycheck and evidence/status/developerpush. Goal active/progress.
+
+
+Display-source runtime7c7f8f06f8e2 frozen as Sources-7c7f8f0. Import/licenses/export,
+archive/sourceidentity, strictcodesign andactualbinary16checks PASS. Fourchanged
+script identities equal verifiedcopy/commit. Eightcapture metadata checked; four
+representative views inspected, pendinground/workbytes protected. Exactevidence
+in display-sources/ retains initial invalidsuite invocation and actual shiftedline
+failure, plus repairedSystem46/UI/cost checks. Goal active, actualprogress; root
+finishes evidence/statuscommit and authorizeddeveloperpush. Allworkersreleased,
+onlyoriginalfourcollaboratorfiles retained. Native/human/artistic/device gates open.
+
+
+## Incompatible snapshot and interrupted board recovery
+
+At345cb81 previous goalturn is actualruntime/rendered/export/push progress.
+Current audits find three existing protection/source defects, preserving fullgoal:
+Creation readonlyworkbench parses unsupportedfuture recipe fields despite Session
+retaining validoutput; Layout draft mapping retains historicalevent selections;
+Core board save missingmain in rename crashwindow is mistaken for freshstore and
+can overwrite recovery candidates/deny priorsealedprogress. RootsoleGit/engine/
+GUI/docs. Creationworker ownsworkbench+futureworkbenchtest; navworker memoryview+
+previewselectiontest; serviceworker CircuitWorkbenchStore+interruptedrecoverytest.
+Preserveoriginalfourcollaboratorfiles; no model/schema/gate/authoritychanges.
+
+Unknownrecipes showactualoutput/name/id and explicituninterpretablemetadata only;
+Replay/Fork continue torefuse. Mappingconfigure clears oldhighlight and realhistory
+selection rebinds ownmapping. For boards, existingmain remainsauthoritative and
+allmissing remainsfresh; onlymissingmain withtransactions initiates recovery.
+Validatedtmp isnewpending snapshot, preferredovervalidbak; damagedtmp mayfallback
+tovalidbak. Anyfuture candidate or no validcandidate refusesautomaticdowngrade/
+writes. Beforeinstallation immutablehasharchives preservealltransactionbytes;
+archive/installfailure refuseswrites. Independentrecoverytemp installs exactbytes,
+thenexistingmigration/load andGlobalSave circuitrevalidation remainauthority.
+Retain originalcandidatefiles; future/invalid refusal never writesdefaultover them.
+Rootapproved thisbounded existingformat recovery, no newpersistenceplatform.
+
+Necessary focused tests: truefuturefile readonlyG3/Play/Focus andbytes; actualLayout
+read→fieldedit→historyreselection; realStore persist/crashwindow/namedboards and
+GlobalSave HalfAdder topologyrevalidation, damaged/future/archivefailure/newstore
+cases. Rootreview/integration, affectedrenderer only, exactsourcefrozenMac export/
+binarycheck andauthorizeddevcommit/push. Keep broad/human/native acceptance open.
+
+Final eleven distinct affected suites PASS; future-work renderer47/four actual
+1280×720 bilingual views inspected, Layout16 actual run/edit/history checks and
+Core75 real interrupted Store/provenance checks PASS. Initial reserved-keyword
+parse, JSON integral-version membership rejection and shared-locale draft failure
+are retained; fixes preserve assertions. Only affected Core/save suites reran.
+Sixscript identities match imported QA copy. Independent read-only review no new
+blocker; root reviewed subsequent validation corrections. Workers released;
+root soleGit/engine builds matching internal Mac, records evidence and pushes
+userauthorized developmentbranch. Fresh CUA Maclocked; no nativeinput. Goalactive,
+progress this turn, originalfourcollaboratorfiles preserved. No schema/model/gate
+rewrite, no main/public release.
+
+
+Frozen recovery runtime6027e25626d4 exported as Recovery-6027e25. Import/licenses/
+export/archiveidentity/strictcodesign/actualbinary16checks PASS. Sixscript hashes
+equal QA/commit. Evidence recovery-compatibility/ retains initial failures and four
+1280views; freshMaclocked record. Rootfinishes scoped evidence/status and authorized
+developerpush, then releasesfiles. Goalactive/progress, no main/publicrelease.
+
+## Documented redo shortcut follow-up
+
+Atd7f69f5 previousgoalturn repair/verification/export/push is progress. Fresh
+requirements audit rereads handoff README/supplementary execution+playtest checklist
+and Constitution with actual current sources. Creation/Representation/Service
+ordinary player-path static audits find no new concrete defect; those are not
+native/novice acceptance. Navigation audit identifies documented Ctrl+Y absent in
+Overlap/Layout, while buttons and ShiftZ work. navigationworker owns both hosts
+and newtest; root soleGit/engine/GUI/docs. Preserve existing text, Hint and key
+press/echo boundaries, all design/history/simulation authority. No schema/model/
+gate change. Verify real edit→viewport Z→Y restores exact design and relevant UI/
+Undo neighbors only; matching committed Mac, evidence and authorizeddevpush.
+Originalfourcollaboratorfiles preserved. Complete goal remains unproven while
+native/human/listening/artistic/device acceptance is missing; no scope expansion.
+
+Six distinct affected suites finalPASS; new shortcut14checks headless and rendered
+viewportPASS after retained test-only Mac CtrlZ/Meta correction. Five UI/navigation/
+desktop neighbors PASS; pre-existing four unequal-anchor warnings retained. Root
+reviews tiny runtime diff; all3script hashes equal importedcopy. No geometrychange
+or redundantcaptures/fullsimulationrepeat. FreshCUA stillMaclocked. Corrected stale
+content-system limitation to actualGlobalSave writes2/reads1, no formatcodechange.
+Root freezes source, matchinginternalMac and evidence/devpush; broadgoal active.
+
+Frozenkeyboard runtimeade587d50e02/Redo-ade587d export/archiveidentity/codesign/
+actualbinary16checksPASS. Three script QA/commit parity, freshnativeMaclocked.
+Requirement-review maps source scopes to existing proof and openhuman/native gates;
+no new concrete domain defect fromthreeaudits besides correctedCtrlY. Rootfinish
+evidence/status/devpush; allfilesreleased, originalfourpreserved. Goalactive,
+progress thisturn; do not substitute technical count forwholegame acceptance.
+
+## External acceptance blocker audit — 2026-10-08
+
+Atdda7af0 the previous turn is progress: actualCtrlY repair, freshviewport checks,
+matchingMac and confirmedpush. This turn rereads liveGit/status, requirement review,
+Creation M2/M3/finaldeliverables, Constitution12/13 and retained chosenwork artifacts.
+Current28payload hashes equal committedHEAD; actualbinary result and finalshortcut
+results remainPASS. The same Maclocked nativeinventory error is confirmed again,
+after the recovery and keyboard turns' independent observations (three consecutive
+goalturns). Ordinary source audits of Creation, Representation/Service and navigation
+have no remaining located implementation defect after the verified CtrlY repair.
+This is not proof the fullgame is bug-free or the goalcomplete.
+
+No ongoingengine/build/check processes: initial sandbox processinventory unavailable,
+authorized specificpgrep succeeds with exit1/no matches; allknown QA/Git sessions
+terminal. Remote exactdda7af0 verified. Repeating those checks, generating another
+identical package or adding speculativefeatures would not supply missing proof.
+Native mouse/keyboard/fulljourney needs an unlockedMac; independent learner,
+listening/artistic and device evidence needs appropriate externalobservation.
+No productiondata or systemsecurity changes can substitute. ExistingM3 explicitly
+allows boundedcandidate development whilehumanproof ispending; this candidate work
+is delivered, while the user's broader wholegame objective remainsunproven.
+
+Execution is blocked on externalacceptance access; keep fullobjective intact and
+request goalstatus blocked after recording/pushing this audit. Do not markcomplete,
+shrinksuccess or claim automaticresumption. Resume whenMac is unlocked and user
+requestscontinuedwork: soleGUI runner uses frozenade587d50e02/Redo-ade587d, performs
+native C→P→G/save/reopen plus original/candidate paths, repairs observedfailures,
+then finishes remaining layeredacceptance. Originalfourcollaboratorfiles preserved,
+no runtimechange, no newpackage, no main/publicrelease.
+
+
+## Native resume checkpoint — 2026-10-08
+
+At de862eb the goal is active and fresh CUA access no longer reports Mac locked.
+Root alone operates actual frozen ade587d50e02/Redo-ade587d app. Actual C1–G3 earned
+through UI without support insertion; named64-cell work saved, full modal inspected,
+G3 draft saved, in-game home settings Quit terminates (subsequent procNotFound),
+exact app relaunched and G3 resumed. Before/after restart bytes equal. Actual recipe
+replay matches snapshot/costs; Fork/Save leaves work/supports intact with correct
+parent. Details and own isolated save copies in native-resume/README.md. Input
+mistakes and CUA pointer routing failures retained; keyboard succeeds. Fullscreen
+capture strip origin and system Quit attempts remain unresolved. No newly located
+runtime defect, no source/package change or redundant baseline rerun. Prior blocking
+condition changed; goal not blocked/complete merely due remaining broad acceptance.
+
+Independent beginner/listening/artistic/device/Windows/distribution and native earned
+original40/Representation/Service remain open. Existing technical wider-route proof
+is separate. Root reviews evidence/docs, preserves original four collaborator files,
+updates local handoff and performs authorized development-branch commit/push only.
+
+
+## Creation focus and native Representation checkpoint — 2026-10-09
+
+Runtime f14444ff8f36 fixes rebuilt navigation focus, disabled Tab actions and final
+Undo/Redo reverse focus. Initial draft assertion failure retained; final draft68,
+keyboard22 headless+M2 renderer PASS. Matching internal Mac/Focus-f14444f export,
+identity, strictcodesign and16 binary checks PASS. Actual native consecutive Enter
+C1→C2→C3 keeps Next focus; own saved draft no model/support/work. Earlier actual
+ade/Redo Representation task1 RAW failure136cycles/68B→mixed success135cycles/60B,
+saved one earned support; tasks2–5 and Service remain unplayed this turn. Wider
+disabled Review focus observed, needs scoped follow-up. All source/evidence boundaries
+in keyboard-focus/README.md. Root soleengine/Git/GUI, workers released, originalfour
+untouched. Goal active, meaningful progress; no whole-game completion/main/release.
+
+
+## Wider workbench keyboard availability — 2026-10-09
+
+Previous goal turn at `0704d7c` made concrete progress. This native attempt found
+Mac locked; no new operator proof. Root confirmed no engine process before QA.
+The Sol worker repaired the observed disabled Region Review focus and equivalent
+Service actions, preserving enablement conditions. Next/Ack applies final state
+once to preserve valid focus through refresh.
+
+Runtime `e48689f7edc7`: seven suites (354 checks) and 18 rendered checks on Apple M2
+passed; changed scripts match QA, commit and build. Matching `Wider-e48689f` Mac
+export, identity, signature and 16 binary checks passed. Full outputs and scope:
+[wider focus evidence](../../verification/20261008-draft-and-wider-routes/wider-focus/README.md).
+Root owns branch push and all engine/Git work; original four files untouched.
+Whole objective remains active. Wider native Representation/Service and external
+acceptance are still needed; repeated automatic checks cannot replace them.
+No main merge or public release.
+
+
+Continuation probe found RLE self-disable cleared focus and next Tab returned to
+Language. Follow-up runtime `f90597bf999a` defers focus until availability settles;
+Undo/Redo uses its enabled reverse operation. First Redo continuation test failure
+retained, three edit/undo/commission neighbors passed, final 22 focused checks passed
+headless/rendered. Matching final Mac/Continuity-f90597b identity, signature and
+16 binary checks passed; new exact native app attempt still Mac locked. No duplicate
+baseline or unchanged package rebuild. Evidence in wider-focus/continuation/README.md.
+Full goal active, actual progress; native/human gaps preserved.
+
+## Current-runtime Linux regression receipt — 2026-10-09
+
+The next exact frozen Mac attempt remained locked. Sol's read-only continuation,
+modal and rebuild audit found no new concrete defect. Remote heads had no new
+content to integrate. Root discovered the existing live push CI for `d5dd5d4be778`,
+waited for its terminal result and inspected the complete logs/artifact: successful
+official Godot4.7.1 Linux import/isolation and all 143 suites, plus Python checks.
+No errors/skips; four known desktop anchor warnings and CI action advisories retained.
+[Durable receipt](../../verification/20261008-draft-and-wider-routes/linux-ci/README.md).
+Runtime/package unchanged; no extra engine run, export or speculative edit.
+This supplies fresh current-runtime regression evidence, not native/human acceptance.
+The broad objective remains active; next meaningful work needs unlocked Mac native
+routes, an external observation or a concrete defect. Preserve the four collaborator
+files and development-branch-only publication permissions.
+
+## Native/external proof impasse — 2026-10-09
+
+At `cdc248723fbb`, fresh status preserves the same four collaborator files. Exact
+`free-alpha-f90597bf999a` CUA launch again reports Mac locked and manual unlock
+required; no native input occurred. The same lock recurred in three consecutive
+goal turns, although source repair and then current-runtime Linux evidence still
+made progress in the first two. This turn has no further meaningful independent
+work: CI is terminal success, all workers have released ownership, escalated
+`pgrep -fl 'Godot|Von-Neumann-Bottleneck'` exits1 with no process, remote heads are
+unchanged, and all149 committed CI payload hashes remain intact. The initial
+sandbox process inventory failed and was not treated as an empty inventory.
+
+The full requirements map remains unproven for native wider earned routes and
+external human/device/platform acceptance. No repeated regression/export or
+speculative feature was used to replace missing evidence. Goal status is blocked,
+not complete. Resume after manual Mac unlock to earn Representation2–5/ending/
+save/reopen and Service in isolated profiles, then continue original40 and external
+acceptance. Root owns only this plan and current-state handoff for commit/push;
+runtime/package unchanged, development branch only, no main merge/public release.
+
+## Native unlock and split-input follow-up — 2026-10-09
+
+Mac barrier changed; objective active. Actual f905 Home/map/Representation route
+earned and saved tasks1–2. Typed valid boundary24 followed by Tab exposed stale
+Split availability; fix uses the existing live SpinBox integer update. Fresh
+Godot4.7.1 focus28/context39/model3329 and M2 viewport28 PASS; source no semantic
+or persistence change. Root next commits/exports matching runtime and continues
+native fixed-input plus tasks3–5/review/reopen and Service. Full own-profile and
+raw logs in docs/verification/20261009-split-input. Original40 and independent
+human/platform acceptance remain open. Original four collaborator files preserved.
+
+Root follow-through runtime426009f: committed/pushed and exact remote verified.
+Mac export/identity/strict signature/16 actual binary checks PASS; all143 Linux CI
+suites plus Python jobs PASS. New native Home restored T1/T2; actual T3 entry and
+RLE14B succeeded, then GUI input/window binding failed. Left exact process80322
+and unsaved draft alive; original saved bytes unchanged. Source audit found no
+input-disabling path, so no speculative freeze fix. Next restore native control
+before fixed-input and wider route; no parallel local Godot while app is alive.
+
+
+## Native-window access diagnostic — 2026-10-09
+
+At ef61f832a2c6 the exact package PID80322 remains live (ps and CUA inventory).
+Two fresh exact-app bindings return AXError.cannotComplete. One read-only sample
+shows AppKit/main-thread nanosleep and waiting workers, not a visible script loop;
+engine frames are mostly unsymbolicated. Existing focus-exit15FPS is compatible
+with idle sampling but cannot prove responsiveness or explain the failure.
+No native input/save, runtime change, second engine or repeat regression/export.
+Remote heads exactly match tracked refs; no new content to integrate. Full local
+sample plus committed callgraph/receipt:
+[diagnostic](../../verification/20261009-native-window-access/README.md).
+Previous turn made repair/verification/push progress; current new diagnostic narrows
+the evidence without declaring a freeze. This is the second consecutive turn with
+this access barrier, not the three-turn blocked threshold. Goal active/incomplete;
+resume same app and unsaved T3 before wider native/external acceptance. Four unrelated
+collaborator files remain preserved. Root sole Git/engine/UI; owns only diagnostic
+evidence and this plan until reviewed, committed and pushed.
+
+
+## Repeated native-window barrier — 2026-10-09
+
+At da4b3b7, third consecutive goal turn repeats exact-app AXError.cannotComplete.
+Fresh ps/pgrep confirms only the same alivePID80322; no other engine job or worker
+remains. Remote heads unchanged, current-runtime CI143/Mac probe terminal PASS,
+all174 retained evidence hashes valid. Previous diagnostic turn completed evidence
+and push but did not restore play. No new located source defect or independent
+integration; missing native/external requirements cannot be replaced by repeats.
+Broad goal to blocked after authorized audit handoff commit/push, not complete.
+Keep same live native package and unsaved T3; restore access before earned wider
+closure/save/reopen and human/platform acceptance. Four original collaborator paths
+preserved. Exact checks and limitations:
+[blocked audit](../../verification/20261009-native-window-access/blocked-audit.md).
+Root owns only CurrentState/plan/audit/hash until review/commit/push.
+
+## Native earned region closure and completion focus — 2026-10-09
+
+Access barrier cleared; root recovered same T3 draft and completed all five
+Representation and three Service tasks in runtime426009f through actual keyboard
+edit/run/save/review. Normal quit/reopen retained exact own-profile bytes, all
+supports and seven/six records. Actual earned four-page story exposed disabled
+Next retaining focus. Sol implemented a narrow focus transfer and real bilingual
+viewport input regression; root's fresh official4.7.1 headless route/presentation
+and M2 rendered route PASS. No model/schema/gate change. Matching new package and
+native ending-focus check follow; do not repeat the eight-task solve. Broad goal
+active/incomplete, original40 native and independent human/platform acceptance
+remain open. Four collaborator paths preserved. Root owns source/test integration,
+this plan, CurrentState, testing and native-region-resume evidence; sole Git/engine.
+[Evidence](../../verification/20261009-native-region-resume/README.md).
+
+Follow-through: sourcebefbdd2 committed/pushed to existing developer branch.
+Matching Mac export/identity/signature/16 actual binary checks PASS. Native exact
+new package restored six Service records and all three contracts; first story
+page5/5+3/3, repeated Enter to last page focused Back, further Enter closed story.
+Normal Cmd+Q exit/procNotFound and exact-name pgrep no engines; both own session
+files still byte-identical. Current-commit GitHub CI37927597539 success, no local
+full rerun. Matching-package logs/manifest/observations retained alongside earlier
+route. Broad objective active/incomplete; independent external and original40
+native proof remain open, four original collaborator files preserved.
+
+## Fresh continuation acceptance audit — 2026-10-09
+
+Previous turn was real source/native/package/CI progress. Current6ae24cf preserves
+four collaborator paths. Remote heads unchanged; no new content to integrate.
+Selective integration retains identical Creation model/codec to e46f. Two Sol
+read-only audits found no new definite defect in Creation ownership/rounds/A-B or
+original editor/map/Overlap/Layout input. Fresh exactbefbdd2 CUA attempt reports
+Maclocked before input; first turn with this new lock state. No repeated QA/export,
+new engine, speculative source change or whole-goal completion. Root corrects stale
+ReleaseBlockers current label and records requirement evidence/gaps in existing
+native-region-resume bundle. Next meaningful action is actual original-map/editor
+input after unlock; human/audio/artistic/platform gates need external observations.
+[Audit](../../verification/20261009-native-region-resume/continuation-audit.md).
+Root soleGit/Godot/UI; owns only this plan/CurrentState/ReleaseBlockers/audit/hash.
+
+## Third locked-continuation handoff — 2026-10-09
+
+At821f5e2 fresh exactbefbdd2 CUA repeats Maclocked/automaticunlockfailed before
+input. Exact-name engine/game pgrep both exit1; no live engine task to await.
+Four original collaborator paths remain only unrelated dirt. Same native-access
+condition across three consecutive turns; first corrected acceptance docs, second
+no progress. No concrete independent repair is available after scoped reviews.
+Whole goal to blocked/incomplete, not complete; actual original native input and
+independent human/platform evidence require an external-state change. Keep matching
+befbdd2 candidate and existing own saves; no repeat tests/export or invented feature.
+Root owns only this plan/CurrentState/continuation-audit/hash for final doc handoff,
+then releases. Unlock Mac to resume the existing package and actual uncovered path.
+
+## Original-core native continuation and tooltip repair — 2026-10-09
+
+Fresh exactbefbdd2 app access restored at96c57ab. Actual original map showed locked
+prerequisites; root native mouse input earned Tutorial5/5 and HalfAdder4/4, sealed
+the actual12-wire topology and entered FullAdder with two retained input wires.
+Later pointer routing failed; CmdQ procNotFound plus escalated pgrep exit1 confirmed
+exit before further engines. Own saved completion/design/official receipt evidence
+retained; Representation/Service session bytes unchanged. FullAdder/reopen/original40
+remain unverified. Concrete native defect: tooltip remained over a deleted wire
+without pointer motion. Sol owns only graph + new lifecycle test; root soleGit/engine/
+GUI and evidence/CurrentState/ReleaseBlockers/testing. Four collaborator paths remain
+protected. First focused run hardwareUI/wiredrag/rendered Tutorial PASS; new tooltip
+fixture failed due endpoint sampling, now being corrected with unchanged ownership
+assertions. Native later scopes and independent acceptance remain separate; full
+goal active/incomplete, no main/public release. See original-core-tooltip evidence.
+
+### Matching tooltip repair and FullAdder follow-through
+
+Final graph/test source committed/pushed as ccbda74. Corrected fixture arc-length
+midpoint confirms exact initial hover, retains unrelated-deletion assertion, adds
+cross-wire and owned PopupPanel outer-host/main-window protection. Final headless
+lifecycle27/geometry PASS; combined GUI exited SIGBUS -10, no GDScript error, cause
+unproven. Separate isolated same-source M2 lifecycle27 and rendered Tutorial input
+retry PASS. Matching committed Mac import/license/export/identity/strict signature
+and16 binary checks PASS. No repeated broad suite.
+
+Native matching package restored draft, showed real CIN tooltip, right-click at
+same pointer deleted it and immediately hid text AND outer frame. Undo/neighbor
+wire tooltip worked. Actual eight-wire FullAdder8/8 passed and sealed, preserving
+player HalfAdder topology. Next entered ALU. Normal CmdQ PID89420→no process→new
+PID3760 confirmed actual restart; Home and ALU retain player FullAdder. Global save
+and receipt/session bytes match; workbench parsed values identical despite key
+serialization order. Current CI API lookup failed/EOF, status unverified. Root sole
+Git/engine/UI; worker read-only ALU audit, no simultaneous engines. Remaining
+original native tasks/human/platform acceptance unproven; goal active/incomplete.
+Full evidence: docs/verification/20261009-native-core-tooltip/README.md.
+
+### Appropriate implementation and final requirement audit
+
+Human revised goal to 较合适. Root independently reread exact supplied ZIP root
+README, supplemental execution instructions and18-minute unfamiliar-player sheet;
+Sol checked repository task/constitution/completion briefs, no new definite defect.
+Do not require all40 native mouse solutions as an invented completion gate:
+NightBrief§D requires preserved entry/recovery/ending; CreationTask§8 allows native
+OR viewport and valid old evidence; CompletionBrief§4/§7 explicitly defer full
+art/music/human difficulty/other-device/formal distribution and accept bounded
+internal delivery. Human observations remain NOT_RUN, never inferred from tests.
+Earlier blocked conclusions based solely on these added gates were overbroad.
+
+Actual matching ccbda74 ALU16 native wires/32 cases passed, sealedALU1+generatedALU4;
+Return continuedtoSR latch and Start exposed authoredNOR scaffold. Interruption then
+CUA AXcannotComplete; PID3760 remains live, SR0 wires, no secondengine. ALU32 receipt
+and designs storednormally; no post-ALU normalrestart claimed. Latest CI37945118728
+completed success and exact remote ccbda74 confirmed after initial network errors;
+fullcurrentCI log inspection pending. Current runtime retains originalsimulation
+source from persisted1221 core/wider route. Root finalize evidence+4docs only,
+protect original4 paths, commit/push/exactpayloadverification beforehandoff.
+Requirement map: docs/verification/20261009-native-core-tooltip/requirement-audit.md.
+
+Current CI final inspection:37945118728 headccbda74 bothjobs success,144 suites +
+import/isolation,146 complete text artifacts inspected with zero error/fail markers.
+Detailed artifact hashes and fulljobreceipt retained. Tooltip27 included. Initial
+automaticdownloadapproval timedout, one permittedretry succeeded. No repeated tests.
+
+## Final development outcome — 2026-10-09
+
+Development scope complete against the latest appropriate-implementation request
+and supplied internal-candidate delivery clauses, after final scoped evidence
+commit/push. The original fullgame scope is preserved: core40 technical route/
+persistence coverage, broader region/service native endings and C/P/G native
+work/save/restart/fork, current fullCI and affected final local/native checks.
+All independently located defects were repaired; no new reproducible code defect
+was identified by final source/runtime audits. This does not claim zero possible
+bugs, unfamiliar-player learning, artistic/listening/Windows/formal release acceptance.
+Those honest follow-ups remain in RELEASE_BLOCKERS and requirement-audit.
+
+Native extra SR spot check is0 wires at authoredscaffold; after interruption CUA
+AXcannotComplete, PID3760 retained; no additional engine or forcedtermination.
+One combinedGUI SIGBUS causeunproven, unchanged-source separate renderer retry
+passed; not erased or claimed repaired. Fourcollaboratorpaths protected. Current
+runtimeccbda74 alreadypushed/exactremoteverified. Evidence-onlyfinalcommit closes
+this plan per PLANS lifecycle, no branch/main/public-release expansion.

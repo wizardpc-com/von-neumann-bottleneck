@@ -32,6 +32,41 @@ contains actual symbols and a complete model/example/machine/PRNG recipe. Saving
 does not rank beauty. Identical and repetitive works are legal. The work shelf is
 bounded to twelve entries and refuses overflow instead of deleting older work.
 
+## Controlled creation comparison
+
+Generate an actual work, then **Pin A** (also on G2's action row). Pinning keeps a
+full in-memory snapshot and locks seed, initial passage and length. In Examples /
+history, change one passage, learn explicitly, and generate B. A is unchanged by
+later learning, generation, playback, language changes or navigation. End the
+comparison before pinning a new A; this temporary pair does not survive leaving
+the workbench/restarting and is not included in Save draft.
+
+Creation recipe and Measurements show actual changed conditions, including which
+passages were added/removed/replaced and the first differing cell (one-based).
+Minimum passage-edit count avoids counting shifted survivors as additional edits.
+Changes to several examples/parameters are labelled multi-condition; derived model
+identity is not counted again as a second control. Equal output is a valid observed
+result, not a failed artwork. Seed-only variation is never described as evidence of
+an intended effect. Underlines on the current output mean differences from A, not
+errors against a target. First difference pauses and moves playback to that cell.
+
+**Keep A… / Keep B…** restores that actual run's full recipe and asks for a name
+when needed, then uses the existing protected-work save path. Keeping one does not
+delete the other or any saved work. **Keep editing** retains A. Saved chosen works
+still support ordinary snapshot playback, recipe replay and forking. This feature
+does not change the model, session schema or candidate progression gates.
+
+G2 completion follows the actual confirmed choice: keeping one legal generated work
+transactionally completes G2 and G3. Different outputs or seed-only variation do not
+automatically complete G2; repeated or deterministic works remain legitimate choices.
+Fixed-seed comparison is optional guidance, with its actual recipe/effect report;
+completion is never a causal-evidence or beauty certificate. Historical v1 generation-
+only G2 records remain readable and keep their prior progress, after exact recipe
+replay, without manufacturing a saved work or claiming controlled intent. No candidate
+schema migration or original-campaign gate change is required.
+
+See [bounded verification](../../docs/verification/20261008-creation-comparison/README.md).
+
 ## Model and ownership boundaries
 
 See [the format and event contract](CONTRACT.md). Training reads each example
@@ -73,3 +108,100 @@ saved works. `signal_view.gd` maps symbols to visible shapes; `catalog.gd` owns
 candidate text and original examples. Visual polish may change these mappings or
 wording with a new mapping identity when needed, but must not change packet truth,
 prediction boundaries, cost values, model provenance or protected snapshots.
+
+## Causal inspection follow-up (cloud candidate)
+
+Selecting a signal cell opens **Cause details**: the white selection remains at that
+position, the actually matched prior context is outlined in teal on the authoritative
+history lane, and four count/weight bars show the recorded successor candidates.
+The compact line beside the signal traces context → prediction → revealed value or
+correction. Pending predictions remain explicitly unrevealed. Generation is labeled
+as output feedback without a target answer. RAW/seed writes and positional
+memorization are not attributed to learned context counts.
+
+Raw audit records are folded by default and remain available through an explicit
+checkbox. Selecting a learned rule opens its frozen counts. After learning, the
+panel lists count changes versus the previous frozen model, including removed
+rules; this is a comparison of two full recounts, not incremental self-training.
+No new state is persisted, and no predictor is called by the presentation helpers.
+
+`tests/test_creation_causal_panel.gd` covers the controller, count bars, minimum-size
+bounds, audit foldout, rule differences, focus through reveal and language changes,
+and the pending-truth boundary. At 1280×720 the current evidence pane is compact;
+the candidate bar row is first and full explanatory text scrolls. This remains a
+native visual/play-test item rather than a claim of comfortable layout. Godot 4.6.3
+cloud checks are not a substitute for the pinned 4.7.1 project verification.
+
+## Cost ledger, evidence reading and saved-work focus
+
+Use **Locked codec comparison** to measure RAW and predictive transport under one
+source/model/machine snapshot. **Cost ledger** keeps the latest six measured pairs
+for this session; editing settings marks previous conditions as historical without
+recalculating them. Separate bars show actual sequential phase cycles and packet
+bytes. Learning cost and its original machine are disclosed separately.
+
+**Expand evidence** temporarily gives the detail tabs more room. **Back to signal**
+retains the selected cell and page. Selecting a cell in A uses A's recorded rules;
+B and packet receiver/source lanes use their own recorded evidence.
+
+In Works / recipes, select a saved work and choose **Focus on work** for its complete
+scrollable output plus supported recipe/source information. Close or Escape returns
+to the workbench without changing a result or file. Unknown recipe, model, sampling
+or PRNG versions remain snapshot-only, without guessing how their fields work.
+
+Older false RAW-C1 profiles preserve validated works read-only and explain the need
+for fresh predictive-restoration evidence. No automatic progress migration occurs.
+See [v2 scope and verification limits](../../docs/verification/20261008-creation-evidence-v2/README.md).
+
+## Mac playable-loop follow-up
+
+C3 offers two public machine conditions, both with bus 1 B/cycle, request overhead
+64 cycles, automatic cache 21 rows and RAM 8192 B. Only CPU throughput changes from
+1 to 64. Applying a condition neither trains nor runs. With the default learned
+examples and regular 1536-cell source, measured RAW/predictive cycles are
+235928/258602 under A and 225601/220899 under B; packets stay 436/430 B. Other
+rules/sources may behave differently. C3 retains source/model for its cost evidence.
+
+After one manual commit/reveal, Prediction offers Run remainder and Until mismatch.
+Both use the same per-cell commit→reveal path, freeze the model and retain causal
+focus. A pending manual guess must be revealed first. Events now show the actual
+prediction trace; pending events contain no future truth. Invalid initial text
+clears executable generation and blocks Generate/Keep until corrected.
+
+[4.7.1 original-asset route, actual chosen works and review checklist](../../docs/verification/20261008-creation-playable-loop/README.md).
+
+## Measured work and draft history
+
+Traffic, operations, cycles and the actual result remain visible above the signal
+while Cause details are open. A pending prediction reports only revealed outcomes;
+playing a protected snapshot has no current run cost. Recipe replay has fresh
+measured costs and is labelled separately.
+
+After keeping a named work, **View full saved work** opens that exact saved output,
+even if another run follows. Watching is optional. **Edit this work** forks its
+saved recipe into a new undoable draft; the protected work remains unchanged.
+
+**Undo / Redo** keeps up to24 draft steps for the current session, including recipe
+edits, learning and forks. It does not erase works, successful support recipes,
+seen answers or recorded measurements. Restoring a draft clears current output and
+frozen prediction bindings; run again for fresh evidence. Unsubmitted titles,
+custom passage text and invalid Initial text remain available. A new edit clears
+Redo. History is transient and does not survive profile reload or process restart.
+Changed/future/read-only files cannot authorize history restoration or forks.
+
+
+Prediction residency reserves 11 bytes for each available cacheable rule row, capped
+by configured slots, consistently with training/generation. The committed round owns
+its machine; later draft edits cannot change its costs. Old prediction supports remain
+readable only when every row exactly replays under the prior conservative full-slot
+bound and that bound fits their recorded memory. A round cannot mix accounting rules;
+all other costs and predictions retain their strict checks.
+
+
+Both public and custom example controls stop at the existing16-passage save bound,
+preserve rejected input and explain the limit. Unit/language rebuilds retain
+unsubmitted sample/name and invalidInitial text; invalid input cannot silently
+become an older legal recipe. Tasks still select their intended editing tab.
+After explicitly adopting a replacement profile, Journey remembers that recovered
+task. `--creation-profile=` selects the same existing launch profile for workbench
+and map evidence; empty values retain the default, and the last value wins.

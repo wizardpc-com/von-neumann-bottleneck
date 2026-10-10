@@ -1,0 +1,561 @@
+python	UNKNOWN STEP	﻿2026-10-09T14:33:59.9010580Z Current runner version: '2.337.0'
+python	UNKNOWN STEP	2026-10-09T14:33:59.9038932Z ##[group]Runner Image Provisioner
+python	UNKNOWN STEP	2026-10-09T14:33:59.9040587Z Hosted Compute Agent
+python	UNKNOWN STEP	2026-10-09T14:33:59.9041247Z Version: 20261002.596
+python	UNKNOWN STEP	2026-10-09T14:33:59.9042005Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+python	UNKNOWN STEP	2026-10-09T14:33:59.9042826Z Build Date: 2026-10-02T22:28:27Z
+python	UNKNOWN STEP	2026-10-09T14:33:59.9043556Z Worker ID: {a14fa260-113c-4a98-8560-07e53caa12f1}
+python	UNKNOWN STEP	2026-10-09T14:33:59.9044471Z Region: westus
+python	UNKNOWN STEP	2026-10-09T14:33:59.9045055Z Cloud: Azure
+python	UNKNOWN STEP	2026-10-09T14:33:59.9045649Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:33:59.9047411Z ##[group]Operating System
+python	UNKNOWN STEP	2026-10-09T14:33:59.9048110Z Ubuntu
+python	UNKNOWN STEP	2026-10-09T14:33:59.9048803Z 24.04.5
+python	UNKNOWN STEP	2026-10-09T14:33:59.9049551Z LTS
+python	UNKNOWN STEP	2026-10-09T14:33:59.9050131Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:33:59.9050722Z ##[group]Runner Image
+python	UNKNOWN STEP	2026-10-09T14:33:59.9051357Z Image: ubuntu-24.04
+python	UNKNOWN STEP	2026-10-09T14:33:59.9052048Z Version: 20261004.327.1
+python	UNKNOWN STEP	2026-10-09T14:33:59.9053431Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+python	UNKNOWN STEP	2026-10-09T14:33:59.9055252Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+python	UNKNOWN STEP	2026-10-09T14:33:59.9056329Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:33:59.9057585Z ##[group]GITHUB_TOKEN Permissions
+python	UNKNOWN STEP	2026-10-09T14:33:59.9060145Z Contents: read
+python	UNKNOWN STEP	2026-10-09T14:33:59.9060878Z Metadata: read
+python	UNKNOWN STEP	2026-10-09T14:33:59.9061496Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:33:59.9064198Z Secret source: Actions
+python	UNKNOWN STEP	2026-10-09T14:33:59.9065275Z Cache mode: write
+python	UNKNOWN STEP	2026-10-09T14:33:59.9065981Z Prepare workflow directory
+python	UNKNOWN STEP	2026-10-09T14:33:59.9475898Z Prepare all required actions
+python	UNKNOWN STEP	2026-10-09T14:33:59.9524618Z Getting action download info
+python	UNKNOWN STEP	2026-10-09T14:34:00.3201837Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+python	UNKNOWN STEP	2026-10-09T14:34:00.4298124Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+python	UNKNOWN STEP	2026-10-09T14:34:00.6244421Z Complete job name: python
+python	UNKNOWN STEP	2026-10-09T14:34:00.7221030Z ##[group]Run actions/checkout@v4
+python	UNKNOWN STEP	2026-10-09T14:34:00.7222301Z with:
+python	UNKNOWN STEP	2026-10-09T14:34:00.7222836Z   repository: wizardpc-com/von-neumann-bottleneck
+python	UNKNOWN STEP	2026-10-09T14:34:00.7227653Z   token: ***
+python	UNKNOWN STEP	2026-10-09T14:34:00.7228097Z   ssh-strict: true
+python	UNKNOWN STEP	2026-10-09T14:34:00.7228538Z   ssh-user: git
+python	UNKNOWN STEP	2026-10-09T14:34:00.7228994Z   persist-credentials: true
+python	UNKNOWN STEP	2026-10-09T14:34:00.7229763Z   clean: true
+python	UNKNOWN STEP	2026-10-09T14:34:00.7230323Z   sparse-checkout-cone-mode: true
+python	UNKNOWN STEP	2026-10-09T14:34:00.7231119Z   fetch-depth: 1
+python	UNKNOWN STEP	2026-10-09T14:34:00.7231872Z   fetch-tags: false
+python	UNKNOWN STEP	2026-10-09T14:34:00.7232571Z   show-progress: true
+python	UNKNOWN STEP	2026-10-09T14:34:00.7233056Z   lfs: false
+python	UNKNOWN STEP	2026-10-09T14:34:00.7233487Z   submodules: false
+python	UNKNOWN STEP	2026-10-09T14:34:00.7233950Z   set-safe-directory: true
+python	UNKNOWN STEP	2026-10-09T14:34:00.7234528Z   allow-unsafe-pr-checkout: false
+python	UNKNOWN STEP	2026-10-09T14:34:00.7236103Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:00.8373496Z Syncing repository: wizardpc-com/von-neumann-bottleneck
+python	UNKNOWN STEP	2026-10-09T14:34:00.8376207Z ##[group]Getting Git version info
+python	UNKNOWN STEP	2026-10-09T14:34:00.8377732Z Working directory is '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+python	UNKNOWN STEP	2026-10-09T14:34:00.8380019Z [command]/usr/bin/git version
+python	UNKNOWN STEP	2026-10-09T14:34:00.8482166Z git version 2.55.0
+python	UNKNOWN STEP	2026-10-09T14:34:00.8512040Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:00.8519851Z Temporarily overriding HOME='/home/runner/work/_temp/5b904519-b64f-4450-a774-f49b50d62203' before making global git config changes
+python	UNKNOWN STEP	2026-10-09T14:34:00.8522319Z Adding repository directory to the temporary git global config as a safe directory
+python	UNKNOWN STEP	2026-10-09T14:34:00.8525263Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+python	UNKNOWN STEP	2026-10-09T14:34:00.8579142Z Deleting the contents of '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+python	UNKNOWN STEP	2026-10-09T14:34:00.8583830Z ##[group]Initializing the repository
+python	UNKNOWN STEP	2026-10-09T14:34:00.8588020Z [command]/usr/bin/git init /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+python	UNKNOWN STEP	2026-10-09T14:34:00.8701235Z hint: Using 'master' as the name for the initial branch. This default branch name
+python	UNKNOWN STEP	2026-10-09T14:34:00.8706639Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+python	UNKNOWN STEP	2026-10-09T14:34:00.8707913Z hint: to use in all of your new repositories, which will suppress this warning,
+python	UNKNOWN STEP	2026-10-09T14:34:00.8708928Z hint: call:
+python	UNKNOWN STEP	2026-10-09T14:34:00.8709745Z hint:
+python	UNKNOWN STEP	2026-10-09T14:34:00.8710802Z hint: 	git config --global init.defaultBranch <name>
+python	UNKNOWN STEP	2026-10-09T14:34:00.8712163Z hint:
+python	UNKNOWN STEP	2026-10-09T14:34:00.8713403Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+python	UNKNOWN STEP	2026-10-09T14:34:00.8715316Z hint: 'development'. The just-created branch can be renamed via this command:
+python	UNKNOWN STEP	2026-10-09T14:34:00.8716700Z hint:
+python	UNKNOWN STEP	2026-10-09T14:34:00.8717445Z hint: 	git branch -m <name>
+python	UNKNOWN STEP	2026-10-09T14:34:00.8718255Z hint:
+python	UNKNOWN STEP	2026-10-09T14:34:00.8719653Z hint: Disable this message with "git config set advice.defaultBranchName false"
+python	UNKNOWN STEP	2026-10-09T14:34:00.8721897Z Initialized empty Git repository in /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck/.git/
+python	UNKNOWN STEP	2026-10-09T14:34:00.8726601Z [command]/usr/bin/git remote add origin https://github.com/wizardpc-com/von-neumann-bottleneck
+python	UNKNOWN STEP	2026-10-09T14:34:00.8806584Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:00.8808113Z ##[group]Disabling automatic garbage collection
+python	UNKNOWN STEP	2026-10-09T14:34:00.8810898Z [command]/usr/bin/git config --local gc.auto 0
+python	UNKNOWN STEP	2026-10-09T14:34:00.8847462Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:00.8848978Z ##[group]Setting up auth
+python	UNKNOWN STEP	2026-10-09T14:34:00.8855934Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+python	UNKNOWN STEP	2026-10-09T14:34:00.8893231Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+python	UNKNOWN STEP	2026-10-09T14:34:00.9304091Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+python	UNKNOWN STEP	2026-10-09T14:34:00.9353529Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+python	UNKNOWN STEP	2026-10-09T14:34:00.9632131Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+python	UNKNOWN STEP	2026-10-09T14:34:00.9680377Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+python	UNKNOWN STEP	2026-10-09T14:34:00.9952060Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+python	UNKNOWN STEP	2026-10-09T14:34:01.0001260Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:01.0003133Z ##[group]Fetching the repository
+python	UNKNOWN STEP	2026-10-09T14:34:01.0014626Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ccbda74cd4aa77131d97c4e4aea89b6af707e5e0:refs/remotes/origin/codex/mac-second-act-20261005
+python	UNKNOWN STEP	2026-10-09T14:34:06.6775070Z From https://github.com/wizardpc-com/von-neumann-bottleneck
+python	UNKNOWN STEP	2026-10-09T14:34:06.6777428Z  * [new ref]         ccbda74cd4aa77131d97c4e4aea89b6af707e5e0 -> origin/codex/mac-second-act-20261005
+python	UNKNOWN STEP	2026-10-09T14:34:06.6783297Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:06.6785439Z ##[group]Determining the checkout info
+python	UNKNOWN STEP	2026-10-09T14:34:06.6787504Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:06.6794896Z [command]/usr/bin/git sparse-checkout disable
+python	UNKNOWN STEP	2026-10-09T14:34:06.6854565Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+python	UNKNOWN STEP	2026-10-09T14:34:06.6892364Z ##[group]Checking out the ref
+python	UNKNOWN STEP	2026-10-09T14:34:06.6905049Z [command]/usr/bin/git checkout --progress --force -B codex/mac-second-act-20261005 refs/remotes/origin/codex/mac-second-act-20261005
+python	UNKNOWN STEP	2026-10-09T14:34:07.6395555Z Switched to a new branch 'codex/mac-second-act-20261005'
+python	UNKNOWN STEP	2026-10-09T14:34:07.6399762Z branch 'codex/mac-second-act-20261005' set up to track 'origin/codex/mac-second-act-20261005'.
+python	UNKNOWN STEP	2026-10-09T14:34:07.6444754Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:07.6498800Z [command]/usr/bin/git log -1 --format=%H
+python	UNKNOWN STEP	2026-10-09T14:34:07.6532597Z ccbda74cd4aa77131d97c4e4aea89b6af707e5e0
+python	UNKNOWN STEP	2026-10-09T14:34:07.6843510Z ##[group]Run actions/setup-python@v5
+python	UNKNOWN STEP	2026-10-09T14:34:07.6844153Z with:
+python	UNKNOWN STEP	2026-10-09T14:34:07.6844422Z   python-version: 3.12
+python	UNKNOWN STEP	2026-10-09T14:34:07.6844728Z   check-latest: false
+python	UNKNOWN STEP	2026-10-09T14:34:07.6847775Z   token: ***
+python	UNKNOWN STEP	2026-10-09T14:34:07.6848068Z   update-environment: true
+python	UNKNOWN STEP	2026-10-09T14:34:07.6848396Z   allow-prereleases: false
+python	UNKNOWN STEP	2026-10-09T14:34:07.6848703Z   freethreaded: false
+python	UNKNOWN STEP	2026-10-09T14:34:07.6848988Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:07.8305927Z ##[group]Installed versions
+python	UNKNOWN STEP	2026-10-09T14:34:07.8445608Z (node:2303) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+python	UNKNOWN STEP	2026-10-09T14:34:07.8447656Z (Use `node --trace-deprecation ...` to show where the warning was created)
+python	UNKNOWN STEP	2026-10-09T14:34:07.8448893Z Successfully set up CPython (3.12.15)
+python	UNKNOWN STEP	2026-10-09T14:34:07.8450750Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:07.8678497Z ##[group]Run python scripts/check-branding.py
+python	UNKNOWN STEP	2026-10-09T14:34:07.8679149Z ^[[36;1mpython scripts/check-branding.py^[[0m
+python	UNKNOWN STEP	2026-10-09T14:34:07.9097009Z shell: /usr/bin/bash -e {0}
+python	UNKNOWN STEP	2026-10-09T14:34:07.9097633Z env:
+python	UNKNOWN STEP	2026-10-09T14:34:07.9098150Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:07.9098959Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	UNKNOWN STEP	2026-10-09T14:34:07.9100061Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:07.9100781Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:07.9101494Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:07.9102210Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	UNKNOWN STEP	2026-10-09T14:34:07.9102822Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:08.6715627Z PASS: local branding assets and native icon contracts
+python	UNKNOWN STEP	2026-10-09T14:34:08.6808781Z ##[group]Run python scripts/test-report-playtests.py
+python	UNKNOWN STEP	2026-10-09T14:34:08.6809606Z ^[[36;1mpython scripts/test-report-playtests.py^[[0m
+python	UNKNOWN STEP	2026-10-09T14:34:08.6879621Z shell: /usr/bin/bash -e {0}
+python	UNKNOWN STEP	2026-10-09T14:34:08.6879995Z env:
+python	UNKNOWN STEP	2026-10-09T14:34:08.6880340Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:08.6880943Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	UNKNOWN STEP	2026-10-09T14:34:08.6881580Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:08.6882145Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:08.6882715Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:08.6883283Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	UNKNOWN STEP	2026-10-09T14:34:08.6883757Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:08.9012281Z PASS: transaction quantities, debug/run/cases, duplicate exports, revised opinions and missing scores
+python	UNKNOWN STEP	2026-10-09T14:34:08.9013738Z PASS: basic summary totals, mixed-detail deduplication, unknown fields and version/cohort separation
+python	UNKNOWN STEP	2026-10-09T14:34:08.9014922Z PASS: late visit version attribution and malformed sequence isolation
+python	UNKNOWN STEP	2026-10-09T14:34:08.9140409Z ##[group]Run python server/test_storage.py
+python	UNKNOWN STEP	2026-10-09T14:34:08.9140896Z ^[[36;1mpython server/test_storage.py^[[0m
+python	UNKNOWN STEP	2026-10-09T14:34:08.9210779Z shell: /usr/bin/bash -e {0}
+python	UNKNOWN STEP	2026-10-09T14:34:08.9211204Z env:
+python	UNKNOWN STEP	2026-10-09T14:34:08.9211593Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:08.9212242Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	UNKNOWN STEP	2026-10-09T14:34:08.9212874Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:08.9213454Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:08.9214025Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:08.9214593Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	UNKNOWN STEP	2026-10-09T14:34:08.9215079Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:09.4214019Z test_conflict_rolls_back (__main__.StorageTests.test_conflict_rolls_back) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:09.4221964Z test_failed_ddl_upgrade_is_atomic (__main__.StorageTests.test_failed_ddl_upgrade_is_atomic) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:09.4405567Z test_upgrade_restore_merge_and_deleted_identity (__main__.StorageTests.test_upgrade_restore_merge_and_deleted_identity) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:09.4407488Z 
+python	UNKNOWN STEP	2026-10-09T14:34:09.4407809Z ----------------------------------------------------------------------
+python	UNKNOWN STEP	2026-10-09T14:34:09.4408465Z Ran 3 tests in 0.031s
+python	UNKNOWN STEP	2026-10-09T14:34:09.4408697Z 
+python	UNKNOWN STEP	2026-10-09T14:34:09.4408831Z OK
+python	UNKNOWN STEP	2026-10-09T14:34:09.4587512Z ##[group]Run python server/test_receiver.py
+python	UNKNOWN STEP	2026-10-09T14:34:09.4588007Z ^[[36;1mpython server/test_receiver.py^[[0m
+python	UNKNOWN STEP	2026-10-09T14:34:09.4655225Z shell: /usr/bin/bash -e {0}
+python	UNKNOWN STEP	2026-10-09T14:34:09.4655630Z env:
+python	UNKNOWN STEP	2026-10-09T14:34:09.4656016Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:09.4656669Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	UNKNOWN STEP	2026-10-09T14:34:09.4657307Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:09.4657874Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:09.4658440Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:09.4659000Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	UNKNOWN STEP	2026-10-09T14:34:09.4659872Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:10.0711518Z test_contract (__main__.ReceiverTests.test_contract) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:10.0924523Z test_retention (__main__.ReceiverTests.test_retention) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:10.0963790Z 
+python	UNKNOWN STEP	2026-10-09T14:34:10.0964347Z ----------------------------------------------------------------------
+python	UNKNOWN STEP	2026-10-09T14:34:10.0965062Z Ran 2 tests in 0.214s
+python	UNKNOWN STEP	2026-10-09T14:34:10.0965279Z 
+python	UNKNOWN STEP	2026-10-09T14:34:10.0965400Z OK
+python	UNKNOWN STEP	2026-10-09T14:34:10.1333177Z ##[group]Run python server/test_community.py
+python	UNKNOWN STEP	2026-10-09T14:34:10.1333646Z ^[[36;1mpython server/test_community.py^[[0m
+python	UNKNOWN STEP	2026-10-09T14:34:10.1400482Z shell: /usr/bin/bash -e {0}
+python	UNKNOWN STEP	2026-10-09T14:34:10.1400842Z env:
+python	UNKNOWN STEP	2026-10-09T14:34:10.1401216Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:10.1401846Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	UNKNOWN STEP	2026-10-09T14:34:10.1402466Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:10.1403043Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:10.1403606Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	UNKNOWN STEP	2026-10-09T14:34:10.1404164Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	UNKNOWN STEP	2026-10-09T14:34:10.1404643Z ##[endgroup]
+python	UNKNOWN STEP	2026-10-09T14:34:10.3559905Z test_contract (__main__.CommunityTests.test_contract) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:10.3667795Z test_retention (__main__.CommunityTests.test_retention) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:10.3905883Z test_summary_and_board (__main__.CommunityTests.test_summary_and_board) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:10.4910739Z test_contract (test_receiver.ReceiverTests.test_contract) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:10.4963724Z test_retention (test_receiver.ReceiverTests.test_retention) ... ok
+python	UNKNOWN STEP	2026-10-09T14:34:10.4999020Z 
+python	UNKNOWN STEP	2026-10-09T14:34:10.4999895Z ----------------------------------------------------------------------
+python	UNKNOWN STEP	2026-10-09T14:34:10.5000794Z Ran 5 tests in 0.264s
+python	UNKNOWN STEP	2026-10-09T14:34:10.5001150Z 
+python	UNKNOWN STEP	2026-10-09T14:34:10.5001276Z OK
+python	UNKNOWN STEP	2026-10-09T14:34:10.5297220Z Post job cleanup.
+python	UNKNOWN STEP	2026-10-09T14:34:10.6558762Z (node:2325) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+python	UNKNOWN STEP	2026-10-09T14:34:10.6560414Z (Use `node --trace-deprecation ...` to show where the warning was created)
+python	UNKNOWN STEP	2026-10-09T14:34:10.6807490Z Post job cleanup.
+python	UNKNOWN STEP	2026-10-09T14:34:10.7778389Z [command]/usr/bin/git version
+python	UNKNOWN STEP	2026-10-09T14:34:10.7827194Z git version 2.55.0
+python	UNKNOWN STEP	2026-10-09T14:34:10.7873799Z Temporarily overriding HOME='/home/runner/work/_temp/026161ed-d236-4fb7-bed9-0d00b2bcd45c' before making global git config changes
+python	UNKNOWN STEP	2026-10-09T14:34:10.7876241Z Adding repository directory to the temporary git global config as a safe directory
+python	UNKNOWN STEP	2026-10-09T14:34:10.7880974Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+python	UNKNOWN STEP	2026-10-09T14:34:10.7924875Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+python	UNKNOWN STEP	2026-10-09T14:34:10.7965724Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+python	UNKNOWN STEP	2026-10-09T14:34:10.8243931Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+python	UNKNOWN STEP	2026-10-09T14:34:10.8282250Z http.https://github.com/.extraheader
+python	UNKNOWN STEP	2026-10-09T14:34:10.8296410Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+python	UNKNOWN STEP	2026-10-09T14:34:10.8338127Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+python	UNKNOWN STEP	2026-10-09T14:34:10.8634238Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+python	UNKNOWN STEP	2026-10-09T14:34:10.8689254Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+python	UNKNOWN STEP	2026-10-09T14:34:10.9146253Z Cleaning up orphan processes
+python	UNKNOWN STEP	2026-10-09T14:34:10.9492959Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+godot	UNKNOWN STEP	﻿2026-10-09T14:33:59.1319734Z Current runner version: '2.337.0'
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1344729Z ##[group]Runner Image Provisioner
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1345627Z Hosted Compute Agent
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1346224Z Version: 20261002.596
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1347015Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1347783Z Build Date: 2026-10-02T22:28:27Z
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1348539Z Worker ID: {897cbf62-9749-429a-ab78-aa2e7a2e5a3f}
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1349558Z Region: eastus
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1350131Z Cloud: Azure
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1350798Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1352302Z ##[group]Operating System
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1353017Z Ubuntu
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1353603Z 24.04.5
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1354112Z LTS
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1354668Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1355218Z ##[group]Runner Image
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1355844Z Image: ubuntu-24.04
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1356597Z Version: 20261004.327.1
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1357832Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1359659Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1360629Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1361874Z ##[group]GITHUB_TOKEN Permissions
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1364346Z Contents: read
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1365043Z Metadata: read
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1365599Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1368051Z Secret source: Actions
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1369032Z Cache mode: write
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1370604Z Prepare workflow directory
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1892006Z Prepare all required actions
+godot	UNKNOWN STEP	2026-10-09T14:33:59.1972082Z Getting action download info
+godot	UNKNOWN STEP	2026-10-09T14:33:59.3864700Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+godot	UNKNOWN STEP	2026-10-09T14:33:59.4967045Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+godot	UNKNOWN STEP	2026-10-09T14:33:59.7496995Z Complete job name: godot
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8298120Z ##[group]Run actions/checkout@v4
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8299078Z with:
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8299930Z   repository: wizardpc-com/von-neumann-bottleneck
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8304080Z   token: ***
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8304519Z   ssh-strict: true
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8304962Z   ssh-user: git
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8305466Z   persist-credentials: true
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8305963Z   clean: true
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8306412Z   sparse-checkout-cone-mode: true
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8306937Z   fetch-depth: 1
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8307379Z   fetch-tags: false
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8307834Z   show-progress: true
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8308283Z   lfs: false
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8308732Z   submodules: false
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8309406Z   set-safe-directory: true
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8309926Z   allow-unsafe-pr-checkout: false
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8310861Z env:
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8311332Z   GODOT_VERSION: 4.7.1
+godot	UNKNOWN STEP	2026-10-09T14:33:59.8311790Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9402255Z Syncing repository: wizardpc-com/von-neumann-bottleneck
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9405224Z ##[group]Getting Git version info
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9406698Z Working directory is '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9408224Z [command]/usr/bin/git version
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9544956Z git version 2.55.0
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9570511Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9586126Z Temporarily overriding HOME='/home/runner/work/_temp/6c6651db-e292-42de-96ef-f1d5eda36eb0' before making global git config changes
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9588130Z Adding repository directory to the temporary git global config as a safe directory
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9592925Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9654608Z Deleting the contents of '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9658437Z ##[group]Initializing the repository
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9664220Z [command]/usr/bin/git init /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9799006Z hint: Using 'master' as the name for the initial branch. This default branch name
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9801026Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9802075Z hint: to use in all of your new repositories, which will suppress this warning,
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9802930Z hint: call:
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9803364Z hint:
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9804030Z hint: 	git config --global init.defaultBranch <name>
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9805231Z hint:
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9806319Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9808239Z hint: 'development'. The just-created branch can be renamed via this command:
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9810180Z hint:
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9810991Z hint: 	git branch -m <name>
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9811915Z hint:
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9813047Z hint: Disable this message with "git config set advice.defaultBranchName false"
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9815523Z Initialized empty Git repository in /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck/.git/
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9819404Z [command]/usr/bin/git remote add origin https://github.com/wizardpc-com/von-neumann-bottleneck
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9882587Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9883892Z ##[group]Disabling automatic garbage collection
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9887370Z [command]/usr/bin/git config --local gc.auto 0
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9925222Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9926667Z ##[group]Setting up auth
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9946151Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+godot	UNKNOWN STEP	2026-10-09T14:33:59.9978779Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+godot	UNKNOWN STEP	2026-10-09T14:34:00.0409499Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+godot	UNKNOWN STEP	2026-10-09T14:34:00.0448579Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+godot	UNKNOWN STEP	2026-10-09T14:34:00.0680232Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+godot	UNKNOWN STEP	2026-10-09T14:34:00.0717874Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+godot	UNKNOWN STEP	2026-10-09T14:34:00.0963539Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+godot	UNKNOWN STEP	2026-10-09T14:34:00.1011418Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:34:00.1013109Z ##[group]Fetching the repository
+godot	UNKNOWN STEP	2026-10-09T14:34:00.1023814Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ccbda74cd4aa77131d97c4e4aea89b6af707e5e0:refs/remotes/origin/codex/mac-second-act-20261005
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9424802Z From https://github.com/wizardpc-com/von-neumann-bottleneck
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9427325Z  * [new ref]         ccbda74cd4aa77131d97c4e4aea89b6af707e5e0 -> origin/codex/mac-second-act-20261005
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9431817Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9433364Z ##[group]Determining the checkout info
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9435018Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9441406Z [command]/usr/bin/git sparse-checkout disable
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9505864Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9546255Z ##[group]Checking out the ref
+godot	UNKNOWN STEP	2026-10-09T14:34:05.9561735Z [command]/usr/bin/git checkout --progress --force -B codex/mac-second-act-20261005 refs/remotes/origin/codex/mac-second-act-20261005
+godot	UNKNOWN STEP	2026-10-09T14:34:06.8819952Z Switched to a new branch 'codex/mac-second-act-20261005'
+godot	UNKNOWN STEP	2026-10-09T14:34:06.8827591Z branch 'codex/mac-second-act-20261005' set up to track 'origin/codex/mac-second-act-20261005'.
+godot	UNKNOWN STEP	2026-10-09T14:34:06.8906254Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:34:06.8955387Z [command]/usr/bin/git log -1 --format=%H
+godot	UNKNOWN STEP	2026-10-09T14:34:06.8983287Z ccbda74cd4aa77131d97c4e4aea89b6af707e5e0
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9247329Z ##[group]Run set -euo pipefail
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9247865Z ^[[36;1mset -euo pipefail^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9248217Z ^[[36;1mmkdir -p "$RUNNER_TEMP/vnb-engine"^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9248595Z ^[[36;1mcd "$RUNNER_TEMP/vnb-engine"^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9249498Z ^[[36;1mrelease="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable"^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9250148Z ^[[36;1marchive="Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9250658Z ^[[36;1mcurl --fail --location "$release/$archive" --output "$archive"^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9251211Z ^[[36;1mcurl --fail --location "$release/SHA512-SUMS.txt" --output SHA512-SUMS.txt^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9251847Z ^[[36;1mawk -v file="$archive" '$2 == file || $2 == "*" file {print}' SHA512-SUMS.txt > engine.sha512^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9252362Z ^[[36;1mtest -s engine.sha512^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9252701Z ^[[36;1msha512sum --check engine.sha512^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9253125Z ^[[36;1munzip "$archive"^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9253519Z ^[[36;1mmv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9253915Z ^[[36;1mchmod +x godot^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9538808Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9539767Z env:
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9540170Z   GODOT_VERSION: 4.7.1
+godot	UNKNOWN STEP	2026-10-09T14:34:06.9540550Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:34:07.0013026Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+godot	UNKNOWN STEP	2026-10-09T14:34:07.0014779Z                                  Dload  Upload   Total   Spent    Left  Speed
+godot	UNKNOWN STEP	2026-10-09T14:34:07.0015623Z 
+godot	UNKNOWN STEP	2026-10-09T14:34:07.0964808Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+godot	UNKNOWN STEP	2026-10-09T14:34:07.0965736Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+godot	UNKNOWN STEP	2026-10-09T14:34:07.4689975Z 
+godot	UNKNOWN STEP	2026-10-09T14:34:07.4691515Z 100 72.5M  100 72.5M    0     0   155M      0 --:--:-- --:--:-- --:--:--  155M
+godot	UNKNOWN STEP	2026-10-09T14:34:07.4786991Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+godot	UNKNOWN STEP	2026-10-09T14:34:07.4788398Z                                  Dload  Upload   Total   Spent    Left  Speed
+godot	UNKNOWN STEP	2026-10-09T14:34:07.4789072Z 
+godot	UNKNOWN STEP	2026-10-09T14:34:07.6070455Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+godot	UNKNOWN STEP	2026-10-09T14:34:07.6071379Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+godot	UNKNOWN STEP	2026-10-09T14:34:07.6372171Z 
+godot	UNKNOWN STEP	2026-10-09T14:34:07.6373207Z 100  5682  100  5682    0     0  35810      0 --:--:-- --:--:-- --:--:-- 35810
+godot	UNKNOWN STEP	2026-10-09T14:34:07.7531581Z Godot_v4.7.1-stable_linux.x86_64.zip: OK
+godot	UNKNOWN STEP	2026-10-09T14:34:07.7716412Z Archive:  Godot_v4.7.1-stable_linux.x86_64.zip
+godot	UNKNOWN STEP	2026-10-09T14:34:08.7519936Z   inflating: Godot_v4.7.1-stable_linux.x86_64  
+godot	UNKNOWN STEP	2026-10-09T14:34:08.7600662Z ##[group]Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"
+godot	UNKNOWN STEP	2026-10-09T14:34:08.7601349Z ^[[36;1mpython3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"^[[0m
+godot	UNKNOWN STEP	2026-10-09T14:34:08.7669756Z shell: /usr/bin/bash -e {0}
+godot	UNKNOWN STEP	2026-10-09T14:34:08.7670061Z env:
+godot	UNKNOWN STEP	2026-10-09T14:34:08.7670295Z   GODOT_VERSION: 4.7.1
+godot	UNKNOWN STEP	2026-10-09T14:34:08.7670574Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:34:09.7156263Z Evidence and isolated project: /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck/.godot/verification/20261009T143408Z-3bb7c399
+godot	UNKNOWN STEP	2026-10-09T14:34:18.7085031Z import: PASS (import.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:19.7262884Z user_directory: PASS (user_directory.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:22.3500028Z test_alarm_order_feedback: PASS (test_alarm_order_feedback.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:26.4330156Z test_bilingual_typography: PASS (test_bilingual_typography.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:27.5443581Z test_candidate_designs: PASS (test_candidate_designs.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:30.9682152Z test_candidate_disabled_focus: PASS (test_candidate_disabled_focus.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:33.1900149Z test_candidate_journey: PASS (test_candidate_journey.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:34.7595377Z test_candidate_journey_review: PASS (test_candidate_journey_review.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:40.0397745Z test_candidate_language_navigation: PASS (test_candidate_language_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:47.3733618Z test_candidate_lifecycle: PASS (test_candidate_lifecycle.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:48.3910883Z test_candidate_policy: PASS (test_candidate_policy.txt)
+godot	UNKNOWN STEP	2026-10-09T14:34:50.8132212Z test_candidate_restore_selection: PASS (test_candidate_restore_selection.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:08.5768545Z test_candidate_supports: PASS (test_candidate_supports.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:09.6943768Z test_candidate_writer_retry: PASS (test_candidate_writer_retry.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:12.7674465Z test_candidate_writer_retry_ui: PASS (test_candidate_writer_retry_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:17.6953438Z test_chapter_card_routes: PASS (test_chapter_card_routes.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:19.6658790Z test_chapter_redo_shortcuts: PASS (test_chapter_redo_shortcuts.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:21.7362962Z test_chapter_workspaces: PASS (test_chapter_workspaces.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:22.7538588Z test_circuit_simulation: PASS (test_circuit_simulation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:23.8720630Z test_completion_presentation: PASS (test_completion_presentation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:28.0489496Z test_completion_route: PASS (test_completion_route.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:31.2226829Z test_completion_service_clarity: PASS (test_completion_service_clarity.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:32.2408606Z test_content_registry: PASS (test_content_registry.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:44.4409675Z test_core_closure_navigation: PASS (test_core_closure_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:47.7160713Z test_creation_causal_panel: PASS (test_creation_causal_panel.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:51.1412704Z test_creation_choice_completion: PASS (test_creation_choice_completion.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:55.4189863Z test_creation_comparison: PASS (test_creation_comparison.txt)
+godot	UNKNOWN STEP	2026-10-09T14:35:59.2444264Z test_creation_condition_examples: PASS (test_creation_condition_examples.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:05.2248251Z test_creation_contract: PASS (test_creation_contract.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:09.3511921Z test_creation_cost_ledger: PASS (test_creation_cost_ledger.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:13.9782521Z test_creation_draft_undo: PASS (test_creation_draft_undo.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:24.5731454Z test_creation_edit_controls: PASS (test_creation_edit_controls.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:27.1960133Z test_creation_evidence_identity: PASS (test_creation_evidence_identity.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:29.4173303Z test_creation_evidence_reading: PASS (test_creation_evidence_reading.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:30.4349980Z test_creation_explanation: PASS (test_creation_explanation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:33.1577667Z test_creation_future_workbench: PASS (test_creation_future_workbench.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:36.7824556Z test_creation_input_validation: PASS (test_creation_input_validation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:39.5052119Z test_creation_keyboard_focus: PASS (test_creation_keyboard_focus.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:43.4315614Z test_creation_measured_closure: PASS (test_creation_measured_closure.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:44.5496816Z test_creation_navigation: PASS (test_creation_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:36:51.5339504Z test_creation_observation_focus: PASS (test_creation_observation_focus.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:07.2416272Z test_creation_playable_loop: PASS (test_creation_playable_loop.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:08.6603698Z test_creation_prediction_flow: PASS (test_creation_prediction_flow.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:09.7788922Z test_creation_prediction_memory: PASS (test_creation_prediction_memory.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:16.9685361Z test_creation_prediction_work_view: PASS (test_creation_prediction_work_view.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:22.8506527Z test_creation_preparation_binding: PASS (test_creation_preparation_binding.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:23.8686609Z test_creation_profile_navigation: PASS (test_creation_profile_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:25.1377601Z test_creation_raw_readonly: PASS (test_creation_raw_readonly.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:29.0640586Z test_creation_route_flow: PASS (test_creation_route_flow.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:31.1349970Z test_creation_state_regressions: PASS (test_creation_state_regressions.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:33.7575607Z test_creation_work_focus: PASS (test_creation_work_focus.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:54.7777816Z test_creation_workbench: PASS (test_creation_workbench.txt)
+godot	UNKNOWN STEP	2026-10-09T14:37:57.8503218Z test_creation_writer_retry: PASS (test_creation_writer_retry.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:20.2740904Z test_creation_writer_retry_ui: PASS (test_creation_writer_retry_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:23.6480414Z test_desktop_conventions: PASS (test_desktop_conventions.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:26.4207404Z test_direct_task_navigation: PASS (test_direct_task_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:28.3908533Z test_display_preferences: PASS (test_display_preferences.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:29.4085540Z test_evidence_proxy: PASS (test_evidence_proxy.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:32.8324365Z test_exploration: PASS (test_exploration.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:34.1512166Z test_final_convergence: PASS (test_final_convergence.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:37.6763444Z test_first_build_guidance: PASS (test_first_build_guidance.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:38.6943088Z test_floating_tool_recall: PASS (test_floating_tool_recall.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:42.4202967Z test_global_save: PASS (test_global_save.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:47.1492650Z test_hardware_foundations_ui: PASS (test_hardware_foundations_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:52.5288227Z test_hardware_prologue_ui: PASS (test_hardware_prologue_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:38:56.2535426Z test_hardware_seal_navigation: PASS (test_hardware_seal_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:07.3483501Z test_hub_first_screen: PASS (test_hub_first_screen.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:10.2217798Z test_intelligent_state: PASS (test_intelligent_state.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:12.6442708Z test_latch_playback_readout: PASS (test_latch_playback_readout.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:16.0194598Z test_layout_navigation: PASS (test_layout_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:17.6896258Z test_layout_preview_selection: PASS (test_layout_preview_selection.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:19.5604522Z test_layout_recipe_sources: PASS (test_layout_recipe_sources.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:22.1833144Z test_layout_simulation: PASS (test_layout_simulation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:23.9537332Z test_layout_trace_storage: PASS (test_layout_trace_storage.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:26.1248692Z test_layout_ui: PASS (test_layout_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:34.5137986Z test_learning_handbook: PASS (test_learning_handbook.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:37.8885985Z test_locality_chapter_ui: PASS (test_locality_chapter_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:40.0094091Z test_locality_restored_baseline: PASS (test_locality_restored_baseline.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:41.4786627Z test_localization: PASS (test_localization.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:42.4964582Z test_optional_challenges: PASS (test_optional_challenges.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:44.0661729Z test_optional_result_feedback: PASS (test_optional_result_feedback.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:45.0837781Z test_overlap_simulation: PASS (test_overlap_simulation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:48.0578059Z test_overlap_ui: PASS (test_overlap_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:49.2755507Z test_personal_records: PASS (test_personal_records.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:50.2934331Z test_playtest_data: PASS (test_playtest_data.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:51.4116987Z test_playtest_feedback_ui: PASS (test_playtest_feedback_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:52.5302033Z test_playtest_visits: PASS (test_playtest_visits.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:54.1998407Z test_prediction_goal_feedback: PASS (test_prediction_goal_feedback.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:55.5191294Z test_prediction_navigation: PASS (test_prediction_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:56.7380062Z test_prediction_record_source: PASS (test_prediction_record_source.txt)
+godot	UNKNOWN STEP	2026-10-09T14:39:58.6091240Z test_prediction_slice: PASS (test_prediction_slice.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:02.4351696Z test_prediction_workbench_presentation: PASS (test_prediction_workbench_presentation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:04.5562371Z test_prelaunch_settings: PASS (test_prelaunch_settings.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:06.5268653Z test_prologue_continuation: PASS (test_prologue_continuation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:08.2969453Z test_prologue_simulation: PASS (test_prologue_simulation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:09.6158979Z test_release_convergence: PASS (test_release_convergence.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:10.6348449Z test_remote_feedback: PASS (test_remote_feedback.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:11.7533616Z test_representation_cache: PASS (test_representation_cache.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:15.8821089Z test_representation_closure_navigation: PASS (test_representation_closure_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:19.0568124Z test_representation_design_shelf: PASS (test_representation_design_shelf.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:21.1782841Z test_representation_edit_context: PASS (test_representation_edit_context.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:22.8484741Z test_representation_plan: PASS (test_representation_plan.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:25.8229929Z test_representation_region: PASS (test_representation_region.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:31.5054947Z test_representation_restored_notice: PASS (test_representation_restored_notice.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:33.0754925Z test_representation_session: PASS (test_representation_session.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:35.9494446Z test_representation_visual: PASS (test_representation_visual.txt)
+godot	UNKNOWN STEP	2026-10-09T14:40:59.4802773Z test_representation_workbench_presentation: PASS (test_representation_workbench_presentation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:02.4544134Z test_save_signature_migration: PASS (test_save_signature_migration.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:03.5733508Z test_second_act_content: PASS (test_second_act_content.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:05.1433988Z test_second_act_experiments: PASS (test_second_act_experiments.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:06.1617111Z test_second_act_independent: PASS (test_second_act_independent.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:08.9353824Z test_second_act_navigation: PASS (test_second_act_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:12.0100169Z test_service_commission_ui: PASS (test_service_commission_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:13.2288371Z test_service_commissions: PASS (test_service_commissions.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:14.7996145Z test_service_context_navigation: PASS (test_service_context_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:18.3253657Z test_service_design_shelf: PASS (test_service_design_shelf.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:20.3967934Z test_service_learning_ui: PASS (test_service_learning_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:22.9197342Z test_service_number_display: PASS (test_service_number_display.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:27.9494330Z test_service_plan: PASS (test_service_plan.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:30.2716209Z test_service_session: PASS (test_service_session.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:32.2430517Z test_service_split_actions: PASS (test_service_split_actions.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:33.7629824Z test_service_state_replay: PASS (test_service_state_replay.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:34.9819129Z test_service_state_replay_view: PASS (test_service_state_replay_view.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:39.8114255Z test_service_undo_context: PASS (test_service_undo_context.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:40.8295435Z test_simulation: PASS (test_simulation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:43.6027482Z test_storage_caption_playback: PASS (test_storage_caption_playback.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:44.8214630Z test_system_applications: PASS (test_system_applications.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:46.2905409Z test_system_baseline_continuity: PASS (test_system_baseline_continuity.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:49.4650047Z test_system_cost_evidence: PASS (test_system_cost_evidence.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:50.5837500Z test_system_lab_simulation: PASS (test_system_lab_simulation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:53.7584562Z test_system_lab_ui: PASS (test_system_lab_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:55.6294144Z test_system_trace_source_binding: PASS (test_system_trace_source_binding.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:58.0518115Z test_task_tree: PASS (test_task_tree.txt)
+godot	UNKNOWN STEP	2026-10-09T14:41:59.1705659Z test_task_tree_layout: PASS (test_task_tree_layout.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:01.6935246Z test_task_tree_presentation: PASS (test_task_tree_presentation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:02.8121126Z test_theme_reflection: PASS (test_theme_reflection.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:04.7828195Z test_trace_ambience: PASS (test_trace_ambience.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:10.5654508Z test_tree_journey_presentation: PASS (test_tree_journey_presentation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:13.0875540Z test_tutorial_replay: PASS (test_tutorial_replay.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:15.4099624Z test_ui: PASS (test_ui.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:17.8333078Z test_unified_journey_navigation: PASS (test_unified_journey_navigation.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:18.9522272Z test_visit_summary: PASS (test_visit_summary.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:20.7228234Z test_wire_drag_geometry: PASS (test_wire_drag_geometry.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:21.9419699Z test_wire_tooltip_lifecycle: PASS (test_wire_tooltip_lifecycle.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:22.9601677Z test_workbench_interrupted_recovery: PASS (test_workbench_interrupted_recovery.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9785910Z test_workbench_write_failure: PASS (test_workbench_write_failure.txt)
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9911291Z ##[group]Run actions/upload-artifact@v4
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9911596Z with:
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9911806Z   name: isolated-godot-results
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9912071Z   path: .godot/verification/*/*.txt
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9912330Z   retention-days: 7
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9912556Z   if-no-files-found: warn
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9912781Z   compression-level: 6
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9912996Z   overwrite: false
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9913207Z   include-hidden-files: false
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9913435Z env:
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9913621Z   GODOT_VERSION: 4.7.1
+godot	UNKNOWN STEP	2026-10-09T14:42:23.9913826Z ##[endgroup]
+godot	UNKNOWN STEP	2026-10-09T14:42:24.1748646Z (node:4013) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+godot	UNKNOWN STEP	2026-10-09T14:42:24.1750363Z (Use `node --trace-deprecation ...` to show where the warning was created)
+godot	UNKNOWN STEP	2026-10-09T14:42:24.2061545Z With the provided path, there will be 146 files uploaded
+godot	UNKNOWN STEP	2026-10-09T14:42:24.2067174Z Artifact name is valid!
+godot	UNKNOWN STEP	2026-10-09T14:42:24.2068042Z Root directory input is valid!
+godot	UNKNOWN STEP	2026-10-09T14:42:24.4058433Z Beginning upload of artifact content to blob storage
+godot	UNKNOWN STEP	2026-10-09T14:42:24.5493833Z (node:4013) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+godot	UNKNOWN STEP	2026-10-09T14:42:24.5881023Z Uploaded bytes 54739
+godot	UNKNOWN STEP	2026-10-09T14:42:24.6092812Z Finished uploading artifact content to blob storage!
+godot	UNKNOWN STEP	2026-10-09T14:42:24.6094139Z SHA256 digest of uploaded artifact zip is c04632503df7d23faf22e659b94392cf140a0864c02ee8a49c0d6321cd7f65bd
+godot	UNKNOWN STEP	2026-10-09T14:42:24.6096576Z Finalizing artifact upload
+godot	UNKNOWN STEP	2026-10-09T14:42:24.8129753Z Artifact isolated-godot-results.zip successfully finalized. Artifact ID 11624535555
+godot	UNKNOWN STEP	2026-10-09T14:42:24.8131554Z Artifact isolated-godot-results has been successfully uploaded! Final size is 54739 bytes. Artifact ID is 11624535555
+godot	UNKNOWN STEP	2026-10-09T14:42:24.8139035Z Artifact download URL: https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37945118728/artifacts/11624535555
+godot	UNKNOWN STEP	2026-10-09T14:42:24.8364701Z Post job cleanup.
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9214415Z [command]/usr/bin/git version
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9253378Z git version 2.55.0
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9292609Z Temporarily overriding HOME='/home/runner/work/_temp/cb49ee92-6341-4aa0-9d65-cad8d9a63931' before making global git config changes
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9293933Z Adding repository directory to the temporary git global config as a safe directory
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9297852Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9337738Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9373076Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9632849Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9660674Z http.https://github.com/.extraheader
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9674349Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9708557Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+godot	UNKNOWN STEP	2026-10-09T14:42:24.9966320Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+godot	UNKNOWN STEP	2026-10-09T14:42:25.0014196Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+godot	UNKNOWN STEP	2026-10-09T14:42:25.0423149Z Cleaning up orphan processes
+godot	UNKNOWN STEP	2026-10-09T14:42:25.0748976Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

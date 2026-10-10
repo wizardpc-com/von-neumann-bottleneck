@@ -46,9 +46,10 @@ Private treatment is a local sidecar keyed by stable ID, no public admin endpoin
    actual60-task content settings, batch/source identity and explicit endpoint.
    Run actual Mac package, save/reopen and synthetic HTTP feedback acceptance.
    Windows export is distinct from native Windows execution.
-5. Reuse existing VPS contract only when private target/access/authorization is
-   established. Stage isolated first, then test approved HTTPS externally.
-   No config/SSH/approved endpoint has yet been found; question consolidated.
+5. Reuse the user's identified existing private VPS staging contract through an
+   SSH tunnel. Public publication is explicitly deferred. Its baseline/runbook
+   were read; this Mac lacks the ignored inventory and SSH connection/host-key
+   configuration, so no connection or server operation can be attempted yet.
 6. Relevant fresh regressions, full results/log inspection, diff/status/handoff;
    qualified source PR into main and immutable delivery without replacing old files.
 
@@ -82,5 +83,8 @@ work and draft, receives committed same-ID ack/private report/triage, deduplicat
 deletes and prevents revival after old-backup restore. Final native Mac attempt
 blocked by locked screen; renderer attempt timed out, no native claim. Windows
 native, VPS staging, external HTTPS, off-host backup and newcomer acceptance NOT_RUN.
-No target/config answer; no remote operations. PR4 CI/merge and delivery handoff
+The user subsequently identified existing private staging and authorized tunnel
+acceptance only. Baseline/runbook inspected: Mac inventory/SSH config absent and
+known_hosts only GitHub; host/user/port, authorized identity mapping and trusted
+server key are missing. No remote operations. PR4 CI/merge and delivery handoff
 are recorded in the [round evidence](../../verification/20261010-cloud-playtest/README.md).

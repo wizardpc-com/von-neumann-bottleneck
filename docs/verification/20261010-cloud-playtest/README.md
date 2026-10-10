@@ -1,10 +1,14 @@
 # Sixty-task package and private feedback loop — 2026-10-10
 
-Implementation and local exported-package acceptance PASS. VPS staging and
-external HTTPS/player availability are NOT_RUN. Missing existing authorized SSH/
-private target configuration, approved external TLS/publication scope and applicable
-privacy/retention/off-host backup configuration were requested together; no reply
-or usable target was available. No VPS, DNS, other service or public-data changes.
+Implementation and local exported-package acceptance PASS. VPS staging is
+NOT_RUN: the user identified and authorized reuse of existing private staging
+through an SSH tunnel; its baseline and operations runbook were read. The server
+address is deliberately outside Git in an ignored private inventory, absent on
+this Mac. No SSH config exists here and known_hosts contains only GitHub. Missing
+Mac connection configuration is the verified host/user/port, the existing
+authorized identity or agent mapping, and a trusted server host-key entry.
+Public publication is explicitly deferred by the user. No VPS, DNS, other service
+or public-data changes.
 ROUND_BRIEF was reference material, not independent deployment authorization.
 
 ## Source and main
@@ -108,7 +112,9 @@ Only synthetic logs/sanitized receipts are in the private evidence directory und
 
 Manually inspect after unlocking Mac: clean first launch, normal mouse/keyboard
 feedback, focused-work return and audio/comfort. Independently test Windows and
-unfamiliar players. Cloud gates remain separate; an approved target requires a new
-immutable endpoint-bound candidate and actual external same-ID acceptance.
+unfamiliar players. Staging remains pending the Mac SSH connection configuration.
+Then use the authorized loopback tunnel with an immutable endpoint-bound
+acceptance candidate and actual VPS same-ID evidence. Public availability remains
+a separate future scope.
 
 Raw execution logs, detailed file manifests and internal QA metadata remain local; only this reviewed summary and minimal synthetic receipt are published. Automatic approval review rejected publishing the broad evidence directory, so it was retained privately.

@@ -1,0 +1,83 @@
+{
+  "source_commit": "66093206d900aa3a7e294cff49c72c0de85cac8a",
+  "full_logs_inspected": true,
+  "issues": [],
+  "editor_viewport_checks": 240,
+  "routes": [
+    {
+      "locale": "zh_CN",
+      "a_counts": {
+        "0": 32,
+        "1": 16,
+        "2": 10,
+        "3": 6
+      },
+      "b_counts": {
+        "0": 32,
+        "1": 10,
+        "2": 16,
+        "3": 6
+      },
+      "changed_cells": 12,
+      "first_difference_zero_based": 9,
+      "rendered_checks_log": 113,
+      "reopen_checks": 20,
+      "native_OS_input": false,
+      "work_ids": [
+        "6dcdf63524b42dab4a090bda81deee0eca3aa830ebeca901746eecb815df61c8",
+        "046d8e7f5ce45561c4bdce7501863b7edcd39f6d77dfef0beb1dbdc6b150b8ea"
+      ],
+      "live_playback": {
+        "clock": "actual renderer frames; no manual process calls",
+        "completed_cursor": 64,
+        "elapsed_ms": 25267,
+        "native_input": false,
+        "pause_cursor": 9,
+        "step_cursor": 10,
+        "viewport_input": true,
+        "work_id": "046d8e7f5ce45561c4bdce7501863b7edcd39f6d77dfef0beb1dbdc6b150b8ea"
+      }
+    },
+    {
+      "locale": "en",
+      "a_counts": {
+        "0": 32,
+        "1": 16,
+        "2": 10,
+        "3": 6
+      },
+      "b_counts": {
+        "0": 32,
+        "1": 10,
+        "2": 16,
+        "3": 6
+      },
+      "changed_cells": 12,
+      "first_difference_zero_based": 9,
+      "rendered_checks_log": 113,
+      "reopen_checks": 20,
+      "native_OS_input": false,
+      "work_ids": [
+        "d41ba46301b8fd7b09c2b097ef7833434a20e9581937d8ab69c53c432fd7f589",
+        "a43d1ccb13671eee86a04be7814e91dbf286213c24d1d66550b4275b4ac50ba4"
+      ],
+      "live_playback": {
+        "clock": "actual renderer frames; no manual process calls",
+        "completed_cursor": 64,
+        "elapsed_ms": 25267,
+        "native_input": false,
+        "pause_cursor": 9,
+        "step_cursor": 10,
+        "viewport_input": true,
+        "work_id": "a43d1ccb13671eee86a04be7814e91dbf286213c24d1d66550b4275b4ac50ba4"
+      }
+    }
+  ],
+  "visual_review": [
+    "zh/en passage editor, controlled comparison, exact-event explanation",
+    "zh1080 full performance",
+    "zh/en640x420 current64 visible; all controls reachable",
+    "protected outputs and recipes checked by independent process"
+  ],
+  "boundaries": "Controller text/mapping assignment, actual viewport button input and real rendering clock; no native OS or novice acceptance"
+}

@@ -1,0 +1,36 @@
+{
+  "source_commit": "67334e386aa6700505984d1e5af2703397b8aace",
+  "checks": {
+    "actual_commit_reveal_stream": true,
+    "actual_event_available": true,
+    "actual_model_restore": true,
+    "actual_pinned_a": true,
+    "actual_twelve_changes": true,
+    "compact_actual_cursor": true,
+    "controlled_effect": true,
+    "controlled_receipt": true,
+    "exact_snapshot_mapping": true,
+    "exhibition_preserves_works": true,
+    "explicit_feedback_connected": true,
+    "exported_editor_opens": true,
+    "exported_focus": true,
+    "exported_transient_intent": true,
+    "isolated": true,
+    "no_silent_learning": true,
+    "one_passage_replaced": true,
+    "package_game_only": true,
+    "pinned_a_preserved": true,
+    "real_rule_change": true,
+    "saved_b": true,
+    "static_resize_preserves_scroll": true,
+    "still_forty_core_tasks": true
+  },
+  "passed": true,
+  "exit": 0,
+  "binary_pack_sha256": {
+    "Contents/MacOS/Von Neumann Bottleneck": "5787730a950dd4458b398967b8597666955897b8c3bd9a497889a3d63aecdf02",
+    "Contents/Resources/Von Neumann Bottleneck.pck": "69f6ea6663d089ddc76aea3f2c37481e572eba7cc33d92d29d14c13ab506d805"
+  },
+  "profile": "VonNeumannBottleneckChecks/package-d2fcef6bccef-creative-61485f",
+  "evidence_kind": "actual exported binary controller fixture; no native OS input"
+}

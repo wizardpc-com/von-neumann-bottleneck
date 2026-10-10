@@ -6,6 +6,20 @@ assertions intentionally require no prior acknowledgement. See
 
 # Testing
 
+## Existing-passage creative editing — 2026-10-10
+
+Run `test_creation_sample_editing` and `test_creation_exhibition_composition`
+through the pinned4.7.1 isolated verifier with affected comparison/design/draft/
+focus/future/input/keyboard suites. The former can also run rendered with
+`-- --creation-sample-edit-capture --capture-size=1280x720` in an imported QA copy.
+`scripts/verify-creative-experience.gd` extends the previous personal-works runner
+using the actual existing-passage Edit/Replace/Learn buttons. Use a fresh QA
+profile per language, `--evidence-dir=<absolute folder>`, then the existing
+`verify-personal-works-reopen.gd` in a separate process with that same profile.
+Text assignment is a disclosed controller fixture; button clicks use viewport
+input. This is not native OS or newcomer acceptance.
+
+
 ## Continuous signal candidate
 
 Personal-work deepening adds `test_creation_design_evidence`,

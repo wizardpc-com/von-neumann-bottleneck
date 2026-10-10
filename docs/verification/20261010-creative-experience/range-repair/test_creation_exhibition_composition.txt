@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Composition controls zh: row minimum 536.0 / available 608.0; wrapped false
+Composition controls en: row minimum 720.0 / available 608.0; wrapped true
+PASS: creation exhibition composition 187 checks

@@ -1,0 +1,129 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/user_directory"
+    },
+    {
+      "name": "test_creation_comparison",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_comparison.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_comparison"
+    },
+    {
+      "name": "test_creation_contract",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_contract.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_contract"
+    },
+    {
+      "name": "test_creation_design_evidence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_design_evidence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_design_evidence"
+    },
+    {
+      "name": "test_creation_draft_undo",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_draft_undo.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_draft_undo"
+    },
+    {
+      "name": "test_creation_edit_controls",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_edit_controls.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_edit_controls"
+    },
+    {
+      "name": "test_creation_exhibition",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_exhibition.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_exhibition"
+    },
+    {
+      "name": "test_creation_exhibition_composition",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Minimum width reflows the real controls into rows",
+        "FAIL: [\"Minimum width reflows the real controls into rows\"]"
+      ],
+      "log": "test_creation_exhibition_composition.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_exhibition_composition"
+    },
+    {
+      "name": "test_creation_future_workbench",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_future_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_future_workbench"
+    },
+    {
+      "name": "test_creation_input_validation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_input_validation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_input_validation"
+    },
+    {
+      "name": "test_creation_keyboard_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_keyboard_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_keyboard_focus"
+    },
+    {
+      "name": "test_creation_sample_editing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_sample_editing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_sample_editing"
+    },
+    {
+      "name": "test_creation_work_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_work_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_work_focus"
+    },
+    {
+      "name": "test_creation_workbench",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261010T051715Z-ac06723d/test_creation_workbench"
+    }
+  ]
+}

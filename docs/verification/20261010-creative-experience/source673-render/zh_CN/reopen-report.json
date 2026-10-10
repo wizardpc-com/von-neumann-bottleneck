@@ -1,0 +1,742 @@
+{
+	"checks": 20,
+	"child": {
+		"id": "2e258782da798f4a737b0fb0085a4b93f9b2cef521494f50cd9f187cc74424fd",
+		"mapping": "light-shapes-v1",
+		"name": "独立重开 · B 的下一份 / Reopened B child",
+		"output": [
+			0,
+			1,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2,
+			0,
+			3,
+			0,
+			2,
+			0,
+			3,
+			0,
+			2,
+			0,
+			3,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2,
+			0,
+			3,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2,
+			0,
+			3,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2,
+			0,
+			3,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2,
+			0,
+			1,
+			0,
+			2
+		],
+		"parent": "046d8e7f5ce45561c4bdce7501863b7edcd39f6d77dfef0beb1dbdc6b150b8ea",
+		"recipe": {
+			"initial": [
+				0,
+				1
+			],
+			"length": 64,
+			"machine": {
+				"bytes_per_cycle": 1,
+				"cache_rows": 21,
+				"cpu_ops_per_cycle": 64,
+				"memory_bytes": 8192,
+				"request_cycles": 64
+			},
+			"model": {
+				"examples": [
+					[
+						0,
+						1,
+						0,
+						2,
+						0,
+						1,
+						0,
+						2,
+						0,
+						1,
+						0,
+						2,
+						0,
+						1,
+						0,
+						2,
+						0,
+						1,
+						0,
+						2,
+						0,
+						1,
+						0,
+						2
+					],
+					[
+						0,
+						2,
+						0,
+						3,
+						0,
+						2,
+						0,
+						3,
+						0,
+						2,
+						0,
+						3,
+						0,
+						2,
+						0,
+						3,
+						0,
+						2,
+						0,
+						3,
+						0,
+						2,
+						0,
+						3
+					]
+				],
+				"order": 2,
+				"parent": "f2a7f52567cda7f6aa3647be16dd3aee696066444da8145ccc3e988b17cd2610",
+				"rows": [
+					{
+						"context": [],
+						"counts": [
+							24,
+							6,
+							12,
+							6
+						]
+					},
+					{
+						"context": [
+							0
+						],
+						"counts": [
+							0,
+							6,
+							12,
+							6
+						]
+					},
+					{
+						"context": [
+							1
+						],
+						"counts": [
+							6,
+							0,
+							0,
+							0
+						]
+					},
+					{
+						"context": [
+							2
+						],
+						"counts": [
+							11,
+							0,
+							0,
+							0
+						]
+					},
+					{
+						"context": [
+							3
+						],
+						"counts": [
+							5,
+							0,
+							0,
+							0
+						]
+					},
+					{
+						"context": [
+							0,
+							1
+						],
+						"counts": [
+							6,
+							0,
+							0,
+							0
+						]
+					},
+					{
+						"context": [
+							0,
+							2
+						],
+						"counts": [
+							11,
+							0,
+							0,
+							0
+						]
+					},
+					{
+						"context": [
+							0,
+							3
+						],
+						"counts": [
+							5,
+							0,
+							0,
+							0
+						]
+					},
+					{
+						"context": [
+							1,
+							0
+						],
+						"counts": [
+							0,
+							0,
+							6,
+							0
+						]
+					},
+					{
+						"context": [
+							2,
+							0
+						],
+						"counts": [
+							0,
+							5,
+							0,
+							6
+						]
+					},
+					{
+						"context": [
+							3,
+							0
+						],
+						"counts": [
+							0,
+							0,
+							5,
+							0
+						]
+					}
+				],
+				"source_digest": "d39bd0ec636d9164c57f4b39c3040cf49c5403c302b534a71ee63beabec1555d",
+				"version": 1
+			},
+			"model_id": "067db187ca29240458f281c952bde7be666a193b42b41aa6dd7e07adc51b4398",
+			"prng_version": "park-miller-v1",
+			"sampler": "weighted",
+			"sampler_version": "integer-counts-v1",
+			"seed": 17,
+			"version": 1
+		},
+		"training": {
+			"cost": {
+				"cpu_ops": 479,
+				"peak_bytes": 326,
+				"total_cycles": 12731,
+				"transfer_bytes": 755
+			},
+			"events": [
+				{
+					"bytes": 1,
+					"cycles": 66,
+					"example": 0,
+					"index": 0,
+					"kind": "sample_read",
+					"ops": 1,
+					"phase": "prepare",
+					"symbol": 0
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 0
+				},
+				{
+					"bytes": 1,
+					"cycles": 65,
+					"example": 0,
+					"index": 1,
+					"kind": "sample_read",
+					"ops": 1,
+					"phase": "prepare",
+					"symbol": 1
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 1
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [
+						0
+					],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 1
+				},
+				{
+					"bytes": 1,
+					"cycles": 65,
+					"example": 0,
+					"index": 2,
+					"kind": "sample_read",
+					"ops": 1,
+					"phase": "prepare",
+					"symbol": 0
+				},
+				{
+					"after": 2,
+					"before": 1,
+					"bytes": 4,
+					"context": [],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 0
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [
+						1
+					],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 0
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [
+						0,
+						1
+					],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 0
+				},
+				{
+					"bytes": 1,
+					"cycles": 65,
+					"example": 0,
+					"index": 3,
+					"kind": "sample_read",
+					"ops": 1,
+					"phase": "prepare",
+					"symbol": 2
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 2
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [
+						0
+					],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 2
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [
+						1,
+						0
+					],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 2
+				},
+				{
+					"bytes": 1,
+					"cycles": 65,
+					"example": 0,
+					"index": 4,
+					"kind": "sample_read",
+					"ops": 1,
+					"phase": "prepare",
+					"symbol": 0
+				},
+				{
+					"after": 3,
+					"before": 2,
+					"bytes": 4,
+					"context": [],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 0
+				},
+				{
+					"after": 1,
+					"before": 0,
+					"bytes": 4,
+					"context": [
+						2
+					],
+					"cycles": 68,
+					"kind": "count_update",
+					"ops": 2,
+					"phase": "prepare",
+					"symbol": 0
+				}
+			],
+			"machine": {
+				"bytes_per_cycle": 1,
+				"cache_rows": 21,
+				"cpu_ops_per_cycle": 64,
+				"memory_bytes": 8192,
+				"request_cycles": 64
+			},
+			"model_id": "067db187ca29240458f281c952bde7be666a193b42b41aa6dd7e07adc51b4398"
+		}
+	},
+	"design_provenance": {
+		"observation": true,
+		"observed_change": true,
+		"report": {
+			"changes": [
+				{
+					"after": [
+						[
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2
+						],
+						[
+							0,
+							2,
+							0,
+							3,
+							0,
+							2,
+							0,
+							3,
+							0,
+							2,
+							0,
+							3,
+							0,
+							2,
+							0,
+							3,
+							0,
+							2,
+							0,
+							3,
+							0,
+							2,
+							0,
+							3
+						]
+					],
+					"before": [
+						[
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2,
+							0,
+							1,
+							0,
+							2
+						],
+						[
+							0,
+							1,
+							0,
+							3,
+							0,
+							1,
+							0,
+							3,
+							0,
+							1,
+							0,
+							3,
+							0,
+							1,
+							0,
+							3,
+							0,
+							1,
+							0,
+							3,
+							0,
+							1,
+							0,
+							3
+						]
+					],
+					"edits": 1,
+					"key": "examples",
+					"passages": [
+						{
+							"a": 2,
+							"after": [
+								0,
+								2,
+								0,
+								3,
+								0,
+								2,
+								0,
+								3,
+								0,
+								2,
+								0,
+								3,
+								0,
+								2,
+								0,
+								3,
+								0,
+								2,
+								0,
+								3,
+								0,
+								2,
+								0,
+								3
+							],
+							"b": 2,
+							"before": [
+								0,
+								1,
+								0,
+								3,
+								0,
+								1,
+								0,
+								3,
+								0,
+								1,
+								0,
+								3,
+								0,
+								1,
+								0,
+								3,
+								0,
+								1,
+								0,
+								3,
+								0,
+								1,
+								0,
+								3
+							],
+							"kind": "replace"
+						}
+					]
+				}
+			],
+			"controlled_effect": true,
+			"design_version": "controlled-design-v1",
+			"different": true,
+			"effective_design": true,
+			"factor_count": 1,
+			"first_difference": 9,
+			"first_difference_evidence": {
+				"a": {
+					"context": [
+						2,
+						0
+					],
+					"counts": [
+						0,
+						5,
+						0,
+						0
+					],
+					"index": 9,
+					"kind": "generated",
+					"model_id": "f2a7f52567cda7f6aa3647be16dd3aee696066444da8145ccc3e988b17cd2610",
+					"prng_version": "park-miller-v1",
+					"sampler": "weighted",
+					"sampler_version": "integer-counts-v1",
+					"symbol": 1
+				},
+				"b": {
+					"context": [
+						2,
+						0
+					],
+					"counts": [
+						0,
+						5,
+						0,
+						6
+					],
+					"index": 9,
+					"kind": "generated",
+					"model_id": "067db187ca29240458f281c952bde7be666a193b42b41aa6dd7e07adc51b4398",
+					"prng_version": "park-miller-v1",
+					"sampler": "weighted",
+					"sampler_version": "integer-counts-v1",
+					"symbol": 3
+				},
+				"index": 9,
+				"shared_prefix": true
+			},
+			"fixed": true,
+			"later_independent_causality": false,
+			"mismatches": [
+				9,
+				13,
+				15,
+				17,
+				33,
+				39,
+				41,
+				47,
+				53,
+				55,
+				59,
+				63
+			],
+			"model_changed": true,
+			"observation": true,
+			"ok": true,
+			"rules_changed": true,
+			"seed_only": false,
+			"single": true
+		},
+		"source": "controlled-design-v1"
+	},
+	"evidence_kind": "independent-process-session-readback",
+	"failures": [],
+	"original_ids": [
+		"6dcdf63524b42dab4a090bda81deee0eca3aa830ebeca901746eecb815df61c8",
+		"046d8e7f5ce45561c4bdce7501863b7edcd39f6d77dfef0beb1dbdc6b150b8ea"
+	],
+	"profile": "user://creation-candidate/session.json"
+}

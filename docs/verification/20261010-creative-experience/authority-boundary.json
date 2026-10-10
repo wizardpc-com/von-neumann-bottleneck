@@ -1,0 +1,33 @@
+{
+  "main_commit": "7e4facb17f99b3a79b3e6dbf0c7a6bcb5a1118a8",
+  "creative_source_commit": "67334e386aa6700505984d1e5af2703397b8aace",
+  "unchanged": [
+    {
+      "path": "experiments/creation/model.gd",
+      "matches_integrated_main": true,
+      "sha256": "a4b498823f54a9dffa31cc54b476946325bcace4885fb03ddf8f5ed97fe5f5ff"
+    },
+    {
+      "path": "experiments/creation/codec.gd",
+      "matches_integrated_main": true,
+      "sha256": "51a061e8bace27d12b404acc9548956f553caac4083da1cf2bb7e4258a213c9f"
+    },
+    {
+      "path": "experiments/creation/session.gd",
+      "matches_integrated_main": true,
+      "sha256": "7d88aef56dbea0ad710fcad314ee3cbbc6c9142c12f7aea0bbee14fc6c2504fd"
+    },
+    {
+      "path": "experiments/creation/catalog.gd",
+      "matches_integrated_main": true,
+      "sha256": "581708a11e6e7e99757ce5bd9be850f24e31ba3e8a517b379b1ddb2540751949"
+    },
+    {
+      "path": "project.godot",
+      "matches_integrated_main": true,
+      "sha256": "25a8644e7bf453fbbaa6fe8c1cb2f0c18f5bf73389e307ca678321862c9f01aa"
+    }
+  ],
+  "original_checkout_branch_preserved": "codex/mac-second-act-20261005",
+  "original_checkout_head": "8115b8e563196c373c5212c47c5c5aa044ca553e"
+}

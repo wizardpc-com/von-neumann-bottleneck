@@ -13,6 +13,13 @@ recipes independently from choice completion. New practice/check-v2 materials
 preserve legacy checks and their separate seen flags. `work_focus.gd` consumes
 protected output plus validated replay events for reversible light-trace-v1
 performance and source navigation, without authority over results or costs.
+Selected-passage editing replaces one draft example in place; explicit Learn
+recounts its rules. Unsubmitted legal or invalid text is protected on departure.
+The optional intention note is transient human annotation, without interpretation
+or scoring. A third reversible `light-phrases-v1` viewing mapping places actual
+symbols on four lanes in chronological16-cell folds, retaining exact evidence
+indices. Dynamic cursor following and static manual scrolling are presentation
+only; saved mappings, recipes, model costs and protected works stay unchanged.
 Prediction uses available rule rows for cache residency and strictly replays
 legacy conservative recorded bounds. Its bounded
 transient draft Undo/Redo restores recipes and models without rewinding protected

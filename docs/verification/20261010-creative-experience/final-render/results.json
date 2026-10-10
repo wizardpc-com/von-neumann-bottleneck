@@ -1,0 +1,107 @@
+[
+  {
+    "locale": "zh_CN",
+    "name": "route",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/private/tmp/vnb-creative-experience-20261010/.godot/verification/20261010T053455Z-f2b76963/project",
+      "--script",
+      "res://scripts/verify-creative-experience.gd",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--",
+      "--locale=zh_CN",
+      "--evidence-dir=/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/zh_CN",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/creative-studio-zh_CN-278e3898",
+    "errors": [],
+    "log": "/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/zh_CN/route.log"
+  },
+  {
+    "locale": "zh_CN",
+    "name": "reopen",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/private/tmp/vnb-creative-experience-20261010/.godot/verification/20261010T053455Z-f2b76963/project",
+      "--script",
+      "res://scripts/verify-personal-works-reopen.gd",
+      "--headless",
+      "--",
+      "--locale=zh_CN",
+      "--evidence-dir=/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/zh_CN"
+    ],
+    "exit": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/creative-studio-zh_CN-278e3898",
+    "errors": [],
+    "log": "/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/zh_CN/reopen.log"
+  },
+  {
+    "locale": "en",
+    "name": "route",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/private/tmp/vnb-creative-experience-20261010/.godot/verification/20261010T053455Z-f2b76963/project",
+      "--script",
+      "res://scripts/verify-creative-experience.gd",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--",
+      "--locale=en",
+      "--evidence-dir=/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/en",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/creative-studio-en-939f18ac",
+    "errors": [],
+    "log": "/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/en/route.log"
+  },
+  {
+    "locale": "en",
+    "name": "reopen",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/private/tmp/vnb-creative-experience-20261010/.godot/verification/20261010T053455Z-f2b76963/project",
+      "--script",
+      "res://scripts/verify-personal-works-reopen.gd",
+      "--headless",
+      "--",
+      "--locale=en",
+      "--evidence-dir=/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/en"
+    ],
+    "exit": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/creative-studio-en-939f18ac",
+    "errors": [],
+    "log": "/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/en/reopen.log"
+  },
+  {
+    "name": "bilingual-editor",
+    "command": [
+      "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+      "--path",
+      "/private/tmp/vnb-creative-experience-20261010/.godot/verification/20261010T053455Z-f2b76963/project",
+      "--script",
+      "res://tests/test_creation_sample_editing.gd",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--",
+      "--creation-sample-edit-capture",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "passed": true,
+    "log": "/private/tmp/vnb-creative-experience-20261010/.godot/creative-renders/editor-render.log"
+  }
+]

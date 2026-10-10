@@ -2,6 +2,37 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Main integration and creative studio — 2026-10-10
+
+Protected PR1/PR2 passed fresh local and GitHub CI, then merged normally as
+70fefdd/7e4facb. Main retains both main-only C/P/G and the mature8115b8e increment,
+without rewriting published history. Original40, old valid profiles, legal
+solutions and protected model/work recipes remain intact.
+
+New work continues separately on codex/creation-studio-20261010 from final main.
+Runtime67334e3 lets the player edit an existing passage for a transient intention,
+explicitly Learn, compare actual fixed-recipe A/B, keep and exhibit exact saved
+output in four lanes. In the documented recipe,12/64 cells change, first at10;
+B decreases16→10 and C increases10→16. This is measured output, without grading.
+No model/codec/session/catalog/project-setting or persistent-format change.
+
+Final149 suites +2 isolation gates,609-file executed-source identity, same-source
+CI38029449312, bilingual113-check routes,20-check independent reopen per locale,
+and240-check bilingual editor renderer all PASS. Actual visual and exported
+verification repaired current-cell following after same-frame mapping/seek/resize;
+composition187 checks, strict signature/archive identity,16 package checks and23
+actual-binary creative checks PASS. Frozen Mac candidate free-alpha-67334e386aa6
+is copied into the original checkout's ignored build/ with an explicit player route.
+[Final evidence, PR receipts and precise boundaries](verification/20261010-creative-experience/README.md).
+[Chinese route](verification/20261010-creative-experience/HOW-TO-PLAY.md).
+
+Native OS, Windows, newcomer learning and independent artistic acceptance remain
+separate. Intent notes are transient; newer optional design/check profiles need
+current readers, because older binaries reject these extensions without deletion.
+No production migration or public/notarized release. Original checkout and its four
+unrelated collaborator changes remain preserved; development worktree and handoff
+are recorded in the final evidence.
+
 ## Main integration batch2 — 2026-10-10
 
 The second linear PR batch adds the dependency-complete77c57dc/012f261 creative
@@ -11,8 +42,8 @@ remain intact. Batch2 preserves optional controlled-design receipts, separate
 check-v2 identity and snapshot-only performance. Old valid saves remain readable;
 older packages reject extended candidate profiles instead of rewriting them.
 Fresh147 suites +2 isolation checks,149 full logs and606-file execution identity
-PASS. Five Python checks PASS; normal protected PR merge remains pending. No production migration or
-public release. [Batch1 audit](verification/20261010-main-integration/README.md).
+PASS. Five Python checks PASS. PR2 subsequently passed CI and merged normally as7e4facb;
+see the current round above for final receipts. No production migration or public release. [Batch1 audit](verification/20261010-main-integration/README.md).
 
 ## Representative continuity and live performance — 2026-10-09
 

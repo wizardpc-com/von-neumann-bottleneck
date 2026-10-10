@@ -1,0 +1,23 @@
+{
+  "source_commit": "67334e386aa6700505984d1e5af2703397b8aace",
+  "run_id": 38029449312,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 114147118036,
+      "name": "python",
+      "conclusion": "success",
+      "raw_log": "source673-python.log"
+    },
+    {
+      "id": 114147118227,
+      "name": "godot",
+      "conclusion": "success",
+      "all151_pass": true,
+      "raw_log": "source673-godot.log"
+    }
+  ],
+  "full_logs_read": true,
+  "errors": [],
+  "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/38029449312"
+}

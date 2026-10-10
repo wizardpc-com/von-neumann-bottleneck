@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="/private/tmp/vnb-creative-experience-20261010/.godot/package-qa/d2fcef6bccef/package_probe.gd" id="1"]
+[node name="PackageProbe" type="Node"]
+script = ExtResource("1")

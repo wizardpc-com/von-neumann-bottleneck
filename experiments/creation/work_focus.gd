@@ -21,6 +21,7 @@ var explanation_button: Button
 var fork_button: Button
 var overview_button: CheckButton
 var motion_button: CheckButton
+var controls: HFlowContainer
 var mapping_choice: OptionButton
 var closing_label: Label
 var work: Dictionary = {}
@@ -30,6 +31,7 @@ var position_label: Label
 var tabs: TabContainer
 var close_button: Button
 var recipe_label: Label
+var snapshot_scroll: ScrollContainer
 
 func words(zh: String, en: String) -> String: return en if english else zh
 
@@ -61,7 +63,11 @@ func _ready() -> void:
 	add_child(margin)
 	var content := VBoxContainer.new(); margin.add_child(content)
 	var header := HBoxContainer.new(); content.add_child(header)
-	make_label(str(work.get("name","")),header,24)
+	var name_label: Label = make_label(str(work.get("name","")),header,24)
+	name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	name_label.clip_text = true
+	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	name_label.tooltip_text = name_label.text
 	close_button = Button.new(); close_button.name = "CloseWorkFocus"
 	close_button.text = words("回到工作台","Back to workbench")
 	close_button.pressed.connect(dismiss); header.add_child(close_button)
@@ -71,11 +77,21 @@ func _ready() -> void:
 	content.add_child(tabs)
 	var art := VBoxContainer.new(); art.name = words("欣赏光纹","Appreciation"); tabs.add_child(art)
 	position_label = make_label(words("共 %d 格 · A ● / B ■ / C ▲ / D ◇ · 点格子查看位置", "%d cells · A ● / B ■ / C ▲ / D ◇ · select a cell for its position")%work.get("output",[]).size(),art,13)
-	var scroll := ScrollContainer.new(); scroll.name = "WorkSnapshotScroll"; scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; scroll.focus_mode = Control.FOCUS_ALL; art.add_child(scroll)
-	canvas = Canvas.new(); canvas.name = "WorkSnapshotCanvas"; canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(canvas); canvas.set_output(work.get("output",[])); canvas.cell_selected.connect(select_cell)
+	snapshot_scroll = ScrollContainer.new(); snapshot_scroll.name = "WorkSnapshotScroll"
+	snapshot_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	snapshot_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; snapshot_scroll.focus_mode = Control.FOCUS_ALL; art.add_child(snapshot_scroll)
+	canvas = Canvas.new(); canvas.name = "WorkSnapshotCanvas"; canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL; snapshot_scroll.add_child(canvas); canvas.set_output(work.get("output",[])); canvas.cell_selected.connect(select_cell)
 	canvas.set_presentation(VIEW_MAPPING,cursor)
+	# Resizing can move the current glyph out of view without moving the cursor.
+	snapshot_scroll.resized.connect(func() -> void: follow_cursor.call_deferred())
+	canvas.resized.connect(func() -> void: follow_cursor.call_deferred())
+	# Scroll ranges settle after child layout; a prior seek may have been clamped.
+	snapshot_scroll.get_v_scroll_bar().changed.connect(func() -> void: follow_cursor.call_deferred())
 	closing_label = make_label(words("世界的结构，也成为你表达的材料。", "The world’s structures become material for your expression.")+"  A Thought Within the World",art,13)
-	var explanation := VBoxContainer.new(); explanation.name = words("解释与定位","Explanation"); tabs.add_child(explanation)
+	var explanation_scroll := ScrollContainer.new(); explanation_scroll.name = words("解释与定位","Explanation")
+	explanation_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	explanation_scroll.focus_mode = Control.FOCUS_ALL; tabs.add_child(explanation_scroll)
+	var explanation := VBoxContainer.new(); explanation.size_flags_horizontal = Control.SIZE_EXPAND_FILL; explanation_scroll.add_child(explanation)
 	evidence_label = make_label("",explanation,14)
 	explanation_button = add_button(words("回到实际生成证据","Locate actual generation evidence"),explanation,func() -> void: request_evidence.emit(maxi(0,cursor-1)))
 	fork_button = add_button(words("从这件作品分叉继续改","Fork this work and continue"),explanation,func() -> void: request_fork.emit())
@@ -123,7 +139,10 @@ func add_button(value: String, parent: Node, action: Callable) -> Button:
 	return result
 
 func build_controls(parent: Node) -> void:
-	var controls := HBoxContainer.new(); parent.add_child(controls)
+	controls = HFlowContainer.new(); controls.name = "ExhibitionControls"
+	controls.add_theme_constant_override("h_separation",8)
+	controls.add_theme_constant_override("v_separation",4)
+	parent.add_child(controls)
 	play_button = add_button(words("播放","Play"),controls,toggle_play)
 	add_button(words("单步","Step"),controls,step)
 	overview_button = CheckButton.new(); overview_button.text = words("静态总览","Static overview"); overview_button.button_pressed = true; controls.add_child(overview_button)
@@ -139,6 +158,8 @@ func build_controls(parent: Node) -> void:
 	mapping_choice = OptionButton.new(); controls.add_child(mapping_choice)
 	mapping_choice.add_item(words("光迹 v1","Light trace v1"))
 	mapping_choice.add_item(words("原光纹 v1","Original shapes v1") if work.get("mapping","") == "light-shapes-v1" else words("光纹查看 v1","Shapes v1 viewing"))
+	mapping_choice.add_item(words("四轨光句 v1","Four-lane phrases v1"))
+	mapping_choice.tooltip_text = words("查看构图可切换；不会改写作品的保存映射。", "Switch viewing composition without rewriting the work’s saved mapping.")
 	mapping_choice.item_selected.connect(func(_index: int) -> void: sync_presentation())
 	timeline = HSlider.new(); timeline.name = "ExhibitionTimeline"; timeline.min_value = 0; timeline.max_value = work.get("output",[]).size(); timeline.step = 1; timeline.value = cursor; parent.add_child(timeline)
 	timeline.value_changed.connect(func(value: float) -> void: playing = false; static_overview = false; seek(int(value)))
@@ -183,13 +204,16 @@ func sync_presentation() -> void:
 	if canvas == null: return
 	var output: Array = work.get("output",[])
 	canvas.selected = cursor-1
-	canvas.set_presentation(VIEW_MAPPING if mapping_choice.selected == 0 else "light-shapes-v1",-1 if static_overview else cursor)
+	var mappings: Array[String] = [VIEW_MAPPING,"light-shapes-v1",Canvas.PHRASE_MAPPING]
+	canvas.set_presentation(mappings[mapping_choice.selected],-1 if static_overview else cursor)
 	timeline.set_value_no_signal(cursor)
 	overview_button.set_pressed_no_signal(static_overview)
 	motion_button.set_pressed_no_signal(reduced_motion)
 	play_button.text = words("暂停","Pause") if playing else words("播放","Play")
 	position_label.text = words("第 %d / %d 格", "Cell %d / %d")%[cursor,output.size()]+(" · "+Catalog.symbols([output[cursor-1]]) if cursor > 0 else "")
 	position_label.text += " · "+canvas.viewing_mapping
+	if canvas.viewing_mapping == Canvas.PHRASE_MAPPING:
+		position_label.text += words(" · A–D 固定四轨，16格一行；连线表示顺序。", " · Fixed A–D lanes; 16 cells per viewing row. Lines show sequence order.")
 	if work.get("mapping","") != "light-shapes-v1":
 		position_label.text += words(" · 原保存映射暂不支持；这是另一种查看方式。", " · Saved mapping unsupported; this is an alternate view.")
 	closing_label.visible = static_overview or cursor == output.size()
@@ -208,6 +232,23 @@ func sync_presentation() -> void:
 	if not found: lines.append(words("此格尚无经核对的生成事件；可请求返回证据。", "No verified generation event is available for this cell; request its evidence."))
 	evidence_label.text = "\n".join(lines)
 	explanation_button.disabled = evidence.is_empty()
+	# Layout/range changes settle before following. Static appreciation keeps its scroll.
+	follow_cursor.call_deferred()
+
+func follow_cursor() -> void:
+	if static_overview or cursor <= 0 or not is_instance_valid(snapshot_scroll): return
+	var rect: Rect2 = canvas.cell_rect(cursor-1)
+	var visible_height: float = snapshot_scroll.size.y
+	var top: float = snapshot_scroll.scroll_vertical
+	if rect.size.y > visible_height:
+		# A very short viewport still centers the actual glyph, not an empty lane.
+		var point: Vector2 = canvas.phrase_point(cursor-1) if canvas.viewing_mapping == Canvas.PHRASE_MAPPING else rect.get_center()
+		if point.y < top+8 or point.y > top+visible_height-8:
+			snapshot_scroll.scroll_vertical = maxi(0,roundi(point.y-visible_height/2))
+	elif rect.position.y < top:
+		snapshot_scroll.scroll_vertical = maxi(0,floori(rect.position.y-6))
+	elif rect.end.y > top+visible_height:
+		snapshot_scroll.scroll_vertical = ceili(rect.end.y-visible_height+6)
 
 func dismiss() -> void:
 	hide()

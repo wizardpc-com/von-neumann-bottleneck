@@ -67,7 +67,10 @@ issue; the presentation repair and final rerender/regression/package follow.
 
 ## Player route and handoff boundaries
 
-Use the candidate Journey map → Creation / G2. Set the documented sample recipe,
+For a fresh profile, first use C1 Learn→predictive transport, P1 Connect sealed
+input→Practice→Commit→Reveal→Run remainder, then G1 Disconnect truth / feedback.
+Keep the actual model/machine across those steps; selecting a later unit alone
+does not bypass input-mode guards. Then use Creation / G2 and set the documented sample recipe,
 generate and pin A. Enter a short intention, open Examples/history, Edit an
 existing passage, replace its A/B/C/D text, then Learn. Generate B and inspect
 first divergence. Choose and keep the work, Focus, select Four-lane phrases v1,
@@ -87,3 +90,9 @@ Human/newcomer/artistic acceptance, Windows and native OS operation are separate
 from controller and renderer verification. Candidate packaging is offline and
 ad-hoc signed; it is not a notarized public release. Original four collaborator
 paths remain untouched in the original checkout, which stays on8115b8e.
+
+The actual source660 exported controller additionally exposed a same-frame legacy
+layout→phrases/seek64/640px resize range-settling edge. All other22 package
+creative checks passed. The range-change follow repair preserves static manual
+scroll and passes five focused suites plus two isolation gates in range-repair/.
+Final source freeze, complete regression and exported repair verification follow.

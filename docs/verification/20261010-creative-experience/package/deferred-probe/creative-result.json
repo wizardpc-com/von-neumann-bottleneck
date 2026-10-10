@@ -1,0 +1,12 @@
+{
+  "source_commit": "66093206d900aa3a7e294cff49c72c0de85cac8a",
+  "checks": {},
+  "passed": false,
+  "exit": 0,
+  "binary_pack_sha256": {
+    "Contents/MacOS/Von Neumann Bottleneck": "b3b3592133325a42a45df0392b11c31c4c0df748a9344133b8dfe70d0e897746",
+    "Contents/Resources/Von Neumann Bottleneck.pck": "7227f405a8f3766f15bdbf055c38a4a5aa2d5a1d07ae2dbd7fb2a101310ef031"
+  },
+  "profile": "VonNeumannBottleneckChecks/package-a9f20673f7fa-creative-0dbbbe",
+  "evidence_kind": "actual exported binary controller fixture; no native OS input"
+}

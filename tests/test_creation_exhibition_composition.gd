@@ -83,6 +83,19 @@ func run() -> void:
 		check(view.snapshot_scroll.scroll_vertical == 0,"Static expansion preserves manual scroll without following the cursor")
 		view.size = Vector2i(640,420); await settle()
 		check(view.snapshot_scroll.scroll_vertical == 0,"Static shrink preserves manual scroll without following the cursor")
+		for legacy: int in [0,1]:
+			view.static_overview = true; view.mapping_choice.select(legacy); view.sync_presentation()
+			view.size = Vector2i(1080,620); await settle()
+			# Mapping, seek and resize occur together; only normal frame settling follows.
+			view.static_overview = false; view.mapping_choice.select(2)
+			view.seek(64); view.size = Vector2i(640,420); await settle()
+			last_point = view.canvas.phrase_point(63); visible_top = view.snapshot_scroll.scroll_vertical
+			check(view.cursor == 64 and view.canvas.viewing_mapping == Canvas.PHRASE_MAPPING and last_point.y >= visible_top and last_point.y <= visible_top+view.snapshot_scroll.size.y,"Same-frame legacy%d→phrases/seek/resize follows the actual last glyph after range settling"%legacy)
+			view.static_overview = true; view.snapshot_scroll.scroll_vertical = 0
+			view.mapping_choice.select(legacy); view.sync_presentation(); await settle()
+			check(view.snapshot_scroll.scroll_vertical == 0,"Static legacy mapping keeps manual scroll instead of following cursor")
+			view.mapping_choice.select(2); view.sync_presentation(); await settle()
+			check(view.snapshot_scroll.scroll_vertical == 0,"Static phrase range changes keep manual scroll instead of following cursor")
 		view.reduced_motion = false
 		view.canvas.cell_selected.connect(func(index: int) -> void: clicked = index)
 		click.position = view.canvas.phrase_point(20); view.canvas._gui_input(click)

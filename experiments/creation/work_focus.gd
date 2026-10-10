@@ -85,6 +85,8 @@ func _ready() -> void:
 	# Resizing can move the current glyph out of view without moving the cursor.
 	snapshot_scroll.resized.connect(func() -> void: follow_cursor.call_deferred())
 	canvas.resized.connect(func() -> void: follow_cursor.call_deferred())
+	# Scroll ranges settle after child layout; a prior seek may have been clamped.
+	snapshot_scroll.get_v_scroll_bar().changed.connect(func() -> void: follow_cursor.call_deferred())
 	closing_label = make_label(words("世界的结构，也成为你表达的材料。", "The world’s structures become material for your expression.")+"  A Thought Within the World",art,13)
 	var explanation_scroll := ScrollContainer.new(); explanation_scroll.name = words("解释与定位","Explanation")
 	explanation_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED

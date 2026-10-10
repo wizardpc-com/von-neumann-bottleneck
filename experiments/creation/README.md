@@ -240,6 +240,12 @@ cycles. Silent play remains complete; no music or final art acceptance is claime
 
 ## Edit a passage for your intention
 
+On a fresh profile first Learn and restore a source in C1, connect to prediction
+and finish a commit/reveal practice in P1, then explicitly connect output feedback
+in G1. The current model must earn these input-mode transitions; selecting G2
+alone does not bypass them. Once feedback is connected, the creative workshop
+lets you relearn edited passages without changing the feedback connection.
+
 In G2, optionally write what you want this passage to do (for example, fewer B
 and more C). The note is only for this session and is not interpreted or scored.
 For the recorded recipe, select ABAC and ABAD public passages, history2, startAB,

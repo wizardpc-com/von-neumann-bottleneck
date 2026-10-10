@@ -1,5 +1,47 @@
 # Offline-first community preparation
 
+## Sixty-task playtest contract — 2026-10-10
+
+`task_identity.gd` binds authored catalogs to `tasks-20261010-journey-v1`:
+core40, Representation5, Service3, address Prediction3, and Creation C/P/G9.
+The legacy40-task version remains accepted. Candidate hosts open their own visit
+after profile restore and close only matching visits; their actual measured runs
+and accepted support outcomes feed PlaytestData. Prediction records completed
+measurements, not every begin/click. No progression or saved model semantics change.
+
+| Field/behavior | Producer | Transport and receiver | Private report |
+|---|---|---|---|
+| Task/content version | TaskIdentity + actual host entry | Allowlist; explicit version/task manifest validation | Task/version columns; unsupported historical records quarantined |
+| Build/source/test batch | Frozen exported ProjectSettings | Bounded identity fields | Receipt ID + task + build + source + batch |
+| Model/case identity | Authored catalog/contract digest, never player contents | New-domain identities checked against exported manifest | Separate identity columns; mismatches excluded from metrics |
+| Visit/run/completion | Matching foreground visit and existing measured results | Summary counters; detail only with separate consent | Missing metrics stay unknown; completed-measurement scope |
+| Opinion/category | Frozen form target; explicit Save/Send | Stable original ID, optional category only on opinion | Escaped text, category and ID-linked local triage |
+
+Moment feedback is available before completion and from Creation focus. An optional
+rating panel does not preselect scores. Bounded atomic `feedback_drafts_v1.json`
+keeps unsent drafts and saved original IDs across restart, outside transport. A
+corrupt/future draft file blocks overwriting until explicit preservation/recovery.
+The UI distinguishes a private draft, saved local opinion, queued/retrying upload,
+and the same-ID server acknowledgment. Source/model/work/example/intention bodies
+are never added to an opinion or automatic record. Local save and feedback failure
+do not block the game. Existing bounded receipt history remains diagnostic; retain
+the private server ID for long-term follow-up.
+
+The receiver acknowledges only committed SQLite rows. Identical retries remain
+acknowledgeable even at capacity; conflicting ID reuse is rejected. Unknown explicit
+versions/tasks/identities reject the batch atomically. Fixed rejection counters are
+process-local diagnostics, not durable rejected-opinion storage. Private triage is
+a separate permission-restricted SQLite sidecar, with statuses/reproduction/fix
+identity; no report or triage route is published. Deletion removes live records;
+purge sidecar annotations and regenerate/remove prior reports. Merge latest
+tombstones before exposing any restored backup. See the [runbook](../../server/deploy/RUNBOOK.md).
+
+Frozen candidates use one stable isolated test-channel profile on Mac and Windows,
+with source/build/batch and actual content list in manifests. Default statistics
+are off. An empty endpoint remains local-only; a localhost acceptance package is
+explicitly labelled and cannot establish external deployment. Approved VPS/TLS
+configuration, privacy/retention and private operator access remain deployment gates.
+
 The 40-task game, deterministic simulators, receipt validation and local unlock
 rules are unchanged. `PersonalRecords` observes locally verified official results
 through a separate signal, even when action telemetry is disabled. Its bounded

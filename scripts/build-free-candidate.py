@@ -1,18 +1,29 @@
 #!/usr/bin/env python3
 """Build both free candidates from one committed Git archive, never live player data."""
 import argparse,datetime,hashlib,io,json,re,shutil,subprocess,tarfile,zipfile,importlib.util
+from urllib.parse import urlsplit
 from pathlib import Path
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--godot',required=True);p.add_argument('--commit',default='HEAD')
     p.add_argument('--platform',choices=['both','macOS','Windows'],default='both')
     p.add_argument('--mac-template',type=Path,help='Project-private matching official macos.zip')
-    p.add_argument('--second-act-profile',help='Opt-in isolated candidate profile; Mac-only build')
+    p.add_argument('--second-act-profile',help='Stable isolated candidate profile on both platforms')
+    p.add_argument('--windows-template',type=Path,help='Matching official Windows release x86_64 executable')
+    p.add_argument('--test-batch',help='Immutable test batch identity (safe1–40 characters)')
+    p.add_argument('--feedback-endpoint',default='',help='Approved HTTPS receiver base; empty keeps local-only delivery')
+    p.add_argument('--local-feedback-test',action='store_true',help='Explicit local acceptance package; never external-ready')
     p.add_argument('--creation-journey',action='store_true',help='Include the C/P/G candidate in the isolated second-act journey')
     a=p.parse_args()
     if a.mac_template and (not a.mac_template.is_file() or a.platform=='Windows'):p.error('--mac-template requires an existing macos.zip and Mac export')
-    if a.second_act_profile is not None and (a.platform!='macOS' or not re.fullmatch(r'[A-Za-z0-9-]{1,40}',a.second_act_profile)):p.error('--second-act-profile requires Mac-only export and a safe1–40 character profile')
+    if a.second_act_profile is not None and (not re.fullmatch(r'[A-Za-z0-9-]{1,40}',a.second_act_profile)):p.error('--second-act-profile requires a safe1–40 character profile')
     if a.creation_journey and not a.second_act_profile:p.error('--creation-journey requires --second-act-profile')
+    if a.test_batch and not re.fullmatch(r'[A-Za-z0-9-]{1,40}',a.test_batch):p.error('unsafe test batch')
+    if a.windows_template and (not a.windows_template.is_file() or a.platform=='macOS'):p.error('Windows template requires Windows export and an existing file')
+    url=urlsplit(a.feedback_endpoint)
+    if a.feedback_endpoint and (url.scheme!='https' and not (a.local_feedback_test and url.scheme=='http' and url.hostname in ['127.0.0.1','localhost'])):p.error('HTTPS required except explicit local acceptance')
+    if a.feedback_endpoint and (not url.hostname or url.username or url.password or url.query or url.fragment or a.feedback_endpoint.endswith('/')):p.error('unsafe receiver URL')
+    if a.local_feedback_test and not a.feedback_endpoint:p.error('local acceptance needs its explicit endpoint')
     template=a.mac_template.resolve() if a.mac_template else None
     root=Path(__file__).resolve().parents[1]
     commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True).strip()
@@ -26,7 +37,7 @@ def main():
             dest=(project/member.name).resolve()
             if not dest.is_relative_to(project.resolve()) or not (member.isfile() or member.isdir()):raise ValueError('Unsupported archive member: '+member.name)
         source.extractall(project)
-    build_id='free-alpha-'+commit[:12]
+    build_id=('playtest-'+a.test_batch+'-' if a.test_batch else 'free-alpha-')+commit[:12]
     output=root/'build'/build_id
     if output.exists(): raise ValueError('Candidate already exists; never overwrite a frozen identity: '+build_id)
     output.mkdir(parents=True)
@@ -49,9 +60,11 @@ def main():
         presets=presets.replace('[preset.1.options]','[preset.1.options]\napplication/icon="'+brand['native_icon_macos']+'"')
     if template:
         presets=presets.replace('[preset.1.options]','[preset.1.options]\ncustom_template/debug='+json.dumps(str(template))+'\ncustom_template/release='+json.dumps(str(template)))
+    if a.windows_template:
+        presets=presets.replace('custom_template/release=""','custom_template/release='+json.dumps(str(a.windows_template.resolve())),1)
     (project/'export_presets.cfg').write_text(presets)
     original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
-    original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"')
+    original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))
     # Bind binary-exported scripts to the same workspace model fingerprints as source.
     workspace_versions={}
     for state in ['src/system_lab/system_chapter_state.gd','src/locality_chapter/locality_chapter_state.gd']:
@@ -86,7 +99,11 @@ def main():
     run('licenses',['--script','res://candidate_license_probe.gd']);probe.unlink()
     (project/'project.godot').write_text(original)
     # Exporters themselves do not start the game. Native QA uses a separate override.
-    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
+    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261010-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
+    rules=json.loads((project/'server/community_rules.json').read_text())
+    manifest['content_tasks']=rules.get('content_manifests',{}).get(manifest['content_version'],{'tasks':rules['tasks']})['tasks']
+    if not a.creation_journey:manifest['content_tasks']=[task for task in manifest['content_tasks'] if not task.startswith('creation/')]
+    if a.windows_template:manifest['windows_template_sha256']=hashlib.sha256(a.windows_template.read_bytes()).hexdigest()
     if template:manifest['mac_template_sha256']=hashlib.sha256(template.read_bytes()).hexdigest()
     if a.second_act_profile:manifest['candidate_journey']={'primary_domain':'representation','profile':a.second_act_profile,'isolated':True,'production_migration':False}
     if a.creation_journey:manifest['candidate_journey']['creation_enabled']=True
@@ -100,6 +117,22 @@ def main():
             with (folder/'README.txt').open('a') as notes:
                 notes.write('\nSecond-act isolated candidate journey\nProfile: '+a.second_act_profile+'\nRepresentation five tasks and Service three contracts have separate plans and endings. Save before leaving; the earned Representation review can continue to Service. Home recommends core construction/bottleneck work, the core ending, Representation, Service, and a saved four-page closing review. Timing and placement remain parallel; optional tasks are not required by this recommendation. The Journey map contains all core tasks, five Representation tasks, three Service contracts and three optional Prediction investigations. Select a task to enter its workbench and return through its existing save guard. Prediction remains temporary and is discarded on leaving; follow-up commissions remain optional. This build uses an isolated candidate profile and does not read or migrate production progress.\n')
                 if a.creation_journey:notes.write('\nCompression, content prediction and creation are also enabled: nine candidate units share the light-pattern workbench, learned rules and machine. The address-prediction investigations above remain separate and optional. Creation drafts, protected works and complete recipes use their own candidate session file; saved snapshots can be viewed, replayed or forked. This is offline candidate content, not a production-save migration.\n')
+        if a.test_batch:
+            notes=folder/'README.txt'
+            content=notes.read_text()
+            content=content.replace('本候选没有配置回传服务器','服务器地址与状态见下方本轮身份').replace('this build has no server URL','see this batch configuration below')
+            content=content.replace('共 40 个任务','原核心 40 个任务').replace('Five regions, forty tasks.','Original core: five regions, forty tasks.')
+            if a.second_act_profile:
+                channel='VonNeumannBottleneckCandidates/representation/'+a.second_act_profile
+                content=content.replace('~/Library/Application Support/Godot/app_userdata/Von Neumann Bottleneck/','~/Library/Application Support/'+channel+'/')
+                content=content.replace('%APPDATA%/Godot/app_userdata/Von Neumann Bottleneck/','%APPDATA%/'+channel+'/')
+                content+='\n本轮路线：先从首页推荐旅程/任务树开始，原核心结尾后继续表示与服务；C→P→G 在光纹工作台形成自己的作品和创造收尾。推荐与硬前置分开，可选地址预测不必通关。\n离开有保存提醒；首页继续定位最近任务。光纹工作台需明确保存草稿/作品；命名作品可回看、回放、派生，作品与完整配方受保护。\n反馈按钮在工作台、任务树与作品聚焦中可用，未通关也能发；退出不等待网络。仅保留本机、等待发送与服务器已收分开显示。\n'
+                content+='服务数据另在同级 service/'+a.second_act_profile+'/；更新前备份这两个完整目录。测试渠道与正式存档隔离，不导入QA通关档。\n'
+            content+='\n本轮测试批次 / Test batch: '+a.test_batch+'\n内容版本: '+manifest['content_version']+'\n实际任务: '+str(len(manifest['content_tasks']))+'（完整任务清单见 manifest.json）\n'
+            content+='反馈入口: '+(a.feedback_endpoint or '未配置；仅本机保存/导出')+'\n自动统计默认关闭，单次意见独立授权；只有匹配服务器回执才标已收。\n'
+            content+='本地验收包，不能作为外部云端可用证据。\n' if a.local_feedback_test else '外部连接/平台实测以验收记录为准。\n'
+            content+='测试存档渠道稳定，不随构建号清空；更新前完整备份候选profile及service同名目录。不要用QA通关档代替新档。\n'
+            notes.write_text(content)
         files={str(f.relative_to(folder)):hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(folder.rglob('*')) if f.is_file()}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n')

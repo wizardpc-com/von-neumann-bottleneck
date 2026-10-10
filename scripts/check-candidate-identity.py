@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Read-only consistency checks for a frozen local candidate directory."""
-import argparse,hashlib,json,zipfile
+import argparse,hashlib,json,re,zipfile
 from pathlib import Path
 p=argparse.ArgumentParser();p.add_argument('directory',type=Path);a=p.parse_args()
 root=a.directory.resolve();manifest=json.loads((root/'manifest.json').read_text())
 identity=manifest['build_id'];commit=manifest['source_commit']
-assert identity=='free-alpha-'+commit[:12] and root.name==identity
+batch=manifest.get('test_batch','unspecified')
+expected=('playtest-'+batch+'-' if batch!='unspecified' else 'free-alpha-')+commit[:12]
+assert identity==expected and root.name==identity
+assert batch=='unspecified' or re.fullmatch(r'[A-Za-z0-9-]{1,40}',batch)
 assert manifest['public_release'] is False and manifest['upload_default'] is False
 for platform,entry in manifest['platforms'].items():
     archive=root/entry['zip']

@@ -17,6 +17,198 @@
       "scratch_limit": 160
     }
   },
+  "content_manifests": {
+    "tasks-20260910-v1": {
+      "tasks": [
+        "hardware_foundations/tutorial",
+        "hardware_foundations/half_adder",
+        "hardware_foundations/full_adder",
+        "hardware_foundations/alu",
+        "hardware_foundations/latch",
+        "hardware_foundations/register",
+        "hardware_foundations/ram",
+        "hardware_foundations/cpu",
+        "hardware_foundations/load_store",
+        "hardware_foundations/selector",
+        "hardware_foundations/selector4",
+        "hardware_foundations/parity",
+        "hardware_foundations/delay",
+        "hardware_foundations/alarm",
+        "chapter_1/assembly",
+        "chapter_1/cpu_speed",
+        "chapter_1/ram_wait",
+        "chapter_1/bus_width",
+        "chapter_1/bottleneck",
+        "chapter_1/read_once",
+        "chapter_1/two_orders",
+        "chapter_2/distant_reads",
+        "chapter_2/nearby_storage",
+        "chapter_2/cache_failure",
+        "chapter_2/access_order",
+        "chapter_2/working_set",
+        "chapter_2/blocking",
+        "chapter_2/capstone",
+        "chapter_3/arrival",
+        "chapter_3/buffers",
+        "chapter_3/backpressure",
+        "chapter_3/prefetch",
+        "chapter_3/distance",
+        "chapter_3/synthesis",
+        "chapter_4/fields",
+        "chapter_4/records",
+        "chapter_4/hot_cold",
+        "chapter_4/relocation",
+        "chapter_4/batches",
+        "chapter_4/mixed"
+      ]
+    },
+    "tasks-20261010-journey-v1": {
+      "identities": {
+        "creation/C1_restore": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "creation/C2_cost": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "creation/C3_conditions": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "creation/G1_feedback": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "creation/G2_intent": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "creation/G3_keep": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "creation/P1_commit": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "creation/P2_memory": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "creation/P3_check": {
+          "case_set_version": "8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d",
+          "model_version": "creation-continuous-v1"
+        },
+        "prediction/alternating": {
+          "case_set_version": "4a9a89881cbad92b7c2247aa39fa05e32dd657070a780d5adbc6e48c48e98704",
+          "model_version": "prediction-address-v1"
+        },
+        "prediction/changed": {
+          "case_set_version": "4a9a89881cbad92b7c2247aa39fa05e32dd657070a780d5adbc6e48c48e98704",
+          "model_version": "prediction-address-v1"
+        },
+        "prediction/regular": {
+          "case_set_version": "4a9a89881cbad92b7c2247aa39fa05e32dd657070a780d5adbc6e48c48e98704",
+          "model_version": "prediction-address-v1"
+        },
+        "representation/cross_assets": {
+          "case_set_version": "a7e0df7f8b79b426199937597dfece1a467fe327e7998a3364cfdbd007a3f9a8",
+          "model_version": "representation-region-v1"
+        },
+        "representation/dense_sparse": {
+          "case_set_version": "a7e0df7f8b79b426199937597dfece1a467fe327e7998a3364cfdbd007a3f9a8",
+          "model_version": "representation-region-v1"
+        },
+        "representation/interior_hotspots": {
+          "case_set_version": "a7e0df7f8b79b426199937597dfece1a467fe327e7998a3364cfdbd007a3f9a8",
+          "model_version": "representation-region-v1"
+        },
+        "representation/mixed_scan": {
+          "case_set_version": "a7e0df7f8b79b426199937597dfece1a467fe327e7998a3364cfdbd007a3f9a8",
+          "model_version": "representation-region-v1"
+        },
+        "representation/prepare_once": {
+          "case_set_version": "a7e0df7f8b79b426199937597dfece1a467fe327e7998a3364cfdbd007a3f9a8",
+          "model_version": "representation-region-v1"
+        },
+        "service/move_state": {
+          "case_set_version": "0b8433211e1ff707a403c47a49f08d2787fde739e21f73a98c9380957ea51974",
+          "model_version": "service-plan-v1"
+        },
+        "service/one_plan": {
+          "case_set_version": "0b8433211e1ff707a403c47a49f08d2787fde739e21f73a98c9380957ea51974",
+          "model_version": "service-plan-v1"
+        },
+        "service/prompt_response": {
+          "case_set_version": "0b8433211e1ff707a403c47a49f08d2787fde739e21f73a98c9380957ea51974",
+          "model_version": "service-plan-v1"
+        }
+      },
+      "tasks": [
+        "hardware_foundations/tutorial",
+        "hardware_foundations/half_adder",
+        "hardware_foundations/full_adder",
+        "hardware_foundations/alu",
+        "hardware_foundations/latch",
+        "hardware_foundations/register",
+        "hardware_foundations/ram",
+        "hardware_foundations/cpu",
+        "hardware_foundations/load_store",
+        "hardware_foundations/selector",
+        "hardware_foundations/selector4",
+        "hardware_foundations/parity",
+        "hardware_foundations/delay",
+        "hardware_foundations/alarm",
+        "chapter_1/assembly",
+        "chapter_1/cpu_speed",
+        "chapter_1/ram_wait",
+        "chapter_1/bus_width",
+        "chapter_1/bottleneck",
+        "chapter_1/read_once",
+        "chapter_1/two_orders",
+        "chapter_2/distant_reads",
+        "chapter_2/nearby_storage",
+        "chapter_2/cache_failure",
+        "chapter_2/access_order",
+        "chapter_2/working_set",
+        "chapter_2/blocking",
+        "chapter_2/capstone",
+        "chapter_3/arrival",
+        "chapter_3/buffers",
+        "chapter_3/backpressure",
+        "chapter_3/prefetch",
+        "chapter_3/distance",
+        "chapter_3/synthesis",
+        "chapter_4/fields",
+        "chapter_4/records",
+        "chapter_4/hot_cold",
+        "chapter_4/relocation",
+        "chapter_4/batches",
+        "chapter_4/mixed",
+        "representation/mixed_scan",
+        "representation/interior_hotspots",
+        "representation/dense_sparse",
+        "representation/prepare_once",
+        "representation/cross_assets",
+        "service/move_state",
+        "service/prompt_response",
+        "service/one_plan",
+        "prediction/regular",
+        "prediction/changed",
+        "prediction/alternating",
+        "creation/C1_restore",
+        "creation/C2_cost",
+        "creation/C3_conditions",
+        "creation/P1_commit",
+        "creation/P2_memory",
+        "creation/P3_check",
+        "creation/G1_feedback",
+        "creation/G2_intent",
+        "creation/G3_keep"
+      ]
+    }
+  },
   "task_version": "tasks-20260910-v1",
   "tasks": [
     "hardware_foundations/tutorial",

@@ -94,6 +94,7 @@ func _ready() -> void:
 	if requested >= 0: change_task(requested)
 	else: build()
 	get_node("/root/TaskNavigation").remember_candidate_visit("representation",task)
+	_playtest_start()
 
 func toggle_language() -> void:
 	english = not english
@@ -146,6 +147,7 @@ func build() -> void:
 	var title := make_label(text2("表示 · 改变信息的承载","Representation · Change how information is carried"),top,24)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	make_button("中文 / EN",top,toggle_language,"Language")
+	top.add_child(get_node("/root/PlaytestMoments").make_button())
 	if candidate_journey: make_button(text2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页", "Home"),top,request_hub,"CandidateHome")
 	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
 	make_button(text2("退出","Quit"),top,request_quit,"Quit")
@@ -384,6 +386,7 @@ func change_task(index: int) -> void:
 	drafts[task] = {"plan":plan.duplicate(true),"undo":undo_stack.duplicate(true),"redo":redo_stack.duplicate(true),"selection":selected_block}
 	task = index
 	get_node("/root/TaskNavigation").remember_candidate_visit("representation",task)
+	_playtest_start()
 	if persistent_session and changed: session_notice = text2("当前任务选择未保存；退出前点击保存。", "Current task selection is unsaved; save before quitting.")
 	var saved: Dictionary = drafts.get(task,{"plan":Model.initial_plan(),"undo":[],"redo":[],"selection":0})
 	plan.assign(saved.plan); undo_stack.assign(saved.undo); redo_stack.assign(saved.redo); selected_block = int(saved.selection)
@@ -466,6 +469,10 @@ func run_current() -> void:
 	var traces: Array[Trace] = []
 	for spec: Dictionary in Model.orders(task): traces.append(Model.run(spec,plan))
 	var accepted: bool = Model.meets(task,traces)
+	var measured_cycles: int = 0
+	for trace: Trace in traces: measured_cycles += int(trace.metrics.get("total_cycles",0))
+	get_node("/root/PlaytestData").record_official_run(&"representation",_playtest_id(),accepted,{"total_cycles":measured_cycles,"case_count":traces.size()})
+	if accepted: get_node("/root/PlaytestData").level_completed(&"representation",_playtest_id())
 	if accepted: support_plans[task] = plan.duplicate(true)
 	history.append({"task":task,"plan":plan.duplicate(true),"traces":traces,"accepted":accepted})
 	if history.size() > 100: history.pop_front()
@@ -838,6 +845,7 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST and persistent_session: request_quit()
 
 func _exit_tree() -> void:
+	_playtest_exit()
 	if writer_lease != null: writer_lease.release()
 	if persistent_session: get_tree().auto_accept_quit = previous_auto_quit
 
@@ -998,3 +1006,15 @@ func refresh_recovery_controls() -> void:
 func recovery_failed() -> void:
 	refresh_recovery_controls()
 	status.text = text2("恢复未执行：文件或写入权已变化。当前草稿仍保留；请检查快照后重试，或保留窗口。", "Recovery was not performed: files or ownership changed. Your current draft is retained; review the snapshots and retry, or keep this window open.")
+
+
+# Observes the existing task/result authority; never grants domain progress.
+func _playtest_id() -> StringName:
+	return StringName(get_node("/root/TaskNavigation").candidate_key("representation",task).get_slice("/",1))
+
+func _playtest_start() -> void:
+	get_node("/root/PlaytestData").level_started(&"representation",_playtest_id())
+
+func _playtest_exit() -> void:
+	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "representation":
+		get_node("/root/PlaytestData").level_exited(&"representation",_playtest_id(),&"departure")

@@ -2,6 +2,31 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Distributable journey and feedback integration — 2026-10-10
+
+Creative PR3 merged normally into main as b90ae47. The current round integrates
+the existing sixty-task candidate and feedback from unfinished tasks, including
+Representation, Service, optional address Prediction and C/P/G. The runtime
+changes preserve simulation authority, authored tasks and player save contracts.
+Feedback uses explicit single-opinion authorization; automatic statistics remain
+separate. Private receiver reports preserve receipt ID/task/build and use an
+independent local triage sidecar. No account or new chapter is introduced.
+
+Runtime efda8b8 is frozen into `playtest-Round20261010-efda8b84ae6e` Mac/Windows
+offline candidates and a separate localhost-only acceptance app. Full local152
+suites +2 isolation gates PASS; final seven affected suites +2 gates and seven
+Python commands PASS. Actual Mac binary/PCK checks and same-ID exported-package
+HTTP→SQLite→private review→delete/restore PASS. The restart acceptance found and
+fixed a real JSON numeric receipt-ID mismatch. No player model/save semantics change.
+
+Remote staging and public player availability NOT_RUN. Deployment/access details
+remain in the local private handoff. Windows native NOT_RUN;
+native Mac input was blocked by locked screen (a renderer retry timed out). Packages
+remain unnotarized candidates, not public release or newcomer acceptance.
+[Exact manifests, receipts, retained failures and limits](verification/20261010-cloud-playtest/README.md),
+[round plan](exec-plans/active/distributable-cloud-playtest.md),
+[feedback contract](architecture/community-feedback.md).
+
 ## Main integration and creative studio — 2026-10-10
 
 Protected PR1/PR2 passed fresh local and GitHub CI, then merged normally as

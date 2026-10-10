@@ -10,6 +10,8 @@ func run() -> void:
 	transport.endpoint="http://127.0.0.1:8765"
 	transport.set_process(false)
 	var event: Dictionary = {"session_id":"synthetic-session","sequence":1,"source":"automated","mode":"test","event":"player_action","payload":{"chapter_id":"chapter_4","level_id":"fields","action":"layout_edit","note":"secret opinion","program_source":"secret program","design_name":"secret name","added_wires":2}}
+	var reloaded_event: Dictionary = JSON.parse_string(JSON.stringify(event))
+	check(Transport.feedback_id(event)==Transport.feedback_id(reloaded_event),"Persisted JSON numeric representation retains the exact opinion receipt ID.")
 	transport._on_event(event)
 	check(transport.queue.is_empty(),"Default off must enqueue no events.")
 	check(transport.set_enabled(true),"Local receiver can be consented.")

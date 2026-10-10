@@ -153,6 +153,7 @@ func _build_interface() -> void:
 	var version := Label.new(); version.name = "BuildIdentifier"
 	version.text = ("内部评审 · " if Localization.current_locale() != "en" else "Internal review · ") if candidate_journey else ""
 	version.text += String(ProjectSettings.get_setting("application/config/version",""))
+	version.tooltip_text = "Source: "+str(ProjectSettings.get_setting("application/config/build_commit","unknown"))+"\nBatch: "+str(ProjectSettings.get_setting("application/test_batch","unspecified"))
 	version.add_theme_font_size_override("font_size",14); version.add_theme_color_override("font_color",MUTED)
 	imprint.add_child(version)
 	_build_hub_navigation()

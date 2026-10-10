@@ -34,6 +34,10 @@ Client: 256 pending records, 512 KiB state file, batches of 32 or about 45 secon
 
 Server: 128 KiB requests, 32 records/batch, strict field/type/length whitelist, 120 requests/minute per connection IP, 100,000-event storage ceiling, 5-second socket timeout. SQLite transaction commit precedes acknowledgement. Event ID + owner + canonical body makes retry idempotent; conflicting reuse is rejected. A per-installation deletion token is stored hashed by the receiver. This token scopes deletion, not verified identity or anti-cheat.
 
+The storage ceiling counts new IDs only: an already committed identical retry can
+still receive confirmation at capacity. Exact duplicate IDs in one bounded batch
+are acknowledged once; differing content with the same ID returns a conflict.
+
 ## Private analysis, retention, backup
 
 Set `VNB_FEEDBACK_ADMIN_TOKEN` in the server process environment to enable `GET /admin/report` with `Authorization: Bearer ...`. Without it the report is unavailable. Never put this token into the game or Git. The endpoint returns counts only; raw opinions remain in the access-controlled database. `server/private_report.py` produces a local report file for the operator, suitable for an operator-scheduled daily job; it does not open a public dashboard.
@@ -71,3 +75,67 @@ report implementation. Reports keep version/cohort rows separate, do not double 
 detail plus summary totals, and distinguish first completion from repeat visits.
 Community task responses retain a `versions` array; mixed versions have no aggregate
 completion percentage or median. See [maintenance](../docs/development/final-maintenance.md).
+
+## Current journey reception and private review
+
+`community_rules.json.content_manifests` accepts the preserved
+`tasks-20260910-v1` forty-task manifest and the explicit
+`tasks-20261010-journey-v1` sixty-task manifest. A visit summary must declare a
+supported version and a task in that version. A versioned opinion uses the same
+check. Authored `identities` in a manifest additionally require exact model/case
+versions for the new domains; mismatches return fixed model/case error codes.
+Historical unversioned opinions remain `legacy_unknown`, rather than
+acquiring the current version. Unknown versions and mismatched historical rows
+are visible in the private report's quarantine and excluded from task metrics.
+Build, source commit, test batch, model and case identities stay separate.
+`category` is opinion-only and optional (`confusion`, `control`, `bug`,
+`audiovisual`, `discovery`, `other`); a selected category can be sent without text
+or ratings. It does not authorize automatic statistics or content uploads.
+
+Generate a private report and create a local review record using the stable
+server-confirmed feedback ID:
+
+```sh
+python3 server/private_report.py --database /private/path/feedback.sqlite \
+  --output /private/path/report --triage /private/path/private-triage.sqlite
+python3 server/private_report.py --database /private/path/feedback.sqlite \
+  --triage /private/path/private-triage.sqlite \
+  --set-status SYNTHETIC_FEEDBACK_ID needs_review
+python3 server/private_report.py --database /private/path/feedback.sqlite \
+  --triage /private/path/private-triage.sqlite \
+  --set-status SYNTHETIC_FEEDBACK_ID needs_retest \
+  --fix-build FIX_BUILD --fix-commit FIX_COMMIT --review-note 'Synthetic reproduction'
+```
+
+Review states are `needs_review`, `reproduced`, `needs_information`, `fixed`,
+`needs_retest`, `deferred`. No new HTTP administration endpoint or receiving
+schema is introduced. The optional sidecar stores ID-linked review notes, not
+copies of player opinions. Report JSON `received_feedback` and its escaped HTML
+table show each stable ID, actual task/build/source/batch and current review.
+Client sequence reuse cannot deduplicate distinct database IDs. Generated files
+and sidecars have owner-only file permissions; operators must choose a private
+directory and never serve or commit them. Keep their retention in sync with the
+receiving database.
+
+After deletion or retention, run `--purge-triage` with the current database and
+sidecar; this removes review notes whose feedback no longer exists. Reports never
+show sidecar notes for absent feedback. Restore old receiving snapshots only after
+merging the newest deletion tombstones, then purge and regenerate the report.
+That ordering also applies when restoring an older sidecar.
+
+HTTP validation failures return only a bounded fixed `reason` code, never the
+rejected note/body. Private `/admin/report` rejection counters are explicitly
+process-lifetime observations, reset on receiver restart. The offline report
+marks persistent rejection counts unknown; SQLite never contains rejected bodies.
+
+Additional synthetic checks (operator runs locally; not remote-deployment proof):
+
+```sh
+python3 server/test_delivery.py
+python3 server/test_private_report.py
+```
+
+The delivery check exercises real HTTP, lost-confirmation retries across receiver
+restart, transactional read-only/disk-full failures and deletion-safe restored
+snapshots. The report check covers stable-ID review, reused client sequences,
+HTML escaping, version quarantine and sidecar purge after tombstone merge.

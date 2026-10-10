@@ -48,6 +48,7 @@ func _ready() -> void:
 	if requested >= 0: change_task(requested)
 	else: build()
 	get_node("/root/TaskNavigation").remember_candidate_visit("prediction",task)
+	_playtest_start()
 
 func toggle_language() -> void:
 	english = not english
@@ -125,6 +126,7 @@ func build() -> void:
 	var title: Label = label(text2("预测工坊","Prediction workshop"),top,24); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_override("font",Typography.HEADING_FONT)
 	button("中文 / EN","Language",top,toggle_language)
+	top.add_child(get_node("/root/PlaytestMoments").make_button())
 	if candidate_journey: button(text2("任务地图","Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页","Home"),"CandidateHome",top,request_hub)
 	button(text2("退出","Quit"),"Quit",top,request_quit)
 	var boundary: Label = label(text2("可选临时探索 · 规则、历史与结果离开后不保留", "Optional temporary exploration · rules, history and results are discarded on leaving"),page,14)
@@ -228,6 +230,7 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST: request_quit()
 
 func _exit_tree() -> void:
+	_playtest_exit()
 	get_tree().auto_accept_quit = previous_auto_quit
 
 func purpose_text() -> String:
@@ -252,6 +255,7 @@ func change_task(index: int) -> void:
 	if index == task and is_instance_valid(rule): return
 	get_node("/root/TaskNavigation").remember_candidate_visit("prediction",index)
 	task = index; active_trace = null; revealed = 0; selected_run = -1; build()
+	_playtest_start()
 
 func restart() -> void:
 	active_trace = null; active_policy = {}; revealed = 0; selected_run = -1; refresh()
@@ -272,6 +276,8 @@ func run_current() -> void:
 func _record() -> void:
 	history.append({"task":task,"policy":active_policy.duplicate(true),"trace":active_trace})
 	selected_run = history.size()-1; refresh_history()
+	get_node("/root/PlaytestData").record_official_run(&"prediction",_playtest_id(),active_trace.passed,{"total_cycles":active_trace.metrics.get("total_cycles",0)})
+	if goal_met(task): get_node("/root/PlaytestData").level_completed(&"prediction",_playtest_id())
 
 func refresh_history() -> void:
 	history_list.clear()
@@ -374,3 +380,15 @@ func public_observation() -> Dictionary:
 	for row: Dictionary in history:
 		measured.append({"task":row.task,"policy":row.policy.duplicate(true),"metrics":row.trace.metrics.duplicate(true)})
 	return {"task":task,"evidence_source":evidence_source(),"mission":mission_text(),"hint1":hint_text(),"policy":policy.duplicate(true),"control_ranges":{"rule":["off","stride","two_stride"],"confidence":[1,2,3],"lookahead":[1,2],"cooldown":[0,2]},"observed_addresses":observed_addresses,"revealed_decisions":decisions,"completed_runs":measured,"goal_met":goal_met(task)}
+
+
+# Observes the existing task/result authority; never grants domain progress.
+func _playtest_id() -> StringName:
+	return StringName(get_node("/root/TaskNavigation").candidate_key("prediction",task).get_slice("/",1))
+
+func _playtest_start() -> void:
+	get_node("/root/PlaytestData").level_started(&"prediction",_playtest_id())
+
+func _playtest_exit() -> void:
+	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "prediction":
+		get_node("/root/PlaytestData").level_exited(&"prediction",_playtest_id(),&"departure")

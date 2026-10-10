@@ -5,6 +5,22 @@ from pathlib import Path
 from statistics import median
 
 RULES=json.loads(Path(__file__).with_name('community_rules.json').read_text())
+CONTENT_MANIFESTS=RULES.get('content_manifests', {RULES['task_version']:{'tasks':RULES['tasks']}})
+
+def validate_task_context(payload, required=False):
+    """Never attribute an unknown or mixed content version to the current journey."""
+    version=payload.get('task_version')
+    if not version:
+        if required: raise ValueError('task_version_required')
+        return 'legacy_unknown'
+    manifest=CONTENT_MANIFESTS.get(version)
+    if manifest is None: raise ValueError('unsupported_task_version')
+    key=payload.get('chapter_id','')+'/'+payload.get('level_id','')
+    if key not in manifest['tasks']: raise ValueError('summary_task')
+    identity=manifest.get('identities',{}).get(key,{})
+    for field in ('model_version','case_set_version'):
+        if field in identity and payload.get(field)!=identity[field]: raise ValueError(field)
+    return version
 SCORE_METRICS=['total_cycles','prepare_cycles','query_cycles','output_cycles','ram_read_bytes','ram_write_bytes','peak_extra_bytes']
 SCORE_NUMBERS={prefix+'_'+key for prefix in ['a','b'] for key in SCORE_METRICS}
 LABEL='Alpha 实验性社区榜单，暂未服务端重放验证'
@@ -27,13 +43,15 @@ def validate_score(p):
     if p.get('total_cycles')!=p['a_total_cycles']+p['b_total_cycles']: raise ValueError('case_sum')
     return p['total_cycles']>=1000 # Very fast plausible rows are held, never called verified.
 
-GROUP_FIELDS=("task_version","model_version","case_set_version","build_version","source_batch","background_cohort")
+GROUP_FIELDS=("task_version","model_version","case_set_version","build_version","source_commit","test_batch","source_batch","background_cohort")
 
 def aggregate(db, source='external_player', mode='game'):
     groups={}
     for client,body in db.execute("SELECT client_id,body FROM events WHERE kind='event' ORDER BY received,id"):
         p=json.loads(body)['payload']; key=p.get('chapter_id','')+'/'+p.get('level_id','')
-        if p.get('source')!=source or p.get('mode')!=mode or p.get('task_version')!=RULES['task_version'] or key not in RULES['tasks']: continue
+        if p.get('source')!=source or p.get('mode')!=mode: continue
+        try: validate_task_context(p, required=True)
+        except ValueError: continue
         if p.get('event')!='visit_summary' or not p.get('visit_id'): continue
         # Distinct visit identities, not event retries or physical edges.
         group=(key,tuple(str(p.get(field,"unknown")) for field in GROUP_FIELDS))

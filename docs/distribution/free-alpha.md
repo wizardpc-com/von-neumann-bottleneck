@@ -1,5 +1,33 @@
 # Five-region free development candidate
 
+## Current sixty-task round — 2026-10-10
+
+The ordinary builder default remains the original40-task candidate. For this
+round, explicitly use `--second-act-profile CloudPlaytest --creation-journey
+--test-batch Round20261010`, with both platforms and matching official private
+Mac/Windows templates. This enables core40 + Representation5 + Service3 + optional
+address Prediction3 + C/P/G9. The emitted manifest is the actual content/build/
+source/batch authority, not the historical default paragraph below.
+
+The profile is stable across builds and isolated from production saves. On Mac:
+`~/Library/Application Support/VonNeumannBottleneckCandidates/representation/CloudPlaytest/`
+and the `service/CloudPlaytest/` sibling. On Windows use the same suffix below
+`%APPDATA%/`. Creation profiles live inside the Representation directory. Back up
+both complete directories before an update or rollback; do not ship QA data.
+The candidate starts without Godot or launch flags. Home recommends the existing
+core ending, Representation/Service and the personal C→P→G work/creative closure;
+optional investigations do not become hard prerequisites. Continue, guarded
+departure and saved-work review use the existing contracts.
+
+`--feedback-endpoint <approved-HTTPS-base>` only binds a supplied approved target;
+it does not deploy or verify it. Without that target, the distributable package
+keeps local Save/Export and reports not configured. Automatic statistics are off;
+single-opinion Send has independent consent and never uploads works/programs/
+examples/intention. Keep a distinct immutable batch for the localhost acceptance
+package (`--local-feedback-test`), which must never be passed off as externally
+connected. Current evidence and exact platform boundaries belong in
+[CURRENT_STATE](../CURRENT_STATE.md).
+
 This is a local candidate, not a public release or paid Early Access. The build contains 40 tasks in the original prologue and four chapters. Public service deployment, payments, identity submission and release remain separate user decisions.
 
 ## Build from one frozen commit

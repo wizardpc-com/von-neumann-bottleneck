@@ -4,6 +4,7 @@ signal event_appended(event: Dictionary)
 signal official_result(event: Dictionary)
 var _visit_reducer = preload("res://src/playtest/visit_summary.gd").new()
 
+const Identity = preload("res://src/playtest/task_identity.gd")
 const SCHEMA_VERSION: int = 2
 const EXPORT_SCHEMA_VERSION: int = 2
 const MAX_SHORT_TEXT_LENGTH: int = 240
@@ -142,7 +143,7 @@ func level_started(chapter_id: StringName, level_id: StringName) -> bool:
 	if is_inside_tree() and get_node_or_null("/root/PlaytestData")==self:
 		var navigation: Node = get_node_or_null("/root/TaskNavigation")
 		if navigation != null: navigation.remember_visit(String(chapter_id),String(level_id))
-	current_task_context = {"chapter_id":String(chapter_id),"level_id":String(level_id)}
+	current_task_context = task_feedback_context(String(chapter_id),String(level_id))
 	if not _can_record_level(chapter_id, level_id):
 		current_visit_id = ""
 		latest_run_id = ""
@@ -158,7 +159,7 @@ func level_started(chapter_id: StringName, level_id: StringName) -> bool:
 	var already_completed: bool = false
 	var navigation: Node = get_node_or_null("/root/TaskNavigation") if is_inside_tree() else null
 	if navigation != null:
-		for task: Dictionary in navigation.tasks():
+		for task: Dictionary in navigation.journey_tasks():
 			if task.domain==String(chapter_id) and task.id==String(level_id): already_completed=task.completed; break
 	return _append_event(&"level_start", {
 		"completed":already_completed,
@@ -181,6 +182,7 @@ func level_completed(chapter_id: StringName, level_id: StringName, details: Dict
 
 
 func level_exited(chapter_id: StringName, level_id: StringName, reason: StringName = &"map") -> bool:
+	if str(current_task_context.get("chapter_id","")) != String(chapter_id) or str(current_task_context.get("level_id","")) != String(level_id): return false
 	last_exit_context = {"chapter_id":String(chapter_id),"level_id":String(level_id),"visit_id":current_visit_id,"reason":String(reason)}
 	current_task_context = {}
 	if not _can_record_level(chapter_id, level_id):
@@ -266,29 +268,34 @@ func submit_level_feedback(
 		fun_rating: int,
 		clarity_rating: int,
 		continue_rating: int,
-		note: String = ""
+		note: String = "",
+		category: String = "",
+		frozen_context: Dictionary = {}
 	) -> bool:
+	if not category.is_empty() and category not in Identity.CATEGORIES: return false
 	if fun_rating not in range(0,6) or clarity_rating not in range(0,6) or continue_rating not in range(0,6):
 		return false
-	if fun_rating == 0 and clarity_rating == 0 and continue_rating == 0 and note.strip_edges().is_empty(): return false
+	if fun_rating == 0 and clarity_rating == 0 and continue_rating == 0 and note.strip_edges().is_empty() and category.is_empty(): return false
 	if chapter_id.is_empty() or level_id.is_empty(): return false
 	var visit: String = ""
-	var context: Dictionary = current_task_context if not current_task_context.is_empty() else last_exit_context
+	var context: Dictionary = frozen_context if not frozen_context.is_empty() else current_task_context if not current_task_context.is_empty() else last_exit_context
+	if not frozen_context.is_empty() and (str(context.get("chapter_id","")) != String(chapter_id) or str(context.get("level_id","")) != String(level_id)): return false
 	if str(context.get("chapter_id",""))==String(chapter_id) and str(context.get("level_id",""))==String(level_id):
-		visit=current_visit_id if not current_visit_id.is_empty() else str(context.get("visit_id",""))
+		visit=str(context.get("visit_id","")) if not frozen_context.is_empty() else current_visit_id if not current_visit_id.is_empty() else str(context.get("visit_id",""))
 	var revision: int = 1
 	for previous: Dictionary in _events:
 		if previous.get("event")=="level_feedback" and previous.get("visit_id","")==visit:
 			var old: Dictionary = previous.get("payload",{})
 			if old.get("chapter_id")==String(chapter_id) and old.get("level_id")==String(level_id): revision+=1
 	return _append_event(&"level_feedback", {
-		"visit_id":visit,"revision":revision,"run_id":latest_run_id if not visit.is_empty() and visit==current_visit_id else "",
+		"visit_id":visit,"revision":revision,"run_id":str(context.get("run_id","")) if not frozen_context.is_empty() else latest_run_id if not visit.is_empty() and visit==current_visit_id else "",
 		"chapter_id": String(chapter_id),
 		"level_id": String(level_id),
 		"fun": fun_rating if fun_rating > 0 else null,
 		"clarity": clarity_rating if clarity_rating > 0 else null,
 		"want_to_continue": continue_rating if continue_rating > 0 else null,
 		"note": _bounded_text(note),
+		"category": category,
 	})
 
 
@@ -588,6 +595,7 @@ func _append_event(event_name: StringName, payload: Dictionary) -> bool:
 	var session_event: bool = event_name in [&"session_start",&"session_end",&"session_resumed"]
 	if (feedback and not questionnaire_enabled) or (not feedback and not session_event and not telemetry_enabled) or not _initialized or _ended:
 		return false
+	var identity: Dictionary = Identity.metadata(str(payload.get("chapter_id","")),str(payload.get("level_id","")))
 	var event: Dictionary = {
 		"schema_version": SCHEMA_VERSION,
 		"session_id": _session_id,
@@ -599,8 +607,11 @@ func _append_event(event_name: StringName, payload: Dictionary) -> bool:
 		"visit_id": payload.get("visit_id",current_visit_id),
 		"source": source_kind,
 		"build_version": str(ProjectSettings.get_setting("application/config/version","development")),
-		"task_version": "tasks-20260910-v1",
-		"case_set_version": payload.get("case_set_version","unspecified"),
+		"task_version": identity.task_version,
+		"source_commit": identity.source_commit,
+		"test_batch": identity.test_batch,
+		"model_version": payload.get("model_version",identity.model_version),
+		"case_set_version": payload.get("case_set_version",identity.case_set_version),
 		"mode": String(_current_mode()),
 		"event": String(event_name),
 		"payload": _json_safe(payload),
@@ -954,3 +965,12 @@ func set_local_recording(value: bool) -> void:
 	telemetry_enabled=value
 	if value and not current_task_context.is_empty():
 		level_started(StringName(current_task_context.chapter_id),StringName(current_task_context.level_id))
+
+
+func task_feedback_context(chapter: String, level: String) -> Dictionary:
+	var result: Dictionary = Identity.metadata(chapter,level)
+	var context: Dictionary = current_task_context if not current_task_context.is_empty() else last_exit_context
+	var matching: bool = str(context.get("chapter_id","")) == chapter and str(context.get("level_id","")) == level
+	result["visit_id"]=current_visit_id if matching and not current_visit_id.is_empty() else str(context.get("visit_id","")) if matching else ""
+	result["run_id"]=latest_run_id if matching and not current_visit_id.is_empty() else ""
+	return result

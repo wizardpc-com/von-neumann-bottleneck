@@ -12,7 +12,7 @@ import re
 import sqlite3
 import time
 from storage import migrate, SCHEMA_VERSION
-from community import RULES, SCORE_NUMBERS, validate_score, aggregate, leaderboard
+from community import RULES, SCORE_NUMBERS, validate_score, validate_task_context, aggregate, leaderboard
 from urllib.parse import urlsplit, parse_qs
 
 TEXT = {'kind':64,'phase':80,'target':80,'case_id':80,'tool_id':80,'origin':80,'program_digest':80,'chapter_id':64,'level_id':64,'visit_id':100,'session_id':100,'source':24,'mode':16,
@@ -25,12 +25,15 @@ NUMBERS = {'stage','sequence','duration_ms','cycles','cost','case_count','passed
 NUMBERS |= SCORE_NUMBERS
 NUMBERS |= {'foreground_ms','background_ms','feedback_ms','connections','connection_rejections','branches','wire_deletes','component_deletes','undo_count','redo_count','debug_runs','official_runs','max_hint_stage'}
 TEXT.update({key:80 for key in ['privacy_notice_version','consent_version','consent_timestamp','source_batch','background_cohort','sharing_mode','ruleset_version']})
+TEXT.update({'category':24,'source_commit':80,'test_batch':80})
+FEEDBACK_CATEGORIES={'','confusion','control','bug','audiovisual','discovery','other'}
 BOOLS = {'completed','duration_unknown','eligible','passed','correct','target_met','post_completion','budget_met','completed_on_entry','completed_during_visit'}
 IDENTIFIER = re.compile(r'^[a-zA-Z0-9_-]{16,100}$')
 MAX_BODY = min(131072, max(1024, int(os.environ.get("VNB_MAX_BODY_BYTES", "131072"))))
 RETENTION_DAYS = max(1, min(365, int(os.environ.get("VNB_RETENTION_DAYS", "30"))))
 MAX_BATCH = max(1, min(32, int(os.environ.get("VNB_MAX_BATCH_SIZE", "32"))))
 RATE_LIMIT = max(1, int(os.environ.get("VNB_RATE_PER_MINUTE", "120")))
+MAX_EVENTS = 100000
 
 
 def validate_record(record):
@@ -59,9 +62,12 @@ def validate_record(record):
     if record['payload'].get('source','unknown') not in ('unknown','external_player','developer','agent_native','automated'):
         raise ValueError('source')
     if record['payload'].get('mode','game') not in ('game','test','unknown'): raise ValueError('mode')
-    if record['kind'] == 'feedback' and not any(record['payload'].get(k) for k in ('note','fun','clarity','want_to_continue')):
+    if record['kind'] != 'feedback' and 'category' in record['payload']: raise ValueError('category_channel')
+    if record['payload'].get('category','') not in FEEDBACK_CATEGORIES: raise ValueError('category')
+    if record['kind'] == 'feedback' and not any(record['payload'].get(k) for k in ('note','fun','clarity','want_to_continue','category')):
         raise ValueError('empty_feedback')
     p=record['payload']
+    if record['kind']=='feedback': validate_task_context(p)
     if 'consent_version' in p:
         if p['consent_version']!='sharing-2' or p.get('privacy_notice_version')!='2026-09-11': raise ValueError('consent_version')
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z',p.get('consent_timestamp','')): raise ValueError('consent_time')
@@ -70,8 +76,8 @@ def validate_record(record):
         if p.get('sharing_mode') not in ['local','basic','detailed','opinion','score']: raise ValueError('sharing_mode')
     if record['kind']=='score': validate_score(p)
     if p.get('event')=='visit_summary':
-        key=p.get('chapter_id','')+'/'+p.get('level_id','')
-        if key not in RULES['tasks'] or not p.get('visit_id') or p.get('max_hint_stage',4)>3: raise ValueError('summary_task')
+        validate_task_context(p, required=True)
+        if not p.get('visit_id') or p.get('max_hint_stage',4)>3: raise ValueError('summary_task')
         for k in ['foreground_ms','background_ms','feedback_ms']:
             if type(p.get(k)) is not int or not 0<=p[k]<=7*86400000: raise ValueError('summary_duration')
     return record
@@ -85,6 +91,8 @@ class Receiver(HTTPServer):
         self.db.execute('PRAGMA journal_mode=WAL')
         migrate(self.db)
         self.rates={}
+        self.rejections={}
+        self.started_at=int(time.time())
         self.last_cleanup=0
         self.cleanup()
     def cleanup(self):
@@ -160,7 +168,8 @@ class Handler(BaseHTTPRequestHandler):
         if not self.server.admin_token or not hmac.compare_digest(token,'Bearer '+self.server.admin_token):
             return self.send(401,{'error':'authentication_required'})
         rows=self.server.db.execute('SELECT kind,COUNT(*) FROM events GROUP BY kind').fetchall()
-        return self.send(200,{'counts':dict(rows),'retention_days':RETENTION_DAYS})
+        return self.send(200,{'counts':dict(rows),'retention_days':RETENTION_DAYS,'rejections':self.server.rejections,
+            'rejections_scope':'since_process_start','started_at':self.server.started_at})
     def do_POST(self):
         if self.path != '/v1/events': return self.send(404,{'error':'not_found'})
         if not self.rate_ok(): return self.send(429,{'error':'rate_limit'})
@@ -173,10 +182,17 @@ class Handler(BaseHTTPRequestHandler):
             records=body['records']
             if not isinstance(records,list) or not 1<=len(records)<=MAX_BATCH: raise ValueError('batch_size')
             records=[validate_record(x) for x in records]
-            if len({x['event_id'] for x in records})!=len(records): raise ValueError('duplicate_in_batch')
+            unique={}
+            for record in records:
+                prior_record=unique.get(record['event_id'])
+                if prior_record is not None and prior_record!=record:
+                    return self.send(409,{'error':'id_conflict'})
+                unique[record['event_id']]=record
+            records=list(unique.values())
             self.server.cleanup()
             db=self.server.db
-            if db.execute('SELECT COUNT(*) FROM events').fetchone()[0]+len(records)>100000:
+            new_count=sum(not db.execute('SELECT 1 FROM events WHERE id=?',(r['event_id'],)).fetchone() for r in records)
+            if db.execute('SELECT COUNT(*) FROM events').fetchone()[0]+new_count>MAX_EVENTS:
                 return self.send(503,{'error':'storage_limit'})
             digest=hashlib.sha256(token.encode()).hexdigest()
             prior=db.execute('SELECT deletion_hash FROM clients WHERE id=?',(client,)).fetchone()
@@ -197,7 +213,11 @@ class Handler(BaseHTTPRequestHandler):
                 db.execute('INSERT OR IGNORE INTO clients VALUES (?,?)',(client,digest))
                 db.executemany('INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?)',prepared)
             self.send(200,{'ack':[r['event_id'] for r in records]})
-        except (ValueError,TypeError,KeyError,RecursionError,TimeoutError): self.send(400,{'error':'invalid_request'})
+        except (ValueError,TypeError,KeyError,RecursionError,TimeoutError) as error:
+            # Only fixed validation codes are observable. Never echo parser text/body.
+            reason=str(error) if type(error) is ValueError and re.fullmatch(r'[a-z_]{1,48}',str(error)) else 'invalid_request'
+            self.server.rejections[reason]=self.server.rejections.get(reason,0)+1
+            self.send(400,{'error':'invalid_request','reason':reason})
         except sqlite3.Error: self.send(503,{'error':'storage_unavailable'})
     def do_DELETE(self):
         if self.path != '/v1/data': return self.send(404,{'error':'not_found'})

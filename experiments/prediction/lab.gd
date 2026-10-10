@@ -126,7 +126,7 @@ func build() -> void:
 	var title: Label = label(text2("预测工坊","Prediction workshop"),top,24); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_override("font",Typography.HEADING_FONT)
 	button("中文 / EN","Language",top,toggle_language)
-	top.add_child(PlaytestMoments.make_button())
+	top.add_child(get_node("/root/PlaytestMoments").make_button())
 	if candidate_journey: button(text2("任务地图","Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页","Home"),"CandidateHome",top,request_hub)
 	button(text2("退出","Quit"),"Quit",top,request_quit)
 	var boundary: Label = label(text2("可选临时探索 · 规则、历史与结果离开后不保留", "Optional temporary exploration · rules, history and results are discarded on leaving"),page,14)
@@ -276,8 +276,8 @@ func run_current() -> void:
 func _record() -> void:
 	history.append({"task":task,"policy":active_policy.duplicate(true),"trace":active_trace})
 	selected_run = history.size()-1; refresh_history()
-	PlaytestData.record_official_run(&"prediction",_playtest_id(),active_trace.passed,{"total_cycles":active_trace.metrics.get("total_cycles",0)})
-	if goal_met(task): PlaytestData.level_completed(&"prediction",_playtest_id())
+	get_node("/root/PlaytestData").record_official_run(&"prediction",_playtest_id(),active_trace.passed,{"total_cycles":active_trace.metrics.get("total_cycles",0)})
+	if goal_met(task): get_node("/root/PlaytestData").level_completed(&"prediction",_playtest_id())
 
 func refresh_history() -> void:
 	history_list.clear()
@@ -387,8 +387,8 @@ func _playtest_id() -> StringName:
 	return StringName(get_node("/root/TaskNavigation").candidate_key("prediction",task).get_slice("/",1))
 
 func _playtest_start() -> void:
-	PlaytestData.level_started(&"prediction",_playtest_id())
+	get_node("/root/PlaytestData").level_started(&"prediction",_playtest_id())
 
 func _playtest_exit() -> void:
-	if PlaytestData.current_task_context.get("chapter_id","") == "prediction":
-		PlaytestData.level_exited(&"prediction",_playtest_id(),&"departure")
+	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "prediction":
+		get_node("/root/PlaytestData").level_exited(&"prediction",_playtest_id(),&"departure")

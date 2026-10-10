@@ -199,7 +199,7 @@ func build() -> void:
 	var header := HBoxContainer.new(); page.add_child(header)
 	var title := label(tr2("服务方案 · 谁先得到下一次结果？", "Service plan · Who gets the next result?"), header, 22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	language_button = button("中文 / EN", header, toggle_language, "Language")
-	header.add_child(PlaytestMoments.make_button())
+	header.add_child(get_node("/root/PlaytestMoments").make_button())
 	if candidate_journey: button(tr2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else tr2("返回首页", "Home"),header,request_hub,"CandidateHome")
 	button(tr2("服务回顾", "Service review"),header,show_closure,"ServiceClosure")
 	button(tr2("退出", "Quit"), header, request_quit, "Quit")
@@ -209,7 +209,7 @@ func build() -> void:
 		set_action_disabled(node,index > unlocked); task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void:
 		hint_open = not hint_open
-		if hint_open: PlaytestData.record_hint(&"service",_playtest_id(),1)
+		if hint_open: get_node("/root/PlaytestData").record_hint(&"service",_playtest_id(),1)
 		refresh_mission(), "Hint1")
 	button(tr2("服务入门", "Service introduction"), stages, show_briefing, "ServiceIntroduction")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
@@ -432,8 +432,8 @@ func run_current() -> void:
 	if history.size() > 80: history.pop_front()
 	selected_history = history.size() - 1; selected_event_index = -1
 	var accepted: bool = Model.accepted(active_trace.metrics, task)
-	PlaytestData.record_official_run(&"service",_playtest_id(),accepted,{"total_cycles":active_trace.metrics.get("total_cycles",0),"ram_read_bytes":active_trace.metrics.get("state_read_bytes",0),"ram_write_bytes":active_trace.metrics.get("state_write_bytes",0)})
-	if accepted: PlaytestData.level_completed(&"service",_playtest_id())
+	get_node("/root/PlaytestData").record_official_run(&"service",_playtest_id(),accepted,{"total_cycles":active_trace.metrics.get("total_cycles",0),"ram_read_bytes":active_trace.metrics.get("state_read_bytes",0),"ram_write_bytes":active_trace.metrics.get("state_write_bytes",0)})
+	if accepted: get_node("/root/PlaytestData").level_completed(&"service",_playtest_id())
 	if accepted:
 		unlocked = maxi(unlocked, mini(task + 1, 2))
 		support_plans[task] = plan.duplicate(true)
@@ -1042,8 +1042,8 @@ func _playtest_id() -> StringName:
 	return StringName(get_node("/root/TaskNavigation").candidate_key("service",task).get_slice("/",1))
 
 func _playtest_start() -> void:
-	PlaytestData.level_started(&"service",_playtest_id())
+	get_node("/root/PlaytestData").level_started(&"service",_playtest_id())
 
 func _playtest_exit() -> void:
-	if PlaytestData.current_task_context.get("chapter_id","") == "service":
-		PlaytestData.level_exited(&"service",_playtest_id(),&"departure")
+	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "service":
+		get_node("/root/PlaytestData").level_exited(&"service",_playtest_id(),&"departure")

@@ -212,7 +212,7 @@ func build() -> void:
 	title.add_theme_font_override("font",Typography.HEADING_FONT)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button("中文 / EN","Language",header,toggle_language)
-	header.add_child(PlaytestMoments.make_button())
+	header.add_child(get_node("/root/PlaytestMoments").make_button())
 	button(text2("保存草稿","Save draft"),"SaveDraft",header,save_draft).disabled = not writable
 	button(text2("返回旅程","Journey"),"Journey",header,func() -> void: request_leave(true))
 	button(text2("退出","Quit"),"Quit",header,func() -> void: request_leave(false))
@@ -1854,8 +1854,8 @@ func show_saved_work(work: Dictionary) -> void:
 	work_focus.request_feedback.connect(func() -> void:
 		var exhibit: WeakRef = weakref(work_focus)
 		work_focus.playing = false; work_focus.sync_presentation(); work_focus.hide()
-		PlaytestMoments.open_for_task("creation",String(_playtest_id()))
-		PlaytestMoments.closed.connect(func() -> void:
+		get_node("/root/PlaytestMoments").open_for_task("creation",String(_playtest_id()))
+		get_node("/root/PlaytestMoments").closed.connect(func() -> void:
 			var retained: Window = exhibit.get_ref()
 			if retained != null and retained.is_inside_tree():
 				retained.popup(); (retained.get("close_button") as Button).grab_focus(),CONNECT_ONE_SHOT))
@@ -1891,18 +1891,18 @@ func _playtest_id() -> StringName:
 	return StringName(get_node("/root/TaskNavigation").candidate_key("creation",task).get_slice("/",1))
 
 func _playtest_start() -> void:
-	PlaytestData.level_started(&"creation",_playtest_id())
+	get_node("/root/PlaytestData").level_started(&"creation",_playtest_id())
 
 func _playtest_exit() -> void:
-	if PlaytestData.current_task_context.get("chapter_id","") == "creation":
-		PlaytestData.level_exited(&"creation",_playtest_id(),&"departure")
+	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "creation":
+		get_node("/root/PlaytestData").level_exited(&"creation",_playtest_id(),&"departure")
 
 func _playtest_run(result: Dictionary) -> void:
 	var details: Dictionary = {"result_class":"executed" if result.get("ok",false) else "failed_unspecified"}
 	if result.get("cost") is Dictionary and result.cost.has("total_cycles"):
 		details["total_cycles"] = result.cost.total_cycles
-	PlaytestData.record_official_run(&"creation",_playtest_id(),bool(result.get("ok",false)),details)
+	get_node("/root/PlaytestData").record_official_run(&"creation",_playtest_id(),bool(result.get("ok",false)),details)
 
 func _playtest_completion() -> void:
 	if session.data.supports.has(String(_playtest_id())):
-		PlaytestData.level_completed(&"creation",_playtest_id())
+		get_node("/root/PlaytestData").level_completed(&"creation",_playtest_id())

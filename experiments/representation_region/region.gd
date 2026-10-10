@@ -147,7 +147,7 @@ func build() -> void:
 	var title := make_label(text2("表示 · 改变信息的承载","Representation · Change how information is carried"),top,24)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	make_button("中文 / EN",top,toggle_language,"Language")
-	top.add_child(PlaytestMoments.make_button())
+	top.add_child(get_node("/root/PlaytestMoments").make_button())
 	if candidate_journey: make_button(text2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页", "Home"),top,request_hub,"CandidateHome")
 	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
 	make_button(text2("退出","Quit"),top,request_quit,"Quit")
@@ -471,8 +471,8 @@ func run_current() -> void:
 	var accepted: bool = Model.meets(task,traces)
 	var measured_cycles: int = 0
 	for trace: Trace in traces: measured_cycles += int(trace.metrics.get("total_cycles",0))
-	PlaytestData.record_official_run(&"representation",_playtest_id(),accepted,{"total_cycles":measured_cycles,"case_count":traces.size()})
-	if accepted: PlaytestData.level_completed(&"representation",_playtest_id())
+	get_node("/root/PlaytestData").record_official_run(&"representation",_playtest_id(),accepted,{"total_cycles":measured_cycles,"case_count":traces.size()})
+	if accepted: get_node("/root/PlaytestData").level_completed(&"representation",_playtest_id())
 	if accepted: support_plans[task] = plan.duplicate(true)
 	history.append({"task":task,"plan":plan.duplicate(true),"traces":traces,"accepted":accepted})
 	if history.size() > 100: history.pop_front()
@@ -1013,8 +1013,8 @@ func _playtest_id() -> StringName:
 	return StringName(get_node("/root/TaskNavigation").candidate_key("representation",task).get_slice("/",1))
 
 func _playtest_start() -> void:
-	PlaytestData.level_started(&"representation",_playtest_id())
+	get_node("/root/PlaytestData").level_started(&"representation",_playtest_id())
 
 func _playtest_exit() -> void:
-	if PlaytestData.current_task_context.get("chapter_id","") == "representation":
-		PlaytestData.level_exited(&"representation",_playtest_id(),&"departure")
+	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "representation":
+		get_node("/root/PlaytestData").level_exited(&"representation",_playtest_id(),&"departure")

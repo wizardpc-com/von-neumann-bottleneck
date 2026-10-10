@@ -9,7 +9,7 @@ const MAX_QUEUE: int = 256
 const MAX_DISK_BYTES: int = 524288
 const MAX_BATCH: int = 32
 const FLUSH_SECONDS: float = 45
-const TEXT_FIELDS := ["kind","phase","target","case_id","tool_id","origin","program_digest","chapter_id","level_id","visit_id","session_id","source","mode","build_version","task_version","case_set_version","model_version","event","action","operation","result_class","reason","strategy","recipe_digest","run_id","privacy_notice_version","consent_version","consent_timestamp","source_batch","background_cohort","sharing_mode","ruleset_version"]
+const TEXT_FIELDS := ["kind","phase","target","case_id","tool_id","origin","program_digest","chapter_id","level_id","visit_id","session_id","source","mode","build_version","source_commit","test_batch","task_version","case_set_version","model_version","event","action","operation","result_class","reason","strategy","recipe_digest","run_id","privacy_notice_version","consent_version","consent_timestamp","source_batch","background_cohort","sharing_mode","ruleset_version"]
 const NUMBER_FIELDS := ["stage","sequence","duration_ms","cycles","cost","case_count","passed_cases","total_cases","added_wires","removed_wires","added_components","removed_components","explicit_wire_deletes","incident_wire_removals","total_cycles","prepare_cycles","query_cycles","output_cycles","ram_read_bytes","ram_write_bytes","peak_extra_bytes","required_extra_bytes","requests","fills","hits","evictions","batch","group_count","block","copy_field_count"]
 const BOOL_FIELDS := ["duration_unknown","eligible","passed","correct","target_met","post_completion","budget_met","completed","completed_on_entry","completed_during_visit"]
 var endpoint: String = ""
@@ -135,8 +135,10 @@ func send_feedback(event: Dictionary) -> String:
 	for key: String in ["fun","clarity","want_to_continue"]:
 		var value: Variant = original.get(key)
 		payload[key]=int(value) if (value is int or value is float) and int(value) in range(1,6) else null
+	var category: String = str(original.get("category",""))
+	if category in preload("res://src/playtest/task_identity.gd").CATEGORIES: payload["category"]=category
 	payload["revision"]=int(original.get("revision",1))
-	var id: String = ("feedback:"+str(event.get("session_id",""))+":"+str(event.get("sequence",0))).sha256_text()
+	var id: String = feedback_id(event)
 	if receipts.has(id): status="sent"; status_changed.emit(); return id
 	for item: Dictionary in queue:
 		if item.record.event_id == id: return id
@@ -307,3 +309,17 @@ func send_score(payload: Dictionary) -> String:
 	if not _enqueue({"event_id":id,"kind":"score","payload":safe}): return ""
 	flush()
 	return id
+
+
+static func feedback_id(event: Dictionary) -> String:
+	return ("feedback:"+str(event.get("session_id",""))+":"+str(event.get("sequence",0))).sha256_text()
+
+func feedback_state(id: String) -> String:
+	if id.is_empty(): return "local"
+	if receipts.has(id): return "sent"
+	if inflight.has(id): return "sending"
+	for item: Dictionary in queue:
+		if str(item.record.event_id) != id: continue
+		if item.get("permanent",false): return "rejected"
+		return "failed_retryable" if int(item.get("attempts",0)) > 0 else "pending"
+	return "local"

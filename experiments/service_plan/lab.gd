@@ -137,6 +137,7 @@ func _ready() -> void:
 	if requested >= 0 and requested <= unlocked and requested != task: change_task(requested)
 	else: build()
 	get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
+	_playtest_start()
 
 func label(text: String, parent: Node, size: int = 15) -> Label:
 	var node := Label.new(); node.text = text; node.autowrap_mode = TextServer.AUTOWRAP_OFF if parent is HBoxContainer else TextServer.AUTOWRAP_WORD_SMART
@@ -198,6 +199,7 @@ func build() -> void:
 	var header := HBoxContainer.new(); page.add_child(header)
 	var title := label(tr2("服务方案 · 谁先得到下一次结果？", "Service plan · Who gets the next result?"), header, 22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	language_button = button("中文 / EN", header, toggle_language, "Language")
+	header.add_child(PlaytestMoments.make_button())
 	if candidate_journey: button(tr2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else tr2("返回首页", "Home"),header,request_hub,"CandidateHome")
 	button(tr2("服务回顾", "Service review"),header,show_closure,"ServiceClosure")
 	button(tr2("退出", "Quit"), header, request_quit, "Quit")
@@ -205,7 +207,10 @@ func build() -> void:
 	for index: int in 3:
 		var node: Button = button(tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
 		set_action_disabled(node,index > unlocked); task_buttons.append(node)
-	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void: hint_open = not hint_open; refresh_mission(), "Hint1")
+	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void:
+		hint_open = not hint_open
+		if hint_open: PlaytestData.record_hint(&"service",_playtest_id(),1)
+		refresh_mission(), "Hint1")
 	button(tr2("服务入门", "Service introduction"), stages, show_briefing, "ServiceIntroduction")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
 	button(tr2("完整规格", "Full specification"),stages,show_specification,"ServiceSpecification")
@@ -426,7 +431,10 @@ func run_current() -> void:
 	history.append({"task": task, "metrics": active_trace.metrics.duplicate(true), "events": events, "signature": active_trace.canonical_signature()})
 	if history.size() > 80: history.pop_front()
 	selected_history = history.size() - 1; selected_event_index = -1
-	if Model.accepted(active_trace.metrics, task):
+	var accepted: bool = Model.accepted(active_trace.metrics, task)
+	PlaytestData.record_official_run(&"service",_playtest_id(),accepted,{"total_cycles":active_trace.metrics.get("total_cycles",0),"ram_read_bytes":active_trace.metrics.get("state_read_bytes",0),"ram_write_bytes":active_trace.metrics.get("state_write_bytes",0)})
+	if accepted: PlaytestData.level_completed(&"service",_playtest_id())
+	if accepted:
 		unlocked = maxi(unlocked, mini(task + 1, 2))
 		support_plans[task] = plan.duplicate(true)
 	for index: int in 3: set_action_disabled(task_buttons[index],index > unlocked)
@@ -597,6 +605,7 @@ func restore_design(index: int) -> void:
 	task = original_task; commission_mode = -1
 	if changed_context:
 		get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
+		_playtest_start()
 		mark_session_dirty()
 	edit(source,0); slots.set_value_no_signal(plan.slots)
 	refresh_mission(); refresh_actions()
@@ -676,7 +685,8 @@ func public_observation() -> Dictionary:
 func change_task(index: int) -> void:
 	if index < 0 or index > unlocked or (index == task and commission_mode < 0): return
 	commission_mode = -1
-	task = index; get_node("/root/TaskNavigation").remember_candidate_visit("service",task); mark_session_dirty(); build()
+	task = index; get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
+	_playtest_start(); mark_session_dirty(); build()
 
 func mark_session_dirty() -> void:
 	if persistent_session: session_dirty = true; notice_key = "dirty"
@@ -789,6 +799,7 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST and persistent_session: request_quit()
 
 func _exit_tree() -> void:
+	_playtest_exit()
 	if writer_lease != null: writer_lease.release()
 	if persistent_session: get_tree().auto_accept_quit = previous_auto_quit
 
@@ -953,6 +964,7 @@ func start_commission(id: int) -> void:
 	if task != 2:
 		task = 2
 		get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
+		_playtest_start()
 		mark_session_dirty()
 	commission_mode = id; commission_choice.select(id); evidence_tabs.current_tab = 4
 	refresh_mission(); refresh_commission()
@@ -1023,3 +1035,15 @@ func show_quality_evidence() -> void:
 	content.text = measured_source.text+"\n\n"+QualityEvidence.text(evidence,tolerance,english)
 	review.add_child(content); review.ok_button_text = tr2("回到实测记录", "Back to measurement")
 	add_child(review); review.popup_centered(Vector2i(700,330))
+
+
+# Observes the existing task/result authority; never grants domain progress.
+func _playtest_id() -> StringName:
+	return StringName(get_node("/root/TaskNavigation").candidate_key("service",task).get_slice("/",1))
+
+func _playtest_start() -> void:
+	PlaytestData.level_started(&"service",_playtest_id())
+
+func _playtest_exit() -> void:
+	if PlaytestData.current_task_context.get("chapter_id","") == "service":
+		PlaytestData.level_exited(&"service",_playtest_id(),&"departure")

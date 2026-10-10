@@ -74,3 +74,36 @@ References: [Docker loopback publishing](https://docs.docker.com/engine/network/
 The tombstone table also has a 100,000-row intake cap. At the cap, unknown-identity
 deletion requests receive 503 and remain pending on the client; existing identities
 can still be deleted. Review capacity rather than pruning still-needed tombstones.
+
+## Private feedback review and deletion-safe sidecar
+
+Run the report from the frozen complete repository (it reuses
+`scripts/report-playtests.py`), on a private filesystem. The receiver container
+needs only its existing receiver files. Do not add report downloads or triage
+routes to Caddy. `private_report.py --database DB --output PRIVATE_DIR --triage
+PRIVATE_SIDECAR` lists committed opinions by their receipt IDs; `--set-status ID
+needs_review` creates an ID-linked review note and `--fix-build`, `--fix-commit`,
+`--review-note` record later reproduction/fix work. See the [server guide](../README.md)
+for valid states and full commands.
+
+The sidecar is an optional separate private SQLite file, not a migration of the
+receiving schema2. It contains review annotations and must be protected/retained
+like feedback. After confirmed live deletion or retention, run:
+
+```sh
+python3 server/private_report.py --database /private/current/feedback.sqlite \
+  --triage /private/current/private-triage.sqlite --purge-triage
+```
+
+Before bringing an old receiving backup online or reporting it, restore to a new
+path, merge the newest full database snapshot/tombstones using `storage.py merge`,
+check counts/integrity, then purge the sidecar and regenerate reports. An old
+sidecar never makes a missing feedback ID visible; an old receiving database
+without newest tombstones can, so it must not be exposed. Delete superseded report
+outputs and apply the approved backup retention/deletion policy to receiving and
+sidecar snapshots. These commands alone do not prove off-host backups or an
+external player endpoint.
+
+Receiver `/admin/report` contains fixed-code rejection counts only since process
+start, explicitly reset after restart. The local SQLite report marks persistent
+rejection totals unknown. Neither captures rejected player text.

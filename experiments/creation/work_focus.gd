@@ -6,6 +6,7 @@ const Catalog = preload("res://experiments/creation/catalog.gd")
 signal dismissed
 signal request_evidence(index: int)
 signal request_fork
+signal request_feedback
 const VIEW_MAPPING: String = "light-trace-v1"
 var cursor: int = 0
 var playing: bool = false
@@ -68,6 +69,8 @@ func _ready() -> void:
 	name_label.clip_text = true
 	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	name_label.tooltip_text = name_label.text
+	var feedback := Button.new(); feedback.name="WorkFocusFeedback"
+	feedback.text=words("反馈", "Feedback"); feedback.pressed.connect(func() -> void: request_feedback.emit()); header.add_child(feedback)
 	close_button = Button.new(); close_button.name = "CloseWorkFocus"
 	close_button.text = words("回到工作台","Back to workbench")
 	close_button.pressed.connect(dismiss); header.add_child(close_button)
@@ -256,6 +259,8 @@ func dismiss() -> void:
 	queue_free()
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F8:
+		get_viewport().set_input_as_handled(); request_feedback.emit(); return
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		dismiss()

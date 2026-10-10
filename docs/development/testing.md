@@ -6,6 +6,32 @@ assertions intentionally require no prior acknowledgement. See
 
 # Testing
 
+## Exported-package feedback — 2026-10-10
+
+Run `test_candidate_feedback`, `test_work_focus_feedback` and
+`test_feedback_presentation` with the isolated verifier. The presentation suite's
+`-- --feedback-capture` option renders both locales at1280×720. Run the full
+regression after shared recorder/transport changes. Python CI additionally runs
+`server/test_delivery.py` (real HTTP acknowledgment loss/restart/capacity/write
+fault/delete/restore) and `server/test_private_report.py` (ID-linked triage,
+historical quarantine, escaped HTML and deletion-safe sidecar).
+
+Build from a committed source with `scripts/build-free-candidate.py`, pinned4.7.1,
+matching private official templates, `--second-act-profile CloudPlaytest
+--creation-journey --test-batch <immutable-batch>`. Leave the endpoint empty until
+the existing approved target is established. A separate Mac acceptance build may
+use `--feedback-endpoint http://127.0.0.1:28765 --local-feedback-test`.
+Run `scripts/verify-mac-candidate.py --app <app>` and then
+`scripts/verify-package-feedback.py --app <localhost-acceptance-app>` sequentially.
+The latter executes unchanged exported binary/PCK in three isolated processes:
+offline opinion/withdraw/private draft/work save, online reopen/receipt, and
+deletion. It verifies one SQLite row, same-ID/task/build private report/triage,
+retry deduplication and deletion-wins old-backup restore. QA overrides select only
+the synthetic controller scene/profile; endpoint/build/content stay baked in.
+Raw QA artifacts include synthetic credentials and stay private/ignored; publish
+only the sanitized receipt. This proves exported local HTTP behavior, not native
+pointer input, newcomer understanding, VPS staging or external HTTPS acceptance.
+
 ## Existing-passage creative editing — 2026-10-10
 
 Run `test_creation_sample_editing` and `test_creation_exhibition_composition`

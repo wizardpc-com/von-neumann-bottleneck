@@ -1,4 +1,14 @@
 extends Node
+signal closed
+const DRAFT_PATH := "user://feedback_drafts_v1.json"
+const DRAFT_BYTES := 262144
+const CATEGORIES := ["","confusion","control","bug","audiovisual","discovery","other"]
+var drafts: Dictionary = {}
+var drafts_blocked: bool = false
+var category: OptionButton
+var opinion_status: Label
+var context_label: Label
+var restoring_draft: bool = false
 ## Voluntary local feedback available during a run and after an unfinished exit.
 var panel: PanelContainer
 var note: LineEdit
@@ -22,6 +32,7 @@ var content_scroll: ScrollContainer
 var entry_buttons: Array[WeakRef] = []
 
 func _ready() -> void:
+	_load_drafts()
 	var layer := CanvasLayer.new()
 	layer.layer = 1600
 	add_child(layer)
@@ -63,18 +74,41 @@ func _ready() -> void:
 	box.add_child(privacy)
 	target_label=Label.new(); target_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(target_label)
+	context_label=Label.new(); context_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; box.add_child(context_label)
+	category=OptionButton.new(); category.name="FeedbackCategory"
+	category.add_item(Localization.text(&"sharing.category"))
+	for value: String in CATEGORIES.slice(1): category.add_item(Localization.text(StringName("sharing.category."+value)))
+	box.add_child(category)
+	category.item_selected.connect(func(_index: int) -> void: _store_draft())
+	var rating_box := VBoxContainer.new(); rating_box.hide()
 	for key: String in ["fun","clarity","continue"]:
 		var choice := OptionButton.new()
 		choice.set_meta("rating_key",key)
 		choice.add_item(Localization.text(StringName("sharing.rating."+key))+Localization.text(&"sharing.no_rating"))
 		for score: int in range(1,6): choice.add_item(str(score)+Localization.text(&"sharing.5"))
-		ratings.append(choice); box.add_child(choice)
+		ratings.append(choice); rating_box.add_child(choice)
+		choice.item_selected.connect(func(_index: int) -> void: _store_draft())
 	opinion=LineEdit.new(); opinion.max_length=240
 	opinion.placeholder_text=Localization.text(&"sharing.opinion_even_before_passing_240_characters"); opinion.set_meta("locale_field",["placeholder_text","sharing.opinion_even_before_passing_240_characters"])
 	box.add_child(opinion)
-	var save_opinion := Button.new(); save_opinion.text=Localization.text(&"sharing.save_task_feedback_locally"); save_opinion.set_meta("locale_field",["text","sharing.save_task_feedback_locally"])
-	save_opinion.custom_minimum_size.y=40; box.add_child(save_opinion)
+	opinion.text_changed.connect(func(_value: String) -> void: _store_draft())
+	var opinion_actions := HBoxContainer.new(); box.add_child(opinion_actions)
+	var save_opinion := Button.new(); save_opinion.text=Localization.text(&"sharing.keep_locally"); save_opinion.set_meta("locale_field",["text","sharing.keep_locally"])
+	save_opinion.custom_minimum_size.y=40; save_opinion.size_flags_horizontal=Control.SIZE_EXPAND_FILL; opinion_actions.add_child(save_opinion)
+	save_opinion.name="KeepFeedbackLocally"
 	save_opinion.pressed.connect(_save_opinion)
+	var send_opinion := Button.new(); send_opinion.name="SendTaskFeedback"
+	send_opinion.text=Localization.text(&"sharing.send_feedback"); send_opinion.set_meta("locale_field",["text","sharing.send_feedback"])
+	send_opinion.custom_minimum_size.y=40; send_opinion.size_flags_horizontal=Control.SIZE_EXPAND_FILL; opinion_actions.add_child(send_opinion); send_opinion.pressed.connect(_send_opinion)
+	opinion_status=Label.new(); opinion_status.name="OpinionDeliveryStatus"; opinion_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; box.add_child(opinion_status)
+	var rating_fold := CheckButton.new(); rating_fold.name="OptionalRatings"; rating_fold.text=Localization.text(&"sharing.optional_ratings"); rating_fold.set_meta("locale_field",["text","sharing.optional_ratings"])
+	box.add_child(rating_fold); box.add_child(rating_box)
+	rating_fold.toggled.connect(func(value: bool) -> void: rating_box.visible=value)
+	var recovery := Button.new(); recovery.name="RecoverFeedbackDrafts"; recovery.visible=drafts_blocked
+	recovery.text=Localization.text(&"sharing.recover_drafts"); recovery.set_meta("locale_field",["text","sharing.recover_drafts"])
+	box.add_child(recovery)
+	recovery.pressed.connect(func() -> void:
+		if _recover_drafts(): recovery.hide(); _store_draft(); _remote_updated())
 	var remote_fold := CheckButton.new(); remote_fold.text=Localization.text(&"sharing.optional_sharing_and_data_settings"); remote_fold.set_meta("locale_field",["text","sharing.optional_sharing_and_data_settings"])
 	box.add_child(remote_fold)
 	var remote_box := VBoxContainer.new(); remote_box.hide(); box.add_child(remote_box)
@@ -111,10 +145,6 @@ func _ready() -> void:
 	remote_box.add_child(score_choice)
 	var designs := Label.new(); designs.text=Localization.text(&"sharing.public_designs_unsupported_never_uploaded"); designs.set_meta("locale_field",["text","sharing.public_designs_unsupported_never_uploaded"])
 	designs.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; remote_box.add_child(designs)
-	var send := Button.new(); send.text=Localization.text(&"sharing.send_the_opinion_i_just_saved"); send.set_meta("locale_field",["text","sharing.send_the_opinion_i_just_saved"]); remote_box.add_child(send); send.disabled=not RemoteFeedback.endpoint_allowed()
-	send.pressed.connect(func() -> void:
-		if saved_opinion.is_empty(): remote_status.text=Localization.text(&"sharing.save_this_opinion_first")
-		else: RemoteFeedback.send_feedback(saved_opinion))
 	var retry := Button.new(); retry.text=Localization.text(&"sharing.retry_pending_records"); retry.set_meta("locale_field",["text","sharing.retry_pending_records"]); remote_box.add_child(retry); retry.disabled=not RemoteFeedback.endpoint_allowed(); retry.pressed.connect(RemoteFeedback.retry_pending)
 	var remove := Button.new(); remove.text=Localization.text(&"sharing.stop_sharing_and_request_uploaded_data_deletion"); remove.set_meta("locale_field",["text","sharing.stop_sharing_and_request_uploaded_data_deletion"]); remote_box.add_child(remove); remove.disabled=not RemoteFeedback.endpoint_allowed()
 	var confirm := ConfirmationDialog.new(); confirm.name="DeleteUploadsConfirm"; panel.add_child(confirm)
@@ -192,7 +222,8 @@ func make_button() -> Button:
 
 func toggle() -> void:
 	if panel.visible: close(); return
-	target=PlaytestData.current_task_context.duplicate() if not PlaytestData.current_task_context.is_empty() else PlaytestData.last_exit_context.duplicate()
+	var actual: Dictionary = PlaytestData.current_task_context if not PlaytestData.current_task_context.is_empty() else PlaytestData.last_exit_context
+	target=PlaytestData.task_feedback_context(str(actual.get("chapter_id","")),str(actual.get("level_id","")))
 	_prepare_target()
 	previous_focus = get_viewport().gui_get_focus_owner()
 	panel.show()
@@ -208,9 +239,11 @@ func toggle() -> void:
 	PlaytestData.set_feedback_visible(true,&"moments")
 
 func close() -> void:
+	_store_draft()
 	panel.hide()
 	if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
 	PlaytestData.set_feedback_visible(false,&"moments")
+	closed.emit()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -243,6 +276,8 @@ func _refresh_language() -> void:
 	for rating: OptionButton in ratings:
 		rating.set_item_text(0,Localization.text(StringName("sharing.rating."+str(rating.get_meta("rating_key"))))+Localization.text(&"sharing.no_rating"))
 	receiver_label.text=Localization.text(&"sharing.receiver")+(RemoteFeedback.endpoint if RemoteFeedback.endpoint_allowed() else Localization.text(&"sharing.not_configured_in_this_build_save_and_export_still_work"))
+	category.set_item_text(0,Localization.text(&"sharing.category"))
+	for index: int in range(1,CATEGORIES.size()): category.set_item_text(index,Localization.text(StringName("sharing.category."+CATEGORIES[index])))
 	_refresh_target_label()
 	_remote_updated()
 	status.text = ""
@@ -264,37 +299,124 @@ func _translate(node: Node) -> void:
 	for child: Node in node.get_children(): _translate(child)
 
 func open_for_task(chapter: String, level: String) -> void:
+	_store_draft()
 	if panel.visible: close()
 	toggle()
-	target={"chapter_id":chapter,"level_id":level}
+	target=PlaytestData.task_feedback_context(chapter,level)
 	_prepare_target()
 func _refresh_target_label() -> void:
 	var key: String = str(target.get("chapter_id",""))+"/"+str(target.get("level_id",""))
 	var title: String = key
-	for task: Dictionary in TaskNavigation.tasks():
+	for task: Dictionary in TaskNavigation.journey_tasks():
 		if task.key==key: title=task.title; break
 	target_label.text=Localization.text(&"sharing.feedback_for")+title if not target.get("level_id","").is_empty() else Localization.text(&"sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree")
 func _prepare_target() -> void:
 	_refresh_target_label()
-	for rating: OptionButton in ratings: rating.select(0)
-	opinion.clear(); saved_opinion.clear(); moment_sequence=-1
-	content_scroll.scroll_vertical=0
+	var metadata: Dictionary = target
+	context_label.text=Localization.text(&"sharing.attached_context")+" · "+str(metadata.get("build_version","development"))+" · "+str(metadata.get("task_version",""))+" · "+str(metadata.get("source",PlaytestData.source_kind))
+	restoring_draft=true
+	var draft: Dictionary = drafts.get(_target_key(),{})
+	for index: int in ratings.size(): ratings[index].select(int(draft.get("ratings",[0,0,0])[index]))
+	opinion.text=str(draft.get("opinion","")); category.select(maxi(0,CATEGORIES.find(str(draft.get("category","")))))
+	saved_opinion=draft.get("saved_event",{}).duplicate(true); moment_sequence=-1
+	restoring_draft=false
+	_remote_updated()
+	opinion.caret_column=clampi(int(draft.get("cursor",opinion.text.length())),0,opinion.text.length())
+	content_scroll.scroll_vertical=maxi(0,int(draft.get("scroll",0)))
+	call_deferred("_restore_draft_scroll",_target_key(),content_scroll.scroll_vertical)
 	_update_context_controls()
 func _update_context_controls() -> void:
 	var current: Dictionary = PlaytestData.current_task_context if not PlaytestData.current_task_context.is_empty() else PlaytestData.last_exit_context
 	var matches: bool = not current.is_empty() and current.get("chapter_id","")==target.get("chapter_id","") and current.get("level_id","")==target.get("level_id","")
 	moment_box.visible=matches
 	exit_reason.visible=matches and PlaytestData.current_task_context.is_empty() and not PlaytestData.last_exit_context.is_empty()
-func _save_opinion() -> void:
+func _save_opinion() -> bool:
 	var chapter: String = str(target.get("chapter_id",""))
 	var level: String = str(target.get("level_id",""))
-	var saved: bool = PlaytestData.submit_level_feedback(StringName(chapter),StringName(level),ratings[0].selected,ratings[1].selected,ratings[2].selected,opinion.text)
+	var same: bool = _matches_saved_opinion()
+	var saved: bool = same or PlaytestData.submit_level_feedback(StringName(chapter),StringName(level),ratings[0].selected,ratings[1].selected,ratings[2].selected,opinion.text,CATEGORIES[category.selected],target)
 	status.text=Localization.text(&"sharing.saved_locally_revisions_are_retained_analysis_uses_the_latest_opinio") if saved else Localization.text(&"sharing.choose_a_task_and_provide_a_rating_or_opinion")
-	if saved: saved_opinion=PlaytestData.latest_level_feedback(chapter,level)
+	if saved and not same: saved_opinion=PlaytestData.latest_level_feedback(chapter,level)
+	_store_draft(); _remote_updated()
+	return saved
+
+func _send_opinion() -> void:
+	if not _save_opinion(): return
+	var id: String = RemoteFeedback.send_feedback(saved_opinion)
+	_remote_updated()
+	if id.is_empty(): opinion_status.text=Localization.text(StringName("sharing.state."+RemoteFeedback.status))
+
 func _remote_updated() -> void:
+	if is_instance_valid(opinion_status):
+		var id: String = RemoteFeedback.feedback_id(saved_opinion) if _matches_saved_opinion() else ""
+		var state: String = RemoteFeedback.feedback_state(id) if not id.is_empty() else "draft"
+		opinion_status.text=Localization.text(StringName("sharing.state."+state))
+		if not id.is_empty(): opinion_status.text += " · "+Localization.text(&"sharing.feedback_id")+id
+		if drafts_blocked: opinion_status.text += "\n"+Localization.text(&"sharing.draft_unavailable")
 	remote_status.text=Localization.text(StringName("sharing.status."+RemoteFeedback.status))+" · %d " % RemoteFeedback.queue.size()+Localization.text(&"sharing.pending")
 	remote_toggle.select(maxi(0,["local","basic","detailed"].find(RemoteFeedback.sharing_mode)))
 	if is_instance_valid(score_toggle): score_toggle.set_pressed_no_signal(RemoteFeedback.scores_enabled)
 func _save_preferences(value: bool) -> void:
 	var config := ConfigFile.new(); config.set_value("privacy","local_actions",value)
 	config.save("user://feedback_preferences.cfg")
+
+func _target_key() -> String:
+	return str(target.get("chapter_id",""))+"/"+str(target.get("level_id",""))
+
+func _store_draft() -> void:
+	if restoring_draft or not is_instance_valid(opinion) or str(target.get("level_id","")).is_empty(): return
+	var key: String = _target_key()
+	if not drafts.has(key) and drafts.size() >= 64: drafts_blocked=true; return
+	var values: Array[int] = []
+	for rating: OptionButton in ratings: values.append(rating.selected)
+	drafts[key]={"opinion":opinion.text.left(240),"ratings":values,"category":CATEGORIES[category.selected],"saved_event":saved_opinion.duplicate(true),"cursor":opinion.caret_column,"scroll":content_scroll.scroll_vertical}
+	_remote_updated()
+	if drafts_blocked: return
+	var body: String = JSON.stringify({"version":1,"drafts":drafts})
+	if body.to_utf8_buffer().size() > DRAFT_BYTES: drafts_blocked=true; return
+	var file := FileAccess.open(DRAFT_PATH+".tmp",FileAccess.WRITE)
+	if file == null: drafts_blocked=true; return
+	file.store_string(body); file.flush(); file.close()
+	if DirAccess.rename_absolute(ProjectSettings.globalize_path(DRAFT_PATH+".tmp"),ProjectSettings.globalize_path(DRAFT_PATH)) != OK: drafts_blocked=true
+
+func _load_drafts() -> void:
+	if not FileAccess.file_exists(DRAFT_PATH): return
+	var file := FileAccess.open(DRAFT_PATH,FileAccess.READ)
+	if file == null or file.get_length() > DRAFT_BYTES: drafts_blocked=true; return
+	var data: Variant = JSON.parse_string(file.get_as_text()); file.close()
+	if not data is Dictionary or data.get("version") != 1 or not data.get("drafts") is Dictionary or data.drafts.size() > 64: drafts_blocked=true; return
+	for key: Variant in data.drafts:
+		var entry: Variant = data.drafts[key]
+		if not key is String or key.length() > 130 or key.get_slice_count("/") != 2 or not entry is Dictionary or not entry.get("opinion") is String or entry.opinion.length() > 240 or not entry.get("ratings") is Array or entry.ratings.size() != 3 or entry.get("category") not in CATEGORIES or not entry.get("saved_event") is Dictionary:
+			drafts_blocked=true; return
+		for rating: Variant in entry.ratings:
+			if not (rating is int or rating is float) or int(rating) != rating or rating < 0 or rating > 5: drafts_blocked=true; return
+		var event: Dictionary = entry.saved_event
+		if not event.is_empty() and (event.get("event") != "level_feedback" or not event.get("session_id") is String or not event.get("sequence") is float and not event.get("sequence") is int or not event.get("payload") is Dictionary or event.payload.get("chapter_id","")+"/"+event.payload.get("level_id","") != key):
+			drafts_blocked=true; return
+	drafts=data.drafts.duplicate(true)
+
+func _recover_drafts() -> bool:
+	if FileAccess.file_exists(DRAFT_PATH):
+		var raw: String = FileAccess.get_file_as_string(DRAFT_PATH)
+		var backup: String = DRAFT_PATH+".preserved-"+raw.sha256_text()+".json"
+		if not FileAccess.file_exists(backup):
+			if DirAccess.copy_absolute(ProjectSettings.globalize_path(DRAFT_PATH),ProjectSettings.globalize_path(backup)) != OK: return false
+		if FileAccess.get_sha256(backup) != FileAccess.get_sha256(DRAFT_PATH): return false
+	drafts_blocked=false
+	return true
+
+func _exit_tree() -> void:
+	_store_draft()
+
+func _matches_saved_opinion() -> bool:
+	var same: bool = not saved_opinion.is_empty()
+	var old: Dictionary = saved_opinion.get("payload",{})
+	for index: int in ratings.size():
+		var value: Variant = ratings[index].selected if ratings[index].selected > 0 else null
+		if old.get(["fun","clarity","want_to_continue"][index]) != value: same=false
+	if old.get("note","") != opinion.text.strip_edges() or old.get("category","") != CATEGORIES[category.selected]: same=false
+	return same
+
+func _restore_draft_scroll(key: String, value: int) -> void:
+	if _target_key() == key and is_instance_valid(content_scroll): content_scroll.scroll_vertical=value

@@ -120,6 +120,7 @@ func _ready() -> void:
 		var requested: int = navigation.take_pending("creation")
 		if requested >= 0: task = clampi(requested,0,8)
 		navigation.remember_candidate_visit("creation",task)
+	_playtest_start()
 	previous_auto_quit = get_tree().auto_accept_quit
 	get_tree().auto_accept_quit = false
 	add_to_group("candidate_quit_owners")
@@ -134,6 +135,7 @@ func _ready() -> void:
 	build()
 
 func _exit_tree() -> void:
+	_playtest_exit()
 	session.close()
 	get_tree().auto_accept_quit = previous_auto_quit
 
@@ -210,6 +212,7 @@ func build() -> void:
 	title.add_theme_font_override("font",Typography.HEADING_FONT)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button("中文 / EN","Language",header,toggle_language)
+	header.add_child(PlaytestMoments.make_button())
 	button(text2("保存草稿","Save draft"),"SaveDraft",header,save_draft).disabled = not writable
 	button(text2("返回旅程","Journey"),"Journey",header,func() -> void: request_leave(true))
 	button(text2("退出","Quit"),"Quit",header,func() -> void: request_leave(false))
@@ -698,6 +701,7 @@ func change_task(index: int) -> void:
 	session.dirty = true
 	var navigation := get_node_or_null("/root/TaskNavigation")
 	if navigation != null: navigation.remember_candidate_visit("creation",task)
+	_playtest_start()
 	build()
 	_restore_editor_state(editor_state)
 
@@ -744,6 +748,7 @@ func train_model() -> void:
 
 func transport(chosen_codec: String) -> void:
 	var result: Dictionary = session.transport(Catalog.source(source_kind),chosen_codec)
+	_playtest_run(result)
 	if not result.get("ok",false):
 		latest = {}
 		set_status(text2("发送未完成：","Transport failed: ")+failure_text(result))
@@ -762,6 +767,7 @@ func transport(chosen_codec: String) -> void:
 	set_status(text2("包已抵达，接收端独立复原。原文逐项一致：","Packet arrived; receiver restored independently. Exact equality: ")+str(result.get("lossless",false)))
 	if task in [1,2] and not session.data.supports.has(Catalog.IDS[task]):
 		set_status(status_text+" · "+(text2("同条件再运行另一codec，才形成字节对照。","Run the other codec under the same conditions for a byte comparison.") if task == 1 else text2("保持原文/模型/codec，改机器再运行，才形成成本对照。","Keep source/model/codec; change the machine and rerun for a cost comparison.")))
+	_playtest_completion()
 	commission_result(result,chosen_codec)
 	refresh()
 	refresh_tracks()
@@ -821,6 +827,8 @@ func reveal_prediction() -> void:
 		measured.seen = bool(session.prediction.seen)
 		measured.cost = result.cost.duplicate(true)
 		records.append(measured)
+		_playtest_run(result)
+		_playtest_completion()
 	set_status(text2("真值已抵达；修正只在揭晓后标记。","Truth arrived; corrections appear only after reveal."))
 	if task == 4 and session.prediction.get("finished",false) and not session.data.supports.has("P2_memory"):
 		set_status(text2("这轮已完成。保持样例、机器和片段类型，改记忆后重新学习并预测，才构成记忆对照。","Run completed. Keep examples, machine and passage kind; learn another history length and predict again for a memory comparison."))
@@ -857,6 +865,7 @@ func generate_work() -> void:
 		set_status(text2("请先修正起始片段（用空格分隔 A B C D）。","Correct the initial passage first (space-separated A B C D)."))
 		return
 	var result: Dictionary = session.generate()
+	_playtest_run(result)
 	if not result.get("ok",false):
 		set_status(text2("生成未完成：","Generation failed: ")+failure_text(result))
 		return
@@ -870,6 +879,7 @@ func generate_work() -> void:
 	comparison.append(result.duplicate(true))
 	if comparison.size() > 2: comparison.pop_front()
 	session.complete("G1_feedback",{"model_id":result.get("model_id",""),"length":result.output.size(),"feedback":"generated","cost":result.cost.duplicate(true)})
+	_playtest_completion()
 	set_status(text2("这份输出来自你的学得模型和回灌。可以比较、命名，再选择留下。","This output came from your learned model and feedback. Compare, name, and choose what to keep."))
 	if not pinned_creation.is_empty():
 		set_status(text2("B 已生成，A 保持原样。实测页列出配方变化；创作配方页可定位首次分歧、保留 A/B 或继续改。", "B generated; A stays fixed. Measurements lists recipe changes; Creation recipe lets you locate the first difference, keep A/B or edit again."))
@@ -913,6 +923,7 @@ func keep_work() -> void:
 		set_status(text2("作品未保存：","Work was not saved: ")+failure_text(result))
 		return
 	set_status(text2("已留下这件作品及完整配方。新的东西在这套系统中发生了。","This work and its full recipe are kept. Something new happened within this system."))
+	_playtest_completion()
 	kept_work = result.work.duplicate(true)
 	refresh()
 	works.select(session.data.works.size()-1)
@@ -1570,6 +1581,7 @@ func _clear_replaced_exploration() -> void:
 	event_page = 0; task = clampi(int(session.data.task),0,8)
 	var navigation := get_node_or_null("/root/TaskNavigation")
 	if navigation != null: navigation.remember_candidate_visit("creation",task)
+	_playtest_start()
 
 func _build_recovery_dialog() -> void:
 	if recovery_choices.is_empty(): return
@@ -1839,6 +1851,14 @@ func show_saved_work(work: Dictionary) -> void:
 			evidence.recipe = work.recipe.duplicate(true)
 	work_focus.reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion",false))
 	work_focus.configure(work,english,evidence)
+	work_focus.request_feedback.connect(func() -> void:
+		var exhibit: WeakRef = weakref(work_focus)
+		work_focus.playing = false; work_focus.sync_presentation(); work_focus.hide()
+		PlaytestMoments.open_for_task("creation",String(_playtest_id()))
+		PlaytestMoments.closed.connect(func() -> void:
+			var retained: Window = exhibit.get_ref()
+			if retained != null and retained.is_inside_tree():
+				retained.popup(); (retained.get("close_button") as Button).grab_focus(),CONNECT_ONE_SHOT))
 	work_focus.request_fork.connect(func() -> void:
 		work_focus.dismiss()
 		kept_work = work.duplicate(true)
@@ -1864,3 +1884,25 @@ func show_saved_work(work: Dictionary) -> void:
 	add_child(work_focus)
 	work_focus.fork_button.disabled = not writable or evidence.is_empty()
 	work_focus.popup_centered_clamped(Vector2i(1080,620),0.92)
+
+
+# Observes the existing task/result authority; never grants domain progress.
+func _playtest_id() -> StringName:
+	return StringName(get_node("/root/TaskNavigation").candidate_key("creation",task).get_slice("/",1))
+
+func _playtest_start() -> void:
+	PlaytestData.level_started(&"creation",_playtest_id())
+
+func _playtest_exit() -> void:
+	if PlaytestData.current_task_context.get("chapter_id","") == "creation":
+		PlaytestData.level_exited(&"creation",_playtest_id(),&"departure")
+
+func _playtest_run(result: Dictionary) -> void:
+	var details: Dictionary = {"result_class":"executed" if result.get("ok",false) else "failed_unspecified"}
+	if result.get("cost") is Dictionary and result.cost.has("total_cycles"):
+		details["total_cycles"] = result.cost.total_cycles
+	PlaytestData.record_official_run(&"creation",_playtest_id(),bool(result.get("ok",false)),details)
+
+func _playtest_completion() -> void:
+	if session.data.supports.has(String(_playtest_id())):
+		PlaytestData.level_completed(&"creation",_playtest_id())

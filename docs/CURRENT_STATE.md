@@ -2,6 +2,22 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Distributable journey and feedback integration — 2026-10-10
+
+Creative PR3 merged normally into main as b90ae47. The current round integrates
+the existing sixty-task candidate and feedback from unfinished tasks, including
+Representation, Service, optional address Prediction and C/P/G. The runtime
+changes preserve simulation authority, authored tasks and player save contracts.
+Feedback uses explicit single-opinion authorization; automatic statistics remain
+separate. Private receiver reports preserve receipt ID/task/build and use an
+independent local triage sidecar. No account or new chapter is introduced.
+
+Implementation and local package acceptance are being verified; neither establishes
+VPS deployment or external HTTPS availability. Existing server access/configuration
+and approved external publication target have not been supplied. Windows export
+and native execution are separate gates. See the [round plan](exec-plans/active/distributable-cloud-playtest.md)
+and [feedback contract](architecture/community-feedback.md) for scope and boundaries.
+
 ## Main integration and creative studio — 2026-10-10
 
 Protected PR1/PR2 passed fresh local and GitHub CI, then merged normally as

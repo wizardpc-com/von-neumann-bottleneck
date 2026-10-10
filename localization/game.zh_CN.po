@@ -6780,3 +6780,78 @@ msgstr "运行时硬件成本 · %d"
 
 msgid "system.history.cost_delta"
 msgstr "硬件成本 · %d → %d · Δ %s"
+
+msgid "sharing.send_feedback"
+msgstr "发送反馈"
+
+msgid "sharing.keep_locally"
+msgstr "仅保留本机"
+
+msgid "sharing.category"
+msgstr "问题类型（可选）"
+
+msgid "sharing.category.confusion"
+msgstr "看不懂"
+
+msgid "sharing.category.control"
+msgstr "操作不符合预期"
+
+msgid "sharing.category.bug"
+msgstr "程序问题"
+
+msgid "sharing.category.audiovisual"
+msgstr "听感／动效"
+
+msgid "sharing.category.discovery"
+msgstr "具体收获"
+
+msgid "sharing.category.other"
+msgstr "其他"
+
+msgid "sharing.attached_context"
+msgstr "附带：任务、构建、内容／模型版本、访问与来源。发送本条意见不启用统计，不附带程序、作品、样例或创作意图。"
+
+msgid "sharing.feedback_id"
+msgstr "反馈 ID："
+
+msgid "sharing.state.local"
+msgstr "已保存本机"
+
+msgid "sharing.state.pending"
+msgstr "等待发送"
+
+msgid "sharing.state.sending"
+msgstr "发送中"
+
+msgid "sharing.state.sent"
+msgstr "服务器已收本条反馈"
+
+msgid "sharing.state.rejected"
+msgstr "接收器拒绝；本机仍保留"
+
+msgid "sharing.state.failed_retryable"
+msgstr "等待网络；可安全重试"
+
+msgid "sharing.state.not_configured"
+msgstr "接收器未配置；已保存本机"
+
+msgid "sharing.state.storage_error"
+msgstr "发送队列保存失败；意见留在本机"
+
+msgid "sharing.draft_unavailable"
+msgstr "草稿文件无法读取；旧文件已保留。仍可明确保存本机意见。"
+
+msgid "sharing.recover_drafts"
+msgstr "保留旧副本并重建草稿"
+
+msgid "sharing.state.queue_full"
+msgstr "发送队列已满；意见留在本机"
+
+msgid "sharing.state.delete_pending"
+msgstr "正在请求删除；暂停发送"
+
+msgid "sharing.optional_ratings"
+msgstr "可选评分"
+
+msgid "sharing.state.draft"
+msgstr "本机草稿；尚未发送"

@@ -6781,3 +6781,78 @@ msgstr "Hardware cost at run · %d"
 
 msgid "system.history.cost_delta"
 msgstr "Hardware cost · %d → %d · Δ %s"
+
+msgid "sharing.send_feedback"
+msgstr "Send feedback"
+
+msgid "sharing.keep_locally"
+msgstr "Keep on this device"
+
+msgid "sharing.category"
+msgstr "Issue type (optional)"
+
+msgid "sharing.category.confusion"
+msgstr "Hard to understand"
+
+msgid "sharing.category.control"
+msgstr "Unexpected controls"
+
+msgid "sharing.category.bug"
+msgstr "Program problem"
+
+msgid "sharing.category.audiovisual"
+msgstr "Sound / animation"
+
+msgid "sharing.category.discovery"
+msgstr "Something I noticed"
+
+msgid "sharing.category.other"
+msgstr "Other"
+
+msgid "sharing.attached_context"
+msgstr "Attached: task, build, content/model versions, visit and source. Sending this opinion does not enable statistics. No program, work, example or intention text is attached."
+
+msgid "sharing.feedback_id"
+msgstr "Feedback ID: "
+
+msgid "sharing.state.local"
+msgstr "Saved on this device"
+
+msgid "sharing.state.pending"
+msgstr "Queued for sending"
+
+msgid "sharing.state.sending"
+msgstr "Sending"
+
+msgid "sharing.state.sent"
+msgstr "Server received this feedback"
+
+msgid "sharing.state.rejected"
+msgstr "Rejected by receiver; kept locally"
+
+msgid "sharing.state.failed_retryable"
+msgstr "Waiting for network; retry is safe"
+
+msgid "sharing.state.not_configured"
+msgstr "Receiver not configured; saved locally"
+
+msgid "sharing.state.storage_error"
+msgstr "Could not save sending queue; opinion remains local"
+
+msgid "sharing.draft_unavailable"
+msgstr "Draft file unavailable; old file is preserved. Explicit local feedback still works."
+
+msgid "sharing.recover_drafts"
+msgstr "Preserve the old file and rebuild drafts"
+
+msgid "sharing.state.queue_full"
+msgstr "Sending queue full; feedback remains local"
+
+msgid "sharing.state.delete_pending"
+msgstr "Deletion pending; sending is suspended"
+
+msgid "sharing.optional_ratings"
+msgstr "Optional ratings"
+
+msgid "sharing.state.draft"
+msgstr "Private draft; not sent"

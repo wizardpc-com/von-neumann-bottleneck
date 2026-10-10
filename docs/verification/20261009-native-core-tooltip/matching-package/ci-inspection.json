@@ -1,0 +1,12 @@
+{
+  "source_commit": "ccbda74cd4aa77131d97c4e4aea89b6af707e5e0",
+  "run_id": 37945118728,
+  "conventional_suites": 144,
+  "all_suite_status_pass": true,
+  "error_marker_count": 0,
+  "log_lines_inspected": 561,
+  "jobs": {
+    "godot": "success",
+    "python": "success"
+  }
+}

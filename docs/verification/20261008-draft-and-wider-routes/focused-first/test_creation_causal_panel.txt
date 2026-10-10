@@ -1,0 +1,21 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: All candidate bars visible before scrolling
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_causal_panel.gd:10)
+       [1] run (res://tests/test_creation_causal_panel.gd:43)
+       [2] settle (res://tests/test_creation_causal_panel.gd:12)
+ERROR: Candidate bars have a visible row at minimum size
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_causal_panel.gd:10)
+       [1] run (res://tests/test_creation_causal_panel.gd:49)
+       [2] settle (res://tests/test_creation_causal_panel.gd:12)
+ERROR: New run clears stale selected evidence
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_causal_panel.gd:10)
+       [1] run (res://tests/test_creation_causal_panel.gd:75)
+       [2] settle (res://tests/test_creation_causal_panel.gd:12)
+FAIL: causal panel checks=37 failures=3

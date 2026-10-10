@@ -1,0 +1,920 @@
+{
+	"final": {
+		"board": {
+			"nodes": {
+				"A": {
+					"capacity": 1,
+					"kind": "buffer",
+					"x": 320.0,
+					"y": 140.0
+				},
+				"B": {
+					"capacity": 1,
+					"kind": "buffer",
+					"x": 320.0,
+					"y": 400.0
+				},
+				"COMPUTE": {
+					"kind": "compute",
+					"x": 840.0,
+					"y": 120.0
+				},
+				"TRANSFER": {
+					"kind": "transfer",
+					"x": 60.0,
+					"y": 120.0
+				}
+			},
+			"wires": [
+				[
+					"TRANSFER",
+					0,
+					"A",
+					0
+				],
+				[
+					"A",
+					0,
+					"COMPUTE",
+					0
+				],
+				[
+					"A",
+					1,
+					"COMPUTE",
+					1
+				],
+				[
+					"A",
+					2,
+					"TRANSFER",
+					0
+				],
+				[
+					"TRANSFER",
+					0,
+					"B",
+					0
+				],
+				[
+					"B",
+					0,
+					"COMPUTE",
+					0
+				],
+				[
+					"B",
+					1,
+					"COMPUTE",
+					1
+				],
+				[
+					"B",
+					2,
+					"TRANSFER",
+					0
+				]
+			]
+		},
+		"program": "fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle"
+	},
+	"snapshot": {
+		"distance_bonus": {
+			"board": {
+				"nodes": {
+					"CACHE": {
+						"capacity": 1,
+						"kind": "cache",
+						"x": 400.0,
+						"y": 160.0
+					},
+					"COMPUTE": {
+						"kind": "compute",
+						"x": 840.0,
+						"y": 120.0
+					},
+					"TRANSFER": {
+						"kind": "transfer",
+						"x": 60.0,
+						"y": 120.0
+					}
+				},
+				"wires": [
+					[
+						"TRANSFER",
+						0,
+						"CACHE",
+						0
+					],
+					[
+						"CACHE",
+						0,
+						"COMPUTE",
+						0
+					]
+				]
+			},
+			"program": "prefetch 0\nprefetch 1\nread 0\nidle\nprefetch 2\nread 1\nidle\nprefetch 3\nread 2\nidle\nread 3\nidle"
+		},
+		"drafts": {
+			"arrival": {
+				"board": {
+					"nodes": {
+						"A": {
+							"kind": "buffer",
+							"x": 380.0,
+							"y": 40.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nwork 4\nready A\nconsume A\nidle"
+			},
+			"backpressure": {
+				"board": {
+					"nodes": {
+						"A": {
+							"kind": "buffer",
+							"x": 380.0,
+							"y": 40.0
+						},
+						"B": {
+							"kind": "buffer",
+							"x": 380.0,
+							"y": 250.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						],
+						[
+							"TRANSFER",
+							0,
+							"B",
+							0
+						],
+						[
+							"B",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"B",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"B",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle"
+			},
+			"buffers": {
+				"board": {
+					"nodes": {
+						"A": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 140.0
+						},
+						"B": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 400.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						],
+						[
+							"TRANSFER",
+							0,
+							"B",
+							0
+						],
+						[
+							"B",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"B",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"B",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle"
+			},
+			"distance": {
+				"board": {
+					"nodes": {
+						"CACHE": {
+							"capacity": 1,
+							"kind": "cache",
+							"x": 400.0,
+							"y": 160.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"CACHE",
+							0
+						],
+						[
+							"CACHE",
+							0,
+							"COMPUTE",
+							0
+						]
+					]
+				},
+				"program": "prefetch 0\nprefetch 1\nread 0\nidle\nprefetch 2\nread 1\nidle\nprefetch 3\nread 2\nidle\nread 3\nidle"
+			},
+			"prefetch": {
+				"board": {
+					"nodes": {
+						"CACHE": {
+							"capacity": 1,
+							"kind": "cache",
+							"x": 400.0,
+							"y": 160.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"CACHE",
+							0
+						],
+						[
+							"CACHE",
+							0,
+							"COMPUTE",
+							0
+						]
+					]
+				},
+				"program": "prefetch 0\nprefetch 1\nread 0\nidle\nprefetch 2\nread 1\nidle\nprefetch 3\nread 2\nidle\nread 3\nidle"
+			},
+			"synthesis": {
+				"board": {
+					"nodes": {
+						"A": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 140.0
+						},
+						"B": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 400.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						],
+						[
+							"TRANSFER",
+							0,
+							"B",
+							0
+						],
+						[
+							"B",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"B",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"B",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle"
+			}
+		},
+		"routes": {
+			"buffer": {
+				"board": {
+					"nodes": {
+						"A": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 140.0
+						},
+						"B": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 400.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						],
+						[
+							"TRANSFER",
+							0,
+							"B",
+							0
+						],
+						[
+							"B",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"B",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"B",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle"
+			}
+		},
+		"schema_version": 1,
+		"solutions": {
+			"arrival": {
+				"board": {
+					"nodes": {
+						"A": {
+							"kind": "buffer",
+							"x": 380.0,
+							"y": 40.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nwork 4\nready A\nconsume A\nidle"
+			},
+			"backpressure": {
+				"board": {
+					"nodes": {
+						"A": {
+							"kind": "buffer",
+							"x": 380.0,
+							"y": 40.0
+						},
+						"B": {
+							"kind": "buffer",
+							"x": 380.0,
+							"y": 250.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						],
+						[
+							"TRANSFER",
+							0,
+							"B",
+							0
+						],
+						[
+							"B",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"B",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"B",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle"
+			},
+			"buffers": {
+				"board": {
+					"nodes": {
+						"A": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 140.0
+						},
+						"B": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 400.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						],
+						[
+							"TRANSFER",
+							0,
+							"B",
+							0
+						],
+						[
+							"B",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"B",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"B",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle"
+			},
+			"distance": {
+				"board": {
+					"nodes": {
+						"CACHE": {
+							"capacity": 1,
+							"kind": "cache",
+							"x": 400.0,
+							"y": 160.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"CACHE",
+							0
+						],
+						[
+							"CACHE",
+							0,
+							"COMPUTE",
+							0
+						]
+					]
+				},
+				"program": "prefetch 0\nprefetch 1\nread 0\nidle\nprefetch 2\nread 1\nidle\nprefetch 3\nread 2\nidle\nread 3\nidle"
+			},
+			"prefetch": {
+				"board": {
+					"nodes": {
+						"CACHE": {
+							"capacity": 1,
+							"kind": "cache",
+							"x": 400.0,
+							"y": 160.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"CACHE",
+							0
+						],
+						[
+							"CACHE",
+							0,
+							"COMPUTE",
+							0
+						]
+					]
+				},
+				"program": "prefetch 0\nprefetch 1\nread 0\nidle\nprefetch 2\nread 1\nidle\nprefetch 3\nread 2\nidle\nread 3\nidle"
+			},
+			"synthesis": {
+				"board": {
+					"nodes": {
+						"A": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 140.0
+						},
+						"B": {
+							"capacity": 1,
+							"kind": "buffer",
+							"x": 320.0,
+							"y": 400.0
+						},
+						"COMPUTE": {
+							"kind": "compute",
+							"x": 840.0,
+							"y": 120.0
+						},
+						"TRANSFER": {
+							"kind": "transfer",
+							"x": 60.0,
+							"y": 120.0
+						}
+					},
+					"wires": [
+						[
+							"TRANSFER",
+							0,
+							"A",
+							0
+						],
+						[
+							"A",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"A",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"A",
+							2,
+							"TRANSFER",
+							0
+						],
+						[
+							"TRANSFER",
+							0,
+							"B",
+							0
+						],
+						[
+							"B",
+							0,
+							"COMPUTE",
+							0
+						],
+						[
+							"B",
+							1,
+							"COMPUTE",
+							1
+						],
+						[
+							"B",
+							2,
+							"TRANSFER",
+							0
+						]
+					]
+				},
+				"program": "fetch A 0\nfetch B 1\nready A\nconsume A\nfree A\nfetch A 2\nready B\nidle\nconsume B\nfree B\nfetch B 3\nready A\nidle\nconsume A\nready B\nidle\nconsume B\nidle"
+			}
+		}
+	}
+}

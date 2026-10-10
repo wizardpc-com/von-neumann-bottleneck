@@ -1,0 +1,24 @@
+[
+  {
+    "name": "identity",
+    "command": [
+      "python3",
+      "scripts/check-candidate-identity.py",
+      "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-e7894522c40b"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "codesign",
+    "command": [
+      "codesign",
+      "--verify",
+      "--deep",
+      "--strict",
+      "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-e7894522c40b/macOS/Von-Neumann-Bottleneck.app"
+    ],
+    "exit": 0,
+    "passed": true
+  }
+]

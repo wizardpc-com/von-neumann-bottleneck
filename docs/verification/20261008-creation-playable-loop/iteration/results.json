@@ -1,0 +1,126 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/user_directory"
+    },
+    {
+      "name": "test_core_closure_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_core_closure_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_core_closure_navigation"
+    },
+    {
+      "name": "test_creation_causal_panel",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_causal_panel.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_creation_causal_panel"
+    },
+    {
+      "name": "test_creation_comparison",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_comparison.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_creation_comparison"
+    },
+    {
+      "name": "test_creation_condition_examples",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_condition_examples.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_creation_condition_examples"
+    },
+    {
+      "name": "test_creation_evidence_identity",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_evidence_identity.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_creation_evidence_identity"
+    },
+    {
+      "name": "test_creation_input_validation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_input_validation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_creation_input_validation"
+    },
+    {
+      "name": "test_creation_prediction_flow",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_prediction_flow.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_creation_prediction_flow"
+    },
+    {
+      "name": "test_creation_route_flow",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_route_flow.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_creation_route_flow"
+    },
+    {
+      "name": "test_creation_workbench",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: 1280x720 bounds: Train [P: (24.0, 1155.0), S: (334.0, 38.0)]",
+        "ERROR: 1280x720 bounds: ModeActions [P: (390.0, 571.0), S: (866.0, 669.0)]",
+        "ERROR: 1280x720 bounds: Status [P: (12.0, 1256.0), S: (1256.0, 30.0)]",
+        "ERROR: 1280x720 bounds: Train [P: (24.0, 1197.0), S: (334.0, 38.0)]",
+        "ERROR: 1280x720 bounds: ModeActions [P: (390.0, 571.0), S: (866.0, 711.0)]",
+        "ERROR: 1280x720 bounds: Status [P: (12.0, 1298.0), S: (1256.0, 30.0)]",
+        "ERROR: 1280x720 bounds: Practice [P: (502.0, 571.0), S: (52.0, 669.0)]",
+        "ERROR: 1280x720 bounds: Check [P: (558.0, 571.0), S: (80.0, 669.0)]",
+        "ERROR: 1280x720 bounds: Commit [P: (642.0, 571.0), S: (94.0, 669.0)]",
+        "ERROR: 1280x720 bounds: Reveal [P: (740.0, 571.0), S: (94.0, 669.0)]",
+        "ERROR: 1280x720 bounds: Status [P: (12.0, 1256.0), S: (1256.0, 30.0)]",
+        "ERROR: 1280x720 bounds: Train [P: (24.0, 2667.0), S: (334.0, 38.0)]",
+        "ERROR: 1280x720 bounds: ModeActions [P: (390.0, 571.0), S: (866.0, 2181.0)]",
+        "ERROR: 1280x720 bounds: Status [P: (12.0, 2768.0), S: (1256.0, 30.0)]",
+        "ERROR: 1280x720 bounds: Train [P: (24.0, 2709.0), S: (334.0, 38.0)]",
+        "ERROR: 1280x720 bounds: ModeActions [P: (390.0, 571.0), S: (866.0, 2223.0)]",
+        "ERROR: 1280x720 bounds: Status [P: (12.0, 2810.0), S: (1256.0, 30.0)]",
+        "ERROR: 1280x720 bounds: Practice [P: (558.0, 571.0), S: (78.0, 2181.0)]",
+        "ERROR: 1280x720 bounds: Check [P: (640.0, 571.0), S: (111.0, 2181.0)]",
+        "ERROR: 1280x720 bounds: Commit [P: (755.0, 571.0), S: (118.0, 2181.0)]",
+        "ERROR: 1280x720 bounds: Reveal [P: (877.0, 571.0), S: (105.0, 2181.0)]",
+        "ERROR: 1280x720 bounds: Status [P: (12.0, 2768.0), S: (1256.0, 30.0)]",
+        "FAIL: creation workbench failures=22 / 394"
+      ],
+      "log": "test_creation_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_creation_workbench"
+    },
+    {
+      "name": "test_unified_journey_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_unified_journey_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T172949Z-2f325cf2/test_unified_journey_navigation"
+    }
+  ]
+}

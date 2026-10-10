@@ -1,0 +1,21 @@
+{
+  "source_head": "ef61f832a2c6a30638c01606d074bdcd018e342b",
+  "runtime_commit": "426009f1c052ea0f00bd28fa498724d4da5bfb0b",
+  "pid": 80322,
+  "executable": "build/free-alpha-426009f1c052/macOS/Von-Neumann-Bottleneck.app/Contents/MacOS/Von Neumann Bottleneck",
+  "sample_command": "sample 80322 1 10 -file /tmp/vnb-80322-native-sample.txt",
+  "sample_exit": 0,
+  "sample_full_local": ".godot/diagnostics/native-80322-20261009/sample-full.txt",
+  "sample_full_sha256": "1150824522d49826934f251318a604e3ebec419cc1634a75ff765d92d1e9eb20",
+  "committed_excerpt": "sample-callgraph.txt",
+  "excerpt_boundary": "all raw bytes before Binary Images:; loaded-library inventory retained only in local full sample",
+  "sample_callgraph_sha256": "68bba774adbde6f3027c243ee5596beca325279f2084771d96857cde1c56c9d8",
+  "native_binding_attempts": 2,
+  "native_binding_result": "Accessibility error: AXError.cannotComplete",
+  "cua_inventory_game_running": true,
+  "runtime_change": false,
+  "native_input_or_save": false,
+  "parallel_engine_run": false,
+  "remaining": "Fixed-input native acceptance and earned Representation3-5/Service/original40 routes; independent human/platform acceptance",
+  "conclusion": "Window access unresolved. Sampling does not prove responsiveness or a gameplay freeze."
+}

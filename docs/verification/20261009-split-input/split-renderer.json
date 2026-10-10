@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/ray/Documents/von-neumann-bottleneck/.godot/tools/godot-4.7.1/Godot.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/ray/Documents/von-neumann-bottleneck/.godot/verification/20261009T073708Z-b2fa183a/project",
+    "--script",
+    "res://tests/test_candidate_disabled_focus.gd"
+  ],
+  "exit": 0,
+  "custom_user_dir": "VonNeumannBottleneckChecks/20261009T073708Z-b2fa183a/split-renderer",
+  "passed": true,
+  "hashes": {
+    "experiments/representation_region/region.gd": "c2942a6db6d7ec460c0ef4c6edf64bd92c21bc630ffb964e1e070cd9e27e0c90",
+    "tests/test_candidate_disabled_focus.gd": "e60ee792413d648af3f5a9cb4172868e4046a6ada2e0c353579ba6fba0123253"
+  }
+}

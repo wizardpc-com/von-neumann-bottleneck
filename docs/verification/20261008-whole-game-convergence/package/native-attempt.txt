@@ -1,0 +1,4 @@
+CUA getApp using exact exported app path, timeout15000ms.
+Result: The Mac is locked and automatic unlock could not unlock it.
+No native OS input or native exported route acceptance is claimed.
+No unlock/security change was attempted by this task.

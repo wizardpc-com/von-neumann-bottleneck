@@ -1,0 +1,30 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T174816Z-2f59bbfa/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T174816Z-2f59bbfa/user_directory"
+    },
+    {
+      "name": "test_creation_playable_loop",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_playable_loop.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T174816Z-2f59bbfa/test_creation_playable_loop"
+    }
+  ]
+}

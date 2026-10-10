@@ -1,0 +1,12 @@
+{
+  "experiments/creation/workbench.gd": "ac4c8deae05f189f43c8d3d10972ac28dda56ad7f6ffc5b13b79c541cc916ed2",
+  "experiments/creation/session.gd": "021639ba278238c630fd567c194dc1e7a2d01215ee8a562d9e5e262ae61edea0",
+  "src/hardware_foundations/circuit_workbench_store.gd": "5d8973b7d9815a65b9d7017cba0a20c9b71c37cd1158fe185af49ce2a21361f9",
+  "scripts/build-free-candidate.py": "b0d07e8340f2e55ac4fa3c07aeb8da083bd9706e432d6e1f99674d8c9220f545",
+  "scripts/verify-mac-candidate.py": "0ad5e20a57d7f76224f950ab873a1fba75e598abc88282567c219b40d97c22c6",
+  "tests/test_recovery_game_input.gd": "b95f92eb62b5ba2b45d2357b9cf2b746752e54896da1a9b0a2c2bee29278bd5b",
+  "tests/test_creation_writer_retry.gd": "f2e744c868043b49874e4185d18a9bdc79b622c04f23188b0897b5e51d1db010",
+  "tests/test_creation_writer_retry_ui.gd": "d76ccaa01a6ef8cefd5bcc2030bb9b453df5ce4688114a4c5018694b05663928",
+  "tests/test_creation_observation_focus.gd": "f829b178d0fc1514ee428d43be933998f5cab794fa9c3e0bb5bbc4e625c145fc",
+  "tests/test_workbench_write_failure.gd": "27f47ea9086ca59d1bd11941e40abc5b62d32bcbb9c34c8e565fe2e444496051"
+}

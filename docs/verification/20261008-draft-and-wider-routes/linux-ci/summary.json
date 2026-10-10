@@ -1,0 +1,16 @@
+{
+  "run_id": 37884348935,
+  "commit": "d5dd5d4be778a48d4762cae6da7d9bc27d6823e6",
+  "runtime_commit": "f90597bf999a9fa09b08ac89fa0b4512f5835de6",
+  "platform": "Ubuntu 24.04.5 x86_64, headless",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "suite_count": 143,
+  "artifact_logs": 145,
+  "focus_checks": 22,
+  "script_errors": 0,
+  "skip_lines": 0,
+  "godot_warnings": 4,
+  "artifact_id": 11596345599,
+  "reported_artifact_zip_sha256": "f0db058d984044f00b570344796c9748b55a562c45486bc12a43b52f50b4b2ef",
+  "native_acceptance": false
+}

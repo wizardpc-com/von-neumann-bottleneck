@@ -1,0 +1,4 @@
+{
+  "src/hardware_foundations/circuit_graph_edit.gd": "82ab01a1c1c49f927c4de7a5fdfc86a646ce256dc5d18822157d866577c2be94",
+  "tests/test_wire_tooltip_lifecycle.gd": "d1ab1d53a19825cecf971d787647c16bda8dab5f8aa6d8ea0c76565c9b41b92d"
+}

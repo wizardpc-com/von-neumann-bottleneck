@@ -1,0 +1,11 @@
+{
+  "command": [
+    "python3",
+    "scripts/check-candidate-identity.py",
+    "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-6fbfb1219ff0"
+  ],
+  "exit": 0,
+  "stdout": "PASS: source/build identity, archive names, all file hashes and packaged notes agree: free-alpha-6fbfb1219ff0\n",
+  "stderr": "",
+  "passed": true
+}

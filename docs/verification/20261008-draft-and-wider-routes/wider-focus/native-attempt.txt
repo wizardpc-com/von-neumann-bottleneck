@@ -1,0 +1,4 @@
+CUA getApp exact frozen ade587d50e02 app, 2026-10-09, before Godot QA:
+The Mac is locked and automatic unlock could not unlock it. Ask the user to unlock the Mac manually before continuing.
+No native actions, new screenshots or wider-route completion this turn.
+Escalated process inventory afterward: pgrep Godot/Von Neumann Bottleneck exit1, no matches; QA then ran serially.

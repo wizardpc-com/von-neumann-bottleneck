@@ -2165,6 +2165,11 @@ func _topology_from_graph() -> SystemTopology:
 func _on_program_changed() -> void:
 	if current_level_id.is_empty():
 		return
+	# CodeEdit moves per-line backgrounds with inserted/deleted text. The old
+	# trace index may no longer identify that background after an edit.
+	for line: int in editor.get_line_count():
+		editor.set_line_background_color(line, Color.TRANSPARENT)
+	_clear_source_highlight()
 	draft_dirty = editor.text != applied_program_source
 	_validate_program_editor()
 	_refresh_program_state()
@@ -3060,9 +3065,11 @@ func _stop_playback() -> void:
 
 
 func _highlight_source_line(line_number: int) -> void:
+	_clear_source_highlight()
 	if editor == null or line_number <= 0:
 		return
-	_clear_source_highlight()
+	if current_trace == null or editor.text != current_trace.program_source:
+		return
 	highlighted_source_line = line_number - 1
 	if highlighted_source_line < editor.get_line_count():
 		editor.set_line_background_color(highlighted_source_line, Color(ACCENT, 0.13))

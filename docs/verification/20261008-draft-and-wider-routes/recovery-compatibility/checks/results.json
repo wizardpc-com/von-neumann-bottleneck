@@ -1,0 +1,22 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Parse Error: Could not preload resource script \"res://src/hardware_foundations/circuit_workbench_store.gd\".",
+        "SCRIPT ERROR: Parse Error: Could not resolve script \"res://src/hardware_foundations/circuit_workbench_store.gd\".",
+        "SCRIPT ERROR: Parse Error: Cannot infer the type of \"workbenches\" variable because the value doesn't have a set type.",
+        "SCRIPT ERROR: Parse Error: Cannot infer the type of \"store\" variable because the value doesn't have a set type.",
+        "SCRIPT ERROR: Parse Error: Cannot infer the type of \"store\" variable because the value doesn't have a set type.",
+        "ERROR: Failed to load script \"res://src/save/global_save.gd\" with error \"Parse error\".",
+        "ERROR: Failed to create an autoload, script 'res://src/save/global_save.gd' is not compiling."
+      ],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261008T211409Z-f89106f7/import"
+    }
+  ]
+}

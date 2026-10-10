@@ -1,0 +1,146 @@
+extends SceneTree
+## Session-level writer recovery keeps unsaved exploration unless reload is confirmed.
+const Session = preload("res://experiments/creation/session.gd")
+const Lease = preload("res://experiments/candidate_session/writer_lease.gd")
+var checks: int = 0
+var failures: Array[String] = []
+var base: String = "user://creation-writer-retry-"+Crypto.new().generate_random_bytes(8).hex_encode()
+func _init() -> void: call_deferred("run")
+func check(value: bool, message: String) -> void:
+	checks += 1
+	if not value: failures.append(message); push_error(message)
+func fixture(name: String) -> String:
+	var directory: String = base.path_join(name)
+	check(DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(directory)) == OK,"Isolated fixture directory")
+	return directory.path_join("session.json")
+func write_raw(path: String, raw: String) -> void:
+	var file := FileAccess.open(path,FileAccess.WRITE)
+	check(file != null,"Fixture can be written")
+	if file != null: file.store_string(raw); file.close()
+func generation(session: Variant) -> void:
+	check(session.train().ok,"Learn fixture model")
+	check(session.transport([0,1,0,2],"predictive").ok,"Restore fixture source")
+	session.complete("C1_restore")
+	check(session.set_mode("predict").ok and session.begin_prediction().ok,"Start prefix-only fixture prediction")
+	while not session.prediction.finished: session.commit_prediction(); session.reveal_prediction()
+	session.complete("P1_commit")
+	check(session.set_mode("generate").ok and session.generate().ok,"Generate reproducible fixture work")
+func state(session: Variant) -> Dictionary:
+	return {"data":session.data.duplicate(true),"dirty":session.dirty,"prediction":session.prediction.duplicate(true),"generated":session.generated.duplicate(true),"transport":session.last_transport.duplicate(true),"prediction_events":session._prediction_events.duplicate(true),"transport_runs":session._transport_runs.duplicate(true),"prediction_runs":session._prediction_runs.duplicate(true),"digest":session.digest}
+func refused(result: Dictionary, reason: String, message: String) -> void:
+	check(not result.ok and not result.writable and result.reason == reason,message)
+func lock_fixture(path: String) -> String:
+	var token: String = Crypto.new().generate_random_bytes(16).hex_encode()
+	check(DirAccess.make_dir_absolute(Lease.lock_path(path)) == OK,"Synthetic stopped owner is isolated")
+	write_raw(Lease.lock_path(path).path_join("owner.json"),JSON.stringify({"pid":2147483647,"token":token,"context":Lease.local_context()}))
+	return token
+func remove_fixture_lock(path: String) -> void:
+	DirAccess.remove_absolute(Lease.lock_path(path).path_join("owner.json"))
+	DirAccess.remove_absolute(Lease.lock_path(path))
+func run() -> void:
+	var path: String = fixture("normal")
+	var owner = Session.new(); check(owner.open(path).writable,"First window owns profile")
+	generation(owner); check(owner.save_work("Original protected work").ok,"Save actual protected fixture")
+	var observer = Session.new(); check(not observer.open(path).writable,"Second window opens read-only while owner is live")
+	observer.data.draft.seed += 1; observer.mark_dirty(); check(observer.generate().ok,"Blocked window may explore without saving")
+	var before: Dictionary = state(observer)
+	refused(observer.retry_writer(),"busy","Live owner refuses normal retry")
+	refused(observer.recover_writer(owner.lease.token),"busy","Live owner cannot be reclaimed")
+	check(state(observer) == before,"Busy refusal preserves complete exploration")
+	owner.close()
+	check(observer.retry_writer().writable,"Normally released owner can be retried explicitly")
+	check(state(observer) == before,"Successful normal retry retains live draft, results and event history")
+	check(observer.save() == OK,"Retained exploration can now save")
+	observer.close()
+	# A changed disk cannot be adopted by a window which read the older snapshot.
+	owner.open(path); observer.open(path)
+	observer.data.draft.seed += 7; observer.mark_dirty(); observer.generate()
+	before = state(observer)
+	owner.data.task = 8; owner.data.draft.seed += 2; owner.mark_dirty(); check(owner.save() == OK,"Owning window saves newer profile")
+	var newer: String = FileAccess.get_file_as_string(path)
+	owner.close()
+	refused(observer.retry_writer(),"changed","Changed disk refuses unconfirmed retry")
+	check(state(observer) == before and FileAccess.get_file_as_string(path) == newer,"Changed refusal preserves both window and disk")
+	check(observer.retry_writer(true).writable,"Confirmed reload obtains current readable disk")
+	check(not observer.dirty and observer.data.task == 8 and observer.generated.is_empty() and observer.prediction.is_empty() and observer._transport_runs.is_empty() and observer._prediction_runs.is_empty(),"Confirmed reload replaces discarded exploration completely")
+	check(observer.data.works.size() == 1 and observer.replay_work(0).get("matches",false),"Confirmed reload preserves protected output and recipe")
+	observer.close()
+	# Explicit open/recovery must not carry permissions/results from another profile.
+	owner.open(path); generation(owner)
+	owner.open(fixture("empty"))
+	check(owner.data.model.is_empty() and owner.generated.is_empty() and owner.prediction.is_empty() and owner.last_transport.is_empty() and owner._transport_model.is_empty() and owner._prediction_model.is_empty() and owner._transport_runs.is_empty() and owner._prediction_runs.is_empty(),"Opening another profile clears discarded run state and permissions")
+	owner.close()
+	# Holding a lease never proves the file is a safely installed readable snapshot.
+	path = fixture("held-recovery")
+	observer.open(path); check(observer.save() == OK,"Held-lease fixture saves normally")
+	write_raw(path+".tmp.interrupted",FileAccess.get_file_as_string(path))
+	var held_recovery: Dictionary = observer.retry_writer()
+	check(held_recovery.ok and not held_recovery.writable and held_recovery.reason == "recovery" and not held_recovery.choices.is_empty(),"Held lease still exposes interrupted transaction choices")
+	var held_again: Dictionary = observer.recover_writer("unused-while-held")
+	check(held_again.ok and not held_again.writable and held_again.reason == "recovery" and held_again.choices == held_recovery.choices and held_again.fingerprint == held_recovery.fingerprint,"Held stopped-writer retry preserves recovery choices rather than granting ordinary save")
+	check(observer.save() != OK,"Held lease cannot save over an interrupted transaction")
+	var future: Dictionary = Session.fresh(); future.version = 999
+	var future_raw: String = JSON.stringify(future); write_raw(path,future_raw)
+	refused(observer.retry_writer(),"unreadable","Held lease cannot bypass a future main")
+	observer.lease = Lease.new(path)
+	refused(observer.recover_writer("unused-while-held"),"unreadable","Held recovery cannot bypass a future main")
+	check(FileAccess.get_file_as_string(path) == future_raw,"Held refusal preserves future bytes")
+	observer.close()
+	for kind: String in ["future","unknown","raw"]:
+		path = fixture(kind)
+		var data: Dictionary = Session.fresh()
+		if kind == "future": data.version = 999
+		elif kind == "unknown": data["future_field"] = true
+		else:
+			var maker = Session.new(); maker.open(fixture("raw-maker")); generation(maker)
+			maker.save_work("Protected legacy work"); maker.transport([0,1,0,2],"raw")
+			data = maker.data.duplicate(true); data.supports.C1_restore = maker._transport_runs[-1].duplicate(true); maker.close()
+		var raw: String = JSON.stringify(data); write_raw(path,raw)
+		var token: String = lock_fixture(path)
+		observer.open(path)
+		refused(observer.retry_writer(),"busy","Protected fixture does not acquire existing synthetic lock")
+		refused(observer.retry_writer(true),"unreadable","Confirmed reload cannot bypass protected "+kind+" profile")
+		refused(observer.recover_writer(token),"unreadable","Stopped recovery refuses protected "+kind+" profile")
+		check(FileAccess.get_file_as_string(path) == raw and FileAccess.file_exists(Lease.lock_path(path).path_join("owner.json")),"Protected source and owner remain byte-preserved")
+		remove_fixture_lock(path)
+		refused(observer.retry_writer(),"unreadable","Unowned protected "+kind+" profile remains unwriteable")
+		observer.close()
+	path = fixture("stopped")
+	owner.open(path); generation(owner); owner.save_work("Stopped writer work"); owner.close()
+	var stopped_token: String = lock_fixture(path)
+	observer.open(path); observer.data.draft.seed += 5; observer.mark_dirty(); observer.generate()
+	before = state(observer)
+	var original: String = FileAccess.get_file_as_string(path)
+	if Lease.stopped_owner(path) == stopped_token:
+		refused(observer.recover_writer("wrong-token"),"busy","Incorrect stopped token refuses reclamation")
+		check(observer.recover_writer(stopped_token).writable,"Exact proven-stopped owner can be explicitly reclaimed")
+		check(state(observer) == before and FileAccess.get_file_as_string(path) == original,"Stopped recovery preserves unsaved exploration and original file")
+		check(FileAccess.file_exists(Lease.lock_path(path)+".abandoned-"+stopped_token+"/owner.json"),"Abandoned owner record is retained")
+		check(observer.save() == OK,"Recovered writer saves retained draft normally")
+		observer.close()
+		stopped_token = lock_fixture(path); observer.open(path)
+		observer.data.draft.seed += 3; observer.mark_dirty(); observer.generate()
+		before = state(observer)
+		var updated: Dictionary = observer.data.duplicate(true); updated.task = 2
+		write_raw(path,JSON.stringify(updated))
+		refused(observer.recover_writer(stopped_token),"changed","Stopped recovery cannot overwrite a changed readable profile")
+		check(state(observer) == before,"Changed stopped recovery preserves window exploration")
+		check(observer.retry_writer(true).writable and observer.data.task == 2 and observer.generated.is_empty(),"Separate confirmed reload adopts changed profile after reclamation")
+		observer.close()
+		# Interrupted install needs snapshot selection after writer reclamation.
+		stopped_token = lock_fixture(path); write_raw(path+".tmp.interrupted",FileAccess.get_file_as_string(path))
+		observer.open(path)
+		var recovered: Dictionary = observer.recover_writer(stopped_token)
+		check(recovered.ok and not recovered.writable and recovered.reason == "recovery" and not recovered.choices.is_empty(),"Interrupted profile acquires lease without granting ordinary save")
+		var retry_recovery: Dictionary = observer.retry_writer()
+		check(retry_recovery.ok and not retry_recovery.writable and retry_recovery.reason == "recovery" and retry_recovery.choices == recovered.choices and retry_recovery.fingerprint == recovered.fingerprint,"Retry after stopped reclamation retains required snapshot selection")
+		var repeat_recovery: Dictionary = observer.recover_writer(stopped_token)
+		check(repeat_recovery.ok and not repeat_recovery.writable and repeat_recovery.reason == "recovery" and repeat_recovery.choices == recovered.choices and repeat_recovery.fingerprint == recovered.fingerprint,"Repeated stopped recovery cannot promote held lease to ordinary writer")
+		check(observer.recover(str(recovered.choices[0].path),str(recovered.fingerprint)) == OK,"Confirmed snapshot recovery uses the reclaimed lease")
+		check(observer.lease.owns(path) and observer.replay_work(0).get("matches",false),"Snapshot recovery reopens protected work with writable ownership")
+		observer.close()
+	else:
+		print("SKIP: native stopped-owner query unavailable; no stopped-owner recovery claim")
+		remove_fixture_lock(path); observer.close()
+	print("PASS: creation writer retry %d checks" % checks if failures.is_empty() else "FAIL: "+str(failures))
+	quit(0 if failures.is_empty() else 1)

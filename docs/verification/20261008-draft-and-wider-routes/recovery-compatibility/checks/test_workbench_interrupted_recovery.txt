@@ -1,0 +1,155 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Reopening installs the newer validated temporary verbatim
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:50)
+ERROR: Recovery retains named alternatives and actual active selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:51)
+ERROR: Both pre-install originals are archived byte-for-byte
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:52)
+ERROR: GlobalSave reopens against recovered workbench topology
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:54)
+ERROR: Ordinary provenance revalidation preserves the verified reward and completion
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:56)
+ERROR: backup-only: recovery selects only safe supported candidates
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:82)
+ERROR: backup-only: complete topology is loaded
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:87)
+ERROR: backup-only: backup original remains archived
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:88)
+ERROR: temporary-only: recovery selects only safe supported candidates
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:82)
+ERROR: temporary-only: complete topology is loaded
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:87)
+ERROR: temporary-only: temporary original remains archived
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:89)
+ERROR: Parse JSON failed. Error at line 0: Expected key
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] _recovery_candidate (res://src/hardware_foundations/circuit_workbench_store.gd:315)
+       [1] _recover_missing_main (res://src/hardware_foundations/circuit_workbench_store.gd:355)
+       [2] _load_from_disk (res://src/hardware_foundations/circuit_workbench_store.gd:260)
+       [3] _init (res://src/hardware_foundations/circuit_workbench_store.gd:22)
+       [4] run (res://tests/test_workbench_interrupted_recovery.gd:80)
+ERROR: bad-temporary: recovery selects only safe supported candidates
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:82)
+ERROR: bad-temporary: complete topology is loaded
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:87)
+ERROR: bad-temporary: backup original remains archived
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:88)
+ERROR: bad-temporary: temporary original remains archived
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:89)
+ERROR: Parse JSON failed. Error at line 0: Expected key
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] _recovery_candidate (res://src/hardware_foundations/circuit_workbench_store.gd:315)
+       [1] _recover_missing_main (res://src/hardware_foundations/circuit_workbench_store.gd:355)
+       [2] _load_from_disk (res://src/hardware_foundations/circuit_workbench_store.gd:260)
+       [3] _init (res://src/hardware_foundations/circuit_workbench_store.gd:22)
+       [4] run (res://tests/test_workbench_interrupted_recovery.gd:80)
+ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'broken'
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] _recovery_candidate (res://src/hardware_foundations/circuit_workbench_store.gd:315)
+       [1] _recover_missing_main (res://src/hardware_foundations/circuit_workbench_store.gd:355)
+       [2] _load_from_disk (res://src/hardware_foundations/circuit_workbench_store.gd:260)
+       [3] _init (res://src/hardware_foundations/circuit_workbench_store.gd:22)
+       [4] run (res://tests/test_workbench_interrupted_recovery.gd:80)
+ERROR: Parse JSON failed. Error at line 0: Expected key
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] _recovery_candidate (res://src/hardware_foundations/circuit_workbench_store.gd:315)
+       [1] _recover_missing_main (res://src/hardware_foundations/circuit_workbench_store.gd:355)
+       [2] _load_from_disk (res://src/hardware_foundations/circuit_workbench_store.gd:260)
+       [3] _init (res://src/hardware_foundations/circuit_workbench_store.gd:22)
+       [4] run (res://tests/test_workbench_interrupted_recovery.gd:80)
+ERROR: legacy: recovery selects only safe supported candidates
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:82)
+ERROR: legacy: complete topology is loaded
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:87)
+ERROR: legacy: backup original remains archived
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:88)
+ERROR: legacy: temporary original remains archived
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:89)
+ERROR: Legacy recovery additionally preserves pre-migration main bytes
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:93)
+ERROR: recovery-temp-reuse: recovery selects only safe supported candidates
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:82)
+ERROR: recovery-temp-reuse: complete topology is loaded
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:87)
+ERROR: recovery-temp-reuse: backup original remains archived
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:88)
+ERROR: recovery-temp-reuse: temporary original remains archived
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_interrupted_recovery.gd:17)
+       [1] run (res://tests/test_workbench_interrupted_recovery.gd:89)
+FAIL: ["Reopening installs the newer validated temporary verbatim", "Recovery retains named alternatives and actual active selection", "Both pre-install originals are archived byte-for-byte", "GlobalSave reopens against recovered workbench topology", "Ordinary provenance revalidation preserves the verified reward and completion", "backup-only: recovery selects only safe supported candidates", "backup-only: complete topology is loaded", "backup-only: backup original remains archived", "temporary-only: recovery selects only safe supported candidates", "temporary-only: complete topology is loaded", "temporary-only: temporary original remains archived", "bad-temporary: recovery selects only safe supported candidates", "bad-temporary: complete topology is loaded", "bad-temporary: backup original remains archived", "bad-temporary: temporary original remains archived", "legacy: recovery selects only safe supported candidates", "legacy: complete topology is loaded", "legacy: backup original remains archived", "legacy: temporary original remains archived", "Legacy recovery additionally preserves pre-migration main bytes", "recovery-temp-reuse: recovery selects only safe supported candidates", "recovery-temp-reuse: complete topology is loaded", "recovery-temp-reuse: backup original remains archived", "recovery-temp-reuse: temporary original remains archived"]

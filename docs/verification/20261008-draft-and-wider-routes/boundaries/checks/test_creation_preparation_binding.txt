@@ -1,0 +1,74 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Ordinary B measurement uses B preparation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] run (res://tests/test_creation_preparation_binding.gd:71)
+       [2] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: Keep A then locate B shows B preparation despite active A model
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] run (res://tests/test_creation_preparation_binding.gd:77)
+       [2] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: keep-a-review-b visible cost page binds B preparation in both locales
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] review_b (res://tests/test_creation_preparation_binding.gd:36)
+       [2] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: keep-a-review-b visible cost page binds B preparation in both locales
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] review_b (res://tests/test_creation_preparation_binding.gd:36)
+       [2] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: Learning C without generating cannot relabel frozen B preparation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] run (res://tests/test_creation_preparation_binding.gd:83)
+       [2] review_b (res://tests/test_creation_preparation_binding.gd:40)
+       [3] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: learn-c-review-b visible cost page binds B preparation in both locales
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] review_b (res://tests/test_creation_preparation_binding.gd:36)
+       [2] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: learn-c-review-b visible cost page binds B preparation in both locales
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] review_b (res://tests/test_creation_preparation_binding.gd:36)
+       [2] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: Snapshot preparation comes from protected A
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] run (res://tests/test_creation_preparation_binding.gd:87)
+       [2] review_b (res://tests/test_creation_preparation_binding.gd:40)
+       [3] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: Recipe replay retains protected A preparation with fresh replay cost
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] run (res://tests/test_creation_preparation_binding.gd:89)
+       [2] review_b (res://tests/test_creation_preparation_binding.gd:40)
+       [3] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: Detached ordinary generation retains its preparation after later learning
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] run (res://tests/test_creation_preparation_binding.gd:94)
+       [2] review_b (res://tests/test_creation_preparation_binding.gd:40)
+       [3] settle (res://tests/test_creation_preparation_binding.gd:12)
+ERROR: Prediction can show the known matching model preparation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_preparation_binding.gd:10)
+       [1] run (res://tests/test_creation_preparation_binding.gd:101)
+       [2] review_b (res://tests/test_creation_preparation_binding.gd:40)
+       [3] settle (res://tests/test_creation_preparation_binding.gd:12)
+FAIL: ["Ordinary B measurement uses B preparation", "Keep A then locate B shows B preparation despite active A model", "keep-a-review-b visible cost page binds B preparation in both locales", "keep-a-review-b visible cost page binds B preparation in both locales", "Learning C without generating cannot relabel frozen B preparation", "learn-c-review-b visible cost page binds B preparation in both locales", "learn-c-review-b visible cost page binds B preparation in both locales", "Snapshot preparation comes from protected A", "Recipe replay retains protected A preparation with fresh replay cost", "Detached ordinary generation retains its preparation after later learning", "Prediction can show the known matching model preparation"]

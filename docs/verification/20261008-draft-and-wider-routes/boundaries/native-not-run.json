@@ -1,0 +1,7 @@
+{
+  "tool": "mcp__cua_repl.js: cua.getState",
+  "source": "Current-turn tool result in conversation; manually recorded, no native interaction",
+  "error": "The Mac is locked and automatic unlock could not unlock it. Ask the user to unlock the Mac manually before continuing.",
+  "app_input_executed": false,
+  "native_acceptance": "NOT_RUN"
+}

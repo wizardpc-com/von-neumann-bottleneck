@@ -1,11 +1,14 @@
 extends Control
 ## Displays supplied snapshots only. Presentation playback never runs the model.
-signal cell_selected(index: int)
+signal cell_selected(index: int, lane: int)
 const COLORS := [Color("6ce2de"),Color("eead67"),Color("bcacf0"),Color("8cd793")]
 var lanes: Array = [[],[],[]]
 var captions: Array = ["", "", ""]
 var corrections: Array = []
 var selected: int = -1
+var selected_lane: int = 2
+var context_count: int = 0
+var context_lane: int = 0
 var cursor: int = -1
 var page: int = 0
 var english: bool = false
@@ -21,6 +24,7 @@ func set_tracks(values: Array, titles: Array, marks: Array = []) -> void:
 	captions = titles.duplicate()
 	corrections = marks.duplicate()
 	selected = -1
+	context_count = 0
 	cursor = -1
 	page = 0
 	queue_redraw()
@@ -50,7 +54,9 @@ func _draw() -> void:
 			var color: Color = COLORS[clampi(value,0,3)] if value >= 0 else Color("536674")
 			if not active: color = color.darkened(0.6)
 			draw_rect(rect,Color("112432"),true)
-			if i == selected or i == cursor: draw_rect(rect,Color("e9f0fa"),false,1.5)
+			if lane_index == context_lane and i >= selected-context_count and i < selected:
+				draw_rect(rect,Color("6ce2de"),false,2.0)
+			if (i == selected and lane_index == selected_lane) or i == cursor: draw_rect(rect,Color("e9f0fa"),false,1.5)
 			var center: Vector2 = rect.position+Vector2(9,10)
 			match value:
 				0: draw_circle(center,4,color)
@@ -61,7 +67,7 @@ func _draw() -> void:
 			draw_string(font,rect.position+Vector2(17,14),["A","B","C","D"][value] if value >= 0 and value < 4 else "?",HORIZONTAL_ALIGNMENT_LEFT,-1,11,color)
 			if lane_index == 2 and i in corrections:
 				draw_line(rect.position+Vector2(2,18),rect.position+Vector2(width-5,18),Color("eead67"),2)
-			_cells.append({"rect":rect,"index":i})
+			_cells.append({"rect":rect,"index":i,"lane":lane_index})
 	var last: int = mini(start+count,output_length())
 	draw_string(font,Vector2(10,size.y-5),"%d–%d / %d · %s"%[start+1,last,output_length(),"shapes + letters; playback ≠ cycles" if english else "图形＋字母；播放速度≠模拟周期"],HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("91a0b9"))
 
@@ -70,7 +76,8 @@ func _gui_input(event: InputEvent) -> void:
 		for cell: Dictionary in _cells:
 			if cell.rect.has_point(event.position):
 				selected = int(cell.index)
-				cell_selected.emit(selected)
+				selected_lane = int(cell.lane)
+				cell_selected.emit(selected,selected_lane)
 				queue_redraw()
 				accept_event()
 				return
@@ -78,4 +85,10 @@ func _gui_input(event: InputEvent) -> void:
 func turn_page(direction: int) -> void:
 	var columns: int = maxi(8,mini(24,int((size.x-18)/28)))
 	page = clampi(page+direction,0,maxi(0,ceili(float(output_length())/(columns*2))-1))
+	queue_redraw()
+
+func follow_cursor() -> void:
+	if cursor >= 0:
+		var columns: int = maxi(8,mini(24,int((size.x-18)/28)))
+		page = clampi(cursor / (columns*2),0,maxi(0,ceili(float(output_length())/(columns*2))-1))
 	queue_redraw()

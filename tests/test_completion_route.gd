@@ -5,6 +5,11 @@ func check(ok: bool, message: String) -> void:
 	if not ok: failures.append(message)
 func settle() -> void:
 	for frame: int in 5: await process_frame
+func key(code: Key, shift: bool = false) -> void:
+	for down: bool in [true,false]:
+		var event := InputEventKey.new(); event.keycode = code; event.physical_keycode = code; event.shift_pressed = shift; event.pressed = down
+		root.push_input(event,true); await process_frame
+	await settle()
 func escape() -> void:
 	var press := InputEventKey.new(); press.keycode = KEY_ESCAPE; press.physical_keycode = KEY_ESCAPE; press.pressed = true
 	root.push_input(press,true); await process_frame
@@ -57,6 +62,28 @@ func run() -> void:
 		check(story.visible and story.size.x <= 1280 and story.size.y <= 720, "Reopenable story fits minimum window")
 		check(hub.completion_story_pages[-1].id != "closure", "Unbound profile cannot show earned ending")
 		var count: int = hub.completion_story_pages.size()
+		var previous_button := story.find_child("StoryPrevious",true,false) as Button
+		var next_button := story.find_child("StoryNext",true,false) as Button
+		var back_button := story.get_ok_button()
+		check(previous_button.disabled and previous_button.focus_mode == Control.FOCUS_NONE and not next_button.disabled, "First page leaves Previous outside the Tab chain")
+		next_button.grab_focus()
+		await key(KEY_TAB,true)
+		check(story.gui_get_focus_owner() != null and not previous_button.has_focus(), "Viewport Shift-Tab skips unavailable first-page Previous")
+		next_button.grab_focus()
+		for page_index: int in range(1,count):
+			await key(KEY_ENTER)
+			check(hub.completion_story_page == page_index and (next_button.has_focus() if page_index < count - 1 else back_button.has_focus()), "Repeated viewport Enter advances story and hands final focus to Back")
+		check(next_button.disabled and next_button.focus_mode == Control.FOCUS_NONE, "Final page removes unavailable Next from the Tab chain")
+		previous_button.grab_focus(); await key(KEY_ENTER)
+		check(hub.completion_story_page == count - 2 and not next_button.disabled and next_button.focus_mode == Control.FOCUS_ALL, "Viewport Previous restores available Next")
+		for back_index: int in count - 2: await key(KEY_ENTER)
+		check(hub.completion_story_page == 0 and previous_button.disabled and previous_button.focus_mode == Control.FOCUS_NONE and next_button.has_focus(), "Repeated Previous Enter returns to first page and hands focus to Next")
+		for forward_index: int in count - 1: await key(KEY_ENTER)
+		check(hub.completion_story_page == count - 1 and back_button.has_focus(), "Returning to final page again focuses Back to journey")
+		await key(KEY_ENTER)
+		check(not story.visible, "Viewport Enter on Back closes the completed story")
+		hub.show_completion_story(); await settle()
+		story = hub.get_node("CompletionStoryDialog") as AcceptDialog
 		for i: int in count - 1: story.custom_action.emit(&"next")
 		check(hub.completion_story_page == count - 1 and (story.find_child("StoryNext",true,false) as Button).disabled, "Pages have a finite ending and no forced progress")
 		story.custom_action.emit(&"previous")

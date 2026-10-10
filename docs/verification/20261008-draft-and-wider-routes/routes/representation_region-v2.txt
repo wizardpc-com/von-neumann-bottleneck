@@ -1,0 +1,28 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+MENU attempt=1 focus=-1 want=1
+MENU result attempt=1 selected=0 visible=true
+MENU attempt=2 focus=-1 want=1
+MENU result attempt=2 selected=0 visible=true
+MENU attempt=3 focus=-1 want=1
+MENU result attempt=3 selected=0 visible=true
+ERROR: Visible selector accepts choice 1
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] choose (res://experiments/candidate_input.gd:48)
+       [2] popup_key (res://experiments/candidate_input.gd:18)
+       [3] settle (res://experiments/viewport_input.gd:25)
+ERROR: An earlier journey check failed; further actions are stopped
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://experiments/viewport_input.gd:21)
+       [1] abort_journey (res://experiments/play_journeys.gd:13)
+       [2] press (res://experiments/play_journeys.gd:23)
+       [3] tree_row (res://experiments/candidate_input.gd:63)
+       [4] representation (res://experiments/play_candidates.gd:28)
+       [5] choose (res://experiments/candidate_input.gd:48)
+       [6] popup_key (res://experiments/candidate_input.gd:18)
+       [7] settle (res://experiments/viewport_input.gd:25)
+FAIL: known-answer candidate journey

@@ -1,0 +1,22 @@
+{
+  "runtime": "426009f1c052ea0f00bd28fa498724d4da5bfb0b",
+  "run_id": 37900485556,
+  "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37900485556",
+  "conclusion": "success",
+  "artifact_id": 11602611585,
+  "reported_zip_sha256": "e8a720447e0a00366dc59af886b54a4382b2d43677e1a19a1d541d1333b96f21",
+  "local_zip_digest_verified": false,
+  "download": "connector reference403; gh run download succeeded",
+  "raw_logs": 145,
+  "suites": 143,
+  "suites_with_pass": 143,
+  "errors_failures_skips": {},
+  "warnings": {
+    "artifact/20261009T074149Z-5401b138/test_desktop_conventions.txt": [
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). "
+    ]
+  }
+}

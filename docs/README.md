@@ -8,7 +8,7 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 
 ## Current entry points
 
-- [Compression → content prediction → creation candidate, actual works and team handoff](verification/20261008-creation/README.md)
+- [Compression → content prediction → creation candidate](verification/20261008-creation/README.md)
 
 - [Second-act framework and isolated playable labs](design/second-act-framework.md) - [Verification and proxy limits](verification/20261002-second-act/README.md)
 

@@ -2,7 +2,344 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Compression → content prediction → creation candidate — 2026-10-08
+## Current native closure and completion focus — 2026-10-09
+
+The previous native-window barrier cleared. Actual frozen Mac runtime426009f,
+original assets and own Continuity-f90597b profile completed Representation5/5
+and Service3/3 through native edit/run/save/review, normal quit and reopen.
+Seven Representation and six Service records plus all eight saved plans retained
+identical bytes. The earned four-page story displayed their recomputed metrics.
+Split text→Tab→Split is now native-verified. A final-page disabled Next retained
+focus; the narrow follow-up moves focus to Back and excludes unavailable page
+controls from Tab. Official Godot4.7.1 route/presentation and Apple M2 rendered
+viewport keyboard regression PASS. Matching runtimebefbdd2 export/identity/strict
+signature and16 binary checks PASS.
+Native new-package consecutive Enter reached final Back focus, then closed the
+story; normal quit confirmed, both saved session files still byte-identical.
+At that befbdd2 checkpoint, GitHub CI143 suites and Python jobs PASS.
+Full original40 native and independent human/platform acceptance remain open;
+this historical checkpoint left the whole-game objective incomplete. Original
+four collaborator paths
+preserved; authorized development-branch commit/push only.
+[Actual plans, own session copies and fresh logs](verification/20261009-native-region-resume/README.md).
+
+Current continuation runtime `ccbda74cd4aa`: native befbdd2 mouse input earned
+Tutorial5/5 and HalfAdder4/4 and sealed the actual12-wire HalfAdder. The matching
+ccbda74 Mac package now native-verifies deleting a hovered wire clears tooltip
+text and outer frame without pointer motion, preserving the main window. Actual
+eight-wire FullAdder passed8/8 and was sealed; next ALU entry and actual normal
+quit/re-open restored both player designs. Core save/official receipt bytes and
+Representation/Service sessions remain identical; hardware workbench serialization
+order changed but all parsed values match. Focused4.7.1 lifecycle27/wire geometry
+and Apple M2 renderer checks PASS; one combined GUI SIGBUS is retained separately,
+cause unproven. Mac import/licenses/export/identity/strict signature/16binary
+checks PASS. Current-commit CI37945118728:144 suites plus import/isolation and
+Python PASS; full job and146 detailed logs inspected, no error/fail markers.
+Further actual ALU16wires/32cases passed and sealedALU1/generatedALU4; next SR
+entry reached. Current CUA AXcannotComplete leaves PID3760 live at the unconnected
+SR scaffold. No SR action/post-ALU restart/second Godot claimed.
+Current whole-game technical implementation and original-game regression coverage
+are documented in the requirement audit; all40 native repetition is not a required
+development gate. Independent human/artistic/platform acceptance remains open.
+Four collaborator paths protected; authorized developer branch only.
+[Original-core observations, matching native repair and full logs](verification/20261009-native-core-tooltip/README.md).
+
+## Historical native-window barrier — 2026-10-09
+
+At da4b3b7, exact runtime426009f process80322 remains alive; fresh CUA binding
+still returns AXError.cannotComplete. Same access barrier across three consecutive
+goal turns, despite earlier repair/verification and diagnostic progress. All other
+engine jobs and workers are terminal; remote heads unchanged. Current-runtime
+CI143/Mac probe remain PASS with all174 evidence hashes verified. No new native
+input or concrete independent repair; no repeated tests/export or second Godot.
+Full objective is blocked, not complete. Unsaved T3 draft retained in the live
+isolated app. Resume after native control is restored; wider native closure and
+independent human/platform acceptance remain unproven.
+[Fresh repeated-barrier audit](verification/20261009-native-window-access/blocked-audit.md).
+
+## Previous split-input checkpoint — 2026-10-09
+
+Mac unlocked; frozen f905 native input earned and saved Representation1–2
+(135/60/60 and34/52/16 cycles/storage/traffic). A right-block boundary input
+followed by Tab misrouted Enter to Raw because Split availability used the old
+value. SplitAt now updates from integer text before Tab; no model/schema/gate change.
+Godot4.7.1 fresh focus28/context39/Representation3329 and M2 renderer focus28 PASS.
+Matching runtime426009f was committed/pushed; Mac identity/signature/16 binary
+checks and Linux CI143 suites/Python jobs PASS. Native new Home restores T1/T2;
+T3 entry/RLE worked, then GUI inputs and CUA CG-window binding failed. Process
+and unsaved T3 remain alive; fixed text/Tab and wider closure still unverified.
+Goal active;
+previous lock-based blocked checkpoint is historical. Four collaborator files
+preserved, development-branch commit/push only.
+[Native observations, own save and regression logs](verification/20261009-split-input/README.md).
+
+## Current wider-workbench focus checkpoint — 2026-10-09
+
+Runtime `f90597bf999a`, branch `codex/mac-second-act-20261005`: Representation and
+Service disabled actions leave the Tab chain. When an edit disables its focused
+button, focus continues after refresh; exhausted Undo/Redo hands off to its enabled
+reverse operation. Next/Ack retains valid focus through refresh.
+
+Initial availability repair passed seven suites (354 checks). Follow-up retained a
+real Tab restart and first failed Redo continuation; final focused 22 checks passed
+headless and on the Apple M2 renderer. Original resources/Godot 4.7.1. Matching Mac
+export, identity, strict signature and 16 binary checks passed; isolated profile
+`Continuity-f90597b`.
+
+Native wider-route attempt stopped at Mac locked; no new native acceptance claim.
+Earlier C/P/G/restart and focus evidence retains its runtime attribution. Native
+Representation2–5/Service/original40 and human/artistic/device/Windows/distribution
+acceptance remain unproven; goal blocked pending native/external evidence,
+four collaborator files preserved.
+[Full evidence](verification/20261008-draft-and-wider-routes/wider-focus/README.md).
+
+The existing push CI at `d5dd5d4be778` has now completed successfully on Ubuntu
+24.04 with checksum-verified Godot4.7.1: all 143 headless suites, import/isolation,
+branding/report and Python jobs passed. No script errors or skips; four known
+desktop anchor warnings retained. No local rerun or runtime/package change.
+[Current-runtime Linux receipt and original logs](verification/20261008-draft-and-wider-routes/linux-ci/README.md).
+This does not close the native/human acceptance gaps above.
+
+The next fresh exact-app attempt again reported a locked Mac. This barrier has
+recurred across three consecutive goal turns; the first two still completed source
+repairs and CI evidence respectively. Now all jobs are terminal, no new remote
+content or concrete defect is available, and the remaining proof requires native
+input/external observations. The objective is blocked, not completed. After manual
+Mac unlock, resume earned Representation2–5/ending/save/reopen and Service routes
+in an isolated profile; retain original40 and independent human/platform gates.
+
+## Previous Creation focus checkpoint — 2026-10-09
+
+Runtime `f14444ff8f36`, branch `codex/mac-second-act-20261005`: Creation navigation
+retains focus; disabled actions leave Tab order, exhausted Undo/Redo focuses its
+enabled reverse action. Godot4.7.1 draft68 and keyboard22 headless/rendered checks
+PASS. Matching Mac export/identity/strict signature and16 binary checks PASS.
+Native new-package Tab skips disabled history and consecutive Enter reaches C2/C3
+with Next focused; saved task2 has empty model/supports/works. Prior ade package
+native Representation task1 earned mixed60B/135cycles after failed RAW68B/136cycles.
+No model/schema/gate change or repeat full baseline.
+[Full evidence, initial failures and scope](verification/20261008-draft-and-wider-routes/keyboard-focus/README.md).
+
+Internal Mac `build/free-alpha-f14444ff8f36/macOS/Von-Neumann-Bottleneck.app`,
+profile `Focus-f14444f`. The earlier full native C/P/G/restart evidence remains
+attributed to ade. Wider native Representation2–5/Service/original40, beginner,
+audio/artistic/device/Windows/distribution acceptance remain open; whole-game
+goal active. Four collaborator files preserved; development-branch push only.
+
+## Previous keyboard checkpoint — 2026-10-08
+
+Runtime `ade587d50e02`, branch `codex/mac-second-act-20261005`: Chapter3/4 now support
+documented Ctrl+Y redo through existing transactions, with text/Hint/event boundaries
+and Ctrl/Cmd+ShiftZ preserved. No simulation/schema/gate/geometry change.
+
+Godot **4.7.1 stable**, original assets: six distinct affected suites finalPASS;
+new14checks both headless and actual rendered viewportPASS after retained test-only
+Mac modifier correction. Three scripts equal importedcopy/commit. Pre-existing
+four desktop anchor warnings retained; no new script errors.
+[Exact evidence and requirement review](verification/20261008-draft-and-wider-routes/keyboard-redo/README.md).
+
+Internal Mac `build/free-alpha-ade587d50e02/macOS/Von-Neumann-Bottleneck.app`, profile
+`Redo-ade587d`: export/identity/strictcodesign and16 actual binarychecksPASS.
+Native resume now earned C1–G3 in this actual exported package through native
+mouse/keyboard actions, confirmed a named64-cell work, quit/relaunched the same app,
+and replayed its recipe with identical output/costs. Before/after restart files are
+byte-identical; native Fork/Save preserved work/support bytes and recorded its parent.
+[Actual observation record and own-profile copies](verification/20261008-draft-and-wider-routes/native-resume/README.md).
+
+The previous Mac-locked condition has changed. Later CUA pointer routing failed;
+native keyboard completed the route. System Quit attempts were inconclusive;
+in-game settings Quit produced procNotFound and actual relaunch succeeded. Narrow
+fullscreen capture noise remains unresolved. Known-answer operator evidence does
+not supply independent beginner/listening/artistic/device/Windows/distribution or
+native original40/Representation/Service earned-route acceptance. Broad goal remains
+active and unproven. Runtime/package unchanged; no repetitive tests or rebuild.
+
+## Previous recovery and compatibility checkpoint — 2026-10-08
+
+Runtime `6027e25626d4`, branch `codex/mac-second-act-20261005`: future recipe works
+remain readable without interpreting unknown rules, initial context or costs;
+Layout draft previews clear historical event selection; interrupted Core board
+rotation restores archived, validated transaction bytes before normal provenance
+verification. Simulation, schemas and original forty-task gates remain unchanged.
+
+Godot **4.7.1 stable**, original assets: eleven distinct affected suites finalPASS,
+Creation renderer47/four1280×720 views, actual Layout16 and Core75checks PASS after
+retained intermediate failures. Six modified scripts match verified copy/commit.
+[Exact evidence](verification/20261008-draft-and-wider-routes/recovery-compatibility/README.md).
+
+Internal Mac `build/free-alpha-6027e25626d4/macOS/Von-Neumann-Bottleneck.app`,
+isolated profile `Recovery-6027e25`: export/identity/strict codesign and16 actual
+binary checks PASS. Native input NOT_RUN: fresh CUA inventory reports Mac locked.
+Novice/listening/artistic/device/Windows/formal distribution acceptance remains open;
+broad whole-game goal active.
+
+## Previous displayed-source checkpoint — 2026-10-08
+
+Runtime `7c7f8f06f8e2`, branch `codex/mac-second-act-20261005`: selected saved-work
+snapshot/replay owns visible output even inside P tasks with retained prediction.
+Commit/Reveal resumes that round intact. System Trace source highlighting binds
+to exact executed text; real draft insertion clears shifted backgrounds without
+moving its caret or changing measured Trace, metrics, receipts or cost history.
+No simulation/save-schema/original forty-task gate change.
+
+Godot **4.7.1 stable**, original assets: seven distinct affected suites PASS;
+final Creation renderer218checks/eight1280×720 capture identities and real editable
+CodeEdit source46checks PASS after retained failures. Four changed scripts equal
+verified project/commit. Prior full baseline, journeys and restarts remain separate.
+[Exact evidence](verification/20261008-draft-and-wider-routes/display-sources/README.md).
+
+Current internal Mac candidate:
+`build/free-alpha-7c7f8f06f8e2/macOS/Von-Neumann-Bottleneck.app`, isolated profile
+`Sources-7c7f8f0`; export/archive identity, strict codesign and16 actual binary
+checks PASS. Fresh CUA inventory: Mac locked; native interaction remains unverified.
+Blind novice/listening/artistic/device/Windows/formal distribution acceptance
+remains open. Broad whole-game goal active.
+
+## Previous measured-result and closure checkpoint — 2026-10-08
+
+Runtime `e7894522c40b`, branch `codex/mac-second-act-20261005`: Creation revisits
+retain the displayed result's preparation/model identity after keeping A or
+learning C; saved work bytes remain protected. Locality history re-entry retains
+its original measured Before. Hardware board/Hint/map/Home transitions retain
+pending verified encapsulation until the existing timer finishes, then resume.
+Simulation, save schema and original forty-task gates are unchanged.
+
+Godot **4.7.1 stable**, original assets: ten distinct affected suites PASS after
+retained test-fixture repairs. Preparation renderer47checks/four1280×720 bilingual
+views PASS; nine actual Locality receipts/re-entry15checks and actual FullAdder
+verification/timed seal/navigation25checks PASS. Six changed scripts match verified
+copy/commit; prior full baseline/wider journey/restart evidence remains separate.
+[Exact evidence](verification/20261008-draft-and-wider-routes/boundaries/README.md).
+
+Current internal Mac candidate:
+`build/free-alpha-e7894522c40b/macOS/Von-Neumann-Bottleneck.app`, isolated profile
+`Boundaries-e789452`; export/archive identity, strict codesign and16 actual binary
+checks PASS. Fresh CUA inventory reports Mac locked; native OS input remains
+unverified. Blind novice understanding, listening/artistic effect, other hardware/
+Windows and formal distribution remain unverified. Broad goal active.
+
+## Previous editing and recovery checkpoint — 2026-10-08
+
+Runtime `6fbfb1219ff0`, branch `codex/mac-second-act-20261005`, keeps sample drafts
+within their existing16-example save bound. Task/language rebuilds retain
+unsubmitted sample/name and invalidInitial without making them a legal executable
+recipe. Confirmed profile replacement updates the remembered Journey task;
+`--creation-profile=` drives both workbench restoration and map completion reads.
+Real Representation write refusal reconstructs the source earned review with
+focus, guarded Service continuation and unsaved exploration intact.
+
+Godot **4.7.1 stable**, original assets: eight distinct affected suites PASS,
+editor renderer130checks/four1280×720 views, actual launch-profile16checks and
+bilingual real write-refusal review55checks/two1280×720 views PASS. Seven changed
+script identities equal the verified imported copy/commit. Prior whole baseline,
+wider journeys and independent Creation restart evidence remain separate and
+were not repeated. [Exact scoped evidence](verification/20261008-draft-and-wider-routes/edit-recovery/README.md).
+
+Current internal Mac candidate:
+`build/free-alpha-6fbfb1219ff0/macOS/Von-Neumann-Bottleneck.app`, isolated profile
+`Edits-6fbfb12`; export/archive identity,16 actual binary checks and strict codesign
+PASS. Previous confirmed-work G2/G3 and prediction residency corrections remain.
+Native OS input, blind novice understanding, listening/artistic effect, other
+hardware/Windows and formal distribution remain unverified; broad goal active.
+
+## Previous confirmed-work checkpoint — 2026-10-08
+
+Runtime `ebcf7df2dbd0` on `codex/mac-second-act-20261005` closes G2/G3 when the
+player actually confirms one legal work. Output variation is optional; repeated
+works remain legitimate. Failed saves roll back completion and works together;
+strictly verified historical G2 payloads retain their progress. Prediction cache
+residency uses available model rows, with exact replay compatibility for old
+conservative costs. Service summaries use readable precision while raw evidence
+and acceptance thresholds remain unchanged.
+
+Godot **4.7.1 stable**, original assets:14 distinct affected suites PASS after
+recorded repairs; import/isolation PASS. Final bilingual G2 viewport input101
+checks/four1280×720 views and Service review26 checks/two1280×720 views PASS.
+Three independent Creation write/fork/read processes preserve the latest chosen
+completion and exact original/fork recipes. All nine changed script identities
+match committed source and verified copy. Earlier full baseline/wider routes were
+not repeated; intermediate assertion and nonminimum capture failures are retained.
+
+Current internal Mac candidate:
+`build/free-alpha-ebcf7df2dbd0/macOS/Von-Neumann-Bottleneck.app`, isolated profile
+`Choice-ebcf7df`; export/archive identity,16 actual binary checks and strict
+codesign PASS. [Exact scope and evidence](verification/20261008-draft-and-wider-routes/selected-work/README.md).
+The prior G2 legacy completion mismatch is resolved in current source. Native
+OS input, blind novice understanding, listening/artistic effect, other devices/
+Windows and formal distribution remain unverified; the broad goal remains active.
+
+## Previous draft and wider-route checkpoint — 2026-10-08
+
+Runtime `db104d3688d1`, branch `codex/mac-second-act-20261005`: Creation has
+24-step transient draft/model Undo/Redo, constantly visible authoritative cost
+and outcome, and exact saved-work viewing/forking after Keep. Restoring a draft
+cannot revive an old output or undo protected works/progress. Layout traces follow
+actual physical source/scratch allocation and A/B recording; batch reuse names
+its actual executed order B. No simulation/schema/gate migration.
+
+Godot **4.7.1 stable**, original assets:28 distinct affected suites covered across
+repair runs; final four headless repairs plus import/isolation PASS. Final bilingual
+Creation renderer670 checks and eight1280×720 captures PASS; three independent
+Creation save/fork/read processes PASS. Actual UI-earned/persisted core+system+
+locality route1221 checks PASS. All six Layout and six Overlap tasks earned with
+counterexamples; review/return/independent restart PASS. Representation five tasks
+(186checks) and Service three contracts(171checks), plus18 restart checks each PASS.
+Intermediate failures are retained; viewport known answers are agent evidence.
+
+Current internal Mac candidate:
+`build/free-alpha-db104d3688d1/macOS/Von-Neumann-Bottleneck.app`, profile
+`Drafts-db104d3`; export/archive identity,16 actual binary checks and strict codesign checks PASS.
+[Exact source, failures, routes, package and restart evidence](verification/20261008-draft-and-wider-routes/README.md).
+G2's documented legacy differing-output completion boundary remains open.
+Native OS input, novice/listening/artistic/device/Windows and formal distribution
+remain unverified; the broad whole-game goal remains active.
+
+## Previous Mac preservation and observation checkpoint — 2026-10-08
+
+Runtime/source `563acb805042` on `codex/mac-second-act-20261005` repairs failed
+workbench creation/selection, explicit Creation writer recovery and retained
+source-cell observations through model/machine reruns. Frozen A has its own
+identity/counts; normal writer retry keeps unsaved inputs, and adopting newer
+saved contents requires explicit confirmation. Original circuits and unrelated
+collaborator files remain preserved.
+
+Godot **4.7.1 stable** and original assets:119-suite pre-change baseline plus
+import/isolation PASS; affected final checks PASS; five Python gates PASS.
+Fresh real renderer:472 bilingual C/P/G checks,81 minimum-size writer checks,
+and760 English ordinary Game input checks with all nine original prerequisites
+and Chapter1 earned. Independent write/fork/read processes and16 actual exported
+binary checks PASS. Failed intermediate assertions/engine logs are retained.
+No final full119-suite rerun or human playtest is inferred from these checks.
+
+Current local Mac candidate: `build/free-alpha-563acb805042/macOS/Von-Neumann-Bottleneck.app`,
+profile `Convergence-563acb8`, includes Representation/Service and nine C/P/G units.
+[Exact build/archive hashes, route and recovery evidence](verification/20261008-whole-game-convergence/README.md).
+Native exported input could not run because the Mac is locked. Beginner
+comprehension, listening, artistic effect, other devices/Windows and formal
+release acceptance remain open. The broad whole-game goal remains active.
+
+## Previous Mac playable-loop follow-up — 2026-10-08
+
+Current working branch `codex/mac-second-act-20261005` integrates the two reviewed
+remote commits through `e46f866`, plus the cumulative handoff v2 and this follow-up.
+Original collaborator changes are preserved. Candidate-only additions expose a
+single-CPU cost reversal on the actual 1536-cell material, safe continuation after
+manual prediction, actual prediction-event evidence, and invalid-input protection.
+The controlled A/B and full saved-work focus are now exercised with original assets.
+
+Godot **4.7.1 stable**, original Noto Sans SC: nineteen distinct focused suites pass
+across the recorded runs, plus a **162-check bilingual rendered interaction route**
+and independent write/fork/read processes. The intermediate Flow layout failure was
+fixed; the earlier renderer's profile-archiving error is retained as failed evidence.
+No full-suite rerun or exported release was needed for this bounded integration.
+
+Local imported Mac checkpoint: `.godot/experiments/51753e9acde6/project/`, profile
+`CreationReview-20261008`. Use the [review/run instructions and receipts](verification/20261008-creation-playable-loop/README.md).
+Real native OS pointer/keyboard acceptance, beginner comprehension, artistic effect,
+audio and other-device checks remain unverified. The recorded route uses Godot
+viewport input and known answers; it is not a blind playtest.
+
+## Earlier compression → content prediction → creation checkpoint — 2026-10-08
 
 The latest development line `bf0299f` is integrated into main; implementation
 checkpoint `3c74346` adds the new work. Nine new candidate
@@ -636,3 +973,18 @@ Steam setup and public release still require the owner's separate decisions.
 Architecture: [root map](../ARCHITECTURE.md), [community/privacy](architecture/community-feedback.md).
 Operations: [testing](development/testing.md), [distribution](distribution/free-alpha.md),
 [server migration](../server/deploy/RUNBOOK.md), [owner deployment checklist](distribution/community-deployment-checklist.md).
+
+## Development closure, 2026-10-09
+
+The full technical development iteration is reviewable: integrated C/P/G mechanics,
+causal/cost/A-B/work closure, preserved original40 and wider endings, transactional
+recovery and final native tooltip repair. Current144-suite CI/Python, matching Mac
+binary16, relevant renderer and actual native routes pass. No known reproducible
+code defect remains from the inspected paths; no absolute absence-of-bugs claim.
+[Final requirement audit](verification/20261009-native-core-tooltip/requirement-audit.md)
+records why all40 repeated native mouse play and external formal/human acceptance
+are follow-up evidence rather than invented blockers to this development delivery.
+A combined GUI SIGBUS remains an unproven risk; successful identical-source retries
+are separate. Current SR native spot check/post-ALU restart remain NOT_RUN because
+CUA cannot read PID3760. Do not run a second Godot until that candidate is closed.
+Final evidence commit/push and exact hashes recorded in the local handoff.

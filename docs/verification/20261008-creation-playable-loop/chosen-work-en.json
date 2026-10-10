@@ -1,0 +1,366 @@
+{
+	"id": "14ce4b8a45938e9ccf494cbccb1f61a2e0860a7ddee2271856d360be4d50822f",
+	"mapping": "light-shapes-v1",
+	"name": "QA · chosen B · en",
+	"output": [
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		2,
+		0,
+		1,
+		0,
+		1,
+		0,
+		1,
+		0,
+		2,
+		0,
+		2,
+		0,
+		2,
+		0,
+		1,
+		0,
+		1,
+		0,
+		2,
+		0,
+		2,
+		0,
+		1,
+		0,
+		2,
+		0,
+		2,
+		0,
+		2,
+		0,
+		2,
+		0,
+		2,
+		0,
+		2
+	],
+	"parent": "",
+	"recipe": {
+		"initial": [
+			0,
+			1
+		],
+		"length": 64,
+		"machine": {
+			"bytes_per_cycle": 1,
+			"cache_rows": 21,
+			"cpu_ops_per_cycle": 64,
+			"memory_bytes": 8192,
+			"request_cycles": 64
+		},
+		"model": {
+			"examples": [
+				[
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2,
+					0,
+					1,
+					0,
+					2
+				]
+			],
+			"order": 1,
+			"parent": "9ef3356e1f82ada6ea8d4385261140235ef5f0069125467c77adf5bd8ade4441",
+			"rows": [
+				{
+					"context": [],
+					"counts": [
+						12,
+						6,
+						6,
+						0
+					]
+				},
+				{
+					"context": [
+						0
+					],
+					"counts": [
+						0,
+						6,
+						6,
+						0
+					]
+				},
+				{
+					"context": [
+						1
+					],
+					"counts": [
+						6,
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"context": [
+						2
+					],
+					"counts": [
+						5,
+						0,
+						0,
+						0
+					]
+				}
+			],
+			"source_digest": "5df5483e999042e6617d080d92a6e4a0cef0a8425e2a2dcb545c3431002b46c1",
+			"version": 1
+		},
+		"model_id": "29208d322c2793aeaac2290b18fc8116987b668109bbb65e0dafc3c05796a319",
+		"prng_version": "park-miller-v1",
+		"sampler": "weighted",
+		"sampler_version": "integer-counts-v1",
+		"seed": 17,
+		"version": 1
+	},
+	"training": {
+		"cost": {
+			"cpu_ops": 197,
+			"peak_bytes": 148,
+			"total_cycles": 4903,
+			"transfer_bytes": 291
+		},
+		"events": [
+			{
+				"bytes": 1,
+				"cycles": 66,
+				"example": 0,
+				"index": 0,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 1,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					0
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 2,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 2,
+				"before": 1,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					1
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 3,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					0
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 2
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 4,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 3,
+				"before": 2,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"after": 1,
+				"before": 0,
+				"bytes": 4,
+				"context": [
+					2
+				],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 0
+			},
+			{
+				"bytes": 1,
+				"cycles": 65,
+				"example": 0,
+				"index": 5,
+				"kind": "sample_read",
+				"ops": 1,
+				"phase": "prepare",
+				"symbol": 1
+			},
+			{
+				"after": 2,
+				"before": 1,
+				"bytes": 4,
+				"context": [],
+				"cycles": 68,
+				"kind": "count_update",
+				"ops": 2,
+				"phase": "prepare",
+				"symbol": 1
+			}
+		],
+		"machine": {
+			"bytes_per_cycle": 1,
+			"cache_rows": 21,
+			"cpu_ops_per_cycle": 64,
+			"memory_bytes": 8192,
+			"request_cycles": 64
+		},
+		"model_id": "29208d322c2793aeaac2290b18fc8116987b668109bbb65e0dafc3c05796a319"
+	}
+}

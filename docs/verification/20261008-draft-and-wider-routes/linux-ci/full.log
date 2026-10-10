@@ -1,0 +1,574 @@
+godot	Set up job	﻿2026-10-09T04:32:24.8881542Z Current runner version: '2.337.0'
+godot	Set up job	2026-10-09T04:32:24.8906437Z ##[group]Runner Image Provisioner
+godot	Set up job	2026-10-09T04:32:24.8907354Z Hosted Compute Agent
+godot	Set up job	2026-10-09T04:32:24.8907960Z Version: 20261002.596
+godot	Set up job	2026-10-09T04:32:24.8908672Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+godot	Set up job	2026-10-09T04:32:24.8909472Z Build Date: 2026-10-02T22:28:27Z
+godot	Set up job	2026-10-09T04:32:24.8910411Z Worker ID: {b9d156bf-62b1-4432-ba1a-5ec99fc4bd52}
+godot	Set up job	2026-10-09T04:32:24.8911213Z Region: westus2
+godot	Set up job	2026-10-09T04:32:24.8911779Z Cloud: Azure
+godot	Set up job	2026-10-09T04:32:24.8912389Z ##[endgroup]
+godot	Set up job	2026-10-09T04:32:24.8914045Z ##[group]Operating System
+godot	Set up job	2026-10-09T04:32:24.8914776Z Ubuntu
+godot	Set up job	2026-10-09T04:32:24.8915390Z 24.04.5
+godot	Set up job	2026-10-09T04:32:24.8915917Z LTS
+godot	Set up job	2026-10-09T04:32:24.8916472Z ##[endgroup]
+godot	Set up job	2026-10-09T04:32:24.8917085Z ##[group]Runner Image
+godot	Set up job	2026-10-09T04:32:24.8917702Z Image: ubuntu-24.04
+godot	Set up job	2026-10-09T04:32:24.8918329Z Version: 20261004.327.1
+godot	Set up job	2026-10-09T04:32:24.8919430Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+godot	Set up job	2026-10-09T04:32:24.8921843Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+godot	Set up job	2026-10-09T04:32:24.8922870Z ##[endgroup]
+godot	Set up job	2026-10-09T04:32:24.8924458Z ##[group]GITHUB_TOKEN Permissions
+godot	Set up job	2026-10-09T04:32:24.8926367Z Contents: read
+godot	Set up job	2026-10-09T04:32:24.8927134Z Metadata: read
+godot	Set up job	2026-10-09T04:32:24.8927710Z ##[endgroup]
+godot	Set up job	2026-10-09T04:32:24.8930065Z Secret source: Actions
+godot	Set up job	2026-10-09T04:32:24.8931108Z Cache mode: write
+godot	Set up job	2026-10-09T04:32:24.8931784Z Prepare workflow directory
+godot	Set up job	2026-10-09T04:32:24.9344711Z Prepare all required actions
+godot	Set up job	2026-10-09T04:32:24.9393985Z Getting action download info
+godot	Set up job	2026-10-09T04:32:25.2802600Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+godot	Set up job	2026-10-09T04:32:25.3919015Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+godot	Set up job	2026-10-09T04:32:25.5918085Z Complete job name: godot
+godot	Run actions/checkout@v4	﻿2026-10-09T04:32:25.6674501Z ##[group]Run actions/checkout@v4
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6675446Z with:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6675970Z   repository: wizardpc-com/von-neumann-bottleneck
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6680000Z   token: ***
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6680468Z   ssh-strict: true
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6680925Z   ssh-user: git
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6681385Z   persist-credentials: true
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6681893Z   clean: true
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6682347Z   sparse-checkout-cone-mode: true
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6682881Z   fetch-depth: 1
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6683315Z   fetch-tags: false
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6683777Z   show-progress: true
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6684223Z   lfs: false
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6684644Z   submodules: false
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6685127Z   set-safe-directory: true
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6685649Z   allow-unsafe-pr-checkout: false
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6686425Z env:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6686848Z   GODOT_VERSION: 4.7.1
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.6687311Z ##[endgroup]
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.7836534Z Syncing repository: wizardpc-com/von-neumann-bottleneck
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.7838576Z ##[group]Getting Git version info
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.7839525Z Working directory is '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.7843901Z [command]/usr/bin/git version
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.7982423Z git version 2.55.0
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8008393Z ##[endgroup]
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8024136Z Temporarily overriding HOME='/home/runner/work/_temp/93b90bd3-f5f1-4eae-8e4e-79730bb47051' before making global git config changes
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8026612Z Adding repository directory to the temporary git global config as a safe directory
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8029500Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8085989Z Deleting the contents of '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8090572Z ##[group]Initializing the repository
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8096048Z [command]/usr/bin/git init /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8228754Z hint: Using 'master' as the name for the initial branch. This default branch name
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8230778Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8231835Z hint: to use in all of your new repositories, which will suppress this warning,
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8232602Z hint: call:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8233013Z hint:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8233550Z hint: 	git config --global init.defaultBranch <name>
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8234181Z hint:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8234774Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8235724Z hint: 'development'. The just-created branch can be renamed via this command:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8236464Z hint:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8236887Z hint: 	git branch -m <name>
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8237374Z hint:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8238012Z hint: Disable this message with "git config set advice.defaultBranchName false"
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8243579Z Initialized empty Git repository in /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck/.git/
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8259187Z [command]/usr/bin/git remote add origin https://github.com/wizardpc-com/von-neumann-bottleneck
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8315651Z ##[endgroup]
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8316508Z ##[group]Disabling automatic garbage collection
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8319028Z [command]/usr/bin/git config --local gc.auto 0
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8355605Z ##[endgroup]
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8356566Z ##[group]Setting up auth
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8362889Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8400613Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8843216Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.8884427Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.9114500Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.9152858Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.9378282Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.9423774Z ##[endgroup]
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.9425262Z ##[group]Fetching the repository
+godot	Run actions/checkout@v4	2026-10-09T04:32:25.9436130Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d5dd5d4be778a48d4762cae6da7d9bc27d6823e6:refs/remotes/origin/codex/mac-second-act-20261005
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3488507Z From https://github.com/wizardpc-com/von-neumann-bottleneck
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3491406Z  * [new ref]         d5dd5d4be778a48d4762cae6da7d9bc27d6823e6 -> origin/codex/mac-second-act-20261005
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3497709Z ##[endgroup]
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3500022Z ##[group]Determining the checkout info
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3502501Z ##[endgroup]
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3508730Z [command]/usr/bin/git sparse-checkout disable
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3564397Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3597612Z ##[group]Checking out the ref
+godot	Run actions/checkout@v4	2026-10-09T04:32:30.3609256Z [command]/usr/bin/git checkout --progress --force -B codex/mac-second-act-20261005 refs/remotes/origin/codex/mac-second-act-20261005
+godot	Run actions/checkout@v4	2026-10-09T04:32:31.2534999Z Switched to a new branch 'codex/mac-second-act-20261005'
+godot	Run actions/checkout@v4	2026-10-09T04:32:31.2541270Z branch 'codex/mac-second-act-20261005' set up to track 'origin/codex/mac-second-act-20261005'.
+godot	Run actions/checkout@v4	2026-10-09T04:32:31.2575249Z ##[endgroup]
+godot	Run actions/checkout@v4	2026-10-09T04:32:31.2622018Z [command]/usr/bin/git log -1 --format=%H
+godot	Run actions/checkout@v4	2026-10-09T04:32:31.2649058Z d5dd5d4be778a48d4762cae6da7d9bc27d6823e6
+godot	Download the exact official engine and verify its release checksum	﻿2026-10-09T04:32:31.2875079Z ##[group]Run set -euo pipefail
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2875604Z ^[[36;1mset -euo pipefail^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2875960Z ^[[36;1mmkdir -p "$RUNNER_TEMP/vnb-engine"^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2876347Z ^[[36;1mcd "$RUNNER_TEMP/vnb-engine"^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2877051Z ^[[36;1mrelease="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable"^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2877706Z ^[[36;1marchive="Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2878230Z ^[[36;1mcurl --fail --location "$release/$archive" --output "$archive"^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2878804Z ^[[36;1mcurl --fail --location "$release/SHA512-SUMS.txt" --output SHA512-SUMS.txt^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2879451Z ^[[36;1mawk -v file="$archive" '$2 == file || $2 == "*" file {print}' SHA512-SUMS.txt > engine.sha512^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2880360Z ^[[36;1mtest -s engine.sha512^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2880712Z ^[[36;1msha512sum --check engine.sha512^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2881075Z ^[[36;1munzip "$archive"^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2881480Z ^[[36;1mmv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.2881874Z ^[[36;1mchmod +x godot^[[0m
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.3156673Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.3157224Z env:
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.3157542Z   GODOT_VERSION: 4.7.1
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.3157863Z ##[endgroup]
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.3356897Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.3358295Z                                  Dload  Upload   Total   Spent    Left  Speed
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.3358898Z 
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.5018620Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.5019961Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.8047606Z 
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.9183877Z  52 72.5M   52 37.8M    0     0  80.6M      0 --:--:-- --:--:-- --:--:-- 80.6M
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.9185008Z 100 72.5M  100 72.5M    0     0   124M      0 --:--:-- --:--:-- --:--:--  307M
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.9277406Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.9278753Z                                  Dload  Upload   Total   Spent    Left  Speed
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:31.9280022Z 
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:32.0930680Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:32.0931611Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:32.1315162Z 
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:32.1315910Z 100  5682  100  5682    0     0  27951      0 --:--:-- --:--:-- --:--:-- 27951
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:32.2555676Z Godot_v4.7.1-stable_linux.x86_64.zip: OK
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:32.3497084Z Archive:  Godot_v4.7.1-stable_linux.x86_64.zip
+godot	Download the exact official engine and verify its release checksum	2026-10-09T04:32:33.3166180Z   inflating: Godot_v4.7.1-stable_linux.x86_64  
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	﻿2026-10-09T04:32:33.3248896Z ##[group]Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:33.3249988Z ^[[36;1mpython3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"^[[0m
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:33.3314932Z shell: /usr/bin/bash -e {0}
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:33.3315232Z env:
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:33.3315439Z   GODOT_VERSION: 4.7.1
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:33.3315680Z ##[endgroup]
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:34.0828380Z Evidence and isolated project: /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck/.godot/verification/20261009T043233Z-866a75ed
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:42.6684757Z import: PASS (import.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:43.6854168Z user_directory: PASS (user_directory.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:46.1081195Z test_alarm_order_feedback: PASS (test_alarm_order_feedback.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:50.0311948Z test_bilingual_typography: PASS (test_bilingual_typography.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:51.0485419Z test_candidate_designs: PASS (test_candidate_designs.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:53.9197548Z test_candidate_disabled_focus: PASS (test_candidate_disabled_focus.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:56.0391899Z test_candidate_journey: PASS (test_candidate_journey.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:32:57.6074643Z test_candidate_journey_review: PASS (test_candidate_journey_review.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:02.7339141Z test_candidate_language_navigation: PASS (test_candidate_language_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:09.9152420Z test_candidate_lifecycle: PASS (test_candidate_lifecycle.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:10.9322880Z test_candidate_policy: PASS (test_candidate_policy.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:13.1526107Z test_candidate_restore_selection: PASS (test_candidate_restore_selection.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:30.1598032Z test_candidate_supports: PASS (test_candidate_supports.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:31.2768303Z test_candidate_writer_retry: PASS (test_candidate_writer_retry.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:34.2492592Z test_candidate_writer_retry_ui: PASS (test_candidate_writer_retry_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:39.0758240Z test_chapter_card_routes: PASS (test_chapter_card_routes.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:41.0450985Z test_chapter_redo_shortcuts: PASS (test_chapter_redo_shortcuts.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:42.9143706Z test_chapter_workspaces: PASS (test_chapter_workspaces.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:43.9317480Z test_circuit_simulation: PASS (test_circuit_simulation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:44.9490980Z test_completion_presentation: PASS (test_completion_presentation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:47.9213039Z test_completion_route: PASS (test_completion_route.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:50.9941516Z test_completion_service_clarity: PASS (test_completion_service_clarity.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:33:52.0115312Z test_content_registry: PASS (test_content_registry.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:03.7518490Z test_core_closure_navigation: PASS (test_core_closure_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:06.8233586Z test_creation_causal_panel: PASS (test_creation_causal_panel.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:10.0954182Z test_creation_choice_completion: PASS (test_creation_choice_completion.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:14.1204278Z test_creation_comparison: PASS (test_creation_comparison.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:17.8442185Z test_creation_condition_examples: PASS (test_creation_condition_examples.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:23.8233057Z test_creation_contract: PASS (test_creation_contract.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:27.8477870Z test_creation_cost_ledger: PASS (test_creation_cost_ledger.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:32.3236605Z test_creation_draft_undo: PASS (test_creation_draft_undo.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:42.6613237Z test_creation_edit_controls: PASS (test_creation_edit_controls.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:45.0821338Z test_creation_evidence_identity: PASS (test_creation_evidence_identity.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:47.2022574Z test_creation_evidence_reading: PASS (test_creation_evidence_reading.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:48.2200112Z test_creation_explanation: PASS (test_creation_explanation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:50.8412834Z test_creation_future_workbench: PASS (test_creation_future_workbench.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:54.2644792Z test_creation_input_validation: PASS (test_creation_input_validation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:34:56.7856142Z test_creation_keyboard_focus: PASS (test_creation_keyboard_focus.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:00.5095739Z test_creation_measured_closure: PASS (test_creation_measured_closure.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:01.6272054Z test_creation_navigation: PASS (test_creation_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:08.4577650Z test_creation_observation_focus: PASS (test_creation_observation_focus.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:23.4611496Z test_creation_playable_loop: PASS (test_creation_playable_loop.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:24.8795567Z test_creation_prediction_flow: PASS (test_creation_prediction_flow.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:25.8968425Z test_creation_prediction_memory: PASS (test_creation_prediction_memory.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:32.5281477Z test_creation_prediction_work_view: PASS (test_creation_prediction_work_view.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:38.1070507Z test_creation_preparation_binding: PASS (test_creation_preparation_binding.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:39.1244396Z test_creation_profile_navigation: PASS (test_creation_profile_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:40.2423470Z test_creation_raw_readonly: PASS (test_creation_raw_readonly.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:43.9659987Z test_creation_route_flow: PASS (test_creation_route_flow.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:45.9359411Z test_creation_state_regressions: PASS (test_creation_state_regressions.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:35:48.4569930Z test_creation_work_focus: PASS (test_creation_work_focus.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:08.7189249Z test_creation_workbench: PASS (test_creation_workbench.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:11.7913207Z test_creation_writer_retry: PASS (test_creation_writer_retry.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:33.9570918Z test_creation_writer_retry_ui: PASS (test_creation_writer_retry_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:37.2302716Z test_desktop_conventions: PASS (test_desktop_conventions.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:39.9518968Z test_direct_task_navigation: PASS (test_direct_task_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:41.9214092Z test_display_preferences: PASS (test_display_preferences.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:42.9388607Z test_evidence_proxy: PASS (test_evidence_proxy.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:46.2122674Z test_exploration: PASS (test_exploration.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:47.5304611Z test_final_convergence: PASS (test_final_convergence.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:50.9538483Z test_first_build_guidance: PASS (test_first_build_guidance.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:51.9711388Z test_floating_tool_recall: PASS (test_floating_tool_recall.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:55.5951011Z test_global_save: PASS (test_global_save.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:36:59.9708858Z test_hardware_foundations_ui: PASS (test_hardware_foundations_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:04.9976770Z test_hardware_prologue_ui: PASS (test_hardware_prologue_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:08.7217274Z test_hardware_seal_navigation: PASS (test_hardware_seal_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:19.7119862Z test_hub_first_screen: PASS (test_hub_first_screen.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:22.5834945Z test_intelligent_state: PASS (test_intelligent_state.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:24.9043448Z test_latch_playback_readout: PASS (test_latch_playback_readout.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:28.0765135Z test_layout_navigation: PASS (test_layout_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:29.5452872Z test_layout_preview_selection: PASS (test_layout_preview_selection.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:31.3147961Z test_layout_recipe_sources: PASS (test_layout_recipe_sources.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:33.8360806Z test_layout_simulation: PASS (test_layout_simulation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:35.5053077Z test_layout_trace_storage: PASS (test_layout_trace_storage.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:37.5754020Z test_layout_ui: PASS (test_layout_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:45.7602082Z test_learning_handbook: PASS (test_learning_handbook.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:48.9322840Z test_locality_chapter_ui: PASS (test_locality_chapter_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:51.0023584Z test_locality_restored_baseline: PASS (test_locality_restored_baseline.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:52.4205627Z test_localization: PASS (test_localization.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:53.4381410Z test_optional_challenges: PASS (test_optional_challenges.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:54.9067036Z test_optional_result_feedback: PASS (test_optional_result_feedback.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:55.9243221Z test_overlap_simulation: PASS (test_overlap_simulation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:58.6962617Z test_overlap_ui: PASS (test_overlap_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:37:59.9142439Z test_personal_records: PASS (test_personal_records.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:00.9318036Z test_playtest_data: PASS (test_playtest_data.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:02.0497697Z test_playtest_feedback_ui: PASS (test_playtest_feedback_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:03.0674168Z test_playtest_visits: PASS (test_playtest_visits.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:04.7365630Z test_prediction_goal_feedback: PASS (test_prediction_goal_feedback.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:05.9545070Z test_prediction_navigation: PASS (test_prediction_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:07.0724411Z test_prediction_record_source: PASS (test_prediction_record_source.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:08.9426709Z test_prediction_slice: PASS (test_prediction_slice.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:12.7670732Z test_prediction_workbench_presentation: PASS (test_prediction_workbench_presentation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:14.8367426Z test_prelaunch_settings: PASS (test_prelaunch_settings.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:16.7065922Z test_prologue_continuation: PASS (test_prologue_continuation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:18.4760777Z test_prologue_simulation: PASS (test_prologue_simulation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:19.6941192Z test_release_convergence: PASS (test_release_convergence.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:20.7116041Z test_remote_feedback: PASS (test_remote_feedback.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:21.7290898Z test_representation_cache: PASS (test_representation_cache.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:25.2532593Z test_representation_closure_navigation: PASS (test_representation_closure_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:28.1252947Z test_representation_design_shelf: PASS (test_representation_design_shelf.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:30.1956871Z test_representation_edit_context: PASS (test_representation_edit_context.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:31.7649035Z test_representation_plan: PASS (test_representation_plan.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:34.4871569Z test_representation_region: PASS (test_representation_region.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:39.8150822Z test_representation_restored_notice: PASS (test_representation_restored_notice.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:41.2839488Z test_representation_session: PASS (test_representation_session.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:38:44.0064782Z test_representation_visual: PASS (test_representation_visual.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:06.2255925Z test_representation_workbench_presentation: PASS (test_representation_workbench_presentation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:08.9970458Z test_save_signature_migration: PASS (test_save_signature_migration.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:10.1148668Z test_second_act_content: PASS (test_second_act_content.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:11.6836210Z test_second_act_experiments: PASS (test_second_act_experiments.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:12.7011365Z test_second_act_independent: PASS (test_second_act_independent.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:15.3225134Z test_second_act_navigation: PASS (test_second_act_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:18.1947503Z test_service_commission_ui: PASS (test_service_commission_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:19.3128219Z test_service_commissions: PASS (test_service_commissions.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:20.7316769Z test_service_context_navigation: PASS (test_service_context_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:24.1054239Z test_service_design_shelf: PASS (test_service_design_shelf.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:26.0755505Z test_service_learning_ui: PASS (test_service_learning_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:28.3965450Z test_service_number_display: PASS (test_service_number_display.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:33.2222981Z test_service_plan: PASS (test_service_plan.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:35.3422340Z test_service_session: PASS (test_service_session.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:37.1116053Z test_service_split_actions: PASS (test_service_split_actions.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:38.5304106Z test_service_state_replay: PASS (test_service_state_replay.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:39.7485068Z test_service_state_replay_view: PASS (test_service_state_replay_view.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:44.0245101Z test_service_undo_context: PASS (test_service_undo_context.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:45.0423221Z test_simulation: PASS (test_simulation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:47.8653175Z test_storage_caption_playback: PASS (test_storage_caption_playback.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:49.0840331Z test_system_applications: PASS (test_system_applications.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:50.5534196Z test_system_baseline_continuity: PASS (test_system_baseline_continuity.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:53.6266499Z test_system_cost_evidence: PASS (test_system_cost_evidence.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:54.6447281Z test_system_lab_simulation: PASS (test_system_lab_simulation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:57.8176685Z test_system_lab_ui: PASS (test_system_lab_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:39:59.6874466Z test_system_trace_source_binding: PASS (test_system_trace_source_binding.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:02.0087851Z test_task_tree: PASS (test_task_tree.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:03.0269211Z test_task_tree_layout: PASS (test_task_tree_layout.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:05.5485255Z test_task_tree_presentation: PASS (test_task_tree_presentation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:06.6667967Z test_theme_reflection: PASS (test_theme_reflection.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:08.5369109Z test_trace_ambience: PASS (test_trace_ambience.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:14.2147535Z test_tree_journey_presentation: PASS (test_tree_journey_presentation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:16.6362658Z test_tutorial_replay: PASS (test_tutorial_replay.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:18.9573558Z test_ui: PASS (test_ui.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:21.1775968Z test_unified_journey_navigation: PASS (test_unified_journey_navigation.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:22.1952410Z test_visit_summary: PASS (test_visit_summary.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:23.8648002Z test_wire_drag_geometry: PASS (test_wire_drag_geometry.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:24.8829247Z test_workbench_interrupted_recovery: PASS (test_workbench_interrupted_recovery.txt)
+godot	Run python3 scripts/verify-project.py --godot "$RUNNER_TEMP/vnb-engine/godot"	2026-10-09T04:40:25.9008344Z test_workbench_write_failure: PASS (test_workbench_write_failure.txt)
+godot	Run actions/upload-artifact@v4	﻿2026-10-09T04:40:25.9146264Z ##[group]Run actions/upload-artifact@v4
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9146581Z with:
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9146795Z   name: isolated-godot-results
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9147069Z   path: .godot/verification/*/*.txt
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9147344Z   retention-days: 7
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9147576Z   if-no-files-found: warn
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9147807Z   compression-level: 6
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9148023Z   overwrite: false
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9148239Z   include-hidden-files: false
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9148472Z env:
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9148660Z   GODOT_VERSION: 4.7.1
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:25.9148869Z ##[endgroup]
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:26.0817921Z (node:4062) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:26.0818822Z (Use `node --trace-deprecation ...` to show where the warning was created)
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:26.1155429Z With the provided path, there will be 145 files uploaded
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:26.1155968Z Artifact name is valid!
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:26.1156206Z Root directory input is valid!
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:26.4935338Z Beginning upload of artifact content to blob storage
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:26.6368306Z (node:4062) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:27.0411049Z Uploaded bytes 54426
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:27.1211210Z Finished uploading artifact content to blob storage!
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:27.1212059Z SHA256 digest of uploaded artifact zip is f0db058d984044f00b570344796c9748b55a562c45486bc12a43b52f50b4b2ef
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:27.1214344Z Finalizing artifact upload
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:27.3801390Z Artifact isolated-godot-results.zip successfully finalized. Artifact ID 11596345599
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:27.3802900Z Artifact isolated-godot-results has been successfully uploaded! Final size is 54426 bytes. Artifact ID is 11596345599
+godot	Run actions/upload-artifact@v4	2026-10-09T04:40:27.3809862Z Artifact download URL: https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/37884348935/artifacts/11596345599
+godot	Post Run actions/checkout@v4	﻿2026-10-09T04:40:27.4031630Z Post job cleanup.
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.4880998Z [command]/usr/bin/git version
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.4923148Z git version 2.55.0
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.4962973Z Temporarily overriding HOME='/home/runner/work/_temp/0291e674-126d-4ba9-b64b-5872d172f0ea' before making global git config changes
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.4964595Z Adding repository directory to the temporary git global config as a safe directory
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.4968456Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.5008536Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.5044527Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.5303701Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.5334590Z http.https://github.com/.extraheader
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.5346276Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.5384024Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.5647902Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+godot	Post Run actions/checkout@v4	2026-10-09T04:40:27.5687694Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+godot	Complete job	﻿2026-10-09T04:40:27.6129359Z Cleaning up orphan processes
+godot	Complete job	2026-10-09T04:40:27.6569014Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+python	Set up job	﻿2026-10-09T04:32:24.4441148Z Current runner version: '2.337.0'
+python	Set up job	2026-10-09T04:32:24.4463646Z ##[group]Runner Image Provisioner
+python	Set up job	2026-10-09T04:32:24.4464511Z Hosted Compute Agent
+python	Set up job	2026-10-09T04:32:24.4465089Z Version: 20261002.596
+python	Set up job	2026-10-09T04:32:24.4465684Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+python	Set up job	2026-10-09T04:32:24.4466367Z Build Date: 2026-10-02T22:28:27Z
+python	Set up job	2026-10-09T04:32:24.4467189Z Worker ID: {aeb8645d-c8c0-4803-9a3a-a931eafaead8}
+python	Set up job	2026-10-09T04:32:24.4468057Z Region: centralus
+python	Set up job	2026-10-09T04:32:24.4468559Z Cloud: Azure
+python	Set up job	2026-10-09T04:32:24.4469136Z ##[endgroup]
+python	Set up job	2026-10-09T04:32:24.4470583Z ##[group]Operating System
+python	Set up job	2026-10-09T04:32:24.4471204Z Ubuntu
+python	Set up job	2026-10-09T04:32:24.4471709Z 24.04.5
+python	Set up job	2026-10-09T04:32:24.4472192Z LTS
+python	Set up job	2026-10-09T04:32:24.4472720Z ##[endgroup]
+python	Set up job	2026-10-09T04:32:24.4473246Z ##[group]Runner Image
+python	Set up job	2026-10-09T04:32:24.4473872Z Image: ubuntu-24.04
+python	Set up job	2026-10-09T04:32:24.4474459Z Version: 20261004.327.1
+python	Set up job	2026-10-09T04:32:24.4475472Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+python	Set up job	2026-10-09T04:32:24.4477147Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+python	Set up job	2026-10-09T04:32:24.4478293Z ##[endgroup]
+python	Set up job	2026-10-09T04:32:24.4479439Z ##[group]GITHUB_TOKEN Permissions
+python	Set up job	2026-10-09T04:32:24.4481859Z Contents: read
+python	Set up job	2026-10-09T04:32:24.4482505Z Metadata: read
+python	Set up job	2026-10-09T04:32:24.4483016Z ##[endgroup]
+python	Set up job	2026-10-09T04:32:24.4484961Z Secret source: Actions
+python	Set up job	2026-10-09T04:32:24.4485787Z Cache mode: write
+python	Set up job	2026-10-09T04:32:24.4486584Z Prepare workflow directory
+python	Set up job	2026-10-09T04:32:24.4881030Z Prepare all required actions
+python	Set up job	2026-10-09T04:32:24.4927969Z Getting action download info
+python	Set up job	2026-10-09T04:32:24.7315164Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+python	Set up job	2026-10-09T04:32:24.8316806Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+python	Set up job	2026-10-09T04:32:25.0286535Z Complete job name: python
+python	Run actions/checkout@v4	﻿2026-10-09T04:32:25.0933617Z ##[group]Run actions/checkout@v4
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0934498Z with:
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0935071Z   repository: wizardpc-com/von-neumann-bottleneck
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0939542Z   token: ***
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0940087Z   ssh-strict: true
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0940584Z   ssh-user: git
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0941096Z   persist-credentials: true
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0941651Z   clean: true
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0942183Z   sparse-checkout-cone-mode: true
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0942775Z   fetch-depth: 1
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0943259Z   fetch-tags: false
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0943794Z   show-progress: true
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0944305Z   lfs: false
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0944796Z   submodules: false
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0945314Z   set-safe-directory: true
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0945879Z   allow-unsafe-pr-checkout: false
+python	Run actions/checkout@v4	2026-10-09T04:32:25.0946571Z ##[endgroup]
+python	Run actions/checkout@v4	2026-10-09T04:32:25.1911644Z Syncing repository: wizardpc-com/von-neumann-bottleneck
+python	Run actions/checkout@v4	2026-10-09T04:32:25.1913468Z ##[group]Getting Git version info
+python	Run actions/checkout@v4	2026-10-09T04:32:25.1914480Z Working directory is '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+python	Run actions/checkout@v4	2026-10-09T04:32:25.1915924Z [command]/usr/bin/git version
+python	Run actions/checkout@v4	2026-10-09T04:32:25.1987835Z git version 2.55.0
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2004481Z ##[endgroup]
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2016348Z Temporarily overriding HOME='/home/runner/work/_temp/4c55c3a8-63ec-4a85-bdd4-a40f568bb186' before making global git config changes
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2018553Z Adding repository directory to the temporary git global config as a safe directory
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2021245Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2061695Z Deleting the contents of '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2067000Z ##[group]Initializing the repository
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2071054Z [command]/usr/bin/git init /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2173384Z hint: Using 'master' as the name for the initial branch. This default branch name
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2175206Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2178405Z hint: to use in all of your new repositories, which will suppress this warning,
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2179325Z hint: call:
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2179945Z hint:
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2180588Z hint: 	git config --global init.defaultBranch <name>
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2181289Z hint:
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2182064Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2184124Z hint: 'development'. The just-created branch can be renamed via this command:
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2185077Z hint:
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2185618Z hint: 	git branch -m <name>
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2186229Z hint:
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2186988Z hint: Disable this message with "git config set advice.defaultBranchName false"
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2188738Z Initialized empty Git repository in /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck/.git/
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2192123Z [command]/usr/bin/git remote add origin https://github.com/wizardpc-com/von-neumann-bottleneck
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2224947Z ##[endgroup]
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2225828Z ##[group]Disabling automatic garbage collection
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2229557Z [command]/usr/bin/git config --local gc.auto 0
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2256313Z ##[endgroup]
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2257145Z ##[group]Setting up auth
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2264516Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2292038Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2592578Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2623551Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2814711Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+python	Run actions/checkout@v4	2026-10-09T04:32:25.2844361Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+python	Run actions/checkout@v4	2026-10-09T04:32:25.3014513Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+python	Run actions/checkout@v4	2026-10-09T04:32:25.3046404Z ##[endgroup]
+python	Run actions/checkout@v4	2026-10-09T04:32:25.3047957Z ##[group]Fetching the repository
+python	Run actions/checkout@v4	2026-10-09T04:32:25.3056356Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d5dd5d4be778a48d4762cae6da7d9bc27d6823e6:refs/remotes/origin/codex/mac-second-act-20261005
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8090248Z From https://github.com/wizardpc-com/von-neumann-bottleneck
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8093370Z  * [new ref]         d5dd5d4be778a48d4762cae6da7d9bc27d6823e6 -> origin/codex/mac-second-act-20261005
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8098433Z ##[endgroup]
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8100147Z ##[group]Determining the checkout info
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8102449Z ##[endgroup]
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8103534Z [command]/usr/bin/git sparse-checkout disable
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8146809Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8176785Z ##[group]Checking out the ref
+python	Run actions/checkout@v4	2026-10-09T04:32:29.8180368Z [command]/usr/bin/git checkout --progress --force -B codex/mac-second-act-20261005 refs/remotes/origin/codex/mac-second-act-20261005
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8253240Z Updating files:  89% (3354/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8277118Z Updating files:  90% (3373/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8290267Z Updating files:  91% (3410/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8305926Z Updating files:  92% (3448/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8321958Z Updating files:  93% (3485/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8335525Z Updating files:  94% (3523/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8352506Z Updating files:  95% (3560/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8371842Z Updating files:  96% (3598/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8386872Z Updating files:  97% (3635/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8405850Z Updating files:  98% (3673/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8422728Z Updating files:  99% (3710/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8423502Z Updating files: 100% (3747/3747)
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8424093Z Updating files: 100% (3747/3747), done.
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8469458Z Switched to a new branch 'codex/mac-second-act-20261005'
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8473383Z branch 'codex/mac-second-act-20261005' set up to track 'origin/codex/mac-second-act-20261005'.
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8495004Z ##[endgroup]
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8531770Z [command]/usr/bin/git log -1 --format=%H
+python	Run actions/checkout@v4	2026-10-09T04:32:30.8552435Z d5dd5d4be778a48d4762cae6da7d9bc27d6823e6
+python	Run actions/setup-python@v5	﻿2026-10-09T04:32:30.8800328Z ##[group]Run actions/setup-python@v5
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.8800816Z with:
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.8801191Z   python-version: 3.12
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.8801604Z   check-latest: false
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.8804207Z   token: ***
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.8804592Z   update-environment: true
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.8805022Z   allow-prereleases: false
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.8805433Z   freethreaded: false
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.8805788Z ##[endgroup]
+python	Run actions/setup-python@v5	2026-10-09T04:32:30.9991713Z ##[group]Installed versions
+python	Run actions/setup-python@v5	2026-10-09T04:32:31.0068308Z (node:2076) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+python	Run actions/setup-python@v5	2026-10-09T04:32:31.0069755Z (Use `node --trace-deprecation ...` to show where the warning was created)
+python	Run actions/setup-python@v5	2026-10-09T04:32:31.0070521Z Successfully set up CPython (3.12.15)
+python	Run actions/setup-python@v5	2026-10-09T04:32:31.0085790Z ##[endgroup]
+python	Run python scripts/check-branding.py	﻿2026-10-09T04:32:31.0209340Z ##[group]Run python scripts/check-branding.py
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0209993Z ^[[36;1mpython scripts/check-branding.py^[[0m
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0405997Z shell: /usr/bin/bash -e {0}
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0406518Z env:
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0406908Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0407694Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0408288Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0408753Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0409223Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0409705Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.0410162Z ##[endgroup]
+python	Run python scripts/check-branding.py	2026-10-09T04:32:31.4869537Z PASS: local branding assets and native icon contracts
+python	Run python scripts/test-report-playtests.py	﻿2026-10-09T04:32:31.4948760Z ##[group]Run python scripts/test-report-playtests.py
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4949293Z ^[[36;1mpython scripts/test-report-playtests.py^[[0m
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4988890Z shell: /usr/bin/bash -e {0}
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4989354Z env:
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4989730Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4990241Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4990789Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4991331Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4991796Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4992256Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.4992633Z ##[endgroup]
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.6428977Z PASS: transaction quantities, debug/run/cases, duplicate exports, revised opinions and missing scores
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.6434911Z PASS: basic summary totals, mixed-detail deduplication, unknown fields and version/cohort separation
+python	Run python scripts/test-report-playtests.py	2026-10-09T04:32:31.6436795Z PASS: late visit version attribution and malformed sequence isolation
+python	Run python server/test_storage.py	﻿2026-10-09T04:32:31.6523290Z ##[group]Run python server/test_storage.py
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6523770Z ^[[36;1mpython server/test_storage.py^[[0m
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6563630Z shell: /usr/bin/bash -e {0}
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6564035Z env:
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6564389Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6564938Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6565660Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6566133Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6566589Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6567040Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	Run python server/test_storage.py	2026-10-09T04:32:31.6567772Z ##[endgroup]
+python	Run python server/test_storage.py	2026-10-09T04:32:31.9942643Z test_conflict_rolls_back (__main__.StorageTests.test_conflict_rolls_back) ... ok
+python	Run python server/test_storage.py	2026-10-09T04:32:31.9950841Z test_failed_ddl_upgrade_is_atomic (__main__.StorageTests.test_failed_ddl_upgrade_is_atomic) ... ok
+python	Run python server/test_storage.py	2026-10-09T04:32:32.0337861Z test_upgrade_restore_merge_and_deleted_identity (__main__.StorageTests.test_upgrade_restore_merge_and_deleted_identity) ... ok
+python	Run python server/test_storage.py	2026-10-09T04:32:32.0339125Z 
+python	Run python server/test_storage.py	2026-10-09T04:32:32.0339478Z ----------------------------------------------------------------------
+python	Run python server/test_storage.py	2026-10-09T04:32:32.0340289Z Ran 3 tests in 0.066s
+python	Run python server/test_storage.py	2026-10-09T04:32:32.0340812Z 
+python	Run python server/test_storage.py	2026-10-09T04:32:32.0341410Z OK
+python	Run python server/test_receiver.py	﻿2026-10-09T04:32:32.0464339Z ##[group]Run python server/test_receiver.py
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0464746Z ^[[36;1mpython server/test_receiver.py^[[0m
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0505103Z shell: /usr/bin/bash -e {0}
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0505481Z env:
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0505920Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0506396Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0506876Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0507578Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0507993Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0508441Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.0508799Z ##[endgroup]
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.4083003Z test_contract (__main__.ReceiverTests.test_contract) ... ok
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.4264126Z test_retention (__main__.ReceiverTests.test_retention) ... ok
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.4285718Z 
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.4286722Z ----------------------------------------------------------------------
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.4288010Z Ran 2 tests in 0.167s
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.4288349Z 
+python	Run python server/test_receiver.py	2026-10-09T04:32:32.4288596Z OK
+python	Run python server/test_community.py	﻿2026-10-09T04:32:32.4611740Z ##[group]Run python server/test_community.py
+python	Run python server/test_community.py	2026-10-09T04:32:32.4612208Z ^[[36;1mpython server/test_community.py^[[0m
+python	Run python server/test_community.py	2026-10-09T04:32:32.4654524Z shell: /usr/bin/bash -e {0}
+python	Run python server/test_community.py	2026-10-09T04:32:32.4654952Z env:
+python	Run python server/test_community.py	2026-10-09T04:32:32.4655337Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_community.py	2026-10-09T04:32:32.4655911Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+python	Run python server/test_community.py	2026-10-09T04:32:32.4656452Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_community.py	2026-10-09T04:32:32.4656973Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_community.py	2026-10-09T04:32:32.4657765Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+python	Run python server/test_community.py	2026-10-09T04:32:32.4658248Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+python	Run python server/test_community.py	2026-10-09T04:32:32.4658706Z ##[endgroup]
+python	Run python server/test_community.py	2026-10-09T04:32:32.6366798Z test_contract (__main__.CommunityTests.test_contract) ... ok
+python	Run python server/test_community.py	2026-10-09T04:32:32.6472512Z test_retention (__main__.CommunityTests.test_retention) ... ok
+python	Run python server/test_community.py	2026-10-09T04:32:32.6683705Z test_summary_and_board (__main__.CommunityTests.test_summary_and_board) ... ok
+python	Run python server/test_community.py	2026-10-09T04:32:32.7711763Z test_contract (test_receiver.ReceiverTests.test_contract) ... ok
+python	Run python server/test_community.py	2026-10-09T04:32:32.7767996Z test_retention (test_receiver.ReceiverTests.test_retention) ... ok
+python	Run python server/test_community.py	2026-10-09T04:32:32.7783776Z 
+python	Run python server/test_community.py	2026-10-09T04:32:32.7784801Z ----------------------------------------------------------------------
+python	Run python server/test_community.py	2026-10-09T04:32:32.7785607Z Ran 5 tests in 0.236s
+python	Run python server/test_community.py	2026-10-09T04:32:32.7785911Z 
+python	Run python server/test_community.py	2026-10-09T04:32:32.7786234Z OK
+python	Post Run actions/setup-python@v5	﻿2026-10-09T04:32:32.8027724Z Post job cleanup.
+python	Post Run actions/setup-python@v5	2026-10-09T04:32:32.9135398Z (node:2099) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+python	Post Run actions/setup-python@v5	2026-10-09T04:32:32.9136465Z (Use `node --trace-deprecation ...` to show where the warning was created)
+python	Post Run actions/checkout@v4	﻿2026-10-09T04:32:32.9284949Z Post job cleanup.
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0076763Z [command]/usr/bin/git version
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0116982Z git version 2.55.0
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0156288Z Temporarily overriding HOME='/home/runner/work/_temp/3778c350-46a7-4526-9db4-743bf469cf9b' before making global git config changes
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0157772Z Adding repository directory to the temporary git global config as a safe directory
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0162789Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0197389Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0228072Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0433363Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0454152Z http.https://github.com/.extraheader
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0465136Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0499629Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0696111Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+python	Post Run actions/checkout@v4	2026-10-09T04:32:33.0722634Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+python	Complete job	﻿2026-10-09T04:32:33.1089633Z Cleaning up orphan processes
+python	Complete job	2026-10-09T04:32:33.1319590Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

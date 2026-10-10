@@ -1,0 +1,58 @@
+{
+	"schema_version": 2,
+	"minimum_writer_version": 2,
+	"signature_version": 2,
+	"saved_at_utc": "2026-10-09T14:19:29",
+	"game": {
+		"hardware": {
+			"schema_version": 1,
+			"completed_levels": [
+				"half_adder",
+				"tutorial"
+			],
+			"designs": [
+				{
+					"component_name": "HalfAdder",
+					"behavior_kind": "half_adder",
+					"source_level": "half_adder",
+					"source_signature": "{\"components\":[{\"display_name\":\"AND · 1\",\"fixed_terminal\":false,\"id\":\"AND_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · CARRY\",\"fixed_terminal\":false,\"id\":\"AND_1_COPY_002\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · 2\",\"fixed_terminal\":false,\"id\":\"AND_2\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"TEST BENCH A\",\"fixed_terminal\":true,\"id\":\"A_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"A\"},{\"display_name\":\"TEST BENCH B\",\"fixed_terminal\":true,\"id\":\"B_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"B\"},{\"display_name\":\"PROBE CARRY\",\"fixed_terminal\":true,\"id\":\"CARRY_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"CARRY\"},{\"display_name\":\"NOT · 1\",\"fixed_terminal\":false,\"id\":\"NOT_1\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"NOT · 2\",\"fixed_terminal\":false,\"id\":\"NOT_1_COPY_001\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"OR · 1\",\"fixed_terminal\":false,\"id\":\"OR_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"or\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"PROBE SUM\",\"fixed_terminal\":true,\"id\":\"SUM_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"SUM\"}],\"wires\":[{\"from_component\":\"AND_1\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":0},{\"from_component\":\"AND_1_COPY_002\",\"from_port\":0,\"to_component\":\"CARRY_OUT\",\"to_port\":0},{\"from_component\":\"AND_2\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":1},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"NOT_1\",\"to_port\":0},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"NOT_1_COPY_001\",\"to_port\":0},{\"from_component\":\"NOT_1\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":0},{\"from_component\":\"NOT_1_COPY_001\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":1},{\"from_component\":\"OR_1\",\"from_port\":0,\"to_component\":\"SUM_OUT\",\"to_port\":0}]}",
+					"generated_from": [],
+					"metadata": {}
+				}
+			]
+		},
+		"system": {
+			"schema_version": 1,
+			"workspaces": {},
+			"observations": {},
+			"prologue_ready": false,
+			"cpu_source_signature": "reference-cpu4",
+			"ram_source_signature": "reference-ram2x4",
+			"completed_levels": [],
+			"application_designs": {}
+		},
+		"locality": {
+			"schema_version": 1,
+			"workspaces": {},
+			"observations": {},
+			"first_experiment_observed": false,
+			"completed_levels": [],
+			"economical_design": {}
+		},
+		"layout": {
+			"schema_version": 1,
+			"model_version": "layout-memory-1",
+			"solutions": {},
+			"drafts": {},
+			"named": {},
+			"bonuses": {}
+		},
+		"overlap": {
+			"schema_version": 1,
+			"solutions": {},
+			"drafts": {},
+			"routes": {},
+			"distance_bonus": {}
+		}
+	}
+}

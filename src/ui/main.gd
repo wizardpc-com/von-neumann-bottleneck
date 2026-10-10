@@ -1127,7 +1127,8 @@ func _start_level(level_id: StringName) -> void:
 		if receipt != null:
 			run_history.append(_history_record_from_receipt(receipt))
 	while run_history.size() > RUN_HISTORY_LIMIT:
-		run_history.pop_front()
+		# Preserve the same Before evidence as the live history when reopening.
+		run_history.remove_at(1 if run_history.size() > 1 else 0)
 
 	for instrument: FloatingInstrumentPanel in instrument_windows.values():
 		instrument.visible = false

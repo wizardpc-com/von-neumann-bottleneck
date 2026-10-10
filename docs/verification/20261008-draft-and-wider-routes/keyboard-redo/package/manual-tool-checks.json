@@ -1,0 +1,11 @@
+{
+  "source": "Actual root tool results manually recorded",
+  "identity": {
+    "exit": 0,
+    "passed": true
+  },
+  "codesign": {
+    "exit": 0,
+    "passed": true
+  }
+}

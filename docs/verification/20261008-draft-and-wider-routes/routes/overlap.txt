@@ -1,0 +1,49 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+PATH: arrival · arrival-read-before-ready · Elapsed 0 / target 10 · compute busy 0 · transfer busy 0
+Overlap 0 · compute wait 0 · output sum 0 / 7
+Line 3: The request was issued but data is not ready. Do not consume it yet.
+Hits 0 · misses 0 · evictions 0 · request queue wait 0 cycles
+PATH: arrival · arrival-ready-evidence · Elapsed 10 / target 10 · compute busy 8 · transfer busy 6
+Overlap 4 · compute wait 2 · output sum 7 / 7
+Passed · keep editing or explore the next branch on the map.
+Hits 0 · misses 0 · evictions 0 · request queue wait 0 cycles
+PATH: buffers · buffers-serial-two-parts · Elapsed 40 / target 28 · compute busy 16 · transfer busy 24
+Overlap 0 · compute wait 24 · output sum 46 / 46
+Correct output; time target not met. Inspect both resource lanes.
+Hits 0 · misses 0 · evictions 0 · request queue wait 0 cycles
+PATH: buffers · buffers-overlap-evidence · Elapsed 28 / target 28 · compute busy 16 · transfer busy 24
+Overlap 12 · compute wait 12 · output sum 46 / 46
+Passed · keep editing or explore the next branch on the map.
+Hits 0 · misses 0 · evictions 0 · request queue wait 0 cycles
+PATH: prefetch · prefetch-starter-counterexample · Elapsed 40 / target 28 · compute busy 16 · transfer busy 24
+Overlap 0 · compute wait 24 · output sum 46 / 46
+Correct output; time target not met. Inspect both resource lanes.
+Hits 0 · misses 4 · evictions 3 · request queue wait 0 cycles
+PATH: prefetch · prefetch-accepted-schedule · Elapsed 28 / target 28 · compute busy 16 · transfer busy 24
+Overlap 12 · compute wait 12 · output sum 46 / 46
+Passed · keep editing or explore the next branch on the map.
+Hits 0 · misses 4 · evictions 3 · request queue wait 0 cycles
+PATH: distance · distance-starter-counterexample · Elapsed 56 / target 30 · compute busy 24 · transfer busy 32
+Overlap 0 · compute wait 32 · output sum 46 / 46
+Correct output; time target not met. Inspect both resource lanes.
+Hits 0 · misses 4 · evictions 7 · request queue wait 12 cycles
+PATH: distance · distance-accepted-schedule · Elapsed 30 / target 30 · compute busy 24 · transfer busy 16
+Overlap 10 · compute wait 6 · output sum 46 / 46
+Passed · keep editing or explore the next branch on the map.
+Hits 2 · misses 2 · evictions 3 · request queue wait 0 cycles
+PATH: backpressure · backpressure-starter-counterexample · Elapsed 8 / target 28 · compute busy 4 · transfer busy 8
+Overlap 4 · compute wait 4 · output sum 0 / 46
+Line 6: Buffer is not free and cannot be overwritten. Wait for free or use other empty storage.
+Hits 0 · misses 0 · evictions 0 · request queue wait 0 cycles
+PATH: backpressure · backpressure-accepted-schedule · Elapsed 28 / target 28 · compute busy 22 · transfer busy 16
+Overlap 10 · compute wait 6 · output sum 46 / 46
+Passed · keep editing or explore the next branch on the map.
+Hits 0 · misses 0 · evictions 0 · request queue wait 0 cycles
+PATH: synthesis · synthesis-accepted-schedule · Elapsed 28 / target 28 · compute busy 16 · transfer busy 24
+Overlap 12 · compute wait 12 · output sum 46 / 46
+Passed · keep editing or explore the next branch on the map.
+Hits 0 · misses 0 · evictions 0 · request queue wait 0 cycles
+Recovery GUI checks: 207; failures: 0
+PASS: recovery ordinary Game input

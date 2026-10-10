@@ -65,3 +65,34 @@ output snapshot. There is no correctness target or aesthetic pass score in this 
 Weighted sampling subtracts one from each Park-Miller state, rejects the incomplete
 upper bucket, and uses the remaining integer modulo the total count. Every random
 advance and rejection is recorded; rendering has no access to this random state.
+
+
+Application completion and prediction residency
+----------------------------------------------
+
+Displayed preparation belongs to the measured result. Ordinary generation carries
+its complete learning record; saved snapshots/replays use the protected work's
+record and transport uses its recorded preparation. Revisiting B after keeping A
+or learning C must retain B's preparation and show B's model identity. Prediction
+without a preparation snapshot may display the current learning record only when
+its model identity matches the frozen prediction model. Viewing evidence never
+changes protected works or charges preparation again.
+
+Explicit saved-work snapshot/replay views own the visible output even when a
+prediction task retains an unfinished or completed round. Viewing a work does not
+discard that round; Commit/Reveal returns to its own frozen prediction evidence.
+
+G1 observes a legal generated result. G2 denotes the player's confirmed selection;
+G3 preserves that actual chosen work/recipe. One successful transactional Keep can
+complete G2 and G3. Optional fixed-seed comparison explains interventions but is not
+a required count or aesthetic gate; arbitrary output differences never substitute
+for confirmation. Prior v1 G2 generation supports preserve earned progress after
+recipe validation, without retroactively certifying controlled intervention.
+
+Prediction workspace is canonical model bytes + 2 bytes per sequence symbol +16
+bytes, plus11 bytes per cacheable row capped by configured capacity. Memorization
+uses its separately documented position-copy workspace. New prediction costs use
+the bounded rule table just as learn/generate/codec do. Saved prior full-capacity
+prediction costs are accepted only after exact replay of all fields, sufficient
+recorded memory and one consistent accounting bound for the entire round. This
+narrow compatibility rule does not accept altered cycle/operation/transfer costs.

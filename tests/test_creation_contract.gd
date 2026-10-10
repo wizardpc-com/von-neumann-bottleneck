@@ -238,10 +238,53 @@ func comparison_contract() -> void:
 	check(not Session.decode(JSON.stringify(forged)).ok,"Different practice/check sources cannot be relabelled as a controlled memory comparison")
 	print("CALIBRATION memory order1/order2 same-practice hits=",first_hits,"/",second_hits," of ",session.prediction.total)
 
+func failed_round_and_raw_contract() -> void:
+	var session = Session.new()
+	check(session.train().ok, "Regression model learns")
+	check(session.transport([0,1,0,2],"raw").ok, "RAW still transports losslessly")
+	session.complete("C1_restore")
+	check(not session.data.supports.has("C1_restore") and not session.set_mode("predict").ok, "RAW neither earns C1 nor restores a predictive model")
+	var forged: Dictionary = session.data.duplicate(true)
+	forged.supports.C1_restore = session._transport_runs[0].duplicate(true)
+	check(not Session.decode(JSON.stringify(forged)).ok, "Saved RAW cannot masquerade as C1 model restoration")
+	check(session.transport([0,1,0,2],"predictive").ok, "Predictive packet restores model")
+	session.complete("C2_cost")
+	var decoded: Dictionary = Session.decode(JSON.stringify(session.data))
+	check(decoded.ok, "RAW remains legitimate in saved codec comparison")
+	var restored = Session.new()
+	restored.data = decoded.data
+	restored._restore_permissions()
+	check(restored.set_mode("predict").ok, "Predictive member of saved comparison restores permission")
+	check(session.set_mode("predict").ok and session.begin_prediction("check").ok, "Check round begins")
+	while session.prediction.prefix.size() < 12:
+		session.commit_prediction(); session.reveal_prediction()
+	session.commit_prediction()
+	var before: Dictionary = session.prediction.duplicate(true)
+	var future: Array = session._future.duplicate()
+	var model: Dictionary = session._frozen.duplicate(true)
+	var machine: Dictionary = session._prediction_machine.duplicate(true)
+	var events: Array = session._prediction_events.duplicate(true)
+	session.data.draft.machine.cache_rows = 21; session.data.draft.machine.memory_bytes = 64
+	# Even occupied-row accounting cannot hold this real model/prefix at 64B.
+	var failed: Dictionary = session.begin_prediction("practice")
+	check(not failed.ok and failed.error == "memory_limit", "Practice switch rejects insufficient memory")
+	check(session.prediction == before and session._future == future and session._frozen == model and session._prediction_machine == machine and session._prediction_events == events, "Rejected switch atomically preserves all active round state")
+	var revealed: Dictionary = session.reveal_prediction()
+	check(revealed.ok and revealed.row.index == 12 and revealed.row.truth == future[12], "Pending old guess reveals safely against old truth")
+	finish_prediction(session)
+	check(session.prediction.finished, "Preserved round can finish after failed switch")
+	session.data.draft.machine = Model.default_machine()
+	check(session.begin_prediction("practice").ok and session.prediction.prefix.size() == 2 and session.prediction.pending.is_empty(), "Successful retry cleanly replaces old round")
+	finish_prediction(session)
+	check(session.set_mode("generate").ok, "Completed prediction permits generation")
+	session.data.draft.examples = [[0,3,0,3,0,3]]
+	check(session.train().ok and session.data.mode == "generate" and session.generate().ok, "G2 still permits explicit example retraining during generation")
+
 func run() -> void:
 	var machine: Dictionary = Model.default_machine()
 	var model: Dictionary = learning_and_feedback(machine)
 	if not model.is_empty(): packages(model,machine); cost_counterexamples(machine)
+	failed_round_and_raw_contract()
 	session_contract()
 	comparison_contract()
 	print("PASS: creation contract %d checks" % checks if failures.is_empty() else "FAIL: creation contract "+str(failures))

@@ -8,6 +8,25 @@ assertions intentionally require no prior acknowledgement. See
 
 ## Continuous signal candidate
 
+Personal-work deepening adds `test_creation_design_evidence`,
+`test_creation_exhibition` and `test_creation_commissions`. Run them with the
+isolated verifier plus affected workbench/choice/legacy-focus/prediction suites.
+`test_creation_future_workbench` also checks unavailable exhibition actions.
+`scripts/verify-personal-works.gd` runs an explicit known-answer rendered
+C→P→G→saved-work→fork path, including the carried model’s first feedback output
+and actual timed viewport Play/Pause/Step/resume (embedded Window input is routed
+through the parent viewport), with `--evidence-dir=<absolute directory>` and
+`--locale=zh_CN` or `en`. Use a fresh isolated QA profile for each locale, pinned
+4.7.1, `--windowed --resolution 1280x720` and
+`-- --capture-size=1280x720`. On macOS set only the
+QA copy's initial window mode to0 before launch to avoid an asynchronous
+fullscreen transition; the project source keeps its normal window setting.
+After normal fixture exit, run `scripts/verify-personal-works-reopen.gd` headless
+with the same QA profile and evidence directory. It checks independent-process
+A/B receipt/replay/old mapping and saves a distinct fork, preserving originals.
+These fixtures disclose authored setup and viewport/controller inputs; neither is
+newcomer or native-OS acceptance. [Exact records](../verification/20261009-personal-works/README.md).
+
 `test_creation_prediction_work_view` checks three P units, pending/finished rounds,
 both locales, saved snapshot/replay output and costs, subsequent Commit/Reveal and
 protected saved bytes. Its `-- --creation-prediction-work-capture` renderer mode

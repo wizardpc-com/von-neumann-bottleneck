@@ -1,0 +1,224 @@
+﻿2026-10-09T19:11:19.0570312Z Current runner version: '2.337.0'
+2026-10-09T19:11:19.0594856Z ##[group]Runner Image Provisioner
+2026-10-09T19:11:19.0595738Z Hosted Compute Agent
+2026-10-09T19:11:19.0596468Z Version: 20261002.596
+2026-10-09T19:11:19.0597117Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-09T19:11:19.0597892Z Build Date: 2026-10-02T22:28:27Z
+2026-10-09T19:11:19.0598605Z Worker ID: {fd869449-fc58-44a4-a743-fee716798b19}
+2026-10-09T19:11:19.0599294Z Region: westus
+2026-10-09T19:11:19.0599896Z Cloud: Azure
+2026-10-09T19:11:19.0600432Z ##[endgroup]
+2026-10-09T19:11:19.0602082Z ##[group]Operating System
+2026-10-09T19:11:19.0602789Z Ubuntu
+2026-10-09T19:11:19.0603520Z 24.04.5
+2026-10-09T19:11:19.0604153Z LTS
+2026-10-09T19:11:19.0604706Z ##[endgroup]
+2026-10-09T19:11:19.0605286Z ##[group]Runner Image
+2026-10-09T19:11:19.0605926Z Image: ubuntu-24.04
+2026-10-09T19:11:19.0606496Z Version: 20261004.327.1
+2026-10-09T19:11:19.0607788Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-09T19:11:19.0609404Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-09T19:11:19.0610425Z ##[endgroup]
+2026-10-09T19:11:19.0611567Z ##[group]GITHUB_TOKEN Permissions
+2026-10-09T19:11:19.0614061Z Contents: read
+2026-10-09T19:11:19.0615128Z Metadata: read
+2026-10-09T19:11:19.0615743Z ##[endgroup]
+2026-10-09T19:11:19.0617771Z Secret source: Actions
+2026-10-09T19:11:19.0618807Z Cache mode: write
+2026-10-09T19:11:19.0619515Z Prepare workflow directory
+2026-10-09T19:11:19.0956175Z Prepare all required actions
+2026-10-09T19:11:19.1006114Z Getting action download info
+2026-10-09T19:11:19.4629916Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-09T19:11:19.5580986Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-09T19:11:19.7363074Z Complete job name: python
+2026-10-09T19:11:19.8144143Z ##[group]Run actions/checkout@v4
+2026-10-09T19:11:19.8145071Z with:
+2026-10-09T19:11:19.8145579Z   repository: wizardpc-com/von-neumann-bottleneck
+2026-10-09T19:11:19.8149449Z   token: ***
+2026-10-09T19:11:19.8149883Z   ssh-strict: true
+2026-10-09T19:11:19.8150315Z   ssh-user: git
+2026-10-09T19:11:19.8150760Z   persist-credentials: true
+2026-10-09T19:11:19.8151248Z   clean: true
+2026-10-09T19:11:19.8151689Z   sparse-checkout-cone-mode: true
+2026-10-09T19:11:19.8152207Z   fetch-depth: 1
+2026-10-09T19:11:19.8152647Z   fetch-tags: false
+2026-10-09T19:11:19.8153091Z   show-progress: true
+2026-10-09T19:11:19.8153737Z   lfs: false
+2026-10-09T19:11:19.8154150Z   submodules: false
+2026-10-09T19:11:19.8154596Z   set-safe-directory: true
+2026-10-09T19:11:19.8155096Z   allow-unsafe-pr-checkout: false
+2026-10-09T19:11:19.8155877Z ##[endgroup]
+2026-10-09T19:11:19.9165073Z Syncing repository: wizardpc-com/von-neumann-bottleneck
+2026-10-09T19:11:19.9166914Z ##[group]Getting Git version info
+2026-10-09T19:11:19.9167857Z Working directory is '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+2026-10-09T19:11:19.9169026Z [command]/usr/bin/git version
+2026-10-09T19:11:19.9285275Z git version 2.55.0
+2026-10-09T19:11:19.9311323Z ##[endgroup]
+2026-10-09T19:11:19.9326866Z Temporarily overriding HOME='/home/runner/work/_temp/5b2c1549-5247-49ea-8890-4a97077249d3' before making global git config changes
+2026-10-09T19:11:19.9329439Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-09T19:11:19.9332773Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+2026-10-09T19:11:19.9387300Z Deleting the contents of '/home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck'
+2026-10-09T19:11:19.9391252Z ##[group]Initializing the repository
+2026-10-09T19:11:19.9396656Z [command]/usr/bin/git init /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+2026-10-09T19:11:19.9533848Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-09T19:11:19.9535936Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-09T19:11:19.9538629Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-09T19:11:19.9540415Z hint: call:
+2026-10-09T19:11:19.9541450Z hint:
+2026-10-09T19:11:19.9542631Z hint: 	git config --global init.defaultBranch <name>
+2026-10-09T19:11:19.9544370Z hint:
+2026-10-09T19:11:19.9545715Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-09T19:11:19.9547609Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-09T19:11:19.9549144Z hint:
+2026-10-09T19:11:19.9551039Z hint: 	git branch -m <name>
+2026-10-09T19:11:19.9553112Z hint:
+2026-10-09T19:11:19.9555724Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-09T19:11:19.9558232Z Initialized empty Git repository in /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck/.git/
+2026-10-09T19:11:19.9562469Z [command]/usr/bin/git remote add origin https://github.com/wizardpc-com/von-neumann-bottleneck
+2026-10-09T19:11:19.9610454Z ##[endgroup]
+2026-10-09T19:11:19.9611761Z ##[group]Disabling automatic garbage collection
+2026-10-09T19:11:19.9615286Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-09T19:11:19.9673379Z ##[endgroup]
+2026-10-09T19:11:19.9674671Z ##[group]Setting up auth
+2026-10-09T19:11:19.9679791Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-09T19:11:19.9727367Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-09T19:11:20.0120761Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-09T19:11:20.0159315Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-09T19:11:20.0390272Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-09T19:11:20.0426106Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-09T19:11:20.0651179Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-09T19:11:20.0690941Z ##[endgroup]
+2026-10-09T19:11:20.0692233Z ##[group]Fetching the repository
+2026-10-09T19:11:20.0701142Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +012f26137feff642545800cb5e29710c2bba1431:refs/remotes/origin/codex/mac-second-act-20261005
+2026-10-09T19:11:30.0005860Z From https://github.com/wizardpc-com/von-neumann-bottleneck
+2026-10-09T19:11:30.0008643Z  * [new ref]         012f26137feff642545800cb5e29710c2bba1431 -> origin/codex/mac-second-act-20261005
+2026-10-09T19:11:30.0014078Z ##[endgroup]
+2026-10-09T19:11:30.0016180Z ##[group]Determining the checkout info
+2026-10-09T19:11:30.0018488Z ##[endgroup]
+2026-10-09T19:11:30.0021098Z [command]/usr/bin/git sparse-checkout disable
+2026-10-09T19:11:30.0374442Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-09T19:11:30.0409023Z ##[group]Checking out the ref
+2026-10-09T19:11:30.0420164Z [command]/usr/bin/git checkout --progress --force -B codex/mac-second-act-20261005 refs/remotes/origin/codex/mac-second-act-20261005
+2026-10-09T19:11:31.0053447Z Switched to a new branch 'codex/mac-second-act-20261005'
+2026-10-09T19:11:31.0058517Z branch 'codex/mac-second-act-20261005' set up to track 'origin/codex/mac-second-act-20261005'.
+2026-10-09T19:11:31.0100474Z ##[endgroup]
+2026-10-09T19:11:31.0148471Z [command]/usr/bin/git log -1 --format=%H
+2026-10-09T19:11:31.0175760Z 012f26137feff642545800cb5e29710c2bba1431
+2026-10-09T19:11:31.0448030Z ##[group]Run actions/setup-python@v5
+2026-10-09T19:11:31.0448627Z with:
+2026-10-09T19:11:31.0448887Z   python-version: 3.12
+2026-10-09T19:11:31.0449180Z   check-latest: false
+2026-10-09T19:11:31.0451818Z   token: ***
+2026-10-09T19:11:31.0452103Z   update-environment: true
+2026-10-09T19:11:31.0452414Z   allow-prereleases: false
+2026-10-09T19:11:31.0452704Z   freethreaded: false
+2026-10-09T19:11:31.0452971Z ##[endgroup]
+2026-10-09T19:11:31.1860828Z ##[group]Installed versions
+2026-10-09T19:11:31.1963964Z (node:2293) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-09T19:11:31.1965572Z Successfully set up CPython (3.12.15)
+2026-10-09T19:11:31.1967652Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-09T19:11:31.1968894Z ##[endgroup]
+2026-10-09T19:11:31.2265939Z ##[group]Run python scripts/check-branding.py
+2026-10-09T19:11:31.2266832Z [36;1mpython scripts/check-branding.py[0m
+2026-10-09T19:11:31.2596672Z shell: /usr/bin/bash -e {0}
+2026-10-09T19:11:31.2597170Z env:
+2026-10-09T19:11:31.2597546Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.2598137Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-09T19:11:31.2598666Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.2599138Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.2599609Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.2600091Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-09T19:11:31.2600491Z ##[endgroup]
+2026-10-09T19:11:31.3432754Z PASS: local branding assets and native icon contracts
+2026-10-09T19:11:31.3513917Z ##[group]Run python scripts/test-report-playtests.py
+2026-10-09T19:11:31.3514475Z [36;1mpython scripts/test-report-playtests.py[0m
+2026-10-09T19:11:31.3579479Z shell: /usr/bin/bash -e {0}
+2026-10-09T19:11:31.3579798Z env:
+2026-10-09T19:11:31.3580133Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.3580665Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-09T19:11:31.3581195Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.3581646Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.3582101Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.3582561Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-09T19:11:31.3582944Z ##[endgroup]
+2026-10-09T19:11:31.4238414Z PASS: transaction quantities, debug/run/cases, duplicate exports, revised opinions and missing scores
+2026-10-09T19:11:31.4239962Z PASS: basic summary totals, mixed-detail deduplication, unknown fields and version/cohort separation
+2026-10-09T19:11:31.4241374Z PASS: late visit version attribution and malformed sequence isolation
+2026-10-09T19:11:31.4329214Z ##[group]Run python server/test_storage.py
+2026-10-09T19:11:31.4329659Z [36;1mpython server/test_storage.py[0m
+2026-10-09T19:11:31.4395422Z shell: /usr/bin/bash -e {0}
+2026-10-09T19:11:31.4395747Z env:
+2026-10-09T19:11:31.4396080Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.4396626Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-09T19:11:31.4397128Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.4397597Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.4398061Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.4398516Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-09T19:11:31.4398899Z ##[endgroup]
+2026-10-09T19:11:31.5784999Z test_conflict_rolls_back (__main__.StorageTests.test_conflict_rolls_back) ... ok
+2026-10-09T19:11:31.5793761Z test_failed_ddl_upgrade_is_atomic (__main__.StorageTests.test_failed_ddl_upgrade_is_atomic) ... ok
+2026-10-09T19:11:31.5956016Z test_upgrade_restore_merge_and_deleted_identity (__main__.StorageTests.test_upgrade_restore_merge_and_deleted_identity) ... ok
+2026-10-09T19:11:31.5957299Z 
+2026-10-09T19:11:31.5957561Z ----------------------------------------------------------------------
+2026-10-09T19:11:31.5958148Z Ran 3 tests in 0.027s
+2026-10-09T19:11:31.5958374Z 
+2026-10-09T19:11:31.5958491Z OK
+2026-10-09T19:11:31.6088263Z ##[group]Run python server/test_receiver.py
+2026-10-09T19:11:31.6088645Z [36;1mpython server/test_receiver.py[0m
+2026-10-09T19:11:31.6155055Z shell: /usr/bin/bash -e {0}
+2026-10-09T19:11:31.6155316Z env:
+2026-10-09T19:11:31.6155588Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.6156046Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-09T19:11:31.6156494Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.6156893Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.6157288Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.6157678Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-09T19:11:31.6158019Z ##[endgroup]
+2026-10-09T19:11:31.8272849Z test_contract (__main__.ReceiverTests.test_contract) ... ok
+2026-10-09T19:11:31.8449425Z test_retention (__main__.ReceiverTests.test_retention) ... ok
+2026-10-09T19:11:31.8487655Z 
+2026-10-09T19:11:31.8487982Z ----------------------------------------------------------------------
+2026-10-09T19:11:31.8488640Z Ran 2 tests in 0.134s
+2026-10-09T19:11:31.8488813Z 
+2026-10-09T19:11:31.8488910Z OK
+2026-10-09T19:11:31.8649424Z ##[group]Run python server/test_community.py
+2026-10-09T19:11:31.8649825Z [36;1mpython server/test_community.py[0m
+2026-10-09T19:11:31.8716738Z shell: /usr/bin/bash -e {0}
+2026-10-09T19:11:31.8717004Z env:
+2026-10-09T19:11:31.8717282Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.8717733Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-09T19:11:31.8718182Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.8718608Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.8719015Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-09T19:11:31.8719418Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-09T19:11:31.8719746Z ##[endgroup]
+2026-10-09T19:11:32.0631023Z test_contract (__main__.CommunityTests.test_contract) ... ok
+2026-10-09T19:11:32.0726175Z test_retention (__main__.CommunityTests.test_retention) ... ok
+2026-10-09T19:11:32.0928122Z test_summary_and_board (__main__.CommunityTests.test_summary_and_board) ... ok
+2026-10-09T19:11:32.1741843Z test_contract (test_receiver.ReceiverTests.test_contract) ... ok
+2026-10-09T19:11:32.1791551Z test_retention (test_receiver.ReceiverTests.test_retention) ... ok
+2026-10-09T19:11:32.1826830Z 
+2026-10-09T19:11:32.1827336Z ----------------------------------------------------------------------
+2026-10-09T19:11:32.1827762Z Ran 5 tests in 0.225s
+2026-10-09T19:11:32.1827955Z 
+2026-10-09T19:11:32.1828037Z OK
+2026-10-09T19:11:32.2082113Z Post job cleanup.
+2026-10-09T19:11:32.3254062Z (node:2315) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-09T19:11:32.3255536Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-09T19:11:32.3488767Z Post job cleanup.
+2026-10-09T19:11:32.4365838Z [command]/usr/bin/git version
+2026-10-09T19:11:32.4410968Z git version 2.55.0
+2026-10-09T19:11:32.4458395Z Temporarily overriding HOME='/home/runner/work/_temp/4f529cb9-039d-41df-a78c-c0ac706d0e35' before making global git config changes
+2026-10-09T19:11:32.4460232Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-09T19:11:32.4464942Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/von-neumann-bottleneck/von-neumann-bottleneck
+2026-10-09T19:11:32.4515829Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-09T19:11:32.4556350Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-09T19:11:32.4824771Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-09T19:11:32.4875237Z http.https://github.com/.extraheader
+2026-10-09T19:11:32.4876810Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-09T19:11:32.4922097Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-09T19:11:32.5200230Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-09T19:11:32.5244749Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-09T19:11:32.5700368Z Cleaning up orphan processes
+2026-10-09T19:11:32.6013152Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

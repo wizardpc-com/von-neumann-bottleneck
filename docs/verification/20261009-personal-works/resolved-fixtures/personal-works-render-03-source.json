@@ -1,0 +1,18 @@
+{
+  "experiments/creation/calibrate.gd": "3be53c99b23e001016d3ce0db982cae07e44dd69fbaf7ffddf9e0c1f8b1a259e",
+  "experiments/creation/catalog.gd": "581708a11e6e7e99757ce5bd9be850f24e31ba3e8a517b379b1ddb2540751949",
+  "experiments/creation/causal_panel.gd": "0b25bd4322b4827a521aea820e44d72045a5147707c3d0c99c9fd0a0665e2ab0",
+  "experiments/creation/codec.gd": "51a061e8bace27d12b404acc9548956f553caac4083da1cf2bb7e4258a213c9f",
+  "experiments/creation/comparison.gd": "3ad26929dd09883ab0226c3e6c2d4d7720f3c9e74fbef57b348961f5c89d3cae",
+  "experiments/creation/condition_examples.gd": "9198aff920d7b18f56f6311f97266b61c7d03506d8e58b1b0e01e731212cf7a2",
+  "experiments/creation/cost_ledger.gd": "a8e5124b65217aaea3879651978b6a408ddc0ff7dfe960540102fab9599c8d85",
+  "experiments/creation/cost_ledger_view.gd": "6a93cb55e4c48db7bcc4838c50b07b5964a99ab6724306514a833ea58043bf35",
+  "experiments/creation/explanation.gd": "842da2c5605387ba72801d101be6633bfc718671b689d0f7d5ef2b6b83259bd8",
+  "experiments/creation/model.gd": "a4b498823f54a9dffa31cc54b476946325bcace4885fb03ddf8f5ed97fe5f5ff",
+  "experiments/creation/session.gd": "cf5d87d1308f1965bbcb6678ee27369e575ff04d204925603a7072843af9e556",
+  "experiments/creation/signal_view.gd": "f2b90305104d266044aa996f50f1fee51de70724bba299e516006e84eedde26b",
+  "experiments/creation/work_canvas.gd": "431bd072339cf212e498fffeeaef87bc346f4d4e2c50df25abf4e499532abd3e",
+  "experiments/creation/work_focus.gd": "1b34010eefd2121bc4192c1d9a6b9965ad0eebe651bda5f0642530c5cd17eb25",
+  "experiments/creation/workbench.gd": "54c5d295e4663ad2b7708c1f05aeb244a7525537f2e00429c6fbdf7f2536ff4a",
+  "scripts/verify-personal-works.gd": "be5589ccc05669ca04111b07ad350ba5ed883f14ef48e08853f279b69e48a727"
+}

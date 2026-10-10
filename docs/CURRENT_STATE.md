@@ -2,7 +2,57 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current native closure and completion focus — 2026-10-09
+## Main integration batch2 — 2026-10-10
+
+The second linear PR batch adds the dependency-complete77c57dc/012f261 creative
+work increment to the stable4483e30 checkpoint. Batch1 was freshly verified144
+suites plus import/isolation and Python; its source-bound integration records
+remain intact. Batch2 preserves optional controlled-design receipts, separate
+check-v2 identity and snapshot-only performance. Old valid saves remain readable;
+older packages reject extended candidate profiles instead of rewriting them.
+Fresh147 suites +2 isolation checks,149 full logs and606-file execution identity
+PASS. Five Python checks PASS; normal protected PR merge remains pending. No production migration or
+public release. [Batch1 audit](verification/20261010-main-integration/README.md).
+
+## Representative continuity and live performance — 2026-10-09
+
+Runtime012f261 retains the full C/P/G increment and fixes trace glow being covered
+by cell backgrounds. The actual same model5df927d35c1a… is now recorded through
+both delivery conditions, practice/check and first output-feedback generation
+before explicit creative edits. Timed viewport Play→Pause6→hold→Step7→resume64
+passes without manual process ticks; fresh independent-process20checks preserve
+both protected works and fork correctly. The first fixture's embedded-window
+input routing error is documented and repaired. Source renderer100checks and
+focused exhibition14PASS. Official4.7.1 Mac free-alpha-012f26137fef export/strict
+signature/16binarychecksPASS. Same-runtimeCI37978491613 passes147Godot suites
+plus import/isolation and allPython jobs;149full logs inspected. Final receipt is in the
+[requirement-by-requirement audit and actual works](verification/20261009-personal-works-continuity/README.md).
+No model/save/schema changes, merge, publication or production save access.
+Native timing, external artistic/learning and Windows acceptance remain distinct.
+
+## Personal-work deepening — 2026-10-09
+
+Latest C/P/G increment continues4483e30, preserving the later integration beyond
+main/creatione46f866. It adds replay-validated controlled-design receipts distinct
+from G2 confirmed choice, snapshot-only pause/step/scrub light performance with
+legacy mapping and source/fork return, public two-deadline delivery choices, and
+separate same-family practice/check-v2 streams. Actual controlled A/B changes12
+of64 symbols, first at10; order1/2 checks score17/22 and21/22 with real costs.
+Bilingual final renderer paths and independent-process saved-work replay/fork pass.
+The prior native PID3760 was no longer running at round start; no existing game
+process or player draft was terminated by this round.
+The actual P3 control overflow found in focused checks is repaired. Runtime77c57dc
+is frozen in build/free-alpha-77c57dc69262: official4.7.1 export, strict signature
+and16 actual binary checks pass. Bounded native saved-B focus/scrub/explanation
+and clean exit preserve both works; intermediate pause timing remains unproven.
+Same-runtime GitHub CI37976393864 passes147Godot suites plus import/isolation
+and allPython jobs; all149 detailed logs inspected without error markers.
+The exact runnable checkpoint and evidence boundaries are tracked in the
+[round evidence](verification/20261009-personal-works/README.md). No production
+save migration, main merge or public distribution. Artistic/newcomer/platform
+acceptance remains distinct from this bounded candidate implementation.
+
+## Previous native closure and completion focus — 2026-10-09
 
 The previous native-window barrier cleared. Actual frozen Mac runtime426009f,
 original assets and own Continuity-f90597b profile completed Representation5/5

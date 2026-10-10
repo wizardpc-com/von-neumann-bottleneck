@@ -4,6 +4,25 @@ const Canvas = preload("res://experiments/creation/work_canvas.gd")
 const Model = preload("res://experiments/creation/model.gd")
 const Catalog = preload("res://experiments/creation/catalog.gd")
 signal dismissed
+signal request_evidence(index: int)
+signal request_fork
+const VIEW_MAPPING: String = "light-trace-v1"
+var cursor: int = 0
+var playing: bool = false
+var speed: float = 4.0
+var reduced_motion: bool = false
+var static_overview: bool = true
+var elapsed: float = 0.0
+var evidence: Dictionary = {}
+var timeline: HSlider
+var play_button: Button
+var evidence_label: Label
+var explanation_button: Button
+var fork_button: Button
+var overview_button: CheckButton
+var motion_button: CheckButton
+var mapping_choice: OptionButton
+var closing_label: Label
 var work: Dictionary = {}
 var english: bool = false
 var canvas: Control
@@ -14,9 +33,11 @@ var recipe_label: Label
 
 func words(zh: String, en: String) -> String: return en if english else zh
 
-func configure(snapshot: Dictionary, use_english: bool) -> void:
+func configure(snapshot: Dictionary, use_english: bool, record: Dictionary = {}) -> void:
 	work = snapshot.duplicate(true)
 	english = use_english
+	cursor = work.get("output",[]).size()
+	set_evidence(record)
 
 func make_label(value: String, parent: Node, font_size: int = 14) -> Label:
 	var result := Label.new()
@@ -44,15 +65,23 @@ func _ready() -> void:
 	close_button = Button.new(); close_button.name = "CloseWorkFocus"
 	close_button.text = words("回到工作台","Back to workbench")
 	close_button.pressed.connect(dismiss); header.add_child(close_button)
-	make_label(words("这是已保存的实际输出快照。完整光纹可向下滚动；查看不会重新生成、改配方或写存档。", "This is the saved output snapshot. Scroll to view every cell; viewing never regenerates, edits a recipe, or writes a save."),content,13)
+	make_label(words("同一份已保存输出 · 播放节奏不是计算耗时 · A ● / B ■ / C ▲ / D ◇", "The saved output · playback tempo is not computation time · A ● / B ■ / C ▲ / D ◇"),content,13)
+	build_controls(content)
 	tabs = TabContainer.new(); tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; tabs.use_hidden_tabs_for_min_size = false
 	content.add_child(tabs)
-	var art := VBoxContainer.new(); art.name = words("完整光纹","Full signal"); tabs.add_child(art)
+	var art := VBoxContainer.new(); art.name = words("欣赏光纹","Appreciation"); tabs.add_child(art)
 	position_label = make_label(words("共 %d 格 · A ● / B ■ / C ▲ / D ◇ · 点格子查看位置", "%d cells · A ● / B ■ / C ▲ / D ◇ · select a cell for its position")%work.get("output",[]).size(),art,13)
 	var scroll := ScrollContainer.new(); scroll.name = "WorkSnapshotScroll"; scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; scroll.focus_mode = Control.FOCUS_ALL; art.add_child(scroll)
 	canvas = Canvas.new(); canvas.name = "WorkSnapshotCanvas"; canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(canvas); canvas.set_output(work.get("output",[])); canvas.cell_selected.connect(select_cell)
+	canvas.set_presentation(VIEW_MAPPING,cursor)
+	closing_label = make_label(words("世界的结构，也成为你表达的材料。", "The world’s structures become material for your expression.")+"  A Thought Within the World",art,13)
+	var explanation := VBoxContainer.new(); explanation.name = words("解释与定位","Explanation"); tabs.add_child(explanation)
+	evidence_label = make_label("",explanation,14)
+	explanation_button = add_button(words("回到实际生成证据","Locate actual generation evidence"),explanation,func() -> void: request_evidence.emit(maxi(0,cursor-1)))
+	fork_button = add_button(words("从这件作品分叉继续改","Fork this work and continue"),explanation,func() -> void: request_fork.emit())
 	var source_scroll := ScrollContainer.new(); source_scroll.name = words("配方与来源","Recipe / source"); source_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; source_scroll.focus_mode = Control.FOCUS_ALL; tabs.add_child(source_scroll)
 	recipe_label = make_label(recipe_text(),source_scroll,13); recipe_label.name = "WorkSnapshotRecipe"
+	sync_presentation()
 	close_button.grab_focus()
 
 func recipe_text() -> String:
@@ -82,8 +111,103 @@ func recipe_text() -> String:
 func select_cell(index: int) -> void:
 	var output: Array = work.get("output",[])
 	if index<0 or index>=output.size(): return
-	canvas.selected = index; canvas.queue_redraw()
-	position_label.text = words("第 %d / %d 格：", "Cell %d / %d: ")%[index+1,output.size()]+Catalog.symbols([output[index]])
+	playing = false
+	static_overview = false
+	seek(index+1)
+
+func add_button(value: String, parent: Node, action: Callable) -> Button:
+	var result := Button.new()
+	result.text = value
+	result.pressed.connect(action)
+	parent.add_child(result)
+	return result
+
+func build_controls(parent: Node) -> void:
+	var controls := HBoxContainer.new(); parent.add_child(controls)
+	play_button = add_button(words("播放","Play"),controls,toggle_play)
+	add_button(words("单步","Step"),controls,step)
+	overview_button = CheckButton.new(); overview_button.text = words("静态总览","Static overview"); overview_button.button_pressed = true; controls.add_child(overview_button)
+	overview_button.toggled.connect(func(value: bool) -> void: static_overview = value; playing = false; sync_presentation())
+	motion_button = CheckButton.new(); var motion: CheckButton = motion_button; motion.text = words("减少动态","Reduced motion"); controls.add_child(motion)
+	motion.toggled.connect(func(value: bool) -> void:
+		reduced_motion = value
+		if value: playing = false
+		sync_presentation())
+	var tempo := OptionButton.new(); controls.add_child(tempo)
+	for caption: String in ["1×", "2×", "4×"]: tempo.add_item(caption)
+	tempo.item_selected.connect(func(index: int) -> void: speed = [4.0,8.0,16.0][index])
+	mapping_choice = OptionButton.new(); controls.add_child(mapping_choice)
+	mapping_choice.add_item(words("光迹 v1","Light trace v1"))
+	mapping_choice.add_item(words("原光纹 v1","Original shapes v1") if work.get("mapping","") == "light-shapes-v1" else words("光纹查看 v1","Shapes v1 viewing"))
+	mapping_choice.item_selected.connect(func(_index: int) -> void: sync_presentation())
+	timeline = HSlider.new(); timeline.name = "ExhibitionTimeline"; timeline.min_value = 0; timeline.max_value = work.get("output",[]).size(); timeline.step = 1; timeline.value = cursor; parent.add_child(timeline)
+	timeline.value_changed.connect(func(value: float) -> void: playing = false; static_overview = false; seek(int(value)))
+
+func set_evidence(record: Dictionary) -> bool:
+	evidence = {}
+	if record.get("output",[]) != work.get("output",[]) or record.get("recipe",{}) != work.get("recipe",{}) or not record.get("events") is Array:
+		if evidence_label != null: sync_presentation()
+		return false
+	evidence = record.duplicate(true)
+	if evidence_label != null: sync_presentation()
+	return true
+
+func seek(position: int) -> void:
+	cursor = clampi(position,0,work.get("output",[]).size())
+	elapsed = 0.0
+	sync_presentation()
+
+func step() -> void:
+	playing = false
+	static_overview = false
+	seek(mini(cursor+1,work.get("output",[]).size()))
+
+func toggle_play() -> void:
+	static_overview = false
+	if reduced_motion: step(); return
+	if cursor >= work.get("output",[]).size(): seek(0)
+	playing = not playing
+	sync_presentation()
+
+func _process(delta: float) -> void:
+	if not playing or reduced_motion: return
+	elapsed += delta*speed
+	var advance: int = int(elapsed)
+	if advance == 0: return
+	elapsed -= advance
+	cursor = mini(cursor+advance,work.get("output",[]).size())
+	if cursor >= work.get("output",[]).size(): playing = false
+	sync_presentation()
+
+func sync_presentation() -> void:
+	if canvas == null: return
+	var output: Array = work.get("output",[])
+	canvas.selected = cursor-1
+	canvas.set_presentation(VIEW_MAPPING if mapping_choice.selected == 0 else "light-shapes-v1",-1 if static_overview else cursor)
+	timeline.set_value_no_signal(cursor)
+	overview_button.set_pressed_no_signal(static_overview)
+	motion_button.set_pressed_no_signal(reduced_motion)
+	play_button.text = words("暂停","Pause") if playing else words("播放","Play")
+	position_label.text = words("第 %d / %d 格", "Cell %d / %d")%[cursor,output.size()]+(" · "+Catalog.symbols([output[cursor-1]]) if cursor > 0 else "")
+	position_label.text += " · "+canvas.viewing_mapping
+	if work.get("mapping","") != "light-shapes-v1":
+		position_label.text += words(" · 原保存映射暂不支持；这是另一种查看方式。", " · Saved mapping unsupported; this is an alternate view.")
+	closing_label.visible = static_overview or cursor == output.size()
+	var lines := PackedStringArray([words("作品：","Work: ")+str(work.get("id","")),position_label.text,words("保存映射：","Saved mapping: ")+str(work.get("mapping",""))+" · "+words("查看映射：","Viewing mapping: ")+canvas.viewing_mapping])
+	var found: bool = false
+	for item: Dictionary in evidence.get("events",[]):
+		if item.get("kind","") in ["seed_write","feedback_write"] and int(item.get("index",-1)) == cursor-1 and cursor > 0 and item.get("symbol",-1) == output[cursor-1]:
+			found = true
+			lines.append(words("实际记录：","Recorded event: ")+str(item.kind))
+			if item.kind == "seed_write": lines.append(words("这是配方中的起始片段。","This symbol belongs to the recipe’s initial passage."))
+			else:
+				lines.append(words("此前上下文：","Before context: ")+Catalog.symbols(item.get("before_context",[])))
+				lines.append(words("A/B/C/D 计数：","A/B/C/D counts: ")+str(item.get("counts",[]))+" · "+str(item.get("sampler","")))
+			lines.append(words("回灌后上下文：","Feedback context: ")+Catalog.symbols(item.get("context",[])))
+			break
+	if not found: lines.append(words("此格尚无经核对的生成事件；可请求返回证据。", "No verified generation event is available for this cell; request its evidence."))
+	evidence_label.text = "\n".join(lines)
+	explanation_button.disabled = evidence.is_empty()
 
 func dismiss() -> void:
 	hide()
@@ -94,3 +218,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		dismiss()
+	elif event is InputEventKey and event.pressed:
+		if event.keycode == KEY_SPACE: toggle_play()
+		elif event.keycode == KEY_RIGHT: step()
+		elif event.keycode == KEY_LEFT: playing = false; static_overview = false; seek(cursor-1)
+		else: return
+		get_viewport().set_input_as_handled()

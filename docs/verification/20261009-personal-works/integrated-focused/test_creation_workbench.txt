@@ -1,0 +1,45 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: 1280x720 bounds: Train [P: (24.0, 1324.0), S: (334.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:36)
+       [2] run (res://tests/test_creation_workbench.gd:62)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: ModeActions [P: (390.0, 593.0), S: (866.0, 816.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:36)
+       [2] run (res://tests/test_creation_workbench.gd:62)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Status [P: (12.0, 1419.0), S: (1256.0, 30.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:36)
+       [2] run (res://tests/test_creation_workbench.gd:62)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Train [P: (24.0, 3135.0), S: (334.0, 38.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:36)
+       [2] run (res://tests/test_creation_workbench.gd:62)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: ModeActions [P: (390.0, 598.0), S: (866.0, 2622.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:36)
+       [2] run (res://tests/test_creation_workbench.gd:62)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+ERROR: 1280x720 bounds: Status [P: (12.0, 3230.0), S: (1256.0, 30.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] bounds (res://tests/test_creation_workbench.gd:36)
+       [2] run (res://tests/test_creation_workbench.gd:62)
+       [3] settle (res://tests/test_creation_workbench.gd:10)
+FAIL: creation workbench failures=6 / 394

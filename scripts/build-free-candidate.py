@@ -122,7 +122,13 @@ def main():
             content=notes.read_text()
             content=content.replace('本候选没有配置回传服务器','服务器地址与状态见下方本轮身份').replace('this build has no server URL','see this batch configuration below')
             content=content.replace('共 40 个任务','原核心 40 个任务').replace('Five regions, forty tasks.','Original core: five regions, forty tasks.')
-            content+='\n本轮测试批次 / Test batch: '+a.test_batch+'\n内容版本: '+manifest['content_version']+'\n实际任务: '+str(len(manifest['content_tasks']))+'\n'+ '\n'.join(manifest['content_tasks'])+'\n'
+            if a.second_act_profile:
+                channel='VonNeumannBottleneckCandidates/representation/'+a.second_act_profile
+                content=content.replace('~/Library/Application Support/Godot/app_userdata/Von Neumann Bottleneck/','~/Library/Application Support/'+channel+'/')
+                content=content.replace('%APPDATA%/Godot/app_userdata/Von Neumann Bottleneck/','%APPDATA%/'+channel+'/')
+                content+='\n本轮路线：先从首页推荐旅程/任务树开始，原核心结尾后继续表示与服务；C→P→G 在光纹工作台形成自己的作品和创造收尾。推荐与硬前置分开，可选地址预测不必通关。\n离开有保存提醒；首页继续定位最近任务。光纹工作台需明确保存草稿/作品；命名作品可回看、回放、派生，作品与完整配方受保护。\n反馈按钮在工作台、任务树与作品聚焦中可用，未通关也能发；退出不等待网络。仅保留本机、等待发送与服务器已收分开显示。\n'
+                content+='服务数据另在同级 service/'+a.second_act_profile+'/；更新前备份这两个完整目录。测试渠道与正式存档隔离，不导入QA通关档。\n'
+            content+='\n本轮测试批次 / Test batch: '+a.test_batch+'\n内容版本: '+manifest['content_version']+'\n实际任务: '+str(len(manifest['content_tasks']))+'（完整任务清单见 manifest.json）\n'
             content+='反馈入口: '+(a.feedback_endpoint or '未配置；仅本机保存/导出')+'\n自动统计默认关闭，单次意见独立授权；只有匹配服务器回执才标已收。\n'
             content+='本地验收包，不能作为外部云端可用证据。\n' if a.local_feedback_test else '外部连接/平台实测以验收记录为准。\n'
             content+='测试存档渠道稳定，不随构建号清空；更新前完整备份候选profile及service同名目录。不要用QA通关档代替新档。\n'

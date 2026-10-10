@@ -1,0 +1,1196 @@
+{
+  "text_files": 149,
+  "suite_files": 147,
+  "error_markers": [],
+  "all_suite_pass_markers": true,
+  "logs": [
+    {
+      "file": "import.txt",
+      "lines": 403,
+      "pass_markers": [],
+      "errors": []
+    },
+    {
+      "file": "test_alarm_order_feedback.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: alarm and order feedback"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_bilingual_typography.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: bilingual hub bounds and 40 task labels across zoom/pan"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_designs.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_candidate_designs 56 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_disabled_focus.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: candidate disabled focus 28 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_journey.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_candidate_journey 23 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_journey_review.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_candidate_journey_review 45 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_language_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_candidate_language_navigation 83 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_lifecycle.txt",
+      "lines": 9,
+      "pass_markers": [
+        "PASS: test_candidate_lifecycle 225 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_policy.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: candidate policy 238 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_restore_selection.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_candidate_restore_selection 42 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_supports.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_candidate_supports 54 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_writer_retry.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_candidate_writer_retry 104 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_candidate_writer_retry_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_candidate_writer_retry_ui 48 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_chapter_card_routes.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: all five original chapters use exact task-map entry and return without awarding progress"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_chapter_redo_shortcuts.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: chapter redo shortcuts 14 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_chapter_workspaces.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: separate drafts, applied state, observation replay, scene recovery and mode isolation"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_circuit_simulation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: deterministic default-low tri-state circuit, multi-driver wiring, Half Adder, and encapsulation tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_completion_presentation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_completion_presentation 78 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_completion_route.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: recommended route, canceled bridge, finite bilingual story, evidence and unchanged progress"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_completion_service_clarity.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_completion_service_clarity 94 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_content_registry.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: deterministic campaign registry, synthetic content extension, and validation tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_core_closure_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_core_closure_navigation 244 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_causal_panel.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: causal panel checks=37 failures=0"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_choice_completion.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation choice completion checks=87"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_commissions.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation commissions: 17 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_comparison.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation comparison 89 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_condition_examples.txt",
+      "lines": 5,
+      "pass_markers": [
+        "PASS: creation condition examples 24 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_contract.txt",
+      "lines": 6,
+      "pass_markers": [
+        "PASS: creation contract 162 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_cost_ledger.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation cost ledger 40 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_design_evidence.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation design evidence checks=22"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_draft_undo.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation draft undo 68 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_edit_controls.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation edit controls 78 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_evidence_identity.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation evidence identity 26 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_evidence_reading.txt",
+      "lines": 5,
+      "pass_markers": [
+        "PASS: creation evidence reading 20 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_exhibition.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation exhibition 14 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_explanation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation explanation checks=61 failures=0"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_future_workbench.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation future workbench 47 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_input_validation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation input validation 7 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_keyboard_focus.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation keyboard focus 22 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_measured_closure.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation measured closure 71 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation navigation 28 checks; real journey 40 -> 49"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_observation_focus.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation observation focus 31 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_playable_loop.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: rendered creation playable loop checks=98"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_prediction_flow.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation prediction flow 21 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_prediction_memory.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation prediction memory"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_prediction_work_view.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation prediction work view 202 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_preparation_binding.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation preparation binding 39 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_profile_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation profile navigation 14 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_raw_readonly.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation RAW read-only 11 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_route_flow.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation route flow 18 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_state_regressions.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation state regressions 20 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_work_focus.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation work focus 31 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_workbench.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation workbench checks=394"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_writer_retry.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation writer retry 95 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_creation_writer_retry_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: creation writer retry UI 59 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_desktop_conventions.txt",
+      "lines": 24,
+      "pass_markers": [
+        "PASS: bilingual title drag, bounds, focus cancellation and macOS settings shortcut"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_direct_task_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: direct task navigation (26 checks)"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_display_preferences.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: display settings retain unrelated preferences and reject unsupported rates; bilingual work title and bounded management remain reachable; embedded settings add no Hub entry"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_evidence_proxy.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: bounded observation policy ignores poisoned solution fields"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_exploration.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: optional applications, alternative logic, blank schemes, staged hints and palette search"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_final_convergence.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: shared settings, locale fallback and real write-failure rescue"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_first_build_guidance.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: first-build guidance (86 checks)"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_floating_tool_recall.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: covered, minimized, visible and separate tool recall"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_global_save.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: minimal global Save/Continue, provenance reconciliation, chapter gates, New Game, and mode isolation tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_hardware_foundations_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: global test mode, compact NOT, whole-symbol selection, graphical map, wiring, and Hardware UI tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_hardware_prologue_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: two-branch prologue progression, player-owned sealing, word wrappers, CPU construction, and LOAD/STORE UI tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_hardware_seal_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_hardware_seal_navigation 25 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_hub_first_screen.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_hub_first_screen 3973 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_intelligent_state.txt",
+      "lines": 8,
+      "pass_markers": [
+        "PASS: persistent context, explicit writes/flush, precision, schedules and isolated UI (16860)"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_latch_playback_readout.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: latch playback readout (636 checks)"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_layout_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: layout unified map return, selected tree route, persisted Continue and unavailable navigation"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_layout_preview_selection.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: layout preview selection 16 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_layout_recipe_sources.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: layout recipe sources 13 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_layout_simulation.txt",
+      "lines": 81,
+      "pass_markers": [
+        "PASS: layout mapping, real flow, copy costs, bounds, tails and determinism"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_layout_trace_storage.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: layout trace storage 50 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_layout_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: layout six hosts, gates, targets, undo and independent hints"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_learning_handbook.txt",
+      "lines": 4,
+      "pass_markers": [
+        "PASS: progressive learning handbook"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_locality_chapter_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: complete seven-level Chapter 2 progression, concept reveals, comparisons, and multiple capstone solutions passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_locality_restored_baseline.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: locality restored baseline 15 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_localization.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: Chinese default, English catalog, key coverage, and locale-independent simulation tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_optional_challenges.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: optional challenges, executed routes, safe copying and recovery"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_optional_result_feedback.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: optional result feedback"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_overlap_simulation.txt",
+      "lines": 11,
+      "pass_markers": [
+        "PASS: deterministic overlap, backpressure, prefetch limits and alternative synthesis"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_overlap_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: Chapter 3 topology, hints, timeline, editable completion and revalidated persistence"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_personal_records.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: offline personal records, no progression authority, telemetry-independent local results"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_playtest_data.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: durable playtest session, recovery, feedback, summary, export, and clean-reset tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_playtest_feedback_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: non-blocking localized level, chapter, Demo feedback, and final export handoff UI tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_playtest_visits.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: monotonic visits, focus, milestones, cases, optional feedback and interrupted sessions"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_prediction_goal_feedback.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_prediction_goal_feedback 47 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_prediction_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_prediction_navigation 31 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_prediction_record_source.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: prediction record source 28 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_prediction_slice.txt",
+      "lines": 15,
+      "pass_markers": [
+        "PASS: prediction slice 5591 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_prediction_workbench_presentation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_prediction_workbench_presentation 1293 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_prelaunch_settings.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: language/audio persistence, safe reset, first choice, diagnostic privacy and bounded bilingual settings"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_prologue_continuation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: prologue continuation"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_prologue_simulation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: deterministic reusable-component, latch, register, RAM, and tiny-computer prologue tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_release_convergence.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: branch Continue, future-save protection, dynamic metadata and complete offline record UI"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_remote_feedback.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: optional transport, privacy, consent and feedback revisions"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_cache.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: representation cache 1395 checks; per-access invariants, independent victims, byte budget and costs"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_closure_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_representation_closure_navigation 50 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_design_shelf.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_representation_design_shelf 38 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_edit_context.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_representation_edit_context 39 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_plan.txt",
+      "lines": 7,
+      "pass_markers": [
+        "PASS: representation plan 10403 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_region.txt",
+      "lines": 14,
+      "pass_markers": [
+        "PASS: test_representation_region: 3329 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_restored_notice.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_representation_restored_notice 64 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_session.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_representation_session 47 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_visual.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_representation_visual 261 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_representation_workbench_presentation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_representation_workbench_presentation 9303 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_save_signature_migration.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: stable save signatures, legacy provenance, backup, restart and seed preservation ()"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_second_act_content.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: independent second-act content review 69"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_second_act_experiments.txt",
+      "lines": 87,
+      "pass_markers": [
+        "PASS: second-act codecs, measured tradeoffs, inference quality and isolated UI"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_second_act_independent.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: independent algebraic state and representation cost oracles"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_second_act_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_second_act_navigation 26 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_commission_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_commission_ui 27 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_commissions.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_commissions 212 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_context_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_context_navigation 21 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_design_shelf.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_design_shelf 48 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_learning_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_learning_ui 51 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_number_display.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_number_display 24 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_plan.txt",
+      "lines": 12,
+      "pass_markers": [
+        "PASS: service plan (7268)"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_session.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_session 63 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_split_actions.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: Service split actions: 30 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_state_replay.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_state_replay 3118 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_state_replay_view.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_state_replay_view 71 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_service_undo_context.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_service_undo_context 96 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_simulation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: Python-shaped DSL, deterministic simulation, route, and cache-goal tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_storage_caption_playback.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: storage caption playback (150 checks)"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_system_applications.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: application alternatives, per-case limits, budget enumeration and recovery"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_system_baseline_continuity.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: exact baseline continuity, revalidation, provenance and evidence boundaries"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_system_cost_evidence.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: 158 bilingual system cost-evidence checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_system_lab_simulation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: deterministic 8-bit system chapter simulation, topology, DSL, and bottleneck tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_system_lab_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: five-level system chapter map, prediction, controlled comparison, evidence reveal, exact-path animation, and diagnosis tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_system_trace_source_binding.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: system trace source binding 46 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_task_tree.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: task adapters, locked details, search, camera and ordinary host routing"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_task_tree_layout.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: automatic task/region DAG, future extension, deterministic non-overlapping nodes"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_task_tree_presentation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: bilingual 40-task detail card bounds, unchanged gates, hover and canceled map gestures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_theme_reflection.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: earned reflections, either branch order, joint ending and immutable progression"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_trace_ambience.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: interval unions, overlap, independent audio lifecycle and immutable simulation"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_tree_journey_presentation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_tree_journey_presentation 2100 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_tutorial_replay.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: tutorial earned-completion replay"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_ui.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: staged animation, floating instruments, explicit Program apply/explanation/strategies, Profiler, and Cache tradeoff tests passed"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_unified_journey_navigation.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: test_unified_journey_navigation 26 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_visit_summary.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: semantic visit summaries and basic sharing boundaries"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_wire_drag_geometry.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: wire drag geometry, current split submission, pure hover and release diagnostics"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_wire_tooltip_lifecycle.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: wire tooltip lifecycle 27 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_workbench_interrupted_recovery.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: workbench interrupted recovery 75 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "test_workbench_write_failure.txt",
+      "lines": 3,
+      "pass_markers": [
+        "PASS: workbench write failure 19 checks"
+      ],
+      "errors": []
+    },
+    {
+      "file": "user_directory.txt",
+      "lines": 3,
+      "pass_markers": [],
+      "errors": []
+    }
+  ]
+}

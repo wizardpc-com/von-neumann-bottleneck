@@ -1,5 +1,6 @@
 extends Control
 ## One persistent draft; UI presents frozen model results and revealed prefixes.
+const Conditions = preload("res://experiments/creation/condition_examples.gd")
 const WorkFocus = preload("res://experiments/creation/work_focus.gd")
 const Session = preload("res://experiments/creation/session.gd")
 const Catalog = preload("res://experiments/creation/catalog.gd")
@@ -16,6 +17,9 @@ var work_focus_return: Control
 var session = Session.new()
 var english: bool = false
 var task: int = 0
+var commission: int = -1
+var commission_model: String = ""
+var commission_receipts: Array[Dictionary] = []
 var source_kind: int = 0
 var codec: String = "predictive"
 var latest: Dictionary = {}
@@ -26,6 +30,7 @@ var comparison: Array[Dictionary] = []
 var pinned_creation: Dictionary = {}
 var compared_creation: Dictionary = {}
 var creation_report: Dictionary = {}
+var saved_design_caption: Label
 var creation_caption: Label
 var playing: bool = false
 var playback_elapsed: float = 0
@@ -363,6 +368,13 @@ func _choice(parent: Node, caption: String, handle: String, titles: Array, index
 	return node
 
 func _build_examples(parent: Node) -> void:
+	if task == 5:
+		label(text2("同族委托：选择稳定规律与例外样例并学习，再练习／检查；材料不会自动换入。", "Family commission: select the stable/exception example and learn, then practise/check. Material is never swapped automatically."),parent,12)
+		var family_actions := HFlowContainer.new()
+		family_actions.name = "FamilyActions"
+		parent.add_child(family_actions)
+		button(text2("同族独立练习", "Family practice"),"FamilyPractice",family_actions,func() -> void: begin_prediction("practice-v2"))
+		button(text2("同族冻结检查", "Family check"),"FamilyCheck",family_actions,func() -> void: begin_prediction("check-v2"))
 	_choice(parent,text2("记住最近几项","History length"),"Order",[text2("0 · 不看上下文","0 · no context"),"1","2"],int(session.data.draft.order),func(index: int) -> void:
 		session.data.draft.order = index
 		edit_draft())
@@ -371,7 +383,7 @@ func _build_examples(parent: Node) -> void:
 	selected_examples.name = "SelectedExamples"
 	examples_list = VBoxContainer.new()
 	parent.add_child(examples_list)
-	for i: int in 5:
+	for i: int in Catalog.SAMPLE_NAMES_ZH.size():
 		var sample: Array = Catalog.sample(i)
 		var choice := CheckBox.new()
 		choice.name = "Example"+str(i)
@@ -414,6 +426,13 @@ func _build_machine(parent: Node) -> void:
 	if task == 2:
 		var conditions = preload("res://experiments/creation/condition_examples.gd")
 		label(conditions.hint(english),parent,12)
+		label(text2("两份配送委托：同一段1536项光纹、同一个已学规则盒。选择路径，在公开期限内无损送达；学习为已备成本，单列。", "Two delivery commissions: one 1536-cell signal and one prepared rule box. Choose a path for exact delivery within its public deadline. Learning is a separate prepared cost."),parent,12)
+		for index: int in 2:
+			button(text2("接受订单 ", "Accept order ")+str(index+1)+" · "+str(Conditions.deadline(index))+text2(" 周期", " cycles"),"Commission"+str(index),parent,func() -> void: begin_commission(index))
+		button(text2("结束订单组", "End order pair"),"EndCommission",parent,func() -> void:
+			commission = -1
+			commission_model = ""
+			set_status(text2("订单组结束；保留本次配送记录。", "Order pair ended; delivery records remain.")))
 		for index: int in 2:
 			button(conditions.title(index,english),"MachineCondition"+str(index),parent,func() -> void: apply_machine_condition(index))
 	for spec: Array in [["cpu_ops_per_cycle",text2("计算吞吐 · 运算/周期","Compute · ops/cycle"),[1,4,16,64]],["bytes_per_cycle",text2("通道带宽 · 字节/周期","Bus · bytes/cycle"),[1,4,16,64]],["request_cycles",text2("每次请求开销 · 周期","Request overhead · cycles"),[0,2,16,64]],["cache_rows",text2("自动LRU规则行缓存","Automatic LRU rule rows"),[0,2,4,8,21]],["memory_bytes",text2("有限内存 · 字节","Memory · bytes"),[256,1024,8192,65536]]]:
@@ -435,6 +454,26 @@ func _build_machine(parent: Node) -> void:
 		refresh_cost_comparison()
 		set_status(text2("原文已改变；旧实测仍按原条件保留。","Source changed; prior measurements retain their original conditions.")))
 	label(text2("这是新三章的有界执行层。旧电路与旧成绩保留，新层周期不与旧模拟排名。","This is the bounded execution layer for these chapters. Original circuits and records remain; cycles are not ranked across different simulators."),parent,12)
+
+func begin_commission(index: int) -> void:
+	if session.data.model.is_empty():
+		set_status(text2("先选择样例并学习；订单沿用你的规则盒。", "Choose examples and learn first; the order uses your rule box."))
+		return
+	if commission < 0: commission_model = Model.identity(session.data.model)
+	commission = index
+	source_kind = 0
+	apply_machine_condition(index)
+	set_status(text2("订单已接受：期限 %d 周期。选 RAW 或预测包发送；实际总周期决定是否送达。", "Order accepted: deadline %d cycles. Send RAW or predictive; actual total cycles decide delivery.")%Conditions.deadline(index))
+
+func commission_result(result: Dictionary, chosen_codec: String) -> void:
+	if commission < 0: return
+	if source_kind != 0 or session.data.draft.machine != Conditions.machine(commission) or Model.identity(session.data.model) != commission_model:
+		set_status(status_text+"\n"+text2("当前条件偏离订单：两单须沿用同一规则盒。模型已改变时，先结束订单组再重新接受；配送记录保留。", "Current conditions differ from the order; both orders use the same rule box. If the model changed, end the order pair before accepting again. Delivery records remain."))
+		return
+	var delivered: Dictionary = Conditions.delivery(result,commission)
+	commission_receipts.append({"order":commission,"codec":chosen_codec,"model_id":commission_model,"source_id":CostLedger.identity(Catalog.source(0)),"machine":session.data.draft.machine.duplicate(true),"result":delivered})
+	if commission_receipts.size() > 6: commission_receipts.pop_front()
+	set_status(status_text+"\n"+text2("订单 %d：实测 %d / 期限 %d 周期 · ", "Order %d: measured %d / deadline %d cycles · ")%[commission+1,delivered.cycles,delivered.budget]+(text2("按期无损送达", "exact delivery on time") if delivered.ok else text2("超过期限；比较分项后选择另一条路径", "deadline missed; compare phases and choose another path")))
 
 func apply_machine_condition(index: int) -> void:
 	session.data.draft.machine = preload("res://experiments/creation/condition_examples.gd").machine(index)
@@ -499,6 +538,8 @@ func _build_works(parent: Node) -> void:
 	name_input.placeholder_text = text2("为这份实际输出命名","Name this actual output")
 	parent.add_child(name_input)
 	button(text2("确认并保存当前作品","Confirm and save this work"),"KeepWork",parent,keep_work).disabled = not writable
+	saved_design_caption = label(saved_design_text(),parent,12)
+	saved_design_caption.name = "SavedDesignProvenance"
 	label(text2("快照原样保护。再生核对不覆盖它；分叉创建新草稿，不改旧作品。","Snapshots stay intact. Recipe checks never overwrite them; forking makes a new draft."),parent,12)
 
 func _build_actions(parent: Node) -> void:
@@ -635,6 +676,7 @@ func transport(chosen_codec: String) -> void:
 	set_status(text2("包已抵达，接收端独立复原。原文逐项一致：","Packet arrived; receiver restored independently. Exact equality: ")+str(result.get("lossless",false)))
 	if task in [1,2] and not session.data.supports.has(Catalog.IDS[task]):
 		set_status(status_text+" · "+(text2("同条件再运行另一codec，才形成字节对照。","Run the other codec under the same conditions for a byte comparison.") if task == 1 else text2("保持原文/模型/codec，改机器再运行，才形成成本对照。","Keep source/model/codec; change the machine and rerun for a cost comparison.")))
+	commission_result(result,chosen_codec)
 	refresh()
 	refresh_tracks()
 
@@ -660,7 +702,7 @@ func begin_prediction(kind: String) -> void:
 	latest = session.prediction_evidence()
 	latest.kind = "prediction"
 	prediction_recipe = {"model_id":session.prediction.model_id,"order":int(session.data.model.order),"kind":kind,"machine":session.data.draft.machine.duplicate(true)}
-	var messages: Dictionary = {"check":text2("冻结检查已开始；此模型保持不变。","Frozen check started; this model remains fixed."),"practice":text2("练习开始。先提交预测，再揭晓。","Practice started. Commit a guess, then reveal."),"training":text2("这是已见训练片段回看，不能当未见表现。","This replays seen training data; it is not unseen performance."),"memorize":text2("背诵基线：只取首个训练样例的同位置，越界用A；同族检查从不同相位开始。","Position baseline reads the first training example at the same index (A beyond it); the check starts at a different phase.")}
+	var messages: Dictionary = {"check-v2":text2("同族独立检查已开始；真值只在提交后揭晓，重复检查标为已见。","Independent family check started; truth follows commitment, repeated checks are labelled seen."),"practice-v2":text2("同族练习开始；稀少例外无法从短前缀唯一确定。","Family practice started; rare exceptions cannot be uniquely determined from short prefixes."),"check":text2("冻结检查已开始；此模型保持不变。","Frozen check started; this model remains fixed."),"practice":text2("练习开始。先提交预测，再揭晓。","Practice started. Commit a guess, then reveal."),"training":text2("这是已见训练片段回看，不能当未见表现。","This replays seen training data; it is not unseen performance."),"memorize":text2("背诵基线：只取首个训练样例的同位置，越界用A；同族检查从不同相位开始。","Position baseline reads the first training example at the same index (A beyond it); the check starts at a different phase.")}
 	set_status(str(messages.get(kind,kind)))
 	refresh()
 	refresh_tracks()
@@ -774,7 +816,13 @@ func keep_work() -> void:
 		set_status(text2("在「作品与配方」页填写名称，再确认保存。","Enter a name in Works / recipes, then confirm."))
 		name_input.grab_focus()
 		return
-	var result: Dictionary = session.save_work(name_input.text)
+	var receipt: Dictionary = {}
+	if not pinned_creation.is_empty() and not compared_creation.is_empty():
+		var measured: Dictionary = Session.design_receipt(pinned_creation,compared_creation)
+		if measured.get("ok",false):
+			for candidate: Dictionary in [pinned_creation,compared_creation]:
+				if session.generated.get("recipe",{}) == candidate.get("recipe",{}) and session.generated.get("output",[]) == candidate.get("output",[]): receipt = measured.receipt
+	var result: Dictionary = session.save_work(name_input.text,receipt)
 	if not result.get("ok",false):
 		set_status(text2("作品未保存：","Work was not saved: ")+failure_text(result))
 		return
@@ -826,6 +874,7 @@ func save_draft() -> void:
 	refresh()
 
 func refresh() -> void:
+	if is_instance_valid(saved_design_caption): saved_design_caption.text = saved_design_text()
 	refresh_keep_actions()
 	_refresh_creation_comparison()
 	for handle: String in ["UndoDraft","RedoDraft"]:
@@ -916,6 +965,20 @@ func _unsupported_saved_recipe() -> bool:
 	var model: Variant = recipe.get("model",{})
 	return recipe.get("version",0) != 1 or not model is Dictionary or model.get("version",0) != Model.VERSION or recipe.get("sampler_version","") != "integer-counts-v1" or recipe.get("prng_version","") != Model.PRNG_VERSION
 
+func saved_design_text() -> String:
+	var provenance_record: Dictionary = session.design_provenance()
+	var source: String = str(provenance_record.source)
+	if source == "none": return text2("尚无已保存的 G2 选择或设计对照。", "No saved G2 choice or design comparison yet.")
+	if not provenance_record.observation:
+		return text2("G2 来路：已确认作品选择；没有受控设计对照，不据此声称结构修改。", "G2 provenance: confirmed work choice; no controlled design comparison certifies structural change.") if source == "confirmed-choice-no-comparison" else text2("G2 来路：旧生成记录；保留旧完成来源，没有新版设计对照。", "G2 provenance: legacy generation; its original completion source is retained without a new design comparison.")
+	var receipt: Dictionary = session.data.supports.G2_intent.comparison
+	var lines := PackedStringArray([text2("已保存设计观察 · controlled-design-v1（属于此档案的历史对照，并非当前视图的评价）", "Saved design observation · controlled-design-v1 (a historical profile comparison, not a judgment of the current view)"),CreationComparison.caption(provenance_record.report,english)])
+	lines.append(text2("实测输出出现变化；这不代表优劣。", "Measured output changed; this is not a quality judgment.") if provenance_record.observed_change else text2("设计有效改变，但此次输出相同；保留此观察，不要求重抽。", "Design changed effectively, but this output is identical; the observation is retained without rerolling."))
+	for side: String in ["a","b"]:
+		var run: Dictionary = receipt[side]
+		lines.append(side.to_upper()+" · model "+str(run.recipe.model_id).substr(0,12)+" · seed "+str(run.recipe.seed)+" · "+Catalog.symbols(run.output))
+	return "\n".join(lines)
+
 func measurement_text() -> String:
 	var lines := PackedStringArray()
 	var saved_work: Dictionary = latest.get("work",{})
@@ -979,6 +1042,7 @@ func measurement_text() -> String:
 		for i: int in 2:
 			var recipe: Dictionary = comparison[i].recipe
 			lines.append("%d · %s · %s %s · %s %s · %s"%[i+1,str(recipe.model_id).substr(0,12),text2("记忆","history"),str(recipe.model.order),text2("种子","seed"),str(recipe.seed),str(recipe.sampler)])
+	lines.append(saved_design_text())
 	lines.append(text2("周期来自顺序事件；包字节与含规则行读写的总搬运字节分列。重复与高熵均不判作品美感。","Cycles come from sequential events; packet size is distinct from total traffic including rule accesses. Neither repetition nor high entropy judges beauty."))
 	return "\n".join(lines)
 
@@ -1379,6 +1443,7 @@ func _restore_editor_state(saved: Dictionary) -> void:
 		if focus != null and focus.is_visible_in_tree() and focus.focus_mode != Control.FOCUS_NONE and not (focus is BaseButton and focus.disabled): focus.grab_focus()
 
 func _clear_replaced_exploration() -> void:
+	commission = -1; commission_model = ""; commission_receipts.clear()
 	suppress_snapshot_fallback = false
 	latest.clear(); records.clear(); comparison.clear()
 	kept_work.clear()
@@ -1491,6 +1556,8 @@ func refresh_cost_comparison() -> void:
 		cost_comparison_status.text += "\n"+ (text2("与当前条件一致。", "Matches current conditions.") if CostLedger.matches(snapshot,Catalog.source(source_kind),session.data.model,session.data.draft.machine) else text2("条件已改变：这里保留上次实测，运行对照才会增加新结果。", "Conditions changed: this remains the recorded result. Run comparison to add new evidence."))
 	cost_comparison_view.show_snapshot(snapshot,english)
 	cost_comparison_details.text = CostLedger.describe(snapshot,english)
+	for receipt: Dictionary in commission_receipts:
+		cost_comparison_details.text += "\n"+text2("配送订单 %d · %s · 模型 %s · %d / %d 周期 · 按期 %s", "Delivery order %d · %s · model %s · %d / %d cycles · on time %s")%[receipt.order+1,receipt.codec,str(receipt.model_id).substr(0,8),receipt.result.cycles,receipt.result.budget,str(receipt.result.ok)]
 
 func set_evidence_expanded(expanded: bool) -> void:
 	evidence_expanded = expanded
@@ -1505,7 +1572,8 @@ func set_evidence_expanded(expanded: bool) -> void:
 
 func _build_creation_comparison(parent: Node) -> void:
 	label(text2("受控对照 · 先生成，再钉住 A", "Controlled comparison · generate, then pin A"),parent,14)
-	label(text2("钉住后锁定种子、起始片段和长度。到「样例与记忆」只增删一段样例，再学习、生成 B。A 保持不变；此临时对照不随草稿保存。", "Pinning locks seed, initial passage and length. In Examples / history, add or remove one passage, learn, then generate B. A stays fixed. This temporary comparison is not saved with the draft."),parent,12)
+	label(text2("钉住后锁定种子、起始片段和长度，并保持机器。只改一项：增删／替换一段样例、记忆或采样；样例／记忆改后重新学习，再生成 B。A 保持不变；确认保留 A/B 时保存有效设计观察。", "Pinning locks seed, initial passage and length; keep the machine fixed. Change one factor: one added/removed/replaced example, history or sampling. Learn again after examples/history edits, then generate B. A stays fixed; keeping A/B saves its valid design observation."),parent,12)
+	label(text2("可选起点：用 ABAD 样例、记忆2、起始 AB、种子17、长度64生成 A；钉住后仅将 ABAD 替换为 ACAD，学习并生成 B。自行设置；不会自动换入模型。", "Optional starting recipe: ABAD example, history2, initial AB, seed17, length64 for A. Pin it, replace only ABAD with ACAD, learn and generate B. Set it yourself; the model is never swapped automatically."),parent,12)
 	var actions := HFlowContainer.new()
 	parent.add_child(actions)
 	button(text2("钉住当前输出为 A", "Pin current output as A"),"PinCreationA",actions,pin_creation_a)
@@ -1632,8 +1700,39 @@ func show_saved_work(work: Dictionary) -> void:
 	work_focus = WorkFocus.new()
 	work_focus.name = "SavedWorkFocus"
 	work_focus.theme = theme
-	work_focus.configure(work,english)
+	var evidence: Dictionary = {}
+	var protected_index: int = -1
+	for i: int in session.data.works.size():
+		if session.data.works[i].id == work.id: protected_index = i; break
+	if protected_index >= 0:
+		var replay: Dictionary = session.replay_work(protected_index)
+		if replay.get("ok",false) and replay.get("matches",false):
+			evidence = replay.duplicate(true)
+			evidence.recipe = work.recipe.duplicate(true)
+	work_focus.reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion",false))
+	work_focus.configure(work,english,evidence)
+	work_focus.request_fork.connect(func() -> void:
+		work_focus.dismiss()
+		kept_work = work.duplicate(true)
+		continue_creation())
+	work_focus.request_evidence.connect(func(index: int) -> void:
+		if evidence.is_empty(): return
+		work_focus.dismiss()
+		latest = evidence.duplicate(true)
+		latest.kind = "replay"
+		latest.work = work.duplicate(true)
+		playing = false
+		event_page = 0
+		play_button.text = text2("播放", "Play")
+		set_evidence_expanded(false)
+		refresh()
+		refresh_tracks()
+		signal_view.cursor = index
+		signal_view.selected = index
+		signal_view.follow_cursor()
+		inspect_cell(index))
 	work_focus.dismissed.connect(func() -> void:
 		if is_instance_valid(work_focus_return): work_focus_return.grab_focus())
 	add_child(work_focus)
+	work_focus.fork_button.disabled = not writable or evidence.is_empty()
 	work_focus.popup_centered_clamped(Vector2i(1080,620),0.92)

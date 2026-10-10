@@ -1,0 +1,21 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: Action available
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-personal-works.gd:15)
+       [1] click (res://scripts/verify-personal-works.gd:32)
+       [2] press (res://scripts/verify-personal-works.gd:42)
+       [3] run (res://scripts/verify-personal-works.gd:94)
+       [4] press (res://scripts/verify-personal-works.gd:42)
+       [5] click (res://scripts/verify-personal-works.gd:41)
+       [6] settle (res://scripts/verify-personal-works.gd:22)
+ERROR: Family prediction starts successfully
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/verify-personal-works.gd:15)
+       [1] run (res://scripts/verify-personal-works.gd:95)
+       [2] press (res://scripts/verify-personal-works.gd:42)
+       [3] click (res://scripts/verify-personal-works.gd:41)
+       [4] settle (res://scripts/verify-personal-works.gd:22)

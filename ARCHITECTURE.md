@@ -8,6 +8,11 @@ output-feedback generation. `model.gd` and `codec.gd` own results and event cost
 `session.gd` owns frozen checks, revalidated supports and protected work/recipe
 snapshots through existing candidate file transactions and leases. Confirmed Keep
 completes G2/G3 transactionally; generated variation alone does not confer choice.
+An optional strictly replayed `controlled-design-v1` support records actual A/B
+recipes independently from choice completion. New practice/check-v2 materials
+preserve legacy checks and their separate seen flags. `work_focus.gd` consumes
+protected output plus validated replay events for reversible light-trace-v1
+performance and source navigation, without authority over results or costs.
 Prediction uses available rule rows for cache residency and strictly replays
 legacy conservative recorded bounds. Its bounded
 transient draft Undo/Redo restores recipes and models without rewinding protected

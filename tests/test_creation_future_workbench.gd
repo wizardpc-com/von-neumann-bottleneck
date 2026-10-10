@@ -61,6 +61,7 @@ func run() -> void:
 			await capture(kind+"-"+("en" if english else "zh"))
 			scene.focus_work(); await settle()
 			check(is_instance_valid(scene.work_focus) and scene.work_focus.canvas.output == work.output and scene.work_focus.recipe_label.text.contains("cannot be interpreted" if english else "暂不能解释"),"Focus exhibits the future work without parsing incompatible provenance")
+			check(scene.work_focus.fork_button.disabled and scene.work_focus.explanation_button.disabled,"Unsupported snapshot offers no unavailable fork or generation-evidence action")
 			if is_instance_valid(scene.work_focus): scene.work_focus.dismiss()
 			await settle()
 			scene.replay_work(); scene.fork_work()

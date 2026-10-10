@@ -1,0 +1,7 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+BEFORE 64 play false reduced false embedded true pos (260, 140) rect [P: (16.0, 90.0), S: (52.0, 38.0)]
+CLICK1 0 play true
+WAIT1 4 play true
+CLICK2 4 play false

@@ -1,6 +1,7 @@
 extends RefCounted
 ## Candidate state only; protected works never depend on mutable editor controls.
 const Model = preload("res://experiments/creation/model.gd")
+const Comparison = preload("res://experiments/creation/comparison.gd")
 const Codec = preload("res://experiments/creation/codec.gd")
 const Files = preload("res://experiments/candidate_session/files.gd")
 const Lease = preload("res://experiments/candidate_session/writer_lease.gd")
@@ -241,7 +242,7 @@ func set_mode(mode: String) -> Dictionary:
 
 func begin_prediction(kind: String = "practice") -> Dictionary:
 	if data.mode != "predict" or data.model.is_empty(): return {"ok":false,"error":"mode"}
-	if kind not in ["practice","check","training","memorize"]: return {"ok":false,"error":"kind"}
+	if kind not in ["practice","check","training","memorize","practice-v2","check-v2"]: return {"ok":false,"error":"kind"}
 	# Build and validate a complete candidate before replacing the active round.
 	# A rejected switch must preserve its old pending guess, truth and cost state.
 	var next_model: Dictionary = data.model.duplicate(true)
@@ -252,7 +253,7 @@ func begin_prediction(kind: String = "practice") -> Dictionary:
 	if required > next_machine.memory_bytes: return {"ok":false,"error":"memory_limit","required_bytes":required}
 	_frozen = next_model; _prediction_machine = next_machine; _future = next_future
 	prediction = {"prefix":_future.slice(0,2),"rows":[],"pending":{},"finished":false,"kind":kind,
-		"seen":kind in ["check","memorize"] and "check-v1" in data.seen_checks,"total":_future.size()-2,"hits":0,"model_id":Model.identity(_frozen)}
+		"seen":not _check_id(kind).is_empty() and _check_id(kind) in data.seen_checks,"total":_future.size()-2,"hits":0,"model_id":Model.identity(_frozen)}
 	_prediction_events = [{"phase":"predict","kind":"model_load","ops":Model.canonical_bytes(_frozen).size(),"bytes":Model.canonical_bytes(_frozen).size(),"cycles":0}]
 	if kind == "memorize": _prediction_events = [Model.event("predict","example_load",_frozen.examples[0].size(),_frozen.examples[0].size())]
 	return {"ok":true,"state":prediction.duplicate(true)}
@@ -286,7 +287,7 @@ func reveal_prediction() -> Dictionary:
 	row["cost"] = cost.duplicate(true)
 	prediction.rows.append(row); prediction.prefix.append(truth); prediction.pending = {}
 	if row.correct: prediction.hits += 1
-	if prediction.kind in ["check","memorize"] and "check-v1" not in data.seen_checks: data.seen_checks.append("check-v1"); dirty = true
+	if not _check_id(prediction.kind).is_empty() and _check_id(prediction.kind) not in data.seen_checks: data.seen_checks.append(_check_id(prediction.kind)); dirty = true
 	prediction.finished = prediction.prefix.size() == _future.size()
 	if prediction.finished and prediction.kind != "memorize":
 		_prediction_model = prediction.model_id
@@ -318,10 +319,12 @@ func generate() -> Dictionary:
 		generated["parent_work"] = data.parent_work
 	return result
 
-func save_work(title: String) -> Dictionary:
+func save_work(title: String, receipt: Dictionary = {}) -> Dictionary:
 	if title.strip_edges().is_empty() or title.length()>80: return {"ok":false,"error":"name"}
 	if generated.is_empty() or not generated.get("ok",false): return {"ok":false,"error":"generate_first"}
 	if data.works.size() >= 12: return {"ok":false,"error":"work_limit"}
+	if not receipt.is_empty() and (not _valid_design_receipt(receipt) or not _receipt_contains(receipt,generated)):
+		return {"ok":false,"error":"design_evidence"}
 	var work := {"name":title.strip_edges(),"output":generated.output.duplicate(),"recipe":generated.recipe.duplicate(true),
 		"mapping":"light-shapes-v1","parent":str(generated.parent_work),"training":generated.training.duplicate(true)}
 	work["id"] = JSON.stringify(work).sha256_text()
@@ -331,6 +334,9 @@ func save_work(title: String) -> Dictionary:
 	data.works.append(work); dirty = true
 	complete("G2_intent",{})
 	complete("G3_keep",{})
+	if not receipt.is_empty(): data.supports.G2_intent["comparison"] = receipt.duplicate(true)
+	elif previous_supports.get("G2_intent",{}).has("comparison"):
+		data.supports.G2_intent = previous_supports.G2_intent.duplicate(true)
 	var saved: Error = save()
 	if saved != OK:
 		data.works = previous_works
@@ -377,7 +383,7 @@ func complete(unit_id: String, _evidence: Dictionary = {}) -> void:
 		support = {"kind":"transport","model":data.model.duplicate(true),"machine":last_transport.machine.duplicate(true),
 			"source":last_transport.source.duplicate(),"codec":last_transport.codec}
 	elif unit_id.begins_with("P") and prediction.get("finished",false) and prediction.kind != "memorize":
-		if unit_id == "P3_check" and prediction.kind != "check": return
+		if unit_id == "P3_check" and prediction.kind not in ["check","check-v2"]: return
 		support = {"kind":"prediction","model":_frozen.duplicate(true),"machine":_prediction_machine.duplicate(true),"check":prediction.kind,"rows":prediction.rows.duplicate(true)}
 	elif unit_id.begins_with("G") and not generated.is_empty():
 		support = {"kind":"generation","recipe":generated.recipe.duplicate(true),"output":generated.output.duplicate()}
@@ -414,7 +420,14 @@ static func _comparable(unit: String, a: Dictionary, b: Dictionary) -> bool:
 		return left.get("ok",false) and right.get("ok",false) and left.cost != right.cost
 	return false
 
+static func _check_id(kind: String) -> String:
+	if kind in ["check","memorize"]: return "check-v1"
+	if kind == "check-v2": return "check-v2"
+	return ""
+
 static func _sequence(kind: String, model: Dictionary) -> Array:
+	if kind == "practice-v2": return [0,1,0,2,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,2]
+	if kind == "check-v2": return [0,2,0,1,0,2,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,2,0,1]
 	if kind == "training": return model.examples[0].duplicate() if not model.get("examples",[]).is_empty() else []
 	if kind == "practice": return [0,1,0,2,0,1,0,2,0,1,0,3]
 	if kind in ["check","memorize"]: return [0,2,0,1,0,2,0,1,0,2,0,1,0,2,0,1]
@@ -450,7 +463,7 @@ static func decode(raw: String) -> Dictionary:
 	if not value.model.is_empty() and not Model.validate(value.model).is_empty(): return {"ok":false,"error":"schema"}
 	if not _valid_training(value.model,value.training): return {"ok":false,"error":"schema"}
 	for seen: Variant in value.seen_checks:
-		if seen != "check-v1": return {"ok":false,"error":"schema"}
+		if seen not in ["check-v1","check-v2"]: return {"ok":false,"error":"schema"}
 	var incompatible: bool = false
 	for work: Variant in value.works:
 		if not work is Dictionary or not _keys(work,["id","name","output","recipe","mapping","parent","training"]): return {"ok":false,"error":"schema"}
@@ -491,8 +504,8 @@ static func decode(raw: String) -> Dictionary:
 		elif support.get("kind") == "prediction":
 			if not str(id).begins_with("P"): return {"ok":false,"error":"schema"}
 			if not _keys(support,["kind","model","machine","check","rows"]) or not support.model is Dictionary or not support.rows is Array or not support.machine is Dictionary: return {"ok":false,"error":"schema"}
-			if support.check not in ["practice","training","check"] or (id == "P3_check" and support.check != "check"): return {"ok":false,"error":"schema"}
-			if support.check == "check" and "check-v1" not in value.seen_checks: return {"ok":false,"error":"schema"}
+			if support.check not in ["practice","training","check","practice-v2","check-v2"] or (id == "P3_check" and support.check not in ["check","check-v2"]): return {"ok":false,"error":"schema"}
+			if not _check_id(support.check).is_empty() and _check_id(support.check) not in value.seen_checks: return {"ok":false,"error":"schema"}
 			if not Model.validate(support.model).is_empty() or not Model.machine_error(support.machine).is_empty(): return {"ok":false,"error":"schema"}
 			var sequence: Array = _sequence(str(support.check),support.model)
 			if sequence.size()<3 or support.rows.size()!=sequence.size()-2: return {"ok":false,"error":"schema"}
@@ -519,11 +532,14 @@ static func decode(raw: String) -> Dictionary:
 				recorded_peak = int(row.cost.peak_bytes)
 		elif support.get("kind") == "generation":
 			if not str(id).begins_with("G"): return {"ok":false,"error":"schema"}
-			if not _keys(support,["kind","recipe","output"]) or not support.recipe is Dictionary: return {"ok":false,"error":"schema"}
+			if not (_keys(support,["kind","recipe","output"]) or (id == "G2_intent" and _keys(support,["kind","recipe","output","comparison"]))) or not support.recipe is Dictionary: return {"ok":false,"error":"schema"}
 			var valid: Dictionary = _validate_recipe(support.recipe)
 			if not valid.ok: return valid
 			var result: Dictionary = _run_recipe(support.recipe)
 			if not result.ok or result.output != support.output: return {"ok":false,"error":"schema"}
+			if support.has("comparison") and support.comparison is Dictionary and support.comparison.get("version", "") != Comparison.DESIGN_VERSION:
+				return {"ok":false,"error":"version","readonly_works":value.works.duplicate(true)}
+			if support.has("comparison") and (not support.comparison is Dictionary or not _valid_design_receipt(support.comparison) or not _receipt_contains(support.comparison,support) or not _kept(value.works,support)): return {"ok":false,"error":"schema"}
 			if id == "G3_keep" and not _kept(value.works,support): return {"ok":false,"error":"schema"}
 		else: return {"ok":false,"error":"schema"}
 	if legacy_raw_restore:
@@ -576,3 +592,35 @@ static func _integers(value: Variant) -> Variant:
 	elif value is Dictionary:
 		for key: Variant in value: value[key] = _integers(value[key])
 	return value
+
+## Optional evidence deepens the existing confirmed-choice G2 without revoking it.
+static func design_receipt(first: Dictionary, second: Dictionary) -> Dictionary:
+	if not first.has("recipe") or not first.has("output") or not second.has("recipe") or not second.has("output"): return {"ok":false,"error":"generation_required"}
+	var receipt: Dictionary = {"version":Comparison.DESIGN_VERSION,
+		"a":{"recipe":first.recipe.duplicate(true),"output":first.output.duplicate()},
+		"b":{"recipe":second.recipe.duplicate(true),"output":second.output.duplicate()}}
+	return {"ok":true,"receipt":receipt} if _valid_design_receipt(receipt) else {"ok":false,"error":"controlled_design_required"}
+
+static func _valid_design_receipt(receipt: Dictionary) -> bool:
+	if not _keys(receipt,["version","a","b"]) or receipt.version != Comparison.DESIGN_VERSION: return false
+	for key: String in ["a","b"]:
+		if not receipt[key] is Dictionary or not _keys(receipt[key],["recipe","output"]): return false
+		var snapshot: Dictionary = receipt[key]
+		if not snapshot.recipe is Dictionary or not snapshot.output is Array or not _validate_recipe(snapshot.recipe).ok: return false
+		var replay: Dictionary = _run_recipe(snapshot.recipe)
+		if not replay.get("ok",false) or replay.output != snapshot.output: return false
+	return Comparison.compare(receipt.a,receipt.b).get("effective_design",false)
+
+static func _receipt_contains(receipt: Dictionary, snapshot: Dictionary) -> bool:
+	for key: String in ["a","b"]:
+		if receipt[key].recipe == snapshot.recipe and receipt[key].output == snapshot.output: return true
+	return false
+
+func design_provenance() -> Dictionary:
+	var support: Dictionary = data.supports.get("G2_intent",{})
+	if support.is_empty(): return {"source":"none","observation":false,"observed_change":false}
+	if support.has("comparison"):
+		var report: Dictionary = Comparison.compare(support.comparison.a,support.comparison.b)
+		return {"source":Comparison.DESIGN_VERSION,"observation":true,"observed_change":report.different,"report":report}
+	return {"source":"confirmed-choice-no-comparison" if _kept(data.works,support) else "legacy-generation",
+		"observation":false,"observed_change":false}

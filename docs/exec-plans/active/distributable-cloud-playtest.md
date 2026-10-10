@@ -19,6 +19,7 @@ build/config, integration tests and round docs/evidence.
 B owns four candidate hosts, Creation focus, Moments and candidate host tests.
 C owns server receiver/community/storage/report tests and server docs; manifest
 is root-owned. Workers do not run engines, servers or mutate Git.
+Both workers completed and released their paths; root now owns final integration.
 
 ## Shared contract
 Keep API1, sharing-2 consent, existing outbox schema and client/player save formats.
@@ -69,3 +70,17 @@ Private server configuration/access, approved TLS entrance and publication scope
 not found locally or in connected Drive; awaiting consolidated information.
 
 2026-10-10: PR3 merged normally asb90ae47, expected head963adeb. Fresh five-suite committed check PASS5615 identities. Main integrated into this branch. Candidate contexts, per-ID states, local atomic drafts and frozen form target implemented. Godot first fixture/init and Variant typing failures retained; repaired two suites PASS. Legacy feedback/privacy/time six suites PASS. Actual export-generated manifest60/current20 identities verified against unchanged legacy40/board. Python branding/report and storage3/receiver3/community7/delivery3/private-report5 PASS with real temporary HTTP/SQLite faults. Sidecar separate from receiver schema2; full-store duplicate retries fixed. First-screen ratings are optional folded controls; bilingual geometry checks running. No server config reply yet.
+
+2026-10-10: local implementation/acceptance PASS; cloud gates remain pending.
+Full frozen aaf70ed152 suites +2 gates PASS5624 source identities, clean checkout.
+Final efda8b8 seven affected suites +2 PASS. New Tab expectations/preload references
+repaired. Actual b3e51af acceptance exposed JSON int/float changing receipt ID;
+efda8b8 normalizes it and preserves the exact original ID across process restart.
+Two immutable final platform exports/hash checks and two Mac16 binary probes PASS.
+Actual separate localhost app sends unfinished G2 feedback, saves/reopens byte-exact
+work and draft, receives committed same-ID ack/private report/triage, deduplicates,
+deletes and prevents revival after old-backup restore. Final native Mac attempt
+blocked by locked screen; renderer attempt timed out, no native claim. Windows
+native, VPS staging, external HTTPS, off-host backup and newcomer acceptance NOT_RUN.
+No target/config answer; no remote operations. PR4 CI/merge and delivery handoff
+are recorded in the [round evidence](../../verification/20261010-cloud-playtest/README.md).

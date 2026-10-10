@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "scope": "local exported-package HTTP acceptance; VPS/HTTPS external NOT_RUN",
+  "build_id": "playtest-LocalAcceptance-efda8b84ae6e",
+  "source_commit": "efda8b84ae6efe5febaafc36e3de0a7701a8a0fd",
+  "test_batch": "LocalAcceptance",
+  "feedback_id": "3a5c3c13bee7c15a8511d0bec4f6a59bef75d9b72309c6586918f618f8a2390d",
+  "task": "creation/G2_intent",
+  "triage_status": "needs_retest",
+  "duplicate_rows": 1,
+  "deleted_after_restore": true,
+  "synthetic_controller_sha256": "dfd7c3985b09ba75fdcde01a59bcaa52a73364f51adb158354da918ea780dc0a"
+}

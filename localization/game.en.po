@@ -6810,7 +6810,7 @@ msgid "sharing.category.other"
 msgstr "Other"
 
 msgid "sharing.attached_context"
-msgstr "Attached: task, build, content/model versions, visit and source. Sending this opinion does not enable statistics. No program, work, example or intention text is attached."
+msgstr "Attached: task, build, content/model versions, visit and source. Sending this opinion does not enable statistics. No program, work, example or intention text is attached. Please omit personal information."
 
 msgid "sharing.feedback_id"
 msgstr "Feedback ID: "

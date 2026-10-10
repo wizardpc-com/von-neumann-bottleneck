@@ -6809,7 +6809,7 @@ msgid "sharing.category.other"
 msgstr "其他"
 
 msgid "sharing.attached_context"
-msgstr "附带：任务、构建、内容／模型版本、访问与来源。发送本条意见不启用统计，不附带程序、作品、样例或创作意图。"
+msgstr "附带：任务、构建、内容／模型版本、访问与来源。发送本条意见不启用统计，不附带程序、作品、样例或创作意图。请勿填写敏感个人信息。"
 
 msgid "sharing.feedback_id"
 msgstr "反馈 ID："

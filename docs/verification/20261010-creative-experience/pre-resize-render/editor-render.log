@@ -1,0 +1,44 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+FAIL: ["Sample action fits viewport EditExample15", "Deferred edit reveal focuses its real text field", "Full sixteen-passage selection accepts in-place replacement", "Sample action fits viewport EditExample15", "Deferred edit reveal focuses its real text field", "Full sixteen-passage selection accepts in-place replacement"]
+ERROR: Sample action fits viewport EditExample15
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_sample_editing.gd:14)
+       [1] press (res://tests/test_creation_sample_editing.gd:31)
+       [2] settle (res://tests/test_creation_sample_editing.gd:16)
+ERROR: Deferred edit reveal focuses its real text field
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_sample_editing.gd:14)
+       [1] exercise (res://tests/test_creation_sample_editing.gd:146)
+       [2] press (res://tests/test_creation_sample_editing.gd:36)
+       [3] settle (res://tests/test_creation_sample_editing.gd:16)
+ERROR: Full sixteen-passage selection accepts in-place replacement
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_sample_editing.gd:14)
+       [1] exercise (res://tests/test_creation_sample_editing.gd:149)
+       [2] press (res://tests/test_creation_sample_editing.gd:36)
+       [3] settle (res://tests/test_creation_sample_editing.gd:16)
+ERROR: Sample action fits viewport EditExample15
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_sample_editing.gd:14)
+       [1] press (res://tests/test_creation_sample_editing.gd:31)
+       [2] settle (res://tests/test_creation_sample_editing.gd:16)
+ERROR: Deferred edit reveal focuses its real text field
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_sample_editing.gd:14)
+       [1] exercise (res://tests/test_creation_sample_editing.gd:146)
+       [2] press (res://tests/test_creation_sample_editing.gd:36)
+       [3] settle (res://tests/test_creation_sample_editing.gd:16)
+ERROR: Full sixteen-passage selection accepts in-place replacement
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_sample_editing.gd:14)
+       [1] exercise (res://tests/test_creation_sample_editing.gd:149)
+       [2] press (res://tests/test_creation_sample_editing.gd:36)
+       [3] settle (res://tests/test_creation_sample_editing.gd:16)

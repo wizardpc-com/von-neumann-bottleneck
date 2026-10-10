@@ -1,0 +1,26 @@
+{
+  "main": "7e4facb17f99b3a79b3e6dbf0c7a6bcb5a1118a8",
+  "runtime_source": "67334e386aa6700505984d1e5af2703397b8aace",
+  "development_branch": "codex/creation-studio-20261010",
+  "worktree": "/private/tmp/vnb-creative-experience-20261010",
+  "delivery": "/Users/ray/Documents/von-neumann-bottleneck/build/free-alpha-67334e386aa6",
+  "copied_identity_checker_exit": 0,
+  "manifest_sha256": "d5a521671df1d571619a514c22bb9d78ea14e88a126b7e4c32868920fa98daff",
+  "zip": {
+    "zip": "Von-Neumann-Bottleneck-macOS-free-alpha-67334e386aa6.zip",
+    "bytes": 78605237,
+    "sha256": "acfd1ce7dbf1fe25ab108a5c04f80949466f944e260f5347d4d8b8fb1756aa30"
+  },
+  "verification": {
+    "full_suites": 149,
+    "isolation_steps": 2,
+    "execution_files": 609,
+    "render_route_per_language": 113,
+    "independent_reopen_per_language": 20,
+    "bilingual_editor": 240,
+    "actual_package": 16,
+    "actual_package_creative": 23
+  },
+  "workers_released": true,
+  "original_checkout_preserved": true
+}

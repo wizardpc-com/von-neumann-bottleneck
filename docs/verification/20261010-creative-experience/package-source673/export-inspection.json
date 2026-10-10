@@ -1,0 +1,20 @@
+{
+  "source_commit": "67334e386aa6700505984d1e5af2703397b8aace",
+  "full_logs_read": [
+    {
+      "name": "export-macOS.log",
+      "bytes": 48669
+    },
+    {
+      "name": "licenses.log",
+      "bytes": 73
+    },
+    {
+      "name": "import.log",
+      "bytes": 24971
+    }
+  ],
+  "errors": [],
+  "strict_signature_exit": 0,
+  "identity_checker_exit": 0
+}

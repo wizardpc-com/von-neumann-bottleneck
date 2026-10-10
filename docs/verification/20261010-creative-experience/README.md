@@ -96,3 +96,57 @@ layout→phrases/seek64/640px resize range-settling edge. All other22 package
 creative checks passed. The range-change follow repair preserves static manual
 scroll and passes five focused suites plus two isolation gates in range-repair/.
 Final source freeze, complete regression and exported repair verification follow.
+
+## Final source and fresh acceptance
+
+Runtime source is67334e386aa6700505984d1e5af2703397b8aace on independent
+codex/creation-studio-20261010, based on protected main7e4facb. The last UI change
+follows Range.changed after real scroll range settlement; it does not follow
+value_changed, and static viewing preserves manual scroll. Composition now passes187
+checks including both old mappings→phrases/seek64/resize in the same frame, in both
+locales, without manual follow/process ticks.
+
+source673-full/ records the final149 suites +2 isolation steps: all151 complete
+logs inspected without errors,609 execution files match frozen source. Four known
+anchor warnings remain in the existing desktop fixture. source673-render/ records
+final Chinese/English routes113checks each, independent-process reopen20each, and
+bilingual editor240checks. Real viewport buttons, disclosed text/settings controller
+fixtures and actual timed playback are preserved; no native OS claim. The actual
+640×420 Chinese/English current64glyph and controls were visually inspected.
+GitHubCI38029449312 succeeds for the same source: all151 Godot steps and all Python
+checks; both full raw job logs inspected without errors, receipts in ci-source673.json.
+The unchanged model/codec/session/catalog/project-settings hashes are explicit in
+authority-boundary.json. Original40 and old-save/future-protection tests pass.
+
+The original source660 full/render evidence and first actual-binary resize failure
+are retained above; they are historical. The delivered runtime includes the fix.
+[Chinese player route](HOW-TO-PLAY.md) gives the actual guarded C/P/G entry and24-cell
+editable passage. Annotation is transient; output comparison is measured, unjudged.
+
+## Frozen playable candidate and final handoff
+
+free-alpha-67334e386aa6 is exported from the exact source above using matching
+Godot4.7.1 official Mac templates. Import/licenses/export full logs pass; archive,
+all file hashes, build identity and packaged notes agree; strict deep signature
+verification passes. Actual binary package fixture16/16 and additional creative
+fixture23/23 pass in fresh sandboxed QA profiles. Binary/pack are unchanged before
+and after probing. In the repaired same-frame geometry, scrolltop552 places actual
+cell64 at y644 inside the158px viewport; static resizing retains manual scroll.
+Complete probe code, sandbox policy and raw logs are in package-source673/.
+
+The byte-identical app, archive, manifest, Chinese route and selected actual-output
+screenshots are delivered in the original checkout's ignored
+build/free-alpha-67334e386aa6/. Candidate identity was checked again after copying.
+The continuing source worktree is /private/tmp/vnb-creative-experience-20261010;
+remote development branch codex/creation-studio-20261010 carries this round. Main
+and published old development history remain retained; the original checkout stays
+on8115b8e with its four unrelated collaborator changes. All three Sol workers have
+released files; root owns the final evidence commit and serialized Git handoff.
+No engines remain needed. No production save migration or public release occurred.
+
+Remaining acceptance: try the provided route as a new player, assess expressive
+choices/emotional pacing, and validate Windows/native-OS operation separately.
+Transient intent notes are deliberately unsaved and unjudged. Newer optional
+controlled-design/check-v2 evidence uses the current reader; older programs reject
+these extensions without deleting them. This is a runnable technical candidate,
+not a notarized release or independent human/artistic acceptance.

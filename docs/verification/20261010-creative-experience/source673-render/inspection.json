@@ -1,0 +1,15 @@
+{
+  "source_commit": "67334e386aa6700505984d1e5af2703397b8aace",
+  "routes_per_language": 113,
+  "reopen_per_language": 20,
+  "bilingual_editor_checks": 240,
+  "all_full_logs_read": true,
+  "visually_inspected": [
+    "zh_CN/08-compact-phrases.png",
+    "en/08-compact-phrases.png",
+    "zh_CN/06-first-difference.png",
+    "editor-captures/replacement-zh_CN.png",
+    "zh_CN/08-performance-complete.png"
+  ],
+  "input_evidence": "viewport buttons with disclosed controller text/settings; no native OS/newcomer acceptance"
+}

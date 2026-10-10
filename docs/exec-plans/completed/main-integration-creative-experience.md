@@ -26,5 +26,26 @@ Pinned Godot4.7.1 isolated full regression for integration checkpoints; inspect 
 
 2026-10-10: PR1 passed both remoteCI jobs (38026616003;146 PASS steps and no error markers in full Godot log), and merged normally with expected-head check as70fefdd. PR2 #2 contains only the verified second-batch delta on a fresh70fefdd-based branchb430478; unpublished source and already-published branch histories were not rewritten. Local batch2 passes147 suites +2 isolation steps and606-file identity. New editing passes focused regression. New composition initially failed a test that unnecessarily required short Chinese controls to wrap; actual bounds passed in both locales. Corrected conditional wrapping now passes169 checks (Chinese536/608 fits; English720/608 wraps). Final full creative regression is running.
 
-## Remaining
-Wait for PR2 protection/CI, merge if allowed; carry the owned creative delta to a new final-main-based branch; render both locales, independently reopen saved A/B, export and probe official Mac candidate, inspect final diff/status and record handoff. Human-required reviews leave PR awaiting approval.
+## Final progress and handoff
+
+PR2 passed CI38027237194, all149 remote Godot steps and Python checks, then merged
+normally as7e4facb. Local main fast-forwarded; original dirty checkout remains8115.
+The owned creative delta moved onto final-main-based codex/creation-studio-20261010.
+Source660 initial149/full renderer passed, then actual compact view exposed resize
+following; actual package exposed same-frame scroll-range settlement. Both small
+presentation edges are fixed without model/schema changes. Final runtime67334e3
+passes149 suites+2 isolation steps,609 execution identities, bilingual route113/
+reopen20, editor240, composition187 and same-source CI38029449312. All full logs
+inspected, four known desktop-fixture warnings separate. Matching official Mac
+export, strict signature/ZIP identity and actual binary16+23 checks PASS.
+The frozen candidate is copied byte-for-byte into original build/free-alpha-67334e386aa6.
+Representative actual edited B has12/64 changes, first10; protected A/save/fork and
+true costs remain intact. Final report contains recipes, raw logs, images, preserved
+failed fixtures, Chinese guarded player route, unchanged authority hashes and
+candidate manifest. Three Sol workers released all files; root sole Git/engine.
+
+Required technical work is complete. Continue development on the independent branch.
+Remaining external acceptance is new-player/expressive-pacing, native OS and Windows;
+no public notarized release or production migration is claimed. Old-reader extension
+compatibility and transient intent limitations are disclosed. Main integrations used
+normal expected-head protected squash merges, no bypass/force/direct main push.

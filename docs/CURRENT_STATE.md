@@ -19,10 +19,8 @@ Python commands PASS. Actual Mac binary/PCK checks and same-ID exported-package
 HTTP→SQLite→private review→delete/restore PASS. The restart acceptance found and
 fixed a real JSON numeric receipt-ID mismatch. No player model/save semantics change.
 
-VPS staging NOT_RUN: existing private staging/runbook was identified by the user
-and read; this Mac lacks its private inventory/SSH connection and trusted host-key
-configuration. Tunnel-based staging testing is authorized; public publication is
-explicitly deferred. Windows native NOT_RUN;
+Remote staging and public player availability NOT_RUN. Deployment/access details
+remain in the local private handoff. Windows native NOT_RUN;
 native Mac input was blocked by locked screen (a renderer retry timed out). Packages
 remain unnotarized candidates, not public release or newcomer acceptance.
 [Exact manifests, receipts, retained failures and limits](verification/20261010-cloud-playtest/README.md),

@@ -46,10 +46,9 @@ Private treatment is a local sidecar keyed by stable ID, no public admin endpoin
    actual60-task content settings, batch/source identity and explicit endpoint.
    Run actual Mac package, save/reopen and synthetic HTTP feedback acceptance.
    Windows export is distinct from native Windows execution.
-5. Reuse the user's identified existing private VPS staging contract through an
-   SSH tunnel. Public publication is explicitly deferred. Its baseline/runbook
-   were read; this Mac lacks the ignored inventory and SSH connection/host-key
-   configuration, so no connection or server operation can be attempted yet.
+5. Verify remote staging only within established authorization and configuration.
+   Keep access details in the local private handoff. Remote acceptance remains
+   NOT_RUN; public player availability is a separate scope.
 6. Relevant fresh regressions, full results/log inspection, diff/status/handoff;
    qualified source PR into main and immutable delivery without replacing old files.
 
@@ -67,10 +66,10 @@ remote availability, native platform input or newcomer understanding.
 receipts inspected. Fetch succeeded. PR3 created, fresh scoped verification running.
 Root/B/C ownership agreed; implementation waits for integration. Existing client
 omits candidate visits, receiver only knows40 tasks, report loses stable IDs.
-Private server configuration/access, approved TLS entrance and publication scope
-not found locally or in connected Drive; awaiting consolidated information.
+Remote access details and unresolved configuration are retained in the local
+private handoff.
 
-2026-10-10: PR3 merged normally asb90ae47, expected head963adeb. Fresh five-suite committed check PASS5615 identities. Main integrated into this branch. Candidate contexts, per-ID states, local atomic drafts and frozen form target implemented. Godot first fixture/init and Variant typing failures retained; repaired two suites PASS. Legacy feedback/privacy/time six suites PASS. Actual export-generated manifest60/current20 identities verified against unchanged legacy40/board. Python branding/report and storage3/receiver3/community7/delivery3/private-report5 PASS with real temporary HTTP/SQLite faults. Sidecar separate from receiver schema2; full-store duplicate retries fixed. First-screen ratings are optional folded controls; bilingual geometry checks running. No server config reply yet.
+2026-10-10: PR3 merged normally asb90ae47, expected head963adeb. Fresh five-suite committed check PASS5615 identities. Main integrated into this branch. Candidate contexts, per-ID states, local atomic drafts and frozen form target implemented. Godot first fixture/init and Variant typing failures retained; repaired two suites PASS. Legacy feedback/privacy/time six suites PASS. Actual export-generated manifest60/current20 identities verified against unchanged legacy40/board. Python branding/report and storage3/receiver3/community7/delivery3/private-report5 PASS with real temporary HTTP/SQLite faults. Sidecar separate from receiver schema2; full-store duplicate retries fixed. First-screen ratings are optional folded controls; bilingual geometry checks running.
 
 2026-10-10: local implementation/acceptance PASS; cloud gates remain pending.
 Full frozen aaf70ed152 suites +2 gates PASS5624 source identities, clean checkout.
@@ -83,8 +82,6 @@ work and draft, receives committed same-ID ack/private report/triage, deduplicat
 deletes and prevents revival after old-backup restore. Final native Mac attempt
 blocked by locked screen; renderer attempt timed out, no native claim. Windows
 native, VPS staging, external HTTPS, off-host backup and newcomer acceptance NOT_RUN.
-The user subsequently identified existing private staging and authorized tunnel
-acceptance only. Baseline/runbook inspected: Mac inventory/SSH config absent and
-known_hosts only GitHub; host/user/port, authorized identity mapping and trusted
-server key are missing. No remote operations. PR4 CI/merge and delivery handoff
+No remote operations. Access/configuration details remain in the local private
+handoff. PR4 CI/merge and delivery handoff
 are recorded in the [round evidence](../../verification/20261010-cloud-playtest/README.md).

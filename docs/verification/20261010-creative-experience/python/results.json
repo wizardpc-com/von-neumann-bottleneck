@@ -1,0 +1,42 @@
+[
+  {
+    "command": [
+      "python3",
+      "scripts/check-branding.py"
+    ],
+    "exit": 0,
+    "log": "check-branding.txt"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/test-report-playtests.py"
+    ],
+    "exit": 0,
+    "log": "test-report-playtests.txt"
+  },
+  {
+    "command": [
+      "python3",
+      "server/test_storage.py"
+    ],
+    "exit": 0,
+    "log": "test_storage.txt"
+  },
+  {
+    "command": [
+      "python3",
+      "server/test_receiver.py"
+    ],
+    "exit": 0,
+    "log": "test_receiver.txt"
+  },
+  {
+    "command": [
+      "python3",
+      "server/test_community.py"
+    ],
+    "exit": 0,
+    "log": "test_community.txt"
+  }
+]

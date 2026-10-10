@@ -138,3 +138,21 @@ mapping is disclosed separately from saved mapping. Cursor, playback tempo and
 reduced-motion/static view are presentation state only. No extra model, PRNG,
 score, cost or persistent write is performed by the renderer. The host locates
 the corresponding replay event or forks the same protected work identity.
+
+Creative editing and phrase viewing (2026-10-10)
+-----------------------------------------------
+
+The selected-passage editor replaces one existing independent example in place.
+Apply changes the draft only; Learn explicitly recounts the model. The editor
+retains invalid/unsubmitted text across local rebuilds and rejects stale selections
+or read-only writers. Frozen A, protected works and supports remain independent.
+Optional intent text is transient player annotation, never model input, persistent
+state or a completion/aesthetic judgment.
+
+`light-phrases-v1` is a separate viewing mapping: each chronological group of16
+uses fixed A/B/C/D lanes, actual adjacent symbols define its trace, and each
+number/click retains the original output index. Phrase boundaries are visual folds,
+not inferred musical meaning, simulated gaps or a new model. Static view shows all
+protected symbols; explicit seek/step and dynamic view reveal/locate the same
+indices. Tempo, composition and scroll never change snapshots, costs or events.
+Original shapes/trace mappings remain selectable without persistent changes.

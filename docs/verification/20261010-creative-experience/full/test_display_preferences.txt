@@ -1,0 +1,3 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: display settings retain unrelated preferences and reject unsupported rates; bilingual work title and bounded management remain reachable; embedded settings add no Hub entry

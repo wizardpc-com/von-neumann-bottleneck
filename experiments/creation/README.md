@@ -237,3 +237,26 @@ that exact work. The new `light-trace-v1` viewer is reversible; saved
 cycles. Silent play remains complete; no music or final art acceptance is claimed.
 
 [This round's playable checkpoint, actual works and verification](../../docs/verification/20261009-personal-works/README.md).
+
+## Edit a passage for your intention
+
+In G2, optionally write what you want this passage to do (for example, fewer B
+and more C). The note is only for this session and is not interpreted or scored.
+For the recorded recipe, select ABAC and ABAD public passages, history2, startAB,
+seed17 and length64. Generate A and Pin A. In Examples / history, choose **Edit** beside an actual
+selected passage. Change its space-separated A/B/C/D symbols and **Replace this
+passage**; this preserves its position and the other passages. Learn explicitly
+to see the real successor-count changes, then Generate B with the locked recipe.
+Inspect the first actual difference and keep whichever work you prefer. An equal
+output is still a valid observation. Cancel, invalid input or stale selection
+cannot replace a different passage or alter the saved A.
+
+In saved-work Focus choose **Light phrases v1** to view the actual sequence on
+four fixed symbol lanes. Repetition makes a plateau; symbol changes make a trace.
+Each16-cell fold retains chronological numbering, click-to-evidence and the exact
+protected snapshot. Play/Step/Scrub follows the current symbol; static overview
+keeps manual scrolling. The original two viewing mappings remain available.
+
+The runnable source and same-model rendered C/P/G→edit→compare→keep→exhibit→fork
+route are recorded in docs/verification/20261010-creative-experience. Native OS
+input and human aesthetic/learning observations remain separate.

@@ -2,6 +2,24 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Main integration and creative studio — 2026-10-10
+
+Protected PR1/PR2 passed fresh local and GitHub CI, then merged normally as
+70fefdd/7e4facb. Main now retains both main-only C/P/G and the full mature
+8115b8e development increment, without rewriting published history. Original40,
+old valid profiles, legal solutions and protected recipes remain intact.
+New work continues separately in codex/creation-studio-20261010 from final main:
+edit one existing sample passage for a transient intention, explicitly learn,
+compare true fixed-recipe A/B, keep and exhibit exact saved output in four lanes.
+First full149-suite regression and bilingual112-check renderer +20 independent
+reopen checks pass. Visual inspection found current-cell following on resize;
+the small presentation repair and stronger renderer assertion are being verified.
+[Current evidence, PR receipts and exact boundaries](verification/20261010-creative-experience/README.md).
+Final source freeze/export and handoff receipts follow without production data
+migration or public release. Human/newcomer/artistic and Windows acceptance remain
+separate. Old binaries reject newer optional design/check extensions; keep backups
+and use the current reader for those profiles.
+
 ## Main integration batch2 — 2026-10-10
 
 The second linear PR batch adds the dependency-complete77c57dc/012f261 creative

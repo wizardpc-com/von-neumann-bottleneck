@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Minimum width reflows the real controls into rows
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_exhibition_composition.gd:14)
+       [1] run (res://tests/test_creation_exhibition_composition.gd:61)
+       [2] settle (res://tests/test_creation_exhibition_composition.gd:16)
+FAIL: ["Minimum width reflows the real controls into rows"]

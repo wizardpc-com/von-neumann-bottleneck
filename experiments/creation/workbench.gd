@@ -74,6 +74,11 @@ var play_button: Button
 var train_button: Button
 var selected_examples: Label
 var examples_list: VBoxContainer
+var sample_edit_index: int = -1
+var sample_edit_source: Array = []
+var sample_edit_selection: Array = []
+var sample_edit_text: String = ""
+var creation_intent: String = ""
 var event_page: int = 0
 var event_caption: Label
 var prediction_recipe: Dictionary = {}
@@ -90,6 +95,7 @@ var cost_comparison_details: Label
 var recovery_dialog: ConfirmationDialog
 var writer_dialog: ConfirmationDialog
 var leave_dialog: ConfirmationDialog
+var sample_leave_dialog: ConfirmationDialog
 
 func text2(zh: String, en: String) -> String:
 	return en if english else zh
@@ -383,6 +389,7 @@ func _build_examples(parent: Node) -> void:
 	selected_examples.name = "SelectedExamples"
 	examples_list = VBoxContainer.new()
 	parent.add_child(examples_list)
+	_build_sample_editor(parent)
 	for i: int in Catalog.SAMPLE_NAMES_ZH.size():
 		var sample: Array = Catalog.sample(i)
 		var choice := CheckBox.new()
@@ -421,6 +428,85 @@ func _build_examples(parent: Node) -> void:
 		edit_draft()
 		rebuild_editor_preserving_inputs())
 	label(text2("准备费用来自实际读取、计数更新与模型写入，可在事件页查看。","Preparation pays for actual sample reads, count updates and model writes; inspect Events."),parent,12)
+
+func _build_sample_editor(parent: Node) -> void:
+	var editor := VBoxContainer.new()
+	editor.name = "SampleEditor"
+	parent.add_child(editor)
+	editor.visible = sample_edit_index >= 0
+	label(text2("编辑第 %d 段 · 用空格分隔 A B C D，1–96项", "Edit passage %d · space-separated A B C D, 1–96 cells")%[sample_edit_index+1],editor,12)
+	var entry := LineEdit.new()
+	entry.name = "SampleEditText"
+	entry.text = sample_edit_text
+	entry.editable = writable
+	entry.text_changed.connect(func(value: String) -> void: sample_edit_text = value)
+	editor.add_child(entry)
+	var actions := HFlowContainer.new()
+	editor.add_child(actions)
+	button(text2("替换这一段", "Replace this passage"),"ApplySampleEdit",actions,apply_sample_edit).disabled = not writable
+	button(text2("取消修改", "Cancel edit"),"CancelSampleEdit",actions,cancel_sample_edit)
+	label(text2("只替换当前这一段，不新增样例。主动学习后才更新规则；A与旧作品保留。", "Replace this passage without adding an example. Learn explicitly to update rules; A and saved works stay intact."),editor,12)
+
+func begin_sample_edit(index: int) -> void:
+	if not writable or index < 0 or index >= session.data.draft.examples.size(): return
+	var editor_state: Dictionary = _capture_editor_state()
+	sample_edit_index = index
+	sample_edit_source = session.data.draft.examples[index].duplicate()
+	sample_edit_selection = session.data.draft.examples.duplicate(true)
+	sample_edit_text = Catalog.symbols(sample_edit_source)
+	editor_state.inputs["SampleEditText"] = sample_edit_text
+	editor_state.erase("focus")
+	build()
+	_restore_editor_state(editor_state)
+	call_deferred("focus_sample_editor",true)
+	set_status(text2("正在修改第 %d 段；确认替换后，再学习并检查真实计数与输出。", "Editing passage %d; replace, then learn and inspect actual counts and output.")%[index+1])
+
+func focus_sample_editor(select_text: bool = false) -> void:
+	await get_tree().process_frame
+	if sample_edit_index < 0: return
+	var tabs := find_child("DraftTabs",true,false) as TabContainer
+	if tabs != null: tabs.current_tab = 0
+	await get_tree().process_frame
+	var entry := find_child("SampleEditText",true,false) as LineEdit
+	if entry == null or not entry.is_visible_in_tree(): return
+	var ancestor: Node = entry.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer: ancestor.ensure_control_visible(entry)
+		ancestor = ancestor.get_parent()
+	entry.grab_focus()
+	if select_text: entry.select_all()
+
+func apply_sample_edit() -> void:
+	if not writable:
+		set_status(text2("当前档案只读；未提交文本保留。", "This profile is read-only; unsubmitted text stays available."))
+		return
+	var entry := find_child("SampleEditText",true,false) as LineEdit
+	if entry == null or sample_edit_index < 0: return
+	sample_edit_text = entry.text
+	var examples: Array = session.data.draft.examples
+	if examples != sample_edit_selection or sample_edit_index >= examples.size() or examples[sample_edit_index] != sample_edit_source:
+		set_status(text2("原段已改变或移除。文本保留，请重新选择要编辑的段，避免替换另一段。", "The original passage changed or was removed. Text is retained; select the intended passage again before replacing it."))
+		return
+	var parsed: Dictionary = Catalog.parse_symbols(sample_edit_text)
+	if not parsed.ok or parsed.symbols.is_empty():
+		set_status(text2("修改需包含1–96项合法符号（用空格分隔 A B C D）；文本保留。", "Edit needs 1–96 legal cells (space-separated A B C D); text is retained."))
+		return
+	var changed: bool = parsed.symbols != sample_edit_source
+	if changed:
+		examples[sample_edit_index] = parsed.symbols.duplicate()
+		edit_draft()
+	sample_edit_index = -1
+	sample_edit_source.clear()
+	sample_edit_selection.clear()
+	rebuild_editor_preserving_inputs()
+	set_status(text2("这一段已替换；其他样例与已学模型保留。点「学习」更新规则，再运行B。", "Passage replaced; other examples and learned rules stay intact. Learn to update rules, then run B.") if changed else text2("这一段没有变化；已学模型和输出保留。", "This passage is unchanged; learned rules and output stay intact."))
+
+func cancel_sample_edit() -> void:
+	sample_edit_index = -1
+	sample_edit_source.clear()
+	sample_edit_selection.clear()
+	rebuild_editor_preserving_inputs()
+	set_status(text2("未替换样例；当前草稿、模型与作品保留。", "No passage replaced; the draft, model and works stay intact."))
 
 func _build_machine(parent: Node) -> void:
 	if task == 2:
@@ -917,6 +1003,7 @@ func refresh() -> void:
 		examples_list.add_child(row)
 		var passage: Label = label(str(i+1)+": "+Catalog.symbols(examples[i]),row,11)
 		passage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button(text2("编辑", "Edit"),"EditExample"+str(i),row,func() -> void: begin_sample_edit(i)).disabled = not writable
 		button("×","RemoveExample"+str(i),row,func() -> void:
 			session.data.draft.examples.remove_at(i)
 			session.mark_dirty()
@@ -1308,6 +1395,21 @@ func _process(delta: float) -> void:
 		signal_view.follow_cursor()
 
 func _build_leave_dialog() -> void:
+	sample_leave_dialog = ConfirmationDialog.new()
+	sample_leave_dialog.name = "PendingSampleProtection"
+	sample_leave_dialog.title = text2("样例文字尚未提交", "Unsubmitted example text")
+	sample_leave_dialog.dialog_text = text2("这段修改尚未替换到草稿，保存草稿也不会保存它。返回编辑，或明确放弃文字后继续离开。已学模型与作品不变。", "This text has not replaced a draft passage; Save draft does not save it. Return to editing, or explicitly discard the text before continuing to leave. Learned rules and works stay intact.")
+	sample_leave_dialog.ok_button_text = text2("放弃文字再离开", "Discard text and continue leaving")
+	sample_leave_dialog.cancel_button_text = text2("返回编辑", "Return to editing")
+	sample_leave_dialog.canceled.connect(func() -> void: call_deferred("focus_sample_editor"))
+	sample_leave_dialog.confirmed.connect(func() -> void:
+		sample_edit_index = -1; sample_edit_source.clear(); sample_edit_selection.clear(); sample_edit_text = ""
+		var entry := find_child("SampleEditText",true,false) as LineEdit
+		if entry != null: entry.clear()
+		var editor := find_child("SampleEditor",true,false) as Control
+		if editor != null: editor.hide()
+		request_saved_draft_leave())
+	add_child(sample_leave_dialog)
 	leave_dialog = ConfirmationDialog.new()
 	leave_dialog.name = "LeaveProtection"
 	leave_dialog.title = text2("草稿尚未保存","Unsaved draft")
@@ -1324,6 +1426,17 @@ func _build_leave_dialog() -> void:
 
 func request_leave(to_hub: bool) -> void:
 	leaving_to_hub = to_hub
+	if has_pending_sample_text(): sample_leave_dialog.popup_centered(Vector2i(560,250))
+	else: request_saved_draft_leave()
+
+func has_pending_sample_text() -> bool:
+	if sample_edit_index < 0: return false
+	var entry := find_child("SampleEditText",true,false) as LineEdit
+	if entry == null: return false
+	var parsed: Dictionary = Catalog.parse_symbols(entry.text)
+	return not parsed.ok or parsed.symbols != sample_edit_source
+
+func request_saved_draft_leave() -> void:
 	if session.dirty: leave_dialog.popup_centered(Vector2i(560,230))
 	else: finish_leave()
 
@@ -1386,9 +1499,11 @@ func retry_writer(reload_saved: bool = false, stopped: String = "") -> void:
 
 func _capture_editor_state() -> Dictionary:
 	var saved: Dictionary = {"inputs":{},"tabs":{},"work":works.get_selected_items(),"page":signal_view.page}
-	for handle: String in ["WorkName","CustomExample","Initial"]:
+	for handle: String in ["WorkName","CustomExample","Initial","SampleEditText","CreationIntent"]:
 		var input := find_child(handle,true,false) as LineEdit
 		if input != null: saved.inputs[handle] = input.text
+	if saved.inputs.has("SampleEditText"): sample_edit_text = str(saved.inputs.SampleEditText)
+	if saved.inputs.has("CreationIntent"): creation_intent = str(saved.inputs.CreationIntent)
 	for handle: String in ["DraftTabs","EvidenceTabs"]:
 		var tabs := find_child(handle,true,false) as TabContainer
 		if tabs != null: saved.tabs[handle] = tabs.current_tab
@@ -1443,6 +1558,7 @@ func _restore_editor_state(saved: Dictionary) -> void:
 		if focus != null and focus.is_visible_in_tree() and focus.focus_mode != Control.FOCUS_NONE and not (focus is BaseButton and focus.disabled): focus.grab_focus()
 
 func _clear_replaced_exploration() -> void:
+	sample_edit_index = -1; sample_edit_source.clear(); sample_edit_selection.clear(); sample_edit_text = ""; creation_intent = ""
 	commission = -1; commission_model = ""; commission_receipts.clear()
 	suppress_snapshot_fallback = false
 	latest.clear(); records.clear(); comparison.clear()
@@ -1571,6 +1687,17 @@ func set_evidence_expanded(expanded: bool) -> void:
 	evidence_toggle.tooltip_text = text2("只改变阅读区域；保留已选格、页码、草稿和实测。", "Reading space only; selected cell, page, draft and measurements stay intact.")
 
 func _build_creation_comparison(parent: Node) -> void:
+	label(text2("你想让这段怎样继续？（可选，仅本次会话）", "How do you want it to continue? (optional, this session only)"),parent,12)
+	var intent := LineEdit.new()
+	intent.name = "CreationIntent"
+	intent.placeholder_text = text2("例如：让 A 之后更常出现 C", "For example: more C after A")
+	intent.text = creation_intent
+	intent.max_length = 160
+	intent.text_changed.connect(func(value: String) -> void:
+		creation_intent = value
+		_refresh_creation_comparison())
+	parent.add_child(intent)
+	label(text2("这是你提出的目标，不控制模型或通关。先编辑所选样例，再学习；是否达到由真实后继计数与输出说明。", "This is your goal; it does not control the model or completion. Edit a selected example, then learn; actual successor counts and output show what happened."),parent,12)
 	label(text2("受控对照 · 先生成，再钉住 A", "Controlled comparison · generate, then pin A"),parent,14)
 	label(text2("钉住后锁定种子、起始片段和长度，并保持机器。只改一项：增删／替换一段样例、记忆或采样；样例／记忆改后重新学习，再生成 B。A 保持不变；确认保留 A/B 时保存有效设计观察。", "Pinning locks seed, initial passage and length; keep the machine fixed. Change one factor: one added/removed/replaced example, history or sampling. Learn again after examples/history edits, then generate B. A stays fixed; keeping A/B saves its valid design observation."),parent,12)
 	label(text2("可选起点：用 ABAD 样例、记忆2、起始 AB、种子17、长度64生成 A；钉住后仅将 ABAD 替换为 ACAD，学习并生成 B。自行设置；不会自动换入模型。", "Optional starting recipe: ABAD example, history2, initial AB, seed17, length64 for A. Pin it, replace only ABAD with ACAD, learn and generate B. Set it yourself; the model is never swapped automatically."),parent,12)
@@ -1594,6 +1721,7 @@ func _refresh_creation_comparison() -> void:
 	var pinned: bool = not pinned_creation.is_empty()
 	if is_instance_valid(creation_caption):
 		creation_caption.text = CreationComparison.caption(creation_report,english) if pinned else text2("还没有钉住 A。", "No A pinned yet.")
+		if not creation_intent.strip_edges().is_empty(): creation_caption.text += "\n"+text2("你的目标（未判定）：", "Your goal (not judged): ")+creation_intent
 		if pinned and not compared_creation.is_empty():
 			var visible: String = "A" if latest.get("recipe",{}) == pinned_creation.recipe and latest.get("output",[]) == pinned_creation.output else "B" if latest.get("recipe",{}) == compared_creation.recipe and latest.get("output",[]) == compared_creation.output else text2("其他视图","another view")
 			creation_caption.text += "\n"+text2("当前显示：", "Currently showing: ")+visible

@@ -1,0 +1,26 @@
+{
+  "read_full_logs": [
+    "test_creation_input_validation.txt",
+    "test_creation_keyboard_focus.txt",
+    "test_creation_exhibition.txt",
+    "test_creation_exhibition_composition.txt",
+    "test_creation_comparison.txt",
+    "test_creation_design_evidence.txt",
+    "test_creation_sample_editing.txt",
+    "test_creation_contract.txt",
+    "import.txt",
+    "test_creation_edit_controls.txt",
+    "user_directory.txt",
+    "test_creation_future_workbench.txt",
+    "test_creation_draft_undo.txt",
+    "test_creation_work_focus.txt",
+    "test_creation_workbench.txt"
+  ],
+  "issues": {
+    "test_creation_exhibition_composition.txt": [
+      "ERROR: Minimum width reflows the real controls into rows",
+      "FAIL: [\"Minimum width reflows the real controls into rows\"]"
+    ]
+  },
+  "source_tree": "owned creative delta on8115b8e"
+}

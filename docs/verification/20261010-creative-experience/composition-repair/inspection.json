@@ -1,0 +1,9 @@
+{
+  "read_full_logs": [
+    "test_creation_exhibition_composition.txt",
+    "import.txt",
+    "user_directory.txt"
+  ],
+  "issues": {},
+  "source_tree": "owned creative delta on8115b8e"
+}

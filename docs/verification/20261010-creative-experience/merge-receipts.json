@@ -1,0 +1,37 @@
+{
+  "starting_main": "e46f8664e044c545a130e825363c72d77eca8513",
+  "starting_development": "8115b8e563196c373c5212c47c5c5aa044ca553e",
+  "pr1": {
+    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/pull/1",
+    "head": "150aa3e083e315027e64a2016fac2f56f9906fcb",
+    "merge_sha": "70fefddf7910b5c3b5860288ac9b3e86c5a0103c",
+    "method": "normal expected-head squash",
+    "ci_run": 38026616003,
+    "ci_jobs": {
+      "godot": 114138692484,
+      "python": 114138692620
+    },
+    "full_logs_inspected": true,
+    "error_markers": []
+  },
+  "pr2": {
+    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/pull/2",
+    "head": "b4304788be0b02b1977fa13ba7917f9713a29c33",
+    "base": "70fefddf7910b5c3b5860288ac9b3e86c5a0103c",
+    "ci_run": 38027237194,
+    "status": "merged",
+    "merge_sha": "7e4facb17f99b3a79b3e6dbf0c7a6bcb5a1118a8",
+    "method": "normal expected-head squash",
+    "ci_jobs": {
+      "godot": 114140564177,
+      "python": 114140564289
+    },
+    "full_logs_inspected": true,
+    "error_markers": []
+  },
+  "no_force_push": true,
+  "no_settings_change": true,
+  "no_direct_main_push": true,
+  "final_main": "7e4facb17f99b3a79b3e6dbf0c7a6bcb5a1118a8",
+  "new_development_branch": "codex/creation-studio-20261010"
+}

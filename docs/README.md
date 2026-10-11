@@ -8,7 +8,12 @@ Start with [CURRENT_STATE](CURRENT_STATE.md), the single current entry. The docu
 
 ## Current entry points
 
-- [Compression → content prediction → creation candidate](verification/20261008-creation/README.md)
+- [Sixty-task playtest and private feedback receipt evidence](verification/20261010-cloud-playtest/README.md)
+- [Creative studio, saved performances and frozen candidate](verification/20261010-creative-experience/README.md)
+- [Claude and Codex collaboration](development/collaboration.md): shared policy,
+  file ownership, local handoffs, and verification in the same checkout.
+- [Historical Mac night brief](briefs/codex-night/NIGHT_BRIEF.md) · [Supplied constitution](briefs/codex-night/GAME_CONSTITUTION.md)
+- [Earlier compression → content prediction → creation candidate](verification/20261008-creation/README.md)
 
 - [Second-act framework and isolated playable labs](design/second-act-framework.md) - [Verification and proxy limits](verification/20261002-second-act/README.md)
 

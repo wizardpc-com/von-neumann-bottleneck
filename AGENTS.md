@@ -15,6 +15,25 @@ Repository-local documentation is the durable source of truth.
 
 Do not invent product decisions when documentation is incomplete or ambiguous.
 
+## Claude and Codex collaboration
+
+Both assistants follow this file. Claude's root `CLAUDE.md` imports it rather than
+maintaining a second set of project rules. Read
+`docs/development/collaboration.md` before working in the shared checkout.
+
+* Agree on task scope and file ownership before simultaneous edits. Only one
+  assistant edits a given file at a time; include shared scenes, translations,
+  project settings, and documentation in the claimed scope.
+* Treat unexplained changes as another collaborator's work. Never overwrite,
+  revert, stage, or commit them without coordination.
+* Only one assistant performs Git mutations or Godot runs at a time. Do not
+  switch the shared branch while another assistant is working.
+* Keep the local handoff at `.godot/collaboration/handoff.md` current with owner,
+  files, progress, exact verification evidence, and unresolved issues. It is a
+  coordination record, not an automatic lock or a source of product decisions.
+* Finish with a reviewable diff and a handoff. Existing commit/push permissions
+  still apply; collaboration does not grant either assistant extra authority.
+
 ## Core invariants
 
 Unless explicitly changed by the user:

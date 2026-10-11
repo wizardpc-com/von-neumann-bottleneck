@@ -85,3 +85,10 @@ native, VPS staging, external HTTPS, off-host backup and newcomer acceptance NOT
 No remote operations. Access/configuration details remain in the local private
 handoff. PR4 CI/merge and delivery handoff
 are recorded in the [round evidence](../../verification/20261010-cloud-playtest/README.md).
+
+2026-10-11 cleanup: PR4 merged normally asfdfbd6f with expected headba2be98;
+local main matches. Final CI38044771067 passed152 suites +2 isolation steps and
+all seven Python commands. Runtime/package source remains efda8b8; later changes
+are reviewed documentation only. Shared collaboration docs and historical brief
+navigation are included under the user's all-updates merge request.
+The plan stays active because actual remote feedback acceptance is NOT_RUN.

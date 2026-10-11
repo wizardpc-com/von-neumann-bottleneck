@@ -16,6 +16,15 @@ protocol and exclusively ran Git/engine/GUI/receiver; two disjoint workers finis
 and released their files. Models, save readers/writers, authored goals and
 simulation semantics remain unchanged. [Contract and field coverage](../../architecture/community-feedback.md).
 
+PR4 merged normally with expected headba2be983 as mainfdfbd6fb851bf925463a51335e20da4a202a2706;
+local main was fast-forwarded without switching or overwriting the shared checkout.
+Final PR4 CI38044771067 subsequently passed152 suites + import/user isolation
+and all seven Python checks. Its complete logs are retained locally. The final
+PR4 tree differs from frozen efda8b8 only in four reviewed documentation files.
+The 2026-10-11 documentation cleanup integrates the previously preserved shared
+collaboration documents and indexes the existing historical brief. It introduces
+no new game behavior, build, remote deployment or platform acceptance.
+
 ## Frozen candidates
 
 `build/playtest-Round20261010-efda8b84ae6e/` contains both ZIPs, real Mac app/Windows

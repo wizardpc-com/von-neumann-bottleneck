@@ -160,7 +160,7 @@ Maintenance, branding and receiver workflows: [owner guide](docs/development/fin
 - `docs/` is the durable project knowledge base.
 - `experiments/` is for isolated investigations and must not become an implicit runtime dependency.
 - There is no asset pipeline yet; the current interface is generated from built-in Godot controls.
-- There is no CI workflow yet. The locally verified commands and the CI prerequisite are recorded in `docs/development/testing.md`.
+- `.github/workflows/verify.yml` runs isolated Godot and Python checks on push/PR. Commands and verification boundaries are recorded in `docs/development/testing.md`; CI does not deploy or certify native platform input.
 
 Keep this map compact. Put subsystem mechanics in detailed docs and record consequential changes in `docs/decisions/` when a durable decision is actually made.
 

@@ -757,9 +757,11 @@ The Prologue Playability Rework Round 2 on 2026-08-28 reran all fourteen `tests/
 
 `.github/workflows/verify.yml` now runs the existing Python synthetic contracts and
 isolated Godot suites on push/PR. The official engine is fixed to 4.7.1 and its release
-checksum is checked. Runner execution is not yet established as a required check;
-inspect the first actual run before enabling branch protection. No secrets, exports
-or deployment run in this workflow. Native acceptance remains separate.
+checksum is checked. PR4's final run38044771067 passed152 suites plus import/user
+isolation and all seven Python commands. Required-check configuration is separate
+from a successful run; this document does not assert or change branch protection.
+No secrets, exports or deployment run in this workflow. Native acceptance remains
+separate.
 
 Use `--suite test_chapter_workspaces --suite test_final_convergence` (repeatable) with
 the isolated verifier for narrow save/settings rechecks; omit `--suite` for the full run.

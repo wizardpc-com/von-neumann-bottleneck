@@ -1,5 +1,9 @@
 # Codex 夜间开发任务书：Mac 第二幕候选体验
 
+> **历史参考。** 本文保留当轮原始任务与当时基线，不代表当前待办或持续授权。
+> 当前实现、验证和剩余事项见 [CURRENT_STATE](../../CURRENT_STATE.md)；
+> 当时提供的 [游戏宪法](GAME_CONSTITUTION.md) 保留在同一归档目录。
+
 > 仓库：`wizardpc-com/von-neumann-bottleneck`  
 > 起草时核对的远端 main：`c5a2b0cd5ac1e508f4e6e25ab4c6b3f862e22968`。执行前重新确认实际基线，不回退到旧 SHA。  
 > 本文是当轮任务增量；`GAME_CONSTITUTION.md` 管方向，仓库 `AGENTS.md` 和宿主权限管安全，实际源码与验证记录管现状。宪法的历史附录不是当前待办。  

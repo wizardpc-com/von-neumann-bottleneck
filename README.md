@@ -18,9 +18,11 @@
 
 **公开版本（2026-09-18）：** `v0.5.0-alpha.1` 已发布，包含五个区域、40 个任务以及 Windows / macOS 构建。后续源码可能继续演进；需要试玩时请优先使用 Release 中的冻结版本。
 
-**新候选（2026-10-08）：** 已有旅程新增「压缩 → 内容预测 → 创造」九个单元，
-用同一学习模型复原、预测，再生成并保存自己的光纹作品。
-[候选项目启动、实际作品与验收边界](docs/verification/20261008-creation/README.md)。
+**当前候选（2026-10-11）：** main 已整合原核心40任务、表示5任务、服务3合同、
+可选地址预测3任务及「压缩 → 内容预测 → 创造」9单元，共60个候选任务。
+用同一学习模型复原、预测，再生成并保存自己的光纹作品；未通关也能反馈。
+本地 Mac/Windows 候选已导出，远程反馈入口尚未配置，公网试玩未验收。
+[候选构建、反馈闭环与平台验收边界](docs/verification/20261010-cloud-playtest/README.md)。
 
 [下载 Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 

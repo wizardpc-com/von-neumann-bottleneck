@@ -4,7 +4,10 @@
 
 ## Distributable journey and feedback integration — 2026-10-10
 
-Creative PR3 merged normally into main as b90ae47. The current round integrates
+Creative PR3 merged normally into main as b90ae47; feedback PR4 merged as
+fdfbd6fb851bf925463a51335e20da4a202a2706. Local main was fast-forwarded without
+overwriting the shared checkout. Final PR4 CI38044771067 subsequently passed all
+152 suites plus import/user isolation and seven Python commands. The round integrates
 the existing sixty-task candidate and feedback from unfinished tasks, including
 Representation, Service, optional address Prediction and C/P/G. The runtime
 changes preserve simulation authority, authored tasks and player save contracts.
@@ -34,7 +37,7 @@ Protected PR1/PR2 passed fresh local and GitHub CI, then merged normally as
 without rewriting published history. Original40, old valid profiles, legal
 solutions and protected model/work recipes remain intact.
 
-New work continues separately on codex/creation-studio-20261010 from final main.
+The codex/creation-studio-20261010 increment was integrated by PR3.
 Runtime67334e3 lets the player edit an existing passage for a transient intention,
 explicitly Learn, compare actual fixed-recipe A/B, keep and exhibit exact saved
 output in four lanes. In the documented recipe,12/64 cells change, first at10;

@@ -1,11 +1,10 @@
 # Execution queue
 
-The [theme development plan](../completed/thought-within-world.md) is complete
-within its documented source-development scope. External listening/player/native
-mouse acceptance remains explicitly separate in its final evidence.
+[Distributable playtest and cloud feedback](distributable-cloud-playtest.md) is the
+current cross-subsystem plan. Implementation and local package acceptance are
+recorded; real VPS acceptance remains NOT_RUN. Public deployment is deferred.
 
-The finite release-convergence implementation is completed and archived in
-[completed](../completed/free-alpha-release-convergence.md). The settings/UI follow-up is also
-[completed](../completed/prelaunch-settings-and-ui.md). Other files here are explicitly historical and retain their old paths.
-The authoritative current entry is [CURRENT_STATE](../../CURRENT_STATE.md);
-external acceptance gates are [RELEASE_BLOCKERS](../../../RELEASE_BLOCKERS.md).
+Use [CURRENT_STATE](../../CURRENT_STATE.md) for delivered scope and
+[RELEASE_BLOCKERS](../../../RELEASE_BLOCKERS.md) for external acceptance.
+Superseded queues have been removed; their history is recoverable from Git.
+Create a new plan only when [PLANS.md](../../../PLANS.md) requires one.

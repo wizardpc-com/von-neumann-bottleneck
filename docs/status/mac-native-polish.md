@@ -121,7 +121,7 @@ unique Mac player directory for every case, checked by an actual path probe.
 
 The [verification summary](../verification/2026-09-07-mac-native-polish/summary.json)
 records source commit `d8c752f`, exact run IDs, pass counts and evidence limits.
-The [active plan](../exec-plans/active/mac-native-polish.md) retains intermediate
+The [historical plan](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/exec-plans/active/mac-native-polish.md) retains intermediate
 failures and remaining work.
 
 Do not infer novice comprehension, physical trackpad comfort, mixed-monitor DPI,
@@ -240,7 +240,7 @@ click, and focus cancellation when raising the user's existing editor. The
 editor remains open. A held Escape is viewport-input evidence, not a separate
 native held-mouse claim.
 
-The ongoing [all-level review](../exec-plans/active/campaign-playability-review.md)
+The historical [all-level review](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/exec-plans/active/campaign-playability-review.md)
 tracks content assessment and pending major-design decisions separately.
 
 ## Campaign playability review and presentation follow-up (2026-09-07)

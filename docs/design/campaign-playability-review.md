@@ -122,7 +122,7 @@ CodeEdit 文本尾段；画面与游戏的解析状态用于复核。没有把�
 
 本次在 Godot 4.7.1、Mac Retina 的独立普通 Game 存档中，手接并完成原有
 9 + 5 + 7 关。前置没有使用参考解、自动回放或 Test 模式授予。逐关的操作、
-失败尝试、成绩与版本边界见[完整记录](../exec-plans/active/full-game-player-iteration.md)。
+失败尝试、成绩与版本边界见[完整记录](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/exec-plans/active/full-game-player-iteration.md)。
 这是熟悉项目的 AI 玩家判断，不能推算真人新手耗时、留存或难度比例。
 
 | 环节 | 这次实际体验 | 处理 |

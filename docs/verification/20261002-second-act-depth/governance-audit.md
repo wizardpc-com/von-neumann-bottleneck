@@ -2,9 +2,13 @@
 
 Audit performed 2026-10-03 against committed baseline `637bcd9`, with project configuration compared to `66cc10a`. This is static governance/resource evidence, separate from the root-owned engine regression and input replay. No simulation, saves, UID files or project configuration were changed in this work.
 
+> Maintenance note, 2026-10-11: superseded source instructions were subsequently
+> removed from the checkout. The Git link below preserves the archive audited here;
+> path-resolution claims below describe the 2026-10-03 audit only.
+
 ## Historical instruction archive
 
-Moved the two supplied root files into [the historical archive](../../archive/20260910-five-chapter/README.md), prepended prominent HISTORICAL / COMPLETED / DO NOT USE AS CURRENT EXECUTION INSTRUCTION notices, and marked the unchanged-body design duplicate historical. COMPLETED refers only to superseded historical execution scope; it does not close every original promise or acceptance item. The dated implementation plan's genuine source reference and root-location statement now point to the archive. Embedded historical instructions were inspected as source material, never executed.
+Moved the two supplied root files into [the historical archive](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/archive/20260910-five-chapter/README.md), prepended prominent HISTORICAL / COMPLETED / DO NOT USE AS CURRENT EXECUTION INSTRUCTION notices, and marked the unchanged-body design duplicate historical. COMPLETED refers only to superseded historical execution scope; it does not close every original promise or acceptance item. The dated implementation plan's genuine source reference and root-location statement now point to the archive. Embedded historical instructions were inspected as source material, never executed.
 
 The prompt's original `docs/design/FIVE_CHAPTER_FREE_ALPHA_DEVELOPMENT_PLAN.md` path remains in the preserved body and now resolves to the marked historical duplicate. Other embedded root-relative paths are dated context, not archive-relative execution instructions. External historical citations were not refreshed.
 

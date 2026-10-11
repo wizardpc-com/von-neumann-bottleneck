@@ -1,7 +1,7 @@
 # Mac second-act candidate journey — 2026-10-05
 
 ## Goal and boundaries
-Execute [NIGHT_BRIEF](../../briefs/codex-night/NIGHT_BRIEF.md) under the
+Execute [NIGHT_BRIEF](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/briefs/codex-night/NIGHT_BRIEF.md) under the
 [constitution](../../briefs/codex-night/GAME_CONSTITUTION.md). Baseline:
 `c5a2b0cd5ac1e508f4e6e25ab4c6b3f862e22968`. Deliver the existing representation
 five tasks and service three contracts as resumable Mac candidate journeys.

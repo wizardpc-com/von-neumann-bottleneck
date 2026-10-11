@@ -1,7 +1,7 @@
 # Full Game native player pass — 2026-09-08
 
-This is a continuing player-led pass, not release acceptance. The active ledger
-is [full-game-player-iteration](../../exec-plans/active/full-game-player-iteration.md).
+This records the dated player-led pass, not current release acceptance. Its historical ledger
+is [full-game-player-iteration](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/exec-plans/active/full-game-player-iteration.md).
 
 ## Native routes and version boundaries
 

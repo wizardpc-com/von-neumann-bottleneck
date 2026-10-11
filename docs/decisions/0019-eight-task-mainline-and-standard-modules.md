@@ -2,7 +2,7 @@
 
 > Superseded product direction, 2026-09-05: the user withdrew replacement of the original mainline by eight tasks, demotion of construction to an optional workshop, and replacement of the floating desktop by a fixed workspace. The original Game route is restored. This document is retained as historical comparison evidence; simulation, provenance, save protection, and Git safety still apply. See [recovery status](../status/in-place-recovery.md).
 
-Status: accepted, 2026-09-05. Product authority: [approved blueprint](../design/DEMO_REDESIGN_BLUEPRINT.md).
+Status: superseded; runtime removed 2026-09-09. Historical product authority: [approved blueprint](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/design/DEMO_REDESIGN_BLUEPRINT.md).
 
 ## Decision
 
@@ -22,4 +22,4 @@ For the new mainline this decision supersedes the mandatory prologue entry gate 
 
 ## Consequences and verification
 
-A small new controller avoids inheriting the old investigation controllers' tightly coupled gates. The existing workshop and legacy lab controllers remain substantial code; this change does not claim to have redesigned every optional legacy tool. New model, route/UI, input, localization and save tests complement the original suites. [Current status](../status/demo-redesign.md) distinguishes playable implementation, bounded solution enumeration, rendered/input evidence and human acceptance.
+A small new controller avoids inheriting the old investigation controllers' tightly coupled gates. The existing workshop and legacy lab controllers remain substantial code; this change does not claim to have redesigned every optional legacy tool. New model, route/UI, input, localization and save tests complement the original suites. [Historical implementation status](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/status/demo-redesign.md) distinguishes playable implementation, bounded solution enumeration, rendered/input evidence and human acceptance.

@@ -92,3 +92,8 @@ all seven Python commands. Runtime/package source remains efda8b8; later changes
 are reviewed documentation only. Shared collaboration docs and historical brief
 navigation are included under the user's all-updates merge request.
 The plan stays active because actual remote feedback acceptance is NOT_RUN.
+
+2026-10-11 pruning: old briefs and superseded queues were removed from the current
+checkout. Root remains the sole owner of integration; worker file ownership is
+released. [Current acceptance gates](../../../RELEASE_BLOCKERS.md) retain remote,
+platform and player limits. Historical brief navigation no longer defines scope.

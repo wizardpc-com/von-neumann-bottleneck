@@ -42,7 +42,8 @@ The original chapters share `InstrumentTheme`, `TechnicalBackdrop` and bundled N
 The eight-task comparison runtime, autoload, exclusive translations and tests were
 removed on 2026-09-09 by explicit user request. Existing comparison save files are
 left untouched and never grant original campaign completion. Historical design
-and evidence remain in Git and marked historical docs.
+remains in Git; dated verification records retain their build attribution. The
+removed fork is not an active product or implementation queue.
 
 ## Hardware Foundations flow
 

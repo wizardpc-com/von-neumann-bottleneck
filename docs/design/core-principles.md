@@ -1,6 +1,6 @@
 # Core design principles
 
-The current product contract preserves original construction and the arithmetic/storage → CPU → LOAD/STORE → Chapter 1 → Chapter 2 route, with incremental improvements to presentation, interaction and learning. The user's September 5 recovery and optimization instructions supersede the replacement-mainline, optional-workshop and fixed-desktop decisions in [DEMO_REDESIGN_BLUEPRINT.md](DEMO_REDESIGN_BLUEPRINT.md) and ADR 0019. Those documents describe the retained comparison implementation. Simulation, provenance, saves and the original chapters' execution and progression rules remain binding. See [construction experience](../status/construction-experience.md).
+The current product contract preserves original construction and the arithmetic/storage → CPU → LOAD/STORE → Chapter 1 → Chapter 2 route, with incremental improvements to presentation, interaction and learning. The user's September 5 recovery and optimization instructions supersede the replacement-mainline, optional-workshop and fixed-desktop decisions in [DEMO_REDESIGN_BLUEPRINT.md](https://github.com/wizardpc-com/von-neumann-bottleneck/blob/34aed773025d314d068d50e352ef8077394ca2ec/docs/design/DEMO_REDESIGN_BLUEPRINT.md) and ADR 0019. That comparison runtime was removed on 2026-09-09; its blueprint is recoverable from Git and is not a current implementation queue. Simulation, provenance, saves and the original chapters' execution and progression rules remain binding. See [construction experience](../status/construction-experience.md).
 
 ## Settled direction
 

@@ -62,3 +62,7 @@ Existing global sound/motion settings and read-only/future-version behavior appl
   [Candidate and evidence](../../verification/20261013-creation-expression/README.md).
 - Human enjoyment and artistic quality require actual listening/viewing and later
   unfamiliar-player feedback; green checks alone cannot establish them.
+- Full source and documented-head CI passed156/156 Godot checks and nine Python
+  commands. Windows session flags still confirm LOCKED after three goal turns;
+  native saved-work/play/normal-exit/restart acceptance requires human unlock.
+  The fixed candidate and all completed evidence remain available.

@@ -49,10 +49,18 @@ native pointer input. The saved-work window is640×420; comparison is1280×720.
   distributable package or VPS HTTPS acceptance.
 - Independent read-only review found no actionable model/save/completion boundary
   defect. The reviewer did not rerun controller checks.
+- Full fixed-runtime CI [38300271114](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/38300271114)
+  and documented-head CI [38300335632](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/38300335632)
+  PASS:154 Godot suites plus import/user isolation156/156, and all nine Python
+  commands. Raw logs were downloaded and checked for unique PASS/FAIL rows.
 - Windows OS-native interaction/restart for this source is pending an unlocked
   desktop. Launch reached a targetable game window but activation failed; a
   read-only process check confirmed LockApp. No UI input was performed and the
   controller stopped only its owned QA process34008.
+- Subsequent read-only WTSInfoEx queries on Windows10.0.26200 confirmed session
+  flag0 (LOCKED), most recently2026-10-12T20:02:08Z. This distinguishes actual
+  session state from the presence of a LockApp process. Native acceptance remains
+  pending human unlock; no Windows settings or authentication were changed.
 - Mac native, unfamiliar-player understanding and subjective listening/artistic
   acceptance are NOT_RUN. Current content identity has not been deployed to VPS;
   earlier private HTTPS acceptance remains attributed to its earlier source.

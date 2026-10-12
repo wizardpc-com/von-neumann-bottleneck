@@ -15,6 +15,9 @@ Affected checks7/7, both bilingual Windows renderer suites and packaged identity
 hash checks passed. Windows OS-native input/restart is pending an unlocked
 desktop; subjective listening, current Mac native and newcomer acceptance remain
 unverified. Current content has not been deployed to private VPS staging.
+Fixed-runtime and documented-head full CI passed154 Godot suites plus import/user
+isolation156/156, with all nine Python commands. Current native session is verified
+locked; the remaining acceptance requires human unlock.
 [Concrete changes, captures and acceptance limits](verification/20261013-creation-expression/README.md).
 
 ## Whole-journey experience candidate — 2026-10-12/13

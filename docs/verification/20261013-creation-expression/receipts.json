@@ -119,5 +119,30 @@
     "qa_overrides": "main scene, stable isolated QA profile, synthetic phase/output; endpoint/build/content unchanged",
     "platform": "Windows",
     "synthetic_controller_sha256": "dfd7c3985b09ba75fdcde01a59bcaa52a73364f51adb158354da918ea780dc0a"
+  },
+  "full_ci": {
+    "runtime": {
+      "run_id": 38300271114,
+      "head": "f26131049877601334646442b1c9f6f3864ef299",
+      "passed": true
+    },
+    "documented_head": {
+      "run_id": 38300335632,
+      "head": "fadc97260ea3a618d777ac6632b4230c7cb89cc1",
+      "passed": true
+    },
+    "godot_suites": 154,
+    "godot_checks_with_isolation": 156,
+    "python_commands": 9,
+    "raw_logs_checked": true
+  },
+  "native_lock_state": {
+    "time_utc": "2026-10-12T20:02:08.343474+00:00",
+    "windows_version": "10.0.26200",
+    "query_ok": true,
+    "returned_bytes": 232,
+    "state": "LOCKED",
+    "level": 1,
+    "session_flags": 0
   }
 }

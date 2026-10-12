@@ -126,7 +126,7 @@ func _ready() -> void:
 	details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail_sections.add_child(details)
-	prerequisite_heading=Label.new(); prerequisite_heading.text="真实前置" if Localization.current_locale() != "en" else "Prerequisites"
+	prerequisite_heading=Label.new(); prerequisite_heading.text="前置任务" if Localization.current_locale() != "en" else "Prerequisites"
 	prerequisite_heading.add_theme_font_size_override("font_size",18); detail_sections.add_child(prerequisite_heading)
 	prerequisite_rows=VBoxContainer.new(); prerequisite_rows.add_theme_constant_override("separation",5); detail_sections.add_child(prerequisite_rows)
 	eligibility_heading=Label.new(); eligibility_heading.text="进入资格" if Localization.current_locale() != "en" else "Access condition"
@@ -347,10 +347,10 @@ func _refresh_task_list() -> void:
 	list_empty.visible = shown.is_empty()
 	for task: Dictionary in shown:
 		var button := Button.new()
-		button.text = ("✓ " if task.completed else "● " if task.unlocked else "○ ")+str(task.title)+" · "+_task_status(task)
+		button.text = ("✓ " if task.completed else "● " if task.unlocked else "○ ")+str(task.title)+"\n"+_task_status(task)
 		button.alignment=HORIZONTAL_ALIGNMENT_LEFT
 		button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		button.custom_minimum_size.y=52
+		button.custom_minimum_size.y=72
 		button.set_meta("task_key",task.key)
 		var key: String=task.key
 		button.pressed.connect(func() -> void: _select_and_locate(key))

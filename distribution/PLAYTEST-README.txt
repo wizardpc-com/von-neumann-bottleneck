@@ -13,6 +13,12 @@ Source commit: @SOURCE_COMMIT@
 完整旅程中的创造路线使用同一有限模型：无损复原、先提交预测再揭晓，最后生成并保存自己的光纹作品。
 作品保存其实际输出与完整配方，回放与重新生成是两个明确的操作。
 
+在旅程地图选择章节后，右栏列出完整任务与状态；搜索结果可直接点选。
+任务详情里的前置与推荐联系可以点击定位；推荐联系不会增加通关门槛。
+创造工作台顶部的「下一步」按当前规则盒和实际结果更新，可以直接操作。
+预测先亲手提交并揭晓一格，再完成余段；整轮完成后才可接回自己的输出。
+表示与服务任务达标后会明确提供继续入口，也可以留下比较、修改自己的方案。
+
 操作不清时先打开任务规格、图解手册或按需提示。
 提示画布只读，后两级分别确认。Ctrl+Z 撤销，Ctrl+Y 重做；文本框优先处理文字编辑。
 离开编辑器前按现有保存提示处理草稿。继续游戏与旅程地图保留已有成果。
@@ -38,6 +44,8 @@ Von Neumann Bottleneck — playtest candidate
 Extract and run the Windows EXE or macOS app. No Godot installation, account or network is required.
 The full-journey candidate has 60 tasks: core 40, Representation 5, Service 3, optional address Prediction 3, and C/P/G 9. The standard candidate retains the core 40 tasks.
 Optional content does not gate the original mainline. Each established journey keeps its own ending.
+The map offers readable chapter tasks and clickable search results. Prerequisite and recommended links locate the related task; recommendations never add a gate.
+The creative workbench's Next action follows the actual rule box and results. Commit/reveal one cell, then finish the round before connecting output feedback. Successful Representation/Service tasks provide an explicit continuation action.
 Use the task specification, Handbook and independently confirmed read-only hints when needed.
 F8 opens optional feedback even before completion. Save is local; Send has independent consent.
 An offline package without a configured receiver supports local Save/Export. Automatic upload is off; network failure never blocks play.

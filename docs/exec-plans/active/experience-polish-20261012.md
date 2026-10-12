@@ -35,5 +35,17 @@ changes and push the existing PR branch without merging.
 
 - 2026-10-12: main and PR #7 verified; no PR comments, branch clean. Three workers
   are reviewing navigation, creative workbench and other chapter interactions.
+- Iteration 1: `80b383a` adds readable chapter/search navigation and honest completed
+  Home continuation. Six focused suites plus two isolation gates passed. Cross-review
+  subsequently aligned map-click chapter selection without moving the free camera.
+- Iteration 2: dynamic creative actions and accurate C3/P1/G1 conditions implemented.
+  Cross-review repaired historical-work/current-generation and old/current-model
+  guidance. Initial 720p failures were retained; compact guide now passes the
+  385-check bilingual workbench route.
+- Iteration 3: supported Representation continuation and prioritized Service next
+  contract implemented. Initial Service 720p overflow was repaired with evidence
+  scrolling; final geometry/replay checks and full freeze remain pending.
+- Native baseline map/C1/P1 inputs were exercised on Windows. The subsequent
+  Windows session locked; final native-input acceptance waits for an unlocked session.
 - Native Mac execution, unassisted newcomer understanding and final artistic
   acceptance require external playtest evidence. Windows checks cannot prove them.

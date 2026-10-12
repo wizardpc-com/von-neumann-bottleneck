@@ -1,5 +1,13 @@
-Pre-release engineering candidate — @BUILD_ID@
+Whole-journey experience candidate — @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
+
+- 旅程地图提供可读章节列表、可点击搜索结果，以及前置/推荐任务定位；点击任务同步所属章节。
+- 创造工作台突出当前下一步，明确练习、整轮预测与回灌条件，区分当前未保存输出和历史作品。
+- 表示任务达标后可明确继续未完成任务；服务区突出达标后的下一合同，证据可滚动查看。
+- 首页回到已完成工作台时明确标注回看与优化，不跳过玩家保存的方案。
+- Chapter lists, clickable search and relationship links make the full journey easier to navigate.
+- Creative next actions follow current-model evidence and distinguish new output from saved work.
+- Representation and Service offer clear continuation after success, with bounded evidence presentation.
 
 - 完整候选包含原有核心、表示/服务、可选地址预测及压缩→内容预测→创造；不增加章节、任务或大型机制。
 - Windows 的反馈数据库检查、备份和私有报告会及时释放 SQLite 文件，避免临时文件因占用而无法清理。

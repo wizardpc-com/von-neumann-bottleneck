@@ -75,9 +75,17 @@ its original source attribution; the revised content manifest has not been
 deployed/retested on that VPS. Dedicated staging remains stopped. Public ingress,
 domain and production intake remain outside this authorization.
 
-Final exported-package native restart observation is waiting for an unlocked
-Windows session. The existing native observations prove chapter/search navigation,
-real generation and keeping, not a fresh full-route or unfamiliar-player run.
+Final unchanged `8a919e2` EXE passed native Home/P1 restoration, [saved 64-cell
+work viewing](images/final-8a919e2-reopened-work.jpg), local opinion Save/reopen
+with the same text and ID, and [writable restart](images/final-8a919e2-writable-restart.jpg).
+Both normal UI shutdowns released the owned writer lease; all saved session fields
+(model, training, support, recipe and output) stayed unchanged. A dead PID29424
+lease left in this private QA profile was archived after process-death checks,
+without changing save bytes. Its exit cause is unknown. This manual QA recovery
+is not Windows automatic abandoned-lock recovery, which remains unsupported.
+These representative observations do not establish a fresh full-route or
+unfamiliar-player run. Fixed runtime CI38287295574 and documentation-state
+CI38288626068 passed all152 Godot suites, isolation gates and nine Python commands.
 [Exact sanitized receipts](receipts.json) distinguish these scopes.
 
 ## Art and playtest handoff

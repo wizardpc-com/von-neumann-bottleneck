@@ -93,7 +93,39 @@
     "before-p1-start.jpg": "520de1bfc4c3a6092bfeb5ad6443c053d15ba6b4f9b3d3b338fb6b47ce6f165b",
     "final-chapter-list.png": "96edbd965458ab935447cea54eff042f8eb15f8c61aa2e4b7ac23a6565a0a86c",
     "service-en-response-step.png": "0e486195d92af5cdc04e558b21b5f55e80756061379663c8c71d6d7c7e13d18e",
-    "service-zh_CN-earned-next.png": "aa0d19d2e60f9f0c25e98cd8d3732ee40518bcea51a8cdb89886a6602d959f2c"
+    "service-zh_CN-earned-next.png": "aa0d19d2e60f9f0c25e98cd8d3732ee40518bcea51a8cdb89886a6602d959f2c",
+    "final-8a919e2-writable-restart.jpg": "d439e9d3f8e6f203e8c5e93541703a2604c34729e98f576bf05fb873de6d9c12",
+    "final-8a919e2-reopened-work.jpg": "f5266dcbdb0929f11e3f88b9dafabdefc0e9d54c7b13976372841ea40d9da92e"
   },
-  "native_final_restart": "pending unlocked Windows session"
+  "native_final_restart": {
+    "passed": true,
+    "source_commit": "8a919e24b1a3f47207e72f5f84675152041cb100",
+    "unchanged_exported_binary": true,
+    "scope": "OS native Home/P1 restore, saved 64-cell work view, local opinion save/reopen, writable save and two normal shutdowns; not a new full-route run",
+    "isolated_profile": "NativeWindows20261012",
+    "player_channel_untouched": true,
+    "all_session_fields_unchanged": true,
+    "local_opinion_text_and_id_retained": true,
+    "normal_exit_released_owned_lease": true,
+    "qa_abandoned_lease": {
+      "owner_pid": 29424,
+      "owner_dead_verified": true,
+      "archived": true,
+      "save_bytes_unchanged": true,
+      "automatic_windows_recovery": false,
+      "exit_cause_unknown": true
+    }
+  },
+  "ci": [
+    {
+      "commit": "8a919e24b1a3f47207e72f5f84675152041cb100",
+      "run_id": 38287295574,
+      "conclusion": "success"
+    },
+    {
+      "commit": "d76359ab64f881c4d525c2ed80a48e4e337dbc0e",
+      "run_id": 38288626068,
+      "conclusion": "success"
+    }
+  ]
 }

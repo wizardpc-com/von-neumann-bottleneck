@@ -46,8 +46,10 @@ changes and push the existing PR branch without merging.
   contract implemented. Initial Service720p overflow was repaired with evidence
   scrolling; final geometry/replay and bilingual renderer checks passed.
 - Native baseline map/C1/P1 and revised chapter/search/G1 generation/keeping were
-  exercised on Windows. The session locked again; final frozen-native restart
-  observation waits for unlock. Native evidence is not a fresh full-route run.
+  exercised on Windows. Final8a919e2 passed saved64-cell work viewing, local opinion
+  restoration, writable save/restart and two normal writer-lock releases. A dead
+  private QA residual lease was archived without changing saves; this is not
+  automatic Windows crash recovery. Native evidence is not a fresh full-route run.
 - Final8a919e2 freezes full60 Windows/Mac candidates; thirteen affected checks and
   actual exported EXE localHTTP retry/report/delete/restore passed. A real feedback
   failure revealed revised creative digest under an unchanged content version;

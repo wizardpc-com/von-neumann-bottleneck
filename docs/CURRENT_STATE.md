@@ -13,8 +13,11 @@ solutions, model/completion authority and existing saves/works remain intact.
 `playtest-ExperienceFinal20261013-8a919e24b1a3` freezes both platforms at
 `8a919e2`, with all sixty tasks and the stable `CloudPlaytest` save channel.
 Native Windows chapter/search navigation and actual generation/keeping were
-observed in the identical UI runtime at `d34a61d`; final native restart observation
-waits for an unlocked session. Final affected Windows checks passed13/13;
+observed in the identical UI runtime at `d34a61d`. Final8a919e2 native saved-work
+viewing, writable save/restart and local opinion restoration passed; normal exit
+released the owned writer lock. A dead private QA residual lock was archived
+without changing saves; Windows automatic abandoned-lock recovery is unsupported.
+Fixed runtime CI passed; final affected Windows checks passed13/13;
 complete-run retained failures and corrected measurements remain attributed.
 Final exported EXE localhost feedback retry/report/delete/restore passed.
 

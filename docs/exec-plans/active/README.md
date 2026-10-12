@@ -3,9 +3,9 @@
 The [2026-10-12 engineering round](../completed/pre-release-engineering-20261012.md)
 completed private VPS HTTPS and representative Windows native acceptance with
 fixed sixty-task Windows/macOS packages. The
-[experience polish round](experience-polish-20261012.md) has delivered three
-iterations and a final candidate; its native restart observation is pending an
-unlocked Windows session. Public deployment is deferred. The earlier
+[experience polish round](../completed/experience-polish-20261012.md) completed
+three iterations and a fixed candidate, including final representative Windows
+save/work/opinion restoration. Public deployment is deferred. The earlier
 [distributable playtest plan](distributable-cloud-playtest.md) retains its dated
 scope and evidence.
 

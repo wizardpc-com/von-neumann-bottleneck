@@ -9,6 +9,7 @@ const CostLedger = preload("res://experiments/creation/cost_ledger.gd")
 const CostLedgerView = preload("res://experiments/creation/cost_ledger_view.gd")
 const CausalPanel = preload("res://experiments/creation/causal_panel.gd")
 const CreationComparison = preload("res://experiments/creation/comparison.gd")
+const CreationComparisonView = preload("res://experiments/creation/comparison_view.gd")
 const Explanation = preload("res://experiments/creation/explanation.gd")
 const SignalView = preload("res://experiments/creation/signal_view.gd")
 const Typography = preload("res://src/ui/ui_typography.gd")
@@ -51,6 +52,7 @@ var saved_work_closure: HFlowContainer
 var saved_work_caption: Label
 var kept_work: Dictionary = {}
 var causal_panel: VBoxContainer
+var creation_comparison_view: VBoxContainer
 var causal_tabs: TabContainer
 var focused_cell: int = -1
 var focused_lane: int = 2
@@ -349,6 +351,22 @@ func build() -> void:
 	causal_panel.english = english
 	causal_panel.name = text2("因果详情","Cause details")
 	evidence_tabs.add_child(causal_panel)
+	creation_comparison_view = CreationComparisonView.new()
+	creation_comparison_view.name = text2("A/B 对照", "A/B comparison")
+	creation_comparison_view.english = english
+	creation_comparison_view.side_selected.connect(func(lane: int, index: int) -> void:
+		if index < 0: return
+		set_evidence_expanded(false)
+		var shown: Dictionary = compared_creation if lane == 2 else pinned_creation
+		if shown.is_empty() or index >= shown.get("output",[]).size(): return
+		latest = compared_creation.duplicate(true)
+		latest.kind = "generation"
+		if task < 6: change_task(7)
+		refresh_tracks()
+		signal_view.cursor = index
+		signal_view.follow_cursor()
+		inspect_cell(index,lane))
+	evidence_tabs.add_child(creation_comparison_view)
 	if task == 8: evidence_tabs.current_tab = 3
 	elif task in [1,2]: evidence_tabs.current_tab = cost_comparison_page.get_index()
 	var actions := HFlowContainer.new()
@@ -1081,6 +1099,7 @@ func refresh() -> void:
 	if is_instance_valid(saved_design_caption): saved_design_caption.text = saved_design_text()
 	refresh_keep_actions()
 	_refresh_creation_comparison()
+	if is_instance_valid(creation_comparison_view): creation_comparison_view.configure(pinned_creation,compared_creation,creation_report,english)
 	for handle: String in ["UndoDraft","RedoDraft"]:
 		var action := find_child(handle,true,false) as Button
 		if action != null: action.disabled = not writable or (not session.can_undo() if handle == "UndoDraft" else not session.can_redo())
@@ -1840,6 +1859,7 @@ func _build_creation_comparison(parent: Node) -> void:
 	var decisions := HFlowContainer.new()
 	parent.add_child(decisions)
 	button(text2("定位首次分歧", "First difference"),"CreationFirstDifference",decisions,show_creation_difference)
+	button(text2("查看 A/B 规则", "Inspect A/B rules"),"ShowCreationComparison",decisions,show_creation_comparison)
 	button(text2("保留 A…", "Keep A…"),"KeepCreationA",decisions,func() -> void: choose_creation_result(false))
 	button(text2("保留 B…", "Keep B…"),"KeepCreationB",decisions,func() -> void: choose_creation_result(true))
 	button(text2("继续改", "Keep editing"),"EditCreationB",decisions,func() -> void:
@@ -1859,7 +1879,7 @@ func _refresh_creation_comparison() -> void:
 		var control := find_child(id,true,false)
 		if control is LineEdit: control.editable = not pinned
 		elif control is SpinBox: control.editable = not pinned
-	var available: Dictionary = {"PinCreationA":can_keep_visible_work() and not pinned,"PinCreationAQuick":can_keep_visible_work() and not pinned,"ClearCreationComparison":pinned,"KeepCreationA":pinned and writable,"KeepCreationB":not compared_creation.is_empty() and writable,"CreationFirstDifference":int(creation_report.get("first_difference",-1)) >= 0,"EditCreationB":pinned}
+	var available: Dictionary = {"PinCreationA":can_keep_visible_work() and not pinned,"PinCreationAQuick":can_keep_visible_work() and not pinned,"ClearCreationComparison":pinned,"KeepCreationA":pinned and writable,"KeepCreationB":not compared_creation.is_empty() and writable,"CreationFirstDifference":int(creation_report.get("first_difference",-1)) >= 0,"ShowCreationComparison":not compared_creation.is_empty(),"EditCreationB":pinned}
 	for id: String in available:
 		var action := find_child(id,true,false) as Button
 		if action != null: action.disabled = not available[id]
@@ -1900,8 +1920,17 @@ func show_creation_difference() -> void:
 	signal_view.selected = index
 	signal_view.follow_cursor()
 	inspect_cell(index)
+	creation_comparison_view.show_first_difference = true
+	creation_comparison_view.refresh_view()
+	causal_tabs.current_tab = creation_comparison_view.get_index()
+	set_evidence_expanded(true)
 	play_button.text = text2("播放","Play")
 	set_status(text2("已定位 A 与 B 首次分歧：第 ", "Located first A/B difference: cell ")+str(index+1)+text2(" 格。差异不是正确或优劣判断。", ". Difference is not a correctness or quality judgment."))
+
+func show_creation_comparison() -> void:
+	if compared_creation.is_empty(): return
+	causal_tabs.current_tab = creation_comparison_view.get_index()
+	set_evidence_expanded(true)
 
 func choose_creation_result(use_b: bool) -> void:
 	var chosen: Dictionary = compared_creation if use_b else pinned_creation

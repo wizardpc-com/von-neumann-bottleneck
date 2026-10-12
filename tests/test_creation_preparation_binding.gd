@@ -92,11 +92,11 @@ func run() -> void:
 	scene.session.data.draft.examples = [[0,1,2,3,0,1,2,3,0,1,2,3]]
 	check(scene.session.train().ok,"Later authoritative learning succeeds independently of presentation")
 	check(scene.latest == ordinary and shows_preparation(scene,ordinary.training.cost),"Detached ordinary generation retains its preparation after later learning")
-	scene.transport("predictive")
+	scene.switch_mode("compress"); scene.transport("predictive")
 	var transport_preparation: Dictionary = scene.latest.preparation.duplicate(true)
 	scene.session.data.draft.examples = [[0,0,0,0]]
 	check(scene.session.train().ok,"Train a later model after a detached transport")
-	check(shows_preparation(scene,transport_preparation),"Transport uses its existing frozen preparation field")
+	check(scene.latest.preparation == transport_preparation and shows_preparation(scene,transport_preparation),"Transport uses its existing frozen preparation field")
 	scene.transport("predictive"); scene.switch_mode("predict"); scene.begin_prediction("practice")
 	check(shows_preparation(scene,scene.session.data.training.cost),"Prediction can show the known matching model preparation")
 	scene.session.data.draft.examples = [[1,2,1,2,1,2]]

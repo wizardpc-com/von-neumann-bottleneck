@@ -1,0 +1,118 @@
+{
+  "frozen_candidate": {
+    "build_id": "playtest-PreRelease20261012-61edc8063078",
+    "source_commit": "61edc8063078ee26882189efdb8bd56d70b87d8b",
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "test_batch": "PreRelease20261012",
+    "feedback_endpoint": "",
+    "upload_default": false,
+    "public_release": false,
+    "external_ready": false,
+    "platforms": {
+      "macOS": {
+        "zip": "Von-Neumann-Bottleneck-macOS-playtest-PreRelease20261012-61edc8063078.zip",
+        "bytes": 80254767,
+        "sha256": "ee0f90ac2d90a05c667407abc1ba52ed738b646fcc2cdfd985341bf154b883ae"
+      },
+      "Windows": {
+        "zip": "Von-Neumann-Bottleneck-Windows-playtest-PreRelease20261012-61edc8063078.zip",
+        "bytes": 57358090,
+        "sha256": "5c2d5aa5db007cb87885e73a4deedb72bade46c36bc2835376f9298270e63c41"
+      }
+    }
+  },
+  "content_tasks": 60,
+  "candidate_profile": "CloudPlaytest",
+  "native_windows": {
+    "passed": true,
+    "scope": "native OS tutorial editing, completion, two independent restarts and local opinion; later regions are automated/static coverage",
+    "exe_sha256": "781f5d837cf192e253c15c382e85ef80c812f03c3c6909d38de33821c874c193",
+    "isolated_profile": "NativeWindows20261012",
+    "earned_progress_preserved": true,
+    "edited_workbench_unchanged": true,
+    "local_opinion_text_and_id_reopened": true,
+    "unconfigured_send_did_not_claim_received": true,
+    "screenshots": {
+      "earned-map.png": "0f53e050af5c4d5fdaf500bcb8cdb3e4f13ca9cc6950e928887c14eda074cca7",
+      "home.png": "f732434e4ce67d09600d1d97ea2eea9c6730b79660bf252c8821c1cc84f58d75",
+      "offline-refusal.png": "cccb2f331651e2941019488ad4f18399c608f968c259204cd70f53d95d7835b6",
+      "opinion-reopened.png": "e371dc38f51e66faa0c156727bb3a9033b1a510a397fb3eaf6ba313dae3aace2",
+      "opinion-saved.png": "45220cd380c4bf7661f3ee878af66eac3248ba26ce6210a89a603d7c49df8c3e",
+      "tutorial-complete.png": "f01e15429b46de9cfd6a2945bd459c7c84a48e0634a05c3f3735ecede77c870d",
+      "tutorial-reopened.png": "830c001aeec70073cfe5261fbe28ed1cc45e75f7630e56ef6dffc593c9f14191",
+      "windowed.png": "a075c2546433efdde708f277f2f5e14bfc83f96803aa75293d1402a240585e75"
+    }
+  },
+  "private_https": {
+    "passed": true,
+    "scope": "actual Windows exported package, private HTTPS over Windows OpenSSH to isolated VPS receiver; public ingress and human input excluded",
+    "build_id": "playtest-PrivateHTTPS20261012-61edc8063078",
+    "source_commit": "61edc8063078ee26882189efdb8bd56d70b87d8b",
+    "receiver_source_commit": "377548b665bb0adc799c98a9eb0f059c445f8e1a",
+    "test_batch": "PrivateHTTPS20261012",
+    "task": "creation/G2_intent",
+    "duplicate_rows": 1,
+    "private_report_same_id": true,
+    "restored_counts": {
+      "schema_version": 2,
+      "clients": 0,
+      "events": 0,
+      "tombstones": 1
+    },
+    "delayed_deleted_upload_status": 410,
+    "binary_unchanged": {
+      "Von-Neumann-Bottleneck.exe": "c4803814b08d10c08b2adf3f7b740f09672e332239d63d32585a25ca97fa7bc8"
+    },
+    "embedded_pck_sha256": "82196e98037e599408ff6e1c6bf709c4db386650d6e1bbb38838998901db682a",
+    "statistics_default_off": true,
+    "protected_work_unchanged": true,
+    "tls_default_trust_rejected": true,
+    "tls_explicit_private_certificate": true,
+    "management_routes_denied": true,
+    "qa_overrides": [
+      "external synthetic controller scene",
+      "isolated profile",
+      "phase and output",
+      "private test certificate bundle"
+    ],
+    "controller_sha256": "dfd7c3985b09ba75fdcde01a59bcaa52a73364f51adb158354da918ea780dc0a"
+  },
+  "private_staging_cleanup": {
+    "passed": true,
+    "owned_receiver_stopped": true,
+    "owned_tls_unit_stopped": true,
+    "temporary_ports_closed": true,
+    "other_service_pids_unchanged": true,
+    "historical_feedback_database_hash_unchanged": true,
+    "private_synthetic_evidence_retained": true
+  },
+  "local_http": {
+    "passed": true,
+    "scope": "local exported-package HTTP acceptance; VPS/HTTPS external NOT_RUN",
+    "build_id": "playtest-LocalAcceptance20261012-61edc8063078",
+    "source_commit": "61edc8063078ee26882189efdb8bd56d70b87d8b",
+    "test_batch": "LocalAcceptance20261012",
+    "task": "creation/G2_intent",
+    "triage_status": "needs_retest",
+    "duplicate_rows": 1,
+    "deleted_after_restore": true,
+    "binary_and_pack_unchanged": {
+      "Von-Neumann-Bottleneck.exe": "0f65f9808ba6f6e0a21851764c31eadaf843be007ced3035bfaf3665a4ae1831"
+    },
+    "embedded_pck_sha256": "347629ac3db7d3da881a63930ea8eb757b16095f0f7a0954aa67a4f2abcbd2ca",
+    "qa_overrides": "main scene, stable isolated QA profile, synthetic phase/output; endpoint/build/content unchanged",
+    "platform": "Windows",
+    "synthetic_controller_sha256": "dfd7c3985b09ba75fdcde01a59bcaa52a73364f51adb158354da918ea780dc0a"
+  },
+  "code_ci": {
+    "source_commit": "51d095a56dbeaeadc8ac110778ae03ddad11e52e",
+    "run_id": 38206327893,
+    "conclusion": "success"
+  },
+  "not_run": [
+    "current Mac native execution",
+    "other-machine installation and notarization",
+    "public feedback ingress and real player upload",
+    "unfamiliar-player full-route and artistic acceptance"
+  ]
+}

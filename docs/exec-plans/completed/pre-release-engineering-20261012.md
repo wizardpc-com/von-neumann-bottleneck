@@ -51,13 +51,23 @@ tracked in the ignored collaboration handoff.
 
 ## Progress and unresolved gates
 
-- Baseline fetched and clean branch created; no main modification or merge.
-- Existing VPS read-only preflight succeeds through Windows OpenSSH. Historical
-  VNB staging is stopped. Other applications have live private listeners and must
-  remain untouched.
-- Native Windows, HTTPS staging receipt, final export and other-machine/human
-  acceptance are pending fresh evidence; historical green checks do not close them.
+- Completed within the authorized private/offline scope. Baseline fetched and
+  clean branch created; all coherent changes committed and delivered through
+  unmerged PR7. No main merge.
+- Existing-game Windows audit155/155, code CI and affected Python checks passed.
+  Concrete Windows storage, receiver, packaging and Unicode path defects fixed;
+  no new mechanism or unjustified content change.
+- Both sixty-task platforms frozen at `61edc8063078` with stable CloudPlaytest
+  saves, verified inventory/template/file/ZIP hashes and honest package notes.
+- Actual Windows EXE passed local HTTP and private VPS HTTPS feedback, same-ID
+  private report, offline/retry/dedup/delete and actual tombstone-safe restored
+  receiver. Temporary staging stopped; baseline services/history preserved.
+- Native Windows tutorial completed through OS input; edited workbench, earned
+  progress and local opinion recovered across two independent restarts.
+- Public deployment still requires explicit authorization. Current Mac native,
+  cross-machine/signing, extended focus/DPI, unassisted full-route and artistic
+  acceptance remain open external gates, not incomplete authorized implementation.
 
-Evidence will be indexed under `docs/verification/20261012-pre-release/`;
+Evidence is indexed under `docs/verification/20261012-pre-release/`;
 credentials, target addresses, raw synthetic identity tokens and TLS material
 stay in ignored private working directories.

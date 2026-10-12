@@ -3,22 +3,23 @@
 Current source and artifact: [CURRENT_STATE](docs/CURRENT_STATE.md).
 These are remaining acceptance requirements, not instructions to add features.
 
-## Current candidate — 2026-10-11
+## Current candidate — 2026-10-12
 
 The sixty-task candidate includes the original core, Representation, Service,
 optional address Prediction and C/P/G. Main contains the integrated runtime;
-Mac and Windows packages are frozen at `efda8b84ae6e`. Final integration CI passed
-152 suites, import/user isolation and seven Python checks. Actual exported Mac
-binary → local HTTP → SQLite → private report/triage, save/reopen, retry/deduplication,
-delete and restored tombstone checks passed within the recorded local scope.
-[Exact receipts and limits](docs/verification/20261010-cloud-playtest/README.md).
+The latest unmerged review branch freezes Mac and Windows packages at
+`61edc8063078`; main remains `cfdee8a`. Windows isolated155/155 checks and
+code CI38206327893 passed. Actual Windows EXE → private HTTPS → VPS SQLite →
+private report, retry/deduplication, delete and actual tombstone-safe restored
+receiver checks passed. Windows native tutorial editing, earned completion and
+two save/draft restarts passed. [Exact receipts and limits](docs/verification/20261012-pre-release/README.md).
 
 | Gate | Status and required evidence |
 | --- | --- |
-| Real VPS staging feedback | **NOT_RUN.** Use only authorized existing staging through an SSH tunnel. Confirm an actual test package's synthetic receipt ID, task and build in remote SQLite and the private report, including retry/deduplication and delete/restore. Localhost success does not establish this. |
+| Real VPS staging feedback | **PASS within private synthetic scope.** Actual Windows package over verified HTTPS/Windows SSH, same-ID/task/build remote report, retry/deduplication, deletion and a restored receiver returning410 for deleted identity. Dedicated staging stopped; other services and historical database unchanged. Public player intake remains separate. |
 | External feedback entry and public release | **Deferred.** No public deployment in the current authorization. A future owner decision must specify the entry, privacy/retention/backup configuration and release scope. |
-| Current Mac native interaction | **NOT_RUN for the frozen round package.** The screen was locked; earlier native routes retain their own build attribution. Operate this package's navigation, editing, unfinished-task feedback, save and restart. |
-| Windows native execution | **NOT_RUN for the current candidate.** Actual EXE start, task entry, editing, feedback, save/restart, focus and DPI are required. Export success is insufficient. |
+| Current Mac native interaction | **NOT_RUN for the `61edc8063078` package.** Earlier native routes retain their own build attribution. Operate this package's navigation, editing, unfinished-task feedback, save and restart on a Mac. |
+| Windows native execution | **PASS within representative scope.** Frozen EXE start, tutorial editing/completion, local feedback typing/save, two independent restarts and fullscreen/windowed observation. Later-region native full-route, extended focus loss and mixed-DPI stress remain open. |
 | Other Mac / installation / signing | **Open.** Candidate is unnotarized; verify download, first launch and save on another machine, then choose formal signing/distribution requirements. |
 | Display and focus | **Open.** Extended small-display/Retina/mixed-DPI and repeated focus loss during drag sessions require direct evidence. Earlier capture anomalies remain attributed to their recorded builds. |
 | Unfamiliar-player understanding | **Open.** Unassisted entry, task choice, Hint comprehension, full-route pacing and concrete feedback. Known-answer replay and agent observations do not establish this. |

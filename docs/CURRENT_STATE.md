@@ -2,6 +2,29 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Windows playtest freeze and private VPS feedback — 2026-10-12
+
+Branch `codex/pre-release-20261012` starts from freshly verified main `cfdee8a`.
+PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7) remains
+unmerged. Main and player save/model contracts are unchanged.
+
+`playtest-PreRelease20261012-61edc8063078` freezes Windows/macOS from one source
+commit with the complete sixty-task journey and stable `CloudPlaytest` save
+channel. Windows native tutorial editing/completion, two independent restarts
+and local opinion recovery passed. The isolated Windows game audit passed
+155/155 checks; actual exported Windows feedback passed both local HTTP and
+private VPS HTTPS, including private same-ID report, retry, deletion and an
+actual receiver restored with tombstones. Temporary staging is stopped; other
+services and the historical feedback database are unchanged. Code CI38206327893
+passed. Windows-specific SQLite handle, request-drain deadline, packaging and
+literal UTF-8 path defects are repaired.
+
+The distributable package remains offline: local opinions/export work, upload
+defaults off, and an unconfigured send is clearly reported. Public ingress/domain
+and production intake await explicit authorization. Current Mac native execution,
+cross-machine/signing, full-route unfamiliar-player and artistic acceptance remain
+open. [Exact evidence, package hashes and limits](verification/20261012-pre-release/README.md).
+
 ## Distributable journey and feedback integration — 2026-10-10
 
 Creative PR3 merged normally into main as b90ae47; feedback PR4 merged as

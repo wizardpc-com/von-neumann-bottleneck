@@ -4,6 +4,14 @@
 
 ## 简体中文
 
+### 2026-10-12 · Windows 试玩冻结与私有反馈验收
+
+- 完整60项候选旅程的 Windows/Mac 包冻结于 `61edc8063078`，沿用稳定 `CloudPlaytest` 存档渠道。
+- 修复 Windows SQLite 文件占用、超限请求处理期限、跨平台打包及 Godot 中文路径问题；不改变玩法、模型和存档格式。
+- Windows 原生教程编辑、完成、两次重启与本机反馈恢复通过；真实 EXE 的私有 VPS HTTPS 回执、报告、重试、删除与恢复通过。
+- 临时 staging 已停止。试玩包仍为离线候选，支持本机意见/导出；公网反馈与正式数据接入待明确授权，Mac 原生及陌生玩家验收仍待完成。
+- [冻结哈希与验证范围](docs/verification/20261012-pre-release/README.md) · [未合并 PR7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7)。
+
 ### 2026-09-14 · 任务与图解收敛（源码更新）
 
 - 任务先展示目标、必须通过的用例和限制，再展开辅助说明；单次查询不再重复标注“执行 1 次”。
@@ -70,6 +78,14 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-10-12 · Windows playtest freeze and private feedback acceptance
+
+- Complete60-task Windows/Mac candidates are frozen at `61edc8063078` with the stable `CloudPlaytest` save channel.
+- Windows SQLite handle, oversized-request deadline, packaging and literal UTF-8 path defects are repaired; gameplay, model and save formats are unchanged.
+- Native Windows tutorial editing/completion, two independent restarts and local opinion recovery passed. Actual exported EXE private VPS HTTPS feedback, report, retry, deletion and restored receiver passed.
+- Temporary staging is stopped. Offline candidates support local opinions/export; public intake needs explicit authorization. Current Mac native and unfamiliar-player acceptance remain open.
+- [Hashes and evidence boundaries](docs/verification/20261012-pre-release/README.md) · [unmerged PR7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7).
 
 ### 2026-09-14 · Tasks and illustrated guidance (source update)
 

@@ -1,8 +1,32 @@
 #!/usr/bin/env python3
 """Build both free candidates from one committed Git archive, never live player data."""
-import argparse,datetime,hashlib,io,json,re,shutil,subprocess,tarfile,zipfile,importlib.util
+import argparse,datetime,hashlib,io,json,os,re,shutil,stat,subprocess,sys,tarfile,zipfile,importlib.util
 from urllib.parse import urlsplit
 from pathlib import Path
+
+
+def package_files(folder):
+    return [path for path in sorted(folder.rglob('*')) if path.is_file() or path.is_symlink()]
+
+
+def packaged_bytes(path):
+    return os.readlink(path).encode('utf-8') if path.is_symlink() else path.read_bytes()
+
+
+def write_zip_entry(package, path, relative):
+    if path.is_symlink():
+        entry=zipfile.ZipInfo(relative.as_posix())
+        entry.create_system=3
+        entry.external_attr=(stat.S_IFLNK | 0o777) << 16
+        package.writestr(entry,packaged_bytes(path))
+    else:
+        entry=zipfile.ZipInfo.from_file(path,relative.as_posix())
+        if len(relative.parts)>=5 and relative.parts[0]=='macOS' and relative.parts[1].endswith('.app') and relative.parts[2:4]==('Contents','MacOS'):
+            entry.create_system=3
+            entry.external_attr=(stat.S_IFREG | 0o755) << 16
+        entry.compress_type=zipfile.ZIP_DEFLATED
+        with path.open('rb') as source, package.open(entry,'w') as destination:
+            shutil.copyfileobj(source,destination)
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--godot',required=True);p.add_argument('--commit',default='HEAD')
@@ -23,7 +47,7 @@ def main():
     url=urlsplit(a.feedback_endpoint)
     if a.feedback_endpoint and (url.scheme!='https' and not (a.local_feedback_test and url.scheme=='http' and url.hostname in ['127.0.0.1','localhost'])):p.error('HTTPS required except explicit local acceptance')
     if a.feedback_endpoint and (not url.hostname or url.username or url.password or url.query or url.fragment or a.feedback_endpoint.endswith('/')):p.error('unsafe receiver URL')
-    if a.local_feedback_test and not a.feedback_endpoint:p.error('local acceptance needs its explicit endpoint')
+    if a.local_feedback_test and (not a.feedback_endpoint or url.hostname not in ['127.0.0.1','localhost']):p.error('local acceptance needs an explicit loopback endpoint')
     template=a.mac_template.resolve() if a.mac_template else None
     root=Path(__file__).resolve().parents[1]
     commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True).strip()
@@ -133,15 +157,14 @@ def main():
             content+='本地验收包，不能作为外部云端可用证据。\n' if a.local_feedback_test else '外部连接/平台实测以验收记录为准。\n'
             content+='测试存档渠道稳定，不随构建号清空；更新前完整备份候选profile及service同名目录。不要用QA通关档代替新档。\n'
             notes.write_text(content)
-        files={str(f.relative_to(folder)):hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(folder.rglob('*')) if f.is_file()}
+        files={f.relative_to(folder).as_posix():hashlib.sha256(packaged_bytes(f)).hexdigest() for f in package_files(folder)}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n')
         zip_path=output/('Von-Neumann-Bottleneck-'+platform+'-'+build_id+'.zip')
-        if platform=='macOS':subprocess.run(['/usr/bin/ditto','-c','-k','--sequesterRsrc','--keepParent',str(folder),str(zip_path)],check=True)
+        if platform=='macOS' and sys.platform=='darwin':subprocess.run(['/usr/bin/ditto','-c','-k','--sequesterRsrc','--keepParent',str(folder),str(zip_path)],check=True)
         else:
             with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED) as z:
-                for f in sorted(folder.rglob('*')):
-                    if f.is_file():z.write(f,f.relative_to(output))
+                for f in package_files(folder):write_zip_entry(z,f,f.relative_to(output))
         with zipfile.ZipFile(zip_path) as z:assert z.testzip() is None
         manifest['platforms'][platform]={'zip':zip_path.name,'bytes':zip_path.stat().st_size,'sha256':hashlib.sha256(zip_path.read_bytes()).hexdigest()}
     (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')

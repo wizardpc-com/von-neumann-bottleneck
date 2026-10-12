@@ -9,21 +9,31 @@ class CommunityTests(ReceiverTests):
         manifests=RULES['content_manifests']
         old=manifests['tasks-20261010-journey-v1']
         new=manifests['tasks-20261012-journey-v1']
+        current=manifests['tasks-20261013-journey-v1']
         old_hash='8fa772927fd31c80940fdb479201cffc4a3e9a3e5c698cfbd2bd56af3920408d'
         new_hash='6fb3476b76e1a37d75da712f409aa57a6e0cdda00a50a5d8b9cd507143363f35'
+        current_hash='83b39f9c5a58f48ae5002b975c40ac02c8c9d09f26cf82358213fba9974fe3da'
         self.assertEqual(old['tasks'],new['tasks'])
+        self.assertEqual(old['tasks'],current['tasks'])
         creation=[key for key in old['identities'] if key.startswith('creation/')]
         self.assertEqual(len(creation),9)
         for key,identity in old['identities'].items():
             expected=new_hash if key in creation else identity['case_set_version']
             self.assertEqual(new['identities'][key]['case_set_version'],expected)
             self.assertEqual(new['identities'][key]['model_version'],identity['model_version'])
+            self.assertEqual(current['identities'][key]['case_set_version'],current_hash if key in creation else identity['case_set_version'])
+            self.assertEqual(current['identities'][key]['model_version'],identity['model_version'])
             if key in creation: self.assertEqual(identity['case_set_version'],old_hash)
         for index,(version,digest,accepted) in enumerate([
             ('tasks-20261010-journey-v1',old_hash,True),
             ('tasks-20261012-journey-v1',new_hash,True),
             ('tasks-20261010-journey-v1',new_hash,False),
             ('tasks-20261012-journey-v1',old_hash,False),
+            ('tasks-20261013-journey-v1',current_hash,True),
+            ('tasks-20261013-journey-v1',old_hash,False),
+            ('tasks-20261013-journey-v1',new_hash,False),
+            ('tasks-20261010-journey-v1',current_hash,False),
+            ('tasks-20261012-journey-v1',current_hash,False),
         ]):
             payload={'source':'automated','mode':'game','task_version':version,'chapter_id':'creation',
                      'level_id':'G2_intent','model_version':'creation-continuous-v1',

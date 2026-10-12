@@ -1,10 +1,10 @@
 # Offline-first community preparation
 
-## Sixty-task playtest contract — 2026-10-12
+## Sixty-task playtest contract — 2026-10-13
 
-`task_identity.gd` binds authored catalogs to `tasks-20261012-journey-v1`:
+`task_identity.gd` binds authored catalogs to `tasks-20261013-journey-v1`:
 core40, Representation5, Service3, address Prediction3, and Creation C/P/G9.
-The earlier `tasks-20261010-journey-v1` manifest and legacy40-task version remain
+The earlier `tasks-20261010-journey-v1`, `tasks-20261012-journey-v1` manifests and legacy40-task version remain
 accepted with their original identities. The revised creative goals have a new
 authored digest; reports keep these versions separate and mixed identities are
 rejected. This changes feedback attribution, not model or save formats.

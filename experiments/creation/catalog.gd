@@ -9,7 +9,7 @@ const GOALS_ZH := [
 	"同原文、同规则盒、同传输路径，换机器比较真实成本，留下本单元证据。另可接受两份光纹配送订单：期限240000／223000周期，自选RAW或预测包按期无损送达；订单收据仅保留本次会话。",
 	"主动接到未揭晓输入并开始练习。先提交一格预测，再揭晓真值，随后完成余段；整轮结束才能用当前模型接入回灌。只显示已见前缀，揭晓不会偷偷训练。",
 	"对照最近1项与2项历史：A 后面既可能是 B 也可能是 C。重新学习后再练习，记录哪些上下文被区分，以及规则的代价。",
-	"委托：延续同族但未见的光纹。选「稳定规律与例外」样例学习，先调试独立练习，再开独立检查。两项历史能区分 BA/CA，却无法确定 BA 后的稀少 D；只用已揭晓格追因。重复检查标为已见。",
+	"委托：延续同族但未见的光纹。选「稳定规律与例外」样例学习，先在独立练习中调试，再用冻结规则检查未见片段。观察当前记忆分清了哪些上下文、还有哪些例外；只用已揭晓格追因。重复检查标为已见。",
 	"当前规则盒先完成一次预测包无损复原和一整轮提交／揭晓，再主动断开标准下一段，接上自己的输出。选择起始片段延续；此后没有隐藏原文或正确率。",
 	"受控设计：固定种子、起始片段、长度和机器，只改变样例、记忆或采样中的一项，再比较规则与实测输出。换种子或起始片段可自由探索，但不算设计证据。也可独立确认保存满意作品；相同输出仍是有效观察。",
 	"命名并确认一件实际输出。保存快照和完整配方；播放快照、按配方再生、继续分叉分别操作。你的选择形成结尾。"
@@ -20,7 +20,7 @@ const GOALS_EN := [
 	"Keep source, rule box and codec fixed while changing the machine to compare actual costs and earn this unit's evidence. Two extra delivery orders have 240000 / 223000-cycle deadlines; choose either lossless codec. Their receipts last for this session only.",
 	"Connect to sealed input and start practice. Commit one prediction before revealing its truth, then finish the remainder; the current model can connect to feedback only after the full round. Only the observed prefix appears, and reveal never trains secretly.",
 	"Compare one and two symbols of history: A may lead to B or C. Learn again and practise. Inspect which contexts separate and what their rules cost.",
-	"Commission: continue an unseen passage from the same signal family. Learn the stable/exception sample, tune on separate practice, then start its independent check. Two cells distinguish BA/CA but cannot determine the rare D after BA. Trace only revealed cells; repeated checks are labelled seen.",
+	"Commission: continue an unseen passage from the same signal family. Learn the stable/exception sample, tune on separate practice, then check an unseen passage with frozen rules. Inspect which contexts the current history separates and where exceptions remain; trace causes only from revealed cells. Repeated checks are labelled seen.",
 	"First restore a predictive packet and finish a full commit/reveal round with the current rule box. Then disconnect the standard continuation, feed output back, and extend an initial passage. There is no hidden original or accuracy score.",
 	"Controlled design: fix seed, initial passage, length and machine; change exactly one of examples, history or sampling, then compare learned rules and real output. Seed/start variations are free exploration, not design evidence. Keep a chosen work independently; identical output remains a valid observation.",
 	"Name and confirm real output. Save its snapshot and full recipe. Play the snapshot, regenerate the recipe, and fork as distinct actions. Your choice forms the ending."

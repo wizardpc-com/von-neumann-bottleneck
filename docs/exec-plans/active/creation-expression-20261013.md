@@ -44,5 +44,12 @@ Existing global sound/motion settings and read-only/future-version behavior appl
 
 - 2026-10-13: clean baseline `79c6b35`; new goal active. Three workers are auditing
   comparison, saved-work appreciation and content continuity. No runtime edit yet.
+- Current baseline comparison/exhibition/workbench plus isolation passed5/5.
+  P3 opening now poses the discovery without naming its check-stream answer.
+  New content identity `tasks-20261013-journey-v1` preserves both earlier sixty-task
+  manifests. Actual client/receiver metadata check,17 commission assertions,
+  receiver10 tests and packaging checks passed; model/materials remain unchanged.
+- Controlled-comparison and saved-work/audio presentation are being implemented
+  in disjoint files. Current Windows is locked; native input/listening is pending.
 - Human enjoyment and artistic quality require actual listening/viewing and later
   unfamiliar-player feedback; green checks alone cannot establish them.

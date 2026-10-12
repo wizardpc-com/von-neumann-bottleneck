@@ -1,5 +1,10 @@
 # Execution queue
 
+The [creative expression round](creation-expression-20261013.md) is active:
+make the existing learned-system changes and their actual consequences directly
+visible, and deepen protected-work appreciation. Earlier fixed candidates remain
+available while the new presentation is developed and verified.
+
 The [2026-10-12 engineering round](../completed/pre-release-engineering-20261012.md)
 completed private VPS HTTPS and representative Windows native acceptance with
 fixed sixty-task Windows/macOS packages. The

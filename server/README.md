@@ -80,7 +80,7 @@ completion percentage or median. See [maintenance](../docs/development/final-mai
 
 `community_rules.json.content_manifests` accepts the preserved
 `tasks-20260910-v1` forty-task manifest and the explicit
-`tasks-20261010-journey-v1` and `tasks-20261012-journey-v1` sixty-task manifests.
+`tasks-20261010-journey-v1`, `tasks-20261012-journey-v1` and `tasks-20261013-journey-v1` sixty-task manifests.
 The revised creative goals belong to the latter version; each manifest retains
 its exact authored digest. An old/new version with the other digest is rejected,
 and private reports group versions separately. A visit summary must declare a

@@ -81,6 +81,19 @@ def prepare_package(original, platform, work):
     return manifest,package,binary,hashes,embedded_pack
 
 
+def write_probe_scene(scene,probe):
+    scene.write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path='
+                     +json.dumps(probe.as_posix(),ensure_ascii=False)+' id="1"]\n'
+                     '[node name="PackageFeedbackProbe" type="Node"]\nscript=ExtResource("1")\n',encoding='utf-8')
+
+
+def write_override(override,user_dir,scene,qa_profile,phase,work):
+    override.write_text('[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name='
+                        +json.dumps(user_dir)+'\nrun/main_scene='+json.dumps(scene.as_posix(),ensure_ascii=False)
+                        +'\n[candidate]\nprofile='+json.dumps(qa_profile)+'\n[qa_feedback]\nphase='
+                        +json.dumps(phase)+'\noutput='+json.dumps(work.as_posix(),ensure_ascii=False)+'\n',encoding='utf-8')
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     package_arg=parser.add_mutually_exclusive_group(required=True)
@@ -101,7 +114,7 @@ def main():
     manifest,package,binary,hashes,embedded_pack=prepare_package(original,platform,work)
     probe=work/'probe.gd'; shutil.copy2(root/'scripts/package-feedback-probe.gd',probe)
     scene=work/'probe.tscn'
-    scene.write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path='+json.dumps(probe.as_posix())+' id="1"]\n[node name="PackageFeedbackProbe" type="Node"]\nscript=ExtResource("1")\n')
+    write_probe_scene(scene,probe)
     override=binary.parent/'override.cfg'
     qa_profile='PackageFeedback-'+stamp
     user_dir='VonNeumannBottleneckCandidates/representation/'+qa_profile
@@ -117,7 +130,7 @@ def main():
         environment.update(APPDATA=str(runtime/'Roaming'),LOCALAPPDATA=str(runtime/'Local'),USERPROFILE=str(runtime/'Profile'))
         launcher=[str(binary)]
     def phase(name):
-        override.write_text('[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name='+json.dumps(user_dir)+'\nrun/main_scene='+json.dumps(scene.as_posix())+'\n[candidate]\nprofile='+json.dumps(qa_profile)+'\n[qa_feedback]\nphase='+json.dumps(name)+'\noutput='+json.dumps(work.as_posix())+'\n')
+        write_override(override,user_dir,scene,qa_profile,name,work)
         result=subprocess.run([*launcher,'--headless','--log-file',str(work/(name+'-engine.log')),'--','--enable-playtest-telemetry','--enable-playtest-feedback'],cwd=binary.parent if platform=='Windows' else work,capture_output=True,text=True,encoding='utf-8',errors='replace',env=environment,timeout=60)
         text=result.stdout+result.stderr; (work/(name+'.log')).write_text(text)
         if result.returncode or 'SCRIPT ERROR' in text or 'ERROR:' in text or 'PASS: actual package feedback '+name not in text:

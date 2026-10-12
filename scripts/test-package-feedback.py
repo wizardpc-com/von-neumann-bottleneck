@@ -86,6 +86,19 @@ class PackageFeedbackTests(unittest.TestCase):
                                '--app','unused.app','--exe','unused.exe'],capture_output=True)
         self.assertEqual(result.returncode,2)
 
+    def test_godot_scene_and_override_keep_unicode_paths_in_utf8(self):
+        work=Path(self.workspace.name)/'中文 路径'
+        work.mkdir()
+        probe=work/'probe.gd';scene=work/'probe.tscn';override=work/'override.cfg'
+        VERIFIER.write_probe_scene(scene,probe)
+        VERIFIER.write_override(override,'PackageFeedback-synthetic',scene,'PackageFeedback-synthetic','offline',work)
+        scene_text=scene.read_bytes().decode('utf-8')
+        override_text=override.read_bytes().decode('utf-8')
+        self.assertIn(probe.as_posix(),scene_text)
+        self.assertIn(scene.as_posix(),override_text)
+        self.assertIn(work.as_posix(),override_text)
+        self.assertNotIn('\\u',scene_text+override_text)
+
     def test_private_report_cli_writes_files_on_this_platform(self):
         database=Path(self.workspace.name)/'events.sqlite'
         output=Path(self.workspace.name)/'private-report'

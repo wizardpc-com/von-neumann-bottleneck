@@ -130,6 +130,9 @@ loading/channel work. Preparation was already performed and is disclosed
 separately. Orders accept any actual lossless path meeting the stated deadline;
 the UI does not impose a particular codec. Session-only delivery receipts do not
 replace historical C3 completion evidence or silently award a new certificate.
+The saved C3 unit support remains a same-source, same-model, same-codec transport
+comparison under two different machines with different measured costs. Players may
+choose either codec for each delivery order; those choices do not have to match.
 
 Saved-work exhibition consumes detached saved output and host-validated replay
 records. `light-trace-v1` uses16 fixed columns and ordered revealed cells;

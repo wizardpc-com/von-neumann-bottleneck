@@ -163,6 +163,9 @@ C3 offers two public machine conditions, both with bus 1 B/cycle, request overhe
 examples and regular 1536-cell source, measured RAW/predictive cycles are
 235928/258602 under A and 225601/220899 under B; packets stay 436/430 B. Other
 rules/sources may behave differently. C3 retains source/model for its cost evidence.
+Its saved unit evidence compares one source, model and codec under two different
+machines. The delivery orders are a separate open challenge: each can use either
+lossless codec, and their session receipts do not determine the saved C3 checkmark.
 
 After one manual commit/reveal, Prediction offers Run remainder and Until mismatch.
 Both use the same per-cell commit→reveal path, freeze the model and retain causal

@@ -42,6 +42,8 @@ var evidence_toggle: Button
 var signal_area: VBoxContainer
 var signal_view: Control
 var status: Label
+var next_step_label: Label
+var next_step_button: Button
 var provenance: Label
 var machine_strip: Label
 var measured_summary: Label
@@ -109,7 +111,7 @@ func _ready() -> void:
 	writable = bool(opened.get("writable",false))
 	recovery_choices = opened.get("choices",[]).duplicate(true)
 	recovery_fingerprint = str(opened.get("fingerprint",""))
-	status_text = text2("草稿与作品使用独立候选档。先选择样例，学习你的规则盒。","Drafts and works use an isolated candidate profile. Choose examples and learn your rule box.") if opened.get("ok",false) else str(opened.get("error",session.error))
+	status_text = (text2("草稿与作品使用独立候选档。当前已有 %d 段样例；点「学习」建立规则盒。","Drafts and works use an isolated candidate profile. %d examples are selected; Learn to build the rule box.")%session.data.draft.examples.size() if not session.data.draft.examples.is_empty() else text2("草稿与作品使用独立候选档。先选择一段样例，再点「学习」。","Drafts and works use an isolated candidate profile. Select an example, then Learn.")) if opened.get("ok",false) else str(opened.get("error",session.error))
 	if not writable: status_text = text2("当前候选档只读：可回看受保护快照；保存被禁用，原文件不会被覆盖。","Candidate profile is read-only: protected snapshots remain playable; saving is disabled and the original file stays intact.")+" "+str(opened.get("error",session.error))
 	if opened.get("error", "") == "raw_restore_readonly":
 		status_text = text2("旧候选档把 RAW 误记为模型复原，现以只读方式打开。已验证作品可回看，原文件不会改写；请保留备份，在新的候选档重新学习并发送预测包来取得复原证据。", "This older profile counted RAW as model restoration. It is now read-only: validated works remain viewable and the original file is untouched. Keep a backup; learn and send a predictive packet in a fresh candidate profile to earn restoration evidence.")
@@ -232,9 +234,21 @@ func build() -> void:
 	button(text2("重做","Redo"),"RedoDraft",navigation,func() -> void: restore_draft_history(true))
 	button(text2("上一单元","Previous"),"Previous",navigation,func() -> void: change_task(maxi(0,task-1)))
 	button(text2("下一单元","Next"),"Next",navigation,func() -> void: change_task(mini(8,task+1)))
-	var mission: Label = label(Catalog.goal(task,english),page,14)
+	var guide := HBoxContainer.new()
+	guide.name = "NextStep"
+	page.add_child(guide)
+	var guide_copy := VBoxContainer.new()
+	guide_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	guide_copy.add_theme_constant_override("separation",1)
+	guide.add_child(guide_copy)
+	var mission: Label = label(Catalog.workbench_goal(task,english),guide_copy,12)
 	mission.name = "Mission"
-	mission.custom_minimum_size.y = 42
+	mission.add_theme_color_override("font_color",Color("a9bbc9"))
+	next_step_label = label("",guide_copy,14)
+	next_step_label.name = "NextStepText"
+	next_step_button = button("","NextStepAction",guide,advance_step)
+	next_step_button.custom_minimum_size.x = 164
+	InstrumentTheme.primary(next_step_button)
 	var body := HBoxContainer.new()
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	page.add_child(body)
@@ -639,7 +653,6 @@ func _build_actions(parent: Node) -> void:
 	feedback_button = null
 	if task < 3:
 		run_button = button(text2("发送预测包并复原","Send predictive packet"),"Transport",parent,func() -> void: transport("predictive"))
-		InstrumentTheme.primary(run_button)
 		button(text2("同原文 RAW 对照","RAW comparison"),"Raw",parent,func() -> void: transport("raw"))
 		button(text2("锁定条件 · 两种传输对照","Locked codec comparison"),"CompareTransport",parent,compare_transport)
 		if session.data.get("mode","compress") != "compress": button(text2("接回有原文的传输","Reconnect original"),"ToCompress",parent,func() -> void: switch_mode("compress"))
@@ -652,7 +665,6 @@ func _build_actions(parent: Node) -> void:
 		if task == 5: button(text2("固定位置背诵基线","Position-memory baseline"),"Memorize",parent,func() -> void: begin_prediction("memorize"))
 		button(text2("冻结检查","Frozen check"),"Check",parent,func() -> void: begin_prediction("check"))
 		commit_button = button(text2("先提交预测","Commit guess"),"Commit",parent,commit_prediction)
-		InstrumentTheme.primary(commit_button)
 		reveal_button = button(text2("再揭晓真值","Reveal truth"),"Reveal",parent,reveal_prediction)
 		var continuation := HBoxContainer.new()
 		parent.add_child(continuation)
@@ -669,11 +681,9 @@ func _build_actions(parent: Node) -> void:
 			parent.add_child(name_input)
 		feedback_button = button(text2("断开真值 · 接上回灌","Disconnect truth · feedback"),"ToGenerate",parent,func() -> void: switch_mode("generate"))
 		run_button = button(text2("按我的配方生成","Generate my recipe"),"Generate",parent,generate_work)
-		InstrumentTheme.primary(run_button)
 		if task == 7: button(text2("钉住 A", "Pin A"),"PinCreationAQuick",parent,pin_creation_a)
 		var keep: Button = button(text2("保存这份作品","Keep this work"),"KeepCurrent",parent,keep_work)
 		keep.disabled = not writable
-		if task == 8: InstrumentTheme.primary(keep)
 
 func toggle_language() -> void:
 	var editor_state: Dictionary = _capture_editor_state()
@@ -705,6 +715,98 @@ func change_task(index: int) -> void:
 	build()
 	_restore_editor_state(editor_state)
 
+func _step(zh: String, en: String, button_zh: String, button_en: String, action: String) -> Dictionary:
+	return {"text":text2(zh,en),"button":text2(button_zh,button_en),"action":action}
+
+func next_step() -> Dictionary:
+	if not writable:
+		if not session.data.works.is_empty(): return _step("此档只读；已保存作品仍可回看，原文件不会改写。", "This profile is read-only; saved works remain viewable and the file is untouched.", "查看作品", "View works", "works")
+		return _step("此档只读；可查看已有证据，不能从这里改动草稿。", "This profile is read-only; inspect existing evidence without changing the draft.", "查看证据", "View evidence", "evidence")
+	var model: Dictionary = session.data.model
+	if model.is_empty():
+		if session.data.draft.examples.is_empty(): return _step("当前没有样例；先选择至少一段公开或自己的样例。", "No example is selected; choose at least one public or custom passage.", "查看样例", "See examples", "examples")
+		return _step("当前：已选样例；下一步先学习规则。", "Now: examples are selected; learn their rules first.", "学习样例", "Learn examples", "train")
+	var model_id: String = Model.identity(model)
+	var restored: bool = str(session.get("_transport_model")) == model_id
+	var predicted: bool = str(session.get("_prediction_model")) == model_id
+	if task == 0:
+		if not restored: return _step("当前：已有规则；下一步发送预测包，确认接收端无损复原。", "Now: rules are learned; send a predictive packet for exact restoration.", "发送并复原", "Send and restore", "transport")
+		return _step("复原已完成。下一步把同一规则盒接到未见输入。", "Restoration is complete. Connect these rules to sealed input next.", "接未见输入", "Connect sealed input", "predict")
+	if task == 1:
+		if not session.data.supports.has("C2_cost"): return _step("下一步锁定当前原文、规则和机器，运行 RAW／预测包字节对照。", "Next, hold source, rules and machine fixed and compare RAW / predictive bytes.", "运行传输对照", "Compare codecs", "compare")
+		return _step("本单元对照已留证；继续查看机器条件如何改变成本。", "This comparison is recorded; continue to machine conditions.", "下一单元", "Next unit", "next")
+	if task == 2:
+		if session.data.supports.has("C3_conditions"): return _step("同路径换机器的成本证据已保存；配送订单可继续自由挑战。", "The same-codec machine comparison is saved; delivery orders remain open challenges.", "下一单元", "Next unit", "next")
+		return _step("本单元证据：同原文、规则和路径在两种机器下各发送一次。订单另计。", "Unit evidence: send the same source, rules and codec under two machines. Orders are separate.", "查看机器条件", "Machine conditions", "machine")
+	if not restored:
+		return _step("当前规则尚无预测包复原证据；先返回 C1 发送，再接未见输入。", "These rules lack predictive restoration evidence; send in C1 before sealed input.", "返回 C1", "Go to C1", "c1")
+	if task < 6:
+		if session.data.mode != "predict": return _step("复原已完成；下一步接到未见输入。", "Restoration is complete; connect sealed input next.", "接未见输入", "Connect sealed input", "predict")
+		if task == 4 and session.data.supports.has("P2_memory"): return _step("记忆长度对照已留证；继续同族冻结检查。", "The history comparison is saved; continue to the frozen family check.", "下一单元", "Next unit", "next")
+		if task == 4 and session.prediction.get("finished",false): return _step("已有一轮结果；下一步改记忆长度并重新学习，再跑同类片段。", "One round is complete; change history length, relearn, then run the same passage kind.", "查看记忆设置", "History setting", "examples")
+		if task == 5 and session.data.supports.has("P3_check"):
+			if predicted: return _step("冻结检查已有证据；当前规则也完成整轮预测，可进入回灌创造。", "The frozen check is recorded and these rules have a full prediction round; continue to feedback.", "下一单元", "Next unit", "next")
+			return _step("旧冻结检查证据仍在；当前新规则还需整轮预测才能回灌。", "Earlier frozen-check evidence remains; these new rules need a full prediction round before feedback.", "返回 P1", "Go to P1", "p1")
+		if task == 5 and not Catalog.sample(5) in model.examples: return _step("先选择「稳定规律与稀少例外」样例并重新学习，再进行同族练习。", "Select the stable/rare-exception example and relearn before family practice.", "查看样例", "See examples", "examples")
+		if task == 5 and session.prediction.get("finished",false) and session.prediction.get("kind","") == "practice-v2": return _step("同族练习完成；下一步开始独立冻结检查。", "Family practice is complete; start the independent frozen check.", "开始冻结检查", "Start frozen check", "family_check")
+		if task == 3 and predicted and session.prediction.is_empty(): return _step("当前规则已有整轮预测证据；可以继续接上回灌。", "These rules have full-round prediction evidence; continue to feedback.", "接上回灌", "Connect feedback", "generate_mode")
+		if session.prediction.is_empty() or (task == 5 and session.prediction.get("kind","") not in ["practice-v2","check-v2"]):
+			return _step("未开始预测流；先开始练习，下一格仍未揭晓。", "No prediction round is active; start practice while the next cell stays sealed.", "开始练习", "Start practice", "family_practice" if task == 5 else "practice")
+		if not session.prediction.get("pending",{}).is_empty(): return _step("这一格的预测已提交；现在揭晓真值和修正。", "This guess is committed; reveal its truth and correction now.", "揭晓真值", "Reveal truth", "reveal")
+		if session.prediction.get("finished",false):
+			if task == 5: return _step("本轮已完成；可检查证据或进入回灌创造。", "This round is complete; inspect evidence or continue to feedback.", "下一单元", "Next unit", "next")
+			if predicted: return _step("整轮预测已完成；现在可把输出接回输入。", "The full prediction round is complete; feedback can now be connected.", "接上回灌", "Connect feedback", "generate_mode")
+			return _step("这一轮不能接入回灌；请开始当前规则的练习。", "This round cannot connect feedback; start practice with the current rules.", "开始练习", "Start practice", "practice")
+		if session.prediction.get("rows",[]).is_empty(): return _step("练习已开始；先亲手提交一格预测。", "Practice has started; commit one guess yourself first.", "提交预测", "Commit guess", "commit")
+		return _step("首格已揭晓；执行余段直至整轮结束，才能接入回灌。", "The first cell is revealed; finish the round before connecting feedback.", "执行余段", "Run remainder", "remainder")
+	if not predicted: return _step("当前规则尚未完成整轮预测；返回 P1，提交并揭晓后执行余段。", "These rules need a full prediction round; return to P1, reveal a cell, then run the remainder.", "返回 P1", "Go to P1", "p1")
+	if session.data.mode != "generate": return _step("整轮预测已完成；下一步主动接上输出回灌。", "The full round is complete; connect output feedback next.", "接上回灌", "Connect feedback", "generate_mode")
+	if task >= 7 and visible_generation_saved():
+		if task == 7: return _step("这份输出与配方已保存；前往作品单元回看或分叉。", "This output and recipe are saved; continue to view or fork the work.", "下一单元", "Next unit", "next")
+		return _step("这份输出与配方已保存；可回看、再生或分叉。", "This output and recipe are saved; view, replay or fork them.", "查看作品", "View works", "works")
+	if task == 8 and can_keep_visible_work(): return _step("当前新输出还未保存；命名后确认留下。旧作品保持不变。", "This new output is not saved yet; name and keep it. Earlier works remain intact.", "确认保存作品", "Keep this work", "keep")
+	if task == 8 and session.data.supports.has("G3_keep"): return _step("已保存的是历史作品；当前视图不会自动成为新作品。可查看或分叉旧作品。", "Earlier works are saved; the current view is not automatically a new saved work. View or fork an earlier work.", "查看作品", "View works", "works")
+	if not can_keep_visible_work(): return _step("回灌已连接；下一步用当前配方生成可保存的实际输出。", "Feedback is connected; generate a real output from the current recipe.", "生成光纹", "Generate signal", "generate")
+	if task == 6: return _step("G1 已生成实际输出；继续选择是否修改并留下作品。", "G1 generated real output; continue to choose, revise and keep a work.", "下一单元", "Next unit", "next")
+	return _step("已有可保存的实际输出；命名后确认留下，或继续设计对照。", "A real output is ready; name and keep it, or continue your design comparison.", "确认保存作品", "Keep this work", "keep")
+
+func visible_generation_saved() -> bool:
+	if latest.get("kind","") != "generation": return false
+	for work: Dictionary in session.data.works:
+		if work.get("output",[]) == latest.get("output",[]) and work.get("recipe",{}) == latest.get("recipe",{}): return true
+	return false
+
+func advance_step() -> void:
+	var action: String = str(next_step().action)
+	if not writable and action not in ["works","evidence"]: return
+	match action:
+		"train": train_model()
+		"transport": transport("predictive")
+		"compare": compare_transport()
+		"predict": switch_mode("predict")
+		"practice": begin_prediction("practice")
+		"family_practice": begin_prediction("practice-v2")
+		"family_check": begin_prediction("check-v2")
+		"commit": commit_prediction()
+		"reveal": reveal_prediction()
+		"remainder": continue_prediction()
+		"generate_mode": switch_mode("generate")
+		"generate": generate_work()
+		"keep": keep_work()
+		"c1": change_task(0)
+		"p1": change_task(3)
+		"next": change_task(mini(8,task+1))
+		"examples","machine":
+			var tabs := find_child("DraftTabs",true,false) as TabContainer
+			if tabs != null: tabs.current_tab = 1 if next_step().action == "machine" else 0
+		"works":
+			var tabs := find_child("EvidenceTabs",true,false) as TabContainer
+			if tabs != null: tabs.current_tab = 3
+		"evidence":
+			var tabs := find_child("EvidenceTabs",true,false) as TabContainer
+			if tabs != null: tabs.current_tab = 0
+			set_evidence_expanded(true)
+
 func set_status(value: String) -> void:
 	status_text = value
 	if is_instance_valid(status): status.text = value
@@ -713,7 +815,7 @@ func failure_text(result: Dictionary) -> String:
 	var code: String = str(result.get("error","unknown"))
 	if code == "work_limit": return text2("作品库已满（12件）。本次生成仍保留在草稿中。", "The collection is full (12 works). This generation remains in the draft.")
 	if code == "name": return text2("作品名称须包含1–80个字符。", "A work name must contain 1–80 characters.")
-	var messages: Dictionary = {"restore_first":text2("请先用当前模型成功复原一次原文。","Restore a source successfully with the current model first."),"predict_first":text2("请先用当前模型完成一次提交／揭晓，再接上回灌。","Complete a commit/reveal stream with the current model before connecting feedback."),"mode":text2("请先主动连接本章的输入模式。","Connect this chapter's input mode explicitly."),"memory_limit":text2("这台机器内存不足；提高公开内存预算或减少样例/输出。","This machine lacks memory; increase its public budget or reduce examples/output."),"work_index":text2("先在作品列表选中一件作品。","Select a work from the collection first."),"generate_first":text2("配方已改变。请运行新的生成，再确认保存。","The recipe changed. Generate again before confirming a saved work."),"training_bounds":text2("选择1–16段合法样例，再学习。","Select 1–16 valid examples before learning.")}
+	var messages: Dictionary = {"restore_first":text2("请先用当前模型发送预测包，完成无损复原。","Send a predictive packet with the current model and restore it exactly first."),"predict_first":text2("请先用当前模型开始练习，手动提交／揭晓一格，再执行余段直至整轮完成。","With the current model, start practice, commit/reveal one cell, then finish the round before connecting feedback."),"mode":text2("请先主动连接本章的输入模式。","Connect this chapter's input mode explicitly."),"memory_limit":text2("这台机器内存不足；提高公开内存预算或减少样例/输出。","This machine lacks memory; increase its public budget or reduce examples/output."),"work_index":text2("先在作品列表选中一件作品。","Select a work from the collection first."),"generate_first":text2("配方已改变。请运行新的生成，再确认保存。","The recipe changed. Generate again before confirming a saved work."),"training_bounds":text2("选择1–16段合法样例，再学习。","Select 1–16 valid examples before learning.")}
 	return str(messages.get(code,code))+(" ("+str(result.required_bytes)+" B)" if result.has("required_bytes") else "")
 
 func edit_draft() -> void:
@@ -971,6 +1073,11 @@ func save_draft() -> void:
 	refresh()
 
 func refresh() -> void:
+	if is_instance_valid(next_step_label) and is_instance_valid(next_step_button):
+		var step: Dictionary = next_step()
+		next_step_label.text = step.text
+		next_step_button.text = step.button
+		next_step_button.disabled = not writable and step.action not in ["works","evidence"]
 	if is_instance_valid(saved_design_caption): saved_design_caption.text = saved_design_text()
 	refresh_keep_actions()
 	_refresh_creation_comparison()
@@ -983,7 +1090,7 @@ func refresh() -> void:
 	var mode: String = str(session.data.get("mode","compress"))
 	var machine: Dictionary = session.data.draft.machine
 	machine_strip.text = "%s · CPU %s %s · RAM %s B · %s %s %s · %s %s B/%s + %s %s"%[text2("当前机器","Current machine"),str(machine.cpu_ops_per_cycle),text2("运算/周期","ops/cycle"),str(machine.memory_bytes),text2("自动缓存","auto cache"),str(machine.cache_rows),text2("规则行","rule rows"),text2("通道","bus"),str(machine.bytes_per_cycle),text2("周期","cycle"),str(machine.request_cycles),text2("周期/请求","cycles/request")]
-	measured_summary.text = live_measurement_text()
+	measured_summary.text = live_measurement_text() if latest.is_empty() or _latest_matches_mode() else text2("本阶段尚未运行 · 上一阶段证据仍可在下方查看。", "No run in this stage yet · earlier evidence remains available below.")
 	saved_work_closure.visible = not kept_work.is_empty()
 	(find_child("ContinueCreation",true,false) as Button).disabled = not writable
 	saved_work_caption.text = text2("已留下：","Kept: ")+str(kept_work.get("name",""))
@@ -1078,6 +1185,8 @@ func saved_design_text() -> String:
 	return "\n".join(lines)
 
 func measurement_text() -> String:
+	if latest.is_empty(): return text2("本阶段尚无运行结果。按上方下一步操作；需要时展开证据。", "No run in this stage yet. Follow the next action above; expand evidence when needed.")
+	if not _latest_matches_mode(): return text2("当前展示上一阶段结果；本阶段尚无实测。先按上方下一步操作。上一阶段事件和成本账本仍可查看。", "This is an earlier stage's result; this stage has no measurement yet. Follow the next action above. Earlier events and cost ledger remain available.")
 	var lines := PackedStringArray()
 	var saved_work: Dictionary = latest.get("work",{})
 	if _unsupported_saved_recipe():
@@ -1140,9 +1249,18 @@ func measurement_text() -> String:
 		for i: int in 2:
 			var recipe: Dictionary = comparison[i].recipe
 			lines.append("%d · %s · %s %s · %s %s · %s"%[i+1,str(recipe.model_id).substr(0,12),text2("记忆","history"),str(recipe.model.order),text2("种子","seed"),str(recipe.seed),str(recipe.sampler)])
-	lines.append(saved_design_text())
+	if task >= 7 or session.data.supports.has("G2_intent"): lines.append(saved_design_text())
 	lines.append(text2("周期来自顺序事件；包字节与含规则行读写的总搬运字节分列。重复与高熵均不判作品美感。","Cycles come from sequential events; packet size is distinct from total traffic including rule accesses. Neither repetition nor high entropy judges beauty."))
 	return "\n".join(lines)
+
+func _latest_matches_mode() -> bool:
+	var kind: String = str(latest.get("kind",""))
+	if kind in ["snapshot","replay"]: return true
+	match str(session.data.get("mode","compress")):
+		"compress": return kind in ["training","transport"]
+		"predict": return kind == "prediction"
+		"generate": return kind == "generation"
+	return false
 
 func live_measurement_text() -> String:
 	# The same detached result owns the operation/traffic totals shown in detail.

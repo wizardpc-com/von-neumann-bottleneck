@@ -13,6 +13,10 @@ def packaged_bytes(path):
     return os.readlink(path).encode('utf-8') if path.is_symlink() else path.read_bytes()
 
 
+def godot_path_literal(path):
+    return json.dumps(path.resolve().as_posix(),ensure_ascii=False)
+
+
 def write_zip_entry(package, path, relative):
     if path.is_symlink():
         entry=zipfile.ZipInfo(relative.as_posix())
@@ -83,9 +87,10 @@ def main():
     if brand.get('native_icon_macos'):
         presets=presets.replace('[preset.1.options]','[preset.1.options]\napplication/icon="'+brand['native_icon_macos']+'"')
     if template:
-        presets=presets.replace('[preset.1.options]','[preset.1.options]\ncustom_template/debug='+json.dumps(str(template))+'\ncustom_template/release='+json.dumps(str(template)))
+        mac_path=godot_path_literal(template)
+        presets=presets.replace('[preset.1.options]','[preset.1.options]\ncustom_template/debug='+mac_path+'\ncustom_template/release='+mac_path)
     if a.windows_template:
-        presets=presets.replace('custom_template/release=""','custom_template/release='+json.dumps(str(a.windows_template.resolve())),1)
+        presets=presets.replace('custom_template/release=""','custom_template/release='+godot_path_literal(a.windows_template),1)
     (project/'export_presets.cfg').write_text(presets)
     original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))

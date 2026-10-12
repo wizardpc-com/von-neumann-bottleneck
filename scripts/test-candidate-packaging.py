@@ -15,6 +15,10 @@ root=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('candidate_builder',root/'scripts/build-free-candidate.py')
 builder=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
+template_path=root/'build'/'冯诺依曼瓶颈'/'macos.zip'
+literal=builder.godot_path_literal(template_path)
+assert json.loads(literal)==template_path.resolve().as_posix()
+assert '\\u' not in literal and '\\\\' not in literal
 commit='a'*40
 build_id='playtest-PackageTest-'+commit[:12]
 test_root=root/'.godot/candidate-packaging-tests'
@@ -53,4 +57,4 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     manifest['platforms']['macOS']['sha256']=hashlib.sha256(archive.read_bytes()).hexdigest()
     (output/'manifest.json').write_text(json.dumps(manifest))
     assert subprocess.run(checker,capture_output=True).returncode!=0
-print('PASS: portable ZIP inventory, file hashes and unlisted-file rejection')
+print('PASS: Godot template path literals, portable ZIP inventory, file hashes and unlisted-file rejection')

@@ -29,9 +29,22 @@ func run() -> void:
 	for child: Node in scene.list_rows.get_children():
 		var item := child as Button
 		check(String(item.get_meta("task_key")).begins_with("chapter_3/"),"Region entries belong to the chosen chapter")
+	var camera_before_map_click: Vector2 = scene.canvas.pan
+	var zoom_before_map_click: float = scene.canvas.magnification
+	scene.canvas.task_selected.emit("chapter_2/capstone")
+	check(nav.selected == "chapter_2/capstone" and scene.current_region == 2 and int(scene.region_choice.get_item_metadata(scene.region_choice.selected)) == 2,"Canvas selection synchronizes the task and chapter")
+	check(scene.canvas.pan == camera_before_map_click and scene.canvas.magnification == zoom_before_map_click,"Canvas selection does not move the free camera")
+	scene.list_button.pressed.emit()
+	for child: Node in scene.list_rows.get_children():
+		check(String(child.get_meta("task_key")).begins_with("chapter_2/"),"Returning from a cross-chapter map selection lists that chapter")
+	scene._choose_region(-1)
+	check(scene.current_region == -1 and scene.list_rows.get_child_count() == scene.rows.size() and nav.selected == "chapter_2/capstone","Whole-journey browse stays independent of the selected task")
 	scene.search.text="chapter_3/"
 	scene._on_search_changed(scene.search.text)
 	check(scene.list_view.visible and scene.list_rows.get_child_count() == 6,"Search exposes all clickable matching tasks")
+	(scene.list_rows.get_child(0) as Button).pressed.emit()
+	scene.list_button.pressed.emit()
+	check(scene.search.text == "chapter_3/" and scene.list_rows.get_child_count() == 6 and (scene.list_title.text.contains("搜索") or scene.list_title.text.contains("Search")),"Search results remain the browse context after selecting a task")
 	scene.search.text="no-such-task"
 	scene._on_search_changed(scene.search.text)
 	check(scene.list_rows.get_child_count() == 0 and scene.list_empty.visible,"Search explains an empty result")

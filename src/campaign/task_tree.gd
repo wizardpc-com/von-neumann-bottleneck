@@ -197,6 +197,11 @@ func _select(key: String) -> void:
 		if task.key != key: continue
 		selected = task
 		TaskNavigation.selected = key
+		current_region=int(task.region)
+		for index: int in region_choice.item_count:
+			if int(region_choice.get_item_metadata(index)) == current_region:
+				region_choice.select(index)
+				break
 		var accent: Color = canvas._color(task.region)
 		var frame: StyleBoxFlat = InstrumentTheme.surface(Color("132330"),Color(accent,0.4),8)
 		frame.content_margin_left=18; frame.content_margin_right=18
@@ -362,11 +367,6 @@ func _select_and_locate(key: String) -> void:
 	_select(key)
 	if selected.is_empty() or selected.key != key: return
 	canvas.locate(key)
-	current_region=int(selected.region)
-	for index: int in region_choice.item_count:
-		if int(region_choice.get_item_metadata(index)) == current_region:
-			region_choice.select(index)
-			break
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:

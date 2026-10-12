@@ -150,6 +150,7 @@ func next_task_title() -> String:
 	var task: Dictionary = _resume_target()
 	var title: String = str(task.get("title",""))
 	if _temporary_resume(task): title += " · "+("临时探索，离开后不保留" if Localization.current_locale() != "en" else "temporary; not retained after leaving")
+	elif bool(task.get("completed",false)): title += " · "+("已完成，可回看与优化" if Localization.current_locale() != "en" else "completed; revisit and refine")
 	return title
 
 func home_action_text() -> String:
@@ -157,6 +158,8 @@ func home_action_text() -> String:
 	if _temporary_resume(task):
 		if str(task.get("domain","")) == "prediction": return "重新探索预测" if Localization.current_locale() != "en" else "Reopen Prediction"
 		return "重新打开临时工作台" if Localization.current_locale() != "en" else "Reopen temporary workshop"
+	if bool(task.get("completed",false)):
+		return "回到我的工作台" if Localization.current_locale() != "en" else "Revisit my workbench"
 	return ("继续旅程" if has_resume() else "开始旅程") if Localization.current_locale() != "en" else ("Continue journey" if has_resume() else "Start journey")
 
 func start_or_continue() -> bool:

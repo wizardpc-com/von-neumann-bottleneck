@@ -1,5 +1,6 @@
 """Transactional schema and offline maintenance; no game engine dependencies."""
 import argparse
+from contextlib import closing
 import hashlib
 import json
 from pathlib import Path
@@ -29,20 +30,20 @@ def migrate(db):
 
 def backup(source, destination):
     if Path(destination).exists(): raise ValueError('destination exists; use a new snapshot name')
-    with sqlite3.connect('file:%s?mode=ro' % Path(source).resolve(), uri=True) as src, sqlite3.connect(destination) as dst:
+    with closing(sqlite3.connect('file:%s?mode=ro' % Path(source).resolve(), uri=True)) as src, closing(sqlite3.connect(destination)) as dst:
         src.backup(dst)
         if dst.execute('PRAGMA integrity_check').fetchone()[0] != 'ok': raise ValueError('integrity check')
     return counts(destination)
 
 def counts(path):
-    with sqlite3.connect('file:%s?mode=ro' % Path(path).resolve(), uri=True) as db:
+    with closing(sqlite3.connect('file:%s?mode=ro' % Path(path).resolve(), uri=True)) as db:
         version = db.execute('PRAGMA user_version').fetchone()[0]
         return {'schema_version': version, **{t: db.execute('SELECT COUNT(*) FROM '+t).fetchone()[0]
                 for t in ['clients', 'events'] + (['tombstones'] if version >= 2 else [])}}
 
 def merge(destination, source):
     """Merge an immutable snapshot into an offline target; deletion wins, conflicts abort."""
-    with sqlite3.connect(destination) as dst, sqlite3.connect('file:%s?mode=ro' % Path(source).resolve(), uri=True) as src:
+    with closing(sqlite3.connect(destination)) as dst, closing(sqlite3.connect('file:%s?mode=ro' % Path(source).resolve(), uri=True)) as src:
         migrate(dst)
         version = src.execute('PRAGMA user_version').fetchone()[0]
         if version > SCHEMA_VERSION: raise ValueError('future source schema')

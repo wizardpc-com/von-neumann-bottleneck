@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Real HTTP + SQLite contract checks; synthetic data only."""
+from contextlib import closing
 import importlib.util
 import json
 from pathlib import Path
@@ -20,12 +21,13 @@ class ReceiverTests(unittest.TestCase):
         cls.url=cls.process.stdout.readline().split(';')[0].split('receiver: ')[1]
     @classmethod
     def tearDownClass(cls):
-        cls.process.terminate();cls.process.wait(timeout=5);cls.tmp.cleanup()
+        cls.process.terminate();cls.process.wait(timeout=5);cls.process.stdout.close();cls.tmp.cleanup()
     def request(self,method,path,body=None,headers=None):
         req=Request(self.url+path,data=json.dumps(body).encode() if body is not None else None,method=method,headers={'Content-Type':'application/json'}|(headers or {}))
         try:
             with urlopen(req,timeout=5) as response: return response.status,json.load(response)
-        except HTTPError as e: return e.code,json.load(e)
+        except HTTPError as e:
+            with e: return e.code,json.load(e)
     def envelope(self,suffix='a'):
         return {'client_id':'synthetic-client-'+suffix,'deletion_token':'a'*64,'records':[{'event_id':'synthetic-event-'+suffix,'kind':'feedback','payload':{'source':'automated','mode':'test','level_id':'fields','note':'synthetic opinion','fun':4,'clarity':None,'revision':1}}]}
     def test_contract(self):
@@ -50,10 +52,10 @@ class ReceiverTests(unittest.TestCase):
         self.assertEqual(self.request('DELETE','/v1/data',deletion)[0],403)
         deletion['deletion_token']='a'*64
         self.assertEqual(self.request('DELETE','/v1/data',deletion)[0],200)
-        with sqlite3.connect(self.db) as db:
+        with closing(sqlite3.connect(self.db)) as db:
             self.assertEqual(db.execute('SELECT COUNT(*) FROM events').fetchone()[0],1)
             backup=sqlite3.connect(Path(self.tmp.name)/'backup.sqlite');db.backup(backup);backup.close()
-        with sqlite3.connect(Path(self.tmp.name)/'backup.sqlite') as backup:
+        with closing(sqlite3.connect(Path(self.tmp.name)/'backup.sqlite')) as backup:
             self.assertEqual(backup.execute('SELECT client_id FROM events').fetchone()[0],b['client_id'])
     def test_retention(self):
         spec=importlib.util.spec_from_file_location('receiver',Path(__file__).with_name('feedback_server.py'));module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
@@ -100,7 +102,7 @@ class ReceiverTests(unittest.TestCase):
             base['records']=[good,bad]
             response=self.request('POST','/v1/events',base)
             self.assertEqual(response[0],400); self.assertEqual(response[1]['reason'],reason)
-        with sqlite3.connect(self.db) as db:
+        with closing(sqlite3.connect(self.db)) as db:
             self.assertIsNone(db.execute('SELECT id FROM events WHERE client_id=?',(base['client_id'],)).fetchone())
         bad=self.envelope('bad-category');bad['records'][0]['payload']['category']='private-user-text'
         self.assertEqual(self.request('POST','/v1/events',bad)[1]['reason'],'category')

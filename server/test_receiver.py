@@ -4,14 +4,18 @@ from contextlib import closing
 import importlib.util
 import json
 from pathlib import Path
+import socket
 import sqlite3
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import unittest
+from urllib.parse import urlsplit
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
+from feedback_server import MAX_BODY
 
 class ReceiverTests(unittest.TestCase):
     @classmethod
@@ -30,6 +34,27 @@ class ReceiverTests(unittest.TestCase):
             with e: return e.code,json.load(e)
     def envelope(self,suffix='a'):
         return {'client_id':'synthetic-client-'+suffix,'deletion_token':'a'*64,'records':[{'event_id':'synthetic-event-'+suffix,'kind':'feedback','payload':{'source':'automated','mode':'test','level_id':'fields','note':'synthetic opinion','fun':4,'clarity':None,'revision':1}}]}
+    def test_oversized_trickle_has_total_deadline(self):
+        stop=threading.Event()
+        with socket.create_connection(('127.0.0.1',urlsplit(self.url).port),timeout=3) as slow:
+            slow.settimeout(3)
+            headers=(f'POST /v1/events HTTP/1.1\r\nHost: 127.0.0.1\r\nContent-Type: application/json\r\n'
+                     f'Content-Length: {MAX_BODY+1}\r\n\r\n').encode('ascii')
+            slow.sendall(headers)
+            def trickle():
+                while not stop.wait(.1):
+                    try: slow.sendall(b'x')
+                    except OSError: return
+            sender=threading.Thread(target=trickle,daemon=True)
+            sender.start()
+            started=time.monotonic()
+            try:
+                with slow.makefile('rb') as response: status=response.readline()
+            finally:
+                stop.set();sender.join(timeout=2)
+            self.assertIn(b' 400 ',status)
+            self.assertLess(time.monotonic()-started,2.5)
+        self.assertEqual(self.request('GET','/v1/health')[0],200)
     def test_contract(self):
         a=self.envelope(); self.assertEqual(self.request('POST','/v1/events',a)[0],200)
         a['records'][0]['payload']['fun']=4.0

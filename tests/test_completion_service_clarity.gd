@@ -16,6 +16,7 @@ func run() -> void:
 	var scene := Lab.new(); root.add_child(scene); await process_frame
 	check(scene.bill_button.disabled and scene.history.is_empty(),"Unrun draft has no measured bill")
 	check(scene.next_button.disabled and scene.event_raw_button.disabled,"No-data actions cannot offer progression or raw events")
+	check(scene.run_button.has_theme_stylebox_override("normal") and not scene.next_button.has_theme_stylebox_override("normal"),"Run remains the sole primary action before a successful contract")
 	check(scene.response_chart.frames.is_empty() and scene.summary.text.contains("历史"),"Entry explains continuous history and the player's draft without inventing a state snapshot")
 	scene.continue_service(); check(scene.task == 0,"Calling Next before earning support does not navigate")
 	scene.show_measured_bill()
@@ -68,9 +69,22 @@ func run() -> void:
 		specification = scene.get_node("ServiceSpecificationReview")
 		check(specification.get_node("ReviewContent").text.contains("512B") and specification.get_node("ReviewContent").text.contains("350B"),"Hidden shared rules and task peak budget remain discoverable")
 		specification.hide()
-		for id: String in ["DraftSource","MeasuredVerdict","ServiceNext","MeasuredBill","ShowStateJourney","ServiceSpecification","Run","PublicData","ResponseChart","ResponsePlay","ResponseStep"]:
+		for id: String in ["DraftSource","MeasuredVerdict","ServiceNext","ServiceSpecification","Run","PublicData","ResponsePlay","ResponseStep"]:
 			var node := scene.find_child(id,true,false) as Control
 			check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Primary and detail controls fit bilingual minimum viewport: "+id+" "+str(node.get_global_rect()))
+		var overview_scroll := scene.find_child("OverviewEvidenceScroll",true,false) as ScrollContainer
+		check(overview_scroll.size.y >= 80 and overview_scroll.get_global_rect().end.y <= 720 and scene.summary.get_parent() == overview_scroll.get_child(0) and scene.response_chart.get_parent() == overview_scroll.get_child(0),"Overview evidence scrolls while verdict, continuation, and playback remain outside it")
+		overview_scroll.scroll_vertical = int(scene.bill_button.get_parent().position.y)
+		await process_frame
+		check(overview_scroll.get_global_rect().encloses(scene.bill_button.get_global_rect()) and overview_scroll.get_global_rect().encloses(scene.find_child("ShowStateJourney",true,false).get_global_rect()),"Measured bill and exact history remain reachable by scrolling")
+		overview_scroll.scroll_vertical = 0; await process_frame
+		scene.response_play.pressed.emit(); await process_frame
+		check(overview_scroll.get_global_rect().intersection(scene.response_chart.get_global_rect()).size.y >= 64,"Replay exposes the recorded response chart before advancing it")
+		scene.response_chart.pause(); scene.response_chart.playback_cycle = 0
+		overview_scroll.scroll_vertical = 0; await process_frame
+		scene.response_step.pressed.emit(); await process_frame
+		check(scene.response_chart.playback_cycle == 89 and overview_scroll.get_global_rect().intersection(scene.response_chart.get_global_rect()).size.y >= 64,"Step reveals the chart and advances to the first recorded response")
+		overview_scroll.scroll_vertical = int(scene.bill_button.get_parent().position.y); await process_frame
 		scene.find_child("ShowStateJourney",true,false).pressed.emit(); await process_frame
 		check(scene.evidence_tabs.current_tab == 5 and not scene.state_replay.frames.is_empty(),"Direct history-location action opens selected recorded state evidence")
 		scene.state_replay.find_child("StateEnd",true,false).pressed.emit(); await process_frame
@@ -91,8 +105,12 @@ func run() -> void:
 	scene.get_node("MeasuredBillReview").hide()
 	var grouped: Dictionary = Model.initial_plan(); grouped.groups = []
 	for id: int in 24: grouped.groups.append([id])
-	scene.edit(grouped,0); scene.run_current()
+	scene.edit(grouped,0); scene.run_current(); await process_frame
 	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("successful plan retained"),"Protected successful Task1 enables explicit next action")
+	check(scene.next_button.has_theme_stylebox_override("normal") and not scene.run_button.has_theme_stylebox_override("normal"),"Earned continuation becomes the primary action without competing with Run")
+	var next_evidence_scroll := scene.find_child("OverviewEvidenceScroll",true,false) as ScrollContainer
+	check(scene.measured_verdict.get_parent() == scene.next_button.get_parent() and scene.measured_verdict.get_index() < scene.next_button.get_index() and scene.next_button.get_index() < next_evidence_scroll.get_index() and scene.next_button.get_global_rect().position.y >= scene.measured_verdict.get_global_rect().end.y and scene.next_button.get_global_rect().end.y <= next_evidence_scroll.get_global_rect().position.y and scene.next_button.get_global_rect().end.y <= 720,"Next action follows the measured verdict before scrollable evidence")
+	check(scene.measured_verdict.text.contains("first responses"),"Earned Task1 explains the added decision in Task2")
 	scene.select_run(0)
 	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("Limits unmet"),"Selected failed alternative does not erase earned continuation")
 	scene.next_button.pressed.emit(); await process_frame

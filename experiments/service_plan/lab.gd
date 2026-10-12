@@ -274,11 +274,17 @@ func build() -> void:
 	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
 	measured_source = label("",overview,13)
 	measured_verdict = label("",overview,14); measured_verdict.name = "MeasuredVerdict"
-	summary = label(tr2("四条流不断更新历史、请求下一次结果。安排组与驻留，再运行自己的草稿。", "Four streams update history and request their next result. Arrange groups and residency, then run your draft."), overview, 14)
-	var investigation := HBoxContainer.new(); overview.add_child(investigation)
+	next_button = button("",overview,continue_service,"ServiceNext")
+	var overview_scroll := ScrollContainer.new(); overview_scroll.name = "OverviewEvidenceScroll"
+	overview_scroll.custom_minimum_size.y = 80; overview_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	overview_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; overview_scroll.follow_focus = true
+	overview.add_child(overview_scroll)
+	var overview_evidence := VBoxContainer.new(); overview_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	overview_scroll.add_child(overview_evidence)
+	summary = label(tr2("四条流不断更新历史、请求下一次结果。安排组与驻留，再运行自己的草稿。", "Four streams update history and request their next result. Arrange groups and residency, then run your draft."), overview_evidence, 14)
+	var investigation := HBoxContainer.new(); overview_evidence.add_child(investigation)
 	bill_button = button(tr2("完整实测账单", "Measured bill"),investigation,show_measured_bill,"MeasuredBill")
 	button(tr2("查看该时刻历史", "History at this moment"),investigation,show_response_history,"ShowStateJourney")
-	next_button = button("",investigation,continue_service,"ServiceNext")
 	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
 	evidence_tabs.set_tab_title(3,tr2("对照比较", "Compare"))
 	build_commissions()
@@ -295,11 +301,15 @@ func build() -> void:
 	comparison_detail = label("",comparison_panel,14)
 	comparison_chart = preload("res://experiments/service_plan/comparison_chart.gd").new(); comparison_chart.name = "ComparisonChart"; comparison_panel.add_child(comparison_chart)
 	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"
-	overview.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
+	overview_evidence.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
 	var replay_row := HBoxContainer.new(); overview.add_child(replay_row)
-	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,response_chart.toggle_play,"ResponsePlay")
+	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,func() -> void:
+		overview_scroll.ensure_control_visible(response_chart)
+		response_chart.toggle_play(),"ResponsePlay")
 	response_play.custom_minimum_size.x = 220
-	response_step = button(tr2("下一响应", "Next response"),replay_row,response_chart.step_response,"ResponseStep")
+	response_step = button(tr2("下一响应", "Next response"),replay_row,func() -> void:
+		overview_scroll.ensure_control_visible(response_chart)
+		response_chart.step_response(),"ResponseStep")
 	set_action_disabled(response_play,true); set_action_disabled(response_step,true)
 	response_chart.playback_changed.connect(func(value: bool) -> void: response_play.text = tr2("暂停回放", "Pause replay") if value else tr2("回放首响应顺序", "Replay first responses"))
 	event_source = label("",event_panel,13)
@@ -386,6 +396,18 @@ func refresh_verdict() -> void:
 	else:
 		next_button.text = tr2("回看服务成果", "Review service work"); next_unavailable = not has_service_closure()
 	set_action_disabled(next_button,next_unavailable)
+	for action: Button in [run_button,next_button]:
+		for state: String in ["normal","hover","pressed"]: action.remove_theme_stylebox_override(state)
+		for state: String in ["font_color","font_hover_color","font_pressed_color"]: action.remove_theme_color_override(state)
+	if not next_unavailable and commission_mode < 0:
+		var bridge: Array[String] = [
+			tr2("已保留少搬状态的方案。下一任务还要让四条流及时得到首次回应。", "A lower-traffic plan is retained. Next, all four streams need timely first responses."),
+			tr2("已保留及时回应的方案。下一任务要用同一方案兼顾搬运与精度。", "A timely-response plan is retained. Next, one plan must also balance traffic and accuracy."),
+			tr2("三份合同均有达标方案；回看你安排的服务。", "All three contracts have successful plans; review the service you arranged.")]
+		measured_verdict.text += "\n"+bridge[task]
+		InstrumentTheme.primary(next_button,Color("62dca7"))
+	else:
+		InstrumentTheme.primary(run_button,Color("50d5ff"))
 
 func toggle_language() -> void:
 	english = not english

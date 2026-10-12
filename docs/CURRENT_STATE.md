@@ -2,6 +2,21 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Creative expression candidate — 2026-10-13
+
+Unmerged PR #7 adds discovery-led P3, two-sided actual A/B rule/count comparison,
+and saved-work source/phrase navigation with default-off short symbol tones.
+The model, legal conditions and persisted recipes remain intact. Both full-sixty
+packages freeze `f261310` as `playtest-CreationExpression20261013-f26131049877`,
+keeping `CloudPlaytest` and offline feedback/export. Content identity is
+`tasks-20261013-journey-v1`, with both prior manifests preserved.
+
+Affected checks7/7, both bilingual Windows renderer suites and packaged identity/
+hash checks passed. Windows OS-native input/restart is pending an unlocked
+desktop; subjective listening, current Mac native and newcomer acceptance remain
+unverified. Current content has not been deployed to private VPS staging.
+[Concrete changes, captures and acceptance limits](verification/20261013-creation-expression/README.md).
+
 ## Whole-journey experience candidate — 2026-10-12/13
 
 Unmerged PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7)

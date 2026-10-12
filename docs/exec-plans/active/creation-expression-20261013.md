@@ -49,7 +49,16 @@ Existing global sound/motion settings and read-only/future-version behavior appl
   New content identity `tasks-20261013-journey-v1` preserves both earlier sixty-task
   manifests. Actual client/receiver metadata check,17 commission assertions,
   receiver10 tests and packaging checks passed; model/materials remain unchanged.
-- Controlled-comparison and saved-work/audio presentation are being implemented
-  in disjoint files. Current Windows is locked; native input/listening is pending.
+- Controlled comparison landed at `cd46ec7`: actual changed factor, recorded
+  choice/counts, frozen-model context lookup and source-cell navigation. Expanded
+  evidence fixes720p clipping; affected checks and bilingual geometry passed.
+- Saved-work origins, sixteen-cell phrase navigation and optional Effects tones
+  landed at `f261310`. Final affected checks7/7 and both real Windows renderer
+  suites passed; final short tone produced natural finished signals177ms/175ms.
+  Prior failed diagnostics are preserved in the dated verification record.
+- Both full-sixty candidates freeze `f261310`, identity/hash checks PASS. Actual
+  Windows native input/restart/listening remain pending: the returned window
+  could not activate, LockApp was confirmed and owned QA process34008 stopped.
+  [Candidate and evidence](../../verification/20261013-creation-expression/README.md).
 - Human enjoyment and artistic quality require actual listening/viewing and later
   unfamiliar-player feedback; green checks alone cannot establish them.

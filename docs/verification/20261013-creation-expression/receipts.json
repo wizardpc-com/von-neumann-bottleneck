@@ -1,0 +1,123 @@
+{
+  "source_commit": "f26131049877601334646442b1c9f6f3864ef299",
+  "build_id": "playtest-CreationExpression20261013-f26131049877",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "content_version": "tasks-20261013-journey-v1",
+  "task_count": 60,
+  "profile": "CloudPlaytest",
+  "feedback_endpoint": "",
+  "platforms": {
+    "macOS": {
+      "zip": "Von-Neumann-Bottleneck-macOS-playtest-CreationExpression20261013-f26131049877.zip",
+      "bytes": 80286481,
+      "sha256": "dfba9b240777ee06051c0f65e4227c32170ba05f8ba60482ec795f945efad64d"
+    },
+    "Windows": {
+      "zip": "Von-Neumann-Bottleneck-Windows-playtest-CreationExpression20261013-f26131049877.zip",
+      "bytes": 57390862,
+      "sha256": "34c969cc3bca725a9e42bfbe3ea4cbe562755730ae35aaa1845f293456e38a5c"
+    }
+  },
+  "affected_checks": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261012T194358Z-0df8859c/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261012T194358Z-0df8859c/user_directory"
+    },
+    {
+      "name": "test_creation_comparison_view",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_comparison_view.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261012T194358Z-0df8859c/test_creation_comparison_view"
+    },
+    {
+      "name": "test_creation_exhibition_composition",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_exhibition_composition.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261012T194358Z-0df8859c/test_creation_exhibition_composition"
+    },
+    {
+      "name": "test_creation_work_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_work_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261012T194358Z-0df8859c/test_creation_work_focus"
+    },
+    {
+      "name": "test_creation_work_listening",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_work_listening.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261012T194358Z-0df8859c/test_creation_work_listening"
+    },
+    {
+      "name": "test_creation_workbench",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261012T194358Z-0df8859c/test_creation_workbench"
+    }
+  ],
+  "renderer_checks": [
+    {
+      "name": "test_creation_comparison_view",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    },
+    {
+      "name": "test_creation_work_listening",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    }
+  ],
+  "audio_finished_ms": {
+    "zh": 177,
+    "en": 175
+  },
+  "native_windows": "PENDING_UNLOCK",
+  "mac_native": "NOT_RUN",
+  "human_listening": "NOT_RUN",
+  "newcomer_acceptance": "NOT_RUN",
+  "vps_current_content": "NOT_DEPLOYED",
+  "public_release": false,
+  "merged": false,
+  "local_exported_feedback": {
+    "passed": true,
+    "scope": "local exported-package HTTP acceptance; VPS/HTTPS external NOT_RUN",
+    "build_id": "playtest-CreationLocalQA20261013-f26131049877",
+    "source_commit": "f26131049877601334646442b1c9f6f3864ef299",
+    "test_batch": "CreationLocalQA20261013",
+    "feedback_id": "fbfa724d130b783f505530dbcb8f0a2e23a664e37dde62a478b2f8acefeb3f74",
+    "task": "creation/G2_intent",
+    "triage_status": "needs_retest",
+    "duplicate_rows": 1,
+    "deleted_after_restore": true,
+    "binary_and_pack_unchanged": {
+      "Von-Neumann-Bottleneck.exe": "72ef99747404aebe4ada710bc76462f4a83cf53dca968f9746931adc5c910a0f"
+    },
+    "embedded_pck_sha256": "f3ee877f7e5297f362eb1c10d988620c6e9bb3491141bdc94d31e98061185364",
+    "qa_overrides": "main scene, stable isolated QA profile, synthetic phase/output; endpoint/build/content unchanged",
+    "platform": "Windows",
+    "synthetic_controller_sha256": "dfd7c3985b09ba75fdcde01a59bcaa52a73364f51adb158354da918ea780dc0a"
+  }
+}

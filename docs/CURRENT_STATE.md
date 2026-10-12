@@ -2,6 +2,30 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Whole-journey experience candidate — 2026-10-12/13
+
+Unmerged PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7)
+adds three bounded experience improvements: readable chapter/search/relationship
+navigation; actual-evidence Next actions and accurate C3/P1/G1 conditions; and
+earned Representation/Service continuation with 720p evidence scrolling. Legal
+solutions, model/completion authority and existing saves/works remain intact.
+
+`playtest-ExperienceFinal20261013-8a919e24b1a3` freezes both platforms at
+`8a919e2`, with all sixty tasks and the stable `CloudPlaytest` save channel.
+Native Windows chapter/search navigation and actual generation/keeping were
+observed in the identical UI runtime at `d34a61d`; final native restart observation
+waits for an unlocked session. Final affected Windows checks passed13/13;
+complete-run retained failures and corrected measurements remain attributed.
+Final exported EXE localhost feedback retry/report/delete/restore passed.
+
+Creative goals now have explicit content version `tasks-20261012-journey-v1`;
+the receiver preserves the prior version and rejects mixed identities. Current
+content/server identity has not been deployed to the stopped private VPS staging.
+Player packages remain offline with local feedback/export. Art direction and a
+small controlled offline playtest can proceed; newcomer comprehension, current
+Mac native and final artistic acceptance remain external observations.
+[Before/after, frozen hashes, evidence and handoff](verification/20261012-experience/README.md).
+
 ## Windows playtest freeze and private VPS feedback — 2026-10-12
 
 Branch `codex/pre-release-20261012` starts from freshly verified main `cfdee8a`.

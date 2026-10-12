@@ -31,6 +31,7 @@ removed; recover historical task books from Git when needed.
 
 ## Verification
 
+- [Whole-journey experience, before/after and art/playtest handoff](verification/20261012-experience/README.md)
 - [Windows freeze and actual private VPS HTTPS feedback](verification/20261012-pre-release/README.md)
 - [Sixty-task package and feedback receipt](verification/20261010-cloud-playtest/README.md)
 - [Creative studio and saved performances](verification/20261010-creative-experience/README.md)

@@ -43,9 +43,15 @@ changes and push the existing PR branch without merging.
   guidance. Initial 720p failures were retained; compact guide now passes the
   385-check bilingual workbench route.
 - Iteration 3: supported Representation continuation and prioritized Service next
-  contract implemented. Initial Service 720p overflow was repaired with evidence
-  scrolling; final geometry/replay checks and full freeze remain pending.
-- Native baseline map/C1/P1 inputs were exercised on Windows. The subsequent
-  Windows session locked; final native-input acceptance waits for an unlocked session.
+  contract implemented. Initial Service720p overflow was repaired with evidence
+  scrolling; final geometry/replay and bilingual renderer checks passed.
+- Native baseline map/C1/P1 and revised chapter/search/G1 generation/keeping were
+  exercised on Windows. The session locked again; final frozen-native restart
+  observation waits for unlock. Native evidence is not a fresh full-route run.
+- Final8a919e2 freezes full60 Windows/Mac candidates; thirteen affected checks and
+  actual exported EXE localHTTP retry/report/delete/restore passed. A real feedback
+  failure revealed revised creative digest under an unchanged content version;
+  final client/receiver use a new version and preserve the original manifest.
+- [Before/after, receipts and next-stage handoff](../../verification/20261012-experience/README.md).
 - Native Mac execution, unassisted newcomer understanding and final artistic
   acceptance require external playtest evidence. Windows checks cannot prove them.

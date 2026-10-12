@@ -1,6 +1,7 @@
 extends Window
 ## Read-only exhibit of a protected saved snapshot; never regenerates or saves.
 const Canvas = preload("res://experiments/creation/work_canvas.gd")
+const SymbolVoice = preload("res://experiments/creation/symbol_voice.gd")
 const Model = preload("res://experiments/creation/model.gd")
 const Catalog = preload("res://experiments/creation/catalog.gd")
 signal dismissed
@@ -22,6 +23,9 @@ var explanation_button: Button
 var fork_button: Button
 var overview_button: CheckButton
 var motion_button: CheckButton
+var listen_button: CheckButton
+var listen_note: Label
+var voice
 var controls: HFlowContainer
 var mapping_choice: OptionButton
 var closing_label: Label
@@ -29,6 +33,10 @@ var work: Dictionary = {}
 var english: bool = false
 var canvas: Control
 var position_label: Label
+var origin_label: Label
+var phrase_label: Label
+var previous_phrase_button: Button
+var next_phrase_button: Button
 var tabs: TabContainer
 var close_button: Button
 var recipe_label: Label
@@ -58,6 +66,10 @@ func _ready() -> void:
 	transient = true
 	exclusive = true
 	close_requested.connect(dismiss)
+	visibility_changed.connect(func() -> void:
+		if not visible: pause_playback())
+	focus_exited.connect(pause_playback)
+	voice = SymbolVoice.new(); add_child(voice)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+edge,16)
@@ -80,6 +92,11 @@ func _ready() -> void:
 	content.add_child(tabs)
 	var art := VBoxContainer.new(); art.name = words("欣赏光纹","Appreciation"); tabs.add_child(art)
 	position_label = make_label(words("共 %d 格 · A ● / B ■ / C ▲ / D ◇ · 点格子查看位置", "%d cells · A ● / B ■ / C ▲ / D ◇ · select a cell for its position")%work.get("output",[]).size(),art,13)
+	origin_label = make_label("",art,13); origin_label.name = "WorkOrigin"
+	var phrase_bar := HBoxContainer.new(); art.add_child(phrase_bar)
+	previous_phrase_button = add_button(words("上一段","Previous phrase"),phrase_bar,func() -> void: jump_phrase(-1)); previous_phrase_button.name = "PreviousPhrase"
+	phrase_label = make_label("",phrase_bar,12); phrase_label.name = "CurrentPhrase"
+	next_phrase_button = add_button(words("下一段","Next phrase"),phrase_bar,func() -> void: jump_phrase(1)); next_phrase_button.name = "NextPhrase"
 	snapshot_scroll = ScrollContainer.new(); snapshot_scroll.name = "WorkSnapshotScroll"
 	snapshot_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	snapshot_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; snapshot_scroll.focus_mode = Control.FOCUS_ALL; art.add_child(snapshot_scroll)
@@ -134,6 +151,21 @@ func select_cell(index: int) -> void:
 	static_overview = false
 	seek(index+1)
 
+func jump_phrase(direction: int) -> void:
+	var output: Array = work.get("output",[])
+	if output.is_empty(): return
+	var phrase_count: int = ceili(float(output.size())/16.0)
+	var current: int = (maxi(1,cursor)-1)/16
+	var target: int = 0 if cursor == 0 else clampi(current+direction,0,phrase_count-1)
+	playing = false
+	static_overview = false
+	seek(target*16+1)
+
+func pause_playback() -> void:
+	playing = false
+	if voice != null: voice.stop()
+	if canvas != null: sync_presentation()
+
 func add_button(value: String, parent: Node, action: Callable) -> Button:
 	var result := Button.new()
 	result.text = value
@@ -149,12 +181,18 @@ func build_controls(parent: Node) -> void:
 	play_button = add_button(words("播放","Play"),controls,toggle_play)
 	add_button(words("单步","Step"),controls,step)
 	overview_button = CheckButton.new(); overview_button.text = words("静态总览","Static overview"); overview_button.button_pressed = true; controls.add_child(overview_button)
-	overview_button.toggled.connect(func(value: bool) -> void: static_overview = value; playing = false; sync_presentation())
+	overview_button.toggled.connect(func(value: bool) -> void: static_overview = value; pause_playback())
 	motion_button = CheckButton.new(); var motion: CheckButton = motion_button; motion.text = words("减少动态","Reduced motion"); controls.add_child(motion)
 	motion.toggled.connect(func(value: bool) -> void:
 		reduced_motion = value
-		if value: playing = false
+		if value: pause_playback()
 		sync_presentation())
+	listen_button = CheckButton.new(); listen_button.name = "HearSymbols"; listen_button.text = words("听符号","Hear symbols")
+	listen_button.tooltip_text = words("A–D 固定音高只用于查看已保存符号；不代表模拟时间、成本或作品质量。", "Fixed A–D pitches are a viewing map for saved symbols, not simulation time, cost or work quality.")
+	listen_button.toggled.connect(func(value: bool) -> void:
+		if not value: voice.stop()
+		listen_note.visible = value)
+	controls.add_child(listen_button)
 	var tempo := OptionButton.new(); controls.add_child(tempo)
 	for caption: String in ["1×", "2×", "4×"]: tempo.add_item(caption)
 	tempo.item_selected.connect(func(index: int) -> void: speed = [4.0,8.0,16.0][index])
@@ -163,9 +201,12 @@ func build_controls(parent: Node) -> void:
 	mapping_choice.add_item(words("原光纹 v1","Original shapes v1") if work.get("mapping","") == "light-shapes-v1" else words("光纹查看 v1","Shapes v1 viewing"))
 	mapping_choice.add_item(words("四轨光句 v1","Four-lane phrases v1"))
 	mapping_choice.tooltip_text = words("查看构图可切换；不会改写作品的保存映射。", "Switch viewing composition without rewriting the work’s saved mapping.")
-	mapping_choice.item_selected.connect(func(_index: int) -> void: sync_presentation())
+	mapping_choice.item_selected.connect(func(_index: int) -> void: voice.stop(); sync_presentation())
 	timeline = HSlider.new(); timeline.name = "ExhibitionTimeline"; timeline.min_value = 0; timeline.max_value = work.get("output",[]).size(); timeline.step = 1; timeline.value = cursor; parent.add_child(timeline)
 	timeline.value_changed.connect(func(value: float) -> void: playing = false; static_overview = false; seek(int(value)))
+	listen_note = make_label(words("A–D 固定音高仅是已保存符号的查看映射，不代表模拟时间、成本或作品质量。", "Fixed A–D pitches only present saved symbols; they do not represent simulation time, cost or work quality."),parent,12)
+	listen_note.name = "ListeningMeaning"
+	listen_note.visible = false
 
 func set_evidence(record: Dictionary) -> bool:
 	evidence = {}
@@ -177,21 +218,30 @@ func set_evidence(record: Dictionary) -> bool:
 	return true
 
 func seek(position: int) -> void:
+	if voice != null: voice.stop()
 	cursor = clampi(position,0,work.get("output",[]).size())
 	elapsed = 0.0
 	sync_presentation()
 
 func step() -> void:
-	playing = false
+	pause_playback()
 	static_overview = false
+	var before: int = cursor
 	seek(mini(cursor+1,work.get("output",[]).size()))
+	if cursor > before: cue_current_symbol()
 
 func toggle_play() -> void:
 	static_overview = false
 	if reduced_motion: step(); return
 	if cursor >= work.get("output",[]).size(): seek(0)
 	playing = not playing
+	if not playing: voice.stop()
 	sync_presentation()
+
+func cue_current_symbol() -> void:
+	if not listen_button.button_pressed or cursor <= 0: return
+	var output: Array = work.get("output",[])
+	if cursor <= output.size(): voice.play_symbol(int(output[cursor-1]))
 
 func _process(delta: float) -> void:
 	if not playing or reduced_motion: return
@@ -199,7 +249,9 @@ func _process(delta: float) -> void:
 	var advance: int = int(elapsed)
 	if advance == 0: return
 	elapsed -= advance
+	var before: int = cursor
 	cursor = mini(cursor+advance,work.get("output",[]).size())
+	if cursor > before: cue_current_symbol()
 	if cursor >= work.get("output",[]).size(): playing = false
 	sync_presentation()
 
@@ -219,15 +271,25 @@ func sync_presentation() -> void:
 		position_label.text += words(" · A–D 固定四轨，16格一行；连线表示顺序。", " · Fixed A–D lanes; 16 cells per viewing row. Lines show sequence order.")
 	if work.get("mapping","") != "light-shapes-v1":
 		position_label.text += words(" · 原保存映射暂不支持；这是另一种查看方式。", " · Saved mapping unsupported; this is an alternate view.")
+	var phrase_count: int = ceili(float(output.size())/16.0)
+	var phrase: int = (maxi(1,cursor)-1)/16
+	var phrase_start: int = phrase*16
+	phrase_label.text = words("第 %d / %d 段 · ", "Phrase %d / %d · ")%[phrase+1,phrase_count]+Catalog.symbols(output.slice(phrase_start,mini(phrase_start+16,output.size()))) if phrase_count > 0 else ""
+	previous_phrase_button.disabled = phrase <= 0
+	next_phrase_button.disabled = phrase >= phrase_count-1
 	closing_label.visible = static_overview or cursor == output.size()
 	var lines := PackedStringArray([words("作品：","Work: ")+str(work.get("id","")),position_label.text,words("保存映射：","Saved mapping: ")+str(work.get("mapping",""))+" · "+words("查看映射：","Viewing mapping: ")+canvas.viewing_mapping])
 	var found: bool = false
+	origin_label.text = words("选中一格，查看已核对的来源。", "Select a cell to see its verified source.") if cursor <= 0 else words("仅已保存快照；此格暂无可核对的生成事件。", "Saved snapshot only; no verified generation event for this cell.")
 	for item: Dictionary in evidence.get("events",[]):
 		if item.get("kind","") in ["seed_write","feedback_write"] and int(item.get("index",-1)) == cursor-1 and cursor > 0 and item.get("symbol",-1) == output[cursor-1]:
 			found = true
 			lines.append(words("实际记录：","Recorded event: ")+str(item.kind))
-			if item.kind == "seed_write": lines.append(words("这是配方中的起始片段。","This symbol belongs to the recipe’s initial passage."))
+			if item.kind == "seed_write":
+				origin_label.text = words("起始片段 · 此格直接来自已保存配方。", "Initial passage · this cell comes from the saved recipe.")
+				lines.append(words("这是配方中的起始片段。","This symbol belongs to the recipe’s initial passage."))
 			else:
+				origin_label.text = words("生成并回灌 · 此前上下文 ", "Generated and fed back · prior context ")+Catalog.symbols(item.get("before_context",[]))
 				lines.append(words("此前上下文：","Before context: ")+Catalog.symbols(item.get("before_context",[])))
 				lines.append(words("A/B/C/D 计数：","A/B/C/D counts: ")+str(item.get("counts",[]))+" · "+str(item.get("sampler","")))
 			lines.append(words("回灌后上下文：","Feedback context: ")+Catalog.symbols(item.get("context",[])))
@@ -254,6 +316,7 @@ func follow_cursor() -> void:
 		snapshot_scroll.scroll_vertical = ceili(rect.end.y-visible_height+6)
 
 func dismiss() -> void:
+	pause_playback()
 	hide()
 	dismissed.emit()
 	queue_free()

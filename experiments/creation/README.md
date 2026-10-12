@@ -51,12 +51,33 @@ result, not a failed artwork. Seed-only variation is never described as evidence
 an intended effect. Underlines on the current output mean differences from A, not
 errors against a target. First difference pauses and moves playback to that cell.
 
+**First difference** opens a readable two-sided comparison: the actual changed
+factor, frozen model identities, chosen symbols and recorded successor counts.
+Locate A or B to return to its actual output cell. **Inspect A/B rules** also
+accepts a context of up to two symbols and shows both frozen models' counts and
+fallback, even when their output is identical. This lookup does not generate or
+judge the player's written intention.
+
 **Keep A… / Keep B…** restores that actual run's full recipe and asks for a name
 when needed, then uses the existing protected-work save path. Keeping one does not
 delete the other or any saved work. **Keep editing** retains A. Saved chosen works
 still support ordinary snapshot playback, recipe replay and forking. This feature
 does not change the model or candidate progression gates. Its optional saved
 comparison envelope is documented in the runtime contract.
+
+## Return to a saved work
+
+**Focus on work** places the selected cell's verified initial/feedback origin
+beside the artwork. Previous/Next phrase moves through actual16-cell viewing
+groups; the final short group adds no cells. Missing replay evidence is labelled
+snapshot-only. The full static work remains available.
+
+Optional **Hear symbols** maps A–D to four fixed, soft short tones when Play or
+Step reveals a saved symbol. It starts off and uses the global Effects sound
+setting. Seeking and switching the viewing mapping do not play queued symbols;
+pause, hiding, focus loss and closing stop sound. Pitch and viewing tempo express
+the saved passage, not simulation time, cost or quality. The output and recipe
+remain unchanged.
 
 G2 completion follows the actual confirmed choice: keeping one legal generated work
 transactionally completes G2 and G3. Different outputs or seed-only variation do not

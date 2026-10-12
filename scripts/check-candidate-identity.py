@@ -12,7 +12,7 @@ assert batch=='unspecified' or re.fullmatch(r'[A-Za-z0-9-]{1,40}',batch)
 assert manifest['public_release'] is False and manifest['upload_default'] is False and manifest['external_ready'] is False
 assert manifest['platforms'] and set(manifest['platforms']) <= {'macOS','Windows'}
 if manifest.get('candidate_journey',{}).get('creation_enabled'):
-    assert manifest['content_version']=='tasks-20261010-journey-v1' and len(manifest['content_tasks'])==60
+    assert manifest['content_version'] in {'tasks-20261010-journey-v1','tasks-20261012-journey-v1'} and len(manifest['content_tasks'])==60
     assert manifest['candidate_journey']['isolated'] is True and manifest['candidate_journey']['production_migration'] is False
 for platform,entry in manifest['platforms'].items():
     archive=root/entry['zip']

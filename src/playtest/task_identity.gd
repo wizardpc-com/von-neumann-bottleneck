@@ -1,7 +1,7 @@
 extends RefCounted
 ## Authored content identity only. Never inspect player recipes or training text.
 const LEGACY_VERSION: String = "tasks-20260910-v1"
-const JOURNEY_VERSION: String = "tasks-20261010-journey-v1"
+const JOURNEY_VERSION: String = "tasks-20261012-journey-v1"
 const CATEGORIES := ["confusion","control","bug","audiovisual","discovery","other"]
 const SecondAct = preload("res://src/campaign/second_act_tasks.gd")
 const Creation = preload("res://src/campaign/creation_tasks.gd")

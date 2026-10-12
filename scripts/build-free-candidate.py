@@ -128,7 +128,7 @@ def main():
     run('licenses',['--script','res://candidate_license_probe.gd']);probe.unlink()
     (project/'project.godot').write_text(original)
     # Exporters themselves do not start the game. Native QA uses a separate override.
-    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261010-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
+    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261012-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
     rules=json.loads((project/'server/community_rules.json').read_text())
     manifest['content_tasks']=rules.get('content_manifests',{}).get(manifest['content_version'],{'tasks':rules['tasks']})['tasks']
     if not a.creation_journey:manifest['content_tasks']=[task for task in manifest['content_tasks'] if not task.startswith('creation/')]

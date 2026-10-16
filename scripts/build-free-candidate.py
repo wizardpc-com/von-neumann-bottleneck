@@ -159,7 +159,7 @@ def main():
         replacements={
             '- Mac 包为 ad-hoc 签名、未公证；仍需另一台 Mac 核对安装、首启与保存。Windows 包未进行正式代码签名。':'- 本次不提供 Mac 包；Mac 候选的异机首启与存档尚未验收。Windows 包未进行正式代码签名。',
             '- 离线包的云端反馈入口为空。可保存/导出意见；已配置私有验收入口的包会明确单独标记，不能当作公网可用包。':'- 本公开试玩包配置了下方 HTTPS 反馈入口；发送意见须单独确认，自动统计默认关闭。',
-            '- 服务器上线、域名、正式数据收集和公众发布需另行批准。离线游玩不依赖服务器。':'- 公开反馈入口与隐私说明见下方。构建本身不证明公网验收；离线游玩不依赖服务器。',
+            '- 公网反馈入口尚未启用；域名、TLS 与异机上传/删除验收完成前，仅准备发布草稿。离线游玩不依赖服务器。':'- 公开反馈入口与隐私说明见下方。构建本身不证明公网验收；离线游玩不依赖服务器。',
             'macOS is ad-hoc signed and unnotarized; independent Mac first-launch/save checks remain open.':'No macOS package is included in this prerelease; native Mac acceptance remains open.',
             'Offline packages have no feedback receiver. Explicit private acceptance builds are separately labelled.':'This public playtest configures the HTTPS receiver below. Automatic statistics remain off; sending an opinion requires separate consent. External acceptance is recorded separately.',
         }

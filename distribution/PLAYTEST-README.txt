@@ -51,3 +51,7 @@ F8 opens optional feedback even before completion. Save is local; Send has indep
 An offline package without a configured receiver supports local Save/Export. Automatic upload is off; network failure never blocks play.
 Full-journey packages use stable, separate representation and service candidate profiles; back up both complete directories before updating or reverting. Standard 40-task packages use the ordinary Godot game save directory, which should also be backed up.
 Exact build, batch, profile (if any), content and endpoint are recorded in the accompanying manifests and notes.
+
+反馈联系 / Feedback contact: yanruiqing · yanruiqing@agent.qq.com
+离线候选的意见保存在本机；如需分享，请自行检查导出内容后联系维护者。游戏不会自动发送邮件。
+Offline feedback stays on your device. Review any export before sharing it with the maintainer; the game does not send email automatically.

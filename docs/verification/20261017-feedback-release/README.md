@@ -52,8 +52,9 @@ used. The EXE/PCK stayed byte-identical throughout the accepted run.
 `CloudPlaytest` profile. Its feedback endpoint is empty and upload defaults off.
 The57,393,376-byte Windows ZIP has SHA-256
 `aeb397edda5e9037c252dd9c5a67eb98edf016dbaf79a6c5b4b6dee102fc4e92`.
-[Release draft](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/untagged-b360dfd8f48c2f42d7b5)
-requires maintainer access. Its four uploaded assets match local SHA-256 digests;
+[Maintainer release list](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+contains the unpublished `v0.5.0-alpha.2` draft (release ID415299625). Draft
+permalinks may be regenerated after edits; the release list is the stable entry. Its four uploaded assets match local SHA-256 digests;
 there is no public Alpha2 tag or published release. [Draft receipt](release-draft.json).
 
 The exact offline EXE passed native Windows P1 restore, prior64-cell protected-work

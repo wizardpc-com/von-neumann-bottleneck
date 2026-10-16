@@ -15,7 +15,7 @@ import unittest
 from urllib.parse import urlsplit
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
-from feedback_server import MAX_BODY
+from feedback_server import MAX_BODY, Receiver
 
 class ReceiverTests(unittest.TestCase):
     @classmethod
@@ -34,6 +34,17 @@ class ReceiverTests(unittest.TestCase):
             with e: return e.code,json.load(e)
     def envelope(self,suffix='a'):
         return {'client_id':'synthetic-client-'+suffix,'deletion_token':'a'*64,'records':[{'event_id':'synthetic-event-'+suffix,'kind':'feedback','payload':{'source':'automated','mode':'test','level_id':'fields','note':'synthetic opinion','fun':4,'clarity':None,'revision':1}}]}
+    def test_current_and_prior_privacy_notices(self):
+        for notice in ('2026-09-11','2026-10-17','2099-01-01'):
+            envelope=self.envelope('notice-'+notice)
+            envelope['records'][0]['payload'].update(consent_version='sharing-2',privacy_notice_version=notice,
+                consent_timestamp='2026-10-17T00:00:00Z',background_cohort='unspecified',
+                source_batch='synthetic-notice',sharing_mode='opinion')
+            status,_=self.request('POST','/v1/events',envelope)
+            self.assertEqual(status,400 if notice=='2099-01-01' else 200)
+            if status==200:
+                self.assertEqual(self.request('DELETE','/v1/data',
+                    {key:envelope[key] for key in ('client_id','deletion_token')})[0],200)
     def test_oversized_trickle_has_total_deadline(self):
         stop=threading.Event()
         with socket.create_connection(('127.0.0.1',urlsplit(self.url).port),timeout=3) as slow:
@@ -54,6 +65,29 @@ class ReceiverTests(unittest.TestCase):
                 stop.set();sender.join(timeout=2)
             self.assertIn(b' 400 ',status)
             self.assertLess(time.monotonic()-started,2.5)
+        self.assertEqual(self.request('GET','/v1/health')[0],200)
+    def test_valid_length_trickle_cannot_hold_receiver(self):
+        stop=threading.Event()
+        with socket.create_connection(('127.0.0.1',urlsplit(self.url).port),timeout=3) as slow:
+            slow.settimeout(8)
+            slow.sendall(b'POST /v1/events HTTP/1.1\r\nHost: 127.0.0.1\r\n'
+                         b'Content-Type: application/json\r\nContent-Length: 256\r\n\r\n{')
+            def trickle():
+                while not stop.wait(.1):
+                    try: slow.sendall(b' ')
+                    except OSError: return
+            sender=threading.Thread(target=trickle,daemon=True)
+            sender.start()
+            started=time.monotonic()
+            try:
+                with slow.makefile('rb') as response:
+                    status=response.readline()
+                    remainder=response.read()
+            finally:
+                stop.set();sender.join(timeout=2)
+            self.assertIn(b' 400 ',status)
+            self.assertIn(b'"error":"invalid_request"',remainder)
+            self.assertLess(time.monotonic()-started,7)
         self.assertEqual(self.request('GET','/v1/health')[0],200)
     def test_contract(self):
         a=self.envelope(); self.assertEqual(self.request('POST','/v1/events',a)[0],200)
@@ -93,6 +127,44 @@ class ReceiverTests(unittest.TestCase):
             self.assertEqual(server.db.execute('SELECT COUNT(*) FROM events').fetchone()[0],0)
             self.assertEqual(server.db.execute('SELECT COUNT(*) FROM clients').fetchone()[0],0)
         finally: server.server_close()
+    def test_idle_serve_forever_cleans_expired_events(self):
+        database=Path(self.tmp.name)/'idle-retention.sqlite'
+        ready=threading.Event(); state={}
+        def serve():
+            server=None
+            try:
+                server=Receiver(('127.0.0.1',0),database,'')
+                with server.db:
+                    server.db.execute('INSERT INTO clients VALUES (?,?)',('expired','token'))
+                    server.db.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',
+                                      ('old','expired',int(time.time())-31*86400,'event','{}','hash'))
+                    server.db.execute('INSERT INTO tombstones VALUES (?,?,?)',
+                                      ('deleted','token',int(time.time())-31*86400))
+                server.last_cleanup=int(time.time())-3601
+                state['server']=server; ready.set()
+                server.serve_forever(poll_interval=.05)
+            except Exception as error:
+                state['error']=error; ready.set()
+            finally:
+                if server is not None: server.server_close()
+        worker=threading.Thread(target=serve,daemon=True); worker.start()
+        try:
+            self.assertTrue(ready.wait(3))
+            self.assertNotIn('error',state)
+            deadline=time.monotonic()+3
+            while time.monotonic()<deadline:
+                with closing(sqlite3.connect(database)) as observer:
+                    events=observer.execute('SELECT COUNT(*) FROM events').fetchone()[0]
+                    clients=observer.execute('SELECT COUNT(*) FROM clients').fetchone()[0]
+                    tombstones=observer.execute('SELECT COUNT(*) FROM tombstones').fetchone()[0]
+                if events==clients==0: break
+                time.sleep(.02)
+            self.assertEqual((events,clients,tombstones),(0,0,1),'Idle serve_forever must retain deletion tombstones')
+            self.assertTrue(worker.is_alive())
+        finally:
+            if worker.is_alive() and 'server' in state: state['server'].shutdown()
+            worker.join(timeout=3)
+            self.assertFalse(worker.is_alive())
     def test_z_journey_versions_and_atomic_rejection(self):
         from community import CONTENT_MANIFESTS
         from feedback_server import validate_record

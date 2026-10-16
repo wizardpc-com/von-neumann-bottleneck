@@ -69,7 +69,7 @@ def validate_record(record):
     p=record['payload']
     if record['kind']=='feedback': validate_task_context(p)
     if 'consent_version' in p:
-        if p['consent_version']!='sharing-2' or p.get('privacy_notice_version')!='2026-09-11': raise ValueError('consent_version')
+        if p['consent_version']!='sharing-2' or p.get('privacy_notice_version') not in ('2026-09-11','2026-10-17'): raise ValueError('consent_version')
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z',p.get('consent_timestamp','')): raise ValueError('consent_time')
         if p.get('background_cohort') not in ['unspecified','new_to_circuits','some_experience','experienced']: raise ValueError('cohort')
         if not re.fullmatch(r'[a-zA-Z0-9_.-]{1,64}',p.get('source_batch','')): raise ValueError('batch')
@@ -103,6 +103,8 @@ class Receiver(HTTPServer):
             self.db.execute('DELETE FROM clients WHERE id NOT IN (SELECT DISTINCT client_id FROM events)')
         self.rates={k:v for k,v in self.rates.items() if time.monotonic()-v[0]<60}
         self.last_cleanup=now
+    def service_actions(self):
+        self.cleanup()
     def handle_error(self,request,client_address):
         # SocketServer's default handler prints a peer IP and traceback.
         print('receiver_request_error',flush=True)
@@ -146,8 +148,24 @@ class Handler(BaseHTTPRequestHandler):
             self.close_connection=True
             raise ValueError('body_size')
         if self.headers.get('Content-Type','').split(';')[0] != 'application/json': raise ValueError('content_type')
-        raw=self.rfile.read(length)
-        if len(raw)!=length: raise ValueError('short_body')
+        remaining=length
+        raw=bytearray()
+        deadline=time.monotonic()+5
+        original_timeout=self.connection.gettimeout()
+        try:
+            while remaining:
+                wait=deadline-time.monotonic()
+                if wait<=0: raise TimeoutError()
+                self.connection.settimeout(min(original_timeout or wait,wait))
+                chunk=self.rfile.read1(min(8192,remaining))
+                if not chunk: raise ValueError('short_body')
+                raw.extend(chunk)
+                remaining-=len(chunk)
+            if time.monotonic()>deadline: raise TimeoutError()
+        except TimeoutError:
+            self.close_connection=True
+            raise
+        finally: self.connection.settimeout(original_timeout)
         value=json.loads(raw,parse_constant=lambda _: (_ for _ in ()).throw(ValueError('nonfinite')))
         if not isinstance(value,dict): raise ValueError('object')
         return value

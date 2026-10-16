@@ -6,7 +6,7 @@
 
 一款关于计算机与数据流的构建解谜游戏。从逻辑门、寄存器到自己的小计算机，再探索缓存、缓冲、预取与数据布局。接出电路，观察运行，比较结果，寻找自己的解法。
 
-**五个区域 · 40 个任务 · 离线单机 · 中英文界面**
+**已发布 Alpha：五个区域 · 40 个任务 · 离线单机 · 中英文界面**
 
 **[⬇️ 下载公开 Alpha v0.5.0-alpha.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)** · Windows · macOS · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
@@ -16,13 +16,9 @@
 
 *第四章「两全之策」：同一份数据，两种查询需求。调整布局与分批，比较真实搬运成本。[截图来源与运行数值](docs/images/readme/layout-manifest.json)。*
 
-**公开版本（2026-09-18）：** `v0.5.0-alpha.1` 已发布，包含五个区域、40 个任务以及 Windows / macOS 构建。后续源码可能继续演进；需要试玩时请优先使用 Release 中的冻结版本。
+**已发布版本（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建；本页上方的下载链接仍指向这个冻结版本。
 
-**当前候选（2026-10-11）：** main 已整合原核心40任务、表示5任务、服务3合同、
-可选地址预测3任务及「压缩 → 内容预测 → 创造」9单元，共60个候选任务。
-用同一学习模型复原、预测，再生成并保存自己的光纹作品；未通关也能反馈。
-本地 Mac/Windows 候选已导出，远程反馈入口尚未配置，公网试玩未验收。
-[候选构建、反馈闭环与平台验收边界](docs/verification/20261010-cloud-playtest/README.md)。
+**当前源码（2026-10-17）：** PR #7 已并入 `main`。完整旅程保留原核心 40 个任务，并加入表示 5 个、服务 3 个、可选地址预测 3 个，以及「压缩 → 内容预测 → 创造」9 个，共 60 个候选任务；可选内容不提高原主线门槛。玩家可以用同一学习模型复原、预测，再生成并保存自己的光纹作品。Mac / Windows 同源候选包已冻结，Windows 代表性原生操作已验收；正式 Windows Pre-release 正在准备，尚未替换上方的公开 Alpha 下载。候选包默认离线，反馈可本机保存或导出；私有 HTTPS 测试不等于公网玩家收集。[当前状态与验证边界](docs/CURRENT_STATE.md) · [最新候选验收记录](docs/verification/20261013-creation-expression/README.md)。
 
 [下载 Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
@@ -34,9 +30,9 @@
 - **让相同的工作少花时间。** 改变访问顺序、复用方式、调度或布局；结果正确还不够，也可以继续寻找更省搬运的方案。
 - **按需学习。** 任务规格随时可看，图解手册逐步开放；Hint 在独立只读画布中逐层揭示，后两级分别确认。
 
-![当前任务树：从接线出发，分成算术与存储两路](docs/images/readme/tree-zh.png)
+![公开 Alpha 任务树：从接线出发，分成算术与存储两路](docs/images/readme/tree-zh.png)
 
-*截图来自实际游戏。任务树与首页使用隔离新档；关卡展示使用独立 QA 存档中的方案。[配图来源与验证边界](docs/images/readme/README.md)*
+*截图来自公开 Alpha 阶段的实际游戏，不代表当前完整旅程界面。任务树与首页使用隔离新档；关卡展示使用独立 QA 存档中的方案。[配图来源与验证边界](docs/images/readme/README.md)*
 
 ## 两种不同的解题乐趣
 
@@ -52,9 +48,9 @@
 
 ![第三章交替接力：实际双缓冲调度程序与搬运计算时间线](docs/images/readme/buffers-zh.png)
 
-## 五个区域，一条逐渐展开的路线
+## 已发布 Alpha 的五个区域
 
-![当前中文首页：任务树入口与五个章节](docs/images/readme/hub-zh.png)
+![公开 Alpha 中文首页：任务树入口与五个章节](docs/images/readme/hub-zh.png)
 
 | 区域 | 你会探索什么 |
 | --- | --- |
@@ -72,7 +68,7 @@
 
 **最简单的方式：** 前往 [`v0.5.0-alpha.1` Release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)，下载对应平台 ZIP，解压后直接运行。
 
-[第一次游玩指引](docs/distribution/astra-challenge/quickstart.zh-CN.md) · [参赛准备与发布前清单](docs/distribution/astra-challenge/README.md)
+[公开 Alpha 第一次游玩指引](docs/distribution/astra-challenge/quickstart.zh-CN.md) · [2026 年 9 月参赛准备（历史资料）](docs/distribution/astra-challenge/README.md)
 
 ### 从源码运行
 
@@ -95,7 +91,7 @@ godot --path . -- --locale=en
 
 ### 公开 Alpha 与平台
 
-当前公开版本是 **`v0.5.0-alpha.1`**：[查看 Release 与下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)。Mac 与 Windows 包来自同一冻结提交，并附带构建清单与哈希。
+本页目前提供的公开下载是 **`v0.5.0-alpha.1`**：[查看 Release 与下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)。Mac 与 Windows 包来自同一冻结提交，并附带构建清单与哈希。完整旅程 Windows Pre-release 尚在准备。
 
 Mac 解压后打开 `.app`，Windows 解压后运行 `.exe`，无需另外安装 Godot。当前 macOS 构建为 ad-hoc 签名、未公证；Windows 构建已发布，但原生实机验证仍相对有限。Alpha 阶段仍可能存在平台兼容性问题，欢迎通过 GitHub Issues 反馈。
 
@@ -117,7 +113,7 @@ Mac 解压后打开 `.app`，Windows 解压后运行 `.exe`，无需另外安装
 
 进度和命名方案保存在本机。更新或回退版本前，请完整备份存档目录；不要通过清档准备试玩。具体位置和兼容性见[随包说明](distribution/PLAYTEST-README.txt)。
 
-设置包含语言、音效音量、显示、减少动效和本地诊断。反馈默认留在本机；当前候选未配置远程服务器。自动统计分享、主动意见和实验成绩分别授权，拒绝上传不影响完整游玩。个人任务板可以离线查看总完成数和各区域进度。
+设置包含语言、音效音量、显示、减少动效和本地诊断。当前已发布 Alpha 与已冻结的完整旅程候选包均未配置远程反馈入口；反馈可留在本机。自动统计分享、主动意见和实验成绩分别授权，拒绝上传不影响完整游玩。个人任务板可以离线查看总完成数和各区域进度。
 
 发现问题可提交 [GitHub Issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)，附上构建编号、系统、任务和复现步骤。游戏内导出不会自动发布到 GitHub，是否分享文件由你决定。
 

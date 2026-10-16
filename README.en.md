@@ -6,7 +6,7 @@
 
 A construction and optimization puzzle about computers and the data they move. Start with logic gates and registers, build a small computer, then explore caches, buffering, prefetching and memory layout. Wire it up, watch it run, compare the results and find your own solution.
 
-**Five regions · 40 tasks · Offline single-player · Chinese and English**
+**Published Alpha: five regions · 40 tasks · Offline single-player · Chinese and English**
 
 **[⬇️ Download public Alpha v0.5.0-alpha.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)** · Windows · macOS · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
@@ -16,15 +16,9 @@ A construction and optimization puzzle about computers and the data they move. S
 
 *Common Ground, Chapter 4: the same data serves two workloads. Arrange it, batch it, and compare the real cost of moving it. [Capture provenance and metrics](docs/images/readme/layout-manifest.json).*
 
-**Public release (2026-09-18):** `v0.5.0-alpha.1` is available now with five regions, 40 tasks, and Windows / macOS builds. Source development may continue after this point; use the frozen Release build when you want the published Alpha.
+**Published release (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The download above still points to this frozen release.
 
-**Current candidate (2026-10-11):** main integrates core40, Representation5,
-Service3, optional address Prediction3 and nine compression → content prediction
-→ creation units: sixty candidate tasks. Carry one learned model through
-restoration, prediction and saved light-pattern works; feedback is available before
-completion. Local Mac/Windows candidates were exported. The feedback endpoint
-remains empty and public player availability is unverified.
-[Candidate builds, feedback receipts and platform limits](docs/verification/20261010-cloud-playtest/README.md).
+**Current source (2026-10-17):** PR #7 has merged into `main`. The full journey retains the original 40 tasks and adds five Representation, three Service, three optional address Prediction, and nine compression → content prediction → creation tasks: 60 candidate tasks in all. Optional content does not raise the original mainline gates. Players can restore and predict with one learned model, then generate and save their own light-pattern works. Same-source Mac / Windows candidate packages are frozen, and representative native Windows interaction has passed. The formal Windows Pre-release is being prepared; it has not replaced the public Alpha download above. Candidate packages are offline by default and support local feedback Save/Export. Private HTTPS verification does not establish public player intake. [Current status and verification limits](docs/CURRENT_STATE.md) · [Latest candidate record](docs/verification/20261013-creation-expression/README.md).
 
 [Download Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
@@ -36,9 +30,9 @@ remains empty and public player availability is unverified.
 - **Do the same work with less delay.** Change access order, reuse, scheduling or layout. A correct solution can be the starting point for a more efficient one.
 - **Learn when you need to.** Reopen the task specification at any time and explore a gradually unlocked illustrated handbook. Hints use a separate read-only canvas, with individual confirmation for the deeper two stages.
 
-![Current task tree branching from wiring into arithmetic and memory](docs/images/readme/tree-en.png)
+![Published Alpha task tree branching from wiring into arithmetic and memory](docs/images/readme/tree-en.png)
 
-*All screenshots come from the game. The hub and task tree use an isolated fresh profile; the level showcases use designs from a separate QA save. [Image provenance and verification scope](docs/images/readme/README.md)*
+*These screenshots come from the actual game during the published Alpha phase; they do not depict the current full-journey interface. The hub and task tree use an isolated fresh profile; the level showcases use designs from a separate QA save. [Image provenance and verification scope](docs/images/readme/README.md)*
 
 ## Two different kinds of puzzle
 
@@ -54,9 +48,9 @@ In Chapter 3's **Taking Turns**, the next batch can arrive while the current one
 
 ![Chapter 3 Taking Turns: an editable double-buffer schedule and its transfer-compute timeline](docs/images/readme/buffers-en.png)
 
-## Five regions, a growing machine
+## The published Alpha's five regions
 
-![Current English chapter hub with the task tree as its primary entry](docs/images/readme/hub-en.png)
+![Published Alpha English chapter hub with the task tree as its primary entry](docs/images/readme/hub-en.png)
 
 | Region | What you explore |
 | --- | --- |
@@ -74,7 +68,7 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 
 **Fastest route:** open the [`v0.5.0-alpha.1` Release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1), download the ZIP for your platform, extract it, and run the game.
 
-[Your first session](docs/distribution/astra-challenge/quickstart.en.md) · [Launch preparation](docs/distribution/astra-challenge/README.md)
+[Your first Alpha session](docs/distribution/astra-challenge/quickstart.en.md) · [September 2026 challenge preparation (archive)](docs/distribution/astra-challenge/README.md)
 
 ### Run from source
 
@@ -97,7 +91,7 @@ godot --path . -- --locale=en
 
 ### Public Alpha and platforms
 
-The current public build is **`v0.5.0-alpha.1`**: [view the Release and downloads](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1). The Mac and Windows packages come from the same frozen commit and include build identity and hashes.
+The public download currently offered here is **`v0.5.0-alpha.1`**: [view the Release and downloads](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1). The Mac and Windows packages come from the same frozen commit and include build identity and hashes. A full-journey Windows Pre-release is in preparation.
 
 Extract the Mac ZIP and open the `.app`, or extract the Windows ZIP and run the `.exe`; Godot is not required. The macOS build is ad-hoc signed and not notarized. The Windows build is published, but native Windows validation is still more limited. Alpha-stage platform compatibility issues may remain, so bug reports are welcome on GitHub Issues.
 
@@ -120,7 +114,7 @@ Mac also supports **⌘,** for Settings and **⌃⌘F** for fullscreen. Drag a t
 
 Progress and named designs stay on your computer. Back up the entire save directory before updating or reverting; do not erase player data to prepare a test. See the [package instructions](distribution/PLAYTEST-README.txt) for locations and compatibility notes.
 
-Settings include language, sound volume, display controls, reduced motion and local diagnostics. Feedback stays local by default, and the current candidate has no remote receiver configured. Statistics, written feedback and experimental scores have separate sharing controls. Declining uploads does not restrict the game. Your personal task board works offline and shows total and regional completion.
+Settings include language, sound volume, display controls, reduced motion and local diagnostics. Neither the published Alpha nor the frozen full-journey candidate packages have a remote feedback receiver configured; feedback can stay on your computer. Statistics, written feedback and experimental scores have separate sharing controls. Declining uploads does not restrict the game. Your personal task board works offline and shows total and regional completion.
 
 To report a bug, open a [GitHub Issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues) with the build ID, operating system, task and steps to reproduce it. Exporting feedback in the game does not automatically post it to GitHub; you decide whether to share the file.
 

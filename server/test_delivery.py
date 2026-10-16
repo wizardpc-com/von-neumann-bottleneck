@@ -35,7 +35,8 @@ class DeliveryTests(unittest.TestCase):
                             data=json.dumps(body).encode(),method=method,headers={'Content-Type':'application/json'})
             try:
                 with urlopen(request,timeout=5) as response: result.append((response.status,json.load(response)))
-            except HTTPError as error: result.append((error.code,json.load(error)))
+            except HTTPError as error:
+                with error: result.append((error.code,json.load(error)))
         client=threading.Thread(target=http);client.start();server.handle_request();client.join(timeout=6)
         self.assertFalse(client.is_alive());self.assertTrue(result)
         return result[0]

@@ -1,6 +1,7 @@
 extends SceneTree
 ## Pure evidence-adapter fixtures plus real map controls. No earned player progress.
 const Adapter = preload("res://src/campaign/second_act_tasks.gd")
+const Creation = preload("res://src/campaign/creation_tasks.gd")
 const Layout = preload("res://src/campaign/task_tree_layout.gd")
 var failures: int = 0
 var checks: int = 0
@@ -53,10 +54,15 @@ func run() -> void:
 		if row.domain in ["representation","service"]:
 			check(not row.dependencies.has("chapter_4/mixed"),"Recommended second act does not lock independent existing content")
 	var all_rows: Array[Dictionary] = core.duplicate(true); all_rows.append_array(rows)
+	check(indexed(all_rows).size() == 51,"Original 40 plus second-act 11 retain unique identities")
+	var creation: Array[Dictionary] = Creation.build(false)
+	check(creation.size() == 9,"Actual creation adapter exposes the nine C/P/G candidates")
+	if creation.size() != 9: quit(1); return
+	all_rows.append_array(creation)
 	var all_keys: Dictionary = indexed(all_rows)
-	check(all_keys.size() == 51,"All51 domain-qualified identities are unique")
+	check(all_keys.size() == 60,"All60 domain-qualified identities are unique")
 	var layout: Dictionary = Layout.build(all_rows)
-	check(layout.errors.is_empty() and layout.positions.size() == 51 and layout.regions.size() == 8,"Unified layout contains all eight real regions")
+	check(layout.errors.is_empty() and layout.positions.size() == 60 and layout.regions.size() == 11,"Unified layout contains all 60 real nodes and 11 regions")
 	check(layout.positions == Layout.build(all_rows).positions,"Unified layout is deterministic")
 	var keys: Array = layout.positions.keys()
 	for i: int in keys.size():
@@ -76,7 +82,17 @@ func run() -> void:
 		root.add_child(scene); await settle()
 		# Explicit fixture rows exercise presentation without bypassing production enablement.
 		scene.rows = nav.tasks(); scene.rows.append_array(Adapter.build(empty,locale == "en"))
+		scene.rows.append_array(Creation.build(locale == "en"))
 		scene.canvas.configure(scene.rows); await settle()
+		var menu_regions: Array[int] = []
+		for index: int in scene.region_choice.item_count: menu_regions.append(int(scene.region_choice.get_item_metadata(index)))
+		for row: Dictionary in scene.rows:
+			var region: int = int(row.region)
+			if region in menu_regions: continue
+			menu_regions.append(region)
+			scene.region_choice.add_item(str(row.get("region_title",root.get_node("Localization").text(StringName("tree.region."+str(region))))))
+			scene.region_choice.set_item_metadata(scene.region_choice.item_count-1,region)
+		check(scene.rows.size() == 60 and scene.region_choice.item_count == 12,"Fixture map exposes all sixty tasks and whole-journey plus eleven chapter choices: "+locale)
 		for row: Dictionary in scene.rows:
 			scene._select(row.key); scene.canvas.locate(row.key); await settle()
 			check(scene.detail_title.text == row.title and scene.enter_button.disabled == not row.unlocked,"Map detail reflects selected task and real eligibility: "+row.key)
@@ -84,7 +100,45 @@ func run() -> void:
 			check(scene.detail_panel.get_global_rect().encloses(scene.enter_button.get_global_rect()),"Enter remains reachable: "+row.key)
 			var center: Vector2 = (scene.canvas.positions[row.key]+Layout.NODE_SIZE/2)*scene.canvas.magnification+scene.canvas.pan
 			check(Rect2(Vector2.ZERO,scene.canvas.size).has_point(center),"Every selected task can be located on map: "+row.key)
+			if row.key == "chapter_3/arrival":
+				check(scene.prerequisite_rows.get_child_count() == 1 and str(scene.prerequisite_rows.get_child(0).get_meta("task_key")) == "chapter_2/capstone","Core hard prerequisite stays a clickable, distinct relation")
+			if row.key == "service/prompt_response":
+				check(scene.eligibility_heading.visible and scene.eligibility_rows.get_child_count() == 1 and str(scene.eligibility_rows.get_child(0).get_meta("task_key")) == "service/move_state","Locked Service contract explains saved-work eligibility and earlier-contract navigation")
+			if row.key == "creation/C1_restore":
+				check(scene.detail_kind.text.contains("候选") or scene.detail_kind.text.contains("Candidate"),"C/P/G detail identifies candidate creation content")
+				check(scene.recommendation_rows.get_child_count() == 1 and str(scene.recommendation_rows.get_child(0).get_meta("task_key")) == "representation/cross_assets","C/P/G recommendation remains a clickable relation, not a prerequisite")
 			if row.key in ["representation/mixed_scan","service/move_state","prediction/regular"]: await capture_map(locale+"-"+row.domain)
+			if row.key in ["creation/C1_restore","creation/P1_commit","creation/G1_feedback"]: await capture_map(locale+"-"+row.id)
+		for index: int in scene.region_choice.item_count:
+			if int(scene.region_choice.get_item_metadata(index)) == 8:
+				scene.region_choice.select(index)
+				scene.region_choice.item_selected.emit(index)
+				break
+		await settle()
+		var list_rect: Rect2 = scene.list_scroll.get_global_rect()
+		var first_entry := scene.list_rows.get_child(0) as Button
+		var first_visible: Rect2 = list_rect.intersection(first_entry.get_global_rect())
+		check(scene.list_view.visible and scene.list_rows.get_child_count() == 3 and (scene.list_summary.text.contains("候选") or scene.list_summary.text.contains("Candidate")),"Compression chapter lists its three candidate tasks: "+locale)
+		check(root.get_visible_rect().encloses(list_rect) and list_rect.size.y >= 120 and first_visible.size.y >= 40,"Chapter list has usable scroll height and a visible clickable entry at 1280x720: "+locale)
+		await capture_map(locale+"-compression-chapter-list")
+		scene.search.text="creation/"; scene._on_search_changed(scene.search.text); await settle()
+		list_rect=scene.list_scroll.get_global_rect()
+		first_entry=scene.list_rows.get_child(0) as Button
+		first_visible=list_rect.intersection(first_entry.get_global_rect())
+		check(scene.list_view.visible and scene.list_rows.get_child_count() == 9 and (scene.list_title.text.contains("搜索") or scene.list_title.text.contains("Search")),"Global search exposes all nine clickable C/P/G candidates: "+locale)
+		check(root.get_visible_rect().encloses(list_rect) and list_rect.size.y >= 120 and first_visible.size.y >= 40,"Search results retain a usable clickable area at 1280x720: "+locale)
+		await capture_map(locale+"-creation-search")
+		var last_entry := scene.list_rows.get_child(8) as Button
+		scene.list_scroll.scroll_vertical=int(scene.list_scroll.get_v_scroll_bar().max_value); await settle()
+		check(scene.list_scroll.get_global_rect().intersection(last_entry.get_global_rect()).size.y >= 40,"Last C/P/G search result is reachable by scrolling: "+locale)
+		scene.list_scroll.scroll_vertical=0; await settle()
+		first_entry.pressed.emit(); await settle()
+		check(scene.selected.key == "creation/C1_restore" and scene.detail_view.visible and scene.search.text == "creation/","Search result opens the actual task without clearing the query: "+locale)
+		var relation := scene.recommendation_rows.get_child(0) as Button
+		scene.detail_scroll.scroll_vertical=int(scene.detail_scroll.get_v_scroll_bar().max_value); await settle()
+		check(scene.detail_scroll.get_global_rect().intersects(relation.get_global_rect()),"Recommended relation remains visible in the scrolled detail panel: "+locale)
+		relation.pressed.emit(); await settle()
+		check(scene.selected.key == "representation/cross_assets","Recommended relation selects and locates the actual prior task: "+locale)
 		var after_core: Array[Dictionary] = nav.tasks()
 		check(after_core.size() == core.size(),"Presentation keeps original40 task identities")
 		for i: int in core.size():

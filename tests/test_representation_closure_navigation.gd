@@ -49,14 +49,22 @@ func run() -> void:
 		DisplayServer.window_set_size(Vector2i(1280,720)); await create_timer(0.4).timeout
 	await settle()
 	check(not control(scene,"CompletedRegionReview").visible,"Fresh drafts have no earned review action")
+	check(not control(scene,"ContinueRepresentationTask").visible,"Unmeasured drafts have no next-task action")
 	# A marker alone must not turn the new action into an achievement.
 	scene.completed.assign([true,true,true,true,true]); scene.refresh_tasks()
 	check(not control(scene,"CompletedRegionReview").visible and control(scene,"RegionClosure").disabled,"Completion flags without protected recipes grant no review")
+	check(not control(scene,"ContinueRepresentationTask").visible,"Completion flags without a protected plan grant no next-task action")
 	scene.completed.assign([false,false,false,false,false])
 	var plans: Array = [partition([16,64],["rle","raw"]),partition([16,24,40,48,64],["rle","rle","raw","rle","rle"]),partition([16,48,64],["rle","rle","rle"]),partition([8,64],["raw","rle"]),partition([18,46,64],["rle","raw","rle"])]
 	for task: int in 5:
 		scene.change_task(task); scene.edit_plan(plans[task]); scene.run_current()
 		check(control(scene,"CompletedRegionReview").visible == (task == 4),"Action appears only after all five measured successes")
+		if task == 0:
+			var next_task: Button = control(scene,"ContinueRepresentationTask")
+			check(next_task.visible and next_task.text.contains("2 ·"),"First measured success names the next unfinished task")
+			next_task.pressed.emit(); await process_frame
+			check(scene.task == 1 and scene.support_plans.has(0) and scene.history.size() == 1 and scene.session_dirty,"Next-task action only changes the selected draft, keeping earned evidence unsaved")
+	check(not control(scene,"ContinueRepresentationTask").visible,"All five measured successes replace next-task action with the earned review")
 	var history_before: int = scene.history.size()
 	var supports: Dictionary = scene.support_plans.duplicate(true)
 	var draft: Array = scene.plan.duplicate(true)

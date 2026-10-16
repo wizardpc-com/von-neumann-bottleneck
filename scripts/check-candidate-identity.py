@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Read-only consistency checks for a frozen local candidate directory."""
-import argparse,hashlib,json,re,zipfile
+import argparse,hashlib,json,re,stat,zipfile
 from pathlib import Path
 p=argparse.ArgumentParser();p.add_argument('directory',type=Path);a=p.parse_args()
 root=a.directory.resolve();manifest=json.loads((root/'manifest.json').read_text())
@@ -9,18 +9,36 @@ batch=manifest.get('test_batch','unspecified')
 expected=('playtest-'+batch+'-' if batch!='unspecified' else 'free-alpha-')+commit[:12]
 assert identity==expected and root.name==identity
 assert batch=='unspecified' or re.fullmatch(r'[A-Za-z0-9-]{1,40}',batch)
-assert manifest['public_release'] is False and manifest['upload_default'] is False
+assert manifest['public_release'] is False and manifest['upload_default'] is False and manifest['external_ready'] is False
+assert manifest['platforms'] and set(manifest['platforms']) <= {'macOS','Windows'}
+if manifest.get('candidate_journey',{}).get('creation_enabled'):
+    assert manifest['content_version'] in {'tasks-20261010-journey-v1','tasks-20261012-journey-v1','tasks-20261013-journey-v1'} and len(manifest['content_tasks'])==60
+    assert manifest['candidate_journey']['isolated'] is True and manifest['candidate_journey']['production_migration'] is False
 for platform,entry in manifest['platforms'].items():
     archive=root/entry['zip']
-    assert identity in archive.name and hashlib.sha256(archive.read_bytes()).hexdigest()==entry['sha256']
+    assert archive.parent==root and identity in archive.name and archive.stat().st_size==entry['bytes']
+    assert hashlib.sha256(archive.read_bytes()).hexdigest()==entry['sha256']
     with zipfile.ZipFile(archive) as package:
         assert package.testzip() is None
+        names=package.namelist()
+        assert len(names)==len(set(names))
         metadata=json.loads(package.read(platform+'/BUILD-MANIFEST.json'))
         assert metadata['build_id']==identity and metadata['source_commit']==commit
+        assert metadata['engine']==manifest['engine'] and metadata['platform']==platform
+        required={'README.txt','CHANGELOG.txt','KNOWN-ISSUES.txt','LICENSE.txt','FONT-LICENSE.txt','ENGINE-LICENSES.txt'}
+        assert required <= set(metadata['files_sha256'])
+        expected_files={platform+'/'+filename for filename in metadata['files_sha256']}
+        expected_files.add(platform+'/BUILD-MANIFEST.json')
+        actual_files={name for name in names if name.startswith(platform+'/') and not name.endswith('/')}
+        assert actual_files==expected_files
+        if platform=='macOS':
+            executables=[package.getinfo(name) for name in actual_files if '.app/Contents/MacOS/' in name]
+            assert executables and all(info.external_attr >> 16 & stat.S_IXUSR for info in executables)
         for filename,digest in metadata['files_sha256'].items():
+            assert filename and not filename.startswith('/') and '..' not in Path(filename).parts
             assert hashlib.sha256(package.read(platform+'/'+filename)).hexdigest()==digest,filename
         for filename in ['README.txt','CHANGELOG.txt','KNOWN-ISSUES.txt']:
-            body=package.read(platform+'/'+filename).decode()
+            body=package.read(platform+'/'+filename).decode().replace('\r\n','\n')
             assert body.startswith('Build: '+identity+'\nSource commit: '+commit+'\n')
             assert '@BUILD_ID@' not in body and '@SOURCE_COMMIT@' not in body
 print('PASS: source/build identity, archive names, all file hashes and packaged notes agree: '+identity)

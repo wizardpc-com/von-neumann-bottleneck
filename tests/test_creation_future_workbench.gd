@@ -52,6 +52,15 @@ func run() -> void:
 			check(opened.ok and not opened.writable and opened.error == "incompatible_readonly","Actual future file opens as a read-only work collection")
 			scene.writable = false; scene.english = english; scene._clear_replaced_exploration(); scene.change_task(8); await settle()
 			check(scene.latest.kind == "snapshot" and scene.signal_view.lanes[2] == work.output,"G3 automatically displays the preserved future snapshot")
+			for unit: int in [0,3,6,8]:
+				scene.change_task(unit); await settle()
+				var guide := scene.find_child("NextStepAction",true,false) as Button
+				check(scene.next_step().action == "works" and guide != null and not guide.disabled,"Read-only guide offers only protected-work viewing")
+				var before_guide: String = JSON.stringify(scene.session.data)
+				if guide != null: guide.pressed.emit()
+				scene.advance_step()
+				check(JSON.stringify(scene.session.data) == before_guide and scene.latest.kind == "snapshot" and scene.latest.work == work,"Guide click and direct callback leave read-only data and snapshot unchanged")
+			scene.change_task(8); await settle()
 			check(scene.signal_view.lanes[1].is_empty() and scene.rules.get_root().get_child_count() == 0,"Unknown initial context and model rules are not interpreted")
 			check(scene.costs.text.contains("cannot be interpreted" if english else "暂不能解释") and scene.costs.text.contains(work.name) and scene.costs.text.contains(work.id),"Snapshot measurements identify the saved work and explain the version boundary")
 			check(not scene.costs.text.contains("Canonical rule bytes" if english else "规则盒规范字节") and not scene.costs.text.contains("Recorded preparation" if english else "已记录准备"),"Unknown model and training metadata never become fake costs")

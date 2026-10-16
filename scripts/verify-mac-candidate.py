@@ -6,6 +6,8 @@ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--app',type=Path,
 root=Path(__file__).resolve().parents[1];original=a.app.resolve();stamp=uuid.uuid4().hex[:12]
 manifest=json.loads((original.parent/'BUILD-MANIFEST.json').read_text())
 release=json.loads((original.parent.parent/'manifest.json').read_text())
+expected_tasks=len(release['content_tasks'])
+expected_keys=json.dumps(sorted(release['content_tasks']))
 work=root/'.godot/package-qa'/stamp;work.mkdir(parents=True);app=work/original.name
 shutil.copytree(original,app,symlinks=True)
 info=plistlib.loads((app/'Contents/Info.plist').read_bytes());binary=app/'Contents/MacOS'/info['CFBundleExecutable']
@@ -27,16 +29,20 @@ func _ready() -> void:
 	var persisted: Dictionary = reloaded.active_snapshot(&"game", &"probe")
 	var components: Array = persisted.get("components", [])
 	var repeated_workbench_save: bool = first_write and second_write and components.size() == 1 and String((components[0] as Dictionary).get("id", "")) == "second"
+	var journey_keys: Array[String] = []
+	for task: Dictionary in get_node("/root/TaskNavigation").journey_tasks(): journey_keys.append(str(task.key))
+	journey_keys.sort()
 	var checks: Dictionary = {
 		"isolated":OS.get_user_data_dir().ends_with("SUFFIX"),
 		"candidate_auto_start_refuses_qa_directory":not load("res://experiments/candidate_session/context.gd").configured_journey(),
-		"second_act_resources":ResourceLoader.exists("res://experiments/representation_region/region.tscn") and ResourceLoader.exists("res://experiments/service_plan/lab.tscn"),
+		"second_act_resources":ResourceLoader.exists("res://experiments/representation_region/region.tscn") and ResourceLoader.exists("res://experiments/service_plan/lab.tscn") and ResourceLoader.exists("res://experiments/prediction/lab.tscn"),
 		"creation_export_configuration":bool(ProjectSettings.get_setting("candidate/creation_enabled",false))==EXPECTED_CREATION,
 		"creation_resources":not EXPECTED_CREATION or ResourceLoader.exists("res://experiments/creation/workbench.tscn"),
 		"candidate_feature":OS.has_feature("free_candidate"),
 		"game_only":not mode.is_test_mode() and not mode.developer_tools_enabled() and not mode.set_mode(&"test"),
 		"capture_disabled":mode.capture_arguments().is_empty(),
 		"forty_tasks":get_node("/root/TaskNavigation").tasks().size()==40,
+		"candidate_journey_tasks":journey_keys==EXPECTED_KEYS,
 		"remote_default_off":not remote.enabled and remote.endpoint=="EXPECTED_ENDPOINT",
 		"build_identity":ProjectSettings.get_setting("application/config/version")=="EXPECTED_BUILD" and ProjectSettings.get_setting("application/config/build_commit")=="EXPECTED_COMMIT",
 		"system_workspace_identity":get_node("/root/SystemChapter").workspace_version()=="EXPECTED_SYSTEM",
@@ -51,18 +57,20 @@ func _ready() -> void:
 		var file=FileAccess.open("user://package_probe_result.json",FileAccess.WRITE)
 		file.store_string(JSON.stringify(checks)); file.close()
 	get_tree().quit(0 if passed else 1)
-'''.replace('SUFFIX',user_suffix).replace('EXPECTED_ENDPOINT',release.get('feedback_endpoint','')).replace('EXPECTED_CREATION',json.dumps(release.get('candidate_journey',{}).get('creation_enabled',False))).replace('EXPECTED_BUILD',manifest['build_id']).replace('EXPECTED_COMMIT',manifest['source_commit']).replace('EXPECTED_SYSTEM',release['workspace_versions']['res://src/system_lab/system_level_catalog.gd']).replace('EXPECTED_LOCALITY',release['workspace_versions']['res://src/locality_chapter/locality_level_catalog.gd']))
+'''.replace('SUFFIX',user_suffix).replace('EXPECTED_ENDPOINT',release.get('feedback_endpoint','')).replace('EXPECTED_CREATION',json.dumps(release.get('candidate_journey',{}).get('creation_enabled',False))).replace('EXPECTED_KEYS',expected_keys).replace('EXPECTED_BUILD',manifest['build_id']).replace('EXPECTED_COMMIT',manifest['source_commit']).replace('EXPECTED_SYSTEM',release['workspace_versions']['res://src/system_lab/system_level_catalog.gd']).replace('EXPECTED_LOCALITY',release['workspace_versions']['res://src/locality_chapter/locality_level_catalog.gd']))
 scene.write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="'+str(probe)+'" id="1"]\n[node name="PackageProbe" type="Node"]\nscript = ExtResource("1")\n')
 settings='[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="'+user_suffix+'"\n'
 override=binary.parent/'override.cfg';override.write_text(settings+'run/main_scene="'+str(scene)+'"\n')
 # If overrides fail, deny both reads and writes to the original game's data directory.
 player=Path.home()/'Library/Application Support/Godot/app_userdata/Von Neumann Bottleneck'
 profile=work/'protect-player.sb';profile.write_text('(version 1)\n(allow default)\n(deny file-read* file-write* (subpath "'+str(player)+'"))\n')
-result=subprocess.run(['/usr/bin/sandbox-exec','-f',str(profile),str(binary),'--headless','--quit-after','120','--log-file',str(work/'engine.log'),'--','--test-mode','--capture-cpu-success','--reset-local-test-state'],cwd=work,capture_output=True,text=True,timeout=60)
+user_args=['--test-mode','--capture-cpu-success','--reset-local-test-state']
+if release.get('candidate_journey'):user_args.append('--candidate-journey')
+result=subprocess.run(['/usr/bin/sandbox-exec','-f',str(profile),str(binary),'--headless','--quit-after','120','--log-file',str(work/'engine.log'),'--',*user_args],cwd=work,capture_output=True,text=True,timeout=60)
 output=result.stdout+result.stderr;(work/'probe.log').write_text(output)
 override.write_text(settings)
 if result.returncode or 'PACKAGE_CHECKS' not in output or 'false' in next((line for line in output.splitlines() if line.startswith('PACKAGE_CHECKS')),'false') or 'SCRIPT ERROR' in output or 'ERROR:' in output:raise RuntimeError('Package probe failed; see '+str(work/'probe.log'))
 for name,digest in hashes.items():assert hashlib.sha256((app/name).read_bytes()).hexdigest()==digest
 report={'build_id':manifest['build_id'],'source_commit':manifest['source_commit'],'passed':True,'source_app':str(original),'qa_app':str(app),'user_suffix':user_suffix,'binary_and_pack_unchanged':hashes,'qa_override_only':str(override),'public_release':False}
 (work/'result.json').write_text(json.dumps(report,indent=2)+'\n')
-print('PASS: actual Mac release binary, Game-only/capture boundary, forty tasks, repeated workbench auto-save, remote off, excluded development files, isolated user directory. '+str(work))
+print('PASS: actual Mac release binary, Game-only/capture boundary, '+str(expected_tasks)+' journey tasks, repeated workbench auto-save, remote off, excluded development files, isolated user directory. '+str(work))

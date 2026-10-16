@@ -1,126 +1,23 @@
-Native follow-up — @BUILD_ID@
-Source: @SOURCE_COMMIT@
-- Returning to the task tree preserves its camera through container layout.
-- Covered/minimized tools can be recalled with one click in all five regions.
-- Chapter 1 header uses the actual task count; syntax errors omit a redundant empty-program message.
-- Source native: draft/locale/restart, player read-once solution, double buffering and layout reruns.
-- Final candidate/platform evidence: docs/CURRENT_STATE.md and RELEASE_BLOCKERS.md.
+Whole-journey experience candidate — @BUILD_ID@
+Source commit: @SOURCE_COMMIT@
 
-Final pre-public convergence — @BUILD_ID@
-Source: @SOURCE_COMMIT@
-- 第一、二章分开保存未应用草稿、已应用程序与配置；观察证据按当前模型重验。
-- 保存失败时显示提示，并可独立导出恢复文件；继续游戏跳过已锁定的近期任务。
-- 关内共用设置、语言切换恢复任务、窗口位置记忆；第二章结束后返回任务树。
-- 修复旧档已完成综合关误锁编辑器、长任务说明遮住操作按钮。
-- 访问汇总正确进入报告，版本与玩家分组分开；网络暂时失败可继续补发。
-- 预留品牌素材接口，增加隔离回归 CI 与关卡维护表。
-- No new tasks, simulation changes, public endpoint, account or release.
-- Chapter drafts and applied work persist separately; restoration grants no completion.
-- Save failures offer local recovery; settings are available during play.
-- Summary reporting preserves unknown data and separates versions; queues recover after outages.
-- Platform/native acceptance: docs/CURRENT_STATE.md and RELEASE_BLOCKERS.md.
+- 旅程地图提供可读章节列表、可点击搜索结果，以及前置/推荐任务定位；点击任务同步所属章节。
+- 创造工作台突出当前下一步，明确练习、整轮预测与回灌条件，区分当前未保存输出和历史作品。
+- 表示任务达标后可明确继续未完成任务；服务区突出达标后的下一合同，证据可滚动查看。
+- 首页回到已完成工作台时明确标注回看与优化，不跳过玩家保存的方案。
+- Chapter lists, clickable search and relationship links make the full journey easier to navigate.
+- Creative next actions follow current-model evidence and distinguish new output from saved work.
+- Representation and Service offer clear continuation after success, with bounded evidence presentation.
 
---- Earlier changes included in this content ---
+- 完整候选包含原有核心、表示/服务、可选地址预测及压缩→内容预测→创造；不增加章节、任务或大型机制。
+- Windows 的反馈数据库检查、备份和私有报告会及时释放 SQLite 文件，避免临时文件因占用而无法清理。
+- 超限 HTTP 请求的有界处理改善 Windows 客户端读取拒绝回执的稳定性；接收上限未改变。
+- Windows 可从同一固定提交打包 Windows/Mac；Mac ZIP 保留程序执行权限，身份检查覆盖文件、许可和实际任务清单。
+- 保留稳定的候选测试存档通道。离线默认不上传，单次意见与自动统计分别授权。
+- 当前包的原生检查、HTTPS staging 与剩余验收边界以 docs/CURRENT_STATE.md 的对应提交记录为准。
 
-Readable investigations and native desktop continuity — @BUILD_ID@
-Source: @SOURCE_COMMIT@
-- Keep Chapter 2 code, draft status and Apply ahead of optional reference material.
-- Separate all seven chapter-map cards; wrap chapter introductions in the shared font.
-- Clarify bilingual quantities and timeline batch labels; show exact zero elapsed time.
-- Fix native task-tree pan with captured mouse motion; retain release/focus cancellation.
-- Native CPU Hint return preserves the desktop; seven-step CPU rerun passes.
-- Native Chapter 1 time proportions match 16 compute + 252 wait = 268 cycles.
-- Native double buffering retains 28 cycles and 12 overlap cycles after restart.
-- Runtime evidence: docs/verification/20260913-readable-investigations/README.md.
-- Candidate and installation scope: docs/CURRENT_STATE.md and RELEASE_BLOCKERS.md.
-
-Unreleased — desktop continuity and bilingual Mission layout
-- Keep Mission page actions visible above long English/Chinese explanations.
-- Restore player windows and camera after the separate Hint canvas.
-- Open the selected chapter card without stale task-tree redirection.
-- Show authoritative CPU compute/wait proportions with calm focused window frames.
-- Verification: docs/verification/20260913-desktop-continuity/README.md.
-
-Unreleased — bilingual memory and window typography
-- Separate memory field, source record and value; localize cell inspection.
-- Wrap long diagram captions, preserve readable grid type, and keep units together.
-- Shorten layout tool headings and keep long floating titles clear of controls.
-- Clarify Chinese/English layout instructions; preserve all simulation and task rules.
-- Source/native/render evidence: docs/verification/20260913-bilingual-memory/README.md.
-
-Spatial interface iteration — @BUILD_ID@
-Source: @SOURCE_COMMIT@
-- Raised chapter surfaces, restrained ambient backdrop and layered existing chapter emblems.
-- Task-tree regions share the same visual hierarchy; narrow-card illustrations stay inside their cards.
-- Hint explanations open readably and survive folding/unfolding without being replaced by Mission briefing.
-- 40 tasks, simulation rules and independent spoiler confirmations retained.
-
-Bilingual voice and scalable text — @BUILD_ID@
-Source: @SOURCE_COMMIT@
-- English chapter/task titles, introductions and completion text follow the Chinese editorial intent with natural English idiom.
-- Screen-size task-tree labels, clearer compact labels, responsive scrolling chapter cards and wrapping chapter headers.
-- 英文标题与叙述统一润色；修复窄屏首页溢出、初始焦点滚动和缩放文字过小。
-- Same 40 tasks, simulation, saved designs and privacy boundaries.
-
-Chinese editorial audit — @BUILD_ID@
-Source: @SOURCE_COMMIT@
-- 凝练五章与应用任务标题，精简开场、收获和转场说明。
-- 保留技术规格、数字、提示层级；补齐第三章技术副标题。
-- 修正序章旧地图两个同层支线任务相互遮挡的问题。
-- Existing English, simulation, progression and save rules unchanged.
-
-Task tree clarity — @BUILD_ID@
-Source: @SOURCE_COMMIT@
-- Separate padded task card, fixed actions and stronger available-task emphasis.
-- Visible node hover, canceled stale map drags, stable Continue/window-resize centering.
-- Same five regions, 40 tasks, prerequisites, free construction and save rules.
-
-Settings and UI follow-up — @BUILD_ID@
-Source: @SOURCE_COMMIT@
-- Persistent Chinese/English, sound effects mute/volume, grouped scrollable settings.
-- Safe presentation reset, local diagnostic export, first configured-receiver choice.
-- Repeated diagnostic exports retain every report; newly shown export actions join keyboard navigation.
-- Reset and data-deletion confirmation buttons follow the interface language.
-- Feedback labels refresh without discarding drafts; fullscreen cancels unfinished cable gestures.
-- Gameplay, forty tasks, save format and remote default-off policy unchanged.
-
-@BUILD_ID@
-
-本轮发布收敛：继续游戏定位最近任务；全局存档升级保护；离线记录隐藏社区入口。
-任务记录按任务类型显示指标、从元数据汇总数量；新增界面文案统一进入翻译目录。
-每个冻结提交独立构建身份；Mac 和 Windows 包均来自 @SOURCE_COMMIT@。
-
-Branch-aware Continue, writer compatibility, metadata-driven offline records,
-localized new interfaces and commit-derived candidate identity.
-
---- Historical changelog (identities below are earlier releases) ---
-free-alpha-20260911-community-candidate2
-
-新增离线个人任务记录页：区域完成度、主线/支线/附加目标、个人最佳和保存方案数。
-回传默认关闭；基础汇总、详细试玩、主动意见和实验成绩分别由玩家选择。
-补齐访问汇总、离线补发、删除防复活、版本化社区统计与第四章综合关实验榜单。
-此包未配置服务器；未来榜单仅检查客户端成绩，不宣称服务端验证。
-改善中英文章节卡片、反馈说明、全屏按钮；增加 60/120 帧选项与后台节能。
-修复地图 Esc 报错、第三章改接撤销和显示偏好覆盖。
-
-Offline personal task records; separate voluntary sharing choices; semantic visit summaries.
-Portable local receiver, community aggregates and an experimental client-reported capstone board.
-No service configured; original 40 tasks and local progression remain independent of networking.
-Bilingual layout, feedback, display settings and endpoint-editing fixes.
-
-Earlier content release:
-free-alpha-20260911-candidate1
-
-新增第四章「把数据摆对地方」六关，形成序章与四章、共 40 个任务。
-自由分组和重排字段、复制选定数据、按有限空间分批查询；布局和成本由实际地址与读写推导。
-任务树按前置关系自动分叉、汇合和排布，缩远看路线，选中查看目标与奖励。
-统一浮窗、确认对话框、列表与滚动条风格，增加减少动效选项，改善布局编辑的窗口展开顺序。
-手册逐步介绍布局、字段分组、复制成本和尾批，内存视图可查看真实源地址及临时副本。
-每关可留下可选评分和意见，未通关也可评价；本地统计区分修改、物理连线数、撤销和调试。
-可选远程队列与本地接收服务支持断网保留、重试去重和主动删除。此包默认仅本机保存。
-保留旧主线、自由连线、分支、删除、撤销、命名方案和独立逐级确认 Hint。
-
-Six real data-layout tasks bring the game to five regions and 40 tasks.
-Dependency-driven task tree, clearer instruments and memory diagrams, reduced motion.
-Optional task ratings and comments, calibrated operation counts and offline-safe optional feedback queue.
-Original free construction, progression, named designs and independent staged hints remain available.
+- The existing complete candidate remains intact; no new chapters or large mechanics.
+- Feedback storage/report operations close SQLite files promptly on Windows.
+- Bounded oversized-request handling improves rejection receipt delivery without changing intake limits.
+- Both platform packages come from one fixed commit; Mac ZIP execution permissions and package identities are checked.
+- Stable candidate profiles and independent consent remain; the offline package does not upload by default.

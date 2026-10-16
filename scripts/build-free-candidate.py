@@ -1,8 +1,36 @@
 #!/usr/bin/env python3
 """Build both free candidates from one committed Git archive, never live player data."""
-import argparse,datetime,hashlib,io,json,re,shutil,subprocess,tarfile,zipfile,importlib.util
+import argparse,datetime,hashlib,io,json,os,re,shutil,stat,subprocess,sys,tarfile,zipfile,importlib.util
 from urllib.parse import urlsplit
 from pathlib import Path
+
+
+def package_files(folder):
+    return [path for path in sorted(folder.rglob('*')) if path.is_file() or path.is_symlink()]
+
+
+def packaged_bytes(path):
+    return os.readlink(path).encode('utf-8') if path.is_symlink() else path.read_bytes()
+
+
+def godot_path_literal(path):
+    return json.dumps(path.resolve().as_posix(),ensure_ascii=False)
+
+
+def write_zip_entry(package, path, relative):
+    if path.is_symlink():
+        entry=zipfile.ZipInfo(relative.as_posix())
+        entry.create_system=3
+        entry.external_attr=(stat.S_IFLNK | 0o777) << 16
+        package.writestr(entry,packaged_bytes(path))
+    else:
+        entry=zipfile.ZipInfo.from_file(path,relative.as_posix())
+        if len(relative.parts)>=5 and relative.parts[0]=='macOS' and relative.parts[1].endswith('.app') and relative.parts[2:4]==('Contents','MacOS'):
+            entry.create_system=3
+            entry.external_attr=(stat.S_IFREG | 0o755) << 16
+        entry.compress_type=zipfile.ZIP_DEFLATED
+        with path.open('rb') as source, package.open(entry,'w') as destination:
+            shutil.copyfileobj(source,destination)
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--godot',required=True);p.add_argument('--commit',default='HEAD')
@@ -23,7 +51,7 @@ def main():
     url=urlsplit(a.feedback_endpoint)
     if a.feedback_endpoint and (url.scheme!='https' and not (a.local_feedback_test and url.scheme=='http' and url.hostname in ['127.0.0.1','localhost'])):p.error('HTTPS required except explicit local acceptance')
     if a.feedback_endpoint and (not url.hostname or url.username or url.password or url.query or url.fragment or a.feedback_endpoint.endswith('/')):p.error('unsafe receiver URL')
-    if a.local_feedback_test and not a.feedback_endpoint:p.error('local acceptance needs its explicit endpoint')
+    if a.local_feedback_test and (not a.feedback_endpoint or url.hostname not in ['127.0.0.1','localhost']):p.error('local acceptance needs an explicit loopback endpoint')
     template=a.mac_template.resolve() if a.mac_template else None
     root=Path(__file__).resolve().parents[1]
     commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True).strip()
@@ -59,9 +87,10 @@ def main():
     if brand.get('native_icon_macos'):
         presets=presets.replace('[preset.1.options]','[preset.1.options]\napplication/icon="'+brand['native_icon_macos']+'"')
     if template:
-        presets=presets.replace('[preset.1.options]','[preset.1.options]\ncustom_template/debug='+json.dumps(str(template))+'\ncustom_template/release='+json.dumps(str(template)))
+        mac_path=godot_path_literal(template)
+        presets=presets.replace('[preset.1.options]','[preset.1.options]\ncustom_template/debug='+mac_path+'\ncustom_template/release='+mac_path)
     if a.windows_template:
-        presets=presets.replace('custom_template/release=""','custom_template/release='+json.dumps(str(a.windows_template.resolve())),1)
+        presets=presets.replace('custom_template/release=""','custom_template/release='+godot_path_literal(a.windows_template),1)
     (project/'export_presets.cfg').write_text(presets)
     original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))
@@ -99,7 +128,7 @@ def main():
     run('licenses',['--script','res://candidate_license_probe.gd']);probe.unlink()
     (project/'project.godot').write_text(original)
     # Exporters themselves do not start the game. Native QA uses a separate override.
-    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261010-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
+    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261013-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
     rules=json.loads((project/'server/community_rules.json').read_text())
     manifest['content_tasks']=rules.get('content_manifests',{}).get(manifest['content_version'],{'tasks':rules['tasks']})['tasks']
     if not a.creation_journey:manifest['content_tasks']=[task for task in manifest['content_tasks'] if not task.startswith('creation/')]
@@ -133,15 +162,14 @@ def main():
             content+='本地验收包，不能作为外部云端可用证据。\n' if a.local_feedback_test else '外部连接/平台实测以验收记录为准。\n'
             content+='测试存档渠道稳定，不随构建号清空；更新前完整备份候选profile及service同名目录。不要用QA通关档代替新档。\n'
             notes.write_text(content)
-        files={str(f.relative_to(folder)):hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(folder.rglob('*')) if f.is_file()}
+        files={f.relative_to(folder).as_posix():hashlib.sha256(packaged_bytes(f)).hexdigest() for f in package_files(folder)}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n')
         zip_path=output/('Von-Neumann-Bottleneck-'+platform+'-'+build_id+'.zip')
-        if platform=='macOS':subprocess.run(['/usr/bin/ditto','-c','-k','--sequesterRsrc','--keepParent',str(folder),str(zip_path)],check=True)
+        if platform=='macOS' and sys.platform=='darwin':subprocess.run(['/usr/bin/ditto','-c','-k','--sequesterRsrc','--keepParent',str(folder),str(zip_path)],check=True)
         else:
             with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED) as z:
-                for f in sorted(folder.rglob('*')):
-                    if f.is_file():z.write(f,f.relative_to(output))
+                for f in package_files(folder):write_zip_entry(z,f,f.relative_to(output))
         with zipfile.ZipFile(zip_path) as z:assert z.testzip() is None
         manifest['platforms'][platform]={'zip':zip_path.name,'bytes':zip_path.stat().st_size,'sha256':hashlib.sha256(zip_path.read_bytes()).hexdigest()}
     (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')

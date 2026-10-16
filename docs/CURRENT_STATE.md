@@ -2,6 +2,77 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Creative expression candidate — 2026-10-13
+
+Unmerged PR #7 adds discovery-led P3, two-sided actual A/B rule/count comparison,
+and saved-work source/phrase navigation with default-off short symbol tones.
+The model, legal conditions and persisted recipes remain intact. Both full-sixty
+packages freeze `f261310` as `playtest-CreationExpression20261013-f26131049877`,
+keeping `CloudPlaytest` and offline feedback/export. Content identity is
+`tasks-20261013-journey-v1`, with both prior manifests preserved.
+
+Affected checks7/7, both bilingual Windows renderer suites and packaged identity/
+hash checks passed. On2026-10-16 the unchanged Windows EXE passed native saved-work
+phrase/step/play/pause/viewing-map controls, writable save and independent restart
+in the existing private QA profile. The64-cell protected work, all session fields
+and original local opinion ID remained intact; both normal exits released their
+writer lease. Subjective listening, current Mac native and newcomer acceptance
+remain unverified. Current content has not been deployed to private VPS staging.
+Fixed-runtime and documented-head full CI passed154 Godot suites plus import/user
+isolation156/156, with all nine Python commands. The candidate is ready for overall
+art refinement and a controlled offline playtest.
+[Concrete changes, captures and acceptance limits](verification/20261013-creation-expression/README.md).
+
+## Whole-journey experience candidate — 2026-10-12/13
+
+Unmerged PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7)
+adds three bounded experience improvements: readable chapter/search/relationship
+navigation; actual-evidence Next actions and accurate C3/P1/G1 conditions; and
+earned Representation/Service continuation with 720p evidence scrolling. Legal
+solutions, model/completion authority and existing saves/works remain intact.
+
+`playtest-ExperienceFinal20261013-8a919e24b1a3` freezes both platforms at
+`8a919e2`, with all sixty tasks and the stable `CloudPlaytest` save channel.
+Native Windows chapter/search navigation and actual generation/keeping were
+observed in the identical UI runtime at `d34a61d`. Final8a919e2 native saved-work
+viewing, writable save/restart and local opinion restoration passed; normal exit
+released the owned writer lock. A dead private QA residual lock was archived
+without changing saves; Windows automatic abandoned-lock recovery is unsupported.
+Fixed runtime CI passed; final affected Windows checks passed13/13;
+complete-run retained failures and corrected measurements remain attributed.
+Final exported EXE localhost feedback retry/report/delete/restore passed.
+
+Creative goals now have explicit content version `tasks-20261012-journey-v1`;
+the receiver preserves the prior version and rejects mixed identities. Current
+content/server identity has not been deployed to the stopped private VPS staging.
+Player packages remain offline with local feedback/export. Art direction and a
+small controlled offline playtest can proceed; newcomer comprehension, current
+Mac native and final artistic acceptance remain external observations.
+[Before/after, frozen hashes, evidence and handoff](verification/20261012-experience/README.md).
+
+## Windows playtest freeze and private VPS feedback — 2026-10-12
+
+Branch `codex/pre-release-20261012` starts from freshly verified main `cfdee8a`.
+PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7) remains
+unmerged. Main and player save/model contracts are unchanged.
+
+`playtest-PreRelease20261012-61edc8063078` freezes Windows/macOS from one source
+commit with the complete sixty-task journey and stable `CloudPlaytest` save
+channel. Windows native tutorial editing/completion, two independent restarts
+and local opinion recovery passed. The isolated Windows game audit passed
+155/155 checks; actual exported Windows feedback passed both local HTTP and
+private VPS HTTPS, including private same-ID report, retry, deletion and an
+actual receiver restored with tombstones. Temporary staging is stopped; other
+services and the historical feedback database are unchanged. Code CI38206327893
+passed. Windows-specific SQLite handle, request-drain deadline, packaging and
+literal UTF-8 path defects are repaired.
+
+The distributable package remains offline: local opinions/export work, upload
+defaults off, and an unconfigured send is clearly reported. Public ingress/domain
+and production intake await explicit authorization. Current Mac native execution,
+cross-machine/signing, full-route unfamiliar-player and artistic acceptance remain
+open. [Exact evidence, package hashes and limits](verification/20261012-pre-release/README.md).
+
 ## Distributable journey and feedback integration — 2026-10-10
 
 Creative PR3 merged normally into main as b90ae47; feedback PR4 merged as

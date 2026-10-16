@@ -1,0 +1,131 @@
+{
+  "frozen_candidate": {
+    "build_id": "playtest-ExperienceFinal20261013-8a919e24b1a3",
+    "source_commit": "8a919e24b1a3f47207e72f5f84675152041cb100",
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "content_version": "tasks-20261012-journey-v1",
+    "test_batch": "ExperienceFinal20261013",
+    "feedback_endpoint": "",
+    "upload_default": false,
+    "public_release": false,
+    "platforms": {
+      "macOS": {
+        "zip": "Von-Neumann-Bottleneck-macOS-playtest-ExperienceFinal20261013-8a919e24b1a3.zip",
+        "bytes": 80271548,
+        "sha256": "5277dcf902c2e9e91867a0b3c408aec364efb6cc3ebbce3ff517504e0b0e2e18"
+      },
+      "Windows": {
+        "zip": "Von-Neumann-Bottleneck-Windows-playtest-ExperienceFinal20261013-8a919e24b1a3.zip",
+        "bytes": 57377969,
+        "sha256": "399310d92f49f7e85f2cc3272294d1c00c2605fabf4e8cee4c91cbc44c5c7a47"
+      }
+    }
+  },
+  "content_tasks": 60,
+  "candidate_profile": "CloudPlaytest",
+  "windows_checks": {
+    "full_windows_3741": {
+      "total": 155,
+      "passed": 153,
+      "failed": [
+        "test_creation_measured_closure",
+        "test_creation_preparation_binding"
+      ],
+      "private_path": ".godot\\verification\\20261012T094940Z-cd5dd6d6"
+    },
+    "corrected_test_flow_d34": {
+      "total": 4,
+      "passed": 4,
+      "failed": [],
+      "private_path": ".godot\\verification\\20261012T115133Z-77ea0d14"
+    },
+    "final_8a919e2_affected": {
+      "total": 13,
+      "passed": 13,
+      "failed": [],
+      "private_path": ".godot\\verification\\20261012T175335Z-19757a70"
+    }
+  },
+  "local_actual_exe_feedback": {
+    "passed": true,
+    "scope": "local exported-package HTTP acceptance; VPS/HTTPS external NOT_RUN",
+    "build_id": "playtest-ExperienceHTTPFinal20261013-8a919e24b1a3",
+    "source_commit": "8a919e24b1a3f47207e72f5f84675152041cb100",
+    "test_batch": "ExperienceHTTPFinal20261013",
+    "task": "creation/G2_intent",
+    "triage_status": "needs_retest",
+    "duplicate_rows": 1,
+    "deleted_after_restore": true,
+    "binary_and_pack_unchanged": {
+      "Von-Neumann-Bottleneck.exe": "c2d4d895d97e77a571cd70a3c5d03761b3abe14235aa292d68e0f1f26c1f9280"
+    },
+    "embedded_pck_sha256": "746928c4bad2d79197cc6c04b6e4aae49528f9c9aae7aab06f6cc89ca1e0cdcf",
+    "qa_overrides": "main scene, stable isolated QA profile, synthetic phase/output; endpoint/build/content unchanged",
+    "platform": "Windows",
+    "synthetic_controller_sha256": "dfd7c3985b09ba75fdcde01a59bcaa52a73364f51adb158354da918ea780dc0a"
+  },
+  "final_renderer": [
+    {
+      "name": "journey",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    },
+    {
+      "name": "service",
+      "passed": true,
+      "exit": 0,
+      "errors": []
+    }
+  ],
+  "mac_structure": {
+    "universal_x86_64_arm64": true,
+    "plist_pck_signature_resources": true,
+    "native_run": false
+  },
+  "prior_journey_manifest_unchanged": true,
+  "images": {
+    "after-chapter-list.jpg": "07156224bd6d07032a0b8405b5ef9ef1d57b084576815057661967cd0ca0f883",
+    "after-g1-generated.jpg": "cc17ad4b689daed195cefb04a2805531658ab2ab68b2274fc2e0fe9a485d63c2",
+    "after-search.jpg": "62b82555a82886f4595cc7c717387dabf4bf3585eabdff5ab5f36746562222d0",
+    "before-c1-workbench.jpg": "c4a3b4ddd06209d8d6a2b8cb126d2d355a5047083f20bc555e1577e9b7dcbcb5",
+    "before-map-selected.jpg": "b1a4207b2622ae15176926730427ca7070371ed61acaa5927903e31d6697d554",
+    "before-p1-start.jpg": "520de1bfc4c3a6092bfeb5ad6443c053d15ba6b4f9b3d3b338fb6b47ce6f165b",
+    "final-chapter-list.png": "96edbd965458ab935447cea54eff042f8eb15f8c61aa2e4b7ac23a6565a0a86c",
+    "service-en-response-step.png": "0e486195d92af5cdc04e558b21b5f55e80756061379663c8c71d6d7c7e13d18e",
+    "service-zh_CN-earned-next.png": "aa0d19d2e60f9f0c25e98cd8d3732ee40518bcea51a8cdb89886a6602d959f2c",
+    "final-8a919e2-writable-restart.jpg": "d439e9d3f8e6f203e8c5e93541703a2604c34729e98f576bf05fb873de6d9c12",
+    "final-8a919e2-reopened-work.jpg": "f5266dcbdb0929f11e3f88b9dafabdefc0e9d54c7b13976372841ea40d9da92e"
+  },
+  "native_final_restart": {
+    "passed": true,
+    "source_commit": "8a919e24b1a3f47207e72f5f84675152041cb100",
+    "unchanged_exported_binary": true,
+    "scope": "OS native Home/P1 restore, saved 64-cell work view, local opinion save/reopen, writable save and two normal shutdowns; not a new full-route run",
+    "isolated_profile": "NativeWindows20261012",
+    "player_channel_untouched": true,
+    "all_session_fields_unchanged": true,
+    "local_opinion_text_and_id_retained": true,
+    "normal_exit_released_owned_lease": true,
+    "qa_abandoned_lease": {
+      "owner_pid": 29424,
+      "owner_dead_verified": true,
+      "archived": true,
+      "save_bytes_unchanged": true,
+      "automatic_windows_recovery": false,
+      "exit_cause_unknown": true
+    }
+  },
+  "ci": [
+    {
+      "commit": "8a919e24b1a3f47207e72f5f84675152041cb100",
+      "run_id": 38287295574,
+      "conclusion": "success"
+    },
+    {
+      "commit": "d76359ab64f881c4d525c2ed80a48e4e337dbc0e",
+      "run_id": 38288626068,
+      "conclusion": "success"
+    }
+  ]
+}

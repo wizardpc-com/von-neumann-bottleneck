@@ -1,19 +1,19 @@
-冯诺伊曼瓶颈 · 免费开发候选 / Free development candidate
+冯·诺依曼瓶颈 — 试玩候选限制
+Build: @BUILD_ID@
+Source commit: @SOURCE_COMMIT@
 
-本包尚未公开发行。40 个任务不代表已验证的游玩小时数。
-当前源码、候选包和验收范围以仓库 docs/CURRENT_STATE.md 为准；发布阻断见 RELEASE_BLOCKERS.md。
-Windows 包由同一提交导出；未经过本轮 Windows 实机验收，不承诺该平台已达到公开发布标准。
-Mac 使用本地临时签名，未经过 Apple 公证；首次分发、隔离属性与另一台 Mac 的安装路径仍需外部验证。
-新玩家是否独立理解、难度曲线、趣味性与长时间舒适度尚需真实外部试玩。
-不承诺 Steam Deck、手柄或 Linux。尚未连接 Steam 服务或创意工坊。实验榜单仅完成本地联调，尚未公开运行。
-远程接收地址默认未配置，自动回传关闭；本机保存与反馈导出可以使用。网络不影响游戏进度。
-升级前保留存档和备份。回退旧二进制不保证识别新章节进度；不要用旧版覆盖唯一副本。
+- 这是完整候选内容的试玩包，尚未达到陌生玩家理解、难度与艺术体验的最终验收。
+- Windows 原生、自动回放、Mac 导出和其他设备首启分别记录，不能相互替代。当前证据见仓库 docs/CURRENT_STATE.md 和 RELEASE_BLOCKERS.md。
+- Mac 包为 ad-hoc 签名、未公证；仍需另一台 Mac 核对安装、首启与保存。Windows 包未进行正式代码签名。
+- 混合 DPI、小屏幕与反复失焦拖动仍需扩展真人测试。遇到看不清的规格，可打开手册或调整游戏窗口。
+- 可选地址预测是临时会话探索，离开时不承诺保存；表示、服务和创造使用各自明确的保存合同。
+- 离线包的云端反馈入口为空。可保存/导出意见；已配置私有验收入口的包会明确单独标记，不能当作公网可用包。
+- 服务器上线、域名、正式数据收集和公众发布需另行批准。离线游玩不依赖服务器。
+- 更新/回退前备份完整候选 profile 目录；不要把较新档替换为唯一的旧快照来绕过写入保护。
 
-Not publicly released. Windows is an exported candidate awaiting native validation.
-macOS is ad-hoc signed, not notarized; another-machine installation remains unverified.
-Automated tests and agent play do not establish new-player comprehension or enjoyment.
-No Steam integration, controller/Steam Deck/Linux support claim or workshop. Experimental boards are loopback-tested only.
-Remote sharing defaults off and no production receiver is configured. Keep save backups before updating or rolling back.
-
-本地社区准备：docs/verification/20260911-community-preparation/README.md。
-原生界面与双语复查：docs/verification/20260913-readable-investigations/README.md。
+Known limits
+This is a complete-content playtest candidate, not final newcomer or artistic acceptance.
+macOS is ad-hoc signed and unnotarized; independent Mac first-launch/save checks remain open.
+Windows signing and extended mixed-DPI/focus/drag coverage remain open.
+Offline packages have no feedback receiver. Explicit private acceptance builds are separately labelled.
+Optional address Prediction is session-only. Back up whole candidate profile directories before updates.

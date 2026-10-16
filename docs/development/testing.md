@@ -6,6 +6,17 @@ assertions intentionally require no prior acknowledgement. See
 
 # Testing
 
+## Creative expression — 2026-10-13
+
+Run `test_creation_comparison_view`, `test_creation_work_listening` and affected
+workbench/work-focus/exhibition suites with the isolated verifier. Render the
+first with `-- --comparison-view-capture`, the second with
+`-- --creation-work-listening-capture` in an imported QA copy. These check bilingual
+visible count bars, actual frozen rules/source events, immutable work snapshots,
+phrase boundaries and optional sound stop/natural-finish behavior. Rendered audio
+checks require the real player's `finished` signal; headless only checks symbol
+mapping and state. Neither proves native input or subjective listening quality.
+
 ## Exported-package feedback — 2026-10-10
 
 Run `test_candidate_feedback`, `test_work_focus_feedback` and

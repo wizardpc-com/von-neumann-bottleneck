@@ -258,16 +258,20 @@ func overview() -> void:
 
 func set_search(value: String) -> void:
 	query = value.strip_edges().to_lower()
-	var count: int = 0
-	for task: Dictionary in rows:
-		if _matches(task): count += 1
-	PlaytestData.record_map_action(&"search", "", {"result_count":count})
+	PlaytestData.record_map_action(&"search", "", {"result_count":matching_keys().size()})
 	queue_redraw()
 
 func locate_match() -> void:
+	var matches: Array[String] = matching_keys()
+	if not matches.is_empty():
+		locate(matches[0]); task_selected.emit(matches[0])
+
+func matching_keys() -> Array[String]:
+	var matches: Array[String] = []
+	if query.is_empty(): return matches
 	for task: Dictionary in rows:
-		if not query.is_empty() and _matches(task):
-			locate(task.key); task_selected.emit(task.key); return
+		if _matches(task): matches.append(task.key)
+	return matches
 
 func _matches(task: Dictionary) -> bool:
 	return query in String(task.title).to_lower() or query in String(task.key).to_lower()

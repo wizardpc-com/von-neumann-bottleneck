@@ -40,7 +40,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_size(Vector2i(1280,720)); await create_timer(0.4).timeout; await settle()
 	for english: bool in [false,true]:
-		scene.english = english; scene.change_task(0); await settle()
+		scene.english = english; scene.switch_mode("compress"); await settle()
 		scene.train_model(); check_cost(scene,scene.latest.cost,"Learning summary uses actual preparation cost")
 		scene.source_kind = 2; scene.transport("predictive")
 		var measured: Dictionary = scene.latest.duplicate(true)

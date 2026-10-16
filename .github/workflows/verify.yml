@@ -12,6 +12,8 @@ jobs:
           python-version: '3.12'
       - run: python scripts/check-branding.py
       - run: python scripts/test-report-playtests.py
+      - run: python scripts/test-candidate-packaging.py
+      - run: python scripts/test-package-feedback.py
       - run: python server/test_storage.py
       - run: python server/test_receiver.py
       - run: python server/test_community.py

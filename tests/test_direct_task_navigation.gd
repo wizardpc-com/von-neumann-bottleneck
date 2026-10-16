@@ -39,6 +39,10 @@ func run() -> void:
 	var before: Dictionary = progress()
 	check(nav.enter("hardware_foundations/tutorial"), "Completed tutorial can be replayed through the tree")
 	await settle()
+	check(nav.home_action_text() == ("回到我的工作台" if root.get_node("Localization").current_locale() != "en" else "Revisit my workbench"),
+		"Continue honestly describes returning to a completed player's workbench")
+	check(nav.next_task_title().contains("已完成") if root.get_node("Localization").current_locale() != "en" else nav.next_task_title().contains("completed"),
+		"The completed continuation target remains explicit without skipping saved work")
 	var hardware: Control = current_scene
 	check(hardware.current_level_id == &"tutorial" and not hardware.tutorial_next_button.disabled,
 		"Earned tutorial retains its direct next-task action")

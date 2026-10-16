@@ -1,5 +1,6 @@
 extends SceneTree
 ## Candidate feedback observes actual tasks without becoming model/save authority.
+const TaskIdentity = preload("res://src/playtest/task_identity.gd")
 var failures: Array[String] = []
 func _init() -> void: call_deferred("run")
 func check(ok: bool, message: String) -> void:
@@ -7,6 +8,20 @@ func check(ok: bool, message: String) -> void:
 func settle() -> void:
 	for frame: int in 5: await process_frame
 func run() -> void:
+	var rules: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://server/community_rules.json"))
+	check(rules is Dictionary,"Receiver content manifest is readable")
+	if not rules is Dictionary: quit(1); return
+	var manifests: Dictionary = rules.get("content_manifests",{})
+	var old: Dictionary = manifests.get("tasks-20261010-journey-v1",{})
+	var current: Dictionary = manifests.get(TaskIdentity.JOURNEY_VERSION,{})
+	check(not old.is_empty() and old.get("identities",{}).size()==20,"Prior journey identities remain available to the receiver")
+	check(current.get("tasks",[]) == old.get("tasks",[]) and current.get("tasks",[]).size()==60,"Current and prior journey manifests retain the same sixty task identities")
+	var identities: Dictionary = current.get("identities",{})
+	check(identities.size()==20,"Current receiver manifest covers every candidate task with a content identity")
+	for key: String in identities:
+		var expected: Dictionary = identities[key]
+		var actual: Dictionary = TaskIdentity.metadata(key.get_slice("/",0),key.get_slice("/",1))
+		check(actual.get("task_version","")==TaskIdentity.JOURNEY_VERSION and actual.get("model_version","")==expected.get("model_version","") and actual.get("case_set_version","")==expected.get("case_set_version",""),"Client and receiver content identities agree: "+key)
 	var recorder: Node = root.get_node("PlaytestData")
 	var moments: Node = root.get_node("PlaytestMoments")
 	var remote: Node = root.get_node("RemoteFeedback")

@@ -16,7 +16,7 @@ IDENTITY_FIELDS=('task_version','model_version','case_set_version','build_versio
 
 
 def read_rows(database):
-    with sqlite3.connect('file:'+str(Path(database).resolve())+'?mode=ro',uri=True) as db:
+    with closing(sqlite3.connect('file:'+str(Path(database).resolve())+'?mode=ro',uri=True)) as db:
         return db.execute('SELECT id,client_id,received,body FROM events ORDER BY received,id').fetchall()
 
 
@@ -33,7 +33,7 @@ def open_triage(path):
 
 def triage_rows(path):
     if path is None or not Path(path).exists(): return {}
-    with sqlite3.connect('file:'+str(Path(path).resolve())+'?mode=ro',uri=True) as db:
+    with closing(sqlite3.connect('file:'+str(Path(path).resolve())+'?mode=ro',uri=True)) as db:
         return {r[0]:dict(zip(('status','fix_build','fix_commit','note','updated'),r[1:])) for r in db.execute('SELECT * FROM actions')}
 
 

@@ -6,10 +6,15 @@ func run() -> void:
 	var tasks: Array[String] = []
 	for task: Dictionary in navigation.tasks(): tasks.append(task.key)
 	var catalog = preload("res://src/layout_chapter/layout_catalog.gd")
+	var identity = preload("res://src/playtest/task_identity.gd")
+	var previous: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://server/community_rules.json"))
+	if not previous is Dictionary or not previous.get("content_manifests") is Dictionary or not previous.content_manifests.has("tasks-20261010-journey-v1"):
+		push_error("Existing journey manifest is required to preserve earlier content identities")
+		quit(1); return
+	var manifests: Dictionary = previous.content_manifests.duplicate(true)
+	manifests[identity.JOURNEY_VERSION] = {"tasks":journey_keys(tasks),"identities":journey_identities(tasks)}
 	var rules: Dictionary = {"api_version":1,"task_version":"tasks-20260910-v1","tasks":tasks,
-		"content_manifests":{
-			"tasks-20260910-v1":{"tasks":tasks},
-			"tasks-20261010-journey-v1":{"tasks":journey_keys(tasks),"identities":journey_identities(tasks)}},
+		"content_manifests":manifests,
 		"boards":{"chapter_4/mixed":{"ruleset_version":"layout-mixed-1","model_version":"layout-memory-1",
 		"case_set_version":("layout-v1:mixed"+JSON.stringify(catalog.cases("mixed"))).sha256_text(),
 		"case_count":2,"cycle_limits":[2450,1550],"cycle_floors":[280,126],"scratch_limit":160}}}

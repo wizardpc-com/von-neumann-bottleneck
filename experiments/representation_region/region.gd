@@ -251,6 +251,10 @@ func build() -> void:
 	var evidence_column := VBoxContainer.new(); evidence_column.name = "RepresentationEvidence"
 	evidence_column.custom_minimum_size.x = 430; evidence_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	body.add_child(evidence_column)
+	var continue_task := make_button("",evidence_column,func() -> void:
+		var next: int = next_unfinished_task()
+		if next >= 0: change_task(next),"ContinueRepresentationTask")
+	InstrumentTheme.primary(continue_task)
 	var completed_review := make_button(text2("成果回顾与下一步" if candidate_journey else "回顾五份成果", "Review and next step" if candidate_journey else "Review five achievements"),evidence_column,show_closure,"CompletedRegionReview")
 	completed_review.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	InstrumentTheme.primary(completed_review)
@@ -394,6 +398,12 @@ func change_task(index: int) -> void:
 
 func refresh_tasks() -> void:
 	var earned_review: bool = representation_review_evidence().size() == 5
+	var next: int = next_unfinished_task()
+	var continue_task := find_child("ContinueRepresentationTask",true,false) as Button
+	if continue_task != null:
+		continue_task.visible = next >= 0
+		set_action_disabled(continue_task,next < 0)
+		if next >= 0: continue_task.text = text2("继续未完成任务：", "Continue unfinished task: ")+Catalog.title(next,english)
 	var closure := find_child("RegionClosure",true,false) as Button
 	if closure != null: set_action_disabled(closure,not earned_review)
 	var completion_action := find_child("CompletedRegionReview",true,false) as Button
@@ -403,6 +413,13 @@ func refresh_tasks() -> void:
 	for i: int in task_buttons.size():
 		set_action_disabled(task_buttons[i],false)
 		task_buttons[i].text = Catalog.title(i,english) + (" ✓" if completed[i] else "")
+
+func next_unfinished_task() -> int:
+	if not support_plans.has(task): return -1
+	for offset: int in range(1,5):
+		var index: int = (task+offset)%5
+		if not completed[index]: return index
+	return -1
 
 func edit_plan(next: Array[Dictionary]) -> void:
 	if next == plan: return
@@ -478,7 +495,7 @@ func run_current() -> void:
 	if history.size() > 100: history.pop_front()
 	completed[task] = completed[task] or accepted
 	selected_run = history.size()-1; refresh_history(); history_list.select(selected_run); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_run); refresh_tasks()
-	status.text = text2("全部公开约束成立；可以继续比较，也可打开下一任务。","All public constraints met; keep comparing or open the next task.") if accepted else text2("尚未满足全部约束。看流量、请求、解码与缓存事件再修改。","Limits not all met. Inspect traffic, requests, decode and cache events before editing.")
+	status.text = text2("当前任务达标；可以继续比较，或进入下一份未完成任务。","Current task met; keep comparing or continue to the next unfinished task.") if accepted else text2("尚未满足全部约束。看流量、请求、解码与缓存事件再修改。","Limits not all met. Inspect traffic, requests, decode and cache events before editing.")
 	if not accepted:
 		status.text = constraint_feedback(task,traces)
 		var reading_cue: String = evidence_reading_cue(task,traces)
@@ -489,8 +506,6 @@ func run_current() -> void:
 	elif not completed.has(false):
 		var review_action: Button = find_child("CompletedRegionReview",true,false) as Button
 		status.text = text2("五份任务均已达标。点击“%s”回顾成果；保存方案与比较记录后继续，也可留在这里探索。", "All five tasks met. Open “%s” to revisit your achievements; save your plans and comparisons to continue, or keep exploring here.") % review_action.text
-	elif task == 4:
-		status.text = text2("本任务已达标。可以回看之前的任务，或继续比较其他方案。", "This task is met. Revisit earlier tasks or keep comparing alternatives.")
 
 func refresh_history() -> void:
 	history_list.clear()

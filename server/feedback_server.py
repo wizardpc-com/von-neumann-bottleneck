@@ -128,7 +128,23 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(raw)
     def body(self):
         length=int(self.headers.get('Content-Length','0'))
-        if length<=0 or length>MAX_BODY: raise ValueError('body_size')
+        if length<=0: raise ValueError('body_size')
+        if length>MAX_BODY:
+            # Drain only a near-limit body so Windows can deliver the 400 response.
+            if length<=MAX_BODY*2:
+                remaining=length
+                deadline=time.monotonic()+1
+                original_timeout=self.connection.gettimeout()
+                try:
+                    while remaining and (wait:=deadline-time.monotonic())>0:
+                        self.connection.settimeout(min(original_timeout or wait,wait))
+                        try: chunk=self.rfile.read1(min(8192,remaining))
+                        except TimeoutError: break
+                        if not chunk: break
+                        remaining-=len(chunk)
+                finally: self.connection.settimeout(original_timeout)
+            self.close_connection=True
+            raise ValueError('body_size')
         if self.headers.get('Content-Type','').split(';')[0] != 'application/json': raise ValueError('content_type')
         raw=self.rfile.read(length)
         if len(raw)!=length: raise ValueError('short_body')

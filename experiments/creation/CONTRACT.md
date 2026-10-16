@@ -130,6 +130,9 @@ loading/channel work. Preparation was already performed and is disclosed
 separately. Orders accept any actual lossless path meeting the stated deadline;
 the UI does not impose a particular codec. Session-only delivery receipts do not
 replace historical C3 completion evidence or silently award a new certificate.
+The saved C3 unit support remains a same-source, same-model, same-codec transport
+comparison under two different machines with different measured costs. Players may
+choose either codec for each delivery order; those choices do not have to match.
 
 Saved-work exhibition consumes detached saved output and host-validated replay
 records. `light-trace-v1` uses16 fixed columns and ordered revealed cells;
@@ -156,3 +159,20 @@ not inferred musical meaning, simulated gaps or a new model. Static view shows a
 protected symbols; explicit seek/step and dynamic view reveal/locate the same
 indices. Tempo, composition and scroll never change snapshots, costs or events.
 Original shapes/trace mappings remain selectable without persistent changes.
+
+Controlled comparison and listening
+----------------------------------
+
+The comparison pane consumes the two frozen runs' first differing output cell
+and its recorded feedback events. Missing events are not reconstructed as observed
+causes. Explicit context lookup reads each frozen model's rule/fallback without
+generation or mutation. Identical output still permits count inspection; multiple
+factors and seed-only changes receive no single-design attribution.
+
+Saved-work appreciation places the verified seed/feedback source beside its
+selected cell. Navigation by16-cell viewing groups preserves actual indices.
+Optional symbol tones consume only saved output, never replay computation or
+sealed input. They use the Effects bus and are off on opening; seeking is silent.
+Pause, hidden/focus-lost windows and dismissal stop playback sound immediately.
+The final revealed symbol completes its non-looping short cue before silence.
+Sound/viewing state is transient and adds no work, recipe or save fields.

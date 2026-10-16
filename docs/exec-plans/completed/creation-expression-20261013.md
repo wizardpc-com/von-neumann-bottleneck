@@ -1,0 +1,87 @@
+# Compression, prediction and personal expression
+
+## Goal and scope
+
+Starting at `79c6b35` on the unmerged PR #7 branch, deepen the existing C→P→G
+journey. Players should change the same learned system, see the actual consequence
+of that change, and keep a personal work they can enjoy and understand on return.
+The world supplies both physical constraints and the material for expression.
+
+Prioritize concrete interaction and visual/audio presentation over additional
+explanation. Preserve the full journey and earlier fixed candidates. No new
+chapter, model, completion gate, persistent format, production receiver or Release.
+
+## Files and ownership
+
+Controller owns workbench integration, shared contracts/status, Git and all Godot
+execution. Read-only workers audit controlled comparison, saved-work appreciation,
+and content/physical continuity before receiving disjoint edit ownership.
+Likely affected code is `experiments/creation/` presentation, with scoped tests.
+
+## Invariants
+
+The existing model, codec, event costs and session own results. Presentation must
+consume actual records, never read sealed truth, create outputs, award support or
+rewrite protected works. A/B attribution must distinguish first shared-prefix
+divergence from later inherited feedback. Saved output is separate from recipe
+replay. Viewing and sound remain reversible, optional and independent from costs.
+Existing global sound/motion settings and read-only/future-version behavior apply.
+
+## Implementation and acceptance
+
+1. Inspect current code and run an isolated Windows baseline; identify where the
+   actual edit→rule→output chain is hard to perceive.
+2. Make the high-value comparison and same-system connection visible using real
+   results; verify correct, unchanged and misleading/multifactor cases.
+3. Improve saved-work appreciation with visible source continuity, useful passage
+   navigation and optional symbol-based listening; verify silence, pause, focus,
+   long works and immutable output/recipe behavior.
+4. Run affected checks and bilingual small-screen rendering, then native Windows
+   interaction. Preserve concise before/after evidence, commit meaningful changes,
+   and freeze a runnable fixed-source candidate when the experience is verified.
+
+## Progress and open questions
+
+- 2026-10-13: clean baseline `79c6b35`; new goal active. Three workers are auditing
+  comparison, saved-work appreciation and content continuity. No runtime edit yet.
+- Current baseline comparison/exhibition/workbench plus isolation passed5/5.
+  P3 opening now poses the discovery without naming its check-stream answer.
+  New content identity `tasks-20261013-journey-v1` preserves both earlier sixty-task
+  manifests. Actual client/receiver metadata check,17 commission assertions,
+  receiver10 tests and packaging checks passed; model/materials remain unchanged.
+- Controlled comparison landed at `cd46ec7`: actual changed factor, recorded
+  choice/counts, frozen-model context lookup and source-cell navigation. Expanded
+  evidence fixes720p clipping; affected checks and bilingual geometry passed.
+- Saved-work origins, sixteen-cell phrase navigation and optional Effects tones
+  landed at `f261310`. Final affected checks7/7 and both real Windows renderer
+  suites passed; final short tone produced natural finished signals177ms/175ms.
+  Prior failed diagnostics are preserved in the dated verification record.
+- Both full-sixty candidates freeze `f261310`, identity/hash checks PASS. Initial
+  Windows native input/restart was pending: the returned window
+  could not activate, LockApp was confirmed and owned QA process34008 stopped.
+  [Candidate and evidence](../../verification/20261013-creation-expression/README.md).
+- Human enjoyment and artistic quality require actual listening/viewing and later
+  unfamiliar-player feedback; green checks alone cannot establish them.
+- Full source and documented-head CI passed156/156 Godot checks and nine Python
+  commands. The initial native acceptance was blocked by a locked Windows session.
+- 2026-10-16: native blocker cleared. Unchanged frozen EXE passed actual OS clicks
+  for protected-work phrase navigation, Step, Play/Pause, viewing-map change and
+  Save draft. A second independent process restored the64-cell work and original
+  local opinion ID; English appreciation and default-off tones were observed.
+  Both normal exits released the writer lease. All session fields and work/recipe
+  bytes remained intact. The candidate's archive/file hashes were rechecked.
+
+## Completion audit
+
+The same existing model/materials now expose changed samples, frozen rule counts,
+fallback and actual choices side by side; real-run fixtures cover unchanged,
+missing-event, multiple-factor and seed-only boundaries. Bilingual720p captures
+and geometric checks verify readable counts. Saved works expose verified origin
+and actual phrase indices, with optional finite tones under global Effects.
+Long/future snapshots and save/completion boundaries passed focused and full
+regression. Native return/play/save/restart and immutable fixed-source packages
+complete this development round. [Exact evidence](../../verification/20261013-creation-expression/README.md).
+
+Subjective listening/artistic acceptance, unfamiliar-player understanding and
+current Mac native remain next-stage observations. They are not inferred from
+technical checks. Public deployment and integration remain deferred to the owner.

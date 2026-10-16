@@ -1,6 +1,7 @@
 """Synthetic stable receipt identity, private review, escaping and deletion-safe recovery."""
 import hashlib
 import json
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 import tempfile
@@ -18,7 +19,7 @@ class PrivateReportTests(unittest.TestCase):
             'visit_id':'synthetic-visit','sequence':1,'category':'confusion','note':note}
         payload.update(CONTENT_MANIFESTS.get(version,{}).get('identities',{}).get('creation/G2_intent',{}))
         body=json.dumps({'event_id':event_id,'kind':'feedback','payload':payload},sort_keys=True,separators=(',',':'))
-        with sqlite3.connect(path) as db:
+        with closing(sqlite3.connect(path)) as db, db:
             migrate(db); db.execute('INSERT OR IGNORE INTO clients VALUES (?,?)',('synthetic-client','synthetic-hash'))
             db.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',(event_id,'synthetic-client',1,'feedback',body,hashlib.sha256(body.encode()).hexdigest()))
 
@@ -59,7 +60,7 @@ class PrivateReportTests(unittest.TestCase):
         for field in ('model_version','case_set_version'):
             with tempfile.TemporaryDirectory() as folder:
                 db=Path(folder)/'events.sqlite';self.seed(db)
-                with sqlite3.connect(db) as connection:
+                with closing(sqlite3.connect(db)) as connection, connection:
                     row=json.loads(connection.execute('SELECT body FROM events').fetchone()[0])
                     row['payload'][field]='historical-unknown-version';body=json.dumps(row)
                     connection.execute('UPDATE events SET body=?,digest=?',(body,hashlib.sha256(body.encode()).hexdigest()))
@@ -73,7 +74,7 @@ class PrivateReportTests(unittest.TestCase):
             restored=Path(folder)/'restored.sqlite'; side=Path(folder)/'review.sqlite'
             self.seed(live); update_triage(live,side,'synthetic-feedback-id','reproduced',note='Private synthetic review')
             backup(live,old)
-            with sqlite3.connect(live) as db:
+            with closing(sqlite3.connect(live)) as db, db:
                 db.execute('INSERT INTO tombstones VALUES (?,?,?)',('synthetic-client','synthetic-hash',2))
                 db.execute('DELETE FROM events WHERE client_id=?',('synthetic-client',))
                 db.execute('DELETE FROM clients WHERE id=?',('synthetic-client',))
@@ -88,12 +89,15 @@ class PrivateReportTests(unittest.TestCase):
     def test_triage_cannot_mutate_receiving_database(self):
         with tempfile.TemporaryDirectory() as folder:
             database=Path(folder)/'events.sqlite';self.seed(database)
-            alias=Path(folder)/'alias.sqlite';alias.symlink_to(database)
-            for path in (database,alias):
+            alias=Path(folder)/'alias.sqlite'
+            try: alias.symlink_to(database)
+            except OSError: alias=None  # Windows test environments may disallow links.
+            aliases=(database,database.parent/'missing'/'..'/database.name)
+            for path in aliases+((alias,) if alias else ()):
                 with self.assertRaisesRegex(ValueError,'separate'): update_triage(database,path,'synthetic-feedback-id','fixed')
                 with self.assertRaisesRegex(ValueError,'separate'): purge_triage(database,path)
                 with self.assertRaisesRegex(ValueError,'separate'): build_report(database,path)
-            with sqlite3.connect(database) as db:
+            with closing(sqlite3.connect(database)) as db, db:
                 self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],2)
                 self.assertIsNone(db.execute("SELECT name FROM sqlite_master WHERE name='actions'").fetchone())
 

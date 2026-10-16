@@ -18,6 +18,8 @@ def godot_path_literal(path):
 
 
 def public_https_url(value, api_root=False):
+    if any(ord(char)<32 for char in value) or (not api_root and len(value)>2048):
+        return False
     try:
         url=urlsplit(value)
         port=url.port
@@ -31,7 +33,8 @@ def public_https_url(value, api_root=False):
             or url.query or url.fragment or host.endswith(('.local','.localhost','.test','.invalid','.example'))
             or not re.fullmatch(r'(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}',host)):
         return False
-    return not api_root or url.path==''
+    path=r'' if api_root else r'(?:/[A-Za-z0-9._~/-]*)?'
+    return re.fullmatch(r'https://[a-z0-9.-]+(?::443)?'+path,value) is not None
 
 
 def write_zip_entry(package, path, relative):

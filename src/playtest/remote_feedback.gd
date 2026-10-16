@@ -52,7 +52,7 @@ func privacy_url() -> String:
 	var url: String = str(ProjectSettings.get_setting("application/feedback_privacy_url",""))
 	if url.length() > 2048: return ""
 	var pattern := RegEx.new()
-	if pattern.compile("^https://[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+(?:/[A-Za-z0-9._~/-]*)?$") != OK: return ""
+	if pattern.compile("^https://[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+(?::443)?(?:/[A-Za-z0-9._~/-]*)?$") != OK: return ""
 	return url if pattern.search(url) != null else ""
 func _process(delta: float) -> void:
 	elapsed+=delta

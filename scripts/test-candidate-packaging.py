@@ -21,9 +21,19 @@ assert json.loads(literal)==template_path.resolve().as_posix()
 assert '\\u' not in literal and '\\\\' not in literal
 assert builder.public_https_url('https://feedback.play.example.org',api_root=True)
 assert builder.public_https_url('https://play.example.org/privacy')
+assert builder.public_https_url('https://play.example.org:443/privacy.html')
+assert builder.public_https_url('https://feedback.play.example.org:443',api_root=True)
+for unsafe_privacy in ['https://play.example.org:8443/privacy.html',
+                       'https://play.example.org:0443/privacy.html',
+                       'https://play.example.org/privacy%20notice',
+                       'https://play.example.org/privacy?notice',
+                       'https://play.example.org/privacy?',
+                       'https://play.example.org/privacy\n.html']:
+    assert not builder.public_https_url(unsafe_privacy),unsafe_privacy
 for unsafe in ['','http://feedback.play.example.org','https://127.0.0.1','https://localhost',
                'https://feedback.example','https://feedback.play.example.org:8443',
-               'https://feedback.play.example.org/v1','https://feedback.play.example.org/']:
+               'https://feedback.play.example.org/v1','https://feedback.play.example.org/',
+               'https://feedback.play.example.org?']:
     assert not builder.public_https_url(unsafe,api_root=True),unsafe
 for flags in [['--public-playtest'],['--release-version','v0.5.0-alpha.2']]:
     rejected=subprocess.run([sys.executable,str(root/'scripts/build-free-candidate.py'),'--godot','unused',*flags],capture_output=True)
@@ -100,7 +110,9 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
     for key,value in [('external_ready',True),('upload_default',True),('local_acceptance_only',True),
                       ('feedback_default_source','unknown'),('feedback_endpoint','http://127.0.0.1:8765'),
-                      ('privacy_url',''),('release_version','v0.5.0-alpha.1')]:
+                      ('privacy_url',''),('privacy_url','https://play.example.org:8443/privacy'),
+                      ('privacy_url','https://play.example.org/privacy%20notice'),
+                      ('release_version','v0.5.0-alpha.1')]:
         changed=public_manifest.copy();changed[key]=value
         (public_output/'manifest.json').write_text(json.dumps(changed))
         assert subprocess.run(public_checker,capture_output=True).returncode!=0,key

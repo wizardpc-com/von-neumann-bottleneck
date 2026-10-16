@@ -6,6 +6,8 @@ from urllib.parse import urlsplit
 
 
 def public_https_url(value, api_root=False):
+    if any(ord(char)<32 for char in value) or (not api_root and len(value)>2048):
+        return False
     try:
         url=urlsplit(value)
         host=url.hostname or ''
@@ -19,7 +21,7 @@ def public_https_url(value, api_root=False):
             and not url.query and not url.fragment
             and not host.endswith(('.local','.localhost','.test','.invalid','.example'))
             and re.fullmatch(r'(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}',host)
-            and (not api_root or url.path==''))
+            and re.fullmatch(r'https://[a-z0-9.-]+(?::443)?'+(r'' if api_root else r'(?:/[A-Za-z0-9._~/-]*)?'),value) is not None)
 p=argparse.ArgumentParser();p.add_argument('directory',type=Path);a=p.parse_args()
 root=a.directory.resolve();manifest=json.loads((root/'manifest.json').read_text())
 identity=manifest['build_id'];commit=manifest['source_commit']

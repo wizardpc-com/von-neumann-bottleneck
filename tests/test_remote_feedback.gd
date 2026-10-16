@@ -12,7 +12,9 @@ func run() -> void:
 	check(Transport.NOTICE_VERSION=="2026-10-17","The public privacy notice requires renewed consent.")
 	ProjectSettings.set_setting("application/feedback_privacy_url","https://privacy.example.test/privacy.html")
 	check(transport.privacy_url()=="https://privacy.example.test/privacy.html","An explicitly configured HTTPS privacy page is available to both UIs.")
-	for invalid: String in ["", "http://privacy.example.test/privacy.html", "https://", "https://name@privacy.example.test/privacy.html", "https://privacy.example.test/privacy.html?token=1", "https://pri vacy.example.test/privacy.html"]:
+	ProjectSettings.set_setting("application/feedback_privacy_url","https://privacy.example.test:443/privacy.html")
+	check(transport.privacy_url()=="https://privacy.example.test:443/privacy.html","An explicit default HTTPS port keeps the privacy link visible.")
+	for invalid: String in ["", "http://privacy.example.test/privacy.html", "https://", "https://name@privacy.example.test/privacy.html", "https://privacy.example.test:8443/privacy.html", "https://privacy.example.test/privacy%20notice", "https://privacy.example.test/privacy.html?token=1", "https://pri vacy.example.test/privacy.html"]:
 		ProjectSettings.set_setting("application/feedback_privacy_url",invalid)
 		check(transport.privacy_url().is_empty(),"Missing, insecure or malformed privacy URL stays hidden: "+invalid)
 	ProjectSettings.set_setting("application/feedback_privacy_url","")

@@ -24,7 +24,7 @@
     <section id="zh" lang="zh-CN" aria-labelledby="zh-title">
       <h1 id="zh-title">冯·诺依曼瓶颈 · 反馈数据说明</h1>
       <p>政策日期：2026 年 10 月 17 日<br>运营者：yanruiqing · 联系邮箱：<a href="mailto:yanruiqing@agent.qq.com">yanruiqing@agent.qq.com</a></p>
-      <p class="status"><strong>当前状态：</strong>公开游戏包尚未接入联网反馈服务；接收服务目前只在本机测试。Windows 公开联网版正在准备，尚不能向本服务发送玩家反馈。本页说明拟启用服务时的数据范围与处理方式，不表示公网入口已经可用。</p>
+      <p class="status"><strong>当前状态：</strong>公开游戏包尚未接入联网反馈服务；接收服务已在 VPS 上部署，但仅监听 localhost，并经 SSH 进行私有测试。Windows 公开联网版正在准备，尚不能向本服务发送玩家反馈。本页说明拟启用服务时的数据范围与处理方式，不表示公网入口已经可用。</p>
 
       <h2>由你选择分享</h2>
       <ul>
@@ -37,15 +37,15 @@
       <p>接收内容还可能包含随机安装标识、任务与访问标识、构建及规则版本，用于回执、去重和解释结果。不会发送程序或作品全文、电路或方案正文、截图、剪贴板或本机文件路径。游戏没有公开作品上传功能。</p>
 
       <h2>保存、查看与删除</h2>
-      <p>拟启用的接收服务使用 SQLite 保存已收到的数据，事件按 30 天期限清理。运营者可通过私有 SSH 生成和查看报告；不会提供公开报告页面。在线删除获确认后，接收库中的该安装标识数据被删除；私有派生报告与批注还需清理并重新生成。</p>
-      <p>已选定的 VPS 本地备份保留期为 30 天，计划每日清理过期备份；清理可能到下一维护周期才完成。异机备份尚未配置。在线删除不会立即擦除已有备份；备份只能在受限保留期内保存。恢复旧备份前必须合入最新删除记录，避免已删数据重新出现。</p>
-      <p>为防止旧备份重新引入已删数据，接收端保留必要的删除墓碑记录，可能超过 30 天；只有所有能够重新引入旧数据的备份与旧接收端均已失效，才可考虑清除。联网服务启用后，可在游戏中请求删除已上传数据；如需询问数据处理或删除，请联系上方邮箱。</p>
+      <p>接收服务使用 SQLite 保存已收到的数据，事件按 30 天期限清理。运营者可通过私有 SSH 生成和查看报告；不会提供公开报告页面。在线删除获确认后，接收库中的该安装标识数据被删除；私有派生报告与批注还需清理并重新生成。</p>
+      <p>已选定的 VPS 本地备份保留期为 30 天，已启用每日维护来清理过期备份，清理可能到下一维护周期才完成；维护失败时会延迟至管理员处理。未完成或校验异常的副本不会被静默跳过或盲目删除，而会报错，由管理员私下核验并按保留期限清理。异机备份尚未配置。在线删除不会立即擦除已有备份；备份只能在受限保留期内保存。恢复旧备份前必须合入最新完整数据库中的删除记录，避免已删数据重新出现；无法取得可信的最新删除状态时，不得将旧备份重新上线。</p>
+      <p>为防止旧备份重新引入已删数据，接收端保留随机安装标识、删除令牌哈希及删除时间组成的必要删除记录，不含意见正文，可能超过 30 天；只有所有能够重新引入旧数据的备份与旧接收端均已失效，才可考虑清除。联网服务启用后，可在游戏中请求删除已上传数据；如需询问数据处理或删除，请联系上方邮箱。</p>
     </section>
 
     <section id="en" lang="en" aria-labelledby="en-title" class="language">
       <h1 id="en-title">Von Neumann Bottleneck · Feedback Privacy Notice</h1>
       <p>Policy date: 17 October 2026<br>Operator: yanruiqing · Contact: <a href="mailto:yanruiqing@agent.qq.com">yanruiqing@agent.qq.com</a></p>
-      <p class="status"><strong>Current status:</strong> Public game packages are not connected to an online feedback service. The receiver has only been tested locally. A public online Windows build is in preparation and cannot yet send player feedback to this service. This page describes the intended data scope and handling; it does not mean a public endpoint is available.</p>
+      <p class="status"><strong>Current status:</strong> Public game packages are not connected to an online feedback service. The receiver is deployed on the VPS but listens only on localhost and is privately tested through SSH. A public online Windows build is in preparation and cannot yet send player feedback to this service. This page describes the intended data scope and handling; it does not mean a public endpoint is available.</p>
 
       <h2>You choose what to share</h2>
       <ul>
@@ -58,9 +58,9 @@
       <p>Received records may also carry a random installation ID, task and visit IDs, and build and rule versions to support receipts, deduplication and interpretation. Full programs or works, circuit or design contents, screenshots, clipboard contents and local file paths are not sent. There is no public work-upload feature.</p>
 
       <h2>Storage, access and deletion</h2>
-      <p>The planned receiver stores accepted data in SQLite and removes events on a 30-day retention schedule. The operator may generate and view reports through private SSH access; there is no public report page. After online deletion is confirmed, the receiver removes data for that installation ID. Private derived reports and annotations must also be purged and regenerated.</p>
-      <p>The chosen policy retains VPS-local backups for 30 days and plans daily removal of expired backups; removal may occur in the next maintenance cycle. Off-site backups are not configured. Online deletion does not instantly erase existing backups, which remain subject to restricted retention. Before restoring an old backup, the latest deletion records must be merged so deleted data does not reappear.</p>
-      <p>The receiver keeps necessary deletion tombstones to prevent old backups from reintroducing deleted data. These may remain beyond 30 days and may be removed only after every backup or old receiver capable of restoring that data has expired. Once the online service is enabled, the game can request deletion of uploaded data. For questions about handling or deletion, contact the email above.</p>
+      <p>The receiver stores accepted data in SQLite and removes events on a 30-day retention schedule. The operator may generate and view reports through private SSH access; there is no public report page. After online deletion is confirmed, the receiver removes data for that installation ID. Private derived reports and annotations must also be purged and regenerated.</p>
+      <p>The chosen policy retains VPS-local backups for 30 days and has daily maintenance enabled to remove expired backups; removal may occur in the next cycle, or be delayed until operator intervention if maintenance fails. Incomplete or invalid copies cause a visible maintenance failure; the operator must privately verify and remove them under the retention policy, rather than silently skipping or blindly deleting them. Off-site backups are not configured. Online deletion does not instantly erase existing backups, which remain subject to restricted retention. Before restoring an old backup, deletion records from the newest full database must be merged so deleted data does not reappear. An old backup must not go online if trustworthy current deletion state is unavailable.</p>
+      <p>The receiver keeps necessary deletion records containing the random installation ID, deletion-token hash and deletion time, without opinion text, to prevent old backups from reintroducing deleted data. These may remain beyond 30 days and may be removed only after every backup or old receiver capable of restoring that data has expired. Once the online service is enabled, the game can request deletion of uploaded data. For questions about handling or deletion, contact the email above.</p>
     </section>
   </main>
 </body>

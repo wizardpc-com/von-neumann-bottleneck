@@ -54,3 +54,14 @@ to the owner. New paid resources or an unapproved hostname require owner input.
   Windows SSH/sudo are available. VPS Caddy/Docker active; about49GB free.
 - Owner permissions supersede the earlier no-merge/no-public-deployment boundary
   for this scoped Windows release. Historical package/receipt claims stay dated.
+
+- PR7 merged94b5bff; original source history retained by archive tag. PR8 carries
+  scoped receiver/backup/privacy/packaging updates. Full156/156 Windows regression,
+  focused URL follow-up, bilingual720p render and VPS backend checks PASS.
+- Actual unchanged Windows EXE/privateHTTPS/server/private-report flow PASS at
+  beca837, including backup→delete→merged restore and a live restored receiver410.
+  Original service PIDs/Caddy/historical hashes remain unchanged.
+- Owner chose **Release draft only** until the planned feedback domain is ready.
+  Keep localhost; domain is unpurchased/unresolved/access requirements unverified.
+  Operator/contact yanruiqing/yanruiqing@agent.qq.com; local30-day backup enabled,
+  offsite deferred. Final Windows offline draft export/native checks remain.

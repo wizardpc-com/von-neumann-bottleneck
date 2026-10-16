@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "scope": "actual Windows EXE to verified private localhost HTTPS over Windows SSH; public ingress and human input excluded",
+  "build_id": "playtest-PrivateVPS20261017-beca83789448",
+  "client_source_commit": "beca837894481165e6e04afe93f4e879645c1d29",
+  "receiver_source_commit": "beca837894481165e6e04afe93f4e879645c1d29",
+  "feedback_id": "3936a7f47c4fb118a91c6ce3942a0230c332ab4bb326bfea5faba497c6db9009",
+  "task": "creation/G2_intent",
+  "same_id_task_build_private_report": true,
+  "duplicates": 1,
+  "backup_before_delete": "vnb-feedback-20261016T190702Z-54a033de.sqlite",
+  "deleted_live_counts": {
+    "schema_version": 2,
+    "clients": 0,
+    "events": 0,
+    "tombstones": 1
+  },
+  "restored_counts": {
+    "schema_version": 2,
+    "clients": 0,
+    "events": 0,
+    "tombstones": 1
+  },
+  "actual_restored_receiver_deleted_retry_status": 410,
+  "private_report_and_triage_purged": true,
+  "binary_unchanged": {
+    "Von-Neumann-Bottleneck.exe": "fbe2fb4d965ecb6bb5618c698a71bcf7ed08eec242ecc78f4988cfa71bbe9302"
+  },
+  "embedded_pck_sha256": "21c144461d442967d9c26e38b6f567d131bcce1f11cca32f2e0515e1189c14fc",
+  "statistics_default_off": true,
+  "protected_work_unchanged": true,
+  "qa_overrides": [
+    "external synthetic controller scene",
+    "isolated profile",
+    "phase/output",
+    "private CA bundle"
+  ],
+  "controller_sha256": "dfd7c3985b09ba75fdcde01a59bcaa52a73364f51adb158354da918ea780dc0a"
+}

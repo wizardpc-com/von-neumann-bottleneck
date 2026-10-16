@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "scope": "isolated localhost game services; no public intake",
+  "receiver_shared_rate_limit_121st_status": 429,
+  "own_receiver_and_proxy_restarted": true,
+  "daily_timer_enabled": true,
+  "file_modes_private": true,
+  "original_pids_alive": true,
+  "original_caddy_config_unchanged": true,
+  "historical_data_hashes_unchanged": true,
+  "historical_file_count": 31,
+  "no_public_game_listener": true,
+  "offsite_backup_configured": false
+}

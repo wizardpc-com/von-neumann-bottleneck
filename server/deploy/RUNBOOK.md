@@ -61,12 +61,12 @@ live main file. It records the source commit, schema/counts and SHA-256 beside a
 private snapshot, purges stale triage annotations and regenerates `current` report
 JSON/HTML, then removes only its own backup pairs with matching managed metadata
 older than 30 days.
-Directories are mode 0700 and output files mode 0600. A confirmed live deletion
+Directories are mode 0700 and output files mode 0600. Managed-prefix orphan, partial, invalid or hash-mismatched backups fail maintenance visibly and remain private for operator review and removal under the 30-day policy. Check `systemctl --failed` and the maintenance journal; no external failure notification is configured. A confirmed live deletion
 does not immediately erase earlier backups: they remain until their 30-day age
 limit and the next successful daily cycle. Necessary deletion tombstones do not
 expire with event or backup rotation. Off-host backup is not configured.
 
-Before recovery, stop intake and all writers, preserve the latest **full** live
+Before recovery, stop the maintenance timer, wait for any running maintenance to finish, then stop intake and the receiver so the timer cannot restart it. Preserve the latest **full** live
 database (including tombstones) with `storage.py backup`, and freeze that snapshot.
 Restore only into a new private directory distinct from live and backup directories:
 
@@ -86,7 +86,7 @@ SQLite backup, and refuses to overwrite an existing path. Verify integrity,
 counts, deletion behavior and synthetic upload/retry before switching the receiver
 to the recovered database. If the latest full deletion state is missing or
 untrustworthy, do not put an old backup online; these steps cannot eliminate data
-loss when the latest state itself has been lost. Protect and remove the temporary
+loss when the latest state itself has been lost. Before starting a receiver after offline root-owned SQLite maintenance, verify ownership of its database and any WAL/SHM files. The selected writable directory and those files must belong to the receiver account; update the unit write-path allowlist if switching to a recovery directory. Protect and remove the temporary
 latest-full snapshot under the same private retention rules after the recovery
 decision.
 

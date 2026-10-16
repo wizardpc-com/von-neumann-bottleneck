@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "routes": {
+    "GET /v1/health": 200,
+    "GET /privacy.html": 200,
+    "GET /admin/report": 404,
+    "GET /v1/community": 404,
+    "GET /v1/events": 404,
+    "POST /v1/health": 404,
+    "DELETE /privacy.html": 404,
+    "GET /": 404,
+    "GET /privacy.html/../RUNBOOK.md": 404
+  },
+  "global_ca_trust_rejected": true,
+  "scope": "verified private localhost HTTPS via Windows OpenSSH; public ingress not enabled"
+}

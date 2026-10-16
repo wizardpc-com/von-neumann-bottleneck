@@ -1,10 +1,46 @@
-# Current state — free Alpha
+# Current state — sixty-task source and offline Alpha
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Creative expression candidate — 2026-10-13
+## Current state — 2026-10-17
 
-Unmerged PR #7 adds discovery-led P3, two-sided actual A/B rule/count comparison,
+Protected PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7)
+was squash-merged into `main` as `94b5bff`. Main now contains the complete
+sixty-task journey; tag `archive/pre-release-20261012` retains the original
+31-commit branch history. The already published `v0.5.0-alpha.1` download remains the earlier forty-task
+release. PR [#8](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/8)
+prepares deletion-safe feedback operations and a Windows-only Release draft;
+publication is explicitly deferred until the feedback domain is ready.
+
+The separate VPS localhost receiver/proxy are deployed at `beca837894481165e6e04afe93f4e879645c1d29`.
+Both services and the daily maintenance timer are enabled. Actual Windows EXE
+private HTTPS feedback passed same-ID/task/build reporting, offline retry,
+deduplication, deletion and an actually started tombstone-safe restored receiver
+returning410. Restore held0 events/1 deletion tombstone. Private reports and triage
+were cleared, original services/configuration and historical data hashes stayed
+unchanged. Local backups are managed on a thirty-day schedule; anomalous copies
+fail maintenance for private review. Offsite backup is deferred.
+
+Full Windows isolated Godot regression passed156/156; the final privacy URL change
+also passed its focused suite. Bilingual720p privacy choice/expanded-list rendering
+and Python/VPS checks passed. The client requires renewed cloud consent while
+retaining local drafts and deletion identity. Final offline Windows artifact/native
+receipt will follow protected integration. No public player endpoint is active.
+[Exact current evidence](verification/20261017-feedback-release/README.md) ·
+[Private operator procedure](distribution/feedback-operations.md).
+
+The planned feedback domain is not purchased/resolved or verified for hosting/
+filing. Keep localhost. Public DNS/ports/TLS and external-machine acceptance remain
+future gates. Current Mac native, unfamiliar-player and artistic acceptance remain
+open. [Acceptance gates](../RELEASE_BLOCKERS.md).
+
+The sections below are dated evidence snapshots. Their earlier “unmerged” and
+“NOT_RUN” statements record what was true at each freeze, not the present branch
+or host state.
+
+## Creative expression candidate — 2026-10-13 (historical freeze)
+
+At this freeze, unmerged PR #7 added discovery-led P3, two-sided actual A/B rule/count comparison,
 and saved-work source/phrase navigation with default-off short symbol tones.
 The model, legal conditions and persisted recipes remain intact. Both full-sixty
 packages freeze `f261310` as `playtest-CreationExpression20261013-f26131049877`,
@@ -23,10 +59,10 @@ isolation156/156, with all nine Python commands. The candidate is ready for over
 art refinement and a controlled offline playtest.
 [Concrete changes, captures and acceptance limits](verification/20261013-creation-expression/README.md).
 
-## Whole-journey experience candidate — 2026-10-12/13
+## Whole-journey experience candidate — 2026-10-12/13 (historical freeze)
 
-Unmerged PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7)
-adds three bounded experience improvements: readable chapter/search/relationship
+At this freeze, unmerged PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7)
+added three bounded experience improvements: readable chapter/search/relationship
 navigation; actual-evidence Next actions and accurate C3/P1/G1 conditions; and
 earned Representation/Service continuation with 720p evidence scrolling. Legal
 solutions, model/completion authority and existing saves/works remain intact.
@@ -50,11 +86,11 @@ small controlled offline playtest can proceed; newcomer comprehension, current
 Mac native and final artistic acceptance remain external observations.
 [Before/after, frozen hashes, evidence and handoff](verification/20261012-experience/README.md).
 
-## Windows playtest freeze and private VPS feedback — 2026-10-12
+## Windows playtest freeze and private VPS feedback — 2026-10-12 (historical freeze)
 
 Branch `codex/pre-release-20261012` starts from freshly verified main `cfdee8a`.
-PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7) remains
-unmerged. Main and player save/model contracts are unchanged.
+PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7) remained
+unmerged at that point. Main and player save/model contracts were unchanged.
 
 `playtest-PreRelease20261012-61edc8063078` freezes Windows/macOS from one source
 commit with the complete sixty-task journey and stable `CloudPlaytest` save

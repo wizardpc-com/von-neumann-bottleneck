@@ -3,31 +3,26 @@
 Current source and artifact: [CURRENT_STATE](docs/CURRENT_STATE.md).
 These are remaining acceptance requirements, not instructions to add features.
 
-## Current candidate — 2026-10-13, native follow-up2026-10-16
+## Current gates — 2026-10-17
 
-The sixty-task candidate includes the original core, Representation, Service,
-optional address Prediction and C/P/G. Main contains the integrated runtime;
-The latest unmerged review branch freezes Mac and Windows packages at
-`f26131049877`; main remains `cfdee8a`. Three experience iterations improve
-navigation, creative Next actions and chapter continuation. The creative follow-up
-adds discovery-led P3, actual A/B frozen rule/count inspection and saved-work
-source/phrase/optional-tone appreciation. Full runtime CI156/156, Python9/9,
-bilingual renderer and same-source actual EXE localhost feedback passed.
-Native saved-work/opinion restoration, writable save/restart and normal writer-lock
-release passed on2026-10-16. Earlier engineering checks
-retain their recorded attribution. Actual Windows EXE → private HTTPS → VPS SQLite →
-private report, retry/deduplication, delete and actual tombstone-safe restored
-receiver checks passed. Windows native tutorial editing, earned completion and
-two save/draft restarts passed for the earlier freeze. The revised content
-manifest is not deployed to that stopped private staging. [Current candidate](docs/verification/20261013-creation-expression/README.md),
-[earlier HTTPS receipts](docs/verification/20261012-pre-release/README.md).
+Protected PR7 merged as `94b5bff`; main contains the complete sixty-task journey.
+PR8 prepares feedback operations and a Windows Release draft. The owner explicitly
+chose to wait for a working domain before public release. The earlier frozen player
+packages remain offline; the public download remains forty-task Alpha1.
+
+Actual private Windows EXE feedback at fixed `beca837894481165e6e04afe93f4e879645c1d29`
+passed HTTPS delivery, same-ID private reporting, retry/deduplication, deletion and
+an actually started restored receiver returning410. Restore held0 events/1 tombstone.
+VPS service/data isolation, daily maintenance and private routes passed; no public
+entry or offsite backup is active. [Current evidence](docs/verification/20261017-feedback-release/README.md).
 
 | Gate | Status and required evidence |
 | --- | --- |
-| Real VPS staging feedback | **PASS within private synthetic scope.** Actual Windows package over verified HTTPS/Windows SSH, same-ID/task/build remote report, retry/deduplication, deletion and a restored receiver returning410 for deleted identity. Dedicated staging stopped; other services and historical database unchanged. Public player intake remains separate. |
-| External feedback entry and public release | **Deferred.** No public deployment in the current authorization. A future owner decision must specify the entry, privacy/retention/backup configuration and release scope. |
+| Localhost VPS receiver and maintenance | **PASS within private scope.** Separate services and daily timer enabled; actual delivery/report/backup/delete/restored-receiver410, private permissions, shared rate limit and unchanged original services/historical hashes passed. No public intake. |
+| Public feedback domain and external entry | **Open by owner choice.** The planned domain is not purchased or resolved; hosting/filing requirements are unverified. Keep localhost. Future public use requires DNS, ports80/443, TLS and an external-machine acceptance run. A configured privacy URL alone is not such acceptance. |
+| Windows online Pre-release | **Draft only by owner choice.** Fixed-source offline Windows package and native receipt follow protected integration. Publication waits for DNS/TLS/privacy/external acceptance; never bake a planned or localhost address into a player release. |
 | Current Mac native interaction | **NOT_RUN for the `f26131049877` package.** Earlier native routes retain their own build attribution. Operate this package's navigation, editing, unfinished-task feedback, save and restart on a Mac. |
-| Windows native execution | **Representative acceptance PASS at f261310.** Existing64-cell saved-work source/phrase/step/play/pause/viewing controls, local opinion restoration, writable save and independent restart passed; both normal exits released their owned lease and saved fields stayed intact. Earlier d34a61d navigation/generation and8a919e2 restart evidence retain their own source attribution. Automatic Windows abandoned-lock recovery remains unsupported. A fresh later-region native full-route, extended focus loss and mixed-DPI stress remain open. |
+| Windows native execution | **Representative acceptance PASS at offline f261310.** Existing64-cell saved-work source/phrase/step/play/pause/viewing controls, local opinion restoration, writable save and independent restart passed; both normal exits released their owned lease and saved fields stayed intact. Earlier d34a61d navigation/generation and8a919e2 restart evidence retain their own source attribution. Automatic Windows abandoned-lock recovery remains unsupported. A fresh later-region native full-route, extended focus loss and mixed-DPI stress remain open. |
 | Other Mac / installation / signing | **Open.** Candidate is unnotarized; verify download, first launch and save on another machine, then choose formal signing/distribution requirements. |
 | Display and focus | **Open.** Extended small-display/Retina/mixed-DPI and repeated focus loss during drag sessions require direct evidence. Earlier capture anomalies remain attributed to their recorded builds. |
 | Unfamiliar-player understanding | **Open.** Unassisted entry, task choice, Hint comprehension, full-route pacing and concrete feedback. Known-answer replay and agent observations do not establish this. |
@@ -37,6 +32,13 @@ All forty original tasks repeated natively are additional coverage, not a mandat
 development gate. Existing original-core, Representation/Service and C/P/G native
 observations are retained in their [dated verification records](docs/README.md).
 They do not combine into a fabricated fresh full-route run.
+
+The [2026-10-12 private HTTPS record](docs/verification/20261012-pre-release/README.md)
+passed actual exported Windows feedback, retry/deduplication, deletion and a
+tombstone-safe restored receiver against synthetic data. Its dedicated staging
+was stopped, and it does not certify the new localhost deployment or public intake.
+The [2026-10-13 creative candidate record](docs/verification/20261013-creation-expression/README.md)
+retains its frozen build and test attribution despite the later PR merge.
 
 Missing remote-access configuration belongs in the private local handoff. Do not
 publish credentials, infrastructure targets or raw player data. Offline refusal or

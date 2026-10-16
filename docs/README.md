@@ -32,6 +32,8 @@ removed; recover historical task books from Git when needed.
 
 ## Verification
 
+- [Windows draft and deletion-safe private VPS operations](verification/20261017-feedback-release/README.md)
+
 - [Latest creative expression candidate and acceptance limits](verification/20261013-creation-expression/README.md)
 - [Whole-journey experience, before/after and art/playtest handoff](verification/20261012-experience/README.md)
 - [Windows freeze and actual private VPS HTTPS feedback](verification/20261012-pre-release/README.md)

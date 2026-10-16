@@ -6242,10 +6242,13 @@ msgid "sharing.optional_sharing_and_data_settings"
 msgstr "Optional sharing and data settings"
 
 msgid "sharing.local_by_default_sharing_uses_a_random_installation_id_no_account_de"
-msgstr "Local by default. Sharing uses a random installation ID, no account, design name or circuit. Future actions only, batched about every 45 seconds. Opinions need a separate Send. Receiver retention: 30 days. Playing works without sharing."
+msgstr "Local by default. Sharing uses a random installation ID, not an account or your designs. Only future actions are shared; opinions need a separate Send. Receiver events and VPS-local backups follow a 30-day retention schedule; cleanup may wait until the next maintenance cycle. Deletion records prevent old backups restoring removed data. Playing works without sharing."
 
 msgid "sharing.receiver"
 msgstr "Receiver: "
+
+msgid "sharing.view_privacy_notice"
+msgstr "Read the feedback privacy notice ↗"
 
 msgid "sharing.not_configured_in_this_build_save_and_export_still_work"
 msgstr "Not configured in this build; save and export still work."
@@ -6458,7 +6461,7 @@ msgid "settings.sharing_title"
 msgstr "Share play statistics?"
 
 msgid "settings.sharing_intro"
-msgstr "Local-only play includes the full game. Sharing starts with your next task visit and excludes old records. You can change this in feedback settings."
+msgstr "Local-only play includes the full game. Sharing starts with your next task visit, not old records. Receiver events and VPS-local backups follow a 30-day retention schedule; cleanup may wait until the next maintenance cycle. Deletion records stop old backups restoring removed data. You can change this later."
 
 msgid "settings.inventory"
 msgstr "View the data list"

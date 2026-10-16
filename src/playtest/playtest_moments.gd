@@ -119,6 +119,13 @@ func _ready() -> void:
 	var destination := Label.new(); receiver_label=destination; destination.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	destination.text=Localization.text(&"sharing.receiver")+(RemoteFeedback.endpoint if RemoteFeedback.endpoint_allowed() else Localization.text(&"sharing.not_configured_in_this_build_save_and_export_still_work"))
 	remote_box.add_child(destination)
+	var privacy_url: String = RemoteFeedback.privacy_url()
+	if not privacy_url.is_empty():
+		var privacy_link := LinkButton.new(); privacy_link.name="PrivacyNoticeLink"
+		privacy_link.focus_mode=Control.FOCUS_ALL; privacy_link.custom_minimum_size.y=36
+		privacy_link.text=Localization.text(&"sharing.view_privacy_notice"); privacy_link.set_meta("locale_field",["text","sharing.view_privacy_notice"])
+		privacy_link.pressed.connect(func() -> void: OS.shell_open(privacy_url))
+		remote_box.add_child(privacy_link)
 	var local_toggle := CheckButton.new(); local_toggle.text=Localization.text(&"sharing.record_local_play_actions_no_opinion_text"); local_toggle.set_meta("locale_field",["text","sharing.record_local_play_actions_no_opinion_text"]); local_toggle.button_pressed=PlaytestData.telemetry_enabled
 	local_toggle.toggled.connect(func(value: bool) -> void: PlaytestData.set_local_recording(value); _save_preferences(value))
 	remote_box.add_child(local_toggle)

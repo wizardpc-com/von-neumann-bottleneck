@@ -18,9 +18,38 @@ func run() -> void:
 	check(not AudioServer.is_bus_mute(AudioServer.get_bus_index("Ambience")),"Effects mute does not mute independently enabled ambience.")
 	check(AudioServer.is_bus_mute(AudioServer.get_bus_index("Effects")),"Mute applies to actual effect audio bus.")
 	var prompt: GDScript = load("res://src/playtest/sharing_first_choice.gd")
+	ProjectSettings.set_setting("application/feedback_privacy_url","")
 	check(not prompt.needs_choice(),"Offline build never shows sharing prompt.")
 	remote.endpoint="http://127.0.0.1:9876/v1"
 	check(prompt.needs_choice(),"Configured endpoint shows an explicit first choice.")
+	var offline_link_prompt: CanvasLayer = prompt.new(); root.add_child(offline_link_prompt); await process_frame
+	check(offline_link_prompt.find_child("PrivacyNoticeLink",true,false)==null,"An unconfigured privacy URL does not show a link.")
+	offline_link_prompt.queue_free(); await process_frame
+	var Moments: GDScript = load("res://src/playtest/playtest_moments.gd")
+	var unlinked_moments: Node = Moments.new(); root.add_child(unlinked_moments); await process_frame
+	check(unlinked_moments.find_child("PrivacyNoticeLink",true,false)==null,"Feedback settings also hide an unconfigured privacy link.")
+	unlinked_moments.queue_free(); await process_frame
+	ProjectSettings.set_setting("application/feedback_privacy_url","https://privacy.example.test/privacy.html")
+	var linked_prompt: CanvasLayer = prompt.new(); root.add_child(linked_prompt); await process_frame
+	var first_link: LinkButton = linked_prompt.find_child("PrivacyNoticeLink",true,false)
+	var inventory: Button = linked_prompt.find_child("SharingInventory",true,false)
+	var local_choice: Button = linked_prompt.find_child("SharingLocalOnly",true,false)
+	var basic_choice: Button = linked_prompt.find_child("SharingBasic",true,false)
+	check(first_link!=null and first_link.get_signal_connection_list("pressed").size()==1,"Configured HTTPS notice has an explicit clickable first-choice link.")
+	if first_link!=null:
+		check(inventory.get_node(inventory.focus_next)==first_link and first_link.get_node(first_link.focus_next)==local_choice and local_choice.get_node(local_choice.focus_next)==basic_choice and basic_choice.get_node(basic_choice.focus_next)==inventory,"Privacy link joins the first-choice keyboard loop.")
+		check(inventory.get_node(inventory.focus_previous)==basic_choice and local_choice.get_node(local_choice.focus_previous)==first_link,"The first-choice keyboard loop also works backwards.")
+	var linked_moments: Node = Moments.new(); root.add_child(linked_moments); await process_frame
+	var feedback_link: LinkButton = linked_moments.find_child("PrivacyNoticeLink",true,false)
+	check(feedback_link!=null and feedback_link.get_signal_connection_list("pressed").size()==1,"Feedback settings offer the same explicit HTTPS notice link.")
+	for locale: String in ["zh_CN","en"]:
+		localization.set_locale(locale)
+		if first_link!=null: check(first_link.text==localization.text(&"sharing.view_privacy_notice"),"First-choice notice link follows "+locale)
+		if feedback_link!=null: check(feedback_link.text==localization.text(&"sharing.view_privacy_notice"),"Feedback notice link follows "+locale)
+	linked_moments.queue_free(); linked_prompt.queue_free(); await process_frame
+	ProjectSettings.set_setting("application/feedback_privacy_url","")
+	var old_choice := ConfigFile.new(); old_choice.set_value("choice","endpoint",remote.endpoint); old_choice.set_value("choice","notice","2026-09-11"); old_choice.save("user://sharing_prompt.cfg")
+	check(prompt.needs_choice(),"A previously declined older notice must be presented again for the configured endpoint.")
 	check(prompt.remember_choice("local") and not prompt.needs_choice() and not remote.enabled,"Decline persists and never enables uploads.")
 	remote.endpoint="http://127.0.0.1:9877/v1"
 	check(prompt.needs_choice(),"Endpoint change requires a new first choice.")

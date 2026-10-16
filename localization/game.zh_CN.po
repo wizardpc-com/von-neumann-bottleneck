@@ -6241,10 +6241,13 @@ msgid "sharing.optional_sharing_and_data_settings"
 msgstr "可选回传与数据设置"
 
 msgid "sharing.local_by_default_sharing_uses_a_random_installation_id_no_account_de"
-msgstr "默认只保存在本机。回传使用随机安装标识，不含账户、方案名称或电路。行为回传仅从同意后开始，约每 45 秒一批。意见须单独点击发送。服务端保留 30 天；关闭回传不影响游玩。"
+msgstr "默认仅保存在本机。回传使用随机安装标识，不含账户或你的方案；仅从同意后开始，意见须单独点击发送。接收事件与 VPS 本地备份按 30 天保留期清理，过期清理可能到下一维护周期；删除记录防止旧备份恢复已删数据。不分享也能完整游玩。"
 
 msgid "sharing.receiver"
 msgstr "接收地址："
+
+msgid "sharing.view_privacy_notice"
+msgstr "阅读反馈隐私说明 ↗"
 
 msgid "sharing.not_configured_in_this_build_save_and_export_still_work"
 msgstr "此版本未配置，仍可本地保存和导出。"
@@ -6457,7 +6460,7 @@ msgid "settings.sharing_title"
 msgstr "是否分享游玩统计？"
 
 msgid "settings.sharing_intro"
-msgstr "选择仅本地也能完整游玩。开启后从下一次进入关卡开始统计，不发送旧记录；稍后可在反馈设置中更改。"
+msgstr "仅本地也能完整游玩；回传从下一次进入关卡开始，不发送旧记录。接收事件与 VPS 本地备份按 30 天保留期清理，过期清理可能到下一维护周期；删除记录防止旧备份恢复已删数据。稍后可在反馈设置中更改。"
 
 msgid "settings.inventory"
 msgstr "查看数据清单"

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Private daily feedback backup/report and deletion-safe restore."""
 import argparse
+from contextlib import closing
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -8,6 +9,7 @@ import os
 from pathlib import Path
 import re
 import secrets
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -65,20 +67,19 @@ def make_backup(database, directory, source_commit):
     now = datetime.now(timezone.utc).replace(microsecond=0)
     snapshot = directory / ('vnb-feedback-' + now.strftime('%Y%m%dT%H%M%SZ') + '-' + secrets.token_hex(4) + '.sqlite')
     metadata = snapshot.with_suffix('.json')
-    try:
+    if os.path.lexists(snapshot): raise ValueError('backup name already exists')
+    fd = os.open(metadata, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    with os.fdopen(fd, 'w', encoding='utf-8') as output:
         summary = backup(database, snapshot)
+        with closing(sqlite3.connect(snapshot)) as db:
+            if db.execute('PRAGMA journal_mode=DELETE').fetchone()[0] != 'delete':
+                raise ValueError('backup journal mode could not be finalized')
         snapshot.chmod(0o600)
         info = {'format': FORMAT, 'snapshot': snapshot.name, 'created_utc': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'source_commit': source_commit, 'schema_version': summary['schema_version'],
                 'counts': summary, 'sha256': sha256(snapshot)}
-        fd = os.open(metadata, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-        with os.fdopen(fd, 'w', encoding='utf-8') as output:
-            json.dump(info, output, sort_keys=True, indent=2)
-            output.write('\n')
-    except Exception:
-        snapshot.unlink(missing_ok=True)
-        metadata.unlink(missing_ok=True)
-        raise
+        json.dump(info, output, sort_keys=True, indent=2)
+        output.write('\n')
     return snapshot, info
 
 
@@ -98,6 +99,29 @@ def rotate(directory, now=None):
         metadata.unlink()
         removed.append(snapshot.name)
     return removed
+
+
+def audit_backups(directory):
+    anomalies = []
+    entries = {path.name: path for path in Path(directory).glob('vnb-feedback-*')}
+    for name, path in sorted(entries.items()):
+        if not name.endswith('.sqlite'):
+            if not name.endswith('.json'): anomalies.append(name + ': unexpected managed-prefix file')
+            continue
+        metadata = path.with_suffix('.json')
+        if metadata.name not in entries:
+            anomalies.append(name + ': missing metadata')
+            continue
+        try:
+            info = metadata_for(path)
+            if sha256(path) != info['sha256']:
+                anomalies.append(name + ': hash mismatch')
+        except (ValueError, OSError, KeyError, TypeError, json.JSONDecodeError):
+            anomalies.append(name + ': invalid backup pair')
+    for name, path in sorted(entries.items()):
+        if name.endswith('.json') and path.with_suffix('.sqlite').name not in entries:
+            anomalies.append(name + ': missing snapshot')
+    return anomalies
 
 
 def current_report(database, report_dir, triage):
@@ -163,6 +187,9 @@ def main():
     if args.command == 'daily':
         snapshot, info = make_backup(args.database, args.backup_dir, args.source_commit)
         current_report(args.database, args.report_dir, args.triage)
+        anomalies = audit_backups(args.backup_dir)
+        if anomalies:
+            parser.exit(1, 'maintenance anomalies; preserve files for private review:\n' + '\n'.join(anomalies) + '\n')
         removed = rotate(args.backup_dir)
         print(json.dumps({'backup': str(snapshot), 'sha256': info['sha256'], 'counts': info['counts'],
                           'rotated': removed}, sort_keys=True))

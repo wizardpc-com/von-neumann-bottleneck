@@ -15,6 +15,7 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest import mock
 from urllib.request import Request, urlopen
 
 from deploy import maintain
@@ -26,7 +27,8 @@ from storage import migrate
 class MaintenanceTests(unittest.TestCase):
     def command(self, *args):
         result = subprocess.run([sys.executable, str(Path(__file__).parent / 'deploy' / 'maintain.py'), *map(str, args)],
-                                capture_output=True, text=True, check=True)
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
         return json.loads(result.stdout.splitlines()[-1])
 
     def seed(self, path):
@@ -132,6 +134,69 @@ class MaintenanceTests(unittest.TestCase):
             for path in (recent, recent.with_suffix('.json'), original, original.with_suffix('.json'),
                          impostor, impostor.with_suffix('.json'), orphan, unrelated):
                 self.assertTrue(path.exists(), str(path))
+
+    def test_backup_name_collision_preserves_existing_bytes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            live = root / 'live.sqlite'; self.seed(live)
+            backups = root / 'backups'; backups.mkdir()
+            fixed = datetime(2026, 10, 17, 12, 0, tzinfo=timezone.utc)
+            class FixedDateTime(datetime):
+                @classmethod
+                def now(cls, tz=None):
+                    return fixed.astimezone(tz) if tz else fixed.replace(tzinfo=None)
+            with mock.patch.object(maintain, 'datetime', FixedDateTime):
+                for suffix, snapshot_exists in (('11111111', True), ('22222222', False)):
+                    snapshot = backups / ('vnb-feedback-20261017T120000Z-' + suffix + '.sqlite')
+                    metadata = snapshot.with_suffix('.json')
+                    if snapshot_exists: snapshot.write_bytes(b'existing snapshot bytes')
+                    metadata.write_bytes(b'existing metadata bytes')
+                    with mock.patch.object(maintain.secrets, 'token_hex', return_value=suffix):
+                        with self.assertRaises((ValueError, FileExistsError)):
+                            maintain.make_backup(live, backups, 'a' * 40)
+                    self.assertEqual(metadata.read_bytes(), b'existing metadata bytes')
+                    if snapshot_exists:
+                        self.assertEqual(snapshot.read_bytes(), b'existing snapshot bytes')
+                    else:
+                        self.assertFalse(snapshot.exists())
+
+    def test_daily_fails_and_preserves_incomplete_managed_backups(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            live = root / 'live' / 'feedback.sqlite'; live.parent.mkdir(); self.seed(live)
+            backups = root / 'backups'; backups.mkdir()
+            orphan = backups / 'vnb-feedback-20260901T000000Z-11111111.sqlite'
+            orphan.write_bytes(b'orphan snapshot bytes')
+            partial = backups / 'vnb-feedback-20260901T000000Z-22222222.partial'
+            partial.write_bytes(b'partial metadata bytes')
+            damaged = backups / 'vnb-feedback-20260901T000000Z-33333333.sqlite'
+            damaged.write_bytes(b'existing snapshot bytes')
+            damaged.with_suffix('.json').write_bytes(b'{invalid metadata')
+            reservation = backups / 'vnb-feedback-20260901T000000Z-44444444.json'
+            reservation.write_bytes(b'unfinished reservation')
+            source, info = maintain.make_backup(live, backups, 'a' * 40)
+            tampered = backups / 'vnb-feedback-20260901T000000Z-55555555.sqlite'
+            shutil.copyfile(source, tampered)
+            tampered.with_suffix('.json').write_text(json.dumps(info | {'snapshot': tampered.name,
+                'created_utc': '2026-09-01T00:00:00Z', 'sha256': '0' * 64}), encoding='utf-8')
+            args = ['daily', '--database', str(live), '--backup-dir', str(backups),
+                    '--report-dir', str(root / 'reports' / 'current'),
+                    '--triage', str(root / 'reports' / 'triage.sqlite'), '--source-commit', 'a' * 40]
+            result = subprocess.run([sys.executable, str(Path(__file__).parent / 'deploy' / 'maintain.py'), *args],
+                                    capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('maintenance anomalies', result.stderr)
+            self.assertIn(orphan.name + ': missing metadata', result.stderr)
+            self.assertIn(partial.name + ': unexpected managed-prefix file', result.stderr)
+            self.assertIn(damaged.name + ': invalid backup pair', result.stderr)
+            self.assertIn(reservation.name + ': missing snapshot', result.stderr)
+            self.assertIn(tampered.name + ': hash mismatch', result.stderr)
+            self.assertTrue(tampered.exists(), 'Audit must precede rotation of a damaged old pair')
+            self.assertEqual(orphan.read_bytes(), b'orphan snapshot bytes')
+            self.assertEqual(partial.read_bytes(), b'partial metadata bytes')
+            self.assertEqual(damaged.read_bytes(), b'existing snapshot bytes')
+            self.assertEqual(damaged.with_suffix('.json').read_bytes(), b'{invalid metadata')
+            self.assertEqual(reservation.read_bytes(), b'unfinished reservation')
 
 
 if __name__ == '__main__': unittest.main(verbosity=2)

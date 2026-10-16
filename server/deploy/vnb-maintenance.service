@@ -1,5 +1,7 @@
 [Unit]
 Description=Von Neumann Bottleneck local feedback backup and private report
+Requires=vnb-local-receiver.service
+After=vnb-local-receiver.service
 RequiresMountsFor=/srv/ray/apps/vnb/current-local /srv/ray/data/vnb/local /srv/ray/data/vnb/reports /srv/ray/backups/vnb-local
 
 [Service]
@@ -9,6 +11,7 @@ Group=root
 WorkingDirectory=/srv/ray/apps/vnb/current-local/server
 EnvironmentFile=/etc/ray/vnb/local.env
 Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStartPre=/usr/bin/python3 -c "from urllib.request import urlopen; r=urlopen('http://127.0.0.1:18081/v1/health',timeout=5); assert r.status==200"
 ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-local/server/deploy/maintain.py daily --database /srv/ray/data/vnb/local/feedback.sqlite --backup-dir /srv/ray/backups/vnb-local --report-dir /srv/ray/data/vnb/reports/current --triage /srv/ray/data/vnb/reports/triage.sqlite --source-commit ${VNB_SOURCE_COMMIT}
 UMask=0077
 NoNewPrivileges=true

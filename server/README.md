@@ -4,9 +4,9 @@ The optional client is off by default. The free candidate has no receiver URL an
 
 A random installation ID scopes deduplication and deletion; it is not a claim of absolute anonymity. Feedback carries task, visit when known, source category, build/model/case versions, optional ratings and at most 240 characters. Metrics are observations, never leaderboard authority. Unknown ratings stay null. The endpoint is displayed in the UI. Changing receivers invalidates automatic consent and old queue destinations do not silently move to the new receiver.
 
-## Shared VPS deployment preparation
+## Shared VPS and localhost preparation
 
-The owner has selected a mainland China VPS. Use the [Ray VPS contract](../docs/distribution/ray-vps.md) and standalone `deploy/compose.vps.yaml` for its staging/prod port and data separation. The original Compose remains a standalone local example. No remote deployment or public endpoint activation occurred in this update.
+The owner has selected a mainland China VPS. The earlier [Ray VPS contract](../docs/distribution/ray-vps.md) and `deploy/compose.vps.yaml` describe separate staging/prod instances. The new `deploy/vnb-local-*.service`, `deploy/vnb-local.caddy` and `deploy/vnb-maintenance.*` templates prepare an independent localhost-only receiver, TLS proxy and daily private maintenance without changing those instances. Host installation and real request results require separate evidence; no public feedback domain or player endpoint is active here.
 
 ## Local setup
 
@@ -32,7 +32,7 @@ The helper assigns a unique userdata directory, starts with the receiver offline
 
 Client: 256 pending records, 512 KiB state file, batches of 32 or about 45 seconds, 8-second HTTP timeout, 128 KiB body limit. Exponential retry is capped at 300 seconds and pauses after eight failures. Permanent rejection pauses immediately. Only an acknowledged ID is removed; no receipt means pending, not success. State writes use temporary file + rename. The queue stays out of gameplay saves. Turning sharing off cancels the active request and discards pending automatic events; explicitly requested opinions remain pending until cancelled by deletion. A request already committed remotely cannot be unsent; deletion is a separate confirmed action.
 
-Server: 128 KiB requests, 32 records/batch, strict field/type/length whitelist, 120 requests/minute per connection IP, 100,000-event storage ceiling, 5-second socket timeout. SQLite transaction commit precedes acknowledgement. Event ID + owner + canonical body makes retry idempotent; conflicting reuse is rejected. A per-installation deletion token is stored hashed by the receiver. This token scopes deletion, not verified identity or anti-cheat.
+Server: 128 KiB requests, 32 records/batch, strict field/type/length whitelist, 120 requests/minute per connection IP, 100,000-event storage ceiling, 5-second socket and total accepted-body deadlines. Behind a proxy, the IP limit is a shared receiver budget, not a per-player limit. SQLite transaction commit precedes acknowledgement. Event ID + owner + canonical body makes retry idempotent; conflicting reuse is rejected. A per-installation deletion token is stored hashed by the receiver. This token scopes deletion, not verified identity or anti-cheat.
 
 The storage ceiling counts new IDs only: an already committed identical retry can
 still receive confirmation at capacity. Exact duplicate IDs in one bounded batch
@@ -42,28 +42,20 @@ are acknowledged once; differing content with the same ID returns a conflict.
 
 Set `VNB_FEEDBACK_ADMIN_TOKEN` in the server process environment to enable `GET /admin/report` with `Authorization: Bearer ...`. Without it the report is unavailable. Never put this token into the game or Git. The endpoint returns counts only; raw opinions remain in the access-controlled database. `server/private_report.py` produces a local report file for the operator, suitable for an operator-scheduled daily job; it does not open a public dashboard.
 
-Events older than 30 days are deleted at startup and hourly during traffic; clients without records are removed. For an idle server, restarting performs retention cleanup. The operator must apply the same 30-day policy to backups. Access logs deliberately omit bodies, tokens and IPs. Any future proxy logs need their own reviewed retention rules.
+Events older than 30 days are deleted at startup and by the hourly cleanup check during traffic **and idle `serve_forever` polling**; clients without records are removed. Necessary deletion tombstones are not automatically expired. Access logs deliberately omit bodies, tokens and IPs. Any future proxy logs need their own reviewed retention rules.
 
-For a consistent live backup, use SQLite's backup API (not a raw copy of just the main file while WAL is active):
+`deploy/maintain.py daily` uses `storage.py`'s consistent SQLite backup API, writes private commit/schema/count/hash metadata, purges the private triage sidecar, regenerates the current report and rotates only its own backup pairs older than 30 days. A confirmed deletion clears the live receiver but does not immediately erase already-created backups; eligible backups are removed on the next successful daily cycle. Off-host backup is not configured. Before restoring, stop all writers and freeze the newest complete database with its deletion tombstones. `maintain.py restore` merges it with the selected verified old backup into a new directory; never expose the old backup if the latest deletion state is unavailable. See the [operator commands and recovery checks](deploy/RUNBOOK.md#backups-and-restore). Generated reports may still contain deleted opinions until the sidecar is purged and the current report is regenerated; do that before viewing reports after deletion.
 
-```python
-import sqlite3
-with sqlite3.connect('feedback.sqlite') as source, sqlite3.connect('backup.sqlite') as target:
-    source.backup(target)
-```
+## Public deployment boundary
 
-Restore with the receiver stopped, retaining a separate safety copy first. Check `PRAGMA integrity_check` and inspect counts before restart. Backups and generated reports may contain opinions; keep them private and apply deletion/retention to them too. Deletion in the game confirms only the live receiver database, so public deployment must specify the backup deletion process before launch.
-
-## Explicitly not deployed
-
-No domain, public port, hosting account, payment, Steam upload or identity submission. Public operation requires separately approved HTTPS termination, deployment region, proxy/access rules, operator credentials, backup access and retention, current privacy wording and load/security review. This bounded single-process loopback server is the local integration implementation, not a claim of public production readiness. Rankings, workshop identity and uploads are outside this scope.
+No public feedback domain or player endpoint is configured by these local templates. Public operation requires separately verified DNS/TLS, proxy/access and rate limits, current privacy wording, backup access and retention, and load/security review. This bounded single-process receiver is not by itself a claim of public production readiness. Rankings, workshop identity and uploads are outside this scope.
 
 ## Portable community preparation (2026-09-11)
 
 The receiver now migrates legacy databases to schema 2, retains deletion tombstones,
 and accepts explicit experimental score submissions. Read-only community endpoints
-are versioned and source-separated. No Godot runtime, real credentials, public domain
-or deployed host is included. See [architecture and field inventory](../docs/architecture/community-feedback.md)
+are versioned and source-separated. That preparation included no Godot runtime,
+real credentials, public domain or deployed host. See [architecture and field inventory](../docs/architecture/community-feedback.md)
 and [operator runbook](deploy/RUNBOOK.md). `storage.py` provides backup, restore,
 check and conflict-refusing idempotent merge. Run `test_storage.py` and
 `test_community.py` alongside the existing receiver checks.
@@ -126,6 +118,11 @@ show sidecar notes for absent feedback. Restore old receiving snapshots only aft
 merging the newest deletion tombstones, then purge and regenerate the report.
 That ordering also applies when restoring an older sidecar.
 
+For the localhost maintenance timer, `python3 server/deploy/maintain.py daily`
+performs this purge and report refresh together with the private 30-day local
+backup rotation. Its `restore` command requires an explicit verified backup,
+frozen latest full database and new destination; see the [runbook](deploy/RUNBOOK.md#backups-and-restore).
+
 HTTP validation failures return only a bounded fixed `reason` code, never the
 rejected note/body. Private `/admin/report` rejection counters are explicitly
 process-lifetime observations, reset on receiver restart. The offline report
@@ -136,6 +133,7 @@ Additional synthetic checks (operator runs locally; not remote-deployment proof)
 ```sh
 python3 server/test_delivery.py
 python3 server/test_private_report.py
+python3 server/test_maintenance.py
 ```
 
 The delivery check exercises real HTTP, lost-confirmation retries across receiver

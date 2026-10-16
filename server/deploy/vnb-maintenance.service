@@ -11,7 +11,7 @@ Group=root
 WorkingDirectory=/srv/ray/apps/vnb/current-local/server
 EnvironmentFile=/etc/ray/vnb/local.env
 Environment=PYTHONDONTWRITEBYTECODE=1
-ExecStartPre=/usr/bin/python3 -c "from urllib.request import urlopen; r=urlopen('http://127.0.0.1:18081/v1/health',timeout=5); assert r.status==200"
+ExecStartPre=/usr/bin/timeout 10 /bin/sh -c "until /usr/bin/curl --noproxy '*' --fail --silent --max-time 1 http://127.0.0.1:18081/v1/health >/dev/null; do sleep 0.2; done"
 ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-local/server/deploy/maintain.py daily --database /srv/ray/data/vnb/local/feedback.sqlite --backup-dir /srv/ray/backups/vnb-local --report-dir /srv/ray/data/vnb/reports/current --triage /srv/ray/data/vnb/reports/triage.sqlite --source-commit ${VNB_SOURCE_COMMIT}
 UMask=0077
 NoNewPrivileges=true

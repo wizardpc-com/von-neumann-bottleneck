@@ -2,8 +2,8 @@
 
 ## Outcome and authority
 
-Publish one fixed-source Windows Pre-release with the complete sixty-task journey
-and a verified stable HTTPS feedback endpoint. Reuse the existing Python/SQLite
+Prepare one fixed-source Windows Release draft with the complete sixty-task journey
+and verified private feedback operations. The owner deferred public publication until the domain is ready. Reuse the existing Python/SQLite
 receiver, provide SSH-only private reports, retention, backup and recovery evidence,
 then leave the repository integrated, current and clean.
 
@@ -64,4 +64,18 @@ to the owner. New paid resources or an unapproved hostname require owner input.
 - Owner chose **Release draft only** until the planned feedback domain is ready.
   Keep localhost; domain is unpurchased/unresolved/access requirements unverified.
   Operator/contact yanruiqing/yanruiqing@agent.qq.com; local30-day backup enabled,
-  offsite deferred. Final Windows offline draft export/native checks remain.
+  offsite deferred. Final Windows offline draft347e426 export/hash/native save/work/opinion/restart PASS; both normal exits released leases, original QA profile unchanged.
+
+## Outcome
+
+Completed within the owner’s revised draft-only scope: fixed offline Windows draft,
+four uploaded hashes verified, enabled isolated localhost VPS service/maintenance,
+actual private EXE delivery/report/retry/delete/restored-receiver410, and unchanged
+historical data/other services. Frozen source347e426 push/PR CI both passed. PR8
+integrates the qualified changes through normal linear protection; main parity is
+checked after merge. No public release/tag, DNS change or public service enabled.
+
+Follow-up is deliberately external: purchase/control and verify the planned domain,
+review hosting/filing and DNS/TLS, then export a new fixed online package and run
+external-machine acceptance before publication. Offsite backup remains deferred.
+Mac native, newcomer pacing and subjective art/listening remain separate gates.

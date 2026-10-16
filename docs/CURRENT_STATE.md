@@ -9,10 +9,10 @@ was squash-merged into `main` as `94b5bff`. Main now contains the complete
 sixty-task journey; tag `archive/pre-release-20261012` retains the original
 31-commit branch history. The already published `v0.5.0-alpha.1` download remains the earlier forty-task
 release. PR [#8](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/8)
-prepares deletion-safe feedback operations and a Windows-only Release draft;
+integrates deletion-safe feedback operations and a Windows-only Release draft;
 publication is explicitly deferred until the feedback domain is ready.
 
-The separate VPS localhost receiver/proxy are deployed at `beca837894481165e6e04afe93f4e879645c1d29`.
+The separate VPS localhost receiver/proxy are finally pinned to `347e4262602e05e67520b69f85451ade6a9c2297`; the actual private EXE feedback receipt below retains its tested `beca837` identity.
 Both services and the daily maintenance timer are enabled. Actual Windows EXE
 private HTTPS feedback passed same-ID/task/build reporting, offline retry,
 deduplication, deletion and an actually started tombstone-safe restored receiver
@@ -24,8 +24,7 @@ fail maintenance for private review. Offsite backup is deferred.
 Full Windows isolated Godot regression passed156/156; the final privacy URL change
 also passed its focused suite. Bilingual720p privacy choice/expanded-list rendering
 and Python/VPS checks passed. The client requires renewed cloud consent while
-retaining local drafts and deletion identity. Final offline Windows artifact/native
-receipt will follow protected integration. No public player endpoint is active.
+retaining local drafts and deletion identity. The frozen Windows draft at347e426 has all60 tasks, an empty endpoint and stable CloudPlaytest profile. Native saved64-cell work, original local opinion, writable save and independent restart passed; both normal closes released QA leases. Four GitHub draft assets match SHA-256 and the draft remains unpublished. Source347e426 push/PR CI are both green. No public player endpoint is active.
 [Exact current evidence](verification/20261017-feedback-release/README.md) ·
 [Private operator procedure](distribution/feedback-operations.md).
 

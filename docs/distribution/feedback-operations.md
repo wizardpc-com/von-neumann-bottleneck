@@ -2,7 +2,7 @@
 
 Operator: yanruiqing · contact: yanruiqing@agent.qq.com. This page describes the
 separate localhost-only VPS receiver installed from
-`97874c133069b4de4e964a86410048ea789acfd4`. It is not a public player endpoint.
+`347e4262602e05e67520b69f85451ade6a9c2297`. It is not a public player endpoint.
 Connect using the private SSH inventory; do not put the host address, credentials,
 database, backups or reports in this repository or a public download. The earlier
 [Ray VPS plan](ray-vps.md) and [general runbook](../../server/deploy/RUNBOOK.md)

@@ -18,7 +18,7 @@
 
 **已发布版本（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建；本页上方的下载链接仍指向这个冻结版本。
 
-**当前源码（2026-10-17）：** PR #7 已并入 `main`。完整旅程保留原核心 40 个任务，并加入表示 5 个、服务 3 个、可选地址预测 3 个，以及「压缩 → 内容预测 → 创造」9 个，共 60 个候选任务；可选内容不提高原主线门槛。玩家可以用同一学习模型复原、预测，再生成并保存自己的光纹作品。Mac / Windows 同源候选包已冻结，Windows 代表性原生操作已验收；正式 Windows Pre-release 正在准备，尚未替换上方的公开 Alpha 下载。候选包默认离线，反馈可本机保存或导出；私有 HTTPS 测试不等于公网玩家收集。[当前状态与验证边界](docs/CURRENT_STATE.md) · [最新候选验收记录](docs/verification/20261013-creation-expression/README.md)。
+**当前源码（2026-10-17）：** PR #7 已并入 `main`。完整旅程保留原核心 40 个任务，并加入表示 5 个、服务 3 个、可选地址预测 3 个，以及「压缩 → 内容预测 → 创造」9 个，共 60 个候选任务；可选内容不提高原主线门槛。玩家可以用同一学习模型复原、预测，再生成并保存自己的光纹作品。Mac / Windows 同源候选包已冻结，Windows 代表性原生操作已验收；Windows Pre-release 保留为草稿，待域名就绪再公开，尚未替换上方的公开 Alpha 下载。候选包默认离线，反馈可本机保存或导出；私有 HTTPS 测试不等于公网玩家收集。[当前状态与验证边界](docs/CURRENT_STATE.md) · [最新候选验收记录](docs/verification/20261017-feedback-release/README.md)。
 
 [下载 Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
@@ -91,7 +91,7 @@ godot --path . -- --locale=en
 
 ### 公开 Alpha 与平台
 
-本页目前提供的公开下载是 **`v0.5.0-alpha.1`**：[查看 Release 与下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)。Mac 与 Windows 包来自同一冻结提交，并附带构建清单与哈希。完整旅程 Windows Pre-release 尚在准备。
+本页目前提供的公开下载是 **`v0.5.0-alpha.1`**：[查看 Release 与下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)。Mac 与 Windows 包来自同一冻结提交，并附带构建清单与哈希。完整旅程 Windows Pre-release 仅保留维护者草稿，尚未公开。
 
 Mac 解压后打开 `.app`，Windows 解压后运行 `.exe`，无需另外安装 Godot。当前 macOS 构建为 ad-hoc 签名、未公证；Windows 构建已发布，但原生实机验证仍相对有限。Alpha 阶段仍可能存在平台兼容性问题，欢迎通过 GitHub Issues 反馈。
 

@@ -1,7 +1,7 @@
 # Windows draft and private feedback readiness — 2026-10-17
 
 PR7 merged as `94b5bff`; `archive/pre-release-20261012` preserves its original
-31-commit source history. This round prepares a Windows-only **Release draft**.
+31-commit source history. This round delivers a Windows-only **Release draft**.
 The owner explicitly deferred publication until the feedback domain is ready.
 The existing public forty-task Alpha is unchanged. All sixty candidate tasks,
 legal solutions, model rules and the stable `CloudPlaytest` save channel remain.
@@ -45,10 +45,37 @@ only IPv4 while `localhost` selected IPv6. Corrected QA naming and dual-loopback
 SSH forwarding passed. No game workaround or global certificate installation was
 used. The EXE/PCK stayed byte-identical throughout the accepted run.
 
+## Frozen Windows draft
+
+`playtest-ReleaseDraft20261017-347e4262602e` freezes source
+`347e4262602e05e67520b69f85451ade6a9c2297`, Godot4.7.1, full60 tasks and the stable
+`CloudPlaytest` profile. Its feedback endpoint is empty and upload defaults off.
+The57,393,376-byte Windows ZIP has SHA-256
+`aeb397edda5e9037c252dd9c5a67eb98edf016dbaf79a6c5b4b6dee102fc4e92`.
+[Release draft](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/untagged-b360dfd8f48c2f42d7b5)
+requires maintainer access. Its four uploaded assets match local SHA-256 digests;
+there is no public Alpha2 tag or published release. [Draft receipt](release-draft.json).
+
+The exact offline EXE passed native Windows P1 restore, prior64-cell protected-work
+viewing, original local opinion ID recovery, Save draft and an independent restart.
+Both normal closes ended their processes and released the owned QA writer lease;
+all creation session fields, protected works/recipes and the prior opinion remain
+unchanged. The original QA profile was only copied, never edited. This is
+representative native acceptance, not a fresh whole-route or newcomer test.
+[Native receipt](native-windows.json).
+
+Both push/PR CI runs at frozen347e426 succeeded (38953059915/38953065087): Godot
+and Python each green. The later integration receipt commit changes documentation
+only; the frozen executable, gameplay/server code and distribution inputs remain.
+
+Final VPS deployment also pins347e426; current privacy bytes match its Git blob
+and the draft attachment. Daily maintenance succeeded again with0 live events and1
+necessary deletion tombstone. Existing service PIDs, Caddy bytes and all protected
+historical file hashes were rechecked unchanged. [Deployment receipt](deployment.json).
+
 ## Release and external boundaries
 
-The Windows offline draft artifact, final source/hash/native receipt and draft URL
-will be recorded after the protected integration. It must keep its endpoint empty.
+The Windows offline draft keeps its endpoint empty.
 The private acceptance package uses a separate localhost endpoint and QA override;
 it is not the public artifact and does not prove internet ingress.
 

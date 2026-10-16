@@ -6,7 +6,7 @@ These are remaining acceptance requirements, not instructions to add features.
 ## Current gates — 2026-10-17
 
 Protected PR7 merged as `94b5bff`; main contains the complete sixty-task journey.
-PR8 prepares feedback operations and a Windows Release draft. The owner explicitly
+PR8 integrates feedback operations and a Windows Release draft. The owner explicitly
 chose to wait for a working domain before public release. The earlier frozen player
 packages remain offline; the public download remains forty-task Alpha1.
 
@@ -20,9 +20,9 @@ entry or offsite backup is active. [Current evidence](docs/verification/20261017
 | --- | --- |
 | Localhost VPS receiver and maintenance | **PASS within private scope.** Separate services and daily timer enabled; actual delivery/report/backup/delete/restored-receiver410, private permissions, shared rate limit and unchanged original services/historical hashes passed. No public intake. |
 | Public feedback domain and external entry | **Open by owner choice.** The planned domain is not purchased or resolved; hosting/filing requirements are unverified. Keep localhost. Future public use requires DNS, ports80/443, TLS and an external-machine acceptance run. A configured privacy URL alone is not such acceptance. |
-| Windows online Pre-release | **Draft only by owner choice.** Fixed-source offline Windows package and native receipt follow protected integration. Publication waits for DNS/TLS/privacy/external acceptance; never bake a planned or localhost address into a player release. |
+| Windows online Pre-release | **Draft only by owner choice.** Fixed-source347e426 Windows offline draft and all4 uploaded digests verified; representative native restore/work/opinion/save/restart PASS. Publication waits for DNS/TLS/privacy/external acceptance; never bake a planned or localhost address into a player release. |
 | Current Mac native interaction | **NOT_RUN for the `f26131049877` package.** Earlier native routes retain their own build attribution. Operate this package's navigation, editing, unfinished-task feedback, save and restart on a Mac. |
-| Windows native execution | **Representative acceptance PASS at offline f261310.** Existing64-cell saved-work source/phrase/step/play/pause/viewing controls, local opinion restoration, writable save and independent restart passed; both normal exits released their owned lease and saved fields stayed intact. Earlier d34a61d navigation/generation and8a919e2 restart evidence retain their own source attribution. Automatic Windows abandoned-lock recovery remains unsupported. A fresh later-region native full-route, extended focus loss and mixed-DPI stress remain open. |
+| Windows native execution | **Representative acceptance PASS at current offline347e426 and earlier f261310.** Existing64-cell saved-work source/phrase/step/play/pause/viewing controls, local opinion restoration, writable save and independent restart passed; both normal exits released their owned lease and saved fields stayed intact. Earlier d34a61d navigation/generation and8a919e2 restart evidence retain their own source attribution. Automatic Windows abandoned-lock recovery remains unsupported. A fresh later-region native full-route, extended focus loss and mixed-DPI stress remain open. |
 | Other Mac / installation / signing | **Open.** Candidate is unnotarized; verify download, first launch and save on another machine, then choose formal signing/distribution requirements. |
 | Display and focus | **Open.** Extended small-display/Retina/mixed-DPI and repeated focus loss during drag sessions require direct evidence. Earlier capture anomalies remain attributed to their recorded builds. |
 | Unfamiliar-player understanding | **Open.** Unassisted entry, task choice, Hint comprehension, full-route pacing and concrete feedback. Known-answer replay and agent observations do not establish this. |

@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "date": "2026-10-17",
+  "source_commit": "347e4262602e05e67520b69f85451ade6a9c2297",
+  "binary_sha256": "dab6f74fb66bc6e4e8a02e090c9a5beb3f62541a6eb6d3bc6958cd921d5a5a87",
+  "native_pids": [
+    22964,
+    18172
+  ],
+  "input_method": "Computer Use sky native OS input; screenshots observed in tool history",
+  "scope": "existing QA profile copied to independent runtime; representative restore/save/restart, not a fresh full-route or human/newcomer/art acceptance",
+  "observations": [
+    "Home resumed saved P1",
+    "Selected prior work and opened its64-cell focus view",
+    "Existing local P1 opinion text and identical feedback ID visible",
+    "Save draft reported success",
+    "First native Quit ended process and released lease",
+    "Independent restart resumed P1 again",
+    "Second normal OS close ended process and released lease"
+  ],
+  "all_session_fields_unchanged": true,
+  "protected_works_and_recipes_unchanged": true,
+  "local_opinion_unchanged": true,
+  "original_qa_session_unchanged": true,
+  "writer_lease_released_after_both_exits": true,
+  "engine_errors": false,
+  "feedback_endpoint_empty": true,
+  "original_local_opinion_id": "d0588df17a500f37a0e850f9d3cff2644fb1fde398cce667bdf6a1f5db25b2e1",
+  "old_opinion_source_commit": "8a919e24b1a3f47207e72f5f84675152041cb100",
+  "original_qa_feedback_unchanged": true
+}

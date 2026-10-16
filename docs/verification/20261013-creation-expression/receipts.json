@@ -94,7 +94,7 @@
     "zh": 177,
     "en": 175
   },
-  "native_windows": "PENDING_UNLOCK",
+  "native_windows": "PASS_REPRESENTATIVE_20261016",
   "mac_native": "NOT_RUN",
   "human_listening": "NOT_RUN",
   "newcomer_acceptance": "NOT_RUN",
@@ -136,7 +136,8 @@
     "python_commands": 9,
     "raw_logs_checked": true
   },
-  "native_lock_state": {
+  "native_windows_receipt": "native-windows.json",
+  "earlier_native_lock_state": {
     "time_utc": "2026-10-12T20:02:08.343474+00:00",
     "windows_version": "10.0.26200",
     "query_ok": true,
@@ -144,5 +145,14 @@
     "state": "LOCKED",
     "level": 1,
     "session_flags": 0
+  },
+  "native_entry_state": {
+    "time_utc": "2026-10-16T05:41:10.640387+00:00",
+    "windows_version": "10.0.26200",
+    "query_ok": true,
+    "returned_bytes": 232,
+    "state": "UNLOCKED",
+    "level": 1,
+    "session_flags": 1
   }
 }

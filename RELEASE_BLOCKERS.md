@@ -3,29 +3,31 @@
 Current source and artifact: [CURRENT_STATE](docs/CURRENT_STATE.md).
 These are remaining acceptance requirements, not instructions to add features.
 
-## Current candidate — 2026-10-12
+## Current candidate — 2026-10-13, native follow-up2026-10-16
 
 The sixty-task candidate includes the original core, Representation, Service,
 optional address Prediction and C/P/G. Main contains the integrated runtime;
 The latest unmerged review branch freezes Mac and Windows packages at
-`8a919e24b1a3`; main remains `cfdee8a`. Three experience iterations improve
-navigation, creative Next actions and chapter continuation. Final Windows
-affected checks13/13, fixed runtime CI and actual EXE localhost feedback passed.
-Final native saved-work/opinion restoration, writable save/restart and normal
-writer-lock release passed. Earlier engineering checks
+`f26131049877`; main remains `cfdee8a`. Three experience iterations improve
+navigation, creative Next actions and chapter continuation. The creative follow-up
+adds discovery-led P3, actual A/B frozen rule/count inspection and saved-work
+source/phrase/optional-tone appreciation. Full runtime CI156/156, Python9/9,
+bilingual renderer and same-source actual EXE localhost feedback passed.
+Native saved-work/opinion restoration, writable save/restart and normal writer-lock
+release passed on2026-10-16. Earlier engineering checks
 retain their recorded attribution. Actual Windows EXE → private HTTPS → VPS SQLite →
 private report, retry/deduplication, delete and actual tombstone-safe restored
 receiver checks passed. Windows native tutorial editing, earned completion and
 two save/draft restarts passed for the earlier freeze. The revised content
-manifest is not deployed to that stopped private staging. [Current candidate](docs/verification/20261012-experience/README.md),
+manifest is not deployed to that stopped private staging. [Current candidate](docs/verification/20261013-creation-expression/README.md),
 [earlier HTTPS receipts](docs/verification/20261012-pre-release/README.md).
 
 | Gate | Status and required evidence |
 | --- | --- |
 | Real VPS staging feedback | **PASS within private synthetic scope.** Actual Windows package over verified HTTPS/Windows SSH, same-ID/task/build remote report, retry/deduplication, deletion and a restored receiver returning410 for deleted identity. Dedicated staging stopped; other services and historical database unchanged. Public player intake remains separate. |
 | External feedback entry and public release | **Deferred.** No public deployment in the current authorization. A future owner decision must specify the entry, privacy/retention/backup configuration and release scope. |
-| Current Mac native interaction | **NOT_RUN for the `8a919e24b1a3` package.** Earlier native routes retain their own build attribution. Operate this package's navigation, editing, unfinished-task feedback, save and restart on a Mac. |
-| Windows native execution | **PARTIAL for the latest freeze.** Identical UI at d34a61d passed native chapter/search navigation and creative generation/keeping; Final8a919e2 passed saved-work viewing, local opinion restoration and writable save/restart; two normal exits released their owned lock. A dead private QA residual lock was manually archived; automatic Windows abandoned-lock recovery remains unsupported. Earlier tutorial/editing/opinion/restart observations remain valid only within their dated scope. Later-region native full-route, extended focus loss and mixed-DPI stress remain open. |
+| Current Mac native interaction | **NOT_RUN for the `f26131049877` package.** Earlier native routes retain their own build attribution. Operate this package's navigation, editing, unfinished-task feedback, save and restart on a Mac. |
+| Windows native execution | **Representative acceptance PASS at f261310.** Existing64-cell saved-work source/phrase/step/play/pause/viewing controls, local opinion restoration, writable save and independent restart passed; both normal exits released their owned lease and saved fields stayed intact. Earlier d34a61d navigation/generation and8a919e2 restart evidence retain their own source attribution. Automatic Windows abandoned-lock recovery remains unsupported. A fresh later-region native full-route, extended focus loss and mixed-DPI stress remain open. |
 | Other Mac / installation / signing | **Open.** Candidate is unnotarized; verify download, first launch and save on another machine, then choose formal signing/distribution requirements. |
 | Display and focus | **Open.** Extended small-display/Retina/mixed-DPI and repeated focus loss during drag sessions require direct evidence. Earlier capture anomalies remain attributed to their recorded builds. |
 | Unfamiliar-player understanding | **Open.** Unassisted entry, task choice, Hint comprehension, full-route pacing and concrete feedback. Known-answer replay and agent observations do not establish this. |

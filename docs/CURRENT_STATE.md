@@ -12,12 +12,15 @@ keeping `CloudPlaytest` and offline feedback/export. Content identity is
 `tasks-20261013-journey-v1`, with both prior manifests preserved.
 
 Affected checks7/7, both bilingual Windows renderer suites and packaged identity/
-hash checks passed. Windows OS-native input/restart is pending an unlocked
-desktop; subjective listening, current Mac native and newcomer acceptance remain
-unverified. Current content has not been deployed to private VPS staging.
+hash checks passed. On2026-10-16 the unchanged Windows EXE passed native saved-work
+phrase/step/play/pause/viewing-map controls, writable save and independent restart
+in the existing private QA profile. The64-cell protected work, all session fields
+and original local opinion ID remained intact; both normal exits released their
+writer lease. Subjective listening, current Mac native and newcomer acceptance
+remain unverified. Current content has not been deployed to private VPS staging.
 Fixed-runtime and documented-head full CI passed154 Godot suites plus import/user
-isolation156/156, with all nine Python commands. Current native session is verified
-locked; the remaining acceptance requires human unlock.
+isolation156/156, with all nine Python commands. The candidate is ready for overall
+art refinement and a controlled offline playtest.
 [Concrete changes, captures and acceptance limits](verification/20261013-creation-expression/README.md).
 
 ## Whole-journey experience candidate — 2026-10-12/13

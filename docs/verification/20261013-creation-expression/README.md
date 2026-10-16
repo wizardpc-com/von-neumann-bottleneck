@@ -53,14 +53,19 @@ native pointer input. The saved-work window is640×420; comparison is1280×720.
   and documented-head CI [38300335632](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/38300335632)
   PASS:154 Godot suites plus import/user isolation156/156, and all nine Python
   commands. Raw logs were downloaded and checked for unique PASS/FAIL rows.
-- Windows OS-native interaction/restart for this source is pending an unlocked
-  desktop. Launch reached a targetable game window but activation failed; a
-  read-only process check confirmed LockApp. No UI input was performed and the
-  controller stopped only its owned QA process34008.
-- Subsequent read-only WTSInfoEx queries on Windows10.0.26200 confirmed session
-  flag0 (LOCKED), most recently2026-10-12T20:02:08Z. This distinguishes actual
-  session state from the presence of a LockApp process. Native acceptance remains
-  pending human unlock; no Windows settings or authentication were changed.
+- Windows OS-native representative acceptance PASS on2026-10-16, using the
+  unchanged frozen EXE and existing private QA profile. Previous phrase reached
+  cell33; Step reached34; Play advanced and Pause stopped at53. Source labels and
+  four-lane viewing followed the same saved output. Save draft succeeded. A second
+  independent process restored the64-cell work and original local opinion ID;
+  English appreciation and default-off sound were observed. Both normal Quit
+  actions ended their process and released the owned writer lease. All session
+  fields, protected work and recipe remained unchanged.
+  [Native observation and read-only checks](native-windows.json).
+- The earlier lock-screen attempts remain historical failures, not native passes.
+  WTSInfoEx confirmed the session UNLOCKED before the successful2026-10-16 run.
+  No Windows settings or authentication were changed. This acceptance covers
+  native controls and restart; subjective acoustic quality was not assessed.
 - Mac native, unfamiliar-player understanding and subjective listening/artistic
   acceptance are NOT_RUN. Current content identity has not been deployed to VPS;
   earlier private HTTPS acceptance remains attributed to its earlier source.
@@ -73,7 +78,8 @@ failed an overly short150ms endpoint wait; final checks require the natural
 finished signal within1s, a stopped player and a finite nonlooping60ms WAV.
 These records remain private and are not relabelled as passes.
 
-The candidate is concrete enough for Claude's overall art refinement and a small
-controlled offline playtest. Native return/play/restart and human listening remain
-the final acceptance gap for this source. No merge, Release, domain, public ingress
-or production feedback intake is authorized by this delivery.
+The candidate is ready for Claude's overall art refinement and a small controlled
+offline playtest. Unfamiliar-player understanding and subjective listening/artistic
+acceptance belong to those next-stage observations; current Mac native remains
+unverified. No merge, Release, domain, public ingress or production feedback intake
+is authorized by this delivery.

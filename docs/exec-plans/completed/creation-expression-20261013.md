@@ -56,13 +56,32 @@ Existing global sound/motion settings and read-only/future-version behavior appl
   landed at `f261310`. Final affected checks7/7 and both real Windows renderer
   suites passed; final short tone produced natural finished signals177ms/175ms.
   Prior failed diagnostics are preserved in the dated verification record.
-- Both full-sixty candidates freeze `f261310`, identity/hash checks PASS. Actual
-  Windows native input/restart/listening remain pending: the returned window
+- Both full-sixty candidates freeze `f261310`, identity/hash checks PASS. Initial
+  Windows native input/restart was pending: the returned window
   could not activate, LockApp was confirmed and owned QA process34008 stopped.
   [Candidate and evidence](../../verification/20261013-creation-expression/README.md).
 - Human enjoyment and artistic quality require actual listening/viewing and later
   unfamiliar-player feedback; green checks alone cannot establish them.
 - Full source and documented-head CI passed156/156 Godot checks and nine Python
-  commands. Windows session flags still confirm LOCKED after three goal turns;
-  native saved-work/play/normal-exit/restart acceptance requires human unlock.
-  The fixed candidate and all completed evidence remain available.
+  commands. The initial native acceptance was blocked by a locked Windows session.
+- 2026-10-16: native blocker cleared. Unchanged frozen EXE passed actual OS clicks
+  for protected-work phrase navigation, Step, Play/Pause, viewing-map change and
+  Save draft. A second independent process restored the64-cell work and original
+  local opinion ID; English appreciation and default-off tones were observed.
+  Both normal exits released the writer lease. All session fields and work/recipe
+  bytes remained intact. The candidate's archive/file hashes were rechecked.
+
+## Completion audit
+
+The same existing model/materials now expose changed samples, frozen rule counts,
+fallback and actual choices side by side; real-run fixtures cover unchanged,
+missing-event, multiple-factor and seed-only boundaries. Bilingual720p captures
+and geometric checks verify readable counts. Saved works expose verified origin
+and actual phrase indices, with optional finite tones under global Effects.
+Long/future snapshots and save/completion boundaries passed focused and full
+regression. Native return/play/save/restart and immutable fixed-source packages
+complete this development round. [Exact evidence](../../verification/20261013-creation-expression/README.md).
+
+Subjective listening/artistic acceptance, unfamiliar-player understanding and
+current Mac native remain next-stage observations. They are not inferred from
+technical checks. Public deployment and integration remain deferred to the owner.

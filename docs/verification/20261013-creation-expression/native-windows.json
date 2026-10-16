@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "date": "2026-10-16",
+  "source_commit": "f26131049877601334646442b1c9f6f3864ef299",
+  "binary_sha256": "f96dc121126fcb6f073bb5434eb108f97be1854c06348e5d9dd49744fd02edcc",
+  "profile": "NativeWindows20261012",
+  "native_pids": [
+    32916,
+    45360
+  ],
+  "input_method": "Computer Use sky native OS clicks; screenshots observed in tool history",
+  "native_observations": [
+    "Home resumed the existing P1 workspace",
+    "Selected and opened the prior 64-cell saved work",
+    "Previous phrase reached cell33 and its verified context C",
+    "Opted in to Hear symbols; Step reached cell34, symbol C, prior context A",
+    "Play advanced through cell37; Pause stopped at53; later observation remained53",
+    "Four-lane viewing map retained cell53 and the same actual passage",
+    "Save draft reported success",
+    "Quit ended the first process and released its writer lease",
+    "Independent second process restored the same work and local opinion ID",
+    "English focus view restored64 cells with default-off Hear symbols",
+    "Quit ended the second process and released its writer lease"
+  ],
+  "all_session_fields_unchanged": true,
+  "saved_work_and_recipe_unchanged": true,
+  "session_bytes_unchanged": true,
+  "original_local_opinion_id": "d0588df17a500f37a0e850f9d3cff2644fb1fde398cce667bdf6a1f5db25b2e1",
+  "original_opinion_build_retained": true,
+  "writer_lease_released": true,
+  "engine_errors": false,
+  "human_subjective_listening": "NOT_RUN",
+  "fresh_full_route": "NOT_RUN",
+  "mac_native": "NOT_RUN",
+  "scope": "Native representative saved-work interaction, optional audio controls, bilingual return, writable save and independent restart; not acoustic quality or a fresh whole-route completion"
+}

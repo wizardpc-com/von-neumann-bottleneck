@@ -2,7 +2,7 @@
   "draft": true,
   "prerelease": true,
   "published": false,
-  "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/untagged-b360dfd8f48c2f42d7b5",
+  "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases",
   "source_commit": "347e4262602e05e67520b69f85451ade6a9c2297",
   "build_id": "playtest-ReleaseDraft20261017-347e4262602e",
   "feedback_endpoint": "",
@@ -31,5 +31,8 @@
       "sha256": "aeb397edda5e9037c252dd9c5a67eb98edf016dbaf79a6c5b4b6dee102fc4e92"
     }
   ],
-  "native_receipt": "native-windows.json"
+  "native_receipt": "native-windows.json",
+  "url_at_initial_capture": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/untagged-b360dfd8f48c2f42d7b5",
+  "release_id": 415299625,
+  "draft_tag": "v0.5.0-alpha.2"
 }

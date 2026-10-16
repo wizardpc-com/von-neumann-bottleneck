@@ -1,0 +1,41 @@
+[Unit]
+Description=Von Neumann Bottleneck isolated localhost TLS proxy
+After=network.target vnb-local-receiver.service
+Wants=vnb-local-receiver.service
+RequiresMountsFor=/srv/ray/apps/vnb/current-local
+
+[Service]
+Type=exec
+User=vnb-local-proxy
+Group=vnb-local-proxy
+WorkingDirectory=/srv/ray/apps/vnb/current-local/server/deploy
+StateDirectory=vnb-local-proxy
+StateDirectoryMode=0700
+Environment=HOME=/var/lib/vnb-local-proxy
+Environment=XDG_DATA_HOME=/var/lib/vnb-local-proxy/data
+Environment=XDG_CONFIG_HOME=/var/lib/vnb-local-proxy/config
+ExecStart=/usr/bin/caddy run --config /srv/ray/apps/vnb/current-local/server/deploy/vnb-local.caddy --adapter caddyfile
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+NoNewPrivileges=true
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ReadWritePaths=/var/lib/vnb-local-proxy
+MemoryMax=384M
+CPUQuota=50%
+TasksMax=128
+LimitNOFILE=4096
+StandardOutput=journal
+StandardError=journal
+LogRateLimitIntervalSec=30s
+LogRateLimitBurst=100
+
+[Install]
+WantedBy=multi-user.target

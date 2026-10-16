@@ -1,0 +1,37 @@
+[Unit]
+Description=Von Neumann Bottleneck local feedback receiver
+After=network.target
+RequiresMountsFor=/srv/ray/apps/vnb/current-local /srv/ray/data/vnb/local
+
+[Service]
+Type=exec
+User=vnb-feedback
+Group=vnb-feedback
+WorkingDirectory=/srv/ray/apps/vnb/current-local/server
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=VNB_FEEDBACK_ADMIN_TOKEN=
+ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-local/server/feedback_server.py --host 127.0.0.1 --port 18081 --database /srv/ray/data/vnb/local/feedback.sqlite
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+NoNewPrivileges=true
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ReadWritePaths=/srv/ray/data/vnb/local
+MemoryMax=512M
+CPUQuota=75%
+TasksMax=128
+LimitNOFILE=1024
+StandardOutput=journal
+StandardError=journal
+LogRateLimitIntervalSec=30s
+LogRateLimitBurst=100
+
+[Install]
+WantedBy=multi-user.target

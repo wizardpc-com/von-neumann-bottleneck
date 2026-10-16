@@ -4,6 +4,14 @@
 
 ## 简体中文
 
+### 2026-10-17 · Windows 发布草稿与删除安全反馈
+
+- PR7 已整合完整60任务旅程；原分支历史通过归档tag保留。
+- 联网版本提供显式隐私页入口并重新征求可选分享同意，本机草稿与删除身份保留。
+- 独立localhost VPS服务支持私有报告、每日30天备份、异常副本告警与合并最新删除记录后恢复；实际Windows EXE闭环及恢复后旧身份410已通过。
+- 按用户选择仅创建Windows Release草稿；域名、公开TLS与异机联网验收完成后再公开。异机备份后续配置。
+- [验收与准确边界](docs/verification/20261017-feedback-release/README.md)。
+
 ### 2026-10-12 · Windows 试玩冻结与私有反馈验收
 
 - 完整60项候选旅程的 Windows/Mac 包冻结于 `61edc8063078`，沿用稳定 `CloudPlaytest` 存档渠道。
@@ -78,6 +86,14 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-10-17 · Windows release draft and deletion-safe feedback
+
+- PR7 integrates the full60 journey; its original branch history is retained by an archive tag.
+- Configured online builds offer an explicit privacy link and renew optional sharing consent while preserving local drafts and deletion identity.
+- Independent localhost VPS services provide private reports, daily30-day backups and verified deletion-safe restore. Actual Windows EXE feedback and an actual restored receiver410 passed.
+- Windows Release remains a draft by owner choice until the domain, public TLS and external acceptance are ready. Offsite backup is deferred.
+- [Evidence and limits](docs/verification/20261017-feedback-release/README.md).
 
 ### 2026-10-12 · Windows playtest freeze and private feedback acceptance
 

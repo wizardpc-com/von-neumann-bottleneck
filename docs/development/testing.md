@@ -1,3 +1,15 @@
+## Private feedback maintenance — 2026-10-17
+
+Python CI includes `python server/test_maintenance.py`: actual HTTP delete after a
+managed SQLite backup, newest-tombstone restore, report/triage purge, thirty-day
+rotation scope, collision preservation and visible incomplete-backup failure.
+Run `test_remote_feedback` and `test_prelaunch_settings` with the isolated verifier
+for notice renewal and configured privacy-link/keyboard/localization behavior.
+The [current receipt](../verification/20261017-feedback-release/README.md) records
+full156/156 Windows regression, explicit443 follow-up,720p renderer, fixed offline
+EXE native restart and separate actual private HTTPS/VPS acceptance. None proves
+public ingress, current Mac input or unfamiliar-player understanding.
+
 The 2026-09-11 settings follow-up added `tests/test_prelaunch_settings.gd`: preference
 persistence, audio bus, consent independence, diagnostics whitelist and real 1280×720
 settings bounds/focus scrolling. Run in a fresh per-suite QA directory: first-choice

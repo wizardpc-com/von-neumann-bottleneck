@@ -19,6 +19,7 @@ jobs:
       - run: python server/test_community.py
       - run: python server/test_delivery.py
       - run: python server/test_private_report.py
+      - run: python server/test_maintenance.py
   godot:
     runs-on: ubuntu-24.04
     env:

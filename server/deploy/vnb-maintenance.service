@@ -1,0 +1,33 @@
+[Unit]
+Description=Von Neumann Bottleneck local feedback backup and private report
+Requires=vnb-local-receiver.service
+After=vnb-local-receiver.service
+RequiresMountsFor=/srv/ray/apps/vnb/current-local /srv/ray/data/vnb/local /srv/ray/data/vnb/reports /srv/ray/backups/vnb-local
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/srv/ray/apps/vnb/current-local/server
+EnvironmentFile=/etc/ray/vnb/local.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStartPre=/usr/bin/timeout 10 /bin/sh -c "until /usr/bin/curl --noproxy '*' --fail --silent --max-time 1 http://127.0.0.1:18081/v1/health >/dev/null; do sleep 0.2; done"
+ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-local/server/deploy/maintain.py daily --database /srv/ray/data/vnb/local/feedback.sqlite --backup-dir /srv/ray/backups/vnb-local --report-dir /srv/ray/data/vnb/reports/current --triage /srv/ray/data/vnb/reports/triage.sqlite --source-commit ${VNB_SOURCE_COMMIT}
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ReadWritePaths=/srv/ray/backups/vnb-local /srv/ray/data/vnb/reports
+MemoryMax=512M
+CPUQuota=50%
+TasksMax=64
+TimeoutStartSec=10min
+StandardOutput=journal
+StandardError=journal
+LogRateLimitIntervalSec=30s
+LogRateLimitBurst=100

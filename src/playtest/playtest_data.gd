@@ -58,6 +58,8 @@ func _ready() -> void:
 	var preferences := ConfigFile.new()
 	if preferences.load("user://feedback_preferences.cfg")==OK: telemetry_enabled=bool(preferences.get_value("privacy","local_actions",true))
 	_configure_from_command_line(arguments)
+	if ProjectSettings.get_setting("application/feedback_default_source", "") == "external_player":
+		source_kind = "external_player"
 	for argument: String in arguments:
 		if argument.begins_with("--playtest-source="):
 			var value: String = argument.get_slice("=",1)

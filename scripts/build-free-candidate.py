@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build both free candidates from one committed Git archive, never live player data."""
-import argparse,datetime,hashlib,io,json,os,re,shutil,stat,subprocess,sys,tarfile,zipfile,importlib.util
+import argparse,datetime,hashlib,io,ipaddress,json,os,re,shutil,stat,subprocess,sys,tarfile,zipfile,importlib.util
 from urllib.parse import urlsplit
 from pathlib import Path
 
@@ -15,6 +15,26 @@ def packaged_bytes(path):
 
 def godot_path_literal(path):
     return json.dumps(path.resolve().as_posix(),ensure_ascii=False)
+
+
+def public_https_url(value, api_root=False):
+    if any(ord(char)<32 for char in value) or (not api_root and len(value)>2048):
+        return False
+    try:
+        url=urlsplit(value)
+        port=url.port
+        host=url.hostname or ''
+    except ValueError:
+        return False
+    try:ipaddress.ip_address(host)
+    except ValueError:pass
+    else:return False
+    if (url.scheme!='https' or not host or port not in (None,443) or url.username or url.password
+            or url.query or url.fragment or host.endswith(('.local','.localhost','.test','.invalid','.example'))
+            or not re.fullmatch(r'(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}',host)):
+        return False
+    path=r'' if api_root else r'(?:/[A-Za-z0-9._~/-]*)?'
+    return re.fullmatch(r'https://[a-z0-9.-]+(?::443)?'+path,value) is not None
 
 
 def write_zip_entry(package, path, relative):
@@ -42,6 +62,9 @@ def main():
     p.add_argument('--feedback-endpoint',default='',help='Approved HTTPS receiver base; empty keeps local-only delivery')
     p.add_argument('--local-feedback-test',action='store_true',help='Explicit local acceptance package; never external-ready')
     p.add_argument('--creation-journey',action='store_true',help='Include the C/P/G candidate in the isolated second-act journey')
+    p.add_argument('--public-playtest',action='store_true',help='Prepare the explicit Windows public prerelease; external acceptance remains separate')
+    p.add_argument('--release-version',default='',help='Approved public prerelease tag')
+    p.add_argument('--privacy-url',default='',help='Published HTTPS privacy notice URL for the public prerelease')
     a=p.parse_args()
     if a.mac_template and (not a.mac_template.is_file() or a.platform=='Windows'):p.error('--mac-template requires an existing macos.zip and Mac export')
     if a.second_act_profile is not None and (not re.fullmatch(r'[A-Za-z0-9-]{1,40}',a.second_act_profile)):p.error('--second-act-profile requires a safe1–40 character profile')
@@ -52,6 +75,13 @@ def main():
     if a.feedback_endpoint and (url.scheme!='https' and not (a.local_feedback_test and url.scheme=='http' and url.hostname in ['127.0.0.1','localhost'])):p.error('HTTPS required except explicit local acceptance')
     if a.feedback_endpoint and (not url.hostname or url.username or url.password or url.query or url.fragment or a.feedback_endpoint.endswith('/')):p.error('unsafe receiver URL')
     if a.local_feedback_test and (not a.feedback_endpoint or url.hostname not in ['127.0.0.1','localhost']):p.error('local acceptance needs an explicit loopback endpoint')
+    if a.public_playtest:
+        if a.platform!='Windows' or a.local_feedback_test or a.mac_template:p.error('public playtest requires Windows only, without local acceptance or Mac template')
+        if a.second_act_profile!='CloudPlaytest' or not a.creation_journey:p.error('public playtest requires the full CloudPlaytest journey')
+        if a.release_version!='v0.5.0-alpha.2' or not a.test_batch or not re.fullmatch(r'[0-9a-f]{40}',a.commit):p.error('public playtest requires v0.5.0-alpha.2, a batch and a full fixed commit SHA')
+        if not a.windows_template:p.error('public playtest requires a matching Windows template')
+        if not public_https_url(a.feedback_endpoint,api_root=True) or not public_https_url(a.privacy_url):p.error('public playtest requires public HTTPS API-root and privacy-page URLs')
+    elif a.release_version or a.privacy_url:p.error('release version and privacy URL require --public-playtest')
     template=a.mac_template.resolve() if a.mac_template else None
     root=Path(__file__).resolve().parents[1]
     commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True).strip()
@@ -94,6 +124,7 @@ def main():
     (project/'export_presets.cfg').write_text(presets)
     original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))
+    if a.public_playtest:original=original.replace('[application]','[application]\nfeedback_default_source="external_player"\nfeedback_privacy_url='+json.dumps(a.privacy_url),1)
     # Bind binary-exported scripts to the same workspace model fingerprints as source.
     workspace_versions={}
     for state in ['src/system_lab/system_chapter_state.gd','src/locality_chapter/locality_chapter_state.gd']:
@@ -112,6 +143,31 @@ def main():
     for document in ['README.md','README.en.md','CHANGELOG.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
         path=project/document
         path.write_text(identity+path.read_text().replace('@BUILD_ID@',build_id).replace('@SOURCE_COMMIT@',commit))
+    if a.public_playtest:
+        path=project/'distribution/PLAYTEST-README.txt'
+        content=path.read_text()
+        replacements={
+            '解压 Windows ZIP 后运行 Von-Neumann-Bottleneck.exe；Mac 运行 .app。':'解压 Windows ZIP 后运行 Von-Neumann-Bottleneck.exe。本次公开预发布仅提供 Windows。',
+            'Extract and run the Windows EXE or macOS app.':'Extract and run the Windows EXE. This prerelease is Windows-only.',
+        }
+        for old,new in replacements.items():
+            if old not in content:raise ValueError('Review changed public README wording: '+old)
+            content=content.replace(old,new,1)
+        path.write_text(content)
+        path=project/'distribution/KNOWN-ISSUES.txt'
+        content=path.read_text()
+        replacements={
+            '- Mac 包为 ad-hoc 签名、未公证；仍需另一台 Mac 核对安装、首启与保存。Windows 包未进行正式代码签名。':'- 本次不提供 Mac 包；Mac 候选的异机首启与存档尚未验收。Windows 包未进行正式代码签名。',
+            '- 离线包的云端反馈入口为空。可保存/导出意见；已配置私有验收入口的包会明确单独标记，不能当作公网可用包。':'- 本公开试玩包配置了下方 HTTPS 反馈入口；发送意见须单独确认，自动统计默认关闭。',
+            '- 公网反馈入口尚未启用；域名、TLS 与异机上传/删除验收完成前，仅准备发布草稿。离线游玩不依赖服务器。':'- 公开反馈入口与隐私说明见下方。构建本身不证明公网验收；离线游玩不依赖服务器。',
+            'macOS is ad-hoc signed and unnotarized; independent Mac first-launch/save checks remain open.':'No macOS package is included in this prerelease; native Mac acceptance remains open.',
+            'Offline packages have no feedback receiver. Explicit private acceptance builds are separately labelled.':'This public playtest configures the HTTPS receiver below. Automatic statistics remain off; sending an opinion requires separate consent. External acceptance is recorded separately.',
+        }
+        for old,new in replacements.items():
+            if old not in content:raise ValueError('Review changed public known-issues wording: '+old)
+            content=content.replace(old,new,1)
+        content+='\n公开试玩版本 / Public prerelease: '+a.release_version+'\n反馈入口 / Feedback receiver: '+a.feedback_endpoint+'\n隐私说明 / Privacy notice: '+a.privacy_url+'\n'
+        path.write_text(content)
     isolated_base='\n'.join(line for line in original.splitlines() if not line.startswith(('config/use_custom_user_dir=','config/custom_user_dir_name=')))+'\n'
     isolated=isolated_base.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="VonNeumannBottleneckChecks/build-'+stamp+'"')
     def run(name,args):
@@ -128,7 +184,8 @@ def main():
     run('licenses',['--script','res://candidate_license_probe.gd']);probe.unlink()
     (project/'project.godot').write_text(original)
     # Exporters themselves do not start the game. Native QA uses a separate override.
-    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':False,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261013-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
+    manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':a.public_playtest,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261013-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
+    if a.public_playtest:manifest.update(release_version=a.release_version,privacy_url=a.privacy_url,feedback_default_source='external_player')
     rules=json.loads((project/'server/community_rules.json').read_text())
     manifest['content_tasks']=rules.get('content_manifests',{}).get(manifest['content_version'],{'tasks':rules['tasks']})['tasks']
     if not a.creation_journey:manifest['content_tasks']=[task for task in manifest['content_tasks'] if not task.startswith('creation/')]
@@ -145,7 +202,9 @@ def main():
         if a.second_act_profile:
             with (folder/'README.txt').open('a') as notes:
                 notes.write('\nSecond-act isolated candidate journey\nProfile: '+a.second_act_profile+'\nRepresentation five tasks and Service three contracts have separate plans and endings. Save before leaving; the earned Representation review can continue to Service. Home recommends core construction/bottleneck work, the core ending, Representation, Service, and a saved four-page closing review. Timing and placement remain parallel; optional tasks are not required by this recommendation. The Journey map contains all core tasks, five Representation tasks, three Service contracts and three optional Prediction investigations. Select a task to enter its workbench and return through its existing save guard. Prediction remains temporary and is discarded on leaving; follow-up commissions remain optional. This build uses an isolated candidate profile and does not read or migrate production progress.\n')
-                if a.creation_journey:notes.write('\nCompression, content prediction and creation are also enabled: nine candidate units share the light-pattern workbench, learned rules and machine. The address-prediction investigations above remain separate and optional. Creation drafts, protected works and complete recipes use their own candidate session file; saved snapshots can be viewed, replayed or forked. This is offline candidate content, not a production-save migration.\n')
+                if a.creation_journey:
+                    notes.write('\nCompression, content prediction and creation are also enabled: nine candidate units share the light-pattern workbench, learned rules and machine. The address-prediction investigations above remain separate and optional. Creation drafts, protected works and complete recipes use their own candidate session file; saved snapshots can be viewed, replayed or forked. '
+                                +('This content does not migrate production saves.' if a.public_playtest else 'This is offline candidate content, not a production-save migration.')+'\n')
         if a.test_batch:
             notes=folder/'README.txt'
             content=notes.read_text()
@@ -159,6 +218,7 @@ def main():
                 content+='服务数据另在同级 service/'+a.second_act_profile+'/；更新前备份这两个完整目录。测试渠道与正式存档隔离，不导入QA通关档。\n'
             content+='\n本轮测试批次 / Test batch: '+a.test_batch+'\n内容版本: '+manifest['content_version']+'\n实际任务: '+str(len(manifest['content_tasks']))+'（完整任务清单见 manifest.json）\n'
             content+='反馈入口: '+(a.feedback_endpoint or '未配置；仅本机保存/导出')+'\n自动统计默认关闭，单次意见独立授权；只有匹配服务器回执才标已收。\n'
+            if a.public_playtest:content+='公开试玩版本 / Public prerelease: '+a.release_version+'\n隐私说明 / Privacy notice: '+a.privacy_url+'\n本构建未自行证明公网验收；请以独立验收记录为准。\n'
             content+='本地验收包，不能作为外部云端可用证据。\n' if a.local_feedback_test else '外部连接/平台实测以验收记录为准。\n'
             content+='测试存档渠道稳定，不随构建号清空；更新前完整备份候选profile及service同名目录。不要用QA通关档代替新档。\n'
             notes.write_text(content)

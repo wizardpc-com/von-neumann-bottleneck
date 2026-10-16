@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "source_commit": "347e4262602e05e67520b69f85451ade6a9c2297",
+  "source_archive_sha256": "6ac4982ce85e0e8dcb56a3026a3b17af923f8314e4ae245c98f15e5ce33c9726",
+  "privacy_sha256": "1d9aebfae2defcd632bfda71b9f03dd6aa09317878f25954fb30c6203695f7a5",
+  "live_counts": {
+    "schema_version": 2,
+    "clients": 0,
+    "events": 0,
+    "tombstones": 1
+  },
+  "daily_maintenance_result": "Result=success",
+  "original_caddy_unchanged": true,
+  "original_service_pids_unchanged": true,
+  "protected_historical_hashes_unchanged": true,
+  "public_ingress_enabled": false,
+  "offsite_backup_configured": false
+}

@@ -2,7 +2,7 @@ extends Node
 ## Optional upload transport; never participates in game or simulation state.
 signal status_changed
 const STATE_PATH: String = "user://feedback_outbox_v1.json"
-const NOTICE_VERSION: String = "2026-09-11"
+const NOTICE_VERSION: String = "2026-10-17"
 const CONSENT_VERSION: String = "sharing-2"
 const SUMMARY = preload("res://src/playtest/visit_summary.gd")
 const MAX_QUEUE: int = 256
@@ -48,6 +48,12 @@ func endpoint_allowed() -> bool:
 	if endpoint.begins_with("https://"): return true
 	# Cleartext is only for this approved local integration path.
 	return endpoint.begins_with("http://127.0.0.1:") or endpoint.begins_with("http://localhost:")
+func privacy_url() -> String:
+	var url: String = str(ProjectSettings.get_setting("application/feedback_privacy_url",""))
+	if url.length() > 2048: return ""
+	var pattern := RegEx.new()
+	if pattern.compile("^https://[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+(?::443)?(?:/[A-Za-z0-9._~/-]*)?$") != OK: return ""
+	return url if pattern.search(url) != null else ""
 func _process(delta: float) -> void:
 	elapsed+=delta
 	if elapsed>=FLUSH_SECONDS:

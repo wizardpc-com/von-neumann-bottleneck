@@ -32,17 +32,26 @@ func _ready() -> void:
 	label(box,"settings.sharing_title",26); label(box,"settings.sharing_intro")
 	var destination := Label.new(); destination.text=RemoteFeedback.endpoint; destination.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; box.add_child(destination)
 	var details := VBoxContainer.new(); details.hide()
-	var inventory := Button.new(); inventory.text=Localization.text(&"settings.inventory")
+	var inventory := Button.new(); inventory.name="SharingInventory"; inventory.text=Localization.text(&"settings.inventory"); inventory.set_meta("locale_key","settings.inventory")
 	inventory.pressed.connect(func() -> void: details.visible=not details.visible); box.add_child(inventory)
 	box.add_child(details); label(details,"settings.inventory_detail")
-	local_button=Button.new(); local_button.text=Localization.text(&"sharing.local_only"); local_button.custom_minimum_size.y=48
+	var buttons: Array[Control] = [inventory]
+	var url: String = RemoteFeedback.privacy_url()
+	if not url.is_empty():
+		var privacy_link := LinkButton.new(); privacy_link.name="PrivacyNoticeLink"
+		privacy_link.focus_mode=Control.FOCUS_ALL; privacy_link.custom_minimum_size.y=36
+		privacy_link.text=Localization.text(&"sharing.view_privacy_notice"); privacy_link.set_meta("locale_key","sharing.view_privacy_notice")
+		privacy_link.pressed.connect(func() -> void: OS.shell_open(url))
+		box.add_child(privacy_link); buttons.append(privacy_link)
+	local_button=Button.new(); local_button.name="SharingLocalOnly"; local_button.text=Localization.text(&"sharing.local_only"); local_button.set_meta("locale_key","sharing.local_only"); local_button.custom_minimum_size.y=48
 	local_button.pressed.connect(choose.bind("local")); box.add_child(local_button)
-	var basic := Button.new(); basic.text=Localization.text(&"sharing.share_basic_statistics_one_summary_per_visit")
+	var basic := Button.new(); basic.name="SharingBasic"; basic.text=Localization.text(&"sharing.share_basic_statistics_one_summary_per_visit"); basic.set_meta("locale_key","sharing.share_basic_statistics_one_summary_per_visit")
 	basic.custom_minimum_size.y=48; basic.pressed.connect(choose.bind("basic")); box.add_child(basic)
-	var buttons: Array[Button] = [inventory,local_button,basic]
+	buttons.append(local_button); buttons.append(basic)
 	for index: int in range(buttons.size()):
-		buttons[index].focus_next=buttons[index].get_path_to(buttons[(index+1)%3])
-		buttons[index].focus_previous=buttons[index].get_path_to(buttons[(index+2)%3])
+		buttons[index].focus_next=buttons[index].get_path_to(buttons[(index+1)%buttons.size()])
+		buttons[index].focus_previous=buttons[index].get_path_to(buttons[(index+buttons.size()-1)%buttons.size()])
+	Localization.locale_changed.connect(func(_locale: String) -> void: _refresh_language())
 	call_deferred("_take_focus")
 
 func _take_focus() -> void:
@@ -51,7 +60,14 @@ func _take_focus() -> void:
 
 func label(parent: Node,key: String,font_size: int=20) -> void:
 	var node := Label.new(); node.text=Localization.text(StringName(key)); node.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	node.set_meta("locale_key",key)
 	node.add_theme_font_size_override("font_size",font_size); parent.add_child(node)
+
+func _refresh_language() -> void:
+	if not is_instance_valid(overlay): return
+	for control: Control in overlay.find_children("*","Control",true,false):
+		if control.has_meta("locale_key"):
+			control.set("text",Localization.text(StringName(control.get_meta("locale_key"))))
 
 func choose(mode: String) -> void:
 	remember_choice(mode)

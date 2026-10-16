@@ -28,9 +28,13 @@ removed; recover historical task books from Git when needed.
 - [Candidate build procedure](distribution/free-alpha.md)
 - [Current acceptance gates](../RELEASE_BLOCKERS.md)
 - [VPS staging contract](distribution/ray-vps.md) · [Receiver](../server/README.md) · [Operator runbook](../server/deploy/RUNBOOK.md)
+- [September 2026 challenge preparation (historical)](distribution/astra-challenge/README.md)
 
 ## Verification
 
+- [Windows draft and deletion-safe private VPS operations](verification/20261017-feedback-release/README.md)
+
+- [Latest creative expression candidate and acceptance limits](verification/20261013-creation-expression/README.md)
 - [Whole-journey experience, before/after and art/playtest handoff](verification/20261012-experience/README.md)
 - [Windows freeze and actual private VPS HTTPS feedback](verification/20261012-pre-release/README.md)
 - [Sixty-task package and feedback receipt](verification/20261010-cloud-playtest/README.md)

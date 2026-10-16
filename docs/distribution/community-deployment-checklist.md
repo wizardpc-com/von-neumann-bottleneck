@@ -1,8 +1,10 @@
-# Owner's later deployment checklist
+# Public feedback service deployment checklist
 
-This checkout is offline by default. Server code, portable configuration, synthetic
-integration and client UI are prepared; no production endpoint, domain, account or
-key is filled in. No purchase, DNS change, public hosting or release occurred.
+The published 40-task Alpha and frozen 60-task candidate packages are offline.
+Private synthetic VPS feedback was verified in a [dated acceptance record](../verification/20261012-pre-release/README.md);
+public player intake is separate. Server code, portable configuration and client UI
+are prepared, but this repository specifies no production endpoint, real domain or
+service credential. A full-journey Windows Pre-release is in preparation.
 
 Before enabling public sharing:
 
@@ -28,5 +30,5 @@ Before enabling public sharing:
    back using compatible data, never a stale database missing deletion tombstones.
 
 Use [the operator runbook](../../server/deploy/RUNBOOK.md) for exact local maintenance
-commands. Public launch still requires the owner's explicit decision and host checks;
-“prepared” does not assert that an untested production machine is ready for traffic.
+commands. Record the host checks and actual acceptance before enabling public feedback
+intake; “prepared” does not assert that a production machine is ready for traffic.

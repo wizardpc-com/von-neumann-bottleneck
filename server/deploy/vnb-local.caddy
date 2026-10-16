@@ -1,0 +1,59 @@
+{
+    admin off
+    auto_https disable_redirects
+    skip_install_trust
+    log {
+        output discard
+    }
+    servers {
+        protocols h1 h2
+        timeouts {
+            read_header 5s
+            read_body 6s
+            idle 30s
+        }
+    }
+}
+
+https://localhost:28443 {
+    bind 127.0.0.1
+    tls internal
+
+    request_body {
+        max_size 131072
+    }
+
+    @privacy {
+        method GET
+        path /privacy.html
+    }
+    @health {
+        method GET
+        path /v1/health
+    }
+    @events {
+        method POST
+        path /v1/events
+    }
+    @erase {
+        method DELETE
+        path /v1/data
+    }
+
+    handle @privacy {
+        root * /srv/ray/apps/vnb/current-local/server/deploy
+        file_server
+    }
+    handle @health {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle @events {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle @erase {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle {
+        respond 404
+    }
+}

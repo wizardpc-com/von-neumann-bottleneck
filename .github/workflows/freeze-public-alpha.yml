@@ -1,25 +1,34 @@
-name: Freeze public Alpha candidate
+name: Prepare Windows Alpha 2 package
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/freeze-public-alpha.yml'
-      - 'src/hardware_foundations/circuit_workbench_store.gd'
-      - 'scripts/verify-mac-candidate.py'
-      - 'scripts/build-free-candidate.py'
-      - 'scripts/check-candidate-identity.py'
   workflow_dispatch:
+    inputs:
+      test_batch:
+        description: Immutable public playtest batch
+        required: true
+        type: string
+      feedback_endpoint:
+        description: Approved public HTTPS API root
+        required: true
+        type: string
+      privacy_url:
+        description: Published HTTPS privacy notice
+        required: true
+        type: string
 
 permissions:
   contents: read
 
 jobs:
   build-candidate:
+    if: github.ref == 'refs/heads/main'
     runs-on: macos-14
     timeout-minutes: 60
     env:
       GODOT_VERSION: 4.7.1
+      TEST_BATCH: ${{ inputs.test_batch }}
+      FEEDBACK_ENDPOINT: ${{ inputs.feedback_endpoint }}
+      PRIVACY_URL: ${{ inputs.privacy_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -57,22 +66,25 @@ jobs:
           cp -R "$RUNNER_TEMP/vnb-templates/templates/." "$template_dir/"
           "$root/Godot.app/Contents/MacOS/Godot" --version
           test -f "$template_dir/windows_release_x86_64.exe"
-          test -f "$template_dir/macos.zip"
 
-      - name: Build immutable Mac and Windows candidate from this commit
+      - name: Build immutable Windows public-playtest package from this commit
         shell: bash
         run: |
           set -euo pipefail
           godot="$RUNNER_TEMP/vnb-godot/Godot.app/Contents/MacOS/Godot"
-          python3 scripts/build-free-candidate.py --godot "$godot" --commit "$GITHUB_SHA"
+          windows_template="$HOME/Library/Application Support/Godot/export_templates/${GODOT_VERSION}.stable/windows_release_x86_64.exe"
+          python3 scripts/build-free-candidate.py --godot "$godot" --commit "$GITHUB_SHA" \
+            --platform Windows --windows-template "$windows_template" \
+            --second-act-profile CloudPlaytest --creation-journey \
+            --public-playtest --release-version v0.5.0-alpha.2 \
+            --test-batch "$TEST_BATCH" --feedback-endpoint "$FEEDBACK_ENDPOINT" --privacy-url "$PRIVACY_URL"
 
-      - name: Verify candidate identity and actual Mac release binary
+      - name: Verify package identity and hashes
         shell: bash
         run: |
           set -euo pipefail
-          build_id="free-alpha-${GITHUB_SHA:0:12}"
+          build_id="playtest-${TEST_BATCH}-${GITHUB_SHA:0:12}"
           python3 scripts/check-candidate-identity.py "build/$build_id"
-          python3 scripts/verify-mac-candidate.py --app "build/$build_id/macOS/Von-Neumann-Bottleneck.app"
           python3 - "$build_id" <<'PY'
           import json, pathlib, sys
           build_id=sys.argv[1]
@@ -80,14 +92,13 @@ jobs:
           print(json.dumps(manifest, indent=2))
           PY
 
-      - name: Upload release-ready assets
+      - name: Upload package for separate external acceptance
         uses: actions/upload-artifact@v4
         with:
-          name: public-alpha-candidate-${{ github.sha }}
+          name: windows-alpha2-unverified-${{ github.sha }}
           path: |
-            build/free-alpha-*/Von-Neumann-Bottleneck-macOS-free-alpha-*.zip
-            build/free-alpha-*/Von-Neumann-Bottleneck-Windows-free-alpha-*.zip
-            build/free-alpha-*/manifest.json
+            build/playtest-*/Von-Neumann-Bottleneck-Windows-playtest-*.zip
+            build/playtest-*/manifest.json
           if-no-files-found: error
           retention-days: 30
           compression-level: 0

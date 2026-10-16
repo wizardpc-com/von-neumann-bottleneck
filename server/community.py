@@ -30,7 +30,7 @@ def validate_score(p):
     key=p.get('chapter_id','')+'/'+p.get('level_id','')
     rule=RULES['boards'].get(key)
     if not rule or any(p.get(k)!=rule[k] for k in ['ruleset_version','model_version','case_set_version']): raise ValueError('unsupported_score_rules')
-    if p.get('sharing_mode')!='score' or p.get('privacy_notice_version')!='2026-09-11' or p.get('consent_version')!='sharing-2': raise ValueError('score_consent')
+    if p.get('sharing_mode')!='score' or p.get('privacy_notice_version') not in ('2026-09-11','2026-10-17') or p.get('consent_version')!='sharing-2': raise ValueError('score_consent')
     if p.get('passed_cases')!=rule['case_count'] or p.get('case_count')!=rule['case_count'] or p.get('passed') is not True: raise ValueError('incomplete_cases')
     if not isinstance(p.get('build_version'),str) or not p['build_version']: raise ValueError('build_required')
     for i,prefix in enumerate(['a','b']):

@@ -70,6 +70,10 @@ class CommunityTests(ReceiverTests):
                 prefix+'_output_cycles':9,prefix+'_ram_read_bytes':352,prefix+'_ram_write_bytes':68,prefix+'_peak_extra_bytes':32})
         self.assertEqual(upload(0,score,'score','synthetic-score-01')[0],200)
         self.assertEqual(upload(0,score,'score','synthetic-score-01')[0],200)
+        current=copy.deepcopy(score); current['privacy_notice_version']='2026-10-17'
+        self.assertEqual(upload(0,current,'score','synthetic-score-current')[0],200)
+        future=copy.deepcopy(score); future['privacy_notice_version']='2099-01-01'
+        self.assertEqual(upload(0,future,'score','synthetic-score-future')[0],400)
         query=urlencode({'level_id':'chapter_4/mixed',**{k:rule[k] for k in ['ruleset_version','model_version','case_set_version']},'source':'automated','mode':'test'})
         board=self.request('GET','/v1/leaderboards?'+query)[1]
         self.assertFalse(board['verified']); self.assertEqual(len(board['rows']),1)

@@ -1,0 +1,35 @@
+{
+  "draft": true,
+  "prerelease": true,
+  "published": false,
+  "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/untagged-b360dfd8f48c2f42d7b5",
+  "source_commit": "347e4262602e05e67520b69f85451ade6a9c2297",
+  "build_id": "playtest-ReleaseDraft20261017-347e4262602e",
+  "feedback_endpoint": "",
+  "upload_default": false,
+  "content_tasks": 60,
+  "profile": "CloudPlaytest",
+  "assets": [
+    {
+      "name": "manifest.json",
+      "bytes": 3475,
+      "sha256": "944934f3a336eb47155c59f67853c480f2e23edf7d2d7e5b6c0bce699e447361"
+    },
+    {
+      "name": "privacy.html",
+      "bytes": 8068,
+      "sha256": "1d9aebfae2defcd632bfda71b9f03dd6aa09317878f25954fb30c6203695f7a5"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 303,
+      "sha256": "1ee11813125e2d5a74047b1425fcb1be4fc035c6a1ed38f853eef7d70ddc8fd3"
+    },
+    {
+      "name": "Von-Neumann-Bottleneck-Windows-playtest-ReleaseDraft20261017-347e4262602e.zip",
+      "bytes": 57393376,
+      "sha256": "aeb397edda5e9037c252dd9c5a67eb98edf016dbaf79a6c5b4b6dee102fc4e92"
+    }
+  ],
+  "native_receipt": "native-windows.json"
+}

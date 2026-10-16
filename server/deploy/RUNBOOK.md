@@ -1,4 +1,4 @@
-# Portable receiver operations (examples, not deployed)
+# Portable receiver operations
 
 The shipped client endpoint remains empty. Configure one stable HTTPS API root
 ending in `/v1` only after the owner's deployment decision. The legacy origin-root
@@ -15,19 +15,25 @@ do not delete fresh data silently. Health is `/v1/health` (legacy `/health` reta
 
 ## Selected shared VPS
 
-For the owner's chosen host, follow [Ray VPS deployment](../../docs/distribution/ray-vps.md): standalone `compose.vps.yaml`, staging28081/prod18081 on loopback, separate `/srv/ray/data/vnb/` directories and projects. Do not merge the original8765 Compose; that host port is reserved for the other local service. The new Caddy templates default-deny all but exact health/upload/delete methods. Host installation remains NOT_RUN.
+The [Ray VPS deployment plan](../../docs/distribution/ray-vps.md) records the earlier
+Compose staging/prod paths and ports; its 2026-10-04 `NOT_RUN` result describes that
+historical check, not the current host state. The separate localhost deployment
+templates use `vnb-feedback` on loopback port 18081, an independent Caddy instance
+at `https://localhost:28443`, the `/srv/ray/apps/vnb/current-local` source symlink,
+and a daily maintenance timer. They do not change the older staging instance or other Caddy
+sites. Treat the templates as prepared until host installation, isolation and
+end-to-end results are recorded separately. No public feedback domain is configured.
 
 ## Local installation / later host installation
 
 Use Python 3.9+ and `python3 feedback_server.py --database <local-file>` for loopback.
 For Docker, create `server/data` writable by UID 65532, then `docker compose up --build`.
 Compose publishes only 127.0.0.1. Its image listens on the container interface;
-never publish that port on all host interfaces. Docker/Caddy/systemd examples have
-not been executed on this Mac; production installation is a later acceptance gate.
-The service unit expects a dedicated unprivileged user, protected environment file
-and a writable `/var/lib/vnb-feedback`; install these explicitly on the chosen host.
+never publish that port on all host interfaces. The current localhost systemd
+templates are separate from this Docker example; check their actual installed
+paths, users, mounts, listeners and restart behavior before claiming host acceptance.
 
-Caddy's example hostname is deliberately invalid. Later configure real DNS, TLS,
+Caddy's `Caddyfile.example` hostname is deliberately invalid. Later configure real DNS, TLS,
 firewall and a public privacy page before enabling client upload. Keep administration
 loopback-only; Caddy blocks `/admin/*`. The receiver ignores forwarded IP headers.
 Behind a proxy its IP limit is an aggregate safety limit, not per-player capacity;
@@ -37,14 +43,52 @@ availability without retaining player IP, note, token or query strings.
 
 ## Backups and restore
 
-`python3 storage.py backup live.sqlite snapshot-<timestamp>.sqlite` uses SQLite's
-online backup API, including WAL data; never copy only the live main file.
-`python3 storage.py check snapshot.sqlite` shows schema and row counts.
-`python3 storage.py restore snapshot.sqlite fresh.sqlite` refuses an existing target.
-Stop the receiver, restore to a new path, check integrity/counts, start against that
-path, and exercise synthetic upload/retry/delete before switching traffic.
-Protect backups like live data, keep a bounded 30-day rotation, and include deletion
-tombstones from the newest database before exposing a restored old backup.
+The local daily timer calls the standard-library maintenance CLI from the complete
+`current-local` source. Run it manually after a deletion and before viewing the
+current private report:
+
+```sh
+python3 server/deploy/maintain.py daily \
+  --database /srv/ray/data/vnb/local/feedback.sqlite \
+  --backup-dir /srv/ray/backups/vnb-local \
+  --report-dir /srv/ray/data/vnb/reports/current \
+  --triage /srv/ray/data/vnb/reports/triage.sqlite \
+  --source-commit FULL_40_HEX_SOURCE_COMMIT
+```
+
+`daily` uses SQLite's online backup API, including WAL data; never copy only the
+live main file. It records the source commit, schema/counts and SHA-256 beside a
+private snapshot, purges stale triage annotations and regenerates `current` report
+JSON/HTML, then removes only its own backup pairs with matching managed metadata
+older than 30 days.
+Directories are mode 0700 and output files mode 0600. Managed-prefix orphan, partial, invalid or hash-mismatched backups fail maintenance visibly and remain private for operator review and removal under the 30-day policy. Check `systemctl --failed` and the maintenance journal; no external failure notification is configured. A confirmed live deletion
+does not immediately erase earlier backups: they remain until their 30-day age
+limit and the next successful daily cycle. Necessary deletion tombstones do not
+expire with event or backup rotation. Off-host backup is not configured.
+
+Before recovery, stop the maintenance timer, wait for any running maintenance to finish, then stop intake and the receiver so the timer cannot restart it. Preserve the latest **full** live
+database (including tombstones) with `storage.py backup`, and freeze that snapshot.
+Restore only into a new private directory distinct from live and backup directories:
+
+```sh
+install -d -m 0700 /srv/ray/data/vnb/recovery-input-NEW
+python3 server/storage.py backup /srv/ray/data/vnb/local/feedback.sqlite \
+  /srv/ray/data/vnb/recovery-input-NEW/latest-full.sqlite
+python3 server/deploy/maintain.py restore \
+  --backup /srv/ray/backups/vnb-local/vnb-feedback-UTC-ID.sqlite \
+  --latest /srv/ray/data/vnb/recovery-input-NEW/latest-full.sqlite \
+  --destination /srv/ray/data/vnb/recovery-NEW/feedback.sqlite
+```
+
+`restore` verifies the managed backup metadata/hash/counts, merges the frozen
+latest full database so deletion tombstones defeat older events, checks the final
+SQLite backup, and refuses to overwrite an existing path. Verify integrity,
+counts, deletion behavior and synthetic upload/retry before switching the receiver
+to the recovered database. If the latest full deletion state is missing or
+untrustworthy, do not put an old backup online; these steps cannot eliminate data
+loss when the latest state itself has been lost. Before starting a receiver after offline root-owned SQLite maintenance, verify ownership of its database and any WAL/SHM files. The selected writable directory and those files must belong to the receiver account; update the unit write-path allowlist if switching to a recovery directory. Protect and remove the temporary
+latest-full snapshot under the same private retention rules after the recovery
+decision.
 
 ## Migration / DNS cutover
 
@@ -95,9 +139,10 @@ python3 server/private_report.py --database /private/current/feedback.sqlite \
   --triage /private/current/private-triage.sqlite --purge-triage
 ```
 
-Before bringing an old receiving backup online or reporting it, restore to a new
-path, merge the newest full database snapshot/tombstones using `storage.py merge`,
-check counts/integrity, then purge the sidecar and regenerate reports. An old
+Before bringing an old receiving backup online or reporting it, use the frozen
+latest full database and `maintain.py restore` above, then purge the sidecar and
+regenerate reports with `maintain.py daily --database` pointed at the selected
+recovered database before viewing them. An old
 sidecar never makes a missing feedback ID visible; an old receiving database
 without newest tombstones can, so it must not be exposed. Delete superseded report
 outputs and apply the approved backup retention/deletion policy to receiving and

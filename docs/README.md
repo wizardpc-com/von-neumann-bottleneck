@@ -33,6 +33,9 @@ removed; recover historical task books from Git when needed.
 
 ## Verification
 
+- [Current creative presentation, original-work review, fixed Windows packages and next-day handoff](verification/20261018-creative-framework/README.md)
+- [Full-journey task context, earned journal and 3D observatory](verification/20261018-full-journey/README.md)
+
 - [Offline teammate Windows tester, screenshots and final-only multi-play import](verification/20261017-offline-teammate/README.md)
 
 - [Windows draft and deletion-safe private VPS operations](verification/20261017-feedback-release/README.md)

@@ -1,6 +1,10 @@
 # 全旅程需求与证据账本 · 2026-10-18
 
-**当前Gate：F1双实包控制器链通过，完整goal仍active。** SOURCE固定8334ab137beb95f24f6092ac0a23df69c592255f。
+**当前工程Gate：产品SOURCEc109的完整Windows172/172与两CI通过；普通实包128+独立重启47、测试者138+47及原随包60入口/CPG/4现场2会话/最终ZIP独立导入与去重均已通过。** 普通QA8a07、测试者QA-only0bc3/9d0a来源分别记录，产品和ZIP未因QA修变更。实际包、五图、原生范围及最多五个次日问题以[最新集中证据/交接](../verification/20261018-creative-framework/README.md)为准。正式美术/人设/声线/结局、新人、Mac与真人旧作品继续开放，完整goal仍active。
+
+以下F1固定8334段落保留其当时身份与验收，不自动覆盖后续实现；当前F2/F3结果以上述最新入口为准。
+
+**F1历史Gate：F1双实包控制器链通过，完整goal仍active。** SOURCE固定8334ab137beb95f24f6092ac0a23df69c592255f。
 normal5acc父77+strict重启29；tester288父87+strict重启29及367b原包内tool子链通过，包含60入口、
 真实C→P→G/作品逐字节重启、4现场/2会话和最终单ZIP独立导入/去重。两ZIP/manifest/EXE/PCK、
 controller52e78b94、各validator与脱敏来源链集中在[证据入口](../verification/20261018-full-journey/README.md)。

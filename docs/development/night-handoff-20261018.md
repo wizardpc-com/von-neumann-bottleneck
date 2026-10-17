@@ -1,6 +1,7 @@
 # 10月18日接续：先试玩，再选择
 
-后续全旅程开发、最新Gate与次日入口见[新版集中证据/交接](../verification/20261018-full-journey/README.md)。
+最新可替换创作呈现、原作品回看、固定双包与次日问题见[当前集中证据/交接](../verification/20261018-creative-framework/README.md)。
+此前全旅程阶段保留在[F1证据](../verification/20261018-full-journey/README.md)。
 本页以下保留原7c候选身份与其限定证据，不自动认证新分支或新包。
 
 ## 当前版本

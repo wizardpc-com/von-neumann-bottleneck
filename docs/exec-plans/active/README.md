@@ -1,16 +1,13 @@
 # Execution queue
 
-The [saved-work review round](saved-work-review-20261018.md) is **active** on
-`codex/saved-work-review-20261018`, based on the pushed F2 checkpoint157e3ef.
-It connects the journal to the original saved-work snapshot without generating,
-replaying or rewriting it. F2 rendering and this round retain separate gates;
-the final Windows package pair will verify their integrated source.
-
-The [replaceable creative presentation round](creative-framework-20261018.md) is
-**active**, based on the frozen full-journey checkpoint. It adds optional earned
-first-light presentation and concrete media replacement slots, and prepares a
-same-circuit dark/light workbench comparison. Verification and new packages are
-recorded separately from the fixed source8334 packages.
+The [saved-work review round](../completed/saved-work-review-20261018.md) and
+[replaceable creative presentation round](../completed/creative-framework-20261018.md)
+are **completed within their recorded engineering scope**. Product sourcec109
+passes172/172 full Windows stages and both fixed package chains; ordinary128+47,
+tester138+47 plus its bundled collector. Limited OS-input routes are separately
+recorded in the [current evidence and next-day handoff](../../verification/20261018-creative-framework/README.md).
+The external tester QA-only checkpoint0bc3 corrects an ancestor-visibility check;
+product/ZIP identity remainsc109. Both stages retain their failures and checkpoints.
 
 The [full-journey continuation](full-journey-experience-20261018.md) is **active**.
 It expands the first candidate with source-backed task context, a read-only

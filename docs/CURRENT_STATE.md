@@ -4,40 +4,53 @@
 
 ## Current development — 2026-10-18
 
-The `codex/full-journey-experience-20261018` candidate adds bilingual task context
-for all sixty entrances, a read-only earned-work journal and a real optional3D
-observatory. Both fixed Windows ZIPs use source
-`8334ab137beb95f24f6092ac0a23df69c592255f`: ordinary progression uses
-`FullJourney20261018`; all-entrance inspection uses
-`OfflineTeammate-FullJourney20261018`. Access alone never grants completion.
-The ordinary package passes77 controller checks plus29 independent-reopen checks;
-the tester passes87 plus29, including real C→P→G, protected-work restart and the
-final-only feedback ZIP through its actual bundled collector. Runtime-equivalent
-source226 passes168/168 full Windows regression; both exact-source8334 CI runs
-are successful. Separate scoped OS input checks cover actual ordinary tutorial
-wiring/completion, journal/observatory and both feedback modal-return routes.
-These are known-answer agent checks, not unfamiliar-player acceptance.
+PR10 is merged into `main` as `bf8f61647c03c8bba868cc833b3832e274bd4aee`.
+The current candidate adds bilingual context for all sixty tasks, a journal of
+actual earned records and saved works, an optional3D observatory, a skippable
+introduction with replaceable media, and an optional fixed NOT1→0 retrospective.
+The journal opens original saved-work snapshots and recipes without generating,
+forking or reconstructing events. Feedback closes before the owning work window.
+The light workbench remains a QA comparison rather than a global theme option.
 
-The [full-journey evidence](verification/20261018-full-journey/README.md) records
-exact identities, screenshots, failures and remaining scope. Draft PR12 is based
-on PR11's candidate branch; neither candidate was merged or publicly released.
-The full development goal remains active. Replaceable narrative media, broader
-creative presentation, human comprehension and final artistic/story decisions
-remain open in the [coverage ledger](development/full-journey-coverage.md).
+Both fixed Windows ZIPs use product source
+`c109f0e9761726645faaa8d86d83fafa590cdec4`: ordinary progression uses
+`Creative20261018`; all-entrance inspection uses
+`OfflineTeammate-Creative20261018`. Access alone never grants completion.
+The ordinary package passes128 controller checks plus47 independent-reopen checks;
+the tester passes138 plus47, including its original bundled collector's sixty
+actual entries, real C→P→G, saved-work restart and final-only four-case/two-session
+feedback ZIP import and deduplication. Work preparation uses actual Session actions
+in private QA profiles; these are not unfamiliar players or natural full journeys.
+The downloaded ZIPs contain no QA save profiles.
 
-The newer creative presentation adds optional earned-light replay and concrete
-replacement media slots. The `codex/saved-work-review-20261018` continuation also
-opens original saved-work snapshots from the journal without generating or
-rewriting them. Feedback closes before the owning work window. Fixed241 checks
-pass7/7 and its real work-window route passes172 checks. The unchanged earned-light
-component passes173 real-window checks on2db; the QA-only light workbench sample
-passes135 with its Handbook entry contrast repaired. The optional introduction
-passes208 real-renderer checks on157e. These are controller checks, with C/P/G
-preparation disclosed, and do not establish newcomer understanding.
-Final integrated full regression and new package acceptance remain pending;
-the fixed8334 pair stays usable. The
-[creative presentation evidence](verification/20261018-creative-framework/README.md)
-records precise source identities, images, protected-state checks and old failures.
+Separate actual Windows OS inputs cover both exported packages through
+Home → Journal → original work → Play → F8 → three successive Esc layers → Home,
+with observed focus restoration and normal exit0. The tester also displays and locally autosaves a
+synthetic short Chinese note, independently confirmed in UTF-8. These use explicitly seeded private QA profiles;
+native CPG, native independent restart, long/IME input and newcomer use are not
+established. Exact disk-note and protected-state audit scope is in the evidence.
+
+Exact product sourcec109 passes172/172 complete Windows regression stages and
+both remote CI runs. The ordinary package controller remains8a07; the tester uses
+QA-only checkpoint`0bc3ad7923413a414a22a147f1620f09aadb5ae5`/controller9d0a.
+That one-line correction checks the feedback ancestor's effective visibility;
+product code and both ZIPs are unchanged. The original tester QA failure is
+retained separately. Strict protected-file comparison is scoped to the running
+reopen receipt. Normal exit subsequently updates save timestamps and rotates the
+backup; the complete payload and other protected state are independently checked,
+with only the existing six tester coordinate-type conversions disclosed.
+
+The [current evidence and next-day handoff](verification/20261018-creative-framework/README.md)
+contains exact package paths and SHA256, five source-bound images, renderer and
+OS-input scopes, failures, replacement interfaces and five human-review questions.
+Draft PR14 continues the F2 branch; PR11–14 remain unmerged. No public Release,
+new Mac package or public receiver is included. Earlier source8334 packages and
+all player saves remain available as separate recovery checkpoints.
+
+The full development goal remains active in the
+[coverage ledger](development/full-journey-coverage.md). Formal art, characters,
+voice, endings, newcomer understanding, Mac and real historical-player-work
+acceptance remain open; completed engineering stages do not decide those items.
 
 ## Earlier October18 candidate — fixed7c snapshot
 

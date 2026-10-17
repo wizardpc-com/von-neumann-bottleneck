@@ -1,5 +1,7 @@
 # 可选旅程观察站 · 2026-10-18
 
+
+本文件保留各固定源的阶段记录；旧段落中的失败与待验均指该次收据时点。当前已核结果见末节「c109普通实包与精选图冻结」，测试者再验与原生范围以最终验证记录为准。
 首页和任务地图提供「观察站」与「成长档案」。观察站是可关闭的真实3D候选：
 程序几何、独立SubViewport世界、正交相机及三个固定视角；原生区域／任务列表
 与空间节点使用同一身份，任务树仍是高效导航。没有角色移动、战斗或城市建设。
@@ -115,7 +117,7 @@ headless结果冒称3D渲染成功；fixture灯变化不冒称测试已玩得玩
 脚本／测试和ThemeReflection接缝，不与NineHosts／Journal并写。
 
 现有同数据浅／深component样张满足候选和按钮状态比较的一部分；手册C要求的
-「同一工作台、同一数据与文字」整页浅色候选尚未完成，不列为完整验收。后续仅用QA
+该合同记录时，「同一工作台、同一数据与文字」整页浅色候选尚未完成，不列为当时完整验收；后续结果见末节。拟仅用QA
 代表工作台做同真实数据／原生控件双样；不新增全局light设置，不将当前dark默认定为
 最终美术。实际整页比较、演出实现与人审分别记录，均不能借本段合同冒称已实现。
 
@@ -128,10 +130,10 @@ headless结果冒称3D渲染成功；fixture灯变化不冒称测试已玩得玩
 普通Moments路由不受这9行改动影响；源审未见新增保存或完成权威、未见此已打开路径的新阻断。
 
 新增测试对称覆盖tester原暂停false／true、销毁后层与标志、rootF8继续使用及原作品SHA；
-修后实际GUI尚待独立执行。后续5行取消guard已独立源审：真实绘制await后，若目标已失效／
+该源审时点修后实际GUI待独立执行。后续5行取消guard已独立源审：真实绘制await后，若目标已失效／
 离树／排队销毁，在读取纹理、标题或创建incident前恢复原暂停、busy和工具条并返回。
 对应新增两种原暂停的真实等待期退出测试，要求无新incident／替代root截图且rootF8可复用；
-这些新分支仍待实际执行。保存失败救援尚未故障注入，不由正常路径通过推广为全磁盘失败保证。
+该源审时点这些新分支待实际执行；后续当前结果见末节。此处保存失败救援未故障注入，不由正常路径通过推广为全磁盘失败保证。
 
 ## 横向裁剪修后复核
 
@@ -189,7 +191,7 @@ ScrollContainer将输入按钮完整滚入视口，稳定焦点后再收集现�
 `60fc8f3adf99`仅运行旧产品快照加外置v3镜像的英文720p单例，15项检查通过、进程退出0；
 输入／Pause完整，深浅状态、精确矩形及字体／边距／边框／最小尺寸无差异。dark→dark
 只检查等帧漂移，未做同色Theme重绑对照，不推广为已排除所有重排机制。原失败未覆写。
-修后canonical完整61项及两语三尺寸12帧仍待统一快照收据；不借此单例、旧component比较
+该次单例记录时，修后canonical完整61项及12帧待统一快照收据，后续结果见末节；不借此单例、旧component比较
 或SOURCE8334包验收提前判定全矩阵。本节不改变其历史验收来源。
 
 完整`7759a0f2`复验仍有61项中的1项英文720p精确布局失败。保同流程的
@@ -197,7 +199,7 @@ ScrollContainer将输入按钮完整滚入视口，稳定焦点后再收集现�
 无文字、状态、焦点或节点增删差异，字体、边距、边框与最小尺寸也无差异。
 根机制未证明，不认定浅色色值造成布局改变。QA入口现令每语言构建宿主前均从
 1280×720开始，旧宿主仍先正常退出并等待，再设新档；不继承上一语言末次1440×900
-构建前置。原六组尺寸及61项精确断言不变，未取整或容差。此窄前置修尚待新固定源正式验证。
+构建前置。原六组尺寸及61项精确断言不变，未取整或容差。该记录时点此前置修待新固定源验证，后续结果见末节。
 
 ## F2固定源首组渲染图审
 
@@ -214,7 +216,7 @@ FirstLight同源实际renderer `d76964080874/test_first_light`已产生12张popu
 为其独立真实controller场景，不能将回顾中的build文字当CPU已完成证据。
 整suite随后在第214行`window_lifecycle(host)`遇到已释放实参，监督器按SCRIPT ERROR
 终止自有PID，退出1；后半F8／生命周期为NOT_RUN。图审范围通过不等于整suite通过，
-旧失败与新帧均保留。Yi／完整工作台实际渲染及FirstLight修后完整生命周期仍待收据。
+旧失败与新帧均保留；当时Yi／工作台渲染及FirstLight修后生命周期待收据，后续结果见末节。
 
 ## 固定157e的Yi与工作台实际图审
 
@@ -236,10 +238,10 @@ Yi的Goal、完整原生操作说明、Begin／Skip／返回在所有12帧中可
 推成全控件对比度通过。该入口继承手册独立深色Theme，调色只换了其本地style背景。
 后续窄QA修仅在浅色复制这份局部Theme的6种Button字体色并在深色还原原Theme，
 新增实际入口正常文字／填色4.5:1断言；不改生产、字体、stylebox或几何，原61项仍保留。
-修后67项及新12帧尚待新固定源，旧候选帧保留，不以新名称覆盖。
+该记录时修后67项及新12帧待新固定源，后续结果见末节；旧候选帧保留，不以新名称覆盖。
 
-FirstLight仍独立开放：固定157e的`b29f5323941d`虽产14帧并自报173项通过，
-其非法同级exclusive Window fixture出现engine ERROR，严格收据仍判FAIL；
+该阶段FirstLight独立未闭合：固定157e的`b29f5323941d`虽产14帧并自报173项通过，
+其非法同级exclusive Window fixture出现engine ERROR，该轮严格收据判FAIL；
 这些结果不由上述两suite通过代替。最终交付主图须来自新实际包的真实tutorial完成后
 生产Journal→Reflection，而非`theme.entry`／`theme.build`字幕压力样本。
 
@@ -259,13 +261,13 @@ FirstLight仍独立开放：固定157e的`b29f5323941d`虽产14帧并自报173�
 实际文字／填色4.5:1六组断言通过。原同数据／文字／状态／精确矩形与还原保护也全通过。
 仅QA候选缺口闭合，不将这项扩成全部六态／全游戏可读性或生产全局浅色模式。
 
-F3的`89ecc7b871b0/test_journey_work_review`仍为139项首normal Esc失败，receipt SHA
+F3旧轮`89ecc7b871b0/test_journey_work_review`记录为139项首normal Esc失败，receipt SHA
 `102705c211bfb69f5cda135d73ce3f01d6911be86e7aedecd7516c40aa371a51`。
 已独立查看并核验六张1080×620实际作品快照：两语三根窗口配置下，原64格输出、
 形状符号、播放／静态／低动效、Feedback／返回档案、无生成事件与只读来源说明可见。
 作品名自身的中英原文保持不变；格图末行沿原scroll部分裁剪，未声称全部输出同屏，
 长配方tab亦未由此帧证明。未见额外布局阻断，但tester、销毁、拒存的后半流程未执行。
-同Window Esc桥已独立源审，修后实际输入链待新固定源，六张partial图不认证完整F3。
+该轮记录时，同Window Esc桥已源审、修后输入链待新源；后续见末节，六张partial图不认证完整F3。
 
 ## F3同窗口输入桥修后验收
 
@@ -279,5 +281,40 @@ F3的`89ecc7b871b0/test_journey_work_review`仍为139项首normal Esc失败，re
 本次普通／测试者首Esc、Tab、原焦点返回、销毁后root复用及拒存救援均已实际执行通过，
 原输出／配方／来源、game／workbench／transaction／lease与导航保护也通过。
 这是原Session真实C/P/G保存的controller fixture，不是陌生玩家自然全旅程、60题解答或OS操作。
-旧2db的139项首Esc失败原样保留。当前只关闭本入口的定向GUI范围；整合full及实际新包
-仍为NOT_RUN，最终代表图待新包生产入口，不用本测试图替换包证据。
+旧2db的139项首Esc失败原样保留。241记录时仅关闭本入口的定向GUI范围，整合full与
+实际新包当时为NOT_RUN；当前c109结果见末节，不用本测试图替换实际包证据。
+
+## c109普通实包与精选图冻结
+
+固定`c109f0e9761726645faaa8d86d83fafa590cdec4`完整Windows headless为172／172阶段通过，
+原results SHA `e82e61b0d582a46a6e96472fdd93e59cac43c4a135125ddc519cb2eb70603c57`。
+这不代替已分别记录的真实renderer与实际包门禁。
+普通包`playtest-CreativeExperience20261018-c109f0e97617`使用隔离profile `Creative20261018`；
+ZIP SHA `8a90f47340d4a7c14de57428e5e40cda31831fa59f54dcfee40f0f5623c7d638`。
+独立审`fb44325711b2`：父128项与同profile重启47项均全true、failures空、进程自然0；
+ZIP全部8个成员与解包逐字节相同，inner manifest／EXE／PCK／controller／source／build／profile
+以及parent→不可变post-exit baseline→raw→validation哈希链一致，normal无坐标转换，
+原protected canonical严格相同。父receipt SHA
+`8ae0e05739e6e27ce448a649baf972b1f3d11c5feee88ea0210e011b824ce8c3`，
+strict validation SHA `a4d3ac7d3ee63ec871c47be8b795406ad33990018fd44a3b5368f1da0f6eff16`。
+
+下列五张均先实际查看，再将原字节复制到`docs/verification/20261018-creative-framework/images/`。
+不拼图、缩放、转码或覆盖旧F1图，不凑不存在的before对照。
+
+| 文件 | 实际像素 | 来源与可见范围 |
+| --- | --- | --- |
+| `sourcec109f0e97617-workfb44325711b2-introduction.png` | 1280×720 | 实际普通包导入Texture，原生Goal／Begin／Skip完整 |
+| `sourcec109f0e97617-workfb44325711b2-first-light.png` | 520×384 | 真实五操作教程完成后，生产Journal.milestones打开的可选回顾；非build压力字幕 |
+| `sourcec109f0e97617-workfb44325711b2-saved-work.png` | 864×496 | 同embedded profile合法Session controller setup保存作品；原输出、只读来源、反馈／返回可见 |
+| `source2db6a95a4be8-qa6328a84e7ea9-workbench-dark.png` | 1280×720 | 同数据QA深色比较，合法滚动后冻结 |
+| `source2db6a95a4be8-qa6328a84e7ea9-workbench-light-candidate.png` | 1280×720 | 与上一张同数据／控件；仅QA浅色候选，灰画布及深色信号岛，非生产设置 |
+
+实际包主画面逻辑1600×900缩放至1280×720；两张popup图片尺寸也随此缩放，
+不把测试fixture的650×480／1080×620当实际包像素。FirstLight含固定NOT1→0／灯灭、
+完整字幕与Skip／返回；作品及其独立重启图均保持原id、输出／配方／来源，
+setup明确不是普通玩家自然全旅程。三张包图是rendered controller证据，非OS或新人验收。
+五张完整SHA及最终tester／native状态见同目录上级的验证README／checks；本节仅核普通链，
+不替测试者child、最终ZIP-alone或OS结果授予通过。正式美术、人物、CG、声线与结局仍待团队审阅。
+
+本次文档冻结时，普通c109的128＋47链独立通过；新测试者控制器修正后的再验进行中，
+原生待验。两者最终状态由验证README／checks单独维护，不借普通链或阶段截图授予通过。

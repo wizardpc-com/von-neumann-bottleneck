@@ -2,6 +2,9 @@
 Build: @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
 
+- 2026-10-18 夜间候选：壹的文字与深色皮肤等待团队审阅；浅色目前仅有独立控件比较样张。
+- 新版仅提供本地 Windows 试玩候选；不代表新公网发布、Mac 原生或陌生玩家验收。
+
 - 这是完整候选内容的试玩包，尚未达到陌生玩家理解、难度与艺术体验的最终验收。
 - Windows 原生、自动回放、Mac 导出和其他设备首启分别记录，不能相互替代。当前证据见仓库 docs/CURRENT_STATE.md 和 RELEASE_BLOCKERS.md。
 - Mac 包为 ad-hoc 签名、未公证；仍需另一台 Mac 核对安装、首启与保存。Windows 包未进行正式代码签名。

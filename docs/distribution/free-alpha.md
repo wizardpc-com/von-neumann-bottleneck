@@ -68,6 +68,16 @@ platform acceptance; an export and ZIP hash check do not establish either.
 
 ## Save and feedback boundaries
 
+Offline Windows tester builds accept `--second-act-profile OfflineTeammate` or a
+separate named profile such as `OfflineTeammate-Night20261018`, together with
+`--offline-tester --creation-journey`. The complete profile must remain within
+40 letters, digits or hyphens; a suffixed name requires a nonempty suffix.
+Use the suffixed profile for a separate nightly playtest so opening it leaves
+the October17 `OfflineTeammate` saves and feedback untouched. Its Representation,
+Service and Creation data all follow that selected profile, and the packaged
+README lists its actual directories. No saves are copied or migrated. Reusing
+the exact default profile intentionally resumes that channel; back it up first.
+
 Use the existing player save directory and backup mechanism. New layout state is additive and its completions are replay-validated. Back up the whole user data directory before updating or reverting. Current schema-2 saves carry a minimum writer version; unsupported future fields or writer versions block replacement, and previously issued schema-1 games reject schema 2. Do not replace a protected current save with an older backup to bypass that guard. QA must use a separate user directory and verify it before starting ordinary Game. Do not distribute an isolation override with the public package.
 
 Ratings are optional, unanswered values remain absent, opinions may be saved on incomplete tasks. Agent and automated sources remain distinct from external players. [Local receiver setup](../../server/README.md) covers synthetic integration, consent, queue limits, receipts, deletion, private reports and retention. No service is deployed publicly in this scope.

@@ -65,14 +65,18 @@ func _check(value: bool, message: String) -> void:
 
 
 func _capture_comparison() -> void:
+	root.mode = Window.MODE_WINDOWED
 	var locale := "zh_CN"
+	var requested := Vector2i(1280,720)
 	for argument: String in OS.get_cmdline_user_args():
 		if argument.begins_with("--capture-size="):
 			var dimensions: PackedStringArray = argument.trim_prefix("--capture-size=").split("x")
-			root.size = Vector2i(int(dimensions[0]), int(dimensions[1]))
+			requested = Vector2i(int(dimensions[0]), int(dimensions[1]))
 		if argument.begins_with("--capture-locale="):
 			locale = argument.trim_prefix("--capture-locale=")
 	var english: bool = locale == "en"
+	root.size = requested; root.content_scale_size = requested
+	await create_timer(0.3).timeout
 	var matching_rects: Array[Rect2] = []
 	for light: bool in [false, true]:
 		var page := Control.new()
@@ -132,7 +136,9 @@ func _capture_comparison() -> void:
 		else:
 			_check(matching_rects[0] == rect, "Palette comparison uses matching panel geometry.")
 		var path: String = "user://night-theme-%s-%s-%dx%d.png" % ["light" if light else "dark", locale, root.size.x, root.size.y]
-		_check(root.get_texture().get_image().save_png(path) == OK, "Comparison screenshot saved.")
+		var picture: Image = root.get_texture().get_image()
+		_check(picture.get_size() == requested, "Comparison uses the requested actual pixel dimensions.")
+		_check(picture.save_png(path) == OK, "Comparison screenshot saved.")
 		print("THEME_CAPTURE: ", ProjectSettings.globalize_path(path))
 		page.queue_free()
 		await process_frame

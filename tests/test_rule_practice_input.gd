@@ -83,6 +83,7 @@ func check_state(view: Variant, expected: Array, message: String) -> void:
 
 func run() -> void:
 	capture_enabled = "--rule-capture" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless"
+	root.mode = Window.MODE_WINDOWED
 	var save: Node = root.get_node("GlobalSave")
 	var localization: Node = root.get_node("Localization")
 	var offline: Node = root.get_node("OfflineFeedback")

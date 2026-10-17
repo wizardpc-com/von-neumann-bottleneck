@@ -1,3 +1,29 @@
+## Night experience candidate — 2026-10-18
+
+Use the isolated verifier for `test_night_narrative`, `test_rule_practice_input`,
+`test_instrument_theme`, `test_creation_route_access` and
+`test_system_evidence_guidance`, alongside affected existing suites. The rule
+input suite uses an explicitly labelled lesson-availability fixture; narrative
+checks earn the first tutorial by actual controller actions. Neither is human
+or native OS input.
+
+After import, `python scripts/verify-night-render.py --godot <engine> --project
+<isolated-project> --suite hub --suite narrative --suite rules --suite route
+--suite system --suite theme --suite creation` runs rendered checks serially,
+records source/settings identities and copies fresh hashed PNG evidence.
+`--suite tutorial` is the older drag/edit controller; its unchanged baseline has
+a held-drag ghost assertion failure on this Windows environment, recorded
+separately in the night verification entry.
+
+For each committed Windows build, run
+`python scripts/verify-night-package.py --candidate <build-directory>`. It checks
+the immutable ZIP inventory, extracts the actual ZIP, keeps embedded night
+profile settings, redirects APPDATA into private QA, loads actual Home, checks
+the introduction/first earned result and records actual rendered frames. The
+tester build additionally executes all task entrances, real C→P→G preparation,
+protected-work restart/replay and the final-only multi-play feedback ZIP import.
+The external controller scene is disclosed; native app input remains separate.
+
 ## Offline teammate playtest
 
 Run `test_offline_store`, `test_offline_context`, `test_offline_feedback` and

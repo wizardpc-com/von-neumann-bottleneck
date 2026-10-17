@@ -1,12 +1,13 @@
 Whole-journey experience candidate — @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
 
-- 当前 Windows 发布草稿保持完整60任务与稳定CloudPlaytest存档，尚未公开。
-- 配置联网版时，首次选择与反馈设置可显式打开隐私说明；新政策需要重新选择云端分享。
-- 私有VPS验收已覆盖实际EXE回执/重试/报告与备份→删除→恢复；公网反馈域名尚不可用。
-- The Windows release draft retains the full60 journey and stable save channel; it is not published.
-- A configured online build exposes the privacy notice and renews optional cloud consent.
-- Private EXE/VPS acknowledgment, retry, report and deletion-safe recovery passed; public feedback remains unavailable.
+- 2026-10-18 体验候选：首页提供可跳过、可回看的壹的讯息；首个NOT任务仍由真实操作完成。
+- 手册中可独立切换NOT、AND与半加器等元件的输入，查看输出与对应真值表；不改玩家方案。
+- 地图显式列出压缩／内容预测／创造入口；测试者开放入口与真实模型准备分别说明。
+- 第一章说明尚缺哪种基线、受控比较或订单证据；共享控件使用更安静的配色和清楚的焦点状态。
+- Yi's optional introduction leads to the actual first task; replay grants no progress.
+- Interactive rule examples preserve the player's circuit. Creative-region shortcuts expose existing content.
+- System missions explain missing evidence; shared controls have calmer surfaces and explicit focus/selection.
 
 - 旅程地图提供可读章节列表、可点击搜索结果，以及前置/推荐任务定位；点击任务同步所属章节。
 - 创造工作台突出当前下一步，明确练习、整轮预测与回灌条件，区分当前未保存输出和历史作品。

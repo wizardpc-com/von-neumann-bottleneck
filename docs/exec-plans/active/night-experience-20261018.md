@@ -93,6 +93,13 @@ or in the linked verification entry. Existing failed attempts remain evidence.
 - R3 starting: source snapshot and fresh PNG manifests added to renderer after
   independent audit. Full regression, candidate rendered input and fixed export
   are next. No additional product scope is opened during integration.
+- R3 packaging protection: accepted independent review of a fresh
+  `OfflineTeammate-Night20261018` namespace, keeping Oct17 tester saves untouched
+  by default. Default/custom/malformed profile and README identity checks passed
+  `scripts/test-candidate-packaging.py`. Normal-progress package will use
+  `NightExperience20261018`; both share the same frozen source. Actual ZIP
+  extraction/embedded configuration and C/P/G restart probes added; actual
+  execution remains the next gate, not inferred from the scripts.
 
 ## Unverified / remaining
 

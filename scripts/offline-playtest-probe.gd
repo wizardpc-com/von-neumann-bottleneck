@@ -46,11 +46,37 @@ func run() -> void:
 			check(feedback.current.get("status")=="reported","note saved "+key)
 			check(feedback.current.screenshot_status=="captured" if DisplayServer.get_name()!="headless" else feedback.current.screenshot_status=="headless","screenshot status "+key)
 			feedback.close_panel(); await settle()
+		check(navigation.enter("creation/C1_restore"),"real creation route starts at compression")
+		await settle()
+		var workbench: Variant = get_tree().current_scene
+		workbench.train_model(); workbench.transport("predictive")
+		check(workbench.session.data.supports.has("C1_restore"),"actual model restores the predictive packet losslessly")
+		workbench.change_task(3); workbench.switch_mode("predict"); workbench.begin_prediction("practice")
+		workbench.commit_prediction(); workbench.reveal_prediction(); workbench.continue_prediction()
+		check(workbench.session.prediction.get("finished",false),"actual commit reveal round completes before feedback")
+		workbench.change_task(6); workbench.switch_mode("generate"); workbench.generate_work()
+		workbench.name_input.text="Synthetic night acceptance work"; workbench.keep_work()
+		check(not workbench.kept_work.is_empty(),"actual generated output is saved as a protected work")
+		if not workbench.kept_work.is_empty():
+			results["work_id"]=str(workbench.kept_work.id)
+			results["work_file_sha256"]=FileAccess.get_sha256(workbench.session.path)
+			workbench.show_saved_work(workbench.kept_work); await settle()
+			if DisplayServer.get_name()!="headless":
+				check(get_viewport().get_texture().get_image().save_png(output.path_join("saved-work.png"))==OK,"actual exported saved work screenshot")
 		results["case_ids"]=feedback.store.cases().map(func(item: Dictionary) -> String: return str(item.id))
 		feedback.export_all(output.path_join("captured.zip"))
 		check(not feedback.last_export.is_empty(),"one ZIP export")
 		check(not remote.enabled and remote.queue.is_empty(),"no upload or pending remote data")
 	else:
+		var previous: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(output.path_join("capture.json")))
+		check(navigation.enter("creation/G3_keep"),"restart opens saved creation workbench")
+		await settle()
+		var workbench: Variant = get_tree().current_scene
+		check(workbench.session.data.works.size()==1,"one protected work survives independent process")
+		if workbench.session.data.works.size()==1:
+			check(str(workbench.session.data.works[0].id)==str(previous.get("work_id","")),"saved work keeps original identity")
+			check(FileAccess.get_sha256(workbench.session.path)==str(previous.get("work_file_sha256","")),"saved creation file is byte identical across restart")
+			check(workbench.session.replay_work(0).get("matches",false),"complete recipe replays the protected output")
 		var cases: Array[Dictionary] = feedback.store.cases()
 		check(cases.size()==3,"three incidents survive independent restart")
 		for item: Dictionary in cases:

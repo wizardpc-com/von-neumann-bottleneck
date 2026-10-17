@@ -17,6 +17,15 @@ def godot_path_literal(path):
     return json.dumps(path.resolve().as_posix(),ensure_ascii=False)
 
 
+def offline_profile(profile):
+    return isinstance(profile,str) and len(profile)<=40 and re.fullmatch(r'OfflineTeammate(?:-[A-Za-z0-9-]+)?',profile) is not None
+
+
+def offline_readme(source,profile):
+    if not offline_profile(profile):raise ValueError('Invalid offline tester profile')
+    return source.replace('/OfflineTeammate/','/'+profile+'/')
+
+
 def public_https_url(value, api_root=False):
     if any(ord(char)<32 for char in value) or (not api_root and len(value)>2048):
         return False
@@ -86,8 +95,8 @@ def main():
     if a.offline_tester:
         if a.platform!='Windows' or a.public_playtest or a.local_feedback_test or a.feedback_endpoint or a.mac_template:
             p.error('offline tester requires Windows only, with no receiver or public mode')
-        if a.second_act_profile!='OfflineTeammate' or not a.creation_journey:
-            p.error('offline tester requires the full OfflineTeammate journey')
+        if not offline_profile(a.second_act_profile) or not a.creation_journey:
+            p.error('offline tester requires the full OfflineTeammate or OfflineTeammate-<suffix> journey')
         if not a.test_batch or not re.fullmatch(r'[0-9a-f]{40}',a.commit) or not a.windows_template:
             p.error('offline tester requires a batch, fixed commit and Windows template')
     template=a.mac_template.resolve() if a.mac_template else None
@@ -241,7 +250,8 @@ def main():
             content+='测试存档渠道稳定，不随构建号清空；更新前完整备份候选profile及service同名目录。不要用QA通关档代替新档。\n'
             notes.write_text(content)
         if a.offline_tester:
-            (folder/'README.txt').write_text(identity+(project/'distribution/OFFLINE-PLAYTEST-README.txt').read_text(encoding='utf-8'),encoding='utf-8')
+            offline_notes=offline_readme((project/'distribution/OFFLINE-PLAYTEST-README.txt').read_text(encoding='utf-8'),a.second_act_profile)
+            (folder/'README.txt').write_text(identity+offline_notes,encoding='utf-8')
             tools=folder/'feedback-tools';tools.mkdir()
             for name in ['offline-playtests.py','report-playtests.py']:
                 shutil.copy2(project/'scripts'/name,tools/name)

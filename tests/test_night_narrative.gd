@@ -60,6 +60,7 @@ func run() -> void:
 	if capture and DisplayServer.get_name() == "headless":
 		check(false, "Narrative capture requires a rendered window")
 		capture = false
+	root.mode = Window.MODE_WINDOWED
 	var save: Node = root.get_node("GlobalSave")
 	var navigation: Node = root.get_node("TaskNavigation")
 	root.get_node("GameMode").set_mode(&"game")

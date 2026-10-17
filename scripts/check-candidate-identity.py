@@ -36,7 +36,9 @@ if manifest.get('offline_tester',False):
     assert 'feedback_default_source' not in manifest
     assert set(manifest['platforms'])=={'Windows'} and manifest['feedback_endpoint']==''
     assert batch!='unspecified' and re.fullmatch(r'[0-9a-f]{40}',commit)
-    assert manifest['candidate_journey']=={'primary_domain':'representation','profile':'OfflineTeammate','isolated':True,'production_migration':False,'creation_enabled':True}
+    profile=manifest['candidate_journey'].get('profile','')
+    assert isinstance(profile,str) and len(profile)<=40 and re.fullmatch(r'OfflineTeammate(?:-[A-Za-z0-9-]+)?',profile)
+    assert manifest['candidate_journey']=={'primary_domain':'representation','profile':profile,'isolated':True,'production_migration':False,'creation_enabled':True}
     assert manifest['content_version']=='tasks-20261013-journey-v1' and len(manifest['content_tasks'])==60
     assert len(set(manifest['content_tasks']))==60
 if manifest['public_release']:
@@ -82,4 +84,8 @@ for platform,entry in manifest['platforms'].items():
             assert '@BUILD_ID@' not in body and '@SOURCE_COMMIT@' not in body
             if manifest['public_release'] and filename!='CHANGELOG.txt':
                 assert manifest['release_version'] in body and manifest['feedback_endpoint'] in body and manifest['privacy_url'] in body
+            if manifest.get('offline_tester',False) and filename=='README.txt':
+                assert '%APPDATA%/VonNeumannBottleneckCandidates/representation/'+profile+'/' in body
+                assert 'service/'+profile+'/' in body
+                assert profile=='OfflineTeammate' or '/OfflineTeammate/' not in body
 print('PASS: source/build identity, archive names, all file hashes and packaged notes agree: '+identity)

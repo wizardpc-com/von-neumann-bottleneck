@@ -35,6 +35,19 @@ for unsafe in ['','http://feedback.play.example.org','https://127.0.0.1','https:
                'https://feedback.play.example.org/v1','https://feedback.play.example.org/',
                'https://feedback.play.example.org?']:
     assert not builder.public_https_url(unsafe,api_root=True),unsafe
+offline_notes=(root/'distribution/OFFLINE-PLAYTEST-README.txt').read_text(encoding='utf-8')
+for profile in ['OfflineTeammate','OfflineTeammate-Night20261018']:
+    assert builder.offline_profile(profile),profile
+    notes=builder.offline_readme(offline_notes,profile)
+    assert '%APPDATA%/VonNeumannBottleneckCandidates/representation/'+profile+'/' in notes
+    assert 'service/'+profile+'/' in notes
+for profile in ['CloudPlaytest','OfflineTeammateOther','Other-OfflineTeammate',
+                'OfflineTeammate-','OfflineTeammate-../production','OfflineTeammate-unsafe_name',
+                'OfflineTeammate-'+('x'*25)]:
+    assert not builder.offline_profile(profile),profile
+    rejected=subprocess.run([sys.executable,str(root/'scripts/build-free-candidate.py'),'--godot','unused',
+        '--offline-tester','--platform','Windows','--second-act-profile',profile,'--creation-journey'],capture_output=True)
+    assert rejected.returncode!=0 and b'error:' in rejected.stderr,profile
 for flags in [['--public-playtest'],['--release-version','v0.5.0-alpha.2'],['--offline-tester'],
               ['--offline-tester','--platform','Windows','--second-act-profile','CloudPlaytest','--creation-journey'],
               ['--offline-tester','--platform','Windows','--second-act-profile','OfflineTeammate','--creation-journey',
@@ -127,7 +140,7 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     offline_windows=offline_output/'Windows'
     offline_windows.mkdir(parents=True)
     for name in ['README.txt','CHANGELOG.txt','KNOWN-ISSUES.txt','LICENSE.txt','FONT-LICENSE.txt','ENGINE-LICENSES.txt']:
-        (offline_windows/name).write_text('Build: '+offline_id+'\nSource commit: '+commit+'\n')
+        (offline_windows/name).write_text('Build: '+offline_id+'\nSource commit: '+commit+'\n'+(offline_notes if name=='README.txt' else ''),encoding='utf-8')
     (offline_windows/'Von-Neumann-Bottleneck.exe').write_bytes(b'offline tester binary')
     offline_files={path.relative_to(offline_windows).as_posix():hashlib.sha256(builder.packaged_bytes(path)).hexdigest()
                    for path in builder.package_files(offline_windows)}
@@ -156,4 +169,33 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
         changed=offline_manifest.copy();changed[key]=value
         (offline_output/'manifest.json').write_text(json.dumps(changed))
         assert subprocess.run(offline_checker,capture_output=True).returncode!=0,key
-print('PASS: URL gates, offline/public identities, ZIP inventory, file hashes and unlisted-file rejection')
+    for profile in ['CloudPlaytest','OfflineTeammateOther','OfflineTeammate-',
+                    'OfflineTeammate-../production','OfflineTeammate-unsafe_name','OfflineTeammate-'+('x'*25)]:
+        changed=offline_manifest.copy()
+        changed['candidate_journey']={**offline_manifest['candidate_journey'],'profile':profile}
+        (offline_output/'manifest.json').write_text(json.dumps(changed))
+        assert subprocess.run(offline_checker,capture_output=True).returncode!=0,profile
+    for key,value in [('primary_domain','service'),('isolated',False),
+                      ('production_migration',True),('creation_enabled',False)]:
+        changed=offline_manifest.copy()
+        changed['candidate_journey']={**offline_manifest['candidate_journey'],key:value}
+        (offline_output/'manifest.json').write_text(json.dumps(changed))
+        assert subprocess.run(offline_checker,capture_output=True).returncode!=0,key
+
+    profile='OfflineTeammate-Night20261018'
+    offline_manifest['candidate_journey']['profile']=profile
+    (offline_output/'manifest.json').write_text(json.dumps(offline_manifest))
+    assert subprocess.run(offline_checker,capture_output=True).returncode!=0,'Custom profile cannot retain the default README paths'
+    (offline_windows/'README.txt').write_text('Build: '+offline_id+'\nSource commit: '+commit+'\n'+builder.offline_readme(offline_notes,profile),encoding='utf-8')
+    offline_files={name:hashlib.sha256((offline_windows/name).read_bytes()).hexdigest() for name in offline_files}
+    (offline_windows/'BUILD-MANIFEST.json').write_text(json.dumps({'build_id':offline_id,'source_commit':commit,
+        'engine':'4.7.1.stable.test','platform':'Windows','files_sha256':offline_files}))
+    with zipfile.ZipFile(offline_zip,'w',zipfile.ZIP_DEFLATED) as package:
+        for path in builder.package_files(offline_windows):
+            builder.write_zip_entry(package,path,path.relative_to(offline_output))
+    offline_manifest['platforms']['Windows'].update(bytes=offline_zip.stat().st_size,
+        sha256=hashlib.sha256(offline_zip.read_bytes()).hexdigest())
+    (offline_output/'manifest.json').write_text(json.dumps(offline_manifest))
+    checked=subprocess.run(offline_checker,capture_output=True)
+    assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
+print('PASS: URL gates, offline/public profiles and README paths, ZIP inventory, hashes and unlisted-file rejection')

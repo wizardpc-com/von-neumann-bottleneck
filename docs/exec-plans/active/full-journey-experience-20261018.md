@@ -1,6 +1,11 @@
 # 全旅程体验续轮 · 2026-10-18
 
-当前固定源码为22603af3a645ec6fe1b245f83d6f0d71472035c5：Store新incident直接fresh排他目录、
+当前新封装SOURCE为8334ab137beb95f24f6092ac0a23df69c592255f：修复随包Python收集器的目录发布失败，
+Visual独审/原10+新增4测试通过；仅元数据/QA/CLI变化，Godot runtime/assets等与226无差异经总控核对。
+引用下列226 full168仅在相同runtime范围，不声称8334全量另跑。旧226 normal77+29成功、tester前段成功但
+最终collector失败分别保留；新8334双ZIP原父/child/strict重启和新限定原生仍待，完整goal保持active。
+
+前一已验证runtime检查点为22603af3a645ec6fe1b245f83d6f0d71472035c5：Store新incident直接fresh排他目录、
 context/PNG先验、原case.json最后写，移除填满目录发布rename；旧pending/JSON/notes/导出协议保留。
 Visual独立源审无阻断；新fresh9a13/13、be37原Rule真实401及cba Journal222均PASS/exit0，
 18次captured/pending0、三尺寸各6逐图与context同尺寸。新cdace完整原verify168/168 PASS/exit0、

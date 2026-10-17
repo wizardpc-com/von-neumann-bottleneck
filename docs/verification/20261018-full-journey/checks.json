@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "goal_status": "ACTIVE",
-  "stage_status": "ACTIVE: formal fixed SOURCE226 full168/168 PASS, targeted13/13, real Rule401/Journal222 and both remote CI SUCCESS; actual two exported ZIP chains and new game native acceptance pending. F2 not started.",
+  "stage_status": "ACTIVE: fixed new wrapper SOURCE8334 with collector14 PASS; runtime parity reuses226 full168 scope only. Old226 normal77+29 passes, tester game capture/reopen pass but collector fails. New8334 ZIPs/tool-in-ZIP/parent-child/embedded reopen/native pending; F2 not started.",
   "evidence_grade": "isolated controller/headless and explicitly marked renderer; no new exported/native/human acceptance",
   "engine": "4.7.1.stable.official.a13da4feb",
   "baseline": {
@@ -3984,22 +3984,15 @@
     "cause_scope": "Directory publication failed, then the existing save guard correctly refuses closing an incident without current. Not the input route as first fault; specific OS cause not asserted."
   },
   "current_source": {
-    "commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
-    "status": "Formal fixed package SOURCE; source gates PASS, package gates pending.",
-    "production_scope": "OfflineStore new incident publication only, plus focused tests",
-    "store_worktree_sha256": "c399570e021737a2499d5a39e541139e45dfa88ea91c96aadf45b06a46453c90",
-    "test_worktree_sha256": "e3d59df5d1b86ea789bc6f73d5df99fb961f5fb691aa41f709c91c4d4f26f2a8",
-    "protocol": "Exclusive fresh cases directory; context then verified PNG then original case.json, cache only after success. No populated-directory publication rename, retries, schema/notes changes or pending promotion.",
-    "independent_review": {
-      "reviewer": "Visual",
-      "conclusion": "No static blocker",
-      "runtime_validation": "Targeted, real renderer and complete original full PASS; actual packages pending."
-    },
-    "non_atomic_boundary": "Complete valid metadata may remain recoverable/readable after subsequent verification failure while current/cache stays empty; no atomic visibility or fsync durability guarantee.",
-    "new_runtime_targeted_renderer_full": "Targeted13/13, real Rule401/Journal222 and full168/168 PASS.",
-    "actual_exported_zip_validation": "NOT_RUN",
+    "commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+    "status": "Fixed new wrapper source; fresh package proof pending.",
+    "runtime_base_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+    "runtime_parity_authority": "Root verified git diff empty for src/experiments/assets/project/export-presets/Godot tests versus226.",
+    "runtime_evidence_scope": "Reuses226 original full168/168, targeted13/13 and real Rule401/Journal222 for identical runtime only; does not claim a newly run8334 full.",
+    "new_collector_tests": "14/14 PASS; see collector_publication_fix.",
+    "actual_exported_zip_validation": "PENDING_NEW8334_BUILD_AND_REAL_CHAINS",
     "game_native_acceptance": "NOT_RUN",
-    "pushed": true
+    "f2": "NOT_STARTED"
   },
   "python_recovery_compatibility": {
     "execution_mode": "exec_command require_escalated",
@@ -4036,535 +4029,12 @@
     "scope": "Unchanged Python importer, synthetic ZIP only. Not a Godot-produced new Store export, game runtime or package/native acceptance."
   },
   "current_source_gates": {
-    "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
-    "targeted": {
-      "raw_result": ".godot/verification/20261017T204609Z-9a0116bc/results.json",
-      "raw_result_sha256": "1aa8e8b98ba2b9f61b394d3630490fbce0b87b7fb66bf7db4aa463e53abc7bb5",
-      "passed_count": 13,
-      "stage_count": 13,
-      "stages": [
-        {
-          "name": "import",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91"
-        },
-        {
-          "name": "user_directory",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "ecb17a48afcaef5bce759b687ab3732b4a018c7aa7be5ee3e5c8e2cac8b5d14f"
-        },
-        {
-          "name": "test_candidate_feedback",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b"
-        },
-        {
-          "name": "test_feedback_presentation",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae"
-        },
-        {
-          "name": "test_offline_context",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "e4dc287348e9dc12071a5a025c6e85d6ba3232fa2402e9d4d4f1e56703f90c74"
-        },
-        {
-          "name": "test_offline_feedback",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157"
-        },
-        {
-          "name": "test_offline_store",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "97bcea4aac402f1f8209d1b69cbc74ed009dc70ce921d33913e5295f5ed5bed9"
-        },
-        {
-          "name": "test_offline_tester_navigation",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "8208d58daf0768f584e6f693f0659f4b0ddf1cf13de0408664d44127ef9c5e67"
-        },
-        {
-          "name": "test_optional_result_feedback",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c"
-        },
-        {
-          "name": "test_playtest_feedback_ui",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3"
-        },
-        {
-          "name": "test_rule_practice_input",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "be4b7cf96ad15dd9d49a0418c91ac46c37eca06d94f4d8baf4bec7ebe3dc62df"
-        },
-        {
-          "name": "test_theme_reflection",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e"
-        },
-        {
-          "name": "test_work_focus_feedback",
-          "exit": 0,
-          "passed": true,
-          "raw_log_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd"
-        }
-      ],
-      "parity": {
-        "raw_receipt": ".godot/verification/20261017T204609Z-9a0116bc/source-22603af-parity.json",
-        "raw_receipt_sha256": "0d670624e597ff89a277cb3a526865a357ce3eb33df13dfe001bf31886781e9d",
-        "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
-        "checked": 651,
-        "matched": 651,
-        "changed": [],
-        "extra_tests": [],
-        "project_settings_exception": "Only required QA custom-user-dir settings excluded"
-      }
-    },
-    "real_rule_renderer": {
-      "raw_result": ".godot/verification/20261017T204737Z-be37b124/results.json",
-      "raw_result_sha256": "1db1e8a3eb118dbf1a50ce92f3c623467971234ef93a8276b1eedcfab0437b7a",
-      "execution_mode": "exec_command require_escalated",
-      "exit": 0,
-      "passed": true,
-      "terminated_owned_child_reason": "",
-      "log_sha256": "68d2cc8df90f27b31db8c6a82281b04309b2c95efb8dd1374efc90b13a5270b5",
-      "checks": 401,
-      "qa_logging_in_canonical_test": false,
-      "captures": [
-        {
-          "file": "en-and_gate-active.png",
-          "sha256": "3bec06392f27d99b778687c16c4e8d43fa00c684ff9e565f7d24bfe13da1be68",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "en-and_gate-mixed.png",
-          "sha256": "126cb54fe0d28b104ce03fbe093e93cf835762a7ce85f6f4d6c79f1c5b0fa63a",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "en-half_adder-active.png",
-          "sha256": "d40bf4af8b2616b0a3d52090eb2634be205f654f1cf5dd440ec2f5c19837ee07",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "en-half_adder-mixed.png",
-          "sha256": "993dbee6505823e3e3757168c75fdebc150a7e726459b09ec35559e545a3d167",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "en-not_gate-active.png",
-          "sha256": "486669c45552897c5ff332221cc442fbc6d88c55acaf02c010de24906186491f",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "zh_CN-and_gate-active.png",
-          "sha256": "bf37e8925383223e8d81e42a17ce94b8e4761db03cc1bd99f5839343f2a07339",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "zh_CN-and_gate-mixed.png",
-          "sha256": "2d1cfffa3f3e4e33f6d38fbb43b84c0b22019bd7793fed151ab45f77af013283",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "zh_CN-half_adder-active.png",
-          "sha256": "d28460fcaabf49ae4b26829578a5e7e37f8dd1eaea21fc53faf8029c9a7116f5",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "zh_CN-half_adder-mixed.png",
-          "sha256": "f715454d74a6a3d95909d1d8d5eecf9a091fe746508df7f5608cdc082e776b68",
-          "dimensions": [
-            1280,
-            720
-          ]
-        },
-        {
-          "file": "zh_CN-not_gate-active.png",
-          "sha256": "47d33ccc2105317bdec52aa0e749c5a69669fa4faf6d3f8559055ec5cab2d42c",
-          "dimensions": [
-            1280,
-            720
-          ]
-        }
-      ],
-      "incident_audit": {
-        "raw_receipt": ".godot/verification/20261017T204737Z-be37b124/actual-incident-audit.json",
-        "raw_receipt_sha256": "c9f00271872805bf97bd894386e038dbcd30939ddf7607766214626f80049db7",
-        "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
-        "cases": 18,
-        "pending": 0,
-        "dimension_counts": {
-          "(1280, 720)": 6,
-          "(1440, 900)": 6,
-          "(1920, 1080)": 6
-        },
-        "receipts": [
-          {
-            "id": "039e677cd10de9fe778fdde3afce0e1d",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1280,
-              720
-            ],
-            "viewport": {
-              "x": 1280,
-              "y": 720
-            },
-            "hashes": {
-              "case.json": "c80978695968766d167c7f22ba69e534f8d8a26f7d15978ba5e0b639a3412d67",
-              "context.json": "8142b0f6415710b5c424b889e0350747921eb57b63732a21b0c9562f6624debd",
-              "screenshot.png": "b75048ae24ce7a473dcf282a51e3135335cd89b55c292fb6741972368f12b333"
-            }
-          },
-          {
-            "id": "285cb93f959254d4b9323737a62cc145",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1280,
-              720
-            ],
-            "viewport": {
-              "x": 1280,
-              "y": 720
-            },
-            "hashes": {
-              "case.json": "594de7d78d3bdc97000f06ec9e5b0b91bc9c056edee8b55eddddf2ee3205bae8",
-              "context.json": "ab11b24ede52f7cae86826f30d0b71ab8cb5f2d817e9a0ac8a03b03502589415",
-              "screenshot.png": "6c830090bcf311ddf7d20526b615153f0dc0e1e019e79449017f0ba169b3dd89"
-            }
-          },
-          {
-            "id": "2c21995910361f0f87f8635dd21ff7e4",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1440,
-              900
-            ],
-            "viewport": {
-              "x": 1440,
-              "y": 900
-            },
-            "hashes": {
-              "case.json": "492f7def8f0532ed7abc96fce31962695c0be767d94462cf3bc874ff6c9f6999",
-              "context.json": "0665929db1fd4790050305378dce61605b908b00cb1f92d8195cb9323847cb0c",
-              "screenshot.png": "9eec0f1234832956ea7ab2578b3146b1606fefeed843035e4d9190b95f51a925"
-            }
-          },
-          {
-            "id": "3d54a39ebf5684f89e15e40651782ab9",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1440,
-              900
-            ],
-            "viewport": {
-              "x": 1440,
-              "y": 900
-            },
-            "hashes": {
-              "case.json": "93e8d013e6d572d0ce55d609c9717ce33891e55eee3eaf237b1297784bfe566e",
-              "context.json": "c571b36c3e4b5c2a2b9ed3155128379473128fdd2298e44e32674f6203ccf2a8",
-              "screenshot.png": "e32fc414356aa836b82d1ceff238b748da7a734d5126519dfb08a035bace3519"
-            }
-          },
-          {
-            "id": "404dfee2cd7d4182ef13615e1aa568bd",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1920,
-              1080
-            ],
-            "viewport": {
-              "x": 1920,
-              "y": 1080
-            },
-            "hashes": {
-              "case.json": "e196eb01a51d01a6d703dc16ad85f2e548e908aa44b8166ce6b591feee93132c",
-              "context.json": "f3c0e8c9d2ecf0797918dc696ca35cce27cc9cc4853bbe346e37cd128861bfd2",
-              "screenshot.png": "8311dae0384840dd456808688102c22fc7b83821f57ea81e64baff12280ad0aa"
-            }
-          },
-          {
-            "id": "59fd42b20859cc73f5922d16159b5f81",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1440,
-              900
-            ],
-            "viewport": {
-              "x": 1440,
-              "y": 900
-            },
-            "hashes": {
-              "case.json": "d8fd6fac5ba03ace76771b6d33a25a4cec95d7f0df443a93ac2ca1996b6d50ba",
-              "context.json": "b6e171582ce5e56741567ba219141685d95223629b48d6f6d5b51b83ab6542bb",
-              "screenshot.png": "416e471c35ca8faf83c7ba87a9136ed6bfe53c4749b0eb9b90ae5baaf73ce6f1"
-            }
-          },
-          {
-            "id": "5b9b464b876d0508f975b7f99f3622df",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1920,
-              1080
-            ],
-            "viewport": {
-              "x": 1920,
-              "y": 1080
-            },
-            "hashes": {
-              "case.json": "57e09183b13c2beca55e94581d09e97fd287c73e912ea0c42698d1ba194f4255",
-              "context.json": "4332ba5697543030dafbaaba034861a22a4833122b20a5c9dcd7ce437c8d60f0",
-              "screenshot.png": "049c615e58257f0e7e95d1ae307b03305a0a6f662d0cb50365203522b91cb288"
-            }
-          },
-          {
-            "id": "610ad738d347b5670445e91be25cdad4",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1280,
-              720
-            ],
-            "viewport": {
-              "x": 1280,
-              "y": 720
-            },
-            "hashes": {
-              "case.json": "beca6409a89409786e623fecd63b7def73b013de285d904fbf32442fdb7507c8",
-              "context.json": "283260de69ea20c54b07411ea928da4b7ce277a377e9277bfc3f2c73223dd209",
-              "screenshot.png": "48456376426d4f72c9427982e135db44d26624047f6a932d93865dfd82783d0e"
-            }
-          },
-          {
-            "id": "6e2e37a9465d2212539826f34a2b102a",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1440,
-              900
-            ],
-            "viewport": {
-              "x": 1440,
-              "y": 900
-            },
-            "hashes": {
-              "case.json": "fd4880769f965c96800bf57aa4f2af12706a840094470b112c81b3806397a643",
-              "context.json": "98b2e9c3710b8f086b4d3eb3cb96c757b3e958d464662d937f2a58506872382f",
-              "screenshot.png": "86b677194a2e2943b44cf77ed19982cb2c25b54f5cd6414d21c8ff60265f85bd"
-            }
-          },
-          {
-            "id": "7210f253350e4ef6ebdae0fa1a614599",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1920,
-              1080
-            ],
-            "viewport": {
-              "x": 1920,
-              "y": 1080
-            },
-            "hashes": {
-              "case.json": "20854e3dc02ad8badf55cb1e8163ea4d18e2675e7107f011ba94b0a99c985ad2",
-              "context.json": "eea4015745d12e00626022f9290ae0db0a03db0702af77eaa124275f2c153228",
-              "screenshot.png": "011c0f63ff8626c78aa8a8dfe586938e3994f9012545944c76d4298cde1dbac0"
-            }
-          },
-          {
-            "id": "7dcb81c9fbf630220a5503e13cea2e05",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1440,
-              900
-            ],
-            "viewport": {
-              "x": 1440,
-              "y": 900
-            },
-            "hashes": {
-              "case.json": "d92f9ee6aafdb3ece2532654520a82f398705d3d857441265399d0dfc6ed63fd",
-              "context.json": "46ad704773f001359a687ee87de75b010c5129194abefc1af13c64cfc8d1e3af",
-              "screenshot.png": "5cec268b6979243bbe259793956c208d73f0216180cac0d57a34312a925d9c4b"
-            }
-          },
-          {
-            "id": "8c13ded52998446681f8d74f0d2a9fe7",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1280,
-              720
-            ],
-            "viewport": {
-              "x": 1280,
-              "y": 720
-            },
-            "hashes": {
-              "case.json": "27c58c745c66778c0ae1a6e0812f4b9c33a5de7c904d7c2a70e5b8a46e15b096",
-              "context.json": "afab06c7d925b390d5a4ac0a727e68478bee5f34cd6f656f7de2a37f094dcd21",
-              "screenshot.png": "c08bc7a483ca99933cf04d4466646673ff8065f8c9eea49493e6f3a3a12f281d"
-            }
-          },
-          {
-            "id": "ac118469241b91ad3abb5b08f1a0843d",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1440,
-              900
-            ],
-            "viewport": {
-              "x": 1440,
-              "y": 900
-            },
-            "hashes": {
-              "case.json": "83e215888ed5ff1a60657b45882ddf546c86a4950a106b7ab0f48224b84ec67e",
-              "context.json": "cacd54ab03d431065b62c5aa603217208f8e6d5d2c70ec118818a132502fc788",
-              "screenshot.png": "0eae746e9f3571b442afdad95b67522840cac3a5450e5310386426a114bbe8ce"
-            }
-          },
-          {
-            "id": "b592f16740ca56386c6fb1b526dd55b9",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1920,
-              1080
-            ],
-            "viewport": {
-              "x": 1920,
-              "y": 1080
-            },
-            "hashes": {
-              "case.json": "5212be646a6a9d024a2a90bbad773ef723decfb0cde1ac582608993b30187ff3",
-              "context.json": "140a8729b594fdc093f74fc3c5ff06522eed465164220bfa237b3cd7ab76dc5b",
-              "screenshot.png": "73b2761df2c5503bffd8b133e2e6ae7aa7cb9716eeffc30c720dacf6ffbc7671"
-            }
-          },
-          {
-            "id": "c36edc1e497e9b9e0c973fca5a078d02",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1280,
-              720
-            ],
-            "viewport": {
-              "x": 1280,
-              "y": 720
-            },
-            "hashes": {
-              "case.json": "8c05eb4e819c8cb32ce1ab55434bdcadc5390c0653fa377c80e3e296bb7d5cad",
-              "context.json": "38938ddbf0a505ec377fa8014a1ac99dfa357d7313dad0c1d034936d616eafab",
-              "screenshot.png": "fa3d39956e737fcafc6135c0f8452c3f56ce25c8e8da5d3c8e32f05cc39a9e1e"
-            }
-          },
-          {
-            "id": "c98f8ffaba3e2e8c164bac81ac07da79",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1920,
-              1080
-            ],
-            "viewport": {
-              "x": 1920,
-              "y": 1080
-            },
-            "hashes": {
-              "case.json": "6fef3c6cb71e25a1f237f9f4e75a91d3570da298e5347c647506da11ae42f373",
-              "context.json": "429afe425604b3bf7858476447a5cd3a3fbdb462fac25cea419f32e01b82d52e",
-              "screenshot.png": "a9bfff2aee8c4df2a75cdebdb5ec041874faddf8d0a64fbb16aacc40c5a762b6"
-            }
-          },
-          {
-            "id": "daa9810ace2355c7586807a373cc756a",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1920,
-              1080
-            ],
-            "viewport": {
-              "x": 1920,
-              "y": 1080
-            },
-            "hashes": {
-              "case.json": "88bc34b9e6918d34079d84249b08c89b459107c667c72711ffd84bd111ecadfb",
-              "context.json": "c6f02471f8c130b4564481be48ed4b63f98f00d740aa609576df9628a16f428a",
-              "screenshot.png": "b96232b1074a571852ca5823606b977745c79b7d82cc7a3785f13c5b999695a4"
-            }
-          },
-          {
-            "id": "ef9eb1d1215f0c14526f5513f0c60c4d",
-            "screenshot_status": "captured",
-            "dimensions": [
-              1280,
-              720
-            ],
-            "viewport": {
-              "x": 1280,
-              "y": 720
-            },
-            "hashes": {
-              "case.json": "005bc7c3142cf5580a43fa44da003a61bd16b9f08e251f1ef19a51c7864e8549",
-              "context.json": "2ec47a40f958ece4fc8228dfe7728027a100ef8a1acb78a00fd2cf7db73aee16",
-              "screenshot.png": "dd6e76b76afdcc0738b339f633f074c08c9c0690d7542a88ab348834806cb20b"
-            }
-          }
-        ]
-      }
-    },
-    "real_journal_renderer": {
-      "raw_result": ".godot/full-journey-narrative-runs/cba6b34bfc40/results.json",
-      "raw_result_sha256": "b645ceddc6101843128506c061ce2c709a5287a2dc62bd7b4b63b6eec12bed56",
-      "source_identity": "15926f2f2431f288931c66e26274602ee4de45c56be85f7fa5ef2ef43614c60a",
-      "checks": 222,
-      "stages": [
-        {
-          "name": "test_journey_journal",
-          "passed": true,
-          "exit": 0,
-          "log_sha256": "1f2f4e1d5760a13e6426b804529401b5d8e3a8334f1c8f6cda10f0bbd7e5daed",
-          "terminated_owned_child_reason": ""
-        }
-      ]
-    },
-    "full_regression": "PASS 168/168, exit0; see full_regression_226.",
-    "actual_exported_zip_validation": "PENDING_BUILD_AND_ACTUAL_ZIP_CHAINS",
-    "game_native_acceptance": "NOT_RUN",
-    "scope": "Prior P0 closed in these targeted/runtime cases only. Original full166/168 and old GUI failures retained; no unique OS-cause or atomic durability inference."
+    "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+    "runtime": "226 unchanged runtime gate evidence reused under explicit parity scope.",
+    "collector": "14/14 Python tests PASS and independent source review.",
+    "new_zip_embedded_tool_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+    "actual_exported_zip_validation": "PENDING",
+    "game_native_acceptance": "NOT_RUN"
   },
   "full_regression_226": {
     "raw_result": ".godot/verification/20261017T204927Z-cdace219/results.json",
@@ -5775,5 +5245,763 @@
     "production_bytes_changed": false,
     "source_226_parity_affected": false,
     "unrelated_original_checkout_test_ui_deletion_touched": false
+  },
+  "source_226_runtime_checkpoint": {
+    "commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+    "status": "Formal fixed package SOURCE; source gates PASS, package gates pending.",
+    "production_scope": "OfflineStore new incident publication only, plus focused tests",
+    "store_worktree_sha256": "c399570e021737a2499d5a39e541139e45dfa88ea91c96aadf45b06a46453c90",
+    "test_worktree_sha256": "e3d59df5d1b86ea789bc6f73d5df99fb961f5fb691aa41f709c91c4d4f26f2a8",
+    "protocol": "Exclusive fresh cases directory; context then verified PNG then original case.json, cache only after success. No populated-directory publication rename, retries, schema/notes changes or pending promotion.",
+    "independent_review": {
+      "reviewer": "Visual",
+      "conclusion": "No static blocker",
+      "runtime_validation": "Targeted, real renderer and complete original full PASS; actual packages pending."
+    },
+    "non_atomic_boundary": "Complete valid metadata may remain recoverable/readable after subsequent verification failure while current/cache stays empty; no atomic visibility or fsync durability guarantee.",
+    "new_runtime_targeted_renderer_full": "Targeted13/13, real Rule401/Journal222 and full168/168 PASS.",
+    "actual_exported_zip_validation": "NOT_RUN",
+    "game_native_acceptance": "NOT_RUN",
+    "pushed": true,
+    "source_gates": {
+      "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+      "targeted": {
+        "raw_result": ".godot/verification/20261017T204609Z-9a0116bc/results.json",
+        "raw_result_sha256": "1aa8e8b98ba2b9f61b394d3630490fbce0b87b7fb66bf7db4aa463e53abc7bb5",
+        "passed_count": 13,
+        "stage_count": 13,
+        "stages": [
+          {
+            "name": "import",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91"
+          },
+          {
+            "name": "user_directory",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "ecb17a48afcaef5bce759b687ab3732b4a018c7aa7be5ee3e5c8e2cac8b5d14f"
+          },
+          {
+            "name": "test_candidate_feedback",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b"
+          },
+          {
+            "name": "test_feedback_presentation",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae"
+          },
+          {
+            "name": "test_offline_context",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "e4dc287348e9dc12071a5a025c6e85d6ba3232fa2402e9d4d4f1e56703f90c74"
+          },
+          {
+            "name": "test_offline_feedback",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157"
+          },
+          {
+            "name": "test_offline_store",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "97bcea4aac402f1f8209d1b69cbc74ed009dc70ce921d33913e5295f5ed5bed9"
+          },
+          {
+            "name": "test_offline_tester_navigation",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "8208d58daf0768f584e6f693f0659f4b0ddf1cf13de0408664d44127ef9c5e67"
+          },
+          {
+            "name": "test_optional_result_feedback",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c"
+          },
+          {
+            "name": "test_playtest_feedback_ui",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3"
+          },
+          {
+            "name": "test_rule_practice_input",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "be4b7cf96ad15dd9d49a0418c91ac46c37eca06d94f4d8baf4bec7ebe3dc62df"
+          },
+          {
+            "name": "test_theme_reflection",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e"
+          },
+          {
+            "name": "test_work_focus_feedback",
+            "exit": 0,
+            "passed": true,
+            "raw_log_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd"
+          }
+        ],
+        "parity": {
+          "raw_receipt": ".godot/verification/20261017T204609Z-9a0116bc/source-22603af-parity.json",
+          "raw_receipt_sha256": "0d670624e597ff89a277cb3a526865a357ce3eb33df13dfe001bf31886781e9d",
+          "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+          "checked": 651,
+          "matched": 651,
+          "changed": [],
+          "extra_tests": [],
+          "project_settings_exception": "Only required QA custom-user-dir settings excluded"
+        }
+      },
+      "real_rule_renderer": {
+        "raw_result": ".godot/verification/20261017T204737Z-be37b124/results.json",
+        "raw_result_sha256": "1db1e8a3eb118dbf1a50ce92f3c623467971234ef93a8276b1eedcfab0437b7a",
+        "execution_mode": "exec_command require_escalated",
+        "exit": 0,
+        "passed": true,
+        "terminated_owned_child_reason": "",
+        "log_sha256": "68d2cc8df90f27b31db8c6a82281b04309b2c95efb8dd1374efc90b13a5270b5",
+        "checks": 401,
+        "qa_logging_in_canonical_test": false,
+        "captures": [
+          {
+            "file": "en-and_gate-active.png",
+            "sha256": "3bec06392f27d99b778687c16c4e8d43fa00c684ff9e565f7d24bfe13da1be68",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "en-and_gate-mixed.png",
+            "sha256": "126cb54fe0d28b104ce03fbe093e93cf835762a7ce85f6f4d6c79f1c5b0fa63a",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "en-half_adder-active.png",
+            "sha256": "d40bf4af8b2616b0a3d52090eb2634be205f654f1cf5dd440ec2f5c19837ee07",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "en-half_adder-mixed.png",
+            "sha256": "993dbee6505823e3e3757168c75fdebc150a7e726459b09ec35559e545a3d167",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "en-not_gate-active.png",
+            "sha256": "486669c45552897c5ff332221cc442fbc6d88c55acaf02c010de24906186491f",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "zh_CN-and_gate-active.png",
+            "sha256": "bf37e8925383223e8d81e42a17ce94b8e4761db03cc1bd99f5839343f2a07339",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "zh_CN-and_gate-mixed.png",
+            "sha256": "2d1cfffa3f3e4e33f6d38fbb43b84c0b22019bd7793fed151ab45f77af013283",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "zh_CN-half_adder-active.png",
+            "sha256": "d28460fcaabf49ae4b26829578a5e7e37f8dd1eaea21fc53faf8029c9a7116f5",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "zh_CN-half_adder-mixed.png",
+            "sha256": "f715454d74a6a3d95909d1d8d5eecf9a091fe746508df7f5608cdc082e776b68",
+            "dimensions": [
+              1280,
+              720
+            ]
+          },
+          {
+            "file": "zh_CN-not_gate-active.png",
+            "sha256": "47d33ccc2105317bdec52aa0e749c5a69669fa4faf6d3f8559055ec5cab2d42c",
+            "dimensions": [
+              1280,
+              720
+            ]
+          }
+        ],
+        "incident_audit": {
+          "raw_receipt": ".godot/verification/20261017T204737Z-be37b124/actual-incident-audit.json",
+          "raw_receipt_sha256": "c9f00271872805bf97bd894386e038dbcd30939ddf7607766214626f80049db7",
+          "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+          "cases": 18,
+          "pending": 0,
+          "dimension_counts": {
+            "(1280, 720)": 6,
+            "(1440, 900)": 6,
+            "(1920, 1080)": 6
+          },
+          "receipts": [
+            {
+              "id": "039e677cd10de9fe778fdde3afce0e1d",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1280,
+                720
+              ],
+              "viewport": {
+                "x": 1280,
+                "y": 720
+              },
+              "hashes": {
+                "case.json": "c80978695968766d167c7f22ba69e534f8d8a26f7d15978ba5e0b639a3412d67",
+                "context.json": "8142b0f6415710b5c424b889e0350747921eb57b63732a21b0c9562f6624debd",
+                "screenshot.png": "b75048ae24ce7a473dcf282a51e3135335cd89b55c292fb6741972368f12b333"
+              }
+            },
+            {
+              "id": "285cb93f959254d4b9323737a62cc145",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1280,
+                720
+              ],
+              "viewport": {
+                "x": 1280,
+                "y": 720
+              },
+              "hashes": {
+                "case.json": "594de7d78d3bdc97000f06ec9e5b0b91bc9c056edee8b55eddddf2ee3205bae8",
+                "context.json": "ab11b24ede52f7cae86826f30d0b71ab8cb5f2d817e9a0ac8a03b03502589415",
+                "screenshot.png": "6c830090bcf311ddf7d20526b615153f0dc0e1e019e79449017f0ba169b3dd89"
+              }
+            },
+            {
+              "id": "2c21995910361f0f87f8635dd21ff7e4",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1440,
+                900
+              ],
+              "viewport": {
+                "x": 1440,
+                "y": 900
+              },
+              "hashes": {
+                "case.json": "492f7def8f0532ed7abc96fce31962695c0be767d94462cf3bc874ff6c9f6999",
+                "context.json": "0665929db1fd4790050305378dce61605b908b00cb1f92d8195cb9323847cb0c",
+                "screenshot.png": "9eec0f1234832956ea7ab2578b3146b1606fefeed843035e4d9190b95f51a925"
+              }
+            },
+            {
+              "id": "3d54a39ebf5684f89e15e40651782ab9",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1440,
+                900
+              ],
+              "viewport": {
+                "x": 1440,
+                "y": 900
+              },
+              "hashes": {
+                "case.json": "93e8d013e6d572d0ce55d609c9717ce33891e55eee3eaf237b1297784bfe566e",
+                "context.json": "c571b36c3e4b5c2a2b9ed3155128379473128fdd2298e44e32674f6203ccf2a8",
+                "screenshot.png": "e32fc414356aa836b82d1ceff238b748da7a734d5126519dfb08a035bace3519"
+              }
+            },
+            {
+              "id": "404dfee2cd7d4182ef13615e1aa568bd",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1920,
+                1080
+              ],
+              "viewport": {
+                "x": 1920,
+                "y": 1080
+              },
+              "hashes": {
+                "case.json": "e196eb01a51d01a6d703dc16ad85f2e548e908aa44b8166ce6b591feee93132c",
+                "context.json": "f3c0e8c9d2ecf0797918dc696ca35cce27cc9cc4853bbe346e37cd128861bfd2",
+                "screenshot.png": "8311dae0384840dd456808688102c22fc7b83821f57ea81e64baff12280ad0aa"
+              }
+            },
+            {
+              "id": "59fd42b20859cc73f5922d16159b5f81",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1440,
+                900
+              ],
+              "viewport": {
+                "x": 1440,
+                "y": 900
+              },
+              "hashes": {
+                "case.json": "d8fd6fac5ba03ace76771b6d33a25a4cec95d7f0df443a93ac2ca1996b6d50ba",
+                "context.json": "b6e171582ce5e56741567ba219141685d95223629b48d6f6d5b51b83ab6542bb",
+                "screenshot.png": "416e471c35ca8faf83c7ba87a9136ed6bfe53c4749b0eb9b90ae5baaf73ce6f1"
+              }
+            },
+            {
+              "id": "5b9b464b876d0508f975b7f99f3622df",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1920,
+                1080
+              ],
+              "viewport": {
+                "x": 1920,
+                "y": 1080
+              },
+              "hashes": {
+                "case.json": "57e09183b13c2beca55e94581d09e97fd287c73e912ea0c42698d1ba194f4255",
+                "context.json": "4332ba5697543030dafbaaba034861a22a4833122b20a5c9dcd7ce437c8d60f0",
+                "screenshot.png": "049c615e58257f0e7e95d1ae307b03305a0a6f662d0cb50365203522b91cb288"
+              }
+            },
+            {
+              "id": "610ad738d347b5670445e91be25cdad4",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1280,
+                720
+              ],
+              "viewport": {
+                "x": 1280,
+                "y": 720
+              },
+              "hashes": {
+                "case.json": "beca6409a89409786e623fecd63b7def73b013de285d904fbf32442fdb7507c8",
+                "context.json": "283260de69ea20c54b07411ea928da4b7ce277a377e9277bfc3f2c73223dd209",
+                "screenshot.png": "48456376426d4f72c9427982e135db44d26624047f6a932d93865dfd82783d0e"
+              }
+            },
+            {
+              "id": "6e2e37a9465d2212539826f34a2b102a",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1440,
+                900
+              ],
+              "viewport": {
+                "x": 1440,
+                "y": 900
+              },
+              "hashes": {
+                "case.json": "fd4880769f965c96800bf57aa4f2af12706a840094470b112c81b3806397a643",
+                "context.json": "98b2e9c3710b8f086b4d3eb3cb96c757b3e958d464662d937f2a58506872382f",
+                "screenshot.png": "86b677194a2e2943b44cf77ed19982cb2c25b54f5cd6414d21c8ff60265f85bd"
+              }
+            },
+            {
+              "id": "7210f253350e4ef6ebdae0fa1a614599",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1920,
+                1080
+              ],
+              "viewport": {
+                "x": 1920,
+                "y": 1080
+              },
+              "hashes": {
+                "case.json": "20854e3dc02ad8badf55cb1e8163ea4d18e2675e7107f011ba94b0a99c985ad2",
+                "context.json": "eea4015745d12e00626022f9290ae0db0a03db0702af77eaa124275f2c153228",
+                "screenshot.png": "011c0f63ff8626c78aa8a8dfe586938e3994f9012545944c76d4298cde1dbac0"
+              }
+            },
+            {
+              "id": "7dcb81c9fbf630220a5503e13cea2e05",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1440,
+                900
+              ],
+              "viewport": {
+                "x": 1440,
+                "y": 900
+              },
+              "hashes": {
+                "case.json": "d92f9ee6aafdb3ece2532654520a82f398705d3d857441265399d0dfc6ed63fd",
+                "context.json": "46ad704773f001359a687ee87de75b010c5129194abefc1af13c64cfc8d1e3af",
+                "screenshot.png": "5cec268b6979243bbe259793956c208d73f0216180cac0d57a34312a925d9c4b"
+              }
+            },
+            {
+              "id": "8c13ded52998446681f8d74f0d2a9fe7",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1280,
+                720
+              ],
+              "viewport": {
+                "x": 1280,
+                "y": 720
+              },
+              "hashes": {
+                "case.json": "27c58c745c66778c0ae1a6e0812f4b9c33a5de7c904d7c2a70e5b8a46e15b096",
+                "context.json": "afab06c7d925b390d5a4ac0a727e68478bee5f34cd6f656f7de2a37f094dcd21",
+                "screenshot.png": "c08bc7a483ca99933cf04d4466646673ff8065f8c9eea49493e6f3a3a12f281d"
+              }
+            },
+            {
+              "id": "ac118469241b91ad3abb5b08f1a0843d",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1440,
+                900
+              ],
+              "viewport": {
+                "x": 1440,
+                "y": 900
+              },
+              "hashes": {
+                "case.json": "83e215888ed5ff1a60657b45882ddf546c86a4950a106b7ab0f48224b84ec67e",
+                "context.json": "cacd54ab03d431065b62c5aa603217208f8e6d5d2c70ec118818a132502fc788",
+                "screenshot.png": "0eae746e9f3571b442afdad95b67522840cac3a5450e5310386426a114bbe8ce"
+              }
+            },
+            {
+              "id": "b592f16740ca56386c6fb1b526dd55b9",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1920,
+                1080
+              ],
+              "viewport": {
+                "x": 1920,
+                "y": 1080
+              },
+              "hashes": {
+                "case.json": "5212be646a6a9d024a2a90bbad773ef723decfb0cde1ac582608993b30187ff3",
+                "context.json": "140a8729b594fdc093f74fc3c5ff06522eed465164220bfa237b3cd7ab76dc5b",
+                "screenshot.png": "73b2761df2c5503bffd8b133e2e6ae7aa7cb9716eeffc30c720dacf6ffbc7671"
+              }
+            },
+            {
+              "id": "c36edc1e497e9b9e0c973fca5a078d02",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1280,
+                720
+              ],
+              "viewport": {
+                "x": 1280,
+                "y": 720
+              },
+              "hashes": {
+                "case.json": "8c05eb4e819c8cb32ce1ab55434bdcadc5390c0653fa377c80e3e296bb7d5cad",
+                "context.json": "38938ddbf0a505ec377fa8014a1ac99dfa357d7313dad0c1d034936d616eafab",
+                "screenshot.png": "fa3d39956e737fcafc6135c0f8452c3f56ce25c8e8da5d3c8e32f05cc39a9e1e"
+              }
+            },
+            {
+              "id": "c98f8ffaba3e2e8c164bac81ac07da79",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1920,
+                1080
+              ],
+              "viewport": {
+                "x": 1920,
+                "y": 1080
+              },
+              "hashes": {
+                "case.json": "6fef3c6cb71e25a1f237f9f4e75a91d3570da298e5347c647506da11ae42f373",
+                "context.json": "429afe425604b3bf7858476447a5cd3a3fbdb462fac25cea419f32e01b82d52e",
+                "screenshot.png": "a9bfff2aee8c4df2a75cdebdb5ec041874faddf8d0a64fbb16aacc40c5a762b6"
+              }
+            },
+            {
+              "id": "daa9810ace2355c7586807a373cc756a",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1920,
+                1080
+              ],
+              "viewport": {
+                "x": 1920,
+                "y": 1080
+              },
+              "hashes": {
+                "case.json": "88bc34b9e6918d34079d84249b08c89b459107c667c72711ffd84bd111ecadfb",
+                "context.json": "c6f02471f8c130b4564481be48ed4b63f98f00d740aa609576df9628a16f428a",
+                "screenshot.png": "b96232b1074a571852ca5823606b977745c79b7d82cc7a3785f13c5b999695a4"
+              }
+            },
+            {
+              "id": "ef9eb1d1215f0c14526f5513f0c60c4d",
+              "screenshot_status": "captured",
+              "dimensions": [
+                1280,
+                720
+              ],
+              "viewport": {
+                "x": 1280,
+                "y": 720
+              },
+              "hashes": {
+                "case.json": "005bc7c3142cf5580a43fa44da003a61bd16b9f08e251f1ef19a51c7864e8549",
+                "context.json": "2ec47a40f958ece4fc8228dfe7728027a100ef8a1acb78a00fd2cf7db73aee16",
+                "screenshot.png": "dd6e76b76afdcc0738b339f633f074c08c9c0690d7542a88ab348834806cb20b"
+              }
+            }
+          ]
+        }
+      },
+      "real_journal_renderer": {
+        "raw_result": ".godot/full-journey-narrative-runs/cba6b34bfc40/results.json",
+        "raw_result_sha256": "b645ceddc6101843128506c061ce2c709a5287a2dc62bd7b4b63b6eec12bed56",
+        "source_identity": "15926f2f2431f288931c66e26274602ee4de45c56be85f7fa5ef2ef43614c60a",
+        "checks": 222,
+        "stages": [
+          {
+            "name": "test_journey_journal",
+            "passed": true,
+            "exit": 0,
+            "log_sha256": "1f2f4e1d5760a13e6426b804529401b5d8e3a8334f1c8f6cda10f0bbd7e5daed",
+            "terminated_owned_child_reason": ""
+          }
+        ]
+      },
+      "full_regression": "PASS 168/168, exit0; see full_regression_226.",
+      "actual_exported_zip_validation": "PENDING_BUILD_AND_ACTUAL_ZIP_CHAINS",
+      "game_native_acceptance": "NOT_RUN",
+      "scope": "Prior P0 closed in these targeted/runtime cases only. Original full166/168 and old GUI failures retained; no unique OS-cause or atomic durability inference."
+    }
+  },
+  "collector_publication_fix": {
+    "commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+    "script": "scripts/offline-playtests.py",
+    "script_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+    "test_sha256": "30e4cc0b73fb8ec9784d07711bd30a7e59e99e92fb5d6a19ce05f208c01fc34e",
+    "independent_review": {
+      "reviewer": "Visual",
+      "conclusion": "No static blocker; Root and Narrative additional source review."
+    },
+    "tests": {
+      "original": 10,
+      "added": 4,
+      "total": 14,
+      "status": "PASS",
+      "exit": 0,
+      "execution_mode": "exec_command require_escalated",
+      "raw_log": ".godot/full-journey-python-offline-publish-20261018T0602.log",
+      "raw_log_sha256": "5e43d42fe8a478e0668e733f205bb2ad68c576134e54c0e2428ce645a0b39c9e"
+    },
+    "protocol": "All sources staged/validated first; exclusive target mkdir; strict pending marker; copy each manifest file with byte/hash verification; copy ZIP partial and recheck recorded digest; single-file original.zip publication, no directory rename or retry. Readers ignore only valid marked unpublished imports, not damaged old or published archives. Rollback only exclusively owned new targets.",
+    "limits": "No universal IO/unique OS-cause, fsync, atomic batch rollback or full-library periodic audit claim.",
+    "delivery": "Must be inside new rewrapped fixed-source ZIPs, not a sidecar workaround."
+  },
+  "superseded_normal_226_package": {
+    "parent": {
+      "raw_receipt": ".godot/night-package/ffd39a6b6958/receipt.json",
+      "raw_receipt_sha256": "91224d0e9bf6124a26edf7ca3515044ea0ff96365130e4bfb61e01e494b46525",
+      "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+      "build_id": "playtest-FullJourneyExperience20261018-22603af3a645",
+      "profile": "FullJourney20261018",
+      "tester": false,
+      "zip_sha256": "4d107a32ec61af19d79dc8599f3dcc8168fa37e503a33e1440619a74448a9e2d",
+      "exe_sha256": "9d7c05b6a80435203b5f66df7a193e55c49b864c91adead86866877dde7ff34c",
+      "embedded_pack_sha256": "214acbc1084b2cf4f7b8691d7f9984dac96f75677d801a3d9492824f37906127",
+      "controller_sha256": "548b33d3402da2c728c4d27d28567b9d7aee05939a925eb7f6361df1cb04d269",
+      "checks": {
+        "Journal Escape closes handbook before Journal": true,
+        "actual Home loads": true,
+        "actual earned Journal opens existing handbook": true,
+        "actual earned context control is visible inside the exported Mission and its ancestor scroll clips": true,
+        "actual earned tutorial makes the half-adder rule available": true,
+        "actual embedded full-journey profile": true,
+        "actual embedded journey map opens": true,
+        "actual embedded map contains all sixty task rows": true,
+        "actual embedded map footer and three creation shortcuts match its catalog": true,
+        "actual embedded save namespace": true,
+        "actual exported Home frame": true,
+        "actual exported earned Journal frame": true,
+        "actual exported earned Observatory frame": true,
+        "actual exported earned task context frame": true,
+        "actual exported earned tutorial explicitly saves before derived review": true,
+        "actual exported first result frame": true,
+        "actual exported full journey configuration": true,
+        "actual exported full-journey map frame": true,
+        "actual exported interactive rule frame": true,
+        "actual exported introduction frame": true,
+        "actual exported task context refreshes earned capability": true,
+        "actual exported tutorial has direct task action and optional context": true,
+        "actual five actions earn first completion in export": true,
+        "actual isolated half-adder input buttons show sum0 carry1": true,
+        "earned 3D browsing and view changes preserve exact protected authorities": true,
+        "earned Journal browsing preserves exact protected authorities": true,
+        "earned Journal closes to its actual launcher": true,
+        "earned Journal reads actual exported sixty-task catalog": true,
+        "earned Observatory closes to its actual launcher": true,
+        "earned Observatory owns a real isolated 3D camera and world": true,
+        "earned Observatory reads actual exported catalog": true,
+        "earned accessible half-adder grants no earned retrospective": true,
+        "earned actual Journal launcher exists": true,
+        "earned actual Observatory launcher exists": true,
+        "earned actual exported 3D texture saved": true,
+        "earned actual tutorial lamp derives from real accepted record": true,
+        "earned exported 3D texture contains rendered geometry rather than a flat image": true,
+        "earned geometry lights exactly the genuinely earned tutorial": true,
+        "earned tutorial retrospective derives only from real completion": true,
+        "earned unknown Journal identity remains unconfirmed": true,
+        "exported response reflects true NOT outcome": true,
+        "feedback preserves nested Journal handbook": true,
+        "fresh 3D browsing and view changes preserve exact protected authorities": true,
+        "fresh Journal browsing preserves exact protected authorities": true,
+        "fresh Journal closes to its actual launcher": true,
+        "fresh Journal reads actual exported sixty-task catalog": true,
+        "fresh Observatory closes to its actual launcher": true,
+        "fresh Observatory owns a real isolated 3D camera and world": true,
+        "fresh Observatory reads actual exported catalog": true,
+        "fresh accessible half-adder grants no earned retrospective": true,
+        "fresh actual Journal launcher exists": true,
+        "fresh actual Observatory launcher exists": true,
+        "fresh actual exported 3D texture saved": true,
+        "fresh actual tutorial lamp derives from real accepted record": true,
+        "fresh exported 3D texture contains rendered geometry rather than a flat image": true,
+        "fresh exported Home offers skippable introduction": true,
+        "fresh geometry lights exactly the genuinely earned tutorial": true,
+        "fresh tutorial retrospective derives only from real completion": true,
+        "fresh unknown Journal identity remains unconfirmed": true,
+        "incomplete actual actions retain incomplete status": true,
+        "introduction never grants earned completion": true,
+        "journal Escape dismisses only actual feedback": true,
+        "journal feedback preserves game candidate and workspace authorities": true,
+        "journal feedback preserves its underlying review": true,
+        "journal feedback restores exact review focus": true,
+        "journal normal F8 opens its own voluntary panel": true,
+        "no receiver or automatic upload": true,
+        "observatory Escape dismisses only actual feedback": true,
+        "observatory feedback preserves game candidate and workspace authorities": true,
+        "observatory feedback preserves its underlying review": true,
+        "observatory feedback restores exact review focus": true,
+        "observatory normal F8 opens its own voluntary panel": true,
+        "ordinary model mode": true,
+        "rule exploration preserves the player's actual circuit": true,
+        "skip reaches the real first task": true,
+        "tester and normal progression remain distinct": true,
+        "visible build identity belongs to this export": true
+      },
+      "failures": []
+    },
+    "embedded_reopen": {
+      "raw_receipt": ".godot/night-package/ffd39a6b6958/embedded-profile-reopen.json",
+      "raw_receipt_sha256": "47db2e768fad0d2ff8a9c41792dfb6f9e5704f746a907bea9698127b5ae7643f",
+      "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+      "build_id": "playtest-FullJourneyExperience20261018-22603af3a645",
+      "profile": "FullJourney20261018",
+      "tester": false,
+      "controller_sha256": "548b33d3402da2c728c4d27d28567b9d7aee05939a925eb7f6361df1cb04d269",
+      "parent_receipt_sha256": "91224d0e9bf6124a26edf7ca3515044ea0ff96365130e4bfb61e01e494b46525",
+      "post_exit_baseline_sha256": "4bf532acee7c1abbdf53fb6fafe55737cbec536961c60a124f69afb25e53471e",
+      "checks": {
+        "actual embedded full-journey profile": true,
+        "actual embedded save namespace": true,
+        "actual exported full journey configuration": true,
+        "embedded reopen requires a successful parent receipt": true,
+        "genuinely saved game and hardware workbench exist in embedded namespace": true,
+        "no receiver or automatic upload": true,
+        "ordinary model mode": true,
+        "parent embedded acceptance has no failed checks": true,
+        "post-exit baseline binds the successful parent receipt": true,
+        "post-exit baseline retains parent build_id": true,
+        "post-exit baseline retains parent controller_sha256": true,
+        "post-exit baseline retains parent profile": true,
+        "post-exit baseline retains parent source_commit": true,
+        "post-exit baseline retains parent tester": true,
+        "post-exit protected baseline exists": true,
+        "post-exit protected baseline is readable": true,
+        "real tutorial completion reloads independently from tester access": true,
+        "reopen executable matches the already accepted ZIP binary": true,
+        "reopen retains the actual embedded profile and role": true,
+        "reopen uses the identical external controller": true,
+        "reopen uses the same frozen source and build": true,
+        "restarted Journal derives its earned retrospective from saved tutorial": true,
+        "restarted access still grants no unearned half-adder retrospective": true,
+        "restarted actual Home loads": true,
+        "restarted embedded map opens": true,
+        "restarted map and Journal preserve exact saved authority bytes and state": true,
+        "restarted map keeps the actual Journal entrance": true,
+        "restarted map reads its actual sixty tasks": true,
+        "saved game workbench and candidate authorities survive independent process restart": true
+      },
+      "failures": []
+    },
+    "validation": {
+      "raw_receipt": ".godot/night-package/ffd39a6b6958/embedded-profile-reopen-validation.json",
+      "raw_receipt_sha256": "85ca8971671304614f72c09c3169333ebf73b6770cb0e101144c4dcdeee23414",
+      "passed": true,
+      "evidence_grade": "actual embedded namespace across independent exported processes; rendered controller, not native OS input",
+      "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+      "build_id": "playtest-FullJourneyExperience20261018-22603af3a645",
+      "profile": "FullJourney20261018",
+      "tester": false,
+      "zip_sha256": "4d107a32ec61af19d79dc8599f3dcc8168fa37e503a33e1440619a74448a9e2d",
+      "exe_sha256": "9d7c05b6a80435203b5f66df7a193e55c49b864c91adead86866877dde7ff34c",
+      "embedded_pack_sha256": "214acbc1084b2cf4f7b8691d7f9984dac96f75677d801a3d9492824f37906127",
+      "controller_sha256": "548b33d3402da2c728c4d27d28567b9d7aee05939a925eb7f6361df1cb04d269",
+      "parent_receipt_sha256": "91224d0e9bf6124a26edf7ca3515044ea0ff96365130e4bfb61e01e494b46525",
+      "post_exit_baseline_sha256": "4bf532acee7c1abbdf53fb6fafe55737cbec536961c60a124f69afb25e53471e",
+      "reopen_receipt_sha256": "47db2e768fad0d2ff8a9c41792dfb6f9e5704f746a907bea9698127b5ae7643f",
+      "process_receipt": "embedded-profile-reopen-2a4596b0-process.json",
+      "validator_sha256": "e5a01b7e2beb8b9e4c6215c461eb407660afb69d2367f9cfce7e583d36c0bf16"
+    },
+    "limit": "Parent77 and reopen29 pass applies only to old226 normal artifact/controller, not new8334 artifacts."
+  },
+  "superseded_tester_226_collector_failure": {
+    "raw_scene_summary": ".godot/offline-package/4a727fb25f53/final-import-failure-summary.json",
+    "raw_scene_summary_sha256": "570cc1472192d6ac3bef7f1fb922b5bc36a56baf7a503522a088a070f4929b38",
+    "passed": false,
+    "stage": "Python offline final-export-only library import",
+    "exception": "PermissionError [WinError 5] at scripts/offline-playtests.py:258 stage.rename(target)",
+    "original_finally_cleanup": "failed stage removed by existing importer finally; source ZIP retained",
+    "parent_success_receipt_exists": false,
+    "child_success_receipt_exists": false,
+    "source_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+    "files_sha256": {
+      "capture.json": "f66dc9daf7d4840ff5f9f3399d28ab64bc86bd34c6eeed14676f28a104de04b2",
+      "capture.log": "b4f5a45c40d7d63bb7a79514b57769e2cc3cffee886de9fe819baf1393ea5814",
+      "reopen.json": "fd6e114666789e46ba9fdf16515096b620054e401a31c182f7b13f5cd0915997",
+      "reopen.log": "8debb54b4a94a598a6156a25985b00cbfec82d0f874d366417b8e71de954bd78",
+      "captured.zip": "4d0421ffe53bcbc71e84e6bbd82a6a023a4747aded888950030224806c825b65",
+      "reopened.zip": "db2baa5715f2e3c84584344b2a2f17c34e9738e79f73abf090679037cc8991dc"
+    },
+    "importer_sha256": "af35b571586b0456fbb9d4d734621fd77788f3dae4fcd6993cd9cbc5f96e03d8",
+    "no_automatic_retry": true,
+    "traceback_authority": "Original exec session78397 final tool output chunk f9e63b; no redirected persistent stdout traceback file. Scene summary is explicitly a later summary, not an original traceback log.",
+    "scope": "Game capture and reopen pass, final ZIP-only collection fails; no overall tester success receipt."
+  },
+  "package_qa_failure_boundaries_226": {
+    "2e6b054ba54a": "QA locator opened full briefing rather than compact context card; narrow controller correction, original failure retained.",
+    "0efcc61a5134": "Unicode supervisor launch failure retained. Main/bak only top saved_at_utc changes and normal backup rotation, no game payload or other protected disk changes. Normal autosave remains enabled.",
+    "a914": "Raw canonical JSON and disk hashes equal; direct Godot comparison differs because JSON parser maps integer numbers to floats. Same-parser equality plus external raw typed-canonical/disk gates preserve value/bool change rejection; no game data fix.",
+    "latest_successful_old_normal_controller_sha256": "548b33d3402da2c728c4d27d28567b9d7aee05939a925eb7f6361df1cb04d269"
   }
 }

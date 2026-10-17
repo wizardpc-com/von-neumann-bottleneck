@@ -7,11 +7,12 @@
 
 ## 当前Gate
 
-- **源码Gate通过，双实包与新限定原生仍待**：正式包SOURCE固定`22603af3a645ec6fe1b245f83d6f0d71472035c5`。`cdace219`完整原verify **168/168 PASS、exit0**，651/651源码字节匹配、无额外tests、无owned子进程提前终止。总控核远端CI `39068099185`/`39068095554`completed/SUCCESS。
+- **新封装SOURCE固定8334，双实包与新限定原生仍待**：`8334ab137beb95f24f6092ac0a23df69c592255f`包含随包离线收集器发布修复，原14项Python测试PASS。总控逐范围核其`src/experiments/assets/project/export-presets/tests`与226无差异；引用226 `cdace219`原full **168/168 PASS/exit0**及两CI成功只覆盖相同Godot runtime，不冒称8334另跑full。
 - 同固定源fresh13/13定向、原Rule真实renderer401、Journal真实窗口链222均通过。Rule18次captured、pending0，三尺寸各6张且PNG/context逐一匹配。
 - 新Store经Visual独立源审：排他创建fresh cases目录，先验证context/PNG、最后写原case.json，移除填满目录发布rename。JSON/notes/旧pending/导出格式不改，不加重试或原子耐久承诺。旧637目录rename208失败及原full166/168原样保留，不推断唯一OS根因。
 - 旧Windows full `1639bbd5`保持166/168及原GUI失败，不追写全绿。49c及e945的旧CI成功保持其原身份；新226的成功另有上述独立回执，不借证据文档commit认证运行源码。
-- Narrative持唯一引擎，正在固定226构建双包并排队原ZIP父/子链与strict embedded profile独立重启。Python原导入器10测试及synthetic recovery兼容已过，实际Godot导出ZIP与最终两包链仍待；**尚无新包或新游戏原生验收**。完整goal仍active，不启动下一候选阶段。
+- 旧226 normal `ffd39a6b6958`父77/重启29已通过，tester游戏内捕获/重启也通过；其最后收集器目录发布WinError5使tester整链未通过，不能整体标绿。修复采用排他target、逐文件校验、原ZIP最后一次单文件发布及严格未发布标记，已独审/14测试通过，无sleep/retry或耐久承诺。
+- Narrative持唯一引擎，按新8334suffix重建同batch/profile双包，必须实际验证新ZIP内tool SHA、父/child最后ZIP-only与strict embedded重启；不拼装sidecar，不修改/重导覆盖旧226 ZIP。**新8334包与新游戏原生均未验收**；完整goal仍active，不启动下一候选阶段。
 
 文档恢复点`7b8b352`（此前`dea36d3`/`342e8e6`）只保存证据，不是包SOURCE。索引stat/CRLF假修改已由总控逐字节/filtered blob核同HEAD后刷新，cached diff为空，未改变生产字节；原检出`tests/test_ui.gd`的既有删除未动。
 
@@ -53,6 +54,7 @@ Python job`117488197257`；本地下载168份顶层txt（含import/userdir，166
 | Knowledge：Journal及测试 | Narrative只读核对completed/session/只读、无写入/lease、导航失败保留、成绩来源及作品保护 | 无确定阻断；指出ThemeReflection/F8焦点栈缺口，新增真实渲染专用测试待跑 |
 | Visual：观察站及Home/map入口、测试 | Knowledge只读核对完成与访问、坏档/session、浏览无写、实时门禁、3D及生命周期 | 无生产阻断；要求真实Host/F8/焦点链，已补测试，结果按各快照列示 |
 | Knowledge：Store发布窄修与test_offline_store | Visual核对fresh排他/碰撞保全、旧pending、context/PNG/metadata/cache顺序、半写recovery与完整有效metadata后验失败可恢复边界 | 22603源审无静态阻断；后9a/be37/cba实际定向/renderer通过，完整full/两包仍待，不扩大为所有IO或耐久保证 |
+| Knowledge：离线收集器与原/新增Python回归 | Visual独立核批预验/去重/冲突、排他owned、逐hash、文件publish、两个reader及半成品/旧坏库边界；Root/Narrative附加审查 | 无静态阻断，原10+新增4共14实际通过；新8334随包tool整链待运行，不以unit替代真实最终ZIP |
 
 测试前置和输入注入方式的问题单独保留，不把它们自动诊断成产品故障。
 
@@ -105,6 +107,10 @@ Godot为`4.7.1.stable.official.a13da4feb`。原始日志留在本地忽略目录
 | `verification/20261017T204737Z-be37b124` | 原canonical Rule真实renderer401 PASS/exit0，10 PNG已hash | 原test未加QA日志；actual-incident-audit逐核18个真实captured records、pending0、三尺寸各6、PNG与context逐一同尺寸；不等于OS输入或陌生玩家验收 |
 | `full-journey-narrative-runs/cba6b34bfc40` | 同226 fixed copy真实Journal222 PASS/exit0，无owned终止 | 普通/tester两渠道、实际Window/F8/Esc/Tab/销毁/等待capture两暂停分支及精确作品保护仍通过；新full与包尚待 |
 | `verification/20261017T204927Z-cdace219` / `full-regression-watch/ef47b78c025e` | 新226完整原verify168/168 PASS、exit0，168 owned child无提前终止 | 651/651源码原始字节匹配226，无额外tests；原flags/assert/枚举/180秒不变，正式权限owned-only SCRIPT ERROR failfast监督包装。results SHA `323b150d04eeccaf26f17dcc231ba0cc799f4c95c0a830a1900dd2a5c1a58d4b`；不认证尚未执行的双包/native |
+| 旧226 normal `night-package/2e6b054ba54a` / `0efcc61a5134` / 后续a914 | QA定位与重启基线失败均保留 | 2e6误开完整briefing而非compact任务卡；0efcc含Unicode辅助进程加载失败、退出autosave只改saved_at与备份轮转；a914 raw canonical JSON及disk相同、Godot parser int→float使直接==误报。之后QA增加post-exit不可变基线、raw typed canonical和原进程内全SHA，五类purefixture不放宽值/bool保护；产品/旧226 ZIP不改 |
+| 旧226 normal `night-package/ffd39a6b6958` | 父77/77、strict embedded重启29/29及validation全部通过 | 同controller `548b33d3402da2c728c4d27d28567b9d7aee05939a925eb7f6361df1cb04d269`；只证明旧226 normal，不替代新8334封装 |
+| 旧226 tester `offline-package/4a727fb25f53` | 游戏内捕获/独立重启通过，最终仅ZIP导入失败，整链不通过 | Python `stage.rename(target)`发布已填充目录时报WinError5；原stage由既有finally清理，原ZIP及前段library仍存。异常原始证据为exec session78397/chunk f9e63b工具输出，无持久stdout raw文件；目录内`final-import-failure-summary.json`为明示现场摘要及各原engine/ZIP SHA，不冒充traceback原日志。无自动重跑或最终成功父/child收据 |
+| `full-journey-python-offline-publish-20261018T0602.log` | 新收集器原10+新增4：14/14 PASS/exit0 | CLI SHA `d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf`；覆盖顺序/逐hash/排他/marker可见性/损坏旧库/文件publish故障与owned回滚，不承诺消除所有真实IO风险 |
 
 56fe晚于上述旧失败，**但早于**marker主题实际最小尺寸修正、system拓扑/语言刷新回归和
 Journal→ThemeReflection→F8新栈。其成功不能认证这些后续差异。

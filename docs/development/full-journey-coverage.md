@@ -91,3 +91,15 @@ Journal渲染仍有inventory与ThemeReflection首Esc两项失败；精确诊断/
 这不证明具体OS根因，不关闭P0，不以私有runner/别名通过替代canonical闭合；完整回归与新包冻结继续等待。
 一次系统TEMP对照准备子目录即WinError5、0次rename；正式工具require_escalated四个新workspace
 独立case成功/error0。证据支持下一步核验正式权限canonical入口，不证明沙箱唯一因果；不改生产Store。
+随后`2e1f125e`正式权限未改canonical原OfflineFeedback通过/exit0，允许进入整合验证；旧失败不抹去。
+同合同fresh完整原verify待结果（仅owned-child SCRIPT ERROR failfast包装，原assert/flags/枚举/180秒不变）。
+旧3ec与679身份仅648/651 raw相同，另3文件仅CRLF不同，额外1个QA脚本不入fresh；不泛化原始字节全同。
+中间557 CI39065505735另有completion_service_clarity@76两项旧直接父关系断言失败，原100项/2失败日志保留。
+新两列仍同属OverviewScroll；总控核准仅test改祖先关系，强化verdict/continue/playback在scroll外，
+保留数值/尺寸/滚动定位断言。正在进行的679原full不改写为全绿，后续test-only聚焦/CI另记身份。
+当前1639原full另有rule_practice_input391项失败，最早反馈关闭/焦点恢复，随后输入级联。
+只读有6cases+第7完整pending（root/headless/tester1440×900），尚缺同步current/last_error；
+不能先归因输入或具体IOstage。保留原suite与成果保护，待canonical即时诊断后决定最小方案，包冻结继续等待。
+原full已结束：1639/0b495监测168阶段全部执行、166PASS2FAIL/exit1，无SCRIPT ERROR提前中止；
+651/651文件匹配679、无额外QA tests。49c20ead拟实包源仅test_clarity和QA重启probe变化，
+runtime679不变；focus/原rule长短目录对照及实际两ZIP链仍待，不能将full原记录改为全绿。

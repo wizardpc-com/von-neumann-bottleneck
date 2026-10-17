@@ -127,10 +127,24 @@ Root另一个官方node_repl实例已标准导入Sky成功（未窗口/输入/�
 最后系统TEMP对照因首子目录WinError5未执行rename；一次正式工具require_escalated的新workspace
 scratch四个独立case全部成功，原错误及失败副本保留、不重试。底层对照已停止，待总控正式权限
 canonical原测试结果；不因此改Store或将沙箱断定为唯一原因。
+正式canonical `2e1f125e`已PASS/exit0，原test9b19562c…/Store3781…未改；总控核准同正式权限
+fresh完整原verify一次，包装仅owned-child SCRIPT ERROR failfast、原assert/flags/枚举/180秒不变。
+旧3ec对679核验为648/651 raw相同+3处仅CRLF，不声称651字节相同；owner精确对齐Gitblob、
+额外QA脚本排除后再取fresh。P0进入整合验证，完整回归/最终包freeze/真实ZIP链仍待，完整goal保持active。
+中间557 CI39065505735 completion_service_clarity两项旧单列直接父关系断言失败；原raw保留，
+当前679 full不停止/不改结果。Narrative仅修test为同scroll祖先关系且固定主操作在scroll外，
+之后focused及最新CI与runtime679原full分记，不能将原结果追认为全绿。
+1639原full继续过程中另有规则练习391项失败：首错反馈Esc关闭/精确焦点，后续输入级联。
+6cases和第7完整pending、root/headless/tester1440×900已只读确认，当前last_error未同步，
+不先归因输入路由或IOstage。保留原断言与现场，待canonical最小即时诊断，未授权修改Store。
+1639原full现自然结束：完整168阶段166PASS/2FAIL、exit1、0SCRIPT ERROR提前中止；
+源码651/651逐字节匹配679、无QA额外tests。原失败不改写。拟实包49c20ead相对runtime679仅
+test-only clarity及QA probe独立重启补充，实际focused/原rule长短目录对照与导出ZIP链待证。
 
 ## 尚未关闭的工作
 
-F1代码已存在并经交叉源审，最新快照已有11套定向成功；新增模态栈、九域/多尺寸实际渲染、完整回归、
-新固定提交与导出包、实际解压/保存恢复/反馈子链，以及本轮限定原生验收仍未完成。
+F1代码已存在并经交叉源审，定向与真实模态栈已有各自通过回执；九域/多尺寸渲染按各快照保留。
+完整原回归166/168的两个失败尚须分别闭合，新固定提交与导出包、实际解压/保存恢复/反馈子链，
+以及本轮限定原生验收仍未完成。
 陌生玩家理解、美术定稿、完整CG/人设/剧情变体、未测平台与公网发布各保留证据或授权边界。
 本计划及完整goal保持active，不以早期定向成功或另一份候选替代完整需求的逐项处理。

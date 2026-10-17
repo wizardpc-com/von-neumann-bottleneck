@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "goal_status": "ACTIVE",
-  "stage_status": "ACTIVE: latest modal GUI222 and old6 feedback passed; canonical offline incident rename P0 remains open; no final package freeze/native acceptance.",
+  "stage_status": "ACTIVE: original full complete 166/168 PASS, 2 FAIL, exit1, zero SCRIPT ERROR early abort; focused test-only closure and rule-practice P0 diagnostics pending; no final source/package freeze or new game native acceptance.",
   "evidence_grade": "isolated controller/headless and explicitly marked renderer; no new exported/native/human acceptance",
   "engine": "4.7.1.stable.official.a13da4feb",
   "baseline": {
@@ -2256,6 +2256,1571 @@
       "old_incidents_or_player_data_changed": false,
       "retries_of_failed_cases": 0,
       "production_store_changed": false
+    },
+    "formal_canonical_original_suite": {
+      "raw_receipt": ".godot/verification/20261017T202023Z-2e1f125e/results.json",
+      "raw_receipt_sha256": "ef2444d2524a7d37eea9bf0760324d5b847452b339c20250f0103a279467d534",
+      "execution_mode": "exec_command require_escalated",
+      "test_sha256": "9b19562c62f0b4c42cfe0c354e053877aa7bbde195e803aac8b7d7c37c3b188a",
+      "store_sha256": "3781da04c2702aa3c0668c2f3b5a3422e409d79fc29db24f35711252d657fb11",
+      "exit": 0,
+      "passed": true,
+      "terminated_owned_child_reason": "",
+      "log_sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157",
+      "script": "res://tests/test_offline_feedback.gd",
+      "raw_log_filename_note": "Contains diagnostic in its log filename; actual executed script is the unchanged canonical original.",
+      "conclusion": "May proceed to integration verification; not proof of exclusive sandbox cause or full regression."
+    },
+    "old_copy_fixed_commit_parity": {
+      "raw_receipt": ".godot/verification/20261017T200848Z-3ec80941/source-6792202-parity.json",
+      "raw_receipt_sha256": "0e807ba0f269169a93fb71f3d035e2d66162b3e5a17a0b6072e6f83fa8b29940",
+      "fixed_commit": "6792202d63a5f3f812c08d0603c447740d2e624f",
+      "matched_count": 648,
+      "checked_count": 651,
+      "changed": [
+        "experiments/service_plan/lab.gd",
+        "experiments/service_plan/response_journey_view.gd",
+        "tests/test_full_journey_narrative.gd"
+      ],
+      "missing": [],
+      "qa_only_extra_files": [
+        {
+          "file": "tests/test_service_caption_probe.gd",
+          "sha256": "9b037e4901579bc010f74f051c8731eb4746b222b8c0e347ef845543f720a99b"
+        }
+      ],
+      "eol_detail_sha256": "4b7d99f4ddc3bd09614b32512a578f6d930410c31342e2ffa2e101971c7f3479",
+      "limit": "648 raw matches plus 3 CRLF-only differences. Owners align exact Git blobs before fresh full verification; QA extra excluded. Not 651 raw-byte parity."
     }
+  },
+  "intermediate_ci_service_structure": {
+    "run_id": "39065505735",
+    "source": "557 checkpoint, root verified",
+    "conclusion": "FAIL",
+    "raw_log": ".godot/ci-39065505735/20261017T200935Z-94bd8364/test_completion_service_clarity.txt",
+    "raw_log_sha256": "8aa36d75165f8bd145fdec50a9fefaa519d2c1290bcbf2cbaaed50f185b75d26",
+    "checks": 100,
+    "failures": 2,
+    "test_line": 76,
+    "reason": "Old direct-parent assertions incompatible with same-scroll two-column layout.",
+    "authorized_test_only_change": "Ancestor relation, while verdict/continuation/playback explicitly remain outside scroll; retain all numeric, bounds, and scroll-location checks.",
+    "scope": "Current 679 original full result remains original; later focused test-only result and latest CI recorded separately."
+  },
+  "current_full_rule_practice_failure": {
+    "full_status": "COMPLETE: 166/168 PASS, 2 FAIL, exit1",
+    "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_rule_practice_input.txt",
+    "raw_log_sha256": "b5224b24e96cdaf38ad25a045412c96fb9cafae0b096dacc8976b063faab9dbe",
+    "checks": 391,
+    "first_failed_lines": [
+      180,
+      181
+    ],
+    "first_failure": "Escape closes feedback before handbook, then prior focus; later inputs cascade.",
+    "readonly_incidents": {
+      "published_count": 6,
+      "pending_count": 1,
+      "pending_id": "def638a2648cb0214d1f09ea3af34aac",
+      "case_bytes": 493,
+      "context_bytes": 3571,
+      "case_path_chars": 256,
+      "context_path_chars": 259,
+      "is_root": true,
+      "viewport": [
+        1440,
+        900
+      ],
+      "offline_tester": true,
+      "screenshot_status": "headless"
+    },
+    "cause": "UNKNOWN; synchronous current/last_error not captured. Pending is evidence, not proof of a specific failing IO stage.",
+    "next": "Canonical original-suite QA-only immediate per-loop diagnostic, preserving all assertions and user-content protections; no Store production changes."
+  },
+  "full_regression_679": {
+    "raw_result": ".godot/verification/20261017T202144Z-1639bbd5/results.json",
+    "raw_result_sha256": "6cac661dc1fc32f4521b898e5a8c6d0c729d85101d27ed4a99a2fe7bee3a26ef",
+    "stage_count": 168,
+    "passed_count": 166,
+    "failed_names": [
+      "test_completion_service_clarity",
+      "test_rule_practice_input"
+    ],
+    "verifier_exit": 1,
+    "owned_monitor_receipt": ".godot/full-regression-watch/0b495ce99c5c/owned-processes.json",
+    "owned_monitor_receipt_sha256": "97301bf43a8ec5bdc61725aca807f2b2aa089373ef07f79bfa9f826acaad6d20",
+    "verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+    "terminated_owned_children": [],
+    "wrapper_contract": "exec_command require_escalated; wrapper monitors only Popen-owned children for SCRIPT ERROR failfast; original assertions/flags/test enumeration/180-second bound retained.",
+    "parity": {
+      "raw_receipt": ".godot/verification/20261017T202144Z-1639bbd5/source-6792202-parity.json",
+      "raw_receipt_sha256": "8482431f8cbf7941cedc50341646fd56575cc7b9e107795f987edbabd97bad34",
+      "fixed_commit": "6792202d63a5f3f812c08d0603c447740d2e624f",
+      "checked": 651,
+      "matched": 651,
+      "changed": [],
+      "missing": [],
+      "extra_tests": [],
+      "source_hash": "60d0b1bf26a782942f2abe608d077dc4aa4e6f7536acd56d6845427f7d5abf72"
+    },
+    "stages": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/import.txt",
+        "raw_log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91"
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/user_directory.txt",
+        "raw_log_sha256": "c0b051ef9ba2f0e6debc2376799dd2db8932168e17ec3d48bc6d657bfe97626f"
+      },
+      {
+        "name": "test_alarm_order_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_alarm_order_feedback.txt",
+        "raw_log_sha256": "0d751caf0b40b188037e9d585de3a9f3d079574127772a0e401a8c3d559a3abd"
+      },
+      {
+        "name": "test_bilingual_typography",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_bilingual_typography.txt",
+        "raw_log_sha256": "56c278bf9afc9d266f449960a83eb66254adf64914a6d5656021ce384f4971f6"
+      },
+      {
+        "name": "test_candidate_designs",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_designs.txt",
+        "raw_log_sha256": "744eeb98b002ff9b39b53cf2e4deae0fe1637d5eaba0c61ac2c6931de72e4125"
+      },
+      {
+        "name": "test_candidate_disabled_focus",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_disabled_focus.txt",
+        "raw_log_sha256": "fce026bda0599d7c7c6ee96d2a6f92510e13f006774f20a7002b501aa27a7571"
+      },
+      {
+        "name": "test_candidate_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_feedback.txt",
+        "raw_log_sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b"
+      },
+      {
+        "name": "test_candidate_journey",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_journey.txt",
+        "raw_log_sha256": "0e4cbb1c477bd9d79efd7df313bcbed1628d6ed806b1dc12e119434d62be4925"
+      },
+      {
+        "name": "test_candidate_journey_review",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_journey_review.txt",
+        "raw_log_sha256": "68633a757240bad69da1675cdbec074fe618853f2636c27457e2278ddc734c8d"
+      },
+      {
+        "name": "test_candidate_language_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_language_navigation.txt",
+        "raw_log_sha256": "b618829beddec9f572bebf442a4e1866857f7969f723b7b8ca15ad98b243a2b7"
+      },
+      {
+        "name": "test_candidate_lifecycle",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_lifecycle.txt",
+        "raw_log_sha256": "9ad3100d091919c15b1356f3eba57e71db6d0658e29fc5ccc0356379542d8081"
+      },
+      {
+        "name": "test_candidate_policy",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_policy.txt",
+        "raw_log_sha256": "bb1fe9444b556c7a563fbe7ec4f2e222e91bd65502033837d8b87aa6f5e2091c"
+      },
+      {
+        "name": "test_candidate_restore_selection",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_restore_selection.txt",
+        "raw_log_sha256": "1ab395880fea2484d4514b4e1be9291ff4c6ba11f18b8b8a7b21b7d5a569be89"
+      },
+      {
+        "name": "test_candidate_supports",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_supports.txt",
+        "raw_log_sha256": "6b39189f2f2e026c3b8959ed0e48258b59ecfa26775898064211554cc6553b8f"
+      },
+      {
+        "name": "test_candidate_writer_retry",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_writer_retry.txt",
+        "raw_log_sha256": "223ebd3a54dc0aac182d5a3aef63c4377ed40b76b2582e525eaaab6b50be927a"
+      },
+      {
+        "name": "test_candidate_writer_retry_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_candidate_writer_retry_ui.txt",
+        "raw_log_sha256": "dc9c563fe10c279e5284e59e9c97250ac29b748b9f5a5f1d23be8054cab0535c"
+      },
+      {
+        "name": "test_chapter_card_routes",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_chapter_card_routes.txt",
+        "raw_log_sha256": "ed3d91b20089f309ab67a49b7ab80b66c036a984d734b363f2918503fb9a1026"
+      },
+      {
+        "name": "test_chapter_redo_shortcuts",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_chapter_redo_shortcuts.txt",
+        "raw_log_sha256": "7366fa932c8bb46f060b067bb909643e8cf31a521c42efcec3866c5277756f58"
+      },
+      {
+        "name": "test_chapter_workspaces",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_chapter_workspaces.txt",
+        "raw_log_sha256": "0135ab4896fd56303aea7fb27c89f649407bc2addd9fa07aa186536d913481cb"
+      },
+      {
+        "name": "test_circuit_simulation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_circuit_simulation.txt",
+        "raw_log_sha256": "2bd96a8923fd0aacdf694f3cd8f7b0a849a3eaf9a5d2f7d339c10537cbaa0198"
+      },
+      {
+        "name": "test_completion_presentation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_completion_presentation.txt",
+        "raw_log_sha256": "4d56bc49c109ebf1f9d877c342b79d04c59f819986ade7652e8f36f81e97d103"
+      },
+      {
+        "name": "test_completion_route",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_completion_route.txt",
+        "raw_log_sha256": "a338835aef6871c4ca2c45eee5c40378540cc61f7cb059fbbd669a117135b236"
+      },
+      {
+        "name": "test_completion_service_clarity",
+        "passed": false,
+        "exit": 1,
+        "errors": [
+          "ERROR: Overview evidence scrolls while verdict, continuation, and playback remain outside it",
+          "ERROR: Overview evidence scrolls while verdict, continuation, and playback remain outside it",
+          "FAIL: test_completion_service_clarity 100 checks, 2 failures"
+        ],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_completion_service_clarity.txt",
+        "raw_log_sha256": "4f1e397dfbf5d4ece762fa2c7abb4e2f31de523cc5d89169d4f8dd465324e817"
+      },
+      {
+        "name": "test_content_registry",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_content_registry.txt",
+        "raw_log_sha256": "16f6438b5a59f3dd9ffebd2495c40027d590f253db05d549caa161d5913cb55d"
+      },
+      {
+        "name": "test_core_closure_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_core_closure_navigation.txt",
+        "raw_log_sha256": "fafdbef790a3b05dec183f4e503616cab1f3b58ac94f58929d365a3446b15e3e"
+      },
+      {
+        "name": "test_creation_causal_panel",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_causal_panel.txt",
+        "raw_log_sha256": "4c11431ef17e60c28bc1dfb54c3a8e15387d0c1d5b3720c145cc8b2fdb97cefd"
+      },
+      {
+        "name": "test_creation_choice_completion",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_choice_completion.txt",
+        "raw_log_sha256": "5ed878bbb58612b51a9be6cd32d58b054156b3752b381767958b2ca0d04d0dfc"
+      },
+      {
+        "name": "test_creation_commissions",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_commissions.txt",
+        "raw_log_sha256": "3f0a56c75fa66445347db7b5b7609012a7b5d686c315aa4b93fcaa54a5b84458"
+      },
+      {
+        "name": "test_creation_comparison",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_comparison.txt",
+        "raw_log_sha256": "5210aee4181690a3c4e73ec5aa9d52bc3230d07553e194632de44aa37cb471b9"
+      },
+      {
+        "name": "test_creation_comparison_view",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_comparison_view.txt",
+        "raw_log_sha256": "9b928cd28b8a20fdc42ca895ee3a52f52b78626d006d0aafbd1665f8633b9646"
+      },
+      {
+        "name": "test_creation_condition_examples",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_condition_examples.txt",
+        "raw_log_sha256": "663dc02f5f7d6fda9920e871c33d6902e631a79d70aca70d5da1db6574b3da35"
+      },
+      {
+        "name": "test_creation_contract",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_contract.txt",
+        "raw_log_sha256": "c5afc7e517002ab2774045fb8e9f54f630b8600f8721826cb5db44972a0db416"
+      },
+      {
+        "name": "test_creation_cost_ledger",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_cost_ledger.txt",
+        "raw_log_sha256": "07df175e881f002dfe2b0a049d462b69568d4827308579b64a2c2bbb38d9b741"
+      },
+      {
+        "name": "test_creation_design_evidence",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_design_evidence.txt",
+        "raw_log_sha256": "434a2535bda86aecb7658ee9ac35608323b4f5097a70a09cbefb5715e9009dc7"
+      },
+      {
+        "name": "test_creation_draft_undo",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_draft_undo.txt",
+        "raw_log_sha256": "0c7ba3710058d52ab55d66b0ae6e00d49f73ebfafdbd1692d7ad7ab76844e5db"
+      },
+      {
+        "name": "test_creation_edit_controls",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_edit_controls.txt",
+        "raw_log_sha256": "81a0721cb1ba74aaddf7b62264760174747933b76401a91e369dedc9596845a5"
+      },
+      {
+        "name": "test_creation_evidence_identity",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_evidence_identity.txt",
+        "raw_log_sha256": "1bd0b48d464f591e90ac8fef958eeb62423f3e5d7006c3f89f7c38302b3f9026"
+      },
+      {
+        "name": "test_creation_evidence_reading",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_evidence_reading.txt",
+        "raw_log_sha256": "363556d2e7d90b2ea1d3ced51fb3653db0f7578e1d21375458836a34b62c8763"
+      },
+      {
+        "name": "test_creation_exhibition",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_exhibition.txt",
+        "raw_log_sha256": "1ef91389ce6b97acf6d2df0b5cde56c582ed399f396725d81984a7260a81922a"
+      },
+      {
+        "name": "test_creation_exhibition_composition",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_exhibition_composition.txt",
+        "raw_log_sha256": "a627778249705b2d3971ae8cde7288780dab091b5f04fc1b06bc8bd94210d043"
+      },
+      {
+        "name": "test_creation_explanation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_explanation.txt",
+        "raw_log_sha256": "45f91908ad03a88d08a3eb72fb69b0dfeb58f57d2c17dd3ad6b79e9ac1ee2a62"
+      },
+      {
+        "name": "test_creation_future_workbench",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_future_workbench.txt",
+        "raw_log_sha256": "a569693004438dc22fbfd3d0afc63bd063666d7d7c4548f16a2d8724e7d1bae0"
+      },
+      {
+        "name": "test_creation_input_validation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_input_validation.txt",
+        "raw_log_sha256": "a789ee55f894c6de5fb27c082b78c20350484c98d0db05fe79ac3cb92d7b3f59"
+      },
+      {
+        "name": "test_creation_keyboard_focus",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_keyboard_focus.txt",
+        "raw_log_sha256": "736f65702071efbc27d633a73f25a47bcd71dae3c433b7428e3036e7a6abec0f"
+      },
+      {
+        "name": "test_creation_measured_closure",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_measured_closure.txt",
+        "raw_log_sha256": "340b4127b33385c34811488a7bdc428f7aea10fc79a19438e051969d1bedd6fa"
+      },
+      {
+        "name": "test_creation_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_navigation.txt",
+        "raw_log_sha256": "e1737e8c310c1b28745a2ae226c7407b5f09d4e60ef38262f0099474f65a2711"
+      },
+      {
+        "name": "test_creation_observation_focus",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_observation_focus.txt",
+        "raw_log_sha256": "271f9c14773d4e56634c58e4fd11541f7deaa4e99623043f9351482496d9b8f9"
+      },
+      {
+        "name": "test_creation_playable_loop",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_playable_loop.txt",
+        "raw_log_sha256": "59f11f82dd9d28c15f0ba37e588f0bc44cd583cc3190cc7edd29c205441fcb14"
+      },
+      {
+        "name": "test_creation_prediction_flow",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_prediction_flow.txt",
+        "raw_log_sha256": "783955b285346e196cb59f05a222610e7bfaaf39c6d69fb09c9be2f3c8e4791b"
+      },
+      {
+        "name": "test_creation_prediction_memory",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_prediction_memory.txt",
+        "raw_log_sha256": "83d0045c5a64bf4c8ed8f71b59dc259ef4430561dfcbbbeec5cb21cb2523a6ae"
+      },
+      {
+        "name": "test_creation_prediction_work_view",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_prediction_work_view.txt",
+        "raw_log_sha256": "02621ae01299d4c40db2981238214058099cd75196761c12d5b385334ea286ec"
+      },
+      {
+        "name": "test_creation_preparation_binding",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_preparation_binding.txt",
+        "raw_log_sha256": "738751cf6e381a15cd2db64cf10e0879ea59bfc09858c1e15a117027c9ee2792"
+      },
+      {
+        "name": "test_creation_profile_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_profile_navigation.txt",
+        "raw_log_sha256": "97be8b8d59f295e9cea6cd3ee11877fe076e08512166480557c876843ca5deb9"
+      },
+      {
+        "name": "test_creation_raw_readonly",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_raw_readonly.txt",
+        "raw_log_sha256": "38af8c3bcf4fa96b55cd7802037ef8c8917b634513511b3c42071211f459de3a"
+      },
+      {
+        "name": "test_creation_route_access",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_route_access.txt",
+        "raw_log_sha256": "543a9faeacf6d86103f54460cbc21dfd2c69bbc6eff6cf2105b98f21f2229fcf"
+      },
+      {
+        "name": "test_creation_route_flow",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_route_flow.txt",
+        "raw_log_sha256": "07b607cd0e0a953e53c7157ddc991167e90de540dd0504c8007263d68c44933d"
+      },
+      {
+        "name": "test_creation_sample_editing",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_sample_editing.txt",
+        "raw_log_sha256": "05c8f80b8ed32c7f6b4b40918b9e1c5ffc704961f4830f07344904acfb0e60c6"
+      },
+      {
+        "name": "test_creation_state_regressions",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_state_regressions.txt",
+        "raw_log_sha256": "e0c4aa859feeb9e0cdd146d9bf675ced19da86d7fc36fa4f38b536bd5f0667fc"
+      },
+      {
+        "name": "test_creation_work_focus",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_work_focus.txt",
+        "raw_log_sha256": "de6a69aadc21a7b265fd390327adf694b1dd1a7b640567c2fb5d559a8212d8c8"
+      },
+      {
+        "name": "test_creation_work_listening",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_work_listening.txt",
+        "raw_log_sha256": "12926ec8ae06f3343aeb4320ffb0fd15fda3384156d246f66de3fea4c9846b5e"
+      },
+      {
+        "name": "test_creation_workbench",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_workbench.txt",
+        "raw_log_sha256": "33e40c86c3d557f09e98f40afe53530cb1765c4e44b8e301ca64cc7fca30ae5e"
+      },
+      {
+        "name": "test_creation_writer_retry",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_writer_retry.txt",
+        "raw_log_sha256": "c90565b07911afba3c6f843b8cd41d65217874c760b0e3f184ee3c0ce37879b8"
+      },
+      {
+        "name": "test_creation_writer_retry_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_creation_writer_retry_ui.txt",
+        "raw_log_sha256": "680de9c8d785aff68e7b0c4236442b7e5706db2e313fa601090729f55bb20ff4"
+      },
+      {
+        "name": "test_desktop_conventions",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_desktop_conventions.txt",
+        "raw_log_sha256": "6f915e4c6ed2849179c7c84119e75cc369114f144946c048c7c16687f89ffd2f"
+      },
+      {
+        "name": "test_direct_task_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_direct_task_navigation.txt",
+        "raw_log_sha256": "6f3cc22ae72a4cafc61d0f3860c3f042972ca8f7b211c933a70bed7ec911b04a"
+      },
+      {
+        "name": "test_display_preferences",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_display_preferences.txt",
+        "raw_log_sha256": "9a888e3c3cd935fb5569be73d4e352ebc850bace0391521343ab177e0a7fa254"
+      },
+      {
+        "name": "test_evidence_proxy",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_evidence_proxy.txt",
+        "raw_log_sha256": "aa82f919165caeaad0ec5b7485e034ef4a42ac771a65be0067d3ec81d0f50515"
+      },
+      {
+        "name": "test_exploration",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_exploration.txt",
+        "raw_log_sha256": "bd06e779cb59fc0e20f2ca75bcb25b2dfce2f55c782e0ddb72eeed0ccd1955fd"
+      },
+      {
+        "name": "test_feedback_presentation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_feedback_presentation.txt",
+        "raw_log_sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae"
+      },
+      {
+        "name": "test_final_convergence",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_final_convergence.txt",
+        "raw_log_sha256": "f22d68b29e1946b60c95959227dcefe95c8f459c3b3e591451fee5ae746d8703"
+      },
+      {
+        "name": "test_first_build_guidance",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_first_build_guidance.txt",
+        "raw_log_sha256": "f6d55af485ee030aa5854ef25aa039a5af222757c04eea92abd6005e0b90dc0f"
+      },
+      {
+        "name": "test_floating_tool_recall",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_floating_tool_recall.txt",
+        "raw_log_sha256": "efce19ad5da502f3407f7793f2ce5d40c06cca7169d7e9504bbe049f007dfd9e"
+      },
+      {
+        "name": "test_full_journey_narrative",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_full_journey_narrative.txt",
+        "raw_log_sha256": "cac5b9d053e0f8428bd4c492a838259544feb63aaa30df62aca9134d7b84a5fc"
+      },
+      {
+        "name": "test_global_save",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_global_save.txt",
+        "raw_log_sha256": "69d8bf6a56b65ac2ebb7386a2ae8f8af85f788a2d0e435e734b121064b0e3f76"
+      },
+      {
+        "name": "test_hardware_foundations_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_hardware_foundations_ui.txt",
+        "raw_log_sha256": "36265fc8cd047b5a18b7ef147f0a2ed2888e70689a06e03d462e7881d831451c"
+      },
+      {
+        "name": "test_hardware_prologue_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_hardware_prologue_ui.txt",
+        "raw_log_sha256": "f84411b49b7e3f5ce6fed288d746af91d095426bda6148a5ec06b33e0b712514"
+      },
+      {
+        "name": "test_hardware_seal_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_hardware_seal_navigation.txt",
+        "raw_log_sha256": "b6f59d29d824576e927317a73c6d3acde91ddaddc48ea44238f2526e7414206d"
+      },
+      {
+        "name": "test_hub_first_screen",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_hub_first_screen.txt",
+        "raw_log_sha256": "7e1fa1fdee39b311fa9d04a95f3c6326075f7ed8c92512cacbcc615104b4af27"
+      },
+      {
+        "name": "test_instrument_theme",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_instrument_theme.txt",
+        "raw_log_sha256": "7b934bf74a53ac7e490dce69b939235542af80731c4978ad2e8fa9239b8c920e"
+      },
+      {
+        "name": "test_intelligent_state",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_intelligent_state.txt",
+        "raw_log_sha256": "bdd05380dac3b1a1f88a951093b36bfe83d56013406660895076f13baf5260f9"
+      },
+      {
+        "name": "test_journey_journal",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_journey_journal.txt",
+        "raw_log_sha256": "e853d769b0df72dee9a98dc1e85507a2fcd7bc7846db3e6d127e9825ed6a5b8f"
+      },
+      {
+        "name": "test_journey_observatory",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_journey_observatory.txt",
+        "raw_log_sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5"
+      },
+      {
+        "name": "test_latch_playback_readout",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_latch_playback_readout.txt",
+        "raw_log_sha256": "d2e9fd6bf0994c7d44c6669ce20d3efb6832da0bcfd094c692063ccea17e0435"
+      },
+      {
+        "name": "test_layout_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_layout_navigation.txt",
+        "raw_log_sha256": "51544c591def965c88efeaab4cc2cbe4db9bf99920dd2afc1f9c95259fc7df09"
+      },
+      {
+        "name": "test_layout_preview_selection",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_layout_preview_selection.txt",
+        "raw_log_sha256": "5b285c5f9632038b85e10c058438a092a7b92609a95837e124e11acebf1c1f23"
+      },
+      {
+        "name": "test_layout_recipe_sources",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_layout_recipe_sources.txt",
+        "raw_log_sha256": "4642687306d65f87255bc9b6a9a4993dc6f9e2dce766be9a2706536c0d3a0d76"
+      },
+      {
+        "name": "test_layout_simulation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_layout_simulation.txt",
+        "raw_log_sha256": "8a40a0f53959f4376ec1d8f6c4e2ef51f329f749a9bcf7d32630727513a71f5a"
+      },
+      {
+        "name": "test_layout_trace_storage",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_layout_trace_storage.txt",
+        "raw_log_sha256": "70110da278f9d94d19cf4ab4a3257551fe7d41b9821170b0e15ed06d6b12e75c"
+      },
+      {
+        "name": "test_layout_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_layout_ui.txt",
+        "raw_log_sha256": "147266da54c76168679c26695abae210d62f431452c99c3081633ea7b4733a0b"
+      },
+      {
+        "name": "test_learning_handbook",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_learning_handbook.txt",
+        "raw_log_sha256": "e6450641e6cea1fadebbd91571386d2f1cab1dc7add2259ed0221fbd43d4b790"
+      },
+      {
+        "name": "test_locality_chapter_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_locality_chapter_ui.txt",
+        "raw_log_sha256": "1aac74e1f60db0937256e7a8e3564eefe0c8e1faddc6e409611435906c17fb6b"
+      },
+      {
+        "name": "test_locality_restored_baseline",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_locality_restored_baseline.txt",
+        "raw_log_sha256": "dc636bb70a5c996abe845a07c41a6a69e5a3c58d6cd24d77e7b267d784a4270d"
+      },
+      {
+        "name": "test_localization",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_localization.txt",
+        "raw_log_sha256": "7a8942578131fd375a98377221768d2da723273cc39f3bc1feeac3b81aff619a"
+      },
+      {
+        "name": "test_night_narrative",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_night_narrative.txt",
+        "raw_log_sha256": "0bfd29ea545afe8ec764c1ea28a6989fc64e85e705890d44f5d658a155bb4899"
+      },
+      {
+        "name": "test_offline_context",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_offline_context.txt",
+        "raw_log_sha256": "e4dc287348e9dc12071a5a025c6e85d6ba3232fa2402e9d4d4f1e56703f90c74"
+      },
+      {
+        "name": "test_offline_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_offline_feedback.txt",
+        "raw_log_sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157"
+      },
+      {
+        "name": "test_offline_store",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_offline_store.txt",
+        "raw_log_sha256": "97bcea4aac402f1f8209d1b69cbc74ed009dc70ce921d33913e5295f5ed5bed9"
+      },
+      {
+        "name": "test_offline_tester_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_offline_tester_navigation.txt",
+        "raw_log_sha256": "8208d58daf0768f584e6f693f0659f4b0ddf1cf13de0408664d44127ef9c5e67"
+      },
+      {
+        "name": "test_optional_challenges",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_optional_challenges.txt",
+        "raw_log_sha256": "2ef9098aaddf6505ac82036c96ed79312e825ab22ced7fdedfe9b9861c96f40d"
+      },
+      {
+        "name": "test_optional_result_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_optional_result_feedback.txt",
+        "raw_log_sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c"
+      },
+      {
+        "name": "test_overlap_simulation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_overlap_simulation.txt",
+        "raw_log_sha256": "4d656a48c7573df681b97d3d641fe1feaad99ec5545520709ecf25d875975ad6"
+      },
+      {
+        "name": "test_overlap_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_overlap_ui.txt",
+        "raw_log_sha256": "1acf352ba83c738afbe97a69015b5693c9abba6a73b96dc2aa12e14fffbdffbd"
+      },
+      {
+        "name": "test_personal_records",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_personal_records.txt",
+        "raw_log_sha256": "0a0ab968c09c5dc9a42541e73481dc4f62afac9e7d42567c5a3b901f3c415e62"
+      },
+      {
+        "name": "test_playtest_data",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_playtest_data.txt",
+        "raw_log_sha256": "9af111df84417ba9418357ba9be4afcbccb9824b1e34d2a9e9642f061d7aa70b"
+      },
+      {
+        "name": "test_playtest_feedback_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_playtest_feedback_ui.txt",
+        "raw_log_sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3"
+      },
+      {
+        "name": "test_playtest_visits",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_playtest_visits.txt",
+        "raw_log_sha256": "2b017ff2b0572747f9bd1d97aa14d435861c2509fd98225304850765147b8126"
+      },
+      {
+        "name": "test_prediction_goal_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_prediction_goal_feedback.txt",
+        "raw_log_sha256": "8a5c9ff2dc31d351325792f6995d84f473c98d801c11ab315622d965c9cb29b5"
+      },
+      {
+        "name": "test_prediction_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_prediction_navigation.txt",
+        "raw_log_sha256": "0c81109e06fe5222dd1233ee7e89b2828548857331d1a424b2235535a98f9cc4"
+      },
+      {
+        "name": "test_prediction_record_source",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_prediction_record_source.txt",
+        "raw_log_sha256": "5473e30c3e2cb10e9b4fa7a684a59e83486f5c1f4cda622a524db51716dc6450"
+      },
+      {
+        "name": "test_prediction_slice",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_prediction_slice.txt",
+        "raw_log_sha256": "d4c336448783026a40ebe67d00de7bc46520bde8f9ce805ee7f40878505b4532"
+      },
+      {
+        "name": "test_prediction_workbench_presentation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_prediction_workbench_presentation.txt",
+        "raw_log_sha256": "a2f414c6923e8be17314e592caf1e3d8b53cb5006aeb5f3c5407718cb9bbbcf5"
+      },
+      {
+        "name": "test_prelaunch_settings",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_prelaunch_settings.txt",
+        "raw_log_sha256": "3b45378c321884399ec5292542074264a7d9ae44cd5780853bba286edbd5d92b"
+      },
+      {
+        "name": "test_prologue_continuation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_prologue_continuation.txt",
+        "raw_log_sha256": "117939be73a3a57bdf274e70bef4859e9122791958cdce49c9451af932ca8c8a"
+      },
+      {
+        "name": "test_prologue_simulation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_prologue_simulation.txt",
+        "raw_log_sha256": "cea32c48707cd9ad72cbae3a80ae2f14f8e1cb9c90d6179ba1fc4e51dac1ebf3"
+      },
+      {
+        "name": "test_release_convergence",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_release_convergence.txt",
+        "raw_log_sha256": "1f5081a650e16abb637036b407b2c8565c81f8dc01c825b709a659d791423bc4"
+      },
+      {
+        "name": "test_remote_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_remote_feedback.txt",
+        "raw_log_sha256": "61b327154d0214bb7a8a433e14dc6be73f5c6e4324eab2beaa56d8a40fddafdc"
+      },
+      {
+        "name": "test_representation_cache",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_cache.txt",
+        "raw_log_sha256": "11e2bb5bea086cff07d5c320c16f26cc64a2548d08bfbc942a2423043fa9b91d"
+      },
+      {
+        "name": "test_representation_closure_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_closure_navigation.txt",
+        "raw_log_sha256": "cb93cd31a3ef53b10c3ea0442c48a24240ed1dbdd3db8d1bd758e73e76959d1f"
+      },
+      {
+        "name": "test_representation_design_shelf",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_design_shelf.txt",
+        "raw_log_sha256": "0efa65b1c2bdc979fa09d844060574ee071b6fe9dfde72ded3239de87cc03e29"
+      },
+      {
+        "name": "test_representation_edit_context",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_edit_context.txt",
+        "raw_log_sha256": "f4eb30f296cf0b432be449df575b4d1be9ac87171120f123eba8be5c39db8d7b"
+      },
+      {
+        "name": "test_representation_plan",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_plan.txt",
+        "raw_log_sha256": "db981ec9c38822dd3875e0c10d78a87b2f2ce81350c1768820d8d24448f50df1"
+      },
+      {
+        "name": "test_representation_region",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_region.txt",
+        "raw_log_sha256": "d8bdca253ebe5240f94aaeee5cb11ee2badf5e563eed6a9d28936d59ff76238f"
+      },
+      {
+        "name": "test_representation_restored_notice",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_restored_notice.txt",
+        "raw_log_sha256": "09382af3617e2afdbb16bf2a96c04c74bf239f736c0cae44ba871a0db0e7d2b0"
+      },
+      {
+        "name": "test_representation_session",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_session.txt",
+        "raw_log_sha256": "8e2dc6e600989be4940a02e71d1121e9921df1f799350990bedabdb6ad040079"
+      },
+      {
+        "name": "test_representation_visual",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_visual.txt",
+        "raw_log_sha256": "5ab99e3d641ceea1577efa31b75cc37f3967c5b6084405ee7197e43f2d526304"
+      },
+      {
+        "name": "test_representation_workbench_presentation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_representation_workbench_presentation.txt",
+        "raw_log_sha256": "7b621130a6d1724e96fedf4cb9d30e73dba6bb06e740dee0210d329090bcb86b"
+      },
+      {
+        "name": "test_rule_practice_input",
+        "passed": false,
+        "exit": 1,
+        "errors": [
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Feedback returns the actual prior focus and isolated example state",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: Actual B click preserves A and selects both high",
+          "ERROR: Both-high outputs match AND / half-adder",
+          "ERROR: Actual A click does not change B",
+          "ERROR: Tab travels from A to B without test-installed focus links",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: Mixed inputs follow their actual rule",
+          "ERROR: Actual B click preserves A and selects both high",
+          "ERROR: Both-high outputs match AND / half-adder",
+          "ERROR: Actual A click does not change B",
+          "ERROR: Tab travels from A to B without test-installed focus links",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: NOT 1 produces 0 rather than a universally lit lamp",
+          "ERROR: Second Space restores NOT 1 to 0",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: Actual B click preserves A and selects both high",
+          "ERROR: Both-high outputs match AND / half-adder",
+          "ERROR: Actual A click does not change B",
+          "ERROR: Tab travels from A to B without test-installed focus links",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: Mixed inputs follow their actual rule",
+          "ERROR: Actual B click preserves A and selects both high",
+          "ERROR: Both-high outputs match AND / half-adder",
+          "ERROR: Actual A click does not change B",
+          "ERROR: Tab travels from A to B without test-installed focus links",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: NOT 1 produces 0 rather than a universally lit lamp",
+          "ERROR: Second Space restores NOT 1 to 0",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: Actual B click preserves A and selects both high",
+          "ERROR: Both-high outputs match AND / half-adder",
+          "ERROR: Actual A click does not change B",
+          "ERROR: Tab travels from A to B without test-installed focus links",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: Mixed inputs follow their actual rule",
+          "ERROR: Actual B click preserves A and selects both high",
+          "ERROR: Both-high outputs match AND / half-adder",
+          "ERROR: Actual A click does not change B",
+          "ERROR: Tab travels from A to B without test-installed focus links",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: NOT 1 produces 0 rather than a universally lit lamp",
+          "ERROR: Second Space restores NOT 1 to 0",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: Actual B click preserves A and selects both high",
+          "ERROR: Both-high outputs match AND / half-adder",
+          "ERROR: Actual A click does not change B",
+          "ERROR: Tab travels from A to B without test-installed focus links",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "ERROR: Viewport click changes A from 0 to 1",
+          "ERROR: Actual pointer click gives A keyboard focus",
+          "ERROR: Mixed inputs follow their actual rule",
+          "ERROR: Actual B click preserves A and selects both high",
+          "ERROR: Both-high outputs match AND / half-adder",
+          "ERROR: Actual A click does not change B",
+          "ERROR: Tab travels from A to B without test-installed focus links",
+          "ERROR: Wheel reaches deeper rule/definition content when it overflows",
+          "ERROR: Escape closes feedback before the handbook",
+          "ERROR: Next Escape returns to the existing circuit host",
+          "FAIL: isolated rule practice viewport input (391 checks)"
+        ],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_rule_practice_input.txt",
+        "raw_log_sha256": "b5224b24e96cdaf38ad25a045412c96fb9cafae0b096dacc8976b063faab9dbe"
+      },
+      {
+        "name": "test_save_signature_migration",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_save_signature_migration.txt",
+        "raw_log_sha256": "748e3fe288a5b107023baae78867922ef88ed280e6556c21fd8e2e8449cebeb3"
+      },
+      {
+        "name": "test_second_act_content",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_second_act_content.txt",
+        "raw_log_sha256": "ec179a19e079872101e06a831cdfebab7dc91d969728a0d20fae2e9ddb26c2df"
+      },
+      {
+        "name": "test_second_act_experiments",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_second_act_experiments.txt",
+        "raw_log_sha256": "451a1b78074c693a2ddea5cd2f545b98ea1ccf74144eccb87dff503755d3d238"
+      },
+      {
+        "name": "test_second_act_independent",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_second_act_independent.txt",
+        "raw_log_sha256": "ae165404550a5e74ccb343adfbbd6d5c6d50bc99dace570c50380630c40c746d"
+      },
+      {
+        "name": "test_second_act_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_second_act_navigation.txt",
+        "raw_log_sha256": "bf8fa4f161b9d2fac1ff01a339a6561376c233cba00f1c529898b1fa63d3ee3f"
+      },
+      {
+        "name": "test_service_commission_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_commission_ui.txt",
+        "raw_log_sha256": "1fb57672f869f674f35e8916b264548aa05505ad1bebc70ea1447103e23d167a"
+      },
+      {
+        "name": "test_service_commissions",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_commissions.txt",
+        "raw_log_sha256": "4751f345731b089dc6b25e6965a45496cb187cb916cd924034a1739de03ebcaa"
+      },
+      {
+        "name": "test_service_context_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_context_navigation.txt",
+        "raw_log_sha256": "42bad058947e94f71000c10a6ef4ae2a19852ba216181b4321b02f1b3fd41eab"
+      },
+      {
+        "name": "test_service_design_shelf",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_design_shelf.txt",
+        "raw_log_sha256": "fa8463391354c5f5773c37bf7e7246e60ac556a1a142774e067bba08052cca07"
+      },
+      {
+        "name": "test_service_learning_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_learning_ui.txt",
+        "raw_log_sha256": "d69d179aaa426bbc4807325eaaa5c6195e5509d62ddf3f081e8bda9fc93a1df7"
+      },
+      {
+        "name": "test_service_number_display",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_number_display.txt",
+        "raw_log_sha256": "33d380cbdbd14e646838a155539a95ba73300f9b640bf53ad4c5b688f76c840c"
+      },
+      {
+        "name": "test_service_plan",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_plan.txt",
+        "raw_log_sha256": "764497a3bd36fed4f1b2b2b1d1fa8b0881c5ed819bb907b8e2ff44a8ccc3439e"
+      },
+      {
+        "name": "test_service_session",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_session.txt",
+        "raw_log_sha256": "9410abe53078178e68ab41510f81bd1231a422f01fab374c23b1af0a0e3523e4"
+      },
+      {
+        "name": "test_service_split_actions",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_split_actions.txt",
+        "raw_log_sha256": "544e8f92fc78d474dae97a1e2148bb61da6d27b49f3cc22436e5cf247a8f92e5"
+      },
+      {
+        "name": "test_service_state_replay",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_state_replay.txt",
+        "raw_log_sha256": "5fc3172c67aaba10b8595c6e5224f9d991c0d963cc1c14b0ce9ea9789ed6609f"
+      },
+      {
+        "name": "test_service_state_replay_view",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_state_replay_view.txt",
+        "raw_log_sha256": "5dc4b55676fb4c230af2057a5fad1ee4de85f79a6944ef72a4f9c6f8bbdbe111"
+      },
+      {
+        "name": "test_service_undo_context",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_service_undo_context.txt",
+        "raw_log_sha256": "c1070c245b006296722566ad2ec977d9c044f9b78133a58b708d5863788643e5"
+      },
+      {
+        "name": "test_simulation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_simulation.txt",
+        "raw_log_sha256": "9349eb61218be55887423ea76c57685573e1127187e425ca8af7f72fea5e7aca"
+      },
+      {
+        "name": "test_storage_caption_playback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_storage_caption_playback.txt",
+        "raw_log_sha256": "001c9901c35b8238c55dd8b66713caf316df85dbd20e115be1f9940f9b9e9396"
+      },
+      {
+        "name": "test_system_applications",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_system_applications.txt",
+        "raw_log_sha256": "0816ca58686035267fba82f5792674c49a57fd15473270c74217da3614f8623d"
+      },
+      {
+        "name": "test_system_baseline_continuity",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_system_baseline_continuity.txt",
+        "raw_log_sha256": "16c4c476e5d234ac16fdef7a75c071cef50bcd701633bb7b5a933a5f8a22a603"
+      },
+      {
+        "name": "test_system_cost_evidence",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_system_cost_evidence.txt",
+        "raw_log_sha256": "fd42e234d03ade6a2fc25c16e67963c1bb6a4a848bce92293045f70e736a72bc"
+      },
+      {
+        "name": "test_system_evidence_guidance",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_system_evidence_guidance.txt",
+        "raw_log_sha256": "f2c3ff592d3084e3aca8f31f7a7946408d12cbc7774a89562e3e833adb243cb3"
+      },
+      {
+        "name": "test_system_lab_simulation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_system_lab_simulation.txt",
+        "raw_log_sha256": "b90ae30b83a6efeaf75495bbae6b0a8a43d7383d1e2f6d849f1c12e6b2b76af7"
+      },
+      {
+        "name": "test_system_lab_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_system_lab_ui.txt",
+        "raw_log_sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb"
+      },
+      {
+        "name": "test_system_trace_source_binding",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_system_trace_source_binding.txt",
+        "raw_log_sha256": "76454884db6be3663e4b875043df0fbff45aa2c9014afebea0690f9646f96d23"
+      },
+      {
+        "name": "test_task_tree",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_task_tree.txt",
+        "raw_log_sha256": "d5a8c0a3df05357608e4f93dfd749ff86a3b3474be1e1317536cef43e3a8540f"
+      },
+      {
+        "name": "test_task_tree_layout",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_task_tree_layout.txt",
+        "raw_log_sha256": "04a5e928f57006e6c26ce9ff326874835056709288b258f3fa8733856508c2d6"
+      },
+      {
+        "name": "test_task_tree_presentation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_task_tree_presentation.txt",
+        "raw_log_sha256": "81a29c22f8690fa0607afb4785019edbbe6b7c03f3e38838f91033db5790e6d3"
+      },
+      {
+        "name": "test_theme_reflection",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_theme_reflection.txt",
+        "raw_log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e"
+      },
+      {
+        "name": "test_trace_ambience",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_trace_ambience.txt",
+        "raw_log_sha256": "182711e4e69d37a598f8a4adfe256f139c980a4d05abe4add6e43e90e0e189ff"
+      },
+      {
+        "name": "test_tree_journey_presentation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_tree_journey_presentation.txt",
+        "raw_log_sha256": "8cc1e9705e7a3ee09843d2fa8be061f982343a30ab4389e29dee5fa7784cea82"
+      },
+      {
+        "name": "test_tutorial_replay",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_tutorial_replay.txt",
+        "raw_log_sha256": "d02a31e84919196bedaf9f351b6b1b0d12e3a32887a0a5ae95dc35de638e7b65"
+      },
+      {
+        "name": "test_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_ui.txt",
+        "raw_log_sha256": "233777b3b7a375a2640e3f719869d12a2dfb819aed5d97bba6450069fec8657f"
+      },
+      {
+        "name": "test_unified_journey_navigation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_unified_journey_navigation.txt",
+        "raw_log_sha256": "44c116757f5a3439cc3ee13c676bc56f7d98fe4b9d22b913796daf1842376a2a"
+      },
+      {
+        "name": "test_visit_summary",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_visit_summary.txt",
+        "raw_log_sha256": "678b8239540a097e2c49105c96fd3a0108492c4bf116ce4487976bea9f591fc1"
+      },
+      {
+        "name": "test_wire_drag_geometry",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_wire_drag_geometry.txt",
+        "raw_log_sha256": "5f9c662e54754063be47839a9f9ebb21589318766d3f058dfe147f16250dc33e"
+      },
+      {
+        "name": "test_wire_tooltip_lifecycle",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_wire_tooltip_lifecycle.txt",
+        "raw_log_sha256": "13bfe4f5d34cfa802d22b2c9bdf38ea07f5183b872d25c3f80037faff31ac1a6"
+      },
+      {
+        "name": "test_work_focus_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_work_focus_feedback.txt",
+        "raw_log_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd"
+      },
+      {
+        "name": "test_workbench_interrupted_recovery",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_workbench_interrupted_recovery.txt",
+        "raw_log_sha256": "142745b4bfbe9cd6676c08acea84c9e1a57f8a0ad2d71d0d5b8e3a93117c957f"
+      },
+      {
+        "name": "test_workbench_write_failure",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T202144Z-1639bbd5/test_workbench_write_failure.txt",
+        "raw_log_sha256": "89e83a23be2012f88cb75108cf3316b78ae96199d1361634eb79a575991a55fd"
+      }
+    ],
+    "scope": "Original full remains 166/168; later fixed focused tests do not retroactively change this record."
+  },
+  "proposed_package_source": {
+    "commit": "49c20ead795e1be9de693b0509307ff3fa172fe6",
+    "authority": "Root reported proposed fixed source, not built yet.",
+    "runtime_base": "6792202d63a5f3f812c08d0603c447740d2e624f",
+    "delta": "test-only clarity assertion and QA probe same embedded profile independent restart; runtime unchanged per Root.",
+    "actual_exported_zip_validation": "NOT_RUN",
+    "p0_rule_practice": "OPEN"
   }
 }

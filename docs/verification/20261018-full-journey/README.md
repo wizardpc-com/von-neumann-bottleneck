@@ -17,7 +17,7 @@ Python job`117488197257`；本地下载168份顶层txt（含import/userdir，166
 后续恢复点为`e47c62a`（共享popup反馈窄修）、`79f12f3`（窄窗Host）、
 `65974a1`（独立审图文档）。产品源码现冻结供Narrative取fresh copy，GUI/旧反馈回归与远端新CI尚待结果。
 最后await guard为`13e1f84`；Service最小两列布局检查点为`5570327`，已连同guard推送。
-这仍不是最终包SOURCE冻结；最新`3ec80941`隔离copy的模态栈已有真实GUI通过，原canonical离线反馈发布失败仍是P0，详见下方最新记录。
+这仍不是最终包SOURCE冻结；完整fresh原verify已结束为166/168通过，规则练习反馈关闭仍有P0待诊，不能据单套canonical通过宣布完整IO或交互已闭合。
 基线CI运行`39061439011`已由总控核读为completed/SUCCESS；它不证明本轮新增代码。
 [旧7c固定包及限定原生验收](../20261018-night-experience/README.md)保留原身份，
 本轮尚无新固定包、原生或陌生玩家验收结论。未执行公网发布、账号/服务器修改或旧存档迁移。
@@ -80,6 +80,9 @@ Godot为`4.7.1.stable.official.a13da4feb`。原始日志留在本地忽略目录
 | `native-rename/20261018T041601` | 8个独立synthetic scratch原生文件IO：7成功，1个MoveFileW即时Win32 Error5/Access denied | 同原长路径243→241字符的其他3个case成功，短路径4个成功；失败源及JSON SHA仍完整，目标未创建。无Godot/UI、无旧pending移动/晋升、无sleep/retry。证明同形原生rename也能失败，不能据此判定具体锁/安全软件或把P0关闭 |
 | `native-rename/temp-20261018T041735` | 一次系统TEMP隔离副本对照在首个short组建子目录时报WinError5；0次rename | 不改ACL/设置、不重试，不能宣称TEMP可靠；后续工具进程有不同sandbox TEMP身份，不能用其看不到前目录回溯失败权限 |
 | `native-rename/escalated-20261018T041841` | 正式工具require_escalated一次对照：4个新独立case全部成功/error0/SHA保持 | short及同243→241长路径×MoveFileW/MoveFileEx各1；raw记录进程与限定环境，不是RunAs/UAC/安全设置修改。支持优先在正式权限上下文核验canonical原suite，不证明唯一根因或持久IO保证；无游戏/UI原生验收 |
+| `verification/20261017T202023Z-2e1f125e` | 正式require_escalated下未改canonical `res://tests/test_offline_feedback.gd` PASS/exit0，无terminated child | test SHA `9b19562c62f0b4c42cfe0c354e053877aa7bbde195e803aac8b7d7c37c3b188a`，Store SHA保持3781…；raw日志文件名虽带diagnostic，实际command为原canonical脚本、无别名/QA日志改动。可进入整合验证，不将默认环境失败归为已证唯一沙箱原因 |
+| 中间`557` CI `39065505735` / `verification/20261017T200935Z-94bd8364` | completed FAIL；completion_service_clarity 100项中2失败@76 | 旧断言要求summary/chart直接父节点为scroll.child0，与同一scroll内两列布局不符；其余数值、clip、滚动定位断言保留。总控授权test-only改祖先关系，并明确verdict/continue/playback在scroll外；不得改写该CI或当前679原full结果为全绿 |
+| `verification/20261017T202144Z-1639bbd5` / `full-regression-watch/0b495ce99c5c` | 原full完整168阶段，166PASS/2FAIL，exit1，0脚本错误提前中止 | 651/651原始文件匹配679、无额外tests；FAIL为旧completion_service_clarity100/2与rule_practice_input391项。后者最早@180反馈Esc关闭/@181焦点恢复，随后输入级联；6cases+第7完整pending（root1440×900/headless/tester），尚缺同步last_error，不先归因具体IO阶段 |
 
 56fe晚于上述旧失败，**但早于**marker主题实际最小尺寸修正、system拓扑/语言刷新回归和
 Journal→ThemeReflection→F8新栈。其成功不能认证这些后续差异。
@@ -118,6 +121,29 @@ canonical重复失败；原生scratch单次Error5只缩小差异，不是该次G
 有界底层对照现已停止：默认沙箱中出现的同形原生Error5、系统TEMP的准备失败、正式权限四项成功
 分别保留。下一步由总控决定正式权限上下文的canonical原测试；尚不改变Store、保存格式或玩家profile，
 不晋升旧pending，不把少量scratch成功说成所有IO已可靠。
+随后2e1f125e正式权限canonical已通过；总控核准同执行合同下fresh完整原verify一次。
+包装仅监测自己启动的子进程，遇SCRIPT ERROR failfast；原flags/assert/测试枚举/180秒边界不变，
+须在实际回执中注明包装。`3ec80941`与固定`6792202d63a5f3f812c08d0603c447740d2e624f`的651文件
+原核验只有648 raw bytes相同，另3文件仅CRLF差异，并存在1个QA-only额外脚本；不宣称651原始字节全同。
+这些EOL由各owner精确对齐Git blob，新fresh排除额外QA脚本，再核验固定身份。完整回归、最终源码冻结、
+两包真实ZIP链及新限定OS观察仍未完成。文档恢复点`0445c61`不认证这些未完成项。
+中间557的后续CI发现另一旧结构断言：`test_completion_service_clarity:76`两语各失败一次；
+raw已保留。当前679完整原verify继续运行，不因预期这两项失败中断或篡改原结果。
+下一test-only焦点复跑及最新CI应与runtime679字节相同的完整运行分别记录，再冻结最终SOURCE；
+不把后修断言的通过倒填成679原始全量通过。
+原full随后出现另一P0：规则练习反馈关闭失败。现场完整pending的两JSON文件名为case/context，
+493/3571B、路径长度256/259字符；未移动、修复或晋升。普通Moments因tester开关直接退出，
+context为root且headless，不经过新非root销毁/等待capture分支。创建为空可令原保存拒绝关闭，
+但该次current/last_error尚未同步记录，不能仅凭事后pending认定具体stage或同一原因。
+保留391项原断言，最小下一步仅canonical原suite按每轮身份记录F8后/首Esc后的current、busy、
+status、store.last_error与目录状态。完整full仍继续，不因已发现失败改写原结果或跳过后续项。
+完整full现已自然结束，回执确证168阶段全部执行、166通过/2失败、无SCRIPT ERROR提前中止。
+该fresh的651文件逐字节匹配`6792202`，无QA额外tests；与早期3ec的648/651分开。
+拟实包源码为`49c20ead795e1be9de693b0509307ff3fa172fe6`，相对runtime679仅test_clarity与
+QA probe的同embedded profile独立重启补充；Visual已源审strict外监督前后gate无阻断，实际包未跑。
+Narrative下一步fresh focused clarity/Service，并在原rule长目录形状作失败即时日志、短workspace
+`.qa/Rule-uuid`作一次同canonical脚本/namespace/flags对照；实际环境/长度须由回执确认。
+P0未关闭，不能把当前166/168改写为168/168或提前freeze包。
 
 Visual另发现System EN旧工具栏窄窗横溢及Overlap缩放后的关闭按钮不fit；总控已授权Narrative
 在自有Host作最小布局修复，不因旧基线也有问题而忽略1280要求。默认clip与located检查分别记录。

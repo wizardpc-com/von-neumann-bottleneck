@@ -77,4 +77,17 @@ Journal渲染仍有inventory与ThemeReflection首Esc两项失败；精确诊断/
 后续be2664fe/054735已确证inventory仅presentation.cfg显示偏好变化，tester popup首Esc窄修通过；
 普通Moments实际popup五项失败仍待最小修复及两渠道/root/popup重跑。总控源码检查点为
 `c50492a`、`0aa1866`，不是最终包或完整goal完成。
+后续e47c62a/79f12f3/580e/13e1f84检查点继续保留；普通popup链真实GUI194及Host1462已有各自
+固定快照通过，但不能覆盖新tester销毁/等待capture测试、0aa远端Service布局FAIL或23a旧离线反馈headless失败。
+完整CI/受影响回归/新固定包仍待；native官方工具初始化失败，明确NOT_RUN，旧7c限定原生身份不变。
+次日≤5真人问题、两包manifest待填字段、5条待录镜头与作品/素材接口集中在新版证据入口，未虚构成片或最终人设。
 完整goal与active计划保持active；未跑、多平台、人审、素材/剧情及外部授权开放项继续保留。
+
+最新3ec固定copy的`f5842f09ab8c`真实Journal GUI222项及`c373e13a8281`旧6套反馈定向通过；
+前者含最后tester销毁/await退出两暂停分支、真实普通/测试者F8/Esc/Tab及精确SHA保护。
+原canonical离线反馈仍重复失败，`4a0d0062`已将发布失败定位为rename Error1/Failed；
+源243字符存在、目标241字符不存在、两JSON有效且保留，生产Store未改。独立新scratch8个原生rename
+有7成功、1个同形长路径MoveFileW即时Error5/Access denied；失败副本完整，无旧pending移动或重试。
+这不证明具体OS根因，不关闭P0，不以私有runner/别名通过替代canonical闭合；完整回归与新包冻结继续等待。
+一次系统TEMP对照准备子目录即WinError5、0次rename；正式工具require_escalated四个新workspace
+独立case成功/error0。证据支持下一步核验正式权限canonical入口，不证明沙箱唯一因果；不改生产Store。

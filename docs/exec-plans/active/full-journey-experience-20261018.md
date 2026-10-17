@@ -27,7 +27,7 @@
 | 所有者 | 独占写入范围与责任 |
 | --- | --- |
 | 总控 | 唯一Git变更、引擎/导出/原生令牌调度、集成与发布边界；其余运行工作明确委派后再执行 |
-| Knowledge | 本计划、coverage账本、active索引、`docs/verification/20261018-full-journey/`证据入口与摘要、Journal/UI测试、忽略协调handoff；当前转为证据文档所有者 |
+| Knowledge | 本计划、coverage账本、active索引、新证据入口与摘要、Journal/UI测试、忽略handoff；另核准ThemeReflection/PlaytestMoments最小窗口/F8/焦点及OfflineFeedback仅ownedpopup退出回收，不改数据渠道 |
 | Narrative | 任务语境catalog、完成overlay、新context card/test及九个host展示hook：hardware/system/main/overlap/layout、representation_region/region、service_plan/lab、prediction/lab、creation/workbench；Knowledge不编辑这些文件 |
 | Visual | `prototype_hub.gd`、`task_tree.gd`的入口与观察站集成，以及其单独认领的新观察站UI/测试；Knowledge不编辑这两个共享入口 |
 
@@ -98,6 +98,35 @@ Knowledge不运行引擎。新导出probe尚未实际用于包，不计作导出
 原全inventory断言保留，后续按既有capture契约重跑。tester Reflection首Esc窄修真实通过，
 普通Moments在popup显示/焦点/输入/返回五项实际失败，现核准Knowledge独占其最小窗口挂载修复，
 由Narrative独占引擎执行受影响旧suite与真实root/popup两渠道验证。
+文档检查点`4215a5b`及源码分支已推送；草稿PR12以旧候选PR11分支为base，未合main/未Release。
+`0aa1866`对应CI`39064173749`仍待最终结论。新Moments源码已冻结交验证，尚未据新回执判通过。
+0ce默认54帧真实clip通过，但located EN hardware三窗有3项失败/1398；另System EN窄窗工具栏与
+Overlap resize关闭按钮fit的最小修复由Narrative负责，须fresh验证，旧失败不覆盖。
+总控另保存`e47c62a`共享popup、`79f12f3`窄窗Host及`65974a1`独立审图文档检查点；
+产品已再次冻结供Narrative fresh验证，知识线程仅更新证据文档，不把提交存在当测试成功。
+fa540e36/d19固定copy已通过旧ThemeReflection及8套反馈/Host回归；04248的Journal真实GUI194项通过，
+包括普通popup销毁及root F8重用。其源摘要3495e757...不包含后加tester销毁回归，
+该对称路径仍待旧产品外部复现与必要窄修，不能借普通生命周期通过代替。
+该路径随后7e448旧产品真实复现已释放panel错误；ownedpopup退出及post-draw目标失效保护
+已窄修并保存最后guard`13e1f84`，Visual独立源审无阻断，两原暂停分支与root后续F8仍待fresh GUI。
+另保留两项新Gate：0aa远端CI39064173749 completedFAIL（Service最小窗口Hint/evidence tab两报错），
+580e/23a旧OfflineFeedback headless历史加载/创建失败超时（初始意见仍保留，第二不同ID留pending，
+确切last_error尚缺）。原cf89基线为绿，不以定向194/Host1462成功覆盖这两项。
+本轮native因官方工具初始化kernel-assets路径错误而NOT_RUN；一次reset/重试后未导入Sky，
+未运行新包原生或绕行。旧7c原生结果不覆盖；继续受控渲染/导出，不据此申请重装或扩大权限。
+总控已推送Service两列最小布局`5570327`及最后await guard；`3ec80941`将作匹配源身份的新定向/渲染，
+尚未据此冻结最终包。原环境形状的一次追加诊断c4e与d1 QA镜像均成功，但23a原因仍UNKNOWN，Store未改。
+Root另一个官方node_repl实例已标准导入Sky成功（未窗口/输入/游戏），Visual失败仅限其工具实例；新OS仍NOT_RUN。
+
+最新3ec copy（source33bba51f…）的真实GUI Journal `f5842f09ab8c`222项和旧6套反馈
+`c373e13a8281`通过，包含最后guard与两暂停分支。原canonical离线反馈仍重复失败，4a0d日志
+确证rename阶段Error1/Failed，源及JSON保留、目标不存在；不是仅早期偶发即可略过。
+总控授权的新scratch原生文件IO8个独立case中7成功、1个同形长路径MoveFileW即时Error5，
+原现场未改/未晋升/未重试；尚不能判定具体锁或OS根因。生产Store保持未改，P0未闭合，
+不得先冻新包或把完整goal标完成。Service本地原suite7268通过也不替代远端CI后续结论。
+最后系统TEMP对照因首子目录WinError5未执行rename；一次正式工具require_escalated的新workspace
+scratch四个独立case全部成功，原错误及失败副本保留、不重试。底层对照已停止，待总控正式权限
+canonical原测试结果；不因此改Store或将沙箱断定为唯一原因。
 
 ## 尚未关闭的工作
 

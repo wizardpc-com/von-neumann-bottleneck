@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "goal_status": "ACTIVE",
-  "stage_status": "F1 recoverable commits c50492a/0aa1866; tester popup stack verified; ordinary popup Moments has five observed failures",
+  "stage_status": "ACTIVE: latest modal GUI222 and old6 feedback passed; canonical offline incident rename P0 remains open; no final package freeze/native acceptance.",
   "evidence_grade": "isolated controller/headless and explicitly marked renderer; no new exported/native/human acceptance",
   "engine": "4.7.1.stable.official.a13da4feb",
   "baseline": {
@@ -752,11 +752,1510 @@
           "terminated_owned_child_reason": ""
         }
       ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/e3bb9dc2db2d/results.json",
+      "raw_result_sha256": "e9be9bcf915e456a57927b081358b313cf9ad25da2bdb9f787d8cc10c904644d",
+      "source_snapshot_sha256": "6cddaef19636eab0fa9d3521aa0b46f0650fdbb153e72ec04572e09831effb3c",
+      "stages": [
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: full journey narrative (1290 checks)"
+          ],
+          "errors": [],
+          "log_sha256": "488e8ecee4d2d70bfc73e52cfcdef1d69d06c88a55182fe4cb5ef498c695c872",
+          "capture_count": 54,
+          "terminated_owned_child_reason": ""
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/0ce751c48843/results.json",
+      "raw_result_sha256": "0d3b504efc9158d66ea9aa2c08265eb5c13ca09ff2d45c395148a75c39f6299e",
+      "source_snapshot_sha256": "e84171f0a5bf8e6250ef757b10cb427637176db22e7e022994beac3937880210",
+      "stages": [
+        {
+          "name": "test_full_journey_narrative",
+          "passed": false,
+          "exit": 1,
+          "summary": [
+            "FAIL: full journey narrative (1398 checks)"
+          ],
+          "errors": [
+            "ERROR: Located host guidance remains within its actual viewport and scroll clip: true/hardware_foundations",
+            "ERROR: Located host guidance remains within its actual viewport and scroll clip: true/hardware_foundations",
+            "ERROR: Located host guidance remains within its actual viewport and scroll clip: true/hardware_foundations"
+          ],
+          "log_sha256": "e702c9ee124b90fa89d8851ae46a02a4bf28d54c6e69fa373d4d0116d0db6cb2",
+          "capture_count": 108,
+          "terminated_owned_child_reason": ""
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T195523Z-fa540e36/results.json",
+      "raw_result_sha256": "ebe252c499d8ae949529d1ca0f10ca16fbae6d7e7ff72a2d0bd247961a125f5c",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": [],
+          "log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91",
+          "capture_count": 0,
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": [],
+          "log_sha256": "86ded0e5b4fb1b9680241d8a701b1e3ca9af9bcc27620e4333eb998f3bbcdd3b",
+          "capture_count": 0,
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "test_theme_reflection",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: earned reflections, either branch order, joint ending and immutable progression"
+          ],
+          "errors": [],
+          "log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e",
+          "capture_count": 0,
+          "terminated_owned_child_reason": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/d19c0f3f2015/results.json",
+      "raw_result_sha256": "fd353b0a66f54c46c0dcc29dbcac4f69031a77839fb501c44af98f870bf1499e",
+      "source_snapshot_sha256": "3495e7579b1d97dd5357349d795de525953be117334ad228b3a079b5cc8aefb9",
+      "stages": [
+        {
+          "name": "test_feedback_presentation",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: bilingual first-screen feedback and minimum viewport"
+          ],
+          "errors": [],
+          "log_sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        },
+        {
+          "name": "test_optional_result_feedback",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: optional result feedback"
+          ],
+          "errors": [],
+          "log_sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        },
+        {
+          "name": "test_playtest_feedback_ui",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: non-blocking localized level, chapter, Demo feedback, and final export handoff UI tests passed"
+          ],
+          "errors": [],
+          "log_sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        },
+        {
+          "name": "test_work_focus_feedback",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: saved-work feedback pauses and returns with protected cursor/profile"
+          ],
+          "errors": [],
+          "log_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        },
+        {
+          "name": "test_candidate_feedback",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: candidate foreground tasks, unfinished opinion, local drafts and stable feedback IDs"
+          ],
+          "errors": [],
+          "log_sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: full journey narrative (1138 checks)"
+          ],
+          "errors": [],
+          "log_sha256": "cac5b9d053e0f8428bd4c492a838259544feb63aaa30df62aca9134d7b84a5fc",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        },
+        {
+          "name": "test_system_lab_ui",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: five-level system chapter map, prediction, controlled comparison, evidence reveal, exact-path animation, and diagnosis tests passed"
+          ],
+          "errors": [],
+          "log_sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        },
+        {
+          "name": "test_overlap_ui",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: Chapter 3 topology, hints, timeline, editable completion and revalidated persistence"
+          ],
+          "errors": [],
+          "log_sha256": "1acf352ba83c738afbe97a69015b5693c9abba6a73b96dc2aa12e14fffbdffbd",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/04248b56a603/results.json",
+      "raw_result_sha256": "b50c01713928a013152b08b590fc37c40016051bf9e7826b947f895c06e1231c",
+      "source_snapshot_sha256": "3495e7579b1d97dd5357349d795de525953be117334ad228b3a079b5cc8aefb9",
+      "stages": [
+        {
+          "name": "test_journey_journal",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: read-only journey journal (194 checks)"
+          ],
+          "errors": [],
+          "log_sha256": "147fa28c559f88b400e5eb09d7e8d002a7e9b1ec4bee59f512c5b86f1ff7724c",
+          "capture_count": 0,
+          "terminated_owned_child_reason": ""
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/7e44804d9270/results.json",
+      "raw_result_sha256": "a2a810e952dd1edc27f0a8daa580168626fc1a41c63874b915ec16d720754859",
+      "source_snapshot_sha256": "ad48e787af4be3dc664376eb0661313fa051c9f38566cd38ea1443387b8ba3c5",
+      "stages": [
+        {
+          "name": "test_offline_popup_lifecycle_repro",
+          "passed": false,
+          "exit": 1,
+          "summary": [],
+          "errors": [
+            "SCRIPT ERROR: Cannot call method 'get_viewport' on a previously freed instance."
+          ],
+          "log_sha256": "a26f1951329eb28ededdc0b9c59e8db9e377123127eede4f3e1c56e734358e07",
+          "capture_count": 0,
+          "terminated_owned_child_reason": "script_error"
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/122d90b88ed3/results.json",
+      "raw_result_sha256": "ec108bf8ac7aba216f39db8e7216189d3de4f3e029a7a2610d7f7249ce12652e",
+      "source_snapshot_sha256": "ad48e787af4be3dc664376eb0661313fa051c9f38566cd38ea1443387b8ba3c5",
+      "stages": [
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: full journey narrative (1462 checks)"
+          ],
+          "errors": [],
+          "log_sha256": "dff4d916a2e845d47d0f91fd91e482a205c643501b61395fc99b00b2bb3b74ec",
+          "capture_count": 108,
+          "terminated_owned_child_reason": ""
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T195934Z-23a79ab1/results.json",
+      "raw_result_sha256": "de56cdf95bc1eb2ac05759db752a4e61e74ab3143e9e35ff2f7d418dbd7ce5fb",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": [],
+          "log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91",
+          "capture_count": 0,
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": [],
+          "log_sha256": "4a89ed74f8f2235211b865548544785046d774a16a3a4671796c46cd2ccef011",
+          "capture_count": 0,
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "test_offline_feedback",
+          "passed": false,
+          "exit": -1,
+          "summary": [],
+          "errors": [
+            "ERROR: history restores previous note",
+            "ERROR: pause is restored after history review",
+            "SCRIPT ERROR: Invalid access to property or key 'task' on a base object of type 'Dictionary'."
+          ],
+          "log_sha256": "2a286cc73f601d7d84960e140ca056f3b2d6a1763090cbbda6f4c4f6af9c7234",
+          "capture_count": 0,
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "test_theme_reflection",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: earned reflections, either branch order, joint ending and immutable progression"
+          ],
+          "errors": [],
+          "log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e",
+          "capture_count": 0,
+          "terminated_owned_child_reason": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/d1c0528fa6d4/results.json",
+      "raw_result_sha256": "29013c4cb8208908786dcabad72151aae722ef7cbfa3410ccf61fe899377de7e",
+      "source_snapshot_sha256": "99b5a77ebe0acd835e39f546afa2030618b87308a7b71fa7b0a0229421c98b6c",
+      "stages": [
+        {
+          "name": "test_offline_feedback_diagnostic",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: offline feedback"
+          ],
+          "errors": [],
+          "log_sha256": "705fa10fcdea70af3aa0408c837308327bce0a5304288db69c8918d7a04431b0",
+          "terminated_owned_child_reason": ""
+        }
+      ],
+      "scope": "QA diagnostic mirror only, unchanged580e product; successful run does not close original23a cause"
+    },
+    {
+      "raw_result": ".godot/verification/20261017T200833Z-c4e3e37e/results.json",
+      "raw_result_sha256": "77eb8f1eec8b4932cc7b5eb3fe1ceed218121052ea44ca1e3ee5b67767d87e31",
+      "scope": "One QA-only diagnostic on unchanged580e product, matching original verifier directory shape and inherited TEMP; no automated arg",
+      "stages": [
+        {
+          "name": "test_offline_feedback_diagnostic",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "log_sha256": "b55595e30eb3ea8d774aedc08babfcfc131529b8608a53cb90caa12082f4cf0f",
+          "summary": [
+            "PASS: offline feedback"
+          ],
+          "errors": []
+        }
+      ],
+      "original_23a_cause": "UNKNOWN"
     }
   ],
   "pending": [
-    "Approved minimal PlaytestMoments focused-window fix and actual root/popup ordinary/tester rerun",
-    "Use established capture-size contract after sole presentation.cfg drift proved; retain full inventory",
-    "Final full regression, fixed-source CI, new packages and native/human acceptance"
-  ]
+    "New tester destruction recovery: both prior-pause states and rootF8 after popup destruction; actual renderer and independent review",
+    "Final nine-host/located clip/fonts/marker matrix after narrow host fixes",
+    "Final full regression, fixed-source CI, new normal/tester packages and native/human acceptance"
+  ],
+  "checkpoints": [
+    "c50492a",
+    "0aa1866",
+    "4215a5b",
+    "e47c62a",
+    "79f12f3",
+    "65974a1",
+    "580e806",
+    "13e1f84",
+    "5570327"
+  ],
+  "review": {
+    "pull_request": "https://github.com/wizardpc-com/von-neumann-bottleneck/pull/12",
+    "state": "draft",
+    "base": "prior candidate PR11 branch",
+    "merged_to_main": false,
+    "published_release": false
+  },
+  "ci_regression": {
+    "run_id": "39064173749",
+    "head_commit": "0aa1866fb48e375913804f7d0d23daec4552670f",
+    "conclusion": "FAILURE",
+    "godot_job": "117488197070",
+    "python_job": "117488197257",
+    "python_commands_passed": 11,
+    "raw_directory": ".godot/ci-39064173749/20261017T195035Z-4f3b46f8",
+    "text_artifact_count": 168,
+    "conventional_test_log_count": 166,
+    "logs": [
+      {
+        "file": "import.txt",
+        "sha256": "dab2cdfdbb747f9436714f3d5926b44dbc436ea35b54ed497fa8ad963b8c5f45",
+        "error_lines": []
+      },
+      {
+        "file": "test_alarm_order_feedback.txt",
+        "sha256": "9a1fb21d1d9f1aa212e6bc7b1361c51717826a534873f2a3d2acc96a2d1f0e97",
+        "error_lines": []
+      },
+      {
+        "file": "test_bilingual_typography.txt",
+        "sha256": "07b0593a4bda85629bdf75df5049d34898bb7c6a784d3727cbb62c72d186d500",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_designs.txt",
+        "sha256": "88e161029ee3a8f0656c7e5861f1f97cc5d4d89bcae899ae76817da48a7835dd",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_disabled_focus.txt",
+        "sha256": "ba566956a987e7ea6802fd8bfbcebd6035bc38e4adb9a4cae0892d0eb085f390",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_feedback.txt",
+        "sha256": "69f807b321a145f3af74a48b887beb66b080a05285aac9c7e05e13d3f58ccc3e",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_journey_review.txt",
+        "sha256": "1fe1aaf1da000130a92b54fd7f9f3e4943d00ce412178efefab63156b212c0da",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_journey.txt",
+        "sha256": "d5db181f61635542799ae61d7a394c6a8be6792f7dfa42ef4ffd5ea6b06382c4",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_language_navigation.txt",
+        "sha256": "e2ba5f7a638e1d29f6495d7c95f64e8a85b49eda05753e1b3566244698938dad",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_lifecycle.txt",
+        "sha256": "e4b77c9aa3c7afc201df2e91db8ece2efc394249f28ff159591651b4b5c81a05",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_policy.txt",
+        "sha256": "5b02dfbd2a3e985c0190c23f34336a496793822bc5c82e0faf121cc5316bb9eb",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_restore_selection.txt",
+        "sha256": "f112afc52f4e9d53a81c3aa455419cfe4f221656a732b2577543df3574f7f9b5",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_supports.txt",
+        "sha256": "4cce445ecada9b6649de2dcc57986e1405e66de699cd7e7e1ea68e88330fcc8c",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_writer_retry_ui.txt",
+        "sha256": "40ba2a877bb74d39a8185fee77b08eb3d1bd57223b2180ba25cd3a8b8ead5785",
+        "error_lines": []
+      },
+      {
+        "file": "test_candidate_writer_retry.txt",
+        "sha256": "21866fb32d1c0b42ac4d4dbec2b4580e1b7e42ffd7ab81abd7d3f5d63002bf49",
+        "error_lines": []
+      },
+      {
+        "file": "test_chapter_card_routes.txt",
+        "sha256": "e49feae608be9587a413b1b30543957e83cd3f75ad165dcf38a732a3a95e94fd",
+        "error_lines": []
+      },
+      {
+        "file": "test_chapter_redo_shortcuts.txt",
+        "sha256": "a61b16103496b29742d1f5a7199da91531726160fe288eb1174ddb1c417e7d69",
+        "error_lines": []
+      },
+      {
+        "file": "test_chapter_workspaces.txt",
+        "sha256": "6464f81f567595b5d58cd7673ff9ae3f258ecf1fc9fa0e44cf76da3a7772a5bf",
+        "error_lines": []
+      },
+      {
+        "file": "test_circuit_simulation.txt",
+        "sha256": "4c443c3900d56311c5bf6060558870d53fdaeebff144a01514ac771a9cd58fbe",
+        "error_lines": []
+      },
+      {
+        "file": "test_completion_presentation.txt",
+        "sha256": "972f916cf9635993a2073a39ac048fb26ef1c602c00666c14964da1760d6a14f",
+        "error_lines": []
+      },
+      {
+        "file": "test_completion_route.txt",
+        "sha256": "f42ca32bd0a7a019f28339eac7c91a6956c116dfc222ea8d730cb2cb1e11ae7e",
+        "error_lines": []
+      },
+      {
+        "file": "test_completion_service_clarity.txt",
+        "sha256": "c68e4fe718a06f747b100e687dcdf6e587374eaa3338e5422d59441ee86115df",
+        "error_lines": []
+      },
+      {
+        "file": "test_content_registry.txt",
+        "sha256": "109c0fcac48a18d2fb9ba4eb1e4de94ee40e69d78a107665cbc8ba9a8d834166",
+        "error_lines": []
+      },
+      {
+        "file": "test_core_closure_navigation.txt",
+        "sha256": "b6532fd66db6e662894794e7b158f5203ea7b8a78a9aadf302e84b33b6666fdc",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_causal_panel.txt",
+        "sha256": "35cb04e29108159cefd51c9d85a73789de40ad49132b701283916e312576c830",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_choice_completion.txt",
+        "sha256": "96d565a32684c77417188fe0ee575285d14bf7ea3c4c28bd68dafca9510e62c8",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_commissions.txt",
+        "sha256": "9711b85fba0b149a217009183d7e85478421b10fcd9e8269af96b0016f9a0b68",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_comparison_view.txt",
+        "sha256": "da6774ec9ba8a95151421b89c66fbb4108f241537e1bd0253c2224e1165b0447",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_comparison.txt",
+        "sha256": "5300c5ae0ae72c6992d35de3f39a46e3e4b616decd83ecd403865050cccb650d",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_condition_examples.txt",
+        "sha256": "88eb0bbf90dfadea47f8ef8de1328411ca3a19bec0ac645266faedf8b7c9f228",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_contract.txt",
+        "sha256": "887e5156d1e710615ee89e158e9ff06539122ab7d3ef15586dbb44b83c281188",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_cost_ledger.txt",
+        "sha256": "d33563f039cc2ee004c83e07db2ce615aeae5d58efc38b487c2973702e6689b0",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_design_evidence.txt",
+        "sha256": "5c0df20f59e811d92b0f31e2c5b0f89d6c8398023d99419b7df3595da71da0b7",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_draft_undo.txt",
+        "sha256": "930d8e96a399ad47da741bc9abd9dab54c0a23bf372a2c0fbec4dd4597cfdb0c",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_edit_controls.txt",
+        "sha256": "052906f77164b8417fefde7e99fa4ebbfb730c2068febaa3f1d3428b109db566",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_evidence_identity.txt",
+        "sha256": "cdbc7e9923459d4680030bfa1b1a39ddd403cd32677585c7015c8283e3948411",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_evidence_reading.txt",
+        "sha256": "8ac15d25d68a3cab7aef4ee970d89c42f742bc887b0160a895d4425ef6852905",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_exhibition_composition.txt",
+        "sha256": "6a3d99586104bf214151fbcaacbb81d2179079ed897a08f09286e25f962e7608",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_exhibition.txt",
+        "sha256": "ab4d92a65e98f58e8419ab67104f716872718670d9e33229f2d89937c9601c09",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_explanation.txt",
+        "sha256": "0975bb6371dcec45f811945ab47806647361408da53adc23a3e271381aed1e0c",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_future_workbench.txt",
+        "sha256": "f652060c0314e0145182d13bf1cf785e309ff558dedcec8d67c237f7817e4d8f",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_input_validation.txt",
+        "sha256": "39ea90f5c55a2b99d0acbf55db2fc3eae58a09ae07cecbb074a9666dbcd5dba0",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_keyboard_focus.txt",
+        "sha256": "4073f0fb6071b79d48e5d13cbebe5d118c9bfe2188af5b72ab38e2220fcf6a65",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_measured_closure.txt",
+        "sha256": "8c07a5634aa93edc0a88752a7b206c499f9bbdd57aa714d3ca0132cd797734ad",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_navigation.txt",
+        "sha256": "300110fd3416ade5d6447071c66f77a3bf1859ff6655a762fff0e5c6981df46b",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_observation_focus.txt",
+        "sha256": "7a5061ad3423335bd87d229af509495b8c34f8b3e831ae5e6815a1bc5e4196ff",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_playable_loop.txt",
+        "sha256": "5e1dbdf356ff68a2ad0c23e7842a7bc3f65305c26c9fb30d67a55e241e649002",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_prediction_flow.txt",
+        "sha256": "3e2b417b270286ee0dd5584e02cc6dfe2d34bc8131133d25c8118eee313bd4fa",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_prediction_memory.txt",
+        "sha256": "d7c378454f918572cac21294caeb28cb719fea6bb35ebc6d0f0f1eeb1aa92162",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_prediction_work_view.txt",
+        "sha256": "2f59a14d7820730607537b485d312a5477f38829524ff9725d6197bfb01246fb",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_preparation_binding.txt",
+        "sha256": "09e6fb049372b6896aa6c7109ddbaf85cde2c57d25af84161932ddd38fa4dc22",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_profile_navigation.txt",
+        "sha256": "c55f91db6b726cf65d038e68cb662f83f83f38bf74efeb814377c94a2310b544",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_raw_readonly.txt",
+        "sha256": "3541f2af3271713b318ba0ab01afd9943aed912168347705c1f93752741f6f4c",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_route_access.txt",
+        "sha256": "0207187cc5a868b71d2ef03a6356f1b67849c10d84f105c00797c3712fb61564",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_route_flow.txt",
+        "sha256": "fe8f9096a73313c3c9dbe488d6a4fa5fe0f26f4b6ccdebc34ff62a35813a458f",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_sample_editing.txt",
+        "sha256": "284fc85ab9690731d9c4cb36a1be7b0f3cd3252c462a01ac18ef51d159f3e436",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_state_regressions.txt",
+        "sha256": "a63afecc76dcef4660f666080b8bec74e97e52e2db360ed672c376185282ff31",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_work_focus.txt",
+        "sha256": "581ca07f6fb5a92cc2ec503ab62c3d2521bbcc7c11e4188006bd76865affee3e",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_work_listening.txt",
+        "sha256": "c584f7575e2c2c6cffddf68965c0e34be85440d8e0b23e58ef21fdbc0886c6b9",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_workbench.txt",
+        "sha256": "72f77038df7b72742ba19b22613258be62fec5df065664b16b81f8b8ca6032a9",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_writer_retry_ui.txt",
+        "sha256": "65d0116d18887dda4d1c953df16dec8dbaefd1bddd91c4cc9c70bf9311a1475d",
+        "error_lines": []
+      },
+      {
+        "file": "test_creation_writer_retry.txt",
+        "sha256": "c214949cc732e670eb081c45b1c849aa6234fd99135bac8a6f5bc71c700b73b3",
+        "error_lines": []
+      },
+      {
+        "file": "test_desktop_conventions.txt",
+        "sha256": "081448bccc02716d7fd0bb84965ed540f9c3909483ed18731d12f7db1220ce40",
+        "error_lines": []
+      },
+      {
+        "file": "test_direct_task_navigation.txt",
+        "sha256": "6d33237608b86bd2a9cae689c873a0de0abf5ccb0eb667b0cf8d4f15329959d3",
+        "error_lines": []
+      },
+      {
+        "file": "test_display_preferences.txt",
+        "sha256": "32e9b651159a4d13bf2dd7ae94b5d30be46186705b76ac5ab405ff826e05685d",
+        "error_lines": []
+      },
+      {
+        "file": "test_evidence_proxy.txt",
+        "sha256": "9baecc8c4fd629b00db25f61edd114ddf2c1e16a603bb7ca501a582ffe0d9823",
+        "error_lines": []
+      },
+      {
+        "file": "test_exploration.txt",
+        "sha256": "ce6a0aa8b890f3843c29494acb6540a7f42669ca800e27cd7694236bd2177bdb",
+        "error_lines": []
+      },
+      {
+        "file": "test_feedback_presentation.txt",
+        "sha256": "631b563520c1bfef7482df4992d8b7b6b2e246c6899c60726871f375f543722d",
+        "error_lines": []
+      },
+      {
+        "file": "test_final_convergence.txt",
+        "sha256": "0480e3be47cad30b2ae86ed041daaa9ac7d6243aafc8521b6fba3edde442ec0b",
+        "error_lines": []
+      },
+      {
+        "file": "test_first_build_guidance.txt",
+        "sha256": "ee2f5d7fdb935a2965ff9b764606b4cdea70e650f99af0b6b5ea420500ab6ad4",
+        "error_lines": []
+      },
+      {
+        "file": "test_floating_tool_recall.txt",
+        "sha256": "b2d6b6365521639d9f4064df8e74fcd63139491ceb2b6888093fb9a88b7f48ce",
+        "error_lines": []
+      },
+      {
+        "file": "test_full_journey_narrative.txt",
+        "sha256": "f46de0cc01fc578a9732b573506bff42c7f96db23bf011b5825ae09bde5cd219",
+        "error_lines": []
+      },
+      {
+        "file": "test_global_save.txt",
+        "sha256": "b7cf9a589c21490e8f9aeee25c37b333484a53146f896d02f945351eab53f8b6",
+        "error_lines": []
+      },
+      {
+        "file": "test_hardware_foundations_ui.txt",
+        "sha256": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2",
+        "error_lines": []
+      },
+      {
+        "file": "test_hardware_prologue_ui.txt",
+        "sha256": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e",
+        "error_lines": []
+      },
+      {
+        "file": "test_hardware_seal_navigation.txt",
+        "sha256": "dafeac9e9991fdee54b3b8c08d43a45eb75778663ea320625a9ed6ee9998e7d0",
+        "error_lines": []
+      },
+      {
+        "file": "test_hub_first_screen.txt",
+        "sha256": "f52cab70fcf19cbccf9cb0dddfdd9bd05c2b419674dce6ecb70654f349796919",
+        "error_lines": []
+      },
+      {
+        "file": "test_instrument_theme.txt",
+        "sha256": "204a11ea58306bc1324ebc1df7bc1ec0187094b08cd6de1753fc819e0f005c8d",
+        "error_lines": []
+      },
+      {
+        "file": "test_intelligent_state.txt",
+        "sha256": "842a2d316e1902c0f19326bc3166befbcaad78d811048fe9fdb0a3cb913ba3b4",
+        "error_lines": []
+      },
+      {
+        "file": "test_journey_journal.txt",
+        "sha256": "7db6ad28964653608fb7fd41c997b0f7ae6bfd336cf4cde673564577e71a1427",
+        "error_lines": []
+      },
+      {
+        "file": "test_journey_observatory.txt",
+        "sha256": "8bcd2d41ce30ef59af905f426d03e9e7cd2b3666294120399129a8526c464dc9",
+        "error_lines": []
+      },
+      {
+        "file": "test_latch_playback_readout.txt",
+        "sha256": "88aa9d2d24e2dbd5e985f49c301e3e64d355c3fa5d9d4e2e16d9a796b715922f",
+        "error_lines": []
+      },
+      {
+        "file": "test_layout_navigation.txt",
+        "sha256": "8a0e6f6728c9c31e7d34795992609934cbf7f2109c86f5ee757f19c26354b494",
+        "error_lines": []
+      },
+      {
+        "file": "test_layout_preview_selection.txt",
+        "sha256": "024033a626c536af1f6fee59404115c8ad7701923d72b94530ed814110eb9810",
+        "error_lines": []
+      },
+      {
+        "file": "test_layout_recipe_sources.txt",
+        "sha256": "5b4d0bc136538ff0d1bc80a04e4603491ab4402b7832fde879d62f34bd48a3a8",
+        "error_lines": []
+      },
+      {
+        "file": "test_layout_simulation.txt",
+        "sha256": "2c0a248a94da17c990981491f86fc389d6f44f5668e39a27f961a556922ff8f4",
+        "error_lines": []
+      },
+      {
+        "file": "test_layout_trace_storage.txt",
+        "sha256": "83facf57523ec24f8b4f4348ffc2c6bf26f47e82039d8d098db574fbf119b972",
+        "error_lines": []
+      },
+      {
+        "file": "test_layout_ui.txt",
+        "sha256": "fdfb659a8eac4538f00ffa3275a81402d4068fb321f7aa9ae8f710c6d55ec842",
+        "error_lines": []
+      },
+      {
+        "file": "test_learning_handbook.txt",
+        "sha256": "ab368100d7047e5391d41c10935786c775ebf00ca9d885acf26bcacfc00b174c",
+        "error_lines": []
+      },
+      {
+        "file": "test_locality_chapter_ui.txt",
+        "sha256": "a2f18f38be5ea8dc69964a061fdeff4a4d4a94f062fe240f855e1f5e9ce1fb8e",
+        "error_lines": []
+      },
+      {
+        "file": "test_locality_restored_baseline.txt",
+        "sha256": "c3676d14902fe50a30667133a25d232b4f6cf206fff5ba4dff441108d9bb1c74",
+        "error_lines": []
+      },
+      {
+        "file": "test_localization.txt",
+        "sha256": "1335c9219accbc513d566d1a342f2ff1496884a344edcb572fa4cbe0aa3bf95f",
+        "error_lines": []
+      },
+      {
+        "file": "test_night_narrative.txt",
+        "sha256": "f09130ab4ef5771abf9290a3432e6c05ccf685ad06aa9fef4282cfc1db6c3378",
+        "error_lines": []
+      },
+      {
+        "file": "test_offline_context.txt",
+        "sha256": "52a9eb3522a177a2753f1fb865ad83e547ee40c273816bb233be7c3fc30c9138",
+        "error_lines": []
+      },
+      {
+        "file": "test_offline_feedback.txt",
+        "sha256": "7c3d96e609407aab36086355a79898faf435bd83252ed48d31309b23cc0abd45",
+        "error_lines": []
+      },
+      {
+        "file": "test_offline_store.txt",
+        "sha256": "42493d6be3842de5ab7981de88eae227868e44d395209b13bbb31bba570d5a5f",
+        "error_lines": []
+      },
+      {
+        "file": "test_offline_tester_navigation.txt",
+        "sha256": "d0ca82671da5d84a327036df75f04fdc434afb8e199389ed0d133b2b06efff63",
+        "error_lines": []
+      },
+      {
+        "file": "test_optional_challenges.txt",
+        "sha256": "4c7e8f0947f29587ef35dbd14f8e91993854e4998acbe470cbeccb79bcb90980",
+        "error_lines": []
+      },
+      {
+        "file": "test_optional_result_feedback.txt",
+        "sha256": "b3e331facf4131318383c8c613d97dcfd978e2560a4daecfd3937f9be550f1c3",
+        "error_lines": []
+      },
+      {
+        "file": "test_overlap_simulation.txt",
+        "sha256": "6dd2580b0f4fff0e69318f2a9665196d24154dbd19c416558e3809d07d0504fe",
+        "error_lines": []
+      },
+      {
+        "file": "test_overlap_ui.txt",
+        "sha256": "0d714fa5585ce2c51cbb2f9f53793f6aafab6d57d191fe0ae00ff3eddfd7c8bc",
+        "error_lines": []
+      },
+      {
+        "file": "test_personal_records.txt",
+        "sha256": "b93f036f7b17aae3012a2e039b9215827d9c4d9781935b57c5e4c0512641b08a",
+        "error_lines": []
+      },
+      {
+        "file": "test_playtest_data.txt",
+        "sha256": "52edd5199915423f7e731491d3e2ec4e71ed013c726147077138dc135e4a5095",
+        "error_lines": []
+      },
+      {
+        "file": "test_playtest_feedback_ui.txt",
+        "sha256": "bc98fb999e9726344633893bab6e43a9630f473f0aadec5a5fb6c369249392f9",
+        "error_lines": []
+      },
+      {
+        "file": "test_playtest_visits.txt",
+        "sha256": "5babafe49dd7116881b83b16b8fe42fcb1a780d2ecd83a1d1bd76283fe6e2c71",
+        "error_lines": []
+      },
+      {
+        "file": "test_prediction_goal_feedback.txt",
+        "sha256": "fcb4a443e710c7419d8e681498f64ebe906c230c02487e92859f1dacf19f6a00",
+        "error_lines": []
+      },
+      {
+        "file": "test_prediction_navigation.txt",
+        "sha256": "93108a38574a434bcc6991b39f1f91cce304319067257cb64bd66030a0ed8a51",
+        "error_lines": []
+      },
+      {
+        "file": "test_prediction_record_source.txt",
+        "sha256": "35339004e6b58471d4a3fe4f418a940f05b65cdb9596b0e62f60da66e668fb2c",
+        "error_lines": []
+      },
+      {
+        "file": "test_prediction_slice.txt",
+        "sha256": "622f05bef437296dd749b274709acbc297b5f3fee3aeda83d53a02ecd89640a3",
+        "error_lines": []
+      },
+      {
+        "file": "test_prediction_workbench_presentation.txt",
+        "sha256": "e10c395e2ceadbeffe29540fb7bc840f10bc6e324d4cc0c9e128594f14068242",
+        "error_lines": []
+      },
+      {
+        "file": "test_prelaunch_settings.txt",
+        "sha256": "c16418e14686be50612f4da57214b2a85d6e3d1e97a90f120f3dd6225a153882",
+        "error_lines": []
+      },
+      {
+        "file": "test_prologue_continuation.txt",
+        "sha256": "ae567af2d16d5929db846213a8c37a0a7b21fa4140b3cb89d684e8c5e4832882",
+        "error_lines": []
+      },
+      {
+        "file": "test_prologue_simulation.txt",
+        "sha256": "6250b1296a4f67e1cd38259d6dca4c7a86d16d30824436a1553cb1b917fcb956",
+        "error_lines": []
+      },
+      {
+        "file": "test_release_convergence.txt",
+        "sha256": "231f57b61fc6fbd08fcf75835be2e63fe9486cabf10e6176248c02925f08624e",
+        "error_lines": []
+      },
+      {
+        "file": "test_remote_feedback.txt",
+        "sha256": "a89c21f5ffaa5706f486e7855c49df091f0a618d0aade95ab565fc0f4567b269",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_cache.txt",
+        "sha256": "bda45b41f248eb7b997be799143e5cea9e2bae1976be7839adef118fdc7383e1",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_closure_navigation.txt",
+        "sha256": "da4a5f8cac55edaab3c31366aa5aac7036781f63b52ba20056d2173a661e49c4",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_design_shelf.txt",
+        "sha256": "c4522adff8c2e1de224d8fb004f7ad79dc1115c5ae329a4fc3e4eca0cdfb8c23",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_edit_context.txt",
+        "sha256": "2a9174bb860bfa96b961da02e9e261923bccd02af798f9bd53f1e332be7e68ab",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_plan.txt",
+        "sha256": "5e42f0ffd1c2394112c75b9617786be1e0810babedf220ac29b99b56c9b76506",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_region.txt",
+        "sha256": "58253617873b4d3efb75eec3e46333f525fbbdd19690bcbabb48740b1b5f89bd",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_restored_notice.txt",
+        "sha256": "5e70bda5275222aa6dda0c6ad3ca5fcfe23b7250a4034737df30bfde2da22b6f",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_session.txt",
+        "sha256": "1ffcf1c4f65c7dbb20eff5fd1c9d40ec76ace6806e50ef98864e1451bf025f68",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_visual.txt",
+        "sha256": "110fc221465c17fa2d894897111917af374e98d3e1255aa7dc0947ce5c4f5c84",
+        "error_lines": []
+      },
+      {
+        "file": "test_representation_workbench_presentation.txt",
+        "sha256": "c75a739834c04b79c169b820280bf7f69a3ee694e29bbdcdd00335c4d66a6a5c",
+        "error_lines": []
+      },
+      {
+        "file": "test_rule_practice_input.txt",
+        "sha256": "912c8106e40a6616248b9488ffb86cfb0d00a5d82c57af6426e0a1dabce931fc",
+        "error_lines": []
+      },
+      {
+        "file": "test_save_signature_migration.txt",
+        "sha256": "6b8d9f2ae7be8ffd8c69302fa8fca79555ac2b5d295ccbf05521364020be9b20",
+        "error_lines": []
+      },
+      {
+        "file": "test_second_act_content.txt",
+        "sha256": "714f2d6d3e72c00ecb83e70c2cf429a280c6f93a7d8cc29a30dc3839abd19bb6",
+        "error_lines": []
+      },
+      {
+        "file": "test_second_act_experiments.txt",
+        "sha256": "73758c6f90f58fe8329f6b9bcfdbead5a77a19bc23de7c9df9101e4446479f8a",
+        "error_lines": []
+      },
+      {
+        "file": "test_second_act_independent.txt",
+        "sha256": "5c3250cb737eab377a64ac311772b00855ee7d12907d87e221ac6cab9d4c4baf",
+        "error_lines": []
+      },
+      {
+        "file": "test_second_act_navigation.txt",
+        "sha256": "190b533cf8cfd29b9b65c3043271328e1ef531973adc0885c0cae9767d569b9f",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_commission_ui.txt",
+        "sha256": "d9c2737027da8e0f14ab9e39668389bca28ef38d062367bb6bab8ea99480efe6",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_commissions.txt",
+        "sha256": "13df718902abad29e06a775f6b3ed6658de8d5eac9a64395a62ea2ead54f7f19",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_context_navigation.txt",
+        "sha256": "1688553b933e56cc466f59f79fcf26bfa0c4dca80f33cd79a22cd68a055260d1",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_design_shelf.txt",
+        "sha256": "8b141e5bebf8f25e60d3171686c0913ce14f83f977a85b0ca828cc23bd84beff",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_learning_ui.txt",
+        "sha256": "a16a44ed4423232ce9141ef715b3cceb9158d5d0f7eeaa10f70234fe4ef9ac9e",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_number_display.txt",
+        "sha256": "15281424e49d186921caadc258ed2d384f707a845bbfc35168c983734ed2f941",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_plan.txt",
+        "sha256": "14bc0642aecf62ae3c7b7966b982f7f1cabf93a03aa9044daf06f30d388115af",
+        "error_lines": [
+          "ERROR: Each active evidence tab fits minimum viewport with hints",
+          "ERROR: Each active evidence tab fits minimum viewport with hints"
+        ]
+      },
+      {
+        "file": "test_service_session.txt",
+        "sha256": "790c708ee8aa966a0f9932768d19c0eb131875e0d9951ab83b7a321ff2276c8e",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_split_actions.txt",
+        "sha256": "49e2451757a1e13e4efaa45669d453e8b6637ee3fe7fefa4f251ea77c018c8b0",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_state_replay_view.txt",
+        "sha256": "6eebe786d4b7ed80a513e740b9dd9b47514faa73a46aee88deead4717c89e892",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_state_replay.txt",
+        "sha256": "34f898bcf1ce6872eb7f7c93178a27dfad807c53daba9615ce2638a49896ad06",
+        "error_lines": []
+      },
+      {
+        "file": "test_service_undo_context.txt",
+        "sha256": "580092e30b995e47ea332acd5dea84e33afc4a9c10a10bea9770ec4d5e53ddf3",
+        "error_lines": []
+      },
+      {
+        "file": "test_simulation.txt",
+        "sha256": "678dff2a584c34e93fb36eafaa41b87cde7e5756727e3a5950c3d5b9050352aa",
+        "error_lines": []
+      },
+      {
+        "file": "test_storage_caption_playback.txt",
+        "sha256": "4fe2824d62262d1bca70705a0762c2061715cfcd2184dafbc6418ce4efc4a38a",
+        "error_lines": []
+      },
+      {
+        "file": "test_system_applications.txt",
+        "sha256": "31ec1b8015a464f6340682116761c12eeed6280385a7389f5c7f13515051f2c5",
+        "error_lines": []
+      },
+      {
+        "file": "test_system_baseline_continuity.txt",
+        "sha256": "98403dc6cb8748057f09e997e6414d4eefbedac94f729dd854e30a7c837851c5",
+        "error_lines": []
+      },
+      {
+        "file": "test_system_cost_evidence.txt",
+        "sha256": "c04a64cbc1a5a2ccc8ad3880a6cb324db396c51f499b02f10c6372955fd45db4",
+        "error_lines": []
+      },
+      {
+        "file": "test_system_evidence_guidance.txt",
+        "sha256": "46cdceb36514e64eda521e3addac5ed1276d3446483b8f5c47a2c26c5cc44a87",
+        "error_lines": []
+      },
+      {
+        "file": "test_system_lab_simulation.txt",
+        "sha256": "f2bd24204d952ee9bcfbf44403757dbe0deb95720afd9f4e2016036b13bf35f1",
+        "error_lines": []
+      },
+      {
+        "file": "test_system_lab_ui.txt",
+        "sha256": "6c788b06d195deea76d3d974e8e5e4af24dd6dc918caf396aa65e58ad39e9afc",
+        "error_lines": []
+      },
+      {
+        "file": "test_system_trace_source_binding.txt",
+        "sha256": "ac6544c9307110f961691efc165e0a609c86a3b17025bfe5527302c80ad09569",
+        "error_lines": []
+      },
+      {
+        "file": "test_task_tree_layout.txt",
+        "sha256": "7fae6101ab13319b245d43f2e99ab5ba2a97480593d78d4e47df01a8a0072dbb",
+        "error_lines": []
+      },
+      {
+        "file": "test_task_tree_presentation.txt",
+        "sha256": "1786c64768f2ff2148c370d743b086f2b8cec9b71eeab1ffc0b65c9c73b1711d",
+        "error_lines": []
+      },
+      {
+        "file": "test_task_tree.txt",
+        "sha256": "4cb93d722aa9a35f5b0163dca54b9a04e5f0487c6945a12b128ea16d850e5f17",
+        "error_lines": []
+      },
+      {
+        "file": "test_theme_reflection.txt",
+        "sha256": "074cc37f4feb3918928808b7f08e0665481a094010d68b28541ab705b27c4312",
+        "error_lines": []
+      },
+      {
+        "file": "test_trace_ambience.txt",
+        "sha256": "0b7ce6af562a8bdbf812d12845cb9aae66a284b9e391c392ed9e7a1e9384f5eb",
+        "error_lines": []
+      },
+      {
+        "file": "test_tree_journey_presentation.txt",
+        "sha256": "8371934b2b166dc6596821d4ed3281d27166587c5a8d4b833a1d7c6387e8a34d",
+        "error_lines": []
+      },
+      {
+        "file": "test_tutorial_replay.txt",
+        "sha256": "c9a77e91cdf6b9414d616dbe7ceebb1e7fe10d0f25017597cbfd8511da78d668",
+        "error_lines": []
+      },
+      {
+        "file": "test_ui.txt",
+        "sha256": "f35a36435d78efabaaca586f63416f571c5db1ebb9e773acdefd8b1c6b613bfe",
+        "error_lines": []
+      },
+      {
+        "file": "test_unified_journey_navigation.txt",
+        "sha256": "1b76451f628cb14e749c8c911fb2a550f4fb64412eb1a63fb2441215665f67d2",
+        "error_lines": []
+      },
+      {
+        "file": "test_visit_summary.txt",
+        "sha256": "3efff7b3516aa3041dbf89e3a7d6fb045312b33bc66617210ee51c04f0b28c34",
+        "error_lines": []
+      },
+      {
+        "file": "test_wire_drag_geometry.txt",
+        "sha256": "bb94cfe67ac7bf92f17d8bfea54b5cfa870ac0cd7070ac7b079d57f702656e06",
+        "error_lines": []
+      },
+      {
+        "file": "test_wire_tooltip_lifecycle.txt",
+        "sha256": "943f679dcb24e67ab57372f5e7ff6c49594563408b6896392d8d59feb1939995",
+        "error_lines": []
+      },
+      {
+        "file": "test_work_focus_feedback.txt",
+        "sha256": "8e03d7ae16df345c8365b115c9f6201753ae559ef9bb52d41691ba57b7772ca5",
+        "error_lines": []
+      },
+      {
+        "file": "test_workbench_interrupted_recovery.txt",
+        "sha256": "6f8320a5b5f146b7c52e322d4f23496137783f0022e6b18fe31dd1611254e6d7",
+        "error_lines": []
+      },
+      {
+        "file": "test_workbench_write_failure.txt",
+        "sha256": "c99160dbea363f3829a7e98e0fbbf9e0550450a69a410e66e07eab81369cabd4",
+        "error_lines": []
+      },
+      {
+        "file": "user_directory.txt",
+        "sha256": "e4e2b964ea9e28cc37c00c8c2f701221795fa22f2dd391cff9f1c380c26ee375",
+        "error_lines": []
+      }
+    ],
+    "status_authority": "Root verified completed GitHub run; local text artifacts hashed without inferring exit codes from text alone"
+  },
+  "native": {
+    "status": "NOT_RUN",
+    "operator": "Visual",
+    "official_tool": "mcp__node_repl__js",
+    "error": "failed to write kernel assets: 系统找不到指定的路径。 (os error 3)",
+    "reset_succeeded": true,
+    "retry_count_after_reset": 1,
+    "sky_import_executed": false,
+    "game_launch_or_control": false,
+    "dependency_install_or_alternate_native_tool": false,
+    "private_route": ".godot/full-journey-native-preparation.md",
+    "prior_7c_native_acceptance_applies": false,
+    "root_standard_sky_import": {
+      "succeeded": true,
+      "sky_ready": true,
+      "window_or_input_api_called": false,
+      "game_launched": false,
+      "install_or_workaround": false,
+      "native_acceptance": "NOT_RUN",
+      "scope": "Separate official root instance; does not overwrite Visual instance initialization failure"
+    }
+  },
+  "latest_diagnostics": {
+    "latest_coherent_runs": [
+      {
+        "raw_result": ".godot/full-journey-narrative-runs/f5842f09ab8c/results.json",
+        "raw_result_sha256": "dd0b55f90cf6ab869f15403f0c6878cd20a384e50168597d5bd28685760070b6",
+        "source_identity": "33bba51fd47d7d7282646df8f59b14ef45f0bc48c92cb1c15ce3b6dbedd17c52",
+        "stages": [
+          {
+            "name": "test_journey_journal",
+            "passed": true,
+            "exit": 0,
+            "terminated_owned_child_reason": "",
+            "log_sha256": "1f2f4e1d5760a13e6426b804529401b5d8e3a8334f1c8f6cda10f0bbd7e5daed"
+          }
+        ]
+      },
+      {
+        "raw_result": ".godot/full-journey-narrative-runs/c373e13a8281/results.json",
+        "raw_result_sha256": "d9144209188c890574983c55a9f2862c84f16aa46d7cc735a839f6a0b512cc40",
+        "source_identity": "33bba51fd47d7d7282646df8f59b14ef45f0bc48c92cb1c15ce3b6dbedd17c52",
+        "stages": [
+          {
+            "name": "test_theme_reflection",
+            "passed": true,
+            "exit": 0,
+            "terminated_owned_child_reason": "",
+            "log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e"
+          },
+          {
+            "name": "test_feedback_presentation",
+            "passed": true,
+            "exit": 0,
+            "terminated_owned_child_reason": "",
+            "log_sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae"
+          },
+          {
+            "name": "test_optional_result_feedback",
+            "passed": true,
+            "exit": 0,
+            "terminated_owned_child_reason": "",
+            "log_sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c"
+          },
+          {
+            "name": "test_playtest_feedback_ui",
+            "passed": true,
+            "exit": 0,
+            "terminated_owned_child_reason": "",
+            "log_sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3"
+          },
+          {
+            "name": "test_work_focus_feedback",
+            "passed": true,
+            "exit": 0,
+            "terminated_owned_child_reason": "",
+            "log_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd"
+          },
+          {
+            "name": "test_candidate_feedback",
+            "passed": true,
+            "exit": 0,
+            "terminated_owned_child_reason": "",
+            "log_sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b"
+          }
+        ]
+      }
+    ],
+    "canonical_failure": {
+      "raw_log": ".godot/verification/20261017T201148Z-4a0d0062/test_offline_feedback_diagnostic.txt",
+      "raw_log_sha256": "7443c30bb2dea1d2db0097be8ce0b61ea9f072738aad9852bdd58b57b1549afa",
+      "godot_result": 1,
+      "godot_error": "Failed",
+      "stage": "rename",
+      "source_directory_chars": 243,
+      "destination_directory_chars": 241,
+      "source_exists_readonly_followup": true,
+      "destination_exists_readonly_followup": false,
+      "destination_parent_exists": true,
+      "valid_json_preserved": true,
+      "production_store_sha256": "3781da04c2702aa3c0668c2f3b5a3422e409d79fc29db24f35711252d657fb11",
+      "underlying_os_error_from_this_godot_call": "NOT_CAPTURED",
+      "status": "P0 OPEN; successful alias/private runs do not close repeated canonical failure."
+    },
+    "independent_native_file_io": {
+      "raw_receipt": ".godot/native-rename/20261018T041601/receipt.json",
+      "raw_receipt_sha256": "cce60b75a54ccf57da4b3d9810961855d31c30d094c43ab9688da436fabd9bb1",
+      "helper_sha256": "2582932a5f9374eb8b098f3536f1eae0597b7c47524e309b8bf2c4c64a756aef",
+      "scope": "Synthetic scratch file IO only, no UI or Godot; no original incident moved or retried.",
+      "cases": [
+        {
+          "shape": "short",
+          "api": "MoveFileW",
+          "independent_case": 0,
+          "source_chars": 152,
+          "destination_chars": 150,
+          "source_child_chars": 165,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "source_exists_after": false,
+          "destination_exists_after": true,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "short",
+          "api": "MoveFileW",
+          "independent_case": 1,
+          "source_chars": 152,
+          "destination_chars": 150,
+          "source_child_chars": 165,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "source_exists_after": false,
+          "destination_exists_after": true,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "short",
+          "api": "MoveFileExW",
+          "independent_case": 0,
+          "source_chars": 154,
+          "destination_chars": 152,
+          "source_child_chars": 167,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "source_exists_after": false,
+          "destination_exists_after": true,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "short",
+          "api": "MoveFileExW",
+          "independent_case": 1,
+          "source_chars": 154,
+          "destination_chars": 152,
+          "source_child_chars": 167,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "source_exists_after": false,
+          "destination_exists_after": true,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "long",
+          "api": "MoveFileW",
+          "independent_case": 0,
+          "source_chars": 243,
+          "destination_chars": 241,
+          "source_child_chars": 256,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "source_exists_after": false,
+          "destination_exists_after": true,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "long",
+          "api": "MoveFileW",
+          "independent_case": 1,
+          "source_chars": 243,
+          "destination_chars": 241,
+          "source_child_chars": 256,
+          "return": 0,
+          "win32_error_immediate": 5,
+          "source_exists_after": true,
+          "destination_exists_after": false,
+          "exact_payload_preserved": false
+        },
+        {
+          "shape": "long",
+          "api": "MoveFileExW",
+          "independent_case": 0,
+          "source_chars": 243,
+          "destination_chars": 241,
+          "source_child_chars": 256,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "source_exists_after": false,
+          "destination_exists_after": true,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "long",
+          "api": "MoveFileExW",
+          "independent_case": 1,
+          "source_chars": 243,
+          "destination_chars": 241,
+          "source_child_chars": 256,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "source_exists_after": false,
+          "destination_exists_after": true,
+          "exact_payload_preserved": true
+        }
+      ],
+      "failed_case_readonly_followup": {
+        "source_exists": true,
+        "destination_exists": false,
+        "source_payload_sha_after": {
+          "case.json": "211abe2413e9690cec67ea8d7fb2e2526ec386a051fe86a8e75ffefa5bd36e05",
+          "context.json": "2a82b945bf8a9c1eeb5f880817135bd711974225a2c4a18daa14766a40b27f93"
+        },
+        "source_payload_unchanged": true,
+        "limitation": "Post-call observation; not an OS explanation or a retry."
+      }
+    },
+    "inference_limit": "A synthetic native call also failed with Error5. Same long lengths also succeeded. Specific OS cause, relation to the original Godot failure, and a production fix remain unproved.",
+    "system_temp_attempt": {
+      "raw_receipt": ".godot/native-rename/temp-20261018T041735/receipt.json",
+      "raw_receipt_sha256": "f24fed2005c336f3e7489bb6b7903d018bc08706e99be96b554a4f9623b07798",
+      "helper_sha256": "adbba87536318ba9ed8c8e462aeffb82ba459609ff76e88a1444ac5be6d52f51",
+      "phase": "prepare first short directory",
+      "winerror": 5,
+      "native_rename_calls_executed": 0,
+      "conclusion": "No TEMP rename comparison completed; no claim that tool TEMP is reliable.",
+      "limit": "Later tool processes have different sandbox TEMP identities."
+    },
+    "formal_tool_permission_comparison": {
+      "raw_receipt": ".godot/native-rename/escalated-20261018T041841/receipt.json",
+      "raw_receipt_sha256": "9c18ee0085b875bbe3172afc03810f3f9544d51430a2cf3f643fdebeb9a52b54",
+      "helper_sha256": "41c330386dc4df57184bee17ce331ea259510a4bd7a777f47542c61043a978f7",
+      "tool_permission_request": "require_escalated",
+      "approved_and_executed": true,
+      "cases": [
+        {
+          "shape": "short",
+          "api": "MoveFileW",
+          "independent_case": 0,
+          "source_chars": 162,
+          "destination_chars": 160,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "short",
+          "api": "MoveFileExW",
+          "independent_case": 0,
+          "source_chars": 164,
+          "destination_chars": 162,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "long",
+          "api": "MoveFileW",
+          "independent_case": 0,
+          "source_chars": 243,
+          "destination_chars": 241,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "exact_payload_preserved": true
+        },
+        {
+          "shape": "long",
+          "api": "MoveFileExW",
+          "independent_case": 0,
+          "source_chars": 243,
+          "destination_chars": 241,
+          "return": 1,
+          "win32_error_immediate": 0,
+          "exact_payload_preserved": true
+        }
+      ],
+      "conclusion": "4 independent cases passed; supports testing the canonical suite in the formal permission context, not a proof of exclusive sandbox cause.",
+      "game_ui_native_acceptance": "NOT_RUN",
+      "old_incidents_or_player_data_changed": false,
+      "retries_of_failed_cases": 0,
+      "production_store_changed": false
+    }
+  }
 }

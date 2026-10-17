@@ -41,7 +41,7 @@ func create_case(context: Dictionary, image: Image = null) -> Dictionary:
 				DirAccess.rename_absolute(_absolute(pending.path_join("screenshot.png")),_absolute(pending.path_join("screenshot-incomplete.bin")))
 	var metadata: Dictionary = {"id":id,"captured_at_utc":now(),"updated_at_utc":now(),
 		"revision":0,"category":"other","note":"","status":"draft",
-		"task":context.get("task",{}),"build":build_identity(),
+		"task":context.get("reported_task",context.get("task",{})),"build":build_identity(),
 		"screenshot_status":screenshot_status,"screenshot_error":screenshot_error}
 	if not _write_new_json(pending.path_join("case.json"),metadata): return {}
 	if not _mkdir(root.path_join("cases")): return {}

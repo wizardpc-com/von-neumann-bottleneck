@@ -308,7 +308,7 @@ func _translate(node: Node) -> void:
 	for child: Node in node.get_children(): _translate(child)
 
 func open_for_task(chapter: String, level: String) -> void:
-	if OfflineFeedback.enabled(): OfflineFeedback.open_panel(); return
+	if OfflineFeedback.enabled(): OfflineFeedback.open_for_task(chapter,level); return
 	_store_draft()
 	if panel.visible: close()
 	toggle()

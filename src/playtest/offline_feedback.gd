@@ -110,10 +110,11 @@ func _input(event: InputEvent) -> void:
 	if enabled() and backdrop.visible and event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:
 		close_panel(); get_viewport().set_input_as_handled()
 
-func open_panel() -> void:
+func open_panel(feedback_task: Dictionary = {}) -> void:
 	if busy or backdrop.visible: return
 	busy=true
 	var context: Dictionary = Context.capture(get_tree())
+	if not feedback_task.is_empty(): context["reported_task"]=feedback_task.duplicate(true)
 	emergency_context=context
 	rescue_exported=false
 	var target_window: Window = _focused_window(get_tree().root)
@@ -138,6 +139,9 @@ func open_panel() -> void:
 	elif current.screenshot_status!="captured": status.text=_t("现场已保存，但没有截图：","Scene saved without a screenshot: ")+str(current.screenshot_error)
 	else: status.text=_t("现场与截图已保存在本机。文字会自动保存。","Scene and screenshot saved locally. Notes save as you type.")
 	note.grab_focus(); busy=false
+
+func open_for_task(chapter: String, level: String) -> void:
+	open_panel(PlaytestData.task_feedback_context(chapter,level))
 
 func close_panel() -> void:
 	if not backdrop.visible or busy: return

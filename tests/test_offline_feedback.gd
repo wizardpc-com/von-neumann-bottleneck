@@ -36,5 +36,9 @@ func run() -> void:
 		check(root.get_texture().get_image().save_png("user://offline-panel-en.png")==OK,"English panel screenshot")
 	feedback.close_panel()
 	check(not paused,"pause is restored after history review")
+	feedback.open_for_task("chapter_4","mixed")
+	for index: int in 3: await process_frame
+	check(feedback.current.task.chapter_id=="chapter_4" and feedback.current.task.level_id=="mixed","task tree feedback retains explicit target")
+	feedback.close_panel()
 	print("PASS: offline feedback" if failures==0 else "FAIL: offline feedback")
 	quit(0 if failures==0 else 1)

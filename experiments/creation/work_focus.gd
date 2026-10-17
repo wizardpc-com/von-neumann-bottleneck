@@ -321,9 +321,24 @@ func dismiss() -> void:
 	dismissed.emit()
 	queue_free()
 
+func _input(event: InputEvent) -> void:
+	if not visible or not has_focus() or not event is InputEventKey or not event.pressed or event.echo or event.keycode != KEY_ESCAPE: return
+	# The feedback layer can belong to this Window rather than the root viewport.
+	var feedback: Variant = get_node_or_null("/root/OfflineFeedback")
+	if feedback != null and feedback.backdrop.visible and feedback.panel.get_viewport() == self:
+		set_input_as_handled()
+		feedback.close_panel()
+		return
+	var moments: Variant = get_node_or_null("/root/PlaytestMoments")
+	if moments != null and moments.panel.visible and moments.panel.get_viewport() == self:
+		set_input_as_handled()
+		moments.close()
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F8:
 		get_viewport().set_input_as_handled(); request_feedback.emit(); return
+	var playtest: Variant = get_node_or_null("/root/PlaytestData")
+	if playtest != null and bool(playtest.get("_feedback_visible")): return
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		dismiss()

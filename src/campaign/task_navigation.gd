@@ -68,7 +68,10 @@ func _task(domain: String,id: String,region: int,title: String,body: String,deps
 	var dependencies: Array[String] = []
 	for dep: Variant in deps: dependencies.append(domain+"/"+String(dep))
 	return {"key":domain+"/"+id,"id":id,"domain":domain,"region":region,"title":title,"body":body,
-		"dependencies":dependencies,"unlocked":available or GameMode.is_test_mode(),"completed":done,"optional":optional}
+		"dependencies":dependencies,"unlocked":available or GameMode.is_test_mode() or offline_tester_enabled(),"completed":done,"optional":optional}
+
+func offline_tester_enabled() -> bool:
+	return ProjectSettings.get_setting("playtest/offline_tester",false) == true
 
 func candidate_journey_enabled() -> bool: return SecondAct.enabled()
 

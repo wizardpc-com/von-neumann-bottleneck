@@ -6,9 +6,9 @@
 
 A construction and optimization puzzle about computers and the data they move. Start with logic gates and registers, build a small computer, then explore caches, buffering, prefetching and memory layout. Wire it up, watch it run, compare the results and find your own solution.
 
-**Published Alpha: five regions · 40 tasks · Offline single-player · Chinese and English**
+**Current Windows playtest: all 60 task entrances · Offline · Screenshot and scene feedback · Chinese and English**
 
-**[⬇️ Download public Alpha v0.5.0-alpha.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)** · Windows · macOS · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ Download the Windows offline Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [Earlier Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **Topics:** computer architecture · data movement · cache and locality · buffering and prefetching · memory layout · educational puzzle
 
@@ -16,11 +16,19 @@ A construction and optimization puzzle about computers and the data they move. S
 
 *Common Ground, Chapter 4: the same data serves two workloads. Arrange it, batch it, and compare the real cost of moving it. [Capture provenance and metrics](docs/images/readme/layout-manifest.json).*
 
-**Published release (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The download above still points to this frozen release.
+**Earlier Alpha (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The latest offline Windows playtest is `v0.5.0-alpha.3-offline.1`; no updated Mac package is included in this round.
 
-**Current source (2026-10-17):** PR #7 has merged into `main`. The full journey retains the original 40 tasks and adds five Representation, three Service, three optional address Prediction, and nine compression → content prediction → creation tasks: 60 candidate tasks in all. Optional content does not raise the original mainline gates. Players can restore and predict with one learned model, then generate and save their own light-pattern works. Same-source Mac / Windows candidate packages are frozen, and representative native Windows interaction has passed. The Windows Pre-release remains a draft until the feedback domain is ready; it has not replaced the public Alpha download above. Candidate packages are offline by default and support local feedback Save/Export. Private HTTPS verification does not establish public player intake. [Current status and verification limits](docs/CURRENT_STATE.md) · [Latest candidate record](docs/verification/20261017-feedback-release/README.md).
+**Current source (2026-10-17):** PR #7 has merged into `main`. The full journey retains the original 40 tasks and adds five Representation, three Service, three optional address Prediction, and nine compression → content prediction → creation tasks: 60 tasks in all. Optional content does not raise the original mainline gates. Players can restore and predict with one learned model, then generate and save their own light-pattern works. The Windows offline tester is now public with all task entrances open; its feedback changes remain in unmerged PR #10. No updated Mac package is included. The earlier online Windows draft still awaits its domain; no public receiver is active. [Current status and limits](docs/CURRENT_STATE.md) · [Offline acceptance record](docs/verification/20261017-offline-teammate/README.md).
 
-[Download Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+[Download playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+
+**Offline teammate Windows candidate:** fixed source `4df5bad46751` opens all60
+task entrances. F8 or the persistent feedback button saves a game screenshot,
+live design/run context and autosaved notes. After multiple plays and restarts,
+send one final ZIP for private consolidated review. Separate tester saves; no
+account or network. [Tester guide](distribution/OFFLINE-PLAYTEST-README.txt) ·
+[Maintainer import](distribution/OFFLINE-MAINTAINER.txt) ·
+[Identity and acceptance](docs/verification/20261017-offline-teammate/README.md).
 
 ## What you do
 
@@ -66,7 +74,7 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 
 ## Getting started
 
-**Fastest route:** open the [`v0.5.0-alpha.1` Release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1), download the ZIP for your platform, extract it, and run the game.
+**Latest Windows playtest:** open the [offline Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1), download and fully extract the ZIP, then run `Windows/Von-Neumann-Bottleneck.exe`. Mac users can use [earlier Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1), which does not include this offline feedback system.
 
 [Your first Alpha session](docs/distribution/astra-challenge/quickstart.en.md) · [September 2026 challenge preparation (archive)](docs/distribution/astra-challenge/README.md)
 
@@ -91,7 +99,7 @@ godot --path . -- --locale=en
 
 ### Public Alpha and platforms
 
-The public download currently offered here is **`v0.5.0-alpha.1`**: [view the Release and downloads](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1). The Mac and Windows packages come from the same frozen commit and include build identity and hashes. The full-journey Windows Pre-release remains an unpublished maintainer draft.
+The latest public Windows playtest is [offline Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1), fixed source `4df5bad46751`, with build identity and hashes. The earlier online draft remains unpublished. [Earlier Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) retains its matching Windows/Mac packages.
 
 Extract the Mac ZIP and open the `.app`, or extract the Windows ZIP and run the `.exe`; Godot is not required. The macOS build is ad-hoc signed and not notarized. The Windows build is published, but native Windows validation is still more limited. Alpha-stage platform compatibility issues may remain, so bug reports are welcome on GitHub Issues.
 

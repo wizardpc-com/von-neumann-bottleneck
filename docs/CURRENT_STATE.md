@@ -4,6 +4,31 @@
 
 ## Current state — 2026-10-17
 
+The latest Windows teammate candidate is
+`playtest-OfflineTeammate20261017-4df5bad46751`, frozen at `4df5bad46751`.
+[Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)
+was published with the owner's explicit authorization on2026-10-17. Its tag points
+to the tested source; all three asset digests match. PR10 remains unmerged.
+It opens all sixty task entrances in the separate `OfflineTeammate` profile.
+Global feedback saves a game screenshot and live context, autosaves notes and
+exports all plays in one verified ZIP. The included Python tools consolidate
+multiple testers' exports into a private searchable report and session analysis.
+It requires no domain, VPS, account or network. Earned completion, legal models,
+existing saves and the remote upload whitelist remain unchanged.
+
+The unchanged Windows EXE passed all60 actual task entrances and an independent
+two-play restart. The final ZIP alone imported4 cases/4 screenshots/2 sessions.
+The final focused store/UI checks and10 Python importer tests passed. Windows
+native F8/text input has also been observed. Native first-process normal exit,
+independent second launch and a final-only
+ZIP with two notes/screenshots/contexts and two sessions also passed. Fixed-source
+GitHub Godot CI passed160/160, with its Python job green. It is suitable for
+controlled teammate feedback and overall art refinement; new-player understanding
+and artistic acceptance remain observations for the next stage.
+[Candidate identity, native scope and verification limits](verification/20261017-offline-teammate/README.md).
+
+## Private feedback and earlier Windows draft — 2026-10-17
+
 Protected PR [#7](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/7)
 was squash-merged into `main` as `94b5bff`. Main now contains the complete
 sixty-task journey; tag `archive/pre-release-20261012` retains the original

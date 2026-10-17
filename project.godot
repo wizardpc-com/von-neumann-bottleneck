@@ -31,6 +31,7 @@ TaskNavigation="*res://src/campaign/task_navigation.gd"
 RemoteFeedback="*res://src/playtest/remote_feedback.gd"
 PersonalRecords="*res://src/playtest/personal_records.gd"
 PlaytestMoments="*res://src/playtest/playtest_moments.gd"
+OfflineFeedback="*res://src/playtest/offline_feedback.gd"
 
 [display]
 

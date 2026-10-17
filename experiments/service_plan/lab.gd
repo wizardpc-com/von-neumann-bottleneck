@@ -134,7 +134,7 @@ func _ready() -> void:
 			notice_key = "locked"
 
 	var requested: int = get_node("/root/TaskNavigation").take_pending("service")
-	if requested >= 0 and requested <= unlocked and requested != task: change_task(requested)
+	if requested >= 0 and (requested <= unlocked or get_node("/root/TaskNavigation").offline_tester_enabled()) and requested != task: change_task(requested)
 	else: build()
 	get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
 	_playtest_start()
@@ -206,7 +206,7 @@ func build() -> void:
 	var stages := HBoxContainer.new(); page.add_child(stages)
 	for index: int in 3:
 		var node: Button = button(tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
-		set_action_disabled(node,index > unlocked); task_buttons.append(node)
+		set_action_disabled(node,index > unlocked and not get_node("/root/TaskNavigation").offline_tester_enabled()); task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void:
 		hint_open = not hint_open
 		if hint_open: get_node("/root/PlaytestData").record_hint(&"service",_playtest_id(),1)
@@ -459,7 +459,7 @@ func run_current() -> void:
 	if accepted:
 		unlocked = maxi(unlocked, mini(task + 1, 2))
 		support_plans[task] = plan.duplicate(true)
-	for index: int in 3: set_action_disabled(task_buttons[index],index > unlocked)
+	for index: int in 3: set_action_disabled(task_buttons[index],index > unlocked and not get_node("/root/TaskNavigation").offline_tester_enabled())
 	refresh_history(); history_list.select(selected_history); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_history); refresh_actions()
 func refresh_history() -> void:
 	history_list.clear()
@@ -705,7 +705,7 @@ func public_observation() -> Dictionary:
 	return {"mission": mission_text(), "hint1": hint_text(), "public_data": public_data, "weights": Model.WEIGHTS.duplicate(), "task": task, "unlocked": unlocked, "draft": plan.duplicate(true), "selected_group": selected_group, "formats": Model.REPRESENTATIONS.duplicate(), "streams": [{"name": "A", "coordinates": "repeated"}, {"name": "B", "coordinates": "repeated"}, {"name": "C", "coordinates": "varied"}, {"name": "D", "coordinates": "varied"}], "rules": {"stream_steps": 6, "all_ready": 0, "link_bytes_per_cycle": 4, "setup_cycles": 4, "decoded_context_bytes": 64, "scratch_bytes": 512, "compute_ops": 24}, "measured": observations, "actions": ["select_group", "merge", "split", "move_up", "move_down", "move_to", "set_slots", "cycle_format", "undo", "redo", "run", "restore", "task", "hint", "data"]}
 
 func change_task(index: int) -> void:
-	if index < 0 or index > unlocked or (index == task and commission_mode < 0): return
+	if index < 0 or index > 2 or (index > unlocked and not get_node("/root/TaskNavigation").offline_tester_enabled()) or (index == task and commission_mode < 0): return
 	commission_mode = -1
 	task = index; get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
 	_playtest_start(); mark_session_dirty(); build()

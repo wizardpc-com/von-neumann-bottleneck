@@ -35,7 +35,10 @@ for unsafe in ['','http://feedback.play.example.org','https://127.0.0.1','https:
                'https://feedback.play.example.org/v1','https://feedback.play.example.org/',
                'https://feedback.play.example.org?']:
     assert not builder.public_https_url(unsafe,api_root=True),unsafe
-for flags in [['--public-playtest'],['--release-version','v0.5.0-alpha.2']]:
+for flags in [['--public-playtest'],['--release-version','v0.5.0-alpha.2'],['--offline-tester'],
+              ['--offline-tester','--platform','Windows','--second-act-profile','CloudPlaytest','--creation-journey'],
+              ['--offline-tester','--platform','Windows','--second-act-profile','OfflineTeammate','--creation-journey',
+               '--feedback-endpoint','https://feedback.play.example.org']]:
     rejected=subprocess.run([sys.executable,str(root/'scripts/build-free-candidate.py'),'--godot','unused',*flags],capture_output=True)
     assert rejected.returncode!=0 and b'error:' in rejected.stderr,flags
 commit='a'*40
@@ -119,4 +122,38 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     public_manifest['public_release']=False
     (public_output/'manifest.json').write_text(json.dumps(public_manifest))
     assert subprocess.run(public_checker,capture_output=True).returncode!=0
+    offline_id='playtest-OfflineTest-'+commit[:12]
+    offline_output=Path(temporary)/offline_id
+    offline_windows=offline_output/'Windows'
+    offline_windows.mkdir(parents=True)
+    for name in ['README.txt','CHANGELOG.txt','KNOWN-ISSUES.txt','LICENSE.txt','FONT-LICENSE.txt','ENGINE-LICENSES.txt']:
+        (offline_windows/name).write_text('Build: '+offline_id+'\nSource commit: '+commit+'\n')
+    (offline_windows/'Von-Neumann-Bottleneck.exe').write_bytes(b'offline tester binary')
+    offline_files={path.relative_to(offline_windows).as_posix():hashlib.sha256(builder.packaged_bytes(path)).hexdigest()
+                   for path in builder.package_files(offline_windows)}
+    (offline_windows/'BUILD-MANIFEST.json').write_text(json.dumps({'build_id':offline_id,'source_commit':commit,
+        'engine':'4.7.1.stable.test','platform':'Windows','files_sha256':offline_files}))
+    offline_zip=offline_output/('Von-Neumann-Bottleneck-Windows-'+offline_id+'.zip')
+    with zipfile.ZipFile(offline_zip,'w',zipfile.ZIP_DEFLATED) as package:
+        for path in builder.package_files(offline_windows):
+            builder.write_zip_entry(package,path,path.relative_to(offline_output))
+    offline_manifest={'build_id':offline_id,'source_commit':commit,'test_batch':'OfflineTest',
+        'public_release':False,'offline_tester':True,'upload_default':False,'external_ready':False,
+        'local_acceptance_only':False,'feedback_endpoint':'','engine':'4.7.1.stable.test',
+        'content_version':'tasks-20261013-journey-v1','content_tasks':['task-'+str(index) for index in range(60)],
+        'candidate_journey':{'primary_domain':'representation','profile':'OfflineTeammate','isolated':True,
+                             'production_migration':False,'creation_enabled':True},
+        'platforms':{'Windows':{'zip':offline_zip.name,'bytes':offline_zip.stat().st_size,
+                                'sha256':hashlib.sha256(offline_zip.read_bytes()).hexdigest()}}}
+    offline_checker=[sys.executable,str(root/'scripts/check-candidate-identity.py'),str(offline_output)]
+    (offline_output/'manifest.json').write_text(json.dumps(offline_manifest))
+    checked=subprocess.run(offline_checker,capture_output=True)
+    assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
+    for key,value in [('feedback_endpoint','https://feedback.play.example.org'),('public_release',True),
+                      ('candidate_journey',{'primary_domain':'representation','profile':'CloudPlaytest',
+                                            'isolated':True,'production_migration':False,'creation_enabled':True}),
+                      ('local_acceptance_only',True)]:
+        changed=offline_manifest.copy();changed[key]=value
+        (offline_output/'manifest.json').write_text(json.dumps(changed))
+        assert subprocess.run(offline_checker,capture_output=True).returncode!=0,key
 print('PASS: URL gates, offline/public identities, ZIP inventory, file hashes and unlisted-file rejection')

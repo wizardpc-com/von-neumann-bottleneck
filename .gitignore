@@ -25,6 +25,7 @@ export_credentials.cfg
 /build/
 /dist/
 /exports/
+/feedback-library/
 
 # Operating-system metadata
 .DS_Store

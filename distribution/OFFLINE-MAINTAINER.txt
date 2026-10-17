@@ -1,0 +1,17 @@
+离线反馈集中查看（维护者）
+
+需要 Python 3，仅使用标准库。试玩者不需要安装 Python。
+把收到的 ZIP 放在任意私有文件夹，运行：
+
+python feedback-tools/offline-playtests.py import A.zip B.zip --library feedback-library
+python feedback-tools/offline-playtests.py report --library feedback-library --output feedback-library/review.html
+
+用浏览器打开 feedback-library/review.html。可以搜索、按关卡/类别/版本过滤，
+查看意见、截图、历史修订和 Context JSON。页面也链接操作/任务/访问统计。
+再次导入同一个 ZIP 会去重；新导出的反馈保留原包和历史，显示最新意见。
+新收到更多 ZIP 后重复这两条命令。移动资料时保留整个 feedback-library 文件夹。
+
+文件包含玩家作品和文字；请私下保管，不要直接上传公开仓库。
+导入先校验路径、体积、格式和 SHA-256；有错误时不会提交这一批，保留原 ZIP
+再检查错误提示。源截图/日志缺失、未结束访问及未知时长会如实显示。
+工具不会访问网络、登录账号或上传文件。反馈库不会自动删除或清理。

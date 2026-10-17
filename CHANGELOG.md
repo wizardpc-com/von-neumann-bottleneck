@@ -4,6 +4,16 @@
 
 ## 简体中文
 
+### 2026-10-17 · 离线队友试玩反馈
+
+已发布 [Windows Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，固定源码 `4df5bad46751`，无联网反馈入口。
+
+- Windows测试者候选开放全部60任务入口；临时参考组件保留标记，不能授予真实通关或封装成果。
+- 全局F8/反馈按钮记录游戏截图、未保存方案、运行与操作现场；意见自动保存并跨重启保留。
+- 最后一次导出一个经过哈希核验的ZIP，包含多次试玩的反馈、现场、会话与存档副本，保留本机原件。
+- 附离线批量导入、搜索/筛选、截图/现场查看和会话分析工具；无需账号、域名或网络。
+- [固定Windows候选与准确验收范围](docs/verification/20261017-offline-teammate/README.md)。
+
 ### 2026-10-17 · Windows 发布草稿与删除安全反馈
 
 - PR7 已整合完整60任务旅程；原分支历史通过归档tag保留。
@@ -86,6 +96,15 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-10-17 · Offline teammate feedback
+
+Published [Windows Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1), fixed source `4df5bad46751`, with no network receiver.
+
+- The Windows tester candidate opens all sixty task entrances with marked temporary hardware references and honest earned completion.
+- Global F8/button capture retains game screenshots, unsaved designs, run context and autosaved notes across restarts.
+- One final verified ZIP contains multiple plays; offline Python tools consolidate screenshots, notes and session analysis while preserving originals.
+- [Fixed candidate and acceptance scope](docs/verification/20261017-offline-teammate/README.md).
 
 ### 2026-10-17 · Windows release draft and deletion-safe feedback
 

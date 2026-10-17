@@ -15,6 +15,7 @@ removed; recover historical task books from Git when needed.
 - [Creative model and save contract](../experiments/creation/CONTRACT.md) · [Player route](../experiments/creation/README.md)
 - [Creative design rationale](briefs/20261008-creation/00_README.md)
 - [Feedback, consent and privacy](architecture/community-feedback.md)
+- [Offline teammate feedback and import](architecture/offline-playtest.md)
 - [Localization](architecture/localization.md)
 - [Architectural decisions](decisions/)
 
@@ -31,6 +32,8 @@ removed; recover historical task books from Git when needed.
 - [September 2026 challenge preparation (historical)](distribution/astra-challenge/README.md)
 
 ## Verification
+
+- [Offline teammate Windows tester, screenshots and final-only multi-play import](verification/20261017-offline-teammate/README.md)
 
 - [Windows draft and deletion-safe private VPS operations](verification/20261017-feedback-release/README.md)
 

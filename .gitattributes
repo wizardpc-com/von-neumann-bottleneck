@@ -19,3 +19,6 @@
 
 # Keep the upstream font license verbatim, including its existing trailing space.
 assets/fonts/OFL-NotoSansSC.txt -whitespace
+
+# Preserve the uploaded artifact manifest's bytes for digest comparison.
+docs/verification/20261017-offline-teammate/candidate-manifest.json -text

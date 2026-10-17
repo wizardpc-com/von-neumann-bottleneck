@@ -31,7 +31,16 @@ assert identity==expected and root.name==identity
 assert batch=='unspecified' or re.fullmatch(r'[A-Za-z0-9-]{1,40}',batch)
 assert manifest['upload_default'] is False and manifest['external_ready'] is False
 assert manifest['platforms'] and set(manifest['platforms']) <= {'macOS','Windows'}
+if manifest.get('offline_tester',False):
+    assert manifest['public_release'] is False and not manifest['local_acceptance_only']
+    assert 'feedback_default_source' not in manifest
+    assert set(manifest['platforms'])=={'Windows'} and manifest['feedback_endpoint']==''
+    assert batch!='unspecified' and re.fullmatch(r'[0-9a-f]{40}',commit)
+    assert manifest['candidate_journey']=={'primary_domain':'representation','profile':'OfflineTeammate','isolated':True,'production_migration':False,'creation_enabled':True}
+    assert manifest['content_version']=='tasks-20261013-journey-v1' and len(manifest['content_tasks'])==60
+    assert len(set(manifest['content_tasks']))==60
 if manifest['public_release']:
+    assert not manifest.get('offline_tester',False)
     assert set(manifest['platforms'])=={'Windows'} and not manifest['local_acceptance_only']
     assert manifest['release_version']=='v0.5.0-alpha.2' and re.fullmatch(r'[0-9a-f]{40}',commit)
     assert batch!='unspecified' and manifest['feedback_default_source']=='external_player'

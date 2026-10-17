@@ -1,5 +1,11 @@
 # Execution queue
 
+The [offline teammate tester](../completed/offline-teammate-playtest.md) delivers
+all sixty task entrances, persistent screenshot/context feedback, final-only
+multi-play ZIP acceptance and private import/report tools. The fixed Windows
+candidate is published as offline Pre-release `v0.5.0-alpha.3-offline.1` with the
+owner's explicit authorization. The earlier online draft remains unpublished.
+
 The [creative expression round](../completed/creation-expression-20261013.md)
 completed discovery-led P3, actual two-sided rule comparison and protected-work
 source/phrase/optional-tone appreciation. The fixed sixty-task candidate passed

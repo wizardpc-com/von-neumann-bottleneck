@@ -24,31 +24,45 @@ static func build_identity() -> Dictionary:
 func create_case(context: Dictionary, image: Image = null) -> Dictionary:
 	last_error=""
 	var id: String = new_id()
-	var folder: String = root.path_join("cases").path_join(id)
-	var pending: String = root.path_join("pending").path_join(id)
-	if not _mkdir(pending): return {}
-	if not _write_new_json(pending.path_join("context.json"),context): return {}
+	var folder: String = _reserve_case_folder(id)
+	if folder.is_empty(): return {}
+	if not _write_new_json(folder.path_join("context.json"),context): return {}
 	var screenshot_status: String = "captured"
 	var screenshot_error: String = ""
 	if image == null or image.is_empty():
 		screenshot_status="headless" if DisplayServer.get_name()=="headless" else "unavailable"
 		screenshot_error="No rendered game viewport was available."
 	else:
-		var result: Error = image.save_png(pending.path_join("screenshot.png"))
+		var screenshot: String = folder.path_join("screenshot.png")
+		var result: Error = image.save_png(screenshot)
+		if result==OK:
+			var verified := Image.new()
+			result=verified.load_png_from_buffer(FileAccess.get_file_as_bytes(screenshot))
+			if result==OK and verified.get_size()!=image.get_size(): result=ERR_FILE_CORRUPT
 		if result!=OK:
 			screenshot_status="failed"; screenshot_error=error_string(result)
-			if FileAccess.file_exists(pending.path_join("screenshot.png")):
-				DirAccess.rename_absolute(_absolute(pending.path_join("screenshot.png")),_absolute(pending.path_join("screenshot-incomplete.bin")))
+			if FileAccess.file_exists(screenshot):
+				var retained: Error = DirAccess.rename_absolute(_absolute(screenshot),_absolute(folder.path_join("screenshot-incomplete.bin")))
+				if retained!=OK: last_error="Could not retain incomplete screenshot: "+error_string(retained); return {}
 	var metadata: Dictionary = {"id":id,"captured_at_utc":now(),"updated_at_utc":now(),
 		"revision":0,"category":"other","note":"","status":"draft",
 		"task":context.get("reported_task",context.get("task",{})),"build":build_identity(),
 		"screenshot_status":screenshot_status,"screenshot_error":screenshot_error}
-	if not _write_new_json(pending.path_join("case.json"),metadata): return {}
-	if not _mkdir(root.path_join("cases")): return {}
-	var rename_error: Error = DirAccess.rename_absolute(_absolute(pending),_absolute(folder))
-	if rename_error!=OK: last_error="Could not retain incident: "+error_string(rename_error); return {}
+	# Missing or interrupted metadata stays out of history and exports as recovery.
+	if not _write_new_json(folder.path_join("case.json"),metadata): return {}
 	_latest[id]=metadata.duplicate(true)
 	return metadata
+
+func _reserve_case_folder(id: String) -> String:
+	var pending: String = _absolute(root.path_join("pending").path_join(id))
+	if not _valid_id(id) or FileAccess.file_exists(pending) or DirAccess.dir_exists_absolute(pending):
+		last_error="Existing or invalid incident identity was preserved."; return ""
+	if not _mkdir(root.path_join("cases")): return ""
+	var folder: String = root.path_join("cases").path_join(id)
+	# Unlike recursive mkdir, this refuses an existing directory atomically.
+	var result: Error = DirAccess.make_dir_absolute(_absolute(folder))
+	if result!=OK: last_error="Could not reserve a new incident: "+error_string(result); return ""
+	return folder
 
 func save_note(id: String, note: String, category: String, reported: bool) -> Dictionary:
 	last_error=""

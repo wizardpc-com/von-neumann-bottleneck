@@ -103,3 +103,11 @@ Journal渲染仍有inventory与ThemeReflection首Esc两项失败；精确诊断/
 原full已结束：1639/0b495监测168阶段全部执行、166PASS2FAIL/exit1，无SCRIPT ERROR提前中止；
 651/651文件匹配679、无额外QA tests。49c20ead拟实包源仅test_clarity和QA重启probe变化，
 runtime679不变；focus/原rule长短目录对照及实际两ZIP链仍待，不能将full原记录改为全绿。
+49c fresh298ed2bf（651/651、无额外tests）已通过import/userdir/修后clarity100与Service7268，
+旧单列结构断言按新同scroll布局闭合；原full166/168仍原样，rule反馈P0仍待长短canonical诊断。
+总控远端实核e945的CI39066571426/39066567602完整Python/Godot作业SUCCESS（未据原日志写项数）；
+679的CI39066306203旧断言FAIL保留，49c CI39067140525/39067137757仍进行中。
+同runtime不等于49c实际包验收，远端绿也不关闭Windows当前反馈P0。
+Rule QA即时headless长f74/短cd193各391通过，但原canonical短根renderer d466实际401项FAIL
+（391基础+10capture检查），10cases+第11完整pending；后续截图实际提示“No writable incident…”。
+空current拒绝关闭已有图像实据，准确create失败stage仍待；不先修输入或归长度唯一因。

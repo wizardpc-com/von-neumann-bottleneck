@@ -3822,5 +3822,134 @@
     "delta": "test-only clarity assertion and QA probe same embedded profile independent restart; runtime unchanged per Root.",
     "actual_exported_zip_validation": "NOT_RUN",
     "p0_rule_practice": "OPEN"
+  },
+  "focused_test_only_closure_49c": {
+    "raw_result": ".godot/verification/20261017T203448Z-298ed2bf/results.json",
+    "raw_result_sha256": "65ac154924032f031ec5adfdf689b2d2c2bd76239de973c8071f8c53d8fef502",
+    "parity": {
+      "raw_receipt": ".godot/verification/20261017T203448Z-298ed2bf/source-49c20ea-parity.json",
+      "raw_receipt_sha256": "60d2eb1f4769b988215dbcff92c2058a8aff18c3a605ed28606e7dbcc21840d5",
+      "source_commit": "49c20ead795e1be9de693b0509307ff3fa172fe6",
+      "checked": 651,
+      "matched": 651,
+      "changed": [],
+      "extra_tests": [],
+      "project_settings_exception": "Only required QA custom-user-dir settings excluded"
+    },
+    "stages": [
+      {
+        "name": "import",
+        "exit": 0,
+        "passed": true,
+        "raw_log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91"
+      },
+      {
+        "name": "user_directory",
+        "exit": 0,
+        "passed": true,
+        "raw_log_sha256": "2f8f4a5ee532263bdf3df65daf99dbbe48c6d7bf87cd06e915186542a56e0701"
+      },
+      {
+        "name": "test_completion_service_clarity",
+        "exit": 0,
+        "passed": true,
+        "raw_log_sha256": "c32f32336f1f7944d1be1a2f9159380bcadee05c31f0a692286d885f8f97ebfd"
+      },
+      {
+        "name": "test_service_plan",
+        "exit": 0,
+        "passed": true,
+        "raw_log_sha256": "764497a3bd36fed4f1b2b2b1d1fa8b0881c5ed819bb907b8e2ff44a8ccc3439e"
+      }
+    ],
+    "limit": "Closes stale structure assertions only. Original full stays 166/168; rule-practice feedback P0 remains open."
+  },
+  "latest_remote_ci_root_verified": {
+    "authority": "Root current remote verification, no original log item count inferred here.",
+    "successful_source": "e945e8cb40ea977286d44082e8333485456b9d04",
+    "successful_runs": [
+      "39066571426",
+      "39066567602"
+    ],
+    "completed": true,
+    "conclusion": "SUCCESS",
+    "jobs_scope": "Python and complete Godot jobs",
+    "original_679_failed_run": "39066306203",
+    "original_failure": "stale structural assertion, retained",
+    "proposed_49c_runs": {
+      "39067140525": "in_progress",
+      "39067137757": "in_progress"
+    },
+    "runtime_relation": "e945 and 49c runtime identical per Root; only QA probe independent reopen changed.",
+    "limit": "Not actual exported-package proof or Windows feedback P0 closure."
+  },
+  "rule_diagnostic_followups": [
+    {
+      "raw_receipt": ".godot/verification/20261017T203610Z-f74ffc45/results.json",
+      "raw_receipt_sha256": "47147ef04feabe008df21930fba5cc2e0526017471da8e7d28d8519a6ed567b2",
+      "execution_mode": "exec_command require_escalated",
+      "short_runtime": false,
+      "exit": 0,
+      "passed": true,
+      "terminated_owned_child_reason": "",
+      "log_sha256": "07d98e3727af5195654455d0bc7ed83e7c4d8ef9e6dc04149510cb093f1d44c2",
+      "headless": true,
+      "checks": 391,
+      "test_sha256": "356826c7b9a92cde304ee4b347ce45967819fcbc1cbfb856c896da4edc514531",
+      "isolated_store_sha256": "14231495ee07f5dc307771931cbca1f35bd52f770153208dc617f75abf62686d",
+      "scope": "QA logging only, original assertions preserved."
+    },
+    {
+      "raw_receipt": ".godot/verification/20261017T203649Z-cd1936bb/results.json",
+      "raw_receipt_sha256": "a27020cb8edfcd54ae199185a73098e1d476aee989839293fafff0794618aed3",
+      "execution_mode": "exec_command require_escalated",
+      "short_runtime": true,
+      "exit": 0,
+      "passed": true,
+      "terminated_owned_child_reason": "",
+      "log_sha256": "8a9e4f6820f7f4355c4c0c07e8f4823b995d7f81870989d700ab7dce15150b0d",
+      "headless": true,
+      "checks": 391,
+      "test_sha256": "356826c7b9a92cde304ee4b347ce45967819fcbc1cbfb856c896da4edc514531",
+      "isolated_store_sha256": "14231495ee07f5dc307771931cbca1f35bd52f770153208dc617f75abf62686d",
+      "scope": "QA logging only, original assertions preserved."
+    },
+    {
+      "raw_receipt": ".godot/verification/20261017T203738Z-d4664dcc/results.json",
+      "raw_receipt_sha256": "306a61dee6a3957c3667a83756a63c05b497601e9f1d18322b012e15b2afdc7a",
+      "execution_mode": "exec_command require_escalated",
+      "short_runtime": true,
+      "exit": 1,
+      "passed": false,
+      "terminated_owned_child_reason": "",
+      "log_sha256": "1efc20a64343fe46a1219e3882079c5faacf2ee394cd2177c87e9e36d1364457",
+      "headless": false,
+      "checks": 401,
+      "test_sha256": "b89d0213bc85e71a5f4968db3cc398154ac8f9ad280676428447f3f9dad5c1f1",
+      "isolated_store_sha256": "3781da04c2702aa3c0668c2f3b5a3422e409d79fc29db24f35711252d657fb11",
+      "scope": "Original canonical restored for renderer; prior diagnostic headless copies have QA-only immediate logging."
+    }
+  ],
+  "rule_renderer_readonly_evidence": {
+    "published_cases": 10,
+    "pending_cases": 1,
+    "pending_id": "0d99e30b879b7b6baac30504f8f45681",
+    "pending_case_bytes": 453,
+    "pending_context_bytes": 3579,
+    "pending_png_bytes": 115450,
+    "pending_directory_chars": 210,
+    "pending_context_chars": 223,
+    "notes_jsonl_count": 0,
+    "captured_root_viewport": [
+      1280,
+      720
+    ],
+    "captured_language": "en",
+    "pending_png_sha256": "c08bc7a483ca99933cf04d4466646673ff8065f8c9eea49493e6f3a3a12f281d",
+    "later_overlay_png": ".godot/verification/20261017T203738Z-d4664dcc/artifacts/en-half_adder-active.png",
+    "later_overlay_png_sha256": "64e8c310f14bf388a50e9e4cc9fb85babd1adaa47e235167456f48657f77ef7f",
+    "observed_status": "No writable incident; use Save ZIP as to preserve the current note.",
+    "source_interpretation": "Exact status is emitted by _save_note when current.is_empty(), refusing close. No claim yet about specific create failure stage.",
+    "production_or_snapshot_changed_by_reviewer": false
   }
 }

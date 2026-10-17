@@ -140,6 +140,14 @@ fresh完整原verify一次，包装仅owned-child SCRIPT ERROR failfast、原ass
 1639原full现自然结束：完整168阶段166PASS/2FAIL、exit1、0SCRIPT ERROR提前中止；
 源码651/651逐字节匹配679、无QA额外tests。原失败不改写。拟实包49c20ead相对runtime679仅
 test-only clarity及QA probe独立重启补充，实际focused/原rule长短目录对照与导出ZIP链待证。
+49c fresh298ed2bf已核651/651原始文件、无QA额外tests，import/userdir/clarity100/Service7268四阶段通过；
+仅闭合旧结构断言，原full166/168不追写，规则反馈P0及真实两包仍待。
+总控另核远端e945两CI39066571426/39066567602含完整Python/Godot作业SUCCESS（此处无原日志项数）；
+679旧CI39066306203FAIL保留。49c两CI仍进行中，与e945虽runtime同、QA probe不同，
+不能将先前绿当新包或Windows反馈P0通过。
+Rule长f74/短cd193 QA即时headless391各通过，原canonical短根renderer d466仍401项FAIL
+（基础391+10capture检查）。10cases+第11pending及后续反馈截图“No writable incident…”
+确证无writable current拒绝关闭，准确create stage未捕获；等待原断言真实GUI同步诊断，不先改输入/Store。
 
 ## 尚未关闭的工作
 

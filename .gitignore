@@ -1,5 +1,6 @@
 # Godot editor/import state and runtime-local output
 .godot/
+.qa/
 .import/
 .mono/
 data_*/

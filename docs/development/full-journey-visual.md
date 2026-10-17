@@ -118,3 +118,41 @@ headless结果冒称3D渲染成功；fixture灯变化不冒称测试已玩得玩
 「同一工作台、同一数据与文字」整页浅色候选尚未完成，不列为完整验收。后续仅用QA
 代表工作台做同真实数据／原生控件双样；不新增全局light设置，不将当前dark默认定为
 最终美术。实际整页比较、演出实现与人审分别记录，均不能借本段合同冒称已实现。
+
+## 弹窗反馈回收独立源审
+
+旧产品的tester弹窗销毁已由总控监督的`7e44804d9270`实际复现，日志保留freed-instance
+错误。`580e806`为非root目标Window增加one-shot退出回收：先将仍属该Window的反馈层
+归还autoload，再走原close_panel。正常保存恢复原was_paused并清理反馈标志；拒绝保存时
+层已在root存活，保留暂停／草稿／反馈标志以使用原另存救援，不强制丢弃或解除原暂停。
+普通Moments路由不受这9行改动影响；源审未见新增保存或完成权威、未见此已打开路径的新阻断。
+
+新增测试对称覆盖tester原暂停false／true、销毁后层与标志、rootF8继续使用及原作品SHA；
+修后实际GUI尚待独立执行。后续5行取消guard已独立源审：真实绘制await后，若目标已失效／
+离树／排队销毁，在读取纹理、标题或创建incident前恢复原暂停、busy和工具条并返回。
+对应新增两种原暂停的真实等待期退出测试，要求无新incident／替代root截图且rootF8可复用；
+这些新分支仍待实际执行。保存失败救援尚未故障注入，不由正常路径通过推广为全磁盘失败保证。
+
+## 横向裁剪修后复核
+
+实际查看`122d90b88ed3/artifacts/test_full_journey_narrative-0/full-journey-context-captures/`
+中System英文、Overlap中文／英文三张720p默认图：System的Profiler／History现已换行
+完整显示，Parts窗关闭／最小化及选项全宽可见；Overlap工具窗已在屏内，关闭／最小化、
+组件名与操作说明不再横向裁掉，原Now／Verify仍完整。长工具内容仍通过其原滚动条向下查看。
+本次是三张具体修复的独立实图确认；运行者的1462项／54组断言与108帧完整来源另由其回执记录，
+不将此三张目视扩大成全部高分辨率人工审阅。
+同一新run的Creation中文／英文720p默认图也已实际复核：原顶部Now与下方新Verify
+分别清楚，没有重复Now或文字重叠；这两张同样不代表所有创作单元的长文状态。
+
+## Service双列720p独立图审
+
+实际查看`c8cf69ac0839/artifacts/test_full_journey_narrative-0/full-journey-context-captures/`
+下Service中文／英文的default、hint-tab0和hint-tab3共6张PNG。任务合同、Hint、16px
+Now／Verify、所选实测方案来源及未达标状态清楚。166px成果图纵向完整，四条流的
+外存／驻留量与89／180／271／362响应值完整可见；Compare的四指标、误差、对照／当前
+及各指标独立刻度和精度提醒均可见。账单与summary沿原滚动区继续向下查看。
+
+英文Overview图底注末尾`scaled speed.`在右边被裁为`scal…`；中文底注完整。
+主图已明确snapshot／not final state，未见关键数值或操作入口横裁，但不能称全部文字
+零裁剪。本次只审这6帧，不替代Service完整回归、其他尺寸人工检查或原生操作；
+离线现场发布rename失败仍是独立未闭合事项，不借此UI结果声称整体通过。

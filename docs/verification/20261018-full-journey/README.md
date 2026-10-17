@@ -83,6 +83,9 @@ Godot为`4.7.1.stable.official.a13da4feb`。原始日志留在本地忽略目录
 | `verification/20261017T202023Z-2e1f125e` | 正式require_escalated下未改canonical `res://tests/test_offline_feedback.gd` PASS/exit0，无terminated child | test SHA `9b19562c62f0b4c42cfe0c354e053877aa7bbde195e803aac8b7d7c37c3b188a`，Store SHA保持3781…；raw日志文件名虽带diagnostic，实际command为原canonical脚本、无别名/QA日志改动。可进入整合验证，不将默认环境失败归为已证唯一沙箱原因 |
 | 中间`557` CI `39065505735` / `verification/20261017T200935Z-94bd8364` | completed FAIL；completion_service_clarity 100项中2失败@76 | 旧断言要求summary/chart直接父节点为scroll.child0，与同一scroll内两列布局不符；其余数值、clip、滚动定位断言保留。总控授权test-only改祖先关系，并明确verdict/continue/playback在scroll外；不得改写该CI或当前679原full结果为全绿 |
 | `verification/20261017T202144Z-1639bbd5` / `full-regression-watch/0b495ce99c5c` | 原full完整168阶段，166PASS/2FAIL，exit1，0脚本错误提前中止 | 651/651原始文件匹配679、无额外tests；FAIL为旧completion_service_clarity100/2与rule_practice_input391项。后者最早@180反馈Esc关闭/@181焦点恢复，随后输入级联；6cases+第7完整pending（root1440×900/headless/tester），尚缺同步last_error，不先归因具体IO阶段 |
+| `verification/20261017T203448Z-298ed2bf` | 49c fresh import/userdir/clarity100/Service7268四阶段全部PASS/exit0 | 651/651原始文件匹配49c，无额外tests；该test-only修正闭合旧结构断言，不改写679原full166/168，也不关闭rule反馈P0 |
+| `verification/20261017T203610Z-f74ffc45` / `203649Z-cd1936bb` | 原文件名QA即时诊断headless长/短目录各391项PASS/exit0 | 保留全部原断言，test与隔离Store仅日志增量；各18cases/pending空、同步last_error空。这两次通过不覆盖后续真实GUI失败 |
+| `verification/20261017T203738Z-d4664dcc` | 未改canonical原rule、短根真实renderer FAIL/401项 | 原基础391项加实际10个capture保存断言；10cases+第11完整pending，root EN1280×720。后续帧反馈层底部实际“No writable incident…”证明无writable current且拒绝关闭，仍缺该次create失败同步stage/error；不是仅“Esc未送达”即可解释 |
 
 56fe晚于上述旧失败，**但早于**marker主题实际最小尺寸修正、system拓扑/语言刷新回归和
 Journal→ThemeReflection→F8新栈。其成功不能认证这些后续差异。
@@ -127,6 +130,11 @@ canonical重复失败；原生scratch单次Error5只缩小差异，不是该次G
 原核验只有648 raw bytes相同，另3文件仅CRLF差异，并存在1个QA-only额外脚本；不宣称651原始字节全同。
 这些EOL由各owner精确对齐Git blob，新fresh排除额外QA脚本，再核验固定身份。完整回归、最终源码冻结、
 两包真实ZIP链及新限定OS观察仍未完成。文档恢复点`0445c61`不认证这些未完成项。
+总控远端实核：`e945e8cb40ea977286d44082e8333485456b9d04`的CI `39066571426`及
+`39066567602`均completed/SUCCESS，包含Python与完整Godot作业；此处未取得原日志计数，不写168项。
+原679 CI `39066306203`的旧结构断言FAIL保留。拟包49c的CI `39067140525`/`39067137757`
+仍in_progress；e945与49c的runtime相同、仅QA probe独立重启补充不同，不将e945绿说成49c实包通过，
+也不以Linux CI绿覆盖Windows rule当前反馈P0。
 中间557的后续CI发现另一旧结构断言：`test_completion_service_clarity:76`两语各失败一次；
 raw已保留。当前679完整原verify继续运行，不因预期这两项失败中断或篡改原结果。
 下一test-only焦点复跑及最新CI应与runtime679字节相同的完整运行分别记录，再冻结最终SOURCE；
@@ -144,6 +152,11 @@ QA probe的同embedded profile独立重启补充；Visual已源审strict外监�
 Narrative下一步fresh focused clarity/Service，并在原rule长目录形状作失败即时日志、短workspace
 `.qa/Rule-uuid`作一次同canonical脚本/namespace/flags对照；实际环境/长度须由回执确认。
 P0未关闭，不能把当前166/168改写为168/168或提前freeze包。
+短目录真实GUI也已失败：pending目录210字符、context子路径223字符，含case453B/context3579B及
+115450B有效截图；无notes.jsonl。pending截图是反馈打开前的正常AND手册，随后
+`d4664dcc/artifacts/en-half_adder-active.png`显示反馈仍在，明确提示无可写现场。
+因此本次关闭拒绝已关联空current，而非仅输入消费假设；发布失败的准确阶段仍须同步诊断。
+不以缩短目录、正式权限或前两次headless通过声称所有IO已解决，也不据此修改Store/输入/assert。
 
 Visual另发现System EN旧工具栏窄窗横溢及Overlap缩放后的关闭按钮不fit；总控已授权Narrative
 在自有Host作最小布局修复，不因旧基线也有问题而忽略1280要求。默认clip与located检查分别记录。

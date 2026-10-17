@@ -73,7 +73,7 @@ func run() -> void:
 			var node := scene.find_child(id,true,false) as Control
 			check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Primary and detail controls fit bilingual minimum viewport: "+id+" "+str(node.get_global_rect()))
 		var overview_scroll := scene.find_child("OverviewEvidenceScroll",true,false) as ScrollContainer
-		check(overview_scroll.size.y >= 80 and overview_scroll.get_global_rect().end.y <= 720 and scene.summary.get_parent() == overview_scroll.get_child(0) and scene.response_chart.get_parent() == overview_scroll.get_child(0),"Overview evidence scrolls while verdict, continuation, and playback remain outside it")
+		check(overview_scroll.size.y >= 80 and overview_scroll.get_global_rect().end.y <= 720 and overview_scroll.get_child(0).is_ancestor_of(scene.summary) and overview_scroll.get_child(0).is_ancestor_of(scene.response_chart) and not overview_scroll.is_ancestor_of(scene.measured_verdict) and not overview_scroll.is_ancestor_of(scene.next_button) and not overview_scroll.is_ancestor_of(scene.response_play) and not overview_scroll.is_ancestor_of(scene.response_step),"Overview evidence scrolls while verdict, continuation, and playback remain outside it")
 		overview_scroll.scroll_vertical = int(scene.bill_button.get_parent().position.y)
 		await process_frame
 		check(overview_scroll.get_global_rect().encloses(scene.bill_button.get_global_rect()) and overview_scroll.get_global_rect().encloses(scene.find_child("ShowStateJourney",true,false).get_global_rect()),"Measured bill and exact history remain reachable by scrolling")

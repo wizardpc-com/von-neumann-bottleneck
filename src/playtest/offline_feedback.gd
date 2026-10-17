@@ -220,7 +220,7 @@ func export_all(destination: String = "") -> void:
 			var rescue_id: String = Store.new_id()
 			var rescue: Dictionary = {"id":rescue_id,"related_case_id":current.get("id",""),"captured_at_utc":current.get("captured_at_utc",Store.now()),
 				"updated_at_utc":Store.now(),"revision":0,"category":CATEGORIES[category.selected],"note":note.text,"status":"draft",
-				"task":emergency_context.get("reported_task",emergency_context.get("task",{})),"build":Store.build_identity(),
+				"task":emergency_context.get("reported_task",emergency_context.get("task",{})),"build":current.get("build",Store.build_identity()),
 				"screenshot_status":"captured" if not emergency_image.is_empty() else "unavailable",
 				"screenshot_error":"" if not emergency_image.is_empty() else "No in-memory screenshot was available."}
 			extras["cases/"+rescue_id+"/case.json"]=JSON.stringify(rescue,"\t").to_utf8_buffer()

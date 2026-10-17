@@ -61,6 +61,120 @@ def fixture(path, bundle_id='a' * 32, case_id='1' * 32, note='中文 note', revi
 
 
 class OfflinePlaytestsTests(unittest.TestCase):
+    def test_exclusive_file_publication_follows_verified_copies(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
+            root = Path(folder); library = root / 'library'; source = root / 'source.zip'
+            manifest = fixture(source)
+            original_hash = offline.file_hash(source)
+            copy_file = offline.copy_new_file
+            rename_file = Path.rename
+            publications = []
+
+            def copy_checked(incoming, destination):
+                self.assertFalse((library / 'bundles' / ('a' * 32) / 'original.zip').exists())
+                copy_file(incoming, destination)
+
+            def publish_checked(partial, destination):
+                self.assertEqual(partial.name, '.original.zip.partial')
+                self.assertEqual(partial.parent, destination.parent)
+                self.assertEqual(destination.name, 'original.zip')
+                self.assertEqual(offline.file_hash(partial), original_hash)
+                for item in manifest['files']:
+                    copied = destination.parent / 'files' / item['path']
+                    self.assertEqual(copied.stat().st_size, item['size'])
+                    self.assertEqual(offline.file_hash(copied), item['sha256'])
+                publications.append(destination)
+                return rename_file(partial, destination)
+
+            with mock.patch.object(offline, 'copy_new_file', side_effect=copy_checked), mock.patch.object(
+                    Path, 'rename', publish_checked):
+                self.assertEqual(offline.import_bundles([source], library)[0]['status'], 'imported')
+            self.assertEqual(len(publications), 1)
+            self.assertFalse((publications[0].parent / offline.IMPORT_PENDING).exists())
+            self.assertEqual(offline.file_hash(source), original_hash)
+            self.assertEqual(offline.file_hash(publications[0]), original_hash)
+
+    def test_unpublished_markers_skip_only_known_new_partial_imports(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
+            root = Path(folder); library = root / 'library'; target = library / 'bundles' / ('a' * 32)
+            sessions = target / 'files' / 'sessions'; sessions.mkdir(parents=True)
+            (sessions / 'session_partial.jsonl').write_bytes(b'{}\n')
+            marker = {'format': offline.IMPORT_PENDING_FORMAT, 'version': 1, 'bundle_id': target.name}
+            (target / offline.IMPORT_PENDING).write_bytes(encoded(marker))
+            (target / '.original.zip.partial').write_bytes(b'interrupted archive bytes')
+            before = {p.relative_to(target).as_posix(): p.read_bytes() for p in target.rglob('*') if p.is_file()}
+            self.assertEqual(offline.library_records(library), ([], 0))
+            counts = offline.Counter()
+            self.assertEqual(list(offline.archived_session_events(library, counts)), [])
+            self.assertEqual(counts['session_files'], 0)
+            source = root / 'source.zip'; fixture(source)
+            with self.assertRaisesRegex(offline.InvalidBundle, 'conflicting bundle_id'):
+                offline.import_bundles([source], library)
+            self.assertEqual({p.relative_to(target).as_posix(): p.read_bytes() for p in target.rglob('*') if p.is_file()}, before)
+
+    def test_pending_marker_never_hides_old_or_published_damage(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
+            root = Path(folder)
+            valid = {'format': offline.IMPORT_PENDING_FORMAT, 'version': 1, 'bundle_id': 'a' * 32}
+            variants = [('unmarked', None, None), ('wrong-version', dict(valid, version=999), None),
+                        ('boolean-version', dict(valid, version=True), None),
+                        ('wrong-id', dict(valid, bundle_id='b' * 32), None),
+                        ('published-damaged', valid, b'not a ZIP')]
+            for label, marker, original in variants:
+                with self.subTest(label=label):
+                    library = root / label; target = library / 'bundles' / ('a' * 32)
+                    target.mkdir(parents=True)
+                    if marker is not None: (target / offline.IMPORT_PENDING).write_bytes(encoded(marker))
+                    if original is not None: (target / 'original.zip').write_bytes(original)
+                    with self.assertRaises(offline.InvalidBundle): offline.library_records(library)
+                    with self.assertRaises(offline.InvalidBundle): list(offline.archived_session_events(library, offline.Counter()))
+            library = root / 'published-valid'; source = root / 'valid.zip'
+            fixture(source, extra={'sessions/session_published.jsonl': b'{}\n'})
+            offline.import_bundles([source], library)
+            target = library / 'bundles' / ('a' * 32)
+            (target / offline.IMPORT_PENDING).write_bytes(encoded(valid))
+            self.assertEqual(len(offline.library_records(library)[0]), 1)
+            counts = offline.Counter(); list(offline.archived_session_events(library, counts))
+            self.assertEqual(counts['session_files'], 1)
+
+    def test_copy_hash_and_publication_failures_preserve_existing_archives(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
+            root = Path(folder); copy_file = offline.copy_new_file; rename_file = Path.rename
+            for failure in ['copy', 'hash', 'publish']:
+                with self.subTest(failure=failure):
+                    library = root / failure
+                    existing = root / (failure + '-existing.zip'); fixture(existing)
+                    offline.import_bundles([existing], library)
+                    target = library / 'bundles' / ('a' * 32)
+                    before = {p.relative_to(target).as_posix(): p.read_bytes() for p in target.rglob('*') if p.is_file()}
+                    one = root / (failure + '-one.zip'); fixture(one, bundle_id='b' * 32)
+                    two = root / (failure + '-two.zip'); fixture(two, bundle_id='c' * 32)
+                    originals = {p: p.read_bytes() for p in [existing, one, two]}
+                    publish_attempts = []
+
+                    def copy_failing(incoming, destination):
+                        if 'c' * 32 in destination.parts and destination.name == 'context.json':
+                            if failure == 'copy': raise PermissionError('controlled copy failure')
+                            if failure == 'hash':
+                                copy_file(incoming, destination); destination.write_bytes(b'corrupt copy'); return
+                        copy_file(incoming, destination)
+
+                    def publish_failing(partial, destination):
+                        self.assertEqual(partial.name, '.original.zip.partial')
+                        if destination.parent.name == 'c' * 32 and failure == 'publish':
+                            publish_attempts.append(destination)
+                            raise PermissionError('controlled final-file publication failure')
+                        return rename_file(partial, destination)
+
+                    with mock.patch.object(offline, 'copy_new_file', side_effect=copy_failing), mock.patch.object(
+                            Path, 'rename', publish_failing), self.assertRaises((PermissionError, offline.InvalidBundle)):
+                        offline.import_bundles([one, two], library)
+                    self.assertEqual(sorted(p.name for p in (library / 'bundles').iterdir()), ['a' * 32])
+                    self.assertEqual({p.relative_to(target).as_posix(): p.read_bytes() for p in target.rglob('*') if p.is_file()}, before)
+                    self.assertEqual({p: p.read_bytes() for p in originals}, originals)
+                    self.assertEqual(list(library.glob('.incoming-*')), [])
+                    if failure == 'publish': self.assertEqual(len(publish_attempts), 1)
+
     def test_raw_preservation_dedupe_and_conflicting_id(self):
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
             root = Path(folder); library = root / 'library'

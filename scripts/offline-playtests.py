@@ -19,6 +19,8 @@ import zipfile
 
 
 FORMAT = 'vnb-offline-playtest'
+IMPORT_PENDING = '.import-pending.json'
+IMPORT_PENDING_FORMAT = 'vnb-offline-import-pending'
 HEX32 = re.compile(r'[0-9a-f]{32}\Z')
 HEX64 = re.compile(r'[0-9a-f]{64}\Z')
 MAX_FILE = 64 * 1024 * 1024
@@ -238,7 +240,7 @@ def import_bundles(sources, library):
                 raise InvalidBundle('conflicting bundle_id within import: ' + bundle_id)
             if bundle_id in seen:
                 results.append({'bundle_id': bundle_id, 'status': 'deduplicated'})
-                prepared[-1] = (stage, bundles / bundle_id, 'deduplicated')
+                prepared[-1] = (stage, bundles / bundle_id, 'deduplicated', manifest)
                 continue
             seen[bundle_id] = digest
             target = bundles / bundle_id
@@ -248,15 +250,35 @@ def import_bundles(sources, library):
                 results.append({'bundle_id': bundle_id, 'status': 'deduplicated'})
             else:
                 results.append({'bundle_id': bundle_id, 'status': 'imported'})
-            prepared[-1] = (stage, target, results[-1]['status'])
+            prepared[-1] = (stage, target, results[-1]['status'], manifest)
         committed = []
         try:
-            for stage, target, status in prepared:
+            for stage, target, status, manifest in prepared:
                 if status == 'imported':
                     if target.exists() or target.is_symlink():
                         raise InvalidBundle('bundle_id appeared during import: ' + target.name)
-                    stage.rename(target)
+                    target.mkdir(mode=0o700)
                     committed.append(target)
+                    marker = target / IMPORT_PENDING
+                    with marker.open('x', encoding='utf-8') as output:
+                        json.dump({'format': IMPORT_PENDING_FORMAT, 'version': 1,
+                                   'bundle_id': target.name}, output)
+                    for item in manifest['files']:
+                        destination = target / 'files' / item['path']
+                        destination.parent.mkdir(parents=True, exist_ok=True)
+                        copy_new_file(stage / 'files' / item['path'], destination)
+                        if destination.stat().st_size != item['size'] or file_hash(destination) != item['sha256']:
+                            raise InvalidBundle('published file verification failed: ' + item['path'])
+                    partial_zip = target / '.original.zip.partial'
+                    copy_new_file(stage / 'original.zip', partial_zip)
+                    if file_hash(partial_zip) != seen[target.name]:
+                        raise InvalidBundle('published original ZIP verification failed: ' + target.name)
+                    original = target / 'original.zip'
+                    if original.exists() or original.is_symlink():
+                        raise InvalidBundle('original ZIP appeared during import: ' + target.name)
+                    # Publish one verified file, never move a populated directory.
+                    partial_zip.rename(original)
+                    marker.unlink()
         except Exception:
             for target in committed:
                 shutil.rmtree(target)
@@ -269,18 +291,44 @@ def import_bundles(sources, library):
                 shutil.rmtree(stage)
 
 
-def library_records(library):
+def copy_new_file(source, destination):
+    with source.open('rb') as incoming, destination.open('xb') as output:
+        shutil.copyfileobj(incoming, output)
+    destination.chmod(0o600)
+
+
+def published_bundles(library):
     bundles = Path(library) / 'bundles'
-    records = []
-    bundle_count = 0
     for folder in sorted(bundles.iterdir()) if bundles.exists() else []:
         if not folder.is_dir() or folder.is_symlink():
             continue
+        original = folder / 'original.zip'
+        if not original.exists() and not original.is_symlink():
+            marker = folder / IMPORT_PENDING
+            if marker.is_file() and not marker.is_symlink() and marker.stat().st_size <= MAX_JSON:
+                pending = json_document(marker.read_bytes(), str(marker))
+                if (isinstance(pending, dict) and pending.get('format') == IMPORT_PENDING_FORMAT
+                        and type(pending.get('version')) is int and pending['version'] == 1
+                        and HEX32.fullmatch(folder.name) and pending.get('bundle_id') == folder.name):
+                    continue
+            raise InvalidBundle('missing published original ZIP: ' + folder.name)
+        if not original.is_file() or original.is_symlink():
+            raise InvalidBundle('invalid published original ZIP: ' + folder.name)
         # manifest.json is deliberately not extracted, so validate the preserved original.
-        with zipfile.ZipFile(folder / 'original.zip') as archive:
-            manifest = json_document(archive.read('manifest.json'), str(folder / 'original.zip'))
-        if manifest['bundle_id'] != folder.name:
+        try:
+            with zipfile.ZipFile(original) as archive:
+                manifest = json_document(archive.read('manifest.json'), str(original))
+        except (OSError, zipfile.BadZipFile, KeyError) as error:
+            raise InvalidBundle('damaged published original ZIP: ' + folder.name) from error
+        if not isinstance(manifest, dict) or manifest.get('bundle_id') != folder.name:
             raise InvalidBundle('library bundle identity mismatch: ' + folder.name)
+        yield folder, manifest
+
+
+def library_records(library):
+    records = []
+    bundle_count = 0
+    for folder, manifest in published_bundles(library):
         bundle_count += 1
         for case_file in sorted((folder / 'files' / 'cases').glob('*/case.json')) if (folder / 'files' / 'cases').exists() else []:
             case = validate_case('cases/' + case_file.parent.name, folder / 'files')
@@ -351,8 +399,7 @@ def valid_session_event(event):
 
 
 def archived_session_events(library, counts):
-    bundles = Path(library) / 'bundles'
-    for folder in sorted(bundles.iterdir()) if bundles.exists() else []:
+    for folder, _manifest in published_bundles(library):
         sessions = folder / 'files' / 'sessions'
         if not folder.is_dir() or folder.is_symlink() or not sessions.is_dir() or sessions.is_symlink():
             continue

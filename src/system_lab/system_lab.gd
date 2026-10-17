@@ -621,7 +621,7 @@ func _build_lab(parent: Control) -> void:
 func _build_workbench_bar() -> Control:
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size.y = 52.0
-	var row := HBoxContainer.new()
+	var row := HFlowContainer.new()
 	panel.add_child(row)
 	var title := Label.new()
 	title.text = _t(&"system.workbench.title")

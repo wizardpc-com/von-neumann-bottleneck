@@ -110,6 +110,11 @@ func run() -> void:
 		var overlap: Control = await open_host("res://src/overlap_chapter/overlap_chapter.tscn")
 		overlap._open_level("arrival"); await settle(); await card_is(overlap, "chapter_3/arrival")
 		overlap._changed(); changed(overlap)
+		var kept_position := Vector2(24,24)
+		overlap.panels["mission"].position = kept_position; await settle()
+		check(overlap.panels["mission"].position == kept_position, "An instrument already inside the workspace retains its player position")
+		overlap.panels["toolbox"].position.x = overlap.workspace.size.x - 10; await settle()
+		check(overlap.workspace.get_global_rect().encloses(overlap.panels["toolbox"].get_global_rect()), "A horizontally out-of-bounds tools instrument refits into the workspace")
 		overlap._open_level("synthesis"); await settle(); await card_is(overlap, "chapter_3/synthesis")
 		await release(overlap)
 		var layout: Control = await open_host("res://src/layout_chapter/layout_chapter.tscn", "chapter_4/fields")
@@ -186,6 +191,7 @@ func capture_host_context(scene: Control) -> void:
 	if DisplayServer.get_name() == "headless": return
 	var card: Variant = scene.journey_context
 	var action: Control = scene.next_step_label if card.last_task.begins_with("creation/") else card.action_label
+	if "--hardware-en-capture" in OS.get_cmdline_user_args() and (not card.english or not card.last_task.begins_with("hardware_foundations/")): return
 	var domain_key: String = str(card.english) + "/" + card.last_task.get_slice("/", 0)
 	if captured_domains.has(domain_key): return
 	captured_domains[domain_key] = true
@@ -201,6 +207,13 @@ func capture_host_context(scene: Control) -> void:
 	for dimensions: Vector2i in [Vector2i(1280,720), Vector2i(1920,1080), Vector2i(1440,900)]:
 		root.mode = Window.MODE_WINDOWED; root.size = dimensions; root.content_scale_size = dimensions
 		await settle()
+		if card.last_task.begins_with("chapter_1/"):
+			for button: Button in scene.instrument_open_buttons.values(): check(within_clip(button), "System instrument launcher fits after toolbar wrapping: " + button.text)
+			for panel: Control in scene.instrument_windows.values():
+				if panel.visible: check(root.get_visible_rect().encloses(panel.get_global_rect()), "Visible System instrument fits after toolbar resize")
+		if card.last_task.begins_with("chapter_3/"):
+			for panel: Control in scene.panels.values():
+				if panel.visible: check(root.get_visible_rect().encloses(panel.get_global_rect()), "Visible Overlap instrument fits after viewport resize")
 		ancestor = card.get_parent()
 		while ancestor != null and ancestor != scene:
 			if ancestor is ScrollContainer: ancestor.scroll_vertical = 0
@@ -212,7 +225,7 @@ func capture_host_context(scene: Control) -> void:
 		check(within_clip(action) and within_clip(card.verify_label), "Default Mission exposes the current action and verification without scrolling: " + domain_key + " " + str(dimensions))
 		ancestor = card.get_parent()
 		while ancestor != null and ancestor != scene:
-			if ancestor is ScrollContainer: ancestor.ensure_control_visible(card)
+			if ancestor is ScrollContainer: ancestor.ensure_control_visible(card.verify_label)
 			ancestor = ancestor.get_parent()
 		await settle(); RenderingServer.force_draw(false); await process_frame
 		check(within_clip(action) and within_clip(card.verify_label), "Located host guidance remains within its actual viewport and scroll clip: " + domain_key)

@@ -130,7 +130,7 @@ func _process(delta: float) -> void:
 		trace_ambience.advance(scrub.value if is_instance_valid(scrub) else 0.0, playing and not trace_stale and level == "buffers")
 	if is_instance_valid(workspace):
 		for panel: FloatingInstrumentPanel in panels.values():
-			if panel.visible and (panel.size.y > workspace.size.y-16 or panel.position.y+panel.size.y > workspace.size.y-8):
+			if panel.visible and (panel.size.y > workspace.size.y-16 or panel.position.y+panel.size.y > workspace.size.y-8 or panel.position.x < 8 or panel.position.x+panel.size.x > workspace.size.x-8):
 				panel.fit_to_parent()
 	if dirty:
 		save_elapsed += delta

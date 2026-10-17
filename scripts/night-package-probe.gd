@@ -172,14 +172,19 @@ func run() -> void:
 	check(get_viewport().get_texture().get_image().save_png(output.path_join("first-result.png"))==OK,"actual exported first result frame")
 	var circuit_signature: String = host._circuit_from_graph().canonical_signature()
 	host._dismiss_level_completion()
-	host._reopen_mission()
+	host._show_desktop_window(&"task")
 	host.journey_context.toggle.button_pressed=true
 	var context_parent: Node = host.journey_context.get_parent()
 	while context_parent!=null:
 		if context_parent is ScrollContainer: context_parent.ensure_control_visible(host.journey_context.toggle)
 		context_parent=context_parent.get_parent()
 	await settle()
-	check(host.journey_context.toggle.is_visible_in_tree() and get_viewport().get_visible_rect().encloses(host.journey_context.toggle.get_global_rect()),"actual earned context control is visible inside the exported Mission")
+	var context_clip: Rect2 = get_viewport().get_visible_rect()
+	context_parent = host.journey_context.toggle.get_parent()
+	while context_parent!=null:
+		if context_parent is Control and context_parent.clip_contents: context_clip=context_clip.intersection(context_parent.get_global_rect())
+		context_parent=context_parent.get_parent()
+	check(host.journey_context.toggle.is_visible_in_tree() and context_clip.grow(1).encloses(host.journey_context.toggle.get_global_rect()),"actual earned context control is visible inside the exported Mission and its ancestor scroll clips")
 	check(get_viewport().get_texture().get_image().save_png(output.path_join("context.png"))==OK,"actual exported earned task context frame")
 	host.journey_context.toggle.button_pressed=false
 	var handbook: Variant = host.terminology_handbook

@@ -132,6 +132,8 @@ func run() -> void:
 	check(OS.has_feature("free_candidate") and nav.journey_tasks().size()==60,"actual exported full journey configuration")
 	check(not get_node("/root/GameMode").is_test_mode(),"ordinary model mode")
 	check(get_node("/root/RemoteFeedback").endpoint.is_empty() and not get_node("/root/RemoteFeedback").enabled,"no receiver or automatic upload")
+	if str(ProjectSettings.get_setting("qa_night/phase", "capture")) == "reopen":
+		await reopen_embedded_profile(output,profile,tester); return
 	var unavailable: int = 0
 	for task: Dictionary in nav.tasks():
 		if not task.unlocked: unavailable+=1
@@ -219,7 +221,54 @@ func run() -> void:
 		"source_commit":ProjectSettings.get_setting("application/config/build_commit",""),
 		"build_id":ProjectSettings.get_setting("application/config/version",""),
 		"logical_viewport":str(get_viewport().get_visible_rect().size),"physical_frame":str(get_viewport().get_texture().get_image().get_size()),
-		"extended_experience":experience,
+		"extended_experience":experience,"restart_protected":protected_snapshot(),
 		"evidence_grade":"rendered controller input, not native OS or human playtest"},"\t")); file.close()
 	print("PASS: night package embedded configuration and first experience" if failures.is_empty() else "FAIL: night package")
+	get_tree().quit(0 if failures.is_empty() else 1)
+
+func reopen_embedded_profile(output: String, profile: String, tester: bool) -> void:
+	var prior_path: String = output.path_join("receipt.json")
+	check(FileAccess.file_exists(prior_path),"embedded reopen requires a successful parent receipt")
+	if not FileAccess.file_exists(prior_path): get_tree().quit(1); return
+	var prior: Variant = JSON.parse_string(FileAccess.get_file_as_string(prior_path))
+	check(prior is Dictionary and prior.get("failures",["missing"]).is_empty(),"parent embedded acceptance has no failed checks")
+	if not prior is Dictionary: get_tree().quit(1); return
+	check(prior.get("source_commit","")==ProjectSettings.get_setting("application/config/build_commit","") and prior.get("build_id","")==ProjectSettings.get_setting("application/config/version",""),"reopen uses the same frozen source and build")
+	check(prior.get("profile","")==profile and prior.get("tester",not tester)==tester,"reopen retains the actual embedded profile and role")
+	check(FileAccess.get_sha256(OS.get_executable_path())==str(prior.get("exe_sha256","")),"reopen executable matches the already accepted ZIP binary")
+	check(FileAccess.get_sha256(get_script().resource_path)==str(prior.get("controller_sha256","")),"reopen uses the identical external controller")
+	var before: Dictionary = protected_snapshot()
+	check(prior.get("restart_protected",{})==before,"saved game workbench and candidate authorities survive independent process restart")
+	var save: Node = get_node("/root/GlobalSave")
+	check(FileAccess.file_exists(save.storage_path) and FileAccess.file_exists(save.workbench_storage_path),"genuinely saved game and hardware workbench exist in embedded namespace")
+	check(get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")==OK,"restarted actual Home loads")
+	await settle()
+	var nav: Node = get_node("/root/TaskNavigation")
+	check(nav.open_tree(),"restarted embedded map opens")
+	await settle()
+	var map: Variant = get_tree().current_scene
+	check(map.scene_file_path=="res://src/campaign/task_tree.tscn" and map.rows.size()==60,"restarted map reads its actual sixty tasks")
+	var tutorial: Dictionary = {}
+	for row: Dictionary in map.rows:
+		if str(row.key)=="hardware_foundations/tutorial": tutorial=row
+	check(not tutorial.is_empty() and bool(tutorial.get("completed",false)),"real tutorial completion reloads independently from tester access")
+	var launcher := map.find_child("OpenJourneyJournal",true,false) as Button
+	check(launcher!=null,"restarted map keeps the actual Journal entrance")
+	if launcher!=null:
+		launcher.pressed.emit(); await settle()
+		var journal: Variant = map.journey_journal
+		journal.show_task("hardware_foundations/tutorial")
+		check(journal.earned(journal.selected_task()) and not journal.civilization_fragment(journal.selected_task()).is_empty(),"restarted Journal derives its earned retrospective from saved tutorial")
+		journal.show_task("hardware_foundations/half_adder")
+		check(not journal.earned(journal.selected_task()) and journal.civilization_fragment(journal.selected_task()).is_empty(),"restarted access still grants no unearned half-adder retrospective")
+		await key_press(KEY_ESCAPE)
+	check(protected_snapshot()==before,"restarted map and Journal preserve exact saved authority bytes and state")
+	var receipt: Dictionary = {"checks":checks,"failures":failures,"profile":profile,"tester":tester,
+		"source_commit":ProjectSettings.get_setting("application/config/build_commit",""),"build_id":ProjectSettings.get_setting("application/config/version",""),
+		"parent_receipt_sha256":FileAccess.get_sha256(prior_path),"exe_sha256":FileAccess.get_sha256(OS.get_executable_path()),
+		"controller_sha256":FileAccess.get_sha256(get_script().resource_path),"protected":before,
+		"evidence_grade":"same embedded namespace after independent process restart; rendered controller, not native input"}
+	var file := FileAccess.open(output.path_join("embedded-profile-reopen.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify(receipt,"\t")); file.close()
+	print("PASS: embedded profile independent restart" if failures.is_empty() else "FAIL: embedded profile independent restart")
 	get_tree().quit(0 if failures.is_empty() else 1)

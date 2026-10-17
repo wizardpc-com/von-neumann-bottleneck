@@ -180,8 +180,13 @@ def main():
         path.write_text(content)
     isolated_base='\n'.join(line for line in original.splitlines() if not line.startswith(('config/use_custom_user_dir=','config/custom_user_dir_name=')))+'\n'
     isolated=isolated_base.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="VonNeumannBottleneckChecks/build-'+stamp+'"')
+    runtime_env=os.environ.copy()
+    if os.name=='nt':
+        for key,name in [('APPDATA','Roaming'),('LOCALAPPDATA','Local')]:
+            directory=work/'runtime'/name;directory.mkdir(parents=True,exist_ok=True)
+            runtime_env[key]=str(directory)
     def run(name,args):
-        result=subprocess.run([a.godot,'--headless','--path',str(project),*args],capture_output=True,text=True,timeout=600)
+        result=subprocess.run([a.godot,'--headless','--path',str(project),*args],capture_output=True,text=True,timeout=600,env=runtime_env)
         text=result.stdout+result.stderr;(work/(name+'.log')).write_text(text)
         if result.returncode or 'SCRIPT ERROR' in text or 'ERROR:' in text:raise RuntimeError(name+' failed: '+str(work/(name+'.log')))
         print(name+': PASS',flush=True)

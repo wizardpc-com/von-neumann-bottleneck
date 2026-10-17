@@ -85,4 +85,4 @@ func _draw() -> void:
 	if deadline > 0:
 		var limit_x: float = 254+bar_width*deadline/scale
 		draw_line(Vector2(limit_x,56),Vector2(limit_x,146),Color("f3c777"),1.5)
-	draw_string(font,Vector2(4,162),words("此时刻外存含目录；本地*待写回。真实事件回放，速度仅供展示。", "Backing includes directory; local* is dirty. Recorded replay; scaled speed."),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,Color("90a7b7"))
+	draw_string(font,Vector2(4,162),words("此时刻外存含目录；本地*待写回。真实事件回放，速度仅供展示。", "Backing includes directory; *=dirty. Illustrative replay pace."),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,Color("90a7b7"))

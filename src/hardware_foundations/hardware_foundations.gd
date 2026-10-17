@@ -721,6 +721,37 @@ func _activate_content_state() -> void:
 	completed_levels = player_content.completed_levels
 	if GameMode.is_test_mode():
 		_install_support_library(component_library, LogicCircuitType.new(), true)
+	elif TaskNavigation.offline_tester_enabled():
+		_install_offline_reference_library()
+
+
+func _install_offline_reference_library() -> void:
+	component_library = player_content.component_library.duplicate()
+	_install_support_library(component_library, LogicCircuitType.new(), true)
+	for component_name: StringName in component_library:
+		if player_content.component_library.has(component_name):
+			continue
+		var reference: ReusableComponent = component_library[component_name]
+		reference.source_level = &"tester_reference"
+		reference.metadata["tester_reference"] = true
+
+
+func _uses_offline_reference(circuit: LogicCircuit) -> bool:
+	if not TaskNavigation.offline_tester_enabled():
+		return false
+	for component: LogicComponent in circuit.components.values():
+		var library_name := StringName(component.properties.get("library_name", &""))
+		if library_name.is_empty():
+			continue
+		var earned: ReusableComponent = player_content.component_library.get(library_name)
+		if earned == null or earned.source_signature != String(component.properties.get("source_signature", "")):
+			return true
+	return false
+
+
+func _offline_reference_notice() -> String:
+	return "Reference components let you open and try tasks; earn your own components to record completion." \
+		if Localization.current_locale() == "en" else "参考组件只供直达试玩；要记录通关，需先亲手完成前置组件。"
 
 
 func _on_game_mode_changed(_mode: StringName) -> void:
@@ -738,6 +769,8 @@ func _on_game_mode_changed(_mode: StringName) -> void:
 
 func _is_level_unlocked(level_id: StringName) -> bool:
 	if GameMode.is_test_mode():
+		return level_id in level_catalog.level_ids()
+	if TaskNavigation.offline_tester_enabled():
 		return level_id in level_catalog.level_ids()
 	return level_catalog.is_unlocked(level_id, completed_levels)
 
@@ -6330,7 +6363,8 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 		current_level_definition.get("official_steps", []),
 		bool(current_level_definition.get("allow_feedback", false))
 	)
-	official_passed = bool(prologue_report.get("passed", false))
+	var reference_used: bool = _uses_offline_reference(circuit)
+	official_passed = bool(prologue_report.get("passed", false)) and not reference_used
 	PlaytestData.record_official_run(
 		&"hardware_foundations", current_level_id, official_passed,
 		PlaytestData.circuit_run_details(prologue_report.get("steps",[]),circuit.canonical_signature(),JSON.stringify(current_level_definition.get("official_steps",[])).sha256_text())
@@ -6379,7 +6413,7 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 		var error_suffix: String = ""
 		if final_result != null and not final_result.errors.is_empty():
 			error_suffix = "  ·  " + _prologue_result_errors(final_result)
-		status_label.text = _t(&"hardware.status.official_fail") + error_suffix
+		status_label.text = _offline_reference_notice() if reference_used else _t(&"hardware.status.official_fail") + error_suffix
 		status_label.add_theme_color_override("font_color", BAD)
 		if seal_button != null:
 			seal_button.disabled = true
@@ -6496,6 +6530,8 @@ func _finish_encapsulation() -> void:
 		sealed_half_adder.circuit_snapshot
 	)
 	player_content.install_reusable(&"half_adder", reusable, level_catalog)
+	if TaskNavigation.offline_tester_enabled():
+		_install_offline_reference_library()
 	PlaytestData.level_completed(&"hardware_foundations", &"half_adder")
 	_refresh_workbench_menu()
 	_refresh_hint_controls()
@@ -6603,6 +6639,12 @@ func _build_campaign_side() -> void:
 		test_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		test_notice.add_theme_color_override("font_color", WARNING)
 		task_box.add_child(test_notice)
+	elif TaskNavigation.offline_tester_enabled():
+		var reference_notice := Label.new()
+		reference_notice.text = _offline_reference_notice()
+		reference_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		reference_notice.add_theme_color_override("font_color", WARNING)
+		task_box.add_child(reference_notice)
 	var completed_count: int = 0
 	for level_id: StringName in level_catalog.level_ids():
 		if bool(completed_levels.get(level_id, false)):
@@ -6634,13 +6676,15 @@ func _build_campaign_side() -> void:
 	else:
 		for component_name: StringName in names:
 			var definition: ReusableComponent = component_library[component_name]
+			var tester_reference: bool = bool(definition.metadata.get("tester_reference", false))
+			var identity_text: String = definition.source_signature.sha256_text().substr(0, 8).to_upper()
+			if definition.is_generated_wrapper():
+				identity_text = _t(&"hardware.prologue.library.generated")
+			if tester_reference:
+				identity_text = "Tester reference" if Localization.current_locale() == "en" else "测试参考"
 			var item := Label.new()
-			item.text = "◆ %s  ·  %s" % [
-				component_name,
-				_t(&"hardware.prologue.library.generated") if definition.is_generated_wrapper() \
-				else definition.source_signature.sha256_text().substr(0, 8).to_upper(),
-			]
-			item.tooltip_text = _t(&"hardware.prologue.library.provenance", [
+			item.text = "◆ %s  ·  %s" % [component_name, identity_text]
+			item.tooltip_text = _offline_reference_notice() if tester_reference else _t(&"hardware.prologue.library.provenance", [
 				component_name, definition.source_signature.sha256_text().substr(0, 16).to_upper()
 			])
 			item.add_theme_color_override("font_color", GOOD)
@@ -7341,6 +7385,8 @@ func _finish_prologue_encapsulation() -> void:
 	var invalidated_levels: Array[StringName] = player_content.install_reusable(
 		finished_level, reusable, level_catalog
 	)
+	if TaskNavigation.offline_tester_enabled():
+		_install_offline_reference_library()
 	if not invalidated_levels.is_empty():
 		SystemChapter.invalidate_prologue()
 	sealing = false
@@ -7376,7 +7422,7 @@ func _library_names_for_level(level_id: StringName) -> Array[StringName]:
 
 func _build_prologue_complete_side(component_name: StringName = &"") -> void:
 	if current_level_id == &"load_store":
-		SystemChapter.capture_prologue(component_library)
+		SystemChapter.capture_prologue(player_content.component_library)
 	_clear_container(task_box)
 	task_box.add_child(_side_heading(
 		_t(&"hardware.prologue.complete.title"), _t(&"hardware.prologue.complete.subtitle")
@@ -7408,7 +7454,7 @@ func _build_prologue_complete_side(component_name: StringName = &"") -> void:
 		)))
 		locality_button.pressed.connect(func() -> void:
 			if completion_scene == "res://src/system_lab/system_lab.tscn":
-				SystemChapter.capture_prologue(component_library)
+				SystemChapter.capture_prologue(player_content.component_library)
 			get_tree().change_scene_to_file(completion_scene)
 		)
 		task_box.add_child(locality_button)

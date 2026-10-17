@@ -1074,7 +1074,7 @@ func _refresh_chapter_map() -> void:
 		var level_id: StringName = catalog.level_ids()[index]
 		var is_complete: bool = bool(completed.get(level_id, false))
 		var unlocked: bool = catalog.is_unlocked(
-			level_id, completed, LocalityChapter.chapter_unlocked(), GameMode.is_test_mode()
+			level_id, completed, LocalityChapter.chapter_unlocked(), GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()
 		)
 		var status_key: StringName = &"chapter2.map.complete" if is_complete else (&"chapter2.map.available" if unlocked else &"chapter2.map.locked")
 		levels.append({
@@ -1094,7 +1094,7 @@ func _start_level(level_id: StringName) -> void:
 		level_completion_overlay.dismiss()
 	_clear_pending_review()
 	var completed: Dictionary = LocalityChapter.completed_levels()
-	if not catalog.is_unlocked(level_id, completed, LocalityChapter.chapter_unlocked(), GameMode.is_test_mode()):
+	if not catalog.is_unlocked(level_id, completed, LocalityChapter.chapter_unlocked(), GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()):
 		_set_status(_t(&"chapter2.status.level_locked"), WARNING)
 		return
 	var definition: Dictionary = catalog.definition(level_id)

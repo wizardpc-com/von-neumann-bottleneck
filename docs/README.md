@@ -15,6 +15,7 @@ removed; recover historical task books from Git when needed.
 - [Creative model and save contract](../experiments/creation/CONTRACT.md) · [Player route](../experiments/creation/README.md)
 - [Creative design rationale](briefs/20261008-creation/00_README.md)
 - [Feedback, consent and privacy](architecture/community-feedback.md)
+- [Offline teammate feedback and import](architecture/offline-playtest.md)
 - [Localization](architecture/localization.md)
 - [Architectural decisions](decisions/)
 

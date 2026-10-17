@@ -1,3 +1,14 @@
+## Offline teammate playtest
+
+Run `test_offline_store`, `test_offline_context`, `test_offline_feedback` and
+`test_offline_tester_navigation` through the isolated verifier. The feedback suite
+renders Chinese/English at720p with `-- --offline-feedback-capture`. Python CI
+includes `scripts/test-offline-playtests.py` for raw preservation, malformed or
+unsafe archives, deduplication, large contexts/notes, revisions and session analysis.
+See [the offline contract](../architecture/offline-playtest.md) for delivery and
+maintainer commands. Actual exported binary screenshots/restart/import and native
+keyboard/window input remain separate checks.
+
 ## Private feedback maintenance — 2026-10-17
 
 Python CI includes `python server/test_maintenance.py`: actual HTTP delete after a

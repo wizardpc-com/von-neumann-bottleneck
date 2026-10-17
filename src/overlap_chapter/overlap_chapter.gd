@@ -274,7 +274,7 @@ func _show_map() -> void:
 	for id: String in Catalog.IDS:
 		var branch: String = "0" if id == "arrival" else "1" if id in ["buffers","backpressure"] else "2" if id in ["prefetch","distance"] else "3"
 		var complete: bool = OverlapChapter.completed().has(id)
-		var available: bool = Catalog.unlocked(id,OverlapChapter.completed(),OverlapChapter.chapter_unlocked(),GameMode.is_test_mode())
+		var available: bool = Catalog.unlocked(id,OverlapChapter.completed(),OverlapChapter.chapter_unlocked(),GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled())
 		levels.append({"id": id,"branch_id":branch,"order":Catalog.IDS.find(id),"title":_t(id+".title"),
 			"description":_t(id+".goal"),"dependencies":Catalog.DEPS[id],"completed":complete,"unlocked":available,
 			"status":_t("complete" if complete else "available" if available else "locked"),"requirement":_t(id+".goal")})
@@ -301,7 +301,7 @@ func _reset_workspace() -> void:
 	if is_instance_valid(hint_overlay): hint_overlay.queue_free(); hint_overlay = null
 
 func _open_level(id: String, save_current: bool = true) -> void:
-	if not Catalog.unlocked(id,OverlapChapter.completed(),OverlapChapter.chapter_unlocked(),GameMode.is_test_mode()): return
+	if not Catalog.unlocked(id,OverlapChapter.completed(),OverlapChapter.chapter_unlocked(),GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()): return
 	if save_current: _save_draft()
 	level = id
 	PlaytestData.level_started(&"chapter_3",StringName(id))

@@ -63,6 +63,7 @@ def main():
     p.add_argument('--local-feedback-test',action='store_true',help='Explicit local acceptance package; never external-ready')
     p.add_argument('--creation-journey',action='store_true',help='Include the C/P/G candidate in the isolated second-act journey')
     p.add_argument('--public-playtest',action='store_true',help='Prepare the explicit Windows public prerelease; external acceptance remains separate')
+    p.add_argument('--offline-tester',action='store_true',help='Isolated Windows teammate build with all sixty task entrances available')
     p.add_argument('--release-version',default='',help='Approved public prerelease tag')
     p.add_argument('--privacy-url',default='',help='Published HTTPS privacy notice URL for the public prerelease')
     a=p.parse_args()
@@ -82,6 +83,13 @@ def main():
         if not a.windows_template:p.error('public playtest requires a matching Windows template')
         if not public_https_url(a.feedback_endpoint,api_root=True) or not public_https_url(a.privacy_url):p.error('public playtest requires public HTTPS API-root and privacy-page URLs')
     elif a.release_version or a.privacy_url:p.error('release version and privacy URL require --public-playtest')
+    if a.offline_tester:
+        if a.platform!='Windows' or a.public_playtest or a.local_feedback_test or a.feedback_endpoint or a.mac_template:
+            p.error('offline tester requires Windows only, with no receiver or public mode')
+        if a.second_act_profile!='OfflineTeammate' or not a.creation_journey:
+            p.error('offline tester requires the full OfflineTeammate journey')
+        if not a.test_batch or not re.fullmatch(r'[0-9a-f]{40}',a.commit) or not a.windows_template:
+            p.error('offline tester requires a batch, fixed commit and Windows template')
     template=a.mac_template.resolve() if a.mac_template else None
     root=Path(__file__).resolve().parents[1]
     commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True).strip()
@@ -124,7 +132,8 @@ def main():
     (project/'export_presets.cfg').write_text(presets)
     original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))
-    if a.public_playtest:original=original.replace('[application]','[application]\nfeedback_default_source="external_player"\nfeedback_privacy_url='+json.dumps(a.privacy_url),1)
+    if a.public_playtest or a.offline_tester:original=original.replace('[application]','[application]\nfeedback_default_source="external_player"',1)
+    if a.public_playtest:original=original.replace('[application]','[application]\nfeedback_privacy_url='+json.dumps(a.privacy_url),1)
     # Bind binary-exported scripts to the same workspace model fingerprints as source.
     workspace_versions={}
     for state in ['src/system_lab/system_chapter_state.gd','src/locality_chapter/locality_chapter_state.gd']:
@@ -138,6 +147,7 @@ def main():
         original=original.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name='+json.dumps('VonNeumannBottleneckCandidates/representation/'+a.second_act_profile),1)
         original+='\n[candidate]\nprimary_domain="representation"\nprofile='+json.dumps(a.second_act_profile)+'\njourney_enabled=true\n'
         if a.creation_journey:original+='creation_enabled=true\n'
+    if a.offline_tester:original+='\n[playtest]\noffline_tester=true\n'
     (project/'project.godot').write_text(original)
     identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n\n'
     for document in ['README.md','README.en.md','CHANGELOG.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
@@ -186,6 +196,7 @@ def main():
     # Exporters themselves do not start the game. Native QA uses a separate override.
     manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':a.public_playtest,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261013-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
     if a.public_playtest:manifest.update(release_version=a.release_version,privacy_url=a.privacy_url,feedback_default_source='external_player')
+    if a.offline_tester:manifest['offline_tester']=True
     rules=json.loads((project/'server/community_rules.json').read_text())
     manifest['content_tasks']=rules.get('content_manifests',{}).get(manifest['content_version'],{'tasks':rules['tasks']})['tasks']
     if not a.creation_journey:manifest['content_tasks']=[task for task in manifest['content_tasks'] if not task.startswith('creation/')]
@@ -205,6 +216,8 @@ def main():
                 if a.creation_journey:
                     notes.write('\nCompression, content prediction and creation are also enabled: nine candidate units share the light-pattern workbench, learned rules and machine. The address-prediction investigations above remain separate and optional. Creation drafts, protected works and complete recipes use their own candidate session file; saved snapshots can be viewed, replayed or forked. '
                                 +('This content does not migrate production saves.' if a.public_playtest else 'This is offline candidate content, not a production-save migration.')+'\n')
+                if a.offline_tester:
+                    notes.write('\nOffline teammate playtest: all sixty task entrances are available from a fresh profile. Entering a task does not complete it, unlock model actions, or grant saved evidence. Feedback stays on this computer until the tester deliberately exports a bundle. This build has no feedback receiver.\n')
         if a.test_batch:
             notes=folder/'README.txt'
             content=notes.read_text()
@@ -222,6 +235,12 @@ def main():
             content+='本地验收包，不能作为外部云端可用证据。\n' if a.local_feedback_test else '外部连接/平台实测以验收记录为准。\n'
             content+='测试存档渠道稳定，不随构建号清空；更新前完整备份候选profile及service同名目录。不要用QA通关档代替新档。\n'
             notes.write_text(content)
+        if a.offline_tester:
+            (folder/'README.txt').write_text(identity+(project/'distribution/OFFLINE-PLAYTEST-README.txt').read_text(encoding='utf-8'),encoding='utf-8')
+            tools=folder/'feedback-tools';tools.mkdir()
+            for name in ['offline-playtests.py','report-playtests.py']:
+                shutil.copy2(project/'scripts'/name,tools/name)
+            shutil.copy2(project/'distribution/OFFLINE-MAINTAINER.txt',tools/'README.txt')
         files={f.relative_to(folder).as_posix():hashlib.sha256(packaged_bytes(f)).hexdigest() for f in package_files(folder)}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n')

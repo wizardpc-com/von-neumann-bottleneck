@@ -1215,7 +1215,7 @@ func _refresh_map() -> void:
 	for index: int in range(catalog.level_ids().size()):
 		var level_id: StringName = catalog.level_ids()[index]
 		var unlocked: bool = catalog.is_unlocked(
-			level_id, completed, SystemChapter.prologue_ready, GameMode.is_test_mode()
+			level_id, completed, SystemChapter.prologue_ready, GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()
 		)
 		var is_completed: bool = bool(completed.get(level_id, false))
 		var status_key: StringName = &"system.map.completed" if is_completed else (&"system.map.unlocked" if unlocked else &"system.map.locked")
@@ -1230,7 +1230,7 @@ func _refresh_map() -> void:
 			"completed": is_completed,
 		})
 	var intro_body: String = _t(&"system.map.intro.body")
-	if not SystemChapter.prologue_ready and not GameMode.is_test_mode():
+	if not SystemChapter.prologue_ready and not (GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()):
 		intro_body += "\n\n" + _t(&"system.map.prologue_required")
 	elif GameMode.is_test_mode():
 		intro_body += "\n\n" + _t(&"system.map.test_mode")
@@ -1242,7 +1242,7 @@ func _start_level(level_id: StringName) -> void:
 		level_id,
 		SystemChapter.completed_levels(),
 		SystemChapter.prologue_ready,
-		GameMode.is_test_mode()
+		GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()
 	):
 		status_label.text = _t(&"system.status.locked")
 		status_label.add_theme_color_override("font_color", BAD)

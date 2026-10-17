@@ -89,13 +89,13 @@ func _ready() -> void:
 	var requested: StringName = TaskNavigation.consume("chapter_4")
 	if requested.is_empty():
 		for id: String in C.IDS:
-			if C.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked(),GameMode.is_test_mode()) and not LayoutChapter.completed().has(id): requested = StringName(id); break
-	if requested.is_empty() and LayoutChapter.chapter_unlocked(): requested = &"fields"
+			if C.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked(),GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()) and not LayoutChapter.completed().has(id): requested = StringName(id); break
+	if requested.is_empty() and (LayoutChapter.chapter_unlocked() or TaskNavigation.offline_tester_enabled()): requested = &"fields"
 	if requested.is_empty(): _leave(); return
 	_open(String(requested))
 
 func _open(id: String) -> void:
-	if not C.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked(),GameMode.is_test_mode()): _leave(); return
+	if not C.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked(),GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()): _leave(); return
 	level = id
 	# Chapter cards bypass TaskNavigation.enter(); remember the task actually opened.
 	# A matching tree selection keeps its existing pan/zoom on return.

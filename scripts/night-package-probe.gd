@@ -221,6 +221,11 @@ func run() -> void:
 			check(mission_scroll.get_global_rect().encloses(next_action.get_global_rect()) and get_viewport().get_visible_rect().encloses(next_action.get_global_rect()),"actual next-action guidance is within its scroll clip and game viewport")
 			check(not get_node("/root/SystemChapter").completed_levels().get(&"cpu_speed",false),"viewing next-action guidance grants no comparison completion")
 			check(get_viewport().get_texture().get_image().save_png(output.path_join("system-guidance.png"))==OK,"actual exported visible next-action guidance frame")
+		get_tree().call_group("workspace_owners","flush_workspace")
+		check(get_node("/root/GlobalSave").save_game(true),"actual exported tester workspace saves before restart snapshot")
+		var saved_state: Dictionary = get_node("/root/GlobalSave")._save_snapshot()
+		check(saved_state.get("game",{}).get("system",{}).get("workspaces",{}).has("cpu_speed"),"restart snapshot includes the actual flushed CPU workspace")
+		check(not get_node("/root/SystemChapter").completed_levels().get(&"cpu_speed",false),"flushing the actual workspace grants no CPU comparison completion")
 	var file := FileAccess.open(output.path_join("embedded.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify({"checks":checks,"failures":failures,"profile":profile,"tester":tester,
 		"source_commit":ProjectSettings.get_setting("application/config/build_commit",""),

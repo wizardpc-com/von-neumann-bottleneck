@@ -422,8 +422,8 @@ def render_report(library, output):
     capture_errors = 0
     current_records = []
     for versions in grouped.values():
-        current = max(versions, key=lambda record: (utc_time(record['case']['updated_at_utc'], 'updated_at_utc'),
-                                                       record['case']['revision'],
+        current = max(versions, key=lambda record: (record['case']['revision'],
+                                                       utc_time(record['case']['updated_at_utc'], 'updated_at_utc'),
                                                        utc_time(record['manifest']['created_at_utc'], 'created_at_utc'),
                                                        record['manifest']['bundle_id']))
         category_counts[current['case']['category']] += 1
@@ -448,8 +448,8 @@ def render_report(library, output):
                 + h(manifest['bundle_id']) + ' · export ' + h(manifest['created_at_utc']) + '</p></div>')
     cards = []
     for case_id, versions in sorted(grouped.items()):
-        versions.sort(key=lambda record: (utc_time(record['case']['updated_at_utc'], 'updated_at_utc'),
-                                          record['case']['revision'],
+        versions.sort(key=lambda record: (record['case']['revision'],
+                                          utc_time(record['case']['updated_at_utc'], 'updated_at_utc'),
                                           utc_time(record['manifest']['created_at_utc'], 'created_at_utc'),
                                           record['manifest']['bundle_id']), reverse=True)
         current = versions[0]

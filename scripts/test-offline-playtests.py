@@ -161,7 +161,7 @@ class OfflinePlaytestsTests(unittest.TestCase):
                                                extra={'evidence/log.txt': b'private log'})
             second = root / 'second.zip'; fixture(second, bundle_id='b' * 32,
                                                  note='second & final', revision=2,
-                                                 updated='2026-10-17T13:00:00Z')
+                                                 updated='2026-10-17T10:30:00Z')
             third = root / 'third.zip'; fixture(third, bundle_id='c' * 32, case_id='2' * 32,
                                                note='other tester', revision=1)
             offline.import_bundles([first, second, third], library)

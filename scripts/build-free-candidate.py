@@ -182,7 +182,7 @@ def main():
     isolated=isolated_base.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="VonNeumannBottleneckChecks/build-'+stamp+'"')
     runtime_env=os.environ.copy()
     if os.name=='nt':
-        for key,name in [('APPDATA','Roaming'),('LOCALAPPDATA','Local')]:
+        for key,name in [('APPDATA','Roaming'),('LOCALAPPDATA','Local'),('TEMP','Temp'),('TMP','Temp')]:
             directory=work/'runtime'/name;directory.mkdir(parents=True,exist_ok=True)
             runtime_env[key]=str(directory)
     def run(name,args):

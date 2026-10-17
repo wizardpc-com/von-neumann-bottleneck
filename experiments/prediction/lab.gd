@@ -27,6 +27,7 @@ var result: Label
 var observed: Label
 var status: Label
 var mission: Label
+var journey_context
 var recorded_source: Label
 var step_button: Button
 const Typography = preload("res://src/ui/ui_typography.gd")
@@ -157,6 +158,9 @@ func build() -> void:
 	specification_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; specification_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; specification.add_child(specification_scroll)
 	var specification_body := VBoxContainer.new(); specification_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL; specification_scroll.add_child(specification_body)
 	mission = label(mission_text(),specification_body,16); mission.name = "Mission"
+	journey_context = preload("res://src/ui/journey_context_card.gd").new(); specification_body.add_child(journey_context)
+	specification_body.move_child(journey_context, 0)
+	_refresh_journey_context()
 	label(text2("最近步长需要至少2个历史点；双步长至少3个。重复次数检验尾部差值模式。倍数改变猜测距离；错猜暂停抑制接下来的猜测。", "Last stride needs2 history points; two-stride needs3. Repetitions check the trailing delta pattern. Multiplier changes guessed distance; mismatch pause suppresses subsequent guesses."),specification_body,14)
 	label(text2("机器：2槽×4B自动LRU。每请求4周期+搬运2周期；查找1周期；每次真实消费后计算8周期。单总线不可抢占，预测与计算重叠；错误在途请求会阻塞回退。尾部请求必须完成。", "Machine: automatic LRU,2 slots ×4B. Each request costs4+2 transfer cycles; lookup1; compute8 after each demand. One non-preemptive bus overlaps prediction with compute. Wrong in-flight work blocks fallback; final work must drain."),specification_body,14)
 	var actions := HBoxContainer.new(); actions.name = "PredictionRunActions"; editor.add_child(actions)
@@ -259,6 +263,7 @@ func change_task(index: int) -> void:
 
 func restart() -> void:
 	active_trace = null; active_policy = {}; revealed = 0; selected_run = -1; refresh()
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 
 func _ensure_run() -> void:
 	if active_trace != null and revealed < active_trace.metrics.accesses.size() and selected_run < 0: return
@@ -278,6 +283,8 @@ func _record() -> void:
 	selected_run = history.size()-1; refresh_history()
 	get_node("/root/PlaytestData").record_official_run(&"prediction",_playtest_id(),active_trace.passed,{"total_cycles":active_trace.metrics.get("total_cycles",0)})
 	if goal_met(task): get_node("/root/PlaytestData").level_completed(&"prediction",_playtest_id())
+	_refresh_journey_context()
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 
 func refresh_history() -> void:
 	history_list.clear()
@@ -348,6 +355,7 @@ func source_caption() -> String:
 
 func refresh() -> void:
 	mission.text = mission_text()
+	_refresh_journey_context()
 	recorded_source.text = source_caption()
 	events.clear(); var root: TreeItem = events.create_item()
 	result.text = text2("完成运行后才显示总成本与独立基线。","Full costs and independent baseline appear only after the run finishes.")
@@ -388,6 +396,9 @@ func _playtest_id() -> StringName:
 
 func _playtest_start() -> void:
 	get_node("/root/PlaytestData").level_started(&"prediction",_playtest_id())
+
+func _refresh_journey_context() -> void:
+	if is_instance_valid(journey_context): journey_context.set_task(&"prediction", _playtest_id(), english, goal_met(task))
 
 func _playtest_exit() -> void:
 	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "prediction":

@@ -250,8 +250,9 @@ func present(
 	yi_response_label.text = ("壹：" if Localization.current_locale() != "en" else "Yi: ") + response
 	yi_response_label.visible = not response.is_empty()
 	var next_key: StringName = MissionNarrativeCatalogType.next_capability_key(chapter_id, level_id)
-	next_capability_label.text = Localization.text(next_key) if not next_key.is_empty() else ""
-	next_capability_label.get_parent().get_parent().visible = not next_key.is_empty()
+	var context: Dictionary = MissionNarrativeCatalogType.task_context(chapter_id, level_id, Localization.current_locale() == "en")
+	next_capability_label.text = Localization.text(next_key) if not next_key.is_empty() else str(context.get("connection", ""))
+	next_capability_label.get_parent().get_parent().visible = not next_capability_label.text.is_empty()
 	continue_button.text = Localization.text(&"common.level_complete.continue")
 	primary_action_button.hide()
 	return_button.hide()

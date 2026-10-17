@@ -62,6 +62,7 @@ var hint_button: Button
 var data_button: Button
 var restore_button: Button
 var mission: Label
+var journey_context
 var status: Label
 var draft_source: Label
 var bill_button: Button
@@ -281,6 +282,8 @@ func build() -> void:
 	overview.add_child(overview_scroll)
 	var overview_evidence := VBoxContainer.new(); overview_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	overview_scroll.add_child(overview_evidence)
+	journey_context = preload("res://src/ui/journey_context_card.gd").new(); overview_evidence.add_child(journey_context)
+	_refresh_journey_context()
 	summary = label(tr2("四条流不断更新历史、请求下一次结果。安排组与驻留，再运行自己的草稿。", "Four streams update history and request their next result. Arrange groups and residency, then run your draft."), overview_evidence, 14)
 	var investigation := HBoxContainer.new(); overview_evidence.add_child(investigation)
 	bill_button = button(tr2("完整实测账单", "Measured bill"),investigation,show_measured_bill,"MeasuredBill")
@@ -333,7 +336,9 @@ func build() -> void:
 	evidence_tabs.current_tab = previous_tab if previous_tab != 4 or (commission_mode >= 0 and has_service_closure()) else 0
 	if persistent_session and not notice_key.is_empty(): status.text = session_notice()
 
-func refresh_mission() -> void: mission.text = mission_overview_text() + ("\n" + hint_text() if hint_open else "")
+func refresh_mission() -> void:
+	mission.text = mission_overview_text() + ("\n" + hint_text() if hint_open else "")
+	_refresh_journey_context()
 func refresh_groups() -> void:
 	draft_source.text = tr2("当前草稿 · %d组 / %d状态槽；从上到下执行（可拖动）", "Current draft · %d groups / %d slots; execute top to bottom (drag to move)") % [plan.groups.size(),plan.slots]
 	group_list.clear()
@@ -346,6 +351,7 @@ func refresh_groups() -> void:
 	move_to.max_value = plan.groups.size()
 	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
 func refresh_actions() -> void:
+	_refresh_journey_context()
 	refresh_design_shelf()
 	refresh_verdict()
 	set_action_disabled(bill_button,selected_history < 0 or selected_history >= history.size())
@@ -427,6 +433,7 @@ func edit(next: Dictionary, selection: int) -> void:
 	mark_session_dirty()
 	undo_stack.append(draft_edit_state()); redo_stack.clear(); plan = next.duplicate(true); selected_group = selection
 	refresh_groups(); refresh_actions(); status.text = tr2("草稿已改；历史不变。运行时核验同流保序和512B容量。", "Draft changed; history preserved. Run validates stream dependencies and512B scratch.")
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 func undo() -> void:
 	if undo_stack.is_empty(): return
 	mark_session_dirty()
@@ -441,12 +448,14 @@ func draft_edit_state() -> Dictionary:
 	return {"plan":plan.duplicate(true),"selection":selected_group}
 
 func restore_edit_state(state: Dictionary, redone: bool) -> void:
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	plan = state.plan; selected_group = int(state.selection)
 	slots.set_value_no_signal(plan.slots); refresh_groups(); refresh_actions()
 	status.text = tr2("已重做草稿；旧实测不变。", "Draft redone; recorded measurements are unchanged.") if redone else tr2("已撤销草稿修改；旧实测不变。", "Draft edit undone; recorded measurements are unchanged.")
 	status.text += " "+(tr2("尚未保存；退出前请保存。", "Unsaved; save before leaving.") if persistent_session else tr2("临时会话；退出后不保留。", "Temporary session; work is not retained after leaving."))
 
 func run_current() -> void:
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	mark_session_dirty()
 	active_trace = Model.run(plan); var events: Array[Dictionary] = []
 	for event: RefCounted in active_trace.events: events.append(event.to_dictionary().duplicate(true))
@@ -1065,6 +1074,11 @@ func _playtest_id() -> StringName:
 
 func _playtest_start() -> void:
 	get_node("/root/PlaytestData").level_started(&"service",_playtest_id())
+
+func _refresh_journey_context() -> void:
+	if not is_instance_valid(journey_context): return
+	journey_context.set_task(&"service", _playtest_id(), english, support_plans.has(task))
+	journey_context.visible = commission_mode < 0
 
 func _playtest_exit() -> void:
 	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "service":

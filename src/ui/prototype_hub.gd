@@ -5,6 +5,8 @@ const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 const YiIntroductionType = preload("res://src/ui/yi_introduction.gd")
+const ObservatoryType = preload("res://src/ui/journey_observatory.gd")
+const JournalType = preload("res://src/ui/journey_journal.gd")
 
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
@@ -48,6 +50,8 @@ var settings_only: bool = false
 var navigation_overlay: Control
 var navigation_previous_focus: Control
 var yi_introduction: YiIntroductionType
+var journey_observatory: Control
+var journey_journal: Control
 signal settings_closed
 
 
@@ -142,10 +146,12 @@ func _build_interface() -> void:
 	var surface := MarginContainer.new(); surface.name = "HubSurface"
 	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge: String in ["left","right"]: surface.add_theme_constant_override("margin_"+edge,40)
-	for edge: String in ["top","bottom"]: surface.add_theme_constant_override("margin_"+edge,24)
+	surface.add_theme_constant_override("margin_top",24)
+	# Keep the long identity above the persistent tester feedback toolbar.
+	surface.add_theme_constant_override("margin_bottom",72)
 	add_child(surface)
 	var content := VBoxContainer.new(); content.name = "HubContent"
-	content.add_theme_constant_override("separation",20); surface.add_child(content)
+	content.add_theme_constant_override("separation",14); surface.add_child(content)
 	_build_hub_header(content)
 	_build_tree_entry(content)
 	var imprint := HBoxContainer.new(); imprint.name = "HubImprint"
@@ -159,6 +165,9 @@ func _build_interface() -> void:
 	version.text += String(ProjectSettings.get_setting("application/config/version",""))
 	version.tooltip_text = "Source: "+str(ProjectSettings.get_setting("application/config/build_commit","unknown"))+"\nBatch: "+str(ProjectSettings.get_setting("application/test_batch","unspecified"))
 	version.add_theme_font_size_override("font_size",14); version.add_theme_color_override("font_color",MUTED)
+	version.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	version.clip_text = true; version.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	version.tooltip_text = version.text+"\n"+version.tooltip_text
 	imprint.add_child(version)
 	_build_hub_navigation()
 	terminology_handbook = TerminologyHandbookType.new(); terminology_handbook.standalone_entry = false; add_child(terminology_handbook)
@@ -205,7 +214,7 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("separation",32); content.add_child(row)
 	var primary := VBoxContainer.new(); primary.name = "HubMainAction"
-	primary.add_theme_constant_override("separation",12)
+	primary.add_theme_constant_override("separation",8)
 	primary.size_flags_horizontal = Control.SIZE_EXPAND_FILL; primary.size_flags_stretch_ratio = 0.9
 	primary.size_flags_vertical = Control.SIZE_SHRINK_CENTER; row.add_child(primary)
 	var title := Label.new(); title.name = "HubWorkTitle"
@@ -268,7 +277,30 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	opening.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	opening.add_theme_font_size_override("font_size",14); opening.add_theme_color_override("font_color",MUTED)
 	illustration.add_child(opening)
+	var optional := HBoxContainer.new(); optional.name = "OptionalJourneySpaces"
+	optional.add_theme_constant_override("separation",10); illustration.add_child(optional)
+	var observatory := Button.new(); observatory.name = "OpenJourneyObservatory"
+	observatory.text = "观察站 · 3D候选" if Localization.current_locale() != "en" else "Observatory · 3D study"
+	observatory.custom_minimum_size.y = 42; observatory.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	observatory.pressed.connect(_open_observatory); optional.add_child(observatory)
+	var journal := Button.new(); journal.name = "OpenJourneyJournal"
+	journal.text = "成长档案" if Localization.current_locale() != "en" else "Journey journal"
+	journal.custom_minimum_size.y = 42; journal.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	journal.pressed.connect(_open_journey_journal); optional.add_child(journal)
 	call_deferred("_focus_tree_entry",button)
+
+func _open_observatory() -> void:
+	if not is_instance_valid(journey_observatory):
+		journey_observatory = ObservatoryType.new(); add_child(journey_observatory)
+		journey_observatory.tree_requested.connect(func(key: String) -> void:
+			TaskNavigation.selected = key; TaskNavigation.camera_saved = false
+			get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
+	journey_observatory.open()
+
+func _open_journey_journal() -> void:
+	if not is_instance_valid(journey_journal):
+		journey_journal = JournalType.new(); add_child(journey_journal)
+	journey_journal.open()
 
 
 func _build_hub_navigation() -> void:

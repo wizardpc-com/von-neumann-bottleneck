@@ -113,6 +113,7 @@ var mission_previous_button: Button
 var mission_continue_button: Button
 var mission_page: int = 0
 var mission_progress_label: Label
+var journey_context
 var mission_judgment_box: VBoxContainer
 var test_evidence_button: Button
 var mission_review_button: Button
@@ -669,6 +670,9 @@ func _build_mission_instrument() -> Control:
 	mission_progress_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	mission_progress_label.add_theme_color_override("font_color", WARNING)
 	panel.add_child(mission_progress_label)
+	journey_context = preload("res://src/ui/journey_context_card.gd").new()
+	panel.add_child(journey_context)
+	panel.move_child(journey_context, mission_title_label.get_index() + 1)
 	mission_judgment_box = VBoxContainer.new()
 	panel.add_child(mission_judgment_box)
 	mission_review_button = Button.new()
@@ -1433,6 +1437,8 @@ func _current_run_supports_review() -> bool:
 
 
 func _update_mission_progress() -> void:
+	if is_instance_valid(journey_context):
+		journey_context.set_task(&"chapter_2", current_level_id, Localization.current_locale() == "en", bool(LocalityChapter.completed_levels().get(current_level_id, false)))
 	if current_level_id.is_empty():
 		return
 	var complete: bool = bool(LocalityChapter.completed_levels().get(current_level_id, false))
@@ -2096,6 +2102,7 @@ func _block_choice_name(lines: int, passes: int = 0) -> String:
 
 
 func _run_simulation(test_name: String) -> void:
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if test_name!="Official Test Set": PlaytestData.record_action(&"chapter_2",current_level_id,&"debug_run_request")
 	if current_level_id.is_empty():
 		_set_status(_t(&"chapter2.status.select_level_first"), WARNING)
@@ -3072,6 +3079,7 @@ func _device_name(device: StringName) -> String:
 
 
 func _invalidate_current_run(reason: String) -> void:
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	_clear_pending_review()
 	current_trace = null
 	current_goal_met = false

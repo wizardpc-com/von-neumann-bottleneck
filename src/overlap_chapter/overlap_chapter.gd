@@ -18,6 +18,7 @@ var map_view: CampaignMapView
 var title: Label
 var status: Label
 var goal: Button
+var journey_context
 var dock: HBoxContainer
 var editor: CodeEdit
 var panels: Dictionary = {}
@@ -502,6 +503,7 @@ func _undo(redo: bool = false) -> void:
 	_changed()
 
 func _changed(render: bool = true) -> void:
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	if not telemetry_before.is_empty() and telemetry_before!=board:
 		var added_nodes: int = 0
 		var removed_nodes: int = 0
@@ -582,6 +584,9 @@ func _build_mission() -> void:
 	objective.add_theme_color_override("font_color",GOLD)
 	objective.add_theme_font_size_override("font_size",Type.SUBTITLE_SIZE)
 	box.add_child(objective)
+	journey_context = preload("res://src/ui/journey_context_card.gd").new()
+	box.add_child(journey_context)
+	_refresh_journey_context()
 	_button(box,"learn",func() -> void: _toggle("handbook"))
 	if level in ["backpressure","distance"]:
 		copy_previous_button = _button(box,"copy_previous",_copy_previous)
@@ -792,8 +797,11 @@ func _run_official() -> void:
 		status.text = _t("try_again")
 		status.add_theme_color_override("font_color",GOLD)
 	core_review_button.visible = OverlapChapter.completed().has("synthesis")
+	_refresh_journey_context()
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 
 func _open_core_review() -> void:
+	_refresh_journey_context()
 	if not OverlapChapter.completed().has("synthesis"): return
 	_save_draft()
 	if not level.is_empty(): PlaytestData.level_exited(&"chapter_3",StringName(level))
@@ -802,6 +810,8 @@ func _open_core_review() -> void:
 	get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 
 func _select_run(index: int) -> void:
+	_refresh_journey_context()
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if index < 0 or index >= runs.size(): return
 	trace = runs[index]
 	if level == "buffers":
@@ -989,3 +999,7 @@ func _t(key: String) -> String:
 
 func flush_workspace() -> void:
 	_save_draft()
+
+func _refresh_journey_context() -> void:
+	if is_instance_valid(journey_context):
+		journey_context.set_task(&"chapter_3", StringName(level), Localization.current_locale() == "en", OverlapChapter.completed().has(level))

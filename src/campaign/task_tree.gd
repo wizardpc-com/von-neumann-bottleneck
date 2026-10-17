@@ -1,5 +1,9 @@
 extends Control
 const Canvas = preload("res://src/campaign/task_tree_canvas.gd")
+const ObservatoryType = preload("res://src/ui/journey_observatory.gd")
+const JournalType = preload("res://src/ui/journey_journal.gd")
+var journey_observatory: Control
+var journey_journal: Control
 var canvas: Control
 var details: Label
 var enter_button: Button
@@ -66,8 +70,8 @@ func _ready() -> void:
 	header.add_child(search)
 	_button(header,"tree.locate",func() -> void: canvas.locate(TaskNavigation.selected))
 	_button(header,"tree.overview",func() -> void: canvas.overview())
-	var navigation := HBoxContainer.new(); navigation.name = "JourneyRegionNavigation"
-	navigation.add_theme_constant_override("separation",12); column.add_child(navigation)
+	var navigation := HFlowContainer.new(); navigation.name = "JourneyRegionNavigation"
+	navigation.add_theme_constant_override("h_separation",12); navigation.add_theme_constant_override("v_separation",6); column.add_child(navigation)
 	var section_label := Label.new(); section_label.text = "定位区域" if Localization.current_locale() != "en" else "Locate a region"
 	section_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER; navigation.add_child(section_label)
 	region_choice = OptionButton.new(); region_choice.name = "JourneyRegionChoice"
@@ -76,6 +80,14 @@ func _ready() -> void:
 	legend.text = "实线：前置  ·  虚线：推荐，无新增门槛" if Localization.current_locale() != "en" else "Solid: prerequisite · Dashed: recommendation, no new gate"
 	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; legend.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	legend.size_flags_vertical = Control.SIZE_SHRINK_CENTER; legend.add_theme_font_size_override("font_size",14); navigation.add_child(legend)
+	var observatory := Button.new(); observatory.name = "OpenJourneyObservatory"
+	observatory.text = "观察站" if Localization.current_locale() != "en" else "Observatory"
+	observatory.custom_minimum_size.y = 42; navigation.add_child(observatory)
+	observatory.pressed.connect(_open_observatory)
+	var journal := Button.new(); journal.name = "OpenJourneyJournal"
+	journal.text = "成长档案" if Localization.current_locale() != "en" else "Journal"
+	journal.custom_minimum_size.y = 42; navigation.add_child(journal)
+	journal.pressed.connect(_open_journey_journal)
 	creation_route = HBoxContainer.new(); creation_route.name = "CreationRouteShortcuts"
 	creation_route.add_theme_constant_override("separation",10); column.add_child(creation_route)
 	var body := HBoxContainer.new()
@@ -193,6 +205,17 @@ func _ready() -> void:
 		if not matches.is_empty(): _select_and_locate(matches[0]))
 	_select(TaskNavigation.selected)
 	_show_list()
+
+func _open_observatory() -> void:
+	if not is_instance_valid(journey_observatory):
+		journey_observatory = ObservatoryType.new(); add_child(journey_observatory)
+		journey_observatory.tree_requested.connect(func(key: String) -> void: _select_and_locate(key))
+	journey_observatory.open()
+
+func _open_journey_journal() -> void:
+	if not is_instance_valid(journey_journal):
+		journey_journal = JournalType.new(); add_child(journey_journal)
+	journey_journal.open()
 
 func _build_route_shortcuts() -> void:
 	_clear_rows(creation_route)

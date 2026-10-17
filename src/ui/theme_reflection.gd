@@ -2,6 +2,24 @@ extends AcceptDialog
 ## Derived, reopenable reflection. No completion flag, reward or persistent narrative state.
 const OverlapCatalogType = preload("res://src/overlap_chapter/overlap_catalog.gd")
 
+func _init() -> void:
+	# The popup owns its viewport; the root feedback handler cannot consume its
+	# built-in Escape close before the dialog processes the same event.
+	dialog_close_on_escape = false
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+func _input(event: InputEvent) -> void:
+	if not visible or event.is_echo() or not event.is_action_pressed("ui_close_dialog"): return
+	set_input_as_handled()
+	var feedback: Variant = get_node_or_null("/root/OfflineFeedback")
+	if feedback != null and feedback.backdrop.visible and feedback.panel.get_viewport() == self:
+		feedback.close_panel()
+		return
+	var playtest: Variant = get_node_or_null("/root/PlaytestData")
+	if playtest != null and bool(playtest.get("_feedback_visible")): return
+	hide()
+	canceled.emit()
+
 static func milestones(hardware: Dictionary, system: Dictionary, locality: Dictionary, overlap: Dictionary, layout: Dictionary) -> Array[StringName]:
 	var keys: Array[StringName] = [&"theme.entry"]
 	if bool(hardware.get(&"cpu",false)): keys.append(&"theme.build")

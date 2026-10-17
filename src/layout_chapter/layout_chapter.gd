@@ -28,6 +28,7 @@ var hint_tier: int = 0
 var hint_layer: Control
 var confirmation: ConfirmationDialog
 var completion: LevelCompletionOverlay
+var journey_context
 var stale: bool = true
 var building: bool = false
 var core_review_button: Button
@@ -242,6 +243,7 @@ func _undo(redo: bool) -> void:
 	_changed(true,false)
 	PlaytestData.record_action(&"chapter_4",StringName(level),&"redo" if redo else &"undo")
 func _changed(rebuild: bool = true, record: bool = true) -> void:
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	stale=true
 	LayoutChapter.store_draft(level,design)
 	status.text=_l("布局已改变 · 请重新运行；旧结果不会作为当前成绩。","Design changed · run again; previous results are stale.")
@@ -271,6 +273,9 @@ func _build_mission() -> void:
 	var box: VBoxContainer = _box(_panel("mission",Localization.text(&"layout.mission.window_title"),Vector2(405,10),Vector2(780,590)))
 	_button(box,Localization.text(&"layout.mission.begin"),_begin_arranging)
 	box.add_child(_label(C.goal(level),true))
+	journey_context = preload("res://src/ui/journey_context_card.gd").new()
+	box.add_child(journey_context)
+	_refresh_journey_context()
 	for task: Dictionary in C.cases(level):
 		var text: String = _l("订单 ","Case ")+task.name+" · %d " % task.records.size()+_l("条记录","records")
 		for q: Dictionary in task.queries:
@@ -366,6 +371,8 @@ func _run_all() -> void:
 	if level == "mixed" and LayoutChapter.completed().has("mixed"):
 		var review: Button = _button(results,_l("回看路径成果与下一段旅程","Review this path and the journey ahead"),_open_core_review)
 		review.name = "LayoutResultCoreReview"
+	_refresh_journey_context()
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 
 func _measured_recipe_digest() -> String:
 	if level != "relocation": return S.design_signature(design)
@@ -519,3 +526,7 @@ func _field(index: int) -> String: return _l(Memory.NAMES[index],Memory.EN_NAMES
 
 func flush_workspace() -> void:
 	if not level.is_empty(): LayoutChapter.store_draft(level,design)
+
+func _refresh_journey_context() -> void:
+	if is_instance_valid(journey_context):
+		journey_context.set_task(&"chapter_4", StringName(level), Localization.current_locale() == "en", LayoutChapter.completed().has(level))

@@ -49,6 +49,7 @@ var provenance: Label
 var machine_strip: Label
 var measured_summary: Label
 var saved_work_closure: HFlowContainer
+var journey_context
 var saved_work_caption: Label
 var kept_work: Dictionary = {}
 var causal_panel: VBoxContainer
@@ -330,7 +331,10 @@ func build() -> void:
 	evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	evidence_tabs.use_hidden_tabs_for_min_size = false
 	right.add_child(evidence_tabs)
-	costs = label("",scroll_column(tab(evidence_tabs,text2("实测与对照","Measurements"))),13)
+	var measurement_content := scroll_column(tab(evidence_tabs,text2("实测与对照","Measurements")))
+	journey_context = preload("res://src/ui/journey_context_card.gd").new(); measurement_content.add_child(journey_context)
+	_refresh_journey_context()
+	costs = label("",measurement_content,13)
 	costs.name = "Costs"
 	var event_tab: VBoxContainer = tab(evidence_tabs,text2("事件","Events"))
 	var event_nav := HBoxContainer.new()
@@ -840,6 +844,7 @@ func edit_draft() -> void:
 	session.mark_dirty()
 	set_status(text2("草稿已改；已学模型和已保存作品保留。样例或记忆改变后需主动重新学习。","Draft changed; learned rules and saved works remain. Learn again explicitly after changing examples or history."))
 	refresh()
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 
 func train_model() -> void:
 	var previous_model: Dictionary = session.data.model.duplicate(true)
@@ -1091,6 +1096,7 @@ func save_draft() -> void:
 	refresh()
 
 func refresh() -> void:
+	_refresh_journey_context()
 	if is_instance_valid(next_step_label) and is_instance_valid(next_step_button):
 		var step: Dictionary = next_step()
 		next_step_label.text = step.text
@@ -2045,6 +2051,8 @@ func _playtest_exit() -> void:
 		get_node("/root/PlaytestData").level_exited(&"creation",_playtest_id(),&"departure")
 
 func _playtest_run(result: Dictionary) -> void:
+	_refresh_journey_context()
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	var details: Dictionary = {"result_class":"executed" if result.get("ok",false) else "failed_unspecified"}
 	if result.get("cost") is Dictionary and result.cost.has("total_cycles"):
 		details["total_cycles"] = result.cost.total_cycles
@@ -2053,3 +2061,10 @@ func _playtest_run(result: Dictionary) -> void:
 func _playtest_completion() -> void:
 	if session.data.supports.has(String(_playtest_id())):
 		get_node("/root/PlaytestData").level_completed(&"creation",_playtest_id())
+	_refresh_journey_context()
+
+func _refresh_journey_context() -> void:
+	if not is_instance_valid(journey_context) or session == null: return
+	journey_context.set_task(&"creation", StringName(Catalog.IDS[task]), english, session.data.supports.has(Catalog.IDS[task]))
+	journey_context.action_label.hide()
+	journey_context.visible = commission < 0

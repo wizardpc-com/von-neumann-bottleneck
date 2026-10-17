@@ -116,6 +116,7 @@ var prediction_selector: OptionButton
 var prediction_lock_button: Button
 var prediction_status_label: Label
 var mission_progress_label: Label
+var journey_context
 var mission_next_action_label: Label
 var conclusion_button: Button
 var test_conclusion_button: Button
@@ -932,6 +933,9 @@ func _build_mission_instrument() -> Control:
 	mission_next_action_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	mission_next_action_label.add_theme_color_override("font_color", ACCENT)
 	box.add_child(mission_next_action_label)
+	journey_context = preload("res://src/ui/journey_context_card.gd").new()
+	box.add_child(journey_context)
+	box.move_child(journey_context, mission_title_label.get_index() + 1)
 	conclusion_button = Button.new()
 	conclusion_button.name = "ReviewLevelConclusionButton"
 	conclusion_button.text = _t(&"system.mission.review_finding")
@@ -1679,6 +1683,7 @@ func _on_part_selected(index: int, kind: StringName) -> void:
 	test_status_label.add_theme_color_override("font_color", WARNING)
 	playback_caption.text = status_label.text
 	_refresh_mission_progress()
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 
 
 func _refresh_device_titles() -> void:
@@ -1861,6 +1866,8 @@ func _after_system_editor_mutation(topology_changed: bool) -> void:
 		latest_receipt = null
 		latest_official_traces.clear()
 		_stop_playback()
+		_refresh_mission_progress()
+		if is_instance_valid(journey_context): journey_context.draft_changed()
 	_save_level_session()
 
 
@@ -2170,6 +2177,7 @@ func _topology_from_graph() -> SystemTopology:
 
 
 func _on_program_changed() -> void:
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	if current_level_id.is_empty():
 		return
 	# CodeEdit moves per-line backgrounds with inserted/deleted text. The old
@@ -2298,6 +2306,7 @@ func _run_debug_case() -> void:
 
 
 func _run_official() -> void:
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if not _prepare_run():
 		return
 	latest_official_traces.clear()
@@ -2522,6 +2531,8 @@ func _evaluate_completion(selected_diagnosis: StringName) -> void:
 func _refresh_mission_progress(selected_diagnosis: StringName = &"") -> void:
 	if current_level_id.is_empty():
 		return
+	if is_instance_valid(journey_context):
+		journey_context.set_task(&"chapter_1", current_level_id, Localization.current_locale() == "en", bool(SystemChapter.completed_levels().get(current_level_id, false)))
 	var completion: Dictionary = catalog.completion_status(
 		current_level_id,
 		SystemChapter.receipts_for(current_level_id),

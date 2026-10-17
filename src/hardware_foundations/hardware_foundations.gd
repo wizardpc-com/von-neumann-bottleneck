@@ -226,6 +226,7 @@ var hint_confirmation_text: Label
 var hint_confirm_button: Button
 var hint_cancel_button: Button
 var mission_summary_button: Button
+var journey_context
 var mission_briefing_active: bool = false
 var mission_briefing_page: int = 0
 var mission_briefing_panel: VBoxContainer
@@ -967,6 +968,7 @@ func _create_level_completion_overlay() -> void:
 
 
 func _show_level_completion(level_id: StringName) -> void:
+	_refresh_journey_context()
 	if level_completion_overlay == null or level_id.is_empty():
 		return
 	level_completion_overlay.present(
@@ -3589,6 +3591,7 @@ func _build_tutorial_side() -> void:
 	tutorial_next_button.disabled = true
 	tutorial_next_button.pressed.connect(_start_challenge)
 	task_box.add_child(tutorial_next_button)
+	_add_journey_context()
 
 	side_box.add_child(_bench_heading(_t(&"hardware.practice.heading"), _t(&"hardware.practice.heading_subtitle")))
 	_build_input_controls(false)
@@ -3623,6 +3626,7 @@ func _build_half_adder_side() -> void:
 	seal_button.tooltip_text = _t(&"hardware.seal.tooltip")
 	seal_button.pressed.connect(_seal_half_adder)
 	task_box.add_child(seal_button)
+	_add_journey_context()
 
 	side_box.add_child(_bench_heading(_t(&"hardware.cases.heading"), _t(&"hardware.cases.heading_subtitle")))
 	_build_input_controls()
@@ -5837,6 +5841,7 @@ func _update_live_diagnostics(state: CircuitLiveStateType) -> void:
 
 
 func _topology_changed(message: String, created: bool = true, removed: bool = false) -> void:
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	_clear_investigation_observations()
 	_stop_playback()
 	current_trace = null
@@ -5911,6 +5916,7 @@ func _restore_graph_view_after_layout() -> void:
 
 
 func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	if official_sequence_active:
 		return
 	_stop_playback()
@@ -5941,6 +5947,7 @@ func _update_signal_control(toggle: CheckButton, signal_name: String) -> void:
 
 
 func _run_debug() -> void:
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if official_sequence_active:
 		return
 	if current_phase in [&"prologue", &"prologue_complete"]:
@@ -5987,6 +5994,7 @@ func _show_debug_result(trace: CircuitTrace, prefix: String) -> void:
 
 
 func _run_official() -> void:
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if official_sequence_active:
 		return
 	if current_phase == &"prologue":
@@ -6929,6 +6937,7 @@ func _build_prologue_side() -> void:
 		task_box.add_child(seal_button)
 	else:
 		seal_button = null
+	_add_journey_context()
 
 	_build_prologue_input_controls()
 	_build_construction_investigation()
@@ -6953,6 +6962,18 @@ func _build_prologue_side() -> void:
 		_refresh_cpu_stage()
 	_build_prologue_case_rows()
 	_layout_desktop_windows()
+
+
+func _add_journey_context() -> void:
+	journey_context = preload("res://src/ui/journey_context_card.gd").new()
+	task_box.add_child(journey_context)
+	task_box.move_child(journey_context, 0)
+	_refresh_journey_context()
+
+
+func _refresh_journey_context() -> void:
+	if is_instance_valid(journey_context):
+		journey_context.set_task(&"hardware_foundations", current_level_id, Localization.current_locale() == "en", bool(completed_levels.get(current_level_id, false)))
 
 
 func _build_cpu_stage_panel() -> void:
@@ -7319,6 +7340,7 @@ func _on_prologue_word_changed(_value: float, _name: StringName) -> void:
 
 
 func _on_prologue_input_changed() -> void:
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	if official_sequence_active:
 		return
 	_stop_playback()

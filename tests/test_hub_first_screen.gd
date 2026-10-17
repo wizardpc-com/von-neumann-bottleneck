@@ -78,6 +78,14 @@ func visible_buttons(surface: Control) -> Array[BaseButton]:
 		if node is BaseButton: buttons.append(node)
 	return buttons
 
+func check_home_actions(surface: Control, primary_name: String, recovery: bool, context: String) -> void:
+	var expected: Array[String] = [primary_name,"HubBrowseJourney","ReplayYiIntroduction","OpenJourneyObservatory","OpenJourneyJournal","HubLanguageChoice","HubSettings","FullscreenButton"]
+	if recovery: expected.append("SaveRecoveryDetails")
+	var actual: Array[String] = []
+	for button: BaseButton in visible_buttons(surface): actual.append(str(button.name))
+	expected.sort(); actual.sort()
+	check(actual == expected,context+": only named journey/optional-space/header actions and applicable recovery details are exposed")
+
 func check_focus(surface: Control, primary: Control, context: String) -> void:
 	check(root.gui_get_focus_owner() == primary,context+": primary action receives startup focus")
 	var leaves: Array[Control] = visible_leaves(surface)
@@ -155,7 +163,7 @@ func run() -> void:
 				check_bounds(surface,context)
 				var navigation := hub.find_child("HubNavigation",true,false) as Control
 				check(surface.is_visible_in_tree() and navigation != null and not navigation.is_visible_in_tree(),context+": only the simple homepage is visible initially")
-				check(visible_buttons(surface).size() == 6,context+": homepage offers Start, Map and replayable introduction alongside three header controls")
+				check_home_actions(surface,"RecommendedJourneyAction" if candidate else "TaskTree",false,context)
 				var header := hub.find_child("HeaderActions",true,false) as Control
 				check(header != null and visible_buttons(header).size() == 3,context+": header keeps language, settings and fullscreen only")
 				var primary := hub.find_child("RecommendedJourneyAction" if candidate else "TaskTree",true,false) as BaseButton
@@ -164,6 +172,9 @@ func run() -> void:
 				check(browse != null and browse.is_visible_in_tree() and not browse.disabled,context+": shared journey-map launcher is visible")
 				var replay := hub.find_child("ReplayYiIntroduction",true,false) as Button
 				check(replay != null and replay.is_visible_in_tree() and not replay.disabled,context+": introduction can be replayed without starting or resetting a task")
+				for id: String in ["OpenJourneyObservatory","OpenJourneyJournal"]:
+					var action := hub.find_child(id,true,false) as Button
+					check(action != null and action.is_visible_in_tree() and not action.disabled,context+": optional space is explicitly reachable: "+id)
 				for id: String in ["ContinueButton","NewGameButton","ThemeReflectionButton","HubTerminologyButton","EnterRepresentationCandidate","EnterServiceCandidate","EnterPredictionCandidate","SavedSecondActReview","CompletionStory","RecommendedJourneyInfo"]:
 					var action := hub.find_child(id,true,false) as BaseButton
 					check(action == null or not action.is_visible_in_tree(),context+": secondary action is outside homepage: "+id)
@@ -227,7 +238,7 @@ func run() -> void:
 				check(hub.save_recovery_label.is_visible_in_tree() and not hub.save_recovery_label.text.is_empty(),context+": recovery warning is visible")
 				check(hub.save_recovery_label.text.contains("writing disabled") if locale == "en" else hub.save_recovery_label.text.contains("禁止写入"),context+": write protection is visible before opening details")
 				check_bounds(surface,context+"-recovery")
-				check(visible_buttons(surface).size() <= 7,context+": recovery adds only its necessary details action to the simple homepage")
+				check_home_actions(surface,"RecommendedJourneyAction" if candidate else "TaskTree",true,context+"-recovery")
 				var recovery_button := hub.find_child("SaveRecoveryDetails",true,false) as Button
 				check(recovery_button != null and recovery_button.is_visible_in_tree() and not recovery_button.disabled,context+": complete recovery information remains reachable")
 				if recovery_button != null:

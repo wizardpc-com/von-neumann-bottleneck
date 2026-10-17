@@ -63,6 +63,7 @@ var metric_details: Label
 var trace_details_group: VBoxContainer
 var details_expanded: bool = false
 var mission: Label
+var journey_context
 var draft_label: Label
 var status: Label
 var visible_trace: Trace
@@ -174,6 +175,9 @@ func build() -> void:
 	var purpose := make_label(purpose_text(),purpose_panel,14)
 	purpose.add_theme_color_override("font_color",Color("77d8df"))
 	mission = make_label(mission_text(),reading,14); mission.name = "Mission"
+	journey_context = preload("res://src/ui/journey_context_card.gd").new(); reading.add_child(journey_context)
+	reading.move_child(journey_context, 1)
+	_refresh_journey_context()
 	var hint := make_button(text2("看一个线索（不揭示方案）","A clue, not a solution"),reading,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
 	hint.tooltip_text = Catalog.hint(task,english)
 	make_label(text2("五份任务可独立探索 · 第4任务计入在线准备 · 候选方案与核心存档分开", "Five freely accessible tasks · task4 includes online preparation · candidate plans save separately from core progress"),reading,13)
@@ -397,6 +401,7 @@ func change_task(index: int) -> void:
 	build()
 
 func refresh_tasks() -> void:
+	_refresh_journey_context()
 	var earned_review: bool = representation_review_evidence().size() == 5
 	var next: int = next_unfinished_task()
 	var continue_task := find_child("ContinueRepresentationTask",true,false) as Button
@@ -427,15 +432,18 @@ func edit_plan(next: Array[Dictionary]) -> void:
 	undo_stack.append(plan.duplicate(true)); redo_stack.clear(); plan = next.duplicate(true)
 	selected_block = clampi(selected_block,0,plan.size()-1); refresh_plan()
 	status.text = text2("方案已变。旧运行仍是原方案的结果；请重新运行。","Draft changed. Recorded results still belong to their original plans; run again.")
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 
 func undo() -> void:
 	if undo_stack.is_empty(): return
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	mark_session_dirty()
 	redo_stack.append(plan.duplicate(true)); plan.assign(undo_stack.pop_back()); selected_block = mini(selected_block,plan.size()-1); refresh_plan()
 	status.text = text2("已撤销；旧结果不变。","Undone; recorded results preserved.")
 
 func redo() -> void:
 	if redo_stack.is_empty(): return
+	if is_instance_valid(journey_context): journey_context.draft_changed()
 	mark_session_dirty()
 	undo_stack.append(plan.duplicate(true)); plan.assign(redo_stack.pop_back()); selected_block = mini(selected_block,plan.size()-1); refresh_plan()
 	status.text = text2("已重做；请重新运行。","Redone; run again.")
@@ -482,6 +490,7 @@ func refresh_actions() -> void:
 	set_action_disabled(undo_button,undo_stack.is_empty()); set_action_disabled(redo_button,redo_stack.is_empty())
 
 func run_current() -> void:
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	mark_session_dirty()
 	var traces: Array[Trace] = []
 	for spec: Dictionary in Model.orders(task): traces.append(Model.run(spec,plan))
@@ -1029,6 +1038,9 @@ func _playtest_id() -> StringName:
 
 func _playtest_start() -> void:
 	get_node("/root/PlaytestData").level_started(&"representation",_playtest_id())
+
+func _refresh_journey_context() -> void:
+	if is_instance_valid(journey_context): journey_context.set_task(&"representation", _playtest_id(), english, support_plans.has(task))
 
 func _playtest_exit() -> void:
 	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "representation":

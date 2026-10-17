@@ -13,9 +13,12 @@ func run() -> void:
 	var feedback: Node = root.get_node("OfflineFeedback")
 	check(navigation.enter("hardware_foundations/tutorial"),"ordinary task opens for offline tester")
 	for index: int in 6: await process_frame
-	feedback.open_panel()
+	var key := InputEventKey.new(); key.physical_keycode=KEY_F8; key.keycode=KEY_F8; key.pressed=true
+	Input.parse_input_event(key)
+	var released := InputEventKey.new(); released.physical_keycode=KEY_F8; released.keycode=KEY_F8; released.pressed=false
+	Input.parse_input_event(released)
 	for index: int in 3: await process_frame
-	check(feedback.backdrop.visible and paused,"global feedback pauses game")
+	check(feedback.backdrop.visible and paused,"fast F8 press/release opens feedback and pauses game")
 	check(feedback.panel.position.x>=0 and feedback.panel.position.y>=0 and feedback.panel.get_global_rect().end.x<=1280 and feedback.panel.get_global_rect().end.y<=720,"feedback fits 720p: "+str(feedback.panel.get_global_rect()))
 	feedback.note.text="这里不清楚\n希望保留完整现场，不截断为短意见。"
 	feedback.note.text_changed.emit()

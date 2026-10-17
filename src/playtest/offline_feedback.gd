@@ -19,7 +19,6 @@ var previous_focus: Control
 var was_paused: bool = false
 var restoring: bool = false
 var busy: bool = false
-var f8_down: bool = false
 var esc_down: bool = false
 var last_export: String = ""
 var export_dialog: FileDialog
@@ -32,6 +31,10 @@ func enabled() -> bool:
 
 func _ready() -> void:
 	process_mode=Node.PROCESS_MODE_ALWAYS
+	if not InputMap.has_action("vnb_offline_feedback"):
+		InputMap.add_action("vnb_offline_feedback")
+		var shortcut := InputEventKey.new(); shortcut.physical_keycode=KEY_F8
+		InputMap.action_add_event("vnb_offline_feedback",shortcut)
 	layer=CanvasLayer.new(); layer.layer=2000; layer.process_mode=Node.PROCESS_MODE_ALWAYS; add_child(layer)
 	toolbar=HBoxContainer.new(); toolbar.name="OfflineTesterToolbar"; layer.add_child(toolbar)
 	_button(toolbar,"现场反馈 · F8","Feedback · F8",open_panel)
@@ -97,12 +100,10 @@ func _process(_delta: float) -> void:
 		panel.size=Vector2(minf(780,size.x-16),maxf(250,size.y-24))
 	# Polling also reaches embedded work/exhibition windows, whose input belongs to
 	# a different viewport. It never installs an OS-wide keyboard hook.
-	var down: bool = Input.is_physical_key_pressed(KEY_F8)
 	var choosing_file: bool = is_instance_valid(export_dialog) and export_dialog.visible
-	if down and not f8_down and not choosing_file:
+	if Input.is_action_just_pressed("vnb_offline_feedback") and not choosing_file:
 		if backdrop.visible: close_panel()
 		else: open_panel()
-	f8_down=down
 	var escape: bool = Input.is_physical_key_pressed(KEY_ESCAPE)
 	if escape and not esc_down and backdrop.visible and not choosing_file and _focused_window(get_tree().root)==panel.get_viewport(): close_panel()
 	esc_down=escape

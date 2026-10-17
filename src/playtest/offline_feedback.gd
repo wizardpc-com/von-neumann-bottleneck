@@ -128,6 +128,11 @@ func open_panel(feedback_task: Dictionary = {}) -> void:
 	# Finish a clean game frame before capturing, including immediate reopen after
 	# another feedback panel. Simulation remains paused at the recorded scene.
 	if DisplayServer.get_name()!="headless": await RenderingServer.frame_post_draw
+	if not is_instance_valid(target_window) or not target_window.is_inside_tree() or target_window.is_queued_for_deletion():
+		get_tree().paused=was_paused
+		busy=false; toolbar.visible=enabled()
+		if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
+		return
 	var image: Image = null
 	if DisplayServer.get_name()!="headless": image=target_window.get_texture().get_image()
 	emergency_image=image.save_png_to_buffer() if image!=null and not image.is_empty() else PackedByteArray()

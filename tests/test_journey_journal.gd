@@ -346,3 +346,25 @@ func reflection_feedback_stack(journal: Control, feedback: Node) -> void:
 		paused = false
 		await key(KEY_ESCAPE)
 		check(not journal.visible, "Tester popup destruction leaves the journal return usable")
+	# Controller timing fixture: destroy the selected Window during the real
+	# frame_post_draw wait, before an incident or screenshot may be created.
+	for originally_paused: bool in [false, true]:
+		paused = false
+		journal.open()
+		journal.reflection_button.grab_focus(); await key(KEY_SPACE)
+		var capturing: AcceptDialog = journal.reflection_dialog
+		var incidents_before: Dictionary = inventory(feedback.store.root)
+		paused = originally_paused
+		feedback.open_panel()
+		check(feedback.busy and paused, "Capture timing fixture enters the real frame wait:" + str(originally_paused))
+		capturing.queue_free(); await settle()
+		check(not feedback.busy and not feedback.backdrop.visible and paused == originally_paused, "Canceled capture restores busy, panel and original pause state:" + str(originally_paused))
+		check(not root.get_node("PlaytestData")._feedback_visible and feedback.layer.get_parent() == feedback, "Canceled capture leaves no owned feedback flag or orphaned layer")
+		check_inventory(incidents_before, inventory(feedback.store.root), "A vanished capture target creates no incident or substitute root screenshot")
+		await full_input_key(KEY_F8)
+		check(feedback.backdrop.visible and feedback.panel.get_viewport() == root, "Root F8 remains usable after capture target vanishes:" + str(originally_paused))
+		await full_input_key(KEY_ESCAPE)
+		check(not feedback.backdrop.visible and paused == originally_paused, "Root feedback after canceled capture restores the prior pause state")
+		paused = false
+		await key(KEY_ESCAPE)
+		check(not journal.visible, "Canceled capture keeps journal return available")

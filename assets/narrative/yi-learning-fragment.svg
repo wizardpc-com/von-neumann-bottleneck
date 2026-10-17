@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="128" viewBox="0 0 192 128">
+ <title>Candidate learning archive illustration</title>
+ <rect x="2" y="2" width="188" height="124" rx="16" fill="#e8eee0" stroke="#6d9998" stroke-width="3"/>
+ <path d="M30 30h52c8 0 14 5 14 12 0-7 6-12 14-12h52v68h-52c-8 0-14 4-14 10 0-6-6-10-14-10H30Z" fill="#f8f7ec" stroke="#3c686d" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M96 43v54M43 44h30M43 54h23M119 44h30M126 54h23" fill="none" stroke="#95afaa" stroke-width="3" stroke-linecap="round"/>
+ <path d="M48 76h31m34 0h31" fill="none" stroke="#3c686d" stroke-width="3" stroke-linecap="round"/>
+ <circle cx="48" cy="76" r="6" fill="#3c686d"/>
+ <circle cx="96" cy="76" r="10" fill="#e4b858" stroke="#3c686d" stroke-width="3"/>
+ <circle cx="144" cy="76" r="6" fill="#3c686d"/>
+</svg>

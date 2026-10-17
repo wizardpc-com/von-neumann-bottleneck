@@ -1,6 +1,33 @@
 extends AcceptDialog
 ## Derived, reopenable reflection. No completion flag, reward or persistent narrative state.
 const OverlapCatalogType = preload("res://src/overlap_chapter/overlap_catalog.gd")
+const FirstLightType = preload("res://src/ui/first_light.gd")
+
+var body_column: VBoxContainer
+var first_light: FirstLightType
+
+
+func _ready() -> void:
+	_add_first_light()
+
+
+func _add_first_light() -> void:
+	# Home configures before adding the Window; Journal configures after adding it.
+	if body_column == null or not is_inside_tree() or is_instance_valid(first_light): return
+	var localization: Node = get_node_or_null("/root/Localization")
+	var english: bool = localization != null and localization.call("current_locale") == "en"
+	first_light = FirstLightType.new()
+	first_light.configure(english, _first_light_earned)
+	body_column.add_child(first_light)
+
+
+func _first_light_earned() -> bool:
+	if not is_inside_tree(): return false
+	var save: Node = get_node_or_null("/root/GlobalSave")
+	var mode: Node = get_node_or_null("/root/GameMode")
+	if save == null or mode == null or mode.call("is_test_mode"): return false
+	var content: Variant = save.get("game_player_content")
+	return content != null and bool(content.completed_levels.get(&"tutorial", false))
 
 func _init() -> void:
 	# The popup owns its viewport; the root feedback handler cannot consume its
@@ -60,6 +87,7 @@ func configure(keys: Array[StringName], translate: Callable) -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
 	var column := VBoxContainer.new()
+	body_column = column
 	column.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	column.add_theme_constant_override("separation",24)
 	scroll.add_child(column)
@@ -69,5 +97,6 @@ func configure(keys: Array[StringName], translate: Callable) -> void:
 		paragraph.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 		paragraph.add_theme_font_size_override("font_size",18)
 		column.add_child(paragraph)
+	_add_first_light()
 	confirmed.connect(queue_free)
 	canceled.connect(queue_free)

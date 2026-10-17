@@ -67,9 +67,21 @@ def main():
                    embedded_pack_sha256=helper.embedded_pck_sha256(binary))
     for name,digest in expected.items():
         assert hashlib.sha256((binary.parent/name).read_bytes()).hexdigest()==digest
-    (work/'receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
     if manifest.get('offline_tester',False):
+        existing=set((root/'.godot/offline-package').glob('*/receipt.json'))
         subprocess.run([sys.executable,str(root/'scripts/verify-offline-playtest.py'),'--exe',str(binary)],check=True,env=env)
+        created=set((root/'.godot/offline-package').glob('*/receipt.json'))-existing
+        if len(created)!=1:raise RuntimeError('Expected exactly one successful dependent offline receipt')
+        child_path=created.pop()
+        child=json.loads(child_path.read_text(encoding='utf-8'))
+        assert child['source_commit']==manifest['source_commit'] and child['build_id']==manifest['build_id']
+        receipt['creation_restart_and_feedback']={'passed':True,'receipt':str(child_path.relative_to(root)),
+                                                  'final_export_alone':child['final_export_alone']}
+    else:
+        receipt['creation_restart_and_feedback']={'status':'not run on normal package; checked separately on tester package'}
+    receipt['validator_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    receipt['controller_sha256']=hashlib.sha256(probe.read_bytes()).hexdigest()
+    (work/'receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
     print('PASS: actual ZIP extraction, embedded configuration and first experience '+str(work),flush=True)
 
 

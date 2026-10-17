@@ -55,10 +55,44 @@ func run() -> void:
 	check(host.completed_levels.get(&"tutorial",false) and host.level_completion_overlay.visible,"actual five actions earn first completion in export")
 	check(host.level_completion_overlay.yi_response_label.text.contains("1 → 0"),"exported response reflects true NOT outcome")
 	check(get_viewport().get_texture().get_image().save_png(output.path_join("first-result.png"))==OK,"actual exported first result frame")
+	var circuit_signature: String = host._circuit_from_graph().canonical_signature()
+	host._dismiss_level_completion()
+	var handbook: Variant = host.terminology_handbook
+	handbook.open_handbook(&"half_adder"); await settle()
+	check(handbook.is_term_unlocked(&"half_adder") and handbook.detail_diagram.diagram_id==&"half_adder","actual earned tutorial makes the half-adder rule available")
+	if handbook.detail_diagram.diagram_id==&"half_adder":
+		for button: Button in handbook.detail_diagram.input_buttons: button.pressed.emit()
+		handbook.detail_scroll_container.ensure_control_visible(handbook.detail_diagram)
+		await settle()
+		var example: Dictionary = handbook.detail_diagram.logic_example()
+		check(example.a==1 and example.b==1 and example.outputs==[0,1],"actual isolated half-adder input buttons show sum0 carry1")
+		check(host._circuit_from_graph().canonical_signature()==circuit_signature,"rule exploration preserves the player's actual circuit")
+		check(get_viewport().get_texture().get_image().save_png(output.path_join("rules.png"))==OK,"actual exported interactive rule frame")
+	handbook.close_handbook()
+	check(nav.open_tree(),"actual embedded journey map opens")
+	await settle()
+	var map: Variant = get_tree().current_scene
+	check(map.scene_file_path=="res://src/campaign/task_tree.tscn" and map.rows.size()==60,"actual embedded map contains all sixty task rows")
+	check(map.journey_scope.text.contains("60") and map.creation_route.visible and map.creation_route.get_child_count()==3,"actual embedded map footer and three creation shortcuts match its catalog")
+	check(get_viewport().get_texture().get_image().save_png(output.path_join("map.png"))==OK,"actual exported full-journey map frame")
+	if tester:
+		check(nav.enter("chapter_1/cpu_speed"),"actual tester enters CPU comparison without granting completion")
+		await settle()
+		var system: Variant = get_tree().current_scene
+		system._open_instrument(&"mission")
+		var next_action: Label = system.mission_next_action_label
+		var mission_scroll := next_action.get_parent().get_parent() as ScrollContainer
+		check(mission_scroll!=null and next_action.visible,"actual incomplete comparison has baseline guidance in Mission")
+		if mission_scroll!=null:
+			mission_scroll.ensure_control_visible(next_action); await settle()
+			check(mission_scroll.get_global_rect().encloses(next_action.get_global_rect()) and get_viewport().get_visible_rect().encloses(next_action.get_global_rect()),"actual next-action guidance is within its scroll clip and game viewport")
+			check(not get_node("/root/SystemChapter").completed_levels().get(&"cpu_speed",false),"viewing next-action guidance grants no comparison completion")
+			check(get_viewport().get_texture().get_image().save_png(output.path_join("system-guidance.png"))==OK,"actual exported visible next-action guidance frame")
 	var file := FileAccess.open(output.path_join("embedded.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify({"checks":checks,"failures":failures,"profile":profile,"tester":tester,
 		"source_commit":ProjectSettings.get_setting("application/config/build_commit",""),
 		"build_id":ProjectSettings.get_setting("application/config/version",""),
+		"logical_viewport":str(get_viewport().get_visible_rect().size),"physical_frame":str(get_viewport().get_texture().get_image().get_size()),
 		"evidence_grade":"rendered controller input, not native OS or human playtest"},"\t")); file.close()
 	print("PASS: night package embedded configuration and first experience" if failures.is_empty() else "FAIL: night package")
 	get_tree().quit(0 if failures.is_empty() else 1)

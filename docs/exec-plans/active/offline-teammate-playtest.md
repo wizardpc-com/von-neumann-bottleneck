@@ -40,13 +40,27 @@ PNG rendering, autosave/restart and export/reimport/dedup/corruption handling.
 Then run full regression, freeze a fixed source and verify the actual Windows
 binary's offline screenshot/export/import flow. Keep before/after observations
 and exact verification limits. Existing player profiles are never QA inputs in
-place. Source starts at main `5f855b6`; remote refresh is pending sandbox network.
+place. Source starts at main `5f855b6`; an authorized live fetch confirmed that
+remote baseline before implementation.
 
 ## Progress
 
 - 2026-10-17: inspected current local main and existing feedback/navigation/build
   contracts. Current short opinions lack screenshots and complete offline cases.
-  Implementation and acceptance pending.
+  Initial contract committed as `d1798d8`.
+- Implemented context/import/report (`ebd5c0e`), append-only incident storage and
+  global screenshot UI (`12ed8f7`), and full tester entrance/build tools
+  (`fc5f7de`). Follow-ups constrain saved-file exports and preserve map feedback's
+  explicit target. All changes are committed, with PR10 open as a draft.
+- Windows focused suites passed6/6 including import/isolation. Chinese/English
+  720p rendering passed. Actual source renderer entered all60 tasks; three real
+  screenshots/notes survived an independent process restart. Both ZIPs imported
+  successfully as3 cases/6 exported revisions, with original packages preserved.
+  Python importer9/9, existing reporter and packaging tests pass. Independent
+  audit confirmed exact hashes and no unsupported/truncated fields in the three
+  representative snapshots.
+- Full Windows regression and remote CI are running. Final fixed EXE capture,
+  native input, artifact identity and delivery receipt remain pending.
 
 ## Limits
 

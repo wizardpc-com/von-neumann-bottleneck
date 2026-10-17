@@ -308,7 +308,7 @@ func build() -> void:
 	comparison_detail = label("",comparison_panel,14)
 	comparison_chart = preload("res://experiments/service_plan/comparison_chart.gd").new(); comparison_chart.name = "ComparisonChart"; comparison_panel.add_child(comparison_chart)
 	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"
-	measured_evidence.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
+	measured_evidence.add_child(response_chart); measured_evidence.move_child(response_chart,0); response_chart.configure([],0 if task == 0 else 320,english)
 	var replay_row := HBoxContainer.new(); overview.add_child(replay_row)
 	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,func() -> void:
 		overview_scroll.ensure_control_visible(response_chart)

@@ -191,7 +191,10 @@ func capture_host_context(scene: Control) -> void:
 	if DisplayServer.get_name() == "headless": return
 	var card: Variant = scene.journey_context
 	var action: Control = scene.next_step_label if card.last_task.begins_with("creation/") else card.action_label
+	if "--service-context-capture" in OS.get_cmdline_user_args() and not card.last_task.begins_with("service/"): return
 	if "--hardware-en-capture" in OS.get_cmdline_user_args() and (not card.english or not card.last_task.begins_with("hardware_foundations/")): return
+	if "--service-context-capture" in OS.get_cmdline_user_args():
+		scene.hint_open = true; scene.refresh_mission(); scene.run_current(); scene.pin_comparison(); await settle()
 	var domain_key: String = str(card.english) + "/" + card.last_task.get_slice("/", 0)
 	if captured_domains.has(domain_key): return
 	captured_domains[domain_key] = true
@@ -231,6 +234,16 @@ func capture_host_context(scene: Control) -> void:
 		check(within_clip(action) and within_clip(card.verify_label), "Located host guidance remains within its actual viewport and scroll clip: " + domain_key)
 		var path: String = folder.path_join(prefix + ".png")
 		check(root.get_texture().get_image().save_png(path) == OK, "Real Mission/evidence context captured: " + path)
+		if "--service-context-capture" in OS.get_cmdline_user_args():
+			check(within_clip(scene.response_chart), "Service first-response evidence remains within its actual scroll clip beside guidance")
+			if dimensions == Vector2i(1280,720):
+				for tab: int in 4:
+					scene.evidence_tabs.current_tab = tab; await settle()
+					var evidence: Array = [scene.measured_source,scene.summary,scene.response_chart,scene.response_play,scene.response_step] if tab == 0 else ([scene.event_source,scene.event_raw_button,scene.tree,scene.detail] if tab == 1 else ([scene.public_detail] if tab == 2 else [scene.pin_button,scene.comparison_detail,scene.comparison_chart]))
+					for item: Control in evidence: check(within_clip(item), "Service Hint-enabled tab evidence stays within actual clip: " + str(tab))
+					RenderingServer.force_draw(false); await process_frame
+					check(root.get_texture().get_image().save_png(folder.path_join(prefix + "-hint-tab%d.png" % tab)) == OK, "Service Hint-enabled evidence tab captured")
+				scene.evidence_tabs.current_tab = 0; await settle()
 		captures.append({"file":path,"sha256":FileAccess.get_sha256(path),"default_file":default_path,"default_sha256":FileAccess.get_sha256(default_path),"task":card.last_task,"scene":scene.scene_file_path,"locale":"en" if card.english else "zh_CN","dimensions":str(dimensions),"action_source":"existing next_step_label" if card.last_task.begins_with("creation/") else "JourneyContextCard.action_label","action_rect":str(action.get_global_rect()),"verify_rect":str(card.verify_label.get_global_rect()),"font_size":card.verify_label.get_theme_font_size("font_size")})
 
 func within_clip(control: Control) -> bool:

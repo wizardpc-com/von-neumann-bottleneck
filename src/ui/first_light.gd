@@ -55,7 +55,7 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size", 18)
 	add_child(title)
 	var note := Label.new()
-	note.text = _copy("固定NOT示意回顾，不是当前电路截图；不授予新成果或补写日期。", "A fixed NOT illustration, not your current circuit capture; no new award or completion date.")
+	note.text = _copy("已完成的搭建 · 固定NOT示意回顾", "Your completed construction · a fixed NOT illustration")
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.add_theme_font_size_override("font_size", 16)
 	add_child(note)
@@ -136,7 +136,9 @@ func playback_paused() -> bool:
 
 func _feedback_visible() -> bool:
 	var playtest: Node = get_node_or_null("/root/PlaytestData")
-	return playtest != null and bool(playtest.get("_feedback_visible"))
+	var offline: Node = get_node_or_null("/root/OfflineFeedback")
+	# Capture waits for a clean frame before setting the shared visible flag.
+	return (playtest != null and bool(playtest.get("_feedback_visible"))) or (offline != null and bool(offline.get("busy")))
 
 
 func _is_earned() -> bool:
@@ -148,10 +150,8 @@ func _refresh_scene() -> void:
 	canvas.illustration = preview_texture
 	canvas.queue_redraw()
 	var lines: Array[String] = [_copy("你亲手搭起了一条可以检查的路径。", "You built a path that can be checked.")]
-	if elapsed >= 1.0:
-		lines.append(_copy("NOT：输入1 → 输出0。灯灭也可以是正确答案。", "NOT: input 1 → output 0. A dark lamp can be the correct answer."))
-	if elapsed >= 2.0:
-		lines.append(_copy("光点只回顾已完成的搭建，不表示电流、能耗或文明测量。", "The light revisits an earned construction; it is not current, energy use or a measurement of civilization."))
+	lines.append(_copy("NOT：输入1 → 输出0。灯灭也可以是正确答案。", "NOT: input 1 → output 0. A dark lamp can be the correct answer."))
+	lines.append(_copy("光点只回顾已完成的搭建，不表示电流、能耗或文明测量。", "The light revisits an earned construction; it is not current, energy use or a measurement of civilization."))
 	caption.text = "\n".join(lines)
 
 

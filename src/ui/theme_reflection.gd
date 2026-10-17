@@ -19,6 +19,23 @@ func _add_first_light() -> void:
 	first_light = FirstLightType.new()
 	first_light.configure(english, _first_light_earned)
 	body_column.add_child(first_light)
+	first_light.play_button.pressed.connect(_queue_first_light_reveal)
+
+
+func _queue_first_light_reveal() -> void:
+	if not _first_light_earned() or not first_light.has_started: return
+	# Showing the scene queues Container layout; reveal its settled geometry.
+	if not get_tree().process_frame.is_connected(_reveal_first_light):
+		get_tree().process_frame.connect(_reveal_first_light, CONNECT_ONE_SHOT)
+
+
+func _reveal_first_light() -> void:
+	if is_queued_for_deletion() or not visible or not has_focus() or not _first_light_earned(): return
+	if not is_instance_valid(first_light) or not first_light.is_visible_in_tree(): return
+	if gui_get_focus_owner() != first_light.play_button: return
+	if first_light.playback_paused(): return
+	var scroll := body_column.get_parent() as ScrollContainer
+	if scroll != null: scroll.ensure_control_visible(first_light.scene_body)
 
 
 func _first_light_earned() -> bool:

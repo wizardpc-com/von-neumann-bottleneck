@@ -157,7 +157,11 @@ func run() -> void:
 			if DisplayServer.get_name() != "headless": await key(KEY_SPACE, true)
 			else: light.play_button.pressed.emit()
 			check(light.has_started and light.scene_body.visible and light.preview_texture == null, "Actual play control reveals a missing-texture procedural fallback")
-			scroll.ensure_control_visible(light.scene_body); await settle()
+			await settle()
+			if DisplayServer.get_name() != "headless":
+				check(scroll.get_global_rect().encloses(light.canvas.get_global_rect()), "Real Play automatically reveals the main illustration without a QA scroll")
+				check(scroll.get_global_rect().encloses(light.skip_button.get_global_rect()), "Real Play automatically reveals Skip without a QA scroll")
+				check(dialog.gui_get_focus_owner() == light.play_button, "Automatic reveal retains the player's Play-button focus")
 			await capture_frame(dialog, locale + "-" + str(dimensions.x) + "-playing")
 			if DisplayServer.get_name() != "headless" and locale == "zh_CN" and dimensions.x == 1280:
 				await create_timer(light.DURATION + 0.08).timeout
@@ -166,6 +170,7 @@ func run() -> void:
 			light.skip_button.pressed.emit()
 			check(not light.playing and light.elapsed == light.DURATION and light.caption.text.contains("1 →" if locale == "en" else "输入1"), "Skip reaches static correct NOT output and all native captions")
 			check(light.caption.text.contains("output 0" if locale == "en" else "输出0") and light.caption.text.contains("civilization" if locale == "en" else "文明测量"), "Captions distinguish output0 from narrative light/energy measurement")
+			await settle()
 			scroll.ensure_control_visible(light.skip_button); await settle()
 			check(scroll.get_global_rect().encloses(light.skip_button.get_global_rect()), "Skip remains reachable by scrolling at each language/window size")
 			check(scroll.get_global_rect().encloses(light.caption.get_global_rect()), "All static native captions fit their original scroll viewport")
@@ -207,6 +212,13 @@ func run() -> void:
 		check(protected_files() == before and state() == before_state, "Both configure orders, replay and language/size changes preserve original profiles and work bytes")
 	if DisplayServer.get_name() != "headless":
 		await window_lifecycle(host)
+		var departing: Variant = await open_reflection()
+		departing.first_light.play_button.grab_focus()
+		departing.first_light.play_button.pressed.emit()
+		departing.first_light.play_button.pressed.emit()
+		var pending_player: WeakRef = weakref(departing.first_light)
+		departing.queue_free(); await settle()
+		check(pending_player.get_ref() == null, "Destroying the Window before its one-shot reveal leaves no pending player or receiver")
 	else: print("NOT_RUN: first-light renderer/focus/F8/lifecycle; run without --headless and with --capture-size=1280x720 --first-light-capture")
 	check(protected_files() == before and state() == before_state, "Window playback/feedback/close never rewrites game, workbench, candidate or saved works")
 	check(nav.pending == before_navigation.pending and nav.selected == before_navigation.selected, "Retrospective never changes navigation pending or selection")
@@ -229,6 +241,21 @@ func window_lifecycle(host: Node) -> void:
 		var light: Variant = dialog.first_light
 		var scroll: ScrollContainer = dialog.body_column.get_parent()
 		scroll.ensure_control_visible(light.play_button); await settle()
+		light.play_button.grab_focus()
+		var original_scroll: int = scroll.scroll_vertical
+		light.play_button.pressed.emit(); light.play_button.pressed.emit()
+		var capture_hold: float = light.elapsed
+		# Same-frame controller timing fixture, before the one-shot reveal callback.
+		if tester:
+			feedback.open_panel()
+			check(feedback.busy and paused, "Immediate offline feedback enters its real pre-draw capture wait")
+		else: moments.toggle()
+		await settle()
+		check(light.elapsed == capture_hold and scroll.scroll_vertical == original_scroll, "Rapid Play followed by feedback cannot move the captured scene or deferred scroll")
+		var top_focus: Control = dialog.gui_get_focus_owner()
+		check(is_instance_valid(top_focus) and (feedback.panel.is_ancestor_of(top_focus) if tester else moments.panel.is_ancestor_of(top_focus)), "Pending reveal cannot steal feedback focus")
+		await key(KEY_ESCAPE, true)
+		check(is_instance_valid(dialog) and dialog.visible and dialog.gui_get_focus_owner() == light.play_button, "Same-frame feedback closes alone and restores original Play focus")
 		light.play_button.grab_focus(); await key(KEY_SPACE, true)
 		check(light.playing and light.elapsed > 0.0, "Actual Journal Reflection starts the earned replay:" + str(tester))
 		await key(KEY_F8, true)

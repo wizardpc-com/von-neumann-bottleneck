@@ -1,23 +1,25 @@
 # 全旅程需求与证据账本 · 2026-10-18
 
-**当前Gate**：新封装SOURCE固定8334ab137beb95f24f6092ac0a23df69c592255f；收集器已独审并14项Python通过。
-总控核runtime/assets/project/export-presets/Godot tests与226无差异，引用226 cdace完整原verify
-168/168 PASS及两CI仅覆盖相同runtime，不声称8334另跑全量。
-fresh13/13阶段、原Rule真实renderer401及Journal222通过，
-18次captured/pending0、三尺寸各6逐图与context匹配。原Windows full166/168及GUI637目录rename失败保留，
-不追写全绿或推断唯一OS根因。Store改fresh排他目录内context/PNG先验、原metadata最后写，
-JSON/notes/旧pending/导出格式不变，Visual独立源审无阻断。
-旧226 normal父77+重启29通过；tester游戏捕获/重启通过、最后Python目录rename发布失败，不能整体绿。
-修复tool必须随新8334包交付，原226 ZIP保留、不拼sidecar；新ZIP父/子链、strict embedded重启与限定游戏原生仍待。
-总控已核49c两CI39067140525/39067137757 SUCCESS；它们在Store修前，不覆盖已推送的22603。
-Python原导入器10测试与合成ZIP的5份recovery/cases/旧pending原样保留另行通过；
-这只是旧importer兼容检查，新Store实际Godot ZIP及两包子链仍待，不扩大为整个保存系统保证。
-完整goal保持active，尚无新固定包/新限定游戏原生结论。历史逐次记录不代表当前Gate。
+**当前Gate：F1双实包控制器链通过，完整goal仍active。** SOURCE固定8334ab137beb95f24f6092ac0a23df69c592255f。
+normal5acc父77+strict重启29；tester288父87+strict重启29及367b原包内tool子链通过，包含60入口、
+真实C→P→G/作品逐字节重启、4现场/2会话和最终单ZIP独立导入/去重。两ZIP/manifest/EXE/PCK、
+controller52e78b94、各validator与脱敏来源链集中在[证据入口](../verification/20261018-full-journey/README.md)。
+
+随包collector独审/14项Python通过；总控核Godot runtime/assets/project/export-presets/tests与226无差异。
+引用226 cdace原full168/168、定向13/13、Rule真实renderer401/Journal222及两CI仅覆盖相同runtime，
+不声称8334另跑全量。Root live gh核8334的CI39071109957/39071106629均SUCCESS。18captured/pending0、三尺寸各6逐图/context匹配保持其原定向身份。
+Store与collector取消填满目录rename，排他fresh目标内先验证内容、最后metadata或ZIP发布；
+不加sleep/retry、不承诺fsync或批次原子性。原166/168、637、226collector、7f快照及8aa坐标QA失败原留，
+不追写成功或推断唯一OS根因；最终tester仅按已有encoder转换六个已列明坐标，其余typed JSON与磁盘SHA严格。
+
+**normal与tester8334限定原生路线均PASS**：Root实际Sky输入完成normal0→五操作→唯一tutorial成果/双空间/普通F8与逐层Esc；tester60入口但0成果、真实Reflection离线F8现场/截图与逐层Esc。两PID正常exit0、包未变，独立核normal存档与tester零完成context/本地PNG/空远程队列。不是新手、原生CPG/重启/中文长输入/真实旧作品/Mac结论。
+完整创作/视觉/剧情开放项继续逐项处理，F2待总控核准后实施，外部权限与团队定稿边界保持。
+历史逐次记录不代表当前Gate；新包无public release、上传默认或endpoint，旧ZIP/profile/作品保留。
 
 本账本继续[全旅程active计划](../exec-plans/active/full-journey-experience-20261018.md)。
 首轮[固定包与验收](../verification/20261018-night-experience/README.md)证明其明确范围，
 不表示手册的全部工作已经完成。启动基线为总控核准的`cf89a76`；本轮新增实现已落盘并经交叉源审，
-已有早期定向成功，最新整合快照仍待验证。基线CI`39061439011`已由总控核对SUCCESS，不能认证新增代码。
+F1定向/全量同runtime与新双实包链已验证，原生/真人及完整目标开放项另列。基线CI`39061439011`已由总控核对SUCCESS，不能认证新增代码。
 
 状态用语：**已有**为当前源码/首轮证据；**待扩展**为本轮工作；**候选**为可替换呈现；
 **待人审/待外部授权**不能写成技术通过；**未运行**不得以计划或目录存在替代。
@@ -27,27 +29,27 @@ Python原导入器10测试与合成ZIP的5份recovery/cases/旧pending原样保�
 | 需求 | 已有来源或明确证据 | 本轮状态、还须证明什么 |
 | --- | --- | --- |
 | PR10先合入、实际远端基线、隔离工作、可恢复检查点 | 首轮计划与PR10合并`bf8f616`；当前总控核准`cf89a76` | 既有交付保留；续轮新分支/提交由总控管控。PR11启动时Godot pending不算失败 |
-| 首页→短语境→第一次操作→结果→回应→继续 | YiIntroduction、真实NOT五项操作；固定7c实包及限定原生观察 | 已有；扩展全旅程而非继续停在序章。新界面集成后重验跳过/回看/恢复 |
-| 壹的语境、卡点帮助和任务后回应 | MissionNarrativeCatalog双语60任务、ContextCard、九Host与完成overlay；现有三级Hint | 已实现并经独立源审；早期Narrative1128项通过。最新拓扑/语言等改动待新快照，不冒充60项真人通关 |
+| 首页→短语境→第一次操作→结果→回应→继续 | YiIntroduction、真实NOT五项操作；固定7c实包及限定原生观察 | 8334真实导出教程五操作与完成后Journal/观察站通过；原生跳过/回看/恢复仍须限定实测，旧7c不覆盖 |
+| 壹的语境、卡点帮助和任务后回应 | MissionNarrativeCatalog双语60任务、ContextCard、九Host与完成overlay；现有三级Hint | 已实现并独审；最终同runtime全旅程Narrative/九Host矩阵与语言回归有固定来源，8334真实60入口可达；不冒充60项真人通关 |
 | 全旅程逐关盘点玩家决定/前置知识/成功/困难类型 | [60项源码审阅](night-journey-review.md)列全ID与R/S/O | 已有目录审阅；本轮补逐任务结构语境及真实合同核对，不冒充60项真人通关 |
 | NOT/AND/半加器可点输入、数字结果、真值表 | terminology_diagram；handbook/model/input checks和实包rules帧 | 已有代表交互，隔离玩家电路；后续术语按实际缺口扩展，不无差别重写 |
-| 任务层次：现在做什么/成功条件/可查规则/深入 | Mission/ContextCard常驻Now/Verify、可展开语境；现有手册/Hint/第一章next action | 已实现全目录身份覆盖、独立合同源审；原判定保持。九Host最终实际布局与语言回归待证 |
+| 任务层次：现在做什么/成功条件/可查规则/深入 | Mission/ContextCard常驻Now/Verify、可展开语境；现有手册/Hint/第一章next action | 已实现全目录语境及原判定；九Host固定同runtime实际布局/语言与后续窄窗回归通过，8334实包规则/语境入口可见，不称展开全文同屏 |
 | 失败指出不满足条件、合法替代方案保留 | 各域catalog/receipt/trace；第一章错误保留/合法reuse测试 | 待逐域抽查与补缺；记录规则/策略/操作区别，不能要求先失败才可通过 |
 | 安静极简未来风格与深浅比较 | InstrumentTheme、TechnicalBackdrop、Typography；同数据深浅样张 | 深色为首轮候选默认；浅色仍独立样张，未成为全局设置/全UI验收 |
-| 共用UI、窗口/缩放/Esc/焦点和中英长文 | 首轮三尺寸/两语renderer与原生限定路线 | 待新增界面的同尺寸复核；不把局部主题改动称全域美术完成 |
+| 共用UI、窗口/缩放/Esc/焦点和中英长文 | 首轮三尺寸/两语renderer与原生限定路线 | 同runtime新增界面三尺寸/两语、真实Journal双反馈窗口栈及3D检查通过；8334逻辑1600×900/物理1280×720实帧另列，不称全域美术或OS验收 |
 | 非单一颜色的信号、端口、数值与低动效 | SignalNotation、数字输出、既有减少动效 | 已有；新观察站/档案也须文字/符号区分完成、可进和未知 |
 | 人工素材可替换、动态文字独立、来源许可 | [素材接缝](night-art-interfaces.md)、程序绘制新UI | 已有接缝；续轮补新增区域用途/状态，不擅用私人参考图、定稿人设或成员署名 |
-| 即时结果、关卡收获与长期成长 | 原trace/完成层/ThemeReflection；新JourneyJournal动态目录、历史成绩来源及原作品只读 | 已实现并经独立源审；早期Journal160项通过。新增ThemeReflection/F8焦点栈尚待实际渲染，不造事件时间线 |
+| 即时结果、关卡收获与长期成长 | 原trace/完成层/ThemeReflection；新JourneyJournal动态目录、历史成绩来源及原作品只读 | 已独审；真实GUI Journal222覆盖Reflection/F8两渠道与生命周期，8334真实成果回看/独立重启通过，不造事件时间线 |
 | 少量文明片段/外部空间原型 | 会议候选；现有ThemeReflection只作主题回顾 | 本轮档案和观察站为候选叙事映射；明确虚构/事后回看，按真实完成派生，不测量文明/能耗 |
-| 奖励不重复、旧档不补造历史 | 原完成权威/作品支持；Journal原目录、磁盘inventory及坏/未来档只读测试 | 早期Journal160项通过且独立源审无阻断；最新测试版本须重跑。测试fixture/真实合法通关/历史作品来源分别披露 |
+| 奖励不重复、旧档不补造历史 | 原完成权威/作品支持；Journal原目录、磁盘inventory及坏/未来档只读测试 | 最终Journal222/同runtime全量及8334合法教程完成、只读浏览和跨进程保护通过；fixture/真实通关/历史作品来源分列，不补造旧日期 |
 | 后续C/P/G可发现、区分可选地址预测 | TaskNavigation/CreationTasks、地图快捷入口；实包全60前景入口gate | 已有实际导出入口；续轮导航/观察站仍同一目录，不能把候选标作普通默认 |
-| C→P→G当前模型准备、生成/作品保存/重启 | 创作合同；首轮tester实包C/P/G与作品跨进程证据 | 已有明确范围；新增展示只读原作品身份，不解除准备条件，不做AI审美通关 |
-| 普通成长、测试全关访问、模型前提各自验证 | normal25/tester32实包gate及单独后续gate | 已有；本轮新增UI区分unlocked与completed，测试开放不点亮earned |
-| F8现场/草稿/跨重启/最后ZIP/去重导入 | PR10离线系统与首轮4案例2会话最终ZIP验收 | 已有；新界面须F8兼容。原生长文/中文输入及旧意见GUI恢复未获首轮验证 |
-| 统一试玩包、版本/开关/manifest/存档说明 | 固定7c普通/测试者包及SHA、独立夜间profile | 已有历史基准；续轮需新固定版本和实际解压启动，不覆盖旧包/旧profile |
-| 实机3–5段展示素材及镜头路径 | 首轮截图/原生完成图/操作说明 | 待续轮变化证据；PPT/视频成片仍由既有队友负责，不以概念图冒充实机 |
+| C→P→G当前模型准备、生成/作品保存/重启 | 创作合同；首轮tester实包C/P/G与作品跨进程证据 | 8334实际CPG、作品文件逐字节独立重启与配方复现通过；新增展示只读原身份，不解除准备条件，不做AI审美通关 |
+| 普通成长、测试全关访问、模型前提各自验证 | normal25/tester32实包gate及单独后续gate | 8334 normal77/strict29、tester87/strict29及60实际入口通过；候选独立profile，测试开放不点亮earned，普通仍原门禁 |
+| F8现场/草稿/跨重启/最后ZIP/去重导入 | PR10离线系统与首轮4案例2会话最终ZIP验收 | 8334随包修复tool原链4现场/2会话/最终单ZIP导入与去重通过；Journal真实双渠道F8/Esc通过。原生中文输入/长文等仍待实测 |
+| 统一试玩包、版本/开关/manifest/存档说明 | 固定7c普通/测试者包及SHA、独立夜间profile | 新8334双ZIP/manifest/SHA及实际解压独立启动/重启通过；旧7c/226 ZIP与profile保留，无公网发布 |
+| 实机3–5段展示素材及镜头路径 | 首轮截图/原生完成图/操作说明 | 8334实际导出4张原字节帧与5条镜头路径已交接；未交付成片，不把controller帧称原生输入；PPT/视频仍需对应人审 |
 | 每轮独立审查、定向/完整检查与可恢复交接 | 协作纪律；首轮四轮/交叉审查/CI记录 | 持续执行；新代码不得借用旧7c测试结论。每轮记成功/失败/未运行 |
-| 次日≤5人审问题、素材与叙事接口 | 首轮handoff与art interfaces | 待续轮更新真实改动/开放决定，保留陌生玩家/异机/主观声音/最终美术边界 |
+| 次日≤5人审问题、素材与叙事接口 | 首轮handoff与art interfaces | 新版证据入口已有双包路径/SHA、5条镜头路线、≤5问题和素材接缝；陌生玩家/异机/主观声音/最终美术仍开放 |
 | 本地成绩、优化对照、社区/排行现状 | PersonalRecords.snapshot/view、layout_score、可选HTTP社区/排行榜；无endpoint时隐藏 | **已有候选功能，不是从未实现**。原本地记录不授进度；公网排行公平/服务接入/上传需原有门槛和授权，本轮不新增公网行为 |
 | 3D地图、完整CG、最终人设、复活结局等 | 会议明确开放设想 | 仍为完整目标开放项；本阶段先验证真实3D候选（SubViewport/Node3D/程序几何、固定视角）。CG/形象/剧情变体的可替换实现、素材与人审分别待证；互相冲突的设想不能同时成为唯一正式结局，不擅自替团队定稿 |
 | 真人理解、继续意愿、赛事/PPT正式规格 | 会议建议与团队安排 | 待真人/正式通知；不把开发者已知答案操作当新人、不重设成员任务或赛事截止 |
@@ -80,6 +82,17 @@ Python原导入器10测试与合成ZIP的5份recovery/cases/旧pending原样保�
 - 所有者与任务语境接口见active计划；规则仍在现有手册、策略仍在Hint，档案只链接回看。
 
 ## 当前证据状态
+
+F1当前包SOURCE8334的normal77/29、tester87/29及包内collector最终ZIP子链已通过；
+同runtime226完整168/168、定向/真实渲染来源与8334两CI成功分列，不借旧包认证新身份。
+normal/tester限定Sky OS路线均通过，进程exit0/包字节未变；只读复核正常教程成果和测试者本地现场，
+原生CPG/重启/长中文输入/真实旧作品/Mac/新人仍未执行。双包SHA、7张真实帧、各验证器与旧失败详见
+[唯一证据入口](../verification/20261018-full-journey/README.md)。F1事实冻结不关闭完整goal；
+后续新阶段由总控建立独立计划，不在本账本以候选设想替代已实现行为或人审决定。
+
+## 历史检查点证据状态（当前Gate见页首）
+
+以下为按时间保留的旧检查点记录，其中“当前”“待”“P0开放”只指相邻来源当时状态；F1最终结果、当前开放项与包身份见页首及唯一证据入口。
 
 本轮唯一证据入口为[20261018-full-journey](../verification/20261018-full-journey/README.md)，
 保留早期失败、成功快照、源/日志哈希及最新待验差异。首轮7c包及原native记录保持原身份，

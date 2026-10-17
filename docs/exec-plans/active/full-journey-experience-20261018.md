@@ -1,21 +1,22 @@
 # 全旅程体验续轮 · 2026-10-18
 
-当前新封装SOURCE为8334ab137beb95f24f6092ac0a23df69c592255f：修复随包Python收集器的目录发布失败，
-Visual独审/原10+新增4测试通过；仅元数据/QA/CLI变化，Godot runtime/assets等与226无差异经总控核对。
-引用下列226 full168仅在相同runtime范围，不声称8334全量另跑。旧226 normal77+29成功、tester前段成功但
-最终collector失败分别保留；新8334双ZIP原父/child/strict重启和新限定原生仍待，完整goal保持active。
+当前包SOURCE固定`8334ab137beb95f24f6092ac0a23df69c592255f`，随包收集器经独审及14项Python测试通过。
+Godot runtime/assets/project/export-presets/tests与226无差异经总控核对，引用226原full168/168、
+定向13/13、Rule真实401/Journal真实222及两CI成功仅覆盖相同runtime，不声称8334另跑full。
 
-前一已验证runtime检查点为22603af3a645ec6fe1b245f83d6f0d71472035c5：Store新incident直接fresh排他目录、
-context/PNG先验、原case.json最后写，移除填满目录发布rename；旧pending/JSON/notes/导出协议保留。
-Visual独立源审无阻断；新fresh9a13/13、be37原Rule真实401及cba Journal222均PASS/exit0，
-18次captured/pending0、三尺寸各6逐图与context同尺寸。新cdace完整原verify168/168 PASS/exit0、
-651/651raw匹配、无额外tests/owned提前终止；226两远端CI39068099185/39068095554成功。
-Narrative持唯一引擎按正式SOURCE226构建双包及原ZIP父/子链、strict embedded独立重启；实际包和原生仍待。
-原679 Windows full166/168、637真实GUI rename失败和旧CI各保留原身份，不能追写全绿；
-两包/限定原生及完整goal未完成，不启动F2候选。
-SOURCE226已正式固定，文档检查点7b8b352不混入包身份；索引假M刷新没有生产字节差异。
-另行Python原导入器10测试及合成recovery ZIP兼容通过（5文件SHA保持，仅1正常incident），
-不等于新Store实际Godot导出或整包验收，既有半写/碰撞/未知版本保护仍依实际定向结果。
+F1双实包原ZIP链已通过：normal5acc父77+strict重启29；tester288父87+strict重启29及
+实际包内tool子链367b的60入口、真实C→P→G/作品逐字节独立重启、4现场/2会话、最终ZIP独立导入/去重。
+两包同QA controller52e78b94；normal保留旧强类型validator，tester仅按既有encoder记录六个坐标
+float→int expected-loaded转换，其余JSON类型及全部protected磁盘SHA严格相同。实际exit0与完整来源/哈希
+集中在[证据入口](../../verification/20261018-full-journey/README.md)。包身份不混后续QA/文档提交。
+
+原Windows166/168、目录发布失败、旧226collector、7f采样及8aa外层类型检查失败全部保留；不追写绿、
+不推断唯一OS根因、不改旧pending/作品/profile。Store与collector无目录rename发布、无sleep/retry，
+不承诺fsync/断电原子性。索引stat假M刷新没有生产字节变化，原检出test_ui删除未动。
+
+**normal及tester8334限定Sky原生路线均PASS；陌生玩家验收仍待，完整goal保持active**。Root真实OS输入完成normal0→五操作→唯一成果、普通F8/Esc和3D相机；tester60入口但0成果、Reflection内离线现场/截图和逐层Esc。PID38852/47384正常exit0；独立核全部pristine字节、normal存档/电路和tester零完成context/本地截图/空远程队列。原生CPG/独立重启/中文长输入/旧作品/Mac未执行。此结果闭合F1受控导出链，
+不关闭本active计划或将CG/形象/剧情变体、同数据浅深整页对照与可替换创作接口永久排除。
+F2须按总控核准合同继续，不自动开始或把候选定稿。旧7c/226包与证据保留原身份。
 
 ## 目标、依据与实际授权
 
@@ -91,7 +92,9 @@ Godot、导出、原生执行需要总控授予唯一令牌，其他worker不得
 - 首轮技术证据属于固定7c源码及各自回执；不能自动认证本轮新增实现。
 - 计划/账本先落盘；后续工作包尚未据此获得运行验证。
 
-## F1实现与独立审查状态
+## F1历史实现与独立审查检查点（非当前Gate）
+
+本节保留当时失败与待验证状态；其中“当前”“仍待”“P0”等仅指相邻旧来源，最终受控/限定原生结果见计划页首及证据入口。
 
 - 已实现60任务的双语Now/Verify、可展开语境/承接/真实完成回应及九个原工作台接缝；
   不增加通关、Hint或准备门槛。Knowledge独立只读核对实际catalog/合法替代/临时与历史来源，
@@ -168,8 +171,8 @@ Rule长f74/短cd193 QA即时headless391各通过，原canonical短根renderer d4
 
 ## 尚未关闭的工作
 
-F1代码已存在并经交叉源审，定向与真实模态栈已有各自通过回执；九域/多尺寸渲染按各快照保留。
-完整原回归166/168的两个失败尚须分别闭合，新固定提交与导出包、实际解压/保存恢复/反馈子链，
-以及本轮限定原生验收仍未完成。
-陌生玩家理解、美术定稿、完整CG/人设/剧情变体、未测平台与公网发布各保留证据或授权边界。
-本计划及完整goal保持active，不以早期定向成功或另一份候选替代完整需求的逐项处理。
+F1受控双实包链及normal/tester限定OS路线已闭合；旧失败各保留，源码8334的两远端CI已由Root live核为SUCCESS（39071109957/39071106629）。
+原生CPG、原生独立重启、中文长输入、真实旧作品、Mac/异机和陌生玩家理解未执行；模型/配方/作品跨进程另有实际导出包controller证据，不混等级。
+后续阶段由总控建立独立新计划并明确所有权；此处只交接未完成需求，不延长F1实现范围。
+同数据浅深整页比较、可替换创作接口、完整CG/形象/剧情变体继续逐项处理，需人的素材/叙事选择不冒充技术通过。
+公网发布与外部服务仍须实际授权；本active计划及完整goal保持active，不以F1候选替代全部要求。

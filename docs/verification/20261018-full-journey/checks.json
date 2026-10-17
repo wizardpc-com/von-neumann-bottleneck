@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "goal_status": "ACTIVE",
-  "stage_status": "ACTIVE: fixed new wrapper SOURCE8334 with collector14 PASS; runtime parity reuses226 full168 scope only. Old226 normal77+29 passes, tester game capture/reopen pass but collector fails. New8334 ZIPs/tool-in-ZIP/parent-child/embedded reopen/native pending; F2 not started.",
+  "stage_status": "ACTIVE: F1 fixed SOURCE8334 two actual ZIP controller chains and scoped normal/tester Sky OS routes PASS. Source8334 two remote CI SUCCESS; identical Godot runtime uses226 original full168 scope. Full-goal human/creative/other-device items open; F2 approved contract awaiting checkpoint before source mutation, no public release.",
   "evidence_grade": "isolated controller/headless and explicitly marked renderer; no new exported/native/human acceptance",
   "engine": "4.7.1.stable.official.a13da4feb",
   "baseline": {
@@ -1086,11 +1086,6 @@
       "original_23a_cause": "UNKNOWN"
     }
   ],
-  "pending": [
-    "New tester destruction recovery: both prior-pause states and rootF8 after popup destruction; actual renderer and independent review",
-    "Final nine-host/located clip/fonts/marker matrix after narrow host fixes",
-    "Final full regression, fixed-source CI, new normal/tester packages and native/human acceptance"
-  ],
   "checkpoints": [
     "c50492a",
     "0aa1866",
@@ -1965,28 +1960,6 @@
       }
     ],
     "status_authority": "Root verified completed GitHub run; local text artifacts hashed without inferring exit codes from text alone"
-  },
-  "native": {
-    "status": "NOT_RUN",
-    "operator": "Visual",
-    "official_tool": "mcp__node_repl__js",
-    "error": "failed to write kernel assets: 系统找不到指定的路径。 (os error 3)",
-    "reset_succeeded": true,
-    "retry_count_after_reset": 1,
-    "sky_import_executed": false,
-    "game_launch_or_control": false,
-    "dependency_install_or_alternate_native_tool": false,
-    "private_route": ".godot/full-journey-native-preparation.md",
-    "prior_7c_native_acceptance_applies": false,
-    "root_standard_sky_import": {
-      "succeeded": true,
-      "sky_ready": true,
-      "window_or_input_api_called": false,
-      "game_launched": false,
-      "install_or_workaround": false,
-      "native_acceptance": "NOT_RUN",
-      "scope": "Separate official root instance; does not overwrite Visual instance initialization failure"
-    }
   },
   "latest_diagnostics": {
     "latest_coherent_runs": [
@@ -3866,34 +3839,16 @@
     "limit": "Closes stale structure assertions only. Original full stays 166/168; rule-practice feedback P0 remains open."
   },
   "latest_remote_ci_root_verified": {
-    "authority": "Root current remote verification, no original log item count inferred here.",
-    "successful_source": "e945e8cb40ea977286d44082e8333485456b9d04",
+    "authority": "Root live gh exact-source verification",
+    "successful_source": "8334ab137beb95f24f6092ac0a23df69c592255f",
     "successful_runs": [
-      "39066571426",
-      "39066567602"
+      "39071109957",
+      "39071106629"
     ],
     "completed": true,
     "conclusion": "SUCCESS",
-    "jobs_scope": "Python and complete Godot jobs",
-    "original_679_failed_run": "39066306203",
-    "original_failure": "stale structural assertion, retained",
-    "proposed_49c_runs": {
-      "39067140525": "completed SUCCESS",
-      "39067137757": "completed SUCCESS"
-    },
-    "runtime_relation": "e945 and 49c runtime identical per Root; only QA probe independent reopen changed.",
-    "limit": "Both e945 and 49c successful CI runs precede the Store fix. They do not validate 22603af3 or any new exported package.",
-    "source_226": {
-      "commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
-      "runs": [
-        "39068099185",
-        "39068095554"
-      ],
-      "status": "completed",
-      "conclusion": "SUCCESS",
-      "authority": "Root live remote check",
-      "original_log_stage_count": null
-    }
+    "original_log_stage_count": null,
+    "limit": "Remote source CI is separate from actual exported ZIP, scoped native OS and human acceptance evidence."
   },
   "rule_diagnostic_followups": [
     {
@@ -3985,14 +3940,26 @@
   },
   "current_source": {
     "commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
-    "status": "Fixed new wrapper source; fresh package proof pending.",
+    "status": "Fixed8334 exported packages PASS actual ZIP/controller/strict reopen and bundled collector chain; identical Godot runtime uses226 full scope only.",
     "runtime_base_commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
     "runtime_parity_authority": "Root verified git diff empty for src/experiments/assets/project/export-presets/Godot tests versus226.",
     "runtime_evidence_scope": "Reuses226 original full168/168, targeted13/13 and real Rule401/Journal222 for identical runtime only; does not claim a newly run8334 full.",
     "new_collector_tests": "14/14 PASS; see collector_publication_fix.",
-    "actual_exported_zip_validation": "PENDING_NEW8334_BUILD_AND_REAL_CHAINS",
+    "actual_exported_zip_validation": "PASS normal77+29; tester87+29 and bundled collector child: sixty entries, real CPG, work restart, final ZIP-only import/dedup.",
     "game_native_acceptance": "NOT_RUN",
-    "f2": "NOT_STARTED"
+    "f2": "NOT_STARTED",
+    "ci_current_source": [
+      {
+        "run": 39071109957,
+        "conclusion": "SUCCESS",
+        "verified_by": "Root live gh exact8334"
+      },
+      {
+        "run": 39071106629,
+        "conclusion": "SUCCESS",
+        "verified_by": "Root live gh exact8334"
+      }
+    ]
   },
   "python_recovery_compatibility": {
     "execution_mode": "exec_command require_escalated",
@@ -4033,8 +4000,9 @@
     "runtime": "226 unchanged runtime gate evidence reused under explicit parity scope.",
     "collector": "14/14 Python tests PASS and independent source review.",
     "new_zip_embedded_tool_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
-    "actual_exported_zip_validation": "PENDING",
-    "game_native_acceptance": "NOT_RUN"
+    "actual_exported_zip_validation": "PASS; see actual_packages_8334.",
+    "game_native_acceptance": "SCOPED PASS both normal and tester8334: Root actual Sky OS input; independent process/pristine/local-save/context hash review. No newcomer/nativeCPG/restart/Chinese long input/real old works/Mac claim.",
+    "native_os_acceptance": "SCOPED PASS both normal and tester8334: Root actual Sky OS input; independent process/pristine/local-save/context hash review. No newcomer/nativeCPG/restart/Chinese long input/real old works/Mac claim."
   },
   "full_regression_226": {
     "raw_result": ".godot/verification/20261017T204927Z-cdace219/results.json",
@@ -6003,5 +5971,531 @@
     "0efcc61a5134": "Unicode supervisor launch failure retained. Main/bak only top saved_at_utc changes and normal backup rotation, no game payload or other protected disk changes. Normal autosave remains enabled.",
     "a914": "Raw canonical JSON and disk hashes equal; direct Godot comparison differs because JSON parser maps integer numbers to floats. Same-parser equality plus external raw typed-canonical/disk gates preserve value/bool change rejection; no game data fix.",
     "latest_successful_old_normal_controller_sha256": "548b33d3402da2c728c4d27d28567b9d7aee05939a925eb7f6361df1cb04d269"
+  },
+  "package_qa_failure_boundaries_8334": {
+    "7f012fb299b0": {
+      "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+      "parent_and_packaged_collector_child": "PASS; child60be0ebe5225 includes final ZIP-only/report and packaged tool d0de7376 pre/post integrity",
+      "strict_reopen": "Preflight FAIL before process launch",
+      "raw_log": ".godot/full-journey-package-8334/tester-reopen.log",
+      "raw_log_sha256": "3df95c0c3e4449d0d01aeacfd507e8717b47ab83686e4207b874dca451ec5b8b",
+      "recursive_value_type_diff": [
+        {
+          "path": "/game/system/workspaces/cpu_speed",
+          "parent": "absent",
+          "disk": "present"
+        }
+      ],
+      "main_and_backup_sha256": "b69527ba36d531b4839ad9ee6966d93639959d3ac5b6959573ebc1ba5c872af4",
+      "source_evidence": "System._exit_tree saves current workspace; probe previously sampled before this legitimate final flush. No other game payload value/type differences.",
+      "qa_only_checkpoint": "59209c6: existing workspace group flush and save before snapshot; verify actual CPU workspace and no awarded completion. No game or ZIP changes.",
+      "limit": "Original preflight refusal retained. Fresh both-parent same-controller and strict chains pending; no overall tester acceptance."
+    },
+    "8aa60f052841": {
+      "strict_validator_passed": false,
+      "engine_reopen_checks": 29,
+      "engine_exit": 0,
+      "protected_disk_hashes": "all exact",
+      "typed_difference": "Only six integral floating-point coordinates under cpu_speed.positions CPU/BUS/RAM x/y load as integers through existing ChapterWorkspace encoder. Original outer validation failure retained.",
+      "final_fix_scope": "QA expected-loaded state normalizes only six recorded coordinates; remaining typed canonical JSON and every protected disk hash stay strict. Fixture and independent review passed; final tester validation records conversions."
+    }
+  },
+  "actual_packages_8334": {
+    "normal": {
+      "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+      "build_id": "playtest-FullJourneyExperience20261018-8334ab137beb",
+      "profile": "FullJourney20261018",
+      "tester": false,
+      "controller_sha256": "52e78b94e7a012a293327c2d8b9193616dfb0515fea594a3cd5b486a66e41bf8",
+      "zip": "build/playtest-FullJourneyExperience20261018-8334ab137beb/Von-Neumann-Bottleneck-Windows-playtest-FullJourneyExperience20261018-8334ab137beb.zip",
+      "bytes": 57520233,
+      "zip_sha256": "5e1ea0e4986a1bc4a0098358fafae1f986f7bbb05bf3431800b6e3d7131c28df",
+      "manifest": "build/playtest-FullJourneyExperience20261018-8334ab137beb/manifest.json",
+      "manifest_sha256": "4263ee1cdc7ea11e4a47f2fa02c5c790e03d3a91f718802d9e53820ed4ac4ea8",
+      "exe_sha256": "1606aa6f07b92ed15f55157fd58c75812a496fd3c5c389ce3ea7de062691726a",
+      "embedded_pack_sha256": "a6ef72454dcb4cca9087ae511976ef86bed95a64380ebf16d6da1d9c190a2c53",
+      "parent_validator_sha256": "d2a3cde3a5809615102008de6e3f84878f218ddb77a76dd1ef78f0eaddba9c9b",
+      "bundled_collector_sha256": null,
+      "validation": {
+        "passed": true,
+        "evidence_grade": "actual embedded namespace across independent exported processes; rendered controller, not native OS input",
+        "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+        "build_id": "playtest-FullJourneyExperience20261018-8334ab137beb",
+        "profile": "FullJourney20261018",
+        "tester": false,
+        "zip_sha256": "5e1ea0e4986a1bc4a0098358fafae1f986f7bbb05bf3431800b6e3d7131c28df",
+        "exe_sha256": "1606aa6f07b92ed15f55157fd58c75812a496fd3c5c389ce3ea7de062691726a",
+        "embedded_pack_sha256": "a6ef72454dcb4cca9087ae511976ef86bed95a64380ebf16d6da1d9c190a2c53",
+        "controller_sha256": "52e78b94e7a012a293327c2d8b9193616dfb0515fea594a3cd5b486a66e41bf8",
+        "parent_receipt_sha256": "abfc8dbf7a2d92b101a8d34e5ca434719ea0a0d709928e05260e9f2a345a6f96",
+        "post_exit_baseline_sha256": "c9c5825478497c6d5869ef0211b1fa25ca49ec8144b579cf7aa7b148d5122aa9",
+        "reopen_receipt_sha256": "66881019d13f7fbda6872894403b6cc4efe0f58c67967178925b6e080f01bb0e",
+        "process_receipt": "embedded-profile-reopen-bfd8d118-process.json",
+        "validator_sha256": "e5a01b7e2beb8b9e4c6215c461eb407660afb69d2367f9cfce7e583d36c0bf16"
+      },
+      "process": {
+        "raw_receipt": ".godot/night-package/5acc08e7a872/embedded-profile-reopen-bfd8d118-process.json",
+        "raw_receipt_sha256": "aa744a8066cb5fa93ddf2431011932feb9bc59241303faa4faa76d6484d686db",
+        "pid": 31532,
+        "exit": 0,
+        "terminated_owned_child_reason": ""
+      },
+      "parent": {
+        "raw_receipt": ".godot/night-package/5acc08e7a872/receipt.json",
+        "raw_receipt_sha256": "abfc8dbf7a2d92b101a8d34e5ca434719ea0a0d709928e05260e9f2a345a6f96",
+        "check_count": 77,
+        "all_checks_passed": true,
+        "failures": []
+      },
+      "reopen": {
+        "raw_receipt": ".godot/night-package/5acc08e7a872/embedded-profile-reopen.json",
+        "raw_receipt_sha256": "66881019d13f7fbda6872894403b6cc4efe0f58c67967178925b6e080f01bb0e",
+        "check_count": 29,
+        "all_checks_passed": true,
+        "failures": []
+      },
+      "validation_receipt": {
+        "path": ".godot/night-package/5acc08e7a872/embedded-profile-reopen-validation.json",
+        "sha256": "8dcf63c2a314a6aa61ee500d34a65ba3161e50cf0cebb1fcd89ff45fc40d9757"
+      }
+    },
+    "tester": {
+      "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+      "build_id": "playtest-FullJourneyAccess20261018-8334ab137beb",
+      "profile": "OfflineTeammate-FullJourney20261018",
+      "tester": true,
+      "controller_sha256": "52e78b94e7a012a293327c2d8b9193616dfb0515fea594a3cd5b486a66e41bf8",
+      "zip": "build/playtest-FullJourneyAccess20261018-8334ab137beb/Von-Neumann-Bottleneck-Windows-playtest-FullJourneyAccess20261018-8334ab137beb.zip",
+      "bytes": 57533514,
+      "zip_sha256": "1c99f727a04134d4db2c6fb4742ba593e6484832d8b78efe1e7f1854469dc4f2",
+      "manifest": "build/playtest-FullJourneyAccess20261018-8334ab137beb/manifest.json",
+      "manifest_sha256": "81efa2601262b0d8e4833277998d400687617e806d4c7de42c2b736e26c4c933",
+      "exe_sha256": "b405e9e8475a40c99c3276cc3caa116167474dbf742832b1ab45cb64aa4b5312",
+      "embedded_pack_sha256": "9ebf8c1d1084faf31b9eb3395d2b7e4cfb40029a897f0690c8999ed375a8c067",
+      "parent_validator_sha256": "d2a3cde3a5809615102008de6e3f84878f218ddb77a76dd1ef78f0eaddba9c9b",
+      "bundled_collector_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+      "validation": {
+        "passed": true,
+        "evidence_grade": "actual embedded namespace across independent exported processes; rendered controller, not native OS input",
+        "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+        "build_id": "playtest-FullJourneyAccess20261018-8334ab137beb",
+        "profile": "OfflineTeammate-FullJourney20261018",
+        "tester": true,
+        "zip_sha256": "1c99f727a04134d4db2c6fb4742ba593e6484832d8b78efe1e7f1854469dc4f2",
+        "exe_sha256": "b405e9e8475a40c99c3276cc3caa116167474dbf742832b1ab45cb64aa4b5312",
+        "embedded_pack_sha256": "9ebf8c1d1084faf31b9eb3395d2b7e4cfb40029a897f0690c8999ed375a8c067",
+        "controller_sha256": "52e78b94e7a012a293327c2d8b9193616dfb0515fea594a3cd5b486a66e41bf8",
+        "parent_receipt_sha256": "ac3e3793c40a6ce2668e1c3d3de4de9adb6bffb9ce013b9be2fd1f9786f9529a",
+        "post_exit_baseline_sha256": "bb4515aac366168e45b4e3024892fc1f1c9196213154c9d6b59dcfc34c4f6fbb",
+        "loaded_state_conversions": [
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/0",
+            "from": 155.0,
+            "to": 155
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/1",
+            "from": 145.0,
+            "to": 145
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/0",
+            "from": 560.0,
+            "to": 560
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/1",
+            "from": 145.0,
+            "to": 145
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/0",
+            "from": 965.0,
+            "to": 965
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/1",
+            "from": 145.0,
+            "to": 145
+          }
+        ],
+        "loaded_state_comparison": "canonical JSON exact after only the recorded tester CPU workspace coordinate conversions; all protected file hashes exact",
+        "reopen_receipt_sha256": "6293fb2ad3f36ae91afb043f7adde2b3a96c3f5d101a0e166d55d69b366388bc",
+        "process_receipt": "embedded-profile-reopen-e12bbecb-process.json",
+        "validator_sha256": "b6ed15f237958d66ab9fc072b4730efd36055b25bf0a0dcedaedb1e306a38ac5"
+      },
+      "process": {
+        "raw_receipt": ".godot/night-package/288ef5076947/embedded-profile-reopen-e12bbecb-process.json",
+        "raw_receipt_sha256": "5de815e1b0e2c4a28e00c7405947334936b2f8f8a2a0f3f840a0249a49e0b120",
+        "pid": 45624,
+        "exit": 0,
+        "terminated_owned_child_reason": ""
+      },
+      "parent": {
+        "raw_receipt": ".godot/night-package/288ef5076947/receipt.json",
+        "raw_receipt_sha256": "ac3e3793c40a6ce2668e1c3d3de4de9adb6bffb9ce013b9be2fd1f9786f9529a",
+        "check_count": 87,
+        "all_checks_passed": true,
+        "failures": []
+      },
+      "reopen": {
+        "raw_receipt": ".godot/night-package/288ef5076947/embedded-profile-reopen.json",
+        "raw_receipt_sha256": "6293fb2ad3f36ae91afb043f7adde2b3a96c3f5d101a0e166d55d69b366388bc",
+        "check_count": 29,
+        "all_checks_passed": true,
+        "failures": []
+      },
+      "collector_child": {
+        "raw_receipt": ".godot/offline-package/367b69c41ea4/receipt.json",
+        "raw_receipt_sha256": "7c3e3f239ac7475d43757ae0a59bcd845a585ea307b71c12aca28297fef17ec1",
+        "bundled_collector": {
+          "path": "feedback-tools/offline-playtests.py",
+          "sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+          "build_manifest_sha256": "82c910b9474c3f55e04fdc5bb4640c73864f42869c9d68f21e9eac2e80a2fb8b"
+        },
+        "visited_task_count": 60,
+        "actual_work_saved_and_byte_preserved": true,
+        "report": {
+          "bundles": 2,
+          "cases": 4,
+          "revisions": 7,
+          "capture_errors": 0,
+          "sessions": 2,
+          "ignored_session_lines": 410
+        },
+        "final_export_alone": {
+          "bundles": 1,
+          "cases": 4,
+          "revisions": 4,
+          "capture_errors": 0,
+          "sessions": 2,
+          "ignored_session_lines": 0
+        },
+        "imports": [
+          {
+            "bundle_id": "82576d1a8a988221c716bf6627ad500f",
+            "status": "imported"
+          },
+          {
+            "bundle_id": "79af074a82412b7ecc255a3cd3ba1933",
+            "status": "imported"
+          }
+        ],
+        "dedup": [
+          {
+            "bundle_id": "82576d1a8a988221c716bf6627ad500f",
+            "status": "deduplicated"
+          }
+        ],
+        "evidence_grade": "rendered unchanged exported binary with synthetic controller; native input separate"
+      },
+      "validation_receipt": {
+        "path": ".godot/night-package/288ef5076947/embedded-profile-reopen-validation.json",
+        "sha256": "bea540fc9d706ac618036323fc5e89de460d3a5e93e414b71c9568226268db64"
+      }
+    }
+  },
+  "curated_images_8334": {
+    "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+    "build_id": "playtest-FullJourneyExperience20261018-8334ab137beb",
+    "work": "5acc08e7a872",
+    "logical_viewport": "1600x900",
+    "physical_png": "1280x720",
+    "language": "zh_CN",
+    "independent_image_review": "Visual viewed all four frames; Knowledge independently verified exact raw/copied bytes and hashes.",
+    "evidence_grade": "actual exported binary rendered controller; not native OS input, new player comprehension or final art acceptance",
+    "before_comparison": "No verified same-state/composition prior package frame; no fabricated before-after pair.",
+    "images": [
+      {
+        "raw": ".godot/night-package/5acc08e7a872/first-result.png",
+        "file": "docs/verification/20261018-full-journey/images/source8334ab137beb-work5acc08e7a872-first-result.png",
+        "sha256": "6da4ef622a6f5ed5dbf7f9fa08234cb8695337bc0545b43b7a416b276a1ab1ff",
+        "bytes": 176293,
+        "scope": "真实教程五操作后的完成页、NOT1→0、能力承接及可选反馈；不证明其他任务完成。"
+      },
+      {
+        "raw": ".godot/night-package/5acc08e7a872/context.png",
+        "file": "docs/verification/20261018-full-journey/images/source8334ab137beb-work5acc08e7a872-context.png",
+        "sha256": "3072a1763103996327fee35a2c45041c715d9e6da28f17d3b6039f411dc6cabf",
+        "bytes": 166639,
+        "scope": "原compact语境按钮与工作台同屏；不证明长展开正文全文同屏。"
+      },
+      {
+        "raw": ".godot/night-package/5acc08e7a872/journal.png",
+        "file": "docs/verification/20261018-full-journey/images/source8334ab137beb-work5acc08e7a872-journal.png",
+        "sha256": "42b043887070c61bf48beb22719d61e93c5694bf57cdc7cf4e6c158641b4f639",
+        "bytes": 303855,
+        "scope": "真实目录1/60，tutorial合法完成、half-adder未完成，虚构/事后回看及来源。"
+      },
+      {
+        "raw": ".godot/night-package/5acc08e7a872/observatory.png",
+        "file": "docs/verification/20261018-full-journey/images/source8334ab137beb-work5acc08e7a872-observatory.png",
+        "sha256": "f52307162b64593a2a7859a82add01ce417939f53ff46ebab3e6e32ac2f818c2",
+        "bytes": 146609,
+        "scope": "真实3D、tutorial成果灯、未完成节点及原树/工作台入口；灯非信号或能耗。"
+      }
+    ]
+  },
+  "native_normal_8334": {
+    "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+    "build_id": "playtest-FullJourneyExperience20261018-8334ab137beb",
+    "profile": "FullJourney20261018",
+    "scoped_result": "PASS",
+    "evidence_grade": "Known-answer agent OS mouse/keyboard via Sky; not newcomer comprehension",
+    "scope": "Root observed real Sky OS mouse/keyboard only, no UI handler/signal injection. Known-answer agent, not newcomer understanding. Normal package only.",
+    "raw_observations": {
+      "path": ".godot/night-native/full-journey-8334-efd38515d9ad/normal/os-observations.json",
+      "sha256": "5d2fd2eceb46235c8b61c23960ae860739ab23d3bf9d3548eada255b2aeec998",
+      "action_count": 21
+    },
+    "process": {
+      "path": ".godot/night-native/full-journey-8334-efd38515d9ad/normal/native-owned-process.json",
+      "sha256": "9e1f50bf056af7d9d9a63ece23e66523f5d03667702fe610f3a555e1b6ab19b9",
+      "pid": 38852,
+      "exit": 0,
+      "state": "exited",
+      "package_unchanged": true
+    },
+    "pristine_receipt": {
+      "path": ".godot/night-native/full-journey-8334-efd38515d9ad/pristine-extraction-receipt.json",
+      "sha256": "b8718f1c8f3d01e4ba6a4d835239aa4e5201140a021a3652a7cc2a91b2c4fafb",
+      "all_normal_extracted_file_hashes_rechecked": true,
+      "zip_sha256": "5e1ea0e4986a1bc4a0098358fafae1f986f7bbb05bf3431800b6e3d7131c28df",
+      "exe_sha256": "1606aa6f07b92ed15f55157fd58c75812a496fd3c5c389ce3ea7de062691726a",
+      "embedded_pack_sha256": "a6ef72454dcb4cca9087ae511976ef86bed95a64380ebf16d6da1d9c190a2c53"
+    },
+    "os_observed_scope": [
+      "fresh Home/Journal0of60",
+      "Reflection ordinary F8 and three Escape/focus returns",
+      "actual3D east camera, initially zero earned",
+      "Start/skip retains tutorial0of5",
+      "two actual port drags, input1, real Run1to0, rightclick disconnect, reconnect completes5of5",
+      "normal map21 entrances with actual locks",
+      "Journal1of60/core1of40/one plan",
+      "exactly one actual earned Observatory beacon",
+      "normal AltF4 exit0"
+    ],
+    "independent_saved_file_review": {
+      "savegame_main_sha256": "0110ce7e690b73dfd4ea9242b1196544d64108268ba95f2478dc27891b6772ba",
+      "savegame_backup_sha256": "0110ce7e690b73dfd4ea9242b1196544d64108268ba95f2478dc27891b6772ba",
+      "workbench_sha256": "2cef427eb54249d2b976b3c929c5fe348fe47e70e499f45e775c368aee2772bd",
+      "hardware_completed_levels": [
+        "tutorial"
+      ],
+      "other_domains_no_completed_awards": true,
+      "actual_tutorial_circuit_wires": [
+        "A_IN->NOT_1",
+        "NOT_1->LAMP"
+      ],
+      "limit": "Saved bytes corroborate final completion/circuit, not each OS input or the initial screen; root OS observations are the authority for actual input."
+    },
+    "logs": [
+      {
+        "path": ".godot/night-native/full-journey-8334-efd38515d9ad/normal/native-engine.log",
+        "sha256": "bd5ab8c660c25f5278ab5fa8dd391bd11f059f96901c8c3580e1d54495e50610",
+        "error_scan": "no ERROR/SCRIPT ERROR"
+      },
+      {
+        "path": ".godot/night-native/full-journey-8334-efd38515d9ad/normal/native-console.log",
+        "sha256": "90b7b5ad30be7e7bbd78ad3feeaa0efe8137b18d59615c54d78af2d90ce0e8f1",
+        "error_scan": "no ERROR/SCRIPT ERROR"
+      }
+    ],
+    "provenance_screenshots": [
+      {
+        "path": ".godot/night-native/full-journey-8334-efd38515d9ad/normal/os-tutorial-completed.png",
+        "sha256": "17cff092f9e1ef4c70d0b28392915ca2060c9f42069831356efe255e9d9ac52a",
+        "bytes": 117897,
+        "scope": "Root preserved original already-observed Sky returned image; no claim of an additional native observation."
+      },
+      {
+        "path": ".godot/night-native/full-journey-8334-efd38515d9ad/normal/os-earned-observatory.png",
+        "sha256": "1a69c03c5aafc044f5220e6e65891cd4a1608b1d6fcd647ab97e6e18d92b6d62",
+        "bytes": 99046,
+        "scope": "Root preserved original already-observed Sky returned image; no claim of an additional native observation."
+      }
+    ],
+    "not_run": [
+      "native CPG",
+      "native independent restart",
+      "Chinese or long note typing",
+      "existing real-player works",
+      "Mac or another device",
+      "newcomer comprehension",
+      "tester native acceptance: separate run pending receipt"
+    ],
+    "curated_native_images": {
+      "images": [
+        {
+          "raw": ".godot/night-native/full-journey-8334-efd38515d9ad/normal/os-tutorial-completed.png",
+          "file": "docs/verification/20261018-full-journey/images/source8334ab137beb-native-normal-os-tutorial-completed.jpg",
+          "sha256": "17cff092f9e1ef4c70d0b28392915ca2060c9f42069831356efe255e9d9ac52a",
+          "bytes": 117897,
+          "format": "JPEG/JFIF; original raw filename .png is preserved; copied under actual .jpg extension, no transcoding",
+          "dimensions": "1707x1067",
+          "scope": "真实教程5/5完成页、1→0与灯灭正确；不证明其余关卡完成。"
+        },
+        {
+          "raw": ".godot/night-native/full-journey-8334-efd38515d9ad/normal/os-earned-observatory.png",
+          "file": "docs/verification/20261018-full-journey/images/source8334ab137beb-native-normal-os-earned-observatory.jpg",
+          "sha256": "1a69c03c5aafc044f5220e6e65891cd4a1608b1d6fcd647ab97e6e18d92b6d62",
+          "bytes": 99046,
+          "format": "JPEG/JFIF; original raw filename .png is preserved; copied under actual .jpg extension, no transcoding",
+          "dimensions": "1707x1067",
+          "scope": "真实1/60、唯一tutorial成果灯与非信号/能耗警示；不证明真人理解。"
+        }
+      ],
+      "independent_image_review": "Visual viewed and copied original already-observed root Sky bounded game images; Knowledge verified exact original/copy bytes and JPEG signature. No independent reoperation or full desktop image.",
+      "evidence_grade": "known-answer agent OS input only; not newcomer comprehension/nativeCPG/restart/Chinese typing/other device"
+    }
+  },
+  "native_tester_8334": {
+    "source_commit": "8334ab137beb95f24f6092ac0a23df69c592255f",
+    "build_id": "playtest-FullJourneyAccess20261018-8334ab137beb",
+    "profile": "OfflineTeammate-FullJourney20261018",
+    "scoped_result": "PASS",
+    "evidence_grade": "Root actual Sky OS input on known routes, no game handler/signal injection; not newcomer comprehension",
+    "raw_observations": {
+      "path": ".godot/night-native/full-journey-8334-efd38515d9ad/tester/os-observations.json",
+      "sha256": "6d58e0967cc6ac8b91842faee6053fcbbd83451894de582d9d3f345ea8395c46"
+    },
+    "process": {
+      "path": ".godot/night-native/full-journey-8334-efd38515d9ad/tester/native-owned-process.json",
+      "sha256": "460f7230c317f4398f685fc2dfbe03315fc264b141b5db59f209cd30ffe34d5d",
+      "pid": 47384,
+      "exit": 0,
+      "state": "exited",
+      "package_unchanged": true
+    },
+    "pristine_receipt_sha256": "b8718f1c8f3d01e4ba6a4d835239aa4e5201140a021a3652a7cc2a91b2c4fafb",
+    "all_pristine_file_hashes_rechecked": true,
+    "os_observed_scope": [
+      "tester map60of60 accessible but zero completed",
+      "Journal0of60/core0of40",
+      "actual Reflection F8 local incident/screenshot",
+      "three Escape events return feedback/reflection/Journal/map one layer at a time with focus",
+      "normal exit and no awarded completion"
+    ],
+    "independent_local_case": {
+      "id": "ddafebc45a69be3346df4e51b5d573eb",
+      "case_sha256": "c58c22e72e04ae01deba3046c4818254a8d48ad5881f26efc6be14650dd89442",
+      "context_sha256": "6138e81cc65b57e2cec9bbfc79f1d854fd6410d3a5a1bdbec229ab9d979425a0",
+      "screenshot_sha256": "fda7d4b04e5d9c0ce175508fdf2d6f77541e641b694e78093bf04727dd9236de",
+      "screenshot_format": "PNG",
+      "screenshot_physical_dimensions": [
+        1040,
+        768
+      ],
+      "screenshot_context_viewport_size": {
+        "x": 650,
+        "y": 480
+      },
+      "screenshot_viewport_is_root": false,
+      "focus_in_ThemeReflection": true,
+      "note_empty": true,
+      "revision": 0,
+      "screenshot_status": "captured",
+      "context_progress_source": "current_memory_not_disk",
+      "context_has_no_completed_tasks": true,
+      "savegame_file_absent": true,
+      "pending_case_count": 0,
+      "local_sharing_mode": true,
+      "remote_outbox_enabled": false,
+      "remote_queue_count": 0,
+      "endpoint_empty": true,
+      "limit": "Captured current-memory context and final local files corroborate zero-progress/local incident; they do not independently replay the OS input sequence."
+    },
+    "logs": [
+      {
+        "path": ".godot/night-native/full-journey-8334-efd38515d9ad/tester/native-engine.log",
+        "sha256": "bd5ab8c660c25f5278ab5fa8dd391bd11f059f96901c8c3580e1d54495e50610",
+        "error_scan": "no ERROR"
+      },
+      {
+        "path": ".godot/night-native/full-journey-8334-efd38515d9ad/tester/native-console.log",
+        "sha256": "90b7b5ad30be7e7bbd78ad3feeaa0efe8137b18d59615c54d78af2d90ce0e8f1",
+        "error_scan": "no ERROR"
+      }
+    ],
+    "provenance_screenshot": {
+      "path": ".godot/night-native/full-journey-8334-efd38515d9ad/tester/os-modal-offline-feedback.jpg",
+      "sha256": "49017dd5802724671683f81cf5d4eff927d72536a174d5ddd284ce89ebca98a4",
+      "format": "JPEG",
+      "bytes": 158437
+    },
+    "not_run": [
+      "Not newcomer comprehension",
+      "No native tutorial completion for tester",
+      "No native restart or C/P/G walkthrough",
+      "No human feedback text entered or external transmission",
+      "No real old player data",
+      "Windows device only"
+    ],
+    "curated_native_image": {
+      "raw": ".godot/night-native/full-journey-8334-efd38515d9ad/tester/os-modal-offline-feedback.jpg",
+      "file": "docs/verification/20261018-full-journey/images/source8334ab137beb-native-tester-os-modal-offline-feedback.jpg",
+      "sha256": "49017dd5802724671683f81cf5d4eff927d72536a174d5ddd284ce89ebca98a4",
+      "bytes": 158437,
+      "format": "JPEG, exact original bytes, no transcoding",
+      "independent_image_review": "Visual viewed and copied Root already-observed bounded game frame; Knowledge rechecked exact original/copy bytes.",
+      "scope": "Journal0/60 and real ThemeReflection offline feedback with local saved incident/screenshot; no newcomer or independent reoperation claim."
+    }
+  },
+  "historical_native_initialization": {
+    "status": "NOT_RUN",
+    "operator": "Visual",
+    "official_tool": "mcp__node_repl__js",
+    "error": "failed to write kernel assets: 系统找不到指定的路径。 (os error 3)",
+    "reset_succeeded": true,
+    "retry_count_after_reset": 1,
+    "sky_import_executed": false,
+    "game_launch_or_control": false,
+    "dependency_install_or_alternate_native_tool": false,
+    "private_route": ".godot/full-journey-native-preparation.md",
+    "prior_7c_native_acceptance_applies": false,
+    "root_standard_sky_import": {
+      "succeeded": true,
+      "sky_ready": true,
+      "window_or_input_api_called": false,
+      "game_launched": false,
+      "install_or_workaround": false,
+      "native_acceptance": "NOT_RUN",
+      "scope": "Separate official root instance; does not overwrite Visual instance initialization failure"
+    }
+  },
+  "historical_pending_at_early_snapshot": [
+    "New tester destruction recovery: both prior-pause states and rootF8 after popup destruction; actual renderer and independent review",
+    "Final nine-host/located clip/fonts/marker matrix after narrow host fixes",
+    "Final full regression, fixed-source CI, new normal/tester packages and native/human acceptance"
+  ],
+  "historical_remote_ci_before8334": {
+    "authority": "Root current remote verification, no original log item count inferred here.",
+    "successful_source": "e945e8cb40ea977286d44082e8333485456b9d04",
+    "successful_runs": [
+      "39066571426",
+      "39066567602"
+    ],
+    "completed": true,
+    "conclusion": "SUCCESS",
+    "jobs_scope": "Python and complete Godot jobs",
+    "original_679_failed_run": "39066306203",
+    "original_failure": "stale structural assertion, retained",
+    "proposed_49c_runs": {
+      "39067140525": "completed SUCCESS",
+      "39067137757": "completed SUCCESS"
+    },
+    "runtime_relation": "e945 and 49c runtime identical per Root; only QA probe independent reopen changed.",
+    "limit": "Both e945 and 49c successful CI runs precede the Store fix. They do not validate 22603af3 or any new exported package.",
+    "source_226": {
+      "commit": "22603af3a645ec6fe1b245f83d6f0d71472035c5",
+      "runs": [
+        "39068099185",
+        "39068095554"
+      ],
+      "status": "completed",
+      "conclusion": "SUCCESS",
+      "authority": "Root live remote check",
+      "original_log_stage_count": null
+    }
   }
 }

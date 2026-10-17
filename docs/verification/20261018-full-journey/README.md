@@ -7,12 +7,12 @@
 
 ## 当前Gate
 
-- **新封装SOURCE固定8334，双实包与新限定原生仍待**：`8334ab137beb95f24f6092ac0a23df69c592255f`包含随包离线收集器发布修复，原14项Python测试PASS。总控逐范围核其`src/experiments/assets/project/export-presets/tests`与226无差异；引用226 `cdace219`原full **168/168 PASS/exit0**及两CI成功只覆盖相同Godot runtime，不冒称8334另跑full。
-- 同固定源fresh13/13定向、原Rule真实renderer401、Journal真实窗口链222均通过。Rule18次captured、pending0，三尺寸各6张且PNG/context逐一匹配。
-- 新Store经Visual独立源审：排他创建fresh cases目录，先验证context/PNG、最后写原case.json，移除填满目录发布rename。JSON/notes/旧pending/导出格式不改，不加重试或原子耐久承诺。旧637目录rename208失败及原full166/168原样保留，不推断唯一OS根因。
-- 旧Windows full `1639bbd5`保持166/168及原GUI失败，不追写全绿。49c及e945的旧CI成功保持其原身份；新226的成功另有上述独立回执，不借证据文档commit认证运行源码。
-- 旧226 normal `ffd39a6b6958`父77/重启29已通过，tester游戏内捕获/重启也通过；其最后收集器目录发布WinError5使tester整链未通过，不能整体标绿。修复采用排他target、逐文件校验、原ZIP最后一次单文件发布及严格未发布标记，已独审/14测试通过，无sleep/retry或耐久承诺。
-- Narrative持唯一引擎，按新8334suffix重建同batch/profile双包，必须实际验证新ZIP内tool SHA、父/child最后ZIP-only与strict embedded重启；不拼装sidecar，不修改/重导覆盖旧226 ZIP。**新8334包与新游戏原生均未验收**；完整goal仍active，不启动下一候选阶段。
+- **F1双实包控制器链已通过，完整goal保持active**。包SOURCE为`8334ab137beb95f24f6092ac0a23df69c592255f`；普通包父77项/独立重启29项，测试者包父87项/独立重启29项均全部true、无失败，实际进程exit0。
+- 普通最终来源`night-package/5acc08e7a872`；测试者最终来源`night-package/288ef5076947`及原始子链`offline-package/367b69c41ea4`。测试者实际60入口前景、真实C→P→G/作品逐字节重启、4现场/2会话、最终单ZIP导入/报告/去重均通过，随包collector SHA为`d0de7376…2f4bf`。
+- 两包controller均为`52e78b94…41bf8`（QA检查点59209c6）；normal保留原强类型validator，tester只将既有编码器的六个CPU工作区坐标映射到expected-loaded整数，完整列出转换，其余typed JSON及全部protected文件SHA严格保持。源码、controller、validator完整SHA及原结果链接见[checks.json](checks.json)。
+- SOURCE8334新增收集器已独审并14项Python实测通过；总控核其Godot runtime/assets/project/export-presets/tests与226无差异。226 `cdace219`原full **168/168 PASS/exit0**、13/13定向、原Rule真实401/Journal真实222及两CI成功只覆盖相同runtime，不冒称8334另跑full。Root另实时核8334的CI39071109957/39071106629均completed/SUCCESS。
+- Store及collector均取消填满目录rename发布，使用排他fresh目标、先验证内容再最后发布元数据或原ZIP；不加sleep/retry，不承诺断电fsync、批次原子性或所有IO必成功。旧1639/637/226collector、7f工作区采样和8aa坐标类型QA失败均原样保留，不推断唯一OS根因。
+- **normal与tester8334限定原生OS路线均PASS**：Root实际Sky输入完成normal真实教程五操作/唯一成果、普通F8/Esc/3D相机；tester60/60可进但0成果，Reflection内F8保存本地现场/截图并逐层Esc，不授完成。PID38852/47384均正常exit0，独立核pristine全部文件未变、normal仅tutorial成果/两根线、tester空进度context/本地PNG/无远程队列。不是新手、原生CPG/独立重启/中文长输入/真实旧作品/Mac验收，完整goal保持active。
 
 文档恢复点`7b8b352`（此前`dea36d3`/`342e8e6`）只保存证据，不是包SOURCE。索引stat/CRLF假修改已由总控逐字节/filtered blob核同HEAD后刷新，cached diff为空，未改变生产字节；原检出`tests/test_ui.gd`的既有删除未动。
 
@@ -33,7 +33,7 @@ Python job`117488197257`；本地下载168份顶层txt（含import/userdir，166
 这仍不是最终包SOURCE冻结；完整fresh原verify已结束为166/168通过，规则练习反馈关闭仍有P0待诊，不能据单套canonical通过宣布完整IO或交互已闭合。
 基线CI运行`39061439011`已由总控核读为completed/SUCCESS；它不证明本轮新增代码。
 [旧7c固定包及限定原生验收](../20261018-night-experience/README.md)保留原身份，
-本轮尚无新固定包、原生或陌生玩家验收结论。未执行公网发布、账号/服务器修改或旧存档迁移。
+当时尚无本轮新固定包、原生或陌生玩家验收结论。未执行公网发布、账号/服务器修改或旧存档迁移。
 
 ## 已落盘的可观察变化
 
@@ -53,8 +53,8 @@ Python job`117488197257`；本地下载168份顶层txt（含import/userdir，166
 | Narrative：60context、ContextCard、完成overlay及9Host | Knowledge只读核对真实catalog、完成/历史/草稿、合法替代、切任务/撤销/语言、委托及临时探索 | 未发现生产阻断。测试中缺少必需reason参数已由作者修复；不代替运行/布局验收 |
 | Knowledge：Journal及测试 | Narrative只读核对completed/session/只读、无写入/lease、导航失败保留、成绩来源及作品保护 | 无确定阻断；指出ThemeReflection/F8焦点栈缺口，新增真实渲染专用测试待跑 |
 | Visual：观察站及Home/map入口、测试 | Knowledge只读核对完成与访问、坏档/session、浏览无写、实时门禁、3D及生命周期 | 无生产阻断；要求真实Host/F8/焦点链，已补测试，结果按各快照列示 |
-| Knowledge：Store发布窄修与test_offline_store | Visual核对fresh排他/碰撞保全、旧pending、context/PNG/metadata/cache顺序、半写recovery与完整有效metadata后验失败可恢复边界 | 22603源审无静态阻断；后9a/be37/cba实际定向/renderer通过，完整full/两包仍待，不扩大为所有IO或耐久保证 |
-| Knowledge：离线收集器与原/新增Python回归 | Visual独立核批预验/去重/冲突、排他owned、逐hash、文件publish、两个reader及半成品/旧坏库边界；Root/Narrative附加审查 | 无静态阻断，原10+新增4共14实际通过；新8334随包tool整链待运行，不以unit替代真实最终ZIP |
+| Knowledge：Store发布窄修与test_offline_store | Visual核对fresh排他/碰撞保全、旧pending、context/PNG/metadata/cache顺序、半写recovery与完整有效metadata后验失败可恢复边界 | 22603源审无静态阻断；后9a/be37/cba及cdace全量通过，8334相同runtime双实包链也通过，不扩大为所有IO或耐久保证 |
+| Knowledge：离线收集器与原/新增Python回归 | Visual独立核批预验/去重/冲突、排他owned、逐hash、文件publish、两个reader及半成品/旧坏库边界；Root/Narrative附加审查 | 无静态阻断，原10+新增4共14实际通过；新8334包内tool原子链实际最终ZIP-only通过，不扩大为所有IO保证 |
 
 测试前置和输入注入方式的问题单独保留，不把它们自动诊断成产品故障。
 
@@ -110,13 +110,18 @@ Godot为`4.7.1.stable.official.a13da4feb`。原始日志留在本地忽略目录
 | 旧226 normal `night-package/2e6b054ba54a` / `0efcc61a5134` / 后续a914 | QA定位与重启基线失败均保留 | 2e6误开完整briefing而非compact任务卡；0efcc含Unicode辅助进程加载失败、退出autosave只改saved_at与备份轮转；a914 raw canonical JSON及disk相同、Godot parser int→float使直接==误报。之后QA增加post-exit不可变基线、raw typed canonical和原进程内全SHA，五类purefixture不放宽值/bool保护；产品/旧226 ZIP不改 |
 | 旧226 normal `night-package/ffd39a6b6958` | 父77/77、strict embedded重启29/29及validation全部通过 | 同controller `548b33d3402da2c728c4d27d28567b9d7aee05939a925eb7f6361df1cb04d269`；只证明旧226 normal，不替代新8334封装 |
 | 旧226 tester `offline-package/4a727fb25f53` | 游戏内捕获/独立重启通过，最终仅ZIP导入失败，整链不通过 | Python `stage.rename(target)`发布已填充目录时报WinError5；原stage由既有finally清理，原ZIP及前段library仍存。异常原始证据为exec session78397/chunk f9e63b工具输出，无持久stdout raw文件；目录内`final-import-failure-summary.json`为明示现场摘要及各原engine/ZIP SHA，不冒充traceback原日志。无自动重跑或最终成功父/child收据 |
+| 新8334 tester `night-package/7f012fb299b0` / `offline-package/60be0ebe5225` | 父与包内tool最终ZIP子链通过；strict embedded重启前拒绝，未启动重启进程 | 递归值/类型比对仅磁盘新增`/game/system/workspaces/cpu_speed`，父workspaces为空；main/bak同SHA，非timestamp或JSON数值类型差异。真实CPU工作台退出会保存当前草稿，旧父在退出前采样。QA检查点59209c6在末次采样前flush/save并核CPU草稿存在且未授完成；不放宽保护、不改游戏或ZIP。旧拒绝回执保留，最终新链待证 |
+| 新8334 tester `night-package/8aa60f052841` | 实际父/子链和引擎重启29项/全磁盘SHA通过；外层typed post gate失败 | 仅CPU/BUS/RAM六个位置从整值float按既有ChapterWorkspace编码回读为int；旧FAIL保留。QA纯fixture与独审后，仅这六个expected-loaded坐标转换，其他typed字段及全磁盘SHA保留；最终新288链通过，不把8aa追写绿 |
+| 新8334最终 `night-package/5acc08e7a872` / `288ef5076947`、`offline-package/367b69c41ea4` | normal77+29、tester87+29与实际随包collector全链通过 | 重新核父/重启/基线SHA关联、ZIP/manifest SHA及实际exit0。测试者60入口与真实CPG/作品重启、4现场/2会话及最终ZIP独立导入/去重；原生另验 |
 | `full-journey-python-offline-publish-20261018T0602.log` | 新收集器原10+新增4：14/14 PASS/exit0 | CLI SHA `d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf`；覆盖顺序/逐hash/排他/marker可见性/损坏旧库/文件publish故障与owned回滚，不承诺消除所有真实IO风险 |
 
 56fe晚于上述旧失败，**但早于**marker主题实际最小尺寸修正、system拓扑/语言刷新回归和
 Journal→ThemeReflection→F8新栈。其成功不能认证这些后续差异。
 视觉实现/素材替换接缝及失败细节见[观察站说明](../../development/full-journey-visual.md)。
 
-## 当前等待的最终整合验证
+## 历史整合过程与当时待证状态（非当前Gate）
+
+本节保存各检查点当时的诊断、失败、等待项和命令，不描述当前状态。下文“当前”“仍待”“P0开放”“未运行”均只适用于相邻旧来源；最终F1结论见页首及新包限定原生观察，不追写旧失败为通过。
 
 唯一引擎持有人为Narrative，总控负责令牌与最终整合。最新已完成的be2664fe/054735诊断确认：
 inventory仅`presentation.cfg`从absent变为
@@ -185,7 +190,7 @@ P0未关闭，不能把当前166/168改写为168/168或提前freeze包。
 
 Visual另发现System EN旧工具栏窄窗横溢及Overlap缩放后的关闭按钮不fit；总控已授权Narrative
 在自有Host作最小布局修复，不因旧基线也有问题而忽略1280要求。默认clip与located检查分别记录。
-下列项不得提前标PASS：
+下列清单记录当时待证边界；其后的固定来源结果以页首Gate及checks为准：
 
 - 三套新定向及上述受影响11套旧/新保护已有固定855来源通过；完整全仓回归、
   其余未涵盖的UI/规则/模型保护仍待后续结果，不将定向范围扩大为全量。
@@ -196,13 +201,13 @@ Visual另发现System EN旧工具栏窄窗横溢及Overlap缩放后的关闭按�
   普通门禁、真实C→P→G/作品跨进程保护和最后ZIP反馈子链。
 - 本轮限定原生观察、陌生玩家理解、异机/Mac、人设/CG/声线/剧情变体及团队正式素材审阅。
 
-本轮原生验收为**NOT_RUN**，不是产品测试失败。Visual的官方`mcp__node_repl__js`实例初始化前遇到
+原生预备阶段曾为**NOT_RUN**，以下保留工具边界；当前双渠道限定结果见页首。Visual的官方`mcp__node_repl__js`实例初始化前遇到
 `failed to write kernel assets: 系统找不到指定的路径。 (os error 3)`；一次`js_reset`成功后仅重试一次，
 同错，`@oai/sky`导入尚未执行。没有启动或控制游戏、安装依赖、修改外部runtime或以Cua绕行。
-这是工具初始化错误，不是自动审批拒绝，也不是新包运行失败。
+这是Visual该实例的工具初始化错误，不是自动审批拒绝，也不是新包运行失败。
 随后Root在自己的官方node_repl实例按skill标准导入Sky成功，`skyReady=true`；
 尚未调用窗口/输入API、启动游戏或安装/绕行。Visual实例的失败不泛化为主线程工具不可用，
-新包限定OS验收仍待固定身份及唯一令牌释放后实际执行。
+该预备记录不冒称OS通过；后续Root实际normal/tester限定路线分别记录在页首。
 待命路线保存在本地`.godot/full-journey-native-preparation.md`。旧7c限定原生PASS保留原身份，
 不能覆盖本轮原生缺口；真实renderer/控制器结果也不等于OS或陌生玩家验收。
 
@@ -212,27 +217,75 @@ Visual另发现System EN旧工具栏窄窗横溢及Overlap缩放后的关闭按�
 观察站渲染需`--observatory-capture --capture-size=1280x720 --candidate-journey --creation-journey`。
 具体执行身份与结果以新回执为准，不以这段命令示例当作已执行证据。
 
-待构建身份：普通batch`FullJourneyExperience20261018`、profile`FullJourney20261018`；
+固定包身份：普通batch`FullJourneyExperience20261018`、profile`FullJourney20261018`；
 测试者batch`FullJourneyAccess20261018`、profile`OfflineTeammate-FullJourney20261018`。
-新manifest/ZIP/EXE/PCK SHA须在实际构建后填写；旧7c包及原profile全部保留。
+两包SOURCE均为8334，旧7c/226 ZIP与原profile保留。双包实际目录/哈希见下表，
+完整manifest/EXE/PCK/controller/validator SHA和来源链见checks，不混用后续QA或文档commit。
+
+## 新包限定原生观察
+
+Root以Sky真实OS鼠标/键盘操作normal8334，使用全新独立QA数据目录和已核pristine包；
+未调用游戏handler或signal。Home/Journal最初0/60；Reflection内普通F8可用，三个Esc逐层返回并恢复焦点；
+3D东侧相机可切换且初始无成果。Start/跳过仍0/5，实际两次端口拖线、切输入1、Run得到1→0、
+右键断线与拖动重连完成5/5；普通地图21入口且锁仍在，Journal1/60、核心1/40、一个实际方案，
+观察站恰一个合法成果灯。正常AltF4后PID38852退出0，日志无ERROR。
+
+Knowledge只读复核进程/pristine完整文件哈希和最终QA存档：main/bak一致、只完成tutorial，
+原电路保存A_IN→NOT_1→LAMP两根线，其他域未授完成；这些磁盘事实不代替每一步OS观察。
+原始操作/进程/截图来源及SHA见checks的`native_normal_8334`。截图只保存已观察Sky原图的provenance。
+tester8334亦由Root实际OS操作：地图60/60可进但0成果，Journal0/60/核心0/40；Reflection内F8保存本地现场及截图，三个Esc逐层回map、不授完成。PID47384正常exit0，包文件未变；独立核本地case为空意见/rev0、captured PNG1040×768，context明确非root Reflection窗口、零完成且来源为current_memory_not_disk；没有savegame文件或pending，远程outbox未启用/空队列/无endpoint。详见checks的`native_tester_8334`。
+
+已知答案agent不是新手，原生CPG、原生独立重启、中文长输入、
+真实旧作品、Mac/异机与陌生玩家理解均未在此路线执行。CPG跨进程另有上文原包controller证据。
+
+两张normal原生游戏帧由Visual逐张审图，Knowledge复核原字节/SHA相同；实际1707×1067 JPEG/JFIF。
+原raw误名`.png`保留，交付副本使用真实`.jpg`后缀，未转码，不能称无损PNG。
+
+| 原生观察帧 | 可见范围 |
+| --- | --- |
+| [os-tutorial-completed](images/source8334ab137beb-native-normal-os-tutorial-completed.jpg) | 真实教程5/5完成页、1→0与灯灭正确；不证明其余关卡完成。 |
+| [os-earned-observatory](images/source8334ab137beb-native-normal-os-earned-observatory.jpg) | 真实1/60、唯一tutorial成果灯与非信号/能耗警示；不证明真人理解。 |
+
+测试者原生帧：[Reflection上的离线反馈](images/source8334ab137beb-native-tester-os-modal-offline-feedback.jpg)，
+显示Journal0/60及本地保存成功。Visual独立审图、Knowledge核原字节JPEG/SHA一致，
+158437字节、SHA`49017dd5802724671683f81cf5d4eff927d72536a174d5ddd284ce89ebca98a4`；
+不把一帧截图扩展为整条OS路线或新人理解，实际操作以Root收据为准。
+
+## 可核对的实包变化帧
+
+四张均取自最终normal8334/5acc实际运行，逻辑1600×900、PNG1280×720、中文；
+Visual逐张审图，Knowledge复核目标与raw逐字节/SHA相同。没有裁剪、拼图、修图、重渲染或旧图改名。
+这是rendered controller证据，未获得同状态/同构图的旧包before，不凑前后对照。
+
+| 实际帧 | 可见证据与限制 |
+| --- | --- |
+| [first-result](images/source8334ab137beb-work5acc08e7a872-first-result.png) | 真实教程五操作后的完成页、NOT1→0、能力承接及可选反馈；不证明其他任务完成。 |
+| [context](images/source8334ab137beb-work5acc08e7a872-context.png) | 原compact语境按钮与工作台同屏；不证明长展开正文全文同屏。 |
+| [journal](images/source8334ab137beb-work5acc08e7a872-journal.png) | 真实目录1/60，tutorial合法完成、half-adder未完成，虚构/事后回看及来源。 |
+| [observatory](images/source8334ab137beb-work5acc08e7a872-observatory.png) | 真实3D、tutorial成果灯、未完成节点及原树/工作台入口；灯非信号或能耗。 |
+
+逐图SHA/字节数和精确来源见[checks](checks.json)的`curated_images_8334`。
 
 ## 次日入口与真人审阅
 
 先查看本页最新Gate和[覆盖账本](../../development/full-journey-coverage.md)，再选择新普通包或测试者包。
-以下新包字段在实际manifest出具前保持待填，不能把旧7c包更名当作本轮包：
+解压对应ZIP后运行`Windows/Von-Neumann-Bottleneck.exe`，保留同包README指定的数据目录。
+普通包按正常门禁推进；测试者包开放入口但不授完成，F8为离线现场。测试者包内
+`feedback-tools/offline-playtests.py`已经实际走完最终ZIP单独导入，完整工具SHA记录在checks。
+这两份包均关闭public release与上传默认，未配置endpoint。
 
-| 用途 | 固定ZIP与manifest | SHA-256 | profile |
+| 用途 | 固定ZIP与manifest | ZIP SHA-256 | profile |
 | --- | --- | --- | --- |
-| 普通成长 | 待实际构建路径 | 待manifest | `FullJourney20261018` |
-| 全入口测试者 | 待实际构建路径 | 待manifest | `OfflineTeammate-FullJourney20261018` |
+| 普通成长 | [ZIP](../../../build/playtest-FullJourneyExperience20261018-8334ab137beb/Von-Neumann-Bottleneck-Windows-playtest-FullJourneyExperience20261018-8334ab137beb.zip) · [manifest](../../../build/playtest-FullJourneyExperience20261018-8334ab137beb/manifest.json) | `5e1ea0e4986a1bc4a0098358fafae1f986f7bbb05bf3431800b6e3d7131c28df` | `FullJourney20261018` |
+| 全入口测试者 | [ZIP](../../../build/playtest-FullJourneyAccess20261018-8334ab137beb/Von-Neumann-Bottleneck-Windows-playtest-FullJourneyAccess20261018-8334ab137beb.zip) · [manifest](../../../build/playtest-FullJourneyAccess20261018-8334ab137beb/manifest.json) | `1c99f727a04134d4db2c6fb4742ba593e6484832d8b78efe1e7f1854469dc4f2` | `OfflineTeammate-FullJourney20261018` |
 
-镜头进入路径（新包验证后录制；当前不是已交付成片或真人验收）：
+镜头进入路径（已验证导出包中的操作路线；当前不是已交付成片或真人验收）：
 
 1. Home→开始/跳过壹→NOT五项操作→输入1/输出0→真实完成回应；突出灯灭也可能正确。
 2. 测试者地图→System `cpu_speed`→Now/Verify→正式基线→只换CPU再运行→对照证据；明确测试访问不算成果。
 3. Home→观察站→序章/创作区域、三个视角→比较真实已完成灯与未完成入口→定位原树；不录fixture冒充玩家进度。
 4. 地图C1→学习/真实复原→P1提交后揭晓→当前模型准备成立后G1生成/Keep→按原配方回看作品。
-5. 成长档案→主题回顾→F8→普通意见或测试者现场→逐层Esc回原页；保存/退出/重启素材只在新包实际验证后标注。
+5. 成长档案→主题回顾→F8→普通意见或测试者现场→逐层Esc回原页；独立重启已有控制器证据，原生输入镜头须另录。
 
 次日最多五个真人问题，记录观察而非先教答案：
 

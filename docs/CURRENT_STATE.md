@@ -4,6 +4,29 @@
 
 ## Current development — 2026-10-18
 
+The `codex/full-journey-experience-20261018` candidate adds bilingual task context
+for all sixty entrances, a read-only earned-work journal and a real optional3D
+observatory. Both fixed Windows ZIPs use source
+`8334ab137beb95f24f6092ac0a23df69c592255f`: ordinary progression uses
+`FullJourney20261018`; all-entrance inspection uses
+`OfflineTeammate-FullJourney20261018`. Access alone never grants completion.
+The ordinary package passes77 controller checks plus29 independent-reopen checks;
+the tester passes87 plus29, including real C→P→G, protected-work restart and the
+final-only feedback ZIP through its actual bundled collector. Runtime-equivalent
+source226 passes168/168 full Windows regression; both exact-source8334 CI runs
+are successful. Separate scoped OS input checks cover actual ordinary tutorial
+wiring/completion, journal/observatory and both feedback modal-return routes.
+These are known-answer agent checks, not unfamiliar-player acceptance.
+
+The [full-journey evidence](verification/20261018-full-journey/README.md) records
+exact identities, screenshots, failures and remaining scope. Draft PR12 is based
+on PR11's candidate branch; neither candidate was merged or publicly released.
+The full development goal remains active. Replaceable narrative media, broader
+creative presentation, human comprehension and final artistic/story decisions
+remain open in the [coverage ledger](development/full-journey-coverage.md).
+
+## Earlier October18 candidate — fixed7c snapshot
+
 PR10 merged into `main` as `bf8f61647c03c8bba868cc833b3832e274bd4aee`.
 The separate `codex/night-experience-20261018` candidate connects a skippable and
 replayable Yi introduction to actual first construction, independent interactive

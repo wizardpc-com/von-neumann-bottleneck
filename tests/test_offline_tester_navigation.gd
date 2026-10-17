@@ -50,6 +50,7 @@ func run() -> void:
 		check(core[index].completed==ordinary_core[index].completed,"Tester access does not grant core completion: "+core[index].key)
 	check(not second[6].completed and not second[7].completed and not creation[8].completed,"Open candidate entrances grant no saved support")
 	var hardware = load("res://src/hardware_foundations/hardware_foundations.gd").new()
+	hardware.game_player_content=save.game_player_content
 	hardware._activate_content_state()
 	var fresh_content := PlayerContent.new()
 	hardware.player_content = fresh_content
@@ -61,7 +62,7 @@ func run() -> void:
 	var reference_circuit := LogicCircuit.new()
 	reference_circuit.add_component(reference.instantiate(&"TEST_REFERENCE"))
 	check(hardware._uses_offline_reference(reference_circuit),"Tester references cannot count as earned circuit evidence")
-	var owned := reference.duplicate_component_definition()
+	var owned = reference.duplicate_component_definition()
 	owned.source_level = &"half_adder"
 	owned.source_signature = "genuine-player-test-source"
 	owned.metadata.clear()

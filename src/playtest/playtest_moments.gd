@@ -30,10 +30,11 @@ var score_toggle: CheckButton
 var saved_opinion: Dictionary = {}
 var content_scroll: ScrollContainer
 var entry_buttons: Array[WeakRef] = []
+var layer: CanvasLayer
 
 func _ready() -> void:
 	_load_drafts()
-	var layer := CanvasLayer.new()
+	layer = CanvasLayer.new()
 	layer.layer = 1600
 	add_child(layer)
 	panel = PanelContainer.new()
@@ -233,15 +234,20 @@ func toggle() -> void:
 	var actual: Dictionary = PlaytestData.current_task_context if not PlaytestData.current_task_context.is_empty() else PlaytestData.last_exit_context
 	target=PlaytestData.task_feedback_context(str(actual.get("chapter_id","")),str(actual.get("level_id","")))
 	_prepare_target()
-	previous_focus = get_viewport().gui_get_focus_owner()
+	var window: Window = OfflineFeedback._focused_window(get_tree().root)
+	previous_focus = window.gui_get_focus_owner()
+	if window != get_tree().root:
+		if layer.get_parent() != window: layer.reparent(window)
+		var release: Callable = _release_window.bind(window)
+		if not window.tree_exiting.is_connected(release): window.tree_exiting.connect(release, CONNECT_ONE_SHOT)
 	panel.show()
 	preload("res://src/ui/ui_motion.gd").reveal(panel)
 	var choices: Array[Node] = panel.find_children("*","Button",true,false)
 	if not choices.is_empty(): (choices[0] as Button).grab_focus()
 	_update_context_controls()
-	panel.position = Vector2(24,80)
-	panel.size.x = minf(680,get_viewport().get_visible_rect().size.x-48)
-	content_scroll.custom_minimum_size.y=minf(550,get_viewport().get_visible_rect().size.y-270)
+	panel.position = Vector2(24,80 if window == get_tree().root else 12)
+	content_scroll.custom_minimum_size.y=minf(550,panel.get_viewport().get_visible_rect().size.y-270)
+	panel.size = Vector2(minf(680,panel.get_viewport().get_visible_rect().size.x-48),0)
 	status.text = "" if PlaytestData.questionnaires_enabled() else _t("disabled")
 	exit_reason.select(0)
 	PlaytestData.set_feedback_visible(true,&"moments")
@@ -249,16 +255,22 @@ func toggle() -> void:
 func close() -> void:
 	_store_draft()
 	panel.hide()
+	if layer.get_parent() != self: layer.reparent(self)
 	if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
+	previous_focus = null
 	PlaytestData.set_feedback_visible(false,&"moments")
 	closed.emit()
+
+func _release_window(window: Window) -> void:
+	if is_instance_valid(layer) and layer.get_parent() == window: close()
 
 func _input(event: InputEvent) -> void:
 	if OfflineFeedback.enabled(): return
 	if event is InputEventKey and event.pressed and not event.echo:
+		if OfflineFeedback._focused_window(get_tree().root) != get_viewport(): return
 		if event.keycode == KEY_F8:
 			toggle(); get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_ESCAPE and panel.visible:
+		elif event.keycode == KEY_ESCAPE and panel.visible and panel.get_viewport() == get_viewport():
 			close(); get_viewport().set_input_as_handled()
 
 func _button(parent: Node,key: String,action: Callable) -> Button:

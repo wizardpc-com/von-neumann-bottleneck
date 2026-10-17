@@ -9,14 +9,26 @@ func _init() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _input(event: InputEvent) -> void:
-	if not visible or event.is_echo() or not event.is_action_pressed("ui_close_dialog"): return
-	set_input_as_handled()
+	if not visible or not has_focus() or event.is_echo(): return
 	var feedback: Variant = get_node_or_null("/root/OfflineFeedback")
+	var moments: Variant = get_node_or_null("/root/PlaytestMoments")
+	if event is InputEventKey and event.pressed and event.keycode == KEY_F8:
+		if moments != null and (feedback == null or not feedback.enabled()):
+			moments.toggle()
+			set_input_as_handled()
+		return
+	if not event.is_action_pressed("ui_close_dialog"): return
 	if feedback != null and feedback.backdrop.visible and feedback.panel.get_viewport() == self:
+		set_input_as_handled()
 		feedback.close_panel()
+		return
+	if moments != null and moments.panel.visible and moments.panel.get_viewport() == self:
+		set_input_as_handled()
+		moments.close()
 		return
 	var playtest: Variant = get_node_or_null("/root/PlaytestData")
 	if playtest != null and bool(playtest.get("_feedback_visible")): return
+	set_input_as_handled()
 	hide()
 	canceled.emit()
 

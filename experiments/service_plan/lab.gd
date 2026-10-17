@@ -280,12 +280,16 @@ func build() -> void:
 	overview_scroll.custom_minimum_size.y = 80; overview_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	overview_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; overview_scroll.follow_focus = true
 	overview.add_child(overview_scroll)
-	var overview_evidence := VBoxContainer.new(); overview_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var overview_evidence := HBoxContainer.new(); overview_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	overview_evidence.add_theme_constant_override("separation", 12)
 	overview_scroll.add_child(overview_evidence)
 	journey_context = preload("res://src/ui/journey_context_card.gd").new(); overview_evidence.add_child(journey_context)
+	journey_context.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var measured_evidence := VBoxContainer.new(); measured_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	measured_evidence.custom_minimum_size.x = 400; overview_evidence.add_child(measured_evidence)
 	_refresh_journey_context()
-	summary = label(tr2("四条流不断更新历史、请求下一次结果。安排组与驻留，再运行自己的草稿。", "Four streams update history and request their next result. Arrange groups and residency, then run your draft."), overview_evidence, 14)
-	var investigation := HBoxContainer.new(); overview_evidence.add_child(investigation)
+	summary = label(tr2("四条流不断更新历史、请求下一次结果。安排组与驻留，再运行自己的草稿。", "Four streams update history and request their next result. Arrange groups and residency, then run your draft."), measured_evidence, 14)
+	var investigation := HBoxContainer.new(); measured_evidence.add_child(investigation)
 	bill_button = button(tr2("完整实测账单", "Measured bill"),investigation,show_measured_bill,"MeasuredBill")
 	button(tr2("查看该时刻历史", "History at this moment"),investigation,show_response_history,"ShowStateJourney")
 	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
@@ -304,7 +308,7 @@ func build() -> void:
 	comparison_detail = label("",comparison_panel,14)
 	comparison_chart = preload("res://experiments/service_plan/comparison_chart.gd").new(); comparison_chart.name = "ComparisonChart"; comparison_panel.add_child(comparison_chart)
 	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"
-	overview_evidence.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
+	measured_evidence.add_child(response_chart); response_chart.configure([],0 if task == 0 else 320,english)
 	var replay_row := HBoxContainer.new(); overview.add_child(replay_row)
 	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,func() -> void:
 		overview_scroll.ensure_control_visible(response_chart)

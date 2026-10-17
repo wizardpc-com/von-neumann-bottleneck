@@ -2825,6 +2825,30 @@ msgstr "第 1 章 · 时间的去处"
 msgid "system.completion.summary.assembly"
 msgstr "你连接了 CPU、Bus 与 RAM 的请求、写入和读取路径，并验证了显示线路就是系统拓扑。"
 
+msgid "system.mission.next.baseline"
+msgstr "下一步：使用本关指定程序，先运行完整测试记录当前硬件的基线，再只更换 %s，保持程序与其他部件相同。"
+
+msgid "system.mission.next.comparison"
+msgstr "下一步：已有通过的观测；保持程序与其他部件相同，只更换 %s，再运行完整测试。同一配置重复运行不会增加对照。"
+
+msgid "system.mission.next.scales"
+msgstr "下一步：运行完整测试，覆盖任务要求的全部规模；单个调试案例不代替整组验收。"
+
+msgid "system.mission.next.run"
+msgstr "下一步：运行完整测试。调试结果与未应用的程序草稿不计入任务证据。"
+
+msgid "system.mission.next.read_once"
+msgstr "下一步：查看测试台中各案例的读取请求上限；输出正确后，还需要在固定硬件下满足每项请求预算。"
+
+msgid "system.mission.next.two_orders"
+msgstr "下一步：分别满足计算与搬运两份订单的时间和硬件成本限制；可为两份订单采用不同的合法配置。"
+
+msgid "system.mission.next.move_order"
+msgstr "下一步：已有达标的计算订单，继续满足搬运订单的时间与成本限制。只重复计算订单不会完成另一份订单。"
+
+msgid "system.mission.next.compute_order"
+msgstr "下一步：已有达标的搬运订单，继续满足计算订单的时间与成本限制。只重复搬运订单不会完成另一份订单。"
+
 msgid "system.completion.summary.cpu_speed"
 msgstr "你的对照实验表明：Eco → Fast 让算术快 4 倍，但 CPU 等待没有减少，所以总时间只改善约 15%。\n\n计算短了，等待还在。"
 

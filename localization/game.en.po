@@ -2825,6 +2825,30 @@ msgstr "Chapter 1 · Where Time Goes"
 msgid "system.completion.summary.assembly"
 msgstr "You connected the CPU, Bus, and RAM request, write, and read routes, proving that the displayed wires are the system topology."
 
+msgid "system.mission.next.baseline"
+msgstr "Next: use this task's specified program and run the full test to record the current hardware baseline. Then change only %s while keeping the program and other parts fixed."
+
+msgid "system.mission.next.comparison"
+msgstr "Next: a passing observation is recorded. Keep the program and other parts fixed, change only %s, then run the full test. Repeating the same configuration adds no comparison."
+
+msgid "system.mission.next.scales"
+msgstr "Next: run the full test across all required scales. A single debug case does not replace the complete test set."
+
+msgid "system.mission.next.run"
+msgstr "Next: run the full test. Debug results and unapplied program drafts do not count as task evidence."
+
+msgid "system.mission.next.read_once"
+msgstr "Next: inspect each case's request limit in Test Bench. Correct output must also meet every request budget on the fixed hardware."
+
+msgid "system.mission.next.two_orders"
+msgstr "Next: meet both the compute and move orders' time and hardware-cost limits. Each order may use a different valid configuration."
+
+msgid "system.mission.next.move_order"
+msgstr "Next: a qualifying compute order is recorded. Meet the move order's time and cost limits; repeating compute does not complete the other order."
+
+msgid "system.mission.next.compute_order"
+msgstr "Next: a qualifying move order is recorded. Meet the compute order's time and cost limits; repeating move does not complete the other order."
+
 msgid "system.completion.summary.cpu_speed"
 msgstr "Your comparison showed that Eco → Fast made arithmetic 4× faster, while unchanged CPU waiting limited total improvement to about 15%.\n\nLess time computing. The waiting remains."
 

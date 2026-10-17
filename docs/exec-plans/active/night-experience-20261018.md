@@ -80,8 +80,23 @@ or in the linked verification entry. Existing failed attempts remain evidence.
 - R2: grouped full60 source/learning review identifies first-chapter missing
   evidence guidance; bounded UI implementation underway. Expanded rule controller
   checks are isolated fixtures, not earned tutorial or player comprehension.
+- R2 complete: first-chapter Mission now explains baseline/comparison/application
+  evidence using the existing catalog and actual current-baseline identity.
+  Independent audit caught stale-context instructions; fixed and re-reviewed.
+  Targeted import/isolation +5 suites passed7/7 at
+  `.godot/verification/20261017T183506Z-8c774dd4/` (new guidance84 checks).
+  Expanded rule viewport input passed in R1 final run. Python eleven commands now
+  pass with workspace TEMP and explicitly allowed synthetic loopback; earlier
+  temp/socket sandbox failures are retained separately. Baseline rendered
+  map/handbook/creation passed; old Tutorial viewport ghost assertion failed1/248
+  in the unchanged baseline, tracked separately from new implementation.
+- R3 starting: source snapshot and fresh PNG manifests added to renderer after
+  independent audit. Full regression, candidate rendered input and fixed export
+  are next. No additional product scope is opened during integration.
 
 ## Unverified / remaining
 
-Baseline isolated checks/rendering, all implementation, new package acceptance,
-current Mac native, unfamiliar-player comprehension and final art judgement.
+Final full regression/rendering/export acceptance, current Mac native,
+unfamiliar-player comprehension and final art judgement. Existing baseline
+Tutorial drag-ghost controller assertion remains under investigation; no new
+native or all-task human-completion claim.

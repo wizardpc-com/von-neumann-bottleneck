@@ -6,6 +6,7 @@ const HARDWARE := "res://src/hardware_foundations/hardware_foundations.tscn"
 const Catalog = preload("res://src/ui/mission_narrative_catalog.gd")
 var failures: Array[String] = []
 var checks: int = 0
+var capture: bool = false
 
 
 func _init() -> void: call_deferred("run")
@@ -43,7 +44,22 @@ func open_home() -> Control:
 	return current_scene as Control
 
 
+func capture_scene(label: String) -> void:
+	if not capture: return
+	RenderingServer.force_draw(false)
+	await process_frame
+	var directory: String = "res://.godot/narrative-captures"
+	check(DirAccess.make_dir_recursive_absolute(directory) == OK, "Narrative capture directory exists")
+	var path: String = directory + "/" + label + "-%dx%d.png" % [root.size.x, root.size.y]
+	check(root.get_texture().get_image().save_png(path) == OK, "Actual narrative scene saved: " + label)
+	print("NARRATIVE_CAPTURE: ", ProjectSettings.globalize_path(path))
+
+
 func run() -> void:
+	capture = "--narrative-capture" in OS.get_cmdline_user_args()
+	if capture and DisplayServer.get_name() == "headless":
+		check(false, "Narrative capture requires a rendered window")
+		capture = false
 	var save: Node = root.get_node("GlobalSave")
 	var navigation: Node = root.get_node("TaskNavigation")
 	root.get_node("GameMode").set_mode(&"game")
@@ -65,6 +81,7 @@ func run() -> void:
 			await key(KEY_TAB)
 			check(root.gui_get_focus_owner() == introduction.close_button, "Replay keyboard focus stays inside the introduction")
 			check(root.get_visible_rect().encloses(introduction.close_button.get_global_rect()), "Replay return action fits " + str(dimensions))
+			await capture_scene("introduction-" + locale)
 			await key(KEY_ESCAPE)
 			check(not introduction.visible and not hub.options_overlay.visible and root.gui_get_focus_owner() == replay, "Escape dismisses only the introduction and restores Home focus")
 		check(snapshot() == before, "Replay, resize and dismissal do not write progress")
@@ -105,6 +122,15 @@ func run() -> void:
 	check(main.completed_levels.get(&"tutorial", false) and main.level_completion_overlay.visible, "Five real tutorial actions trigger the existing completion event")
 	check(main.level_completion_overlay.yi_response_label.text.contains("NOT") and main.level_completion_overlay.yi_response_label.text.contains("1 → 0"), "Completion response reflects the real NOT rule, including the unlit result")
 	check(main.level_completion_overlay.music_cue_count == 1, "Narrative adds no extra completion cue")
+	if capture:
+		root.size = Vector2i(1280,720); root.content_scale_size = root.size
+		await settle()
+		await capture_scene("earned-tutorial-en")
+		root.get_node("Localization").set_locale("zh_CN")
+		main._show_level_completion(&"tutorial")
+		await settle()
+		await capture_scene("earned-tutorial-zh_CN")
+		root.get_node("Localization").set_locale("en")
 	main._save_active_workbench()
 	check(save.save_game(true), "Built work and earned completion can be saved")
 	var earned: Dictionary = snapshot()

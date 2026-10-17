@@ -116,6 +116,7 @@ var prediction_selector: OptionButton
 var prediction_lock_button: Button
 var prediction_status_label: Label
 var mission_progress_label: Label
+var mission_next_action_label: Label
 var conclusion_button: Button
 var test_conclusion_button: Button
 var part_selectors: Dictionary[StringName, OptionButton] = {}
@@ -926,6 +927,11 @@ func _build_mission_instrument() -> Control:
 	mission_progress_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	mission_progress_label.add_theme_color_override("font_color", WARNING)
 	box.add_child(mission_progress_label)
+	mission_next_action_label = Label.new()
+	mission_next_action_label.name = "MissionEvidenceNextAction"
+	mission_next_action_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mission_next_action_label.add_theme_color_override("font_color", ACCENT)
+	box.add_child(mission_next_action_label)
 	conclusion_button = Button.new()
 	conclusion_button.name = "ReviewLevelConclusionButton"
 	conclusion_button.text = _t(&"system.mission.review_finding")
@@ -1672,6 +1678,7 @@ func _on_part_selected(index: int, kind: StringName) -> void:
 	test_status_label.text = status_label.text
 	test_status_label.add_theme_color_override("font_color", WARNING)
 	playback_caption.text = status_label.text
+	_refresh_mission_progress()
 
 
 func _refresh_device_titles() -> void:
@@ -2219,6 +2226,7 @@ func _apply_program() -> void:
 	_refresh_parts_summary()
 	_refresh_history()
 	status_label.text = _t(&"system.status.program_applied")
+	_refresh_mission_progress()
 	status_label.add_theme_color_override("font_color", GOOD)
 	PlaytestData.record_modification(&"chapter_1", current_level_id, &"program", {
 		"official_program": catalog.is_official_program_signature(
@@ -2502,11 +2510,12 @@ func _evaluate_completion(selected_diagnosis: StringName) -> void:
 				test_status_label.text = _t(&"system.diagnosis.incorrect")
 				test_status_label.add_theme_color_override("font_color", BAD)
 				status_label.text = _t(&"system.status.diagnosis_retry")
-		else:
+		elif latest_receipt == null or latest_receipt.all_passed:
 			status_label.text = _t(&"system.status.evidence_progress", [
 				int(completion.get("progress", 0)), int(completion.get("required", 1))
 			])
-		status_label.add_theme_color_override("font_color", WARNING)
+		if reason == &"diagnosis_required" or latest_receipt == null or latest_receipt.all_passed:
+			status_label.add_theme_color_override("font_color", WARNING)
 	_refresh_mission_progress(selected_diagnosis)
 
 
@@ -2523,6 +2532,7 @@ func _refresh_mission_progress(selected_diagnosis: StringName = &"") -> void:
 		mission_progress_label.add_theme_color_override("font_color", GOOD)
 		conclusion_button.show()
 		test_conclusion_button.show()
+		mission_next_action_label.hide()
 	else:
 		mission_progress_label.text = _t(&"system.mission.progress", [
 			int(completion.get("progress", 0)), int(completion.get("required", 1))
@@ -2530,6 +2540,25 @@ func _refresh_mission_progress(selected_diagnosis: StringName = &"") -> void:
 		mission_progress_label.add_theme_color_override("font_color", WARNING)
 		conclusion_button.hide()
 		test_conclusion_button.hide()
+		mission_next_action_label.text = _completion_next_action(completion)
+		mission_next_action_label.visible = not mission_next_action_label.text.is_empty()
+
+
+func _completion_next_action(completion: Dictionary) -> String:
+	match StringName(completion.get("reason", &"")):
+		&"more_parts_required":
+			var key: StringName = &"system.mission.next.comparison" if int(completion.get("progress", 0)) > 0 and _has_current_baseline_receipt() else &"system.mission.next.baseline"
+			return _t(key, [_part_kind_name(_comparison_kind())])
+		&"more_scales_required": return _t(&"system.mission.next.scales")
+		&"run_required": return _t(&"system.mission.next.run")
+		&"application_target":
+			if current_level_id == &"read_once": return _t(&"system.mission.next.read_once")
+			if current_level_id == &"two_orders":
+				var orders: Dictionary = completion.get("orders", {})
+				if orders.has("compute"): return _t(&"system.mission.next.move_order")
+				if orders.has("move"): return _t(&"system.mission.next.compute_order")
+				return _t(&"system.mission.next.two_orders")
+	return ""
 
 
 func _clear_result_rows() -> void:

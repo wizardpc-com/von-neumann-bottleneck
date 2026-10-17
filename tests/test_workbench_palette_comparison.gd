@@ -48,6 +48,9 @@ func run() -> void:
 	quit(0 if failures.is_empty() else 1)
 
 func compare_locale(locale: String) -> void:
+	root.size = Vector2i(1280, 720)
+	root.content_scale_size = Vector2i(1280, 720)
+	await settle()
 	var save: Node = root.get_node("GlobalSave")
 	var navigation: Node = root.get_node("TaskNavigation")
 	root.get_node("Localization").set_locale(locale)

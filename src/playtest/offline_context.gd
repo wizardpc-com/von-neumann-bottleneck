@@ -73,6 +73,8 @@ static func capture(tree: SceneTree) -> Dictionary:
 	if scene == null: coverage.unavailable.append({"path": "scene", "reason": "no_current_scene"})
 	if navigation == null: coverage.unavailable.append({"path": "navigation", "reason": "autoload_unavailable"})
 	if playtest == null: coverage.unavailable.append({"path": "playtest", "reason": "autoload_unavailable"})
+	elif not result.task.is_empty():
+		result.task=_clean(playtest.call("task_feedback_context",str(result.task.get("chapter_id","")),str(result.task.get("level_id",""))),"task",coverage)
 	if focus == null: coverage.unavailable.append({"path": "focus", "reason": "no_focus_owner"})
 	if save != null and save.has_method("_save_snapshot"):
 		result.progress = _clean(save.call("_save_snapshot"), "progress", coverage)

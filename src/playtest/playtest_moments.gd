@@ -228,6 +228,7 @@ func make_button() -> Button:
 
 
 func toggle() -> void:
+	if OfflineFeedback.enabled(): OfflineFeedback.open_panel(); return
 	if panel.visible: close(); return
 	var actual: Dictionary = PlaytestData.current_task_context if not PlaytestData.current_task_context.is_empty() else PlaytestData.last_exit_context
 	target=PlaytestData.task_feedback_context(str(actual.get("chapter_id","")),str(actual.get("level_id","")))
@@ -253,6 +254,7 @@ func close() -> void:
 	closed.emit()
 
 func _input(event: InputEvent) -> void:
+	if OfflineFeedback.enabled(): return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_F8:
 			toggle(); get_viewport().set_input_as_handled()
@@ -306,6 +308,7 @@ func _translate(node: Node) -> void:
 	for child: Node in node.get_children(): _translate(child)
 
 func open_for_task(chapter: String, level: String) -> void:
+	if OfflineFeedback.enabled(): OfflineFeedback.open_panel(); return
 	_store_draft()
 	if panel.visible: close()
 	toggle()

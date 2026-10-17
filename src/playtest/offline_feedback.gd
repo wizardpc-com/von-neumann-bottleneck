@@ -226,7 +226,7 @@ func export_all(destination: String = "") -> void:
 			extras["cases/"+rescue_id+"/case.json"]=JSON.stringify(rescue,"\t").to_utf8_buffer()
 			extras["cases/"+rescue_id+"/context.json"]=JSON.stringify(emergency_context,"\t").to_utf8_buffer()
 			if not emergency_image.is_empty(): extras["cases/"+rescue_id+"/screenshot.png"]=emergency_image
-	for filename: String in DirAccess.get_files_at(PlaytestData.storage_directory):
+	for filename: String in DirAccess.get_files_at(PlaytestData.storage_directory) if DirAccess.dir_exists_absolute(PlaytestData.storage_directory) else PackedStringArray():
 		if filename.begins_with("session_") and filename.ends_with(".jsonl"):
 			extras["sessions/"+filename]=PlaytestData.storage_directory.path_join(filename)
 	if FileAccess.file_exists(PlaytestMoments.DRAFT_PATH): extras["legacy/feedback_drafts_v1.json"]=PlaytestMoments.DRAFT_PATH

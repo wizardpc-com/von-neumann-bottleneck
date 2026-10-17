@@ -149,6 +149,7 @@ func has_resume() -> bool:
 	return GlobalSave.has_resume_progress()
 
 func resume_title() -> String: return str(_resume_target().get("title",""))
+func next_task_key() -> String: return str(_resume_target().get("key",""))
 func next_task_title() -> String:
 	var task: Dictionary = _resume_target()
 	var title: String = str(task.get("title",""))

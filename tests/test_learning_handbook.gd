@@ -31,6 +31,7 @@ func _run() -> void:
 	var locality: Node = root.get_node("LocalityChapter")
 	var localization: Node = root.get_node("Localization")
 	var player_signature: String = save.game_player_content.canonical_signature()
+	_check_interactive_logic(handbook, save, localization)
 	handbook.open_handbook()
 	check(handbook.visible_term_ids.size() == 3 and not handbook.future_toggle.button_pressed, "Future subjects do not flood the initial table of contents.")
 	handbook.open_handbook(&"cache")
@@ -98,7 +99,7 @@ func _run() -> void:
 				for step: int in range(handbook.detail_diagram.example_count()):
 					handbook.detail_diagram.advance_example(1)
 				check(handbook.detail_diagram.example_step == 0 and saved_before == save.game_player_content.canonical_signature(), "Illustrative steps wrap without modifying the player's content: "+String(term["id"]))
-				if "--handbook-capture" in OS.get_cmdline_user_args() and term["id"] in [&"signal", &"binary", &"half_adder", &"sr_latch", &"register", &"junction", &"bit_width", &"data_layout", &"field_group", &"copy_cost", &"bounded_batch", &"multiplexer", &"alu", &"accumulator", &"cache"]:
+				if "--handbook-capture" in OS.get_cmdline_user_args() and term["id"] in [&"not_gate", &"and_gate", &"signal", &"binary", &"half_adder", &"sr_latch", &"register", &"junction", &"bit_width", &"data_layout", &"field_group", &"copy_cost", &"bounded_batch", &"multiplexer", &"alu", &"accumulator", &"cache"]:
 					await RenderingServer.frame_post_draw
 					var folder := "res://.godot/polish/handbook/"
 					DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(folder))
@@ -217,3 +218,68 @@ func _check_signal_diagram_models(diagram: Control) -> void:
 		var arrow: PackedVector2Array = view.cache_hit_arrow()
 		check(arrow[0].x == boxes.cache.position.x and arrow[1].x == boxes.cpu.end.x and arrow[0].x > arrow[1].x,
 			"A hit returns data from Cache to CPU, with no overlapping boxes at width %d." % int(width))
+
+
+func _check_interactive_logic(handbook: Variant, save: Node, localization: Node) -> void:
+	var view: Variant = handbook.detail_diagram
+	var simulator: Variant = load("res://src/circuit/prologue_simulator.gd").new()
+	var before: String = save.game_player_content.canonical_signature()
+	for id: StringName in [&"gate_not", &"gate_and", &"gate_or", &"gate_xor", &"gate_nor", &"half_adder"]:
+		view.set_diagram(id)
+		for step: int in range(view.example_count()):
+			var example: Dictionary = view.logic_example(step)
+			view.set_logic_input(&"A", int(example.a))
+			view.set_logic_input(&"B", int(example.b))
+			check(view.example_step == step and view.logic_example() == example,
+				"Independent A/B changes select the exact truth-table row: %s %d" % [id, step])
+			var a: DigitalValue = DigitalValue.known(1, int(example.a))
+			var b: DigitalValue = DigitalValue.known(1, int(example.b))
+			var inputs: Array[DigitalValue] = [a, b]
+			var expected: Array[DigitalValue] = []
+			match id:
+				&"gate_not": expected = [simulator._bit_not(a)]
+				&"gate_and": expected = [simulator._bit_and(inputs)]
+				&"gate_or": expected = [simulator._bit_or(inputs)]
+				&"gate_xor": expected = [simulator._bit_xor(inputs)]
+				&"gate_nor": expected = [simulator._bit_not(simulator._bit_or(inputs))]
+				&"half_adder": expected = simulator._half_adder(a, b)
+			for index: int in range(expected.size()):
+				check(int(example.outputs[index]) == expected[index].value,
+					"All demonstrated output bits agree with the real simulator: %s %d output %d" % [id, step, index])
+		var last_step: int = view.example_step
+		view.set_logic_input(&"A", 2)
+		view.set_logic_input(&"unknown", 0)
+		check(view.example_step == last_step, "Invalid signal/port cannot create an impossible example.")
+		view.input_buttons[0].pressed.emit()
+		check(view.logic_example().a == 0 and not view.input_buttons[0].button_pressed,
+			"The actual A button changes its value and selected state.")
+		view.advance_example(1)
+		check(handbook.diagram_step_label.text == localization.text(&"terminology.diagram.step", [view.example_step + 1, view.example_count()]),
+			"Arrow stepping and input toggles update the shared handbook row indicator.")
+		for locale: String in ["zh_CN", "en"]:
+			localization.set_locale(locale)
+			for width: float in [336.0, 500.0, 720.0]:
+				view.size.x = width
+				view._refresh_logic_controls()
+				check(not view.rule_label.text.begins_with("terminology.") and not view.input_instruction.text.begins_with("terminology."),
+					"Interactive rule/instruction is translated: %s %s" % [id, locale])
+				var font: Font = view.get_theme_default_font()
+				var measured: Vector2 = font.get_multiline_string_size(view.rule_label.text, HORIZONTAL_ALIGNMENT_LEFT, width - 24, 15)
+				check(measured.y <= 65, "The complete rule fits at narrow widths: %s %s %d" % [id, locale, int(width)])
+				check(view.input_buttons[0].size.y >= 40 and view.input_buttons[0].position.x >= 0,
+					"Input controls keep a usable labeled target at every tested width.")
+	view.set_diagram(&"gate_not")
+	view.set_logic_input(&"A", 1)
+	check(view.logic_example().outputs == [0], "A high input correctly turns NOT output off; lit output is not a universal goal.")
+	view.set_logic_input(&"B", 1)
+	check(view.example_step == 1 and not view.input_buttons[1].visible, "NOT has no second input.")
+	view.set_diagram(&"half_adder")
+	view.set_logic_input(&"A", 1)
+	view.set_logic_input(&"B", 1)
+	check(view.logic_example().outputs == [0, 1], "One plus one produces SUM 0 and CARRY 1, not two high outputs.")
+	view.set_diagram(&"cache")
+	view.set_logic_input(&"A", 1)
+	check(view.example_step == 0 and not view.input_buttons[0].visible and view.custom_minimum_size.y == 248,
+		"Leaving logic hides practice controls and restores the existing illustration size.")
+	check(save.game_player_content.canonical_signature() == before, "Exploring every valid and invalid input leaves player circuits and completion untouched.")
+	localization.set_locale("zh_CN")

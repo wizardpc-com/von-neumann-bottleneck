@@ -30,6 +30,8 @@ var eligibility_rows: VBoxContainer
 var recommendation_rows: VBoxContainer
 var recommendation_heading: Label
 var current_region: int = -1
+var creation_route: HBoxContainer
+var journey_scope: Label
 
 func _ready() -> void:
 	var skin := Theme.new()
@@ -44,7 +46,7 @@ func _ready() -> void:
 	for side: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+side,24)
 	add_child(margin)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation",14)
+	column.add_theme_constant_override("separation",10)
 	margin.add_child(column)
 	var header := HBoxContainer.new()
 	column.add_child(header)
@@ -74,6 +76,8 @@ func _ready() -> void:
 	legend.text = "实线：前置  ·  虚线：推荐，无新增门槛" if Localization.current_locale() != "en" else "Solid: prerequisite · Dashed: recommendation, no new gate"
 	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; legend.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	legend.size_flags_vertical = Control.SIZE_SHRINK_CENTER; legend.add_theme_font_size_override("font_size",14); navigation.add_child(legend)
+	creation_route = HBoxContainer.new(); creation_route.name = "CreationRouteShortcuts"
+	creation_route.add_theme_constant_override("separation",10); column.add_child(creation_route)
 	var body := HBoxContainer.new()
 	body.add_theme_constant_override("separation",18)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -158,10 +162,14 @@ func _ready() -> void:
 	opinion.pressed.connect(func() -> void:
 		if not selected.is_empty(): PlaytestMoments.open_for_task(selected.key.get_slice("/",0),selected.id))
 	var help := Label.new()
+	journey_scope = help; help.name = "JourneyScope"
+	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	help.add_theme_font_size_override("font_size",14)
 	help.text = _t("controls")
 	help.add_theme_color_override("font_color",Color("91a0b9"))
 	column.add_child(help)
 	rows = TaskNavigation.journey_tasks()
+	_build_route_shortcuts()
 	PlaytestData.record_map_action(&"map_open","")
 	for task: Dictionary in rows:
 		if task.unlocked: PlaytestData.record_map_action(&"eligible",task.key)
@@ -185,6 +193,38 @@ func _ready() -> void:
 		if not matches.is_empty(): _select_and_locate(matches[0]))
 	_select(TaskNavigation.selected)
 	_show_list()
+
+func _build_route_shortcuts() -> void:
+	_clear_rows(creation_route)
+	var english: bool = Localization.current_locale() == "en"
+	var regions: Array[int] = []
+	for task: Dictionary in rows:
+		if task.domain != "creation" or int(task.region) in regions: continue
+		var region: int = int(task.region)
+		regions.append(region)
+		var button := Button.new()
+		button.name = "CreationRegion"+str(region)
+		button.text = str(task.region_title)
+		button.custom_minimum_size.y = 42
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.set_meta("region",region)
+		button.tooltip_text = "查看本区域任务；不修改进度或模型准备。" if not english else "Browse this region; progress and model preparation stay unchanged."
+		button.pressed.connect(func() -> void:
+			_choose_region(region)
+			for index: int in region_choice.item_count:
+				if int(region_choice.get_item_metadata(index)) == region: region_choice.select(index)
+			list_button.grab_focus())
+		creation_route.add_child(button)
+	creation_route.visible = not regions.is_empty()
+	var available: int = 0
+	for task: Dictionary in rows:
+		if task.unlocked: available += 1
+	journey_scope.text = ("%d 项任务 · %d 项入口可用" if not english else "%d tasks · %d entrances available") % [rows.size(),available]
+	if TaskNavigation.offline_tester_enabled():
+		journey_scope.text += " · 协作检查：开放入口不赠送通关；创作准备仍须完成。" if not english else " · Tester access grants no completion; creative model preparation still applies."
+	elif not regions.is_empty():
+		journey_scope.text += " · 创作候选：压缩 → 内容预测 → 创造；内容预测与可选地址预测分别探索。" if not english else " · Candidate: Compression → Content prediction → Creation; content and optional address prediction are separate."
+	journey_scope.text += "\n"+_t("controls")
 
 func _open_core_review() -> void:
 	if not OverlapChapter.completed().has("synthesis") and not LayoutChapter.completed().has("mixed"): return

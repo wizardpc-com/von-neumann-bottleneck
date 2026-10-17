@@ -239,6 +239,7 @@ var recommended_toggle: Button
 var context_lesson: StringName = &"hardware:tutorial"
 var diagram_controls: HBoxContainer
 var diagram_step_label: Label
+var diagram_isolation_label: Label
 var future_toggle: Button
 var term_tree: Tree
 var result_count_label: Label
@@ -487,6 +488,7 @@ func _build_interface() -> void:
 	detail_diagram = TerminologyDiagramType.new()
 	detail_diagram.name = "TerminologyDiagram"
 	detail_diagram.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail_diagram.example_changed.connect(_refresh_diagram_controls)
 	detail_box.add_child(detail_diagram)
 	detail_box.move_child(detail_diagram,3)
 	diagram_controls = HBoxContainer.new()
@@ -497,13 +499,18 @@ func _build_interface() -> void:
 		step_button.text = "←" if direction < 0 else "→"
 		step_button.custom_minimum_size = Vector2(44,36)
 		step_button.pressed.connect(func() -> void:
-			detail_diagram.advance_example(direction)
-			_refresh_diagram_controls())
+			detail_diagram.advance_example(direction))
 		diagram_controls.add_child(step_button)
 	diagram_step_label = Label.new()
 	diagram_step_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	diagram_step_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	diagram_controls.add_child(diagram_step_label)
+	diagram_isolation_label = Label.new()
+	diagram_isolation_label.name = "PracticeIsolation"
+	diagram_isolation_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	diagram_isolation_label.add_theme_color_override("font_color", MUTED)
+	detail_box.add_child(diagram_isolation_label)
+	detail_box.move_child(diagram_isolation_label, 5)
 	detail_example_heading_label = Label.new()
 	detail_example_heading_label.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
 	detail_example_heading_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
@@ -704,7 +711,11 @@ func _show_term(term_id: StringName) -> void:
 
 
 func _refresh_diagram_controls() -> void:
+	if not is_instance_valid(diagram_controls) or not is_instance_valid(diagram_isolation_label):
+		return
 	diagram_controls.visible = detail_diagram.example_count() > 1 and detail_diagram.visible
+	diagram_isolation_label.visible = detail_diagram.has_logic_inputs() and detail_diagram.visible
+	diagram_isolation_label.text = _t(&"terminology.practice.isolated")
 	diagram_step_label.text = _t(&"terminology.diagram.step",[detail_diagram.example_step+1,detail_diagram.example_count()])
 	for index: int in range(2):
 		(diagram_controls.get_child(index) as Button).tooltip_text = _t(&"terminology.diagram.previous" if index == 0 else &"terminology.diagram.next")

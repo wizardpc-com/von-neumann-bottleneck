@@ -4,6 +4,7 @@ const GameModeSelectorType = preload("res://src/ui/game_mode_selector.gd")
 const FullscreenButtonType = preload("res://src/ui/fullscreen_button.gd")
 const TerminologyHandbookType = preload("res://src/ui/terminology_handbook.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
+const YiIntroductionType = preload("res://src/ui/yi_introduction.gd")
 
 const BACKGROUND := Color("09101d")
 const PANEL := Color("172033")
@@ -46,6 +47,7 @@ var completion_story_pages: Array[Dictionary] = []
 var settings_only: bool = false
 var navigation_overlay: Control
 var navigation_previous_focus: Control
+var yi_introduction: YiIntroductionType
 signal settings_closed
 
 
@@ -104,7 +106,9 @@ func _input(event: InputEvent) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not _is_escape_press(event):
 		return
-	if new_game_overlay != null and new_game_overlay.visible:
+	if yi_introduction != null and yi_introduction.visible:
+		yi_introduction.close()
+	elif new_game_overlay != null and new_game_overlay.visible:
 		_close_new_game_confirmation()
 	elif options_overlay.visible:
 		_close_options_menu()
@@ -161,6 +165,9 @@ func _build_interface() -> void:
 	terminology_handbook.modal.visibility_changed.connect(_restore_handbook_focus)
 	_build_options_menu()
 	_build_new_game_confirmation()
+	yi_introduction = YiIntroductionType.new()
+	add_child(yi_introduction)
+	yi_introduction.launch_requested.connect(func() -> void: TaskNavigation.start_or_continue())
 	_refresh_save_actions()
 
 
@@ -221,11 +228,13 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	rule.custom_minimum_size.y = 1; primary.add_child(rule)
 	var description := Label.new(); description.name = "HubJourneyDescription"
 	description.text = "亲手构造系统。\n看清信息在哪里受阻，\n用自己的安排，让它继续。" if Localization.current_locale() != "en" else "Build a system of your own.\nSee where information waits.\nChange the arrangement."
+	if preload("res://src/campaign/creation_tasks.gd").enabled():
+		description.text += "\n地图中也可探索：压缩 → 内容预测 → 创造。" if Localization.current_locale() != "en" else "\nAlso on the map: Compression → Content prediction → Creation."
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	description.add_theme_color_override("font_color",Color("b6c7cf")); primary.add_child(description)
 	var button := Button.new(); button.name = "RecommendedJourneyAction" if candidate_journey else "TaskTree"
 	button.custom_minimum_size.y = 50
-	button.pressed.connect(func() -> void: TaskNavigation.start_or_continue())
+	button.pressed.connect(_start_journey)
 	InstrumentTheme.primary(button); button.add_theme_color_override("font_focus_color",Color("071823")); primary.add_child(button)
 	var resume := Label.new(); resume.name = "HubResumeTitle"
 	resume.add_theme_font_size_override("font_size",14); resume.add_theme_color_override("font_color",MUTED)
@@ -234,6 +243,10 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	browse.text = "旅程地图" if Localization.current_locale() != "en" else "Journey map"
 	browse.custom_minimum_size.y = 44
 	browse.pressed.connect(func() -> void: TaskNavigation.open_tree()); primary.add_child(browse)
+	var introduction := Button.new(); introduction.name = "ReplayYiIntroduction"
+	introduction.text = "壹的讯息 · 回看导入" if Localization.current_locale() != "en" else "Yi's message · Replay introduction"
+	introduction.custom_minimum_size.y = 42
+	introduction.pressed.connect(func() -> void: yi_introduction.present(false)); primary.add_child(introduction)
 	var recovery := HBoxContainer.new(); recovery.name = "HubRecovery"
 	recovery.add_theme_constant_override("separation",10); primary.add_child(recovery)
 	save_recovery_label = Label.new(); save_recovery_label.name = "SaveRecoveryNotice"
@@ -627,6 +640,13 @@ func _quit_game() -> void:
 
 func _continue_game() -> void:
 	TaskNavigation.start_or_continue()
+
+
+func _start_journey() -> void:
+	if TaskNavigation.next_task_key() != "hardware_foundations/tutorial" or TaskNavigation.has_resume() or GameMode.is_test_mode():
+		TaskNavigation.start_or_continue()
+	else:
+		yi_introduction.present(true)
 
 
 func _open_new_game_confirmation() -> void:

@@ -1,6 +1,8 @@
 class_name TerminologyDiagram
 extends Control
 
+signal example_changed
+
 const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 const LayoutRecipeType = preload("res://src/layout_chapter/layout_recipe.gd")
 const LayoutMemoryType = preload("res://src/layout_chapter/layout_memory_view.gd")
@@ -21,12 +23,16 @@ const TEXT := Color("e9f0fa")
 
 var diagram_id: StringName = &""
 var example_step: int = 0
+var input_buttons: Array[Button] = []
+var input_instruction: Label
+var rule_label: Label
 
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(0.0, 248.0)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	resized.connect(queue_redraw)
+	_build_logic_controls()
+	resized.connect(_refresh_logic_controls)
 	Localization.locale_changed.connect(_on_locale_changed)
 
 
@@ -34,7 +40,8 @@ func set_diagram(value: StringName) -> void:
 	diagram_id = value
 	example_step = 0
 	visible = not diagram_id.is_empty()
-	queue_redraw()
+	_refresh_logic_controls()
+	example_changed.emit()
 
 
 func _draw() -> void:
@@ -60,8 +67,10 @@ func _draw() -> void:
 			_draw_binary()
 		&"junction":
 			_draw_junction()
-		&"truth_table", &"half_adder":
+		&"truth_table":
 			_draw_truth_table()
+		&"half_adder":
+			_draw_gate_example()
 		&"register":
 			_draw_storage_steps(false)
 		&"opcode":
@@ -207,8 +216,6 @@ func _draw_junction() -> void:
 
 func _draw_truth_table() -> void:
 	var labels: Array[String] = ["A", "B", "AND", "OR"]
-	if diagram_id == &"half_adder":
-		labels = ["A", "B", "SUM", "CARRY"]
 	var width: float = (size.x - 32.0) / 4.0
 	for column: int in range(4):
 		_draw_text(Rect2(16 + column * width, 16, width, 30), labels[column], ACCENT, 15)
@@ -216,8 +223,6 @@ func _draw_truth_table() -> void:
 		var a: int = row / 2
 		var b: int = row % 2
 		var values: Array[int] = [a, b, a & b, a | b]
-		if diagram_id == &"half_adder":
-			values = [a, b, (a + b) % 2, (a + b) / 2]
 		draw_rect(Rect2(16, 53 + row * 43, size.x - 32, 39), Color(PANEL if row % 2 == 0 else BACKGROUND))
 		for column: int in range(4):
 			_draw_text(Rect2(16 + column * width, 58 + row * 43, width, 28), str(values[column]), GOOD if values[column] else TEXT, 18)
@@ -420,7 +425,7 @@ func _bottom_center(rect: Rect2) -> Vector2:
 
 
 func _on_locale_changed(_locale: String) -> void:
-	queue_redraw()
+	_refresh_logic_controls()
 
 
 func _t(key: StringName) -> String:
@@ -430,6 +435,7 @@ func _t(key: StringName) -> String:
 func example_count() -> int:
 	if String(diagram_id).begins_with("gate_"): return 2 if diagram_id == &"gate_not" else 4
 	match diagram_id:
+		&"half_adder": return 4
 		&"widths": return WIDTH_EXAMPLES.size()
 		&"layout_data_layout", &"layout_field_group", &"multiplexer": return 2
 		&"layout_copy_cost", &"layout_bounded_batch": return 3
@@ -440,7 +446,8 @@ func example_count() -> int:
 
 func advance_example(direction: int) -> void:
 	example_step = posmod(example_step+direction,example_count())
-	queue_redraw()
+	_refresh_logic_controls()
+	example_changed.emit()
 
 
 func _draw_width_example() -> void:
@@ -462,21 +469,130 @@ func _draw_width_example() -> void:
 	_draw_text(Rect2(16,190,size.x-32,30),_t(&"terminology.diagram.width_value") % [value,(1<<width)-1],TEXT,16)
 
 
+func has_logic_inputs() -> bool:
+	return diagram_id in [&"gate_not", &"gate_and", &"gate_or", &"gate_xor", &"gate_nor", &"half_adder"]
+
+
+func logic_example(step: int = -1) -> Dictionary:
+	if not has_logic_inputs():
+		return {}
+	var row: int = example_step if step < 0 else posmod(step, example_count())
+	var a: int = row if diagram_id == &"gate_not" else row / 2
+	var b: int = row % 2
+	var outputs: Array[int] = []
+	match diagram_id:
+		&"gate_not": outputs = [1 - a]
+		&"gate_and": outputs = [a & b]
+		&"gate_or": outputs = [a | b]
+		&"gate_xor": outputs = [a ^ b]
+		&"gate_nor": outputs = [1 - (a | b)]
+		&"half_adder": outputs = [a ^ b, a & b]
+	return {"a": a, "b": b, "outputs": outputs}
+
+
+func set_logic_input(port: StringName, value: int) -> void:
+	if not has_logic_inputs() or value not in [0, 1] or port not in [&"A", &"B"]:
+		return
+	if diagram_id == &"gate_not":
+		if port == &"B":
+			return
+		example_step = value
+	else:
+		var example: Dictionary = logic_example()
+		example_step = value * 2 + int(example.b) if port == &"A" else int(example.a) * 2 + value
+	_refresh_logic_controls()
+	example_changed.emit()
+
+
+func _build_logic_controls() -> void:
+	input_instruction = Label.new()
+	input_instruction.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	input_instruction.add_theme_font_size_override("font_size", 14)
+	input_instruction.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(input_instruction)
+	for port: StringName in [&"A", &"B"]:
+		var button := Button.new()
+		button.name = "PracticeInput" + String(port)
+		button.toggle_mode = true
+		button.pressed.connect(func() -> void:
+			var example: Dictionary = logic_example()
+			set_logic_input(port, 1 - int(example[String(port).to_lower()])))
+		add_child(button)
+		input_buttons.append(button)
+	rule_label = Label.new()
+	rule_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rule_label.add_theme_font_size_override("font_size", 15)
+	rule_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(rule_label)
+	_refresh_logic_controls()
+
+
+func _refresh_logic_controls() -> void:
+	if not is_instance_valid(input_instruction):
+		return
+	var active: bool = has_logic_inputs()
+	custom_minimum_size.y = 410.0 if active else 248.0
+	input_instruction.visible = active
+	rule_label.visible = active
+	for button: Button in input_buttons:
+		button.visible = active
+	if active:
+		input_instruction.position = Vector2(12, 8)
+		input_instruction.size = Vector2(size.x - 24, 44)
+		input_instruction.text = _t(&"terminology.practice.input")
+		rule_label.position = Vector2(12, 192)
+		rule_label.size = Vector2(size.x - 24, 65)
+		rule_label.text = _t(StringName("terminology.practice." + String(diagram_id).trim_prefix("gate_")))
+		var example: Dictionary = logic_example()
+		for index: int in range(input_buttons.size()):
+			var button: Button = input_buttons[index]
+			var port: String = "A" if index == 0 else "B"
+			var value: int = int(example[port.to_lower()])
+			button.visible = index == 0 or diagram_id != &"gate_not"
+			button.position = Vector2(12 + index * (size.x * 0.5), 57)
+			button.size = Vector2(size.x * 0.5 - 24, 40)
+			button.text = "%s = %d" % [port, value]
+			button.tooltip_text = _t(&"terminology.practice.toggle") % port
+			button.set_pressed_no_signal(value == 1)
+	queue_redraw()
+
+
 func _draw_gate_example() -> void:
-	var gate: String = String(diagram_id).trim_prefix("gate_")
-	var a: int = example_step if gate == "not" else example_step/2
-	var b: int = example_step%2
-	var output: int = 1-a if gate == "not" else a & b if gate == "and" else a | b if gate == "or" else a ^ b if gate == "xor" else 1-(a|b)
-	var rect := Rect2(size.x*0.36,64,size.x*0.28,94)
-	_draw_box(rect,gate.to_upper(),"",ACCENT)
-	_draw_text(Rect2(8,50,size.x*0.25,30),"A = %d" % a,TEXT,20)
-	_draw_arrow(Vector2(24,94),Vector2(rect.position.x,94),WARNING if a else MUTED)
-	if gate != "not":
-		_draw_text(Rect2(8,158,size.x*0.25,30),"B = %d" % b,TEXT,20)
-		_draw_arrow(Vector2(24,136),Vector2(rect.position.x,136),WARNING if b else MUTED)
-	_draw_arrow(_right_center(rect),Vector2(size.x-30,rect.get_center().y),WARNING if output else MUTED)
-	_draw_text(Rect2(size.x*0.70,58,size.x*0.28,35),str(output),TEXT,24)
-	_draw_text(Rect2(16,204,size.x-32,26),_t(&"terminology.diagram.gate_try"),MUTED,14)
+	var example: Dictionary = logic_example()
+	var half_adder: bool = diagram_id == &"half_adder"
+	var gate: String = "SUM / CARRY" if half_adder else String(diagram_id).trim_prefix("gate_").to_upper()
+	var rect := Rect2(size.x * 0.34, 116, size.x * 0.32, 62)
+	_draw_box(rect, gate, "A + B" if half_adder else "", ACCENT)
+	_draw_text(Rect2(10, 110, size.x * 0.26, 28), "A = %d" % int(example.a), TEXT, 17)
+	_draw_arrow(Vector2(size.x * 0.25, 135), Vector2(rect.position.x, 135), WARNING if int(example.a) else MUTED)
+	if diagram_id != &"gate_not":
+		_draw_text(Rect2(10, 151, size.x * 0.26, 28), "B = %d" % int(example.b), TEXT, 17)
+		_draw_arrow(Vector2(size.x * 0.25, 163), Vector2(rect.position.x, 163), WARNING if int(example.b) else MUTED)
+	_draw_arrow(_right_center(rect), Vector2(size.x * 0.72, rect.get_center().y), ACCENT)
+	for index: int in range(example.outputs.size()):
+		var output_name: String = "SUM" if half_adder and index == 0 else "CARRY" if half_adder else "OUT"
+		_draw_text(Rect2(size.x * 0.72, 112 + index * 36, size.x * 0.27, 32), "%s = %d" % [output_name, int(example.outputs[index])], TEXT, 17)
+	var labels: Array[String] = ["A", "B", "OUT"]
+	if half_adder:
+		labels = ["A", "B", "SUM", "CARRY"]
+	elif diagram_id == &"gate_not":
+		labels = ["A", "OUT"]
+	var width: float = (size.x - 24) / float(labels.size())
+	for column: int in range(labels.size()):
+		_draw_text(Rect2(12 + column * width, 261, width, 25), labels[column], ACCENT, 14)
+	for row: int in range(example_count()):
+		var values: Dictionary = logic_example(row)
+		var cells: Array[int] = [int(values.a)]
+		if diagram_id != &"gate_not":
+			cells.append(int(values.b))
+		for output: int in values.outputs:
+			cells.append(output)
+		var line := Rect2(12, 289 + row * 27, size.x - 24, 25)
+		draw_rect(line, PANEL_ACTIVE if row == example_step else PANEL, true)
+		if row == example_step:
+			draw_rect(line, ACCENT, false, 1.5)
+		for column: int in range(cells.size()):
+			_draw_text(Rect2(12 + column * width, line.position.y, width, 25), str(cells[column]), TEXT, 16)
 
 
 func _draw_arrival_example() -> void:

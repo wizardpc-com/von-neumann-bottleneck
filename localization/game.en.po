@@ -6859,3 +6859,30 @@ msgstr "Optional ratings"
 
 msgid "sharing.state.draft"
 msgstr "Private draft; not sent"
+
+msgid "terminology.practice.input"
+msgstr "Toggle an input to inspect the rule and result."
+
+msgid "terminology.practice.isolated"
+msgstr "This is an isolated rule example. It does not change your circuit or complete a task."
+
+msgid "terminology.practice.not"
+msgstr "NOT inverts its input: 0 becomes 1; 1 becomes 0."
+
+msgid "terminology.practice.and"
+msgstr "AND outputs 1 only when both A and B are 1."
+
+msgid "terminology.practice.or"
+msgstr "OR outputs 1 when at least one input is 1."
+
+msgid "terminology.practice.xor"
+msgstr "XOR outputs 1 only when the inputs differ."
+
+msgid "terminology.practice.nor"
+msgstr "NOR outputs 1 only when both inputs are 0."
+
+msgid "terminology.practice.half_adder"
+msgstr "Half adder: SUM is the low bit; CARRY is the carry bit. A + B = SUM + 2 × CARRY."
+
+msgid "terminology.practice.toggle"
+msgstr "Toggle input %s (0 / 1)"

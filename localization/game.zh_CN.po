@@ -6858,3 +6858,30 @@ msgstr "可选评分"
 
 msgid "sharing.state.draft"
 msgstr "本机草稿；尚未发送"
+
+msgid "terminology.practice.input"
+msgstr "点击输入，观察规则与结果。"
+
+msgid "terminology.practice.isolated"
+msgstr "这里是独立规则示例；不会改动你的电路，也不计入关卡通过。"
+
+msgid "terminology.practice.not"
+msgstr "NOT：输入取反。0 变成 1，1 变成 0。"
+
+msgid "terminology.practice.and"
+msgstr "AND：只有 A 和 B 都是 1，输出才是 1。"
+
+msgid "terminology.practice.or"
+msgstr "OR：至少一个输入是 1，输出就是 1。"
+
+msgid "terminology.practice.xor"
+msgstr "XOR：两个输入不同，输出才是 1。"
+
+msgid "terminology.practice.nor"
+msgstr "NOR：只有两个输入都是 0，输出才是 1。"
+
+msgid "terminology.practice.half_adder"
+msgstr "半加器：SUM 是本位，CARRY 是进位。A + B = SUM + 2 × CARRY。"
+
+msgid "terminology.practice.toggle"
+msgstr "切换输入 %s（0 / 1）"

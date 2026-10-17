@@ -34,6 +34,7 @@ var chapter_label: Label
 var title_label: Label
 var level_label: Label
 var summary_label: Label
+var yi_response_label: Label
 var next_capability_label: Label
 var feedback_toggle: Button
 var continue_button: Button
@@ -135,6 +136,12 @@ func _build_interface() -> void:
 	summary_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	summary_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(summary_label)
+	yi_response_label = Label.new()
+	yi_response_label.name = "YiCompletionResponse"
+	yi_response_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	yi_response_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	yi_response_label.add_theme_color_override("font_color", Color("a3d7d6"))
+	column.add_child(yi_response_label)
 	var next_panel := PanelContainer.new()
 	next_panel.name = "NextCapability"
 	next_panel.add_theme_stylebox_override("panel", _stylebox(Color("172c3b"), ACCENT.darkened(0.4), 8, 1))
@@ -239,6 +246,9 @@ func present(
 	title_label.text = Localization.text(&"common.level_complete.title")
 	level_label.text = level_title
 	summary_label.text = summary
+	var response: String = MissionNarrativeCatalogType.completion_response(chapter_id, level_id, Localization.current_locale() == "en")
+	yi_response_label.text = ("壹：" if Localization.current_locale() != "en" else "Yi: ") + response
+	yi_response_label.visible = not response.is_empty()
 	var next_key: StringName = MissionNarrativeCatalogType.next_capability_key(chapter_id, level_id)
 	next_capability_label.text = Localization.text(next_key) if not next_key.is_empty() else ""
 	next_capability_label.get_parent().get_parent().visible = not next_key.is_empty()

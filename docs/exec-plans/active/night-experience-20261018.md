@@ -64,6 +64,22 @@ or in the linked verification entry. Existing failed attempts remain evidence.
 - R0: remote PR/main checked live; PR10 merge completed; clean isolated worktree
   created. Fixed Windows editor and matching release export template found in
   sibling engine/template cache. Original deletion excluded from development.
+- R1: Home/Yi/actual tutorial completion, six interactive rule illustrations,
+  shared dark theme and C/P/G map shortcuts integrated. Baseline checks6/6 and
+  actual bilingual homepage frames retained at `.godot/verification/20261017T182236Z-482dd67e/`.
+  R1 affected suites include handbook1163 assertions, hub three window sizes,
+  original continuation/feedback/tutorial checks; final focused6/6 at
+  `.godot/verification/20261017T182957Z-bfe3a17f/` also exercises real viewport
+  practice input. Themed focus/contrast and route240 checks passed.
+- R1 failures retained: first direct renderer missed isolated APPDATA and failed
+  before UI; correct isolated renderer passed4021 checks. Typed conditional-array
+  errors in diagram/intro fixed; English720p list111px improved through compact
+  spacing; temporary Prediction falsely introduced NOT, now gates on real task
+  identity. Cross-audits: knowledge→narrative, narrative→visual/map,
+  visual→knowledge. No claim of blind/native/human testing.
+- R2: grouped full60 source/learning review identifies first-chapter missing
+  evidence guidance; bounded UI implementation underway. Expanded rule controller
+  checks are isolated fixtures, not earned tutorial or player comprehension.
 
 ## Unverified / remaining
 

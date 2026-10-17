@@ -242,8 +242,17 @@ func reopen_embedded_profile(output: String, profile: String, tester: bool) -> v
 	check(prior.get("profile","")==profile and prior.get("tester",not tester)==tester,"reopen retains the actual embedded profile and role")
 	check(FileAccess.get_sha256(OS.get_executable_path())==str(prior.get("exe_sha256","")),"reopen executable matches the already accepted ZIP binary")
 	check(FileAccess.get_sha256(get_script().resource_path)==str(prior.get("controller_sha256","")),"reopen uses the identical external controller")
+	var baseline_path: String = output.path_join("embedded-profile-post-exit-baseline.json")
+	check(FileAccess.file_exists(baseline_path),"post-exit protected baseline exists")
+	if not FileAccess.file_exists(baseline_path): get_tree().quit(1); return
+	var baseline: Variant = JSON.parse_string(FileAccess.get_file_as_string(baseline_path))
+	check(baseline is Dictionary,"post-exit protected baseline is readable")
+	if not baseline is Dictionary: get_tree().quit(1); return
+	check(baseline.get("parent_receipt_sha256","")==FileAccess.get_sha256(prior_path),"post-exit baseline binds the successful parent receipt")
+	for identity: String in ["source_commit","build_id","profile","tester","controller_sha256"]:
+		check(baseline.get(identity)!=null and baseline.get(identity)==prior.get(identity),"post-exit baseline retains parent "+identity)
 	var before: Dictionary = protected_snapshot()
-	check(prior.get("restart_protected",{})==before,"saved game workbench and candidate authorities survive independent process restart")
+	check(baseline.get("protected",{})==before,"saved game workbench and candidate authorities survive independent process restart")
 	var save: Node = get_node("/root/GlobalSave")
 	check(FileAccess.file_exists(save.storage_path) and FileAccess.file_exists(save.workbench_storage_path),"genuinely saved game and hardware workbench exist in embedded namespace")
 	check(get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")==OK,"restarted actual Home loads")
@@ -272,6 +281,7 @@ func reopen_embedded_profile(output: String, profile: String, tester: bool) -> v
 		"source_commit":ProjectSettings.get_setting("application/config/build_commit",""),"build_id":ProjectSettings.get_setting("application/config/version",""),
 		"parent_receipt_sha256":FileAccess.get_sha256(prior_path),"exe_sha256":FileAccess.get_sha256(OS.get_executable_path()),
 		"controller_sha256":FileAccess.get_sha256(get_script().resource_path),"protected":before,
+		"post_exit_baseline_sha256":FileAccess.get_sha256(baseline_path),
 		"evidence_grade":"same embedded namespace after independent process restart; rendered controller, not native input"}
 	var file := FileAccess.open(output.path_join("embedded-profile-reopen.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(receipt,"\t")); file.close()

@@ -1,0 +1,136 @@
+{
+  "source_commit": "7c4f9b58e4229864ccf29aa066de85a183d33924",
+  "baseline_claim": "Retained R0 copy after merged bf8f616; early renderer did not write a source-tree manifest",
+  "evidence_grade": "Unedited Godot-rendered PNG copies; actual exported controller frames distinguished from source/viewport fixtures; not native OS/human acceptance",
+  "excluded": [
+    "Mixed-locale earned-tutorial-zh_CN fixture",
+    "Injected-row map footer40 and route-fixture49 are not full60 package evidence"
+  ],
+  "pairs": [
+    {
+      "id": "home",
+      "observable": "Replayable Yi entry and quieter shared controls",
+      "before": {
+        "file": "images/home-before.png",
+        "source": ".godot/verification/20261017T182236Z-482dd67e/project/.godot/hub-first-screen-captures/candidate-zh_CN-1280x720.png",
+        "sha256": "537a1804f29880c59e5e7b9793e6a66701aa274e9ba5a9eb5c6043b7f93fb7eb",
+        "width": 1280,
+        "height": 720,
+        "scope": "R0 retained merged-base candidate fixture; fresh profile"
+      },
+      "after": {
+        "file": "images/home-after.png",
+        "source": ".godot/night-package/c9576e434284/home.png",
+        "sha256": "965cabd6750aa0f125e290f8ff19a45e8437d2442e58026b5cb30b5ab4b98d80",
+        "width": 1280,
+        "height": 720,
+        "scope": "Actual tester ZIP export; fresh profile; physical1280x720/logical1600x900"
+      },
+      "comparison_limit": "Same physical frame size, different logical scaling; compare replay/route discovery, not font-size parity"
+    },
+    {
+      "id": "rules",
+      "observable": "Static half-adder truth table becomes independently interactive A/B and calculated outputs",
+      "before": {
+        "file": "images/rules-before.png",
+        "source": ".godot/verification/20261017T182236Z-482dd67e/project/.godot/polish/handbook/zh_CN-half_adder.png",
+        "sha256": "c4238746434b7cd1a48a39c06d3243043e92b3f050c02e926de56ac022b3c0e4",
+        "width": 3840,
+        "height": 2160,
+        "scope": "R0 all-terms fixture at3840x2160; table includes1+1=SUM0/CARRY1"
+      },
+      "after": {
+        "file": "images/rules-after.png",
+        "source": ".godot/night-package/c9576e434284/rules.png",
+        "sha256": "b92615fc98e5e0d0d81eacf827258690c116b8e44a06ce339540a244c96cb2e8",
+        "width": 1280,
+        "height": 720,
+        "scope": "Actual tester ZIP; tutorial earned by real model/controller actions; A1/B1 yieldsSUM0/CARRY1, all truth rows visible; player circuit preserved"
+      },
+      "comparison_limit": "Different window sizes/available-term sets; compare rule interaction, not matched-size typography"
+    },
+    {
+      "id": "creation",
+      "observable": "Shared theme reaches real generation while model/output/cost remain unchanged",
+      "before": {
+        "file": "images/creation-before.png",
+        "source": ".godot/verification/20261017T182236Z-482dd67e/project/.godot/creation-captures/generation-zh_CN.png",
+        "sha256": "f7770856fd34f7b62b28bdaf8c37d75e682fe8e4fa2f9ae45f8be00b39d33e4f",
+        "width": 1280,
+        "height": 720,
+        "scope": "R0 real model controller fixture; seed17,64 symbols"
+      },
+      "after": {
+        "file": "images/creation-after.png",
+        "source": ".godot/night-render/cc79f97bdf50/captures/creation/.godot/creation-captures/generation-zh_CN.png",
+        "sha256": "6e9e2057ab59475273db7f814081c1e5411ad56c5212bdcd2c23fc821ffbcde5",
+        "width": 1280,
+        "height": 720,
+        "scope": "Final same generation fixture;1185ops/515B/699cycles, same visible output"
+      }
+    },
+    {
+      "id": "map",
+      "observable": "Three immediately visible C/P/G region shortcuts and actual package catalog/footer60",
+      "before": {
+        "file": "images/map-before.png",
+        "source": ".godot/verification/20261017T182236Z-482dd67e/project/.godot/journey-map-captures/zh_CN-compression-chapter-list.png",
+        "sha256": "96edbd965458ab935447cea54eff042f8eb15f8c61aa2e4b7ac23a6565a0a86c",
+        "width": 1280,
+        "height": 720,
+        "scope": "R0 map fixture focused on Compression"
+      },
+      "after": {
+        "file": "images/map-after.png",
+        "source": ".godot/night-package/c9576e434284/map.png",
+        "sha256": "e080e3dfc02349fc7388b0c3a64ea002172f3d4af680287c54cad3dde5229af5",
+        "width": 1280,
+        "height": 720,
+        "scope": "Actual tester ZIP map,60 tasks/60 entrances/3 shortcuts; tutorial genuinely completed"
+      },
+      "comparison_limit": "Different selected region and progress; this compares discoverability, not identical save state"
+    }
+  ],
+  "extras": [
+    {
+      "file": "images/introduction.png",
+      "source": ".godot/night-package/c9576e434284/intro.png",
+      "sha256": "d1bb4bc6e904065eca7834a6d2b4476b86d3107f5355508d01a26d2f702dce06",
+      "width": 1280,
+      "height": 720,
+      "scope": "Actual tester ZIP skippable introduction; synthetic controller"
+    },
+    {
+      "file": "images/first-result.png",
+      "source": ".godot/night-package/c9576e434284/first-result.png",
+      "sha256": "61464f7182b293937eb1e079aff2aecb428e68ea167984c6ffa259eca5cc7076",
+      "width": 1280,
+      "height": 720,
+      "scope": "Actual tester ZIP; earned NOT completion and Chinese Yi response from five real controller actions"
+    },
+    {
+      "file": "images/system-guidance.png",
+      "source": ".godot/night-package/c9576e434284/system-guidance.png",
+      "sha256": "5a51762f265095e7ebf142fdf389d166a32dcaed045692d8ecd334c7ef10b33e",
+      "width": 1280,
+      "height": 720,
+      "scope": "Actual tester ZIP CPU comparison; new next-action guidance scrolled visibly into clip; incomplete comparison remains0/2"
+    },
+    {
+      "file": "images/theme-dark.png",
+      "source": ".godot/night-render/cc79f97bdf50/captures/theme-zh_CN-1280x720/runtime/VonNeumannBottleneckChecks/NightRender-cc79f97bdf50/theme-zh_CN-1280x720/night-theme-dark-zh_CN-1280x720.png",
+      "sha256": "5863213d20b65300ef8fb1714d907eadc56fc60b9bc231f8dc8a01c42d62157b",
+      "width": 1280,
+      "height": 720,
+      "scope": "Identical component data and layout; candidate palette comparison only, not a global game setting"
+    },
+    {
+      "file": "images/theme-light.png",
+      "source": ".godot/night-render/cc79f97bdf50/captures/theme-zh_CN-1280x720/runtime/VonNeumannBottleneckChecks/NightRender-cc79f97bdf50/theme-zh_CN-1280x720/night-theme-light-zh_CN-1280x720.png",
+      "sha256": "bf97d498b874d9c3ac82cc06fe6e993be58961867d575718d4594d69e64f8c43",
+      "width": 1280,
+      "height": 720,
+      "scope": "Identical component data and layout; candidate palette comparison only, not a global game setting"
+    }
+  ]
+}

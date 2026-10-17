@@ -2,13 +2,51 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Current state — 2026-10-17
+## Current development — 2026-10-18
+
+PR10 merged into `main` as `bf8f61647c03c8bba868cc833b3832e274bd4aee`.
+The separate `codex/night-experience-20261018` candidate connects a skippable and
+replayable Yi introduction to actual first construction, independent interactive
+rule examples, reason-specific first-chapter evidence guidance and visible C/P/G
+map shortcuts. Shared dark surfaces have clearer focus/selected/disabled states;
+light surfaces remain a comparison fixture. Model, completion and save contracts
+retain their existing authority. The sixty-task inventory is unchanged.
+
+The ordinary profile `NightExperience20261018` and tester profile
+`OfflineTeammate-Night20261018` are separate from the October17
+`OfflineTeammate` channel. The latter's existing package and saves are retained.
+This round has no public Release or new Mac export, server or domain operation.
+Its fixed packages, executed checks and limitations are recorded in the
+[night evidence](verification/20261018-night-experience/README.md), with the
+[team handoff](development/night-handoff-20261018.md) and
+[full-journey source review](development/night-journey-review.md).
+
+Both Windows packages freeze `7c4f9b58e4229864ccf29aa066de85a183d33924`:
+`playtest-NightExperience20261018-7c4f9b58e422` (ordinary progression) and
+`playtest-NightAccess20261018-7c4f9b58e422` (all entrances). Actual extracted EXEs
+pass25/25 and32/32 first-experience/configuration checks. The tester additionally
+passes60 actual foreground entries, current-model C→P→G generation/protected save,
+independent restart/byte parity/recipe replay and final-only4 feedback cases with
+4 screenshots across2 sessions. Ordinary-package C/P/G restart was not repeated.
+Local full regression remains164/165 plus its corrected affected8/8 rerun;
+rendering15/15 and eleven Python gates pass. These controller checks do not
+establish native OS input or unfamiliar-player understanding.
+Exact frozen7c GitHub Linux CI also passes165/165 Godot stages and all11 Python
+commands; [run identity and log hashes](verification/20261018-night-experience/ci.json).
+Separate [native Windows observation](verification/20261018-night-experience/native-receipt.json)
+passes16 scoped OS-input checks on the unchanged tester: actual tutorial wiring,
+earned completion/F8, single-letter autosave, independent restart and two normal
+exit0 results. Long/Chinese input, prior-note history GUI restoration, native C/P/G
+and newcomer understanding remain unverified. Engineering handoff is complete;
+human and broader platform acceptance remain open.
+
+## Public download — 2026-10-17
 
 The latest Windows teammate candidate is
 `playtest-OfflineTeammate20261017-4df5bad46751`, frozen at `4df5bad46751`.
 [Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)
 was published with the owner's explicit authorization on2026-10-17. Its tag points
-to the tested source; all three asset digests match. PR10 remains unmerged.
+to the tested source; all three asset digests match. PR10 subsequently merged on2026-10-18.
 It opens all sixty task entrances in the separate `OfflineTeammate` profile.
 Global feedback saves a game screenshot and live context, autosaves notes and
 exports all plays in one verified ZIP. The included Python tools consolidate

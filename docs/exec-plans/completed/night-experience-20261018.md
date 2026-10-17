@@ -1,5 +1,10 @@
 # Night experience candidate — 2026-10-18
 
+Engineering scope completed2026-10-18: fixed Windows normal/tester packages,
+independent reviews, scoped native observation and next-day evidence handoff.
+Root owns the final documentation commit/push and review-PR delivery. Human and
+broader platform acceptance remain separate open gates.
+
 ## Goal and authority
 
 Deliver a runnable offline candidate connecting Home, a skippable/replayable Yi
@@ -23,9 +28,12 @@ Implementation uses the separate `night-experience-20261018` worktree and
 | Knowledge worker | terminology_handbook.gd, terminology_diagram.gd, focused learning tests |
 | Visual worker | instrument_theme.gd, technical_backdrop.gd, ui_typography.gd; focused theme tests and asset interface document |
 
-Workers do not mutate Git, run Godot, edit translations/project settings, or touch
-another owner's files. Controller queues Godot and owns commits/builds. Independent
-review happens after implementation; a worker reviews another worker's changes.
+During R1 implementation, workers did not mutate Git or run Godot, and stayed
+within their file scopes; the controller queued runtime checks. Later user
+steering delegated sequential engine/export ownership to the narrative worker,
+native observation to the knowledge worker, and final documentation/evidence to
+the visual worker. Root retained all Git writes. Independent review follows
+implementation, with each worker reviewing another scope.
 
 ## Invariants and decisions
 
@@ -78,7 +86,7 @@ or in the linked verification entry. Existing failed attempts remain evidence.
   identity. Cross-audits: knowledge→narrative, narrative→visual/map,
   visual→knowledge. No claim of blind/native/human testing.
 - R2: grouped full60 source/learning review identifies first-chapter missing
-  evidence guidance; bounded UI implementation underway. Expanded rule controller
+  evidence guidance; bounded UI implementation completed. Expanded rule controller
   checks are isolated fixtures, not earned tutorial or player comprehension.
 - R2 complete: first-chapter Mission now explains baseline/comparison/application
   evidence using the existing catalog and actual current-baseline identity.
@@ -101,9 +109,51 @@ or in the linked verification entry. Existing failed attempts remain evidence.
   extraction/embedded configuration and C/P/G restart probes added; actual
   execution remains the next gate, not inferred from the scripts.
 
+## Final validation and recoverable checkpoints
+
+- Frozen source: `7c4f9b58e4229864ccf29aa066de85a183d33924`.
+- Full isolated Windows run at `20261017T183647Z-8abb2263` finished164/165:
+  only `test_prediction_workbench_presentation` failed a hardcoded old palette.
+  Its corrected1293 checks pass in final affected8/8 stages at
+  `20261017T184909Z-b1c74d35`. Preserve the earlier full run as164/165.
+- Eleven Python gates pass across initial/local-TEMP/loopback receipts;
+  earlier environmental failures and interrupted maintenance remain recorded.
+- Final renderer `cc79f97bdf50` binds source/PNG manifests. Mixed-locale completion
+  and injected-map fixture counts are excluded from clean product-image claims.
+  All15 rendered cases pass; final Tutorial248/248 follows actual draw completion.
+- Both fixed Windows ZIPs exported/identity-checked/extracted/launched without
+  retries. Tester `c9576e434284` passes32/32 first-experience checks and dependent
+  `6af869c5a6cc` passes all60 foreground entries, real protected C/P/G work,
+  byte-identical independent restart/recipe replay and final-only4 feedback cases
+  across2 sessions. Normal `83c4a5084134` passes25/25; its C/P/G restart was not
+  independently repeated. Actual package map/rules/scrolled-guidance frames
+  replace misleading fixture interpretations in curated evidence.
+- Exact frozen7c GitHub run39059649118 succeeds:165/165 Linux Godot stages and
+  eleven Python commands. Metadata/head SHA and165 downloaded logs independently
+  verified; this does not rewrite the earlier local Windows164/165 receipt.
+- Checkpoints: `bf8f616` merged base → `913d51e` plan → `5b83ee6` first experience
+  → `d270a16` evidence guidance → `9b2c624` save namespace → `5a7b673` palette/draw
+  checks → `7c4f9b5` fixed packaging source. Use a separate checkout at a chosen
+  commit; preserve the original unexplained `test_ui.gd` deletion and all player
+  profiles. Runtime/model/save format remain unchanged after `d270a16`.
+- `657e2a7` preserves the tested external package-frame/visibility controller;
+  it does not change the fixed7c product or package bytes.
+- Native Windows observation completes16/16 scoped checks on the unchanged tester:
+  real tutorial drag/toggle/run/remove/reconnect, earned completion/F8, single-key
+  note autosave, independent process restart and two normal exit0 results.
+  Exact original note revision and workbench bytes survive. Prior-note history
+  GUI restoration and long/Chinese text entry remain unverified; `Sky.type_text`
+  did not insert while the ordinary `n` key succeeded. The native token is released.
+- R4 engineering delivery is complete: exact package/CI/native receipts, four
+  scoped image pairs, clean native completion, five human questions and recovery
+  handoff. No new product scope remains; root performs final Git delivery.
+
 ## Unverified / remaining
 
-Final full regression/rendering/export acceptance, current Mac native,
-unfamiliar-player comprehension and final art judgement. Existing baseline
-Tutorial drag-ghost controller assertion remains under investigation; no new
-native or all-task human-completion claim.
+Root's final commit/push/review-PR delivery follows this completed engineering
+handoff. Both exported-controller receipts, native scope and curated evidence
+are complete; native breadth is limited as recorded above.
+Current Mac native, unfamiliar-player comprehension, subjective listening and
+final art/narrative judgement remain outside automated acceptance. No public
+Release is authorized. Full evidence and exact scope are consolidated in
+`docs/verification/20261018-night-experience/README.md`.

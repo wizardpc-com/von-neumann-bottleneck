@@ -4,6 +4,15 @@
 
 ## 简体中文
 
+### 2026-10-18 · 夜间体验候选（未公开发布）
+
+- 首页提供可跳过、可重看的壹讯息，进入真实 NOT 操作；完成回应由实际关卡事件触发。
+- 手册可独立切换逻辑门／半加器输入，查看输出和真值表，不修改自己的电路或通关记录。
+- 第一章明确尚缺的运行／对照证据；地图直接定位压缩、内容预测、创造区域。
+- 共用深色控件与底景更克制，焦点／选中／禁用状态可辨；浅色仅为同数据比较样张。
+- 普通进度与全关协作版采用独立夜间存档渠道，保留旧离线版与存档。
+- [固定包、变化证据与验证边界](docs/verification/20261018-night-experience/README.md) · [次日交接](docs/development/night-handoff-20261018.md)。
+
 ### 2026-10-17 · 离线队友试玩反馈
 
 已发布 [Windows Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，固定源码 `4df5bad46751`，无联网反馈入口。
@@ -96,6 +105,15 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-10-18 · Night experience candidate (unpublished)
+
+- Home offers a skippable, replayable Yi message leading to the real NOT task; actual completion events trigger the response.
+- Independent handbook inputs show logic-gate/half-adder outputs and truth rows without changing the player's circuit or completion.
+- Chapter1 names missing run/comparison evidence; the map directly locates Compression, Content prediction and Creation.
+- Calmer shared dark surfaces distinguish keyboard focus, selection and disabled actions; light surfaces remain a comparison sample.
+- Normal and all-entrance tester candidates use separate nightly save channels, retaining the earlier offline package and saves.
+- [Fixed packages, changes and verification limits](docs/verification/20261018-night-experience/README.md) · [Next-day handoff](docs/development/night-handoff-20261018.md).
 
 ### 2026-10-17 · Offline teammate feedback
 

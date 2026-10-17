@@ -1,5 +1,12 @@
 # Execution queue
 
+The completed [October18 night experience](../completed/night-experience-20261018.md) connects the Yi
+introduction, real first task, interactive rules, mid-game evidence guidance and
+creative-region discovery. Its fixed Windows packages and final verification are
+tracked in the [night evidence](../../verification/20261018-night-experience/README.md).
+Scoped native Windows wiring/restart observation is complete; root owns Git delivery.
+Public publication, Mac/native breadth and unfamiliar-player acceptance are separate.
+
 The [offline teammate tester](../completed/offline-teammate-playtest.md) delivers
 all sixty task entrances, persistent screenshot/context feedback, final-only
 multi-play ZIP acceptance and private import/report tools. The fixed Windows

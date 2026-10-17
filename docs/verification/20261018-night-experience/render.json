@@ -1,0 +1,1284 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "source_snapshot_sha256": "f2fd9bab1cb5523a4852a0f76146398ff31c01d706ab9c617777245776132b39",
+  "source_file_count": 793,
+  "original_settings_sha256": "f398874b802e847d69b695a87e83770af03dd03aad2dc70804e766ba4a1fe7e4",
+  "renderer_sha256": "9f6844c557de7980c519f7a161ef0c0470de1ffa27bef02b44d126ea88bec694",
+  "evidence_grade": "rendered controller/viewport input; no native or human claim",
+  "raw": ".godot/night-render/cc79f97bdf50/results.json",
+  "raw_sha256": "f5a7e0c11ed1a5f892a11f666ebc531adef42ca73c6554b44c40282274308941",
+  "source_manifest": "render-source-files.json",
+  "total_cases": 15,
+  "passed_cases": 15,
+  "cases": [
+    {
+      "name": "hub",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "d91e5f8fea3d72ef14e9df30ddd217a2c49d89dd26c1149bd06731d346b7ae0d",
+      "effective_settings_sha256": "08fa9358ae0c45b39b40f5ff7f82afc457a81129ef6fec70b61a240bd1b08732",
+      "captures": [
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-en-1280x720-management.png",
+          "sha256": "6341c510dfedc9616c33aaf5e4eabd796d62cb495b65e5d446c1d4e55e0a4517",
+          "bytes": 48591,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-en-1280x720.png",
+          "sha256": "f8b3ded655c8f8b38d79848289963c6e92a5bea02553a30ccdae4f68a3cf1af7",
+          "bytes": 131778,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-en-1440x900-management.png",
+          "sha256": "26cc425d93978cd43e31b290de2b4501265fdc30b70a6d93a9c4df227d31ae6b",
+          "bytes": 50743,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-en-1440x900.png",
+          "sha256": "f93ef3b59392590c590eeae41da4f88d3f508dea8f27f48c6929e27a0b5ece95",
+          "bytes": 145232,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-en-1920x1080-management.png",
+          "sha256": "a8e60d7e85d0f98a1c7807a1d22a758d75409076d44b66703b291d6c7d8735bd",
+          "bytes": 54239,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-en-1920x1080.png",
+          "sha256": "b8f191123fc9eb8990b8b48c61c5abcbd6c5c4b204c7caf1d1a252994a74229f",
+          "bytes": 184490,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-zh_CN-1280x720-management.png",
+          "sha256": "57d7a5f700f60c97f2270956e4a4e54bbeeb983445028822d4547c066d653cc3",
+          "bytes": 53645,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-zh_CN-1280x720.png",
+          "sha256": "2e8340caca28cd693578e14b71bedfc7e91e52231f59e0bfaf2165af9aaeed6c",
+          "bytes": 126692,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-zh_CN-1440x900-management.png",
+          "sha256": "805289c4c81c51708d82eaf33dec32716b2d737b09422510eddbff1d40362392",
+          "bytes": 55835,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-zh_CN-1440x900.png",
+          "sha256": "398d516287b12a836856fffcdaf3f51a2311069d58c4959d189e53ac7b349a87",
+          "bytes": 140171,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-zh_CN-1920x1080-management.png",
+          "sha256": "7a73a645b97bf0309c2f69e1edf74beaecbf083188a0514ee5d925a71ef5449b",
+          "bytes": 60442,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\candidate-zh_CN-1920x1080.png",
+          "sha256": "0e60315450d41fa1f318a6ba7f03772f51d2838d844b4c010b594dd0544c9227",
+          "bytes": 178734,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-en-1280x720-management.png",
+          "sha256": "253d87beec2bccb5623d992b41d73659a647f02c13c1c0944637acbec27965a4",
+          "bytes": 42664,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-en-1280x720.png",
+          "sha256": "3836846db0570d2832d8aedc1a236f195f0a70265205a713fd6c41e058da8bfa",
+          "bytes": 131125,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-en-1440x900-management.png",
+          "sha256": "c54251f46ce23164cb7745b486be3f050e1e476fbf3a2a4826acd17f3b827300",
+          "bytes": 44887,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-en-1440x900.png",
+          "sha256": "0e646f5df780e20d5b2105b7f451e149a9aa42e803c15320fe072fd1b244ede2",
+          "bytes": 144655,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-en-1920x1080-management.png",
+          "sha256": "0c469cca837cb7f7a5e76effee7bcaeaca08afc837162f7a4b0984ef7fdc2d50",
+          "bytes": 48623,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-en-1920x1080.png",
+          "sha256": "7fbf73038a8e97fb3fa35d8c4d9abdeecdb67be8a7ae898f07e7595ee604f3f4",
+          "bytes": 183930,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-zh_CN-1280x720-management.png",
+          "sha256": "0f0fa87886ba733aa99559ee1a2d78d2b27d600b6c45d02a87edcc1298959d0b",
+          "bytes": 48114,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-zh_CN-1280x720.png",
+          "sha256": "474e2346429e6223d46c47a30e7926a81506632d4d8562b7694525f05490a392",
+          "bytes": 125310,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-zh_CN-1440x900-management.png",
+          "sha256": "8ac8590d4b3aad9f275158fb55495ed34dead012cf94bf723609815b1b1c9029",
+          "bytes": 50350,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-zh_CN-1440x900.png",
+          "sha256": "2db38168d14df87024e2d77091556c4a4e2fbb80c34ef5a34e27f57f7de6683f",
+          "bytes": 138794,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-zh_CN-1920x1080-management.png",
+          "sha256": "9368ce2ceb4cf0c43ba2ac76990339c34b529c994ea5968c074a78b0b917e0b5",
+          "bytes": 54071,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\hub\\.godot\\hub-first-screen-captures\\ordinary-zh_CN-1920x1080.png",
+          "sha256": "9905afbda1ff068913030a3d6fe5abf1708d38b4a8af51577cf5c8104f348b56",
+          "bytes": 177353,
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "name": "narrative",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "eab3da99ced258130794438c783272749664944d2319550f5ea3c087acaed8a3",
+      "effective_settings_sha256": "60efee29640f2b72d4f20cf46d1a15720578fe77013a122e894fd07e5960e272",
+      "captures": [
+        {
+          "path": "captures\\narrative\\.godot\\narrative-captures\\earned-tutorial-en-1280x720.png",
+          "sha256": "37c50bae3ddc239f8733d7430cd499af0fda3fc8dc4a49c7f330b65e67a66239",
+          "bytes": 138774,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\narrative\\.godot\\narrative-captures\\earned-tutorial-zh_CN-1280x720.png",
+          "sha256": "b48f3e6205248aa050f053f63346697992b0e4f9f2c7c10c3a3a64fec06e4d6b",
+          "bytes": 152402,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\narrative\\.godot\\narrative-captures\\introduction-en-1280x720.png",
+          "sha256": "606de233a2497dee4dd308604361eea260dbca095719b5f4d2434b370e2967b5",
+          "bytes": 131487,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\narrative\\.godot\\narrative-captures\\introduction-en-1440x900.png",
+          "sha256": "a77b9137aabbbfbaf6229db78f02e82da41c06f954b1c2cdfce848a1292d8c56",
+          "bytes": 141535,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\narrative\\.godot\\narrative-captures\\introduction-en-1920x1080.png",
+          "sha256": "6979663661e02b343d67e7ec761455eab10d18883ba180855df0af2e200926f0",
+          "bytes": 159420,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\narrative\\.godot\\narrative-captures\\introduction-zh_CN-1280x720.png",
+          "sha256": "17596a6aeaf03962602f4fcd00db3e82f665c7700aef913d7cf8e488506ee6bf",
+          "bytes": 136323,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\narrative\\.godot\\narrative-captures\\introduction-zh_CN-1440x900.png",
+          "sha256": "a6e0f2d0ce985fcb864ae9f17db5ef1d4ea10dbde9c8e20927363733e2556aca",
+          "bytes": 147560,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\narrative\\.godot\\narrative-captures\\introduction-zh_CN-1920x1080.png",
+          "sha256": "4d37dac43205b0f825faee586072253bc142015acc0dd7eba6a3919343e4c151",
+          "bytes": 166232,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\narrative\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\narrative\\offline_playtest\\cases\\7de8f09c8aec5692785518709f385cba\\screenshot.png",
+          "sha256": "bc19aeb2121963c09e241c91b7e2ef4d7eec803457eba8151701cb426c494eb6",
+          "bytes": 148318,
+          "width": 1440,
+          "height": 900
+        }
+      ]
+    },
+    {
+      "name": "rules",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "b89d0213bc85e71a5f4968db3cc398154ac8f9ad280676428447f3f9dad5c1f1",
+      "effective_settings_sha256": "e6f197a525d48e950b86cbaf71b6d87966c4274a89829d0689320898f0843257",
+      "captures": [
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\en-and_gate-active.png",
+          "sha256": "3bec06392f27d99b778687c16c4e8d43fa00c684ff9e565f7d24bfe13da1be68",
+          "bytes": 121252,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\en-and_gate-mixed.png",
+          "sha256": "126cb54fe0d28b104ce03fbe093e93cf835762a7ce85f6f4d6c79f1c5b0fa63a",
+          "bytes": 122161,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\en-half_adder-active.png",
+          "sha256": "d40bf4af8b2616b0a3d52090eb2634be205f654f1cf5dd440ec2f5c19837ee07",
+          "bytes": 126521,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\en-half_adder-mixed.png",
+          "sha256": "993dbee6505823e3e3757168c75fdebc150a7e726459b09ec35559e545a3d167",
+          "bytes": 127024,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\en-not_gate-active.png",
+          "sha256": "486669c45552897c5ff332221cc442fbc6d88c55acaf02c010de24906186491f",
+          "bytes": 118470,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\zh_CN-and_gate-active.png",
+          "sha256": "bf37e8925383223e8d81e42a17ce94b8e4761db03cc1bd99f5839343f2a07339",
+          "bytes": 119544,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\zh_CN-and_gate-mixed.png",
+          "sha256": "2d1cfffa3f3e4e33f6d38fbb43b84c0b22019bd7793fed151ab45f77af013283",
+          "bytes": 120447,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\zh_CN-half_adder-active.png",
+          "sha256": "d28460fcaabf49ae4b26829578a5e7e37f8dd1eaea21fc53faf8029c9a7116f5",
+          "bytes": 127576,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\zh_CN-half_adder-mixed.png",
+          "sha256": "f715454d74a6a3d95909d1d8d5eecf9a091fe746508df7f5608cdc082e776b68",
+          "bytes": 128070,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\.godot\\polish\\rule-practice\\zh_CN-not_gate-active.png",
+          "sha256": "47d33ccc2105317bdec52aa0e749c5a69669fa4faf6d3f8559055ec5cab2d42c",
+          "bytes": 112504,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\09d211eec97864ce401b050e041ef97f\\screenshot.png",
+          "sha256": "86b677194a2e2943b44cf77ed19982cb2c25b54f5cd6414d21c8ff60265f85bd",
+          "bytes": 142375,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\0a8b481015649942ad6d1cabb06e5bfb\\screenshot.png",
+          "sha256": "b75048ae24ce7a473dcf282a51e3135335cd89b55c292fb6741972368f12b333",
+          "bytes": 114749,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\13395acc4872413729c94c414e208699\\screenshot.png",
+          "sha256": "8311dae0384840dd456808688102c22fc7b83821f57ea81e64baff12280ad0aa",
+          "bytes": 187484,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\29110da491edc01fe3231e10d6331cb7\\screenshot.png",
+          "sha256": "c08bc7a483ca99933cf04d4466646673ff8065f8c9eea49493e6f3a3a12f281d",
+          "bytes": 115450,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\2f96071a6123348b85287e5d59b11736\\screenshot.png",
+          "sha256": "6c830090bcf311ddf7d20526b615153f0dc0e1e019e79449017f0ba169b3dd89",
+          "bytes": 120184,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\3b5a8f236071c6f08fe846dbcb1cbf35\\screenshot.png",
+          "sha256": "0eae746e9f3571b442afdad95b67522840cac3a5450e5310386426a114bbe8ce",
+          "bytes": 140404,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\3f65621f9c68086ccef31e9ab45aebc3\\screenshot.png",
+          "sha256": "049c615e58257f0e7e95d1ae307b03305a0a6f662d0cb50365203522b91cb288",
+          "bytes": 180563,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\432b0b2406985d1a0c64e21c69ddba32\\screenshot.png",
+          "sha256": "9eec0f1234832956ea7ab2578b3146b1606fefeed843035e4d9190b95f51a925",
+          "bytes": 149038,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\44b7ad12cf53a68024e86e2fe28bb2cf\\screenshot.png",
+          "sha256": "b96232b1074a571852ca5823606b977745c79b7d82cc7a3785f13c5b999695a4",
+          "bytes": 188775,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\643f23f2c032223d96bc9637c3057d70\\screenshot.png",
+          "sha256": "dd6e76b76afdcc0738b339f633f074c08c9c0690d7542a88ab348834806cb20b",
+          "bytes": 122362,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\75160a819f84cde7c46f2f6911b95991\\screenshot.png",
+          "sha256": "73b2761df2c5503bffd8b133e2e6ae7aa7cb9716eeffc30c720dacf6ffbc7671",
+          "bytes": 184148,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\7deee822c184a8aa3b86acb55e05d5a0\\screenshot.png",
+          "sha256": "fa3d39956e737fcafc6135c0f8452c3f56ce25c8e8da5d3c8e32f05cc39a9e1e",
+          "bytes": 112279,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\8659eda3b98ccb7e725ee4f81565b388\\screenshot.png",
+          "sha256": "a9bfff2aee8c4df2a75cdebdb5ec041874faddf8d0a64fbb16aacc40c5a762b6",
+          "bytes": 182314,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\95661dbe3841dc4b0c388786c195e760\\screenshot.png",
+          "sha256": "416e471c35ca8faf83c7ba87a9136ed6bfe53c4749b0eb9b90ae5baaf73ce6f1",
+          "bytes": 144127,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\9719ac39b36cc4b453cae31694d1c66f\\screenshot.png",
+          "sha256": "5cec268b6979243bbe259793956c208d73f0216180cac0d57a34312a925d9c4b",
+          "bytes": 147485,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\a76d03a9cc1327daa626eebdfcc6f38f\\screenshot.png",
+          "sha256": "e32fc414356aa836b82d1ceff238b748da7a734d5126519dfb08a035bace3519",
+          "bytes": 143810,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\b5f3bf209ce49c5086c27c561afd0bba\\screenshot.png",
+          "sha256": "48456376426d4f72c9427982e135db44d26624047f6a932d93865dfd82783d0e",
+          "bytes": 116908,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\rules\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\rules\\offline_playtest\\cases\\e10ddcb03c60800c6ea7b32e1dee25b5\\screenshot.png",
+          "sha256": "011c0f63ff8626c78aa8a8dfe586938e3994f9012545944c76d4298cde1dbac0",
+          "bytes": 183941,
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "name": "route",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "75c85fe52c146ff296e43084590629785489513743d34d66397851572ad9959b",
+      "effective_settings_sha256": "78a54ed942001b26d221c335a4d423eecd2ed03e18cc902e96c5c181e3fb93a3",
+      "captures": [
+        {
+          "path": "captures\\route\\.godot\\route-captures\\en-1280x720.png",
+          "sha256": "d6826417629e7080bea24b134aa2a0d31bf92c75568d56b1df10b3ec663a4f1d",
+          "bytes": 121594,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\route\\.godot\\route-captures\\en-1440x900.png",
+          "sha256": "bfa6f1c1e71ac7b408d0c764495425b9956081bcc565e882033e495307622599",
+          "bytes": 153289,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\route\\.godot\\route-captures\\en-1920x1080.png",
+          "sha256": "a0884c15bacf67dcead5848807b67ca2a1500230085a89ebd5e08ebec2b80421",
+          "bytes": 204237,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\route\\.godot\\route-captures\\zh_CN-1280x720.png",
+          "sha256": "1b087ec396fa76792e7a9005901394ab13e49a8c35ddb16773da0adcd0bdd06f",
+          "bytes": 126963,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\route\\.godot\\route-captures\\zh_CN-1440x900.png",
+          "sha256": "7971b25ee45435717c210c7072767e4efd31c76110a2e62672bffba34ea00f03",
+          "bytes": 176826,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\route\\.godot\\route-captures\\zh_CN-1920x1080.png",
+          "sha256": "bf30a4dcca498a6c5194c63cc1ef37423956571aeb9e51df4ee45363dd2f3541",
+          "bytes": 239352,
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "name": "system",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "71c3c69792e5944b68435c02676dae189d4ab5cfb8d570d7153703372f027209",
+      "effective_settings_sha256": "2e1bb599a677cad578c671c72fc22e92bf2f5850877daeee6841ec7a73c3cf84",
+      "captures": [
+        {
+          "path": "captures\\system\\.godot\\system-guidance-captures\\en.png",
+          "sha256": "269376c9d3f28b38c174819da1907c19e959d8f97d93cda6c313d12c8fb64529",
+          "bytes": 153699,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\system\\.godot\\system-guidance-captures\\zh_CN.png",
+          "sha256": "24d942cf3f5ccdd29875a35f10d64d023a06ed0b059880ad76aad8e649b19d73",
+          "bytes": 182949,
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "name": "theme-zh_CN-1280x720",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "30beb200b6046faa21b33ea0b515f329009d8e150cfc7bc1a488cc4410607e3b",
+      "effective_settings_sha256": "ca56bfb4d7c0233e085a9ff115e3b6d61215e30ff010626adb0f1e8b06d71a91",
+      "captures": [
+        {
+          "path": "captures\\theme-zh_CN-1280x720\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-zh_CN-1280x720\\night-theme-dark-zh_CN-1280x720.png",
+          "sha256": "5863213d20b65300ef8fb1714d907eadc56fc60b9bc231f8dc8a01c42d62157b",
+          "bytes": 38909,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\theme-zh_CN-1280x720\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-zh_CN-1280x720\\night-theme-light-zh_CN-1280x720.png",
+          "sha256": "bf97d498b874d9c3ac82cc06fe6e993be58961867d575718d4594d69e64f8c43",
+          "bytes": 38827,
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "name": "theme-zh_CN-1920x1080",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "30beb200b6046faa21b33ea0b515f329009d8e150cfc7bc1a488cc4410607e3b",
+      "effective_settings_sha256": "32337d14c88c9d69f2d2ac59ea2c9fcca234043cf967e95a1d9e04c68ed327cc",
+      "captures": [
+        {
+          "path": "captures\\theme-zh_CN-1920x1080\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-zh_CN-1920x1080\\night-theme-dark-zh_CN-1920x1080.png",
+          "sha256": "47d9fc33a21a7217e840961a2cdd687b269f4f9e5dc15b6949349af36ead8114",
+          "bytes": 45116,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\theme-zh_CN-1920x1080\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-zh_CN-1920x1080\\night-theme-light-zh_CN-1920x1080.png",
+          "sha256": "861156efa6a1f34b929c6e6ca272e79f69628aa3cb085bf1539e09546c9f53fc",
+          "bytes": 44826,
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "name": "theme-zh_CN-1440x900",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "30beb200b6046faa21b33ea0b515f329009d8e150cfc7bc1a488cc4410607e3b",
+      "effective_settings_sha256": "8e693169bd1d40bff2306e7d248d3a8a38f693e2732cc1995515cd5d709af3a7",
+      "captures": [
+        {
+          "path": "captures\\theme-zh_CN-1440x900\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-zh_CN-1440x900\\night-theme-dark-zh_CN-1440x900.png",
+          "sha256": "df95ce7ef6d05f1babe3ac1a7c89ef20e76372c9b17dc496cd32c3a6bc74425e",
+          "bytes": 41241,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\theme-zh_CN-1440x900\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-zh_CN-1440x900\\night-theme-light-zh_CN-1440x900.png",
+          "sha256": "e1e26e775948f0aa525cb8420bfb62f43c7f23e03af6757a2a3c92cfa4ee82ac",
+          "bytes": 40972,
+          "width": 1440,
+          "height": 900
+        }
+      ]
+    },
+    {
+      "name": "theme-en-1280x720",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "30beb200b6046faa21b33ea0b515f329009d8e150cfc7bc1a488cc4410607e3b",
+      "effective_settings_sha256": "00f2c6832824632cf9497806c629f7b1c3d1a0cc522a8f236dd34bd3e9cc2e3b",
+      "captures": [
+        {
+          "path": "captures\\theme-en-1280x720\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-en-1280x720\\night-theme-dark-en-1280x720.png",
+          "sha256": "5ffa05f154ba9d1d407b41fd848d90d8e88fb46dba02cbe72cf204ed398b989e",
+          "bytes": 38121,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\theme-en-1280x720\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-en-1280x720\\night-theme-light-en-1280x720.png",
+          "sha256": "692783e21740b0ebf2504d8259cd0bed8eb7976fbeb716725629a68c2e3f859d",
+          "bytes": 38122,
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "name": "theme-en-1920x1080",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "30beb200b6046faa21b33ea0b515f329009d8e150cfc7bc1a488cc4410607e3b",
+      "effective_settings_sha256": "0b9073d6ec6dcb871a4e049dad7f12aba4c274309b2e2126db8fe46f8b49e24f",
+      "captures": [
+        {
+          "path": "captures\\theme-en-1920x1080\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-en-1920x1080\\night-theme-dark-en-1920x1080.png",
+          "sha256": "e742b86a8c5768431ecbad308513825355674300e6e0956f1b129dc9d46fde02",
+          "bytes": 44310,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "path": "captures\\theme-en-1920x1080\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-en-1920x1080\\night-theme-light-en-1920x1080.png",
+          "sha256": "8a28ce5e41709f5d1e9104837a6bf4a9713b22f22c35236a06ca01588a219ec9",
+          "bytes": 44106,
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "name": "theme-en-1440x900",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "30beb200b6046faa21b33ea0b515f329009d8e150cfc7bc1a488cc4410607e3b",
+      "effective_settings_sha256": "1970d0036ba6c7a851dbe9c94f22e035ef6fb906fa6f03195d6dc48a73f78c8c",
+      "captures": [
+        {
+          "path": "captures\\theme-en-1440x900\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-en-1440x900\\night-theme-dark-en-1440x900.png",
+          "sha256": "cdd351488e9e63219b72a73656231e4bf8103ec63fce7b0303bcac1aac12d3cf",
+          "bytes": 40385,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "path": "captures\\theme-en-1440x900\\runtime\\VonNeumannBottleneckChecks\\NightRender-cc79f97bdf50\\theme-en-1440x900\\night-theme-light-en-1440x900.png",
+          "sha256": "63a72c942a97d86732d5937e7f96884f8d36cac7ef9dc0c10e1ff6a11c6560ea",
+          "bytes": 40236,
+          "width": 1440,
+          "height": 900
+        }
+      ]
+    },
+    {
+      "name": "map",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "c4e0d26c6901e5e6959573a19554466e1a5fc40478ab580153745ce4addc8b05",
+      "effective_settings_sha256": "3784a8ce0d606b482d56fa3285d2bcf8199e40fdf93ff6427f4a4adef9be7bbb",
+      "captures": [
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\en-C1_restore.png",
+          "sha256": "dfddd07e661680dd4cdf5078d908cd2eeddafe9bd4a2fef80ca85776b5fdca9c",
+          "bytes": 117162,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\en-compression-chapter-list.png",
+          "sha256": "2968d2b92e6cc8ee7aee9c135b031fb9e70d0724b3bb81bd58476d7eb2815ecb",
+          "bytes": 131625,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\en-creation-search.png",
+          "sha256": "ddacde42a5909897722405c87705bb30b5040f6b8105246506e2eb921be0ad23",
+          "bytes": 120558,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\en-G1_feedback.png",
+          "sha256": "8284dbbca992b8599de610785e23a6d26bd73079cb949039d7b49b456edbf1e0",
+          "bytes": 106709,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\en-P1_commit.png",
+          "sha256": "c058d4e054e9301165beb645011b201552bd010652766e9a5cd55dff12ecb48a",
+          "bytes": 109633,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\en-prediction.png",
+          "sha256": "b6ded49b1a25b161d96baf52184aeace7d9bae7a1c533e1098f638a0364ed532",
+          "bytes": 115940,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\en-representation.png",
+          "sha256": "a747dd4b0a9e425099aea42b06c9f63d2af45e37edc50ac655198d6b4a6d1439",
+          "bytes": 110563,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\en-service.png",
+          "sha256": "b2378a3c59e5d4da664126de705b6dde3d1f507e86b114c1bd5dd3035c90ecd8",
+          "bytes": 107711,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\zh_CN-C1_restore.png",
+          "sha256": "31cee70831e42e49730f2d62d664a604c38521ceeded570318bcedc0f3063893",
+          "bytes": 127730,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\zh_CN-compression-chapter-list.png",
+          "sha256": "ae63ab0c942044a50c53aee5e7e8aef8ffa8ce7127ecde838a3fd5071a05e2a2",
+          "bytes": 133235,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\zh_CN-creation-search.png",
+          "sha256": "f79e5a674c385955e8e6a443cb15dde770605b0b17ad66a3056c5bda50ce3d81",
+          "bytes": 125340,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\zh_CN-G1_feedback.png",
+          "sha256": "4c7b4863a0475d64743749f030c8bc87f14af02143955b7523619bb668de584a",
+          "bytes": 119578,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\zh_CN-P1_commit.png",
+          "sha256": "1a0291e9ae30d8c5e7c4a6713fed2537484b3b5b8a4927fbf24332a506099e38",
+          "bytes": 129082,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\zh_CN-prediction.png",
+          "sha256": "a692e1daeb15484781c83722267396c5d8cdcf2158cd9f7f32e5971c23cfc1a9",
+          "bytes": 134031,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\zh_CN-representation.png",
+          "sha256": "eea9c90d808b47dd61c4e69b528f81f3cdf61093dc74a7fdd32c3229112e771d",
+          "bytes": 125210,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\map\\.godot\\journey-map-captures\\zh_CN-service.png",
+          "sha256": "e9006a8c9755e3f6240af1ba031fee0b6b53202a6062842d53c337990cf3a6e8",
+          "bytes": 124034,
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "name": "handbook",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "64c3ed8db7897bf22ca15ac8755ad6da8482c618bb6963342c93a0dcfb867a6b",
+      "effective_settings_sha256": "b922d35e3f3d1cdc88ed11afd18b3de7dfcd166837f43c8b304991671e7fb1dc",
+      "captures": [
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-accumulator.png",
+          "sha256": "b05b9bff3c33f497b740a9c57c9cd8b8a26de88da1754e2ac641e5ff5ecdf2b9",
+          "bytes": 361398,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-alu.png",
+          "sha256": "3ddb7e0ca4dc64868d8e23385f20e1822903d32f64294a832c427e4780e578d9",
+          "bytes": 362429,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-and_gate.png",
+          "sha256": "9bce41734b4c57eb18d8f2178460a4aa8fec291107d286ed846cada58576c848",
+          "bytes": 311728,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-binary.png",
+          "sha256": "1c77392cb89e0c20c7974af8e245dbdc0f6ebe5104834333f1380b39b5448bc6",
+          "bytes": 367127,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-bit_width.png",
+          "sha256": "dd496a1ba2027c83e8f2b202e668f6e0828b12791a9122d32678cb644f1f84b9",
+          "bytes": 323154,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-bounded_batch.png",
+          "sha256": "5bc491bc031676b25e3480a9d132f9083d9965c831ee41a7cbdd08b5953c1f81",
+          "bytes": 393960,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-cache.png",
+          "sha256": "15f7afee13d9596cb6f970a660a648095d4bfdbc0b7a3fe7219088ef2c923e71",
+          "bytes": 374581,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-copy_cost.png",
+          "sha256": "31d49446fe394efeaaafe83df78e04eddb8bd07bb8ee98a0055058bf1fc80709",
+          "bytes": 390644,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-data_layout.png",
+          "sha256": "e7f0e4e239aa76e4fa26b42ac8e57cbdcbb934b354d8b320b7aafbf3d25223d9",
+          "bytes": 386531,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-field_group.png",
+          "sha256": "da3934a810247035faa036bfa2285438ec7a5cd66d485bfdef3aae4fe34cfe3f",
+          "bytes": 396165,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-half_adder.png",
+          "sha256": "c9a3693fa37c79fa916d9fcb582105a8031e1adfa53b242ca624859492ed6ea0",
+          "bytes": 357428,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-junction.png",
+          "sha256": "3c2bd76d964d08b1c0a0b2df99d868527133580f402b963cc78de2df9c13c094",
+          "bytes": 355832,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-multiplexer.png",
+          "sha256": "d5fb4c574f020fb492a19f0e9d5976432ed1a594e7c1f534a8bb01282c23530d",
+          "bytes": 363256,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-not_gate.png",
+          "sha256": "8a0625e1f351dabaac38b98145d4cb8c3b842e752ed630ac814220c3b8dddf6c",
+          "bytes": 301504,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-register.png",
+          "sha256": "b777562f9a395dfaa8a6aec531e3a86dd852063b0cb1a7a643b0daac32d9c1dd",
+          "bytes": 360162,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-signal.png",
+          "sha256": "5978070e0607c1f56d975709662a234876c9e3d2340dfcf88d1a0afcefd5812a",
+          "bytes": 364708,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\en-sr_latch.png",
+          "sha256": "ea836ba51174423d0c91bebd11dbd0cbaaf3cc9d0c769306e5a34f7052707ec8",
+          "bytes": 340661,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-accumulator.png",
+          "sha256": "95469e926e4e5a561df6009ec3e056e9cf5ab23cf55ca2cea9797ef780584810",
+          "bytes": 374242,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-alu.png",
+          "sha256": "ff68478250088ecbcf4d7d93fb51a9734f1f5fd4416f02de348e46b4d05c1434",
+          "bytes": 357450,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-and_gate.png",
+          "sha256": "ac9d685e4bee05a3b08009e442a28de256ed18af0d8de8250b35cfb426c5ded2",
+          "bytes": 279594,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-binary.png",
+          "sha256": "fd7adeaf01e47b0325861f2b58fd3e3348167a54b20dd73cdf400dbbc66f65b2",
+          "bytes": 343576,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-bit_width.png",
+          "sha256": "cc45d6c75d0e23ae468cc425eb5fc7f40df8a3f361ef65148cee3e726b69db81",
+          "bytes": 290395,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-bounded_batch.png",
+          "sha256": "56aac6502c137cfb0cb55e8c3d2e4dd847424c559bf20cd44e1c9bedacc7cdb5",
+          "bytes": 353202,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-cache.png",
+          "sha256": "768ba2e7101780b67feee98a36b16af7c7d8883e595c22c2a11f04d8eed60439",
+          "bytes": 366080,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-copy_cost.png",
+          "sha256": "2b30c46212d0e6b62b63852f690dd8515f225e11d47091049b6c52188497dd43",
+          "bytes": 337185,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-data_layout.png",
+          "sha256": "a133f3bdc63bae4fbf360418784980b1c3be4f1ee72f822cbb4034eebee60032",
+          "bytes": 349655,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-field_group.png",
+          "sha256": "8c530d6aaabbfbd0f113f433c3d98064902d902fb9d2dfb2b4d159889de2f0c8",
+          "bytes": 343457,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-half_adder.png",
+          "sha256": "8d121fd1858afca99f0b344e74433542d8316251fd016fdd3c1e5ce4f79f2827",
+          "bytes": 331175,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-junction.png",
+          "sha256": "c0714f14b264733acb29ec50d8f1bc3a0fbbc7fd5cdd901ea548c4ac6d4db374",
+          "bytes": 349844,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-multiplexer.png",
+          "sha256": "90fb707174978fc67aff85e56fd05555cb5628b33e668528337dd11d89d1eff1",
+          "bytes": 338700,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-not_gate.png",
+          "sha256": "55c0269cb29f8f83df23a5102618486068e08a84f5f2c0eb5348a29dc585083a",
+          "bytes": 271859,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-register.png",
+          "sha256": "78ca0f176eeeaf4d35fe5dbb8793076cd505c0034bd865892b63f308dbfc999b",
+          "bytes": 352511,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-signal.png",
+          "sha256": "c5b11c71d88e5c50d18bc0dae6284ed57d3138651c1ae5c3e6bf7fad78d9b794",
+          "bytes": 328297,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\handbook\\.godot\\polish\\handbook\\zh_CN-sr_latch.png",
+          "sha256": "89429ae1ee2bbeb9c2171f198f1473bd9dee135a7179424b64145ca73ad9b30d",
+          "bytes": 333239,
+          "width": 2560,
+          "height": 1600
+        }
+      ]
+    },
+    {
+      "name": "creation",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "fc731f62914f6dcd6b39ecf9555725680a5b8e519ab31806ad6505867f46a073",
+      "effective_settings_sha256": "6abeae48184ee6a5f0d841a951ce7fe4fbc5f39957b69ad1e8ac457f17b746e1",
+      "captures": [
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\compress-en.png",
+          "sha256": "c0265384202928e8a3daa4b20cdc73f277233a3542aa42cb8ee74e49d13b30e0",
+          "bytes": 190251,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\compress-zh_CN.png",
+          "sha256": "324e8449f91be4def9e1fdcab8af66cd1eca94cb2347612f1fc50079e22ab647",
+          "bytes": 208475,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\generation-en.png",
+          "sha256": "8659bf6b502ae9aa0caf728e36ba6078f8d4859e8c960c5f550d7a67557a742e",
+          "bytes": 196213,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\generation-zh_CN.png",
+          "sha256": "6e9e2057ab59475273db7f814081c1e5411ad56c5212bdcd2c23fc821ffbcde5",
+          "bytes": 225019,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\memory-failure-en.png",
+          "sha256": "c5aa51655d058e5200ad1f4c3bbcc35862536b02a5f99b378100ad9b20f0ec8c",
+          "bytes": 185607,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\memory-failure-zh_CN.png",
+          "sha256": "2d1ac2ff30590f5f514825331f5cf8d85ca7828dca52cfdfabad5360d5dc3dc5",
+          "bytes": 206576,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\prediction-en.png",
+          "sha256": "87540b027b2defdaa81f3bfce69c5e958f1208c240c329e7f82c466c6907c483",
+          "bytes": 196186,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\prediction-zh_CN.png",
+          "sha256": "12e686be6f68d3d6d8204e0844c1cef99aed073b540bf4cebd5f5a0bbaa6d503",
+          "bytes": 221239,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\works-en.png",
+          "sha256": "7771b1d1d846f8ebf0875ac20435fdf2790509210f2527259fa98f251979f761",
+          "bytes": 179494,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\creation\\.godot\\creation-captures\\works-zh_CN.png",
+          "sha256": "ae3bbe5b66cd686c4e5464393a01d70b7824a9288579ff70f17523bb1916fb4e",
+          "bytes": 202223,
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "name": "tutorial",
+      "exit": 0,
+      "passed": true,
+      "test_sha256": "4b51a7b91a1b1c222fbad548f8a5ef4dbe9a9449c305f8ab89a02d4330fbaf8b",
+      "effective_settings_sha256": "7fef984586da45a5cda64f306e62419845788f10ecfa28b972d42ca01343e92a",
+      "captures": [
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-default-hub.png",
+          "sha256": "4e9200c7f8e232d0460ea7a4a4a1eaa8ea137f78cc795d01e02a70fbbb6752b4",
+          "bytes": 150283,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-focused-component.png",
+          "sha256": "46ffebd42d8c16c240dde35a09ad6061f66984983fe47e9f6f07c5e20dfec9be",
+          "bytes": 145947,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-fullscreen-editable.png",
+          "sha256": "8e36b14535673b417ca1f3e604d829a72214f612d88eb293d5183ee56fb4452a",
+          "bytes": 277444,
+          "width": 2560,
+          "height": 1600
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-handbook-first-lesson.png",
+          "sha256": "c0443c9e0bd0cfba006d3288802ea375e5caf460d113d79b56a9d7a7954d948a",
+          "bytes": 175995,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-handbook-future-locked.png",
+          "sha256": "fe7994e46863b9cb99194abfb0a6e8135f0aa0740041ceff650233be42c9bec7",
+          "bytes": 158078,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-handbook-signal.png",
+          "sha256": "4c4a7ba28350f7ad37ff7bf1830f75691dd818ea406b243b5a90c77f37769467",
+          "bytes": 161417,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-mission-1280.png",
+          "sha256": "2574d7acd71faadfc8861ac60cab688551d415fc70aaaa30880670ee97abbb09",
+          "bytes": 166777,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-network-inspection.png",
+          "sha256": "7bfeda6562494cb52cb6fa8b0e561c18abf43497c95cdf6df8e9ed495c1d50f5",
+          "bytes": 121258,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-placement-preview.png",
+          "sha256": "9aa2faaf20aa274a83577ae5806719bc0bd10ed9e3a263ee64d044231cce22bb",
+          "bytes": 173578,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-prologue-map.png",
+          "sha256": "b1753cf1a6cd969d1e9c24c2f751f7ce8a10a31583cc3fb605b060abf50f8e73",
+          "bytes": 193386,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-tutorial-after-drag.png",
+          "sha256": "6cf8cde5ce40f60f3345d9647c5effa0d4e5e5f5f5fe9302ece604452186aeef",
+          "bytes": 141163,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-tutorial-board.png",
+          "sha256": "2d9b1c2a5bbc53012a62e70c8045896dc4723ad3d61f7188391c31bdab8ba654",
+          "bytes": 145540,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-tutorial-hint-1.png",
+          "sha256": "98c44b915c1921858630f195121af9e5f1bcb8135479c7a670f4e73b793f7df3",
+          "bytes": 122056,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-tutorial-hint-2.png",
+          "sha256": "cbd54e9fc600c06aee348435779b610bd0f117065ba985db5b21a517a3a1eb1d",
+          "bytes": 125466,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-tutorial-hint-3-confirm.png",
+          "sha256": "6644bc73588edecda2a44a6b574fb7d5637c976e1d44cae6f89afa4f316633c7",
+          "bytes": 111976,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-tutorial-mission-minimum.png",
+          "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+          "bytes": 206997,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-tutorial-mission.png",
+          "sha256": "ba10cc16e8f146cee08ad06c8f4ae3e68aa0dec4da5434196611ed0df507f3b6",
+          "bytes": 217216,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-tutorial-return.png",
+          "sha256": "2d9a51ed1f119119db9ab166e3e808be8b90c98f4e5859e51e3edcc061795e70",
+          "bytes": 124443,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-window-editable.png",
+          "sha256": "5864da41dffdf00e09f336dfe2fc190584417984f0dbdca8d18f527bf45db109",
+          "bytes": 124164,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-wire-end-continuation.png",
+          "sha256": "7eae40a2ed2d392a937f730c2270d9685f55db4a462e71e76304d0bf94fd54ba",
+          "bytes": 125192,
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "path": "captures\\tutorial\\.godot\\experience\\game-input\\zh_CN-wire-middle-branch.png",
+          "sha256": "2a1480e238a1b16bf9a75fa71a2f3f43224d7f97948427ad45b05d2bc1b917d2",
+          "bytes": 120396,
+          "width": 1600,
+          "height": 900
+        }
+      ]
+    }
+  ]
+}

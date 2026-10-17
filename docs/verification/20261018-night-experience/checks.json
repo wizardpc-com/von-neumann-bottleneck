@@ -1,0 +1,148 @@
+{
+  "delivery_source_commit": "7c4f9b58e4229864ccf29aa066de85a183d33924",
+  "headless": [
+    {
+      "label": "baseline",
+      "raw": ".godot/verification/20261017T182236Z-482dd67e/results.json",
+      "raw_sha256": "df33cdc08f7fec740f800e913fdf8ac9e956fc6410e37024f7de9dff8f140bd8",
+      "engine": "4.7.1.stable.official.a13da4feb",
+      "total": 6,
+      "passed": 6,
+      "failures": []
+    },
+    {
+      "label": "R1-focused",
+      "raw": ".godot/verification/20261017T182957Z-bfe3a17f/results.json",
+      "raw_sha256": "ffc1a7ddedd9dcfe7f42a3949f073a57f7835e0241cb0e1c95505404d109ba7f",
+      "engine": "4.7.1.stable.official.a13da4feb",
+      "total": 6,
+      "passed": 6,
+      "failures": []
+    },
+    {
+      "label": "R2-focused",
+      "raw": ".godot/verification/20261017T183506Z-8c774dd4/results.json",
+      "raw_sha256": "0a1be2009e3334fceef466a8483d246c12dbf960524d0e987a73cfcd9680b58d",
+      "engine": "4.7.1.stable.official.a13da4feb",
+      "total": 7,
+      "passed": 7,
+      "failures": []
+    },
+    {
+      "label": "full-Windows",
+      "raw": ".godot/verification/20261017T183647Z-8abb2263/results.json",
+      "raw_sha256": "4511517eee1692fa9326eb5030d5a905055c83ec5d7ddda1c253998616f409f3",
+      "engine": "4.7.1.stable.official.a13da4feb",
+      "total": 165,
+      "passed": 164,
+      "failures": [
+        {
+          "name": "test_prediction_workbench_presentation",
+          "errors": [
+            "ERROR: Policy controls share the instrument palette",
+            "ERROR: Policy controls share the instrument palette",
+            "FAIL: test_prediction_workbench_presentation 1293 checks, 2 failures"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "final-focused",
+      "raw": ".godot/verification/20261017T184909Z-b1c74d35/results.json",
+      "raw_sha256": "5c61226b85c9999dc1fb5511fd7faa3cfa8dfb312067cca7ccefdc5ff7adc796",
+      "engine": "4.7.1.stable.official.a13da4feb",
+      "total": 8,
+      "passed": 8,
+      "failures": []
+    }
+  ],
+  "python_commands": [
+    {
+      "command": "python -X utf8 scripts/check-branding.py",
+      "exit": 0,
+      "log": ".godot/night-python/check-branding.log",
+      "log_sha256": "9c9dcaccb49fbd8c2ab9ddbf3cac7558e2baa09adb1a647b03af191bc7be48a2"
+    },
+    {
+      "command": "python -X utf8 scripts/test-report-playtests.py",
+      "exit": 0,
+      "log": ".godot/night-python/test-report-playtests.log",
+      "log_sha256": "db47d284dfd87626030c921eae59c9ae6c96f572ee9e6c5a91ec841be19eee27"
+    },
+    {
+      "command": "python -X utf8 scripts/test-offline-playtests.py",
+      "exit": 0,
+      "log": ".godot/night-python/test-offline-playtests.log",
+      "log_sha256": "7cd36b63b23ec672555d0bbd572d4f44154d57d47ce0ca216a6a8f87524d78a2"
+    },
+    {
+      "command": "python -X utf8 scripts/test-candidate-packaging.py",
+      "exit": 0,
+      "log": ".godot/night-python/test-candidate-packaging.log",
+      "log_sha256": "38e1788324f18b32486092ac781775279de9748e013a66d6ed452a1afc6da48a"
+    },
+    {
+      "command": "python -X utf8 scripts/test-package-feedback.py",
+      "exit": 0,
+      "log": ".godot/night-python/test-package-feedback.log",
+      "log_sha256": "acc153d1fb63f2916e819437c857de52adcece5b4ccc2a6794b55666eda0a10a"
+    },
+    {
+      "command": "python -X utf8 server/test_receiver.py",
+      "exit": 0,
+      "log": ".godot/night-python/test_receiver-loopback.log",
+      "scope": "isolated synthetic loopback",
+      "temp": ".godot/night-python/temp",
+      "log_sha256": "09f8f90c7550b58b78a96ce5f82539d39d48b2668acb1cc3a61622c4d7a05c10"
+    },
+    {
+      "command": "python -X utf8 server/test_community.py",
+      "exit": 0,
+      "log": ".godot/night-python/test_community-loopback.log",
+      "scope": "isolated synthetic loopback",
+      "temp": ".godot/night-python/temp",
+      "log_sha256": "779db437d5da18d8650330455b02888dbe3768f51a5fe188071c9f51dfec0287"
+    },
+    {
+      "command": "python -X utf8 server/test_delivery.py",
+      "exit": 0,
+      "log": ".godot/night-python/test_delivery-loopback.log",
+      "scope": "isolated synthetic loopback",
+      "temp": ".godot/night-python/temp",
+      "log_sha256": "acb9c68ae82ee9180ae6aa3706c907a9257a86b21631799b883f393d99494cd8"
+    },
+    {
+      "command": "python -X utf8 server/test_maintenance.py",
+      "exit": 0,
+      "log": ".godot/night-python/test_maintenance-loopback.log",
+      "scope": "isolated synthetic loopback",
+      "temp": ".godot/night-python/temp",
+      "log_sha256": "afc4c46f8de9ce5ecec9f3cc69aaa81513501cb2279e25d2e688a33549a19215"
+    },
+    {
+      "command": "python -X utf8 server/test_storage.py",
+      "exit": 0,
+      "log": ".godot/night-python/test_storage-local-temp.log",
+      "scope": "isolated workspace TEMP; OK marker verified",
+      "log_sha256": "1cefcd4e39dd04416f10bf83ad89e11c3618e6c100149ea160ce7506819c9667"
+    },
+    {
+      "command": "python -X utf8 server/test_private_report.py",
+      "exit": 0,
+      "log": ".godot/night-python/test_private_report-local-temp.log",
+      "scope": "isolated workspace TEMP; OK marker verified",
+      "log_sha256": "ca2f08eb350d99049bc93f81a9ef68530715a9ebf7a86d1b4f43a7c09db61b27"
+    }
+  ],
+  "night_profile_packaging": {
+    "raw": ".godot/night-python/test-candidate-packaging-night-profile.log",
+    "raw_sha256": "cde3ca30b85c2835c6b5681340addd5a5bf0c9231044d1efa8946682684c3b77",
+    "passed": true
+  },
+  "limits": [
+    "Earlier local checks retain their own tested snapshots; delivery source is not a retroactive identity claim",
+    "Full Windows remains164/165; affected1293-check suite rerun passed",
+    "Earlier TEMP/socket failures and interrupted maintenance are retained in raw local evidence",
+    "Controller and fixture checks do not establish native input, novice understanding, or new server/public release acceptance"
+  ]
+}

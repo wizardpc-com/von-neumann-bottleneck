@@ -1,0 +1,180 @@
+{
+  "schema": "night-native-acceptance-v1",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_commit": "7c4f9b58e4229864ccf29aa066de85a183d33924",
+  "build_id": "playtest-NightAccess20261018-7c4f9b58e422",
+  "exe_sha256": "6f320919d3d657d8b9f69570e5468be66dfc96d337829b8e0e33bc75da08bbe4",
+  "zip_sha256": "d67065e1334714852cadc302547ed4fb268f2b6460181d2f1620e5199ed52e65",
+  "evidence_grade": "Actual Windows OS mouse/keyboard through @oai/sky; known-answer agent route; not unfamiliar-player testing",
+  "profile": "OfflineTeammate-Night20261018",
+  "isolation": {
+    "fresh_APPDATA": true,
+    "fresh_LOCALAPPDATA": true,
+    "packaged_profile_unchanged": true,
+    "real_player_directories_used": false,
+    "engine_runtime_override": false
+  },
+  "native_checks": {
+    "home_replay_escape": true,
+    "fresh_start_skippable_intro": true,
+    "skip_retains_real_tutorial_zero_of_five": true,
+    "two_real_wire_drags": true,
+    "input_toggle_and_debug_A1_lamp0": true,
+    "remove_and_reconnect_earns_five_of_five": true,
+    "correct_yi_completion_response": true,
+    "F8_over_completion": true,
+    "single_native_letter_note_visible_and_autosaved": true,
+    "normal_close_exit0": true,
+    "independent_process_restart": true,
+    "restarted_home_shows_earned_tutorial": true,
+    "F8_after_restart": true,
+    "original_note_revision_bytes_preserved_after_restart": true,
+    "hardware_workbench_bytes_preserved_after_restart": true,
+    "second_normal_close_exit0": true
+  },
+  "synthetic_note": {
+    "text": "n",
+    "revision": 1,
+    "source_identity_matches": true,
+    "notes_jsonl_sha256": "494dd163ceb3611209fef75d679f57326bc7e422c3098b8ecb11d1b778f6be09"
+  },
+  "processes": {
+    "first_pid": 34056,
+    "restart_pid": 20692,
+    "both_exit_codes": [
+      0,
+      0
+    ]
+  },
+  "limitations": [
+    "Sky.type_text returned success but text was not inserted in Godot after one refocus/retry; ordinary native letter key n succeeded. Long text and Chinese native text input remain unverified.",
+    "Prior note was verified by exact local revision bytes after independent restart; selecting it through the native history dropdown was not established.",
+    "Two initial short-lived process launch attempts ended without a target window; a persistent supervisor kept the owned process alive. These attempts are not reported as product crashes.",
+    "Native run used default full-screen Chinese display; no additional native resolution or English coverage claimed.",
+    "No native C/P/G or full60 route, note ZIP export/import, Mac or unfamiliar-player acceptance claimed; separate controller evidence covers its stated scope."
+  ],
+  "raw_evidence_directory": ".godot/night-native/acceptance-7c4f9b58",
+  "frames": {
+    "native-debug-a1-lamp0.png": {
+      "sha256": "571e9b89bbbb99407b1b05b9341e9a65e4d4f344597ecce8398f09427b3374b1",
+      "bytes": 157587
+    },
+    "native-earned-tutorial-zh.png": {
+      "sha256": "1819026bc11ba317f54ff19cbcbda097ec55466036d75cb1da305abb941e8be8",
+      "bytes": 120974
+    },
+    "native-feedback-autosaved.png": {
+      "sha256": "bdf8bdd47613634305943272552701cad6d25dc0f72f811792ad480eb6dfc8fa",
+      "bytes": 93982
+    },
+    "native-home.png": {
+      "sha256": "650664c402f3f8f6f74fd2c0839a81871901b254b5b0ad29e3eeee2d08a51649",
+      "bytes": 98654
+    },
+    "native-replay.png": {
+      "sha256": "69fdc5aea67629bc7d25ad5b9987e2c6acf0ff60d1b47e33af81cea7ec16bb4d",
+      "bytes": 89518
+    },
+    "native-restart-feedback.png": {
+      "sha256": "889659f3a56956850d12148a43831268434fc986f0899773cff96876cff266a4",
+      "bytes": 106805
+    },
+    "native-restart-home-earned.png": {
+      "sha256": "82b12b504d6d743f8fc805063c353b690372bc591320f35c0697debae176245a",
+      "bytes": 100261
+    },
+    "native-start-intro.png": {
+      "sha256": "40612cbef0d17658d760bb23068a559b59fac5dbf7dce8d651d5cb7d1f2560ec",
+      "bytes": 95429
+    },
+    "native-tutorial-fresh.png": {
+      "sha256": "e1b6709b7aa7faf7a6128692befc21f38a9986041c993033836f59bd1b822d32",
+      "bytes": 180872
+    },
+    "native-wired-a0-lamp1.png": {
+      "sha256": "d8c196b9bb6e00a7ab45bd0a8d0ee5a3625b6b0938a7144c91f9516163975756",
+      "bytes": 158048
+    }
+  },
+  "actions": [
+    {
+      "action": "native click Home replay",
+      "observed": "Yi introduction visible; Back Home only; NOT rule0to1/1to0"
+    },
+    {
+      "action": "native Escape",
+      "observed": "replay dismissed to Home"
+    },
+    {
+      "action": "native click Start journey",
+      "observed": "optional intro shows Begin and Skip"
+    },
+    {
+      "action": "native click Skip introduction",
+      "observed": "real tutorial loaded at0/5 with Mission rules; nocompletion"
+    },
+    {
+      "action": "native drag A output→NOT input",
+      "observed": "connected A_IN→NOT_1; checklist1/5"
+    },
+    {
+      "action": "native drag NOT output→lamp",
+      "observed": "connected NOT_1→LAMP; live A0 lamp1"
+    },
+    {
+      "action": "native click A0→A1",
+      "observed": "input1; checklist2/5 requests complete-path run"
+    },
+    {
+      "action": "native click Run practice circuit",
+      "observed": "debug complete; A1 lamp0; checklist3/5 requests remove wire"
+    },
+    {
+      "action": "native right-click NOT-to-lamp wire",
+      "observed": "wire removed; checklist4/5; reconnect requested"
+    },
+    {
+      "action": "native drag reconnect NOT→lamp",
+      "observed": "checklist5/5 and actual completion; Yi response includes NOT0→1/1→0"
+    },
+    {
+      "action": "native F8 over earned completion",
+      "observed": "local feedback overlay shows tutorial screenshot and autosave notice"
+    },
+    {
+      "action": "native type_text synthetic note attempt1",
+      "observed": "note not visible after refresh; refocusing editor before one retry"
+    },
+    {
+      "action": "native type_text synthetic note retry",
+      "observed": "text still absent; testing one ordinary native letter key to distinguish text-entry helper from editor focus"
+    },
+    {
+      "action": "native single key n",
+      "observed": "synthetic note n visible; UI reports autosaved dd21c9b4"
+    },
+    {
+      "action": "native Alt+F4 standard window close",
+      "observed": "Owned first QA process exited normally with confirmed exit code0."
+    },
+    {
+      "action": "independent new-process launch with same isolated profile",
+      "observed": "Home offers Revisit my workbench; tutorial marked completed"
+    },
+    {
+      "action": "native F8 after restart",
+      "observed": "new Home feedback panel opens; prior note remains on disk; history old-note GUI selection not established"
+    },
+    {
+      "action": "native Escape then normal Alt+F4 after restart",
+      "observed": "Owned independent restart process exited normally with confirmed exit code0."
+    }
+  ],
+  "completed_utc": "2026-10-17T19:08:07Z",
+  "curated_frame": {
+    "path": "native-earned-tutorial-zh.png",
+    "sha256": "1819026bc11ba317f54ff19cbcbda097ec55466036d75cb1da305abb941e8be8",
+    "bytes": 120974,
+    "scope": "Unedited fresh Chinese full-screen OS-input completion; separate from four paired controller/fixture comparisons"
+  }
+}

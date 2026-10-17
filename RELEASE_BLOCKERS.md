@@ -3,7 +3,32 @@
 Current source and artifact: [CURRENT_STATE](docs/CURRENT_STATE.md).
 These are remaining acceptance requirements, not instructions to add features.
 
-## Current gates — 2026-10-17
+## Night candidate gates — 2026-10-18
+
+PR10 is merged at `bf8f616`; the new experience candidate remains a separate
+review branch. The public download remains the October17 offline Pre-release.
+Normal and all-entrance tester packages use distinct nightly profiles so neither
+automatically opens the older tester saves. Exact current package identity,
+controller/native scope and observed failures belong to the
+[night verification record](docs/verification/20261018-night-experience/README.md).
+
+Fixed7c Windows normal/tester ZIP identities, first real task and package map/rules
+passed; tester additionally passed60 actual entrances, real C/P/G protected work,
+restart/recipe replay and final-only4-case/2-session feedback import. This is
+exported-controller acceptance. Ordinary C/P/G restart remains separate.
+The unchanged tester additionally passes16 scoped native Windows OS-input checks:
+real tutorial wiring/completion, F8/single-letter autosave, independent restart
+and two normal exit0 results. Long/Chinese text input and old-note history GUI
+restoration remain unverified; native C/P/G/full60 coverage is not claimed.
+No60-task human-completion claim follows from entrance checks.
+
+This round does not authorize public publication, server/domain changes or save
+migration. Unfamiliar-player understanding, final narrative/art/subjective audio,
+current Mac native behavior and another machine's first launch remain open.
+Agent controller replay is separate from OS input and human playtesting.
+Engineering handoff is complete; these remaining human/platform gates stay open.
+
+## Earlier acceptance — 2026-10-17
 
 The new offline teammate Windows candidate freezes `4df5bad46751`. All sixty
 entrances and the final-only two-play screenshot/context ZIP acceptance passed.
@@ -15,8 +40,8 @@ it is published. The earlier online draft remains unpublished.
 
 Protected PR7 merged as `94b5bff`; main contains the complete sixty-task journey.
 PR8 integrates feedback operations and a Windows Release draft. The owner explicitly
-chose to wait for a working domain before public release. The earlier frozen player
-packages remain offline; the public download remains forty-task Alpha1.
+chose to wait for a working domain before the online draft's public release. The
+published offline Windows download contains sixty task entrances; Alpha1 is older.
 
 Actual private Windows EXE feedback at fixed `beca837894481165e6e04afe93f4e879645c1d29`
 passed HTTPS delivery, same-ID private reporting, retry/deduplication, deletion and

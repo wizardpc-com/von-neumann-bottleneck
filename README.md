@@ -18,9 +18,11 @@
 
 **旧版 Alpha（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建。最新 Windows 离线试玩为 `v0.5.0-alpha.3-offline.1`；本轮未提供新版 Mac 包。
 
-**当前源码（2026-10-17）：** PR #7 已并入 `main`。完整旅程保留原核心40个任务，并加入表示5个、服务3个、可选地址预测3个，以及「压缩 → 内容预测 → 创造」9个，共60个任务；可选内容不提高原主线门槛。玩家可以用同一学习模型复原、预测，再生成并保存自己的光纹作品。本轮 Windows 离线测试版已公开，全部任务入口开放；离线反馈改动在 PR #10，尚未合并。本轮未更新 Mac 包。此前的联网 Windows 草稿继续等待域名，未启用公网收集。[当前状态与验证边界](docs/CURRENT_STATE.md) · [离线试玩验收记录](docs/verification/20261017-offline-teammate/README.md)。
+**当前源码（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。完整旅程保留原核心40个任务、表示5个、服务3个、可选地址预测3个，以及「压缩 → 内容预测 → 创造」9个，共60个任务；可选内容不提高原主线门槛。夜间候选加入可跳过／重看的壹导入、互动规则图示、明确的中期证据提示和创作地图入口，使用独立普通／全关测试存档，尚未公开发布。公开下载仍是10月17日 Windows 离线版；本轮未更新 Mac 包或启用公网收集。[本轮验收与变化证据](docs/verification/20261018-night-experience/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态与验证边界](docs/CURRENT_STATE.md)。
 
 [下载试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+
+夜间候选的工程交接已完成，包括固定Windows实包与限定原生接线／重启观察；真人理解、最终美术／叙事与更广平台验收仍开放，范围见本轮验收记录。
 
 **离线队友试玩版（Windows）：** 最新候选 `4df5bad46751` 开放全部60个任务入口；随时按 F8 或点“现场反馈”，自动保留游戏截图、当前方案与运行现场，文字自动保存。多次退出重启后，最后导出一个 ZIP 即可交给维护者集中查看。独立测试存档，无需账号或网络。[试玩说明](distribution/OFFLINE-PLAYTEST-README.txt) · [集中导入与分析](distribution/OFFLINE-MAINTAINER.txt) · [固定版本与验收](docs/verification/20261017-offline-teammate/README.md)。
 

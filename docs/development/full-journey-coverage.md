@@ -1,10 +1,13 @@
 # 全旅程需求与证据账本 · 2026-10-18
 
-**当前Gate**：原P0已在226固定源定向闭合：fresh13/13阶段、原Rule真实renderer401及Journal222通过，
+**当前Gate**：正式包SOURCE固定22603af3a645ec6fe1b245f83d6f0d71472035c5；新cdace完整原verify
+168/168 PASS/exit0、651/651raw匹配，无额外tests/owned提前终止；226两远端CI39068099185/39068095554成功。
+fresh13/13阶段、原Rule真实renderer401及Journal222通过，
 18次captured/pending0、三尺寸各6逐图与context匹配。原Windows full166/168及GUI637目录rename失败保留，
 不追写全绿或推断唯一OS根因。Store改fresh排他目录内context/PNG先验、原metadata最后写，
 JSON/notes/旧pending/导出格式不变，Visual独立源审无阻断。
-Narrative持唯一引擎执行下一次完整full；新实际Godot ZIP导入/两实包仍待，不能借旧CI绿认证新runtime。
+Narrative持唯一引擎构建固定226双包，原ZIP父/子链和strict embedded独立重启待实际验证；
+新包/限定游戏原生未通过前不能用源码Gate替代。证据文档7b8b352不属于包SOURCE。
 总控已核49c两CI39067140525/39067137757 SUCCESS；它们在Store修前，不覆盖已推送的22603。
 Python原导入器10测试与合成ZIP的5份recovery/cases/旧pending原样保留另行通过；
 这只是旧importer兼容检查，新Store实际Godot ZIP及两包子链仍待，不扩大为整个保存系统保证。

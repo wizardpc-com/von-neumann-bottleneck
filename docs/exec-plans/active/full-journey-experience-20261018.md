@@ -3,10 +3,12 @@
 当前固定源码为22603af3a645ec6fe1b245f83d6f0d71472035c5：Store新incident直接fresh排他目录、
 context/PNG先验、原case.json最后写，移除填满目录发布rename；旧pending/JSON/notes/导出协议保留。
 Visual独立源审无阻断；新fresh9a13/13、be37原Rule真实401及cba Journal222均PASS/exit0，
-18次captured/pending0、三尺寸各6逐图与context同尺寸。原P0本轮定向闭合，新完整full与两包仍待，
-Narrative持唯一引擎执行下一次full。
+18次captured/pending0、三尺寸各6逐图与context同尺寸。新cdace完整原verify168/168 PASS/exit0、
+651/651raw匹配、无额外tests/owned提前终止；226两远端CI39068099185/39068095554成功。
+Narrative持唯一引擎按正式SOURCE226构建双包及原ZIP父/子链、strict embedded独立重启；实际包和原生仍待。
 原679 Windows full166/168、637真实GUI rename失败和旧CI各保留原身份，不能追写全绿；
-新SOURCE/两包/限定原生及完整goal未完成，不启动F2候选。
+两包/限定原生及完整goal未完成，不启动F2候选。
+SOURCE226已正式固定，文档检查点7b8b352不混入包身份；索引假M刷新没有生产字节差异。
 另行Python原导入器10测试及合成recovery ZIP兼容通过（5文件SHA保持，仅1正常incident），
 不等于新Store实际Godot导出或整包验收，既有半写/碰撞/未知版本保护仍依实际定向结果。
 

@@ -7,12 +7,13 @@
 
 ## 当前Gate
 
-- **原P0已在本轮定向闭合，完整full与两包仍待**：固定`22603af3a645ec6fe1b245f83d6f0d71472035c5`的fresh13/13定向、原Rule真实renderer401、Journal真实窗口链222均通过。Rule18次captured、pending0，三尺寸各6张且PNG/context逐一匹配。
+- **源码Gate通过，双实包与新限定原生仍待**：正式包SOURCE固定`22603af3a645ec6fe1b245f83d6f0d71472035c5`。`cdace219`完整原verify **168/168 PASS、exit0**，651/651源码字节匹配、无额外tests、无owned子进程提前终止。总控核远端CI `39068099185`/`39068095554`completed/SUCCESS。
+- 同固定源fresh13/13定向、原Rule真实renderer401、Journal真实窗口链222均通过。Rule18次captured、pending0，三尺寸各6张且PNG/context逐一匹配。
 - 新Store经Visual独立源审：排他创建fresh cases目录，先验证context/PNG、最后写原case.json，移除填满目录发布rename。JSON/notes/旧pending/导出格式不改，不加重试或原子耐久承诺。旧637目录rename208失败及原full166/168原样保留，不推断唯一OS根因。
-- Windows原full `1639bbd5`保持**166/168 PASS、2 FAIL、exit1**；后test-only clarity与Service在49c fresh四阶段通过，不追写原full。总控已核49c两CI `39067140525`/`39067137757`completed/SUCCESS；这仍是Store修前runtime，不能认证22603。22603已推送，须以它另冻SOURCE和包。
-- Narrative持唯一引擎，下一项为新固定身份一次full。Python原导入器10测试及额外synthetic recovery兼容已通过；实际Godot导出ZIP导入与最终两包链仍待；**尚无新包或新游戏原生验收**。完整goal仍active，不启动下一候选阶段。
+- 旧Windows full `1639bbd5`保持166/168及原GUI失败，不追写全绿。49c及e945的旧CI成功保持其原身份；新226的成功另有上述独立回执，不借证据文档commit认证运行源码。
+- Narrative持唯一引擎，正在固定226构建双包并排队原ZIP父/子链与strict embedded profile独立重启。Python原导入器10测试及synthetic recovery兼容已过，实际Godot导出ZIP与最终两包链仍待；**尚无新包或新游戏原生验收**。完整goal仍active，不启动下一候选阶段。
 
-文档恢复点为`dea36d3`；其前完整原full证据恢复点`342e8e6`保持。后续历史来源及失败均留在下方与checks.json。
+文档恢复点`7b8b352`（此前`dea36d3`/`342e8e6`）只保存证据，不是包SOURCE。索引stat/CRLF假修改已由总控逐字节/filtered blob核同HEAD后刷新，cached diff为空，未改变生产字节；原检出`tests/test_ui.gd`的既有删除未动。
 
 ## 已保存的检查点（历史，不表示当前Gate）
 
@@ -103,6 +104,7 @@ Godot为`4.7.1.stable.official.a13da4feb`。原始日志留在本地忽略目录
 | `verification/20261017T204609Z-9a0116bc` | 新226固定fresh13/13定向阶段PASS/exit0 | 651/651原始文件匹配226、无额外tests；含Store新碰撞/半写/旧pending/PNG失败/后验失败边界及旧反馈保护 |
 | `verification/20261017T204737Z-be37b124` | 原canonical Rule真实renderer401 PASS/exit0，10 PNG已hash | 原test未加QA日志；actual-incident-audit逐核18个真实captured records、pending0、三尺寸各6、PNG与context逐一同尺寸；不等于OS输入或陌生玩家验收 |
 | `full-journey-narrative-runs/cba6b34bfc40` | 同226 fixed copy真实Journal222 PASS/exit0，无owned终止 | 普通/tester两渠道、实际Window/F8/Esc/Tab/销毁/等待capture两暂停分支及精确作品保护仍通过；新full与包尚待 |
+| `verification/20261017T204927Z-cdace219` / `full-regression-watch/ef47b78c025e` | 新226完整原verify168/168 PASS、exit0，168 owned child无提前终止 | 651/651源码原始字节匹配226，无额外tests；原flags/assert/枚举/180秒不变，正式权限owned-only SCRIPT ERROR failfast监督包装。results SHA `323b150d04eeccaf26f17dcc231ba0cc799f4c95c0a830a1900dd2a5c1a58d4b`；不认证尚未执行的双包/native |
 
 56fe晚于上述旧失败，**但早于**marker主题实际最小尺寸修正、system拓扑/语言刷新回归和
 Journal→ThemeReflection→F8新栈。其成功不能认证这些后续差异。

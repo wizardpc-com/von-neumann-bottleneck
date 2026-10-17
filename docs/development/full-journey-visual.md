@@ -76,3 +76,45 @@ headless结果冒称3D渲染成功；fixture灯变化不冒称测试已玩得玩
   这份copy也早于后续system topology hook与更广Journal窗口反馈测试；不声称最终整合通过。
 
 这些是单一引擎令牌下的早期隔离来源，不是最终整合、实包或原生OS验收。
+
+## F1独立实际图片审阅
+
+读取`full-journey-narrative-runs/0ce751c48843`所绑定的
+`20261017T194755Z-be2664fe/project/.godot/full-journey-context-captures/`，实际查看
+九宿主×中文／英文的18张`1280x720-default.png`，另查看两张Hardware located图和
+首轮System英文对照图。审阅的是实际PNG，不以JSON可见性字段替代观察。
+
+- 九宿主默认首屏的Now／Verify均完整、对比清楚；新正文16px可读。可滚动的长解释被
+  正常裁剪，没有把必要Now／Verify藏在其后。Creation只保留原顶部Now，新卡仅加Verify。
+- Hardware英文located图把Now首行卷走，而其默认首屏完整。其余17组720p located与
+  default文件哈希相同；前者是QA对整卡底对齐的问题，不证明默认首屏坏。
+  0ce的整体1398项结果仍是FAIL，不能把54默认帧的通过改写成整套通过。
+- `chapter_1-cpu_speed-en-1280x720-default.png`中，System工具条TEST之后的
+  Profiler／History整体出屏，Parts窗右侧控件裁剪。首轮`cc79f97bdf50`的
+  `captures/system/.godot/system-guidance-captures/en.png`实图可见同类问题。
+- `chapter_3-arrival-{zh,en}-1280x720-default.png`中Tools窗右侧关闭／最小化、
+  工具名／说明和Undo／Redo右边裁剪；主要Run All／Hint及底栏仍可见。
+  本次没有对应旧Overlap实图，不能据源码相似称已经复现旧基线。
+- 配置是实际窗口1280×720且`root.content_scale_size`也为1280×720；即使默认导出
+  使用1600逻辑画布，也不能排除此处1280目标。总控已交宿主作者做工具条换行与
+  仅越界仪器的横向fit窄修，保留界内玩家位置／字号／模型。修后仍待新快照。
+
+这份独立审阅不覆盖全部高分辨率默认帧、所有60任务的长文变体、真实鼠标解题或
+陌生玩家理解，不把旧e3等成功快照用于替代新图。
+
+## F2待启动合同（未实现）
+
+在F1固定可运行包成立后，才启动现有ThemeReflection内的可选「第一束光」演出小样；
+该文件目前仍归其F1修复所有者，不并行修改。只由真实tutorial完成记录派生，测试入口
+不授片段、旧档不补首获日期或新历史；空间灯是叙事映射，不暗示正确NOT输出必须为1。
+
+点击才播放约3秒程序几何／光点与原生短字幕，可跳过／重播、低动效静态可读；F8保持
+最高层，Esc逐层返回原回顾。一个明确媒体slot可供替换，无图／无声仍有文字与程序
+场景。只试一个真实里程碑，不新增帮助系统、完成存档、角色移动、正式CG、最终人设、
+复活结局或泛化演出框架；虚构候选标记与素材来源仍需保留。后续可独占小型vignette
+脚本／测试和ThemeReflection接缝，不与NineHosts／Journal并写。
+
+现有同数据浅／深component样张满足候选和按钮状态比较的一部分；手册C要求的
+「同一工作台、同一数据与文字」整页浅色候选尚未完成，不列为完整验收。后续仅用QA
+代表工作台做同真实数据／原生控件双样；不新增全局light设置，不将当前dark默认定为
+最终美术。实际整页比较、演出实现与人审分别记录，均不能借本段合同冒称已实现。

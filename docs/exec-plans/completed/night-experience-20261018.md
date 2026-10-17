@@ -2,8 +2,10 @@
 
 Engineering scope completed2026-10-18: fixed Windows normal/tester packages,
 independent reviews, scoped native observation and next-day evidence handoff.
-Root owns the final documentation commit/push and review-PR delivery. Human and
-broader platform acceptance remain separate open gates.
+Root pushed the engineering/evidence checkpoint `98944d1` and delivered
+[draft PR11](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/11).
+Package SOURCE remains fixed7c. Human and broader platform acceptance remain
+separate open gates.
 
 ## Goal and authority
 
@@ -146,13 +148,14 @@ or in the linked verification entry. Existing failed attempts remain evidence.
   did not insert while the ordinary `n` key succeeded. The native token is released.
 - R4 engineering delivery is complete: exact package/CI/native receipts, four
   scoped image pairs, clean native completion, five human questions and recovery
-  handoff. No new product scope remains; root performs final Git delivery.
+  handoff. Root pushed `98944d1` and delivered draft PR11; no product work remains.
 
 ## Unverified / remaining
 
-Root's final commit/push/review-PR delivery follows this completed engineering
-handoff. Both exported-controller receipts, native scope and curated evidence
-are complete; native breadth is limited as recorded above.
+Root pushed `98944d1` and delivered
+[draft PR11](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/11).
+Both exported-controller receipts, native scope and curated evidence are complete;
+package SOURCE remains7c and native breadth is limited as recorded above.
 Current Mac native, unfamiliar-player comprehension, subjective listening and
 final art/narrative judgement remain outside automated acceptance. No public
 Release is authorized. Full evidence and exact scope are consolidated in

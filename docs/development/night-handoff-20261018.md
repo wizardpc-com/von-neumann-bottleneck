@@ -6,6 +6,8 @@
 `codex/night-experience-20261018`。公开下载仍是10月17日离线版；本轮候选
 只交本地固定包与审阅分支，尚未公开发布。精确包名、SHA与验证结果见
 [夜间验收记录](../verification/20261018-night-experience/README.md)。
+分支已推送至`98944d1`并交付[草稿PR #11](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/11)；
+包SOURCE仍固定为`7c4f9b58e4229864ccf29aa066de85a183d33924`。
 
 普通进度版使用 `NightExperience20261018`；协作全关版使用
 `OfflineTeammate-Night20261018`，不自动读取10月17日的 `OfflineTeammate`。

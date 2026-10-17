@@ -128,7 +128,7 @@ func creative_work_review(journal: Variant, phase: String, expected: Dictionary,
 	check(panel.visible and panel.get_viewport()==exhibit and focus!=null and panel.is_ancestor_of(focus) and not exhibit.playing,phase+" Creative saved-work F8 pauses presentation in the actual focused Window")
 	check((feedback.backdrop.visible and get_tree().paused) if tester else (not feedback.backdrop.visible and get_tree().paused==was_paused),phase+" Creative saved-work feedback respects the exact role pause channel")
 	await creative_window_key(KEY_ESCAPE)
-	check(is_instance_valid(exhibit) and exhibit.visible and journal.visible and not panel.visible and get_tree().paused==was_paused,phase+" Creative first Escape closes feedback while retaining the saved work and Journal")
+	check(is_instance_valid(exhibit) and exhibit.visible and journal.visible and not (feedback.backdrop.visible if tester else moments.panel.visible) and not panel.is_visible_in_tree() and get_tree().paused==was_paused,phase+" Creative first Escape closes feedback while retaining the saved work and Journal")
 	if not is_instance_valid(exhibit): return
 	check(exhibit.gui_get_focus_owner()==exhibit.play_button and not exhibit.playing,phase+" Creative feedback restores original saved-work focus without autoplay")
 	await creative_window_key(KEY_ESCAPE)

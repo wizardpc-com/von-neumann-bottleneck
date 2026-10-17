@@ -66,13 +66,20 @@ def main():
     imported = offline.import_bundles([work / 'captured.zip', work / 'reopened.zip'], library)
     repeated = offline.import_bundles([work / 'captured.zip'], library)
     report = offline.render_report(library, library / 'review.html')
-    assert report['cases'] == 3 and report['capture_errors'] == 0
+    assert report['cases'] == 4 and report['capture_errors'] == 0
     assert repeated[0]['status'] == 'deduplicated'
     records, _ = offline.library_records(library)
     assert all(item['case']['screenshot_status'] == 'captured' for item in records)
+    final_library = work / 'final-export-only'
+    offline.import_bundles([work / 'reopened.zip'], final_library)
+    final_report = offline.render_report(final_library, final_library / 'review.html')
+    final_records, _ = offline.library_records(final_library)
+    assert final_report['cases'] == 4 and final_report['sessions'] == 2
+    assert sum('SYNTHETIC offline acceptance' in item['case']['note'] for item in final_records) == 3
+    assert sum('SYNTHETIC second play session' in item['case']['note'] for item in final_records) == 1
     receipt = {'source_commit': manifest['source_commit'], 'build_id': manifest['build_id'],
                'binary_hashes': hashes, 'embedded_pack_sha256': embedded, 'phases': reports,
-               'imports': imported, 'dedup': repeated, 'report': report,
+               'imports': imported, 'dedup': repeated, 'report': report, 'final_export_alone': final_report,
                'evidence_grade': 'rendered unchanged exported binary with synthetic controller; native input separate'}
     (work / 'receipt.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2), encoding='utf-8')
     print('PASS: exported offline capture/restart/ZIP/import/report ' + str(work), flush=True)

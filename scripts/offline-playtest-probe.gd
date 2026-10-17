@@ -56,9 +56,17 @@ func run() -> void:
 		for item: Dictionary in cases:
 			check(str(item.note).contains("SYNTHETIC offline acceptance") and item.status=="reported","persisted note "+str(item.id))
 			check(FileAccess.file_exists(feedback.store.root.path_join("cases").path_join(item.id).path_join("context.json")),"persisted context "+str(item.id))
+		check(navigation.enter("service/one_plan"),"second play enters a different workbench")
+		await settle()
+		feedback.open_panel(); await settle()
+		feedback.note.text="SYNTHETIC second play session: service/one_plan\n重启后新增反馈。"
+		feedback.note.text_changed.emit(); feedback._save_note(true)
+		check(feedback.current.get("status")=="reported","second play records a new incident")
+		check(feedback.current.screenshot_status=="captured","second play captures its own screenshot")
+		feedback.close_panel(); await settle()
 		feedback.export_all(output.path_join("reopened.zip"))
 		check(not feedback.last_export.is_empty(),"restart export includes history")
-		check(feedback.store.cases().size()==3,"export preserves all local incidents")
+		check(feedback.store.cases().size()==4,"final export preserves incidents from both plays")
 	results["phase"]=phase; results["failures"]=failures
 	var file := FileAccess.open(output.path_join(phase+".json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(results,"\t")); file.close()

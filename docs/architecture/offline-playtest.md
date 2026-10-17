@@ -18,6 +18,10 @@ History reopens an earlier incident without changing its original scene.
 
 Export all feedback creates one ZIP and reveals it in the file manager. Exports
 are verified before success is shown and never consume originals. Save ZIP as
+Normal quit and restart retain earlier incidents and local sessions. A later
+export includes both earlier plays and the new play's feedback and screenshots;
+the tester need only send that final ZIP.
+Save ZIP as
 selects another writable location, including when the default export fails.
 Storage failures are visible; preserve the open note and use the rescue export
 before closing. Physical storage loss cannot be prevented by an application.

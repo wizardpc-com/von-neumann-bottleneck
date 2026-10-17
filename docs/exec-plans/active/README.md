@@ -1,5 +1,11 @@
 # Execution queue
 
+The [measured-growth round](measured-growth-20261018.md) is **active** from2e488c3.
+It connects actual unmet conditions to original evidence, adds an optional CPU
+comparison reflection and distinct hardware/system observatory apparatus.
+Current model, save and progression authority remain unchanged. Previous fixed
+packages remain available; new source must earn its own acceptance.
+
 The [saved-work review round](../completed/saved-work-review-20261018.md) and
 [replaceable creative presentation round](../completed/creative-framework-20261018.md)
 are **completed within their recorded engineering scope**. Product sourcec109

@@ -63,9 +63,20 @@ assert child.returncode==0 and not reason and 'ERROR:' not in text and 'PASS: em
 receipt=json.loads(raw_receipt.read_bytes());assert not receipt['failures'] and all(receipt['checks'].values())
 assert receipt['parent_receipt_sha256']==hashlib.sha256(prior_bytes).hexdigest() and prior_path.read_bytes()==prior_bytes
 for key in ('profile','tester','source_commit','build_id','exe_sha256','controller_sha256'):assert receipt[key]==prior[key]
-assert json.dumps(receipt['protected'],sort_keys=True,separators=(',',':'),ensure_ascii=False)==json.dumps(baseline['protected'],sort_keys=True,separators=(',',':'),ensure_ascii=False)
+expected_loaded_protected=json.loads(json.dumps(baseline['protected']))
+loaded_state_conversions=[]
+if role:
+ # ChapterWorkspace reload encodes integral Vector2 coordinates as integers.
+ positions=expected_loaded_protected['game_state']['game']['system']['workspaces']['cpu_speed']['positions']
+ for device in ('CPU','BUS','RAM'):
+  for index in (0,1):
+   value=positions[device][index]
+   if type(value) is float and value.is_integer():
+    positions[device][index]=int(value)
+    loaded_state_conversions.append({'path':'/game_state/game/system/workspaces/cpu_speed/positions/'+device+'/'+str(index),'from':value,'to':int(value)})
+assert json.dumps(receipt['protected'],sort_keys=True,separators=(',',':'),ensure_ascii=False)==json.dumps(expected_loaded_protected,sort_keys=True,separators=(',',':'),ensure_ascii=False)
 assert baseline_path.read_bytes()==baseline_bytes and receipt['post_exit_baseline_sha256']==hashlib.sha256(baseline_bytes).hexdigest()
 assert all(hash_file(binary.parent/name)==digest for name,digest in expected.items())
 assert helper.embedded_pck_sha256(binary)==prior['embedded_pack_sha256']
-validation.write_text(json.dumps({'passed':True,'evidence_grade':'actual embedded namespace across independent exported processes; rendered controller, not native OS input','source_commit':manifest['source_commit'],'build_id':manifest['build_id'],'profile':prior['profile'],'tester':role,'zip_sha256':prior['zip_sha256'],'exe_sha256':prior['exe_sha256'],'embedded_pack_sha256':prior['embedded_pack_sha256'],'controller_sha256':prior['controller_sha256'],'parent_receipt_sha256':hashlib.sha256(prior_bytes).hexdigest(),'post_exit_baseline_sha256':hashlib.sha256(baseline_bytes).hexdigest(),'reopen_receipt_sha256':hash_file(raw_receipt),'process_receipt':'embedded-profile-reopen-'+attempt+'-process.json','validator_sha256':hash_file(Path(__file__))},indent=2),encoding='utf-8')
+validation.write_text(json.dumps({'passed':True,'evidence_grade':'actual embedded namespace across independent exported processes; rendered controller, not native OS input','source_commit':manifest['source_commit'],'build_id':manifest['build_id'],'profile':prior['profile'],'tester':role,'zip_sha256':prior['zip_sha256'],'exe_sha256':prior['exe_sha256'],'embedded_pack_sha256':prior['embedded_pack_sha256'],'controller_sha256':prior['controller_sha256'],'parent_receipt_sha256':hashlib.sha256(prior_bytes).hexdigest(),'post_exit_baseline_sha256':hashlib.sha256(baseline_bytes).hexdigest(),'loaded_state_conversions':loaded_state_conversions,'loaded_state_comparison':'canonical JSON exact after only the recorded tester CPU workspace coordinate conversions; all protected file hashes exact','reopen_receipt_sha256':hash_file(raw_receipt),'process_receipt':'embedded-profile-reopen-'+attempt+'-process.json','validator_sha256':hash_file(Path(__file__))},indent=2),encoding='utf-8')
 print('PASS: same embedded namespace saved tutorial and workbench reopened '+str(validation),flush=True)

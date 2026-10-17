@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Verify an unchanged Windows offline tester export with isolated synthetic data."""
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -31,6 +32,17 @@ def main():
     work.mkdir(parents=True)
     existing = module('package_feedback', root / 'scripts/verify-package-feedback.py')
     _, _, binary, hashes, embedded = existing.prepare_package(original, 'Windows', work)
+    tool_relative = 'feedback-tools/offline-playtests.py'
+    collector = binary.parent / tool_relative
+    source_collector = original.parent / tool_relative
+    build_manifest_path = original.parent / 'BUILD-MANIFEST.json'
+    build_manifest_bytes = build_manifest_path.read_bytes()
+    build_manifest = json.loads(build_manifest_bytes)
+    assert build_manifest['source_commit'] == manifest['source_commit']
+    collector_sha256 = hashlib.sha256(collector.read_bytes()).hexdigest()
+    assert collector_sha256 == hashlib.sha256(source_collector.read_bytes()).hexdigest()
+    assert collector_sha256 == build_manifest['files_sha256'][tool_relative]
+    offline = module('offline_playtests', collector)
     probe = work / 'probe.gd'
     shutil.copy2(root / 'scripts/offline-playtest-probe.gd', probe)
     scene = work / 'probe.tscn'
@@ -61,7 +73,6 @@ def main():
             print(phase + ': PASS', flush=True)
     finally:
         override.unlink(missing_ok=True)
-    offline = module('offline_playtests', root / 'scripts/offline-playtests.py')
     library = work / 'library'
     imported = offline.import_bundles([work / 'captured.zip', work / 'reopened.zip'], library)
     repeated = offline.import_bundles([work / 'captured.zip'], library)
@@ -85,7 +96,12 @@ def main():
         assert context['build']['source_commit'] == manifest['source_commit']
         assert context['active_domain']['kind'] == domains[incident['task']['chapter_id']]
         assert context['active_domain']['state'] and context['progress']['game']
+    assert hashlib.sha256(collector.read_bytes()).hexdigest() == collector_sha256
+    assert hashlib.sha256(source_collector.read_bytes()).hexdigest() == collector_sha256
+    assert build_manifest_path.read_bytes() == build_manifest_bytes
     receipt = {'source_commit': manifest['source_commit'], 'build_id': manifest['build_id'],
+               'bundled_collector': {'path': tool_relative, 'sha256': collector_sha256,
+                                     'build_manifest_sha256': hashlib.sha256(build_manifest_bytes).hexdigest()},
                'binary_hashes': hashes, 'embedded_pack_sha256': embedded, 'phases': reports,
                'imports': imported, 'dedup': repeated, 'report': report, 'final_export_alone': final_report,
                'evidence_grade': 'rendered unchanged exported binary with synthetic controller; native input separate'}

@@ -95,7 +95,9 @@ func run() -> void:
 		var step := control(scene,"Step") as Button
 		step.grab_focus(); await settle()
 		check(step.has_focus() and step.get_theme_color("font_focus_color") == Color("071823"),"Focused primary retains legible dark text")
-		check((control(scene,"Rule").get_theme_stylebox("normal") as StyleBoxFlat).bg_color == Color("1b2b37"),"Policy controls share the instrument palette")
+		var instrument_theme := Theme.new()
+		preload("res://src/ui/instrument_theme.gd").apply_to(instrument_theme)
+		check((control(scene,"Rule").get_theme_stylebox("normal") as StyleBoxFlat).bg_color == (instrument_theme.get_stylebox("normal","OptionButton") as StyleBoxFlat).bg_color,"Policy controls share the instrument palette")
 		check((control(scene,"Events").get_theme_stylebox("panel") as StyleBoxFlat).bg_color == Color("0b1722"),"Trace tree uses the instrument palette")
 		check(control(scene,"TemporaryBoundary").get("text").contains("不保留") if locale == "zh_CN" else control(scene,"TemporaryBoundary").get("text").contains("discarded"),"Temporary lifetime is stated on the workbench")
 		check(scene.get("history").is_empty() and scene.get("active_trace") == null,"Opening the presentation creates no measured evidence")

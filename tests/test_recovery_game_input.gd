@@ -396,6 +396,14 @@ func palette_drag_roundtrip(empty_motion_mask: bool, onto_instrument: bool = fal
 	var expected: Vector2 = ui.graph.graph_position_for_local_pointer(to - ui.graph.global_position, ui.graph.placement_preview_size)
 	for step: int in range(1, 9):
 		await point(from.lerp(to, step / 8.0), 0 if empty_motion_mask else MOUSE_BUTTON_MASK_LEFT, (to - from) / 8.0)
+	var before_draw: Dictionary = {"dragging":root.gui_is_dragging(),"has_preview":ui.graph.placement_preview_control != null,"has_pointer":ui.graph.placement_has_pointer,"pointer":str(ui.graph.placement_pointer),"expected_pointer":str(to-ui.graph.global_position)}
+	before_draw["visible"] = ui.graph.placement_preview_control.visible if ui.graph.placement_preview_control != null else false
+	# Preview visibility is applied in the drawing callback, after input dispatch.
+	if DisplayServer.get_name() != "headless":
+		RenderingServer.force_draw(false)
+		await process_frame
+	if "--placement-diagnostics" in OS.get_cmdline_user_args():
+		print("PLACEMENT_DRAW: ",JSON.stringify({"cancel":str(cancel_action),"before":before_draw,"after_visible":ui.graph.placement_preview_control.visible if ui.graph.placement_preview_control != null else false,"after_pointer":str(ui.graph.placement_pointer)}))
 	if not onto_instrument:
 		check(root.gui_is_dragging() and ui.graph.placement_preview_control != null
 			and ui.graph.placement_preview_control.visible

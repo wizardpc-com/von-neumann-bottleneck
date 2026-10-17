@@ -1,0 +1,89 @@
+{
+  "source_commit": "4df5bad46751cbd0a4eb884c87a9be9a169bcd57",
+  "build_id": "playtest-OfflineTeammate20261017-4df5bad46751",
+  "binary_hashes": {
+    "Von-Neumann-Bottleneck.exe": "1da1b0403bd36f1c048372c5286b75e92412bb6dc92e528af8d462109370683f"
+  },
+  "embedded_pck_sha256": "5784ba623bfb021a386496af60698ba4a1467965a41c64f10082c5fb8f595b47",
+  "zip_sha256": "15651a339d0fc9b9bbc81536619992caa6f5eadac3c99d2c645101b8850b914e",
+  "imports": [
+    {
+      "bundle_id": "af689b11ed53d398e482cdfe7b148383",
+      "status": "imported"
+    }
+  ],
+  "final_export_alone": {
+    "bundles": 1,
+    "cases": 2,
+    "revisions": 2,
+    "capture_errors": 0,
+    "sessions": 2,
+    "ignored_session_lines": 0
+  },
+  "cases": [
+    {
+      "id": "9999917e16fd9e9d5f57dc849636598a",
+      "note": "Native play 1: final package, first session before normal window close.",
+      "captured_at_utc": "2026-10-17T12:07:06Z",
+      "png_dimensions": [
+        1280,
+        720
+      ],
+      "png_sha256": "dc1c3245aea46cabb6e8342d3e77b43d0937c17788f9c59bbe1976924c5db737",
+      "context_sha256": "9804e7c2acedcaf7cca893bedd3ee0d8abeec5b92017290962fbee5a4837944a",
+      "playtest": {
+        "current_visit_id": "",
+        "latest_run_id": "",
+        "source_kind": "agent_native"
+      },
+      "task": {}
+    },
+    {
+      "id": "cbb5c9b57f404f8b6fef1542d9f40d94",
+      "note": "Native play 2: tutorial scene after verified normal close and independent restart.",
+      "captured_at_utc": "2026-10-17T12:14:35Z",
+      "png_dimensions": [
+        1280,
+        720
+      ],
+      "png_sha256": "a109f6779f115ceffc0ee98a642a89eb96ba3efcf432cf62228320f2d4c2d771",
+      "context_sha256": "b6cda13e022098dc2bc902a10033cb8e4a76ec591c198b8c97987c3430b9a528",
+      "playtest": {
+        "current_visit_id": "20261017-121420-00a41e196f85da90-v3",
+        "latest_run_id": "",
+        "source_kind": "agent_native"
+      },
+      "task": {
+        "build_version": "playtest-OfflineTeammate20261017-4df5bad46751",
+        "case_set_version": "unspecified",
+        "chapter_id": "hardware_foundations",
+        "level_id": "tutorial",
+        "model_version": "unspecified",
+        "run_id": "",
+        "source_commit": "4df5bad46751cbd0a4eb884c87a9be9a169bcd57",
+        "task_version": "tasks-20261013-journey-v1",
+        "test_batch": "OfflineTeammate20261017",
+        "visit_id": "20261017-121420-00a41e196f85da90-v3"
+      }
+    }
+  ],
+  "sessions": [
+    {
+      "file": "sessions/session_20261017-120654-c9fe66b8d3dde835.jsonl",
+      "events": 2,
+      "normal_end": true
+    },
+    {
+      "file": "sessions/session_20261017-121420-00a41e196f85da90.jsonl",
+      "events": 4,
+      "normal_end": false
+    }
+  ],
+  "evidence_grade": "Windows OS F8, mouse and text input in unchanged final EXE; first process normally closed and verified exited before independent second launch; one final ZIP",
+  "first_process_exit_before_second_launch_verified": true,
+  "second_window_close": "NOT_RUN: Computer Use stopped; window left under user control",
+  "native_key_scopes": [
+    "home",
+    "tutorial task-specification overlay"
+  ]
+}

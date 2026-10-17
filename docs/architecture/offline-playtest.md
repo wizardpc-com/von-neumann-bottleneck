@@ -91,6 +91,10 @@ and `scripts/build-free-candidate.py --offline-tester --platform Windows
 --second-act-profile OfflineTeammate --creation-journey --test-batch <batch>`.
 The builder requires an empty endpoint and rejects public/localhost receiver
 flags. It freezes build identity and hashes and includes tester/maintainer guides.
+The manifest's `public_release` selects the existing network-enabled public
+playtest profile; it stays false for this offline tester. Authorized distribution
+of the offline ZIP is recorded separately by the GitHub release/tag and receipt.
+Neither distribution nor that field establishes a working cloud receiver.
 
 Focused suites are `test_offline_store`, `test_offline_context`,
 `test_offline_feedback`, `test_offline_tester_navigation`; Python runs

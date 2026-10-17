@@ -36,3 +36,15 @@ An active marker permits interrupted-session recovery. A player-facing Options a
 ## 2026-09-10 extension
 
 The adopted task-tree plan extends the observer to all four domains without changing its authority boundary. Schema 2 adds visits/runs/cases, monotonic foreground/background/feedback segments, source classification, optional in-play moments and a local multi-export report. Completion is a milestone within a visit; interrupted time is unknown. Partial responses remain valid with telemetry disabled. Schema 1 logs remain readable and explicitly retain legacy timing/source uncertainty. Uploads, identity and remote SDKs remain excluded. See [current instrumentation](../status/playtest-instrumentation.md).
+
+## 2026-10-17 offline tester extension
+
+The owner requested complete diagnostic scenes for teammate testing. An explicit
+offline tester build adds the independent `OfflineFeedback` autoload and local
+incident store: global screenshots, allowlisted unsaved program/design/run state,
+autosaved notes and a multi-session ZIP. The tester sees the contents/sharing
+notice and deliberately exports the file. This extends the earlier local
+minimization decision for this tester channel; it does not add full text or
+screenshots to ordinary telemetry or the remote upload whitelist. No network,
+account or receiver is required. Existing gameplay authority and journals remain
+separate. See [offline evidence and import](../architecture/offline-playtest.md).

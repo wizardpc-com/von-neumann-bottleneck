@@ -33,6 +33,8 @@ removed; recover historical task books from Git when needed.
 
 ## Verification
 
+- [Offline teammate Windows tester, screenshots and final-only multi-play import](verification/20261017-offline-teammate/README.md)
+
 - [Windows draft and deletion-safe private VPS operations](verification/20261017-feedback-release/README.md)
 
 - [Latest creative expression candidate and acceptance limits](verification/20261013-creation-expression/README.md)

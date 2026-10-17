@@ -5,6 +5,12 @@ These are remaining acceptance requirements, not instructions to add features.
 
 ## Current gates — 2026-10-17
 
+The new offline teammate Windows candidate freezes `4df5bad46751`. All sixty
+entrances and the final-only two-play screenshot/context ZIP acceptance passed.
+It uses `OfflineTeammate`, has no receiver and can be privately distributed for
+controlled testing without waiting for the cloud domain. The earlier online
+draft remains unpublished. [Offline candidate evidence](docs/verification/20261017-offline-teammate/README.md).
+
 Protected PR7 merged as `94b5bff`; main contains the complete sixty-task journey.
 PR8 integrates feedback operations and a Windows Release draft. The owner explicitly
 chose to wait for a working domain before public release. The earlier frozen player
@@ -18,6 +24,7 @@ entry or offsite backup is active. [Current evidence](docs/verification/20261017
 
 | Gate | Status and required evidence |
 | --- | --- |
+| Offline teammate Windows collection | **PASS for fixed EXE capture/restart/export/import.** All60 entrances, final-only4 cases/4 screenshots/2 sessions, preservation, deduplication and importer/report tests passed. Windows native F8/text input observed. Generated report browser visual inspection remains NOT_RUN under the in-app local-file policy. |
 | Localhost VPS receiver and maintenance | **PASS within private scope.** Separate services and daily timer enabled; actual delivery/report/backup/delete/restored-receiver410, private permissions, shared rate limit and unchanged original services/historical hashes passed. No public intake. |
 | Public feedback domain and external entry | **Open by owner choice.** The planned domain is not purchased or resolved; hosting/filing requirements are unverified. Keep localhost. Future public use requires DNS, ports80/443, TLS and an external-machine acceptance run. A configured privacy URL alone is not such acceptance. |
 | Windows online Pre-release | **Draft only by owner choice.** Fixed-source347e426 Windows offline draft and all4 uploaded digests verified; representative native restore/work/opinion/save/restart PASS. Publication waits for DNS/TLS/privacy/external acceptance; never bake a planned or localhost address into a player release. |

@@ -59,11 +59,27 @@ remote baseline before implementation.
   Python importer9/9, existing reporter and packaging tests pass. Independent
   audit confirmed exact hashes and no unsupported/truncated fields in the three
   representative snapshots.
-- Full Windows regression and remote CI are running. Final fixed EXE capture,
-  native input, artifact identity and delivery receipt remain pending.
+- Final source `4df5bad46751` freezes the Windows tester package. The unchanged
+  EXE actually entered all60 tasks, captured three workbenches, quit normally and
+  restarted independently. Play2 captured Service; the final ZIP alone imported
+  four incidents/screenshots and two sessions. Windows native F8/autosaved input
+  passed separately. The earlier4b candidate also passed native two-play final
+  ZIP import with two incidents/screenshots and two sessions.
+- Full Windows regression initially passed159/160; the sole new fixture typing
+  issue was corrected and affected checks passed8/8. Final hash/key checks4/4,
+  importer10/10, report and package contracts passed. Remote full Godot CI remains
+  attributed to its exact head rather than inferred from local checks.
+- Created separate unpublished draft `v0.5.0-alpha.3-offline.1`, ID415782806;
+  all three remote asset digests match. Old draft and public Alpha remain intact.
+  [Final identity and verification](../../verification/20261017-offline-teammate/README.md).
 
 ## Limits
 
 Captures are diagnostic evidence, not a promise of deterministic replay of every
 UI frame. Unavailable renderer/snapshot fields must be explicit. Export is a
 deliberate sharing action and may contain player's designs and written text.
+The report's browser visual inspection remains NOT_RUN under the in-app local
+file policy; generation/escaping/links are tested. New-player and artistic
+acceptance remain the purpose of this delivered tester candidate. Final native
+two-play repetition was paused on detected user input; the unchanged exported
+EXE's independent two-process acceptance above passed.

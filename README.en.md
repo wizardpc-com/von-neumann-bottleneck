@@ -22,6 +22,14 @@ A construction and optimization puzzle about computers and the data they move. S
 
 [Download Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
+**Offline teammate Windows candidate:** fixed source `4df5bad46751` opens all60
+task entrances. F8 or the persistent feedback button saves a game screenshot,
+live design/run context and autosaved notes. After multiple plays and restarts,
+send one final ZIP for private consolidated review. Separate tester saves; no
+account or network. [Tester guide](distribution/OFFLINE-PLAYTEST-README.txt) ·
+[Maintainer import](distribution/OFFLINE-MAINTAINER.txt) ·
+[Identity and acceptance](docs/verification/20261017-offline-teammate/README.md).
+
 ## What you do
 
 - **Build your own machine.** Choose parts, place and wire them freely, branch from an existing wire, delete, undo and save named designs.

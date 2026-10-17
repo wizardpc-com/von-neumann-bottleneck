@@ -1,0 +1,654 @@
+{
+  "head_revision": "4df5bad46751cbd0a4eb884c87a9be9a169bcd57",
+  "run_id": 39031009610,
+  "job": {
+    "id": 117391276645,
+    "head_sha": "4df5bad46751cbd0a4eb884c87a9be9a169bcd57",
+    "name": "godot",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "log_truncated": false,
+  "checks": [
+    {
+      "name": "import",
+      "status": "PASS"
+    },
+    {
+      "name": "user_directory",
+      "status": "PASS"
+    },
+    {
+      "name": "test_alarm_order_feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "test_bilingual_typography",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_designs",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_disabled_focus",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_journey",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_journey_review",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_language_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_lifecycle",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_policy",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_restore_selection",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_supports",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_writer_retry",
+      "status": "PASS"
+    },
+    {
+      "name": "test_candidate_writer_retry_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_chapter_card_routes",
+      "status": "PASS"
+    },
+    {
+      "name": "test_chapter_redo_shortcuts",
+      "status": "PASS"
+    },
+    {
+      "name": "test_chapter_workspaces",
+      "status": "PASS"
+    },
+    {
+      "name": "test_circuit_simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_completion_presentation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_completion_route",
+      "status": "PASS"
+    },
+    {
+      "name": "test_completion_service_clarity",
+      "status": "PASS"
+    },
+    {
+      "name": "test_content_registry",
+      "status": "PASS"
+    },
+    {
+      "name": "test_core_closure_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_causal_panel",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_choice_completion",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_commissions",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_comparison",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_comparison_view",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_condition_examples",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_contract",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_cost_ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_design_evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_draft_undo",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_edit_controls",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_evidence_identity",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_evidence_reading",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_exhibition",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_exhibition_composition",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_explanation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_future_workbench",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_input_validation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_keyboard_focus",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_measured_closure",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_observation_focus",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_playable_loop",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_prediction_flow",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_prediction_memory",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_prediction_work_view",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_preparation_binding",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_profile_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_raw_readonly",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_route_flow",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_sample_editing",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_state_regressions",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_work_focus",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_work_listening",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_workbench",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_writer_retry",
+      "status": "PASS"
+    },
+    {
+      "name": "test_creation_writer_retry_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_desktop_conventions",
+      "status": "PASS"
+    },
+    {
+      "name": "test_direct_task_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_display_preferences",
+      "status": "PASS"
+    },
+    {
+      "name": "test_evidence_proxy",
+      "status": "PASS"
+    },
+    {
+      "name": "test_exploration",
+      "status": "PASS"
+    },
+    {
+      "name": "test_feedback_presentation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_final_convergence",
+      "status": "PASS"
+    },
+    {
+      "name": "test_first_build_guidance",
+      "status": "PASS"
+    },
+    {
+      "name": "test_floating_tool_recall",
+      "status": "PASS"
+    },
+    {
+      "name": "test_global_save",
+      "status": "PASS"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_hardware_seal_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "status": "PASS"
+    },
+    {
+      "name": "test_intelligent_state",
+      "status": "PASS"
+    },
+    {
+      "name": "test_latch_playback_readout",
+      "status": "PASS"
+    },
+    {
+      "name": "test_layout_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_layout_preview_selection",
+      "status": "PASS"
+    },
+    {
+      "name": "test_layout_recipe_sources",
+      "status": "PASS"
+    },
+    {
+      "name": "test_layout_simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_layout_trace_storage",
+      "status": "PASS"
+    },
+    {
+      "name": "test_layout_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_learning_handbook",
+      "status": "PASS"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_locality_restored_baseline",
+      "status": "PASS"
+    },
+    {
+      "name": "test_localization",
+      "status": "PASS"
+    },
+    {
+      "name": "test_offline_context",
+      "status": "PASS"
+    },
+    {
+      "name": "test_offline_feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "test_offline_store",
+      "status": "PASS"
+    },
+    {
+      "name": "test_offline_tester_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_optional_challenges",
+      "status": "PASS"
+    },
+    {
+      "name": "test_optional_result_feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "test_overlap_simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_overlap_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_personal_records",
+      "status": "PASS"
+    },
+    {
+      "name": "test_playtest_data",
+      "status": "PASS"
+    },
+    {
+      "name": "test_playtest_feedback_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_playtest_visits",
+      "status": "PASS"
+    },
+    {
+      "name": "test_prediction_goal_feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "test_prediction_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_prediction_record_source",
+      "status": "PASS"
+    },
+    {
+      "name": "test_prediction_slice",
+      "status": "PASS"
+    },
+    {
+      "name": "test_prediction_workbench_presentation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_prelaunch_settings",
+      "status": "PASS"
+    },
+    {
+      "name": "test_prologue_continuation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_prologue_simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_release_convergence",
+      "status": "PASS"
+    },
+    {
+      "name": "test_remote_feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_cache",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_closure_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_design_shelf",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_edit_context",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_plan",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_region",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_restored_notice",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_session",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_visual",
+      "status": "PASS"
+    },
+    {
+      "name": "test_representation_workbench_presentation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_save_signature_migration",
+      "status": "PASS"
+    },
+    {
+      "name": "test_second_act_content",
+      "status": "PASS"
+    },
+    {
+      "name": "test_second_act_experiments",
+      "status": "PASS"
+    },
+    {
+      "name": "test_second_act_independent",
+      "status": "PASS"
+    },
+    {
+      "name": "test_second_act_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_commission_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_commissions",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_context_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_design_shelf",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_learning_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_number_display",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_plan",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_session",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_split_actions",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_state_replay",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_state_replay_view",
+      "status": "PASS"
+    },
+    {
+      "name": "test_service_undo_context",
+      "status": "PASS"
+    },
+    {
+      "name": "test_simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_storage_caption_playback",
+      "status": "PASS"
+    },
+    {
+      "name": "test_system_applications",
+      "status": "PASS"
+    },
+    {
+      "name": "test_system_baseline_continuity",
+      "status": "PASS"
+    },
+    {
+      "name": "test_system_cost_evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "test_system_lab_simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_system_lab_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_system_trace_source_binding",
+      "status": "PASS"
+    },
+    {
+      "name": "test_task_tree",
+      "status": "PASS"
+    },
+    {
+      "name": "test_task_tree_layout",
+      "status": "PASS"
+    },
+    {
+      "name": "test_task_tree_presentation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_theme_reflection",
+      "status": "PASS"
+    },
+    {
+      "name": "test_trace_ambience",
+      "status": "PASS"
+    },
+    {
+      "name": "test_tree_journey_presentation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_tutorial_replay",
+      "status": "PASS"
+    },
+    {
+      "name": "test_ui",
+      "status": "PASS"
+    },
+    {
+      "name": "test_unified_journey_navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "test_visit_summary",
+      "status": "PASS"
+    },
+    {
+      "name": "test_wire_drag_geometry",
+      "status": "PASS"
+    },
+    {
+      "name": "test_wire_tooltip_lifecycle",
+      "status": "PASS"
+    },
+    {
+      "name": "test_work_focus_feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "test_workbench_interrupted_recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "test_workbench_write_failure",
+      "status": "PASS"
+    }
+  ]
+}

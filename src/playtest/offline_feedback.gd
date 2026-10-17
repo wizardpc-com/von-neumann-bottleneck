@@ -224,17 +224,15 @@ func export_all(destination: String = "") -> void:
 		if filename.begins_with("session_") and filename.ends_with(".jsonl"):
 			extras["sessions/"+filename]=PlaytestData.storage_directory.path_join(filename)
 	if FileAccess.file_exists(PlaytestMoments.DRAFT_PATH): extras["legacy/feedback_drafts_v1.json"]=PlaytestMoments.DRAFT_PATH
-	var save_paths: Dictionary = {"saves/core.json":GlobalSave.storage_path,"saves/hardware-workbenches.json":GlobalSave.workbench_storage_path,
-		"saves/personal-records.json":PersonalRecords.PATH,"saves/creation-session.json":preload("res://experiments/creation/session.gd").launch_path()}
+	var save_paths: Dictionary = {"saves/core.json":GlobalSave.DEFAULT_STORAGE_PATH,"saves/hardware-workbenches.json":GlobalSave.DEFAULT_WORKBENCH_PATH,
+		"saves/personal-records.json":PersonalRecords.PATH,"saves/creation-session.json":preload("res://experiments/creation/session.gd").default_path()}
 	var candidate_paths: Dictionary = preload("res://src/campaign/second_act_tasks.gd").paths()
 	for domain: String in candidate_paths: save_paths["saves/"+domain+"-session.json"]=candidate_paths[domain]
 	for name: String in save_paths:
 		var path: String = str(save_paths[name])
-		var allowed_roots: Array[String] = [ProjectSettings.globalize_path("user://").replace("\\","/")]
-		for candidate: String in candidate_paths.values(): allowed_roots.append(ProjectSettings.globalize_path(candidate).replace("\\","/").get_base_dir()+"/")
-		var absolute: String = ProjectSettings.globalize_path(path).replace("\\","/").simplify_path()
-		for allowed: String in allowed_roots:
-			if absolute.begins_with(allowed) and FileAccess.file_exists(path): extras[name]=path; break
+		if not path.is_empty() and FileAccess.file_exists(path): extras[name]=path
+	extras["session/export-coverage.json"]=JSON.stringify({"saved_files":"standard game filenames and bound candidate profiles only; custom launch paths are excluded",
+		"current_memory":"current-context.json; may contain unsaved changes","missing_files":"not created or unavailable; no synthetic save is generated"},"\t").to_utf8_buffer()
 	# Only the game's log is included. No remote outbox, identity, deletion secret,
 	# arbitrary desktop file or environment variable is copied.
 	for filename: String in DirAccess.get_files_at("user://logs"):

@@ -1,0 +1,762 @@
+{
+  "schema_version": 1,
+  "goal_status": "ACTIVE",
+  "stage_status": "F1 recoverable commits c50492a/0aa1866; tester popup stack verified; ordinary popup Moments has five observed failures",
+  "evidence_grade": "isolated controller/headless and explicitly marked renderer; no new exported/native/human acceptance",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "baseline": {
+    "commit": "cf89a76",
+    "ci_run": "39061439011",
+    "conclusion": "SUCCESS",
+    "authority": "root reported current CI verification"
+  },
+  "snapshots": [
+    {
+      "raw_result": ".godot/verification/20261017T192129Z-cbc56971/results.json",
+      "raw_result_sha256": "4a413cfc25242a3d4ccf938064ba442ea70c967c11ec9d6a1b228441f884c60a",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "efbb5054c307c40b4c6e278f47afea5a1c7bdbe78ed95b5bf8e157448cd1a335",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "2426a02e9d701e766606b1ae5991e7afa2dbff213fc069ff76725177f558cc9e",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_hub_first_screen",
+          "passed": false,
+          "exit": 1,
+          "summary": [
+            "FAIL: test_hub_first_screen 7483 checks, 28 failures"
+          ],
+          "errors": [
+            "ERROR: ordinary-zh_CN-1280x720: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: ordinary-zh_CN-1280x720: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: candidate-zh_CN-1280x720: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: candidate-zh_CN-1280x720: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: ordinary-en-1280x720: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: ordinary-en-1280x720-recovery: homepage surface remains inside viewport [P: (0.0, 0.0), S: (1280.0, 743.0)]",
+            "ERROR: ordinary-en-1280x720: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: ordinary-en-1280x720-after-recovery-details: homepage surface remains inside viewport [P: (0.0, 0.0), S: (1280.0, 743.0)]",
+            "ERROR: candidate-en-1280x720: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: candidate-en-1280x720-recovery: homepage surface remains inside viewport [P: (0.0, 0.0), S: (1280.0, 743.0)]",
+            "ERROR: candidate-en-1280x720: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: candidate-en-1280x720-after-recovery-details: homepage surface remains inside viewport [P: (0.0, 0.0), S: (1280.0, 743.0)]",
+            "ERROR: ordinary-zh_CN-1920x1080: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: ordinary-zh_CN-1920x1080: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: candidate-zh_CN-1920x1080: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: candidate-zh_CN-1920x1080: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: ordinary-en-1920x1080: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: ordinary-en-1920x1080: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: candidate-en-1920x1080: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: candidate-en-1920x1080: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: ordinary-zh_CN-1440x900: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: ordinary-zh_CN-1440x900: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: candidate-zh_CN-1440x900: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: candidate-zh_CN-1440x900: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: ordinary-en-1440x900: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: ordinary-en-1440x900: recovery adds only its necessary details action to the simple homepage",
+            "ERROR: candidate-en-1440x900: homepage offers Start, Map and replayable introduction alongside three header controls",
+            "ERROR: candidate-en-1440x900: recovery adds only its necessary details action to the simple homepage",
+            "FAIL: test_hub_first_screen 7483 checks, 28 failures"
+          ],
+          "log_sha256": "1ccd6ed82073e341480691b3419661a142a18e5753b3fd14eaf58430bfcb2de9",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_journey_observatory",
+          "passed": false,
+          "exit": -1,
+          "summary": [],
+          "errors": [
+            "SCRIPT ERROR: Compile Error: Identifier not found: Localization",
+            "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+            "ERROR: Failed to load script \"res://tests/test_journey_observatory.gd\" with error \"Compilation failed\".",
+            "SCRIPT ERROR: Invalid call. Nonexistent function 'earned' in base 'GDScript'."
+          ],
+          "log_sha256": "a0da8cb0a3ffaf85f0d7432055e46fca1e41912f94712e40aeabdcc7af2944dd",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_tree_journey_presentation",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: test_tree_journey_presentation 2704 checks, 0 failures"
+          ],
+          "errors": null,
+          "log_sha256": "8cc1e9705e7a3ee09843d2fa8be061f982343a30ab4389e29dee5fa7784cea82",
+          "capture_count": 0,
+          "test_sha256": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T192616Z-93ecc682/results.json",
+      "raw_result_sha256": "dd6e04393154cc7f822bfed2bd0c3ea989a3a3e93445955f20955770195e9dc8",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "efbb5054c307c40b4c6e278f47afea5a1c7bdbe78ed95b5bf8e157448cd1a335",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "0f8e5caab2cc2664c599a97c168c2fe0df4d48ba58188e9b6fdaba0708d171e5",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_hub_first_screen",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: test_hub_first_screen 7507 checks, 0 failures"
+          ],
+          "errors": null,
+          "log_sha256": "7e1fa1fdee39b311fa9d04a95f3c6326075f7ed8c92512cacbcc615104b4af27",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_journey_observatory",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: journey observatory 299 checks"
+          ],
+          "errors": null,
+          "log_sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_tree_journey_presentation",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: test_tree_journey_presentation 2704 checks, 0 failures"
+          ],
+          "errors": null,
+          "log_sha256": "8cc1e9705e7a3ee09843d2fa8be061f982343a30ab4389e29dee5fa7784cea82",
+          "capture_count": 0,
+          "test_sha256": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/night-render/ccba2cdd3da7/results.json",
+      "raw_result_sha256": "1019fe35e2bcf2436fb325327fe040df5b51415d04e2eceba8f23df190817781",
+      "source_snapshot_sha256": "d57d2c9aa3ef63b986704fb3cf7fcf797c8f66e93eda200fdcff1bb2a4ceaccf",
+      "stages": [
+        {
+          "name": "observatory",
+          "passed": false,
+          "exit": 1,
+          "summary": [
+            "FAIL: journey observatory 12/454"
+          ],
+          "errors": [
+            "ERROR: Actual F8 overlays the host's open observatory",
+            "ERROR: First viewport Esc closes feedback, retaining observatory",
+            "ERROR: Viewport Esc returns to original Home/map launcher",
+            "ERROR: Actual F8 overlays the host's open observatory",
+            "ERROR: First viewport Esc closes feedback, retaining observatory",
+            "ERROR: Viewport Esc returns to original Home/map launcher",
+            "ERROR: Actual F8 overlays the host's open observatory",
+            "ERROR: First viewport Esc closes feedback, retaining observatory",
+            "ERROR: Viewport Esc returns to original Home/map launcher",
+            "ERROR: Actual F8 overlays the host's open observatory",
+            "ERROR: First viewport Esc closes feedback, retaining observatory",
+            "ERROR: Viewport Esc returns to original Home/map launcher",
+            "FAIL: journey observatory 12/454"
+          ],
+          "log_sha256": "80a028f34a48492045448cd3ee106de020ad74eb45c3391b3681695692898eeb",
+          "capture_count": 24,
+          "test_sha256": "c0c60e5f372f85993ffc9420a66fb7d421b84bd70d1e74bfaab1656923e9b7df"
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T192847Z-c6d957a2/results.json",
+      "raw_result_sha256": "a680abc8a60dcfb26d14ab4b272a509339bf621a93ae87194c6037353cca8e18",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "2598d4a12ce35955b77a6e9f30cf75ffe62bcc4c2c734b9ec0da70ba4c4c2025",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_journey_observatory",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: journey observatory 299 checks"
+          ],
+          "errors": null,
+          "log_sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5",
+          "capture_count": 0,
+          "test_sha256": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/night-render/17e7c6ccc3b0/results.json",
+      "raw_result_sha256": "9b24f327594ab1c52403d06b8e2866c174a7f6aed69aa3f377a636a248d0a6bd",
+      "source_snapshot_sha256": "17ca062e3e5affce03a2bab2c6c8183fbe8b19979ba610db71611df3755052b6",
+      "stages": [
+        {
+          "name": "observatory",
+          "passed": false,
+          "exit": 1,
+          "summary": [
+            "FAIL: journey observatory 2/454"
+          ],
+          "errors": [
+            "ERROR: First viewport Esc closes feedback, retaining observatory",
+            "ERROR: Viewport Esc returns to original Home/map launcher",
+            "FAIL: journey observatory 2/454"
+          ],
+          "log_sha256": "ce3f456a8167b98c6880a7d196a378e5167cd8a6f211c84f6da3e0e6b802a0b7",
+          "capture_count": 28,
+          "test_sha256": "130609980775eb51f82ab5edcea4f5f4c83ee63978037f7ff1cdf46494461250"
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T193052Z-12298ff6/results.json",
+      "raw_result_sha256": "049d0c289581a7c6de4745f90c46868cbedf01bf012a88e1f9d839096d9406e3",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "eb2115405def1e53f8da815df0250f37db032079365f03b23efcbfe2b6e9b26a",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "passed": false,
+          "exit": 1,
+          "summary": [
+            "FAIL: full journey narrative (1128 checks)"
+          ],
+          "errors": [
+            "ERROR: Synthesis preserves both modeled routes",
+            "FAIL: full journey narrative (1128 checks)"
+          ],
+          "log_sha256": "9bb6486a8cc833aff191c70836f9376426e76eecb4e8f803f9b3fe6bb19839e4",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_journey_journal",
+          "passed": false,
+          "exit": -1,
+          "summary": [],
+          "errors": "SCRIPT ERROR: Invalid assignment of property or key 'button_pressed' with value of type 'bool' on a base object of type 'Nil'.",
+          "log_sha256": "61ef77e74ebeb479ad579dcab09c678c8b4fd2822eda32049ee6a5bb5d4a098b",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_journey_observatory",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: journey observatory 299 checks"
+          ],
+          "errors": null,
+          "log_sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5",
+          "capture_count": 0,
+          "test_sha256": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T193442Z-fdd646fa/results.json",
+      "raw_result_sha256": "3ad5f5455797530dcbdacad1816901053d943315e4863b6f2d496038bacd555b",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "5f99314a1d9848108ec5ca0d6767fd3808f70375dd0bec8535354fa2c1fe95b9",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_journey_observatory",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: journey observatory 299 checks"
+          ],
+          "errors": null,
+          "log_sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5",
+          "capture_count": 0,
+          "test_sha256": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-visual-smoke/09b471c286b4/results.json",
+      "raw_result_sha256": "bb7e6a5c655d5ea00a5b9faf47216982776c121e94bbac27d8550e24bb164b93",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "test_journey_journal",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: read-only journey journal (160 checks)"
+          ],
+          "errors": null,
+          "log_sha256": "aeef3efe88dcb2fe7f0e4a0adf2742320178d8250f1e2a318f424b701efa591c",
+          "capture_count": 0,
+          "test_sha256": "4d4c653768b8caf3544b266f7d3d5edb229e64513ed997d8ff61b531f2aa86fd"
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: full journey narrative (1128 checks)"
+          ],
+          "errors": null,
+          "log_sha256": "54fb9bf8c29b41cffbcf6409d9b0801c47d57b0f1c5ac902f80efdbcc2285bd1",
+          "capture_count": 0,
+          "test_sha256": "28ba89eb99f16372f97dcc5979661a1f4a1689626f1a3daa4bfb9bc593507f40"
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/night-render/56fea33b0d74/results.json",
+      "raw_result_sha256": "a38d3e64cbc696bc70b7c5d4272ab753029230253239b425fe15285cef353c97",
+      "source_snapshot_sha256": "1f1bfc7b43274e280c7ad9cba33492f4f8ea4a4c0145f33b05c42cf312e93096",
+      "stages": [
+        {
+          "name": "observatory",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: journey observatory 454 checks"
+          ],
+          "errors": null,
+          "log_sha256": "740d4b6e3fb09114022a4b36248774d96277a9d6a821c7a11981116389b7fa2c",
+          "capture_count": 28,
+          "test_sha256": "8a778fc6d04581799cbe2b15cab1ca41af36d6c321d9325aa660828d5709e521"
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T193841Z-85535900/results.json",
+      "raw_result_sha256": "d480e50758c52ee6e39417c2d76409fd00f09418c9016eef5dc920e19282c7cf",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": null,
+          "log_sha256": "e5a412e87eaf6e4de5165bac4a1ff09d4179d07f64172abfe953b2e619600ce2",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_journey_observatory",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: journey observatory 299 checks"
+          ],
+          "errors": null,
+          "log_sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5",
+          "capture_count": 0,
+          "test_sha256": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/0388d903ab50/results.json",
+      "raw_result_sha256": "eb9c03247a48915a8d9988fff3389bba32074ae5ddec19d7fa5d21bda68eba7c",
+      "source_snapshot_sha256": "2dcdf09cc4812a81415e7507f015e16df48a7ae166a52fefe8cce96bf64bd752",
+      "stages": [
+        {
+          "name": "test_journey_journal",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "NOT_RUN: ThemeReflection/F8 focused-window stack requires a real renderer",
+            "PASS: read-only journey journal (160 checks)"
+          ],
+          "errors": null,
+          "log_sha256": "20aa7904664d3c927632f4406a60949688e03d437b2473f9fad1084e8b4d3313",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: full journey narrative (1134 checks)"
+          ],
+          "errors": null,
+          "log_sha256": "5da86af0bfcc2e8edb80bc8e50011fcf6e457b9196f5c420e0f5e3366019d7e0",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_night_narrative",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: night narrative controller integration (61 checks)"
+          ],
+          "errors": null,
+          "log_sha256": "0bfd29ea545afe8ec764c1ea28a6989fc64e85e705890d44f5d658a155bb4899",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_system_evidence_guidance",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: system evidence guidance (84 checks)"
+          ],
+          "errors": null,
+          "log_sha256": "f2c3ff592d3084e3aca8f31f7a7946408d12cbc7774a89562e3e833adb243cb3",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_offline_tester_navigation",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: test_offline_tester_navigation 66 checks, 0 failures"
+          ],
+          "errors": null,
+          "log_sha256": "8208d58daf0768f584e6f693f0659f4b0ddf1cf13de0408664d44127ef9c5e67",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_hardware_seal_navigation",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: test_hardware_seal_navigation 25 checks, 0 failures"
+          ],
+          "errors": null,
+          "log_sha256": "b6f59d29d824576e927317a73c6d3acde91ddaddc48ea44238f2526e7414206d",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_creation_choice_completion",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: creation choice completion checks=87"
+          ],
+          "errors": null,
+          "log_sha256": "5ed878bbb58612b51a9be6cd32d58b054156b3752b381767958b2ca0d04d0dfc",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_creation_preparation_binding",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: creation preparation binding 39 checks"
+          ],
+          "errors": null,
+          "log_sha256": "738751cf6e381a15cd2db64cf10e0879ea59bfc09858c1e15a117027c9ee2792",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_overlap_simulation",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: deterministic overlap, backpressure, prefetch limits and alternative synthesis"
+          ],
+          "errors": null,
+          "log_sha256": "4d656a48c7573df681b97d3d641fe1feaad99ec5545520709ecf25d875975ad6",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_overlap_ui",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: Chapter 3 topology, hints, timeline, editable completion and revalidated persistence"
+          ],
+          "errors": null,
+          "log_sha256": "1acf352ba83c738afbe97a69015b5693c9abba6a73b96dc2aa12e14fffbdffbd",
+          "capture_count": 0,
+          "test_sha256": null
+        },
+        {
+          "name": "test_layout_ui",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: layout six hosts, gates, targets, undo and independent hints"
+          ],
+          "errors": null,
+          "log_sha256": "147266da54c76168679c26695abae210d62f431452c99c3081633ea7b4733a0b",
+          "capture_count": 0,
+          "test_sha256": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/574f3d275059/results.json",
+      "raw_result_sha256": "5833df2122a5916bd035b895d2297d0e907136c0758fd1c6d8f72a7a427ccd3b",
+      "source_snapshot_sha256": "2dcdf09cc4812a81415e7507f015e16df48a7ae166a52fefe8cce96bf64bd752",
+      "stages": [
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "PASS: full journey narrative (1290 checks)"
+          ],
+          "errors": null,
+          "log_sha256": "488e8ecee4d2d70bfc73e52cfcdef1d69d06c88a55182fe4cb5ef498c695c872",
+          "capture_count": 54,
+          "test_sha256": null
+        },
+        {
+          "name": "test_journey_journal",
+          "passed": false,
+          "exit": 1,
+          "terminated_owned_child_reason": "",
+          "summary": [
+            "FAIL: read-only journey journal (174 checks)"
+          ],
+          "errors": [
+            "ERROR: Opening, help, browsing and closing write no profile, lease, history or migration bytes",
+            "ERROR: First full Input Escape closes only tester feedback"
+          ],
+          "log_sha256": "8e38884fb9d0f2113de03dc21229137045d8c4972dc10dd9011e8573435bd6aa",
+          "capture_count": 0,
+          "test_sha256": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T194235Z-464601a8/results.json",
+      "raw_result_sha256": "ba069c51453078fe9b655ace9077b425132cfbcf23a16fc750c99ccaaf5dce66",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": [],
+          "log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91",
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": [],
+          "log_sha256": "4c92c565bfba8af0fd12aed1648749825886be102af417016d581d325c615aa4",
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: full journey narrative (1134 checks)"
+          ],
+          "errors": [],
+          "log_sha256": "5da86af0bfcc2e8edb80bc8e50011fcf6e457b9196f5c420e0f5e3366019d7e0",
+          "terminated_owned_child_reason": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/verification/20261017T194755Z-be2664fe/results.json",
+      "raw_result_sha256": "155c4c02f799435dda62f2193a2f52e82dfd6737bad1e8a7c98f468f90a818a3",
+      "source_snapshot_sha256": null,
+      "stages": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": [],
+          "log_sha256": "eff1e9692f604d021aa5939b7221d7f22ad914b2b6fb4b373c675938eb7d9e91",
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "summary": [],
+          "errors": [],
+          "log_sha256": "590aaa4268c95b5f4bc0bb97903070b12d6320134357e42b829dfba260c96cfa",
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: full journey narrative (1134 checks)"
+          ],
+          "errors": [],
+          "log_sha256": "5da86af0bfcc2e8edb80bc8e50011fcf6e457b9196f5c420e0f5e3366019d7e0",
+          "terminated_owned_child_reason": null
+        },
+        {
+          "name": "test_theme_reflection",
+          "passed": true,
+          "exit": 0,
+          "summary": [
+            "PASS: earned reflections, either branch order, joint ending and immutable progression"
+          ],
+          "errors": [],
+          "log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e",
+          "terminated_owned_child_reason": null
+        }
+      ]
+    },
+    {
+      "raw_result": ".godot/full-journey-narrative-runs/05473520dca7/results.json",
+      "raw_result_sha256": "b2ddb057297edffde19d01ec8ad601b84ab82d4cdc5876e36a6969fda6dbe4d1",
+      "source_snapshot_sha256": "e84171f0a5bf8e6250ef757b10cb427637176db22e7e022994beac3937880210",
+      "stages": [
+        {
+          "name": "test_journey_journal",
+          "passed": false,
+          "exit": 1,
+          "summary": [
+            "INVENTORY_CHANGE {\"after_sha256\":\"b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050\",\"before_sha256\":\"absent\",\"path\":\"presentation.cfg\"}",
+            "FAIL: read-only journey journal (181 checks)"
+          ],
+          "errors": [
+            "ERROR: Opening, help, browsing and closing write no profile, lease, history or migration bytes",
+            "ERROR: Ordinary F8 opens the existing PlaytestMoments panel above ThemeReflection",
+            "ERROR: Ordinary feedback belongs to the actually focused popup viewport",
+            "ERROR: Ordinary feedback receives usable keyboard focus inside the popup",
+            "ERROR: Actual Tab operates the ordinary feedback controls",
+            "ERROR: First ordinary Escape closes only PlaytestMoments feedback"
+          ],
+          "log_sha256": "ac1e79439ace915bd6129c9c7eacafa1f122a6348f4bac5ca768d841f07e42c2",
+          "terminated_owned_child_reason": ""
+        }
+      ]
+    }
+  ],
+  "pending": [
+    "Approved minimal PlaytestMoments focused-window fix and actual root/popup ordinary/tester rerun",
+    "Use established capture-size contract after sole presentation.cfg drift proved; retain full inventory",
+    "Final full regression, fixed-source CI, new packages and native/human acceptance"
+  ]
+}

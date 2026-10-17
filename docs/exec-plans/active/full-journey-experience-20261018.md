@@ -6,8 +6,9 @@
 本计划只能关闭当前阶段，不能据此关闭仍有开放事项的完整goal；
 首轮固定7c候选是可恢复基线，不代表开发手册的全部目标已经完成。
 总控核准本轮基线为 `cf89a76`，分支为 `codex/full-journey-experience-20261018`，
-工作树仍为 `night-experience-20261018`。PR11的两项Godot作业在启动时为真实pending，
-不能记成失败或已经通过。后续状态由总控核对远端并更新。
+工作树仍为 `night-experience-20261018`。PR11的两项Godot作业在启动时为真实pending；
+总控后续已核对基线`cf89a76`的CI运行`39061439011`为completed/SUCCESS。
+这是基线结果，不覆盖本轮新增代码。
 
 内容依据为下载目录《冯诺依曼瓶颈_Codex夜间多轮开发手册_2026-10-18.md》、
 《2026-10-18.md》会议整理、当前会话明确要求，以及仓库AGENTS、PLANS和协作纪律。
@@ -26,13 +27,13 @@
 | 所有者 | 独占写入范围与责任 |
 | --- | --- |
 | 总控 | 唯一Git变更、引擎/导出/原生令牌调度、集成与发布边界；其余运行工作明确委派后再执行 |
-| Knowledge | 本计划、`docs/development/full-journey-coverage.md`、新`src/ui/journey_journal.gd`、新`tests/test_journey_journal.gd`、忽略协调handoff |
+| Knowledge | 本计划、coverage账本、active索引、`docs/verification/20261018-full-journey/`证据入口与摘要、Journal/UI测试、忽略协调handoff；当前转为证据文档所有者 |
 | Narrative | 任务语境catalog、完成overlay、新context card/test及九个host展示hook：hardware/system/main/overlap/layout、representation_region/region、service_plan/lab、prediction/lab、creation/workbench；Knowledge不编辑这些文件 |
 | Visual | `prototype_hub.gd`、`task_tree.gd`的入口与观察站集成，以及其单独认领的新观察站UI/测试；Knowledge不编辑这两个共享入口 |
 
 `MissionNarrativeCatalog.task_context(chapter_id, level_id, english)`纯读返回
-`task_id/intent/action/verify/connection/completion`及可选`scope`；未知身份返回空字典。
-档案仅在真实`completed`为真时呈现完成回应，`unlocked`只控制导航。
+`task_id/intent/action/verify/connection/completion/failure/scope`；未知身份返回空字典。
+档案仅在真实`completed`为真且非临时/无效/只读证据时呈现完成回应，`unlocked`只控制导航。
 Visual通过`JourneyJournal.new()`、`add_child()`、`open()`懒加载并复用同一实例。
 档案复用任务导航、已有手册、ThemeReflection和本地记录，不增加完成/事件历史存档。
 
@@ -73,8 +74,34 @@ Godot、导出、原生执行需要总控授予唯一令牌，其他worker不得
 - 首轮技术证据属于固定7c源码及各自回执；不能自动认证本轮新增实现。
 - 计划/账本先落盘；后续工作包尚未据此获得运行验证。
 
+## F1实现与独立审查状态
+
+- 已实现60任务的双语Now/Verify、可展开语境/承接/真实完成回应及九个原工作台接缝；
+  不增加通关、Hint或准备门槛。Knowledge独立只读核对实际catalog/合法替代/临时与历史来源，
+  未发现生产阻断；审查中发现的测试必需参数缺失已由作者修复，运行结论另列。
+- 已实现只读JourneyJournal，按实际目录与原保存证据派生成长、虚构候选片段和作品回看；
+  复用原手册/ThemeReflection。Narrative独立只读审查无确定阻断，指出ThemeReflection/F8栈尚须实测。
+- 已实现真实3D观察站、三固定视角、同源任务/完成灯及Home/map可选入口；Knowledge独立源审无阻断，
+  要求补真实Host/F8输入与焦点测试，Visual已落盘；测试者开放不点亮成果。
+- 已有成功的早期隔离定向/720p渲染，但晚于这些快照的marker实际尺寸修正、system拓扑/语言刷新回归、
+  Journal→ThemeReflection→F8逐层Esc测试尚待最新coherent copy。不能将早期成功写成最终集成通过。
+
+完整失败/通过来源、哈希摘要与待证边界见[本轮证据入口](../../verification/20261018-full-journey/README.md)。
+最新`85535900`的import/userdir/观察站3阶段通过；同copy`0388d903ab50`的11套新旧定向全部PASS/exit0，
+其中Journal160与Narrative1134；Journal明确标注headless下Reflection/F8窗口栈NOT_RUN。
+总控将引擎令牌授给Narrative；`574f3d275059`已返回：九Host两语三窗54帧渲染通过，Journal两项失败。
+待诊断全user目录inventory变化、修正ThemeReflection首Esc释放底层窗口的问题；不把新栈headless的NOT_RUN写成通过。
+Knowledge不运行引擎。新导出probe尚未实际用于包，不计作导出通过。
+
+总控已保存F1源码检查点`c50492a`及`0aa1866`，并未冻结最终包或宣告最终Gate通过。
+新be2664fe/054735实际诊断证实inventory唯一变化为测试resize触发的`presentation.cfg`；
+原全inventory断言保留，后续按既有capture契约重跑。tester Reflection首Esc窄修真实通过，
+普通Moments在popup显示/焦点/输入/返回五项实际失败，现核准Knowledge独占其最小窗口挂载修复，
+由Narrative独占引擎执行受影响旧suite与真实root/popup两渠道验证。
+
 ## 尚未关闭的工作
 
-全目录语境实现与合同核对、新档案/观察站实现、共享入口集成、独立审查、最终回归与
-新固定包均尚待本轮实际执行。陌生玩家理解、美术定稿、未测平台及公网发布仍需要各自
-证据/授权；这些开放边界不阻止当前可逆本地实现与验证。
+F1代码已存在并经交叉源审，最新快照已有11套定向成功；新增模态栈、九域/多尺寸实际渲染、完整回归、
+新固定提交与导出包、实际解压/保存恢复/反馈子链，以及本轮限定原生验收仍未完成。
+陌生玩家理解、美术定稿、完整CG/人设/剧情变体、未测平台与公网发布各保留证据或授权边界。
+本计划及完整goal保持active，不以早期定向成功或另一份候选替代完整需求的逐项处理。

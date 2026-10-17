@@ -322,3 +322,27 @@ func reflection_feedback_stack(journal: Control, feedback: Node) -> void:
 	check(is_instance_valid(root_feedback_focus) and moments.panel.is_ancestor_of(root_feedback_focus), "Root ordinary feedback owns a usable control focus")
 	await full_input_key(KEY_ESCAPE)
 	check(not moments.panel.visible and root.gui_get_focus_owner() == host_focus, "Root feedback Escape returns exact host focus")
+	for originally_paused: bool in [false, true]:
+		ProjectSettings.set_setting("playtest/offline_tester", true)
+		paused = false
+		journal.open()
+		journal.reflection_button.grab_focus(); await key(KEY_SPACE)
+		var tester_departing: AcceptDialog = journal.reflection_dialog
+		paused = originally_paused
+		await full_input_key(KEY_F8)
+		check(feedback.backdrop.visible and feedback.layer.get_parent() == tester_departing and paused, "Tester lifecycle starts inside the actual popup with its prior pause state:" + str(originally_paused))
+		tester_departing.queue_free(); await settle()
+		var returned: bool = is_instance_valid(feedback.layer) and feedback.layer.get_parent() == feedback
+		check(returned, "Destroying tester popup preserves and returns the shared offline layer:" + str(originally_paused))
+		check(paused == originally_paused and not root.get_node("PlaytestData")._feedback_visible, "Tester popup destruction restores original pause and clears its feedback flag:" + str(originally_paused))
+		if not returned:
+			paused = false
+			return
+		check(not feedback.backdrop.visible, "Destroyed tester popup leaves no orphaned feedback panel")
+		await full_input_key(KEY_F8)
+		check(feedback.backdrop.visible and feedback.panel.get_viewport() == root, "Root tester F8 remains usable after popup destruction:" + str(originally_paused))
+		await full_input_key(KEY_ESCAPE)
+		check(not feedback.backdrop.visible and paused == originally_paused, "Recovered root tester feedback preserves the same original pause state:" + str(originally_paused))
+		paused = false
+		await key(KEY_ESCAPE)
+		check(not journal.visible, "Tester popup destruction leaves the journal return usable")

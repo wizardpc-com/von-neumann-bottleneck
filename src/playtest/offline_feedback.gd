@@ -135,6 +135,9 @@ func open_panel(feedback_task: Dictionary = {}) -> void:
 	current=store.create_case(context,image)
 	# Place the panel in the focused game viewport even when a work viewer is open.
 	if layer.get_parent()!=target_window: layer.reparent(target_window)
+	if target_window!=get_tree().root:
+		var release: Callable = _release_window.bind(target_window)
+		if not target_window.tree_exiting.is_connected(release): target_window.tree_exiting.connect(release,CONNECT_ONE_SHOT)
 	backdrop.show(); toolbar.hide()
 	PlaytestData.set_feedback_visible(true,&"offline")
 	_restore_fields()
@@ -155,6 +158,12 @@ func close_panel() -> void:
 	get_tree().paused=was_paused
 	PlaytestData.set_feedback_visible(false,&"offline")
 	if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
+
+func _release_window(window: Window) -> void:
+	if not is_instance_valid(layer) or layer.get_parent()!=window: return
+	# Return before closing: a refused draft save must leave a usable rescue panel.
+	layer.reparent(self)
+	close_panel()
 
 func capture_another() -> void:
 	if not _save_note(false): return

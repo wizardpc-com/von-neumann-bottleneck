@@ -5,6 +5,17 @@
 需求与开放项见[覆盖账本](../../development/full-journey-coverage.md)，
 执行与所有权见[active计划](../../exec-plans/active/full-journey-experience-20261018.md)。
 
+## 当前Gate
+
+- **原P0已在本轮定向闭合，完整full与两包仍待**：固定`22603af3a645ec6fe1b245f83d6f0d71472035c5`的fresh13/13定向、原Rule真实renderer401、Journal真实窗口链222均通过。Rule18次captured、pending0，三尺寸各6张且PNG/context逐一匹配。
+- 新Store经Visual独立源审：排他创建fresh cases目录，先验证context/PNG、最后写原case.json，移除填满目录发布rename。JSON/notes/旧pending/导出格式不改，不加重试或原子耐久承诺。旧637目录rename208失败及原full166/168原样保留，不推断唯一OS根因。
+- Windows原full `1639bbd5`保持**166/168 PASS、2 FAIL、exit1**；后test-only clarity与Service在49c fresh四阶段通过，不追写原full。总控已核49c两CI `39067140525`/`39067137757`completed/SUCCESS；这仍是Store修前runtime，不能认证22603。22603已推送，须以它另冻SOURCE和包。
+- Narrative持唯一引擎，下一项为新固定身份一次full。Python原导入器10测试及额外synthetic recovery兼容已通过；实际Godot导出ZIP导入与最终两包链仍待；**尚无新包或新游戏原生验收**。完整goal仍active，不启动下一候选阶段。
+
+文档恢复点为`dea36d3`；其前完整原full证据恢复点`342e8e6`保持。后续历史来源及失败均留在下方与checks.json。
+
+## 已保存的检查点（历史，不表示当前Gate）
+
 总控核准基线为`cf89a76`，分支`codex/full-journey-experience-20261018`。
 F1源码可恢复检查点已由总控提交为`c50492a`及`0aa1866`；它们不是最终包冻结，也不声明所有Gate通过。
 文档检查点为`4215a5b`，已随新分支推送；[草稿PR12](https://github.com/wizardpc-com/von-neumann-bottleneck/pull/12)
@@ -40,6 +51,7 @@ Python job`117488197257`；本地下载168份顶层txt（含import/userdir，166
 | Narrative：60context、ContextCard、完成overlay及9Host | Knowledge只读核对真实catalog、完成/历史/草稿、合法替代、切任务/撤销/语言、委托及临时探索 | 未发现生产阻断。测试中缺少必需reason参数已由作者修复；不代替运行/布局验收 |
 | Knowledge：Journal及测试 | Narrative只读核对completed/session/只读、无写入/lease、导航失败保留、成绩来源及作品保护 | 无确定阻断；指出ThemeReflection/F8焦点栈缺口，新增真实渲染专用测试待跑 |
 | Visual：观察站及Home/map入口、测试 | Knowledge只读核对完成与访问、坏档/session、浏览无写、实时门禁、3D及生命周期 | 无生产阻断；要求真实Host/F8/焦点链，已补测试，结果按各快照列示 |
+| Knowledge：Store发布窄修与test_offline_store | Visual核对fresh排他/碰撞保全、旧pending、context/PNG/metadata/cache顺序、半写recovery与完整有效metadata后验失败可恢复边界 | 22603源审无静态阻断；后9a/be37/cba实际定向/renderer通过，完整full/两包仍待，不扩大为所有IO或耐久保证 |
 
 测试前置和输入注入方式的问题单独保留，不把它们自动诊断成产品故障。
 
@@ -86,6 +98,11 @@ Godot为`4.7.1.stable.official.a13da4feb`。原始日志留在本地忽略目录
 | `verification/20261017T203448Z-298ed2bf` | 49c fresh import/userdir/clarity100/Service7268四阶段全部PASS/exit0 | 651/651原始文件匹配49c，无额外tests；该test-only修正闭合旧结构断言，不改写679原full166/168，也不关闭rule反馈P0 |
 | `verification/20261017T203610Z-f74ffc45` / `203649Z-cd1936bb` | 原文件名QA即时诊断headless长/短目录各391项PASS/exit0 | 保留全部原断言，test与隔离Store仅日志增量；各18cases/pending空、同步last_error空。这两次通过不覆盖后续真实GUI失败 |
 | `verification/20261017T203738Z-d4664dcc` | 未改canonical原rule、短根真实renderer FAIL/401项 | 原基础391项加实际10个capture保存断言；10cases+第11完整pending，root EN1280×720。后续帧反馈层底部实际“No writable incident…”证明无writable current且拒绝关闭，仍缺该次create失败同步stage/error；不是仅“Esc未送达”即可解释 |
+| `verification/20261017T203859Z-6370806f` | 原assert与即时QA日志真实GUI短根FAIL/401项 | 第8case目录rename Error1/Failed、目标208字符，F8后同步current空/busy=false/paused=true；首Esc进入NoWritableIncident保护。原UI保全正确，生产Store发布协议窄修待独审/运行，不将原因归为输入或MAX_PATH |
+| `full-journey-python-offline-original-20261018T0454.log` / `full-journey-python/20261018T044728` | 未改Python原导入器10测试PASS；额外synthetic recovery兼容PASS | recovery/cases中context-only/半metadata、旧pending未知version共5文件原样SHA保留，仅1正常incident，源ZIP与导入原件SHA同；正式权限文件IO，无Godot/UI。不是新Store实际导出ZIP或包验收 |
+| `verification/20261017T204609Z-9a0116bc` | 新226固定fresh13/13定向阶段PASS/exit0 | 651/651原始文件匹配226、无额外tests；含Store新碰撞/半写/旧pending/PNG失败/后验失败边界及旧反馈保护 |
+| `verification/20261017T204737Z-be37b124` | 原canonical Rule真实renderer401 PASS/exit0，10 PNG已hash | 原test未加QA日志；actual-incident-audit逐核18个真实captured records、pending0、三尺寸各6、PNG与context逐一同尺寸；不等于OS输入或陌生玩家验收 |
+| `full-journey-narrative-runs/cba6b34bfc40` | 同226 fixed copy真实Journal222 PASS/exit0，无owned终止 | 普通/tester两渠道、实际Window/F8/Esc/Tab/销毁/等待capture两暂停分支及精确作品保护仍通过；新full与包尚待 |
 
 56fe晚于上述旧失败，**但早于**marker主题实际最小尺寸修正、system拓扑/语言刷新回归和
 Journal→ThemeReflection→F8新栈。其成功不能认证这些后续差异。

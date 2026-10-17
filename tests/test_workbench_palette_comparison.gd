@@ -79,8 +79,6 @@ func compare_locale(locale: String) -> void:
 	print("SETUP: original tutorial controller actions earned completion; subsequent colors are QA presentation only: " + locale)
 	var original_theme: Theme = host.theme
 	var original_graph_theme: Theme = host.graph.theme
-	var originals: Array[Dictionary] = []
-	collect_overrides(host, host.graph, originals)
 	var backdrops: Array[Node] = []
 	for node: Node in host.find_children("*", "Control", true, false):
 		var script: Script = node.get_script()
@@ -88,7 +86,17 @@ func compare_locale(locale: String) -> void:
 	for dimensions: Vector2i in [Vector2i(1280,720), Vector2i(1920,1080), Vector2i(1440,900)]:
 		root.size = dimensions; root.content_scale_size = dimensions
 		await settle()
+		# The outer margin is empty; settle hover removal before capturing live controls.
+		root.warp_mouse(Vector2(2, 2))
+		var motion := InputEventMouseMotion.new()
+		motion.position = Vector2(2, 2); motion.global_position = motion.position
+		root.push_input(motion, true)
+		await settle()
+		(host.side_box.get_parent() as ScrollContainer).ensure_control_visible(host.input_a_button)
 		host.pause_button.grab_focus()
+		await settle()
+		var originals: Array[Dictionary] = []
+		collect_overrides(host, host.graph, originals)
 		check(within_clip(host.input_a_button) and within_clip(host.pause_button), "Signal input and playback controls stay accessible at " + str(dimensions))
 		for window: Control in host.desktop_windows.values():
 			if window.visible: check(root.get_visible_rect().encloses(window.get_global_rect()), "Visible instrument stays inside actual comparison viewport")

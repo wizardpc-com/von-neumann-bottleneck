@@ -1,0 +1,504 @@
+{
+  "stage": "ACTIVE",
+  "baseline_commit": "d6f594a843d5114fc4eb508916345eb0851e1015",
+  "source_checkpoint": "9a2e724c58eb9854a2178545bae5c2d7bb939c7a",
+  "source_authority": "Fixed9a2 archive/copy5745/5745 exact bytes,0extra QA, actual5/5 targeted headlessPASS/exit0 with owned children all normal. Originala6 15stage13/2FAIL and old diagnostic sources remain separate.",
+  "branch": "codex/creative-framework-20261018",
+  "evidence_grade": "Current9a2 scoped headless5/5PASS only; earliera6 selected-case renderer established a reveal gap. Current-source rendered matrix, new exported package and native acceptance are not yet run.",
+  "scope": [
+    "optional first-light retrospective inside existing ThemeReflection",
+    "one static replaceable abstract candidate image inside existing introduction",
+    "QA-local dark/light comparison of the same real tutorial circuit; no global light theme"
+  ],
+  "independent_reviews": [
+    {
+      "author": "Knowledge",
+      "reviewer": "Narrative",
+      "files": [
+        "src/ui/theme_reflection.gd",
+        "src/ui/first_light.gd",
+        "tests/test_first_light.gd"
+      ],
+      "result": "No remaining static blocker after positive texture-dimension guard; actual runtime and pixel-equality assertions pending."
+    },
+    {
+      "author": "Narrative",
+      "reviewer": "Visual",
+      "files": [
+        "src/ui/yi_introduction.gd",
+        "assets/narrative/yi-learning-fragment.svg",
+        "tests/test_yi_introduction_media.gd"
+      ],
+      "result": "Root received independent source review; no source-review claim replaces runtime or visual results."
+    },
+    {
+      "author": "Visual",
+      "reviewer": "Knowledge",
+      "files": [
+        "tests/test_workbench_palette_comparison.gd"
+      ],
+      "result": "No static blocker; wording now limits candidate file protection to actual saved/session/transaction paths. Palette fixture has no actual CPG payload; separate first-light fixture protects real work."
+    }
+  ],
+  "current_gates": {
+    "source_review": "PASS_STATIC_SCOPE",
+    "import_and_targeted_runtime": "PASS9a2 headless5/5, exit0: FirstLight91,Journal162,ThemeReflection,import,userdir; originala6 failures retained.",
+    "renderer_languages_and_sizes": "NOT_RUN formal matrix; old a6 one-Window FirstLight and one EN720 palette headless v3 are limited diagnostics only.",
+    "new_exported_packages": "NOT_RUN",
+    "new_native_os": "NOT_RUN",
+    "human_comprehension": "NOT_RUN"
+  },
+  "pending": [
+    "New coherent-source canonical palette suite and twelve actual same-workbench frames; olda6 failures/v3 selected-case result remain separate",
+    "Actual two-language/three-size FirstLight automatic reveal, normal/tester F8 capture priority, focus/hide/destruction, low motion and exact empty/null texture frames",
+    "Actual introduction media/fallback/real tutorial and independent image review",
+    "Remaining affected legacy or broader regression and fixed new package/native scope as actually run",
+    "F3 Journal to existing WorkFocus contract is approved preparation only; no implementation before F2 package checkpoint"
+  ],
+  "prior_F1_boundary": "SOURCE8334 package controller/native results remain valid only for old packages; they do not certify new a6c6 runtime or media.",
+  "first_light_a6c6_initial_failure": {
+    "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_first_light.txt",
+    "raw_log_sha256": "026c938a688905526cc6f7fe82bc901d081aad18dbdf6a7df1f1f8e932a3aefb",
+    "checks": 91,
+    "failures": 12,
+    "earliest_failed_assertions": [
+      "Skip remains reachable by scrolling at each language/window size",
+      "All static native captions fit their original scroll viewport"
+    ],
+    "script_error": false,
+    "scope": "Every locale/size pair fails both post-skip clip assertions; this is an actual failed source-a6c6 run. Cause not established by static reading. Other passing assertions are not a substitute for clip reachability.",
+    "next_diagnostic": "QA-only mirror preserves all original asserts and logs rect/scroll ranges before skip, immediate reveal, original assertions and extra settled re-reveal; no original source/copy/asserts altered."
+  },
+  "a6c6_initial_targeted": {
+    "source_commit": "a6c6ea369e8e5828aaad563c57f53b67a2f7893c",
+    "raw_result": ".godot/verification/20261017T220726Z-a0535436/results.json",
+    "raw_result_sha256": "78c8a2e3a1790d882aa61ed8163fe21a902bff645956df899d5bce39ab728767",
+    "stages": 15,
+    "passed": 13,
+    "failed": 2,
+    "overall_exit": 1,
+    "stage_results": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/import.txt",
+        "raw_log_sha256": "b50873cea5ca40a1530fcb624669a3e6226f25fc43a80a2a72783fda4520067e"
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/user_directory.txt",
+        "raw_log_sha256": "7a327437e928b8f1d13e2ff3cbe74398dda422abfc54ce440abc858d89532ace"
+      },
+      {
+        "name": "test_candidate_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_candidate_feedback.txt",
+        "raw_log_sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b"
+      },
+      {
+        "name": "test_feedback_presentation",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_feedback_presentation.txt",
+        "raw_log_sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae"
+      },
+      {
+        "name": "test_first_light",
+        "passed": false,
+        "exit": 1,
+        "errors": [
+          "ERROR: Skip remains reachable by scrolling at each language/window size",
+          "ERROR: All static native captions fit their original scroll viewport",
+          "ERROR: Skip remains reachable by scrolling at each language/window size",
+          "ERROR: All static native captions fit their original scroll viewport",
+          "ERROR: Skip remains reachable by scrolling at each language/window size",
+          "ERROR: All static native captions fit their original scroll viewport",
+          "ERROR: Skip remains reachable by scrolling at each language/window size",
+          "ERROR: All static native captions fit their original scroll viewport",
+          "ERROR: Skip remains reachable by scrolling at each language/window size",
+          "ERROR: All static native captions fit their original scroll viewport",
+          "ERROR: Skip remains reachable by scrolling at each language/window size",
+          "ERROR: All static native captions fit their original scroll viewport",
+          "FAIL: first light 91 checks; real tutorial/CPG controller setup, no native-input claim"
+        ],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_first_light.txt",
+        "raw_log_sha256": "026c938a688905526cc6f7fe82bc901d081aad18dbdf6a7df1f1f8e932a3aefb"
+      },
+      {
+        "name": "test_hub_first_screen",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_hub_first_screen.txt",
+        "raw_log_sha256": "7e1fa1fdee39b311fa9d04a95f3c6326075f7ed8c92512cacbcc615104b4af27"
+      },
+      {
+        "name": "test_journey_journal",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_journey_journal.txt",
+        "raw_log_sha256": "e853d769b0df72dee9a98dc1e85507a2fcd7bc7846db3e6d127e9825ed6a5b8f"
+      },
+      {
+        "name": "test_night_narrative",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_night_narrative.txt",
+        "raw_log_sha256": "0bfd29ea545afe8ec764c1ea28a6989fc64e85e705890d44f5d658a155bb4899"
+      },
+      {
+        "name": "test_offline_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_offline_feedback.txt",
+        "raw_log_sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157"
+      },
+      {
+        "name": "test_optional_result_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_optional_result_feedback.txt",
+        "raw_log_sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c"
+      },
+      {
+        "name": "test_playtest_feedback_ui",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_playtest_feedback_ui.txt",
+        "raw_log_sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3"
+      },
+      {
+        "name": "test_theme_reflection",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_theme_reflection.txt",
+        "raw_log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e"
+      },
+      {
+        "name": "test_work_focus_feedback",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_work_focus_feedback.txt",
+        "raw_log_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd"
+      },
+      {
+        "name": "test_workbench_palette_comparison",
+        "passed": false,
+        "exit": 1,
+        "errors": [
+          "ERROR: Signal input and playback controls stay accessible at (1280, 720)",
+          "ERROR: Candidate palette retains the original accessible controls",
+          "ERROR: Signal input and playback controls stay accessible at (1920, 1080)",
+          "ERROR: Candidate palette retains the original accessible controls",
+          "ERROR: Signal input and playback controls stay accessible at (1440, 900)",
+          "ERROR: Candidate palette retains the original accessible controls",
+          "ERROR: Signal input and playback controls stay accessible at (1280, 720)",
+          "ERROR: QA colors preserve all visible control text, states, focus and exact rectangles: en(1280, 720)",
+          "ERROR: Candidate palette retains the original accessible controls",
+          "ERROR: Signal input and playback controls stay accessible at (1920, 1080)",
+          "ERROR: Candidate palette retains the original accessible controls",
+          "ERROR: Signal input and playback controls stay accessible at (1440, 900)",
+          "ERROR: Candidate palette retains the original accessible controls",
+          "FAIL: real frozen-workbench palette comparison (61 checks)"
+        ],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_workbench_palette_comparison.txt",
+        "raw_log_sha256": "b77ca16f9ec374d6b483e07f9113d480f9ff92691cd18267f7832ffc383981e8"
+      },
+      {
+        "name": "test_yi_introduction_media",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T220726Z-a0535436/test_yi_introduction_media.txt",
+        "raw_log_sha256": "0f87a6a3626cdba28bc8fb8ea7d553fd932e37af309806ec0a9032258a862789"
+      }
+    ],
+    "copy_parity": {
+      "path": ".godot/f2-fixed-watch/0ca50a57e425/copy-parity.json",
+      "sha256": "485da619ea11e12540c5d08438f9755ab4349be2781c01614d4b5e4ad76b4a2f",
+      "commit": "a6c6ea369e8e5828aaad563c57f53b67a2f7893c",
+      "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+      "helper_sha256": "0a5cf54f9e12985050b9f45304452f7b4d1e09c5d43d9f66329f1c34bdbe7b26",
+      "tracked_archive_files": 5745,
+      "copied_exact_files": 5745,
+      "all_copy_bytes_exact": true,
+      "canonical_test_files": 170,
+      "extra_qa_tests": []
+    },
+    "owned_process_monitor": {
+      "path": ".godot/f2-fixed-watch/0ca50a57e425/owned-processes.json",
+      "sha256": "7caaa3c5c80accc0f4e20dc946b716eb42dd9bc3e9f916351bbc6914ddba9038",
+      "engine_children": 15,
+      "terminated_owned_children": 0
+    },
+    "scope": "FirstLight91 checks/12 post-skip clip failures; palette61 checks/13 accessibility-or-geometry failures. Yi media184 passes, old affected suites/import/userdir pass. Runtime import success is not new renderer or package acceptance."
+  },
+  "diagnostic_first_light_v2": {
+    "path": ".godot/test_first_light_clip_diagnostic_v2.gd",
+    "sha256": "f4f8b07f42a28ab1891d030ccf4a1dfc443139876e4d474b9920b300631e1e5e",
+    "status": "EXECUTED_SELECTED_ONE_WINDOW_ONLY; see first_light_single_window_diagnostic.",
+    "scope": "Only first zh720 Window with actual Play before any body ensure, passive rect/frame capture, unchanged original selected-case clip assertions, settled re-reveal after original assertions, then protected-byte check and early exit. Not canonical91 or a formal rendered matrix."
+  },
+  "historical_source_files_at_a6c6_freeze": {
+    "src/ui/theme_reflection.gd": {
+      "sha256": "0c71e036948afc299f8b674bac38fc21ac644506a2cdd6e21109d36b5fdc966f",
+      "bytes": 4524,
+      "crlf_count": 0
+    },
+    "src/ui/first_light.gd": {
+      "sha256": "333a180ec16118d007b4fbe33158ad929b7f3caac0f15b80bae669720c355ed3",
+      "bytes": 5752,
+      "crlf_count": 0
+    },
+    "tests/test_first_light.gd": {
+      "sha256": "077735e6c93501a2ec0dc8d5cbe527d9dc47bc415b1cddd6da136b57111d0440",
+      "bytes": 15549,
+      "crlf_count": 0
+    },
+    "src/ui/yi_introduction.gd": {
+      "sha256": "e917a5d2d6897a1e67604854e7ce3aaf968ea6f1872631fc848b67f49ef58d75",
+      "bytes": 6252,
+      "crlf_count": 0
+    },
+    "assets/narrative/yi-learning-fragment.svg": {
+      "sha256": "b68f45bd646099dea0b5e8cfd0dfadb29db37a7ae728df50e69d4ccecc4ba0d7",
+      "bytes": 835,
+      "crlf_count": 0
+    },
+    "tests/test_yi_introduction_media.gd": {
+      "sha256": "f9501577c3f77641b21affda699305f7b879b340ed783fd25244d1078a96d039",
+      "bytes": 8350,
+      "crlf_count": 0
+    },
+    "tests/test_workbench_palette_comparison.gd": {
+      "sha256": "3422afeda0d4b6859f4344bf1121baf67da25938ac012dde8bec1747b31bcc8f",
+      "bytes": 13344,
+      "crlf_count": 0
+    }
+  },
+  "first_light_single_window_diagnostic": {
+    "source_commit": "a6c6ea369e8e5828aaad563c57f53b67a2f7893c",
+    "qa_mirror_sha256": "f4f8b07f42a28ab1891d030ccf4a1dfc443139876e4d474b9920b300631e1e5e",
+    "selected_case": "zh_CN1280x720; actual ReflectionWindow only",
+    "checks": 25,
+    "failed_selected_assertions": 0,
+    "exit": 0,
+    "scope": "Selected-case original assertions retained and post-assert settled re-reveal; no canonical91/matrix/F8-lifecycle conclusion. Passive before-ensure observations establish real UI reveal gap despite selected assertions passing.",
+    "raw_receipt": ".godot/f2-diagnostics/9503ca35f1a1/receipt.json",
+    "raw_receipt_sha256": "61e8d2e30ca1fae4aab17426466ffca0b4d26ff0fbe7ede15fa771384926b556",
+    "raw_log": ".godot/f2-diagnostics/9503ca35f1a1/renderer.log",
+    "raw_log_sha256": "2a084f203d39ca62677ae17d6b0db2b1654aa6dc3215ef5c2504c5b9cb577c51",
+    "before_any_body_ensure": {
+      "scroll_clip": {
+        "x": 8,
+        "y": 8,
+        "width": 634,
+        "height": 422
+      },
+      "canvas": {
+        "x": 8,
+        "y": 353,
+        "width": 626,
+        "height": 100
+      },
+      "skip": {
+        "x": 8,
+        "y": 531,
+        "width": 626,
+        "height": 42
+      },
+      "canvas_partly_clipped": true,
+      "skip_entirely_below_fold": true,
+      "conclusion": "Explicit Play did not automatically reveal main illustration and Skip; product UX gap established."
+    },
+    "raw_before_ensure_png": ".godot/f2-diagnostics/9503ca35f1a1/runtime/appdata/VonNeumannBottleneckChecks/F2Diagnostic-9503ca35f1a1/first-light/first-light-clip-diagnostic/after-real-play-before-ensure.png",
+    "raw_before_ensure_png_sha256": "619209bc9d5254bcb421d9f81f657a732f152e3dd451b507d3a9e156e2f18ef0",
+    "independent_visual_review": "Visual viewed the before-ensure frame; not a new native action."
+  },
+  "working_fix_after_a6c6": {
+    "status": "STATIC_REVIEW_PASS and fixed9a2 headless5/5PASS; actual renderer/capture-busy/window lifecycle pending.",
+    "scope": "One-shot settled Play reveal in existing ScrollContainer without grabbing focus; all native captions visible from explicit Play,3sec geometry only; short natural fixed-NOT note; original reachability asserts retained with settled test scroll and real no-QA-scroll assertions. Additional same-frame feedback/rapid-play review pending.",
+    "files": {
+      "src/ui/theme_reflection.gd": "a7357b203e6476f1280b67abdbc456cafcb4acdb67a2f4e0d955123841a7b8b8",
+      "src/ui/first_light.gd": "a3f6c9fe4c0b64bb54a014f60e143e15bb0c2fb11b0604e34fdfd02ea7b9912e",
+      "tests/test_first_light.gd": "575878e313fe7c6db91b978a4fdf29d0de1b110bb6758911cdccd89d27ddd040"
+    },
+    "capture_priority": "Read existing OfflineFeedback.busy as well as shared visibility flag; async frame_post_draw capture must not be moved by always-process animation or deferred scroll. No new flag/shared feedback-source mutation.",
+    "test_scope": "Before any QA scroll, actual Play must reveal canvas/Skip and retain focus; same-frame rapid Play plus ordinary/tester feedback holds elapsed/scroll/focus; immediate destroy cancels bound one-shot receiver. Original guards/byte/nav asserts remain.",
+    "reviewer": "Narrative: no remaining static blocker; one-process-frame Container settlement and all real controls still require actual renderer.",
+    "commit": "9a2e724c58eb9854a2178545bae5c2d7bb939c7a"
+  },
+  "palette_single_case_diagnostic_v2": {
+    "source_commit": "a6c6ea369e8e5828aaad563c57f53b67a2f7893c",
+    "evidence_grade": "QA-only single English 720p headless palette case with original assertions; not full61 matrix or native input",
+    "qa_script_sha256": "79b7282ad22a95286059ae18a1eeae3c44ac15d0c6dc8b21058e8bcf5e55f940",
+    "helper_sha256": "ae9b7ee0c8a80d91d57f397cda238eaa721ccb4eebb4632f1bafa3363dc41b54",
+    "raw_receipt": ".godot/f2-diagnostics/a3c3fd338428/receipt.json",
+    "raw_receipt_sha256": "a86eaf69c4c53ba7bda89292676bb3fb3b0e1c8bd063046343795aeefb1c4a1d",
+    "raw_log": ".godot/f2-diagnostics/a3c3fd338428/headless.log",
+    "raw_log_sha256": "fe35d7a8062aac1a62a832ec0312297809fc403295ee13409974c13b60a95fba",
+    "delta": ".godot/f2-diagnostics/a3c3fd338428/test-delta.diff",
+    "delta_sha256": "e4fb68d39435dc71d33f5ae457f46cab39eea5b888e33d22d8be670c2f6dd4c0",
+    "pid": 38924,
+    "exit": 1,
+    "terminated_owned_child_reason": "script_error",
+    "observed": "Single English720 headless diagnostic reached stored style-record Control assignment on freed instance; owned supervisor stopped only its child. Earlier accessibility prints are partial, not a passed matrix.",
+    "cause_status": "Author/independent review pending; do not infer product change or all geometry protection success.",
+    "rendered_frame_count": 0
+  },
+  "historical_pending_at_initial_draft": [
+    "Fixed a6c6 source-copy identity and actual import/targeted logs",
+    "Actual first-light timing/null-or-empty texture/reduced-motion/feedback/focus/destruction and preserved work bytes",
+    "Actual introduction media/fallback/real tutorial and feedback",
+    "Actual same-circuit twelve palette frames, unchanged controls/state/files and independent image review",
+    "Affected legacy suites and final source/package/native scope as actually run"
+  ],
+  "palette_single_case_diagnostic_v3": {
+    "source_commit": "a6c6ea369e8e5828aaad563c57f53b67a2f7893c",
+    "evidence_grade": "QA-only single English720 headless case; old runtime plus v3mirror, not canonical61,12 frames or current new product acceptance",
+    "checks": 15,
+    "passed": 15,
+    "exit": 0,
+    "terminated_owned_child_reason": "",
+    "raw_receipt": ".godot/f2-diagnostics/60fc8f3adf99/receipt.json",
+    "raw_receipt_sha256": "114076a378b998a164adf3d0790a56f0ae2075fb40d01d9cf69a96c07b8c6d7c",
+    "raw_log": ".godot/f2-diagnostics/60fc8f3adf99/headless.log",
+    "raw_log_sha256": "14d964345290f79150ee83ec1ddf18ddf562368ac6c51e6a360ee4a500b2f089",
+    "qa_script_sha256": "06468deb49f6fecc25e8d9709593c434059c5c8a22955c4c1b1e5d4c1ebcf1e9",
+    "helper_sha256": "0e8d17cba0fbac8fde270eb8f82e84a6ff27bccd3f87de61cb90f712f7bdc0de",
+    "scope": "Input and playback controls within clip; no controls-layout/metrics diff in selected case; dark-dark phase only equal-frame wait, no claim of an independent additional palette. Original a6 failures and v2 SCRIPT ERROR preserved."
+  },
+  "initial_source_checkpoint": "a6c6ea369e8e5828aaad563c57f53b67a2f7893c",
+  "historical_a6c6_fixed_source_copy": {
+    "path": ".godot/f2-fixed-watch/0ca50a57e425/source",
+    "confirmed_by": "Narrative: gitarchive a6c6 fixed source obtained; verifier reads archive list/bytes, not current untracked docs",
+    "reviewed_file_parity": {
+      "src/ui/theme_reflection.gd": {
+        "matches_live_frozen_bytes": true,
+        "archive_sha256": "0c71e036948afc299f8b674bac38fc21ac644506a2cdd6e21109d36b5fdc966f"
+      },
+      "src/ui/first_light.gd": {
+        "matches_live_frozen_bytes": true,
+        "archive_sha256": "333a180ec16118d007b4fbe33158ad929b7f3caac0f15b80bae669720c355ed3"
+      },
+      "tests/test_first_light.gd": {
+        "matches_live_frozen_bytes": true,
+        "archive_sha256": "077735e6c93501a2ec0dc8d5cbe527d9dc47bc415b1cddd6da136b57111d0440"
+      },
+      "src/ui/yi_introduction.gd": {
+        "matches_live_frozen_bytes": true,
+        "archive_sha256": "e917a5d2d6897a1e67604854e7ce3aaf968ea6f1872631fc848b67f49ef58d75"
+      },
+      "assets/narrative/yi-learning-fragment.svg": {
+        "matches_live_frozen_bytes": true,
+        "archive_sha256": "b68f45bd646099dea0b5e8cfd0dfadb29db37a7ae728df50e69d4ccecc4ba0d7"
+      },
+      "tests/test_yi_introduction_media.gd": {
+        "matches_live_frozen_bytes": true,
+        "archive_sha256": "f9501577c3f77641b21affda699305f7b879b340ed783fd25244d1078a96d039"
+      },
+      "tests/test_workbench_palette_comparison.gd": {
+        "matches_live_frozen_bytes": true,
+        "archive_sha256": "3422afeda0d4b6859f4344bf1121baf67da25938ac012dde8bec1747b31bcc8f"
+      }
+    },
+    "import_status": "PASS import/userdir; complete targeted overall13/15PASS,2FAIL/exit1.",
+    "manifest": {
+      "path": ".godot/f2-fixed-watch/0ca50a57e425/source-manifest.json",
+      "sha256": "cce8f502c6c03c0454032c1aa3bfc32c524d68e18e6ce22e3ed6eeb5d11e38f4"
+    },
+    "owned_wrapper_delta": {
+      "path": ".godot/f2-fixed-watch/0ca50a57e425/delta-from-owned-monitor.diff",
+      "sha256": "ad720f3b2bda28c2d81818b2418bd0116bec04b94619749517b414faec576b89",
+      "scope": "Original verify-project bytes unchanged; wrapper pins archive manifest enumeration and copy bytes instead of live untracked files, records hashes and monitors only owned engine children. SCRIPT ERROR failfast stops its own pipeline; original verifier flags/assertions/timeouts not loosened."
+    },
+    "expected_stage_count": 15,
+    "expected_stage_scope": "13 conventional suites plus import and userdir=15; expected only, not a pass count."
+  },
+  "targeted_9a2_headless": {
+    "source_commit": "9a2e724c58eb9854a2178545bae5c2d7bb939c7a",
+    "raw_result": ".godot/verification/20261017T222326Z-462637e1/results.json",
+    "raw_result_sha256": "b5b3f41179a3bac6d2c7e0c39ff377afd46db8a9d49fe7b3beb62e05e349ed0d",
+    "stages": 5,
+    "passed": 5,
+    "failed": 0,
+    "overall_exit": 0,
+    "stage_results": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222326Z-462637e1/import.txt",
+        "raw_log_sha256": "b50873cea5ca40a1530fcb624669a3e6226f25fc43a80a2a72783fda4520067e"
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222326Z-462637e1/user_directory.txt",
+        "raw_log_sha256": "8b0bf2245a9cb37143fef8067e78de7ce0ebfd4a40153065cf5be9b0c593afd0"
+      },
+      {
+        "name": "test_first_light",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222326Z-462637e1/test_first_light.txt",
+        "raw_log_sha256": "a4bbd88ef7bf6351cb3967fe92300b9bfcb4ea1364e5621b6cd8d98292a0381f"
+      },
+      {
+        "name": "test_journey_journal",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222326Z-462637e1/test_journey_journal.txt",
+        "raw_log_sha256": "e853d769b0df72dee9a98dc1e85507a2fcd7bc7846db3e6d127e9825ed6a5b8f"
+      },
+      {
+        "name": "test_theme_reflection",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222326Z-462637e1/test_theme_reflection.txt",
+        "raw_log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e"
+      }
+    ],
+    "copy_parity": {
+      "path": ".godot/f2-fixed-watch/2b2a07a0c03c/copy-parity.json",
+      "sha256": "589ab7f2d9525348c0ae16aaa88e53da920c72c81a642b8b0d03d56d8b4897a0",
+      "commit": "9a2e724c58eb9854a2178545bae5c2d7bb939c7a",
+      "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+      "helper_sha256": "a5b1bcb6a721322282862d6f9cca620a8751643ccc89ec794465be2af335e737",
+      "tracked_archive_files": 5745,
+      "copied_exact_files": 5745,
+      "all_copy_bytes_exact": true,
+      "canonical_test_files": 170,
+      "extra_qa_tests": []
+    },
+    "owned_monitor": {
+      "path": ".godot/f2-fixed-watch/2b2a07a0c03c/owned-processes.json",
+      "sha256": "459fe2e1e67dcbe084d6691d2de92cefb4717797e5d2df0f3db66747dfa0872e",
+      "engine_children": 5,
+      "all_exit0": true,
+      "terminated_owned_children": 0
+    },
+    "scope": "FirstLight91/Journal162/ThemeReflection/import/userdir headless PASS; true tutorial and real CPG protected-work fixture. Actual new-source automatic reveal/focus/F8/capture-busy/window-lifecycle renderer explicitly NOT_RUN."
+  }
+}

@@ -25,6 +25,12 @@ The full development goal remains active. Replaceable narrative media, broader
 creative presentation, human comprehension and final artistic/story decisions
 remain open in the [coverage ledger](development/full-journey-coverage.md).
 
+The newer `codex/creative-framework-20261018` branch adds optional earned-light
+replay and concrete replacement media slots. Its source9a2 focused Windows checks
+pass5/5; actual rendering and new packages remain pending. The
+[creative presentation evidence](verification/20261018-creative-framework/README.md)
+keeps the initial failures and the narrower successful follow-ups separate.
+
 ## Earlier October18 candidate — fixed7c snapshot
 
 PR10 merged into `main` as `bf8f61647c03c8bba868cc833b3832e274bd4aee`.

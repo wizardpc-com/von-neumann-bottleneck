@@ -256,5 +256,6 @@ static func _linked_source(path: String) -> bool:
 
 static func _hash(bytes: PackedByteArray) -> String:
 	var context := HashingContext.new()
-	context.start(HashingContext.HASH_SHA256); context.update(bytes)
+	context.start(HashingContext.HASH_SHA256)
+	if not bytes.is_empty(): context.update(bytes)
 	return context.finish().hex_encode()

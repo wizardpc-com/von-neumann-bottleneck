@@ -9,6 +9,7 @@ func check(value: bool, message: String) -> void:
 	if not value: failures+=1; push_error(message)
 
 func run() -> void:
+	check(Store._hash(PackedByteArray())=="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","empty evidence uses SHA256 without an engine error")
 	var store = Store.new()
 	store.root="user://offline-store-test"
 	var context: Dictionary = {"task":{"chapter_id":"chapter_1","level_id":"assembly"},"active_domain":{"unsaved_program":"LOAD 3\nHALT"}}

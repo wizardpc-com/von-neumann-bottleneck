@@ -26,6 +26,13 @@ func run() -> void:
 	var id: String = feedback.current.id
 	feedback.close_panel()
 	check(not paused and not feedback.backdrop.visible,"close restores game pause state")
+	var logical := InputEventKey.new(); logical.keycode=KEY_F8; logical.pressed=true
+	Input.parse_input_event(logical)
+	logical=InputEventKey.new(); logical.keycode=KEY_F8; logical.pressed=false
+	Input.parse_input_event(logical)
+	for index: int in 3: await process_frame
+	check(feedback.backdrop.visible,"logical F8 without a physical scan code opens feedback")
+	feedback.close_panel()
 	feedback.open_panel(); feedback._load_case(id)
 	check(feedback.note.text.contains("保留完整现场"),"history restores previous note")
 	if "--offline-feedback-capture" in OS.get_cmdline_user_args():

@@ -35,6 +35,8 @@ func _ready() -> void:
 		InputMap.add_action("vnb_offline_feedback")
 		var shortcut := InputEventKey.new(); shortcut.physical_keycode=KEY_F8
 		InputMap.action_add_event("vnb_offline_feedback",shortcut)
+		var logical_shortcut := InputEventKey.new(); logical_shortcut.keycode=KEY_F8
+		InputMap.action_add_event("vnb_offline_feedback",logical_shortcut)
 	layer=CanvasLayer.new(); layer.layer=2000; layer.process_mode=Node.PROCESS_MODE_ALWAYS; add_child(layer)
 	toolbar=HBoxContainer.new(); toolbar.name="OfflineTesterToolbar"; layer.add_child(toolbar)
 	_button(toolbar,"现场反馈 · F8","Feedback · F8",open_panel)

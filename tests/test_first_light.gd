@@ -276,7 +276,7 @@ func window_lifecycle(host: Node) -> void:
 		await create_timer(0.08).timeout
 		check(light.elapsed > held, "Playback resumes after feedback without changing completion")
 		var blocker := AcceptDialog.new()
-		root.add_child(blocker); blocker.popup_centered(Vector2i(320, 160)); await settle()
+		dialog.add_child(blocker); blocker.popup_centered(Vector2i(320, 160)); await settle()
 		held = light.elapsed; await create_timer(0.12).timeout
 		check(not dialog.has_focus() and light.elapsed == held, "Another real Window pauses playback on focus loss")
 		blocker.queue_free(); await settle()

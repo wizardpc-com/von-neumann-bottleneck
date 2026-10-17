@@ -7,6 +7,7 @@ const Handbook = preload("res://src/ui/terminology_handbook.gd")
 const Reflection = preload("res://src/ui/theme_reflection.gd")
 const CreationSession = preload("res://experiments/creation/session.gd")
 const CandidateFiles = preload("res://experiments/candidate_session/files.gd")
+const WorkFocus = preload("res://experiments/creation/work_focus.gd")
 
 var rows: Array[Dictionary] = []
 var regions: Array[int] = []
@@ -26,6 +27,10 @@ var handbook: Handbook
 var reflection_dialog: AcceptDialog
 var saved_work_state: Dictionary = {}
 var core_records: Dictionary = {}
+var work_selector: OptionButton
+var work_view_button: Button
+var work_note: Label
+var work_focus: Window
 
 
 func _ready() -> void:
@@ -92,6 +97,18 @@ func _build() -> void:
 	detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail.add_theme_font_size_override("normal_font_size", 18)
 	scroll.add_child(detail)
+	var work_row := HBoxContainer.new()
+	work_row.add_theme_constant_override("separation", 12)
+	column.add_child(work_row)
+	work_selector = OptionButton.new()
+	work_selector.name = "JournalSavedWorks"
+	work_selector.fit_to_longest_item = false
+	work_selector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	work_selector.item_selected.connect(func(_index: int) -> void: _refresh_work_note())
+	work_row.add_child(work_selector)
+	work_view_button = _button(work_row, "JournalViewWork", _open_work)
+	work_note = _label(column, 14)
+	work_note.name = "JournalWorkScope"
 	var actions := HFlowContainer.new()
 	actions.add_theme_constant_override("h_separation", 12)
 	column.add_child(actions)
@@ -99,7 +116,7 @@ func _build() -> void:
 	help_button = _button(actions, "JournalHelp", _open_help)
 	reflection_button = _button(actions, "JournalReflection", _open_reflection)
 	close_button = _button(actions, "JournalClose", close)
-	var focus_order: Array[Control] = [region_selector, task_tree, enter_button, help_button, reflection_button, close_button]
+	var focus_order: Array[Control] = [region_selector, task_tree, work_selector, work_view_button, enter_button, help_button, reflection_button, close_button]
 	for index: int in range(focus_order.size()):
 		focus_order[index].focus_next = focus_order[index].get_path_to(focus_order[(index + 1) % focus_order.size()])
 		focus_order[index].focus_previous = focus_order[index].get_path_to(focus_order[(index - 1 + focus_order.size()) % focus_order.size()])
@@ -120,6 +137,7 @@ func open() -> void:
 func close() -> void:
 	if handbook.is_open(): handbook.close_handbook()
 	if is_instance_valid(reflection_dialog): reflection_dialog.queue_free()
+	if is_instance_valid(work_focus): work_focus.queue_free()
 	hide()
 	if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
 	previous_focus = null
@@ -128,6 +146,7 @@ func close() -> void:
 func _input(event: InputEvent) -> void:
 	if not visible or PlaytestData._feedback_visible or not event is InputEventKey or not event.pressed or event.echo: return
 	if is_instance_valid(reflection_dialog) and reflection_dialog.visible: return
+	if is_instance_valid(work_focus) and work_focus.visible: return
 	if event.keycode == KEY_ESCAPE:
 		if handbook.is_open():
 			handbook.close_handbook()
@@ -140,6 +159,7 @@ func _refresh() -> void:
 	rows = TaskNavigation.journey_tasks()
 	core_records = PersonalRecords.snapshot()
 	saved_work_state = CandidateFiles.read_session(CreationSession.launch_path(), CreationSession.decode)
+	_refresh_works()
 	title_label.text = _copy("旅程档案 · 回看自己的来路", "Journey journal · Revisit your work")
 	var done: int = 0
 	for row: Dictionary in rows:
@@ -249,7 +269,7 @@ func civilization_fragment(row: Dictionary) -> String:
 
 
 func work_summary() -> String:
-	var works: Array = saved_work_state.get("data", {}).get("works", []) if saved_work_state.get("ok", false) else saved_work_state.get("readonly_works", [])
+	var works: Array = _saved_works()
 	var heading: String = _copy("已保存作品（只读原快照）", "Saved works (original snapshots, read-only)")
 	if not saved_work_state.get("ok", false): heading += _copy("\n证据无法确认；只读可恢复作品不授予完成。", "\nEvidence is unconfirmed; readable recovery works grant no completion.")
 	if works.is_empty(): return heading + _copy("\n没有可确认的已保存作品。", "\nNo confirmed saved works.")
@@ -257,6 +277,81 @@ func work_summary() -> String:
 	for work: Dictionary in works:
 		lines.append(str(work.get("name", _copy("未命名作品", "Untitled work"))) + " · " + str(work.get("id", "")).left(12))
 	return "\n".join(lines)
+
+
+func _saved_works() -> Array:
+	return saved_work_state.get("data", {}).get("works", []) if saved_work_state.get("ok", false) else saved_work_state.get("readonly_works", [])
+
+
+func _refresh_works(selected_id: String = "") -> void:
+	if selected_id.is_empty() and work_selector.selected >= 0:
+		selected_id = str(work_selector.get_item_metadata(work_selector.selected))
+	work_selector.clear()
+	var recovery: bool = not saved_work_state.get("ok", false)
+	for work: Dictionary in _saved_works():
+		var prefix: String = _copy("只读恢复 · ", "Read-only recovery · ") if recovery else _copy("已保存 · ", "Saved · ")
+		work_selector.add_item(prefix + str(work.get("name", _copy("未命名作品", "Untitled work"))) + " · " + str(work.id).left(12))
+		work_selector.set_item_metadata(work_selector.item_count - 1, str(work.id))
+		if str(work.id) == selected_id: work_selector.select(work_selector.item_count - 1)
+	work_selector.disabled = work_selector.item_count == 0
+	work_view_button.disabled = work_selector.disabled
+	work_view_button.text = _copy("查看原快照", "View saved snapshot")
+	if work_selector.disabled:
+		work_selector.add_item(_copy("没有可查看的已保存作品", "No saved work is available"))
+	_refresh_work_note()
+
+
+func _refresh_work_note() -> void:
+	if work_view_button.disabled:
+		work_note.text = _copy("作品来源无法确认或尚未保存；这里不会补造作品或完成记录。", "No confirmed saved work is available; this view invents no work or completion.")
+	elif not saved_work_state.get("ok", false):
+		work_note.text = _copy("只读恢复快照 · 原支持证据不可确认；不授予完成，也没有生成回放证据。", "Read-only recovery snapshot · support evidence is unconfirmed; no completion or generation replay is supplied.")
+	else:
+		work_note.text = _copy("只看原输出、配方与来源 · 此入口没有生成回放证据，也不分叉修改。", "Review the saved output, recipe and source · no generation replay or editable fork is supplied here.")
+
+
+func _open_work() -> void:
+	if PlaytestData._feedback_visible or get_node("/root/OfflineFeedback").busy: return
+	if is_instance_valid(work_focus):
+		work_focus.popup()
+		return
+	if work_selector.disabled or work_selector.selected < 0: return
+	var selected_id: String = str(work_selector.get_item_metadata(work_selector.selected))
+	# Resolve against disk again, so an obsolete list never opens an old snapshot.
+	saved_work_state = CandidateFiles.read_session(CreationSession.launch_path(), CreationSession.decode)
+	_refresh_works(selected_id)
+	for work: Dictionary in _saved_works():
+		if str(work.id) != selected_id: continue
+		var exhibit := WorkFocus.new()
+		exhibit.name = "JournalWorkFocus"
+		exhibit.theme = theme
+		exhibit.reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion", false))
+		exhibit.configure(work.duplicate(true), _english(), {})
+		work_focus = exhibit
+		exhibit.request_feedback.connect(_open_work_feedback)
+		exhibit.tree_exited.connect(_work_closed, CONNECT_ONE_SHOT)
+		add_child(exhibit)
+		exhibit.fork_button.disabled = true
+		exhibit.close_button.text = _copy("返回旅程档案", "Back to journal")
+		if not saved_work_state.get("ok", false):
+			exhibit.title = _copy("只读恢复作品 · 原快照", "Read-only recovered work · original snapshot")
+		var provenance: Label = exhibit.make_label(work_note.text, exhibit.closing_label.get_parent(), 13)
+		provenance.name = "JournalWorkProvenance"
+		exhibit.popup_centered_clamped(Vector2i(1080, 620), 0.92)
+		return
+	work_note.text = _copy("作品或保存证据已经变化；请重新选择，档案保持打开。", "The work or its saved evidence has changed. Select it again; the journal stays open.")
+
+
+func _open_work_feedback() -> void:
+	if not is_instance_valid(work_focus): return
+	work_focus.call("pause_playback")
+	get_node("/root/PlaytestMoments").toggle()
+
+
+func _work_closed() -> void:
+	work_focus = null
+	if visible and not PlaytestData._feedback_visible and not work_view_button.disabled:
+		work_view_button.grab_focus()
 
 
 func region_title(row: Dictionary) -> String:

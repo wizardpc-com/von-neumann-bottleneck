@@ -1,10 +1,10 @@
 {
   "stage": "ACTIVE",
   "baseline_commit": "d6f594a843d5114fc4eb508916345eb0851e1015",
-  "source_checkpoint": "ec3aac94e54e32744bfaade0b7a1f93d745bafd6",
-  "source_authority": "Root fixed/pushed ec3; actual3-stage gate uses full5747 archive identity, selected709 materialized/copied exact,170canonical,0extraQA. No complete5747 physical materialization claim.",
+  "source_checkpoint": "157e3ef8f844de5a797aa4c7e13f3c3c4503b14d",
+  "source_authority": "Fixed157e renderer receipts use its gitarchive and709non-doc selectedfiles. F3 live2files and subsequent1line FirstLight testfix are frozen for independent review, not covered by these fixed157e results.",
   "branch": "codex/creative-framework-20261018",
-  "evidence_grade": "ec3 canonicalpalette61+import/userdir3/3PASS. ActualFirstLight rendererFAIL_SCRIPT_ERROR after12partialframes; oldtutorialhost lifecycle testfixed in workingtestonly, newfixedsource/result pending. Wholeintegration/full/package/native notaccepted.",
+  "evidence_grade": "Fixed157e Yi208+Palette129 actualrendererPASS/24frames; FirstLight173assertions selfreportPASS but strictFAIL2engineERROR illegal siblingWindow testfixture. One-line nestedWindow testfix frozen, notrun. F3 source/test frozen, unrun. Full/newpackage/native notaccepted.",
   "scope": [
     "optional first-light retrospective inside existing ThemeReflection",
     "one static replaceable abstract candidate image inside existing introduction",
@@ -43,7 +43,7 @@
   "current_gates": {
     "source_review": "PASS_STATIC_SCOPE",
     "import_and_targeted_runtime": "PASS_SCOPED ec3 changedPalette61+import/userdir3/3/exit0. Previous7759 canonical5stage4/5FAIL and remote171stage170/1FAIL retained.",
-    "renderer_languages_and_sizes": "FAIL ec3 FirstLight SCRIPTERROR@214 after12fixtureframes. Workingtestonly current_scene fixfrozenforreview; lifecycle/F8/finalprotection notrun; Yi/palette actualrenderer notrun.",
+    "renderer_languages_and_sizes": "PARTIAL_COMPONENT_PASS: fixed157e Yi208/12PNG andPalette129/12PNG strictPASS. FirstLight strictFAIL2engineERROR; legal-childWindow testfix pendingnewfixedrun. No wholeF2PASS.",
     "new_exported_packages": "NOT_RUN",
     "new_native_os": "NOT_RUN",
     "human_comprehension": "NOT_RUN"
@@ -632,19 +632,19 @@
   "component_gates": {
     "FirstLight": {
       "headless": "PASS91 at9a2 and7759 fixed sources",
-      "current_renderer": "FAIL_SCRIPT_ERROR_ec3; partial12frames only; currenttestfix_NOT_RUN",
-      "scope": "Main6cases fixedentry/build pressurefixture. Actualframes independently viewed byVisual. Lifecycle actualJournal/F8 and finalprotection/nav checks not reached; cannot accept wholesuite.",
+      "current_renderer": "FAIL_STRICT157e: selfreport173PASS but2engineERROR; nestedWindow testfixNOT_RUN",
+      "scope": "Main6cases usefixedentry/build stressfixture. Twoillegalmodal testerrors invalidate suite despite allassertselfreport; no wholeacceptance. Testonlylegalchildfix doesnotchangeproduct.",
       "fixture_boundary": "Main6cases use fixed entry/build text fixture; actual Journal lifecycle uses production milestones. No CPU completion claim."
     },
     "Yi_media": {
       "headless": "PASS184 at a6 and7759",
-      "current_renderer": "NOT_RUN pipeline stopped at FirstLight script error"
+      "current_renderer": "PASS208 fixed157e;12actualPNG,0ERROR/exit0; independentimageviewpending"
     },
     "palette_integration": {
       "current": "PASS ec3 canonical61 plus import/userdir3/3; formal rendered pair matrix pending",
-      "formal_frame_matrix": "NOT_RUN"
+      "formal_frame_matrix": "PASS129 fixed157e;12actualdark/lightPNG,0ERROR/exit0; independentimageviewpending"
     },
-    "whole_stage": "NOT_ACCEPTED; actualrenderer lifecycle scriptblocker, full/packages stillclosed"
+    "whole_stage": "NOT_ACCEPTED; FirstLight strictfixtureerror andpendingnewF3 integration/full/packages"
   },
   "first_light_fixture_provenance": {
     "main_six_locale_size_cases": "tests/test_first_light.gd open_reflection fixes keys [theme.entry, theme.build] for narrative-height/gate stress. Tutorial is genuinely completed by controller and protected CPG work genuinely generated, but theme.build is an extra fixture paragraph, not proof of a completed CPU milestone.",
@@ -841,5 +841,285 @@
     "CR_count": 0,
     "status": "FROZEN_FOR_NARRATIVE_STATIC_REVIEW; NOT_RUN",
     "change": "Before renderer lifecycle reacquire actualcurrent_scene and assertvalid/inside_tree/notqueued; failfastquit1 if absent; invoke same lifecycle on activehost. No reentry, progression mutation, production change or removed originalassertions."
+  },
+  "previous_source_checkpoint_ec3": "ec3aac94e54e32744bfaade0b7a1f93d745bafd6",
+  "rendered_157e_first_light_strict_failure": {
+    "source_commit": "157e3ef8f844de5a797aa4c7e13f3c3c4503b14d",
+    "receipt": ".godot/f2-rendered/b29f5323941d/test_first_light/receipt.json",
+    "receipt_sha256": "6f12cad9d30224759f7c302eac995ae1e6b9b6e330d073f8d3945d7fac3bc0cc",
+    "raw_log": ".godot/f2-rendered/b29f5323941d/test_first_light/renderer.log",
+    "raw_log_sha256": "6bd2fc0b45780090f80171c0db4cdec10ec5e4842febf9e97073677d4d06ed0d",
+    "passed": false,
+    "process_exit": 0,
+    "pid": 43812,
+    "owned_early_termination": "",
+    "canonical_assertion_self_report": "PASS173",
+    "engine_errors": 2,
+    "strict_result": "FAIL: no error filtering; process0 and assertionPASS do not override engineERROR",
+    "actual_fault": "Test lifecycle creates AcceptDialog sibling underroot while Reflection is alreadyexclusive. Illegal siblingmodal engineERROR atwindow_lifecycle279 twice, one perchannel. Productbehavior not assigned asrootcause.",
+    "frames": [
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/en-1280-playing.png",
+        "sha256": "95598f92cdb5d61d792ef66420c873e0a06a70f68899aca623aa9b84e1389a5d"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/en-1280-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/en-1440-playing.png",
+        "sha256": "f082da499cde1dbc24e27249d38b2bd93ff434b0892c40607f6d3f56cebf78fc"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/en-1440-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/en-1920-playing.png",
+        "sha256": "f082da499cde1dbc24e27249d38b2bd93ff434b0892c40607f6d3f56cebf78fc"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/en-1920-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/zh_CN-1280-playing.png",
+        "sha256": "141cf37d452315a05470dbc2941dc86c790ad6632f6995aa77ca136e2c188a51"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/zh_CN-1280-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/zh_CN-1440-playing.png",
+        "sha256": "76e1f7d72efe9b13668ac0a817b655324875f0177e03c9f3a4db74425943b4b0"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/zh_CN-1440-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/zh_CN-1920-playing.png",
+        "sha256": "76e1f7d72efe9b13668ac0a817b655324875f0177e03c9f3a4db74425943b4b0"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/first-light-captures/zh_CN-1920-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/offline_playtest/cases/39955c25d8cfe35b1dd184bee1acb6c9/screenshot.png",
+        "sha256": "f116292c485c8a444f6a9e1f583b3bdeb0752ee0835f3e6c41f447b7db6464d4"
+      },
+      {
+        "path": ".godot/f2-rendered/b29f5323941d/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-b29f5323941d/test_first_light/offline_playtest/cases/96363aeb2ccafdf9c232671a3d935c28/screenshot.png",
+        "sha256": "ca7a7cefe3b33ce9628c9c012b74e4a1616d1a85556a111fb7ffd1fad9a864e3"
+      }
+    ],
+    "source_test_sha256": "dd6bdc294d58fb4043ae103ea0c8b0fc260d8b8b2488f2a4915cf26555dc5c22",
+    "whole_stage_accepted": false
+  },
+  "first_light_modal_fixture_fix": {
+    "file": "tests/test_first_light.gd",
+    "sha256": "f2a88d7fa962bf5bdb080990a11a00f8b27e70073624d9052ec323c8360728e2",
+    "delta": "Only root.add_child(blocker) -> dialog.add_child(blocker), legal nested exclusiveWindow. Existingfocus-loss/pause/destruction and ERROR acceptance unchanged.",
+    "status": "FROZEN_STATIC_REVIEW_PENDING; NOT_RUN",
+    "CR_count": 0
+  },
+  "rendered_157e_independent_components": {
+    "source_commit": "157e3ef8f844de5a797aa4c7e13f3c3c4503b14d",
+    "raw_results": ".godot/f2-rendered/5bddc172f5ae/results.json",
+    "raw_results_sha256": "acf01c99ec5691d0da454c84d2e38843794a646dad3f38ab92af9c163ed429fe",
+    "case_count": 2,
+    "passed": 2,
+    "cases": [
+      {
+        "test": "test_yi_introduction_media",
+        "checks": 208,
+        "receipt": ".godot/f2-rendered/5bddc172f5ae/test_yi_introduction_media/receipt.json",
+        "receipt_sha256": "b2eb4f60a2b35e1689d71505826bf3a910abb4208fdb0f19ade0fc78b38200b5",
+        "raw_log": ".godot/f2-rendered/5bddc172f5ae/test_yi_introduction_media/renderer.log",
+        "raw_log_sha256": "7df8d44dd4fb328e652521a8d22552540521d1045fbfaacee492b3765ffad749",
+        "passed": true,
+        "exit": 0,
+        "pid": 47472,
+        "engine_errors": 0,
+        "owned_early_termination": 0,
+        "frames": [
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/en-1280x720-media.png",
+            "sha256": "341b508236ef7ad5a9b930a1ee9d8742c08ed899c5ff8f11e83dc634b8842009",
+            "bytes": 144414
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/en-1280x720-missing.png",
+            "sha256": "3f0160a53162d493007622a08ec7d9f60ee56eab8e556c095816a0b57e24a8b0",
+            "bytes": 137858
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/en-1440x900-media.png",
+            "sha256": "f5ad35c05a2714683ca18e4b60a9df6c7d3a7e53b41862b94232353a1c299e5e",
+            "bytes": 159936
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/en-1440x900-missing.png",
+            "sha256": "860d7b2fb515c7a05af29ab0c90a2bb7d8490488206efdeb285a0c4237544c44",
+            "bytes": 155396
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/en-1920x1080-media.png",
+            "sha256": "73be978c4ff8507b0bd2c526d1779c0d5ed68f311ac7e20777b826d956e38949",
+            "bytes": 180441
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/en-1920x1080-missing.png",
+            "sha256": "2ec4305512ecd457ca85e5435c06aa0afa4a8517b59997e7d827b7d0fca62d94",
+            "bytes": 174771
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/zh_CN-1280x720-media.png",
+            "sha256": "98eb711f271c1b3f1194eeb23eb3a915fec5f3fd6c85c9c2205eaa4230aaa78e",
+            "bytes": 144342
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/zh_CN-1280x720-missing.png",
+            "sha256": "d8d1b99013afbd5c2bf474617a98e9f4ce3081bc4d3553c6e649aeb65f139fec",
+            "bytes": 139033
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/zh_CN-1440x900-media.png",
+            "sha256": "d38ba578e8eebf858c93ce205764a95654bf238a4f87261b451694afa904dfc7",
+            "bytes": 161286
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/zh_CN-1440x900-missing.png",
+            "sha256": "b1caf7b79f2ac1de8cdf2b504de3e1609b04e662460a38079d1fdfebab9a9f80",
+            "bytes": 155592
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/zh_CN-1920x1080-media.png",
+            "sha256": "ac26ff26f115a37e5907b55d75665b2c0dec17513f9f2a17ef43db549e2f0ab0",
+            "bytes": 180738
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/yi-introduction-captures/zh_CN-1920x1080-missing.png",
+            "sha256": "ef5dc613dd44f0971ae587f6404bfcf93e29bde48537fe705997113c12c2a4eb",
+            "bytes": 175159
+          }
+        ],
+        "additional_artifacts": [],
+        "source_test_sha256": "f9501577c3f77641b21affda699305f7b879b340ed783fd25244d1078a96d039",
+        "helper_sha256": "726a624e5694330ea6737b5198bc65647ba9c2b5a5969da43123ebf0cb275f3e",
+        "selected_source_files": 709,
+        "full_archive_sha256": "d923190d014cb777248e8596e9d7b5678c3587e8bfb466547df7a93d5692ba5f"
+      },
+      {
+        "test": "test_workbench_palette_comparison",
+        "checks": 129,
+        "receipt": ".godot/f2-rendered/5bddc172f5ae/test_workbench_palette_comparison/receipt.json",
+        "receipt_sha256": "b08d604fcdd7ee8090875a04197f1ad34c522a36c5cba7ea863b38e942389373",
+        "raw_log": ".godot/f2-rendered/5bddc172f5ae/test_workbench_palette_comparison/renderer.log",
+        "raw_log_sha256": "9c2c4a33053bfbc76f34d17c74ca3597d11a2fd4ab686271e9c2d973cabf1de1",
+        "passed": true,
+        "exit": 0,
+        "pid": 35120,
+        "engine_errors": 0,
+        "owned_early_termination": 0,
+        "frames": [
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-en-1280x720-dark.png",
+            "sha256": "a719499958c9ca149e0d2f6067006e2945e2c2325048b547896dabc32700529a",
+            "bytes": 140984
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-en-1280x720-light-candidate.png",
+            "sha256": "57f06b9aa138224fa037aadd6181d591b4028f2432170d08dcff531233ec5570",
+            "bytes": 140688
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-en-1440x900-dark.png",
+            "sha256": "32ee2921e32a54fd8a961143b89ab4e1bd11d08820f8b5e65e97354251810a6a",
+            "bytes": 152427
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-en-1440x900-light-candidate.png",
+            "sha256": "2c4602d590638872625bde9236d8978cc3ed3aa6791a4c82bd69a1edf9da6e97",
+            "bytes": 151614
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-en-1920x1080-dark.png",
+            "sha256": "2098cbb604bcaee313af3ef3798ba9a6a63cac4e9abca67136a11c9526d0ad66",
+            "bytes": 164978
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-en-1920x1080-light-candidate.png",
+            "sha256": "59003cf6747d7faa45e41915aacacd2c697ac1be707c79ca51bd32ae0edda348",
+            "bytes": 164241
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1280x720-dark.png",
+            "sha256": "22ff53469bd78e682ee78769950dca5528d3d81729a1b5d9b088efd72ec76db3",
+            "bytes": 149389
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1280x720-light-candidate.png",
+            "sha256": "e22ec675a04c15c9f25a8d3f4c347a5e1b99cebb6c8bf381e676e6108e4bf112",
+            "bytes": 149394
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1440x900-dark.png",
+            "sha256": "0205dd2cda9438465d7c68e9c823959cfeb975e9a51fe8fafd40a41e5eab61c3",
+            "bytes": 161123
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1440x900-light-candidate.png",
+            "sha256": "6c23155e77ce78eb2b1aa47939bb697275fd9971536f4a033c316c54d471e564",
+            "bytes": 161188
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1920x1080-dark.png",
+            "sha256": "117bcfb805f9954e989a37a471d519008025fc78c2d88d4f99c3a6008040d656",
+            "bytes": 174383
+          },
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1920x1080-light-candidate.png",
+            "sha256": "44600a78479255820df118da79337390d9a9389d0015b5eb39e3e7982f627f74",
+            "bytes": 174313
+          }
+        ],
+        "additional_artifacts": [
+          {
+            "path": ".godot/verification/20261017T224620Z-d6f0a19a/project/.godot/workbench-palette-captures/receipt.json",
+            "sha256": "9183e1d19ea761e874f07cddbef195458e48b2767408e0370bdb9eac2d2f8bd2"
+          }
+        ],
+        "source_test_sha256": "e9e14ca11ba1b69bd940ccfdeae444f694a98689329b4f074a26bba45f2bdfc2",
+        "helper_sha256": "726a624e5694330ea6737b5198bc65647ba9c2b5a5969da43123ebf0cb275f3e",
+        "selected_source_files": 709,
+        "full_archive_sha256": "d923190d014cb777248e8596e9d7b5678c3587e8bfb466547df7a93d5692ba5f"
+      }
+    ],
+    "independent_receipt_and_frame_hash_audit": "Knowledge recomputed2receipts/logs,24PNG andpairreceiptSHA. Actual imageview/curation belongs to Visual and pending separately. No reviewerengine launched.",
+    "grade": "Actual renderer canonical controller/Input/signals, noOS/native or newcomer claim; doesnotaccept FirstLight orwholeF2."
+  },
+  "remote_ci_root_verified_latest": {
+    "verifier": "Root livegh (not independently downloaded by Knowledge)",
+    "ec3": {
+      "source": "ec3aac94e54e32744bfaade0b7a1f93d745bafd6",
+      "runs": [
+        39075618045,
+        39075614200
+      ],
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "157e_at_notice": {
+      "source": "157e3ef8f844de5a797aa4c7e13f3c3c4503b14d",
+      "runs": [
+        39076337424,
+        39076332759
+      ],
+      "status": "in_progress"
+    },
+    "scope": "Remoteheadless regression cannot substitute for strict renderer errors."
   }
 }

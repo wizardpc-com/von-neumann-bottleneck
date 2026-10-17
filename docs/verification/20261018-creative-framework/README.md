@@ -6,13 +6,11 @@
 
 ## 当前Gate
 
-- **当前固定SOURCE为`ec3aac94e54e32744bfaade0b7a1f93d745bafd6`**：palette仅三行语言构建前置归一化，原61断言保留；新palette61+import/userdir实际3/3 PASS、exit0，3owned正常退出。首个FirstLight真实renderer在12帧后SCRIPT ERROR/exit1，后半生命周期、最终保护断言及Yi/palette renderer/full未执行；仅测试current_scene窄修已冻结待独审，整轮/full/打包仍关闭。
-- **前一固定整合SOURCE为`7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4`**。仅docs/不物化适配已独审并执行：full5747身份保留、selected709/709物化/拷贝exact，170canonical/0extras。3新suite+import/userdir实际5阶段4 PASS/1 FAIL、exit1：FirstLight91/Yi184通过，palette61仍一项EN720精确控件比较失败。该轮真实renderer/full按门禁停止；ec3后续执行单列。
-- **前一修复SOURCE为`9a2e724c58eb9854a2178545bae5c2d7bb939c7a`**，FirstLight揭示/捕获优先窄修经独立源审；固定新archive的FirstLight91/Journal162/ThemeReflection+import/userdir共5阶段实际全PASS/exit0，无owned提前终止。真实自动揭示/反馈忙碌捕获/窗口生命周期仍明确NOT_RUN，不把headless作为实际演出验收。
-- 三组实现已分别冻结并交叉源审；第一束光的非null空Texture除零缺口已修为正尺寸才绘图，否则程序回退。
-- **a6c6固定源首轮15阶段实际13 PASS/2 FAIL、exit1**，无owned提前终止。FirstLight91项/12裁剪失败；palette61项/13可达或几何失败；Yi媒体184项、其余旧suite及import/userdir通过。两失败原样保留为历史检查点；不将后续修复覆盖原回执。当前Narrative持唯一引擎，其他作者不发动引擎。
-- F1固定SOURCE8334两包及限定OS结果保留原身份；不借其168同runtime或实际包证据认证本阶段新演出/素材。
-- 本阶段与完整goal保持active；正式CG/人物/声音/互相冲突的结局与陌生玩家理解仍须分别处理，不擅自替团队定稿。
+- **最新实际组件SOURCE为`157e3ef8f844de5a797aa4c7e13f3c3c4503b14d`**：独立Yi媒体208检查/12帧与palette129检查/12深浅帧实际renderer严格PASS、自然exit0、0ERROR，逐receipt/log/24PNG hash已独立核。实际图审由Visual另列；不借此认证FirstLight。
+- **FirstLight严格门禁仍FAIL**：157e真实renderer虽173断言自报PASS/自然exit0，测试在已exclusive Reflection外向root另加sibling AcceptDialog，产生2条engineERROR。原严格监督器保留FAIL。仅测试的一行合法子Window修已冻结待新fixedsource实测，未过滤ERROR或删失焦/暂停断言。
+- ec3 palette61+import/userdir原3/3 PASS，及9a2 FirstLight91/Journal162/Theme等5/5 headless PASS保留原身份；7759正式5阶段4/5 FAIL与两远端171阶段170/1 FAIL亦保留。
+- 本轮整合/full与新包尚未通过；F3 Journal原作品入口为下一固定整合源码，不能由上述157e旧copy认证。F1 SOURCE8334两包与限定OS证据仍只属于旧包。
+- 本阶段与完整goal保持active；正式CG/人物/声音/互相冲突结局与陌生玩家理解仍须分别处理，不擅自替团队定稿。
 
 ## 已落盘行为与独立审查
 
@@ -130,3 +128,12 @@ ec3只将每种语言构建前的root尺寸/content scale固定到1280×720并�
 12张主fixture帧均已保存且独立逐SHA核receipt，Visual实际view确认Play后canvas/正确NOT1→0暗灯/完整字幕/Skip在原弹窗内；它们不是CPU真实解锁证据，也不使整个suite通过。后半真实Journal/F8/销毁、最终文件与导航保护断言尚未执行，Yi/palette实际renderer及full未运行。原日志/receipt与全部帧hash见checks；无OS输入声称。
 
 仅测试的后续窄修重取当前真实`current_scene`，显式核有效、已入树、未queued-free再挂Journal；否则断言失败并退出。保留所有原生命周期与保护断言，不reenter、不改进度或生产源码。修正尚待新固定身份实测，旧ec3失败原样保留。
+
+
+## 157e实际渲染：独立组件通过与FirstLight严格失败
+
+`f2-rendered/5bddc172f5ae/results.json` SHA `acf01c99ec5691d0da454c84d2e38843794a646dad3f38ab92af9c163ed429fe`含Yi208/12PNG和palette129/12PNG两个独立组件PASS，均自然exit0、无ERROR或提前终止。全部24帧与额外pair receipt已逐hash核原收据；图审结论待Visual实际view另列。它们来自157e固定copy，未混入实时F3源码。
+
+`f2-rendered/b29f5323941d/test_first_light`是不同的失败：进程自然exit0且173断言自报PASS，但原日志包含2条非法sibling exclusive Window错误，严格门禁仍FAIL。测试在Reflection仍exclusive时把失焦blocker挂root，故两channel各报一次；仅测试的一行窄修把blocker挂实际Reflection内作为合法modal子Window。全部原失焦/暂停/销毁断言及engineERROR验收标准不变，修正需新固定来源实跑。旧ec3 freed-host SCRIPT ERROR与更早失败不改判。
+
+Root另live核ec3远端CI39075618045/39075614200完成SUCCESS；157e两CI39076337424/39076332759通知时仍进行中。该remoteheadless范围不能覆盖真实renderer错误或新F3源码。

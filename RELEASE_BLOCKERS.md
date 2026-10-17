@@ -7,9 +7,11 @@ These are remaining acceptance requirements, not instructions to add features.
 
 The new offline teammate Windows candidate freezes `4df5bad46751`. All sixty
 entrances and the final-only two-play screenshot/context ZIP acceptance passed.
-It uses `OfflineTeammate`, has no receiver and can be privately distributed for
-controlled testing without waiting for the cloud domain. The earlier online
-draft remains unpublished. [Offline candidate evidence](docs/verification/20261017-offline-teammate/README.md).
+It uses `OfflineTeammate`, has no receiver and can be distributed for
+controlled testing without waiting for the cloud domain. The owner authorized
+publication of [offline Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1);
+it is published. The earlier online draft remains unpublished.
+[Offline candidate evidence](docs/verification/20261017-offline-teammate/README.md).
 
 Protected PR7 merged as `94b5bff`; main contains the complete sixty-task journey.
 PR8 integrates feedback operations and a Windows Release draft. The owner explicitly

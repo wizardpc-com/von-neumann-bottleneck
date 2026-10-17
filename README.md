@@ -6,9 +6,9 @@
 
 一款关于计算机与数据流的构建解谜游戏。从逻辑门、寄存器到自己的小计算机，再探索缓存、缓冲、预取与数据布局。接出电路，观察运行，比较结果，寻找自己的解法。
 
-**已发布 Alpha：五个区域 · 40 个任务 · 离线单机 · 中英文界面**
+**当前 Windows 试玩：60 个任务全入口 · 完全离线 · 截图与现场反馈 · 中英文界面**
 
-**[⬇️ 下载公开 Alpha v0.5.0-alpha.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)** · Windows · macOS · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ 下载 Windows 离线试玩 Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [旧版 Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **关键词：** 计算机体系结构 · 数据搬运 · 缓存与局部性 · 缓冲与预取 · 内存布局 · 教育解谜
 
@@ -16,11 +16,11 @@
 
 *第四章「两全之策」：同一份数据，两种查询需求。调整布局与分批，比较真实搬运成本。[截图来源与运行数值](docs/images/readme/layout-manifest.json)。*
 
-**已发布版本（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建；本页上方的下载链接仍指向这个冻结版本。
+**旧版 Alpha（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建。最新 Windows 离线试玩为 `v0.5.0-alpha.3-offline.1`；本轮未提供新版 Mac 包。
 
-**当前源码（2026-10-17）：** PR #7 已并入 `main`。完整旅程保留原核心 40 个任务，并加入表示 5 个、服务 3 个、可选地址预测 3 个，以及「压缩 → 内容预测 → 创造」9 个，共 60 个候选任务；可选内容不提高原主线门槛。玩家可以用同一学习模型复原、预测，再生成并保存自己的光纹作品。Mac / Windows 同源候选包已冻结，Windows 代表性原生操作已验收；Windows Pre-release 保留为草稿，待域名就绪再公开，尚未替换上方的公开 Alpha 下载。候选包默认离线，反馈可本机保存或导出；私有 HTTPS 测试不等于公网玩家收集。[当前状态与验证边界](docs/CURRENT_STATE.md) · [最新候选验收记录](docs/verification/20261017-feedback-release/README.md)。
+**当前源码（2026-10-17）：** PR #7 已并入 `main`。完整旅程保留原核心40个任务，并加入表示5个、服务3个、可选地址预测3个，以及「压缩 → 内容预测 → 创造」9个，共60个任务；可选内容不提高原主线门槛。玩家可以用同一学习模型复原、预测，再生成并保存自己的光纹作品。本轮 Windows 离线测试版已公开，全部任务入口开放；离线反馈改动在 PR #10，尚未合并。本轮未更新 Mac 包。此前的联网 Windows 草稿继续等待域名，未启用公网收集。[当前状态与验证边界](docs/CURRENT_STATE.md) · [离线试玩验收记录](docs/verification/20261017-offline-teammate/README.md)。
 
-[下载 Alpha](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+[下载试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 **离线队友试玩版（Windows）：** 最新候选 `4df5bad46751` 开放全部60个任务入口；随时按 F8 或点“现场反馈”，自动保留游戏截图、当前方案与运行现场，文字自动保存。多次退出重启后，最后导出一个 ZIP 即可交给维护者集中查看。独立测试存档，无需账号或网络。[试玩说明](distribution/OFFLINE-PLAYTEST-README.txt) · [集中导入与分析](distribution/OFFLINE-MAINTAINER.txt) · [固定版本与验收](docs/verification/20261017-offline-teammate/README.md)。
 
@@ -68,7 +68,7 @@
 
 ## 开始游玩
 
-**最简单的方式：** 前往 [`v0.5.0-alpha.1` Release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)，下载对应平台 ZIP，解压后直接运行。
+**Windows 最新试玩：** 前往[离线 Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，下载 ZIP，完整解压后运行 `Windows/Von-Neumann-Bottleneck.exe`。Mac 可使用[旧版 Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)，其中不含本轮离线反馈系统。
 
 [公开 Alpha 第一次游玩指引](docs/distribution/astra-challenge/quickstart.zh-CN.md) · [2026 年 9 月参赛准备（历史资料）](docs/distribution/astra-challenge/README.md)
 
@@ -93,7 +93,7 @@ godot --path . -- --locale=en
 
 ### 公开 Alpha 与平台
 
-本页目前提供的公开下载是 **`v0.5.0-alpha.1`**：[查看 Release 与下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)。Mac 与 Windows 包来自同一冻结提交，并附带构建清单与哈希。完整旅程 Windows Pre-release 仅保留维护者草稿，尚未公开。
+最新公开 Windows 试玩是[离线 Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，固定源码 `4df5bad46751`，附构建清单与哈希。此前联网草稿仍未公开；[旧版 Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) 保留原 Windows/Mac 同源冻结包。
 
 Mac 解压后打开 `.app`，Windows 解压后运行 `.exe`，无需另外安装 Godot。当前 macOS 构建为 ad-hoc 签名、未公证；Windows 构建已发布，但原生实机验证仍相对有限。Alpha 阶段仍可能存在平台兼容性问题，欢迎通过 GitHub Issues 反馈。
 

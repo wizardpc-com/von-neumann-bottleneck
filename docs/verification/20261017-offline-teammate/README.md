@@ -31,10 +31,16 @@ The matching Godot 4.7.1 Windows release template, archive inventory, packaged
 tools/notes and build/source identity passed `check-candidate-identity.py`.
 [Package manifest](candidate-manifest.json) · [Runtime receipt](runtime-receipt.json).
 
-GitHub prerelease `v0.5.0-alpha.3-offline.1` is a separate **unpublished draft**,
-release ID415782806. All three uploaded asset sizes/digests match their local
-files. The owner can find it in [Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases);
-drafts are not teammate download links. [Draft receipt](draft-receipt.json).
+GitHub [Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)
+was **published with explicit owner authorization** at2026-10-17T12:19:19Z,
+release ID415782806. Its source and all three uploaded asset sizes/digests match
+the tested files. [Published receipt](release-receipt.json).
+An ordinary HTTPS download with no GitHub credentials returned200 and matched
+all57,451,365 bytes and the frozen ZIP SHA-256. [Download receipt](download-receipt.json).
+The [earlier draft receipt](draft-receipt.json) records the pre-publication state.
+The separate online Alpha2 draft remains unpublished. This offline package's
+`public_release=false` keeps the builder's network-public-playtest profile
+disabled; GitHub publication does not enable a receiver or alter the tested ZIP.
 
 ## Verification and limits
 

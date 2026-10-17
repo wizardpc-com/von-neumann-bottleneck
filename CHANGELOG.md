@@ -6,6 +6,8 @@
 
 ### 2026-10-17 · 离线队友试玩反馈
 
+已发布 [Windows Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，固定源码 `4df5bad46751`，无联网反馈入口。
+
 - Windows测试者候选开放全部60任务入口；临时参考组件保留标记，不能授予真实通关或封装成果。
 - 全局F8/反馈按钮记录游戏截图、未保存方案、运行与操作现场；意见自动保存并跨重启保留。
 - 最后一次导出一个经过哈希核验的ZIP，包含多次试玩的反馈、现场、会话与存档副本，保留本机原件。
@@ -96,6 +98,8 @@ README 改为中文首页与独立英文页，更新五区域介绍、运行方�
 ## English
 
 ### 2026-10-17 · Offline teammate feedback
+
+Published [Windows Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1), fixed source `4df5bad46751`, with no network receiver.
 
 - The Windows tester candidate opens all sixty task entrances with marked temporary hardware references and honest earned completion.
 - Global F8/button capture retains game screenshots, unsaved designs, run context and autosaved notes across restarts.

@@ -72,6 +72,9 @@ remote baseline before implementation.
 - Created separate unpublished draft `v0.5.0-alpha.3-offline.1`, ID415782806;
   all three remote asset digests match. Old draft and public Alpha remain intact.
   [Final identity and verification](../../verification/20261017-offline-teammate/README.md).
+- The owner subsequently explicitly authorized publication. The same tested ZIP
+  was published as that offline Windows Pre-release at2026-10-17T12:19:19Z,
+  without enabling any public receiver. The earlier online draft stays private.
 
 ## Limits
 

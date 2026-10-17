@@ -1,0 +1,32 @@
+{
+  "release_id": 415782806,
+  "tag": "v0.5.0-alpha.3-offline.1",
+  "target_commit": "4df5bad46751cbd0a4eb884c87a9be9a169bcd57",
+  "draft": false,
+  "prerelease": true,
+  "published_at": "2026-10-17T12:19:19Z",
+  "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1",
+  "assets": [
+    {
+      "name": "manifest.json",
+      "bytes": 3513,
+      "digest": "sha256:9a187156974e047fddd8d9f93825a4b02fd997c71078f0093ff9f34a299670f3",
+      "state": "uploaded",
+      "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases/download/v0.5.0-alpha.3-offline.1/manifest.json"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 229,
+      "digest": "sha256:0e15ca320ab9cf01bbba44ba93943dba7a8b01eab3b70750ef37a0186bb3af7e",
+      "state": "uploaded",
+      "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases/download/v0.5.0-alpha.3-offline.1/SHA256SUMS.txt"
+    },
+    {
+      "name": "Von-Neumann-Bottleneck-Windows-playtest-OfflineTeammate20261017-4df5bad46751.zip",
+      "bytes": 57451365,
+      "digest": "sha256:37137e45a82d5036c9e8ca831089a0621ab846b0c3d8baa2e89230faeb43c8c1",
+      "state": "uploaded",
+      "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/releases/download/v0.5.0-alpha.3-offline.1/Von-Neumann-Bottleneck-Windows-playtest-OfflineTeammate20261017-4df5bad46751.zip"
+    }
+  ]
+}

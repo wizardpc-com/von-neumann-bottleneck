@@ -6,6 +6,9 @@
 
 The latest Windows teammate candidate is
 `playtest-OfflineTeammate20261017-4df5bad46751`, frozen at `4df5bad46751`.
+[Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)
+was published with the owner's explicit authorization on2026-10-17. Its tag points
+to the tested source; all three asset digests match. PR10 remains unmerged.
 It opens all sixty task entrances in the separate `OfflineTeammate` profile.
 Global feedback saves a game screenshot and live context, autosaves notes and
 exports all plays in one verified ZIP. The included Python tools consolidate

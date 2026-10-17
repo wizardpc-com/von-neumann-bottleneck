@@ -1,5 +1,11 @@
 # Execution queue
 
+The [saved-work review round](saved-work-review-20261018.md) is **active** on
+`codex/saved-work-review-20261018`, based on the pushed F2 checkpoint157e3ef.
+It connects the journal to the original saved-work snapshot without generating,
+replaying or rewriting it. F2 rendering and this round retain separate gates;
+the final Windows package pair will verify their integrated source.
+
 The [replaceable creative presentation round](creative-framework-20261018.md) is
 **active**, based on the frozen full-journey checkpoint. It adds optional earned
 first-light presentation and concrete media replacement slots, and prepares a

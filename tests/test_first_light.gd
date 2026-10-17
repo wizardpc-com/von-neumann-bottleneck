@@ -211,7 +211,14 @@ func run() -> void:
 			dialog.queue_free(); await settle()
 		check(protected_files() == before and state() == before_state, "Both configure orders, replay and language/size changes preserve original profiles and work bytes")
 	if DisplayServer.get_name() != "headless":
-		await window_lifecycle(host)
+		# Changing game mode returns the tutorial to the real map scene.
+		var lifecycle_host: Node = current_scene
+		var host_ready: bool = is_instance_valid(lifecycle_host) and lifecycle_host.is_inside_tree() and not lifecycle_host.is_queued_for_deletion()
+		check(host_ready, "Journal lifecycle uses the current real scene after mode navigation")
+		if not host_ready:
+			quit(1)
+			return
+		await window_lifecycle(lifecycle_host)
 		var departing: Variant = await open_reflection()
 		departing.first_light.play_button.grab_focus()
 		departing.first_light.play_button.pressed.emit()

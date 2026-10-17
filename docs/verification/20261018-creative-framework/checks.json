@@ -1,10 +1,10 @@
 {
   "stage": "ACTIVE",
   "baseline_commit": "d6f594a843d5114fc4eb508916345eb0851e1015",
-  "source_checkpoint": "9a2e724c58eb9854a2178545bae5c2d7bb939c7a",
-  "source_authority": "Fixed9a2 archive/copy5745/5745 exact bytes,0extra QA, actual5/5 targeted headlessPASS/exit0 with owned children all normal. Originala6 15stage13/2FAIL and old diagnostic sources remain separate.",
+  "source_checkpoint": "ec3aac94e54e32744bfaade0b7a1f93d745bafd6",
+  "source_authority": "Root fixed/pushed ec3; actual3-stage gate uses full5747 archive identity, selected709 materialized/copied exact,170canonical,0extraQA. No complete5747 physical materialization claim.",
   "branch": "codex/creative-framework-20261018",
-  "evidence_grade": "Current9a2 scoped headless5/5PASS only; earliera6 selected-case renderer established a reveal gap. Current-source rendered matrix, new exported package and native acceptance are not yet run.",
+  "evidence_grade": "ec3 canonicalpalette61+import/userdir3/3PASS. ActualFirstLight rendererFAIL_SCRIPT_ERROR after12partialframes; oldtutorialhost lifecycle testfixed in workingtestonly, newfixedsource/result pending. Wholeintegration/full/package/native notaccepted.",
   "scope": [
     "optional first-light retrospective inside existing ThemeReflection",
     "one static replaceable abstract candidate image inside existing introduction",
@@ -42,8 +42,8 @@
   ],
   "current_gates": {
     "source_review": "PASS_STATIC_SCOPE",
-    "import_and_targeted_runtime": "PASS9a2 headless5/5, exit0: FirstLight91,Journal162,ThemeReflection,import,userdir; originala6 failures retained.",
-    "renderer_languages_and_sizes": "NOT_RUN formal matrix; old a6 one-Window FirstLight and one EN720 palette headless v3 are limited diagnostics only.",
+    "import_and_targeted_runtime": "PASS_SCOPED ec3 changedPalette61+import/userdir3/3/exit0. Previous7759 canonical5stage4/5FAIL and remote171stage170/1FAIL retained.",
+    "renderer_languages_and_sizes": "FAIL ec3 FirstLight SCRIPTERROR@214 after12fixtureframes. Workingtestonly current_scene fixfrozenforreview; lifecycle/F8/finalprotection notrun; Yi/palette actualrenderer notrun.",
     "new_exported_packages": "NOT_RUN",
     "new_native_os": "NOT_RUN",
     "human_comprehension": "NOT_RUN"
@@ -500,5 +500,346 @@
       "terminated_owned_children": 0
     },
     "scope": "FirstLight91/Journal162/ThemeReflection/import/userdir headless PASS; true tutorial and real CPG protected-work fixture. Actual new-source automatic reveal/focus/F8/capture-busy/window-lifecycle renderer explicitly NOT_RUN."
+  },
+  "previous_source_checkpoint_9a2": "9a2e724c58eb9854a2178545bae5c2d7bb939c7a",
+  "qa_input_subset_7759": {
+    "status": "EXECUTED selected709 materialized/copied709 exact; full5747 identity retained not materialized. Gate5stage4PASS1FAIL, not accepted.",
+    "commit": "7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4",
+    "full_archive_sha256": "940e29e72bf549f96a74cd59c00d80c6c43fbef394d20c06e08b7422be62e0b8",
+    "full_archive_files": 5747,
+    "full_archive_uncompressed_file_bytes": 262542141,
+    "selected_source_files": 709,
+    "selected_source_uncompressed_file_bytes": 23447254,
+    "excluded_docs_files": 5038,
+    "excluded_docs_uncompressed_file_bytes": 239094887,
+    "canonical_tests": 170,
+    "full_archive_materialized": false,
+    "filter": "Only exact prefix docs/ excluded from physical QA source; all full source file SHAs retained. Root rg checked tests/src/experiments/verifier do not read docs; exports already exclude docs. No original logs/frames/source/packages/profiles deleted; no build change.",
+    "independent_static_review": "Knowledge independently AST-parsed helper without executing it and verified full5747 SHA manifest partitions exactly into709non-docs+5038docs, all170canonical retained; flags/assertions/timeouts/owned-monitor unchanged versus9a helper.",
+    "preparation_receipt": ".godot/f2-subset-7759-preparation.json",
+    "preparation_receipt_sha256": "c40892a188a7159f61d93b4a3387727f48ffb6e0647440e5520d4f160f982421",
+    "helper_sha256": "af224ab0e36912d8dc7dc8cdd56e3256935696199aa92ef2672036264148d693",
+    "delta_sha256": "dd1eb42db4512e298490e974ab96b9d7e580138c145458a89cab9cbedf07f444",
+    "expected_next_stage_count": 5,
+    "expected_stage_scope": "3new suites (FirstLight,Yi media,palette)+import/userdir; expected only, no current result."
+  },
+  "targeted_7759_selected": {
+    "source_commit": "7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4",
+    "raw_result": ".godot/verification/20261017T222839Z-445568f8/results.json",
+    "raw_result_sha256": "fa817a5ee6fd0d6f47595b130a199488f3a3383f0a7ff74f96855aefefb2d2b7",
+    "stages": 5,
+    "passed": 4,
+    "failed": 1,
+    "overall_exit": 1,
+    "stage_results": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222839Z-445568f8/import.txt",
+        "raw_log_sha256": "b50873cea5ca40a1530fcb624669a3e6226f25fc43a80a2a72783fda4520067e"
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222839Z-445568f8/user_directory.txt",
+        "raw_log_sha256": "8740ebf3e88bce2b6f16d74ac65f5f42bb92ae3e807cb91b68500bdf7375ec86"
+      },
+      {
+        "name": "test_first_light",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222839Z-445568f8/test_first_light.txt",
+        "raw_log_sha256": "a4bbd88ef7bf6351cb3967fe92300b9bfcb4ea1364e5621b6cd8d98292a0381f"
+      },
+      {
+        "name": "test_workbench_palette_comparison",
+        "passed": false,
+        "exit": 1,
+        "errors": [
+          "ERROR: QA colors preserve all visible control text, states, focus and exact rectangles: en(1280, 720)",
+          "FAIL: real frozen-workbench palette comparison (61 checks)"
+        ],
+        "raw_log": ".godot/verification/20261017T222839Z-445568f8/test_workbench_palette_comparison.txt",
+        "raw_log_sha256": "b0a1a2ef55db0c507f5953ff8290c3cccd5a5f15348bcf200b362d58266a1578"
+      },
+      {
+        "name": "test_yi_introduction_media",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "raw_log": ".godot/verification/20261017T222839Z-445568f8/test_yi_introduction_media.txt",
+        "raw_log_sha256": "0f87a6a3626cdba28bc8fb8ea7d553fd932e37af309806ec0a9032258a862789"
+      }
+    ],
+    "copy_parity": {
+      "path": ".godot/f2-fixed-watch/dad3c77eed13/copy-parity.json",
+      "sha256": "b7b4a1b785a6cf67ece2752cb7a19850812077a4306fec8b09d5b8faac582a4e",
+      "commit": "7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4",
+      "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+      "helper_sha256": "af224ab0e36912d8dc7dc8cdd56e3256935696199aa92ef2672036264148d693",
+      "full_archive_files": 5747,
+      "selected_source_files": 709,
+      "materialized_source_files": 709,
+      "copied_selected_exact_files": 709,
+      "all_selected_copy_bytes_exact": true,
+      "full_archive_materialized": false,
+      "canonical_test_files": 170,
+      "extra_qa_tests": [],
+      "excluded_docs_files": 5038
+    },
+    "full_source_manifest": {
+      "path": ".godot/f2-fixed-watch/dad3c77eed13/source-manifest.json",
+      "sha256": "d71cd501f3166bb87bb314557110145207268dc43d1a92b40ae5b196dc6643f7",
+      "scope": "Full5747 identity hashes retained; actual physical source and project copies selected709 only, full_archive_materialized=false."
+    },
+    "owned_monitor": {
+      "path": ".godot/f2-fixed-watch/dad3c77eed13/owned-processes.json",
+      "sha256": "5ab766278f09d0176478168acf11b4881518ea4334b8a2027db8be9de7471e6b",
+      "engine_children": 5,
+      "terminated_owned_children": 0
+    },
+    "scope": "FirstLight91/Yi184 and import/userdir pass. Palette61 has one English720 exact controls comparison failure; no SCRIPT ERROR or owned early terminate. Renderer/full stopped per gate, not executed."
+  },
+  "palette_full_sequence_diagnostic_v4": {
+    "source_commit": "7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4",
+    "scope": "Complete original61-check zh-to-en headless sequence with failure-only immediate same-frame field logging; not rendered images/new acceptance",
+    "raw_receipt": ".godot/f2-diagnostics/6ecfbc85b098/receipt.json",
+    "raw_receipt_sha256": "fd2b488a30b52f51fd23594d6ffcf625a21f88088893a57067e0034143330f9f",
+    "raw_log": ".godot/f2-diagnostics/6ecfbc85b098/headless.log",
+    "raw_log_sha256": "3d67d05f4652fff7d194ddd68e075c3eaf7c516c14403da3744f3d71602bc359",
+    "qa_script_sha256": "7c0189ce8624804df3ae29940985fedbe02f27248b11e98028c61926c32e9426",
+    "helper_sha256": "519a517ccf0a6a175951266afbbe1bb4afedec81662ec173e5506198a6a59940",
+    "exit": 1,
+    "terminated_owned_child_reason": "",
+    "observed_difference": "Sole EN720 failure has27 changed rectangle fields among TaskWindow descendants, widths/x differ1pixel. No observed text/state/focus/child-identity or theme metric differences in recorded fields.",
+    "cause_status": "Not established: unchanged measured theme metrics do not rule out theme_changed/layout reflow; no tolerance or predicate weakening accepted.",
+    "formal7759_failure_retained": true,
+    "rendered_frame_count": 0
+  },
+  "previous_source_checkpoint_7759": "7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4",
+  "palette_initial_viewport_fixture_fix": {
+    "source_commit": "ec3aac94e54e32744bfaade0b7a1f93d745bafd6",
+    "test_sha256": "e9e14ca11ba1b69bd940ccfdeae444f694a98689329b4f074a26bba45f2bdfc2",
+    "independent_static_review": "Knowledge exactdiff versus7759canonical419 confirms only compare_locale start: root.size1280x720,root.content_scale_size1280x720,await existing settle. All original23 check callsites/dynamic61 assertions,6case loops, byte/state/Rect/focus checks and cleanup unchanged. CR0.",
+    "scope": "Controls for each language built from same initial viewport; does not establish color/theme_changed root cause or rewrite previousfailure.",
+    "runtime_status": "PASS_CANONICAL61_EC3"
+  },
+  "component_gates": {
+    "FirstLight": {
+      "headless": "PASS91 at9a2 and7759 fixed sources",
+      "current_renderer": "FAIL_SCRIPT_ERROR_ec3; partial12frames only; currenttestfix_NOT_RUN",
+      "scope": "Main6cases fixedentry/build pressurefixture. Actualframes independently viewed byVisual. Lifecycle actualJournal/F8 and finalprotection/nav checks not reached; cannot accept wholesuite.",
+      "fixture_boundary": "Main6cases use fixed entry/build text fixture; actual Journal lifecycle uses production milestones. No CPU completion claim."
+    },
+    "Yi_media": {
+      "headless": "PASS184 at a6 and7759",
+      "current_renderer": "NOT_RUN pipeline stopped at FirstLight script error"
+    },
+    "palette_integration": {
+      "current": "PASS ec3 canonical61 plus import/userdir3/3; formal rendered pair matrix pending",
+      "formal_frame_matrix": "NOT_RUN"
+    },
+    "whole_stage": "NOT_ACCEPTED; actualrenderer lifecycle scriptblocker, full/packages stillclosed"
+  },
+  "first_light_fixture_provenance": {
+    "main_six_locale_size_cases": "tests/test_first_light.gd open_reflection fixes keys [theme.entry, theme.build] for narrative-height/gate stress. Tutorial is genuinely completed by controller and protected CPG work genuinely generated, but theme.build is an extra fixture paragraph, not proof of a completed CPU milestone.",
+    "actual_entry_case": "window_lifecycle opens the actual Journal Reflection button, so that Window uses the production milestones from real save state. Timing stress contains explicit pressed emissions; actual F8/Space/Esc viewport input is recorded separately, with no native-OS claim.",
+    "curation_rule": "Six-case fixture frames must identify the fixed extra milestone paragraph. Delivery main image should come from actual packaged Journal-to-Reflection milestones, not present the fixture as earned CPU progress.",
+    "source_unchanged": true
+  },
+  "targeted_ec3_headless": {
+    "source_commit": "ec3aac94e54e32744bfaade0b7a1f93d745bafd6",
+    "raw_result": ".godot/verification/20261017T224047Z-cdd4d449/results.json",
+    "raw_result_sha256": "cabe108f3c864903fed3a6d4cef91b8f7ae538e71c655e6eca372fbc09c912b8",
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "platform": "win32",
+    "stages": 3,
+    "passed": 3,
+    "failed": 0,
+    "overall_exit": 0,
+    "stage_results": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T224047Z-cdd4d449/import.txt",
+        "raw_log_sha256": "b50873cea5ca40a1530fcb624669a3e6226f25fc43a80a2a72783fda4520067e"
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T224047Z-cdd4d449/user_directory.txt",
+        "raw_log_sha256": "4fb4ea1beff109772ea3c87742c0d1f6b7f76b5ca6d9a8b6f4a0a30db16b7994"
+      },
+      {
+        "name": "test_workbench_palette_comparison",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T224047Z-cdd4d449/test_workbench_palette_comparison.txt",
+        "raw_log_sha256": "e60234e135a3afec495592032e9a1af8e54d5f41b2dfe5c462ca4807f769cbd0"
+      }
+    ],
+    "copy_parity": ".godot/f2-fixed-watch/485b53234350/copy-parity.json",
+    "copy_parity_sha256": "6f3eae13820edb26111fc09d25cfa0a8f7a929fbb18b6be3536c7c67a979a215",
+    "full_archive_identity_files": 5747,
+    "selected_source_files": 709,
+    "materialized_source_files": 709,
+    "copied_selected_exact_files": 709,
+    "canonical_test_files": 170,
+    "extra_QA_tests": 0,
+    "full_archive_materialized": false,
+    "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+    "helper_sha256": "62638036e78b21a7cbb841a3c640f5d0a1a55cdb87f234704893a8fb7bd8fafb",
+    "owned_monitor": ".godot/f2-fixed-watch/485b53234350/owned-processes.json",
+    "owned_monitor_sha256": "333ca3e2b24ff46a6d56e3afd4d1110aa504fb7fddf1346f4f89e87f534333b5",
+    "owned_children": 3,
+    "owned_normal_exit0": 3,
+    "owned_early_termination": 0,
+    "independent_review": "Knowledge read original3results/log, parity and monitor; exactresultSHA recomputed. No Godot launched by reviewer."
+  },
+  "historical_7759_remote_ci_independent_audit": {
+    "runs": [
+      {
+        "run_id": 39075047472,
+        "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39075047472",
+        "godot_job_id": 117520340825,
+        "source_commit": "7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4",
+        "status": "completed",
+        "conclusion": "failure",
+        "engine": "4.7.1.stable.official.a13da4feb",
+        "python_commands_passed": 11,
+        "godot_step_stage_rows": 171,
+        "godot_passed_rows": 170,
+        "godot_failed_rows": 1,
+        "failed_suite": "test_workbench_palette_comparison",
+        "checks": 61,
+        "failed_assertion": "QA colors preserve all visible control text, states, focus and exact rectangles: en(1280, 720)",
+        "backtrace": "compare_locale res://tests/test_workbench_palette_comparison.gd:123",
+        "raw_test": ".godot/ci-39075047472/20261017T222616Z-b0df8aa8/test_workbench_palette_comparison.txt",
+        "raw_test_sha256": "829342b4db2300e76122dcda27fcca734ddedc40c26360ff7494f34047986a6d",
+        "failed_step_log": ".godot/ci-39075047472-failed.log",
+        "failed_step_log_sha256": "872f83ea0ed8ad85eea4b8978f4fd260872517ace2985d365e2d3254ead43664",
+        "script_error": false
+      },
+      {
+        "run_id": 39075044831,
+        "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39075044831",
+        "godot_job_id": 117520333034,
+        "source_commit": "7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4",
+        "status": "completed",
+        "conclusion": "failure",
+        "engine": "4.7.1.stable.official.a13da4feb",
+        "python_commands_passed": 11,
+        "godot_step_stage_rows": 171,
+        "godot_passed_rows": 170,
+        "godot_failed_rows": 1,
+        "failed_suite": "test_workbench_palette_comparison",
+        "checks": 61,
+        "failed_assertion": "QA colors preserve all visible control text, states, focus and exact rectangles: en(1280, 720)",
+        "backtrace": "compare_locale res://tests/test_workbench_palette_comparison.gd:123",
+        "raw_test": ".godot/ci-39075044831/20261017T222611Z-18807c77/test_workbench_palette_comparison.txt",
+        "raw_test_sha256": "829342b4db2300e76122dcda27fcca734ddedc40c26360ff7494f34047986a6d",
+        "failed_step_log": ".godot/ci-39075044831-failed.log",
+        "failed_step_log_sha256": "da2273b3f26b3fb66a5e0b92136dda0239cab2697883048b476fef69b9a90236",
+        "script_error": false
+      }
+    ],
+    "same_raw_test_sha256": "829342b4db2300e76122dcda27fcca734ddedc40c26360ff7494f34047986a6d",
+    "scope": "Both actual7759 remote fail the same canonical EN720 exact-control assertion as local7759, not another observed failing suite. Raw171stage count from complete failedstep rows and171uploadedtxt logs; no remote results.json artifact was present. Formally escalated gh read/download only; no rerun or source edits."
+  },
+  "rendered_ec3_first_light_partial_failure": {
+    "source_commit": "ec3aac94e54e32744bfaade0b7a1f93d745bafd6",
+    "test_sha256": "575878e313fe7c6db91b978a4fdf29d0de1b110bb6758911cdccd89d27ddd040",
+    "receipt": ".godot/f2-rendered/d76964080874/test_first_light/receipt.json",
+    "receipt_sha256": "3365b7400a6244758161ea3bb0e0c5aaa4559cd35020ff6420c9791103798445",
+    "raw_log": ".godot/f2-rendered/d76964080874/test_first_light/renderer.log",
+    "raw_log_sha256": "c766e89bc39c7d75a3a8f8b6b3b652fa5655958170de993153c9c418cb3a2a22",
+    "passed": false,
+    "exit": 1,
+    "elapsed_seconds": 41.155,
+    "pid": 16536,
+    "terminated_owned_child_reason": "script_error",
+    "script_error": "Invalid type in function 'window_lifecycle': argument1 previously freed, at run test_first_light.gd:214",
+    "partial_frames": [
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/en-1280-playing.png",
+        "sha256": "f082da499cde1dbc24e27249d38b2bd93ff434b0892c40607f6d3f56cebf78fc",
+        "bytes": 51794
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/en-1280-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b",
+        "bytes": 51785
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/en-1440-playing.png",
+        "sha256": "f082da499cde1dbc24e27249d38b2bd93ff434b0892c40607f6d3f56cebf78fc",
+        "bytes": 51794
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/en-1440-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b",
+        "bytes": 51785
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/en-1920-playing.png",
+        "sha256": "95598f92cdb5d61d792ef66420c873e0a06a70f68899aca623aa9b84e1389a5d",
+        "bytes": 51795
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/en-1920-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b",
+        "bytes": 51785
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/zh_CN-1280-playing.png",
+        "sha256": "141cf37d452315a05470dbc2941dc86c790ad6632f6995aa77ca136e2c188a51",
+        "bytes": 51133
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/zh_CN-1280-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b",
+        "bytes": 51130
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/zh_CN-1440-playing.png",
+        "sha256": "141cf37d452315a05470dbc2941dc86c790ad6632f6995aa77ca136e2c188a51",
+        "bytes": 51133
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/zh_CN-1440-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b",
+        "bytes": 51130
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/zh_CN-1920-playing.png",
+        "sha256": "141cf37d452315a05470dbc2941dc86c790ad6632f6995aa77ca136e2c188a51",
+        "bytes": 51133
+      },
+      {
+        "path": ".godot/f2-rendered/d76964080874/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-d76964080874/test_first_light/first-light-captures/zh_CN-1920-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b",
+        "bytes": 51130
+      }
+    ],
+    "frame_count": 12,
+    "frame_sha_independently_verified": true,
+    "actual_argument": "host captured from tutorial current_scene at109, not dialog. Actual@214 calls window_lifecycle(host).",
+    "source_chain": "test138 sets testmode -> hardware mode_changed at286/_on_game_mode_changed758 -> _open_campaign_map6585 -> TaskNavigation.return_to_tree6597 schedules actualMAP scene, frees capturedtutorialhost; game-mode return does not reacquire it. Typed Node argument check rejects oldhost before lifecycle body.",
+    "scope": "Twelve actual first-light fixture frames exist and Visual independently viewed control/caption reachability; no errors before terminal SCRIPT ERROR in sparse canonical log. Whole suiteFAIL; no final protection/nav assertion or lifecycle/F8 acceptance from this run. Yi/palette renderer andfull NOT_RUN. All main6cases use fixedentry/build text fixture, notCPUearned.",
+    "review": "Knowledge recomputed receipt/log/all12frameSHA; no engine launched."
+  },
+  "working_test_fix_after_ec3": {
+    "file": "tests/test_first_light.gd",
+    "sha256": "dd6bdc294d58fb4043ae103ea0c8b0fc260d8b8b2488f2a4915cf26555dc5c22",
+    "CR_count": 0,
+    "status": "FROZEN_FOR_NARRATIVE_STATIC_REVIEW; NOT_RUN",
+    "change": "Before renderer lifecycle reacquire actualcurrent_scene and assertvalid/inside_tree/notqueued; failfastquit1 if absent; invoke same lifecycle on activehost. No reentry, progression mutation, production change or removed originalassertions."
   }
 }

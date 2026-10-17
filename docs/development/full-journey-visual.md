@@ -198,3 +198,20 @@ ScrollContainer将输入按钮完整滚入视口，稳定焦点后再收集现�
 根机制未证明，不认定浅色色值造成布局改变。QA入口现令每语言构建宿主前均从
 1280×720开始，旧宿主仍先正常退出并等待，再设新档；不继承上一语言末次1440×900
 构建前置。原六组尺寸及61项精确断言不变，未取整或容差。此窄前置修尚待新固定源正式验证。
+
+## F2固定源首组渲染图审
+
+`ec3aac94`的正式工作台headless gate在`cdd4d449`通过完整61项，未降低旧精确断言。
+FirstLight同源实际renderer `d76964080874/test_first_light`已产生12张popup PNG，
+独立逐张查看并核全部hash与收据相符（receipt SHA
+`3365b7400a6244758161ea3bb0e0c5aaa4559cd35020ff6420c9791103798445`）。
+三种根窗口配置的popup图均为实际650×480；图名1280／1920／1440不代表图片分辨率。
+六组playing与六组static中，未经QA额外ensure的真实Play后，程序画布、输入1／NOT／
+输出0灯灭、完整16px原生字幕、Skip及固定返回均可见，未见先前fold下裁问题。
+光点回顾与暗输出同时显示，未把光点误作物理输出1。
+
+该主矩阵用`theme.entry`／`theme.build`作字幕压力fixture；教程五动作与CPG作品保护
+为其独立真实controller场景，不能将回顾中的build文字当CPU已完成证据。
+整suite随后在第214行`window_lifecycle(host)`遇到已释放实参，监督器按SCRIPT ERROR
+终止自有PID，退出1；后半F8／生命周期为NOT_RUN。图审范围通过不等于整suite通过，
+旧失败与新帧均保留。Yi／完整工作台实际渲染及FirstLight修后完整生命周期仍待收据。

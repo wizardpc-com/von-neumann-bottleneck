@@ -2,14 +2,15 @@
 
 本阶段基线为已推送的`d6f594a843d5114fc4eb508916345eb0851e1015`，开发分支为
 `codex/creative-framework-20261018`。Root已保存/推送首轮实现检查点`a6c6ea369e8e5828aaad563c57f53b67a2f7893c`；
-Narrative已取固定gitarchive到`.godot/f2-fixed-watch/0ca50a57e425/source`并开始首导入；
-Knowledge核七个实现/测试文件与冻结工作区逐字节相同，完整copy身份及实际日志仍以执行者回执为准。
+首轮a6固定gitarchive与七文件逐字节核验作为历史检查点保留；最新SOURCE与实际门禁以下列当前状态为准。
 
 ## 当前Gate
 
-- **当前修复SOURCE为`9a2e724c58eb9854a2178545bae5c2d7bb939c7a`**，FirstLight揭示/捕获优先窄修经独立源审；固定新archive的FirstLight91/Journal162/ThemeReflection+import/userdir共5阶段实际全PASS/exit0，无owned提前终止。真实自动揭示/反馈忙碌捕获/窗口生命周期仍明确NOT_RUN，不把headless作为实际演出验收。
+- **当前固定SOURCE为`ec3aac94e54e32744bfaade0b7a1f93d745bafd6`**：palette仅三行语言构建前置归一化，原61断言保留；新palette61+import/userdir实际3/3 PASS、exit0，3owned正常退出。首个FirstLight真实renderer在12帧后SCRIPT ERROR/exit1，后半生命周期、最终保护断言及Yi/palette renderer/full未执行；仅测试current_scene窄修已冻结待独审，整轮/full/打包仍关闭。
+- **前一固定整合SOURCE为`7759a0f2ffd47d54c5cbcd31e7b467d2990f15f4`**。仅docs/不物化适配已独审并执行：full5747身份保留、selected709/709物化/拷贝exact，170canonical/0extras。3新suite+import/userdir实际5阶段4 PASS/1 FAIL、exit1：FirstLight91/Yi184通过，palette61仍一项EN720精确控件比较失败。该轮真实renderer/full按门禁停止；ec3后续执行单列。
+- **前一修复SOURCE为`9a2e724c58eb9854a2178545bae5c2d7bb939c7a`**，FirstLight揭示/捕获优先窄修经独立源审；固定新archive的FirstLight91/Journal162/ThemeReflection+import/userdir共5阶段实际全PASS/exit0，无owned提前终止。真实自动揭示/反馈忙碌捕获/窗口生命周期仍明确NOT_RUN，不把headless作为实际演出验收。
 - 三组实现已分别冻结并交叉源审；第一束光的非null空Texture除零缺口已修为正尺寸才绘图，否则程序回退。
-- **a6c6固定源首轮15阶段实际13 PASS/2 FAIL、exit1**，无owned提前终止。FirstLight91项/12裁剪失败；palette61项/13可达或几何失败；Yi媒体184项、其余旧suite及import/userdir通过。两失败原样保留，renderer诊断中，新包/原生未运行。Narrative持唯一引擎，从固定a6c6源码copy运行，其他作者不发动引擎。
+- **a6c6固定源首轮15阶段实际13 PASS/2 FAIL、exit1**，无owned提前终止。FirstLight91项/12裁剪失败；palette61项/13可达或几何失败；Yi媒体184项、其余旧suite及import/userdir通过。两失败原样保留为历史检查点；不将后续修复覆盖原回执。当前Narrative持唯一引擎，其他作者不发动引擎。
 - F1固定SOURCE8334两包及限定OS结果保留原身份；不借其168同runtime或实际包证据认证本阶段新演出/素材。
 - 本阶段与完整goal保持active；正式CG/人物/声音/互相冲突的结局与陌生玩家理解仍须分别处理，不擅自替团队定稿。
 
@@ -25,6 +26,8 @@ Knowledge核七个实现/测试文件与冻结工作区逐字节相同，完整c
 无渲染器的状态检查、真实Window控制器、实际导出包、OS输入和陌生玩家证据分别记录。
 Palette教程fixture不生成CPG作品；实际作品保护由第一束光测试中的真实隔离CPG fixture另验，不能把缺档保持缺档称为作品全payload保护。
 
+第一束光的两语三尺寸主组固定使用`theme.entry + theme.build`字幕压力fixture；教程五动作及隔离CPG作品确为实做，但额外build段落不表示CPU成果已完成或真实解锁。该组帧必须标明此夹具边界。`window_lifecycle`另从真实Journal按钮打开、使用生产milestones；其中快速Play为显式信号时序压力，F8/Space/Esc为实际viewport事件，均不冒称OS输入。最终交付主图优先使用真实包Journal→Reflection按实际存档计算的milestones。
+
 ## 待执行与未关闭项
 
 等待固定源码copy的真实结果后，记录每项PASS/FAIL/NOT_RUN、原始路径与SHA、两语三尺寸帧及保护文件范围。
@@ -32,21 +35,21 @@ Palette教程fixture不生成CPG作品；实际作品保护由第一束光测试
 新固定包身份与验收必须在实际构建后填写；此前[全旅程F1包与证据](../20261018-full-journey/README.md)不改写。
 后续Journal到已有作品回看的合同仍为只读调研；不创建Session/writer、不重生成、不补造生成事件或开放fork。
 
-## 首轮a6固定源码与验证包装
+## 历史检查点：首轮a6固定源码与验证包装
 
 本次原`verify-project.py`字节未修改。已披露的owned wrapper从固定gitarchive manifest枚举/拷贝，
 不从实时untracked文档取源；逐文件校验拷贝SHA，记录自己启动的引擎进程，遇SCRIPT ERROR只终止自有child并停止本次pipeline。
 原suite断言、flags和超时合同不放松。wrapper相对原监督器的delta及manifest SHA见checks。
 实际枚举为13个常规定向suite加import/userdir共15阶段，结果13 PASS/2 FAIL、exit1；原results SHA `78c8a2e3a1790d882aa61ed8163fe21a902bff645956df899d5bce39ab728767`。copy-parity实际5745/5745原字节匹配a6c6、170个canonical tests、0额外QA tests。原verifier/helper完整SHA、逐suite日志及无owned提前终止回执见checks。
 
-## 首轮失败与有界诊断
+## 历史检查点：首轮失败与有界诊断
 
 a0535436的FirstLight原91项检查中，12项失败均在skip后的原滚动clip：每两语/三尺寸各Skip按钮和全字幕。
 静态代码显示skip会增加字幕高度，而第一次ensure_control_visible在Container重排前调用；这只是待验证假设，
 不能先称产品缺陷、headless限制或测试问题。原断言/产品/fixedcopy不改，QA镜像仅记录各阶段矩形/滚动范围，
 并在原断言后额外重排/定位作对照。新版有界诊断只跑首个zh720 Window：真实Play后、任何body ensure之前记录矩形/实际帧，再保留该case原裁剪断言与settled对照，随后提前退出，不冒称正式两语三尺寸矩阵。由唯一引擎持有人运行；无实际结果前不宣称可达或归因。
 
-## 单窗口诊断已建立的产品缺口
+## 历史检查点：单窗口诊断已建立的产品缺口
 
 `f2-diagnostics/9503ca35f1a1`只跑首个zh720 Window，25个所选原检查通过、exit0；
 它不是canonical91或两语三尺寸矩阵。真实Play之后、任何QA body ensure之前，scroll clip为
@@ -76,3 +79,54 @@ ThemeReflection与import/userdir。结果SHA `b5b3f41179a3bac6d2c7e0c39ff377afd4
 5745/5745归档原字节匹配、0额外QA、5个owned child正常退出，原verifier/helper及逐日志SHA见checks。
 原a6的失败不改判。自动揭示/focus/F8/capture-busy/窗口生命周期真实renderer仍NOT_RUN；
 同工作台12实际帧、独立图审、新包/原生/新人均未由此headless结果认证。
+
+## 历史检查点：7759的完整归档身份与最小QA输入
+
+为保留磁盘空间，已核准仅将`docs/`排除出QA的物理copy；不删除任何旧日志、帧、源码、包或profile，
+不改build。完整gitarchive身份及全部5747个文件SHA仍保存；预计仅物化709个非docs文件，包含全部170个
+canonical tests，以及runtime/assets/scripts/project/export配置。独立AST/delta/manifest分区审查通过。
+完整文件内容总262542141字节=selected23447254+docs239094887，**这是未压缩文件内容总量，不是归档流大小**。
+新收据必须分别列full archive身份、selected materialization和copy exact计数，不声称完整5747已物化。
+
+原verifier flags/assertions/timeouts和owned进程监控不放松，父source固定7759，不从实时docs或其它untracked文件取源。
+下一步3新suite+import/userdir实际通过后，才按令牌执行真实renderer矩阵；再通过后才一次Windows原full。
+这些均为授权顺序，当前结果待回执；旧a6失败/单case诊断及9a2五阶段通过保留各自身份。
+
+## 7759正式门禁仍有一项失败
+
+`verification/20261017T222839Z-445568f8`是完整3新suite+import/userdir，而非v3单case：
+实际5阶段4 PASS/1 FAIL、exit1，results SHA `fa817a5ee6fd0d6f47595b130a199488f3a3383f0a7ff74f96855aefefb2d2b7`。
+FirstLight91/Yi184通过；palette原61项仍有English720 exact-controls比较失败，无SCRIPT ERROR或owned提前中止。
+原v3单case15通过不覆盖本失败，真实renderer矩阵及Windows full按门禁未启动。
+
+此回执full archive5747仅身份保存，selected709/709实际物化/拷贝原字节exact、170canonical/0extras，
+不能把它写成完整5747文件已物化。完整manifest、subset-copy parity及五个原日志SHA见checks。
+
+完整顺序v4诊断`f2-diagnostics/6ecfbc85b098`保留原61项、zh→en前序及原断言，仅失败当帧打印字段；
+自然exit1、无SCRIPT ERROR/owned中止。唯一EN720差异为TaskWindow后代27个rect字段x/宽度相差1px；
+记录中未见文字、状态、焦点、子节点增删或theme geometrymetrics变化。此事实不能排除theme_changed/重排因果，
+也不允许把精确比较改成1px容差。它是headless诊断，无实际PNG，正式7759失败仍保留、renderer/full未执行。
+
+## ec3后续门禁与组件边界
+
+ec3只将每种语言构建前的root尺寸/content scale固定到1280×720并等待原settle，
+余23个check调用/61动态断言、六组循环、文件/状态/精确矩形/焦点和cleanup保持，独立源审通过。
+这不把主题重排底层原因写成已定位。新palette61+import/userdir三阶段实际3/3 PASS、exit0；`verification/20261017T224047Z-cdd4d449/results.json` SHA `cabe108f3c864903fed3a6d4cef91b8f7ae538e71c655e6eca372fbc09c912b8`。full5747仅身份保存、selected709/709物化exact、170canonical/0extraQA、3owned正常exit0已独立核验。
+
+若palette仍失败，整轮验收及打包继续关闭；已通过headless的FirstLight/Yi可独立跑真实Window，
+分别记录其播放/媒体/F8及帧，不因独立组件通过而把整体对照、12帧或完整回归写绿。
+原a6/7759/v2/v4失败与9a/v3有限通过均原样保留。
+
+
+## 7759远端失败独立复核
+
+远端CI `39075047472`（Godot job117520340825）与`39075044831`（job117520333034）均实际head7759、completed FAILURE；Python 11命令通过。原Godot步骤各171条阶段结果为170 PASS/1 FAIL，唯一失败仍是palette原61项中的English1280×720精确文字/状态/焦点/矩形断言（compare_locale:123），与本地7759相同；FirstLight/Yi均通过，未发现另一失败suite或SCRIPT ERROR。两份上传raw测试字节相同，SHA `829342b4db2300e76122dcda27fcca734ddedc40c26360ff7494f34047986a6d`。完整阶段日志、上传artifact位置、job身份与逐SHA见checks，原失败不因ec3定向通过而改判。
+
+
+## ec3真实渲染：12帧后测试生命周期阻断
+
+`f2-rendered/d76964080874/test_first_light`实际exit1：`window_lifecycle(host)`在214行接收previously freed参数，监督器只终止owned PID16536，原因script_error。实参是109行保存的教程host，非已关闭的dialog。切test模式同步触发硬件mode_changed→打开地图→TaskNavigation deferred换场景，旧host已释放；后续game与六组演出不重新取得它，直到renderer专有生命周期入口才暴露。
+
+12张主fixture帧均已保存且独立逐SHA核receipt，Visual实际view确认Play后canvas/正确NOT1→0暗灯/完整字幕/Skip在原弹窗内；它们不是CPU真实解锁证据，也不使整个suite通过。后半真实Journal/F8/销毁、最终文件与导航保护断言尚未执行，Yi/palette实际renderer及full未运行。原日志/receipt与全部帧hash见checks；无OS输入声称。
+
+仅测试的后续窄修重取当前真实`current_scene`，显式核有效、已入树、未queued-free再挂Journal；否则断言失败并退出。保留所有原生命周期与保护断言，不reenter、不改进度或生产源码。修正尚待新固定身份实测，旧ec3失败原样保留。

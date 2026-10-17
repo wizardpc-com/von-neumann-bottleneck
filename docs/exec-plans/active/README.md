@@ -1,5 +1,11 @@
 # Execution queue
 
+The [replaceable creative presentation round](creative-framework-20261018.md) is
+**active**, based on the frozen full-journey checkpoint. It adds optional earned
+first-light presentation and concrete media replacement slots, and prepares a
+same-circuit dark/light workbench comparison. Verification and new packages are
+recorded separately from the fixed source8334 packages.
+
 The [full-journey continuation](full-journey-experience-20261018.md) is **active**.
 It expands the first candidate with source-backed task context, a read-only
 journey journal and an actual3D observation-station candidate. The comprehensive

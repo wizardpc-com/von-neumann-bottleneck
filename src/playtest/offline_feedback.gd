@@ -98,16 +98,17 @@ func _process(_delta: float) -> void:
 	# Polling also reaches embedded work/exhibition windows, whose input belongs to
 	# a different viewport. It never installs an OS-wide keyboard hook.
 	var down: bool = Input.is_physical_key_pressed(KEY_F8)
-	if down and not f8_down:
+	var choosing_file: bool = is_instance_valid(export_dialog) and export_dialog.visible
+	if down and not f8_down and not choosing_file:
 		if backdrop.visible: close_panel()
 		else: open_panel()
 	f8_down=down
 	var escape: bool = Input.is_physical_key_pressed(KEY_ESCAPE)
-	if escape and not esc_down and backdrop.visible: close_panel()
+	if escape and not esc_down and backdrop.visible and not choosing_file and _focused_window(get_tree().root)==panel.get_viewport(): close_panel()
 	esc_down=escape
 
 func _input(event: InputEvent) -> void:
-	if enabled() and backdrop.visible and event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:
+	if enabled() and backdrop.visible and not (is_instance_valid(export_dialog) and export_dialog.visible) and event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:
 		close_panel(); get_viewport().set_input_as_handled()
 
 func open_panel(feedback_task: Dictionary = {}) -> void:
@@ -218,7 +219,7 @@ func export_all(destination: String = "") -> void:
 			var rescue_id: String = Store.new_id()
 			var rescue: Dictionary = {"id":rescue_id,"related_case_id":current.get("id",""),"captured_at_utc":current.get("captured_at_utc",Store.now()),
 				"updated_at_utc":Store.now(),"revision":0,"category":CATEGORIES[category.selected],"note":note.text,"status":"draft",
-				"task":emergency_context.get("task",{}),"build":Store.build_identity(),
+				"task":emergency_context.get("reported_task",emergency_context.get("task",{})),"build":Store.build_identity(),
 				"screenshot_status":"captured" if not emergency_image.is_empty() else "unavailable",
 				"screenshot_error":"" if not emergency_image.is_empty() else "No in-memory screenshot was available."}
 			extras["cases/"+rescue_id+"/case.json"]=JSON.stringify(rescue,"\t").to_utf8_buffer()

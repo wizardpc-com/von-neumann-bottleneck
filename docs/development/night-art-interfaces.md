@@ -16,6 +16,7 @@
 | `src/ui/yi_introduction.gd` · `media_texture: Texture2D` | Yi导入的可替换档案图；原生Goal／操作文字和Begin／Skip独立保留 | 148×64逻辑预览，保持比例居中；null或0尺寸隐藏整列，文字继续显示；默认图须存在才load | 默认`assets/narrative/yi-learning-fragment.svg`为仓库程序矢量候选，无外部照片、正式人设或烘焙UI正文；替换资源需附作者／来源／许可／AI辅助说明 |
 | `src/ui/first_light.gd` · `preview_texture: Texture2D` | ThemeReflection内可选「第一束光」示意画面 | 最小100逻辑像素高画布，按比例居中缩放；null或0尺寸采用程序三节点几何；字幕与Input1／NOT／Output0原生显示；播放约3秒、静态低动效、跳过／重播 | 默认无外部图，程序几何来自仓库；图只替换插画，不得把光点改称电流／能耗或让NOT输入1的灯亮；候选CG与作者署名待交，未定稿角色／历史 |
 | `tests/test_workbench_palette_comparison.gd` | 同真实教程、同数据的完整工作台深浅比较 | 两语×三尺寸×两处理共12帧目标；冻结前原滚动定位输入、停车清理悬浮提示；精确矩形与状态必须相等 | 浅色为QA候选仪器表面；原线／端口几何保持，信号按钮和元件缩略图保持深色，实际候选画布中性灰；不是生产全局主题 |
+| `experiments/creation/work_focus.gd` · `configure(saved_snapshot, english, {})` | Journal查看原保存输出、配方、来源；不是CG或生成重播 | 原窗口默认1080×620、最小640×420，沿原scroll看完整符号；A●／B■／C▲／D◇保留非颜色辨识；空evidence禁Locate，Journal禁fork | 原`work_canvas.gd`程序绘制真实保存格；不新增图片／角色资源，不替作品作审美评分；F3反馈输入链另验 |
 
 焦点以独立轮廓显示；按下／列表选中以左边线粗细显示，避免仅靠颜色区分。
 底景不使用透视网格或移动粒子，不能被解释为电路距离、信号路线或延迟。
@@ -62,3 +63,16 @@ Yi的Goal、Begin／Skip及返回在两语三尺寸清楚，缺图继续纯文�
 浅色旧帧的手册入口仍有浅字白底缺口；仅QA局部字体色窄修及实际4.5:1检查待新固定源，
 不据旧矩形／状态通过宣称所有文字可读。FirstLight新`b29f5323941d`仍因Window fixture
 engine ERROR严格判FAIL；实际包图、修后完整生命周期与真人审阅仍分别开放。
+
+最新固定`2db6a95a`：FirstLight `89ecc7b871b0`完整173项、自然0／无ERROR，
+实际Play及静态原生字幕、Skip／返回可见，合法Window生命周期也已通过controller门禁；
+仍是压力字幕fixture，不能替CPU完成、实际包或OS试玩。
+工作台`6328a84e7ea9`完整135项、新12帧逐张目视／hash过；手册入口局部字体色已清楚，
+六组正常态实际4.5:1通过，原状态／几何不变。此为QA候选修，原生产默认不变。
+F3六张只读作品图可见必要操作与来源，实际首normal Esc门禁尚FAIL，后半未执行；
+同Window窄桥源审通过后仍待实际验证，不将素材／图审通过当输入层验收。
+
+F3最新固定`241751c4`的`905a46d13047`已完整172项controller GUI通过、自然0／无ERROR。
+六张两语三根窗口配置的1080×620作品主图经独立目视及hash复核，与修前主图逐字节相同；
+反馈／逐层Esc、焦点、销毁复用及拒存救援均已执行，旧139项失败仍保留。另四张为反馈前
+现场采图，非面板或OS证据。整合full／实际新包及新人审阅仍开放，不由定向通过推广。

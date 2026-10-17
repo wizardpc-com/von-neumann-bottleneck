@@ -1,6 +1,13 @@
 Whole-journey experience candidate — @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
 
+- 首页／地图新增可选成长档案与3D观察站，沿用真实完成记录及原任务导航；测试开放入口不授予成果。
+- 真实NOT教程完成后，主题回顾可选第一束光：固定1→0示意，支持跳过、重播、减少动态及缺素材回退。
+- 档案可选择已保存作品，只看原输出、配方与来源，区分只读恢复；不分叉或重构生成事件，原工作台仍可创作。
+- 作品窗口的反馈与Esc按层返回；保留原本机反馈、独立存档和失败救援合同。
+- Home/Map offer an optional journal and 3D completion observatory. Actual tutorial completion reveals a skippable, replayable fixed NOT retrospective.
+- Journal work review displays saved output/recipe/source with labelled recovery, no fork or generation-event replay; creation remains in the original workbench.
+
 - 2026-10-18 体验候选：首页提供可跳过、可回看的壹的讯息；首个NOT任务仍由真实操作完成。
 - 手册中可独立切换NOT、AND与半加器等元件的输入，查看输出与对应真值表；不改玩家方案。
 - 地图显式列出压缩／内容预测／创造入口；测试者开放入口与真实模型准备分别说明。

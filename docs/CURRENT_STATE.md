@@ -25,11 +25,19 @@ The full development goal remains active. Replaceable narrative media, broader
 creative presentation, human comprehension and final artistic/story decisions
 remain open in the [coverage ledger](development/full-journey-coverage.md).
 
-The newer `codex/creative-framework-20261018` branch adds optional earned-light
-replay and concrete replacement media slots. Its source9a2 focused Windows checks
-pass5/5; actual rendering and new packages remain pending. The
+The newer creative presentation adds optional earned-light replay and concrete
+replacement media slots. The `codex/saved-work-review-20261018` continuation also
+opens original saved-work snapshots from the journal without generating or
+rewriting them. Feedback closes before the owning work window. Fixed241 checks
+pass7/7 and its real work-window route passes172 checks. The unchanged earned-light
+component passes173 real-window checks on2db; the QA-only light workbench sample
+passes135 with its Handbook entry contrast repaired. The optional introduction
+passes208 real-renderer checks on157e. These are controller checks, with C/P/G
+preparation disclosed, and do not establish newcomer understanding.
+Final integrated full regression and new package acceptance remain pending;
+the fixed8334 pair stays usable. The
 [creative presentation evidence](verification/20261018-creative-framework/README.md)
-keeps the initial failures and the narrower successful follow-ups separate.
+records precise source identities, images, protected-state checks and old failures.
 
 ## Earlier October18 candidate — fixed7c snapshot
 

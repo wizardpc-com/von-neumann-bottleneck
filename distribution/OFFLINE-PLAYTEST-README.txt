@@ -11,6 +11,10 @@
 - 手册的NOT、AND、半加器等输入可点击切换；示例不改变你的电路，也不授予通关。
 - 地图上直接定位「压缩／内容预测／创造」；生成前仍须当前模型的真实复原和预测准备。
 - 第一章任务台说明还缺哪种基线／比较／订单证据。配色与壹的台词仍是候选，欢迎反馈。
+- 首页／地图的「成长档案」回看真实记录与原保存作品；「观察站 · 3D候选」按完成记录亮灯，开放入口不会点亮成果。
+- 亲手完成真实NOT教程后，档案主题回顾可选播放／跳过／重播第一束光：固定NOT 1→0示意，不是当前电路或新奖励，可减少动态。
+- 在档案选择作品可查看原输出、配方与来源；恢复快照明确只读。这里不分叉、不生成，也不提供生成事件回放；创作仍在原工作台进行。
+- 作品或主题窗口内F8仍为本机现场反馈，Esc先退反馈再退窗口／档案；保存失败时先保留面板并另存ZIP。
 
 随时反馈
 1. 按 F8，或点右下角“现场反馈”。已有工作台反馈按钮也通向同一个入口。
@@ -43,3 +47,8 @@ Run the extracted EXE. All sixty task entrances are available without earning
 completion. Press F8 anywhere in the game to capture a scene and add an autosaved
 note. Export all feedback creates one verified ZIP and retains local originals.
 Send that ZIP to the maintainer deliberately. No account or network is used.
+Home/Map offer Journey journal and the 3D Observatory. Test access grants no recorded completion or achievement light.
+Earn the real NOT tutorial to optionally play/skip/replay First Light, a fixed NOT 1-to-0 retrospective with reduced motion. It grants no new achievement.
+The journal opens original saved-work output, recipe and source, labels read-only recovery, and disables forks. It does not generate or reconstruct generation events; create in the original workbench.
+F8 keeps feedback in the current window; Escape returns one layer at a time. Preserve a failed-save panel and use Save ZIP as before exiting.
+Artwork, character, CG, voice and ending choices remain candidates; newcomer and independent Mac acceptance remain open.

@@ -12,6 +12,14 @@ NOT 的 0→1 与 1→0 都是正确规则，灯灭不表示失败；实际目�
 手册中的输入按钮只改变独立示例。地图可直接定位压缩、内容预测与创造区域。
 第一章完成前可在任务台查看还缺哪种运行／比较证据。
 
+首页与旅程地图还可打开「成长档案」和「观察站 · 3D候选」，原任务列表仍可直接使用。
+档案回看已有记录；观察站的灯是完成记录的叙事映射，不是信号、电流或文明能耗测量。
+亲手完成真实NOT教程后，可在档案的主题回顾中选择播放、跳过或重播第一束光。
+它是固定NOT 1→0示意回顾，不是当前电路截图；可减少动态，不授予新的成果。
+档案也能选择已保存作品，查看原输出、配方与来源；只读恢复会明确标注。
+这个入口不分叉修改、不生成作品，也不提供生成事件回放；原创造工作台仍可正常创作。
+F8打开当前窗口的反馈，Esc逐层返回。保存失败时保留反馈面板，先按原救援说明另存。
+
 完整旅程候选包共 60 个任务：原有核心 40、表示 5、服务 3、可选地址预测 3、压缩→内容预测→创造 9；标准候选包保留核心 40 个任务。
 完整旅程不是 60 个必经关卡。保留已有主线与各段结尾，可选内容不提高原主线门槛。
 从接线造机出发，观察计算与等待，再改变数据位置、承载方式和历史安排。
@@ -50,6 +58,10 @@ Extract and run the Windows EXE or macOS app. No Godot installation, account or 
 The full-journey candidate has 60 tasks: core 40, Representation 5, Service 3, optional address Prediction 3, and C/P/G 9. The standard candidate retains the core 40 tasks.
 Optional content does not gate the original mainline. Each established journey keeps its own ending.
 The map offers readable chapter tasks and clickable search results. Prerequisite and recommended links locate the related task; recommendations never add a gate.
+Home and Map also open Journey journal and the optional 3D Observatory. Its lights represent recorded completion, not measured signals or energy.
+After genuinely completing the NOT tutorial, the journal offers an optional, skippable/replayable First Light: a fixed NOT 1-to-0 retrospective, not the current circuit or a new achievement. Reduced motion is available.
+Select a saved work in the journal to view its original output, recipe and source. Recovery snapshots are labelled; this viewer neither forks nor generates work or supplies generation-event replay. The original creative workbench remains available.
+F8 opens feedback for the current window; Escape returns one layer at a time. Keep a failed-save feedback panel open and use its rescue export.
 The creative workbench's Next action follows the actual rule box and results. Commit/reveal one cell, then finish the round before connecting output feedback. Successful Representation/Service tasks provide an explicit continuation action.
 Use the task specification, Handbook and independently confirmed read-only hints when needed.
 F8 opens optional feedback even before completion. Save is local; Send has independent consent.

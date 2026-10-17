@@ -242,3 +242,42 @@ FirstLight仍独立开放：固定157e的`b29f5323941d`虽产14帧并自报173�
 其非法同级exclusive Window fixture出现engine ERROR，严格收据仍判FAIL；
 这些结果不由上述两suite通过代替。最终交付主图须来自新实际包的真实tutorial完成后
 生产Journal→Reflection，而非`theme.entry`／`theme.build`字幕压力样本。
+
+## 固定2db的修后渲染范围
+
+`2db6a95a4be814e089e4db6c54d4d54da106fdc5`下，FirstLight
+`89ecc7b871b0/test_first_light`完整173项、无engine ERROR、自然退出0；receipt SHA
+`71d5b161f2627b167e315d65b296ed69d8073dee159b55b2d4e0c9bfbe1e94ca`。
+独立核14张hash，实际查看六组playing、中英720静态及2张反馈前目标采图；其余静态与已看
+中英图同hash。自动Play的canvas、完整字幕、Skip及返回可见，固定NOT1→0灯灭语义正确。
+真实F8／Esc、合法子Window失焦、隐藏、销毁按这次成功收据闭合controller范围；
+压力字幕仍非CPU实际成果，2张incident采图不是反馈面板本身，旧失败不覆写。
+
+新工作台`6328a84e7ea9`完整135项、无engine ERROR、自然退出0，receipt SHA
+`ce44a9d367df8098db928001fe5afd676e1bb3cd94924bf878fbf36d5beb4f49`。
+新12帧已逐张独立查看并逐hash核验；两语三尺寸的浅色手册入口均为清楚深字，正常态
+实际文字／填色4.5:1六组断言通过。原同数据／文字／状态／精确矩形与还原保护也全通过。
+仅QA候选缺口闭合，不将这项扩成全部六态／全游戏可读性或生产全局浅色模式。
+
+F3的`89ecc7b871b0/test_journey_work_review`仍为139项首normal Esc失败，receipt SHA
+`102705c211bfb69f5cda135d73ce3f01d6911be86e7aedecd7516c40aa371a51`。
+已独立查看并核验六张1080×620实际作品快照：两语三根窗口配置下，原64格输出、
+形状符号、播放／静态／低动效、Feedback／返回档案、无生成事件与只读来源说明可见。
+作品名自身的中英原文保持不变；格图末行沿原scroll部分裁剪，未声称全部输出同屏，
+长配方tab亦未由此帧证明。未见额外布局阻断，但tester、销毁、拒存的后半流程未执行。
+同Window Esc桥已独立源审，修后实际输入链待新固定源，六张partial图不认证完整F3。
+
+## F3同窗口输入桥修后验收
+
+固定`241751c475a209348a658a1f8d8c1f0241e7ccb1`的`905a46d13047`作品查看renderer
+完整172项、自然退出0、无engine ERROR；receipt SHA
+`9fd02ee57cfc4273ef7dae6d6f06a9c4a70f622e6d659456751805a692aab1c5`。
+独立核全部10张PNG hash，并实际查看六张两语三根窗口配置的1080×620作品主图：
+必要按钮、原输出、原名、只读来源说明均与前述范围一致；六张与修前对应主图逐字节相同，
+输入桥未改变本组布局或绘制。另四张是反馈前现场采图，不称反馈面板图或OS截图。
+
+本次普通／测试者首Esc、Tab、原焦点返回、销毁后root复用及拒存救援均已实际执行通过，
+原输出／配方／来源、game／workbench／transaction／lease与导航保护也通过。
+这是原Session真实C/P/G保存的controller fixture，不是陌生玩家自然全旅程、60题解答或OS操作。
+旧2db的139项首Esc失败原样保留。当前只关闭本入口的定向GUI范围；整合full及实际新包
+仍为NOT_RUN，最终代表图待新包生产入口，不用本测试图替换包证据。

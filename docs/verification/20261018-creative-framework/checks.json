@@ -1,10 +1,10 @@
 {
   "stage": "ACTIVE",
   "baseline_commit": "d6f594a843d5114fc4eb508916345eb0851e1015",
-  "source_checkpoint": "157e3ef8f844de5a797aa4c7e13f3c3c4503b14d",
-  "source_authority": "Fixed157e renderer receipts use its gitarchive and709non-doc selectedfiles. F3 live2files and subsequent1line FirstLight testfix are frozen for independent review, not covered by these fixed157e results.",
-  "branch": "codex/creative-framework-20261018",
-  "evidence_grade": "Actualea2headless7/8strictFAIL becauseF3 deliberatebrokenJSON errors; narrowexpecteddiagnostic testfix notrun. Prior157eYi/PaletteactualrendererPASS andFirstLightstrictFAIL kept separate. No F3popup acceptance/full/newpackages/native.",
+  "source_checkpoint": "241751c475a209348a658a1f8d8c1f0241e7ccb1",
+  "source_authority": "Actualfixed241 gitarchive full5749identity/selected710materializedcopiedexact/171canonical0extraQA. Affected7stageheadless andF3actualWindow172strictPASS. Finaldocs/distributiononlycheckpoint/full/newpackagespending; no claimedcomplete5749physicalcopy.",
+  "branch": "codex/saved-work-review-20261018",
+  "evidence_grade": "AllimplementedF2/F3component gates passed at recordedfixedsources; latest241F3strictactualWindow172+affected7/7PASS. Finalfixedfull/newpackages/native stillNOT_RUN. Originalea2/2db/157e/a6failuresremain.",
   "scope": [
     "optional first-light retrospective inside existing ThemeReflection",
     "one static replaceable abstract candidate image inside existing introduction",
@@ -42,18 +42,18 @@
   ],
   "current_gates": {
     "source_review": "PASS_STATIC_SCOPE",
-    "import_and_targeted_runtime": "FAIL_STRICT_EA2 8stages7PASS1FAIL; F3selfreported125PASS/process0 but4expected malformedJSON diagnostic errors. Narrowtestonly isolation pendingnewfixedrun. Ec3palette3/3 andold7759FAILretainidentities.",
-    "renderer_languages_and_sizes": "PARTIAL_PRIOR157e Yi208+Palette129PASS; FirstLight strictFAIL2illegalmodal fixtureerrors. Ea2F3 actualWindow notrun afternewheadlessfailure; testonlyfixes pendingnewfixedsource.",
+    "import_and_targeted_runtime": "PASS2417/7affectedregression; prior2db3new+import/userdir5/5 retained. Originalfailedrunsnotrewritten.",
+    "renderer_languages_and_sizes": "SCOPED_COMPONENT_PASS: FirstLight1732db, Yi208157e, palette1352db, Journalwork172241. Source-specific receipts/hashes retained; finalsame-sourcefull+packagesnotrun.",
     "new_exported_packages": "NOT_RUN",
     "new_native_os": "NOT_RUN",
-    "human_comprehension": "NOT_RUN"
+    "human_comprehension": "NOT_RUN",
+    "full_windows_regression": "NOT_RUN finaldocs/distributioncheckpointawaited; original F1full belongsoldsource"
   },
   "pending": [
-    "Fixedea2 FirstLight legal nestedmodal fixture strict actualWindow success, originalerrors retained",
-    "Fixedea2 F3 newheadless+actualpopup twochannel strictfirstEsc/focus/refusedsave/destruction gate; no preemptive WorkFocus sharedguard",
-    "Visual QA-only palette6Button fontcolors plus actualHandbookcontrast>=4.5 delta staticreview andnextfixedrun",
-    "Affected/broader fullintegration and combinedfixed newpackages/native scope asactuallyexecuted",
-    "Actual packageJournalReflection milestones mainframe (fixedentry/build pressurefixture notCPUearned); humanunderstanding andteamcreativejudgment remainopen"
+    "Onefinalfixedsource fullWindowsregression afterdocs/distributioncheckpoint; no sourceunchangedrenderer rerunclaimed",
+    "Actualnewcombinednormal/testerpackages parent/child/strictreopen identities andasset/workroutes; Creativeparent realCPGsetup isnotnormalnaturalcompletion",
+    "FinalpackagedJournalReflection realmilestones mainframe insteadofentry/buildstressfixture, exactcuratedimage/source/hash index",
+    "ActualOS/newcomer/Mac/realoldworks/characterCGvoiceending humanreview remainseparate; priorF1OS notnewfeatureacceptance"
   ],
   "prior_F1_boundary": "SOURCE8334 package controller/native results remain valid only for old packages; they do not certify new a6c6 runtime or media.",
   "first_light_a6c6_initial_failure": {
@@ -631,9 +631,9 @@
   },
   "component_gates": {
     "FirstLight": {
-      "headless": "PASS91 at9a2 and7759 fixed sources",
-      "current_renderer": "FAIL_STRICT157e: selfreport173PASS but2engineERROR; nestedWindow testfixNOT_RUN",
-      "scope": "Main6cases usefixedentry/build stressfixture. Twoillegalmodal testerrors invalidate suite despite allassertselfreport; no wholeacceptance. Testonlylegalchildfix doesnotchangeproduct.",
+      "headless": "PASS91 fixed2db (prior9a/7759 retained)",
+      "current_renderer": "PASS173 strict2db/exit0/0ERROR;14actualPNG incl2feedbackcaptures, oldfailuresretained",
+      "scope": "12mainlocale/size fixedentry+build pressurefixture frames and2actualofflinefeedback screenshots; notearnedCPUproof andnotOS input. RealInput ordinary/testerF8/Esc/feedbackfocus/capturebusy/actualJournalmilestones pluslegalchildmodalfocusloss/hide/destroy andprotectedbytes/navigation executed;173assertions strictPASS0ERROR.",
       "fixture_boundary": "Main6cases use fixed entry/build text fixture; actual Journal lifecycle uses production milestones. No CPU completion claim."
     },
     "Yi_media": {
@@ -641,10 +641,14 @@
       "current_renderer": "PASS208 fixed157e;12actualPNG,0ERROR/exit0; independentimageviewpending"
     },
     "palette_integration": {
-      "current": "PASS ec3 canonical61 plus import/userdir3/3; formal rendered pair matrix pending",
-      "formal_frame_matrix": "PASS129 fixed157e;12actualdark/lightPNG,0ERROR/exit0; independentimageviewpending"
+      "current": "PASS67headless2db includesactualentrycontrast; old157e129renderPASS predatesfontfix",
+      "formal_frame_matrix": "PASS135 strict2db/12actualPNG/6pairs/6Handbookcontrastasserts,0ERROR"
     },
-    "whole_stage": "NOT_ACCEPTED; FirstLight strictfixtureerror andpendingnewF3 integration/full/packages"
+    "whole_stage": "COMPONENT_GATES_PASS_AT_RECORDED_SOURCES; latestfixedfull/newpackages/nativeNOT_RUN",
+    "F3_saved_work_review": {
+      "headless": "PASS125241 with7affectedstagesPASS",
+      "current_renderer": "PASS172strict241/10PNG/0ERROR/exit0; actualnormal/tester/refusedsave/destruction/rootreuse/protection allrun"
+    }
   },
   "first_light_fixture_provenance": {
     "main_six_locale_size_cases": "tests/test_first_light.gd open_reflection fixes keys [theme.entry, theme.build] for narrative-height/gate stress. Tutorial is genuinely completed by controller and protected CPG work genuinely generated, but theme.build is an extra fixture paragraph, not proof of a completed CPU milestone.",
@@ -922,7 +926,7 @@
     "file": "tests/test_first_light.gd",
     "sha256": "f2a88d7fa962bf5bdb080990a11a00f8b27e70073624d9052ec323c8360728e2",
     "delta": "Only root.add_child(blocker) -> dialog.add_child(blocker), legal nested exclusiveWindow. Existingfocus-loss/pause/destruction and ERROR acceptance unchanged.",
-    "status": "FROZEN_STATIC_REVIEW_PENDING; NOT_RUN",
+    "status": "CLOSED_SCOPED2db173strictactualrendererPASS0ERROR; prior157estrictFAILretained",
     "CR_count": 0
   },
   "rendered_157e_independent_components": {
@@ -1122,13 +1126,36 @@
     },
     "scope": "Remoteheadless regression cannot substitute for strict renderer errors."
   },
-  "latest_checkpoint_root_reported": "ea2f49a",
-  "current_integration_source_authority": "Root ea2 committed/pushed; actual8stage targetedstrictFAIL7/8 nowaudited. Workingnewtest36baa andpalette9ee QAonlychanges arefrozen forindependentreview, not partofea2. F3 production18d77 unchanged.",
+  "latest_checkpoint_root_reported": "241751c475a209348a658a1f8d8c1f0241e7ccb1",
+  "current_integration_source_authority": "Actualfixed241 gitarchive full5749identity/selected710materializedcopiedexact/171canonical0extraQA. Affected7stageheadless andF3actualWindow172strictPASS. Finaldocs/distributiononlycheckpoint/full/newpackagespending; no claimedcomplete5749physicalcopy.",
   "f3_saved_work_review": {
-    "status": "IMPLEMENTED_STATIC_REVIEW_PASS; narrow testfixture diagnostic correction pendingfixedrun",
+    "status": "IMPLEMENTED_STATIC_REVIEW_PASS+SCOPED_RUNTIME_PASS241; finalfull/packagespending",
     "checkpoint_root_reported": "ea2f49a",
     "plan": "docs/exec-plans/active/saved-work-review-20261018.md",
-    "owned_files": [
+    "behavior": "Read actualFiles.read_session, distinguish saved/recovery snapshots, reread selectedid on click. ExistingWorkFocus.configure(work.duplicate,trueenglish,{}) only, explicitdisabledfork and nofork/replayhandler. CurrentWindow feedback usesoriginalchannels; no Session instance, writer, regeneratedoutput, dates orcompletion mutation.",
+    "independent_reviewers": [
+      "Narrative currentprod18d77/testf8e no staticblocker; normalfirstEsc remains actualWindow gate",
+      "Visual no staticblocker; test writer/recovery emptylockdirectory snapshot2keys independentlyrechecked"
+    ],
+    "test_scope": "Real generated/saved2works; no unrelated tutorialaward;2languages3dimensions; savedoutput/recipe, stale/unknownid, future/broken/tampered input, exactdisk/game/best/nav andlease/.recovering existence. Renderer actualF8/Tab/firstEsc/focus/destroy/rootreopen and testonly RefusingNotes subclass for failedsave rescue. No actualrun claim.",
+    "shared_source_changes": "Onlyexperiments/creation/work_focus.gd narrowinputbridge authorizedafteractualfailure; sharedMoments/OfflineFeedback/Session/Files remainunchanged",
+    "runtime_status": "PASS125headless+PASS172actualWindow241/0ERROR/exit0",
+    "package_status": "NOT_RUN combinedfixedpackagepending",
+    "current_frozen_files": [
+      {
+        "path": "src/ui/journey_journal.gd",
+        "sha256": "18d77b55a438aa5d40f27799ae95cec7cef33660d9ed05b3ce303a7179c71df6"
+      },
+      {
+        "path": "tests/test_journey_work_review.gd",
+        "sha256": "36baa7ceea439b01fd892deb97a499c448a9f826c93a8422fde1dc1ed830cf58"
+      },
+      {
+        "path": "experiments/creation/work_focus.gd",
+        "sha256": "97c2a2ffbe3198b378c67bded50a916ac38addac204297dada132868e0fa3d0b"
+      }
+    ],
+    "initial_ea2_files": [
       {
         "path": "src/ui/journey_journal.gd",
         "sha256": "18d77b55a438aa5d40f27799ae95cec7cef33660d9ed05b3ce303a7179c71df6"
@@ -1137,16 +1164,7 @@
         "path": "tests/test_journey_work_review.gd",
         "sha256": "f8e1ccf20135b900826b4ab8e054197b1d78c76a3c14fe28ce1c817797a23ad8"
       }
-    ],
-    "behavior": "Read actualFiles.read_session, distinguish saved/recovery snapshots, reread selectedid on click. ExistingWorkFocus.configure(work.duplicate,trueenglish,{}) only, explicitdisabledfork and nofork/replayhandler. CurrentWindow feedback usesoriginalchannels; no Session instance, writer, regeneratedoutput, dates orcompletion mutation.",
-    "independent_reviewers": [
-      "Narrative currentprod18d77/testf8e no staticblocker; normalfirstEsc remains actualWindow gate",
-      "Visual no staticblocker; test writer/recovery emptylockdirectory snapshot2keys independentlyrechecked"
-    ],
-    "test_scope": "Real generated/saved2works; no unrelated tutorialaward;2languages3dimensions; savedoutput/recipe, stale/unknownid, future/broken/tampered input, exactdisk/game/best/nav andlease/.recovering existence. Renderer actualF8/Tab/firstEsc/focus/destroy/rootreopen and testonly RefusingNotes subclass for failedsave rescue. No actualrun claim.",
-    "shared_source_changes": false,
-    "runtime_status": "FAIL_STRICT_EA2:125selfreportedPASS/process0 but4deliberate malformedJSON parsererrors; trueWindowinput notrun",
-    "package_status": "NOT_RUN_F2_F3_COMBINED"
+    ]
   },
   "space_recovery_reproducible_docs_only": {
     "precleanup_audit": ".godot/qa-duplicate-docs-audit.json",
@@ -1250,18 +1268,555 @@
   "f3_expected_malformed_json_diagnostic_fix": {
     "file": "tests/test_journey_work_review.gd",
     "sha256": "36baa7ceea439b01fd892deb97a499c448a9f826c93a8422fde1dc1ed830cf58",
-    "status": "FROZEN_FOR_NARRATIVE_VISUAL_REVIEW; NOT_RUN",
+    "status": "PASS125_HEADLESS2db; originalea2FAIL retained",
     "scope": "Only raw==broken-json saves Engine.print_error_messages, setsfalse for one synchronous journal.open, immediatelyrestores before anyassert orawait. All malformedinput/unknownschema/tamper/protectedbytes checks and normal/feedback logs/strictmonitor unchanged. Session/Files/shared production notmodified. Existing test_offline_store uses same narrow expectedfault pattern.",
     "previous_original_failure_retained": true
   },
   "palette_handbook_contrast_QA_delta": {
     "file": "tests/test_workbench_palette_comparison.gd",
     "sha256": "9ee938e395ffc59768101316d64a92f4908e70e522224195ee99bb3fcaeafd33",
-    "status": "KNOWLEDGE_STATIC_REVIEW_PASS; NOT_RUN",
+    "status": "CLOSED_SCOPED2db67headless+135actualrendererPASS12frames; prior157ereadabilitygapretained",
     "baseline_test_sha256": "e9e14ca11ba1b69bd940ccfdeae444f694a98689329b4f074a26bba45f2bdfc2",
     "delta": "Saveoriginal HandbookTheme; shallowduplicateonlyButton6fontstatecolors fromcandidate; restoreoriginaltheme on dark. Nofont/stylebox/geometry change. Original23checkcalls/61dynamic assertions retained; oneactualentry normalfont/fill srgb-to-linear luminance ratio>=4.5 assert per6cases. Receipt clarifiesactualcandidategraycanvas, darksignalinput andthumbnails.",
     "normal_state_only": true,
     "production_changed": false,
     "prior_157e_readability_gap_retained": "Old157e129PASS12frames didnotassert Handbooks localfontcontrast; Visualobservedweaklighttext. Oldframe/results unchanged."
+  },
+  "previous_source_checkpoint_157e": "157e3ef8f844de5a797aa4c7e13f3c3c4503b14d",
+  "historical_branch_creative_framework": "codex/creative-framework-20261018",
+  "targeted_2db_headless": {
+    "source_commit": "2db6a95a4be814e089e4db6c54d4d54da106fdc5",
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "platform": "win32",
+    "raw_results": ".godot/verification/20261017T225840Z-187ae774/results.json",
+    "raw_results_sha256": "15f2674e9ad49737bec53872168c20b7ce9b0be3d747dc088cb8c6979da3ea44",
+    "stages": 5,
+    "passed": 5,
+    "failed": 0,
+    "overall_exit": 0,
+    "stage_results": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T225840Z-187ae774/import.txt",
+        "raw_log_sha256": "2276d947d58895e18635e8843ddbadfa17a5585b6039b35564caf551cd762c6b"
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T225840Z-187ae774/user_directory.txt",
+        "raw_log_sha256": "3a55740d8e3b5eefe4ecdd068f16479c68bd114617414f2975c00bfab77481cf"
+      },
+      {
+        "name": "test_first_light",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T225840Z-187ae774/test_first_light.txt",
+        "raw_log_sha256": "a4bbd88ef7bf6351cb3967fe92300b9bfcb4ea1364e5621b6cd8d98292a0381f"
+      },
+      {
+        "name": "test_journey_work_review",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T225840Z-187ae774/test_journey_work_review.txt",
+        "raw_log_sha256": "754a81c98bba8f491159141a187317e2dddc81a2ddb10576939ade5aa909d4c5"
+      },
+      {
+        "name": "test_workbench_palette_comparison",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T225840Z-187ae774/test_workbench_palette_comparison.txt",
+        "raw_log_sha256": "c1321259a4caa5874119ad93de7fb908130d59c255dd37c39c04447e72db8a1f"
+      }
+    ],
+    "suite_checks": {
+      "test_first_light": 91,
+      "test_journey_work_review": 125,
+      "test_workbench_palette_comparison": 67
+    },
+    "copy_parity": ".godot/f2-fixed-watch/4e647a7bff38/copy-parity.json",
+    "copy_parity_sha256": "29a47e9c155206df9193cd1352fa76431a7ebcda4d895212488e77b75beb8854",
+    "full_archive_files": 5749,
+    "selected_source_files": 710,
+    "materialized_source_files": 710,
+    "copied_selected_exact_files": 710,
+    "all_selected_copy_bytes_exact": true,
+    "canonical_test_files": 171,
+    "extra_qa_tests": 0,
+    "full_archive_materialized": false,
+    "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+    "helper_sha256": "56f2ee89567090922071df9a5c69f0c349403e07b703ff5d2d8d04922fc4b0cc",
+    "owned_monitor": ".godot/f2-fixed-watch/4e647a7bff38/owned-processes.json",
+    "owned_monitor_sha256": "f8ef9171632a8ed8ae5e0f8f0d193c5ef3749aba8461c44978d91b9bd58d0037",
+    "owned_normal_exit0": 5,
+    "owned_early_termination": 0,
+    "independent_audit": "Knowledge read5results/logs,parity andall5ownedrecords and recomputedSHA; no reviewerengine launched."
+  },
+  "handoff_review_questions": [
+    "After the actual tutorial, does FirstLight read as an optional fixedNOT1to0 retrospective rather than currentcircuit signal, physicalenergy oranotherCPUachievement?",
+    "Does the replaceable introduction archive feel likecandidatefiction without committing Yi appearance/personality/voice orcivilizationhistory?",
+    "For the same realworkbench/state, which dark/lightcandidate is easier toread andacton, includingHandbookentry? LocalQAcomparison is not productiontheme support.",
+    "Can a reader distinguish protectedsavedoutput/recipe from unprovidedgenerationevents and unconfirmedread-onlyrecovery, and return viafeedback/Esc without losingplace?",
+    "Which nexthumanreview should prioritize art/character/voice/endingvariants versus newcomer/Mac/realoldwork testing? Those remainopen, notimplicitlyapproved."
+  ],
+  "handoff_asset_interfaces": {
+    "introduction": "src/ui/yi_introduction.gd @exportmedia_texture:Texture2D; packagedabstractSVG default. Null/emptytexture hidesmedia while nativeprose/actions survive.",
+    "first_light": "src/ui/first_light.gd preview_texture:Texture2D optional; positivewidth/height only, otherwise proceduralfallback. Originalsubtitle/caption remainnative; no autoplay/rewardauthority.",
+    "saved_work": "Journal directlypassesoriginalwork to existingWorkFocus.configure(snapshot,english,{}) withforkdisabled. This isviewing existingoutput, notauthoring newmodel/recipe/evidence.",
+    "review_boundary": "No asset is finalCG/persona/voice/ending. Replacing sourceasset requiresnewfixedsource/package; do not replacebytes insidefrozenZIP."
+  },
+  "combined_package_handoff": {
+    "status": "PENDING_ACTUAL_BUILD_AND_RECEIPTS",
+    "source_build_paths_sha": "Not filled untilactualfixedcombinedpackages exist",
+    "controller_setup_disclosure": "Creative packageparent preparesrealC/P/G savedworks throughactualcontrollers toverifyWindow/protectedbytes. This is QAsetup, notordinarynormal naturalprogression ornewcomercompletion.",
+    "currently_accepted_packages": "OldF1source8334 packages remain at frozenF1evidenceentry; they do not certifycurrent2db features."
+  },
+  "rendered_2db_first_light_pass": {
+    "source_commit": "2db6a95a4be814e089e4db6c54d4d54da106fdc5",
+    "test": "test_first_light",
+    "test_sha256": "f2a88d7fa962bf5bdb080990a11a00f8b27e70073624d9052ec323c8360728e2",
+    "receipt": ".godot/f2-rendered/89ecc7b871b0/test_first_light/receipt.json",
+    "receipt_sha256": "71d5b161f2627b167e315d65b296ed69d8073dee159b55b2d4e0c9bfbe1e94ca",
+    "raw_log": ".godot/f2-rendered/89ecc7b871b0/test_first_light/renderer.log",
+    "raw_log_sha256": "faeb8d8d368cfa9096bc7a14387bbebb90b417127c44207accc0e90093d29ec7",
+    "assertions_self_reported": 173,
+    "passed": true,
+    "exit": 0,
+    "pid": 16364,
+    "elapsed_seconds": 60.406,
+    "owned_early_termination": "",
+    "raw_errors": [],
+    "frames": [
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/en-1280-playing.png",
+        "sha256": "95598f92cdb5d61d792ef66420c873e0a06a70f68899aca623aa9b84e1389a5d",
+        "bytes": 51795
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/en-1280-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b",
+        "bytes": 51785
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/en-1440-playing.png",
+        "sha256": "f082da499cde1dbc24e27249d38b2bd93ff434b0892c40607f6d3f56cebf78fc",
+        "bytes": 51794
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/en-1440-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b",
+        "bytes": 51785
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/en-1920-playing.png",
+        "sha256": "95598f92cdb5d61d792ef66420c873e0a06a70f68899aca623aa9b84e1389a5d",
+        "bytes": 51795
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/en-1920-static.png",
+        "sha256": "f55c77c3ef41a5f3df9c579be21895a2c62930abc6f34a24fea3f2828cbc996b",
+        "bytes": 51785
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/zh_CN-1280-playing.png",
+        "sha256": "141cf37d452315a05470dbc2941dc86c790ad6632f6995aa77ca136e2c188a51",
+        "bytes": 51133
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/zh_CN-1280-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b",
+        "bytes": 51130
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/zh_CN-1440-playing.png",
+        "sha256": "76e1f7d72efe9b13668ac0a817b655324875f0177e03c9f3a4db74425943b4b0",
+        "bytes": 51134
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/zh_CN-1440-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b",
+        "bytes": 51130
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/zh_CN-1920-playing.png",
+        "sha256": "141cf37d452315a05470dbc2941dc86c790ad6632f6995aa77ca136e2c188a51",
+        "bytes": 51133
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/first-light-captures/zh_CN-1920-static.png",
+        "sha256": "64b9a6d92dfd73d9ff8f5d1b8bf588c1cf74023e6fa83b826a284ba3adc2d96b",
+        "bytes": 51130
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/offline_playtest/cases/19cb00cedf5dae14bc8ab72060d8cdcf/screenshot.png",
+        "sha256": "f116292c485c8a444f6a9e1f583b3bdeb0752ee0835f3e6c41f447b7db6464d4",
+        "bytes": 51046
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_first_light/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_first_light/offline_playtest/cases/cebb3651c6c5021215e86486f4bd3d77/screenshot.png",
+        "sha256": "ca7a7cefe3b33ce9628c9c012b74e4a1616d1a85556a111fb7ffd1fad9a864e3",
+        "bytes": 45340
+      }
+    ],
+    "artifacts": [],
+    "helper_sha256": "53ddaa78e9ae60e05988ee0d997dec31d3d6bc8e4884640d432c3c68690b7a4e",
+    "selected_source_files": 710,
+    "full_archive_sha256": "084dacf2df8fe01c5996a1c1e3bb0bf9253cdf6ee867cdab155e91f24e54248a",
+    "independent_audit": "Knowledge recomputedreceipt/log/allframe+artifactSHA andreadactualraw; actualimageview belongsVisual separately.",
+    "frame_scope": "12mainlocale/size fixedentry+build pressurefixture frames and2actualofflinefeedback screenshots; notearnedCPUproof andnotOS input.",
+    "verified_runtime_scope": "RealInput ordinary/testerF8/Esc/feedbackfocus/capturebusy/actualJournalmilestones pluslegalchildmodalfocusloss/hide/destroy andprotectedbytes/navigation executed;173assertions strictPASS0ERROR."
+  },
+  "rendered_2db_journey_work_review_failure": {
+    "source_commit": "2db6a95a4be814e089e4db6c54d4d54da106fdc5",
+    "test": "test_journey_work_review",
+    "test_sha256": "36baa7ceea439b01fd892deb97a499c448a9f826c93a8422fde1dc1ed830cf58",
+    "receipt": ".godot/f2-rendered/89ecc7b871b0/test_journey_work_review/receipt.json",
+    "receipt_sha256": "102705c211bfb69f5cda135d73ce3f01d6911be86e7aedecd7516c40aa371a51",
+    "raw_log": ".godot/f2-rendered/89ecc7b871b0/test_journey_work_review/renderer.log",
+    "raw_log_sha256": "f5d06be06d6b6ddbea4f05d3c990bcfdf12f26e7eab86e190aa8c29e3727da2d",
+    "assertions_self_reported": 139,
+    "passed": false,
+    "exit": 1,
+    "pid": 30248,
+    "elapsed_seconds": 26.092,
+    "owned_early_termination": "",
+    "raw_errors": [
+      "ERROR: First Escape closes only feedback and keeps both lower layers",
+      "FAIL: Journal saved-work review 139 checks; real saved-work fixture, no native-OS claim"
+    ],
+    "frames": [
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_journey_work_review/journey-work-captures/en-1280-snapshot.png",
+        "sha256": "b4df052fe434112f526a6172c3627169d07184fd7636713d311e099570b4e797",
+        "bytes": 89735
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_journey_work_review/journey-work-captures/en-1440-snapshot.png",
+        "sha256": "b4df052fe434112f526a6172c3627169d07184fd7636713d311e099570b4e797",
+        "bytes": 89735
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_journey_work_review/journey-work-captures/en-1920-snapshot.png",
+        "sha256": "b4df052fe434112f526a6172c3627169d07184fd7636713d311e099570b4e797",
+        "bytes": 89735
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_journey_work_review/journey-work-captures/zh_CN-1280-snapshot.png",
+        "sha256": "b1b7de4a9dfa069dddeb17b94bb08bcb1ed8d3c975b749facd6f2c16c9cbaaac",
+        "bytes": 95318
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_journey_work_review/journey-work-captures/zh_CN-1440-snapshot.png",
+        "sha256": "b1b7de4a9dfa069dddeb17b94bb08bcb1ed8d3c975b749facd6f2c16c9cbaaac",
+        "bytes": 95318
+      },
+      {
+        "path": ".godot/f2-rendered/89ecc7b871b0/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-89ecc7b871b0/test_journey_work_review/journey-work-captures/zh_CN-1920-snapshot.png",
+        "sha256": "b1b7de4a9dfa069dddeb17b94bb08bcb1ed8d3c975b749facd6f2c16c9cbaaac",
+        "bytes": 95318
+      }
+    ],
+    "artifacts": [],
+    "helper_sha256": "53ddaa78e9ae60e05988ee0d997dec31d3d6bc8e4884640d432c3c68690b7a4e",
+    "selected_source_files": 710,
+    "full_archive_sha256": "084dacf2df8fe01c5996a1c1e3bb0bf9253cdf6ee867cdab155e91f24e54248a",
+    "independent_audit": "Knowledge recomputedreceipt/log/allframe+artifactSHA andreadactualraw; actualimageview belongsVisual separately.",
+    "earliest_failed_assertion": "feedback_stack266: First Escape closes only feedback and keeps both lower layers",
+    "actual_scope": "All6snapshotframes saved. Firstnormal F8/popupfocus/Tab reached; soleassertfailure atfirstEsc, followedbyvalidityguardreturn. Tester loop/destruction/refusedsave notcompleted. NotScriptError; finalsuiteprocessnaturallyexit1. No separateflagsdump inraw; no inventedflagobservations.",
+    "source_explanation": "ExistingWorkFocus._unhandled_key_input dismisses viewer onEsc whileMoments inviewer viewport lacksitsroot_input close; sourcechain explainsfirstEscdestroy. Root authorizedfocusedselfviewport feedbackEscbridgeonlyafteractualreproduction."
+  },
+  "rendered_2db_palette_contrast_pass": {
+    "source_commit": "2db6a95a4be814e089e4db6c54d4d54da106fdc5",
+    "test": "test_workbench_palette_comparison",
+    "test_sha256": "9ee938e395ffc59768101316d64a92f4908e70e522224195ee99bb3fcaeafd33",
+    "receipt": ".godot/f2-rendered/6328a84e7ea9/test_workbench_palette_comparison/receipt.json",
+    "receipt_sha256": "ce44a9d367df8098db928001fe5afd676e1bb3cd94924bf878fbf36d5beb4f49",
+    "raw_log": ".godot/f2-rendered/6328a84e7ea9/test_workbench_palette_comparison/renderer.log",
+    "raw_log_sha256": "d8c43827dc3ee243f0f9a6e97bff85c0983a92453302b4416929f82903035a4a",
+    "assertions_self_reported": 135,
+    "passed": true,
+    "exit": 0,
+    "pid": 39524,
+    "elapsed_seconds": 11.652,
+    "owned_early_termination": "",
+    "raw_errors": [],
+    "frames": [
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-en-1280x720-dark.png",
+        "sha256": "a719499958c9ca149e0d2f6067006e2945e2c2325048b547896dabc32700529a",
+        "bytes": 140984
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-en-1280x720-light-candidate.png",
+        "sha256": "12deaaba1757fc9a22465f49b947789298873af93ebc59b2cc030f7449d51043",
+        "bytes": 141115
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-en-1440x900-dark.png",
+        "sha256": "32ee2921e32a54fd8a961143b89ab4e1bd11d08820f8b5e65e97354251810a6a",
+        "bytes": 152427
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-en-1440x900-light-candidate.png",
+        "sha256": "8f12404fb6d063bc200820b32aa1ad88d153517a0b0bcd18987649badd47a62d",
+        "bytes": 152044
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-en-1920x1080-dark.png",
+        "sha256": "2098cbb604bcaee313af3ef3798ba9a6a63cac4e9abca67136a11c9526d0ad66",
+        "bytes": 164978
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-en-1920x1080-light-candidate.png",
+        "sha256": "9107befdb6312e860516b2222e6cb14a29c2373e6be04dada970c1a4ef621078",
+        "bytes": 164689
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1280x720-dark.png",
+        "sha256": "22ff53469bd78e682ee78769950dca5528d3d81729a1b5d9b088efd72ec76db3",
+        "bytes": 149389
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1280x720-light-candidate.png",
+        "sha256": "cc829447f684c169d88b1cc019fb9eaeb8c59bb950091080e346a5e27557ae09",
+        "bytes": 149695
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1440x900-dark.png",
+        "sha256": "0205dd2cda9438465d7c68e9c823959cfeb975e9a51fe8fafd40a41e5eab61c3",
+        "bytes": 161123
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1440x900-light-candidate.png",
+        "sha256": "bae7480e8e0e2a580e2df107bdfdb047a89718b8be9b2837c17d73fabc67de7e",
+        "bytes": 161486
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1920x1080-dark.png",
+        "sha256": "117bcfb805f9954e989a37a471d519008025fc78c2d88d4f99c3a6008040d656",
+        "bytes": 174383
+      },
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/hardware-tutorial-zh_CN-1920x1080-light-candidate.png",
+        "sha256": "547aa156cb6d1c1d56fd94fe284233a1cdbfb92ba583c10b363de06914ed83a5",
+        "bytes": 174615
+      }
+    ],
+    "artifacts": [
+      {
+        "path": ".godot/verification/20261017T225840Z-187ae774/project/.godot/workbench-palette-captures/receipt.json",
+        "sha256": "3315f9eb4bd87741ecad90ab5e25dec8c083d91e722d1dc0cf99a364c6a71079",
+        "pairs": 6,
+        "all_same_authority_and_exact_controls": true
+      }
+    ],
+    "helper_sha256": "746b87c2a77c83e384e80266f2dbff31ac639a14f211d72788767f71265dd333",
+    "selected_source_files": 710,
+    "full_archive_sha256": "084dacf2df8fe01c5996a1c1e3bb0bf9253cdf6ee867cdab155e91f24e54248a",
+    "independent_audit": "Knowledge recomputedreceipt/log/allframe+artifactSHA andreadactualraw; actualimageview belongsVisual separately.",
+    "scope": "Actual2languages3sizes6dark/lightpairs plus6normalHandbookentrycontrast>=4.5 assertions. QA-local colorsonly, no globalproductionlighttheme; graycanvas preservesnativecircuitsymbols/ports, signalbutton/thumbnails staydark."
+  },
+  "work_focus_same_window_feedback_fix": {
+    "file": "experiments/creation/work_focus.gd",
+    "sha256": "97c2a2ffbe3198b378c67bded50a916ac38addac204297dada132868e0fa3d0b",
+    "CR_count": 0,
+    "authorization": "Root conditionalscope enabledafteractual2dbnormalfirstEscFAIL",
+    "status": "CLOSED_SCOPED241:7affectedheadlessPASS+actualF3Window172strictPASS; old2db139FAILretained",
+    "delta": "Onlyvisible+focusedWindow Escape matchingvisiblepanel.get_viewport()==self firstclose/handled forOffline/Moments. ExistingF8emit remainsfirst; _unhandledotherkeys deferwhileexistingfeedbackflagtrue. No newprocess_mode/Session/model/save/sharedfeedback modification. Originaltest36baa unchanged.",
+    "old_failure_retained": true,
+    "required_next_scope": "newfixedrealWindow ordinary/testerpausedInput, refusedsave rescue+destruction, rootreuse; affectedWorkFocus/feedbackregression beforewholefull/package."
+  },
+  "previous_source_checkpoint_2db": "2db6a95a4be814e089e4db6c54d4d54da106fdc5",
+  "targeted_241_affected_regression": {
+    "source_commit": "241751c475a209348a658a1f8d8c1f0241e7ccb1",
+    "raw_results": ".godot/verification/20261017T230422Z-486d5fca/results.json",
+    "raw_results_sha256": "c44bf4dc6eeca64bce483961e667edb382a71d795d591236ec214e16389a53de",
+    "stages": 7,
+    "passed": 7,
+    "failed": 0,
+    "overall_exit": 0,
+    "stage_results": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T230422Z-486d5fca/import.txt",
+        "raw_log_sha256": "2276d947d58895e18635e8843ddbadfa17a5585b6039b35564caf551cd762c6b"
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T230422Z-486d5fca/user_directory.txt",
+        "raw_log_sha256": "dfc316e824a5f4310e74ba36b4e225602fd44f95974875023329e68987b9051d"
+      },
+      {
+        "name": "test_creation_work_focus",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T230422Z-486d5fca/test_creation_work_focus.txt",
+        "raw_log_sha256": "de6a69aadc21a7b265fd390327adf694b1dd1a7b640567c2fb5d559a8212d8c8"
+      },
+      {
+        "name": "test_journey_journal",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T230422Z-486d5fca/test_journey_journal.txt",
+        "raw_log_sha256": "e853d769b0df72dee9a98dc1e85507a2fcd7bc7846db3e6d127e9825ed6a5b8f"
+      },
+      {
+        "name": "test_journey_work_review",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T230422Z-486d5fca/test_journey_work_review.txt",
+        "raw_log_sha256": "754a81c98bba8f491159141a187317e2dddc81a2ddb10576939ade5aa909d4c5"
+      },
+      {
+        "name": "test_offline_feedback",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T230422Z-486d5fca/test_offline_feedback.txt",
+        "raw_log_sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157"
+      },
+      {
+        "name": "test_work_focus_feedback",
+        "passed": true,
+        "exit": 0,
+        "raw_log": ".godot/verification/20261017T230422Z-486d5fca/test_work_focus_feedback.txt",
+        "raw_log_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd"
+      }
+    ],
+    "copy_parity": ".godot/f2-fixed-watch/0e40adf96195/copy-parity.json",
+    "copy_parity_sha256": "e52f0bdafb410a5d556682c88fa7eca70b79620cd0fa86e86fa78c0d69e1c2f8",
+    "full_archive_files": 5749,
+    "selected_materialized_exact_files": 710,
+    "canonical_test_files": 171,
+    "extra_qa_tests": 0,
+    "full_archive_materialized": false,
+    "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+    "helper_sha256": "59f8a24e8a25754d67bf2eb69342b5233b4c88180086e02223e11a64878381ee",
+    "owned_monitor": ".godot/f2-fixed-watch/0e40adf96195/owned-processes.json",
+    "owned_monitor_sha256": "f96d40e8e2f43dbca7993e9fcd6711f1c2ceeedc6a9de447c9b00986a2d2959a",
+    "owned_normal_exit0": 7,
+    "owned_early_termination": 0
+  },
+  "rendered_241_journey_work_review_pass": {
+    "source_commit": "241751c475a209348a658a1f8d8c1f0241e7ccb1",
+    "test_sha256": "36baa7ceea439b01fd892deb97a499c448a9f826c93a8422fde1dc1ed830cf58",
+    "receipt": ".godot/f2-rendered/905a46d13047/test_journey_work_review/receipt.json",
+    "receipt_sha256": "9fd02ee57cfc4273ef7dae6d6f06a9c4a70f622e6d659456751805a692aab1c5",
+    "raw_log": ".godot/f2-rendered/905a46d13047/test_journey_work_review/renderer.log",
+    "raw_log_sha256": "80a8ed5d34440e294e8dfacadc2c33e7db7035483c91f0b91111631ceb4c9abd",
+    "checks": 172,
+    "passed": true,
+    "exit": 0,
+    "engine_errors": 0,
+    "pid": 39140,
+    "elapsed_seconds": 43.368,
+    "owned_early_termination": "",
+    "helper_sha256": "03ddbfa3aba625853c643ba5dfe5a2c7cb8a1b5b8ceab7bf79c6d07594e1b767",
+    "full_archive_sha256": "b2bcfe11b3f2c70da486fb26121860c67502d59cb72fe2888687bc76ef6e638c",
+    "selected_source_files": 710,
+    "frames": [
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/journey-work-captures/en-1280-snapshot.png",
+        "sha256": "b4df052fe434112f526a6172c3627169d07184fd7636713d311e099570b4e797",
+        "bytes": 89735
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/journey-work-captures/en-1440-snapshot.png",
+        "sha256": "b4df052fe434112f526a6172c3627169d07184fd7636713d311e099570b4e797",
+        "bytes": 89735
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/journey-work-captures/en-1920-snapshot.png",
+        "sha256": "b4df052fe434112f526a6172c3627169d07184fd7636713d311e099570b4e797",
+        "bytes": 89735
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/journey-work-captures/zh_CN-1280-snapshot.png",
+        "sha256": "b1b7de4a9dfa069dddeb17b94bb08bcb1ed8d3c975b749facd6f2c16c9cbaaac",
+        "bytes": 95318
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/journey-work-captures/zh_CN-1440-snapshot.png",
+        "sha256": "b1b7de4a9dfa069dddeb17b94bb08bcb1ed8d3c975b749facd6f2c16c9cbaaac",
+        "bytes": 95318
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/journey-work-captures/zh_CN-1920-snapshot.png",
+        "sha256": "b1b7de4a9dfa069dddeb17b94bb08bcb1ed8d3c975b749facd6f2c16c9cbaaac",
+        "bytes": 95318
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/offline_playtest/cases/0a298b1c26e94ab2c4dde09939355f00/screenshot.png",
+        "sha256": "ef0b720e2593a1be25819bfe42fe5ae36b9335d47e3d392517369a9a3c98b990",
+        "bytes": 232672
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/offline_playtest/cases/4403791cb4b55c5bf3bb3f9f921adfef/screenshot.png",
+        "sha256": "24c54aa225f24a621c6fafb16d4b626bd0e4dfa917279e99e59b898f16c7100e",
+        "bytes": 73829
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/offline_playtest/cases/a0378901388a3e6decd92f0cefe4dd80/screenshot.png",
+        "sha256": "b4df052fe434112f526a6172c3627169d07184fd7636713d311e099570b4e797",
+        "bytes": 89735
+      },
+      {
+        "path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/offline_playtest/cases/c689b49f8f8c11e50a484acfbbf5746c/screenshot.png",
+        "sha256": "b4df052fe434112f526a6172c3627169d07184fd7636713d311e099570b4e797",
+        "bytes": 89735
+      }
+    ],
+    "frame_scope": "6savedworkmainframes +4actualofflinefeedback screenshots, noOS-inputclaim",
+    "actual_scope": "Fullnormal/tester F8/Tab/firstEsc/exactfocus, nextEscJournal/root, popupdestruction/sharedlayerreuse/rootF8, RefusingNotescontrolledsavefailure+Windowdestruction/rootrescue/recoveredclose, exactprotectedstate/lease/nav all executed.",
+    "protection_grade": "Canonicalruntime before/after assertions compared fullprotectedfileinventory/game/best/nav/leasepresence; no independentpersistentbefore/aftermap was emitted. Automatedhardwareworkbench is original --script memoryfixture, notoldrealplayerdiskworkspace. Actualpackage strictdisk authorities remain separatefuturegate.",
+    "independent_final_fixture_observation": {
+      "profile_path": ".godot/f2-rendered/905a46d13047/test_journey_work_review/runtime/appdata/VonNeumannBottleneckChecks/F2Rendered-905a46d13047/test_journey_work_review/creation-candidate/session.json",
+      "profile_sha256": "5e3d37c1ebc434ddfa7373cee802b85eb18dae709b72dfc8c9309693d3a9d25b",
+      "backup_sha256": "eb514c7fc5328f042584c4ba9ede6cbe2a420f89ef68adaa79a56ed4880ae182",
+      "works": [
+        {
+          "id": "de716f9f2afbfba72a5bcf01eb0c183ddbdae8fd7a6b99e168c6f49ba4a8f375",
+          "output_cells": 64
+        },
+        {
+          "id": "3a4dbc20b8527e91fcdbbcb5d9713f951a19c1fe3d130f7052b18831bce8bda5",
+          "output_cells": 64
+        }
+      ],
+      "writer_lock_present": false,
+      "writer_recovery_lock_present": false,
+      "local_incident_count": 4,
+      "pending_present": false
+    },
+    "independent_receipt_hash_audit": "Knowledge readoriginalreceipt/log/testsource/protectionasserts, recomputedall10PNG andfinalfixturefileSHA; Visual independentlyviewed6mainframes andreportedidenticalto2dbsnapshots; no reviewerengine."
+  },
+  "distribution_text_handoff": {
+    "status": "FROZEN_ROOT_VISUAL_STATIC_REVIEW_PASS; finalpacknotrun",
+    "files": [
+      {
+        "path": "distribution/PLAYTEST-README.txt",
+        "sha256": "bc6a4ea935f40d868e18bb9b55b6ff85a2ca93be9b027c0073884ee3ecd1347e"
+      },
+      {
+        "path": "distribution/OFFLINE-PLAYTEST-README.txt",
+        "sha256": "31facc9fd1325ac9f71cfed31801040822fd3b25eff0827f51dbff3408450def"
+      },
+      {
+        "path": "distribution/CHANGELOG.txt",
+        "sha256": "bea69b23dd42432c259918901543564cc579ac78dbe68ce2d8f88174a7471d9f"
+      },
+      {
+        "path": "distribution/KNOWN-ISSUES.txt",
+        "sha256": "458b5ac46676d459be2bf376094e9cff7ec3e78b3cdcee3fe2db4a6d3b8493fd"
+      }
+    ],
+    "diff": ".godot/distribution-f3-review.diff",
+    "diff_sha256": "77eac822f9bdb244603d4f0a63f9e30384b51841c361edcb2f921567fc2070b4",
+    "scope": "OnlyobservableHome/Mapjournal/3D, earnedoptionalNOT1to0replay, read-onlysavedworks/recipe/source/nofork/events, originalcreation, feedbacklayer/rescue andcandidatehumanplatformlimits. Originalplaceholders/profile/consent/nonrelatedhistory retained; noQAcounts/newbuildpaths."
   }
 }

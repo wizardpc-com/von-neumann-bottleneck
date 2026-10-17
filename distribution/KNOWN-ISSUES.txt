@@ -2,7 +2,10 @@
 Build: @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
 
-- 2026-10-18 夜间候选：壹的文字与深色皮肤等待团队审阅；浅色目前仅有独立控件比较样张。
+- 2026-10-18 创作候选：壹的抽象档案图与第一束光保留可替换素材接口，不是最终CG、人设、声线或结局。
+- 深浅对照是同工作台的候选比较样张，不是生产全局浅色主题选项；色板仍待团队审阅。
+- 成长档案与观察站由原完成记录派生，不补写旧事件。观察站的灯和回顾光点不表示物理信号、能耗或智能测量。
+- 档案作品查看只提供原保存快照与配方；未知配方／恢复内容会标为只读，不提供生成事件回放或分叉。继续创作请回原工作台。
 - 新版仅提供本地 Windows 试玩候选；不代表新公网发布、Mac 原生或陌生玩家验收。
 
 - 这是完整候选内容的试玩包，尚未达到陌生玩家理解、难度与艺术体验的最终验收。
@@ -15,6 +18,9 @@ Source commit: @SOURCE_COMMIT@
 - 更新/回退前备份完整候选 profile 目录；不要把较新档替换为唯一的旧快照来绕过写入保护。
 
 Known limits
+Archive imagery, First Light, character, CG, voice and ending choices are replaceable candidates, not final creative decisions.
+Dark/light workbench studies do not add a global production light-theme option. Journal/observatory views derive from existing records and invent no old event history or physical measurements.
+Journal work review shows saved snapshots and recipes, labels recovery, and offers no generation-event replay or fork. Continue creation in the original workbench.
 This is a complete-content playtest candidate, not final newcomer or artistic acceptance.
 macOS is ad-hoc signed and unnotarized; independent Mac first-launch/save checks remain open.
 Windows signing and extended mixed-DPI/focus/drag coverage remain open.

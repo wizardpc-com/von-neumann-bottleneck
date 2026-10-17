@@ -1,25 +1,24 @@
 # 可替换创作呈现与原作品回看证据 · 2026-10-18
 
-本阶段基线为已推送的`d6f594a843d5114fc4eb508916345eb0851e1015`，开发分支为
-`codex/creative-framework-20261018`。Root已保存/推送首轮实现检查点`a6c6ea369e8e5828aaad563c57f53b67a2f7893c`；
+本阶段基线为已推送的`d6f594a843d5114fc4eb508916345eb0851e1015`，当前开发分支为
+`codex/saved-work-review-20261018`（F2原分支creative-framework历史保留）。Root已保存/推送首轮实现检查点`a6c6ea369e8e5828aaad563c57f53b67a2f7893c`；
 首轮a6固定gitarchive与七文件逐字节核验作为历史检查点保留；最新SOURCE与实际门禁以下列当前状态为准。
 
 ## 当前Gate
 
-- **最新整合检查点为Root已提交/推送的`ea2f49a`**：包含F3实际作品入口和FirstLight合法子Window测试修。固定copy实际8阶段7 PASS/1 FAIL：F3虽125断言自报PASS/exit0，故意broken-json的四条解析engineERROR使严格门禁FAIL，未开始真实Window。其余7阶段（含FirstLight91/Journal162/原WorkFocus31）通过；不借157e组件通过认证新F3。
-- **最新实际组件SOURCE为`157e3ef8f844de5a797aa4c7e13f3c3c4503b14d`**：独立Yi媒体208检查/12帧与palette129检查/12深浅帧实际renderer严格PASS、自然exit0、0ERROR，逐receipt/log/24PNG hash已独立核。实际图审由Visual另列；不借此认证FirstLight。
-- **FirstLight严格门禁仍FAIL**：157e真实renderer虽173断言自报PASS/自然exit0，测试在已exclusive Reflection外向root另加sibling AcceptDialog，产生2条engineERROR。原严格监督器保留FAIL。仅测试的一行合法子Window修已冻结待新fixedsource实测，未过滤ERROR或删失焦/暂停断言。
-- ec3 palette61+import/userdir原3/3 PASS，及9a2 FirstLight91/Journal162/Theme等5/5 headless PASS保留原身份；7759正式5阶段4/5 FAIL与两远端171阶段170/1 FAIL亦保留。
-- 本轮整合/full与新包尚未通过；F3 Journal原作品入口为下一固定整合源码，不能由上述157e旧copy认证。F1 SOURCE8334两包与限定OS证据仍只属于旧包。
-- 本阶段与完整goal保持active；正式CG/人物/声音/互相冲突结局与陌生玩家理解仍须分别处理，不擅自替团队定稿。
+- **最新实际运行SOURCE为`241751c475a209348a658a1f8d8c1f0241e7ccb1`**：受影响7阶段全部PASS/exit0；F3作品窗口真实172检查严格PASS、0ERROR、自然exit0，10PNG为6主快照+4反馈现场。普通/测试者F8、Tab、首Esc只退反馈、焦点、销毁/root复用、拒存救援及原保护全部实际执行。
+- FirstLight真实173（2db）、Yi208（157e）、修后palette135/12图（2db）各自严格PASS；保持逐source/receipt身份，不把旧主字幕压力fixture当CPU真实解锁。F3六主快照与修前对应帧相同，修复只改变真实反馈按键返回。
+- 原ea2 7/8与四条broken-json诊断、2db F3普通首Esc139 FAIL、157e非法siblingmodal与全部早期失败均保留。修后WorkFocus97c不改Session/Files/共享反馈/保存模型，原test36baa断言全留。
+- **最终同一SOURCE完整回归与新双包尚未运行**。四份随包纯文本说明已最小更新、独审并冻结，待Root最终docs/distribution检查点后一次full与实际包链；无新build/SHA/主图冒填。旧F1 SOURCE8334两包与OS证据只属于旧包。
+- 完整goal保持active；CG、人物、声线、结局、新人、Mac和真人旧作品分别仍待审阅/验收。
 
 ## 已落盘行为与独立审查
 
 | 实现 | 范围与约束 | 独立审查 |
 | --- | --- | --- |
-| ThemeReflection内第一束光 | 真实GlobalSave tutorial成果且非测试模式；默认不播放；固定NOT示意1→0并非当前电路截图；约3秒、跳过/重播、低动效、Texture/null/空尺寸回退；同Window F8/Esc与失焦/隐藏暂停；无新奖励/日期/存档 | Narrative复审无静态阻断，9a2 headless91通过，真实Window演出待证 |
-| 壹导入中的可替换图片 | 现有导入内一幅抽象候选虚构档案；保留原文/Begin/Skip/Esc；缺图可继续，不定义人物外貌或新文明史 | Visual独审，运行/实际图审待证 |
-| 同真实教程的深浅工作台比较 | 每语言构建前设置locale；原五动作与模型1→0；同host/电路/文字/矩形/状态/保存身份，仅QA局部换色；电路画布/信号/元件缩略图保持原绘制，不是生产全局浅色主题 | Knowledge源审无静态阻断；12实际帧/保护断言待证 |
+| ThemeReflection内第一束光 | 真实GlobalSave tutorial成果且非测试模式；默认不播放；固定NOT示意1→0并非当前电路截图；约3秒、跳过/重播、低动效、Texture/null/空尺寸回退；同Window F8/Esc与失焦/隐藏暂停；无新奖励/日期/存档 | Narrative独审；2db实际Window173严格PASS，主6组固定字幕压力fixture边界保留 |
+| 壹导入中的可替换图片 | 现有导入内一幅抽象候选虚构档案；保留原文/Begin/Skip/Esc；缺图可继续，不定义人物外貌或新文明史 | Visual独审，157e实际renderer208/12帧通过，当前新整合另验 |
+| 同真实教程的深浅工作台比较 | 每语言构建前设置locale；原五动作与模型1→0；同host/电路/文字/矩形/状态/保存身份，仅QA局部换色；灰色候选画布保留原电路符号/端口，信号输入/缩略图保持深色，不是生产全局浅色主题 | Knowledge独审；157e旧12帧通过但淡字缺口保留，2db局部字体修67 headless/135真实renderer及12新帧严格PASS，实际图审另列 |
 
 源码字节、审查范围、真实日志/帧/保护摘要统一记录在[checks](checks.json)。
 无渲染器的状态检查、真实Window控制器、实际导出包、OS输入和陌生玩家证据分别记录。
@@ -32,7 +31,7 @@ Palette教程fixture不生成CPG作品；实际作品保护由第一束光测试
 等待固定源码copy的真实结果后，记录每项PASS/FAIL/NOT_RUN、原始路径与SHA、两语三尺寸帧及保护文件范围。
 若有失败保留原回执，修正后的来源另列，不追写旧结果。Headless不提供播放渲染或原生证据。
 新固定包身份与验收必须在实际构建后填写；此前[全旅程F1包与证据](../20261018-full-journey/README.md)不改写。
-后续Journal到已有作品回看的合同仍为只读调研；不创建Session/writer、不重生成、不补造生成事件或开放fork。
+Journal到原作品回看已实际实现并独审，241 headless125与真实172均严格通过；原2db首Esc失败保留，不创建Session/writer、不重生成、不补造生成事件或开放fork。
 
 ## 历史检查点：首轮a6固定源码与验证包装
 
@@ -160,3 +159,46 @@ Root与Visual逐文件SHA/集合和已push祖先Gitblob独立核验后，仅清�
 Root核准的测试窄修只对`raw == "broken-json"`这一次同步`journal.open()`保存并临时关闭预期打印，下一行立即恢复，中间无await；恢复后才运行原负例与保护断言。其它坏输入、正常/反馈路径与监督器ERROR规则不变，不改Session/Files/共享源码。该test fix36baa尚待独审/新固定来源实际结果，ea2原严格FAIL保留。
 
 Visual另对已见浅色手册淡字做QA局部Theme的6种Button字体色修正，dark归还原资源；原61状态/文字/精确几何/文件断言保留，新增真实入口正常态的linear luminance contrast≥4.5检查。Knowledge已独立审新QA9ee无静态阻断；尚未运行，不把旧157e帧改称已有此可读性保证，也不宣称生产全局浅色主题。
+
+
+## 2db实际新定向
+
+`verification/20261017T225840Z-187ae774/results.json` SHA `15f2674e9ad49737bec53872168c20b7ce9b0be3d747dc088cb8c6979da3ea44`实际5/5 PASS；原FirstLight91/F3作品125/palette67及import/userdir全部exit0、无ERROR/owned提前终止。完整5749归档身份与仅非docs的710物化、171canonical/0extraQA准确分列，原flags/assertions/超时未放松。当前89ecc7b871b0真实renderer结果待回执，不把headless通过当F3首Esc或捕获通过。
+
+## 次日入口与最多五个真人审阅问题
+
+新合并包尚未实际构建，暂不填写虚构的build路径/SHA或新包图片；当前已验收可运行包仍见[冻结F1入口](../20261018-full-journey/README.md)。新包落地后核对manifest与receipt，再用新profile解压启动，不覆盖旧包/真人档案。预定审阅路径是Home回放导入；真实教程五操作→Journal→主题回顾→明确Play/Skip；Journal选择确已保存作品→查看原快照→F8/逐层Esc；原地图/观察站保留原导航。
+
+Creative parent会通过真实C→P→G控制器准备保存作品，用于作品窗口与字节保护验收；它是**QA准备资料，不是普通normal自然通关或陌生玩家完成证据**。没有作品的真人仍从原工作台亲手保存后再回档案，不从观察界面授予作品。
+
+1. 第一束光是否清楚是可选的固定NOT1→0回顾，而非当前电路信号、物理能耗或又一次CPU成果？
+2. 壹导入的可替换档案图是否保留候选虚构感，而未替团队定下人物外貌、人格、声线或文明史？
+3. 同一真实电路/文字/状态的深浅候选哪种更易读、易操作，尤其手册入口？这次QA对照不等于生产全局主题选项。
+4. 能否区别原作品输出/配方、未提供的生成事件与未确认只读恢复，并在反馈/Esc后找回查看位置？
+5. 下一轮真人资源应先放在CG/形象/声线/结局变体，还是新人、Mac与真实旧作品测试？这些尚无默认定稿。
+
+## 可替换素材与原作品接口
+
+壹导入的`media_texture: Texture2D`沿原原生文字/行动旁的槽位，包内抽象SVG是候选；null/空尺寸退回完整正文。FirstLight的`preview_texture: Texture2D`仅在正尺寸时绘图，否则程序回退；字幕保留原生文字，约3秒仅程序演出，不新增完成权威。Journal以原WorkFocus的`configure(snapshot, english, {})`查看原保存输出与配方，空evidence/禁fork不补造事件。替换源素材须形成新固定源码/包身份，不在已冻结ZIP内直接换字节。正式CG、人设、声音与结局仍是开放审阅项。
+
+
+## 2db实际Window：两组件通过、F3首Esc阻断
+
+第一束光`89ecc7b871b0/test_first_light`173检查严格PASS、0ERROR、自然exit0；14PNG是12主字幕压力fixture帧加2反馈截图，不能将build文字当CPU成果。两渠道真实F8/Esc、捕获busy、原Journal入口、合法子Window失焦/隐藏/销毁以及原profile/导航保护均已实际执行。原d769 freedhost与b29非法siblingmodal失败仍保留。
+
+浅色局部字体修`6328a84e7ea9/test_workbench_palette_comparison`135检查严格PASS/12PNG，包含六次真实手册入口正常态contrast≥4.5；六pair receipt均同authority/精确文字状态矩形。仍是QA局部颜色比较，不是全局生产浅色主题，旧157e淡字帧不替换。
+
+F3`89ecc7b871b0/test_journey_work_review`自然exit1、139检查，唯一断言失败是普通反馈首次Esc未只关闭反馈并保留两层；六原作品快照帧已写。首normal循环随后有效性guard返回，tester/销毁/拒存没有完成，不将其它组件通过覆盖此阻断。Raw未另打印flags，证据不虚构额外运行时字段。
+
+真实复现后Root才授权`experiments/creation/work_focus.gd`最小输入桥：仅visible/focused的当前Window，在可见反馈panel确属selfviewport时先处理Esc并关闭前层；原F8先行emit，无反馈时原Esc/Space/方向键不变。另由原反馈flag避让后续作品控制，不改process_mode/共享反馈/Session/保存模型。WorkFocus97c已由Narrative/Visual独立静审无阻断，待新固定来源实际双渠道/拒存/销毁回归，原F3test36baa全部断言保留。
+
+
+## 241修后完整作品Window与最终整合边界
+
+`verification/20261017T230422Z-486d5fca/results.json` SHA `c44bf4dc6eeca64bce483961e667edb382a71d795d591236ec214e16389a53de`实际受影响7/7 PASS：原WorkFocus、Journal、新作品回看、OfflineFeedback、旧Workbench反馈及import/userdir。full5749仅身份、selected710物化exact、171canonical/0extra，七owned均正常exit0，原flags/assertions未放松。
+
+`f2-rendered/905a46d13047/test_journey_work_review/receipt.json` SHA `9fd02ee57cfc4273ef7dae6d6f06a9c4a70f622e6d659456751805a692aab1c5`是修后真正完整172 PASS、0ERROR/exit0；10帧逐SHA核，含六主作品与四本地反馈截图。normal/tester首Esc、精确焦点、窗口销毁/root反馈复用、受控RefusingNotes拒存→root救援→恢复关闭，以及全部原protected/lease/nav断言均执行；旧2db139 FAIL不改判。
+
+保护是canonical运行内before/after精确比较；它未额外持久化独立baseline map，不能冒称另一份独立磁盘差异证明。可独立读回两真实保存作品各64格与原id、候选主备SHA、无writer/.recovering锁及四本地现场；自动化硬件工作台沿原--script内存fixture，不能冒称真人旧磁盘作品。实际新包的主备/工作台/作品strict保护另行验收。
+
+随包四份纯文本说明补齐Home/Map档案/3D、真实tutorial后固定NOT1→0可选回顾、原作品快照/配方/来源/禁fork与原工作台创作、两channel/逐Esc/拒存救援及未定素材/平台边界。原build/source占位符、profile/同意与非相关历史保留，无QA数或未形成的build路径。源文件hash与独立review见checks。接下来只待最终fixed full与两实际ZIP链，不新开实现范围。

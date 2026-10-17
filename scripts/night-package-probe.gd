@@ -38,6 +38,155 @@ func protected_snapshot() -> Dictionary:
 	var state: Dictionary = save._save_snapshot(); state.erase("saved_at_utc")
 	return {"game_state":state,"protected_files":disk}
 
+func creative_family() -> bool:
+	return str(ProjectSettings.get_setting("candidate/profile","")) in ["Creative20261018","OfflineTeammate-Creative20261018"]
+
+func creative_window_key(code: Key) -> void:
+	for down: bool in [true,false]:
+		var event := InputEventKey.new()
+		event.keycode=code; event.physical_keycode=code; event.pressed=down
+		Input.parse_input_event(event)
+		await settle()
+
+func creative_media(intro: Variant, output: String) -> void:
+	var before: Dictionary = protected_snapshot()
+	var texture: Texture2D = intro.media_texture
+	var goal: String = intro.goal_label.text
+	var focus: Control = get_viewport().gui_get_focus_owner()
+	check(texture!=null and texture.get_width()>0 and texture.get_height()>0 and intro.media_column.visible,"Creative export imports the actual replaceable Yi Texture2D")
+	for missing: Texture2D in [null,ImageTexture.new()]:
+		intro.media_texture=missing; await settle()
+		check(not intro.media_column.visible and intro.goal_label.text==goal and get_viewport().gui_get_focus_owner()==focus,"Creative missing or empty Yi media keeps native goal and exact focus")
+		check(intro.start_button.is_visible_in_tree() and intro.skip_button.is_visible_in_tree(),"Creative media fallback retains actual Begin and Skip controls")
+	check(get_viewport().get_texture().get_image().save_png(output.path_join("intro-no-media.png"))==OK,"actual Creative missing-media frame")
+	intro.media_texture=texture; await settle()
+	check(protected_snapshot()==before,"Creative media replacement grants no progress or save changes")
+
+func creative_saved_work_setup() -> void:
+	var session_type: Script = load("res://experiments/creation/session.gd")
+	var writer: Variant = session_type.new()
+	var opened: Dictionary = writer.open(session_type.launch_path())
+	check(opened.get("writable",false),"Creative controller setup owns only its actual embedded creation namespace")
+	if not opened.get("writable",false): writer.close(); return
+	var trained: Dictionary = writer.train()
+	check(trained.get("ok",false),"Creative controller setup actually trains its finite model")
+	if not trained.get("ok",false): writer.close(); return
+	var transported: Dictionary = writer.transport([0,1,0,2],"predictive")
+	check(transported.get("ok",false) and transported.get("lossless",false),"Creative controller setup actually restores its lossless source")
+	if not transported.get("ok",false) or not transported.get("lossless",false): writer.close(); return
+	check(writer.set_mode("predict").get("ok",false),"Creative controller setup enters prediction through existing permissions")
+	var prediction: Dictionary = writer.begin_prediction("practice")
+	check(prediction.get("ok",false),"Creative controller setup begins a real prediction round")
+	if not prediction.get("ok",false): writer.close(); return
+	while not writer.prediction.finished:
+		var committed: Dictionary = writer.commit_prediction()
+		var revealed: Dictionary = writer.reveal_prediction() if committed.get("ok",false) else {}
+		check(committed.get("ok",false) and revealed.get("ok",false),"Creative controller setup commits and reveals a real prediction step")
+		if not committed.get("ok",false) or not revealed.get("ok",false): writer.close(); return
+	check(writer.set_mode("generate").get("ok",false),"Creative controller setup enters generation through existing permissions")
+	var generated: Dictionary = writer.generate()
+	check(generated.get("ok",false),"Creative controller setup actually generates its finite output")
+	if not generated.get("ok",false): writer.close(); return
+	var saved: Dictionary = writer.save_work("Creative package · original saved signal")
+	check(saved.get("ok",false),"Creative controller setup saves a legitimate work without fabricating JSON")
+	writer.close()
+	if not saved.get("ok",false): return
+	var path: String = session_type.launch_path()
+	var lease_type: Script = load("res://experiments/candidate_session/writer_lease.gd")
+	check(not DirAccess.dir_exists_absolute(lease_type.lock_path(path)),"Creative setup releases its writer before read-only Journal review")
+	experience["creative_saved_work"]={"work":saved.work,"path":path,"session_sha256":FileAccess.get_sha256(path),"setup":"actual embedded train/lossless transport/prediction/generate/save controller actions; not a normal natural full journey"}
+	print("SETUP: actual C/P/G model actions saved one work in the embedded profile; not a normal natural full journey")
+
+func creative_work_review(journal: Variant, phase: String, expected: Dictionary, output: String, tester: bool) -> void:
+	var before: Dictionary = protected_snapshot()
+	if expected.is_empty():
+		check(journal.work_selector.disabled and journal.work_view_button.disabled,"fresh Creative Journal offers no invented saved work")
+		check(protected_snapshot()==before,"fresh Creative empty-work review preserves all authorities")
+		return
+	var selected: int = -1
+	for index: int in journal.work_selector.item_count:
+		if str(journal.work_selector.get_item_metadata(index))==str(expected.get("id","")): selected=index
+	check(selected>=0 and not journal.work_view_button.disabled,phase+" Creative Journal resolves the original real saved id")
+	if selected<0: return
+	journal.work_selector.select(selected)
+	journal.work_view_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	var exhibit: Variant = journal.work_focus
+	check(is_instance_valid(exhibit) and exhibit.visible,phase+" Creative actual Journal action opens the original saved-work Window")
+	if not is_instance_valid(exhibit): return
+	check(JSON.stringify(JSON.parse_string(JSON.stringify(exhibit.work)),"",true)==JSON.stringify(JSON.parse_string(JSON.stringify(expected)),"",true),phase+" Creative viewer preserves the entire original id output recipe training and source snapshot")
+	check(exhibit.canvas.output==exhibit.work.output and exhibit.evidence.is_empty() and exhibit.explanation_button.disabled and exhibit.fork_button.disabled,phase+" Creative saved-snapshot viewer supplies no forged generation receipt or editable fork")
+	check(exhibit.request_fork.get_connections().is_empty() and exhibit.request_evidence.get_connections().is_empty(),phase+" Creative Journal connects no hidden write or evidence action")
+	check(exhibit.find_child("JournalWorkProvenance",true,false).text==journal.work_note.text and exhibit.origin_label.text.contains("no verified generation event" if exhibit.english else "暂无可核对的生成事件"),phase+" Creative actual viewer retains saved-only provenance and unknown event evidence")
+	check(exhibit.get_texture().get_image().save_png(output.path_join("saved-work"+("-restarted" if phase=="restarted" else "")+".png"))==OK,phase+" actual Creative saved-work frame")
+	exhibit.play_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	var feedback: Node = get_node("/root/OfflineFeedback")
+	var moments: Node = get_node("/root/PlaytestMoments")
+	var was_paused: bool = get_tree().paused
+	await creative_window_key(KEY_F8)
+	var panel: Control = feedback.panel if tester else moments.panel
+	var focus: Control = exhibit.gui_get_focus_owner()
+	check(panel.visible and panel.get_viewport()==exhibit and focus!=null and panel.is_ancestor_of(focus) and not exhibit.playing,phase+" Creative saved-work F8 pauses presentation in the actual focused Window")
+	check((feedback.backdrop.visible and get_tree().paused) if tester else (not feedback.backdrop.visible and get_tree().paused==was_paused),phase+" Creative saved-work feedback respects the exact role pause channel")
+	await creative_window_key(KEY_ESCAPE)
+	check(is_instance_valid(exhibit) and exhibit.visible and journal.visible and not panel.visible and get_tree().paused==was_paused,phase+" Creative first Escape closes feedback while retaining the saved work and Journal")
+	if not is_instance_valid(exhibit): return
+	check(exhibit.gui_get_focus_owner()==exhibit.play_button and not exhibit.playing,phase+" Creative feedback restores original saved-work focus without autoplay")
+	await creative_window_key(KEY_ESCAPE)
+	check(not is_instance_valid(journal.work_focus) and journal.visible and get_viewport().gui_get_focus_owner()==journal.work_view_button,phase+" Creative next Escape returns to the exact Journal work action")
+	check(protected_snapshot()==before,phase+" Creative saved-work review and feedback preserve exact protected states bytes and leases")
+	experience[phase+"_work_review"]={"id":expected.id,"snapshot_only":true,"evidence":{},"fork_disabled":true,"source":"actual embedded saved work, not the tester child namespace"}
+
+func creative_reflection(journal: Variant, phase: String, earned: bool, output: String, tester: bool) -> void:
+	var before: Dictionary = protected_snapshot()
+	journal.reflection_button.grab_focus(); journal.reflection_button.pressed.emit(); await settle()
+	var dialog: Variant = journal.reflection_dialog
+	check(is_instance_valid(dialog) and dialog.visible and is_instance_valid(dialog.first_light),phase+" Creative Journal opens its actual derived Reflection")
+	if not is_instance_valid(dialog) or not is_instance_valid(dialog.first_light): return
+	var light: Variant = dialog.first_light
+	check(light.visible==earned and not light.has_started and not light.playing,phase+" Creative FirstLight is optional and requires actual earned tutorial")
+	if not earned:
+		light.play_button.pressed.emit()
+		check(not light.has_started,"fresh Creative click cannot bypass the earned FirstLight guard")
+	elif phase!="restarted":
+		var scroll := dialog.body_column.get_parent() as ScrollContainer
+		scroll.ensure_control_visible(light.play_button); await settle()
+		light.play_button.grab_focus(); await creative_window_key(KEY_SPACE)
+		check(light.has_started and light.scene_body.visible and dialog.gui_get_focus_owner()==light.play_button,"earned Creative actual Play reveals the scene without changing focus")
+		for control: Control in [light.canvas,light.caption,light.skip_button]:
+			var clip: Rect2 = dialog.get_visible_rect()
+			var ancestor: Node = control.get_parent()
+			while ancestor!=null:
+				if ancestor is Control and ancestor.clip_contents: clip=clip.intersection(ancestor.get_global_rect())
+				ancestor=ancestor.get_parent()
+			check(control.is_visible_in_tree() and clip.grow(1).encloses(control.get_global_rect()),"Creative Play automatically reveals "+str(control.get_class())+" within all original scroll clips")
+		check(dialog.get_texture().get_image().save_png(output.path_join("first-light-playing.png"))==OK,"actual Creative FirstLight frame without a QA reveal scroll")
+		var feedback: Node = get_node("/root/OfflineFeedback")
+		var moments: Node = get_node("/root/PlaytestMoments")
+		var was_paused: bool = get_tree().paused
+		await creative_window_key(KEY_F8)
+		var panel: Control = feedback.panel if tester else moments.panel
+		var focus: Control = dialog.gui_get_focus_owner()
+		check(panel.visible and panel.get_viewport()==dialog and focus!=null and panel.is_ancestor_of(focus),"Creative FirstLight F8 uses the actual focused Window and role feedback channel")
+		check((feedback.backdrop.visible and get_tree().paused) if tester else (not feedback.backdrop.visible and get_tree().paused==was_paused),"Creative FirstLight preserves ordinary versus tester pause behavior")
+		var held: float = light.elapsed
+		await get_tree().create_timer(0.12,true).timeout
+		check(light.elapsed==held,"Creative FirstLight animation pauses under its real feedback panel")
+		await creative_window_key(KEY_ESCAPE)
+		check(is_instance_valid(dialog) and dialog.visible and not feedback.backdrop.visible and not moments.panel.visible and get_tree().paused==was_paused and dialog.gui_get_focus_owner()==light.play_button,"Creative first Escape closes feedback only and restores exact Play focus")
+		light.skip_button.pressed.emit()
+		check(not light.playing and light.elapsed==light.DURATION and light.caption.text.contains("output 0" if light.english else "输出0"),"Creative Skip retains the actual fixed NOT output-zero ending")
+		var old_motion: Variant = ProjectSettings.get_setting("game/reduced_motion",false)
+		ProjectSettings.set_setting("game/reduced_motion",true)
+		light.play_button.pressed.emit()
+		check(not light.playing and light.elapsed==light.DURATION,"Creative reduced-motion Replay gives the equivalent static ending")
+		ProjectSettings.set_setting("game/reduced_motion",old_motion)
+		await settle()
+		check(dialog.get_texture().get_image().save_png(output.path_join("first-light-static.png"))==OK,"actual Creative static FirstLight frame")
+	await creative_window_key(KEY_ESCAPE)
+	check(not is_instance_valid(dialog) and journal.visible,phase+" Creative next Escape returns from Reflection to Journal")
+	check(protected_snapshot()==before,phase+" Creative Reflection media and feedback preserve all protected authorities")
+	experience[phase+"_first_light"]={"earned":earned,"source":"actual Journal milestones and saved tutorial","autoplay":false,"rendered_playback":earned and phase!="restarted"}
+
 func feedback_over_review(review: Control, label: String, tester: bool) -> void:
 	var feedback: Node = get_node("/root/OfflineFeedback")
 	var moments: Node = get_node("/root/PlaytestMoments")
@@ -73,6 +222,9 @@ func review_experience(host: Control, earned: bool, output: String, tester: bool
 	journal.show_task("unknown/task")
 	check(journal.selected_task().is_empty() and journal.enter_button.disabled,phase+" unknown Journal identity remains unconfirmed")
 	journal.show_task("hardware_foundations/tutorial"); await settle()
+	if creative_family():
+		await creative_reflection(journal,phase,earned,output,tester)
+		await creative_work_review(journal,phase,experience.get("creative_saved_work",{}).get("work",{}),output,tester)
 	if earned:
 		check(get_viewport().get_texture().get_image().save_png(output.path_join("journal.png"))==OK,"actual exported earned Journal frame")
 		journal.help_button.grab_focus(); journal.help_button.pressed.emit(); await settle()
@@ -127,7 +279,7 @@ func run() -> void:
 	var feedback: Node = get_node("/root/OfflineFeedback")
 	var profile: String = str(ProjectSettings.get_setting("candidate/profile",""))
 	var tester: bool = ProjectSettings.get_setting("playtest/offline_tester",false)==true
-	check(profile in ["FullJourney20261018","OfflineTeammate-FullJourney20261018"],"actual embedded full-journey profile")
+	check(profile in (["OfflineTeammate-FullJourney20261018","OfflineTeammate-Creative20261018"] if tester else ["FullJourney20261018","Creative20261018"]),"actual embedded full-journey profile")
 	check(OS.get_user_data_dir().replace("\\","/").ends_with("/VonNeumannBottleneckCandidates/representation/"+profile),"actual embedded save namespace")
 	check(OS.has_feature("free_candidate") and nav.journey_tasks().size()==60,"actual exported full journey configuration")
 	check(not get_node("/root/GameMode").is_test_mode(),"ordinary model mode")
@@ -148,6 +300,7 @@ func run() -> void:
 	primary.pressed.emit(); await settle()
 	check(hub.yi_introduction.visible and hub.yi_introduction.skip_button.visible,"fresh exported Home offers skippable introduction")
 	check(get_viewport().get_texture().get_image().save_png(output.path_join("intro.png"))==OK,"actual exported introduction frame")
+	if creative_family(): await creative_media(hub.yi_introduction,output)
 	if tester:
 		feedback.open_panel(); await settle()
 		check(feedback.backdrop.visible and get_tree().paused and hub.yi_introduction.visible,"exported feedback opens over introduction")
@@ -201,6 +354,7 @@ func run() -> void:
 	handbook.close_handbook()
 	host._save_active_workbench()
 	check(get_node("/root/GlobalSave").save_game(true),"actual exported earned tutorial explicitly saves before derived review")
+	if creative_family(): await creative_saved_work_setup()
 	check(nav.open_tree(),"actual embedded journey map opens")
 	await settle()
 	var map: Variant = get_tree().current_scene
@@ -281,6 +435,11 @@ func reopen_embedded_profile(output: String, profile: String, tester: bool) -> v
 		check(journal.earned(journal.selected_task()) and not journal.civilization_fragment(journal.selected_task()).is_empty(),"restarted Journal derives its earned retrospective from saved tutorial")
 		journal.show_task("hardware_foundations/half_adder")
 		check(not journal.earned(journal.selected_task()) and journal.civilization_fragment(journal.selected_task()).is_empty(),"restarted access still grants no unearned half-adder retrospective")
+		if creative_family():
+			await creative_reflection(journal,"restarted",true,output,tester)
+			var expected_work: Dictionary = prior.get("extended_experience",{}).get("creative_saved_work",{}).get("work",{})
+			check(not expected_work.is_empty(),"Creative restart binds the originally accepted real saved work")
+			if not expected_work.is_empty(): await creative_work_review(journal,"restarted",expected_work,output,tester)
 		await key_press(KEY_ESCAPE)
 	check(protected_snapshot()==before,"restarted map and Journal preserve exact saved authority bytes and state")
 	var receipt: Dictionary = {"checks":checks,"failures":failures,"profile":profile,"tester":tester,

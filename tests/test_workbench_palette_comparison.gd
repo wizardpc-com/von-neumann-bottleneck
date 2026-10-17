@@ -42,7 +42,7 @@ func run() -> void:
 				"engine": Engine.get_version_info().string, "captures": captures, "pairs": pairs,
 				"grade": "Real tutorial controller actions; QA-local candidate colors; not OS input, newcomer testing or a production light theme",
 				"protected_scope": "Existing save/session/transaction files; this tutorial fixture creates no CPG work payload",
-				"retained_dark_instruments": "Circuit canvas, signal input and component thumbnails retain their original drawing and signal notation"}, "\t"))
+				"retained_dark_instruments": "Signal input and component thumbnails stay dark; original circuit symbols and ports appear over the candidate gray canvas"}, "\t"))
 			file.close()
 	print(("PASS" if failures.is_empty() else "FAIL") + ": real frozen-workbench palette comparison (%d checks)" % checks)
 	quit(0 if failures.is_empty() else 1)
@@ -82,6 +82,7 @@ func compare_locale(locale: String) -> void:
 	print("SETUP: original tutorial controller actions earned completion; subsequent colors are QA presentation only: " + locale)
 	var original_theme: Theme = host.theme
 	var original_graph_theme: Theme = host.graph.theme
+	var original_handbook_theme: Theme = host.terminology_handbook.theme
 	var backdrops: Array[Node] = []
 	for node: Node in host.find_children("*", "Control", true, false):
 		var script: Script = node.get_script()
@@ -109,7 +110,11 @@ func compare_locale(locale: String) -> void:
 		var candidate: Theme = original_theme.duplicate(true)
 		palette.apply_to(candidate, true)
 		host.theme = candidate
-		# Custom signal drawing remains on the original dark canvas, with its native ports.
+		var handbook_candidate: Theme = original_handbook_theme.duplicate()
+		for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color", "font_focus_color", "font_disabled_color"]:
+			handbook_candidate.set_color(state, "Button", candidate.get_color(state, "Button"))
+		host.terminology_handbook.theme = handbook_candidate
+		# Preserve custom signal drawing and native port geometry.
 		host.graph.theme = original_theme
 		for backdrop: Node in backdrops: backdrop.set("light", true)
 		for record: Dictionary in originals:
@@ -125,12 +130,17 @@ func compare_locale(locale: String) -> void:
 		check(authority(host) == before, "QA colors preserve complete model/save/navigation authority: " + locale + str(dimensions))
 		check(controls(host) == layout, "QA colors preserve all visible control text, states, focus and exact rectangles: " + locale + str(dimensions))
 		check(within_clip(host.input_a_button) and within_clip(host.pause_button), "Candidate palette retains the original accessible controls")
+		var entry: Button = host.terminology_handbook.entry_button
+		var ink: float = entry.get_theme_color("font_color").srgb_to_linear().get_luminance()
+		var fill: float = (entry.get_theme_stylebox("normal") as StyleBoxFlat).bg_color.srgb_to_linear().get_luminance()
+		check((maxf(ink, fill) + 0.05) / (minf(ink, fill) + 0.05) >= 4.5, "Candidate Handbook entry text remains readable on its actual normal fill")
 		var light_hash: String = await capture_frame(host, locale, dimensions, "light-candidate", before)
 		if rendered: check(dark_hash != light_hash, "Candidate palette produces a visibly different real full-workbench frame")
 		pairs.append({"locale": locale, "size": str(dimensions), "state_sha256": JSON.stringify(before).sha256_text(),
 			"layout_sha256": JSON.stringify(layout).sha256_text(), "same_authority": authority(host) == before,
 			"same_text_states_rectangles": controls(host) == layout, "dark_sha256": dark_hash, "light_sha256": light_hash})
 		host.theme = original_theme; host.graph.theme = original_graph_theme
+		host.terminology_handbook.theme = original_handbook_theme
 		for backdrop: Node in backdrops: backdrop.set("light", false)
 		for record: Dictionary in originals:
 			for property: String in record.colors: record.node.set(property, record.colors[property])

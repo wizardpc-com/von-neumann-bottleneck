@@ -4,7 +4,7 @@
   "source_checkpoint": "157e3ef8f844de5a797aa4c7e13f3c3c4503b14d",
   "source_authority": "Fixed157e renderer receipts use its gitarchive and709non-doc selectedfiles. F3 live2files and subsequent1line FirstLight testfix are frozen for independent review, not covered by these fixed157e results.",
   "branch": "codex/creative-framework-20261018",
-  "evidence_grade": "Fixed157e Yi208+Palette129 actualrendererPASS/24frames; FirstLight173assertions selfreportPASS but strictFAIL2engineERROR illegal siblingWindow testfixture. One-line nestedWindow testfix frozen, notrun. F3 source/test frozen, unrun. Full/newpackage/native notaccepted.",
+  "evidence_grade": "Actualea2headless7/8strictFAIL becauseF3 deliberatebrokenJSON errors; narrowexpecteddiagnostic testfix notrun. Prior157eYi/PaletteactualrendererPASS andFirstLightstrictFAIL kept separate. No F3popup acceptance/full/newpackages/native.",
   "scope": [
     "optional first-light retrospective inside existing ThemeReflection",
     "one static replaceable abstract candidate image inside existing introduction",
@@ -42,18 +42,18 @@
   ],
   "current_gates": {
     "source_review": "PASS_STATIC_SCOPE",
-    "import_and_targeted_runtime": "PASS_SCOPED ec3 changedPalette61+import/userdir3/3/exit0. Previous7759 canonical5stage4/5FAIL and remote171stage170/1FAIL retained.",
-    "renderer_languages_and_sizes": "PARTIAL_COMPONENT_PASS: fixed157e Yi208/12PNG andPalette129/12PNG strictPASS. FirstLight strictFAIL2engineERROR; legal-childWindow testfix pendingnewfixedrun. No wholeF2PASS.",
+    "import_and_targeted_runtime": "FAIL_STRICT_EA2 8stages7PASS1FAIL; F3selfreported125PASS/process0 but4expected malformedJSON diagnostic errors. Narrowtestonly isolation pendingnewfixedrun. Ec3palette3/3 andold7759FAILretainidentities.",
+    "renderer_languages_and_sizes": "PARTIAL_PRIOR157e Yi208+Palette129PASS; FirstLight strictFAIL2illegalmodal fixtureerrors. Ea2F3 actualWindow notrun afternewheadlessfailure; testonlyfixes pendingnewfixedsource.",
     "new_exported_packages": "NOT_RUN",
     "new_native_os": "NOT_RUN",
     "human_comprehension": "NOT_RUN"
   },
   "pending": [
-    "New coherent-source canonical palette suite and twelve actual same-workbench frames; olda6 failures/v3 selected-case result remain separate",
-    "Actual two-language/three-size FirstLight automatic reveal, normal/tester F8 capture priority, focus/hide/destruction, low motion and exact empty/null texture frames",
-    "Actual introduction media/fallback/real tutorial and independent image review",
-    "Remaining affected legacy or broader regression and fixed new package/native scope as actually run",
-    "F3 Journal to existing WorkFocus contract is approved preparation only; no implementation before F2 package checkpoint"
+    "Fixedea2 FirstLight legal nestedmodal fixture strict actualWindow success, originalerrors retained",
+    "Fixedea2 F3 newheadless+actualpopup twochannel strictfirstEsc/focus/refusedsave/destruction gate; no preemptive WorkFocus sharedguard",
+    "Visual QA-only palette6Button fontcolors plus actualHandbookcontrast>=4.5 delta staticreview andnextfixedrun",
+    "Affected/broader fullintegration and combinedfixed newpackages/native scope asactuallyexecuted",
+    "Actual packageJournalReflection milestones mainframe (fixedentry/build pressurefixture notCPUearned); humanunderstanding andteamcreativejudgment remainopen"
   ],
   "prior_F1_boundary": "SOURCE8334 package controller/native results remain valid only for old packages; they do not certify new a6c6 runtime or media.",
   "first_light_a6c6_initial_failure": {
@@ -1121,5 +1121,147 @@
       "status": "in_progress"
     },
     "scope": "Remoteheadless regression cannot substitute for strict renderer errors."
+  },
+  "latest_checkpoint_root_reported": "ea2f49a",
+  "current_integration_source_authority": "Root ea2 committed/pushed; actual8stage targetedstrictFAIL7/8 nowaudited. Workingnewtest36baa andpalette9ee QAonlychanges arefrozen forindependentreview, not partofea2. F3 production18d77 unchanged.",
+  "f3_saved_work_review": {
+    "status": "IMPLEMENTED_STATIC_REVIEW_PASS; narrow testfixture diagnostic correction pendingfixedrun",
+    "checkpoint_root_reported": "ea2f49a",
+    "plan": "docs/exec-plans/active/saved-work-review-20261018.md",
+    "owned_files": [
+      {
+        "path": "src/ui/journey_journal.gd",
+        "sha256": "18d77b55a438aa5d40f27799ae95cec7cef33660d9ed05b3ce303a7179c71df6"
+      },
+      {
+        "path": "tests/test_journey_work_review.gd",
+        "sha256": "f8e1ccf20135b900826b4ab8e054197b1d78c76a3c14fe28ce1c817797a23ad8"
+      }
+    ],
+    "behavior": "Read actualFiles.read_session, distinguish saved/recovery snapshots, reread selectedid on click. ExistingWorkFocus.configure(work.duplicate,trueenglish,{}) only, explicitdisabledfork and nofork/replayhandler. CurrentWindow feedback usesoriginalchannels; no Session instance, writer, regeneratedoutput, dates orcompletion mutation.",
+    "independent_reviewers": [
+      "Narrative currentprod18d77/testf8e no staticblocker; normalfirstEsc remains actualWindow gate",
+      "Visual no staticblocker; test writer/recovery emptylockdirectory snapshot2keys independentlyrechecked"
+    ],
+    "test_scope": "Real generated/saved2works; no unrelated tutorialaward;2languages3dimensions; savedoutput/recipe, stale/unknownid, future/broken/tampered input, exactdisk/game/best/nav andlease/.recovering existence. Renderer actualF8/Tab/firstEsc/focus/destroy/rootreopen and testonly RefusingNotes subclass for failedsave rescue. No actualrun claim.",
+    "shared_source_changes": false,
+    "runtime_status": "FAIL_STRICT_EA2:125selfreportedPASS/process0 but4deliberate malformedJSON parsererrors; trueWindowinput notrun",
+    "package_status": "NOT_RUN_F2_F3_COMBINED"
+  },
+  "space_recovery_reproducible_docs_only": {
+    "precleanup_audit": ".godot/qa-duplicate-docs-audit.json",
+    "precleanup_audit_sha256": "a25db74a7de4f8ed03bba8264b2113c6479e8aa7774d7c626f0b3dee873afe66",
+    "postcleanup_git_parity": ".godot/qa-duplicate-docs-git-parity.json",
+    "postcleanup_git_parity_sha256": "8662a7a73d604eb5d100454aca3f24518b1db82954b59245bca0a500a5a954cf",
+    "performed_by": "Root after Visual independent fullfile hash audit and Root Gitblob/reachablepush audit; Knowledge readreceipts and confirmed4named directories nowabsent",
+    "scope": "Only4ended a6/9a QA fixed/source/docs andverification/project/docs reproduciblecopies.20144files/956233048bytes; each5036files. Existing source-manifests/rawlogs/PNGs/runtime/works/sourceotherfiles/allpackages retained.",
+    "historical_copy_claim": "At original execution a6/9a5745/5745 fullcopyexact remains historicalfact. These4source/projectdocs subtrees are no longer physicallymaterialized, so do not claimcurrentfullcopy existence. Full manifests remain identityevidence.",
+    "deleted": true,
+    "build_or_gates_changed": false,
+    "space_observation_not_exact_attribution": {
+      "before_free_bytes": 1714835456,
+      "after_free_bytes": 2823200768
+    }
+  },
+  "targeted_ea2_headless_strict_failure": {
+    "source_checkpoint_root_reported": "ea2f49a",
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "platform": "win32",
+    "raw_result": ".godot/verification/20261017T225508Z-6546af12/results.json",
+    "raw_result_sha256": "3f154a31e2fbb94c8c5ce94cbd1989f063dd6294fc8294aa9969c00cd7be6fa1",
+    "stages": 8,
+    "passed": 7,
+    "failed": 1,
+    "overall": "FAIL",
+    "stage_results": [
+      {
+        "name": "import",
+        "passed": true,
+        "exit": 0,
+        "engine_errors": 0,
+        "raw_log": ".godot/verification/20261017T225508Z-6546af12/import.txt",
+        "raw_log_sha256": "2276d947d58895e18635e8843ddbadfa17a5585b6039b35564caf551cd762c6b"
+      },
+      {
+        "name": "user_directory",
+        "passed": true,
+        "exit": 0,
+        "engine_errors": 0,
+        "raw_log": ".godot/verification/20261017T225508Z-6546af12/user_directory.txt",
+        "raw_log_sha256": "603dc88c5f68d362b7cd3f8ebe418efb1584060e1acf645893327d60ac0612bb"
+      },
+      {
+        "name": "test_creation_work_focus",
+        "passed": true,
+        "exit": 0,
+        "engine_errors": 0,
+        "raw_log": ".godot/verification/20261017T225508Z-6546af12/test_creation_work_focus.txt",
+        "raw_log_sha256": "de6a69aadc21a7b265fd390327adf694b1dd1a7b640567c2fb5d559a8212d8c8"
+      },
+      {
+        "name": "test_first_light",
+        "passed": true,
+        "exit": 0,
+        "engine_errors": 0,
+        "raw_log": ".godot/verification/20261017T225508Z-6546af12/test_first_light.txt",
+        "raw_log_sha256": "a4bbd88ef7bf6351cb3967fe92300b9bfcb4ea1364e5621b6cd8d98292a0381f"
+      },
+      {
+        "name": "test_journey_journal",
+        "passed": true,
+        "exit": 0,
+        "engine_errors": 0,
+        "raw_log": ".godot/verification/20261017T225508Z-6546af12/test_journey_journal.txt",
+        "raw_log_sha256": "e853d769b0df72dee9a98dc1e85507a2fcd7bc7846db3e6d127e9825ed6a5b8f"
+      },
+      {
+        "name": "test_journey_work_review",
+        "passed": false,
+        "exit": 0,
+        "engine_errors": 4,
+        "raw_log": ".godot/verification/20261017T225508Z-6546af12/test_journey_work_review.txt",
+        "raw_log_sha256": "c080032d825736ff2011edc76dec16548f2cd596e0dc01cfe50dd573d5852e30"
+      },
+      {
+        "name": "test_theme_reflection",
+        "passed": true,
+        "exit": 0,
+        "engine_errors": 0,
+        "raw_log": ".godot/verification/20261017T225508Z-6546af12/test_theme_reflection.txt",
+        "raw_log_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e"
+      },
+      {
+        "name": "test_work_focus_feedback",
+        "passed": true,
+        "exit": 0,
+        "engine_errors": 0,
+        "raw_log": ".godot/verification/20261017T225508Z-6546af12/test_work_focus_feedback.txt",
+        "raw_log_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd"
+      }
+    ],
+    "failed_suite_checks_self_report": 125,
+    "failed_suite_self_report": "PASS125/process0 is notstrictPASS",
+    "actual_error": "Four JSON.parse_string engineERROR lines from deliberate broken-json fixture during synchronous journal.open -> catalog Files.read_session and Journal Files.read_session. Original invalidinput/protection assertions pass but supervisor correctly rejects errors.",
+    "renderer_status": "NOT_RUN stopped atstrictheadless gate",
+    "frozen_product_sha256": "18d77b55a438aa5d40f27799ae95cec7cef33660d9ed05b3ce303a7179c71df6",
+    "frozen_test_sha256": "f8e1ccf20135b900826b4ab8e054197b1d78c76a3c14fe28ce1c817797a23ad8",
+    "independent_review": "Knowledge readactualresults/all8logs andcopiedprod/testSHA; no engine launched."
+  },
+  "f3_expected_malformed_json_diagnostic_fix": {
+    "file": "tests/test_journey_work_review.gd",
+    "sha256": "36baa7ceea439b01fd892deb97a499c448a9f826c93a8422fde1dc1ed830cf58",
+    "status": "FROZEN_FOR_NARRATIVE_VISUAL_REVIEW; NOT_RUN",
+    "scope": "Only raw==broken-json saves Engine.print_error_messages, setsfalse for one synchronous journal.open, immediatelyrestores before anyassert orawait. All malformedinput/unknownschema/tamper/protectedbytes checks and normal/feedback logs/strictmonitor unchanged. Session/Files/shared production notmodified. Existing test_offline_store uses same narrow expectedfault pattern.",
+    "previous_original_failure_retained": true
+  },
+  "palette_handbook_contrast_QA_delta": {
+    "file": "tests/test_workbench_palette_comparison.gd",
+    "sha256": "9ee938e395ffc59768101316d64a92f4908e70e522224195ee99bb3fcaeafd33",
+    "status": "KNOWLEDGE_STATIC_REVIEW_PASS; NOT_RUN",
+    "baseline_test_sha256": "e9e14ca11ba1b69bd940ccfdeae444f694a98689329b4f074a26bba45f2bdfc2",
+    "delta": "Saveoriginal HandbookTheme; shallowduplicateonlyButton6fontstatecolors fromcandidate; restoreoriginaltheme on dark. Nofont/stylebox/geometry change. Original23checkcalls/61dynamic assertions retained; oneactualentry normalfont/fill srgb-to-linear luminance ratio>=4.5 assert per6cases. Receipt clarifiesactualcandidategraycanvas, darksignalinput andthumbnails.",
+    "normal_state_only": true,
+    "production_changed": false,
+    "prior_157e_readability_gap_retained": "Old157e129PASS12frames didnotassert Handbooks localfontcontrast; Visualobservedweaklighttext. Oldframe/results unchanged."
   }
 }

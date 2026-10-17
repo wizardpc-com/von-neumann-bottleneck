@@ -229,7 +229,11 @@ func invalid_profiles(journal: Control, source: Dictionary) -> void:
 	for raw: String in [JSON.stringify({"version":999}), "broken-json", JSON.stringify(damaged)]:
 		write_raw(Session.launch_path(), raw)
 		before = protected_state()
+		# JSON.parse_string prints for this deliberately malformed fixture.
+		var printed_errors: bool = Engine.print_error_messages
+		if raw == "broken-json": Engine.print_error_messages = false
 		journal.open()
+		Engine.print_error_messages = printed_errors
 		check(journal.work_view_button.disabled and journal._saved_works().is_empty(), "Unknown schema or damaged evidence cannot invent available works")
 		journal.work_view_button.pressed.emit(); await settle()
 		check(not is_instance_valid(journal.work_focus), "Invalid saved input cannot open a previous cached work")

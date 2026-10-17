@@ -1,4 +1,4 @@
-# 可替换创作呈现证据 · 2026-10-18
+# 可替换创作呈现与原作品回看证据 · 2026-10-18
 
 本阶段基线为已推送的`d6f594a843d5114fc4eb508916345eb0851e1015`，开发分支为
 `codex/creative-framework-20261018`。Root已保存/推送首轮实现检查点`a6c6ea369e8e5828aaad563c57f53b67a2f7893c`；
@@ -6,6 +6,7 @@
 
 ## 当前Gate
 
+- **最新整合检查点为Root已提交/推送的`ea2f49a`**：包含F3实际作品入口和FirstLight合法子Window测试修。固定copy实际8阶段7 PASS/1 FAIL：F3虽125断言自报PASS/exit0，故意broken-json的四条解析engineERROR使严格门禁FAIL，未开始真实Window。其余7阶段（含FirstLight91/Journal162/原WorkFocus31）通过；不借157e组件通过认证新F3。
 - **最新实际组件SOURCE为`157e3ef8f844de5a797aa4c7e13f3c3c4503b14d`**：独立Yi媒体208检查/12帧与palette129检查/12深浅帧实际renderer严格PASS、自然exit0、0ERROR，逐receipt/log/24PNG hash已独立核。实际图审由Visual另列；不借此认证FirstLight。
 - **FirstLight严格门禁仍FAIL**：157e真实renderer虽173断言自报PASS/自然exit0，测试在已exclusive Reflection外向root另加sibling AcceptDialog，产生2条engineERROR。原严格监督器保留FAIL。仅测试的一行合法子Window修已冻结待新fixedsource实测，未过滤ERROR或删失焦/暂停断言。
 - ec3 palette61+import/userdir原3/3 PASS，及9a2 FirstLight91/Journal162/Theme等5/5 headless PASS保留原身份；7759正式5阶段4/5 FAIL与两远端171阶段170/1 FAIL亦保留。
@@ -137,3 +138,25 @@ ec3只将每种语言构建前的root尺寸/content scale固定到1280×720并�
 `f2-rendered/b29f5323941d/test_first_light`是不同的失败：进程自然exit0且173断言自报PASS，但原日志包含2条非法sibling exclusive Window错误，严格门禁仍FAIL。测试在Reflection仍exclusive时把失焦blocker挂root，故两channel各报一次；仅测试的一行窄修把blocker挂实际Reflection内作为合法modal子Window。全部原失焦/暂停/销毁断言及engineERROR验收标准不变，修正需新固定来源实跑。旧ec3 freed-host SCRIPT ERROR与更早失败不改判。
 
 Root另live核ec3远端CI39075618045/39075614200完成SUCCESS；157e两CI39076337424/39076332759通知时仍进行中。该remoteheadless范围不能覆盖真实renderer错误或新F3源码。
+
+
+## F3已实现、独审与待证边界
+
+F3实际两文件为`src/ui/journey_journal.gd`与`tests/test_journey_work_review.gd`。档案按真实保存列表选择作品，打开时重读磁盘id，区分确认保存/只读恢复，复用原WorkFocus展示原输出与配方。入口不建立Session/writer、不生成或提供回放receipt，fork禁用且无写接收。恢复状态在档案与打开后的Window均可见。关闭返回档案入口，实际同Window反馈/F8/首Esc仍由新renderer严格验证。
+
+Narrative/Visual已独立源审当前production18d77/testf8e，无确定静态阻断；Visual提出的空lease目录保护已补进每次before/after快照（`.candidate-writer`与`.recovering`存在性），不是只核文件。新suite真实生成保存两作品，覆盖两语三尺寸、失效/未知id、未来配方/未知schema/坏数据、原profile/transaction/作品/成绩/导航及lease保护，另保留真实Input双渠道首Esc/焦点/销毁与拒存救援断言。源审不能替代尚未收到的ea2实际结果；WorkFocus/共享反馈/Session/Files未因静态风险先改。
+
+## 可再生QA docs副本的有界空间恢复
+
+Root与Visual逐文件SHA/集合和已push祖先Gitblob独立核验后，仅清理已结束a6/9a的fixed/source/docs、verification/project/docs四处可再生副本，共20,144文件/956,233,048字节。原manifest、raw logs、PNG、runtime/真实作品、其余源码及全部旧包均保留；build及门禁不变。两个ignored审计收据与SHA见checks，post收据明确deleted=true。
+
+原运行时a6/9a的5745/5745字节匹配仍是历史事实；这四处docs现已不再物化，不能称当前目录仍完整包含那些文件。记录的free从1,714,835,456到2,823,200,768字节只是观测，不把所有差额都归因于本次956MB清理。
+
+
+## ea2新定向严格失败与最小负例诊断处理
+
+`verification/20261017T225508Z-6546af12/results.json` SHA `3f154a31e2fbb94c8c5ce94cbd1989f063dd6294fc8294aa9969c00cd7be6fa1`实际8阶段7 PASS/1 FAIL；F3新suite125断言自报PASS、自然exit0，但原日志包含4条故意坏JSON触发的JSON.parse_string错误，严格监督器仍判FAIL。其余原WorkFocus31、FirstLight91、Journal162、Theme/反馈与import/userdir通过。原raw与复制source/test SHA已独立核；F3真实Window尚未执行，不把旧Workbench反馈通过代替新popup首Esc风险。
+
+Root核准的测试窄修只对`raw == "broken-json"`这一次同步`journal.open()`保存并临时关闭预期打印，下一行立即恢复，中间无await；恢复后才运行原负例与保护断言。其它坏输入、正常/反馈路径与监督器ERROR规则不变，不改Session/Files/共享源码。该test fix36baa尚待独审/新固定来源实际结果，ea2原严格FAIL保留。
+
+Visual另对已见浅色手册淡字做QA局部Theme的6种Button字体色修正，dark归还原资源；原61状态/文字/精确几何/文件断言保留，新增真实入口正常态的linear luminance contrast≥4.5检查。Knowledge已独立审新QA9ee无静态阻断；尚未运行，不把旧157e帧改称已有此可读性保证，也不宣称生产全局浅色主题。

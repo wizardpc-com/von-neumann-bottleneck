@@ -252,7 +252,8 @@ func reopen_embedded_profile(output: String, profile: String, tester: bool) -> v
 	for identity: String in ["source_commit","build_id","profile","tester","controller_sha256"]:
 		check(baseline.get(identity)!=null and baseline.get(identity)==prior.get(identity),"post-exit baseline retains parent "+identity)
 	var before: Dictionary = protected_snapshot()
-	check(baseline.get("protected",{})==before,"saved game workbench and candidate authorities survive independent process restart")
+	# JSON parsing represents integers as floats; compare both through the same parser.
+	check(JSON.stringify(baseline.get("protected",{}),"",true)==JSON.stringify(JSON.parse_string(JSON.stringify(before,"",true)),"",true),"saved game workbench and candidate authorities survive independent process restart")
 	var save: Node = get_node("/root/GlobalSave")
 	check(FileAccess.file_exists(save.storage_path) and FileAccess.file_exists(save.workbench_storage_path),"genuinely saved game and hardware workbench exist in embedded namespace")
 	check(get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")==OK,"restarted actual Home loads")

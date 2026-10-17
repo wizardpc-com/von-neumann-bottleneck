@@ -1,5 +1,11 @@
 # Execution queue
 
+The [full-journey continuation](full-journey-experience-20261018.md) is **active**.
+It expands the first candidate with source-backed task context, a read-only
+journey journal and an actual3D observation-station candidate. The comprehensive
+[coverage ledger](../../development/full-journey-coverage.md) retains every open
+manual/meeting requirement. Closing a stage does not close the full user goal.
+
 The completed [October18 night experience](../completed/night-experience-20261018.md) connects the Yi
 introduction, real first task, interactive rules, mid-game evidence guidance and
 creative-region discovery. Its fixed Windows packages and final verification are

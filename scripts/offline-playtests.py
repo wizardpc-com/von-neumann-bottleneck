@@ -115,6 +115,12 @@ def validate_case(path, root):
         raise InvalidBundle('invalid case metadata: ' + path)
     utc_time(case.get('captured_at_utc'), path + '.captured_at_utc')
     utc_time(case.get('updated_at_utc'), path + '.updated_at_utc')
+    if 'build' in case:
+        build = case['build']
+        if (not isinstance(build, dict)
+                or any(not isinstance(build.get(key), str) for key in ('version', 'source_commit', 'engine', 'platform'))
+                or type(build.get('offline_tester')) is not bool):
+            raise InvalidBundle('invalid captured build identity: ' + path)
     screenshot = root / path / 'screenshot.png'
     if case['screenshot_status'] == 'captured' and not screenshot.is_file():
         raise InvalidBundle('captured screenshot is missing: ' + path)
@@ -454,7 +460,7 @@ def render_report(library, output):
                                           record['manifest']['bundle_id']), reverse=True)
         current = versions[0]
         case = current['case']
-        build = build_label(current['manifest']['build'])
+        build = build_label(case.get('build', current['manifest']['build']))
         task = task_label(case['task'])
         history = '<details><summary>历史修订 / History (' + str(len(versions) - 1) + ')</summary>' + ''.join(revision_html(version) for version in versions[1:]) + '</details>' if len(versions) > 1 else ''
         cards.append('<article data-category="' + h(case['category']) + '" data-build="' + h(build)
@@ -474,7 +480,7 @@ def render_report(library, output):
             '<div><label>搜索 / Search <input id="search" type="search"></label>'
             + selector('category', category_counts, '类别 / Category')
             + selector('task', {task_label(record['case']['task']) for record in current_records}, '任务 / Task')
-            + selector('build', {build_label(record['manifest']['build']) for record in current_records}, '版本 / Build')
+            + selector('build', {build_label(record['case'].get('build', record['manifest']['build'])) for record in current_records}, '版本 / Build')
             + '</div><main>' + ''.join(cards) + '</main><p id="visible-count"></p>'
             '<script>const controls=["search","category","task","build"].map(id=>document.getElementById(id));'
             'function filter(){let [q,c,t,b]=controls.map(x=>x.value.toLocaleLowerCase());let n=0;'

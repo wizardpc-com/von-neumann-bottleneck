@@ -189,6 +189,19 @@ class OfflinePlaytestsTests(unittest.TestCase):
             self.assertEqual(json.loads(cli.stdout)['revisions'], 3)
             self.assertTrue((root / 'cli-report.html').is_file())
 
+    def test_later_export_keeps_original_capture_build(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
+            root = Path(folder); library = root / 'library'
+            captured = {'version': 'captured-old', 'source_commit': 'c' * 40,
+                        'engine': '4.7.1', 'platform': 'Windows', 'offline_tester': True}
+            bundle = root / 'new-export.zip'
+            fixture(bundle, case_edit=lambda case: case.update(build=captured))
+            offline.import_bundles([bundle], library)
+            report = root / 'review.html'; offline.render_report(library, report)
+            page = report.read_text(encoding='utf-8')
+            self.assertIn('captured-old · cccccccccccc · Windows', page)
+            self.assertNotIn('test · ffffffffffff · Windows', page)
+
     def test_archived_sessions_reuse_reducer_and_label_incomplete_logs(self):
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
             root = Path(folder); library = root / 'library'

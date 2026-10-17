@@ -77,6 +77,14 @@ def main():
     assert final_report['cases'] == 4 and final_report['sessions'] == 2
     assert sum('SYNTHETIC offline acceptance' in item['case']['note'] for item in final_records) == 3
     assert sum('SYNTHETIC second play session' in item['case']['note'] for item in final_records) == 1
+    domains = {'hardware_foundations': 'hardware', 'chapter_1': 'system', 'creation': 'creation', 'service': 'service'}
+    for item in final_records:
+        incident = item['case']
+        context_path = item['folder'] / 'files/cases' / incident['id'] / 'context.json'
+        context = json.loads(context_path.read_text(encoding='utf-8'))
+        assert context['build']['source_commit'] == manifest['source_commit']
+        assert context['active_domain']['kind'] == domains[incident['task']['chapter_id']]
+        assert context['active_domain']['state'] and context['progress']['game']
     receipt = {'source_commit': manifest['source_commit'], 'build_id': manifest['build_id'],
                'binary_hashes': hashes, 'embedded_pack_sha256': embedded, 'phases': reports,
                'imports': imported, 'dedup': repeated, 'report': report, 'final_export_alone': final_report,

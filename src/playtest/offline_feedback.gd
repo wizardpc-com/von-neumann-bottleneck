@@ -238,10 +238,11 @@ func export_all(destination: String = "") -> void:
 		var path: String = str(save_paths[name])
 		if not path.is_empty() and FileAccess.file_exists(path): extras[name]=path
 	extras["session/export-coverage.json"]=JSON.stringify({"saved_files":"standard game filenames and bound candidate profiles only; custom launch paths are excluded",
-		"current_memory":"current-context.json; may contain unsaved changes","missing_files":"not created or unavailable; no synthetic save is generated"},"\t").to_utf8_buffer()
+		"current_memory":"current-context.json; may contain unsaved changes","game_log_available":DirAccess.dir_exists_absolute("user://logs"),
+		"missing_files":"not created or unavailable; no synthetic save is generated"},"\t").to_utf8_buffer()
 	# Only the game's log is included. No remote outbox, identity, deletion secret,
 	# arbitrary desktop file or environment variable is copied.
-	for filename: String in DirAccess.get_files_at("user://logs"):
+	for filename: String in DirAccess.get_files_at("user://logs") if DirAccess.dir_exists_absolute("user://logs") else PackedStringArray():
 		if filename=="godot.log" or filename.begins_with("godot") and filename.ends_with(".log"):
 			extras["logs/"+filename]="user://logs/"+filename
 	last_export=store.export_bundle(destination,extras)

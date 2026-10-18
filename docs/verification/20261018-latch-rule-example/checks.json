@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "stage": "ACTIVE_SOURCE_AND_RENDERER_PASSED_EXPORT_NOT_RUN",
+  "stage": "DELIVERED_WITH_OPEN_OBSERVATIONS",
   "full_goal": "ACTIVE",
   "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
   "current_gates": {
@@ -9,9 +9,12 @@
     "renderer": "PASS_SCOPE_C84_336_CHECKS_0_FAILURES",
     "visual_review": "PASS_VISUAL_SCOPE_WITH_ORIGINAL_SCROLL_LIMITATIONS",
     "guard_repair": "PASS_STATIC_AND_SOURCE_RENDERER_SCOPE",
-    "full_regression": "NOT_RUN_THIS_FEATURE_SOURCE",
-    "export_build_and_package_acceptance": "NOT_RUN_THIS_FEATURE_SOURCE",
-    "native_os_mac_newcomer": "NOT_RUN"
+    "full_regression": "LOCAL_WINDOWS_FULL_NOT_RUN_THIS_FEATURE_SOURCE_CURRENT_C84_LINUX_FULL_CI_SUCCESS_SEPARATE",
+    "export_build_and_package_acceptance": "BOTH_BUILD_AND_PCK_PASS_NORMAL_RELEASE_219_48_PASS_TESTER_RELEASE_229_CHILD142_19_THEN_STRICT48_CONTINUATION_PASS",
+    "native_os_mac_newcomer": "NOT_RUN",
+    "current_source_ci": "SUCCESS_LINUX_C84_PYTHON_AND_GODOT",
+    "exported_latch_direct": "PASS_BOTH_EXPORTED_PCK_SAME_VERSION_EDITOR_258_THEN_336_NOT_RELEASE_EXE",
+    "tester_export_visual": "PASS_VISUAL_SCOPE_WITH_ORIGINAL_SCROLL_AND_CONTINUATION_BOUNDARIES"
   },
   "behavior_scope": {
     "sequence": [
@@ -155,11 +158,19 @@
     "actual_result_ref": "renderer_repaired"
   },
   "ci": {
-    "run_id": 39106076014,
-    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39106076014",
-    "source_commit": "e061518213c291f49e87efa34818ba35941d81e9",
-    "status": "SUCCESS_REPORTED_BY_ROOT_LIVE_CHECK",
-    "scope": "Linux CI only; job logs/count not retrieved in this audit; no inferred stage count; not Windows GUI/export/native"
+    "run_id": 39111938887,
+    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39111938887",
+    "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+    "status": "SUCCESS",
+    "jobs": {
+      "python": 117629737525,
+      "Godot": 117629737680
+    },
+    "receipt": {
+      "path": ".godot/latch-rule-c84cc9d-ci.json",
+      "sha256": "42e746062537b99c29faaaa84b2266b912221fbec0aa5045a3a5f3a025fa6b49"
+    },
+    "scope": "Actual current-source Linux CI Python and full-verifier Godot jobs. No invented log counts; not Windows/native or package acceptance."
   },
   "recovery": {
     "product_source": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
@@ -169,8 +180,8 @@
   "evidence_grades": {
     "source_static": "Five source files plus narrow candidate guard inspected without executing engine",
     "headless": "Actual seven requested stages; original tutorial preparation and in-process protection",
-    "source_renderer": "Actual controller and synthetic viewport Input with two failed checks; image acceptance pending",
-    "export_native_human": "No new exported package, OS input, Mac or newcomer acceptance for this feature"
+    "source_renderer": "Actual repaired c84 controller336 with synthetic viewport Input passed; independent36-image scope accepted with original scroll limits. Original e061336/two failures preserved separately.",
+    "export_native_human": "Both new packages have actual PCK/same-version editor258 then336 scope and release-EXE controller chains. Tester original resource-stop and separately authorized strict-only success remain distinct. Native OS/Mac/newcomer NOT_RUN; not all60 solved."
   },
   "current_candidate_source": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
   "original_source_commit": "e061518213c291f49e87efa34818ba35941d81e9",
@@ -268,6 +279,364 @@
       "prior_reviewed_byte_identical": 28,
       "new_sha_images_actually_viewed": 8,
       "limits": "Original scroll/deep term text not all simultaneous; English Handbook panel only; no feedback screenshot/focus inference or OS acceptance"
+    }
+  },
+  "ci_original_source": {
+    "run_id": 39106076014,
+    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39106076014",
+    "source_commit": "e061518213c291f49e87efa34818ba35941d81e9",
+    "status": "SUCCESS_REPORTED_BY_ROOT_LIVE_CHECK",
+    "scope": "Linux CI only; job logs/count not retrieved in this audit; no inferred stage count; not Windows GUI/export/native"
+  },
+  "normal_export": {
+    "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+    "profile": "CreationLinks20261018",
+    "batch": "LatchRulesExperience20261018",
+    "candidate": "build/playtest-LatchRulesExperience20261018-c84cc9d67b25",
+    "build_summary": {
+      "path": ".godot/latch-rule-normal-build-c84cc9d-summary.json",
+      "sha256": "f2540a7d92cc38aae4d74b85aa654e33ca7ebadabd9770d2ddac6d785b5ae354"
+    },
+    "zip": {
+      "path": "build/playtest-LatchRulesExperience20261018-c84cc9d67b25/Von-Neumann-Bottleneck-Windows-playtest-LatchRulesExperience20261018-c84cc9d67b25.zip",
+      "sha256": "5e2dc6ce62bab128693d10215e2963621cf58b03305c230dbb507789ee516114"
+    },
+    "exe_sha256": "9f7839c0d59c509cb423d3a1501399361466af034b757e6eb5f61224b9f24b5c",
+    "embedded_pck_sha256": "26b8e8cc4e07086a9467306680c94e7995bf8cd1f84415a3425a5305dbba700a",
+    "build_scope": "Original builder three stages plus original identity checker; build identity alone is not play acceptance."
+  },
+  "release_script_attempt": {
+    "status": "FAIL_TIMEOUT_NO_CONTROLLER_RESULT",
+    "summary": {
+      "path": ".godot/latch-rule-normal-exported-c84cc9d-summary.json",
+      "sha256": "1da82b14b39c271dd988ccf43810b6805d8818aa17cc01c0bd5eefe95edf4f68"
+    },
+    "helper_sha256": "6c98e98f9b3537fa9b8dd62b3c861da2d4edbb89f427f33f2d04ef76cee63569",
+    "process": {
+      "pid": 49448,
+      "exit": 1,
+      "termination": "owned_timeout_180_seconds",
+      "natural_exit": false
+    },
+    "checks": null,
+    "gui": "NOT_RUN",
+    "png": 0,
+    "help_process": {
+      "path": ".godot/latch-rule-exported-help-2acb3543ee13/process.json",
+      "sha256": "6781d8253c90c7f9ce55dea9c21896318125a10d2d3d5d6b0213c9671d8b0a56"
+    },
+    "help_observation": {
+      "path": ".godot/latch-rule-exported-help-2acb3543ee13/help-option-observation.json",
+      "sha256": "def116215a8c8c1d11c91eee900cc1782eb018c85901dad98b118932623051b3"
+    },
+    "scope": "Actual release --script produced no canonical PASS or final validation. Same EXE help omitted script/main-pack/path option rows; omission alone does not establish the unique timeout cause. Old failure remains unchanged."
+  },
+  "normal_exported_pck": {
+    "status": "PASS_SCOPE",
+    "summary": {
+      "path": ".godot/latch-rule-normal-pck-c84cc9d-summary.json",
+      "sha256": "3cb95a0f8d1f673cf5cb6e775fa04722c019e77e4cf40dd2ba9934f1f7645f4d"
+    },
+    "helper_sha256": "b10da59e8087448e57ec452700b5531ac8b4e201bc058f266b78b4d21094af37",
+    "helper_independent_review": {
+      "path": ".godot/latch-rule-exported-helper-b10d-independent-static-review.json",
+      "sha256": "9b609d33d8ad60741c23dd75f6e01199c426e64fbbdd001a51118b89ce591cf1"
+    },
+    "independent_data_audit": {
+      "path": ".godot/latch-rule-normal-pck-independent-audit.json",
+      "sha256": "2ac19db69eb0891a2e6dda27a4a0d0fe0467452e9594f6db2b8620a778a13974"
+    },
+    "root_crosscheck": {
+      "path": ".godot/latch-rule-normal-pck-root-crosscheck.json",
+      "sha256": "7da2f1d6457c40bc8199093c46248b702bc88f24638d9c787a68c935af75d5eb"
+    },
+    "visual_audit": {
+      "path": ".godot/latch-rule-normal-pck-editor-visual-independent-audit.json",
+      "sha256": "37d0872b375e6acecb133262bbcf2267a04aba8ce3bee68f3235d779245b79dd"
+    },
+    "headless_checks": 258,
+    "gui_checks": 336,
+    "natural_zero_pids": [
+      56108,
+      60660
+    ],
+    "suite_png": 36,
+    "extra_png": 0,
+    "release_exe_executed": false,
+    "scope": "Actual ZIP embedded PCK, pinned same-version official editor, original unmodified canonical test and fresh separate phase data. Original scroll/EN handbook-only limits; empty creation fixture is not an existing-work protection test. All 36 pixels identical to independently viewed c84 source frames, explicitly reused."
+  },
+  "normal_release_parent_strict": {
+    "status": "PASS_SCOPE",
+    "summary": {
+      "path": ".godot/latch-rule-normal-parent-strict-c84cc9d-summary.json",
+      "sha256": "a2107d96b1c91bbe99b17984864c10e5757a2bbc0e8ca5c1cdc6492e5643a77b"
+    },
+    "independent_data_audit": {
+      "path": ".godot/latch-rule-normal-parent-strict-independent-audit.json",
+      "sha256": "2b57e67e86a617a5acfc32a88775156491a599ee1a223c1d4fca4577f4b3d163"
+    },
+    "parent_receipt": {
+      "path": ".godot/night-package/69ef21cbee27/receipt.json",
+      "sha256": "a5ed9e1da19cc7f22a7893007f772a2b388bb9ee04e446588f61ec50b0494652"
+    },
+    "strict_validation": {
+      "path": ".godot/night-package/69ef21cbee27/embedded-profile-reopen-validation.json",
+      "sha256": "8013ab885dc20e2a352ed1c54db792818053cbcd9ec0c7fac3d328903c6edeec"
+    },
+    "parent_checks": 219,
+    "strict_checks": 48,
+    "parent_exe_pid": 36064,
+    "strict_exe_pid": 36296,
+    "natural_exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "script_errors": 0,
+    "loaded_state_conversions": [],
+    "whole_session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+    "saved_work_id": "089180b2e1d15c6b773af9b98527eef923eb115efaccf67ae89ac256ae9e5360",
+    "support_keys": [
+      "C1_restore",
+      "G1_feedback",
+      "G2_intent",
+      "G3_keep",
+      "P1_commit"
+    ],
+    "protected_review_fields": 35,
+    "postexit": "Only top saved_at_utc removed for full typed main/backup payload audit; normal save rotation allowed. Other protected files, whole work and leases exact.",
+    "png_data": {
+      "root": 19,
+      "separate_3d_textures": 2,
+      "incident": 0,
+      "independent_visual_review": "PASS_SCOPE_WITH_ORIGINAL_SCROLL_LIMITATIONS",
+      "review_detail": "21 original files: 16 byte-identical previously viewed bb5 pixels explicitly reused; 5 new actual views. No static-image focus/OS claim."
+    },
+    "reconstructible_exe_cleanup": {
+      "path": ".godot/latch-rule-normal-accepted-duplicate-exes-cleanup.json",
+      "sha256": "9c530455ff79756b77cfb878c783b305b818dff7e1c5c48c6db77ea676957260"
+    },
+    "scope": "Actual release EXE original Host train/transport/commit/reveal/generate/Keep and pure review, then independent same-profile Journal Saved-only restart. Does not reconstruct cold Creation history, prove all 60 solved, or directly replace the SRLatch PCK/editor test.",
+    "visual_audit": {
+      "path": ".godot/latch-rule-normal-export-visual-independent-audit.json",
+      "sha256": "37ce31e142a9ea36f9051d38724289b5d9250384e339c0290398c579d07e21aa"
+    }
+  },
+  "tester_current": {
+    "status": "BUILD_PCK_RELEASE_PARENT_CHILD_AND_SEPARATE_STRICT_CONTINUATION_PASS_SCOPE",
+    "build_summary": {
+      "path": ".godot/latch-rule-tester-build-c84cc9d-summary.json",
+      "sha256": "527b608569603b9f28e06d7bd916ce74dbda586816b0593b211e5a882a086886"
+    },
+    "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+    "profile": "OfflineTeammate-CreationLinks20261018",
+    "batch": "LatchRulesAccess20261018",
+    "zip": {
+      "path": "build/playtest-LatchRulesAccess20261018-c84cc9d67b25/Von-Neumann-Bottleneck-Windows-playtest-LatchRulesAccess20261018-c84cc9d67b25.zip",
+      "sha256": "229208c8ed6c49c9977b7594f3cf1b0b5dd6437af0794fcd861dbc729eaa9c94"
+    },
+    "pck_summary": {
+      "path": ".godot/latch-rule-tester-pck-c84cc9d-summary.json",
+      "sha256": "79fe0b870393e2e753dccfdce632920ad18034438febc248121f8f5dee3861c3"
+    },
+    "independent_data_audit": {
+      "path": ".godot/latch-rule-tester-pck-independent-audit.json",
+      "sha256": "bea5e80e108a3957b483fa45453acc8722556fdec338c8c06793e2e9a1ab6dd4"
+    },
+    "visual_audit": {
+      "path": ".godot/latch-rule-tester-pck-editor-visual-independent-audit.json",
+      "sha256": "a759e03bcfd84e694a5f9f5e35528ad8ce5bcc5c8dd838ff4ac36d8dbfac0c57"
+    },
+    "headless_checks": 258,
+    "gui_checks": 336,
+    "natural_zero_pids": [
+      43204,
+      31716
+    ],
+    "suite_png": 36,
+    "extra_pre_panel_incident_png": 1,
+    "release_exe_executed": false,
+    "profile_protection": "Fresh separate phases; full runtime/candidate/editor/PCK raw inventories exact; typed main/backup match except top saved_at_utc; tutorial-only, no existing creation work fixture.",
+    "visual_scope": "36 suite frames are exact previously viewed source/normal pixels. One new actual view is Handbook step5 pre-panel capture, not a feedback-panel screenshot. Original scroll and EN handbook-only limits.",
+    "reconstructible_exe_cleanup": {
+      "path": ".godot/latch-rule-tester-pck-duplicate-exe-cleanup.json",
+      "sha256": "e2f86969d171f70f4d703b1d5b1cff573890625c54dbf8f106a31061dba47af6"
+    },
+    "build_observation_limit": "Original builder terminal free bytes do not prove an all-time active disk-space floor.",
+    "release_parent_child_strict": "PARENT229_CHILD142_19_PASS_THEN_AUTHORIZED_STRICT_ONLY48_PASS_ORIGINAL_RESOURCE_STOP_RETAINED",
+    "native": "NOT_RUN"
+  },
+  "selected_images": {
+    "manifest": {
+      "path": "docs/verification/20261018-latch-rule-example/selected-images.json",
+      "sha256": "8e83750f7e03a0c5f1568367ffeaf0a7d6e7b093ee30979433f0f1bdc5999f92"
+    },
+    "files": [
+      {
+        "file": "zh_CN-1280-step-2.png",
+        "sha256": "fe0baf8c0372d752d439d63e478b0c80753a2d109997b7474246e4a2a0281275",
+        "previous_Q": 0,
+        "Q": 0,
+        "S": 0,
+        "R": 0
+      },
+      {
+        "file": "zh_CN-1280-step-4.png",
+        "sha256": "8d05873bfaf19146caf6d10c581634e8d0020f8b3cb7b5d3ead599fbb550f127",
+        "previous_Q": 1,
+        "Q": 1,
+        "S": 0,
+        "R": 0
+      }
+    ],
+    "scope": "Original actual exported PCK/editor screenshot bytes, not release EXE/native images."
+  },
+  "tester_release_interruption": {
+    "status": "FAIL_RESOURCE_BLOCKED_STRICT",
+    "summary": {
+      "path": ".godot/latch-rule-tester-parent-child-strict-c84cc9d-summary.json",
+      "sha256": "a883490e50fc1bbc3d71a12e01018e8af1ae200881850bf02e13dcda1ad7d5c2"
+    },
+    "independent_data_audit": {
+      "path": ".godot/latch-rule-tester-interrupted-strict-independent-audit.json",
+      "sha256": "4386d2afb4d8604a8fdd33bf9035bf08d812226ef8d31fe0a4846ffbe647b3bc"
+    },
+    "parent_receipt": {
+      "path": ".godot/night-package/68928a7beb27/receipt.json",
+      "sha256": "e44845e9dbe25415fb23e39a2f7f1e14f15b0d8f19796c4a8894cda01bd67ff0"
+    },
+    "child_receipt": {
+      "path": ".godot/offline-package/94a27d977be6/receipt.json",
+      "sha256": "62b743088e4ecb85cea0237c0b5bd7ce6e432385ba73e0545f95fa356874ee48"
+    },
+    "parent_checks": 229,
+    "parent_exe_pid": 111904,
+    "parent_natural_exit": 0,
+    "child_boolean_checks": {
+      "capture": 142,
+      "reopen": 19
+    },
+    "child_unique_visited": 60,
+    "child_final_export": {
+      "bundles": 1,
+      "cases": 4,
+      "revisions": 4,
+      "sessions": 2,
+      "capture_errors": 0
+    },
+    "child_import_dedup_passed": true,
+    "strict": {
+      "wrapper_pid": 148936,
+      "observed_exe_pid": 45288,
+      "termination": "disk_space_owned_tree_stop",
+      "wrapper_exit": 1,
+      "exe_exit": null,
+      "checks": null,
+      "raw_process_validation": "ABSENT_AT_INTERRUPTED_TERMINAL",
+      "observed_free_bytes_at_stop": 153239552,
+      "cannot_claim_natural_exit_or_48_checks": true
+    },
+    "protection_at_interrupted_terminal": "All baseline protected raw hashes/absences exact, full typed main/backup match baseline game after only top timestamp removal, Session897f whole prepared/one work/5 supports and lease/recovery unchanged. Original package members exact; remaining QA override recorded as extra.",
+    "archive": {
+      "path": ".godot/latch-rule-strict-interruption-a883490e/archive-manifest.json",
+      "sha256": "385ed37cd9b74c5efff496177017f39d32a61e5e516ae10301fd0bdae8850bcd"
+    },
+    "relocation": {
+      "path": ".godot/latch-rule-strict-interruption-a883490e/relocation-receipt.json",
+      "sha256": "ee5ceee83bc07c0e08dab699486cf6af423444d2e682ddbbf7cb82bfc96c1e79"
+    },
+    "relocation_independent_audit": {
+      "path": ".godot/latch-rule-strict-relocation-independent-audit.json",
+      "sha256": "0eba31414f533954d8b75a608c439ec320120bee6628975c5c2a71465064234f"
+    },
+    "recovery_scope": "Both unique baseline/override exact copied and relocated with original paths/hashes/logs. Captured runtime37files/44dirs and parent receipt unchanged; no runtime edits or parent/child rerun. Root authorized unchanged strict-only new attempt after resource recovery; its terminal gate was pending at relocation and is now completed separately with 48 checks (see tester_strict_continuation); original failed summary retained.",
+    "new_strict_attempt": "COMPLETED_SEPARATE_AUTHORIZED_STRICT_ONLY_PASS_SEE_TESTER_STRICT_CONTINUATION"
+  },
+  "tester_strict_continuation": {
+    "status": "PASS_SCOPE",
+    "summary": {
+      "path": ".godot/latch-rule-tester-strict-continuation-c84cc9d-summary.json",
+      "sha256": "5b234ee47a217bbc6e8796695d5a56ac4b1f4b73c8fe36f7e8187de0a918f992"
+    },
+    "independent_data_audit": {
+      "path": ".godot/latch-rule-tester-strict-continuation-independent-audit.json",
+      "sha256": "5550ef39a6d584d746be5e91c26948013cc13cd301d6ab88eb6b675645f3f948"
+    },
+    "strict_validation": {
+      "path": ".godot/night-package/68928a7beb27/embedded-profile-reopen-validation.json",
+      "sha256": "aaa899dc1d77b6fc14a8fc243b6584471eee9e55b82fb61a8d87f14a5585a580"
+    },
+    "strict_raw": {
+      "path": ".godot/night-package/68928a7beb27/embedded-profile-reopen.json",
+      "sha256": "36fd9858c06d6dddfd5c4174b7a3be5ccf8cf5a7ea4bb19318fe874d4ea3be47"
+    },
+    "strict_checks": 48,
+    "exe_pid": 141804,
+    "natural_exit": 0,
+    "errors": 0,
+    "warnings": 0,
+    "script_errors": 0,
+    "parent_child_rerun": false,
+    "loaded_state_conversions": [
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/0",
+        "from": 155.0,
+        "to": 155
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/1",
+        "from": 145.0,
+        "to": 145
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/0",
+        "from": 560.0,
+        "to": 560
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/1",
+        "from": 145.0,
+        "to": 145
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/0",
+        "from": 965.0,
+        "to": 965
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/1",
+        "from": 145.0,
+        "to": 145
+      }
+    ],
+    "typed_boundary": "Only recorded six CPU workspace coordinates float to equal int; all other loaded protected values/types canonical-exact. Postexit main fulltyped equals reopened game, backup equals baseline game after removing only top saved_at_utc. Whole Session/work/5 supports and other files/leases exact.",
+    "old_baseline_archived_and_new_baseline_byte_equal": true,
+    "old_resource_stop_not_overwritten": true,
+    "both_zip_hashes_unchanged": true,
+    "override_removed_by_original_finally": true,
+    "runtime_files": 39,
+    "runtime_directories": 45,
+    "image_audit": {
+      "path": ".godot/latch-rule-tester-export-visual-independent-audit.json",
+      "sha256": "da621c0445313fe3b61d94ef93aa7b83c7f22d76da80c8182f53eeb0c8bc6e77"
+    },
+    "scope": "Original same-profile release EXE cold restart continuation after explicitly archived resource interruption; not a repeated parent/child, native or cold Creation history reconstruction.",
+    "root_crosscheck": {
+      "path": ".godot/latch-rule-tester-strict-continuation-root-crosscheck.json",
+      "sha256": "4886fb6e210fb6aefc07655072dbb5aa4ea07b29242f76634352c666bbc38200"
+    },
+    "image_scope": {
+      "file_count": 45,
+      "distinct_sha256": 31,
+      "old_interrupted_attempt_files": 43,
+      "added_by_new_strict": {
+        "saved_work_restart_root": 1,
+        "pre_panel_incident": 1
+      },
+      "previously_viewed_exact_file_reuses": 34,
+      "new_distinct_sha_actual_views": 11,
+      "parent_incident_count": 7,
+      "parent_incident_grade": "All pre-panel scenes, not feedback-panel screenshots",
+      "original_cpg_feedback_frame": "Actual tester feedback panel visible",
+      "scope": "Original scroll and snapshot-only boundaries; no static-image focus/OS/natural full journey claim."
     }
   }
 }

@@ -1,10 +1,12 @@
 # 全旅程需求与证据账本 · 2026-10-18
 
-SR锁存器手册续轮：c84cc9d固定Windows七阶段通过、原336项renderer通过，36图独审完成；两个00保持的不同前态、首Reset起点和11无效规则均保留。共享手册在反馈可见时让出Esc；旧e061两项失败仍保留。范围见[本轮证据](../verification/20261018-latch-rule-example/README.md)，不把扩展称旧版缺陷。新包待验，当前已验bb5试玩ZIP尚不含此候选。
+SR锁存器手册续轮：c84cc9d固定Windows七阶段通过、原336项renderer通过，36图独审完成；两个00保持的不同前态、首Reset起点和11无效规则均保留。共享手册在反馈可见时让出Esc；旧e061两项失败仍保留。范围见[本轮证据](../verification/20261018-latch-rule-example/README.md)，不把扩展称旧版缺陷。同源Linux完整CI通过；新普通包已构建并核准身份，但直接release执行canonical的专项180秒超时、未报告检查项且未进入GUI。新普通包的实际EXE父219＋严格重开48通过；导出PCK另在同版官方editor中通过原258→336与36图独审，不称release EXE直接SR输入。普通候选为LatchRulesExperience20261018-c84cc9d67b25；测试者PCK亦通过原258→336；实际EXE229、随包子链142 capture／19 reopen与strict48相继通过，原strict资源强停单列保存，只续未完成strict。当前双包均为c84，旧bb5双包保留恢复身份；原生、Mac与新人理解仍开放。
 
-F7外QA场景调用已在8c73a21独审并修正。新普通实包work `6e96dfc080c2`自然exit1，中文正控制scroll0→0；此前最后一次原settle记录native root.has_focus=false／embedded0。未捕获reveal回调当帧focus，不能唯一归因或据此判产品几何缺陷；完整raw／英文／测试者本轮验收未取得。停止进一步GUI尝试，待具备本窗持焦正控制前提再验。第二诊断df711f15所证旧Host释放仅属该次，不回填其他失败。产品bb5与双ZIP不变。
+## bb5恢复包与当时F7观察
 
-**F6当前交付：bb5c817效率模态焦点修复已独审，三阶段编译、真实renderer245项、完整Windows176阶段及远端CI均通过；双包限定验收完成，开放观察保留。**
+F7外QA场景调用已在8c73a21独审并修正。新普通实包work `6e96dfc080c2`自然exit1，中文正控制scroll0→0；此前最后一次原settle记录native root.has_focus=false／embedded0。未捕获reveal回调当帧focus，不能唯一归因或据此判产品几何缺陷；完整raw／英文／测试者本轮验收未取得。停止进一步GUI尝试，待具备本窗持焦正控制前提再验。第二诊断df711f15所证旧Host释放仅属该次，不回填其他失败。该次F7使用bb5，其恢复双ZIP保持原字节。
+
+**F6恢复交付：bb5c817效率模态焦点修复已独审，三阶段编译、真实renderer245项、完整Windows176阶段及远端CI均通过；双包限定验收完成，开放观察保留。**
 原867基线实际239项/4错误：两语模态持焦时blend0→1；Esc组合失败，独立body值未记录，
 旧scroll未变不作故障证据。60任务逐行语义盘点已提交20c9515，不等于60次实解或新人理解。
 本轮精确来源与后续结果见[F6证据](../verification/20261018-narrative-modal-focus/README.md)。
@@ -14,9 +16,9 @@ F7外QA场景调用已在8c73a21独审并修正。新普通实包work `6e96dfc08
 当时测试者链未跑。失败现场未见反馈面板，但原分项值缺失，不能唯一归因为产品、QA或OS。
 第二次LOG-ONLY诊断保留为独立180秒超时：六个CPG同步快照正常，不等于整链通过；
 缺最终embedded.json，因此219计数不可得、strict未跑。后续只读等待点日志不调整原守卫或动作。
-上述两次为原失败身份；当前d196新普通包整链219＋严格重开48项自然通过、零错误或警告，
+上述两次为原失败身份；F6的d196普通包整链219＋严格重开48项自然通过、零错误或警告，
 实际21图=19根/Window帧＋2独立3D纹理获独审。同步遥测不改生产、动作、判据或等待，
-旧两次原因仍UNKNOWN，不以本次通过回填。当前测试者父229＋原child142 capture/19 reopen＋
+旧两次原因仍UNKNOWN，不以本次通过回填。该F6测试者父229＋原child142 capture/19 reopen＋
 严格重开48项实际通过；60入口、真实CPG/作品重启及最终单ZIP导入去重获独立数据审查。
 45 PNG文件副本对应31个独立SHA，逐图独审通过，不算45个新场景。原outer在父/child成功后
 读取混合编码stdout失败，exit1保留；仅剩余原strict另次继续完成，未重跑父/child。

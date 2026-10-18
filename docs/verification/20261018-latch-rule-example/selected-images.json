@@ -1,0 +1,41 @@
+{
+  "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+  "normal_ZIP_sha256": "5e2dc6ce62bab128693d10215e2963621cf58b03305c230dbb507789ee516114",
+  "actual_exported_PCK_sha256": "26b8e8cc4e07086a9467306680c94e7995bf8cd1f84415a3425a5305dbba700a",
+  "canonical_test_sha256": "b0a74fea5494c36646eae948fd72938328e7f9f30086fde1481914be64389eee",
+  "result_sha256": "9bf7623769c1b86a0498b8a93560c14c8754aa803194d0839dcce6b6b1badec4",
+  "independent_visual_audit_sha256": "37d0872b375e6acecb133262bbcf2267a04aba8ce3bee68f3235d779245b79dd",
+  "scope": "Actual exported PCK rendered by pinned same-version official editor; independent full 36-frame audit uses identical already-reviewed c84 source pixels. Not release-EXE or native OS screenshots.",
+  "frames": [
+    {
+      "file": "zh_CN-1280-step-2.png",
+      "sha256": "fe0baf8c0372d752d439d63e478b0c80753a2d109997b7474246e4a2a0281275",
+      "bytes": 152126,
+      "canonical_capture": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\latch-rule-exported-qa\\301f0c2d493b\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\latch-rule-captures\\zh_CN-1280-step-2.png",
+      "step": 2,
+      "input": {
+        "S": 0,
+        "R": 0
+      },
+      "previous_Q": 0,
+      "Q": 0,
+      "NQ": 1,
+      "presentation": "Original screenshot bytes; no annotation, crop or rescale."
+    },
+    {
+      "file": "zh_CN-1280-step-4.png",
+      "sha256": "8d05873bfaf19146caf6d10c581634e8d0020f8b3cb7b5d3ead599fbb550f127",
+      "bytes": 152125,
+      "canonical_capture": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\latch-rule-exported-qa\\301f0c2d493b\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\latch-rule-captures\\zh_CN-1280-step-4.png",
+      "step": 4,
+      "input": {
+        "S": 0,
+        "R": 0
+      },
+      "previous_Q": 1,
+      "Q": 1,
+      "NQ": 0,
+      "presentation": "Original screenshot bytes; no annotation, crop or rescale."
+    }
+  ]
+}

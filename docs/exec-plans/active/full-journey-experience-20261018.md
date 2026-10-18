@@ -1,13 +1,17 @@
 # 全旅程体验续轮 · 2026-10-18
 
-F7外QA真实场景适配已在8c73a21独审、提交与推送。新普通包6e96dfc080c2自然exit1，中文滚动正控制0→0且此前原settle显示native root focus=false／embedded0；精确回调时点未捕获。保留FAIL，不判产品几何缺陷或完整通过；停止后续GUI尝试，待本窗持焦正控制有效。英文／测试者本轮直接验收未完成，产品bb5与固定双ZIP不变，df711旧引用诊断不回填其他旧失败。
+当前交付为固定c84cc9d的SR五步示例与反馈Esc修复双包；源码定向七阶段、renderer336、同源Linux完整CI通过。两包导出PCK各在同版官方editor通过原258→336；普通实际EXE219＋strict48、测试者229＋随包142／19＋strict48相继通过。原release-script无计数超时及测试者strict资源强停均保留，后者仅在数据独审与归档后续跑原strict，不重跑父子链。来源、当前ZIP与观察边界见[SR当前证据](../../verification/20261018-latch-rule-example/README.md)及[次日交接](../../development/night-handoff-20261018.md)。完整goal仍ACTIVE；原生／Mac／新人及正式创作决定不由这些测试代验。
 
-当前交付推进至F6，产品SOURCE固定`bb5c817bcb7e0c770fc65b41b7407e2847149a74`；
+## 先前bb5交付与F7开放观察
+
+F7外QA真实场景适配已在8c73a21独审、提交与推送。新普通包6e96dfc080c2自然exit1，中文滚动正控制0→0且此前原settle显示native root focus=false／embedded0；精确回调时点未捕获。保留FAIL，不判产品几何缺陷或完整通过；停止后续GUI尝试，待本窗持焦正控制有效。该次英文／测试者直接验收未完成，其产品bb5与固定双ZIP保持原字节，df711旧引用诊断不回填其他旧失败。
+
+先前F6交付的产品SOURCE固定`bb5c817bcb7e0c770fc65b41b7407e2847149a74`；
 交接检查点`42401a3`已推送，完整回归176／176、效率真实renderer245与产品CI通过各自范围。
 普通实包父219＋严格重开48、测试者父229＋原collector142 capture／19 reopen＋严格重开48均通过；
 普通21图与测试者45副本／31独立SHA已独审。测试者外层日志解码失败exit1保留，
 仅剩余strict独立继续完成，不把整外层改判exit0；旧普通三错和180秒超时原因仍UNKNOWN。
-双包、manifest、来源与最多五项次日观察见[当前集中交接](../../verification/20261018-narrative-modal-focus/README.md)。
+双包、manifest、来源与最多五项次日观察见[F6集中交接](../../verification/20261018-narrative-modal-focus/README.md)。
 d14双包为[已验恢复版本](../../verification/20261018-creation-connections/README.md)，不是当前产品身份。
 官方原生工具初始化阻断，后续未重试：新包无OS输入验收，不能借F1／F4旧结果覆盖。
 完整goal仍ACTIVE，F6为DELIVERED_WITH_OPEN_OBSERVATIONS。源码效率模态保护已测，
@@ -230,3 +234,9 @@ F7失焦环境下的直接模态正控制保持未通过，不重试求绿。
 SR候选e061518已提交并推送独立分支；固定Windows定向7阶段全部自然exit0（新Latch258），719源输入／176canonical精确，Linux完整CI39106076014另通过各自范围。首次真实renderer336项有两项普通反馈首Esc／焦点失败，36原图保留，原日志无逐分项关闭顺序，不能据此断言具体哪层先关闭。双独审源码确认共享Handbook.handle_escape会先消费Esc，而普通Moments不暂停场景；旧规则测试强制测试者暂停，不能替该分支。Root仅核准共享手册在原Esc判定后复用已有PlaytestData反馈可见flag，active则return false让原反馈处理，不改五个Host、Moments、模型、角色或原336断言／动作／等待。作者冻结、独审与提交后再按固定输入验收；不把新通过倒写旧失败或认证新人／OS。
 
 c84cc9d两行反馈让出guard已独审并推送。固定七阶段全部自然0，原test字节b0a74不改的真实renderer336项自然0，36原图经独审：28张与旧已见像素完全相同、8张新SHA已实看。旧e061336／2FAIL保原身份，不声称补足旧缺分项。下一步只按固定c84完整SHA构建新普通／测试者Windows候选，保CreationLinks两既有profile与空endpoint，batch分别LatchRulesExperience20261018／LatchRulesAccess20261018；先普通构建及身份核验，下一阶段须实际通过才推进。每份builder的docs仅是可由Git恢复副本，若空间需要，须Root与非作者逐文件／目录／no-reparse双审后才精确回收；保所有ZIP、日志、PNG、runtime及存档。PCK专项优先复用原canonical测试绝对路径与全新四环境，先核release支持，不注入生产脚本、TestMode或source fallback；失败即停，不修改原219／229链或测试求绿。
+
+本轮固定c84的Linux完整CI39111938887已实际SUCCESS。普通新包BUILD_IDENTITY_PASS（ZIP5e2dc6ce），不是已验交付替换；直接release EXE的原canonical专项达到180秒守卫，未产生任何检查计数且GUI未运行，保留原1a3af7c／6c98监督器和失败收据1da82b14。实际同EXE --help自然0，选项表未列script／main-pack／path；结合当前Godot官方extended限制，只修正QA执行载体，不改产品或原断言。下一专项限定同版官方editor323f9c4c加载从实际新EXE逐字节提取的完整PCK，明确其证据等级不等于release EXE；实际EXE仍须原219／229＋strict48链另验。全部后续仍按冻结、非作者审查、独立检查点及单引擎阶段推进。
+
+新normal实际PCK／editor原258→336通过，36图全部与已审c84像素逐字节相同；数据独审2ac19db6、图审37d0872b、Root7da2分级接受。实际release EXE原父219＋strict48也均自然0（summarya2107d96），其SR专项仍按PCK／editor单列。普通候选切换到LatchRulesExperience-c84，原bb5保持恢复；新tester固定c84构建仅获独立阶段GO，未提前记验收。
+
+本轮双包均固定c84：normal ZIP5e2dc6ce，tester ZIP229208c8。tester原PCK／editor258→336通过（36suite＋1pre-panel现场），原actualEXE229及collector142／19通过后，首次strict在约3.5秒由disk_space守卫强停，无48计数或自然退出；原a883失败不改。独审4386确认全部保护数据不变，Root原字节归档且仅移走baseline／override两项QA残留（archive385ed37／relocationee5ceee8），双审只回收可重建EXE并提升续跑空间预检896MiB，原floor256不变；原strict2e1单独续跑48自然0（summary5b234），六个既定float→int坐标等值转换单列，其他全typed／raw精确。父子未重跑、代码／断言未改，原生／Mac／新人及正式创作决定仍不认证；完整goalACTIVE。

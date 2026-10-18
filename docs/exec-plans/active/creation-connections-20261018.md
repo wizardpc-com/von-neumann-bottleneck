@@ -92,3 +92,29 @@ Narrative次审反馈三文件均PASS_STATIC。CPG公开字段白名单、记录
 下一只给两个测试增加实际rect/clip/焦点和Home弱入口来源日志，不改生产或旧断言，
 独审、固定新诊断提交后一次最小定向取数。再根据实际几何核准最小呈现修复，
 不靠删默认入口检查、暗滚动、隐藏合法本地入口或宽松角色状态刷绿。
+
+固定156c836的日志定向实际4阶段2PASS/2FAIL，原3ERROR与12个焦点WARNING复现，
+4owned均自然退出，无SCRIPTERROR/终止。摘要`.godot/f5-log-diagnostic-156c836-summary.json`
+SHA `4bd0e114c7269e09458e5a5c5f85469928f33121c387667b6af62a9b49f4cf9c`。
+实际720p Measurements可视高60，回顾入口顶部为中文650/英文677，超出clip底632；
+原Signal已在最小高度，不能挤小原信号或Verify来容纳入口。修复把同一个按钮放进原证据
+header，正文仍用原滚动区；定位启用时同步恢复FOCUS_ALL，离开Measurements折叠回顾。
+增加原Verify字号/可见、原Signal最小尺寸、Run/Status边界与真实键盘定位保护。
+该三文件已独审PASS_STATIC，实际新布局/交互仍待固定源验证。
+
+原Home失败帧实际scene为TaskTree，且有有效本地入口，隐藏浮条符合原政策。
+GameMode变化会由原hardware handler延迟返回地图，旧测试直接切Hub与其竞争。
+核准仅修测试生命周期：让原mode导航完成并严格核真实MAP及本地抑制，然后经原Home按钮
+进入严格匹配的Hub，再保持原全局fallback与后续鼠标/F8保护。生产浮条政策不改，
+不直接改导航标志、藏合法入口或靠重复轮询取绿。新源独审/提交后再跑原17定向阶段。
+Visual的单文件测试修复SHA为
+`fd34ea245453f38a6728cdd720799495aef5d3e5cf7ea7a47916b01902a7f15e`；
+Knowledge独审确认原Home/fallback/pointer/F8与保护断言保留，生产73ad与efficiency5c22未变。
+
+新包隔离profile预定为`CreationLinks20261018`与
+`OfflineTeammate-CreationLinks20261018`，batch分别为`CreationLinksExperience20261018`与
+`CreationLinksAccess20261018`，不覆盖旧包/存档。外QA仅扩这两个明确白名单，
+保留旧Measured补充协议和原严格重开规则。新profile的父链用真实Host完成学习、复原、
+逐次提交/揭晓、生成和保存，再从独立纯回看基线验证四步与原Works-ID定位；合法准备
+与纯查看允许变化分开列证。仍跑原Journal/观察站/测试者collector/作品重启/严格重开，
+冷重启不能补造C/P/G临时记录。此QA尚未实施，待源与renderer稳定后单独授权作者。

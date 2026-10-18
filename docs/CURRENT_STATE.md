@@ -12,8 +12,11 @@ feedback entrances to prevent the tester footer from obscuring task controls.
 The implementation has independent source review. First fixed77b339 verification
 passes15/17 stages; CPG720p default-entry visibility and the Home feedback-fallback
 expectation fail, with additional CPG focus warnings. The failed receipts remain;
-geometry and entry-identity diagnostics precede a repair. Renderer, full regression
-and new package acceptance are pending. The measured-growth ZIPs below remain the
+the156c836 diagnostic run also fails2/4 stages. Its actual720p geometry places the
+entry below the scroll clip, while the supposed Home frame is actually TaskTree
+with a valid local feedback entry. A reviewed header-entry/focus repair and a
+bounded test-navigation repair await fixed-source verification. Renderer, full
+regression and new package acceptance are pending. The measured-growth ZIPs below remain the
 current verified recovery packages.
 
 ## Measured-growth candidate — 2026-10-18

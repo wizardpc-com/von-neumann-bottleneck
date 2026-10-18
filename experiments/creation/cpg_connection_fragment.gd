@@ -167,7 +167,8 @@ func _cost(value: Dictionary) -> String:
 
 func _refresh() -> void:
 	if not is_instance_valid(body): return
-	toggle_button.text = words("回顾 C → P → G · 可选","Review C → P → G · optional")
+	toggle_button.text = words("C → P → G 回顾","C → P → G review")
+	toggle_button.tooltip_text = words("可选回顾：只查看本次真实记录，不运行或保存。","Optional review: view actual observations from this visit; no run or save.")
 	scope_label.text = words("候选壹回应 · 独立运行记录，不是共同历史或文明事件回放。","Candidate Yi response · separate run records, not a shared history or a civilization replay.")
 	var titles: Array[String] = [words("C 复原","C Restore"),words("P 已揭晓","P Revealed"),words("G 回灌","G Feedback"),words("已保存作品","Saved work")]
 	for index: int in 4:
@@ -179,6 +180,7 @@ func _refresh() -> void:
 	var record: Dictionary = records.get(kind,{})
 	locate_button.text = words("定位原作品列表","Locate original work list") if step==3 else words("定位当前原证据","Locate current original evidence")
 	locate_button.disabled = record.is_empty() or (str(record.get("id","")).is_empty() if step==3 else not locatable.get(kind,false))
+	locate_button.focus_mode = Control.FOCUS_NONE if locate_button.disabled else Control.FOCUS_ALL
 	identity_label.text = ""
 	if record.is_empty():
 		summary_label.text = words("本次没有这一步的运行记录。旧权限或作品不补造 C/P/G 经历。","No observation for this step in this visit. Permissions and saved works do not invent C/P/G runs.")

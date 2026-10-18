@@ -339,7 +339,13 @@ func build() -> void:
 	_refresh_journey_context()
 	connection_fragment = ConnectionFragment.new()
 	measurement_content.add_child(connection_fragment)
-	connection_fragment.expansion_requested.connect(func() -> void: set_evidence_expanded(true))
+	connection_fragment.toggle_button.reparent(evidence_header)
+	connection_fragment.expansion_requested.connect(func() -> void:
+		causal_tabs.current_tab = 0
+		set_evidence_expanded(true))
+	var review: Control = connection_fragment
+	evidence_tabs.tab_changed.connect(func(index: int) -> void:
+		if index!=0 and is_instance_valid(review): review.collapse())
 	connection_fragment.evidence_requested.connect(_locate_connection_evidence)
 	connection_fragment.work_requested.connect(_locate_connection_work)
 	costs = label("",measurement_content,13)

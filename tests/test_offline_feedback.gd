@@ -220,11 +220,26 @@ func local_entry_policy() -> void:
 	var mode: Node = root.get_node("GameMode")
 	var old_mode: StringName = mode.current_mode
 	mode.set_mode(&"test")
-	if not prepare_work(): mode.set_mode(old_mode); return
-	var nav: Node = root.get_node("TaskNavigation")
-	check(change_scene_to_file("res://src/ui/prototype_hub.tscn")==OK,"Original Home supplies the no-local-entry fallback route")
 	await settle()
+	var nav: Node = root.get_node("TaskNavigation")
 	var feedback: Node = root.get_node("OfflineFeedback")
+	var map: Control = current_scene
+	check(map!=null and map.scene_file_path==nav.MAP_SCENE,"The original mode-change return finishes at the real TaskTree before another route starts")
+	if map==null or map.scene_file_path!=nav.MAP_SCENE: mode.set_mode(old_mode); return
+	var map_entry: Button = local_button(map)
+	check(map_entry!=null and map_entry.get_viewport()==root and map_entry.is_visible_in_tree() and feedback._local_feedback_available(root) and not feedback.toolbar.visible,"The real TaskTree local feedback entry suppresses the duplicate global strip")
+	if not prepare_work(): mode.set_mode(old_mode); return
+	var home: Button
+	for candidate: Node in map.find_children("*","Button",true,false):
+		if candidate.text==("Home" if root.get_node("Localization").current_locale()=="en" else "首页"):
+			home=candidate; break
+	check(home!=null,"The real TaskTree retains its original Home button route")
+	if home==null: mode.set_mode(old_mode); return
+	home.pressed.emit()
+	await settle()
+	check(not is_instance_valid(map),"The original Home action releases the previous TaskTree")
+	check(current_scene!=null and current_scene.scene_file_path=="res://src/ui/prototype_hub.tscn","Original Home supplies the no-local-entry fallback route")
+	check(not nav.from_tree,"The original Home action resets only its own navigation return flag")
 	home_fallback_diagnostic(feedback)
 	check(feedback.toolbar.visible,"Home without a local feedback entry keeps its original global fallback")
 	if DisplayServer.get_name()!="headless":

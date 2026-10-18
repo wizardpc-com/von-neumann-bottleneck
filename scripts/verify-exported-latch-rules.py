@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate this fixed latch example using an exported EXE and its embedded PCK only."""
+"""Validate the fixed exported latch PCK with the same-version pinned official editor."""
 import argparse
 import hashlib
 import importlib.util
@@ -25,6 +25,8 @@ CHECKER_SHA = '6b92fb35b8d1b8a0ad4869589c589031424ec11d45db9f05251805e42f68e9a1'
 PACK_HELPER_SHA = '3ada696a5718542faca9c40f730a23d37c18055d92f744f01734a4523f60acd7'
 TEMPLATE_SHA = '76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07'
 TASKS_SHA = 'f5fe865897ea8763b9960d838fbca4f6f3b3e6ced8fd04a22258f0f489fd11f6'
+EDITOR_SHA = '323f9c4cc5db674e98815cdd8e69da007d5efc779abedc8c0e42883b7fdea12a'
+EDITOR_BYTES = 178997256
 MIB = 1024 * 1024
 
 
@@ -107,7 +109,31 @@ def extract_exact(archive, destination, manifest, audits):
     return expected_tree
 
 
-def run_phase(work, stage, binary, test, profile, tester, audits):
+def extract_embedded_pack(binary, destination, audits, pack):
+    size = binary.stat().st_size
+    with binary.open('rb') as source:
+        assert size >= 20
+        source.seek(-12, 2)
+        footer = source.read(12)
+        length = int.from_bytes(footer[:8], 'little')
+        start = size - 12 - length
+        assert footer[8:] == b'GDPC' and length >= 4 and start >= 0
+        source.seek(start)
+        assert source.read(4) == b'GDPC'
+        source.seek(start)
+        remaining = length
+        with destination.open('xb') as target:
+            while remaining:
+                block = source.read(min(65536, remaining))
+                assert block, 'Truncated embedded PCK'
+                target.write(block)
+                remaining -= len(block)
+    digest = audits.sha(destination)
+    assert destination.stat().st_size == length and digest == pack.embedded_pck_sha256(binary)
+    return {'path': str(destination), 'bytes': length, 'sha256': digest, 'exe_offset': start}
+
+
+def run_phase(work, stage, binary, editor, pck, pck_identity, test, profile, tester, audits):
     phase = work / stage
     phase.mkdir()
     runtime = phase / 'runtime'
@@ -121,7 +147,9 @@ def run_phase(work, stage, binary, test, profile, tester, audits):
     no_project_ancestors(binary.parent)
     required = 640 if stage == 'gui' else 384
     assert shutil.disk_usage(work).free >= required * MIB, 'Insufficient phase space'
-    command = [str(binary)] + (['--headless'] if stage == 'headless' else []) + ['--script', str(test)]
+    assert editor.stat().st_size == EDITOR_BYTES and audits.sha(editor) == EDITOR_SHA
+    assert pck.stat().st_size == pck_identity['bytes'] and audits.sha(pck) == pck_identity['sha256']
+    command = [str(editor), '--main-pack', str(pck)] + (['--headless'] if stage == 'headless' else []) + ['--script', str(test)]
     if stage == 'gui':
         command += ['--', '--capture', '--latch-rule-capture']
     log = phase / 'stdout.log'
@@ -153,14 +181,21 @@ def run_phase(work, stage, binary, test, profile, tester, audits):
         warnings = [line for line in text.splitlines() if 'WARNING:' in line]
         matches = re.findall(r'^PASS: SRLatch isolated five-step handbook \((\d+) checks\)$', text, re.MULTILINE)
         expected_checks = 336 if stage == 'gui' else 258
+        editor_after = audits.sha(editor)
+        pck_after = audits.sha(pck)
+        carrier_unchanged = (editor.stat().st_size == EDITOR_BYTES and editor_after == EDITOR_SHA
+                             and pck.stat().st_size == pck_identity['bytes'] and pck_after == pck_identity['sha256'])
         passed = (child is not None and child.returncode == 0 and not reason and not errors
-                  and matches == [str(expected_checks)])
+                  and matches == [str(expected_checks)] and carrier_unchanged)
         result = {'stage': stage, 'pid': child.pid if child else None, 'command': command,
                   'environment': environment, 'cwd': str(binary.parent), 'exit': child.returncode if child else None,
                   'terminated_owned_child_reason': reason, 'elapsed_seconds': round(time.monotonic() - started, 3),
                   'log_sha256': audits.sha(log) if log.exists() else None, 'errors': errors, 'warnings': warnings,
                   'reported_checks': int(matches[0]) if len(matches) == 1 else None, 'passed': passed,
-                  'runtime_before': before, 'runtime_after': after}
+                  'runtime_before': before, 'runtime_after': after,
+                  'editor_sha256_before': EDITOR_SHA, 'editor_sha256_after': editor_after,
+                  'pck_sha256_before': pck_identity['sha256'], 'pck_sha256_after': pck_after,
+                  'editor_and_extracted_pck_unchanged': carrier_unchanged}
         write_json(phase / 'owned-process.json', result)
     result['controller_passed'] = passed
     if not passed:
@@ -206,7 +241,7 @@ def run_phase(work, stage, binary, test, profile, tester, audits):
             assert set(suite_pngs) <= set(pngs)
             result.update({'suite_receipt_sha256': audits.sha(receipt), 'suite_pngs_sha256': suite_pngs,
                            'extra_feedback_or_incident_pngs_sha256': {name: digest for name, digest in pngs.items() if name not in suite_pngs},
-                           'image_grade': 'Actual exported canonical controller frames; not independently viewed or native OS evidence.'})
+                           'image_grade': 'Actual exported PCK canonical frames in the same-version official editor; not release-EXE, independently viewed or native OS evidence.'})
         else:
             assert not pngs, 'Headless phase unexpectedly captured images'
     except Exception as exc:
@@ -221,12 +256,17 @@ def run_phase(work, stage, binary, test, profile, tester, audits):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('candidate', type=Path)
+    parser.add_argument('--godot', type=Path, required=True, help='Pinned 4.7.1 official main editor executable; console bootstrap is not accepted')
     parser.add_argument('--gui', action='store_true', help='After headless success, run one fresh-data canonical renderer phase')
     args = parser.parse_args()
     audits = load_pinned('verify-night-package.py', AUDITS_SHA)
     pack = load_pinned('verify-package-feedback.py', PACK_HELPER_SHA)
     checker = ROOT / 'scripts/check-candidate-identity.py'
     assert audits.sha(checker) == CHECKER_SHA
+    editor = args.godot.absolute()
+    no_links(editor)
+    editor = editor.resolve()
+    assert editor.stat().st_size == EDITOR_BYTES and audits.sha(editor) == EDITOR_SHA
     candidate = args.candidate.absolute()
     no_links(candidate)
     candidate = candidate.resolve()
@@ -257,18 +297,28 @@ def main():
     no_project_ancestors(base)
     with zipfile.ZipFile(archive) as package:
         extraction_bytes = sum(item.file_size for item in package.infolist())
-    assert shutil.disk_usage(ROOT.parent).free >= extraction_bytes + (640 if args.gui else 384) * MIB
+        executable_info = package.getinfo('Windows/Von-Neumann-Bottleneck.exe')
+        with package.open(executable_info) as member:
+            assert executable_info.file_size >= 20
+            member.seek(executable_info.file_size - 12)
+            footer = member.read(12)
+            pck_bytes = int.from_bytes(footer[:8], 'little')
+            assert footer[8:] == b'GDPC' and 4 <= pck_bytes <= executable_info.file_size - 12
+    assert shutil.disk_usage(ROOT.parent).free >= extraction_bytes + pck_bytes + (640 if args.gui else 384) * MIB
     work = base / uuid.uuid4().hex[:12]
     work.mkdir(parents=True)
     no_project_ancestors(work)
-    print('Exported latch-rule QA: ' + str(work), flush=True)
+    print('Exported latch PCK / pinned editor QA: ' + str(work), flush=True)
     phases = []
     payload = None
+    pck_identity = None
     error = ''
     seed = {'source_commit': SOURCE, 'build_id': identity, 'profile': profile, 'tester': tester,
             'candidate': str(candidate), 'candidate_inventory_before': before,
-            'role_evidence': 'Strict manifest role and immutable exported EXE/PCK; the unchanged canonical test reads the PCK role for F8 but does not serialize the role setting.', 'manifest_sha256': audits.sha(candidate / 'manifest.json'),
-            'zip_sha256': audits.sha(archive), 'test_sha256': TEST_SHA, 'supervisor_sha256': audits.sha(Path(__file__)),
+            'role_evidence': 'Strict manifest role and immutable exported PCK loaded by the pinned editor; the unchanged canonical test reads the PCK role for F8 but does not serialize the role setting.', 'manifest_sha256': audits.sha(candidate / 'manifest.json'),
+            'zip_sha256': audits.sha(archive), 'test_sha256': TEST_SHA,
+            'editor': {'path': str(editor), 'bytes': EDITOR_BYTES, 'sha256': EDITOR_SHA},
+            'release_exe_executed': False, 'supervisor_sha256': audits.sha(Path(__file__)),
             'identity_checker_sha256': CHECKER_SHA, 'audits_sha256': AUDITS_SHA, 'pack_helper_sha256': PACK_HELPER_SHA}
     write_json(work / 'seed.json', seed)
     try:
@@ -283,12 +333,15 @@ def main():
         payload = extract_exact(archive, work / 'unpacked', manifest, audits)
         binary = work / 'unpacked/Windows/Von-Neumann-Bottleneck.exe'
         no_project_ancestors(binary.parent)
-        seed.update({'exe_sha256': audits.sha(binary), 'embedded_pck_sha256': pack.embedded_pck_sha256(binary),
+        pck = work / 'exported.pck'
+        pck_identity = extract_embedded_pack(binary, pck, audits, pack)
+        assert pck_identity['bytes'] == pck_bytes
+        seed.update({'extracted_pck': pck_identity, 'exe_sha256': audits.sha(binary), 'embedded_pck_sha256': pack.embedded_pck_sha256(binary),
                      'windows_payload_before': payload, 'canonical_test_path': str(test),
                      'identity_log_sha256': audits.sha(work / 'identity.log')})
         write_json(work / 'seed.json', seed)
         for stage in (['headless', 'gui'] if args.gui else ['headless']):
-            phase = run_phase(work, stage, binary, test, profile, tester, audits)
+            phase = run_phase(work, stage, binary, editor, pck, pck_identity, test, profile, tester, audits)
             phases.append(phase)
             assert phase['passed'], ('Canonical ' + stage + ' failed: '
                                      + phase.get('data_validation_error', phase['terminated_owned_child_reason']
@@ -301,16 +354,23 @@ def main():
         windows_after = snapshot(work / 'unpacked/Windows', audits) if (work / 'unpacked/Windows').exists() else None
         unchanged = candidate_after == before and (payload is None or windows_after == payload)
         test_unchanged = not (work / 'test_latch_rule_example.gd').exists() or audits.sha(work / 'test_latch_rule_example.gd') == TEST_SHA
-        passed = not error and unchanged and test_unchanged and len(phases) == (2 if args.gui else 1) and all(row['passed'] for row in phases)
-        result = {'passed': passed, 'scope': 'Fixed exported EXE/PCK canonical latch fixture; fresh QA data only, not ordinary player progression or native OS.',
+        editor_after = audits.sha(editor)
+        pck_after = audits.sha(work / 'exported.pck') if (work / 'exported.pck').exists() else None
+        carrier_unchanged = (editor_after == EDITOR_SHA and editor.stat().st_size == EDITOR_BYTES
+                             and pck_identity is not None and pck_after == pck_identity['sha256']
+                             and (work / 'exported.pck').stat().st_size == pck_identity['bytes'])
+        passed = not error and unchanged and test_unchanged and carrier_unchanged and len(phases) == (2 if args.gui else 1) and all(row['passed'] for row in phases)
+        result = {'passed': passed, 'scope': 'Actual exported PCK canonical latch fixture in the pinned same-version official editor; fresh QA data only, not release-EXE validation, ordinary player progression or native OS.',
                   'seed_sha256': audits.sha(work / 'seed.json'), 'source_commit': SOURCE, 'build_id': identity,
                   'headless_required': True, 'gui_requested': args.gui, 'phases': phases, 'error': error,
                   'candidate_inventory_after': candidate_after, 'windows_payload_after': windows_after,
-                  'candidate_and_extracted_package_unchanged': unchanged, 'canonical_test_unchanged': test_unchanged}
+                  'candidate_and_extracted_package_unchanged': unchanged, 'canonical_test_unchanged': test_unchanged,
+                  'editor_sha256_after': editor_after, 'extracted_pck_sha256_after': pck_after,
+                  'editor_and_extracted_pck_unchanged': carrier_unchanged, 'release_exe_executed': False}
         write_json(work / 'result.json', result)
         if passed:
             write_json(work / 'validation.json', result)
-    print(('PASS: ' if passed else 'FAIL: ') + 'exported canonical latch-rule scope; ' + str(work), flush=True)
+    print(('PASS: ' if passed else 'FAIL: ') + 'exported PCK / pinned editor canonical latch-rule scope; ' + str(work), flush=True)
     return 0 if passed else 1
 
 

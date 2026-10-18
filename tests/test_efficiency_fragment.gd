@@ -174,8 +174,19 @@ func embedded_focus_boundary(main: Control, locale: String) -> void:
 	var scroll: ScrollContainer = main.history_chart.get_parent().get_parent()
 	var before: Dictionary = protected_state()
 	fragment.toggle_button.grab_focus(); await settle()
-	scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value); await settle()
+	scroll.scroll_vertical = 0; await settle()
+	check(scroll.scroll_vertical == 0, "The real History positive control starts at scroll zero")
+	fragment.toggle_button.button_pressed = true; await settle()
+	print("EFFICIENCY_REVEAL_POSITIVE_CONTROL: ",JSON.stringify({"locale":locale,"scroll_before":0,"scroll_after":scroll.scroll_vertical,
+		"scroll_max":scroll.get_v_scroll_bar().max_value,"scroll_page":scroll.get_v_scroll_bar().page,
+		"viewport_rect":str(root.get_visible_rect()),"scroll_rect":str(scroll.get_global_rect()),
+		"source_rect":str(fragment.source_label.get_global_rect()),"step_rect":str(fragment.step_buttons[0].get_global_rect()),
+		"metric_rect":str(fragment.metric_label.get_global_rect())}))
+	check(scroll.scroll_vertical > 0 and fully_visible(fragment.source_label) and fully_visible(fragment.step_buttons[0]) and fully_visible(fragment.metric_label), "Without another Window, actual expansion moves the reading region and reveals its source, step and metric")
+	fragment.collapse(); await settle()
+	scroll.scroll_vertical = 0; await settle()
 	var pending_scroll: int = scroll.scroll_vertical
+	check(pending_scroll == 0, "Modal negative control uses the same real scroll-zero starting point")
 	fragment.toggle_button.button_pressed = true
 	check(process_frame.is_connected(fragment._reveal_body), "Actual efficiency expansion schedules one pending reveal before Window focus moves")
 	fragment._select_step(1)
@@ -198,6 +209,8 @@ func embedded_focus_boundary(main: Control, locale: String) -> void:
 		"blocker_focus_owner":str(blocker_focus.get_path()) if is_instance_valid(blocker_focus) else "none",
 		"embedded_windows":embedded,"listed_embedded":root.get_embedded_subwindows().has(blocker),
 		"scroll_before":pending_scroll,"scroll_after":scroll.scroll_vertical,"blend_before":held_blend,"blend_after":fragment.visual_blend,
+		"scroll_max":scroll.get_v_scroll_bar().max_value,"scroll_page":scroll.get_v_scroll_bar().page,
+		"scroll_rect":str(scroll.get_global_rect()),"source_rect":str(fragment.source_label.get_global_rect()),"metric_rect":str(fragment.metric_label.get_global_rect()),
 		"step_before":held_step,"step_after":fragment.step,"feedback_active":fragment._feedback_active()}))
 	check(blocker.visible and blocker.has_focus() and blocker_focus == other and (root.get_embedded_subwindows().has(blocker) if blocker.is_embedded() else not root.has_focus()), "Actual modal owns its Other button with the real embedded or native focus semantics")
 	if blocker.is_embedded(): print("NOT_RUN: native OS focus loss; efficiency boundary uses a focused embedded modal Window")
@@ -205,7 +218,9 @@ func embedded_focus_boundary(main: Control, locale: String) -> void:
 	check(fragment.visual_blend == held_blend and fragment.step == held_step, "Another focused Window pauses the unfinished efficiency observation")
 	var escape := InputEventKey.new(); escape.keycode = KEY_ESCAPE; escape.pressed = true
 	main._unhandled_key_input(escape)
-	check(fragment.body.visible and protected_state() == before, "An unfocused efficiency Host cannot collapse its fragment or change authority")
+	var authority_unchanged: bool = protected_state() == before
+	print("EFFICIENCY_MODAL_ESCAPE_RESULT: ",JSON.stringify({"locale":locale,"body_visible":fragment.body.visible,"authority_unchanged":authority_unchanged,"map_visible":main.map_host.visible}))
+	check(fragment.body.visible and authority_unchanged, "An unfocused efficiency Host cannot collapse its fragment or change authority")
 	blocker.queue_free(); await settle()
 	fragment.collapse()
 	check(protected_state() == before, "Modal focus and its natural destruction preserve the original complete authority")

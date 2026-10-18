@@ -256,6 +256,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if not _is_escape_press(event):
 		return
 	if is_instance_valid(efficiency_fragment) and efficiency_fragment.body.is_visible_in_tree():
+		if not efficiency_fragment.owns_window_focus(): return
 		var focus: Control = get_viewport().gui_get_focus_owner()
 		if focus != null and efficiency_fragment.is_ancestor_of(focus):
 			if PlaytestData._feedback_visible or get_node("/root/OfflineFeedback").busy: return

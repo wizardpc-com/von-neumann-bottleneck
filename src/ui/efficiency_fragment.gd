@@ -110,6 +110,7 @@ func _label(parent: Node, font_size: int) -> Label:
 	return result
 
 func _reveal_body() -> void:
+	if not owns_window_focus(): return
 	if not body.is_visible_in_tree() or _feedback_active() or get_viewport().gui_get_focus_owner() != toggle_button: return
 	var ancestor: Node = get_parent()
 	while ancestor != null:
@@ -184,8 +185,17 @@ func _select_step(index: int) -> void:
 	visual_blend = 1.0 if reduced_motion else 0.0
 	_refresh()
 
+func owns_window_focus() -> bool:
+	if not is_inside_tree() or is_queued_for_deletion(): return false
+	var window: Window = get_window()
+	if not window.has_focus(): return false
+	# A focused embedded modal can leave its native parent reporting focus too.
+	for child: Window in window.get_embedded_subwindows():
+		if child.visible and child.has_focus(): return false
+	return true
+
 func _process(delta: float) -> void:
-	if not is_instance_valid(body) or not body.is_visible_in_tree() or _feedback_active() or not get_window().has_focus(): return
+	if not is_instance_valid(body) or not body.is_visible_in_tree() or _feedback_active() or not owns_window_focus(): return
 	if reduced_motion: visual_blend = 1.0
 	else: visual_blend = minf(1.0, visual_blend + delta * 4.0)
 	image.emphasis = visual_blend

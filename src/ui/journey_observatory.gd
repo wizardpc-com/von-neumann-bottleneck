@@ -15,6 +15,9 @@ var task_body: Label
 var enter_button: Button
 var locate_button: Button
 var close_button: Button
+var inspect_button: Button
+var overview_button: Button
+var inspection_enabled: bool = false
 var stage: Control
 var viewport_3d: SubViewport
 var camera: Camera3D
@@ -22,16 +25,17 @@ var geometry: Node3D
 var markers: Control
 var marker_buttons: Array[Button] = []
 var positions: Array[Vector3] = []
+var apparatus_nodes: Array[Node3D] = []
 var previous_focus: Control
 var english: bool = false
 
 static func earned(task: Dictionary) -> bool:
-	return bool(task.get("completed",false)) and str(task.get("progress_source","")) != "session" and str(task.get("evidence_status","")) not in ["unavailable","readonly","invalid"]
+	return bool(task.get("completed",false)) and str(task.get("progress_source","")) != "session" and str(task.get("evidence_status","")) not in ["unavailable","readonly","read_only","invalid"]
 
 static func state_text(task: Dictionary, en: bool, tester: bool = false) -> String:
 	if task.is_empty(): return "Task unavailable" if en else "任务不可确认"
 	if str(task.get("progress_source","")) == "session": return "Temporary exploration · no permanent completion lamp" if en else "临时探索 · 不点亮永久成果灯"
-	if str(task.get("evidence_status","")) in ["unavailable","readonly","invalid"]:
+	if str(task.get("evidence_status","")) in ["unavailable","readonly","read_only","invalid"]:
 		return "! Saved accepted plan cannot be verified · lamp stays off" if en else "! 保存的达标方案暂无法核验 · 成果灯暂不亮"
 	if earned(task): return "✓ Earned completion record · lamp on" if en else "✓ 已有合法完成记录 · 成果灯亮起"
 	if tester and bool(task.get("unlocked",false)): return "○ Tester access · no earned completion" if en else "○ 测试入口开放 · 尚无完成记录"
@@ -67,6 +71,7 @@ func _ready() -> void:
 	var body := HBoxContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_theme_constant_override("separation",20); column.add_child(body)
 	stage = Control.new(); stage.name = "ObservatoryStage"; stage.custom_minimum_size = Vector2(400,240)
+	stage.clip_contents = true
 	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL; stage.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.add_child(stage)
 	var surface := SubViewportContainer.new(); surface.name = "Observatory3D"
 	surface.stretch = true; surface.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -87,6 +92,11 @@ func _ready() -> void:
 	var side := VBoxContainer.new(); side.custom_minimum_size.x = 340; body.add_child(side)
 	task_choice = OptionButton.new(); task_choice.name = "ObservatoryTask"; task_choice.custom_minimum_size.y = 42
 	task_choice.clip_text = true; side.add_child(task_choice)
+	var framing := HBoxContainer.new(); side.add_child(framing)
+	inspect_button = _button(framing,"Inspect selected" if english else "近看所选装置",func() -> void: _set_inspection(true))
+	inspect_button.name = "ObservatoryInspect"; inspect_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	overview_button = _button(framing,"Overview" if english else "还原全景",func() -> void: _set_inspection(false))
+	overview_button.name = "ObservatoryOverview"; overview_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	task_choice.item_selected.connect(func(index: int) -> void: select_task(str(task_choice.get_item_metadata(index))))
 	var scroll := ScrollContainer.new(); scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; scroll.follow_focus = true
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; side.add_child(scroll)
@@ -108,6 +118,7 @@ func _button(parent: Node, text: String, action: Callable) -> Button:
 func open() -> void:
 	if PlaytestData._feedback_visible or get_viewport().gui_is_dragging(): return
 	previous_focus = get_viewport().gui_get_focus_owner()
+	inspection_enabled = false
 	refresh(TaskNavigation.journey_tasks())
 	show(); viewport_3d.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	close_button.grab_focus(); call_deferred("_position_markers")
@@ -167,15 +178,24 @@ func select_task(key: String) -> void:
 	task_title.text = str(task.get("title","Task unavailable" if english else "任务不可确认"))
 	task_status.text = state_text(task,english,TaskNavigation.offline_tester_enabled() or GameMode.is_test_mode())
 	task_body.text = str(task.get("body",""))+"\n\n"+str(task.get("eligibility_note",""))
+	if not task.is_empty():
+		task_body.text += "\n\n"+("Source task: " if english else "来源任务：")+str(task.key)+"\n"+apparatus_description(task,english)
 	if str(task.get("domain","")) == "creation" and not Creation.saved.get("readonly_works",[]).is_empty():
 		task_body.text += "\n\n"+("Read-only works are retained. Visit the original workbench to inspect its recovery notice." if english else "只读作品仍被保留；请在原工作台查看恢复提示。")
 	enter_button.disabled = task.is_empty() or not bool(task.get("unlocked",false))
 	locate_button.disabled = task.is_empty()
-	var controls: Array[Control] = [close_button,region_choice,view_choice,task_choice,locate_button]
+	if task.is_empty(): inspection_enabled = false
+	inspect_button.disabled = task.is_empty() or inspection_enabled
+	overview_button.disabled = not inspection_enabled
+	var controls: Array[Control] = [close_button,region_choice,view_choice,task_choice]
+	if not inspect_button.disabled: controls.append(inspect_button)
+	if not overview_button.disabled: controls.append(overview_button)
+	if not locate_button.disabled: controls.append(locate_button)
 	if not enter_button.disabled: controls.append(enter_button)
 	for index: int in controls.size():
 		controls[index].focus_next = controls[index].get_path_to(controls[(index+1)%controls.size()])
 		controls[index].focus_previous = controls[index].get_path_to(controls[(index+controls.size()-1)%controls.size()])
+	_position_camera()
 
 func _locate() -> void:
 	if locate_button.disabled: return
@@ -195,20 +215,81 @@ func _enter() -> void:
 	refresh(current)
 	task_status.text = "Access changed; inspect the current task list." if english else "进入条件已变化；请检查当前任务列表。"
 
+func _set_inspection(enabled: bool) -> void:
+	if PlaytestData._feedback_visible: return
+	var framing_focused: bool = inspect_button.has_focus() or overview_button.has_focus()
+	inspection_enabled = enabled
+	select_task(selected_key)
+	if framing_focused:
+		if inspection_enabled: overview_button.grab_focus()
+		elif not inspect_button.disabled: inspect_button.grab_focus()
+
+static func apparatus_kind(task: Dictionary) -> String:
+	match str(task.get("domain","")):
+		"hardware_foundations": return "hardware_board"
+		"chapter_1": return "system_modules"
+	return "record_lamp"
+
+static func apparatus_description(task: Dictionary, en: bool) -> String:
+	match apparatus_kind(task):
+		"hardware_board":
+			return "Board and module shapes recall construction. They are not your saved circuit or live signals." if en else "板与模块回顾构造能力；这些抽象形状不是原电路，也不显示运行信号。"
+		"system_modules":
+			return "Three modules recall CPU, Bus and RAM. Shape and light mark records, not timing, traffic or energy." if en else "三组模块回顾CPU、Bus与RAM；装置和灯仅映射记录，不表示周期、流量或能耗。"
+	return "The lamp recalls this task's earned record, not a physical measurement." if en else "灯台回顾本任务已有成果，不是物理测量。"
+
 func _material(color: Color, glow: bool = false) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new(); material.albedo_color = color; material.roughness = 0.8
 	if glow:
 		material.emission_enabled = true; material.emission = color; material.emission_energy_multiplier = 1.1
 	return material
 
-func _mesh(shape: Mesh, point: Vector3, material: Material) -> void:
+func _mesh(shape: Mesh, point: Vector3, material: Material, parent: Node3D = null) -> void:
 	var instance := MeshInstance3D.new(); instance.mesh = shape; instance.position = point
-	instance.material_override = material; geometry.add_child(instance)
+	instance.material_override = material
+	if parent == null: geometry.add_child(instance)
+	else: parent.add_child(instance)
+
+func _box(parent: Node3D, extent: Vector3, point: Vector3, material: Material) -> void:
+	var shape := BoxMesh.new(); shape.size = extent
+	_mesh(shape,point,material,parent)
+
+func _build_apparatus(task: Dictionary, point: Vector3) -> void:
+	var complete: bool = earned(task)
+	var apparatus := Node3D.new(); apparatus.name = "TaskApparatus"+str(apparatus_nodes.size()+1)
+	apparatus.position = point; apparatus.set_meta("task_key",str(task.key))
+	apparatus.set_meta("apparatus_kind",apparatus_kind(task)); apparatus.set_meta("earned",complete)
+	geometry.add_child(apparatus); apparatus_nodes.append(apparatus)
+	var base_material := _material(Color("324958"))
+	var module_material := _material(Color("a3dcca") if complete else Color("506574"))
+	match apparatus_kind(task):
+		"hardware_board":
+			_box(apparatus,Vector3(1.65,0.16,1.25),Vector3(0,0.15,0),base_material)
+			for x: int in [-1,0,1]:
+				_box(apparatus,Vector3(0.34,0.26,0.6),Vector3(x*0.48,0.36,0),module_material)
+				for z: int in [-1,1]:
+					_box(apparatus,Vector3(0.20,0.08,0.12),Vector3(x*0.48,0.3,z*0.39),base_material)
+		"system_modules":
+			_box(apparatus,Vector3(1.75,0.16,1.1),Vector3(0,0.15,0),base_material)
+			for x: int in [-1,0,1]:
+				_box(apparatus,Vector3(0.40,0.35+abs(x)*0.20,0.65),Vector3(x*0.58,0.5,0),module_material)
+		_:
+			var base := CylinderMesh.new(); base.top_radius = 0.48; base.bottom_radius = 0.62; base.height = 0.55
+			_mesh(base,Vector3(0,0.2,0),base_material,apparatus)
+	var pillar := CylinderMesh.new(); pillar.top_radius = 0.10; pillar.bottom_radius = 0.13; pillar.height = 0.50
+	_mesh(pillar,Vector3(0,0.85,0),module_material,apparatus)
+	var lamp := SphereMesh.new(); lamp.radius = 0.26; lamp.height = 0.52
+	_mesh(lamp,Vector3(0,1.16,0),_material(Color("7fe4b7") if complete else Color("293c49"),complete),apparatus)
+	if complete:
+		# The raised record tab remains distinguishable without a glow or color cue.
+		_box(apparatus,Vector3(0.48,0.10,0.18),Vector3(0,1.53,0),module_material)
+		var light := OmniLight3D.new(); light.position = Vector3(0,1.35,0)
+		light.light_color = Color("8ce8c4"); light.light_energy = 0.8; light.omni_range = 2; apparatus.add_child(light)
 
 func _build_geometry() -> void:
 	for child: Node in geometry.get_children(): geometry.remove_child(child); child.queue_free()
 	for child: Node in markers.get_children(): markers.remove_child(child); child.queue_free()
-	positions.clear(); marker_buttons.clear()
+	positions.clear(); marker_buttons.clear(); apparatus_nodes.clear()
 	var depth: int = maxi(1,ceili(float(region_rows.size())/4.0))
 	var floor_mesh := BoxMesh.new(); floor_mesh.size = Vector3(11,0.18,maxf(5,depth*2.5+1))
 	_mesh(floor_mesh,Vector3(0,-0.2,0),_material(Color("142a35")))
@@ -216,15 +297,7 @@ func _build_geometry() -> void:
 		var task: Dictionary = region_rows[index]
 		var point := Vector3((index%4-1.5)*2.5,0,(float(index/4)-(depth-1)*0.5)*2.5)
 		var complete: bool = earned(task)
-		var base := CylinderMesh.new(); base.top_radius = 0.48; base.bottom_radius = 0.62; base.height = 0.55
-		_mesh(base,point+Vector3(0,0.2,0),_material(Color("324958")))
-		var pillar := CylinderMesh.new(); pillar.top_radius = 0.12; pillar.bottom_radius = 0.16; pillar.height = 0.65
-		_mesh(pillar,point+Vector3(0,0.75,0),_material(Color("a3dcca") if complete else Color("506574"),complete))
-		var lamp := SphereMesh.new(); lamp.radius = 0.26; lamp.height = 0.52
-		_mesh(lamp,point+Vector3(0,1.16,0),_material(Color("7fe4b7") if complete else Color("293c49"),complete))
-		if complete:
-			var light := OmniLight3D.new(); light.position = point+Vector3(0,1.35,0)
-			light.light_color = Color("8ce8c4"); light.light_energy = 0.8; light.omni_range = 2; geometry.add_child(light)
+		_build_apparatus(task,point)
 		positions.append(point+Vector3(0,1.6,0))
 		var key: String = str(task.key)
 		var marker := Button.new(); marker.name = "Lamp"+str(index+1); marker.toggle_mode = true
@@ -236,9 +309,17 @@ func _build_geometry() -> void:
 
 func _position_camera() -> void:
 	var depth: int = maxi(1,ceili(float(region_rows.size())/4.0))
-	camera.size = maxf(11,depth*2.5+3)
+	var selected_index: int = -1
+	for index: int in region_rows.size():
+		if str(region_rows[index].key) == selected_key: selected_index = index
+	if selected_index < 0: inspection_enabled = false
+	var target := Vector3.ZERO
+	if inspection_enabled: target = positions[selected_index]-Vector3(0,0.95,0)
+	camera.size = 4.6 if inspection_enabled else maxf(11,depth*2.5+3)
 	var viewpoints: Array[Vector3] = [Vector3(11,13,16),Vector3(-16,13,11),Vector3(0,23,0.1)]
-	camera.position = viewpoints[view_choice.selected]; camera.look_at(Vector3.ZERO)
+	camera.position = target+viewpoints[view_choice.selected]
+	camera.look_at(target)
+	for index: int in apparatus_nodes.size(): apparatus_nodes[index].visible = not inspection_enabled or index == selected_index
 	call_deferred("_position_markers")
 
 func _position_markers() -> void:
@@ -251,3 +332,6 @@ func _position_markers() -> void:
 		var extent: Vector2 = button.get_combined_minimum_size()
 		button.size = extent
 		button.position = projected-Vector2(extent.x*0.5,extent.y+18)
+		var inside: bool = Rect2(Vector2.ZERO,stage.size).encloses(Rect2(button.position,extent))
+		button.visible = inside and not camera.is_position_behind(positions[index]) and (not inspection_enabled or str(region_rows[index].key) == selected_key)
+		button.disabled = not button.visible

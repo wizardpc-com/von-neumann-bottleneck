@@ -144,6 +144,7 @@ var cpu_time_breakdown: VBoxContainer
 var cpu_time_bar: ProgressBar
 var history_chart: Control
 var history_label: RichTextLabel
+var efficiency_fragment
 
 var status_label: Label
 var level_label: Label
@@ -254,6 +255,13 @@ func _input(event: InputEvent) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not _is_escape_press(event):
 		return
+	if is_instance_valid(efficiency_fragment) and efficiency_fragment.body.is_visible_in_tree():
+		var focus: Control = get_viewport().gui_get_focus_owner()
+		if focus != null and efficiency_fragment.is_ancestor_of(focus):
+			if PlaytestData._feedback_visible or get_node("/root/OfflineFeedback").busy: return
+			efficiency_fragment.collapse()
+			get_viewport().set_input_as_handled()
+			return
 	get_viewport().set_input_as_handled()
 	graph_pan_keys.clear()
 	if current_level_id.is_empty():
@@ -1133,12 +1141,20 @@ func _build_history_instrument() -> Control:
 	history_chart = preload("res://src/system_lab/system_comparison_chart.gd").new()
 	history_chart.hide()
 	box.add_child(history_chart)
+	efficiency_fragment = preload("res://src/ui/efficiency_fragment.gd").new()
+	box.add_child(efficiency_fragment)
+	efficiency_fragment.comparison_requested.connect(func() -> void:
+		var scroll: ScrollContainer = box.get_parent() as ScrollContainer
+		if scroll != null: scroll.ensure_control_visible(history_chart)
+		efficiency_fragment.toggle_button.grab_focus())
 	history_label = RichTextLabel.new()
 	history_label.bbcode_enabled = true
 	history_label.fit_content = true
 	history_label.scroll_active = false
 	box.add_child(history_label)
-	return _scrollable(box)
+	var history_scroll: ScrollContainer = _scrollable(box)
+	history_scroll.follow_focus = true
+	return history_scroll
 
 
 func _scrollable(content: Control) -> ScrollContainer:
@@ -1684,6 +1700,7 @@ func _on_part_selected(index: int, kind: StringName) -> void:
 	playback_caption.text = status_label.text
 	_refresh_mission_progress()
 	if is_instance_valid(journey_context): journey_context.draft_changed()
+	_refresh_history()
 
 
 func _refresh_device_titles() -> void:
@@ -1868,6 +1885,7 @@ func _after_system_editor_mutation(topology_changed: bool) -> void:
 		_stop_playback()
 		_refresh_mission_progress()
 		if is_instance_valid(journey_context): journey_context.draft_changed()
+		_refresh_history()
 	_save_level_session()
 
 
@@ -2188,6 +2206,7 @@ func _on_program_changed() -> void:
 	draft_dirty = editor.text != applied_program_source
 	_validate_program_editor()
 	_refresh_program_state()
+	_refresh_history()
 
 
 func _validate_program_editor() -> void:
@@ -2712,6 +2731,7 @@ func _refresh_history() -> void:
 	if history_label == null or current_level_id.is_empty():
 		return
 	history_chart.hide()
+	var fragment_pair: Array = []
 	var receipts: Array = []
 	var current_program_signature: String = applied_program.canonical_signature() if applied_program != null and applied_program.is_valid() else ""
 	var current_test_signature: String = catalog.test_set_signature(current_level_id)
@@ -2736,6 +2756,7 @@ func _refresh_history() -> void:
 		if pair.size() == 2:
 			var before = pair[0]
 			var after = pair[1]
+			if current_level_id == &"cpu_speed": fragment_pair = pair
 			history_chart.configure(before.metrics, after.metrics, _t)
 			lines.append("[color=#bc8cff]%s[/color]" % _t(&"system.history.comparison", [
 				_friendly_part_name(StringName(before.part_ids.get(comparison_kind, &""))),
@@ -2786,6 +2807,23 @@ func _refresh_history() -> void:
 				int(trace.metrics.get("cpu_wait_cycles", 0)),
 			]))
 	history_label.text = "\n".join(lines)
+	if is_instance_valid(efficiency_fragment):
+		if fragment_pair.size() == 2:
+			efficiency_fragment.reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion", false))
+			efficiency_fragment.current_draft_differs = editor.text != applied_program_source or _topology_from_graph().canonical_signature() != fragment_pair[1].topology_signature
+			efficiency_fragment.set_pair(_efficiency_record(fragment_pair[0]), _efficiency_record(fragment_pair[1]), Localization.current_locale() == "en")
+		else: efficiency_fragment.clear_pair()
+
+
+func _efficiency_record(receipt: Variant) -> Dictionary:
+	var parts: Dictionary = {}
+	for kind: StringName in receipt.part_ids: parts[String(kind)] = String(receipt.part_ids[kind])
+	return {"level_id":String(receipt.level_id), "program_signature":receipt.program_signature,
+		"test_set_signature":receipt.test_set_signature, "topology_signature":receipt.topology_signature,
+		"part_ids":parts, "part_name":_friendly_part_name(receipt.part_ids.get(PartSpecType.KIND_CPU, &"")),
+		"metrics":receipt.metrics.duplicate(true), "trace_signatures":receipt.trace_signatures.duplicate(),
+		"passed_cases":receipt.passed_cases, "total_cases":receipt.total_cases, "all_passed":receipt.all_passed,
+		"source":"test" if GameMode.is_test_mode() else "game"}
 
 
 func _latest_controlled_pair(receipts: Array, comparison_kind: StringName) -> Array:

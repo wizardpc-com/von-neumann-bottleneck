@@ -37,6 +37,8 @@ var metrics: Label
 var events: ItemList
 var scrub: HSlider
 var case_select: OptionButton
+var locate_issue_button: Button
+var measured_board_signature: String = ""
 var playing: bool = false
 var elapsed: float = 0.0
 var trace_stale: bool = true
@@ -295,6 +297,8 @@ func _reset_workspace() -> void:
 	copy_previous_note = null
 	trace = null
 	runs.clear()
+	measured_board_signature = ""
+	locate_issue_button = null
 	panels.clear()
 	for child: Node in workspace.get_children():
 		workspace.remove_child(child)
@@ -522,6 +526,7 @@ func _changed(render: bool = true) -> void:
 	dirty = true
 	_refresh_copy_previous()
 	trace_stale = true
+	if is_instance_valid(locate_issue_button): locate_issue_button.disabled = true
 	save_elapsed = 0
 	playing = false
 	status.text = _t("stale")
@@ -721,13 +726,18 @@ func _build_program(source: String) -> void:
 
 func _build_trace() -> void:
 	var panel: FloatingInstrumentPanel = _panel("trace",_t("trace"),Vector2(270,300),Vector2(950,640))
-	var box := VBoxContainer.new()
-	panel.content_host.add_child(box)
+	var box: VBoxContainer = _scroll_box(panel)
 	metrics = _label(_t("no_run"),true)
 	box.add_child(metrics)
 	case_select = OptionButton.new()
 	case_select.item_selected.connect(_select_run)
 	box.add_child(case_select)
+	locate_issue_button = Button.new()
+	locate_issue_button.name = "OverlapLocateIssue"
+	locate_issue_button.custom_minimum_size.y = 38
+	locate_issue_button.visible = false
+	locate_issue_button.pressed.connect(_locate_recorded_issue)
+	box.add_child(locate_issue_button)
 	timeline = Timeline.new()
 	box.add_child(timeline)
 	var controls := HBoxContainer.new()
@@ -757,6 +767,7 @@ func _run_official() -> void:
 	_cancel_placement()
 	_save_draft()
 	var report: Dictionary = Catalog.evaluate(level,board,editor.text)
+	measured_board_signature = JSON.stringify(board).sha256_text()
 	runs.assign(report.runs)
 	trace_stale = false
 	case_select.clear()
@@ -765,7 +776,12 @@ func _run_official() -> void:
 		var run: SimulationTrace = runs[index]
 		var outcome: String = _t("case_pass") if run.passed and int(run.metrics.total_cycles)<=int(task.target) else _t("case_fail")
 		case_select.add_item(_t("case_result") % [_case_name(task),outcome,run.metrics.total_cycles,task.target])
-	_select_run(0)
+	var first_unmet: int = 0
+	for index: int in runs.size():
+		if not runs[index].passed or not str(runs[index].metrics.error).is_empty() or int(runs[index].metrics.total_cycles) > int(Catalog.cases(level)[index].target):
+			first_unmet = index
+			break
+	_select_run(first_unmet)
 	_toggle("trace",true,&"automatic")
 	var total_cycles: int = 0
 	for run: SimulationTrace in runs: total_cycles+=int(run.metrics.get("total_cycles",0))
@@ -813,6 +829,7 @@ func _select_run(index: int) -> void:
 	_refresh_journey_context()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if index < 0 or index >= runs.size(): return
+	case_select.select(index)
 	trace = runs[index]
 	if level == "buffers":
 		if not is_instance_valid(trace_ambience):
@@ -827,10 +844,14 @@ func _select_run(index: int) -> void:
 	var task: Dictionary = Catalog.cases(level)[index]
 	metrics.text = _t("metrics") % [trace.metrics.total_cycles,task.target,trace.metrics.compute_busy,trace.metrics.transfer_busy,trace.metrics.overlap,trace.metrics.wait,trace.result_value,trace.expected_value]
 	if not String(trace.metrics.error).is_empty(): metrics.text += "\n" + _t("line_error") % [trace.metrics.error_line,_t("error."+String(trace.metrics.error))]
-	elif int(trace.metrics.total_cycles)>int(task.target): metrics.text += "\n" + _t("too_slow")
+	elif not trace.passed: metrics.text += "\n" + ("输出尚未通过核验；先对照实际与预期结果。" if Localization.current_locale() != "en" else "Output was not verified; compare actual and expected results first.")
+	elif int(trace.metrics.total_cycles)>int(task.target): metrics.text += "\n" + _t("too_slow") + (" 超出 %d 周期。" if Localization.current_locale() != "en" else " Over by %d cycles.") % (int(trace.metrics.total_cycles)-int(task.target))
 	else: metrics.text += "\n" + _t("passed")
 	if trace_stale: metrics.text = _t("stale")+"\n"+metrics.text
 	metrics.text += "\n" + _t("cache_metrics") % [trace.metrics.hits,trace.metrics.misses,trace.metrics.evictions,trace.metrics.queue_wait]
+	locate_issue_button.visible = not trace.passed or not str(trace.metrics.error).is_empty() or int(trace.metrics.total_cycles)>int(task.target)
+	locate_issue_button.disabled = not _recorded_issue_is_current()
+	locate_issue_button.text = ("定位停止事件与代码行" if Localization.current_locale() != "en" else "Locate stopping event and source line") if not str(trace.metrics.error).is_empty() else ("查看实际等待与搬运" if Localization.current_locale() != "en" else "Inspect measured waits and transfers")
 	events.clear()
 	for event: SimulationEvent in trace.events:
 		if event.kind == &"state": continue
@@ -839,6 +860,43 @@ func _select_run(index: int) -> void:
 		var batch: int = int(event.details.get("batch",-1))
 		events.add_item("%3d → %-3d  %s  %s → %s  %s" % [event.cycle,event.cycle+event.duration,description,event.source_device,event.target_device,"#"+str(batch) if batch>=0 else ""])
 		events.set_item_metadata(events.item_count-1,event.cycle)
+
+func _recorded_issue_is_current() -> bool:
+	if trace == null or not is_instance_valid(editor) or not is_instance_valid(case_select): return false
+	var index: int = case_select.selected
+	var cases: Array[Dictionary] = Catalog.cases(level)
+	return trace != null and index >= 0 and index < runs.size() and index < cases.size() and runs[index] == trace and trace.test_name == str(cases[index].name) and not trace_stale and is_instance_valid(editor) and trace.program_source == editor.text and measured_board_signature == JSON.stringify(board).sha256_text()
+
+func _locate_recorded_issue() -> void:
+	if PlaytestData._feedback_visible or get_tree().paused: return
+	if not _recorded_issue_is_current():
+		status.text = _t("stale")
+		return
+	if is_instance_valid(hint_overlay) or confirmation.visible: return
+	playing = false
+	var target_row: int = -1
+	var row: int = 0
+	for event: SimulationEvent in trace.events:
+		if event.kind == &"state": continue
+		if (not str(trace.metrics.error).is_empty() and event.kind == &"error") or (str(trace.metrics.error).is_empty() and event.kind in [&"wait",&"transfer"]):
+			target_row = row
+			break
+		row += 1
+	if target_row < 0 and events.item_count > 0: target_row = 0
+	if target_row >= 0:
+		events.select(target_row)
+		events.ensure_current_is_visible()
+		scrub.value = int(events.get_item_metadata(target_row))
+	_toggle("trace",true,&"evidence")
+	var line: int = int(trace.metrics.error_line)
+	if not str(trace.metrics.error).is_empty() and line > 0 and line <= editor.get_line_count():
+		_toggle("program",true,&"evidence")
+		editor.set_caret_line(line-1)
+		editor.set_caret_column(0)
+		editor.center_viewport_to_caret()
+		editor.grab_focus()
+	else: events.grab_focus()
+	status.text = ("已定位这份运行证据；修改后请重跑，Hint仍按原层级提供。" if Localization.current_locale() != "en" else "Located this run's evidence. Rerun after editing; Hint retains its original levels.")
 
 func _show_cycle(cycle: int) -> void:
 	if trace == null or trace_stale or not is_instance_valid(graph): return

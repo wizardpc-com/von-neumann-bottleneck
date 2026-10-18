@@ -2,6 +2,15 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Active continuation — measured growth
+
+The next round is active on `codex/measured-growth-20261018` from the pushed
+handoff2e488c3. Its [versioned plan](exec-plans/active/measured-growth-20261018.md)
+adds actionable Layout/Overlap evidence, an optional CPU-comparison reflection
+and distinct hardware/system observatory apparatus. Implementation is underway;
+new runtime checks, rendering and packages are not yet accepted. The fixedc109
+pair below remains the last fully verified candidate and recovery baseline.
+
 ## Current development — 2026-10-18
 
 PR10 is merged into `main` as `bf8f61647c03c8bba868cc833b3832e274bd4aee`.

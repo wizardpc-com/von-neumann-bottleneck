@@ -29,6 +29,12 @@
 - Root：本计划、active索引、集成证据与当前状态、唯一Git写入者。任何上述外文件需要先协调；
   一个文件仅一位作者。引擎/renderer/native令牌单独发放，现在全部idle。
 
+## 窄范围事实语义修正
+
+Root全仓核事件消费者后，核准Layout Host两处新事件的“输出正确但合同未满足”类别改用System/Overlap已存在的
+`correct_but_target_unmet`，避免把流量超限记为必然超时。case/aggregate字段与所有指标、passed/target_met不变，
+旧历史不重写，不改report/server/保存schema；真实流量超限测试核该类别。
+
 ## 不变量与非目标
 
 模拟器、Catalog/合同阈值、Session、存档格式、部件来源及已有合法解不变。UI只读取实际结果，
@@ -59,3 +65,11 @@ Esc层级与精确焦点返回沿原机制。测试仅隔离QA档案，旧安装
 展示架构图与当前版本实机镜头材料仍可交本地可编辑产物，不替PPT/视频负责人定稿。
 正式人物、CG、声线、结局与更广平台/新人/真人旧作品仍需相应真实材料与审阅；这些开放项不阻止当前可逆实现。
 完整goal保持active，本计划阶段完成不会被写成所有规划和想法均已完成。
+
+## 首次实现与静态交叉审查
+
+三组生产UI与新测试已冻结，作者均未运行引擎。Knowledge→Narrative、Narrative→Visual、Visual→Knowledge
+逐文件独审已闭合，无剩余确定静态阻断。效率片段的当前草稿差异改为明确局部呈现状态，切观察步骤后仍保留；
+renderer busy测试在真实frame_pre_draw观测F8轮询已开始、截图未结束的边界，不直接设置flag或删除断言。
+TargetGuidance建立真实C/P/G保存作品再关闭writer，定位与反馈保护其实际字节和空lease；不把缺档保护算已有作品。
+所有新数值、布局、窗口、模型夹具和操作断言尚未运行；首个固定源码门禁仍须给出真实PASS/FAIL。

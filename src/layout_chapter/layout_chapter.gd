@@ -245,6 +245,8 @@ func _undo(redo: bool) -> void:
 func _changed(rebuild: bool = true, record: bool = true) -> void:
 	if is_instance_valid(journey_context): journey_context.draft_changed()
 	stale=true
+	for child: Node in results.get_children():
+		if child is Button and str(child.name).begins_with("LayoutLocateIssue"): child.disabled = true
 	LayoutChapter.store_draft(level,design)
 	status.text=_l("布局已改变 · 请重新运行；旧结果不会作为当前成绩。","Design changed · run again; previous results are stale.")
 	if record: PlaytestData.record_action(&"chapter_4",StringName(level),&"layout_edit",{"recipe_digest":S.design_signature(_current()),"strategy":str(_current().strategy),"batch":int(_current().batch),"group_count":_current().recipe.groups.size(),"block":int(_current().recipe.get("block",0)),"copy_field_count":_current().copy_fields.size()})
@@ -341,18 +343,23 @@ func _run_all() -> void:
 		if m.error == "space_limit": caption += "\n"+_l("这次申请需要 %d B；尚未分配或复制。","This allocation needs %d B; no allocation or copy occurred.") % int(m.required_extra_bytes)
 		caption += "\n"+_l("初始方案 %d 周期","Initial design: %d cycles") % int(baseline.runs[i].metrics.total_cycles)
 		if not best.is_empty(): caption += " · "+_l("我的已达标最佳 %d","My passing best: %d") % int(best.runs[i].metrics.total_cycles)
+		caption += "\n" + _case_contract_feedback(run,C.cases(level)[i])
 		results.add_child(_label(caption.replace(" B", "\u00a0B"),true))
 		var outputs := _label(_l("实际输出：","Actual: ")+str(run.output_values)+"\n"+_l("预期输出：","Expected: ")+str(run.expected_values),true)
 		outputs.hide(); results.add_child(outputs)
 		_button(results,_l("展开／收起逐项输出","Show / hide exact outputs"),func() -> void: outputs.visible=not outputs.visible)
-		case_rows.append({"name":run.test_name,"passed":run.passed,"correct":run.passed,"target_met":m.target_met,"result_class":"target_met" if m.target_met else "correct_but_slow" if run.passed else "space_limit" if m.error=="space_limit" else "runtime_error","metrics":m.duplicate(true)})
+		case_rows.append({"name":run.test_name,"passed":run.passed,"correct":run.passed,"target_met":m.target_met,"result_class":"target_met" if m.target_met else "correct_but_target_unmet" if run.passed else "space_limit" if m.error=="space_limit" else "runtime_error","metrics":m.duplicate(true)})
 		_button(results,_l("查看订单 ","Inspect case ")+run.test_name,_select_trace.bind(i))
+		if not m.target_met:
+			var locate: Button = _button(results,_l("定位这单的未达标证据","Locate this case's unmet condition"),_locate_case_issue.bind(i))
+			locate.name = "LayoutLocateIssue"+str(i)
+			locate.disabled = not _case_evidence_matches(run,C.cases(level)[i])
 	_option(results,[_l("全部步骤","All steps"),_l("数据搬运","Transfers"),_l("批次边界与尾批","Batch boundaries and tail"),_l("结果输出","Outputs")],trace_filter,func(i: int) -> void: trace_filter=i; _select_trace(case_index))
 	trace_list = ItemList.new(); trace_list.custom_minimum_size=Vector2(420,260); results.add_child(trace_list)
 	trace_list.item_selected.connect(_trace_selected)
 	var all_correct: bool = true
 	for run: LayoutRun in runs: all_correct=all_correct and run.passed
-	PlaytestData.record_official_run(&"chapter_4",StringName(level),report.passed,{"strategy":str(design.get("strategy","direct")),"case_count":runs.size(),"cases":case_rows,"correct":all_correct,"target_met":report.passed,"result_class":"target_met" if report.passed else "correct_but_slow" if all_correct else "runtime_error","cycles":LayoutChapter.cost(report),"model_version":S.MODEL_VERSION,"case_set_version":("layout-v1:"+level+JSON.stringify(C.cases(level))).sha256_text(),"recipe_digest":_measured_recipe_digest()})
+	PlaytestData.record_official_run(&"chapter_4",StringName(level),report.passed,{"strategy":str(design.get("strategy","direct")),"case_count":runs.size(),"cases":case_rows,"correct":all_correct,"target_met":report.passed,"result_class":"target_met" if report.passed else "correct_but_target_unmet" if all_correct else "runtime_error","cycles":LayoutChapter.cost(report),"model_version":S.MODEL_VERSION,"case_set_version":("layout-v1:"+level+JSON.stringify(C.cases(level))).sha256_text(),"recipe_digest":_measured_recipe_digest()})
 	_select_trace(case_index)
 	_toggle("trace",true)
 	status.text=_l("全部订单达标 · 可以继续探索另一份方案。","All cases passed · try another design.") if report.passed else _l("查看结果：输出、时间与空间分别核对，再修改布局。","Inspect output, time and space separately, then adjust the layout.")
@@ -373,6 +380,49 @@ func _run_all() -> void:
 		review.name = "LayoutResultCoreReview"
 	_refresh_journey_context()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
+
+func _case_evidence_matches(run: LayoutRun, task: Dictionary) -> bool:
+	return run.case_signature == JSON.stringify(task).sha256_text() and run.model_version == S.MODEL_VERSION
+
+func _case_contract_feedback(run: LayoutRun, task: Dictionary) -> String:
+	if not _case_evidence_matches(run,task): return _l("这份记录与当前订单不匹配；请重新运行。","This record does not match this case; rerun before diagnosing it.")
+	var m: Dictionary = run.metrics
+	if str(m.error) == "space_limit":
+		return _l("临时空间申请 %d B / 容量 %d B，超出 %d B。未分配、未复制；可查看分批与复制字段设置。","Scratch request %d B / capacity %d B, over by %d B. Nothing was allocated or copied; inspect batching and copied fields.") % [int(m.required_extra_bytes),int(task.scratch_limit),int(m.required_extra_bytes)-int(task.scratch_limit)]
+	if not run.passed:
+		return _l("输出核验未通过；先对照逐项输出与停止事件，再谈性能。","Output was not verified; inspect exact outputs and the stopping event before judging performance.") + (" · "+str(m.error) if not str(m.error).is_empty() else "")
+	var unmet: Array[String] = []
+	for entry: Array in [["target_cycles",int(m.total_cycles),_l("总周期","Total cycles"),""],["target_bytes",int(m.ram_read_bytes)+int(m.ram_write_bytes),_l("RAM总读写","Total RAM traffic")," B"]]:
+		var limit: int = int(task[entry[0]])
+		if limit > 0 and int(entry[1]) > limit:
+			unmet.append(_l("%s %d / 上限 %d，超出 %d%s。","%s %d / limit %d, over by %d%s.") % [entry[2],int(entry[1]),limit,int(entry[1])-limit,entry[3]])
+	if unmet.is_empty(): return _l("输出正确；本单主合同成立。可选目标另计。","Output is correct; this case's main contract is met. Optional goals are separate.")
+	return _l("输出正确。","Output is correct. ")+" ".join(unmet)+"\n"+_l("下一步查看准备与查询的实际搬运；需要策略时再请求原Hint。","Next, inspect preparation and query transfers; request the existing Hint for strategy when needed.")
+
+func _locate_case_issue(index: int) -> void:
+	if index < 0 or index >= runs.size() or PlaytestData._feedback_visible or get_tree().paused: return
+	var run: LayoutRun = runs[index]
+	var task: Dictionary = C.cases(level)[index]
+	var measured_design: Dictionary = design.get("orders",{}).get(task.name,{}) if level == "relocation" else design
+	if stale or not _case_evidence_matches(run,task) or not S.validate_design(measured_design,bool(task.native_layout)).is_empty() or run.recipe_signature != S.design_signature(measured_design):
+		status.text = _l("旧记录只供回看；重新运行后再定位当前方案。","This is a previous run; rerun before locating an issue in the current design.")
+		return
+	if is_instance_valid(hint_layer) and hint_layer.visible: return
+	trace_filter = 0
+	_select_trace(index)
+	var row: int = -1
+	for i: int in trace_indices.size():
+		var event: SimulationEvent = run.events[trace_indices[i]]
+		if event.kind == &"error" or (run.passed and event.kind == &"fill"):
+			row = i
+			break
+	if row < 0 and not trace_indices.is_empty(): row = 0
+	if row >= 0:
+		trace_list.select(row); _trace_selected(row); trace_list.ensure_current_is_visible()
+	_toggle("memory",true)
+	_toggle("trace",true)
+	trace_list.grab_focus()
+	status.text = _l("订单 %s：已定位原事件；合同差额仍在本单结果中。","Case %s: recorded event selected; contract gaps remain in this case's results.") % run.test_name
 
 func _measured_recipe_digest() -> String:
 	if level != "relocation": return S.design_signature(design)

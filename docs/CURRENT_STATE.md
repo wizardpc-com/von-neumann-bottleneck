@@ -1,6 +1,6 @@
 # Current state — sixty-task source and offline Alpha
 
-F7 diagnostic at edf527c independently confirms a stale QA Host reference: the third Escape returns to TaskTree and releases the old System Host; set_locale succeeds for English while that old reference is invalid. This diagnosis applies only to work 8620f41d4004 (summary df711f15), not earlier failures. Product bb5 and both playtest ZIPs remain unchanged. A minimal exported-scene caller adaptation is under independent review; its new run is not yet accepted.
+F7 QA scene navigation is corrected and independently reviewed at 8c73a21. Its ordinary exported attempt 6e96dfc080c2 exits naturally with failure at the Chinese scroll-positive control; preceding original settle telemetry reports native root focus=false with no embedded modal. That observation does not establish focus at the reveal callback or a product scroll defect. No complete result or English/tester acceptance is available. Further GUI attempts are stopped pending a valid focused-window positive control. Product bb5 and both playtest ZIPs remain unchanged. The previous diagnostic df711f15 confirms only its own stale QA Host reference; earlier failures retain their original scope.
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 

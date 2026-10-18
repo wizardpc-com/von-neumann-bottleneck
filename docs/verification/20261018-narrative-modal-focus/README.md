@@ -6,6 +6,7 @@
 
 - 修后bb5原import／userdir／Efficiency三阶段实际3／3 PASS，3个自有进程自然exit0、零ERROR／WARNING／SCRIPT ERROR；headless为55检查。旧867编译3PASS另保原来源。
 - 修后bb5单Efficiency真实renderer **245检查PASS**，PID21700在30.58秒自然exit0，无终止、零ERROR／WARNING／SCRIPT ERROR。实际正控制ZH0→42／EN0→110且source／step／metric在原clip内；同0起点模态负控制Scroll0／blend0／step1保持，Esc分项bodytrue／authoritytrue／mapfalse。六条原F8 accepted边界通过。完整回归实际176／176 PASS；新普通／测试者包均BUILD_IDENTITY_PASS；最新普通父219／219＋strict48／48实际PASS；旧三错与timeout仍保留、原因未知；测试者父229／child完整链／strict48实际限定通过，原outer编码记录失败另列；测试者45原PNG已按原Scroll／分页局限独立图审接受，不扩张为native或导出包模态通过。
+- F7复用当前导出包的三次直接补验均保留FAIL；最新ZH正控制前原等待日志root焦点未建立，实际callback时点未知，未认证EN／测试者／完整最终typed审计。本轮停止追加GUI重试，详见下文。
 - 旧867真实renderer **FAIL：239检查／4ERROR**、PID50104自然exit1，保留其两语fade与Host Esc组合断言失败，零WARNING／SCRIPT ERROR。
 - 新旧两轮各24根帧＋2tester现场＝26原PNG，以及各自6artifact／39运行文件／41目录均已独立核SHA／集合；两轮各26图另依eb47／e1c6收据按原Scroll局限独立实view接受。两轮均零modal blocker图，不由图片认证fade／Esc。
 
@@ -43,6 +44,16 @@
 | 可重建EXE副本清理 | `.godot/f7-duplicate-exe-cleanup-receipt.json` | `702230d462766d1be11f6c0974fbd6353a9517ab34969ad6616dfbf91b9b2a13` |
 
 空间回收仅为上述5746／8620各自Windows目录中的两个重复EXE：各129810768B／SHA `0fb1ed38…`，两方在删除前逐字节对固定normal ZIP成员核SHA、大小、解析containment与无reparse，Root仅删这两个可从原ZIP恢复的副本，共259621536B。原失败summary的运行时inventory保持历史事实，不再说这两提取目录当前完整物化；全部唯一日志、图、runtime、存档、原ZIP及repo保留。Root预删审计SHA `22f480b31d85fe5eca314152a5fc699aae9d476e672741f720fb6e7b588aef61`。本轮两次FAIL不改判；F6已验交付／完整goal ACTIVE／其余人审与平台边界不变。
+
+## F7原调用适配后的实际结果 · 正控制焦点前提未建立
+
+QA检查点`8c73a21cd7b008f420e8acd3ed203fcb43cc8eda`／GD `e5e0007a…`／PY `58a41706…`仅修改原导出调用适配，商品bb5两包未改。实际work `.godot/exported-efficiency-modal/6e96dfc080c2`，EXE40532自然exit1、无终止，唯一ERROR为原正控制「实际展开移动阅读区并完整显示source／step／metric」，零WARNING／SCRIPT ERROR；仍无最终raw／validation，**count不可得、完整预期合法准备／最终typed审计未认证**。
+
+本run ZH实际正控制Scroll0→0，max819／page316，metric下缘684超过祖先clip下缘643；之后真实Other模态负例Scroll0／blend0／step1保持、直接Host Esc分项bodytrue／authoritytrue／mapfalse。四条Host日志均为live CPU／原受控pair2。没有EN或本次F8 accepted日志，只有2张ZH新图、零incident，不借前两轮F8或图审补齐。 本次两图已逐实view／hash独审：正图source可读，但step底在643处裁切、metric660..684在fold外；负图root纹理含真实Other／OK。收据`.godot/f7-normal-caller-fixed-export-modal-visual-audit.json` SHA `58257cb789f0c95d4420845c82a6e6425d0ae2fb463cdf5a24aa582450b2c975`仅认证这一局部图scope，整体正控制FAIL不变。
+
+已有48条原等待日志从frame7至264均记录native root `has_focus=false`／embedded0，最后frame264即正控制之前的原settle。因此「没有其他模态」未建立「本原生Window拥有焦点」这个完整正前提；原`_reveal_body`先经`owns_window_focus`才ensure。**实际callback那一帧focus与消费状态仍未打印，不能唯一判定回调原因或生产几何缺陷**，也不以本次差异解释旧失败。Root停止本轮追加GUI重试，不强焦、不改guard／等待／判据求绿，不新增生产修复或重建。
+
+摘要`.godot/f7-normal-export-modal-caller-fixed-summary.json` SHA `cf005e2b23e85cbbdefe8695b7623a505c765eb5e6620db111b453ce0da066f3`；原log SHA `7232a5c29bc697fc31a3994ba45478e2fdce6f64fb876d03abd9a6c129c55654`，process SHA `d53dae4e0e4151ce05a826424a21813474daa807533c6839e966f10eb8aa3c70`。Knowledge独立核全31个path/hash或完整inventory组、48等待与4个liveHost字段、原parent19文件／36目录及Session897f／原作品／五supports／lease／原包identity均精确，override已移除；这不替代缺失最终raw的完整合法变更审计。三次F7实际FAIL分别保留、英文／测试者仍未验，F6已验工程交付及完整goal ACTIVE保持。
 
 摘要与原收据：
 

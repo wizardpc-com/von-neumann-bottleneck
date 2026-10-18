@@ -173,3 +173,5 @@ F6普通219／测试者229包链则未触发这个fixture。固定ZIP存在与�
 不新增发布／服务权限。
 
 第二次诊断edf527c实际自然exit1（EXE37732，work8620f41d4004，摘要df711f15），九条同步状态已证本次第三Esc回TaskTree并释放旧Host；set_locale返回true且实际en，旧Host始终invalid。仅此run归因为QA调用错误，不回填首次或F6旧失败。Root据此核准最小导出场景适配：保留原前两Esc、真实第三Esc与全部模态保护；第三Esc后强验实际TaskTree、导航与旧Host释放，每语经原measured_host真实重入CPU并取得新Host，核同两合法receipt exact与PCK路径／语言。不得重跑模型、制造进度、改产品、改变超时或放宽保护。final不得引用释放Host；live资源路径须各语一致。作者冻结、独审、提交后才另准一次普通运行；测试者须待普通实际PASS。
+
+8c73a21场景桥经双重逆证／独审后提交推送，唯一普通caller-fixed work6e96dfc080c2实际EXE40532自然exit1、无监管终止。当前唯一ERROR为中文滚动正控制（0→0、max819／page316，指标bottom684超clip643）；此前最后原settle frame264记录native root.has_focus=false／embedded0，真实CPU Host与原pair2仍成立。不能将无其他模态窗当作本窗持焦；回调当帧未记录，不能作唯一因果或生产几何缺陷结论。模态负例与Esc分项仍保其局部观测，无最终raw／validation，完整检查数未知。Root停止进一步GUI重试，不强焦、不延长等待或放宽guard；待正控制环境具备再明确调度。英文／测试者此补验未通过，不影响此前限定双包219／229＋strict48验收身份，不扩张为新模态通过。

@@ -1168,6 +1168,105 @@
         },
         "independent_review": "Five explicit replacements invert byte-exact to1c14; ten other methods unchanged. Original modal/F8/first-two-Escape and third-Escape input retained. Actual TaskTree+selectedCPU/pending-empty+old-Host-invalid route, fresh original nav.enter per locale, exact two receipt signatures and live PCK resources checked. Final save uses original Host-exit retention and autoload flush, no access through dead Host; no new model run or production edit."
       }
+    },
+    "f7_exported_efficiency_modal_caller_fixed_attempt": {
+      "status": "FAIL_SCOPE_POSITIVE_CONTROL_FOCUS_PREMISE_NOT_ESTABLISHED",
+      "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+      "qa_checkpoint": "8c73a21cd7b008f420e8acd3ed203fcb43cc8eda",
+      "probe_sha256": "e5e0007a74aa53af339d3ef1d64f4afccb0d38f70e9269f574e6136491675084",
+      "wrapper_sha256": "58a417068745433d510dd0150dc922a17e2d8d2a69044bb9fcb8419f57df3655",
+      "summary": {
+        "path": ".godot/f7-normal-export-modal-caller-fixed-summary.json",
+        "sha256": "cf005e2b23e85cbbdefe8695b7623a505c765eb5e6620db111b453ce0da066f3"
+      },
+      "work": ".godot/exported-efficiency-modal/6e96dfc080c2",
+      "log": {
+        "path": ".godot/exported-efficiency-modal/6e96dfc080c2/measured.log",
+        "sha256": "7232a5c29bc697fc31a3994ba45478e2fdce6f64fb876d03abd9a6c129c55654"
+      },
+      "process": {
+        "path": ".godot/exported-efficiency-modal/6e96dfc080c2/process.json",
+        "sha256": "d53dae4e0e4151ce05a826424a21813474daa807533c6839e966f10eb8aa3c70"
+      },
+      "postexit_files": {
+        "path": ".godot/exported-efficiency-modal/6e96dfc080c2/post-exit-files.json",
+        "sha256": "ff636b010bb30e65271dc817311299bd0cd8c2d3c927cd79e47ef12c08658fb5"
+      },
+      "process_pid": 40532,
+      "exit": 1,
+      "natural_exit": true,
+      "terminated_owned_child_reason": "",
+      "errors": 1,
+      "warnings": 0,
+      "script_errors": 0,
+      "checks_total": null,
+      "final_raw_exists": false,
+      "validation_exists": false,
+      "error_labels": [
+        "ERROR: Without another Window, actual expansion moves the reading region and reveals its source, step and metric"
+      ],
+      "observed_ZH_positive": {
+        "scroll_before": 0,
+        "scroll_after": 0,
+        "scroll_max": 819.0,
+        "scroll_page": 316.0,
+        "metric_bottom": 684.0,
+        "ancestor_clip_bottom": 643.0
+      },
+      "observed_ZH_modal": {
+        "actual_other_embedded_focus_and_owner": true,
+        "listed_embedded": true,
+        "scroll_before": 0,
+        "scroll_after": 0,
+        "blend_before": 0.0,
+        "blend_after": 0.0,
+        "step_before": 1,
+        "step_after": 1,
+        "direct_Host_Escape": {
+          "body_visible": true,
+          "authority_unchanged": true,
+          "map_visible": false
+        }
+      },
+      "inherited_wait_observations": {
+        "rows": 48,
+        "root_focus_true_rows": 0,
+        "root_focus_false_rows": 48,
+        "visible_embedded_count_each": 0,
+        "first_process_frame": 7,
+        "last_prepositive_process_frame": 264,
+        "last_prepositive_root_focus": false,
+        "last_prepositive_embedded_count": 0
+      },
+      "actual_live_host_diagnostics": {
+        "rows": 4,
+        "all_live_cpu": true,
+        "controlled_pair_size_each": 2,
+        "valid_original_pair_each": true,
+        "locale": "zh_CN"
+      },
+      "interpretation": "No-other-modal alone is not the positive premise that this native Window owns focus. Existing wait log shows native root focus false throughout those48 samples, including last original settle before positive. Exact callback-time focus or actual callback consumption was not logged, so no unique root cause or production geometry defect is established. Do not backfill older failures.",
+      "unvalidated": [
+        "EN",
+        "tester",
+        "accepted_F8_in_this_run",
+        "ordered_total",
+        "full_expected_legal_preparation_and_final_typed_audit",
+        "native_OS"
+      ],
+      "postexit_protection": "Independently rehashed31 frozen path/hash or full inventory groups. Original parent19files/36dirs equals seed/postexit; original Session897f whole work/recipe/output/5supports/lease state, original ZIP/EXE/PCK identity and original parent receipts exact. Override absent. Actual observed game additions remain observation only without final raw/expected audit.",
+      "images": {
+        "new_ZH_files": 2,
+        "incident_files": 0,
+        "independent_visual_status": "PARTIAL_VISUAL_SCOPE_FAIL_REQUIRED_POSITIVE_REVEAL",
+        "grade": "ACTUAL_TWO_ZH_IMAGES_INDEPENDENTLY_VIEWED_AND_HASHED",
+        "visual_audit": {
+          "path": ".godot/f7-normal-caller-fixed-export-modal-visual-audit.json",
+          "sha256": "58257cb789f0c95d4420845c82a6e6425d0ae2fb463cdf5a24aa582450b2c975"
+        },
+        "scope": "Positive source is readable; step lower edge clipped at643 and metric660..684 below fold. Negative root texture contains actual Other/OK modal. No F8/EN/tester frame; native focus and callback state derive only from available logs, not images; overall failure unchanged."
+      },
+      "execution_decision": "Root stopped further GUI retries this round. No force focus, input/guard/timing change, production repair, rebuild or additional run authorized by this result."
     }
   },
   "fixed_input": {
@@ -1336,7 +1435,7 @@
     "tester_outer_recording_failure_retained": true,
     "native_os": "NOT_RUN_TOOL_INITIALIZATION_BLOCKED_NO_NEW_ATTEMPT",
     "Mac_newcomer": "NOT_RUN",
-    "exported_efficiency_modal_direct_fixture": "TWO_ACTUAL_NORMAL_ATTEMPTS_FAIL; SECOND_DIAGNOSTIC_PROVES_THIS_RUN_STALE_QA_HOST; NEW_SCENE_BRIDGE_STATIC_PASS_RUNTIME_NOT_RUN; TESTER_NOT_RUN",
+    "exported_efficiency_modal_direct_fixture": "THREE_NORMAL_ATTEMPTS_FAIL; LATEST_POSITIVE_FOCUS_PREMISE_NOT_ESTABLISHED; CALLBACK_TIME_UNKNOWN; EN_TESTER_NOT_RUN; FURTHER_GUI_RETRY_STOPPED",
     "all_ideas_final": "NOT_CLAIMED"
   },
   "next_day_review_observations": [

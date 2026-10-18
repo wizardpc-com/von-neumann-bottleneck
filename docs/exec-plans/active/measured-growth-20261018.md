@@ -150,3 +150,25 @@ Narrative负责最小布局及实际输入相位诊断，Knowledge独审；不�
 此时fade仍未结束；tester必须正在busy且尚未显示面板，然后冻结后续观察值。
 仅一次process_frame后pre_draw，无轮询/flush/睡眠或手设flag。诊断详细logger已移除，
 原全栈、准确焦点和作品保护继续保留。下一新固定检查点执行原20阶段及完整三suite渲染，尚未运行。
+
+## 固定69b三renderer与观察站视觉门禁
+
+三suite技术上全部PASS：效率184、Target169、Apparatus3442；三owned自然exit0，无ERROR/早停，
+settings恢复并核固定来源。原88PNG分列为效率22根窗口+2离线现场、Target12根窗口+2现场、
+Apparatus24根窗口+24真实3D纹理+2现场，不混称88张独立主界面。效率24原图经独立逐帧审查，
+原记录来源/步骤/数值与真实捕获忙边界通过；深层内容按原Scroll可达。
+
+Root实际view观察站系统近看帧发现教程浮窗盖在场景/侧栏上方，暂停完整回归和实包。
+Visual与Narrative独立源码定位为测试生命周期泄漏：教程真实完成保存后未退出，另挂空Control及
+z60观察站，仍存活的原教程z100+浮窗造成遮挡。真实入口是Home/map；不以提高产品层级掩盖QA夹具。
+仅核准Apparatus测试在正常退出原教程、经真实Home入口及惰性实例后捕图，新增旧host释放/外来窗/实际悬停归属检查；
+生产观察站保持原字节。原69技术receipt不重写，观察站视觉结果明确UNACCEPTED，修正后须新来源实际重验。
+原raw：`.godot/f4-rendered/f648350bf08b`，resultsSHA
+`f282c2fa529c684158cc1a5e1e6d59647cc305ef0672921a8d220fc2e41aa7ca`。
+
+Apparatus463c22dd测试生命周期修正已获Narrative独审：真实Home入口取代假宿主，逐locale正常重建，
+合法退出后取保护基线、旧教程host释放、捕图前原FloatingInstrumentPanel不可见，
+并用实际mouse-motion及官方Viewport悬停API核stage/侧栏六点属于观察站。原矩阵/来源/合法状态/
+相机与装置精度/整数包围盒/指针/反馈与全部保护断言保留；授权Enter释放Home后核原host已释放。
+生产观察站85694e89不变。下一仅新App原3阶段+真实App矩阵，其他69效率/Target保持各自来源，
+新完整175与实包仍待。两份集中证据记录当前阶段ACTIVE及旧失败/视觉未接受，未预填新门禁通过。

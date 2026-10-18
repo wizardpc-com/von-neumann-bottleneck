@@ -95,10 +95,22 @@ func check_controls(observatory: Control, scope: String) -> void:
 			check(marker.size.x >= marker.custom_minimum_size.x and marker.size.y >= marker.custom_minimum_size.y,"Visible marker retains its minimum pointer target: "+scope)
 		else: check(marker.disabled,"Offstage/other-task labels cannot intercept pointer input: "+scope)
 
+func check_unobstructed(observatory: Control) -> void:
+	var floating_script: Script = load("res://src/ui/floating_instrument_panel.gd")
+	for node: Control in root.find_children("*","Control",true,false):
+		if node.get_script() == floating_script:
+			check(not node.is_visible_in_tree(),"Original workbench floating panels cannot cover the Home observatory")
+	for target: Control in [observatory.stage,observatory.task_choice,observatory.inspect_button,
+		observatory.overview_button,observatory.locate_button,observatory.enter_button]:
+		await point_at(target.get_global_rect().get_center())
+		var hovered: Control = root.gui_get_hovered_control()
+		check(hovered != null and observatory.is_ancestor_of(hovered),"Actual stage/sidebar pointer belongs to the Home observatory: "+target.name)
+
 func capture(observatory: Control, name: String, scope: String) -> void:
 	if not capture_enabled: return
 	if DisplayServer.get_name() == "headless":
 		check(false,"Apparatus capture requires an actual renderer"); return
+	await check_unobstructed(observatory)
 	await RenderingServer.frame_post_draw
 	var frame: Image = root.get_texture().get_image()
 	var world: Image = observatory.viewport_3d.get_texture().get_image()
@@ -215,13 +227,25 @@ func run() -> void:
 	check(writer.generate().ok and writer.save_work("Observatory protected original").ok,"Setup saves a real generated work, not a byte placeholder")
 	writer.close()
 	print("SETUP: actual tutorial five controller actions and isolated C/P/G work; no synthetic completion fixture is persisted")
-	var host := Control.new(); host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); root.add_child(host)
-	var launcher := Button.new(); launcher.text = "Original host"; host.add_child(launcher)
+	check(change_scene_to_file("res://src/ui/prototype_hub.tscn") == OK,"Original tutorial exits through a normal scene change to Home")
+	await settle()
+	check(not is_instance_valid(original_host),"Previous tutorial host and its floating panels are released before browsing")
+	if is_instance_valid(original_host): quit(1); return
+	var host: Control = current_scene
+	var launcher: Button
 	var before: Dictionary = protected_state()
 	for language: String in ["zh_CN","en"]:
 		locale.set_locale(language)
-		var observatory: Control = Observatory.new(); host.add_child(observatory); await settle()
-		launcher.grab_focus(); observatory.open(); await settle()
+		# Rebuild the real localized Home before resolving its lazy entry again.
+		check(change_scene_to_file("res://src/ui/prototype_hub.tscn") == OK,"Localized Home loads through the original scene lifecycle")
+		await settle(); host = current_scene
+		launcher = host.find_child("OpenJourneyObservatory",true,false)
+		check(launcher != null,"Actual Home offers its optional observatory launcher")
+		if launcher == null: quit(1); return
+		launcher.grab_focus(); launcher.pressed.emit(); await settle()
+		var observatory: Control = host.journey_observatory
+		check(is_instance_valid(observatory) and observatory.get_parent() == host and observatory.visible,"Actual Home lazy hook opens its own observatory instance")
+		if not is_instance_valid(observatory): quit(1); return
 		check(observatory.rows == nav.journey_tasks(),"New view opens the actual loaded task snapshot")
 		for dimensions: Vector2i in sizes:
 			check(dimensions.x>=1280 and dimensions.y>=720,"Supported apparatus comparison size")
@@ -308,11 +332,10 @@ func run() -> void:
 		check(root.gui_get_focus_owner() == launcher,"Close returns focus to the original host")
 		observatory.queue_free(); await settle()
 	check(protected_state() == before,"All apparatus tests preserve original authorities including real C/P/G payload and empty lock directories")
-	var final_view: Control = Observatory.new(); host.add_child(final_view); await settle()
-	launcher.grab_focus(); final_view.open(); await settle()
+	launcher.grab_focus(); launcher.pressed.emit(); await settle()
+	var final_view: Control = host.journey_observatory
 	final_view.select_task("hardware_foundations/tutorial"); final_view._enter(); await settle()
-	check(is_instance_valid(current_scene) and current_scene.scene_file_path == "res://src/hardware_foundations/hardware_foundations.tscn" and current_scene.current_level_id == &"tutorial" and not final_view.visible,"Authorized Enter still opens the original task host, not a second world/progression system")
-	host.queue_free(); await settle()
+	check(is_instance_valid(current_scene) and current_scene.scene_file_path == "res://src/hardware_foundations/hardware_foundations.tscn" and current_scene.current_level_id == &"tutorial" and not is_instance_valid(host),"Authorized Enter still opens the original task host, not a second world/progression system")
 	ProjectSettings.set_setting("candidate/creation_enabled",old_creation); ProjectSettings.set_setting("playtest/offline_tester",old_tester)
 	ProjectSettings.set_setting("game/reduced_motion",old_motion); feedback.toolbar.visible = toolbar_visible; locale.set_locale(old_locale)
 	if capture_enabled:

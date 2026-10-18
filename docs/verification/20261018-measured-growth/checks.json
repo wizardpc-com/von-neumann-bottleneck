@@ -1,0 +1,1099 @@
+{
+  "stage": "ACTIVE_ENGINEERING_VALIDATION",
+  "broad_goal_status": "ACTIVE",
+  "baseline_commit": "2e488c387ab1a0b95f37036ca025878fdeaab085",
+  "candidate_source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+  "branch": "codex/measured-growth-20261018",
+  "source_authority": "Immutable candidate69, Root confirmed committed/pushed. Original20-stage headless passed; three source-bound renderer suites passed technical assertions, but apparatus visual acceptance is UNACCEPTED due to a QA host-lifecycle overlay. Full, actual Measured packages, clone supplement and new native remain separate pending gates.",
+  "current_gates": {
+    "source_reviews": "PASS_STATIC_SCOPE: cross-review ring plus independent external-QA review",
+    "candidate_focused20": {
+      "status": "PASS_HEADLESS_SCOPE",
+      "source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+      "results": {
+        "path": ".godot/verification/20261018T003137Z-70987b4a/results.json",
+        "sha256": "871aefec3fd3c8862be805a33596af2edba53247e01733c5de10f3431c4a5da5"
+      },
+      "total_stages": 20,
+      "passed_stages": 20,
+      "failed_stages": 0,
+      "owned_natural_exit0": 20,
+      "owned_early_termination": false,
+      "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+      "helper_sha256": "7463aca7a8f2992d3fbdc6cc9be44e58eeaf81b5a1a2c5b9647a09efea1c57a7",
+      "source_manifest": {
+        "path": ".godot/f4-fixed-watch/b46df456b6bc/source-manifest.json",
+        "sha256": "fda9c59e89e122508484340f93dbf4d6e70097786e3cccd8f21c136a5f5cde1c"
+      },
+      "copy_parity": {
+        "path": ".godot/f4-fixed-watch/b46df456b6bc/copy-parity.json",
+        "sha256": "9b988436fde3191aa346cc227887ecf0431517c8fc9fc13ed532f81b1deee0fe"
+      },
+      "owned_processes": {
+        "path": ".godot/f4-fixed-watch/b46df456b6bc/owned-processes.json",
+        "sha256": "b48bfbda597d79438aa9b14f889d12d2ca6ca876d113e47c01845be462b1c43a"
+      },
+      "archive_identity": {
+        "files": 5761,
+        "git_archive_sha256": "3a272e1b8d1b959d8c9a368d3c5a187af6eff90563cbbde9851887c991baa819",
+        "excluded_docs_paths": 5047,
+        "full_archive_materialized": false
+      },
+      "materialized_source": {
+        "selected_files": 714,
+        "copy_receipt_exact": 714,
+        "independently_rehashed_current_raw_exact": 713,
+        "private_settings_exception": {
+          "file": "project.godot",
+          "observed_sha256": "409bca17354a60b9a3dadcae1e5a18ed320d513c3e3deb61339934b34914f6b3",
+          "allowed_delta": "Only this private generated settings file: two QA user-directory injections and CRLF serialization. Removing the two lines after CRLF-to-LF reconstructs original source hash. No source file is rewritten by this audit.",
+          "reconstructed_source_sha256": "76eaee0a71522816e7197749c240e94fdeb05b4c276a30f5d029e64e3b35f475"
+        },
+        "canonical_tests": 174,
+        "extra_qa_tests": []
+      },
+      "stage_logs": [
+        {
+          "name": "import",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/import.txt",
+            "sha256": "21fe0f0e31f952bdbb5828b77cf9ac6bbd7a560b1af82ed4512b66a92ddaf934"
+          }
+        },
+        {
+          "name": "user_directory",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/user_directory.txt",
+            "sha256": "add95c83e7662381f55b04b28ac4cf23bb855aa0fc5b29668dc3efa04a9a742a"
+          }
+        },
+        {
+          "name": "test_efficiency_fragment",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_efficiency_fragment.txt",
+            "sha256": "8f977d6c34b9752611ce915376063c42b5c42efecf2b6bc6d84e336a41365da3"
+          }
+        },
+        {
+          "name": "test_feedback_presentation",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_feedback_presentation.txt",
+            "sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae"
+          }
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_full_journey_narrative.txt",
+            "sha256": "cac5b9d053e0f8428bd4c492a838259544feb63aaa30df62aca9134d7b84a5fc"
+          }
+        },
+        {
+          "name": "test_journey_observatory",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_journey_observatory.txt",
+            "sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5"
+          }
+        },
+        {
+          "name": "test_layout_navigation",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_layout_navigation.txt",
+            "sha256": "51544c591def965c88efeaab4cc2cbe4db9bf99920dd2afc1f9c95259fc7df09"
+          }
+        },
+        {
+          "name": "test_layout_recipe_sources",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_layout_recipe_sources.txt",
+            "sha256": "4642687306d65f87255bc9b6a9a4993dc6f9e2dce766be9a2706536c0d3a0d76"
+          }
+        },
+        {
+          "name": "test_layout_ui",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_layout_ui.txt",
+            "sha256": "147266da54c76168679c26695abae210d62f431452c99c3081633ea7b4733a0b"
+          }
+        },
+        {
+          "name": "test_observatory_apparatus",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_observatory_apparatus.txt",
+            "sha256": "072191eb97d5cec7b55e874944004112f2775be09242ca944864b2499ea5fcb8"
+          }
+        },
+        {
+          "name": "test_offline_feedback",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_offline_feedback.txt",
+            "sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157"
+          }
+        },
+        {
+          "name": "test_optional_result_feedback",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_optional_result_feedback.txt",
+            "sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c"
+          }
+        },
+        {
+          "name": "test_overlap_simulation",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_overlap_simulation.txt",
+            "sha256": "4d656a48c7573df681b97d3d641fe1feaad99ec5545520709ecf25d875975ad6"
+          }
+        },
+        {
+          "name": "test_overlap_ui",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_overlap_ui.txt",
+            "sha256": "1acf352ba83c738afbe97a69015b5693c9abba6a73b96dc2aa12e14fffbdffbd"
+          }
+        },
+        {
+          "name": "test_system_baseline_continuity",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_system_baseline_continuity.txt",
+            "sha256": "16c4c476e5d234ac16fdef7a75c071cef50bcd701633bb7b5a933a5f8a22a603"
+          }
+        },
+        {
+          "name": "test_system_cost_evidence",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_system_cost_evidence.txt",
+            "sha256": "fd42e234d03ade6a2fc25c16e67963c1bb6a4a848bce92293045f70e736a72bc"
+          }
+        },
+        {
+          "name": "test_system_evidence_guidance",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_system_evidence_guidance.txt",
+            "sha256": "f2c3ff592d3084e3aca8f31f7a7946408d12cbc7774a89562e3e833adb243cb3"
+          }
+        },
+        {
+          "name": "test_system_lab_ui",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_system_lab_ui.txt",
+            "sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb"
+          }
+        },
+        {
+          "name": "test_system_trace_source_binding",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_system_trace_source_binding.txt",
+            "sha256": "76454884db6be3663e4b875043df0fbff45aa2c9014afebea0690f9646f96d23"
+          }
+        },
+        {
+          "name": "test_target_evidence_guidance",
+          "log": {
+            "path": ".godot/verification/20261018T003137Z-70987b4a/test_target_evidence_guidance.txt",
+            "sha256": "cddb616f28d2ad38faff11f1d000b21122060dab13c27d9bc7a3e8fe909c0bd5"
+          }
+        }
+      ],
+      "limits": "Headless only; separate rendered and actual-package gates retain their own outcomes."
+    },
+    "candidate_rendered3": {
+      "status": "PASS_TECHNICAL_SCOPE_VISUAL_UNACCEPTED_APPARATUS_FIXTURE",
+      "source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+      "results": {
+        "path": ".godot/f4-rendered/f648350bf08b/results.json",
+        "sha256": "f282c2fa529c684158cc1a5e1e6d59647cc305ef0672921a8d220fc2e41aa7ca"
+      },
+      "summary": {
+        "path": ".godot/f4-rendered-69b785a-summary.json",
+        "sha256": "d208675f354825bb706dbaae8d04c7b19b7987583e5691591e49daa155c444a0"
+      },
+      "owned_natural_exit0": 3,
+      "errors": 0,
+      "root_viewport_frames": 58,
+      "actual_3d_textures": 24,
+      "actual_offline_captures": 6,
+      "total_raw_pngs_rehashed": 88,
+      "suites": [
+        {
+          "suite": "test_efficiency_fragment",
+          "receipt": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_efficiency_fragment/receipt.json",
+            "sha256": "16c87acf88298f2bfef08c33e1a14cfcf7c155c28cdfce1b1f8711601653d4f7"
+          },
+          "log": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_efficiency_fragment/renderer.log",
+            "sha256": "244f2c9ac56e937bfe24dcf2dafc55b78ed26368b1100b836e9f73fc040f3173"
+          },
+          "checks": 184,
+          "pid": 24356,
+          "exit": 0,
+          "errors": 0,
+          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
+          "raw_pngs_rehashed": 24,
+          "runtime_files_rehashed": 37,
+          "artifact_files_rehashed": 6,
+          "four_environment_roots_private": true,
+          "test_sha256": "35abfaa478cd799cfdbc1d0b730179e6a9c6489463d0fbeace4db0e6065c4492",
+          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
+          "source_settings_finally_guard": true,
+          "saved_work_sessions": [],
+          "accepted_feedback_boundaries": [
+            {
+              "active": true,
+              "blend": 0.066664,
+              "busy": false,
+              "draw_frame": 424,
+              "feedback_flag": true,
+              "paused": false,
+              "process_frame": 424,
+              "scope": "zh_CN-ordinary",
+              "scroll": 42,
+              "step": 1
+            },
+            {
+              "active": true,
+              "blend": 0.06666,
+              "busy": true,
+              "draw_frame": 529,
+              "feedback_flag": false,
+              "paused": true,
+              "process_frame": 529,
+              "scope": "zh_CN-tester",
+              "scroll": 42,
+              "step": 1
+            },
+            {
+              "active": true,
+              "blend": 0.0666666666666667,
+              "busy": false,
+              "draw_frame": 1034,
+              "feedback_flag": true,
+              "paused": false,
+              "process_frame": 1034,
+              "scope": "en-ordinary",
+              "scroll": 66,
+              "step": 1
+            },
+            {
+              "active": true,
+              "blend": 0.067796,
+              "busy": true,
+              "draw_frame": 1139,
+              "feedback_flag": false,
+              "paused": true,
+              "process_frame": 1139,
+              "scope": "en-tester",
+              "scroll": 110,
+              "step": 1
+            }
+          ]
+        },
+        {
+          "suite": "test_target_evidence_guidance",
+          "receipt": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/receipt.json",
+            "sha256": "39d03fe0ba1782bdc7bfe75a25435d5ef749d3849681cf54b79c4cb610b09674"
+          },
+          "log": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/renderer.log",
+            "sha256": "ab18efe22951737fcc7857419a97e9f56d4b29c3f5fc3b3e1da2ef8cfe18a574"
+          },
+          "checks": 169,
+          "pid": 15956,
+          "exit": 0,
+          "errors": 0,
+          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
+          "raw_pngs_rehashed": 14,
+          "runtime_files_rehashed": 29,
+          "artifact_files_rehashed": 8,
+          "four_environment_roots_private": true,
+          "test_sha256": "fdd4cc86fd45f9827244ed0cde46b49f20c8e277083fe82df12f0ad4e5f00e8f",
+          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
+          "source_settings_finally_guard": true,
+          "saved_work_sessions": [
+            {
+              "file": {
+                "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/runtime/appdata/VonNeumannBottleneckChecks/F4Rendered-f648350bf08b/test_target_evidence_guidance/creation-candidate/session.json",
+                "sha256": "74f84ba6c821bcf57e4c01507d1c5b69cb0ce404c2fcd369ceb2d13cf03edd28"
+              },
+              "saved_works": 1,
+              "grade": "Real QA controller-generated work. Suite executed before/after protections; independent audit rehashed final session. No natural or OS generation claim."
+            }
+          ],
+          "accepted_feedback_boundaries": []
+        },
+        {
+          "suite": "test_observatory_apparatus",
+          "receipt": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/receipt.json",
+            "sha256": "f7e5c36afb56c7eb8799bc682fd6a0eee1c48bdca0155db58360c19716f13f8b"
+          },
+          "log": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/renderer.log",
+            "sha256": "a6b72607b2be361713d16a29a3ce2b9e5df199b7af45be9437e80869c737f73d"
+          },
+          "checks": 3442,
+          "pid": 46236,
+          "exit": 0,
+          "errors": 0,
+          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
+          "raw_pngs_rehashed": 50,
+          "runtime_files_rehashed": 21,
+          "artifact_files_rehashed": 10,
+          "four_environment_roots_private": true,
+          "test_sha256": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8",
+          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
+          "source_settings_finally_guard": true,
+          "saved_work_sessions": [
+            {
+              "file": {
+                "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/runtime/appdata/VonNeumannBottleneckChecks/F4Rendered-f648350bf08b/test_observatory_apparatus/creation-candidate/session.json",
+                "sha256": "946f0ac1345f6a433a3550a297477c191ae76d5630ba4e5758af99fd174ad21b"
+              },
+              "saved_works": 1,
+              "grade": "Real QA controller-generated work. Suite executed before/after protections; independent audit rehashed final session. No natural or OS generation claim."
+            }
+          ],
+          "accepted_feedback_boundaries": [],
+          "visual_status": "UNACCEPTED_QA_HOST_LIFECYCLE_FIXTURE"
+        }
+      ],
+      "visual_review": {
+        "status": "UNACCEPTED_APPARATUS_QA_FIXTURE",
+        "observer": "Root actual frame view, then Visual/Narrative source confirmation",
+        "frame_scope": "zh_CN1280x720 system inspection root viewport",
+        "observation": "The prior real tutorial host remained alive; its panels above z100 covered the synthetic root Observatory at z60. This technical PASS does not accept those apparatus frames.",
+        "authorized_fix": "Only test_observatory_apparatus: normally exit and free the real tutorial host, then use actual Home lazy launcher; assert prior host freed, absence of foreign panels and hover guards. Production Observatory unchanged.",
+        "next_gate": "New fixed-source apparatus test and actual renderer plus independent frame acceptance before full or packages."
+      },
+      "limits": "Controller QA fixtures, not native OS or newcomer acceptance; full and actual Measured packages are separate pending gates."
+    },
+    "full_windows": {
+      "status": "PENDING",
+      "expected_stages": 175,
+      "blocked_by": "Apparatus visual gate: actual Home launcher fixture correction and new rendered acceptance required."
+    },
+    "new_normal_package": {
+      "status": "PENDING",
+      "blocked_by": "Apparatus visual gate and final-source full regression."
+    },
+    "new_tester_package_and_original_collector": {
+      "status": "PENDING",
+      "blocked_by": "Apparatus visual gate and final-source full regression."
+    },
+    "strict_reopen": {
+      "status": "PENDING",
+      "expected_checks_per_role": 47
+    },
+    "cloned_measured_supplement": {
+      "status": "PENDING"
+    },
+    "new_native_os": {
+      "status": "NOT_RUN"
+    },
+    "human_newcomer_and_platforms": {
+      "status": "NOT_RUN"
+    }
+  },
+  "source_files_at_candidate": {
+    "src/layout_chapter/layout_chapter.gd": "26274443f7da4c8ec49d036d8581e6d1680ed3082e0a01c1c165bd9efbc55145",
+    "src/overlap_chapter/overlap_chapter.gd": "6e84246291513fecd4ce87a57c21304ca1ecb08b14ac5916377a295201dfeb89",
+    "src/system_lab/system_lab.gd": "33e44465ee0d75fbdb3c0c9ac56da7abdaf87f5afb95208f70d4903c1da68280",
+    "src/ui/efficiency_fragment.gd": "8a9374b24960d9ef3b09963c17a2d852037d0d782bc75b2648db35cb4c5f0588",
+    "src/ui/journey_observatory.gd": "85694e890ba737d5d977a02c18292f490211cf524e5860947e6bc9f6f5fcbbc9",
+    "tests/test_target_evidence_guidance.gd": "fdd4cc86fd45f9827244ed0cde46b49f20c8e277083fe82df12f0ad4e5f00e8f",
+    "tests/test_efficiency_fragment.gd": "35abfaa478cd799cfdbc1d0b730179e6a9c6489463d0fbeace4db0e6065c4492",
+    "tests/test_observatory_apparatus.gd": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8"
+  },
+  "external_qa_at_candidate": {
+    "scripts/night-package-probe.gd": "9fb11c3d276816872b1fed655e646fc39b3e0b843ae42ee3d2adf0bd5e3a1a5f",
+    "scripts/verify-night-package.py": "fab526393ac52ded6e86e481a663c57ec9c173310ab2d2dccdd364fd4fb6cd7e",
+    "scripts/verify-embedded-profile-reopen.py": "7b9f5ff700f0861f88af76e49ab49ddd3a8c1ad889f676993ab8ac819e791432"
+  },
+  "source_review_boundaries": [
+    "Visual reviewed Layout/Overlap and actual-work protection fixtures.",
+    "Knowledge reviewed System/Efficiency; final accepted-boundary test35ab retains capture-busy and unfinished-fade assertions after one observed process_frame then pre_draw.",
+    "Narrative reviewed apparatus precision: approximate Rect2 plus exact occupied pixels, exact camera and apparatus transforms; no extra waits or production projection change.",
+    "Visual reviewed three external QA files: exact role allowlists, original parent/strict first, immutable parent runtime, separate clone and four private environment directories."
+  ],
+  "historical_canonical_runs": [
+    {
+      "source_commit": "1d887c5c328780b34dc220f65fd55c5ecab8380c",
+      "grade": "original isolated Windows headless canonical verifier; not rendered or native acceptance",
+      "results": {
+        "path": ".godot/verification/20261018T000421Z-6f7d6860/results.json",
+        "sha256": "0ac27c1be9fdf73df9ff65f61929a6f26ced2c3af71d3b7b9ece9958c2da88d9"
+      },
+      "summary": {
+        "path": ".godot/f4-focused-1d887c5-summary.json",
+        "sha256": "a09a5d4f8d544c03eb2c01997c338b726c2e3518a7a2e0bba257300663877b92"
+      },
+      "total_stages": 20,
+      "passed_stages": 18,
+      "failed_stages": 2,
+      "all_declared_logs_independently_rehashed": true,
+      "owned_records_checked": 20,
+      "owned_early_termination": false,
+      "stage_logs": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/import.txt",
+            "sha256": "21fe0f0e31f952bdbb5828b77cf9ac6bbd7a560b1af82ed4512b66a92ddaf934"
+          }
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/user_directory.txt",
+            "sha256": "989d024460adaba3bec9a9f814adf0f6c950181747bd8821b496f885a696c62c"
+          }
+        },
+        {
+          "name": "test_efficiency_fragment",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_efficiency_fragment.txt",
+            "sha256": "8f977d6c34b9752611ce915376063c42b5c42efecf2b6bc6d84e336a41365da3"
+          }
+        },
+        {
+          "name": "test_feedback_presentation",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_feedback_presentation.txt",
+            "sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae"
+          }
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_full_journey_narrative.txt",
+            "sha256": "cac5b9d053e0f8428bd4c492a838259544feb63aaa30df62aca9134d7b84a5fc"
+          }
+        },
+        {
+          "name": "test_journey_observatory",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_journey_observatory.txt",
+            "sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5"
+          }
+        },
+        {
+          "name": "test_layout_navigation",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_layout_navigation.txt",
+            "sha256": "51544c591def965c88efeaab4cc2cbe4db9bf99920dd2afc1f9c95259fc7df09"
+          }
+        },
+        {
+          "name": "test_layout_recipe_sources",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_layout_recipe_sources.txt",
+            "sha256": "4642687306d65f87255bc9b6a9a4993dc6f9e2dce766be9a2706536c0d3a0d76"
+          }
+        },
+        {
+          "name": "test_layout_ui",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_layout_ui.txt",
+            "sha256": "147266da54c76168679c26695abae210d62f431452c99c3081633ea7b4733a0b"
+          }
+        },
+        {
+          "name": "test_observatory_apparatus",
+          "passed": false,
+          "exit": 1,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_observatory_apparatus.txt",
+            "sha256": "e4b88befd023e6be735f115a12c660ad467d36690467da71dc554951d7e71a11"
+          }
+        },
+        {
+          "name": "test_offline_feedback",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_offline_feedback.txt",
+            "sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157"
+          }
+        },
+        {
+          "name": "test_optional_result_feedback",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_optional_result_feedback.txt",
+            "sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c"
+          }
+        },
+        {
+          "name": "test_overlap_simulation",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_overlap_simulation.txt",
+            "sha256": "4d656a48c7573df681b97d3d641fe1feaad99ec5545520709ecf25d875975ad6"
+          }
+        },
+        {
+          "name": "test_overlap_ui",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_overlap_ui.txt",
+            "sha256": "1acf352ba83c738afbe97a69015b5693c9abba6a73b96dc2aa12e14fffbdffbd"
+          }
+        },
+        {
+          "name": "test_system_baseline_continuity",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_system_baseline_continuity.txt",
+            "sha256": "16c4c476e5d234ac16fdef7a75c071cef50bcd701633bb7b5a933a5f8a22a603"
+          }
+        },
+        {
+          "name": "test_system_cost_evidence",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_system_cost_evidence.txt",
+            "sha256": "fd42e234d03ade6a2fc25c16e67963c1bb6a4a848bce92293045f70e736a72bc"
+          }
+        },
+        {
+          "name": "test_system_evidence_guidance",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_system_evidence_guidance.txt",
+            "sha256": "f2c3ff592d3084e3aca8f31f7a7946408d12cbc7774a89562e3e833adb243cb3"
+          }
+        },
+        {
+          "name": "test_system_lab_ui",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_system_lab_ui.txt",
+            "sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb"
+          }
+        },
+        {
+          "name": "test_system_trace_source_binding",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_system_trace_source_binding.txt",
+            "sha256": "76454884db6be3663e4b875043df0fbff45aa2c9014afebea0690f9646f96d23"
+          }
+        },
+        {
+          "name": "test_target_evidence_guidance",
+          "passed": false,
+          "exit": 1,
+          "log": {
+            "path": ".godot/verification/20261018T000421Z-6f7d6860/test_target_evidence_guidance.txt",
+            "sha256": "da6acf8cc66f40d210bd95e2631ad0e411fd318724e302cb67dde7f80b904a3b"
+          }
+        }
+      ],
+      "interpretation": "18/20. Apparatus exact Rect2 comparison failed once; the test text setter did not establish the intended user-edit signal operation. Later real CodeEdit insertion and signal count passed; no universal setter claim."
+    },
+    {
+      "source_commit": "040c198364d0195fea80e217e61c87b2ebae18e9",
+      "grade": "original isolated Windows headless canonical verifier; not rendered or native acceptance",
+      "results": {
+        "path": ".godot/verification/20261018T001059Z-3cefbc75/results.json",
+        "sha256": "16570271f00cfb5046fadf429dee08a799debb2103fc04c32fbc0ce71e8fd05a"
+      },
+      "summary": {
+        "path": ".godot/f4-diagnostic-040c198-summary.json",
+        "sha256": "28d44a0ef26ed02bde2daf5046d7a2ebcc80cba416d48947b2d46b5093e985f5"
+      },
+      "total_stages": 4,
+      "passed_stages": 3,
+      "failed_stages": 1,
+      "all_declared_logs_independently_rehashed": true,
+      "owned_records_checked": 4,
+      "owned_early_termination": false,
+      "stage_logs": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001059Z-3cefbc75/import.txt",
+            "sha256": "21fe0f0e31f952bdbb5828b77cf9ac6bbd7a560b1af82ed4512b66a92ddaf934"
+          }
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001059Z-3cefbc75/user_directory.txt",
+            "sha256": "2e9268438b663e0d248f5a51a76ad800f72af17409259059ff0bd21e92cd8639"
+          }
+        },
+        {
+          "name": "test_observatory_apparatus",
+          "passed": false,
+          "exit": 1,
+          "log": {
+            "path": ".godot/verification/20261018T001059Z-3cefbc75/test_observatory_apparatus.txt",
+            "sha256": "de6e6c1c281f26e0e7beb5aacedda95cf601f859dc7c1551719f022f86f86bb5"
+          }
+        },
+        {
+          "name": "test_target_evidence_guidance",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001059Z-3cefbc75/test_target_evidence_guidance.txt",
+            "sha256": "cddb616f28d2ad38faff11f1d000b21122060dab13c27d9bc7a3e8fe909c0bd5"
+          }
+        }
+      ],
+      "interpretation": "3/4. Target108 passed with exactly one real text_changed per locale. The remaining observed marker width was63 versus63.000030517578125; other measured rectangle/camera/geometry fields matched. No claim about the underlying engine cause."
+    },
+    {
+      "source_commit": "e3e475ddbdca871d018d5e17cded43cbb0357d64",
+      "grade": "original isolated Windows headless canonical verifier; not rendered or native acceptance",
+      "results": {
+        "path": ".godot/verification/20261018T001457Z-693891e7/results.json",
+        "sha256": "a290f55d06017713172b4235b1635ad7a24a5d264e64bad6ef5e168a21b29586"
+      },
+      "summary": {
+        "path": ".godot/f4-focused-e3e475d-summary.json",
+        "sha256": "c2f1e89f437e8183aa2bb0b06726e3a56da868bd489a36f595304efb37e53de0"
+      },
+      "total_stages": 20,
+      "passed_stages": 20,
+      "failed_stages": 0,
+      "all_declared_logs_independently_rehashed": true,
+      "owned_records_checked": 20,
+      "owned_early_termination": false,
+      "stage_logs": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/import.txt",
+            "sha256": "21fe0f0e31f952bdbb5828b77cf9ac6bbd7a560b1af82ed4512b66a92ddaf934"
+          }
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/user_directory.txt",
+            "sha256": "4b1b583bfa56ef3117f2f3c363963e9b63e6a923f62e6132c042991c9ada7f07"
+          }
+        },
+        {
+          "name": "test_efficiency_fragment",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_efficiency_fragment.txt",
+            "sha256": "8f977d6c34b9752611ce915376063c42b5c42efecf2b6bc6d84e336a41365da3"
+          }
+        },
+        {
+          "name": "test_feedback_presentation",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_feedback_presentation.txt",
+            "sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae"
+          }
+        },
+        {
+          "name": "test_full_journey_narrative",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_full_journey_narrative.txt",
+            "sha256": "cac5b9d053e0f8428bd4c492a838259544feb63aaa30df62aca9134d7b84a5fc"
+          }
+        },
+        {
+          "name": "test_journey_observatory",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_journey_observatory.txt",
+            "sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5"
+          }
+        },
+        {
+          "name": "test_layout_navigation",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_layout_navigation.txt",
+            "sha256": "51544c591def965c88efeaab4cc2cbe4db9bf99920dd2afc1f9c95259fc7df09"
+          }
+        },
+        {
+          "name": "test_layout_recipe_sources",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_layout_recipe_sources.txt",
+            "sha256": "4642687306d65f87255bc9b6a9a4993dc6f9e2dce766be9a2706536c0d3a0d76"
+          }
+        },
+        {
+          "name": "test_layout_ui",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_layout_ui.txt",
+            "sha256": "147266da54c76168679c26695abae210d62f431452c99c3081633ea7b4733a0b"
+          }
+        },
+        {
+          "name": "test_observatory_apparatus",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_observatory_apparatus.txt",
+            "sha256": "072191eb97d5cec7b55e874944004112f2775be09242ca944864b2499ea5fcb8"
+          }
+        },
+        {
+          "name": "test_offline_feedback",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_offline_feedback.txt",
+            "sha256": "411d818e09849318701de2cceec6d3924e9bb8f473198f0e032c365262c88157"
+          }
+        },
+        {
+          "name": "test_optional_result_feedback",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_optional_result_feedback.txt",
+            "sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c"
+          }
+        },
+        {
+          "name": "test_overlap_simulation",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_overlap_simulation.txt",
+            "sha256": "4d656a48c7573df681b97d3d641fe1feaad99ec5545520709ecf25d875975ad6"
+          }
+        },
+        {
+          "name": "test_overlap_ui",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_overlap_ui.txt",
+            "sha256": "1acf352ba83c738afbe97a69015b5693c9abba6a73b96dc2aa12e14fffbdffbd"
+          }
+        },
+        {
+          "name": "test_system_baseline_continuity",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_system_baseline_continuity.txt",
+            "sha256": "16c4c476e5d234ac16fdef7a75c071cef50bcd701633bb7b5a933a5f8a22a603"
+          }
+        },
+        {
+          "name": "test_system_cost_evidence",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_system_cost_evidence.txt",
+            "sha256": "fd42e234d03ade6a2fc25c16e67963c1bb6a4a848bce92293045f70e736a72bc"
+          }
+        },
+        {
+          "name": "test_system_evidence_guidance",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_system_evidence_guidance.txt",
+            "sha256": "f2c3ff592d3084e3aca8f31f7a7946408d12cbc7774a89562e3e833adb243cb3"
+          }
+        },
+        {
+          "name": "test_system_lab_ui",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_system_lab_ui.txt",
+            "sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb"
+          }
+        },
+        {
+          "name": "test_system_trace_source_binding",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_system_trace_source_binding.txt",
+            "sha256": "76454884db6be3663e4b875043df0fbff45aa2c9014afebea0690f9646f96d23"
+          }
+        },
+        {
+          "name": "test_target_evidence_guidance",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T001457Z-693891e7/test_target_evidence_guidance.txt",
+            "sha256": "cddb616f28d2ad38faff11f1d000b21122060dab13c27d9bc7a3e8fe909c0bd5"
+          }
+        }
+      ],
+      "interpretation": "20/20 headless. Target108, apparatus3292 and efficiency54 passed; no rendered input or exported-package claim."
+    },
+    {
+      "source_commit": "fcad2a0faa0d0d90d633c91c1604816bde692232",
+      "grade": "original isolated Windows headless canonical verifier; not rendered or native acceptance",
+      "results": {
+        "path": ".godot/verification/20261018T002520Z-0d2a2083/results.json",
+        "sha256": "44adcdcbcdae40cc58f519c823f75a6c47915a96e3b9ab42e4f1e98d63a38cdf"
+      },
+      "summary": {
+        "path": ".godot/f4-efficiency-diagnostic-fcad2-summary.json",
+        "sha256": "406b9eb47d80b1a5d7cf0d065bd0794134322c35fd2e76d91cd4f608efc4a05a"
+      },
+      "total_stages": 3,
+      "passed_stages": 3,
+      "failed_stages": 0,
+      "all_declared_logs_independently_rehashed": true,
+      "owned_records_checked": 3,
+      "owned_early_termination": false,
+      "stage_logs": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T002520Z-0d2a2083/import.txt",
+            "sha256": "21fe0f0e31f952bdbb5828b77cf9ac6bbd7a560b1af82ed4512b66a92ddaf934"
+          }
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T002520Z-0d2a2083/user_directory.txt",
+            "sha256": "e5ecb5dc077fc134f692f9f11001f085dd2e3a36b40dced6a11499415c8aa30f"
+          }
+        },
+        {
+          "name": "test_efficiency_fragment",
+          "passed": true,
+          "exit": 0,
+          "log": {
+            "path": ".godot/verification/20261018T002520Z-0d2a2083/test_efficiency_fragment.txt",
+            "sha256": "8f977d6c34b9752611ce915376063c42b5c42efecf2b6bc6d84e336a41365da3"
+          }
+        }
+      ],
+      "interpretation": "3/3 headless with metric-label reveal and log-only phase diagnostics. Not rendered acceptance."
+    }
+  ],
+  "historical_rendered_runs": [
+    {
+      "source_commit": "e3e475ddbdca871d018d5e17cded43cbb0357d64",
+      "receipt": {
+        "path": ".godot/f4-rendered/43d52fb3d59a/test_efficiency_fragment/receipt.json",
+        "sha256": "e8f2643fc442476947d3eff87ca767343974d2f17cacaccb0464f956404fde6d"
+      },
+      "log": {
+        "path": ".godot/f4-rendered/43d52fb3d59a/test_efficiency_fragment/renderer.log",
+        "sha256": "58197e84453a18e273b5355bc820b2c4a7604be9e95a74ff9246cef18ce25e79"
+      },
+      "reported_checks": 174,
+      "assertion_error_lines": 16,
+      "pid": 18736,
+      "exit": 1,
+      "terminated_owned_child_reason": "",
+      "raw_pngs_rehashed": 24,
+      "status": "FAIL",
+      "grade": "Actual renderer canonical controller/signals/Input; no native OS or newcomer acceptance",
+      "selected_source_files": 714,
+      "canonical_tests": 174,
+      "extra_qa_tests": [],
+      "interpretation": "174 checks/16ERROR. Two720p source labels were clipped in actual frames; fourteen F8-phase/step/fade assertions failed. Later panel/focus/Escape/protection positives do not override failure. Later two suites NOT_RUN."
+    },
+    {
+      "source_commit": "fcad2a0faa0d0d90d633c91c1604816bde692232",
+      "receipt": {
+        "path": ".godot/f4-efficiency-diagnostic-rendered/d1a9ccf31fc6/test_efficiency_fragment/receipt.json",
+        "sha256": "6de274377bddae161a540f80f40be6480a527f0adba8be31b66f2fbc1162e4b1"
+      },
+      "log": {
+        "path": ".godot/f4-efficiency-diagnostic-rendered/d1a9ccf31fc6/test_efficiency_fragment/renderer.log",
+        "sha256": "35b88d3b3a40ea633dde0aedecf123afcaac7026555dae2259c6a5d2f7dd7496"
+      },
+      "reported_checks": 174,
+      "assertion_error_lines": 14,
+      "pid": 3028,
+      "exit": 1,
+      "terminated_owned_child_reason": "",
+      "raw_pngs_rehashed": 24,
+      "status": "FAIL",
+      "grade": "DIAGNOSTIC: one canonical efficiency renderer; controller/signals/Input, no complete F4 gate, native OS or newcomer acceptance",
+      "selected_source_files": 714,
+      "canonical_tests": 174,
+      "extra_qa_tests": [],
+      "interpretation": "174 checks/14ERROR. The source-label clip assertions no longer failed; Visual independently viewed both720p identities/conditions/steps/metrics. This diagnostic remains FAIL. Input was not accepted at same-frame pre_draw; actual next process/pre_draw exposed ordinary panel or tester capture-busy."
+    }
+  ],
+  "accepted_input_boundary": {
+    "status": "PASS_RENDERED_CONTROLLER_SCOPE_69",
+    "diagnostic_summary": {
+      "path": ".godot/f4-efficiency-diagnostic-fcad2-render-summary.json",
+      "sha256": "042da6306985583356952489c85cdfc2345e462c41af947720625b4126591290"
+    },
+    "observation": "All four paths: parse and original pre_draw shared a frame with action/feedback/busy false; fade advanced about0.066. Next process ordinary panel was active; tester next pre_draw was busy/paused before overlay, next process panel active. Original test attempted step2 before acceptance.",
+    "final_test_sha256": "35abfaa478cd799cfdbc1d0b730179e6a9c6489463d0fbeace4db0e6065c4492",
+    "contract": "One fixed process_frame then original pre_draw. Request step/scroll remain unchanged, accepted fade is unfinished, busy/pre-overlay guard is real, and subsequent step/fade/scroll/focus/Escape/full protection remain strict. No polling, flush, sleep or direct feedback flags.",
+    "actual_boundaries": [
+      {
+        "active": true,
+        "blend": 0.066664,
+        "busy": false,
+        "draw_frame": 424,
+        "feedback_flag": true,
+        "paused": false,
+        "process_frame": 424,
+        "scope": "zh_CN-ordinary",
+        "scroll": 42,
+        "step": 1
+      },
+      {
+        "active": true,
+        "blend": 0.06666,
+        "busy": true,
+        "draw_frame": 529,
+        "feedback_flag": false,
+        "paused": true,
+        "process_frame": 529,
+        "scope": "zh_CN-tester",
+        "scroll": 42,
+        "step": 1
+      },
+      {
+        "active": true,
+        "blend": 0.0666666666666667,
+        "busy": false,
+        "draw_frame": 1034,
+        "feedback_flag": true,
+        "paused": false,
+        "process_frame": 1034,
+        "scope": "en-ordinary",
+        "scroll": 66,
+        "step": 1
+      },
+      {
+        "active": true,
+        "blend": 0.067796,
+        "busy": true,
+        "draw_frame": 1139,
+        "feedback_flag": false,
+        "paused": true,
+        "process_frame": 1139,
+        "scope": "en-tester",
+        "scroll": 110,
+        "step": 1
+      }
+    ]
+  },
+  "bounded_protected_core": {
+    "receipt": {
+      "path": ".godot/f4-protected-core-parity-69b785a.json",
+      "sha256": "8fb5f9b8af981853428a574b3ac9b17567bd402d404ad30e462ee3bd2e161047"
+    },
+    "baseline": "bf8f61647c03c8bba868cc833b3832e274bd4aee",
+    "source": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+    "count": 146,
+    "raw_git_object_hashes_recomputed": 146,
+    "mismatches": [],
+    "selected_map_equals_initial1d": true,
+    "prior_receipt": {
+      "path": ".godot/f4-protected-core-parity-1d887c5.json",
+      "sha256": "fc912f41f586b24bbed069d7e39c7ecc6603117cb1282725dad0f5b8d72f33a7"
+    },
+    "excluded_mixed_presentation_hosts": [
+      "experiments/creation/work_focus.gd",
+      "experiments/creation/workbench.gd",
+      "experiments/prediction/lab.gd",
+      "experiments/representation_region/region.gd",
+      "experiments/service_plan/lab.gd",
+      "experiments/service_plan/response_journey_view.gd"
+    ],
+    "grade": "Exact identity only for the explicit146 selected core paths. Not all task hosts or all verdict code, and not a replacement for runtime/full/package validation."
+  },
+  "planned_packages": {
+    "status": "PENDING_ACTUAL_MANIFEST",
+    "normal": {
+      "batch": "MeasuredGrowthExperience20261018",
+      "profile": "MeasuredGrowth20261018",
+      "path": null,
+      "zip_sha256": null
+    },
+    "tester": {
+      "batch": "MeasuredGrowthAccess20261018",
+      "profile": "OfflineTeammate-MeasuredGrowth20261018",
+      "path": null,
+      "zip_sha256": null
+    },
+    "contract": "Retain original parent128/138, strict47, and original bundled tester collector60/realCPG/finalZIP. Counts are planned inherited gates, not new observed results. Only after successful strict reopen, supplement copies actual post-exit QA data and executable to a distinct root with APPDATA/LOCALAPPDATA/TEMP/TMP isolated. Original parent receipt/runtime must remain exact."
+  },
+  "protection_and_fixture_grades": [
+    "Target guidance fixture actually trains/transports/predicts/generates/saves one work and closes its writer; read-only locate/F8 protects its actual session/recipe plus game, drafts, receipts, nav and empty writer/recovery locks. This is controller QA setup, not a natural journey.",
+    "Efficiency uses real official reference slow/fast CPU test-mode runs and original selected pair. It never imports this test completion into game history; current draft differs from original receipt identity.",
+    "Apparatus derives task identity and earned lighting from real catalog records. QA boundary dictionaries are not earned achievements; geometry is an abstract archive, not actual saved circuit or energy measurement.",
+    "In-process strict protection and post-normal-exit timestamp/backup rotation are distinct. Future package receipts must disclose actual typed payload/file-map timing and only the existing explicitly recorded six tester coordinates if applicable."
+  ],
+  "recovery_baseline": {
+    "source": "c109f0e9761726645faaa8d86d83fafa590cdec4",
+    "evidence": "docs/verification/20261018-creative-framework/README.md",
+    "grade": "Previously accepted172/full, two actual Creative packages and scoped Windows OS routes remain recovery evidence only; they do not certify69 or Measured packages."
+  },
+  "authority_boundaries": [
+    "Root is sole Git/engine/native coordinator. This author performs read-only audit and owns only these two evidence files.",
+    "Original checkout tests/test_ui.gd deletion remains untouched per Root; this is not a new test deletion or a claim derived from a Git command here.",
+    "Only PR10 was authorized and merged. Later draft PRs, public release, server/account/paid actions are not implicitly authorized."
+  ],
+  "open_broader_goal": [
+    "Optional C1→P1→G3 model/reveal/save learning fragment remains a candidate to implement without duplicating existing ledgers.",
+    "Current-version showcase/architecture and actual-frame handoff material still needs appropriate review; no fake before/after pair.",
+    "Newcomer comprehension, Mac, real historical player works and broader native routes remain untested here.",
+    "Final character/CG/voice/ending variants need actual replaceable materials and team review, not permanent exclusion or automatic finalization."
+  ]
+}

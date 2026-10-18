@@ -171,3 +171,5 @@ F6普通219／测试者229包链则未触发这个fixture。固定ZIP存在与�
 作者重新冻结、非作者复核及提交检查点后，才能另准一次具有新增观测点的普通诊断；测试者未启动。
 旧a946三错与333b超时原因也仍UNKNOWN。本轮不认证原生输入、新人理解、Mac或正式创作，
 不新增发布／服务权限。
+
+第二次诊断edf527c实际自然exit1（EXE37732，work8620f41d4004，摘要df711f15），九条同步状态已证本次第三Esc回TaskTree并释放旧Host；set_locale返回true且实际en，旧Host始终invalid。仅此run归因为QA调用错误，不回填首次或F6旧失败。Root据此核准最小导出场景适配：保留原前两Esc、真实第三Esc与全部模态保护；第三Esc后强验实际TaskTree、导航与旧Host释放，每语经原measured_host真实重入CPU并取得新Host，核同两合法receipt exact与PCK路径／语言。不得重跑模型、制造进度、改产品、改变超时或放宽保护。final不得引用释放Host；live资源路径须各语一致。作者冻结、独审、提交后才另准一次普通运行；测试者须待普通实际PASS。

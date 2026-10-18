@@ -118,10 +118,10 @@ func feedback_stack(main: Control, tester: bool, suffix: String) -> void:
 	check(protected_state() == original_state, "Fragment and both feedback channels preserve original game, workbench, works, leases, receipts and navigation")
 	await fixture_stroke(KEY_ESCAPE)
 	exported_host_diagnostic("after_third_escape",diagnostic_host)
-	check(main.map_host.visible, "After fragment collapse Escape resumes the original host return path")
-	exported_host_diagnostic("before_original_cpu_start",diagnostic_host)
-	main._start_level(&"cpu_speed"); await fixture_settle()
-	exported_host_diagnostic("after_original_cpu_start_and_settle",diagnostic_host)
+	var navigation: Node = get_node("/root/TaskNavigation")
+	var scene: Node = get_tree().current_scene
+	check(is_instance_valid(scene) and scene.scene_file_path == "res://src/campaign/task_tree.tscn" and navigation.selected == "chapter_1/cpu_speed" and navigation.pending.is_empty() and not is_instance_valid(diagnostic_host.get_ref()), "After fragment collapse Escape follows the actual exported journey route and releases its old Host")
+	exported_host_diagnostic("after_actual_exported_return",diagnostic_host)
 
 func embedded_focus_boundary(main: Control, locale: String) -> void:
 	if not capture: return
@@ -283,10 +283,24 @@ func run() -> void:
 	var original_locale: String = get_node("/root/Localization").current_locale()
 	var role_snapshots: Array[Dictionary] = []
 	var diagnostic_main: WeakRef = weakref(main)
+	var chapter: Node = get_node("/root/SystemChapter")
+	var original_receipt_signatures: Array[String] = []
+	for receipt: Variant in chapter.receipts_for(&"cpu_speed"): original_receipt_signatures.append(receipt.canonical_signature())
+	var production_resources: Dictionary = {}
 	for locale: String in ["zh_CN","en"]:
 		exported_host_diagnostic("before_set_locale",diagnostic_main,locale)
 		var locale_accepted: bool = get_node("/root/Localization").set_locale(locale)
 		exported_host_diagnostic("after_set_locale_before_history",diagnostic_main,locale,locale_accepted)
+		main = await measured_host("res://src/system_lab/system_lab.tscn","chapter_1/cpu_speed")
+		if not measured_require(is_instance_valid(main) and main.is_inside_tree() and get_tree().current_scene == main and main.current_level_id == &"cpu_speed", "Actual exported locale reenters its live original CPU Host: "+locale): return
+		diagnostic_main = weakref(main)
+		var current_receipt_signatures: Array[String] = []
+		for receipt: Variant in chapter.receipts_for(&"cpu_speed"): current_receipt_signatures.append(receipt.canonical_signature())
+		check(current_receipt_signatures == original_receipt_signatures and current_receipt_signatures.size() == 2,"Actual locale reentry retains the exact two original official receipts: "+locale)
+		var resources: Dictionary = {"fragment":main.efficiency_fragment.get_script().resource_path,"host":main.get_script().resource_path}
+		if production_resources.is_empty(): production_resources = resources.duplicate(true)
+		check(resources == production_resources,"Both locale Hosts load the same original PCK production scripts: "+locale)
+		exported_host_diagnostic("after_actual_locale_reentry",diagnostic_main,locale,locale_accepted)
 		main._refresh_history()
 		exported_host_diagnostic("after_original_refresh_history",diagnostic_main,locale,locale_accepted)
 		check(main.efficiency_fragment.english == (locale == "en"),"Actual exported fragment uses the requested language: "+locale)
@@ -301,8 +315,7 @@ func run() -> void:
 		check(ProjectSettings.has_setting("playtest/offline_tester") == role_had_setting and ProjectSettings.get_setting("playtest/offline_tester",null) == role_original_value and bool(ProjectSettings.get_setting("playtest/offline_tester",false)) == role_before and role_before == tester,"Exported efficiency fixture never changes the original package role or setting presence: "+locale)
 		if not failures.is_empty(): get_tree().quit(1); return
 	get_node("/root/Localization").set_locale(original_locale)
-	main.flush_workspace()
-	var chapter: Node = get_node("/root/SystemChapter")
+	check(not is_instance_valid(diagnostic_main.get_ref()) and get_tree().current_scene.scene_file_path == "res://src/campaign/task_tree.tscn","Both locale feedback routes finish at the real map without retaining a dead Host")
 	experience["measured_system_workspaces"] = {"assembly":chapter.workspace_for(&"assembly"),"cpu_speed":chapter.workspace_for(&"cpu_speed")}
 	var final: Dictionary = measured_flush()
 	if final.is_empty(): return
@@ -315,7 +328,7 @@ func run() -> void:
 		"prepared_cpu":experience.measured_cpu_prepared,"prepared_final":final,"initial_best":initial_best,"official_events":official,
 		"original_work":seed.original_saved_work.work,"original_work_session_sha256":FileAccess.get_sha256(CreationSession.launch_path()),
 		"creation_recovery_lock":measured_state().creation_recovery_lock,"extended_experience":experience,
-		"production_resources":{"fragment":main.efficiency_fragment.get_script().resource_path,"host":main.get_script().resource_path},
+		"production_resources":production_resources,
 		"evidence_grade":"actual PCK game-mode focus fixture in cloned accepted data, legal official hardware preparation; not canonical whole-suite or native input"}
 	var file := FileAccess.open(output.path_join("measured-evidence.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(receipt,"\t",true,true)); file.close()

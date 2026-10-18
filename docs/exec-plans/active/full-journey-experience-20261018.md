@@ -1,5 +1,7 @@
 # 全旅程体验续轮 · 2026-10-18
 
+F7诊断edf527c在真实第三Esc后观察到TaskTree与旧Host释放，实际Locale=en已成功；本次失败归因外QA旧引用，摘要df711f15保留。下一步仅适配导出场景的真实任务重入并独审，不改产品、不重建包、不放宽保护断言。新普通／测试者直接模态验收仍待实际结果。
+
 当前交付推进至F6，产品SOURCE固定`bb5c817bcb7e0c770fc65b41b7407e2847149a74`；
 交接检查点`42401a3`已推送，完整回归176／176、效率真实renderer245与产品CI通过各自范围。
 普通实包父219＋严格重开48、测试者父229＋原collector142 capture／19 reopen＋严格重开48均通过；
@@ -186,7 +188,7 @@ Rule长f74/短cd193 QA即时headless391各通过，原canonical短根renderer d4
 
 ## 当前未关闭的验收与决定
 
-- 实际bb5 ZIP中的Efficiency模态焦点／延迟展示／Host Esc尚无直接fixture；
+- 实际bb5 ZIP中的Efficiency模态焦点／延迟展示／Host Esc尚无完整通过的直接实包验收；
   原245 source-renderer不代实包。继续复用固定ZIP、真正game准备与隔离数据，
   不切free_candidate的TestMode、不伪造支持或放宽断言，核准后独占运行。
 - 原普通三错与后续超时保留原证据与UNKNOWN原因；新通过或新增同步日志不视为旧故障修复。

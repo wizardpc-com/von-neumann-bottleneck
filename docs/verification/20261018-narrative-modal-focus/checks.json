@@ -1090,6 +1090,84 @@
         "scope": "Three actual1280x720 views/hash: positive, focused Other embedded modal, ordinary feedback panel; negative metrics below original fold. No EN, native or complete-run claim."
       },
       "independent_audit": "Knowledge independently rehashed31 path/hash or full-inventory groups, actual parent19files/36dirs against seed/postexit, exact Session, Windows/ZIP identities and override absence; four ZH diagnostic categories each have one row equal to summary. Natural exit1 and absent final raw/validation retained; rootcause UNKNOWN."
+    },
+    "f7_exported_efficiency_modal_diagnostic_second_attempt": {
+      "status": "FAIL_ACTUAL_STALE_HOST_AT_EN_PRECONDITION_THIS_RUN",
+      "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+      "qa_checkpoint": "edf527cba438c81e865629a2b7cf4c3bf999ca88",
+      "probe_sha256": "1c14af2b4fe9626d1279fbde085077645147b706188d68a494d7f2d80846571f",
+      "wrapper_sha256": "58a417068745433d510dd0150dc922a17e2d8d2a69044bb9fcb8419f57df3655",
+      "summary": {
+        "path": ".godot/f7-normal-export-modal-diagnostic-summary.json",
+        "sha256": "df711f1584b2821dfd50a1ab7c2c1ce323401a89a22cc5b10b9659c2be91b825"
+      },
+      "work": ".godot/exported-efficiency-modal/8620f41d4004",
+      "log": {
+        "path": ".godot/exported-efficiency-modal/8620f41d4004/measured.log",
+        "sha256": "1c56b12a9224c172641fe04caea98602cc09e875abd58d5fc1525e1f260f031f"
+      },
+      "process": {
+        "path": ".godot/exported-efficiency-modal/8620f41d4004/process.json",
+        "sha256": "683d8c58b11d5e348b1d8372fbfda8a87e722021884ed18285e7229323467923"
+      },
+      "process_pid": 37732,
+      "exit": 1,
+      "natural_exit": true,
+      "terminated_owned_child_reason": "",
+      "errors": 1,
+      "warnings": 0,
+      "script_errors": 0,
+      "checks_total": null,
+      "final_raw_exists": false,
+      "validation_exists": false,
+      "error_labels": [
+        "ERROR: Actual exported fragment uses the requested language: en"
+      ],
+      "host_diagnostic_rows": 9,
+      "actual_state": {
+        "ZH_before_locale_and_after_refresh": {
+          "live_current_level": "cpu_speed",
+          "controlled_pair_size": 2,
+          "fragment_pair_valid": true,
+          "fragment_english": false
+        },
+        "after_third_escape": {
+          "scene": "res://src/campaign/task_tree.tscn",
+          "old_host_weakref_valid": false,
+          "global_CPU_receipts": 2
+        },
+        "before_and_after_old_start_level": {
+          "scene": "res://src/campaign/task_tree.tscn",
+          "old_host_weakref_valid": false
+        },
+        "EN_before_and_after_refresh": {
+          "set_locale_return": true,
+          "actual_locale": "en",
+          "old_host_weakref_valid": false,
+          "global_CPU_receipts": 2
+        }
+      },
+      "classification_scope": "Only this diagnostic directly establishes a stale QA Host after the actual game third-Escape route; no evidence that locale setting failed or that production caches language incorrectly. Do not backfill first5746, a946 or333b missing state/cause.",
+      "ZH_partial_scope": "Three new ZH frames and original positive/modal/Host Esc/F8 partial diagnostics; no EN diagnostic/frame acceptance, final check total or full expected legal-preparation audit.",
+      "independent_audit": "Knowledge independently rehashed32 frozen path/hash or full-inventory groups and every diagnostic row. Immutable run-copy GD used for historical QA identity after author changed live candidate; only two precisely preaudited reconstructible EXEs removed later by Root are excepted from present materialization. Parent19files/36dirs, Session897f/whole work/5supports/leases and original ZIP remain exact.",
+      "postexit_files": {
+        "path": ".godot/exported-efficiency-modal/8620f41d4004/post-exit-files.json",
+        "sha256": "24a596c374730e3d7027218fceb5be94829511803a8f75b79520e7c0c988f454"
+      },
+      "scene_bridge_candidate": {
+        "status": "PASS_STATIC_SCOPE_RUNTIME_NOT_RUN",
+        "probe_sha256": "e5e0007a74aa53af339d3ef1d64f4afccb0d38f70e9269f574e6136491675084",
+        "wrapper_sha256": "58a417068745433d510dd0150dc922a17e2d8d2a69044bb9fcb8419f57df3655",
+        "inverse_proof": {
+          "path": ".godot/f7-exported-efficiency-scene-bridge-inverse.json",
+          "sha256": "850279c7bbe912c7554823be23926359367d8036f5dae1918d374451dc334a7e"
+        },
+        "diff": {
+          "path": ".godot/f7-exported-efficiency-scene-bridge.diff",
+          "sha256": "d225ea3db08a018a3a5bb54fb92d76582fde395e249858ea009d262bbf38ea06"
+        },
+        "independent_review": "Five explicit replacements invert byte-exact to1c14; ten other methods unchanged. Original modal/F8/first-two-Escape and third-Escape input retained. Actual TaskTree+selectedCPU/pending-empty+old-Host-invalid route, fresh original nav.enter per locale, exact two receipt signatures and live PCK resources checked. Final save uses original Host-exit retention and autoload flush, no access through dead Host; no new model run or production edit."
+      }
     }
   },
   "fixed_input": {
@@ -1258,7 +1336,7 @@
     "tester_outer_recording_failure_retained": true,
     "native_os": "NOT_RUN_TOOL_INITIALIZATION_BLOCKED_NO_NEW_ATTEMPT",
     "Mac_newcomer": "NOT_RUN",
-    "exported_efficiency_modal_direct_fixture": "FIRST_ACTUAL_NORMAL_ATTEMPT_FAIL_EN_PRECONDITION_ZH_PARTIAL_ONLY_TESTER_NOT_RUN",
+    "exported_efficiency_modal_direct_fixture": "TWO_ACTUAL_NORMAL_ATTEMPTS_FAIL; SECOND_DIAGNOSTIC_PROVES_THIS_RUN_STALE_QA_HOST; NEW_SCENE_BRIDGE_STATIC_PASS_RUNTIME_NOT_RUN; TESTER_NOT_RUN",
     "all_ideas_final": "NOT_CLAIMED"
   },
   "next_day_review_observations": [
@@ -1267,5 +1345,27 @@
     "SavedWork realID View/Play/F8/layeredEsc recheck old timeout",
     "Fixed tester System/Overlap local feedback/Hint/Run access scope",
     "Human understanding and formal creative/competition material choices; no all-ideas-final claim"
-  ]
+  ],
+  "generated_reconstructible_exe_cleanup": {
+    "receipt": {
+      "path": ".godot/f7-duplicate-exe-cleanup-receipt.json",
+      "sha256": "702230d462766d1be11f6c0974fbd6353a9517ab34969ad6616dfbf91b9b2a13"
+    },
+    "root_predelete_audit": {
+      "path": ".godot/f7-duplicate-exe-root-predelete-audit.json",
+      "sha256": "22f480b31d85fe5eca314152a5fc699aae9d476e672741f720fb6e7b588aef61"
+    },
+    "removed_after_two_independent_reviews": true,
+    "files": [
+      ".godot/exported-efficiency-modal/5746ec4957ac/Windows/Von-Neumann-Bottleneck.exe",
+      ".godot/exported-efficiency-modal/8620f41d4004/Windows/Von-Neumann-Bottleneck.exe"
+    ],
+    "bytes_each": 129810768,
+    "bytes_total": 259621536,
+    "sha256_each": "0fb1ed38d2ba9379f56223f8aff8a2ed5062b9b31089b4738fee387a9f789193",
+    "restorable_from_zip": "build/playtest-ModalFocusExperience20261018-bb5c817bcb7e/Von-Neumann-Bottleneck-Windows-playtest-ModalFocusExperience20261018-bb5c817bcb7e.zip",
+    "zip_member": "Windows/Von-Neumann-Bottleneck.exe",
+    "zip_sha256": "3bbefa7e0918ba333736fda61efd51e96746d68b1e2289ff3cd9cd687af640c4",
+    "scope": "Only the two extracted duplicate binaries; each read/hash/size/containment/no-reparse independently checked before deletion, no matching engine process observed. All unique logs/PNGs/runtime/saves/failure receipts and original ZIP/repo preserved. Historical summary inventory remains the capture-time fact; these two extraction trees no longer fully materialized."
+  }
 }

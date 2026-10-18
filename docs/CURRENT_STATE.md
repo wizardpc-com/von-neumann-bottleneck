@@ -1,5 +1,7 @@
 # Current state — sixty-task source and offline Alpha
 
+F7 diagnostic at edf527c independently confirms a stale QA Host reference: the third Escape returns to TaskTree and releases the old System Host; set_locale succeeds for English while that old reference is invalid. This diagnosis applies only to work 8620f41d4004 (summary df711f15), not earlier failures. Product bb5 and both playtest ZIPs remain unchanged. A minimal exported-scene caller adaptation is under independent review; its new run is not yet accepted.
+
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
 ## Narrative modal-focus delivery with open observations

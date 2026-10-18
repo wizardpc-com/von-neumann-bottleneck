@@ -27,6 +27,23 @@
 
 **存档说明勘误：**当前已验普通ZIP的`Windows/README.txt:32,81`仍含旧MeasuredGrowth示例名；实际普通profile为`CreationLinks20261018`，测试者为`OfflineTeammate-CreationLinks20261018`，备份以各包manifest、动态Profile及representation／service两个完整目录为准。未来模板`distribution/PLAYTEST-README.txt`仅两句去旧硬编码，SHA `846638d2c54cf5362335e0ee8960b82e1b192c2733e0d6fcf4dd9bc2980a353a`，获独审；builder和既有ZIP未改、不因文案重建。完整goal仍ACTIVE，后续同步state日志候选未运行，不预判根因。
 
+## F7第二次同步诊断 · FAIL与原调用适配
+
+外QA检查点`edf527cba438c81e865629a2b7cf4c3bf999ca88`／GD `1c14af2b…`仅加同步只读日志，PY `58a41706…`、商品SOURCE／两ZIP均未变。实际work `.godot/exported-efficiency-modal/8620f41d4004`，EXE37732自然exit1，唯一ERROR仍为英文language前提，零WARNING／SCRIPT ERROR，无最终raw／validation，**总count不可得、完整期待合法准备typed审计仍未通过**。
+
+本次九条host JSON确证：ZH实际live CPU／受控pair2；第三Esc已回原TaskTree，旧Host WeakRef失效；其后原`_start_level`及EN刷新前后仍是无效旧Host。EN `set_locale`返回true且实际locale为en，全局两条原CPU receipt仍在。因此只对**本run**可定位QA沿用了已释放Host，不能解释成生产语言缓存缺陷，也不能补写首5746缺失字段或旧a946／333b原因。Knowledge独核32个冻结path/hash或完整inventory组及九行逐值；原parent19文件／36目录、Session897f与原作品／五supports／lease及原ZIP保持。本次3ZH新图不借首轮图审升级EN或全程结果。
+
+原调用适配候选GD `e5e0007a74aa53af339d3ef1d64f4afccb0d38f70e9269f574e6136491675084`已获非作者 **PASS_STATIC_SCOPE，运行NOT_RUN**：第三Esc核真实TaskTree／selected CPU／pending空及旧Host失效，每语通过原nav.enter取得新live CPU Host并保持两条原receipt canonical签名，最终依原退出retain／autoload flush，不再读旧Host；原模态／F8／前两Esc和第三Esc输入不变，无新模型运行、生产修复、重建或延长180秒。
+
+| 第二次与适配证据 | 相对路径 | SHA256 |
+| --- | --- | --- |
+| 实际诊断失败 | `.godot/f7-normal-export-modal-diagnostic-summary.json` | `df711f1584b2821dfd50a1ab7c2c1ce323401a89a22cc5b10b9659c2be91b825` |
+| 场景桥逆字节证明 | `.godot/f7-exported-efficiency-scene-bridge-inverse.json` | `850279c7bbe912c7554823be23926359367d8036f5dae1918d374451dc334a7e` |
+| 场景桥精确diff | `.godot/f7-exported-efficiency-scene-bridge.diff` | `d225ea3db08a018a3a5bb54fb92d76582fde395e249858ea009d262bbf38ea06` |
+| 可重建EXE副本清理 | `.godot/f7-duplicate-exe-cleanup-receipt.json` | `702230d462766d1be11f6c0974fbd6353a9517ab34969ad6616dfbf91b9b2a13` |
+
+空间回收仅为上述5746／8620各自Windows目录中的两个重复EXE：各129810768B／SHA `0fb1ed38…`，两方在删除前逐字节对固定normal ZIP成员核SHA、大小、解析containment与无reparse，Root仅删这两个可从原ZIP恢复的副本，共259621536B。原失败summary的运行时inventory保持历史事实，不再说这两提取目录当前完整物化；全部唯一日志、图、runtime、存档、原ZIP及repo保留。Root预删审计SHA `22f480b31d85fe5eca314152a5fc699aae9d476e672741f720fb6e7b588aef61`。本轮两次FAIL不改判；F6已验交付／完整goal ACTIVE／其余人审与平台边界不变。
+
 摘要与原收据：
 
 | 来源 | 原路径 | SHA256 |

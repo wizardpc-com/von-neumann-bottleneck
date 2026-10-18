@@ -5,8 +5,10 @@
 ## Narrative modal-focus delivery with open observations
 
 The verified delivery checkpoint42401a3 is on `codex/narrative-modal-focus-20261018`.
-Direct exported modal verification is being prepared separately on
-`codex/exported-modal-validation-20261018`; it has no actual run result yet. The sixty-task
+Direct exported modal verification continues on `codex/exported-modal-validation-20261018`.
+Its first ordinary attempt atd6bf9c5 exits1 on an English-fragment precondition.
+Chinese modal/F8 observations are recorded, but no final raw result or complete
+check count exists. The cause remains unknown and the tester supplement is unrun. The sixty-task
 semantic review is complete at20c9515; it records source contracts, not sixty
 fresh solutions or newcomer acceptance. Baseline867ec81 reproduces an efficiency
 animation advancing while a focused embedded modal is open:239 checks, four

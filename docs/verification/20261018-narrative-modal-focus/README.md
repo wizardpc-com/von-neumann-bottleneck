@@ -9,6 +9,24 @@
 - 旧867真实renderer **FAIL：239检查／4ERROR**、PID50104自然exit1，保留其两语fade与Host Esc组合断言失败，零WARNING／SCRIPT ERROR。
 - 新旧两轮各24根帧＋2tester现场＝26原PNG，以及各自6artifact／39运行文件／41目录均已独立核SHA／集合；两轮各26图另依eb47／e1c6收据按原Scroll局限独立实view接受。两轮均零modal blocker图，不由图片认证fade／Esc。
 
+## F7直接导出补验 · 首次FAIL（原F6交付不改判）
+
+复用原bb5普通ZIP，QA检查点`d6bf9c553d43991b57fbe7845dd2479365974eaa`／GD `1760eaa3…`／PY `58a41706…`仅在隔离clone用原game合法准备与选定模态／本role F8函数；未改产品、原包或原219／229验收。实际work `.godot/exported-efficiency-modal/5746ec4957ac`，EXE PID8600自然exit1、无monitor终止，唯一ERROR为`Actual exported fragment uses the requested language: en`，零WARNING／SCRIPT ERROR。**没有最终raw／validation，检查总数不可得，完整预期合法准备／最终typed保护未获成功认证**；英文模态与测试者未验，不能把语言前提失败先归为缓存或产品缺陷。
+
+本次四类实际ZH日志分别证明positive Scroll0→41、真实Other嵌入模态下Scroll0／blend0／step1保持、直接Host Esc分项bodytrue／authoritytrue／mapfalse，以及普通F8 accepted active／feedback flag true、unfinished blend约0.0667。三个ZH新PNG已逐图独审为PARTIAL_VISUAL_SCOPE：正展开、Other模态及普通反馈面板；负例原Scroll下metric在fold外，不冒全文同屏或OS。无EN图，不以部分ZH结果改整体FAIL。
+
+独立重核summary所有31个path/hash或完整inventory组，原parent完整19文件／36目录等于seed及postexit，Session`897f285e…`、原作品／配方／输出／五supports、lease缺席以及原包字节保持，override已移除。实际合法新增硬件／System字段差异只作为本次摘要中的观察，缺最终raw不能补成整个期待变更审计通过。旧普通三错／timeout原因仍UNKNOWN，不被本次结果解释。
+
+| 新证据 | 仓库相对路径 | SHA256 |
+| --- | --- | --- |
+| 本次实际失败 | `.godot/f7-normal-export-modal-summary.json` | `a08e87993492f472c5253d8fdae63622ff2ed8469d050ace9234722a7c5bc627` |
+| 3张ZH图独审 | `.godot/f7-normal-failed-export-modal-visual-audit.json` | `c87c528046dc8279f12662373a9a3727e69d79c8bc3a14900817cd7c69a3c03a` |
+| 405／173行逐项审计 | `.godot/f7-requirement-completion-audit.md` | `f06fbf54dd860a8fab97e926791c64c4d63f42d18f44a7d1dab2ba6c83b6714f` |
+| 独立创作完成度审计 | `.godot/f7-creative-completion-audit.md` | `c824be7f321bfc31c57a982f185fc3c03a315809844e2341feeb93b0806ff16d` |
+| 原失败证据复审 | `.godot/f7-export-failure-evidence-review.md` | `52537fd1c40166eddf4bc18dd8225f75f58dc63f8f168e8d52be83bb67ced9b4` |
+
+**存档说明勘误：**当前已验普通ZIP的`Windows/README.txt:32,81`仍含旧MeasuredGrowth示例名；实际普通profile为`CreationLinks20261018`，测试者为`OfflineTeammate-CreationLinks20261018`，备份以各包manifest、动态Profile及representation／service两个完整目录为准。未来模板`distribution/PLAYTEST-README.txt`仅两句去旧硬编码，SHA `846638d2c54cf5362335e0ee8960b82e1b192c2733e0d6fcf4dd9bc2980a353a`，获独审；builder和既有ZIP未改、不因文案重建。完整goal仍ACTIVE，后续同步state日志候选未运行，不预判根因。
+
 摘要与原收据：
 
 | 来源 | 原路径 | SHA256 |

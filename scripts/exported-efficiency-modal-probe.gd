@@ -64,6 +64,7 @@ func begin_history(main: Control) -> void:
 	await fixture_settle()
 
 func feedback_stack(main: Control, tester: bool, suffix: String) -> void:
+	var diagnostic_host: WeakRef = weakref(main)
 	check(bool(ProjectSettings.get_setting("playtest/offline_tester",false)) == tester,"Actual exported package retains its original feedback role")
 	var offline: Node = root.get_node("OfflineFeedback")
 	offline.toolbar.visible = tester
@@ -116,8 +117,11 @@ func feedback_stack(main: Control, tester: bool, suffix: String) -> void:
 	check(not fragment.body.visible and root.gui_get_focus_owner() == fragment.toggle_button and not main.map_host.visible, "Second Escape collapses only the genuinely focused fragment")
 	check(protected_state() == original_state, "Fragment and both feedback channels preserve original game, workbench, works, leases, receipts and navigation")
 	await fixture_stroke(KEY_ESCAPE)
+	exported_host_diagnostic("after_third_escape",diagnostic_host)
 	check(main.map_host.visible, "After fragment collapse Escape resumes the original host return path")
+	exported_host_diagnostic("before_original_cpu_start",diagnostic_host)
 	main._start_level(&"cpu_speed"); await fixture_settle()
+	exported_host_diagnostic("after_original_cpu_start_and_settle",diagnostic_host)
 
 func embedded_focus_boundary(main: Control, locale: String) -> void:
 	if not capture: return
@@ -209,6 +213,47 @@ func prepare_cpu(output: String, tester: bool):
 	experience["measured_cpu_pair"]={"before":host._efficiency_record(receipts[0]),"after":host._efficiency_record(receipts[1]),"scope":"real game-mode official CPU runs after controller-wired and officially sealed hardware; QA solved setup, not unaided player progress"}
 	return host
 
+func exported_host_diagnostic(stage: String, reference: WeakRef, requested_locale: String = "", locale_result: Variant = null) -> void:
+	var main: Variant = reference.get_ref()
+	var valid: bool = is_instance_valid(main)
+	var inside: bool = valid and main.is_inside_tree()
+	var scene: Node = get_tree().current_scene
+	var chapter: Node = get_node("/root/SystemChapter")
+	var nav: Node = get_node("/root/TaskNavigation")
+	var cpu_receipts: Array[Dictionary] = []
+	for receipt: Variant in chapter.receipts_for(&"cpu_speed"):
+		if receipt != null: cpu_receipts.append({"signature":receipt.canonical_signature(),"program_signature":receipt.program_signature,"test_set_signature":receipt.test_set_signature,"all_passed":receipt.all_passed})
+	var state: Dictionary = {"valid":valid,"inside_tree":inside,"queued":main.is_queued_for_deletion() if valid else null}
+	if inside:
+		var level: StringName = main.current_level_id
+		var program: String = main.applied_program.canonical_signature() if main.applied_program != null and main.applied_program.is_valid() else ""
+		var test_set: String = main.catalog.test_set_signature(level) if not level.is_empty() else ""
+		var filtered: Array = []
+		var receipt_rows: Array[Dictionary] = []
+		for receipt: Variant in chapter.receipts_for(level):
+			if receipt == null: continue
+			var accepted: bool = receipt.all_passed and receipt.test_set_signature == test_set and (program.is_empty() or receipt.program_signature == program)
+			receipt_rows.append({"signature":receipt.canonical_signature(),"accepted_by_history_filter":accepted})
+			if accepted: filtered.append(receipt)
+		var kind := StringName(main.current_level_definition.get("comparison_kind",&"none"))
+		var pair: Array = main._latest_controlled_pair(filtered,kind)
+		var fragment: Variant = main.efficiency_fragment
+		var records: Dictionary = {}
+		if is_instance_valid(fragment):
+			for endpoint: String in ["before","after"]:
+				var record: Dictionary = fragment.get(endpoint)
+				records[endpoint] = {"level_id":record.get("level_id"),"source":record.get("source"),"program_signature":record.get("program_signature"),"test_set_signature":record.get("test_set_signature"),"topology_signature":record.get("topology_signature"),"part_ids":record.get("part_ids")}
+		state.merge({"path":str(main.get_path()),"current_level":String(level),"comparison_kind":String(kind),
+			"map_visible":main.map_host.visible if is_instance_valid(main.map_host) else null,"lab_visible":main.lab_host.visible if is_instance_valid(main.lab_host) else null,
+			"cpu_unlocked":main.catalog.is_unlocked(&"cpu_speed",chapter.completed_levels(),chapter.prologue_ready,get_node("/root/GameMode").is_test_mode() or nav.offline_tester_enabled()),
+			"current_program_signature":program,"current_test_set_signature":test_set,"current_level_receipts":receipt_rows,"filtered_count":filtered.size(),"controlled_pair_size":pair.size(),
+			"fragment_valid":is_instance_valid(fragment),"fragment_english":fragment.english if is_instance_valid(fragment) else null,
+			"fragment_visible":fragment.is_visible_in_tree() if is_instance_valid(fragment) else null,"fragment_pair_valid":fragment._valid_pair(fragment.before,fragment.after) if is_instance_valid(fragment) else null,"fragment_records":records})
+	print("EXPORTED_EFFICIENCY_HOST_DIAGNOSTIC: ",JSON.stringify({"stage":stage,"requested_locale":requested_locale,"set_locale_return":locale_result,
+		"actual_locale":get_node("/root/Localization").current_locale(),"ticks_msec":Time.get_ticks_msec(),"process_frame":Engine.get_process_frames(),"draw_frame":Engine.get_frames_drawn(),
+		"current_scene":{"valid":is_instance_valid(scene),"inside_tree":scene.is_inside_tree() if is_instance_valid(scene) else false,"path":scene.scene_file_path if is_instance_valid(scene) else null},
+		"host":state,"cpu_receipts":cpu_receipts,"prologue_ready":chapter.prologue_ready,"navigation":{"from_tree":nav.from_tree,"pending":nav.pending}}))
+
 func run() -> void:
 	root = get_tree().root
 	root.size = Vector2i(1280,720); root.content_scale_size = Vector2i(1280,720)
@@ -237,9 +282,13 @@ func run() -> void:
 	check(root.get_visible_rect().size == Vector2(1280,720),"Exported modal fixture uses the original explicit 1280 by 720 logical test window")
 	var original_locale: String = get_node("/root/Localization").current_locale()
 	var role_snapshots: Array[Dictionary] = []
+	var diagnostic_main: WeakRef = weakref(main)
 	for locale: String in ["zh_CN","en"]:
-		get_node("/root/Localization").set_locale(locale)
+		exported_host_diagnostic("before_set_locale",diagnostic_main,locale)
+		var locale_accepted: bool = get_node("/root/Localization").set_locale(locale)
+		exported_host_diagnostic("after_set_locale_before_history",diagnostic_main,locale,locale_accepted)
 		main._refresh_history()
+		exported_host_diagnostic("after_original_refresh_history",diagnostic_main,locale,locale_accepted)
 		check(main.efficiency_fragment.english == (locale == "en"),"Actual exported fragment uses the requested language: "+locale)
 		await fixture_settle()
 		var role_before: bool = bool(ProjectSettings.get_setting("playtest/offline_tester",false))

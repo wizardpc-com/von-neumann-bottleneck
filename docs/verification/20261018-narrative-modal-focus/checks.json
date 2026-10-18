@@ -999,6 +999,97 @@
       "run_id": 39097738231,
       "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39097738231",
       "verification_authority": "Root live gh read; does not replace Windows full, exported package or OS acceptance."
+    },
+    "f7_exported_efficiency_modal_first_attempt": {
+      "status": "FAIL_ACTUAL_ENGLISH_LANGUAGE_PRECONDITION",
+      "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+      "qa_checkpoint": "d6bf9c553d43991b57fbe7845dd2479365974eaa",
+      "probe_sha256": "1760eaa320e09a68e92778ebd196ebecbf1b9b3858198740cde651dee2457c53",
+      "wrapper_sha256": "58a417068745433d510dd0150dc922a17e2d8d2a69044bb9fcb8419f57df3655",
+      "summary": {
+        "path": ".godot/f7-normal-export-modal-summary.json",
+        "sha256": "a08e87993492f472c5253d8fdae63622ff2ed8469d050ace9234722a7c5bc627"
+      },
+      "work": ".godot/exported-efficiency-modal/5746ec4957ac",
+      "process": {
+        "path": ".godot/exported-efficiency-modal/5746ec4957ac/process.json",
+        "sha256": "7565a02f56386b2a7992c5314bf5f3f42c03cbe422b86671b57fdfde4e3744fc"
+      },
+      "log": {
+        "path": ".godot/exported-efficiency-modal/5746ec4957ac/measured.log",
+        "sha256": "7e0aede0962d3d50a42135e9ae72f4a777b4900bcd4c14e027a92799f3f8c6cf"
+      },
+      "process_pid": 8600,
+      "process_exit": 1,
+      "natural_exit": true,
+      "terminated_owned_child_reason": "",
+      "errors": 1,
+      "warnings": 0,
+      "script_errors": 0,
+      "error_labels": [
+        "ERROR: Actual exported fragment uses the requested language: en"
+      ],
+      "checks_total": null,
+      "final_raw_exists": false,
+      "validation_exists": false,
+      "count_unavailable_reason": "Controller returned on existing failures before final measured-evidence.json. No whole check count or full expected legal-preparation typed audit is certified.",
+      "observed_ZH": {
+        "positive_scroll_before": 0,
+        "positive_scroll_after": 41,
+        "negative_scroll_before": 0,
+        "negative_scroll_after": 0,
+        "blend_before": 0.0,
+        "blend_after": 0.0,
+        "step_before": 1,
+        "step_after": 1,
+        "actual_other_embedded_owner_and_listed": true,
+        "direct_host_escape": {
+          "body_visible": true,
+          "authority_unchanged": true,
+          "map_visible": false
+        },
+        "ordinary_F8_accepted": {
+          "active": true,
+          "feedback_flag": true,
+          "busy": false,
+          "paused": false,
+          "step": 1,
+          "blend": 0.0666666666666667,
+          "scroll": 41
+        }
+      },
+      "EN_scope": "Language premise failed before modal call; no EN diagnostic row or frame. Cause UNKNOWN; not a proven locale-cache or production modal defect.",
+      "tester_scope": "NOT_RUN",
+      "native_OS_scope": "NOT_RUN",
+      "whole_legal_preparation_audit": "NOT_CERTIFIED_FINAL_RAW_ABSENT",
+      "postexit_protection": {
+        "postexit_files": {
+          "path": ".godot/exported-efficiency-modal/5746ec4957ac/post-exit-files.json",
+          "sha256": "b3002dbe43fa939cbfdcd93f6df7433b418497f9014caa9991efdfd028cfc4ec"
+        },
+        "original_parent_work": ".godot/night-package/d196f683c01b",
+        "original_parent_runtime_files": 19,
+        "original_parent_runtime_directories": 36,
+        "whole_parent_runtime_exact_to_seed": true,
+        "parent_receipt_and_strict_validation_exact": true,
+        "CPG_session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+        "whole_saved_work_recipe_output_supports_exact": true,
+        "actual_creation_lease_and_recovery_lease_absent": true,
+        "package_bytes_unchanged": true,
+        "override_removed": true,
+        "new_game_mutations": "Actual typed differences and hardware/System records listed in original summary; no success receipt/full expected-diff audit is inferred."
+      },
+      "images": {
+        "new_files": 3,
+        "locale": "zh_CN",
+        "visual_audit": {
+          "path": ".godot/f7-normal-failed-export-modal-visual-audit.json",
+          "sha256": "c87c528046dc8279f12662373a9a3727e69d79c8bc3a14900817cd7c69a3c03a"
+        },
+        "grade": "PARTIAL_VISUAL_SCOPE",
+        "scope": "Three actual1280x720 views/hash: positive, focused Other embedded modal, ordinary feedback panel; negative metrics below original fold. No EN, native or complete-run claim."
+      },
+      "independent_audit": "Knowledge independently rehashed31 path/hash or full-inventory groups, actual parent19files/36dirs against seed/postexit, exact Session, Windows/ZIP identities and override absence; four ZH diagnostic categories each have one row equal to summary. Natural exit1 and absent final raw/validation retained; rootcause UNKNOWN."
     }
   },
   "fixed_input": {
@@ -1037,6 +1128,31 @@
       "path": "docs/distribution/showcase-shots.md",
       "sha256": "47bd6a98bcd9a7c1aa23002ff3aa736e7eca9e81de3c7a2997b92f93193474a0",
       "scope": "Currentbb5 doubleZIP/five actual exported frames from d196 A-D and490b E, externalQAea6/probef567/strict2e1. Independent review:33local links exist, bothZIP/manifest/profile/batch and5PNG SHA/header dimensions/parentchild receipt bindings exact. d14doubleZIP explicitly historical recovery; six trackedsource-renderer images remain d14 and do not certify bb5 export. OldF4 tail byte-identical; videoNOT_RECORDED; oldUNKNOWN/outerexit1 recording failure/strict-only continuation retained. Not part of fixed867 baseline."
+    },
+    "f7_requirement_completion_audits": {
+      "receipts": [
+        {
+          "path": ".godot/f7-requirement-completion-audit.md",
+          "sha256": "f06fbf54dd860a8fab97e926791c64c4d63f42d18f44a7d1dab2ba6c83b6714f"
+        },
+        {
+          "path": ".godot/f7-creative-completion-audit.md",
+          "sha256": "c824be7f321bfc31c57a982f185fc3c03a315809844e2341feeb93b0806ff16d"
+        },
+        {
+          "path": ".godot/f7-export-failure-evidence-review.md",
+          "sha256": "52537fd1c40166eddf4bc18dd8225f75f58dc63f8f168e8d52be83bb67ced9b4"
+        }
+      ],
+      "scope": "Full405-line manual and173-line meeting requirements/artifacts/gates mapped to actual source/evidence/human-external levels. Actual export modal directness and stale README profiles actionable; Recovery GUI historical equivalence only bounded and not an automatic full-suite rerun."
+    },
+    "readme_profile_erratum": {
+      "future_template": {
+        "path": "distribution/PLAYTEST-README.txt",
+        "sha256": "846638d2c54cf5362335e0ee8960b82e1b192c2733e0d6fcf4dd9bc2980a353a"
+      },
+      "scope": "Only two Chinese/English sentences remove old MeasuredGrowth profile literals and point to existing dynamic Profile/manifest/Build and full candidate/service backup directories. Independent Visual PASS_SCOPE. Builder and all accepted ZIPs unchanged.",
+      "current_normal_zip_note": "Existing bb5 normal Windows/README.txt lines32/81 retain historical MeasuredGrowth profile examples. Actual current profile is CreationLinks20261018; tester uses OfflineTeammate-CreationLinks20261018. Exact manifest and dynamic Profile/service paths govern backups; Root current handoff supplies this erratum."
     }
   },
   "recovery": {
@@ -1142,7 +1258,7 @@
     "tester_outer_recording_failure_retained": true,
     "native_os": "NOT_RUN_TOOL_INITIALIZATION_BLOCKED_NO_NEW_ATTEMPT",
     "Mac_newcomer": "NOT_RUN",
-    "exported_efficiency_modal_direct_fixture": "NOT_RUN",
+    "exported_efficiency_modal_direct_fixture": "FIRST_ACTUAL_NORMAL_ATTEMPT_FAIL_EN_PRECONDITION_ZH_PARTIAL_ONLY_TESTER_NOT_RUN",
     "all_ideas_final": "NOT_CLAIMED"
   },
   "next_day_review_observations": [

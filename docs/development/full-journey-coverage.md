@@ -19,6 +19,11 @@
 当前交付为DELIVERED_WITH_OPEN_OBSERVATIONS，完整goal仍ACTIVE；原生/导出Efficiency模态、
 Mac、新人理解与正式创作决定未验。[当前展示脚本](../distribution/showcase-shots.md)提供新包实际图链。
 
+**F7直接模态补验：d6bf9c5普通首轮FAIL，英文片段语言前提不成立。**
+中文原日志实际scroll0→41、模态scroll0／blend0／step1保持、Host Esc body／authority／map正确，
+普通F8面板有3张新图的局部独审；无最终raw／完整检查数／validation，不认证整组或英文／测试者。
+缺实际Host重入、比较对与Locale分项，原因仍UNKNOWN；完整范围见同一[F6／F7证据入口](../verification/20261018-narrative-modal-focus/README.md)。
+
 **F5已验恢复门禁：d14be32原17定向、三组真实renderer及完整Windows176阶段均自然通过。**
 完整回归无ERROR/SCRIPTERROR，原六条非失败anchor WARNING单列；当前源远端CI成功。
 可选C/P/G回顾使用本次真实公开观察及原保存作品ID；原合法准备与纯查看保护分列，不新建

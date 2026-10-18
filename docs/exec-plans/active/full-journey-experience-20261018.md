@@ -10,6 +10,8 @@ d14双包为[已验恢复版本](../../verification/20261018-creation-connection
 官方原生工具初始化阻断，后续未重试：新包无OS输入验收，不能借F1／F4旧结果覆盖。
 完整goal仍ACTIVE，F6为DELIVERED_WITH_OPEN_OBSERVATIONS。源码效率模态保护已测，
 实际导出包直接触发同一保护仍须窄验证；该工作不以新剧情或重复完整回归代替。
+F7外QA检查点d6bf9c5的普通包首轮实际退出1：英文片段语言前提失败，中文模态与F8有局部观测，
+无最终raw／完整计数／validation。先补实际Host、比较对与Locale的同步分项，不以猜测核准产品修复。
 
 ## F1历史交付身份
 

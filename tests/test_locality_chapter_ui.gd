@@ -7,6 +7,8 @@ const SimulationEventType = preload("res://src/simulation/simulation_event.gd")
 const SimulationTraceType = preload("res://src/simulation/simulation_trace.gd")
 
 var failures: Array[String] = []
+var captures: Array[Dictionary] = []
+var check_count: int = 0
 
 
 func _init() -> void:
@@ -101,6 +103,7 @@ func _run() -> void:
 	_assert(not (main.get("instrument_windows") as Dictionary)[&"mission"].visible, "A stale evidence activation before a run must do nothing.")
 	main.call("_run_simulation", "Debug Data")
 	_assert(not evidence_button.visible, "Debug output cannot advertise official finding review.")
+	_assert_debug_result(main)
 	evidence_button.pressed.emit()
 	_assert(not (main.get("instrument_windows") as Dictionary)[&"mission"].visible, "Debug output cannot enter the official evidence action.")
 	main.call("_run_simulation", "Official Test Set")
@@ -116,6 +119,7 @@ func _run() -> void:
 	evidence_button.pressed.emit()
 	_assert(not bool(main.get("pending_completion_review")) and not bool(locality_state.call("completed_levels").get(&"distant_reads", false)), "An unsupported judgment cannot turn evidence navigation into completion.")
 	_assert(int(direct.metrics["total_cycles"]) == 257 and int(direct.metrics["wait_cycles"]) == 240, "2-1 must expose repeated distant-read waiting with exact deterministic metrics.")
+	_assert(main.result_label.text == main.call("_t", &"test_bench.result", [main.call("_t", &"outcome.correct"), direct.result_value, direct.expected_value, 257]) and not main.result_trace_button.visible, "An observation with no cycle budget must not invent a zero-cycle limit or performance failure.")
 	_assert(_first_event(direct, &"value_return").route_devices == [&"RAM", &"Bus", &"CPU"], "2-1 Trace must carry each raw value back along RAM → Bus → CPU.")
 	_assert(not (main.get("next_evidence_button") as Button).disabled and not (main.get("finish_playback_button") as Button).disabled, "A long Trace must offer key-evidence navigation and an explicit finish action.")
 	main.call("_jump_to_next_evidence")
@@ -251,6 +255,8 @@ func _run() -> void:
 		var oversized: SimulationTraceType = main.get("current_trace")
 		_assert(oversized.passed and int(oversized.metrics["total_cycles"]) == 210 and int(oversized.metrics["cache_misses"]) == 8, "An oversized group must produce the correct result but refetch its lines across passes.")
 		_assert((main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.target_required", [0, 1]), "Current correct over-target official run retains the actual target feedback.")
+		_assert(main.result_label.text.ends_with(main.call("_t", &"chapter2.result.over_limit", [210, 145, 65])), "The unsuccessful legal group must state this run's 210 cycles, 145-cycle limit and 65-cycle overrun together.")
+		_assert_result_inspection(main)
 		main.call("_finish_playback")
 		main.call("_review_pending_finding")
 		_assert(not bool(locality_state.call("completed_levels").get(&"blocking", false)) and not locality_state.call("concept_unlocked", &"blocking"), "Grouping alone must not earn completion or reveal the successful finding.")
@@ -259,10 +265,14 @@ func _run() -> void:
 			_assert(main.get("current_trace") == null and (main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.saved_run_required", [0, 1]), "Reopening an unfinished task distinguishes saved official evidence from the current unrun configuration.")
 	main.call("_select_block_lines", 1, true)
 	_assert(main.get("current_trace") == null and (main.get("mission_progress_label") as Label).text == main.call("_t", &"chapter2.progress.saved_run_required", [0, 1]), "Changing configuration retains historical evidence but requires a new current official result.")
+	_assert(not main.result_trace_button.visible, "A configuration change must hide the old run's Trace action.")
+	main.call("_inspect_result_trace")
+	_assert(main.current_trace == null and main.result_label.text == main.call("_t", &"state.not_run"), "Calling a stale result action cannot reconstruct historical Trace or claim a new run.")
 	main.call("_run_simulation", "Official Test Set")
 	var blocked: SimulationTraceType = main.get("current_trace")
 	_assert(int(blocked.metrics["total_cycles"]) == 138, "2-6 must turn work grouping into a measurable decision against the inherited 210-cycle baseline.")
 	_assert(int(blocked.metrics["cache_misses"]) == 4 and int(blocked.metrics["hardware_cost"]) == 4, "2-6 must shrink the active working set without hardware replacement.")
+	_assert(main.result_label.text.ends_with(main.call("_t", &"chapter2.result.within_limit", [138, 145, 7])) and not main.result_trace_button.visible, "A real 138-cycle result states its remaining seven-cycle margin without an overrun action.")
 	var schedule_groups: Array[Dictionary] = []
 	_collect_schedule_groups((main.get("profiler_tree") as Tree).get_root(), schedule_groups)
 	_assert(schedule_groups.size() == 8, "The Profiler must persist the four work groups × two passes as inspectable schedule evidence.")
@@ -304,6 +314,8 @@ func _run() -> void:
 	_assert(not evidence_button.visible, "Capstone keeps its distinct existing experiment and summary flow.")
 	_assert(int(capstone_baseline.metrics["total_cycles"]) == 642 and not bool(main.get("current_goal_met")), "2-7 must start from a new unresolved workload without suggesting a solution.")
 	_assert((main.get("result_label") as Label).get_theme_color("font_color") == main.WARNING, "A correct official result over the speed target must remain a warning, distinct from completing the goal.")
+	_assert(main.result_label.text.ends_with(main.call("_t", &"chapter2.result.over_limit", [642, 145, 497])), "The unresolved capstone must colocate the measured 642 cycles, public 145-cycle limit and 497-cycle overrun.")
+	_assert_result_inspection(main)
 	await process_frame
 	var result: Label = main.get("result_label")
 	var evidence_scroll: ScrollContainer = result.get_parent().get_parent()
@@ -342,6 +354,7 @@ func _run() -> void:
 	main.call("_run_simulation", "Official Test Set")
 	var hardware_solution: SimulationTraceType = main.get("current_trace")
 	_assert(int(hardware_solution.metrics["total_cycles"]) == 138 and int(hardware_solution.metrics["hardware_cost"]) == 13, "The capstone must accept a larger-Cache hardware solution.")
+	_assert(not main.result_trace_button.visible and main.result_label.text.ends_with(main.call("_t", &"chapter2.result.within_limit", [138, 145, 7])), "The larger-Cache solution retains its real cycle margin and existing observation gate.")
 	_assert(catalog.call("capstone_modified_experiment_seen", locality_state.call("receipts_for", &"capstone")), "The first one-lever run must create official evidence without treating receipt creation as observation.")
 	_assert(bool(main.call("_capstone_first_experiment_pending")) and not bool(locality_state.call("completed_levels").get(&"capstone", false)), "The first experiment must remain controlled and incomplete until its Trace is observed.")
 	main.call("_select_block_lines", 1, true)
@@ -365,6 +378,7 @@ func _run() -> void:
 	main.call("_run_simulation", "Official Test Set")
 	var software_solution: SimulationTraceType = main.get("current_trace")
 	_assert(int(software_solution.metrics["total_cycles"]) == 138 and int(software_solution.metrics["hardware_cost"]) == 4, "The capstone must also accept a lower-cost blocking solution.")
+	_assert(not main.result_trace_button.visible and main.result_label.text.ends_with(main.call("_t", &"chapter2.result.within_limit", [138, 145, 7])), "The lower-cost legal solution receives the same measured cycle-margin explanation.")
 	_assert((main.get("lab_host") as Control).visible and bool(locality_state.call("completed_levels").get(&"capstone", false)), "Further optimization must remain possible after chapter completion.")
 	var observed_options: Array = main.call("_capstone_observed_options")
 	_assert(main.capstone_compare_box.visible and main.capstone_compare_list.item_count == observed_options.size(), "Actual cost/cycle alternatives appear above the long event tree")
@@ -403,6 +417,11 @@ func _run() -> void:
 
 	main.queue_free()
 	await process_frame
+	await _additional_result_checks(scene)
+	if DisplayServer.get_name() != "headless" and "--locality-outcome-capture" in OS.get_cmdline_user_args():
+		await _capture_outcomes(scene)
+	else:
+		print("NOT_RUN: locality outcome renderer/pointer/Space; use --locality-outcome-capture without --headless")
 	if failures.is_empty():
 		print("PASS: complete seven-level Chapter 2 progression, concept reveals, comparisons, and multiple capstone solutions passed")
 		quit(0)
@@ -421,8 +440,150 @@ func _first_event(trace: SimulationTraceType, kind: StringName) -> SimulationEve
 
 
 func _assert(condition: bool, message: String) -> void:
+	check_count += 1
 	if not condition:
 		failures.append(message)
+
+
+func _assert_debug_result(main: Control) -> void:
+	var trace: SimulationTraceType = main.get("current_trace")
+	var outcome: String = main.call("_t", &"outcome.correct" if trace.passed else &"outcome.incorrect")
+	_assert(not main.result_trace_button.visible and main.result_label.text == main.call("_t", &"test_bench.result", [outcome, trace.result_value, trace.expected_value, int(trace.metrics["total_cycles"])]), "Debug output cannot claim an official cycle limit or offer official Trace inspection.")
+
+
+func _inspection_authority(main: Control) -> String:
+	var save: Node = root.get_node("GlobalSave")
+	var snapshot: Dictionary = save.call("_save_snapshot")
+	snapshot.erase("saved_at_utc")
+	var files: Dictionary = {}
+	for path: String in [save.storage_path, save.storage_path + ".bak", save.workbench_storage_path, "user://personal_task_records_v1.json"]:
+		files[path] = FileAccess.get_sha256(path) if FileAccess.file_exists(path) else "absent"
+	var navigation: Node = root.get_node("TaskNavigation")
+	return JSON.stringify({"game":snapshot,"files":files,"best":root.get_node("PersonalRecords").best,"nav":{"selected":navigation.selected,"pending":navigation.pending,"from_tree":navigation.from_tree,"last":navigation.last_visited_task},"judgment":main.selected_judgment,"completed_playback":main.playback_completed}, "", true)
+
+
+func _assert_result_inspection(main: Control) -> void:
+	var trace: SimulationTraceType = main.get("current_trace")
+	var signature: String = trace.canonical_signature()
+	var before: String = _inspection_authority(main)
+	var index: int = -1
+	for event_index: int in range(trace.events.size()):
+		if trace.events[event_index].kind in [&"cache_miss", &"ram_access"]:
+			index = event_index
+			break
+	_assert(index >= 0 and main.result_trace_button.visible and not main.playback_completed, "The measured overrun offers a real fetch event before playback is complete.")
+	if index < 0: return
+	main.result_trace_button.pressed.emit()
+	main.result_trace_button.pressed.emit()
+	var event: SimulationEventType = trace.events[index]
+	_assert(main.current_trace == trace and trace.canonical_signature() == signature and int(main.playback_index) == index and not main.playback_running, "Repeated result inspection pauses at the first actual fetch in the same immutable Trace.")
+	_assert(main.highlighted_source_line == event.source_line and main.playback_label.text == main.call("_t", &"trace.playback.event", [index + 1, trace.events.size(), event.cycle, event.duration, event.source_line, main.call("_event_message", event)]), "Inspection displays the selected original event's exact cycle and source line.")
+	_assert(_inspection_authority(main) == before, "Result inspection preserves judgment, unfinished playback, all saved game authority and protected save bytes.")
+
+
+func _additional_result_checks(scene: PackedScene) -> void:
+	var main: Control = scene.instantiate()
+	root.add_child(main)
+	await process_frame
+	main.call("_start_level", &"access_order")
+	main.call("_load_strategy", ProgramTemplatesType.ROW_FIRST.replace("acc = 0", "acc = 1"), "row-first")
+	main.call("_apply_program")
+	main.call("_run_simulation", "Official Test Set")
+	_assert(not main.current_trace.passed and main.result_label.text.begins_with(main.call("_t", &"outcome.incorrect")) and not main.result_trace_button.visible, "A valid program with incorrect output must explain output failure before any performance navigation.")
+	main.call("_run_simulation", "Debug Data")
+	_assert_debug_result(main)
+	main.editor.text += "\n# unapplied draft"
+	_assert(main.current_trace == null and not main.result_trace_button.visible, "Even an unapplied draft invalidates the current result and its event action.")
+	var before: String = _inspection_authority(main)
+	main.call("_inspect_result_trace")
+	_assert(_inspection_authority(main) == before and main.current_trace == null, "An old signal after draft invalidation is a protected no-op, not a replay from history.")
+	main.queue_free()
+	await process_frame
+
+
+func _fully_visible(control: Control) -> bool:
+	var rect: Rect2 = control.get_global_rect()
+	if not control.is_visible_in_tree() or not root.get_visible_rect().encloses(rect): return false
+	var ancestor: Node = control.get_parent()
+	while ancestor != null:
+		if ancestor is Control and ancestor.clip_contents and not ancestor.get_global_rect().encloses(rect): return false
+		ancestor = ancestor.get_parent()
+	return true
+
+
+func _capture_frame(name: String) -> void:
+	await RenderingServer.frame_post_draw
+	var path: String = "user://locality-outcome-captures/" + name + ".png"
+	_assert(not FileAccess.file_exists(path), "A locality frame never overwrites existing evidence: " + name)
+	if FileAccess.file_exists(path): return
+	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	_assert(root.get_texture().get_image().save_png(path) == OK, "The actual locality result frame saves: " + name)
+	captures.append({"path":ProjectSettings.globalize_path(path),"sha256":FileAccess.get_sha256(path)})
+
+
+func _capture_outcomes(scene: PackedScene) -> void:
+	if is_instance_valid(current_scene):
+		current_scene.queue_free()
+		current_scene = null
+		await process_frame
+	var localization: Node = root.get_node("Localization")
+	var old_locale: String = localization.call("current_locale")
+	var old_size: Vector2i = root.size
+	var old_scale: Vector2i = root.content_scale_size
+	for locale: String in ["zh_CN", "en"]:
+		_assert(localization.call("set_locale", locale), "The result matrix uses the actual requested locale.")
+		for dimensions: Vector2i in [Vector2i(1280,720), Vector2i(1440,900), Vector2i(1920,1080)]:
+			root.size = dimensions
+			root.content_scale_size = dimensions
+			var main: Control = scene.instantiate()
+			root.add_child(main)
+			for frame: int in 4: await process_frame
+			main.call("_start_level", &"blocking")
+			main.call("_select_block_lines", 2, true)
+			main.call("_run_simulation", "Official Test Set")
+			main.call("_open_instrument", &"test_bench", true)
+			for frame: int in 4: await process_frame
+			_assert(main.result_label.text.ends_with(main.call("_t", &"chapter2.result.over_limit", [210,145,65])), "Both locales render the original legal 210/145/+65 result.")
+			_assert(_fully_visible(main.result_label) and _fully_visible(main.result_trace_button) and _fully_visible(main.official_run_button), "Default result, cycle condition, manual evidence action and Run remain fully inside the original window and Scroll.")
+			_assert(main.result_label.get_theme_font_size("font_size") == 20, "The result keeps its original 20px native text.")
+			var name: String = locale + "-" + str(dimensions.x) + "x" + str(dimensions.y)
+			await _capture_frame(name + "-result")
+			var before: String = _inspection_authority(main)
+			var point: Vector2 = main.result_trace_button.get_global_rect().get_center()
+			var motion := InputEventMouseMotion.new()
+			motion.position = point
+			root.push_input(motion, true)
+			await process_frame
+			_assert(root.gui_get_hovered_control() == main.result_trace_button, "The actual pointer reaches the result action instead of a covering instrument.")
+			for down: bool in [true, false]:
+				var mouse := InputEventMouseButton.new()
+				mouse.position = point; mouse.button_index = MOUSE_BUTTON_LEFT; mouse.pressed = down
+				root.push_input(mouse, true)
+				await process_frame
+			_assert(not main.playback_running and main.selected_profiler_event_index >= 0 and _inspection_authority(main) == before, "Actual pointer inspection selects an original event without completing or writing game authority.")
+			await _capture_frame(name + "-trace")
+			main.call("_open_instrument", &"test_bench", true)
+			main.result_trace_button.grab_focus()
+			for down: bool in [true, false]:
+				var key := InputEventKey.new()
+				key.keycode = KEY_SPACE; key.physical_keycode = KEY_SPACE; key.pressed = down
+				root.push_input(key, true)
+				await process_frame
+			_assert(main.focused_instrument == &"profiler" and _inspection_authority(main) == before, "Space on the same manual result button opens the original Profiler without granting progress.")
+			_assert_result_inspection(main)
+			main.queue_free()
+			await process_frame
+	root.size = old_size
+	root.content_scale_size = old_scale
+	localization.call("set_locale", old_locale)
+	var receipt: String = "user://locality-outcome-captures/receipt.json"
+	_assert(not FileAccess.file_exists(receipt), "The result capture receipt is new.")
+	if not FileAccess.file_exists(receipt):
+		var file := FileAccess.open(receipt, FileAccess.WRITE)
+		_assert(file != null, "The result capture receipt opens.")
+		if file != null:
+			file.store_string(JSON.stringify({"checks":check_count,"failures":failures,"frames":captures,"fixture":"Original Chapter 2 controller progression; Chapter 1 route prerequisite is a test fixture, not a new-player playthrough."}, "", true))
+			file.close()
 
 
 func _reveals_cache_term(text: String) -> bool:

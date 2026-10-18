@@ -468,6 +468,15 @@ msgstr "◆ 运行正式测试"
 msgid "test_bench.result"
 msgstr "%s\n实际值 %d · 目标值 %d\n用时 %d 周期"
 
+msgid "chapter2.result.over_limit"
+msgstr "本次 %d 周期 · 上限 %d · 超出 %d"
+
+msgid "chapter2.result.within_limit"
+msgstr "本次 %d 周期 · 上限 %d · 余量 %d"
+
+msgid "chapter2.result.inspect_fetch"
+msgstr "查看本次取数证据"
+
 msgid "cache.description"
 msgstr "替换缓存元件。容量会改变硬件成本，也可能改变同一程序的追踪结果。"
 

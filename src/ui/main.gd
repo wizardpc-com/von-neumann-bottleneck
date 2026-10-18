@@ -140,6 +140,7 @@ var trace_progress: ProgressBar
 var official_run_button: Button
 var debug_run_button: Button
 var result_label: Label
+var result_trace_button: Button
 var profiler_summary_label: Label
 var capstone_compare_box: VBoxContainer
 var capstone_compare_list: ItemList
@@ -890,6 +891,12 @@ func _build_test_bench_instrument() -> Control:
 	result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	result_label.add_theme_font_size_override("font_size", 20)
 	panel.add_child(result_label)
+	result_trace_button = Button.new()
+	result_trace_button.name = "CurrentRunTraceButton"
+	result_trace_button.text = _t(&"chapter2.result.inspect_fetch")
+	result_trace_button.hide()
+	result_trace_button.pressed.connect(_inspect_result_trace)
+	panel.add_child(result_trace_button)
 	test_evidence_button = Button.new()
 	test_evidence_button.name = "TestBenchEvidenceButton"
 	test_evidence_button.hide()
@@ -2185,6 +2192,13 @@ func _run_simulation(test_name: String) -> void:
 	result_label.text = _t(&"test_bench.result", [
 		outcome, current_trace.result_value, current_trace.expected_value, int(current_trace.metrics["total_cycles"])
 	])
+	if test_name == "Official Test Set" and target_cycles > 0:
+		var cycles: int = int(current_trace.metrics["total_cycles"])
+		result_label.text += "\n" + _t(
+			&"chapter2.result.over_limit" if cycles > target_cycles else &"chapter2.result.within_limit",
+			[cycles, target_cycles, absi(cycles - target_cycles)]
+		)
+	result_trace_button.visible = _result_trace_event_index() >= 0
 	var result_color: Color = BAD
 	if current_trace.passed:
 		result_color = GOOD if test_name != "Official Test Set" or current_goal_met or target_cycles <= 0 else WARNING
@@ -2207,6 +2221,31 @@ func _run_simulation(test_name: String) -> void:
 		GOOD if current_trace.passed and (target_cycles == 0 or current_goal_met or test_name == "Debug Data") else WARNING
 	)
 	_evaluate_level_completion()
+
+
+func _result_trace_event_index() -> int:
+	if (
+		current_trace == null or current_trace.test_name != "Official Test Set"
+		or not current_trace.passed or not _tool_available(&"profiler")
+	):
+		return -1
+	var target: int = int(current_level.get("target_cycles", 0))
+	if target <= 0 or int(current_trace.metrics.get("total_cycles", 0)) <= target:
+		return -1
+	for index: int in range(current_trace.events.size()):
+		if current_trace.events[index].kind in [&"cache_miss", &"ram_access"]:
+			return index
+	return -1
+
+
+func _inspect_result_trace() -> void:
+	var index: int = _result_trace_event_index()
+	if index < 0:
+		return
+	# Inspect one recorded event; finishing playback would also advance observation.
+	selected_profiler_event_index = index
+	_open_instrument(&"profiler", true)
+	_inspect_profiler_event()
 
 
 func _record_run(program: DSLProgramType, data: Array[int]) -> void:
@@ -3106,6 +3145,7 @@ func _invalidate_current_run(reason: String) -> void:
 	selected_profiler_event_index = -1
 	result_label.text = _t(&"state.not_run")
 	result_label.add_theme_color_override("font_color", TEXT)
+	result_trace_button.hide()
 	_reset_device_feedback()
 	device_state_labels[&"Profiler"].text = _t(&"state.no_trace")
 	device_state_labels[&"TestBench"].text = _t(&"state.not_run")

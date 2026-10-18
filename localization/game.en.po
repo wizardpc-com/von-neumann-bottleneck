@@ -468,6 +468,15 @@ msgstr "◆ Run Official"
 msgid "test_bench.result"
 msgstr "%s\nActual %d · Expected %d\nTime: %d cycles"
 
+msgid "chapter2.result.over_limit"
+msgstr "This run: %d cycles · Limit: %d · Over: %d"
+
+msgid "chapter2.result.within_limit"
+msgstr "This run: %d cycles · Limit: %d · Margin: %d"
+
+msgid "chapter2.result.inspect_fetch"
+msgstr "Inspect this run's fetch"
+
 msgid "cache.description"
 msgstr "Replace the Cache component. Capacity changes hardware cost and may change the same program's trace."
 

@@ -14,7 +14,7 @@
 | `src/ui/ui_typography.gd` 与 `assets/fonts/interface_*.tres` | 标题、正文、按钮层级 | 标题 26／34，正文与按钮 16，说明 14；控件高 42／44 | 保留现有随包字体及许可，未替换字体或缩小正文 |
 | `tests/test_instrument_theme.gd` | 同数据深浅比较场景 | 运行、选中、焦点、禁用、输入、1 位／4 位列表；中文／英文；720p／1080p／16:10 | 真实 Godot 控件渲染的验证场景，不作为玩家页面，不代表完整关卡 |
 | `src/ui/yi_introduction.gd` · `media_texture: Texture2D` | Yi导入的可替换档案图；原生Goal／操作文字和Begin／Skip独立保留 | 148×64逻辑预览，保持比例居中；null或0尺寸隐藏整列，文字继续显示；默认图须存在才load | 默认`assets/narrative/yi-learning-fragment.svg`为仓库程序矢量候选，无外部照片、正式人设或烘焙UI正文；替换资源需附作者／来源／许可／AI辅助说明 |
-| `src/ui/first_light.gd` · `preview_texture: Texture2D` | ThemeReflection内可选「第一束光」示意画面 | 最小100逻辑像素高画布，按比例居中缩放；null或0尺寸采用程序三节点几何；字幕与Input1／NOT／Output0原生显示；播放约3秒、静态低动效、跳过／重播 | 默认无外部图，程序几何来自仓库；图只替换插画，不得把光点改称电流／能耗或让NOT输入1的灯亮；候选CG与作者署名待交，未定稿角色／历史 |
+| `src/ui/first_light.gd` · `preview_texture: Texture2D` | ThemeReflection内可选「第一束光」虚构回顾 | 最小100逻辑像素高画布，按比例居中缩放；原图为3:1横幅；null或0尺寸采用程序三节点几何；字幕与Input1／NOT／Output0原生显示；图片静态，原约3秒回顾、低动效、跳过／重播保留 | 默认`assets/narrative/first-light-quiet-space.png`为原创AI辅助临时空间候选，仅初始化时尝试加载；缺资源或无法取得有效纹理时沿用几何。图片不表示电流／能耗或NOT输出；未定稿角色／历史，来源与生成提示见下 |
 | `src/ui/efficiency_fragment.gd` · `media: Texture2D` | System原History有效CPU比较旁的可选插画；原chart、source、三步、metric与回应仍为独立原生控件 | 画区最小高72逻辑像素，按比例居中缩放；null或0尺寸回退为程序档案几何；不绘制历史事件、现实节能或新成果 | 默认无图片资源。实际宿主`src/system_lab/system_lab.gd:_build_history_instrument`创建并挂接`efficiency_fragment`后，可将已载入的Texture2D直接赋给`efficiency_fragment.media`；setter同步到`image.media`并重绘，无需改运行／比较／反馈交互。素材须附作者／来源／许可／AI辅助说明，不含烘焙正文或技术数值；有效Texture的实际像素正例尚未验证，不借缺图／零尺寸fallback结果认证 |
 | `tests/test_workbench_palette_comparison.gd` | 同真实教程、同数据的完整工作台深浅比较 | 两语×三尺寸×两处理共12帧目标；冻结前原滚动定位输入、停车清理悬浮提示；精确矩形与状态必须相等 | 浅色为QA候选仪器表面；原线／端口几何保持，信号按钮和元件缩略图保持深色，实际候选画布中性灰；不是生产全局主题 |
 | `experiments/creation/work_focus.gd` · `configure(saved_snapshot, english, {})` | Journal查看原保存输出、配方、来源；不是CG或生成重播 | 原窗口默认1080×620、最小640×420，沿原scroll看完整符号；A●／B■／C▲／D◇保留非颜色辨识；空evidence禁Locate，Journal禁fork | 原`work_canvas.gd`程序绘制真实保存格；不新增图片／角色资源，不替作品作审美评分；F3反馈输入链另验 |
@@ -119,3 +119,32 @@ Saved仅定位原作品列表及真实ID；原View另有配方核验语义，不
 六张原字节精选图及各自来源、尺寸和SHA见
 [截图清单](../verification/20261018-creation-connections/screenshots/manifest.json)。
 它们属于源码renderer证据，不代替实际导出包、OS操作或新人理解验收；历史失败记录保留于中央验证材料。
+
+## 第一束光静态空间候选
+
+`assets/narrative/first-light-quiet-space.png`为2172×724、3:1不透明PNG，1915564B，
+SHA256 `e5e228b4dcd8e8370bbc06a6c94c2029d6389f24d8d8f17a7fe4cb1579817f10`。
+2026-10-18使用OpenAI内建imagegen生成，无参考图片或第三方素材输入；原字节入库，
+未裁切、转码或重压缩。AI辅助来源须随团队交付保留；正式采用及参赛披露由团队复核，
+本条不是第三方素材许可或人物／CG／历史定稿声明。
+
+图片只提供安静空间氛围。画面无人物、文字、数值、器件或线路；不记录玩家事件，
+不表示真实计算、能耗或奖励。原生字幕说明它是已完成搭建的虚构回顾，
+NOT输入1／输出0与灯灭仍由独立文字表达。现有画区不扩高，不替代操作按钮或成果条件。
+外部调用仍可直接赋值`preview_texture`；初始化后明确赋null或零尺寸纹理不会重新加载默认图。
+缺少默认资源或没有有效Texture时走原程序几何，加载／导入错误仍须如实检查，不能用回退掩盖。
+
+本候选尚待固定源Godot与实际窗口／导出验证；已有c84几何回顾图属于修改前证据，
+不能据此称新图片的100逻辑像素高呈现、焦点或fallback已通过。
+
+生成提示（内建工具，`transparent_background=false`）：
+
+```text
+Use case: stylized-concept.
+Asset type: one ORIGINAL temporary raster atmosphere banner for a calm futuristic game's optional fictional First Light retrospective. This is decorative environment art, not a UI mockup or a scientific diagram.
+Primary request: an extremely wide 3:1 horizontal panoramic illustration, ideally 3072 by 1024 pixels. A quiet, empty, minimalist future archive interior: a few broad matte blue-grey architectural planes, a spacious recessed alcove, and a soft warm diffuse opening in the distance. Simple elegant silhouette and restrained painterly material depth. The place feels safe, still and welcoming. No people, no character identity, no specific historical setting.
+Composition/framing: wide, level panorama with all meaningful composition in broad masses, designed to remain legible when scaled to 300 by 100 pixels. Do not use tiny fine detail, a collage, a framed picture inside a bigger picture, or letterboxing. The entire canvas is the artwork. Keep the scene quiet rather than spectacular.
+Lighting/mood: softly diffused light, muted dark teal and graphite-blue with a very small pale warm highlight; gentle contrast, no saturated neon, no dystopian debris or distressed retro surfaces.
+Constraints: static fictional environmental mood ONLY. Absolutely no text, letters, numbers, glyphs, signs, logos, watermarks, people, faces, robots, circuit components, wires, indicator lamps, screens, dashboards, graphs, signal paths, diagrams, scientific mechanisms or implied energy measurements. No baked user-interface controls. Do not portray an electrical success lamp or an event timeline. Opaque background, no transparency.
+Output: one finished clean horizontal panorama, 3:1 aspect ratio, no variations or multi-panel layout.
+```

@@ -149,6 +149,8 @@ func run() -> void:
 			root.size = dimensions; root.content_scale_size = dimensions
 			var dialog: Variant = await open_reflection(locale == "zh_CN")
 			var light: Variant = dialog.first_light
+			var candidate: Texture2D = light.preview_texture
+			check(candidate != null and candidate.get_width() > 0 and candidate.get_height() > 0 and candidate.resource_path == light.DEFAULT_PREVIEW_PATH, "The bundled fictional environment is a real replaceable Texture2D")
 			check(light.visible and not light.playing and not light.has_started and not light.scene_body.visible, "Earned replay stays optional and does not autoplay")
 			var scroll: ScrollContainer = dialog.body_column.get_parent()
 			scroll.ensure_control_visible(light.play_button); await settle()
@@ -156,7 +158,7 @@ func run() -> void:
 			light.play_button.grab_focus()
 			if DisplayServer.get_name() != "headless": await key(KEY_SPACE, true)
 			else: light.play_button.pressed.emit()
-			check(light.has_started and light.scene_body.visible and light.preview_texture == null, "Actual play control reveals a missing-texture procedural fallback")
+			check(light.has_started and light.scene_body.visible and light.canvas.illustration == candidate, "Actual play control reveals the bundled static candidate without changing the earned source")
 			await settle()
 			if DisplayServer.get_name() != "headless":
 				check(scroll.get_global_rect().encloses(light.canvas.get_global_rect()), "Real Play automatically reveals the main illustration without a QA scroll")
@@ -175,6 +177,11 @@ func run() -> void:
 			check(scroll.get_global_rect().encloses(light.skip_button.get_global_rect()), "Skip remains reachable by scrolling at each language/window size")
 			check(scroll.get_global_rect().encloses(light.caption.get_global_rect()), "All static native captions fit their original scroll viewport")
 			await capture_frame(dialog, locale + "-" + str(dimensions.x) + "-static")
+			var candidate_geometry: Array[Rect2] = [light.canvas.get_global_rect(), light.caption.get_global_rect(), light.skip_button.get_global_rect()]
+			var candidate_pixels := PackedByteArray()
+			if DisplayServer.get_name() != "headless":
+				await RenderingServer.frame_post_draw
+				candidate_pixels = dialog.get_texture().get_image().get_data()
 			var image := Image.create(8, 8, false, Image.FORMAT_RGBA8)
 			image.fill(Color("47767c"))
 			var replacement := ImageTexture.create_from_image(image)
@@ -183,11 +190,15 @@ func run() -> void:
 			check(light.canvas.illustration == replacement, "An optional actual Texture2D can replace the visual while native captions remain")
 			light.preview_texture = null
 			light.play_button.pressed.emit(); light.skip_button.pressed.emit()
+			check(light.has_started and light.scene_body.visible and light.preview_texture == null, "Actual play control reveals a missing-texture procedural fallback")
 			check(light.canvas.illustration == null, "Missing replacement returns to the procedural fallback without loading external paths")
+			var fallback_geometry: Array[Rect2] = [light.canvas.get_global_rect(), light.caption.get_global_rect(), light.skip_button.get_global_rect()]
+			check(candidate_geometry == fallback_geometry, "Candidate media preserves the exact fallback canvas captions and Skip geometry")
 			var fallback_pixels := PackedByteArray()
 			if DisplayServer.get_name() != "headless":
 				await RenderingServer.frame_post_draw
 				fallback_pixels = dialog.get_texture().get_image().get_data()
+				check(fallback_pixels != candidate_pixels, "The bundled environment changes actual illustration pixels, not only the Texture reference")
 			light.preview_texture = ImageTexture.new()
 			light.play_button.pressed.emit(); light.skip_button.pressed.emit()
 			check(light.canvas.illustration.get_width() == 0 and light.caption.visible, "A non-null empty Texture2D retains the fallback and native captions")

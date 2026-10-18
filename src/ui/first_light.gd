@@ -2,6 +2,7 @@ extends VBoxContainer
 ## A replay of an earned construction, never a circuit signal or an award.
 
 const DURATION: float = 3.0
+const DEFAULT_PREVIEW_PATH: String = "res://assets/narrative/first-light-quiet-space.png"
 
 class PathCanvas extends Control:
 	var progress: float = 0.0
@@ -46,6 +47,8 @@ func configure(use_english: bool, can_replay: Callable) -> void:
 
 
 func _ready() -> void:
+	if preview_texture == null and ResourceLoader.exists(DEFAULT_PREVIEW_PATH):
+		preview_texture = load(DEFAULT_PREVIEW_PATH) as Texture2D
 	name = "FirstLight"
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	add_theme_constant_override("separation", 10)
@@ -151,7 +154,7 @@ func _refresh_scene() -> void:
 	canvas.queue_redraw()
 	var lines: Array[String] = [_copy("你亲手搭起了一条可以检查的路径。", "You built a path that can be checked.")]
 	lines.append(_copy("NOT：输入1 → 输出0。灯灭也可以是正确答案。", "NOT: input 1 → output 0. A dark lamp can be the correct answer."))
-	lines.append(_copy("光点只回顾已完成的搭建，不表示电流、能耗或文明测量。", "The light revisits an earned construction; it is not current, energy use or a measurement of civilization."))
+	lines.append(_copy("画面仅为已完成搭建的虚构回顾，不表示电流、能耗或文明测量。", "This fictional scene revisits an earned construction, not current, energy use or a measurement of civilization."))
 	caption.text = "\n".join(lines)
 
 

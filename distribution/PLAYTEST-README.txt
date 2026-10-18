@@ -20,6 +20,13 @@ NOT 的 0→1 与 1→0 都是正确规则，灯灭不表示失败；实际目�
 这个入口不分叉修改、不生成作品，也不提供生成事件回放；原创造工作台仍可正常创作。
 F8打开当前窗口的反馈，Esc逐层返回。保存失败时保留反馈面板，先按原救援说明另存。
 
+本轮优先试玩路线 / Measured Growth routes
+- 「布局」运行后，在「运行与比较」查看每单实际合同、超额差值，再点「定位这单的未达标证据」查看原事件／地址；输出正确仍可能未达标。
+- 「与等待并行」运行后先看首个未达标任务；有停止错误时点「定位停止事件与代码行」。改程序或结构后请重跑，旧证据不会定位到新草稿。
+- 第一章 cpu_speed：先按原前置亲手造机，完成同程序、同测试集、只换CPU且其他部件不变的两次有效运行，再打开「历史」→「时间留在哪里 · 候选片段」。单次、未运行或无效配对不会出现；可选片段沿用原记录，非事件回放、不增加成果。
+- 首页／地图的观察站中，硬件板与系统模块是可区分的成果意象；选择任务后「近看所选装置」／「还原全景」，也可直接用原任务列表和定位／进入工作台。灯仅回顾合法完成记录；F8反馈、Esc逐层返回。
+- 普通 MeasuredGrowth20261018 档沿用原前置；OfflineTeammate-MeasuredGrowth20261018 是全部入口开放的独立测试者档，开放不算完成，也不代替模型准备。实际档位、批次与版本以本包 manifest 和页首 Build 为准。
+
 完整旅程候选包共 60 个任务：原有核心 40、表示 5、服务 3、可选地址预测 3、压缩→内容预测→创造 9；标准候选包保留核心 40 个任务。
 完整旅程不是 60 个必经关卡。保留已有主线与各段结尾，可选内容不提高原主线门槛。
 从接线造机出发，观察计算与等待，再改变数据位置、承载方式和历史安排。
@@ -62,6 +69,12 @@ Home and Map also open Journey journal and the optional 3D Observatory. Its ligh
 After genuinely completing the NOT tutorial, the journal offers an optional, skippable/replayable First Light: a fixed NOT 1-to-0 retrospective, not the current circuit or a new achievement. Reduced motion is available.
 Select a saved work in the journal to view its original output, recipe and source. Recovery snapshots are labelled; this viewer neither forks nor generates work or supplies generation-event replay. The original creative workbench remains available.
 F8 opens feedback for the current window; Escape returns one layer at a time. Keep a failed-save feedback panel open and use its rescue export.
+Measured Growth priority routes:
+- Layout: run, read each case's actual contract/gap in Runs and comparison, then use Locate this case's unmet condition for its recorded event/address. Correct output can still miss a target.
+- In the Meantime: inspect the first unmet workload; use Locate stopping event and source line for a stopped run. After editing code or hardware, rerun; stale evidence cannot locate a new draft.
+- First complete the original cpu_speed prerequisites and real build. Two valid runs with the same program/test set, changing only CPU and keeping other parts fixed, expose History → Where time remains · candidate fragment. A single, unrun or invalid pair does not; the optional fragment reuses aggregate records, grants no progress and is not an event replay.
+- Home/Map Observatory: select an original task, Inspect selected / Overview, or use the existing task list, Locate in task tree and Return to original workbench. Hardware boards and system modules are record imagery; only legal completion lights them. F8 and layered Escape remain available.
+- MeasuredGrowth20261018 is the ordinary profile with original gates; OfflineTeammate-MeasuredGrowth20261018 is a separate all-entrance tester profile, not earned completion or prepared model state. Use this package's manifest and Build identity for exact profile, batch and version.
 The creative workbench's Next action follows the actual rule box and results. Commit/reveal one cell, then finish the round before connecting output feedback. Successful Representation/Service tasks provide an explicit continuation action.
 Use the task specification, Handbook and independently confirmed read-only hints when needed.
 F8 opens optional feedback even before completion. Save is local; Send has independent consent.

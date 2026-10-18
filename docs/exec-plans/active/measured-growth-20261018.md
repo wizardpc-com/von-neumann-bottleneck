@@ -186,3 +186,22 @@ nav.pending/from_tree保持，camera/zoom/saved/viewsize对实际Map.canvas逐�
 经实际Esc返回Home，仅允许原合同from_tree=false；严格核后才重取完整只读基线、重新解析实际入口。
 后续矩阵/反馈保留全部nav保护，最终再核initial非nav权威。无handler断开、无产品更改，
 新App3阶段与实际矩阵仍待运行；69效率/Target各自通过记录保持其来源。
+
+## 固定2c真实Home验证
+
+App原3阶段实际全部PASS（3319检查），全3owned自然exit0；真实GUI亦3613检查、自然exit0，
+无ERROR/SCRIPT ERROR/超时或终止。实际Home/旧教程释放/六点悬停归属、真实Locate→Map→EscHome、
+两角色反馈与完整权威保护均通过。50原PNG分为24根窗口、24真实SubViewport纹理、2反馈现场；
+Root已核全50原字节哈希并实看720中文系统近看，无旧教程窗遮挡；Visual完成其独立逐图门禁后才接受视觉。
+原69技术PASS但观察站视觉未接受与2f脚本中止保持，不用新结果覆盖。
+
+原headless回执：`.godot/verification/20261018T004613Z-4c2fe966/results.json`，SHA
+`89319f92317e1beaf93df82d135e6f7805feaea7a3e59c1f08775ab6d39276a4`；
+新GUI回执：`.godot/f4-apparatus-rendered/7cbafa2f2785/results.json`，SHA
+`4eabc1d03ec76ef08dfa2e4e8427d08727487860bf0e52ffbbd70d666f2b515b`。
+三份包内说明新增26行双语实际路线且原行不删，Visual作者与Narrative独审确认原占位/前置/存档/隐私边界保持。
+下一固定检查点仅新增分发说明与证据；随后执行原完整175阶段和两实包链，尚不预填成功。
+
+Visual已完成全部50实际view/hash，观察站本矩阵接受；与69效率24、Target14共88实际原图，
+各自来源分列。720侧栏长来源/意象说明仍走原滚动，稀疏装置仍属可替换候选，不提升为包/OS/新人验收。
+审计`.godot/f4-final-visual-audit.json` SHA `f0f06b8574b9a374b2b5d86a750074eea29d3a8a47f0e0f0801b60a9224d0889`。

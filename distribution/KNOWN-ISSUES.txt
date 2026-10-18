@@ -2,6 +2,10 @@
 Build: @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
 
+- 新成果装置与CPU档案片段仍是可替换的候选意象，不是原电路几何、真实信号、能耗或生成事件测量；真实数值以原模型记录为准。
+- CPU片段只接受 cpu_speed 的有效同条件CPU配对；测试者入口开放不授予前置完成记录，也不代替真实造机或运行。深层说明与回原图按钮可沿原滚动区域查看。
+- 定位使用原运行证据；更改方案后需重跑，未通过输出／合同或陈旧证据不会被视为新成果。原任务树仍是直接游玩入口。
+
 - 2026-10-18 创作候选：壹的抽象档案图与第一束光保留可替换素材接口，不是最终CG、人设、声线或结局。
 - 深浅对照是同工作台的候选比较样张，不是生产全局浅色主题选项；色板仍待团队审阅。
 - 成长档案与观察站由原完成记录派生，不补写旧事件。观察站的灯和回顾光点不表示物理信号、能耗或智能测量。
@@ -18,6 +22,9 @@ Source commit: @SOURCE_COMMIT@
 - 更新/回退前备份完整候选 profile 目录；不要把较新档替换为唯一的旧快照来绕过写入保护。
 
 Known limits
+Measured apparatus and the CPU archive fragment are replaceable record imagery, not original circuit geometry, signal/energy measurements or event replay. Original model records remain authoritative.
+The CPU fragment requires a valid same-condition cpu_speed CPU pair. All-entrance access does not earn prerequisite records, construct hardware or produce runs. Deep explanation and chart return use the original scroll area.
+Locate uses the recorded run; edit then rerun. Unverified output, unmet contracts and stale evidence do not become earned progress. The task tree remains the direct play route.
 Archive imagery, First Light, character, CG, voice and ending choices are replaceable candidates, not final creative decisions.
 Dark/light workbench studies do not add a global production light-theme option. Journal/observatory views derive from existing records and invent no old event history or physical measurements.
 Journal work review shows saved snapshots and recipes, labels recovery, and offers no generation-event replay or fork. Continue creation in the original workbench.

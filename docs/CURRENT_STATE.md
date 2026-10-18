@@ -10,8 +10,12 @@ adds actionable Layout/Overlap evidence, an optional CPU-comparison reflection
 and distinct hardware/system observatory apparatus. Fixed sourcee3e475d passes all20 focused stages, including actual edit invalidation,
 restored apparatus geometry and protected original works. Source69b785a passes20 focused stages and all three renderer suites
 technically. Efficiency and target-evidence frames are independently accepted;
-the apparatus QA host lifecycle is being corrected after a visible tutorial-window
-overlap. Full regression and new packages remain unverified. The fixedc109
+the apparatus now passes3319 focused checks and3613 rendered checks at source2c56fd4
+through the actual Home entrance, including task-tree location and return. Its
+fifty original images pass independent per-image review; the720p sidebar keeps
+long source explanations in its original scroll area. The earlier incorrect QA-host
+images and script-error receipt remain recorded. Full regression and new packages
+remain unverified. The fixedc109
 pair below remains the last fully verified candidate and recovery baseline.
 
 ## Current development — 2026-10-18

@@ -2,12 +2,39 @@
   "stage": "ACTIVE_ENGINEERING_VALIDATION",
   "broad_goal_status": "ACTIVE",
   "baseline_commit": "2e488c387ab1a0b95f37036ca025878fdeaab085",
-  "candidate_source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+  "candidate_source_commit": "2c56fd48b14d105961f380211102512d19e544de",
   "branch": "codex/measured-growth-20261018",
-  "source_authority": "Immutable candidate69, Root confirmed committed/pushed. Original20-stage headless passed; three source-bound renderer suites passed technical assertions, but apparatus visual acceptance is UNACCEPTED due to a QA host-lifecycle overlay. Full, actual Measured packages, clone supplement and new native remain separate pending gates.",
+  "source_authority": "Local candidate2c: apparatus headless3/3 and actual rendered3613 technical PASS with independent50-frame acceptance. Efficiency184/Target169 remain source69 with unchanged production/tests, independently accepted24/14frames. Full175 and actual Measured package/strict/clone/native chains NOT_RUN. Old69 apparatus visual rejection and2f script stop remain historical.",
   "current_gates": {
     "source_reviews": "PASS_STATIC_SCOPE: cross-review ring plus independent external-QA review",
-    "candidate_focused20": {
+    "full_windows": {
+      "status": "NOT_RUN",
+      "expected_stages": 175,
+      "blocked_by": "Await Root explicit final-source full authorization; component image acceptance is now closed.",
+      "planned_source_commit": "2c56fd48b14d105961f380211102512d19e544de"
+    },
+    "new_normal_package": {
+      "status": "NOT_RUN",
+      "blocked_by": "Final-source full175 and actual new package chain not executed."
+    },
+    "new_tester_package_and_original_collector": {
+      "status": "NOT_RUN",
+      "blocked_by": "Final-source full175 and actual new package chain not executed."
+    },
+    "strict_reopen": {
+      "status": "NOT_RUN",
+      "expected_checks_per_role": 47
+    },
+    "cloned_measured_supplement": {
+      "status": "NOT_RUN"
+    },
+    "new_native_os": {
+      "status": "NOT_RUN"
+    },
+    "human_newcomer_and_platforms": {
+      "status": "NOT_RUN"
+    },
+    "focused20_source69": {
       "status": "PASS_HEADLESS_SCOPE",
       "source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
       "results": {
@@ -196,214 +223,108 @@
       ],
       "limits": "Headless only; separate rendered and actual-package gates retain their own outcomes."
     },
-    "candidate_rendered3": {
-      "status": "PASS_TECHNICAL_SCOPE_VISUAL_UNACCEPTED_APPARATUS_FIXTURE",
-      "source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+    "apparatus_source2c_focused3": {
+      "status": "PASS_HEADLESS_SCOPE",
+      "source_commit": "2c56fd48b14d105961f380211102512d19e544de",
       "results": {
-        "path": ".godot/f4-rendered/f648350bf08b/results.json",
-        "sha256": "f282c2fa529c684158cc1a5e1e6d59647cc305ef0672921a8d220fc2e41aa7ca"
+        "path": ".godot/verification/20261018T004613Z-4c2fe966/results.json",
+        "sha256": "89319f92317e1beaf93df82d135e6f7805feaea7a3e59c1f08775ab6d39276a4"
       },
       "summary": {
-        "path": ".godot/f4-rendered-69b785a-summary.json",
-        "sha256": "d208675f354825bb706dbaae8d04c7b19b7987583e5691591e49daa155c444a0"
+        "path": ".godot/f4-apparatus-2c56fd4-summary.json",
+        "sha256": "858915ead5bda5dc9dcdcef34649e4ae9b6412e866a21309f87a47f7e3626e06"
       },
-      "owned_natural_exit0": 3,
+      "normal_completed_stages": 3,
+      "passed_stages": 3,
+      "checks": 3319,
+      "all_owned_natural_exit0": true,
+      "owned_processes": {
+        "path": ".godot/f4-fixed-watch/b72aa8113c53/owned-processes.json",
+        "sha256": "6bcab34bc76c225a9e85241e49a843aaf46270cbae630ec824a4b9e51cfbdbca"
+      },
+      "copy_parity": {
+        "path": ".godot/f4-fixed-watch/b72aa8113c53/copy-parity.json",
+        "sha256": "dd26ecd6ae957cf753185854a16b7f1b28ed87c95cbf6ec5af6babc15a97cbd1"
+      },
+      "selected_source_files": 714,
+      "canonical_tests": 174,
+      "extra_qa_tests": [],
+      "log_hashes": {
+        "import.txt": {
+          "path": ".godot/verification/20261018T004613Z-4c2fe966/import.txt",
+          "sha256": "21fe0f0e31f952bdbb5828b77cf9ac6bbd7a560b1af82ed4512b66a92ddaf934"
+        },
+        "user_directory.txt": {
+          "path": ".godot/verification/20261018T004613Z-4c2fe966/user_directory.txt",
+          "sha256": "05a7fb74e99082a9698e5f7c1b430f49cb1c15f008da356035712f9313b28402"
+        },
+        "test_observatory_apparatus.txt": {
+          "path": ".godot/verification/20261018T004613Z-4c2fe966/test_observatory_apparatus.txt",
+          "sha256": "c6fcd42f7185081c378a43c81faf4b99ed58481fb594a3af360be6acefb75224"
+        }
+      }
+    },
+    "apparatus_source2c_rendered": {
+      "status": "PASS_RENDERED_CONTROLLER_SCOPE_VISUAL_ACCEPTED",
+      "source_commit": "2c56fd48b14d105961f380211102512d19e544de",
+      "summary": {
+        "path": ".godot/f4-apparatus-rendered-2c56fd4-summary.json",
+        "sha256": "60a84c40324d50ddebb82bdffe7251cc7bc1b8e1f7eb10cb39d92cb2bb9f212f"
+      },
+      "receipt": {
+        "path": ".godot/f4-apparatus-rendered/7cbafa2f2785/test_observatory_apparatus/receipt.json",
+        "sha256": "02c9e5ee4134276a4bd42dd809c4e2a91594a8f549767fe02796bae56c90ff87"
+      },
+      "log": {
+        "path": ".godot/f4-apparatus-rendered/7cbafa2f2785/test_observatory_apparatus/renderer.log",
+        "sha256": "262720c74a248c741f8b7aecde2f661aa7e65c590f10bd03b7c14de31107c290"
+      },
+      "checks": 3613,
+      "pid": 45184,
+      "exit": 0,
       "errors": 0,
-      "root_viewport_frames": 58,
+      "owned_early_termination": false,
+      "root_frames": 24,
       "actual_3d_textures": 24,
-      "actual_offline_captures": 6,
-      "total_raw_pngs_rehashed": 88,
+      "offline_captures": 2,
+      "all_pngs_independently_rehashed": 50,
+      "final_runtime_files_rehashed": 21,
+      "final_artifacts_rehashed": 10,
+      "source_settings_finally_guard": true,
+      "test_sha256": "e8f0782fe31d3ae7bf2134d7c005ece9071781c6c28e4295dce766cf5977b611",
+      "executed_contract": "Actual Home lazy launcher after original tutorial host is freed; foreign-panel/hover guards, real Locate-to-Map fields, feedback/Escape and read-only/non-navigation protections executed. Independent frame acceptance is still pending.",
+      "visual_review": {
+        "status": "ACCEPTED_SCOPE",
+        "reviewer": "Visual",
+        "audit": {
+          "path": ".godot/f4-final-visual-audit.json",
+          "sha256": "f0f06b8574b9a374b2b5d86a750074eea29d3a8a47f0e0f0801b60a9224d0889"
+        }
+      }
+    },
+    "component_rendered_scope69": {
+      "status": "PASS_RENDERED_CONTROLLER_SCOPE",
+      "source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
       "suites": [
         {
           "suite": "test_efficiency_fragment",
+          "checks": 184,
           "receipt": {
             "path": ".godot/f4-rendered/f648350bf08b/test_efficiency_fragment/receipt.json",
             "sha256": "16c87acf88298f2bfef08c33e1a14cfcf7c155c28cdfce1b1f8711601653d4f7"
-          },
-          "log": {
-            "path": ".godot/f4-rendered/f648350bf08b/test_efficiency_fragment/renderer.log",
-            "sha256": "244f2c9ac56e937bfe24dcf2dafc55b78ed26368b1100b836e9f73fc040f3173"
-          },
-          "checks": 184,
-          "pid": 24356,
-          "exit": 0,
-          "errors": 0,
-          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
-          "raw_pngs_rehashed": 24,
-          "runtime_files_rehashed": 37,
-          "artifact_files_rehashed": 6,
-          "four_environment_roots_private": true,
-          "test_sha256": "35abfaa478cd799cfdbc1d0b730179e6a9c6489463d0fbeace4db0e6065c4492",
-          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
-          "source_settings_finally_guard": true,
-          "saved_work_sessions": [],
-          "accepted_feedback_boundaries": [
-            {
-              "active": true,
-              "blend": 0.066664,
-              "busy": false,
-              "draw_frame": 424,
-              "feedback_flag": true,
-              "paused": false,
-              "process_frame": 424,
-              "scope": "zh_CN-ordinary",
-              "scroll": 42,
-              "step": 1
-            },
-            {
-              "active": true,
-              "blend": 0.06666,
-              "busy": true,
-              "draw_frame": 529,
-              "feedback_flag": false,
-              "paused": true,
-              "process_frame": 529,
-              "scope": "zh_CN-tester",
-              "scroll": 42,
-              "step": 1
-            },
-            {
-              "active": true,
-              "blend": 0.0666666666666667,
-              "busy": false,
-              "draw_frame": 1034,
-              "feedback_flag": true,
-              "paused": false,
-              "process_frame": 1034,
-              "scope": "en-ordinary",
-              "scroll": 66,
-              "step": 1
-            },
-            {
-              "active": true,
-              "blend": 0.067796,
-              "busy": true,
-              "draw_frame": 1139,
-              "feedback_flag": false,
-              "paused": true,
-              "process_frame": 1139,
-              "scope": "en-tester",
-              "scroll": 110,
-              "step": 1
-            }
-          ]
+          }
         },
         {
           "suite": "test_target_evidence_guidance",
+          "checks": 169,
           "receipt": {
             "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/receipt.json",
             "sha256": "39d03fe0ba1782bdc7bfe75a25435d5ef749d3849681cf54b79c4cb610b09674"
-          },
-          "log": {
-            "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/renderer.log",
-            "sha256": "ab18efe22951737fcc7857419a97e9f56d4b29c3f5fc3b3e1da2ef8cfe18a574"
-          },
-          "checks": 169,
-          "pid": 15956,
-          "exit": 0,
-          "errors": 0,
-          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
-          "raw_pngs_rehashed": 14,
-          "runtime_files_rehashed": 29,
-          "artifact_files_rehashed": 8,
-          "four_environment_roots_private": true,
-          "test_sha256": "fdd4cc86fd45f9827244ed0cde46b49f20c8e277083fe82df12f0ad4e5f00e8f",
-          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
-          "source_settings_finally_guard": true,
-          "saved_work_sessions": [
-            {
-              "file": {
-                "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/runtime/appdata/VonNeumannBottleneckChecks/F4Rendered-f648350bf08b/test_target_evidence_guidance/creation-candidate/session.json",
-                "sha256": "74f84ba6c821bcf57e4c01507d1c5b69cb0ce404c2fcd369ceb2d13cf03edd28"
-              },
-              "saved_works": 1,
-              "grade": "Real QA controller-generated work. Suite executed before/after protections; independent audit rehashed final session. No natural or OS generation claim."
-            }
-          ],
-          "accepted_feedback_boundaries": []
-        },
-        {
-          "suite": "test_observatory_apparatus",
-          "receipt": {
-            "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/receipt.json",
-            "sha256": "f7e5c36afb56c7eb8799bc682fd6a0eee1c48bdca0155db58360c19716f13f8b"
-          },
-          "log": {
-            "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/renderer.log",
-            "sha256": "a6b72607b2be361713d16a29a3ce2b9e5df199b7af45be9437e80869c737f73d"
-          },
-          "checks": 3442,
-          "pid": 46236,
-          "exit": 0,
-          "errors": 0,
-          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
-          "raw_pngs_rehashed": 50,
-          "runtime_files_rehashed": 21,
-          "artifact_files_rehashed": 10,
-          "four_environment_roots_private": true,
-          "test_sha256": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8",
-          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
-          "source_settings_finally_guard": true,
-          "saved_work_sessions": [
-            {
-              "file": {
-                "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/runtime/appdata/VonNeumannBottleneckChecks/F4Rendered-f648350bf08b/test_observatory_apparatus/creation-candidate/session.json",
-                "sha256": "946f0ac1345f6a433a3550a297477c191ae76d5630ba4e5758af99fd174ad21b"
-              },
-              "saved_works": 1,
-              "grade": "Real QA controller-generated work. Suite executed before/after protections; independent audit rehashed final session. No natural or OS generation claim."
-            }
-          ],
-          "accepted_feedback_boundaries": [],
-          "visual_status": "UNACCEPTED_QA_HOST_LIFECYCLE_FIXTURE"
+          }
         }
       ],
-      "visual_review": {
-        "status": "UNACCEPTED_APPARATUS_QA_FIXTURE",
-        "observer": "Root actual frame view, then Visual/Narrative source confirmation",
-        "frame_scope": "zh_CN1280x720 system inspection root viewport",
-        "observation": "The prior real tutorial host remained alive; its panels above z100 covered the synthetic root Observatory at z60. This technical PASS does not accept those apparatus frames.",
-        "authorized_fix": "Only test_observatory_apparatus: normally exit and free the real tutorial host, then use actual Home lazy launcher; assert prior host freed, absence of foreign panels and hover guards. Production Observatory unchanged.",
-        "next_gate": "New fixed-source apparatus test and actual renderer plus independent frame acceptance before full or packages."
-      },
-      "limits": "Controller QA fixtures, not native OS or newcomer acceptance; full and actual Measured packages are separate pending gates."
-    },
-    "full_windows": {
-      "status": "PENDING",
-      "expected_stages": 175,
-      "blocked_by": "Apparatus visual gate: actual Home launcher fixture correction and new rendered acceptance required."
-    },
-    "new_normal_package": {
-      "status": "PENDING",
-      "blocked_by": "Apparatus visual gate and final-source full regression."
-    },
-    "new_tester_package_and_original_collector": {
-      "status": "PENDING",
-      "blocked_by": "Apparatus visual gate and final-source full regression."
-    },
-    "strict_reopen": {
-      "status": "PENDING",
-      "expected_checks_per_role": 47
-    },
-    "cloned_measured_supplement": {
-      "status": "PENDING"
-    },
-    "new_native_os": {
-      "status": "NOT_RUN"
-    },
-    "human_newcomer_and_platforms": {
-      "status": "NOT_RUN"
+      "scope": "Efficiency184 and Target169 only. Old source69 apparatus technical PASS but visually unaccepted stays historical."
     }
-  },
-  "source_files_at_candidate": {
-    "src/layout_chapter/layout_chapter.gd": "26274443f7da4c8ec49d036d8581e6d1680ed3082e0a01c1c165bd9efbc55145",
-    "src/overlap_chapter/overlap_chapter.gd": "6e84246291513fecd4ce87a57c21304ca1ecb08b14ac5916377a295201dfeb89",
-    "src/system_lab/system_lab.gd": "33e44465ee0d75fbdb3c0c9ac56da7abdaf87f5afb95208f70d4903c1da68280",
-    "src/ui/efficiency_fragment.gd": "8a9374b24960d9ef3b09963c17a2d852037d0d782bc75b2648db35cb4c5f0588",
-    "src/ui/journey_observatory.gd": "85694e890ba737d5d977a02c18292f490211cf524e5860947e6bc9f6f5fcbbc9",
-    "tests/test_target_evidence_guidance.gd": "fdd4cc86fd45f9827244ed0cde46b49f20c8e277083fe82df12f0ad4e5f00e8f",
-    "tests/test_efficiency_fragment.gd": "35abfaa478cd799cfdbc1d0b730179e6a9c6489463d0fbeace4db0e6065c4492",
-    "tests/test_observatory_apparatus.gd": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8"
   },
   "external_qa_at_candidate": {
     "scripts/night-package-probe.gd": "9fb11c3d276816872b1fed655e646fc39b3e0b843ae42ee3d2adf0bd5e3a1a5f",
@@ -1095,5 +1016,337 @@
     "Current-version showcase/architecture and actual-frame handoff material still needs appropriate review; no fake before/after pair.",
     "Newcomer comprehension, Mac, real historical player works and broader native routes remain untested here.",
     "Final character/CG/voice/ending variants need actual replaceable materials and team review, not permanent exclusion or automatic finalization."
-  ]
+  ],
+  "source_files_at_69": {
+    "src/layout_chapter/layout_chapter.gd": "26274443f7da4c8ec49d036d8581e6d1680ed3082e0a01c1c165bd9efbc55145",
+    "src/overlap_chapter/overlap_chapter.gd": "6e84246291513fecd4ce87a57c21304ca1ecb08b14ac5916377a295201dfeb89",
+    "src/system_lab/system_lab.gd": "33e44465ee0d75fbdb3c0c9ac56da7abdaf87f5afb95208f70d4903c1da68280",
+    "src/ui/efficiency_fragment.gd": "8a9374b24960d9ef3b09963c17a2d852037d0d782bc75b2648db35cb4c5f0588",
+    "src/ui/journey_observatory.gd": "85694e890ba737d5d977a02c18292f490211cf524e5860947e6bc9f6f5fcbbc9",
+    "tests/test_target_evidence_guidance.gd": "fdd4cc86fd45f9827244ed0cde46b49f20c8e277083fe82df12f0ad4e5f00e8f",
+    "tests/test_efficiency_fragment.gd": "35abfaa478cd799cfdbc1d0b730179e6a9c6489463d0fbeace4db0e6065c4492",
+    "tests/test_observatory_apparatus.gd": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8"
+  },
+  "source_files_at_current_candidate": {
+    "src/layout_chapter/layout_chapter.gd": "26274443f7da4c8ec49d036d8581e6d1680ed3082e0a01c1c165bd9efbc55145",
+    "src/overlap_chapter/overlap_chapter.gd": "6e84246291513fecd4ce87a57c21304ca1ecb08b14ac5916377a295201dfeb89",
+    "src/system_lab/system_lab.gd": "33e44465ee0d75fbdb3c0c9ac56da7abdaf87f5afb95208f70d4903c1da68280",
+    "src/ui/efficiency_fragment.gd": "8a9374b24960d9ef3b09963c17a2d852037d0d782bc75b2648db35cb4c5f0588",
+    "src/ui/journey_observatory.gd": "85694e890ba737d5d977a02c18292f490211cf524e5860947e6bc9f6f5fcbbc9",
+    "tests/test_target_evidence_guidance.gd": "fdd4cc86fd45f9827244ed0cde46b49f20c8e277083fe82df12f0ad4e5f00e8f",
+    "tests/test_efficiency_fragment.gd": "35abfaa478cd799cfdbc1d0b730179e6a9c6489463d0fbeace4db0e6065c4492",
+    "tests/test_observatory_apparatus.gd": "e8f0782fe31d3ae7bf2134d7c005ece9071781c6c28e4295dce766cf5977b611"
+  },
+  "source69_to_2f_parity": {
+    "receipt": {
+      "path": ".godot/f4-runtime-parity-69b-2f96113.json",
+      "sha256": "a615e223bd996b2754b1c63a5ce7a698a28961e399280a03442fb53840b26a16"
+    },
+    "from_source": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+    "to_source": "2f961134b1dde6e2779c95a46d1f60b0d1647adc",
+    "git_changed_paths_authority": "Root ls-tree/diff receipt: exactly apparatus test and four docs; this author does not run Git.",
+    "independent_current_raw_audit": {
+      "compared_non_docs_files": 714,
+      "raw_exact_same": 713,
+      "differences": [
+        {
+          "path": "tests/test_observatory_apparatus.gd",
+          "source69_sha256": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8",
+          "current_raw_sha256": "463c22ddc3a34286d3ce399c2d794a2d346e8476c0336c330cc09a8db901e71f"
+        }
+      ]
+    },
+    "scope": "Production/runtime, efficiency test, target test and external QA unchanged. Build source/version identity will be injected anew; EXE identity is not claimed."
+  },
+  "apparatus_2f_failure_boundary": {
+    "classification": "QA lifecycle assumption after a legitimate production navigation action; production Observatory unchanged",
+    "source_statement": "Real Home lazy launcher correctly owns the Observatory. Its Locate handler changes scene to Map, freeing the old Home/Observatory; the test must inspect actual Map fields and then return through a fresh Home instead of reading freed observatory.visible.",
+    "authorized_next_fix": "Visual owns only apparatus test; Narrative independent source review. Retain original read-only/non-navigation protection snapshots; establish a new full navigation baseline after the deliberate scene route.",
+    "old_69_visual_failure_retained": true,
+    "new_run_status": "New2c headless3/3 and rendered3613 with50-frame independent acceptance; old2f failure unchanged."
+  },
+  "source_control": {
+    "root_reported_local_candidate": "2c56fd48b14d105961f380211102512d19e544de",
+    "last_root_reported_remote": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+    "remote_parity_for_current_candidate": "PENDING_ROOT_VERIFICATION",
+    "authority": "Root only; no Git command executed by evidence author."
+  },
+  "source2f_to_2c_parity": {
+    "from_source": "2f961134b1dde6e2779c95a46d1f60b0d1647adc",
+    "to_source": "2c56fd48b14d105961f380211102512d19e544de",
+    "changed_paths_root_git_verified": [
+      "tests/test_observatory_apparatus.gd",
+      "docs/exec-plans/active/measured-growth-20261018.md"
+    ],
+    "independent_current_raw_comparison_to_69": {
+      "inputs_compared": 714,
+      "raw_exact_same": 713,
+      "differences": [
+        {
+          "path": "tests/test_observatory_apparatus.gd",
+          "source69_sha256": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8",
+          "current_candidate_raw_sha256": "e8f0782fe31d3ae7bf2134d7c005ece9071781c6c28e4295dce766cf5977b611"
+        }
+      ]
+    },
+    "scope": "Only apparatus QA test and Root plan; no production/runtime/efficiency-test/target-test change. No EXE identity claim."
+  },
+  "historical_gate_snapshots": {
+    "renderer_source69": {
+      "status": "PASS_TECHNICAL_SCOPE_VISUAL_UNACCEPTED_APPARATUS_FIXTURE",
+      "source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+      "results": {
+        "path": ".godot/f4-rendered/f648350bf08b/results.json",
+        "sha256": "f282c2fa529c684158cc1a5e1e6d59647cc305ef0672921a8d220fc2e41aa7ca"
+      },
+      "summary": {
+        "path": ".godot/f4-rendered-69b785a-summary.json",
+        "sha256": "d208675f354825bb706dbaae8d04c7b19b7987583e5691591e49daa155c444a0"
+      },
+      "owned_natural_exit0": 3,
+      "errors": 0,
+      "root_viewport_frames": 58,
+      "actual_3d_textures": 24,
+      "actual_offline_captures": 6,
+      "total_raw_pngs_rehashed": 88,
+      "suites": [
+        {
+          "suite": "test_efficiency_fragment",
+          "receipt": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_efficiency_fragment/receipt.json",
+            "sha256": "16c87acf88298f2bfef08c33e1a14cfcf7c155c28cdfce1b1f8711601653d4f7"
+          },
+          "log": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_efficiency_fragment/renderer.log",
+            "sha256": "244f2c9ac56e937bfe24dcf2dafc55b78ed26368b1100b836e9f73fc040f3173"
+          },
+          "checks": 184,
+          "pid": 24356,
+          "exit": 0,
+          "errors": 0,
+          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
+          "raw_pngs_rehashed": 24,
+          "runtime_files_rehashed": 37,
+          "artifact_files_rehashed": 6,
+          "four_environment_roots_private": true,
+          "test_sha256": "35abfaa478cd799cfdbc1d0b730179e6a9c6489463d0fbeace4db0e6065c4492",
+          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
+          "source_settings_finally_guard": true,
+          "saved_work_sessions": [],
+          "accepted_feedback_boundaries": [
+            {
+              "active": true,
+              "blend": 0.066664,
+              "busy": false,
+              "draw_frame": 424,
+              "feedback_flag": true,
+              "paused": false,
+              "process_frame": 424,
+              "scope": "zh_CN-ordinary",
+              "scroll": 42,
+              "step": 1
+            },
+            {
+              "active": true,
+              "blend": 0.06666,
+              "busy": true,
+              "draw_frame": 529,
+              "feedback_flag": false,
+              "paused": true,
+              "process_frame": 529,
+              "scope": "zh_CN-tester",
+              "scroll": 42,
+              "step": 1
+            },
+            {
+              "active": true,
+              "blend": 0.0666666666666667,
+              "busy": false,
+              "draw_frame": 1034,
+              "feedback_flag": true,
+              "paused": false,
+              "process_frame": 1034,
+              "scope": "en-ordinary",
+              "scroll": 66,
+              "step": 1
+            },
+            {
+              "active": true,
+              "blend": 0.067796,
+              "busy": true,
+              "draw_frame": 1139,
+              "feedback_flag": false,
+              "paused": true,
+              "process_frame": 1139,
+              "scope": "en-tester",
+              "scroll": 110,
+              "step": 1
+            }
+          ]
+        },
+        {
+          "suite": "test_target_evidence_guidance",
+          "receipt": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/receipt.json",
+            "sha256": "39d03fe0ba1782bdc7bfe75a25435d5ef749d3849681cf54b79c4cb610b09674"
+          },
+          "log": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/renderer.log",
+            "sha256": "ab18efe22951737fcc7857419a97e9f56d4b29c3f5fc3b3e1da2ef8cfe18a574"
+          },
+          "checks": 169,
+          "pid": 15956,
+          "exit": 0,
+          "errors": 0,
+          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
+          "raw_pngs_rehashed": 14,
+          "runtime_files_rehashed": 29,
+          "artifact_files_rehashed": 8,
+          "four_environment_roots_private": true,
+          "test_sha256": "fdd4cc86fd45f9827244ed0cde46b49f20c8e277083fe82df12f0ad4e5f00e8f",
+          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
+          "source_settings_finally_guard": true,
+          "saved_work_sessions": [
+            {
+              "file": {
+                "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/runtime/appdata/VonNeumannBottleneckChecks/F4Rendered-f648350bf08b/test_target_evidence_guidance/creation-candidate/session.json",
+                "sha256": "74f84ba6c821bcf57e4c01507d1c5b69cb0ce404c2fcd369ceb2d13cf03edd28"
+              },
+              "saved_works": 1,
+              "grade": "Real QA controller-generated work. Suite executed before/after protections; independent audit rehashed final session. No natural or OS generation claim."
+            }
+          ],
+          "accepted_feedback_boundaries": []
+        },
+        {
+          "suite": "test_observatory_apparatus",
+          "receipt": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/receipt.json",
+            "sha256": "f7e5c36afb56c7eb8799bc682fd6a0eee1c48bdca0155db58360c19716f13f8b"
+          },
+          "log": {
+            "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/renderer.log",
+            "sha256": "a6b72607b2be361713d16a29a3ce2b9e5df199b7af45be9437e80869c737f73d"
+          },
+          "checks": 3442,
+          "pid": 46236,
+          "exit": 0,
+          "errors": 0,
+          "status": "PASS_RENDERED_CONTROLLER_SCOPE",
+          "raw_pngs_rehashed": 50,
+          "runtime_files_rehashed": 21,
+          "artifact_files_rehashed": 10,
+          "four_environment_roots_private": true,
+          "test_sha256": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8",
+          "helper_sha256": "d11c69bd6c1a731d5dea13024ef233c0389a8d32f03a73c902329f6239a62f86",
+          "source_settings_finally_guard": true,
+          "saved_work_sessions": [
+            {
+              "file": {
+                "path": ".godot/f4-rendered/f648350bf08b/test_observatory_apparatus/runtime/appdata/VonNeumannBottleneckChecks/F4Rendered-f648350bf08b/test_observatory_apparatus/creation-candidate/session.json",
+                "sha256": "946f0ac1345f6a433a3550a297477c191ae76d5630ba4e5758af99fd174ad21b"
+              },
+              "saved_works": 1,
+              "grade": "Real QA controller-generated work. Suite executed before/after protections; independent audit rehashed final session. No natural or OS generation claim."
+            }
+          ],
+          "accepted_feedback_boundaries": [],
+          "visual_status": "UNACCEPTED_QA_HOST_LIFECYCLE_FIXTURE"
+        }
+      ],
+      "visual_review": {
+        "status": "UNACCEPTED_APPARATUS_QA_FIXTURE",
+        "observer": "Root actual frame view, then Visual/Narrative source confirmation",
+        "frame_scope": "zh_CN1280x720 system inspection root viewport",
+        "observation": "The prior real tutorial host remained alive; its panels above z100 covered the synthetic root Observatory at z60. This technical PASS does not accept those apparatus frames.",
+        "authorized_fix": "Only test_observatory_apparatus: normally exit and free the real tutorial host, then use actual Home lazy launcher; assert prior host freed, absence of foreign panels and hover guards. Production Observatory unchanged.",
+        "next_gate": "New fixed-source apparatus test and actual renderer plus independent frame acceptance before full or packages."
+      },
+      "limits": "Controller QA fixtures, not native OS or newcomer acceptance; full and actual Measured packages are separate pending gates."
+    },
+    "apparatus_source2f_focused3": {
+      "status": "SCRIPT_ERROR_STOP",
+      "source_commit": "2f961134b1dde6e2779c95a46d1f60b0d1647adc",
+      "expected_stages": 3,
+      "normal_completed_result_rows": 2,
+      "normal_completed_passed": 2,
+      "results": {
+        "path": ".godot/verification/20261018T004234Z-0f0e4bed/results.json",
+        "sha256": "05d7bc3a6f2fe623662fced2e21a3f594024aada1be22a686464a76e6fcbf651"
+      },
+      "summary": {
+        "path": ".godot/f4-apparatus-2f96113-summary.json",
+        "sha256": "5c701685f175e2cd6cc4385381b2d03a4c0b540199c37f472fca312d1fa8b224"
+      },
+      "suite_interrupted": {
+        "suite": "test_observatory_apparatus",
+        "pid": 26308,
+        "exit": 1,
+        "terminated_owned_child_reason": "script_error",
+        "has_normal_result_row": false,
+        "log": {
+          "path": ".godot/verification/20261018T004234Z-0f0e4bed/test_observatory_apparatus.txt",
+          "sha256": "95979a372cd630fde979098276effc34b7af03849c0d638807859a9cc7d60c45"
+        },
+        "error": "Line324 reads observatory.visible after the real Home Locate handler has routed to Map and freed its old host."
+      },
+      "owned_total": 3,
+      "owned_normal_exit0": 2,
+      "owned_script_error_stop": 1,
+      "grade": "Actual original headless gate interrupted by strict owned-child supervisor; not three normally completed stages."
+    },
+    "apparatus_source2f_rendered": {
+      "status": "NOT_RUN",
+      "source_commit": "2f961134b1dde6e2779c95a46d1f60b0d1647adc",
+      "reason": "Headless script-error gate failed; renderer helper not bound/executed."
+    }
+  },
+  "current_composed_renderer_acceptance": {
+    "status": "ACCEPTED_SCOPED_RENDERED_CONTROLLER",
+    "visual_audit": {
+      "path": ".godot/f4-final-visual-audit.json",
+      "sha256": "f0f06b8574b9a374b2b5d86a750074eea29d3a8a47f0e0f0801b60a9224d0889"
+    },
+    "actual_image_reviewer": "Visual",
+    "evidence_author_role": "Independent receipt/log/file/frame-hash audit; not a second OS or image-review run.",
+    "suites": [
+      {
+        "suite": "efficiency_fragment",
+        "source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+        "frames_viewed": 24,
+        "receipt": {
+          "path": ".godot/f4-rendered/f648350bf08b/test_efficiency_fragment/receipt.json",
+          "sha256": "16c87acf88298f2bfef08c33e1a14cfcf7c155c28cdfce1b1f8711601653d4f7"
+        },
+        "all_frame_hashes_match": true
+      },
+      {
+        "suite": "target_evidence_guidance",
+        "source_commit": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+        "frames_viewed": 14,
+        "receipt": {
+          "path": ".godot/f4-rendered/f648350bf08b/test_target_evidence_guidance/receipt.json",
+          "sha256": "39d03fe0ba1782bdc7bfe75a25435d5ef749d3849681cf54b79c4cb610b09674"
+        },
+        "all_frame_hashes_match": true
+      },
+      {
+        "suite": "observatory_apparatus",
+        "source_commit": "2c56fd48b14d105961f380211102512d19e544de",
+        "frames_viewed": 50,
+        "receipt": {
+          "path": ".godot/f4-apparatus-rendered/7cbafa2f2785/test_observatory_apparatus/receipt.json",
+          "sha256": "02c9e5ee4134276a4bd42dd809c4e2a91594a8f549767fe02796bae56c90ff87"
+        },
+        "all_frame_hashes_match": true
+      }
+    ],
+    "total_actual_frames_viewed": 88,
+    "source_boundary": "Efficiency24 and Target14 are source69; apparatus50 is source2c. Production and other two tests unchanged, but this is not a new full three-suite render at2c.",
+    "limits": [
+      "Original scroll may be needed for deep optional prose, source programs, geometry and return actions; no all-text-same-screen claim.",
+      "Existing English floating F8/export strip can cover a tail of secondary fixed-configuration text; primary source/steps/metric scope accepted, not a claim of zero visual limitations.",
+      "Tests use disclosed real tutorial/CPG setup and reference official model fixtures, not natural newcomer progress, actual exported-package or OS acceptance."
+    ]
+  }
 }

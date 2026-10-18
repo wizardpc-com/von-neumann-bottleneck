@@ -1,6 +1,12 @@
 Whole-journey experience candidate — @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
 
+- 布局逐单说明真实合同与差额，定位原事件／地址；并行章节选中首个未达标任务，停止错误可定位原代码行，陈旧证据须重跑。
+- cpu_speed 的两次有效同条件CPU比较可选原档案片段，保留原图与真实数值；不重构事件或授予成果。
+- 观察站区分硬件板／系统模块成果意象，新增近看与还原全景；原任务列表、三视角、定位与进入条件不变。
+- Layout exposes actual per-case contract gaps and recorded locations; Overlap locates the first unmet workload/error line and rejects stale evidence.
+- A valid controlled CPU pair offers an optional aggregate-record fragment. Observatory hardware/system apparatus can be inspected and restored without changing progress or task gates.
+
 - 首页／地图新增可选成长档案与3D观察站，沿用真实完成记录及原任务导航；测试开放入口不授予成果。
 - 真实NOT教程完成后，主题回顾可选第一束光：固定1→0示意，支持跳过、重播、减少动态及缺素材回退。
 - 档案可选择已保存作品，只看原输出、配方与来源，区分只读恢复；不分叉或重构生成事件，原工作台仍可创作。

@@ -114,7 +114,8 @@ func _reveal_body() -> void:
 	var ancestor: Node = get_parent()
 	while ancestor != null:
 		if ancestor is ScrollContainer:
-			ancestor.ensure_control_visible(body)
+			# Reveal identity, step choices and the measured value; deeper material can scroll.
+			ancestor.ensure_control_visible(metric_label)
 			return
 		ancestor = ancestor.get_parent()
 

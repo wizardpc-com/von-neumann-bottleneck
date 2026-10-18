@@ -125,3 +125,9 @@ Headless仍不覆盖实际F8窗口/渲染。三新suite真实renderer经独审he
 实际面板、焦点、逐层Esc及保护断言后续通过，不能覆盖前面的错误。
 settings在finally恢复原字节、固定输入仍精确；TargetGuidance/观察站renderer均NOT_RUN。
 Narrative负责最小布局及实际输入相位诊断，Knowledge独审；不得直接设busy/feedback标志或删除原断言刷绿。
+
+效率修正与相位诊断已独审：生产展开后的ensure目标由整块body改为metric_label，以保留其前方来源/步骤阅读区；
+完整文字、原比较图与16px正文保留，实际布局仍待运行。canonical测试只增加只读输入相位日志，
+每信号最多4条并断开，原45个check调用、41个await及Input顺序不变，未修改F8断言或共享标志。
+下一次只执行原import/userdir/效率3阶段，再以独立DIAGNOSTIC身份运行该canonical真实GUI一次，
+保持180s/严格ERROR/四环境与固定来源；这次诊断不替代最终20阶段、三suite渲染、完整回归或实包。

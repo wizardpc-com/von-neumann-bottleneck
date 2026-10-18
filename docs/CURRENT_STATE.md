@@ -24,7 +24,11 @@ Both roles also pass actual Windows Home→Observatory→near view→F8→Esc→
 and normal exit in cloned QA profiles; nineteen original images and protected
 post-exit state have independent review. This establishes the stated seeded QA
 routes only. Supplementary legal hardware preparation and CPU/target checks use
-a separately reviewed external QA controller and remain unrun at this checkpoint.
+a separately reviewed external QA controller. Its legal-preparation attempt passes
+147 in-engine checks and exits0, but the external audit rejects eleven same-value
+integer-to-float changes from the original workbench serializer. That attempt
+remains failed; a narrowly enumerated serializer expectation is independently
+reviewed before a new run. The strict-reopen validator and product ZIPs are unchanged.
 The [measured-growth evidence](verification/20261018-measured-growth/README.md)
 keeps exact source/package identities and the previous failed supplement.
 The fixedc109 pair below remains the previous recovery baseline.

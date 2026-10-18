@@ -299,7 +299,30 @@ def measured_evidence(root,candidate,parent):
     for key in allowed_hardware:
         if key in old_game:new_game[key]=old_game[key]
         else:new_game.pop(key)
-    assert canonical(preserved)==canonical(old_store), 'Unrelated original hardware workbench changed'
+    # The original Store parses old snapshots as JSON numbers and persists the
+    # whole manifest with full_precision, including the untouched tutorial.
+    old_expected=copy.deepcopy(old_store);store_conversions=[]
+    prefix=('namespaces','game','tutorial','workbenches','default')
+    boundaries=[(('schema_version',),1),
+                (('components',0,'output_port_widths',0),1),
+                (('components',1,'input_port_widths',0),1),
+                (('components',2,'input_port_widths',0),1),
+                (('components',2,'output_port_widths',0),1)]
+    boundaries += [(('wires',index,key),0) for index in (0,1) for key in ('color_index','from_port','to_port')]
+    for suffix,known_value in boundaries:
+        pointer=prefix+suffix;expected_node=old_expected;actual_node=preserved
+        for part in pointer[:-1]:expected_node=expected_node[part];actual_node=actual_node[part]
+        key=pointer[-1];before=expected_node[key];after_value=actual_node[key]
+        assert type(before) in (int,float) and before==known_value
+        if type(before) is int:
+            predicted=float(before)
+            assert int(predicted)==before and type(after_value) is float and canonical(after_value)==canonical(predicted)
+            expected_node[key]=predicted
+            store_conversions.append({'path':'/'+('/'.join(str(part) for part in pointer)),
+                                      'from_type':'int','to_type':'float','from':before,'to':predicted,
+                                      'reason':'original CircuitWorkbenchStore JSON load / full_precision whole-manifest save'})
+        else:assert canonical(after_value)==canonical(before)
+    assert canonical(preserved)==canonical(old_expected), 'Unrelated original hardware workbench changed'
     permitted_files={str((user_data/name).relative_to(runtime).as_posix()) for name in mutable_names}
     def auxiliary(name):
         return bool(set(Path(name).parts)&{'logs','shader_cache','playtest_data','offline_playtest'}) or Path(name).name=='feedback_drafts_v1.json'
@@ -313,7 +336,8 @@ def measured_evidence(root,candidate,parent):
         'parent_controller_sha256':seed['parent_controller_sha256'],'supplement_controller_sha256':seed['controller_sha256'],
         'seed_sha256':sha(work/'seed.json'),'receipt_sha256':sha(raw_path),'process_sha256':sha(work/'process.json'),
         'post_exit_files_sha256':sha(work/'post-exit-files.json'),'post_exit_save_time_or_backup_rotation':time_changes,
-        'original_parent_runtime_unchanged':True,'validator_sha256':sha(Path(__file__)),
+        'original_parent_runtime_unchanged':True,'hardware_store_loaded_codec_conversions':store_conversions,
+        'validator_sha256':sha(Path(__file__)),
         'evidence_grade':'exported game-mode supplemental controller in cloned QA data; legitimate reference-wired hardware preparation, separate pure-view protection; normal target Hosts NOT_RUN while locked'}
     (work/'validation.json').write_text(json.dumps(validation,ensure_ascii=False,indent=2),encoding='utf-8')
     print('PASS: Measured exported supplement and original-parent protection '+str(work),flush=True)

@@ -255,3 +255,16 @@ LOAD/STORE交接→System assembly→CPU pair，单列合法QA准备与纯回看
 合法准备与纯回看分开，原作品/父档案逐字节保护，允许变化仅限已证明字段；
 备份须绑定独立核验seed/CPU/final，初始成绩绑定原档案，可变文件严格六项。
 运行前先提交恢复点；旧失败不追改。新控制器尚无实际补充通过结果。
+
+## cb9e外QA的实际普通补充
+
+新普通measured-f32298c0a1b1实际引擎9812自然退出0，147内部检查全true、5原PNG；
+外层wrapper302仍FAIL且无validation。合法硬件准备会经原Store加载/全库full_precision保存，
+旧tutorial/default恰11个整数变为同值浮点；独立递归核对无值、顺序、电路、布局或其他类型差异。
+其余后置审计不能视为已运行通过，旧父runtime仍exact。失败摘要
+`.godot/f4-normal-measured-legal-prep-FAIL-summary.json` SHA
+`eed1a4d26411856205fe9bcd5eba3f9390a3d965d80e1d468fda91546c317db0`。
+
+下一外QA仅对原seed副本中的这11明确JSON路径构建原codec预期并披露类型变化；
+不作通用数字归一化，不改原strict脚本，其他未知类型/内容仍拒绝。
+须重新独审、提交后才能新建一次实际运行；原FAIL与原包SOURCE不改。

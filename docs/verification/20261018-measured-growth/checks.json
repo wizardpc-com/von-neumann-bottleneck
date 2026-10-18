@@ -4,7 +4,7 @@
   "baseline_commit": "2e488c387ab1a0b95f37036ca025878fdeaab085",
   "candidate_source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
   "branch": "codex/measured-growth-20261018",
-  "source_authority": "Product SOURCE97516 remains fixed. Full175, original normal128+strict47 and tester138+bundled-child+strict47 have actual accepted receipts; Root OS observation-only routes have a separate scoped two-role acceptance. Original clone supplement fd6 FAILED and remains blocking for its scope. New external-QA legal-preparation repair is implemented with both independent static reviews PASS and runtime NOT_RUN; product/ZIP unchanged. Efficiency/Target rendered69 and apparatus2c remain separately sourced.",
+  "source_authority": "Product SOURCE97516 fixed. Full175, original normal128+strict47, tester138+bundled-child+strict47 and limited two-role ObservatoryOS routes remain scoped accepted. Original fd6 clone failed startup; newer cb9e legal-prep clone f322 ran147GD and5frames but wrapper302 failed old Store11-pointer typed guard, no validation. Current wrapperb213 explicit codec boundary has both independent static reviews PASS and runtime NOT_RUN; probe736/strict7b9/product/ZIP unchanged. Rendered source scopes69/2c remain separate.",
   "current_gates": {
     "source_reviews": "PASS_STATIC_SCOPE: cross-review ring plus independent external-QA review",
     "full_windows": {
@@ -220,44 +220,168 @@
       }
     },
     "cloned_measured_supplement": {
-      "status": "FAIL_NORMAL_CLONE_SUPPLEMENT",
-      "work": ".godot/night-package/measured-fd6f9bd3334c",
+      "status": "FAIL_NORMAL_LEGAL_PREPARATION_WRAPPER_CODEC_GUARD",
+      "work": ".godot/night-package/measured-f32298c0a1b1",
+      "product_source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+      "executed_qa_commit": "cb9e6aaf372e5e47d97293e66b78bfb11db4abcc",
+      "executed_probe_sha256": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
+      "executed_wrapper_sha256": "9a3c7393fcdda4ab8deef320c9199dd4d82cfcdb932c48f8866e38fea5d11295",
       "summary": {
-        "path": ".godot/f4-normal-measured-supplement-FAILED-summary.json",
-        "sha256": "844de49cd42039d1047b33155a31c641728c7724c3720dea5306865e8e72e062"
+        "path": ".godot/f4-normal-measured-legal-prep-FAIL-summary.json",
+        "sha256": "eed1a4d26411856205fe9bcd5eba3f9390a3d965d80e1d468fda91546c317db0"
       },
-      "log_sha256": "fb8838e9418c646f6ac84ee9a23370737b860bfdd0c1641b28d36925ca5877d2",
-      "process_sha256": "bd02fff394274f219509b84c2b285a59db58bf4ffef0d1a0c27988576de25737",
-      "seed_sha256": "8293cd050a1adc7d7d87a29a2f47b1f9f8f7dffc58c49c8ee8b2e64215e77eee",
-      "post_exit_files_sha256": "8a02191e0ae9dcf1c403a3e0ac02eeed37f46ee91bbf354f67276d9be6d7bbc4",
-      "pid": 26784,
-      "exit": 3221225477,
-      "hex_exit": "0xc0000005",
-      "terminated_owned_child_reason": "",
-      "first_error": "Measured apparatus binds only the actually completed tutorial",
-      "following_errors": [
-        "CPU OptionButton item count0 index errors",
-        "Single/pair reference official run assertions fail",
-        "Layout original fields contract assertion fails"
+      "raw_sha256": "5723090b5285182f07f9bb66cf77d0d9e329e2113dd6624fc6a5f3c2e633f834",
+      "seed_sha256": "41b45cca89ce4770b194a2a05e29f1d89f07f83aff199bacbc42c89c081feb85",
+      "process_sha256": "022349e7247b9503683b5ea25cecd611e29ac545a7ce67576356d6fdad71f254",
+      "post_exit_files_sha256": "cf5766244410b4e7a8e67654de1ebfdd322fd32aca0b68a8096e3565f6d1ce93",
+      "log_sha256": "607ec49d6c711e774cb862c18722896483f0db7f57150cf491e777a58dd76f15",
+      "engine_pid": 9812,
+      "engine_exit": 0,
+      "engine_terminated_reason": "",
+      "gd_checks": 147,
+      "gd_all_true": true,
+      "gd_failures": [],
+      "no_engine_ERROR": true,
+      "wrapper_exit": 1,
+      "first_wrapper_failure": {
+        "file": "scripts/verify-night-package.py",
+        "line": 302,
+        "message": "Unrelated original hardware workbench changed"
+      },
+      "validation_exists": false,
+      "independently_verified_frames": [
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "apparatus-near.png",
+          "sha256": "2cb7e10ceeb720c218991d962c21373bdeca89b2d79a6ba0d8608fbfdfd077d2"
+        },
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "apparatus-feedback.png",
+          "sha256": "6b95106fa12dd6405de9326d602b9d3fc7edacbf3b8ed28e22389c952ce425c8"
+        },
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "apparatus-overview.png",
+          "sha256": "e5938463034de3f8cb2be7bc9cef46bcd5184416ac782f9dc9e77a3acd5b5ff3"
+        },
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "cpu-controlled-pair.png",
+          "sha256": "f7dbcecbb881e73a0d6905c8819abaf948c987a69c45138a01f7926d73de10dd"
+        },
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "cpu-fragment-feedback.png",
+          "sha256": "f1783d467c6cd4f7686f6dca14fa9da988bc09b9bb9d04a755d6646a8e4042cc"
+        }
       ],
-      "successful_supplement_raw_receipt": false,
-      "successful_validation": false,
-      "independent_protection_audit": {
-        "original_parent_actual_files": 18,
-        "original_parent_actual_directories": 36,
-        "all_file_hashes_and_directory_set_exact_to_seed": true,
-        "parent_receipt_unchanged": true,
-        "strict_validation_unchanged": true,
-        "zip_unchanged": true,
-        "original_three_QA_at_failed_run_unchanged": true
+      "visual_review": {
+        "path": ".godot/night-package/measured-f32298c0a1b1/visual-independent-audit.json",
+        "sha256": "b939bdfb592087eedc492805d18795570d874d856a5f5d4614e4dbb52cb1a432",
+        "result": "PASS_VISUAL_SCOPE_ONLY_OVERALL_FAIL_UNCHANGED",
+        "actual_frames_viewed": 5,
+        "limits": "Chinese1280x720 only, legal reference-wired original official/sealing controller preparation, not native/unaided player journey. Deeper CPU explanation/chart return uses original scroll; not all text same-screen."
       },
-      "source_diagnosis": {
-        "capture_launch_conflict": "Actual command contains --capture-size. GlobalSave._ready and _is_automated_launch explicitly skip load_game for any --capture argument; cloned disk main actually retains tutorial completion. Runtime loaded_save was not logged, so the branch is source-supported, not a measured variable value.",
-        "exported_test_mode_contract": "GameMode.set_mode(test) explicitly returnsfalse for free_candidate; probe ignored return. Unchanged normal task gates then reject CPU/Layout entry. No evidence of simulator regression from this invalid setup.",
-        "crash_boundary": "Natural native access-violation exit observed; exact engine crash mechanism not established from following setup errors."
-      },
-      "repair_status": "IMPLEMENTED_PASS_BOTH_STATIC_REVIEWS_RUNTIME_NOT_RUN",
-      "limits": "Original normal parent128/strict47, tester original chain and limited native routes remain separately accepted. The old clone supplement failure remains; current legal-preparation repair is static-reviewed but not run. No direct mode/earned-state bypass or core/package change."
+      "old_tutorial_exact_typed_differences": [
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/components/0/output_port_widths/0",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/components/1/input_port_widths/0",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/components/2/input_port_widths/0",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/components/2/output_port_widths/0",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/schema_version",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/color_index",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/from_port",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/to_port",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/color_index",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/from_port",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/to_port",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        }
+      ],
+      "source_mechanism": "CircuitWorkbenchStore._load_from_disk:266 JSON.parse_string then deep-copy of namespaces; manifest_snapshot sorts/recasts manifest headers but deep-copies old workbench snapshots. _persist:411 JSON.stringify(manifest_snapshot(),tab,false,true) saves the whole namespace with full_precision when new levels ensure/save their original workbenches. This reserializes11 old tutorial integer fields as same-valued floats without editing its circuit. All other old fields/types/array order/values exact.",
+      "normal_targets_status": "NOT_RUN_NORMAL_LOCKED",
+      "original_parent_runtime_unchanged": true,
+      "existing_original_CPG_session_unchanged": true,
+      "scope": "Engine/GD and scoped visuals passed but complete supplement FAIL: wrapper validation was not produced. No retroactive success; fd6 original startup failure remains in historical_gate_snapshots."
     },
     "new_native_os": {
       "status": "PASS_SCOPE_OBSERVATORY_ONLY",
@@ -616,7 +740,7 @@
     "Visual reviewed Layout/Overlap and actual-work protection fixtures.",
     "Knowledge reviewed System/Efficiency; final accepted-boundary test35ab retains capture-busy and unfinished-fade assertions after one observed process_frame then pre_draw.",
     "Narrative reviewed apparatus precision: approximate Rect2 plus exact occupied pixels, exact camera and apparatus transforms; no extra waits or production projection change.",
-    "Visual reviewed original97516 three-file external QA; Narrative and Visual separately reviewed current736/9a3 repaired two-file supplement with unchanged strict7b9. Both current reviews PASS_STATIC only; actual repaired supplement NOT_RUN."
+    "Original97516 parent QA and current external supplement identities are separate. Narrative and Visual closed probe736/wrapperb213 with unchanged strict7b9; fixed11 Storecodec boundary has only in-memory comparator checks and static source acceptance, runtime NOT_RUN."
   ],
   "historical_canonical_runs": [
     {
@@ -1591,6 +1715,46 @@
       "status": "NOT_RUN",
       "source_commit": "2f961134b1dde6e2779c95a46d1f60b0d1647adc",
       "reason": "Headless script-error gate failed; renderer helper not bound/executed."
+    },
+    "original_fd6_clone_supplement": {
+      "status": "FAIL_NORMAL_CLONE_SUPPLEMENT",
+      "work": ".godot/night-package/measured-fd6f9bd3334c",
+      "summary": {
+        "path": ".godot/f4-normal-measured-supplement-FAILED-summary.json",
+        "sha256": "844de49cd42039d1047b33155a31c641728c7724c3720dea5306865e8e72e062"
+      },
+      "log_sha256": "fb8838e9418c646f6ac84ee9a23370737b860bfdd0c1641b28d36925ca5877d2",
+      "process_sha256": "bd02fff394274f219509b84c2b285a59db58bf4ffef0d1a0c27988576de25737",
+      "seed_sha256": "8293cd050a1adc7d7d87a29a2f47b1f9f8f7dffc58c49c8ee8b2e64215e77eee",
+      "post_exit_files_sha256": "8a02191e0ae9dcf1c403a3e0ac02eeed37f46ee91bbf354f67276d9be6d7bbc4",
+      "pid": 26784,
+      "exit": 3221225477,
+      "hex_exit": "0xc0000005",
+      "terminated_owned_child_reason": "",
+      "first_error": "Measured apparatus binds only the actually completed tutorial",
+      "following_errors": [
+        "CPU OptionButton item count0 index errors",
+        "Single/pair reference official run assertions fail",
+        "Layout original fields contract assertion fails"
+      ],
+      "successful_supplement_raw_receipt": false,
+      "successful_validation": false,
+      "independent_protection_audit": {
+        "original_parent_actual_files": 18,
+        "original_parent_actual_directories": 36,
+        "all_file_hashes_and_directory_set_exact_to_seed": true,
+        "parent_receipt_unchanged": true,
+        "strict_validation_unchanged": true,
+        "zip_unchanged": true,
+        "original_three_QA_at_failed_run_unchanged": true
+      },
+      "source_diagnosis": {
+        "capture_launch_conflict": "Actual command contains --capture-size. GlobalSave._ready and _is_automated_launch explicitly skip load_game for any --capture argument; cloned disk main actually retains tutorial completion. Runtime loaded_save was not logged, so the branch is source-supported, not a measured variable value.",
+        "exported_test_mode_contract": "GameMode.set_mode(test) explicitly returnsfalse for free_candidate; probe ignored return. Unchanged normal task gates then reject CPU/Layout entry. No evidence of simulator regression from this invalid setup.",
+        "crash_boundary": "Natural native access-violation exit observed; exact engine crash mechanism not established from following setup errors."
+      },
+      "repair_status": "IMPLEMENTED_PASS_BOTH_STATIC_REVIEWS_RUNTIME_NOT_RUN",
+      "limits": "Original normal parent128/strict47, tester original chain and limited native routes remain separately accepted. The old clone supplement failure remains; current legal-preparation repair is static-reviewed but not run. No direct mode/earned-state bypass or core/package change."
     }
   },
   "current_composed_renderer_acceptance": {
@@ -1746,23 +1910,25 @@
     }
   },
   "external_qa_legal_preparation_repair": {
-    "status": "IMPLEMENTED_PASS_BOTH_STATIC_REVIEWS_RUNTIME_NOT_RUN",
+    "status": "IMPLEMENTED_11_POINTER_CODEC_GUARD_PASS_BOTH_STATIC_RUNTIME_NOT_RUN",
     "product_source_unchanged": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
     "new_probe_sha256": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
-    "new_wrapper_sha256": "9a3c7393fcdda4ab8deef320c9199dd4d82cfcdb932c48f8866e38fea5d11295",
+    "new_wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
     "strict_validator_unchanged_sha256": "7b9f5ff700f0861f88af76e49ab49ddd3a8c1ad889f676993ab8ac819e791432",
     "original_parent_probe_sha256": "9fb11c3d276816872b1fed655e646fc39b3e0b843ae42ee3d2adf0bd5e3a1a5f",
     "scope": "New supplement only: true loaded seed, no capture flag/TestMode, real original Hardware official/sealing and System game-mode preparation, normal Targets remain locked NOT_RUN, fixed tester gets original access; lawful new authority fields separated from pure-view zero-write baselines, exact oldCPG/parent maps and typed post-exit audit. No core/package change or actual success inferred from static review.",
     "historical_wrapper_static_review_sha256": "a739c59d6d3d87b0ffb8b5b36f373a0218f173ec2229d7f9db5bc0ed5810c57a",
-    "latest_independent_review_boundary": "Both reviewers closed the latest guard delta: CPU/final main independently audited; backups exact seed or audited checkpoints only; initial best bound to original parent standard v1 typed records; exact constant six-key disk set. Fail-closed if a different intermediate backup is actually observed. Original failed supplement unchanged; runtime NOT_RUN.",
+    "latest_independent_review_boundary": "Original Store boundary only: fixed11 tutorial/default pointers, original exact int0/1 -> same-value float predicted from old expected copy; original float must remain typed exact with no conversion entry. Unknown fields/array order/value/type changes still rejected. Explicit conversions enter future validation, never old failed work. No general normalization, product change, probe change or strict7b9 change.",
     "latest_delta_reviews": {
-      "Narrative": "PASS_STATIC_AT_9a3c7393",
-      "Visual": "PASS_STATIC_AT_9a3c7393"
+      "Narrative": "PASS_STATIC_AT_b213d90b_WITH_12_PURE_COMPARISON_FIXTURES",
+      "Visual": "PASS_STATIC_SCOPE_AT_b213d90b_WITH_FIXED_POINTER_POSITIVE_NEGATIVE_FIXTURES"
     },
     "independent_reviewers": [
       "Narrative",
       "Visual"
-    ]
+    ],
+    "previous_wrapper_static_review_sha256": "9a3c7393fcdda4ab8deef320c9199dd4d82cfcdb932c48f8866e38fea5d11295",
+    "independent_unit_check_boundary": "Both reviewers exercised the actual narrow comparison block only in memory against old f322 data and positive/negative fixtures. Same11 conversions accepted, existing float exact accepted without entries; changed values/bools/retainedint/float-to-int/unknown fields/other numeric types/array reorder rejected. Original inputs, failed raw and missing validation unchanged. This is not a new supplemental process run."
   },
   "external_qa_at_product_source97516": {
     "scripts/night-package-probe.gd": "9fb11c3d276816872b1fed655e646fc39b3e0b843ae42ee3d2adf0bd5e3a1a5f",
@@ -1787,9 +1953,9 @@
   "current_external_qa": {
     "status": "PASS_BOTH_INDEPENDENT_STATIC_REVIEWS_RUNTIME_NOT_RUN",
     "scripts/night-package-probe.gd": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
-    "scripts/verify-night-package.py": "9a3c7393fcdda4ab8deef320c9199dd4d82cfcdb932c48f8866e38fea5d11295",
+    "scripts/verify-night-package.py": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
     "scripts/verify-embedded-profile-reopen.py": "7b9f5ff700f0861f88af76e49ab49ddd3a8c1ad889f676993ab8ac819e791432",
-    "boundary": "Two repaired external-QA files; strict validator unchanged. Original successful package parents and strict receipts retain old9fb/fab identities. New supplement has not been run; original fd6 failure remains."
+    "boundary": "Current probe736 plus wrapperb213 and unchanged strict7b9. Original successful parents retain9fb/fab; cb9e executed736/9a3 gave147GD PASS but overall wrapper302 FAIL. New11-pointer guard not run; old fd6 and f322 failures retained."
   },
   "historical_package_plan_before_builds": {
     "status": "PENDING_ACTUAL_MANIFEST",

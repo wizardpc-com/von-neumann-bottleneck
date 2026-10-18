@@ -21,11 +21,17 @@ Root实时核对97516的远端CI：`39084476085`的Python／Godot均SUCCESS（Go
 
 原结果与逐文件 SHA 见 [checks.json](checks.json)。本页不收录私人意见内容、运行账户路径或未经核验的包下载链接。
 
-## 当前补充阻断
+## 当前补充阻断与保留失败
 
-普通克隆补充`measured-fd6f9bd3334c`实际FAIL：首错为教程成果绑定未满足，随后CPU空选项／受控pair和Layout任务契约错误，进程26784自然异常退出`0xC0000005`，不是监督器终止；没有成功补充raw或validation。原失败日志／摘要保留，不自动重跑。
+**历史启动失败仍保留。** 普通克隆补充`measured-fd6f9bd3334c`实际FAIL：首错为教程成果绑定未满足，随后CPU空选项／受控pair和Layout任务契约错误，进程26784自然异常退出`0xC0000005`，不是监督器终止；没有成功补充raw或validation。原失败日志／摘要保留，不自动重跑。
 
-已独立核seed、日志、进程和post-exit map：原父runtime的18文件＋36目录精确不变，该失败回合的父128／strict47收据、ZIP和当时三外QA也未变。源码定位两个启动合同冲突：实际`--capture-size`触发GlobalSave自动化分支而不调用load_game（磁盘教程完成仍真实存在；未记录runtime loaded_save值）；free_candidate明确拒绝`set_mode(test)`，QA却未检查返回，不能把后续未合法进入的Host当模型回归。异常退出底层机制仍未确认。这段为旧失败回合的诊断记录。当前两外QA修复已实现并通过双独立静态审查，但新补充运行仍未执行；旧失败不改判。
+已独立核seed、日志、进程和post-exit map：原父runtime的18文件＋36目录精确不变，该失败回合的父128／strict47收据、ZIP和当时三外QA也未变。源码定位两个启动合同冲突：实际`--capture-size`触发GlobalSave自动化分支而不调用load_game（磁盘教程完成仍真实存在；未记录runtime loaded_save值）；free_candidate明确拒绝`set_mode(test)`，QA却未检查返回，不能把后续未合法进入的Host当模型回归。异常退出底层机制仍未确认。这段为旧失败回合的诊断记录。最新wrapper b213已通过双独立静态审查，尚未执行；旧失败不改判。
+
+**最新合法准备回合仍为整体FAIL。** 外QA `cb9e6aa`在普通新clone `measured-f32298c0a1b1`以原Host连线／官方验收／封装完成真实Hardware→assembly→CPU。引擎9812自然退出0、无ERROR，原GD147项全true，五张实际1280×720图已由Visual逐view并接受限定范围；normal Targets仍原锁定NOT_RUN。然而wrapper第302行因旧工作台typed保护拒绝而exit1，未生成validation。摘要`.godot/f4-normal-measured-legal-prep-FAIL-summary.json` SHA `eed1a4d26411856205fe9bcd5eba3f9390a3d965d80e1d468fda91546c317db0`绑定原raw／进程／五图，不能以GD或图审通过替代整体门禁。
+
+旧tutorial/default精确只有11个同值类型差：snapshot.schema_version与四个组件端口宽度`int1→float1.0`，两条wire各color_index／from_port／to_port共六项`int0→float0.0`。其余键、数组顺序、值、类型和原布线／布局／元件身份均相同。原Store的JSON读取保留浮点表示，新任务保存会以full_precision重写整manifest，连未编辑tutorial快照一并重编码；原父／作品不变。新wrapper `b213d90b…`仅从旧expected副本为固定11指针构建同值float预期并记录转换，原float必须精确不变，其余仍严格；probe736与strict7b9未改。此窄修已获Narrative／Visual双独审通过（原比较块正反例仅纯内存），运行NOT_RUN，不回写旧失败成功收据。
+
+五图的范围审计`.godot/night-package/measured-f32298c0a1b1/visual-independent-audit.json` SHA `b939bdfb592087eedc492805d18795570d874d856a5f5d4614e4dbb52cb1a432`只确认实际观察站与CPU原记录316→268／同程序同测试集及反馈画面。深层等待／计算文字与返回仍需原滚动；不是双语多窗矩阵、OS、新人或完整补充PASS。这五张raw不与展示索引已收录的五张素材混计。
 
 ## 限定原生观察站验收
 
@@ -33,7 +39,7 @@ Root使用官方Sky实际鼠标／键盘完成两角色：Home→观察站教程
 
 本地QA档案仅主备保存时间戳／正常轮转变化，其typed payload精确等原strict／baseline，无新normalize；原作品／Session／空lease／硬件草稿／导航／成绩／显示偏好不变，其余只有日志及测试者一件本地现场的三个文件。未上传。accessibility返回null，只说明实见焦点轮廓，不宣称内部焦点身份。此为已知路线、明确seed的QA验收，非陌生玩家；没有native CPU／Targets／CPG、独立原生重启、长IME或Mac结论。它不关闭旧补充FAIL。
 
-修后的两外QA已实现，主路径及备份／初始成绩／可写路径三处guard窄修均已获Narrative与Visual独立静态审查通过：不再capture／TestMode，改用原Host真实连线、官方模型、封装与System合法前置；normal Targets仍按原锁定为NOT_RUN，tester沿固定权限。旧父controller与新补充controller分列，严格脚本原字节不变。当前修复尚未实际编译／执行，不能把静态通过改写为新补充PASS。
+合法准备主路径及原三处guard窄修已获双独立静态审查，且在cb9e回合实际运行147GD通过；最新11指针codec边界也已双独审通过，仍待新运行：不再capture／TestMode，改用原Host真实连线、官方模型、封装与System合法前置；normal Targets仍按原锁定为NOT_RUN，tester沿固定权限。旧父controller与新补充controller分列，严格脚本原字节不变。当前wrapperb213尚未实际执行，cb9e回合整体仍FAIL，不能把局部运行或静态通过改写为新补充PASS。
 
 ## 本轮可观察变化
 
@@ -87,7 +93,7 @@ headless、真实 renderer 控制器、未修改导出包、OS 输入和陌生�
 
 原作品必须真实存在，整 Session SHA与原输出／配方受保护。运行内严格快照与正常退出后保存时间戳／备份轮转分列；不得把前者扩成退出后全部文件字节恒同。只保留既有已明确记录的六个测试者CPU坐标编码边界，不能扩大数字类型容差。
 
-原成功父链仍绑定97516原外QA `9fb11c3d…`／`fab52639…`与strict `7b9f5ff7…`。现行修复probe `736743c1…`、wrapper `9a3c7393…`均通过Narrative／Visual静态独审，strict仍为原字节`7b9f5ff7…`；新补充运行NOT_RUN。修复改走真实加载、原硬件连线／官方验收／封装及System合法前置，全程game模式；普通Targets保持原锁定NOT_RUN，测试者只用固定原权限。没有TestMode旁路、直接通关位或产品改动；旧父controller与新supplement controller分别记SHA。
+原成功父链仍绑定97516原外QA `9fb11c3d…`／`fab52639…`与strict `7b9f5ff7…`。现行probe `736743c1…`在cb9e回合147GD通过，wrapper `9a3c7393…`该回合最终保护FAIL；新wrapper `b213d90b…`的固定11指针codec窄修已双独审通过、实际运行NOT_RUN，strict仍为原字节`7b9f5ff7…`。修复改走真实加载、原硬件连线／官方验收／封装及System合法前置，全程game模式；普通Targets保持原锁定NOT_RUN，测试者只用固定原权限。没有TestMode旁路、直接通关位或产品改动；旧父controller与新supplement controller分别记SHA。
 
 为导出空间，Root与Visual逐Git blob双审后仅清理本段七处已结束候选的可再生docs副本，恢复1,659,851,509字节（四处952,616,012＋另三处707,235,497，不重复计更早单份239,210,065）；另当前普通97516已完成构建的5049个可再生docs副本经Root／Narrative逐blob双审后清理240,035,362字节，单列收据不与前述七份混计。原日志、帧、运行档案、作品、包和profile均保留。收据SHA在checks，旧source树不再称当前完整物化。
 

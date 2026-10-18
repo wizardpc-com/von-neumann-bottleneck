@@ -1,82 +1,43 @@
-# 10月18日接续：当前试玩与审阅
+# 10月18日交接：最后旅程版本
 
-新增SR锁存器手册五步候选固定源码c84cc9d，Windows七阶段、原336项真实renderer及36图独审已通过；旧e061反馈首Esc／焦点两项失败保留。同源Linux完整CI通过；新普通包构建／身份检查已通过，直接release的canonical专项180秒超时、0报告项、GUI未运行，属于执行前提未闭合而非原断言失败。新普通包实际EXE父219＋严格重开48通过；导出PCK在同版官方editor另通过原258→336与36图独审，明确不称release直接SR输入。双角色均已通过导出PCK原258→336；测试者实际EXE229、随包采集142／重开19及严格重开48相继通过。首次strict资源守卫强停及归档保留，只续未完成strict，没有重跑父子链。当前双包均可试玩，旧bb5双包保留恢复身份。完整来源与保护范围见[本轮证据](../verification/20261018-latch-rule-example/README.md)，不以源码验收代替新包或OS；原F7失焦正控制仍未闭合。
+当前版本SOURCE为`5bd3792b022ec053f62eaeca9f53a791e201bcd9`：Locality同次实际／门槛／差额与原Trace入口、FirstLight可替换静图已交付。源6c完整Windows177通过；5bd七阶段、Locality518及同源Linux完整CI通过，FirstLight197原输入不变沿用。新普通实际EXE219＋strict48，测试者229＋随包capture142／reopen19＋strict48、最终1ZIP／4现场／4修订记录／2session全部通过；本轮工程收尾，外部观察保留。[最终证据](../verification/20261018-journey-final/README.md) · [c84恢复证据](../verification/20261018-latch-rule-example/README.md)。
 
-当前普通与测试者候选产品均固定为`c84cc9d67b25e6e37eebd19570a9c065f62088ae`；后续QA与文档提交不改变这些ZIP。原bb5双包仍可恢复。
-本阶段为 **DELIVERED_WITH_OPEN_OBSERVATIONS**，完整goal仍ACTIVE，尚未公开发布。
-[当前SR候选中央证据](../verification/20261018-latch-rule-example/README.md) · [bb5恢复包与原失败记录](../verification/20261018-narrative-modal-focus/README.md)
-· [当前机器收据索引](../verification/20261018-latch-rule-example/checks.json)。
+## 启动与成果保护
 
-## 当前状态
+| 用途 | 已验本地ZIP／manifest | 独立profile |
+|---|---|---|
+| 普通进度 | [JourneyFinalExperience ZIP](../../build/playtest-JourneyFinalExperience20261018-5bd3792b022e/Von-Neumann-Bottleneck-Windows-playtest-JourneyFinalExperience20261018-5bd3792b022e.zip) · [manifest](../../build/playtest-JourneyFinalExperience20261018-5bd3792b022e/manifest.json) | `CreationLinks20261018` |
+| 全入口审阅 | [JourneyFinalAccess ZIP](../../build/playtest-JourneyFinalAccess20261018-5bd3792b022e/Von-Neumann-Bottleneck-Windows-playtest-JourneyFinalAccess20261018-5bd3792b022e.zip) · [manifest](../../build/playtest-JourneyFinalAccess20261018-5bd3792b022e/manifest.json) | `OfflineTeammate-CreationLinks20261018` |
 
-- 下三项为bb5恢复包的既有证据，当前SR候选的验收见文首与本轮中央证据。效率模态修复的源码GUI245项、完整Windows176阶段及CI通过；完整回归含6条已披露的非失败WARNING。
-- 普通包实际父219＋严格重开48项通过，21张原图独审；测试者父229＋随包工具142 capture／19 reopen＋严格重开48项通过，60入口、真实CPG／作品重启及最终单ZIP独立导入去重已核。测试者45图片副本对应31独立SHA，图审范围保留原滚动限制。
-- 测试者父／child成功后的外层stdout解码异常exit1保留；只继续尚未启动的原strict，没有重跑父／child。早先普通包三项失败与180秒超时仍为原因UNKNOWN，不以随后通过解释或覆盖。
-- 导出包Efficiency模态补验仍未闭合：F7第三次普通包`6e96dfc080c2`自然exit1，中文滚动正控制0→0。前一原settle记录本窗native focus=false、无嵌入模态；精确回调状态未捕获，不能判为唯一原因或产品滚动缺陷。没有完整raw／validation／总计数，英文与测试者未执行；已停止GUI重试，不强焦、改guard或延长等待求绿。此前两轮失败各按原收据保留，其中第二轮仅证明本次QA旧Host已释放。
-- 当前原生OS、Mac、陌生玩家理解、正式素材与赛事材料定稿仍开放。F5官方工具初始化失败，零OS观察／输入／截图；旧原生证据不认证本轮。导出controller和静图均不代替这些验收。
+完整解压后运行`Windows/Von-Neumann-Bottleneck.exe`，无需安装Godot。包里没有预制QA档案；普通新档须沿原进度和模型门槛，不承诺直达G3。测试者可进入原测试入口，不授予任务完成、组件、比较成果或作品。当前为本地交付，未公开发布。
 
-## 默认试玩包与存档
-
-| 用途 | 固定本地ZIP与身份清单 | 独立profile |
-| --- | --- | --- |
-| 默认普通进度（SR候选） | [LatchRulesExperience ZIP](../../build/playtest-LatchRulesExperience20261018-c84cc9d67b25/Von-Neumann-Bottleneck-Windows-playtest-LatchRulesExperience20261018-c84cc9d67b25.zip) · [manifest](../../build/playtest-LatchRulesExperience20261018-c84cc9d67b25/manifest.json) | `CreationLinks20261018` |
-| 全入口测试审阅（SR候选） | [LatchRulesAccess ZIP](../../build/playtest-LatchRulesAccess20261018-c84cc9d67b25/Von-Neumann-Bottleneck-Windows-playtest-LatchRulesAccess20261018-c84cc9d67b25.zip) · [manifest](../../build/playtest-LatchRulesAccess20261018-c84cc9d67b25/manifest.json) | `OfflineTeammate-CreationLinks20261018` |
-
-完整解压后运行`Windows/Von-Neumann-Bottleneck.exe`，无需安装Godot。包内没有预制QA存档。
-普通新档沿原任务与模型门槛推进，不承诺直接进入G3；测试者可访问全入口，不等于已经完成任务、准备模型或拥有作品。
-
-备份对应profile的**完整两目录**，不要只复制单个主存档，也不要用QA档覆盖玩家成果：
+备份对应profile的**完整两目录**；不要只拷主存档，不要把QA档导入真实玩家档，也不要合并两个profile：
 
 - `%APPDATA%/VonNeumannBottleneckCandidates/representation/<profile>/`
 - `%APPDATA%/VonNeumannBottleneckCandidates/service/<profile>/`
 
-两包沿用此前CreationLinks各自profile，换解压目录不会创建新存档空间。
-**恢复包文字勘误：**旧bb5普通ZIP README中英文概述仍有MeasuredGrowth示例名；新c84双包使用修正后的模板，以其实际profile及manifest为准。
-其后动态`Profile:`字段和测试者README目录正确。后续构建模板已去除旧名，不改已验ZIP字节。
-
-反馈为本机离线记录，无端点或自动上传；测试者可用原F8／现场反馈并在结束后导出一个ZIP，交付前自行检查内容。
-PR15正文已按用户明确授权更新并回读，仍为草稿，未合并或发布。
+换解压目录不会创建新的存档空间；当前两包沿用各自CreationLinks profile。反馈为本机离线记录，无端点或自动上传；原F8／本地反馈和导出ZIP由使用者检查后交团队。PR15已按授权更新正文，仍是草稿，未合并或发布。
 
 ## 最多五项次日观察
 
-先用普通包体验原进度；需要直接审阅后段时用测试者包，并保留其未完成状态。
-技术通过与下面的理解、文案、素材选择分别记录，不替团队定稿。
+| 路线 | 记录什么 |
+|---|---|
+| 普通旅程→Locality原任务→Official结果→手动取数定位 | 结果、实际周期／门槛／差额是否清楚；Run和入口是否都可达，定位后仍是同次程序／事件而非新成绩。普通实际PCK已验结果与同Trace定位；release EXE整链是独立等级，不把PCK/editor画面称OS操作。 |
+| 原教程五操作完成→成长回顾→FirstLight播放／跳过 | 是否能区分输入1／NOT输出0与虚构静图；文字、Skip及原滚动是否清楚。图片选择与文案理解由人审，不把装饰图当能耗测量。 |
+| 原合法C→P→G／回顾→F8→逐层Esc | 是否先回同一步再折叠；若重现旧CPG三项失败，记语言、窗口和场景。当前通过不替旧UNKNOWN观察判因，普通未完成前不强行进入后段。 |
+| 成长档案→真实作品ID→View／Play→F8→返回 | 是否可完整返回、是否等待停住；核原配方／输出／ID，冷Host不要求恢复临时回顾史。旧SavedWork超时观察保留，不凭新通过解释。 |
+| 测试者System／Overlap本地反馈及[素材接口](night-art-interfaces.md)／[镜头脚本](../distribution/showcase-shots.md) | Handbook／Hint／Run和反馈是否可达；选保留当前候选或指出具体文案／正式素材。真人理解、人设、CG、声线与赛事选材由团队决定，不借技术PASS定稿。 |
 
-| 路径 | 问题与观察点 |
-| --- | --- |
-| 普通Home→成长档案／Journey→原C1／P1／G路线→Measurements | 按原门槛完成后，目标和实际记录来源是“清楚”还是“仍需原规则”？记录卡住的具体入口，不预先替新玩家解释。 |
-| 实际CPG回顾step1→F8→Esc→Esc | 是否只关反馈，再折叠回同toggle？若重现旧三错，记录窗口、场景与可见状态；本次通过不关闭旧原因UNKNOWN观察。 |
-| 成长档案选真实作品ID→View→Play→F8→逐层Esc | 能否完整返回且没有等待停住？记录旧SavedWork超时是否重现。冷重开只核原作品／配方／输出，不要求恢复临时Host回顾史。 |
-| 测试者System→History、Overlap→本地反馈／F8 | 入口与Handbook／Hint／Run是否可达，首Esc是否保留当前层？导出Efficiency模态、原生失焦均不能借这些操作通过。 |
-| [60任务盘点](night-journey-review.md)／[五镜头脚本](../distribution/showcase-shots.md)／[素材表](night-art-interfaces.md) | 选择“沿现有候选”或指出需改的具体语句／正式素材；人设、CG、声线、赛事取材与新人理解由人审，技术PASS不证明所有ideas定稿。 |
+## 范围与恢复
 
-陌生玩家、看过演示的队友和开发者熟练操作分别记录。人员分工、排序、截止安排和正式赛事要求沿团队决定。
+源controller、PCK在同版editor运行、真实release EXE链和原生OS是不同证据等级。当前双包限定链已验；旧导出Efficiency模态正控制未闭合、官方原生工具初始化受阻、Mac与新人理解仍开放。视频未录制，可先给PPT负责人真实原图与精确操作脚本；不另造最终PPT、赛事规则或提交承诺。Yi、成长档案／3D观察站和可替换素材接缝已实现；Efficiency有效Texture像素正例仍未验。
 
-## 当前素材与展示入口
+既有失败及资源中断保留在[c84记录](../verification/20261018-latch-rule-example/README.md)、[bb5／F7记录](../verification/20261018-narrative-modal-focus/README.md)与[d14记录](../verification/20261018-creation-connections/README.md)，不复制长过程或把当时状态写成当前。60任务的[逐行语义盘点](night-journey-review.md)是源码合同盘点，不是60次真人解题。
 
-[稳定素材接口表](night-art-interfaces.md)列出主题、Yi导入Texture、FirstLight预览、Efficiency及CPG插画的实际接缝。
-动态技术数值、来源、操作与焦点保持原生控件；图片须附作者／来源／许可／AI辅助说明及可编辑原件。
-缺图／零尺寸保留程序或文字回退，不新增通关前置。Efficiency有效Texture的实际像素正例仍未验，不能借fallback通过认证。
-Yi不再只是文字接口；成长档案／3D观察站及近看／还原已有实现与限定验收，不能再按旧7c表述为“本轮未做”。
-正式人物、CG、声线和结局演出仍未定稿，素材不取得训练、揭晓、生成、保存或新增历史的权威。
-
-[bb5已验展示脚本](../distribution/showcase-shots.md)绑定bb5双包与五张真实导出画面；d14六张入库源码图和旧F4材料分别标明来源。
-PPT可沿实图和精确操作脚本取材；视频仍未录制，不把架构SVG或程序几何称为实际运行测量。
-
-## 继续、恢复与历史
-
-继续工程前读[当前主计划](../exec-plans/active/full-journey-experience-20261018.md)与当前中央证据，核工作树、文件所有权和唯一引擎令牌。
-不要覆盖未知用户改动、删除原始日志／PNG／runtime／存档，或把控制器准备的成果导入真实玩家档。
-两份F7失败提取EXE仅作为可从固定普通ZIP重建的副本回收，独有证据保留；精确范围见`.godot/f7-duplicate-exe-cleanup-receipt.json`。
-
-当前c84双ZIP为默认入口；旧bb5恢复包见文首F6证据，旧d14已验双包见[CreationLinks证据](../verification/20261018-creation-connections/README.md)。
-需要提取固定源码时可在仓库中使用只读归档命令，输出到新的位置，不checkout／reset当前检出：
+要取回固定源码，可只读归档到新位置，不checkout／reset当前工作目录：
 
 ```powershell
-git archive --format=zip --output=../latch-rule-source-recovery.zip c84cc9d67b25e6e37eebd19570a9c065f62088ae
-git archive --format=zip --output=../bb5-source-recovery.zip bb5c817bcb7e0c770fc65b41b7407e2847149a74
+git archive --format=zip --output=../journey-final-source-recovery.zip 5bd3792b022ec053f62eaeca9f53a791e201bcd9
 ```
 
-旧7c候选、当时164／165及限定原生观察仅属于历史身份，原始数字与失败不删改：
-[7c验收记录](../verification/20261018-night-experience/README.md) · [包身份](../verification/20261018-night-experience/package.json) · [原生范围](../verification/20261018-night-experience/native-receipt.json)。
-更早与后续阶段分别见[F1](../verification/20261018-full-journey/README.md)和[创作呈现／素材候选](../verification/20261018-creative-framework/README.md)；这些记录不自动认证当前包或正式素材。
+原日志、PNG、runtime、存档与失败收据不覆盖；可重建副本的精确回收另有收据。[本轮](../exec-plans/completed/journey-final-candidate-20261018.md)、[全旅程](../exec-plans/completed/full-journey-experience-20261018.md)与[模态](../exec-plans/completed/narrative-modal-focus-20261018.md)工程计划已按最新授权收尾；外部观察继续按各自范围交接。

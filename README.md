@@ -18,7 +18,7 @@
 
 **旧版 Alpha（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建。最新 Windows 离线试玩为 `v0.5.0-alpha.3-offline.1`；本轮未提供新版 Mac 包。
 
-**当前源码（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。旅程保留原核心40项、表示5项、服务3项、可选地址预测3项与「压缩 → 内容预测 → 创造」9项，共60项任务；候选增加全旅程双语语境、互动规则、成长档案、可选3D观察站、可替换导入图与成果回顾，并可从档案只读查看原作品。普通进度与全关测试使用独立存档，测试访问不授予成果。本轮固定 Windows 双包尚未公开发布；公开下载仍是10月17日离线版，未更新 Mac 包或启用公网收集。[当前双包与变化证据](docs/verification/20261018-creative-framework/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态与验证边界](docs/CURRENT_STATE.md)。
+**旅程新版候选（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。当前独立分支 `codex/journey-final-candidate-20261018` 的产品固定于 `5bd3792b022e`：60 项任务、双语语境、互动规则、成长档案、可选 3D 观察站和只读原作品回顾；第二章呈现同次实际周期、目标差值及取数证据入口，首次成果接入可替换的临时场景图。普通进度与全关测试采用独立存档，测试访问不授予成果。本轮 Windows 双包未公开发布；上方下载仍是10月17日离线版。[新版包、变化截图与验证范围](docs/verification/20261018-journey-final/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态](docs/CURRENT_STATE.md)。
 
 [下载试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 

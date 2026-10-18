@@ -1,10 +1,62 @@
-# Current state — sixty-task source and offline Alpha
+# Current state — journey Windows candidate
 
-SRLatch candidate source c84cc9d now passes seven fixed-source Windows stages and the unchanged 336-check renderer, including ordinary feedback Escape/focus; all 36 frames have independent visual review. It adds five original-model steps and lets visible feedback handle Escape before the handbook. Scope and the original failed run are recorded in [latch-rule evidence](verification/20261018-latch-rule-example/README.md). The fixed-source Linux CI also passed. The new normal Windows package passes 219 actual-EXE checks and 48 strict-reopen checks. Its original exported PCK separately passes the unchanged 258/336-check fixture in the pinned official editor; all 36 frames match the independently reviewed source images. The direct-release script attempt remains a recorded timeout with no reported checks. Normal candidate: `build/playtest-LatchRulesExperience20261018-c84cc9d67b25` (ZIP SHA256 `5e2dc6ce62bab128693d10215e2963621cf58b03305c230dbb507789ee516114`). The tester package separately passes 229 actual-EXE checks, the bundled collector's 142 capture/19 reopen checks, and 48 strict-reopen checks. Its first strict attempt was stopped by the disk-space guard; preserved data passed an independent audit before a separately authorized strict-only continuation. Tester candidate: `build/playtest-LatchRulesAccess20261018-c84cc9d67b25` (ZIP SHA256 `229208c8ed6c49c9977b7594f3cf1b0b5dd6437af0794fcd861dbc729eaa9c94`). Both use the existing separate CreationLinks profiles; bb5 packages remain recovery copies. Native OS input, Mac and newcomer acceptance remain open.
+Product source is `5bd3792b022ec053f62eaeca9f53a791e201bcd9` on
+`codex/journey-final-candidate-20261018`. PR10 is merged into `main` at `bf8f616`;
+this candidate remains a separate unpublished branch. It includes the 60-task
+journey, bilingual context, earned journal, optional 3D observatory, interactive
+rules and original-work review. Chapter2 now presents the actual run's cycles,
+official target and margin with a read-only fetch-event entry. FirstLight uses a
+replaceable temporary fictional scene image while retaining actual NOT output,
+skip and feedback. Simulation, progression and saved-work contracts are preserved.
 
-F7 QA scene navigation is corrected and independently reviewed at 8c73a21. Its ordinary exported attempt 6e96dfc080c2 exits naturally with failure at the Chinese scroll-positive control; preceding original settle telemetry reports native root focus=false with no embedded modal. That observation does not establish focus at the reveal callback or a product scroll defect. No complete result or English/tester acceptance is available. Further GUI attempts are stopped pending a valid focused-window positive control. This F7 attempt used the bb5 recovery package; both of its original ZIPs remain unchanged. The previous diagnostic df711f15 confirms only its own stale QA Host reference; earlier failures retain their original scope.
+Current source passes seven focused Windows stages and the 518-check Locality
+renderer. The earlier 6c source passes 177 full Windows stages; FirstLight's 197
+rendered checks and independently reviewed images carry forward through exact
+unchanged subsystem bytes. Current 5bd Linux CI 39120037891 passes both the full
+Godot verifier and all 11 Python commands. Original failures remain in the
+[final evidence](verification/20261018-journey-final/README.md).
+
+The normal ZIP passes identity and all-content checks, 219 actual release-EXE
+controller checks and 48 strict-reopen checks. Protected state and 21 exported
+image files have independent review. Its original PCK separately passes the
+canonical headless check and 518 rendered checks in the pinned official editor,
+with twelve independently reviewed new frames. The tester ZIP also passes identity checks, 229 actual release-EXE checks,
+142 capture and 19 reopen collector checks, and 48 strict-reopen checks. Its final
+feedback ZIP contains four cases, four revisions and two sessions; independent
+protected-state and image review both pass within their recorded scope.
+
+The ordinary and tester builds use `CreationLinks20261018` and
+`OfflineTeammate-CreationLinks20261018` respectively. Fully extract either ZIP and
+run `Windows/Von-Neumann-Bottleneck.exe`; no separate Godot installation is needed.
+Both are fixed to product 5bd; later documentation commits do not rebuild them.
+
+| Role | Frozen candidate directory | ZIP SHA256 |
+|---|---|---|
+| Ordinary progression | `build/playtest-JourneyFinalExperience20261018-5bd3792b022e` | `bdd8c98dcaed288ab5adea47edba300a9481252a15a27b4da28b5cde1cb232be` |
+| All-entrance tester | `build/playtest-JourneyFinalAccess20261018-5bd3792b022e` | `19bc44a43f580b96dec52f434f227277d8cf068329d450a79588671c78e83923` |
+
+The engineering round is closed under the user's final convergence request.
+The previous [c84 pair](verification/20261018-latch-rule-example/README.md) remains
+an independently accepted recovery build.
+
+[Current packages and change evidence](verification/20261018-journey-final/README.md) ·
+[Next-day playtest and handoff](development/night-handoff-20261018.md) ·
+[Coverage ledger](development/full-journey-coverage.md).
+
+Source/controller, raw exported PCK in the editor, actual release-EXE controller,
+native OS input and human acceptance have separate scopes. Native tooling remains
+unavailable; Mac, newcomer understanding and final art/narrative choices are open.
+Video is NOT_RECORDED; original screenshots and precise operation scripts are
+available for the team's presentation. The older bb5 exported Efficiency positive
+control remains an open observation; it does not create a new feature round.
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
+
+## Historical delivery records
+
+The dated records below retain their original package identities, failures and
+then-current plan status. Current engineering scope and external observations
+are defined above and in the final handoff.
 
 ## Previous bb5 delivery and its open observations
 

@@ -1,91 +1,37 @@
-# 当前候选展示材料与镜头索引
+# 当前版本展示材料与镜头索引
 
-这份材料供团队制作PPT／实机短片时取材，不是最终PPT、成片、提交说明或赛事规则。
-[可编辑架构SVG](showcase-architecture.svg)使用原生文字、形状与箭头；无外图、脚本或烘焙正文。
-系统字体缺失时会回退，团队导出前需检查字形。旧[40任务展示稿](astra-challenge/showcase.md)
-保留其历史产品／版本背景，不把其中Product Hunt建议移作本轮参赛决定。
+供团队制作PPT／实机短片取材，不是最终PPT、成片或赛事承诺。[可编辑架构SVG](showcase-architecture.svg)保留原生文字、形状与箭头；它的旧源码关系见下方历史层。**视频：NOT_RECORDED**；现阶段交真实原图与精确操作脚本，不把截图串联冒充操作录像。
 
-## 当前可交付候选 · Modal Focus bb5
+## 当前交付 · Journey Final 5bd3792
 
-产品SOURCE为`bb5c817bcb7e0c770fc65b41b7407e2847149a74`。普通进度与测试者全入口使用不同profile；
-下载包不含控制器准备的QA档案，普通新档不能假设已完成或可直接进入G3。完整解压后运行
-`Windows/Von-Neumann-Bottleneck.exe`；随包README保留存档、反馈和权限说明。
-两包沿用各自的CreationLinks profile，换解压目录不等于换存档空间；不要用QA档覆盖已有成果。
+产品SOURCE为`5bd3792b022ec053f62eaeca9f53a791e201bcd9`。本轮工程已按用户收尾要求交付，保留外部观察。完整解压Windows包后运行`Windows/Von-Neumann-Bottleneck.exe`；无需Godot。包内不含QA存档，普通新档依原进度／模型门槛，测试访问不授完成或作品。换目录不换profile，不导入`.godot`种子。
 
-| 用途 | 固定本地包与同目录manifest | profile／batch | ZIP SHA256 |
-| --- | --- | --- | --- |
-| 普通进度 | [Windows ZIP](../../build/playtest-ModalFocusExperience20261018-bb5c817bcb7e/Von-Neumann-Bottleneck-Windows-playtest-ModalFocusExperience20261018-bb5c817bcb7e.zip) · [manifest](../../build/playtest-ModalFocusExperience20261018-bb5c817bcb7e/manifest.json) | `CreationLinks20261018`／`ModalFocusExperience20261018` | `3bbefa7e0918ba333736fda61efd51e96746d68b1e2289ff3cd9cd687af640c4` |
-| 协作全入口 | [Windows ZIP](../../build/playtest-ModalFocusAccess20261018-bb5c817bcb7e/Von-Neumann-Bottleneck-Windows-playtest-ModalFocusAccess20261018-bb5c817bcb7e.zip) · [manifest](../../build/playtest-ModalFocusAccess20261018-bb5c817bcb7e/manifest.json) | `OfflineTeammate-CreationLinks20261018`／`ModalFocusAccess20261018` | `dc8164dc0aa8b4cc693466a6e3af1219eb4156f681ba0dc06cda0fc8d3ace8c0` |
+| 用途 | 当前本地包／manifest | profile／batch | ZIP SHA256 |
+|---|---|---|---|
+| 普通进度 | [ZIP](../../build/playtest-JourneyFinalExperience20261018-5bd3792b022e/Von-Neumann-Bottleneck-Windows-playtest-JourneyFinalExperience20261018-5bd3792b022e.zip) · [manifest](../verification/20261018-journey-final/evidence/normal-candidate-manifest.json) | `CreationLinks20261018`／`JourneyFinalExperience20261018` | `bdd8c98dcaed288ab5adea47edba300a9481252a15a27b4da28b5cde1cb232be` |
+| 全入口协作 | [ZIP](../../build/playtest-JourneyFinalAccess20261018-5bd3792b022e/Von-Neumann-Bottleneck-Windows-playtest-JourneyFinalAccess20261018-5bd3792b022e.zip) · [manifest](../verification/20261018-journey-final/evidence/tester-candidate-manifest.json) | `OfflineTeammate-CreationLinks20261018`／`JourneyFinalAccess20261018` | `19bc44a43f580b96dec52f434f227277d8cf068329d450a79588671c78e83923` |
 
-这些是本地交付路径，尚非公开Release下载。当前身份和验收以
-[Modal Focus集中证据](../verification/20261018-narrative-modal-focus/README.md)为准：
-普通父链219与严格重启48；测试者父链229、原随包collector的142 capture／19 reopen与严格重启48。
-测试者验证60入口、真实C/P/G、原作品重启、最终4现场／4修订／2session／1bundle的原ZIP导入与去重，
-不等于60次解题。它们是导出控制器证据，不是新人或OS输入，也没有直接验收导出Efficiency模态。
-官方原生工具初始化受阻，0窗口观察／0输入；没有外部状态变化不重试工具。**视频状态：NOT_RECORDED**。
-没有录像时先交下面原图与精确脚本，不用片头或截图串联冒充操作录像。
+[中央验收与原字节终态证据](../verification/20261018-journey-final/README.md)：普通实际EXE父219＋strict48；测试者父229＋随包capture142／reopen19布尔检查＋strict48自然通过。测试者60入口与最终1ZIP／4现场／4修订记录／2session导入去重不是60次解题。源6c Windows177、5bd七阶段与Linux完整CI、源GUI及普通实际PCK/editor严格分级，不把编辑器载体当release EXE或OS验收。
 
-### 当前五个镜头与原图
+### 五个当前取材路线
 
-下面均为bb5实际导出原图，未修图、裁切、重绘或借用源码renderer截图。
-取材者应在自己的新档按合法步骤操作；现有图来自隔离QA profile的已披露实际Host准备。
-不要导入`.godot`种子作普通新手档，也不要把这些画面说成陌生玩家自然完成。
+[五张仓库内原图与来源manifest](../verification/20261018-journey-final/image-manifest.json)含旧裁剪→新可见、实际PCK结果／Trace和实际EXE FirstLight。原图未裁切、注字或缩放；像素与来源等级保留。另两张本地现场图的哈希如下，均由本轮实际包审计绑定。
 
-| 镜头 | 进入与操作脚本 | 一句因果说明与实际原图范围 |
-| --- | --- | --- |
-| A · 进入与第一次操作 | 普通包Home→开始旅程→开始操作或跳过导入→接A到NOT、NOT到灯→切输入并运行→拆线／重接→读完成结果。 | 看文字不授完成，输入1时NOT输出0仍正确。[实际Home](../../.godot/night-package/d196f683c01b/home.png)只证入口；五操作结果属于同父控制器，不把Home图当操作录像。 |
-| B · 默认回顾与原控制 | 任务树→C1原Host→学习、预测包无损传输→P1开始练习并逐格提交／揭晓到整轮结束→G1生成并Keep；停在原光纹页观察默认折叠的「C→P→G回顾」，再主动打开。 | 回顾与原Verify／光纹／运行／状态共存，未替代原工作台。[默认折叠原图](../../.godot/night-package/d196f683c01b/cpg-connection-collapsed.png)来自普通模式真实Host准备，非伪JSON或全关解锁。 |
-| C · 先提交再知道 | 接续同一次Host操作→打开回顾→选择「P 已揭晓」→看规则／记录身份、已揭晓行和最后一项→按需原滚动继续→Esc折叠。 | 只解释已经揭晓的证据，不展示未来。[P原图](../../.godot/night-package/d196f683c01b/cpg-connection-step1.png)为practice已揭晓10项、最后B→D；C/P/G各自输入独立，非一条共同历史。 |
-| D · 留下原作品 | 接续真实生成并确认Keep→回顾「已保存作品」→定位原Works列表及真实ID（不触发View或再生）→原返回旅程→成长档案→「查看原快照」→返回。 | 原作品保存完整输出／配方；定位与独立快照查看不同，不反造旧C/P过程。[原作品图](../../.godot/night-package/d196f683c01b/saved-work.png)仅为原Journal保存快照Window，864×496；不是生成事件回放或完整桌面。 |
-| E · 反馈仍在原处 | 测试者包原G1 Host→本地「反馈」或F8→观察现场／本地说明→Esc只关反馈并回原步骤→再Esc折叠。可另到System／Overlap原入口核Handbook／Hint／Run-all与本地反馈；不运行即不声称达标。 | 有可用本地入口就隐藏重复全局条，F8与原面板导出仍保留。[实际反馈原图](../../.godot/night-package/490b9ff9f9eb/cpg-connection-feedback.png)是creation/G1_feedback测试者面板；不配成System现场，也不由静图声称OS或导出动作完成。 |
+| 路线 | 真实操作与因果说明 | 原图与等级 |
+|---|---|---|
+| A · 读清不满足的条件 | 普通合法进度到Locality原任务→Official运行→读实际210／limit145／超出65。Run与取数入口仍可达；不把失败写成完成。 | [当前结果](../verification/20261018-journey-final/images/locality-current-5bd3792-pck-zh-1280x720-result.png)为普通实际PCK／同版editor；[旧300高裁剪](../verification/20261018-journey-final/images/locality-before-6c145f0-zh-1280x720.png)与[新400高源码](../verification/20261018-journey-final/images/locality-after-5bd3792-source-zh-1280x720.png)分源保留。 |
+| B · 找到同次取数证据 | 接同一次Official结果→手动点击或Space取数按钮→原Profiler第一条fetch，核cycle1／source5／cachemiss；编辑程序后旧入口失效，不产生新成绩。 | [原Trace定位](../verification/20261018-journey-final/images/locality-current-5bd3792-pck-zh-1280x720-trace.png)，普通PCK/editor原canonical518，两语三尺寸12图。 |
+| C · 从操作到表现 | 普通教程完成原五操作→成长回顾→FirstLight播放／跳过／返回；读原生输入1／NOT输出0与虚构说明，装饰静图不表示能耗。 | [真实普通EXE FirstLight](../verification/20261018-journey-final/images/first-light-5bd3792-normal-exe-zh-520x384.png)520×384，图240×80物理／300×100逻辑，来自生产Journal原教程派生；不是矩阵压力夹具。 |
+| D · 原作品仍是原成果 | 普通合法C学习→无损传输→P逐格commit／reveal→G生成并Keep→回顾Saved定位原Works真ID（不View／再生）→成长档案查看原快照→返回。 | [本次EXE原作品Window](../../.godot/night-package/f198fe6612cb/saved-work.png)，864×496，SHA `01dc8bd2b4943f18f8f045b29e0422793605c39e971dcb83fe09a9ad9600189e`。冷Journal为Saved-only，不造临时Host历史。 |
+| E · 反馈及成果导出 | 测试者G1本地反馈或F8→读隐私／本机保存／导出ZIP→Esc回原步骤→再Esc折叠。另可到System／Overlap核Handbook／Hint／Run与本地反馈。 | [本次测试者真实面板](../../.godot/night-package/6a9269517c76/cpg-connection-feedback.png)，1280×720，SHA `6307b2ee3876c6cb7c765272632ab493b75edb7ffcba6428387b85374b541fbd`；不是System现场或incident预反馈截图。 |
 
-上述原始路径仅在本地验证目录存在；远端可阅读的六张已入库源码代表图见
-[原字节截图及manifest](../verification/20261018-creation-connections/screenshots/manifest.json)。
-六图仍为产品d14的source-renderer证据，不能换名为bb5实际包图；其112张源码图也不证明所有界面或OS路线。
+普通21原图、测试者45文件／30独立SHA已独审。测试者16个子链磁盘图含导入副本，仅5独立图；7个parent incident均为预面板现场，不算7张面板。根帧逻辑1600×900／物理1280×720；深文／History／Profiler沿用原滚动，720根底播放条部分在画外，不说全部控件同屏。前述取材来自披露的隔离controller合法准备，不冒称陌生玩家自然完成；不能导入QA档作新手档。
 
-| 镜头 | 原PNG SHA256 | 实际像素 |
-| --- | --- | --- |
-| A | `86b3b4a89fd3962f2b497cd136dc21a38c8cea5bc3ff89644fa1c742cf8b2958` | 1280×720 |
-| B | `ea363fc88ebcc2f6644115109ddcdea93bb00dc892d16f5833a231353c695e16` | 1280×720 |
-| C | `e199ba44c5bbc37d27372c693468e89a7b018237cc906e59f45e3e60f4926cfe` | 1280×720 |
-| D | `01dc8bd2b4943f18f8f045b29e0422793605c39e971dcb83fe09a9ad9600189e` | 864×496 |
-| E | `897c8aaf0482961e80fade87ccf6655690ee2f00fdea08003ff85bc37946b99e` | 1280×720 |
+### 接受界限与历史恢复
 
-两包产品SOURCE均为bb5；外QA检查点为`ea6be8d3a06d66ad855c9d3ac6530bf5fa8388cd`，
-controller为`f5677dc0904b53c2617f74a37015a7ad1a50aacf89edb5e731140353a644ba3d`，
-strict为`2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b`。
-A–D父[receipt](../../.godot/night-package/d196f683c01b/receipt.json) SHA为
-`21d1d6e4de419f56f5ee1b955aaed89b7ae28f5b19b85617adeedb19df8bfc4d`；
-E父[receipt](../../.godot/night-package/490b9ff9f9eb/receipt.json) SHA为
-`55f57f5fb8fcd3e38b1aaa004a99328ccb31d58dc4e5db052edce426763d7c89`，
-其原child[receipt](../../.godot/offline-package/4d125addfd1f/receipt.json) SHA为
-`838ee1bede1d30744d6bffbcc056b29f8d84e8c3373e7c8c5fc25bbe08458ec9`。
-独立逐图索引为[普通21图](../../.godot/f6-normal-export-visual-audit.json)（SHA
-`85262f15a837a29166f85242d8d38546dcbcd722f69e81290553afda654d83c9`）与
-[测试者45文件](../../.godot/f6-tester-export-visual-audit.json)（31独立SHA，含现场与导入副本，SHA
-`8e46379300561a9bdef5120b00e6a14af872f410720ec18b899035cfe3972d53`）。
-根帧逻辑1600×900、实际1280×720；长正文／ledger仍使用原滚动，不说全部深文与控件同屏。
+本轮保留原正确性、进度、作品、支持与保存权威。旧CPG F8三项失败、SavedWork超时原因仍UNKNOWN，新通过不回填；旧导出Efficiency模态正控制未闭合。原生工具初始化阻断、Mac、新人理解与正式素材由团队接手，0新OS验收。截图不替团队决定文案或最终版式。
 
-### 当前接受界限与恢复入口
-
-当前普通链通过不解释此前d2f1的216/219三项失败或d573的180秒超时；两次原件保留，原因仍UNKNOWN。
-测试者父／child一次成功后，外层读取混合编码stdout异常，原exit1保留；仅尚未启动的strict独立续跑成功，
-未重跑父／child。它是语义链通过且保留编排记录失败，不写成整个外层exit0。
-冷Creation Host临时C/P/G记录可为空；只有本次原snapshot／replay的latest才可补Saved视图。
-原Works ID与配方仍在，不能据空回顾判断作品丢失，也不能注入历史或为画面好看运行再生成。
-严格重启证明Journal的Saved-only原ID／配方／输出；冷Host历史重建、OS焦点失去、陌生玩家与Mac仍未验。
-本轮交付保留开放观察，完整goal仍ACTIVE；五镜头不代替全包、全界面或模态OS验收。
-
-此前已验d14（`d14be32f81354eb062f38d39f860b16ff739921a`）继续作为恢复交付：
-
-| 历史用途 | 固定ZIP与manifest | profile／batch | ZIP SHA256 |
-| --- | --- | --- | --- |
-| d14普通 | [ZIP](../../build/playtest-CreationLinksExperience20261018-d14be32f8135/Von-Neumann-Bottleneck-Windows-playtest-CreationLinksExperience20261018-d14be32f8135.zip) · [manifest](../../build/playtest-CreationLinksExperience20261018-d14be32f8135/manifest.json) | `CreationLinks20261018`／`CreationLinksExperience20261018` | `e909e2b489e57bf75d53df92e4881ca24b97bdeed8036e317cfd7d3cf35ae72c` |
-| d14测试者 | [ZIP](../../build/playtest-CreationLinksAccess20261018-d14be32f8135/Von-Neumann-Bottleneck-Windows-playtest-CreationLinksAccess20261018-d14be32f8135.zip) · [manifest](../../build/playtest-CreationLinksAccess20261018-d14be32f8135/manifest.json) | `OfflineTeammate-CreationLinks20261018`／`CreationLinksAccess20261018` | `aba9855a4dc7b75c91c5a00fde13849552136721cda81cee1916b5a83839b255` |
-
-其原43d66／0afe父链与3131 child按[历史Creation Links证据](../verification/20261018-creation-connections/README.md)
-保留各自219／229＋48的已验范围；外controller40b与旧原图不是bb5／f567新证据。
-后续源码／包若变化，必须绑定新实际收据才更新当前指针；下列历史图不能换名充当新帧。
+[c84恢复包与SR五步](../verification/20261018-latch-rule-example/README.md)、[bb5／F7失败与恢复身份](../verification/20261018-narrative-modal-focus/README.md)、[d14历史源码六图](../verification/20261018-creation-connections/screenshots/manifest.json)均保持原版本，不换名当5bd新图。完整两profile备份及最多五项观察见[当前交接](../development/night-handoff-20261018.md)。以下是原架构与F4材料历史，保留当时证据，不作为本轮当前实现／验收状态。
 
 ## 已有架构关系与源码
 

@@ -22,3 +22,7 @@ assets/fonts/OFL-NotoSansSC.txt -whitespace
 
 # Preserve the uploaded artifact manifest's bytes for digest comparison.
 docs/verification/20261017-offline-teammate/candidate-manifest.json -text
+
+# Keep the final candidate acceptance receipts byte-exact.
+docs/verification/20261018-journey-final/evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/verification/20261018-journey-final/image-manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

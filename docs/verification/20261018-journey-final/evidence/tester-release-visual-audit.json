@@ -1,0 +1,993 @@
+{
+  "status": "PASS_VISUAL_SCOPE_ACTUAL_TESTER_EXE_AND_COLLECTOR",
+  "source_commit": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "build_id": "playtest-JourneyFinalAccess20261018-5bd3792b022e",
+  "profile": "OfflineTeammate-CreationLinks20261018",
+  "tester": true,
+  "parent_receipt_sha256": "c1a7dc678ae119b7647905b0386723503c0844f8110f1ba5dac237b9b0641298",
+  "strict_validation_sha256": "973414ef5313e6410fd188c5bfddde5520056126336742cb2123b0c8e26abf4f",
+  "child_receipt_sha256": "334f4040e1bac243e5ded84fecd92205d470216fdc0f60a9486e8acb1334c40b",
+  "summary_sha256": "258e2b523ba9a81b7714d41582e0db0a29f9941a15099ac56767375b091145ba",
+  "inventory_sha256": "02c0fbe8ce4be37af2309fdcbf5cb06db84a0a6178afd8333463ff60eb06bcdf",
+  "zip_sha256": "19bc44a43f580b96dec52f434f227277d8cf068329d450a79588671c78e83923",
+  "exe_sha256_at_execution": "f54a361d9527bded5ea8475e29cd14f699dfbf781d188492758b3afbd22f46a2",
+  "embedded_pck_sha256": "c3de9853750771354b580313ad31c2ae28fce578f0ded9ac20137c1ee6b39d9b",
+  "controller_sha256": "f5677dc0904b53c2617f74a37015a7ad1a50aacf89edb5e731140353a644ba3d",
+  "wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+  "bundled_collector": {
+    "path": "feedback-tools/offline-playtests.py",
+    "sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+    "build_manifest_sha256": "087a486236991f67b5765c8b378da884410465b416411c517d54a5f693dcaa25"
+  },
+  "runtime_file_maps": {
+    "parent_runtime": {
+      "all_files_sha_exact": true,
+      "files": 39
+    },
+    "child_runtime": {
+      "all_files_sha_exact": true,
+      "files": 32
+    }
+  },
+  "controller_scope": {
+    "parent": 229,
+    "strict": 48,
+    "child": {
+      "capture": {
+        "boolean_checks": 142,
+        "all_true": true
+      },
+      "reopen": {
+        "boolean_checks": 19,
+        "all_true": true
+      }
+    },
+    "final_single_zip": {
+      "bundles": 1,
+      "cases": 4,
+      "revisions": 4,
+      "capture_errors": 0,
+      "sessions": 2,
+      "ignored_session_lines": 0
+    },
+    "outer_exit": 0
+  },
+  "coverage": {
+    "image_files": 45,
+    "unique_sha256": 30,
+    "new_unique_sha_actually_viewed": 7,
+    "files_exactly_reusing_previously_viewed_pixels": 38,
+    "groups": {
+      "parent_root": 20,
+      "parent_texture": 2,
+      "parent_pre_feedback_incident": 7,
+      "final_single_zip_import_copy": 4,
+      "collector_import_copy": 7,
+      "child_pre_feedback_incident": 4,
+      "child_root": 1
+    },
+    "child_files": 16,
+    "child_unique_sha": 5
+  },
+  "frames": [
+    {
+      "path": ".godot/night-package/6a9269517c76/context.png",
+      "sha256": "48ac633e025a246ee7459b6474d2d1b30132b0ea6c09ce1e513816733a2404cc",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 166640,
+      "group": "parent_root",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/cpg-connection-collapsed.png",
+      "sha256": "ea363fc88ebcc2f6644115109ddcdea93bb00dc892d16f5833a231353c695e16",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 308383,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/cpg-connection-collapsed.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/cpg-connection-feedback.png",
+      "sha256": "6307b2ee3876c6cb7c765272632ab493b75edb7ffcba6428387b85374b541fbd",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 240737,
+      "group": "parent_root",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Actual tester offline feedback panel visible with original privacy text/autosave/Export one ZIP and Return controls; static picture does not prove focus/Esc."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/cpg-connection-step0.png",
+      "sha256": "2e93c816846ceaa2dd5235c14f10c11e882e111b0f30d48777262316b649b091",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 312884,
+      "group": "parent_root",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/cpg-connection-step1.png",
+      "sha256": "172f0945098ec8467bbf6214bc3952c36bab474557838eaf4f9df88969226c0c",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 307491,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/68928a7beb27/cpg-connection-step1.png",
+        "audit": ".godot/latch-rule-tester-export-visual-independent-audit.json",
+        "notes": [
+          "P shows10 disclosed rows/latest B→D/public prefix, not private future."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/cpg-connection-step2.png",
+      "sha256": "453714c7d8eaa53f31b0bcde9833a83141574f4f7dd0716af55606814d779973",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 314589,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/68928a7beb27/cpg-connection-step2.png",
+        "audit": ".godot/latch-rule-tester-export-visual-independent-audit.json",
+        "notes": [
+          "G shows actual64-cell output, original recipe digest and saved id; no standard continuation."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/cpg-connection-step3.png",
+      "sha256": "01733a88adb7101b132af24a539059d5db4dd13c4ec94d9f4cab8d554f9f7540",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 326884,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/68928a7beb27/cpg-connection-step3.png",
+        "audit": ".godot/latch-rule-tester-export-visual-independent-audit.json",
+        "notes": [
+          "Saved shows original id, protected64-cell output/full recipe and list-only Locate; View verification is distinguished."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/first-light-playing.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "pixels": [
+        520,
+        384
+      ],
+      "bytes": 87949,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/first-light-static.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Byte-identical static state to playing-labeled snapshot; no animation timeline inferred."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/first-light-static.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "pixels": [
+        520,
+        384
+      ],
+      "bytes": 87949,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/first-light-static.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Byte-identical static state to playing-labeled snapshot; no animation timeline inferred."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/first-result.png",
+      "sha256": "7d3eda1763c6216f4eca04f51e2fc0475e0e49335c4be89018ecf132d7245eb5",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 176286,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/490b9ff9f9eb/first-result.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Real tutorial completion overlay:5/5, input changes/run/reconnect result, dark lamp can be correct, optional feedback and Continue/Return-map visible. Controller setup is not novice evidence."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/home.png",
+      "sha256": "37a50bd672f697d992eae89ea567a2218d6e2ce1fa82158463f1d555d2e4b342",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 143737,
+      "group": "parent_root",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/intro-no-media.png",
+      "sha256": "75499f83ff864be58f592d862977b3bca0088d106b3a1464ff04a0719465db46",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 161613,
+      "group": "parent_root",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/intro.png",
+      "sha256": "736f00197ec98e423d6924641feb4f75981ae4ea8797e3a9be2d4a5b2ae55563",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 166725,
+      "group": "parent_root",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/journal.png",
+      "sha256": "b03968ee89af662a8f289d9d150eec4a5361956bc7250d7947a2ee7c1c519c8b",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 316750,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/490b9ff9f9eb/journal.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Actual Journal shows6/60 derived catalog completions versus1/40 original-core record and one work. Tutorial source, retrospective-not-timeline statement, original work selector short ID089180b2e1d1 and View-original-snapshot are legible."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/map.png",
+      "sha256": "3660b921a8d72ed7727057c97e050a52451b932213e8d77bae06139dea776889",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 172356,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/490b9ff9f9eb/map.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "60 accessible tester entrances are explicitly separate from earned completion. G1/G2/G3 completion comes from disclosed real Host preparation."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/observatory-earned-3d.png",
+      "sha256": "9e37278e20c4c64b055ab8196993596b69e1e57f86c6ca0bb73276349c64c6a7",
+      "pixels": [
+        1192,
+        606
+      ],
+      "bytes": 39614,
+      "group": "parent_texture",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/observatory-earned-3d.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/observatory-fresh-3d.png",
+      "sha256": "b81eb1d79bb35f4c3608e2fc71f87df727a8b8a2e32057bb05dddcc0a11c5e4c",
+      "pixels": [
+        1192,
+        606
+      ],
+      "bytes": 37305,
+      "group": "parent_texture",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/observatory-fresh-3d.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/observatory.png",
+      "sha256": "e874a95fe8ee6d21078d30dc3edc96e7dad956ad42bf9f4666cfce42ac723aae",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 190226,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/observatory.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/rules.png",
+      "sha256": "ab994c1e0242d8922e3b5ad016ae9f3b711c0168a89fa4e2b615b691357dbee4",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 168914,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/rules.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/2e8c71efe5a4facb3e3c16bc945df234/screenshot.png",
+      "sha256": "3eafb13500c5b0748010b8ae7fcb7f1c018166c8e8eea59f22c0b7ea9a13f4d7",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 180103,
+      "group": "parent_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/490b9ff9f9eb/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/168d2e453fc66f394b99c4e584796cbe/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Handbook Signal0/1 over actual Journal, long text uses original scroll."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/37b50e2869503a38f9a63d8129194152/screenshot.png",
+      "sha256": "b43928ef66573b648b6c5633c6ba14c2caf8329702385baa17fe802e06241308",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 297861,
+      "group": "parent_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/68928a7beb27/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/41f14b6b2aeed45776a10d8271edf8d2/screenshot.png",
+        "audit": ".godot/latch-rule-tester-export-visual-independent-audit.json",
+        "notes": [
+          "Pre-panel P scene:10 revealed/latest B→D/public prefix; deep source uses original Scroll."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/92c758b437b802b822afe1710b30a943/screenshot.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "pixels": [
+        520,
+        384
+      ],
+      "bytes": 87949,
+      "group": "parent_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/first-light-static.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Byte-identical static state to playing-labeled snapshot; no animation timeline inferred."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/e4d44c3b18c119d11aa3bb947b1c3b04/screenshot.png",
+      "sha256": "d5a679078175602ad65e0c269e1baf04feb0cc9c1e53aa15d031a194e4acb09d",
+      "pixels": [
+        864,
+        496
+      ],
+      "bytes": 85018,
+      "group": "parent_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/490b9ff9f9eb/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/869f0993c0a916c540a4c8ee8bed533e/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Original Saved-only viewer at cell2/B; unplayed cells intentionally dim."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/ebaf4de1896b6f99532a1104bcdde74b/screenshot.png",
+      "sha256": "d5a679078175602ad65e0c269e1baf04feb0cc9c1e53aa15d031a194e4acb09d",
+      "pixels": [
+        864,
+        496
+      ],
+      "bytes": 85018,
+      "group": "parent_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/490b9ff9f9eb/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/869f0993c0a916c540a4c8ee8bed533e/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Original Saved-only viewer at cell2/B; unplayed cells intentionally dim."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/ee5c54c32aa26c59f1899a50d41e553d/screenshot.png",
+      "sha256": "e874a95fe8ee6d21078d30dc3edc96e7dad956ad42bf9f4666cfce42ac723aae",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 190226,
+      "group": "parent_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/observatory.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/f7237a44d38a21a2cf80730f5225f43e/screenshot.png",
+      "sha256": "150c6ea19c0d2b95c93a1f32f37932d8f10be2c0a423ab032e4ab59fa55178d0",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 161538,
+      "group": "parent_pre_feedback_incident",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/saved-work-restarted.png",
+      "sha256": "32ab8db774e04c719afe068d94945f4cc06b43d2f98cfcdadc3578466f5754e6",
+      "pixels": [
+        864,
+        496
+      ],
+      "bytes": 103281,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/saved-work-restarted.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/saved-work.png",
+      "sha256": "01dc8bd2b4943f18f8f045b29e0422793605c39e971dcb83fe09a9ad9600189e",
+      "pixels": [
+        864,
+        496
+      ],
+      "bytes": 103285,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/f198fe6612cb/saved-work.png",
+        "audit": ".godot/journey-final-normal-export-visual-independent-audit.json",
+        "notes": [
+          "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/night-package/6a9269517c76/system-guidance.png",
+      "sha256": "27a9c7be6e23f18309978994711aab44fc706b05d2b9dcc5a3680155a087a574",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 221861,
+      "group": "parent_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/night-package/490b9ff9f9eb/system-guidance.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Unrun cpu_speed Mission scrolled to0/2 evidence and original baseline next action. Parts, localFeedback and Handbook remain visible; deeper text uses original scroll."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/315f47f1c1676a55aec14275ad0a7e63/screenshot.png",
+      "sha256": "776f16832b4d3aeb37e61b27b6b2ec271be196bdd689c8e0915a2b02becf0e6e",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 216843,
+      "group": "final_single_zip_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/9c8ef33df39713570454d82f3ff05ceb/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Unrun assembly Now/Verify/Parts; original Mission pager bottom partly cut by its ScrollContainer. Not all original controls simultaneously visible."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/b3511c298c9274db854eb991c7edd48c/screenshot.png",
+      "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 206997,
+      "group": "final_single_zip_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/8ced3b9854578ee415cc56caa4fbdd41/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Fresh0/5 tutorial with full Mission rules and original TestBench."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e2e24788d2b7e73eec59568406c87924/screenshot.png",
+      "sha256": "6d0f600ea1bbc79b06ef0187d7718febe273dddb9a9b7f9ff1df48c38d9032b3",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 250140,
+      "group": "final_single_zip_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/f126428951d352f72fc74e533356f1a6/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: G2 no generated output/current model; original task guidance/valid next learning operation, not false prepared completion."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e6f3fd8f0b793f3b9422da74af814a32/screenshot.png",
+      "sha256": "24c6c7e601525244193790069f1e49412360479f608f536d4a7277cf8aacc281",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 214130,
+      "group": "final_single_zip_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/2830b630803ff2f3f0b819b6752d4d1f/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Unrun service task3 draft with Now/Verify, original Run-record/save-exploration; not completion."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/library/bundles/16d44f20e0898f5b0f8633cfe43294a9/files/cases/315f47f1c1676a55aec14275ad0a7e63/screenshot.png",
+      "sha256": "776f16832b4d3aeb37e61b27b6b2ec271be196bdd689c8e0915a2b02becf0e6e",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 216843,
+      "group": "collector_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/9c8ef33df39713570454d82f3ff05ceb/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Unrun assembly Now/Verify/Parts; original Mission pager bottom partly cut by its ScrollContainer. Not all original controls simultaneously visible."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/library/bundles/16d44f20e0898f5b0f8633cfe43294a9/files/cases/b3511c298c9274db854eb991c7edd48c/screenshot.png",
+      "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 206997,
+      "group": "collector_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/8ced3b9854578ee415cc56caa4fbdd41/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Fresh0/5 tutorial with full Mission rules and original TestBench."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/library/bundles/16d44f20e0898f5b0f8633cfe43294a9/files/cases/e2e24788d2b7e73eec59568406c87924/screenshot.png",
+      "sha256": "6d0f600ea1bbc79b06ef0187d7718febe273dddb9a9b7f9ff1df48c38d9032b3",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 250140,
+      "group": "collector_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/f126428951d352f72fc74e533356f1a6/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: G2 no generated output/current model; original task guidance/valid next learning operation, not false prepared completion."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/library/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/315f47f1c1676a55aec14275ad0a7e63/screenshot.png",
+      "sha256": "776f16832b4d3aeb37e61b27b6b2ec271be196bdd689c8e0915a2b02becf0e6e",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 216843,
+      "group": "collector_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/9c8ef33df39713570454d82f3ff05ceb/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Unrun assembly Now/Verify/Parts; original Mission pager bottom partly cut by its ScrollContainer. Not all original controls simultaneously visible."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/library/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/b3511c298c9274db854eb991c7edd48c/screenshot.png",
+      "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 206997,
+      "group": "collector_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/8ced3b9854578ee415cc56caa4fbdd41/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Fresh0/5 tutorial with full Mission rules and original TestBench."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/library/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e2e24788d2b7e73eec59568406c87924/screenshot.png",
+      "sha256": "6d0f600ea1bbc79b06ef0187d7718febe273dddb9a9b7f9ff1df48c38d9032b3",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 250140,
+      "group": "collector_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/f126428951d352f72fc74e533356f1a6/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: G2 no generated output/current model; original task guidance/valid next learning operation, not false prepared completion."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/library/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e6f3fd8f0b793f3b9422da74af814a32/screenshot.png",
+      "sha256": "24c6c7e601525244193790069f1e49412360479f608f536d4a7277cf8aacc281",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 214130,
+      "group": "collector_import_copy",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/2830b630803ff2f3f0b819b6752d4d1f/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Unrun service task3 draft with Now/Verify, original Run-record/save-exploration; not completion."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases/315f47f1c1676a55aec14275ad0a7e63/screenshot.png",
+      "sha256": "776f16832b4d3aeb37e61b27b6b2ec271be196bdd689c8e0915a2b02becf0e6e",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 216843,
+      "group": "child_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/9c8ef33df39713570454d82f3ff05ceb/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Unrun assembly Now/Verify/Parts; original Mission pager bottom partly cut by its ScrollContainer. Not all original controls simultaneously visible."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases/b3511c298c9274db854eb991c7edd48c/screenshot.png",
+      "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 206997,
+      "group": "child_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/8ced3b9854578ee415cc56caa4fbdd41/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Fresh0/5 tutorial with full Mission rules and original TestBench."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases/e2e24788d2b7e73eec59568406c87924/screenshot.png",
+      "sha256": "6d0f600ea1bbc79b06ef0187d7718febe273dddb9a9b7f9ff1df48c38d9032b3",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 250140,
+      "group": "child_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/f126428951d352f72fc74e533356f1a6/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: G2 no generated output/current model; original task guidance/valid next learning operation, not false prepared completion."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases/e6f3fd8f0b793f3b9422da74af814a32/screenshot.png",
+      "sha256": "24c6c7e601525244193790069f1e49412360479f608f536d4a7277cf8aacc281",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 214130,
+      "group": "child_pre_feedback_incident",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-4d125addfd1f/offline_playtest/cases/2830b630803ff2f3f0b819b6752d4d1f/screenshot.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Pre-overlay captured scene, not feedback panel: Unrun service task3 draft with Now/Verify, original Run-record/save-exploration; not completion."
+        ]
+      },
+      "visible_notes": [
+        "Incident capture is the pre-overlay game context, not the feedback panel; copied/imported versions are the same scene bytes, not additional scene observations."
+      ]
+    },
+    {
+      "path": ".godot/offline-package/380cdd5d085c/saved-work.png",
+      "sha256": "67c6d1f4ae0dda0189d2d07ee1820e2423ab27c4dc9cd6d742387f3f0102b0f9",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 258399,
+      "group": "child_root",
+      "review_method": "byte_identical_to_previous_actually_viewed_png",
+      "previous_pixel_source": {
+        "path": ".godot/offline-package/4d125addfd1f/saved-work.png",
+        "audit": ".godot/f6-tester-export-visual-audit.json",
+        "notes": [
+          "Actual child saved-work overlay: Synthetic night acceptance work64 cells/source/Return-workbench; not parent Journal Saved-only provenance.",
+          "Global fallback appears outside overlay without covering required controls here; no universal hidden-strip claim."
+        ]
+      },
+      "visible_notes": [
+        "Original C/P/G/Saved controls and data identity; long text uses original Scroll. FirstLight is decorative mood with native NOT0 and Skip; Saved is original work snapshot, not generation replay."
+      ]
+    }
+  ],
+  "findings": [
+    "All actual45 image files match their recorded maps and PNG headers. They contain30 distinct hashes, not the older expected31; no file was renamed, removed or invented to fit a count.",
+    "Seven previously unseen distinct hashes were independently viewed: actual Home, intro/media and no-media variants, compact tutorial context, C step, tester feedback panel and intro pre-feedback incident. The other38 file instances exactly match previously actually viewed bytes in listed audits.",
+    "Native text/controls required for the selected CPG modes and new FirstLight remain readable. Original deeper bodies/History/feedback still use Scroll. New FirstLight bytes match this source normal actualEXE, not an old geometry placeholder.",
+    "Tester Home fallback toolbar is visible and does not cover its main buttons. The new CPG feedback frame is an actual panel; seven parent incident screenshots and four child incident screenshots are pre-panel contexts."
+  ],
+  "limits": [
+    "Actual release-EXE controlled setup/restart and bundled collector evidence, not native OS, novice comprehension or60 solved tasks.",
+    "Legal Host training/transport/prediction/generation/Keep establish one protected original work before pure review. Cold Journal Saved snapshot does not establish a cold C/P/G Host history or generation replay.",
+    "Locality full canonical PCK/editor result applies only to ordinary profile, not this all-entrance tester role.",
+    "Original source6c13fail/oldCLI timeout/resource failures remain unchanged.",
+    "Pixel reuse certifies only identical visible content; behavior/focus/authority rely on separately bound controller/data receipts."
+  ],
+  "checked_utc": "2026-10-18T11:14:50.439434+00:00",
+  "engine_git_or_ui_automation_executed_by_reviewer": false
+}

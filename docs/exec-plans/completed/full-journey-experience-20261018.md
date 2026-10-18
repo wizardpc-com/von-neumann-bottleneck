@@ -1,5 +1,7 @@
 # 全旅程体验续轮 · 2026-10-18
 
+> 工程收尾（2026-10-18）：按用户最新要求，本计划的实现、整合、验证与Windows试玩交付范围已完成，移入completed。当前产品固定5bd3792，双包实际链和独立审查见[最终验收](../../verification/20261018-journey-final/README.md)。原生／Mac／新人、正式创作及既有导出Efficiency观察继续在[次日交接](../../development/night-handoff-20261018.md)列明，不作为自动续开发授权。以下正文保留各阶段原始结论及当时ACTIVE措辞，不定义当前队列。
+
 当前交付为固定c84cc9d的SR五步示例与反馈Esc修复双包；源码定向七阶段、renderer336、同源Linux完整CI通过。两包导出PCK各在同版官方editor通过原258→336；普通实际EXE219＋strict48、测试者229＋随包142／19＋strict48相继通过。原release-script无计数超时及测试者strict资源强停均保留，后者仅在数据独审与归档后续跑原strict，不重跑父子链。来源、当前ZIP与观察边界见[SR当前证据](../../verification/20261018-latch-rule-example/README.md)及[次日交接](../../development/night-handoff-20261018.md)。完整goal仍ACTIVE；原生／Mac／新人及正式创作决定不由这些测试代验。
 
 ## 先前bb5交付与F7开放观察

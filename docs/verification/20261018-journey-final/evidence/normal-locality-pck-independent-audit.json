@@ -1,0 +1,93 @@
+{
+  "status": "PASS_ACTUAL_NORMAL_EXPORTED_PCK_SAME_VERSION_EDITOR_SCOPE",
+  "summary": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-normal-exported-locality-5bd3792-summary.json",
+    "sha256": "3f862a20311e3729c7ea66edc7f93f1ee8bcda9a7230525fe659ed374531f1b9",
+    "bytes": 27670
+  },
+  "result_validation": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\validation.json",
+    "sha256": "40e443c1aff3fe62cd26f6e8acfb982691c61dc9a299da576c23db06591cd431",
+    "bytes": 26683
+  },
+  "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "profile": "CreationLinks20261018",
+  "role": "normal_only",
+  "phases": [
+    {
+      "stage": "headless",
+      "process": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\headless\\phase-result.json",
+        "sha256": "43d21f4deb571135033390e8925039d5f3df12c8e5aa4eb9d4d9cdb345dee0d2",
+        "bytes": 3656
+      },
+      "initial_owned_record": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\headless\\owned-process.json",
+        "sha256": "46320d1494a2c3726a8bb1a6b4af3d8887c023e76626823cba4c8705fe54fe8a",
+        "bytes": 1002
+      },
+      "pid": 119408,
+      "natural_exit": 0,
+      "seconds": 3.392,
+      "runtime_files": 4,
+      "runtime_dirs": 9,
+      "checks": null,
+      "headless_reported_count": null,
+      "all_files_dirs_exact": true
+    },
+    {
+      "stage": "gui",
+      "process": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\phase-result.json",
+        "sha256": "1403914773507d537a26b1d93bdfa2f3296032e21a504a0a0772ead9e49e774f",
+        "bytes": 20051
+      },
+      "initial_owned_record": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\owned-process.json",
+        "sha256": "8bc893e581188a43bf23c2bbd7a28dedf8bb6cedb136cbedcd1a43a1cfa7835d",
+        "bytes": 1008
+      },
+      "pid": 116304,
+      "natural_exit": 0,
+      "seconds": 7.222,
+      "runtime_files": 24,
+      "runtime_dirs": 39,
+      "checks": 518,
+      "headless_reported_count": null,
+      "all_files_dirs_exact": true
+    }
+  ],
+  "headless_count": "Not serialized numerically by unchanged canonical; PASS actual, countnull retained",
+  "gui_checks": 518,
+  "gui_pngs": 12,
+  "extra_pngs": 0,
+  "fresh_independent_four_env_each": true,
+  "canonical_test_unchanged": true,
+  "actual_pck_editor_and_candidate_sha_unchanged": true,
+  "candidate_full_before_after_current_exact": true,
+  "extracted_windows_full_inventory_exact": true,
+  "ancestor_project_override_absent_no_reparse": true,
+  "runtime_protection_scope": "Fresh original canonical fixture; all actual4envfiles+dirs byte maps exact, inprocess authorityasserts passed. No serialized pre-browse old-work/main-bak baseline, no claim of realoldCPGworks or naturalplayer progression.",
+  "visual_audit": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-normal-exported-locality-5bd3792-visual-audit.json",
+    "sha256": "6a4a6c70ef44e6a5b19410d3cbe67eefaec40a4d81aeacd2e932bdb6125e61ae",
+    "bytes": 11111
+  },
+  "release_exe_executed": false,
+  "no_source_fallback_testmode_or_override": true,
+  "immutable_maps": {
+    "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\Windows\\Von-Neumann-Bottleneck.exe": "937695ddfbac4de4da47a6d94c1cbfb6f097c1b1e9f329f206b2deff2caca212",
+    "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\exported.pck": "f47752bc263cac02d6ac0387ac726b0c1bf02a87615a56f01305ca0f35ccead1",
+    "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\test_locality_chapter_ui.gd": "d249cf3e72884f0dff011d4637a89d2adb687aa22882e91510e9e773b42c5f62",
+    "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\godot-4.7.1\\Godot_v4.7.1-stable_win64.exe": "323f9c4cc5db674e98815cdd8e69da007d5efc779abedc8c0e42883b7fdea12a",
+    "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\run-final-exported-locality-5bd3792.py": "c377d2a53aeb04a62b1c80b40c108be57eef0a37a8ffc5f97fa3699d489899ab",
+    "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\scripts\\verify-exported-latch-rules.py": "b10da59e8087448e57ec452700b5531ac8b4e201bc058f266b78b4d21094af37",
+    "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\scripts\\verify-package-feedback.py": "3ada696a5718542faca9c40f730a23d37c18055d92f744f01734a4523f60acd7",
+    "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\scripts\\check-candidate-identity.py": "6b92fb35b8d1b8a0ad4869589c589031424ec11d45db9f05251805e42f68e9a1"
+  },
+  "runtime_input_contains_no_existing_player_profile": true,
+  "initial_owned_record_limit": "owned-process initialRUNNING record intentionally not rewritten; phase-result is actual terminal exit/reason authority",
+  "auditor_engine_runs": 0,
+  "big_read_block_max": 65536,
+  "new_parent_strict": "NOT_RUN_AT_THIS_AUDIT"
+}

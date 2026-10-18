@@ -1,0 +1,222 @@
+{
+  "status": "PASS_SEVEN_STAGE_TARGETED_SCOPE",
+  "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "stages": 7,
+  "passed": 7,
+  "ordered_owned": 7,
+  "natural_exit_zero": 7,
+  "termination_count": 0,
+  "errors": 0,
+  "script_errors": 0,
+  "warning_count": 4,
+  "warning_stages": {
+    "test_desktop_conventions": [
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+      "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). "
+    ]
+  },
+  "source_delta_from_6c": "Only Main original TestBench default height300->400; all other720selected exact including original tests and FirstLight files",
+  "fixed_selected_exact": 721,
+  "executed_nonconfig_exact": 720,
+  "canonical_tests": 176,
+  "extra_tests": [],
+  "route_present": true,
+  "uid_sha256": "e489da42bdbc540c68061bf11682c6d1f70c3435b1f5fb0f3054cec18c07af0c",
+  "private_project_settings": "Original two private user-dir fields plus EOL only; full normalized text independently exact",
+  "private_project_settings_sha256": "4dfd095fca50ef9fcbca76225466efd2afd10ef8b98981bc9e7048a39cc58d30",
+  "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+  "archive_files": 5794,
+  "archive_format": "tar",
+  "archive_sha256": "c30147f921cb4ca558f4a62657fcfe2f2a06fac4fbe7ebfb93226f9211153840",
+  "docs_hash_only_count": 5073,
+  "full_archive_materialized": false,
+  "evidence": [
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source-manifest.json",
+      "sha256": "8360222773cec03ac16d1b7f85594f3f365a8f49c6d06f11824e54d243ef9666",
+      "bytes": 1424373
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/copy-parity.json",
+      "sha256": "1e682592919b4885faec3bf8de281e92079337a16ddf6930ecad9ac1295f22cb",
+      "bytes": 459846
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/owned-processes.json",
+      "sha256": "5a63fa5114b900411e3b8e21f0659a64091fe5644727399948a2247ae55a7383",
+      "bytes": 6029
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source/.godot/verification/20261018T103853Z-3e20a596/results.json",
+      "sha256": "af14217ecb928c1379afdf569824f7775d5d168b036f203576f23f777ff10f91",
+      "bytes": 1955
+    },
+    {
+      "path": ".godot/journey-final-locality-focused-launch/f4692d22ae24/process.json",
+      "sha256": "59fc6aa13e4a4752dbd543f061fe4dc5940fa2a5f2057ada2f21d07700c2b3b0",
+      "bytes": 1750
+    }
+  ],
+  "logs": [
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source/.godot/verification/20261018T103853Z-3e20a596/import.txt",
+      "sha256": "0e5409500465efb5991c59d8748c95a55be47bb6a92a9f38639747c8547c2818",
+      "bytes": 28506,
+      "stage": "import",
+      "exit": 0,
+      "passed": true,
+      "pid": 151704,
+      "error_lines": [],
+      "script_error_lines": [],
+      "warning_lines": [],
+      "pass_lines": []
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source/.godot/verification/20261018T103853Z-3e20a596/user_directory.txt",
+      "sha256": "fd25d96c087c4d7d061802ef4d2023a11464c2d908481c98678b9387674d9229",
+      "bytes": 345,
+      "stage": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "pid": 64452,
+      "error_lines": [],
+      "script_error_lines": [],
+      "warning_lines": [],
+      "pass_lines": []
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source/.godot/verification/20261018T103853Z-3e20a596/test_desktop_conventions.txt",
+      "sha256": "6f915e4c6ed2849179c7c84119e75cc369114f144946c048c7c16687f89ffd2f",
+      "bytes": 1586,
+      "stage": "test_desktop_conventions",
+      "exit": 0,
+      "passed": true,
+      "pid": 65940,
+      "error_lines": [],
+      "script_error_lines": [],
+      "warning_lines": [
+        "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+        "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+        "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). ",
+        "WARNING: Nodes with non-equal opposite anchors will have their size overridden after _ready(). "
+      ],
+      "pass_lines": [
+        "PASS: bilingual title drag, bounds, focus cancellation and macOS settings shortcut"
+      ]
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source/.godot/verification/20261018T103853Z-3e20a596/test_floating_tool_recall.txt",
+      "sha256": "efce19ad5da502f3407f7793f2ce5d40c06cca7169d7e9504bbe049f007dfd9e",
+      "bytes": 135,
+      "stage": "test_floating_tool_recall",
+      "exit": 0,
+      "passed": true,
+      "pid": 60800,
+      "error_lines": [],
+      "script_error_lines": [],
+      "warning_lines": [],
+      "pass_lines": [
+        "PASS: covered, minimized, visible and separate tool recall"
+      ]
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source/.godot/verification/20261018T103853Z-3e20a596/test_locality_chapter_ui.txt",
+      "sha256": "cc3a5faed0701a20be3ac9c132355dc8e26692bba3eedb3f53da06feb42b65f1",
+      "bytes": 296,
+      "stage": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "pid": 106516,
+      "error_lines": [],
+      "script_error_lines": [],
+      "warning_lines": [],
+      "pass_lines": [
+        "PASS: complete seven-level Chapter 2 progression, concept reveals, comparisons, and multiple capstone solutions passed"
+      ]
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source/.godot/verification/20261018T103853Z-3e20a596/test_locality_restored_baseline.txt",
+      "sha256": "dc636bb70a5c996abe845a07c41a6a69e5a3c58d6cd24d77e7b267d784a4270d",
+      "bytes": 119,
+      "stage": "test_locality_restored_baseline",
+      "exit": 0,
+      "passed": true,
+      "pid": 25436,
+      "error_lines": [],
+      "script_error_lines": [],
+      "warning_lines": [],
+      "pass_lines": [
+        "PASS: locality restored baseline 15 checks"
+      ]
+    },
+    {
+      "path": ".godot/journey-final-fixed-watch/e27d1bf12b79/source/.godot/verification/20261018T103853Z-3e20a596/test_target_evidence_guidance.txt",
+      "sha256": "cddb616f28d2ad38faff11f1d000b21122060dab13c27d9bc7a3e8fe909c0bd5",
+      "bytes": 460,
+      "stage": "test_target_evidence_guidance",
+      "exit": 0,
+      "passed": true,
+      "pid": 56000,
+      "error_lines": [],
+      "script_error_lines": [],
+      "warning_lines": [],
+      "pass_lines": [
+        "PASS: target evidence guidance 108 checks"
+      ]
+    }
+  ],
+  "runtime_files_sha256": {
+    "Godot/cache/editor_doc_cache-4.7.res": "185474c4ca7b19923b2b7184cd77e78d7fcca41f37d328a8f2d502c9bb325b45",
+    "Godot/editor_settings-4.7.tres": "7c9c3f5349b4a95c659928d5bf3dbe366716897ba6284a103eee869fe291e537",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_desktop_conventions/feedback_outbox_v1.json": "e88a4ce74915094cfeddc0f3954482983ef09e5cde99c1312fe6a3534407de1b",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_desktop_conventions/logs/godot.log": "232b1bdf6d3ccef08bbda716a13269f32fb0ea0ec8481585f38398b29e003a12",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_desktop_conventions/task_navigation.cfg": "e046cfed6dd133e4b2671e11c0d646af6b0a48071a562aa723af921d8201eb6f",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_floating_tool_recall/feedback_outbox_v1.json": "d64e457e4d225e7e50edac0d437275a74e072302bb676233ff6bd3d1eb0a674d",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_floating_tool_recall/logs/godot.log": "b2d6b6365521639d9f4064df8e74fcd63139491ceb2b6888093fb9a88b7f48ce",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_chapter_ui/feedback_outbox_v1.json": "e581a6a88f48fd6d4348289bb6f4e055e50cc4e7409343c1e7531419b623efc3",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_chapter_ui/logs/godot.log": "831d08d2f1c44694a7785bf3a0f3cbc20c121d8b880d1a613cdc71fd4639b9ba",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_chapter_ui/personal_task_records_v1.json": "d0407b0d3ae184d0d6c5807ad551c076ac8aa5cdbfd03350c7de8d947385348e",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_chapter_ui/task_navigation.cfg": "d07d8f2a9ca98c6860dcbbe15ba39c34209e27443dacd94185aad3fb895b6f39",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_restored_baseline/feedback_outbox_v1.json": "f02435eecee05d9831d45cafdf4f984560b1b9ad9421c995823d1654f65e0a0e",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_restored_baseline/logs/godot.log": "c3676d14902fe50a30667133a25d232b4f6cf206fff5ba4dff441108d9bb1c74",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_restored_baseline/personal_task_records_v1.json": "c43d82956c4203ca0715e54d2b6a3775e0071212f022cbc8df4e30eca709ee4e",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_restored_baseline/task_navigation.cfg": "9f7b79862d54e28d93cbe202f6111a0791e50a4dc1e2d5e4f27da95dbf455c02",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_target_evidence_guidance/creation-candidate/session.json": "74f84ba6c821bcf57e4c01507d1c5b69cb0ce404c2fcd369ceb2d13cf03edd28",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_target_evidence_guidance/feedback_outbox_v1.json": "ac09e10f0cd9aad823f8dfd52c26e1c80150136bd72fc1f5074558b05db4625b",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_target_evidence_guidance/logs/godot.log": "3e5c0d9a27af9a6b9a7d9078861703031f7b766b675be0f67f0bf4e619fd1c41",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/user_directory/feedback_outbox_v1.json": "f038a3487be7a77c5ffe7f8f7d6eb224b493f375949e34802020c6f92c3b4783",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/user_directory/logs/godot.log": "e0f4f40cacd7d3ad6c1f316915f578b4052132165d4c95bfb8b24e39f09cb504"
+  },
+  "runtime_directories": [
+    "Godot",
+    "Godot/cache",
+    "Godot/export_templates",
+    "Godot/feature_profiles",
+    "Godot/script_templates",
+    "Godot/text_editor_themes",
+    "VonNeumannBottleneckChecks",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/import",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/import/objectdb_snapshots",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_desktop_conventions",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_desktop_conventions/logs",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_floating_tool_recall",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_floating_tool_recall/logs",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_chapter_ui",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_chapter_ui/logs",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_restored_baseline",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_locality_restored_baseline/logs",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_target_evidence_guidance",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_target_evidence_guidance/creation-candidate",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/test_target_evidence_guidance/logs",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/user_directory",
+    "VonNeumannBottleneckChecks/20261018T103853Z-3e20a596/user_directory/logs"
+  ],
+  "new_gui": "NOT_RUN",
+  "new_full_windows": "NOT_RUN_NOT_REQUIRED_BY_THIS_GRANT",
+  "old_full_scope": "6c145f0 original177 only, not upgraded to5bd",
+  "new_packages": "NOT_RUN",
+  "engine_token": "RETURNED_TO_ROOT"
+}

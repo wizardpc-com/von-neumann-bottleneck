@@ -1,5 +1,7 @@
 # 逐任务学习盘点与效率回顾焦点核验 · 2026-10-18
 
+> 工程收尾（2026-10-18）：按用户最新要求，本计划的实现、整合、验证与Windows试玩交付范围已完成，移入completed。当前产品固定5bd3792，双包实际链和独立审查见[最终验收](../../verification/20261018-journey-final/README.md)。原生／Mac／新人、正式创作及既有导出Efficiency观察继续在[次日交接](../../development/night-handoff-20261018.md)列明，不作为自动续开发授权。以下正文保留各阶段原始结论及当时ACTIVE措辞，不定义当前队列。
+
 状态：DELIVERED_WITH_OPEN_OBSERVATIONS；完整goal ACTIVE，本计划保留在active队列。
 当前产品bb5c817、外QA检查点ea6be8d，双Windows包及限定验收交付，旧失败原因仍开放。
 基线为已推送的 `e410cbe6bb1990f52e3ef0ebcbd7b9a33faebbce`；

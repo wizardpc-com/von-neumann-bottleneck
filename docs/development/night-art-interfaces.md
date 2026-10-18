@@ -134,8 +134,21 @@ NOT输入1／输出0与灯灭仍由独立文字表达。现有画区不扩高，
 外部调用仍可直接赋值`preview_texture`；初始化后明确赋null或零尺寸纹理不会重新加载默认图。
 缺少默认资源或没有有效Texture时走原程序几何，加载／导入错误仍须如实检查，不能用回退掩盖。
 
-本候选尚待固定源Godot与实际窗口／导出验证；已有c84几何回顾图属于修改前证据，
-不能据此称新图片的100逻辑像素高呈现、焦点或fallback已通过。
+当前候选SOURCE为`5bd3792b022ec053f62eaeca9f53a791e201bcd9`；FirstLight素材、组件与测试
+沿用`6c145f0`已验证的原字节，本次后续变化仅第二章测试台默认高度。
+`2f42550ffb53/test_first_light`的源码renderer实际197项通过，14张PNG为12张主图及2张预反馈现场，
+不是14个不同画面：主图在两语、三个root尺寸下均为650×480子窗口，图片居中300×100逻辑像素。
+两语字幕、NOT输入1／输出0、跳过和返回可见；正图／null／零尺寸及焦点行为依据controller断言，
+不从静图推导。主图使用`theme.entry+theme.build`字幕压力夹具，不是实际CPU完成证明。
+非作者图审见`.godot/journey-final-rendered/2f42550ffb53/first-light-nonauthor-visual-audit.json`
+（SHA `b02639972fd6daef85d6fd2d7a1fee87cf4d86d7a12013d6492088e59192e559`）。
+
+普通实际导出EXE的`f198fe6612cb`父链219项及独立重启48项已记录通过，SOURCE仍为5bd3792，
+profile为`CreationLinks20261018`。该包真实教程五操作后经生产Journal里程碑进入回顾；
+原图`first-light-playing.png`为520×384物理子窗口，横幅240×80物理像素，对应原300×100逻辑画区。
+原生虚构说明、NOT输出0、跳过和返回完整可读；同次static图原字节相同，不据此宣称动画过程。
+[本轮原图与来源清单](../verification/20261018-journey-final/image-manifest.json)分列源码前后、
+普通实际PCK＋官方编辑器和实际EXE控制器证据；均不代替原生OS、新人理解或正式美术验收。
 
 生成提示（内建工具，`transparent_background=false`）：
 

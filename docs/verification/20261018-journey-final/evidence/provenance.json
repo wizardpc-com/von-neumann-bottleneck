@@ -1,0 +1,85 @@
+{
+  "scope": "Byte-exact terminal evidence copies; private runtime, feedback text, logs and ZIP payloads are not copied. Raw historical paths retain their original snapshot meaning.",
+  "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "previous_windows_full_source": "6c145f0680d2fbf2e96bd1621e137452e49f8d61",
+  "files": [
+    {
+      "file": "normal-candidate-manifest.json",
+      "original_path": "build/playtest-JourneyFinalExperience20261018-5bd3792b022e/manifest.json",
+      "bytes": 3513,
+      "sha256": "665dd3db4b48638823936b2eea442ff8429bd3ee57023c22666720cacde687bb"
+    },
+    {
+      "file": "tester-candidate-manifest.json",
+      "original_path": "build/playtest-JourneyFinalAccess20261018-5bd3792b022e/manifest.json",
+      "bytes": 3544,
+      "sha256": "721d67b983543ac88463bd5d66999203c8b76e77ecd30c6d5dc3b66735823b42"
+    },
+    {
+      "file": "source-ci-5bd3792.json",
+      "original_path": ".godot/journey-final-source-ci-5bd3792.json",
+      "bytes": 4897,
+      "sha256": "caf041d72696638252d405f7ae3aaaa66a9ed48fe47f6227309dcd5d7fe0d8bf"
+    },
+    {
+      "file": "windows-full-6c145f0-summary.json",
+      "original_path": ".godot/journey-final-full-6c145f0-summary.json",
+      "bytes": 341837,
+      "sha256": "a8d1c48060567a671a5fc77087ab6beb911d45330d8ce5567c7d1e52c2a0a8d1"
+    },
+    {
+      "file": "windows-targeted-5bd3792-summary.json",
+      "original_path": ".godot/journey-final-locality-focused-5bd3792-summary.json",
+      "bytes": 12130,
+      "sha256": "4113dfcb0bc4b82864004d4acbab6d2aa58d14c5961fd95ec88e453634800db0"
+    },
+    {
+      "file": "normal-locality-pck-summary.json",
+      "original_path": ".godot/journey-final-normal-exported-locality-5bd3792-summary.json",
+      "bytes": 27670,
+      "sha256": "3f862a20311e3729c7ea66edc7f93f1ee8bcda9a7230525fe659ed374531f1b9"
+    },
+    {
+      "file": "normal-locality-pck-independent-audit.json",
+      "original_path": ".godot/journey-final-normal-exported-locality-independent-audit.json",
+      "bytes": 5289,
+      "sha256": "b65a8d72b6d44545f60eff3dd0a22d63e44ffd5e6b1b632bb87df24e0f871299"
+    },
+    {
+      "file": "normal-release-chain-summary.json",
+      "original_path": ".godot/journey-final-normal-parent-strict-5bd3792-summary.json",
+      "bytes": 5014,
+      "sha256": "fd94413717981b9996ac24259bc0c8fdd7ebede167ad5c7509af90d269513dc8"
+    },
+    {
+      "file": "normal-release-chain-independent-audit.json",
+      "original_path": ".godot/journey-final-normal-parent-strict-independent-audit.json",
+      "bytes": 20707,
+      "sha256": "7316717fae5b36e0adaf610403ce72cb688c94674602cfa5d705edbe0408a443"
+    },
+    {
+      "file": "tester-release-chain-summary.json",
+      "original_path": ".godot/journey-final-tester-parent-child-strict-5bd3792-summary.json",
+      "bytes": 10524,
+      "sha256": "258e2b523ba9a81b7714d41582e0db0a29f9941a15099ac56767375b091145ba"
+    },
+    {
+      "file": "tester-release-chain-independent-audit.json",
+      "original_path": ".godot/journey-final-tester-parent-child-strict-independent-audit.json",
+      "bytes": 23426,
+      "sha256": "9e029079aef948a5fff4e11f5e1d572bbdb707ed9d1bd92db7229f04166b4706"
+    },
+    {
+      "file": "normal-release-visual-audit.json",
+      "original_path": ".godot/journey-final-normal-export-visual-independent-audit.json",
+      "bytes": 14495,
+      "sha256": "c65d62a10c002c24c6d43c00f91d213f39ab24e4cf6de6a2b72ff551dc2e34eb"
+    },
+    {
+      "file": "tester-release-visual-audit.json",
+      "original_path": ".godot/journey-final-tester-export-visual-independent-audit.json",
+      "bytes": 50790,
+      "sha256": "facdffd6918e10623b4ad78727d9bce23cc78b8975da2c488b7da9a53c0d417b"
+    }
+  ]
+}

@@ -1,0 +1,365 @@
+{
+  "status": "PASS_SCOPE_ACTUAL_EXPORTED_PCK_EDITOR_NORMAL_ONLY",
+  "product_source_commit": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "candidate": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-JourneyFinalExperience20261018-5bd3792b022e",
+  "build_id": "playtest-JourneyFinalExperience20261018-5bd3792b022e",
+  "profile": "CreationLinks20261018",
+  "tester": false,
+  "session": 13779,
+  "outer_natural_exit": 0,
+  "outer_pid": null,
+  "outer_pid_limit": "Original carrier does not record its Python wrapper PID; actual editor child PIDs are preserved in terminal phase-result.json.",
+  "work": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d",
+  "result": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\result.json",
+    "sha256": "40e443c1aff3fe62cd26f6e8acfb982691c61dc9a299da576c23db06591cd431",
+    "bytes": 26683
+  },
+  "validation": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\validation.json",
+    "sha256": "40e443c1aff3fe62cd26f6e8acfb982691c61dc9a299da576c23db06591cd431",
+    "bytes": 26683
+  },
+  "seed": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\seed.json",
+    "sha256": "51f4742ac406ee28515d80d1d17e0db2e359e81825fd6b7291dc46ca8da217cd",
+    "bytes": 4292
+  },
+  "zip": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-JourneyFinalExperience20261018-5bd3792b022e\\Von-Neumann-Bottleneck-Windows-playtest-JourneyFinalExperience20261018-5bd3792b022e.zip",
+    "sha256": "bdd8c98dcaed288ab5adea47edba300a9481252a15a27b4da28b5cde1cb232be",
+    "bytes": 58907398
+  },
+  "candidate_exe": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-JourneyFinalExperience20261018-5bd3792b022e\\Windows\\Von-Neumann-Bottleneck.exe",
+    "sha256": "937695ddfbac4de4da47a6d94c1cbfb6f097c1b1e9f329f206b2deff2caca212",
+    "bytes": 131147912
+  },
+  "extracted_exe": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\Windows\\Von-Neumann-Bottleneck.exe",
+    "sha256": "937695ddfbac4de4da47a6d94c1cbfb6f097c1b1e9f329f206b2deff2caca212",
+    "bytes": 131147912
+  },
+  "raw_embedded_pck": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\exported.pck",
+    "sha256": "f47752bc263cac02d6ac0387ac726b0c1bf02a87615a56f01305ca0f35ccead1",
+    "bytes": 22049916
+  },
+  "canonical_external_test": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\test_locality_chapter_ui.gd",
+    "sha256": "d249cf3e72884f0dff011d4637a89d2adb687aa22882e91510e9e773b42c5f62",
+    "bytes": 51220
+  },
+  "carrier": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\run-final-exported-locality-5bd3792.py",
+    "sha256": "c377d2a53aeb04a62b1c80b40c108be57eef0a37a8ffc5f97fa3699d489899ab",
+    "bytes": 13864
+  },
+  "phases": [
+    {
+      "stage": "headless",
+      "actual_pid": 119408,
+      "exit": 0,
+      "termination_reason": "",
+      "command": [
+        "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\godot-4.7.1\\Godot_v4.7.1-stable_win64.exe",
+        "--main-pack",
+        "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\exported.pck",
+        "--headless",
+        "--script",
+        "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\test_locality_chapter_ui.gd"
+      ],
+      "phase_result": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\headless\\phase-result.json",
+        "sha256": "43d21f4deb571135033390e8925039d5f3df12c8e5aa4eb9d4d9cdb345dee0d2",
+        "bytes": 3656
+      },
+      "initial_owned_process_record": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\headless\\owned-process.json",
+        "sha256": "46320d1494a2c3726a8bb1a6b4af3d8887c023e76626823cba4c8705fe54fe8a",
+        "bytes": 1002
+      },
+      "log": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\headless\\stdout.log",
+        "sha256": "cc3a5faed0701a20be3ac9c132355dc8e26692bba3eedb3f53da06feb42b65f1",
+        "bytes": 296
+      },
+      "errors": [],
+      "warnings": [],
+      "carrier_unchanged": true,
+      "runtime_before": {
+        "files": {},
+        "directories": [
+          "appdata",
+          "localappdata",
+          "temp"
+        ]
+      },
+      "runtime_after": {
+        "files": {
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/feedback_outbox_v1.json": "588ab66f120f71571a910fda579705646418a610f40ee38dda933b0ae81eeda1",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/logs/godot.log": "831d08d2f1c44694a7785bf3a0f3cbc20c121d8b880d1a613cdc71fd4639b9ba",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/personal_task_records_v1.json": "667402d9f4b52a66e0cc538065a0accd3c9a3a145d5fec424f06ea32f30d1cd2",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/task_navigation.cfg": "d07d8f2a9ca98c6860dcbbe15ba39c34209e27443dacd94185aad3fb895b6f39"
+        },
+        "directories": [
+          "appdata",
+          "appdata/VonNeumannBottleneckCandidates",
+          "appdata/VonNeumannBottleneckCandidates/representation",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/logs",
+          "appdata/VonNeumannBottleneckCandidates/service",
+          "appdata/VonNeumannBottleneckCandidates/service/CreationLinks20261018",
+          "localappdata",
+          "temp"
+        ]
+      },
+      "reported_headless_check_count": null,
+      "observed_gui_checks": null,
+      "pngs_sha256": {},
+      "frames": []
+    },
+    {
+      "stage": "gui",
+      "actual_pid": 116304,
+      "exit": 0,
+      "termination_reason": "",
+      "command": [
+        "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\godot-4.7.1\\Godot_v4.7.1-stable_win64.exe",
+        "--main-pack",
+        "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\exported.pck",
+        "--script",
+        "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\test_locality_chapter_ui.gd",
+        "--",
+        "--locality-outcome-capture"
+      ],
+      "phase_result": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\phase-result.json",
+        "sha256": "1403914773507d537a26b1d93bdfa2f3296032e21a504a0a0772ead9e49e774f",
+        "bytes": 20051
+      },
+      "initial_owned_process_record": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\owned-process.json",
+        "sha256": "8bc893e581188a43bf23c2bbd7a28dedf8bb6cedb136cbedcd1a43a1cfa7835d",
+        "bytes": 1008
+      },
+      "log": {
+        "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\stdout.log",
+        "sha256": "1fbf63c22397061b2c02e615dd6c57020cd9d49150de2b90ca246235b82d987e",
+        "bytes": 306
+      },
+      "errors": [],
+      "warnings": [],
+      "carrier_unchanged": true,
+      "runtime_before": {
+        "files": {},
+        "directories": [
+          "appdata",
+          "localappdata",
+          "temp"
+        ]
+      },
+      "runtime_after": {
+        "files": {
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/feedback_outbox_v1.json": "6be2dbf989a3923ffca42b43b70b76a5ddbd8690bc80b7c13690dae06ad79cc7",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1280x720-result.png": "e1ae08e62a688d60053deaa8705c6b1ad81170b12671c0bbfc9312645347a1a0",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1280x720-trace.png": "88aba915d7fbaff0b917abf34ba3d7512e2d66c7a58a8580fcf8f5300dbb7e07",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1440x900-result.png": "b1b79352b44cbb622a7afcce4b5c4eefaca23a87a368a1dcd0895ff39683aa4f",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1440x900-trace.png": "b98eb54746ef7cbb34821a11b57112235a34039f3c0eccf1366a150671046d05",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1920x1080-result.png": "35a04c9aaa62c440b875b840e7b8ba5edc630c3280a29da561d987ac599dddf7",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1920x1080-trace.png": "9f68cf2e3f20387023c497838034d282817f8a97a60a8df327017f776db5bd4c",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/receipt.json": "2da8aa8c928075b4b7c1fad49f001bcc9cfe025a660e5b9633a8988854660e89",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1280x720-result.png": "0b35e08f8635dc5dfaa340a9375a1171f84dbbce76301fa541cb9519e84025ff",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1280x720-trace.png": "1d3aab95a0de612804b90bd5d1650a6e79f18a9119acf498825a0d180c2c8f9f",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1440x900-result.png": "5618fc4159177d9f4f76ab3bc1afea38f1e938359f018ab797481ad271bb4836",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1440x900-trace.png": "8d2bfe4ba5da08a8a51dc6b2f2f00c5561b26c4ab72fce7cdbb62ebfe16a48a6",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1920x1080-result.png": "f8ec902b058fe24a7a7513fb581c098d99a15b6a3e2084c0ae2884943a3109f4",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1920x1080-trace.png": "63fe7934ce6e4fe76aca72693a8553020f7d48186d64741f19dfdba988ea38c8",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/logs/godot.log": "6ccfa76889e5c59992d9152b88e47b3f2022c5136d8dc3815343e7550a48e072",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/personal_task_records_v1.json": "667402d9f4b52a66e0cc538065a0accd3c9a3a145d5fec424f06ea32f30d1cd2",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/presentation.cfg": "b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CanvasShaderGLES3/73741fc62d78ad429ef189dfb23fc52476c5172daefcfcef53f2bedce9efb75f/254a989ebf33c3589c37e0a82b278c601a09fd1e.cache": "dd031b7a2f6f5bec9c7341371ea16669a1c693576abfb2810d4d84340306a762",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CanvasShaderGLES3/73741fc62d78ad429ef189dfb23fc52476c5172daefcfcef53f2bedce9efb75f/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "6cf58c6e4eb0ee8cafeb05af129db1f6bbeeef22353144d7759966c9bddeb8d6",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CopyShaderGLES3/7cd02b291f26dc808f80cccaf7e2418e1b0676b61b5a3abe02459c25c1c231e9/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "e07f57be2d0aef9d13520ec566f53b954bef6ce07f7f8ebdf92cdb54f4c66c8b",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/FeedShaderGLES3/555aea45466988006699647842a1d34658b7c84bd751481a982329b4e7eb0d4f/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "53c4af819dbbb9fad6cc72089605b78f1ad656ea6aa9039fc63c753219ee9ca7",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/PostShaderGLES3/8205a17e6ef9e3d96d04f7fc294028e22ed01899e65987dfd1a179f058570e84/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "19789152f2755a1115c1611c3dd29d030e7843fdc036da6f71c4520d8cc7538a",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/SceneShaderGLES3/b70610e35c24f4855a619f08b419cb6d71e79609a92747a5d6f9e147b743b615/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "eeedb2593c2720a70c6c535b5c70006a2612b1cd679484d16fc57fe574403760",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/task_navigation.cfg": "0ba0dfdd858c53c2ae6363d20863d3736857f88fb7a0d0f1c5edad8f12f14dfe"
+        },
+        "directories": [
+          "appdata",
+          "appdata/VonNeumannBottleneckCandidates",
+          "appdata/VonNeumannBottleneckCandidates/representation",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/logs",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CanvasOcclusionShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CanvasOcclusionShaderGLES3/f279ae49e7ba899931d9fc51085edeb6b7d0501e14425b3ccceaa63bb50a6e64",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CanvasSdfShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CanvasSdfShaderGLES3/25f276e42be0ade249e9730348bfc3df2c1fad323960909e7913a0e926abc908",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CanvasShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CanvasShaderGLES3/73741fc62d78ad429ef189dfb23fc52476c5172daefcfcef53f2bedce9efb75f",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CopyShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CopyShaderGLES3/7cd02b291f26dc808f80cccaf7e2418e1b0676b61b5a3abe02459c25c1c231e9",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CubemapFilterShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/CubemapFilterShaderGLES3/c2f931f1b99d4508a36e9d762437b8f1978045097afc1501a97c3c6445fe7271",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/FeedShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/FeedShaderGLES3/555aea45466988006699647842a1d34658b7c84bd751481a982329b4e7eb0d4f",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/GlowShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/GlowShaderGLES3/feec5e75432038eb84ff97a9d77ab61874ed11f39745859ccfb31cb7c5d7fedb",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/ParticlesCopyShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/ParticlesCopyShaderGLES3/d3e440cb92d619a464eb4730eead3c81571c2b5e34c67771ab35c581a1d3fa9e",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/ParticlesShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/ParticlesShaderGLES3/990e7a552f9e555c49d13d58b43b17ff7923f33a13467f4dfb33fdd209da980b",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/PostShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/PostShaderGLES3/8205a17e6ef9e3d96d04f7fc294028e22ed01899e65987dfd1a179f058570e84",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/SceneShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/SceneShaderGLES3/b70610e35c24f4855a619f08b419cb6d71e79609a92747a5d6f9e147b743b615",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/SkeletonShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/SkeletonShaderGLES3/39286eacb1ea953d17380c0936ba8b0da9a950d98dadb249e4ea1c3eff433553",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/SkyShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/SkyShaderGLES3/298d94e175fc9b58c685d61c7a1fbebb796fb28466884718d31e8799cedd37ff",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/TexBlitShaderGLES3",
+          "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/shader_cache/TexBlitShaderGLES3/936ab1047cd4b3564e72f164e8827d7ca5cb6f2a09816f35bdbb55882731fee7",
+          "appdata/VonNeumannBottleneckCandidates/service",
+          "appdata/VonNeumannBottleneckCandidates/service/CreationLinks20261018",
+          "localappdata",
+          "temp"
+        ]
+      },
+      "reported_headless_check_count": null,
+      "observed_gui_checks": 518,
+      "pngs_sha256": {
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1280x720-result.png": "e1ae08e62a688d60053deaa8705c6b1ad81170b12671c0bbfc9312645347a1a0",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1280x720-trace.png": "88aba915d7fbaff0b917abf34ba3d7512e2d66c7a58a8580fcf8f5300dbb7e07",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1440x900-result.png": "b1b79352b44cbb622a7afcce4b5c4eefaca23a87a368a1dcd0895ff39683aa4f",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1440x900-trace.png": "b98eb54746ef7cbb34821a11b57112235a34039f3c0eccf1366a150671046d05",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1920x1080-result.png": "35a04c9aaa62c440b875b840e7b8ba5edc630c3280a29da561d987ac599dddf7",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/en-1920x1080-trace.png": "9f68cf2e3f20387023c497838034d282817f8a97a60a8df327017f776db5bd4c",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1280x720-result.png": "0b35e08f8635dc5dfaa340a9375a1171f84dbbce76301fa541cb9519e84025ff",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1280x720-trace.png": "1d3aab95a0de612804b90bd5d1650a6e79f18a9119acf498825a0d180c2c8f9f",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1440x900-result.png": "5618fc4159177d9f4f76ab3bc1afea38f1e938359f018ab797481ad271bb4836",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1440x900-trace.png": "8d2bfe4ba5da08a8a51dc6b2f2f00c5561b26c4ab72fce7cdbb62ebfe16a48a6",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1920x1080-result.png": "f8ec902b058fe24a7a7513fb581c098d99a15b6a3e2084c0ae2884943a3109f4",
+        "appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1920x1080-trace.png": "63fe7934ce6e4fe76aca72693a8553020f7d48186d64741f19dfdba988ea38c8"
+      },
+      "frames": [
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\zh_CN-1280x720-result.png",
+          "sha256": "0b35e08f8635dc5dfaa340a9375a1171f84dbbce76301fa541cb9519e84025ff",
+          "dimensions": [
+            1280,
+            720
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\zh_CN-1280x720-trace.png",
+          "sha256": "1d3aab95a0de612804b90bd5d1650a6e79f18a9119acf498825a0d180c2c8f9f",
+          "dimensions": [
+            1280,
+            720
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\zh_CN-1440x900-result.png",
+          "sha256": "5618fc4159177d9f4f76ab3bc1afea38f1e938359f018ab797481ad271bb4836",
+          "dimensions": [
+            1440,
+            900
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\zh_CN-1440x900-trace.png",
+          "sha256": "8d2bfe4ba5da08a8a51dc6b2f2f00c5561b26c4ab72fce7cdbb62ebfe16a48a6",
+          "dimensions": [
+            1440,
+            900
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\zh_CN-1920x1080-result.png",
+          "sha256": "f8ec902b058fe24a7a7513fb581c098d99a15b6a3e2084c0ae2884943a3109f4",
+          "dimensions": [
+            1920,
+            1080
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\zh_CN-1920x1080-trace.png",
+          "sha256": "63fe7934ce6e4fe76aca72693a8553020f7d48186d64741f19dfdba988ea38c8",
+          "dimensions": [
+            1920,
+            1080
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\en-1280x720-result.png",
+          "sha256": "e1ae08e62a688d60053deaa8705c6b1ad81170b12671c0bbfc9312645347a1a0",
+          "dimensions": [
+            1280,
+            720
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\en-1280x720-trace.png",
+          "sha256": "88aba915d7fbaff0b917abf34ba3d7512e2d66c7a58a8580fcf8f5300dbb7e07",
+          "dimensions": [
+            1280,
+            720
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\en-1440x900-result.png",
+          "sha256": "b1b79352b44cbb622a7afcce4b5c4eefaca23a87a368a1dcd0895ff39683aa4f",
+          "dimensions": [
+            1440,
+            900
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\en-1440x900-trace.png",
+          "sha256": "b98eb54746ef7cbb34821a11b57112235a34039f3c0eccf1366a150671046d05",
+          "dimensions": [
+            1440,
+            900
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\en-1920x1080-result.png",
+          "sha256": "35a04c9aaa62c440b875b840e7b8ba5edc630c3280a29da561d987ac599dddf7",
+          "dimensions": [
+            1920,
+            1080
+          ]
+        },
+        {
+          "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\en-1920x1080-trace.png",
+          "sha256": "9f68cf2e3f20387023c497838034d282817f8a97a60a8df327017f776db5bd4c",
+          "dimensions": [
+            1920,
+            1080
+          ]
+        }
+      ]
+    }
+  ],
+  "all_immutable_inputs_unchanged": true,
+  "release_exe_executed": false,
+  "suite_png_count": 12,
+  "incidental_png_count": 0,
+  "reported_headless_check_count": null,
+  "observed_gui_checks": 518,
+  "observed_terminal_free_bytes": 917970944,
+  "preflight_free_bytes": 1077772288,
+  "preflight_required_bytes": 824286468,
+  "limits": [
+    "Actual PCK in pinned official main editor, not release EXE invocation or native OS input.",
+    "Ordinary CreationLinks profile only. Tester canonical fixture is inapplicable and was not run.",
+    "Original whole canonical controller has Chapter1 completion setup; this is not natural new-player progression.",
+    "Headless exact PASS has no numeric check report; null is retained instead of inventing a count.",
+    "Original owned-process.json is initial RUNNING metadata; terminal exit and reason are authoritative in phase-result.json, not rewritten here.",
+    "Fresh private runtime state is retained. Disk floor is monitored, not a continuous external measurement.",
+    "No package parent/strict/tester/native run in this stage."
+  ]
+}

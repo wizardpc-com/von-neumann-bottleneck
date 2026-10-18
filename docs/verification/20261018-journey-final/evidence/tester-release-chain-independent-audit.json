@@ -1,0 +1,333 @@
+{
+  "status": "PASS_ACTUAL_TESTER_RELEASE_PARENT_CHILD_STRICT_SCOPE",
+  "summary": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-tester-parent-child-strict-5bd3792-summary.json",
+    "sha256": "258e2b523ba9a81b7714d41582e0db0a29f9941a15099ac56767375b091145ba",
+    "bytes": 10524
+  },
+  "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "profile": "OfflineTeammate-CreationLinks20261018",
+  "parent_checks": 229,
+  "child_capture_boolean_checks": 142,
+  "child_reopen_boolean_checks": 19,
+  "actual_unique_entries_visited": 60,
+  "strict_checks": 48,
+  "parent_exe_pid": 58896,
+  "strict_exe_pid": 93668,
+  "exe_processes_natural_exit_zero": true,
+  "outer_python_pid": 59180,
+  "outer_exit": 0,
+  "python_segments": [
+    {
+      "stage": "parent",
+      "pid": 23732,
+      "exit": 0,
+      "termination_reason": ""
+    },
+    {
+      "stage": "strict",
+      "pid": 10860,
+      "exit": 0,
+      "termination_reason": ""
+    }
+  ],
+  "child_exe_pid_scope": "Originalcollector doesnotrecord subcommandEXE PIDs; notinvented orclaimed fullyownedgrandchild instrumentation",
+  "errors": 0,
+  "script_errors": 0,
+  "warnings": 0,
+  "exact_loaded_conversions": [
+    {
+      "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/0",
+      "from": 155.0,
+      "to": 155
+    },
+    {
+      "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/1",
+      "from": 145.0,
+      "to": 145
+    },
+    {
+      "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/0",
+      "from": 560.0,
+      "to": 560
+    },
+    {
+      "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/1",
+      "from": 145.0,
+      "to": 145
+    },
+    {
+      "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/0",
+      "from": 965.0,
+      "to": 965
+    },
+    {
+      "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/1",
+      "from": 145.0,
+      "to": 145
+    }
+  ],
+  "full_typed_loaded_after_only6paths": "EXACT",
+  "post_exit_protected": {
+    "C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/.candidate-writer": false,
+    "C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/.candidate-writer/owner.json": "absent",
+    "C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/creation-candidate/.candidate-writer": false,
+    "C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/creation-candidate/.candidate-writer/owner.json": "absent",
+    "C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/service/OfflineTeammate-CreationLinks20261018/.candidate-writer": false,
+    "C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/service/OfflineTeammate-CreationLinks20261018/.candidate-writer/owner.json": "absent",
+    "C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/service/OfflineTeammate-CreationLinks20261018/service-session.json": "absent",
+    "user://creation-candidate/session.json": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+    "user://hardware_workbenches_v1.json": "2cef427eb54249d2b976b3c929c5fe348fe47e70e499f45e775c368aee2772bd",
+    "user://representation-session.json": "absent",
+    "user://savegame_v1.json": {
+      "sha256_current": "49d0cc6da90bb8d04ffa1f5d781170532bc8699a2b144c404349b3e52863ef42",
+      "full_typed_after_only_top_saved_at_removed": "EXACT_LOADED"
+    },
+    "user://savegame_v1.json.bak": {
+      "sha256_current": "c0818fa357a0fa680ecaf1ebffdbbc61f9089a5c8065889eb3edcb99c652bfae",
+      "full_typed_after_only_top_saved_at_removed": "EXACT_BASELINE"
+    }
+  },
+  "main_backup_boundary": "Main strippedonlytopstamp==rawtyped;backup strippedonlytopstamp==originalbaselinetyped. Unknown numericnormalizations forbidden.",
+  "parent_session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+  "whole_prepared10sections_exact": true,
+  "whole_work_recipe_output_training_exact": true,
+  "parent_work_id": "089180b2e1d15c6b773af9b98527eef923eb115efaccf67ae89ac256ae9e5360",
+  "five_supports": [
+    "C1_restore",
+    "G1_feedback",
+    "G2_intent",
+    "G3_keep",
+    "P1_commit"
+  ],
+  "original35authorityfield_pureview_exact": true,
+  "coldJournalSavedOnly_no_history_invention": true,
+  "child_session_sha256": "a7bb598d952600414347ef7eadd9ec5ad2946580765e26a64a19d0335086a7f8",
+  "child_work_id": "aa86a49d8baeac513fbeb618ce08a51c86e8d97d37af2cf695909a75cbb787e6",
+  "final_export_alone": {
+    "bundles": 1,
+    "cases": 4,
+    "revisions": 4,
+    "capture_errors": 0,
+    "sessions": 2,
+    "ignored_session_lines": 0
+  },
+  "imports": [
+    {
+      "bundle_id": "16d44f20e0898f5b0f8633cfe43294a9",
+      "status": "imported"
+    },
+    {
+      "bundle_id": "309f8161e2dce826cbdb4dd1a7157c2c",
+      "status": "imported"
+    }
+  ],
+  "dedup": [
+    {
+      "bundle_id": "16d44f20e0898f5b0f8633cfe43294a9",
+      "status": "deduplicated"
+    }
+  ],
+  "final_single_zip_all_body_members_streamed_exact": true,
+  "collector_revisions_meaning": "Originalcollector report counts4case-revision records in singlebundle, not numberof notes.jsonl edits",
+  "actual_runtime_maps": {
+    "parent_runtime": {
+      "files": 39,
+      "directories": 45,
+      "fullfile_map_exact": true,
+      "directory_set": [
+        "VonNeumannBottleneckCandidates",
+        "VonNeumannBottleneckCandidates/representation",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/creation-candidate",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/2e8c71efe5a4facb3e3c16bc945df234",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/37b50e2869503a38f9a63d8129194152",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/92c758b437b802b822afe1710b30a943",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/e4d44c3b18c119d11aa3bb947b1c3b04",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/ebaf4de1896b6f99532a1104bcdde74b",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/ee5c54c32aa26c59f1899a50d41e553d",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/f7237a44d38a21a2cf80730f5225f43e",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/playtest_data",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CanvasOcclusionShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CanvasOcclusionShaderGLES3/f279ae49e7ba899931d9fc51085edeb6b7d0501e14425b3ccceaa63bb50a6e64",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CanvasSdfShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CanvasSdfShaderGLES3/25f276e42be0ade249e9730348bfc3df2c1fad323960909e7913a0e926abc908",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CanvasShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CanvasShaderGLES3/73741fc62d78ad429ef189dfb23fc52476c5172daefcfcef53f2bedce9efb75f",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CopyShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CopyShaderGLES3/7cd02b291f26dc808f80cccaf7e2418e1b0676b61b5a3abe02459c25c1c231e9",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CubemapFilterShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/CubemapFilterShaderGLES3/c2f931f1b99d4508a36e9d762437b8f1978045097afc1501a97c3c6445fe7271",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/FeedShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/FeedShaderGLES3/555aea45466988006699647842a1d34658b7c84bd751481a982329b4e7eb0d4f",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/GlowShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/GlowShaderGLES3/feec5e75432038eb84ff97a9d77ab61874ed11f39745859ccfb31cb7c5d7fedb",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/ParticlesCopyShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/ParticlesCopyShaderGLES3/d3e440cb92d619a464eb4730eead3c81571c2b5e34c67771ab35c581a1d3fa9e",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/ParticlesShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/ParticlesShaderGLES3/990e7a552f9e555c49d13d58b43b17ff7923f33a13467f4dfb33fdd209da980b",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/PostShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/PostShaderGLES3/8205a17e6ef9e3d96d04f7fc294028e22ed01899e65987dfd1a179f058570e84",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/SceneShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/SceneShaderGLES3/b70610e35c24f4855a619f08b419cb6d71e79609a92747a5d6f9e147b743b615",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/SkeletonShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/SkeletonShaderGLES3/39286eacb1ea953d17380c0936ba8b0da9a950d98dadb249e4ea1c3eff433553",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/SkyShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/SkyShaderGLES3/298d94e175fc9b58c685d61c7a1fbebb796fb28466884718d31e8799cedd37ff",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/TexBlitShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/shader_cache/TexBlitShaderGLES3/936ab1047cd4b3564e72f164e8827d7ca5cb6f2a09816f35bdbb55882731fee7",
+        "VonNeumannBottleneckCandidates/service",
+        "VonNeumannBottleneckCandidates/service/OfflineTeammate-CreationLinks20261018"
+      ]
+    },
+    "child_runtime": {
+      "files": 32,
+      "directories": 45,
+      "fullfile_map_exact": true,
+      "directory_set": [
+        "Microsoft",
+        "Microsoft/Windows",
+        "Microsoft/Windows/Caches",
+        "VonNeumannBottleneckCandidates",
+        "VonNeumannBottleneckCandidates/representation",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/creation-candidate",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases/315f47f1c1676a55aec14275ad0a7e63",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases/b3511c298c9274db854eb991c7edd48c",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases/e2e24788d2b7e73eec59568406c87924",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/offline_playtest/cases/e6f3fd8f0b793f3b9422da74af814a32",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/playtest_data",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CanvasOcclusionShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CanvasOcclusionShaderGLES3/f279ae49e7ba899931d9fc51085edeb6b7d0501e14425b3ccceaa63bb50a6e64",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CanvasSdfShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CanvasSdfShaderGLES3/25f276e42be0ade249e9730348bfc3df2c1fad323960909e7913a0e926abc908",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CanvasShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CanvasShaderGLES3/73741fc62d78ad429ef189dfb23fc52476c5172daefcfcef53f2bedce9efb75f",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CopyShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CopyShaderGLES3/7cd02b291f26dc808f80cccaf7e2418e1b0676b61b5a3abe02459c25c1c231e9",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CubemapFilterShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/CubemapFilterShaderGLES3/c2f931f1b99d4508a36e9d762437b8f1978045097afc1501a97c3c6445fe7271",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/FeedShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/FeedShaderGLES3/555aea45466988006699647842a1d34658b7c84bd751481a982329b4e7eb0d4f",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/GlowShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/GlowShaderGLES3/feec5e75432038eb84ff97a9d77ab61874ed11f39745859ccfb31cb7c5d7fedb",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/ParticlesCopyShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/ParticlesCopyShaderGLES3/d3e440cb92d619a464eb4730eead3c81571c2b5e34c67771ab35c581a1d3fa9e",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/ParticlesShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/ParticlesShaderGLES3/990e7a552f9e555c49d13d58b43b17ff7923f33a13467f4dfb33fdd209da980b",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/PostShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/PostShaderGLES3/8205a17e6ef9e3d96d04f7fc294028e22ed01899e65987dfd1a179f058570e84",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/SceneShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/SceneShaderGLES3/b70610e35c24f4855a619f08b419cb6d71e79609a92747a5d6f9e147b743b615",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/SkeletonShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/SkeletonShaderGLES3/39286eacb1ea953d17380c0936ba8b0da9a950d98dadb249e4ea1c3eff433553",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/SkyShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/SkyShaderGLES3/298d94e175fc9b58c685d61c7a1fbebb796fb28466884718d31e8799cedd37ff",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/TexBlitShaderGLES3",
+        "VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-380cdd5d085c/shader_cache/TexBlitShaderGLES3/936ab1047cd4b3564e72f164e8827d7ca5cb6f2a09816f35bdbb55882731fee7",
+        "VonNeumannBottleneckCandidates/service",
+        "VonNeumannBottleneckCandidates/service/OfflinePlaytestQA-380cdd5d085c"
+      ]
+    }
+  },
+  "frozen_inventory": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-tester-runtime-png-5bd3792-inventory.json",
+    "sha256": "02c0fbe8ce4be37af2309fdcbf5cb06db84a0a6178afd8333463ff60eb06bcdf",
+    "bytes": 32789
+  },
+  "raw_references": [
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-tester-parent-4aacba2cf84d\\outer-process.json",
+      "bytes": 4313,
+      "sha256": "3ae0297da80e4f8c2a807fa182ea59b82ef15f876fd921a6d34788303a8aeb57"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\6a9269517c76\\receipt.json",
+      "bytes": 115376,
+      "sha256": "c1a7dc678ae119b7647905b0386723503c0844f8110f1ba5dac237b9b0641298"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\6a9269517c76\\embedded.json",
+      "bytes": 79065,
+      "sha256": "80c23f6f66c12fef27a6bd9d20e3670069cfcb6f73b94ae2f8653f0728691f58"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\6a9269517c76\\embedded.log",
+      "bytes": 263173,
+      "sha256": "f50409a69ad8b3e22861c990aa409e6aa1810e79912f27d45bd26e14a8db8b1b"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\6a9269517c76\\engine.log",
+      "bytes": 262769,
+      "sha256": "8ad3d9711d6df15d8f4bad1d3764fdb11b3f9976464b0126733d2fd39aaf5ccb"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\6a9269517c76\\embedded-profile-reopen.json",
+      "bytes": 9322,
+      "sha256": "b419775f54c9407ab9cf08db28c125ecca5adaf2869b3fb64613b45927b14d9b"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\6a9269517c76\\embedded-profile-reopen-validation.json",
+      "bytes": 2159,
+      "sha256": "973414ef5313e6410fd188c5bfddde5520056126336742cb2123b0c8e26abf4f"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\6a9269517c76\\embedded-profile-post-exit-baseline.json",
+      "bytes": 6207,
+      "sha256": "cb6202647292428a0fb64f54b18df1814d7e9d45308ac8ab6a24728462d54533"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\offline-package\\380cdd5d085c\\receipt.json",
+      "bytes": 12424,
+      "sha256": "334f4040e1bac243e5ded84fecd92205d470216fdc0f60a9486e8acb1334c40b"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\offline-package\\380cdd5d085c\\capture.json",
+      "bytes": 8447,
+      "sha256": "3d99502bef49eb115f0c05bbf7aa573d4c5567cc2f94aa0a5cfd6317c49936d4"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\offline-package\\380cdd5d085c\\reopen.json",
+      "bytes": 1047,
+      "sha256": "185ccb1867ee5f6d830f1e5247cab10afce01fa6e5497dd22ab897e27983fdbd"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\offline-package\\380cdd5d085c\\capture.log",
+      "bytes": 218,
+      "sha256": "b4f5a45c40d7d63bb7a79514b57769e2cc3cffee886de9fe819baf1393ea5814"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\offline-package\\380cdd5d085c\\reopen.log",
+      "bytes": 217,
+      "sha256": "8debb54b4a94a598a6156a25985b00cbfec82d0f874d366417b8e71de954bd78"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\f5-package-watch\\153788fca1f7\\owned-processes.json",
+      "bytes": 818,
+      "sha256": "3c33b4526d5620259065dd8512c76373f4a66c4075aa4368e6451b6dfd985f5f"
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\6a9269517c76\\embedded-profile-reopen-1678ef4e-process.json",
+      "bytes": 767,
+      "sha256": "0522b41290f9311308ba411ed2d0ce57e0bd6c750ebb02b2145b9c1314eeb234"
+    }
+  ],
+  "package_manifest": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-JourneyFinalAccess20261018-5bd3792b022e\\manifest.json",
+    "sha256": "721d67b983543ac88463bd5d66999203c8b76e77ecd30c6d5dc3b66735823b42",
+    "bytes": 3544
+  },
+  "package_and_collector_inputs_unchanged": true,
+  "override_absent": true,
+  "image_review": "PENDING_V_FINAL_RECEIPT_ACTUAL45FILES30UNIQUE_REPORTED_SEPARATELY",
+  "tester_locality_pck": "NOT_RUN_NOT_APPLICABLE_ORIGINAL_NORMAL_CANONICAL",
+  "native_mac_newcomer": "NOT_RUN",
+  "big_read_block_max": 65536,
+  "auditor_engine_calls": 0
+}

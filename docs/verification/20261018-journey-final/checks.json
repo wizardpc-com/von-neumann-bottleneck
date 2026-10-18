@@ -1,0 +1,476 @@
+{
+  "stage": "DELIVERED_WITH_OPEN_OBSERVATIONS",
+  "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "plan": "../../exec-plans/completed/journey-final-candidate-20261018.md",
+  "engineering_delivery": "CLOSED_PER_USER_FINAL_VERSION_SCOPE_EXTERNAL_OBSERVATIONS_RETAINED",
+  "current_gates": {
+    "source_full": "PASS_SCOPE_PREVIOUS_SOURCE_6C145F0_177_OF_177",
+    "source_full_warnings": 6,
+    "first_light_renderer": "PASS_SCOPE_PREVIOUS6C_197_INPUT_FILES_UNCHANGED_IN5BD",
+    "locality_renderer": "PASS_SCOPE_5BD_518_OF_518_12_MATRIX",
+    "whole_renderer": "SOURCE_CASES_ACCEPTED_SEPARATE_COMMITS_NO_EXTRA_FULL",
+    "independent_visual_audit": "PASS_SCOPE_BOTH_CASES_WITH_ORIGINAL_SCROLL_LIMITATIONS",
+    "normal_build": "BUILD_IDENTITY_PASS",
+    "tester_build": "BUILD_IDENTITY_PASS",
+    "normal_actual_exe_chain": "PASS_219_PARENT_48_STRICT_NATURAL_ZERO",
+    "tester_actual_exe_chain": "PASS_229_PARENT_142_CAPTURE_19_REOPEN_48_STRICT_NATURAL_ZERO",
+    "normal_locality_pck": "PASS_ACTUAL_NORMAL_EXPORTED_PCK_SAME_VERSION_EDITOR_SCOPE",
+    "native_mac_newcomer": "NOT_RUN",
+    "current_source_targeted": "PASS_SCOPE_5BD3792_7_OF_7",
+    "current_source_targeted_warnings": 4,
+    "normal_visual": "PASS_SCOPE_21_FILES_WITH_ORIGINAL_SCROLL_LIMITATIONS",
+    "tester_visual": "PASS_SCOPE_45_FILES_30_UNIQUE_SHA_WITH_ORIGINAL_SCROLL_LIMITATIONS",
+    "source_ci": "PASS_CURRENT_5BD_LINUX_FULL_AND_PYTHON_11"
+  },
+  "full_scope": {
+    "original_verifier": true,
+    "ordered_owned": 177,
+    "natural_exit_zero": 177,
+    "errors": 0,
+    "script_errors": 0,
+    "warning_origins": {
+      "test_desktop_conventions": 4,
+      "test_feedback_presentation": 2
+    },
+    "fixed_selected_exact": 721,
+    "executed_nonconfig_exact": 720,
+    "canonical": 176,
+    "original_recovery_gui_exclusion_preserved": true,
+    "private_project_settings": "Original two private-user-directory values and platform EOL only",
+    "source": "6c145f0680d2fbf2e96bd1621e137452e49f8d61"
+  },
+  "historical_failures": [
+    {
+      "source": "e3dadf9bc2dc79ac0e1a5abc64ded8bf40d53b82",
+      "status": "FAIL_FOCUSED_5_OF_6",
+      "errors": 2,
+      "scope": "Direct CodeEdit.text property assignment did not establish real user editing premise; test-only6c145 adaptation uses real insertion, one process frame and strong editing signal/program-dirty checks. Original failure unchanged."
+    }
+  ],
+  "python_ci": {
+    "status": "PASS_REPORTED_BY_ROOT_ORIGINAL_11_COMMANDS",
+    "initial_receiver_attempt": "FAIL_WINERROR10013_SANDBOX_SOCKET_PERMISSION",
+    "continuation": "Only receiver and remaining four original commands rerun with approved escalation; no production change",
+    "evidence_paths": [
+      ".godot/final-python-ci/5c677c5c904c/summary.json",
+      ".godot/final-python-ci-network/f793d0b9b606/summary.json"
+    ]
+  },
+  "source_ci": {
+    "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+    "run": 39120037891,
+    "status": "SUCCESS_ROOT_FRESH_READ_BOTH_JOBS",
+    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39120037891",
+    "completed_utc": "2026-10-18T10:52:33Z",
+    "raw_evidence": "evidence/source-ci-5bd3792.json",
+    "scope": "Exact5bd current source Linux full verifier and Python11 jobs; separate from previous6c Windows177"
+  },
+  "evidence": {
+    "original_focused_failure": {
+      "path": ".godot/journey-final-focused-e3dadf9-summary.json",
+      "sha256": "6640cc2d072246355a76fce838f0c864532781076de1165ed97a5953aa2c0aec"
+    },
+    "source_review": {
+      "path": ".godot/journey-final-e3dadf9-independent-source-review.json",
+      "sha256": "24648bfc02e164415e6e20943dc10b1ad6eb84be3bc89ebbb8707e5569cb4d0f"
+    },
+    "full": {
+      "path": ".godot/journey-final-full-6c145f0-summary.json",
+      "sha256": "a8d1c48060567a671a5fc77087ab6beb911d45330d8ce5567c7d1e52c2a0a8d1"
+    },
+    "renderer": {
+      "path": ".godot/journey-final-rendered-6c145f0-summary.json",
+      "sha256": "7b8030e49214e8aaf11a134c3bc3430d6606de3bf6c3af78016201d8620f94d6"
+    },
+    "locality_failure_matrix": {
+      "path": ".godot/journey-final-locality-failure-matrix-6c145f0.json",
+      "sha256": "8778a2f11617467bd66e5b355634dd44d348ca1ad0ad9addb4e2c4c5f7bf0f58"
+    },
+    "targeted_5bd": {
+      "path": ".godot/journey-final-locality-focused-5bd3792-summary.json",
+      "sha256": "4113dfcb0bc4b82864004d4acbab6d2aa58d14c5961fd95ec88e453634800db0"
+    },
+    "locality_renderer_5bd": {
+      "path": ".godot/journey-final-locality-rendered-5bd3792-summary.json",
+      "sha256": "07a0ca546152b597642173002368252b9e0d399e9272e483c8458fc468396a46"
+    },
+    "locality_visual_5bd": {
+      "path": ".godot/journey-final-rendered/9f6e76f02e6e/locality-visual-independent-audit.json",
+      "sha256": "61e61a63013ed021a70cd43f86c4375b263453c8ba00d191c45f6eb6e8225cf0"
+    },
+    "first_light_nonauthor_visual": {
+      "path": ".godot/journey-final-rendered/2f42550ffb53/first-light-nonauthor-visual-audit.json",
+      "sha256": "b02639972fd6daef85d6fd2d7a1fee87cf4d86d7a12013d6492088e59192e559"
+    },
+    "normal_build": {
+      "path": ".godot/journey-final-normal-build-5bd3792-summary.json",
+      "sha256": "2b73ccf09665f687ff373b941c0c72bd627f4a837bd1d179150c0a19f24915f6"
+    },
+    "normal_build_independent": {
+      "path": ".godot/journey-final-normal-build-independent-audit.json",
+      "sha256": "48de6a409510336a24eca4ce877fbc6b9a4718338da2f7f2782b4fee8b2adefa"
+    },
+    "normal_builder_docs_cleanup": {
+      "path": ".godot/journey-final-normal-builder-docs-cleanup.json",
+      "sha256": "7a34f5db19715afdc67a768c020c9189bc1e3b7a5841f451b3cf2eec5ee703e4"
+    },
+    "normal_pck_summary": {
+      "path": ".godot/journey-final-normal-exported-locality-5bd3792-summary.json",
+      "sha256": "3f862a20311e3729c7ea66edc7f93f1ee8bcda9a7230525fe659ed374531f1b9"
+    },
+    "normal_pck_independent": {
+      "path": ".godot/journey-final-normal-exported-locality-independent-audit.json",
+      "sha256": "b65a8d72b6d44545f60eff3dd0a22d63e44ffd5e6b1b632bb87df24e0f871299"
+    },
+    "normal_pck_visual": {
+      "path": ".godot/journey-final-normal-exported-locality-5bd3792-visual-audit.json",
+      "sha256": "6a4a6c70ef44e6a5b19410d3cbe67eefaec40a4d81aeacd2e932bdb6125e61ae"
+    },
+    "normal_pck_duplicate_exe_parity": {
+      "path": ".godot/journey-final-normal-pck-duplicate-exe-independent-audit.json",
+      "sha256": "2f514eddd9797125cac7bce0784c89a354850916c643c9f727b35497ad2bb766"
+    },
+    "normal_pck_duplicate_exe_cleanup": {
+      "path": ".godot/journey-final-pck-duplicate-exe-cleanup.json",
+      "sha256": "1f38c2c5e9868c268ed714fbd4b448200e1a61241ad5db4a41c55247bf457bb4"
+    },
+    "normal_release_summary": {
+      "path": ".godot/journey-final-normal-parent-strict-5bd3792-summary.json",
+      "sha256": "fd94413717981b9996ac24259bc0c8fdd7ebede167ad5c7509af90d269513dc8"
+    },
+    "normal_release_independent": {
+      "path": ".godot/journey-final-normal-parent-strict-independent-audit.json",
+      "sha256": "7316717fae5b36e0adaf610403ce72cb688c94674602cfa5d705edbe0408a443"
+    },
+    "normal_release_visual": {
+      "path": ".godot/journey-final-normal-export-visual-independent-audit.json",
+      "sha256": "c65d62a10c002c24c6d43c00f91d213f39ab24e4cf6de6a2b72ff551dc2e34eb"
+    },
+    "tester_build": {
+      "path": ".godot/journey-final-tester-build-5bd3792-summary.json",
+      "sha256": "af40ea4d21c1a6cc359ad81a1e27dcf580cfb20ffd9c0b9ac691ed8ba9991926"
+    },
+    "tester_build_independent": {
+      "path": ".godot/journey-final-tester-build-independent-audit.json",
+      "sha256": "f270584bd8cd162285ffd948c5d1070a1dccc47fb5eb1ddf652dd796db45fab1"
+    },
+    "tester_builder_docs_cleanup": {
+      "path": ".godot/journey-final-tester-builder-docs-cleanup.json",
+      "sha256": "81382f29fecb53565f627b69b91e7d5e1954ab450a42115f5d6daf4c4f71a72e"
+    },
+    "tester_release_summary": {
+      "path": ".godot/journey-final-tester-parent-child-strict-5bd3792-summary.json",
+      "sha256": "258e2b523ba9a81b7714d41582e0db0a29f9941a15099ac56767375b091145ba"
+    },
+    "tester_release_independent": {
+      "path": ".godot/journey-final-tester-parent-child-strict-independent-audit.json",
+      "sha256": "9e029079aef948a5fff4e11f5e1d572bbdb707ed9d1bd92db7229f04166b4706"
+    },
+    "tester_release_visual": {
+      "path": ".godot/journey-final-tester-export-visual-independent-audit.json",
+      "sha256": "facdffd6918e10623b4ad78727d9bce23cc78b8975da2c488b7da9a53c0d417b"
+    },
+    "current_source_ci": {
+      "path": ".godot/journey-final-source-ci-5bd3792.json",
+      "sha256": "caf041d72696638252d405f7ae3aaaa66a9ed48fe47f6227309dcd5d7fe0d8bf"
+    },
+    "selected_images_independent": {
+      "path": ".godot/journey-final-selected-evidence-and-art-independent-audit.json",
+      "sha256": "ec34c12011919f8308d62a2a125ac076d438b896be09c222f16c51292d552a87"
+    },
+    "four_reconstructible_exes_cleanup": {
+      "path": ".godot/journey-final-four-qa-duplicate-cleanup.json",
+      "sha256": "d6d430351b3316f3ecf7766c808b565af6d6ae8cb8fae55f4d7d6a97e2936295"
+    }
+  },
+  "accepted_recovery": {
+    "source": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+    "central": "../20261018-latch-rule-example/README.md",
+    "status": "Previously accepted dual packages; not evidence for new candidate GUI or packages"
+  },
+  "scope_limits": [
+    "No claim of60 actual solves, natural newcomer journey, native OS or Mac acceptance",
+    "Default decorative FirstLight image is fictional; no current, energy or civilization measurement",
+    "Locality PCK/editor acceptance is normal profile only; release EXE chain is a separate evidence grade",
+    "Exported Efficiency modal positive focus control remains open in prior F7 evidence; no new modal or OS claim",
+    "Prior unknown CPG/SavedWork observations remain in historical evidence; new passes do not explain their causes",
+    "Formal creative choices, video recording and human comprehension remain team review; engineering scope is closed"
+  ],
+  "historical_6c_renderer_failure": {
+    "first_light": {
+      "checks": 197,
+      "failed": 0,
+      "pid": 39536,
+      "exit": 0,
+      "matrix_pngs": 12,
+      "extra_pngs": 2
+    },
+    "locality": {
+      "checks": 518,
+      "failed": 13,
+      "pid": 61536,
+      "exit": 1,
+      "matrix_pngs": 12,
+      "extra_pngs": 0,
+      "failures": {
+        "pre_matrix_capstone_visibility": 1,
+        "matrix_bounds": 4,
+        "matrix_hover": 4,
+        "matrix_pointer_action": 4
+      },
+      "per_locale_size_assertion_results": "UNKNOWN_ORIGINAL_LOG_HAS_NO_SCOPE_FIELDS"
+    },
+    "processes_natural": 2,
+    "script_errors": 0,
+    "warnings": 0,
+    "owned_terminated": 0,
+    "settings_finally_exact": true,
+    "source_fixed_exact": true,
+    "source": "6c145f0680d2fbf2e96bd1621e137452e49f8d61",
+    "status": "FAIL_PRESERVED"
+  },
+  "renderer_scope": {
+    "first_light": {
+      "source": "6c145f0680d2fbf2e96bd1621e137452e49f8d61",
+      "checks": 197,
+      "failed": 0,
+      "matrix_pngs": 12,
+      "extra_pngs": 2,
+      "reuse_basis": "All original FirstLight/test/media inputs byte-exact in5bd; no repeat",
+      "image_scope": {
+        "matrix": 12,
+        "extra": 2,
+        "unique_sha": 4,
+        "actual_view_calls": 4,
+        "pixel_size": [
+          650,
+          480
+        ],
+        "candidate_draw_size": [
+          300,
+          100
+        ],
+        "extras_are": "Pre-feedback Reflection scenes, not panel screenshots",
+        "limits": "Original scroll; static images do not prove time/focus; root window matrix separate from child capture size"
+      }
+    },
+    "locality": {
+      "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+      "checks": 518,
+      "failed": 0,
+      "pid": 70396,
+      "exit": 0,
+      "seconds": 10.033,
+      "matrix_pngs": 12,
+      "extra_pngs": 0,
+      "captures_complete": true,
+      "script_errors": 0,
+      "warnings": 0,
+      "settings_finally_exact": true
+    },
+    "independent_visual_audit": {
+      "locality": "PASS_VISUAL_SCOPE_ORIGINAL_SCROLL_LIMITATIONS",
+      "first_light": "PASS_NONAUTHOR_VISUAL_SCOPE_14FILES4UNIQUE_4ACTUALVIEWS"
+    },
+    "no_native_or_package_claim": "Source GUI object only; actual PCK and release acceptance are separate current_gates and chain objects"
+  },
+  "source_delta_from_6c": "Only original default TestBench Rect2 height300->400. All remaining720 selected files byte-exact. Original tests/PO/fonts/width/positions/model and progress gates unchanged.",
+  "new_source_ci": {
+    "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+    "run": 39120037891,
+    "status": "SUCCESS_ROOT_FRESH_READ_BOTH_JOBS",
+    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39120037891",
+    "completed_utc": "2026-10-18T10:52:33Z"
+  },
+  "normal_build": {
+    "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+    "candidate": "build/playtest-JourneyFinalExperience20261018-5bd3792b022e",
+    "profile": "CreationLinks20261018",
+    "batch": "JourneyFinalExperience20261018",
+    "zip_sha256": "bdd8c98dcaed288ab5adea47edba300a9481252a15a27b4da28b5cde1cb232be",
+    "zip_bytes": 58907398,
+    "exe_sha256": "937695ddfbac4de4da47a6d94c1cbfb6f097c1b1e9f329f206b2deff2caca212",
+    "pck_sha256": "f47752bc263cac02d6ac0387ac726b0c1bf02a87615a56f01305ca0f35ccead1",
+    "scope": "BUILD_IDENTITY passed; subsequent release acceptance is recorded separately under normal_release_chain",
+    "three_stages": [
+      "import",
+      "licenses",
+      "export-Windows"
+    ],
+    "stage_error_script_warning_counts": [
+      0,
+      0,
+      0
+    ],
+    "no_endpoint_upload_public_release_or_migration": true,
+    "ordinary_profile_independent_of_tester": true,
+    "default_playtest_promoted": true
+  },
+  "reconstructible_cleanup_scope": {
+    "normal_builder_docs": "Only5073 generateddocs files242762114bytes after independent parity; not unique raw/PCK/runtime/PNG. Old maps unchanged.",
+    "normal_pck_exe": "Only exactff2e0d40249d/Windows/Von-Neumann-Bottleneck.exe131147912B removed byRoot after2f514+e892 parity. ActualPCK/runtime/PNG/seed/result/validation retained; frozen pre-removal maps stay original.",
+    "tester_builder_docs": "Only completed generateddocs copy5073files242762114bytes removed after Narrative and Root raw-Git parity; no unique evidence removed. No third live scan claimed after deletion.",
+    "four_qa_exes": "Four exact ZIP-reconstructible QA EXE copies removed after dual parity; frozen original maps unchanged, retained ZIP/rawPCK/runtime/PNG/logs supply provenance. No user saves or unique evidence deleted."
+  },
+  "normal_locality_pck": {
+    "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+    "work": "../journey-final-exported-qa/ff2e0d40249d",
+    "profile": "CreationLinks20261018",
+    "headless": {
+      "pid": 119408,
+      "natural_exit": 0,
+      "controller_pass": true,
+      "numeric_count": null
+    },
+    "gui": {
+      "pid": 116304,
+      "natural_exit": 0,
+      "checks": 518,
+      "failures": 0,
+      "root_pngs": 12,
+      "extra_pngs": 0
+    },
+    "canonical_test_sha256": "d249cf3e72884f0dff011d4637a89d2adb687aa22882e91510e9e773b42c5f62",
+    "carrier_sha256": "c377d2a53aeb04a62b1c80b40c108be57eef0a37a8ffc5f97fa3699d489899ab",
+    "validation_sha256": "40e443c1aff3fe62cd26f6e8acfb982691c61dc9a299da576c23db06591cd431",
+    "actual_pck_editor_candidate_inputs_unchanged": true,
+    "phase_data": "Independent fresh4env; complete files+dirs actual snapshots exact. Original canonical progression prerequisites are fixture, not natural progression; no serialized oldCPGwork/mainbak baseline claim.",
+    "release_exe_executed": false,
+    "tester_applicability": "NOT_RUN_NOT_CLAIMED",
+    "visual_scope": "All12actualnewPNG viewed by nonauthor; original deepScroll/720rootbottomplayback limit retained"
+  },
+  "portable_evidence": {
+    "manifest": "evidence/provenance.json",
+    "sha256": "33edf47e8a435cba8fedb43dad02717e44e01675ff548ed66997106cee373ccf",
+    "files": 13,
+    "bytes": 523836,
+    "raw_bytes_preserved": true
+  },
+  "selected_images": {
+    "manifest": "image-manifest.json",
+    "sha256": "31572dbe9e2ff625d02d6fc46911cb3ce3b3189da40e8fb1aca5771623d42ce6",
+    "files": 5,
+    "scope": "Original before/after source Locality, actual normal PCK result/trace, and actual normal EXE FirstLight; grades are not interchangeable"
+  },
+  "tester_build": {
+    "source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+    "candidate": "build/playtest-JourneyFinalAccess20261018-5bd3792b022e",
+    "profile": "OfflineTeammate-CreationLinks20261018",
+    "batch": "JourneyFinalAccess20261018",
+    "zip_bytes": 58919413,
+    "zip_sha256": "19bc44a43f580b96dec52f434f227277d8cf068329d450a79588671c78e83923",
+    "exe_sha256": "f54a361d9527bded5ea8475e29cd14f699dfbf781d188492758b3afbd22f46a2",
+    "pck_sha256": "c3de9853750771354b580313ad31c2ae28fce578f0ded9ac20137c1ee6b39d9b",
+    "scope": "BUILD_IDENTITY and subsequent release-chain acceptance recorded separately; no endpoint, public release, upload or migration"
+  },
+  "normal_release_chain": {
+    "status": "PASS_SCOPED",
+    "work": ".godot/night-package/f198fe6612cb",
+    "parent_checks": 219,
+    "strict_checks": 48,
+    "parent_exe_pid": 93624,
+    "strict_exe_pid": 103452,
+    "natural_exit_codes": [
+      0,
+      0
+    ],
+    "errors": 0,
+    "warnings": 0,
+    "script_errors": 0,
+    "conversion_count": 0,
+    "session": "897f285e",
+    "protected_scope": "Whole prepared Session, one original recipe/output work and5supports exact;35 pure-review authority fields protected. Main and backup differ only at allowed top timestamp; other protected files exact and leases absent. Cold Journal Saved-only does not invent Host history.",
+    "image_files": 21,
+    "image_scope": "19root/child Window frames +2real3D textures,0incidents",
+    "native": false
+  },
+  "tester_release_chain": {
+    "status": "PASS_SCOPED",
+    "parent_work": ".godot/night-package/6a9269517c76",
+    "child_work": ".godot/offline-package/380cdd5d085c",
+    "parent_checks": 229,
+    "child_capture_boolean_checks": 142,
+    "child_reopen_boolean_checks": 19,
+    "strict_checks": 48,
+    "visited_unique_entries": 60,
+    "actual_solves_claimed": false,
+    "final_bundles": 1,
+    "final_cases": 4,
+    "final_revision_records": 4,
+    "final_sessions": 2,
+    "capture_errors": 0,
+    "import_and_dedup": "PASS",
+    "parent_exe_pid": 58896,
+    "strict_exe_pid": 93668,
+    "outer_pid": 59180,
+    "natural_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "child_exe_pid": "NOT_SERIALIZED_BY_ORIGINAL_COLLECTOR",
+    "errors": 0,
+    "warnings": 0,
+    "script_errors": 0,
+    "loaded_state_conversions": [
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/0",
+        "from": "float",
+        "to": "int",
+        "same_value": 155
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/1",
+        "from": "float",
+        "to": "int",
+        "same_value": 145
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/0",
+        "from": "float",
+        "to": "int",
+        "same_value": 560
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/1",
+        "from": "float",
+        "to": "int",
+        "same_value": 145
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/0",
+        "from": "float",
+        "to": "int",
+        "same_value": 965
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/1",
+        "from": "float",
+        "to": "int",
+        "same_value": 145
+      }
+    ],
+    "protected_scope": "Only six fixed same-value CPU coordinates convert float to int. All other typed protected values, whole prepared Session897f/one work/5supports, child Session/work, files and absent leases exact. Postexit main equals loaded raw and backup equals baseline after only top timestamp removal.",
+    "runtime_file_counts": {
+      "parent": 39,
+      "child": 32
+    },
+    "image_files": 45,
+    "unique_image_sha256": 30,
+    "image_groups": {
+      "parent_root_and_child_windows": 20,
+      "real3d_textures": 2,
+      "parent_pre_feedback_incidents": 7,
+      "child_files_including_import_copies": 16
+    },
+    "image_scope": "7new unique SHA actually viewed;38 file instances reuse independently viewed exact bytes. Child16 disk files represent5unique images. Incident frames are pre-panel, not feedback panel screenshots.",
+    "tester_locality_pck": "NOT_RUN_NORMAL_CANONICAL_NOT_APPLICABLE",
+    "native": false
+  },
+  "previous_source_ci": {
+    "run": 39119207443,
+    "status": "SUCCESS_ROOT_FRESH_READ",
+    "source": "6c145f0680d2fbf2e96bd1621e137452e49f8d61",
+    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39119207443"
+  }
+}

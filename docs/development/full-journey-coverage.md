@@ -1,5 +1,15 @@
 # 全旅程需求与证据账本 · 2026-10-18
 
+当前版本固定源码为`5bd3792b022ec053f62eaeca9f53a791e201bcd9`，本轮工程按用户收尾要求交付，保留外部观察。前一源码6c145f0完整Windows177通过（6条原anchor警告）；5bd仅将Locality默认TestBench高300→400，并通过七阶段定向与原518项两语三尺寸GUI。FirstLight197项源GUI及14图来自6c且四个输入在5bd字节不变；5bd同源Linux完整CI与Python11项成功。不把6c Windows177升级为5bd全套，旧6c13项GUI失败保持原身份。
+
+当前普通JourneyFinalExperience与测试者JourneyFinalAccess双包均已构建及完整身份独审。普通实际EXE父219＋strict48，测试者父229＋随包capture142／reopen19布尔检查＋strict48均自然通过；最终单ZIP4现场／4修订记录／2session导入去重通过。普通Locality实际导出PCK／同版editor另通过原headless及freshGUI518／12图，不称release EXE或测试者专项。普通21图、测试者45文件／30独立SHA按原滚动限制独审；图不代OS。真实作品／支持／保存／租约权威严格保持。c84仅作恢复版本。
+
+[当前证据与原字节交接](../verification/20261018-journey-final/README.md) · [双包启动与最多五项观察](night-handoff-20261018.md) · [已收尾本轮计划](../exec-plans/completed/journey-final-candidate-20261018.md)。原生、Mac、新人理解、正式素材与旧Efficiency导出正控制仍开放，不声称60次实解或全部创意正式定稿。
+
+## 历史账本
+
+以下保留各原阶段的原始结论、数字及当时当前／待验措辞；不作为文首最新源码与包的状态。
+
 SR锁存器手册续轮：c84cc9d固定Windows七阶段通过、原336项renderer通过，36图独审完成；两个00保持的不同前态、首Reset起点和11无效规则均保留。共享手册在反馈可见时让出Esc；旧e061两项失败仍保留。范围见[本轮证据](../verification/20261018-latch-rule-example/README.md)，不把扩展称旧版缺陷。同源Linux完整CI通过；新普通包已构建并核准身份，但直接release执行canonical的专项180秒超时、未报告检查项且未进入GUI。新普通包的实际EXE父219＋严格重开48通过；导出PCK另在同版官方editor中通过原258→336与36图独审，不称release EXE直接SR输入。普通候选为LatchRulesExperience20261018-c84cc9d67b25；测试者PCK亦通过原258→336；实际EXE229、随包子链142 capture／19 reopen与strict48相继通过，原strict资源强停单列保存，只续未完成strict。当前双包均为c84，旧bb5双包保留恢复身份；原生、Mac与新人理解仍开放。
 
 ## bb5恢复包与当时F7观察
@@ -65,7 +75,7 @@ Store与collector取消填满目录rename，排他fresh目标内先验证内容�
 当时完整创作/视觉/剧情开放项继续逐项处理，F2尚待总控核准；其后续实现与验收见顶部入口，外部权限与团队定稿边界保持。
 历史逐次记录不代表当前Gate；新包无public release、上传默认或endpoint，旧ZIP/profile/作品保留。
 
-本账本继续[全旅程active计划](../exec-plans/active/full-journey-experience-20261018.md)。
+本账本继续[全旅程active计划](../exec-plans/completed/full-journey-experience-20261018.md)。
 首轮[固定包与验收](../verification/20261018-night-experience/README.md)证明其明确范围，
 不表示手册的全部工作已经完成。启动基线为总控核准的`cf89a76`；本轮新增实现已落盘并经交叉源审，
 F1定向/全量同runtime与新双实包链已验证，原生/真人及完整目标开放项另列。基线CI`39061439011`已由总控核对SUCCESS，不能认证新增代码。

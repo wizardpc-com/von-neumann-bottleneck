@@ -4,6 +4,15 @@
 
 ## 简体中文
 
+### 2026-10-18 · 旅程新版候选（未公开发布）
+
+- 60 项旅程使用双语任务语境、真实成长记录与原作品回顾，连接压缩、预测和创造。
+- 增加可选 3D 观察站、真实成果回顾、交互规则示例和 SRLatch 五步演示。
+- 第二章结果显示同次实际周期、官方目标和差值；可只读定位原取数事件，编辑后结果失效。
+- 首次成果使用可替换的临时场景图，保留真实 NOT 输出、跳过、反馈和几何回退。
+- 普通版与全入口测试者版使用独立存档；本机反馈可跨重启保存并最终导出一份 ZIP。
+- [固定包、变化截图和验证边界](docs/verification/20261018-journey-final/README.md) · [次日交接](docs/development/night-handoff-20261018.md)。
+
 ### 2026-10-18 · 夜间体验候选（未公开发布）
 
 - 首页提供可跳过、可重看的壹讯息，进入真实 NOT 操作；完成回应由实际关卡事件触发。
@@ -105,6 +114,15 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-10-18 · Journey candidate (unpublished)
+
+- All60 tasks share bilingual context, earned records and original-work review across compression, prediction and creation.
+- Optional3D observation, actual-result retrospectives and interactive rule examples include a five-step SRLatch lesson.
+- Chapter2 reports the same run's cycles, official budget and margin, with read-only access to its original fetch event. Editing invalidates the result.
+- A replaceable temporary scene image accompanies the first earned result, preserving the actual NOT output, skip, feedback and geometry fallback.
+- Ordinary and all-entrance tester builds use separate saves; local feedback survives restarts and exports as one final ZIP.
+- [Packages, change images and verification scope](docs/verification/20261018-journey-final/README.md) · [Next-day handoff](docs/development/night-handoff-20261018.md).
 
 ### 2026-10-18 · Night experience candidate (unpublished)
 

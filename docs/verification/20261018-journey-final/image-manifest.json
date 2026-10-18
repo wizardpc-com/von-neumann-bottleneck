@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "title": "Journey final candidate: bounded before/after and actual exported evidence",
+  "images": [
+    {
+      "file": "images/locality-before-6c145f0-zh-1280x720.png",
+      "original_path_absolute": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-rendered\\2f42550ffb53\\test_locality_chapter_ui\\runtime\\appdata\\VonNeumannBottleneckChecks\\JourneyFinal-2f42550ffb53\\test_locality_chapter_ui\\locality-outcome-captures\\zh_CN-1280x720-result.png",
+      "original_path_relative_to_repository": ".godot/journey-final-rendered/2f42550ffb53/test_locality_chapter_ui/runtime/appdata/VonNeumannBottleneckChecks/JourneyFinal-2f42550ffb53/test_locality_chapter_ui/locality-outcome-captures/zh_CN-1280x720-result.png",
+      "sha256": "40fd288c12ca227edcff049e1098b235c5b60558e9b17cfe144cd2ba834000c5",
+      "copy_sha256": "40fd288c12ca227edcff049e1098b235c5b60558e9b17cfe144cd2ba834000c5",
+      "bytes": 141008,
+      "mime": "image/png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "source_commit": "6c145f0680d2fbf2e96bd1621e137452e49f8d61",
+      "evidence_grade": "source_renderer",
+      "fixture_and_role": "Normal-progression canonical fixture; Chapter1 prerequisites supplied by controller.",
+      "scope_and_visible_change": "Before: original300-high TestBench clips new cycle-delta/action below its internal Scroll; original13-failure result retained.",
+      "receipt_relative_to_repository": ".godot/journey-final-rendered/2f42550ffb53/test_locality_chapter_ui/receipt.json",
+      "receipt_sha256": "b9eedecc641ce06a2c86c4e242529c3ac087fb302bb18a6e51903bc6bd743bce",
+      "alteration": "none; exact original PNG bytes"
+    },
+    {
+      "file": "images/locality-after-5bd3792-source-zh-1280x720.png",
+      "original_path_absolute": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-rendered\\9f6e76f02e6e\\test_locality_chapter_ui\\runtime\\appdata\\VonNeumannBottleneckChecks\\JourneyFinal-9f6e76f02e6e\\test_locality_chapter_ui\\locality-outcome-captures\\zh_CN-1280x720-result.png",
+      "original_path_relative_to_repository": ".godot/journey-final-rendered/9f6e76f02e6e/test_locality_chapter_ui/runtime/appdata/VonNeumannBottleneckChecks/JourneyFinal-9f6e76f02e6e/test_locality_chapter_ui/locality-outcome-captures/zh_CN-1280x720-result.png",
+      "sha256": "073a4e434b93d0f6ea203ca8d5ac9d53375b71d9bf867e156d2a55459294e1b7",
+      "copy_sha256": "073a4e434b93d0f6ea203ca8d5ac9d53375b71d9bf867e156d2a55459294e1b7",
+      "bytes": 149799,
+      "mime": "image/png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "source_commit": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+      "evidence_grade": "source_renderer",
+      "fixture_and_role": "Same canonical fixture/locale/1280x720; only default TestBench height300->400.",
+      "scope_and_visible_change": "After: actual210cycles/public145limit/over65, Run and manual inspection are visible; no model/goal change.",
+      "receipt_relative_to_repository": ".godot/journey-final-rendered/9f6e76f02e6e/test_locality_chapter_ui/receipt.json",
+      "receipt_sha256": "84004728cf4f771018e660b3bce2647f0c315fac90374f6fac67c6aca13c94a4",
+      "alteration": "none; exact original PNG bytes"
+    },
+    {
+      "file": "images/locality-current-5bd3792-pck-zh-1280x720-result.png",
+      "original_path_absolute": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\zh_CN-1280x720-result.png",
+      "original_path_relative_to_repository": "../journey-final-exported-qa/ff2e0d40249d/gui/runtime/appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1280x720-result.png",
+      "sha256": "0b35e08f8635dc5dfaa340a9375a1171f84dbbce76301fa541cb9519e84025ff",
+      "copy_sha256": "0b35e08f8635dc5dfaa340a9375a1171f84dbbce76301fa541cb9519e84025ff",
+      "bytes": 150398,
+      "mime": "image/png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "source_commit": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+      "evidence_grade": "actual_exported_pck_official_editor",
+      "fixture_and_role": "CreationLinks20261018 normal profile only; unchanged canonical prerequisite fixture.",
+      "scope_and_visible_change": "Current actual PCK: original result/limit/overrun/action/Run visible; not release-EXE or OS input.",
+      "receipt_relative_to_repository": "../journey-final-exported-qa/ff2e0d40249d/validation.json",
+      "receipt_sha256": "40e443c1aff3fe62cd26f6e8acfb982691c61dc9a299da576c23db06591cd431",
+      "alteration": "none; exact original PNG bytes"
+    },
+    {
+      "file": "images/locality-current-5bd3792-pck-zh-1280x720-trace.png",
+      "original_path_absolute": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\journey-final-exported-qa\\ff2e0d40249d\\gui\\runtime\\appdata\\VonNeumannBottleneckCandidates\\representation\\CreationLinks20261018\\locality-outcome-captures\\zh_CN-1280x720-trace.png",
+      "original_path_relative_to_repository": "../journey-final-exported-qa/ff2e0d40249d/gui/runtime/appdata/VonNeumannBottleneckCandidates/representation/CreationLinks20261018/locality-outcome-captures/zh_CN-1280x720-trace.png",
+      "sha256": "1d3aab95a0de612804b90bd5d1650a6e79f18a9119acf498825a0d180c2c8f9f",
+      "copy_sha256": "1d3aab95a0de612804b90bd5d1650a6e79f18a9119acf498825a0d180c2c8f9f",
+      "bytes": 147921,
+      "mime": "image/png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "source_commit": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+      "evidence_grade": "actual_exported_pck_official_editor",
+      "fixture_and_role": "Same normal PCK canonical fixture; original manual event inspection.",
+      "scope_and_visible_change": "Actual Profiler foreground and native cycle1/source5/cache-miss identity; original details/History need Scroll,720 bottom playback partly outside frame.",
+      "receipt_relative_to_repository": "../journey-final-exported-qa/ff2e0d40249d/validation.json",
+      "receipt_sha256": "40e443c1aff3fe62cd26f6e8acfb982691c61dc9a299da576c23db06591cd431",
+      "alteration": "none; exact original PNG bytes"
+    },
+    {
+      "file": "images/first-light-5bd3792-normal-exe-zh-520x384.png",
+      "original_path_absolute": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\f198fe6612cb\\first-light-playing.png",
+      "original_path_relative_to_repository": ".godot/night-package/f198fe6612cb/first-light-playing.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "copy_sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "bytes": 87949,
+      "mime": "image/png",
+      "pixels": [
+        520,
+        384
+      ],
+      "source_commit": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+      "evidence_grade": "actual_exported_exe_controller",
+      "fixture_and_role": "CreationLinks20261018 normal; actual five tutorial actions then Journal production milestones.",
+      "scope_and_visible_change": "Temporary environment image240x80physical/300x100logical; native NOT1->0/fictional caption/Skip/Back clear. Static mood, no signal/energy/history implication; not native OS.",
+      "receipt_relative_to_repository": ".godot/night-package/f198fe6612cb/receipt.json",
+      "receipt_sha256": "7eec8b21b18209bda469f799f98094053750a14875f24082f587989c465ed85e",
+      "alteration": "none; exact original PNG bytes"
+    }
+  ],
+  "current_product_source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "canonical_locality_test_sha256": "d249cf3e72884f0dff011d4637a89d2adb687aa22882e91510e9e773b42c5f62",
+  "normal_profile": "CreationLinks20261018",
+  "normal_build_id": "playtest-JourneyFinalExperience20261018-5bd3792b022e",
+  "normal_zip_sha256": "bdd8c98dcaed288ab5adea47edba300a9481252a15a27b4da28b5cde1cb232be",
+  "normal_exe_sha256": "937695ddfbac4de4da47a6d94c1cbfb6f097c1b1e9f329f206b2deff2caca212",
+  "normal_pck_sha256": "f47752bc263cac02d6ac0387ac726b0c1bf02a87615a56f01305ca0f35ccead1",
+  "pck_editor_carrier_sha256": "c377d2a53aeb04a62b1c80b40c108be57eef0a37a8ffc5f97fa3699d489899ab",
+  "official_editor_sha256": "323f9c4cc5db674e98815cdd8e69da007d5efc779abedc8c0e42883b7fdea12a",
+  "normal_parent_controller_sha256": "f5677dc0904b53c2617f74a37015a7ad1a50aacf89edb5e731140353a644ba3d",
+  "limits": [
+    "All copied images were independently viewed at original paths and rehashed. No crop, montage, color or compression edit.",
+    "Source before/after, actual PCK+editor, actual EXE controller and native OS are distinct grades; none is newcomer acceptance.",
+    "Before13-failure source result remains failed. After/source518 and ordinary PCK/editor518 are different successful runs.",
+    "Locality complete canonical fixture is normal-profile only; no tester role/flag substitution.",
+    "FirstLight new static candidate is fictional atmosphere. Original NOT output0 and native text retain meaning; no physics, energy or civilization measurement.",
+    "Original long bodies/Profiler/feedback use Scroll; selected images do not show all controls on one screen."
+  ]
+}

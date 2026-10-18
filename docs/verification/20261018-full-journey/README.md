@@ -3,7 +3,7 @@
 本轮实现60项任务语境、只读成长档案和真实3D观察站，保留原工作台、原完成权威及原导航。
 这是持续开发中的证据入口，**active计划及完整goal均未关闭**。
 需求与开放项见[覆盖账本](../../development/full-journey-coverage.md)，
-执行与所有权见[active计划](../../exec-plans/active/full-journey-experience-20261018.md)。
+执行与所有权见[已归档工程计划](../../exec-plans/completed/full-journey-experience-20261018.md)。
 
 ## 当前Gate
 

@@ -1,0 +1,353 @@
+{
+  "status": "PASS_VISUAL_SCOPE_ACTUAL_NORMAL_EXE",
+  "source_commit": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "build_id": "playtest-JourneyFinalExperience20261018-5bd3792b022e",
+  "profile": "CreationLinks20261018",
+  "tester": false,
+  "receipt_sha256": "7eec8b21b18209bda469f799f98094053750a14875f24082f587989c465ed85e",
+  "strict_validation_sha256": "828c4e5aa958bb3f8a88110e8b45c7202dff5d0a64a1b14de368348da81cee85",
+  "parent_checks": 219,
+  "strict_passed": true,
+  "zip_sha256": "bdd8c98dcaed288ab5adea47edba300a9481252a15a27b4da28b5cde1cb232be",
+  "exe_sha256_at_execution": "937695ddfbac4de4da47a6d94c1cbfb6f097c1b1e9f329f206b2deff2caca212",
+  "embedded_pck_sha256": "f47752bc263cac02d6ac0387ac726b0c1bf02a87615a56f01305ca0f35ccead1",
+  "controller_sha256": "f5677dc0904b53c2617f74a37015a7ad1a50aacf89edb5e731140353a644ba3d",
+  "validator_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+  "logical_viewport": "(1600.0, 900.0)",
+  "physical_root": "(1280, 720)",
+  "frames": [
+    {
+      "path": ".godot/night-package/f198fe6612cb/context.png",
+      "sha256": "7901c9a059dbc8996ef5876a4980af6cdcd59dfe6b02b6aa31278038247399b3",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 166644,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Earned5/5 tutorial, compact context entry visible; not expanded long narrative."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/cpg-connection-collapsed.png",
+      "sha256": "ea363fc88ebcc2f6644115109ddcdea93bb00dc892d16f5833a231353c695e16",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 308383,
+      "kind": "root_or_child_frame",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/cpg-connection-collapsed.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/cpg-connection-feedback.png",
+      "sha256": "23ef2fb4d0079afc0d228b1dca8f36e680f99e7c6c616b502702fbfc8b36df02",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 222232,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Actual ordinary feedback modal, local-save/send distinction and automated build source visible; original internal Scroll, not all feedback body on one screen."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/cpg-connection-step0.png",
+      "sha256": "1b5f49d5639dcab6f6bba4fab493371ed705326c23dae43b84a0fa48d3f9de3b",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 312881,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/cpg-connection-step1.png",
+      "sha256": "5bcc48d84bbd8cc75e0de4231ddb8293879c81a649f4b35a468a5259a9bcc2fe",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 307486,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/cpg-connection-step2.png",
+      "sha256": "399b4ae497ad3894c8ef038c8df132e6674b9a3f111539c1de23935eb6a3921b",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 314587,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/cpg-connection-step3.png",
+      "sha256": "f177aaa85fb70bdc39bbdc359f161f03b089a97d81eea1a1a52744cb10dec3b3",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 326885,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/first-light-playing.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "pixels": [
+        520,
+        384
+      ],
+      "bytes": 87949,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Actual normal EXE520x384 child texture; original mood candidate fit240x80 physical at0.8scale, fixed NOT1->0/native fictional caption/Skip/Back clear; actual Journal production milestones, not source caption stress fixture."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/first-light-static.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "pixels": [
+        520,
+        384
+      ],
+      "bytes": 87949,
+      "kind": "root_or_child_frame",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/f198fe6612cb/first-light-playing.png",
+      "visible_notes": [
+        "Byte-identical static state to playing-labeled snapshot; no animation timeline inferred."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/first-result.png",
+      "sha256": "6da4ef622a6f5ed5dbf7f9fa08234cb8695337bc0545b43b7a416b276a1ab1ff",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 176293,
+      "kind": "root_or_child_frame",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/first-result.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/home.png",
+      "sha256": "8932f3678e18a5a3eb88e395dd2705bba0b00e87db4094aa8d8ed6876339c10e",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 139487,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Actual new build id visible, primary journey/map/replay plus optional Observatory/Journal fit."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/intro-no-media.png",
+      "sha256": "d115381a8b54d908566bd88f61f478fa1d741e73ae4ba81560e19007a3fa9b3d",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 156809,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Media removed; original goal/Begin/Skip/Back remain visible."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/intro.png",
+      "sha256": "8a6e8b3f85d24ec412daf52fc9278f73639b2804b478441ab0d5a3df1f3fde17",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 161614,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Actual optional SVG beside original goal, Begin/Skip/Back fit."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/journal.png",
+      "sha256": "58a64257969b877b63b8577792f38db7be1c3e05f7dfefe21cc33a57621005e7",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 316787,
+      "kind": "root_or_child_frame",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/journal.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/map.png",
+      "sha256": "5a4261b409c68b175dee46af66f95b2a5435b548f138cdca2f8254a3fe7a98f8",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 174600,
+      "kind": "root_or_child_frame",
+      "review_method": "actual_view_image_new_sha",
+      "previous_pixel_source": null,
+      "visible_notes": [
+        "Actual embedded60-task footer; lawful controller CPG setup yields3/3creation supports, not normal natural all-journey playthrough."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/observatory-earned-3d.png",
+      "sha256": "9e37278e20c4c64b055ab8196993596b69e1e57f86c6ca0bb73276349c64c6a7",
+      "pixels": [
+        1192,
+        606
+      ],
+      "bytes": 39614,
+      "kind": "real_3d_texture",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/observatory-earned-3d.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/observatory-fresh-3d.png",
+      "sha256": "b81eb1d79bb35f4c3608e2fc71f87df727a8b8a2e32057bb05dddcc0a11c5e4c",
+      "pixels": [
+        1192,
+        606
+      ],
+      "bytes": 37305,
+      "kind": "real_3d_texture",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/observatory-fresh-3d.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/observatory.png",
+      "sha256": "e874a95fe8ee6d21078d30dc3edc96e7dad956ad42bf9f4666cfce42ac723aae",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 190226,
+      "kind": "root_or_child_frame",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/observatory.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/rules.png",
+      "sha256": "ab994c1e0242d8922e3b5ad016ae9f3b711c0168a89fa4e2b615b691357dbee4",
+      "pixels": [
+        1280,
+        720
+      ],
+      "bytes": 168914,
+      "kind": "root_or_child_frame",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/rules.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/saved-work-restarted.png",
+      "sha256": "32ab8db774e04c719afe068d94945f4cc06b43d2f98cfcdadc3578466f5754e6",
+      "pixels": [
+        864,
+        496
+      ],
+      "bytes": 103281,
+      "kind": "root_or_child_frame",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/saved-work-restarted.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    },
+    {
+      "path": ".godot/night-package/f198fe6612cb/saved-work.png",
+      "sha256": "01dc8bd2b4943f18f8f045b29e0422793605c39e971dcb83fe09a9ad9600189e",
+      "pixels": [
+        864,
+        496
+      ],
+      "bytes": 103285,
+      "kind": "root_or_child_frame",
+      "review_method": "identical_to_prior_viewed_bytes",
+      "previous_pixel_source": ".godot/night-package/69ef21cbee27/saved-work.png",
+      "visible_notes": [
+        "Original controller-derived C/P/G/Saved identity and summary visible, deeper body remains original Scroll; prior exact-byte images keep their documented scope."
+      ]
+    }
+  ],
+  "coverage": {
+    "total": 21,
+    "root_or_child": 19,
+    "real3dtextures": 2,
+    "incidents": 0,
+    "unique_hashes": 20,
+    "new_sha_actual_viewed": 11,
+    "exact_byte_pixel_reuse": 10
+  },
+  "limits": [
+    "Actual original exported EXE controller plus independent restart, not native OS/newcomer acceptance.",
+    "Real tutorial and lawful Host train/transport/predict/generate/Keep precede pure review; not ordinary natural full journey.",
+    "FirstLight candidate media is decorative fictional environment; native NOT output0/Scope/Skip remain authority-independent.",
+    "CPG long bodies and feedback use original Scroll; context frame proves compact entry only.",
+    "Additional Locality directPCK/editor12 evidence is a separate carrier scope, not asserted to occur in this original219 parent."
+  ],
+  "checked_utc": "2026-10-18T11:04:36.704019+00:00",
+  "engine_or_git_executed_by_reviewer": false
+}

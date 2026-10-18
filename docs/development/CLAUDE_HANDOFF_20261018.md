@@ -14,7 +14,8 @@ python -X utf8 scripts/run-experiment.py creation --journey --profile JourneyEdi
 
 本次prepare已自然退出0，生成工程的完整路径为：
 
-[打开JourneyEditor预览工程](../../.godot/experiments/36d9b2f6dede/project/project.godot)  
+[打开JourneyEditor预览工程](../../.godot/experiments/36d9b2f6dede/project/project.godot)
+
 `C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/experiments/36d9b2f6dede/project/project.godot`
 
 该副本已含`JourneyEditor20261018`隔离profile与两项候选开关；复用profile会续用同一隔离候选档。**它只供Godot预览，继续开发仍在night Git worktree，副本不会自动同步后续代码编辑；它不是新的Windows包，不会自动全解锁。** 原night根`project.godot`默认仍为40项。

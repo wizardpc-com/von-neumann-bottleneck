@@ -114,9 +114,11 @@ func component_boundaries(first: Dictionary, second: Dictionary) -> void:
 func feedback_stack(main: Control, tester: bool, suffix: String) -> void:
 	ProjectSettings.set_setting("playtest/offline_tester", tester)
 	var offline: Node = root.get_node("OfflineFeedback")
+	offline.toolbar.visible = tester
 	var moments: Node = root.get_node("PlaytestMoments")
 	var fragment: Variant = main.efficiency_fragment
 	await begin_history(main)
+	check(ProjectSettings.get_setting("playtest/offline_tester") == tester and not offline.toolbar.visible, "Current role uses the actual local feedback entry without a duplicate footer: "+suffix)
 	fragment.toggle_button.grab_focus(); await stroke(KEY_SPACE)
 	fragment.step_buttons[1].grab_focus(); await stroke(KEY_SPACE)
 	fragment.step_buttons[1].pressed.emit()
@@ -156,6 +158,7 @@ func feedback_stack(main: Control, tester: bool, suffix: String) -> void:
 	await capture_frame(suffix+"-feedback")
 	await stroke(KEY_ESCAPE)
 	check(not (offline.backdrop.visible if tester else moments.panel.visible) and not panel.is_visible_in_tree() and fragment.body.visible and not main.map_host.visible, "First Escape closes feedback only, retaining the expanded history fragment")
+	check(not offline.toolbar.visible, "Closing either role keeps the duplicate footer away from original controls: "+suffix)
 	check(root.gui_get_focus_owner() == exact_focus and paused == previous_pause, "Feedback returns exact fragment focus and restores the original pause state")
 	await stroke(KEY_ESCAPE)
 	check(not fragment.body.visible and root.gui_get_focus_owner() == fragment.toggle_button and not main.map_host.visible, "Second Escape collapses only the genuinely focused fragment")
@@ -198,14 +201,18 @@ func rendered_matrix(main: Control, locale: String) -> void:
 	root.size = Vector2i(1280,720); root.content_scale_size = Vector2i(1280,720); await settle()
 	await feedback_stack(main,false,locale+"-ordinary")
 	await feedback_stack(main,true,locale+"-tester")
+	await feedback_stack(main,false,locale+"-ordinary-return")
 
 func run() -> void:
 	capture = "--efficiency-fragment-capture" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless"
 	var old_tester: Variant = ProjectSettings.get_setting("playtest/offline_tester",false)
+	var offline: Node = root.get_node("OfflineFeedback")
+	var old_toolbar_visible: bool = offline.toolbar.visible
 	root.get_node("GameMode").set_mode(&"test")
 	var chapter: Node = root.get_node("SystemChapter")
 	for locale: String in ["zh_CN", "en"]:
 		ProjectSettings.set_setting("playtest/offline_tester",false)
+		offline.toolbar.hide()
 		root.get_node("Localization").set_locale(locale)
 		chapter.reset_test_progress()
 		var main: Control = load("res://src/system_lab/system_lab.tscn").instantiate()
@@ -247,5 +254,7 @@ func run() -> void:
 		check(not fragment.visible and fragment.before.is_empty(), "Leaving CPU clears the candidate instead of leaking it into another task")
 		main.queue_free(); await settle()
 	ProjectSettings.set_setting("playtest/offline_tester",old_tester)
+	offline.toolbar.visible = old_toolbar_visible
+	check(ProjectSettings.get_setting("playtest/offline_tester") == old_tester and offline.toolbar.visible == old_toolbar_visible, "QA restores the exact original role and original toolbar visibility")
 	print(("PASS" if failures.is_empty() else "FAIL")+": efficiency fragment "+str(checks)+" checks; real official System-model controller fixtures, not player-built prologue or native input")
 	quit(0 if failures.is_empty() else 1)

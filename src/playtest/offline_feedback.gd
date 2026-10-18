@@ -91,8 +91,31 @@ func _ready() -> void:
 	body.add_child(status)
 	_connect_panel_input(backdrop)
 	Localization.locale_changed.connect(func(_locale: String) -> void: _refresh_language(layer))
+	_refresh_toolbar()
+
+func _local_feedback_available(window: Window) -> bool:
+	if not is_instance_valid(window) or window.is_queued_for_deletion(): return false
+	var moments: Node = get_node_or_null("/root/PlaytestMoments")
+	if moments==null: return false
+	for reference: WeakRef in moments.entry_buttons:
+		var button: Button = reference.get_ref()
+		if not is_instance_valid(button) or button.is_queued_for_deletion() or not button.is_inside_tree(): continue
+		if button.get_viewport()!=window or not button.is_visible_in_tree() or not button.can_process() or button.disabled or button.mouse_filter==Control.MOUSE_FILTER_IGNORE: continue
+		var bounds: Rect2 = button.get_global_rect()
+		var available: Rect2 = window.get_visible_rect()
+		var ancestor: Node = button.get_parent()
+		while ancestor!=null and ancestor!=window:
+			if ancestor is Control and ancestor.clip_contents: available=available.intersection(ancestor.get_global_rect())
+			ancestor=ancestor.get_parent()
+		if bounds.has_area() and available.encloses(bounds): return true
+	return false
+
+func _refresh_toolbar() -> void:
+	# Existing host entries open this same panel; its export actions stay available.
+	toolbar.visible=enabled() and not busy and not backdrop.visible and not _local_feedback_available(_focused_window(get_tree().root))
 
 func _process(_delta: float) -> void:
+	_refresh_toolbar()
 	if not enabled(): return
 	var size: Vector2 = layer.get_viewport().get_visible_rect().size
 	toolbar.position=Vector2(maxf(8,size.x-toolbar.size.x-14),maxf(8,size.y-toolbar.size.y-10))
@@ -130,7 +153,7 @@ func open_panel(feedback_task: Dictionary = {}) -> void:
 	if DisplayServer.get_name()!="headless": await RenderingServer.frame_post_draw
 	if not is_instance_valid(target_window) or not target_window.is_inside_tree() or target_window.is_queued_for_deletion():
 		get_tree().paused=was_paused
-		busy=false; toolbar.visible=enabled()
+		busy=false; _refresh_toolbar()
 		if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
 		return
 	var image: Image = null
@@ -158,11 +181,12 @@ func open_for_task(chapter: String, level: String) -> void:
 func close_panel() -> void:
 	if not backdrop.visible or busy: return
 	if not _save_note(false) and not rescue_exported: return
-	backdrop.hide(); toolbar.visible=enabled()
+	backdrop.hide()
 	if layer.get_parent()!=self: layer.reparent(self)
 	get_tree().paused=was_paused
 	PlaytestData.set_feedback_visible(false,&"offline")
 	if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
+	_refresh_toolbar()
 
 func _release_window(window: Window) -> void:
 	if not is_instance_valid(layer) or layer.get_parent()!=window: return

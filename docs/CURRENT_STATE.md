@@ -9,8 +9,9 @@ Its [plan](exec-plans/active/creation-connections-20261018.md) adds an optional
 reflection using actual C→P→G evidence and saved-work identity, with no new save
 format or simulation behavior. A separate bounded fix reuses existing local
 feedback entrances to prevent the tester footer from obscuring task controls.
-Implementation and fresh acceptance are pending; the measured-growth ZIPs below
-remain the current verified recovery packages.
+The implementation has independent source review; compilation and fresh runtime
+acceptance remain pending. The measured-growth ZIPs below remain the current
+verified recovery packages.
 
 ## Measured-growth candidate — 2026-10-18
 

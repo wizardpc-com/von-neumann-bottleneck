@@ -12,6 +12,7 @@ const CreationComparison = preload("res://experiments/creation/comparison.gd")
 const CreationComparisonView = preload("res://experiments/creation/comparison_view.gd")
 const Explanation = preload("res://experiments/creation/explanation.gd")
 const SignalView = preload("res://experiments/creation/signal_view.gd")
+const ConnectionFragment = preload("res://experiments/creation/cpg_connection_fragment.gd")
 const Typography = preload("res://src/ui/ui_typography.gd")
 var work_focus: Window
 var work_focus_return: Control
@@ -50,6 +51,8 @@ var machine_strip: Label
 var measured_summary: Label
 var saved_work_closure: HFlowContainer
 var journey_context
+var connection_fragment
+var connection_records: Dictionary = {}
 var saved_work_caption: Label
 var kept_work: Dictionary = {}
 var causal_panel: VBoxContainer
@@ -334,6 +337,11 @@ func build() -> void:
 	var measurement_content := scroll_column(tab(evidence_tabs,text2("实测与对照","Measurements")))
 	journey_context = preload("res://src/ui/journey_context_card.gd").new(); measurement_content.add_child(journey_context)
 	_refresh_journey_context()
+	connection_fragment = ConnectionFragment.new()
+	measurement_content.add_child(connection_fragment)
+	connection_fragment.expansion_requested.connect(func() -> void: set_evidence_expanded(true))
+	connection_fragment.evidence_requested.connect(_locate_connection_evidence)
+	connection_fragment.work_requested.connect(_locate_connection_work)
 	costs = label("",measurement_content,13)
 	costs.name = "Costs"
 	var event_tab: VBoxContainer = tab(evidence_tabs,text2("事件","Events"))
@@ -852,6 +860,7 @@ func train_model() -> void:
 	if not result.get("ok",false):
 		set_status(text2("学习未完成：","Learning failed: ")+failure_text(result))
 		return
+	connection_records.clear()
 	latest = result.duplicate(true)
 	latest.kind = "training"
 	latest.rule_changes = Explanation.rule_changes(previous_model,result.model)
@@ -885,6 +894,7 @@ func transport(chosen_codec: String) -> void:
 	latest.kind = "transport"
 	latest.source = Catalog.source(source_kind)
 	latest.codec = chosen_codec
+	_remember_connection("transport")
 	event_page = 0
 	records.append({"kind":"transport","codec":chosen_codec,"source_kind":source_kind,"source_id":JSON.stringify(latest.source).sha256_text(),"source_length":latest.source.size(),"model_id":str(result.get("model_id","")),"machine":session.data.draft.machine.duplicate(true),"cost":result.cost.duplicate(true),"metrics":result.metrics.duplicate(true)})
 	if bool(result.get("lossless",false)):
@@ -919,6 +929,8 @@ func begin_prediction(kind: String) -> void:
 	latest = session.prediction_evidence()
 	latest.kind = "prediction"
 	prediction_recipe = {"model_id":session.prediction.model_id,"order":int(session.data.model.order),"kind":kind,"machine":session.data.draft.machine.duplicate(true)}
+	connection_records.erase("prediction")
+	_remember_connection("prediction")
 	var messages: Dictionary = {"check-v2":text2("同族独立检查已开始；真值只在提交后揭晓，重复检查标为已见。","Independent family check started; truth follows commitment, repeated checks are labelled seen."),"practice-v2":text2("同族练习开始；稀少例外无法从短前缀唯一确定。","Family practice started; rare exceptions cannot be uniquely determined from short prefixes."),"check":text2("冻结检查已开始；此模型保持不变。","Frozen check started; this model remains fixed."),"practice":text2("练习开始。先提交预测，再揭晓。","Practice started. Commit a guess, then reveal."),"training":text2("这是已见训练片段回看，不能当未见表现。","This replays seen training data; it is not unseen performance."),"memorize":text2("背诵基线：只取首个训练样例的同位置，越界用A；同族检查从不同相位开始。","Position baseline reads the first training example at the same index (A beyond it); the check starts at a different phase.")}
 	set_status(str(messages.get(kind,kind)))
 	refresh()
@@ -932,6 +944,7 @@ func commit_prediction() -> void:
 	latest = session.prediction_evidence()
 	latest.kind = "prediction"
 	set_status(text2("预测已提交，真值尚未进入界面。现在可揭晓。","Prediction committed; truth has not entered the UI. Reveal when ready."))
+	_remember_connection("prediction")
 	refresh()
 	refresh_tracks(true)
 
@@ -942,6 +955,7 @@ func reveal_prediction() -> void:
 		return
 	latest = session.prediction_evidence()
 	latest.kind = "prediction"
+	_remember_connection("prediction")
 	if session.prediction.get("finished",false):
 		session.complete(Catalog.IDS[task],{"model_id":session.prediction.model_id,"kind":session.prediction.kind,"hits":session.prediction.hits,"total":session.prediction.total,"seen":session.prediction.seen})
 		var measured: Dictionary = prediction_recipe.duplicate(true)
@@ -996,6 +1010,7 @@ func generate_work() -> void:
 		return
 	latest = session.generated.duplicate(true)
 	latest.kind = "generation"
+	_remember_connection("generation")
 	set_evidence_expanded(false)
 	if not pinned_creation.is_empty():
 		compared_creation = session.generated.duplicate(true)
@@ -1050,6 +1065,7 @@ func keep_work() -> void:
 	set_status(text2("已留下这件作品及完整配方。新的东西在这套系统中发生了。","This work and its full recipe are kept. Something new happened within this system."))
 	_playtest_completion()
 	kept_work = result.work.duplicate(true)
+	connection_records["work"] = kept_work.duplicate(true)
 	refresh()
 	works.select(session.data.works.size()-1)
 
@@ -1097,6 +1113,7 @@ func save_draft() -> void:
 
 func refresh() -> void:
 	_refresh_journey_context()
+	_refresh_connection_fragment()
 	if is_instance_valid(next_step_label) and is_instance_valid(next_step_button):
 		var step: Dictionary = next_step()
 		next_step_label.text = step.text
@@ -1686,6 +1703,7 @@ func restore_draft_history(redo: bool) -> void:
 	set_status(text2("已重做草稿；旧作品和实测保留，请重新运行。" if redo else "已撤销草稿；旧作品和实测保留，请重新运行。", "Draft redone; saved works and measurements remain. Run again." if redo else "Draft undone; saved works and measurements remain. Run again.")+(text2(" 起始栏仍有未提交文本。", " Initial still contains unsubmitted text.") if invalid_initial else ""))
 
 func _clear_active_draft_presentation() -> void:
+	connection_records.clear()
 	suppress_snapshot_fallback = true
 	latest.clear(); kept_work.clear(); comparison.clear()
 	pinned_creation.clear(); compared_creation.clear(); creation_report.clear()
@@ -1712,6 +1730,7 @@ func _restore_editor_state(saved: Dictionary) -> void:
 		if focus != null and focus.is_visible_in_tree() and focus.focus_mode != Control.FOCUS_NONE and not (focus is BaseButton and focus.disabled): focus.grab_focus()
 
 func _clear_replaced_exploration() -> void:
+	connection_records.clear()
 	sample_edit_index = -1; sample_edit_source.clear(); sample_edit_selection.clear(); sample_edit_text = ""; creation_intent = ""
 	commission = -1; commission_model = ""; commission_receipts.clear()
 	suppress_snapshot_fallback = false
@@ -1954,6 +1973,7 @@ func choose_creation_result(use_b: bool) -> void:
 	session.generated = chosen.duplicate(true)
 	latest = chosen.duplicate(true)
 	latest.kind = "generation"
+	_remember_connection("generation")
 	change_task(8)
 	name_input.text = title
 	keep_work()
@@ -2068,3 +2088,75 @@ func _refresh_journey_context() -> void:
 	journey_context.set_task(&"creation", StringName(Catalog.IDS[task]), english, session.data.supports.has(Catalog.IDS[task]))
 	journey_context.action_label.hide()
 	journey_context.visible = commission < 0
+
+func _connection_prediction() -> Dictionary:
+	var observed: Dictionary = session.prediction
+	if observed.is_empty(): return {}
+	var pending: Dictionary = {}
+	if observed.get("pending",{}).has("symbol"):
+		pending["symbol"] = int(observed.pending.symbol)
+	return {"prefix":observed.get("prefix",[]).duplicate(true),"rows":observed.get("rows",[]).duplicate(true),
+		"pending":pending,"kind":str(observed.get("kind","")),"seen":bool(observed.get("seen",false)),
+		"finished":bool(observed.get("finished",false)),"model_id":str(observed.get("model_id","")),
+		"evidence":session.prediction_evidence().duplicate(true)}
+
+func _remember_connection(kind: String) -> void:
+	var record: Dictionary = {}
+	if kind == "prediction":
+		record = _connection_prediction()
+		if record.is_empty(): return
+		record["machine"] = record.evidence.get("recipe",{}).get("machine",{}).duplicate(true)
+	elif kind == "transport":
+		record = {"model_id":str(latest.get("model_id","")),"machine":session.last_transport.get("machine",{}).duplicate(true),
+			"input":latest.get("source",[]).duplicate(true),"output":latest.get("output",[]).duplicate(true),
+			"lossless":bool(latest.get("lossless",false)),"codec":str(latest.get("codec","")),"cost":latest.get("cost",{}).duplicate(true)}
+	elif kind == "generation":
+		record = {"model_id":str(latest.get("recipe",{}).get("model_id","")),"recipe":latest.get("recipe",{}).duplicate(true),
+			"machine":latest.get("recipe",{}).get("machine",{}).duplicate(true),"output":latest.get("output",[]).duplicate(true),
+			"cost":latest.get("cost",{}).duplicate(true)}
+	else: return
+	# A later reveal still belongs to the original frozen round, not edited controls.
+	record["draft"] = connection_records.prediction.draft.duplicate(true) if kind=="prediction" and connection_records.has("prediction") else session.data.draft.duplicate(true)
+	record["trace_signature"] = JSON.stringify(latest,"",true).sha256_text()
+	connection_records[kind] = record.duplicate(true)
+
+func _refresh_connection_fragment() -> void:
+	if not is_instance_valid(connection_fragment): return
+	var records_for_view: Dictionary = connection_records.duplicate(true)
+	# Old snapshots prove only their own output and recipe, never a C/P run.
+	if latest.get("kind","") in ["snapshot","replay"] and latest.get("work") is Dictionary:
+		records_for_view["work"] = latest.work.duplicate(true)
+	var locatable: Dictionary = {}
+	for kind: String in ["transport","prediction","generation"]:
+		var record: Dictionary = records_for_view.get(kind,{})
+		locatable[kind] = not record.is_empty() and latest.get("kind","") == kind and record.get("trace_signature","") == JSON.stringify(latest,"",true).sha256_text()
+		if kind == "prediction" and locatable[kind]:
+			var observed: Dictionary = _connection_prediction()
+			for key: String in ["prefix","rows","pending","kind","seen","finished","model_id","evidence"]:
+				if record.get(key) != observed.get(key): locatable[kind] = false
+	connection_fragment.reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion",false))
+	connection_fragment.configure(records_for_view,session.data.draft,locatable,english)
+
+func _locate_connection_evidence(kind: String) -> void:
+	_refresh_connection_fragment()
+	if connection_fragment.feedback_active() or not connection_fragment.locatable.get(kind,false): return
+	set_evidence_expanded(true)
+	causal_tabs.current_tab = 0
+	var ancestor: Node = costs.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer:
+			ancestor.ensure_control_visible(costs)
+			break
+		ancestor = ancestor.get_parent()
+	causal_tabs.get_tab_bar().grab_focus()
+
+func _locate_connection_work(id: String) -> void:
+	if connection_fragment.feedback_active(): return
+	for index: int in session.data.works.size():
+		if session.data.works[index].id != id: continue
+		set_evidence_expanded(true)
+		causal_tabs.current_tab = 3
+		works.select(index)
+		works.ensure_current_is_visible()
+		works.grab_focus()
+		return

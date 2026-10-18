@@ -492,7 +492,13 @@ func _additional_result_checks(scene: PackedScene) -> void:
 	_assert(not main.current_trace.passed and main.result_label.text.begins_with(main.call("_t", &"outcome.incorrect")) and not main.result_trace_button.visible, "A valid program with incorrect output must explain output failure before any performance navigation.")
 	main.call("_run_simulation", "Debug Data")
 	_assert_debug_result(main)
-	main.editor.text += "\n# unapplied draft"
+	var edits: Dictionary = {"signals":0}
+	main.editor.text_changed.connect(func() -> void: edits.signals += 1)
+	main.editor.set_caret_line(0)
+	main.editor.set_caret_column(0)
+	main.editor.insert_text_at_caret("# unapplied draft\n")
+	await process_frame
+	_assert(int(edits.signals) > 0 and main.program_dirty, "The actual CodeEdit insertion emits its editing signal and leaves an unapplied draft.")
 	_assert(main.current_trace == null and not main.result_trace_button.visible, "Even an unapplied draft invalidates the current result and its event action.")
 	var before: String = _inspection_authority(main)
 	main.call("_inspect_result_trace")

@@ -6909,3 +6909,35 @@ msgstr "半加器：SUM 是本位，CARRY 是进位。A + B = SUM + 2 × CARRY�
 
 msgid "terminology.practice.toggle"
 msgstr "切换输入 %s（0 / 1）"
+
+
+msgid "terminology.latch.input"
+msgstr "本步：%s · S=%d · R=%d"
+
+
+msgid "terminology.latch.before"
+msgstr "本步之前"
+
+
+msgid "terminology.latch.after"
+msgstr "本步之后"
+
+
+msgid "terminology.latch.start"
+msgstr "前态未指定；先用Reset建立本示例的起点，不表示器件上电状态。"
+
+
+msgid "terminology.latch.history"
+msgstr "同样S=R=0：Reset后保持Q=0，Set后保持Q=1。"
+
+
+msgid "terminology.latch.invalid"
+msgstr "S=R=1是无效输入，不能据此声称存下了某个输出。"
+
+
+msgid "terminology.latch.logical_steps"
+msgstr "这里是原模型的逻辑步骤，不是实际耗时或物理周期。"
+
+
+msgid "terminology.latch.unavailable"
+msgstr "此规则示例暂不可用；原任务与手册文字仍可使用。"

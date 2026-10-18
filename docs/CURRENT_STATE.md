@@ -1,5 +1,8 @@
 # Current state — sixty-task source and offline Alpha
 
+A new SRLatch handbook candidate is implemented on the development branch and awaiting fixed-source verification. It adds five original-model steps with explicit prior state; it does not change progression or saved work. The delivered Windows ZIPs below still contain bb5 and do not yet include this candidate.
+
+
 F7 QA scene navigation is corrected and independently reviewed at 8c73a21. Its ordinary exported attempt 6e96dfc080c2 exits naturally with failure at the Chinese scroll-positive control; preceding original settle telemetry reports native root focus=false with no embedded modal. That observation does not establish focus at the reveal callback or a product scroll defect. No complete result or English/tester acceptance is available. Further GUI attempts are stopped pending a valid focused-window positive control. Product bb5 and both playtest ZIPs remain unchanged. The previous diagnostic df711f15 confirms only its own stale QA Host reference; earlier failures retain their original scope.
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)

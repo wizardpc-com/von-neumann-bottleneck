@@ -6910,3 +6910,35 @@ msgstr "Half adder: SUM is the low bit; CARRY is the carry bit. A + B = SUM + 2 
 
 msgid "terminology.practice.toggle"
 msgstr "Toggle input %s (0 / 1)"
+
+
+msgid "terminology.latch.input"
+msgstr "This step: %s · S=%d · R=%d"
+
+
+msgid "terminology.latch.before"
+msgstr "Before this step"
+
+
+msgid "terminology.latch.after"
+msgstr "After this step"
+
+
+msgid "terminology.latch.start"
+msgstr "Prior state is unspecified. Reset establishes this example’s start, not a power-on state."
+
+
+msgid "terminology.latch.history"
+msgstr "With the same S=R=0, Q holds 0 after Reset and 1 after Set."
+
+
+msgid "terminology.latch.invalid"
+msgstr "S=R=1 is invalid; it establishes no valid stored output."
+
+
+msgid "terminology.latch.logical_steps"
+msgstr "These are model logic steps, not elapsed time or physical cycles."
+
+
+msgid "terminology.latch.unavailable"
+msgstr "This rule example is unavailable; the task and handbook text remain usable."

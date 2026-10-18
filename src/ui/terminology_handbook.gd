@@ -714,7 +714,7 @@ func _refresh_diagram_controls() -> void:
 	if not is_instance_valid(diagram_controls) or not is_instance_valid(diagram_isolation_label):
 		return
 	diagram_controls.visible = detail_diagram.example_count() > 1 and detail_diagram.visible
-	diagram_isolation_label.visible = detail_diagram.has_logic_inputs() and detail_diagram.visible
+	diagram_isolation_label.visible = (detail_diagram.has_logic_inputs() or detail_diagram.diagram_id == &"sr_latch") and detail_diagram.visible
 	diagram_isolation_label.text = _t(&"terminology.practice.isolated")
 	diagram_step_label.text = _t(&"terminology.diagram.step",[detail_diagram.example_step+1,detail_diagram.example_count()])
 	for index: int in range(2):

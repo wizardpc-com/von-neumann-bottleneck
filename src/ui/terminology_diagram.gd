@@ -6,6 +6,8 @@ signal example_changed
 const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 const LayoutRecipeType = preload("res://src/layout_chapter/layout_recipe.gd")
 const LayoutMemoryType = preload("res://src/layout_chapter/layout_memory_view.gd")
+const PrologueCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
+const PrologueSimulatorType = preload("res://src/circuit/prologue_simulator.gd")
 const WIDTH_EXAMPLES: Array[int] = [1, 2, 4]
 const BATCH_RECORDS: int = 9
 const BATCH_CAPACITY: int = 4
@@ -26,6 +28,7 @@ var example_step: int = 0
 var input_buttons: Array[Button] = []
 var input_instruction: Label
 var rule_label: Label
+var _latch_rows: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -39,6 +42,8 @@ func _ready() -> void:
 func set_diagram(value: StringName) -> void:
 	diagram_id = value
 	example_step = 0
+	if diagram_id == &"sr_latch" and _latch_rows.is_empty():
+		_prepare_latch_example()
 	visible = not diagram_id.is_empty()
 	_refresh_logic_controls()
 	example_changed.emit()
@@ -82,7 +87,7 @@ func _draw() -> void:
 		&"alu":
 			_draw_alu()
 		&"sr_latch":
-			_draw_storage_steps(true)
+			_draw_latch_example()
 		&"decoder":
 			_draw_decoder()
 		&"serialization":
@@ -226,6 +231,50 @@ func _draw_truth_table() -> void:
 		draw_rect(Rect2(16, 53 + row * 43, size.x - 32, 39), Color(PANEL if row % 2 == 0 else BACKGROUND))
 		for column: int in range(4):
 			_draw_text(Rect2(16 + column * width, 58 + row * 43, width, 28), str(values[column]), GOOD if values[column] else TEXT, 18)
+
+
+func _prepare_latch_example() -> void:
+	var catalog := PrologueCatalogType.new()
+	var definition: Dictionary = catalog.definition(&"latch")
+	var circuit: LogicCircuit = catalog.reference_circuit(&"latch")
+	if circuit == null: return
+	var report: Dictionary = PrologueSimulatorType.new().run_sequence(circuit,
+		definition.official_steps, bool(definition.allow_feedback))
+	if not bool(report.passed): return
+	# Retain only detached display values; the player's circuit and runtime are never used.
+	var previous: Variant = null
+	for step: Dictionary in report.steps:
+		var result: PrologueSimulationResult = step.result
+		var q: int = result.observed_values[&"Q"].value
+		var nq: int = result.observed_values[&"NQ"].value
+		_latch_rows.append({"s":int(step.inputs[&"S"]), "r":int(step.inputs[&"R"]),
+			"before_q":previous, "q":q, "nq":nq})
+		previous = q
+
+
+func latch_example() -> Dictionary:
+	if diagram_id != &"sr_latch" or _latch_rows.is_empty(): return {}
+	return _latch_rows[example_step].duplicate(true)
+
+
+func _draw_latch_example() -> void:
+	var example: Dictionary = latch_example()
+	if example.is_empty(): return
+	var width: float = (size.x - 64.0) / 2.0
+	var before := Rect2(16, 94, width, 80)
+	var after := Rect2(size.x - 16 - width, 94, width, 80)
+	for rect: Rect2 in [before, after]:
+		draw_rect(rect, PANEL, true)
+		draw_rect(rect, BORDER, false, 1.0)
+	_draw_text(Rect2(16, 66, width, 24), _t(&"terminology.latch.before"), MUTED, 14)
+	_draw_text(Rect2(after.position.x, 66, width, 24), _t(&"terminology.latch.after"), MUTED, 14)
+	var previous: String = "—" if example.before_q == null else str(example.before_q)
+	_draw_text(Rect2(before.position + Vector2(8, 11), Vector2(width - 16, 26)), "Q = " + previous, TEXT, 16)
+	_draw_text(Rect2(before.position + Vector2(8, 43), Vector2(width - 16, 26)),
+		"NQ = " + ("—" if example.before_q == null else str(1 - int(example.before_q))), TEXT, 16)
+	_draw_text(Rect2(after.position + Vector2(8, 11), Vector2(width - 16, 26)), "Q = " + str(example.q), GOOD, 16)
+	_draw_text(Rect2(after.position + Vector2(8, 43), Vector2(width - 16, 26)), "NQ = " + str(example.nq), TEXT, 16)
+	_draw_arrow(_right_center(before) + Vector2(4, 0), _left_center(after) - Vector2(4, 0), ACCENT)
 
 
 func _draw_storage_steps(latch: bool) -> void:
@@ -428,14 +477,15 @@ func _on_locale_changed(_locale: String) -> void:
 	_refresh_logic_controls()
 
 
-func _t(key: StringName) -> String:
-	return Localization.text(key)
+func _t(key: StringName, arguments: Array = []) -> String:
+	return Localization.text(key, arguments)
 
 
 func example_count() -> int:
 	if String(diagram_id).begins_with("gate_"): return 2 if diagram_id == &"gate_not" else 4
 	match diagram_id:
 		&"half_adder": return 4
+		&"sr_latch": return maxi(1, _latch_rows.size())
 		&"widths": return WIDTH_EXAMPLES.size()
 		&"layout_data_layout", &"layout_field_group", &"multiplexer": return 2
 		&"layout_copy_cost", &"layout_bounded_batch": return 3
@@ -531,9 +581,10 @@ func _refresh_logic_controls() -> void:
 	if not is_instance_valid(input_instruction):
 		return
 	var active: bool = has_logic_inputs()
-	custom_minimum_size.y = 410.0 if active else 248.0
-	input_instruction.visible = active
-	rule_label.visible = active
+	var latch: bool = diagram_id == &"sr_latch"
+	custom_minimum_size.y = 410.0 if active else 344.0 if latch else 248.0
+	input_instruction.visible = active or latch
+	rule_label.visible = active or latch
 	for button: Button in input_buttons:
 		button.visible = active
 	if active:
@@ -554,6 +605,19 @@ func _refresh_logic_controls() -> void:
 			button.text = "%s = %d" % [port, value]
 			button.tooltip_text = _t(&"terminology.practice.toggle") % port
 			button.set_pressed_no_signal(value == 1)
+	if latch:
+		input_instruction.position = Vector2(12, 8)
+		input_instruction.size = Vector2(size.x - 24, 54)
+		rule_label.position = Vector2(12, 190)
+		rule_label.size = Vector2(size.x - 24, 142)
+		var example: Dictionary = latch_example()
+		if example.is_empty():
+			input_instruction.text = _t(&"terminology.latch.unavailable")
+			rule_label.text = ""
+		else:
+			var action: StringName = &"terminology.diagram.state.hold" if example.s == 0 and example.r == 0 else &"terminology.diagram.state.write" if example.s == 1 else &"terminology.diagram.state.clear"
+			input_instruction.text = _t(&"terminology.latch.input", [_t(action), example.s, example.r])
+			rule_label.text = _t(&"terminology.latch.start" if example_step == 0 else &"terminology.latch.history") + "\n" + _t(&"terminology.latch.invalid") + "\n" + _t(&"terminology.latch.logical_steps")
 	queue_redraw()
 
 

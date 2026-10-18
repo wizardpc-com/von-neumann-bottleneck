@@ -7,8 +7,10 @@
 The next round is active on `codex/measured-growth-20261018` from the pushed
 handoff2e488c3. Its [versioned plan](exec-plans/active/measured-growth-20261018.md)
 adds actionable Layout/Overlap evidence, an optional CPU-comparison reflection
-and distinct hardware/system observatory apparatus. Implementation is underway;
-new runtime checks, rendering and packages are not yet accepted. The fixedc109
+and distinct hardware/system observatory apparatus. The first fixed source1d887c5 completed20 focused stages with18 passing and2 failing:
+restored observatory marker geometry and stale Overlap issue-location state. Repairs
+and independent review are underway; rendering, full regression and new packages
+remain unverified. The fixedc109
 pair below remains the last fully verified candidate and recovery baseline.
 
 ## Current development — 2026-10-18

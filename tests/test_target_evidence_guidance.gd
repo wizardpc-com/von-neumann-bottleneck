@@ -209,7 +209,13 @@ func overlap_cases(english: bool) -> void:
 	host._locate_recorded_issue()
 	check(host.editor.get_caret_line()==caret and root.gui_get_focus_owner()==focus,"Mismatched board cannot jump to a current source line")
 	host.board.nodes.A.x=position
-	host.editor.text += "# changed\n"; await settle()
+	var edits: Dictionary = {"signals":0}
+	host.editor.text_changed.connect(func() -> void: edits.signals+=1)
+	host.editor.set_caret_line(host.editor.get_line_count()-1)
+	host.editor.set_caret_column(host.editor.get_line(host.editor.get_caret_line()).length())
+	host.editor.insert_text_at_caret("# changed\n"); await settle()
+	check(int(edits.signals)>0,"The actual CodeEdit insertion emits its editing signal")
+	print("GUIDANCE_EDIT_SIGNAL: ",root.get_node("Localization").current_locale()," ",edits.signals," stale=",host.trace_stale," disabled=",host.locate_issue_button.disabled)
 	check(host.trace_stale and host.locate_issue_button.disabled,"Program editing disables old issue location")
 	before=protected_state(host); caret=host.editor.get_caret_line(); focus=root.gui_get_focus_owner()
 	host._locate_recorded_issue()

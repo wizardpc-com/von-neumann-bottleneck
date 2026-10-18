@@ -42,6 +42,15 @@ func click(control: Control) -> void:
 		root.push_input(event,true)
 		await settle()
 
+func rect_fields(rect: Rect2) -> Array[String]:
+	return ["%.17f" % rect.position.x,"%.17f" % rect.position.y,"%.17f" % rect.size.x,"%.17f" % rect.size.y]
+
+func transform_fields(value: Transform3D) -> Array:
+	var fields: Array = []
+	for vector: Vector3 in [value.origin,value.basis.x,value.basis.y,value.basis.z]:
+		fields.append(["%.17f" % vector.x,"%.17f" % vector.y,"%.17f" % vector.z])
+	return fields
+
 func inventory(path: String) -> Dictionary:
 	var result: Dictionary = {}
 	var directory := DirAccess.open(path)
@@ -255,7 +264,26 @@ func run() -> void:
 				await click(observatory.overview_button)
 				check(not observatory.inspection_enabled and observatory.selected_key == selected and observatory.camera.transform.is_equal_approx(overview_pose) and is_equal_approx(observatory.camera.size,overview_size),"Overview restores the exact original camera without changing task selection")
 				for index: int in observatory.marker_buttons.size():
-					check(observatory.marker_buttons[index].get_rect() == overview_markers[index] and observatory.apparatus_nodes[index].transform == overview_geometry[index],"Restored overview retains original geometry and projected marker rectangles")
+					var marker_rect: Rect2 = observatory.marker_buttons[index].get_rect()
+					var apparatus_transform: Transform3D = observatory.apparatus_nodes[index].transform
+					var restored: bool = marker_rect == overview_markers[index] and apparatus_transform == overview_geometry[index]
+					if not restored:
+						var marker: Button = observatory.marker_buttons[index]
+						print("APPARATUS_RESTORE_DIFF: ",JSON.stringify({"locale":language,"window":[dimensions.x,dimensions.y],"kind":kind,
+							"index":index,"task":observatory.region_rows[index].key,"selected":selected,"view":observatory.view_choice.selected,
+							"rect_equal":marker_rect == overview_markers[index],"transform_equal":apparatus_transform == overview_geometry[index],
+							"rect_before":rect_fields(overview_markers[index]),"rect_after":rect_fields(marker_rect),
+							"transform_before":transform_fields(overview_geometry[index]),"transform_after":transform_fields(apparatus_transform),
+							"camera_before":transform_fields(overview_pose),"camera_after":transform_fields(observatory.camera.transform),
+							"camera_size_before":overview_size,"camera_size_after":observatory.camera.size,
+							"root_size":[root.size.x,root.size.y],"stage_rect":rect_fields(observatory.stage.get_global_rect()),
+							"subviewport_size":[observatory.viewport_3d.size.x,observatory.viewport_3d.size.y],
+							"marker_text":marker.text,"marker_pressed":marker.button_pressed,"marker_hovered":marker.is_hovered(),
+							"marker_visible":marker.visible,"marker_disabled":marker.disabled,
+							"minimum_size":[marker.get_minimum_size().x,marker.get_minimum_size().y],
+							"combined_minimum_size":[marker.get_combined_minimum_size().x,marker.get_combined_minimum_size().y],
+							"font_size":marker.get_theme_font_size("font_size")}))
+					check(restored,"Restored overview retains original geometry and projected marker rectangles")
 				check(protected_state() == before,"Read-only region/view/near/overview preserve every actual saved work, game, lease and navigation byte")
 		await state_cases(observatory)
 		check(protected_state() == before,"Synthetic invalid/temporary/tester fixtures and invalid entry never mutate authoritative saves")

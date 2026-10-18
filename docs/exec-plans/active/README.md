@@ -1,5 +1,11 @@
 # Execution queue
 
+The [task-by-task review and narrative-focus round](narrative-modal-focus-20261018.md)
+is active frome410cbe. It completes the sixty-task semantic review and first tests
+a specific embedded-window hypothesis in the existing efficiency reflection.
+Production behavior remains unchanged until a fixed-source renderer establishes
+the failure and a bounded repair is independently reviewed.
+
 The [creation-connections round](../completed/creation-connections-20261018.md) is
 complete within its engineering scope. Productd14be32 passes176 full Windows
 stages and both exported package chains. Actual C→P→G evidence connects to original

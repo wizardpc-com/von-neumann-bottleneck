@@ -167,6 +167,49 @@ func feedback_stack(main: Control, tester: bool, suffix: String) -> void:
 	check(main.map_host.visible, "After fragment collapse Escape resumes the original host return path")
 	main._start_level(&"cpu_speed"); await settle()
 
+func embedded_focus_boundary(main: Control, locale: String) -> void:
+	if not capture: return
+	await begin_history(main)
+	var fragment: Variant = main.efficiency_fragment
+	var scroll: ScrollContainer = main.history_chart.get_parent().get_parent()
+	var before: Dictionary = protected_state()
+	fragment.toggle_button.grab_focus(); await settle()
+	scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value); await settle()
+	var pending_scroll: int = scroll.scroll_vertical
+	fragment.toggle_button.button_pressed = true
+	check(process_frame.is_connected(fragment._reveal_body), "Actual efficiency expansion schedules one pending reveal before Window focus moves")
+	fragment._select_step(1)
+	var held_blend: float = fragment.visual_blend
+	var held_step: int = fragment.step
+	check(fragment.body.visible and held_blend < 1.0, "Focus boundary begins with a real expanded unfinished observation")
+	var blocker := AcceptDialog.new()
+	blocker.title = "QA efficiency focus boundary"
+	root.add_child(blocker)
+	var other := Button.new(); other.text = "Other window"; blocker.add_child(other)
+	blocker.popup_centered(Vector2i(240,100)); blocker.grab_focus(); other.grab_focus(); await settle()
+	var root_focus: Control = root.gui_get_focus_owner()
+	var blocker_focus: Control = blocker.gui_get_focus_owner()
+	var embedded: Array[String] = []
+	for window: Window in root.get_embedded_subwindows(): embedded.append(str(window.get_path()))
+	print("EFFICIENCY_WINDOW_FOCUS_DIAGNOSTIC: ",JSON.stringify({"locale":locale,
+		"root":{"has_focus":root.has_focus(),"visible":root.visible,"window_id":root.get_window_id(),"embedded":root.is_embedded()},
+		"blocker":{"has_focus":blocker.has_focus(),"visible":blocker.visible,"window_id":blocker.get_window_id(),"embedded":blocker.is_embedded(),"transient":blocker.transient,"exclusive":blocker.exclusive},
+		"root_focus_owner":str(root_focus.get_path()) if is_instance_valid(root_focus) else "none",
+		"blocker_focus_owner":str(blocker_focus.get_path()) if is_instance_valid(blocker_focus) else "none",
+		"embedded_windows":embedded,"listed_embedded":root.get_embedded_subwindows().has(blocker),
+		"scroll_before":pending_scroll,"scroll_after":scroll.scroll_vertical,"blend_before":held_blend,"blend_after":fragment.visual_blend,
+		"step_before":held_step,"step_after":fragment.step,"feedback_active":fragment._feedback_active()}))
+	check(blocker.visible and blocker.has_focus() and blocker_focus == other and (root.get_embedded_subwindows().has(blocker) if blocker.is_embedded() else not root.has_focus()), "Actual modal owns its Other button with the real embedded or native focus semantics")
+	if blocker.is_embedded(): print("NOT_RUN: native OS focus loss; efficiency boundary uses a focused embedded modal Window")
+	check(scroll.scroll_vertical == pending_scroll, "Pending efficiency reveal cannot scroll its original reading region while another Window owns focus")
+	check(fragment.visual_blend == held_blend and fragment.step == held_step, "Another focused Window pauses the unfinished efficiency observation")
+	var escape := InputEventKey.new(); escape.keycode = KEY_ESCAPE; escape.pressed = true
+	main._unhandled_key_input(escape)
+	check(fragment.body.visible and protected_state() == before, "An unfocused efficiency Host cannot collapse its fragment or change authority")
+	blocker.queue_free(); await settle()
+	fragment.collapse()
+	check(protected_state() == before, "Modal focus and its natural destruction preserve the original complete authority")
+
 func rendered_matrix(main: Control, locale: String) -> void:
 	var fragment: Variant = main.efficiency_fragment
 	var original_state: Dictionary = protected_state()
@@ -202,6 +245,7 @@ func rendered_matrix(main: Control, locale: String) -> void:
 	await feedback_stack(main,false,locale+"-ordinary")
 	await feedback_stack(main,true,locale+"-tester")
 	await feedback_stack(main,false,locale+"-ordinary-return")
+	await embedded_focus_boundary(main,locale)
 
 func run() -> void:
 	capture = "--efficiency-fragment-capture" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless"

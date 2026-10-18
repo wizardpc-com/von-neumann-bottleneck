@@ -241,3 +241,17 @@ LOAD/STORE交接→System assembly→CPU pair，单列合法QA准备与纯回看
 固定tester的原Host catalog已有offline_tester入口豁免，可承担Layout/Overlap实际官方run、定位、stale保护。
 旧normal全补充保持FAIL；新增明确角色覆盖采用新QA提交与raw身份，不能收窄后追改原成功率。
 所有旧作品/session与原父不变，克隆合法准备产生的游戏变化须独立精确审计，不放宽未知权威写入。
+
+## 两实包原始链与观察站限定原生验收
+
+固定97516 tester包原始父d2e6a5bc8f8f实际138/138及严格重开47/47通过；
+原随包子2db89695bde9完成60入口、真实CPG/原作品重启、最终4现场2会话ZIP及独立导入去重。
+两角色实际OS输入完成Home→观察站→近看→F8→逐层Esc→Home与正常退出；
+19原JPEG、全父库存和退出后typed档案经独立核验。这里只接受播种QA观察站路线，
+不提升为新人、原生CPU/目标/CPG或Mac通过。中央证据保留各自源身份与限制。
+
+新外部QA移除capture启动参数，核loaded_save/game模式，实际提交参考连线、原official和seal，
+再进System assembly及受控CPU pair；normal保持后续前置锁，tester按原权限验目标解释。
+合法准备与纯回看分开，原作品/父档案逐字节保护，允许变化仅限已证明字段；
+备份须绑定独立核验seed/CPU/final，初始成绩绑定原档案，可变文件严格六项。
+运行前先提交恢复点；旧失败不追改。新控制器尚无实际补充通过结果。

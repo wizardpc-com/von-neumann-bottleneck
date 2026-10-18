@@ -17,8 +17,17 @@ long source explanations in its original scroll area. The earlier incorrect QA-h
 images and script-error receipt remain recorded. Fixed97516b passes all175 complete Windows regression stages with natural
 process exits and no errors. The ordinary97516b package passes128 baseline checks and47 strict-reopen checks.
 Its first F4 supplement failed on QA startup contracts; that failure is preserved.
-The tester97516b build passes identity checks only. Further play acceptance remains
-active; the fixedc109 pair below remains the previous recovery baseline.
+The tester97516b package passes138 baseline checks and47 strict-reopen checks,
+including sixty actual entries, real C→P→G, saved-work restart and the original
+collector's final-only four-case/two-session ZIP import and deduplication.
+Both roles also pass actual Windows Home→Observatory→near view→F8→Esc→Home
+and normal exit in cloned QA profiles; nineteen original images and protected
+post-exit state have independent review. This establishes the stated seeded QA
+routes only. Supplementary legal hardware preparation and CPU/target checks use
+a separately reviewed external QA controller and remain unrun at this checkpoint.
+The [measured-growth evidence](verification/20261018-measured-growth/README.md)
+keeps exact source/package identities and the previous failed supplement.
+The fixedc109 pair below remains the previous recovery baseline.
 
 ## Previous Creative candidate — 2026-10-18
 

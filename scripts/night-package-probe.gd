@@ -1,5 +1,5 @@
 extends Node
-## Disclosed controller input in an unchanged export with a fresh redirected APPDATA.
+## Disclosed controller input in an unchanged export with isolated fresh or cloned QA data.
 var checks: Dictionary = {}
 var failures: Array[String] = []
 var experience: Dictionary = {}
@@ -340,7 +340,7 @@ func measured_apparatus(output: String, tester: bool) -> void:
 		if int(view.region_choice.get_item_metadata(index))==0:
 			view.region_choice.select(index); view.region_choice.item_selected.emit(index); break
 	view.select_task("hardware_foundations/tutorial"); await settle()
-	check(view.selected_key=="hardware_foundations/tutorial" and view.earned(view.region_rows[view.task_choice.selected]),"Measured apparatus binds only the actually completed tutorial")
+	if not measured_require(view.selected_key=="hardware_foundations/tutorial" and view.earned(view.region_rows[view.task_choice.selected]),"Measured apparatus binds only the actually completed tutorial"): return
 	var pose: Transform3D = view.camera.transform
 	var camera_size: float = view.camera.size
 	var shapes: Array = []
@@ -370,33 +370,117 @@ func measured_apparatus(output: String, tester: bool) -> void:
 	check(not view.visible and get_viewport().gui_get_focus_owner()==launcher,"Measured Observatory returns to its exact real Home launcher")
 	get_tree().current_scene=null; hub.queue_free(); await settle()
 
+func measured_require(ok: bool, label: String) -> bool:
+	check(ok,label)
+	if not ok: get_tree().quit(1)
+	return ok
+
+func measured_json_equal(a: Variant, b: Variant) -> bool:
+	return JSON.stringify(JSON.parse_string(JSON.stringify(a)),"",true)==JSON.stringify(JSON.parse_string(JSON.stringify(b)),"",true)
+
+func measured_original_work(seed: Dictionary) -> bool:
+	var session: Script = load("res://experiments/creation/session.gd")
+	var lease: Script = load("res://experiments/candidate_session/writer_lease.gd")
+	return FileAccess.get_sha256(session.launch_path())==str(seed.original_saved_work.session_sha256) and not DirAccess.dir_exists_absolute(lease.lock_path(session.launch_path())) and not DirAccess.dir_exists_absolute(lease.lock_path(session.launch_path())+".recovering")
+
 func measured_host(scene: String, task: String) -> Control:
-	# Explicit QA context selection consumes the original host's task identity.
-	get_node("/root/TaskNavigation").pending=task
-	var host: Control = load(scene).instantiate()
-	host.process_mode=Node.PROCESS_MODE_PAUSABLE
-	get_tree().root.add_child(host); await settle()
+	var navigation: Node = get_node("/root/TaskNavigation")
+	if not measured_require(navigation.enter(task),"Measured original navigation legally enters "+task): return null
+	await settle()
+	var host: Control = get_tree().current_scene
+	if not measured_require(is_instance_valid(host) and host.scene_file_path==scene,"Measured entered Host matches "+task): return null
 	return host
+
+func measured_finish_hardware(host: Control) -> bool:
+	var frames: int = 0
+	while host.official_sequence_active and frames<128:
+		if host.playback_running: host._finish_playback()
+		await get_tree().process_frame
+		frames+=1
+	return measured_require(not host.official_sequence_active and host.official_passed and host.passing_topology_signature==host._circuit_from_graph().canonical_signature(),"Measured original official aggregate verifies the exact hardware topology "+str(host.current_level_id))
+
+func measured_hardware_report(report: Dictionary, half: bool = false) -> Dictionary:
+	var rows: Array = []
+	for item: Dictionary in report.get("cases" if half else "steps",[]):
+		var trace: Variant = item.get("trace" if half else "result")
+		rows.append({"passed":bool(item.get("passed",false)),"trace_signature":trace.canonical_signature() if trace!=null else ""})
+	return {"passed":bool(report.get("passed",false)),"cases":rows}
+
+func measured_hardware(seed: Dictionary) -> bool:
+	var host: Variant = await measured_host("res://src/hardware_foundations/hardware_foundations.tscn","hardware_foundations/half_adder")
+	if host==null: return false
+	host._start_challenge(false); await settle()
+	if not measured_require(host.current_level_id==&"half_adder" and host.current_phase==&"half_adder" and not host.hint_mode,"Measured HalfAdder is the original editable task"): return false
+	for wire: Dictionary in host._half_adder_reference_wires():
+		host._on_connection_request(wire.from_node,int(wire.from_port),wire.to_node,int(wire.to_port))
+	host._run_official()
+	if not await measured_finish_hardware(host): return false
+	if not measured_require(host.official_report.get("passed",false),"Measured HalfAdder official cases really pass"): return false
+	var steps: Array = [{"task":"half_adder","circuit_signature":host._circuit_from_graph().canonical_signature(),"report":measured_hardware_report(host.official_report,true)}]
+	host._dismiss_level_completion(); host._seal_half_adder()
+	if not measured_require(host.sealing,"Measured verified HalfAdder starts original sealing"): return false
+	host._finish_encapsulation(); await settle()
+	for id: StringName in [&"full_adder",&"alu",&"latch",&"register",&"ram",&"cpu",&"load_store"]:
+		host._start_prologue_level(id,false); await settle()
+		if not measured_require(host.current_level_id==id and host.current_phase==&"prologue" and not host.hint_mode,"Measured original hardware prerequisite opens "+str(id)): return false
+		if not host.current_level_definition.get("locked_topology",false):
+			for wire: Dictionary in host.current_level_definition.get("reference_wires",[]):
+				host._on_connection_request(wire["from"],int(wire.get("from_port",0)),wire["to"],int(wire.get("to_port",0)))
+		var circuit: Variant = host._circuit_from_graph()
+		if not measured_require(not host._uses_offline_reference(circuit),"Measured owned components avoid tester reference provenance "+str(id)): return false
+		host._run_official()
+		if not await measured_finish_hardware(host): return false
+		if not measured_require(host.prologue_report.get("passed",false),"Measured original prologue model cases pass "+str(id)): return false
+		steps.append({"task":String(id),"circuit_signature":circuit.canonical_signature(),"report":measured_hardware_report(host.prologue_report)})
+		if id!=&"load_store":
+			host._dismiss_level_completion(); host._seal_prologue_component()
+			if not measured_require(host.sealing,"Measured verified original component starts sealing "+str(id)): return false
+			host._finish_encapsulation(); await settle()
+		if not measured_require(host.player_content.completed_levels.get(id,false) and measured_original_work(seed),"Measured original sealing earns only real hardware and preserves existing work "+str(id)): return false
+	var chapter: Node = get_node("/root/SystemChapter")
+	if not measured_require(chapter.prologue_ready and not chapter.cpu_source_signature.begins_with("reference-") and not chapter.ram_source_signature.begins_with("reference-"),"Measured LOAD STORE hands verified owned CPU RAM to the real System chapter"): return false
+	for component: Variant in host.player_content.component_library.values():
+		if not measured_require(component.source_level!=&"tester_reference" and not component.metadata.get("tester_reference",false),"Measured earned library has no tester reference component"): return false
+	experience["measured_hardware_preparation"]={"steps":steps,"manifest":host.player_content.manifest_snapshot(),"cpu_source_signature":chapter.cpu_source_signature,"ram_source_signature":chapter.ram_source_signature,"scope":"public reference wiring submitted through original official models and sealing actions in disposable clone; not an unaided player solution"}
+	host._stop_playback(); get_tree().current_scene=null; host.queue_free(); await settle()
+	return true
+
+func measured_flush() -> Dictionary:
+	get_tree().call_group("workspace_owners","flush_workspace")
+	get_node("/root/WindowMode")._save_window_geometry()
+	var save: Node = get_node("/root/GlobalSave")
+	if not measured_require(save.save_game(true),"Measured original save APIs persist the exact legitimate preparation"): return {}
+	var disk: Dictionary = {}
+	for name: String in ["savegame_v1.json","savegame_v1.json.bak","hardware_workbenches_v1.json","personal_task_records_v1.json","task_navigation.cfg","presentation.cfg"]:
+		var path: String = "user://"+name
+		disk[name]={"sha256":FileAccess.get_sha256(path),"text":FileAccess.get_file_as_string(path)} if FileAccess.file_exists(path) else {"absent":true}
+	return {"protected":protected_snapshot(),"disk":disk,"best":get_node("/root/PersonalRecords").best.duplicate(true),"last_visited_task":get_node("/root/TaskNavigation").last_visited_task,"window_geometry":{"fullscreen":get_node("/root/WindowMode").is_fullscreen(),"size":var_to_str(DisplayServer.window_get_size()),"position":var_to_str(DisplayServer.window_get_position())}}
 
 func measured_cpu(output: String, tester: bool) -> void:
 	var chapter: Node = get_node("/root/SystemChapter")
-	chapter.reset_test_progress()
-	var host: Variant = await measured_host("res://src/system_lab/system_lab.tscn","chapter_1/cpu_speed")
-	host._start_level(&"cpu_speed"); await settle()
+	var host: Variant = await measured_host("res://src/system_lab/system_lab.tscn","chapter_1/assembly")
+	if host==null: return
+	if not measured_require(host.current_level_id==&"assembly","Measured real hardware gate permits System assembly"): return
+	host._auto_connect(); host._run_official(); host._finish_playback(); await settle()
+	if not measured_require(host.graph.get_connection_list().size()==6 and host.latest_receipt!=null and host.latest_receipt.all_passed and chapter.completed_levels().get(&"assembly",false),"Measured original six-route assembly passes official cases before CPU entry"): return
+	experience["measured_assembly_preparation"]={"receipt_signature":host.latest_receipt.canonical_signature(),"metrics":host.latest_receipt.metrics.duplicate(true),"topology_signature":host._topology_from_graph().canonical_signature(),"program_signature":host.latest_receipt.program_signature,"test_set_signature":host.latest_receipt.test_set_signature,"source":host.applied_program_source,"parts":host.selected_part_ids.duplicate(true)}
+	host._dismiss_level_completion(); host._start_level(&"cpu_speed"); await settle()
+	if not measured_require(host.current_level_id==&"cpu_speed" and host.prediction_selector.item_count>1 and host.part_selectors[&"cpu"].item_count>1,"Measured CPU task is legally initialized before any selection"): return
 	host.prediction_selector.select(1); host._lock_prediction()
 	host._run_official(); host._finish_playback(); await settle()
-	check(chapter.receipts_for(&"cpu_speed").size()==1 and not chapter.completed_levels().get(&"cpu_speed",false) and not host.efficiency_fragment.visible,"Measured single actual reference run supplies no comparison")
+	if not measured_require(chapter.receipts_for(&"cpu_speed").size()==1 and not chapter.completed_levels().get(&"cpu_speed",false) and not host.efficiency_fragment.visible,"Measured single actual reference run supplies no comparison"): return
 	host.part_selectors[&"cpu"].select(1); host._on_part_selected(1,&"cpu")
 	host._run_official(); host._finish_playback(); await settle()
 	var receipts: Array = chapter.receipts_for(&"cpu_speed")
-	check(receipts.size()==2 and receipts[0].all_passed and receipts[1].all_passed and chapter.completed_levels().get(&"cpu_speed",false),"Measured QA reference pair is accepted only after two real official model runs")
+	if not measured_require(receipts.size()==2 and receipts[0].all_passed and receipts[1].all_passed and chapter.completed_levels().get(&"cpu_speed",false),"Measured owned CPU pair is accepted only after two real official model runs"): return
 	if receipts.size()!=2: host.queue_free(); await settle(); return
 	var fragment: Variant = host.efficiency_fragment
-	check(fragment.before.metrics==receipts[0].metrics and fragment.after.metrics==receipts[1].metrics and not fragment.body.visible,"Measured fragment derives exactly the original pair without autoplay")
+	if not measured_require(fragment.before.metrics==receipts[0].metrics and fragment.after.metrics==receipts[1].metrics and not fragment.body.visible,"Measured fragment derives exactly the original pair without autoplay"): return
 	check(host.history_chart.samples[0]==receipts[0].metrics and host.history_chart.samples[1]==receipts[1].metrics,"Measured original comparison chart retains the same two actual samples")
 	host._dismiss_level_completion()
 	for id: StringName in host.instrument_windows: host._close_instrument(id)
 	host._open_instrument(&"history"); await settle()
+	experience["measured_cpu_prepared"] = measured_flush()
 	var before: Dictionary = measured_context(host)
 	var receipt_signatures: Array = [receipts[0].canonical_signature(),receipts[1].canonical_signature()]
 	await measured_reveal(fragment.toggle_button)
@@ -406,7 +490,7 @@ func measured_cpu(output: String, tester: bool) -> void:
 		await measured_reveal(fragment.step_buttons[step])
 		fragment.step_buttons[step].grab_focus(); await creative_window_key(KEY_SPACE)
 		check(fragment.step==step,"Measured original fragment step "+str(step))
-	check(fragment.source_label.text.contains("测试记录") if not fragment.english else fragment.source_label.text.contains("Test records"),"Measured reference pair is explicitly test evidence rather than player history")
+	check(fragment.before.source=="game" and fragment.after.source=="game" and (fragment.source_label.text.contains("原运行记录") if not fragment.english else fragment.source_label.text.contains("Original run records")),"Measured pair is explicitly bound to its actual record source")
 	await measured_frame(output,"cpu-controlled-pair")
 	await measured_reveal(fragment.chart_button)
 	fragment.chart_button.grab_focus(); await creative_window_key(KEY_SPACE)
@@ -416,15 +500,18 @@ func measured_cpu(output: String, tester: bool) -> void:
 	await creative_window_key(KEY_ESCAPE)
 	check(not fragment.body.visible and get_viewport().gui_get_focus_owner()==fragment.toggle_button,"Measured second Escape collapses only the focused fragment")
 	check(measured_context(host)==before and [receipts[0].canonical_signature(),receipts[1].canonical_signature()]==receipt_signatures,"Measured fragment exploration preserves both reference receipts and all original authorities")
-	experience["measured_cpu_pair"]={"before":host._efficiency_record(receipts[0]),"after":host._efficiency_record(receipts[1]),"scope":"real test-mode reference CPU official runs, not player-built or earned game history"}
-	host.queue_free(); await settle()
+	experience["measured_cpu_pair"]={"before":host._efficiency_record(receipts[0]),"after":host._efficiency_record(receipts[1]),"scope":"real game-mode official CPU runs after controller-wired and officially sealed hardware; QA solved setup, not unaided player progress"}
+	host.flush_workspace()
+	experience["measured_system_workspaces"]={"assembly":chapter.workspace_for(&"assembly"),"cpu_speed":chapter.workspace_for(&"cpu_speed")}
+	get_tree().current_scene=null; host.queue_free(); await settle()
 
 func measured_targets(output: String, tester: bool) -> void:
 	var layout: Script = load("res://src/layout_chapter/layout_catalog.gd")
 	var overlap: Script = load("res://src/overlap_chapter/overlap_catalog.gd")
 	var host: Variant = await measured_host("res://src/layout_chapter/layout_chapter.tscn","chapter_4/fields")
-	check(host.level=="fields","Measured Layout uses the original fields contract")
+	if not measured_require(host!=null and host.level=="fields","Measured Layout uses the original fields contract"): return
 	host.design=layout.starter_design(); host._changed(); host._run_all(); await settle()
+	if not measured_require(not host.runs.is_empty(),"Measured original Layout model produced its actual cases"): return
 	var run: Variant = host.runs[0]
 	var task: Dictionary = layout.cases("fields")[0]
 	var traffic: int = int(run.metrics.ram_read_bytes)+int(run.metrics.ram_write_bytes)
@@ -432,6 +519,7 @@ func measured_targets(output: String, tester: bool) -> void:
 	var text: String = host._case_contract_feedback(run,task)
 	check(text.contains(str(traffic)) and text.contains(str(task.target_bytes)) and text.contains(str(traffic-int(task.target_bytes))),"Measured Layout explains the actual traffic cap and difference")
 	var action := host.find_child("LayoutLocateIssue0",true,false) as Button
+	if not measured_require(action!=null,"Measured original Layout exposes its witness action"): return
 	host._toggle("trace",true); await settle()
 	await measured_reveal(action)
 	var before: Dictionary = measured_context(host)
@@ -444,12 +532,15 @@ func measured_targets(output: String, tester: bool) -> void:
 	check(run.canonical_signature()==signature,"Measured Layout feedback preserves the original trace")
 	host._move_group(0,host.design.recipe.groups.size()); await settle()
 	check(host.stale and action.disabled,"Measured actual Layout edit disables old location")
-	host.queue_free(); await settle()
+	host.flush_workspace()
+	experience["measured_layout_preparation"]={"draft":get_node("/root/LayoutChapter").drafts()["fields"].duplicate(true),"run_signature":run.canonical_signature(),"passed":run.passed,"target_met":run.metrics.target_met}
+	get_tree().current_scene=null; host.queue_free(); await settle()
 	host=await measured_host("res://src/overlap_chapter/overlap_chapter.tscn","chapter_3/backpressure")
-	check(host.level=="backpressure","Measured Overlap uses the original changed-workload contract")
+	if not measured_require(host!=null and host.level=="backpressure","Measured Overlap uses the original changed-workload contract"): return
 	host.board=overlap.buffer_board(2)
 	host.editor.text=overlap.buffer_program().replace("consume A\nfree A","consume A\ntick 8\nfree A")
 	host._changed(); host._run_official(); await settle()
+	if not measured_require(host.runs.size()==2,"Measured original Overlap model produced both actual workloads"): return
 	var tasks: Array[Dictionary] = overlap.cases("backpressure")
 	check(host.runs[0].passed and int(host.runs[0].metrics.total_cycles)<=int(tasks[0].target) and host.runs[1].passed and int(host.runs[1].metrics.total_cycles)>int(tasks[1].target),"Measured unchanged model meets only the first workload cap")
 	check(host.case_select.selected==1 and host.trace==host.runs[1] and host.trace.test_name==str(tasks[1].name),"Measured first unmet selection synchronizes actual dropdown identity and trace")
@@ -460,8 +551,11 @@ func measured_targets(output: String, tester: bool) -> void:
 	check(not host.events.get_selected_items().is_empty() and int(host.scrub.value)==int(host.events.get_item_metadata(host.events.get_selected_items()[0])),"Measured Overlap location synchronizes real event and playback cycle")
 	check(measured_context(host)==before,"Measured later-case location changes no original authority or draft")
 	await measured_frame(output,"overlap-later-case-witness")
-	host.queue_free(); await settle()
+	host.flush_workspace()
+	experience["measured_overlap_preparation"]={"backpressure":{"board":host.board.duplicate(true),"program":host.editor.text,"trace_signature":host.trace.canonical_signature()}}
+	get_tree().current_scene=null; host.queue_free(); await settle()
 	host=await measured_host("res://src/overlap_chapter/overlap_chapter.tscn","chapter_3/buffers")
+	if not measured_require(host!=null and host.level=="buffers","Measured original Buffer workload legally opens"): return
 	host.board=overlap.buffer_board(1); host.editor.text="# first batch\nfetch A 0\nconsume A\nidle\n"
 	host._changed(); host._run_official(); await settle()
 	check(host.trace.metrics.error=="not_ready" and int(host.trace.metrics.error_line)==3,"Measured original early-consumption error binds its source line")
@@ -487,37 +581,48 @@ func measured_targets(output: String, tester: bool) -> void:
 	check(int(edits.signals)>0 and host.trace_stale and host.locate_issue_button.disabled,"Measured real CodeEdit insertion invalidates old source guidance")
 	host._run_official(); await settle()
 	check(host._recorded_issue_is_current() and not host.locate_issue_button.disabled,"Measured rerun binds the actual edited source and board")
-	host.queue_free(); await settle()
+	host.flush_workspace()
+	experience.measured_overlap_preparation["buffers"]={"board":host.board.duplicate(true),"program":host.editor.text,"trace_signature":host.trace.canonical_signature()}
+	get_tree().current_scene=null; host.queue_free(); await settle()
 
 func measured_evidence(output: String, profile: String, tester: bool) -> void:
 	check(profile==("OfflineTeammate-MeasuredGrowth20261018" if tester else "MeasuredGrowth20261018"),"Measured supplement requires its exact isolated role profile")
-	check(DisplayServer.get_name()!="headless","Measured supplement requires actual exported rendering")
-	var before: Dictionary = protected_snapshot()
-	var original_best: Dictionary = get_node("/root/PersonalRecords").best.duplicate(true)
+	var save: Node = get_node("/root/GlobalSave")
 	var seed: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(output.path_join("seed.json")))
-	var creation: Script = load("res://experiments/creation/session.gd")
-	var files: Script = load("res://experiments/candidate_session/files.gd")
-	var read: Dictionary = files.read_session(creation.launch_path(),creation.decode)
-	var expected_work: Dictionary = seed.get("original_saved_work",{}).get("work",{})
-	var actual_work: Dictionary = {}
-	for work: Dictionary in read.get("data",{}).get("works",[]):
-		if work.get("id","")==expected_work.get("id",""): actual_work=work
-	check(read.get("ok",false) and not expected_work.is_empty() and JSON.stringify(JSON.parse_string(JSON.stringify(actual_work)),"",true)==JSON.stringify(JSON.parse_string(JSON.stringify(expected_work)),"",true),"Measured seed contains the exact original accepted saved output and complete recipe")
-	check(FileAccess.get_sha256(creation.launch_path())==str(seed.get("original_saved_work",{}).get("session_sha256","")) and not measured_state().creation_recovery_lock,"Measured original saved-work bytes exist with no writer recovery lock")
+	if not measured_require(DisplayServer.get_name()!="headless" and save.loaded_save and save.disk_write_allowed and not get_node("/root/GameMode").is_test_mode(),"Measured ordinary exported launch actually loads its seed in game mode"): return
+	var before: Dictionary = protected_snapshot()
+	if not measured_require(measured_json_equal(before.game_state,seed.initial_game_state) and save.game_player_content.completed_levels.get(&"tutorial",false) and measured_original_work(seed),"Measured loaded seed retains the original tutorial and exact existing work"): return
+	var official: Array[Dictionary] = []
+	var remote: Script = load("res://src/playtest/remote_feedback.gd")
+	get_node("/root/PlaytestData").official_result.connect(func(event: Dictionary) -> void: official.append({"event":event.duplicate(true),"safe":remote.minimal_context(event)}))
+	var initial_best: Dictionary = get_node("/root/PersonalRecords").best.duplicate(true)
 	await measured_apparatus(output,tester)
-	# Reference models belong only to this disposable QA clone's original test mode.
-	get_node("/root/GameMode").set_mode(&"test"); await settle()
+	if not failures.is_empty(): get_tree().quit(1); return
+	if not await measured_hardware(seed): return
 	await measured_cpu(output,tester)
-	await measured_targets(output,tester)
-	check(protected_snapshot()==before,"Measured QA reference runs never mutate real game or saved-work authorities")
-	check(get_node("/root/PersonalRecords").best==original_best and not measured_state().creation_recovery_lock,"Measured QA fixtures never add personal earned history or acquire a recovery writer")
+	if not failures.is_empty(): get_tree().quit(1); return
+	var cpu_ready: Dictionary = experience.get("measured_cpu_prepared",{})
+	if cpu_ready.is_empty(): return
+	if tester:
+		await measured_targets(output,tester)
+	else:
+		var navigation: Node = get_node("/root/TaskNavigation")
+		for key: String in ["chapter_4/fields","chapter_3/buffers"]:
+			var denied: Dictionary = measured_state()
+			check(not navigation.enter(key) and measured_state()==denied,"Measured normal locked target remains gated: "+key)
+		experience["measured_targets"]={"status":"NOT_RUN_NORMAL_LOCKED","reason":"Original Locality capstone prerequisite has not been completed; tester has a distinct fixed access contract."}
+	if not failures.is_empty(): get_tree().quit(1); return
+	var final: Dictionary = measured_flush()
+	if final.is_empty(): return
+	check(measured_original_work(seed) and not get_node("/root/GameMode").is_test_mode(),"Measured legitimate preparation never changes existing saved work or game-mode authority")
 	var receipt: Dictionary = {"checks":checks,"failures":failures,"source_commit":ProjectSettings.get_setting("application/config/build_commit",""),
 		"build_id":ProjectSettings.get_setting("application/config/version",""),"profile":profile,"tester":tester,
 		"exe_sha256":FileAccess.get_sha256(OS.get_executable_path()),"controller_sha256":FileAccess.get_sha256(get_script().resource_path),
-		"protected_before":before,"protected_after":protected_snapshot(),"original_work":actual_work,
-		"original_work_session_sha256":FileAccess.get_sha256(creation.launch_path()),
+		"parent_controller_sha256":seed.parent_controller_sha256,"protected_before":before,"prepared_cpu":cpu_ready,"prepared_final":final,
+		"initial_best":initial_best,"official_events":official,"original_work":seed.original_saved_work.work,
+		"original_work_session_sha256":FileAccess.get_sha256(load("res://experiments/creation/session.gd").launch_path()),
 		"creation_recovery_lock":measured_state().creation_recovery_lock,"extended_experience":experience,
-		"evidence_grade":"actual exported controller supplement in a copied QA profile; test-mode CPU and target fixtures are not natural player history"}
+		"evidence_grade":"actual exported game-mode controller supplement in copied QA data; legal reference wiring and original official/sealing APIs, not an unaided natural journey"}
 	var file := FileAccess.open(output.path_join("measured-evidence.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(receipt,"\t")); file.close()
 	print("PASS: Measured exported supplemental evidence" if failures.is_empty() else "FAIL: Measured exported supplemental evidence")

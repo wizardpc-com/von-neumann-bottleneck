@@ -2,7 +2,7 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Narrative modal-focus candidate
+## Narrative modal-focus delivery with open observations
 
 The current branch is `codex/narrative-modal-focus-20261018`. The sixty-task
 semantic review is complete at20c9515; it records source contracts, not sixty
@@ -17,18 +17,24 @@ exit0: real scroll-positive controls and same-origin modal-negative controls
 pass in both languages, and direct Host Escape preserves the visible fragment,
 authority and closed map. Complete Windows regression passes all176 stages with
 natural exits and zero errors; six original anchor warnings remain recorded.
-Remote CI39097738231 succeeds. Both new package builds and identities pass, but
-the ordinary package's first controller run fails216/219: a compound F8
-viewport/focus assertion and two later Escape/navigation assertions fail.
-Strict reopening and the tester controller chain have not run. The failed
-capture has no visible feedback panel; its missing component diagnostics leave
-the cause unresolved. A log-only diagnostic records the CPG checkpoints correctly
-in a separate run, but later hits the original180-second owned-process timeout.
-It produces no final result JSON or full check count. Strict reopening and the
-tester chain remain unrun; synchronous wait-point telemetry is under review.
+Remote CI39097738231 succeeds. Both new package builds and identities pass.
+The current ordinary exported run passes219 controller and48 strict-reopen
+checks with natural exits; its21 image files have independent review. Synchronous
+wait telemetry records the actual focus, pause and rendering conditions. This
+does not explain the first216/219 failure or the separate180-second timeout;
+both retain their original evidence and unknown causes. The tester passes229
+controller checks, its bundled collector's142 capture and19 reopen checks, and48
+strict-reopen checks. Its45 image copies represent31 unique hashes and have
+independent image review. A mixed-encoding stdout read failed in the outer
+recorder after the tester parent and child succeeded; that original exit1 is
+retained. Only the remaining original strict reopen was continued separately.
 The [round evidence](verification/20261018-narrative-modal-focus/README.md)
-preserves the failed baseline separately. The verified d14 packages below remain
-the recovery delivery.
+contains the current dual Windows ZIPs, manifests, failed observations and five
+next-day questions. Product source isbb5c817; external QA isea6be8d. Unzip the
+ordinary Experience package and run `Windows/Von-Neumann-Bottleneck.exe` without
+installing Godot; use Access for tester access. The verified d14 packages below
+remain the recovery delivery. Native input, Mac, newcomer understanding and
+formal creative choices remain open; the full development goal remains active.
 
 ## Creation-connections engineering candidate
 

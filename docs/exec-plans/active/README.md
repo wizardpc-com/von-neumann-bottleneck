@@ -6,11 +6,16 @@ reproduces the modal-focus animation defect with239 checks and four errors.
 The independently reviewed repairbb5c817 passes its three compile stages and
 245-check actual renderer. Complete Windows regression passes all176 stages;
 six original anchor warnings remain recorded and remote CI succeeds. Both new
-package identities pass; the first ordinary controller run fails three of219
-checks. Strict reopening and tester execution remain unrun. Log-only diagnostic
-QA records a separate180-second timeout without a final result JSON; its CPG
-snapshots do not explain the first failure. Wait-point telemetry is under review;
-no production cause is established.
+package identities pass. The current ordinary run passes219 controller and48
+strict-reopen checks; its21 images have independent review. The earlier three
+failed assertions and separate180-second timeout keep their unknown causes and
+original evidence. The tester passes229 parent checks,142 capture and19 reopen
+collector checks, and48 strict-reopen checks. Its45 image copies have31 unique
+hashes and independent review. The outer recorder's mixed-encoding read failure
+remains exit1; only the pending original strict check was continued separately.
+The round is delivered with open observations and stays in this active queue;
+synchronous QA telemetry does not constitute a production fix. Native input,
+Mac, newcomer understanding and formal creative choices remain open.
 The [current round evidence](../../verification/20261018-narrative-modal-focus/README.md)
 keeps the failed baseline and its precise scroll/Escape limits.
 

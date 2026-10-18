@@ -1,5 +1,5 @@
 {
-  "stage": "ACTIVE_ENGINEERING_VALIDATION",
+  "stage": "DELIVERED_WITH_OPEN_OBSERVATIONS",
   "broad_goal_status": "ACTIVE",
   "branch": "codex/narrative-modal-focus-20261018",
   "plan": "docs/exec-plans/active/narrative-modal-focus-20261018.md",
@@ -492,73 +492,89 @@
           "identity_exit": 0,
           "independent_review": "Knowledge rehashed allmember payload/EXE/PCK478 resources/manifest/three logs/commands and role/profile/source; no engine execution.",
           "parent": {
-            "status": "FAIL_ACTUAL_216_OF_219",
+            "status": "PASS_ACTUAL_PARENT219_AND_STRICT48",
             "summary": {
-              "path": ".godot/f6-normal-parent-strict-bb5c817-summary.json",
-              "sha256": "a9466dccef734746a0de9f9968e4bcd4ef9f2ef8fbd93e1ba140be9c2d32cf43"
+              "path": ".godot/f6-normal-wait-diagnostic-parent-strict-bb5c817-summary.json",
+              "sha256": "90e16ef181d99ce82cf53f9166b99e6b7037aeb98ccdca8d8815a8a510658e51"
             },
-            "work": ".godot/night-package/d2f1b4c78ab1",
-            "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
-            "probe_sha256": "40b20ca656bb30241376ce2fcfdb0638f8a3ed54039f7aafafe0ece78685fd8f",
+            "work": ".godot/night-package/d196f683c01b",
+            "product_source": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+            "qa_checkpoint": "ea6be8d3a06d66ad855c9d3ac6530bf5fa8388cd",
+            "probe_sha256": "f5677dc0904b53c2617f74a37015a7ad1a50aacf89edb5e731140353a644ba3d",
+            "monitor_sha256": "5bb29ac6391f6fd2ff4da635bbe9d18a44d99dec4755fd84776a23883198598c",
             "wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
-            "raw_sha256": "beac7bcb42f3c4697fc1ccf1f0e18fff53107cee37547d3d450a0fb991508679",
-            "log_sha256": "62a0b06ce37ffef8e28df79c2c0444527baad4963bb5280e40b19c9822ac30e9",
-            "owned_sha256": "808c7550e1d5f91cb16c73c9dd7af0e196ecb4694ba68121a7b98e24ef413cd2",
-            "outer_process_sha256": "7090733ee0b63e68a96098a7e1188694776727ea50691ef4876e531c6cd1c4e0",
-            "checks": 219,
-            "true": 216,
-            "failed": [
-              "CreationLinks original role F8 owns actual Host viewport and panel focus",
-              "CreationLinks second focused Escape collapses only the optional review",
-              "CreationLinks original Journey action closes the real Host and returns to its map"
-            ],
-            "pid": 21788,
-            "natural_exit": 1,
-            "monitor_terminated": false,
-            "script_errors": 0,
+            "strict_sha256": "2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b",
+            "parent_receipt_sha256": "21d1d6e4de419f56f5ee1b955aaed89b7ae28f5b19b85617adeedb19df8bfc4d",
+            "raw_sha256": "9d5deb6b1e623e8d504b9b8d83ee92c3ead05607fb9637edc87db02945927790",
+            "parent_log_sha256": "e538f7e513a38b98aedf68021acaeaaa5280f7e26d053cdeb6d1e0056cc72ef3",
+            "reopen_receipt_sha256": "e31aa09276555a18f28d8f30e852b7b95de7de52083094bc20bb181224809378",
+            "baseline_sha256": "e9b4c4cf83a9211c2578b27962b594ab62ac281dad518f2f71031346ee9bf4e7",
+            "validation_sha256": "db164eeee3ad4e4e0304b2c605d11fe22b984aa788096f7f09c3fd5dc0e59d66",
+            "parent_checks": 219,
+            "strict_checks": 48,
+            "failures": [],
+            "parent_exe_pid": 26360,
+            "reopen_exe_pid": 53548,
+            "strict_python_wrapper_pid": 45932,
+            "exe_processes_natural_exit0": true,
+            "errors": 0,
             "warnings": 0,
-            "success_receipt_exists": false,
-            "artifacts": {
-              "root_png": 20,
-              "incident_png": 0,
-              "all_file_hashes_independently_checked": true,
-              "full_visual_independent_review": "NOT_RUN",
-              "feedback_named_frame": "Observed G review with no visible feedback panel; filename is not panel success or root cause proof.",
-              "four_frame_visual_audit": {
-                "path": ".godot/f6-normal-failed-focus-visual-audit.json",
-                "sha256": "6cb61639c588b25bfb8d8f6f8bbb6377214730b31bf6e24f00cec4cb22d6767a",
-                "scope": "Four original1280x720 frames; actual no-panel feedback-named frame and readable source/work; no focus/OS/cause claim or overall PASS."
-              }
+            "script_errors": 0,
+            "telemetry": {
+              "connection_rows": 6,
+              "wait_rows": 386,
+              "process_wait_returns": 140,
+              "draw_wait_returns": 140,
+              "after_serialization_ticks_msec": 31377,
+              "after_serialization_frame": 1127,
+              "checks": 219,
+              "failures": 0
             },
-            "compound_values_not_independently_recorded": [
-              "panel.visible/tree_visible/viewport/focus_owner",
-              "secondEsc body versus focus",
-              "Journey host_valid versus current_scene"
-            ],
-            "positive_scope": {
-              "first_escape_focus_check": true,
-              "pure_view_authority_fields": 35,
-              "session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
-              "full_session_typed_equals_prepared_data": true,
-              "full_original_work_recipe_output_exact": true,
-              "supports": [
+            "authority": {
+              "whole_Session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+              "full_session_equals_actual_prepared_data": true,
+              "whole_saved_work_id": "089180b2e1d15c6b773af9b98527eef923eb115efaccf67ae89ac256ae9e5360",
+              "full_work_recipe_output_exact": true,
+              "actual_support_keys": [
                 "C1_restore",
                 "G1_feedback",
                 "G2_intent",
                 "G3_keep",
                 "P1_commit"
               ],
-              "original_lease_released": true,
-              "postexit_main_backup": "Actual main/bak minus only top saved_at_utc match timestamp-free raw game with full canonical types; other protected paths exact.",
-              "package_bytes_unchanged": true
+              "pure_view_fields": 35,
+              "normal_loaded_state_conversions": [],
+              "in_run_protected": "Canonical full typed payload and protected file hashes exact to postexit baseline.",
+              "postexit": "Only top saved_at_utc and original backup rotation; other typed payload and protected paths exact.",
+              "cold_journal_scope": "Original Saved snapshot identity/recipe/output only, not fabricated cold Host history."
             },
-            "cause": "UNASSIGNED_PENDING_LOG_ONLY_DIAGNOSTIC",
-            "independent_audit": "Knowledge rehashed raw/log/process/probe/runtime/root20 PNG and actual Session/work/supports/postexit protected typed payloads; no edits or retries."
+            "png": {
+              "root_frames": 19,
+              "separate_3d_textures": 2,
+              "total_top_level": 21,
+              "incident": 0,
+              "independent_visual_audit": {
+                "path": ".godot/f6-normal-export-visual-audit.json",
+                "sha256": "85262f15a837a29166f85242d8d38546dcbcd722f69e81290553afda654d83c9",
+                "actual_viewed": 21,
+                "root_window_frames": 19,
+                "separate_3d_textures": 2,
+                "grade": "PASS_SCOPE_WITH_ORIGINAL_SCROLL_AND_PAGINATION_LIMITATIONS",
+                "scope": "Current-run ordinary panel visible, original Saved identity and cold Journal Saved-only; no cold Host history/export Efficiency modal/native claim; old failures unchanged."
+              }
+            },
+            "full_maps": "Actual runtime/unpacked/outer private env files and dirs independently rehashed; original package/manifest/controller bindings exact.",
+            "old_failures_unmodified": true,
+            "old_failure_causes": "UNKNOWN",
+            "log_only_not_product_fix": true,
+            "export_modal_test": "NOT_RUN",
+            "native_os": "NOT_RUN",
+            "independent_review": "Knowledge actual raw/baseline/reopen/validation/process/log/6phase386wait/fullmaps/21PNGs/Session and exact postexit types read-only audit PASS_SCOPE."
           },
-          "strict_reopen": "NOT_RUN_PARENT_AND_DIAGNOSTIC_FAILED",
+          "strict_reopen": "PASS_ACTUAL48_NORMAL_ZERO_CONVERSIONS",
           "collector_acceptance": "NOT_APPLICABLE_ORDINARY_ROLE",
           "export_modal": "NOT_RUN",
-          "package_visual_review": "NOT_RUN",
+          "package_visual_review": "PASS_SCOPE_WITH_ORIGINAL_SCROLL_LIMITATIONS",
           "native": "NOT_RUN",
           "log_only_diagnostic_parent": {
             "status": "FAIL_OWNED_TIMEOUT_180_SECONDS",
@@ -696,6 +712,70 @@
               "scope": "This-run ordinary feedback panel visible; Saved864x496 original64-D snapshot without generation event; originalwork identity bound by step3 and actual Session. No borrowed journal frame, stall inference or whole-authority acceptance.",
               "overall_timeout_unchanged": true
             }
+          },
+          "historical_parent_assertion_failure": {
+            "status": "FAIL_ACTUAL_216_OF_219",
+            "summary": {
+              "path": ".godot/f6-normal-parent-strict-bb5c817-summary.json",
+              "sha256": "a9466dccef734746a0de9f9968e4bcd4ef9f2ef8fbd93e1ba140be9c2d32cf43"
+            },
+            "work": ".godot/night-package/d2f1b4c78ab1",
+            "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+            "probe_sha256": "40b20ca656bb30241376ce2fcfdb0638f8a3ed54039f7aafafe0ece78685fd8f",
+            "wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+            "raw_sha256": "beac7bcb42f3c4697fc1ccf1f0e18fff53107cee37547d3d450a0fb991508679",
+            "log_sha256": "62a0b06ce37ffef8e28df79c2c0444527baad4963bb5280e40b19c9822ac30e9",
+            "owned_sha256": "808c7550e1d5f91cb16c73c9dd7af0e196ecb4694ba68121a7b98e24ef413cd2",
+            "outer_process_sha256": "7090733ee0b63e68a96098a7e1188694776727ea50691ef4876e531c6cd1c4e0",
+            "checks": 219,
+            "true": 216,
+            "failed": [
+              "CreationLinks original role F8 owns actual Host viewport and panel focus",
+              "CreationLinks second focused Escape collapses only the optional review",
+              "CreationLinks original Journey action closes the real Host and returns to its map"
+            ],
+            "pid": 21788,
+            "natural_exit": 1,
+            "monitor_terminated": false,
+            "script_errors": 0,
+            "warnings": 0,
+            "success_receipt_exists": false,
+            "artifacts": {
+              "root_png": 20,
+              "incident_png": 0,
+              "all_file_hashes_independently_checked": true,
+              "full_visual_independent_review": "NOT_RUN",
+              "feedback_named_frame": "Observed G review with no visible feedback panel; filename is not panel success or root cause proof.",
+              "four_frame_visual_audit": {
+                "path": ".godot/f6-normal-failed-focus-visual-audit.json",
+                "sha256": "6cb61639c588b25bfb8d8f6f8bbb6377214730b31bf6e24f00cec4cb22d6767a",
+                "scope": "Four original1280x720 frames; actual no-panel feedback-named frame and readable source/work; no focus/OS/cause claim or overall PASS."
+              }
+            },
+            "compound_values_not_independently_recorded": [
+              "panel.visible/tree_visible/viewport/focus_owner",
+              "secondEsc body versus focus",
+              "Journey host_valid versus current_scene"
+            ],
+            "positive_scope": {
+              "first_escape_focus_check": true,
+              "pure_view_authority_fields": 35,
+              "session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+              "full_session_typed_equals_prepared_data": true,
+              "full_original_work_recipe_output_exact": true,
+              "supports": [
+                "C1_restore",
+                "G1_feedback",
+                "G2_intent",
+                "G3_keep",
+                "P1_commit"
+              ],
+              "original_lease_released": true,
+              "postexit_main_backup": "Actual main/bak minus only top saved_at_utc match timestamp-free raw game with full canonical types; other protected paths exact.",
+              "package_bytes_unchanged": true
+            },
+            "cause": "UNASSIGNED_PENDING_LOG_ONLY_DIAGNOSTIC",
+            "independent_audit": "Knowledge rehashed raw/log/process/probe/runtime/root20 PNG and actual Session/work/supports/postexit protected typed payloads; no edits or retries."
           }
         },
         "tester": {
@@ -722,11 +802,166 @@
           ],
           "identity_exit": 0,
           "independent_review": "Knowledge rehashed allmember payload/EXE/PCK478 resources/manifest/three logs/commands and role/profile/source; no engine execution.",
-          "parent": "NOT_RUN",
-          "strict_reopen": "NOT_RUN",
-          "collector_acceptance": "NOT_RUN",
+          "parent": {
+            "status": "PASS_SCOPE_WITH_ORCHESTRATION_RECORDING_FAILURE",
+            "semantic_chain_passed": true,
+            "summary": {
+              "path": ".godot/f6-tester-parent-child-strict-bb5c817-summary.json",
+              "sha256": "7f0709b3ab2c32f6c527c5a05db1a375895b604263183047560e148fee06cdc7"
+            },
+            "work": ".godot/night-package/490b9ff9f9eb",
+            "child_work": ".godot/offline-package/4d125addfd1f",
+            "product_source": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+            "external_qa_checkpoint": "ea6be8d3a06d66ad855c9d3ac6530bf5fa8388cd",
+            "probe_sha256": "f5677dc0904b53c2617f74a37015a7ad1a50aacf89edb5e731140353a644ba3d",
+            "wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+            "strict_sha256": "2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b",
+            "parent_receipt_sha256": "55f57f5fb8fcd3e38b1aaa004a99328ccb31d58dc4e5db052edce426763d7c89",
+            "child_receipt_sha256": "838ee1bede1d30744d6bffbcc056b29f8d84e8c3373e7c8c5fc25bbe08458ec9",
+            "validation_sha256": "d4f1211c5e1bc7999aa80c6e2c79ad55bfc4e2d857d66ed77c97338b8d67ca66",
+            "checks": {
+              "parent": 229,
+              "capture_boolean_checks": 142,
+              "child_reopen_boolean_checks": 19,
+              "strict": 48,
+              "failed": []
+            },
+            "child": {
+              "visited_unique": 60,
+              "final_export_alone": {
+                "bundles": 1,
+                "cases": 4,
+                "revisions": 4,
+                "capture_errors": 0,
+                "sessions": 2,
+                "ignored_session_lines": 0
+              },
+              "imports": [
+                {
+                  "bundle_id": "df1a2045d428a4c5958f8f67a78fb601",
+                  "status": "imported"
+                },
+                {
+                  "bundle_id": "c49fa9a742f6ada0b6a24dc16a234afd",
+                  "status": "imported"
+                }
+              ],
+              "dedup": [
+                {
+                  "bundle_id": "df1a2045d428a4c5958f8f67a78fb601",
+                  "status": "deduplicated"
+                }
+              ],
+              "bundled_collector_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+              "child_engine_pids": "NOT_INSTRUMENTED_NOT_INVENTED"
+            },
+            "parent_exe_pid": 8600,
+            "strict_exe_pid": 51424,
+            "natural_exit0": true,
+            "errors": 0,
+            "warnings": 0,
+            "script_errors": 0,
+            "recording_failure": {
+              "outer_session": 85435,
+              "outer_exit": 1,
+              "original_parent_wrapper_pid": 18920,
+              "original_parent_exit": 0,
+              "classification": "ORCHESTRATION_RECORDING_FAILURE",
+              "cause": "UnicodeDecodeError decoding mixed child stdout after successful parent before strict startup",
+              "original_stdout_sha256": "99131c0178df44aa585ef6a82bdf217d47d8cb6480a0b65884e3c56b63797070",
+              "original_tool_trace_preserved": true
+            },
+            "strict_only_continuation": {
+              "root_authorized": true,
+              "parent_child_not_retried": true,
+              "python_pid": 30780,
+              "exit": 0,
+              "engine_pid": 51424,
+              "original_validator_unchanged": true
+            },
+            "protection": {
+              "parent_session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+              "whole_parent_saved_work_id": "089180b2e1d15c6b773af9b98527eef923eb115efaccf67ae89ac256ae9e5360",
+              "full_session_and_work_exact_actual_prepared": true,
+              "actual_support_keys": [
+                "C1_restore",
+                "G1_feedback",
+                "G2_intent",
+                "G3_keep",
+                "P1_commit"
+              ],
+              "pure_view_fields": 35,
+              "child_session_sha256": "a7bb598d952600414347ef7eadd9ec5ad2946580765e26a64a19d0335086a7f8",
+              "child_cold_saved_work_exact": true,
+              "loaded_state_conversions": [
+                {
+                  "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/0",
+                  "from": 155.0,
+                  "to": 155
+                },
+                {
+                  "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/1",
+                  "from": 145.0,
+                  "to": 145
+                },
+                {
+                  "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/0",
+                  "from": 560.0,
+                  "to": 560
+                },
+                {
+                  "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/1",
+                  "from": 145.0,
+                  "to": 145
+                },
+                {
+                  "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/0",
+                  "from": 965.0,
+                  "to": 965
+                },
+                {
+                  "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/1",
+                  "from": 145.0,
+                  "to": 145
+                }
+              ],
+              "other_raw_typed_and_file_hashes": "EXACT",
+              "postexit": "Main minus topstamp exact reopened raw; backup minus topstamp exact baseline. Only original rotation and six recorded reload coordinate types; other protected paths exact."
+            },
+            "telemetry": {
+              "connection_rows": 6,
+              "wait_rows": 394,
+              "final_checks": 229,
+              "failures": 0
+            },
+            "all_runtime_child_outer_unpacked_maps_independently_checked": true,
+            "png": {
+              "copies": 45,
+              "unique_sha256": 31,
+              "groups": {
+                "parent_root": 20,
+                "parent_3d_textures": 2,
+                "parent_incident": 7,
+                "child_root": 1,
+                "child_incident": 4,
+                "import_copies": 7,
+                "final_import_copies": 4
+              },
+              "independent_visual_audit": {
+                "path": ".godot/f6-tester-export-visual-audit.json",
+                "sha256": "8e46379300561a9bdef5120b00e6a14af872f410720ec18b899035cfe3972d53",
+                "actual_viewed_files": 45,
+                "unique_sha256": 31,
+                "grade": "PASS_SCOPE_WITH_ORIGINAL_SCROLL_AND_PAGINATION_LIMITATIONS",
+                "scope": "20root/2textures/7parentincident/1childroot/4childincident/7import/4finalcopies; imported11 images exact childruntime case IDs. Actual tester panel/privacy/export controls visible; original scroll and assembly pager bottom clipping, pre-overlay incident scope retained. No OS/exportEfficiency modal/60 solved claim; original outer recording failure and strict-only continuation remain split."
+              }
+            },
+            "independent_review": "Knowledge actual all artifact bindings/229+142/19+48/typed six-path-only/postexit/fullmaps/Sessionworks/supports/collectorZIPmanifests/imported originals and files/dedup/final-only report/45image hashes/process segments audited read-only; no engine or retries."
+          },
+          "strict_reopen": "PASS_ACTUAL48_ONLY_SIX_RECORDED_COORDINATE_TYPES",
+          "collector_acceptance": "PASS_ACTUAL60_AND_FINAL_ZIP4CASES4REVISIONS2SESSIONS_ZERO_ERRORS",
           "export_modal": "NOT_RUN",
-          "package_visual_review": "NOT_RUN",
+          "package_visual_review": "PASS_SCOPE_WITH_ORIGINAL_SCROLL_AND_PAGINATION_LIMITATIONS",
           "native": "NOT_RUN",
           "bundled_collector_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf"
         }
@@ -800,8 +1035,8 @@
     },
     "showcase": {
       "path": "docs/distribution/showcase-shots.md",
-      "sha256": "ff67256b40eeac31f6325e5b36d75dae22d34a199f20d9b109df010215e632e3",
-      "scope": "Separate document update independently reviewed; actuald14doubleZIP/fiveactualframes vs sixsource-renderer representatives and oldF4 history; videoNOT_RECORDED. Not included in fixed867baseline."
+      "sha256": "47bd6a98bcd9a7c1aa23002ff3aa736e7eca9e81de3c7a2997b92f93193474a0",
+      "scope": "Currentbb5 doubleZIP/five actual exported frames from d196 A-D and490b E, externalQAea6/probef567/strict2e1. Independent review:33local links exist, bothZIP/manifest/profile/batch and5PNG SHA/header dimensions/parentchild receipt bindings exact. d14doubleZIP explicitly historical recovery; six trackedsource-renderer images remain d14 and do not certify bb5 export. OldF4 tail byte-identical; videoNOT_RECORDED; oldUNKNOWN/outerexit1 recording failure/strict-only continuation retained. Not part of fixed867 baseline."
     }
   },
   "recovery": {
@@ -889,9 +1124,32 @@
     "previous_approval_pending_resolved": true
   },
   "next_diagnostic": {
-    "status": "MINIMAL_READONLY_STALL_BREADCRUMB_PROPOSAL_ONLY_NOT_IMPLEMENTED",
-    "scope": "Existing saved-work/key/settle/serialization points synchronous read logs only; no timeout, await, guard, action, assertion or production changes authorized by this note.",
-    "previous_log_only_result": "FAIL_TIMEOUT_180",
-    "does_not_reclassify_original_failure": true
-  }
+    "status": "AUTHORIZED_WAIT_POINT_LOG_ONLY_RUN_COMPLETED_PASS_SCOPE",
+    "actual_work": ".godot/night-package/d196f683c01b",
+    "original_actions_input_waits_assertions_unchanged": true,
+    "prior_failures_remain_unknown": true,
+    "production_change_from_diagnostic": false
+  },
+  "open_observations": {
+    "old_normal_assertion_failure": {
+      "summary_sha256": "a9466dccef734746a0de9f9968e4bcd4ef9f2ef8fbd93e1ba140be9c2d32cf43",
+      "cause": "UNKNOWN"
+    },
+    "old_normal_timeout": {
+      "summary_sha256": "333b19c61249bc9cad59cac8ad3a4bca4ecac37107315713729f1eb12e40413d",
+      "cause": "UNKNOWN"
+    },
+    "tester_outer_recording_failure_retained": true,
+    "native_os": "NOT_RUN_TOOL_INITIALIZATION_BLOCKED_NO_NEW_ATTEMPT",
+    "Mac_newcomer": "NOT_RUN",
+    "exported_efficiency_modal_direct_fixture": "NOT_RUN",
+    "all_ideas_final": "NOT_CLAIMED"
+  },
+  "next_day_review_observations": [
+    "Ordinary gated C1/P1/G route and actual Measurements provenance",
+    "CPG F8/Esc/Esc recheck old panel/focus observation",
+    "SavedWork realID View/Play/F8/layeredEsc recheck old timeout",
+    "Fixed tester System/Overlap local feedback/Hint/Run access scope",
+    "Human understanding and formal creative/competition material choices; no all-ideas-final claim"
+  ]
 }

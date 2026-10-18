@@ -1,10 +1,29 @@
 # 10月18日接续：先试玩，再选择
 
 当前效率模态焦点修复位于bb5c817：源GUI245项、完整Windows176阶段及CI通过，双包构建身份通过。
-新普通包首次父链216/219、三项失败，strict与测试者链未跑；保留失败，正在独审只读诊断日志补充。
-第二次仅日志诊断在CPG快照正常后超时，缺最终JSON及全量计数；未改判首失败，待原等待点遥测。
+新普通包本次父219＋严格重开48项自然通过，21原图独审；测试者父229＋原随包工具142 capture/
+19 reopen＋严格重开48项实际通过，60入口、真实CPG/作品重启及最终单ZIP独立导入去重独审通过。
+测试者45图片副本对应31独立SHA，完成逐图审查。原外层在父/child成功后读取混合编码stdout失败，
+exit1保留；仅尚未启动的原strict另次继续完成，没有重跑父/child。
+首轮三项失败与第二次180秒超时仍保留、原因未知；本次同步日志的通过不算生产修复或旧失败改判。
 [本轮证据/交接](../verification/20261018-narrative-modal-focus/README.md)保留旧基线239项/4错误。
-当前已验d14双包与次日问题见[CreationLinks交接](../verification/20261018-creation-connections/README.md)。
+当前产品固定`bb5c817bcb7e0c770fc65b41b7407e2847149a74`，外QA固定`ea6be8d`。
+普通版遵循原任务门槛，测试者全入口可访问不等于已通关；包内没有预制QA存档。
+
+| 当前用途 | 固定试玩包与外置身份清单 |
+| --- | --- |
+| 默认普通进度 | [ModalFocusExperience ZIP](../../build/playtest-ModalFocusExperience20261018-bb5c817bcb7e/Von-Neumann-Bottleneck-Windows-playtest-ModalFocusExperience20261018-bb5c817bcb7e.zip) · [manifest](../../build/playtest-ModalFocusExperience20261018-bb5c817bcb7e/manifest.json) |
+| 全入口测试审阅 | [ModalFocusAccess ZIP](../../build/playtest-ModalFocusAccess20261018-bb5c817bcb7e/Von-Neumann-Bottleneck-Windows-playtest-ModalFocusAccess20261018-bb5c817bcb7e.zip) · [manifest](../../build/playtest-ModalFocusAccess20261018-bb5c817bcb7e/manifest.json) |
+
+完整解压后运行`Windows/Von-Neumann-Bottleneck.exe`，无需安装Godot。两包仍沿用各自独立的
+CreationLinks profile；旧d14包保留恢复用途，切勿用QA档覆盖真实玩家成果。
+次日只按[本轮最多五项观察](../verification/20261018-narrative-modal-focus/README.md#次日最多五项观察)
+核查入口理解、CPG F8/两层Esc、SavedWork返回、反馈与Hint/Run、正式素材选择；若重现旧失败，
+记录具体窗口/场景/可见状态。本轮是DELIVERED_WITH_OPEN_OBSERVATIONS，完整goal仍ACTIVE；
+原生输入、导出Efficiency模态、Mac、新人理解与正式素材均不由controller或图片代验。
+PR15摘要已按用户明确授权更新并回读，仍为草稿，未合并或发布。
+
+已验d14恢复双包见[CreationLinks交接](../verification/20261018-creation-connections/README.md)。
 早先可替换创作框架见[历史创作呈现](../verification/20261018-creative-framework/README.md)。
 此前全旅程阶段保留在[F1证据](../verification/20261018-full-journey/README.md)。
 本页以下保留原7c候选身份与其限定证据，不自动认证新分支或新包。

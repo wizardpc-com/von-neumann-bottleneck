@@ -1,11 +1,11 @@
 # 可选呈现的模态焦点边界 · 2026-10-18
 
-本轮阶段 **ACTIVE_ENGINEERING_VALIDATION**，完整goal仍 **ACTIVE**。当前修复SOURCE为`bb5c817bcb7e0c770fc65b41b7407e2847149a74`；旧baseline源码`867ec81dc2718b4a1c8c636a246cd0788094e2f6`仅新增QA，其runtime等于F5产品d14，原FAIL保留。本目录唯一记录本轮证据，不回写F5冻结结论。
+本轮阶段 **DELIVERED_WITH_OPEN_OBSERVATIONS**，完整goal仍 **ACTIVE**。当前修复SOURCE为`bb5c817bcb7e0c770fc65b41b7407e2847149a74`；旧baseline源码`867ec81dc2718b4a1c8c636a246cd0788094e2f6`仅新增QA，其runtime等于F5产品d14，原FAIL保留。本目录唯一记录本轮证据，不回写F5冻结结论。
 
 ## 当前门禁
 
 - 修后bb5原import／userdir／Efficiency三阶段实际3／3 PASS，3个自有进程自然exit0、零ERROR／WARNING／SCRIPT ERROR；headless为55检查。旧867编译3PASS另保原来源。
-- 修后bb5单Efficiency真实renderer **245检查PASS**，PID21700在30.58秒自然exit0，无终止、零ERROR／WARNING／SCRIPT ERROR。实际正控制ZH0→42／EN0→110且source／step／metric在原clip内；同0起点模态负控制Scroll0／blend0／step1保持，Esc分项bodytrue／authoritytrue／mapfalse。六条原F8 accepted边界通过。完整回归实际176／176 PASS；新普通／测试者包均BUILD_IDENTITY_PASS；普通父流程原FAIL及新LOG-ONLY诊断FAIL_TIMEOUT分列，strict未启动；测试者父／child与新包图审待实际验收，不扩张为native或导出包模态通过。
+- 修后bb5单Efficiency真实renderer **245检查PASS**，PID21700在30.58秒自然exit0，无终止、零ERROR／WARNING／SCRIPT ERROR。实际正控制ZH0→42／EN0→110且source／step／metric在原clip内；同0起点模态负控制Scroll0／blend0／step1保持，Esc分项bodytrue／authoritytrue／mapfalse。六条原F8 accepted边界通过。完整回归实际176／176 PASS；新普通／测试者包均BUILD_IDENTITY_PASS；最新普通父219／219＋strict48／48实际PASS；旧三错与timeout仍保留、原因未知；测试者父229／child完整链／strict48实际限定通过，原outer编码记录失败另列；测试者45原PNG已按原Scroll／分页局限独立图审接受，不扩张为native或导出包模态通过。
 - 旧867真实renderer **FAIL：239检查／4ERROR**、PID50104自然exit1，保留其两语fade与Host Esc组合断言失败，零WARNING／SCRIPT ERROR。
 - 新旧两轮各24根帧＋2tester现场＝26原PNG，以及各自6artifact／39运行文件／41目录均已独立核SHA／集合；两轮各26图另依eb47／e1c6收据按原Scroll局限独立实view接受。两轮均零modal blocker图，不由图片认证fade／Esc。
 
@@ -45,13 +45,13 @@
 
 bb5原完整Windows回归实际 **176／176 PASS**（174原headless测试＋import／userdir），176条有序自有进程记录均自然exit0；实际169个不同PID，7个PID各复用两次。全部176原日志与命令／结果／SHA已独立核对：零ERROR／SCRIPT ERROR，原anchor WARNING共6条（desktop_conventions 4、feedback_presentation 2）。摘要`.godot/f6-full-bb5c817-summary.json` SHA `d480295a468bfe07984240706ce19fcde4a7ddf80e05217d1f5ff40b14208758`；results SHA `e734a963dbc6d9960f6df348b8024098ae2f05a3685cc53fa9f252c7d5fc5fd9`、owned SHA `9790071abca52702adeddd068bf3adc3db716444b12e975195058cfb9884fa8e`。
 
-该次5783项完整Git归档身份逐blob核对，5067项docs不物化，716项固定输入及715项执行非配置文件精确；175个canonical测试完整，原verifier仅排除`test_recovery_game_input`，route与UID原字节存在。执行副本末`project.godot`只保留原verifier最后一项私有userdir配置与Windows EOL，SHA `a832035052e1bd78fa0d56b78f6b53b997bf1e114041b7754fe5c86c39046f8b`；不声称headless finally恢复。Root已live核[bb5 CI39097738231](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39097738231) completed SUCCESS，CI不代包或OS验收。新双包构建身份见下；普通父流程实际FAIL，strict未启动；测试者父／collector／严格重启尚未执行。
+该次5783项完整Git归档身份逐blob核对，5067项docs不物化，716项固定输入及715项执行非配置文件精确；175个canonical测试完整，原verifier仅排除`test_recovery_game_input`，route与UID原字节存在。执行副本末`project.godot`只保留原verifier最后一项私有userdir配置与Windows EOL，SHA `a832035052e1bd78fa0d56b78f6b53b997bf1e114041b7754fe5c86c39046f8b`；不声称headless finally恢复。Root已live核[bb5 CI39097738231](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39097738231) completed SUCCESS，CI不代包或OS验收。新双包构建身份见下；最新普通父219＋strict48已实际通过；测试者父229／原collector子链／严格重启48实际限定通过，原outer记录器异常未抹去。
 
 剩余scope独立审计`.godot/f6-independent-remaining-scope-audit.md` SHA `30598937e3819af66f393ef7fcb1af276e3323be49c6a14bc1017afa558e43dc`未发现应另开功能实现的已证缺口；后续分列最新包与交接闭环、官方原生／异机Mac实测、真人理解与正式创作／赛事取材。现有真实图＋精确脚本可承载展示候选，不把未录视频自动升级为新CG或新系统任务；所有ideas并未因此正式定稿，完整goal继续ACTIVE。
 
-## 新双包构建身份（尚非试玩验收）
+## 新双包构建身份
 
-两包均由原builder固定bb5生成，import／licenses／export-Windows三阶段及原identity检查实际通过，尚未由此确认父流程、严格重启、collector或导出模态通过。普通新父流程已实际FAIL，详见下节；测试者父流程、collector与strict尚未执行。20原PNG已核文件SHA，尚无全部新包独立图审；已观察的名为feedback帧并不能由文件名认证面板出现。
+两包均由原builder固定bb5生成，import／licenses／export-Windows三阶段及原identity检查实际通过；构建本身不代父链／strict／collector验收，下文另列本次实际通过范围，导出Efficiency模态未直接测。最新普通父219＋strict48已实际通过，详见下节；测试者父229、collector完整链与strict48实际限定通过；原outer记录器异常单列保留。21顶层PNG实际SHA已核（19根帧＋2独立3D纹理），本次完整21图已由Visual独立实view／header／hash接受，保原Scroll分页局限；旧失败图审不得借作本次通过。
 
 | 角色／独立profile | 当前构建ZIP | ZIP SHA256 |
 | --- | --- | --- |
@@ -64,7 +64,41 @@ bb5原完整Windows回归实际 **176／176 PASS**（174原headless测试＋impo
 
 PR15正文已获用户明确授权，由Root更新并readback按行尾规范化完全一致，仍draft／OPEN且未合并或Release；记录`.godot/pr15-body-update-20261018.json` SHA `1ad5101f9b5aa36633c28b977f10af8924c40c05a0ab38c60c987a38d62ef822`。该事实不替代本轮bb5包验收。
 
-## 新普通父流程实际失败（原收据保留）
+## 最新普通包父链与严格重启
+
+实际work `.godot/night-package/d196f683c01b`，固定产品bb5／外QA检查点`ea6be8d3a06d66ad855c9d3ac6530bf5fa8388cd`，probe `f5677dc0…`仅增同步等待点日志；wrapperb213／strict2e1原字节，输入、动作、等待与判据未变。父 **219／219**、原strict **48／48**全true、失败为空，EXE父PID26360与独立冷重开EXE PID53548均自然exit0；strict Python wrapper另为45932。实际日志零ERROR／WARNING／SCRIPT ERROR，override finally删除。
+
+摘要`.godot/f6-normal-wait-diagnostic-parent-strict-bb5c817-summary.json` SHA `90e16ef181d99ce82cf53f9166b99e6b7037aeb98ccdca8d8815a8a510658e51`；父receipt SHA `21d1d6e4de419f56f5ee1b955aaed89b7ae28f5b19b85617adeedb19df8bfc4d`，严格validation SHA `db164eeee3ad4e4e0304b2c605d11fe22b984aa788096f7f09c3fd5dc0e59d66`。全部原receipt／baseline／reopen／process、runtime／解压包／四env文件目录全集、21顶层PNG及ZIP／EXE／PCK／controller身份已独立重核。
+
+本次6个CPG分项快照及386条等待遥测均来自原log；140次process-loop与140次draw等待实际返回，最后afterSerialize为31377ms／frame1127／219检查0失败。完整Session897f、单作品089180b2的recipe／output与五supports精确等本次真实prepared_data，35项纯回看权威原检查通过；冷Journal仅原Saved快照，无补造C/P/G历史。normal类型转换为0，运行内protected精确；正常退出后的main／bak只有顶层保存时间戳与原备份轮转，其他typed payload与保护路径精确，不声称退出后所有字节恒同。
+
+本次21图独审`.godot/f6-normal-export-visual-audit.json` SHA `85262f15a837a29166f85242d8d38546dcbcd722f69e81290553afda654d83c9`接受19根帧／Window与2独立3D纹理：普通CPG面板真实可见，Saved-only原ID与冷重开绑定，保原Scroll／分页局限，不认证冷Host临时历史、导出Efficiency模态或OS。
+
+本次PASS不解释或改判后述旧三错／timeout；旧失败摘要SHA均保持，原因仍UNKNOWN。同步日志不算产品修复；尚无本新包专门模态guard／原生OS／陌生玩家验收。测试者最新父229／child／strict48实际限定通过，详见下节；原outer记录器异常仍保留。
+
+## 最新测试者全语义链与记录器异常
+
+实际父work `.godot/night-package/490b9ff9f9eb`，child `.godot/offline-package/4d125addfd1f`。同bb5产品、ea6外QA／f567 probe：父 **229／229**、child **142 capture＋19 reopen布尔检查**、独立strict **48／48**均true；父EXE8600与strict EXE51424自然exit0，实际引擎日志零ERROR／WARNING／SCRIPT ERROR。child未记录PID，不虚构进程身份。原包内collector d0de实际完成60入口、真实C/P/G保存与跨进程恢复、导入去重，以及最终单ZIP独立导入：1 bundle／4现场／4 revisions／2 sessions／0 capture errors／0 ignored。不把字段总数当布尔检查数。
+
+摘要`.godot/f6-tester-parent-child-strict-bb5c817-summary.json` SHA `7f0709b3ab2c32f6c527c5a05db1a375895b604263183047560e148fee06cdc7`；父receipt SHA `55f57f5fb8fcd3e38b1aaa004a99328ccb31d58dc4e5db052edce426763d7c89`，child SHA `838ee1bede1d30744d6bffbcc056b29f8d84e8c3373e7c8c5fc25bbe08458ec9`，strict validation SHA `d4f1211c5e1bc7999aa80c6e2c79ad55bfc4e2d857d66ed77c97338b8d67ca66`。全部原receipt／baseline／raw／logs、runtime／解压包／child／四env完整文件目录、ZIP manifest每成员size／SHA及原ZIP与导入副本已独立重核；45 PNG副本／31独立SHA已核文件绑定，**Visual本次45原PNG已独立实view／header／SHA接受，保留原Scroll与assembly页底裁剪局限**，不把副本计作45个新场景。
+
+图审收据`.godot/f6-tester-export-visual-audit.json` SHA `8e46379300561a9bdef5120b00e6a14af872f410720ec18b899035cfe3972d53`覆盖20根帧＋2独立纹理＋7父incident＋1child根帧＋4child incident＋7导入副本＋4最终副本，45文件／31独立SHA；11导入图逐case ID等原child runtime。CPG测试者面板／隐私原文／导出控件实际可见；保留原Scroll、assembly页底裁剪与incident预覆盖现场限制，不由图认证60项解题、OS或直接导出Efficiency模态。
+
+本次6个phase＋394条wait遥测、最终229检查0失败均在原log；完整父Session897f／单原作品及五supports与本次真实Host prepared_data typed精确，child独立a7bb Session／原作品／冷重开hash精确。strict仅原CPU／BUS／RAM六个坐标integral float→同值int，其他字段／值／类型及文件SHA全部严格；退出后main typed等raw、bak typed等baseline，仅顶层时间戳与原轮转边界，其余protected精确。冷Journal只有Saved快照来源，不造冷Host临时C/P/G历史。
+
+首outer session85435在父wrapper18920已exit0后，以严格UTF-8读取混合编码stdout触发UnicodeDecodeError，**原outer exit1保持，分类ORCHESTRATION_RECORDING_FAILURE**；这不是引擎或包失败，也不洗成原outer0。Root明确授权仅独立续跑原strict2e1，Python30780自然exit0／引擎51424自然exit0，不重跑父或child、不改helper／timeout／源。两包当前限定语义链通过，旧普通a946三错与333b timeout依然原FAIL、原因UNKNOWN；既有同步日志不构成产品修复。
+
+## 次日最多五项观察
+
+普通包默认从上表Experience ZIP解压运行EXE，测试者Access用于全入口审阅；两个profile仍沿原CreationLinks独立目录，包内没有预制QA存档。新普通档须遵循原任务／模型门槛，不承诺直接进入G3；测试者可访问不等于已完成或已有作品。
+
+1. 普通Home→成长档案／Journey→原C1／P1／G路线，按原门槛完成后打开Measurements回顾：这次目标与实际记录来源是否可理解？记录“清楚／仍需看原规则”及卡住的具体入口。
+2. 在实际CPG回顾step1按F8→Esc→Esc：是否依次只关反馈、再折叠并回同toggle？若重现旧a946的面板／焦点问题，记录当时窗口、场景与可见状态；不因本次PASS就关闭旧观察。
+3. 在成长档案选择真实已保存ID，单独点View→Play→F8→逐层Esc：是否完整返回且没有等待停住？观察旧333b的SavedWork后超时是否可复现；冷重开只要求原作品／recipe／output，不要求恢复临时回顾史。
+4. 测试者System→History与Overlap本地反馈入口／F8：入口与Hint／Run是否可达，首Esc是否保留当前层？本次包链不直接认证Efficiency嵌入模态guard或OS失焦；有明确重现再分开记录。
+5. 对[60任务源码盘点](../../development/night-journey-review.md)、[当前展示脚本](../../distribution/showcase-shots.md)和[素材接缝](../../development/night-art-interfaces.md)选择“沿现有候选／需改哪句或哪种正式素材”；理解、正式人设／CG／声线／赛事取材由人审，技术PASS不证明陌生玩家理解或所有ideas定稿。原生工具阻断、Mac与新人验收仍开放。
+
+## 历史普通父流程实际失败（原收据保留）
 
 实际work `.godot/night-package/d2f1b4c78ab1`，固定bb5产品／原probe40b／wrapperb213。父进程PID21788自然exit1，监视器未终止，0SCRIPT ERROR／WARNING；219项中216true、3false。首错“role F8 owns actual Host viewport and panel focus”，随后“second focused Escape collapses only optional review”及“Journey closes Host and returns to map”复合断言失败。没有成功父receipt，strict **NOT_RUN_PARENT_FAILED**；测试者链亦未执行。双包BUILD_IDENTITY_PASS、源245 GUI与176 full各保原范围，不被这次失败抹去，也不代父验收。
 
@@ -72,7 +106,7 @@ PR15正文已获用户明确授权，由Root更新并readback按行尾规范化�
 
 首断言没有分项记录panel可见性、viewport与focus owner；后续两个复合断言也未分别打印body／focus、host有效性／current scene。首Esc焦点恢复、35项纯回看权威、退出lease释放／Session SHA等原检查为true；实际磁盘完整Session／单作品recipe/output／五supports与真实prepared_data严格typed一致，主备仅顶层保存时间戳／原轮转，其余typed payload等rawgame，包字节与原保护文件保持。以上不将整体验收转PASS，亦不据源CPG相同就断定QA、OS或Efficiency修复为原因。Root核准的同步LOG-ONLY诊断已另跑并timeout，见下；没有改动作／Input／await／断言或据此归因旧三错。
 
-## 独立LOG-ONLY诊断：实际180秒超时
+## 历史LOG-ONLY诊断：实际180秒超时
 
 产品仍bb5原ZIP；外QA检查点`3ad86b5c0dde2de6c7df4a700f983aaca0968b27`仅probe `c73bc23d…`同步读日志与monitor新SHA pin，wrapperb213／strict2e1原字节。实际work `.godot/night-package/d573d9d52fd2`，PID25692被原180秒guard定向timeout终止、exit1，**不是自然退出**。0ERROR／SCRIPT ERROR／WARNING，但缺`embedded.json`和成功receipt，**本次219项计数不可得，不能写全通过**；strict为NOT_RUN_PARENT_TIMEOUT。
 
@@ -88,6 +122,6 @@ PR15正文已获用户明确授权，由Root更新并readback按行尾规范化�
 
 [现有F5双ZIP与来源](../20261018-creation-connections/README.md)仍按原产品d14、独立profile、原176完整回归和双包父／child／严格重启范围使用；本轮新增边界不被旧PASS覆盖，亦不追改旧收据。F5原生为官方工具初始化阻断，零窗口观察／输入／截图；不能借旧F4原生或导出controller写本轮OS通过。
 
-[60任务逐行源码盘点](../../development/night-journey-review.md)已在20c9515独立提交，60个唯一ID与133源码锚不等于60项实际解题或新人理解。[展示索引](../../distribution/showcase-shots.md)另行更新d14双包与五张实际包图，并区分六张源码代表图和旧F4；它不属于固定867运行输入，也不是已录视频。
+[60任务逐行源码盘点](../../development/night-journey-review.md)已在20c9515独立提交，60个唯一ID与133源码锚不等于60项实际解题或新人理解。[展示索引](../../distribution/showcase-shots.md)当前绑定本轮bb5双包／ea6外QA／f567 controller与五张实际包图，SHA `47bd6a98bcd9a7c1aa23002ff3aa736e7eca9e81de3c7a2997b92f93193474a0`已独审：33条本地链接存在、两当前ZIP与五PNG SHA／尺寸／父child身份精确。d14双包为历史恢复，原六张已入库源码图仍为d14 source-renderer等级，旧F4架构尾段原字节保留；不换名借作bb5包图，也不是已录视频。
 
 所有精确来源、helper、检查数量和独审结论见[checks.json](checks.json)。本轮没有新原生、Mac、新人、正式美术／人设／声线／结局或成片验收，完整goal不因工程子阶段完成而关闭。

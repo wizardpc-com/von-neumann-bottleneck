@@ -1,6 +1,8 @@
 # 逐任务学习盘点与效率回顾焦点核验 · 2026-10-18
 
-状态：ACTIVE。基线为已推送的 `e410cbe6bb1990f52e3ef0ebcbd7b9a33faebbce`；
+状态：DELIVERED_WITH_OPEN_OBSERVATIONS；完整goal ACTIVE，本计划保留在active队列。
+当前产品bb5c817、外QA检查点ea6be8d，双Windows包及限定验收交付，旧失败原因仍开放。
+基线为已推送的 `e410cbe6bb1990f52e3ef0ebcbd7b9a33faebbce`；
 既有可运行产品固定d14be32，两个CreationLinks ZIP及其验收保持原身份。
 本轮不以既有交付关闭完整目标，也不因为开放美术或真人事项新增无依据的功能。
 
@@ -74,7 +76,7 @@ unfinished blend从0推进到1。直接Host Esc的组合断言失败，但缺少
 Root据实测与Knowledge独审核准Narrative仅修改Efficiency组件、SystemLab的fragment Esc分支
 及原测试：纯窗口归属判断阻止模态持焦期间渐变、延迟展示与Host关闭；不得使Esc落入map/Home。
 追加真实滚动正控制、同起点模态负控制与分别记录post-Esc值，原F8和存档保护保留。
-Knowledge独审后再提交固定源、运行新门禁；当前尚无修复后通过或新包结论。
+当时安排Knowledge独审后再提交固定源、运行新门禁；修后结果见下节。
 Visual只读复核原26张基线图，静态图不证明动画暂停、OS焦点或Esc成功。
 
 60任务语义表已于20c9515提交推送并由Visual独审；展示索引的d14双包和五个实际镜头已由
@@ -97,7 +99,7 @@ renderer245项检查、零ERROR/WARNING/SCRIPTERROR，PID21700自然exit0。
 ## 导出首链失败与诊断边界
 
 新普通包的原40b控制器实际216/219：F8视口/焦点复合断言、第二次Esc和Journey返回
-复合断言失败，PID21788自然exit1，无SCRIPTERROR或监管终止；strict未启动，测试者链未跑。
+复合断言失败，PID21788自然exit1，无SCRIPTERROR或监管终止；当时strict未启动，测试者链未跑。
 失败summary为`.godot/f6-normal-parent-strict-bb5c817-summary.json`（a9466dcc…），原raw、20根帧
 与存档保护保留；反馈命名帧实际未见面板，不用文件名替代图面或焦点值。
 
@@ -114,3 +116,19 @@ Knowledge只读核源后界定等待范围为creative_work_review的Play/F8/Esc�
 （8process_frame再frame_post_draw），不是独立重启。Root只核准这些原等待点前后追加同步
 小日志，包含真实时间、帧数、窗口状态与安全caller；不加Timer、await、超时、focus请求、
 force_draw、状态或跳过。作者冻结、独审和新提交后才允许下一次有明确新观测点的运行。
+
+ea6/f567同步遥测的一次新运行d196已获独审PASS_SCOPE：父EXE26360自然exit0、219项全真，
+独立严格重开EXE53548自然exit0、48项通过，Python包装进程另列。386条等待日志与六个CPG
+快照逐原日志匹配，140次process及140次draw等待均返回，31.377秒记录最终JSON写入。
+21实际图（19根/Window＋2独立纹理）获独审，作品/Session/五支持和主备保护按原范围通过。
+原a946三错与333b超时原因仍UNKNOWN，不把同步日志当成产品修复或回填旧缺值。
+当前测试者父229、原collector142 capture/19 reopen及strict48项全部实际通过，
+60入口、真实CPG/作品重启、最终单ZIP独立导入去重获数据独审；45份图片副本/31独立SHA
+完成逐图独审。原outer在父wrapper exit0后读取混合编码stdout失败，exit1保留；Root只准
+单独继续尚未启动的原strict，实际自然exit0，没有重跑父或child，也没有生产改动。
+
+当前双包、manifests、精确SHA、原失败与最多五项次日问题集中在
+[本轮证据](../../verification/20261018-narrative-modal-focus/README.md)；
+[次日交接](../../development/night-handoff-20261018.md)以普通包为默认入口，
+[展示脚本](../../distribution/showcase-shots.md)绑定实际新包图，旧d14与六张源码代表帧保原身份。
+官方原生工具阻断、Mac、新人理解、正式素材和未录制视频仍按实际权限与证据开放。

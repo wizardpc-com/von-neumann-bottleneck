@@ -61,3 +61,20 @@ WIP与Narrative新测试在切换前后SHA精确保持。测试新增44行且不
 `tests/test_completion_route.gd`；Root未执行恢复/删除，这些变化归属尚未确认。
 只记录并保留当前状态，不把任何未知删除暂存入本轮。固定Git归档仍含全部原测试及UID，
 不会按live缺失降低枚举。观察收据位于`.godot/f6-baseline-workspace-observation.json`。
+
+## 实际基线与核准修复
+
+固定867ec81的原三阶段3/3通过；真实renderer为239项检查、4个断言错误，
+PID50104自然exit1，无强制终止。两语均实际观察到嵌入模态Other持焦、root同时持焦，
+unfinished blend从0推进到1。直接Host Esc的组合断言失败，但缺少独立post-Esc body值；
+后续authority保护通过。Scroll原值未变，不能称本次复现滚动故障。
+原失败收据与完整界限见`docs/verification/20261018-narrative-modal-focus/`，不覆盖旧F5结果。
+
+Root据实测与Knowledge独审核准Narrative仅修改Efficiency组件、SystemLab的fragment Esc分支
+及原测试：纯窗口归属判断阻止模态持焦期间渐变、延迟展示与Host关闭；不得使Esc落入map/Home。
+追加真实滚动正控制、同起点模态负控制与分别记录post-Esc值，原F8和存档保护保留。
+Knowledge独审后再提交固定源、运行新门禁；当前尚无修复后通过或新包结论。
+Visual只读复核原26张基线图，静态图不证明动画暂停、OS焦点或Esc成功。
+
+60任务语义表已于20c9515提交推送并由Visual独审；展示索引的d14双包和五个实际镜头已由
+Knowledge独审，视频仍未录制。两项文档完成不扩张867运行来源或实际玩家验收范围。

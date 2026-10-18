@@ -1,0 +1,269 @@
+{
+  "stage": "ACTIVE_ENGINEERING_VALIDATION",
+  "broad_goal_status": "ACTIVE",
+  "branch": "codex/narrative-modal-focus-20261018",
+  "plan": "docs/exec-plans/active/narrative-modal-focus-20261018.md",
+  "runtime_baseline": "d14be32f81354eb062f38d39f860b16ff739921a",
+  "baseline_test_source": "867ec81dc2718b4a1c8c636a246cd0788094e2f6",
+  "current_gates": {
+    "source_review": "PASS_STATIC_BASELINE_QA_ONLY",
+    "compile3": {
+      "status": "PASS_HEADLESS_COMPILE_SCOPE",
+      "summary": {
+        "path": ".godot/f6-efficiency-compile-867ec81-summary.json",
+        "sha256": "26e690114dc0d3d57bb3f4568986cdb56c87143ac6a911774f9d833ab41a0033"
+      },
+      "watch": ".godot/f6-fixed-watch/ddbe6b438157",
+      "raw": ".godot/f6-fixed-watch/ddbe6b438157/source/.godot/verification/20261018T042509Z-3395e7dc",
+      "stages": 3,
+      "passed": 3,
+      "efficiency_headless_checks": 55,
+      "owned_natural_exit0": 3,
+      "errors": 0,
+      "warnings": 0,
+      "script_errors": 0,
+      "results_sha256": "55337f0056a3e1b9b9189d2c89862217aef0843843364168783ca07fb0a257b0",
+      "owned_sha256": "dc3af64e726973443b8597ea120b48f31e1654e3890e324d43fd097b7a19c681",
+      "copy_sha256": "0de9137f2e6d68a5feee7e369c400cbe75bc06964cef9fe62beb2721fc6288b0",
+      "source_manifest_sha256": "46e6494fd395f87e85db1b7561c34792f8b85ca1f008ddbf5e2a47715842a386",
+      "root_audit": {
+        "path": ".godot/f6-root-compile-audit-867ec81.json",
+        "sha256": "d411399278754738520daac8109579393f25a14f942bb3a843e9aa662fd2d6e1"
+      }
+    },
+    "baseline_renderer": {
+      "status": "FAIL_ACTUAL239_CHECKS_FOUR_ASSERTION_ERRORS",
+      "summary": {
+        "path": ".godot/f6-efficiency-baseline-867ec81-summary.json",
+        "sha256": "3bf5eb96f4011b021fda6d65234b9fa89e3ddd818be1c393e32f72b62ef95ba9"
+      },
+      "receipt": {
+        "path": ".godot/f6-efficiency-rendered/2516362cb504/test_efficiency_fragment/receipt.json",
+        "sha256": "dc9c57453a5a286bcbedccdac9c94d63678fe9941469569b7532ccf9675bfa3a"
+      },
+      "log": {
+        "path": ".godot/f6-efficiency-rendered/2516362cb504/test_efficiency_fragment/renderer.log",
+        "sha256": "acf3820300b0cada5642610c3afd57ce4063bb7369d16066e3a0fa903a697ae7"
+      },
+      "results": {
+        "path": ".godot/f6-efficiency-rendered/2516362cb504/results.json",
+        "sha256": "3770e0de6a4dc5010c87287df5f0d24c2442a2f134da2b042e0c97802dba5d66"
+      },
+      "session": 1860,
+      "pid": 50104,
+      "exit": 1,
+      "elapsed_seconds": 29.99,
+      "owned_natural_exit": true,
+      "terminated_reason": "",
+      "checks": 239,
+      "assertion_errors": 4,
+      "script_errors": 0,
+      "warnings": 0,
+      "error_labels": [
+        "ERROR: Another focused Window pauses the unfinished efficiency observation",
+        "ERROR: An unfocused efficiency Host cannot collapse its fragment or change authority",
+        "ERROR: Another focused Window pauses the unfinished efficiency observation",
+        "ERROR: An unfocused efficiency Host cannot collapse its fragment or change authority"
+      ],
+      "focus_diagnostics": [
+        {
+          "locale": "zh_CN",
+          "root": {
+            "embedded": false,
+            "has_focus": true,
+            "visible": true,
+            "window_id": 0
+          },
+          "blocker": {
+            "embedded": true,
+            "exclusive": true,
+            "has_focus": true,
+            "transient": true,
+            "visible": true,
+            "window_id": 0
+          },
+          "listed_embedded": true,
+          "Other_button_owner_confirmed_by_actual_assertion": true,
+          "blend_before": 0.0,
+          "blend_after": 1.0,
+          "step_before": 1,
+          "step_after": 1,
+          "scroll_before": 125,
+          "scroll_after": 125,
+          "feedback_active": false
+        },
+        {
+          "locale": "en",
+          "root": {
+            "embedded": false,
+            "has_focus": true,
+            "visible": true,
+            "window_id": 0
+          },
+          "blocker": {
+            "embedded": true,
+            "exclusive": true,
+            "has_focus": true,
+            "transient": true,
+            "visible": true,
+            "window_id": 0
+          },
+          "listed_embedded": true,
+          "Other_button_owner_confirmed_by_actual_assertion": true,
+          "blend_before": 0.0,
+          "blend_after": 1.0,
+          "step_before": 1,
+          "step_after": 1,
+          "scroll_before": 148,
+          "scroll_after": 148,
+          "feedback_active": false
+        }
+      ],
+      "original_six_f8_accepted_rows": [
+        {
+          "active": true,
+          "blend": 0.066664,
+          "busy": false,
+          "draw_frame": 424,
+          "feedback_flag": true,
+          "paused": false,
+          "process_frame": 424,
+          "scope": "zh_CN-ordinary",
+          "scroll": 42,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.066664,
+          "busy": true,
+          "draw_frame": 529,
+          "feedback_flag": false,
+          "paused": true,
+          "process_frame": 529,
+          "scope": "zh_CN-tester",
+          "scroll": 42,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.066664,
+          "busy": false,
+          "draw_frame": 634,
+          "feedback_flag": true,
+          "paused": false,
+          "process_frame": 634,
+          "scope": "zh_CN-ordinary-return",
+          "scroll": 42,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.0666666666666667,
+          "busy": false,
+          "draw_frame": 1179,
+          "feedback_flag": true,
+          "paused": false,
+          "process_frame": 1179,
+          "scope": "en-ordinary",
+          "scroll": 66,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.0666666666666667,
+          "busy": true,
+          "draw_frame": 1284,
+          "feedback_flag": false,
+          "paused": true,
+          "process_frame": 1284,
+          "scope": "en-tester",
+          "scroll": 110,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.066664,
+          "busy": false,
+          "draw_frame": 1389,
+          "feedback_flag": true,
+          "paused": false,
+          "process_frame": 1389,
+          "scope": "en-ordinary-return",
+          "scroll": 110,
+          "step": 1
+        }
+      ],
+      "pngs": {
+        "total": 26,
+        "root": 24,
+        "tester_incident": 2,
+        "independent_image_review": "NOT_RUN in this evidence record; data/hash audit is not image acceptance"
+      },
+      "artifacts": 6,
+      "runtime_files": 39,
+      "runtime_directories": 41,
+      "actual_findings": {
+        "fade": "Both actual focused/listed embedded modal cases advanced unfinished blend0 to1 while root.has_focus also true.",
+        "pending_scroll": "Both unchanged; zh125 to125 and en148 to148. No reveal-scroll defect established.",
+        "direct_host_escape": "Original body-visible AND protected-authority combined assertion failed twice. No separately logged post-Esc component value. Later whole-authority assertion passed; source collapse route is a static explanation, not a separately measured body result.",
+        "input_grade": "Real rendered modal GUI preconditions; Escape uses direct existing System Host handler call, not OS input.",
+        "native_os_focus_loss": "NOT_RUN: both actual blockers embedded."
+      },
+      "independent_data_audit": "Knowledge rehashed all logs/receipt/results/maps, exact2focusJSON and6acceptedF8 rows, every26PNG/6artifact/39runtimefile/41directory collection; source716/project715 and original settings-finally hash exact. Original receipt/raw unchanged."
+    },
+    "production_fix": "NOT_IMPLEMENTED_AT_THIS_RECORD; baseline failure supports narrow component focus repair pending authored freeze and independent review",
+    "fixed_renderer": "NOT_RUN",
+    "new_full_or_packages": "NOT_RUN",
+    "native_os": "NOT_RUN_TOOL_INITIALIZATION_BLOCKED_F5_NO_NEW_ATTEMPT",
+    "human_newcomer_Mac": "NOT_RUN"
+  },
+  "fixed_input": {
+    "archive_identity_files": 5781,
+    "selected_fixed_files": 716,
+    "project_nonconfig_files": 715,
+    "canonical_tests": 175,
+    "extra_tests": 0,
+    "fixed_uid_sha256": "e489da42bdbc540c68061bf11682c6d1f70c3435b1f5fb0f3054cec18c07af0c",
+    "fixed_route_sha256": "ff8fe7721cca6199ed51e5ec07cd3c9ed41391623e465f5f816f3131d5529fe4",
+    "unknown_live_deletions": "No repair/delete/restore/stage by this author; fixed archive and project include original canonical inputs.",
+    "project_settings_exception": "Only original verifier two private userdir fields and EOL; renderer finally restores the exact pre-renderer headless private setting bytes, not arbitrary repository defaults.",
+    "restored_project_settings_sha256": "9d750ee9825d344f29cdbfe5132784c7aaeb7cf30bbd2671dd671960c2c03262",
+    "production_parity": "Selected source hashes versus d14 differ only tests/test_efficiency_fragment.gd; no production/runtime mutation in baseline867."
+  },
+  "helpers": {
+    "fixed_unbound_sha256": "d9d23fb0444429d9695676ca6015f3c1d26445a56f3b55bf8c641b495c666fea",
+    "fixed_bound_sha256": "6ddbdec077b87b8dd118fad9f48a12ed69b746af3e8c1f137101a1b1c1249a80",
+    "renderer_unbound_sha256": "21973add07ddd10ac82a25d47f19f08522b63c7ddb77adbd51c903d01dfa7ddd",
+    "renderer_bound_sha256": "b21bd7a05955605af65b6978d6a72c011530a33a23bb977e1691ef02e480ddc9",
+    "baseline_test_sha256": "1f59f29dc500c72c1b463fbe761c520c497a10baba422a060e4f896faf8ecf9e",
+    "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+    "scope": "Fixed source only, no live-WIP reads;180s/strictERROR-SCRIPT/owned process/4privateenv/source-finally guards preserved; no automatic retry."
+  },
+  "other_deliverables": {
+    "task_audit": {
+      "path": "docs/development/night-journey-review.md",
+      "sha256": "a893784392bafe75fd7aaabfc7c7541a802d7ec606b9cdd582bce83acb1cac27",
+      "checkpoint": "20c9515",
+      "scope": "60unique taskIDs, six independent columns,133 actualsourceanchors; independent semantic review PASS. Not60solvedtasks/newcomer/OS."
+    },
+    "showcase": {
+      "path": "docs/distribution/showcase-shots.md",
+      "sha256": "ff67256b40eeac31f6325e5b36d75dae22d34a199f20d9b109df010215e632e3",
+      "scope": "Separate document update independently reviewed; actuald14doubleZIP/fiveactualframes vs sixsource-renderer representatives and oldF4 history; videoNOT_RECORDED. Not included in fixed867baseline."
+    }
+  },
+  "recovery": {
+    "current_exported_product": "d14be32f81354eb062f38d39f860b16ff739921a",
+    "evidence": "docs/verification/20261018-creation-connections/README.md",
+    "normal_profile": "CreationLinks20261018",
+    "tester_profile": "OfflineTeammate-CreationLinks20261018",
+    "accepted_scopes": "Prior176full/3renderers112rawPNGs/normal219+48/tester229+child+48 remain immutable at their original tested scope. Newly reproduced modal boundary was not covered there; no rewrite of oldPASS or currentFAIL.",
+    "native": "F5 officialtool initialization blocked,0UI observation/input/screenshots; normal ownedprocess intentionally stopped, tester not launched; do not borrow olderF4native."
+  },
+  "authority_boundaries": [
+    "No model, save,Session,score,taskthreshold or sharedfeedback changes authorized by this record.",
+    "FirstLight not changed merely because another component has a superficially similar focus guard.",
+    "No future input/private feedback body/account paths in this committed record.",
+    "Native/newcomer/Mac/formalart/video/fullgoal remain distinct open boundaries."
+  ]
+}

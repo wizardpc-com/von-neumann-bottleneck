@@ -5,7 +5,66 @@
 系统字体缺失时会回退，团队导出前需检查字形。旧[40任务展示稿](astra-challenge/showcase.md)
 保留其历史产品／版本背景，不把其中Product Hunt建议移作本轮参赛决定。
 
-## 图与源码
+## 当前可交付候选 · Creation Links d14
+
+产品SOURCE为`d14be32f81354eb062f38d39f860b16ff739921a`。普通进度与测试者全入口使用不同profile；
+下载包不含控制器准备的QA档案，普通新档不能假设已完成或可直接进入G3。解压到新目录运行
+`Windows/Von-Neumann-Bottleneck.exe`；随包README保留存档、反馈和权限说明。
+
+| 用途 | 固定本地包与同目录manifest | profile／batch | ZIP SHA256 |
+| --- | --- | --- | --- |
+| 普通进度 | [Windows ZIP](../../build/playtest-CreationLinksExperience20261018-d14be32f8135/Von-Neumann-Bottleneck-Windows-playtest-CreationLinksExperience20261018-d14be32f8135.zip) · [manifest](../../build/playtest-CreationLinksExperience20261018-d14be32f8135/manifest.json) | `CreationLinks20261018`／`CreationLinksExperience20261018` | `e909e2b489e57bf75d53df92e4881ca24b97bdeed8036e317cfd7d3cf35ae72c` |
+| 协作全入口 | [Windows ZIP](../../build/playtest-CreationLinksAccess20261018-d14be32f8135/Von-Neumann-Bottleneck-Windows-playtest-CreationLinksAccess20261018-d14be32f8135.zip) · [manifest](../../build/playtest-CreationLinksAccess20261018-d14be32f8135/manifest.json) | `OfflineTeammate-CreationLinks20261018`／`CreationLinksAccess20261018` | `aba9855a4dc7b75c91c5a00fde13849552136721cda81cee1916b5a83839b255` |
+
+这些是本地交付路径，尚非公开Release下载。当前身份和验收以
+[Creation Links集中证据](../verification/20261018-creation-connections/README.md)为准：
+普通父链219与严格重启48，测试者父链229与严格重启48；测试者原child还验证60入口、真实C/P/G、
+原作品重启、最终4现场／2session／1bundle的原ZIP导入与去重。它们是导出控制器证据，不是新人或OS输入。
+新原生尝试在官方工具初始化前受阻，0窗口观察／0输入；**视频状态：NOT_RECORDED**。
+没有录像时先交下面原图与精确脚本，不用片头或截图串联冒充操作录像。
+
+### 当前五个镜头与原图
+
+下面路径以仓库根为起点，均为本次实际导出原图，未修图、裁切、重绘或借用源码renderer截图。
+取材者应在自己的新档按合法步骤操作；现有图来自隔离QA profile的已披露实际Host准备。
+不要导入`.godot`种子作普通新手档，也不要把这些画面说成陌生玩家自然完成。
+
+| 镜头 | 进入与操作脚本 | 一句因果说明与实际原图范围 |
+| --- | --- | --- |
+| A · 进入与第一次操作 | 普通包Home→开始旅程→开始操作或跳过导入→接A到NOT、NOT到灯→切输入并运行→拆线／重接→读完成结果。 | 看文字不授完成，输入1时NOT输出0仍正确。代表图`43d66dd1059e/home.png`只证实际Home；五操作结果属于同父控制器，不把Home图当操作录像。 |
+| B · 默认回顾与原控制 | 任务树→C1原Host→学习、预测包无损传输→P1开始练习并逐格提交／揭晓到整轮结束→G1生成并Keep；停在原光纹页观察默认折叠的「C→P→G回顾」，再主动打开。 | 回顾与原Verify／光纹／运行／状态共存，未替代原工作台。代表图`43d66dd1059e/cpg-connection-collapsed.png`来自普通模式真实Host准备，非伪JSON或全关解锁。 |
+| C · 先提交再知道 | 接续同一次Host操作→打开回顾→选择「P 已揭晓」→看规则／记录身份、已揭晓行和最后一项→按需原滚动继续→Esc折叠。 | 只解释已经揭晓的证据，不展示未来。代表图`43d66dd1059e/cpg-connection-step1.png`为practice已揭晓10项、最后B→D；C/P/G各自输入独立，非一条共同历史。 |
+| D · 留下原作品 | 接续真实生成并确认Keep→回顾「已保存作品」→定位原Works列表及真实ID（不触发View或再生）→原返回旅程→成长档案→「查看原快照」→返回。 | 原作品保存完整输出／配方；定位与独立快照查看不同，不反造旧C/P过程。代表图`43d66dd1059e/saved-work.png`仅为原Journal保存快照Window，864×496；不是生成事件回放或完整桌面。 |
+| E · 反馈仍在原处 | 测试者包原G1 Host→本地「反馈」或F8→观察现场／本地说明→Esc只关反馈并回原步骤→再Esc折叠。可另到System／Overlap原入口核Handbook／Hint／Run-all与本地反馈；不运行即不声称达标。 | 有可用本地入口就隐藏重复全局条，F8与原面板导出仍保留。代表图`0afe228f6882/cpg-connection-feedback.png`是实际creation/G1_feedback测试者面板；不配成System现场，也不由静图声称OS或导出动作完成。 |
+
+五图的路径前缀分别为`.godot/night-package/43d66dd1059e/`和`.godot/night-package/0afe228f6882/`。
+这些原始路径仅在本地验证目录存在；远端可阅读的六张已入库源码代表图见
+[原字节截图及manifest](../verification/20261018-creation-connections/screenshots/manifest.json)，
+它们另标source-renderer等级，不代替这里的实际包图。两语／三尺寸的源码112图也不证明所有界面或OS路线。
+
+| 镜头 | 原PNG SHA256 | 实际像素 |
+| --- | --- | --- |
+| A | `82eb84e67664f1ac7c5dfb915807152739c9036a51398498ab297ff70c20e4f6` | 1280×720 |
+| B | `ea363fc88ebcc2f6644115109ddcdea93bb00dc892d16f5833a231353c695e16` | 1280×720 |
+| C | `e199ba44c5bbc37d27372c693468e89a7b018237cc906e59f45e3e60f4926cfe` | 1280×720 |
+| D | `01dc8bd2b4943f18f8f045b29e0422793605c39e971dcb83fe09a9ad9600189e` | 864×496 |
+| E | `20c32bac82f10ef931933f5848a5b90481e3cd47d89d10b20c9005605ced19d1` | 1280×720 |
+
+两包产品SOURCE均为d14，外部controller均为`40b20ca656bb30241376ce2fcfdb0638f8a3ed54039f7aafafe0ece78685fd8f`。
+A–D父receipt为`.godot/night-package/43d66dd1059e/receipt.json`，SHA
+`79fb037a6b2c0f9f7acb7f2e9a80d0c246cf590a9afff8a69c07394236c4bbe4`；
+E父receipt为`.godot/night-package/0afe228f6882/receipt.json`，SHA
+`63e7784677b579d07ea84c66ca04bd68e0170b956d6e6360dcadcf8d90ffe1ea`。
+独立逐图索引为`.godot/f5-normal-export-visual-audit.json`（21图，SHA
+`8b9470ebdb6e4da092e7ac0ea2de5a3fd1975b91136413d9281950cdd601d5fd`）与
+`.godot/f5-tester-export-visual-audit.json`（父／child共45文件，含导入副本，SHA
+`83c28e6cd5d665f369781c1d98000cea6c8e9f51849d660a42f4a7eb040c9a10`）。
+根帧逻辑1600×900、实际1280×720；长正文／ledger仍使用原滚动，不说全部深文与控件同屏。
+冷Creation Host临时C/P/G记录可为空；只有本次原snapshot／replay的latest才可补Saved视图。
+原Works ID与配方仍在，不能据空回顾判断作品丢失；也不能注入历史或为画面好看运行再生成。
+后续源码／包若变化，必须绑定新实际收据才更新当前指针；下列历史图不能换名充当新帧。
+
+## 已有架构关系与源码
 
 关系基线为`2c56fd48b14d105961f380211102512d19e544de`；
 本图表达源码关系，不认证新运行结果。
@@ -26,24 +85,24 @@
 实线表示操作或原合法保存；虚线表示读取运行证据、原记录或真实前台现场。
 图中没有第二套进度、物理能耗推算、角色系统或新的网络服务。
 
-## 团队录屏脚本：五个镜头
+## 历史F4：五个镜头与已有实图
 
-这是可执行取材路线，不是已录成片。**当前尚无本轮实机操作视频**；
-以下原图来自独立renderer/controller验证，不能称OS鼠标键盘、新人体验或自然完成全旅程。
-本轮新包与原生范围以中央[验证记录](../verification/20261018-measured-growth/README.md)为准。
+本节保留F4取材路线和固定原图，不是d14新帧或已录成片。F4录像仍为NOT_RECORDED；
+原图来自该阶段的独立renderer/controller，不认证d14的运行结果。F4另有CPU147／193补充、
+限定观察站OS路线及各自原始证据，范围以其中央[历史验证记录](../verification/20261018-measured-growth/README.md)为准。
 
 | 镜头 | 操作脚本与可替换素材 | 画面／旁白边界 | 当前可用材料 |
 | --- | --- | --- | --- |
-| A · 亲手构造 | 新档Home→原NOT教程；接两条线、切输入、运行、拆线／重接；完成后Journal→主题回顾，可跳过／返回。开场Texture、回顾Texture可独立替换，目标／字幕仍用原生文字。 | 输入1、输出0仍正确；回顾用生产milestones，不能用压力字幕冒充实际CPU通关。 | [A当前实包开场](../verification/20261018-measured-growth/images/source97516b21f459-work01ada45151aa-introduction.png)，仅开场帧；五操作证据见父收据，录屏PENDING。 |
+| A · 亲手构造 | 新档Home→原NOT教程；接两条线、切输入、运行、拆线／重接；完成后Journal→主题回顾，可跳过／返回。开场Texture、回顾Texture可独立替换，目标／字幕仍用原生文字。 | 输入1、输出0仍正确；回顾用生产milestones，不能用压力字幕冒充实际CPU通关。 | [A历史F4实包开场](../verification/20261018-measured-growth/images/source97516b21f459-work01ada45151aa-introduction.png)，仅开场帧；五操作证据见父收据，录屏PENDING。 |
 | B · 看清未达标 | Layout `fields`原方案→运行→「运行与比较」→读128/上限64/超64B→「定位这单的未达标证据」；可回原Trace查看搬运。再录Overlap的首未达标／停止代码行时，修改后重跑。 | 输出正确与达标分开；定位不替玩家改方案。镜头需要原滚动／浮窗前置，不能称全部窗口默认同屏。UI与地址／代码原生呈现，不替换成伪统计画面。 | [B原帧](../verification/20261018-measured-growth/images/source69b785a11c72-workf648350bf08b-layout-unmet-zh-1280x720.png)；官方模型TestMode夹具。录屏PENDING。 |
 | C · 看清比较 | 原 `cpu_speed` 完成实际造机／前置→同程序与测试集、只改CPU的两次合法运行→「历史」原图→「时间留在哪里 · 候选片段」→三步选择→原滚动看回应→回原图。可替换Texture；缺图保留程序几何与原生字幕。 | 原图316→268总周期、等待252→252不是“全部更快”；来源与同条件说明保留。意象是聚合记录候选，不是事件重演、能耗或新奖励。 | [C原帧](../verification/20261018-measured-growth/images/source69b785a11c72-workf648350bf08b-cpu-fragment-zh-1280x720.png)；官方模型TestMode受控pair。录屏PENDING。 |
-| D · 完整路线与原作品 | 任务树区域／搜索→C1学习与无损复原→P1亲手commit/reveal→G1生成并明确保存→Journal查看原输出／配方／来源→返回。作品用原模型实际输出，不由展示图替代。 | 能进入不等于模型准备完毕；原保存快照不伪装生成事件回放。受控QA准备必须说清，不能冒充普通新玩家自然全流程。 | [D当前实包原作品](../verification/20261018-measured-growth/images/source97516b21f459-work01ada45151aa-saved-work.png)；实际Session控制器准备并保存的快照，非自然全旅程。录屏PENDING。 |
+| D · 完整路线与原作品 | 任务树区域／搜索→C1学习与无损复原→P1亲手commit/reveal→G1生成并明确保存→Journal查看原输出／配方／来源→返回。作品用原模型实际输出，不由展示图替代。 | 能进入不等于模型准备完毕；原保存快照不伪装生成事件回放。受控QA准备必须说清，不能冒充普通新玩家自然全流程。 | [D历史F4实包原作品](../verification/20261018-measured-growth/images/source97516b21f459-work01ada45151aa-saved-work.png)；实际Session控制器准备并保存的快照，非自然全旅程。录屏PENDING。 |
 | E · 同一成果空间 | Home／Map→观察站→硬件／System任务→「近看所选装置」→三个原视角→「还原全景」→任务树定位／原工作台；插入F8→Esc逐层返回。程序几何与小型材质可替换，任务文字／状态不烘焙进图。 | ✓合法成果与○未完成／锁定分开。图中System未开放、灯暗、进入禁用，不能配成“玩家已完成该章”。可关回原列表，不加前置或第二份进度。 | [E原帧](../verification/20261018-measured-growth/images/source2c56fd48b14d-work7cbafa2f2785-system-inspect-zh-1280x720.png)；真实Home入口、原教程／作品准备后的只读观察。录屏PENDING。 |
 
 ### 五张原图的身份
 
 A/B/C/E为1280×720、D为864×496 PNG；逐张实际查看、复制前后SHA256一致，未拼图、修图、转码或重绘。
-B/C/E是源码renderer证据；A/D来自当前普通实包的实际导出程序控制器父验收。
+B/C/E是历史F4源码renderer证据；A/D来自F4普通实包的实际导出程序控制器父验收。
 **这些帧不代表原生OS输入、陌生玩家理解或自然完成全旅程**。源码88张独立图审覆盖两语三尺寸；
 精选图不代替完整运行、重启、测试者链或包身份收据，完整范围仍查中央验证记录。
 
@@ -72,14 +131,14 @@ E原图为 `.godot/verification/20261018T004613Z-4c2fe966/project/.godot/observa
 
 ## 已有可审阅参考
 
-以下是上一固定普通实包c109的原字节帧；它们**不是F4新包证据**，也不伪称同一新录像：
+以下是更早的固定普通实包c109原字节帧；它们**不是F4或d14新包证据**，也不伪称同一新录像：
 
 - [开场Texture与原生目标](../verification/20261018-creative-framework/images/sourcec109f0e97617-workfb44325711b2-introduction.png)：1280×720。
 - [真实教程后生产回顾](../verification/20261018-creative-framework/images/sourcec109f0e97617-workfb44325711b2-first-light.png)：520×384，固定NOT1→0。
 - [原作品只读快照](../verification/20261018-creative-framework/images/sourcec109f0e97617-workfb44325711b2-saved-work.png)：864×496，披露实际Session controller setup。
 
 完整来源与SHA见[原集中证据](../verification/20261018-creative-framework/README.md)。
-本轮F4实际包须按自己的提交、receipt和profile绑定；上表新renderer图与这些旧实包图互不代证。
+F4实际包和d14实际包各按自己的提交、receipt和profile绑定；历史renderer与这些旧实包图互不代证。
 
 ## 新图与录像的接入规则
 

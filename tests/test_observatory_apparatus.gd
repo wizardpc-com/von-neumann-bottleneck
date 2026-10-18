@@ -45,6 +45,9 @@ func click(control: Control) -> void:
 func rect_fields(rect: Rect2) -> Array[String]:
 	return ["%.17f" % rect.position.x,"%.17f" % rect.position.y,"%.17f" % rect.size.x,"%.17f" % rect.size.y]
 
+func pixel_bounds(rect: Rect2) -> Rect2i:
+	return Rect2i(Vector2i(rect.position.floor()),Vector2i(rect.end.ceil()-rect.position.floor()))
+
 func transform_fields(value: Transform3D) -> Array:
 	var fields: Array = []
 	for vector: Vector3 in [value.origin,value.basis.x,value.basis.y,value.basis.z]:
@@ -89,6 +92,7 @@ func check_controls(observatory: Control, scope: String) -> void:
 		check(marker.focus_mode == Control.FOCUS_NONE,"The task dropdown remains the keyboard alternative to spatial markers")
 		if marker.visible:
 			check(observatory.stage.get_global_rect().encloses(marker.get_global_rect()) and not marker.disabled,"Every visible spatial marker is inside its clipping stage and enabled: "+scope)
+			check(marker.size.x >= marker.custom_minimum_size.x and marker.size.y >= marker.custom_minimum_size.y,"Visible marker retains its minimum pointer target: "+scope)
 		else: check(marker.disabled,"Offstage/other-task labels cannot intercept pointer input: "+scope)
 
 func capture(observatory: Control, name: String, scope: String) -> void:
@@ -262,11 +266,12 @@ func run() -> void:
 				await capture(observatory,language+"-"+str(dimensions.x)+"x"+str(dimensions.y)+"-"+kind+"-inspect","Selected real task; abstract record apparatus, not saved circuit geometry or live measurement; three presets tested")
 				observatory.view_choice.select(0); observatory.view_choice.item_selected.emit(0); await settle()
 				await click(observatory.overview_button)
-				check(not observatory.inspection_enabled and observatory.selected_key == selected and observatory.camera.transform.is_equal_approx(overview_pose) and is_equal_approx(observatory.camera.size,overview_size),"Overview restores the exact original camera without changing task selection")
+				check(not observatory.inspection_enabled and observatory.selected_key == selected and observatory.camera.transform == overview_pose and observatory.camera.size == overview_size,"Overview restores the exact original camera without changing task selection")
 				for index: int in observatory.marker_buttons.size():
 					var marker_rect: Rect2 = observatory.marker_buttons[index].get_rect()
 					var apparatus_transform: Transform3D = observatory.apparatus_nodes[index].transform
-					var restored: bool = marker_rect == overview_markers[index] and apparatus_transform == overview_geometry[index]
+					# Subpixel Control round-off must not move any occupied pixel.
+					var restored: bool = marker_rect.is_equal_approx(overview_markers[index]) and pixel_bounds(marker_rect) == pixel_bounds(overview_markers[index]) and apparatus_transform == overview_geometry[index]
 					if not restored:
 						var marker: Button = observatory.marker_buttons[index]
 						print("APPARATUS_RESTORE_DIFF: ",JSON.stringify({"locale":language,"window":[dimensions.x,dimensions.y],"kind":kind,

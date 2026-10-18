@@ -82,3 +82,26 @@ TargetGuidance建立真实C/P/G保存作品再关闭writer，定位与反馈保�
 `.godot/f4-focused-1d887c5-summary.json`，不得以作者静态审查覆盖失败。
 效率片段54项已在headless通过；实际renderer、完整回归和本轮新包均未执行。
 作者分别定位与最小修复，交叉审查后形成新检查点，方可重新进入固定源码门禁。
+
+## 固定040c198诊断结果
+
+独审后提交的真实CodeEdit编辑测试及失败同帧诊断，经原验证器完成4阶段：3通过，观察站1项精确矩形比较仍失败。
+两语CodeEdit各发出一次实际text_changed，trace_stale及禁用状态为真，TargetGuidance108项通过，两个生产Host未改。
+观察站实际差异仅为zh_CN/1440×900/硬件alarm标记宽度63→63.000030517578125像素；
+矩形其余字段、相机及装置变换全部相同。原失败日志保留，不据此声称底层引擎机制已证明。
+下一修正限定为该浮点矩形比较的精度契约；装置变换、投影位置、实际指针可达、裁剪与最小尺寸仍须验证。
+原raw：`.godot/verification/20261018T001059Z-3cefbc75`；汇总`.godot/f4-diagnostic-040c198-summary.json`。
+全部4进程自然退出；renderer、完整回归和新实包仍未执行。
+
+## 本轮导出验收扩展
+
+Knowledge独占三个外部QA文件：night-package-probe.gd、verify-night-package.py、verify-embedded-profile-reopen.py。
+新普通/测试者profile为MeasuredGrowth20261018/OfflineTeammate-MeasuredGrowth20261018，保留旧Creative档案。
+原128/138父链、47独立重开及测试者原随包收集器的60入口/真实CPG/最终反馈ZIP链分别保留。
+新功能补充进程仅在原父链和严格重开成功后，复制其实际退出档案至独立QA根再执行，
+原父收据、runtime及ZIP不重写；四环境目录隔离，源码/包/控制器/种子/前后保护分别绑定。
+测试模式CPU受控对照与失败方案明确为QA，不称玩家自然成就；由Visual独审扩展，未授权运行。
+
+观察站测试修正仅允许数值近似相等的Rect2，且新增floor左上/ceil右下像素包围盒精确相同条件；
+装置变换继续精确相同，相机变换/size从近似加强为精确相同，可见标记额外核原最小点击靶。
+没有移动取样基线、增加等待或改变生产投影。上述新条件的实际通过情况仍待新固定20阶段检查。

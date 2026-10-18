@@ -317,6 +317,8 @@ func handle_escape(event: InputEvent) -> bool:
 	var key_event := event as InputEventKey
 	if not key_event.pressed or key_event.echo or key_event.keycode != KEY_ESCAPE:
 		return false
+	var playtest: Node = get_node_or_null("/root/PlaytestData")
+	if playtest != null and bool(playtest.get("_feedback_visible")): return false
 	close_handbook()
 	return true
 

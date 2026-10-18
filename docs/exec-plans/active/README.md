@@ -1,5 +1,9 @@
 # Execution queue
 
+The [creation-connections round](creation-connections-20261018.md) is active from
+pushed4e643eb. It connects actual C→P→G evidence to saved work and addresses the
+fixed tester footer overlap through existing local feedback entrances.
+
 The [measured-growth round](../completed/measured-growth-20261018.md) is complete
 within its recorded engineering scope. Product source97516b passes175 full Windows
 stages, both original package chains and separate147/193 supplemental checks.

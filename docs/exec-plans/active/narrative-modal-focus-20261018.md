@@ -132,3 +132,32 @@ ea6/f567同步遥测的一次新运行d196已获独审PASS_SCOPE：父EXE26360�
 [次日交接](../../development/night-handoff-20261018.md)以普通包为默认入口，
 [展示脚本](../../distribution/showcase-shots.md)绑定实际新包图，旧d14与六张源码代表帧保原身份。
 官方原生工具阻断、Mac、新人理解、正式素材和未录制视频仍按实际权限与证据开放。
+
+## F7实际导出模态验收补全
+
+逐项审计发现：245项source-renderer直接触发了新Efficiency嵌入模态保护，
+F6普通219／测试者229包链则未触发这个fixture。固定ZIP存在与父链通过不能代此直接验证。
+本轮保留产品bb5、两ZIP与原QA全部身份，只增加目的明确的外部验证，不重建产品或重跑完整回归。
+
+原319行效率测试使用SceneTree和TestMode；free_candidate明确拒绝TestMode。
+当前F6两包QA存档仅完成tutorial，并无合法CPU比较记录，不把F4旧profile或源码测试准备借成当前结果。
+为此复用当前外QA的原game硬件官方运行／封装、assembly与受控CPU两次官方运行，
+仅在各角色已验QA存档的全新隔离副本中准备；普通／测试者角色、profile和模型规则保持原包配置。
+
+- Narrative独占新增`scripts/verify-exported-efficiency-modal.py`与
+  `scripts/exported-efficiency-modal-probe.gd`；不修改生产、原fixture、原验证器或旧失败。
+- Knowledge非作者审查固定PCK来源、原函数提取／适配允许清单、合法准备的精确数据差异、
+  所有保护字段与失败守卫；Visual独立检查实际新图，Root保留唯一Git与引擎调度权。
+- 每角色使用全新解压／四环境和明确seed来源；旧namespace逐文件保持，Session、原作品与五supports不变。
+  准备带来的真实硬件／System进度和记录另列，回顾保护在准备完成后重新取完整基线，不笼统豁免game。
+- 两语保留原Scroll0正例、同0模态负例、真实Other持焦前提、Host Esc body／authority／map分项，
+  只运行该包原角色的F8／逐层Esc。不强设焦点、不改动作／等待／断言、不绕过free_candidate。
+- 采用原fixture的1280×720逻辑窗口；导出默认缩放另有身份，不把两者混为同一几何。
+  语言由原Host刷新并核实际fragment标记；缺省普通role按原false语义只读，原键有无和值均保持。
+  CPU准备与最终game检查点分别通过原审计，最终typed状态须等于准备后状态，不能重复审前一个检查点。
+- 独审和提交固定QA后才准一次普通包运行，实际PASS后另准测试者；每自有EXE保留原180秒守卫。
+  执行前按ZIP解压体积、seed和128MiB证据余量估算，剩余至少384MiB才开始；运行下限256MiB。
+  不够空间则停止启动，不删独有证据或减少输入来勉强通过。
+
+当前为实现／独审阶段，尚无本轮直接导出结果。无论新结果如何，旧a946三错与333b超时原因仍UNKNOWN，
+本轮不认证原生输入、新人理解、Mac或正式创作，也不新增发布／服务权限。

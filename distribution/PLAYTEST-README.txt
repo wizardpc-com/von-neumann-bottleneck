@@ -25,7 +25,7 @@ F8打开当前窗口的反馈，Esc逐层返回。保存失败时保留反馈面
 - 「与等待并行」运行后先看首个未达标任务；有停止错误时点「定位停止事件与代码行」。改程序或结构后请重跑，旧证据不会定位到新草稿。
 - 第一章 cpu_speed：先按原前置亲手造机，完成同程序、同测试集、只换CPU且其他部件不变的两次有效运行，再打开「历史」→「时间留在哪里 · 候选片段」。单次、未运行或无效配对不会出现；可选片段沿用原记录，非事件回放、不增加成果。
 - 首页／地图的观察站中，硬件板与系统模块是可区分的成果意象；选择任务后「近看所选装置」／「还原全景」，也可直接用原任务列表和定位／进入工作台。灯仅回顾合法完成记录；F8反馈、Esc逐层返回。
-- 普通 MeasuredGrowth20261018 档沿用原前置；OfflineTeammate-MeasuredGrowth20261018 是全部入口开放的独立测试者档，开放不算完成，也不代替模型准备。实际档位、批次与版本以本包 manifest 和页首 Build 为准。
+- 普通构建沿用原前置；测试者构建使用全部入口开放的独立存档渠道，开放不算完成，也不代替模型准备。实际存档渠道、批次与版本见本包 Profile、manifest 和页首 Build；更新前按下方说明备份候选与 service 两个完整目录。
 
 完整旅程候选包共 60 个任务：原有核心 40、表示 5、服务 3、可选地址预测 3、压缩→内容预测→创造 9；标准候选包保留核心 40 个任务。
 完整旅程不是 60 个必经关卡。保留已有主线与各段结尾，可选内容不提高原主线门槛。
@@ -74,7 +74,7 @@ Measured Growth priority routes:
 - In the Meantime: inspect the first unmet workload; use Locate stopping event and source line for a stopped run. After editing code or hardware, rerun; stale evidence cannot locate a new draft.
 - First complete the original cpu_speed prerequisites and real build. Two valid runs with the same program/test set, changing only CPU and keeping other parts fixed, expose History → Where time remains · candidate fragment. A single, unrun or invalid pair does not; the optional fragment reuses aggregate records, grants no progress and is not an event replay.
 - Home/Map Observatory: select an original task, Inspect selected / Overview, or use the existing task list, Locate in task tree and Return to original workbench. Hardware boards and system modules are record imagery; only legal completion lights them. F8 and layered Escape remain available.
-- MeasuredGrowth20261018 is the ordinary profile with original gates; OfflineTeammate-MeasuredGrowth20261018 is a separate all-entrance tester profile, not earned completion or prepared model state. Use this package's manifest and Build identity for exact profile, batch and version.
+- Ordinary builds retain the original gates; tester builds use a separate all-entrance save profile, not earned completion or prepared model state. See this package's Profile, manifest and Build identity for the actual profile, batch and version; back up both complete candidate and service directories as described below before updating.
 The creative workbench's Next action follows the actual rule box and results. Commit/reveal one cell, then finish the round before connecting output feedback. Successful Representation/Service tasks provide an explicit continuation action.
 Use the task specification, Handbook and independently confirmed read-only hints when needed.
 F8 opens optional feedback even before completion. Save is local; Send has independent consent.

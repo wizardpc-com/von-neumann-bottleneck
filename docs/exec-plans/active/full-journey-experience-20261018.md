@@ -1,11 +1,19 @@
 # 全旅程体验续轮 · 2026-10-18
 
-当前工程交付已推进至F5，固定产品SOURCE `d14be32f81354eb062f38d39f860b16ff739921a`，完整回归176／176与三组renderer通过其限定范围。
-新普通实包父219＋严格重启48、测试者父229＋原collector子链＋严格重启48均通过；默认试玩ZIP、独立profile、来源与限制见[当前集中交接](../../verification/20261018-creation-connections/README.md)。
-本轮原生验收因官方工具初始化失败为NOT_RUN_TOOL_INITIALIZATION_BLOCKED：零Sky／窗口观察／输入／截图，普通自有QA进程定向停止，测试者未启动；不是自然退出或产品原生PASS。
-仅闭合本工程阶段；完整goal与真人理解、Mac、正式素材等开放项仍ACTIVE。以下c109／8334等旧段均为历史检查点，不作为当前包身份或原生结论。
+当前交付推进至F6，产品SOURCE固定`bb5c817bcb7e0c770fc65b41b7407e2847149a74`；
+交接检查点`42401a3`已推送，完整回归176／176、效率真实renderer245与产品CI通过各自范围。
+普通实包父219＋严格重开48、测试者父229＋原collector142 capture／19 reopen＋严格重开48均通过；
+普通21图与测试者45副本／31独立SHA已独审。测试者外层日志解码失败exit1保留，
+仅剩余strict独立继续完成，不把整外层改判exit0；旧普通三错和180秒超时原因仍UNKNOWN。
+双包、manifest、来源与最多五项次日观察见[当前集中交接](../../verification/20261018-narrative-modal-focus/README.md)。
+d14双包为[已验恢复版本](../../verification/20261018-creation-connections/README.md)，不是当前产品身份。
+官方原生工具初始化阻断，后续未重试：新包无OS输入验收，不能借F1／F4旧结果覆盖。
+完整goal仍ACTIVE，F6为DELIVERED_WITH_OPEN_OBSERVATIONS。源码效率模态保护已测，
+实际导出包直接触发同一保护仍须窄验证；该工作不以新剧情或重复完整回归代替。
 
-当前包SOURCE固定`8334ab137beb95f24f6092ac0a23df69c592255f`，随包收集器经独审及14项Python测试通过。
+## F1历史交付身份
+
+F1当时包SOURCE固定`8334ab137beb95f24f6092ac0a23df69c592255f`，随包收集器经独审及14项Python测试通过。
 Godot runtime/assets/project/export-presets/tests与226无差异经总控核对，引用226原full168/168、
 定向13/13、Rule真实401/Journal真实222及两CI成功仅覆盖相同runtime，不声称8334另跑full。
 
@@ -174,7 +182,19 @@ Rule长f74/短cd193 QA即时headless391各通过，原canonical短根renderer d4
 （基础391+10capture检查）。10cases+第11pending及后续反馈截图“No writable incident…”
 确证无writable current拒绝关闭，准确create stage未捕获；等待原断言真实GUI同步诊断，不先改输入/Store。
 
-## 尚未关闭的工作
+## 当前未关闭的验收与决定
+
+- 实际bb5 ZIP中的Efficiency模态焦点／延迟展示／Host Esc尚无直接fixture；
+  原245 source-renderer不代实包。继续复用固定ZIP、真正game准备与隔离数据，
+  不切free_candidate的TestMode、不伪造支持或放宽断言，核准后独占运行。
+- 原普通三错与后续超时保留原证据与UNKNOWN原因；新通过或新增同步日志不视为旧故障修复。
+- 原生工具、异机Mac、陌生玩家理解、正式美术／人设／声线／结局和录像仍缺相应外部证据或人审。
+  无环境修复不重试官方原生工具，不绕过接口；不以controller替代人类观察。
+- 同数据浅深工作台比较、Texture2D替换与缺图fallback、只读档案、真实3D候选、
+  原作品回看和C/P/G承接已在F2–F6实现并按各自证据验证；浅色不是全局设置，素材槽不是正式素材。
+  当前边界见[覆盖账本](../../development/full-journey-coverage.md)与[素材接口](../../development/night-art-interfaces.md)。
+
+## F1当时未关闭工作的历史交接
 
 F1受控双实包链及normal/tester限定OS路线已闭合；旧失败各保留，源码8334的两远端CI已由Root live核为SUCCESS（39071109957/39071106629）。
 原生CPG、原生独立重启、中文长输入、真实旧作品、Mac/异机和陌生玩家理解未执行；模型/配方/作品跨进程另有实际导出包controller证据，不混等级。

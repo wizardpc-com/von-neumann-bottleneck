@@ -17,6 +17,11 @@ exit1保留；仅尚未启动的原strict另次继续完成，没有重跑父/ch
 
 完整解压后运行`Windows/Von-Neumann-Bottleneck.exe`，无需安装Godot。两包仍沿用各自独立的
 CreationLinks profile；旧d14包保留恢复用途，切勿用QA档覆盖真实玩家成果。
+当前bb5普通包README的中英文概述仍留有旧MeasuredGrowth profile示例名；
+实际普通profile是`CreationLinks20261018`，测试者是`OfflineTeammate-CreationLinks20261018`，
+以各自manifest为准；普通README后部动态`Profile:`字段与测试者README的实际目录说明正确。
+备份对应的完整representation与service目录；
+换解压目录不会创建新的存档空间。本勘误不改已验ZIP字节，后续构建模板另行修正。
 次日只按[本轮最多五项观察](../verification/20261018-narrative-modal-focus/README.md#次日最多五项观察)
 核查入口理解、CPG F8/两层Esc、SavedWork返回、反馈与Hint/Run、正式素材选择；若重现旧失败，
 记录具体窗口/场景/可见状态。本轮是DELIVERED_WITH_OPEN_OBSERVATIONS，完整goal仍ACTIVE；

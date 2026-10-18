@@ -4,7 +4,9 @@
 
 ## Narrative modal-focus delivery with open observations
 
-The current branch is `codex/narrative-modal-focus-20261018`. The sixty-task
+The verified delivery checkpoint42401a3 is on `codex/narrative-modal-focus-20261018`.
+Direct exported modal verification is being prepared separately on
+`codex/exported-modal-validation-20261018`; it has no actual run result yet. The sixty-task
 semantic review is complete at20c9515; it records source contracts, not sixty
 fresh solutions or newcomer acceptance. Baseline867ec81 reproduces an efficiency
 animation advancing while a focused embedded modal is open:239 checks, four

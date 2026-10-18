@@ -126,6 +126,8 @@ func capture_screen(context: String, dimensions: Vector2i) -> void:
 	check(screenshot.save_png(path) == OK,context+": actual rendered capture saved")
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic fallback surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true # ordinary vs candidate premise
 	capture = "--hub-capture" in OS.get_cmdline_user_args()
 	if capture and DisplayServer.get_name() == "headless":
 		check(false,"--hub-capture requires a rendered window; ordinary headless runs do not capture")

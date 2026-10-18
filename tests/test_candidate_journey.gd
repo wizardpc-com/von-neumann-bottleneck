@@ -9,6 +9,7 @@ func check(value: bool, message: String) -> void:
 	checks += 1
 	if not value: failures += 1; push_error(message)
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	var base := "/synthetic/VonNeumannBottleneckCandidates/representation/QA"
 	check(Context.resolve_path("representation","representation","QA",base) == "user://representation-session.json","Existing representation profile keeps original file")
 	check(Context.resolve_path("service","representation","QA",base) == "/synthetic/VonNeumannBottleneckCandidates/service/QA/service-session.json","Cross-domain entry uses original sibling service profile")

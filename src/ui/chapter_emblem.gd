@@ -2,7 +2,7 @@ class_name ChapterEmblem
 extends Control
 
 var chapter: StringName = &"hardware"
-var accent := Color("50d5ff")
+var accent := Color("7fcbd6")
 
 
 func _ready() -> void:
@@ -40,7 +40,7 @@ func _draw() -> void:
 			draw_circle(end, 3.0, accent if index == 1 else outline, false, 1.5, true)
 	match chapter:
 		&"layout":
-			var colors: Array[Color] = [Color("67e8a5"),Color("50d5ff"),Color("ffbf69"),Color("bc8cff")]
+			var colors: Array[Color] = [Color("7fd8a4"),Color("7fcbd6"),Color("f0c674"),Color("aab6e6")]
 			for row: int in range(2):
 				for col: int in range(4):
 					var at := center+Vector2(-50+col*26,-19+row*22)
@@ -58,7 +58,7 @@ func _draw() -> void:
 					draw_line(origin + Vector2(26.0, 14.0), origin + Vector2(35.0, 14.0), accent, 2.0)
 		&"overlap":
 			for lane: int in range(2):
-				var lane_color := Color("50d5ff") if lane == 0 else accent
+				var lane_color := Color("7fcbd6") if lane == 0 else accent
 				for batch: int in range(3):
 					var cell := Rect2(center + Vector2(-50+batch*29+lane*13,-19+lane*23),Vector2(24,15))
 					draw_rect(cell,Color(lane_color,0.6),true)

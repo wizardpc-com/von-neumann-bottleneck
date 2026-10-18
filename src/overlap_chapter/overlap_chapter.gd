@@ -6,9 +6,9 @@ const PaletteItem = preload("res://src/hardware_foundations/component_palette_it
 const Map = preload("res://src/hardware_foundations/campaign_map_view.gd")
 const Timeline = preload("res://src/overlap_chapter/overlap_timeline.gd")
 const Type = preload("res://src/ui/ui_typography.gd")
-const BLUE := Color("50d5ff")
-const GOLD := Color("ffbf69")
-const GREEN := Color("67e8a5")
+const BLUE := Color("7fcbd6")
+const GOLD := Color("f0c674")
+const GREEN := Color("7fd8a4")
 var terminology_handbook: TerminologyHandbook
 var level: String = ""
 var board: Dictionary = {}

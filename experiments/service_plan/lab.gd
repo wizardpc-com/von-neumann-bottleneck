@@ -253,7 +253,7 @@ func build() -> void:
 	undo_button = button(tr2("撤销", "Undo"), actions, undo, "Undo")
 	redo_button = button(tr2("重做", "Redo"), actions, redo, "Redo")
 	run_button = button(tr2("运行并记录", "Run and record"), actions, run_current, "Run")
-	InstrumentTheme.primary(run_button,Color("50d5ff"))
+	InstrumentTheme.primary(run_button,Color("7fcbd6"))
 	if persistent_session:
 		var save := button(tr2("保存本次探索", "Save this exploration"),editor,save_session,"SaveSession")
 		set_action_disabled(save,save_blocked); InstrumentTheme.primary(save,Color("62dca7"))
@@ -417,7 +417,7 @@ func refresh_verdict() -> void:
 		measured_verdict.text += "\n"+bridge[task]
 		InstrumentTheme.primary(next_button,Color("62dca7"))
 	else:
-		InstrumentTheme.primary(run_button,Color("50d5ff"))
+		InstrumentTheme.primary(run_button,Color("7fcbd6"))
 
 func toggle_language() -> void:
 	english = not english

@@ -5,10 +5,10 @@ const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 
 const SURFACE := Color("243a52")
 const SYMBOL := Color("d7e9f6")
-const SELECTION := Color("50d5ff")
-const PROCESS := Color("50d5ff")
-const SIGNAL_LOW := Color("ff6b7d")
-const SIGNAL_HIGH := Color("67e8a5")
+const SELECTION := Color("7fcbd6")
+const PROCESS := Color("7fcbd6")
+const SIGNAL_LOW := Color("e8848c")
+const SIGNAL_HIGH := Color("7fd8a4")
 const SIGNAL_HIGH_Z := Color("8b929d")
 
 var component_kind: StringName = &""

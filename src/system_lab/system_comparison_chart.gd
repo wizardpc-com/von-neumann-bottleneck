@@ -3,8 +3,8 @@ extends Control
 var samples: Array[Dictionary] = []
 var captions: PackedStringArray = []
 var legend: String = ""
-const COMPUTE := Color("50d5ff")
-const WAIT := Color("ffbf69")
+const COMPUTE := Color("7fcbd6")
+const WAIT := Color("f0c674")
 
 func _init() -> void:
 	custom_minimum_size.y = 144
@@ -36,10 +36,10 @@ func _draw() -> void:
 	for index: int in 2:
 		var item: Dictionary = samples[index]
 		var y: float = 46+index*53
-		draw_string(font,Vector2(0,y-6),captions[index],HORIZONTAL_ALIGNMENT_LEFT,size.x,13,Color("91a0b9"))
+		draw_string(font,Vector2(0,y-6),captions[index],HORIZONTAL_ALIGNMENT_LEFT,size.x,13,Color("8fa3ad"))
 		draw_rect(Rect2(0,y,span,18),Color("071821"))
 		var compute_width: float = span*item.cpu_compute_cycles/scale
 		var wait_width: float = span*item.cpu_wait_cycles/scale
 		draw_rect(Rect2(0,y,compute_width,18),COMPUTE)
 		draw_rect(Rect2(compute_width,y,wait_width,18),WAIT)
-		draw_string(font,Vector2(span+8,y+15),str(item.total_cycles),HORIZONTAL_ALIGNMENT_LEFT,76,14,Color("e9f0fa"))
+		draw_string(font,Vector2(span+8,y+15),str(item.total_cycles),HORIZONTAL_ALIGNMENT_LEFT,76,14,Color("e2ebef"))

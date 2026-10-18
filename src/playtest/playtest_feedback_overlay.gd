@@ -25,12 +25,12 @@ signal open_export_folder_requested(export_path: String)
 signal finished(scope: StringName, subject_id: StringName)
 
 const BACKDROP := Color("050a12", 0.86)
-const SURFACE := Color("111a2a")
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
-const PURPLE := Color("bc8cff")
-const MUTED := Color("91a0b9")
-const TEXT := Color("e9f0fa")
+const SURFACE := Color("131d25")
+const ACCENT := Color("7fcbd6")
+const GOOD := Color("7fd8a4")
+const PURPLE := Color("aab6e6")
+const MUTED := Color("8fa3ad")
+const TEXT := Color("e2ebef")
 
 var questionnaire_enabled: bool = false
 var current_scope: StringName = &""
@@ -360,7 +360,7 @@ func show_export_result(export_path: String, error_message: String = "") -> void
 	exported_path = export_path
 	if export_path.is_empty():
 		export_status_label.text = Localization.text(&"playtest.export.failed", [error_message])
-		export_status_label.add_theme_color_override("font_color", Color("ff6b7d"))
+		export_status_label.add_theme_color_override("font_color", Color("e8848c"))
 		open_export_folder_button.hide()
 	else:
 		export_status_label.text = Localization.text(&"playtest.export.success", [export_path])

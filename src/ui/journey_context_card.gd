@@ -50,11 +50,11 @@ func set_task(chapter: StringName, level: StringName, use_english: bool, earned:
 	if changed:
 		toggle.set_pressed_no_signal(false); details.hide()
 		evidence_label.text = "当前方案仍须按原任务核验。" if not english else "Check the current plan under the existing task contract."
-	toggle.text = "壹 · 语境与前后承接" if not english else "Yi · Context and connection"
+	toggle.text = "壹 · 这一步从哪里来" if not english else "Yi · Where this step comes from"
 	if earned:
 		toggle.text += (" · 本次发现" if not english else " · session finding") if chapter == &"prediction" else (" · 已有记录" if not english else " · earned record")
 	action_label.text = ("现在：" if not english else "Now: ") + str(data.action)
-	verify_label.text = ("核验：" if not english else "Verify: ") + str(data.verify)
+	verify_label.text = ("怎样算完成：" if not english else "Done when: ") + str(data.verify)
 	var lines: Array[String] = [str(data.intent)]
 	if earned:
 		var earned_title: String = "已有验收记录（当前草稿另验）：" if not english else "Earned record (recheck the current draft): "

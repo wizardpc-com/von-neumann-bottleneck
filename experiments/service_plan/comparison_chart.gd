@@ -3,7 +3,7 @@ extends Control
 var rows: Array[Dictionary] = []
 var english: bool = false
 const MUTED := Color("71899b")
-const CURRENT := Color("50d5ff")
+const CURRENT := Color("7fcbd6")
 const MORE := Color("efb66c")
 
 func _init() -> void:

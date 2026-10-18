@@ -31,8 +31,8 @@ var journey_context
 var recorded_source: Label
 var step_button: Button
 const Typography = preload("res://src/ui/ui_typography.gd")
-const TEXT := Color("e9f0fa")
-const MUTED := Color("91a0b9")
+const TEXT := Color("e2ebef")
+const MUTED := Color("8fa3ad")
 
 func _ready() -> void:
 	_build_theme()
@@ -83,8 +83,8 @@ func _build_theme() -> void:
 	skin.set_color("default_color","RichTextLabel",TEXT)
 	skin.set_font_size("normal_font_size","RichTextLabel",Typography.CAPTION_SIZE)
 	skin.set_stylebox("panel","Tree",InstrumentTheme.panel(Color("0b1722")))
-	skin.set_stylebox("selected","Tree",InstrumentTheme.panel(Color("193a4c"),Color("50d5ff"),3))
-	skin.set_stylebox("selected_focus","Tree",InstrumentTheme.panel(Color("193a4c"),Color("50d5ff"),3))
+	skin.set_stylebox("selected","Tree",InstrumentTheme.panel(Color("193a4c"),Color("7fcbd6"),3))
+	skin.set_stylebox("selected_focus","Tree",InstrumentTheme.panel(Color("193a4c"),Color("7fcbd6"),3))
 	for state: String in ["title_button_normal","title_button_hover","title_button_pressed"]:
 		skin.set_stylebox(state,"Tree",InstrumentTheme.panel(Color("1b2b37")))
 	skin.set_color("title_button_color","Tree",TEXT)

@@ -4,12 +4,12 @@ extends Control
 signal level_requested(level_id: StringName)
 
 const BACKGROUND := Color("0b1220")
-const SURFACE := Color("111a2a")
+const SURFACE := Color("131d25")
 const TEXT := Color("d8e1ef")
 const MUTED := Color("8290a8")
-const ACCENT := Color("50d5ff")
+const ACCENT := Color("7fcbd6")
 const PURPLE := Color("c58cff")
-const GOOD := Color("67e8a5")
+const GOOD := Color("7fd8a4")
 
 const NODE_SIZE := Vector2(166.0, 92.0)
 const LEFT_RESERVED: float = 420.0

@@ -15,7 +15,7 @@ class ConnectionImage extends Control:
 			draw_texture_rect(media,Rect2((size-fitted)/2.0,fitted),false)
 			return
 		# A replaceable connection metaphor, not a fourth signal trace or an event replay.
-		var colors: Array[Color] = [Color("50d5ff"),Color("ffc879"),Color("c5a6ff")]
+		var colors: Array[Color] = [Color("7fcbd6"),Color("ffc879"),Color("c5a6ff")]
 		var center: Vector2 = size/2.0
 		for index: int in 3:
 			var point := center+Vector2((index-1)*90,0)

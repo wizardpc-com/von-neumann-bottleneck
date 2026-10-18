@@ -60,7 +60,7 @@ func _build() -> void:
 	close_button = Button.new(); close_button.name = "ArchiveClose"
 	close_button.text = "回到实验室 · Esc" if not english else "Back to the lab · Esc"
 	_style_button(close_button, false); close_button.pressed.connect(close); header.add_child(close_button)
-	var hint := _label(column, "每完成一段旅程，这里会多一页记录。记录是候选文本，故事组可以改写。" if not english else "Each stage of the journey adds a page here. Pages are candidate text the story team may rewrite.", 13, Palette.LAB_INK_SOFT)
+	var hint := _label(column, "每走完一段旅程，这里会多一页壹留下的记录。" if not english else "Each stage of the journey adds a page from Yi's records.", 13, Palette.LAB_INK_SOFT)
 	hint.name = "ArchiveHint"
 	var split := HBoxContainer.new(); split.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	split.add_theme_constant_override("separation", 22); column.add_child(split)

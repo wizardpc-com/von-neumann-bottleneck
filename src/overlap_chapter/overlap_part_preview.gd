@@ -4,7 +4,7 @@ func _ready() -> void:
 	custom_minimum_size = Vector2(94,54)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 func _draw() -> void:
-	var color := Color("50d5ff") if cache else Color("ba92ff")
+	var color := Color("7fcbd6") if cache else Color("ba92ff")
 	var middle: float = size.y * 0.5
 	var body := Rect2(22,5,maxf(25,size.x-44),maxf(24,size.y-10))
 	draw_rect(body,Color(color,0.14))

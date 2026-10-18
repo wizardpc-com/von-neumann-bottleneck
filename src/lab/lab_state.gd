@@ -13,9 +13,9 @@ const STATIONS := [
 	{"regions": [4], "zh": "布局", "en": "Layout"},
 	{"regions": [5], "zh": "表示", "en": "Representation"},
 	{"regions": [6], "zh": "服务", "en": "Service"},
-	{"regions": [7], "zh": "预测", "en": "Prediction"},
+	{"regions": [7], "zh": "地址预测", "en": "Address"},
 	{"regions": [8], "zh": "压缩", "en": "Compression"},
-	{"regions": [9], "zh": "推断", "en": "Inference"},
+	{"regions": [9], "zh": "内容预测", "en": "Content"},
 	{"regions": [10], "zh": "创造", "en": "Creation"},
 ]
 

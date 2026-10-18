@@ -117,7 +117,7 @@ func _ready() -> void:
 	writable = bool(opened.get("writable",false))
 	recovery_choices = opened.get("choices",[]).duplicate(true)
 	recovery_fingerprint = str(opened.get("fingerprint",""))
-	status_text = (text2("草稿与作品使用独立候选档。当前已有 %d 段样例；点「学习」建立规则盒。","Drafts and works use an isolated candidate profile. %d examples are selected; Learn to build the rule box.")%session.data.draft.examples.size() if not session.data.draft.examples.is_empty() else text2("草稿与作品使用独立候选档。先选择一段样例，再点「学习」。","Drafts and works use an isolated candidate profile. Select an example, then Learn.")) if opened.get("ok",false) else str(opened.get("error",session.error))
+	status_text = (text2("已选 %d 段样例。点「学习」，让规则盒从中找出规律。","%d examples selected. Press Learn so the rule box can find the pattern.")%session.data.draft.examples.size() if not session.data.draft.examples.is_empty() else text2("先选一段样例，再点「学习」。","Select an example, then press Learn.")) if opened.get("ok",false) else str(opened.get("error",session.error))
 	if not writable: status_text = text2("当前候选档只读：可回看受保护快照；保存被禁用，原文件不会被覆盖。","Candidate profile is read-only: protected snapshots remain playable; saving is disabled and the original file stays intact.")+" "+str(opened.get("error",session.error))
 	if opened.get("error", "") == "raw_restore_readonly":
 		status_text = text2("旧候选档把 RAW 误记为模型复原，现以只读方式打开。已验证作品可回看，原文件不会改写；请保留备份，在新的候选档重新学习并发送预测包来取得复原证据。", "This older profile counted RAW as model restoration. It is now read-only: validated works remain viewable and the original file is untouched. Keep a backup; learn and send a predictive packet in a fresh candidate profile to earn restoration evidence.")
@@ -136,7 +136,7 @@ func _ready() -> void:
 	InstrumentTheme.apply_to(skin)
 	skin.default_font_size = 14
 	for control: String in ["Label","Button","OptionButton","Tree","ItemList","LineEdit"]:
-		skin.set_color("font_color",control,Color("e9f0fa"))
+		skin.set_color("font_color",control,Color("e2ebef"))
 	for control: String in ["VBoxContainer","HBoxContainer"]: skin.set_constant("separation",control,8)
 	skin.set_stylebox("panel","Tree",InstrumentTheme.panel(Color("0b1722")))
 	theme = skin
@@ -216,9 +216,10 @@ func build() -> void:
 	margin.add_child(page)
 	var header := HBoxContainer.new()
 	page.add_child(header)
-	var title: Label = label(text2("光纹工作台 · 压缩 → 预测 → 创造","Signal workbench · compress → predict → create"),header,22)
+	var title: Label = label(text2("光纹工作台","Signal workbench"),header,22)
 	title.add_theme_font_override("font",Typography.HEADING_FONT)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_build_arc_stepper(header)
 	button("中文 / EN","Language",header,toggle_language)
 	header.add_child(get_node("/root/PlaytestMoments").make_button())
 	button(text2("保存草稿","Save draft"),"SaveDraft",header,save_draft).disabled = not writable
@@ -273,7 +274,8 @@ func build() -> void:
 	if task >= 6: edit_tabs.current_tab = 2
 	if task == 2: edit_tabs.current_tab = 1
 	train_button = button(text2("从当前样例学习","Learn selected examples"),"Train",left,train_model)
-	label(text2("修改草稿不会暗改已学模型。点「学习」才建立新版本；每段样例独立，不首尾拼接。","Draft edits do not change learned rules. Learn explicitly to make a new version; examples are independent."),left,12)
+	var learn_note: Label = label(text2("改了样例，记得再点一次「学习」。","After changing examples, press Learn again."),left,12)
+	learn_note.add_theme_color_override("font_color",Color("8fa3ad"))
 	var right: VBoxContainer = panel(body,"SignalEvidence")
 	right.add_theme_constant_override("separation",4)
 	var evidence_header := HBoxContainer.new()
@@ -285,6 +287,11 @@ func build() -> void:
 	provenance.name = "Provenance"
 	machine_strip = label("",right,11)
 	machine_strip.name = "MachineResources"
+	# One quiet line; the full specification lives in its tooltip.
+	machine_strip.autowrap_mode = TextServer.AUTOWRAP_OFF
+	machine_strip.clip_text = true
+	machine_strip.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	machine_strip.mouse_filter = Control.MOUSE_FILTER_PASS
 	machine_strip.add_theme_color_override("font_color",Color("a9bbc9"))
 	measured_summary = label("",right,12)
 	measured_summary.name = "LiveMeasurementSummary"
@@ -1138,12 +1145,15 @@ func refresh() -> void:
 	var mode: String = str(session.data.get("mode","compress"))
 	var machine: Dictionary = session.data.draft.machine
 	machine_strip.text = "%s · CPU %s %s · RAM %s B · %s %s %s · %s %s B/%s + %s %s"%[text2("当前机器","Current machine"),str(machine.cpu_ops_per_cycle),text2("运算/周期","ops/cycle"),str(machine.memory_bytes),text2("自动缓存","auto cache"),str(machine.cache_rows),text2("规则行","rule rows"),text2("通道","bus"),str(machine.bytes_per_cycle),text2("周期","cycle"),str(machine.request_cycles),text2("周期/请求","cycles/request")]
+	machine_strip.tooltip_text = machine_strip.text
 	measured_summary.text = live_measurement_text() if latest.is_empty() or _latest_matches_mode() else text2("本阶段尚未运行 · 上一阶段证据仍可在下方查看。", "No run in this stage yet · earlier evidence remains available below.")
 	saved_work_closure.visible = not kept_work.is_empty()
 	(find_child("ContinueCreation",true,false) as Button).disabled = not writable
 	saved_work_caption.text = text2("已留下：","Kept: ")+str(kept_work.get("name",""))
 	var names: Dictionary = {"compress":text2("原文→包→恢复","source→packet→restore"),"predict":text2("已见→提交→真值","seen→commit→truth"),"generate":text2("输出→上下文","output→context")}
-	provenance.text = "%s · %s · %s %s · %s"%[names.get(mode,mode),text2("当前草稿模型","current draft model"),model_id,text2("（冻结）","(frozen)"),text2("未保存草稿","unsaved draft") if session.dirty else text2("已保存","saved")]
+	provenance.text = "%s · %s"%[names.get(mode,mode),text2("未保存草稿","unsaved draft") if session.dirty else text2("已保存","saved")]
+	provenance.tooltip_text = "%s %s %s\n%s"%[text2("当前草稿模型","Current draft model"),model_id,text2("（冻结）","(frozen)"),machine_strip.text]
+	provenance.mouse_filter = Control.MOUSE_FILTER_PASS
 	if not writable: provenance.text += " · "+text2("只读档","read-only profile")
 	if latest.get("kind","") in ["snapshot","replay"]:
 		var saved_id: String = str(latest.get("work",{}).get("recipe",{}).get("model_id","")).substr(0,12)
@@ -2176,3 +2186,40 @@ func _locate_connection_work(id: String) -> void:
 		works.ensure_current_is_visible()
 		works.grab_focus()
 		return
+
+
+# Where this unit sits in the late arc: compression → content prediction → creation.
+func _build_arc_stepper(parent: Node) -> void:
+	var stepper := HBoxContainer.new(); stepper.name = "ArcStepper"
+	stepper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stepper.alignment = BoxContainer.ALIGNMENT_CENTER
+	stepper.add_theme_constant_override("separation",2)
+	stepper.clip_contents = true
+	parent.add_child(stepper)
+	var groups: Array = [[text2("压缩","Compress"),0],[text2("内容预测","Predict"),3],[text2("创造","Create"),6]]
+	for group: Array in groups:
+		var caption := Label.new(); caption.text = str(group[0]) if not english else ""
+		caption.add_theme_font_size_override("font_size",13)
+		caption.add_theme_color_override("font_color",Color("8fa3ad"))
+		stepper.add_child(caption)
+		for offset: int in 3:
+			var index: int = int(group[1]) + offset
+			var done: bool = session.data.get("supports",{}).has(Catalog.IDS[index])
+			var chip := Button.new(); chip.name = "ArcStep"+str(index)
+			chip.text = ("✓" if done else "") + str(Catalog.IDS[index]).get_slice("_",0)
+			chip.tooltip_text = Catalog.title(index,english)
+			chip.custom_minimum_size = Vector2(38,28)
+			chip.add_theme_font_size_override("font_size",13)
+			chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			chip.toggle_mode = true
+			chip.set_pressed_no_signal(index == task)
+			chip.focus_mode = Control.FOCUS_NONE
+			if index == task: chip.add_theme_color_override("font_color",Color("111a21"))
+			elif done: chip.add_theme_color_override("font_color",Color("ffd27a"))
+			var target: int = index
+			chip.pressed.connect(func() -> void: change_task(target))
+			stepper.add_child(chip)
+		if int(group[1]) < 6:
+			var arrow := Label.new(); arrow.text = "→"
+			arrow.add_theme_color_override("font_color",Color("4fa7b5"))
+			stepper.add_child(arrow)

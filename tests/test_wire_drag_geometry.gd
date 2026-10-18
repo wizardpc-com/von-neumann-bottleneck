@@ -159,7 +159,7 @@ func _check_hover_feedback(graph: GraphEdit, source: GraphNode, target: GraphNod
 	graph.call("_input", release)
 	var diagnostic: Dictionary = circuit.call("connection_diagnostic", source.name, 0, target.name, 0)
 	var expected: String = root.get_node("Localization").call("text_from_spec", diagnostic)
-	_check(status.text == expected and status.get_theme_color("font_color").is_equal_approx(Color("ff6b7d")) and rejected[0] == 1,
+	_check(status.text == expected and status.get_theme_color("font_color").is_equal_approx(Color("e8848c")) and rejected[0] == 1,
 		"A real failed release displays the exact localized diagnostic and records one rejection: status=%s expected=%s count=%s." % [status.text, expected, rejected[0]])
 	graph.call("_input", release)
 	_check(rejected[0] == 1, "Duplicate native rejection reporting cannot count a second player attempt.")

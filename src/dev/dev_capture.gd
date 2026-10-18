@@ -16,6 +16,7 @@ func _ready() -> void:
 		elif arg.begins_with("--dev-move="): _add("move", arg.trim_prefix("--dev-move="))
 		elif arg.begins_with("--dev-drag="): _add("drag", arg.trim_prefix("--dev-drag="))
 		elif arg.begins_with("--dev-rdrag="): _add("rdrag", arg.trim_prefix("--dev-rdrag="))
+		elif arg.begins_with("--dev-enter="): _add("enter", arg.trim_prefix("--dev-enter="))
 		elif arg.begins_with("--dev-key="): _add("key", arg.trim_prefix("--dev-key="))
 		elif arg.begins_with("--dev-call="): _add("call", arg.trim_prefix("--dev-call="))
 		elif arg.begins_with("--dev-quit="): _quit_at = arg.trim_prefix("--dev-quit=").to_float()
@@ -89,6 +90,9 @@ func _run(event: Dictionary) -> void:
 				key.keycode = code; key.physical_keycode = code; key.pressed = pressed
 				get_viewport().push_input(key)
 				await get_tree().process_frame
+		"enter":
+			var navigation: Node = get_node("/root/TaskNavigation")
+			print("DEV_ENTER ", value, " ", navigation.open_tree() if value == "tree" else navigation.enter(value))
 		"call":
 			# group:method — lets a route trigger a documented scene action.
 			var pair: PackedStringArray = value.split(":")

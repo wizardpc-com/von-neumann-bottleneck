@@ -64,7 +64,7 @@ func run() -> void:
 	detached.draft_changed(); detached.set_task(&"creation", &"C1_restore", true)
 	check(detached.evidence_label.text == "Check the current plan under the existing task contract." and detached.action_label.text.begins_with("Now: "), "Same-card locale change resets earlier draft guidance in the new language")
 	detached.measurement_recorded(); detached.set_task(&"creation", &"C1_restore", false)
-	check(detached.evidence_label.text == "当前方案仍须按原任务核验。" and detached.verify_label.text.begins_with("核验："), "Reverse locale change resets run guidance without inventing evidence state")
+	check(detached.evidence_label.text == "当前方案仍须按原任务核验。" and detached.verify_label.text.begins_with("怎样算完成："), "Reverse locale change resets run guidance without inventing evidence state")
 	detached.set_task(&"unknown", &"unknown", true)
 	check(not detached.visible, "Unknown contract hides the contextual presentation")
 	detached.free()

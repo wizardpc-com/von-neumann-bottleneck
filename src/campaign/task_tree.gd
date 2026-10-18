@@ -57,9 +57,9 @@ func _ready() -> void:
 	var home := _button(header,"tree.home",func() -> void:
 		TaskNavigation.from_tree = false
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
-	home.text = "首页" if Localization.current_locale() != "en" else "Home"
+	home.text = "← 实验室" if Localization.current_locale() != "en" else "← Laboratory"
 	var title := Label.new()
-	title.text = _t("title")
+	title.text = "旅程" if Localization.current_locale() != "en" else "Journey"
 	title.add_theme_font_size_override("font_size",30)
 	header.add_child(title)
 	header.add_child(PlaytestMoments.make_button())
@@ -72,7 +72,7 @@ func _ready() -> void:
 	_button(header,"tree.overview",func() -> void: canvas.overview())
 	var navigation := HFlowContainer.new(); navigation.name = "JourneyRegionNavigation"
 	navigation.add_theme_constant_override("h_separation",12); navigation.add_theme_constant_override("v_separation",6); column.add_child(navigation)
-	var section_label := Label.new(); section_label.text = "定位区域" if Localization.current_locale() != "en" else "Locate a region"
+	var section_label := Label.new(); section_label.text = "章节" if Localization.current_locale() != "en" else "Chapter"
 	section_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER; navigation.add_child(section_label)
 	region_choice = OptionButton.new(); region_choice.name = "JourneyRegionChoice"
 	region_choice.custom_minimum_size = Vector2(300,42); navigation.add_child(region_choice)
@@ -83,13 +83,15 @@ func _ready() -> void:
 	var observatory := Button.new(); observatory.name = "OpenJourneyObservatory"
 	observatory.text = "观察站" if Localization.current_locale() != "en" else "Observatory"
 	observatory.custom_minimum_size.y = 42; navigation.add_child(observatory)
+	# The laboratory now carries the journey board; the read-only 3D prototype stays reachable from code only.
+	observatory.hide()
 	observatory.pressed.connect(_open_observatory)
 	var journal := Button.new(); journal.name = "OpenJourneyJournal"
 	journal.text = "成长档案" if Localization.current_locale() != "en" else "Journal"
 	journal.custom_minimum_size.y = 42; navigation.add_child(journal)
 	journal.pressed.connect(_open_journey_journal)
 	creation_route = HBoxContainer.new(); creation_route.name = "CreationRouteShortcuts"
-	creation_route.add_theme_constant_override("separation",10); column.add_child(creation_route)
+	creation_route.add_theme_constant_override("separation",6); column.add_child(creation_route)
 	var body := HBoxContainer.new()
 	body.add_theme_constant_override("separation",18)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -178,7 +180,7 @@ func _ready() -> void:
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	help.add_theme_font_size_override("font_size",14)
 	help.text = _t("controls")
-	help.add_theme_color_override("font_color",Color("91a0b9"))
+	help.add_theme_color_override("font_color",Color("8fa3ad"))
 	column.add_child(help)
 	rows = TaskNavigation.journey_tasks()
 	_build_route_shortcuts()
@@ -217,21 +219,33 @@ func _open_journey_journal() -> void:
 		journey_journal = JournalType.new(); add_child(journey_journal)
 	journey_journal.open()
 
+# One chip per region, left to right in journey order, with real progress.
+# Later chapters (compression, prediction, creation) are visible from the start.
 func _build_route_shortcuts() -> void:
 	_clear_rows(creation_route)
 	var english: bool = Localization.current_locale() == "en"
 	var regions: Array[int] = []
 	for task: Dictionary in rows:
-		if task.domain != "creation" or int(task.region) in regions: continue
+		if int(task.region) in regions: continue
 		var region: int = int(task.region)
 		regions.append(region)
+		var done: int = 0; var total: int = 0
+		for other: Dictionary in rows:
+			if int(other.region) != region: continue
+			total += 1
+			if other.completed: done += 1
 		var button := Button.new()
-		button.name = "CreationRegion"+str(region)
-		button.text = str(task.region_title)
-		button.custom_minimum_size.y = 42
+		button.name = ("CreationRegion" if task.domain == "creation" else "JourneyRegion")+str(region)
+		button.text = _short_region(region) + "  " + str(done) + "/" + str(total)
+		button.custom_minimum_size = Vector2(0, 40)
+		button.clip_text = true
+		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		button.add_theme_font_size_override("font_size",15 if not english else 13)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.set_meta("region",region)
-		button.tooltip_text = "查看本区域任务；不修改进度或模型准备。" if not english else "Browse this region; progress and model preparation stay unchanged."
+		button.tooltip_text = _region_title(region) + "\n" + _region_summary(region)
+		if done > 0:
+			button.add_theme_color_override("font_color",Color("ffd27a") if done == total else Color("8fd3dc"))
 		button.pressed.connect(func() -> void:
 			_choose_region(region)
 			for index: int in region_choice.item_count:
@@ -242,12 +256,11 @@ func _build_route_shortcuts() -> void:
 	var available: int = 0
 	for task: Dictionary in rows:
 		if task.unlocked: available += 1
-	journey_scope.text = ("%d 项任务 · %d 项入口可用" if not english else "%d tasks · %d entrances available") % [rows.size(),available]
-	if TaskNavigation.offline_tester_enabled():
-		journey_scope.text += " · 协作检查：开放入口不赠送通关；创作准备仍须完成。" if not english else " · Tester access grants no completion; creative model preparation still applies."
-	elif not regions.is_empty():
-		journey_scope.text += " · 创作候选：压缩 → 内容预测 → 创造；内容预测与可选地址预测分别探索。" if not english else " · Candidate: Compression → Content prediction → Creation; content and optional address prediction are separate."
-	journey_scope.text += "\n"+_t("controls")
+	var finished: int = 0
+	for task: Dictionary in rows:
+		if task.completed: finished += 1
+	journey_scope.text = ("已完成 %d / %d · 可进入 %d" if not english else "Completed %d / %d · open %d") % [finished,rows.size(),available]
+	journey_scope.text += "  ·  "+_t("controls")
 
 func _open_core_review() -> void:
 	if not OverlapChapter.completed().has("synthesis") and not LayoutChapter.completed().has("mixed"): return
@@ -317,7 +330,7 @@ func _select(key: String) -> void:
 		return
 
 func _task_kind(task: Dictionary) -> String:
-	if task.domain == "creation": return "候选创作路线" if Localization.current_locale() != "en" else "Candidate creation route"
+	if task.domain == "creation": return "创作路线" if Localization.current_locale() != "en" else "Creation route"
 	if task.domain == "prediction": return "可选地址预测 · 不阻挡主线" if Localization.current_locale() != "en" else "Optional address prediction · no main-route gate"
 	if task.domain in ["representation","service"]: return "第二幕任务" if Localization.current_locale() != "en" else "Second-act task"
 	return _t("optional" if task.optional else "main")
@@ -382,11 +395,13 @@ func _region_summary(region: int) -> String:
 		0: return "核心旅程 · 从接线开始，亲手造出可复用的机器部件。" if not english else "Core journey · Build reusable machine parts, starting with wiring."
 		1: return "核心旅程 · 用自己的机器发现等待与搬运。" if not english else "Core journey · Use your machine to discover waiting and transfer."
 		2: return "核心旅程 · 调整数据的远近与复用方式。" if not english else "Core journey · Arrange data proximity and reuse."
-		3,4: return "核心旅程 · 时序与位置是并行路线，不互为前置；收束时回看两路成果。" if not english else "Core journey · Timing and placement run in parallel; review both results at the ending."
-		5: return "第二幕 · 改变信息的承载，留下自己的已保存表示方案；核心只作推荐承接。" if not english else "Second act · Save your representation plan; the core is a suggested lead-in."
-		6: return "第二幕 · 让已保存的方案服务后来的请求；后续合同按有效保存成果开放。" if not english else "Second act · Serve later requests with saved plans; later contracts use valid saved work."
-		7: return "可选地址预测 · 有限历史与猜错成本；工作只保留在本次会话。" if not english else "Optional address prediction · Limited history and the cost of wrong guesses; session only."
-		8,9,10: return "候选创作路线 · 同一机器与规则盒，经历压缩 → 内容预测 → 创造；推荐顺序不增加门槛。" if not english else "Candidate creation route · One machine and rule box across Compression → Content Prediction → Creation; order is suggested, not gated."
+		3,4: return "核心旅程 · 时序与布局是两条并行的路，都走完后在收束处一起回看。" if not english else "Core journey · Timing and placement are parallel paths; review both at the ending."
+		5: return "第二幕 · 换一种方式写下信息，让同样的内容占得更少、取得更快。" if not english else "Second act · Write information differently so the same content takes less space and less time."
+		6: return "第二幕 · 让保存下来的方案，去服务后来的请求。" if not english else "Second act · Let your saved plans serve the requests that come later."
+		7: return "地址预测 · 根据有限的历史猜下一次要去哪里，并承担猜错的代价。" if not english else "Address prediction · Guess where the next access goes from limited history, and pay for wrong guesses."
+		8: return "压缩 · 找到规律，让长记录变短，还能原样复原。" if not english else "Compression · Find the pattern so a long record becomes short and still restores exactly."
+		9: return "内容预测 · 用学到的规律，预测下一格还没到达的内容。" if not english else "Content prediction · Use the learned pattern to predict the cell that has not arrived yet."
+		10: return "创造 · 把输出接回输入，按自己的意图留下一段作品。" if not english else "Creation · Feed the output back in and leave a piece shaped by your own intent."
 	return ""
 
 func _refresh_task_list() -> void:
@@ -446,3 +461,11 @@ func _button(parent: Node,key: String,action: Callable) -> Button:
 	return button
 
 func _t(key: String) -> String: return Localization.text(StringName("tree."+key))
+
+
+func _short_region(region: int) -> String:
+	var english: bool = Localization.current_locale() == "en"
+	var zh: Array[String] = ["构造", "等待", "就近", "在途", "布局", "表示", "服务", "地址预测", "压缩", "内容预测", "创造"]
+	var en: Array[String] = ["Build", "Waiting", "Nearby", "In flight", "Layout", "Representation", "Service", "Address", "Compression", "Content", "Creation"]
+	if region < 0 or region >= zh.size(): return _region_title(region)
+	return en[region] if english else zh[region]

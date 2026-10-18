@@ -8,15 +8,15 @@ const YiIntroductionType = preload("res://src/ui/yi_introduction.gd")
 const ObservatoryType = preload("res://src/ui/journey_observatory.gd")
 const JournalType = preload("res://src/ui/journey_journal.gd")
 
-const BACKGROUND := Color("09101d")
-const PANEL := Color("172033")
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
-const WARNING := Color("ffbf69")
-const DANGER := Color("ff6b7d")
-const PURPLE := Color("bc8cff")
-const MUTED := Color("91a0b9")
-const TEXT := Color("e9f0fa")
+const BACKGROUND := Color("0e161c")
+const PANEL := Color("1a252e")
+const ACCENT := Color("7fcbd6")
+const GOOD := Color("7fd8a4")
+const WARNING := Color("f0c674")
+const DANGER := Color("e8848c")
+const PURPLE := Color("aab6e6")
+const MUTED := Color("8fa3ad")
+const TEXT := Color("e2ebef")
 
 var mode_selector: GameModeSelectorType
 var mode_description_label: Label
@@ -182,7 +182,7 @@ func _build_interface() -> void:
 	add_child(yi_introduction)
 	yi_introduction.launch_requested.connect(func() -> void: TaskNavigation.start_or_continue())
 	_refresh_save_actions()
-	if not "--classic-hub" in OS.get_cmdline_user_args():
+	if preload("res://src/lab/lab_features.gd").lab_home():
 		_build_laboratory(background, surface)
 
 

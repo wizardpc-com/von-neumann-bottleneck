@@ -44,7 +44,7 @@ func setup(id: StringName, title_text: String) -> void:
 	header.tooltip_text = Localization.text(&"window.drag.tooltip")
 	header.gui_input.connect(_on_header_input)
 	root.add_child(header)
-	var accent: Color = Color("67e8a5") if id == &"test_bench" else Color("ffbf69") if id == &"inspector" else Color("50d5ff")
+	var accent: Color = Color("7fd8a4") if id == &"test_bench" else Color("f0c674") if id == &"inspector" else Color("7fcbd6")
 	var marker := ColorRect.new()
 	marker.color = accent
 	marker.custom_minimum_size = Vector2(3.0, 20.0)

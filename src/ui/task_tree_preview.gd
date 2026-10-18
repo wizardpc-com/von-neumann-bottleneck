@@ -32,7 +32,7 @@ func _draw() -> void:
 			draw_polyline(curve.tessellate(),Color("386070"),1.5,true)
 	for task: Dictionary in rows:
 		var at: Vector2 = offset+(positions[task.key]+Layout.NODE_SIZE/2)*scale_factor
-		var color := Color("67e8a5") if task.completed else Color("50d5ff") if task.unlocked else Color("486777")
+		var color := Color("7fd8a4") if task.completed else Color("7fcbd6") if task.unlocked else Color("486777")
 		draw_circle(at,7,color if task.unlocked else Color("102a36"))
 		draw_circle(at,7,color,false,1.5,true)
 		if task.completed: draw_circle(at,2.5,Color("102a36"))

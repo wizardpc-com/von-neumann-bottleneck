@@ -138,7 +138,7 @@ func _draw() -> void:
 		draw_symbol(center,radius,value,color)
 		if cell_size >= 28:
 			draw_string(font,rect.position+Vector2(cell_size*0.62,cell_size*0.62),["A","B","C","D"][clampi(value,0,3)],HORIZONTAL_ALIGNMENT_LEFT,-1,12,color)
-		if selected == index: draw_rect(rect,Color("e9f0fa"),false,2)
+		if selected == index: draw_rect(rect,Color("e2ebef"),false,2)
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:

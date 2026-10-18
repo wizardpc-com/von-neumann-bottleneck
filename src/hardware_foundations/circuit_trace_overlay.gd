@@ -6,7 +6,7 @@ var progress: float = 0.0
 var signal_value: bool = false
 var path: PackedVector2Array = PackedVector2Array()
 var value_text: String = ""
-var player_color: Color = Color("50d5ff")
+var player_color: Color = Color("7fcbd6")
 var wire_pulses: Array[Dictionary] = []
 var path_provider: Callable
 
@@ -50,7 +50,7 @@ func _draw() -> void:
 			progress = display_progress(float(wire_pulse.get("progress", 0.0)))
 			signal_value = bool(wire_pulse.get("value", false))
 			value_text = String(wire_pulse.get("display", str(int(signal_value))))
-			player_color = wire_pulse.get("color", Color("50d5ff"))
+			player_color = wire_pulse.get("color", Color("7fcbd6"))
 			_draw_wire_signal()
 	elif mode == &"wire":
 		_draw_wire_signal()

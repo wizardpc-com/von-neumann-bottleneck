@@ -74,7 +74,7 @@ func _draw() -> void:
 			label += "  %d/%d" % [segment_index, segment_count]
 		var label_position := current + Vector2(12.0, -16.0)
 		var width: float = maxf(68.0, float(label.length()) * 8.0)
-		draw_rect(Rect2(label_position - Vector2(5.0, 16.0), Vector2(width + 10.0, 23.0)), Color("09101d", 0.94), true)
+		draw_rect(Rect2(label_position - Vector2(5.0, 16.0), Vector2(width + 10.0, 23.0)), Color("0e161c", 0.94), true)
 		draw_string(ThemeDB.fallback_font, label_position, label, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color("eef6ff"))
 
 

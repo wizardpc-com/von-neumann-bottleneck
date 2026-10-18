@@ -20,15 +20,15 @@ const ChapterMapViewType = preload("res://src/system_lab/system_chapter_map_view
 const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
 const LocalityRunReceiptType = preload("res://src/locality_chapter/locality_run_receipt.gd")
 
-const PANEL_COLOR := Color("172033")
+const PANEL_COLOR := Color("1a252e")
 const PANEL_DARK := Color("101725")
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
-const WARNING := Color("ffbf69")
-const BAD := Color("ff6b7d")
-const PURPLE := Color("bc8cff")
-const MUTED := Color("91a0b9")
-const TEXT := Color("e9f0fa")
+const ACCENT := Color("7fcbd6")
+const GOOD := Color("7fd8a4")
+const WARNING := Color("f0c674")
+const BAD := Color("e8848c")
+const PURPLE := Color("aab6e6")
+const MUTED := Color("8fa3ad")
+const TEXT := Color("e2ebef")
 const OFFICIAL_CYCLE_TARGET: int = 105
 const RUN_HISTORY_LIMIT: int = 8
 const MIN_CLOCK_PERIOD_SECONDS: float = 0.05
@@ -140,6 +140,7 @@ var trace_progress: ProgressBar
 var official_run_button: Button
 var debug_run_button: Button
 var result_label: Label
+var result_budget: Control
 var result_trace_button: Button
 var profiler_summary_label: Label
 var capstone_compare_box: VBoxContainer
@@ -889,8 +890,12 @@ func _build_test_bench_instrument() -> Control:
 	result_label = Label.new()
 	result_label.text = _t(&"state.not_run")
 	result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	result_label.add_theme_font_size_override("font_size", 20)
+	result_label.add_theme_font_size_override("font_size", 18)
 	panel.add_child(result_label)
+	result_budget = preload("res://src/ui/cycle_budget_bar.gd").new()
+	result_budget.name = "CycleBudget"
+	result_budget.hide()
+	panel.add_child(result_budget)
 	result_trace_button = Button.new()
 	result_trace_button.name = "CurrentRunTraceButton"
 	result_trace_button.text = _t(&"chapter2.result.inspect_fetch")
@@ -2198,6 +2203,8 @@ func _run_simulation(test_name: String) -> void:
 			&"chapter2.result.over_limit" if cycles > target_cycles else &"chapter2.result.within_limit",
 			[cycles, target_cycles, absi(cycles - target_cycles)]
 		)
+	result_budget.call("show_run", int(current_trace.metrics["total_cycles"]), int(current_trace.metrics.get("wait_cycles", 0)),
+		target_cycles if test_name == "Official Test Set" else 0, Localization.current_locale() == "en")
 	result_trace_button.visible = _result_trace_event_index() >= 0
 	var result_color: Color = BAD
 	if current_trace.passed:
@@ -3145,6 +3152,7 @@ func _invalidate_current_run(reason: String) -> void:
 	selected_profiler_event_index = -1
 	result_label.text = _t(&"state.not_run")
 	result_label.add_theme_color_override("font_color", TEXT)
+	if result_budget != null: result_budget.hide()
 	result_trace_button.hide()
 	_reset_device_feedback()
 	device_state_labels[&"Profiler"].text = _t(&"state.no_trace")

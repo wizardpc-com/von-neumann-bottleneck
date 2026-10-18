@@ -64,7 +64,8 @@ var next_key: String = ""
 var reduced_motion: bool = false
 
 func _ready() -> void:
-	english = Localization.current_locale() == "en"
+	var localization: Node = get_node_or_null("/root/Localization")
+	english = localization != null and str(localization.current_locale()) == "en"
 	reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion", false))
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_PASS
@@ -277,7 +278,7 @@ func _on_terminal_action(id: String) -> void:
 		"new_game": new_game_requested.emit()
 		"quit": quit_requested.emit()
 		"language":
-			Localization.set_locale("en" if not english else "zh_CN")
+			get_node("/root/Localization").set_locale("en" if not english else "zh_CN")
 			get_tree().reload_current_scene()
 
 func open_archive() -> void:
@@ -354,10 +355,25 @@ func _paint_back(canvas: Control) -> void:
 	_quad(canvas, [window.position, Vector2(window.end.x, window.position.y), window.end, Vector2(window.position.x, window.end.y)],
 		[Palette.LAB_SKY_TOP, Palette.LAB_SKY_TOP, Palette.LAB_SKY_LOW, Palette.LAB_SKY_LOW])
 	var towers := [[548, 70, 18], [590, 120, 26], [640, 92, 20], [700, 150, 34], [770, 110, 22], [820, 170, 40], [890, 128, 24], [945, 96, 30], [1010, 140, 22], [1050, 84, 18]]
-	for tower: Array in towers:
+	for tower_index: int in towers.size():
+		var tower: Array = towers[tower_index]
 		var h: float = float(tower[1]); var w: float = float(tower[2])
 		canvas.draw_rect(Rect2(float(tower[0]), window.end.y - h, w, h), Color(0.78, 0.86, 0.9, 0.55))
 		canvas.draw_circle(Vector2(float(tower[0]) + w * 0.5, window.end.y - h), w * 0.5, Color(0.78, 0.86, 0.9, 0.55))
+		# The city answers the journey: each region with progress lights one tower.
+		# The tallest central towers answer the earliest regions so first progress is easy to see.
+		var station: int = [10, 3, 7, 1, 5, 0, 6, 2, 4, 8][tower_index]
+		if station < station_progress.size() and int(station_progress[station].done) > 0:
+			var fraction: float = float(station_progress[station].done) / float(maxi(1, int(station_progress[station].total)))
+			var lit: int = clampi(int(ceil(fraction * 5.0)), 1, 5)
+			var glow: Color = Palette.SIGNAL_ON if fraction >= 1.0 else Palette.LAB_LIGHT
+			var flash: float = float(station_flash.get(station, 0.0))
+			# Start at the tower top so the lights stay visible above the monitor.
+			for row: int in lit:
+				var y: float = window.end.y - h + 8.0 + row * 13.0
+				if y > MONITOR_RECT.position.y - 10.0: break
+				canvas.draw_rect(Rect2(float(tower[0]) + w * 0.28, y, w * 0.44, 5), Palette.with_alpha(glow, 0.8 + 0.2 * flash))
+				canvas.draw_rect(Rect2(float(tower[0]) + w * 0.1, y - 3, w * 0.8, 11), Palette.with_alpha(glow, 0.12))
 	canvas.draw_rect(Rect2(window.position.x, window.end.y - 26, window.size.x, 26), Color(0.84, 0.9, 0.92, 0.6))
 	for i: int in range(1, 4):
 		var mx: float = window.position.x + window.size.x * i / 4.0
@@ -452,9 +468,9 @@ func _paint_board(canvas: Control) -> void:
 			canvas.draw_arc(points[index], radius, -PI / 2.0, -PI / 2.0 + TAU * fraction, 24, Palette.ACCENT, 2.5)
 			canvas.draw_circle(points[index], 3.0, Palette.SIGNAL_ON if fraction >= 1.0 else Palette.ACCENT)
 		var label_color: Color = Palette.with_alpha(Palette.TERM_TEXT, 0.92 if fraction > 0.0 else 0.55)
-		canvas.draw_string(font, points[index] + Vector2(15, 5), str(station.en if english else station.zh), HORIZONTAL_ALIGNMENT_LEFT, 80, 13, label_color)
+		canvas.draw_string(font, points[index] + Vector2(15, 5), str(station.en if english else station.zh), HORIZONTAL_ALIGNMENT_LEFT, 56, 12, label_color)
 		if int(station.total) > 0:
-			canvas.draw_string(font, points[index] + Vector2(64, 5), "%d/%d" % [int(station.done), int(station.total)], HORIZONTAL_ALIGNMENT_LEFT, 50, 11, Palette.with_alpha(Palette.TERM_MUTED, 0.8))
+			canvas.draw_string(font, points[index] + Vector2(72, 5), "%d/%d" % [int(station.done), int(station.total)], HORIZONTAL_ALIGNMENT_LEFT, 40, 11, Palette.with_alpha(Palette.TERM_MUTED, 0.8))
 
 func _paint_desk(canvas: Control) -> void:
 	if art.has("desk"):
@@ -536,7 +552,7 @@ func _rounded(canvas: CanvasItem, rect: Rect2, color: Color, radius: int) -> voi
 
 
 # After a completion, suggest the next open task instead of reopening a finished one.
-func _next_task(rows: Array[Dictionary], fresh: Array[String]) -> String:
+func _next_task(rows: Array, fresh: Array) -> String:
 	var navigation: Node = get_node_or_null("/root/TaskNavigation")
 	var target: String = str(navigation.next_task_key()) if navigation != null else ""
 	var target_done: bool = false

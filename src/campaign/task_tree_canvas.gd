@@ -2,7 +2,7 @@ extends Control
 signal task_selected(key: String)
 const Layout = preload("res://src/campaign/task_tree_layout.gd")
 const NODE_SIZE: Vector2 = Layout.NODE_SIZE
-const COLORS := [Color("67e8a5"),Color("ffbf69"),Color("50d5ff"),Color("bc8cff"),Color("f4a6cb"),Color("a6b4ff"),Color("75dcc0"),Color("e2c87d")]
+const COLORS := [Color("7fd8a4"),Color("f0c674"),Color("7fcbd6"),Color("aab6e6"),Color("f4a6cb"),Color("a6b4ff"),Color("75dcc0"),Color("e2c87d")]
 var region_rects: Dictionary = {}
 var world_size := Vector2(2500,1900)
 const SHORT_TITLES := {

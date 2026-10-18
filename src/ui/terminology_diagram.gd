@@ -16,12 +16,12 @@ const BACKGROUND := Color("101a2a")
 const PANEL := Color("18263a")
 const PANEL_ACTIVE := Color("17384a")
 const BORDER := Color("40546f")
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
-const WARNING := Color("ffbf69")
+const ACCENT := Color("7fcbd6")
+const GOOD := Color("7fd8a4")
+const WARNING := Color("f0c674")
 const DANGER := Color("ff7c8e")
-const MUTED := Color("91a0b9")
-const TEXT := Color("e9f0fa")
+const MUTED := Color("8fa3ad")
+const TEXT := Color("e2ebef")
 
 var diagram_id: StringName = &""
 var example_step: int = 0

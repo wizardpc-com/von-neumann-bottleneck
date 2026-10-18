@@ -17,8 +17,8 @@ func _ready() -> void:
 	_content.alignment = BoxContainer.ALIGNMENT_CENTER
 	_content.add_theme_constant_override("separation", 10)
 	add_child(_content)
-	_add_label(Localization.text(&"hardware.encapsulation.title"), UiTypographyType.BODY_SIZE, Color("50d5ff"))
-	module_label = _add_label("", UiTypographyType.TITLE_SIZE, Color("e9f0fa"))
+	_add_label(Localization.text(&"hardware.encapsulation.title"), UiTypographyType.BODY_SIZE, Color("7fcbd6"))
+	module_label = _add_label("", UiTypographyType.TITLE_SIZE, Color("e2ebef"))
 	module_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	_add_label(Localization.text(&"hardware.encapsulation.description"), UiTypographyType.CAPTION_SIZE, Color("9caec0"))
 	resized.connect(_layout_content)
@@ -83,8 +83,8 @@ func _draw() -> void:
 		var end: Vector2 = center + Vector2.from_angle(angle) * 145.0
 		draw_line(start, end, Color(0.31, 0.84, 1.0, 0.2 + 0.65 * progress), 2.5, true)
 		var spark: Vector2 = start.lerp(end, fmod(progress * 1.7 + float(index) * 0.07, 1.0))
-		draw_circle(spark, 3.5, Color("67e8a5"))
-	draw_rect(chip_rect, Color("172033"), true)
-	draw_rect(chip_rect, Color("50d5ff"), false, 4.0, true)
+		draw_circle(spark, 3.5, Color("7fd8a4"))
+	draw_rect(chip_rect, Color("1a252e"), true)
+	draw_rect(chip_rect, Color("7fcbd6"), false, 4.0, true)
 	var pulse: float = sin(progress * PI * 4.0) * 0.5 + 0.5
 	draw_rect(chip_rect.grow(10.0 + pulse * 7.0), Color(0.31, 0.84, 1.0, 0.18 * (1.0 - progress * 0.45)), false, 3.0, true)

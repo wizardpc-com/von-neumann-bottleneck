@@ -32,7 +32,7 @@ static func configured_journey_for(enabled: Variant, primary: String, profile: S
 # The contest build opens the whole journey from the ordinary source/save
 # directory. Candidate builds keep their isolated sibling profiles.
 static func full_journey() -> bool:
-	return ProjectSettings.get_setting("game/full_journey",false) == true and not "--core-journey" in OS.get_cmdline_user_args()
+	return preload("res://src/lab/lab_features.gd").full_journey()
 
 static func configured_journey() -> bool:
 	if full_journey(): return true

@@ -3,8 +3,8 @@ extends CheckButton
 
 const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 
-const LOW := Color("ff6b7d")
-const HIGH := Color("67e8a5")
+const LOW := Color("e8848c")
+const HIGH := Color("7fd8a4")
 
 
 func _ready() -> void:
@@ -28,7 +28,7 @@ func _ready() -> void:
 func _draw() -> void:
 	var box := StyleBoxFlat.new()
 	box.bg_color = Color("1a2e39") if is_hovered() else Color("101e29")
-	box.border_color = Color("50d5ff") if has_focus() else Color("405668")
+	box.border_color = Color("7fcbd6") if has_focus() else Color("405668")
 	box.set_border_width_all(2 if has_focus() else 1)
 	box.set_corner_radius_all(5)
 	draw_style_box(box, Rect2(Vector2.ONE, size - Vector2.ONE * 2.0))
@@ -43,7 +43,7 @@ func _draw() -> void:
 	draw_style_box(cell, rect)
 	var digit: String = str(int(button_pressed))
 	var offset := Vector2(-font.get_string_size(digit, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 21).x * 0.5, (font.get_ascent(21) - font.get_descent(21)) * 0.5)
-	draw_string(font, rect.get_center() + offset, digit, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 21, Color("101c29") if button_pressed else Color("e9f0fa"))
+	draw_string(font, rect.get_center() + offset, digit, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 21, Color("101c29") if button_pressed else Color("e2ebef"))
 	# The arrows indicate a toggle, not a second bit cell.
 	var cy: float = size.y * 0.5
 	var hint_color := Color("a9bacb")

@@ -116,7 +116,7 @@ static func introduction(english: bool) -> Dictionary:
 		"context": "我是壹。这套学习程序，留给愿意亲手理解系统的人。\n旧文明曾深深依赖强大的系统。它的过去，留待你慢慢发现；现在，你可以先检验一条简单的规则。" if not english else "I am Yi. This learning program is for anyone who wants to understand systems by working with them.\nThe old civilization depended deeply on powerful systems. Its past can wait. Begin by testing one simple rule for yourself.",
 		"goal_title": "眼前的小目标 · 接通一条 NOT 电路" if not english else "Your first goal · Connect a NOT circuit",
 		"goal": "从输入 A 的输出端拖线到 NOT 的输入端，再从 NOT 的输出端接到输出灯。切换输入并点运行：0 应得到 1，1 应得到 0。灯灭也可能是正确结果。" if not english else "Drag from input A's output to NOT's input, then connect NOT's output to the output lamp. Change the input and Run: 0 should produce 1; 1 should produce 0. An unlit lamp can be the correct result.",
-		"operations": "进入后，任务台会记录接线、切换输入、运行、拆线与重新接线这五项实际操作。看完或跳过这段文字都不会完成任务。" if not english else "The Mission tracks five real actions: connect, change an input, run, disconnect and reconnect. Reading or skipping this introduction does not complete the task.",
+		"operations": "进入后，按屏幕上的提示一步步做：接线、切换输入、运行、拆一条线、再接回去。" if not english else "The Mission tracks five real actions: connect, change an input, run, disconnect and reconnect. Reading or skipping this introduction does not complete the task.",
 		"help": "目标与操作：任务台  ·  元件规则与图示：手册  ·  解题方向：Hint\n这段讯息可以从首页回看。" if not english else "Goal and controls: Mission  ·  Component rules and diagrams: Handbook  ·  Strategy: Hint\nReplay this message from Home whenever you wish.",
 	}
 
@@ -334,40 +334,40 @@ const TASK_CONTEXTS := {
 		"你在本次会话中看见预测与缓存相互影响；离开后这些临时记录不会成为永久进度。", "You observed prediction and Cache interacting in this session; these temporary records do not become permanent progress after departure."],
 	"creation/C1_restore": [
 		"学习选定样例，发送预测包并核对接收端复原。", "Learn the selected examples, send a predictive packet and check receiver restoration.",
-		"接收端只拿包仍须无损相等，规则与真正修正均能从记录追查。", "The receiver must restore exactly using only the packet, with rules and actual corrections traceable in the records.",
-		"规则与例外共同让信息抵达，复原保留了原内容而不是只看起来相近。", "Rules and exceptions delivered the information, preserving the actual contents rather than an approximate appearance."],
+		"接收端只拿到这个包，也要把原文一格不差地还原出来。", "The receiver must restore exactly using only the packet, with rules and actual corrections traceable in the records.",
+		"规律加上例外，信息完整地到了另一头——不是看起来像，而是真的一样。", "Rules and exceptions delivered the information, preserving the actual contents rather than an approximate appearance."],
 	"creation/C2_cost": [
 		"固定原文与条件，比较RAW和预测包的真实大小。", "Fix the source and conditions while comparing actual RAW and predictive packet sizes.",
-		"规则表、头部与修正全部计字节，复原仍须无损；预测包不保证更小。", "Count rules, headers and corrections while retaining exact restoration; a predictive packet is not guaranteed smaller.",
-		"你把规则本身也算进信息成本，比较包含了表示的代价。", "You counted the rules themselves as information cost, including the price of representation."],
+		"规则本身、包头和修正都要算进大小；有时候压缩包反而更大。", "Count rules, headers and corrections while retaining exact restoration; a predictive packet is not guaranteed smaller.",
+		"你发现：写下规律也要花地方。", "You counted the rules themselves as information cost, including the price of representation."],
 	"creation/C3_conditions": [
 		"保持原文、规则与路径，换机器比较成本；配送订单可另行尝试。", "Keep source, rules and codec fixed while changing the machine; delivery orders are separate options.",
-		"本单元按同条件机器对照验收；配送期限与订单记录有自己的临时合同。", "This unit validates a controlled machine comparison; delivery deadlines and their records have separate session contracts.",
-		"同一表示在不同机器上有不同成本，你把条件变化与编码选择分开了。", "The same representation has different machine costs; you separated condition changes from encoding choices."],
+		"只换机器、别的都不动，比较哪台更划算。", "This unit validates a controlled machine comparison; delivery deadlines and their records have separate session contracts.",
+		"同一种写法，放在不同机器上代价不同。你把「换机器」和「换写法」分开看了。", "The same representation has different machine costs; you separated condition changes from encoding choices."],
 	"creation/P1_commit": [
 		"接到未见输入，先提交一格预测再揭晓，并完成整轮。", "Connect sealed input, commit one prediction before revealing it, then finish the full round.",
-		"只用已见前缀预测，当前模型整轮提交／揭晓完成才形成相应准备；揭晓不会暗中训练。", "Predict from the revealed prefix only. Complete the current model's commit/reveal round; revealing does not secretly train it.",
-		"你把预先承诺与事后知道分开，结果的对与错都有清楚的时间边界。", "You separated a prior commitment from later knowledge, giving both correct and incorrect predictions a clear time boundary."],
+		"每一格都要先猜、再揭晓，整轮做完才算数；揭晓的答案不会偷偷拿去学习。", "Predict from the revealed prefix only. Complete the current model's commit/reveal round; revealing does not secretly train it.",
+		"先说出你的猜测，再看答案——对和错都清清楚楚。", "You separated a prior commitment from later knowledge, giving both correct and incorrect predictions a clear time boundary."],
 	"creation/P2_memory": [
 		"改变记忆长度并重新学习，在同材料与机器上比较预测。", "Change history length and relearn, comparing predictions on matching material and machine.",
-		"记录当前规则的上下文差别与实际整轮结果，不用旧模型记录冒充新模型准备。", "Record context differences and actual rounds for these rules; old-model records do not prepare a new model.",
-		"你把记住多少与能区分什么联系起来，也能查看新增规则的代价。", "You related retained history to distinguishable contexts, including the cost of the additional rules."],
+		"改了记忆长度就要重新学习，再用新规则完整预测一轮。", "Record context differences and actual rounds for these rules; old-model records do not prepare a new model.",
+		"记得越多，能分辨的情况越多，但规则也会变多。", "You related retained history to distinguishable contexts, including the cost of the additional rules."],
 	"creation/P3_check": [
 		"先用独立材料练习，再带着冻结规则检查未见片段。", "Practice separately, then check an unseen passage with frozen rules.",
-		"区分练习、冻结检查和已见重查，只从已揭晓格解释结果。", "Distinguish practice, frozen checks and seen repeats; explain results from revealed cells only.",
-		"你保留了模型未接触检查段时的表现，例外与不确定仍能被看见。", "You retained the model's behavior on a passage it had not trained on, including exceptions and uncertainty."],
+		"练习归练习；检查时规则冻结，只看它没见过的片段。", "Distinguish practice, frozen checks and seen repeats; explain results from revealed cells only.",
+		"你看到了规则面对陌生内容时的真实表现，包括它不确定的地方。", "You retained the model's behavior on a passage it had not trained on, including exceptions and uncertainty."],
 	"creation/G1_feedback": [
 		"当前模型完成无损复原和整轮预测后，把输出接回输入并生成。", "After this model restores exactly and finishes prediction, feed its output back and generate.",
-		"当前模型准备须真实成立；生成没有隐藏原文和正确率，不以画面好看判通过。", "The current model's preparation must be real. Generation has no hidden original or accuracy score, and appearance does not decide acceptance.",
-		"同一套规则开始接续自己的输出；这是真实有限模型的生成，不是通用智能的证明。", "The same rules now extend their own output: generation by a finite model, not proof of general intelligence."],
+		"先让这套规则能复原、能预测，再把输出接回输入。这里没有标准答案。", "The current model's preparation must be real. Generation has no hidden original or accuracy score, and appearance does not decide acceptance.",
+		"同一套有限的规则，开始接着自己的输出往下写。", "The same rules now extend their own output: generation by a finite model, not proof of general intelligence."],
 	"creation/G2_intent": [
 		"带着自己的意图改变条件；可做受控对照，也可确认保留一件作品。", "Change conditions with an intention; try a controlled comparison or explicitly keep a chosen work.",
-		"受控设计固定种子、起始段、长度和机器，只改一个条件；直接Keep另按保存合同成立，不强迫先比较。", "Controlled design fixes seed, start, length and machine while changing one condition. Direct Keep follows its own contract and does not require comparison first.",
-		"你的选择成为作品的一部分；相同输出也可以是有效观察，审美不被压成分数。", "Your choice becomes part of the work; identical output can still be a valid observation, without turning taste into a score."],
+		"想比较时只改一个条件；想直接留下也可以。", "Controlled design fixes seed, start, length and machine while changing one condition. Direct Keep follows its own contract and does not require comparison first.",
+		"你的选择成了作品的一部分。好不好看，不由分数决定。", "Your choice becomes part of the work; identical output can still be a valid observation, without turning taste into a score."],
 	"creation/G3_keep": [
 		"给实际输出命名并确认保存，再选择观看、再生或分叉。", "Name real output and confirm Keep, then choose viewing, regeneration or forking.",
-		"保留实际快照与完整配方；重放已有作品和运行当前草稿是不同操作。", "Retain the actual snapshot and complete recipe; replaying saved work differs from running the current draft.",
-		"你留下了一件可回看、可按原配方重放的作品；后来的修改不会改写这次选择。", "You kept a work that can be viewed and replayed from its original recipe; later edits do not rewrite this choice."],
+		"给它起个名字，保存下来；以后可以回看，也可以照原配方重新生成。", "Retain the actual snapshot and complete recipe; replaying saved work differs from running the current draft.",
+		"这是你留下的作品。以后再怎么改，这一次都会保留。", "You kept a work that can be viewed and replayed from its original recipe; later edits do not rewrite this choice."],
 }
 
 const DOMAIN_CONTEXTS := {

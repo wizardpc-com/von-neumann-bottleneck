@@ -11,7 +11,7 @@ func _ready() -> void:
 	if show_label:
 		var label := Label.new()
 		label.text = Localization.text(&"mode.selector.label")
-		label.add_theme_color_override("font_color", Color("91a0b9"))
+		label.add_theme_color_override("font_color", Color("8fa3ad"))
 		add_child(label)
 	option_button = OptionButton.new()
 	option_button.name = "ModeOption"

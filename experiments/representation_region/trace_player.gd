@@ -105,7 +105,7 @@ func _draw() -> void:
 	var width: float = size.x/4.0
 	for i: int in 4:
 		var rect := Rect2(i*width+2,6,width-6,34)
-		draw_style_box(InstrumentTheme.panel(Color("173748") if i == active else Color("101e2b"),Color("50d5ff") if i == active else Color("354b5a"),5),rect)
+		draw_style_box(InstrumentTheme.panel(Color("173748") if i == active else Color("101e2b"),Color("7fcbd6") if i == active else Color("354b5a"),5),rect)
 		draw_string(font,rect.position+Vector2(0,22),labels[i],HORIZONTAL_ALIGNMENT_CENTER,rect.size.x,13,Color("dfeaf2"))
 		if i == active and playing and not bool(ProjectSettings.get_setting("game/reduced_motion",false)):
 			var fraction: float = clampf(elapsed/display_duration(),0,1)

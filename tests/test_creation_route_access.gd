@@ -23,11 +23,12 @@ func run() -> void:
 			root.size = dimensions; root.content_scale_size = dimensions
 			var scene: Control = load("res://src/campaign/task_tree.tscn").instantiate()
 			root.add_child(scene); await settle()
-			check(scene.creation_route.visible and scene.creation_route.get_child_count() == 3,"Three named creation regions are immediately visible")
+			var creation_chips: Array[Node] = scene.creation_route.get_children().filter(func(node: Node) -> bool: return str(node.name).begins_with("CreationRegion"))
+			check(scene.creation_route.visible and creation_chips.size() == 3 and scene.creation_route.get_child_count() == 11,"All regions, including the three creation regions, are immediately visible")
 			check(scene.journey_scope.text.contains(str(scene.rows.size())),"Scope counts the actual loaded catalog")
-			check(scene.journey_scope.text.contains("Tester") if locale == "en" else scene.journey_scope.text.contains("协作"),"Tester access is distinguished from earned completion")
+			check(scene.journey_scope.text.contains("Completed") if locale == "en" else scene.journey_scope.text.contains("已完成"),"Scope reports earned completion separately from open entrances")
 			var selected_before: String = nav.selected
-			for child: Node in scene.creation_route.get_children():
+			for child: Node in creation_chips:
 				var button := child as Button
 				check(root.get_visible_rect().encloses(button.get_global_rect()),"Region shortcut fits "+str(dimensions)+locale)
 				button.pressed.emit(); await settle()
@@ -53,10 +54,11 @@ func run() -> void:
 	var after: Array[Dictionary] = nav.tasks()
 	for index: int in before.size():
 		check(before[index].completed == after[index].completed and before[index].dependencies == after[index].dependencies,"Browsing never changes earned progress or prerequisites")
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	ProjectSettings.set_setting("candidate/creation_enabled",false)
 	var ordinary: Control = load("res://src/campaign/task_tree.tscn").instantiate()
 	root.add_child(ordinary); await settle()
-	check(not ordinary.creation_route.visible,"Disabled creation candidate has no dead shortcut")
+	check(ordinary.creation_route.get_children().all(func(node: Node) -> bool: return not str(node.name).begins_with("CreationRegion")),"Disabled creation candidate has no dead shortcut")
 	ordinary.queue_free(); await settle()
 	print("PASS: " if failures == 0 else "FAIL: ","test_creation_route_access ",checks," checks, ",failures," failures")
 	quit(0 if failures == 0 else 1)

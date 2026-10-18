@@ -18,6 +18,7 @@ func _init() -> void:
 
 
 func _run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic fallback surfaces
 	_test_workbench_store_model()
 	var scene: PackedScene = load("res://src/hardware_foundations/hardware_foundations.tscn")
 	var main: Control = scene.instantiate()
@@ -810,16 +811,16 @@ func _run() -> void:
 		and and_node.get_output_port_position(0).y < and_node.get_input_port_position(1).y,
 		"A two-input gate's output must be centered between its schematic input pins."
 	)
-	_assert((nodes[&"A_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "The default low Test Bench source must be red.")
-	_assert((nodes[&"AND_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")), "An unconnected input port must default to red/low.")
-	_assert((nodes[&"AND_1"] as GraphNode).get_input_port_color(1).is_equal_approx(Color("ff6b7d")), "Every unconnected AND input must independently default low.")
-	_assert((nodes[&"AND_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "AND with two default-low inputs must continuously expose a low output.")
-	_assert((nodes[&"OR_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "OR with two default-low inputs must continuously expose a low output.")
-	_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")) and (nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("67e8a5")), "NOT must invert its unconnected default-low input to a live high output.")
+	_assert((nodes[&"A_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("e8848c")), "The default low Test Bench source must be red.")
+	_assert((nodes[&"AND_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("e8848c")), "An unconnected input port must default to red/low.")
+	_assert((nodes[&"AND_1"] as GraphNode).get_input_port_color(1).is_equal_approx(Color("e8848c")), "Every unconnected AND input must independently default low.")
+	_assert((nodes[&"AND_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("e8848c")), "AND with two default-low inputs must continuously expose a low output.")
+	_assert((nodes[&"OR_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("e8848c")), "OR with two default-low inputs must continuously expose a low output.")
+	_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("e8848c")) and (nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("7fd8a4")), "NOT must invert its unconnected default-low input to a live high output.")
 	main.call("_on_connection_drag_started", &"A_IN", 0, true)
 	var initial_targets: Array = graph.call("visible_connection_targets")
 	_assert(initial_targets.size() == 6 and _target_is_valid(initial_targets, &"NOT_1", 0), "Starting from A must advertise every exact compatible input port, including NOT, before release.")
-	_assert((nodes[&"A_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "Wiring target rings must not replace the source port's live red/green/gray electrical color.")
+	_assert((nodes[&"A_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("e8848c")), "Wiring target rings must not replace the source port's live red/green/gray electrical color.")
 	main.call("_on_connection_drag_ended")
 	_assert((graph.call("visible_connection_targets") as Array).is_empty(), "Ending a cable gesture must clear every temporary target guide.")
 	# Preview must agree with the final curve in both drag directions, without
@@ -881,8 +882,8 @@ func _run() -> void:
 	_shift_drag_select(graph, Vector2(600.0, 35.0), Vector2(790.0, 430.0))
 	await process_frame
 	_assert((nodes[&"AND_1"] as GraphNode).selected and (nodes[&"OR_1"] as GraphNode).selected, "Shift-drag must toggle every component/wire node inside its selection rectangle.")
-	_assert(bool((symbols[&"AND_1"] as CircuitComponentSymbol).get("selection_active")) and (symbols[&"AND_1"] as CircuitComponentSymbol).symbol_color().is_equal_approx(Color("50d5ff")), "Selection must recolor the complete schematic symbol instead of drawing a separate blue circle.")
-	_assert((nodes[&"AND_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")), "Whole-component selection highlighting must leave the port's live electrical color unchanged.")
+	_assert(bool((symbols[&"AND_1"] as CircuitComponentSymbol).get("selection_active")) and (symbols[&"AND_1"] as CircuitComponentSymbol).symbol_color().is_equal_approx(Color("7fcbd6")), "Selection must recolor the complete schematic symbol instead of drawing a separate blue circle.")
+	_assert((nodes[&"AND_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("e8848c")), "Whole-component selection highlighting must leave the port's live electrical color unchanged.")
 	_shift_click_component(main, &"A_IN")
 	_assert((nodes[&"A_IN"] as GraphNode).selected, "Shift-click must add or remove one component without clearing the existing group.")
 	_connect(main, &"AND_1", 0, &"OR_1", 0)
@@ -962,9 +963,9 @@ func _run() -> void:
 	_shortcut(main, KEY_Z)
 	await process_frame
 	_assert(graph.get_connection_list().size() == 2, "A second Undo must restore the graph after redoing Clear Wires.")
-	_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")), "A live low input must turn its receiving port red before Run is pressed.")
-	_assert((nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("67e8a5")), "NOT must continuously compute a green/high output from its live low input.")
-	_assert((nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("67e8a5")), "The observer input must continuously show the propagated high state.")
+	_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("e8848c")), "A live low input must turn its receiving port red before Run is pressed.")
+	_assert((nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("7fd8a4")), "NOT must continuously compute a green/high output from its live low input.")
+	_assert((nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("7fd8a4")), "The observer input must continuously show the propagated high state.")
 	var input_a: CheckButton = main.get("input_a_button")
 	input_a.button_pressed = true
 	await process_frame
@@ -976,13 +977,13 @@ func _run() -> void:
 		main.call("_show_playback_batch", batch, 1.0)
 		if _batch_has_wire(batch, &"A_IN", &"NOT_1"):
 			saw_input_wire = true
-			_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("67e8a5")) and (nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("67e8a5")), "The source wire must arrive before NOT changes its output.")
+			_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("7fd8a4")) and (nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("7fd8a4")), "The source wire must arrive before NOT changes its output.")
 		if _batch_has_component(batch, &"NOT_1"):
 			saw_not_process = true
-			_assert((nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")) and (nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("67e8a5")), "NOT processing must update its output before the downstream cable arrives.")
+			_assert((nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("e8848c")) and (nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("7fd8a4")), "NOT processing must update its output before the downstream cable arrives.")
 		if _batch_has_wire(batch, &"NOT_1", &"LAMP"):
 			saw_output_wire = true
-			_assert((nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")), "The lamp input must change only when the downstream wire wave arrives.")
+			_assert((nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("e8848c")), "The lamp input must change only when the downstream wire wave arrives.")
 	_assert(saw_input_wire and saw_not_process and saw_output_wire, "The one-bit animation must expose source-wire, component-process, and downstream-wire waves.")
 	main.call("_finish_playback")
 	main.call("_run_debug")
@@ -990,11 +991,11 @@ func _run() -> void:
 	_assert(tutorial_trace != null and tutorial_trace.is_valid() and tutorial_trace.outputs.get(&"LAMP") == false, "A=1 through NOT must produce a valid dark lamp trace.")
 	_assert(int(tutorial_trace.metrics["propagation_ticks"]) == 1, "Tutorial wire geometry must add no delay beyond the NOT gate tick.")
 	main.call("_apply_trace_signal_states", tutorial_trace)
-	_assert((nodes[&"A_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("67e8a5")), "A known high source and its outgoing pin must be green.")
-	_assert((nodes[&"B_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "An unused but known-low external Test Bench source must still be red.")
-	_assert((nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("ff6b7d")), "A known low gate output and wire source must be red.")
-	_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("67e8a5")), "Every receiving input port must retain its live high/green state during playback.")
-	_assert((nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("ff6b7d")), "The lamp input port must retain its live low/red state during playback.")
+	_assert((nodes[&"A_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("7fd8a4")), "A known high source and its outgoing pin must be green.")
+	_assert((nodes[&"B_IN"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("e8848c")), "An unused but known-low external Test Bench source must still be red.")
+	_assert((nodes[&"NOT_1"] as GraphNode).get_output_port_color(0).is_equal_approx(Color("e8848c")), "A known low gate output and wire source must be red.")
+	_assert((nodes[&"NOT_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("7fd8a4")), "Every receiving input port must retain its live high/green state during playback.")
+	_assert((nodes[&"LAMP"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("e8848c")), "The lamp input port must retain its live low/red state during playback.")
 	_assert((symbols[&"A_IN"] as CircuitComponentSymbol).symbol_color().is_equal_approx(fixed_source_symbol_color), "Changing A must not recolor the source symbol itself.")
 	_assert((symbols[&"LAMP"] as CircuitComponentSymbol).symbol_color().is_equal_approx(fixed_source_symbol_color), "Input and output component bodies must share the same fixed schematic color.")
 	_assert(StringName((symbols[&"A_IN"] as CircuitComponentSymbol).shape_profile()) == &"level_input_tag", "The level input must use a large directional input-pin silhouette instead of the old generic circle.")
@@ -1041,8 +1042,8 @@ func _run() -> void:
 	main.call("_show_circuit_event", not_event, 0.5)
 	var not_symbol := symbols[&"NOT_1"] as CircuitComponentSymbol
 	_assert((main.get("active_components") as Array).has(&"NOT_1") and not_symbol.processing_active and is_equal_approx(not_symbol.processing_progress, 0.5), "NOT processing must animate the real displayed NOT symbol inside its parallel wave.")
-	_assert(not_symbol.processing_input_visuals.size() == 1 and (not_symbol.processing_input_visuals[0].get("color") as Color).is_equal_approx(Color("67e8a5")), "The NOT input token must carry the actual high/green input value into the displayed triangle.")
-	_assert((not_symbol.processing_output_visual.get("color") as Color).is_equal_approx(Color("ff6b7d")), "The NOT output token must leave the inversion bubble with the actual low/red result.")
+	_assert(not_symbol.processing_input_visuals.size() == 1 and (not_symbol.processing_input_visuals[0].get("color") as Color).is_equal_approx(Color("7fd8a4")), "The NOT input token must carry the actual high/green input value into the displayed triangle.")
+	_assert((not_symbol.processing_output_visual.get("color") as Color).is_equal_approx(Color("e8848c")), "The NOT output token must leave the inversion bubble with the actual low/red result.")
 	_assert(StringName(overlay.get("mode")).is_empty() and (overlay.get("wire_pulses") as Array).is_empty(), "A component wave must not draw a second approximate component model or radial halo in the trace overlay.")
 
 	ProjectSettings.set_setting("game/reduced_motion", true)

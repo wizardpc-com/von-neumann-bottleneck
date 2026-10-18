@@ -181,7 +181,7 @@ func _run() -> void:
 	_assert(not bool(locality_state.call("completed_levels").get(&"nearby_storage", false)), "2-2 must keep the nearby mechanism unnamed until the player reviews the successful comparison.")
 	_assert(not locality_state.call("concept_unlocked", &"cache") and not (main.get("level_completion_overlay") as Control).visible, "The successful run must leave Trace and Profiler evidence visible before terminology is revealed.")
 	var comparison_text: String = (main.get("profiler_history_label") as Label).text
-	_assert("257" in comparison_text and "105" in comparison_text and "CPU WAIT" in comparison_text, "2-2 Run History must foreground Before → After total and CPU-wait deltas.")
+	_assert("257" in comparison_text and "105" in comparison_text and ("CPU WAIT" in comparison_text or "CPU 等待" in comparison_text), "2-2 Run History must foreground Before → After total and CPU-wait deltas.")
 	main.call("_toggle_pause")
 	main.call("_step_trace")
 	_assert(bool(main.get("pending_completion_review")) and not (main.get("mission_review_button") as Button).visible, "Pausing and stepping must preserve the pending finding without revealing Review before the end.")
@@ -391,7 +391,7 @@ func _run() -> void:
 	_assert("642" in capstone_history and "138" in capstone_history and ("个人最佳" in capstone_history or "Personal best" in capstone_history), "Run History must keep Baseline → Current visible and identify the best lower-cost solution after several experiments.")
 	var notebook_text: String = (main.get("notebook_label") as RichTextLabel).text
 	for learned_term: String in ["CPU WAIT", "Cache", "Locality", "Working Set", "Blocking"]:
-		_assert(learned_term in notebook_text, "The completed Systems Notebook must retain %s." % learned_term)
+		_assert(learned_term in notebook_text or (learned_term == "CPU WAIT" and "CPU 等待" in notebook_text), "The completed Systems Notebook must retain %s." % learned_term)
 	main.call("_show_capstone_summary")
 	var completion_overlay: Control = main.get("level_completion_overlay")
 	_assert(completion_overlay.visible, "Finish Chapter must present a final evidence summary before returning to the map.")

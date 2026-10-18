@@ -3,9 +3,9 @@ extends Control
 
 const BACKGROUND := Color("0c1422")
 const OUTLINE := Color("52637d")
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
-const WARNING := Color("ffbf69")
+const ACCENT := Color("7fcbd6")
+const GOOD := Color("7fd8a4")
+const WARNING := Color("f0c674")
 const MUTED := Color("74839b")
 
 var device_kind: StringName = &"cpu"
@@ -168,7 +168,7 @@ func _draw_bus() -> void:
 			var digit: String = str(int(high)) if transferring else "·"
 			var font: Font = get_theme_font("font", "Label")
 			var digit_width: float = font.get_string_size(digit, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
-			draw_string(font, position + Vector2((cell_width - digit_width) * 0.5, 18.0), digit, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("e9f0fa"))
+			draw_string(font, position + Vector2((cell_width - digit_width) * 0.5, 18.0), digit, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("e2ebef"))
 		var group_font: Font = get_theme_font("font", "Label")
 		draw_string(group_font, Vector2(left, 80.0), str(group + 1), HORIZONTAL_ALIGNMENT_CENTER, group_width, 12, group_color)
 		left += group_width + group_gap

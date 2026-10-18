@@ -5,9 +5,9 @@ const LogicSignalType = preload("res://src/circuit/logic_signal.gd")
 const WirePaletteType = preload("res://src/ui/wire_palette.gd")
 const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 
-const SIGNAL_HIGH := Color("67e8a5")
-const SIGNAL_LOW := Color("ff6b7d")
-const ERASER_COLOR := Color("ff6b7d")
+const SIGNAL_HIGH := Color("7fd8a4")
+const SIGNAL_LOW := Color("e8848c")
+const ERASER_COLOR := Color("e8848c")
 const ERASER_TIP_RADIUS: float = 2.0
 const ERASER_SAMPLE_SPACING: float = 4.0
 const SELECTION_DRAG_THRESHOLD: float = 4.0
@@ -593,8 +593,8 @@ func _draw() -> void:
 		)
 	if selection_dragging:
 		var selection_rect: Rect2 = _selection_rectangle()
-		draw_rect(selection_rect, Color("50d5ff", 0.12), true)
-		draw_rect(selection_rect, Color("50d5ff", 0.9), false, 2.0, true)
+		draw_rect(selection_rect, Color("7fcbd6", 0.12), true)
+		draw_rect(selection_rect, Color("7fcbd6", 0.9), false, 2.0, true)
 	if erase_active:
 		draw_circle(erase_pointer, ERASER_TIP_RADIUS, Color(ERASER_COLOR, 0.95))
 	if not endpoint_candidate.is_empty():
@@ -612,12 +612,12 @@ func _draw() -> void:
 		branch_pointer
 	)
 	var valid: bool = bool(branch_target.get("valid", false))
-	var color := Color("67e8a5") if valid else Color("50d5ff")
+	var color := Color("7fd8a4") if valid else Color("7fcbd6")
 	var end: Vector2 = branch_pointer
 	if not branch_target.is_empty():
 		end = branch_target.get("position", branch_pointer)
 		if not valid:
-			color = Color("ff6b7d")
+			color = Color("e8848c")
 	var preview: PackedVector2Array = get_connection_line(branch_anchor, end)
 	_draw_draft_curve(preview, color, connection_bit_width(branch_candidate))
 	draw_circle(branch_anchor, 8.0, Color("101725"))
@@ -964,8 +964,8 @@ func _draw_connection_target_guides(
 	if source == null:
 		return
 	var origin: Vector2 = displayed_port_position(source, from_port, from_is_output)
-	draw_circle(origin, TARGET_GUIDE_RADIUS + 2.0, Color("50d5ff", 0.12))
-	draw_circle(origin, TARGET_GUIDE_RADIUS + 2.0, Color("50d5ff"), false, 2.0, true)
+	draw_circle(origin, TARGET_GUIDE_RADIUS + 2.0, Color("7fcbd6", 0.12))
+	draw_circle(origin, TARGET_GUIDE_RADIUS + 2.0, Color("7fcbd6"), false, 2.0, true)
 
 
 func _update_hovered_connection(point: Vector2) -> void:
@@ -1016,9 +1016,9 @@ func _draw_hovered_connection() -> void:
 		draw_polyline(member_curve, Color("b5edff", 0.25), connection_stroke_width(member) + 4.0, true)
 		SignalNotationType.draw_cable(self, member_curve, Color("b5edff"), connection_bit_width(member))
 	var curve: PackedVector2Array = connection_curve(hovered_connection)
-	SignalNotationType.draw_cable(self, curve, Color("50d5ff"), connection_bit_width(hovered_connection))
+	SignalNotationType.draw_cable(self, curve, Color("7fcbd6"), connection_bit_width(hovered_connection))
 	draw_circle(hovered_wire_point, 7.0, Color("101725"))
-	draw_circle(hovered_wire_point, 5.0, Color("50d5ff"))
+	draw_circle(hovered_wire_point, 5.0, Color("7fcbd6"))
 
 
 func _on_graph_mouse_exited() -> void:
@@ -1379,12 +1379,12 @@ func cancel_endpoint_move() -> void:
 
 func _draw_endpoint_preview() -> void:
 	var valid: bool = bool(endpoint_target.get("valid", false))
-	var color := Color("67e8a5") if valid else Color("50d5ff")
+	var color := Color("7fd8a4") if valid else Color("7fcbd6")
 	var finish: Vector2 = endpoint_pointer
 	if not endpoint_target.is_empty():
 		finish = endpoint_target.get("position", endpoint_pointer)
 		if not valid:
-			color = Color("ff6b7d")
+			color = Color("e8848c")
 	var preview: PackedVector2Array = get_connection_line(endpoint_anchor, finish)
 	_draw_draft_curve(preview, color, connection_bit_width(endpoint_candidate))
 	draw_circle(endpoint_anchor, 7.0, color)

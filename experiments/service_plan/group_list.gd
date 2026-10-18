@@ -1,7 +1,7 @@
 extends ItemList
 ## Direct manipulation of existing groups; no scheduling or acceptance authority.
 signal group_moved(source: int, target: int)
-const STREAM_COLORS: Array[Color] = [Color("50d5ff"),Color("a79aff"),Color("65d8ad"),Color("edb96b")]
+const STREAM_COLORS: Array[Color] = [Color("7fcbd6"),Color("a79aff"),Color("65d8ad"),Color("edb96b")]
 var icons: Dictionary = {}
 
 func _init() -> void:

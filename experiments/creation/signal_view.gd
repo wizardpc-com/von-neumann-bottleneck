@@ -56,7 +56,7 @@ func _draw() -> void:
 			draw_rect(rect,Color("112432"),true)
 			if lane_index == context_lane and i >= selected-context_count and i < selected:
 				draw_rect(rect,Color("6ce2de"),false,2.0)
-			if (i == selected and lane_index == selected_lane) or i == cursor: draw_rect(rect,Color("e9f0fa"),false,1.5)
+			if (i == selected and lane_index == selected_lane) or i == cursor: draw_rect(rect,Color("e2ebef"),false,1.5)
 			var center: Vector2 = rect.position+Vector2(9,10)
 			match value:
 				0: draw_circle(center,4,color)
@@ -69,7 +69,7 @@ func _draw() -> void:
 				draw_line(rect.position+Vector2(2,18),rect.position+Vector2(width-5,18),Color("eead67"),2)
 			_cells.append({"rect":rect,"index":i,"lane":lane_index})
 	var last: int = mini(start+count,output_length())
-	draw_string(font,Vector2(10,size.y-5),"%d–%d / %d · %s"%[start+1,last,output_length(),"shapes + letters; playback ≠ cycles" if english else "图形＋字母；播放速度≠模拟周期"],HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("91a0b9"))
+	draw_string(font,Vector2(10,size.y-5),"%d–%d / %d"%[start+1,last,output_length()],HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("8fa3ad"))
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:

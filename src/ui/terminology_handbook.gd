@@ -85,10 +85,10 @@ const RECOMMENDED := {
 const BACKDROP := Color(0.015, 0.027, 0.055, 0.88)
 const PANEL := Color("111b2c")
 const PANEL_DARK := Color("0b1322")
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
-const MUTED := Color("91a0b9")
-const TEXT := Color("e9f0fa")
+const ACCENT := Color("7fcbd6")
+const GOOD := Color("7fd8a4")
+const MUTED := Color("8fa3ad")
+const TEXT := Color("e2ebef")
 const ENTRY_BUTTON_WIDTH := 118.0
 
 const CATEGORIES: Array[Dictionary] = [

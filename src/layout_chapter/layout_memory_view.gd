@@ -1,6 +1,6 @@
 extends Control
 ## Every colored cell is an authoritative mapping entry, not a schematic score.
-const COLORS := [Color("67e8a5"),Color("50d5ff"),Color("ffbf69"),Color("bc8cff")]
+const COLORS := [Color("7fd8a4"),Color("7fcbd6"),Color("f0c674"),Color("aab6e6")]
 const NAMES := ["温度","编号","电量","告警"]
 const EN_NAMES := ["Temp","ID","Battery","Alarm"]
 const ROW_HEIGHT: float = 90.0

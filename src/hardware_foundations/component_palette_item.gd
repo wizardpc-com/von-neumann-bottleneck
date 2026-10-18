@@ -6,9 +6,9 @@ signal placement_requested(template_key: String)
 const SURFACE := Color("111e29")
 const SURFACE_HOVER := Color("1b3441")
 const BORDER := Color("354866")
-const ACCENT := Color("50d5ff")
-const TEXT := Color("e9f0fa")
-const MUTED := Color("91a0b9")
+const ACCENT := Color("7fcbd6")
+const TEXT := Color("e2ebef")
+const MUTED := Color("8fa3ad")
 const PREVIEW_RECT := Rect2(Vector2(8.0, 17.0), Vector2(94.0, 54.0))
 
 var template_key: String = ""

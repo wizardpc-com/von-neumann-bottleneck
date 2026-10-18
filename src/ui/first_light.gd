@@ -53,12 +53,12 @@ func _ready() -> void:
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	add_theme_constant_override("separation", 10)
 	var title := Label.new()
-	title.text = _copy("第一束光 · 可选虚构回顾", "First light · optional fictional retrospective")
+	title.text = _copy("第一束光", "The first light")
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.add_theme_font_size_override("font_size", 18)
 	add_child(title)
 	var note := Label.new()
-	note.text = _copy("已完成的搭建 · 固定NOT示意回顾", "Your completed construction · a fixed NOT illustration")
+	note.text = _copy("你搭起的第一条线路", "The first line you built")
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.add_theme_font_size_override("font_size", 16)
 	add_child(note)
@@ -154,7 +154,6 @@ func _refresh_scene() -> void:
 	canvas.queue_redraw()
 	var lines: Array[String] = [_copy("你亲手搭起了一条可以检查的路径。", "You built a path that can be checked.")]
 	lines.append(_copy("NOT：输入1 → 输出0。灯灭也可以是正确答案。", "NOT: input 1 → output 0. A dark lamp can be the correct answer."))
-	lines.append(_copy("画面仅为已完成搭建的虚构回顾，不表示电流、能耗或文明测量。", "This fictional scene revisits an earned construction, not current, energy use or a measurement of civilization."))
 	caption.text = "\n".join(lines)
 
 

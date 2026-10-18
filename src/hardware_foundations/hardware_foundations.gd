@@ -43,16 +43,16 @@ const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_cata
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 const InstrumentThemeType = preload("res://src/ui/instrument_theme.gd")
 
-const BACKGROUND := Color("09101d")
-const PANEL := Color("172033")
+const BACKGROUND := Color("0e161c")
+const PANEL := Color("1a252e")
 const PANEL_DARK := Color("101725")
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
-const WARNING := Color("ffbf69")
-const BAD := Color("ff6b7d")
-const PURPLE := Color("bc8cff")
-const MUTED := Color("91a0b9")
-const TEXT := Color("e9f0fa")
+const ACCENT := Color("7fcbd6")
+const GOOD := Color("7fd8a4")
+const WARNING := Color("f0c674")
+const BAD := Color("e8848c")
+const PURPLE := Color("aab6e6")
+const MUTED := Color("8fa3ad")
+const TEXT := Color("e2ebef")
 const PORT_TYPE: int = 1
 const SIGNAL_HIGH := GOOD
 const SIGNAL_LOW := BAD
@@ -872,11 +872,12 @@ func _build_theme() -> void:
 
 
 var tutorial_coach: Control
+var tutorial_focus_applied: bool = false
 
 # First-lesson focus: until the tutorial is earned, the canvas shows only the
 # circuit, a step coach and the test bench. All tools return afterwards.
 func _tutorial_focus() -> bool:
-	return current_phase == &"tutorial" and not bool(completed_levels.get(&"tutorial", false)) and not "--classic-tutorial" in OS.get_cmdline_user_args()
+	return current_phase == &"tutorial" and not bool(completed_levels.get(&"tutorial", false)) and preload("res://src/lab/lab_features.gd").focused_tutorial()
 
 
 func _ensure_tutorial_coach() -> void:
@@ -889,8 +890,15 @@ func _ensure_tutorial_coach() -> void:
 			task_window.show_instrument(); _begin_mission_briefing())
 	tutorial_coach.visible = _tutorial_focus()
 	if tutorial_coach.visible:
+		editor_toolbar.visible = false
+		mission_summary_button.visible = false
+		tutorial_focus_applied = true
 		_update_tutorial_goal()
 		_place_tutorial_coach()
+	elif tutorial_focus_applied:
+		editor_toolbar.visible = true
+		mission_summary_button.visible = true
+		tutorial_focus_applied = false
 
 
 func _place_tutorial_coach() -> void:
@@ -1328,8 +1336,11 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 			)
 			inspector_window.size = Vector2(390.0, minf(440.0, usable_height))
 	var focus: bool = _tutorial_focus()
-	if editor_toolbar != null: editor_toolbar.visible = not focus
-	if mission_summary_button != null: mission_summary_button.visible = not focus
+	# Only undo what focus mode itself hid; other phases own their toolbar visibility.
+	if focus or tutorial_focus_applied:
+		if editor_toolbar != null: editor_toolbar.visible = not focus
+		if mission_summary_button != null: mission_summary_button.visible = not focus
+		tutorial_focus_applied = focus
 	if tutorial_coach != null: tutorial_coach.visible = focus
 	if focus and reset_windows:
 		task_window.hide(); component_window.hide()
@@ -2009,7 +2020,7 @@ func _create_workbench_name_dialog() -> void:
 	panel.custom_minimum_size = Vector2(500.0, 230.0)
 	panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	panel.add_theme_stylebox_override("panel", _stylebox(Color("111a2a"), 12, 2, ACCENT))
+	panel.add_theme_stylebox_override("panel", _stylebox(Color("131d25"), 12, 2, ACCENT))
 	center.add_child(panel)
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 20)
@@ -2539,7 +2550,7 @@ func _create_hint_confirmation() -> void:
 	hint_confirmation.add_child(center)
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(650, 280)
-	panel.add_theme_stylebox_override("panel", _stylebox(Color("172033"), 14, 2, WARNING))
+	panel.add_theme_stylebox_override("panel", _stylebox(Color("1a252e"), 14, 2, WARNING))
 	center.add_child(panel)
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 24)
@@ -6841,6 +6852,9 @@ func _start_campaign_level(level_id: StringName, show_briefing: bool = true) -> 
 		return
 	var replaying: bool = bool(completed_levels.get(level_id,false))
 	var open_briefing: bool = show_briefing and not replaying
+	if tutorial_focus_applied and level_catalog.entry_kind(level_id) != &"tutorial":
+		current_phase = &""
+		_ensure_tutorial_coach()
 	match level_catalog.entry_kind(level_id):
 		&"tutorial":
 			_show_tutorial(open_briefing)

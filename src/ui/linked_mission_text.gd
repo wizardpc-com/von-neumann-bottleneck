@@ -3,7 +3,7 @@ extends RichTextLabel
 
 signal term_requested(term_id: StringName)
 
-const TERM_COLOR := Color("50d5ff")
+const TERM_COLOR := Color("7fcbd6")
 
 
 func _ready() -> void:

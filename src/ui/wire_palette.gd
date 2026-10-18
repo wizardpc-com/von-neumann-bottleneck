@@ -3,11 +3,11 @@ extends RefCounted
 
 const DEFAULT_INDEX: int = 0
 const COLORS: Array[Color] = [
-	Color("50d5ff"),
-	Color("67e8a5"),
-	Color("ffbf69"),
-	Color("ff6b7d"),
-	Color("bc8cff"),
+	Color("7fcbd6"),
+	Color("7fd8a4"),
+	Color("f0c674"),
+	Color("e8848c"),
+	Color("aab6e6"),
 	Color("f58fd2"),
 	Color("79a8ff"),
 	Color("d6e2f2"),

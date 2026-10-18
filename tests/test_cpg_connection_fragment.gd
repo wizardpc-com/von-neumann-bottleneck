@@ -274,7 +274,7 @@ func matrix(host: Control,locale: String) -> void:
 			check(old_image.get_data()==empty_image.get_data(),"Null and zero-size Texture produce identical static fallback pixels")
 		fragment.media = null; fragment.reduced_motion = false
 		var native := Image.create(8,8,false,Image.FORMAT_RGBA8)
-		native.fill(Color("50d5ff"))
+		native.fill(Color("7fcbd6"))
 		fragment.media = ImageTexture.create_from_image(native); await settle()
 		check(fragment.image.media==fragment.media and fragment.media.get_width()==8,"A replaceable valid Texture uses the same static media slot")
 		fragment.media = null

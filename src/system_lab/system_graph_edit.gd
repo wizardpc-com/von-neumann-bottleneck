@@ -5,7 +5,7 @@ const WirePaletteType = preload("res://src/ui/wire_palette.gd")
 
 const WIRE_THICKNESS: float = 6.0
 const HOVER_RADIUS: float = 12.0
-const ERASER_COLOR := Color("ff6b7d")
+const ERASER_COLOR := Color("e8848c")
 const ERASER_TIP_RADIUS: float = 2.0
 const ERASER_SAMPLE_SPACING: float = 4.0
 const SELECTION_DRAG_THRESHOLD: float = 4.0
@@ -184,14 +184,14 @@ func _draw() -> void:
 	if not hovered_connection.is_empty():
 		var hover_curve: PackedVector2Array = connection_curve(hovered_connection)
 		if hover_curve.size() >= 2:
-			draw_polyline(hover_curve, Color("50d5ff", 0.18), WIRE_THICKNESS + 9.0, true)
-			draw_polyline(hover_curve, Color("50d5ff", 0.88), 2.0, true)
+			draw_polyline(hover_curve, Color("7fcbd6", 0.18), WIRE_THICKNESS + 9.0, true)
+			draw_polyline(hover_curve, Color("7fcbd6", 0.88), 2.0, true)
 	if not draft_connection_source.is_empty():
 		_draw_connection_preview()
 	if selection_dragging:
 		var selection_rect: Rect2 = _selection_rectangle()
-		draw_rect(selection_rect, Color("50d5ff", 0.12), true)
-		draw_rect(selection_rect, Color("50d5ff", 0.9), false, 2.0, true)
+		draw_rect(selection_rect, Color("7fcbd6", 0.12), true)
+		draw_rect(selection_rect, Color("7fcbd6", 0.9), false, 2.0, true)
 	if erase_active:
 		draw_circle(erase_pointer, ERASER_TIP_RADIUS, Color(ERASER_COLOR, 0.95))
 

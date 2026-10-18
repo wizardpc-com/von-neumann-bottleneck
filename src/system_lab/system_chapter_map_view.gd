@@ -5,11 +5,11 @@ signal level_requested(level_id: StringName)
 
 const NODE_SIZE := Vector2(168.0, 140.0)
 const LEFT_RESERVED := 330.0
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
+const ACCENT := Color("7fcbd6")
+const GOOD := Color("7fd8a4")
 const MUTED := Color("74839b")
-const SURFACE := Color("111a2a")
-const TEXT := Color("e9f0fa")
+const SURFACE := Color("131d25")
+const TEXT := Color("e2ebef")
 
 var level_buttons: Dictionary[StringName, Button] = {}
 var level_positions: Dictionary[StringName, Vector2] = {}
@@ -30,7 +30,7 @@ func configure(levels: Array[Dictionary], intro_title: String, intro_body: Strin
 	if is_instance_valid(_intro_panel):
 		_intro_panel.queue_free()
 	_intro_panel = PanelContainer.new()
-	_intro_panel.add_theme_stylebox_override("panel", _stylebox(Color("111a2a", 0.94), ACCENT, 2))
+	_intro_panel.add_theme_stylebox_override("panel", _stylebox(Color("131d25", 0.94), ACCENT, 2))
 	add_child(_intro_panel)
 	var intro_margin := MarginContainer.new()
 	for side: String in ["left", "right", "top", "bottom"]:

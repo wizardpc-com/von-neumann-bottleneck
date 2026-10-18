@@ -16,7 +16,7 @@ msgid "common.auto_layout"
 msgstr "Auto Layout"
 
 msgid "common.chapter_select"
-msgstr "Back to Chapters"
+msgstr "Back to the Lab"
 
 msgid "common.open_named"
 msgstr "Open %s"

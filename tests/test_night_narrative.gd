@@ -56,6 +56,7 @@ func capture_scene(label: String) -> void:
 
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic fallback surfaces
 	capture = "--narrative-capture" in OS.get_cmdline_user_args()
 	if capture and DisplayServer.get_name() == "headless":
 		check(false, "Narrative capture requires a rendered window")

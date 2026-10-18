@@ -1,6 +1,13 @@
 # 全旅程需求与证据账本 · 2026-10-18
 
-**F5当前源门禁：d14be32原17定向、三组真实renderer及完整Windows176阶段均自然通过。**
+**F6当前候选：bb5c817效率模态焦点修复已独审，三阶段编译、真实renderer245项、完整Windows176阶段及远端CI均通过；新包待验。**
+原867基线实际239项/4错误：两语模态持焦时blend0→1；Esc组合失败，独立body值未记录，
+旧scroll未变不作故障证据。60任务逐行语义盘点已提交20c9515，不等于60次实解或新人理解。
+本轮精确来源与后续结果见[F6证据](../verification/20261018-narrative-modal-focus/README.md)。
+完整回归零ERROR/SCRIPTERROR，原六条非失败anchor WARNING单列；176有序自有调用均自然退出，
+实际169个不同PID，不把系统PID复用写成176个不同进程标识。当前尚无bb5导出包或OS模态通过结论。
+
+**F5已验恢复门禁：d14be32原17定向、三组真实renderer及完整Windows176阶段均自然通过。**
 完整回归无ERROR/SCRIPTERROR，原六条非失败anchor WARNING单列；当前源远端CI成功。
 可选C/P/G回顾使用本次真实公开观察及原保存作品ID；原合法准备与纯查看保护分列，不新建
 进度或历史。原本地反馈入口抑制重复测试者浮条，F8/导出与无入口fallback保留。
@@ -13,11 +20,11 @@
 仅定向停止自己的普通QA进程，测试者原生未启动。旧F4包继续为已验恢复入口。
 完整来源、旧失败与素材/人审/Mac边界见[本轮证据](../verification/20261018-creation-connections/README.md)。
 
-**当前工程Gate：F4产品SOURCE97516完整Windows175/175与两CI通过。** 两新包原始链为normal128+严格重开47、tester138+47及原随包60入口/真实CPG/作品重启/最终4现场2会话ZIP独立导入去重；外QA8a9c43e的新普通补充147、测试者补充193均实际整链PASS、自然exit0。原父/旧作品保持，原Store的11个明确数字编码单列，其他typed字段严格；两次旧补充FAIL保留。两角色实际OS观察站路线有19原JPEG限定通过，源QA88图及新包15图各按独立图审来源记录。当前包、SHA、范围和最多五项次日问题以[measured-growth集中证据](../verification/20261018-measured-growth/README.md)为准；原c109双包保留恢复身份。
+**F4历史工程Gate：产品SOURCE97516完整Windows175/175与两CI通过。** 两新包原始链为normal128+严格重开47、tester138+47及原随包60入口/真实CPG/作品重启/最终4现场2会话ZIP独立导入去重；外QA8a9c43e的新普通补充147、测试者补充193均实际整链PASS、自然exit0。原父/旧作品保持，原Store的11个明确数字编码单列，其他typed字段严格；两次旧补充FAIL保留。两角色实际OS观察站路线有19原JPEG限定通过，源QA88图及新包15图各按独立图审来源记录。当前包、SHA、范围和最多五项次日问题以[measured-growth集中证据](../verification/20261018-measured-growth/README.md)为准；原c109双包保留恢复身份。
 
-**后续工程：C→P→G真实证据贯通回顾。** F4已实现Layout公开合同/差额、Overlap首个未达标case与原事件/代码定位、CPU受控pair的按需壹回应、硬件/系统不同3D装置及近看。下一轮复用原Session公开已发生证据和原Works列表，不另造Hint/历史/成绩；撤销、恢复、换档不得串记录。正式美术/人设/声线/结局、新人、Mac、真人旧作品和未录制视频继续开放，完整goal仍ACTIVE。既有[展示SVG与五条实机脚本](../distribution/showcase-shots.md)可替换并继续优化，不冒充录制成片。
+**F4当时后续计划：C→P→G真实证据贯通回顾（已由F5实现并按上文验收）。** F4已实现Layout公开合同/差额、Overlap首个未达标case与原事件/代码定位、CPU受控pair的按需壹回应、硬件/系统不同3D装置及近看。下一轮复用原Session公开已发生证据和原Works列表，不另造Hint/历史/成绩；撤销、恢复、换档不得串记录。正式美术/人设/声线/结局、新人、Mac、真人旧作品和未录制视频继续开放，完整goal仍ACTIVE。既有[展示SVG与五条实机脚本](../distribution/showcase-shots.md)可替换并继续优化，不冒充录制成片。
 
-以下F1固定8334段落保留其当时身份与验收，不自动覆盖后续实现；当前F2/F3结果以上述最新入口为准。
+以下F1固定8334段落保留其当时身份与验收，不自动覆盖后续实现；当前F6候选与F5已验恢复身份见顶部入口。
 
 **F1历史Gate：F1双实包控制器链通过，完整goal仍active。** SOURCE固定8334ab137beb95f24f6092ac0a23df69c592255f。
 normal5acc父77+strict重启29；tester288父87+strict重启29及367b原包内tool子链通过，包含60入口、
@@ -32,7 +39,7 @@ Store与collector取消填满目录rename，排他fresh目标内先验证内容�
 不追写成功或推断唯一OS根因；最终tester仅按已有encoder转换六个已列明坐标，其余typed JSON与磁盘SHA严格。
 
 **normal与tester8334限定原生路线均PASS**：Root实际Sky输入完成normal0→五操作→唯一tutorial成果/双空间/普通F8与逐层Esc；tester60入口但0成果、真实Reflection离线F8现场/截图与逐层Esc。两PID正常exit0、包未变，独立核normal存档与tester零完成context/本地PNG/空远程队列。不是新手、原生CPG/重启/中文长输入/真实旧作品/Mac结论。
-完整创作/视觉/剧情开放项继续逐项处理，F2待总控核准后实施，外部权限与团队定稿边界保持。
+当时完整创作/视觉/剧情开放项继续逐项处理，F2尚待总控核准；其后续实现与验收见顶部入口，外部权限与团队定稿边界保持。
 历史逐次记录不代表当前Gate；新包无public release、上传默认或endpoint，旧ZIP/profile/作品保留。
 
 本账本继续[全旅程active计划](../exec-plans/active/full-journey-experience-20261018.md)。
@@ -50,7 +57,7 @@ F1定向/全量同runtime与新双实包链已验证，原生/真人及完整目
 | PR10先合入、实际远端基线、隔离工作、可恢复检查点 | 首轮计划与PR10合并`bf8f616`；当前总控核准`cf89a76` | 既有交付保留；续轮新分支/提交由总控管控。PR11启动时Godot pending不算失败 |
 | 首页→短语境→第一次操作→结果→回应→继续 | YiIntroduction、真实NOT五项操作；固定7c实包及限定原生观察 | 8334真实导出教程五操作与完成后Journal/观察站通过；原生跳过/回看/恢复仍须限定实测，旧7c不覆盖 |
 | 壹的语境、卡点帮助和任务后回应 | MissionNarrativeCatalog双语60任务、ContextCard、九Host与完成overlay；现有三级Hint | 已实现并独审；最终同runtime全旅程Narrative/九Host矩阵与语言回归有固定来源，8334真实60入口可达；不冒充60项真人通关 |
-| 全旅程逐关盘点玩家决定/前置知识/成功/困难类型 | [60项源码审阅](night-journey-review.md)列全ID与R/S/O | 已有目录审阅；本轮补逐任务结构语境及真实合同核对，不冒充60项真人通关 |
+| 全旅程逐关盘点玩家决定/前置知识/成功/困难类型 | [60项源码审阅](night-journey-review.md)列全ID与R/S/O | 20c9515已完成60任务逐行源码语义盘点与合同核对，不冒充60项真人通关 |
 | NOT/AND/半加器可点输入、数字结果、真值表 | terminology_diagram；handbook/model/input checks和实包rules帧 | 已有代表交互，隔离玩家电路；后续术语按实际缺口扩展，不无差别重写 |
 | 任务层次：现在做什么/成功条件/可查规则/深入 | Mission/ContextCard常驻Now/Verify、可展开语境；现有手册/Hint/第一章next action | 已实现全目录语境及原判定；九Host固定同runtime实际布局/语言与后续窄窗回归通过，8334实包规则/语境入口可见，不称展开全文同屏 |
 | 失败指出不满足条件、合法替代方案保留 | 各域catalog/receipt/trace；第一章错误保留/合法reuse测试 | 待逐域抽查与补缺；记录规则/策略/操作区别，不能要求先失败才可通过 |

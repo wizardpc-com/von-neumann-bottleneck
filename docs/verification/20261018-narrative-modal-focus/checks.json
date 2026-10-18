@@ -6,15 +6,16 @@
   "runtime_baseline": "d14be32f81354eb062f38d39f860b16ff739921a",
   "baseline_test_source": "867ec81dc2718b4a1c8c636a246cd0788094e2f6",
   "current_gates": {
-    "source_review": "PASS_STATIC_BASELINE_QA_ONLY",
+    "source_review": "PASS_STATIC_REPAIR_SCOPE",
     "compile3": {
       "status": "PASS_HEADLESS_COMPILE_SCOPE",
+      "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
       "summary": {
-        "path": ".godot/f6-efficiency-compile-867ec81-summary.json",
-        "sha256": "26e690114dc0d3d57bb3f4568986cdb56c87143ac6a911774f9d833ab41a0033"
+        "path": ".godot/f6-efficiency-compile-bb5c817-summary.json",
+        "sha256": "8b0749a8060be2bfadae4bdb340cd354b6355015dcd5e35a3904a1d2df7e67a8"
       },
-      "watch": ".godot/f6-fixed-watch/ddbe6b438157",
-      "raw": ".godot/f6-fixed-watch/ddbe6b438157/source/.godot/verification/20261018T042509Z-3395e7dc",
+      "watch": ".godot/f6-fixed-watch/c90ed5be1c1f",
+      "raw": ".godot/f6-fixed-watch/c90ed5be1c1f/source/.godot/verification/20261018T043806Z-3640e1b2",
       "stages": 3,
       "passed": 3,
       "efficiency_headless_checks": 55,
@@ -22,14 +23,11 @@
       "errors": 0,
       "warnings": 0,
       "script_errors": 0,
-      "results_sha256": "55337f0056a3e1b9b9189d2c89862217aef0843843364168783ca07fb0a257b0",
-      "owned_sha256": "dc3af64e726973443b8597ea120b48f31e1654e3890e324d43fd097b7a19c681",
-      "copy_sha256": "0de9137f2e6d68a5feee7e369c400cbe75bc06964cef9fe62beb2721fc6288b0",
-      "source_manifest_sha256": "46e6494fd395f87e85db1b7561c34792f8b85ca1f008ddbf5e2a47715842a386",
-      "root_audit": {
-        "path": ".godot/f6-root-compile-audit-867ec81.json",
-        "sha256": "d411399278754738520daac8109579393f25a14f942bb3a843e9aa662fd2d6e1"
-      }
+      "results_sha256": "8d8e7f98df66d8e605650ad1cfaf25bbef8395ef797708a276d0fb53f4dde3e0",
+      "owned_sha256": "609d2c8ff290e4810ee1d63e3a1cf2c0ff3448f266d8645e0b220cc00f159688",
+      "source_manifest_sha256": "7e1e6ee9b3db6d4319a7389b1bf4051e87ff965c2115d2bff178dd39433079d6",
+      "copy_parity_sha256": "3beb83f3f4d297b3e9ee3d8c41236bc84dd6e0091356d969f4f271cc68f6f345",
+      "independent_audit": "Knowledge rehashed allactual3logs/records/results/maps; all716 bb5 Gitblobs/fixedsource and715projectnonconfigexact, originaltwo-private-userdir/EOL exception,175canonical/routeUID exact."
     },
     "baseline_renderer": {
       "status": "FAIL_ACTUAL239_CHECKS_FOUR_ASSERTION_ERRORS",
@@ -197,7 +195,15 @@
         "total": 26,
         "root": 24,
         "tester_incident": 2,
-        "independent_image_review": "NOT_RUN in this evidence record; data/hash audit is not image acceptance"
+        "independent_image_review": {
+          "receipt": {
+            "path": ".godot/f6-efficiency-baseline-visual-audit.json",
+            "sha256": "eb47ae1bc53702d1b6ece4a448b362b9d0dc67f010ed786f31300e1a086f534b"
+          },
+          "status": "PASS_IMAGE_SCOPE_ONLY_BASELINE_OVERALL_FAIL",
+          "actual_viewed": 26,
+          "limits": "18matrix+6feedback+2incident. OriginalScroll remains. No AcceptDialog blocker screenshot; images do not prove modalpause/Esc."
+        }
       },
       "artifacts": 6,
       "runtime_files": 39,
@@ -211,14 +217,293 @@
       },
       "independent_data_audit": "Knowledge rehashed all logs/receipt/results/maps, exact2focusJSON and6acceptedF8 rows, every26PNG/6artifact/39runtimefile/41directory collection; source716/project715 and original settings-finally hash exact. Original receipt/raw unchanged."
     },
-    "production_fix": "NOT_IMPLEMENTED_AT_THIS_RECORD; baseline failure supports narrow component focus repair pending authored freeze and independent review",
-    "fixed_renderer": "NOT_RUN",
-    "new_full_or_packages": "NOT_RUN",
+    "production_fix": {
+      "status": "IMPLEMENTED_STATIC_REVIEW_AND_ACTUAL_COMPONENT_RENDERER_SCOPE_PASS",
+      "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+      "files_sha256": {
+        "src/ui/efficiency_fragment.gd": "5f2bc0d55540814d4d0fcf713817a8ba842c76931aa7bd5ab129294415f558d8",
+        "src/system_lab/system_lab.gd": "d06f44d8fdb3f02c525b63c8a2657ea791a45f3dee7ca714cdd4413676652c7d",
+        "tests/test_efficiency_fragment.gd": "3c4af91cbe4169adbdebcb638e5bd1fa9940369f5346431be8f8a6cf960e6cbc"
+      },
+      "scope": "Pure focus predicate on native/visible-focused embedded Window; component process/reveal and original Host expanded-fragment branch only. No sharedfeedback/model/save/schema/threshold/FirstLight change."
+    },
+    "fixed_renderer": {
+      "status": "PASS_ACTUAL245_COMPONENT_SCOPE",
+      "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+      "summary": {
+        "path": ".godot/f6-efficiency-rendered-bb5c817-summary.json",
+        "sha256": "b0fdf1edbb4333607775f5642dc1ee3e0baaf90293550f500e42aec5fea86c5f"
+      },
+      "receipt": {
+        "path": ".godot/f6-efficiency-rendered/3a8dd7cdeda1/test_efficiency_fragment/receipt.json",
+        "sha256": "ddabeeeddcc3a14612b7119e22a8626d862bb5aa6c327a4af7ed5d085035ecc0"
+      },
+      "log": {
+        "path": ".godot/f6-efficiency-rendered/3a8dd7cdeda1/test_efficiency_fragment/renderer.log",
+        "sha256": "bc9158d30b90171dffbcca20d13a10f87e9485400e59246082be61cd7b674f23"
+      },
+      "results": {
+        "path": ".godot/f6-efficiency-rendered/3a8dd7cdeda1/results.json",
+        "sha256": "1a1068461e4229384e34b9a2601251ee68a883e74941499339d8809383c461f4"
+      },
+      "session": 88150,
+      "pid": 21700,
+      "exit": 0,
+      "elapsed_seconds": 30.58,
+      "checks": 245,
+      "errors": 0,
+      "warnings": 0,
+      "script_errors": 0,
+      "terminated_reason": "",
+      "owned_natural_exit": true,
+      "positive_controls": [
+        {
+          "locale": "zh_CN",
+          "metric_rect": "[P: (455.68, 618.0), S: (462.0, 24.0)]",
+          "scroll_after": 42,
+          "scroll_before": 0,
+          "scroll_max": 819.0,
+          "scroll_page": 315.0,
+          "scroll_rect": "[P: (455.68, 327.0), S: (468.0, 315.0)]",
+          "source_rect": "[P: (455.68, 515.0), S: (462.0, 47.0)]",
+          "step_rect": "[P: (455.68, 570.0), S: (121.0, 40.0)]",
+          "viewport_rect": "[P: (0.0, 0.0), S: (1280.0, 720.0)]"
+        },
+        {
+          "locale": "en",
+          "metric_rect": "[P: (456.36, 667.0), S: (463.0, 24.0)]",
+          "scroll_after": 110,
+          "scroll_before": 0,
+          "scroll_max": 939.0,
+          "scroll_page": 316.0,
+          "scroll_rect": "[P: (456.36, 375.0), S: (469.0, 316.0)]",
+          "source_rect": "[P: (456.36, 495.0), S: (463.0, 72.0)]",
+          "step_rect": "[P: (456.36, 575.0), S: (156.0, 40.0)]",
+          "viewport_rect": "[P: (0.0, 0.0), S: (1280.0, 720.0)]"
+        }
+      ],
+      "modal_controls": [
+        {
+          "locale": "zh_CN",
+          "root_focus": true,
+          "embedded": true,
+          "blocker_focus": true,
+          "listed_embedded": true,
+          "scroll_before": 0,
+          "scroll_after": 0,
+          "blend_before": 0.0,
+          "blend_after": 0.0,
+          "step_before": 1,
+          "step_after": 1
+        },
+        {
+          "locale": "en",
+          "root_focus": true,
+          "embedded": true,
+          "blocker_focus": true,
+          "listed_embedded": true,
+          "scroll_before": 0,
+          "scroll_after": 0,
+          "blend_before": 0.0,
+          "blend_after": 0.0,
+          "step_before": 1,
+          "step_after": 1
+        }
+      ],
+      "separate_post_escape_results": [
+        {
+          "authority_unchanged": true,
+          "body_visible": true,
+          "locale": "zh_CN",
+          "map_visible": false
+        },
+        {
+          "authority_unchanged": true,
+          "body_visible": true,
+          "locale": "en",
+          "map_visible": false
+        }
+      ],
+      "original_six_f8_accepted_rows": [
+        {
+          "active": true,
+          "blend": 0.0666666666666667,
+          "busy": false,
+          "draw_frame": 424,
+          "feedback_flag": true,
+          "paused": false,
+          "process_frame": 424,
+          "scope": "zh_CN-ordinary",
+          "scroll": 42,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.0666666666666667,
+          "busy": true,
+          "draw_frame": 529,
+          "feedback_flag": false,
+          "paused": true,
+          "process_frame": 529,
+          "scope": "zh_CN-tester",
+          "scroll": 42,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.066664,
+          "busy": false,
+          "draw_frame": 634,
+          "feedback_flag": true,
+          "paused": false,
+          "process_frame": 634,
+          "scope": "zh_CN-ordinary-return",
+          "scroll": 42,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.0666666666666667,
+          "busy": false,
+          "draw_frame": 1203,
+          "feedback_flag": true,
+          "paused": false,
+          "process_frame": 1203,
+          "scope": "en-ordinary",
+          "scroll": 66,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.0666666666666667,
+          "busy": true,
+          "draw_frame": 1308,
+          "feedback_flag": false,
+          "paused": true,
+          "process_frame": 1308,
+          "scope": "en-tester",
+          "scroll": 110,
+          "step": 1
+        },
+        {
+          "active": true,
+          "blend": 0.066664,
+          "busy": false,
+          "draw_frame": 1413,
+          "feedback_flag": true,
+          "paused": false,
+          "process_frame": 1413,
+          "scope": "en-ordinary-return",
+          "scroll": 110,
+          "step": 1
+        }
+      ],
+      "runtime_counts": {
+        "pngs": 26,
+        "root_pngs": 24,
+        "tester_incident_pngs": 2,
+        "artifacts": 6,
+        "files": 39,
+        "directories": 41
+      },
+      "image_review": {
+        "path": ".godot/f6-efficiency-repair-visual-audit.json",
+        "sha256": "e1c6ba7d49b8468e84c5025a61077e4d4304e72166811668d1b0e2afa027ed2e",
+        "status": "PASS_SCOPE_WITH_ORIGINAL_SCROLL_LIMITATIONS",
+        "actual_viewed": 26,
+        "classification": "18matrix+6feedback+2testerincident",
+        "unchanged_from_baseline_images": 24,
+        "changed_from_baseline_images": 2,
+        "changed_reason": "Tester panel capture timestamps differ; no claim of newvisual/layout improvement.",
+        "limits": "No modal-blocker screenshots; fade/Escape behavior proved by actualcontroller logs, not images. Original720deeptext/history andfeedbackclipping/Scroll remain. NoOS/newcomer claim."
+      },
+      "source_settings_finally_exact": true,
+      "restored_settings_sha256": "af5380a66739f2ef50e34ee2ea04ea8bab70ecb058d0d04626e486e13d6967cf",
+      "independent_audit": "Knowledge independently rehashed actual raw/summary/results/receipt, every26PNG/6artifact/39file/41dir set, exact2positive/2modal/2separateEsc/6F8 JSON rows. Actual positive42/110 and allsource/step/metric clip math checked; negative0/blend0/step1 and bodytrue/authoritytrue/mapfalse. No native/export/full claim."
+    },
+    "new_full_or_packages": {
+      "full": {
+        "status": "PASS_ACTUAL_FULL_176_HEADLESS_SCOPE",
+        "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+        "summary": {
+          "path": ".godot/f6-full-bb5c817-summary.json",
+          "sha256": "d480295a468bfe07984240706ce19fcde4a7ddf80e05217d1f5ff40b14208758"
+        },
+        "raw": ".godot/f6-fixed-watch/0b2319c13110/source/.godot/verification/20261018T044158Z-a46cc687",
+        "stages": 176,
+        "passed": 176,
+        "headless_test_stages": 174,
+        "ordered_owned_natural_exit0": 176,
+        "distinct_pids": 169,
+        "reused_pids": {
+          "32856": 2,
+          "34004": 2,
+          "16500": 2,
+          "36184": 2,
+          "46128": 2,
+          "32808": 2,
+          "44100": 2
+        },
+        "errors": 0,
+        "script_errors": 0,
+        "warnings": 6,
+        "warning_counts": {
+          "test_desktop_conventions": 4,
+          "test_feedback_presentation": 2
+        },
+        "results_sha256": "e734a963dbc6d9960f6df348b8024098ae2f05a3685cc53fa9f252c7d5fc5fd9",
+        "owned_sha256": "9790071abca52702adeddd068bf3adc3db716444b12e975195058cfb9884fa8e",
+        "source_manifest_sha256": "7e1e6ee9b3db6d4319a7389b1bf4051e87ff965c2115d2bff178dd39433079d6",
+        "copy_parity_sha256": "83c0e83a4e11557a015d69ecc3c597854dea7d094293844c9933ac82c2ca7fd6",
+        "archive_identity_files": 5783,
+        "excluded_docs_files": 5067,
+        "fixed_selected_files": 716,
+        "executed_exact_nonconfiguration_files": 715,
+        "canonical_tests": 175,
+        "original_excluded_test": "test_recovery_game_input",
+        "extra_qa_tests": [],
+        "postrun_project_settings_sha256": "a832035052e1bd78fa0d56b78f6b53b997bf1e114041b7754fe5c86c39046f8b",
+        "configuration_exception": "Original verifier final private use_custom_user_dir/custom_user_dir_name plus Windows EOL only; no headless finally restoration claim.",
+        "independent_audit": "Knowledge rehashed all176 ordered command/log/results/owned bindings; full5783 Git blob map,716fixed,715project,175canonical,route/UID and exact two-line private configuration/EOL exception. No live unknown deletion touched."
+      },
+      "new_packages": "NOT_RUN"
+    },
     "native_os": "NOT_RUN_TOOL_INITIALIZATION_BLOCKED_F5_NO_NEW_ATTEMPT",
-    "human_newcomer_Mac": "NOT_RUN"
+    "human_newcomer_Mac": "NOT_RUN",
+    "baseline_compile3": {
+      "status": "PASS_HEADLESS_COMPILE_SCOPE",
+      "summary": {
+        "path": ".godot/f6-efficiency-compile-867ec81-summary.json",
+        "sha256": "26e690114dc0d3d57bb3f4568986cdb56c87143ac6a911774f9d833ab41a0033"
+      },
+      "watch": ".godot/f6-fixed-watch/ddbe6b438157",
+      "raw": ".godot/f6-fixed-watch/ddbe6b438157/source/.godot/verification/20261018T042509Z-3395e7dc",
+      "stages": 3,
+      "passed": 3,
+      "efficiency_headless_checks": 55,
+      "owned_natural_exit0": 3,
+      "errors": 0,
+      "warnings": 0,
+      "script_errors": 0,
+      "results_sha256": "55337f0056a3e1b9b9189d2c89862217aef0843843364168783ca07fb0a257b0",
+      "owned_sha256": "dc3af64e726973443b8597ea120b48f31e1654e3890e324d43fd097b7a19c681",
+      "copy_sha256": "0de9137f2e6d68a5feee7e369c400cbe75bc06964cef9fe62beb2721fc6288b0",
+      "source_manifest_sha256": "46e6494fd395f87e85db1b7561c34792f8b85ca1f008ddbf5e2a47715842a386",
+      "root_audit": {
+        "path": ".godot/f6-root-compile-audit-867ec81.json",
+        "sha256": "d411399278754738520daac8109579393f25a14f942bb3a843e9aa662fd2d6e1"
+      }
+    },
+    "ci": {
+      "status": "COMPLETED_SUCCESS",
+      "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+      "run_id": 39097738231,
+      "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39097738231",
+      "verification_authority": "Root live gh read; does not replace Windows full, exported package or OS acceptance."
+    }
   },
   "fixed_input": {
-    "archive_identity_files": 5781,
+    "archive_identity_files": 5783,
     "selected_fixed_files": 716,
     "project_nonconfig_files": 715,
     "canonical_tests": 175,
@@ -227,8 +512,9 @@
     "fixed_route_sha256": "ff8fe7721cca6199ed51e5ec07cd3c9ed41391623e465f5f816f3131d5529fe4",
     "unknown_live_deletions": "No repair/delete/restore/stage by this author; fixed archive and project include original canonical inputs.",
     "project_settings_exception": "Only original verifier two private userdir fields and EOL; renderer finally restores the exact pre-renderer headless private setting bytes, not arbitrary repository defaults.",
-    "restored_project_settings_sha256": "9d750ee9825d344f29cdbfe5132784c7aaeb7cf30bbd2671dd671960c2c03262",
-    "production_parity": "Selected source hashes versus d14 differ only tests/test_efficiency_fragment.gd; no production/runtime mutation in baseline867."
+    "restored_project_settings_sha256": "af5380a66739f2ef50e34ee2ea04ea8bab70ecb058d0d04626e486e13d6967cf",
+    "production_parity": "Exactly3authored changed selectedfiles versus867: EfficiencyFragment/SystemLab UI guard/test;146 original boundedcore set exactmain, no blanketallruntimeunchanged claim.",
+    "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74"
   },
   "helpers": {
     "fixed_unbound_sha256": "d9d23fb0444429d9695676ca6015f3c1d26445a56f3b55bf8c641b495c666fea",
@@ -237,7 +523,9 @@
     "renderer_bound_sha256": "b21bd7a05955605af65b6978d6a72c011530a33a23bb977e1691ef02e480ddc9",
     "baseline_test_sha256": "1f59f29dc500c72c1b463fbe761c520c497a10baba422a060e4f896faf8ecf9e",
     "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
-    "scope": "Fixed source only, no live-WIP reads;180s/strictERROR-SCRIPT/owned process/4privateenv/source-finally guards preserved; no automatic retry."
+    "scope": "Fixed source only, no live-WIP reads;180s/strictERROR-SCRIPT/owned process/4privateenv/source-finally guards preserved; no automatic retry.",
+    "fixed_repair_bound_sha256": "a19470265fffe7af17f8a90b4144cf5d87bff81f3aa69eb2a0831a836b92fdf0",
+    "renderer_repair_bound_sha256": "0c0aadb7fe34ee07e2c2258f64838770d74802cad9d0219b19b83b6dcad9121d"
   },
   "other_deliverables": {
     "task_audit": {
@@ -265,5 +553,46 @@
     "FirstLight not changed merely because another component has a superficially similar focus guard.",
     "No future input/private feedback body/account paths in this committed record.",
     "Native/newcomer/Mac/formalart/video/fullgoal remain distinct open boundaries."
-  ]
+  ],
+  "current_source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+  "bounded_protected_core": {
+    "receipt": {
+      "path": ".godot/f6-protected-core-parity-bb5c817.json",
+      "sha256": "e9c4e8ed0df939056175b30805d8b3a4915f51c68b4b6f3889c0ba6d7b9c0db5"
+    },
+    "selected_count": 146,
+    "source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+    "reference_main": "bf8f61647c03c8bba868cc833b3832e274bd4aee",
+    "prior_f5_receipt_sha256": "590d3671b782a112038f4e790be98d89e8904adbb528f107d71a90c6846c2c96",
+    "all_exact": true,
+    "scope": "Same original146core/contract paths only; actual Gitobject rawbytes and headerSHA1 checked. Six original mixedUIhosts excluded; SystemLab UI and new presentation files also outside fixedset. No blanketall-src/alljudgmentcode unchanged claim."
+  },
+  "baseline_fixed_input": {
+    "archive_identity_files": 5781,
+    "selected_fixed_files": 716,
+    "project_nonconfig_files": 715,
+    "canonical_tests": 175,
+    "extra_tests": 0,
+    "fixed_uid_sha256": "e489da42bdbc540c68061bf11682c6d1f70c3435b1f5fb0f3054cec18c07af0c",
+    "fixed_route_sha256": "ff8fe7721cca6199ed51e5ec07cd3c9ed41391623e465f5f816f3131d5529fe4",
+    "unknown_live_deletions": "No repair/delete/restore/stage by this author; fixed archive and project include original canonical inputs.",
+    "project_settings_exception": "Only original verifier two private userdir fields and EOL; renderer finally restores the exact pre-renderer headless private setting bytes, not arbitrary repository defaults.",
+    "restored_project_settings_sha256": "9d750ee9825d344f29cdbfe5132784c7aaeb7cf30bbd2671dd671960c2c03262",
+    "production_parity": "Selected source hashes versus d14 differ only tests/test_efficiency_fragment.gd; no production/runtime mutation in baseline867.",
+    "current_repair_scope": "bb5actualsource716/project715exact with originalprivateconfig; currentfull terminal pending.",
+    "source_commit": "867ec81dc2718b4a1c8c636a246cd0788094e2f6"
+  },
+  "remaining_scope_review": {
+    "path": ".godot/f6-independent-remaining-scope-audit.md",
+    "sha256": "30598937e3819af66f393ef7fcb1af276e3323be49c6a14bc1017afa558e43dc",
+    "grade": "READONLY_REQUIREMENT_SCOPE_REVIEW",
+    "remaining": [
+      "Current-source new package and handoff actual chain",
+      "Official native and independent Mac/platform acceptance",
+      "Human understanding, final creative choices and competition material selection"
+    ],
+    "no_proven_unimplemented_new_feature_identified": true,
+    "broad_goal_status": "ACTIVE",
+    "does_not_claim_all_ideas_final": true
+  }
 }

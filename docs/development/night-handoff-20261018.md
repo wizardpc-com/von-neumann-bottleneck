@@ -1,10 +1,13 @@
 # 10月18日接续：先试玩，再选择
 
-最新可替换创作呈现、原作品回看、固定双包与次日问题见[当前集中证据/交接](../verification/20261018-creative-framework/README.md)。
+当前效率模态焦点修复位于bb5c817：已独审，三阶段编译、真实renderer245项及完整Windows176阶段通过，CI成功，新包待验。
+[本轮证据/交接](../verification/20261018-narrative-modal-focus/README.md)保留旧基线239项/4错误。
+当前已验d14双包与次日问题见[CreationLinks交接](../verification/20261018-creation-connections/README.md)。
+早先可替换创作框架见[历史创作呈现](../verification/20261018-creative-framework/README.md)。
 此前全旅程阶段保留在[F1证据](../verification/20261018-full-journey/README.md)。
 本页以下保留原7c候选身份与其限定证据，不自动认证新分支或新包。
 
-## 当前版本
+## 7c历史版本
 
 本轮从已合并的 PR10／`bf8f616` 继续。开发分支为
 `codex/night-experience-20261018`。公开下载仍是10月17日离线版；本轮候选
@@ -38,7 +41,7 @@ A1／灯0、拆线重连后的真实5/5及壹回应、F8与单字母`n`自动保
 [原生范围与限制](../verification/20261018-night-experience/native-receipt.json)
 · [原生完成画面](../verification/20261018-night-experience/native-earned-tutorial-zh.png)。
 
-| 交付类别 | 当前范围 |
+| 交付类别 | 7c当时范围 |
 | --- | --- |
 | 已实现、技术验证通过 | 首段真实操作、独立规则示例、中期证据指导、共享主题与C/P/G入口；两份固定Windows包及各自验收回执。 |
 | 已实现、待真人审阅 | 壹的语境与回应、视觉舒适度、陌生玩家理解、继续试玩意愿及主观听感。 |

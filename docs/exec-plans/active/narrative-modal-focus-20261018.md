@@ -78,3 +78,17 @@ Visual只读复核原26张基线图，静态图不证明动画暂停、OS焦点�
 
 60任务语义表已于20c9515提交推送并由Visual独审；展示索引的d14双包和五个实际镜头已由
 Knowledge独审，视频仍未录制。两项文档完成不扩张867运行来源或实际玩家验收范围。
+
+## 固定修复门禁
+
+三文件修复已于bb5c817提交推送，经Knowledge独审。原三阶段3/3自然通过；同源真实
+renderer245项检查、零ERROR/WARNING/SCRIPTERROR，PID21700自然exit0。
+正常展开正控制实际scroll由0到中文42/英文110，source/step/metric均在原clip内；
+同起点模态负例在真实Other持焦/root亦持焦时scroll0、blend0、step1保持。
+直接Host Esc分别记录body可见、authority精确、map未打开，六条原F8 accepted边界通过。
+这只认证固定System controller/嵌入子窗，不是OS或导出模态输入。
+26张原图独审另行记录，原239/4失败不改写。
+
+原完整Windows回归176/176自然通过：176有序自有调用、169不同PID；零ERROR/SCRIPTERROR，
+原六条anchor WARNING单列。远端CI39097738231已由Root只读核为SUCCESS。
+新包仍未构建。保留d14双包作为实际可运行恢复交付。

@@ -2,6 +2,26 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
+## Narrative modal-focus candidate
+
+The current branch is `codex/narrative-modal-focus-20261018`. The sixty-task
+semantic review is complete at20c9515; it records source contracts, not sixty
+fresh solutions or newcomer acceptance. Baseline867ec81 reproduces an efficiency
+animation advancing while a focused embedded modal is open:239 checks, four
+assertion errors and a natural exit1. Its Escape assertion is compound; its
+unchanged scroll values do not establish a scroll defect. The bounded repair at
+bb5c817 adds window ownership to efficiency animation, delayed reveal and the
+Host's fragment Escape branch. Independent source review and three fixed-source
+compile stages pass. Its actual renderer also passes245 checks with natural
+exit0: real scroll-positive controls and same-origin modal-negative controls
+pass in both languages, and direct Host Escape preserves the visible fragment,
+authority and closed map. Complete Windows regression passes all176 stages with
+natural exits and zero errors; six original anchor warnings remain recorded.
+Remote CI39097738231 succeeds. New packages are still pending.
+The [round evidence](verification/20261018-narrative-modal-focus/README.md)
+preserves the failed baseline separately. The verified d14 packages below remain
+the recovery delivery.
+
 ## Creation-connections engineering candidate
 
 The round starts from pushed4e643eb on `codex/creation-connections-20261018`.

@@ -111,6 +111,29 @@ Visual的单文件测试修复SHA为
 `fd34ea245453f38a6728cdd720799495aef5d3e5cf7ea7a47916b01902a7f15e`；
 Knowledge独审确认原Home/fallback/pointer/F8与保护断言保留，生产73ad与efficiency5c22未变。
 
+固定修复源40d36ec实际17阶段14PASS/3FAIL，6ERROR、0WARNING/SCRIPTERROR，17owned
+自然退出。Offline的真实MAP→原Home→Hub及efficiency均通过；CPG两语720原Run/Status
+组合保护失败，原measured_closure与原workbench也各两次Status边界失败。
+原workbench实数Status为(12,702,1256,30)，底732超过720；header的38高按钮将原18高行
+加高20，不能靠保留新入口而牺牲原状态。摘要`.godot/f5-focused-40d36ec-summary.json`
+SHA `03aee9834d642ddeef18cdab4bc65bf32ab4296bea1d3372a5368b42af9904c7`，
+总控独立全日志/716复制/175canonical/原UID/715非settings执行字节与私有设置例外复核
+见`.godot/f5-root-audit-40d36ec.json` SHA
+`b8de3dc57cb0e5708bd02340646df8026b16c31775d4e4926c65b690d7ed15de`。
+原三次FAIL保留，不进入renderer。核准同一toggle改用已有38高playback行，不增行、
+不缩字号或Signal，并补原播放/单步/翻页/展开按钮边界保护；新固定源须再跑原17阶段。
+独审在运行前发现播放行会随原signal_area在展开态隐藏，因此未把单一换父方案提交运行。
+最终窄修仍只有同一个按钮：折叠用原38高播放行，展开回原本已显示38高返回按钮的证据栏；
+仅原持焦时恢复同按钮焦点，不新建状态或入口。测试补原Expand/Return实际动作与两态可见、
+原播放控件尺寸/焦点和12px说明，原Status及Saved返回断言全部保留；待新固定源实测。
+回到原光纹时折叠可选回顾；若从这段已打开回顾的原返回动作进入，焦点留在同一个
+已移回播放行的回顾按钮。实际open-review→Return→折叠/焦点→重开与原Saved定位均须覆盖，
+不能只以原本已折叠的Expand/Return路径推断完整往返通过。
+最终host `ceac74d8068312520dd0ecaa75598ee4fc0aac60189b891863186ae080c04b37`、
+test `11443285895dedef627a50dbb49eb17b48498fd330d1871c6881c79d5e79e9f8`
+获Knowledge最终PASS_STATIC，component仍fb214313原字节；保存新检查点后重跑原17阶段，
+不复用40d失败输入或静态结论冒充实际通过。
+
 新包隔离profile预定为`CreationLinks20261018`与
 `OfflineTeammate-CreationLinks20261018`，batch分别为`CreationLinksExperience20261018`与
 `CreationLinksAccess20261018`，不覆盖旧包/存档。外QA仅扩这两个明确白名单，

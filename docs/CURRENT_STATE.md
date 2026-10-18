@@ -14,8 +14,10 @@ passes15/17 stages; CPG720p default-entry visibility and the Home feedback-fallb
 expectation fail, with additional CPG focus warnings. The failed receipts remain;
 the156c836 diagnostic run also fails2/4 stages. Its actual720p geometry places the
 entry below the scroll clip, while the supposed Home frame is actually TaskTree
-with a valid local feedback entry. A reviewed header-entry/focus repair and a
-bounded test-navigation repair await fixed-source verification. Renderer, full
+with a valid local feedback entry. Fixed40d36ec passes14/17 stages: real Home
+fallback and focus regressions pass, but the taller evidence header pushes the
+original720p Status outside the viewport in three suites. That failed receipt is
+retained; reusing the existing playback row awaits verification. Renderer, full
 regression and new package acceptance are pending. The measured-growth ZIPs below remain the
 current verified recovery packages.
 

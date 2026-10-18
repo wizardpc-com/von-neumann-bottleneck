@@ -209,12 +209,33 @@ func matrix(host: Control,locale: String) -> void:
 		var suffix: String = locale+"-"+str(dimensions.x)+"x"+str(dimensions.y)
 		collapsed_geometry(host,scroll,suffix)
 		check(fully_visible(fragment.toggle_button),"Optional entry is reachable beside original evidence: "+suffix)
-		check(fragment.toggle_button.get_parent()==host.provenance.get_parent() and fragment.toggle_button.tooltip_text.contains("可选" if not host.english else "Optional"),"The same optional entry lives in the existing evidence header")
+		check(fragment.toggle_button.get_parent()==host.play_button.get_parent() and fragment.toggle_button.tooltip_text.contains("可选" if not host.english else "Optional"),"The same optional entry shares the existing playback row")
+		for handle: String in ["Play","PlaybackStep","PageBack","PageForward","ExpandEvidence"]:
+			var action: Button = host.find_child(handle,true,false)
+			check(fully_visible(action) and action.custom_minimum_size.y==36,"The original playback action retains its visible bounds and target height: "+suffix+" / "+handle)
+			check(action.focus_mode==(Control.FOCUS_NONE if action.disabled else Control.FOCUS_ALL),"Original playback keyboard focus still matches enabled state: "+handle)
+			if not action.disabled:
+				action.grab_focus()
+				check(root.gui_get_focus_owner()==action,"Original playback action still receives keyboard focus: "+handle)
+		var playback_note: Label
+		for child: Node in host.play_button.get_parent().get_children():
+			if child is Label: playback_note=child
+		check(playback_note!=null and fully_visible(playback_note) and playback_note.get_theme_font_size("font_size")==12,"The original playback explanation remains visible at 12px: "+suffix)
 		check(fully_visible(host.journey_context.verify_label) and host.journey_context.verify_label.get_theme_font_size("font_size")==16,"Default original Verify remains visible at its original body size: "+suffix)
 		check(host.signal_view.custom_minimum_size==Vector2(400,216) and fully_visible(host.signal_view),"Default original signal keeps its exact minimum and visible viewport: "+suffix)
 		check(fully_visible(host.find_child("ModeActions",true,false)) and fully_visible(host.status),"The original run actions and result status remain inside the default viewport: "+suffix)
+		await activate(host.find_child("ExpandEvidence",true,false))
+		check(fragment.toggle_button.get_parent()==host.provenance.get_parent() and fully_visible(fragment.toggle_button),"Expanded evidence retains the same review entry beside its original return action")
+		await activate(host.find_child("ReturnToSignal",true,false))
+		check(fragment.toggle_button.get_parent()==host.play_button.get_parent() and fully_visible(fragment.toggle_button) and fully_visible(host.signal_view),"Returning to signal restores the same review entry to the original playback row")
 		await frame(suffix+"-collapsed")
 		await activate(fragment.toggle_button)
+		check(fragment.toggle_button.get_parent()==host.provenance.get_parent() and fully_visible(fragment.toggle_button) and root.gui_get_focus_owner()==fragment.toggle_button,"Opening the review keeps the same entry visible and preserves its keyboard focus")
+		await activate(host.find_child("ReturnToSignal",true,false))
+		check(not fragment.body.visible and not fragment.toggle_button.button_pressed and fragment.toggle_button.get_parent()==host.play_button.get_parent() and fully_visible(fragment.toggle_button) and root.gui_get_focus_owner()==fragment.toggle_button,"Returning from an open review folds only its presentation and restores its visible original toggle focus")
+		check(fully_visible(host.signal_view) and fully_visible(host.find_child("ModeActions",true,false)) and fully_visible(host.status),"Returning from an open review retains the original signal, run actions and result status")
+		await activate(fragment.toggle_button)
+		check(fragment.body.visible and fragment.toggle_button.button_pressed and fragment.toggle_button.get_parent()==host.provenance.get_parent() and root.gui_get_focus_owner()==fragment.toggle_button,"The same toggle can reopen the original review after returning to signal")
 		for index: int in 4:
 			await activate(fragment.step_buttons[index])
 			if DisplayServer.get_name()=="headless":
@@ -230,7 +251,7 @@ func matrix(host: Control,locale: String) -> void:
 		check(not fragment.body.visible and not fragment.toggle_button.button_pressed and root.gui_get_focus_owner()==host.works,"Leaving Measurements collapses only the review and retains original list focus")
 		check(authority(host)==before,"Saved location changes only the original evidence tab/list selection")
 		await activate(fragment.toggle_button)
-		check(host.causal_tabs.current_tab==0 and fragment.body.visible,"The same header action returns from Works to the original Measurements reading area")
+		check(host.causal_tabs.current_tab==0 and fragment.body.visible,"The same review action returns from Works to the original Measurements reading area")
 		fragment.select_step(2)
 		check(not fragment.locate_button.disabled and fragment.locate_button.focus_mode==Control.FOCUS_ALL,"Current actual G evidence can still be located and focused")
 		await activate(fragment.locate_button)

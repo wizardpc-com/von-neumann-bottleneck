@@ -339,7 +339,7 @@ func build() -> void:
 	_refresh_journey_context()
 	connection_fragment = ConnectionFragment.new()
 	measurement_content.add_child(connection_fragment)
-	connection_fragment.toggle_button.reparent(evidence_header)
+	connection_fragment.toggle_button.reparent(playback)
 	connection_fragment.expansion_requested.connect(func() -> void:
 		causal_tabs.current_tab = 0
 		set_evidence_expanded(true))
@@ -1861,6 +1861,16 @@ func set_evidence_expanded(expanded: bool) -> void:
 	if expanded:
 		playing = false
 		play_button.text = text2("播放","Play")
+	if is_instance_valid(connection_fragment):
+		var toggle: Button = connection_fragment.toggle_button
+		var return_from_review: bool = not expanded and connection_fragment.body.visible and evidence_toggle.has_focus()
+		if not expanded: connection_fragment.collapse()
+		var target: Node = provenance.get_parent() if expanded else play_button.get_parent()
+		if toggle.get_parent()!=target:
+			var restore_focus: bool = toggle.has_focus() or return_from_review
+			if not expanded: signal_area.show()
+			toggle.reparent(target)
+			if restore_focus: toggle.grab_focus()
 	signal_area.visible = not expanded
 	evidence_toggle.visible = expanded
 	evidence_toggle.text = text2("回到光纹","Back to signal") if expanded else text2("展开证据","Expand evidence")

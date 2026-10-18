@@ -9,15 +9,17 @@ Its [plan](exec-plans/active/creation-connections-20261018.md) adds optional
 reflection using actual C→P→G evidence and saved-work identity, without changing
 save formats or simulation behavior. Existing local feedback entrances now
 suppress the duplicate tester footer while F8 and the no-local-entry fallback
-remain available. Fixed2002af3 passes all17 focused Windows stages with natural
+remain available. Fixeda4b764e passes all17 focused Windows stages with natural
 exits and zero errors or warnings. The same review entry uses the playback row when
 collapsed and the visible evidence header when expanded; returning to the signal
 folds the review and preserves its entry focus. Original Status, Signal, Verify,
-playback controls and saved-work regressions pass. Its first actual renderer
-fails the separate-window focus boundary;42 original images are preserved, and
-the two later renderer suites have not run. A bounded modal-window QA fixture
-repair awaits verification; full regression and new package acceptance remain
-pending. The separately reviewed external package
+playback controls and saved-work regressions pass. Actual rendering identifies
+an embedded-modal focus gap: both the modal and its native parent can report
+focus. The bounded repair checks the active embedded viewport before handling
+Escape or delayed reading scroll. It awaits fixed-source validation; the failed
+renderer receipts and original images are preserved, and the two later renderer
+suites have not run. Full regression and new package acceptance remain pending.
+The separately reviewed external package
 controller adds only the two explicit CreationLinks profiles and a real Host
 C/P/G/Keep route; its exported execution is not yet verified. The
 [source-bound evidence](verification/20261018-creation-connections/README.md)

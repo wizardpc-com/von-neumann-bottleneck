@@ -327,11 +327,15 @@ func feedback(host: Control,tester: bool) -> void:
 	var other := Button.new(); other.text = "Other window"; blocker.add_child(other)
 	blocker.popup_centered(Vector2i(240,100)); blocker.grab_focus(); other.grab_focus(); await settle()
 	var root_focus: Control = root.gui_get_focus_owner()
+	var blocker_focus: Control = blocker.gui_get_focus_owner()
 	print("CPG_WINDOW_FOCUS_DIAGNOSTIC: ",JSON.stringify({"locale":"en" if host.english else "zh_CN","tester":tester,
 		"root":{"has_focus":root.has_focus(),"visible":root.visible,"window_id":root.get_window_id(),"embedded":root.is_embedded(),"transient":root.transient,"exclusive":root.exclusive},
 		"blocker":{"has_focus":blocker.has_focus(),"visible":blocker.visible,"window_id":blocker.get_window_id(),"embedded":blocker.is_embedded(),"transient":blocker.transient,"exclusive":blocker.exclusive},
-		"root_focus_owner":str(root_focus.get_path()) if is_instance_valid(root_focus) else "none"}))
-	check(blocker.has_focus() and not root.has_focus(),"A real separate Window owns focus for the loss-of-focus boundary")
+		"root_focus_owner":str(root_focus.get_path()) if is_instance_valid(root_focus) else "none",
+		"blocker_focus_owner":str(blocker_focus.get_path()) if is_instance_valid(blocker_focus) else "none",
+		"listed_embedded":root.get_embedded_subwindows().has(blocker)}))
+	check(blocker.has_focus() and blocker_focus==other and (root.get_embedded_subwindows().has(blocker) if blocker.is_embedded() else not root.has_focus()),"A real separate Window owns focus with its actual embedded or native viewport semantics")
+	if blocker.is_embedded(): print("NOT_RUN: native OS focus loss; this actual boundary uses a focused embedded modal Window")
 	check(scroll.scroll_vertical==pending_scroll,"Pending automatic reveal never scrolls the original reading region after same-frame Window focus leaves")
 	var escape := InputEventKey.new(); escape.keycode = KEY_ESCAPE; escape.pressed = true
 	fragment._unhandled_key_input(escape)

@@ -138,8 +138,16 @@ func select_step(index: int) -> void:
 	step = clampi(index,0,3)
 	_refresh()
 
+func _owns_window_focus() -> bool:
+	var window: Window = get_window()
+	if not window.has_focus(): return false
+	# Embedded modal windows can retain their native parent's has_focus().
+	for child: Window in window.get_embedded_subwindows():
+		if child.visible and child.has_focus(): return false
+	return true
+
 func _unhandled_key_input(event: InputEvent) -> void:
-	if not body.is_visible_in_tree() or feedback_active() or not get_window().has_focus(): return
+	if not body.is_visible_in_tree() or feedback_active() or not _owns_window_focus(): return
 	if not event is InputEventKey or not event.pressed or event.echo or event.keycode != KEY_ESCAPE: return
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused != toggle_button and (focused == null or not body.is_ancestor_of(focused)): return
@@ -147,7 +155,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 func _reveal_reading_region() -> void:
-	if is_queued_for_deletion() or not is_inside_tree() or not get_window().has_focus(): return
+	if is_queued_for_deletion() or not is_inside_tree() or not _owns_window_focus(): return
 	if not body.is_visible_in_tree() or feedback_active() or get_viewport().gui_get_focus_owner()!=toggle_button: return
 	var ancestor: Node = get_parent()
 	while ancestor != null:

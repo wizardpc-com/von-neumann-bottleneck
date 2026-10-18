@@ -154,8 +154,8 @@ Measured函数字节不变，strict仅两个明确profile白名单增加。新pr
 0WARNING/SCRIPTERROR/owned终止；40主帧+2tester现场原PNG共42，后续Offline/Eff未运行。
 摘要`.godot/f5-rendered-2002af3-summary.json` SHA
 `b50d07cff21a5aeecb68b5f19af488f2372b4b66ff3409deee3b70b6932fbeeb`。
-四个role/language场景的普通Window未取得焦点，随后直接调用片段Esc的失焦断言级联；
-这不证明生产guard错误，具体OS/引擎原因缺字段仍未知。原settings finally与固定输入保持。
+四个role/language场景的“子窗持焦且root失焦”组合前提失败，随后失焦Esc断言也失败；
+旧日志没有分别记录两值，不能断言子窗未持焦或判定具体OS原因。原settings finally与固定输入保持。
 核准仅测试换原FirstLight已使用的AcceptDialog模态窗口，保同帧pending/原settle/真正双焦点
 断言和全部authority保护，补真实窗口属性日志；不手设focus标志、不加等待重试或改生产。
 新QA固定检查点与两外QA文件共同保存，再从新固定源重跑原17与实际renderer，旧GUI FAIL保留。
@@ -163,6 +163,23 @@ Measured函数字节不变，strict仅两个明确profile白名单增加。新pr
 总控另对原renderer日志、42PNG/67runtime文件/14artifact、715执行源及原配置例外复核
 见`.godot/f5-root-renderer-audit-2002af3.json` SHA
 `427da5a888ba504a34e7d6716c1c038cb601f8716551c6f2ddf0bafb7e6d3947`。
+
+a4b真实renderer也实际FAIL：PID11880自然1／84.64秒，660检查中8ERROR，
+0WARNING/SCRIPTERROR/提前终止，42原PNG保持，Offline/Eff未运行。
+摘要`.godot/f5-rendered-a4b764e-summary.json` SHA
+`9c8e6f28cff45bf3057b515d2ccbe77d4a5916f85da8dc20e06ca6844f4c8c13`。
+这次四份原日志明确显示嵌入模态子窗与native root同时has_focus=true，windowID同0；
+native焦点互斥前提不适用，也实证片段只查root.has_focus的保护遗漏。
+核准仅组件input/reveal两处共用原窗口+其持焦嵌入子窗的纯读判断，无状态/注册表/角色耦合；
+测试要求子窗实际按钮持焦与嵌入列表归属，native分支仍要求root失焦，原scroll/Esc/authority保持。
+本次实际嵌入焦点不认证native OS失焦；官方Viewport接口说明仅作API范围依据：
+https://docs.godotengine.org/en/4.5/classes/class_viewport.html#class-viewport-method-get-embedded-subwindows
+最终组件52bfe316／测试a6f86e2获Knowledge独审PASS_STATIC，Hostceac原字节不变。
+总控对原a4bGUI全部42PNG/运行文件/原配置/四份焦点JSON复核见
+`.godot/f5-root-renderer-audit-a4b764e.json` SHA
+`9c1de36802823eaee950bba43305f3a63b0880341354a0aa3673250527ca6d9b`。
+素材接口199ebdeb已独审并记录58高Texture／原生文字／缺图与静态回退，不赋予新历史或音频。
+保存新检查点后从其固定源再跑原17和三组renderer，不能复用旧a4b或2002的输入／结论。
 
 新包隔离profile预定为`CreationLinks20261018`与
 `OfflineTeammate-CreationLinks20261018`，batch分别为`CreationLinksExperience20261018`与

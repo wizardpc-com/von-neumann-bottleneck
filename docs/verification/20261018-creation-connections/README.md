@@ -3,9 +3,9 @@
 ## 当前门禁
 
 阶段 **ACTIVE_ENGINEERING_VALIDATION**，完整目标 **ACTIVE**。当前固定源码为
-`2002af3841b96362505b2a6a8a9cacbe1140e1ab`，分支为
-`codex/creation-connections-20261018`。新候选已交叉静审，原17阶段定向已实际 **17/17 PASS**：17进程自然退出0，无ERROR／WARNING／SCRIPT ERROR或提前终止。上次固定40d为14PASS／3FAIL、6条ERROR、零WARNING／SCRIPT ERROR，17自有进程正常终态；其失败保留。
-三suite串行真实渲染首组CPG已实际FAIL，后两组未执行；完整回归、新双包、外QA代表路线和本轮OS输入均 **NOT_RUN**。
+`a4b764eda62e62d8510e325959b62a7e13540c36`，分支为
+`codex/creation-connections-20261018`。新候选已交叉静审，原17阶段定向已实际 **17/17 PASS**，17自然退出0且无ERROR／WARNING／SCRIPT ERROR；此QA检查点生产与2002相同。上一2002原17阶段已实际17/17 PASS：17进程自然退出0，无ERROR／WARNING／SCRIPT ERROR或提前终止。上次固定40d为14PASS／3FAIL、6条ERROR、零WARNING／SCRIPT ERROR，17自有进程正常终态；其失败保留。
+最新a4b串行真实渲染首组CPG实际 **FAIL：660检查／8ERROR**，零WARNING／SCRIPT ERROR，进程11880自然退出1；Offline／Efficiency未执行。2002原渲染失败仍保留。新嵌入窗口焦点守卫仅双审静态通过、尚未运行；完整回归、新双包、外QA代表路线和本轮OS输入均 **NOT_RUN**。
 静态审查或上一阶段通过不能替代这些门禁。
 
 原Measured版本是已验恢复包，见[上一阶段交付](../20261018-measured-growth/README.md)；
@@ -44,28 +44,32 @@
 测试mode切换触发原延迟回地图，与直接切Hub竞争。修复仅让原路由完成，再经原Home按钮进入真实Hub；
 不隐藏合法入口、不直接写导航标志、不删除fallback断言。40d的原Offline headless suite已通过；真实鼠标／viewport／导出／反馈截图仍须renderer，不由此测试通过推定。
 
-40d的旧workbench实际Status矩形为(12,702,1256,30)，底部732超过720达12px；两个旧布局suite与新CPG断言共同拒绝该新header高度。当前2002候选让同一按钮复用原playback行空间，展开时移回可见header，返回折叠并按原焦点归同按钮；不挤小原Signal／Verify，不删Run／Status或默认入口断言。中间只换父的未运行版本曾因随Signal隐藏被独审拒绝，未冒充实际失败；最终双parent修复静审及本次2002原17阶段headless通过，renderer尚未执行。
+40d的旧workbench实际Status矩形为(12,702,1256,30)，底部732超过720达12px；两个旧布局suite与新CPG断言共同拒绝该新header高度。当前2002候选让同一按钮复用原playback行空间，展开时移回可见header，返回折叠并按原焦点归同按钮；不挤小原Signal／Verify，不删Run／Status或默认入口断言。中间只换父的未运行版本曾因随Signal隐藏被独审拒绝，未冒充实际失败；最终双parent修复静审及2002原17阶段headless通过；其后2002与a4b真实renderer均失败，见下。
 
 全部原日志／摘要与SHA见[checks.json](checks.json)。失败不由后续静审覆盖，下一通过也不改写旧失败。
 
 ## 当前真实渲染失败
 
 2002首组CPG真实renderer为660检查、8ERROR，进程24268在84.173秒自然退出1，零WARNING／SCRIPT ERROR／提前终止。
-四条语言／角色路径均先未能确认新plain Window夺走root焦点，随后“失焦组件不应处理Esc”检查失败；
-还没有建立有效的“别的窗口确已持焦”前提，作者正只读比较原合法modal焦点夹具，不先改生产守卫或删除断言。
+四条语言／角色路径均为plain Window复合焦点前提断言失败，随后“失焦组件不应处理Esc”检查失败。旧回合未记录各窗口焦点分项，不能推出其中哪个为false，亦不能断言子窗未夺焦。后续a4b把该夹具换成AcceptDialog并记录实际窗口状态，原生产守卫仍未改变。
 串行门禁立即停止，Offline与Efficiency真实renderer **NOT_RUN**。
 
 本次40主帧＋2测试者截图共42原PNG、14个artifact、67个runtime文件与43目录的哈希／集合已独立重核；
-原715项源码和私有配置finally还原也已核。Visual逐图审尚待回执；即使画面范围接受，也不能把此suite整体改写PASS。
+原715项源码和私有配置finally还原也已核。Visual已实际逐张view并核42原图，收据e5b3383d…仅PASS_SCOPE_WITH_SCROLL_LIMITATIONS：36矩阵＋4suite反馈＋2tester现场分列。EN720禁用C定位下缘部分裁切，深层原文和反馈需原Scroll；普通反馈本次recordingdisabled，无保存声明。他窗失焦边界无图，不能由画面范围通过把8ERROR整体FAIL改判。
 摘要`.godot/f5-rendered-2002af3-summary.json` SHA
 `b50d07cff21a5aeecb68b5f19af488f2372b4b66ff3409deee3b70b6932fbeeb`，详细收据见checks。
+
+a4b新回合也实际660检查／8ERROR，进程11880在84.64秒自然退出1，零WARNING／SCRIPT ERROR／提前终止；Offline与Efficiency仍NOT_RUN。40主帧＋2tester现场共42PNG、14个artifact、67运行文件／43目录、715项源码及原私有配置finally例外已独立重核；这不等于独立逐图审阅或整suite通过。
+四条实际JSON均显示：blocker为可见、transient／exclusive的embedded Window且has_focus=true；native root也has_focus=true，两window_id均为0。因此原互斥焦点前提不适用于这个真实嵌入边界，原仅检查root.has_focus的两处组件守卫也未阻断该边界。不能把本回合解释成子窗未夺焦，更不能由此认证native OS失焦。
+摘要`.godot/f5-rendered-a4b764e-summary.json` SHA `9c8e6f28cff45bf3057b515d2ccbe77d4a5916f85da8dc20e06ca6844f4c8c13`；Root独审收据`.godot/f5-root-renderer-audit-a4b764e.json` SHA `9c1de36802823eaee950bba43305f3a63b0880341354a0aa3673250527ca6d9b`。
+新候选component52bfe316／testa6f86e2已独立静审通过：仅两处原guard复用局部纯焦点判断，拒绝可见且持焦的嵌入子窗；测试以真实GUIowner及嵌入名单或native失焦分别验证前提，原输入／等待／滚动／Esc／权威断言保留。Hostceac未变；**新候选运行NOT_RUN**，五次实际失败均不改判。
 
 ## 固定输入、执行与保护
 
 固定验证helper从完整Git archive记录身份，只物化非docs；直接运行该固定树内原verifier，
 给它完整selected清单并逐项精确复制。保留175个canonical测试、原flags／枚举／180秒监督及严格错误判定。
 未知live删除的`tests/test_chapter_workspaces.gd.uid`不恢复、不跳过：它在固定archive与执行project照原字节存在。
-本作者已分别独立核40d失败与2002通过回合全部17日志和终态／进程，固定716项当前原SHA精确、175canonical／零额外测试；完整archive5771项仅记录身份、5055个docs不物化。执行project715项仍原SHA，唯原verifier注入两条隔离userdir并CRLF重写的project.godot例外，精确移除后重建SOURCE原SHA。UID在固定archive及project为e489da42…，live删除仍保留。
+本作者已分别独立核40d失败与2002通过回合全部17日志和终态／进程，固定716项当前原SHA精确、175canonical／零额外测试；2002完整archive5771项仅记录身份、5055个docs不物化；a4b因新增两证据文档为5773项、排除5057个docs，selected仍716项。执行project715项仍原SHA，唯原verifier注入两条隔离userdir并CRLF重写的project.godot例外，精确移除后重建SOURCE原SHA。UID在固定archive及project为e489da42…，live删除仍保留。
 
 真实Host准备允许原train／transport／逐commit-reveal／generate／Keep合法改变候选Session，
 随后纯回顾另取基线保护原作品、配方、game、磁盘、导航、undo／redo与writer／recovery lease。
@@ -76,7 +80,7 @@ GUI自动展开／鼠标／焦点及截图另列；OS和陌生玩家又是不同
 
 预定profile为`CreationLinks20261018`与`OfflineTeammate-CreationLinks20261018`，
 batch为`CreationLinksExperience20261018`与`CreationLinksAccess20261018`。尚无本轮实际新包，
-不预填ZIP路径或SHA；外QA probe40b／strict2e1已冻结并独立静审，wrapperb213未改；未纳产品2002，编译与实际父链／child／严格重启仍NOT_RUN。
+不预填ZIP路径或SHA；外QA probe40b／strict2e1已冻结并独立静审，wrapperb213未改，纳入QA检查点a4b而生产不变2002；编译与实际父链／child／严格重启仍NOT_RUN。
 
 1. 回顾能否清楚区分复原、已提交但未揭晓、已揭晓和无标准续篇的生成？
 2. 不同规则盒／机器／输入与当前草稿改变后，原观察身份是否仍清楚？

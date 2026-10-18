@@ -161,12 +161,15 @@ func _build_interface() -> void:
 	motif.add_theme_font_size_override("font_size",14); motif.add_theme_color_override("font_color",MUTED)
 	motif.size_flags_horizontal = Control.SIZE_EXPAND_FILL; imprint.add_child(motif)
 	var version := Label.new(); version.name = "BuildIdentifier"
-	version.text = ("内部评审 · " if Localization.current_locale() != "en" else "Internal review · ") if candidate_journey else ""
+	version.text = ("%d 项任务 · " if Localization.current_locale() != "en" else "%d tasks · ") % TaskNavigation.journey_tasks().size()
+	version.text += ("内部评审 · " if Localization.current_locale() != "en" else "Internal review · ") if candidate_journey else ""
 	version.text += String(ProjectSettings.get_setting("application/config/version",""))
 	version.tooltip_text = "Source: "+str(ProjectSettings.get_setting("application/config/build_commit","unknown"))+"\nBatch: "+str(ProjectSettings.get_setting("application/test_batch","unspecified"))
 	version.add_theme_font_size_override("font_size",14); version.add_theme_color_override("font_color",MUTED)
 	version.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	version.clip_text = true; version.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	if not preload("res://src/campaign/creation_tasks.gd").enabled():
+		version.tooltip_text += "\n"+("完整扩展旅程需打开隔离候选项目；见 README 的源码运行说明。" if Localization.current_locale() != "en" else "The full expanded journey requires an isolated candidate project; see the README source-running instructions.")
 	version.tooltip_text = version.text+"\n"+version.tooltip_text
 	imprint.add_child(version)
 	_build_hub_navigation()
@@ -280,7 +283,8 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 	var optional := HBoxContainer.new(); optional.name = "OptionalJourneySpaces"
 	optional.add_theme_constant_override("separation",10); illustration.add_child(optional)
 	var observatory := Button.new(); observatory.name = "OpenJourneyObservatory"
-	observatory.text = "观察站 · 3D候选" if Localization.current_locale() != "en" else "Observatory · 3D study"
+	observatory.text = "3D成果展示 · 只读原型" if Localization.current_locale() != "en" else "3D display · Read-only study"
+	observatory.tooltip_text = "展示已有成果并导航到原工作台；不能在此搭建或运行原电路。" if Localization.current_locale() != "en" else "Displays earned records and links to the original workbench; circuits cannot be built or run here."
 	observatory.custom_minimum_size.y = 42; observatory.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	observatory.pressed.connect(_open_observatory); optional.add_child(observatory)
 	var journal := Button.new(); journal.name = "OpenJourneyJournal"
@@ -404,8 +408,11 @@ func _build_hub_footer(content: VBoxContainer) -> void:
 	handbook.pressed.connect(func() -> void: terminology_handbook.open_handbook())
 	row.add_child(handbook)
 	var note := Label.new(); note.name = "BuildIdentifier"
-	note.text = ("内部评审 · " if not english else "Internal review · ") if candidate_journey else ""
+	note.text = ("%d 项任务 · " if not english else "%d tasks · ") % TaskNavigation.journey_tasks().size()
+	note.text += ("内部评审 · " if not english else "Internal review · ") if candidate_journey else ""
 	note.text += String(ProjectSettings.get_setting("application/config/version",""))
+	if not preload("res://src/campaign/creation_tasks.gd").enabled():
+		note.tooltip_text = "完整扩展旅程需打开隔离候选项目；见 README 的源码运行说明。" if not english else "The full expanded journey requires an isolated candidate project; see the README source-running instructions."
 	note.add_theme_font_size_override("font_size",14); note.add_theme_color_override("font_color",MUTED)
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT; note.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	note.size_flags_vertical = Control.SIZE_SHRINK_CENTER; row.add_child(note)

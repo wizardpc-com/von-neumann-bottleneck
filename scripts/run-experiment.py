@@ -62,6 +62,8 @@ def main():
         raise RuntimeError('Import failed: ' + str(output / 'import.txt'))
     (project / 'project.godot').write_text(settings)
     print('Isolated project: ' + str(project), flush=True)
+    print(('Open this file in Godot: ' if args.locale == 'en' else '在 Godot 中打开此文件：') + str((project / 'project.godot').resolve()), flush=True)
+    print('Source-root F5 uses the core 40-task campaign; the full journey needs an isolated creation --journey --profile project.' if args.locale == 'en' else '源码根目录 F5 默认运行核心40项；完整旅程需使用 creation --journey --profile 准备的隔离项目。', flush=True)
     if args.prepare_only:
         return
     command = [engine, '--path', str(project)]

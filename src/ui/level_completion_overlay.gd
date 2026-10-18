@@ -17,12 +17,28 @@ signal feedback_submitted(
 )
 signal feedback_skipped(chapter_id: StringName, level_id: StringName)
 
-const BACKDROP := Color("050a12", 0.82)
-const SURFACE := Color("111a2a")
-const ACCENT := Color("50d5ff")
-const GOOD := Color("67e8a5")
-const PURPLE := Color("bc8cff")
-const TEXT := Color("e9f0fa")
+const Palette = preload("res://src/lab/lab_palette.gd")
+const BACKDROP := Color(0.03, 0.05, 0.07, 0.62)
+const SURFACE := Palette.TERM_PANEL
+const ACCENT := Palette.ACCENT
+const GOOD := Palette.GOOD
+const PURPLE := Palette.TERM_MUTED
+const TEXT := Palette.TERM_TEXT
+
+# Quiet "earned" emblem: rings settle around a warm light when a result is earned.
+class Emblem extends Control:
+	var progress: float = 0.0
+	func _draw() -> void:
+		var center: Vector2 = size * 0.5
+		var warm := Color("ffd27a")
+		for ring: int in 3:
+			var t: float = clampf(progress * 1.4 - ring * 0.2, 0.0, 1.0)
+			draw_arc(center, 20.0 + ring * 9.0 + (1.0 - t) * 14.0, 0.0, TAU, 48, Color(0.56, 0.83, 0.86, 0.55 * t * (1.0 - ring * 0.28)), 1.5)
+		draw_circle(center, 15.0, Color(warm, 0.18 * progress))
+		draw_circle(center, 8.5 * clampf(progress * 1.6, 0.0, 1.0), warm)
+		draw_circle(center, 14.0, Color(warm, 0.35 * clampf(progress * 1.6, 0.0, 1.0)), false, 1.5)
+
+var emblem: Emblem
 
 var current_level_id: StringName = &""
 var current_chapter_id: StringName = &""
@@ -83,7 +99,9 @@ func _build_interface() -> void:
 	panel = PanelContainer.new()
 	panel.name = "LevelCompletionPanel"
 	panel.custom_minimum_size = Vector2(660.0, 430.0)
-	panel.add_theme_stylebox_override("panel", _stylebox(SURFACE, GOOD, 16, 3))
+	var surface_box: StyleBoxFlat = _stylebox(SURFACE, Palette.ACCENT_DEEP, 18, 1)
+	surface_box.shadow_color = Color(0, 0, 0, 0.4); surface_box.shadow_size = 26; surface_box.shadow_offset = Vector2(0, 8)
+	panel.add_theme_stylebox_override("panel", surface_box)
 	center.add_child(panel)
 
 	var margin := MarginContainer.new()
@@ -97,6 +115,9 @@ func _build_interface() -> void:
 	column.add_theme_constant_override("separation", 12)
 	margin.add_child(column)
 
+	emblem = Emblem.new(); emblem.name = "CompletionEmblem"
+	emblem.custom_minimum_size = Vector2(0, 74); emblem.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(emblem)
 	chapter_label = Label.new()
 	chapter_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	chapter_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
@@ -106,15 +127,14 @@ func _build_interface() -> void:
 	title_label = Label.new()
 	title_label.text = Localization.text(&"common.level_complete.title")
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
-	title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
+	title_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	title_label.add_theme_color_override("font_color", GOOD)
 	column.add_child(title_label)
 
 	level_label = Label.new()
 	level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	level_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	level_label.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
+	level_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
 	level_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
 	level_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(level_label)
@@ -124,9 +144,8 @@ func _build_interface() -> void:
 
 	var learned := Label.new()
 	learned.text = Localization.text(&"common.level_complete.learned")
-	learned.add_theme_font_size_override("font_size", UiTypographyType.SUBTITLE_SIZE)
-	learned.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	learned.add_theme_color_override("font_color", ACCENT)
+	learned.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	learned.add_theme_color_override("font_color", Palette.TERM_MUTED)
 	column.add_child(learned)
 
 	summary_label = Label.new()
@@ -139,15 +158,22 @@ func _build_interface() -> void:
 	yi_response_label = Label.new()
 	yi_response_label.name = "YiCompletionResponse"
 	yi_response_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	yi_response_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
-	yi_response_label.add_theme_color_override("font_color", Color("a3d7d6"))
-	column.add_child(yi_response_label)
+	yi_response_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	yi_response_label.add_theme_color_override("font_color", Color("bfe3e6"))
+	var yi_card := PanelContainer.new(); yi_card.name = "YiCompletionCard"
+	var yi_box: StyleBoxFlat = _stylebox(Palette.TERM_SCREEN, Palette.ACCENT_DEEP, 10, 0)
+	yi_box.border_width_left = 3
+	yi_box.content_margin_left = 16; yi_box.content_margin_right = 16; yi_box.content_margin_top = 10; yi_box.content_margin_bottom = 10
+	yi_card.add_theme_stylebox_override("panel", yi_box)
+	yi_card.add_child(yi_response_label)
+	column.add_child(yi_card)
 	var next_panel := PanelContainer.new()
 	next_panel.name = "NextCapability"
-	next_panel.add_theme_stylebox_override("panel", _stylebox(Color("172c3b"), ACCENT.darkened(0.4), 8, 1))
+	next_panel.add_theme_stylebox_override("panel", _stylebox(Palette.TERM_SCREEN_LIFT, Palette.TERM_EDGE, 10, 1))
 	next_capability_label = Label.new()
 	next_capability_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	next_capability_label.custom_minimum_size.y = 76.0
+	next_capability_label.custom_minimum_size.y = 44.0
+	next_capability_label.add_theme_color_override("font_color", Palette.TERM_MUTED)
 	next_capability_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	next_capability_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	var next_margin := MarginContainer.new()
@@ -162,7 +188,9 @@ func _build_interface() -> void:
 	feedback_toggle.name = "ShowLevelFeedback"
 	feedback_toggle.text = Localization.text(&"playtest.level_feedback.open")
 	feedback_toggle.toggle_mode = true
-	feedback_toggle.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
+	feedback_toggle.flat = true
+	feedback_toggle.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	feedback_toggle.add_theme_color_override("font_color", Palette.TERM_MUTED)
 	feedback_toggle.toggled.connect(func(expanded: bool) -> void:
 		feedback_box.visible = expanded
 		PlaytestData.set_feedback_visible(expanded,&"completion"))
@@ -247,8 +275,8 @@ func present(
 	level_label.text = level_title
 	summary_label.text = summary
 	var response: String = MissionNarrativeCatalogType.completion_response(chapter_id, level_id, Localization.current_locale() == "en")
-	yi_response_label.text = ("壹：" if Localization.current_locale() != "en" else "Yi: ") + response
-	yi_response_label.visible = not response.is_empty()
+	yi_response_label.text = ("壹　" if Localization.current_locale() != "en" else "Yi  ") + response
+	yi_response_label.get_parent().visible = not response.is_empty()
 	var next_key: StringName = MissionNarrativeCatalogType.next_capability_key(chapter_id, level_id)
 	var context: Dictionary = MissionNarrativeCatalogType.task_context(chapter_id, level_id, Localization.current_locale() == "en")
 	next_capability_label.text = Localization.text(next_key) if not next_key.is_empty() else str(context.get("connection", ""))
@@ -262,6 +290,8 @@ func present(
 	panel.custom_minimum_size = Vector2(760.0, 510.0) if questionnaire_enabled else Vector2(700.0, 470.0)
 	_reset_feedback()
 	show()
+	_style_actions(continue_button)
+	_animate_entry()
 	continue_button.grab_focus()
 	_play_completion_cue()
 
@@ -285,7 +315,47 @@ func present_actions(
 	continue_button.text = secondary_text
 	return_button.text = return_text
 	return_button.visible = not return_text.is_empty()
+	_style_actions(primary_action_button)
 	primary_action_button.grab_focus()
+
+
+## Emphasise one action; the rest read as secondary.
+func emphasise(button: Button) -> void:
+	_style_actions(button)
+	button.grab_focus()
+
+
+func _style_actions(strong: Button) -> void:
+	for button: Button in [primary_action_button, continue_button, return_button]:
+		var emphasised: bool = button == strong
+		for pair: Array in [["normal", 0.0], ["hover", 0.1], ["pressed", -0.1], ["focus", 0.0]]:
+			var fill: Color = Palette.ACCENT if emphasised else Palette.TERM_SCREEN_LIFT
+			if float(pair[1]) > 0.0: fill = fill.lightened(float(pair[1]))
+			elif float(pair[1]) < 0.0: fill = fill.darkened(-float(pair[1]))
+			var edge: Color = Palette.ACCENT if emphasised or str(pair[0]) in ["hover", "focus"] else Palette.TERM_EDGE
+			var box: StyleBoxFlat = _stylebox(fill, edge, 10, 2 if str(pair[0]) == "focus" else 1)
+			box.content_margin_left = 18; box.content_margin_right = 18
+			button.add_theme_stylebox_override(str(pair[0]), box)
+		var ink: Color = Palette.TERM_SCREEN if emphasised else Palette.TERM_TEXT
+		for color_name: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+			button.add_theme_color_override(color_name, ink)
+
+
+func _animate_entry() -> void:
+	panel.pivot_offset = panel.size * 0.5
+	panel.modulate.a = 0.0
+	panel.scale = Vector2(0.97, 0.97)
+	emblem.progress = 0.0
+	var reduced: bool = bool(ProjectSettings.get_setting("game/reduced_motion", false))
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(panel, "modulate:a", 1.0, 0.01 if reduced else 0.28)
+	tween.tween_property(panel, "scale", Vector2.ONE, 0.01 if reduced else 0.32).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_method(_set_emblem_progress, 0.0, 1.0, 0.01 if reduced else 1.1).set_delay(0.0 if reduced else 0.12)
+
+
+func _set_emblem_progress(value: float) -> void:
+	emblem.progress = value
+	emblem.queue_redraw()
 
 
 func dismiss() -> void:

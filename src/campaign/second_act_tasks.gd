@@ -16,7 +16,9 @@ static func paths() -> Dictionary:
 	var primary: String = str(ProjectSettings.get_setting("candidate/primary_domain",""))
 	var profile: String = str(ProjectSettings.get_setting("candidate/profile",""))
 	var directory: String = OS.get_user_data_dir()
-	if not Context.configured_journey_for(true,primary,profile,directory): return {}
+	if not Context.configured_journey_for(true,primary,profile,directory):
+		if not Context.full_journey(): return {}
+		return {"representation":Context.save_path("representation"),"service":Context.save_path("service")}
 	return {"representation":Context.resolve_path("representation",primary,profile,directory),"service":Context.resolve_path("service",primary,profile,directory)}
 
 static func saved_review() -> Dictionary:

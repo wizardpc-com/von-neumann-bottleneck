@@ -32,6 +32,7 @@ RemoteFeedback="*res://src/playtest/remote_feedback.gd"
 PersonalRecords="*res://src/playtest/personal_records.gd"
 PlaytestMoments="*res://src/playtest/playtest_moments.gd"
 OfflineFeedback="*res://src/playtest/offline_feedback.gd"
+DevCapture="*res://src/dev/dev_capture.gd"
 
 [display]
 
@@ -46,6 +47,7 @@ window/stretch/aspect="expand"
 [game]
 
 default_locale="zh_CN"
+full_journey=true
 
 [gui]
 

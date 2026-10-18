@@ -871,6 +871,38 @@ func _build_theme() -> void:
 	theme = prototype_theme
 
 
+var tutorial_coach: Control
+
+# First-lesson focus: until the tutorial is earned, the canvas shows only the
+# circuit, a step coach and the test bench. All tools return afterwards.
+func _tutorial_focus() -> bool:
+	return current_phase == &"tutorial" and not bool(completed_levels.get(&"tutorial", false)) and not "--classic-tutorial" in OS.get_cmdline_user_args()
+
+
+func _ensure_tutorial_coach() -> void:
+	if tutorial_coach == null:
+		tutorial_coach = preload("res://src/hardware_foundations/tutorial_coach.gd").new()
+		tutorial_coach.set_english(Localization.current_locale() == "en")
+		graph_stack.add_child(tutorial_coach)
+		tutorial_coach.briefing_requested.connect(func() -> void:
+			var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
+			task_window.show_instrument(); _begin_mission_briefing())
+	tutorial_coach.visible = _tutorial_focus()
+	if tutorial_coach.visible:
+		_update_tutorial_goal()
+		_place_tutorial_coach()
+
+
+func _place_tutorial_coach() -> void:
+	if tutorial_coach == null or graph_stack == null: return
+	var area: Vector2 = graph_stack.size
+	var coach_width: float = clampf(area.x * 0.56, 520.0, 760.0)
+	tutorial_coach.size = Vector2(coach_width, 0.0)
+	tutorial_coach.reset_size()
+	tutorial_coach.size.x = coach_width
+	tutorial_coach.position = Vector2((area.x - coach_width) * 0.5, 14.0)
+
+
 func _build_interface() -> void:
 	var background := preload("res://src/ui/technical_backdrop.gd").new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -985,6 +1017,11 @@ func _show_level_completion(level_id: StringName) -> void:
 	level_completion_overlay.return_button.text = _t(&"hardware.prologue.back_map")
 	# The chapter-end primary action may open feedback before returning.
 	level_completion_overlay.return_button.visible = has_next or level_id == &"load_store"
+	if level_id == &"tutorial":
+		# The first result is answered by the room: going back lights the lab lamp.
+		level_completion_overlay.return_button.text = "回到实验室 · 看看那盏灯" if Localization.current_locale() != "en" else "Back to the lab · see the lamp"
+		level_completion_overlay.return_button.visible = true
+		level_completion_overlay.emphasise(level_completion_overlay.return_button)
 
 
 func _dismiss_level_completion() -> void:
@@ -1007,8 +1044,11 @@ func _on_level_completion_continue(level_id: StringName) -> void:
 	_continue_to_next_level(level_id)
 
 
-func _on_level_completion_return(_level_id: StringName) -> void:
+func _on_level_completion_return(level_id: StringName) -> void:
 	continue_after_seal = false
+	if level_id == &"tutorial":
+		_return_to_prototype_hub()
+		return
 	_open_campaign_map()
 
 
@@ -1287,6 +1327,17 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 				margin
 			)
 			inspector_window.size = Vector2(390.0, minf(440.0, usable_height))
+	var focus: bool = _tutorial_focus()
+	if editor_toolbar != null: editor_toolbar.visible = not focus
+	if mission_summary_button != null: mission_summary_button.visible = not focus
+	if tutorial_coach != null: tutorial_coach.visible = focus
+	if focus and reset_windows:
+		task_window.hide(); component_window.hide()
+		var bench_size := Vector2(clampf(area.x * 0.24, 300.0, 360.0), clampf(usable_height * 0.42, 220.0, 270.0))
+		bench_window.position = Vector2(margin, area.y - margin - bench_size.y)
+		bench_window.size = bench_size
+	if focus and tutorial_coach != null:
+		call_deferred("_place_tutorial_coach")
 	for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
 		window.fit_to_parent(margin)
 		var window_button: Button = desktop_window_buttons.get(window.instrument_id)
@@ -1312,6 +1363,8 @@ func _on_graph_stack_resized() -> void:
 		return
 	for window: FloatingInstrumentPanel in desktop_windows.values():
 		window.fit_to_parent(10.0)
+	if tutorial_coach != null and tutorial_coach.visible:
+		_place_tutorial_coach()
 	if mission_briefing_active:
 		_layout_mission_briefing()
 	elif mission_compact:
@@ -2755,7 +2808,8 @@ func _show_tutorial(show_briefing: bool = true) -> void:
 	_refresh_hint_controls()
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
-	if show_briefing:
+	_ensure_tutorial_coach()
+	if show_briefing and not _tutorial_focus():
 		_begin_mission_briefing()
 
 
@@ -4471,8 +4525,15 @@ func _focus_circuit(all_components: bool = false) -> void:
 			var right: float = window.position.x - 24.0
 			if right - view.position.x > 240.0:
 				view.size.x = minf(view.size.x,right-view.position.x)
+	var zoom_cap: float = 1.5 if selected else 1.0
+	if tutorial_coach != null and tutorial_coach.visible:
+		# Keep the first circuit large and below the step coach.
+		var top: float = tutorial_coach.position.y + tutorial_coach.size.y + 30.0
+		view.size.y = graph.size.y - top - 40.0
+		view.position.y = top
+		zoom_cap = 1.45
 	graph.zoom = clampf(minf(view.size.x / maxf(bounds.size.x, 1.0), view.size.y / maxf(bounds.size.y, 1.0)),
-		graph.zoom_min, minf(graph.zoom_max, 1.5 if selected else 1.0))
+		graph.zoom_min, minf(graph.zoom_max, zoom_cap))
 	graph.scroll_offset = bounds.get_center() * graph.zoom - view.get_center()
 	graph.queue_signal_wire_redraw()
 	_focus_graph_for_keyboard()
@@ -8289,6 +8350,9 @@ func _update_tutorial_goal() -> void:
 		tutorial_removed_wire, tutorial_reconnected_wire]
 	if bool(completed_levels.get(&"tutorial", false)):
 		states.fill(true)
+	if tutorial_coach != null and tutorial_coach.visible:
+		tutorial_coach.update_states(states)
+		call_deferred("_place_tutorial_coach")
 	var steps: Array[StringName] = [&"wire", &"input", &"run", &"remove", &"reconnect"]
 	var completed: int = 0
 	var next: StringName = &""

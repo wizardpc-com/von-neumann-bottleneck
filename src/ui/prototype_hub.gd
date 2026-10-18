@@ -52,6 +52,7 @@ var navigation_previous_focus: Control
 var yi_introduction: YiIntroductionType
 var journey_observatory: Control
 var journey_journal: Control
+var laboratory: Control
 signal settings_closed
 
 
@@ -181,6 +182,25 @@ func _build_interface() -> void:
 	add_child(yi_introduction)
 	yi_introduction.launch_requested.connect(func() -> void: TaskNavigation.start_or_continue())
 	_refresh_save_actions()
+	if not "--classic-hub" in OS.get_cmdline_user_args():
+		_build_laboratory(background, surface)
+
+
+# The laboratory is the home: the classic surface stays built (and reachable with
+# --classic-hub) so settings, recovery and capture routes keep one owner.
+func _build_laboratory(background: Control, surface: Control) -> void:
+	background.hide(); surface.hide()
+	laboratory = preload("res://src/lab/lab_home.gd").new(); laboratory.name = "Laboratory"
+	add_child(laboratory)
+	move_child(laboratory, surface.get_index() + 1)
+	laboratory.start_requested.connect(func(task_key: String) -> void:
+		if task_key.is_empty() or task_key == TaskNavigation.next_task_key() or not TaskNavigation.enter(task_key):
+			TaskNavigation.start_or_continue())
+	laboratory.journey_requested.connect(func() -> void: TaskNavigation.open_tree())
+	laboratory.settings_requested.connect(_open_options_menu)
+	laboratory.quit_requested.connect(_quit_game)
+	laboratory.handbook_requested.connect(func() -> void: terminology_handbook.open_handbook())
+	laboratory.new_game_requested.connect(_open_new_game_confirmation)
 
 
 func _build_hub_header(content: VBoxContainer) -> void:

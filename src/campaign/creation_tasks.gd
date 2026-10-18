@@ -2,13 +2,14 @@ extends RefCounted
 const Session = preload("res://experiments/creation/session.gd")
 const Catalog = preload("res://experiments/creation/catalog.gd")
 const Files = preload("res://experiments/candidate_session/files.gd")
+const Context = preload("res://experiments/candidate_session/context.gd")
 const SCENE := "res://experiments/creation/workbench.tscn"
 static var fingerprint: String = ""
 static var cached_path: String = ""
 static var saved: Dictionary = {}
 
 static func enabled() -> bool:
-	return ProjectSettings.get_setting("candidate/creation_enabled",false) == true or "--creation-journey" in OS.get_cmdline_user_args()
+	return ProjectSettings.get_setting("candidate/creation_enabled",false) == true or Context.full_journey() or "--creation-journey" in OS.get_cmdline_user_args()
 
 static func key_for(index: int) -> String:
 	return "creation/"+str(Catalog.IDS[index]) if index>=0 and index<Catalog.IDS.size() else ""

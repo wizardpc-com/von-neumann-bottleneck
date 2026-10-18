@@ -29,7 +29,13 @@ static func configured_journey_for(enabled: Variant, primary: String, profile: S
 	var sibling: String = resolve_path(other,primary,profile,user_directory)
 	return not sibling.is_empty() and not sibling.begins_with("user://")
 
+# The contest build opens the whole journey from the ordinary source/save
+# directory. Candidate builds keep their isolated sibling profiles.
+static func full_journey() -> bool:
+	return ProjectSettings.get_setting("game/full_journey",false) == true and not "--core-journey" in OS.get_cmdline_user_args()
+
 static func configured_journey() -> bool:
+	if full_journey(): return true
 	return configured_journey_for(ProjectSettings.get_setting("candidate/journey_enabled",false),
 		str(ProjectSettings.get_setting("candidate/primary_domain","")),
 		str(ProjectSettings.get_setting("candidate/profile","")),OS.get_user_data_dir())

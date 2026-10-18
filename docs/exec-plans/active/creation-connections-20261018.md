@@ -134,6 +134,36 @@ test `11443285895dedef627a50dbb49eb17b48498fd330d1871c6881c79d5e79e9f8`
 获Knowledge最终PASS_STATIC，component仍fb214313原字节；保存新检查点后重跑原17阶段，
 不复用40d失败输入或静态结论冒充实际通过。
 
+固定2002af3841b96362505b2a6a8a9cacbe1140e1ab的原17阶段全部实际PASS，17owned自然0、
+0ERROR/WARNING/SCRIPTERROR，CPG508、原workbench385、closure71、efficiency55检查。
+摘要`.godot/f5-focused-2002af3-summary.json` SHA
+`f75281eff97df1acb6929e62c0710313d4d1659d625d35ee65a7ca9a7a6c941f`；
+总控全日志/716固定输入/175canonical/原UID及715非settings与原私有配置例外核验
+`.godot/f5-root-audit-2002af3.json` SHA
+`7aef77ca4b7c95471e7be43c6f0a5c75efa37976e93224c65a9e9fae600f7193`。
+原三次FAIL和两个未运行静审候选各保其身份。已核准同一fixed project运行三串行真实renderer，
+以实际收据判结果，不能从headless通过推断GUI或实际包。
+
+外QA最终probe40b20ca6与strict2e1a3cae获两位独审PASS_STATIC；原wrapperb213与18个
+Measured函数字节不变，strict仅两个明确profile白名单增加。新profile从空Session硬门禁进入
+原Host，真实操作独立核C1/P1/G1/G2/G3五支持及一件完整配方作品；纯查看保护另取基线。
+独立冷重启仍走原Journal Saved-only查看器，明确不认证新Host临时历史重建。
+外QA未随2002产品源改动打包，之后单独提交、记录其controller身份并实际验收。
+
+2002首组真实CPG renderer实际FAIL：PID24268自然exit1／84.173秒，660检查中8ERROR，
+0WARNING/SCRIPTERROR/owned终止；40主帧+2tester现场原PNG共42，后续Offline/Eff未运行。
+摘要`.godot/f5-rendered-2002af3-summary.json` SHA
+`b50d07cff21a5aeecb68b5f19af488f2372b4b66ff3409deee3b70b6932fbeeb`。
+四个role/language场景的普通Window未取得焦点，随后直接调用片段Esc的失焦断言级联；
+这不证明生产guard错误，具体OS/引擎原因缺字段仍未知。原settings finally与固定输入保持。
+核准仅测试换原FirstLight已使用的AcceptDialog模态窗口，保同帧pending/原settle/真正双焦点
+断言和全部authority保护，补真实窗口属性日志；不手设focus标志、不加等待重试或改生产。
+新QA固定检查点与两外QA文件共同保存，再从新固定源重跑原17与实际renderer，旧GUI FAIL保留。
+测试模态窄修ace3182c已获独审PASS_STATIC；生产hostceac74d8/componentfb214313未变。
+总控另对原renderer日志、42PNG/67runtime文件/14artifact、715执行源及原配置例外复核
+见`.godot/f5-root-renderer-audit-2002af3.json` SHA
+`427da5a888ba504a34e7d6716c1c038cb601f8716551c6f2ddf0bafb7e6d3947`。
+
 新包隔离profile预定为`CreationLinks20261018`与
 `OfflineTeammate-CreationLinks20261018`，batch分别为`CreationLinksExperience20261018`与
 `CreationLinksAccess20261018`，不覆盖旧包/存档。外QA仅扩这两个明确白名单，

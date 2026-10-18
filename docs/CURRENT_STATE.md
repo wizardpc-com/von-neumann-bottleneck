@@ -4,22 +4,25 @@
 
 ## Active continuation — creation connections
 
-The next round starts from pushed4e643eb on `codex/creation-connections-20261018`.
-Its [plan](exec-plans/active/creation-connections-20261018.md) adds an optional
-reflection using actual C→P→G evidence and saved-work identity, with no new save
-format or simulation behavior. A separate bounded fix reuses existing local
-feedback entrances to prevent the tester footer from obscuring task controls.
-The implementation has independent source review. First fixed77b339 verification
-passes15/17 stages; CPG720p default-entry visibility and the Home feedback-fallback
-expectation fail, with additional CPG focus warnings. The failed receipts remain;
-the156c836 diagnostic run also fails2/4 stages. Its actual720p geometry places the
-entry below the scroll clip, while the supposed Home frame is actually TaskTree
-with a valid local feedback entry. Fixed40d36ec passes14/17 stages: real Home
-fallback and focus regressions pass, but the taller evidence header pushes the
-original720p Status outside the viewport in three suites. That failed receipt is
-retained; reusing the existing playback row awaits verification. Renderer, full
-regression and new package acceptance are pending. The measured-growth ZIPs below remain the
-current verified recovery packages.
+The round starts from pushed4e643eb on `codex/creation-connections-20261018`.
+Its [plan](exec-plans/active/creation-connections-20261018.md) adds optional
+reflection using actual C→P→G evidence and saved-work identity, without changing
+save formats or simulation behavior. Existing local feedback entrances now
+suppress the duplicate tester footer while F8 and the no-local-entry fallback
+remain available. Fixed2002af3 passes all17 focused Windows stages with natural
+exits and zero errors or warnings. The same review entry uses the playback row when
+collapsed and the visible evidence header when expanded; returning to the signal
+folds the review and preserves its entry focus. Original Status, Signal, Verify,
+playback controls and saved-work regressions pass. Its first actual renderer
+fails the separate-window focus boundary;42 original images are preserved, and
+the two later renderer suites have not run. A bounded modal-window QA fixture
+repair awaits verification; full regression and new package acceptance remain
+pending. The separately reviewed external package
+controller adds only the two explicit CreationLinks profiles and a real Host
+C/P/G/Keep route; its exported execution is not yet verified. The
+[source-bound evidence](verification/20261018-creation-connections/README.md)
+preserves earlier failures and exact acceptance limits. The measured-growth ZIPs
+below remain the current verified recovery packages.
 
 ## Measured-growth candidate — 2026-10-18
 

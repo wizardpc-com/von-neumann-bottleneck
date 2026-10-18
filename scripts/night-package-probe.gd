@@ -39,7 +39,181 @@ func protected_snapshot() -> Dictionary:
 	return {"game_state":state,"protected_files":disk}
 
 func creative_family() -> bool:
-	return str(ProjectSettings.get_setting("candidate/profile","")) in ["Creative20261018","OfflineTeammate-Creative20261018","MeasuredGrowth20261018","OfflineTeammate-MeasuredGrowth20261018"]
+	return str(ProjectSettings.get_setting("candidate/profile","")) in ["Creative20261018","OfflineTeammate-Creative20261018","MeasuredGrowth20261018","OfflineTeammate-MeasuredGrowth20261018","CreationLinks20261018","OfflineTeammate-CreationLinks20261018"]
+
+func creation_links_family() -> bool:
+	return str(ProjectSettings.get_setting("candidate/profile","")) in ["CreationLinks20261018","OfflineTeammate-CreationLinks20261018"]
+
+func connection_profile_files(path: String) -> Dictionary:
+	var result: Dictionary = {}
+	for name: String in DirAccess.get_files_at(path): result[name]=FileAccess.get_sha256(path.path_join(name))
+	for name: String in DirAccess.get_directories_at(path):
+		result[name+"/"]="directory"
+		var children: Dictionary = connection_profile_files(path.path_join(name))
+		for child: String in children: result[name+"/"+child]=children[child]
+	return result
+
+func connection_authority(host: Control) -> Dictionary:
+	var nav: Node = get_node("/root/TaskNavigation")
+	var disk: Dictionary = {}
+	for path: String in ["user://savegame_v1.json.bak","user://personal_task_records_v1.json","user://task_navigation.cfg"]:
+		disk[path]=FileAccess.get_sha256(path) if FileAccess.file_exists(path) else "absent"
+	var lease: Script = load("res://experiments/candidate_session/writer_lease.gd")
+	return {"protected":protected_snapshot(),"disk":disk,"best":get_node("/root/PersonalRecords").best.duplicate(true),
+		"data":host.session.data.duplicate(true),"dirty":host.session.dirty,"digest":host.session.digest,"error":host.session.error,
+		"transport":host.session.last_transport.duplicate(true),"prediction":host.session.prediction.duplicate(true),"generated":host.session.generated.duplicate(true),
+		"undo":host.session.undo_stack.duplicate(true),"redo":host.session.redo_stack.duplicate(true),
+		"transport_runs":host.session.get("_transport_runs").duplicate(true),"prediction_runs":host.session.get("_prediction_runs").duplicate(true),
+		"profile":connection_profile_files(host.session.path.get_base_dir()),"lease":host.session.lease.owns(host.session.path),
+		"recovering":DirAccess.dir_exists_absolute(lease.lock_path(host.session.path)+".recovering"),
+		"nav":{"selected":nav.selected,"pending":nav.pending,"from_tree":nav.from_tree,"last_visited_task":nav.last_visited_task,"camera":nav.camera,"camera_view_size":nav.camera_view_size,"zoom":nav.zoom,"camera_saved":nav.camera_saved},
+		"latest":host.latest.duplicate(true),"records":host.records.duplicate(true),"comparison":host.comparison.duplicate(true),
+		"prediction_recipe":host.prediction_recipe.duplicate(true),"connection_records":host.connection_records.duplicate(true),
+		"kept_work":host.kept_work.duplicate(true),"pinned_creation":host.pinned_creation.duplicate(true),"compared_creation":host.compared_creation.duplicate(true),"creation_report":host.creation_report.duplicate(true),"commission_receipts":host.commission_receipts.duplicate(true),
+		"observation_anchor":host.observation_anchor.duplicate(true),"focused_cell":host.focused_cell,"focused_lane":host.focused_lane,"focused_source":host.focused_source,"event_page":host.event_page,"signal_cursor":host.signal_view.cursor,"signal_page":host.signal_view.page}
+
+func connection_activate(action: Button) -> void:
+	var ancestor: Node = action.get_parent()
+	while ancestor!=null:
+		if ancestor is ScrollContainer: ancestor.ensure_control_visible(action)
+		ancestor=ancestor.get_parent()
+	await settle()
+	check(measured_visible(action) and not action.disabled,"CreationLinks actual control is reachable: "+str(action.name))
+	if not measured_visible(action) or action.disabled: return
+	action.grab_focus(); await creative_window_key(KEY_SPACE)
+
+func connection_frame(output: String, name: String) -> void:
+	await RenderingServer.frame_post_draw
+	var path: String = output.path_join(name+".png")
+	check(not FileAccess.file_exists(path),"CreationLinks frame preserves previous evidence: "+name)
+	if FileAccess.file_exists(path): return
+	var image: Image = get_viewport().get_texture().get_image()
+	check(not image.is_empty() and image.save_png(path)==OK,"Actual exported CreationLinks frame "+name)
+	var frames: Array = experience.get("creation_links_frames",[])
+	frames.append({"file":name+".png","sha256":FileAccess.get_sha256(path),"dimensions":[image.get_width(),image.get_height()]})
+	experience["creation_links_frames"]=frames
+
+func creation_links_setup(output: String, tester: bool) -> void:
+	var nav: Node = get_node("/root/TaskNavigation")
+	check(not get_node("/root/GameMode").is_test_mode() and OS.has_feature("free_candidate"),"CreationLinks preparation retains ordinary game mode and actual export permissions")
+	if get_node("/root/GameMode").is_test_mode() or not OS.has_feature("free_candidate"): return
+	var entered: bool = nav.enter("creation/C1_restore")
+	check(entered,"CreationLinks enters the real unlocked C1 Host through actual navigation")
+	if not entered: return
+	await settle()
+	var host: Variant = get_tree().current_scene
+	check(is_instance_valid(host) and host.scene_file_path=="res://experiments/creation/workbench.tscn","CreationLinks enters exactly the original Creation scene")
+	if not is_instance_valid(host) or host.scene_file_path!="res://experiments/creation/workbench.tscn": return
+	check(host.writable and host.session.lease!=null and host.session.lease.owns(host.session.path),"CreationLinks actual Host owns its embedded writer")
+	if not host.writable or host.session.lease==null or not host.session.lease.owns(host.session.path): return
+	var original: Dictionary = host.session.data.duplicate(true)
+	var fresh: bool = original.works.is_empty() and original.supports.is_empty() and original.model.is_empty() and not FileAccess.file_exists(host.session.path)
+	check(fresh,"CreationLinks preparation requires its fresh empty embedded creation session before earning five supports")
+	if not fresh: return
+	host.train_model(); await settle()
+	var learned_model: Dictionary = host.session.data.model.duplicate(true)
+	var source_type: Script = load("res://experiments/creation/catalog.gd")
+	var transport_source: Array = source_type.source(host.source_kind)
+	var transport_machine: Dictionary = host.session.data.draft.machine.duplicate(true)
+	host.transport("predictive"); await settle()
+	check(host.connection_records.has("transport") and host.session.last_transport.get("lossless",false),"CreationLinks actual Host learns and restores its real lossless source")
+	if not host.connection_records.has("transport"): return
+	host.switch_mode("predict"); await settle(); host.begin_prediction("practice"); await settle()
+	check(not host.session.prediction.is_empty(),"CreationLinks actual Host begins the existing practice round")
+	if host.session.prediction.is_empty(): return
+	var public: Dictionary = host.connection_records.prediction
+	var prediction_machine: Dictionary = host.session.data.draft.machine.duplicate(true)
+	check(public.prefix.size()==2 and public.rows.is_empty() and public.pending.is_empty(),"CreationLinks initial public P contains only the revealed prefix")
+	var steps: int = 0
+	while not host.session.prediction.get("finished",false) and steps<4096:
+		var rows: int = host.connection_records.prediction.rows.size()
+		var prefix: Array = host.connection_records.prediction.prefix.duplicate()
+		host.commit_prediction(); await settle()
+		var committed: Dictionary = host.connection_records.prediction
+		check(committed.rows.size()==rows and committed.prefix==prefix and committed.pending.keys()==["symbol"],"CreationLinks committed P keeps truth sealed at step "+str(steps))
+		if committed.pending.keys()!=["symbol"]: return
+		host.reveal_prediction(); await settle()
+		var revealed: Dictionary = host.connection_records.prediction
+		check(revealed.rows.size()==rows+1 and revealed.prefix.size()==prefix.size()+1 and revealed.pending.is_empty(),"CreationLinks original reveal adds exactly one public row at step "+str(steps))
+		if revealed.rows.size()!=rows+1: return
+		check(not revealed.has("_future") and not revealed.has("_sequence") and not revealed.has("truth"),"CreationLinks detached P exposes no private future at step "+str(steps))
+		var public_keys: Array = revealed.keys(); public_keys.sort()
+		check(public_keys==["draft","evidence","finished","kind","machine","model_id","pending","prefix","rows","seen","trace_signature"],"CreationLinks P contains exactly the existing public observation whitelist at step "+str(steps))
+		steps+=1
+	check(host.session.prediction.get("finished",false),"CreationLinks real commit reveal round finishes without injected support")
+	if not host.session.prediction.get("finished",false): return
+	host.switch_mode("generate"); await settle(); host.generate_work(); await settle()
+	check(host.connection_records.has("generation") and not host.session.generated.is_empty(),"CreationLinks original Host generates from its completed restore and prediction")
+	if not host.connection_records.has("generation"): return
+	host.name_input.text="CreationLinks · actual Host signal"; host.keep_work(); await settle()
+	var work: Dictionary = host.kept_work.duplicate(true)
+	check(not work.is_empty() and host.session.data.works.size()==original.works.size()+1,"CreationLinks original Keep transaction saves exactly one new actual work")
+	if work.is_empty(): return
+	check(host.session.data.works.slice(0,original.works.size())==original.works,"CreationLinks preparation preserves every preexisting work and complete recipe")
+	for key: String in original.supports: check(host.session.data.supports.get(key)==original.supports[key],"CreationLinks preparation preserves original support "+key)
+	var new_supports: Array[String] = []
+	for key: String in host.session.data.supports:
+		if not original.supports.has(key): new_supports.append(key)
+	new_supports.sort()
+	check(new_supports==["C1_restore","G1_feedback","G2_intent","G3_keep","P1_commit"],"CreationLinks preparation earns only its original restore prediction generation and kept-work contracts")
+	# These are the existing complete() contracts, built from the actual input and public run outputs, not copied from supports.
+	var expected_supports: Dictionary = {"C1_restore":{"kind":"transport","model":learned_model,"machine":transport_machine,"source":transport_source,"codec":"predictive"},
+		"P1_commit":{"kind":"prediction","model":learned_model,"machine":prediction_machine,"check":"practice","rows":host.connection_records.prediction.rows.duplicate(true)}}
+	for key: String in ["G1_feedback","G2_intent","G3_keep"]: expected_supports[key]={"kind":"generation","recipe":work.recipe.duplicate(true),"output":work.output.duplicate()}
+	for key: String in expected_supports: check(host.session.data.supports.get(key)==expected_supports[key],"CreationLinks actual original support payload matches its run contract: "+key)
+	check(host.connection_records.work==work and host.connection_records.generation.recipe==work.recipe and host.connection_records.generation.output==work.output,"CreationLinks Saved binds the actual generation output recipe and original id")
+	var path: String = host.session.path
+	var prepared: Dictionary = host.session.data.duplicate(true)
+	experience["creation_links_preparation"]={"source":"actual nav.enter C1 Host actions in ordinary exported game; not natural full journey or native input", "source_commit":ProjectSettings.get_setting("application/config/build_commit",""),"profile":ProjectSettings.get_setting("candidate/profile",""),"controller_sha256":FileAccess.get_sha256(get_script().resource_path),"original_data":original,"prepared_data":prepared,"new_supports":new_supports,"prediction_steps":steps}
+	await creation_links_review(host,output,tester)
+	check(host.session.data==prepared and not host.session.dirty,"CreationLinks pure review ends with the exact saved preparation and no dirty draft")
+	var saved_sha: String = FileAccess.get_sha256(path)
+	host.request_leave(true); await settle()
+	check(not is_instance_valid(host) and get_tree().current_scene.scene_file_path=="res://src/campaign/task_tree.tscn","CreationLinks original Journey action closes the real Host and returns to its map")
+	var lease: Script = load("res://experiments/candidate_session/writer_lease.gd")
+	check(not DirAccess.dir_exists_absolute(lease.lock_path(path)) and FileAccess.get_sha256(path)==saved_sha,"CreationLinks Host exit releases its lease and preserves exact saved session bytes")
+	experience["creative_saved_work"]={"work":work,"path":path,"session_sha256":saved_sha,"setup":"actual Creation Host train/transport/commit/reveal/generate/Keep controller actions; not a normal natural full journey"}
+
+func creation_links_review(host: Control, output: String, tester: bool) -> void:
+	var fragment: Variant = host.connection_fragment
+	host.causal_tabs.current_tab=0; host.set_evidence_expanded(false); fragment.collapse(); await settle()
+	check(not fragment.body.visible and not fragment.toggle_button.button_pressed and measured_visible(fragment.toggle_button),"CreationLinks default optional entry is visible without opening or QA scrolling")
+	check(measured_visible(host.find_child("ModeActions",true,false)) and measured_visible(host.status),"CreationLinks original run actions and status remain visible beside its optional entry")
+	var before: Dictionary = connection_authority(host)
+	await connection_frame(output,"cpg-connection-collapsed")
+	await connection_activate(fragment.toggle_button)
+	for step: int in 4:
+		await connection_activate(fragment.step_buttons[step])
+		check(fragment.body.visible and fragment.step==step,"CreationLinks manual original step "+str(step))
+		check(measured_visible(fragment.scope_label) and measured_visible(fragment.identity_label) and measured_visible(fragment.summary_label) and fragment.summary_label.get_theme_font_size("font_size")==16,"CreationLinks actual automatic scroll reveals native scope identity and summary "+str(step))
+		await connection_frame(output,"cpg-connection-step"+str(step))
+	check(connection_authority(host)==before,"CreationLinks fold and four manual steps preserve full Session exploration receipts undo redo game disk lease and navigation")
+	await connection_activate(fragment.locate_button)
+	check(host.causal_tabs.current_tab==3 and host.session.data.works[host.selected_work()].id==fragment.records.work.id and not is_instance_valid(host.work_focus),"CreationLinks Saved location selects only the real Works id without View or recipe replay")
+	check(not fragment.body.visible and get_viewport().gui_get_focus_owner()==host.works and connection_authority(host)==before,"CreationLinks original Works selection changes only view fields and restores original list focus")
+	await connection_activate(fragment.toggle_button); await connection_activate(fragment.step_buttons[2]); await connection_activate(fragment.locate_button)
+	check(host.causal_tabs.current_tab==0 and get_viewport().gui_get_focus_owner()==host.causal_tabs.get_tab_bar() and measured_visible(host.costs),"CreationLinks actual G location reaches the original current ledger and tab focus")
+	check(connection_authority(host)==before,"CreationLinks ledger location preserves every non-view authority")
+	await connection_activate(fragment.step_buttons[1])
+	var pause_before: bool = get_tree().paused
+	var feedback: Node = get_node("/root/OfflineFeedback")
+	var moments: Node = get_node("/root/PlaytestMoments")
+	await creative_window_key(KEY_F8)
+	var panel: Control = feedback.panel if tester else moments.panel
+	check((feedback.backdrop.visible if tester else moments.panel.visible) and panel.is_visible_in_tree() and panel.get_viewport()==get_viewport() and panel.is_ancestor_of(get_viewport().gui_get_focus_owner()),"CreationLinks original role F8 owns actual Host viewport and panel focus")
+	check(get_tree().paused if tester else get_tree().paused==pause_before,"CreationLinks retains actual tester versus ordinary pause behavior")
+	var held: int = fragment.step
+	fragment.select_step(2)
+	check(fragment.step==held and fragment.body.visible,"CreationLinks actual feedback prevents step mutation")
+	await connection_frame(output,"cpg-connection-feedback")
+	await creative_window_key(KEY_ESCAPE)
+	check(not panel.is_visible_in_tree() and fragment.body.visible and get_tree().paused==pause_before and get_viewport().gui_get_focus_owner()==fragment.step_buttons[1],"CreationLinks first Escape closes only role feedback and restores exact step focus")
+	await creative_window_key(KEY_ESCAPE)
+	check(not fragment.body.visible and get_viewport().gui_get_focus_owner()==fragment.toggle_button,"CreationLinks second focused Escape collapses only the optional review")
+	check(connection_authority(host)==before,"CreationLinks actual F8 and Escape preserve full pure-view authority baseline")
+	experience["creation_links_review"]={"passed":connection_authority(host)==before,"authority_sha256":JSON.stringify(before,"",true).sha256_text(),"authority_fields":before.keys(),
+		"allowed_view_fields":["causal_tabs.current_tab","evidence_expanded","signal_area.visible","evidence_toggle.visible/text","connection_fragment.step/body.visible/toggle_button.button_pressed","original ScrollContainer scroll offsets","works selected real id","viewport focus"],
+		"input_grade":"rendered controller key events, not native OS or novice play","cold_host_history":"NOT_RUN: independent restart verifies original Journal Saved-only viewer, not Creation Host history reconstruction"}
 
 func creative_window_key(code: Key) -> void:
 	for down: bool in [true,false]:
@@ -62,7 +236,10 @@ func creative_media(intro: Variant, output: String) -> void:
 	intro.media_texture=texture; await settle()
 	check(protected_snapshot()==before,"Creative media replacement grants no progress or save changes")
 
-func creative_saved_work_setup() -> void:
+func creative_saved_work_setup(output: String, tester: bool) -> void:
+	if creation_links_family():
+		await creation_links_setup(output,tester)
+		return
 	var session_type: Script = load("res://experiments/creation/session.gd")
 	var writer: Variant = session_type.new()
 	var opened: Dictionary = writer.open(session_type.launch_path())
@@ -115,6 +292,8 @@ func creative_work_review(journal: Variant, phase: String, expected: Dictionary,
 	if not is_instance_valid(exhibit): return
 	check(JSON.stringify(JSON.parse_string(JSON.stringify(exhibit.work)),"",true)==JSON.stringify(JSON.parse_string(JSON.stringify(expected)),"",true),phase+" Creative viewer preserves the entire original id output recipe training and source snapshot")
 	check(exhibit.canvas.output==exhibit.work.output and exhibit.evidence.is_empty() and exhibit.explanation_button.disabled and exhibit.fork_button.disabled,phase+" Creative saved-snapshot viewer supplies no forged generation receipt or editable fork")
+	if creation_links_family() and phase=="restarted":
+		check(str(exhibit.work.id)==str(expected.id) and JSON.stringify(JSON.parse_string(JSON.stringify({"recipe":exhibit.work.recipe,"output":exhibit.work.output})),"",true)==JSON.stringify(JSON.parse_string(JSON.stringify({"recipe":expected.recipe,"output":expected.output})),"",true) and exhibit.evidence.is_empty(),"CreationLinks independent restart shows only the parent-bound original saved id recipe and output without reconstructed C P G events")
 	check(exhibit.request_fork.get_connections().is_empty() and exhibit.request_evidence.get_connections().is_empty(),phase+" Creative Journal connects no hidden write or evidence action")
 	check(exhibit.find_child("JournalWorkProvenance",true,false).text==journal.work_note.text and exhibit.origin_label.text.contains("no verified generation event" if exhibit.english else "暂无可核对的生成事件"),phase+" Creative actual viewer retains saved-only provenance and unknown event evidence")
 	check(exhibit.get_texture().get_image().save_png(output.path_join("saved-work"+("-restarted" if phase=="restarted" else "")+".png"))==OK,phase+" actual Creative saved-work frame")
@@ -637,7 +816,7 @@ func run() -> void:
 	var feedback: Node = get_node("/root/OfflineFeedback")
 	var profile: String = str(ProjectSettings.get_setting("candidate/profile",""))
 	var tester: bool = ProjectSettings.get_setting("playtest/offline_tester",false)==true
-	check(profile in (["OfflineTeammate-FullJourney20261018","OfflineTeammate-Creative20261018","OfflineTeammate-MeasuredGrowth20261018"] if tester else ["FullJourney20261018","Creative20261018","MeasuredGrowth20261018"]),"actual embedded full-journey profile")
+	check(profile in (["OfflineTeammate-FullJourney20261018","OfflineTeammate-Creative20261018","OfflineTeammate-MeasuredGrowth20261018","OfflineTeammate-CreationLinks20261018"] if tester else ["FullJourney20261018","Creative20261018","MeasuredGrowth20261018","CreationLinks20261018"]),"actual embedded full-journey profile")
 	check(OS.get_user_data_dir().replace("\\","/").ends_with("/VonNeumannBottleneckCandidates/representation/"+profile),"actual embedded save namespace")
 	check(OS.has_feature("free_candidate") and nav.journey_tasks().size()==60,"actual exported full journey configuration")
 	check(not get_node("/root/GameMode").is_test_mode(),"ordinary model mode")
@@ -714,7 +893,7 @@ func run() -> void:
 	handbook.close_handbook()
 	host._save_active_workbench()
 	check(get_node("/root/GlobalSave").save_game(true),"actual exported earned tutorial explicitly saves before derived review")
-	if creative_family(): await creative_saved_work_setup()
+	if creative_family(): await creative_saved_work_setup(output,tester)
 	check(nav.open_tree(),"actual embedded journey map opens")
 	await settle()
 	var map: Variant = get_tree().current_scene
@@ -808,6 +987,8 @@ func reopen_embedded_profile(output: String, profile: String, tester: bool) -> v
 		"controller_sha256":FileAccess.get_sha256(get_script().resource_path),"protected":before,
 		"post_exit_baseline_sha256":FileAccess.get_sha256(baseline_path),
 		"evidence_grade":"same embedded namespace after independent process restart; rendered controller, not native input"}
+	if creation_links_family():
+		receipt["creation_links_cold_review"]={"source":"original Journal saved-snapshot WorkFocus only","work_id":prior.get("extended_experience",{}).get("creative_saved_work",{}).get("work",{}).get("id",""),"generation_event_evidence":{},"creation_host_history":"NOT_RUN: no cold Host navigation or C P G history reconstruction"}
 	var file := FileAccess.open(output.path_join("embedded-profile-reopen.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(receipt,"\t")); file.close()
 	print("PASS: embedded profile independent restart" if failures.is_empty() else "FAIL: embedded profile independent restart")

@@ -8,7 +8,7 @@ prior_path=work/'receipt.json';prior_bytes=prior_path.read_bytes();prior=json.lo
 manifest=json.loads((candidate/'manifest.json').read_bytes());role=bool(manifest.get('offline_tester',False))
 assert prior['source_commit']==manifest['source_commit'] and prior['build_id']==manifest['build_id']
 assert prior['profile']==manifest['candidate_journey']['profile']
-assert prior['profile'] in (('OfflineTeammate-FullJourney20261018','OfflineTeammate-Creative20261018','OfflineTeammate-MeasuredGrowth20261018') if role else ('FullJourney20261018','Creative20261018','MeasuredGrowth20261018'))
+assert prior['profile'] in (('OfflineTeammate-FullJourney20261018','OfflineTeammate-Creative20261018','OfflineTeammate-MeasuredGrowth20261018','OfflineTeammate-CreationLinks20261018') if role else ('FullJourney20261018','Creative20261018','MeasuredGrowth20261018','CreationLinks20261018'))
 assert prior['tester']==role and not prior['failures'] and all(prior['checks'].values())
 assert prior['creation_restart_and_feedback'].get('passed') is True if role else prior['creation_restart_and_feedback']['status'].startswith('not run')
 binary=work/'unpacked/Windows/Von-Neumann-Bottleneck.exe';probe=work/'probe.gd';scene=work/'probe.tscn';runtime=work/'runtime'

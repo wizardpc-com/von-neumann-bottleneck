@@ -321,11 +321,16 @@ func feedback(host: Control,tester: bool) -> void:
 	var pending_scroll: int = scroll.scroll_vertical
 	fragment.toggle_button.button_pressed = true
 	check(process_frame.is_connected(fragment._reveal_reading_region),"Actual toggle schedules one pending reading reveal before Window focus moves")
-	var blocker := Window.new()
+	var blocker := AcceptDialog.new()
 	blocker.title = "QA focus boundary"
 	root.add_child(blocker)
 	var other := Button.new(); other.text = "Other window"; blocker.add_child(other)
 	blocker.popup_centered(Vector2i(240,100)); blocker.grab_focus(); other.grab_focus(); await settle()
+	var root_focus: Control = root.gui_get_focus_owner()
+	print("CPG_WINDOW_FOCUS_DIAGNOSTIC: ",JSON.stringify({"locale":"en" if host.english else "zh_CN","tester":tester,
+		"root":{"has_focus":root.has_focus(),"visible":root.visible,"window_id":root.get_window_id(),"embedded":root.is_embedded(),"transient":root.transient,"exclusive":root.exclusive},
+		"blocker":{"has_focus":blocker.has_focus(),"visible":blocker.visible,"window_id":blocker.get_window_id(),"embedded":blocker.is_embedded(),"transient":blocker.transient,"exclusive":blocker.exclusive},
+		"root_focus_owner":str(root_focus.get_path()) if is_instance_valid(root_focus) else "none"}))
 	check(blocker.has_focus() and not root.has_focus(),"A real separate Window owns focus for the loss-of-focus boundary")
 	check(scroll.scroll_vertical==pending_scroll,"Pending automatic reveal never scrolls the original reading region after same-frame Window focus leaves")
 	var escape := InputEventKey.new(); escape.keycode = KEY_ESCAPE; escape.pressed = true

@@ -1,0 +1,617 @@
+{
+  "stage": "ACTIVE_ENGINEERING_VALIDATION",
+  "broad_goal_status": "ACTIVE",
+  "baseline_commit": "4e643eb18187235e2f736ea6b772fffbfae21f3a",
+  "candidate_source_commit": "2002af3841b96362505b2a6a8a9cacbe1140e1ab",
+  "branch": "codex/creation-connections-20261018",
+  "plan": "docs/exec-plans/active/creation-connections-20261018.md",
+  "current_gates": {
+    "source_reviews": "PASS_STATIC_SCOPE_ONLY",
+    "focused17": {
+      "status": "PASS_HEADLESS_AFFECTED17_SCOPE",
+      "source_commit": "2002af3841b96362505b2a6a8a9cacbe1140e1ab",
+      "summary": {
+        "path": ".godot/f5-focused-2002af3-summary.json",
+        "sha256": "f75281eff97df1acb6929e62c0710313d4d1659d625d35ee65a7ca9a7a6c941f"
+      },
+      "watch": ".godot/f5-fixed-watch/c2b91e7f019e",
+      "raw": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8",
+      "stages": 17,
+      "passed": 17,
+      "failed": 0,
+      "pipeline_exit": 0,
+      "all17_owned_natural_exit0": true,
+      "error_lines": 0,
+      "warning_lines": 0,
+      "script_error_lines": 0,
+      "owned_early_stops": 0,
+      "receipt_hashes": {
+        "results_sha256": "b9d05119aeb56ae1b2cea7e872f30a25c2d34af6961b7497635322a1dbfb21ae",
+        "owned_sha256": "567c9775c00adf92ef31d9d0adc65782c72149fc79e6a58b07ef7fef4b7db194",
+        "source_manifest_sha256": "30b410b67a781d8213e39d10ffd0433d0a79e8769a3fed9cfaa0c8c7f8ea65c9",
+        "copy_parity_sha256": "49b1d4b0db234d384388d488f6be8ff4effc6db25524162dac575a919d388483",
+        "helper_sha256": "b4b63bff1592a2e456eec93ff22d83a9bbd36494f45b4ab82c6ad55d8e0733a5",
+        "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d"
+      },
+      "stage_logs": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "pid": 8596,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/import.txt",
+          "sha256": "2f57dd31816ccc2ecc690e856cee4104da6e677e84e0bcef96c7779cc84ef1d8"
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "pid": 5972,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/user_directory.txt",
+          "sha256": "f9cc88f0e2f69afdefa04620da7e429bb3daf8b55aaf74e464b9248ba9560fee"
+        },
+        {
+          "name": "test_candidate_feedback",
+          "passed": true,
+          "exit": 0,
+          "pid": 36080,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_candidate_feedback.txt",
+          "sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b"
+        },
+        {
+          "name": "test_cpg_connection_fragment",
+          "passed": true,
+          "exit": 0,
+          "pid": 39384,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_cpg_connection_fragment.txt",
+          "sha256": "3954ffe407c7e27ab745cb0643b985516e55800d2957a2e2491e040dcf0f7e65"
+        },
+        {
+          "name": "test_creation_draft_undo",
+          "passed": true,
+          "exit": 0,
+          "pid": 10608,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_creation_draft_undo.txt",
+          "sha256": "0c7ba3710058d52ab55d66b0ae6e00d49f73ebfafdbd1692d7ad7ab76844e5db"
+        },
+        {
+          "name": "test_creation_evidence_identity",
+          "passed": true,
+          "exit": 0,
+          "pid": 25752,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_creation_evidence_identity.txt",
+          "sha256": "1bd0b48d464f591e90ac8fef958eeb62423f3e5d7006c3f89f7c38302b3f9026"
+        },
+        {
+          "name": "test_creation_keyboard_focus",
+          "passed": true,
+          "exit": 0,
+          "pid": 27704,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_creation_keyboard_focus.txt",
+          "sha256": "736f65702071efbc27d633a73f25a47bcd71dae3c433b7428e3036e7a6abec0f"
+        },
+        {
+          "name": "test_creation_measured_closure",
+          "passed": true,
+          "exit": 0,
+          "pid": 36540,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_creation_measured_closure.txt",
+          "sha256": "340b4127b33385c34811488a7bdc428f7aea10fc79a19438e051969d1bedd6fa"
+        },
+        {
+          "name": "test_creation_prediction_work_view",
+          "passed": true,
+          "exit": 0,
+          "pid": 25952,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_creation_prediction_work_view.txt",
+          "sha256": "02621ae01299d4c40db2981238214058099cd75196761c12d5b385334ea286ec"
+        },
+        {
+          "name": "test_creation_raw_readonly",
+          "passed": true,
+          "exit": 0,
+          "pid": 49140,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_creation_raw_readonly.txt",
+          "sha256": "38af8c3bcf4fa96b55cd7802037ef8c8917b634513511b3c42071211f459de3a"
+        },
+        {
+          "name": "test_creation_state_regressions",
+          "passed": true,
+          "exit": 0,
+          "pid": 37564,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_creation_state_regressions.txt",
+          "sha256": "e0c4aa859feeb9e0cdd146d9bf675ced19da86d7fc36fa4f38b536bd5f0667fc"
+        },
+        {
+          "name": "test_creation_workbench",
+          "passed": true,
+          "exit": 0,
+          "pid": 37728,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_creation_workbench.txt",
+          "sha256": "33e40c86c3d557f09e98f40afe53530cb1765c4e44b8e301ca64cc7fca30ae5e"
+        },
+        {
+          "name": "test_efficiency_fragment",
+          "passed": true,
+          "exit": 0,
+          "pid": 5572,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_efficiency_fragment.txt",
+          "sha256": "6ee7fadd444384e523bff919fa4a8d86084698809bcccfcdc5e431bb861838bc"
+        },
+        {
+          "name": "test_offline_feedback",
+          "passed": true,
+          "exit": 0,
+          "pid": 21420,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_offline_feedback.txt",
+          "sha256": "35c2c24a98584eba5b8ad293cc578c5c402ca5d22a65471783906b030064abcd"
+        },
+        {
+          "name": "test_playtest_feedback_ui",
+          "passed": true,
+          "exit": 0,
+          "pid": 47708,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_playtest_feedback_ui.txt",
+          "sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3"
+        },
+        {
+          "name": "test_system_lab_ui",
+          "passed": true,
+          "exit": 0,
+          "pid": 25232,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_system_lab_ui.txt",
+          "sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb"
+        },
+        {
+          "name": "test_work_focus_feedback",
+          "passed": true,
+          "exit": 0,
+          "pid": 18788,
+          "log": ".godot/f5-fixed-watch/c2b91e7f019e/source/.godot/verification/20261018T025143Z-d56a65d8/test_work_focus_feedback.txt",
+          "sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd"
+        }
+      ],
+      "independent_audit": {
+        "all17_logs_rehashed": true,
+        "all17_logs_no_ERROR_WARNING_SCRIPTERROR": true,
+        "results_owned_sequence_exact": true,
+        "fixed_source_selected_raw_exact": 716,
+        "copy_time_selected_exact": 716,
+        "terminal_project_raw_exact": 715,
+        "private_settings_exception": "Original verifier only: exactly2 QA custom_user_dir lines and CRLF serialization; removing only these reproduces archived project.godot SHA.",
+        "canonical_tests": 175,
+        "extra_qa_tests": [],
+        "full_archive_identity_files": 5771,
+        "excluded_docs": 5055,
+        "full_archive_materialized": false,
+        "fixed_and_project_uid_sha256": "e489da42bdbc540c68061bf11682c6d1f70c3435b1f5fb0f3054cec18c07af0c",
+        "unknown_live_uid_still_absent": true
+      },
+      "limits": "Headless affected17 only. No actual renderer, full Windows regression, new package or native acceptance. Historical77b/156c/40d FAIL retained.",
+      "separate_root_audit": {
+        "path": ".godot/f5-root-audit-2002af3.json",
+        "sha256": "7aef77ca4b7c95471e7be43c6f0a5c75efa37976e93224c65a9e9fae600f7193",
+        "scope": "Root separate independent audit; evidence author separately rehashed actual source/input/config/UID/log/owned/results."
+      }
+    },
+    "rendered_three_suites": {
+      "status": "FAIL_FIRST_SERIAL_SUITE",
+      "source_commit": "2002af3841b96362505b2a6a8a9cacbe1140e1ab",
+      "summary": {
+        "path": ".godot/f5-rendered-2002af3-summary.json",
+        "sha256": "b50d07cff21a5aeecb68b5f19af488f2372b4b66ff3409deee3b70b6932fbeeb"
+      },
+      "results": {
+        "path": ".godot/f5-rendered/c3205c3dde32/results.json",
+        "sha256": "4e7ac8859ce017159fa8096b8f7198d27f46e35aa0211be9aecd9189282e5901"
+      },
+      "CPG": {
+        "status": "FAIL",
+        "checks": 660,
+        "failed_assertions": 8,
+        "errors": 8,
+        "warnings": 0,
+        "script_errors": 0,
+        "pid": 24268,
+        "exit": 1,
+        "elapsed_seconds": 84.173,
+        "terminated_owned_child_reason": "",
+        "test_sha256": "11443285895dedef627a50dbb49eb17b48498fd330d1871c6881c79d5e79e9f8",
+        "helper_sha256": "5aa3caadf7a774db74f907851093b52d177dcda20a78c3c280d1f6fe802be993",
+        "receipt": {
+          "path": ".godot/f5-rendered/c3205c3dde32/test_cpg_connection_fragment/receipt.json",
+          "sha256": "d6cc8abeae8cb459d1c1586e93f090665d41da2d8f710ed12069eb2c4a290a9e"
+        },
+        "log_sha256": "6722fe3b8e08fc44fbe77595708feb3c836abe702ecc09c8dc98a758c30cdb70",
+        "root_PNGs": 40,
+        "tester_preoverlay_PNGs": 2,
+        "total_actual_PNGs": 42,
+        "independent_data_audit": "Evidence author rehashed all42 PNGs,14 artifacts and67 runtime files plus43 directories; original suite40 frame entries match their own files, exact results/receipt/suite receipt/log and source715+restored private settings verified. No image-view acceptance inferred.",
+        "failure_scope": "Four locale/role paths: plain Window focus assertion fails, then direct unfocused-key guard check fails. No actual focused-other-Window boundary established, cause under author read-only investigation; no product fix or assertion weakening authorized.",
+        "visual_review": "PENDING_VISUAL_INDEPENDENT_ACTUAL42_FRAME_REVIEW"
+      },
+      "offline": "NOT_RUN_FIRST_SERIAL_FAILURE",
+      "efficiency": "NOT_RUN_FIRST_SERIAL_FAILURE",
+      "source_settings_finally_exact": true,
+      "restored_project_settings_sha256": "198f5f0e2f8a5bff9f86ce34573df016306fcf06eb75766cf8969275d42dd09a",
+      "gate": "No full or packages while required rendered acceptance fails."
+    },
+    "full_windows": "NOT_RUN",
+    "new_normal_package": "NOT_RUN",
+    "new_tester_package_collector": "NOT_RUN",
+    "strict_independent_reopen": "NOT_RUN",
+    "new_native_os": "NOT_RUN",
+    "human_newcomer_and_Mac": "NOT_RUN"
+  },
+  "historical_failures": {
+    "source77b": {
+      "summary": {
+        "path": ".godot/f5-focused-77b339-summary.json",
+        "sha256": "09c8360440ed72d2fe268299f5d4681d1b424443b54c12e424ed56eb42296b1e"
+      },
+      "source_commit": "77b3393938d2b523427b01d58cceb2bf71ee66ba",
+      "status": "FAIL",
+      "stage_count": 17,
+      "passed": 15,
+      "failed": 2,
+      "all_owned_natural": true,
+      "error_lines": 3,
+      "warning_lines": 12,
+      "script_error_or_early_termination": 0,
+      "limits": "Failure retained with original logs and unchanged assertions; no renderer/full/package acceptance inferred."
+    },
+    "log_only156c": {
+      "summary": {
+        "path": ".godot/f5-log-diagnostic-156c836-summary.json",
+        "sha256": "4bd0e114c7269e09458e5a5c5f85469928f33121c387667b6af62a9b49f4cf9c"
+      },
+      "source_commit": "156c836074827829b6c122de48b1bc425c1615d5",
+      "status": "FAIL_DIAGNOSTIC",
+      "stage_count": 4,
+      "passed": 2,
+      "failed": 2,
+      "all_owned_natural": true,
+      "error_lines": 3,
+      "warning_lines": 12,
+      "script_error_or_early_termination": 0,
+      "limits": "Failure retained with original logs and unchanged assertions; no renderer/full/package acceptance inferred."
+    },
+    "source40d": {
+      "status": "FAIL_ACTUAL_14_OF17",
+      "source_commit": "40d36ecafc87e1b4743996eda0fe7f66a84d44ab",
+      "summary": {
+        "path": ".godot/f5-focused-40d36ec-summary.json",
+        "sha256": "03aee9834d642ddeef18cdab4bc65bf32ab4296bea1d3372a5368b42af9904c7"
+      },
+      "watch": ".godot/f5-fixed-watch/af2c43431556",
+      "raw": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4",
+      "stage_count": 17,
+      "passed": 14,
+      "failed": 3,
+      "failed_stages": [
+        "test_cpg_connection_fragment",
+        "test_creation_measured_closure",
+        "test_creation_workbench"
+      ],
+      "pipeline_exit": 1,
+      "all_owned_natural": true,
+      "owned_exit0": 14,
+      "owned_exit1": 3,
+      "error_lines": 6,
+      "warning_lines": 0,
+      "script_error_lines": 0,
+      "owned_early_stops": 0,
+      "receipt_hashes": {
+        "results_sha256": "8af71ab82ac096295cb74ed3fadfa2a6923e137a57e0c76d2ebc3b06c8d53c32",
+        "owned_sha256": "89543af2cf0e5d19e737def3910d02a86bd61c5494d791542314b07f0e0b5658",
+        "source_manifest_sha256": "11e28308d3dc0c836289db39d5840b194b502e109f407d360b21a986f3acfc98",
+        "copy_parity_sha256": "f63ff5ba4b5cc9e78911a7279e34150d06a027e46b2162a2c5c4805808976924",
+        "helper_sha256": "8dae3b9b51c1c79914c50218de10b0cd7c3b99e433a1d8d40f6e9d14d760425f",
+        "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d"
+      },
+      "stage_logs": [
+        {
+          "name": "import",
+          "passed": true,
+          "exit": 0,
+          "pid": 17356,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/import.txt",
+          "sha256": "2f57dd31816ccc2ecc690e856cee4104da6e677e84e0bcef96c7779cc84ef1d8",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "user_directory",
+          "passed": true,
+          "exit": 0,
+          "pid": 37732,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/user_directory.txt",
+          "sha256": "d4a12774c908124c4e4d4aafc89a05f74d48c5ef2276bcc101835f83a4b2e9fa",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_candidate_feedback",
+          "passed": true,
+          "exit": 0,
+          "pid": 34236,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_candidate_feedback.txt",
+          "sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_cpg_connection_fragment",
+          "passed": false,
+          "exit": 1,
+          "pid": 44884,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_cpg_connection_fragment.txt",
+          "sha256": "0d493ccd89b7d94d1d395ec346bb838afd6b9e20a8e02a67d4d6a44243fcd294",
+          "errors": [
+            "ERROR: The original run actions and result status remain inside the default viewport: zh_CN-1280x720",
+            "ERROR: The original run actions and result status remain inside the default viewport: en-1280x720"
+          ],
+          "warnings": []
+        },
+        {
+          "name": "test_creation_draft_undo",
+          "passed": true,
+          "exit": 0,
+          "pid": 28484,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_creation_draft_undo.txt",
+          "sha256": "0c7ba3710058d52ab55d66b0ae6e00d49f73ebfafdbd1692d7ad7ab76844e5db",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_creation_evidence_identity",
+          "passed": true,
+          "exit": 0,
+          "pid": 8060,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_creation_evidence_identity.txt",
+          "sha256": "1bd0b48d464f591e90ac8fef958eeb62423f3e5d7006c3f89f7c38302b3f9026",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_creation_keyboard_focus",
+          "passed": true,
+          "exit": 0,
+          "pid": 36744,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_creation_keyboard_focus.txt",
+          "sha256": "736f65702071efbc27d633a73f25a47bcd71dae3c433b7428e3036e7a6abec0f",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_creation_measured_closure",
+          "passed": false,
+          "exit": 1,
+          "pid": 41928,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_creation_measured_closure.txt",
+          "sha256": "bd7ef8e9c9ffee7174f60c7e4d8dae0271eb1a559b471630e8357aee553e3e74",
+          "errors": [
+            "ERROR: Kept-work layout keeps full visible bounds: Status",
+            "ERROR: Kept-work layout keeps full visible bounds: Status"
+          ],
+          "warnings": []
+        },
+        {
+          "name": "test_creation_prediction_work_view",
+          "passed": true,
+          "exit": 0,
+          "pid": 8776,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_creation_prediction_work_view.txt",
+          "sha256": "02621ae01299d4c40db2981238214058099cd75196761c12d5b385334ea286ec",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_creation_raw_readonly",
+          "passed": true,
+          "exit": 0,
+          "pid": 856,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_creation_raw_readonly.txt",
+          "sha256": "38af8c3bcf4fa96b55cd7802037ef8c8917b634513511b3c42071211f459de3a",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_creation_state_regressions",
+          "passed": true,
+          "exit": 0,
+          "pid": 7196,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_creation_state_regressions.txt",
+          "sha256": "e0c4aa859feeb9e0cdd146d9bf675ced19da86d7fc36fa4f38b536bd5f0667fc",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_creation_workbench",
+          "passed": false,
+          "exit": 1,
+          "pid": 31928,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_creation_workbench.txt",
+          "sha256": "18ef752e388ab660d36516527d7c66f62f8e092c7152308acfa5eede26de0475",
+          "errors": [
+            "ERROR: 1280x720 bounds: Status [P: (12.0, 702.0), S: (1256.0, 30.0)]",
+            "ERROR: 1280x720 bounds: Status [P: (12.0, 702.0), S: (1256.0, 30.0)]"
+          ],
+          "warnings": []
+        },
+        {
+          "name": "test_efficiency_fragment",
+          "passed": true,
+          "exit": 0,
+          "pid": 34144,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_efficiency_fragment.txt",
+          "sha256": "6ee7fadd444384e523bff919fa4a8d86084698809bcccfcdc5e431bb861838bc",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_offline_feedback",
+          "passed": true,
+          "exit": 0,
+          "pid": 44688,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_offline_feedback.txt",
+          "sha256": "35c2c24a98584eba5b8ad293cc578c5c402ca5d22a65471783906b030064abcd",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_playtest_feedback_ui",
+          "passed": true,
+          "exit": 0,
+          "pid": 15472,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_playtest_feedback_ui.txt",
+          "sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_system_lab_ui",
+          "passed": true,
+          "exit": 0,
+          "pid": 39792,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_system_lab_ui.txt",
+          "sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "test_work_focus_feedback",
+          "passed": true,
+          "exit": 0,
+          "pid": 48704,
+          "log": ".godot/f5-fixed-watch/af2c43431556/source/.godot/verification/20261018T024209Z-e8a67db4/test_work_focus_feedback.txt",
+          "sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd",
+          "errors": [],
+          "warnings": []
+        }
+      ],
+      "independent_audit": {
+        "all17_logs_rehashed": true,
+        "result_and_owned_sequence_exact": true,
+        "source_selected_current_raw_exact": 716,
+        "copy_time_selected_exact": 716,
+        "terminal_project_raw_exact": 715,
+        "private_settings_exception": "Original verifier only: exactly2 QA custom_user_dir lines plus CRLF; removing only those reconstructs archived project.godot SHA.",
+        "canonical_tests": 175,
+        "extra_qa_tests": [],
+        "full_archive_identity_files": 5771,
+        "docs_excluded": 5055,
+        "archive_fully_materialized": false,
+        "uid_fixed_and_project_sha256": "e489da42bdbc540c68061bf11682c6d1f70c3435b1f5fb0f3054cec18c07af0c",
+        "unknown_live_uid_still_absent": true
+      },
+      "limits": "Original headless affected17 only, failed; no renderer/full/new package acceptance. Offline/Efficiency passes do not imply pointer or native acceptance.",
+      "separate_root_audit": {
+        "path": ".godot/f5-root-audit-40d36ec.json",
+        "sha256": "b8de3dc57cb0e5708bd02340646df8026b16c31775d4e4926c65b690d7ed15de",
+        "scope": "Root independent17/result/log/owned/input/config/UID audit, agrees with evidence-author separate audit; not new runtime."
+      }
+    }
+  },
+  "diagnosis_and_minimal_repair": {
+    "cpg_geometry": "Actual720 Scroll[390,572,866,60], bottom632. ZH Context70 -> toggle[390,650,860,38]; EN Context97 -> toggle[390,677,860,38]. Current source reuses same button in evidence_header; original body/Card/Verify/Signal dimensions unchanged. Static review only, runtime pending.",
+    "cpg_focus": "All12 actual diagnostics show LocateCPGConnection disabled=false and focus_mode0, ancestors focus_behavior_recursive0. Original Host sync establishes NONE while disabled; step refresh now synchronizes NONE/ALL. Original assertions retained.",
+    "offline_home": "Actual TaskTree plus original eligible local entry[240,24,115,46] correctly suppresses toolbar. Test now settles the original mode-change route, checks realMap, invokes originalHome handler and checks exactHub/oldMap released/from_treefalse. No directnav writes or production policy change.",
+    "current40d_failed_layout": {
+      "status": "FAIL_RETAINED",
+      "old_workbench_actual_Status_rect": [
+        12,
+        702,
+        1256,
+        30
+      ],
+      "Status_end_y": 732,
+      "viewport_height": 720,
+      "cross_checks": [
+        "new CPG original ModeActions/Status bounds in both720 locales",
+        "original test_creation_measured_closure Status twice",
+        "original test_creation_workbench Status twice"
+      ],
+      "prior_targeted_failures_no_longer_reported": [
+        "defaultCPG entry",
+        "original Verify and Signal guards",
+        "Locate focus warning",
+        "actual Home fallback lifecycle"
+      ],
+      "next_scope": "Read-only proposal to reuse same toggle in original38px playback row; no source edit or assertion reduction authorized here."
+    },
+    "current2002_pending_repair": {
+      "status": "PASS_STATIC_AND_HEADLESS_AFFECTED17",
+      "scope": "Same toggle collapsed in original38px playback row, expanded in original evidence_header (existingReturn already38px); body remains originalMeasurementsScroll. Return from open review collapses only local body and restores same toggle focus when appropriate. OriginalVerify/Signal/actions/Status/fonts and all prior authority assertions retained.",
+      "static_reviewer": "Knowledge",
+      "component_unchanged_sha256": "fb2143139699f0a8fa75d5bb860a934c42f0358febe4acb2c129d26040cd9cca",
+      "runtime_scope": "Actual2002 headless17PASS, no renderer yet."
+    }
+  },
+  "fixed_execution_contract": {
+    "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+    "unbound_fixed_helper_review": {
+      "path": ".godot/run-f5-fixed-verification-UNBOUND.py",
+      "sha256": "6ea5612ef46a3b0658d3a2b1f6ff3cd095349487ddca362bf496116efabc4e61",
+      "status": "PASS_STATIC_ROOT_AND_NARRATIVE"
+    },
+    "unbound_renderer_helper_review": {
+      "path": ".godot/run-f5-rendered-UNBOUND.py",
+      "sha256": "6d69e83ffc2a7655673ab3ba3ab70c096f469e0b4b889f91dcb0d6d01d8f68b6",
+      "status": "PASS_STATIC_NOT_EXECUTED",
+      "gate": "Bind only current-source exact17 allPASS,175canonical,716selected; serial3 suites,4privateenv,180s,strictERROR/ownedSCRIPTERROR stop, settings finally restored."
+    },
+    "live_uid_delete": "Unknown live tests/test_chapter_workspaces.gd.uid deletion preserved. Fixed archive and project must include original UID, never restore or skip live D.",
+    "input_grade": "Original headless canonical verifier; actual renderer/controller, native OS and newcomer acceptance are separate."
+  },
+  "planned_package_profiles": {
+    "status": "NOT_BUILT",
+    "normal": "CreationLinks20261018",
+    "tester": "OfflineTeammate-CreationLinks20261018",
+    "normal_batch": "CreationLinksExperience20261018",
+    "tester_batch": "CreationLinksAccess20261018",
+    "external_qa": "NOT_RUN; exact role whitelist and legitimate original Host preparation versus pure review must be independently reviewed and run."
+  },
+  "recovery_baseline": {
+    "source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+    "evidence": "docs/verification/20261018-measured-growth/README.md",
+    "scope": "Previously accepted175/oldnormal128+47+147/oldtester138+collector+47+193 and limited ObservatoryOS19 remain recovery evidence only, not acceptance of this new source."
+  },
+  "authority_boundaries": [
+    "Public P whitelist only; no Session object, hidden future or unrevealed truth sent to the component.",
+    "C/P/G detached snapshots are independent measured observations, never invented common history or added costs.",
+    "Saved location selects actual Works/id only; original View recipe validation remains a distinct action.",
+    "Real Host preparation changes Session through original APIs; pure review uses a separate strict authority baseline, including existing works/recipes/locks.",
+    "Header placement and local-feedback policy need real default720, pointer and focus acceptance; source review is not runtime proof."
+  ],
+  "open_broader_goal": [
+    "Candidate CPG experience still awaits current-source runtime, renderer, full and actual package gates.",
+    "Human final character/CG/voice/ending, video capture, newcomer, Mac and real old player works remain open."
+  ],
+  "historical_source_files_static40d": {
+    "experiments/creation/workbench.gd": "d61dd457313fcc7a0e2f6c7dc9593e0e44556270e6546865f1424ffcdb79110e",
+    "experiments/creation/cpg_connection_fragment.gd": "fb2143139699f0a8fa75d5bb860a934c42f0358febe4acb2c129d26040cd9cca",
+    "tests/test_cpg_connection_fragment.gd": "ef24931477c71fbf5b1fc069cac1c1caf45d54050adc04a046d126893b6fa046",
+    "src/playtest/offline_feedback.gd": "73ad4a98acd9d9a84434c52cbc6af85eadf91385a7a93c83d37f4157ddc51f23",
+    "tests/test_offline_feedback.gd": "fd34ea245453f38a6728cdd720799495aef5d3e5cf7ea7a47916b01902a7f15e",
+    "tests/test_efficiency_fragment.gd": "5c2206acff0c1712ccae7996053262c992543d2cfef4a3449143051bde081e4b"
+  },
+  "source_files_static_reviewed": {
+    "experiments/creation/workbench.gd": "ceac74d8068312520dd0ecaa75598ee4fc0aac60189b891863186ae080c04b37",
+    "experiments/creation/cpg_connection_fragment.gd": "fb2143139699f0a8fa75d5bb860a934c42f0358febe4acb2c129d26040cd9cca",
+    "tests/test_cpg_connection_fragment.gd": "11443285895dedef627a50dbb49eb17b48498fd330d1871c6881c79d5e79e9f8",
+    "src/playtest/offline_feedback.gd": "73ad4a98acd9d9a84434c52cbc6af85eadf91385a7a93c83d37f4157ddc51f23",
+    "tests/test_offline_feedback.gd": "fd34ea245453f38a6728cdd720799495aef5d3e5cf7ea7a47916b01902a7f15e",
+    "tests/test_efficiency_fragment.gd": "5c2206acff0c1712ccae7996053262c992543d2cfef4a3449143051bde081e4b"
+  },
+  "current_external_qa": {
+    "status": "PASS_STATIC_NOT_RUN_NOT_IN_PRODUCT2002",
+    "probe_sha256": "40b20ca656bb30241376ce2fcfdb0638f8a3ed54039f7aafafe0ece78685fd8f",
+    "strict_sha256": "2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b",
+    "wrapper_unchanged_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+    "independent_review": "Knowledge final40b/2e1 PASS_STATIC; actual18 Measured functions unchanged,175of176 oldcheck lines exact with sole explicit role tuple update, strict only2 profile additions reconstructs prior7b9. No engine.",
+    "fresh_scope": "New parent CreationLinks profiles must have originalworks/supports/model empty and no originalSession file. Original Host train/transport/practice commits/reveals/generate/Keep earns exactlyC1_restore,P1_commit,G1_feedback,G2_intent,G3_keep with independently built original contract payloads.",
+    "pure_review_scope": "Full Session exploration/receipts/undo-redo/profile/lease/game/best/nav and original presentation evidence unchanged; only explicit view fields may change. Saved selects same Works ID without View/replay.7new frames; actualcapture pending.",
+    "cold_review_scope": "Independent strict reopens original Journal Saved-only viewer, no reconstructed CPG events; coldCreationHosthistory explicitlyNOT_RUN."
+  }
+}

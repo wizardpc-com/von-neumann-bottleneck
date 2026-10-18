@@ -1,6 +1,11 @@
 # 从真实 C→P→G 到保存作品 · 2026-10-18
 
-状态：ACTIVE。Root核准基线`4e643eb18187235e2f736ea6b772fffbfae21f3a`，远端
+状态：COMPLETED_ENGINEERING_SCOPE。产品固定d14be32；原176完整阶段、三组renderer、
+普通219＋48及测试者229＋48/原collector链通过并获独审。原生输入因官方工具初始化失败
+为NOT_RUN，真人/素材/平台开放项继续保留，不关闭完整goal。最新包与次日五题见
+[本轮交接](../../verification/20261018-creation-connections/README.md)。
+
+Root核准基线`4e643eb18187235e2f736ea6b772fffbfae21f3a`，远端
 `codex/measured-growth-20261018`精确同SHA；新分支`codex/creation-connections-20261018`。
 main仍为PR10合入的bf8f616。上一产品SOURCE97516完整175、两原包链、外QA8a9的147/193
 补充与限定OS观察站路线各自通过，保留两次补充失败与测试者footer局限，不认证本轮新源。
@@ -218,3 +223,63 @@ https://docs.godotengine.org/en/4.5/classes/class_viewport.html#class-viewport-m
 并非额外跳过测试。176次自有进程使用167个PID值，Windows退出后复用PID不减少执行条数。
 Knowledge另独审全部终态、私有设置例外和146固定核心Git blobs精确PR10 main。
 接下来原builder固定产品d14串行构建两个新Windows候选，再分别执行实际父/child/严格重开。
+
+两个原Windows builder及原identity检查均实际自然成功，各import/licenses/export日志无错误。
+构建摘要`.godot/f5-build-d14be32-summary.json` SHA
+`29c817cb27c176965b4d521642cd6a037a9a27854aa167dbdb28334a9f062362`；
+Knowledge独审两包完整ZIP成员/manifest/EXE/PCK、模板76269与无QA数据/外端点，
+只给BUILD_IDENTITY通过，不据此认证实际游玩。normal ZIP为57576511字节、SHA
+`e909e2b489e57bf75d53df92e4881ca24b97bdeed8036e317cfd7d3cf35ae72c`；
+tester ZIP为57588583字节、SHA
+`aba9855a4dc7b75c91c5a00fde13849552136721cda81cee1916b5a83839b255`。
+独审与总控逐文件核两份新candidate/project/docs均精确d14 Git后，仅移除这两个可重建
+生成副本以释放磁盘，原Git文档/包/唯一日志/运行存档/截图完整保留。
+normal原父链进入实际验收；外层仅复用已审自有进程函数监督直接streamed调用，
+原wrapperb213/probe40b/strict2e1、断言与180秒时限不改；不宣称所有grandchild实时监督。
+
+normal实际父链219＋独立严格重开48均通过、自然0，无错误/终止；新外QA首次实际编译与
+Host准备/四步回看/原Works定位通过。五个支持及一件完整作品从真实动作取得，纯查看另取基线。
+本次summary`.godot/f5-normal-parent-strict-d14-summary.json` SHA
+`b0629df7e44b4cc76635e02bc5b190b27dba32d51c40f6983aaaa504015231df`；
+父receipt79fb037a、strict validation9c8032f6分别绑定ZIPe909/EXEc6e5/PCK89d3与probe40b。
+Knowledge独立核219/48、全部typed protected无转换、原作品089180b2和Session897f285e保持；
+正常退出main/bak仅原top saved_at_utc变化，其余保护文件/缺失/lease精确，不能泛称退出后全SHA不变。
+Visual独立逐看21张新导出PNG并核来源/尺寸，审计`.godot/f5-normal-export-visual-audit.json`
+SHA`8b9470ebdb6e4da092e7ac0ea2de5a3fd1975b91136413d9281950cdd601d5fd`。
+中文逻辑1600×900、物理1280×720与独立窗口/3D帧分列；深文仍需原scroll，非OS/自然新手结论。
+测试者原父/child/strict继续单独实际验收，冷重启只认证原Journal Saved-only，不补造Host C/P/G历史。
+
+测试者实际父229＋严格重开48与原随包child完整链全部通过、自然0、无错误/终止；
+summary`.godot/f5-tester-parent-child-strict-d14-summary.json` SHA
+`5af91bb294028cc0bbcac2354dc3e6b31e6332aabfcea3b566ec8ea6a7cd1f1b`。
+原child为142/19项布尔检查，阶段字段总148/21不能作检查数；最终一个ZIP独立导入4现场、
+4revision、2session、0captureerror并去重，实际manifest24项逐字节核对原ZIP与独立库。
+Knowledge独审全部229/48、child、父/子39/32运行文件与目录集合；typed仅原六个CPU/BUS/RAM
+坐标float→int，退出main对应raw、bak对应baseline且仅原topstamp/轮转，其余保护精确。
+两角色原Session897f285e与整件作品089180b2、配方和输出保持，新coldHost临时历史不在此认证范围。
+Visual另审本次测试者导出图；有限原生输入尚未运行。后续仅克隆各自已验QA档案，不改原包/父链，
+经新窗口观察执行Home/原地图/Creation回顾与原Works定位，以及测试者System/Overlap本地反馈。
+
+测试者45个实际PNG文件（29父、16子，含导入副本，共31个唯一image hash）逐张独审通过，
+收据`.godot/f5-tester-export-visual-audit.json` SHA
+`83c28e6cd5d665f369781c1d98000cea6c8e9f51849d660a42f4a7eb040c9a10`。
+原scroll、child assembly页按钮下缘裁切及Saved窗口fallback各按原图说明，不能推断全部同屏。
+
+原生准备仅复制两已验父档案并核完整inventory；官方node_repl初始化两次均报
+`failed to write kernel assets: 系统找不到指定的路径。 (os error 3)`，一次官方reset不改变结果。
+代码未执行、0Sky/窗口观察/输入/截图，普通路线NOT_RUN_TOOL_INITIALIZATION_BLOCKED；
+测试者未启动。Visual收据SHA429270afb625c1a3d8c713946699d3382f6591f8700411987944de821fabef2d。
+Root核owned PID18844实际EXE路径/创建时间后仅终止该QA进程；launcher子exit4294967295，
+不能称自然退出或native通过。原工具失败、定向停止和退出后保护分开记录；不借旧F4 OS结论。
+所有可运行双ZIP、原源码/图/失败和检查点保留，正式美术/人设/声线/结局、真人理解、
+Mac与视频成片仍须实际材料/人审；不为这些开放项臆造新工程或追加权限。
+
+退出后只读保护审计`.godot/night-native/creation-links-d14be32/normal/independent-postexit-audit.json`
+SHA`9279a7dbef1c83695f791c6c85cea93b69c038fb742c69b1909377c41246ed38`确认：
+普通原19文件均未改删，仅新增空日志、active marker和单条automated启动事件；主备未变，
+没有正常退出的时间戳/备份轮转。整Session、作品/完整配方、五支持及原租约保持；测试者
+39文件/45目录种子未使用，四环境无额外写入。父链与包完整inventory精确不变。
+总控另独立核两原seed/Session、私有Local/Temp空、强停退出身份与新增三个路径，收据
+`.godot/f5-final-protection-root-check.json` SHA
+`c94cc2fad430798cfdfe4d9cbc46ec27b944dc5e6aa8d27cbaefa8dd6f74240d`。
+这些审计证明工具阻断后的已列状态保护，不认证未发生的原生输入；最终交付保留这一限制。

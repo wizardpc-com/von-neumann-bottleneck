@@ -2,16 +2,18 @@
 
 ## 当前门禁
 
-阶段 **ACTIVE_ENGINEERING_VALIDATION**，完整目标 **ACTIVE**。固定SOURCE
+阶段 **COMPLETED_WITHIN_ENGINEERING_SCOPE**，完整目标 **ACTIVE**。固定SOURCE
 `d14be32f81354eb062f38d39f860b16ff739921a`，分支`codex/creation-connections-20261018`。
 
 - 原17阶段定向实际17/17 PASS，17自有进程自然exit0，零ERROR／WARNING／SCRIPT ERROR。
 - 三组真实renderer技术PASS：CPG660检查／42PNG、Offline44PNG、Efficiency225检查／26PNG；三个进程自然exit0，合计78显式suite帧＋34incident＝112原PNG。controller／信号／Input不等于OS或新人操作。
 - CPG42、Offline44与Efficiency26均已由非作者逐图独审，按下文原Scroll及截图内容局限接受。
 - Root已只读核对[d14 CI 39092817879](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39092817879)为completed SUCCESS；不替代本机或包级结果。
-- 原完整Windows回归已实际 **176/176 PASS**：176有序自有进程记录均自然exit0，零ERROR／SCRIPT ERROR；六条原anchor WARNING保留。175canonical中按原verifier排除recovery_game_input，执行174测试＋import／userdir。新双包、外QA父／child／严格重启及本轮OS输入仍NOT_RUN。五次实际失败保留，不追改结论。
+- 原完整Windows回归已实际 **176/176 PASS**：176有序自有进程记录均自然exit0，零ERROR／SCRIPT ERROR；六条原anchor WARNING保留。175canonical中按原verifier排除recovery_game_input，执行174测试＋import／userdir。两包原构建／身份均已通过；普通包实际父219项＋独立重启48项已PASS；测试者父229项＋原collector子链＋独立重启48项也已PASS；本轮OS为NOT_RUN_TOOL_INITIALIZATION_BLOCKED（零窗口观察／输入／截图）。五次实际失败保留，不追改结论。
 
 已验恢复包见[Measured阶段交付](../20261018-measured-growth/README.md)：旧SOURCE97516的175阶段、双包链与限定OS只证明其原范围。本目录不含私人反馈正文、账户路径或未由实际manifest确认的新包链接。
+
+本轮[工程计划已完成](../../exec-plans/completed/creation-connections-20261018.md)，仅关闭此工程交付范围；原生工具阻断与人审／平台开放项保留。
 
 ## 本轮候选行为与权威边界
 
@@ -23,7 +25,7 @@
   弱引用、禁用、MouseFilter、处理模式、祖先clip、窗口切换／释放及原暂停／焦点合同均须实际验证。
 
 同一回顾按钮在折叠时使用原38px播放行，展开时回到原证据header，正文仍在Measurements原Scroll中；原Verify／Context／Signal、字号和Run／Status边界保留。定位可用时同步键盘焦点模式，离开Measurements只折叠局部回顾。当前guard识别真实嵌入子窗焦点，pending展开与Esc不越过他窗或反馈层。
-外QA新profile路线仅静审通过：真实Host合法准备与纯回顾保护分列，冷重启只验证原Journal已保存快照，不补造临时C/P历史。
+外QA新profile路线已有普通包实际219＋48项通过：真实Host合法准备与纯回顾保护分列，冷重启只验证原Journal已保存快照，不补造临时C/P历史；测试者路线另有本次229＋原子链＋48项实际通过。
 
 ## 历史失败与实测诊断
 
@@ -105,13 +107,24 @@ GUI自动展开／鼠标／焦点及截图另列；OS和陌生玩家又是不同
 ## 新包与次日开放项
 
 预定profile为`CreationLinks20261018`与`OfflineTeammate-CreationLinks20261018`，
-batch为`CreationLinksExperience20261018`与`CreationLinksAccess20261018`。尚无本轮实际新包，
-不预填ZIP路径或SHA；外QA probe40b／strict2e1已冻结并独立静审，wrapperb213未改，外QA源身份与产品d14分别绑定；该外QA代表路线编译及实际父链／child／严格重启仍NOT_RUN。
+batch为`CreationLinksExperience20261018`与`CreationLinksAccess20261018`。普通包已由原builder构建并独立核身份：
+[CreationLinks普通Windows ZIP](../../../build/playtest-CreationLinksExperience20261018-d14be32f8135/Von-Neumann-Bottleneck-Windows-playtest-CreationLinksExperience20261018-d14be32f8135.zip)，57576511B，SHA `e909e2b489e57bf75d53df92e4881ca24b97bdeed8036e317cfd7d3cf35ae72c`。测试者包亦已构建并独核身份：[CreationLinks测试者Windows ZIP](../../../build/playtest-CreationLinksAccess20261018-d14be32f8135/Von-Neumann-Bottleneck-Windows-playtest-CreationLinksAccess20261018-d14be32f8135.zip)，57588583B，SHA `aba9855a4dc7b75c91c5a00fde13849552136721cda81cee1916b5a83839b255`。两者构建身份均通过；普通包本次父链219／219、严格重启48／48通过，测试者父229／229、原collector子链及严格重启48／48也通过；两角色OS未验：普通角色官方工具初始化阻断，测试者未启动。
+外QA probe40b／strict2e1已冻结并独立静审，wrapperb213未改，外QA源身份与产品d14分别绑定；普通包实际运行来源为该冻结外QA；两角色父链／严格重启及测试者原child已有独立实际收据，OS输入未验，官方工具初始化阻断。
 
-1. 回顾能否清楚区分复原、已提交但未揭晓、已揭晓和无标准续篇的生成？
-2. 不同规则盒／机器／输入与当前草稿改变后，原观察身份是否仍清楚？
-3. 已保存作品能否回到同一ID，而没有伪装重建它的C/P历史？
-4. 真实本地入口与无入口fallback是否都可用，且F8／逐层Esc回到原位置？
-5. 哪些候选壹回应／可替换素材仍需团队审阅？新人理解、Mac、真人旧作品、视频成片与最终人物／CG／声线／结局仍开放。
+普通包实际work为`.godot/night-package/43d66dd1059e`，摘要SHA `b0629df7e44b4cc76635e02bc5b190b27dba32d51c40f6983aaaa504015231df`。本次真实Host准备得到五项支持与一件原作品，随后35项纯回顾权威保护通过；独立重启仅定位同一Journal作品ID，不重建冷Host历史。严格validation SHA `9c8032f66cc29fea1ae93652d1fc638122a329f7cdaa2d542391a3a14862a739`，normal无数值类型转换；退出后主／备仅顶层保存时间戳与原备份轮转，其余typed payload、Session、work与lease精确。Visual独看21原图的收据`.godot/f5-normal-export-visual-audit.json` SHA `8b9470ebdb6e4da092e7ac0ea2de5a3fd1975b91136413d9281950cdd601d5fd`；六张CPG帧＋原saved-work帧为七张代表，非七个CPG文件。原Scroll／窗口局限保留，不代替OS或新人试玩。
+
+测试者本次work`.godot/night-package/0afe228f6882`的父229／229与strict48／48通过，摘要SHA `5af91bb294028cc0bbcac2354dc3e6b31e6332aabfcea3b566ec8ea6a7cd1f1b`；原child`.godot/offline-package/3131c4a783c9`收据SHA `a1c0ad9663a69c7468983169a73fb6bb1258000534086533ef1e66c70c5a2e3a`。实际60入口、真实CPG作品跨进程与最终ZIP单独导入为4现场／4修订／2 session／1 bundle／零capture error；capture142与reopen19项布尔检查，不混同148／21字段数。严格重启仅原六坐标整值float→int，其他值与类型严格；退出后主文件对应reopen、备份对应原baseline，仅顶层时间戳和正常轮转。父／子完整39／32运行文件及目录集合已独立逐hash核对；Visual本次逐看45文件／31唯一hash，收据`.godot/f5-tester-export-visual-audit.json` SHA `83c28e6cd5d665f369781c1d98000cea6c8e9f51849d660a42f4a7eb040c9a10`：父29（22命名帧＋7现场）、子16含导入副本；副本不计作新场景。原assembly页底Scroll裁切、saved-root全局fallback范围保留，不泛称所有Window浮条均隐藏。
+
+原生准备收据`.godot/night-native/creation-links-d14be32/native-preparation.json` SHA `42c4ce128abf6fe09011ce753ff122a13ba3976e3823a0a20f743cab32e85c76`已独审：两clone原字节精确等各父已验profile、四私有环境、原父及包完整inventory不变，无历史注入。准备通过后，官方node_repl两次初始化均在代码执行前报kernel assets路径错误（os error 3），仅一次官方reset；0 Sky／窗口观察／输入／截图。普通包自有PID18844由Root核EXE与启动时间后定向停止，launcher exit1／child4294967295，包与原父不变；不是自然退出或原生PASS。测试者未启动。随后只读退出保护审计已独立复核，收据`.godot/night-native/creation-links-d14be32/normal/independent-postexit-audit.json` SHA `9279a7dbef1c83695f791c6c85cea93b69c038fb742c69b1909377c41246ed38`：normal原19文件全无改删，仅新增空log、active marker及单条automated session_start，目录36→37；主备无时间戳或轮转变化，原Session／作品／模型／租约精确，未知变更为零。未用tester seed39文件／45目录原样，四私有环境及双原父／包精确。这只认证强停后的状态保护，不能把startup视作GUI验收；旧F4原生及当前导出controller不覆盖本边界，不再尝试工具。
+
+上述ZIP均为fresh安装包，不含本次QA种子或预造作品。默认试玩使用上面的普通Windows ZIP；测试者ZIP用于全入口审阅，开放入口不授予完成或作品。解压到新目录后运行`Windows/Von-Neumann-Bottleneck.exe`，不从ZIP内直接启动，也不导入仓库`.godot`中的QA档案。普通新档仍按原进度与模型门槛推进，不能假设首次就能进入G3；需要直达入口的审阅可选测试者包，并保留“尚未完成”的真实状态。
+
+两包使用各自独立profile。关闭游戏后，可备份`%APPDATA%/VonNeumannBottleneckCandidates/representation/<profile>`及同根`service/<profile>`（若存在），保留原目录结构；恢复只在游戏关闭时还原自己的同profile备份，不混入测试者或QA种子。本地反馈不配置接收端点、不自动上传。需要回退时使用[旧F4已验包与证据](../20261018-measured-growth/README.md)，保留其独立profile；源码恢复可在本仓库用`git archive --format=zip --output=creation-links-source-d14.zip d14be32f81354eb062f38d39f860b16ff739921a`取回固定源码至新目录，勿覆盖当前工作树或玩家档案。源码归档与上面已验EXE／ZIP是不同交付身份。
+
+1. 普通包Home→Journey→Creation，完成原C／P／G与Keep后打开Measurements回顾：参照[默认](screenshots/cpg-default-zh-720.png)和[已揭晓P](screenshots/cpg-revealed-en-720.png)，能否分清“当前公开观察”与“没有标准续篇的生成”，还是需要改短标题？
+2. 在同一回顾选择Saved，再查看原Works高亮ID：参照[保存定位](screenshots/cpg-saved-en-720.png)，是清楚的“定位原作品”，还是容易误以为执行View／重放或恢复旧C/P历史？本步骤不按View。
+3. 测试者包进入System／Overlap，依次本地Feedback→Esc、F8→Esc：参照[原本地入口](screenshots/overlap-local-feedback-zh-720.png)，原Handbook／Hint／Run是否可操作，焦点是否回到原处？记录具体窗口与被遮控件，不用技术PASS代替鼠标体验。
+4. 按[素材接口](../../development/night-art-interfaces.md)替换候选Texture／原生短文：现有静态／手动步骤是否足够表达，还是需要另一张候选素材？只审理解、文案和素材，不由替图授予历史或成果。
+5. 对原图与当前ZIP实际体验，团队先选择“保留当前候选呈现”或“列具体需改句／素材”；人物、CG、声线、结局仍待定稿，新人理解、Mac、真人旧作品与视频成片另列未验。
 
 既有Texture2D／零尺寸与缺图回退、原生文字与手动步骤保留；候选呈现不自动定稿文明史或现实学习收益。

@@ -2,10 +2,10 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Active continuation — creation connections
+## Creation-connections engineering candidate
 
 The round starts from pushed4e643eb on `codex/creation-connections-20261018`.
-Its [plan](exec-plans/active/creation-connections-20261018.md) adds optional
+Its [completed engineering plan](exec-plans/completed/creation-connections-20261018.md) adds optional
 reflection using actual C→P→G evidence and saved-work identity, without changing
 save formats or simulation behavior. Existing local feedback entrances now
 suppress the duplicate tester footer while F8 and the no-local-entry fallback
@@ -20,13 +20,24 @@ Six unchanged representative frames have source and hash manifests. The fragment
 windows before handling Escape or delayed reading scroll. Complete Windows
 regression passes all176 stages with natural exits and no errors; six non-failing
 anchor warnings are retained in the evidence. Its remote CI also succeeds.
-New package acceptance remains pending.
+Both new Windows packages are built from productd14be32 and independently match
+their manifests and complete ZIP payloads. The ordinary package passes219 actual
+controller checks and48 independent-reopen checks; its21 new exported frames have
+independent review. The tester package passes229 controller checks and48 strict
+reopen checks, including its original sixty-entrance, C/P/G, work-restart and
+final-only feedback-ZIP import chain. Both exported chains have independent data
+review. The tester's45 PNG files, including imported copies, also have independent
+image review. Native input is not verified: the official tool failed to initialize
+twice before any window observation or input. Only the owned ordinary QA process
+was stopped; the tester was not launched natively.
 The separately reviewed external package
 controller adds only the two explicit CreationLinks profiles and a real Host
-C/P/G/Keep route; its exported execution is not yet verified. The
+C/P/G/Keep route; its ordinary exported execution is verified within the stated
+seeded QA scope. The
 [source-bound evidence](verification/20261018-creation-connections/README.md)
-preserves earlier failures and exact acceptance limits. The measured-growth ZIPs
-below remain the current verified recovery packages.
+preserves earlier failures and exact acceptance limits, with the current ordinary
+and tester ZIPs and five next-day review questions. The measured-growth ZIPs below
+remain separately verified recovery packages.
 
 ## Measured-growth candidate — 2026-10-18
 

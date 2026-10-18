@@ -1,6 +1,9 @@
 # 全旅程体验续轮 · 2026-10-18
 
-当前续轮工程结果：固定产品c109完整172/172及新双实包链均通过；F2可替换呈现与F3原作品回看已实施并分别审查，最终证据/原生范围/次日入口见[集中交接](../../verification/20261018-creative-framework/README.md)。以下8334记录保留其历史身份。完整goal与人工/平台开放项仍active。
+当前工程交付已推进至F5，固定产品SOURCE `d14be32f81354eb062f38d39f860b16ff739921a`，完整回归176／176与三组renderer通过其限定范围。
+新普通实包父219＋严格重启48、测试者父229＋原collector子链＋严格重启48均通过；默认试玩ZIP、独立profile、来源与限制见[当前集中交接](../../verification/20261018-creation-connections/README.md)。
+本轮原生验收因官方工具初始化失败为NOT_RUN_TOOL_INITIALIZATION_BLOCKED：零Sky／窗口观察／输入／截图，普通自有QA进程定向停止，测试者未启动；不是自然退出或产品原生PASS。
+仅闭合本工程阶段；完整goal与真人理解、Mac、正式素材等开放项仍ACTIVE。以下c109／8334等旧段均为历史检查点，不作为当前包身份或原生结论。
 
 当前包SOURCE固定`8334ab137beb95f24f6092ac0a23df69c592255f`，随包收集器经独审及14项Python测试通过。
 Godot runtime/assets/project/export-presets/tests与226无差异经总控核对，引用226原full168/168、

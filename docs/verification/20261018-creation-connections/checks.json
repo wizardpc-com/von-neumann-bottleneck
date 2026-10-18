@@ -1,10 +1,10 @@
 {
-  "stage": "ACTIVE_ENGINEERING_VALIDATION",
+  "stage": "COMPLETED_WITHIN_ENGINEERING_SCOPE",
   "broad_goal_status": "ACTIVE",
   "baseline_commit": "4e643eb18187235e2f736ea6b772fffbfae21f3a",
   "candidate_source_commit": "d14be32f81354eb062f38d39f860b16ff739921a",
   "branch": "codex/creation-connections-20261018",
-  "plan": "docs/exec-plans/active/creation-connections-20261018.md",
+  "plan": "docs/exec-plans/completed/creation-connections-20261018.md",
   "current_gates": {
     "source_reviews": "PASS_STATIC_SCOPE_ONLY",
     "focused17": {
@@ -382,10 +382,398 @@
         "scope": "Formal finalRoot audit:5773GitZIPfilehashes,716fixed/715project+2privateconfig/EOL,176orderedlogs/167PID,6originalwarnings. Earlier audit-only assumptions didnotchange original verifier results or add productfailures."
       }
     },
-    "new_normal_package": "NOT_RUN",
-    "new_tester_package_collector": "NOT_RUN",
-    "strict_independent_reopen": "NOT_RUN",
-    "new_native_os": "NOT_RUN",
+    "new_normal_package": {
+      "status": "PASS_ACTUAL_PARENT219_AND_STRICT48_SCOPE",
+      "source_commit": "d14be32f81354eb062f38d39f860b16ff739921a",
+      "build_id": "playtest-CreationLinksExperience20261018-d14be32f8135",
+      "profile": "CreationLinks20261018",
+      "test_batch": "CreationLinksExperience20261018",
+      "manifest": {
+        "path": "build/playtest-CreationLinksExperience20261018-d14be32f8135/manifest.json",
+        "sha256": "56cfaaee1b2720f58a67b44bfc3d797bb5cc885b9f5dfaa40c124ab6234e5f9f"
+      },
+      "zip": {
+        "path": "build/playtest-CreationLinksExperience20261018-d14be32f8135/Von-Neumann-Bottleneck-Windows-playtest-CreationLinksExperience20261018-d14be32f8135.zip",
+        "sha256": "e909e2b489e57bf75d53df92e4881ca24b97bdeed8036e317cfd7d3cf35ae72c",
+        "bytes": 57576511
+      },
+      "exe_sha256": "c6e5fdd1b8d83f1f65d9296cf4c8e4a7dcab48dd1311e65b38d89676a1d3d9ff",
+      "embedded_pck_sha256": "89d355c6544d05f46656c926f32d9a363112e725de38ecd7f7d76ac998035c4b",
+      "windows_template_sha256": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07",
+      "build_manifest": {
+        "path": "build/playtest-CreationLinksExperience20261018-d14be32f8135/Windows/BUILD-MANIFEST.json",
+        "sha256": "10815e3d958bbe9cdb669896fe403fe3d56e83e4e72d88d822d733b66a89642f"
+      },
+      "builder_stages": [
+        {
+          "stage": "import",
+          "log": ".godot/candidates/20261018T034222Z-d14be32f/import.log",
+          "sha256": "2f57dd31816ccc2ecc690e856cee4104da6e677e84e0bcef96c7779cc84ef1d8",
+          "status": "PASS_NO_ERROR_SCRIPT"
+        },
+        {
+          "stage": "licenses",
+          "log": ".godot/candidates/20261018T034222Z-d14be32f/licenses.log",
+          "sha256": "9d581ec5492fe988c9c06ba731f53831e0de994203e89ae19ffcf5b503748acc",
+          "status": "PASS_NO_ERROR_SCRIPT"
+        },
+        {
+          "stage": "export-Windows",
+          "log": ".godot/candidates/20261018T034222Z-d14be32f/export-Windows.log",
+          "sha256": "47b0844fe8e3056c6920d1d7056f46c030949c6515c2d3ca1adcb5b3c2b33bbe",
+          "status": "PASS_NO_ERROR_SCRIPT"
+        }
+      ],
+      "identity_log": {
+        "path": ".godot/f5-build-normal-73cb2cacaae6/identity.log",
+        "sha256": "66d3434b637a8b2e6dd45a905118e7d4fe03a43c44a9713e890400c0da915048"
+      },
+      "independent_audit": "Knowledge exact7payload+BUILD8ZIPmembers, noextra/duplicate, unpackedbytes+allhashes; actualtemplate/EXEPCK/source-profile-build/60tasks/3packagednotes source+build fields checked. PCK4directory478unique resource paths,no docs/tests/player save/session/incident/override payload. No endpoint/publicrelease/upload default. Build runtimefiles not included. Noengine rerun.",
+      "acceptance": "Actual fresh exported normal parent219 and independent process strict48 PASS; testercollector not applicable on normal; native NOT_RUN.",
+      "actual_chain": {
+        "summary": {
+          "path": ".godot/f5-normal-parent-strict-d14-summary.json",
+          "sha256": "b0629df7e44b4cc76635e02bc5b190b27dba32d51c40f6983aaaa504015231df"
+        },
+        "work": ".godot/night-package/43d66dd1059e",
+        "parent_checks": 219,
+        "strict_checks": 48,
+        "all_checks_true": true,
+        "failures": [],
+        "parent_receipt": {
+          "path": ".godot/night-package/43d66dd1059e/receipt.json",
+          "sha256": "79fb037a6b2c0f9f7acb7f2e9a80d0c246cf590a9afff8a69c07394236c4bbe4"
+        },
+        "reopen_receipt": {
+          "path": ".godot/night-package/43d66dd1059e/embedded-profile-reopen.json",
+          "sha256": "c783f1ba3e308ffac100116476f2b59788a204f07de2c91b6b40b3df4befe230"
+        },
+        "validation": {
+          "path": ".godot/night-package/43d66dd1059e/embedded-profile-reopen-validation.json",
+          "sha256": "9c8032f66cc29fea1ae93652d1fc638122a329f7cdaa2d542391a3a14862a739"
+        },
+        "baseline": {
+          "path": ".godot/night-package/43d66dd1059e/embedded-profile-post-exit-baseline.json",
+          "sha256": "94ee7d3558ec888dd6636643c627ac8ecdc929b927cd06e86bc3e75866144e32"
+        },
+        "controller_sha256": "40b20ca656bb30241376ce2fcfdb0638f8a3ed54039f7aafafe0ece78685fd8f",
+        "wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+        "strict_sha256": "2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b",
+        "parent_engine_pid": 38192,
+        "strict_engine_pid": 27636,
+        "natural_exit0": true,
+        "errors": 0,
+        "loaded_state_conversions": [],
+        "prepared_supports": [
+          "C1_restore",
+          "P1_commit",
+          "G1_feedback",
+          "G2_intent",
+          "G3_keep"
+        ],
+        "saved_work_id": "089180b2e1d15c6b773af9b98527eef923eb115efaccf67ae89ac256ae9e5360",
+        "saved_session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+        "pure_review_authority_fields": 35,
+        "actual_cpg_frames": 6,
+        "all_top_level_png_count": 21,
+        "independent_audit": "Knowledge rehashed actual219/48truechecks, raw/baseline/validation/process/logs/21frames; five independent supports and one whole saved work;35field pure-view typed protection. Baseline protected and reopen protected typed canonical exact with no numeric conversions. Actual postexit main/bak only top saved_at_utc and normal backup rotation differ; remaining JSON types/values and other protected file hashes/absence/leases exact.",
+        "postexit_save_sha256": {
+          "user://savegame_v1.json": "87004b364732a873f71c63f4c331a97b037afef0fad2bf0ddc1a1e48b16943d8",
+          "user://savegame_v1.json.bak": "d960ea167aa9ed27d78eb13edd9ff17658f4627914480a27bacadf4ed5a51aaf"
+        },
+        "cold_review": "Independent process Journal original saved id/recipe/output only; no reconstructed C/P/G events or cold Creation Host history.",
+        "visual_review": {
+          "path": ".godot/f5-normal-export-visual-audit.json",
+          "sha256": "8b9470ebdb6e4da092e7ac0ea2de5a3fd1975b91136413d9281950cdd601d5fd"
+        },
+        "visual_scope": "Visual viewed all21 original PNGs; six CPG frames plus actual saved-work frame form seven representatives, not seven CPG files. Chinese logical1600x900/physical1280x720; original scroll and Window limits; rendered controller only, not native or newcomer."
+      }
+    },
+    "new_tester_package_collector": {
+      "status": "PASS_ACTUAL_PARENT229_CHILD_AND_STRICT48_SCOPE",
+      "source_commit": "d14be32f81354eb062f38d39f860b16ff739921a",
+      "build_id": "playtest-CreationLinksAccess20261018-d14be32f8135",
+      "profile": "OfflineTeammate-CreationLinks20261018",
+      "test_batch": "CreationLinksAccess20261018",
+      "manifest": {
+        "path": "build/playtest-CreationLinksAccess20261018-d14be32f8135/manifest.json",
+        "sha256": "6677e17798f43b046e28908360af538f0c059595fc568222281a7ae3fb5ff7b9"
+      },
+      "build_manifest": {
+        "path": "build/playtest-CreationLinksAccess20261018-d14be32f8135/Windows/BUILD-MANIFEST.json",
+        "sha256": "8da1e90e6d0eeeaeebf4643f517b4ee56b96182cd8f4732a469bbf84bc951077"
+      },
+      "zip": {
+        "path": "build/playtest-CreationLinksAccess20261018-d14be32f8135/Von-Neumann-Bottleneck-Windows-playtest-CreationLinksAccess20261018-d14be32f8135.zip",
+        "sha256": "aba9855a4dc7b75c91c5a00fde13849552136721cda81cee1916b5a83839b255",
+        "bytes": 57588583
+      },
+      "exe_sha256": "03865cd1dc489ad189ccd8fbbfa57031248164ec4f0e28f09cd58924516c393c",
+      "embedded_pck_sha256": "444b41614670e8f178896204042279bcf06d645781731a032f3755ad8133d8d2",
+      "windows_template_sha256": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07",
+      "payload_files_sha256": {
+        "CHANGELOG.txt": "28be4f58702f5e0c35ca0ff5eb2051682aff7f6ff844cb1734a1f0648fdc4195",
+        "ENGINE-LICENSES.txt": "83d1228be30e56c9549fee1b322c8c46fb6cb08ac5545a799a62582613687fff",
+        "feedback-tools/offline-playtests.py": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+        "feedback-tools/README.txt": "cc4b79d3d98ccaa283e51e3be2369e4bc15768902534afa477f9c2b38595010a",
+        "feedback-tools/report-playtests.py": "106f83d946cdd15f055d2029be348f7539e968141aef9a9824014fe63f3b71a4",
+        "FONT-LICENSE.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+        "KNOWN-ISSUES.txt": "b3eaa6b4823bf81c53043693d45d1aee3f8c005a019b3345435e40fc53781481",
+        "LICENSE.txt": "4169e9c39ab401f2f7850040164eb760e58ec606b7a547477c17de9b3a3c9b30",
+        "README.txt": "2880745794a345d670d04f12f78a328e416085845e0d8792a8218f3d6736501c",
+        "Von-Neumann-Bottleneck.exe": "03865cd1dc489ad189ccd8fbbfa57031248164ec4f0e28f09cd58924516c393c"
+      },
+      "zip_members_sha256": {
+        "Windows/BUILD-MANIFEST.json": "8da1e90e6d0eeeaeebf4643f517b4ee56b96182cd8f4732a469bbf84bc951077",
+        "Windows/CHANGELOG.txt": "28be4f58702f5e0c35ca0ff5eb2051682aff7f6ff844cb1734a1f0648fdc4195",
+        "Windows/ENGINE-LICENSES.txt": "83d1228be30e56c9549fee1b322c8c46fb6cb08ac5545a799a62582613687fff",
+        "Windows/feedback-tools/offline-playtests.py": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+        "Windows/feedback-tools/README.txt": "cc4b79d3d98ccaa283e51e3be2369e4bc15768902534afa477f9c2b38595010a",
+        "Windows/feedback-tools/report-playtests.py": "106f83d946cdd15f055d2029be348f7539e968141aef9a9824014fe63f3b71a4",
+        "Windows/FONT-LICENSE.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+        "Windows/KNOWN-ISSUES.txt": "b3eaa6b4823bf81c53043693d45d1aee3f8c005a019b3345435e40fc53781481",
+        "Windows/LICENSE.txt": "4169e9c39ab401f2f7850040164eb760e58ec606b7a547477c17de9b3a3c9b30",
+        "Windows/README.txt": "2880745794a345d670d04f12f78a328e416085845e0d8792a8218f3d6736501c",
+        "Windows/Von-Neumann-Bottleneck.exe": "03865cd1dc489ad189ccd8fbbfa57031248164ec4f0e28f09cd58924516c393c"
+      },
+      "builder_stages": [
+        {
+          "stage": "import",
+          "log": ".godot/candidates/20261018T034343Z-d14be32f/import.log",
+          "sha256": "2f57dd31816ccc2ecc690e856cee4104da6e677e84e0bcef96c7779cc84ef1d8",
+          "status": "PASS"
+        },
+        {
+          "stage": "licenses",
+          "log": ".godot/candidates/20261018T034343Z-d14be32f/licenses.log",
+          "sha256": "9d581ec5492fe988c9c06ba731f53831e0de994203e89ae19ffcf5b503748acc",
+          "status": "PASS"
+        },
+        {
+          "stage": "export-Windows",
+          "log": ".godot/candidates/20261018T034343Z-d14be32f/export-Windows.log",
+          "sha256": "47b0844fe8e3056c6920d1d7056f46c030949c6515c2d3ca1adcb5b3c2b33bbe",
+          "status": "PASS"
+        }
+      ],
+      "collector_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+      "independent_audit": "Knowledge rehashed all11ZIPmembers/10payload+BUILD, unpackedbyteequality,noextra/duplicate,EXEPCK/478uniquepackedpaths/source-profile-build/template/3stagelogs/identity/3notes checked; noQA save/session/incident/override payload,noendpoint/publicrelease/upload. No collector execution yet.",
+      "acceptance": "Actual tester229, original separate collector capture142/reopen19booleanchecks, final ZIP-alone4cases4revisions2sessions1bundle0captureerrors, independent strict48 PASS. Native NOT_RUN.",
+      "actual_chain": {
+        "summary": {
+          "path": ".godot/f5-tester-parent-child-strict-d14-summary.json",
+          "sha256": "5af91bb294028cc0bbcac2354dc3e6b31e6332aabfcea3b566ec8ea6a7cd1f1b"
+        },
+        "work": ".godot/night-package/0afe228f6882",
+        "parent_checks": 229,
+        "strict_checks": 48,
+        "all_checks_true": true,
+        "failures": [],
+        "parent_receipt": {
+          "path": ".godot/night-package/0afe228f6882/receipt.json",
+          "sha256": "63e7784677b579d07ea84c66ca04bd68e0170b956d6e6360dcadcf8d90ffe1ea"
+        },
+        "reopen_receipt": {
+          "path": ".godot/night-package/0afe228f6882/embedded-profile-reopen.json",
+          "sha256": "bb6eabaa3f2ef784545b9d0893b90a37e4380077581807f3237c107606d1cfc5"
+        },
+        "validation": {
+          "path": ".godot/night-package/0afe228f6882/embedded-profile-reopen-validation.json",
+          "sha256": "abf5d069e3ed853f3148fd0d7c33252dd378c74fd5c41d791c23d9c3b93772b6"
+        },
+        "baseline": {
+          "path": ".godot/night-package/0afe228f6882/embedded-profile-post-exit-baseline.json",
+          "sha256": "7202390c1ec46eae54fa9b202581d3296607aca05b0f09fbeb45f003e35071c0"
+        },
+        "child_receipt": {
+          "path": ".godot/offline-package/3131c4a783c9/receipt.json",
+          "sha256": "a1c0ad9663a69c7468983169a73fb6bb1258000534086533ef1e66c70c5a2e3a"
+        },
+        "child_phase_boolean_checks": {
+          "capture": 142,
+          "reopen": 19
+        },
+        "child_phase_total_fields": {
+          "capture": 148,
+          "reopen": 21
+        },
+        "final_export_alone": {
+          "bundles": 1,
+          "cases": 4,
+          "revisions": 4,
+          "capture_errors": 0,
+          "sessions": 2,
+          "ignored_session_lines": 0
+        },
+        "final_zip_sha256": "1238702953f24d0a9d7cef4d646c5d9dea1a5b32f7e83515abdb3f300124966e",
+        "collector_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+        "parent_engine_pid": 18412,
+        "strict_engine_pid": 27512,
+        "natural_exit0": true,
+        "errors": 0,
+        "loaded_state_conversions": [
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/0",
+            "from": 155.0,
+            "to": 155
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/1",
+            "from": 145.0,
+            "to": 145
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/0",
+            "from": 560.0,
+            "to": 560
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/1",
+            "from": 145.0,
+            "to": 145
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/0",
+            "from": 965.0,
+            "to": 965
+          },
+          {
+            "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/1",
+            "from": 145.0,
+            "to": 145
+          }
+        ],
+        "saved_work_id": "089180b2e1d15c6b773af9b98527eef923eb115efaccf67ae89ac256ae9e5360",
+        "saved_session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+        "pure_review_authority_fields": 35,
+        "actual_cpg_frames": 6,
+        "all_top_level_png_count": 22,
+        "runtime_files": {
+          "parent": 39,
+          "child": 32
+        },
+        "postexit_save_sha256": {
+          "user://savegame_v1.json": "825a837ce905c463d618812941fb6cf43937fe061ea93cdb47db62faeb9df79f",
+          "user://savegame_v1.json.bak": "18c39be2505997feeb1ee4ba7e2880a5dbd948f387ce9d40a08af646d8293d21"
+        },
+        "postexit_typed_sources": {
+          "main": "reopen loaded state",
+          "backup": "pre-reopen postexit baseline"
+        },
+        "independent_audit": "Knowledge independently rehashed all bound raw/receipt/process/logs, complete39/32runtime file maps and directory sets,22parentPNGs and finalZIP24manifestfiles with imported byte equality/originalZIPexact. Parent229 and child142/19booleanchecks plus strict48 alltrue. Five independent supports/one whole savedwork/35field pure-view authority protection confirmed. Only exact six reported coordinate types change; postexit topstamp/backup rotation remain separately bounded; other protected file/absence/lease exact.",
+        "child_process_supervision_scope": "Unchanged separate Python child script uses its original per-engine subprocess.run(timeout=180) and return/error assertions. Outer owned_run does not instrument its grandchildren or invent their PIDs. Capture/reopen returncodes and noERROR logs passed before receipt.",
+        "cold_review": "Journal original saved id/recipe/output only; Creation Host cold C/P/G history NOT_RUN.",
+        "visual_review": {
+          "path": ".godot/f5-tester-export-visual-audit.json",
+          "sha256": "83c28e6cd5d665f369781c1d98000cea6c8e9f51849d660a42f4a7eb040c9a10",
+          "status": "PASS_SCOPE_WITH_ORIGINAL_SCROLL_LIMITATIONS",
+          "actual_files_viewed": 45,
+          "unique_hashes": 31,
+          "classification": {
+            "parent": 29,
+            "parent_named_frames": 22,
+            "parent_incidents": 7,
+            "child": 16
+          },
+          "limits": "Child16 includes four runtime incidents,11importedcopies and one savedroot; copies are not newscenes. Originalassemblypager bottom/Scroll clipping retained; childsavedroot globalfallback visible without blocking necessaryviewer controls, not everyWindowtoolbar hidden. No native/newcomer/naturaljourney claim."
+        }
+      }
+    },
+    "strict_independent_reopen": {
+      "normal": "PASS_ACTUAL48_ZERO_CONVERSIONS",
+      "tester": "PASS_ACTUAL48_EXACT_SIX_COORDINATE_CONVERSIONS",
+      "normal_validation": {
+        "path": ".godot/night-package/43d66dd1059e/embedded-profile-reopen-validation.json",
+        "sha256": "9c8032f66cc29fea1ae93652d1fc638122a329f7cdaa2d542391a3a14862a739"
+      },
+      "tester_validation": {
+        "path": ".godot/night-package/0afe228f6882/embedded-profile-reopen-validation.json",
+        "sha256": "abf5d069e3ed853f3148fd0d7c33252dd378c74fd5c41d791c23d9c3b93772b6"
+      }
+    },
+    "new_native_os": {
+      "status": "NOT_RUN_TOOL_INITIALIZATION_BLOCKED",
+      "preparation": {
+        "path": ".godot/night-native/creation-links-d14be32/native-preparation.json",
+        "sha256": "42c4ce128abf6fe09011ce753ff122a13ba3976e3823a0a20f743cab32e85c76"
+      },
+      "preparer_sha256": "725296724c75853f12c7072b53ac4af0508821c14358fa419f635f5084f622f6",
+      "launcher_sha256": "412f26ccd8f55971d6803adaa04842820972ba31c32e64f75f4202c7195683c9",
+      "independent_audit": "Knowledge rehashed seed wholefiles/dirs against actualparentruntime exact: normal19/36,tester39/45; whole originalparent61/85files unchanged,packages/receipt/strictpins exact. No extra/reparse/data injection; private4env,emptyLOCAL/TEMP. Launcher onlyonehashliteral reversebyteexactUNBOUND. No engine or OS run by reviewer.",
+      "normal": {
+        "status": "NOT_RUN_TOOL_INITIALIZATION_BLOCKED",
+        "initialization_attempts": 2,
+        "official_reset_calls": 1,
+        "executed_sky_calls": 0,
+        "window_observations": 0,
+        "os_inputs": 0,
+        "screenshots": 0,
+        "error": "failed to write kernel assets: 系统找不到指定的路径。 (os error 3)",
+        "tool_attempt": {
+          "path": ".godot/night-native/creation-links-d14be32/normal/visual-native-tool-attempt.json",
+          "sha256": "429270afb625c1a3d8c713946699d3382f6591f8700411987944de821fabef2d"
+        },
+        "owned_stop": {
+          "path": ".godot/night-native/creation-links-d14be32/normal/root-owned-tool-block-stop.json",
+          "sha256": "ab5bea1e032b4f3514b09a108a4985286578e7a9c52623cba161b51d65cd6644"
+        },
+        "process_receipt": {
+          "path": ".godot/night-native/creation-links-d14be32/normal/native-owned-process.json",
+          "sha256": "e84d234be60e60e0bb35ef80686327735ae60d3cb4263c8f139db1bbce3bd340"
+        },
+        "pid": 18844,
+        "launcher_session": 51056,
+        "launcher_exit": 1,
+        "child_exit": 4294967295,
+        "intentional_owned_termination": true,
+        "normal_exit_acceptance": false,
+        "package_unchanged": true,
+        "parent_unchanged": true,
+        "postexit_independent_audit": {
+          "receipt": {
+            "path": ".godot/night-native/creation-links-d14be32/normal/independent-postexit-audit.json",
+            "sha256": "9279a7dbef1c83695f791c6c85cea93b69c038fb742c69b1909377c41246ed38"
+          },
+          "status": "PASS_SCOPED_READONLY_POSTEXIT_PROTECTION_ONLY",
+          "unknown_mutations": [],
+          "normal_appdata_files_before_after": [
+            19,
+            22
+          ],
+          "normal_appdata_dirs_before_after": [
+            36,
+            37
+          ],
+          "original_files_changed_or_deleted": 0,
+          "only_additions": [
+            "empty logs/godot.log",
+            "playtest_data/active_session.json",
+            "one automated session_start JSONL"
+          ],
+          "save_timestamp_changes": [],
+          "backup_rotation_observed": false,
+          "numeric_conversions_applied": [],
+          "original_session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+          "independent_review": "Knowledge independently rehashed receipt/actualfourenv maps, exactprep-before anchors, all19originalfiles,12protected paths, actual one automated startup event, two wholeparent/package inventories. Native observation/input remains zero, process intentionally stopped."
+        }
+      },
+      "tester": {
+        "status": "NOT_RUN_NOT_LAUNCHED",
+        "unused_seed_independent_audit": {
+          "status": "PASS_EXACT_UNUSED_SEED_ONLY",
+          "files": 39,
+          "directories": 45,
+          "all_four_environment_maps_exact": true,
+          "local_temp_empty": true,
+          "no_owned_console_or_attempt_receipt": true,
+          "receipt": {
+            "path": ".godot/night-native/creation-links-d14be32/normal/independent-postexit-audit.json",
+            "sha256": "9279a7dbef1c83695f791c6c85cea93b69c038fb742c69b1909377c41246ed38"
+          }
+        }
+      },
+      "limits": "Official tool stopped before code/import/sky. No native route/window/focus/feedback/input established; no further attempts authorized. Old F4 native and current exported controllers do not cover this boundary."
+    },
     "human_newcomer_and_Mac": "NOT_RUN",
     "remote_ci": {
       "status": "SUCCESS_ROOT_LIVE_READ_ONLY_VERIFIED",
@@ -726,7 +1114,7 @@
     "input_grade": "Original headless canonical verifier; actual renderer/controller, native OS and newcomer acceptance are separate."
   },
   "planned_package_profiles": {
-    "status": "NOT_BUILT",
+    "status": "BOTH_BUILD_IDENTITY_PASS_PARENT_CHAINS_NOT_RUN",
     "normal": "CreationLinks20261018",
     "tester": "OfflineTeammate-CreationLinks20261018",
     "normal_batch": "CreationLinksExperience20261018",
@@ -766,7 +1154,7 @@
     "tests/test_efficiency_fragment.gd": "5c2206acff0c1712ccae7996053262c992543d2cfef4a3449143051bde081e4b"
   },
   "current_external_qa": {
-    "status": "PASS_STATIC_CHECKPOINTED_RUNTIME_NOT_RUN",
+    "status": "PASS_STATIC_AND_ACTUAL_BOTH_PARENT_CHILD_STRICT_SCOPES_NATIVE_NOT_RUN",
     "probe_sha256": "40b20ca656bb30241376ce2fcfdb0638f8a3ed54039f7aafafe0ece78685fd8f",
     "strict_sha256": "2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b",
     "wrapper_unchanged_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
@@ -1342,5 +1730,23 @@
       "experiments/service_plan/response_journey_view.gd"
     ],
     "limits": "Boundedfixedexistingcore contract only; does not coverallmixedUIhosts/newpresentation or provealljudgmentcode unchanged."
+  },
+  "build_summary": {
+    "path": ".godot/f5-build-d14be32-summary.json",
+    "sha256": "29c817cb27c176965b4d521642cd6a037a9a27854aa167dbdb28334a9f062362",
+    "scope": "BothoriginalbuildersandimmutableidentityPASS only; fixedproductd14 vs liveevidencecheckpointf17d separate."
+  },
+  "handoff": {
+    "default_package": "CreationLinksExperience20261018",
+    "review_package": "CreationLinksAccess20261018",
+    "zip_content": "Fresh exported packages contain no controller QA save/profile. Existing actual parent preparation runs were private APPDATA only.",
+    "profiles": [
+      "CreationLinks20261018",
+      "OfflineTeammate-CreationLinks20261018"
+    ],
+    "fresh_normal_progress": "Original normal completion/model gates retained; fresh ordinary does not start at G3. Tester access grants neither completion nor works.",
+    "backup_restore": "Close game; backup own representation/profile and service/profile if present under APPDATA/VonNeumannBottleneckCandidates. Restore only own same-profile backup while closed; never import .godot QA seeds.",
+    "recovery": "Previous Measured F4 ZIP/profile recovery remains separate. git archive d14 into a new source archive/directory; no checkout/reset or overwrite of current tree/player saves.",
+    "full_goal": "ACTIVE; engineering scope complete, native tool blocked; human comprehension, Mac, formal art/voice/ending and natural/newcomer journey remain separate open boundaries."
   }
 }

@@ -1,15 +1,18 @@
 # Execution queue
 
-The [creation-connections round](creation-connections-20261018.md) is active from
-pushed4e643eb. It connects actual C→P→G evidence to saved work and addresses the
-fixed tester footer overlap through existing local feedback entrances.
+The [creation-connections round](../completed/creation-connections-20261018.md) is
+complete within its engineering scope. Productd14be32 passes176 full Windows
+stages and both exported package chains. Actual C→P→G evidence connects to original
+saved works; existing local feedback entrances suppress the duplicate tester footer.
+The [current evidence and next-day handoff](../../verification/20261018-creation-connections/README.md)
+separates controller and image acceptance from the unavailable native-input tool.
 
 The [measured-growth round](../completed/measured-growth-20261018.md) is complete
 within its recorded engineering scope. Product source97516b passes175 full Windows
 stages, both original package chains and separate147/193 supplemental checks.
 The [evidence and next-day handoff](../../verification/20261018-measured-growth/README.md)
-retains exact source, failure and native-input boundaries. A fixed tester footer
-overlap remains a bounded follow-up alongside the next C→P→G presentation round.
+retains that stage's exact source, failure and native-input boundaries. The later
+creation-connections candidate above addresses its fixed tester footer overlap.
 
 The [saved-work review round](../completed/saved-work-review-20261018.md) and
 [replaceable creative presentation round](../completed/creative-framework-20261018.md)

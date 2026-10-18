@@ -172,3 +172,17 @@ Apparatus463c22dd测试生命周期修正已获Narrative独审：真实Home入�
 相机与装置精度/整数包围盒/指针/反馈与全部保护断言保留；授权Enter释放Home后核原host已释放。
 生产观察站85694e89不变。下一仅新App原3阶段+真实App矩阵，其他69效率/Target保持各自来源，
 新完整175与实包仍待。两份集中证据记录当前阶段ACTIVE及旧失败/视觉未接受，未预填新门禁通过。
+
+## 固定2f真实Home路由的脚本错误与窄修
+
+原App3阶段在import/userdir通过后因SCRIPT ERROR停止，原results只有2条已完成记录；
+App owned进程因读取已释放observatory.visible被原monitor终止，不写成正常完成的2/3。
+原raw`.godot/verification/20261018T004234Z-0f0e4bed`、摘要5c701685…保留，AppGUI未执行。
+原因是实际Home的Locate listener合法切换任务树并释放旧Home/观察站，旧假宿主测试语义不再适用。
+
+新e8f0782f测试获Narrative独审：原请求key、旧对象释放、实际Map场景/选中任务均明确核验；
+nav.pending/from_tree保持，camera/zoom/saved/viewsize对实际Map.canvas逐字段比对。
+只有该授权导航阶段将nav单列，其他disk/game/best/真实work/lease/recovery仍与initial整份精确相同。
+经实际Esc返回Home，仅允许原合同from_tree=false；严格核后才重取完整只读基线、重新解析实际入口。
+后续矩阵/反馈保留全部nav保护，最终再核initial非nav权威。无handler断开、无产品更改，
+新App3阶段与实际矩阵仍待运行；69效率/Target各自通过记录保持其来源。

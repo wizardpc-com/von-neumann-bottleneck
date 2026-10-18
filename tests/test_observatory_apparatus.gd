@@ -234,6 +234,7 @@ func run() -> void:
 	var host: Control = current_scene
 	var launcher: Button
 	var before: Dictionary = protected_state()
+	var initial_authority: Dictionary = before.duplicate(true); initial_authority.erase("nav")
 	for language: String in ["zh_CN","en"]:
 		locale.set_locale(language)
 		# Rebuild the real localized Home before resolving its lazy entry again.
@@ -321,8 +322,34 @@ func run() -> void:
 		observatory.tree_requested.connect(func(task_key: String) -> void: located.append(task_key))
 		var located_key: String = observatory.selected_key
 		observatory._locate(); await settle()
-		check(located == [located_key] and not observatory.visible and protected_state() == before,"Locate requests the existing efficient tree with the exact task and does not mutate navigation itself")
-		launcher.grab_focus(); observatory.open(); await settle()
+		check(located == [located_key] and not is_instance_valid(observatory) and not is_instance_valid(host),"Locate emits the exact task and releases the previous Home and observatory")
+		var map_ready: bool = is_instance_valid(current_scene) and current_scene.scene_file_path == nav.MAP_SCENE
+		check(map_ready,"Actual Home Locate opens the original efficient task tree")
+		if not map_ready: quit(1); return
+		var located_map: Control = current_scene
+		check(located_map.selected.get("key","") == located_key and nav.selected == located_key,"The real map and navigation select the exact requested task")
+		check(nav.pending == before.nav.pending and nav.from_tree == before.nav.from_tree,"Locate leaves pending task and original return flag unchanged")
+		check(nav.camera == located_map.canvas.pan and nav.zoom == located_map.canvas.magnification and nav.camera_saved and nav.camera_view_size == located_map.canvas.size,"Locate camera, zoom, saved flag and view size exactly match the original map canvas")
+		var located_state: Dictionary = protected_state()
+		var located_authority: Dictionary = located_state.duplicate(true); located_authority.erase("nav")
+		check(located_authority == initial_authority,"Legitimate tree navigation preserves every initial game, work, best record, lease and recovery byte")
+		# The original map Escape returns Home and clears only its return flag.
+		var home_navigation: Dictionary = located_state.nav.duplicate(true); home_navigation.from_tree = false
+		await key(KEY_ESCAPE)
+		var home_ready: bool = is_instance_valid(current_scene) and current_scene.scene_file_path == "res://src/ui/prototype_hub.tscn"
+		check(home_ready and not is_instance_valid(located_map),"Original map Escape releases the map and returns to a fresh Home")
+		if not home_ready: quit(1); return
+		var home_state: Dictionary = protected_state()
+		var home_authority: Dictionary = home_state.duplicate(true); home_authority.erase("nav")
+		check(home_authority == initial_authority and home_state.nav == home_navigation,"Map to Home changes only the documented navigation return flag, never saved authorities")
+		before = home_state
+		host = current_scene; launcher = host.find_child("OpenJourneyObservatory",true,false)
+		check(launcher != null,"Returning Home resolves its actual observatory launcher again")
+		if launcher == null: quit(1); return
+		launcher.grab_focus(); launcher.pressed.emit(); await settle()
+		observatory = host.journey_observatory
+		check(is_instance_valid(observatory) and observatory.visible,"Returning Home opens a fresh lazy observatory before feedback checks")
+		if not is_instance_valid(observatory): quit(1); return
 		if capture_enabled and DisplayServer.get_name() != "headless":
 			await feedback_route(observatory,launcher,false)
 			await feedback_route(observatory,launcher,true)
@@ -332,6 +359,8 @@ func run() -> void:
 		check(root.gui_get_focus_owner() == launcher,"Close returns focus to the original host")
 		observatory.queue_free(); await settle()
 	check(protected_state() == before,"All apparatus tests preserve original authorities including real C/P/G payload and empty lock directories")
+	var final_authority: Dictionary = protected_state(); final_authority.erase("nav")
+	check(final_authority == initial_authority,"Every initial saved authority remains exact across both localized Home and map lifecycles")
 	launcher.grab_focus(); launcher.pressed.emit(); await settle()
 	var final_view: Control = host.journey_observatory
 	final_view.select_task("hardware_foundations/tutorial"); final_view._enter(); await settle()

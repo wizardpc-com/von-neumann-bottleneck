@@ -36,23 +36,6 @@ func fully_visible(control: Control) -> bool:
 		parent = parent.get_parent()
 	return control.size.x > 0 and control.size.y > 0 and visible_rect.grow(1).encloses(control.get_global_rect())
 
-func phase_trace(tag: String, scope: String, fragment: Control, offline: Node, moments: Node, scroll: ScrollContainer) -> void:
-	var focus: Control = root.gui_get_focus_owner()
-	print("EFFICIENCY_INPUT_PHASE: ",JSON.stringify({"tag":tag,"scope":scope,
-		"process_frame":Engine.get_process_frames(),"draw_frame":Engine.get_frames_drawn(),
-		"f8_physical":Input.is_physical_key_pressed(KEY_F8),"f8_key":Input.is_key_pressed(KEY_F8),
-		"f8_action":Input.is_action_pressed("vnb_offline_feedback"),"f8_just_pressed":Input.is_action_just_pressed("vnb_offline_feedback"),
-		"accumulated_input":Input.use_accumulated_input,"root_focus":root.has_focus(),"paused":paused,
-		"feedback_flag":root.get_node("PlaytestData")._feedback_visible,"offline_enabled":offline.enabled(),"busy":offline.busy,
-		"offline_backdrop":offline.backdrop.visible,"offline_panel_tree":offline.panel.is_visible_in_tree(),
-		"moments_panel":moments.panel.visible,"moments_panel_tree":moments.panel.is_visible_in_tree(),
-		"fragment_can_process":fragment.can_process(),"fragment_step":fragment.step,"fragment_blend":fragment.visual_blend,
-		"scroll":scroll.scroll_vertical,"focus":str(focus.get_path()) if focus != null else "none"}))
-
-func phase_count(tag: String, counters: Dictionary, scope: String, fragment: Control, offline: Node, moments: Node, scroll: ScrollContainer) -> void:
-	counters[tag] = int(counters.get(tag,0)) + 1
-	if counters[tag] <= 4: phase_trace(tag,scope,fragment,offline,moments,scroll)
-
 func protected_state() -> Dictionary:
 	var disk: Dictionary = {}
 	for path: String in ["user://savegame_v1.json", "user://savegame_v1.json.bak", "user://hardware_workbenches_v1.json", CreationSession.launch_path()]:
@@ -139,33 +122,30 @@ func feedback_stack(main: Control, tester: bool, suffix: String) -> void:
 	fragment.step_buttons[1].pressed.emit()
 	var exact_focus: Control = root.gui_get_focus_owner()
 	var original_state: Dictionary = protected_state()
+	var requested_step: int = fragment.step
+	var scroll: ScrollContainer = main.history_chart.get_parent().get_parent()
+	var requested_scroll: int = scroll.scroll_vertical
+	var previous_pause: bool = paused
+	key(KEY_F8, true)
+	# Parsed input is accepted in the next dispatch cycle; tester capture then awaits post_draw.
+	await process_frame
+	await RenderingServer.frame_pre_draw
+	check(fragment._feedback_active(), "Real F8 establishes feedback or capture-busy priority before drawing")
+	if tester:
+		check(offline.busy, "Actual tester capture-busy boundary is observed before frame_post_draw")
+		check(not root.get_node("PlaytestData")._feedback_visible and not offline.panel.is_visible_in_tree(), "Busy capture is tested before the tester overlay takes focus")
+	check(fragment.step == requested_step and fragment.visual_blend < 1.0, "Accepted F8 interrupts the original unfinished observation")
+	check(scroll.scroll_vertical == requested_scroll, "Accepting feedback does not scroll the original observation")
 	var original_step: int = fragment.step
 	var original_blend: float = fragment.visual_blend
-	var scroll: ScrollContainer = main.history_chart.get_parent().get_parent()
 	var original_scroll: int = scroll.scroll_vertical
-	var previous_pause: bool = paused
-	var phase_counts: Dictionary = {}
-	var on_process: Callable = phase_count.bind("process",phase_counts,suffix,fragment,offline,moments,scroll)
-	var on_pre: Callable = phase_count.bind("pre_draw",phase_counts,suffix,fragment,offline,moments,scroll)
-	var on_post: Callable = phase_count.bind("post_draw",phase_counts,suffix,fragment,offline,moments,scroll)
-	process_frame.connect(on_process)
-	RenderingServer.frame_pre_draw.connect(on_pre)
-	RenderingServer.frame_post_draw.connect(on_post)
-	phase_trace("before_parse",suffix,fragment,offline,moments,scroll)
-	key(KEY_F8, true)
-	phase_trace("after_parse",suffix,fragment,offline,moments,scroll)
-	# Offline F8 is polled in _process; its clean-frame capture awaits post_draw.
-	await RenderingServer.frame_pre_draw
-	phase_trace("original_predraw_assert",suffix,fragment,offline,moments,scroll)
-	check(fragment._feedback_active(), "Real F8 establishes feedback or capture-busy priority before drawing")
-	if tester: check(offline.busy, "Actual tester capture-busy boundary is observed before frame_post_draw")
+	print("EFFICIENCY_ACCEPTED_INPUT: ",JSON.stringify({"scope":suffix,"process_frame":Engine.get_process_frames(),
+		"draw_frame":Engine.get_frames_drawn(),"active":fragment._feedback_active(),"busy":offline.busy,
+		"feedback_flag":root.get_node("PlaytestData")._feedback_visible,"paused":paused,
+		"step":original_step,"blend":original_blend,"scroll":original_scroll}))
 	fragment._select_step(2)
 	check(fragment.step == original_step, "A capture-busy or open feedback cannot advance the candidate fragment")
 	key(KEY_F8, false); await settle()
-	phase_trace("after_original_settle",suffix,fragment,offline,moments,scroll)
-	process_frame.disconnect(on_process)
-	RenderingServer.frame_pre_draw.disconnect(on_pre)
-	RenderingServer.frame_post_draw.disconnect(on_post)
 	var panel: Control = offline.panel if tester else moments.panel
 	check((offline.backdrop.visible if tester else moments.panel.visible) and panel.is_visible_in_tree() and panel.get_viewport() == root, "Actual role-specific F8 panel opens in the history viewport")
 	check(panel.is_ancestor_of(root.gui_get_focus_owner()), "Feedback owns the real keyboard focus")

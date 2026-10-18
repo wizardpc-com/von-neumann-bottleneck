@@ -8,9 +8,10 @@ The next round is active on `codex/measured-growth-20261018` from the pushed
 handoff2e488c3. Its [versioned plan](exec-plans/active/measured-growth-20261018.md)
 adds actionable Layout/Overlap evidence, an optional CPU-comparison reflection
 and distinct hardware/system observatory apparatus. Fixed sourcee3e475d passes all20 focused stages, including actual edit invalidation,
-restored apparatus geometry and protected original works. Actual rendering exposed720p source-label clipping and an unresolved F8 capture-phase
-assertion; these repairs are under review. Full regression and new packages remain
-unverified. The fixedc109
+restored apparatus geometry and protected original works. Actual controller frames confirm the repaired720p source-label reading area. The
+F8 test now follows the observed request-acceptance and capture-busy boundary; its
+new runtime gate is pending. Full three-suite rendering, full regression and new
+packages remain unverified. The fixedc109
 pair below remains the last fully verified candidate and recovery baseline.
 
 ## Current development — 2026-10-18

@@ -131,3 +131,22 @@ Narrative负责最小布局及实际输入相位诊断，Knowledge独审；不�
 每信号最多4条并断开，原45个check调用、41个await及Input顺序不变，未修改F8断言或共享标志。
 下一次只执行原import/userdir/效率3阶段，再以独立DIAGNOSTIC身份运行该canonical真实GUI一次，
 保持180s/严格ERROR/四环境与固定来源；这次诊断不替代最终20阶段、三suite渲染、完整回归或实包。
+
+## 固定fcad2真实相位诊断
+
+原3阶段全部通过；单canonical GUI DIAGNOSTIC174检查仍14ERROR、自然exit1，24原帧保留，
+`.godot/f4-efficiency-diagnostic-rendered/d1a9ccf31fc6`。新版两语720原帧经Visual独立view/hash，
+完整候选性质、Test records来源、同程序/测试集/CPU身份、步骤与数值可读；深层内容仍走原滚动，未称全部同屏。
+旧e3来源裁剪已由生产metric滚动目标窄修解决，不能把整次诊断改判为通过。
+
+四条实际相位日志均显示：parse与原predraw同帧、请求尚未被处理，flag/busy均false，fade正常前进约0.066；
+原测试此时自行改变step造成后续级联。下一process周期普通面板已开，测试者下一predraw真实busy/paused为真，
+再下一帧面板打开。Root与Knowledge独立解析一致，依据installed4.7.1实际结果，不泛称其他引擎输入机制。
+据此只核准一次process_frame后再pre_draw的测试同步，真实accepted/capture-busy时冻结fade/step/scroll，
+新增unfinishedfade和原step核对，原忙碌、不可推进、返回焦点、暂停、逐层Esc及字节保护保留。
+临时详细phase连接从最终test移除，诊断提交/raw仍保留；不改共享生产输入。最终20+三renderer/full/包仍待。
+
+最终accepted-boundary测试35abfaa4已获Knowledge独审：请求前step/scroll→真实accepted必须不变，
+此时fade仍未结束；tester必须正在busy且尚未显示面板，然后冻结后续观察值。
+仅一次process_frame后pre_draw，无轮询/flush/睡眠或手设flag。诊断详细logger已移除，
+原全栈、准确焦点和作品保护继续保留。下一新固定检查点执行原20阶段及完整三suite渲染，尚未运行。

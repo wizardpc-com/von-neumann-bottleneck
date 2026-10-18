@@ -555,11 +555,148 @@
             "cause": "UNASSIGNED_PENDING_LOG_ONLY_DIAGNOSTIC",
             "independent_audit": "Knowledge rehashed raw/log/process/probe/runtime/root20 PNG and actual Session/work/supports/postexit protected typed payloads; no edits or retries."
           },
-          "strict_reopen": "NOT_RUN_PARENT_FAILED",
+          "strict_reopen": "NOT_RUN_PARENT_AND_DIAGNOSTIC_FAILED",
           "collector_acceptance": "NOT_APPLICABLE_ORDINARY_ROLE",
           "export_modal": "NOT_RUN",
           "package_visual_review": "NOT_RUN",
-          "native": "NOT_RUN"
+          "native": "NOT_RUN",
+          "log_only_diagnostic_parent": {
+            "status": "FAIL_OWNED_TIMEOUT_180_SECONDS",
+            "product_source_commit": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+            "external_qa_checkpoint": "3ad86b5c0dde2de6c7df4a700f983aaca0968b27",
+            "probe_sha256": "c73bc23ddafe748f08c57dded969a4fd04fca4033eb002b156b9878bd0974928",
+            "monitor_sha256": "a7a988ce4c9ba9921ba50ccca0a709436ed0fc73069ea76110f8924309350eb2",
+            "wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+            "strict_sha256": "2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b",
+            "summary": {
+              "path": ".godot/f6-normal-diagnostic-parent-strict-bb5c817-summary.json",
+              "sha256": "333b19c61249bc9cad59cac8ad3a4bca4ecac37107315713729f1eb12e40413d"
+            },
+            "work": ".godot/night-package/d573d9d52fd2",
+            "log_sha256": "aec145a28409b1fcc728a4230158f740846a8dc151b94d2cab7f17a0a26b291d",
+            "owned_sha256": "12bab534bdb509a680ef390b625f5f40f47a0324d9e40a798804f14512eb4a51",
+            "pid": 25692,
+            "exit": 1,
+            "natural_exit": false,
+            "terminated_owned_child_reason": "timeout",
+            "original_budget_seconds": 180,
+            "errors": 0,
+            "script_errors": 0,
+            "warnings": 0,
+            "checks_total": null,
+            "checks_true": null,
+            "counts_scope": "No final embedded.json; zero logged errors is not219PASS.",
+            "success_receipt_exists": false,
+            "strict_status": "NOT_RUN_PARENT_TIMEOUT",
+            "phase_compact": [
+              {
+                "phase": "before_f8",
+                "frame": 716,
+                "root_has_focus": true,
+                "host_valid": true,
+                "step": 1,
+                "body": true,
+                "panel_visible": false,
+                "panel_tree_visible": false,
+                "panel_root_viewport": true,
+                "panel_owner_descendant": false,
+                "feedback_flag": false,
+                "scene": "res://experiments/creation/workbench.tscn"
+              },
+              {
+                "phase": "after_f8",
+                "frame": 732,
+                "root_has_focus": true,
+                "host_valid": true,
+                "step": 1,
+                "body": true,
+                "panel_visible": true,
+                "panel_tree_visible": true,
+                "panel_root_viewport": true,
+                "panel_owner_descendant": true,
+                "feedback_flag": true,
+                "scene": "res://experiments/creation/workbench.tscn"
+              },
+              {
+                "phase": "after_first_escape",
+                "frame": 749,
+                "root_has_focus": true,
+                "host_valid": true,
+                "step": 1,
+                "body": true,
+                "panel_visible": false,
+                "panel_tree_visible": false,
+                "panel_root_viewport": true,
+                "panel_owner_descendant": false,
+                "feedback_flag": false,
+                "scene": "res://experiments/creation/workbench.tscn"
+              },
+              {
+                "phase": "after_second_escape",
+                "frame": 765,
+                "root_has_focus": true,
+                "host_valid": true,
+                "step": 1,
+                "body": false,
+                "panel_visible": false,
+                "panel_tree_visible": false,
+                "panel_root_viewport": true,
+                "panel_owner_descendant": false,
+                "feedback_flag": false,
+                "scene": "res://experiments/creation/workbench.tscn"
+              },
+              {
+                "phase": "before_leave",
+                "frame": 765,
+                "root_has_focus": true,
+                "host_valid": true,
+                "step": 1,
+                "body": false,
+                "panel_visible": false,
+                "panel_tree_visible": false,
+                "panel_root_viewport": true,
+                "panel_owner_descendant": false,
+                "feedback_flag": false,
+                "scene": "res://experiments/creation/workbench.tscn"
+              },
+              {
+                "phase": "after_leave",
+                "frame": 773,
+                "root_has_focus": true,
+                "host_valid": false,
+                "step": -1,
+                "body": false,
+                "panel_visible": false,
+                "panel_tree_visible": false,
+                "panel_root_viewport": true,
+                "panel_owner_descendant": false,
+                "feedback_flag": false,
+                "scene": "res://src/campaign/task_tree.tscn"
+              }
+            ],
+            "phase_scope": "Only synchronous actual snapshot values in this run; not explanation or regrading of old d2f1 failure.",
+            "root_png": 17,
+            "incident_png": 0,
+            "image_scope": "All actual file hashes checked, no whole-run independent visual acceptance claimed. Filename saved-work does not prove exact subsequent await completion.",
+            "postexit_scope": {
+              "actual_session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+              "one_original_work_and_five_supports_exact": true,
+              "cross_run_session_typed_equals_old_actual_prepared_data": true,
+              "all_recorded_lease_paths_absent": true,
+              "all_runtime_and_outer_file_directory_maps_independently_exact": true,
+              "package_files_unchanged": true,
+              "whole_this_run_authority_snapshot": "UNAVAILABLE_NOT_CERTIFIED"
+            },
+            "independent_audit": "Knowledge parsed six actual JSON lines, rehashed log/process/all maps/17PNG/Session JSON and exact package payload; no engine, retries, edits to original evidence.",
+            "visual_audit": {
+              "path": ".godot/f6-normal-timeout-visual-audit.json",
+              "sha256": "90712e148421cdab6a22c670be96deb1e9859cf06e52825e453c1cd5a6f28748",
+              "metadata_hash_files": 17,
+              "actual_viewed_frames": 4,
+              "scope": "This-run ordinary feedback panel visible; Saved864x496 original64-D snapshot without generation event; originalwork identity bound by step3 and actual Session. No borrowed journal frame, stall inference or whole-authority acceptance.",
+              "overall_timeout_unchanged": true
+            }
+          }
         },
         "tester": {
           "status": "BUILD_IDENTITY_PASS_ONLY",
@@ -752,8 +889,9 @@
     "previous_approval_pending_resolved": true
   },
   "next_diagnostic": {
-    "status": "AUTHORIZED_LOG_ONLY_AUTHOR_NOT_YET_FROZEN_OR_RUN",
-    "scope": "Only synchronous component facts at existing CPG F8/Esc/Host leave points; original assertions/actions/Input/await/guards unchanged; production unchanged.",
+    "status": "MINIMAL_READONLY_STALL_BREADCRUMB_PROPOSAL_ONLY_NOT_IMPLEMENTED",
+    "scope": "Existing saved-work/key/settle/serialization points synchronous read logs only; no timeout, await, guard, action, assertion or production changes authorized by this note.",
+    "previous_log_only_result": "FAIL_TIMEOUT_180",
     "does_not_reclassify_original_failure": true
   }
 }

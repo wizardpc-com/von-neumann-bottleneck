@@ -7,9 +7,33 @@ func _ready() -> void: call_deferred("run")
 func check(ok: bool, label: String) -> void:
 	checks[label]=ok
 	if not ok: failures.append(label); push_error(label)
+
+func wait_diagnostic(stage: String, fields: Dictionary = {}, exhibit_ref: WeakRef = null) -> void:
+	var window: Window = get_window()
+	var scene: Node = get_tree().current_scene
+	var owner: Control = window.gui_get_focus_owner()
+	var embedded: Array[Dictionary] = []
+	for child: Window in window.get_embedded_subwindows():
+		embedded.append({"path":str(child.get_path()),"visible":child.visible,"has_focus":child.has_focus(),"mode":child.mode,"embedded":child.is_embedded()})
+	var exhibit: Variant = exhibit_ref.get_ref() if exhibit_ref != null else null
+	var exhibit_valid: bool = is_instance_valid(exhibit)
+	var exhibit_owner: Control = exhibit.gui_get_focus_owner() if exhibit_valid and exhibit.is_inside_tree() else null
+	var callers: Array[Dictionary] = []
+	var stack: Array = get_stack()
+	if stack.size() > 1:
+		for frame: Variant in stack.slice(1,4):
+			if frame is Dictionary: callers.append({"function":str(frame.get("function","unavailable")),"line":frame.get("line",-1)})
+	print("PACKAGE_WAIT_DIAGNOSTIC: ",JSON.stringify({"stage":stage,"ticks_msec":Time.get_ticks_msec(),"process_frame":Engine.get_process_frames(),"draw_frame":Engine.get_frames_drawn(),
+		"draw_required":DisplayServer.get_name()!="headless","paused":get_tree().paused,"caller":callers if not callers.is_empty() else "unavailable","fields":fields,
+		"root":{"mode":window.mode,"visible":window.visible,"has_focus":window.has_focus(),"embedded":window.is_embedded(),"embedded_windows":embedded,"owner":str(owner.get_path()) if is_instance_valid(owner) and owner.is_inside_tree() else "none"},
+		"exhibit":{"valid":exhibit_valid,"visible":exhibit.visible if exhibit_valid else false,"mode":exhibit.mode if exhibit_valid else -1,"has_focus":exhibit.has_focus() if exhibit_valid else false,"embedded":exhibit.is_embedded() if exhibit_valid else false,"inside_tree":exhibit.is_inside_tree() if exhibit_valid else false,"queued":exhibit.is_queued_for_deletion() if exhibit_valid else false,"owner":str(exhibit_owner.get_path()) if is_instance_valid(exhibit_owner) and exhibit_owner.is_inside_tree() else "none"},
+		"current_scene_path":scene.scene_file_path if is_instance_valid(scene) else "none"}))
+
 func settle() -> void:
 	for frame: int in 8: await get_tree().process_frame
+	wait_diagnostic("settle_after_process")
 	if DisplayServer.get_name()!="headless": await RenderingServer.frame_post_draw
+	wait_diagnostic("settle_after_draw")
 
 func key_press(code: Key) -> void:
 	for down: bool in [true,false]:
@@ -267,7 +291,9 @@ func creative_window_key(code: Key) -> void:
 		var event := InputEventKey.new()
 		event.keycode=code; event.physical_keycode=code; event.pressed=down
 		Input.parse_input_event(event)
+		wait_diagnostic("window_key_after_parse",{"code":int(code),"down":down})
 		await settle()
+		wait_diagnostic("window_key_after_settle",{"code":int(code),"down":down})
 
 func creative_media(intro: Variant, output: String) -> void:
 	var before: Dictionary = protected_snapshot()
@@ -326,17 +352,20 @@ func creative_work_review(journal: Variant, phase: String, expected: Dictionary,
 	if expected.is_empty():
 		check(journal.work_selector.disabled and journal.work_view_button.disabled,"fresh Creative Journal offers no invented saved work")
 		check(protected_snapshot()==before,"fresh Creative empty-work review preserves all authorities")
+		wait_diagnostic("work_review_return_empty",{"phase":phase,"tester":tester})
 		return
 	var selected: int = -1
 	for index: int in journal.work_selector.item_count:
 		if str(journal.work_selector.get_item_metadata(index))==str(expected.get("id","")): selected=index
 	check(selected>=0 and not journal.work_view_button.disabled,phase+" Creative Journal resolves the original real saved id")
+	wait_diagnostic("work_review_selection",{"phase":phase,"tester":tester,"selected":selected})
 	if selected<0: return
 	journal.work_selector.select(selected)
 	journal.work_view_button.grab_focus(); await creative_window_key(KEY_SPACE)
 	var exhibit: Variant = journal.work_focus
 	check(is_instance_valid(exhibit) and exhibit.visible,phase+" Creative actual Journal action opens the original saved-work Window")
 	if not is_instance_valid(exhibit): return
+	var exhibit_diagnostics: WeakRef = weakref(exhibit)
 	check(JSON.stringify(JSON.parse_string(JSON.stringify(exhibit.work)),"",true)==JSON.stringify(JSON.parse_string(JSON.stringify(expected)),"",true),phase+" Creative viewer preserves the entire original id output recipe training and source snapshot")
 	check(exhibit.canvas.output==exhibit.work.output and exhibit.evidence.is_empty() and exhibit.explanation_button.disabled and exhibit.fork_button.disabled,phase+" Creative saved-snapshot viewer supplies no forged generation receipt or editable fork")
 	if creation_links_family() and phase=="restarted":
@@ -344,23 +373,33 @@ func creative_work_review(journal: Variant, phase: String, expected: Dictionary,
 	check(exhibit.request_fork.get_connections().is_empty() and exhibit.request_evidence.get_connections().is_empty(),phase+" Creative Journal connects no hidden write or evidence action")
 	check(exhibit.find_child("JournalWorkProvenance",true,false).text==journal.work_note.text and exhibit.origin_label.text.contains("no verified generation event" if exhibit.english else "暂无可核对的生成事件"),phase+" Creative actual viewer retains saved-only provenance and unknown event evidence")
 	check(exhibit.get_texture().get_image().save_png(output.path_join("saved-work"+("-restarted" if phase=="restarted" else "")+".png"))==OK,phase+" actual Creative saved-work frame")
+	wait_diagnostic("work_review_saved_frame",{"phase":phase,"tester":tester},exhibit_diagnostics)
+	wait_diagnostic("work_review_before_play",{"phase":phase,"tester":tester},exhibit_diagnostics)
 	exhibit.play_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	wait_diagnostic("work_review_after_play",{"phase":phase,"tester":tester},exhibit_diagnostics)
 	var feedback: Node = get_node("/root/OfflineFeedback")
 	var moments: Node = get_node("/root/PlaytestMoments")
 	var was_paused: bool = get_tree().paused
+	wait_diagnostic("work_review_before_f8",{"phase":phase,"tester":tester},exhibit_diagnostics)
 	await creative_window_key(KEY_F8)
+	wait_diagnostic("work_review_after_f8",{"phase":phase,"tester":tester},exhibit_diagnostics)
 	var panel: Control = feedback.panel if tester else moments.panel
 	var focus: Control = exhibit.gui_get_focus_owner()
 	check(panel.visible and panel.get_viewport()==exhibit and focus!=null and panel.is_ancestor_of(focus) and not exhibit.playing,phase+" Creative saved-work F8 pauses presentation in the actual focused Window")
 	check((feedback.backdrop.visible and get_tree().paused) if tester else (not feedback.backdrop.visible and get_tree().paused==was_paused),phase+" Creative saved-work feedback respects the exact role pause channel")
+	wait_diagnostic("work_review_before_first_escape",{"phase":phase,"tester":tester},exhibit_diagnostics)
 	await creative_window_key(KEY_ESCAPE)
+	wait_diagnostic("work_review_after_first_escape",{"phase":phase,"tester":tester},exhibit_diagnostics)
 	check(is_instance_valid(exhibit) and exhibit.visible and journal.visible and not (feedback.backdrop.visible if tester else moments.panel.visible) and not panel.is_visible_in_tree() and get_tree().paused==was_paused,phase+" Creative first Escape closes feedback while retaining the saved work and Journal")
 	if not is_instance_valid(exhibit): return
 	check(exhibit.gui_get_focus_owner()==exhibit.play_button and not exhibit.playing,phase+" Creative feedback restores original saved-work focus without autoplay")
+	wait_diagnostic("work_review_before_second_escape",{"phase":phase,"tester":tester},exhibit_diagnostics)
 	await creative_window_key(KEY_ESCAPE)
+	wait_diagnostic("work_review_after_second_escape",{"phase":phase,"tester":tester},exhibit_diagnostics)
 	check(not is_instance_valid(journal.work_focus) and journal.visible and get_viewport().gui_get_focus_owner()==journal.work_view_button,phase+" Creative next Escape returns to the exact Journal work action")
 	check(protected_snapshot()==before,phase+" Creative saved-work review and feedback preserve exact protected states bytes and leases")
 	experience[phase+"_work_review"]={"id":expected.id,"snapshot_only":true,"evidence":{},"fork_disabled":true,"source":"actual embedded saved work, not the tester child namespace"}
+	wait_diagnostic("work_review_return",{"phase":phase,"tester":tester},exhibit_diagnostics)
 
 func creative_reflection(journal: Variant, phase: String, earned: bool, output: String, tester: bool) -> void:
 	var before: Dictionary = protected_snapshot()
@@ -966,6 +1005,7 @@ func run() -> void:
 		var saved_state: Dictionary = get_node("/root/GlobalSave")._save_snapshot()
 		check(saved_state.get("game",{}).get("system",{}).get("workspaces",{}).has("cpu_speed"),"restart snapshot includes the actual flushed CPU workspace")
 		check(not get_node("/root/SystemChapter").completed_levels().get(&"cpu_speed",false),"flushing the actual workspace grants no CPU comparison completion")
+	wait_diagnostic("before_embedded_serialization",{"checks":checks.size(),"failures":failures.size()})
 	var file := FileAccess.open(output.path_join("embedded.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify({"checks":checks,"failures":failures,"profile":profile,"tester":tester,
 		"source_commit":ProjectSettings.get_setting("application/config/build_commit",""),
@@ -973,6 +1013,7 @@ func run() -> void:
 		"logical_viewport":str(get_viewport().get_visible_rect().size),"physical_frame":str(get_viewport().get_texture().get_image().get_size()),
 		"extended_experience":experience,"restart_protected":protected_snapshot(),
 		"evidence_grade":"rendered controller input, not native OS or human playtest"},"\t")); file.close()
+	wait_diagnostic("after_embedded_serialization",{"checks":checks.size(),"failures":failures.size()})
 	print("PASS: night package embedded configuration and first experience" if failures.is_empty() else "FAIL: night package")
 	get_tree().quit(0 if failures.is_empty() else 1)
 

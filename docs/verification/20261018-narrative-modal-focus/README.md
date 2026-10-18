@@ -5,7 +5,7 @@
 ## 当前门禁
 
 - 修后bb5原import／userdir／Efficiency三阶段实际3／3 PASS，3个自有进程自然exit0、零ERROR／WARNING／SCRIPT ERROR；headless为55检查。旧867编译3PASS另保原来源。
-- 修后bb5单Efficiency真实renderer **245检查PASS**，PID21700在30.58秒自然exit0，无终止、零ERROR／WARNING／SCRIPT ERROR。实际正控制ZH0→42／EN0→110且source／step／metric在原clip内；同0起点模态负控制Scroll0／blend0／step1保持，Esc分项bodytrue／authoritytrue／mapfalse。六条原F8 accepted边界通过。完整回归实际176／176 PASS；新普通／测试者包均BUILD_IDENTITY_PASS；普通父流程实际FAIL，strict因父失败未启动；测试者父／child与新包图审待实际验收，不扩张为native或导出包模态通过。
+- 修后bb5单Efficiency真实renderer **245检查PASS**，PID21700在30.58秒自然exit0，无终止、零ERROR／WARNING／SCRIPT ERROR。实际正控制ZH0→42／EN0→110且source／step／metric在原clip内；同0起点模态负控制Scroll0／blend0／step1保持，Esc分项bodytrue／authoritytrue／mapfalse。六条原F8 accepted边界通过。完整回归实际176／176 PASS；新普通／测试者包均BUILD_IDENTITY_PASS；普通父流程原FAIL及新LOG-ONLY诊断FAIL_TIMEOUT分列，strict未启动；测试者父／child与新包图审待实际验收，不扩张为native或导出包模态通过。
 - 旧867真实renderer **FAIL：239检查／4ERROR**、PID50104自然exit1，保留其两语fade与Host Esc组合断言失败，零WARNING／SCRIPT ERROR。
 - 新旧两轮各24根帧＋2tester现场＝26原PNG，以及各自6artifact／39运行文件／41目录均已独立核SHA／集合；两轮各26图另依eb47／e1c6收据按原Scroll局限独立实view接受。两轮均零modal blocker图，不由图片认证fade／Esc。
 
@@ -70,7 +70,15 @@ PR15正文已获用户明确授权，由Root更新并readback按行尾规范化�
 
 失败摘要`.godot/f6-normal-parent-strict-bb5c817-summary.json` SHA `a9466dccef734746a0de9f9968e4bcd4ef9f2ef8fbd93e1ba140be9c2d32cf43`；raw `embedded.json` SHA `beac7bcb42f3c4697fc1ccf1f0e18fff53107cee37547d3d450a0fb991508679`，log SHA `62a0b06ce37ffef8e28df79c2c0444527baad4963bb5280e40b19c9822ac30e9`。20根PNG／0incident及runtime文件集合已实际重hash；其中`cpg-connection-feedback.png`现场观察为G回顾、没有可见反馈面板，此图不证明F8各分项或原因。Visual四图独审收据`.godot/f6-normal-failed-focus-visual-audit.json` SHA `6cb61639c588b25bfb8d8f6f8bbb6377214730b31bf6e24f00cec4cb22d6767a`仅接受实际静图范围，不改三项FAIL。
 
-首断言没有分项记录panel可见性、viewport与focus owner；后续两个复合断言也未分别打印body／focus、host有效性／current scene。首Esc焦点恢复、35项纯回看权威、退出lease释放／Session SHA等原检查为true；实际磁盘完整Session／单作品recipe/output／五supports与真实prepared_data严格typed一致，主备仅顶层保存时间戳／原轮转，其余typed payload等rawgame，包字节与原保护文件保持。以上不将整体验收转PASS，亦不据源CPG相同就断定QA、OS或Efficiency修复为原因。Root仅核准下一步同步LOG-ONLY分解原点位，尚待作者冻结与独审；不改动作／Input／await／断言，不自行重试。
+首断言没有分项记录panel可见性、viewport与focus owner；后续两个复合断言也未分别打印body／focus、host有效性／current scene。首Esc焦点恢复、35项纯回看权威、退出lease释放／Session SHA等原检查为true；实际磁盘完整Session／单作品recipe/output／五supports与真实prepared_data严格typed一致，主备仅顶层保存时间戳／原轮转，其余typed payload等rawgame，包字节与原保护文件保持。以上不将整体验收转PASS，亦不据源CPG相同就断定QA、OS或Efficiency修复为原因。Root核准的同步LOG-ONLY诊断已另跑并timeout，见下；没有改动作／Input／await／断言或据此归因旧三错。
+
+## 独立LOG-ONLY诊断：实际180秒超时
+
+产品仍bb5原ZIP；外QA检查点`3ad86b5c0dde2de6c7df4a700f983aaca0968b27`仅probe `c73bc23d…`同步读日志与monitor新SHA pin，wrapperb213／strict2e1原字节。实际work `.godot/night-package/d573d9d52fd2`，PID25692被原180秒guard定向timeout终止、exit1，**不是自然退出**。0ERROR／SCRIPT ERROR／WARNING，但缺`embedded.json`和成功receipt，**本次219项计数不可得，不能写全通过**；strict为NOT_RUN_PARENT_TIMEOUT。
+
+摘要`.godot/f6-normal-diagnostic-parent-strict-bb5c817-summary.json` SHA `333b19c61249bc9cad59cac8ad3a4bca4ecac37107315713729f1eb12e40413d`；原log SHA `aec145a28409b1fcc728a4230158f740846a8dc151b94d2cab7f17a0a26b291d`，owned SHA `12bab534bdb509a680ef390b625f5f40f47a0324d9e40a798804f14512eb4a51`。六同步JSON实际分项为：F8后面板可见／同root viewport／面板内owner／feedback flag均true；首Esc恢复step1，第二Esc折叠并归toggle焦点；leave前dirty与pending均false，leave后原Host已释放且场景为TaskTree。这些只属于本次快照，不回填或解释前次三项FAIL。
+
+17根PNG／0incident、实际runtime与四env文件／目录集合均已独立重hash；saved-work文件存在不证明后续哪条await已完成。 Visual图审`.godot/f6-normal-timeout-visual-audit.json` SHA `90712e148421cdab6a22c670be96deb1e9859cf06e52825e453c1cd5a6f28748`核17文件header／hash、实际view4张；本run普通反馈Panel可见，Saved仅原快照／无生成事件，不借旧journal图，不由最后一图定位stall或认证全authority。实际Session897f／单作品／五supports与旧失败运行prepared_data全typed相同，lease均不存在，仅属跨run资料；本次最终全authority快照未落盘，不能借旧快照认证本次全部零写入。包身份仍原SHA，override finally已删。原probe此时尚在父进程Journal／saved-work回看，独立reopen尚未启动；根因未定，仅提出在原等待点前后同步print机械定位，不延长timeout、不改guards／Input／断言、不自行重试。
 
 ## 固定输入与现有交付
 

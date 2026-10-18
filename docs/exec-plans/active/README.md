@@ -8,7 +8,9 @@ The independently reviewed repairbb5c817 passes its three compile stages and
 six original anchor warnings remain recorded and remote CI succeeds. Both new
 package identities pass; the first ordinary controller run fails three of219
 checks. Strict reopening and tester execution remain unrun. Log-only diagnostic
-QA is under review; no production cause is established.
+QA records a separate180-second timeout without a final result JSON; its CPG
+snapshots do not explain the first failure. Wait-point telemetry is under review;
+no production cause is established.
 The [current round evidence](../../verification/20261018-narrative-modal-focus/README.md)
 keeps the failed baseline and its precise scroll/Escape limits.
 

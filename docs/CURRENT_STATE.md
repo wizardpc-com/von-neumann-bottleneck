@@ -22,7 +22,10 @@ the ordinary package's first controller run fails216/219: a compound F8
 viewport/focus assertion and two later Escape/navigation assertions fail.
 Strict reopening and the tester controller chain have not run. The failed
 capture has no visible feedback panel; its missing component diagnostics leave
-the cause unresolved. A log-only QA diagnostic is being reviewed.
+the cause unresolved. A log-only diagnostic records the CPG checkpoints correctly
+in a separate run, but later hits the original180-second owned-process timeout.
+It produces no final result JSON or full check count. Strict reopening and the
+tester chain remain unrun; synchronous wait-point telemetry is under review.
 The [round evidence](verification/20261018-narrative-modal-focus/README.md)
 preserves the failed baseline separately. The verified d14 packages below remain
 the recovery delivery.

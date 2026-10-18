@@ -2,6 +2,7 @@
 
 当前效率模态焦点修复位于bb5c817：源GUI245项、完整Windows176阶段及CI通过，双包构建身份通过。
 新普通包首次父链216/219、三项失败，strict与测试者链未跑；保留失败，正在独审只读诊断日志补充。
+第二次仅日志诊断在CPG快照正常后超时，缺最终JSON及全量计数；未改判首失败，待原等待点遥测。
 [本轮证据/交接](../verification/20261018-narrative-modal-focus/README.md)保留旧基线239项/4错误。
 当前已验d14双包与次日问题见[CreationLinks交接](../verification/20261018-creation-connections/README.md)。
 早先可替换创作框架见[历史创作呈现](../verification/20261018-creative-framework/README.md)。

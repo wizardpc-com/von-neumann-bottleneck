@@ -104,3 +104,13 @@ renderer245项检查、零ERROR/WARNING/SCRIPTERROR，PID21700自然exit0。
 Root据缺少的分项值只核准外QA控制器添加同步LOG-ONLY字段：Window/嵌入子窗、panel/viewport/
 owner、反馈flag、fragment和scene/离开guard。原219断言、动作、Input、await、超时与全部
 生产代码不改；独审后新检查点仅允许一次诊断运行，旧失败不覆盖，不以反复重跑取得绿色。
+
+该次3ad/c73诊断实测保留为第二次失败：原180秒守卫定向终止自有PID25692，非自然退出。
+六个CPG快照本次均正确，但随后未生成embedded.json或成功receipt；17根帧含saved-work，
+不能依截图名推断唯一卡点。总219检查数不可得，strict未启动；Session/作品与租约已读值
+只保持其局部范围，不补造本次缺失的完整最终authority快照。summary为333b19c6…。
+
+Knowledge只读核源后界定等待范围为creative_work_review的Play/F8/Esc及原settle
+（8process_frame再frame_post_draw），不是独立重启。Root只核准这些原等待点前后追加同步
+小日志，包含真实时间、帧数、窗口状态与安全caller；不加Timer、await、超时、focus请求、
+force_draw、状态或跳过。作者冻结、独审和新提交后才允许下一次有明确新观测点的运行。

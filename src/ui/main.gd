@@ -69,7 +69,7 @@ const STANDARD_LAYOUT: Dictionary = {
 const INSTRUMENT_LAYOUT: Dictionary = {
 	&"mission": Rect2(18, 18, 480, 430),
 	&"program": Rect2(20, 18, 560, 470),
-	&"test_bench": Rect2(885, 18, 600, 300),
+	&"test_bench": Rect2(885, 18, 600, 400),
 	&"profiler": Rect2(710, 18, 700, 470),
 	&"cache": Rect2(1080, 92, 410, 360),
 	&"blocking": Rect2(1020, 70, 450, 370),

@@ -1,0 +1,224 @@
+{
+  "status": "PASS_HEADLESS_SOURCE_ENTRY_CORRECTION_WITH_OPEN_PRODUCT_REQUIREMENTS",
+  "source_checkpoint": "caf9e2bfa23e507b79010401bef3815cb6d0b15f",
+  "previous_package_source": "5bd3792b022ec053f62eaeca9f53a791e201bcd9",
+  "owner_report": "Direct root project.godot F5 still defaults to40 tasks; user does not accept the current3D display as the desired laboratory.",
+  "root_project_default_tasks": 40,
+  "prepared_project_to_open": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\experiments\\36d9b2f6dede\\project\\project.godot",
+  "prepared_profile": "JourneyEditor20261018",
+  "prepared_role": "ordinary",
+  "source_copy_scope": "Existing run-experiment live source copy, including nonignored user UID/import additions and current documents; not a fixed Git archive certified package. Original runner copy and launch/save logic unchanged.",
+  "fixed_headless_results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261018T115930Z-b539d1ae/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261018T115930Z-b539d1ae/user_directory"
+    },
+    {
+      "name": "test_creation_route_access",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_route_access.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261018T115930Z-b539d1ae/test_creation_route_access"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261018T115930Z-b539d1ae/test_hub_first_screen"
+    },
+    {
+      "name": "test_night_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_night_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261018T115930Z-b539d1ae/test_night_narrative"
+    }
+  ],
+  "fixed_parity": {
+    "selected_source_files": 721,
+    "copied_selected_exact_files": 721,
+    "all_selected_copy_bytes_exact": true,
+    "canonical_test_files": 176,
+    "extra_qa_tests": []
+  },
+  "prepared_settings_sha256": "cd5d3f81f73de4c5156ae414d47fa2b3e6329e57ead7b399ea3997a7a1559d89",
+  "settings_exact_before_after_probe": true,
+  "probe_actual": {
+    "candidate_enabled": true,
+    "completed": 0,
+    "creation_enabled": true,
+    "domains": {
+      "chapter_1": 7,
+      "chapter_2": 7,
+      "chapter_3": 6,
+      "chapter_4": 6,
+      "creation": 9,
+      "hardware_foundations": 14,
+      "prediction": 3,
+      "representation": 5,
+      "service": 3
+    },
+    "errors": [],
+    "game_mode": "game",
+    "home_3d_label": "3D成果展示 · 只读原型",
+    "home_build_labels": [
+      "60 项任务 · 内部评审 · free-alpha-development",
+      "60 项任务 · 内部评审 · free-alpha-development"
+    ],
+    "keys": [
+      "hardware_foundations/tutorial",
+      "hardware_foundations/half_adder",
+      "hardware_foundations/full_adder",
+      "hardware_foundations/alu",
+      "hardware_foundations/latch",
+      "hardware_foundations/register",
+      "hardware_foundations/ram",
+      "hardware_foundations/cpu",
+      "hardware_foundations/load_store",
+      "hardware_foundations/selector",
+      "hardware_foundations/selector4",
+      "hardware_foundations/parity",
+      "hardware_foundations/delay",
+      "hardware_foundations/alarm",
+      "chapter_1/assembly",
+      "chapter_1/cpu_speed",
+      "chapter_1/ram_wait",
+      "chapter_1/bus_width",
+      "chapter_1/bottleneck",
+      "chapter_1/read_once",
+      "chapter_1/two_orders",
+      "chapter_2/distant_reads",
+      "chapter_2/nearby_storage",
+      "chapter_2/cache_failure",
+      "chapter_2/access_order",
+      "chapter_2/working_set",
+      "chapter_2/blocking",
+      "chapter_2/capstone",
+      "chapter_3/arrival",
+      "chapter_3/buffers",
+      "chapter_3/backpressure",
+      "chapter_3/prefetch",
+      "chapter_3/distance",
+      "chapter_3/synthesis",
+      "chapter_4/fields",
+      "chapter_4/records",
+      "chapter_4/hot_cold",
+      "chapter_4/relocation",
+      "chapter_4/batches",
+      "chapter_4/mixed",
+      "representation/mixed_scan",
+      "representation/interior_hotspots",
+      "representation/dense_sparse",
+      "representation/prepare_once",
+      "representation/cross_assets",
+      "service/move_state",
+      "service/prompt_response",
+      "service/one_plan",
+      "prediction/regular",
+      "prediction/changed",
+      "prediction/alternating",
+      "creation/C1_restore",
+      "creation/C2_cost",
+      "creation/C3_conditions",
+      "creation/P1_commit",
+      "creation/P2_memory",
+      "creation/P3_check",
+      "creation/G1_feedback",
+      "creation/G2_intent",
+      "creation/G3_keep"
+    ],
+    "offline_tester": false,
+    "scope": "Headless actual autoload and Home identity only; no task entry, algorithm run, GUI or manual F5 acceptance.",
+    "task_count": 60,
+    "unique_keys": 60,
+    "user_data_dir": "C:/Users/Lenovo/Desktop/冯诺依曼瓶颈/night-experience-20261018/.godot/startup-probe-b4e35447c7b8/appdata/VonNeumannBottleneckCandidates/representation/JourneyEditor20261018"
+  },
+  "raw_summary": {
+    "path": ".godot\\startup-isolated-journey-caf9e2b-summary.json",
+    "sha256": "e2a30ab116329d243aed34a28557f880b1968cb5c1d55ee796490e3c2f61f953"
+  },
+  "raw_receipts": [
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-fixed-watch\\cf1fb328fb01\\source\\.godot\\verification\\20261018T115930Z-b539d1ae\\results.json",
+      "sha256": "6e0a5b07ef5b7bdbd2134da599b96ef1f456d39b1833811ce17c34476671bea8",
+      "bytes": 1357
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-fixed-watch\\cf1fb328fb01\\copy-parity.json",
+      "sha256": "5015d0973ee7149b5a19ecaed07afa25d5a01d4488963c2bd6227ded957c7997",
+      "bytes": 461842
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-fixed-watch\\cf1fb328fb01\\owned-processes.json",
+      "sha256": "cb152f441e26baf9d9a96218ce52ce3aace2074f540c0a081d1d58da82f7de14",
+      "bytes": 4064
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-fixed-watch\\cf1fb328fb01\\source-manifest.json",
+      "sha256": "d0fbf7edd2c01a86c1f39646e9c84d24ea6956acb99d98c393d28df96c0f7e20",
+      "bytes": 1429861
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\startup-fixed-1e511a11cf4a\\process.json",
+      "sha256": "7d8a384d69204e0b3919c62d5db3579309f6ed0e91bf2008232ebd6360f8cea1",
+      "bytes": 1341
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\startup-prepare-e5e85f866207\\process.json",
+      "sha256": "1320ba6ea177618f9a4b22d2420723406958853507418db26d6ebc49bce9eea4",
+      "bytes": 1304
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\experiments\\36d9b2f6dede\\import.txt",
+      "sha256": "0e5409500465efb5991c59d8748c95a55be47bb6a92a9f38639747c8547c2818",
+      "bytes": 28506
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\startup-probe-b4e35447c7b8\\process.json",
+      "sha256": "146f218d38cc46bdf052c690717743aa6fa4bbcca5a91f43c5b66ff3f896d456",
+      "bytes": 1732
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\startup-probe-b4e35447c7b8\\probe.json",
+      "sha256": "7e89fed70e17cda1f3da92e56cca0baf8410fb406a065f2364cbdefd3b1d45e3",
+      "bytes": 2724
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\run-startup-fixed-caf9e2b.py",
+      "sha256": "6f64cc5e1fb858e7c07dc189d68425d99a4b3118d85afb6d2154e887ce76b3e4",
+      "bytes": 7309
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\run-startup-owned-stage.py",
+      "sha256": "7071fe01d04d1d754c35da1306459888052578c508c227f81709fbc420353247",
+      "bytes": 3110
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\startup-generated-project-probe.gd",
+      "sha256": "644548908d4cbd17e64f9375839a6af0dc983fc94d552f7a1d65dbd45fee69c6",
+      "bytes": 3279
+    }
+  ],
+  "limits": [
+    "No change to root project settings, task gates, simulation or save formats.",
+    "No manual F5, GUI readability, task playthrough or desired3D laboratory acceptance.",
+    "Existing Windows ZIPs remain fixed5bd; this is a source preview copy and does not automatically follow further edits.",
+    "Player/editor UID/import files and user-owned Godot process were preserved."
+  ]
+}

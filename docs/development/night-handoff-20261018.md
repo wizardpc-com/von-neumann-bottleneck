@@ -1,5 +1,8 @@
 # 10月18日交接：最后旅程版本
 
+**后续用户验收更正：** 用户实际打开本工作树根`project.godot`，默认只有40项；下列60项导出包验收不能代替源码F5入口验收。现有3D仅只读成果展示，用户的实验室要求尚未满足。完整对话改动、源码启动修正与Claude优先事项见[开发交接](CLAUDE_HANDOFF_20261018.md)。
+
+
 当前版本SOURCE为`5bd3792b022ec053f62eaeca9f53a791e201bcd9`：Locality同次实际／门槛／差额与原Trace入口、FirstLight可替换静图已交付。源6c完整Windows177通过；5bd七阶段、Locality518及同源Linux完整CI通过，FirstLight197原输入不变沿用。新普通实际EXE219＋strict48，测试者229＋随包capture142／reopen19＋strict48、最终1ZIP／4现场／4修订记录／2session全部通过；本轮工程收尾，外部观察保留。[最终证据](../verification/20261018-journey-final/README.md) · [c84恢复证据](../verification/20261018-latch-rule-example/README.md)。
 
 ## 启动与成果保护

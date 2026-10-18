@@ -1,5 +1,13 @@
 # Execution queue
 
+Owner acceptance follow-up: root source F5 exposes40 tasks and the3D display does
+not meet the requested laboratory experience. Small source-entry correction
+`caf9e2b` and an isolated60-task preview are verified within a headless scope.
+[Claude development handoff](../../development/CLAUDE_HANDOFF_20261018.md) records
+all conversation changes and unmet requirements; engineering closure below does
+not mean product acceptance. No further autonomous feature round is scheduled.
+
+
 The [final journey candidate](../completed/journey-final-candidate-20261018.md),
 [full-journey development](../completed/full-journey-experience-20261018.md) and
 [narrative modal-focus round](../completed/narrative-modal-focus-20261018.md) are

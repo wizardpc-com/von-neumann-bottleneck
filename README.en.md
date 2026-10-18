@@ -80,7 +80,22 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 
 [Your first Alpha session](docs/distribution/astra-challenge/quickstart.en.md) · [September 2026 challenge preparation (archive)](docs/distribution/astra-challenge/README.md)
 
+[Claude development handoff and unmet requirements](docs/development/CLAUDE_HANDOFF_20261018.md)
+
 ### Run from source
+
+**Source launch distinction:** opening the root `project.godot` / F5 enables the original40 tasks. The60-task packages use an isolated candidate configuration. The3D view is a read-only results-display prototype; an interactive3D laboratory remains unmet.
+
+Prepare the full journey with ordinary progression and a separate profile:
+
+```powershell
+python -X utf8 scripts/run-experiment.py creation --journey --profile JourneyEditor20261018 --godot ../godot-4.7.1/Godot_v4.7.1-stable_win64_console.exe --prepare-only
+```
+
+Prepared on this machine: [full60-task Godot project](.godot/experiments/36d9b2f6dede/project/project.godot). This preview copy does not automatically follow later source edits.
+
+Open the exact `project.godot` path printed by this command in Godot, then press F5. Find Compression, Content prediction and Creation (C1–C3/P1–P3/G1–G3) on the map; original prerequisites still apply. Reusing `JourneyEditor20261018` resumes that separate candidate profile. Replace the engine path on other machines.
+
 
 Install **Godot 4.7.1 stable**, make its executable available as `godot` on your `PATH`, then run:
 

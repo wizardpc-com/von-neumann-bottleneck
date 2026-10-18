@@ -21,6 +21,8 @@ removed; recover historical task books from Git when needed.
 
 ## Development and distribution
 
+- [Claude development handoff: conversation changes and unmet owner requirements](development/CLAUDE_HANDOFF_20261018.md)
+
 - [Shared collaboration](development/collaboration.md) · [Git workflow](development/git-workflow.md)
 - [Testing commands](development/testing.md) · [Mac setup](development/mac-handoff.md)
 - [Task matrix](development/task-matrix.md) · [Adding tasks](development/adding-tasks.md)

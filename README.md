@@ -74,7 +74,21 @@
 
 [公开 Alpha 第一次游玩指引](docs/distribution/astra-challenge/quickstart.zh-CN.md) · [2026 年 9 月参赛准备（历史资料）](docs/distribution/astra-challenge/README.md)
 
+[Claude开发交接与未满足需求](docs/development/CLAUDE_HANDOFF_20261018.md)
+
 ### 从源码运行
+
+**源码启动区别：** 本目录的根 `project.godot` / F5 默认只启用原核心40项；它不等于上面的60项候选包。扩展内容须通过下面的隔离项目启动，不能只加解锁开关或复用正式存档。当前3D是只读成果展示原型，并未满足可搭建、运行系统的3D实验室要求。
+
+完整60项源码旅程（普通进度、独立新档）：
+
+```powershell
+python -X utf8 scripts/run-experiment.py creation --journey --profile JourneyEditor20261018 --godot ../godot-4.7.1/Godot_v4.7.1-stable_win64_console.exe --prepare-only
+```
+
+本机已生成：[完整60项Godot工程](.godot/experiments/36d9b2f6dede/project/project.godot)。这是独立预览副本，后续源码编辑不会自动同步。
+
+在Godot中打开命令输出的 **`project.godot`完整路径**，再按F5。地图可找到「压缩」「内容预测」「创造」三个区域（C1–C3／P1–P3／G1–G3），任务仍遵守真实前置条件。`JourneyEditor20261018` 与旧包profile分离；复用它会续用该候选存档。其他机器替换 `--godot` 为实际4.7.1路径。
 
 安装 **Godot 4.7.1 stable**，将可执行文件加入 `PATH`，然后运行：
 

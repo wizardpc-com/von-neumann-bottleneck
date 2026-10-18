@@ -1,5 +1,20 @@
 # Current state — journey Windows candidate
 
+**Owner review correction (2026-10-18):** direct F5 from this checkout's root
+`project.godot` still selects the original40 tasks because candidate settings are
+not enabled there. The60-task exported ZIP checks below do not establish source
+F5 parity or discoverability. The owner also rejects the current3D display as
+meeting the laboratory requirement; it is a read-only results/navigation prototype.
+Engineering verification remains valid within its scope, while these product
+requirements remain unmet. See [Claude development handoff](development/CLAUDE_HANDOFF_20261018.md)
+and the isolated source launch instructions in [README](../README.md#从源码运行).
+The small source-entry correction is committed at `caf9e2b`; five focused headless
+stages pass. A separately configured ordinary source-preview project is prepared
+and its actual autoload enumerates60 tasks with no preset completion. This confirms
+configuration and Home identity, not manual F5 or a satisfactory3D laboratory.
+[Exact preview path and scoped results](verification/20261018-journey-final/source-entry-correction.json).
+
+
 Product source is `5bd3792b022ec053f62eaeca9f53a791e201bcd9` on
 `codex/journey-final-candidate-20261018`. PR10 is merged into `main` at `bf8f616`;
 this candidate remains a separate unpublished branch. It includes the 60-task

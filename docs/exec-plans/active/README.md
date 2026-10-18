@@ -1,10 +1,11 @@
 # Execution queue
 
-The [measured-growth round](measured-growth-20261018.md) is **active** from2e488c3.
-It connects actual unmet conditions to original evidence, adds an optional CPU
-comparison reflection and distinct hardware/system observatory apparatus.
-Current model, save and progression authority remain unchanged. Previous fixed
-packages remain available; new source must earn its own acceptance.
+The [measured-growth round](../completed/measured-growth-20261018.md) is complete
+within its recorded engineering scope. Product source97516b passes175 full Windows
+stages, both original package chains and separate147/193 supplemental checks.
+The [evidence and next-day handoff](../../verification/20261018-measured-growth/README.md)
+retains exact source, failure and native-input boundaries. A fixed tester footer
+overlap remains a bounded follow-up alongside the next C→P→G presentation round.
 
 The [saved-work review round](../completed/saved-work-review-20261018.md) and
 [replaceable creative presentation round](../completed/creative-framework-20261018.md)

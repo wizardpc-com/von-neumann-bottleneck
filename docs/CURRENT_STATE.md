@@ -2,10 +2,10 @@
 
 [简体中文介绍](../README.md) · [English introduction](../README.en.md) · [更新说明 / Changelog](../CHANGELOG.md)
 
-## Active continuation — measured growth
+## Measured-growth candidate — 2026-10-18
 
-The next round is active on `codex/measured-growth-20261018` from the pushed
-handoff2e488c3. Its [versioned plan](exec-plans/active/measured-growth-20261018.md)
+The measured-growth stage continues from the pushed handoff2e488c3 on
+`codex/measured-growth-20261018`. Its [versioned plan](exec-plans/completed/measured-growth-20261018.md)
 adds actionable Layout/Overlap evidence, an optional CPU-comparison reflection
 and distinct hardware/system observatory apparatus. Fixed sourcee3e475d passes all20 focused stages, including actual edit invalidation,
 restored apparatus geometry and protected original works. Source69b785a passes20 focused stages and all three renderer suites
@@ -24,11 +24,16 @@ Both roles also pass actual Windows Home→Observatory→near view→F8→Esc→
 and normal exit in cloned QA profiles; nineteen original images and protected
 post-exit state have independent review. This establishes the stated seeded QA
 routes only. Supplementary legal hardware preparation and CPU/target checks use
-a separately reviewed external QA controller. Its legal-preparation attempt passes
-147 in-engine checks and exits0, but the external audit rejects eleven same-value
-integer-to-float changes from the original workbench serializer. That attempt
-remains failed; a narrowly enumerated serializer expectation is independently
-reviewed before a new run. The strict-reopen validator and product ZIPs are unchanged.
+a separately reviewed external QA controller at checkpoint8a9c43e. Fresh ordinary
+and tester runs pass147 and193 checks respectively, with natural exit0 and exact
+original-parent protection. Ordinary target chapters remain locked; the tester
+exercises their original access contract. Eleven explicitly enumerated tutorial
+number encodings from the original Store serializer are independently checked;
+other typed values stay strict. The earlier startup and serializer-audit failures
+retain their failed receipts. The strict-reopen validator and product ZIPs are
+unchanged. New package images receive separate per-image review. The fixed tester
+footer can cover secondary Handbook/bottom-dock controls; its foreground evidence
+and Run-all action remain visible. This limitation is queued for a bounded fix.
 The [measured-growth evidence](verification/20261018-measured-growth/README.md)
 keeps exact source/package identities and the previous failed supplement.
 The fixedc109 pair below remains the previous recovery baseline.

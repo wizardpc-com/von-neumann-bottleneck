@@ -1,10 +1,10 @@
 {
-  "stage": "ACTIVE_ENGINEERING_VALIDATION",
+  "stage": "COMPLETED_WITHIN_ENGINEERING_SCOPE",
   "broad_goal_status": "ACTIVE",
   "baseline_commit": "2e488c387ab1a0b95f37036ca025878fdeaab085",
   "candidate_source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
   "branch": "codex/measured-growth-20261018",
-  "source_authority": "Product SOURCE97516 fixed. Full175, original normal128+strict47, tester138+bundled-child+strict47 and limited two-role ObservatoryOS routes remain scoped accepted. Original fd6 clone failed startup; newer cb9e legal-prep clone f322 ran147GD and5frames but wrapper302 failed old Store11-pointer typed guard, no validation. Current wrapperb213 explicit codec boundary has both independent static reviews PASS and runtime NOT_RUN; probe736/strict7b9/product/ZIP unchanged. Rendered source scopes69/2c remain separate.",
+  "source_authority": "Fixed product SOURCE97516: full175, normal original128+strict47+new legal-prep147, tester original138+bundled collector+strict47+new193 and limited ObservatoryOS19 frames accepted within separate scopes. New external QA commit8a9c43e/probe736/wrapperb213, unchanged strict7b9, no product or ZIP rebuild. fd6/f322 failures remain historical. Composite renderer sources69/2c retained; broad goal ACTIVE.",
   "current_gates": {
     "source_reviews": "PASS_STATIC_SCOPE: cross-review ring plus independent external-QA review",
     "full_windows": {
@@ -220,168 +220,473 @@
       }
     },
     "cloned_measured_supplement": {
-      "status": "FAIL_NORMAL_LEGAL_PREPARATION_WRAPPER_CODEC_GUARD",
-      "work": ".godot/night-package/measured-f32298c0a1b1",
+      "status": "PASS_ROLE_BOUNDED_EXPORTED_SUPPLEMENTS",
       "product_source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
-      "executed_qa_commit": "cb9e6aaf372e5e47d97293e66b78bfb11db4abcc",
-      "executed_probe_sha256": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
-      "executed_wrapper_sha256": "9a3c7393fcdda4ab8deef320c9199dd4d82cfcdb932c48f8866e38fea5d11295",
-      "summary": {
-        "path": ".godot/f4-normal-measured-legal-prep-FAIL-summary.json",
-        "sha256": "eed1a4d26411856205fe9bcd5eba3f9390a3d965d80e1d468fda91546c317db0"
-      },
-      "raw_sha256": "5723090b5285182f07f9bb66cf77d0d9e329e2113dd6624fc6a5f3c2e633f834",
-      "seed_sha256": "41b45cca89ce4770b194a2a05e29f1d89f07f83aff199bacbc42c89c081feb85",
-      "process_sha256": "022349e7247b9503683b5ea25cecd611e29ac545a7ce67576356d6fdad71f254",
-      "post_exit_files_sha256": "cf5766244410b4e7a8e67654de1ebfdd322fd32aca0b68a8096e3565f6d1ce93",
-      "log_sha256": "607ec49d6c711e774cb862c18722896483f0db7f57150cf491e777a58dd76f15",
-      "engine_pid": 9812,
-      "engine_exit": 0,
-      "engine_terminated_reason": "",
-      "gd_checks": 147,
-      "gd_all_true": true,
-      "gd_failures": [],
-      "no_engine_ERROR": true,
-      "wrapper_exit": 1,
-      "first_wrapper_failure": {
-        "file": "scripts/verify-night-package.py",
-        "line": 302,
-        "message": "Unrelated original hardware workbench changed"
-      },
-      "validation_exists": false,
-      "independently_verified_frames": [
-        {
-          "dimensions": [
-            1280,
-            720
-          ],
-          "file": "apparatus-near.png",
-          "sha256": "2cb7e10ceeb720c218991d962c21373bdeca89b2d79a6ba0d8608fbfdfd077d2"
-        },
-        {
-          "dimensions": [
-            1280,
-            720
-          ],
-          "file": "apparatus-feedback.png",
-          "sha256": "6b95106fa12dd6405de9326d602b9d3fc7edacbf3b8ed28e22389c952ce425c8"
-        },
-        {
-          "dimensions": [
-            1280,
-            720
-          ],
-          "file": "apparatus-overview.png",
-          "sha256": "e5938463034de3f8cb2be7bc9cef46bcd5184416ac782f9dc9e77a3acd5b5ff3"
-        },
-        {
-          "dimensions": [
-            1280,
-            720
-          ],
-          "file": "cpu-controlled-pair.png",
-          "sha256": "f7dbcecbb881e73a0d6905c8819abaf948c987a69c45138a01f7926d73de10dd"
-        },
-        {
-          "dimensions": [
-            1280,
-            720
-          ],
-          "file": "cpu-fragment-feedback.png",
-          "sha256": "f1783d467c6cd4f7686f6dca14fa9da988bc09b9bb9d04a755d6646a8e4042cc"
-        }
-      ],
+      "qa_commit": "8a9c43ea0ecc3982c6833f7a5654c68f207a12c7",
       "visual_review": {
-        "path": ".godot/night-package/measured-f32298c0a1b1/visual-independent-audit.json",
-        "sha256": "b939bdfb592087eedc492805d18795570d874d856a5f5d4614e4dbb52cb1a432",
-        "result": "PASS_VISUAL_SCOPE_ONLY_OVERALL_FAIL_UNCHANGED",
-        "actual_frames_viewed": 5,
-        "limits": "Chinese1280x720 only, legal reference-wired original official/sealing controller preparation, not native/unaided player journey. Deeper CPU explanation/chart return uses original scroll; not all text same-screen."
+        "status": "PASS_SCOPE_WITH_FIXED_TESTER_FOOTER_LIMITATION",
+        "roles": {
+          "normal": {
+            "path": ".godot/night-package/measured-354949881fd3/visual-independent-audit.json",
+            "sha256": "91dae7ab01ba19ecfd28550bd9330acad9fd1c63225f82c251ba9fcd9fa8164a",
+            "status": "PASS_VISUAL_SCOPE",
+            "frames_actually_viewed_and_hashed": 5
+          },
+          "tester": {
+            "path": ".godot/night-package/measured-850a1c4a00fb/visual-independent-audit.json",
+            "sha256": "3d030c1e7e75cd6440e0cb4c839ad0006e760b4da512c27d1eb90008a783dcc7",
+            "status": "PASS_VISUAL_SCOPE_WITH_FOOTER_LIMITATION",
+            "frames_actually_viewed_and_hashed": 10
+          }
+        },
+        "all15_new_frames_hashes_independently_recomputed": true,
+        "scope": "Actual new SOURCE97516 exported controller, Chinese1280x720 only; normal147/Targets locked, tester193 using original fixed permissions. Layout actual128/64 traffic over64; Overlap laterB33/32 and line3not_ready. Not OS/newcomer/natural prologue. Deep original scroll and intentional modal overlays remain.",
+        "limitation": "Fixed tester720 F8/export strip at actual bottom partially overlaps System Handbook chip and Overlap bottom dock; foreground CodeEdit RunAll and main witness/source/three steps readable. Not the old69 QA cross-role residue; no claim of all dock controls unobstructed or mouse-tested. Product not silently changed."
       },
-      "old_tutorial_exact_typed_differences": [
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/components/0/output_port_widths/0",
-          "before_type": "int",
-          "before": 1,
-          "after_type": "float",
-          "after": 1.0
+      "roles": {
+        "normal": {
+          "status": "PASS_EXPORTED_GAME_MODE_CONTROLLER_SCOPE",
+          "work": ".godot/night-package/measured-354949881fd3",
+          "checks": 147,
+          "all_true": true,
+          "failures": [],
+          "engine_pid": 25212,
+          "engine_exit": 0,
+          "terminated_owned_child_reason": "",
+          "wrapper_exit": 0,
+          "summary": {
+            "path": ".godot/f4-normal-measured-legal-prep-PASS-summary.json",
+            "sha256": "16c55d14c6496f9cccda98e502faccafb4062f949a46c702309a78b22de43168"
+          },
+          "receipts": {
+            "validation.json": "573bcc7465e7f33e336c2e5b91eaa3a3db3b78bca29b5ddabba300c40fa1ef41",
+            "measured-evidence.json": "63e865257185895a5ac1e821a7180b999d9b8f92b2d0bf1022bfc223fa480e9a",
+            "process.json": "8eac445b6912b97170f4dc718f5bc682df713fd343820e873fd7fa2beb559f9a",
+            "seed.json": "41b45cca89ce4770b194a2a05e29f1d89f07f83aff199bacbc42c89c081feb85",
+            "post-exit-files.json": "1a841db6acdcd14bddc90d3de2ad5b7410c3b21ec29336f0b4e0f052c5d7689e",
+            "engine.log": "63e03243611f9c3fa08c6df5aff799282a6adacf3d71ec0336a4132a5dcc3ce0",
+            "measured.log": "607ec49d6c711e774cb862c18722896483f0db7f57150cf491e777a58dd76f15"
+          },
+          "identities": {
+            "source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+            "build_id": "playtest-MeasuredGrowthExperience20261018-97516b21f459",
+            "profile": "MeasuredGrowth20261018",
+            "tester": false,
+            "zip_sha256": "c09d24093e233b1019903bf94d0c3256061e555cf6d71463e0e56ff7f995a82d",
+            "exe_sha256": "f25c7b9bc4a59e0c53c016de0c035eca1490b9111877e92c1480a0ca4af9613f",
+            "embedded_pack_sha256": "ab537353feb43dc71f4f8f1eaa109d66b34c7dddb33ea54df8a01ee455731b71",
+            "parent_receipt_sha256": "4df0ecfe6d8a1e56c8fffc7a6bd6c13d367d7fdf61e9842fa17830acf70aed05",
+            "strict_validation_sha256": "b8b4fe3a8ad2d9192a4a58889b81c0cf162e85bddb72848e941bd6543175e6c0",
+            "parent_controller_sha256": "9fb11c3d276816872b1fed655e646fc39b3e0b843ae42ee3d2adf0bd5e3a1a5f",
+            "controller_sha256": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
+            "validator_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7"
+          },
+          "frames": [
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "apparatus-near.png",
+              "sha256": "2cb7e10ceeb720c218991d962c21373bdeca89b2d79a6ba0d8608fbfdfd077d2"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "apparatus-feedback.png",
+              "sha256": "6b95106fa12dd6405de9326d602b9d3fc7edacbf3b8ed28e22389c952ce425c8"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "apparatus-overview.png",
+              "sha256": "e5938463034de3f8cb2be7bc9cef46bcd5184416ac782f9dc9e77a3acd5b5ff3"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "cpu-controlled-pair.png",
+              "sha256": "f7dbcecbb881e73a0d6905c8819abaf948c987a69c45138a01f7926d73de10dd"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "cpu-fragment-feedback.png",
+              "sha256": "f1783d467c6cd4f7686f6dca14fa9da988bc09b9bb9d04a755d6646a8e4042cc"
+            }
+          ],
+          "fixed11_codec_conversions": [
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/schema_version",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/components/0/output_port_widths/0",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/components/1/input_port_widths/0",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/components/2/input_port_widths/0",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/components/2/output_port_widths/0",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/0/color_index",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/0/from_port",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/0/to_port",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/1/color_index",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/1/from_port",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/1/to_port",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            }
+          ],
+          "postexit_save_time_or_backup_rotation": [
+            {
+              "path": "savegame_v1.json",
+              "prepared_sha256": "6ffb24f1d2d03a4973b5307529cc506426ea6eab8f9b184218c5785ec9f23530",
+              "after_sha256": "b6151811111f260efab5830ef1396153e06593b0f3ce71eefb4291f44985ab0b",
+              "payload": "exact prepared main or backup except top saved_at_utc; no numeric normalization"
+            },
+            {
+              "path": "savegame_v1.json.bak",
+              "prepared_sha256": "dc2b277a4c46a0604b460fea4e7c610ad691841253c362f02bdaa7be9cb29064",
+              "after_sha256": "6ffb24f1d2d03a4973b5307529cc506426ea6eab8f9b184218c5785ec9f23530",
+              "payload": "exact prepared main or backup except top saved_at_utc; no numeric normalization"
+            }
+          ],
+          "parent_runtime_files": 18,
+          "parent_runtime_directories": 36,
+          "parent_runtime_current_whole_map_exact": true,
+          "clone_changed_files": 7,
+          "clone_added_directories": 0,
+          "clone_removed_directories": 0,
+          "original_work_id": "67f5602f7e4f0b670f2b0c01424e27b1f3390797586f8ef3174422bcae67f8e3",
+          "original_session_sha256": "20f4c259ad9101722a926577da6d3c14a73b1ca37b4af658e49704c08c4025d2",
+          "independent_audit": "Evidence author recomputed current hashes, every frame PNG dimensions/hash, parent and clone whole maps, product payload7or10+EXE/PCK/ZIP, typed CPU/final substantive audits and backup memberships, event-derived records/preferences, all frozen readonly validation tail including fixed11 codec/postexit/aux/files/directories; no engine launch or receipt writes.",
+          "targets_status": "NOT_RUN_NORMAL_LOCKED",
+          "limits": "Reference-wired original official/sealing controller preparation in disposable clone, not natural player journey/native CPU/Targets. Actual new frame visual review separate.",
+          "visual_review": {
+            "path": ".godot/night-package/measured-354949881fd3/visual-independent-audit.json",
+            "sha256": "91dae7ab01ba19ecfd28550bd9330acad9fd1c63225f82c251ba9fcd9fa8164a",
+            "status": "PASS_VISUAL_SCOPE",
+            "frames_actually_viewed_and_hashed": 5
+          }
         },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/components/1/input_port_widths/0",
-          "before_type": "int",
-          "before": 1,
-          "after_type": "float",
-          "after": 1.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/components/2/input_port_widths/0",
-          "before_type": "int",
-          "before": 1,
-          "after_type": "float",
-          "after": 1.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/components/2/output_port_widths/0",
-          "before_type": "int",
-          "before": 1,
-          "after_type": "float",
-          "after": 1.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/schema_version",
-          "before_type": "int",
-          "before": 1,
-          "after_type": "float",
-          "after": 1.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/color_index",
-          "before_type": "int",
-          "before": 0,
-          "after_type": "float",
-          "after": 0.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/from_port",
-          "before_type": "int",
-          "before": 0,
-          "after_type": "float",
-          "after": 0.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/to_port",
-          "before_type": "int",
-          "before": 0,
-          "after_type": "float",
-          "after": 0.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/color_index",
-          "before_type": "int",
-          "before": 0,
-          "after_type": "float",
-          "after": 0.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/from_port",
-          "before_type": "int",
-          "before": 0,
-          "after_type": "float",
-          "after": 0.0
-        },
-        {
-          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/to_port",
-          "before_type": "int",
-          "before": 0,
-          "after_type": "float",
-          "after": 0.0
+        "tester": {
+          "status": "PASS_EXPORTED_GAME_MODE_CONTROLLER_SCOPE",
+          "work": ".godot/night-package/measured-850a1c4a00fb",
+          "checks": 193,
+          "all_true": true,
+          "failures": [],
+          "engine_pid": 12160,
+          "engine_exit": 0,
+          "terminated_owned_child_reason": "",
+          "wrapper_exit": 0,
+          "summary": {
+            "path": ".godot/f4-tester-measured-legal-prep-PASS-summary.json",
+            "sha256": "166bae499e768a92d94f4bd972eb1c9382cfaf80487ff1f78655f9a47db7e488"
+          },
+          "receipts": {
+            "validation.json": "92b4d38372bc6516be5246c534de2d81603f0db33804a4e95cd30e6b5f2375ec",
+            "measured-evidence.json": "84af351c9794713094b643804f23d4affddbc8560c4be39f2e4efe9052867625",
+            "process.json": "12457e7aedc6e03b45c20c6428a0f7976d2c6fd6219ac7a387ecbe46a6a1c0ae",
+            "seed.json": "4a0d43154f6208c79680e6d7f387f04726b581bdc4fbdcc25462217528d20b1d",
+            "post-exit-files.json": "9de52ca9f2c5d1ad3120a9b8fd3abb4a3a10dea3484303777ce0ae33721fb61b",
+            "engine.log": "63e03243611f9c3fa08c6df5aff799282a6adacf3d71ec0336a4132a5dcc3ce0",
+            "measured.log": "607ec49d6c711e774cb862c18722896483f0db7f57150cf491e777a58dd76f15"
+          },
+          "identities": {
+            "source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+            "build_id": "playtest-MeasuredGrowthAccess20261018-97516b21f459",
+            "profile": "OfflineTeammate-MeasuredGrowth20261018",
+            "tester": true,
+            "zip_sha256": "e8c4e5e0707c9114aac0f86834e10e127d79730daad673de9c16aa4e895ab8c6",
+            "exe_sha256": "33b7de45c1a49b93c01aa56838b1c36cef331b497c151c30c4075e16c18e9d23",
+            "embedded_pack_sha256": "72b6a230730cbec45773a1bb30d7650033953e4e62c326a812558bd33cfb48bc",
+            "parent_receipt_sha256": "d3feae7235e2928308cbe6e80a28536045d44d55442b82717edc1f8b20a475d4",
+            "strict_validation_sha256": "4a24b85454ef1e8e95c0896d538b0e0648cf76a4e9bca42ac89e0cfd5a281125",
+            "parent_controller_sha256": "9fb11c3d276816872b1fed655e646fc39b3e0b843ae42ee3d2adf0bd5e3a1a5f",
+            "controller_sha256": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
+            "validator_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7"
+          },
+          "frames": [
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "apparatus-near.png",
+              "sha256": "97c9e8a34fd525ec2757b2f818c84e38f5d3be5fc874d87af15a00ba46d8f84e"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "apparatus-feedback.png",
+              "sha256": "1e0342d5193d258b8831c4e667c56e9bc19328b044b595cae951702e1b11b427"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "apparatus-overview.png",
+              "sha256": "6831eb0aed01e5d53b7405ddfca27b3dd1bbdcfb339fc91c147e982803c1d371"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "cpu-controlled-pair.png",
+              "sha256": "601360eb9df60493a9b57d3ef2549a7e9f790e8bb6fb9c4675347f11c14c4503"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "cpu-fragment-feedback.png",
+              "sha256": "b0d325c9c622f29d5ea48489a43cf6351f9919d78b646a63b0983d90c618cd29"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "layout-traffic-witness.png",
+              "sha256": "0c5cf9f80a6b4febbc3f114b2c20b8ea0fdaa99e6be168efab9875c1277bc568"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "layout-guidance-feedback.png",
+              "sha256": "5d23d2a71dde7c777fc7495569dd19b562b461af6e6db9b993fdef4bda9595b5"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "overlap-later-case-witness.png",
+              "sha256": "5bfe3fceba651ed3e7263068528d58235328ff216416c13b94ed528aafa0ec9d"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "overlap-runtime-witness.png",
+              "sha256": "022825f04469161e3933bee5e5b8da9a7dd7049bceb6c2ea4cc4f2102b6b0940"
+            },
+            {
+              "dimensions": [
+                1280,
+                720
+              ],
+              "file": "overlap-guidance-feedback.png",
+              "sha256": "56872b799c9189523d99205a0c2fc23232277bc6546f397210572da60bee744f"
+            }
+          ],
+          "fixed11_codec_conversions": [
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/schema_version",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/components/0/output_port_widths/0",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/components/1/input_port_widths/0",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/components/2/input_port_widths/0",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/components/2/output_port_widths/0",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 1,
+              "to": 1.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/0/color_index",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/0/from_port",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/0/to_port",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/1/color_index",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/1/from_port",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            },
+            {
+              "path": "/namespaces/game/tutorial/workbenches/default/wires/1/to_port",
+              "from_type": "int",
+              "to_type": "float",
+              "from": 0,
+              "to": 0.0,
+              "reason": "original CircuitWorkbenchStore JSON load / full_precision whole-manifest save"
+            }
+          ],
+          "postexit_save_time_or_backup_rotation": [
+            {
+              "path": "savegame_v1.json",
+              "prepared_sha256": "732634e951e0cfee7dba21ec2a5e2e7ec5073cad7460fc8da61c117b57af2e1f",
+              "after_sha256": "732634e951e0cfee7dba21ec2a5e2e7ec5073cad7460fc8da61c117b57af2e1f",
+              "payload": "exact prepared main or backup except top saved_at_utc; no numeric normalization"
+            },
+            {
+              "path": "savegame_v1.json.bak",
+              "prepared_sha256": "732634e951e0cfee7dba21ec2a5e2e7ec5073cad7460fc8da61c117b57af2e1f",
+              "after_sha256": "732634e951e0cfee7dba21ec2a5e2e7ec5073cad7460fc8da61c117b57af2e1f",
+              "payload": "exact prepared main or backup except top saved_at_utc; no numeric normalization"
+            }
+          ],
+          "parent_runtime_files": 35,
+          "parent_runtime_directories": 44,
+          "parent_runtime_current_whole_map_exact": true,
+          "clone_changed_files": 18,
+          "clone_added_directories": 4,
+          "clone_removed_directories": 0,
+          "original_work_id": "67f5602f7e4f0b670f2b0c01424e27b1f3390797586f8ef3174422bcae67f8e3",
+          "original_session_sha256": "20f4c259ad9101722a926577da6d3c14a73b1ca37b4af658e49704c08c4025d2",
+          "independent_audit": "Evidence author recomputed current hashes, every frame PNG dimensions/hash, parent and clone whole maps, product payload7or10+EXE/PCK/ZIP, typed CPU/final substantive audits and backup memberships, event-derived records/preferences, all frozen readonly validation tail including fixed11 codec/postexit/aux/files/directories; no engine launch or receipt writes.",
+          "targets_status": "PASS_ORIGINAL_HOSTS_WITH_FIXED_TESTER_ACCESS",
+          "limits": "Reference-wired original official/sealing controller preparation in disposable clone, not natural player journey/native CPU/Targets. Actual new frame visual review separate.",
+          "visual_review": {
+            "path": ".godot/night-package/measured-850a1c4a00fb/visual-independent-audit.json",
+            "sha256": "3d030c1e7e75cd6440e0cb4c839ad0006e760b4da512c27d1eb90008a783dcc7",
+            "status": "PASS_VISUAL_SCOPE_WITH_FOOTER_LIMITATION",
+            "frames_actually_viewed_and_hashed": 10
+          }
         }
-      ],
-      "source_mechanism": "CircuitWorkbenchStore._load_from_disk:266 JSON.parse_string then deep-copy of namespaces; manifest_snapshot sorts/recasts manifest headers but deep-copies old workbench snapshots. _persist:411 JSON.stringify(manifest_snapshot(),tab,false,true) saves the whole namespace with full_precision when new levels ensure/save their original workbenches. This reserializes11 old tutorial integer fields as same-valued floats without editing its circuit. All other old fields/types/array order/values exact.",
-      "normal_targets_status": "NOT_RUN_NORMAL_LOCKED",
-      "original_parent_runtime_unchanged": true,
-      "existing_original_CPG_session_unchanged": true,
-      "scope": "Engine/GD and scoped visuals passed but complete supplement FAIL: wrapper validation was not produced. No retroactive success; fd6 original startup failure remains in historical_gate_snapshots."
+      }
     },
     "new_native_os": {
       "status": "PASS_SCOPE_OBSERVATORY_ONLY",
@@ -1394,7 +1699,7 @@
     "Target guidance fixture actually trains/transports/predicts/generates/saves one work and closes its writer; read-only locate/F8 protects its actual session/recipe plus game, drafts, receipts, nav and empty writer/recovery locks. This is controller QA setup, not a natural journey.",
     "Efficiency uses real official reference slow/fast CPU test-mode runs and original selected pair. It never imports this test completion into game history; current draft differs from original receipt identity.",
     "Apparatus derives task identity and earned lighting from real catalog records. QA boundary dictionaries are not earned achievements; geometry is an abstract archive, not actual saved circuit or energy measurement.",
-    "In-process strict protection and post-normal-exit timestamp/backup rotation are distinct. Future package receipts must disclose actual typed payload/file-map timing and only the existing explicitly recorded six tester coordinates if applicable."
+    "In-process strict protection and post-normal-exit timestamp/backup rotation are distinct. Actual receipts disclose typed payload/file-map timing. Existing six tester coordinates belong only to original strict loading; new supplements add no broad normalization, only explicit fixed11 original tutorial Storecodec boundaries."
   ],
   "recovery_baseline": {
     "source": "c109f0e9761726645faaa8d86d83fafa590cdec4",
@@ -1408,7 +1713,7 @@
   ],
   "open_broader_goal": [
     "Optional C1→P1→G3 model/reveal/save learning fragment remains a candidate to implement without duplicating existing ledgers.",
-    "Current-version showcase/architecture and actual-frame handoff material still needs appropriate review; no fake before/after pair.",
+    "Five current showcase frames and editable architecture/recording scripts exist; actual videos, broader art and human review remain open.",
     "Newcomer comprehension, Mac, real historical player works and broader native routes remain untested here.",
     "Final character/CG/voice/ending variants need actual replaceable materials and team review, not permanent exclusion or automatic finalization."
   ],
@@ -1492,7 +1797,7 @@
     "to_source": "2c56fd48b14d105961f380211102512d19e544de",
     "changed_paths_root_git_verified": [
       "tests/test_observatory_apparatus.gd",
-      "docs/exec-plans/active/measured-growth-20261018.md"
+      "docs/exec-plans/completed/measured-growth-20261018.md"
     ],
     "independent_current_raw_comparison_to_69": {
       "inputs_compared": 714,
@@ -1753,8 +2058,172 @@
         "exported_test_mode_contract": "GameMode.set_mode(test) explicitly returnsfalse for free_candidate; probe ignored return. Unchanged normal task gates then reject CPU/Layout entry. No evidence of simulator regression from this invalid setup.",
         "crash_boundary": "Natural native access-violation exit observed; exact engine crash mechanism not established from following setup errors."
       },
-      "repair_status": "IMPLEMENTED_PASS_BOTH_STATIC_REVIEWS_RUNTIME_NOT_RUN",
-      "limits": "Original normal parent128/strict47, tester original chain and limited native routes remain separately accepted. The old clone supplement failure remains; current legal-preparation repair is static-reviewed but not run. No direct mode/earned-state bypass or core/package change."
+      "repair_status": "HISTORICAL_AT_SNAPSHOT_REPAIR_NOT_YET_RUN",
+      "limits": "Original fd6 FAIL retained unchanged. Current successful normal3549/tester850a are separate role-bounded receipts, not replacement validations."
+    },
+    "f322_legal_preparation_failure": {
+      "status": "FAIL_NORMAL_LEGAL_PREPARATION_WRAPPER_CODEC_GUARD",
+      "work": ".godot/night-package/measured-f32298c0a1b1",
+      "product_source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+      "executed_qa_commit": "cb9e6aaf372e5e47d97293e66b78bfb11db4abcc",
+      "executed_probe_sha256": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
+      "executed_wrapper_sha256": "9a3c7393fcdda4ab8deef320c9199dd4d82cfcdb932c48f8866e38fea5d11295",
+      "summary": {
+        "path": ".godot/f4-normal-measured-legal-prep-FAIL-summary.json",
+        "sha256": "eed1a4d26411856205fe9bcd5eba3f9390a3d965d80e1d468fda91546c317db0"
+      },
+      "raw_sha256": "5723090b5285182f07f9bb66cf77d0d9e329e2113dd6624fc6a5f3c2e633f834",
+      "seed_sha256": "41b45cca89ce4770b194a2a05e29f1d89f07f83aff199bacbc42c89c081feb85",
+      "process_sha256": "022349e7247b9503683b5ea25cecd611e29ac545a7ce67576356d6fdad71f254",
+      "post_exit_files_sha256": "cf5766244410b4e7a8e67654de1ebfdd322fd32aca0b68a8096e3565f6d1ce93",
+      "log_sha256": "607ec49d6c711e774cb862c18722896483f0db7f57150cf491e777a58dd76f15",
+      "engine_pid": 9812,
+      "engine_exit": 0,
+      "engine_terminated_reason": "",
+      "gd_checks": 147,
+      "gd_all_true": true,
+      "gd_failures": [],
+      "no_engine_ERROR": true,
+      "wrapper_exit": 1,
+      "first_wrapper_failure": {
+        "file": "scripts/verify-night-package.py",
+        "line": 302,
+        "message": "Unrelated original hardware workbench changed"
+      },
+      "validation_exists": false,
+      "independently_verified_frames": [
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "apparatus-near.png",
+          "sha256": "2cb7e10ceeb720c218991d962c21373bdeca89b2d79a6ba0d8608fbfdfd077d2"
+        },
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "apparatus-feedback.png",
+          "sha256": "6b95106fa12dd6405de9326d602b9d3fc7edacbf3b8ed28e22389c952ce425c8"
+        },
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "apparatus-overview.png",
+          "sha256": "e5938463034de3f8cb2be7bc9cef46bcd5184416ac782f9dc9e77a3acd5b5ff3"
+        },
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "cpu-controlled-pair.png",
+          "sha256": "f7dbcecbb881e73a0d6905c8819abaf948c987a69c45138a01f7926d73de10dd"
+        },
+        {
+          "dimensions": [
+            1280,
+            720
+          ],
+          "file": "cpu-fragment-feedback.png",
+          "sha256": "f1783d467c6cd4f7686f6dca14fa9da988bc09b9bb9d04a755d6646a8e4042cc"
+        }
+      ],
+      "visual_review": {
+        "path": ".godot/night-package/measured-f32298c0a1b1/visual-independent-audit.json",
+        "sha256": "b939bdfb592087eedc492805d18795570d874d856a5f5d4614e4dbb52cb1a432",
+        "result": "PASS_VISUAL_SCOPE_ONLY_OVERALL_FAIL_UNCHANGED",
+        "actual_frames_viewed": 5,
+        "limits": "Chinese1280x720 only, legal reference-wired original official/sealing controller preparation, not native/unaided player journey. Deeper CPU explanation/chart return uses original scroll; not all text same-screen."
+      },
+      "old_tutorial_exact_typed_differences": [
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/components/0/output_port_widths/0",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/components/1/input_port_widths/0",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/components/2/input_port_widths/0",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/components/2/output_port_widths/0",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/schema_version",
+          "before_type": "int",
+          "before": 1,
+          "after_type": "float",
+          "after": 1.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/color_index",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/from_port",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/0/to_port",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/color_index",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/from_port",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        },
+        {
+          "path": "/namespaces/game/tutorial/workbenches/default/wires/1/to_port",
+          "before_type": "int",
+          "before": 0,
+          "after_type": "float",
+          "after": 0.0
+        }
+      ],
+      "source_mechanism": "CircuitWorkbenchStore._load_from_disk:266 JSON.parse_string then deep-copy of namespaces; manifest_snapshot sorts/recasts manifest headers but deep-copies old workbench snapshots. _persist:411 JSON.stringify(manifest_snapshot(),tab,false,true) saves the whole namespace with full_precision when new levels ensure/save their original workbenches. This reserializes11 old tutorial integer fields as same-valued floats without editing its circuit. All other old fields/types/array order/values exact.",
+      "normal_targets_status": "NOT_RUN_NORMAL_LOCKED",
+      "original_parent_runtime_unchanged": true,
+      "existing_original_CPG_session_unchanged": true,
+      "scope": "Engine/GD and scoped visuals passed but complete supplement FAIL: wrapper validation was not produced. No retroactive success; fd6 original startup failure remains in historical_gate_snapshots."
     }
   },
   "current_composed_renderer_acceptance": {
@@ -1910,15 +2379,15 @@
     }
   },
   "external_qa_legal_preparation_repair": {
-    "status": "IMPLEMENTED_11_POINTER_CODEC_GUARD_PASS_BOTH_STATIC_RUNTIME_NOT_RUN",
+    "status": "PASS_ACTUAL_NORMAL147_AND_TESTER193_AFTER_STATIC_REVIEWS",
     "product_source_unchanged": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
     "new_probe_sha256": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
     "new_wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
     "strict_validator_unchanged_sha256": "7b9f5ff700f0861f88af76e49ab49ddd3a8c1ad889f676993ab8ac819e791432",
     "original_parent_probe_sha256": "9fb11c3d276816872b1fed655e646fc39b3e0b843ae42ee3d2adf0bd5e3a1a5f",
-    "scope": "New supplement only: true loaded seed, no capture flag/TestMode, real original Hardware official/sealing and System game-mode preparation, normal Targets remain locked NOT_RUN, fixed tester gets original access; lawful new authority fields separated from pure-view zero-write baselines, exact oldCPG/parent maps and typed post-exit audit. No core/package change or actual success inferred from static review.",
+    "scope": "New supplement only: true loaded seed, no capture flag/TestMode, real original Hardware official/sealing and System game-mode preparation, normal Targets remain locked NOT_RUN, fixed tester gets original access; lawful new authority fields separated from pure-view zero-write baselines, exact oldCPG/parent maps and typed post-exit audit. No core/package change; actual new runs recorded separately from preceding static reviews.",
     "historical_wrapper_static_review_sha256": "a739c59d6d3d87b0ffb8b5b36f373a0218f173ec2229d7f9db5bc0ed5810c57a",
-    "latest_independent_review_boundary": "Original Store boundary only: fixed11 tutorial/default pointers, original exact int0/1 -> same-value float predicted from old expected copy; original float must remain typed exact with no conversion entry. Unknown fields/array order/value/type changes still rejected. Explicit conversions enter future validation, never old failed work. No general normalization, product change, probe change or strict7b9 change.",
+    "latest_independent_review_boundary": "Original Store boundary only: fixed11 tutorial/default pointers, original exact int0/1 -> same-value float predicted from old expected copy; original float must remain typed exact with no conversion entry. Unknown fields/array order/value/type changes still rejected. Explicit conversions enter each new validation, never old failed work. No general normalization, product change, probe change or strict7b9 change.",
     "latest_delta_reviews": {
       "Narrative": "PASS_STATIC_AT_b213d90b_WITH_12_PURE_COMPARISON_FIXTURES",
       "Visual": "PASS_STATIC_SCOPE_AT_b213d90b_WITH_FIXED_POINTER_POSITIVE_NEGATIVE_FIXTURES"
@@ -1951,11 +2420,12 @@
     "temporal_scope": "Historical static audit of original97516 QA before actual parent/strict runs and before failed clone supplement; no current pending or current source identity claim."
   },
   "current_external_qa": {
-    "status": "PASS_BOTH_INDEPENDENT_STATIC_REVIEWS_RUNTIME_NOT_RUN",
+    "status": "PASS_STATIC_AND_ACTUAL_TWO_ROLE_SUPPLEMENTS",
     "scripts/night-package-probe.gd": "736743c15a1eb2601f4cc985767483a4747aaf5fc62ebf68e34e6306ea79dce6",
     "scripts/verify-night-package.py": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
     "scripts/verify-embedded-profile-reopen.py": "7b9f5ff700f0861f88af76e49ab49ddd3a8c1ad889f676993ab8ac819e791432",
-    "boundary": "Current probe736 plus wrapperb213 and unchanged strict7b9. Original successful parents retain9fb/fab; cb9e executed736/9a3 gave147GD PASS but overall wrapper302 FAIL. New11-pointer guard not run; old fd6 and f322 failures retained."
+    "boundary": "Original parents retain9fb/fab; current supplement736/b213 passed new normal147 and tester193 after all postguards, strict7b9/product/ZIP unchanged. Fixed11 Storecodec only, original fd6/f322 failures retained.",
+    "qa_commit": "8a9c43ea0ecc3982c6833f7a5654c68f207a12c7"
   },
   "historical_package_plan_before_builds": {
     "status": "PENDING_ACTUAL_MANIFEST",
@@ -1976,7 +2446,7 @@
     "temporal_scope": "Original plan before actual97516 manifests; not current build/chain status."
   },
   "fixed_packages": {
-    "status": "ACTUAL_ARTIFACTS_ORIGINAL_CHAINS_ACCEPTED_REPAIRED_SUPPLEMENT_NOT_RUN",
+    "status": "PASS_ORIGINAL_CHAINS_AND_ROLE_BOUNDED_NEW_SUPPLEMENTS",
     "source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
     "normal": {
       "build_id": "playtest-MeasuredGrowthExperience20261018-97516b21f459",
@@ -1986,7 +2456,8 @@
         "sha256": "c09d24093e233b1019903bf94d0c3256061e555cf6d71463e0e56ff7f995a82d",
         "bytes": 57559429
       },
-      "original_chain_status": "PASS_ORIGINAL_PARENT_AND_STRICT_REOPEN_SCOPE"
+      "original_chain_status": "PASS_ORIGINAL_PARENT_AND_STRICT_REOPEN_SCOPE",
+      "supplement_status": "PASS147_NORMAL_TARGETS_NOT_RUN_LOCKED"
     },
     "tester": {
       "build_id": "playtest-MeasuredGrowthAccess20261018-97516b21f459",
@@ -1996,7 +2467,8 @@
         "sha256": "e8c4e5e0707c9114aac0f86834e10e127d79730daad673de9c16aa4e895ab8c6",
         "bytes": 57571481
       },
-      "original_chain_status": "PASS_ORIGINAL_PARENT_CHILD_AND_STRICT_SCOPE"
+      "original_chain_status": "PASS_ORIGINAL_PARENT_CHILD_AND_STRICT_SCOPE",
+      "supplement_status": "PASS193_WITH_ORIGINAL_TARGET_HOSTS"
     }
   }
 }

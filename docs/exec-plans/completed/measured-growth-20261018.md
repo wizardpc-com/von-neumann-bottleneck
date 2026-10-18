@@ -1,6 +1,6 @@
 # 看懂未达标，也看见真实改进 · 2026-10-18
 
-状态：ACTIVE。基线`2e488c387ab1a0b95f37036ca025878fdeaab085`，新分支
+状态：COMPLETED_WITHIN_ENGINEERING_SCOPE；完整goal仍ACTIVE。基线`2e488c387ab1a0b95f37036ca025878fdeaab085`，新分支
 `codex/measured-growth-20261018`；Root核远端同SHA、工作树干净。上一轮产品SOURCEc109
 完整172/172、两实包与限定原生路线已通过；外QA0bc3两CI已成功，交接2e的两CI启动时仍pending。
 这些结果是可恢复基线，不能认证本轮新代码。上一目标回合分类为PROGRESS：完成了实现、验证与已推送交付；
@@ -268,3 +268,20 @@ LOAD/STORE交接→System assembly→CPU pair，单列合法QA准备与纯回看
 下一外QA仅对原seed副本中的这11明确JSON路径构建原codec预期并披露类型变化；
 不作通用数字归一化，不改原strict脚本，其他未知类型/内容仍拒绝。
 须重新独审、提交后才能新建一次实际运行；原FAIL与原包SOURCE不改。
+
+## 工程范围交接
+
+外QA固定8a9c43e后新建两次独立运行，normal354949881fd3实际147/147、tester850a1c4a00fb
+实际193/193均整链PASS；引擎25212/12160自然exit0，无ERROR。新validation分别为
+`573bcc7465e7f33e336c2e5b91eaa3a3db3b78bca29b5ddabba300c40fa1ef41`和
+`92b4d38372bc6516be5246c534de2d81603f0db33804a4e95cd30e6b5f2375ec`。
+Root和Knowledge各自复核合法准备、成绩、显示/导航、typed主备、原作品/空lease和原父全集；
+11个明确旧tutorial数字编码逐项披露，原strict7b9不变。普通Targets仍按原前置锁定，
+测试者实际覆盖Layout/Overlap原模型、定位、陈旧保护与反馈。旧fd6/f322仍各自FAIL。
+
+Visual实看本次5+10新原图并各自核hash，范围接受；与源QA88图、两角色OS观察站19图分列。
+测试者720底部F8/导出条确会遮部分System Handbook与Overlap底dock，前景主证据及RunAll可见；
+该已知局限进入后续窄修，不称全部控件无遮挡或鼠标已验。深层正文继续用原滚动。
+本计划按已记录工程范围完成；产品SOURCE97516、原双包身份和完整175结果保持。
+两新包、SHA、变化证据及≤5项次日试玩在[集中交接](../../verification/20261018-measured-growth/README.md)。
+完整goal继续ACTIVE，下一范围为真实CPG回顾与上述footer问题，正式创作定稿/新人/Mac仍开放。

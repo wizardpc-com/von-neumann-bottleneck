@@ -6,6 +6,8 @@
 本轮精确来源与后续结果见[F6证据](../verification/20261018-narrative-modal-focus/README.md)。
 完整回归零ERROR/SCRIPTERROR，原六条非失败anchor WARNING单列；176有序自有调用均自然退出，
 实际169个不同PID，不把系统PID复用写成176个不同进程标识。当前尚无bb5导出包或OS模态通过结论。
+双包原构建及身份独审通过；普通包首次实际父链216/219、三项复合断言失败，strict未启动，
+测试者链未跑。失败现场未见反馈面板，但原分项值缺失，不能唯一归因为产品、QA或OS。
 
 **F5已验恢复门禁：d14be32原17定向、三组真实renderer及完整Windows176阶段均自然通过。**
 完整回归无ERROR/SCRIPTERROR，原六条非失败anchor WARNING单列；当前源远端CI成功。

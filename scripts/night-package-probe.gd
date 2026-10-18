@@ -93,6 +93,46 @@ func connection_frame(output: String, name: String) -> void:
 	frames.append({"file":name+".png","sha256":FileAccess.get_sha256(path),"dimensions":[image.get_width(),image.get_height()]})
 	experience["creation_links_frames"]=frames
 
+func connection_diagnostic(phase: String, host_ref: WeakRef, tester: bool) -> void:
+	var host: Variant = host_ref.get_ref()
+	var host_valid: bool = is_instance_valid(host)
+	var root_window: Window = get_window()
+	var host_window: Window = host.get_window() if host_valid and host.is_inside_tree() else null
+	var fragment: Variant = host.connection_fragment if host_valid else null
+	var fragment_valid: bool = is_instance_valid(fragment)
+	var feedback: Node = get_node("/root/OfflineFeedback")
+	var moments: Node = get_node("/root/PlaytestMoments")
+	var panel: Control = feedback.panel if tester else moments.panel
+	var panel_valid: bool = is_instance_valid(panel)
+	var panel_viewport: Viewport = panel.get_viewport() if panel_valid and panel.is_inside_tree() else null
+	var root_owner: Control = get_viewport().gui_get_focus_owner()
+	var panel_owner: Control = panel_viewport.gui_get_focus_owner() if is_instance_valid(panel_viewport) else null
+	var navigation: Node = get_node("/root/TaskNavigation")
+	var window_states: Dictionary = {}
+	for label: String in ["root","host"]:
+		var window: Window = root_window if label == "root" else host_window
+		if not is_instance_valid(window):
+			window_states[label] = {"valid":false}
+			continue
+		var embedded: Array[Dictionary] = []
+		for child: Window in window.get_embedded_subwindows():
+			embedded.append({"path":str(child.get_path()),"instance_id":child.get_instance_id(),"visible":child.visible,"has_focus":child.has_focus(),"queued":child.is_queued_for_deletion()})
+		window_states[label] = {"valid":true,"path":str(window.get_path()),"instance_id":window.get_instance_id(),"window_id":window.get_window_id(),"visible":window.visible,"has_focus":window.has_focus(),"embedded":window.is_embedded(),"embedded_windows":embedded}
+	var scene: Node = get_tree().current_scene
+	print("CREATION_LINKS_INPUT_DIAGNOSTIC: ",JSON.stringify({"phase":phase,"tester":tester,"grade":"exported controller input, not OS input",
+		"process_frame":Engine.get_process_frames(),"draw_frame":Engine.get_frames_drawn(),"windows":window_states,
+		"panel":{"valid":panel_valid,"path":str(panel.get_path()) if panel_valid and panel.is_inside_tree() else "none","visible":panel.visible if panel_valid else false,"tree_visible":panel.is_visible_in_tree() if panel_valid else false,
+			"viewport_id":panel_viewport.get_instance_id() if is_instance_valid(panel_viewport) else 0,"viewport_is_root":panel_viewport==get_viewport(),
+			"root_owner_is_panel_descendant":panel.is_ancestor_of(root_owner) if panel_valid and is_instance_valid(root_owner) else false,"panel_owner_is_panel_descendant":panel.is_ancestor_of(panel_owner) if panel_valid and is_instance_valid(panel_owner) else false},
+		"root_viewport_id":get_viewport().get_instance_id(),"root_owner":str(root_owner.get_path()) if is_instance_valid(root_owner) and root_owner.is_inside_tree() else "none","panel_owner":str(panel_owner.get_path()) if is_instance_valid(panel_owner) and panel_owner.is_inside_tree() else "none",
+		"feedback_flag":get_node("/root/PlaytestData")._feedback_visible,"moments_panel_visible":moments.panel.visible,"offline_busy":feedback.busy,"offline_backdrop_visible":feedback.backdrop.visible,"tree_paused":get_tree().paused,
+		"host":{"valid":host_valid,"inside_tree":host.is_inside_tree() if host_valid else false,"queued":host.is_queued_for_deletion() if host_valid else false,
+			"session_dirty":host.session.dirty if host_valid else null,"pending_sample_text":host.has_pending_sample_text() if host_valid else null,
+			"leaving_to_hub":host.leaving_to_hub if host_valid else null,"sample_leave_dialog_visible":host.sample_leave_dialog.visible if host_valid and is_instance_valid(host.sample_leave_dialog) else false,"leave_dialog_visible":host.leave_dialog.visible if host_valid and is_instance_valid(host.leave_dialog) else false},
+		"navigation":{"from_tree":navigation.from_tree,"pending":navigation.pending,"selected":navigation.selected,"last_visited_task":navigation.last_visited_task},
+		"fragment":{"valid":fragment_valid,"body_visible":fragment.body.visible if fragment_valid else false,"step":fragment.step if fragment_valid else -1,"toggle_visible":fragment.toggle_button.is_visible_in_tree() if fragment_valid else false,"toggle_pressed":fragment.toggle_button.button_pressed if fragment_valid else false,"toggle_has_focus":fragment.toggle_button.has_focus() if fragment_valid else false,"root_owner_is_descendant":fragment.is_ancestor_of(root_owner) if fragment_valid and is_instance_valid(root_owner) else false},
+		"current_scene_path":scene.scene_file_path if is_instance_valid(scene) else "none"}))
+
 func creation_links_setup(output: String, tester: bool) -> void:
 	var nav: Node = get_node("/root/TaskNavigation")
 	check(not get_node("/root/GameMode").is_test_mode() and OS.has_feature("free_candidate"),"CreationLinks preparation retains ordinary game mode and actual export permissions")
@@ -168,7 +208,10 @@ func creation_links_setup(output: String, tester: bool) -> void:
 	await creation_links_review(host,output,tester)
 	check(host.session.data==prepared and not host.session.dirty,"CreationLinks pure review ends with the exact saved preparation and no dirty draft")
 	var saved_sha: String = FileAccess.get_sha256(path)
+	var leave_host: WeakRef = weakref(host)
+	connection_diagnostic("before_leave",leave_host,tester)
 	host.request_leave(true); await settle()
+	connection_diagnostic("after_leave",leave_host,tester)
 	check(not is_instance_valid(host) and get_tree().current_scene.scene_file_path=="res://src/campaign/task_tree.tscn","CreationLinks original Journey action closes the real Host and returns to its map")
 	var lease: Script = load("res://experiments/candidate_session/writer_lease.gd")
 	check(not DirAccess.dir_exists_absolute(lease.lock_path(path)) and FileAccess.get_sha256(path)==saved_sha,"CreationLinks Host exit releases its lease and preserves exact saved session bytes")
@@ -198,7 +241,9 @@ func creation_links_review(host: Control, output: String, tester: bool) -> void:
 	var pause_before: bool = get_tree().paused
 	var feedback: Node = get_node("/root/OfflineFeedback")
 	var moments: Node = get_node("/root/PlaytestMoments")
+	connection_diagnostic("before_f8",weakref(host),tester)
 	await creative_window_key(KEY_F8)
+	connection_diagnostic("after_f8",weakref(host),tester)
 	var panel: Control = feedback.panel if tester else moments.panel
 	check((feedback.backdrop.visible if tester else moments.panel.visible) and panel.is_visible_in_tree() and panel.get_viewport()==get_viewport() and panel.is_ancestor_of(get_viewport().gui_get_focus_owner()),"CreationLinks original role F8 owns actual Host viewport and panel focus")
 	check(get_tree().paused if tester else get_tree().paused==pause_before,"CreationLinks retains actual tester versus ordinary pause behavior")
@@ -207,8 +252,10 @@ func creation_links_review(host: Control, output: String, tester: bool) -> void:
 	check(fragment.step==held and fragment.body.visible,"CreationLinks actual feedback prevents step mutation")
 	await connection_frame(output,"cpg-connection-feedback")
 	await creative_window_key(KEY_ESCAPE)
+	connection_diagnostic("after_first_escape",weakref(host),tester)
 	check(not panel.is_visible_in_tree() and fragment.body.visible and get_tree().paused==pause_before and get_viewport().gui_get_focus_owner()==fragment.step_buttons[1],"CreationLinks first Escape closes only role feedback and restores exact step focus")
 	await creative_window_key(KEY_ESCAPE)
+	connection_diagnostic("after_second_escape",weakref(host),tester)
 	check(not fragment.body.visible and get_viewport().gui_get_focus_owner()==fragment.toggle_button,"CreationLinks second focused Escape collapses only the optional review")
 	check(connection_authority(host)==before,"CreationLinks actual F8 and Escape preserve full pure-view authority baseline")
 	experience["creation_links_review"]={"passed":connection_authority(host)==before,"authority_sha256":JSON.stringify(before,"",true).sha256_text(),"authority_fields":before.keys(),

@@ -5,7 +5,7 @@
 ## 当前门禁
 
 - 修后bb5原import／userdir／Efficiency三阶段实际3／3 PASS，3个自有进程自然exit0、零ERROR／WARNING／SCRIPT ERROR；headless为55检查。旧867编译3PASS另保原来源。
-- 修后bb5单Efficiency真实renderer **245检查PASS**，PID21700在30.58秒自然exit0，无终止、零ERROR／WARNING／SCRIPT ERROR。实际正控制ZH0→42／EN0→110且source／step／metric在原clip内；同0起点模态负控制Scroll0／blend0／step1保持，Esc分项bodytrue／authoritytrue／mapfalse。六条原F8 accepted边界通过。完整回归实际176／176 PASS；新包仍NOT_RUN，不扩张为native或导出包模态通过。
+- 修后bb5单Efficiency真实renderer **245检查PASS**，PID21700在30.58秒自然exit0，无终止、零ERROR／WARNING／SCRIPT ERROR。实际正控制ZH0→42／EN0→110且source／step／metric在原clip内；同0起点模态负控制Scroll0／blend0／step1保持，Esc分项bodytrue／authoritytrue／mapfalse。六条原F8 accepted边界通过。完整回归实际176／176 PASS；新普通／测试者包均BUILD_IDENTITY_PASS；普通父流程实际FAIL，strict因父失败未启动；测试者父／child与新包图审待实际验收，不扩张为native或导出包模态通过。
 - 旧867真实renderer **FAIL：239检查／4ERROR**、PID50104自然exit1，保留其两语fade与Host Esc组合断言失败，零WARNING／SCRIPT ERROR。
 - 新旧两轮各24根帧＋2tester现场＝26原PNG，以及各自6artifact／39运行文件／41目录均已独立核SHA／集合；两轮各26图另依eb47／e1c6收据按原Scroll局限独立实view接受。两轮均零modal blocker图，不由图片认证fade／Esc。
 
@@ -45,9 +45,32 @@
 
 bb5原完整Windows回归实际 **176／176 PASS**（174原headless测试＋import／userdir），176条有序自有进程记录均自然exit0；实际169个不同PID，7个PID各复用两次。全部176原日志与命令／结果／SHA已独立核对：零ERROR／SCRIPT ERROR，原anchor WARNING共6条（desktop_conventions 4、feedback_presentation 2）。摘要`.godot/f6-full-bb5c817-summary.json` SHA `d480295a468bfe07984240706ce19fcde4a7ddf80e05217d1f5ff40b14208758`；results SHA `e734a963dbc6d9960f6df348b8024098ae2f05a3685cc53fa9f252c7d5fc5fd9`、owned SHA `9790071abca52702adeddd068bf3adc3db716444b12e975195058cfb9884fa8e`。
 
-该次5783项完整Git归档身份逐blob核对，5067项docs不物化，716项固定输入及715项执行非配置文件精确；175个canonical测试完整，原verifier仅排除`test_recovery_game_input`，route与UID原字节存在。执行副本末`project.godot`只保留原verifier最后一项私有userdir配置与Windows EOL，SHA `a832035052e1bd78fa0d56b78f6b53b997bf1e114041b7754fe5c86c39046f8b`；不声称headless finally恢复。Root已live核[bb5 CI39097738231](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39097738231) completed SUCCESS，CI不代包或OS验收。新双包构建／父链／collector／严格重启仍NOT_RUN。
+该次5783项完整Git归档身份逐blob核对，5067项docs不物化，716项固定输入及715项执行非配置文件精确；175个canonical测试完整，原verifier仅排除`test_recovery_game_input`，route与UID原字节存在。执行副本末`project.godot`只保留原verifier最后一项私有userdir配置与Windows EOL，SHA `a832035052e1bd78fa0d56b78f6b53b997bf1e114041b7754fe5c86c39046f8b`；不声称headless finally恢复。Root已live核[bb5 CI39097738231](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39097738231) completed SUCCESS，CI不代包或OS验收。新双包构建身份见下；普通父流程实际FAIL，strict未启动；测试者父／collector／严格重启尚未执行。
 
 剩余scope独立审计`.godot/f6-independent-remaining-scope-audit.md` SHA `30598937e3819af66f393ef7fcb1af276e3323be49c6a14bc1017afa558e43dc`未发现应另开功能实现的已证缺口；后续分列最新包与交接闭环、官方原生／异机Mac实测、真人理解与正式创作／赛事取材。现有真实图＋精确脚本可承载展示候选，不把未录视频自动升级为新CG或新系统任务；所有ideas并未因此正式定稿，完整goal继续ACTIVE。
+
+## 新双包构建身份（尚非试玩验收）
+
+两包均由原builder固定bb5生成，import／licenses／export-Windows三阶段及原identity检查实际通过，尚未由此确认父流程、严格重启、collector或导出模态通过。普通新父流程已实际FAIL，详见下节；测试者父流程、collector与strict尚未执行。20原PNG已核文件SHA，尚无全部新包独立图审；已观察的名为feedback帧并不能由文件名认证面板出现。
+
+| 角色／独立profile | 当前构建ZIP | ZIP SHA256 |
+| --- | --- | --- |
+| 普通／`CreationLinks20261018` | [ModalFocusExperience20261018](../../../build/playtest-ModalFocusExperience20261018-bb5c817bcb7e/Von-Neumann-Bottleneck-Windows-playtest-ModalFocusExperience20261018-bb5c817bcb7e.zip) | `3bbefa7e0918ba333736fda61efd51e96746d68b1e2289ff3cd9cd687af640c4` |
+| 测试者／`OfflineTeammate-CreationLinks20261018` | [ModalFocusAccess20261018](../../../build/playtest-ModalFocusAccess20261018-bb5c817bcb7e/Von-Neumann-Bottleneck-Windows-playtest-ModalFocusAccess20261018-bb5c817bcb7e.zip) | `dc8164dc0aa8b4cc693466a6e3af1219eb4156f681ba0dc06cda0fc8d3ace8c0` |
+
+普通构建摘要`.godot/f6-normal-build-bb5c817-summary.json` SHA `ceb800c13418dc18de1516bb7bc6650173ce707c7ec562b158cc38c83954c20b`；测试者摘要`.godot/f6-tester-build-bb5c817-summary.json` SHA `c5995f0f6bbd0c0cd6b67bf17eeecb59f1d9023d16a0f344993db1846c3ae2cb`。两包全部ZIP成员／BUILD-MANIFEST／EXE／内嵌PCK及478资源哈希已独立核对；测试者仅含原collector `d0de7376…`。无端点、公网Release或QA存档注入；旧d14实际可用链仍保留恢复身份。
+
+两份新生成candidate `project/docs` 各5067文件／242287926字节，逐bb5 Git原字节与完整目录集合双审后，仅这两份可重建副本由Root移除，共484575852字节；原仓库全部5067项docs存在，包、日志、runtime、PNG、存档与失败收据未删。清理收据为`.godot/f6-normal-docs-cleanup-bb5c817.json` SHA `5d6cf5e1db34977125defcb103d565e81d3a6a2a033611a66b786e477b6c21e3`及`.godot/f6-tester-docs-cleanup-bb5c817.json` SHA `54ca88fa70ccc73d53ca154cea823bf10741aecee89f9e402de4b27c5f20a3c9`；不再称这些已清理candidate源码树完整物化。
+
+PR15正文已获用户明确授权，由Root更新并readback按行尾规范化完全一致，仍draft／OPEN且未合并或Release；记录`.godot/pr15-body-update-20261018.json` SHA `1ad5101f9b5aa36633c28b977f10af8924c40c05a0ab38c60c987a38d62ef822`。该事实不替代本轮bb5包验收。
+
+## 新普通父流程实际失败（原收据保留）
+
+实际work `.godot/night-package/d2f1b4c78ab1`，固定bb5产品／原probe40b／wrapperb213。父进程PID21788自然exit1，监视器未终止，0SCRIPT ERROR／WARNING；219项中216true、3false。首错“role F8 owns actual Host viewport and panel focus”，随后“second focused Escape collapses only optional review”及“Journey closes Host and returns to map”复合断言失败。没有成功父receipt，strict **NOT_RUN_PARENT_FAILED**；测试者链亦未执行。双包BUILD_IDENTITY_PASS、源245 GUI与176 full各保原范围，不被这次失败抹去，也不代父验收。
+
+失败摘要`.godot/f6-normal-parent-strict-bb5c817-summary.json` SHA `a9466dccef734746a0de9f9968e4bcd4ef9f2ef8fbd93e1ba140be9c2d32cf43`；raw `embedded.json` SHA `beac7bcb42f3c4697fc1ccf1f0e18fff53107cee37547d3d450a0fb991508679`，log SHA `62a0b06ce37ffef8e28df79c2c0444527baad4963bb5280e40b19c9822ac30e9`。20根PNG／0incident及runtime文件集合已实际重hash；其中`cpg-connection-feedback.png`现场观察为G回顾、没有可见反馈面板，此图不证明F8各分项或原因。Visual四图独审收据`.godot/f6-normal-failed-focus-visual-audit.json` SHA `6cb61639c588b25bfb8d8f6f8bbb6377214730b31bf6e24f00cec4cb22d6767a`仅接受实际静图范围，不改三项FAIL。
+
+首断言没有分项记录panel可见性、viewport与focus owner；后续两个复合断言也未分别打印body／focus、host有效性／current scene。首Esc焦点恢复、35项纯回看权威、退出lease释放／Session SHA等原检查为true；实际磁盘完整Session／单作品recipe/output／五supports与真实prepared_data严格typed一致，主备仅顶层保存时间戳／原轮转，其余typed payload等rawgame，包字节与原保护文件保持。以上不将整体验收转PASS，亦不据源CPG相同就断定QA、OS或Efficiency修复为原因。Root仅核准下一步同步LOG-ONLY分解原点位，尚待作者冻结与独审；不改动作／Input／await／断言，不自行重试。
 
 ## 固定输入与现有交付
 

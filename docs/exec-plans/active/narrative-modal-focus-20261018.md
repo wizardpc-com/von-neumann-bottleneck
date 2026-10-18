@@ -26,7 +26,8 @@
 
 保留来源未明的测试文件状态、原仓库改动、全部旧包/档案/失败证据。
 用户允许新提交和大改动推送独立分支；不增加合并、Release、服务器、账号、费用或
-正式人物/剧情决定的权限。PR15正文仍等待具体外传授权，不重试。
+正式人物/剧情决定的权限。PR15正文已获用户明确授权并完成更新与回读核对，仍为OPEN草稿；
+这次授权不包含合并或Release。
 官方原生工具此前初始化失败；未有真实修复或环境变化时不再尝试，也不绕过官方接口。
 
 ## 验证顺序
@@ -91,4 +92,15 @@ renderer245项检查、零ERROR/WARNING/SCRIPTERROR，PID21700自然exit0。
 
 原完整Windows回归176/176自然通过：176有序自有调用、169不同PID；零ERROR/SCRIPTERROR，
 原六条anchor WARNING单列。远端CI39097738231已由Root只读核为SUCCESS。
-新包仍未构建。保留d14双包作为实际可运行恢复交付。
+新双包已由原builder/identity独审通过。保留d14双包作为实际可运行恢复交付。
+
+## 导出首链失败与诊断边界
+
+新普通包的原40b控制器实际216/219：F8视口/焦点复合断言、第二次Esc和Journey返回
+复合断言失败，PID21788自然exit1，无SCRIPTERROR或监管终止；strict未启动，测试者链未跑。
+失败summary为`.godot/f6-normal-parent-strict-bb5c817-summary.json`（a9466dcc…），原raw、20根帧
+与存档保护保留；反馈命名帧实际未见面板，不用文件名替代图面或焦点值。
+
+Root据缺少的分项值只核准外QA控制器添加同步LOG-ONLY字段：Window/嵌入子窗、panel/viewport/
+owner、反馈flag、fragment和scene/离开guard。原219断言、动作、Input、await、超时与全部
+生产代码不改；独审后新检查点仅允许一次诊断运行，旧失败不覆盖，不以反复重跑取得绿色。

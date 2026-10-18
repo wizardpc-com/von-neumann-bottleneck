@@ -5,8 +5,10 @@ is active frome410cbe. The sixty-task semantic review is complete. Fixed867ec81
 reproduces the modal-focus animation defect with239 checks and four errors.
 The independently reviewed repairbb5c817 passes its three compile stages and
 245-check actual renderer. Complete Windows regression passes all176 stages;
-six original anchor warnings remain recorded and remote CI succeeds. New package
-acceptance is pending.
+six original anchor warnings remain recorded and remote CI succeeds. Both new
+package identities pass; the first ordinary controller run fails three of219
+checks. Strict reopening and tester execution remain unrun. Log-only diagnostic
+QA is under review; no production cause is established.
 The [current round evidence](../../verification/20261018-narrative-modal-focus/README.md)
 keeps the failed baseline and its precise scroll/Escape limits.
 

@@ -17,7 +17,12 @@ exit0: real scroll-positive controls and same-origin modal-negative controls
 pass in both languages, and direct Host Escape preserves the visible fragment,
 authority and closed map. Complete Windows regression passes all176 stages with
 natural exits and zero errors; six original anchor warnings remain recorded.
-Remote CI39097738231 succeeds. New packages are still pending.
+Remote CI39097738231 succeeds. Both new package builds and identities pass, but
+the ordinary package's first controller run fails216/219: a compound F8
+viewport/focus assertion and two later Escape/navigation assertions fail.
+Strict reopening and the tester controller chain have not run. The failed
+capture has no visible feedback panel; its missing component diagnostics leave
+the cause unresolved. A log-only QA diagnostic is being reviewed.
 The [round evidence](verification/20261018-narrative-modal-focus/README.md)
 preserves the failed baseline separately. The verified d14 packages below remain
 the recovery delivery.

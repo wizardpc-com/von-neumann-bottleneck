@@ -9,9 +9,12 @@ Its [plan](exec-plans/active/creation-connections-20261018.md) adds an optional
 reflection using actual C→P→G evidence and saved-work identity, with no new save
 format or simulation behavior. A separate bounded fix reuses existing local
 feedback entrances to prevent the tester footer from obscuring task controls.
-The implementation has independent source review; compilation and fresh runtime
-acceptance remain pending. The measured-growth ZIPs below remain the current
-verified recovery packages.
+The implementation has independent source review. First fixed77b339 verification
+passes15/17 stages; CPG720p default-entry visibility and the Home feedback-fallback
+expectation fail, with additional CPG focus warnings. The failed receipts remain;
+geometry and entry-identity diagnostics precede a repair. Renderer, full regression
+and new package acceptance are pending. The measured-growth ZIPs below remain the
+current verified recovery packages.
 
 ## Measured-growth candidate — 2026-10-18
 

@@ -80,3 +80,15 @@ Narrative次审反馈三文件均PASS_STATIC。CPG公开字段白名单、记录
 它从完整Git archive的非docs清单运行原3ef955 verifier，逐字节复制所有资源/UID，
 不依赖live工作区那项来源不明的UID删除；原监督/枚举/断言不变。绑定固定commit后才可运行。
 原146既有核心Git blobs在77486基线仍精确PR10 main，明确不覆盖新增呈现文件或mixed UI hosts。
+
+固定77b3393938d2b523427b01d58cceb2bf71ee66ba首次定向17阶段实际15PASS/2FAIL。
+两语720的默认折叠CPG入口未完整入clip；Offline Home全局fallback断言失败。共3ERROR和
+12个CPG抓焦WARNING，17owned均自然退出，0SCRIPTERROR/终止。716项固定输入复制精确，
+175canonical/0extra；原缺失live UID在archive/project存在，用户工作区删除未改。
+摘要`.godot/f5-focused-77b339-summary.json` SHA
+`09c8360440ed72d2fe268299f5d4681d1b424443b54c12e424ed56eb42296b1e`。
+这些失败不由源码静审覆盖；renderer/full/export尚未执行。
+
+下一只给两个测试增加实际rect/clip/焦点和Home弱入口来源日志，不改生产或旧断言，
+独审、固定新诊断提交后一次最小定向取数。再根据实际几何核准最小呈现修复，
+不靠删默认入口检查、暗滚动、隐藏合法本地入口或宽松角色状态刷绿。

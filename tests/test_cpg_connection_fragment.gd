@@ -35,6 +35,13 @@ func activate(action: BaseButton) -> void:
 		ancestor = ancestor.get_parent()
 	await settle()
 	check(fully_visible(action),"Actual action fits every ancestor clip: "+str(action.name))
+	if action.focus_mode==Control.FOCUS_NONE or action.disabled or not action.is_visible_in_tree():
+		var chain: Array[Dictionary] = []
+		var parent: Node = action
+		while parent != null:
+			if parent is Control: chain.append(control_geometry(parent))
+			parent = parent.get_parent()
+		print("CPG_ACTION_FOCUS_DIAGNOSTIC: ",JSON.stringify({"action":str(action.name),"disabled":action.disabled,"ancestors":chain}))
 	action.grab_focus()
 	if DisplayServer.get_name()=="headless":
 		if action.toggle_mode:
@@ -52,6 +59,26 @@ func fully_visible(control: Control) -> bool:
 		if ancestor is Control and ancestor.clip_contents: visible_rect = visible_rect.intersection(ancestor.get_global_rect())
 		ancestor = ancestor.get_parent()
 	return control.size.x>0 and control.size.y>0 and visible_rect.grow(1).encloses(control.get_global_rect())
+
+func control_geometry(control: Control) -> Dictionary:
+	var rect: Rect2 = control.get_global_rect()
+	var minimum: Vector2 = control.get_combined_minimum_size()
+	return {"path":str(control.get_path()),"rect":[rect.position.x,rect.position.y,rect.size.x,rect.size.y],
+		"minimum":[minimum.x,minimum.y],"custom_minimum":[control.custom_minimum_size.x,control.custom_minimum_size.y],
+		"visible":control.visible,"visible_in_tree":control.is_visible_in_tree(),"clip":control.clip_contents,
+		"focus_mode":control.focus_mode,"focus_behavior_recursive":control.get("focus_behavior_recursive"),"has_focus":control.has_focus()}
+
+func collapsed_geometry(host: Control,scroll: ScrollContainer,scope: String) -> void:
+	var context_children: Array[Dictionary] = []
+	for child: Node in host.journey_context.get_children():
+		if child is Control: context_children.append(control_geometry(child))
+	print("CPG_COLLAPSED_GEOMETRY: ",JSON.stringify({"scope":scope,
+		"window":{"size":[root.size.x,root.size.y],"position":[root.position.x,root.position.y],"focus":root.has_focus()},
+		"root_visible_rect":str(root.get_visible_rect()),"content_scale_size":[root.content_scale_size.x,root.content_scale_size.y],
+		"signal_area":control_geometry(host.signal_area),"causal_tabs":control_geometry(host.causal_tabs),
+		"scroll":control_geometry(scroll),"scroll_y":scroll.scroll_vertical,
+		"context":control_geometry(host.journey_context),"context_children":context_children,
+		"fragment_toggle":control_geometry(host.connection_fragment.toggle_button)}))
 
 func profile_files(path: String) -> Dictionary:
 	var result: Dictionary = {}
@@ -180,6 +207,7 @@ func matrix(host: Control,locale: String) -> void:
 		scroll.scroll_vertical = 0; await settle()
 		var before: Dictionary = authority(host)
 		var suffix: String = locale+"-"+str(dimensions.x)+"x"+str(dimensions.y)
+		collapsed_geometry(host,scroll,suffix)
 		check(fully_visible(fragment.toggle_button),"Optional entry is reachable beside original evidence: "+suffix)
 		await frame(suffix+"-collapsed")
 		await activate(fragment.toggle_button)

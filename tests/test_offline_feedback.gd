@@ -225,6 +225,7 @@ func local_entry_policy() -> void:
 	check(change_scene_to_file("res://src/ui/prototype_hub.tscn")==OK,"Original Home supplies the no-local-entry fallback route")
 	await settle()
 	var feedback: Node = root.get_node("OfflineFeedback")
+	home_fallback_diagnostic(feedback)
 	check(feedback.toolbar.visible,"Home without a local feedback entry keeps its original global fallback")
 	if DisplayServer.get_name()!="headless":
 		var before: Dictionary = protected_state()
@@ -249,3 +250,37 @@ func local_entry_policy() -> void:
 				check(local_button(host)!=null and not root.get_node("OfflineFeedback").toolbar.visible,"Headless source-policy check only; actual footer pointer/capture NOT_RUN")
 	if is_instance_valid(current_scene): current_scene.queue_free(); current_scene=null; await settle()
 	mode.set_mode(old_mode)
+
+func home_fallback_diagnostic(feedback: Node) -> void:
+	var window: Window = feedback._focused_window(root)
+	var rows: Array[Dictionary] = []
+	for reference: WeakRef in root.get_node("PlaytestMoments").entry_buttons:
+		var button: Button = reference.get_ref()
+		if not is_instance_valid(button):
+			rows.append({"valid":false})
+			continue
+		var viewport: Viewport = button.get_viewport() if button.is_inside_tree() else null
+		var bounds: Rect2 = button.get_global_rect() if button.is_inside_tree() else Rect2(button.position,button.size)
+		var available: Rect2 = viewport.get_visible_rect() if is_instance_valid(viewport) else Rect2()
+		var clips: Array[Dictionary] = []
+		var ancestor: Node = button.get_parent()
+		while ancestor!=null and ancestor!=viewport:
+			if ancestor is Control and ancestor.clip_contents and ancestor.is_inside_tree():
+				available=available.intersection(ancestor.get_global_rect())
+				clips.append({"path":str(ancestor.get_path()),"rect":str(ancestor.get_global_rect())})
+			ancestor=ancestor.get_parent()
+		rows.append({"valid":true,"path":str(button.get_path()) if button.is_inside_tree() else "outside_tree",
+			"viewport":str(viewport.get_path()) if is_instance_valid(viewport) else "none","same_active_viewport":viewport==window,
+			"queued_free":button.is_queued_for_deletion(),"inside_tree":button.is_inside_tree(),
+			"tree_visible":button.is_visible_in_tree(),"can_process":button.can_process(),
+			"disabled":button.disabled,"mouse_filter":button.mouse_filter,"rect":str(bounds),
+			"ancestor_clips":clips,"available_rect":str(available),
+			"matches_local_predicate":not button.is_queued_for_deletion() and button.is_inside_tree() and viewport==window and button.is_visible_in_tree() and button.can_process() and not button.disabled and button.mouse_filter!=Control.MOUSE_FILTER_IGNORE and bounds.has_area() and available.encloses(bounds)})
+	print("OFFLINE_FALLBACK_DIAGNOSTIC: ",JSON.stringify({
+		"scene":str(current_scene.get_path()) if is_instance_valid(current_scene) else "none",
+		"scene_file":current_scene.scene_file_path if is_instance_valid(current_scene) else "none",
+		"focused_window":str(window.get_path()) if is_instance_valid(window) else "none",
+		"role":ProjectSettings.get_setting("playtest/offline_tester",false),"enabled":feedback.enabled(),
+		"busy":feedback.busy,"backdrop":feedback.backdrop.visible,"toolbar_visible":feedback.toolbar.visible,
+		"toolbar_rect":str(feedback.toolbar.get_global_rect()),
+		"local_feedback_available":feedback._local_feedback_available(window),"entries":rows}))

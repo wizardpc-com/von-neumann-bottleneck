@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "stage": "ACTIVE_SOURCE_AND_RENDERER_PASSED_EXPORT_NOT_RUN",
+  "full_goal": "ACTIVE",
+  "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+  "current_gates": {
+    "source_review": "PASS_STATIC_SCOPE",
+    "focused_seven_stages": "PASS_SCOPE_C84",
+    "renderer": "PASS_SCOPE_C84_336_CHECKS_0_FAILURES",
+    "visual_review": "PASS_VISUAL_SCOPE_WITH_ORIGINAL_SCROLL_LIMITATIONS",
+    "guard_repair": "PASS_STATIC_AND_SOURCE_RENDERER_SCOPE",
+    "full_regression": "NOT_RUN_THIS_FEATURE_SOURCE",
+    "export_build_and_package_acceptance": "NOT_RUN_THIS_FEATURE_SOURCE",
+    "native_os_mac_newcomer": "NOT_RUN"
+  },
+  "behavior_scope": {
+    "sequence": [
+      "Reset",
+      "Hold0",
+      "Set",
+      "Hold1",
+      "Reset"
+    ],
+    "source": "Original prologue latch reference circuit, official_steps and PrologueSimulator.run_sequence with original feedback allowance",
+    "display": "Detached S/R/prior-Q/Q/NQ scalars; first prior Q is unspecified; identical 00 inputs retain different preceding values",
+    "invalid_input": "Stable 11 is a real primitive-model negative case and a persistent rule, not a valid output page",
+    "navigation": "Original Handbook previous/next; term/reopen/locale reset; original Register and combinational input functions preserved",
+    "authority": "No player model, task threshold, save schema, completion, reward or recipe change"
+  },
+  "source_inputs": {
+    "src/ui/terminology_diagram.gd": "77121fbac0dfe0c4df9de1eae1772ce1961e9d7be692f393a42e1c3d5c7a6b31",
+    "src/ui/terminology_handbook.gd": "60865204b645c74b98534d0ad1611f4a1832b66663b64275ec383e78a6e92ae6",
+    "tests/test_latch_rule_example.gd": "b0a74fea5494c36646eae948fd72938328e7f9f30086fde1481914be64389eee",
+    "localization/game.zh_CN.po": "d6e6ae682dfca9bd58ef104ea14081d2f4241ebadd6e4cb1aa751b5506cf803d",
+    "localization/game.en.po": "6581d8fc012391e9d98c92c57338241e39b662d427a6150357b06c560f8e1ec1"
+  },
+  "focused": {
+    "summary": {
+      "path": ".godot/latch-rule-focused-e061518-summary.json",
+      "sha256": "b34e49e0eeb434b2bdd4ccd9c2828321cbbdf76cffb6de15bcd056189fa9d178"
+    },
+    "root_audit": {
+      "path": ".godot/latch-rule-focused-e061518-root-audit.json",
+      "sha256": "1a9da1658f653645190e5a57e0e7844c511b972691e5be90ff298e46fd5087bf"
+    },
+    "results": {
+      "path": ".godot/latch-rule-fixed-watch/84eb008bff1f/source/.godot/verification/20261018T070345Z-085eceb8/results.json",
+      "sha256": "fc02903daca1c9c629a4874045708a54e1f77db9dd9f7f07a17d5bb42e3f83ae"
+    },
+    "stages": 7,
+    "passed": 7,
+    "ordered_owned_natural_zero": 7,
+    "errors": 0,
+    "warnings": 0,
+    "script_errors": 0,
+    "reported_checks": {
+      "latch": 258,
+      "learning_handbook": 1163,
+      "rule_practice_input": 391,
+      "storage_caption_playback": 150,
+      "localization": null
+    },
+    "selected_archive_files": 719,
+    "executed_nonsettings_exact_files": 718,
+    "canonical_tests": 176,
+    "extra_tests": 0,
+    "unknown_live_deleted_completion_route_in_fixed_archive": true,
+    "uid_sha256": "e489da42bdbc540c68061bf11682c6d1f70c3435b1f5fb0f3054cec18c07af0c",
+    "config_exception": "Only the original verifier two private user-directory settings; no source archive mutation",
+    "scope": "Headless original five requested suites plus import/user_directory; not GUI/full/export/native",
+    "source_commit": "e061518213c291f49e87efa34818ba35941d81e9"
+  },
+  "renderer_original_failure": {
+    "summary": {
+      "path": ".godot/latch-rule-rendered-e061518-summary.json",
+      "sha256": "2af897939c0d035c6488d50f78957fcfd8427fafd5d295f6495c0e303553b3e8"
+    },
+    "independent_audit": {
+      "path": ".godot/latch-rule-rendered-e061518-independent-audit.json",
+      "sha256": "8a9ae860d0d448d8cc2d9df61c38aba231a9e995a27927d15ab36221cd4be3ab"
+    },
+    "helper_receipt": {
+      "path": ".godot/latch-rule-rendered/37bcf5cde09d/test_latch_rule_example/receipt.json",
+      "sha256": "795c280b7bf41584f4c0c77b9507e6ce43c2394194b16675ad84f0ada5655faf"
+    },
+    "suite_receipt": {
+      "path": ".godot/latch-rule-rendered/37bcf5cde09d/test_latch_rule_example/runtime/appdata/VonNeumannBottleneckChecks/LatchRule-37bcf5cde09d/test_latch_rule_example/latch-rule-captures/receipt.json",
+      "sha256": "4576a95b2a2cdcfd92c5051965f0b6d3c5741ccff2ff19acb6c40c01bf062531"
+    },
+    "log": {
+      "path": ".godot/latch-rule-rendered/37bcf5cde09d/test_latch_rule_example/renderer.log",
+      "sha256": "0894de2c6378abdac66b37f5db3babae0481f236cc32e4649316a6734daf5e6f"
+    },
+    "checks": 336,
+    "failed_checks": 2,
+    "failures": [
+      "First Escape closes only feedback and preserves the selected rule",
+      "Feedback returns the exact existing next-example focus"
+    ],
+    "process": {
+      "pid": 47332,
+      "exit": 1,
+      "natural_exit": true,
+      "termination_reason": "",
+      "elapsed_seconds": 62.398
+    },
+    "script_errors": 0,
+    "warnings": 0,
+    "raw_pngs": 36,
+    "step_frames": 30,
+    "rule_frames": 6,
+    "incident_frames": 0,
+    "failure_cause": "UNKNOWN per-condition values/order; source confirms a pre-existing feedback-priority gap, not a latch-model regression",
+    "authority_limit": "Original tutorial circuit/save/navigation and absent creation/Session/lease paths were checked in-process; no existing saved CPG work and no serialized pre-browsing authority snapshot. Postexit main/backup comparison cannot reconstruct the missing baseline.",
+    "source_and_settings": {
+      "path_sha256_size_references": 14,
+      "runtime_full_file_map": 49,
+      "all_runtime_pngs": 36,
+      "step_frames": 30,
+      "rule_frames": 6,
+      "selected_fixed_source_files": 719,
+      "executed_nonsettings_files_exact": 718,
+      "canonical_tests": 176,
+      "unexpected_test_scripts": 0,
+      "private_settings_finally_restored_exact": true,
+      "main_backup_full_typed_payload_equal_after_only_top_saved_at_utc_removed": true
+    },
+    "source_commit": "e061518213c291f49e87efa34818ba35941d81e9",
+    "source_inputs": {
+      "src/ui/terminology_diagram.gd": "77121fbac0dfe0c4df9de1eae1772ce1961e9d7be692f393a42e1c3d5c7a6b31",
+      "src/ui/terminology_handbook.gd": "546d562dc9e41d58942b21a747ca71b52162e0ca559ff536bfe19e3a51cef002",
+      "tests/test_latch_rule_example.gd": "b0a74fea5494c36646eae948fd72938328e7f9f30086fde1481914be64389eee",
+      "localization/game.zh_CN.po": "d6e6ae682dfca9bd58ef104ea14081d2f4241ebadd6e4cb1aa751b5506cf803d",
+      "localization/game.en.po": "6581d8fc012391e9d98c92c57338241e39b662d427a6150357b06c560f8e1ec1"
+    },
+    "visual_audit": {
+      "path": ".godot/latch-rule-e061518-visual-independent-audit.json",
+      "sha256": "23c0b8e029292adce879fa6b023cdc73ea7530bff408b1c5eac1e8fdb5b45075",
+      "status": "PASS_VISUAL_SCOPE_ONLY_CONTROLLER_FAIL_UNCHANGED"
+    }
+  },
+  "guard_candidate": {
+    "file": "src/ui/terminology_handbook.gd",
+    "sha256": "60865204b645c74b98534d0ad1611f4a1832b66663b64275ec383e78a6e92ae6",
+    "prior_sha256": "546d562dc9e41d58942b21a747ca71b52162e0ca559ff536bfe19e3a51cef002",
+    "status": "PASS_STATIC_SCOPE_SUBSEQUENT_C84_SOURCE_RENDERER_PASS",
+    "two_inserted_lines_inverse_exact": true,
+    "behavior": "After validating a pressed non-echo Escape, active existing PlaytestData feedback flag returns false without handling the event; original feedback handler retains priority. No new state or host changes.",
+    "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+    "fixed_helper": {
+      "path": ".godot/run-latch-rule-fixed-c84cc9d.py",
+      "sha256": "92380088d4dce1a3464e6cea40a7d298596615043b99f8f3eca57f24b011a715",
+      "status": "PASS_STATIC_BINDING_NOT_EXECUTED_BY_AUDITOR"
+    },
+    "actual_result_ref": "renderer_repaired"
+  },
+  "ci": {
+    "run_id": 39106076014,
+    "url": "https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/39106076014",
+    "source_commit": "e061518213c291f49e87efa34818ba35941d81e9",
+    "status": "SUCCESS_REPORTED_BY_ROOT_LIVE_CHECK",
+    "scope": "Linux CI only; job logs/count not retrieved in this audit; no inferred stage count; not Windows GUI/export/native"
+  },
+  "recovery": {
+    "product_source": "bb5c817bcb7e0c770fc65b41b7407e2847149a74",
+    "central": "docs/verification/20261018-narrative-modal-focus/README.md",
+    "limit": "Previously accepted packages remain recovery/playtest builds; they do not contain or validate this new latch interaction"
+  },
+  "evidence_grades": {
+    "source_static": "Five source files plus narrow candidate guard inspected without executing engine",
+    "headless": "Actual seven requested stages; original tutorial preparation and in-process protection",
+    "source_renderer": "Actual controller and synthetic viewport Input with two failed checks; image acceptance pending",
+    "export_native_human": "No new exported package, OS input, Mac or newcomer acceptance for this feature"
+  },
+  "current_candidate_source": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+  "original_source_commit": "e061518213c291f49e87efa34818ba35941d81e9",
+  "focused_repaired": {
+    "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+    "summary": {
+      "path": ".godot/latch-rule-focused-c84cc9d-summary.json",
+      "sha256": "dbb60957c021c4b26fb3583aaf347184314eba1a9290ef34d564536488fde238"
+    },
+    "results": {
+      "path": ".godot/latch-rule-fixed-watch/85f41c864536/source/.godot/verification/20261018T083538Z-3db1eee8/results.json",
+      "sha256": "d6a666c6dfe84adb466baa07ce6ed45bfdb6c5373c5e4618107bc44ee3311e75"
+    },
+    "owned_processes": {
+      "path": ".godot/latch-rule-fixed-watch/85f41c864536/owned-processes.json",
+      "sha256": "b6ba830cd5a0d7572a163285ac66281ae4e47f89c6e3dc4c873967e78bac2ad1"
+    },
+    "copy_parity": {
+      "path": ".godot/latch-rule-fixed-watch/85f41c864536/copy-parity.json",
+      "sha256": "3584d44d40438ee9ad3105e4b1ba0265d394e5e165f3b24583c0d27e79989991"
+    },
+    "source_manifest": {
+      "path": ".godot/latch-rule-fixed-watch/85f41c864536/source-manifest.json",
+      "sha256": "5d8b30b0b2f177affe5d6ccf94507b2ecb89414c1f0cbef17dbc40a9ef514c39"
+    },
+    "stages": 7,
+    "passed": 7,
+    "ordered_owned_natural_zero": 7,
+    "errors": 0,
+    "warnings": 0,
+    "script_errors": 0,
+    "selected_source_files": 719,
+    "executed_nonsettings_exact_files": 718,
+    "canonical_tests": 176,
+    "extra_tests": 0,
+    "reported_checks": {
+      "latch": 258,
+      "learning_handbook": 1163,
+      "rule_practice_input": 391,
+      "storage_caption_playback": 150,
+      "localization": null
+    },
+    "config_exception": "Only the original verifier two private user-directory settings; no source archive mutation"
+  },
+  "renderer_repaired": {
+    "source_commit": "c84cc9d67b25e6e37eebd19570a9c065f62088ae",
+    "summary": {
+      "path": ".godot/latch-rule-rendered-c84cc9d-summary.json",
+      "sha256": "fefa628d266aea1cbc66c432f240efcbb5c6818019d8537339b3a053bad9116d"
+    },
+    "helper_receipt": {
+      "path": ".godot\\latch-rule-rendered\\448c794cf18c\\test_latch_rule_example\\receipt.json",
+      "sha256": "509723245ae6dff777b18c8aad107bb9470d8309436a8f5e49c51d821f11c6b9"
+    },
+    "suite_receipt": {
+      "path": ".godot\\latch-rule-rendered\\448c794cf18c\\test_latch_rule_example\\runtime\\appdata\\VonNeumannBottleneckChecks\\LatchRule-448c794cf18c\\test_latch_rule_example\\latch-rule-captures\\receipt.json",
+      "sha256": "e4487a006fa9f0e61f3f3a3b02bf6dec8002925411c912d53e725ee29430f21c"
+    },
+    "log": {
+      "path": ".godot\\latch-rule-rendered\\448c794cf18c\\test_latch_rule_example\\renderer.log",
+      "sha256": "49e0ce2575004d19d2b0c445b868ecf002422ea20540621b32414391375f4f2c"
+    },
+    "checks": 336,
+    "failures": [],
+    "process": {
+      "pid": 28016,
+      "exit": 0,
+      "terminated_owned_child_reason": "",
+      "elapsed_seconds": 19.986,
+      "natural_exit_zero": true
+    },
+    "script_errors": 0,
+    "warnings": 0,
+    "png_counts": {
+      "root_captures": 36,
+      "step_frames": 30,
+      "rules_frames": 6,
+      "incident_pngs": 0
+    },
+    "runtime_files": 49,
+    "selected_source_files": 719,
+    "canonical_tests": 176,
+    "executed_nonsettings_exact_files": 718,
+    "settings_finally_exact": true,
+    "typed_main_backup": {
+      "top_saved_at_utc_only_removed": true,
+      "all_remaining_json_values_and_types_equal": true
+    },
+    "protection_limit": "Original in-process equality checks passed; empty creation directory and absent Session/lease are not existing saved-work coverage; no serialized pre-browse full authority baseline.",
+    "visual_audit": {
+      "path": ".godot/latch-rule-c84cc9d-visual-independent-audit.json",
+      "sha256": "b2f146eab458f96575a30133c837a3f50baa99157be5105823cc58ed819306f7",
+      "status": "PASS_VISUAL_SCOPE_WITH_ORIGINAL_SCROLL_LIMITATIONS",
+      "reviewed_images": 36,
+      "prior_reviewed_byte_identical": 28,
+      "new_sha_images_actually_viewed": 8,
+      "limits": "Original scroll/deep term text not all simultaneous; English Handbook panel only; no feedback screenshot/focus inference or OS acceptance"
+    }
+  }
+}

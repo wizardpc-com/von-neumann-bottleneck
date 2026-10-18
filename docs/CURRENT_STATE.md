@@ -9,16 +9,18 @@ Its [plan](exec-plans/active/creation-connections-20261018.md) adds optional
 reflection using actual C→P→G evidence and saved-work identity, without changing
 save formats or simulation behavior. Existing local feedback entrances now
 suppress the duplicate tester footer while F8 and the no-local-entry fallback
-remain available. Fixeda4b764e passes all17 focused Windows stages with natural
+remain available. Fixedd14be32 passes all17 focused Windows stages with natural
 exits and zero errors or warnings. The same review entry uses the playback row when
 collapsed and the visible evidence header when expanded; returning to the signal
 folds the review and preserves its entry focus. Original Status, Signal, Verify,
-playback controls and saved-work regressions pass. Actual rendering identifies
-an embedded-modal focus gap: both the modal and its native parent can report
-focus. The bounded repair checks the active embedded viewport before handling
-Escape or delayed reading scroll. It awaits fixed-source validation; the failed
-renderer receipts and original images are preserved, and the two later renderer
-suites have not run. Full regression and new package acceptance remain pending.
+playback controls and saved-work regressions pass. All three actual renderer
+suites now pass with natural exits and zero errors or warnings;112 original PNGs
+have separate independent image review with explicit scroll and clipping limits.
+Six unchanged representative frames have source and hash manifests. The fragment checks focused embedded
+windows before handling Escape or delayed reading scroll. Complete Windows
+regression passes all176 stages with natural exits and no errors; six non-failing
+anchor warnings are retained in the evidence. Its remote CI also succeeds.
+New package acceptance remains pending.
 The separately reviewed external package
 controller adds only the two explicit CreationLinks profiles and a real Host
 C/P/G/Keep route; its exported execution is not yet verified. The

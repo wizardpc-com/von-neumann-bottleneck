@@ -1,5 +1,14 @@
 # 全旅程需求与证据账本 · 2026-10-18
 
+**F5当前源门禁：d14be32原17定向、三组真实renderer及完整Windows176阶段均自然通过。**
+完整回归无ERROR/SCRIPTERROR，原六条非失败anchor WARNING单列；当前源远端CI成功。
+可选C/P/G回顾使用本次真实公开观察及原保存作品ID；原合法准备与纯查看保护分列，不新建
+进度或历史。原本地反馈入口抑制重复测试者浮条，F8/导出与无入口fallback保留。
+112原PNG=78显式suite帧+34现场采图，已完成独立逐图审查；六张代表帧保持原字节及来源清单。
+逐图范围与旧截帧时点局限另列，不由controller通过
+推断每张文件名都对应面板。新双包/原生尚未运行，旧F4包继续为已验恢复入口。
+完整来源、旧失败与素材/人审/Mac边界见[本轮证据](../verification/20261018-creation-connections/README.md)。
+
 **当前工程Gate：F4产品SOURCE97516完整Windows175/175与两CI通过。** 两新包原始链为normal128+严格重开47、tester138+47及原随包60入口/真实CPG/作品重启/最终4现场2会话ZIP独立导入去重；外QA8a9c43e的新普通补充147、测试者补充193均实际整链PASS、自然exit0。原父/旧作品保持，原Store的11个明确数字编码单列，其他typed字段严格；两次旧补充FAIL保留。两角色实际OS观察站路线有19原JPEG限定通过，源QA88图及新包15图各按独立图审来源记录。当前包、SHA、范围和最多五项次日问题以[measured-growth集中证据](../verification/20261018-measured-growth/README.md)为准；原c109双包保留恢复身份。
 
 **后续工程：C→P→G真实证据贯通回顾。** F4已实现Layout公开合同/差额、Overlap首个未达标case与原事件/代码定位、CPU受控pair的按需壹回应、硬件/系统不同3D装置及近看。下一轮复用原Session公开已发生证据和原Works列表，不另造Hint/历史/成绩；撤销、恢复、换档不得串记录。正式美术/人设/声线/结局、新人、Mac、真人旧作品和未录制视频继续开放，完整goal仍ACTIVE。既有[展示SVG与五条实机脚本](../distribution/showcase-shots.md)可替换并继续优化，不冒充录制成片。

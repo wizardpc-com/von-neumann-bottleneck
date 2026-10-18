@@ -1,0 +1,114 @@
+{
+  "source_commit": "d14be32f81354eb062f38d39f860b16ff739921a",
+  "evidence_grade": "Actual source renderer using canonical controller/signals/Input; not an exported package, native OS, newcomer study or natural full journey.",
+  "copy_policy": "Original PNG bytes copied unchanged; no cropping, editing, montage or re-encoding. Original raw files preserved.",
+  "images": [
+    {
+      "file": "cpg-default-zh-720.png",
+      "source_path": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/runtime/appdata/VonNeumannBottleneckChecks/F5Rendered-fa11874acaae/test_cpg_connection_fragment/cpg-connection-captures/zh_CN-1280x720-collapsed.png",
+      "sha256": "a55070fe85fbf5c0ad50c5f90d4703e3ab9680c9e4e45f387c0294fc63b5f883",
+      "pixels": [
+        1280,
+        720
+      ],
+      "suite_receipt": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/receipt.json",
+      "suite_receipt_sha256": "b0a051a59b301e02be935aaa16fd724febce4827ee88b72ce2461b253832b130",
+      "test_sha256": "a6f86e2ef44342a2988de0d438c9259d0a6bd11585591766e0de4a95c7cdcc89",
+      "helper_sha256": "49b6aeedc58684fbe2412f018c1cc747caf77a19be4658e59da988b723b0b175",
+      "actually_viewed_original": true,
+      "copy_bytes_equal": true,
+      "caption": "Default collapsed C → P → G review entry beside original playback; original Verify/Signal/Run/Status remain visible.",
+      "scope_limit": "Actual Session QA setup and controller; not a naturally completed player journey."
+    },
+    {
+      "file": "cpg-restore-zh-720.png",
+      "source_path": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/runtime/appdata/VonNeumannBottleneckChecks/F5Rendered-fa11874acaae/test_cpg_connection_fragment/cpg-connection-captures/zh_CN-1280x720-step0.png",
+      "sha256": "e0c2a46dfcd6c6859f94f92426b09a889fd76ce89238c5809f2bdc11c0869598",
+      "pixels": [
+        1280,
+        720
+      ],
+      "suite_receipt": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/receipt.json",
+      "suite_receipt_sha256": "b0a051a59b301e02be935aaa16fd724febce4827ee88b72ce2461b253832b130",
+      "test_sha256": "a6f86e2ef44342a2988de0d438c9259d0a6bd11585591766e0de4a95c7cdcc89",
+      "helper_sha256": "49b6aeedc58684fbe2412f018c1cc747caf77a19be4658e59da988b723b0b175",
+      "actually_viewed_original": true,
+      "copy_bytes_equal": true,
+      "caption": "Independent lossless C record with original model/record digest and current-draft difference; the locate control is disabled for this old record.",
+      "scope_limit": "Deeper response and media use the original scroll region."
+    },
+    {
+      "file": "cpg-revealed-en-720.png",
+      "source_path": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/runtime/appdata/VonNeumannBottleneckChecks/F5Rendered-fa11874acaae/test_cpg_connection_fragment/cpg-connection-captures/en-1280x720-step1.png",
+      "sha256": "2f30f5cca6f4f10033157822ac65d93fb0875aed13c9171100df44f180b9d540",
+      "pixels": [
+        1280,
+        720
+      ],
+      "suite_receipt": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/receipt.json",
+      "suite_receipt_sha256": "b0a051a59b301e02be935aaa16fd724febce4827ee88b72ce2461b253832b130",
+      "test_sha256": "a6f86e2ef44342a2988de0d438c9259d0a6bd11585591766e0de4a95c7cdcc89",
+      "helper_sha256": "49b6aeedc58684fbe2412f018c1cc747caf77a19be4658e59da988b723b0b175",
+      "actually_viewed_original": true,
+      "copy_bytes_equal": true,
+      "caption": "Public P practice record: 10 revealed rows and last revealed B → D; separate inputs and original record identity are explicit.",
+      "scope_limit": "Only already revealed evidence is shown; not a future answer or a shared historical timeline."
+    },
+    {
+      "file": "cpg-feedback-zh-720.png",
+      "source_path": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/runtime/appdata/VonNeumannBottleneckChecks/F5Rendered-fa11874acaae/test_cpg_connection_fragment/cpg-connection-captures/zh_CN-1280x720-step2.png",
+      "sha256": "5fcf8406bcfc57c4d5bae64ed2e1399078057e764b44b6906e4140a8db74db05",
+      "pixels": [
+        1280,
+        720
+      ],
+      "suite_receipt": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/receipt.json",
+      "suite_receipt_sha256": "b0a051a59b301e02be935aaa16fd724febce4827ee88b72ce2461b253832b130",
+      "test_sha256": "a6f86e2ef44342a2988de0d438c9259d0a6bd11585591766e0de4a95c7cdcc89",
+      "helper_sha256": "49b6aeedc58684fbe2412f018c1cc747caf77a19be4658e59da988b723b0b175",
+      "actually_viewed_original": true,
+      "copy_bytes_equal": true,
+      "caption": "Actual G feedback record: 64 generated cells, no target; original operations/bytes/cycles and locate entry remain native text.",
+      "scope_limit": "Illustration lower part and deeper response require original scroll; no hidden target or event replay is asserted."
+    },
+    {
+      "file": "cpg-saved-en-720.png",
+      "source_path": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/runtime/appdata/VonNeumannBottleneckChecks/F5Rendered-fa11874acaae/test_cpg_connection_fragment/cpg-connection-captures/en-1280x720-step3.png",
+      "sha256": "42c23d6b3d98de494b20ed900410d33e62d18db6cbf8c7e90f2f2ad172af761a",
+      "pixels": [
+        1280,
+        720
+      ],
+      "suite_receipt": ".godot/f5-rendered/fa11874acaae/test_cpg_connection_fragment/receipt.json",
+      "suite_receipt_sha256": "b0a051a59b301e02be935aaa16fd724febce4827ee88b72ce2461b253832b130",
+      "test_sha256": "a6f86e2ef44342a2988de0d438c9259d0a6bd11585591766e0de4a95c7cdcc89",
+      "helper_sha256": "49b6aeedc58684fbe2412f018c1cc747caf77a19be4658e59da988b723b0b175",
+      "actually_viewed_original": true,
+      "copy_bytes_equal": true,
+      "caption": "Original saved work ID and 64-cell protected output with full recipe; entry locates the original Works list.",
+      "scope_limit": "Locating the work is separate from View and recipe verification/replay; this frame does not claim a cold Host history."
+    },
+    {
+      "file": "overlap-local-feedback-zh-720.png",
+      "source_path": ".godot/f5-rendered/fa11874acaae/test_offline_feedback/runtime/appdata/VonNeumannBottleneckChecks/F5Rendered-fa11874acaae/test_offline_feedback/offline-feedback-footer-captures/zh_CN-overlap-1280x720.png",
+      "sha256": "b00a5fd7bef822b12657e8ff891e6f49da75f4d4272ffda39f08c5e03f37ac57",
+      "pixels": [
+        1280,
+        720
+      ],
+      "suite_receipt": ".godot/f5-rendered/fa11874acaae/test_offline_feedback/receipt.json",
+      "suite_receipt_sha256": "d086d756d5defcf4eff379d7d95d7b506b30dda346ba0963d83f62d0d8ec9e70",
+      "test_sha256": "fd34ea245453f38a6728cdd720799495aef5d3e5cf7ea7a47916b01902a7f15e",
+      "helper_sha256": "49b6aeedc58684fbe2412f018c1cc747caf77a19be4658e59da988b723b0b175",
+      "actually_viewed_original": true,
+      "copy_bytes_equal": true,
+      "caption": "Original Overlap local Feedback, Handbook, Hint and Run all tasks dock is visible without the duplicate global F8/export strip.",
+      "scope_limit": "Official Test-mode fixture; task/body and parts use original scroll. This image alone does not prove pointer, export or OS acceptance."
+    }
+  ],
+  "limits": [
+    "Six selected frames, not proof that every deeper body/control fits in the viewport.",
+    "Embedded-modal focus/Esc behavior belongs to the bound controller results; no native OS focus-loss acceptance.",
+    "Historical failed runs remain in the central verification history; these files are all from the new d14 source run."
+  ]
+}

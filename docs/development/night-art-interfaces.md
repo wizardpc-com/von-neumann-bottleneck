@@ -102,12 +102,19 @@ profile与不可变baseline链经独立核验；完整Windows headless另为172�
 素材替换不新增音频、剧情、人物／文明历史，也不取得训练、揭晓、生成、保存或成果判定权。
 Saved仅定位原作品列表及真实ID；原View另有配方核验语义，不能用插画补造旧C／P／G经历。
 
-已目视与逐SHA核验的画面限SOURCE `2002af3841b96362505b2a6a8a9cacbe1140e1ab`，
-`c3205c3dde32`共42张：两语×1280×720／1920×1080／1600×1000的36张主帧、
+已目视与逐SHA核验的当前画面为SOURCE `d14be32f81354eb062f38d39f860b16ff739921a`，
+`fa11874acaae`共42张：两语×1280×720／1920×1080／1600×1000的36张主帧、
 4张反馈面板和2张测试者实际incident预覆盖图。默认入口、原Verify／Signal／Run／Status及
 四步主要来源／摘要可读；720p深层说明仍用原滚动，英文C步禁用定位按钮的下缘在该帧部分裁出。
-反馈面板也有原滚动位置，不能据这些图宣称全部正文或控件同屏、焦点恢复或失焦保护通过。
-该SOURCE的整轮renderer为FAIL（独立窗口夺焦边界8项ERROR），本节只接受上述画面范围。
-`a4b764ed`的素材代码与该SOURCE相同，其独立窗口焦点与renderer结果须由自身运行记录确认；
-同一素材接口不把旧画面图审推广为新整轮通过。完整图索引与边界见原审计收据
-`.godot/f5-rendered/c3205c3dde32/cpg-visual-independent-audit.json`（SHA `e5b3383d…`）。
+反馈面板也有原滚动位置，不能据这些图宣称全部正文或控件同屏。
+
+该SOURCE的实际controller为660项通过、0 ERROR／WARN／SCRIPT，包含四组真实嵌入模态窗口
+的焦点／逐层Esc边界；这些行为依据controller记录，不由静态图片推断。
+原生OS失焦仍为NOT_RUN。片段源码SHA为`52bfe31608bbedd17d9286399f574c15d7e658f6121401f0783bb808f332954f`，
+测试controller SHA为`a6f86e2ef44342a2988de0d438c9259d0a6bd11585591766e0de4a95c7cdcc89`。
+完整原图审计见`.godot/f5-rendered/fa11874acaae/cpg-visual-independent-audit.json`
+（SHA `d0b1f9ac1983ddb2bdf28db65fc1b1c6454a8dfc6373c386824904255541bac0`）。
+
+六张原字节精选图及各自来源、尺寸和SHA见
+[截图清单](../verification/20261018-creation-connections/screenshots/manifest.json)。
+它们属于源码renderer证据，不代替实际导出包、OS操作或新人理解验收；历史失败记录保留于中央验证材料。

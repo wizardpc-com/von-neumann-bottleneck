@@ -187,4 +187,34 @@ https://docs.godotengine.org/en/4.5/classes/class_viewport.html#class-viewport-m
 保留旧Measured补充协议和原严格重开规则。新profile的父链用真实Host完成学习、复原、
 逐次提交/揭晓、生成和保存，再从独立纯回看基线验证四步与原Works-ID定位；合法准备
 与纯查看允许变化分开列证。仍跑原Journal/观察站/测试者collector/作品重启/严格重开，
-冷重启不能补造C/P/G临时记录。此QA尚未实施，待源与renderer稳定后单独授权作者。
+冷重启不能补造C/P/G临时记录。外QA已实施并独审、随a4b检查点提交；实际导出运行仍待验收。
+
+固定d14be32的原17定向实际全部PASS，17 owned自然0、无ERROR/WARNING/SCRIPTERROR。
+摘要`.godot/f5-focused-d14be32-summary.json` SHA
+`58a7adcf764f952031c58bc1326d4d8a07ff4b6ceb61c3fac1e57c6bbff569de`。
+同一固定源的CPG、Offline反馈、Efficiency三组真实renderer均自然0、无ERROR/WARNING/SCRIPTERROR；
+摘要`.godot/f5-rendered-d14be32-summary.json` SHA
+`022d31acd82a5a9277a658d25699f76c4367619f04707748b1a4b45554557e15`。
+总控独立复核全部日志、输入和运行文件，原私有配置恢复及四份实际嵌入焦点JSON，见
+`.godot/f5-root-renderer-audit-d14be32.json` SHA
+`eac504c335efa6ba5d121c2eb369468275e5319488536db775d44ff955bc8ba1`。
+112张原PNG由独立审查逐张查看并核SHA，范围为42 CPG、44 Offline、26 Efficiency；
+六张代表图保持原字节并列源路径/尺寸/SHA，不以源renderer认证导出或OS输入。
+720p深层内容使用原滚动，部分反馈正文被原滚动位置裁出；Offline文件名zh面板的帧实际是
+中文Mission，不据此认证中文反馈面板。嵌入模态持焦覆盖通过，原生OS失焦仍未运行。
+完整原Windows回归另起固定d14输入运行，保留原枚举/180秒/ERROR守卫及全部176预期阶段；
+未到终态不得写为通过。新双包、原导出控制器/严格重开及有限原生路线继续待实际验收。
+总控实时只读核对d14的CI运行39092817879已完成SUCCESS；该远端结果不替代本机完整回归、
+真实renderer、导出包或原生输入验收。此前40d的远端失败身份保持。
+
+完整原Windows验证实际176/176 PASS，176有序owned均自然0、无ERROR/SCRIPTERROR/终止；
+六条原anchor WARNING来自desktop_conventions四条与feedback_presentation两条，保留而不抹去。
+摘要`.godot/f5-full-d14be32-summary.json` SHA
+`35762bce4e96fbbad039e07b668e8adefb61a996cc68edf78e0d0a8e4a31880e`；
+总控独立重读全部日志、完整5773文件Git ZIP归档及716固定输入、715执行源与两条原私有配置/EOL例外，
+审计`.godot/f5-root-full-audit-d14be32.json` SHA
+`3825d905a41d86db7d668c07181b324b27cf4818270ceed57e09a73e7c5e8ed2`。
+原175 canonical仅按原verifier排除recovery_game_input，即174 headless＋import/userdir；
+并非额外跳过测试。176次自有进程使用167个PID值，Windows退出后复用PID不减少执行条数。
+Knowledge另独审全部终态、私有设置例外和146固定核心Git blobs精确PR10 main。
+接下来原builder固定产品d14串行构建两个新Windows候选，再分别执行实际父/child/严格重开。

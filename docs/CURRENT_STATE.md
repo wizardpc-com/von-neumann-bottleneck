@@ -14,11 +14,13 @@ the apparatus now passes3319 focused checks and3613 rendered checks at source2c5
 through the actual Home entrance, including task-tree location and return. Its
 fifty original images pass independent per-image review; the720p sidebar keeps
 long source explanations in its original scroll area. The earlier incorrect QA-host
-images and script-error receipt remain recorded. Full regression and new packages
-remain unverified. The fixedc109
-pair below remains the last fully verified candidate and recovery baseline.
+images and script-error receipt remain recorded. Fixed97516b passes all175 complete Windows regression stages with natural
+process exits and no errors. The ordinary97516b package passes128 baseline checks and47 strict-reopen checks.
+Its first F4 supplement failed on QA startup contracts; that failure is preserved.
+The tester97516b build passes identity checks only. Further play acceptance remains
+active; the fixedc109 pair below remains the previous recovery baseline.
 
-## Current development — 2026-10-18
+## Previous Creative candidate — 2026-10-18
 
 PR10 is merged into `main` as `bf8f61647c03c8bba868cc833b3832e274bd4aee`.
 The current candidate adds bilingual context for all sixty tasks, a journal of

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="940" viewBox="0 0 1440 940" role="img" aria-labelledby="title description">
   <title id="title">从玩家操作到真实证据：当前候选工程结构</title>
-  <desc id="description">源码关系基线1d887c5。原生可编辑文字和矢量几何；非实机截图或运行验收。任务数由构建配置决定，测试入口不授予完成。</desc>
+  <desc id="description">源码关系基线2c56fd4。原生可编辑文字和矢量几何；非实机截图或运行验收。任务数由构建配置决定，测试入口不授予完成。</desc>
   <defs>
     <style>text{font-family:"Microsoft YaHei","Noto Sans SC",sans-serif;fill:#e7eff2} .title{font-size:34px;font-weight:700}.heading{font-size:24px;font-weight:700}.body{font-size:20px}.note{font-size:18px;fill:#b8cad3}.node{fill:#172b38;stroke:#7298aa;stroke-width:2}.flow{fill:none;stroke:#93d4dd;stroke-width:3;marker-end:url(#arrow)}.read{fill:none;stroke:#d3c59f;stroke-width:3;stroke-dasharray:9 6;marker-end:url(#read-arrow)}</style>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#93d4dd"/></marker>

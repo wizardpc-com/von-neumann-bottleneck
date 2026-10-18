@@ -2,31 +2,202 @@
   "stage": "ACTIVE_ENGINEERING_VALIDATION",
   "broad_goal_status": "ACTIVE",
   "baseline_commit": "2e488c387ab1a0b95f37036ca025878fdeaab085",
-  "candidate_source_commit": "2c56fd48b14d105961f380211102512d19e544de",
+  "candidate_source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
   "branch": "codex/measured-growth-20261018",
-  "source_authority": "Local candidate2c: apparatus headless3/3 and actual rendered3613 technical PASS with independent50-frame acceptance. Efficiency184/Target169 remain source69 with unchanged production/tests, independently accepted24/14frames. Full175 and actual Measured package/strict/clone/native chains NOT_RUN. Old69 apparatus visual rejection and2f script stop remain historical.",
+  "source_authority": "Fixed product SOURCE97516; full175 PASS and normal original actual parent128/strict47 PASS. Original accepted renderer scopes remain69 efficiency/Target and2c apparatus. Normal Measured clone supplement has FAILED and blocks this stage: startup capture flag skipped automatic game load, then unavailable exported TestMode was ignored. No successful supplement receipt; tester/newOS not run. External QA unchanged pending Root-approved repair; product package remains unchanged.",
   "current_gates": {
     "source_reviews": "PASS_STATIC_SCOPE: cross-review ring plus independent external-QA review",
     "full_windows": {
-      "status": "NOT_RUN",
-      "expected_stages": 175,
-      "blocked_by": "Await Root explicit final-source full authorization; component image acceptance is now closed.",
-      "planned_source_commit": "2c56fd48b14d105961f380211102512d19e544de"
+      "status": "PASS_HEADLESS_FULL_SCOPE",
+      "source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+      "stages": 175,
+      "passed": 175,
+      "failed": 0,
+      "pipeline_exit": 0,
+      "session": 82777,
+      "engine": "4.7.1.stable.official.a13da4feb",
+      "platform": "win32",
+      "results": {
+        "path": ".godot/verification/20261018T005445Z-c64f5158/results.json",
+        "sha256": "6dcfda2866738447056757c2de34751ef3622d15e28716fa2c9294497ca95b7b"
+      },
+      "summary": {
+        "path": ".godot/f4-full-97516b-summary.json",
+        "sha256": "65b105e4efb1e3afacab11e7b690b2386a1c2bbf6ee8ad311940bcccf81fc9d3"
+      },
+      "owned_processes": {
+        "path": ".godot/f4-fixed-watch/1109ba392a8e/owned-processes.json",
+        "sha256": "5b91fc3baab638ac861875a148b7dba8c8f0534894f9f898cd631a69e008dcd0"
+      },
+      "copy_parity": {
+        "path": ".godot/f4-fixed-watch/1109ba392a8e/copy-parity.json",
+        "sha256": "6d7eb8dc32dcdbbcc25b5253016a68a0f6496b7b09c6e8515b85f3fbc7e6063e"
+      },
+      "source_manifest": {
+        "path": ".godot/f4-fixed-watch/1109ba392a8e/source-manifest.json",
+        "sha256": "b41da442f60fe65aac3acef747b87b0d8210f7220d103b4b2ad0431520db1f85"
+      },
+      "original_verifier_sha256": "3ef955401b7020f9bc3cb17cb79148b81c22984e9a81a5ad596f3c2a7dfb481d",
+      "fixed_source_owned_helper_sha256": "935e173eaa402862a118f4129f9d63f9ca354df5bca8d634bd13ddad406d639c",
+      "independent_audit": {
+        "result_rows": 175,
+        "all_passed_exit0_no_result_errors": true,
+        "all175_log_hashes_recomputed_against_summary": true,
+        "all175_logs_no_ERROR_or_SCRIPT_ERROR": true,
+        "owned_natural_exit0": 175,
+        "early_terminations": 0,
+        "canonical_tests": 174,
+        "executed_test_suites": 173,
+        "skipped_gui_only_test": "test_recovery_game_input",
+        "extra_qa_tests": [],
+        "full_archive_identity_files": 5763,
+        "excluded_docs_paths": 5049,
+        "full_archive_materialized": false,
+        "selected_archive_input_raw_exact": 714,
+        "copy_time_selected_raw_exact_receipt": 714,
+        "terminal_project_raw_exact": 713,
+        "private_generated_project_settings_exception": {
+          "file": "project.godot",
+          "sha256": "70ac71e2562bc5fe0339735cbe38d964e360a6748812f6c762b020986392ceb5",
+          "delta": "Exactly two QA custom-user-directory injections and CRLF serialization in the original verifier private generated settings only. Removing those two lines after CRLF-to-LF reconstructs source; no audit rewrites.",
+          "reconstructed_source_sha256": "76eaee0a71522816e7197749c240e94fdeb05b4c276a30f5d029e64e3b35f475"
+        }
+      },
+      "isolation": {
+        "preflight": {
+          "path": ".godot/f4-full-97516b-preflight.json",
+          "sha256": "e8cff91a14039ad8d61fd9cd04e16be7540c0237b2486c61040523198964f849"
+        },
+        "outer_TEMP_and_TMP": ".godot/f4-full-temp-89fef5e7cff8",
+        "APPDATA_and_LOCALAPPDATA": ".godot/verification/20261018T005445Z-c64f5158/runtime",
+        "user_directories": "Original verifier per-stage distinct custom_user_dir; every result row retains its exact namespace. No player profile is used."
+      },
+      "limits": "Original Windows headless full only. Does not replace source-scoped rendered controller receipts, actual exported-package chains, OS input, newcomer or Mac acceptance."
     },
     "new_normal_package": {
-      "status": "NOT_RUN",
-      "blocked_by": "Final-source full175 and actual new package chain not executed."
+      "status": "PASS_ORIGINAL_PARENT_AND_STRICT_REOPEN_SCOPE",
+      "build_status": "PASS_EXPORT_AND_IDENTITY_SCOPE",
+      "build": {
+        "summary": {
+          "path": ".godot/f4-normal-build-97516b-summary.json",
+          "sha256": "79eb435ed85c423f34dd3855ee36345100b0eb64a06346716076308f196b50dd"
+        },
+        "source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+        "build_id": "playtest-MeasuredGrowthExperience20261018-97516b21f459",
+        "role": "normal",
+        "profile": "MeasuredGrowth20261018",
+        "zip": {
+          "path": "build/playtest-MeasuredGrowthExperience20261018-97516b21f459/Von-Neumann-Bottleneck-Windows-playtest-MeasuredGrowthExperience20261018-97516b21f459.zip",
+          "sha256": "c09d24093e233b1019903bf94d0c3256061e555cf6d71463e0e56ff7f995a82d",
+          "bytes": 57559429
+        },
+        "exe_sha256": "f25c7b9bc4a59e0c53c016de0c035eca1490b9111877e92c1480a0ca4af9613f",
+        "exe_bytes": 129793032,
+        "embedded_pck_sha256": "ab537353feb43dc71f4f8f1eaa109d66b34c7dddb33ea54df8a01ee455731b71",
+        "manifest_sha256": "28fd048aba1434d611546f3c8c8ddf44fb4ea0dd5c4bb812990967c3471c33ea",
+        "build_manifest_sha256": "1c8f5af93913687083e771d35a14e3e9ad98bfc0915d020496d82292ac18e96c",
+        "builder_pid": 22940,
+        "builder_exit": 0,
+        "builder_log_sha256": "56e07ee837b27f0ab25840655b0f6d6d99fb1f283b617ba9e3dced1ba836570b",
+        "process_receipt_sha256": "70274b371a994ef5bc9473f5857f256987dc95c3020c17035815b69508cd18aa",
+        "stage_logs_sha256": {
+          "export-Windows.log": "bd65882b911cd62b0f57607e21bb3ad8f5e5a403d4cceaf40c1c1de35b9b4b82",
+          "import.log": "21fe0f0e31f952bdbb5828b77cf9ac6bbd7a560b1af82ed4512b66a92ddaf934",
+          "licenses.log": "9d581ec5492fe988c9c06ba731f53831e0de994203e89ae19ffcf5b503748acc"
+        },
+        "independent_audit": "ZIP integrity and7 declared payload member/loose bytes hashes; manifest/build ID/SOURCE/profile/role/nonpublic endpoint fields; EXE and footer-delimited embedded PCK; README/CHANGELOG/KNOWN-ISSUES rendered identities and builder/stage log hashes independently checked. No engine or package launch by evidence author.",
+        "limits": "Export and artifact identity only; parent128/strict47/supplement/tester/native remain separate unaccepted gates."
+      },
+      "parent": {
+        "work": ".godot/night-package/01ada45151aa",
+        "receipt_sha256": "4df0ecfe6d8a1e56c8fffc7a6bd6c13d367d7fdf61e9842fa17830acf70aed05",
+        "checks": 128,
+        "all_true": true,
+        "failures": [],
+        "engine_log_sha256": "6e2606103ecfa3f856c89a4361e2530f776bd8d2fbd9a7879643ac92f7b5a0c0",
+        "embedded_log_sha256": "517160fae254799cf2bb8647049c80691e1c048c1b51e04cbef3f4207540127e",
+        "controller_sha256": "9fb11c3d276816872b1fed655e646fc39b3e0b843ae42ee3d2adf0bd5e3a1a5f",
+        "validator_sha256": "fab526393ac52ded6e86e481a663c57ec9c173310ab2d2dccdd364fd4fb6cd7e",
+        "saved_work": {
+          "id": "67f5602f7e4f0b670f2b0c01424e27b1f3390797586f8ef3174422bcae67f8e3",
+          "session_sha256": "20f4c259ad9101722a926577da6d3c14a73b1ca37b4af658e49704c08c4025d2",
+          "independent_existing_disk_work_matches_parent": true,
+          "setup_grade": "Actual original Session train/lossless transport/manual commit/reveal/generate/save in private QA namespace; not natural full-journey player completion."
+        },
+        "independent_audit": "All128 checks true, failures empty, source/profile/role/controller/validator/ZIP/EXE/PCK match artifact; both original logs noERROR; actual existing session/work/output/recipe checked without opening a writer."
+      }
     },
     "new_tester_package_and_original_collector": {
       "status": "NOT_RUN",
-      "blocked_by": "Final-source full175 and actual new package chain not executed."
+      "blocked_by": "Actual new artifact identity and original package chains remain unexecuted; final-source full175 has passed."
     },
     "strict_reopen": {
-      "status": "NOT_RUN",
-      "expected_checks_per_role": 47
+      "status": "NORMAL_PASS_TESTER_NOT_RUN",
+      "normal": {
+        "status": "PASS_NORMAL_RENDERED_CONTROLLER_SCOPE",
+        "work": ".godot/night-package/01ada45151aa",
+        "summary": {
+          "path": ".godot/f4-normal-parent-strict-97516b-summary.json",
+          "sha256": "8dd90ea5591d07e281dcc03eab40a692dc52aa3bc1237c5e9f6162760494356e"
+        },
+        "validation_sha256": "b8b4fe3a8ad2d9192a4a58889b81c0cf162e85bddb72848e941bd6543175e6c0",
+        "raw_receipt_sha256": "d50a3770c3ac415b20975ea61cd7a90dfb994e90861d58f9545e3cfd4fabca88",
+        "post_exit_baseline_sha256": "e0732783cf1364e75ce29f9df00abdbc730805b5deba2ea3b19c4e1611658ad0",
+        "checks": 47,
+        "all_true": true,
+        "failures": [],
+        "pid": 44200,
+        "natural_exit": 0,
+        "no_ERROR": true,
+        "loaded_state_conversions": [],
+        "strict_validator_sha256": "7b9f5ff700f0861f88af76e49ab49ddd3a8c1ad889f676993ab8ac819e791432",
+        "independent_hash_chain_and_runtime_protection_audit": true,
+        "protection_boundary": "Raw reopen protected snapshot equals parent post-exit baseline: full typed game_state and12 protected file/lock entries exact, with no normal coordinate conversions. These are in-process receipt checks. Normal exit may update saved_at_utc/rotate backups; no claim that every post-exit file hash remains forever unchanged. Supplement must separately audit actual post-exit clone and original runtime preservation."
+      },
+      "tester": {
+        "status": "NOT_RUN",
+        "expected_checks": 47
+      }
     },
     "cloned_measured_supplement": {
-      "status": "NOT_RUN"
+      "status": "FAIL_NORMAL_CLONE_SUPPLEMENT",
+      "work": ".godot/night-package/measured-fd6f9bd3334c",
+      "summary": {
+        "path": ".godot/f4-normal-measured-supplement-FAILED-summary.json",
+        "sha256": "844de49cd42039d1047b33155a31c641728c7724c3720dea5306865e8e72e062"
+      },
+      "log_sha256": "fb8838e9418c646f6ac84ee9a23370737b860bfdd0c1641b28d36925ca5877d2",
+      "process_sha256": "bd02fff394274f219509b84c2b285a59db58bf4ffef0d1a0c27988576de25737",
+      "seed_sha256": "8293cd050a1adc7d7d87a29a2f47b1f9f8f7dffc58c49c8ee8b2e64215e77eee",
+      "post_exit_files_sha256": "8a02191e0ae9dcf1c403a3e0ac02eeed37f46ee91bbf354f67276d9be6d7bbc4",
+      "pid": 26784,
+      "exit": 3221225477,
+      "hex_exit": "0xc0000005",
+      "terminated_owned_child_reason": "",
+      "first_error": "Measured apparatus binds only the actually completed tutorial",
+      "following_errors": [
+        "CPU OptionButton item count0 index errors",
+        "Single/pair reference official run assertions fail",
+        "Layout original fields contract assertion fails"
+      ],
+      "successful_supplement_raw_receipt": false,
+      "successful_validation": false,
+      "independent_protection_audit": {
+        "original_parent_actual_files": 18,
+        "original_parent_actual_directories": 36,
+        "all_file_hashes_and_directory_set_exact_to_seed": true,
+        "parent_receipt_unchanged": true,
+        "strict_validation_unchanged": true,
+        "zip_unchanged": true,
+        "three_qa_scripts_unchanged": true
+      },
+      "source_diagnosis": {
+        "capture_launch_conflict": "Actual command contains --capture-size. GlobalSave._ready and _is_automated_launch explicitly skip load_game for any --capture argument; cloned disk main actually retains tutorial completion. Runtime loaded_save was not logged, so the branch is source-supported, not a measured variable value.",
+        "exported_test_mode_contract": "GameMode.set_mode(test) explicitly returnsfalse for free_candidate; probe ignored return. Unchanged normal task gates then reject CPU/Layout entry. No evidence of simulator regression from this invalid setup.",
+        "crash_boundary": "Natural native access-violation exit observed; exact engine crash mechanism not established from following setup errors."
+      },
+      "repair_status": "READ_ONLY_PROPOSAL_PENDING_ROOT_AUTHORIZATION_NO_RETRY",
+      "limits": "Original normal parent128/strict47 remain accepted; supplement failure does not replace them. No fabricated earned state, direct mode mutation, core change or weakened assertion authorized. Tester/native not run."
     },
     "new_native_os": {
       "status": "NOT_RUN"
@@ -956,11 +1127,11 @@
   },
   "bounded_protected_core": {
     "receipt": {
-      "path": ".godot/f4-protected-core-parity-69b785a.json",
-      "sha256": "8fb5f9b8af981853428a574b3ac9b17567bd402d404ad30e462ee3bd2e161047"
+      "path": ".godot/f4-protected-core-parity-97516b2.json",
+      "sha256": "feb48bafeb3009f53c9176d1977a50648b7aefe0b0e1ee043e25e1b77e875f86"
     },
     "baseline": "bf8f61647c03c8bba868cc833b3832e274bd4aee",
-    "source": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
+    "source": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
     "count": 146,
     "raw_git_object_hashes_recomputed": 146,
     "mismatches": [],
@@ -977,7 +1148,13 @@
       "experiments/service_plan/lab.gd",
       "experiments/service_plan/response_journey_view.gd"
     ],
-    "grade": "Exact identity only for the explicit146 selected core paths. Not all task hosts or all verdict code, and not a replacement for runtime/full/package validation."
+    "grade": "Exact identity only for the explicit146 selected core paths. Not all task hosts or all verdict code, and not a replacement for runtime/full/package validation.",
+    "historical_source69_receipt": {
+      "path": ".godot/f4-protected-core-parity-69b785a.json",
+      "sha256": "8fb5f9b8af981853428a574b3ac9b17567bd402d404ad30e462ee3bd2e161047"
+    },
+    "selected_map_equals_source69": true,
+    "independent_audit": "Receipt SHA recomputed; all146 current raw files rehashed with Git blob header and match exact recorded map, which equals source69. No Git command or engine run by evidence author."
   },
   "planned_packages": {
     "status": "PENDING_ACTUAL_MANIFEST",
@@ -993,7 +1170,8 @@
       "path": null,
       "zip_sha256": null
     },
-    "contract": "Retain original parent128/138, strict47, and original bundled tester collector60/realCPG/finalZIP. Counts are planned inherited gates, not new observed results. Only after successful strict reopen, supplement copies actual post-exit QA data and executable to a distinct root with APPDATA/LOCALAPPDATA/TEMP/TMP isolated. Original parent receipt/runtime must remain exact."
+    "contract": "Retain original parent128/138, strict47, and original bundled tester collector60/realCPG/finalZIP. Counts are planned inherited gates, not new observed results. Only after successful strict reopen, supplement copies actual post-exit QA data and executable to a distinct root with APPDATA/LOCALAPPDATA/TEMP/TMP isolated. Original parent receipt/runtime must remain exact.",
+    "planned_source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d"
   },
   "protection_and_fixture_grades": [
     "Target guidance fixture actually trains/transports/predicts/generates/saves one work and closes its writer; read-only locate/F8 protects its actual session/recipe plus game, drafts, receipts, nav and empty writer/recovery locks. This is controller QA setup, not a natural journey.",
@@ -1066,10 +1244,29 @@
     "new_run_status": "New2c headless3/3 and rendered3613 with50-frame independent acceptance; old2f failure unchanged."
   },
   "source_control": {
-    "root_reported_local_candidate": "2c56fd48b14d105961f380211102512d19e544de",
-    "last_root_reported_remote": "69b785a11c7261ddcdfbbdc02dec24d01abd0b3d",
-    "remote_parity_for_current_candidate": "PENDING_ROOT_VERIFICATION",
-    "authority": "Root only; no Git command executed by evidence author."
+    "root_reported_local_candidate": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+    "root_verified_remote": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+    "remote_parity_for_current_candidate": "PASS_ROOT_LS_REMOTE_EXACT",
+    "authority": "Root only; evidence author ran no Git command.",
+    "ci_latest_root_observed": {
+      "source_commit": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+      "grade": "Root live GitHub observation; evidence author did not run Git or engines",
+      "runs": [
+        {
+          "run_id": 39084476085,
+          "python": "SUCCESS",
+          "godot": "SUCCESS",
+          "godot_completed_at": "2026-10-18T01:04:16Z"
+        },
+        {
+          "run_id": 39084473027,
+          "python": "SUCCESS",
+          "godot": "SUCCESS",
+          "godot_completed_at": "2026-10-18T01:07:11Z"
+        }
+      ],
+      "limits": "Separate remote CI jobs; no implication of final local Windows full175 or actual new package acceptance."
+    }
   },
   "source2f_to_2c_parity": {
     "from_source": "2f961134b1dde6e2779c95a46d1f60b0d1647adc",
@@ -1345,8 +1542,88 @@
     "source_boundary": "Efficiency24 and Target14 are source69; apparatus50 is source2c. Production and other two tests unchanged, but this is not a new full three-suite render at2c.",
     "limits": [
       "Original scroll may be needed for deep optional prose, source programs, geometry and return actions; no all-text-same-screen claim.",
-      "Existing English floating F8/export strip can cover a tail of secondary fixed-configuration text; primary source/steps/metric scope accepted, not a claim of zero visual limitations.",
+      "The source69 EN1600/1920 QA images contain a floating F8/export strip at the prior720 coordinates. Independent source/image review supports cross-role QA toolbar-visible residue: tester close makes toolbar visible; next locale disables role without hiding it; disabled _process does not reposition. This does not establish a fixed-role production System layout defect. Original images/failures remain; no QA fix or new run accepted yet.",
       "Tests use disclosed real tutorial/CPG setup and reference official model fixtures, not natural newcomer progress, actual exported-package or OS acceptance."
     ]
+  },
+  "source2c_to_97516_parity": {
+    "from_source": "2c56fd48b14d105961f380211102512d19e544de",
+    "to_source": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+    "root_verified_changed_scope": "Exactly three distribution texts and four docs; no production/tests/externalQA change.",
+    "independent_raw_comparison_to_69": {
+      "compared_non_docs": 714,
+      "raw_exact_same": 710,
+      "differences": [
+        {
+          "path": "distribution/CHANGELOG.txt",
+          "source69_sha256": "bea69b23dd42432c259918901543564cc579ac78dbe68ce2d8f88174a7471d9f",
+          "current_raw_sha256": "6f11b5d9eaa3587405ff7157466bcd8222793c8ac952aa6d6470483c8f5a6577"
+        },
+        {
+          "path": "distribution/KNOWN-ISSUES.txt",
+          "source69_sha256": "458b5ac46676d459be2bf376094e9cff7ec3e78b3cdcee3fe2db4a6d3b8493fd",
+          "current_raw_sha256": "61eb5f0c3c757925f23cee31806685d5e3a49dd002e8395ff4666854e55c6d59"
+        },
+        {
+          "path": "distribution/PLAYTEST-README.txt",
+          "source69_sha256": "bc6a4ea935f40d868e18bb9b55b6ff85a2ca93be9b027c0073884ee3ecd1347e",
+          "current_raw_sha256": "4622296e32663f0651fdf349389229c4971c6fffd33db5ca867a719107cdecd7"
+        },
+        {
+          "path": "tests/test_observatory_apparatus.gd",
+          "source69_sha256": "d080bc36ded2a1bcb9125cbd03b40d74f49f00a7e1382d18c29c9fb5a95293f8",
+          "current_raw_sha256": "e8f0782fe31d3ae7bf2134d7c005ece9071781c6c28e4295dce766cf5977b611"
+        }
+      ]
+    },
+    "build_boundary": "New build SOURCE/version identity is injected. No claim of EXE/PCK byte identity with older products."
+  },
+  "external_qa_latest_reinspection": {
+    "source_context": "97516b21f459a7be9b557fdffc0d1e265b5a839d",
+    "hashes_match_independently_reviewed_freeze": true,
+    "review_grade": "Author reinspection of unchanged bytes; prior Visual independent PASS_STATIC remains separate. Actual exported parent/strict/supplement execution still NOT_RUN.",
+    "python_ast_parse": "PASS_NO_EXECUTION",
+    "contracts_checked": [
+      "Exact Measured role/profile allowlists and original parent128/138 plus strict47/real bundled tester child retained.",
+      "Supplement only after successful strict, binds original parent/raw/baseline/process/ZIP/EXE/PCK/controller/validator; clones actual post-exit runtime and package into a separate root with four private environment directories.",
+      "Actual Home lazy launcher in supplemental apparatus: no lingering tutorial host or fabricated earned rows. Near/restore binds original task/shape/camera.",
+      "CPU reference official pair and target unmet fixtures use only original TestMode in clone; Files.read_session validates the original existing work and full session SHA, with no new Session writer or fake histories.",
+      "New contexts keep actual role F8/Esc/focus; no channel flip. Reopened typed payload stays exact except already explicitly recorded tester coordinates; no broad numeric normalization.",
+      "Original parent receipt and entire runtime file/directory map must stay exact; clone captures before/after maps. Post-exit save timestamps/backup rotation are bounded and all other protected files/locks checked."
+    ]
+  },
+  "regenerable_docs_copy_cleanup": {
+    "grade": "Root and Visual independently audited before deletion; evidence author verified final receipt hashes, not deleted contents.",
+    "receipts": [
+      {
+        "path": ".godot/c109-tester-completed-build-docs-parity.json",
+        "sha256": "c5fd684da36d4ed0a40baaf6492a4f45f4155884ca3300479a9d4d4935bb3b2c"
+      },
+      {
+        "path": ".godot/f4-old-build-docs-parity.json",
+        "sha256": "cdf01faa2c8c10736a96711e59772675046699f9f4fc8041f20648b6e404fb7e"
+      },
+      {
+        "path": ".godot/f4-old-build-docs-parity-extra.json",
+        "sha256": "f740c5e418451be99abfe1274472dbda289e78d7cd2fbf120db668b157fcba00"
+      }
+    ],
+    "old_docs_copies": 7,
+    "root_reported_bytes_recovered": 1659851509,
+    "scope": "Only reproducible docs copies in ended candidate build source trees, recoverable from their fixed Git blobs. Raw logs/PNGs/runtime/works/packages/profiles retained; those old source trees are no longer fully materialized.",
+    "counting_boundary": "This bounded cleanup total is952616012+707235497 bytes; excludes the earlier separately recorded239210065-byte old normal copy."
+  },
+  "showcase_materials": {
+    "status": "PASS_SOURCE_AND_THREE_BOUND_FRAME_SCOPE",
+    "architecture": {
+      "path": "docs/distribution/showcase-architecture.svg",
+      "sha256": "d671f1274648f10a650348d85720fc40877ad972859db90eb719ea99cde11789"
+    },
+    "shots": {
+      "path": "docs/distribution/showcase-shots.md",
+      "sha256": "2385206e7459657d0bd2473ce10f9af8bec33cac7df2facd8188223e2d885bbe"
+    },
+    "independent_review": "XML and local links checked; three original/copy PNG bytes, source/test/receipt binding and1280x720 dimensions independently verified; all three actually viewed. CPU/Layout source69; System source2c. Actual System fixture has49 tasks, not60. Test-mode records are not natural earned progress. Five recording routes are executable scripts; video has not been recorded.",
+    "current_source_boundary": "Diagram baseline2c remains applicable because production unchanged at97516. No new actual package or OS claim."
   }
 }

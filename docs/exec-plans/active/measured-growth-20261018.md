@@ -205,3 +205,39 @@ Root已核全50原字节哈希并实看720中文系统近看，无旧教程窗�
 Visual已完成全部50实际view/hash，观察站本矩阵接受；与69效率24、Target14共88实际原图，
 各自来源分列。720侧栏长来源/意象说明仍走原滚动，稀疏装置仍属可替换候选，不提升为包/OS/新人验收。
 审计`.godot/f4-final-visual-audit.json` SHA `f0f06b8574b9a374b2b5d86a750074eea29d3a8a47f0e0f0801b60a9224d0889`。
+
+## 固定97516b完整回归
+
+原verify无suite/gui过滤执行175阶段，175/175实际PASS；全部175owned自然exit0，无ERROR、
+SCRIPT ERROR、timeout或终止。Root独立读取全部175日志、results、owned与copy收据一致。
+174canonical排除原GUI-only recovery_input，加import/userdir为175，不删测试或加私有测试。
+固定archive5763文件，5049docs未物化；714selected原copy逐SHA精确。终态project.godot保留原verifier
+逐stage隔离注入与EOL序列化，不能说终态原始714全恒同；713非配置保持原字节。
+原APPDATA/LOCALAPPDATA由verifier指向fresh runtime，外层TEMP/TMP为fresh f4-full-temp-89fef5e7cff8。
+
+raw`.godot/verification/20261018T005445Z-c64f5158/results.json` SHA
+`6dcfda2866738447056757c2de34751ef3622d15e28716fa2c9294497ca95b7b`；
+摘要`.godot/f4-full-97516b-summary.json` SHA
+`65b105e4efb1e3afacab11e7b690b2386a1c2bbf6ee8ad311940bcccf81fc9d3`。
+原保护146核心Git blobs在97516b仍exactPR10/69，六mixedUIhosts排除。
+下一只构建普通MeasuredGrowthExperience20261018/source97516b，manifest/实包/父链/重启/补充逐项取实际回执。
+
+## 普通实包与原补充失败
+
+固定97516普通包实际构建/身份与原ZIP全payload hash通过，ZIP57559429B，SHA
+`c09d24093e233b1019903bf94d0c3256061e555cf6d71463e0e56ff7f995a82d`。
+实际父01ada45151aa通过128/128，严格独立重开47/47，PID44200自然exit0，无ERROR、无额外坐标转换。
+
+原normal全F4补充measured-fd6f9bd3334c实际FAIL，owned26784自然异常exit3221225477，
+monitor未终止；首App教程完成状态不符，继发空CPU选项/合同失败后崩溃，无成功raw/validation。
+原父与严格收据、18文件+36目录库存、ZIP/EXE/3QA均未变；失败现场保留。
+两位独审确认两个QA合同冲突：--capture-size使GlobalSave走不加载自动化分支；
+free_candidate明确拒绝set_mode(test)，probe未核返回而触碰正常前置拒绝后的空Host。
+这不是已证模型回归，C++异常底层原因未知；不加sleep/绕过开关/写通关位。
+
+后续正确范围分角色：normal沿现成Hardware真实连线、official序列、seal/encapsulation、
+LOAD/STORE交接→System assembly→CPU pair，单列合法QA准备与纯回看保护；
+仅CPU前置仍不满足Locality capstone，不把normal的Layout/Overlap门槛改掉。
+固定tester的原Host catalog已有offline_tester入口豁免，可承担Layout/Overlap实际官方run、定位、stale保护。
+旧normal全补充保持FAIL；新增明确角色覆盖采用新QA提交与raw身份，不能收窄后追改原成功率。
+所有旧作品/session与原父不变，克隆合法准备产生的游戏变化须独立精确审计，不放宽未知权威写入。

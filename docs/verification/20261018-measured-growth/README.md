@@ -3,9 +3,9 @@
 ## 当前门禁
 
 阶段仍为 **ACTIVE**，完整目标也仍为 **ACTIVE**。新候选 SOURCE 为
-`2c56fd48b14d105961f380211102512d19e544de`，分支为 `codex/measured-growth-20261018`。
+`97516b21f459a7be9b557fdffc0d1e265b5a839d`，分支为 `codex/measured-growth-20261018`。
 Root 管理 Git、引擎与实际包身份；后续证据文档提交不等于产品 SOURCE 变化。
-Root最后确认的远端为69；2f／2c本地测试恢复提交尚待验证后同步，不先称当前候选远端一致。
+Root已提交／推送97516并核对远端精确一致。它在2c上只补三份分发说明与四份文档，生产／测试／外QA不变；实际GUI仍分别属于69和2c。
 
 - **69 原定向门禁 20/20 headless PASS。** 20 日志无 ERROR、20 自有进程自然退出0；输入复制收据714/714精确，独立复查713个非配置文件原SHA相同。仅私有生成的project配置含两条QA userdir注入及CRLF序列化；只处理此配置的这两项差异后原源SHA精确相同。174 canonical tests、零额外 QA test；完整 archive 的5761文件只作身份记录，5047个 docs 路径未物化，不称完整树已复制。
 - **69 三个 suite 的真实 renderer 技术断言通过，但观察站画面验收未接受。** 效率184、未达标证据169、观察站3442检查，三进程自然退出0、无ERROR；88原PNG与最终运行／作品文件SHA独立重算，其中58主viewport帧、24实际3D纹理、6离线现场。四条角色路径确实观察到F8接收／截图忙边界，旧失败不追改。
@@ -13,10 +13,19 @@ Root最后确认的远端为69；2f／2c本地测试恢复提交尚待验证后�
 - **2f只改观察站测试与四份文档，但新观察站门禁已因测试SCRIPT ERROR中止。** 实际`results.json`只有import／userdir两条正常PASS；第三个自有进程被严格监督器按script_error终止，exit1，没有正常App结果行，不能写成“三阶段正常完成”。真实Home的Locate已切到Map并释放旧host，测试324行仍读旧观察站visible。App实际GUI未执行；继续只修测试并重新固定来源。
 - Root精确Git路径收据与本作者714个非docs输入复查一致：2f仅观察站测试不同，713项原SHA相同。69效率／未达标证据的渲染结果保持各自范围，不称2f三个suite全部重跑。新构建将注入自己的SOURCE／版本身份，不据此宣称EXE字节相同。
 - **新2c观察站门禁三阶段全部正常PASS，suite3319检查通过；实际GUI3613通过且50原图获独立接受。** PID45184自然退出0、无ERROR，50图逐SHA核对：24主viewport帧、24实际3D纹理、2离线现场；最终runtime／作品文件亦重算匹配。真实Home释放旧host／外来面板和hover防护／真实定位Map字段／两角色反馈及非导航保护都已执行。Visual已实际view全部50图，新结果不覆盖旧69画面拒绝或2f脚本中止。
-- **当前合成的已审渲染是69效率24图／Target14图，加2c观察站50图，共88图。** 2c生产及另两测试不变，不称2c全三suite重跑。175阶段完整Windows回归、Measured新双包、父链／严格重启／克隆补充仍 **NOT_RUN**，等待Root后续授权与实际回执。175只是预期完整规模，尚无本次通过计数。
+- **当前合成的已审渲染是69效率24图／Target14图，加2c观察站50图，共88图。** 不称97516全三suite重跑。97516的原完整Windows回归已终态 **175/175 PASS**；普通新包原父链 **128/128 PASS**、独立进程严格重启 **47/47 PASS**；正常克隆补充已 **FAIL**，阻止本阶段最终验收；测试者新包仍待实际构建与链验收，不能借完整回归替代新包结果。
+- **97516原Windows headless完整回归175/175独立核验PASS。** 175条结果、全部175日志SHA与严格ERROR扫描、175自有进程自然退出0均已复核；174 canonical tests中执行173个，原GUI-only `test_recovery_game_input`按原verifier不在headless枚举，零额外QA。完整archive5763只作身份记录，排除5049个docs，只物化714项；固定输入714原字节相同、复制时714/714精确。终态project713项仍原SHA，唯原verifier生成的`project.godot`含两条隔离userdir与CRLF例外，精确移除后重建原SHA。外层TEMP／TMP同用独立空QA目录，APPDATA／LOCALAPPDATA仍由原verifier指向本次runtime并逐suite隔离。详细收据／源／日志哈希见checks；这不是导出包或OS验收。
 - 当前没有本轮 OS 输入、新人、Mac 或真人旧作品验收结果。原 c109 两包是已验恢复版本，见[旧交付入口](../20261018-creative-framework/README.md)，不能标成本轮覆盖。
 
+Root实时核对97516的远端CI：`39084476085`的Python／Godot均SUCCESS（Godot结束于`2026-10-18T01:04:16Z`）；`39084473027`的Python／Godot均SUCCESS（Godot结束于`2026-10-18T01:07:11Z`）。这些状态不替代本地Windows完整回归或新包验收。
+
 原结果与逐文件 SHA 见 [checks.json](checks.json)。本页不收录私人意见内容、运行账户路径或未经核验的包下载链接。
+
+## 当前补充阻断
+
+普通克隆补充`measured-fd6f9bd3334c`实际FAIL：首错为教程成果绑定未满足，随后CPU空选项／受控pair和Layout任务契约错误，进程26784自然异常退出`0xC0000005`，不是监督器终止；没有成功补充raw或validation。原失败日志／摘要保留，不自动重跑。
+
+已独立核seed、日志、进程和post-exit map：原父runtime的18文件＋36目录精确不变，父128／strict47收据、ZIP和三外QA也未变。源码定位两个启动合同冲突：实际`--capture-size`触发GlobalSave自动化分支而不调用load_game（磁盘教程完成仍真实存在；未记录runtime loaded_save值）；free_candidate明确拒绝`set_mode(test)`，QA却未检查返回，不能把后续未合法进入的Host当模型回归。异常退出底层机制仍未确认。修复方案仅在外QA边界审议，当前无源码改动或新执行。
 
 ## 本轮可观察变化
 
@@ -44,13 +53,13 @@ Root最后确认的远端为69；2f／2c本地测试恢复提交尚待验证后�
 
 fcad2 四条真实相位一致：请求与原 pre_draw 在同帧，输入尚未接收，flag／busy为false、渐变正常前进约0.066；原测试此时自行切到step2。下一周期普通面板已开；测试者下一 pre_draw 为真实 busy／paused、面板尚未显示，再下一帧面板打开。这个结论限本次 installed4.7.1 的实际记录，不泛称所有引擎行为。
 
-Visual的最终独立图审收据`.godot/f4-final-visual-audit.json` SHA `f0f06b8574b9a374b2b5d86a750074eea29d3a8a47f0e0f0801b60a9224d0889`绑定上述88图。接受范围仍有明确边界：深层原生文字、程序、几何和返回动作可能要用原滚动；既有英文F8／导出浮条可盖住次要固定配置说明尾部，不称零视觉局限或全文同屏。主要来源／步骤／指标及新观察站无遮挡范围已接受；不是OS或陌生玩家验收。
+Visual的最终独立图审收据`.godot/f4-final-visual-audit.json` SHA `f0f06b8574b9a374b2b5d86a750074eea29d3a8a47f0e0f0801b60a9224d0889`绑定上述88图。接受范围仍有明确边界：深层原生文字、程序、几何和返回动作可能要用原滚动；69的英文1600／1920图中F8／导出浮条仍在旧720坐标，可盖住次要配置说明；独立源码与实图复核支持测试跨角色切换后未同步toolbar.visible的残留解释，不能据此认定固定角色生产System布局缺陷。未修改测试或认证修复，旧帧保留；不称零视觉局限或全文同屏。主要来源／步骤／指标及新观察站无遮挡范围已接受；不是OS或陌生玩家验收。
 
 69 的最终测试据此只增加一次 process_frame 后进入原 pre_draw，在真实接收边界检查未完成渐变和 capture-busy。请求前 step／scroll 必须保持，随后禁止切步、冻结渐变／滚动、恢复精确焦点、逐层Esc及作品字节保护继续保留。无轮询、flush、睡眠、手设标志或共享生产输入修改；新真实 renderer 四角色路径均通过，原fcad诊断仍是FAIL。
 
 ## 保护、来源与输入等级
 
-从 PR10 main `bf8f61647c03c8bba868cc833b3832e274bd4aee` 到69，明确选定的146个核心文件 Git blob 原字节相同；本证据作者独立重算 raw Git-object hash，146/146相同。2f只有测试／文档差异，生产路径保持该范围。它覆盖指定模拟／保存／内容／候选 Session 及模型路径，明确排除六个 mixed UI host，**不表示所有任务 host 或所有判定代码没改**，也不代替完整回归。
+从 PR10 main `bf8f61647c03c8bba868cc833b3832e274bd4aee` 到当前97516，明确选定的146个核心文件 Git blob 原字节相同；本证据作者独立重算当前 raw Git-object hash，146/146相同，路径／blob映射与69完全一致。新收据`.godot/f4-protected-core-parity-97516b2.json`的SHA亦已独立核对。它覆盖指定模拟／保存／内容／候选 Session 及模型路径，明确排除六个 mixed UI host，**不表示所有任务 host 或所有判定代码没改**，也不代替完整回归。
 
 TargetGuidance 用原 Session 真实 train→lossless transport→逐次 commit/reveal→generate→save 建立已有作品，再关闭 writer；定位／反馈保护真实 session、作品／配方、game／workbench、草稿、导航及空 lease／recovery lock。这是隔离控制器准备，不是自然旅程完成证据。效率 pair 也是测试模式真实官方模型运行，不将参考完成导入玩家历史；不允许以造字典或改完成位代替。
 
@@ -58,11 +67,23 @@ headless、真实 renderer 控制器、未修改导出包、OS 输入和陌生�
 
 ## 新包与严格补充：待实际 manifest
 
-预定普通 batch／profile 为 `MeasuredGrowthExperience20261018`／`MeasuredGrowth20261018`；测试者为 `MeasuredGrowthAccess20261018`／`OfflineTeammate-MeasuredGrowth20261018`。当前没有本轮已验包路径或 ZIP SHA，旧 Creative 包／profile 保留。
+预定普通 batch／profile 为 `MeasuredGrowthExperience20261018`／`MeasuredGrowth20261018`；测试者为 `MeasuredGrowthAccess20261018`／`OfflineTeammate-MeasuredGrowth20261018`。普通新包构建／身份已通过，旧Creative包／profile保留。下列普通artifact已通过原父链及严格重启；克隆Measured补充已失败，新测试者链和OS仍独立待验，测试者路径／SHA仍待实际manifest。
 
-原父128／138、严格重开47及测试者原随包收集器60入口／真实CPG／最终离线ZIP链均须分别通过。之后显式 `--measured-evidence-from` 才复制成功重启后实际 QA 档案至新根，四环境目录隔离、原父收据／runtime前后全文件和目录集合不变。补充进程才运行参考CPU pair、失败方案和近看／还原；不能改写原父成功收据掩盖新失败。
+- 普通：[MeasuredGrowthExperience Windows ZIP](../../../build/playtest-MeasuredGrowthExperience20261018-97516b21f459/Von-Neumann-Bottleneck-Windows-playtest-MeasuredGrowthExperience20261018-97516b21f459.zip)，57,559,429字节，SHA256 `c09d24093e233b1019903bf94d0c3256061e555cf6d71463e0e56ff7f995a82d`。SOURCE97516，profile `MeasuredGrowth20261018`。7个内部payload、EXE／嵌入PCK、manifest、三说明身份及原构建日志已独立重算一致；原父128与strict47已全true／failures空、无ERROR，严格进程PID44200自然退出0，normal不使用六坐标转换。补充已真实失败，tester／native未执行；不得把普通原父链成功扩成整阶段全绿。
+
+普通原父128及严格重开47现已分别通过；测试者原父138、严格重开47及随包收集器60入口／真实CPG／最终离线ZIP链仍须实际分别通过。之后显式 `--measured-evidence-from` 才复制成功重启后实际 QA 档案至新根，四环境目录隔离、原父收据／runtime前后全文件和目录集合不变。补充进程才运行参考CPU pair、失败方案和近看／还原；不能改写原父成功收据掩盖新失败。
+
+普通实际原作品`67f5602f…`与其原Session SHA `20f4c259ad9101722a926577da6d3c14a73b1ca37b4af658e49704c08c4025d2`已独立核对磁盘输出／配方。它来自私有QA档案中的原Session合法操作，不随ZIP预装，也不是普通玩家自然全旅程。严格重启raw的typed game_state与12项文件／空锁状态等其post-exit baseline，无normal数值转换。
 
 原作品必须真实存在，整 Session SHA与原输出／配方受保护。运行内严格快照与正常退出后保存时间戳／备份轮转分列；不得把前者扩成退出后全部文件字节恒同。只保留既有已明确记录的六个测试者CPU坐标编码边界，不能扩大数字类型容差。
+
+97516的三外QA脚本逐SHA仍等已独立审查的冻结版；本次复读无新静态阻断，Python AST可解析，但不代替新包真实执行。补充观察站走实际Home懒加载，参考CPU与失败方案只用克隆中的原TestMode；不会把2c旧测试的对象生命周期假设搬成普通玩家历史。
+
+为导出空间，Root与Visual逐Git blob双审后仅清理本段七处已结束候选的可再生docs副本，恢复1,659,851,509字节（四处952,616,012＋另三处707,235,497，不重复计更早单份239,210,065）；原日志、帧、运行档案、作品、包和profile均保留。收据SHA在checks，旧source树不再称当前完整物化。
+
+## 展示材料
+
+[五条实机镜头脚本](../../distribution/showcase-shots.md)与[可编辑架构SVG](../../distribution/showcase-architecture.svg)已独立核对源码关系、链接及三张原字节实图：CPU／Layout来自69，System近看来自2c。三图均实际view并核1280×720与原receipt；System夹具为49任务，不改写成60。脚本可供团队录屏，当前没有已录视频；测试模式记录、滚动后的可达现场不冒充自然玩家或新包OS验收。
 
 ## 次日最多五项试玩／审阅
 

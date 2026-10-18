@@ -1,0 +1,154 @@
+{
+  "status": "PASS_PACKAGE_DATA_SCOPE",
+  "source_commit": "c7fabe71ff4b985108e09a53de710fd8f6626513",
+  "batch": "Classmates20261018",
+  "profile": "OfflineTeammate-CreationLinks20261018",
+  "manifest": {
+    "path": "build/playtest-Classmates20261018-c7fabe71ff4b/manifest.json",
+    "bytes": 3520,
+    "sha256": "138fe34f3aeb2cf5839d676e636f338b9ca252642f497cef540299586f5fd175"
+  },
+  "zip": {
+    "path": "build/playtest-Classmates20261018-c7fabe71ff4b/Von-Neumann-Bottleneck-Windows-playtest-Classmates20261018-c7fabe71ff4b.zip",
+    "bytes": 58923104,
+    "sha256": "24ebb6bd1f5efe7ed13a1bee0f26cc3d208551e8cc3b3d418ed3e301f3e45769"
+  },
+  "payload_file_count": 11,
+  "build_manifest_payload_count": 10,
+  "payload": [
+    {
+      "member": "Windows/BUILD-MANIFEST.json",
+      "bytes": 1287,
+      "sha256": "e930f86d145de145c5e0fbf6f24e9874aaf7e137834b027d675bf6e97a2bfb14"
+    },
+    {
+      "member": "Windows/CHANGELOG.txt",
+      "bytes": 4844,
+      "sha256": "10538e20572aeb40d17d4aef0ec2962f1940ea6c16bec9d81ade1a66812e0f15"
+    },
+    {
+      "member": "Windows/ENGINE-LICENSES.txt",
+      "bytes": 107634,
+      "sha256": "83d1228be30e56c9549fee1b322c8c46fb6cb08ac5545a799a62582613687fff"
+    },
+    {
+      "member": "Windows/feedback-tools/offline-playtests.py",
+      "bytes": 31086,
+      "sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf"
+    },
+    {
+      "member": "Windows/feedback-tools/README.txt",
+      "bytes": 1170,
+      "sha256": "cc4b79d3d98ccaa283e51e3be2369e4bc15768902534afa477f9c2b38595010a"
+    },
+    {
+      "member": "Windows/feedback-tools/report-playtests.py",
+      "bytes": 17558,
+      "sha256": "106f83d946cdd15f055d2029be348f7539e968141aef9a9824014fe63f3b71a4"
+    },
+    {
+      "member": "Windows/FONT-LICENSE.txt",
+      "bytes": 4388,
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "member": "Windows/KNOWN-ISSUES.txt",
+      "bytes": 4263,
+      "sha256": "1295c29b3c95c5e59032b3a8ab830dbd06bda651d0a5b84597290183319144e0"
+    },
+    {
+      "member": "Windows/LICENSE.txt",
+      "bytes": 1069,
+      "sha256": "4169e9c39ab401f2f7850040164eb760e58ec606b7a547477c17de9b3a3c9b30"
+    },
+    {
+      "member": "Windows/README.txt",
+      "bytes": 10413,
+      "sha256": "6b9bc4b1216d39804829906a6c3763d9cae4cc5da0e2b8fa042793dd82512a1a"
+    },
+    {
+      "member": "Windows/Von-Neumann-Bottleneck.exe",
+      "bytes": 131148712,
+      "sha256": "f6ce60d71ff63b5244b9435ef7e08702b44dd452b0a7ffa6b12af782418d0e04"
+    }
+  ],
+  "loose_payload_exact": true,
+  "no_reparse": true,
+  "embedded_pck": {
+    "sha256": "794a11db28e48a957917ab2016637c2ad92ba9cde6f3996ed33f8ae478c6b15a",
+    "bytes": 22050716,
+    "offset": 109097984
+  },
+  "manual": {
+    "source": {
+      "path": "distribution/OFFLINE-PLAYTEST-README.txt",
+      "bytes": 10089,
+      "sha256": "59536a0c011831caf1c44afa269d837bc31d7376ac159c9e8f1f2ee40754688b"
+    },
+    "packaged": {
+      "path": "build/playtest-Classmates20261018-c7fabe71ff4b/Windows/README.txt",
+      "bytes": 10413,
+      "sha256": "6b9bc4b1216d39804829906a6c3763d9cae4cc5da0e2b8fa042793dd82512a1a"
+    },
+    "rawbytes_exact_expected_builder_output": true,
+    "changes": "Build/Source/Godot prefix, two explicit profile path replacements, original Windows write_text CRLF encoding. Source LF bytes preserved.",
+    "both_complete_profile_directories": true,
+    "review": "Real C/P/G prerequisites/buttons,60 entrances not completion,temporary hardware references,read-only3D,F8/local fallback and privacy accurate."
+  },
+  "content_tasks_unique": 60,
+  "domain_counts": {
+    "hardware_foundations": 14,
+    "chapter_1": 7,
+    "chapter_2": 7,
+    "chapter_3": 6,
+    "chapter_4": 6,
+    "representation": 5,
+    "service": 3,
+    "prediction": 3,
+    "creation": 9
+  },
+  "build_side_config": {
+    "path": ".godot/candidates/20261018T122419Z-c7fabe71/project/project.godot",
+    "bytes": 2853,
+    "sha256": "257089e4810fab7684fc372dadce572adf46b8fef7eb561f1de4c28405ccde16"
+  },
+  "identity_wrapper": {
+    "path": ".godot/journey-final-identity-tester-c1e3b1c49485/wrapper-process.json",
+    "bytes": 3182,
+    "sha256": "d134dbf9d05b6e981b251e44eaa68d087e878346c6bb79039b45b874c77fe3e8"
+  },
+  "identity_log": {
+    "path": ".godot/journey-final-identity-tester-c1e3b1c49485/identity-stdout.log",
+    "bytes": 128,
+    "sha256": "c6d41a0b7500b3f8f54535b068e205012393bf6f9a36edfc0a9cc59c7aa8e03b"
+  },
+  "stage_logs": [
+    {
+      "path": ".godot/candidates/20261018T122419Z-c7fabe71/import.log",
+      "bytes": 28506,
+      "sha256": "0e5409500465efb5991c59d8748c95a55be47bb6a92a9f38639747c8547c2818"
+    },
+    {
+      "path": ".godot/candidates/20261018T122419Z-c7fabe71/licenses.log",
+      "bytes": 75,
+      "sha256": "9d581ec5492fe988c9c06ba731f53831e0de994203e89ae19ffcf5b503748acc"
+    },
+    {
+      "path": ".godot/candidates/20261018T122419Z-c7fabe71/export-Windows.log",
+      "bytes": 55345,
+      "sha256": "bfb4a61a101347a3dd4408fe9a659a0ece9f4ed9c59eff852be7c020b28ecdc7"
+    }
+  ],
+  "pins": {
+    "scripts/build-free-candidate.py": "fbaeb77e5bbab5a28f5337bb7dd506b7e2c63917b9966037db74ad22be33a7c2",
+    "scripts/check-candidate-identity.py": "6b92fb35b8d1b8a0ad4869589c589031424ec11d45db9f05251805e42f68e9a1",
+    "../von-neumann-bottleneck/build/template-cache/templates/windows_release_x86_64.exe": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07"
+  },
+  "scope_limits": [
+    "No engine,checker rerun,GUI,OS or gameplay performed by reviewer.",
+    "Config is builder project text plus manifest identity; actual embedded settings and fresh model/earned state await authorized runtime evidence.",
+    "No loose player save/session/QA seed files in the 11-member payload; not a claim of completed runtime fresh-state acceptance.",
+    "Original profile reused: same machine/profile may resume existing saves; manual directs backup of both directories.",
+    "Build/identity only; parent,child,strict and images excluded from this gate."
+  ]
+}

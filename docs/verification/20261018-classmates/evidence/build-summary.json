@@ -1,0 +1,326 @@
+{
+  "status": "BUILD_IDENTITY_PASS",
+  "source_commit": "c7fabe71ff4b985108e09a53de710fd8f6626513",
+  "candidate": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b",
+  "manifest_sha256": "138fe34f3aeb2cf5839d676e636f338b9ca252642f497cef540299586f5fd175",
+  "manifest": {
+    "build_id": "playtest-Classmates20261018-c7fabe71ff4b",
+    "source_commit": "c7fabe71ff4b985108e09a53de710fd8f6626513",
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "created_utc": "20261018T122419Z-c7fabe71",
+    "public_release": false,
+    "upload_default": false,
+    "workspace_versions": {
+      "res://src/system_lab/system_level_catalog.gd": "e479b3d0b15c50f6697faad55b9e461e94db21df07d99d5c38e0cf6414bde5a7",
+      "res://src/locality_chapter/locality_level_catalog.gd": "7104cc990372ed8b21f46941f13d099ccb063dc434e4e6e7ccd74294f96a7958"
+    },
+    "feedback_endpoint": "",
+    "test_batch": "Classmates20261018",
+    "external_ready": false,
+    "local_acceptance_only": false,
+    "content_version": "tasks-20261013-journey-v1",
+    "branding": {
+      "revision": "placeholder-1",
+      "app_icon": "res://assets/branding/game-icon.svg",
+      "logo_zh": "",
+      "logo_en": "",
+      "symbol": "",
+      "native_icon_windows": "",
+      "native_icon_macos": ""
+    },
+    "native_versions": {
+      "windows": "0.5.0.363",
+      "macos": "1.3.63"
+    },
+    "platforms": {
+      "Windows": {
+        "zip": "Von-Neumann-Bottleneck-Windows-playtest-Classmates20261018-c7fabe71ff4b.zip",
+        "bytes": 58923104,
+        "sha256": "24ebb6bd1f5efe7ed13a1bee0f26cc3d208551e8cc3b3d418ed3e301f3e45769"
+      }
+    },
+    "offline_tester": true,
+    "content_tasks": [
+      "hardware_foundations/tutorial",
+      "hardware_foundations/half_adder",
+      "hardware_foundations/full_adder",
+      "hardware_foundations/alu",
+      "hardware_foundations/latch",
+      "hardware_foundations/register",
+      "hardware_foundations/ram",
+      "hardware_foundations/cpu",
+      "hardware_foundations/load_store",
+      "hardware_foundations/selector",
+      "hardware_foundations/selector4",
+      "hardware_foundations/parity",
+      "hardware_foundations/delay",
+      "hardware_foundations/alarm",
+      "chapter_1/assembly",
+      "chapter_1/cpu_speed",
+      "chapter_1/ram_wait",
+      "chapter_1/bus_width",
+      "chapter_1/bottleneck",
+      "chapter_1/read_once",
+      "chapter_1/two_orders",
+      "chapter_2/distant_reads",
+      "chapter_2/nearby_storage",
+      "chapter_2/cache_failure",
+      "chapter_2/access_order",
+      "chapter_2/working_set",
+      "chapter_2/blocking",
+      "chapter_2/capstone",
+      "chapter_3/arrival",
+      "chapter_3/buffers",
+      "chapter_3/backpressure",
+      "chapter_3/prefetch",
+      "chapter_3/distance",
+      "chapter_3/synthesis",
+      "chapter_4/fields",
+      "chapter_4/records",
+      "chapter_4/hot_cold",
+      "chapter_4/relocation",
+      "chapter_4/batches",
+      "chapter_4/mixed",
+      "representation/mixed_scan",
+      "representation/interior_hotspots",
+      "representation/dense_sparse",
+      "representation/prepare_once",
+      "representation/cross_assets",
+      "service/move_state",
+      "service/prompt_response",
+      "service/one_plan",
+      "prediction/regular",
+      "prediction/changed",
+      "prediction/alternating",
+      "creation/C1_restore",
+      "creation/C2_cost",
+      "creation/C3_conditions",
+      "creation/P1_commit",
+      "creation/P2_memory",
+      "creation/P3_check",
+      "creation/G1_feedback",
+      "creation/G2_intent",
+      "creation/G3_keep"
+    ],
+    "windows_template_sha256": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07",
+    "candidate_journey": {
+      "primary_domain": "representation",
+      "profile": "OfflineTeammate-CreationLinks20261018",
+      "isolated": true,
+      "production_migration": false,
+      "creation_enabled": true
+    }
+  },
+  "zip": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b\\Von-Neumann-Bottleneck-Windows-playtest-Classmates20261018-c7fabe71ff4b.zip",
+    "sha256": "24ebb6bd1f5efe7ed13a1bee0f26cc3d208551e8cc3b3d418ed3e301f3e45769",
+    "bytes": 58923104
+  },
+  "exe": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b\\Windows\\Von-Neumann-Bottleneck.exe",
+    "sha256": "f6ce60d71ff63b5244b9435ef7e08702b44dd452b0a7ffa6b12af782418d0e04",
+    "bytes": 131148712
+  },
+  "embedded_pck": {
+    "sha256": "794a11db28e48a957917ab2016637c2ad92ba9cde6f3996ed33f8ae478c6b15a",
+    "bytes": 22050716,
+    "offset": 109097984
+  },
+  "zip_payload_exact": [
+    {
+      "member": "Windows/BUILD-MANIFEST.json",
+      "bytes": 1287,
+      "sha256": "e930f86d145de145c5e0fbf6f24e9874aaf7e137834b027d675bf6e97a2bfb14"
+    },
+    {
+      "member": "Windows/CHANGELOG.txt",
+      "bytes": 4844,
+      "sha256": "10538e20572aeb40d17d4aef0ec2962f1940ea6c16bec9d81ade1a66812e0f15"
+    },
+    {
+      "member": "Windows/ENGINE-LICENSES.txt",
+      "bytes": 107634,
+      "sha256": "83d1228be30e56c9549fee1b322c8c46fb6cb08ac5545a799a62582613687fff"
+    },
+    {
+      "member": "Windows/feedback-tools/offline-playtests.py",
+      "bytes": 31086,
+      "sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf"
+    },
+    {
+      "member": "Windows/feedback-tools/README.txt",
+      "bytes": 1170,
+      "sha256": "cc4b79d3d98ccaa283e51e3be2369e4bc15768902534afa477f9c2b38595010a"
+    },
+    {
+      "member": "Windows/feedback-tools/report-playtests.py",
+      "bytes": 17558,
+      "sha256": "106f83d946cdd15f055d2029be348f7539e968141aef9a9824014fe63f3b71a4"
+    },
+    {
+      "member": "Windows/FONT-LICENSE.txt",
+      "bytes": 4388,
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "member": "Windows/KNOWN-ISSUES.txt",
+      "bytes": 4263,
+      "sha256": "1295c29b3c95c5e59032b3a8ab830dbd06bda651d0a5b84597290183319144e0"
+    },
+    {
+      "member": "Windows/LICENSE.txt",
+      "bytes": 1069,
+      "sha256": "4169e9c39ab401f2f7850040164eb760e58ec606b7a547477c17de9b3a3c9b30"
+    },
+    {
+      "member": "Windows/README.txt",
+      "bytes": 10413,
+      "sha256": "6b9bc4b1216d39804829906a6c3763d9cae4cc5da0e2b8fa042793dd82512a1a"
+    },
+    {
+      "member": "Windows/Von-Neumann-Bottleneck.exe",
+      "bytes": 131148712,
+      "sha256": "f6ce60d71ff63b5244b9435ef7e08702b44dd452b0a7ffa6b12af782418d0e04"
+    }
+  ],
+  "build_session": 1548,
+  "build_wrapper": {
+    "source_commit": "c7fabe71ff4b985108e09a53de710fd8f6626513",
+    "role": "tester",
+    "phase": "build",
+    "profile": "OfflineTeammate-CreationLinks20261018",
+    "batch": "Classmates20261018",
+    "candidate": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b",
+    "wrapper_pid": 36060,
+    "command": [
+      "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+      "-X",
+      "utf8",
+      "scripts/build-free-candidate.py",
+      "--godot",
+      "../godot-4.7.1/Godot_v4.7.1-stable_win64_console.exe",
+      "--commit",
+      "c7fabe71ff4b985108e09a53de710fd8f6626513",
+      "--platform",
+      "Windows",
+      "--windows-template",
+      "../von-neumann-bottleneck/build/template-cache/templates/windows_release_x86_64.exe",
+      "--creation-journey",
+      "--second-act-profile",
+      "OfflineTeammate-CreationLinks20261018",
+      "--test-batch",
+      "Classmates20261018",
+      "--offline-tester"
+    ],
+    "environment": {
+      "APPDATA": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-build-tester-9663af022a5f\\private-runtime\\appdata",
+      "LOCALAPPDATA": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-build-tester-9663af022a5f\\private-runtime\\localappdata",
+      "TEMP": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-build-tester-9663af022a5f\\private-runtime\\temp",
+      "TMP": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-build-tester-9663af022a5f\\private-runtime\\temp"
+    },
+    "preflight_free_bytes": 1602510848,
+    "estimated_increment_bytes": 598149062,
+    "projected_remaining_bytes": 1004361786,
+    "required_remaining_bytes": 402653184,
+    "live_floor_bytes": 268435456,
+    "minimum_observed_free_bytes": 1075429376,
+    "original_builder_stage_timeout_seconds": 600,
+    "pins_before": {
+      "scripts/build-free-candidate.py": "fbaeb77e5bbab5a28f5337bb7dd506b7e2c63917b9966037db74ad22be33a7c2",
+      "scripts/check-candidate-identity.py": "6b92fb35b8d1b8a0ad4869589c589031424ec11d45db9f05251805e42f68e9a1",
+      "../von-neumann-bottleneck/build/template-cache/templates/windows_release_x86_64.exe": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07"
+    },
+    "engine_stage_pids": "Not instrumented by original builder; original subprocess.run600 guard unchanged.",
+    "supervision_scope": "Owned outer Python and observed disk samples; original builder collects engine output per completed stage, not live grandchild streaming.",
+    "started_utc": "2026-10-18T12:24:19.619292+00:00",
+    "termination_reason": "",
+    "child_pid": 2660,
+    "child_exit": 0,
+    "finished_utc": "2026-10-18T12:25:10.581936+00:00",
+    "free_bytes": 1093742592,
+    "stdout_sha256": "aca59dc7a8c8a874eae3701e8680656ed7ee80ab8139518c257161fdaf20a8ab",
+    "pins_after": {
+      "scripts/build-free-candidate.py": "fbaeb77e5bbab5a28f5337bb7dd506b7e2c63917b9966037db74ad22be33a7c2",
+      "scripts/check-candidate-identity.py": "6b92fb35b8d1b8a0ad4869589c589031424ec11d45db9f05251805e42f68e9a1",
+      "../von-neumann-bottleneck/build/template-cache/templates/windows_release_x86_64.exe": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07"
+    },
+    "tools_unchanged": true
+  },
+  "identity_wrapper": {
+    "source_commit": "c7fabe71ff4b985108e09a53de710fd8f6626513",
+    "role": "tester",
+    "phase": "identity",
+    "profile": "OfflineTeammate-CreationLinks20261018",
+    "batch": "Classmates20261018",
+    "candidate": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b",
+    "wrapper_pid": 3816,
+    "command": [
+      "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+      "-X",
+      "utf8",
+      "scripts/check-candidate-identity.py",
+      "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b"
+    ],
+    "environment": {
+      "APPDATA": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-identity-tester-c1e3b1c49485\\private-runtime\\appdata",
+      "LOCALAPPDATA": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-identity-tester-c1e3b1c49485\\private-runtime\\localappdata",
+      "TEMP": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-identity-tester-c1e3b1c49485\\private-runtime\\temp",
+      "TMP": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\journey-final-identity-tester-c1e3b1c49485\\private-runtime\\temp"
+    },
+    "preflight_free_bytes": 1068716032,
+    "estimated_increment_bytes": 0,
+    "projected_remaining_bytes": 1068716032,
+    "required_remaining_bytes": 268435456,
+    "live_floor_bytes": 268435456,
+    "minimum_observed_free_bytes": 1067958272,
+    "original_builder_stage_timeout_seconds": 600,
+    "pins_before": {
+      "scripts/build-free-candidate.py": "fbaeb77e5bbab5a28f5337bb7dd506b7e2c63917b9966037db74ad22be33a7c2",
+      "scripts/check-candidate-identity.py": "6b92fb35b8d1b8a0ad4869589c589031424ec11d45db9f05251805e42f68e9a1",
+      "../von-neumann-bottleneck/build/template-cache/templates/windows_release_x86_64.exe": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07"
+    },
+    "engine_stage_pids": "Not instrumented by original builder; original subprocess.run600 guard unchanged.",
+    "supervision_scope": "Owned outer Python and observed disk samples; original builder collects engine output per completed stage, not live grandchild streaming.",
+    "started_utc": "2026-10-18T12:25:27.489006+00:00",
+    "termination_reason": "",
+    "child_pid": 36892,
+    "child_exit": 0,
+    "finished_utc": "2026-10-18T12:25:28.499514+00:00",
+    "free_bytes": 1067925504,
+    "stdout_sha256": "c6d41a0b7500b3f8f54535b068e205012393bf6f9a36edfc0a9cc59c7aa8e03b",
+    "pins_after": {
+      "scripts/build-free-candidate.py": "fbaeb77e5bbab5a28f5337bb7dd506b7e2c63917b9966037db74ad22be33a7c2",
+      "scripts/check-candidate-identity.py": "6b92fb35b8d1b8a0ad4869589c589031424ec11d45db9f05251805e42f68e9a1",
+      "../von-neumann-bottleneck/build/template-cache/templates/windows_release_x86_64.exe": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07"
+    },
+    "tools_unchanged": true
+  },
+  "stage_logs": [
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\candidates\\20261018T122419Z-c7fabe71\\import.log",
+      "sha256": "0e5409500465efb5991c59d8748c95a55be47bb6a92a9f38639747c8547c2818",
+      "bytes": 28506,
+      "errors": []
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\candidates\\20261018T122419Z-c7fabe71\\licenses.log",
+      "sha256": "9d581ec5492fe988c9c06ba731f53831e0de994203e89ae19ffcf5b503748acc",
+      "bytes": 75,
+      "errors": []
+    },
+    {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\candidates\\20261018T122419Z-c7fabe71\\export-Windows.log",
+      "sha256": "bfb4a61a101347a3dd4408fe9a659a0ece9f4ed9c59eff852be7c020b28ecdc7",
+      "bytes": 55345,
+      "errors": []
+    }
+  ],
+  "packaged_readme": {
+    "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b\\Windows\\README.txt",
+    "sha256": "6b9bc4b1216d39804829906a6c3763d9cae4cc5da0e2b8fa042793dd82512a1a"
+  },
+  "source_readme_sha256": "59536a0c011831caf1c44afa269d837bc31d7376ac159c9e8f1f2ee40754688b",
+  "builder_docs": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\candidates\\20261018T122419Z-c7fabe71\\project\\docs",
+  "free_bytes": 1062682624,
+  "scope": "Build and identity only. Actual package parent/child/strict NOT_RUN pending separate authorization; no native OS acceptance."
+}

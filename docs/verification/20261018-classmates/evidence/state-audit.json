@@ -1,0 +1,205 @@
+{
+  "status": "PASS_SCOPED_ACTUAL_CLASSMATES_PARENT_CHILD_STRICT_STATE",
+  "source": "c7fabe71ff4b985108e09a53de710fd8f6626513",
+  "build_id": "playtest-Classmates20261018-c7fabe71ff4b",
+  "profile": "OfflineTeammate-CreationLinks20261018",
+  "batch": "Classmates20261018",
+  "canonical_counts": {
+    "parent": 229,
+    "capture_boolean": 142,
+    "reopen_boolean": 19,
+    "strict": 48
+  },
+  "visited_unique": 60,
+  "visited_ids_exact_manifest": true,
+  "access_is_not_completion_or_model_grant": "Fresh test access precedes real legal preparation. Final parent tutorial is actual five-action fixture; five CPG supports/one work arise from original Learn/predictive restore/10commit-reveal/generate/Keep, not mere entry. Ordinary and tester profiles not merged; no QA seed in distributed ZIP.",
+  "creation": {
+    "original_empty_work_support_model": true,
+    "whole_prepared_Session10sections_exact": true,
+    "session_sha256": "897f285e9e915da93d17a9320441cde738aac4b37b524340be4876d609b917fd",
+    "whole_work_recipe_output_id_exact": true,
+    "work_id": "089180b2e1d15c6b773af9b98527eef923eb115efaccf67ae89ac256ae9e5360",
+    "new_supports_exact": [
+      "C1_restore",
+      "G1_feedback",
+      "G2_intent",
+      "G3_keep",
+      "P1_commit"
+    ],
+    "same_learned_model_in_C_and_P_and_G_recipe": true,
+    "prediction_rows": 10,
+    "pure_review_authority_fields": 35,
+    "allowed_view_categories": 8,
+    "leases_absent_and_other_protected_files_exact": true,
+    "cold_reopen_scope": "Original Journal Saved-only; no fabricated coldHost history"
+  },
+  "strict": {
+    "loaded_state_conversions": [
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/0",
+        "from": 155.0,
+        "to": 155
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/CPU/1",
+        "from": 145.0,
+        "to": 145
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/0",
+        "from": 560.0,
+        "to": 560
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/BUS/1",
+        "from": 145.0,
+        "to": 145
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/0",
+        "from": 965.0,
+        "to": 965
+      },
+      {
+        "path": "/game_state/game/system/workspaces/cpu_speed/positions/RAM/1",
+        "from": 145.0,
+        "to": 145
+      }
+    ],
+    "all_other_typed_payload_exact": true,
+    "postexit_main_equals_loaded_raw_minus_only_top_timestamp": true,
+    "postexit_backup_equals_original_baseline_minus_only_top_timestamp": true,
+    "override_finally_absent": true
+  },
+  "feedback_final_zip": {
+    "status": "PASS_READONLY_FINAL_ZIP_IMPORTED_BODY_EQUAL",
+    "read_access": "Authorized require_escalated read-only; no ACL or artifact modification",
+    "final_single_bundle": "357b7416d7a00e2e5f13e1fb96c62f84",
+    "reopened_zip_sha256": "2af2307ed305405eb5fa7f2b3926f2792c088099b98d542c9967cb117d0e2a05",
+    "retained_import_original_zip_sha256": "2af2307ed305405eb5fa7f2b3926f2792c088099b98d542c9967cb117d0e2a05",
+    "imported_body_files": 24,
+    "every_body_sha_equal": true,
+    "root_manifest_is_zip_metadata_not_imported_body": true,
+    "cases": 4,
+    "revision_records_per_original_collector": 4,
+    "sessions": 2,
+    "ignored_lines_total": 0,
+    "report_sha256": "06f75d1f210d03526d977c55fd96d2880062fc0756f2d31dae2eb657eb3f3f76",
+    "library_bundles": 2,
+    "original_dedup_receipt": [
+      {
+        "bundle_id": "e6fbefafa439ffb371a74f3bc5c0a998",
+        "status": "deduplicated"
+      }
+    ]
+  },
+  "collector_sha256": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf",
+  "actual_processes": {
+    "outer_pid": 35068,
+    "outer_exit": 0,
+    "parent_EXE": 34180,
+    "strict_EXE": 8556,
+    "natural_exe_exit_codes": [
+      0,
+      0
+    ],
+    "parent_and_strict_python_segments": [
+      {
+        "stage": "parent",
+        "command": [
+          "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+          "-X",
+          "utf8",
+          ".godot/run-f6-night-package-wait-diagnostic-owned.py",
+          "--candidate",
+          "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b"
+        ],
+        "termination_reason": "",
+        "started_utc": "2026-10-18T12:26:58.833870+00:00",
+        "pid": 36980,
+        "exit": 0,
+        "finished_utc": "2026-10-18T12:28:05.807301+00:00",
+        "log_sha256": "e69dcb6edb728ad6e71e80b007557aa893c90431b339572af5050603a52552c5"
+      },
+      {
+        "stage": "strict",
+        "command": [
+          "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+          "-X",
+          "utf8",
+          "scripts/verify-embedded-profile-reopen.py",
+          "--work",
+          "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\night-package\\7510c7ed1358",
+          "--candidate",
+          "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\build\\playtest-Classmates20261018-c7fabe71ff4b"
+        ],
+        "termination_reason": "",
+        "started_utc": "2026-10-18T12:28:05.812755+00:00",
+        "pid": 26452,
+        "exit": 0,
+        "finished_utc": "2026-10-18T12:28:17.851406+00:00",
+        "log_sha256": "ad82c5640c49f4d400c1d22fe85f38d6deab87b1b5c8c458b661ae3a9baf3052"
+      }
+    ],
+    "child_EXE_pid": "Not serialized by original collector; do not invent direct ownership"
+  },
+  "actual_runtime_maps": {
+    "parent_runtime": {
+      "files": 39,
+      "dirs": 45,
+      "map_sha256": "86832747106bb07ab0fce2154e4463655f677b930c085fdd51f484f590f2fa6f"
+    },
+    "child_runtime": {
+      "files": 32,
+      "dirs": 45,
+      "map_sha256": "c485c78c564c472a1b8d3df67118905f0397e7f655ef28d1d05bb6847b9ba55b"
+    }
+  },
+  "image_data_hashes": "Original inventory rows all exact; no visual or native acceptance claimed by this data audit",
+  "user_unknown_files": {
+    "baseline_sha256": "7a70dbbb4550e6a1fb6c6e0632a566db840cf9a0636075531148c3824a35db76",
+    "listed": 229,
+    "missing": 0,
+    "changed": 0,
+    "preserved": true,
+    "unlisted_new_files": "Untouched"
+  },
+  "immutable_tools": {
+    "controller": "f5677dc0904b53c2617f74a37015a7ad1a50aacf89edb5e731140353a644ba3d",
+    "parent_validator": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+    "strict_validator": "2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b",
+    "bundled_collector": "d0de737615515b38db5ac45051c553ddd2ce5b2daf2206d00f6bd6980ab2f4bf"
+  },
+  "raw_evidence": {
+    "summary": {
+      "path": ".godot/classmates-parent-child-strict-c7fabe7-summary.json",
+      "sha256": "ab11cfbc93ab9150b98daea6fff907c14d444ee9c7398f62129d1ab27b87234f"
+    },
+    "parent_receipt": {
+      "path": ".godot/night-package/7510c7ed1358/receipt.json",
+      "sha256": "0caf6f928d13c929b9a075d268c072cdbf0544bfd98479f6ca2895dc9e14fd36"
+    },
+    "child_receipt": {
+      "path": ".godot/offline-package/a7c35c5f9e0f/receipt.json",
+      "sha256": "e2702b11f01ca79b2c7a33fbc4abc6787a15f7dc47c22d673081563c2a8f3daf"
+    },
+    "strict_validation": {
+      "path": ".godot/night-package/7510c7ed1358/embedded-profile-reopen-validation.json",
+      "sha256": "487cce9dab2e39a378c5bf5d49a339b86d268da31f8ded51df1d268d2be78601"
+    },
+    "runtime_inventory": {
+      "path": "C:\\Users\\Lenovo\\Desktop\\冯诺依曼瓶颈\\night-experience-20261018\\.godot\\classmates-runtime-image-inventory.json",
+      "sha256": "4763643cf60fbfd21acf6fda7dc8cb8ecb1b8d256d579e39a95ada3fc54885ce"
+    },
+    "build_manual_audit": {
+      "path": ".godot/classmates-build-manual-provenance-independent-audit.json",
+      "sha256": "35abf93a2206522084963cca0af5d7424c8b31e91c0461839c3f6d6710422c11"
+    }
+  },
+  "boundaries": [
+    "Noengine/Git/production modification by auditor",
+    "Read-only escalation solely inspected final-export-only/library without ACL or data writes",
+    "No60 actual solutions/newcomer/native/Mac/3D-lab acceptance",
+    "No new template or canonical fallback; full ZIP payload acceptance belongs to Visual independent audit"
+  ]
+}

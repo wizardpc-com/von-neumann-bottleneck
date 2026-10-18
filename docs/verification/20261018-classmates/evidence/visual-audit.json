@@ -1,0 +1,819 @@
+{
+  "status": "PASS_VISUAL_AND_CHAIN_SCOPE",
+  "source_commit": "c7fabe71ff4b985108e09a53de710fd8f6626513",
+  "build_id": "playtest-Classmates20261018-c7fabe71ff4b",
+  "profile": "OfflineTeammate-CreationLinks20261018",
+  "tester": true,
+  "package_audit": {
+    "path": ".godot/classmates-package-independent-audit.json",
+    "sha256": "f237104b9974b56202f2c8fa17911d324320fca1b1de1474eefc399e48c5230e"
+  },
+  "summary_sha256": "ab11cfbc93ab9150b98daea6fff907c14d444ee9c7398f62129d1ab27b87234f",
+  "parent_receipt_sha256": "0caf6f928d13c929b9a075d268c072cdbf0544bfd98479f6ca2895dc9e14fd36",
+  "strict_validation_sha256": "487cce9dab2e39a378c5bf5d49a339b86d268da31f8ded51df1d268d2be78601",
+  "child_receipt_sha256": "e2702b11f01ca79b2c7a33fbc4abc6787a15f7dc47c22d673081563c2a8f3daf",
+  "controller_sha256": "f5677dc0904b53c2617f74a37015a7ad1a50aacf89edb5e731140353a644ba3d",
+  "wrapper_sha256": "b213d90b6381612e5e6d0dd6195a3a96fc066d11fe5ce348c92b2e58b06b16d7",
+  "strict_validator_sha256": "2e1a3caeaf69638c2590b5006afedb4bf7b11f561d7eb7262d7970a085fa9d6b",
+  "checks": {
+    "parent": 229,
+    "child_capture": 142,
+    "child_reopen": 19,
+    "strict": 48,
+    "all_true": true,
+    "visited60_ordered_equal_manifest": true,
+    "outer_exit": 0
+  },
+  "final_export_only": {
+    "bundles": 1,
+    "cases": 4,
+    "revisions": 4,
+    "capture_errors": 0,
+    "sessions": 2,
+    "ignored_session_lines": 0
+  },
+  "runtime_maps": {
+    "inventory_sha256": "4763643cf60fbfd21acf6fda7dc8cb8ecb1b8d256d579e39a95ada3fc54885ce",
+    "all_sets_sizes_hashes_exact": true,
+    "counts": {
+      "parent_runtime": 39,
+      "child_runtime": 32
+    }
+  },
+  "protected_comparison": "Entire canonical JSON strict,only recorded original six tester CPU/BUS/RAM integral-float coordinates; protected disk-file hashes exact.",
+  "scope_counts": {
+    "parent_files": 29,
+    "child_files": 16,
+    "total_png_files": 45,
+    "distinct_pixel_SHA": 30,
+    "actual_viewed_current_new_SHA": 7,
+    "exact_prior_pixel_file_reuses": 38,
+    "parent_root": 22,
+    "parent_pre_feedback_incidents": 7,
+    "child_root": 1,
+    "child_pre_feedback_incidents": 4,
+    "child_import_copies": 7,
+    "child_final_import_copies": 4
+  },
+  "permission_note": "Ordinary read reported WinError5 for child library and final-export-only. Read-only elevated walk streamed all original copies successfully,without ACL changes or engine execution. N ordinary child5 count is explicitly partial under that read context.",
+  "frames": [
+    {
+      "path": ".godot/night-package/7510c7ed1358/context.png",
+      "sha256": "0e62a4d47428301af5a0f5ed234b773eb4267f7470e2c5c68185be00fd6a43a9",
+      "bytes": 166638,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "actual_view_image_current_new_SHA",
+      "previous": null,
+      "note": "Tutorial actual 5/5,NOT0 and compact task entry visible; long task body uses original Scroll."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/cpg-connection-collapsed.png",
+      "sha256": "ea363fc88ebcc2f6644115109ddcdea93bb00dc892d16f5833a231353c695e16",
+      "bytes": 308383,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/cpg-connection-collapsed.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/cpg-connection-feedback.png",
+      "sha256": "13d468a7b2dddff7b8c2f5b70969f374361f4d5cd333abafba7273315bb68086",
+      "bytes": 241051,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "actual_view_image_current_new_SHA",
+      "previous": null,
+      "note": "Offline tester panel visible with game-only privacy text,category,note,history,Save as,and single-ZIP export; no score control."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/cpg-connection-step0.png",
+      "sha256": "dde1fc6bcdd202bdf5f2f9aeda36c1506cc90abbe054c9c6fb80f23e43cb2045",
+      "bytes": 312890,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "actual_view_image_current_new_SHA",
+      "previous": null,
+      "note": "C source/model identity,lossless1536to1536 and costs visible; original scroll needed for deeper content; original generate/save controls remain."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/cpg-connection-step1.png",
+      "sha256": "172f0945098ec8467bbf6214bc3952c36bab474557838eaf4f9df88969226c0c",
+      "bytes": 307491,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/cpg-connection-step1.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/cpg-connection-step2.png",
+      "sha256": "453714c7d8eaa53f31b0bcde9833a83141574f4f7dd0716af55606814d779973",
+      "bytes": 314589,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/cpg-connection-step2.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/cpg-connection-step3.png",
+      "sha256": "01733a88adb7101b132af24a539059d5db4dd13c4ec94d9f4cab8d554f9f7540",
+      "bytes": 326884,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/cpg-connection-step3.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/first-light-playing.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "bytes": 87949,
+      "pixels": [
+        520,
+        384
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/first-light-playing.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/first-light-static.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "bytes": 87949,
+      "pixels": [
+        520,
+        384
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/first-light-playing.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/first-result.png",
+      "sha256": "7d3eda1763c6216f4eca04f51e2fc0475e0e49335c4be89018ecf132d7245eb5",
+      "bytes": 176286,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/first-result.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/home.png",
+      "sha256": "772b5fa2fb1b5c314a155698e234b3b968c0391370a8b8dba008ff8ee40d70eb",
+      "bytes": 144905,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "actual_view_image_current_new_SHA",
+      "previous": null,
+      "note": "Actual Home60-task build label and read-only3D label fit; Journey map,Journal and start entry visible; no new3D laboratory claimed."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/intro-no-media.png",
+      "sha256": "1aecdee3c8f9e241456415f8bf148c76e553161e9467d9896c960b6c933ef4cf",
+      "bytes": 162131,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "actual_view_image_current_new_SHA",
+      "previous": null,
+      "note": "No-media fallback preserves NOT1to0 instructions and Begin/Skip/Home controls."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/intro.png",
+      "sha256": "db9a986fde495aef8d3d2cb63029843ad7c5211e5b503b58d1f74123846cf2a8",
+      "bytes": 167168,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "actual_view_image_current_new_SHA",
+      "previous": null,
+      "note": "Intro SVG and native NOT goal read clearly with Begin/Skip/Home; fallback and normal size distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/journal.png",
+      "sha256": "b03968ee89af662a8f289d9d150eec4a5361956bc7250d7947a2ee7c1c519c8b",
+      "bytes": 316750,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/journal.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/map.png",
+      "sha256": "3660b921a8d72ed7727057c97e050a52451b932213e8d77bae06139dea776889",
+      "bytes": 172356,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/map.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/observatory-earned-3d.png",
+      "sha256": "9e37278e20c4c64b055ab8196993596b69e1e57f86c6ca0bb73276349c64c6a7",
+      "bytes": 39614,
+      "pixels": [
+        1192,
+        606
+      ],
+      "role": "parent",
+      "kind": "texture3d",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/observatory-earned-3d.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/observatory-fresh-3d.png",
+      "sha256": "b81eb1d79bb35f4c3608e2fc71f87df727a8b8a2e32057bb05dddcc0a11c5e4c",
+      "bytes": 37305,
+      "pixels": [
+        1192,
+        606
+      ],
+      "role": "parent",
+      "kind": "texture3d",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/observatory-fresh-3d.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/observatory.png",
+      "sha256": "e874a95fe8ee6d21078d30dc3edc96e7dad956ad42bf9f4666cfce42ac723aae",
+      "bytes": 190226,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/observatory.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/rules.png",
+      "sha256": "ab994c1e0242d8922e3b5ad016ae9f3b711c0168a89fa4e2b615b691357dbee4",
+      "bytes": 168914,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/rules.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/286acca58e4c043ef3c3a4945326d9e6/screenshot.png",
+      "sha256": "d5a679078175602ad65e0c269e1baf04feb0cc9c1e53aa15d031a194e4acb09d",
+      "bytes": 85018,
+      "pixels": [
+        864,
+        496
+      ],
+      "role": "parent",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/e4d44c3b18c119d11aa3bb947b1c3b04/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/8200dba61f69f3fd5b5f03a2a5c700d7/screenshot.png",
+      "sha256": "3eafb13500c5b0748010b8ae7fcb7f1c018166c8e8eea59f22c0b7ea9a13f4d7",
+      "bytes": 180103,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/2e8c71efe5a4facb3e3c16bc945df234/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/9259801ad7f98feedd170207f0d39ced/screenshot.png",
+      "sha256": "ebc86f07b0c7128cbac978a23664a2cad1af67362b5cc611cba6d5b36983f406",
+      "bytes": 87949,
+      "pixels": [
+        520,
+        384
+      ],
+      "role": "parent",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/first-light-playing.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/93d8e075a4a137ed3664add0434aed33/screenshot.png",
+      "sha256": "b43928ef66573b648b6c5633c6ba14c2caf8329702385baa17fe802e06241308",
+      "bytes": 297861,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/37b50e2869503a38f9a63d8129194152/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/b821c3809d6d46c2be1f926d710ec0f7/screenshot.png",
+      "sha256": "e874a95fe8ee6d21078d30dc3edc96e7dad956ad42bf9f4666cfce42ac723aae",
+      "bytes": 190226,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/observatory.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/c41b395fe03a3029150100527a397874/screenshot.png",
+      "sha256": "d5a679078175602ad65e0c269e1baf04feb0cc9c1e53aa15d031a194e4acb09d",
+      "bytes": 85018,
+      "pixels": [
+        864,
+        496
+      ],
+      "role": "parent",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/e4d44c3b18c119d11aa3bb947b1c3b04/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/runtime/VonNeumannBottleneckCandidates/representation/OfflineTeammate-CreationLinks20261018/offline_playtest/cases/e5f83b9d65381635be07e41b6f224ab2/screenshot.png",
+      "sha256": "0580429f9993738c4cff5eae626785a70c66103982efe0056ef81ee196c9f583",
+      "bytes": 161954,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "pre_feedback_incident",
+      "review": "actual_view_image_current_new_SHA",
+      "previous": null,
+      "note": "Pre-feedback intro incident,not feedback panel or desktop; same visible goal/buttons,global toolbar hidden during capture."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/saved-work-restarted.png",
+      "sha256": "32ab8db774e04c719afe068d94945f4cc06b43d2f98cfcdadc3578466f5754e6",
+      "bytes": 103281,
+      "pixels": [
+        864,
+        496
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/saved-work-restarted.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/saved-work.png",
+      "sha256": "01dc8bd2b4943f18f8f045b29e0422793605c39e971dcb83fe09a9ad9600189e",
+      "bytes": 103285,
+      "pixels": [
+        864,
+        496
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/saved-work.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/night-package/7510c7ed1358/system-guidance.png",
+      "sha256": "27a9c7be6e23f18309978994711aab44fc706b05d2b9dcc5a3680155a087a574",
+      "bytes": 221861,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "parent",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/night-package/6a9269517c76/system-guidance.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/final-export-only/bundles/357b7416d7a00e2e5f13e1fb96c62f84/files/cases/a25fe916faed0f845bea75b852d1dc35/screenshot.png",
+      "sha256": "776f16832b4d3aeb37e61b27b6b2ec271be196bdd689c8e0915a2b02becf0e6e",
+      "bytes": 216843,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "final_import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/315f47f1c1676a55aec14275ad0a7e63/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/final-export-only/bundles/357b7416d7a00e2e5f13e1fb96c62f84/files/cases/a5233a8b2c99b345fb09dabca0aae598/screenshot.png",
+      "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+      "bytes": 206997,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "final_import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/b3511c298c9274db854eb991c7edd48c/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/final-export-only/bundles/357b7416d7a00e2e5f13e1fb96c62f84/files/cases/d41ab1edfff1b253b8f0a7cb62141299/screenshot.png",
+      "sha256": "24c6c7e601525244193790069f1e49412360479f608f536d4a7277cf8aacc281",
+      "bytes": 214130,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "final_import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e6f3fd8f0b793f3b9422da74af814a32/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/final-export-only/bundles/357b7416d7a00e2e5f13e1fb96c62f84/files/cases/d658ac6886736dcf77516bba0a33ba3a/screenshot.png",
+      "sha256": "6d0f600ea1bbc79b06ef0187d7718febe273dddb9a9b7f9ff1df48c38d9032b3",
+      "bytes": 250140,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "final_import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e2e24788d2b7e73eec59568406c87924/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/library/bundles/357b7416d7a00e2e5f13e1fb96c62f84/files/cases/a25fe916faed0f845bea75b852d1dc35/screenshot.png",
+      "sha256": "776f16832b4d3aeb37e61b27b6b2ec271be196bdd689c8e0915a2b02becf0e6e",
+      "bytes": 216843,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/315f47f1c1676a55aec14275ad0a7e63/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/library/bundles/357b7416d7a00e2e5f13e1fb96c62f84/files/cases/a5233a8b2c99b345fb09dabca0aae598/screenshot.png",
+      "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+      "bytes": 206997,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/b3511c298c9274db854eb991c7edd48c/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/library/bundles/357b7416d7a00e2e5f13e1fb96c62f84/files/cases/d41ab1edfff1b253b8f0a7cb62141299/screenshot.png",
+      "sha256": "24c6c7e601525244193790069f1e49412360479f608f536d4a7277cf8aacc281",
+      "bytes": 214130,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e6f3fd8f0b793f3b9422da74af814a32/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/library/bundles/357b7416d7a00e2e5f13e1fb96c62f84/files/cases/d658ac6886736dcf77516bba0a33ba3a/screenshot.png",
+      "sha256": "6d0f600ea1bbc79b06ef0187d7718febe273dddb9a9b7f9ff1df48c38d9032b3",
+      "bytes": 250140,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e2e24788d2b7e73eec59568406c87924/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/library/bundles/e6fbefafa439ffb371a74f3bc5c0a998/files/cases/a25fe916faed0f845bea75b852d1dc35/screenshot.png",
+      "sha256": "776f16832b4d3aeb37e61b27b6b2ec271be196bdd689c8e0915a2b02becf0e6e",
+      "bytes": 216843,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/315f47f1c1676a55aec14275ad0a7e63/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/library/bundles/e6fbefafa439ffb371a74f3bc5c0a998/files/cases/a5233a8b2c99b345fb09dabca0aae598/screenshot.png",
+      "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+      "bytes": 206997,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/b3511c298c9274db854eb991c7edd48c/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/library/bundles/e6fbefafa439ffb371a74f3bc5c0a998/files/cases/d658ac6886736dcf77516bba0a33ba3a/screenshot.png",
+      "sha256": "6d0f600ea1bbc79b06ef0187d7718febe273dddb9a9b7f9ff1df48c38d9032b3",
+      "bytes": 250140,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "import_copy",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e2e24788d2b7e73eec59568406c87924/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-a7c35c5f9e0f/offline_playtest/cases/a25fe916faed0f845bea75b852d1dc35/screenshot.png",
+      "sha256": "776f16832b4d3aeb37e61b27b6b2ec271be196bdd689c8e0915a2b02becf0e6e",
+      "bytes": 216843,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/315f47f1c1676a55aec14275ad0a7e63/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-a7c35c5f9e0f/offline_playtest/cases/a5233a8b2c99b345fb09dabca0aae598/screenshot.png",
+      "sha256": "469d4dd5389100b9e3cf2c81680c6e868f0221a6ddbb1e28368f38722f36f713",
+      "bytes": 206997,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/b3511c298c9274db854eb991c7edd48c/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-a7c35c5f9e0f/offline_playtest/cases/d41ab1edfff1b253b8f0a7cb62141299/screenshot.png",
+      "sha256": "24c6c7e601525244193790069f1e49412360479f608f536d4a7277cf8aacc281",
+      "bytes": 214130,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e6f3fd8f0b793f3b9422da74af814a32/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/runtime/VonNeumannBottleneckCandidates/representation/OfflinePlaytestQA-a7c35c5f9e0f/offline_playtest/cases/d658ac6886736dcf77516bba0a33ba3a/screenshot.png",
+      "sha256": "6d0f600ea1bbc79b06ef0187d7718febe273dddb9a9b7f9ff1df48c38d9032b3",
+      "bytes": 250140,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "pre_feedback_incident",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/final-export-only/bundles/309f8161e2dce826cbdb4dd1a7157c2c/files/cases/e2e24788d2b7e73eec59568406c87924/screenshot.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    },
+    {
+      "path": ".godot/offline-package/a7c35c5f9e0f/saved-work.png",
+      "sha256": "67c6d1f4ae0dda0189d2d07ee1820e2423ab27c4dc9cd6d742387f3f0102b0f9",
+      "bytes": 258399,
+      "pixels": [
+        1280,
+        720
+      ],
+      "role": "child",
+      "kind": "root_or_child_window",
+      "review": "exact_SHA_reuse_previously_viewed_pixels",
+      "previous": {
+        "audit": ".godot/journey-final-tester-export-visual-independent-audit.json",
+        "pixel_source": ".godot/offline-package/380cdd5d085c/saved-work.png"
+      },
+      "note": "Exact original pixels previously visually accepted; current source/role provenance remains distinct."
+    }
+  ],
+  "findings": [
+    "No newly visible obstruction in seven actual viewed current hashes. Home60 and current read-only3D label fit the actual1280x720 frame.",
+    "CPG source/P/G/Saved and real feedback capture remain distinguishable; export panel controls/privacy visible.",
+    "Original deep-body scroll and lower playback limits remain; do not claim every control or entire body visible simultaneously.",
+    "FirstLight uses previously reviewed exact original520x384pixels;3D is a read-only abstract display,not an operable laboratory."
+  ],
+  "limits": [
+    "Rendered exported controller,not native OS input or newcomer acceptance.",
+    "Source logical1600x900/root physical1280x720;child window sizes are recorded per PNG.",
+    "Seven parent and four child incident originals are pre-panel captures,not eleven panel screenshots; one actual panel is cpg-connection-feedback.",
+    "Real Host preparation earns the controlled C/P/G fixture; all60 entrances are not60 solved levels and package itself ships no prepared player profile.",
+    "Static pixels do not independently prove focus,Esc,timing,all scroll states or user satisfaction."
+  ],
+  "engine_git_or_OS_executed_by_reviewer": false
+}

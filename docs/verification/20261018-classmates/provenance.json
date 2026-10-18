@@ -1,0 +1,47 @@
+{
+  "source_commit": "c7fabe71ff4b985108e09a53de710fd8f6626513",
+  "copies": [
+    {
+      "copy": "evidence/candidate-manifest.json",
+      "source": "build/playtest-Classmates20261018-c7fabe71ff4b/manifest.json",
+      "bytes": 3520,
+      "sha256": "138fe34f3aeb2cf5839d676e636f338b9ca252642f497cef540299586f5fd175"
+    },
+    {
+      "copy": "evidence/build-summary.json",
+      "source": ".godot/classmates-build-c7fabe7-summary.json",
+      "bytes": 15177,
+      "sha256": "487e90b093693072cb22862762bc641da3ac191aa251f9bc674b3f42c7e97684"
+    },
+    {
+      "copy": "evidence/runtime-summary.json",
+      "source": ".godot/classmates-parent-child-strict-c7fabe7-summary.json",
+      "bytes": 10332,
+      "sha256": "ab11cfbc93ab9150b98daea6fff907c14d444ee9c7398f62129d1ab27b87234f"
+    },
+    {
+      "copy": "evidence/manual-provenance-audit.json",
+      "source": ".godot/classmates-build-manual-provenance-independent-audit.json",
+      "bytes": 6322,
+      "sha256": "35abf93a2206522084963cca0af5d7424c8b31e91c0461839c3f6d6710422c11"
+    },
+    {
+      "copy": "evidence/package-audit.json",
+      "source": ".godot/classmates-package-independent-audit.json",
+      "bytes": 6064,
+      "sha256": "f237104b9974b56202f2c8fa17911d324320fca1b1de1474eefc399e48c5230e"
+    },
+    {
+      "copy": "evidence/state-audit.json",
+      "source": ".godot/classmates-final-state-independent-audit.json",
+      "bytes": 8265,
+      "sha256": "564da6f8183823680a2c2af340f74d4354d57b6d73094958f9487f570ce39cac"
+    },
+    {
+      "copy": "evidence/visual-audit.json",
+      "source": ".godot/classmates-final-data-visual-independent-audit.json",
+      "bytes": 37581,
+      "sha256": "9e0b0367eb0f9fb4ac5adc3ac6555f3bac062ceea0ac98f2ec8c5f896c02ba3c"
+    }
+  ]
+}

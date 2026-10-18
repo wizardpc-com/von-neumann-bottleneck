@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="940" viewBox="0 0 1440 940" role="img" aria-labelledby="title description">
+  <title id="title">从玩家操作到真实证据：当前候选工程结构</title>
+  <desc id="description">源码关系基线1d887c5。原生可编辑文字和矢量几何；非实机截图或运行验收。任务数由构建配置决定，测试入口不授予完成。</desc>
+  <defs>
+    <style>text{font-family:"Microsoft YaHei","Noto Sans SC",sans-serif;fill:#e7eff2} .title{font-size:34px;font-weight:700}.heading{font-size:24px;font-weight:700}.body{font-size:20px}.note{font-size:18px;fill:#b8cad3}.node{fill:#172b38;stroke:#7298aa;stroke-width:2}.flow{fill:none;stroke:#93d4dd;stroke-width:3;marker-end:url(#arrow)}.read{fill:none;stroke:#d3c59f;stroke-width:3;stroke-dasharray:9 6;marker-end:url(#read-arrow)}</style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#93d4dd"/></marker>
+    <marker id="read-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#d3c59f"/></marker>
+  </defs>
+  <rect width="1440" height="940" fill="#0c1720"/>
+  <text x="40" y="54" class="title">从搭建到可核验的证据</text>
+  <text x="40" y="92" class="body">当前60项候选：40核心＋5表示＋3服务＋3可选地址预测＋9创作；具体目录以构建配置为准。</text>
+  <g id="task-navigation" data-source="src/campaign/task_navigation.gd src/campaign/second_act_tasks.gd src/campaign/creation_tasks.gd">
+    <desc>journey_tasks读取原目录和已启用候选；enter保留原访问与工作台准备条件。</desc>
+    <rect class="node" x="40" y="145" width="420" height="130" rx="10"/>
+    <text x="60" y="183" class="heading">任务目录与合法导航</text>
+    <text x="60" y="218" class="body">结构树／区域列表／搜索／定位</text>
+    <text x="60" y="250" class="body">能进入，不等于已完成</text>
+  </g>
+  <g id="original-workbenches" data-source="src/hardware_foundations/hardware_foundations.gd src/system_lab/system_lab.gd src/ui/main.gd src/overlap_chapter/overlap_chapter.gd src/layout_chapter/layout_chapter.gd experiments/creation/workbench.gd">
+    <desc>玩家仍在原工作台放置、接线、编辑、运行和明确保存；观察空间不替代这些操作。</desc>
+    <rect class="node" x="510" y="145" width="420" height="130" rx="10"/>
+    <text x="530" y="183" class="heading">搭建、编辑、运行</text>
+    <text x="530" y="218" class="body">硬件·系统·缓存·并行·布局·创作</text>
+    <text x="530" y="250" class="body">原工作台负责实际操作</text>
+  </g>
+  <g id="deterministic-models" data-source="src/layout_chapter/layout_simulator.gd src/overlap_chapter/overlap_simulator.gd experiments/creation/model.gd experiments/creation/codec.gd">
+    <desc>示例模型路径。确定性模型产生输出、成本和事件；C/P/G沿原有限上下文模型和编解码，不泛称通用智能。</desc>
+    <rect class="node" x="1000" y="145" width="400" height="130" rx="10"/>
+    <text x="1020" y="183" class="heading">确定性模型／编解码</text>
+    <text x="1020" y="218" class="body">计算结果、成本与事件</text>
+    <text x="1020" y="250" class="body">动效不改变计算或验收</text>
+  </g>
+  <g id="run-evidence" data-source="src/simulation/simulation_trace.gd src/system_lab/system_run_receipt.gd src/layout_chapter/layout_run.gd">
+    <desc>原运行证据保留任务、方案、测试集和版本关系；不能把新草稿描述成旧记录的来源。</desc>
+    <rect class="node" x="1000" y="360" width="400" height="150" rx="10"/>
+    <text x="1020" y="400" class="heading">原运行证据</text>
+    <text x="1020" y="436" class="body">Trace／Receipt／逐单结果</text>
+    <text x="1020" y="472" class="body">真实输出、周期与搬运</text>
+  </g>
+  <g id="existing-save-authorities" data-source="src/save/global_save.gd experiments/creation/session.gd experiments/candidate_session/files.gd">
+    <desc>此框汇总原有且分离的保存权威，并非统一新存档。原关卡状态和候选Session各自负责合法完成、支持和受保护作品。</desc>
+    <rect class="node" x="510" y="360" width="420" height="150" rx="10"/>
+    <text x="530" y="400" class="heading">原保存权威</text>
+    <text x="530" y="434" class="body">原关卡状态／GlobalSave</text>
+    <text x="530" y="465" class="body">独立Session：支持、作品与配方</text>
+    <text x="530" y="495" class="note">仅原合法验收或明确保存</text>
+  </g>
+  <g id="evidence-presentation" data-source="src/layout_chapter/layout_chapter.gd src/overlap_chapter/overlap_chapter.gd src/system_lab/system_lab.gd src/ui/efficiency_fragment.gd">
+    <desc>读取原运行、公共合同和匹配对照；定位原事件或代码。F4布局和输入仍须实际renderer验收。</desc>
+    <rect class="node" x="40" y="360" width="420" height="150" rx="10"/>
+    <text x="60" y="400" class="heading">可解释的证据界面</text>
+    <text x="60" y="436" class="body">原Trace／契约差额／实际定位</text>
+    <text x="60" y="472" class="body">旧运行与新草稿明确区分</text>
+  </g>
+  <g id="derived-record-spaces" data-source="src/ui/journey_journal.gd src/ui/journey_observatory.gd src/ui/theme_reflection.gd experiments/creation/work_focus.gd">
+    <desc>原记录只读回看。观察站装置和灯是叙事映射；原作品入口不生成、不fork、不补造生成回放事件。</desc>
+    <rect class="node" x="40" y="630" width="670" height="150" rx="10"/>
+    <text x="60" y="670" class="heading">只读回顾与成果空间</text>
+    <text x="60" y="706" class="body">Journal原作品快照／可选3D观察站／可跳回顾</text>
+    <text x="60" y="738" class="body">装置和灯不是信号、周期或能耗测量</text>
+    <text x="60" y="766" class="note">不补写事件历史，不生成或授予新成果</text>
+  </g>
+  <g id="offline-feedback" data-source="src/playtest/offline_feedback.gd src/playtest/offline_store.gd src/playtest/offline_context.gd scripts/offline-playtests.py">
+    <desc>F8保留真实前台画面和上下文。原本地Store和ZIP collector负责持久化与集中导入，不在本图新建公网收集服务。</desc>
+    <rect class="node" x="870" y="630" width="530" height="150" rx="10"/>
+    <text x="890" y="670" class="heading">离线现场反馈与归档</text>
+    <text x="890" y="706" class="body">F8：前台画面＋上下文＋本地意见</text>
+    <text x="890" y="738" class="body">原Store → ZIP → 随包collector</text>
+    <text x="890" y="766" class="note">不新增公网服务或默认上传</text>
+  </g>
+  <g id="operation-and-save-edges">
+    <path class="flow" d="M465 210H503"/><path class="flow" d="M935 210H993"/>
+    <path class="flow" d="M1200 280V353"/><path class="flow" d="M995 440H937"/>
+  </g>
+  <g id="read-only-edges">
+    <path class="read" d="M1000 385H970V310H250V353"/>
+    <text x="410" y="303" class="note">只读运行证据</text>
+    <path class="read" d="M690 515V560H375V623"/>
+    <text x="390" y="592" class="note">原记录／作品只读</text>
+    <path class="read" d="M720 280V327H960V582H1120V623"/>
+    <path class="read" d="M715 705H863"/><text x="746" y="693" class="note">F8现场</text>
+  </g>
+  <path class="flow" d="M45 832H125"/><text x="145" y="839" class="body">操作／原合法保存</text>
+  <path class="read" d="M505 832H585"/><text x="605" y="839" class="body">只读证据／现场采集</text>
+  <text x="40" y="886" class="note">这是工程源码关系图，不是实机截图、运行通过证明或正式人物／剧情定稿。</text>
+  <text x="40" y="918" class="note">原模型负责计算，原保存合同守住成果，界面只读呈现和解释证据。</text>
+</svg>

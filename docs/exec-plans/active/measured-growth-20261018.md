@@ -105,3 +105,23 @@ Knowledge独占三个外部QA文件：night-package-probe.gd、verify-night-pack
 观察站测试修正仅允许数值近似相等的Rect2，且新增floor左上/ceil右下像素包围盒精确相同条件；
 装置变换继续精确相同，相机变换/size从近似加强为精确相同，可见标记额外核原最小点击靶。
 没有移动取样基线、增加等待或改变生产投影。上述新条件的实际通过情况仍待新固定20阶段检查。
+
+## 固定e3e475d定向门禁
+
+原18套件加import/userdir共20阶段全部通过；效率54、观察站3292、TargetGuidance108实际通过，
+全部20进程自然exit0，无ERROR、SCRIPT ERROR、timeout或终止。Root独立核全部原日志/owned退出/输入清单，
+714文件精确复制、174canonical测试无extra；full5759身份中5045docs仅未物化，不称整树当前全复制。
+实际执行来源为提交e3，工作区三个外QA改动未进入该次固定输入。raw与哈希摘要：
+`.godot/verification/20261018T001457Z-693891e7/results.json`，SHA
+`a290f55d06017713172b4235b1635ad7a24a5d264e64bad6ef5e168a21b29586`。
+Headless仍不覆盖实际F8窗口/渲染。三新suite真实renderer经独审helper获单一令牌，正在运行；
+未授权自动重试、完整回归或构建。1d与040c失败身份保留。
+
+## 固定e3真实渲染失败
+
+首个效率suite实际174检查、16条ERROR、自然exit1，原helper停止后两suite；原24帧/日志保留在
+`.godot/f4-rendered/43d52fb3d59a`。720p两语展开后的来源标识被滚动祖先裁剪；Root已实看中文原帧。
+另四条角色反馈路径在首个frame_pre_draw未观察到真实F8 active/busy，后续步骤/渐变保护随之失败；
+实际面板、焦点、逐层Esc及保护断言后续通过，不能覆盖前面的错误。
+settings在finally恢复原字节、固定输入仍精确；TargetGuidance/观察站renderer均NOT_RUN。
+Narrative负责最小布局及实际输入相位诊断，Knowledge独审；不得直接设busy/feedback标志或删除原断言刷绿。

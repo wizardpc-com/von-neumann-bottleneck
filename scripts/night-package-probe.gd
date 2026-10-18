@@ -39,7 +39,7 @@ func protected_snapshot() -> Dictionary:
 	return {"game_state":state,"protected_files":disk}
 
 func creative_family() -> bool:
-	return str(ProjectSettings.get_setting("candidate/profile","")) in ["Creative20261018","OfflineTeammate-Creative20261018"]
+	return str(ProjectSettings.get_setting("candidate/profile","")) in ["Creative20261018","OfflineTeammate-Creative20261018","MeasuredGrowth20261018","OfflineTeammate-MeasuredGrowth20261018"]
 
 func creative_window_key(code: Key) -> void:
 	for down: bool in [true,false]:
@@ -270,6 +270,259 @@ func review_experience(host: Control, earned: bool, output: String, tester: bool
 	check(not observatory.visible and get_viewport().gui_get_focus_owner()==launcher,phase+" Observatory closes to its actual launcher")
 	check(protected_snapshot()==before,phase+" 3D browsing and view changes preserve exact protected authorities")
 
+func measured_state() -> Dictionary:
+	var nav: Node = get_node("/root/TaskNavigation")
+	var lease: Script = load("res://experiments/candidate_session/writer_lease.gd")
+	var creation: Script = load("res://experiments/creation/session.gd")
+	return {"protected":protected_snapshot(),"selected":nav.selected,"pending":nav.pending,"from_tree":nav.from_tree,
+		"best":get_node("/root/PersonalRecords").best.duplicate(true),
+		"creation_recovery_lock":DirAccess.dir_exists_absolute(lease.lock_path(creation.launch_path())+".recovering")}
+
+func measured_visible(control: Control) -> bool:
+	var clip: Rect2 = get_viewport().get_visible_rect()
+	var ancestor: Node = control.get_parent()
+	while ancestor!=null:
+		if ancestor is Control and ancestor.clip_contents: clip=clip.intersection(ancestor.get_global_rect())
+		ancestor=ancestor.get_parent()
+	return control.is_visible_in_tree() and clip.grow(1).encloses(control.get_global_rect())
+
+func measured_context(host: Control) -> Dictionary:
+	return {"authorities":measured_state(),
+		"design":host.get("design").duplicate(true) if host.get("design") is Dictionary else {},
+		"board":host.get("board").duplicate(true) if host.get("board") is Dictionary else {},
+		"program":host.editor.text if host.get("editor")!=null else ""}
+
+func measured_reveal(control: Control) -> void:
+	var ancestor: Node = control.get_parent()
+	while ancestor!=null:
+		if ancestor is ScrollContainer: ancestor.ensure_control_visible(control)
+		ancestor=ancestor.get_parent()
+	await settle()
+	check(measured_visible(control),"Measured action reachable within every original ancestor clip: "+str(control.name))
+
+func measured_frame(output: String, name: String) -> void:
+	await RenderingServer.frame_post_draw
+	var path: String = output.path_join(name+".png")
+	var image: Image = get_viewport().get_texture().get_image()
+	check(not image.is_empty() and image.save_png(path)==OK,"Actual exported Measured frame "+name)
+	var frames: Array = experience.get("measured_frames",[])
+	frames.append({"file":name+".png","sha256":FileAccess.get_sha256(path),"dimensions":[image.get_width(),image.get_height()]})
+	experience["measured_frames"]=frames
+
+func measured_feedback(action: Control, label: String, tester: bool, output: String, host: Control) -> void:
+	await measured_reveal(action)
+	action.grab_focus()
+	var before: Dictionary = measured_context(host)
+	var previous_pause: bool = get_tree().paused
+	await creative_window_key(KEY_F8)
+	var offline: Node = get_node("/root/OfflineFeedback")
+	var moments: Node = get_node("/root/PlaytestMoments")
+	var panel: Control = offline.panel if tester else moments.panel
+	check((offline.backdrop.visible if tester else moments.panel.visible) and panel.is_visible_in_tree() and panel.get_viewport()==get_viewport() and panel.is_ancestor_of(get_viewport().gui_get_focus_owner()),label+" actual role F8 owns the original viewport and focus")
+	check(get_tree().paused if tester else get_tree().paused==previous_pause,label+" retains the original role pause contract")
+	if tester: check(not offline.current.is_empty() and offline.current.get("screenshot_status","")=="captured",label+" retains an actual local pre-overlay incident")
+	await measured_frame(output,label+"-feedback")
+	await creative_window_key(KEY_ESCAPE)
+	check(not (offline.backdrop.visible if tester else moments.panel.visible) and not panel.is_visible_in_tree() and get_tree().paused==previous_pause and get_viewport().gui_get_focus_owner()==action,label+" first Escape closes only feedback and restores exact action focus")
+	check(measured_context(host)==before,label+" feedback preserves original works game draft navigation and locks")
+
+func measured_apparatus(output: String, tester: bool) -> void:
+	check(get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")==OK,"Measured actual Home loads")
+	await settle()
+	var hub: Variant = get_tree().current_scene
+	var launcher := hub.find_child("OpenJourneyObservatory",true,false) as Button
+	check(launcher!=null,"Measured actual Home keeps the Observatory launcher")
+	if launcher==null: return
+	launcher.grab_focus(); launcher.pressed.emit(); await settle()
+	var view: Variant = hub.journey_observatory
+	var before: Dictionary = measured_state()
+	for index: int in view.region_choice.item_count:
+		if int(view.region_choice.get_item_metadata(index))==0:
+			view.region_choice.select(index); view.region_choice.item_selected.emit(index); break
+	view.select_task("hardware_foundations/tutorial"); await settle()
+	check(view.selected_key=="hardware_foundations/tutorial" and view.earned(view.region_rows[view.task_choice.selected]),"Measured apparatus binds only the actually completed tutorial")
+	var pose: Transform3D = view.camera.transform
+	var camera_size: float = view.camera.size
+	var shapes: Array = []
+	for node: Node3D in view.apparatus_nodes:
+		var meshes: Array = []
+		for mesh: MeshInstance3D in node.find_children("*","MeshInstance3D",true,false): meshes.append([mesh.get_path(),mesh.transform,mesh.get_aabb()])
+		shapes.append({"pose":node.transform,"meshes":meshes,"task":node.get_meta("task_key"),"earned":node.get_meta("earned")})
+	await measured_reveal(view.inspect_button)
+	view.inspect_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	check(view.inspection_enabled and view.camera.size<camera_size and view.selected_key=="hardware_foundations/tutorial","Measured actual Inspect frames the same source task")
+	for index: int in view.apparatus_nodes.size():
+		var selected: bool = str(view.region_rows[index].key)==view.selected_key
+		check(str(view.apparatus_nodes[index].get_meta("task_key"))==str(view.region_rows[index].key),"Measured apparatus retains its exact source task binding "+str(index))
+		check(view.apparatus_nodes[index].visible==selected and view.marker_buttons[index].visible==selected,"Measured near view contains only the selected original apparatus "+str(index))
+	await measured_frame(output,"apparatus-near")
+	await measured_feedback(view.overview_button,"apparatus",tester,output,view)
+	view.overview_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	check(not view.inspection_enabled and view.camera.transform.is_equal_approx(pose) and is_equal_approx(view.camera.size,camera_size) and view.selected_key=="hardware_foundations/tutorial","Measured Overview restores the original camera and task")
+	for index: int in shapes.size():
+		var node: Node3D = view.apparatus_nodes[index]
+		var meshes: Array = []
+		for mesh: MeshInstance3D in node.find_children("*","MeshInstance3D",true,false): meshes.append([mesh.get_path(),mesh.transform,mesh.get_aabb()])
+		check({"pose":node.transform,"meshes":meshes,"task":node.get_meta("task_key"),"earned":node.get_meta("earned")}==shapes[index],"Measured framing preserves original apparatus shape and source "+str(index))
+	check(measured_state()==before,"Measured near and restore never change authoritative content or navigation")
+	await measured_frame(output,"apparatus-overview")
+	await creative_window_key(KEY_ESCAPE)
+	check(not view.visible and get_viewport().gui_get_focus_owner()==launcher,"Measured Observatory returns to its exact real Home launcher")
+	get_tree().current_scene=null; hub.queue_free(); await settle()
+
+func measured_host(scene: String, task: String) -> Control:
+	# Explicit QA context selection consumes the original host's task identity.
+	get_node("/root/TaskNavigation").pending=task
+	var host: Control = load(scene).instantiate()
+	host.process_mode=Node.PROCESS_MODE_PAUSABLE
+	get_tree().root.add_child(host); await settle()
+	return host
+
+func measured_cpu(output: String, tester: bool) -> void:
+	var chapter: Node = get_node("/root/SystemChapter")
+	chapter.reset_test_progress()
+	var host: Variant = await measured_host("res://src/system_lab/system_lab.tscn","chapter_1/cpu_speed")
+	host._start_level(&"cpu_speed"); await settle()
+	host.prediction_selector.select(1); host._lock_prediction()
+	host._run_official(); host._finish_playback(); await settle()
+	check(chapter.receipts_for(&"cpu_speed").size()==1 and not chapter.completed_levels().get(&"cpu_speed",false) and not host.efficiency_fragment.visible,"Measured single actual reference run supplies no comparison")
+	host.part_selectors[&"cpu"].select(1); host._on_part_selected(1,&"cpu")
+	host._run_official(); host._finish_playback(); await settle()
+	var receipts: Array = chapter.receipts_for(&"cpu_speed")
+	check(receipts.size()==2 and receipts[0].all_passed and receipts[1].all_passed and chapter.completed_levels().get(&"cpu_speed",false),"Measured QA reference pair is accepted only after two real official model runs")
+	if receipts.size()!=2: host.queue_free(); await settle(); return
+	var fragment: Variant = host.efficiency_fragment
+	check(fragment.before.metrics==receipts[0].metrics and fragment.after.metrics==receipts[1].metrics and not fragment.body.visible,"Measured fragment derives exactly the original pair without autoplay")
+	check(host.history_chart.samples[0]==receipts[0].metrics and host.history_chart.samples[1]==receipts[1].metrics,"Measured original comparison chart retains the same two actual samples")
+	host._dismiss_level_completion()
+	for id: StringName in host.instrument_windows: host._close_instrument(id)
+	host._open_instrument(&"history"); await settle()
+	var before: Dictionary = measured_context(host)
+	var receipt_signatures: Array = [receipts[0].canonical_signature(),receipts[1].canonical_signature()]
+	await measured_reveal(fragment.toggle_button)
+	fragment.toggle_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	check(fragment.body.visible and measured_visible(fragment.source_label) and measured_visible(fragment.metric_label),"Measured real fragment expansion reveals its original identity and numbers")
+	for step: int in 3:
+		await measured_reveal(fragment.step_buttons[step])
+		fragment.step_buttons[step].grab_focus(); await creative_window_key(KEY_SPACE)
+		check(fragment.step==step,"Measured original fragment step "+str(step))
+	check(fragment.source_label.text.contains("测试记录") if not fragment.english else fragment.source_label.text.contains("Test records"),"Measured reference pair is explicitly test evidence rather than player history")
+	await measured_frame(output,"cpu-controlled-pair")
+	await measured_reveal(fragment.chart_button)
+	fragment.chart_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	check(not fragment.body.visible and measured_visible(host.history_chart),"Measured fragment returns to the unchanged original same-scale chart")
+	fragment.toggle_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	await measured_feedback(fragment.step_buttons[2],"cpu-fragment",tester,output,host)
+	await creative_window_key(KEY_ESCAPE)
+	check(not fragment.body.visible and get_viewport().gui_get_focus_owner()==fragment.toggle_button,"Measured second Escape collapses only the focused fragment")
+	check(measured_context(host)==before and [receipts[0].canonical_signature(),receipts[1].canonical_signature()]==receipt_signatures,"Measured fragment exploration preserves both reference receipts and all original authorities")
+	experience["measured_cpu_pair"]={"before":host._efficiency_record(receipts[0]),"after":host._efficiency_record(receipts[1]),"scope":"real test-mode reference CPU official runs, not player-built or earned game history"}
+	host.queue_free(); await settle()
+
+func measured_targets(output: String, tester: bool) -> void:
+	var layout: Script = load("res://src/layout_chapter/layout_catalog.gd")
+	var overlap: Script = load("res://src/overlap_chapter/overlap_catalog.gd")
+	var host: Variant = await measured_host("res://src/layout_chapter/layout_chapter.tscn","chapter_4/fields")
+	check(host.level=="fields","Measured Layout uses the original fields contract")
+	host.design=layout.starter_design(); host._changed(); host._run_all(); await settle()
+	var run: Variant = host.runs[0]
+	var task: Dictionary = layout.cases("fields")[0]
+	var traffic: int = int(run.metrics.ram_read_bytes)+int(run.metrics.ram_write_bytes)
+	check(run.passed and not run.metrics.target_met and traffic>int(task.target_bytes),"Measured actual Layout output is correct but RAM traffic exceeds its public cap")
+	var text: String = host._case_contract_feedback(run,task)
+	check(text.contains(str(traffic)) and text.contains(str(task.target_bytes)) and text.contains(str(traffic-int(task.target_bytes))),"Measured Layout explains the actual traffic cap and difference")
+	var action := host.find_child("LayoutLocateIssue0",true,false) as Button
+	host._toggle("trace",true); await settle()
+	await measured_reveal(action)
+	var before: Dictionary = measured_context(host)
+	var signature: String = run.canonical_signature()
+	action.grab_focus(); await creative_window_key(KEY_SPACE)
+	check(host.case_index==0 and host.trace_filter==0 and not host.trace_list.get_selected_items().is_empty() and run.canonical_signature()==signature,"Measured Layout action locates the same original event without changing its trace")
+	check(measured_context(host)==before,"Measured Layout location preserves original work draft and earned history")
+	await measured_frame(output,"layout-traffic-witness")
+	await measured_feedback(action,"layout-guidance",tester,output,host)
+	check(run.canonical_signature()==signature,"Measured Layout feedback preserves the original trace")
+	host._move_group(0,host.design.recipe.groups.size()); await settle()
+	check(host.stale and action.disabled,"Measured actual Layout edit disables old location")
+	host.queue_free(); await settle()
+	host=await measured_host("res://src/overlap_chapter/overlap_chapter.tscn","chapter_3/backpressure")
+	check(host.level=="backpressure","Measured Overlap uses the original changed-workload contract")
+	host.board=overlap.buffer_board(2)
+	host.editor.text=overlap.buffer_program().replace("consume A\nfree A","consume A\ntick 8\nfree A")
+	host._changed(); host._run_official(); await settle()
+	var tasks: Array[Dictionary] = overlap.cases("backpressure")
+	check(host.runs[0].passed and int(host.runs[0].metrics.total_cycles)<=int(tasks[0].target) and host.runs[1].passed and int(host.runs[1].metrics.total_cycles)>int(tasks[1].target),"Measured unchanged model meets only the first workload cap")
+	check(host.case_select.selected==1 and host.trace==host.runs[1] and host.trace.test_name==str(tasks[1].name),"Measured first unmet selection synchronizes actual dropdown identity and trace")
+	check(host.metrics.text.contains(str(int(host.trace.metrics.total_cycles)-int(tasks[1].target))),"Measured later-case result shows its actual cycle difference")
+	host._toggle("trace",true); await settle(); await measured_reveal(host.locate_issue_button)
+	before=measured_context(host)
+	host.locate_issue_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	check(not host.events.get_selected_items().is_empty() and int(host.scrub.value)==int(host.events.get_item_metadata(host.events.get_selected_items()[0])),"Measured Overlap location synchronizes real event and playback cycle")
+	check(measured_context(host)==before,"Measured later-case location changes no original authority or draft")
+	await measured_frame(output,"overlap-later-case-witness")
+	host.queue_free(); await settle()
+	host=await measured_host("res://src/overlap_chapter/overlap_chapter.tscn","chapter_3/buffers")
+	host.board=overlap.buffer_board(1); host.editor.text="# first batch\nfetch A 0\nconsume A\nidle\n"
+	host._changed(); host._run_official(); await settle()
+	check(host.trace.metrics.error=="not_ready" and int(host.trace.metrics.error_line)==3,"Measured original early-consumption error binds its source line")
+	host._toggle("trace",true); await settle(); await measured_reveal(host.locate_issue_button)
+	before=measured_context(host)
+	host.locate_issue_button.grab_focus(); await creative_window_key(KEY_SPACE)
+	check(host.editor.get_caret_line()==2 and get_viewport().gui_get_focus_owner()==host.editor and measured_context(host)==before,"Measured runtime witness selects the original offending line without altering content")
+	await measured_frame(output,"overlap-runtime-witness")
+	await measured_feedback(host.locate_issue_button,"overlap-guidance",tester,output,host)
+	var x: Variant = host.board.nodes.A.x
+	host.board.nodes.A.x=float(x)+1.0
+	check(not host._recorded_issue_is_current(),"Measured changed board rejects the old line even with identical code")
+	var caret: int = host.editor.get_caret_line()
+	var focus: Control = get_viewport().gui_get_focus_owner()
+	host._locate_recorded_issue()
+	check(host.editor.get_caret_line()==caret and get_viewport().gui_get_focus_owner()==focus,"Measured stale board location cannot steal current focus")
+	host.board.nodes.A.x=x
+	var edits: Dictionary = {"signals":0}
+	host.editor.text_changed.connect(func() -> void: edits.signals+=1)
+	host.editor.set_caret_line(host.editor.get_line_count()-1)
+	host.editor.set_caret_column(host.editor.get_line(host.editor.get_caret_line()).length())
+	host.editor.insert_text_at_caret("# changed\n"); await settle()
+	check(int(edits.signals)>0 and host.trace_stale and host.locate_issue_button.disabled,"Measured real CodeEdit insertion invalidates old source guidance")
+	host._run_official(); await settle()
+	check(host._recorded_issue_is_current() and not host.locate_issue_button.disabled,"Measured rerun binds the actual edited source and board")
+	host.queue_free(); await settle()
+
+func measured_evidence(output: String, profile: String, tester: bool) -> void:
+	check(profile==("OfflineTeammate-MeasuredGrowth20261018" if tester else "MeasuredGrowth20261018"),"Measured supplement requires its exact isolated role profile")
+	check(DisplayServer.get_name()!="headless","Measured supplement requires actual exported rendering")
+	var before: Dictionary = protected_snapshot()
+	var original_best: Dictionary = get_node("/root/PersonalRecords").best.duplicate(true)
+	var seed: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(output.path_join("seed.json")))
+	var creation: Script = load("res://experiments/creation/session.gd")
+	var files: Script = load("res://experiments/candidate_session/files.gd")
+	var read: Dictionary = files.read_session(creation.launch_path(),creation.decode)
+	var expected_work: Dictionary = seed.get("original_saved_work",{}).get("work",{})
+	var actual_work: Dictionary = {}
+	for work: Dictionary in read.get("data",{}).get("works",[]):
+		if work.get("id","")==expected_work.get("id",""): actual_work=work
+	check(read.get("ok",false) and not expected_work.is_empty() and JSON.stringify(JSON.parse_string(JSON.stringify(actual_work)),"",true)==JSON.stringify(JSON.parse_string(JSON.stringify(expected_work)),"",true),"Measured seed contains the exact original accepted saved output and complete recipe")
+	check(FileAccess.get_sha256(creation.launch_path())==str(seed.get("original_saved_work",{}).get("session_sha256","")) and not measured_state().creation_recovery_lock,"Measured original saved-work bytes exist with no writer recovery lock")
+	await measured_apparatus(output,tester)
+	# Reference models belong only to this disposable QA clone's original test mode.
+	get_node("/root/GameMode").set_mode(&"test"); await settle()
+	await measured_cpu(output,tester)
+	await measured_targets(output,tester)
+	check(protected_snapshot()==before,"Measured QA reference runs never mutate real game or saved-work authorities")
+	check(get_node("/root/PersonalRecords").best==original_best and not measured_state().creation_recovery_lock,"Measured QA fixtures never add personal earned history or acquire a recovery writer")
+	var receipt: Dictionary = {"checks":checks,"failures":failures,"source_commit":ProjectSettings.get_setting("application/config/build_commit",""),
+		"build_id":ProjectSettings.get_setting("application/config/version",""),"profile":profile,"tester":tester,
+		"exe_sha256":FileAccess.get_sha256(OS.get_executable_path()),"controller_sha256":FileAccess.get_sha256(get_script().resource_path),
+		"protected_before":before,"protected_after":protected_snapshot(),"original_work":actual_work,
+		"original_work_session_sha256":FileAccess.get_sha256(creation.launch_path()),
+		"creation_recovery_lock":measured_state().creation_recovery_lock,"extended_experience":experience,
+		"evidence_grade":"actual exported controller supplement in a copied QA profile; test-mode CPU and target fixtures are not natural player history"}
+	var file := FileAccess.open(output.path_join("measured-evidence.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify(receipt,"\t")); file.close()
+	print("PASS: Measured exported supplemental evidence" if failures.is_empty() else "FAIL: Measured exported supplemental evidence")
+	get_tree().quit(0 if failures.is_empty() else 1)
+
 func run() -> void:
 	var output: String = str(ProjectSettings.get_setting("qa_night/output",""))
 	if output.is_empty() or not OS.get_environment("APPDATA").replace("\\","/").contains("/.godot/night-package/"):
@@ -279,11 +532,13 @@ func run() -> void:
 	var feedback: Node = get_node("/root/OfflineFeedback")
 	var profile: String = str(ProjectSettings.get_setting("candidate/profile",""))
 	var tester: bool = ProjectSettings.get_setting("playtest/offline_tester",false)==true
-	check(profile in (["OfflineTeammate-FullJourney20261018","OfflineTeammate-Creative20261018"] if tester else ["FullJourney20261018","Creative20261018"]),"actual embedded full-journey profile")
+	check(profile in (["OfflineTeammate-FullJourney20261018","OfflineTeammate-Creative20261018","OfflineTeammate-MeasuredGrowth20261018"] if tester else ["FullJourney20261018","Creative20261018","MeasuredGrowth20261018"]),"actual embedded full-journey profile")
 	check(OS.get_user_data_dir().replace("\\","/").ends_with("/VonNeumannBottleneckCandidates/representation/"+profile),"actual embedded save namespace")
 	check(OS.has_feature("free_candidate") and nav.journey_tasks().size()==60,"actual exported full journey configuration")
 	check(not get_node("/root/GameMode").is_test_mode(),"ordinary model mode")
 	check(get_node("/root/RemoteFeedback").endpoint.is_empty() and not get_node("/root/RemoteFeedback").enabled,"no receiver or automatic upload")
+	if str(ProjectSettings.get_setting("qa_night/phase", "capture")) == "measured":
+		await measured_evidence(output,profile,tester); return
 	if str(ProjectSettings.get_setting("qa_night/phase", "capture")) == "reopen":
 		await reopen_embedded_profile(output,profile,tester); return
 	var unavailable: int = 0

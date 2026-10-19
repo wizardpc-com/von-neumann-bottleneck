@@ -873,9 +873,66 @@ func _build_theme() -> void:
 
 var tutorial_coach: Control
 var tutorial_focus_applied: bool = false
+var guided_debug_ran: bool = false
+var guided_timer: Timer
+const GUIDED_LEVELS: Array[StringName] = [&"half_adder", &"full_adder", &"latch", &"register"]
 
 # First-lesson focus: until the tutorial is earned, the canvas shows only the
 # circuit, a step coach and the test bench. All tools return afterwards.
+# Early construction levels get the same step coach (build → try → official test)
+# instead of an auto-opened briefing. Steps read the real circuit and real runs.
+func _guided_level() -> bool:
+	return current_level_id in GUIDED_LEVELS and not bool(completed_levels.get(current_level_id, false)) \
+		and preload("res://src/lab/lab_features.gd").focused_tutorial() and current_phase in [&"half_adder", &"prologue"]
+
+
+func _guided_states() -> Array[bool]:
+	var wired: bool = graph != null
+	var targets: Dictionary = {}
+	if graph != null:
+		for connection: Dictionary in graph.get_connection_list(): targets[StringName(connection.to_node)] = true
+	var outputs: int = 0
+	for id: StringName in component_catalog:
+		var component: LogicComponent = component_catalog[id]
+		if component.kind in [LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP]:
+			outputs += 1
+			if not targets.has(id): wired = false
+	wired = wired and outputs > 0
+	return [wired, wired and guided_debug_ran, official_passed]
+
+
+func _refresh_guided_coach() -> void:
+	if tutorial_coach == null or not tutorial_coach.visible or current_phase == &"tutorial": return
+	if not _guided_level():
+		tutorial_coach.visible = false
+		if mission_summary_button != null: mission_summary_button.visible = true
+		if guided_timer != null: guided_timer.stop()
+		return
+	tutorial_coach.update_states(_guided_states())
+
+
+func _begin_guided_level() -> void:
+	guided_debug_ran = false
+	if not _guided_level():
+		if tutorial_coach != null and current_phase != &"tutorial":
+			tutorial_coach.visible = false
+			if mission_summary_button != null and not tutorial_focus_applied: mission_summary_button.visible = true
+		return
+	if tutorial_coach == null:
+		_ensure_tutorial_coach()
+	var goal: String = mission_summary_button.text.get_slice(" · ", 0) if mission_summary_button != null else ""
+	tutorial_coach.use_steps(true, goal.strip_edges())
+	if mission_summary_button != null: mission_summary_button.visible = false
+	tutorial_coach.visible = true
+	(desktop_windows[&"task"] as Control).hide()
+	if guided_timer == null:
+		guided_timer = Timer.new(); guided_timer.wait_time = 0.35
+		guided_timer.timeout.connect(_refresh_guided_coach); add_child(guided_timer)
+	guided_timer.start()
+	tutorial_coach.update_states(_guided_states())
+	call_deferred("_place_tutorial_coach")
+
+
 func _tutorial_focus() -> bool:
 	return current_phase == &"tutorial" and not bool(completed_levels.get(&"tutorial", false)) and preload("res://src/lab/lab_features.gd").focused_tutorial()
 
@@ -890,6 +947,7 @@ func _ensure_tutorial_coach() -> void:
 			task_window.show_instrument(); _begin_mission_briefing())
 	tutorial_coach.visible = _tutorial_focus()
 	if tutorial_coach.visible:
+		tutorial_coach.use_steps(false)
 		editor_toolbar.visible = false
 		mission_summary_button.visible = false
 		tutorial_focus_applied = true
@@ -904,10 +962,10 @@ func _ensure_tutorial_coach() -> void:
 func _place_tutorial_coach() -> void:
 	if tutorial_coach == null or graph_stack == null: return
 	var area: Vector2 = graph_stack.size
-	var coach_width: float = clampf(area.x * 0.56, 520.0, 760.0)
+	var coach_width: float = clampf(area.x * 0.44, 440.0, 640.0)
+	tutorial_coach.custom_minimum_size.x = coach_width
 	tutorial_coach.size = Vector2(coach_width, 0.0)
 	tutorial_coach.reset_size()
-	tutorial_coach.size.x = coach_width
 	tutorial_coach.position = Vector2((area.x - coach_width) * 0.5, 14.0)
 
 
@@ -5427,7 +5485,8 @@ func _handle_component_body_drag_global_input(event: InputEvent) -> bool:
 		var mouse_event := event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT and not mouse_event.pressed:
 			_finish_component_body_drag()
-			return true
+			# Native GUI input must clear the GraphNode's captured mouse press.
+			return false
 	return false
 
 
@@ -6019,6 +6078,7 @@ func _update_signal_control(toggle: CheckButton, signal_name: String) -> void:
 
 
 func _run_debug() -> void:
+	guided_debug_ran = true
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if official_sequence_active:
 		return
@@ -6855,6 +6915,9 @@ func _start_campaign_level(level_id: StringName, show_briefing: bool = true) -> 
 	if tutorial_focus_applied and level_catalog.entry_kind(level_id) != &"tutorial":
 		current_phase = &""
 		_ensure_tutorial_coach()
+	if level_id in GUIDED_LEVELS and not replaying and preload("res://src/lab/lab_features.gd").focused_tutorial():
+		open_briefing = false
+		call_deferred("_begin_guided_level")
 	match level_catalog.entry_kind(level_id):
 		&"tutorial":
 			_show_tutorial(open_briefing)

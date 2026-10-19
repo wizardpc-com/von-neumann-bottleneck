@@ -32,6 +32,25 @@ func _settle() -> void:
 		await process_frame
 
 
+func _pointer(at: Vector2, button: MouseButton = MOUSE_BUTTON_NONE, pressed: bool = false,
+		mask: MouseButtonMask = 0) -> void:
+	if button == MOUSE_BUTTON_NONE:
+		var motion := InputEventMouseMotion.new()
+		motion.position = at
+		motion.global_position = at
+		motion.button_mask = mask
+		root.push_input(motion, true)
+	else:
+		var click := InputEventMouseButton.new()
+		click.position = at
+		click.global_position = at
+		click.button_index = button
+		click.pressed = pressed
+		click.button_mask = MOUSE_BUTTON_MASK_RIGHT if pressed else 0
+		root.push_input(click, true)
+	await process_frame
+
+
 func _sample(points: PackedVector2Array, fraction: float) -> Vector2:
 	var distance: float = 0.0
 	for index: int in range(points.size() - 1):
@@ -64,6 +83,46 @@ func _tooltip(graph: CircuitGraphEdit, connection: Dictionary) -> Control:
 	return content
 
 
+func _check_single_erase_dispatch() -> void:
+	var graph: CircuitGraphEdit = Graph.new()
+	graph.size = Vector2(1000.0, 600.0)
+	root.add_child(graph)
+	_node(graph, &"E0", Vector2(50.0, 50.0))
+	_node(graph, &"E1", Vector2(550.0, 50.0))
+	_node(graph, &"E2", Vector2(50.0, 52.0))
+	_node(graph, &"E3", Vector2(550.0, 52.0))
+	await _settle()
+	graph.connect_node(&"E0", 0, &"E1", 0)
+	graph.connect_node(&"E2", 0, &"E3", 0)
+	await _settle()
+	var wires: Array[Dictionary] = graph.get_connection_list()
+	var point: Vector2 = (_sample(graph.connection_curve(wires[0]), 0.5)
+		+ _sample(graph.connection_curve(wires[1]), 0.5)) * 0.5
+	_check(graph._connections_at(point, graph.ERASER_TIP_RADIUS).size() == 2,
+		"Erase regression fixture must have two wires within the cursor tip")
+	graph.erase_wire_requested.connect(func(connection: Dictionary) -> void:
+		graph.disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+		graph.remove_connection_presentation(connection.from_node, connection.from_port, connection.to_node, connection.to_port))
+	await _pointer(point)
+	await _pointer(point, MOUSE_BUTTON_RIGHT, true)
+	_check(graph.get_connection_list().size() == 1,
+		"One viewport right press must erase only the nearest wire, once")
+	await _pointer(point, MOUSE_BUTTON_RIGHT, false)
+	graph.clear_connections()
+	graph.connect_node(&"E0", 0, &"E1", 0)
+	graph.connect_node(&"E2", 0, &"E3", 0)
+	await _settle()
+	await _pointer(Vector2(900.0, 550.0), MOUSE_BUTTON_RIGHT, true)
+	await _pointer(Vector2(1050.0, 650.0), MOUSE_BUTTON_NONE, false, MOUSE_BUTTON_MASK_RIGHT)
+	_check(not graph.erase_has_anchor, "Leaving the graph during erase must clear the stroke anchor")
+	await _pointer(point, MOUSE_BUTTON_NONE, false, MOUSE_BUTTON_MASK_RIGHT)
+	_check(graph.get_connection_list().size() == 1,
+		"One viewport erase re-entry motion must apply the cursor tip only once")
+	await _pointer(point, MOUSE_BUTTON_RIGHT, false)
+	graph.queue_free()
+	await _settle()
+
+
 func _run() -> void:
 	root.size = Vector2i(1100, 700)
 	var graph: CircuitGraphEdit = Graph.new()
@@ -86,6 +145,14 @@ func _run() -> void:
 		return
 	var first: Dictionary = wires[0]
 	var second: Dictionary = wires[1]
+	var empty_point := Vector2(900.0, 550.0)
+	_check(graph._get_tooltip(empty_point).is_empty()
+		and graph._make_custom_tooltip("") == null,
+		"Empty canvas must not create a blank custom tooltip panel")
+	(graph.get_node("N0") as GraphNode).selected = true
+	_check(graph._get_tooltip(empty_point).is_empty()
+		and graph._make_custom_tooltip("") == null,
+		"A selected component must not give empty canvas a tooltip")
 	var parent_visible: bool = root.visible
 	var content: Control = _tooltip(graph, first)
 	if content == null:
@@ -145,6 +212,31 @@ func _run() -> void:
 		"Deleting the pointed wire hides content and its outer frame while preserving the parent window")
 	graph.connect_node(first.from_node, first.from_port, first.to_node, first.to_port)
 	await _settle()
+	# Exercise the real viewport tooltip timer and cancellation with injected
+	# input; this does not establish OS pointer or packaged-game acceptance.
+	var native_point: Vector2 = _sample(graph.connection_curve(first), 0.5)
+	await _pointer(empty_point)
+	await _pointer(native_point)
+	await create_timer(float(ProjectSettings.get_setting("gui/timers/tooltip_delay_sec", 0.5)) + 0.2).timeout
+	var native_content: Control = graph.wire_tooltip
+	_check(is_instance_valid(native_content) and native_content.visible,
+		"Viewport hover dispatch must show a nonempty wire tooltip")
+	await _pointer(empty_point, MOUSE_BUTTON_RIGHT, true)
+	_check(graph.erase_active and graph._get_tooltip(native_point).is_empty(),
+		"Held right erase must suppress wire tooltip requests")
+	_check(not is_instance_valid(native_content) or not native_content.visible,
+		"Right erase must cancel the previously shown wire tooltip")
+	await _pointer(native_point, MOUSE_BUTTON_NONE, false, MOUSE_BUTTON_MASK_RIGHT)
+	await _pointer(empty_point, MOUSE_BUTTON_RIGHT, false)
+	await _pointer(native_point)
+	await create_timer(float(ProjectSettings.get_setting("gui/timers/tooltip_delay_sec", 0.5)) + 0.2).timeout
+	_check(not graph.erase_active and is_instance_valid(graph.wire_tooltip),
+		"Releasing erase must restore ordinary viewport tooltip dispatch")
+	await _pointer(empty_point)
+	await _settle()
+	graph.hide()
+	await _check_single_erase_dispatch()
+	graph.show()
 	var exiting: Control = _tooltip(graph, first)
 	if exiting == null:
 		quit(1)

@@ -1,5 +1,12 @@
 # Execution queue
 
+当前工程交付见 [团队试玩与开发交接](../../development/team-handoff.md)；
+实验室与已完成的 Claude 后续迭代已纳入本轮工程收尾。
+下列 10 月 18 日队列为历史记录，其中“F5 只有 40 项”已被完整旅程默认入口取代。
+后续玩法、美术、故事及教学由团队另行决定，不构成自动追加任务。
+
+## Historical queue — 2026-10-18
+
 Owner acceptance follow-up: root source F5 exposes40 tasks and the3D display does
 not meet the requested laboratory experience. Small source-entry correction
 `caf9e2b` and an isolated60-task preview are verified within a headless scope.

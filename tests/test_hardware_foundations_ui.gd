@@ -255,6 +255,28 @@ func _run() -> void:
 	)
 	main.call("_undo_wire")
 	_assert(body_node.position_offset.is_equal_approx(body_start), "Body movement must remain one undoable layout action.")
+	await _drag_control(body_node, Vector2(70.0, 40.0))
+	_assert(body_node.selected and not body_node.position_offset.is_equal_approx(body_start),
+		"Viewport-dispatched body drag must select and move the component.")
+	var after_drag_motion := InputEventMouseMotion.new()
+	after_drag_motion.position = graph.get_global_rect().end - Vector2(45.0, 45.0)
+	after_drag_motion.global_position = after_drag_motion.position
+	root.push_input(after_drag_motion)
+	await process_frame
+	var after_drag_hover: Control = root.gui_get_hovered_control()
+	_assert(after_drag_hover != body_node
+		and (after_drag_hover == null or not body_node.is_ancestor_of(after_drag_hover)),
+		"After releasing a body drag, blank-canvas hover must no longer belong to the moved component.")
+	await create_timer(float(ProjectSettings.get_setting("gui/timers/tooltip_delay_sec", 0.5)) + 0.2).timeout
+	var stale_body_tooltip: bool = false
+	for candidate: Node in root.find_children("*", "Label", true, false):
+		var label := candidate as Label
+		stale_body_tooltip = stale_body_tooltip or (label.text == body_node.tooltip_text and label.is_visible_in_tree())
+	_assert(not stale_body_tooltip,
+		"Pausing on empty canvas after a body drag must not display the moved component's tooltip.")
+	main.call("_undo_wire")
+	_assert(body_node.position_offset.is_equal_approx(body_start),
+		"Viewport-dispatched body drag must remain one undoable layout action.")
 	# Reproduce the observed Mac event: the press is held in Input, but the
 	# motion's button mask is empty. An unrelated offscreen press sets that state.
 	var native_press := InputEventMouseButton.new()

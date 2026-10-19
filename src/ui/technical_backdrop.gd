@@ -23,7 +23,21 @@ func _ready() -> void:
 	resized.connect(queue_redraw)
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), Color("e5edec") if light else Color("0c141a"))
+	draw_rect(Rect2(Vector2.ZERO, size), Color("e5edec") if light else Color("0e161c"))
+	if not light:
+		# The workbench is the inside of the laboratory terminal: a soft screen light
+		# from the top and a quiet inner bezel, shared with the lab's monitor.
+		var steps: int = 10
+		for index: int in steps:
+			var t: float = float(index) / steps
+			draw_rect(Rect2(0, size.y * t * 0.35, size.x, size.y * 0.035), Color(0.56, 0.83, 0.86, 0.022 * (1.0 - t)))
+		var bezel := StyleBoxFlat.new()
+		bezel.draw_center = false
+		bezel.set_corner_radius_all(14)
+		bezel.set_border_width_all(1)
+		bezel.border_color = Color(0.56, 0.83, 0.86, 0.10)
+		bezel.anti_aliasing = true
+		draw_style_box(bezel, Rect2(Vector2(5, 5), size - Vector2(10, 10)))
 	if _ambient != null:
 		draw_texture_rect(_ambient, Rect2(Vector2(-size.x*0.2,-size.y*0.55),size*Vector2(1.3,1.5)),false)
 	# Sparse registration marks are scenery, never circuit routes or latency cues.

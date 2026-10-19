@@ -3,6 +3,21 @@
 Current source and artifact: [CURRENT_STATE](docs/CURRENT_STATE.md).
 These are remaining acceptance requirements, not instructions to add features.
 
+## Team closeout — 2026-10-19
+
+The current main includes the laboratory journey and retained Claude layout,
+guidance and copy iterations. [Team handoff](docs/development/team-handoff.md) and
+[current verification](docs/verification/20261019-team-closeout/README.md) define
+the Windows offline team build. Its all-entrance profile retains normal Game
+completion rules. This round does not authorize a public Release.
+
+Human pointer experience, unfamiliar-player comprehension, high-DPI/other-machine
+checks, Mac and final artistic decisions remain separate. The original reported
+crash has no stack trace; tooltip/event regressions are verified with synthetic
+viewport input and do not certify that original OS crash reproduction.
+
+The dated sections below are historical and do not identify current branches.
+
 ## Night candidate gates — 2026-10-18
 
 PR10 is merged at `bf8f616`; the new experience candidate remains a separate

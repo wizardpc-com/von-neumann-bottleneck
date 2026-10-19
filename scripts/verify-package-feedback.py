@@ -122,7 +122,7 @@ def main():
     if platform=='macOS':
         protect=work/'protect-player.sb'
         player=Path.home()/'Library/Application Support/Godot/app_userdata/Von Neumann Bottleneck'
-        protect.write_text('(version 1)\n(allow default)\n(deny file-read* file-write* (subpath '+json.dumps(str(player))+'))\n')
+        protect.write_text('(version 1)\n(allow default)\n(deny file-read* file-write* (subpath '+json.dumps(str(player))+'))\n',encoding='utf-8')
         launcher=['/usr/bin/sandbox-exec','-f',str(protect),str(binary)]
     else:
         runtime=work/'runtime'
@@ -132,10 +132,10 @@ def main():
     def phase(name):
         write_override(override,user_dir,scene,qa_profile,name,work)
         result=subprocess.run([*launcher,'--headless','--log-file',str(work/(name+'-engine.log')),'--','--enable-playtest-telemetry','--enable-playtest-feedback'],cwd=binary.parent if platform=='Windows' else work,capture_output=True,text=True,encoding='utf-8',errors='replace',env=environment,timeout=60)
-        text=result.stdout+result.stderr; (work/(name+'.log')).write_text(text)
+        text=result.stdout+result.stderr; (work/(name+'.log')).write_text(text,encoding='utf-8')
         if result.returncode or 'SCRIPT ERROR' in text or 'ERROR:' in text or 'PASS: actual package feedback '+name not in text:
             raise RuntimeError(name+' failed; inspect '+str(work/(name+'.log')))
-        report=json.loads((work/(name+'.json')).read_text())
+        report=json.loads((work/(name+'.json')).read_text(encoding='utf-8'))
         assert report['passed']
         print(name+': PASS',flush=True)
         return report
@@ -176,14 +176,14 @@ def main():
         command=[sys.executable,str(root/'server/private_report.py'),'--database',str(database),'--triage',str(triage)]
         subprocess.run(command+['--set-status',event_id,'needs_retest','--fix-build',manifest['build_id'],'--review-note','Synthetic loop receipt; no player data.'],check=True,capture_output=True)
         subprocess.run(command+['--output',str(private)],check=True,capture_output=True)
-        report=json.loads((private/'report.json').read_text())
+        report=json.loads((private/'report.json').read_text(encoding='utf-8'))
         row=next(row for row in report['received_feedback'] if row['event_id']==event_id)
         assert row['task']=='creation/G2_intent' and row['build_version']==manifest['build_id'] and row['triage']['status']=='needs_retest'
         sys.path.insert(0,str(root/'server')); import storage
         old=work/'before-delete.sqlite'; storage.backup(database,old)
         phase('delete')
         subprocess.run(command+['--purge-triage','--output',str(private)],check=True,capture_output=True)
-        assert not json.loads((private/'report.json').read_text())['received_feedback']
+        assert not json.loads((private/'report.json').read_text(encoding='utf-8'))['received_feedback']
         restored=work/'restored.sqlite'; storage.backup(old,restored); storage.merge(restored,database)
         with closing(sqlite3.connect(restored)) as db:
             assert db.execute('SELECT COUNT(*) FROM events WHERE id=?',(event_id,)).fetchone()[0]==0
@@ -203,7 +203,7 @@ def main():
                  'platform':platform,'source_package':str(original),
                  'synthetic_controller_sha256':hashlib.sha256(probe.read_bytes()).hexdigest(),
                  'private_report':str(private/'report.html'),'qa_data':str(work)}
-        (work/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        (work/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
         print('PASS: package → HTTP → committed SQLite → same-ID private report/triage → delete/restore. '+str(work))
     finally:
         receiver.terminate();receiver.wait(timeout=10);server_log.close()

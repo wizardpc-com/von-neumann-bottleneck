@@ -92,5 +92,24 @@ func run() -> void:
 	check((bench.desktop_windows[&"task"] as Control).visible, "Full briefing remains one click away")
 	bench.queue_free(); await settle()
 
+	# Docked workbench: task left, first tool right, machine framed between them.
+	var Dock = preload("res://src/ui/instrument_dock.gd")
+	var area := Vector2(1250, 480)
+	var task := Control.new(); var tool := Control.new(); var second := Control.new()
+	for node: Control in [task, tool, second]: root.add_child(node)
+	var windows: Dictionary = {&"mission": task, &"profiler": tool, &"parts": second}
+	Dock.place(task, &"mission", area, [&"mission"], [&"profiler"], windows)
+	Dock.place(tool, &"profiler", area, [&"mission"], [&"profiler"], windows)
+	check(task.position.x < 20.0 and is_equal_approx(task.size.y, area.y - 24.0), "Task docks as a full-height left column")
+	check(tool.position.x + tool.size.x <= area.x and tool.position.x > area.x * 0.5, "First tool docks in the right column")
+	var band: Vector2 = Dock.free_band(area, windows)
+	check(band.y - band.x > 300.0, "Machine keeps a free middle band " + str(band))
+	Dock.place(second, &"parts", area, [&"mission"], [&"profiler"], windows)
+	check(second.position.y > tool.position.y + tool.size.y - 1.0, "Second tool splits the right column instead of covering the first")
+	var moved: Vector2 = tool.position + Vector2(-40, 30)
+	tool.position = moved
+	Dock.place(tool, &"profiler", area, [&"mission"], [&"profiler"], windows)
+	check(tool.position == moved, "A docked panel keeps the player's position when reopened")
+	for node: Control in [task, tool, second]: node.queue_free()
 	print(("PASS: " if failures == 0 else "FAIL: ") + "lab journey %d checks, %d failures" % [checks, failures])
 	quit(1 if failures > 0 else 0)

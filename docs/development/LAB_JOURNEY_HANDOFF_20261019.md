@@ -1,5 +1,9 @@
 # 实验室旅程 · 交接与待办（2026-10-19）
 
+工程收尾后的当前入口为 [团队试玩与开发交接](team-handoff.md) 与
+[工程验证记录](../verification/20261019-team-closeout/README.md)。
+本文保留实验室功能地图及团队创作建议；旧包、机器空间与当时未导出状态均为历史快照。
+
 **当前入口文档。** 接手（人或 AI）先读本文，再按需读 [AGENTS.md](../../AGENTS.md)、[美术风格约束](../briefs/20261019-lab/美术风格约束_v0.1.md)、[接续开发目标](../briefs/20261019-lab/接续开发目标_20261018.md)、[Claude 接续开发计划](../briefs/20261019-lab/Claude接续开发计划_v1.0.md)。旧的 [CLAUDE_HANDOFF_20261018](CLAUDE_HANDOFF_20261018.md) 只作历史参考，其中"F5 只有 40 项""候选创作路线"已过时。
 
 截图都在 [verification/20261019-lab-journey](../verification/20261019-lab-journey/)，全部来自真实运行（1280×720），不是概念图。
@@ -48,10 +52,13 @@ Godot_v4.7.1-stable_win64.exe --path .
 | 窗外城市（新） | — | 每个章节有进度时一座塔楼亮窗，章节完成变暖色（`lab-progress.png`） |
 | 作品墙（新） | — | 后墙显示最近一件在创造章节保存的作品（光纹 + 名字 + 件数），点击进入 G3；没有作品时显示"空着，等你留下第一件"（`lab-works.png`） |
 | 旅程地图 | 只有"压缩/内容预测/创造 · 候选"三个按钮（`r3-tree.png`） | 11 个章节标签带真实进度，"候选"字样去掉；"← 实验室"（`r3-tree-after.png`） |
+| 第 1、2 章工作台 | 六/七个浮窗随机叠放，任务窗盖住机器（`r3-system.png` / `r3-loc-result.png`） | 停靠布局：任务在左栏，工具在右栏（第二个工具会把右栏上下分开），机器自动缩放到中间空白处；面板只在第一次打开时停靠，之后保留你拖动/缩放的位置（`r5-system-docked.png` / `r5-locality-docked.png`） |
+| 半加器、全加器、SR 锁存器、寄存器 | 五页说明盖住画布（`r5-half-adder-before.png`） | 同一张步骤卡：搭电路 → 试一试 → 正式测试，三步分别读取真实接线、真实调试运行和真实正式结果；完整说明仍可一键打开（`r5-half-adder-guided.png`） |
 | 第 2 章结果 | 一串数字 | 周期条：计算 / 等数据 / 上限，文字"看看黄色部分：CPU 在等数据"（`r3-loc-result.png`） |
 | C/P/G 工作台 | 规格说明式标题和审计文字（`r3-creation.png`） | "压缩 C1–C3 → 内容预测 P1–P3 → 创造 G1–G3"步进条；九关说明改为人话（`r3-creation-after.png`） |
-| 配色 | 霓虹青、紫色等高饱和色散落 40+ 文件 | 统一映射到终端色板（`src/lab/lab_palette.gd` 是唯一定稿入口） |
-| 玩家可见文字 | "可选虚构回顾""不表示电流、能耗或文明测量""不冒称"等 | 删去或改写；"CPU WAIT"→"CPU 等待"；"返回章节选择"→"回到实验室" |
+| 配色与控件 | 霓虹青、紫色等高饱和色散落 40+ 文件；控件小圆角 | 统一映射到终端色板（`src/lab/lab_palette.gd` 是唯一定稿入口）；全局控件主题改用终端色、圆角加大；所有深色工作台背景加上与实验室显示器一致的屏幕光和内框，读起来像"在终端里" |
+| 实验室细节 | — | 墙面光晕、窗口斜光、屏幕在桌面上的反光、笔记本与杯子、右墙仪器柜（指示灯随总进度点亮）（`lab-art.png`） |
+| 玩家可见文字 | "可选虚构回顾""不表示电流、能耗或文明测量""不冒称""回执""合同"等 | 删去或改写；60 关的"怎样算完成 / 完成的意义"中文全部改成人话（规则不变）；"CPU WAIT"→"CPU 等待"；"返回章节选择"→"回到实验室" |
 
 **启动开关（用户参数，`--` 之后）：** `--core-journey` 只看核心 40 项；`--classic-hub` 旧首页；`--classic-tutorial` 旧教程。默认值在 `project.godot` 的 `game/full_journey=true` 与 `src/lab/lab_features.gd`。
 
@@ -71,6 +78,7 @@ Godot_v4.7.1-stable_win64.exe --path .
 | `src/lab/lab_features.gd` | 新旧表面开关 |
 | `src/hardware_foundations/tutorial_coach.gd` | 第一关步骤卡 |
 | `src/ui/cycle_budget_bar.gd` | 第 2 章计算/等待/上限条 |
+| `src/ui/instrument_dock.gd` | 第 1、2 章停靠布局与机器取景 |
 | `src/dev/dev_capture.gd` | 开发截图/固定路线（只在带 `--dev-*` 参数时生效） |
 | `src/ui/prototype_hub.gd` | 首页挂载实验室；旧表面保留为回退 |
 | `src/ui/level_completion_overlay.gd` | 完成卡重设计（所有章节共用） |
@@ -116,9 +124,9 @@ Godot_v4.7.1-stable_win64.exe --path .
 |---|---|---|---|
 | T1 | **导出新的 Windows 试玩包**并发给同学 | `scripts/build-free-candidate.py`（源码已默认完整旅程；若沿用 `--second-act-profile` 隔离档，同学的旧档不受影响，打包前先在临时目录试一次） | 新包从实验室开始，60 项可见；新档走通第一关；F8 反馈与导出正常 |
 | T2 | **正式实验室美术**替换三层占位，并补终端开机/按键/完成音效 | `assets/lab/*.png`；音效接 `WindowMode` 的 Effects 总线 | 同一构图下画面质感明显提升；读字、点按不受影响 |
-| T3 | **其余 51 关文案**按 C/P/G 九关的写法逐章重写（硬件 14 → 第 1 章 7 → 第 2 章 7 → 第 3/4 章 12 → 表示/服务/地址预测 11） | `mission_narrative_catalog.gd`、`game.zh_CN.po`、`game.en.po` | 不出现审计式免责声明；每关三句：做什么、怎样算完成、意味着什么 |
-| T4 | **半加器、锁存器**改成"步骤卡 + 少量工具" | 仿照 `_tutorial_focus()` / `tutorial_coach.gd` | 新手首屏控件明显减少；完成后工具恢复 |
-| T5 | **第 1 章系统桌面**：任务/零件/程序/测试/分析器/历史六个浮窗合并为左右两栏；第 2 章同理 | `src/system_lab/system_lab.gd`、`src/ui/main.gd` | 1280×720 首屏不互相遮挡；主要操作一眼可见 |
+| T3 | **关卡文案继续打磨**：60 关"怎样算完成 / 完成的意义"中文已改写；还剩各关多页任务说明（`.po` 中 `hardware.briefing.*`、`system.mission.*`、`chapter2.*` 等）与对应英文 | `game.zh_CN.po`、`game.en.po`、`mission_narrative_catalog.gd` | 由刘若琪按同一口吻逐章审校；不出现审计式免责声明 |
+| T4 | **引导扩展**：半加器、全加器、锁存器、寄存器已有步骤卡；可继续为 ALU、RAM、CPU 写更具体的分步（目前是通用三步） | `hardware_foundations.gd` 的 `GUIDED_LEVELS` / `tutorial_coach.gd` 的 `BUILD_STEPS` | 每关步骤贴合该关电路 |
+| T5 | **停靠布局继续打磨**：已改为左栏任务 + 右栏工具 + 中间机器；第 3、4 章（重叠、布局）和第二幕仍是原布局，可接入同一个 `instrument_dock.gd` | `overlap_chapter.gd`、`layout_chapter.gd`、`experiments/*` | 1280×720 首屏不互相遮挡 |
 | T6 | **元件与图标统一**：门电路、CPU/Bus/RAM/Cache 的外形、端口与状态符号做成一套 SVG | `circuit_component_symbol.gd`、`system_device_surface.gd`；需要陈梓弘出图 | 同一套线宽、圆角和色板 |
 | T7 | **章节完成演出深化**：已为构造、第 1–4 章收尾和 G3 加了专属字幕与壹的回应（`CHAPTER_RESPONSES`）；还缺与之对应的**画面变化**（例如窗外整片亮起、档案架抽屉打开动画）和音效 | `lab_home.gd` 的 `CHAPTER_RESPONSES` / `_arrive()` | 每章收尾都有一个看得见的空间变化 |
 | T8 | **英文文案**：C/P/G 九关与档案页、终端、章节回应已双语改写；其余 51 关随 T3 一起改 | `mission_narrative_catalog.gd` | 英文界面无旧审计语气 |

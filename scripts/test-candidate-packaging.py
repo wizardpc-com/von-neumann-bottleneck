@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """Check portable candidate ZIPs and their exact packaged-file inventory."""
+import contextlib
 import hashlib
+import io
 import importlib.util
 import json
 import stat
 import subprocess
 import sys
+import tarfile
 import tempfile
+from unittest import mock
 import zipfile
 from pathlib import Path
 
@@ -58,6 +62,52 @@ commit='a'*40
 build_id='playtest-PackageTest-'+commit[:12]
 test_root=root/'.godot/candidate-packaging-tests'
 test_root.mkdir(parents=True,exist_ok=True)
+with tempfile.TemporaryDirectory(dir=test_root) as temporary:
+    frozen=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+    archive=io.BytesIO(subprocess.check_output(['git','archive',frozen],cwd=root))
+    # Keep the engine mocked: this exercises packaging from committed UTF-8 sources.
+    with tarfile.open(fileobj=archive,mode='a') as staged:
+        for name in ['lab-home.png','task-map.png','hardware.png','feedback.png']:
+            payload=b'\x89PNG\r\n\x1a\n'+name.encode()
+            entry=tarfile.TarInfo('docs/verification/20261019-team-closeout/screenshots/'+name)
+            entry.size=len(payload);entry.mtime=1700000000;staged.addfile(entry,io.BytesIO(payload))
+    fixture=Path(temporary)/'builder';(fixture/'scripts').mkdir(parents=True)
+    template=fixture/'windows.exe';template.write_bytes(b'template fixture')
+    revision=subprocess.check_output(['git','rev-list','--count',frozen],cwd=root,text=True)
+    def frozen_output(command,**kwargs):
+        if command[0]=='git':
+            if command[1]=='archive':return archive.getvalue()
+            return revision if command[1]=='rev-list' else frozen
+        assert command==['mock-godot','--version'],command
+        return '4.7.1.stable.fixture'
+    def engine_run(command,**kwargs):
+        assert command[0]=='mock-godot',command
+        project=Path(command[command.index('--path')+1])
+        (project/'project.godot').read_text(encoding='utf-8')
+        (project/'export_presets.cfg').read_text(encoding='utf-8')
+        if '--script' in command:
+            (project/'candidate-licenses.txt').write_text('Engine licenses · 许可',encoding='utf-8')
+        if '--export-release' in command:
+            assert '冯' in (project/'distribution/OFFLINE-PLAYTEST-README.txt').read_text(encoding='utf-8')
+            Path(command[-1]).write_bytes(b'export fixture')
+        return subprocess.CompletedProcess(command,0,'fixture · 中文日志\n','')
+    arguments=['build-free-candidate.py','--godot','mock-godot','--commit',frozen,
+        '--platform','Windows','--windows-template',str(template),'--offline-tester',
+        '--second-act-profile','OfflineTeammate-EncodingTest','--creation-journey','--test-batch','EncodingTest']
+    with mock.patch.object(builder,'__file__',str(fixture/'scripts/build-free-candidate.py')), \
+            mock.patch.object(sys,'argv',arguments), \
+            mock.patch.object(subprocess,'check_output',side_effect=frozen_output), \
+            mock.patch.object(subprocess,'run',side_effect=engine_run),contextlib.redirect_stdout(io.StringIO()):
+        builder.main()
+    packaged=fixture/'build'/('playtest-EncodingTest-'+frozen[:12])
+    checked=subprocess.run([sys.executable,str(root/'scripts/check-candidate-identity.py'),str(packaged)],capture_output=True)
+    assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
+    manifest=json.loads((packaged/'Windows/BUILD-MANIFEST.json').read_text(encoding='utf-8'))
+    for name in ['lab-home.png','task-map.png','hardware.png','feedback.png']:
+        assert 'screenshots/'+name in manifest['files_sha256']
+    assert '许可' in (packaged/'Windows/ENGINE-LICENSES.txt').read_text(encoding='utf-8')
+    assert 'OfflineTeammate-EncodingTest' in (packaged/'Windows/README.txt').read_text(encoding='utf-8')
+
 with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     output=Path(temporary)/build_id
     assert output.resolve().is_relative_to(root.resolve())
@@ -198,4 +248,4 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     (offline_output/'manifest.json').write_text(json.dumps(offline_manifest))
     checked=subprocess.run(offline_checker,capture_output=True)
     assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
-print('PASS: URL gates, offline/public profiles and README paths, ZIP inventory, hashes and unlisted-file rejection')
+print('PASS: frozen UTF-8 Windows packaging, screenshot inventory, URL gates, offline/public profiles and README paths, ZIP inventory, hashes and unlisted-file rejection')

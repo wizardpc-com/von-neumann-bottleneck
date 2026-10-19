@@ -6,7 +6,9 @@
 
 一款关于计算机与数据流的构建解谜游戏。从逻辑门、寄存器到自己的小计算机，再探索缓存、缓冲、预取与数据布局。接出电路，观察运行，比较结果，寻找自己的解法。
 
-**当前 Windows 试玩：60 个任务全入口 · 完全离线 · 截图与现场反馈 · 中英文界面**
+**当前源码：实验室旅程 · 60 项任务 · 完全离线反馈 · 中英文界面**
+
+**2026-10-19 团队测试版：** 已保留 Claude 完成的实验室、工具停靠布局、早期关卡引导和任务文字，收敛同学反馈中的提示框/右键删除问题及 Windows 打包。新包由固定 main 提交生成，独立测试存档，60 项入口全开但仍需真实完成任务。新包仅供团队传递，本轮未公开 Release；下面公开下载仍是 10 月 17 日旧版。[队友试玩与开发交接](docs/development/team-handoff.md) · [本轮验证与版本身份](docs/verification/20261019-team-closeout/README.md)。
 
 **[⬇️ 下载 Windows 离线试玩 Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [旧版 Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
@@ -18,13 +20,13 @@
 
 **旧版 Alpha（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建。最新 Windows 离线试玩为 `v0.5.0-alpha.3-offline.1`；本轮未提供新版 Mac 包。
 
-**旅程新版候选（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。当前独立分支 `codex/journey-final-candidate-20261018` 的产品固定于 `5bd3792b022e`：60 项任务、双语语境、互动规则、成长档案、可选 3D 观察站和只读原作品回顾；第二章呈现同次实际周期、目标差值及取数证据入口，首次成果接入可替换的临时场景图。普通进度与全关测试采用独立存档，测试访问不授予成果。本轮 Windows 双包未公开发布；上方下载仍是10月17日离线版。[新版包、变化截图与验证范围](docs/verification/20261018-journey-final/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态](docs/CURRENT_STATE.md)。
+**历史旅程候选（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。当时独立分支 `codex/journey-final-candidate-20261018` 的产品固定于 `5bd3792b022e`：60 项任务、双语语境、互动规则、成长档案、可选 3D 观察站和只读原作品回顾；第二章呈现同次实际周期、目标差值及取数证据入口，首次成果接入可替换的临时场景图。普通进度与全关测试采用独立存档，测试访问不授予成果。本轮 Windows 双包未公开发布；上方下载仍是10月17日离线版。[新版包、变化截图与验证范围](docs/verification/20261018-journey-final/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态](docs/CURRENT_STATE.md)。
 
 [下载试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 早期固定7c夜间候选的工程交接已完成，包括其Windows实包与限定原生接线／重启观察；该历史范围见[7c验收记录](docs/verification/20261018-night-experience/README.md)。真人理解、最终美术／叙事与更广平台验收仍开放。
 
-**离线队友试玩版（Windows）：** 最新候选 `4df5bad46751` 开放全部60个任务入口；随时按 F8 或点“现场反馈”，自动保留游戏截图、当前方案与运行现场，文字自动保存。多次退出重启后，最后导出一个 ZIP 即可交给维护者集中查看。独立测试存档，无需账号或网络。[试玩说明](distribution/OFFLINE-PLAYTEST-README.txt) · [集中导入与分析](distribution/OFFLINE-MAINTAINER.txt) · [固定版本与验收](docs/verification/20261017-offline-teammate/README.md)。
+**历史公开离线试玩（2026-10-17，Windows）：** 固定源码 `4df5bad46751` 开放全部60个任务入口；随时按 F8 或点“现场反馈”，自动保留游戏截图、当前方案与运行现场，文字自动保存。多次退出重启后，最后导出一个 ZIP 即可交给维护者集中查看。独立测试存档，无需账号或网络。[试玩说明](distribution/OFFLINE-PLAYTEST-README.txt) · [集中导入与分析](distribution/OFFLINE-MAINTAINER.txt) · [固定版本与验收](docs/verification/20261017-offline-teammate/README.md)。
 
 ## 在这里做什么
 

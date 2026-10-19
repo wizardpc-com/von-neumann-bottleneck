@@ -26,6 +26,13 @@ def offline_readme(source,profile):
     return source.replace('/OfflineTeammate/','/'+profile+'/')
 
 
+def package_offline_screenshots(project, folder):
+    source=project/'docs/verification/20261019-team-closeout/screenshots'
+    destination=folder/'screenshots';destination.mkdir()
+    for name in ['lab-home.png','task-map.png','hardware.png','feedback.png']:
+        shutil.copy2(source/name,destination/name)
+
+
 def public_https_url(value, api_root=False):
     if any(ord(char)<32 for char in value) or (not api_root and len(value)>2048):
         return False
@@ -101,8 +108,8 @@ def main():
             p.error('offline tester requires a batch, fixed commit and Windows template')
     template=a.mac_template.resolve() if a.mac_template else None
     root=Path(__file__).resolve().parents[1]
-    commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True).strip()
-    engine=subprocess.check_output([a.godot,'--version'],text=True).strip()
+    commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True,encoding='utf-8').strip()
+    engine=subprocess.check_output([a.godot,'--version'],text=True,encoding='utf-8').strip()
     if not engine.startswith('4.7.1.stable.'):p.error('Godot 4.7.1 stable required')
     stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+commit[:8]
     work=root/'.godot/candidates'/stamp;project=work/'project';project.mkdir(parents=True)
@@ -119,11 +126,11 @@ def main():
     spec=importlib.util.spec_from_file_location('branding',project/'scripts/check-branding.py')
     branding=importlib.util.module_from_spec(spec);spec.loader.exec_module(branding)
     brand=branding.read_brand(project)
-    original=(project/'project.godot').read_text()
+    original=(project/'project.godot').read_text(encoding='utf-8')
     original=re.sub(r'config/icon="[^"]*"','config/icon="'+brand['app_icon']+'"',original)
-    presets=(project/'export_presets.cfg').read_text()
+    presets=(project/'export_presets.cfg').read_text(encoding='utf-8')
     # Native numeric versions identify the frozen Git content without reusing a date label.
-    revision=int(subprocess.check_output(['git','rev-list','--count',commit],cwd=root,text=True))
+    revision=int(subprocess.check_output(['git','rev-list','--count',commit],cwd=root,text=True,encoding='utf-8'))
     numeric='0.5.'+str(revision//65536)+'.'+str(revision%65536)
     for key in ['file_version','product_version']:
         presets=re.sub(r'application/'+key+r'="[^"]*"','application/'+key+'="'+numeric+'"',presets)
@@ -138,7 +145,7 @@ def main():
         presets=presets.replace('[preset.1.options]','[preset.1.options]\ncustom_template/debug='+mac_path+'\ncustom_template/release='+mac_path)
     if a.windows_template:
         presets=presets.replace('custom_template/release=""','custom_template/release='+godot_path_literal(a.windows_template),1)
-    (project/'export_presets.cfg').write_text(presets)
+    (project/'export_presets.cfg').write_text(presets,encoding='utf-8')
     original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))
     if a.public_playtest or a.offline_tester:original=original.replace('[application]','[application]\nfeedback_default_source="external_player"',1)
@@ -146,7 +153,7 @@ def main():
     # Bind binary-exported scripts to the same workspace model fingerprints as source.
     workspace_versions={}
     for state in ['src/system_lab/system_chapter_state.gd','src/locality_chapter/locality_chapter_state.gd']:
-        source=(project/state).read_text()
+        source=(project/state).read_text(encoding='utf-8')
         paths=json.loads(re.search(r'Workspace.fingerprint\((\[.*?\])\)',source).group(1))
         signature='workspace-v1'+''.join(hashlib.sha256((project/path.removeprefix('res://')).read_bytes()).hexdigest() for path in paths)
         workspace_versions[paths[0]]=hashlib.sha256(signature.encode()).hexdigest()
@@ -157,14 +164,14 @@ def main():
         original+='\n[candidate]\nprimary_domain="representation"\nprofile='+json.dumps(a.second_act_profile)+'\njourney_enabled=true\n'
         if a.creation_journey:original+='creation_enabled=true\n'
     if a.offline_tester:original+='\n[playtest]\noffline_tester=true\n'
-    (project/'project.godot').write_text(original)
+    (project/'project.godot').write_text(original,encoding='utf-8')
     identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n\n'
     for document in ['README.md','README.en.md','CHANGELOG.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
         path=project/document
-        path.write_text(identity+path.read_text().replace('@BUILD_ID@',build_id).replace('@SOURCE_COMMIT@',commit))
+        path.write_text(identity+path.read_text(encoding='utf-8').replace('@BUILD_ID@',build_id).replace('@SOURCE_COMMIT@',commit),encoding='utf-8')
     if a.public_playtest:
         path=project/'distribution/PLAYTEST-README.txt'
-        content=path.read_text()
+        content=path.read_text(encoding='utf-8')
         replacements={
             '解压 Windows ZIP 后运行 Von-Neumann-Bottleneck.exe；Mac 运行 .app。':'解压 Windows ZIP 后运行 Von-Neumann-Bottleneck.exe。本次公开预发布仅提供 Windows。',
             'Extract and run the Windows EXE or macOS app.':'Extract and run the Windows EXE. This prerelease is Windows-only.',
@@ -172,9 +179,9 @@ def main():
         for old,new in replacements.items():
             if old not in content:raise ValueError('Review changed public README wording: '+old)
             content=content.replace(old,new,1)
-        path.write_text(content)
+        path.write_text(content,encoding='utf-8')
         path=project/'distribution/KNOWN-ISSUES.txt'
-        content=path.read_text()
+        content=path.read_text(encoding='utf-8')
         replacements={
             '- Mac 包为 ad-hoc 签名、未公证；仍需另一台 Mac 核对安装、首启与保存。Windows 包未进行正式代码签名。':'- 本次不提供 Mac 包；Mac 候选的异机首启与存档尚未验收。Windows 包未进行正式代码签名。',
             '- 离线包的云端反馈入口为空。可保存/导出意见；已配置私有验收入口的包会明确单独标记，不能当作公网可用包。':'- 本公开试玩包配置了下方 HTTPS 反馈入口；发送意见须单独确认，自动统计默认关闭。',
@@ -186,7 +193,7 @@ def main():
             if old not in content:raise ValueError('Review changed public known-issues wording: '+old)
             content=content.replace(old,new,1)
         content+='\n公开试玩版本 / Public prerelease: '+a.release_version+'\n反馈入口 / Feedback receiver: '+a.feedback_endpoint+'\n隐私说明 / Privacy notice: '+a.privacy_url+'\n'
-        path.write_text(content)
+        path.write_text(content,encoding='utf-8')
     isolated_base='\n'.join(line for line in original.splitlines() if not line.startswith(('config/use_custom_user_dir=','config/custom_user_dir_name=')))+'\n'
     isolated=isolated_base.replace('[application]','[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="VonNeumannBottleneckChecks/build-'+stamp+'"')
     runtime_env=os.environ.copy()
@@ -195,23 +202,23 @@ def main():
             directory=work/'runtime'/name;directory.mkdir(parents=True,exist_ok=True)
             runtime_env[key]=str(directory)
     def run(name,args):
-        result=subprocess.run([a.godot,'--headless','--path',str(project),*args],capture_output=True,text=True,timeout=600,env=runtime_env)
-        text=result.stdout+result.stderr;(work/(name+'.log')).write_text(text)
+        result=subprocess.run([a.godot,'--headless','--path',str(project),*args],capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=600,env=runtime_env)
+        text=result.stdout+result.stderr;(work/(name+'.log')).write_text(text,encoding='utf-8')
         if result.returncode or 'SCRIPT ERROR' in text or 'ERROR:' in text:raise RuntimeError(name+' failed: '+str(work/(name+'.log')))
         print(name+': PASS',flush=True)
-    (project/'project.godot').write_text('\n'.join(line for line in isolated.splitlines() if not line.startswith('theme/custom_font='))+'\n')
+    (project/'project.godot').write_text('\n'.join(line for line in isolated.splitlines() if not line.startswith('theme/custom_font='))+'\n',encoding='utf-8')
     run('import',['--editor','--import','--quit'])
-    (project/'project.godot').write_text(isolated)
+    (project/'project.godot').write_text(isolated,encoding='utf-8')
     # Read the exact engine's bundled licensing data, not a guessed dependency list.
     probe=project/'candidate_license_probe.gd'
-    probe.write_text('extends SceneTree\nfunc _init() -> void:\n\tvar f=FileAccess.open("res://candidate-licenses.txt",FileAccess.WRITE)\n\tf.store_string(Engine.get_license_text()+"\\n\\n"+JSON.stringify(Engine.get_copyright_info(),"\\t")+"\\n\\n"+JSON.stringify(Engine.get_license_info(),"\\t"))\n\tf.close()\n\tquit()\n')
+    probe.write_text('extends SceneTree\nfunc _init() -> void:\n\tvar f=FileAccess.open("res://candidate-licenses.txt",FileAccess.WRITE)\n\tf.store_string(Engine.get_license_text()+"\\n\\n"+JSON.stringify(Engine.get_copyright_info(),"\\t")+"\\n\\n"+JSON.stringify(Engine.get_license_info(),"\\t"))\n\tf.close()\n\tquit()\n',encoding='utf-8')
     run('licenses',['--script','res://candidate_license_probe.gd']);probe.unlink()
-    (project/'project.godot').write_text(original)
+    (project/'project.godot').write_text(original,encoding='utf-8')
     # Exporters themselves do not start the game. Native QA uses a separate override.
     manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':a.public_playtest,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261013-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
     if a.public_playtest:manifest.update(release_version=a.release_version,privacy_url=a.privacy_url,feedback_default_source='external_player')
     if a.offline_tester:manifest['offline_tester']=True
-    rules=json.loads((project/'server/community_rules.json').read_text())
+    rules=json.loads((project/'server/community_rules.json').read_text(encoding='utf-8'))
     manifest['content_tasks']=rules.get('content_manifests',{}).get(manifest['content_version'],{'tasks':rules['tasks']})['tasks']
     if not a.creation_journey:manifest['content_tasks']=[task for task in manifest['content_tasks'] if not task.startswith('creation/')]
     if a.windows_template:manifest['windows_template_sha256']=hashlib.sha256(a.windows_template.read_bytes()).hexdigest()
@@ -225,7 +232,7 @@ def main():
         run('export-'+platform,['--export-release',preset,str(folder/binary)])
         for src,name in [('distribution/PLAYTEST-README.txt','README.txt'),('distribution/KNOWN-ISSUES.txt','KNOWN-ISSUES.txt'),('distribution/CHANGELOG.txt','CHANGELOG.txt'),('LICENSE','LICENSE.txt'),('assets/fonts/OFL-NotoSansSC.txt','FONT-LICENSE.txt'),('candidate-licenses.txt','ENGINE-LICENSES.txt')]:shutil.copy2(project/src,folder/name)
         if a.second_act_profile:
-            with (folder/'README.txt').open('a') as notes:
+            with (folder/'README.txt').open('a',encoding='utf-8') as notes:
                 notes.write('\nSecond-act isolated candidate journey\nProfile: '+a.second_act_profile+'\nRepresentation five tasks and Service three contracts have separate plans and endings. Save before leaving; the earned Representation review can continue to Service. Home recommends core construction/bottleneck work, the core ending, Representation, Service, and a saved four-page closing review. Timing and placement remain parallel; optional tasks are not required by this recommendation. The Journey map contains all core tasks, five Representation tasks, three Service contracts and three optional Prediction investigations. Select a task to enter its workbench and return through its existing save guard. Prediction remains temporary and is discarded on leaving; follow-up commissions remain optional. This build uses an isolated candidate profile and does not read or migrate production progress.\n')
                 if a.creation_journey:
                     notes.write('\nCompression, content prediction and creation are also enabled: nine candidate units share the light-pattern workbench, learned rules and machine. The address-prediction investigations above remain separate and optional. Creation drafts, protected works and complete recipes use their own candidate session file; saved snapshots can be viewed, replayed or forked. '
@@ -234,7 +241,7 @@ def main():
                     notes.write('\nOffline teammate playtest: all sixty task entrances are available from a fresh profile. Entering a task does not complete it, unlock model actions, or grant saved evidence. Feedback stays on this computer until the tester deliberately exports a bundle. This build has no feedback receiver.\n')
         if a.test_batch:
             notes=folder/'README.txt'
-            content=notes.read_text()
+            content=notes.read_text(encoding='utf-8')
             content=content.replace('本候选没有配置回传服务器','服务器地址与状态见下方本轮身份').replace('this build has no server URL','see this batch configuration below')
             content=content.replace('共 40 个任务','原核心 40 个任务').replace('Five regions, forty tasks.','Original core: five regions, forty tasks.')
             if a.second_act_profile:
@@ -248,17 +255,18 @@ def main():
             if a.public_playtest:content+='公开试玩版本 / Public prerelease: '+a.release_version+'\n隐私说明 / Privacy notice: '+a.privacy_url+'\n本构建未自行证明公网验收；请以独立验收记录为准。\n'
             content+='本地验收包，不能作为外部云端可用证据。\n' if a.local_feedback_test else '外部连接/平台实测以验收记录为准。\n'
             content+='测试存档渠道稳定，不随构建号清空；更新前完整备份候选profile及service同名目录。不要用QA通关档代替新档。\n'
-            notes.write_text(content)
+            notes.write_text(content,encoding='utf-8')
         if a.offline_tester:
             offline_notes=offline_readme((project/'distribution/OFFLINE-PLAYTEST-README.txt').read_text(encoding='utf-8'),a.second_act_profile)
             (folder/'README.txt').write_text(identity+offline_notes,encoding='utf-8')
+            package_offline_screenshots(project,folder)
             tools=folder/'feedback-tools';tools.mkdir()
             for name in ['offline-playtests.py','report-playtests.py']:
                 shutil.copy2(project/'scripts'/name,tools/name)
             shutil.copy2(project/'distribution/OFFLINE-MAINTAINER.txt',tools/'README.txt')
         files={f.relative_to(folder).as_posix():hashlib.sha256(packaged_bytes(f)).hexdigest() for f in package_files(folder)}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
-        (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n')
+        (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n',encoding='utf-8')
         zip_path=output/('Von-Neumann-Bottleneck-'+platform+'-'+build_id+'.zip')
         if platform=='macOS' and sys.platform=='darwin':subprocess.run(['/usr/bin/ditto','-c','-k','--sequesterRsrc','--keepParent',str(folder),str(zip_path)],check=True)
         else:
@@ -266,6 +274,6 @@ def main():
                 for f in package_files(folder):write_zip_entry(z,f,f.relative_to(output))
         with zipfile.ZipFile(zip_path) as z:assert z.testzip() is None
         manifest['platforms'][platform]={'zip':zip_path.name,'bytes':zip_path.stat().st_size,'sha256':hashlib.sha256(zip_path.read_bytes()).hexdigest()}
-    (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
     print('Candidates: '+str(output))
 if __name__=='__main__':main()

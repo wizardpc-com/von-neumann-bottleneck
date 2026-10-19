@@ -24,7 +24,7 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     original = args.exe.resolve()
-    manifest = json.loads((original.parent.parent / 'manifest.json').read_text())
+    manifest = json.loads((original.parent.parent / 'manifest.json').read_text(encoding='utf-8'))
     if not manifest.get('offline_tester') or manifest.get('feedback_endpoint'):
         parser.error('requires a frozen offline tester candidate with no receiver')
     stamp = uuid.uuid4().hex[:12]

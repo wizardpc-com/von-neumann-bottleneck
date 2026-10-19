@@ -1,4 +1,11 @@
-# Five-region free development candidate
+# Candidate builds and Windows team handoff
+
+The current Windows team procedure and Chinese player guide are in
+[team handoff](../development/team-handoff.md). The offline package includes
+four actual screenshots and uses a separate named `OfflineTeammate-<suffix>`
+profile. The builder reads and writes source/configuration/notes as UTF-8 on
+Windows, independent of the system code page.
+
 
 ## Sixty-task candidate
 

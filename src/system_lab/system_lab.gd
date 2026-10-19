@@ -1,5 +1,6 @@
 extends Control
 
+const InstrumentDock = preload("res://src/ui/instrument_dock.gd")
 const CatalogType = preload("res://src/system_lab/system_level_catalog.gd")
 const CoreType = preload("res://src/system_lab/system_simulation_core.gd")
 const ParserType = preload("res://src/system_lab/system_dsl_parser.gd")
@@ -3176,14 +3177,24 @@ func _open_instrument(id: StringName) -> void:
 	var panel: FloatingInstrumentPanel = instrument_windows.get(id)
 	if panel == null:
 		return
+	var was_visible: bool = panel.visible
 	panel.show()
 	if panel.minimized:
 		panel.set_minimized(false)
+	# Task docks left, tools dock right on first opening; the machine keeps the middle.
+	InstrumentDock.place(panel, id, desktop_host.size, [&"mission"], [&"program", &"profiler", &"history"], instrument_windows)
 	panel.fit_to_parent(8.0)
 	_focus_instrument(id)
+	call_deferred("_frame_machine")
 	var button: Button = instrument_open_buttons.get(id)
 	if button != null:
 		button.set_pressed_no_signal(true)
+
+
+func _frame_machine() -> void:
+	if graph != null and desktop_host != null and desktop_host.size.x > 0.0:
+		InstrumentDock.redock(desktop_host.size, instrument_windows, [&"mission"], [&"program", &"profiler", &"history"])
+		InstrumentDock.frame(graph, device_nodes.values(), instrument_windows)
 
 
 func _close_instrument(id: StringName) -> void:

@@ -1,9 +1,9 @@
 class_name InstrumentTheme
 extends RefCounted
 
-const SURFACE := Color("172128")
-const EDGE := Color("465760")
-const ACCENT := Color("93d4dd")
+const SURFACE := Color("1a252e")
+const EDGE := Color("3a4b56")
+const ACCENT := Color("8fd3dc")
 
 
 static func primary(button: Button, accent: Color = ACCENT) -> void:
@@ -20,7 +20,7 @@ static func primary(button: Button, accent: Color = ACCENT) -> void:
 		button.add_theme_color_override(state, Color("071823"))
 
 
-static func panel(fill: Color, border: Color = EDGE, radius: int = 5) -> StyleBoxFlat:
+static func panel(fill: Color, border: Color = EDGE, radius: int = 7) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
 	box.bg_color = fill
 	box.border_color = border
@@ -35,7 +35,7 @@ static func panel(fill: Color, border: Color = EDGE, radius: int = 5) -> StyleBo
 
 # A raised instrument surface. Keep button/input surfaces flatter so they do not
 # compete with the windows they belong to. Shadows never enlarge input geometry.
-static func surface(fill: Color = SURFACE, accent: Color = EDGE, radius: int = 8) -> StyleBoxFlat:
+static func surface(fill: Color = SURFACE, accent: Color = EDGE, radius: int = 10) -> StyleBoxFlat:
 	var box: StyleBoxFlat = panel(fill, accent, radius)
 	box.shadow_color = Color(0.0, 0.015, 0.025, 0.28)
 	box.shadow_size = 8
@@ -51,9 +51,9 @@ static func apply_to(target: Theme, light: bool = false) -> void:
 	var text := Color("223840") if light else Color("e7eff2")
 	var muted := Color("53666d") if light else Color("9eafb8")
 	var accent := Color("245e6d") if light else ACCENT
-	var idle := Color("edf2f1") if light else Color("202d35")
-	var hover := Color("e0ecec") if light else Color("2a3e48")
-	var selected := Color("d2e6e8") if light else Color("213f4a")
+	var idle := Color("edf2f1") if light else Color("1f2b34")
+	var hover := Color("e0ecec") if light else Color("273843")
+	var selected := Color("d2e6e8") if light else Color("1f3d47")
 	var disabled := Color("e9eeee") if light else Color("1b252c")
 	var input := Color("ffffff") if light else Color("101a21")
 	for control_type: String in ["Label", "Button", "OptionButton", "MenuButton", "LineEdit", "ItemList", "PopupMenu"]:

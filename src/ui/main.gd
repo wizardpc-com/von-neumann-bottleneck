@@ -1,5 +1,6 @@
 extends Control
 
+const InstrumentDock = preload("res://src/ui/instrument_dock.gd")
 const DSLParserType = preload("res://src/simulation/dsl_parser.gd")
 const DSLProgramType = preload("res://src/simulation/dsl_program.gd")
 const ProgramTemplatesType = preload("res://src/simulation/program_templates.gd")
@@ -1721,13 +1722,22 @@ func _open_instrument(id: StringName, user_initiated: bool = false) -> void:
 	if not _tool_available(id):
 		_set_status(_t(&"chapter2.status.tool_unavailable"), MUTED)
 		return
+	# Task docks left, tools dock right on first opening; the machine keeps the middle.
+	InstrumentDock.place(instrument_windows[id], id, instrument_host.size, [&"mission"], [&"program", &"profiler", &"notebook"], instrument_windows)
 	instrument_windows[id].fit_to_parent(10.0)
 	instrument_windows[id].show_instrument()
+	call_deferred("_frame_machine")
 	if user_initiated:
 		PlaytestData.record_tool_opened(&"chapter_2", current_level_id, id)
 	var button: Button = instrument_open_buttons.get(id)
 	if button != null:
 		button.set_pressed_no_signal(true)
+
+
+func _frame_machine() -> void:
+	if graph != null and instrument_host != null and instrument_host.size.x > 0.0:
+		InstrumentDock.redock(instrument_host.size, instrument_windows, [&"mission"], [&"program", &"profiler", &"notebook"])
+		InstrumentDock.frame(graph, device_nodes.values(), instrument_windows)
 
 
 func _close_instrument(id: StringName) -> void:

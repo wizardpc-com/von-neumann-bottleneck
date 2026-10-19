@@ -13,6 +13,8 @@ func _init() -> void:
 
 
 func _run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	var scene_resource: PackedScene = load("res://src/ui/main.tscn")
 	var main: Control = scene_resource.instantiate()
 	root.add_child(main)

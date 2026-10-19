@@ -24,6 +24,26 @@ const STEPS := [
 		"en": "Connect the removed wire again. Being able to undo and redo is what building means."},
 ]
 
+const BUILD_STEPS := [
+	{"id": "wire", "zh_title": "搭电路", "en_title": "Build",
+		"zh": "从右侧「元件」拖出门电路，接到每一个输出上。不确定时可以先只接一个输出试试。",
+		"en": "Drag gates from Components on the right and wire every output. Unsure? Wire just one output first."},
+	{"id": "debug", "zh_title": "试一试", "en_title": "Try it",
+		"zh": "在左侧测试台换几组输入，按「运行当前调试用例」，看输出是否符合你的预期。",
+		"en": "Change inputs in the test bench on the left and run the debug case. Does the output match what you expect?"},
+	{"id": "official", "zh_title": "正式测试", "en_title": "Official test",
+		"zh": "按「逐项运行正式用例」。全部通过后，这个电路就能封装成下一关可用的零件。",
+		"en": "Run the official cases. When all pass, this circuit becomes a part you can reuse later."},
+]
+const BUILD_PRAISE_ZH := ["每个输出都有来源了。", "跑起来了，看看结果对不对。", "全部通过。"]
+const BUILD_PRAISE_EN := ["Every output has a source now.", "It runs. Check whether the result is right.", "All cases pass."]
+const TUTORIAL_PRAISE_ZH := ["接上了。", "输入变了，结果也会跟着变。", "信号到了。", "拆掉了。", "又接好了。"]
+const TUTORIAL_PRAISE_EN := ["Connected.", "The input changed; the result will follow.", "The signal arrived.", "Removed.", "Connected again."]
+
+var steps: Array = STEPS
+var praise_zh: Array = TUTORIAL_PRAISE_ZH
+var praise_en: Array = TUTORIAL_PRAISE_EN
+var goal_text: String = ""
 var english: bool = false
 var step_label: Label
 var instruction: Label
@@ -52,7 +72,7 @@ func _ready() -> void:
 	step_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(step_label)
 	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 6); header.add_child(row)
-	for index: int in STEPS.size():
+	for index: int in 5:
 		var dot := ColorRect.new(); dot.custom_minimum_size = Vector2(22, 6)
 		dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		dot.color = Palette.TERM_EDGE; row.add_child(dot); dots.append(dot)
@@ -76,6 +96,15 @@ func _ready() -> void:
 func set_english(value: bool) -> void:
 	english = value
 
+## Switch between the first lesson and the generic build → try → test guide.
+func use_steps(build_guide: bool, goal: String = "") -> void:
+	steps = BUILD_STEPS if build_guide else STEPS
+	praise_zh = BUILD_PRAISE_ZH if build_guide else TUTORIAL_PRAISE_ZH
+	praise_en = BUILD_PRAISE_EN if build_guide else TUTORIAL_PRAISE_EN
+	goal_text = goal
+	last_states.clear()
+	for index: int in dots.size(): dots[index].visible = index < steps.size()
+
 func update_states(states: Array[bool]) -> void:
 	var newly: int = -1
 	for index: int in states.size():
@@ -85,18 +114,24 @@ func update_states(states: Array[bool]) -> void:
 	var next: int = states.find(false)
 	var completed: int = states.count(true)
 	for index: int in dots.size():
+		if index >= states.size(): continue
 		dots[index].color = Palette.ACCENT if states[index] else (Palette.with_alpha(Palette.ACCENT, 0.35) if index == next else Palette.TERM_EDGE)
 	if next < 0:
-		step_label.text = "五步都完成了" if not english else "All five steps done"
-		instruction.text = "灯亮过，也灭过——两次都是对的。" if not english else "The lamp lit and went dark. Both were correct."
+		if steps == STEPS:
+			step_label.text = "五步都完成了" if not english else "All five steps done"
+			instruction.text = "灯亮过，也灭过——两次都是对的。" if not english else "The lamp lit and went dark. Both were correct."
+		else:
+			step_label.text = "完成了" if not english else "Done"
+			instruction.text = "可以封装它，继续下一项。" if not english else "Seal it and move on."
 	else:
-		var step: Dictionary = STEPS[next]
-		step_label.text = ("第 %d / 5 步 · %s" if not english else "Step %d / 5 · %s") % [completed + 1, str(step.en_title if english else step.zh_title)]
+		var step: Dictionary = steps[next]
+		step_label.text = ("第 %d / %d 步 · %s" if not english else "Step %d / %d · %s") % [completed + 1, steps.size(), str(step.en_title if english else step.zh_title)]
 		instruction.text = str(step.en if english else step.zh)
+		if not goal_text.is_empty(): instruction.text = goal_text + "\n" + instruction.text
+	# Shrink to the new text; width is held by custom_minimum_size.
+	call_deferred("reset_size")
 	if newly >= 0:
-		var lines_zh := ["接上了。", "输入变了，结果也会跟着变。", "信号到了。", "拆掉了。", "又接好了。"]
-		var lines_en := ["Connected.", "The input changed; the result will follow.", "The signal arrived.", "Removed.", "Connected again."]
-		praise.text = "✓  " + (lines_en[newly] if english else lines_zh[newly])
+		praise.text = "✓  " + str(praise_en[newly] if english else praise_zh[newly])
 		var tween := create_tween()
 		praise.modulate.a = 1.0
 		tween.tween_interval(2.2)

@@ -10,6 +10,8 @@ func _init() -> void:
 
 
 func _run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	var game_mode: Node = root.get_node("GameMode")
 	var chapter: Node = root.get_node("SystemChapter")
 	var game_cpu_source: String = String(chapter.get("cpu_source_signature"))

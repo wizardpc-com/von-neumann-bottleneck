@@ -38,6 +38,7 @@ func cancel(dialog: ConfirmationDialog) -> void:
 	dialog.hide(); dialog.canceled.emit()
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	root.size = Vector2i(1280,720)
 	var nav: Node = root.get_node("TaskNavigation")
 	var previous_pending: String = nav.pending

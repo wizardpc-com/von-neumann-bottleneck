@@ -19,6 +19,7 @@ func cancel(scene: Node) -> void:
 	dialog.hide(); dialog.canceled.emit()
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	root.size = Vector2i(1280,720)
 	var original_auto_quit: bool = auto_accept_quit
 	var localization: Node = root.get_node("Localization")

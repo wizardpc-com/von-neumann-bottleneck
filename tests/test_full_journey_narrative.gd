@@ -57,7 +57,7 @@ func run() -> void:
 	detached.set_task(&"chapter_3", &"synthesis", true)
 	check(detached.action_label.text.contains("Buffer") and detached.action_label.text.contains("Cache"), "Synthesis preserves both modeled routes")
 	detached.set_task(&"creation", &"G2_intent", true)
-	check(detached.verify_label.text.contains("Direct Keep") and detached.verify_label.text.contains("does not require comparison"), "G2 preserves direct Keep independently from comparison")
+	check(detached.verify_label.text.contains("keep a work directly") and detached.verify_label.text.contains("only one condition"), "G2 preserves direct Keep independently from comparison")
 	detached.set_task(&"prediction", &"regular", true, true)
 	check(detached.context_label.text.contains("Temporary session finding") and not detached.context_label.text.contains("Earned record"), "Temporary address prediction never claims persistent growth")
 	detached.set_task(&"creation", &"C1_restore", false)

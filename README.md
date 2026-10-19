@@ -78,17 +78,7 @@
 
 ### 从源码运行
 
-**源码启动区别：** 本目录的根 `project.godot` / F5 默认只启用原核心40项；它不等于上面的60项候选包。扩展内容须通过下面的隔离项目启动，不能只加解锁开关或复用正式存档。当前3D是只读成果展示原型，并未满足可搭建、运行系统的3D实验室要求。
-
-完整60项源码旅程（普通进度、独立新档）：
-
-```powershell
-python -X utf8 scripts/run-experiment.py creation --journey --profile JourneyEditor20261018 --godot ../godot-4.7.1/Godot_v4.7.1-stable_win64_console.exe --prepare-only
-```
-
-本机已生成：[完整60项Godot工程](.godot/experiments/36d9b2f6dede/project/project.godot)。这是独立预览副本，后续源码编辑不会自动同步。
-
-在Godot中打开命令输出的 **`project.godot`完整路径**，再按F5。地图可找到「压缩」「内容预测」「创造」三个区域（C1–C3／P1–P3／G1–G3），任务仍遵守真实前置条件。`JourneyEditor20261018` 与旧包profile分离；复用它会续用该候选存档。其他机器替换 `--godot` 为实际4.7.1路径。
+**源码直接启动即完整旅程（2026-10-19 起）：** 根目录 `project.godot` / F5 默认打开全部 60 项任务（核心 40 + 表示 5 + 服务 3 + 地址预测 3 + 压缩／内容预测／创造 9），首页是实验室，存档写在普通存档目录。需要旧表面时使用用户参数：`--core-journey`（只看核心 40 项）、`--classic-hub`（旧首页）、`--classic-tutorial`（旧教程）。接手说明见 [实验室旅程交接](docs/development/LAB_JOURNEY_HANDOFF_20261019.md)。
 
 安装 **Godot 4.7.1 stable**，将可执行文件加入 `PATH`，然后运行：
 
@@ -99,7 +89,7 @@ godot --editor --path . --import
 godot --path .
 ```
 
-也可以在 Godot 中导入 `project.godot`，完成资源导入后按 **“运行项目”／F5** 启动整个游戏。首页选择 **打开章节任务树**，从接线教程开始。
+也可以在 Godot 中导入 `project.godot`，完成资源导入后按 **“运行项目”／F5** 启动整个游戏。首页是实验室：点击终端屏幕（或按 Enter）唤醒终端，按主按钮从接线教程开始；右墙「旅程板」或终端上的「旅程」打开任务树。
 
 游戏默认简体中文，可在**首页顶部**直接切换 English，也可使用 **设置 → 语言**；选择会保存。也可指定启动语言：
 

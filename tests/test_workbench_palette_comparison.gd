@@ -20,6 +20,8 @@ func settle() -> void:
 	for frame: int in 8: await process_frame
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	palette = load("res://src/ui/instrument_theme.gd")
 	rendered = "--workbench-theme-capture" in OS.get_cmdline_user_args()
 	check(not rendered or DisplayServer.get_name() != "headless", "Requested comparison requires a real renderer")

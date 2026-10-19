@@ -105,7 +105,7 @@ func run() -> void:
 			if row.key == "service/prompt_response":
 				check(scene.eligibility_heading.visible and scene.eligibility_rows.get_child_count() == 1 and str(scene.eligibility_rows.get_child(0).get_meta("task_key")) == "service/move_state","Locked Service contract explains saved-work eligibility and earlier-contract navigation")
 			if row.key == "creation/C1_restore":
-				check(scene.detail_kind.text.contains("候选") or scene.detail_kind.text.contains("Candidate"),"C/P/G detail identifies candidate creation content")
+				check(scene.detail_kind.text.contains("创作") or scene.detail_kind.text.contains("Creation"),"C/P/G detail identifies creation content")
 				check(scene.recommendation_rows.get_child_count() == 1 and str(scene.recommendation_rows.get_child(0).get_meta("task_key")) == "representation/cross_assets","C/P/G recommendation remains a clickable relation, not a prerequisite")
 			if row.key in ["representation/mixed_scan","service/move_state","prediction/regular"]: await capture_map(locale+"-"+row.domain)
 			if row.key in ["creation/C1_restore","creation/P1_commit","creation/G1_feedback"]: await capture_map(locale+"-"+row.id)
@@ -118,7 +118,7 @@ func run() -> void:
 		var list_rect: Rect2 = scene.list_scroll.get_global_rect()
 		var first_entry := scene.list_rows.get_child(0) as Button
 		var first_visible: Rect2 = list_rect.intersection(first_entry.get_global_rect())
-		check(scene.list_view.visible and scene.list_rows.get_child_count() == 3 and (scene.list_summary.text.contains("候选") or scene.list_summary.text.contains("Candidate")),"Compression chapter lists its three candidate tasks: "+locale)
+		check(scene.list_view.visible and scene.list_rows.get_child_count() == 3 and (scene.list_summary.text.contains("压缩") or scene.list_summary.text.contains("Compression")),"Compression chapter lists its three tasks: "+locale)
 		check(root.get_visible_rect().encloses(list_rect) and list_rect.size.y >= 120 and first_visible.size.y >= 40,"Chapter list has usable scroll height and a visible clickable entry at 1280x720: "+locale)
 		await capture_map(locale+"-compression-chapter-list")
 		scene.search.text="creation/"; scene._on_search_changed(scene.search.text); await settle()

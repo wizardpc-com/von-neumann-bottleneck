@@ -58,6 +58,8 @@ func home() -> Control:
 
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	capture = "--yi-media-capture" in OS.get_cmdline_user_args()
 	if capture and DisplayServer.get_name() == "headless":
 		check(false, "Media capture requires a rendered window"); capture = false

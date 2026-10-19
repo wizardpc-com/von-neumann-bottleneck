@@ -4,6 +4,8 @@ func _init() -> void: call_deferred("run")
 func check(value: bool, message: String) -> void:
 	if not value: failures.append(message)
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	var localization: Node = root.get_node("Localization")
 	var mode: Node = root.get_node("WindowMode")
 	var remote: Node = root.get_node("RemoteFeedback"); remote.set_process(false)

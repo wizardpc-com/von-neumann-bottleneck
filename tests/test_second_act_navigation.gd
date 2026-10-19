@@ -15,6 +15,7 @@ func partition(ends: Array, codecs: Array) -> Array[Dictionary]:
 	for i: int in ends.size(): result.append({"start":start,"end":ends[i],"codec":codecs[i]}); start = ends[i]
 	return result
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	root.content_scale_size = Vector2i(1280,720); root.size = Vector2i(1280,720)
 	var core_before: Dictionary = root.get_node("GlobalSave")._save_snapshot(); core_before.erase("saved_at_utc")
 	var scene := RegionProbe.new(); scene.candidate_journey = true; root.add_child(scene); await process_frame

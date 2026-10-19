@@ -29,6 +29,27 @@ const LAB_ART := {
 }
 const SCREEN_RECT := Rect2(536, 300, 528, 318)
 const MONITOR_RECT := Rect2(518, 282, 564, 354)
+# Chapter endings answered by the room. Candidate copy; story team may rewrite.
+const CHAPTER_RESPONSES := {
+	"hardware_foundations/load_store": {"zh_caption": "旅程板上「构造」一站亮起了暖光。", "en_caption": "The Build station glows warm on the journey board.",
+		"zh": "你从一根导线开始，拼出了一台能取数、计算、写回的机器。\n接下来，我们让它真正跑起来，看看时间都去了哪里。",
+		"en": "You started with one wire and built a machine that can fetch, compute and write back.\nNext we let it run, and see where the time goes."},
+	"chapter_1/bottleneck": {"zh_caption": "窗外，又一座楼亮了灯。", "en_caption": "Outside, another tower lights up.",
+		"zh": "很快的 CPU，大部分时间在等。\n这就是这个程序名字的来历——数据在路上，计算只能等着。",
+		"en": "A very fast CPU spent most of its time waiting.\nThat is where this program's name comes from: the data is on the way, and computing can only wait."},
+	"chapter_2/capstone": {"zh_caption": "旅程板上「就近」一站亮起。", "en_caption": "The Nearby station lights on the journey board.",
+		"zh": "把常用的东西放在手边，同一台机器就快了很多。\n没有换零件，只是换了安排。",
+		"en": "Keeping what you use close at hand made the same machine much faster.\nNo new parts, only a different arrangement."},
+	"chapter_3/synthesis": {"zh_caption": "窗外的灯，排成了一条线。", "en_caption": "The lights outside line up into a path.",
+		"zh": "数据还在路上的时候，你已经安排好了下一件事。\n等待没有消失，但它不再是空白。",
+		"en": "While data was still on the way, you had already arranged the next task.\nThe waiting did not disappear, but it is no longer empty."},
+	"chapter_4/mixed": {"zh_caption": "旅程板上「布局」一站亮起。", "en_caption": "The Layout station lights on the journey board.",
+		"zh": "东西怎么摆放，决定了以后要走多远去拿。\n核心旅程走完了。后面的路，是关于怎样写下信息、怎样回应、怎样创造。",
+		"en": "How things are placed decides how far you walk to fetch them.\nThe core journey is done. What follows is about writing information down, answering, and creating."},
+	"creation/G3_keep": {"zh_caption": "作品墙上，挂上了你的第一件作品。", "en_caption": "Your first work now hangs on the wall.",
+		"zh": "这段光纹不是我教给你的答案。\n它来自你选的样例、你的规则和你的决定。下一个来到这里的人，会看见它。",
+		"en": "This pattern is not an answer I taught you.\nIt came from your examples, your rules and your choices. The next person here will see it."},
+}
 const PARALLAX := {"back": 7.0, "mid": 13.0, "desk": 20.0, "front": 30.0}
 
 class Painter extends Control:
@@ -61,6 +82,11 @@ var hover_shelf: bool = false
 var hover_board: bool = false
 var art: Dictionary = {}
 var next_key: String = ""
+# Latest saved creation (read-only): the journey's ending is shown in the room.
+var works: Array = []
+var hover_works: bool = false
+const WORK_FRAME := Rect2(1128, 150, 196, 168)
+const WORK_COLORS := [Color("7fcbd6"), Color("f0c674"), Color("aab6e6"), Color("7fd8a4")]
 var reduced_motion: bool = false
 
 func _ready() -> void:
@@ -125,6 +151,15 @@ func _build_hotspots() -> void:
 	shelf.mouse_entered.connect(func() -> void: hover_shelf = true)
 	shelf.mouse_exited.connect(func() -> void: hover_shelf = false)
 	layers.mid.add_child(shelf)
+	var frame := Button.new(); frame.name = "WorkFrame"; frame.flat = true
+	frame.position = WORK_FRAME.position; frame.size = WORK_FRAME.size
+	frame.tooltip_text = "作品墙 · 你在创造章节留下的作品" if not english else "Work wall · what you kept in Creation"
+	frame.focus_mode = Control.FOCUS_NONE
+	for state: String in ["normal", "hover", "pressed", "focus"]: frame.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+	frame.pressed.connect(func() -> void: _enter(start_requested, "creation/G3_keep"))
+	frame.mouse_entered.connect(func() -> void: hover_works = true)
+	frame.mouse_exited.connect(func() -> void: hover_works = false)
+	layers.back.add_child(frame)
 	var board := Button.new(); board.name = "JourneyBoard"; board.flat = true
 	board.position = Vector2(1385, 230); board.size = Vector2(160, 330)
 	board.tooltip_text = "旅程板 · 打开任务树" if not english else "Journey board · open the task tree"
@@ -190,6 +225,7 @@ func _read_progress() -> void:
 	# The first lamp only warms up in front of the player the first time.
 	lamp_level = lamp_target if not "hardware_foundations/tutorial" in fresh else 0.0
 	_refresh_archive_counts()
+	works = _read_works()
 	var new_fragments: Array[Dictionary] = Fragments.newly_unlocked(answered, completed)
 	var response: Dictionary = {}
 	if not fresh.is_empty():
@@ -203,6 +239,8 @@ func _read_progress() -> void:
 		if not new_fragments.is_empty(): shelf_flash = 1.0
 		response = {"task": latest, "fresh": fresh.size(), "fragments": new_fragments.size(),
 			"first_light": "hardware_foundations/tutorial" in fresh}
+		for key: String in CHAPTER_RESPONSES:
+			if key in fresh: response["chapter"] = CHAPTER_RESPONSES[key]
 	next_key = _next_task(rows, fresh)
 	var next_title: String = ""
 	for row: Dictionary in rows:
@@ -253,6 +291,8 @@ func _arrive() -> void:
 	await get_tree().create_timer(0.4).timeout
 	if bool(response.get("first_light", false)):
 		_show_caption("桌上的灯亮了。" if not english else "The lamp on the desk is lit.", 4.5)
+	elif response.has("chapter"):
+		_show_caption(str(response.chapter.en_caption if english else response.chapter.zh_caption), 5.0)
 	elif int(response.get("fragments", 0)) > 0:
 		_show_caption("档案架上多了一页记录。" if not english else "A new page has arrived on the archive shelf.", 4.5)
 	else:
@@ -385,6 +425,7 @@ func _paint_back(canvas: Control) -> void:
 	canvas.draw_string(font, Vector2(282, 168), "冯·诺依曼瓶颈" if not english else "Von Neumann Bottleneck", HORIZONTAL_ALIGNMENT_LEFT, 230, 26 if not english else 20, Palette.LAB_INK)
 	canvas.draw_string(font, Vector2(283, 196), "A Thought Within the World", HORIZONTAL_ALIGNMENT_LEFT, 230, 13, Palette.LAB_INK_SOFT)
 	canvas.draw_line(Vector2(283, 208), Vector2(470, 208), Palette.with_alpha(Palette.LAB_LINE, 0.6), 1.0)
+	_paint_work_frame(canvas, font)
 	# Floor far band.
 	_quad(canvas, [Vector2(250, 560), Vector2(1350, 560), Vector2(1660, 940), Vector2(-60, 940)],
 		[Palette.LAB_FLOOR_FAR, Palette.LAB_FLOOR_FAR, Palette.LAB_FLOOR_NEAR, Palette.LAB_FLOOR_NEAR])
@@ -566,3 +607,40 @@ func _next_task(rows: Array, fresh: Array) -> String:
 		var row: Dictionary = rows[(start + offset) % rows.size()]
 		if bool(row.unlocked) and not bool(row.completed) and not bool(row.get("optional", false)): return str(row.key)
 	return target
+
+
+func _read_works() -> Array:
+	var session: Script = load("res://experiments/creation/session.gd")
+	var files: Script = load("res://experiments/candidate_session/files.gd")
+	if session == null or files == null: return []
+	var path: String = str(session.launch_path())
+	if not FileAccess.file_exists(path): return []
+	var loaded: Dictionary = files.read_session(path, session.decode)
+	if not bool(loaded.get("ok", false)): return []
+	var value: Variant = loaded.get("data", {}).get("works", [])
+	return value if value is Array else []
+
+func _paint_work_frame(canvas: Control, font: Font) -> void:
+	var frame: Rect2 = WORK_FRAME
+	_rounded(canvas, frame.grow(6), Palette.LAB_TRIM if not hover_works else Palette.ACCENT_DEEP, 6)
+	_rounded(canvas, frame, Palette.TERM_SCREEN, 4)
+	var inner: Rect2 = frame.grow(-14)
+	if works.is_empty():
+		canvas.draw_string(font, inner.position + Vector2(0, inner.size.y * 0.5), "作品墙" if not english else "Work wall", HORIZONTAL_ALIGNMENT_CENTER, inner.size.x, 15, Palette.with_alpha(Palette.TERM_MUTED, 0.75))
+		canvas.draw_string(font, inner.position + Vector2(0, inner.size.y * 0.5 + 22), "空着，等你留下第一件" if not english else "Empty, until you keep one", HORIZONTAL_ALIGNMENT_CENTER, inner.size.x, 12, Palette.with_alpha(Palette.TERM_MUTED, 0.5))
+	else:
+		var work: Dictionary = works[-1]
+		var output: Array = work.get("output", [])
+		var columns: int = 8
+		var cell: float = inner.size.x / columns
+		var shown: int = mini(output.size(), columns * 4)
+		for index: int in shown:
+			var symbol: int = clampi(int(output[index]), 0, WORK_COLORS.size() - 1)
+			var center: Vector2 = inner.position + Vector2((index % columns + 0.5) * cell, (index / columns + 0.5) * cell * 0.82)
+			var pulse: float = 0.75 + 0.25 * sin(time * 1.6 + index * 0.5)
+			canvas.draw_circle(center, cell * 0.28, Palette.with_alpha(WORK_COLORS[symbol], 0.85 * pulse))
+		canvas.draw_string(font, Vector2(inner.position.x, inner.end.y - 4), _clip(str(work.get("name", "")), 14), HORIZONTAL_ALIGNMENT_LEFT, inner.size.x, 14, Palette.TERM_TEXT)
+	canvas.draw_string(font, frame.position + Vector2(0, -12), ("作品墙 · %d 件" if not english else "Works · %d") % works.size(), HORIZONTAL_ALIGNMENT_LEFT, frame.size.x, 14, Palette.LAB_INK if hover_works else Palette.LAB_INK_SOFT)
+
+func _clip(text: String, limit: int) -> String:
+	return text if text.length() <= limit else text.substr(0, limit - 1) + "…"

@@ -84,7 +84,7 @@ func _ready() -> void:
 	observatory.text = "观察站" if Localization.current_locale() != "en" else "Observatory"
 	observatory.custom_minimum_size.y = 42; navigation.add_child(observatory)
 	# The laboratory now carries the journey board; the read-only 3D prototype stays reachable from code only.
-	observatory.hide()
+	if preload("res://src/lab/lab_features.gd").lab_home(): observatory.hide()
 	observatory.pressed.connect(_open_observatory)
 	var journal := Button.new(); journal.name = "OpenJourneyJournal"
 	journal.text = "成长档案" if Localization.current_locale() != "en" else "Journal"

@@ -9,6 +9,8 @@ func check(value: bool, message: String) -> void:
 	if not value: failures+=1; push_error(message)
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	var old_tester: Variant = ProjectSettings.get_setting("playtest/offline_tester",false)
 	var old_toolbar_visible: bool = root.get_node("OfflineFeedback").toolbar.visible
 	root.size=Vector2i(1280,720)
@@ -231,7 +233,7 @@ func local_entry_policy() -> void:
 	if not prepare_work(): mode.set_mode(old_mode); return
 	var home: Button
 	for candidate: Node in map.find_children("*","Button",true,false):
-		if candidate.text==("Home" if root.get_node("Localization").current_locale()=="en" else "首页"):
+		if candidate.text in ["Home","首页","← Laboratory","← 实验室"]:
 			home=candidate; break
 	check(home!=null,"The real TaskTree retains its original Home button route")
 	if home==null: mode.set_mode(old_mode); return

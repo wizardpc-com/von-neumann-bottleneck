@@ -32,6 +32,7 @@ func progress() -> Dictionary:
 	return snapshot
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	root.size = Vector2i(1280,720); root.content_scale_size = Vector2i(1280,720)
 	var localization: Node = root.get_node("Localization")
 	var original_locale: String = localization.current_locale()

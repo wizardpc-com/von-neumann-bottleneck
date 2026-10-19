@@ -4,6 +4,8 @@ func _init() -> void: call_deferred("run")
 func check(value: bool, message: String) -> void:
 	if not value: failures.append(message); push_error(message)
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	root.get_node("GameMode").set_mode(&"game")
 	var main: Control = load("res://src/hardware_foundations/hardware_foundations.tscn").instantiate()
 	root.add_child(main)

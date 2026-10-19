@@ -121,6 +121,11 @@ func _compose() -> void:
 		if bool(response.get("first_light", false)):
 			message.text = "灯亮过，也灭过。两次都是对的。\n那条线是你接上的，不是我替你算出来的。\n档案架上多了一页，想看的时候可以去看。" if zh else "The lamp lit, and went dark. Both were correct.\nYou connected that line; I did not compute it for you.\nThere is a new page on the archive shelf when you want it."
 			return
+		if response.has("chapter"):
+			message.text = str(response.chapter.en if english else response.chapter.zh)
+			if int(response.get("fragments", 0)) > 0:
+				message.text += "\n" + ("档案架上多了一页记录。" if zh else "A new record waits on the archive shelf.")
+			return
 		var lines_zh: Array[String] = ["「%s」完成了。\n这次结果来自你刚才搭起的结构，不是我的保佑。", "「%s」通过了。\n你可以回去再改它，也可以继续往前走。", "记下了：「%s」。\n下一步，通常比这一步多一个条件。"]
 		var lines_en: Array[String] = ["\"%s\" is complete.\nThat result came from the structure you just built, not from my blessing.", "\"%s\" passes.\nYou can go back and refine it, or keep going.", "Recorded: \"%s\".\nThe next step usually adds one more condition."]
 		var pick: int = absi(title.hash()) % lines_zh.size()

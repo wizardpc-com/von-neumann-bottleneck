@@ -79,6 +79,8 @@ func capture_frame(dialog: AcceptDialog, name: String) -> void:
 
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	Reflection = load("res://src/ui/theme_reflection.gd")
 	Journal = load("res://src/ui/journey_journal.gd")
 	capture = DisplayServer.get_name() != "headless" and "--first-light-capture" in OS.get_cmdline_user_args()
@@ -171,7 +173,7 @@ func run() -> void:
 				light.play_button.pressed.emit()
 			light.skip_button.pressed.emit()
 			check(not light.playing and light.elapsed == light.DURATION and light.caption.text.contains("1 →" if locale == "en" else "输入1"), "Skip reaches static correct NOT output and all native captions")
-			check(light.caption.text.contains("output 0" if locale == "en" else "输出0") and light.caption.text.contains("civilization" if locale == "en" else "文明测量"), "Captions distinguish output0 from narrative light/energy measurement")
+			check(light.caption.text.contains("output 0" if locale == "en" else "输出0") and not light.caption.text.contains("civilization" if locale == "en" else "文明测量"), "Captions keep the real output0 rule without an engineering disclaimer")
 			await settle()
 			scroll.ensure_control_visible(light.skip_button); await settle()
 			check(scroll.get_global_rect().encloses(light.skip_button.get_global_rect()), "Skip remains reachable by scrolling at each language/window size")

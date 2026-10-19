@@ -282,7 +282,7 @@ func _run() -> void:
 	var history: Array[Dictionary] = main.get("run_history")
 	_assert(history.size() == 4, "Run History must retain all compared evidence across program, Cache, and blocking changes.")
 	var history_label: Label = main.get("profiler_history_label")
-	_assert("642" in history_label.text and "138" in history_label.text and "CPU WAIT" in history_label.text, "Run History must keep the authored Baseline → Current total and wait deltas visible after several experiments.")
+	_assert("642" in history_label.text and "138" in history_label.text and ("CPU WAIT" in history_label.text or "CPU 等待" in history_label.text), "Run History must keep the authored Baseline → Current total and wait deltas visible after several experiments.")
 	_assert("个人最佳" in history_label.text or "Personal best" in history_label.text, "Run History must identify the best official result instead of losing it among adjacent runs.")
 
 	main.queue_free()

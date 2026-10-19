@@ -25,6 +25,7 @@ func check_feedback(scene: Lab, english: bool, persistent: bool, context: String
 		check(not scene.session_dirty and scene.status.text.contains("Temporary session" if english else "临时会话") and not scene.status.text.contains("save before" if english else "请保存"),context+": temporary feedback does not promise a Save operation")
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	root.size = Vector2i(1280,720); root.content_scale_size = Vector2i(1280,720)
 	var original_path: String = Store.PATH
 	Store.PATH = "user://service-undo-"+Crypto.new().generate_random_bytes(8).hex_encode()+".json"

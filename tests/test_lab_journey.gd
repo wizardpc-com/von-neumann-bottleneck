@@ -70,6 +70,8 @@ func run() -> void:
 		after_tutorial.append(copy)
 	var next_key: String = standalone._next_task(after_tutorial, ["hardware_foundations/tutorial"])
 	check(next_key != "hardware_foundations/tutorial", "After the first lesson the lab never suggests replaying it (got %s)" % next_key)
+	for key: String in standalone.CHAPTER_RESPONSES:
+		check(key in keys, "Chapter response %s belongs to a real task" % key)
 	standalone.queue_free(); await settle()
 
 	# Focused first lesson: circuit, step coach and test bench only.

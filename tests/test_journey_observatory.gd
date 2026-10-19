@@ -76,6 +76,8 @@ func capture(observatory: Control, name: String, scope: String) -> void:
 	check(frame.save_png(frame_path) == OK and world.save_png(world_path) == OK,"Frame and real3D texture saved")
 	captures.append({"frame":frame_path,"frame_sha256":FileAccess.get_sha256(frame_path),"world":world_path,"world_sha256":FileAccess.get_sha256(world_path),"world_dimensions":[world.get_width(),world.get_height()],"scope":scope,"selected":observatory.selected_key,"view":observatory.view_choice.selected})
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	Observatory = load("res://src/ui/journey_observatory.gd")
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	capture_enabled = "--observatory-capture" in args

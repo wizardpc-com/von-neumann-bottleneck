@@ -15,6 +15,7 @@ func partition(bounds: Array, codecs: Array) -> Array[Dictionary]:
 		plan.append({"start":start,"end":bounds[i],"codec":codecs[i]}); start = int(bounds[i])
 	return plan
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	var nav: Node = root.get_node("TaskNavigation")
 	check(nav.tasks().size() == 40,"Original core catalog is independent of protected candidate evidence")
 	var candidate_hub = load("res://src/ui/prototype_hub.tscn").instantiate(); candidate_hub.candidate_journey = true

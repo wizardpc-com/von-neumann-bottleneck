@@ -38,6 +38,7 @@ func partition(ends: Array, codecs: Array) -> Array[Dictionary]:
 	return plan
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	root.size = Vector2i(1280,720)
 	root.get_node("TaskNavigation").pending = ""
 	var region = load("res://experiments/representation_region/region.tscn").instantiate()

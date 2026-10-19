@@ -186,6 +186,8 @@ func feedback_route(observatory: Control, launcher: Button, tester: bool) -> voi
 	check(not observatory.inspection_enabled and observatory.rows == root.get_node("TaskNavigation").journey_tasks(),"Reopen starts in overview with fresh original data and reuses the same instance")
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	Observatory = load("res://src/ui/journey_observatory.gd")
 	if Observatory == null or not Observatory.can_instantiate():
 		check(false,"Observatory compiles after autoloads"); quit(1); return

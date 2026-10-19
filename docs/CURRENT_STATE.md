@@ -1,4 +1,19 @@
-# Current state — journey Windows candidate
+# Current state — laboratory journey (2026-10-19)
+
+`main` now carries the laboratory journey from `claude/lab-journey-20261019`
+(on top of the full journey candidate, PRs #11–#15). Source F5 opens the full
+60-task journey with the laboratory home, terminal entry, focused first lesson,
+earned lamp/board/archive/city responses and the creation work wall. Classic
+surfaces remain behind `--classic-hub`, `--classic-tutorial` and `--core-journey`.
+Team handoff, screenshots, open tasks and verification:
+[LAB_JOURNEY_HANDOFF_20261019](development/LAB_JOURNEY_HANDOFF_20261019.md).
+The laboratory art is a code-drawn placeholder with replaceable PNG layers.
+No new Windows package has been exported from this source yet.
+
+The sections below describe the previous journey candidate and remain accurate
+for its own scope; the "40 tasks on F5" and "candidate creation" notes are superseded.
+
+## Previous: journey Windows candidate
 
 **Owner review correction (2026-10-18):** direct F5 from this checkout's root
 `project.godot` still selects the original40 tasks because candidate settings are

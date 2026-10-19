@@ -1,6 +1,8 @@
 extends SceneTree
 func _init() -> void: call_deferred("run")
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	var settings := ConfigFile.new(); settings.set_value("other","preserve","yes"); settings.save("user://presentation.cfg")
 	var mode: Node = root.get_node("WindowMode")
 	mode.set_frame_limit(120); mode.set_reduced_motion(true)

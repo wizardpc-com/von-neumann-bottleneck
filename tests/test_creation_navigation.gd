@@ -11,6 +11,7 @@ func check(ok: bool, message: String) -> void:
 	if not ok: failures.append(message); push_error(message)
 
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	var core: Node = root.get_node("GlobalSave")
 	var before: Dictionary = core._save_snapshot(); before.erase("saved_at_utc")
 	var had_flag: bool = ProjectSettings.has_setting("candidate/creation_enabled")

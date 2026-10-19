@@ -15,6 +15,8 @@ func move_panel(panel: Control, handle: Control, delta: Vector2) -> void:
 	var up := InputEventMouseButton.new(); up.button_index = MOUSE_BUTTON_LEFT; up.pressed = false
 	panel._input(up)
 func run() -> void:
+	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
+	preload("res://src/lab/lab_features.gd").core_journey = true
 	await floating_input()
 	for locale: String in ["zh_CN", "en"]:
 		root.get_node("Localization").set_locale(locale)

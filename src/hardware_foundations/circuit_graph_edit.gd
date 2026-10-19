@@ -325,10 +325,12 @@ func _input(event: InputEvent) -> void:
 		if mouse_event.pressed:
 			if _is_graph_hover_target(mouse_event.position):
 				begin_erase_stroke(_local_from_global(mouse_event.position))
-				get_viewport().set_input_as_handled()
+				mouse_event.set_meta(&"circuit_erase_owner", get_instance_id())
 		elif erase_active:
 			finish_erase_stroke()
-			get_viewport().set_input_as_handled()
+			mouse_event.set_meta(&"circuit_erase_owner", get_instance_id())
+		# The viewport must receive the button event to cancel native tooltips
+		# and release mouse capture before GUI handlers accept the gesture.
 		return
 	if event is InputEventMouseMotion and erase_active:
 		var motion := event as InputEventMouseMotion
@@ -339,7 +341,7 @@ func _input(event: InputEvent) -> void:
 			continue_erase_stroke(_local_from_global(motion.position))
 		else:
 			erase_has_anchor = false
-		get_viewport().set_input_as_handled()
+		motion.set_meta(&"circuit_erase_owner", get_instance_id())
 
 
 func _is_in_input_hotzone(in_node: Object, in_port: int, mouse_position: Vector2) -> bool:
@@ -391,6 +393,11 @@ func _placement_hits_existing_content(point: Vector2) -> bool:
 
 
 func _gui_input(event: InputEvent) -> void:
+	# InputEvent transforms preserve metadata. Let native GUI dispatch cancel
+	# tooltips, while applying the global eraser hit test only once per event.
+	if event.get_meta(&"circuit_erase_owner", 0) == get_instance_id():
+		accept_event()
+		return
 	if not branch_edit_enabled:
 		if event is InputEventMouseMotion:
 			_update_hovered_connection(event.position)
@@ -723,6 +730,11 @@ func port_bit_width(node: StringName, port: int, is_output: bool) -> int:
 
 
 func _get_tooltip(at_position: Vector2) -> String:
+	if erase_active or selection_dragging or not builtin_connection_source.is_empty() \
+			or not branch_candidate.is_empty() or not endpoint_candidate.is_empty() \
+			or component_placement_enabled:
+		requested_tooltip_connection.clear()
+		return ""
 	var connection: Dictionary = get_closest_connection_at_point(at_position, WIRE_HOVER_RADIUS)
 	requested_tooltip_connection = connection.duplicate()
 	if not connection.is_empty() and connection_description.is_valid():
@@ -732,6 +744,9 @@ func _get_tooltip(at_position: Vector2) -> String:
 
 func _make_custom_tooltip(for_text: String) -> Object:
 	_hide_wire_tooltip()
+	# Godot also calls this override when there is no tooltip at the pointer.
+	if for_text.is_empty():
+		return null
 	var panel := PanelContainer.new()
 	panel.theme_type_variation = &"TooltipPanel"
 	var label := Label.new()
@@ -1117,6 +1132,7 @@ func _apply_selection_rectangle() -> void:
 func begin_erase_stroke(position: Vector2) -> void:
 	if not branch_edit_enabled:
 		return
+	_clear_hovered_connection()
 	if not endpoint_candidate.is_empty():
 		cancel_endpoint_move()
 	if not branch_candidate.is_empty():

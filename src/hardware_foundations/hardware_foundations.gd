@@ -5485,7 +5485,8 @@ func _handle_component_body_drag_global_input(event: InputEvent) -> bool:
 		var mouse_event := event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT and not mouse_event.pressed:
 			_finish_component_body_drag()
-			return true
+			# Native GUI input must clear the GraphNode's captured mouse press.
+			return false
 	return false
 
 

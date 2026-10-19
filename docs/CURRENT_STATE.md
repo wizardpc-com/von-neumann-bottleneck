@@ -1,4 +1,20 @@
-# Current state — laboratory journey (2026-10-19)
+# Current state — team engineering closeout (2026-10-19)
+
+本轮交付入口：[中文试玩与开发交接](development/team-handoff.md) ·
+[工程验证与固定包身份](verification/20261019-team-closeout/README.md) ·
+[历史分支核对](verification/20261019-team-closeout/branch-audit.md)。
+
+主线保留 Claude 已完成的实验室旅程、第一/二章停靠工具布局、早期关卡步骤卡、
+关卡语境文字与实验室画面调整。历史候选源码已核对；真正遗漏的两个本地 Claude
+提交按原顺序纳入审阅。此次源码修复限定于空白提示、拖动/右键删除的提示框生命周期
+及 Windows UTF-8 打包。完整 60 项测试入口与实际完成判定、作品和存档合同保持一致。
+
+Windows 团队包从合入后的固定 main 提交归档构建，使用独立
+`OfflineTeammate-Team20261019` 渠道；不迁移或清空旧档。具体 SHA、ZIP 哈希与
+导出后检查记录保存在随包 `manifest.json` 和交付验收文件中。
+本轮不创建公开 Release；上方历史公开下载仍是 10 月 17 日旧版。
+
+## Laboratory checkpoint — 8a8b03c
 
 `main` now carries the laboratory journey from `claude/lab-journey-20261019`
 (on top of the full journey candidate, PRs #11–#15). Source F5 opens the full
@@ -8,7 +24,8 @@ surfaces remain behind `--classic-hub`, `--classic-tutorial` and `--core-journey
 Team handoff, screenshots, open tasks and verification:
 [LAB_JOURNEY_HANDOFF_20261019](development/LAB_JOURNEY_HANDOFF_20261019.md).
 The laboratory art is a code-drawn placeholder with replaceable PNG layers.
-No new Windows package has been exported from this source yet.
+At this checkpoint no new Windows package had been exported; the team closeout
+above supersedes that packaging status.
 
 The sections below describe the previous journey candidate and remain accurate
 for its own scope; the "40 tasks on F5" and "candidate creation" notes are superseded.

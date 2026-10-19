@@ -21,6 +21,7 @@ removed; recover historical task books from Git when needed.
 
 ## Development and distribution
 
+- **[团队试玩与工程收尾（当前交付入口）](development/team-handoff.md)** · [验证记录](verification/20261019-team-closeout/README.md)
 - **[实验室旅程交接与待办（2026-10-19，当前入口）](development/LAB_JOURNEY_HANDOFF_20261019.md)**
 - [创作方向与美术约束（2026-10-19 主创文档）](briefs/20261019-lab/)
 - [Claude development handoff: conversation changes and unmet owner requirements](development/CLAUDE_HANDOFF_20261018.md) — 已由上一条接续

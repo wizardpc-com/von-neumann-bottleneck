@@ -1,5 +1,9 @@
 # 实验室旅程 · 交接与待办（2026-10-19）
 
+工程收尾后的当前入口为 [团队试玩与开发交接](team-handoff.md) 与
+[工程验证记录](../verification/20261019-team-closeout/README.md)。
+本文保留实验室功能地图及团队创作建议；旧包、机器空间与当时未导出状态均为历史快照。
+
 **当前入口文档。** 接手（人或 AI）先读本文，再按需读 [AGENTS.md](../../AGENTS.md)、[美术风格约束](../briefs/20261019-lab/美术风格约束_v0.1.md)、[接续开发目标](../briefs/20261019-lab/接续开发目标_20261018.md)、[Claude 接续开发计划](../briefs/20261019-lab/Claude接续开发计划_v1.0.md)。旧的 [CLAUDE_HANDOFF_20261018](CLAUDE_HANDOFF_20261018.md) 只作历史参考，其中"F5 只有 40 项""候选创作路线"已过时。
 
 截图都在 [verification/20261019-lab-journey](../verification/20261019-lab-journey/)，全部来自真实运行（1280×720），不是概念图。

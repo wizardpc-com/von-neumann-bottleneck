@@ -6,7 +6,9 @@
 
 A construction and optimization puzzle about computers and the data they move. Start with logic gates and registers, build a small computer, then explore caches, buffering, prefetching and memory layout. Wire it up, watch it run, compare the results and find your own solution.
 
-**Current Windows playtest: all 60 task entrances · Offline · Screenshot and scene feedback · Chinese and English**
+**Current source: laboratory journey · 60 tasks · Offline feedback · Chinese and English**
+
+**Team build, 2026-10-19:** The current source retains Claude's completed laboratory, docked tools, early lesson guidance and task copy, with tooltip/erase and Windows packaging fixes. The team ZIP is archived from a fixed merged main commit with isolated saves and all task entrances; task completion remains earned. This round does not publish a Release. The public download below is still the October 17 build. [Chinese team guide](docs/development/team-handoff.md) · [Engineering verification and build identity](docs/verification/20261019-team-closeout/README.md).
 
 **[⬇️ Download the Windows offline Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [Earlier Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
@@ -18,13 +20,13 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Earlier Alpha (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The latest offline Windows playtest is `v0.5.0-alpha.3-offline.1`; no updated Mac package is included in this round.
 
-**Journey candidate (2026-10-18):** PR #10 is merged into `main` (`bf8f616`). Product source `5bd3792b022e` on `codex/journey-final-candidate-20261018` retains all60 tasks, bilingual context, interactive rules, the earned-record journal, optional3D observatory and read-only original-work review. Chapter2 now shows the actual run's cycles, target margin and fetch-evidence entry; the first earned result has a replaceable temporary scene image. Ordinary progression and all-entrance testing use separate profiles; access grants no completion. This Windows pair is unpublished; the download above remains the October17 offline version. [New packages, change images and verification scope](docs/verification/20261018-journey-final/README.md) · [Next-day playtest and handoff](docs/development/night-handoff-20261018.md) · [Current status](docs/CURRENT_STATE.md).
+**Historical journey candidate (2026-10-18):** PR #10 is merged into `main` (`bf8f616`). Product source `5bd3792b022e` on `codex/journey-final-candidate-20261018` retains all60 tasks, bilingual context, interactive rules, the earned-record journal, optional3D observatory and read-only original-work review. Chapter2 now shows the actual run's cycles, target margin and fetch-evidence entry; the first earned result has a replaceable temporary scene image. Ordinary progression and all-entrance testing use separate profiles; access grants no completion. This Windows pair is unpublished; the download above remains the October17 offline version. [New packages, change images and verification scope](docs/verification/20261018-journey-final/README.md) · [Next-day playtest and handoff](docs/development/night-handoff-20261018.md) · [Current status](docs/CURRENT_STATE.md).
 
 [Download playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 The earlier fixed7c night candidate's engineering handoff includes its Windows packages and scoped native wiring/restart observations; see the [historical7c record](docs/verification/20261018-night-experience/README.md). Newcomer understanding, final art/narrative judgement and broader platform acceptance remain open.
 
-**Offline teammate Windows candidate:** fixed source `4df5bad46751` opens all60
+**Historical public offline build (2026-10-17):** fixed source `4df5bad46751` opens all60
 task entrances. F8 or the persistent feedback button saves a game screenshot,
 live design/run context and autosaved notes. After multiple plays and restarts,
 send one final ZIP for private consolidated review. Separate tester saves; no
@@ -84,17 +86,7 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 
 ### Run from source
 
-**Source launch distinction:** opening the root `project.godot` / F5 enables the original40 tasks. The60-task packages use an isolated candidate configuration. The3D view is a read-only results-display prototype; an interactive3D laboratory remains unmet.
-
-Prepare the full journey with ordinary progression and a separate profile:
-
-```powershell
-python -X utf8 scripts/run-experiment.py creation --journey --profile JourneyEditor20261018 --godot ../godot-4.7.1/Godot_v4.7.1-stable_win64_console.exe --prepare-only
-```
-
-Prepared on this machine: [full60-task Godot project](.godot/experiments/36d9b2f6dede/project/project.godot). This preview copy does not automatically follow later source edits.
-
-Open the exact `project.godot` path printed by this command in Godot, then press F5. Find Compression, Content prediction and Creation (C1–C3/P1–P3/G1–G3) on the map; original prerequisites still apply. Reusing `JourneyEditor20261018` resumes that separate candidate profile. Replace the engine path on other machines.
+**Source launch:** the root `project.godot` / F5 opens the laboratory and full 60-task journey with ordinary progression. Use `--core-journey`, `--classic-hub` or `--classic-tutorial` for the retained earlier surfaces. Source play uses ordinary saves; use the packaged tester for all entrances and a separate profile. [Current team handoff](docs/development/team-handoff.md).
 
 
 Install **Godot 4.7.1 stable**, make its executable available as `godot` on your `PATH`, then run:
@@ -106,7 +98,7 @@ godot --editor --path . --import
 godot --path .
 ```
 
-Alternatively, import `project.godot` in the Godot editor, wait for resource import and use **Run Project / F5**. Choose **Explore the task tree** and begin with Wiring Tutorial.
+Alternatively, import `project.godot` in the Godot editor, wait for resource import and use **Run Project / F5**. Click the laboratory terminal or press Enter, then begin with Wiring Tutorial. The terminal's Journey action and right-wall journey board open the task map.
 
 The default interface language is Simplified Chinese. Select English using the bilingual language menu at the **top of the home screen**, or in **Settings → Language**; your choice is saved. You can also choose it at launch:
 

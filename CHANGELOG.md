@@ -4,6 +4,14 @@
 
 ## 简体中文
 
+### 2026-10-19 · 团队试玩工程收尾（未公开发布）
+
+- 保留 Claude 已完成的实验室旅程、第一/二章工具停靠、早期关卡步骤卡和任务文字。
+- 空白处不再创建空提示框；拖动释放与右键擦除正常取消提示，每个擦除事件只命中一次。
+- Windows 构建和包验收脚本显式使用 UTF-8；离线团队包附中文操作、反馈和备份说明及实际截图。
+- 独立测试渠道开放 60 项入口，仍使用正常 Game 模型与真实完成条件；原存档和历史构建保留。
+- [本轮交付与验证](docs/verification/20261019-team-closeout/README.md) · [队友说明](docs/development/team-handoff.md)。
+
 ### 2026-10-18 · 旅程新版候选（未公开发布）
 
 - 60 项旅程使用双语任务语境、真实成长记录与原作品回顾，连接压缩、预测和创造。
@@ -114,6 +122,14 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-10-19 · Team engineering closeout (unpublished)
+
+- Retain Claude's completed laboratory, docked System/Locality tools, early guidance and task copy.
+- Empty canvas no longer creates blank tooltips; drag release and erase events reach native GUI cancellation, with one erase hit per event.
+- Windows build and package verification explicitly use UTF-8. The offline team ZIP includes Chinese controls, feedback and backup instructions with actual screenshots.
+- A separate tester profile opens all 60 entrances while preserving normal Game models and earned completion. Existing saves and historical builds remain intact.
+- [Verification](docs/verification/20261019-team-closeout/README.md) · [Chinese team guide](docs/development/team-handoff.md).
 
 ### 2026-10-18 · Journey candidate (unpublished)
 

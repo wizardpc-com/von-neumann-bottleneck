@@ -386,6 +386,10 @@ func _paint_back(canvas: Control) -> void:
 	# Back wall.
 	_quad(canvas, [Vector2(250, 90), Vector2(1350, 90), Vector2(1350, 560), Vector2(250, 560)],
 		[Palette.LAB_WALL_TOP, Palette.LAB_WALL_TOP, Palette.LAB_WALL, Palette.LAB_WALL])
+	# Soft light pooled on the wall behind the terminal.
+	for ring: int in 7:
+		var radius: float = 120.0 + ring * 46.0
+		canvas.draw_circle(Vector2(800, 330), radius, Palette.with_alpha(Palette.LAB_LIGHT, 0.045 - ring * 0.005))
 	# Panel seams give the wall a built, maintained surface.
 	for x: float in [430.0, 1170.0]:
 		canvas.draw_line(Vector2(x, 92), Vector2(x, 558), Palette.with_alpha(Palette.LAB_LINE, 0.35), 1.0)
@@ -433,6 +437,10 @@ func _paint_back(canvas: Control) -> void:
 		var t: float = float(i) / 7.0
 		var y: float = lerpf(560.0, 940.0, t * t)
 		canvas.draw_line(Vector2(lerpf(250.0, -60.0, t * t), y), Vector2(lerpf(1350.0, 1660.0, t * t), y), Palette.with_alpha(Palette.LAB_LINE, 0.18), 1.0)
+	# Diagonal daylight from the window.
+	for beam: int in 3:
+		var x0: float = 560.0 + beam * 170.0
+		canvas.draw_colored_polygon(PackedVector2Array([Vector2(x0, 324), Vector2(x0 + 90, 324), Vector2(x0 + 230, 560), Vector2(x0 + 120, 560)]), Palette.with_alpha(Palette.LAB_LIGHT, 0.10))
 	# Window light falling on the floor.
 	_quad(canvas, [Vector2(560, 562), Vector2(1040, 562), Vector2(1180, 700), Vector2(430, 700)],
 		[Palette.with_alpha(Palette.LAB_LIGHT, 0.35), Palette.with_alpha(Palette.LAB_LIGHT, 0.35), Palette.with_alpha(Palette.LAB_LIGHT, 0.0), Palette.with_alpha(Palette.LAB_LIGHT, 0.0)])
@@ -449,6 +457,7 @@ func _paint_mid(canvas: Control) -> void:
 		canvas.draw_line(Vector2(1350, 90), Vector2(1350, 560), Palette.with_alpha(Palette.LAB_LINE, 0.5), 1.5)
 	_paint_shelf(canvas)
 	_paint_board(canvas)
+	_paint_rack(canvas)
 
 func _paint_shelf(canvas: Control) -> void:
 	# Archive shelf on the left wall: one cell per fragment, lit when opened.
@@ -526,6 +535,15 @@ func _paint_desk(canvas: Control) -> void:
 		[Palette.DESK_TOP, Palette.DESK_TOP, Palette.LAB_LIGHT, Palette.LAB_LIGHT])
 	_quad(canvas, [Vector2(330, 736), Vector2(1270, 736), Vector2(1270, 762), Vector2(330, 762)], [Palette.DESK_EDGE])
 	canvas.draw_line(Vector2(330, 736), Vector2(1270, 736), Palette.LAB_LIGHT, 2.0)
+	# The screen's light reflected on the desk top.
+	var awake_reflection: float = 0.16 if terminal != null and not terminal.asleep() else 0.07
+	canvas.draw_colored_polygon(PackedVector2Array([Vector2(560, 646), Vector2(1040, 646), Vector2(1100, 690), Vector2(500, 690)]), Palette.with_alpha(Palette.ACCENT, awake_reflection))
+	# A closed notebook and a mug: someone works here.
+	canvas.draw_colored_polygon(PackedVector2Array([Vector2(1000, 690), Vector2(1078, 684), Vector2(1092, 714), Vector2(1010, 722)]), Palette.with_alpha(Palette.LAB_INK, 0.75))
+	canvas.draw_line(Vector2(1006, 702), Vector2(1084, 696), Palette.with_alpha(Palette.LAB_LIGHT, 0.35), 1.0)
+	_rounded(canvas, Rect2(1180, 682, 26, 30), Palette.LAB_LIGHT, 5)
+	canvas.draw_arc(Vector2(1209, 696), 7.0, -PI / 2.0, PI / 2.0, 12, Palette.LAB_TRIM, 3.0)
+	canvas.draw_line(Vector2(1180, 688), Vector2(1206, 688), Palette.with_alpha(Palette.LAB_INK_SOFT, 0.4), 1.0)
 	# Desk lamp: the "first light" responds to the first real completion.
 	_paint_lamp(canvas)
 	# Small plant: someone looks after this room.
@@ -644,3 +662,25 @@ func _paint_work_frame(canvas: Control, font: Font) -> void:
 
 func _clip(text: String, limit: int) -> String:
 	return text if text.length() <= limit else text.substr(0, limit - 1) + "…"
+
+
+func _paint_rack(canvas: Control) -> void:
+	# A low instrument cabinet against the right wall; its row of lights fills with total progress.
+	var top_left: Vector2 = _right_wall(0.18, 0.80)
+	var top_right: Vector2 = _right_wall(0.70, 0.80)
+	var bottom_right: Vector2 = _right_wall(0.70, 0.98)
+	var bottom_left: Vector2 = _right_wall(0.18, 0.98)
+	_quad(canvas, [top_left, top_right, bottom_right, bottom_left], [Palette.LAB_TRIM, Palette.LAB_SIDE_DEEP, Palette.LAB_SIDE_DEEP, Palette.LAB_TRIM])
+	canvas.draw_polyline(PackedVector2Array([top_left, top_right, bottom_right, bottom_left, top_left]), Palette.with_alpha(Palette.LAB_LINE, 0.7), 1.5)
+	var done: int = 0
+	var total: int = 0
+	for station: Dictionary in station_progress:
+		done += int(station.done); total += int(station.total)
+	var lights: int = 10
+	for index: int in lights:
+		var u: float = lerpf(0.24, 0.64, (index + 0.5) / lights)
+		var point: Vector2 = _right_wall(u, 0.86)
+		var lit: bool = total > 0 and float(index) < float(done) / float(total) * lights
+		canvas.draw_circle(point, 3.2, Palette.ACCENT if lit else Palette.with_alpha(Palette.LAB_INK_SOFT, 0.35))
+		if lit: canvas.draw_circle(point, 7.0, Palette.with_alpha(Palette.ACCENT, 0.18))
+	canvas.draw_line(_right_wall(0.24, 0.93), _right_wall(0.64, 0.93), Palette.with_alpha(Palette.LAB_INK_SOFT, 0.35), 1.0)

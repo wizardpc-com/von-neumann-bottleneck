@@ -111,7 +111,7 @@ func _draw() -> void:
 			var fraction: float = clampf(elapsed/display_duration(),0,1)
 			draw_line(rect.position+Vector2(4,30),rect.position+Vector2(4+(rect.size.x-8)*fraction,30),Color("62dca7"),3.0)
 	draw_string(font,Vector2(4,61),detail,HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),12,Color("dfeaf2"))
-	draw_string(font,Vector2(4,82),"Visual replay only; recorded cycles and results never change." if english else "仅回放已完成事件；动画速度不改变记录周期或结果。",HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),11,Color("90a7b7"))
+	draw_string(font,Vector2(4,82),"Visual replay only; recorded cycles and results never change." if english else "回放已完成的事件",HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),11,Color("90a7b7"))
 
 	var snapshots: Dictionary = cache_evidence()
 	draw_cache_snapshot(font,snapshots.get("cache_before",{}),99,false)

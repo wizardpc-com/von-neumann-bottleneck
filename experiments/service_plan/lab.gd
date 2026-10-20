@@ -193,20 +193,25 @@ func build() -> void:
 	var previous_tab: int = evidence_tabs.current_tab if is_instance_valid(evidence_tabs) else 0
 	for child: Node in get_children(): remove_child(child); child.queue_free()
 	format_buttons.clear(); task_buttons.clear()
-	var background := ColorRect.new(); background.color = Color("0b1720"); background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(background)
+	var background := preload("res://src/ui/technical_backdrop.gd").new(); background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(background)
 	var margin := MarginContainer.new(); margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for side: String in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + side, 12)
 	add_child(margin); var page := VBoxContainer.new(); page.add_theme_constant_override("separation", 6); margin.add_child(page)
 	var header := HBoxContainer.new(); page.add_child(header)
 	var title := label(tr2("服务方案 · 谁先得到下一次结果？", "Service plan · Who gets the next result?"), header, 22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	preload("res://src/ui/workbench_chrome.gd").title(title)
+	if preload("res://src/campaign/journey_naming.gd").chapter_for("service/move_state") != "": title.text = preload("res://src/campaign/journey_naming.gd").chapter_for("service/move_state")
 	language_button = button("中文 / EN", header, toggle_language, "Language")
-	header.add_child(get_node("/root/PlaytestMoments").make_button())
-	if candidate_journey: button(tr2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else tr2("返回首页", "Home"),header,request_hub,"CandidateHome")
+	header.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
+	if candidate_journey: button(tr2("旅程地图", "Journey map") if get_node("/root/TaskNavigation").from_tree else tr2("实验室", "Laboratory"),header,request_hub,"CandidateHome")
 	button(tr2("服务回顾", "Service review"),header,show_closure,"ServiceClosure")
-	button(tr2("退出", "Quit"), header, request_quit, "Quit")
+	header.add_child(get_node("/root/WindowMode").settings_button())
+	preload("res://src/ui/workbench_chrome.gd").quit_style(button(tr2("退出游戏", "Quit"), header, request_quit, "Quit"))
+	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	var stages := HBoxContainer.new(); page.add_child(stages)
 	for index: int in 3:
-		var node: Button = button(tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
+		var stage_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("service", index))
+		var node: Button = button(stage_label if not stage_label.is_empty() else tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
 		set_action_disabled(node,index > unlocked and not get_node("/root/TaskNavigation").offline_tester_enabled()); task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void:
 		hint_open = not hint_open
@@ -730,12 +735,12 @@ func session_notice() -> String:
 	match notice_key:
 		"writer-reacquired": return tr2("已取得写入权；本窗口的草稿、记录和未保存探索均保留，现在可以保存。", "Writer ownership acquired; this window’s draft, recordings and unsaved exploration are retained. You can now save.")
 		"writer-retry-failed": return tr2("尚未取得写入权；当前探索仍保留。关闭占用窗口后可重试；若磁盘存档已变化，须确认重新读取才能替换本窗口探索。", "Writer ownership was not acquired; your exploration is retained. Retry after the owning window closes. If the disk save changed, confirm Reload to replace this window’s exploration.")
-		"writer-unreadable": return tr2("候选档无法安全读取；保持禁止覆盖。请检查恢复快照，或保留当前窗口。", "Candidate save cannot be read safely; overwriting remains blocked. Review recovery snapshots or keep this window open.")
-		"locked": return tr2("此候选档已由另一窗口占用，或上次未正常关闭；本窗口禁止保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
-		"blocked": return tr2("已有候选存档无法安全读取；已保留原文件并禁止覆盖。", "Existing candidate save cannot be read safely; original preserved, overwriting blocked.")
-		"new": return tr2("独立候选档；退出前保存本次探索。", "Isolated candidate profile; save this exploration before quitting.")
+		"writer-unreadable": return tr2("存档无法安全读取，暂不覆盖。可以检查恢复快照，或先保留当前窗口。", "Candidate save cannot be read safely; overwriting remains blocked. Review recovery snapshots or keep this window open.")
+		"locked": return tr2("这份存档正被另一个窗口使用，或上次没有正常关闭；本窗口暂不保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
+		"blocked": return tr2("已有存档无法安全读取；原文件已保留，不会被覆盖。", "Existing candidate save cannot be read safely; original preserved, overwriting blocked.")
+		"new": return tr2("退出前记得保存本次探索。", "Isolated candidate profile; save this exploration before quitting.")
 		"restored": return tr2("已恢复草稿；%d条记录按同一模型重算。未授予主线进度。", "Draft restored; %d records recomputed under the same model. No campaign progress granted.") % history.size()
-		"saved": return tr2("已保存独立候选档；同一配置可继续。", "Isolated candidate profile saved; reopen the same profile to continue.")
+		"saved": return tr2("已保存。下次打开可以继续。", "Isolated candidate profile saved; reopen the same profile to continue.")
 		"failed": return tr2("保存失败，已有存档未被覆盖；请保留当前窗口。", "Save failed without overwriting the existing save; keep this window open.")
 		"dirty": return tr2("草稿或记录尚未保存；退出前请保存。", "Draft or records are unsaved; save before quitting.")
 	return ""
@@ -850,7 +855,7 @@ func restore_support() -> void:
 func add_recovery_controls(parent: Node) -> void:
 	if writer_lease == null or not writer_lease.held:
 		button(tr2("重新检查写入权（保留本窗口探索）", "Recheck writer ownership (keep this exploration)"),parent,retry_writer.bind(false),"RetryWriter")
-		button(tr2("重新读取已保存候选档", "Reload saved candidate profile"),parent,func() -> void: confirm_recovery(retry_writer.bind(true)),"ReloadCandidate")
+		button(tr2("重新读取存档", "Reload saved candidate profile"),parent,func() -> void: confirm_recovery(retry_writer.bind(true)),"ReloadCandidate")
 		var stopped: String = SessionStore.Lease.stopped_owner(SessionStore.PATH)
 		if not stopped.is_empty():
 			button(tr2("恢复已停止窗口的写入权", "Recover stopped window’s writer ownership"),parent,func() -> void: confirm_recovery(func() -> void: recover_writer(stopped)),"RecoverWriter")
@@ -953,7 +958,7 @@ func show_closure() -> void:
 	if session_dirty:
 		lines.append(tr2("本次变化尚未保存；离开前请保存。", "This session has unsaved changes; save before leaving."))
 	elif persistent_session:
-		lines.append(tr2("已保存的方案可在同一候选档继续。", "Saved plans can be resumed in this candidate profile."))
+		lines.append(tr2("已保存的方案下次可以继续。", "Saved plans can be resumed in this candidate profile."))
 	else:
 		lines.append(tr2("本次为临时实验；退出后不会保留。", "This trial is temporary; quitting does not retain it."))
 	var scroll := ScrollContainer.new(); scroll.name = "ServiceReviewScroll"

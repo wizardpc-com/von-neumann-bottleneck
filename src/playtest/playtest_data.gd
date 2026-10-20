@@ -146,6 +146,8 @@ func level_started(chapter_id: StringName, level_id: StringName) -> bool:
 		var navigation: Node = get_node_or_null("/root/TaskNavigation")
 		if navigation != null: navigation.remember_visit(String(chapter_id),String(level_id))
 	current_task_context = task_feedback_context(String(chapter_id),String(level_id))
+	# Every level opens with one line from Yi (presentation only; prologue excluded).
+	if is_inside_tree(): preload("res://src/ui/yi_opening.gd").present(get_tree(), chapter_id, level_id)
 	if not _can_record_level(chapter_id, level_id):
 		current_visit_id = ""
 		latest_run_id = ""
@@ -186,6 +188,7 @@ func level_completed(chapter_id: StringName, level_id: StringName, details: Dict
 func level_exited(chapter_id: StringName, level_id: StringName, reason: StringName = &"map") -> bool:
 	if str(current_task_context.get("chapter_id","")) != String(chapter_id) or str(current_task_context.get("level_id","")) != String(level_id): return false
 	last_exit_context = {"chapter_id":String(chapter_id),"level_id":String(level_id),"visit_id":current_visit_id,"reason":String(reason)}
+	preload("res://src/ui/yi_opening.gd").dismiss()
 	current_task_context = {}
 	if not _can_record_level(chapter_id, level_id):
 		return false

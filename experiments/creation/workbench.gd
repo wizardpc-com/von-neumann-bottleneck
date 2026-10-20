@@ -217,14 +217,16 @@ func build() -> void:
 	var header := HBoxContainer.new()
 	page.add_child(header)
 	var title: Label = label(text2("光纹工作台","Signal workbench"),header,22)
-	title.add_theme_font_override("font",Typography.HEADING_FONT)
+	preload("res://src/ui/workbench_chrome.gd").title(title)
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_build_arc_stepper(header)
 	button("中文 / EN","Language",header,toggle_language)
-	header.add_child(get_node("/root/PlaytestMoments").make_button())
+	header.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
 	button(text2("保存草稿","Save draft"),"SaveDraft",header,save_draft).disabled = not writable
-	button(text2("返回旅程","Journey"),"Journey",header,func() -> void: request_leave(true))
-	button(text2("退出","Quit"),"Quit",header,func() -> void: request_leave(false))
+	button(text2("旅程地图","Journey map"),"Journey",header,func() -> void: request_leave(true))
+	header.add_child(get_node("/root/WindowMode").settings_button())
+	preload("res://src/ui/workbench_chrome.gd").quit_style(button(text2("退出游戏","Quit"),"Quit",header,func() -> void: request_leave(false)))
+	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	if not writable: _build_writer_controls(page)
 	var navigation := HBoxContainer.new()
 	page.add_child(navigation)
@@ -400,7 +402,12 @@ func build() -> void:
 	_build_actions(actions)
 	status = label(status_text,page,13)
 	status.name = "Status"
-	status.custom_minimum_size.y = 30
+	# One line: the unified header is taller, so keep the page inside 720px.
+	status.custom_minimum_size.y = 24
+	status.autowrap_mode = TextServer.AUTOWRAP_OFF
+	status.clip_text = true
+	status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	status.mouse_filter = Control.MOUSE_FILTER_PASS
 	_build_leave_dialog()
 	_build_recovery_dialog()
 	refresh()
@@ -852,7 +859,9 @@ func advance_step() -> void:
 
 func set_status(value: String) -> void:
 	status_text = value
-	if is_instance_valid(status): status.text = value
+	if is_instance_valid(status):
+		status.text = value
+		status.tooltip_text = value
 
 func failure_text(result: Dictionary) -> String:
 	var code: String = str(result.get("error","unknown"))

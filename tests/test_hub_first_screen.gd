@@ -79,7 +79,7 @@ func visible_buttons(surface: Control) -> Array[BaseButton]:
 	return buttons
 
 func check_home_actions(surface: Control, primary_name: String, recovery: bool, context: String) -> void:
-	var expected: Array[String] = [primary_name,"HubBrowseJourney","ReplayYiIntroduction","OpenJourneyObservatory","OpenJourneyJournal","HubLanguageChoice","HubSettings","FullscreenButton"]
+	var expected: Array[String] = [primary_name,"HubBrowseJourney","ReplayYiIntroduction","OpenJourneyObservatory","OpenJourneyJournal","HubLanguageChoice","HubSettings"]
 	if recovery: expected.append("SaveRecoveryDetails")
 	var actual: Array[String] = []
 	for button: BaseButton in visible_buttons(surface): actual.append(str(button.name))
@@ -167,7 +167,7 @@ func run() -> void:
 				check(surface.is_visible_in_tree() and navigation != null and not navigation.is_visible_in_tree(),context+": only the simple homepage is visible initially")
 				check_home_actions(surface,"RecommendedJourneyAction" if candidate else "TaskTree",false,context)
 				var header := hub.find_child("HeaderActions",true,false) as Control
-				check(header != null and visible_buttons(header).size() == 3,context+": header keeps language, settings and fullscreen only")
+				check(header != null and visible_buttons(header).size() == 2,context+": header keeps language and settings only (fullscreen lives in Settings)")
 				var primary := hub.find_child("RecommendedJourneyAction" if candidate else "TaskTree",true,false) as BaseButton
 				check(primary != null and primary.is_visible_in_tree() and not primary.disabled,context+": primary entry is visible and available")
 				var browse := hub.find_child("HubBrowseJourney",true,false) as Button

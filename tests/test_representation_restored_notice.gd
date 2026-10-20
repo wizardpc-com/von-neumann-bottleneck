@@ -70,7 +70,7 @@ func run() -> void:
 		var owner = Store.Lease.new(Store.PATH)
 		check(owner.held,"External fixture owner holds the candidate writer lease")
 		scene = enter(nav,2); await settle()
-		check(scene.save_blocked and scene.session_notice.contains("禁止保存" if locale == "zh_CN" else "saving is blocked"),"Same-target entry retains real writer protection")
+		check(scene.save_blocked and scene.session_notice.contains("暂不保存" if locale == "zh_CN" else "saving is blocked"),"Same-target entry retains real writer protection")
 		same_notice(scene,"Writer protection")
 		scene.queue_free(); await settle(); owner.release()
 		Store.PATH = base.path_join(locale+"-recovery.json"); write_raw(Store.PATH,raw)

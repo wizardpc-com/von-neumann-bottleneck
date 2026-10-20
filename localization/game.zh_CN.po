@@ -67,10 +67,10 @@ msgid "window.restore.tooltip"
 msgstr "还原此窗口"
 
 msgid "window.fullscreen.enter"
-msgstr "全屏"
+msgstr "全屏 · F11"
 
 msgid "window.fullscreen.exit"
-msgstr "退出全屏"
+msgstr "退出全屏 · F11"
 
 msgid "window.fullscreen.tooltip"
 msgstr "切换全屏显示（F11 或 Alt+Enter）"
@@ -106,7 +106,7 @@ msgid "hub.save.new_game.error"
 msgstr "新游戏重置未能完成：%s"
 
 msgid "hub.options.title"
-msgstr "选项"
+msgstr "设置"
 
 msgid "hub.options.hint"
 msgstr "按 Esc 回到实验室"
@@ -1027,16 +1027,16 @@ msgid "hardware.toolbar.cancel_cable.tooltip"
 msgstr "取消当前跟随鼠标的接线、选框或元件放置。"
 
 msgid "hardware.toolbar.level_map"
-msgstr "关卡地图"
+msgstr "章节地图"
 
 msgid "hardware.toolbar.level_map.tooltip"
 msgstr "打开硬件序章地图，查看已完成、已解锁和仍需前置元件的关卡。"
 
 msgid "hardware.phase.tutorial"
-msgstr "序章 · 接线教程"
+msgstr "序章·接线教程"
 
 msgid "hardware.phase.half_adder"
-msgstr "序章 · 搭建 1 位半加器"
+msgstr "序章·搭建 1 位半加器"
 
 msgid "hardware.phase.complete"
 msgstr "完成 · 玩家拥有的抽象"
@@ -1096,7 +1096,7 @@ msgid "hardware.practice.heading_subtitle"
 msgstr "外部控制 · 不属于玩家硬件"
 
 msgid "hardware.practice.run"
-msgstr "运行练习电路"
+msgstr "运行练习电路 · F6"
 
 msgid "hardware.practice.lamp_empty"
 msgstr "指示灯：—"
@@ -1159,7 +1159,7 @@ msgid "hardware.cases.truth_table_definition"
 msgstr "[[truth_table|真值表]]列出所有输入和正确输出；这里会按 00、01、10、11 逐个运行，一个案例结束后才开始下一个。"
 
 msgid "hardware.cases.run_debug"
-msgstr "运行当前调试用例"
+msgstr "运行当前调试用例 · F6"
 
 msgid "hardware.cases.actual_empty"
 msgstr "实际：SUM —  CARRY —"
@@ -1201,7 +1201,7 @@ msgid "hardware.sealed.bench_subtitle"
 msgstr "运行封存的电路快照"
 
 msgid "hardware.sealed.run_debug"
-msgstr "运行已封装元件"
+msgstr "运行已封装元件 · F6"
 
 msgid "hardware.sealed.result_empty"
 msgstr "HalfAdder：SUM —  CARRY —"
@@ -1549,7 +1549,7 @@ msgid "hardware.prologue.open_map.tooltip"
 msgstr "把已封存的 HalfAdder 带入后续 CPU / 算术构建路线。"
 
 msgid "hardware.prologue.map.phase"
-msgstr "硬件基础 · 序章地图"
+msgstr "序章 · 一线成机 · 关卡地图"
 
 msgid "hardware.prologue.map.title"
 msgstr "从门电路到小计算机"
@@ -1956,10 +1956,10 @@ msgid "hardware.workbench.error.generic"
 msgstr "无法创建方案。"
 
 msgid "hardware.hint.button"
-msgstr "提示"
+msgstr "提示 · F1"
 
 msgid "hardware.hint.button.tooltip"
-msgstr "进入独立只读画布，回到上次看过的层级；不会改动你的方案。"
+msgstr "向壹求助（F1）：先给一句方向；需要时再打开只读提示画布，不会改动你的方案。"
 
 msgid "hardware.hint.return"
 msgstr "返回我的方案"
@@ -2088,7 +2088,7 @@ msgid "hardware.hint.load_store.3"
 msgstr "完整参考方案还连接 ACC 与 MEM 输出；本关拓扑固定，重点是读懂状态变化。"
 
 msgid "system.chapter.title"
-msgstr "第 1 章：时间的去处"
+msgstr "第一章 · 时间的去处"
 
 msgid "system.chapter.subtitle"
 msgstr "机器已经运转，时间花在了哪里？"
@@ -2799,7 +2799,7 @@ msgid "common.level_complete.continue"
 msgstr "继续并返回关卡选择"
 
 msgid "hardware.completion.chapter"
-msgstr "硬件基础 · 构建序章"
+msgstr "序章 · 一线成机"
 
 msgid "hardware.completion.summary.tutorial"
 msgstr "电路已经接通，也能运行和修补。0 和 1 都是正常信号；改变输入，沿线观察结果。"
@@ -2829,7 +2829,7 @@ msgid "hardware.completion.summary.load_store"
 msgstr "CPU 经由 LOAD 与 STORE 访问外部存储。计算之外，还有数据往返带来的等待。"
 
 msgid "system.completion.chapter"
-msgstr "第 1 章 · 时间的去处"
+msgstr "第一章 · 时间的去处"
 
 msgid "system.completion.summary.assembly"
 msgstr "你连接了 CPU、Bus 与 RAM 的请求、写入和读取路径，并验证了显示线路就是系统拓扑。"
@@ -2922,7 +2922,7 @@ msgid "hub.locality.locked"
 msgstr "先在第一章完成瓶颈诊断，再开始第二章。"
 
 msgid "chapter2.title"
-msgstr "第 2 章：少走远路"
+msgstr "第二章 · 少走远路"
 
 msgid "chapter2.subtitle"
 msgstr "减少代价高的数据搬运，让 CPU 少等待。"
@@ -2985,7 +2985,7 @@ msgid "chapter2.status.capstone_complete"
 msgstr "已达到目标。现在可以结束章节，也可以继续压低 周期 与成本。"
 
 msgid "chapter2.map.open"
-msgstr "地图"
+msgstr "章节地图"
 
 msgid "chapter2.map.return"
 msgstr "返回地图"
@@ -3462,7 +3462,7 @@ msgid "chapter2.notebook.blocking.related"
 msgstr "Working Set、Locality"
 
 msgid "chapter2.completion.chapter"
-msgstr "第 2 章 · 少走远路"
+msgstr "第二章 · 少走远路"
 
 msgid "chapter2.level.unknown.title"
 msgstr "未知调查"
@@ -5215,10 +5215,10 @@ msgid "exploration.delay.accept"
 msgstr "接收 DATA=%s · OUT 取上一份"
 
 msgid "overlap.title"
-msgstr "第 3 章：与等待并行"
+msgstr "第三章 · 与等待并行"
 
 msgid "overlap.map"
-msgstr "关卡树"
+msgstr "旅程地图"
 
 msgid "overlap.hub"
 msgstr "实验室"
@@ -5350,7 +5350,7 @@ msgid "overlap.synthesis.body"
 msgstr "选用缓冲或 Cache，自己搭建内部结构和程序。两种路线都可能成功，不要求把全部工具放上去。\n\n先保证按序、不重复地处理每一批，再检查两组公开任务的用时。第二组搬运很慢、计算很快：加更多暂存空间会让搬运器变快吗？\n\n目标是解释并改善瓶颈，不是把等待数字强行降到零。"
 
 msgid "overlap.edit_help"
-msgstr "拖元件、接线、删除；⌘Z 撤销。指令规格在手册中。"
+msgstr "拖元件、接线、删除；Ctrl+Z 撤销（Mac 为 ⌘Z）。指令规格在手册中。"
 
 msgid "overlap.stale"
 msgstr "方案已修改 · 请重新运行；旧时间线仅供对照。"
@@ -5431,7 +5431,7 @@ msgid "overlap.too_slow"
 msgstr "结果正确；尚未达到用时目标。查看两条时间轨道。"
 
 msgid "overlap.passed"
-msgstr "通过 · 可继续修改，或返回关卡树探索下一支。"
+msgstr "通过 · 可继续修改，或回到旅程地图选择下一项。"
 
 msgid "overlap.try_again"
 msgstr "本次尚未通过 · 时间线保留失败原因与发生时刻。"
@@ -6448,25 +6448,25 @@ msgid "records.board.local_note"
 msgstr "进度保存在本机。回到任务树，可以选择下一项挑战。"
 
 msgid "settings.interface"
-msgstr "语言"
+msgstr "语言与文字"
 
 msgid "settings.display"
 msgstr "显示"
 
 msgid "settings.audio"
-msgstr "音频"
+msgstr "声音"
 
 msgid "settings.sound"
 msgstr "播放音效"
 
 msgid "settings.privacy"
-msgstr "数据与隐私"
+msgstr "反馈与隐私"
 
 msgid "settings.privacy_hint"
 msgstr "默认只保存在本机。统计、文字意见与成绩的分享分别设置。"
 
 msgid "settings.support"
-msgstr "支持信息"
+msgstr "支持与诊断"
 
 msgid "settings.diagnostics"
 msgstr "导出诊断信息"
@@ -6950,3 +6950,33 @@ msgstr "这里是原模型的逻辑步骤，不是实际耗时或物理周期。
 
 msgid "terminology.latch.unavailable"
 msgstr "此规则示例暂不可用；原任务与手册文字仍可使用。"
+
+msgid "hardware.yi_help.self"
+msgstr "好。需要时我在。"
+
+msgid "settings.yi_text_speed"
+msgstr "壹的话逐字出现的速度；重读与减少动效时直接显示全文。"
+
+msgid "settings.yi_text_speed.slow"
+msgstr "慢"
+
+msgid "settings.yi_text_speed.standard"
+msgstr "标准"
+
+msgid "settings.yi_text_speed.fast"
+msgstr "快"
+
+msgid "settings.yi_text_speed.instant"
+msgstr "立即显示"
+
+msgid "settings.subtitle"
+msgstr "F10 随时打开 · Esc 关闭 · 修改立即生效，不影响进度与存档"
+
+msgid "settings.language_label"
+msgstr "界面语言"
+
+msgid "settings.yi_text_speed.label"
+msgstr "壹的文字速度"
+
+msgid "settings.frame_label"
+msgstr "画面帧率"

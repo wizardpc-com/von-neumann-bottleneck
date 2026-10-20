@@ -25,6 +25,7 @@ func _ready() -> void:
 	var settings := ConfigFile.new()
 	if settings.load("user://presentation.cfg")==OK:
 		ProjectSettings.set_setting("game/reduced_motion",bool(settings.get_value("display","reduced_motion",false)))
+		ProjectSettings.set_setting("game/yi_text_speed",str(settings.get_value("display","yi_text_speed","standard")))
 		frame_limit=int(settings.get_value("display","frame_limit",60))
 		sound_enabled=bool(settings.get_value("audio","enabled",true))
 		sound_volume=clampf(float(settings.get_value("audio","volume",0.7)),0.0,1.0)
@@ -175,6 +176,13 @@ func set_reduced_motion(value: bool) -> void:
 	var settings := ConfigFile.new(); settings.load("user://presentation.cfg"); settings.set_value("display","reduced_motion",value)
 	settings.save("user://presentation.cfg")
 
+## How fast Yi's passages appear: slow / standard / fast / instant.
+func set_yi_text_speed(value: String) -> void:
+	if value not in ["slow","standard","fast","instant"]: return
+	ProjectSettings.set_setting("game/yi_text_speed",value)
+	var settings := ConfigFile.new(); settings.load("user://presentation.cfg"); settings.set_value("display","yi_text_speed",value)
+	settings.save("user://presentation.cfg")
+
 func _minimum_pixels() -> Vector2i:
 	var scale: float = DisplayServer.screen_get_scale(DisplayServer.window_get_current_screen()) if OS.get_name()=="macOS" else 1.0
 	return Vector2i(Vector2(MINIMUM_WINDOWED_SIZE)*scale)
@@ -223,7 +231,7 @@ func set_ambience(enabled: bool, volume: float, reduced: bool) -> void:
 
 func reset_presentation() -> void:
 	set_ambience(false,0.3,false)
-	set_reduced_motion(false); set_frame_limit(60); set_sound(true,0.7)
+	set_reduced_motion(false); set_yi_text_speed("standard"); set_frame_limit(60); set_sound(true,0.7)
 	get_node("/root/Localization").set_preferred_locale("zh_CN")
 
 

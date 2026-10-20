@@ -2,6 +2,7 @@ extends Control
 const Canvas = preload("res://src/campaign/task_tree_canvas.gd")
 const ObservatoryType = preload("res://src/ui/journey_observatory.gd")
 const JournalType = preload("res://src/ui/journey_journal.gd")
+const Naming = preload("res://src/campaign/journey_naming.gd")
 var journey_observatory: Control
 var journey_journal: Control
 var canvas: Control
@@ -59,8 +60,8 @@ func _ready() -> void:
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
 	home.text = "← 实验室" if Localization.current_locale() != "en" else "← Laboratory"
 	var title := Label.new()
-	title.text = "旅程" if Localization.current_locale() != "en" else "Journey"
-	title.add_theme_font_size_override("font_size",30)
+	title.text = "旅程地图" if Localization.current_locale() != "en" else "Journey map"
+	preload("res://src/ui/workbench_chrome.gd").title(title)
 	header.add_child(title)
 	header.add_child(PlaytestMoments.make_button())
 	header.add_child(WindowMode.settings_button())
@@ -183,6 +184,7 @@ func _ready() -> void:
 	help.add_theme_color_override("font_color",Color("8fa3ad"))
 	column.add_child(help)
 	rows = TaskNavigation.journey_tasks()
+	_apply_naming()
 	_build_route_shortcuts()
 	PlaytestData.record_map_action(&"map_open","")
 	for task: Dictionary in rows:
@@ -194,7 +196,7 @@ func _ready() -> void:
 	for task: Dictionary in rows:
 		if int(task.region) in seen_regions: continue
 		seen_regions.append(int(task.region))
-		region_choice.add_item(str(task.get("region_title",Localization.text(StringName("tree.region."+str(task.region))))))
+		region_choice.add_item(_region_title(int(task.region)))
 		region_choice.set_item_metadata(region_choice.item_count-1,int(task.region))
 	region_choice.item_selected.connect(func(index: int) -> void:
 		_choose_region(int(region_choice.get_item_metadata(index))))
@@ -207,6 +209,16 @@ func _ready() -> void:
 		if not matches.is_empty(): _select_and_locate(matches[0]))
 	_select(TaskNavigation.selected)
 	_show_list()
+
+# Map, list and headings share one scheme: chapters 序章 → 第一章 …, tasks
+# 序章·名称 / 1-1 名称 / 1-4-1 名称. Keys and progress are unchanged.
+func _apply_naming() -> void:
+	var numbering: Dictionary = Naming.numbers(rows)
+	for task: Dictionary in rows:
+		task["raw_title"] = str(task.title)
+		task["number"] = str(numbering.get(str(task.key), ""))
+		task["title"] = Naming.task_label(task, numbering)
+		task["region_title"] = Naming.chapter_title(int(task.region), str(task.get("region_title", Localization.text(StringName("tree.region." + str(task.region))))))
 
 func _open_observatory() -> void:
 	if not is_instance_valid(journey_observatory):
@@ -236,11 +248,12 @@ func _build_route_shortcuts() -> void:
 			if other.completed: done += 1
 		var button := Button.new()
 		button.name = ("CreationRegion" if task.domain == "creation" else "JourneyRegion")+str(region)
-		button.text = _short_region(region) + "  " + str(done) + "/" + str(total)
+		button.text = Naming.chapter_ordinal(region) + "\n" + _short_region(region) + "  " + str(done) + "/" + str(total)
 		button.custom_minimum_size = Vector2(0, 40)
+		button.add_theme_constant_override("line_spacing", -2)
 		button.clip_text = true
 		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		button.add_theme_font_size_override("font_size",15 if not english else 13)
+		button.add_theme_font_size_override("font_size",13 if not english else 12)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.set_meta("region",region)
 		button.tooltip_text = _region_title(region) + "\n" + _region_summary(region)
@@ -469,3 +482,4 @@ func _short_region(region: int) -> String:
 	var en: Array[String] = ["Build", "Waiting", "Nearby", "In flight", "Layout", "Representation", "Service", "Address", "Compression", "Content", "Creation"]
 	if region < 0 or region >= zh.size(): return _region_title(region)
 	return en[region] if english else zh[region]
+

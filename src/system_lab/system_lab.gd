@@ -540,7 +540,7 @@ func _build_header() -> Control:
 	status_label.custom_minimum_size.x = 380.0
 	status_label.add_theme_color_override("font_color", WARNING)
 	row.add_child(status_label)
-	row.add_child(PlaytestMoments.make_button())
+	row.add_child(PlaytestMoments.make_workbench_button())
 	var mode_selector: GameModeSelectorType = GameModeSelectorType.new()
 	mode_selector.show_label = false
 	row.add_child(mode_selector)
@@ -555,6 +555,8 @@ func _build_header() -> Control:
 	hub_button.text = _t(&"common.prototype_hub")
 	hub_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
 	row.add_child(hub_button)
+	for child: Node in row.get_children():
+		if child is Button: preload("res://src/ui/workbench_chrome.gd").tidy_button(child)
 	return header
 
 
@@ -1292,6 +1294,9 @@ func _start_level(level_id: StringName) -> void:
 		catalog.level_ids().size(),
 		_t(catalog.title_key(level_id)),
 	])
+	# Same task name as the journey map (1-1 …, side tasks 1-3-1 …).
+	var journey_label: String = preload("res://src/campaign/journey_naming.gd").label_for("chapter_1/" + String(level_id))
+	if not journey_label.is_empty(): level_label.text = journey_label
 	status_label.text = _t(&"system.status.ready")
 	status_label.add_theme_color_override("font_color", WARNING)
 	_load_level_session()

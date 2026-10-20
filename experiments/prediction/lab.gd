@@ -125,16 +125,20 @@ func build() -> void:
 	var page := VBoxContainer.new(); page.add_theme_constant_override("separation",8); margin.add_child(page)
 	var top := HBoxContainer.new(); page.add_child(top)
 	var title: Label = label(text2("预测工坊","Prediction workshop"),top,24); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_override("font",Typography.HEADING_FONT)
+	preload("res://src/ui/workbench_chrome.gd").title(title)
+	if preload("res://src/campaign/journey_naming.gd").chapter_for("prediction/regular") != "": title.text = preload("res://src/campaign/journey_naming.gd").chapter_for("prediction/regular")
 	button("中文 / EN","Language",top,toggle_language)
-	top.add_child(get_node("/root/PlaytestMoments").make_button())
-	if candidate_journey: button(text2("任务地图","Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页","Home"),"CandidateHome",top,request_hub)
-	button(text2("退出","Quit"),"Quit",top,request_quit)
+	top.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
+	if candidate_journey: button(text2("旅程地图","Journey map") if get_node("/root/TaskNavigation").from_tree else text2("实验室","Laboratory"),"CandidateHome",top,request_hub)
+	top.add_child(get_node("/root/WindowMode").settings_button())
+	preload("res://src/ui/workbench_chrome.gd").quit_style(button(text2("退出游戏","Quit"),"Quit",top,request_quit))
+	preload("res://src/ui/workbench_chrome.gd").frame(top)
 	var boundary: Label = label(text2("可选临时探索 · 规则、历史与结果离开后不保留", "Optional temporary exploration · rules, history and results are discarded on leaving"),page,14)
 	boundary.name = "TemporaryBoundary"; boundary.add_theme_color_override("font_color",MUTED)
 	var nav := HBoxContainer.new(); page.add_child(nav)
 	for i: int in 3:
-		var item: Button = button([text2("1 · 规律流","1 · Regular stream"),text2("2 · 规律改变","2 · Pattern changes"),text2("3 · 交替热点","3 · Alternating hotspots")][i],"Task"+str(i),nav,func() -> void: change_task(i))
+		var stage_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("prediction", i))
+		var item: Button = button(stage_label if not stage_label.is_empty() else [text2("1 · 规律流","1 · Regular stream"),text2("2 · 规律改变","2 · Pattern changes"),text2("3 · 交替热点","3 · Alternating hotspots")][i],"Task"+str(i),nav,func() -> void: change_task(i))
 		item.size_flags_horizontal = Control.SIZE_EXPAND_FILL; item.disabled = i == task
 	var purpose: Label = label(purpose_text(),page,14)
 	purpose.name = "TaskPurpose"

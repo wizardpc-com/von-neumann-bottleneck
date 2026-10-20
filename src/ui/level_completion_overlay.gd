@@ -18,6 +18,8 @@ signal feedback_submitted(
 signal feedback_skipped(chapter_id: StringName, level_id: StringName)
 
 const Palette = preload("res://src/lab/lab_palette.gd")
+const Typewriter = preload("res://src/ui/yi_typewriter.gd")
+const JourneyNaming = preload("res://src/campaign/journey_naming.gd")
 const BACKDROP := Color(0.03, 0.05, 0.07, 0.62)
 const SURFACE := Palette.TERM_PANEL
 const ACCENT := Palette.ACCENT
@@ -50,7 +52,11 @@ var chapter_label: Label
 var title_label: Label
 var level_label: Label
 var summary_label: Label
-var yi_response_label: Label
+## Yi's reply is typed after the system result; the speaker is a plain label.
+var yi_response_label: Typewriter
+var yi_speaker_label: Label
+var yi_delay_tween: Tween
+var feedback_entry_button: Button
 var next_capability_label: Label
 var feedback_toggle: Button
 var continue_button: Button
@@ -155,17 +161,23 @@ func _build_interface() -> void:
 	summary_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	summary_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(summary_label)
-	yi_response_label = Label.new()
+	yi_response_label = Typewriter.new()
 	yi_response_label.name = "YiCompletionResponse"
-	yi_response_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	yi_response_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
-	yi_response_label.add_theme_color_override("font_color", Color("bfe3e6"))
+	yi_response_label.font_size = UiTypographyType.BODY_SIZE
+	yi_response_label.font_color = Color("bfe3e6")
+	yi_response_label.skip_scope = self
+	yi_speaker_label = Label.new(); yi_speaker_label.name = "YiCompletionSpeaker"
+	yi_speaker_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	yi_speaker_label.add_theme_color_override("font_color", Palette.ACCENT)
 	var yi_card := PanelContainer.new(); yi_card.name = "YiCompletionCard"
 	var yi_box: StyleBoxFlat = _stylebox(Palette.TERM_SCREEN, Palette.ACCENT_DEEP, 10, 0)
 	yi_box.border_width_left = 3
 	yi_box.content_margin_left = 16; yi_box.content_margin_right = 16; yi_box.content_margin_top = 10; yi_box.content_margin_bottom = 10
 	yi_card.add_theme_stylebox_override("panel", yi_box)
-	yi_card.add_child(yi_response_label)
+	var yi_column := VBoxContainer.new(); yi_column.add_theme_constant_override("separation", 4)
+	yi_column.add_child(yi_speaker_label)
+	yi_column.add_child(yi_response_label)
+	yi_card.add_child(yi_column)
 	column.add_child(yi_card)
 	var next_panel := PanelContainer.new()
 	next_panel.name = "NextCapability"
@@ -248,6 +260,16 @@ func _build_interface() -> void:
 	action_row.add_child(return_button)
 	continue_center.add_child(action_row)
 	column.add_child(continue_center)
+	# Feedback lives here and in Settings rather than on every workbench (F8 still works).
+	feedback_entry_button = PlaytestMoments.make_button()
+	feedback_entry_button.name = "CompletionFeedbackEntry"
+	feedback_entry_button.flat = true
+	feedback_entry_button.text = ("反馈 · F8" if Localization.current_locale() != "en" else "Feedback · F8")
+	feedback_entry_button.focus_mode = Control.FOCUS_ALL
+	feedback_entry_button.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	feedback_entry_button.add_theme_color_override("font_color", Palette.TERM_MUTED)
+	feedback_entry_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	column.add_child(feedback_entry_button)
 
 	audio_player = AudioStreamPlayer.new()
 	audio_player.name = "CompletionMusicPlayer"
@@ -270,13 +292,26 @@ func present(
 	) -> void:
 	current_level_id = level_id
 	current_chapter_id = chapter_id
+	# The card names the task exactly as the journey map does (序章·… / 1-1 …).
+	var journey_key: String = String(chapter_id) + "/" + String(level_id)
+	var journey_label: String = JourneyNaming.label_for(journey_key) if not chapter_id.is_empty() else ""
+	if not journey_label.is_empty():
+		level_title = journey_label
+		chapter = JourneyNaming.chapter_for(journey_key)
 	chapter_label.text = chapter
 	title_label.text = Localization.text(&"common.level_complete.title")
 	level_label.text = level_title
 	summary_label.text = summary
 	var response: String = MissionNarrativeCatalogType.completion_response(chapter_id, level_id, Localization.current_locale() == "en")
-	yi_response_label.text = ("壹　" if Localization.current_locale() != "en" else "Yi  ") + response
-	yi_response_label.get_parent().visible = not response.is_empty()
+	yi_speaker_label.text = "壹" if Localization.current_locale() != "en" else "Yi"
+	# Lay the whole reply out now so nothing reflows; type it after the result settles.
+	yi_response_label.prepare(response)
+	yi_response_label.get_parent().get_parent().visible = not response.is_empty()
+	if yi_delay_tween != null: yi_delay_tween.kill()
+	if not response.is_empty():
+		yi_delay_tween = create_tween()
+		yi_delay_tween.tween_interval(0.0 if bool(ProjectSettings.get_setting("game/reduced_motion", false)) else 0.45)
+		yi_delay_tween.tween_callback(yi_response_label.play.bind(response))
 	var next_key: StringName = MissionNarrativeCatalogType.next_capability_key(chapter_id, level_id)
 	var context: Dictionary = MissionNarrativeCatalogType.task_context(chapter_id, level_id, Localization.current_locale() == "en")
 	next_capability_label.text = Localization.text(next_key) if not next_key.is_empty() else str(context.get("connection", ""))
@@ -285,6 +320,7 @@ func present(
 	primary_action_button.hide()
 	return_button.hide()
 	feedback_toggle.visible = questionnaire_enabled
+	feedback_entry_button.visible = not questionnaire_enabled
 	feedback_toggle.set_pressed_no_signal(false)
 	feedback_box.hide()
 	panel.custom_minimum_size = Vector2(760.0, 510.0) if questionnaire_enabled else Vector2(700.0, 470.0)
@@ -309,6 +345,7 @@ func present_actions(
 	present(level_id, level_title, summary, chapter, chapter_id)
 	feedback_box.hide()
 	feedback_toggle.hide()
+	feedback_entry_button.show()
 	panel.custom_minimum_size = Vector2(700.0, 470.0)
 	primary_action_button.text = primary_text
 	primary_action_button.show()
@@ -360,6 +397,8 @@ func _set_emblem_progress(value: float) -> void:
 
 func dismiss() -> void:
 	hide()
+	if yi_delay_tween != null: yi_delay_tween.kill()
+	yi_response_label.stop()
 	current_level_id = &""
 	current_chapter_id = &""
 	_stop_completion_cue()

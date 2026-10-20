@@ -19,6 +19,9 @@ const LabState = preload("res://src/lab/lab_state.gd")
 const Fragments = preload("res://src/lab/archive_fragments.gd")
 const TerminalType = preload("res://src/lab/lab_terminal.gd")
 const ArchiveType = preload("res://src/lab/lab_archive.gd")
+const Passage = preload("res://src/ui/terminal_passage.gd")
+const Naming = preload("res://src/campaign/journey_naming.gd")
+const Dialogues = preload("res://src/lab/chapter_dialogues.gd")
 const DESIGN := Vector2(1600, 900)
 # Optional art overrides. Drop a PNG at these paths (1600×900, transparent where
 # the drawn layer should show) and it is used instead of the code-drawn layer.
@@ -29,6 +32,24 @@ const LAB_ART := {
 }
 const SCREEN_RECT := Rect2(536, 300, 528, 318)
 const MONITOR_RECT := Rect2(518, 282, 564, 354)
+# Small status display on an arm at the terminal's right: information only.
+const STATUS_RECT := Rect2(1102, 404, 138, 92)
+# Glass record board on the back wall, left of the window.
+const BOARD_RECT := Rect2(270, 232, 214, 192)
+# Candidate copy (story team may rewrite): the learning program's three rules.
+# Each line is inked once the player has reached it for real.
+const RECORD_LINES := [
+	{"zh": "亲手接上，再相信结果。", "en": "Connect it yourself, then trust the result.", "requires": "hardware_foundations/tutorial"},
+	{"zh": "慢下来的地方，就是要看的地方。", "en": "Where it slows down is where to look.", "requires": "chapter_1/bottleneck"},
+	{"zh": "留下你自己的答案。", "en": "Leave an answer of your own.", "requires": "creation/G3_keep"},
+]
+# Component tray: one module per prologue part, filled when that part is earned.
+const TRAY_PARTS := [
+	["hardware_foundations/tutorial", "NOT"], ["hardware_foundations/half_adder", "HA"],
+	["hardware_foundations/full_adder", "FA"], ["hardware_foundations/alu", "ALU"],
+	["hardware_foundations/latch", "SR"], ["hardware_foundations/register", "REG"],
+	["hardware_foundations/ram", "RAM"], ["hardware_foundations/cpu", "CPU"],
+]
 # Chapter endings answered by the room. Candidate copy; story team may rewrite.
 const CHAPTER_RESPONSES := {
 	"hardware_foundations/load_store": {"zh_caption": "旅程板上「构造」一站亮起了暖光。", "en_caption": "The Build station glows warm on the journey board.",
@@ -64,6 +85,8 @@ var terminal: TerminalType
 var archive: ArchiveType
 var caption: Label
 var fade: ColorRect
+## Leaving for the terminal world: the screen collapses into one line of light.
+var passage: Control
 var base_scale: float = 1.0
 var base_offset: Vector2 = Vector2.ZERO
 var look: Vector2 = Vector2.ZERO
@@ -82,6 +105,9 @@ var hover_shelf: bool = false
 var hover_board: bool = false
 var art: Dictionary = {}
 var next_key: String = ""
+var completed_keys: Array[String] = []
+var status_next: String = ""
+var status_chapter: String = ""
 # Latest saved creation (read-only): the journey's ending is shown in the room.
 var works: Array = []
 var hover_works: bool = false
@@ -93,6 +119,8 @@ func _ready() -> void:
 	var localization: Node = get_node_or_null("/root/Localization")
 	english = localization != null and str(localization.current_locale()) == "en"
 	reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion", false))
+	preload("res://src/ui/yi_opening.gd").dismiss()
+	add_to_group("laboratory")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	clip_contents = true
@@ -129,6 +157,9 @@ func _ready() -> void:
 	fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); fade.modulate.a = 0.0
 	add_child(fade)
+	passage = Passage.new(); passage.name = "LabPassage"
+	passage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(passage)
 	resized.connect(_fit)
 	_fit()
 	_read_progress()
@@ -202,7 +233,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if zooming or archive.visible: return
 	var key := event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]:
-		if terminal.asleep():
+		if terminal.asleep() and not terminal.confirming():
 			terminal.wake(); get_viewport().set_input_as_handled()
 
 func _gui_input(event: InputEvent) -> void:
@@ -240,11 +271,20 @@ func _read_progress() -> void:
 		response = {"task": latest, "fresh": fresh.size(), "fragments": new_fragments.size(),
 			"first_light": "hardware_foundations/tutorial" in fresh}
 		for key: String in CHAPTER_RESPONSES:
-			if key in fresh: response["chapter"] = CHAPTER_RESPONSES[key]
+			if key in fresh:
+				response["chapter"] = CHAPTER_RESPONSES[key]
+				var beats: Array = Dialogues.for_key(key)
+				if not beats.is_empty(): response["dialogue"] = beats
 	next_key = _next_task(rows, fresh)
+	completed_keys = completed
+	var numbering: Dictionary = Naming.numbers(rows)
 	var next_title: String = ""
+	status_next = ""; status_chapter = ""
 	for row: Dictionary in rows:
-		if str(row.key) == next_key: next_title = str(row.title)
+		if str(row.key) == next_key:
+			next_title = str(row.title)
+			status_next = Naming.task_label(row, numbering)
+			status_chapter = Naming.chapter_ordinal(int(row.region))
 	terminal.configure({
 		"next_key": next_key,
 		"next_title": next_title,
@@ -316,10 +356,24 @@ func _on_terminal_action(id: String) -> void:
 		"settings": settings_requested.emit()
 		"handbook": handbook_requested.emit()
 		"new_game": new_game_requested.emit()
-		"quit": quit_requested.emit()
+		"quit": terminal.ask_quit()
+		"quit_confirmed": quit_requested.emit()
 		"language":
 			get_node("/root/Localization").set_locale("en" if not english else "zh_CN")
 			get_tree().reload_current_scene()
+
+## Esc in the laboratory asks about quitting on the terminal screen; a second
+## Esc returns to the menu. Overlays (archive, settings, handbook) close first.
+func escape() -> void:
+	if zooming or archive.visible: return
+	if terminal.confirming(): terminal.cancel_quit()
+	else: terminal.ask_quit()
+
+## Developer route only (`--dev-call=laboratory:preview_chapter_dialogue`):
+## shows the chapter 2 ending conversation for screenshots. No progress changes.
+func preview_chapter_dialogue() -> void:
+	if terminal.asleep(): terminal.wake(true)
+	terminal.play_dialogue(Dialogues.for_key("chapter_2/capstone"))
 
 func open_archive() -> void:
 	if zooming: return
@@ -331,18 +385,23 @@ func _enter(signal_to_emit: Signal, argument: Variant = null) -> void:
 	caption.modulate.a = 0.0
 	terminal.release_focus_inside()
 	var tween := create_tween().set_parallel(true)
-	var duration: float = 0.05 if reduced_motion else 0.75
+	var duration: float = 0.05 if reduced_motion else 0.8
+	# The menu dims first, so the camera moves into a clean lit screen.
+	tween.tween_property(terminal, "modulate:a", 0.0, duration * 0.3)
 	tween.tween_method(_apply_zoom, 0.0, 1.0, duration).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(fade, "modulate:a", 1.0, duration * 0.45).set_delay(duration * 0.6)
+	tween.tween_property(passage, "progress", 1.0, duration * 0.42).set_delay(duration * 0.58)
 	await tween.finished
 	var tree: SceneTree = get_tree()
+	if not reduced_motion: Passage.mark_departure()
 	if argument == null: signal_to_emit.emit()
 	else: signal_to_emit.emit(argument)
 	# If navigation did not leave this scene (e.g. nothing to open), come back out.
 	await tree.create_timer(0.6).timeout
 	if is_instance_valid(self) and is_inside_tree():
+		Passage.pending_arrival_msec = -1
 		var back := create_tween().set_parallel(true)
-		back.tween_property(fade, "modulate:a", 0.0, 0.3)
+		back.tween_property(passage, "progress", 0.0, 0.3)
+		back.tween_property(terminal, "modulate:a", 1.0, 0.4)
 		back.tween_method(_apply_zoom, 1.0, 0.0, 0.5)
 		await back.finished
 		zooming = false
@@ -429,6 +488,7 @@ func _paint_back(canvas: Control) -> void:
 	canvas.draw_string(font, Vector2(282, 168), "冯·诺依曼瓶颈" if not english else "Von Neumann Bottleneck", HORIZONTAL_ALIGNMENT_LEFT, 230, 26 if not english else 20, Palette.LAB_INK)
 	canvas.draw_string(font, Vector2(283, 196), "A Thought Within the World", HORIZONTAL_ALIGNMENT_LEFT, 230, 13, Palette.LAB_INK_SOFT)
 	canvas.draw_line(Vector2(283, 208), Vector2(470, 208), Palette.with_alpha(Palette.LAB_LINE, 0.6), 1.0)
+	_paint_record_board(canvas, font)
 	_paint_work_frame(canvas, font)
 	# Floor far band.
 	_quad(canvas, [Vector2(250, 560), Vector2(1350, 560), Vector2(1660, 940), Vector2(-60, 940)],
@@ -538,12 +598,11 @@ func _paint_desk(canvas: Control) -> void:
 	# The screen's light reflected on the desk top.
 	var awake_reflection: float = 0.16 if terminal != null and not terminal.asleep() else 0.07
 	canvas.draw_colored_polygon(PackedVector2Array([Vector2(560, 646), Vector2(1040, 646), Vector2(1100, 690), Vector2(500, 690)]), Palette.with_alpha(Palette.ACCENT, awake_reflection))
-	# A closed notebook and a mug: someone works here.
+	# A closed record notebook: someone works here.
+	canvas.draw_colored_polygon(PackedVector2Array([Vector2(1004, 696), Vector2(1082, 690), Vector2(1096, 720), Vector2(1014, 728)]), Palette.with_alpha(Palette.LAB_INK, 0.12))
 	canvas.draw_colored_polygon(PackedVector2Array([Vector2(1000, 690), Vector2(1078, 684), Vector2(1092, 714), Vector2(1010, 722)]), Palette.with_alpha(Palette.LAB_INK, 0.75))
 	canvas.draw_line(Vector2(1006, 702), Vector2(1084, 696), Palette.with_alpha(Palette.LAB_LIGHT, 0.35), 1.0)
-	_rounded(canvas, Rect2(1180, 682, 26, 30), Palette.LAB_LIGHT, 5)
-	canvas.draw_arc(Vector2(1209, 696), 7.0, -PI / 2.0, PI / 2.0, 12, Palette.LAB_TRIM, 3.0)
-	canvas.draw_line(Vector2(1180, 688), Vector2(1206, 688), Palette.with_alpha(Palette.LAB_INK_SOFT, 0.4), 1.0)
+	_paint_tray(canvas)
 	# Desk lamp: the "first light" responds to the first real completion.
 	_paint_lamp(canvas)
 	# Small plant: someone looks after this room.
@@ -555,6 +614,8 @@ func _paint_desk(canvas: Control) -> void:
 		canvas.draw_colored_polygon(PackedVector2Array([center + direction * 26.0, center + normal, center - direction * 14.0 + Vector2(0, 20), center - normal]), Palette.LAB_PLANT)
 	# Terminal: body, stand, keyboard.
 	_paint_screen_glow(canvas)
+	canvas.draw_colored_polygon(PackedVector2Array([Vector2(700, 662), Vector2(900, 662), Vector2(930, 680), Vector2(670, 680)]), Palette.DESK_SHADOW)
+	canvas.draw_colored_polygon(PackedVector2Array([Vector2(626, 708), Vector2(976, 708), Vector2(996, 722), Vector2(606, 722)]), Palette.DESK_SHADOW)
 	_quad(canvas, [Vector2(774, 630), Vector2(826, 630), Vector2(838, 656), Vector2(762, 656)], [Palette.TERM_BODY])
 	canvas.draw_colored_polygon(PackedVector2Array([Vector2(728, 656), Vector2(872, 656), Vector2(886, 668), Vector2(714, 668)]), Palette.TERM_BEZEL)
 	_rounded(canvas, MONITOR_RECT.grow(2), Palette.TERM_EDGE, 20)
@@ -564,6 +625,9 @@ func _paint_desk(canvas: Control) -> void:
 	if terminal != null and terminal.asleep(): wake_glow = 0.10 + 0.08 * sin(time * 2.2)
 	_rounded(canvas, SCREEN_RECT, Palette.TERM_SCREEN.lerp(Palette.ACCENT_DEEP, wake_glow + (0.08 if hover_terminal else 0.0)), 9)
 	canvas.draw_circle(Vector2(MONITOR_RECT.get_center().x, MONITOR_RECT.end.y - 9), 2.5, Palette.with_alpha(Palette.ACCENT, 0.6 if terminal != null and not terminal.asleep() else 0.25))
+	# A soft top highlight: the monitor is a physical object in daylight.
+	canvas.draw_line(MONITOR_RECT.position + Vector2(22, 1), Vector2(MONITOR_RECT.end.x - 22, MONITOR_RECT.position.y + 1), Palette.with_alpha(Palette.LAB_LIGHT, 0.22), 1.5)
+	_paint_status_screen(canvas)
 	_quad(canvas, [Vector2(648, 676), Vector2(952, 676), Vector2(980, 712), Vector2(620, 712)], [Palette.TERM_BODY])
 	for row: int in 3:
 		var y: float = 683.0 + row * 9.0
@@ -684,3 +748,89 @@ func _paint_rack(canvas: Control) -> void:
 		canvas.draw_circle(point, 3.2, Palette.ACCENT if lit else Palette.with_alpha(Palette.LAB_INK_SOFT, 0.35))
 		if lit: canvas.draw_circle(point, 7.0, Palette.with_alpha(Palette.ACCENT, 0.18))
 	canvas.draw_line(_right_wall(0.24, 0.93), _right_wall(0.64, 0.93), Palette.with_alpha(Palette.LAB_INK_SOFT, 0.35), 1.0)
+
+
+func _paint_record_board(canvas: Control, font: Font) -> void:
+	# Frosted glass on four stand-offs; marker lines are inked by real progress.
+	var rect: Rect2 = BOARD_RECT
+	canvas.draw_rect(Rect2(rect.position + Vector2(6, 8), rect.size), Palette.with_alpha(Palette.LAB_INK, 0.05))
+	_rounded(canvas, rect, Palette.with_alpha(Palette.LAB_LIGHT, 0.55), 6)
+	canvas.draw_colored_polygon(PackedVector2Array([rect.position + Vector2(18, 0), rect.position + Vector2(70, 0), rect.position + Vector2(18, 70), rect.position + Vector2(0, 70), rect.position + Vector2(0, 18)]), Palette.with_alpha(Palette.LAB_LIGHT, 0.45))
+	var outline := StyleBoxFlat.new()
+	outline.draw_center = false; outline.set_border_width_all(1); outline.set_corner_radius_all(6)
+	outline.border_color = Palette.with_alpha(Palette.LAB_TRIM, 0.9); outline.anti_aliasing = true
+	canvas.draw_style_box(outline, rect)
+	for corner: Vector2 in [rect.position + Vector2(10, 10), Vector2(rect.end.x - 10, rect.position.y + 10), Vector2(rect.position.x + 10, rect.end.y - 10), rect.end - Vector2(10, 10)]:
+		canvas.draw_circle(corner, 3.5, Palette.LAB_TRIM)
+		canvas.draw_circle(corner, 1.5, Palette.LAB_LIGHT)
+	# A slight tilt, as if written by hand on the glass.
+	canvas.draw_set_transform(rect.position + Vector2(20, 34), -0.02, Vector2.ONE)
+	canvas.draw_string(font, Vector2.ZERO, "学习程序 · 守则" if not english else "Learning program · rules", HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 40, 13, Palette.with_alpha(Palette.LAB_MARKER, 0.85))
+	canvas.draw_line(Vector2(0, 8), Vector2(118, 7), Palette.with_alpha(Palette.LAB_MARKER, 0.5), 1.2)
+	for index: int in RECORD_LINES.size():
+		var line: Dictionary = RECORD_LINES[index]
+		var reached: bool = str(line.requires) in completed_keys
+		var y: float = 30.0 + index * 40.0
+		var ink: Color = Palette.with_alpha(Palette.LAB_MARKER, 0.95 if reached else 0.22)
+		canvas.draw_string(font, Vector2(0, y), "%d" % (index + 1), HORIZONTAL_ALIGNMENT_LEFT, 16, 14, ink)
+		canvas.draw_multiline_string(font, Vector2(16, y), str(line.en if english else line.zh), HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 50, 12 if english else 13, 2, ink)
+	# A tiny sketch of the first lesson: A → NOT → lamp.
+	var sketch_y: float = 150.0
+	var marker: Color = Palette.with_alpha(Palette.LAB_MARKER, 0.6)
+	canvas.draw_string(font, Vector2(0, sketch_y + 5), "A", HORIZONTAL_ALIGNMENT_LEFT, 14, 12, marker)
+	canvas.draw_line(Vector2(12, sketch_y), Vector2(40, sketch_y), marker, 1.2)
+	canvas.draw_polyline(PackedVector2Array([Vector2(40, sketch_y - 8), Vector2(56, sketch_y), Vector2(40, sketch_y + 8), Vector2(40, sketch_y - 8)]), marker, 1.2)
+	canvas.draw_arc(Vector2(59, sketch_y), 3.0, 0.0, TAU, 12, marker, 1.2)
+	canvas.draw_line(Vector2(62, sketch_y), Vector2(96, sketch_y), marker, 1.2)
+	canvas.draw_arc(Vector2(104, sketch_y), 7.0, 0.0, TAU, 16, marker, 1.2)
+	if "hardware_foundations/tutorial" in completed_keys:
+		canvas.draw_circle(Vector2(104, sketch_y), 4.0, Palette.with_alpha(Palette.SIGNAL_ON, 0.9))
+	canvas.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+func _paint_status_screen(canvas: Control) -> void:
+	# An arm-mounted status display beside the terminal: what comes next.
+	var rect: Rect2 = STATUS_RECT
+	canvas.draw_line(Vector2(MONITOR_RECT.end.x - 2, rect.get_center().y + 6), Vector2(rect.position.x + 4, rect.get_center().y + 6), Palette.TERM_BEZEL, 6.0)
+	_rounded(canvas, rect.grow(5), Palette.TERM_BODY, 9)
+	_rounded(canvas, rect, Palette.TERM_SCREEN, 5)
+	var font: Font = get_theme_default_font()
+	var inner: Rect2 = rect.grow(-10)
+	var awake: bool = terminal != null and not terminal.asleep()
+	var dim: float = 1.0 if awake else 0.6
+	var show_chapter: bool = not status_chapter.is_empty() and not status_next.begins_with(status_chapter)
+	canvas.draw_string(font, inner.position + Vector2(0, 12), ("下一项" if not english else "Next") + ("  ·  " + status_chapter if show_chapter else ""), HORIZONTAL_ALIGNMENT_LEFT, inner.size.x, 11, Palette.with_alpha(Palette.TERM_MUTED, dim))
+	var next_text: String = status_next if not status_next.is_empty() else ("旅程已全部完成" if not english else "Journey complete")
+	canvas.draw_multiline_string(font, inner.position + Vector2(0, 32), next_text, HORIZONTAL_ALIGNMENT_LEFT, inner.size.x, 12, 2, Palette.with_alpha(Palette.TERM_TEXT, dim))
+	var done: int = completed_keys.size()
+	var total: int = 0
+	for station: Dictionary in station_progress: total += int(station.total)
+	var bar := Rect2(inner.position.x, inner.end.y - 6, inner.size.x, 3)
+	canvas.draw_rect(bar, Palette.with_alpha(Palette.TERM_EDGE, 0.9))
+	if total > 0:
+		canvas.draw_rect(Rect2(bar.position, Vector2(bar.size.x * float(done) / float(total), bar.size.y)), Palette.with_alpha(Palette.ACCENT, dim))
+	canvas.draw_string(font, Vector2(inner.position.x, inner.end.y - 12), "%d / %d" % [done, total], HORIZONTAL_ALIGNMENT_RIGHT, inner.size.x, 10, Palette.with_alpha(Palette.TERM_MUTED, dim))
+
+
+func _paint_tray(canvas: Control) -> void:
+	# A shallow tray of the parts the player has built in the prologue.
+	var left := Vector2(462, 702)
+	var width: float = 150.0
+	canvas.draw_colored_polygon(PackedVector2Array([left + Vector2(4, 4), left + Vector2(width + 10, 4), left + Vector2(width + 16, 30), left + Vector2(-2, 30)]), Palette.DESK_SHADOW)
+	canvas.draw_colored_polygon(PackedVector2Array([left, left + Vector2(width, 0), left + Vector2(width + 8, 24), left + Vector2(-6, 24)]), Palette.DESK_EDGE)
+	canvas.draw_colored_polygon(PackedVector2Array([left + Vector2(3, 3), left + Vector2(width - 3, 3), left + Vector2(width + 3, 21), left + Vector2(-1, 21)]), Palette.LAB_SIDE)
+	var font: Font = get_theme_default_font()
+	for index: int in TRAY_PARTS.size():
+		var part: Array = TRAY_PARTS[index]
+		var earned: bool = str(part[0]) in completed_keys
+		var cell := Rect2(left + Vector2(6 + index * 17.6, 6), Vector2(14, 13))
+		if earned:
+			_rounded(canvas, cell, Palette.TERM_BODY, 2)
+			for pin: int in 3:
+				canvas.draw_rect(Rect2(cell.position + Vector2(2 + pin * 4, cell.size.y - 2), Vector2(2, 2)), Palette.ACCENT)
+			canvas.draw_string(font, cell.position + Vector2(0, 9), str(part[1]), HORIZONTAL_ALIGNMENT_CENTER, cell.size.x, 6, Palette.with_alpha(Palette.TERM_TEXT, 0.85))
+		else:
+			var slot := StyleBoxFlat.new()
+			slot.draw_center = false; slot.set_border_width_all(1); slot.set_corner_radius_all(2)
+			slot.border_color = Palette.with_alpha(Palette.LAB_INK_SOFT, 0.35)
+			canvas.draw_style_box(slot, cell)

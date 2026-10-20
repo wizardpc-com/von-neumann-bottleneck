@@ -117,6 +117,8 @@ func node_text_layout(task: Dictionary) -> Dictionary:
 	if magnification<0.34: return {}
 	var compact: bool = magnification<0.62
 	var names: Array = SHORT_TITLES.get(task.id,[task.title,task.title])
+	var number: String = str(task.get("number", ""))
+	if not number.is_empty(): names = [number + " " + str(names[0]), number + " " + str(names[1])]
 	var title: String = names[0 if Localization.current_locale().begins_with("zh") else 1] if compact else task.title
 	var font_size: int = 14 if compact else maxi(16,roundi(18*magnification))
 	var inset: float = maxf(7,12*magnification)
@@ -296,3 +298,4 @@ func _report_exposure() -> void:
 
 
 func _color(region: int) -> Color: return COLORS[posmod(region,COLORS.size())]
+

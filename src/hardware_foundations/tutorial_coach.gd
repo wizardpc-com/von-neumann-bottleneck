@@ -6,6 +6,7 @@ extends PanelContainer
 signal briefing_requested
 
 const Palette = preload("res://src/lab/lab_palette.gd")
+const Typewriter = preload("res://src/ui/yi_typewriter.gd")
 const STEPS := [
 	{"id": "wire", "zh_title": "接线", "en_title": "Wire",
 		"zh": "从输入 A 右侧的圆点按住拖到 NOT 左侧的圆点，再从 NOT 右侧拖到灯。",
@@ -48,7 +49,11 @@ var english: bool = false
 var step_label: Label
 var instruction: Label
 var dots: Array[ColorRect] = []
-var praise: Label
+## Yi's short reply when a real step completes. The step number and the
+## instruction stay instantly readable; only Yi's words are typed out.
+var praise: Typewriter
+var praise_row: HBoxContainer
+var praise_tween: Tween
 var last_states: Array[bool] = []
 
 func _ready() -> void:
@@ -88,10 +93,16 @@ func _ready() -> void:
 	instruction.add_theme_font_size_override("font_size", 18)
 	instruction.add_theme_constant_override("line_spacing", 4)
 	column.add_child(instruction)
-	praise = Label.new(); praise.name = "CoachPraise"
-	praise.add_theme_color_override("font_color", Palette.GOOD); praise.add_theme_font_size_override("font_size", 15)
-	praise.modulate.a = 0.0
-	column.add_child(praise)
+	praise_row = HBoxContainer.new(); praise_row.add_theme_constant_override("separation", 8)
+	praise_row.modulate.a = 0.0
+	column.add_child(praise_row)
+	var tick := Label.new(); tick.text = "✓"
+	tick.add_theme_color_override("font_color", Palette.GOOD); tick.add_theme_font_size_override("font_size", 15)
+	praise_row.add_child(tick)
+	praise = Typewriter.new(); praise.name = "CoachPraise"
+	praise.font_size = 15; praise.font_color = Color("bfe3e6")
+	praise.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	praise_row.add_child(praise)
 
 func set_english(value: bool) -> void:
 	english = value
@@ -131,11 +142,13 @@ func update_states(states: Array[bool]) -> void:
 	# Shrink to the new text; width is held by custom_minimum_size.
 	call_deferred("reset_size")
 	if newly >= 0:
-		praise.text = "✓  " + str(praise_en[newly] if english else praise_zh[newly])
-		var tween := create_tween()
-		praise.modulate.a = 1.0
-		tween.tween_interval(2.2)
-		tween.tween_property(praise, "modulate:a", 0.0, 0.6)
+		praise.play(str(praise_en[newly] if english else praise_zh[newly]), true)
+		if praise_tween != null: praise_tween.kill()
+		praise_tween = create_tween()
+		praise_row.modulate.a = 1.0
+		praise_tween.tween_interval(2.6)
+		praise_tween.tween_property(praise_row, "modulate:a", 0.0, 0.6)
+		praise_tween.tween_callback(praise.stop)
 		var flash := create_tween()
 		flash.tween_property(self, "modulate", Color(1.15, 1.25, 1.2), 0.12)
 		flash.tween_property(self, "modulate", Color.WHITE, 0.4)

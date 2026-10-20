@@ -228,6 +228,17 @@ func make_button() -> Button:
 	return button
 
 
+## Workbench entry: ordinary players reach feedback from the completion card,
+## Settings or F8, so the workbench shows no standing Feedback button. Offline
+## tester builds keep it visible (otherwise their floating fallback toolbar
+## would cover the workbench's bottom controls).
+func make_workbench_button() -> Button:
+	var button: Button = make_button()
+	var offline: Node = get_node_or_null("/root/OfflineFeedback")
+	button.visible = offline != null and bool(offline.enabled())
+	return button
+
+
 func toggle() -> void:
 	if OfflineFeedback.enabled(): OfflineFeedback.open_panel(); return
 	if panel.visible: close(); return

@@ -4,6 +4,9 @@ extends Button
 
 func _ready() -> void:
 	name = "FullscreenButton"
+	# Fullscreen lives in Settings (and F11 / Alt+Enter); workbench headers keep
+	# only this node's companion Settings button (team UI brief 2026-10-20 §3).
+	visible = false
 	custom_minimum_size = Vector2(92.0, 38.0)
 	add_theme_font_size_override("font_size", UiTypography.CAPTION_SIZE)
 	tooltip_text = Localization.text(&"window.fullscreen.tooltip.mac" if OS.get_name()=="macOS" else &"window.fullscreen.tooltip")

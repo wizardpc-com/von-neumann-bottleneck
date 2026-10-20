@@ -222,6 +222,7 @@ var pending_hint_player_view: Dictionary = {}
 var viewed_hint_levels: Dictionary[String, int] = {}
 var pending_hint_level: int = 0
 var hint_confirmation: Control
+var yi_help_card: PanelContainer
 var hint_confirmation_text: Label
 var hint_confirm_button: Button
 var hint_cancel_button: Button
@@ -875,7 +876,9 @@ var tutorial_coach: Control
 var tutorial_focus_applied: bool = false
 var guided_debug_ran: bool = false
 var guided_timer: Timer
-const GUIDED_LEVELS: Array[StringName] = [&"half_adder", &"full_adder", &"latch", &"register"]
+# Every wiring level before the staged CPU uses the short build → try → test card;
+# CPU and LOAD/STORE keep their own staged briefing.
+const GUIDED_LEVELS: Array[StringName] = [&"half_adder", &"full_adder", &"latch", &"register", &"alu", &"ram", &"selector", &"selector4", &"parity", &"delay", &"alarm"]
 
 # First-lesson focus: until the tutorial is earned, the canvas shows only the
 # circuit, a step coach and the test bench. All tools return afterwards.
@@ -1026,7 +1029,7 @@ func _build_interface() -> void:
 	diagnostics_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	diagnostics_label.add_theme_color_override("font_color", MUTED)
 	footer.add_child(diagnostics_label)
-	footer.add_child(PlaytestMoments.make_button())
+	footer.add_child(PlaytestMoments.make_workbench_button())
 	for data: Array in [
 		[&"task", &"hardware.window.mission"],
 		[&"test_bench", &"device.test_bench"],
@@ -1882,9 +1885,7 @@ func _build_header() -> Control:
 	phase_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	phase_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	phase_label.tooltip_text = _t(&"hardware.title") + "\n" + _t(&"hardware.subtitle")
-	phase_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	phase_label.add_theme_color_override("font_color", PURPLE)
-	phase_label.add_theme_font_size_override("font_size", 18)
+	preload("res://src/ui/workbench_chrome.gd").title(phase_label)
 	row.add_child(phase_label)
 	hint_button = Button.new()
 	hint_button.name = "HintButton"
@@ -1982,7 +1983,7 @@ func _build_toolbar() -> Control:
 	pause_button.pressed.connect(_toggle_playback)
 	playback_row.add_child(pause_button)
 	trace_step_button = Button.new()
-	trace_step_button.text = _t(&"common.step")
+	trace_step_button.text = _t(&"common.step") + " · F5"
 	trace_step_button.pressed.connect(_step_playback)
 	playback_row.add_child(trace_step_button)
 	var playback_frequency := HBoxContainer.new()
@@ -2522,6 +2523,8 @@ func _refresh_hint_controls() -> void:
 		and not current_level_id.is_empty()
 	)
 	hint_button.visible = in_player_level or hint_mode
+	if not in_player_level and yi_help_card != null and yi_help_card.visible:
+		yi_help_card.close()
 	mission_summary_button.visible = in_player_level
 	var summary_key := StringName("hardware.goal.%s" % String(current_level_id))
 	var summary: String = _t(summary_key)
@@ -2568,7 +2571,34 @@ func _on_hint_button_pressed() -> void:
 		if hint_level < 3:
 			_request_next_hint()
 		return
-	_enter_hint_workbench()
+	_open_yi_help()
+
+
+## Asking for help first opens Yi's small, non-modal card with the level's
+## first-tier direction. "More" enters the existing read-only hint canvas,
+## which keeps its own tiers and confirmations; the player's board is untouched.
+func _open_yi_help() -> void:
+	if hint_button == null or not hint_button.visible or hint_button.disabled: return
+	if yi_help_card == null:
+		yi_help_card = preload("res://src/ui/yi_help_card.gd").new()
+		yi_help_card.english = Localization.current_locale() == "en"
+		yi_help_card.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+		yi_help_card.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		yi_help_card.offset_right = -16.0; yi_help_card.offset_top = 14.0
+		graph_stack.add_child(yi_help_card)
+		yi_help_card.option_selected.connect(_on_yi_help_option)
+	yi_help_card.present(_t(_hint_text_key(current_level_id, 1)), [
+		{"id": "more", "zh": "再具体一些", "en": "More specific"},
+		{"id": "self", "zh": "我自己试试", "en": "I'll try myself"},
+	])
+
+
+func _on_yi_help_option(id: StringName) -> void:
+	if id == &"more":
+		yi_help_card.close()
+		_enter_hint_workbench()
+	elif id == &"self":
+		yi_help_card.say_and_close(_t(&"hardware.yi_help.self"))
 
 
 func _enter_hint_workbench() -> void:
@@ -2860,7 +2890,7 @@ func _show_tutorial(show_briefing: bool = true) -> void:
 	terminology_handbook.set_lesson("hardware",String(current_level_id))
 	PlaytestData.level_started(&"hardware_foundations", current_level_id)
 	current_level_definition.clear()
-	phase_label.text = _t(&"hardware.phase.tutorial")
+	phase_label.text = _journey_header(&"tutorial", _t(&"hardware.phase.tutorial"))
 	official_passed = false
 	passing_topology_signature = ""
 	_build_tutorial_circuit()
@@ -2896,7 +2926,7 @@ func _start_challenge(show_briefing: bool = true) -> void:
 	terminology_handbook.set_lesson("hardware",String(current_level_id))
 	PlaytestData.level_started(&"hardware_foundations", current_level_id)
 	current_level_definition.clear()
-	phase_label.text = _t(&"hardware.phase.half_adder")
+	phase_label.text = _journey_header(&"half_adder", _t(&"hardware.phase.half_adder"))
 	official_passed = false
 	passing_topology_signature = ""
 	official_report = {}
@@ -4541,6 +4571,10 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 		_set_active_wire_color(int(key_event.keycode - KEY_1))
 		return true
 	match key_event.keycode:
+		KEY_F1:
+			if hint_mode or key_event.echo: return false
+			_open_yi_help()
+			return true
 		KEY_F4:
 			_reset_current_simulation()
 			return true
@@ -6900,6 +6934,12 @@ func _campaign_level_description(level_id: StringName) -> String:
 	return _t(&"hardware.prologue.map.generic_description")
 
 
+## Header title in the journey-wide scheme (序章·…), falling back to the catalog title.
+func _journey_header(level_id: StringName, fallback: String) -> String:
+	var label: String = preload("res://src/campaign/journey_naming.gd").label_for("hardware_foundations/" + String(level_id))
+	return fallback if label.is_empty() else label
+
+
 func _level_display_name(level_id: StringName) -> String:
 	return _t(level_catalog.title_key(level_id))
 
@@ -6980,7 +7020,7 @@ func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> 
 	cpu_stage_button = null
 	sealing_level_id = &""
 	pending_sealed_circuit = null
-	phase_label.text = _t(StringName(level["title_key"]))
+	phase_label.text = _journey_header(level_id, _t(StringName(level["title_key"])))
 	_load_prologue_inventory(level)
 	var locked_topology: bool = bool(level.get("locked_topology", false))
 	_prepare_level_workbench(level.get("reference_wires", []), locked_topology)

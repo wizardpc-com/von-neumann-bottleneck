@@ -53,15 +53,22 @@ func _ready() -> void:
 	title = _label(_l("第四章 · 各就其位","Chapter 4 · A Place for Everything"))
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_size_override("font_size",25)
-	header.add_child(title)
-	_button(header,_l("任务树","Task tree"),_leave)
+	var title_box := VBoxContainer.new(); title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_box.add_theme_constant_override("separation", 0)
+	header.add_child(title_box)
+	var chapter_label := _label(_l("第四章 · 各就其位","Chapter 4 · A Place for Everything"))
+	preload("res://src/ui/workbench_chrome.gd").title(chapter_label)
+	title_box.add_child(chapter_label)
+	title_box.add_child(title)
+	preload("res://src/ui/workbench_chrome.gd").subtitle(title)
+	_button(header,_l("旅程地图","Journey map"),_leave)
+	_button(header,_l("实验室","Laboratory"),_leave_to_lab)
 	core_review_button = _button(header,_l("回看路径成果","Review this path"),_open_core_review)
 	core_review_button.name = "LayoutCoreReview"
 	core_review_button.hide()
-	_button(header,_l("全屏","Fullscreen"),WindowMode.toggle_fullscreen)
+	header.add_child(PlaytestMoments.make_workbench_button())
 	header.add_child(WindowMode.settings_button())
-	header.add_child(PlaytestMoments.make_button())
+	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	var dock := HFlowContainer.new()
 	root.add_child(dock)
 	for entry: Array in [["tools","布局工具","Layout tools"],["mission","任务","Mission"],["memory","内存","Memory"],["trace","运行记录","Trace"],["manual","图解规则","Illustrated rules"]]:
@@ -69,7 +76,7 @@ func _ready() -> void:
 	_button(dock,_l("运行全部订单","Run all cases"),_run_all)
 	_button(dock,_l("撤销","Undo"),_undo.bind(false))
 	_button(dock,_l("重做","Redo"),_undo.bind(true))
-	_button(dock,"Hint",_hint_request)
+	_button(dock,_l("提示","Hint"),_hint_request)
 	status = _label(_l("拖动字段组合布局；运行后查看真实地址与搬运记录。","Group fields, run, and inspect real addresses and transfers."))
 	root.add_child(status)
 	workspace = Control.new()
@@ -107,6 +114,8 @@ func _open(id: String) -> void:
 	design = LayoutChapter.drafts().get(id,C.starter_design()).duplicate(true)
 	if id == "relocation" and not design.has("orders"): design.orders = {"A":C.starter_design(),"B":C.starter_design()}
 	title.text = "4-%d · %s" % [C.IDS.find(id)+1,C.title(id)]
+	var journey_label: String = preload("res://src/campaign/journey_naming.gd").label_for("chapter_4/" + id)
+	if not journey_label.is_empty(): title.text = journey_label
 	tools_box = _box(_panel("tools",Localization.text(&"layout.tools.window_title"),Vector2(10,10),Vector2(375,590)))
 	var memory_box: VBoxContainer = _box(_panel("memory",_l("地址视图","Address view"),Vector2(405,10),Vector2(575,600)))
 	var memory_tabs := HBoxContainer.new(); memory_box.add_child(memory_tabs)
@@ -538,6 +547,11 @@ func _leave() -> void:
 		LayoutChapter.store_draft(level,design)
 		PlaytestData.level_exited(&"chapter_4",StringName(level))
 	get_tree().call_deferred("change_scene_to_file","res://src/campaign/task_tree.tscn")
+func _leave_to_lab() -> void:
+	if not level.is_empty():
+		LayoutChapter.store_draft(level,design)
+		PlaytestData.level_exited(&"chapter_4",StringName(level))
+	get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	if event.keycode == KEY_ESCAPE and is_instance_valid(hint_layer) and hint_layer.visible: hint_layer.hide(); get_viewport().set_input_as_handled(); return

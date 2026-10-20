@@ -67,10 +67,10 @@ msgid "window.restore.tooltip"
 msgstr "Restore this window"
 
 msgid "window.fullscreen.enter"
-msgstr "Fullscreen"
+msgstr "Fullscreen · F11"
 
 msgid "window.fullscreen.exit"
-msgstr "Exit fullscreen"
+msgstr "Exit fullscreen · F11"
 
 msgid "window.fullscreen.tooltip"
 msgstr "Toggle fullscreen (F11 or Alt+Enter)"
@@ -106,7 +106,7 @@ msgid "hub.save.new_game.error"
 msgstr "The New Game reset could not be completed: %s"
 
 msgid "hub.options.title"
-msgstr "OPTIONS"
+msgstr "Settings"
 
 msgid "hub.options.hint"
 msgstr "Press Esc to return to chapter selection"
@@ -1027,7 +1027,7 @@ msgid "hardware.toolbar.cancel_cable.tooltip"
 msgstr "Cancel the cable, selection box, or component currently following the pointer."
 
 msgid "hardware.toolbar.level_map"
-msgstr "Level Map"
+msgstr "Chapter map"
 
 msgid "hardware.toolbar.level_map.tooltip"
 msgstr "Open the Hardware Prologue map to review completed, unlocked, and prerequisite-gated levels."
@@ -1096,7 +1096,7 @@ msgid "hardware.practice.heading_subtitle"
 msgstr "External controls · not player hardware"
 
 msgid "hardware.practice.run"
-msgstr "Run Practice Circuit"
+msgstr "Run Practice Circuit · F6"
 
 msgid "hardware.practice.lamp_empty"
 msgstr "Lamp: —"
@@ -1159,7 +1159,7 @@ msgid "hardware.cases.truth_table_definition"
 msgstr "A [[truth_table|truth table]] lists every input and correct output. This test runs 00, 01, 10, and 11 one at a time."
 
 msgid "hardware.cases.run_debug"
-msgstr "Run This Debug Case"
+msgstr "Run This Debug Case · F6"
 
 msgid "hardware.cases.actual_empty"
 msgstr "Actual: SUM —  CARRY —"
@@ -1201,7 +1201,7 @@ msgid "hardware.sealed.bench_subtitle"
 msgstr "Runs the sealed circuit snapshot"
 
 msgid "hardware.sealed.run_debug"
-msgstr "Run Encapsulated Component"
+msgstr "Run Encapsulated Component · F6"
 
 msgid "hardware.sealed.result_empty"
 msgstr "HalfAdder: SUM —  CARRY —"
@@ -1549,7 +1549,7 @@ msgid "hardware.prologue.open_map.tooltip"
 msgstr "Carry the sealed HalfAdder into the later CPU / arithmetic construction path."
 
 msgid "hardware.prologue.map.phase"
-msgstr "Hardware Foundations · Prologue Map"
+msgstr "Prologue · A Machine Takes Shape · Level map"
 
 msgid "hardware.prologue.map.title"
 msgstr "From Gates to a Computer"
@@ -1956,10 +1956,10 @@ msgid "hardware.workbench.error.generic"
 msgstr "Could not create the workbench."
 
 msgid "hardware.hint.button"
-msgstr "Hint"
+msgstr "Hint · F1"
 
 msgid "hardware.hint.button.tooltip"
-msgstr "Open the separate read-only canvas at the last viewed level; your design stays unchanged."
+msgstr "Ask Yi (F1): one line of direction first; open the read-only hint canvas only if you want more. Your design stays unchanged."
 
 msgid "hardware.hint.return"
 msgstr "Return to my design"
@@ -2088,13 +2088,13 @@ msgid "hardware.hint.load_store.3"
 msgstr "The complete reference also connects ACC and MEM outputs; this topology is fixed, so focus on reading state changes."
 
 msgid "system.chapter.title"
-msgstr "Chapter 1: Where Time Goes"
+msgstr "Chapter 1 · Where Time Goes"
 
 msgid "system.chapter.subtitle"
 msgstr "The machine works. Where does its time go?"
 
 msgid "system.action.map"
-msgstr "CHAPTER MAP"
+msgstr "Chapter map"
 
 msgid "system.action.auto_wire"
 msgstr "STANDARD WIRING"
@@ -2799,7 +2799,7 @@ msgid "common.level_complete.continue"
 msgstr "Continue to level select"
 
 msgid "hardware.completion.chapter"
-msgstr "Hardware Foundations · Prologue"
+msgstr "Prologue · A Machine Takes Shape"
 
 msgid "hardware.completion.summary.tutorial"
 msgstr "The circuit is connected, tested and ready to change. Both 0 and 1 are normal signals. Change the input and follow the result."
@@ -2985,7 +2985,7 @@ msgid "chapter2.status.capstone_complete"
 msgstr "Target met. Finish the chapter now, or keep optimizing cycles and cost."
 
 msgid "chapter2.map.open"
-msgstr "MAP"
+msgstr "Chapter map"
 
 msgid "chapter2.map.return"
 msgstr "RETURN TO MAP"
@@ -5215,10 +5215,10 @@ msgid "exploration.delay.accept"
 msgstr "Accept DATA=%s · OUT takes the previous value"
 
 msgid "overlap.title"
-msgstr "Chapter 3: In the Meantime"
+msgstr "Chapter 3 · In the Meantime"
 
 msgid "overlap.map"
-msgstr "Level tree"
+msgstr "Journey map"
 
 msgid "overlap.hub"
 msgstr "Chapters"
@@ -5350,7 +5350,7 @@ msgid "overlap.synthesis.body"
 msgstr "Choose buffers or Cache and build the interior and schedule. Both routes can succeed; you need not use every tool.\n\nProcess each batch exactly once in order, then check both public workloads. In the second, transfers are slow and compute is fast. Would extra storage make the transfer engine faster?\n\nExplain and improve the bottleneck rather than forcing wait time to zero."
 
 msgid "overlap.edit_help"
-msgstr "Drag parts, connect, delete; Cmd/Ctrl-Z undoes. Command specs are in the handbook."
+msgstr "Drag parts, connect, delete; Ctrl+Z (Cmd+Z on Mac) undoes. Command specs are in the handbook."
 
 msgid "overlap.stale"
 msgstr "Design changed · rerun; the previous timeline is only a comparison."
@@ -5431,7 +5431,7 @@ msgid "overlap.too_slow"
 msgstr "Correct output; time target not met. Inspect both resource lanes."
 
 msgid "overlap.passed"
-msgstr "Passed · keep editing or explore the next branch on the map."
+msgstr "Passed · keep editing, or return to the journey map for the next task."
 
 msgid "overlap.try_again"
 msgstr "Not passed yet · the timeline records the failure and its moment."
@@ -6449,25 +6449,25 @@ msgid "records.board.local_note"
 msgstr "Progress is saved on this device. Return to the task tree to choose your next challenge."
 
 msgid "settings.interface"
-msgstr "Language"
+msgstr "Language and text"
 
 msgid "settings.display"
 msgstr "Display"
 
 msgid "settings.audio"
-msgstr "Audio"
+msgstr "Sound"
 
 msgid "settings.sound"
 msgstr "Play sound effects"
 
 msgid "settings.privacy"
-msgstr "Data and privacy"
+msgstr "Feedback and privacy"
 
 msgid "settings.privacy_hint"
 msgstr "Local by default. Statistics, written feedback and scores have separate sharing controls."
 
 msgid "settings.support"
-msgstr "Support"
+msgstr "Support and diagnostics"
 
 msgid "settings.diagnostics"
 msgstr "Export diagnostics"
@@ -6951,3 +6951,33 @@ msgstr "These are model logic steps, not elapsed time or physical cycles."
 
 msgid "terminology.latch.unavailable"
 msgstr "This rule example is unavailable; the task and handbook text remain usable."
+
+msgid "hardware.yi_help.self"
+msgstr "Okay. I'm here when you need me."
+
+msgid "settings.yi_text_speed"
+msgstr "How fast Yi's words appear; reread passages and reduced motion show the full text."
+
+msgid "settings.yi_text_speed.slow"
+msgstr "Slow"
+
+msgid "settings.yi_text_speed.standard"
+msgstr "Standard"
+
+msgid "settings.yi_text_speed.fast"
+msgstr "Fast"
+
+msgid "settings.yi_text_speed.instant"
+msgstr "Instant"
+
+msgid "settings.subtitle"
+msgstr "F10 opens anytime · Esc closes · changes apply at once and never touch progress or saves"
+
+msgid "settings.language_label"
+msgstr "Interface language"
+
+msgid "settings.yi_text_speed.label"
+msgstr "Yi's text speed"
+
+msgid "settings.frame_label"
+msgstr "Frame rate"

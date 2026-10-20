@@ -119,6 +119,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_close_options_menu()
 	elif navigation_overlay != null and navigation_overlay.visible:
 		_close_hub_navigation()
+	elif laboratory != null and laboratory.visible:
+		# The laboratory is the final page: Esc asks about quitting on its terminal.
+		laboratory.escape()
 	else:
 		_open_options_menu()
 	get_viewport().set_input_as_handled()
@@ -547,6 +550,7 @@ func _build_options_menu() -> void:
 	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(PANEL,ACCENT,8)); options_overlay.add_child(panel)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",14); panel.add_child(column)
 	_settings_label(column,"hub.options.title",28)
+	_settings_label(column,"settings.subtitle",14)
 	if not settings_only:
 		var manage := _options_button("成果与存档 · 回顾 / 手册 / 重开核心" if Localization.current_locale() != "en" else "Achievements and saves · Reviews / Handbook / Restart core")
 		manage.name = "HubManageProgress"; manage.pressed.connect(_open_hub_navigation); column.add_child(manage)
@@ -556,74 +560,84 @@ func _build_options_menu() -> void:
 	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL; column.add_child(scroll)
 	var body := VBoxContainer.new(); body.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	body.add_theme_constant_override("separation",12); scroll.add_child(body)
-	_settings_label(body,"settings.interface",23)
+	var section: VBoxContainer = null
+	section = _settings_card(body,"settings.interface")
 	var language := OptionButton.new(); language.name="LanguageChoice"
 	language.add_item("简体中文"); language.add_item("English")
 	language.select(0 if Localization.current_locale()=="zh_CN" else 1)
 	language.item_selected.connect(func(index: int) -> void:
 		if Localization.set_preferred_locale(["zh_CN","en"][index]): call_deferred("_reload_settings_locale"))
-	body.add_child(language)
-	_settings_label(body,"settings.display",23)
+	_settings_row(section,"settings.language_label",language)
+	var speed_choice := OptionButton.new(); speed_choice.name="YiTextSpeed"
+	var speeds: Array[String] = ["slow","standard","fast","instant"]
+	for key: String in speeds: speed_choice.add_item(Localization.text(StringName("settings.yi_text_speed."+key)))
+	speed_choice.select(maxi(0,speeds.find(str(ProjectSettings.get_setting("game/yi_text_speed","standard")))))
+	speed_choice.tooltip_text=Localization.text(&"settings.yi_text_speed")
+	speed_choice.item_selected.connect(func(index: int) -> void: WindowMode.set_yi_text_speed(speeds[index]))
+	_settings_row(section,"settings.yi_text_speed.label",speed_choice)
+	section = _settings_card(body,"settings.display")
 	options_fullscreen_button=_options_button(""); options_fullscreen_button.name="OptionsFullscreenButton"
-	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen); body.add_child(options_fullscreen_button)
+	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen); section.add_child(options_fullscreen_button)
 	var reduced := CheckButton.new(); reduced.name="ReducedMotion"
 	reduced.text=Localization.text(&"hub.settings.reduce_interface_motion")
 	reduced.button_pressed=bool(ProjectSettings.get_setting("game/reduced_motion",false))
-	reduced.toggled.connect(WindowMode.set_reduced_motion); body.add_child(reduced)
+	reduced.toggled.connect(WindowMode.set_reduced_motion); section.add_child(reduced)
 	var frame_choice := OptionButton.new(); frame_choice.name="FrameLimit"
 	for key: String in ["60","120","display"]: frame_choice.add_item(Localization.text(StringName("hub.settings.frame_"+key)))
 	frame_choice.select(maxi(0,[60,120,0].find(WindowMode.frame_limit)))
 	frame_choice.item_selected.connect(func(index: int) -> void: WindowMode.set_frame_limit([60,120,0][index]))
-	body.add_child(frame_choice)
-	_settings_label(body,"hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan")
-	_settings_label(body,"settings.audio",23)
+	_settings_row(section,"settings.frame_label",frame_choice)
+	_settings_label(section,"hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan")
+	section = _settings_card(body,"settings.audio")
 	var sound := CheckButton.new(); sound.name="SoundEnabled"; sound.text=Localization.text(&"settings.sound")
-	sound.button_pressed=WindowMode.sound_enabled; body.add_child(sound)
+	sound.button_pressed=WindowMode.sound_enabled; section.add_child(sound)
 	var volume := HSlider.new(); volume.name="SoundVolume"; volume.max_value=100; volume.step=1
 	volume.value=roundf(WindowMode.sound_volume*100); volume.custom_minimum_size.y=32
-	volume.editable=WindowMode.sound_enabled; body.add_child(volume)
-	var volume_label := Label.new(); volume_label.text="%d%%" % volume.value; body.add_child(volume_label)
+	volume.editable=WindowMode.sound_enabled
+	var volume_label := Label.new(); volume_label.text="%d%%" % volume.value
+	_slider_row(section,volume,volume_label)
 	sound.toggled.connect(func(value: bool) -> void: WindowMode.set_sound(value,volume.value/100); volume.editable=value)
 	volume.value_changed.connect(func(value: float) -> void: WindowMode.set_sound(sound.button_pressed,value/100); volume_label.text="%d%%" % value)
 	var ambience := CheckButton.new(); ambience.name="AmbienceEnabled"
 	ambience.text=Localization.text(&"settings.ambience")
-	ambience.button_pressed=WindowMode.ambience_enabled; body.add_child(ambience)
+	ambience.button_pressed=WindowMode.ambience_enabled; section.add_child(ambience)
 	var ambience_volume := HSlider.new(); ambience_volume.name="AmbienceVolume"
 	ambience_volume.max_value=100; ambience_volume.step=1; ambience_volume.value=WindowMode.ambience_volume*100
-	ambience_volume.custom_minimum_size.y=32; body.add_child(ambience_volume)
-	var ambience_percent := Label.new(); ambience_percent.text="%d%%" % ambience_volume.value; body.add_child(ambience_percent)
+	ambience_volume.custom_minimum_size.y=32
+	var ambience_percent := Label.new(); ambience_percent.text="%d%%" % ambience_volume.value
+	_slider_row(section,ambience_volume,ambience_percent)
 	var steady := CheckButton.new(); steady.name="AmbienceReducedDynamics"
 	steady.text=Localization.text(&"settings.ambience.steady")
-	steady.button_pressed=WindowMode.ambience_reduced_dynamics; body.add_child(steady)
+	steady.button_pressed=WindowMode.ambience_reduced_dynamics; section.add_child(steady)
 	var update_ambience := func() -> void: WindowMode.set_ambience(ambience.button_pressed,ambience_volume.value/100,steady.button_pressed)
 	ambience.toggled.connect(func(_value: bool) -> void: update_ambience.call())
 	ambience_volume.value_changed.connect(func(value: float) -> void: update_ambience.call(); ambience_percent.text="%d%%" % value)
 	steady.toggled.connect(func(_value: bool) -> void: update_ambience.call())
-	_settings_label(body,"settings.ambience.help")
-	_settings_label(body,"settings.privacy",23)
-	_settings_label(body,"settings.privacy_hint")
-	body.add_child(PlaytestMoments.make_button())
-	_settings_label(body,"settings.support",23)
+	_settings_label(section,"settings.ambience.help")
+	section = _settings_card(body,"settings.privacy")
+	_settings_label(section,"settings.privacy_hint")
+	section.add_child(PlaytestMoments.make_button())
+	section = _settings_card(body,"settings.support")
 	var build := Label.new(); build.text=str(ProjectSettings.get_setting("application/config/version",""))
-	build.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(build)
+	build.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; section.add_child(build)
 	options_export_button=_options_button(Localization.text(&"playtest.export.button")); options_export_button.name="OptionsExportPlaytestButton"
-	options_export_button.pressed.connect(_export_playtest_data); body.add_child(options_export_button)
+	options_export_button.pressed.connect(_export_playtest_data); section.add_child(options_export_button)
 	var diagnostics := _options_button(Localization.text(&"settings.diagnostics")); diagnostics.name="ExportDiagnostics"
 	diagnostics.pressed.connect(func() -> void:
 		latest_export_path=preload("res://src/ui/support_diagnostics.gd").export_local()
 		options_export_status.text=Localization.text(&"settings.export_failed" if latest_export_path.is_empty() else &"settings.export_ready")
 		options_open_export_folder_button.visible=not latest_export_path.is_empty())
-	body.add_child(diagnostics)
-	_settings_label(body,"settings.diagnostics_hint")
-	var logs := _options_button(Localization.text(&"settings.open_logs")); body.add_child(logs)
+	section.add_child(diagnostics)
+	_settings_label(section,"settings.diagnostics_hint")
+	var logs := _options_button(Localization.text(&"settings.open_logs")); section.add_child(logs)
 	logs.pressed.connect(func() -> void: OS.shell_open(ProjectSettings.globalize_path("user://")))
 	options_export_status=Label.new(); options_export_status.name="OptionsExportStatus"
-	options_export_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(options_export_status)
+	options_export_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; section.add_child(options_export_status)
 	options_open_export_folder_button=_options_button(Localization.text(&"playtest.export.open_folder"))
 	options_open_export_folder_button.pressed.connect(_open_latest_export_folder)
-	options_open_export_folder_button.hide(); body.add_child(options_open_export_folder_button)
+	options_open_export_folder_button.hide(); section.add_child(options_open_export_folder_button)
 	options_open_export_folder_button.visibility_changed.connect(_refresh_settings_focus)
-	var reset := _options_button(Localization.text(&"settings.reset")); reset.name="ResetPresentation"; body.add_child(reset)
+	var reset := _options_button(Localization.text(&"settings.reset")); reset.name="ResetPresentation"; section.add_child(reset)
 	var confirm := ConfirmationDialog.new(); confirm.name="ResetPresentationConfirm"
 	confirm.title=Localization.text(&"settings.reset"); confirm.dialog_text=Localization.text(&"settings.reset_hint")
 	confirm.ok_button_text=Localization.text(&"common.confirm")
@@ -637,14 +651,79 @@ func _build_options_menu() -> void:
 	options_resume_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	options_resume_button.pressed.connect(_close_options_menu); footer.add_child(options_resume_button)
 	options_quit_button=_options_button(Localization.text(&"hub.options.quit")); options_quit_button.name="OptionsQuitButton"
-	options_quit_button.pressed.connect(_quit_game); footer.add_child(options_quit_button)
+	options_quit_button.pressed.connect(_quit_from_settings); footer.add_child(options_quit_button)
+	_style_quit_button(options_quit_button)
 	resized.connect(_fit_settings_panel); _fit_settings_panel()
 	_refresh_options_fullscreen_label(); options_overlay.hide()
 
-func _settings_label(parent: Node, key: String, font_size: int=18) -> void:
+## In the laboratory every quit is confirmed on the terminal screen; inside a
+## workbench (no terminal on screen) the Settings quit stays direct.
+func _quit_from_settings() -> void:
+	if laboratory != null and laboratory.is_inside_tree() and not settings_only:
+		_close_options_menu()
+		laboratory.terminal.ask_quit()
+	else:
+		_quit_game()
+
+
+## One titled card of Settings; controls added to the returned column.
+func _settings_card(parent: Node, key: String) -> VBoxContainer:
+	const Palette = preload("res://src/lab/lab_palette.gd")
+	var card := PanelContainer.new(); card.name = "SettingsCard_" + key.get_slice(".", 1)
+	var box: StyleBoxFlat = InstrumentTheme.panel(Palette.TERM_SCREEN_LIFT, Palette.TERM_EDGE, 10)
+	box.content_margin_left = 16; box.content_margin_right = 16; box.content_margin_top = 12; box.content_margin_bottom = 14
+	card.add_theme_stylebox_override("panel", box)
+	parent.add_child(card)
+	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 10)
+	card.add_child(column)
+	var heading := Label.new(); heading.text = Localization.text(StringName(key))
+	heading.add_theme_font_size_override("font_size", 19)
+	heading.add_theme_color_override("font_color", ACCENT)
+	column.add_child(heading)
+	return column
+
+
+## A label on the left, its control on the right.
+func _settings_row(parent: Node, key: String, control: Control) -> void:
+	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 14)
+	var label := Label.new(); label.text = Localization.text(StringName(key))
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_size_override("font_size", 17)
+	row.add_child(label)
+	control.custom_minimum_size.x = 300
+	row.add_child(control)
+	parent.add_child(row)
+
+
+func _slider_row(parent: Node, slider: HSlider, value_label: Label) -> void:
+	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 14)
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	value_label.custom_minimum_size.x = 56
+	value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(slider); row.add_child(value_label)
+	parent.add_child(row)
+
+
+## Quitting reads apart from the other actions (team UI brief 2026-10-20 §3).
+func _style_quit_button(button: Button) -> void:
+	const Palette = preload("res://src/lab/lab_palette.gd")
+	for state: String in ["normal","hover","pressed","focus"]:
+		var box := StyleBoxFlat.new()
+		box.bg_color = Palette.QUIT_DEEP.lightened(0.08 if state == "hover" else 0.0).darkened(0.2 if state == "pressed" else 0.0)
+		box.border_color = Palette.QUIT if state != "normal" else Palette.with_alpha(Palette.QUIT, 0.7)
+		box.set_border_width_all(2 if state == "focus" else 1); box.set_corner_radius_all(8)
+		box.content_margin_left = 14; box.content_margin_right = 14
+		button.add_theme_stylebox_override(state, box)
+	for color_name: String in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]:
+		button.add_theme_color_override(color_name, Palette.QUIT)
+
+## Titles in the accent colour, explanations small and muted under their controls.
+func _settings_label(parent: Node, key: String, font_size: int=15) -> void:
 	var label := Label.new(); label.text=Localization.text(StringName(key))
 	label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; label.add_theme_font_size_override("font_size",font_size)
-	label.add_theme_color_override("font_color",ACCENT if font_size>=23 else TEXT); parent.add_child(label)
+	label.add_theme_color_override("font_color",ACCENT if font_size>=23 else (Color("9eb0b8") if font_size<17 else TEXT)); parent.add_child(label)
 
 func _fit_settings_panel() -> void:
 	var panel: Control = options_overlay.find_child("ChapterOptionsPanel",true,false)

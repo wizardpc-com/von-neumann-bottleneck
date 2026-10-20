@@ -4,6 +4,31 @@
 
 ## 简体中文
 
+### 2026-10-20 · 统一风格与故事节点（第三轮，未提交、未发布）
+
+- 所有工作台使用同一种标题栏框与标题样式；第五至七章标题与关卡按钮改为旅程命名（5-1 …）；统一「旅程地图」「实验室」「设置」「退出游戏」；表示与服务改用终端信号场背景。
+- 第一章起每关开头，壹在底栏上方打出一句"这一关要做什么"，不抢焦点，几秒后淡出。
+- 第二、三、四章结尾回到实验室时，终端先播放一段对话：壹说话，玩家选一句回应，最后留下一个钩子（候选文案，待叙事组与主创确认）。
+- 修正：第三章画布左上角多余的工具条；Windows 上错误的「⌘Z」提示；退出确认中"已自动保存"的不准确措辞。
+- [第三轮交接](docs/development/UNIFIED_STYLE_HANDOFF_20261020.md) · [截图与验证](docs/verification/20261020-unified-style/README.md)。
+
+### 2026-10-20 · 美术与两个世界（第二轮，未提交、未发布）
+
+- 实验室就是最终页面：点「退出游戏」或按 Esc，都在终端屏幕上询问是否退出；选「是」先保存再退出。
+- 实验室改为暖白日光与实体阴影；终端内改为冷色自发光信号场，电路画布同色；进入终端时屏幕收成一条光线，工作台从光线中展开。
+- 实验室新增终端旁状态小屏（下一项任务与进度）、玻璃记录板（三条候选守则随真实完成写上）和元件托盘（序章零件逐个放入）；去掉杯子。
+- 设置面板分为五张卡片，标签与控件左右对齐。
+- [第二轮交接](docs/development/ART_TWO_WORLDS_HANDOFF_20261020.md) · [截图与验证](docs/verification/20261020-two-worlds/README.md)。
+
+### 2026-10-20 · 壹的文字与界面收敛（未提交、未发布）
+
+- 壹说的话快速逐字出现，句末跟着 1/I 型象牙金光标；点击或 Enter 只补完文字。终端问候、NOT 步骤回应、完成卡和新的求助小卡都使用它。
+- 「提示 · F1」先打开壹的非模态求助小卡：一句方向提示，可选「再具体一些」（原只读提示画布）或「我自己试试」。
+- 旅程命名统一为「序章 → 第一章 …」，关卡为「序章·名称 / 1-1 名称 / 1-4-1 名称」；地图入口统称「旅程地图」。
+- 全屏只在设置中（F11 照常）；工作台不再常驻反馈按钮（完成卡、设置与 F8 保留）；退出按钮使用暗红强调；设置新增「壹的文字速度」。
+- 步骤卡扩展到 ALU、RAM 与五个序章支线；第三章进入关卡时电路取景在任务窗与元件窗之间。
+- [交接](docs/development/UI_YI_HANDOFF_20261020.md) · [截图与验证](docs/verification/20261020-ui-yi/README.md)。
+
 ### 2026-10-19 · 团队试玩工程收尾（未公开发布）
 
 - 保留 Claude 已完成的实验室旅程、第一/二章工具停靠、早期关卡步骤卡和任务文字。
@@ -122,6 +147,28 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-10-20 · Unified style and story beats (round 3, uncommitted, unpublished)
+
+- Every workbench shares one framed header and title style; chapters 5–7 use the journey names (5-1 …); Journey map / Laboratory / Settings / Quit are named and styled the same everywhere; Representation and Service use the terminal backdrop.
+- From chapter 1 on, each level opens with one line from Yi above the bottom bar; it never takes focus and fades on its own.
+- After chapters 2, 3 and 4, the lab terminal plays a short conversation with two replies per beat, ending on a hook (candidate copy pending the story team and owner).
+- Fixes: a stray canvas toolbar in Chapter 3, a Mac-only undo hint on Windows, and an inaccurate "already saved" note in the quit question.
+
+### 2026-10-20 · Art pass and two worlds (round 2, uncommitted, unpublished)
+
+- The laboratory is the final page: Quit or Esc asks on the terminal screen; Yes saves, then exits.
+- The room is warm daylight with physical shadows; the terminal is a cool, self-lit signal field, and circuit canvases share it. Entering, the screen closes into one line of light and the workbench opens out of it.
+- New room objects: a status display beside the terminal (next task, progress), a glass record board (three candidate rules inked by real completions) and a component tray (prologue parts placed as earned); the mug is gone.
+- Settings is grouped into five cards with label/control rows.
+
+### 2026-10-20 · Yi's text and UI convergence (uncommitted, unpublished)
+
+- Yi's words appear quickly, character by character, followed by the ivory 1/I trailing caret; a click or Enter only completes the passage. Used by the terminal greeting, NOT step replies, completion cards and a new help card.
+- Hint · F1 opens Yi's non-modal help card with one line of direction; "More specific" opens the existing read-only hint canvas.
+- One naming scheme: Prologue → Chapter 1 …, tasks "Prologue · name / 1-1 name / 1-4-1 name"; the map entry is the Journey map.
+- Fullscreen lives in Settings (F11 still works); workbenches drop the standing Feedback button (completion card, Settings and F8 remain); Quit is emphasised; Settings adds Yi's text speed.
+- Step cards extend to ALU, RAM and five prologue side tasks; Chapter 3 frames the board between its panels.
 
 ### 2026-10-19 · Team engineering closeout (unpublished)
 

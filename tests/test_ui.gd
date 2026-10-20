@@ -311,7 +311,16 @@ func _run() -> void:
 	var hub_escape := InputEventKey.new()
 	hub_escape.keycode = KEY_ESCAPE
 	hub_escape.pressed = true
-	hub.call("_unhandled_key_input", hub_escape)
+	var laboratory: Control = hub.get("laboratory")
+	if laboratory != null:
+		# The laboratory is the final page: Esc asks about quitting on its terminal.
+		hub.call("_unhandled_key_input", hub_escape)
+		_assert(not options_overlay.visible and laboratory.terminal.confirming() and laboratory.terminal.quit_view.visible, "Esc in the laboratory must ask about quitting on the terminal screen, not open Settings.")
+		hub.call("_unhandled_key_input", hub_escape)
+		_assert(not laboratory.terminal.confirming() and not options_overlay.visible, "A second Esc must return from the quit question to the terminal menu.")
+		hub.call("_open_options_menu")
+	else:
+		hub.call("_unhandled_key_input", hub_escape)
 	_assert(
 		options_overlay.visible
 		and options_resume.text == _t(&"hub.options.resume")

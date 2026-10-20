@@ -89,7 +89,7 @@ func _ready() -> void:
 		restore_session()
 		if not writer_lease.held:
 			save_blocked = true
-			session_notice = text2("此候选档已由另一窗口占用，或上次未正常关闭；本窗口禁止保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
+			session_notice = text2("这份存档正被另一个窗口使用，或上次没有正常关闭；本窗口暂不保存。", "Another window owns this profile, or its previous session stopped unexpectedly; saving is blocked.")
 
 	var requested: int = get_node("/root/TaskNavigation").take_pending("representation")
 	if requested >= 0: change_task(requested)
@@ -104,6 +104,11 @@ func toggle_language() -> void:
 	build()
 
 func text2(zh: String, en: String) -> String: return en if english else zh
+
+## Task names follow the journey scheme (5-1 …), falling back to the catalog.
+func _task_label(index: int) -> String:
+	var journey_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("representation", index))
+	return journey_label if not journey_label.is_empty() else Catalog.title(index,english)
 
 func make_label(text: String, parent: Node, size: int = 16) -> Label:
 	var node := Label.new(); node.text = text
@@ -138,7 +143,7 @@ func build() -> void:
 	for child: Node in get_children(): remove_child(child); child.queue_free()
 	task_buttons.clear()
 	byte_boards.clear()
-	var bg := ColorRect.new(); bg.color = Color("0b1720")
+	var bg := preload("res://src/ui/technical_backdrop.gd").new()
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(bg)
 	var margin := MarginContainer.new(); margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+edge,16)
@@ -146,15 +151,21 @@ func build() -> void:
 	var page := VBoxContainer.new(); page.add_theme_constant_override("separation",8); margin.add_child(page)
 	var top := HBoxContainer.new(); page.add_child(top)
 	var title := make_label(text2("表示 · 改变信息的承载","Representation · Change how information is carried"),top,24)
+	preload("res://src/ui/workbench_chrome.gd").title(title)
+	if preload("res://src/campaign/journey_naming.gd").chapter_for("representation/mixed_scan") != "": title.text = preload("res://src/campaign/journey_naming.gd").chapter_for("representation/mixed_scan")
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	make_button("中文 / EN",top,toggle_language,"Language")
-	top.add_child(get_node("/root/PlaytestMoments").make_button())
-	if candidate_journey: make_button(text2("任务地图", "Task map") if get_node("/root/TaskNavigation").from_tree else text2("返回首页", "Home"),top,request_hub,"CandidateHome")
+	top.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
+	if candidate_journey: make_button(text2("旅程地图", "Journey map") if get_node("/root/TaskNavigation").from_tree else text2("实验室", "Laboratory"),top,request_hub,"CandidateHome")
 	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
-	make_button(text2("退出","Quit"),top,request_quit,"Quit")
+	top.add_child(get_node("/root/WindowMode").settings_button())
+	var quit := make_button(text2("退出游戏","Quit"),top,request_quit,"Quit")
+	preload("res://src/ui/workbench_chrome.gd").quit_style(quit)
+	preload("res://src/ui/workbench_chrome.gd").frame(top)
 	var nav := HBoxContainer.new(); page.add_child(nav)
 	for i: int in 5:
-		var b := make_button(Catalog.title(i,english),nav,func() -> void: change_task(i),"Task"+str(i))
+		var task_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("representation", i))
+		var b := make_button(task_label if not task_label.is_empty() else Catalog.title(i,english),nav,func() -> void: change_task(i),"Task"+str(i))
 		b.add_theme_font_size_override("font_size",13)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL; task_buttons.append(b)
 	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.name = "WorkspaceSplit"; body.split_offset = 40; page.add_child(body)
@@ -180,7 +191,7 @@ func build() -> void:
 	_refresh_journey_context()
 	var hint := make_button(text2("看一个线索（不揭示方案）","A clue, not a solution"),reading,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
 	hint.tooltip_text = Catalog.hint(task,english)
-	make_label(text2("五份任务可独立探索 · 第4任务计入在线准备 · 候选方案与核心存档分开", "Five freely accessible tasks · task4 includes online preparation · candidate plans save separately from core progress"),reading,13)
+	make_label(text2("五个任务可按任意顺序探索；第 4 个任务要把准备成本也算进去", "Five freely accessible tasks · task4 includes online preparation · candidate plans save separately from core progress"),reading,13)
 	make_label(text2("公开资产（十进制字节，地址0–63）","Public assets (decimal bytes, addresses 0–63)"),reading,17)
 	var data := Label.new(); data.name = "Asset"; data.custom_minimum_size.y = 104 if task != 4 else 210
 	data.autowrap_mode = TextServer.AUTOWRAP_OFF
@@ -201,7 +212,7 @@ func build() -> void:
 	public_order_choice.select(preview_order)
 	public_order_choice.item_selected.connect(func(index: int) -> void: preview_order = index; refresh_request_preview())
 	reading.add_child(public_order_choice)
-	make_label(text2("金色底线=该订单请求地址；悬停×次数（每位客户），不表示缓存命中", "Gold underline=requested address; hover × count per client, not cache hits"),reading,12)
+	make_label(text2("金色底线＝这张订单请求的地址；悬停可看每位客户的请求次数", "Gold underline=requested address; hover × count per client, not cache hits"),reading,12)
 	for asset_index: int in (2 if task == 4 else 1):
 		if task == 4: make_label(text2("资产A" if asset_index == 0 else "资产B", "Asset A" if asset_index == 0 else "Asset B"),reading,14)
 		var board = preload("res://experiments/representation_region/byte_board.gd").new()
@@ -368,11 +379,17 @@ func constraint_feedback(task_index: int, traces: Array) -> String:
 			failures.append(text2("订单%d：%s超出%d%s（实际%d / 上限%d）。", "Order %d: %s exceeds the limit by %d%s (actual %d / limit %d).") % [i+1,label,actual-limit,unit,actual,limit])
 	return "\n".join(failures)
 
+const ORDER_NAMES_ZH := {"Mixed scan": "混合扫描", "Interior revisits": "内部反复读取", "Band scan": "条带扫描", "Band endpoints": "条带两端",
+	"Prepare + short read": "准备 + 短读", "Prepare + eight cold scans": "准备 + 八次冷扫描",
+	"Asset A scan": "资产 A 扫描", "Asset B revisits": "资产 B 反复读取"}
+
 func mission_text() -> String:
 	var lines: Array[String] = []
 	for i: int in Model.orders(task).size():
 		var spec: Dictionary = Model.orders(task)[i]
-		lines.append("%s: %s · cache%dB · clients%d · %s" % [spec.name,str(spec.addresses) if spec.addresses.size() < 10 else "0…63",spec.cache_bytes,spec.clients,goal_text(Catalog.goals(task)[i])])
+		var order_name: String = text2(str(ORDER_NAMES_ZH.get(spec.name, spec.name)), str(spec.name))
+		var reads: String = (str(spec.addresses) if spec.addresses.size() < 10 else "0…63")
+		lines.append(text2("%s：读取 %s · 缓存 %d B · %d 位客户 · %s", "%s: reads %s · cache %d B · %d client(s) · %s") % [order_name,reads,spec.cache_bytes,spec.clients,goal_text(Catalog.goals(task)[i])])
 	lines.append(text2("链路1B/周期；请求4周期；编码/解码8ops/周期；消费1周期；恢复上限64B。各订单同一方案、缓存从空开始。", "Link1B/cycle; request4; encode/decode8ops/cycle; consume1; scratch64B. Same plan for all orders, each starts cold."))
 	if task == 3: lines.append(text2("在线准备：RAW引用64B源，只写4B目录；RLE读取原区间、编码、写载荷+目录。存储/峰值包含保留的64B源。八位客户共用一次准备。", "Online preparation: RAW references the retained64B source and writes4B directory; RLE reads source, encodes, writes payload+directory. Storage/peak include64B source. Eight clients share preparation."))
 	return "\n".join(lines)
@@ -417,7 +434,7 @@ func refresh_tasks() -> void:
 	if support_button != null: set_action_disabled(support_button,not support_plans.has(task))
 	for i: int in task_buttons.size():
 		set_action_disabled(task_buttons[i],false)
-		task_buttons[i].text = Catalog.title(i,english) + (" ✓" if completed[i] else "")
+		task_buttons[i].text = _task_label(i) + (" ✓" if completed[i] else "")
 
 func next_unfinished_task() -> int:
 	if not support_plans.has(task): return -1
@@ -699,11 +716,11 @@ func restore_session() -> void:
 	recovery_state = saved if saved.get("error") == "recovery" else {}
 	if not saved.ok:
 		save_blocked = true
-		session_notice = text2("已有候选存档无法安全读取，已保留原文件并禁止覆盖。", "Existing candidate save could not be safely read; original preserved, saving blocked.")
+		session_notice = text2("已有存档无法安全读取；原文件已保留，不会被覆盖。", "Existing candidate save could not be safely read; original preserved, saving blocked.")
 		return
 	session_version = str(saved.get("digest", ""))
 	if saved.get("empty",false):
-		session_notice = text2("独立候选档：退出前点击保存。撤销栈仅在本次会话保留。", "Isolated candidate profile: save before quitting. Undo stacks are session-only.")
+		session_notice = text2("退出前记得保存。撤销记录只保留在本次游玩中。", "Isolated candidate profile: save before quitting. Undo stacks are session-only.")
 		return
 	designs.assign(saved.get("designs",[]).duplicate(true))
 	for i: int in 5:
@@ -737,7 +754,7 @@ func save_session() -> void:
 	if error == OK:
 		session_version = raw.sha256_text()
 		session_dirty = false
-	session_notice = text2("已保存独立候选档；同一配置再次启动可继续。", "Saved isolated candidate profile; reopen the same profile to continue.") if error == OK else text2("保存失败，未覆盖已有存档；请保留当前窗口。", "Save failed without overwriting the existing save; keep this window open.")
+	session_notice = text2("已保存。下次打开可以继续。", "Saved isolated candidate profile; reopen the same profile to continue.") if error == OK else text2("保存失败，未覆盖已有存档；请保留当前窗口。", "Save failed without overwriting the existing save; keep this window open.")
 	status.text = session_notice
 	if error != OK: refresh_recovery_controls()
 
@@ -897,7 +914,7 @@ func restore_support() -> void:
 func add_recovery_controls(parent: Node) -> void:
 	if writer_lease == null or not writer_lease.held:
 		make_button(text2("重新检查写入权（保留本窗口探索）", "Recheck writer ownership (keep this exploration)"),parent,retry_writer.bind(false),"RetryWriter")
-		make_button(text2("重新读取已保存候选档", "Reload saved candidate profile"),parent,func() -> void: confirm_recovery(retry_writer.bind(true)),"ReloadCandidate")
+		make_button(text2("重新读取存档", "Reload saved candidate profile"),parent,func() -> void: confirm_recovery(retry_writer.bind(true)),"ReloadCandidate")
 		var stopped: String = SessionStore.Lease.stopped_owner(SessionStore.PATH)
 		if not stopped.is_empty():
 			make_button(text2("恢复已停止窗口的写入权", "Recover stopped window’s writer ownership"),parent,func() -> void: confirm_recovery(func() -> void: recover_writer(stopped)),"RecoverWriter")
@@ -922,7 +939,7 @@ func retry_writer(reload_saved: bool = false) -> void:
 		save_blocked = true
 		refresh_recovery_controls()
 		session_notice = text2("尚未取得写入权；当前探索仍保留。关闭占用窗口后可重试；若磁盘存档已变化，须确认重新读取才能替换本窗口探索。", "Writer ownership was not acquired; your exploration is retained. Retry after the owning window closes. If the disk save changed, confirm Reload to replace this window’s exploration.")
-		if acquired.reason == "unreadable": session_notice = text2("候选档无法安全读取；保持禁止覆盖。请检查恢复快照，或保留当前窗口。", "Candidate save cannot be read safely; overwriting remains blocked. Review recovery snapshots or keep this window open.")
+		if acquired.reason == "unreadable": session_notice = text2("存档无法安全读取，暂不覆盖。可以检查恢复快照，或先保留当前窗口。", "Candidate save cannot be read safely; overwriting remains blocked. Review recovery snapshots or keep this window open.")
 		status.text = session_notice
 		return
 	writer_lease = acquired.lease
@@ -975,7 +992,7 @@ func show_closure() -> void:
 	if not persistent_session:
 		lines.append(text2("当前为临时会话，方案与记录不会在退出后保留。", "This is a temporary session; plans and records are not retained after leaving."))
 	else:
-		lines.append(text2("本次变化尚未保存；离开前请保存。", "This session has unsaved changes; save before leaving.") if session_dirty else text2("已保存的方案可在同一候选档继续。", "Saved plans can be resumed in this candidate profile."))
+		lines.append(text2("本次变化尚未保存；离开前请保存。", "This session has unsaved changes; save before leaving.") if session_dirty else text2("已保存的方案下次可以继续。", "Saved plans can be resumed in this candidate profile."))
 	if candidate_journey:
 		lines.append(text2("下一段：静态信息有了合适的承载方式；现在，让会更新的历史继续留在系统中，并安排何时回应。服务使用另一台公开机器，表示方案不会自动移过去。", "Next: you have arranged how fixed information travels. Now retain changing history and decide when to respond. Service uses its own public machine; representation plans do not transfer automatically."))
 		var continuation: Button = review.add_button(text2("继续：历史与回应", "Continue: history and responses"),false,"service")

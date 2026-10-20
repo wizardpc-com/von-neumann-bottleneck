@@ -115,6 +115,16 @@ static func apply_to(target: Theme, light: bool = false) -> void:
 	var list_focus: StyleBoxFlat = panel(Color.TRANSPARENT, text, 3)
 	list_focus.set_border_width_all(2)
 	target.set_stylebox("focus", "ItemList", list_focus)
+	if not light:
+		# Machine canvases are part of the terminal's own field (see TechnicalBackdrop):
+		# deep blue-black with a faint cyan grid, not a neutral grey sheet.
+		var field := StyleBoxFlat.new()
+		field.bg_color = Color("0a131a")
+		for state: String in ["panel", "panel_focus"]: target.set_stylebox(state, "GraphEdit", field)
+		target.set_color("grid_minor", "GraphEdit", Color(0.56, 0.83, 0.86, 0.07))
+		target.set_color("grid_major", "GraphEdit", Color(0.56, 0.83, 0.86, 0.16))
+		target.set_color("selection_fill", "GraphEdit", Color(0.56, 0.83, 0.86, 0.10))
+		target.set_color("selection_stroke", "GraphEdit", Color(0.56, 0.83, 0.86, 0.6))
 	target.set_color("font_selected_color", "ItemList", text)
 	target.set_color("font_disabled_color", "ItemList", muted)
 	var scroll_colors: Dictionary = {"scroll": input, "grabber": border, "grabber_highlight": muted, "grabber_pressed": accent}

@@ -423,12 +423,14 @@ func _build_header() -> Control:
 	row.add_child(mode_selector)
 	fullscreen_button = FullscreenButtonType.new()
 	row.add_child(fullscreen_button)
-	row.add_child(PlaytestMoments.make_button())
+	row.add_child(PlaytestMoments.make_workbench_button())
 	var hub_button := Button.new()
 	hub_button.text = _t(&"common.prototype_hub")
 	hub_button.tooltip_text = _t(&"locality.hub.tooltip")
 	hub_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
 	row.add_child(hub_button)
+	for child: Node in row.get_children():
+		if child is Button: preload("res://src/ui/workbench_chrome.gd").tidy_button(child)
 	return header
 
 
@@ -454,7 +456,8 @@ func _build_workbench() -> Control:
 		[&"cache", &"chapter2.tool.cache"],
 		[&"blocking", &"chapter2.tool.blocking"],
 		[&"profiler", &"chapter2.tool.profiler"],
-		[&"notebook", &"chapter2.tool.notebook"],
+		# The concept notebook is folded into the one Handbook entry (every
+		# notebook concept is a Handbook term); its window stays for old links.
 	]:
 		var tool_id := StringName(tool[0])
 		var tool_button := Button.new()
@@ -1158,6 +1161,8 @@ func _start_level(level_id: StringName) -> void:
 	chapter_subtitle_label.text = _t(&"chapter2.header.level", [
 		int(current_level.get("order", 0)) + 1, _t(catalog.title_key(level_id))
 	])
+	var journey_label: String = preload("res://src/campaign/journey_naming.gd").label_for("chapter_2/" + String(level_id))
+	if not journey_label.is_empty(): chapter_subtitle_label.text = journey_label
 	var target_cycles: int = int(current_level.get("target_cycles", 0))
 	workbench_goal_label.text = (
 		_t(&"chapter2.workbench.performance_goal", [target_cycles])

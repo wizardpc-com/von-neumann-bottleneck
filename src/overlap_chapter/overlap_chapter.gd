@@ -68,11 +68,10 @@ func _ready() -> void:
 	column.add_child(header)
 	title = Label.new()
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title.text = _t("title") + (" · TEST" if GameMode.is_test_mode() else "")
-	title.add_theme_font_size_override("font_size",27)
-	title.add_theme_color_override("font_color",BLUE)
+	title.text = _t("title")
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
+	preload("res://src/ui/workbench_chrome.gd").title(title)
 	_button(header,"map",_show_map)
 	_button(header,"hub",func() -> void:
 		_save_draft()
@@ -83,8 +82,8 @@ func _ready() -> void:
 	core_review_button.custom_minimum_size.y = 38
 	core_review_button.pressed.connect(_open_core_review)
 	header.add_child(core_review_button)
-	_button(header,"fullscreen",WindowMode.toggle_fullscreen)
 	header.add_child(WindowMode.settings_button())
+	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	goal = Button.new()
 	goal.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	goal.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -100,7 +99,7 @@ func _ready() -> void:
 	status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status.custom_minimum_size.x = 320
 	dock.add_child(status)
-	dock.add_child(PlaytestMoments.make_button())
+	dock.add_child(PlaytestMoments.make_workbench_button())
 	for id: String in ["mission","toolbox","program","trace","handbook"]:
 		_button(dock,id,func() -> void: _toggle(id))
 	_button(dock,"hint",_request_hint)
@@ -318,7 +317,8 @@ func _open_level(id: String, save_current: bool = true) -> void:
 	var draft: Dictionary = OverlapChapter.drafts().get(id,{})
 	board = draft.get("board",Catalog.seed(id)).duplicate(true)
 	var program: String = draft.get("program",Catalog.starter(id))
-	goal.text = _t(id+".title") + "   ·   " + _t(id+".goal")
+	var journey_label: String = preload("res://src/campaign/journey_naming.gd").label_for("chapter_3/" + id)
+	goal.text = (journey_label if not journey_label.is_empty() else _t(id+".title")) + "   ·   " + _t(id+".goal")
 	status.text = _t("edit_help")
 	graph = _new_graph(false)
 	graph.name = "OverlapWorkbench"
@@ -339,10 +339,23 @@ func _open_level(id: String, save_current: bool = true) -> void:
 	panels.program.hide()
 	dirty = false
 	core_review_button.visible = OverlapChapter.completed().has("synthesis")
+	call_deferred("_frame_board")
+
+## Frame the machine in the free band between the task and tool panels, after
+## the panels have settled to their sizes, so no window covers the board.
+func _frame_board() -> void:
+	for frame: int in 3: await get_tree().process_frame
+	if not is_instance_valid(graph) or not is_instance_valid(workspace): return
+	var windows: Dictionary = {}
+	for id: String in panels: windows[StringName(id)] = panels[id]
+	var nodes: Array = graph.get_children().filter(func(node: Node) -> bool: return node is GraphNode)
+	preload("res://src/ui/instrument_dock.gd").frame(graph, nodes, windows, 0.6)
 
 func _new_graph(read_only: bool) -> CircuitGraphEdit:
 	var result := Graph.new()
 	result.minimap_enabled = false
+	# Same canvas chrome as the other chapters: no built-in GraphEdit menu row.
+	result.show_menu = false
 	result.grid_pattern = GraphEdit.GRID_PATTERN_DOTS
 	result.right_disconnects = true
 	result.branch_edit_enabled = not read_only

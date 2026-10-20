@@ -1,3 +1,31 @@
+## Unified style and story beats — 2026-10-20
+
+Run `test_unified_style` with the isolated verifier. It instantiates all nine
+workbench scenes and checks the shared header frame, chapter naming, Settings,
+quit naming and the absence of old map/home labels; it plays a chapter ending
+conversation through to the menu, and checks the level opening card never takes
+focus or pointer input. Copy quality, pacing and story fit need human review.
+
+## Art pass and two worlds — 2026-10-20
+
+Run `test_two_worlds` with the isolated verifier alongside `test_ui`,
+`test_prelaunch_settings`, `test_hub_first_screen` and `test_lab_journey`. It
+checks the terminal quit question (Esc, terminal Quit, Settings Quit, Yes/No),
+the one-shot arrival handshake, the terminal-world canvas theme, Settings cards
+and that the new room objects only name real tasks. The passage animation and
+room art need rendered screenshots (`docs/verification/20261020-two-worlds`).
+
+## Yi's text and UI convergence — 2026-10-20
+
+Run `test_yi_typewriter` and `test_ui_convergence` with the isolated verifier,
+alongside `test_lab_journey`, `test_hub_first_screen`, `test_hardware_seal_navigation`
+and the completion/task-tree suites. The first checks caret placement through
+wrapping, explicit breaks, skipping, rereading, reduced motion, hiding and the
+16/24/32 asset choice; the second exercises the real terminal, hardware workbench,
+completion card, Settings and journey map. Caret rendering quality and timing feel
+need real rendered screenshots (see `docs/verification/20261020-ui-yi`); neither
+suite is native OS input or newcomer acceptance.
+
 ## Night experience candidate — 2026-10-18
 
 Use the isolated verifier for `test_night_narrative`, `test_rule_practice_input`,

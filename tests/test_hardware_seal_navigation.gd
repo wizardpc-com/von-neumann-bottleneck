@@ -98,6 +98,8 @@ func run() -> void:
 	check(main._switch_workbench("Alternate"),"Named-board switching becomes available after encapsulation")
 	check(main._create_named_workbench("After sealing"),"Named-board creation becomes available after encapsulation")
 	main.hint_button.pressed.emit()
+	check(main.yi_help_card != null and main.yi_help_card.visible and not main.hint_mode,"Hint first opens Yi's non-modal help card without leaving the board")
+	main.yi_help_card.option_selected.emit(&"more")
 	check(main.hint_mode and main.current_phase == &"hint","Hint becomes available after encapsulation")
 	main._exit_hint_workbench()
 	check(not main.hint_mode and main.component_library[&"FullAdder"].source_signature == source_signature,"Leaving Hint preserves the earned verified component")

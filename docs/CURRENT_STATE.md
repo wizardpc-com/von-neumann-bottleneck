@@ -1,4 +1,27 @@
-# Current state — team engineering closeout (2026-10-19)
+# Current state — unified style and story beats (2026-10-20, uncommitted)
+
+第三轮：九个工作台统一标题栏框、章节/关卡命名（第五至七章、5-1…）、设置与「退出游戏」、终端信号场背景；
+第一章起每关开头有壹的一句开场卡；第二、三、四章结尾在实验室终端上播放一段带选项的对话，结尾留下悬疑钩子
+（候选文案；与 `docs/design/thought-within-world.md` 的"最多三处痕迹"约束存在冲突，待主创裁定）。
+详见 [第三轮交接](development/UNIFIED_STYLE_HANDOFF_20261020.md) · [截图与验证](verification/20261020-unified-style/README.md)。
+
+## Round 2 — art pass and two worlds (2026-10-20, uncommitted)
+
+第二轮：实验室是最终页面，点「退出游戏」或按 Esc 都在终端屏幕上确认退出；
+实验室（暖色日光、实体陈设）与终端内（冷色自发光信号场）在配色、光照和进出过渡上明确分开；
+新增终端旁状态小屏、玻璃记录板与元件托盘（只显示真实进度）；设置面板分组重构。
+详见 [第二轮交接](development/ART_TWO_WORLDS_HANDOFF_20261020.md) · [截图与验证](verification/20261020-two-worlds/README.md)。
+
+## Round 1 — Yi's text and UI convergence (2026-10-20, uncommitted)
+
+本轮在 `c99d720` 上按队友《UI 与表现修改建议》和《壹的文字尾随光标规范 v0.3》渐进修改：
+壹的话逐字输出并以 1/I 型 SVG 光标跟随句末（终端、NOT 步骤卡、完成卡、非模态求助小卡）；
+旅程统一为「序章 → 第一章 …」与 `序章·名称 / 1-1 名称 / 1-4-1 名称`；全屏只在设置、
+工作台不再常驻反馈按钮（F8、完成卡、设置保留）、退出按钮强调、常用快捷键标注。
+仿真、判定、任务 ID、存档与作品合同不变；未导出新包，未做人工试玩。
+详见 [交接](development/UI_YI_HANDOFF_20261020.md) · [截图与验证](verification/20261020-ui-yi/README.md)。
+
+## Previous: team engineering closeout (2026-10-19)
 
 本轮交付入口：[中文试玩与开发交接](development/team-handoff.md) ·
 [工程验证与固定包身份](verification/20261019-team-closeout/README.md) ·

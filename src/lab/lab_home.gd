@@ -317,14 +317,14 @@ func _arrive() -> void:
 		zooming = true
 		_apply_zoom(1.0); fade.modulate.a = 1.0
 		var tween := create_tween().set_parallel(true)
-		tween.tween_property(fade, "modulate:a", 0.0, 0.35)
+		tween.tween_property(fade, "modulate:a", 0.0, 0.0 if reduced_motion else 0.35)
 		tween.tween_method(_apply_zoom, 1.0, 0.0, 0.0 if reduced_motion else 0.9).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		await tween.finished
 		zooming = false
 		terminal.wake(true)
 	else:
-		modulate.a = 0.0
-		create_tween().tween_property(self, "modulate:a", 1.0, 0.6)
+		modulate.a = 1.0 if reduced_motion else 0.0
+		if not reduced_motion: create_tween().tween_property(self, "modulate:a", 1.0, 0.6)
 	if response.is_empty():
 		if not returning: _show_caption("实验室。终端在等你。" if not english else "The laboratory. The terminal is waiting.", 4.0)
 		return

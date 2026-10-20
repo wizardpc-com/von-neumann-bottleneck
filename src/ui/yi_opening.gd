@@ -98,11 +98,16 @@ func _process(delta: float) -> void:
 	_life += delta
 	var mouse: Vector2 = card.get_global_mouse_position()
 	var hovered: bool = card.get_global_rect().grow(8).has_point(mouse)
+	var reduced: bool = bool(ProjectSettings.get_setting("game/reduced_motion", false))
 	# Never in the way: hovering shows what is underneath.
 	if _life < 0.08: return
-	card.modulate.a = move_toward(card.modulate.a, 0.15 if hovered else 1.0, delta * 4.0)
-	if (_life > STAY_SECONDS or _player_acted) and not body.is_playing():
+	var target_alpha: float = 0.15 if hovered else 1.0
+	card.modulate.a = target_alpha if reduced else move_toward(card.modulate.a, target_alpha, delta * 4.0)
+	if _player_acted or (_life > STAY_SECONDS and not body.is_playing()):
 		_closing = true
+		if reduced:
+			queue_free()
+			return
 		var tween := create_tween()
 		tween.tween_property(card, "modulate:a", 0.0, 0.5)
 		tween.tween_callback(queue_free)

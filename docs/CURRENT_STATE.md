@@ -1,8 +1,19 @@
-# Current state — unified style and story beats (2026-10-20, uncommitted)
+# Current state — terminal navigation and presentation closeout (2026-10-20)
+
+当前开发分支为 `codex/navigation-closeout-20261020`，基于 Claude 第四轮终端优化。
+导航修复 `e965632` 让实验室电脑显示的目标与实际入口一致，并补齐工作台 Esc；
+本轮表现收尾让开场提示在玩家操作后及时收起，补齐实验室和提示卡对「减少动效」的响应。
+验证与范围见[导航修复](verification/20261020-navigation-shortcuts/README.md)和
+[表现收尾](verification/20261020-conservative-polish/README.md)。本轮没有合并主线或发布游戏包。
+
+下方保留此前各轮的历史记录。第四轮已统一 8-1…10-3 命名，并按主创决定取消
+「壹的痕迹最多三处」旧约束，详见[第四轮交接](development/TERMINAL_POLISH_HANDOFF_20261020.md)。
+
+## Previous round 3 — unified style and story beats
 
 第三轮：九个工作台统一标题栏框、章节/关卡命名（第五至七章、5-1…）、设置与「退出游戏」、终端信号场背景；
 第一章起每关开头有壹的一句开场卡；第二、三、四章结尾在实验室终端上播放一段带选项的对话，结尾留下悬疑钩子
-（候选文案；与 `docs/design/thought-within-world.md` 的"最多三处痕迹"约束存在冲突，待主创裁定）。
+（候选文案仍待叙事审校；与旧「最多三处痕迹」约束的冲突已按第四轮主创决定解除）。
 详见 [第三轮交接](development/UNIFIED_STYLE_HANDOFF_20261020.md) · [截图与验证](verification/20261020-unified-style/README.md)。
 
 ## Round 2 — art pass and two worlds (2026-10-20, uncommitted)

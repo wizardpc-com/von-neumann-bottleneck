@@ -1,0 +1,95 @@
+{
+  "baseline_commit": "e965632ef56601fba36926c105335de95a65f27b",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "evidence_grade": "OpenGL 1280x720; synthetic viewport keyboard/pointer; slowed typewriter fixture; isolated QA profiles",
+  "before": {
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Starting work dismisses the opening without waiting for typing",
+      "ERROR: Starting work dismisses the opening without waiting for typing",
+      "ERROR: Reduced-motion laboratory appears without a room fade",
+      "ERROR: Reduced motion keeps the standby indicator steady",
+      "ERROR: Reduced-motion wake shows the terminal immediately",
+      "ERROR: Reduced-motion return has no arrival fade or input delay",
+      "ERROR: Reduced-motion opening changes opacity without an animated fade",
+      "ERROR: Reduced-motion input dismisses the opening without a closing fade",
+      "ERROR: Starting work dismisses the opening without waiting for typing",
+      "ERROR: Starting work dismisses the opening without waiting for typing",
+      "ERROR: Reduced-motion laboratory appears without a room fade",
+      "ERROR: Reduced motion keeps the standby indicator steady",
+      "ERROR: Reduced-motion wake shows the terminal immediately",
+      "ERROR: Reduced-motion return has no arrival fade or input delay",
+      "ERROR: Reduced-motion opening changes opacity without an animated fade",
+      "ERROR: Reduced-motion input dismisses the opening without a closing fade",
+      "FAIL: terminal presentation polish 36 checks, 16 failures"
+    ],
+    "source": {
+      "src/ui/yi_opening.gd": "6b71048e3f8691e5d5c524fcb99771d820ab28be657b491b5278819b32e83173",
+      "src/lab/lab_terminal.gd": "7b9c1c109097263ee851af2e4fc3ff2136976c970d42945ec2b9ee8f599e7a6c",
+      "tests/test_terminal_presentation_polish.gd": "5bf91178d6660bd7f98de942801c103ab11c3ae5778c786595c7d6725ebf2028"
+    },
+    "captures": [
+      {
+        "path": "docs\\verification\\20261020-conservative-polish\\before\\en-reduced-wake.png",
+        "sha256": "dba6fb336b0b1339a6e5247c7769f5c6f80c3cbedc1901a97d1867460e7eaeda",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "path": "docs\\verification\\20261020-conservative-polish\\before\\en-typing.png",
+        "sha256": "ecb3425d74f43f42da332b9409056c4e67e61aedb89b71d9b8744c7daa777a3e",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "path": "docs\\verification\\20261020-conservative-polish\\before\\zh_CN-reduced-wake.png",
+        "sha256": "f4abe38ba683f419b3eaebf0c817688917491a6400f6a7d9c1522c1ac594a9ae",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "path": "docs\\verification\\20261020-conservative-polish\\before\\zh_CN-typing.png",
+        "sha256": "0196ddf0fe9a84c5e966178803f0dcce6b230a5f9b9f4756c02e1ea3ced2c1a5",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  },
+  "after": {
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "source": {
+      "src/ui/yi_opening.gd": "0aad9d57c84380abbb06847d46d6fc092234c6447f87899701cac13a3d63ac48",
+      "src/lab/lab_terminal.gd": "0eaafb6c59dce9dc97db0e2e454579c54273c935da398fc66a2cd2f18a9b4537",
+      "tests/test_terminal_presentation_polish.gd": "5bf91178d6660bd7f98de942801c103ab11c3ae5778c786595c7d6725ebf2028"
+    },
+    "captures": [
+      {
+        "path": "docs\\verification\\20261020-conservative-polish\\after\\en-reduced-wake.png",
+        "sha256": "e09367d5319d235a872aad7e0f9bf127c03b87fc5c0c4ccca1ebf24192e3d0e5",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "path": "docs\\verification\\20261020-conservative-polish\\after\\en-typing.png",
+        "sha256": "012f0baf2877bc08bc2a956a5a81445a0d5a61850faddf4d3d0f531f34e7b2bb",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "path": "docs\\verification\\20261020-conservative-polish\\after\\zh_CN-reduced-wake.png",
+        "sha256": "f6740557115c8f17178e2f92b286b10435a958bdc2c81d3b1a68d01abf483421",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "path": "docs\\verification\\20261020-conservative-polish\\after\\zh_CN-typing.png",
+        "sha256": "57d0e90b5ebd5e01a1f4a5d681d037be9d98eb32d4525b32dc0d329279814932",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  }
+}

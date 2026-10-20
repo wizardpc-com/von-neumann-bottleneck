@@ -95,6 +95,12 @@ that cancellation preserves drafts and pending sample text. Departure probes
 override only the final scene change. These are synthetic viewport checks,
 separate from native OS input and exported-package acceptance.
 
+`test_terminal_presentation_polish` covers input-transparent opening-card
+dismissal before typing finishes and reduced-motion lab/terminal presentation.
+Its slow typewriter timing fixture uses actual bilingual task copy; model, draft
+and work snapshots must remain unchanged. In an imported QA project,
+`-- --polish-capture --capture-size=1280x720` additionally records rendered views.
+
 ## Creative expression — 2026-10-13
 
 Run `test_creation_comparison_view`, `test_creation_work_listening` and affected

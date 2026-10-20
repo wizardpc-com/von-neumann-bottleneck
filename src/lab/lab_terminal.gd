@@ -302,9 +302,11 @@ func wake(instant: bool = false) -> void:
 		return
 	_asleep = false
 	sleep_view.hide(); awake_view.show()
-	if not instant:
+	if not instant and not bool(ProjectSettings.get_setting("game/reduced_motion", false)):
 		awake_view.modulate.a = 0.0
 		create_tween().tween_property(awake_view, "modulate:a", 1.0, 0.25)
+	else:
+		awake_view.modulate.a = 1.0
 	# A chapter ending is answered with a short conversation, once.
 	var beats: Array = response.get("dialogue", [])
 	if not beats.is_empty():
@@ -326,7 +328,8 @@ func _focus_primary() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
-	if cursor != null and _asleep: cursor.modulate.a = 0.35 + 0.65 * (0.5 + 0.5 * sin(_time * 3.2))
+	if cursor != null and _asleep:
+		cursor.modulate.a = 0.75 if bool(ProjectSettings.get_setting("game/reduced_motion", false)) else 0.35 + 0.65 * (0.5 + 0.5 * sin(_time * 3.2))
 
 func _gui_input(event: InputEvent) -> void:
 	var press := event as InputEventMouseButton

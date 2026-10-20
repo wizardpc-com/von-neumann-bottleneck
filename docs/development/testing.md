@@ -83,6 +83,18 @@ assertions intentionally require no prior acknowledgement. See
 
 # Testing
 
+## Laboratory routing and Escape — 2026-10-20
+
+Run `test_lab_terminal_routing` and `test_workbench_escape` with the isolated
+verifier. The first follows Work wall/map → workbench → map → laboratory →
+terminal in both languages, checks the advertised first lesson, and verifies
+Layout Hint/level/map Escape boundaries. Layout prerequisite access is a test
+fixture. The second sends viewport keys through Settings, text focus and the
+existing Creation/Representation/Service/Prediction departure guards; it checks
+that cancellation preserves drafts and pending sample text. Departure probes
+override only the final scene change. These are synthetic viewport checks,
+separate from native OS input and exported-package acceptance.
+
 ## Creative expression — 2026-10-13
 
 Run `test_creation_comparison_view`, `test_creation_work_listening` and affected

@@ -812,6 +812,11 @@ func reuse_recorded_plan() -> void:
 	edit_plan(copied)
 	status.text = text2("已取回方案#%d；可以改一点再运行。旧记录保留，原草稿可撤销恢复。", "Plan #%d is ready to vary and run. Its old record is preserved; Undo can restore the previous draft.") % [record_index+1]
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		request_hub()
+
 func request_hub() -> void:
 	leave_from_review = false
 	leave_scene = "res://src/ui/prototype_hub.tscn"

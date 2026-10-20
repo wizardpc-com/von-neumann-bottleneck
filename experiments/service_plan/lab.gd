@@ -778,6 +778,11 @@ func save_session() -> void:
 	notice_key = "saved" if error == OK else "failed"; status.text = session_notice()
 	if error != OK: refresh_recovery_controls()
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		request_hub()
+
 func request_hub(review_journey: bool = false) -> void:
 	leave_to_hub = true
 	leave_to_journey = review_journey

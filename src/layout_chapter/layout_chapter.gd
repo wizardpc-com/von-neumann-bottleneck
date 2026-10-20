@@ -555,6 +555,11 @@ func _leave_to_lab() -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	if event.keycode == KEY_ESCAPE and is_instance_valid(hint_layer) and hint_layer.visible: hint_layer.hide(); get_viewport().set_input_as_handled(); return
+	if event.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		if level.is_empty(): _leave_to_lab()
+		else: _leave()
+		return
 	var focus: Control = get_viewport().gui_get_focus_owner()
 	if focus is LineEdit or focus is TextEdit: return
 	if event.is_command_or_control_pressed() and event.keycode == KEY_Z: _undo(event.shift_pressed); get_viewport().set_input_as_handled()

@@ -460,7 +460,7 @@ func _select_and_locate(key: String) -> void:
 	canvas.locate(key)
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		TaskNavigation.from_tree = false
 		get_viewport().set_input_as_handled()
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")

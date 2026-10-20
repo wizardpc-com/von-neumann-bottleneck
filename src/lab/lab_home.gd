@@ -275,7 +275,7 @@ func _read_progress() -> void:
 				response["chapter"] = CHAPTER_RESPONSES[key]
 				var beats: Array = Dialogues.for_key(key)
 				if not beats.is_empty(): response["dialogue"] = beats
-	next_key = _next_task(rows, fresh)
+	next_key = "hardware_foundations/tutorial" if completed.is_empty() else _next_task(rows, fresh)
 	completed_keys = completed
 	var numbering: Dictionary = Naming.numbers(rows)
 	var next_title: String = ""

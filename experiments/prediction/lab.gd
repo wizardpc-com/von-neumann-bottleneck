@@ -200,6 +200,11 @@ func build() -> void:
 func has_session_work() -> bool:
 	return not history.is_empty() or active_trace != null or policy != Model.default_policy()
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if candidate_journey and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		request_hub()
+
 func request_hub() -> void:
 	if not candidate_journey: return
 	leave_to_hub = true

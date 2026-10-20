@@ -197,8 +197,8 @@ func _build_laboratory(background: Control, surface: Control) -> void:
 	add_child(laboratory)
 	move_child(laboratory, surface.get_index() + 1)
 	laboratory.start_requested.connect(func(task_key: String) -> void:
-		if task_key.is_empty() or task_key == TaskNavigation.next_task_key() or not TaskNavigation.enter(task_key):
-			TaskNavigation.start_or_continue())
+		if task_key.is_empty(): TaskNavigation.start_or_continue()
+		else: TaskNavigation.enter(task_key))
 	laboratory.journey_requested.connect(func() -> void: TaskNavigation.open_tree())
 	laboratory.settings_requested.connect(_open_options_menu)
 	laboratory.quit_requested.connect(_quit_game)

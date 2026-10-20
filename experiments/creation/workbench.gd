@@ -150,6 +150,11 @@ func _exit_tree() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST: request_leave(false)
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		request_leave(true)
+
 func label(value: String, parent: Node, font_size: int = 14) -> Label:
 	var node := Label.new()
 	node.text = value

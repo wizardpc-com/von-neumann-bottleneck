@@ -21,8 +21,8 @@ const STEPS := [
 		"zh": "按住右键划过任意一条线，把它拆掉。拆错了也没关系。",
 		"en": "Hold the right mouse button and sweep across a wire to remove it. Mistakes are fine."},
 	{"id": "reconnect", "zh_title": "接回去", "en_title": "Reconnect",
-		"zh": "把刚才拆掉的线重新接上。会改、会重来，就是会搭建。",
-		"en": "Connect the removed wire again. Being able to undo and redo is what building means."},
+		"zh": "把刚才拆掉的线重新接上。接回去后，还可以换个输入再运行。",
+		"en": "Reconnect the removed wire. Then you can try another input and run again."},
 ]
 
 const BUILD_STEPS := [
@@ -30,16 +30,16 @@ const BUILD_STEPS := [
 		"zh": "从右侧「元件」拖出门电路，接到每一个输出上。不确定时可以先只接一个输出试试。",
 		"en": "Drag gates from Components on the right and wire every output. Unsure? Wire just one output first."},
 	{"id": "debug", "zh_title": "试一试", "en_title": "Try it",
-		"zh": "在左侧测试台换几组输入，按「运行当前调试用例」，看输出是否符合你的预期。",
-		"en": "Change inputs in the test bench on the left and run the debug case. Does the output match what you expect?"},
+		"zh": "在左侧测试台换一组输入，运行调试用例。对照期望与实际输出，找出不一致的那一项。",
+		"en": "Change an input case in Test Bench and run it. Compare expected and actual outputs to find a mismatch."},
 	{"id": "official", "zh_title": "正式测试", "en_title": "Official test",
 		"zh": "按「逐项运行正式用例」。全部通过后，这个电路就能封装成下一关可用的零件。",
 		"en": "Run the official cases. When all pass, this circuit becomes a part you can reuse later."},
 ]
 const BUILD_PRAISE_ZH := ["每个输出都有来源了。", "跑起来了，看看结果对不对。", "全部通过。"]
 const BUILD_PRAISE_EN := ["Every output has a source now.", "It runs. Check whether the result is right.", "All cases pass."]
-const TUTORIAL_PRAISE_ZH := ["接上了。", "输入变了，结果也会跟着变。", "信号到了。", "拆掉了。", "又接好了。"]
-const TUTORIAL_PRAISE_EN := ["Connected.", "The input changed; the result will follow.", "The signal arrived.", "Removed.", "Connected again."]
+const TUTORIAL_PRAISE_ZH := ["接上了。", "输入变了。运行后再看灯。", "这次运行有结果了。", "拆掉了。", "又接好了。"]
+const TUTORIAL_PRAISE_EN := ["Connected.", "Input changed. Run to check the lamp.", "This run has a result.", "Removed.", "Connected again."]
 
 var steps: Array = STEPS
 var praise_zh: Array = TUTORIAL_PRAISE_ZH
@@ -130,7 +130,7 @@ func update_states(states: Array[bool]) -> void:
 	if next < 0:
 		if steps == STEPS:
 			step_label.text = "五步都完成了" if not english else "All five steps done"
-			instruction.text = "灯亮过，也灭过——两次都是对的。" if not english else "The lamp lit and went dark. Both were correct."
+			instruction.text = "五个操作都做到了。还可以换个输入再运行：NOT 会把 0 变成 1，把 1 变成 0。" if not english else "All five actions are done. Try the other input and run again: NOT turns 0 into 1 and 1 into 0."
 		else:
 			step_label.text = "完成了" if not english else "Done"
 			instruction.text = "可以封装它，继续下一项。" if not english else "Seal it and move on."

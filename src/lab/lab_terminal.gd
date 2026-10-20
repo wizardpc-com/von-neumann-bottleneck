@@ -266,7 +266,7 @@ func _compose_text() -> void:
 	var navigation: Node = get_node_or_null("/root/TaskNavigation")
 	var next_title: String = str(navigation.next_task_title()) if navigation != null else ""
 	if bool(state.get("new_player", true)):
-		_passage = "你好，我是壹。\n这台终端里有一套学习程序，留给愿意亲手弄明白计算的人。\n我们从一盏灯开始。" if zh else "Hello. I am Yi.\nThis terminal holds a learning program, left for anyone who wants to understand computing with their own hands.\nWe begin with one lamp."
+		_passage = "你好，我是壹。\n从一根线开始吧。接好、运行，再看看灯为什么亮或灭。\n需要时，我会在这里。" if zh else "Hello. I am Yi.\nStart with one wire. Connect it, run it, and see why the lamp is on or off.\nI am here when you need me."
 		primary.text = "开始 · 接通第一条线路" if zh else "Begin · connect the first line"
 		return
 	var target_title: String = str(state.get("next_title", ""))
@@ -280,7 +280,7 @@ func _compose_text() -> void:
 		var task: Dictionary = response.get("task", {})
 		var title: String = str(task.get("title", ""))
 		if bool(response.get("first_light", false)):
-			_passage = "灯亮过，也灭过。两次都是对的。\n那条线是你接上的，不是我替你算出来的。\n档案架上多了一页，想看的时候可以去看。" if zh else "The lamp lit, and went dark. Both were correct.\nYou connected that line; I did not compute it for you.\nThere is a new page on the archive shelf when you want it."
+			_passage = "你接好、运行过，也拆开重接过了。\n还想试试的话，换个输入再运行，看看灯的变化。\n档案架上多了一页，随时可以看。" if zh else "You connected, ran, disconnected and reconnected it.\nTry the other input and run again to see the lamp change.\nThere is a new page on the archive shelf whenever you want it."
 			return
 		if response.has("chapter"):
 			_passage = str(response.chapter.en if english else response.chapter.zh)

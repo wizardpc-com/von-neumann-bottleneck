@@ -1094,7 +1094,7 @@ func keep_work() -> void:
 	if not result.get("ok",false):
 		set_status(text2("作品未保存：","Work was not saved: ")+failure_text(result))
 		return
-	set_status(text2("已留下这件作品及完整配方。新的东西在这套系统中发生了。","This work and its full recipe are kept. Something new happened within this system."))
+	set_status(text2("作品与配方已保存到本地。可以回看，或从配方分叉继续做。","Work and recipe saved locally. View it again, or fork the recipe to continue."))
 	_playtest_completion()
 	kept_work = result.work.duplicate(true)
 	connection_records["work"] = kept_work.duplicate(true)

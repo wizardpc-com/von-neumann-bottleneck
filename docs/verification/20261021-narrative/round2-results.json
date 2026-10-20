@@ -1,0 +1,126 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/user_directory"
+    },
+    {
+      "name": "test_creation_choice_completion",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_choice_completion.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_creation_choice_completion"
+    },
+    {
+      "name": "test_creation_measured_closure",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_measured_closure.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_creation_measured_closure"
+    },
+    {
+      "name": "test_creation_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_creation_navigation"
+    },
+    {
+      "name": "test_creation_playable_loop",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_playable_loop.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_creation_playable_loop"
+    },
+    {
+      "name": "test_full_journey_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_full_journey_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_full_journey_narrative"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_foundations_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_hardware_foundations_ui"
+    },
+    {
+      "name": "test_hardware_seal_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_seal_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_hardware_seal_navigation"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_lab_journey"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_localization"
+    },
+    {
+      "name": "test_night_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_night_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_night_narrative"
+    },
+    {
+      "name": "test_system_evidence_guidance",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_evidence_guidance.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_system_evidence_guidance"
+    },
+    {
+      "name": "test_system_lab_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_lab_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182727Z-36220866/test_system_lab_ui"
+    }
+  ]
+}

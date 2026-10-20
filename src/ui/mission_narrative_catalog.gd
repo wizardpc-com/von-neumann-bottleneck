@@ -113,7 +113,7 @@ static func next_capability_key(chapter_id: StringName, level_id: StringName) ->
 static func introduction(english: bool) -> Dictionary:
 	return {
 		"title": "壹 · 留给后来者的程序" if not english else "Yi · A program for those who follow",
-		"context": "我是壹。这套学习程序，留给愿意亲手理解系统的人。\n旧文明曾深深依赖强大的系统。它的过去，留待你慢慢发现；现在，你可以先检验一条简单的规则。" if not english else "I am Yi. This learning program is for anyone who wants to understand systems by working with them.\nThe old civilization depended deeply on powerful systems. Its past can wait. Begin by testing one simple rule for yourself.",
+		"context": "我是壹。这里有一套可以亲手试的学习程序。\n先接一条线路，看看你的操作怎样改变结果。" if not english else "I am Yi. This learning program is here for you to try.\nConnect a circuit and see how your actions change its result.",
 		"goal_title": "眼前的小目标 · 接通一条 NOT 电路" if not english else "Your first goal · Connect a NOT circuit",
 		"goal": "从输入 A 的输出端拖线到 NOT 的输入端，再从 NOT 的输出端接到输出灯。切换输入并点运行：0 应得到 1，1 应得到 0。灯灭也可能是正确结果。" if not english else "Drag from input A's output to NOT's input, then connect NOT's output to the output lamp. Change the input and Run: 0 should produce 1; 1 should produce 0. An unlit lamp can be the correct result.",
 		"operations": "进入后，按屏幕上的提示一步步做：接线、切换输入、运行、拆一条线、再接回去。" if not english else "The Mission tracks five real actions: connect, change an input, run, disconnect and reconnect. Reading or skipping this introduction does not complete the task.",
@@ -133,8 +133,8 @@ const TASK_CONTEXTS := {
 		"按步骤卡做完五步：接线、切换输入、运行、拆一条线、再接回去。", "Finish all five tutorial actions; check NOT: 0→1 and 1→0.",
 		"你亲手改变输入、运行并重新接通了电路。NOT反转信号：0 → 1，1 → 0；灯灭也可以是正确结果。", "You changed the input, ran and reconnected the circuit. NOT inverts: 0 → 1 and 1 → 0; an unlit lamp can be correct."],
 	"hardware_foundations/half_adder": [
-		"把两个一位输入相加，分别接出SUM与CARRY。", "Add two one-bit inputs and provide separate SUM and CARRY outputs.",
-		"四组输入（00、01、10、11）的和与进位都对，就可以封装。", "Run the full tests for every input combination, sum and carry. Sealing retains its existing validation.",
+		"计算 A+B：SUM 接个位，CARRY 接进位。1+1=二进制 10，所以 SUM=0、CARRY=1。", "Add A+B: SUM is the low bit and CARRY the carry. For 1+1, binary 10 means SUM=0, CARRY=1.",
+		"正式测试的四组输入（00、01、10、11）都输出正确，再封装。失败时对照期望与实际值。", "Pass the four official cases (00, 01, 10, 11), then seal. Compare expected and actual values when a case fails.",
 		"你的电路学会了加法：1+1 写成和 0、进位 1。它会成为后面更大电路的零件。", "Your circuit provides separate sum and carry: 1+1 becomes SUM0, CARRY1. This structure can take part in a larger machine."],
 	"hardware_foundations/full_adder": [
 		"让两路输入和上一位进位一起参与相加。", "Add both inputs together with the incoming carry.",
@@ -189,8 +189,8 @@ const TASK_CONTEXTS := {
 		"接好 CPU↔Bus↔RAM 的请求、写入和返回路径，共六条连线；跑完正式测试，输出都正确。", "Connect all six request, write and return links through CPU, Bus and RAM; pass the full official output tests.",
 		"CPU、总线和内存连成了一台机器。之后的每一次等待，都能找到是谁在等谁。", "Computation and storage now have real exchange paths, so later waiting can be attributed to modeled parts."],
 	"chapter_1/cpu_speed": [
-		"先记录指定程序的基线，再只改变CPU进行完整对照。", "Record a baseline for the specified program, then change only the CPU for a full comparison.",
-		"先跑一次原样，再只换 CPU 跑一次，比较两次结果。", "Two valid receipts must retain the same program and other parts. Debug runs and unrun selections add no comparison.",
+		"先猜，再跑 Eco CPU；只换成 Fast CPU 再跑，比较计算、等待和总周期。", "Predict, then test Eco CPU. Change only to Fast CPU and compare compute, wait and total cycles.",
+		"同一程序、RAM 和总线下，两种 CPU 的正式测试都通过。只换选项或运行调试不算完成对照。", "Pass official tests with both CPUs and the same program, RAM and Bus. Selecting a part or running debug alone is not a comparison.",
 		"你量出了换 CPU 前后的差别。计算省了多少、等待还剩多少，都在这两次记录里。", "You measured what changing the CPU did. These two records show the change in computation and the waiting that remains."],
 	"chapter_1/ram_wait": [
 		"保持程序与其他部件，比较RAM改变带来的等待差别。", "Hold the program and other parts fixed while comparing a RAM change.",
@@ -202,7 +202,7 @@ const TASK_CONTEXTS := {
 		"总线更宽，一次能搬的数据更多。线连着，不等于搬得快。", "You verified how bandwidth changes segmented transfers, distinguishing connectivity from modeled transfer cost."],
 	"chapter_1/bottleneck": [
 		"运行指定工作负载，依据真实周期与等待记录作出瓶颈判断。", "Run the specified workloads and diagnose the bottleneck from measured cycles and waiting.",
-		"先运行、看记录，再说出你的判断：瓶颈在哪里。", "After a valid observation, submit a diagnosis matching it. A prediction selection is not diagnostic evidence.",
+		"跑完正式测试，再按这次的周期与等待记录提交判断。判断不符时，回到分析器核对。", "Finish the official run, then diagnose from its cycles and waiting. If the diagnosis does not match, check the Profiler.",
 		"你根据自己测到的数据找到了瓶颈，而不是凭感觉猜。", "You can explain where a limit arises, with the conclusion bound to its machine and workload."],
 	"chapter_1/read_once": [
 		"修改程序，让取回的数据得到需要的复用。", "Edit the program so fetched data receives the reuse the task needs.",
@@ -225,9 +225,9 @@ const TASK_CONTEXTS := {
 		"运行一次，从命中和淘汰记录里找出为什么还在等。", "Support the task judgment with a valid run; current controls do not describe an older receipt.",
 		"有缓存不等于有用：有用的数据可能已经被挤走了。", "You distinguished having Cache from retaining useful data, making failed reuse explainable evidence."],
 	"chapter_2/access_order": [
-		"保持计算含义，改变访问次序并观察搬运。", "Preserve the computation while changing access order and observing transfers.",
-		"输出正确，周期不超过目标。怎么安排访问顺序，由你决定。", "Run the full test with correct output and the public cycle target; choose the access arrangement yourself.",
-		"算的东西没变，只是换了顺序，就快了很多。", "You changed the order in which data reaches computation while preserving the result's meaning."],
+		"调整循环先后，点「应用程序」再运行；比较取数次数和总周期。", "Change the loop order, Apply program, then run. Compare data requests and total cycles.",
+		"按行连续访问，正式结果正确且不超过 105 周期。未达标时，查命中、淘汰和 RAM 取数记录。", "Use row-first access with correct official output in at most 105 cycles. If it falls short, inspect hits, evictions and RAM requests.",
+		"同样的数据和计算，换了访问顺序。看看这次少了哪些取数。", "The data and computation stayed the same; the access order changed. Inspect which requests were avoided."],
 	"chapter_2/working_set": [
 		"观察重复计算需要的数据与有限Cache如何相处。", "Observe how repeatedly needed data interacts with finite Cache capacity.",
 		"运行并看记录：需要同时留在手边的数据，放得下吗？", "Use the task's run and records to support a working-set judgment, beyond whether Cache is enabled.",
@@ -365,9 +365,9 @@ const TASK_CONTEXTS := {
 		"想比较时只改一个条件；想直接留下也可以。", "To compare, change only one condition; or keep a work directly.",
 		"你的选择成了作品的一部分。好不好看，不由分数决定。", "Your choice became part of the work. Whether it is beautiful is not decided by a score."],
 	"creation/G3_keep": [
-		"给实际输出命名并确认保存，再选择观看、再生或分叉。", "Name real output and confirm Keep, then choose viewing, regeneration or forking.",
-		"给它起个名字，保存下来；以后可以回看，也可以照原配方重新生成。", "Name it and keep it; later you can view it or regenerate it from its recipe.",
-		"这是你留下的作品。以后再怎么改，这一次都会保留。", "This is the work you left. Whatever you change later, this one stays."],
+		"生成后，在「作品与配方」中命名并确认保存；生成本身还不算留下作品。", "After generation, name it in Works / recipes and confirm Keep. Generation alone does not save a work.",
+		"确认保存成功，输出和配方才会一起留下。失败时保留当前草稿，查看状态栏原因。", "Keep must succeed to retain the output and recipe together. If it fails, keep the draft open and read the status message.",
+		"你选择留下这一段。可以回看它，也可以从原配方另开一份草稿。", "You chose to keep this passage. View it again, or fork its recipe into another draft."],
 }
 
 const DOMAIN_CONTEXTS := {

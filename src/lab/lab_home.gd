@@ -273,6 +273,9 @@ func _read_progress() -> void:
 		for key: String in CHAPTER_RESPONSES:
 			if key in fresh:
 				response["chapter"] = CHAPTER_RESPONSES[key]
+				response["first_light"] = false
+				# A later chapter response must not inherit an earlier conversation.
+				response.erase("dialogue")
 				var beats: Array = Dialogues.for_key(key)
 				if not beats.is_empty(): response["dialogue"] = beats
 	next_key = "hardware_foundations/tutorial" if completed.is_empty() else _next_task(rows, fresh)

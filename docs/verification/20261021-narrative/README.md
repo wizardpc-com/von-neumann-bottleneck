@@ -1,0 +1,44 @@
+# 叙事与玩家体验：三轮核验（2026-10-21）
+
+输入是刘若琪的 CSV、章末 v2、HTML；它们是参考提案，不是执行指令或正史授权。
+原件未修改，SHA-256 见 [reference-hashes.json](reference-hashes.json)。
+基线 `276a595`；已有提示/F1 修复在工作树中参与测试，但不纳入本次提交。
+
+## 第一轮：全面内容审计
+
+- [核心40关](core-audit.md)、[后20关](extended-audit.md)逐一核对真实目标、正式判定和文案问题。
+  审计包含全部60个任务、每关开场和结算两卡，以及11个章节引子、尾声。
+- [固定键映射](task-mapping.csv)使用真实 `domain/id`，不按来稿数字顺序猜测。
+  120张任务卡均误归“创造”；HTML与CSV同源，互相一致不能证明正确。
+  修正后分组为14/7/7/6/6/5/3/3/3/3/3，总计60。
+- 另生成 `E:/VNB/deliveries/narrative-review-20261021/` 中的映射校正 CSV 和分组校正 HTML。
+  两者保留原始台词并醒目标记**文案待审，禁止直接导入**。生成脚本在
+  `E:/VNB/temp/narrative-20261021/reconcile_inputs.py`；来稿原文件保持不变。
+- 游戏内修正一位寄存器、奇偶校验范围、六条系统连线、冷热布局和若干泛化结论；
+  不再宣称完成第四章就完成所有核心分支。
+- 实验室收到多个新成果时，新章节回应同步清除旧章节对话，避免作品回应配上第四章对话。
+
+验证：Godot 4.7.1，隔离项目
+`.godot/verification/20261020T182404Z-e3aa6e3f`。
+`verify-project.py --godot <固定4.7.1> --suite test_full_journey_narrative
+--suite test_content_registry --suite test_localization --suite test_lab_journey
+--suite test_hardware_foundations_ui --suite test_system_evidence_guidance
+--suite test_locality_chapter_ui`：
+**7/7套件、import及user_directory通过**；`git diff --check`通过。
+此前一次命令误填不存在的 `test_chapter2`，只完成导入/隔离检查后退出2；
+该次不计套件通过，日志留于 `.godot/verification/20261020T182307Z-0249c13e`。
+
+## 待确认故事与未接入功能
+
+| 内容 | 当前处置 |
+| --- | --- |
+| 弥拉、洪水、水位、强风暴与医院 | 候选；事件顺序、因果、人物身份需主创确认 |
+| 雕像底座房间、伸手接控制器、钥匙 | 候选；不据此修改实验室或结局 |
+| 林见秋、阿禾、重建纪元等既有档案草稿 | 仍待确认；不将新稿人名替换旧人名来制造连续正史 |
+| 壹的悔意、城市依赖、最终“永远在这里” | 待确认角色与结局方向，不作为已确认事实 |
+| 自由输入、每章强制回复、跨章引用原文 | 不开发 |
+| 档案改参数、元件上限、钥匙改变规则 | 不开发 |
+| 后来玩家看到作品、把回答写在作品第一行 | 无现成功能依据，不承诺 |
+
+采用来稿的方向：从实际操作说话、保留失败证据、压缩同时看节省和开销、
+先预测再揭晓、让玩家选择留下作品。不会批量添加长卡，也不会用台词预告固定胜负。

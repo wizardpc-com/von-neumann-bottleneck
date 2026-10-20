@@ -1,0 +1,78 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/user_directory"
+    },
+    {
+      "name": "test_content_registry",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_content_registry.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/test_content_registry"
+    },
+    {
+      "name": "test_full_journey_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_full_journey_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/test_full_journey_narrative"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_foundations_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/test_hardware_foundations_ui"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/test_lab_journey"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/test_localization"
+    },
+    {
+      "name": "test_system_evidence_guidance",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_evidence_guidance.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T182404Z-e3aa6e3f/test_system_evidence_guidance"
+    }
+  ]
+}

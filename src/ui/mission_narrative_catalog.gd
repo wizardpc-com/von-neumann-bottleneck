@@ -149,9 +149,9 @@ const TASK_CONTEXTS := {
 		"按顺序给出置位、保持、清除，看它能不能记住上一次的状态。", "Check state changes and holding across the input sequence, using the task's control rules.",
 		"电路第一次记住了过去：输入撤掉以后，状态还在。", "Past input can now leave a readable state; the circuit responds to more than the current input alone."],
 	"hardware_foundations/register": [
-		"安排数据与LOAD控制，让多位值在需要时写入。", "Arrange data and LOAD control so a multi-bit value is written when required.",
+		"用DATA与LOAD控制一位数据的写入和保持。", "Use DATA and LOAD to write or hold one bit.",
 		"写进去、关掉 LOAD 保持住、再写一次——每一步都对才算完成。", "Check writes, holding with LOAD off and later writes across every sequence case.",
-		"什么时候写、写什么，现在分开了。数据可以安静地等到下次被用到。", "You separated the write decision from the data value, so multi-bit information can wait for later use."],
+		"这一位能按需写入、保持了。封装后，系统会用它组成四位寄存器。", "This bit can now be written or held. Sealing also builds a four-bit register from it."],
 	"hardware_foundations/ram": [
 		"组合地址选择、写入控制与存储，按地址取回数据。", "Combine address selection, write control and storage to retrieve data by address.",
 		"往不同地址写、再按地址读回来，每一次都要对。", "Check writes, holding and reads at different addresses, rather than only the final output.",
@@ -174,7 +174,7 @@ const TASK_CONTEXTS := {
 		"从二选一到四选一，大的选择也是由小规则拼出来的。", "Selection now spans four sources, while remaining composed of precise small rules."],
 	"hardware_foundations/parity": [
 		"把数据与CHECK合起来判断奇偶校验是否出错。", "Combine the data and CHECK input to detect parity disagreement.",
-		"每种组合下 ERROR 都要对。注意：奇偶校验只能发现错了一位。", "Check ERROR across all combinations. Parity checks this rule; it does not detect every possible error.",
+		"每种组合下 ERROR 都要对。奇数个位翻转会被检出，偶数个位翻转可能漏过。", "Check ERROR across all combinations. Parity detects an odd number of flipped bits; an even number can go undetected.",
 		"多加一位，就能发现一位出错——也知道了它发现不了什么。", "You used redundant information to check a specific error condition, with a clear limit on what it detects."],
 	"hardware_foundations/delay": [
 		"让输出在接受新值时给出上一次已接受的数据；暂停接受时保持。", "On accepting new data, output the previously accepted value; hold when acceptance pauses.",
@@ -186,12 +186,12 @@ const TASK_CONTEXTS := {
 		"一闪而过的故障也会被记下，直到有人确认清除。", "A brief fault can leave a record that is cleared by explicit control; memory and response have distinct roles."],
 	"chapter_1/assembly": [
 		"接通CPU、Bus和RAM的请求、写入与读取路径。", "Connect the request, write and read paths among CPU, Bus and RAM.",
-		"接好请求、写入、读取三条线，跑完程序，输出正确。", "The visible wires must form a valid topology; run the full task program and check its outputs.",
+		"接好 CPU↔Bus↔RAM 的请求、写入和返回路径，共六条连线；跑完正式测试，输出都正确。", "Connect all six request, write and return links through CPU, Bus and RAM; pass the full official output tests.",
 		"CPU、总线和内存连成了一台机器。之后的每一次等待，都能找到是谁在等谁。", "Computation and storage now have real exchange paths, so later waiting can be attributed to modeled parts."],
 	"chapter_1/cpu_speed": [
 		"先记录指定程序的基线，再只改变CPU进行完整对照。", "Record a baseline for the specified program, then change only the CPU for a full comparison.",
 		"先跑一次原样，再只换 CPU 跑一次，比较两次结果。", "Two valid receipts must retain the same program and other parts. Debug runs and unrun selections add no comparison.",
-		"CPU 快了四倍，总时间却没快多少——时间花在了等数据上。", "Your controlled measurements separate computation from waiting; use those records to inspect how faster computation affects total time."],
+		"你量出了换 CPU 前后的差别。计算省了多少、等待还剩多少，都在这两次记录里。", "You measured what changing the CPU did. These two records show the change in computation and the waiting that remains."],
 	"chapter_1/ram_wait": [
 		"保持程序与其他部件，比较RAM改变带来的等待差别。", "Hold the program and other parts fixed while comparing a RAM change.",
 		"先跑一次原样，再只换内存跑一次，比较等待的变化。", "First retain a baseline matching the current fixed conditions, then fully test another RAM part.",
@@ -211,7 +211,7 @@ const TASK_CONTEXTS := {
 	"chapter_1/two_orders": [
 		"分别为计算订单和搬运订单安排满足成本与时间限制的机器。", "Choose machines meeting time and cost limits for both the compute and move orders.",
 		"两张订单各自达标，可以用不同的机器配置。", "Both distinct orders need qualifying receipts. They may use different valid configurations; repeating one cannot satisfy the other.",
-		"不同的需求要不同的机器，没有一种配置能通吃。", "You made trade-offs suited to distinct demands; one machine configuration need not answer every order."],
+		"两份订单都达标了。比较它们的时间和成本，看看不同需求下的取舍。", "Both orders meet their limits. Compare their time and cost to examine the trade-offs."],
 	"chapter_2/distant_reads": [
 		"运行任务并观察相同数据为何反复经过RAM。", "Run the task and examine why the same data returns through RAM repeatedly.",
 		"运行一次，根据记录说出：哪些数据被反复取了。", "Retain a valid run, then submit the task's judgment from that evidence.",
@@ -231,7 +231,7 @@ const TASK_CONTEXTS := {
 	"chapter_2/working_set": [
 		"观察重复计算需要的数据与有限Cache如何相处。", "Observe how repeatedly needed data interacts with finite Cache capacity.",
 		"运行并看记录：需要同时留在手边的数据，放得下吗？", "Use the task's run and records to support a working-set judgment, beyond whether Cache is enabled.",
-		"要反复用的数据比缓存还大时，复用就失效了。", "You related the data needed for reuse to capacity, explaining why repetition may still incur transfers."],
+		"要反复用的数据不一定留得住。容量和访问次序，要一起看。", "Data needed again may not stay in Cache. Capacity and access order both matter."],
 	"chapter_2/blocking": [
 		"安排分块，让有限空间里的数据在离开前得到使用。", "Arrange blocks so data in finite space is used before it leaves.",
 		"输出正确，周期不超过目标；分块不能漏算。", "The full task must preserve correct output and meet the public cycle target; blocking must not omit or alter work.",
@@ -275,7 +275,7 @@ const TASK_CONTEXTS := {
 	"chapter_4/hot_cold": [
 		"让频繁共同读取的字段与偶尔抽查的字段各有合适位置。", "Arrange frequently co-read fields and occasionally inspected fields to suit their access patterns.",
 		"同一种布局下，两份查询都要达到周期目标。", "One layout must retain all identities and fields and meet cycle contracts for both queries.",
-		"常一起用的放一起，偶尔用的放远一点。", "You translated access frequency and co-use into a layout trade-off."],
+		"常一起读的字段与偶尔抽查的字段，找到了兼顾两种查询的摆法。", "Your field arrangement serves both frequent reads and occasional inspections."],
 	"chapter_4/relocation": [
 		"分别判断一次查询与反复查询是否值得先复制整理。", "Decide separately whether one query and repeated queries justify copying first.",
 		"两张订单各自达标；搬过去、整理、写回的成本都要算上。", "Each order's own valid design must meet its target, including source reads, preparation and writes.",
@@ -287,7 +287,7 @@ const TASK_CONTEXTS := {
 	"chapter_4/mixed": [
 		"用同一方案兼顾反复统计与稀疏整条抽查。", "Use one design for repeated scans and sparse whole-record inspections.",
 		"两张订单都正确且达标；空间和流量的额外目标可以以后再挑战。", "Both cases must meet output and main-contract conditions; optional space and traffic goals do not gate completion.",
-		"你找到了一种同时照顾两类查询的布局。核心旅程到这里走完了。", "You found one arrangement usable by both access patterns; space and traffic remain distinct directions for further improvement."],
+		"你找到了一种同时照顾两类查询的布局。还可以比较它的空间和流量。", "You found one arrangement usable by both access patterns; space and traffic remain distinct directions for further improvement."],
 	"representation/mixed_scan": [
 		"选择分块和编码，让混合资产的完整扫描达标。", "Choose partitions and encodings that serve a complete mixed-asset scan under its contract.",
 		"存储大小和总周期都达标；解码也要花时间。", "Measure whole-asset storage and total cycles, including decoding work and transferred payload.",
@@ -303,14 +303,14 @@ const TASK_CONTEXTS := {
 	"representation/prepare_once": [
 		"比较准备一次后服务短读与多次冷扫描的安排。", "Arrange one preparation phase to serve a short read and multiple cold scans.",
 		"准备和之后的服务都算成本；每位客户都从空缓存开始。", "Count preparation reads, encoding, writes and later service; each client starts with cold Cache.",
-		"先花一次功夫准备，之后每次服务都更快。", "You accounted for preparation and later reuse together, including the cost behind faster service."],
+		"准备和服务的成本合在一起，才知道这次整理值不值得。", "Preparation and service costs together show whether this rearrangement pays off."],
 	"representation/cross_assets": [
 		"让同一划分与编码选择服务两份不同资产和各自订单。", "Use the same partition and encoding choices for two distinct assets and their orders.",
 		"同一个方案在两份资产上都要达标。", "One plan must meet every contract on both public assets; showing only one order is insufficient.",
 		"你的写法换一份数据也成立，不是只对一段数据有效。", "Your representation choices survived a second asset, extending the trade-off beyond one data sample."],
 	"service/move_state": [
 		"安排分组与状态驻留，让历史服务后续请求。", "Arrange grouping and state residency so history serves later requests.",
-		"同一条流按顺序处理，结果精确，周期和状态搬运达标。", "Preserve within-stream order, exact scores and final states, and meet cycle, state-traffic and peak-memory contracts.",
+		"每条流保持顺序，结果与最终状态精确；周期、状态搬运和峰值内存都达标。", "Preserve within-stream order, exact scores and final states, and meet cycle, state-traffic and peak-memory contracts.",
 		"会变化的状态留在近处，下一个请求就不用重新搬。", "You retained and reused changing state, with measured correctness and transfer trade-offs."],
 	"service/prompt_response": [
 		"在有限资源中兼顾总工作与每条流的首次响应。", "Balance total work and each stream's first response under finite resources.",
@@ -351,7 +351,7 @@ const TASK_CONTEXTS := {
 	"creation/P2_memory": [
 		"改变记忆长度并重新学习，在同材料与机器上比较预测。", "Change history length and relearn, comparing predictions on matching material and machine.",
 		"改了记忆长度就要重新学习，再用新规则完整预测一轮。", "After changing the history length, learn again and predict a full round with the new rules.",
-		"记得越多，能分辨的情况越多，但规则也会变多。", "Remembering more lets the rules tell more situations apart, and makes the rules larger."],
+		"记忆长度改变了规则看到的上下文。有没有猜得更好，要看同一材料上的对照。", "History length changes the context available to the rules. Compare matching material to see whether prediction improved."],
 	"creation/P3_check": [
 		"先用独立材料练习，再带着冻结规则检查未见片段。", "Practice separately, then check an unseen passage with frozen rules.",
 		"练习归练习；检查时规则冻结，只看它没见过的片段。", "Practice is separate; during the check the rules are frozen and only see an unseen passage.",

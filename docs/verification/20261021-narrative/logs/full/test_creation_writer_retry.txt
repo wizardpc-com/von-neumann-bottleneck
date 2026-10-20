@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SKIP: native stopped-owner query unavailable; no stopped-owner recovery claim
+PASS: creation writer retry 76 checks

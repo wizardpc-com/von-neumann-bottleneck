@@ -1,0 +1,17 @@
+[
+  {
+    "exit": 0,
+    "log": "E:\\VNB\\temp\\narrative-20261021\\test_receiver-loopback.txt",
+    "check": "server/test_receiver.py"
+  },
+  {
+    "exit": 0,
+    "log": "E:\\VNB\\temp\\narrative-20261021\\test_community-loopback.txt",
+    "check": "server/test_community.py"
+  },
+  {
+    "exit": 0,
+    "log": "E:\\VNB\\temp\\narrative-20261021\\test_delivery-loopback.txt",
+    "check": "server/test_delivery.py"
+  }
+]

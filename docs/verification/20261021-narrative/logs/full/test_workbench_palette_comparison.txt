@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+NOT_RUN: full-workbench rendered dark/light comparison (headless)
+SETUP: original tutorial controller actions earned completion; subsequent colors are QA presentation only: zh_CN
+SETUP: original tutorial controller actions earned completion; subsequent colors are QA presentation only: en
+PASS: real frozen-workbench palette comparison (67 checks)

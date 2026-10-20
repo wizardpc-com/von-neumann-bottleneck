@@ -1,12 +1,12 @@
 # 核心 40 关文案审计（只读，2026-10-21）
 
-基线：读取 E:/VNB/game 当前工作树；未运行 Godot、未修改生产文件/测试、未操作 Git。每行对应 CSV 的开场+结算两卡。文案中的玩法陈述必须服从现有公开规格与正式判定。
+基线：读取 E:/VNB/game 当前工作树。表格的事实核查来自只读审计；主控逐项审阅文案并决定采用范围。每行对应 CSV 的开场+结算两卡。文案中的玩法陈述必须服从现有公开规格与正式判定。
 
 ## 映射与共性问题
 
 - CSV 132 数据行均有16列：12章级引子/尾声 + 120关卡卡片。120关卡卡片的章节列全部错误填为“创造”；不能据此入库。
 - CSV 编号 01 对应实际序章，02…05 对应第一…四章；不能直接作为当前显示编号。使用 domain/id 作为固定键。
-- 以内容名/机制映射：01-8=alarm，01-9=latch；02-5=read_once，02-6=bottleneck；04-3=prefetch，04-4=backpressure；05-3=relocation，05-4=hot_cold。05-5标题漏“整”，唯一相符真实节点为batches。
+- 以内容名/机制映射：01-8=alarm，01-9=latch；02-5=read_once，02-6=bottleneck；04-3=prefetch，04-4=backpressure；05-3=relocation，05-4=hot_cold。05-5的“化为零”与batches“化整为零”只有槽位及近似标题对应，正文机制不符；不能认定只是漏字，须作者确认重写。
 - 局部拓扑自由，不能把参考接线的门数、时延、固定结果描述成所有玩家已获得的结果；屏幕连线没有传播延迟。
 - 原稿大量“下一关”假定线性路线，但控制/存储可选支线及第三/第四章平行开放；不增添流程门槛。
 - 多处开场已给失败原因或优化答案，结算又重复附注；不要批量接入，保留规格但让真实运行先给证据。
@@ -54,7 +54,7 @@
 | 05-2 一窥全貌 | `chapter_4/records` / 一窥全貌 | 稀疏抽查记录，每条取全四字段，重新安排布局；两用例正确，读写流量<=64/96B | 原稿误解成看全局图/时间线；真实是整记录查询优化。 | `src/layout_chapter/layout_catalog.gd:9`；`src/layout_chapter/layout_catalog.gd:43`；`src/layout_chapter/layout_catalog.gd:66` |
 | 05-3 搬迁有价 | `chapter_4/relocation` / 搬迁有价 | 一次查询和8次查询分别决定是否复制整理；两订单各方案正确，<=307/1400周期，scratch<=160B | 按标题机制映射；与hot_cold次序对调；包含源读取、写入和查询，不只重排。 | `src/layout_chapter/layout_catalog.gd:5`；`src/layout_chapter/layout_catalog.gd:43`；`src/layout_chapter/layout_catalog.gd:66` |
 | 05-4 冷热有别 | `chapter_4/hot_cold` / 冷热有别 | 温度+告警频繁共同用，ID+电量偶尔抽查，安排字段分组；同一布局两用例正确且<=640周期 | 不是不同层级存储、冷热距离或两层代价；不要凭完成断言冷层慢很多。 | `src/layout_chapter/layout_catalog.gd:5`；`src/layout_chapter/layout_catalog.gd:10`；`src/layout_chapter/layout_catalog.gd:43`；`src/layout_chapter/layout_catalog.gd:66` |
-| 05-5 化为零 | `chapter_4/batches` / 化整为零 | 48B临时空间内分批处理17记录，准确处理尾批；两用例正确、<=1100周期、peak scratch<=48B | 漏字误成“化为零”，整段变为零代价/不占空间，必须弃用重写。 | `src/layout_chapter/layout_catalog.gd:12`；`src/layout_chapter/layout_catalog.gd:43`；`src/layout_chapter/layout_catalog.gd:66` |
+| 05-5 化为零 | `chapter_4/batches` / 化整为零 | 48B临时空间内分批处理17记录，准确处理尾批；两用例正确、<=1100周期、peak scratch<=48B | 标题与正文均不符，仅保留为该槽位候选；零代价/不占空间的整段必须重写并确认对应。 | `src/layout_chapter/layout_catalog.gd:12`；`src/layout_chapter/layout_catalog.gd:43`；`src/layout_chapter/layout_catalog.gd:66` |
 | 05-6 两全之策 | `chapter_4/mixed` / 两全之策 | 同一方案兼顾重复统计与稀疏整记录抽查；两用例正确、<=2450/1550周期，scratch<=160B；额外空间流量目标非门槛 | 不是三批数据各自策略；同一方案过两单。 | `src/layout_chapter/layout_catalog.gd:13`；`src/layout_chapter/layout_catalog.gd:43`；`src/layout_chapter/layout_catalog.gd:66` |
 
 ## 现有运行时叙事目录额外错误

@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+NOT_RUN: ThemeReflection/F8 focused-window stack requires a real renderer
+PASS: read-only journey journal (173 checks)

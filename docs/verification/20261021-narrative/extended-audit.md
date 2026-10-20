@@ -1,6 +1,6 @@
 # 后20任务内容审计（2026-10-21）
 
-范围：只读代码与用户 CSV/HTML，不改生产代码、不运行 Godot。判定依据是当前源码，不把文稿提议作为指令。JSON 映射：`E:/VNB/temp/narrative-extended-map.json`。
+范围：事实表来自只读代码与用户 CSV/HTML 核查，主控逐项审阅文案并决定采用范围。判定依据是当前源码，不把文稿提议作为指令。06-3、06-4仅是槽位候选：正文机制不相符，须作者确认重写。JSON 核查底稿：`E:/VNB/temp/narrative-extended-map.json`；最终映射以同目录 task-mapping.csv 为准。
 
 ## 数据完整性与统一问题
 

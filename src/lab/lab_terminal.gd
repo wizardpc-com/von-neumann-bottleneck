@@ -35,8 +35,10 @@ var quit_no: Button
 var _confirming: bool = false
 var echo: Label
 var choices: HBoxContainer
+var dialogue_skip: Button
 var _dialogue: Array = []
 var _beat: int = -1
+var _reveal_choices: Callable
 
 func _ready() -> void:
 	clip_contents = true
@@ -87,6 +89,10 @@ func _build() -> void:
 	progress_label = _label(header, "", 13, Palette.TERM_MUTED)
 	progress_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	dialogue_skip = _button(header, "", "dialogue_skip", false)
+	dialogue_skip.name = "DialogueSkip"
+	dialogue_skip.add_theme_font_size_override("font_size", 12)
+	dialogue_skip.hide()
 	language_button = _button(header, "EN", "language", false); language_button.name = "TerminalLanguage"
 	language_button.custom_minimum_size = Vector2(44, 24); language_button.add_theme_font_size_override("font_size", 12)
 	var rule := ColorRect.new(); rule.color = Palette.with_alpha(Palette.TERM_EDGE, 0.9); rule.custom_minimum_size.y = 1
@@ -119,14 +125,17 @@ func _build() -> void:
 	_build_quit_view(stack)
 	_compose()
 
-## Chapter-ending conversation (candidate copy in chapter_dialogues.gd):
-## Yi speaks, the player picks a reply, Yi answers; the last beat is a hook.
-## The normal menu returns when it ends. Nothing here changes progress.
+## Reading or skipping never changes the completion behind this response.
 func play_dialogue(beats: Array) -> void:
 	if beats.is_empty(): return
 	_dialogue = beats
 	_beat = -1
 	primary.hide(); secondary.hide(); choices.show()
+	dialogue_skip.text = "返回" if not english else "Back"
+	dialogue_skip.tooltip_text = "跳过本段，回到终端" if not english else "Skip this conversation and return to the terminal"
+	dialogue_skip.show()
+	dialogue_skip.grab_focus()
+	message.skip_scope = choices
 	_next_beat()
 
 func in_dialogue() -> bool:
@@ -144,10 +153,12 @@ func _next_beat() -> void:
 	_say_then(str(beat.en if english else beat.zh), beat.get("replies", []))
 
 func _say_then(passage: String, replies: Array) -> void:
+	if _reveal_choices.is_valid() and message.finished.is_connected(_reveal_choices):
+		message.finished.disconnect(_reveal_choices)
 	_passage = passage
 	_set_choices([])
 	message.play(_passage)
-	var reveal := func() -> void:
+	_reveal_choices = func() -> void:
 		if replies.is_empty():
 			var last: bool = _beat >= _dialogue.size() - 1
 			_set_choices([{"text": ("回到终端" if not english else "Back to the terminal") if last else ("继续 ›" if not english else "Continue ›"), "next": true}])
@@ -155,8 +166,8 @@ func _say_then(passage: String, replies: Array) -> void:
 			var options: Array = []
 			for reply: Dictionary in replies: options.append({"text": str(reply.en if english else reply.zh), "reply": reply})
 			_set_choices(options)
-	if message.is_playing(): message.finished.connect(reveal, CONNECT_ONE_SHOT)
-	else: reveal.call()
+	if message.is_playing(): message.finished.connect(_reveal_choices, CONNECT_ONE_SHOT)
+	else: _reveal_choices.call()
 
 func _set_choices(options: Array) -> void:
 	for child: Node in choices.get_children(): child.queue_free()
@@ -182,9 +193,13 @@ func _set_choices(options: Array) -> void:
 	if first != null: first.call_deferred("grab_focus")
 
 func _end_dialogue() -> void:
+	if _reveal_choices.is_valid() and message.finished.is_connected(_reveal_choices):
+		message.finished.disconnect(_reveal_choices)
 	_dialogue = []
 	_beat = -1
-	echo.hide(); choices.hide()
+	echo.hide(); choices.hide(); dialogue_skip.hide()
+	message.skip_scope = self
+	_set_choices([])
 	primary.show(); secondary.show()
 	response = {}
 	_compose()
@@ -287,10 +302,7 @@ func _compose_text() -> void:
 			if int(response.get("fragments", 0)) > 0:
 				_passage += "\n" + ("档案架上多了一页记录。" if zh else "A new record waits on the archive shelf.")
 			return
-		var lines_zh: Array[String] = ["「%s」完成了。\n这次结果来自你刚才搭起的结构，不是我的保佑。", "「%s」通过了。\n你可以回去再改它，也可以继续往前走。", "记下了：「%s」。\n下一步，通常比这一步多一个条件。"]
-		var lines_en: Array[String] = ["\"%s\" is complete.\nThat result came from the structure you just built, not from my blessing.", "\"%s\" passes.\nYou can go back and refine it, or keep going.", "Recorded: \"%s\".\nThe next step usually adds one more condition."]
-		var pick: int = absi(title.hash()) % lines_zh.size()
-		_passage = (lines_en[pick] if english else lines_zh[pick]) % _shorten(title, 16)
+		_passage = ("「%s」完成了。\n你可以回去再改它，也可以继续往前走。" if zh else "\"%s\" is complete.\nYou can return to try another approach, or keep going.") % _shorten(title, 16)
 		if int(response.get("fragments", 0)) > 0:
 			_passage += "\n" + ("档案架上多了一页记录。" if zh else "A new record waits on the archive shelf.")
 		return
@@ -323,6 +335,7 @@ func release_focus_inside() -> void:
 func _focus_primary() -> void:
 	if in_dialogue():
 		if choices.get_child_count() > 0: (choices.get_child(0) as Control).call_deferred("grab_focus")
+		else: dialogue_skip.call_deferred("grab_focus")
 		return
 	if primary != null and primary.is_visible_in_tree(): primary.call_deferred("grab_focus")
 
@@ -377,6 +390,7 @@ func _button(parent: Node, text: String, id: String, strong: bool) -> Button:
 		node.add_theme_color_override(color_name, ink)
 	node.pressed.connect(func() -> void:
 		if id == "quit_cancel": cancel_quit()
+		elif id == "dialogue_skip": _end_dialogue()
 		else: action.emit(id))
 	parent.add_child(node)
 	return node

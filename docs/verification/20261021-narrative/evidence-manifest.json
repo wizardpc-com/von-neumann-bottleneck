@@ -1,0 +1,1683 @@
+{
+  "baseline": "276a5950e972a6ab7c6b232c3487ac98cfe71c2f",
+  "round1": "7542b72",
+  "round2": "c70f900",
+  "branch": "codex/navigation-closeout-20261020",
+  "full_regression_qa": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768",
+  "final_qa": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52",
+  "final_delta": "Shorten one English status line; add comparison viewport-width checks.",
+  "production_and_added_test": [
+    {
+      "path": "localization/game.en.po",
+      "sha256": "a515262bdafc9da9f1d5f0ec0f068974e28f9c2da1f825219d43a338f7d9cada",
+      "git_blob": "5092481d103e5fbb49cb40029838a508185c76a9",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "src/ui/mission_narrative_catalog.gd",
+      "sha256": "313239e1d52d138efc6e25a972d96cc27033137a70bd2ccb772f26589b68e8eb",
+      "git_blob": "bae5eb0987cb8da4635b6de73cf71a10f7578517",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "src/hardware_foundations/tutorial_coach.gd",
+      "sha256": "e2bf1f3a8e7833d2d4216824a176ebd60caac0d2b45f452da189b84be085acf4",
+      "git_blob": "c9fdf5593025956718d98ebede70dc8c64bab47f",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "src/lab/lab_terminal.gd",
+      "sha256": "19f1f6cc42f2a8c36a56fe9487dbee1fb1a9d43422bc3410732d2e57040638d1",
+      "git_blob": "b6df7cbcb62553520d819103292f100a00e85cae",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "src/lab/lab_home.gd",
+      "sha256": "511bb675573cd9b6479c92bdd9b9d8248c63ff86c482dd87a44daa3e360818b3",
+      "git_blob": "e4f4084136c069480947554eeb416bacf6ad8773",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "src/lab/chapter_dialogues.gd",
+      "sha256": "a64d9a088c76068e202ab731430a2e892a5778cde9569089ef3b2ee9da93301e",
+      "git_blob": "2825b26eff7e520a384905c0bada455c2fab2697",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "src/lab/archive_fragments.gd",
+      "sha256": "ba1a55c20575454a2bb2ce5813290d3caa6bb537dde90da2520abc27923efddc",
+      "git_blob": "90b082025c0d0be45c2c4819487cc0420b70d504",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "src/lab/lab_archive.gd",
+      "sha256": "dac9719789dad781a242d0d89098cb7bda0a3a637136454b1a1365d56cb89f04",
+      "git_blob": "f73094647c3e531ca8ec38dd7c38b4a55d552b95",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "experiments/creation/workbench.gd",
+      "sha256": "3c752ee476c0dcd7154f2766d39f1b559fafac0b6e2312c31fa02b4f9ffcffd5",
+      "git_blob": "aca40162bdec6bd8907f1d319db82b71bb167fe8",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "tests/test_narrative_review.gd",
+      "sha256": "e93b6a7039f1052bc9ffb4ff8ef3845f2becba868efb99b41dc54cdaffb65ede",
+      "git_blob": "2827daa92bd6abc2aa10d82b596db39c87ea1f77",
+      "matches_tested_copy": true
+    },
+    {
+      "path": "docs/verification/20261021-narrative/task-mapping.csv",
+      "sha256": "49e00d8a5be2f78dae1f0bcff7434897c534e31a9a821ea1ddeec4e31087629d",
+      "git_blob": "4952925fedd0d281f86975d10d662ff240b6d68b",
+      "matches_tested_copy": true
+    }
+  ],
+  "preexisting_files_unchanged": [
+    {
+      "path": "docs/CURRENT_STATE.md",
+      "sha256": "3B4F4AB98E419B23049B5D12472E1BC60860018717A57560433E9F2F7DE74015"
+    },
+    {
+      "path": "docs/development/testing.md",
+      "sha256": "06ACE6F5AD2AECD6276EDFB92296E49434703B0C8BC50998BB57BDA6421E76C7"
+    },
+    {
+      "path": "src/hardware_foundations/hardware_foundations.gd",
+      "sha256": "54B331BBC9B40C670E0669B9E2BEE4BFDB4F103200964CB30A79367CADAAB85B"
+    },
+    {
+      "path": "tests/test_hardware_foundations_ui.gd",
+      "sha256": "110D7CCD4993C00CCE83AB76B2DCA9B882BECAE688F804D76F69F6BFF1599F89"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/README.md",
+      "sha256": "80F1E749BB2EF3B20A9916CE824320B48539F56F5F8FA222ECA56CB9DFBC64FC"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/baseline.txt",
+      "sha256": "5CC3C89FAA33BF7E959D5E8A855225F9C8B2D615CA15A87FD3F2F473D0F259A3"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/en-help-over-instrument.png",
+      "sha256": "D7A05980C6800DD46DE84D975CBBD0A58674757987DD515F8B6B49CCA2BE44EC"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/rendered.txt",
+      "sha256": "19876591FF589B32F4C670CB5E2C097DD5D6B491A9661900C5D531F821AA98A9"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/results.json",
+      "sha256": "AB12860783C3C9318CDF0DEA441C9A5975ED7C6506D44161220F26ECA118E0CD"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/source_identity.json",
+      "sha256": "B35920CA2DA0B863560D81BCB852FB5BD3CEF505AEA129BBA9252E61878270FF"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/window-restore-probe.gd",
+      "sha256": "E2AD4EEB7E1E068BE51B42569EBE33D7EB612C38E2D70DE895D39553EEE54423"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/window-restore.json",
+      "sha256": "F353138B1883D95CE5F25C64AC0F4927A8EC20E28799C0F9C1F1B6CE42CDAF3D"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/window-restore.txt",
+      "sha256": "096A3A51010B07CFA25B86BC8DB173E47B80C6F1B2A588B041F66CB97E18963F"
+    },
+    {
+      "path": "docs/verification/20261021-hint-input/zh_CN-help-over-instrument.png",
+      "sha256": "69EA046BCC429F17E2C65FE34540721CBDF35CE68AC9C55C3A39DB237CAF2C24"
+    },
+    {
+      "path": "src/ui/ui_feel.gd.uid",
+      "sha256": "02E216484CF435BF0BAD8269F86ABAA65CFFC49F3DEB11D49C117CC8BC2BE459"
+    },
+    {
+      "path": "tests/test_hint_input.gd",
+      "sha256": "40A8C5219D29958D6EDF57E7F4112521521A3297714F64C90F0F8A606C3D3F38"
+    },
+    {
+      "path": "tests/test_terminal_presentation_polish.gd.uid",
+      "sha256": "993BA84056BFB4F5C27665D840CFFD2EDB501E06A7B4CC39244F759F0B29B21B"
+    }
+  ],
+  "reference_files_unchanged": [
+    {
+      "Path": "C:\\Users\\Lenovo\\Downloads\\index (1).html",
+      "Hash": "B23F741E1275803BDC85E69E2E83E5B1C1153C54B814D7DB7C21C7EBFB65E697"
+    },
+    {
+      "Path": "C:\\Users\\Lenovo\\Downloads\\壹_卡片文案_60关.csv",
+      "Hash": "8A397AB440BF07927C187FE53E94CE01184FC130D31D2B1790384CB936970F8B"
+    },
+    {
+      "Path": "C:\\Users\\Lenovo\\Downloads\\壹_章末对话_12段_v2.md",
+      "Hash": "DF4518087C421328E502953A4B96350CC91520F1B404D581526C0B50CC208749"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "en-access-order-after.png",
+      "sha256": "1b5eec34b7a4f1b32e7f7f0139356e5d2748e0958308957b24ead5c03012bc83",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-access-order-before.png",
+      "sha256": "eeae8c47617fced734ca6534749302e71b8f78b1b30c4f03a4fe39c470f90b7a",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-archive-candidate-fixture.png",
+      "sha256": "cf6ec6e62e56056079f218f80c2cbdb1795ec23f5e732e5b57611dffd187b854",
+      "scope": "presentation fixture",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-archive-note-fixture.png",
+      "sha256": "c0be9db373798f6883cc158804f2222eb0435e13b24e2fa8fbba0df47cd3e19f",
+      "scope": "presentation fixture",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-bottleneck-evidence.png",
+      "sha256": "6c6370afc69c4a1531e2215a1b3aa3eaa75e7cded613b61b315b0ca3000134a6",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-chapter-response.png",
+      "sha256": "8f77b41251215442e96b83c25dc8f36b607f8a63489d649464f145793030f05c",
+      "scope": "presentation fixture",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-cpu-baseline.png",
+      "sha256": "fc23ff92b99dc79952bcaea64cc901479ee3b9d4a5c97f386ae0487e33035ad7",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-cpu-comparison.png",
+      "sha256": "5b75c33480381efa9cf4d9a6af416afce8e24d09db39f069b05a1f1ff6a081ad",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-g3-name-required.png",
+      "sha256": "325157c95a8e026ff375b2c2574731eb9555cdd03cfee91c3f6f7a0383493694",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-g3-saved.png",
+      "sha256": "c6d1dd1d48dcf02864b2808c73ba8052d728266b3a299441a1a45fb119c1b45a",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-half-adder.png",
+      "sha256": "6c3cfa79de9c8158246d44a786ca0dd66b80b0edb41407719aaa7888fbbc646a",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-invitation.png",
+      "sha256": "15bc1f59924c809598a025847533676f96899076a8e1beefe8393ac9ba747710",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-not-earned.png",
+      "sha256": "af6c831ff07e04b0313f1cd87d2a36a92b2fe71687c51f306ed36ab5c42b50a3",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-not-start.png",
+      "sha256": "7616cebe1a84f8f5e1be7b3399f5b0b87a52cf79246b1fe6b88a0afcec41f6d0",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "en-work-response-fixture.png",
+      "sha256": "2735e1257a612587ce9db961adeaa68acd8cf742d4198bdf508ddf8a03fcd36d",
+      "scope": "presentation fixture",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-access-order-after.png",
+      "sha256": "ff53701ac5ed3b80c4156a536899c9a98c420521887f1fbbe28c90fcd44cae31",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-access-order-before.png",
+      "sha256": "6fbca43d37de2360c794444b916cbc696f3d17c18f0c0cfb9cec6304f2987cc0",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-archive-candidate-fixture.png",
+      "sha256": "3e24c1d9f455c9d37bc61a565c47a99e09a664b0cd1ba31725c5655be7d594fa",
+      "scope": "presentation fixture",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-archive-note-fixture.png",
+      "sha256": "74c5b0d5c9ad430dc5bb58ef9eea41087cb8f840baa4307b08e08a4068b9d455",
+      "scope": "presentation fixture",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-bottleneck-evidence.png",
+      "sha256": "ac817a2aa20c468c7c469159c3bde340b0b4bb124d2c059cfeada617f47b8b84",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-chapter-response.png",
+      "sha256": "932669269fc0fbd7107d18c35424c324563437fa257fef24ee6321baa78d74ae",
+      "scope": "presentation fixture",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-cpu-baseline.png",
+      "sha256": "0fa2abc6d853db541886acfd440698684a521a184d7478216e9359a996b45e72",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-cpu-comparison.png",
+      "sha256": "e801e08198bf372fad211572b5dbdda1c03ad6aa7d7b82d3a5c5a4fd4d0cce59",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-g3-name-required.png",
+      "sha256": "1529fabb7658972e544360d4f71e069733f1dd4fd5a181fdc6acf3750562242f",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-g3-saved.png",
+      "sha256": "3d5868185e533e5ec90cd7c9098154c86fcca2b88ddcb8f71833fc2004d7ff61",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-half-adder.png",
+      "sha256": "544e2650a2924f136a3f479c1b5a6d97ebb0cbf956372771f71e124e66b0bd34",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-invitation.png",
+      "sha256": "5874e4f7556bf3ef512f35b4c23bdc9e968be9b45a6f6f25327ece655e4b086f",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-not-earned.png",
+      "sha256": "f37d24f29f239d74c322fc68df23986ca9933a6ec9289ab6ad95f70a8fff0edd",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-not-start.png",
+      "sha256": "c6ddbbe0b9ee97a26154d8bf31f7cfc56bfcda3535e6424f9684a8ef33b4eb90",
+      "scope": "actual controller route",
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "file": "zh_CN-work-response-fixture.png",
+      "sha256": "55b628cdcaa49df0c417cbf3ffc0630051b46332236919bb4ff7657c66f94970",
+      "scope": "presentation fixture",
+      "size": [
+        1280,
+        720
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\import.txt",
+      "raw_sha256": "0623ffd46b1248956d45157bec595bc912171511c85ef9b63dafb782ac9d7b0b",
+      "copy": "logs/full/import.txt",
+      "copy_sha256": "c6ad2db9bea9ed87e735175343a8bdd0c94e211eff52e152fb03113756029871"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\narrative-render.txt",
+      "raw_sha256": "ead04d3fe29cbef0677bb050df02568d2ccc05ee14fe0a5a861f291ed6833099",
+      "copy": "logs/full/narrative-render.txt",
+      "copy_sha256": "a8fbd863365d8df186a31f7a4112a6c360e1c7addc6a912f8d02cbec5b9c3e84"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_alarm_order_feedback.txt",
+      "raw_sha256": "0d751caf0b40b188037e9d585de3a9f3d079574127772a0e401a8c3d559a3abd",
+      "copy": "logs/full/test_alarm_order_feedback.txt",
+      "copy_sha256": "9a1fb21d1d9f1aa212e6bc7b1361c51717826a534873f2a3d2acc96a2d1f0e97"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_bilingual_typography.txt",
+      "raw_sha256": "56c278bf9afc9d266f449960a83eb66254adf64914a6d5656021ce384f4971f6",
+      "copy": "logs/full/test_bilingual_typography.txt",
+      "copy_sha256": "07b0593a4bda85629bdf75df5049d34898bb7c6a784d3727cbb62c72d186d500"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_designs.txt",
+      "raw_sha256": "744eeb98b002ff9b39b53cf2e4deae0fe1637d5eaba0c61ac2c6931de72e4125",
+      "copy": "logs/full/test_candidate_designs.txt",
+      "copy_sha256": "88e161029ee3a8f0656c7e5861f1f97cc5d4d89bcae899ae76817da48a7835dd"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_disabled_focus.txt",
+      "raw_sha256": "84be711d13e9daccabce063d2d4fa89a0a82f91e6b8a76669f24d2278753737b",
+      "copy": "logs/full/test_candidate_disabled_focus.txt",
+      "copy_sha256": "78ac5dda72b3928a493126b39b9b526c9445cfcf929071fa8c24c728f88a8dee"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_feedback.txt",
+      "raw_sha256": "363fb24f8dbbfcce886be3599b5db97f1f5ba99659a09af02975fb9f0635371b",
+      "copy": "logs/full/test_candidate_feedback.txt",
+      "copy_sha256": "69f807b321a145f3af74a48b887beb66b080a05285aac9c7e05e13d3f58ccc3e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_journey.txt",
+      "raw_sha256": "0e4cbb1c477bd9d79efd7df313bcbed1628d6ed806b1dc12e119434d62be4925",
+      "copy": "logs/full/test_candidate_journey.txt",
+      "copy_sha256": "d5db181f61635542799ae61d7a394c6a8be6792f7dfa42ef4ffd5ea6b06382c4"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_journey_review.txt",
+      "raw_sha256": "68633a757240bad69da1675cdbec074fe618853f2636c27457e2278ddc734c8d",
+      "copy": "logs/full/test_candidate_journey_review.txt",
+      "copy_sha256": "1fe1aaf1da000130a92b54fd7f9f3e4943d00ce412178efefab63156b212c0da"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_language_navigation.txt",
+      "raw_sha256": "b618829beddec9f572bebf442a4e1866857f7969f723b7b8ca15ad98b243a2b7",
+      "copy": "logs/full/test_candidate_language_navigation.txt",
+      "copy_sha256": "e2ba5f7a638e1d29f6495d7c95f64e8a85b49eda05753e1b3566244698938dad"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_lifecycle.txt",
+      "raw_sha256": "9ad3100d091919c15b1356f3eba57e71db6d0658e29fc5ccc0356379542d8081",
+      "copy": "logs/full/test_candidate_lifecycle.txt",
+      "copy_sha256": "0ad34bd30f4b3c67e0c9326db5c7a790dd5864febd14306a93daf6eaf1d8eec8"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_policy.txt",
+      "raw_sha256": "bb1fe9444b556c7a563fbe7ec4f2e222e91bd65502033837d8b87aa6f5e2091c",
+      "copy": "logs/full/test_candidate_policy.txt",
+      "copy_sha256": "5b02dfbd2a3e985c0190c23f34336a496793822bc5c82e0faf121cc5316bb9eb"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_restore_selection.txt",
+      "raw_sha256": "1ab395880fea2484d4514b4e1be9291ff4c6ba11f18b8b8a7b21b7d5a569be89",
+      "copy": "logs/full/test_candidate_restore_selection.txt",
+      "copy_sha256": "f112afc52f4e9d53a81c3aa455419cfe4f221656a732b2577543df3574f7f9b5"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_supports.txt",
+      "raw_sha256": "6b39189f2f2e026c3b8959ed0e48258b59ecfa26775898064211554cc6553b8f",
+      "copy": "logs/full/test_candidate_supports.txt",
+      "copy_sha256": "4cce445ecada9b6649de2dcc57986e1405e66de699cd7e7e1ea68e88330fcc8c"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_writer_retry.txt",
+      "raw_sha256": "223ebd3a54dc0aac182d5a3aef63c4377ed40b76b2582e525eaaab6b50be927a",
+      "copy": "logs/full/test_candidate_writer_retry.txt",
+      "copy_sha256": "21866fb32d1c0b42ac4d4dbec2b4580e1b7e42ffd7ab81abd7d3f5d63002bf49"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_candidate_writer_retry_ui.txt",
+      "raw_sha256": "dc9c563fe10c279e5284e59e9c97250ac29b748b9f5a5f1d23be8054cab0535c",
+      "copy": "logs/full/test_candidate_writer_retry_ui.txt",
+      "copy_sha256": "40ba2a877bb74d39a8185fee77b08eb3d1bd57223b2180ba25cd3a8b8ead5785"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_chapter_card_routes.txt",
+      "raw_sha256": "ed3d91b20089f309ab67a49b7ab80b66c036a984d734b363f2918503fb9a1026",
+      "copy": "logs/full/test_chapter_card_routes.txt",
+      "copy_sha256": "e49feae608be9587a413b1b30543957e83cd3f75ad165dcf38a732a3a95e94fd"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_chapter_redo_shortcuts.txt",
+      "raw_sha256": "7366fa932c8bb46f060b067bb909643e8cf31a521c42efcec3866c5277756f58",
+      "copy": "logs/full/test_chapter_redo_shortcuts.txt",
+      "copy_sha256": "a61b16103496b29742d1f5a7199da91531726160fe288eb1174ddb1c417e7d69"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_chapter_workspaces.txt",
+      "raw_sha256": "0135ab4896fd56303aea7fb27c89f649407bc2addd9fa07aa186536d913481cb",
+      "copy": "logs/full/test_chapter_workspaces.txt",
+      "copy_sha256": "6464f81f567595b5d58cd7673ff9ae3f258ecf1fc9fa0e44cf76da3a7772a5bf"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_circuit_simulation.txt",
+      "raw_sha256": "2bd96a8923fd0aacdf694f3cd8f7b0a849a3eaf9a5d2f7d339c10537cbaa0198",
+      "copy": "logs/full/test_circuit_simulation.txt",
+      "copy_sha256": "4c443c3900d56311c5bf6060558870d53fdaeebff144a01514ac771a9cd58fbe"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_completion_presentation.txt",
+      "raw_sha256": "4d56bc49c109ebf1f9d877c342b79d04c59f819986ade7652e8f36f81e97d103",
+      "copy": "logs/full/test_completion_presentation.txt",
+      "copy_sha256": "972f916cf9635993a2073a39ac048fb26ef1c602c00666c14964da1760d6a14f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_completion_route.txt",
+      "raw_sha256": "a338835aef6871c4ca2c45eee5c40378540cc61f7cb059fbbd669a117135b236",
+      "copy": "logs/full/test_completion_route.txt",
+      "copy_sha256": "f42ca32bd0a7a019f28339eac7c91a6956c116dfc222ea8d730cb2cb1e11ae7e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_completion_service_clarity.txt",
+      "raw_sha256": "c32f32336f1f7944d1be1a2f9159380bcadee05c31f0a692286d885f8f97ebfd",
+      "copy": "logs/full/test_completion_service_clarity.txt",
+      "copy_sha256": "c68e4fe718a06f747b100e687dcdf6e587374eaa3338e5422d59441ee86115df"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_content_registry.txt",
+      "raw_sha256": "16f6438b5a59f3dd9ffebd2495c40027d590f253db05d549caa161d5913cb55d",
+      "copy": "logs/full/test_content_registry.txt",
+      "copy_sha256": "109c0fcac48a18d2fb9ba4eb1e4de94ee40e69d78a107665cbc8ba9a8d834166"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_core_closure_navigation.txt",
+      "raw_sha256": "fafdbef790a3b05dec183f4e503616cab1f3b58ac94f58929d365a3446b15e3e",
+      "copy": "logs/full/test_core_closure_navigation.txt",
+      "copy_sha256": "b6532fd66db6e662894794e7b158f5203ea7b8a78a9aadf302e84b33b6666fdc"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_cpg_connection_fragment.txt",
+      "raw_sha256": "9f655e9626396e732f11d537ccae24e75233df7711c9f5db05cd53a7c79766d6",
+      "copy": "logs/full/test_cpg_connection_fragment.txt",
+      "copy_sha256": "c00832d6c47b7b7e873a104f02d9128f7eb82f39696ab2cae8bf93b23b9e46a7"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_causal_panel.txt",
+      "raw_sha256": "4c11431ef17e60c28bc1dfb54c3a8e15387d0c1d5b3720c145cc8b2fdb97cefd",
+      "copy": "logs/full/test_creation_causal_panel.txt",
+      "copy_sha256": "35cb04e29108159cefd51c9d85a73789de40ad49132b701283916e312576c830"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_choice_completion.txt",
+      "raw_sha256": "5ed878bbb58612b51a9be6cd32d58b054156b3752b381767958b2ca0d04d0dfc",
+      "copy": "logs/full/test_creation_choice_completion.txt",
+      "copy_sha256": "96d565a32684c77417188fe0ee575285d14bf7ea3c4c28bd68dafca9510e62c8"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_commissions.txt",
+      "raw_sha256": "3f0a56c75fa66445347db7b5b7609012a7b5d686c315aa4b93fcaa54a5b84458",
+      "copy": "logs/full/test_creation_commissions.txt",
+      "copy_sha256": "9711b85fba0b149a217009183d7e85478421b10fcd9e8269af96b0016f9a0b68"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_comparison.txt",
+      "raw_sha256": "5210aee4181690a3c4e73ec5aa9d52bc3230d07553e194632de44aa37cb471b9",
+      "copy": "logs/full/test_creation_comparison.txt",
+      "copy_sha256": "5300c5ae0ae72c6992d35de3f39a46e3e4b616decd83ecd403865050cccb650d"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_comparison_view.txt",
+      "raw_sha256": "9b928cd28b8a20fdc42ca895ee3a52f52b78626d006d0aafbd1665f8633b9646",
+      "copy": "logs/full/test_creation_comparison_view.txt",
+      "copy_sha256": "da6774ec9ba8a95151421b89c66fbb4108f241537e1bd0253c2224e1165b0447"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_condition_examples.txt",
+      "raw_sha256": "663dc02f5f7d6fda9920e871c33d6902e631a79d70aca70d5da1db6574b3da35",
+      "copy": "logs/full/test_creation_condition_examples.txt",
+      "copy_sha256": "88eb0bbf90dfadea47f8ef8de1328411ca3a19bec0ac645266faedf8b7c9f228"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_contract.txt",
+      "raw_sha256": "c5afc7e517002ab2774045fb8e9f54f630b8600f8721826cb5db44972a0db416",
+      "copy": "logs/full/test_creation_contract.txt",
+      "copy_sha256": "887e5156d1e710615ee89e158e9ff06539122ab7d3ef15586dbb44b83c281188"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_cost_ledger.txt",
+      "raw_sha256": "07df175e881f002dfe2b0a049d462b69568d4827308579b64a2c2bbb38d9b741",
+      "copy": "logs/full/test_creation_cost_ledger.txt",
+      "copy_sha256": "d33563f039cc2ee004c83e07db2ce615aeae5d58efc38b487c2973702e6689b0"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_design_evidence.txt",
+      "raw_sha256": "434a2535bda86aecb7658ee9ac35608323b4f5097a70a09cbefb5715e9009dc7",
+      "copy": "logs/full/test_creation_design_evidence.txt",
+      "copy_sha256": "5c0df20f59e811d92b0f31e2c5b0f89d6c8398023d99419b7df3595da71da0b7"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_draft_undo.txt",
+      "raw_sha256": "0c7ba3710058d52ab55d66b0ae6e00d49f73ebfafdbd1692d7ad7ab76844e5db",
+      "copy": "logs/full/test_creation_draft_undo.txt",
+      "copy_sha256": "930d8e96a399ad47da741bc9abd9dab54c0a23bf372a2c0fbec4dd4597cfdb0c"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_edit_controls.txt",
+      "raw_sha256": "81a0721cb1ba74aaddf7b62264760174747933b76401a91e369dedc9596845a5",
+      "copy": "logs/full/test_creation_edit_controls.txt",
+      "copy_sha256": "052906f77164b8417fefde7e99fa4ebbfb730c2068febaa3f1d3428b109db566"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_evidence_identity.txt",
+      "raw_sha256": "1bd0b48d464f591e90ac8fef958eeb62423f3e5d7006c3f89f7c38302b3f9026",
+      "copy": "logs/full/test_creation_evidence_identity.txt",
+      "copy_sha256": "cdbc7e9923459d4680030bfa1b1a39ddd403cd32677585c7015c8283e3948411"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_evidence_reading.txt",
+      "raw_sha256": "ca35dde4c05b1a72bec651a9542d2f1afe410f24045c981862931eccd9c4427c",
+      "copy": "logs/full/test_creation_evidence_reading.txt",
+      "copy_sha256": "64c603bba5522e6ed9c218c836790823ddffa9021a738353b74d825b9d86fe1f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_exhibition.txt",
+      "raw_sha256": "1ef91389ce6b97acf6d2df0b5cde56c582ed399f396725d81984a7260a81922a",
+      "copy": "logs/full/test_creation_exhibition.txt",
+      "copy_sha256": "ab4d92a65e98f58e8419ab67104f716872718670d9e33229f2d89937c9601c09"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_exhibition_composition.txt",
+      "raw_sha256": "a627778249705b2d3971ae8cde7288780dab091b5f04fc1b06bc8bd94210d043",
+      "copy": "logs/full/test_creation_exhibition_composition.txt",
+      "copy_sha256": "6a3d99586104bf214151fbcaacbb81d2179079ed897a08f09286e25f962e7608"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_explanation.txt",
+      "raw_sha256": "45f91908ad03a88d08a3eb72fb69b0dfeb58f57d2c17dd3ad6b79e9ac1ee2a62",
+      "copy": "logs/full/test_creation_explanation.txt",
+      "copy_sha256": "0975bb6371dcec45f811945ab47806647361408da53adc23a3e271381aed1e0c"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_future_workbench.txt",
+      "raw_sha256": "a569693004438dc22fbfd3d0afc63bd063666d7d7c4548f16a2d8724e7d1bae0",
+      "copy": "logs/full/test_creation_future_workbench.txt",
+      "copy_sha256": "f652060c0314e0145182d13bf1cf785e309ff558dedcec8d67c237f7817e4d8f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_input_validation.txt",
+      "raw_sha256": "a789ee55f894c6de5fb27c082b78c20350484c98d0db05fe79ac3cb92d7b3f59",
+      "copy": "logs/full/test_creation_input_validation.txt",
+      "copy_sha256": "39ea90f5c55a2b99d0acbf55db2fc3eae58a09ae07cecbb074a9666dbcd5dba0"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_keyboard_focus.txt",
+      "raw_sha256": "736f65702071efbc27d633a73f25a47bcd71dae3c433b7428e3036e7a6abec0f",
+      "copy": "logs/full/test_creation_keyboard_focus.txt",
+      "copy_sha256": "4073f0fb6071b79d48e5d13cbebe5d118c9bfe2188af5b72ab38e2220fcf6a65"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_measured_closure.txt",
+      "raw_sha256": "340b4127b33385c34811488a7bdc428f7aea10fc79a19438e051969d1bedd6fa",
+      "copy": "logs/full/test_creation_measured_closure.txt",
+      "copy_sha256": "8c07a5634aa93edc0a88752a7b206c499f9bbdd57aa714d3ca0132cd797734ad"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_navigation.txt",
+      "raw_sha256": "e1737e8c310c1b28745a2ae226c7407b5f09d4e60ef38262f0099474f65a2711",
+      "copy": "logs/full/test_creation_navigation.txt",
+      "copy_sha256": "300110fd3416ade5d6447071c66f77a3bf1859ff6655a762fff0e5c6981df46b"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_observation_focus.txt",
+      "raw_sha256": "271f9c14773d4e56634c58e4fd11541f7deaa4e99623043f9351482496d9b8f9",
+      "copy": "logs/full/test_creation_observation_focus.txt",
+      "copy_sha256": "7a5061ad3423335bd87d229af509495b8c34f8b3e831ae5e6815a1bc5e4196ff"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_playable_loop.txt",
+      "raw_sha256": "59f11f82dd9d28c15f0ba37e588f0bc44cd583cc3190cc7edd29c205441fcb14",
+      "copy": "logs/full/test_creation_playable_loop.txt",
+      "copy_sha256": "5e1dbdf356ff68a2ad0c23e7842a7bc3f65305c26c9fb30d67a55e241e649002"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_prediction_flow.txt",
+      "raw_sha256": "783955b285346e196cb59f05a222610e7bfaaf39c6d69fb09c9be2f3c8e4791b",
+      "copy": "logs/full/test_creation_prediction_flow.txt",
+      "copy_sha256": "3e2b417b270286ee0dd5584e02cc6dfe2d34bc8131133d25c8118eee313bd4fa"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_prediction_memory.txt",
+      "raw_sha256": "83d0045c5a64bf4c8ed8f71b59dc259ef4430561dfcbbbeec5cb21cb2523a6ae",
+      "copy": "logs/full/test_creation_prediction_memory.txt",
+      "copy_sha256": "d7c378454f918572cac21294caeb28cb719fea6bb35ebc6d0f0f1eeb1aa92162"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_prediction_work_view.txt",
+      "raw_sha256": "02621ae01299d4c40db2981238214058099cd75196761c12d5b385334ea286ec",
+      "copy": "logs/full/test_creation_prediction_work_view.txt",
+      "copy_sha256": "2f59a14d7820730607537b485d312a5477f38829524ff9725d6197bfb01246fb"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_preparation_binding.txt",
+      "raw_sha256": "738751cf6e381a15cd2db64cf10e0879ea59bfc09858c1e15a117027c9ee2792",
+      "copy": "logs/full/test_creation_preparation_binding.txt",
+      "copy_sha256": "09e6fb049372b6896aa6c7109ddbaf85cde2c57d25af84161932ddd38fa4dc22"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_profile_navigation.txt",
+      "raw_sha256": "97be8b8d59f295e9cea6cd3ee11877fe076e08512166480557c876843ca5deb9",
+      "copy": "logs/full/test_creation_profile_navigation.txt",
+      "copy_sha256": "c55f91db6b726cf65d038e68cb662f83f83f38bf74efeb814377c94a2310b544"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_raw_readonly.txt",
+      "raw_sha256": "38af8c3bcf4fa96b55cd7802037ef8c8917b634513511b3c42071211f459de3a",
+      "copy": "logs/full/test_creation_raw_readonly.txt",
+      "copy_sha256": "3541f2af3271713b318ba0ab01afd9943aed912168347705c1f93752741f6f4c"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_route_access.txt",
+      "raw_sha256": "543a9faeacf6d86103f54460cbc21dfd2c69bbc6eff6cf2105b98f21f2229fcf",
+      "copy": "logs/full/test_creation_route_access.txt",
+      "copy_sha256": "0207187cc5a868b71d2ef03a6356f1b67849c10d84f105c00797c3712fb61564"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_route_flow.txt",
+      "raw_sha256": "07b607cd0e0a953e53c7157ddc991167e90de540dd0504c8007263d68c44933d",
+      "copy": "logs/full/test_creation_route_flow.txt",
+      "copy_sha256": "fe8f9096a73313c3c9dbe488d6a4fa5fe0f26f4b6ccdebc34ff62a35813a458f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_sample_editing.txt",
+      "raw_sha256": "05c8f80b8ed32c7f6b4b40918b9e1c5ffc704961f4830f07344904acfb0e60c6",
+      "copy": "logs/full/test_creation_sample_editing.txt",
+      "copy_sha256": "284fc85ab9690731d9c4cb36a1be7b0f3cd3252c462a01ac18ef51d159f3e436"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_state_regressions.txt",
+      "raw_sha256": "e0c4aa859feeb9e0cdd146d9bf675ced19da86d7fc36fa4f38b536bd5f0667fc",
+      "copy": "logs/full/test_creation_state_regressions.txt",
+      "copy_sha256": "a63afecc76dcef4660f666080b8bec74e97e52e2db360ed672c376185282ff31"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_workbench.txt",
+      "raw_sha256": "33e40c86c3d557f09e98f40afe53530cb1765c4e44b8e301ca64cc7fca30ae5e",
+      "copy": "logs/full/test_creation_workbench.txt",
+      "copy_sha256": "72f77038df7b72742ba19b22613258be62fec5df065664b16b81f8b8ca6032a9"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_work_focus.txt",
+      "raw_sha256": "de6a69aadc21a7b265fd390327adf694b1dd1a7b640567c2fb5d559a8212d8c8",
+      "copy": "logs/full/test_creation_work_focus.txt",
+      "copy_sha256": "581ca07f6fb5a92cc2ec503ab62c3d2521bbcc7c11e4188006bd76865affee3e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_work_listening.txt",
+      "raw_sha256": "12926ec8ae06f3343aeb4320ffb0fd15fda3384156d246f66de3fea4c9846b5e",
+      "copy": "logs/full/test_creation_work_listening.txt",
+      "copy_sha256": "c584f7575e2c2c6cffddf68965c0e34be85440d8e0b23e58ef21fdbc0886c6b9"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_writer_retry.txt",
+      "raw_sha256": "c90565b07911afba3c6f843b8cd41d65217874c760b0e3f184ee3c0ce37879b8",
+      "copy": "logs/full/test_creation_writer_retry.txt",
+      "copy_sha256": "04fb875683f5eae38e66f8712c5100f0dd015a7b373a6bfdda5906ef007aacae"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_creation_writer_retry_ui.txt",
+      "raw_sha256": "680de9c8d785aff68e7b0c4236442b7e5706db2e313fa601090729f55bb20ff4",
+      "copy": "logs/full/test_creation_writer_retry_ui.txt",
+      "copy_sha256": "7ef4b2fa6a1c90ad79db4097ed84e0f9cd73bafba6a0077993b3f062d0a5ba34"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_desktop_conventions.txt",
+      "raw_sha256": "07c708baa035d535e586cb1c77983b9ff66dc7941b63013ea9e730867b99b3d7",
+      "copy": "logs/full/test_desktop_conventions.txt",
+      "copy_sha256": "0a097628b1576539d55340bf9dfeff8012ae744ba18721c7e489b4c0d6db654e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_direct_task_navigation.txt",
+      "raw_sha256": "6f3cc22ae72a4cafc61d0f3860c3f042972ca8f7b211c933a70bed7ec911b04a",
+      "copy": "logs/full/test_direct_task_navigation.txt",
+      "copy_sha256": "6d33237608b86bd2a9cae689c873a0de0abf5ccb0eb667b0cf8d4f15329959d3"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_display_preferences.txt",
+      "raw_sha256": "9a888e3c3cd935fb5569be73d4e352ebc850bace0391521343ab177e0a7fa254",
+      "copy": "logs/full/test_display_preferences.txt",
+      "copy_sha256": "32e9b651159a4d13bf2dd7ae94b5d30be46186705b76ac5ab405ff826e05685d"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_efficiency_fragment.txt",
+      "raw_sha256": "6ee7fadd444384e523bff919fa4a8d86084698809bcccfcdc5e431bb861838bc",
+      "copy": "logs/full/test_efficiency_fragment.txt",
+      "copy_sha256": "a679c7e5f75bff0ba6c03063565abfb01f3ee716098f9a326f94a06cecc85d25"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_evidence_proxy.txt",
+      "raw_sha256": "aa82f919165caeaad0ec5b7485e034ef4a42ac771a65be0067d3ec81d0f50515",
+      "copy": "logs/full/test_evidence_proxy.txt",
+      "copy_sha256": "9baecc8c4fd629b00db25f61edd114ddf2c1e16a603bb7ca501a582ffe0d9823"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_exploration.txt",
+      "raw_sha256": "bd06e779cb59fc0e20f2ca75bcb25b2dfce2f55c782e0ddb72eeed0ccd1955fd",
+      "copy": "logs/full/test_exploration.txt",
+      "copy_sha256": "ce6a0aa8b890f3843c29494acb6540a7f42669ca800e27cd7694236bd2177bdb"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_feedback_presentation.txt",
+      "raw_sha256": "dc21d9a2ba8c32968ab77a425dc5c2a41003007165c91cb3fc5dc32d21d749ae",
+      "copy": "logs/full/test_feedback_presentation.txt",
+      "copy_sha256": "e31da86d191d68853be971d9d92de040a66c1424bab9a834cb949cfea38e1a35"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_final_convergence.txt",
+      "raw_sha256": "f22d68b29e1946b60c95959227dcefe95c8f459c3b3e591451fee5ae746d8703",
+      "copy": "logs/full/test_final_convergence.txt",
+      "copy_sha256": "0480e3be47cad30b2ae86ed041daaa9ac7d6243aafc8521b6fba3edde442ec0b"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_first_build_guidance.txt",
+      "raw_sha256": "f6d55af485ee030aa5854ef25aa039a5af222757c04eea92abd6005e0b90dc0f",
+      "copy": "logs/full/test_first_build_guidance.txt",
+      "copy_sha256": "ee2f5d7fdb935a2965ff9b764606b4cdea70e650f99af0b6b5ea420500ab6ad4"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_first_light.txt",
+      "raw_sha256": "f3ba1abda77b0444b232012496e6fb3f4742d0737561c8ed9741f83206b706c3",
+      "copy": "logs/full/test_first_light.txt",
+      "copy_sha256": "15004349c3b11a11c4e2d73b6e397c919d64208358fa5e11bb49855f89bb2577"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_floating_tool_recall.txt",
+      "raw_sha256": "efce19ad5da502f3407f7793f2ce5d40c06cca7169d7e9504bbe049f007dfd9e",
+      "copy": "logs/full/test_floating_tool_recall.txt",
+      "copy_sha256": "b2d6b6365521639d9f4064df8e74fcd63139491ceb2b6888093fb9a88b7f48ce"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_full_journey_narrative.txt",
+      "raw_sha256": "cac5b9d053e0f8428bd4c492a838259544feb63aaa30df62aca9134d7b84a5fc",
+      "copy": "logs/full/test_full_journey_narrative.txt",
+      "copy_sha256": "eb9feef7b30cfad0fa68c59ca8169031c9a20b3fd15d26f2088a4b0d88382db6"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_global_save.txt",
+      "raw_sha256": "69d8bf6a56b65ac2ebb7386a2ae8f8af85f788a2d0e435e734b121064b0e3f76",
+      "copy": "logs/full/test_global_save.txt",
+      "copy_sha256": "b7cf9a589c21490e8f9aeee25c37b333484a53146f896d02f945351eab53f8b6"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_hardware_foundations_ui.txt",
+      "raw_sha256": "36265fc8cd047b5a18b7ef147f0a2ed2888e70689a06e03d462e7881d831451c",
+      "copy": "logs/full/test_hardware_foundations_ui.txt",
+      "copy_sha256": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_hardware_prologue_ui.txt",
+      "raw_sha256": "f84411b49b7e3f5ce6fed288d746af91d095426bda6148a5ec06b33e0b712514",
+      "copy": "logs/full/test_hardware_prologue_ui.txt",
+      "copy_sha256": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_hardware_seal_navigation.txt",
+      "raw_sha256": "e6766fb200c283d21d81c3efaf3b1573a4fcf8a4aeff7e366cb028b59a987f57",
+      "copy": "logs/full/test_hardware_seal_navigation.txt",
+      "copy_sha256": "650102f5e3f9db143b658786391d6955d63ea7557ebb044925b87aca2b297fe9"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_hint_input.txt",
+      "raw_sha256": "e871636970eb7cb723f04a54a1ca0d8f3ee3dc296b523ada5da4aa77aa0c80bc",
+      "copy": "logs/full/test_hint_input.txt",
+      "copy_sha256": "c64f9cf97d9ae23486f9f4951ab7f02dbf71403ce89fb1dc49ff9f0926d2d3fa"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_hub_first_screen.txt",
+      "raw_sha256": "b1d6f4d36a15fb55569a6b2ab9d79da23d48a419efcbe51c1d0c3953f2643e97",
+      "copy": "logs/full/test_hub_first_screen.txt",
+      "copy_sha256": "b603e43180bcbc127c7a92ea21c900b9c2231d071cb8f349bfd5485b3ef19fce"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_instrument_theme.txt",
+      "raw_sha256": "7b934bf74a53ac7e490dce69b939235542af80731c4978ad2e8fa9239b8c920e",
+      "copy": "logs/full/test_instrument_theme.txt",
+      "copy_sha256": "204a11ea58306bc1324ebc1df7bc1ec0187094b08cd6de1753fc819e0f005c8d"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_intelligent_state.txt",
+      "raw_sha256": "bdd05380dac3b1a1f88a951093b36bfe83d56013406660895076f13baf5260f9",
+      "copy": "logs/full/test_intelligent_state.txt",
+      "copy_sha256": "842a2d316e1902c0f19326bc3166befbcaad78d811048fe9fdb0a3cb913ba3b4"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_journey_journal.txt",
+      "raw_sha256": "1242bb4fd1c03f2affd1c12a7403befac4c05b0625f79629f46c0b2ab1a93a2c",
+      "copy": "logs/full/test_journey_journal.txt",
+      "copy_sha256": "490ad880d192a0d41f019bdb2a1c3cc32818f2ab5f89f971f26e36267fd91137"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_journey_observatory.txt",
+      "raw_sha256": "a50577cc9530bbb88cfe958f062a171952d56a380d3f4c0a74ef9980bfb64af5",
+      "copy": "logs/full/test_journey_observatory.txt",
+      "copy_sha256": "8bcd2d41ce30ef59af905f426d03e9e7cd2b3666294120399129a8526c464dc9"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_journey_work_review.txt",
+      "raw_sha256": "754a81c98bba8f491159141a187317e2dddc81a2ddb10576939ade5aa909d4c5",
+      "copy": "logs/full/test_journey_work_review.txt",
+      "copy_sha256": "4785d55995ecf5123887e030c907fe7f3b1bf51a4d7994a2fd90d265a1d3d897"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_lab_journey.txt",
+      "raw_sha256": "185f9ca8f9b67b27dd199a81c18cec05ec3e8b2fd8758421eeb28fd4ad0a1003",
+      "copy": "logs/full/test_lab_journey.txt",
+      "copy_sha256": "cc1c52457772a6ad10c092b9bf9fb2eb8f5c32a223d6596977d5ee08356a5e61"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_lab_terminal_routing.txt",
+      "raw_sha256": "40da06a5ec7f56b1f57b8065831ae6a3ccf473943d81659d2beab07027d4f478",
+      "copy": "logs/full/test_lab_terminal_routing.txt",
+      "copy_sha256": "86072f3001550f180c710f19c7b46ce09ff200d545cefd21afdf9798d34a91f7"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_latch_playback_readout.txt",
+      "raw_sha256": "d2e9fd6bf0994c7d44c6669ce20d3efb6832da0bcfd094c692063ccea17e0435",
+      "copy": "logs/full/test_latch_playback_readout.txt",
+      "copy_sha256": "88aa9d2d24e2dbd5e985f49c301e3e64d355c3fa5d9d4e2e16d9a796b715922f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_latch_rule_example.txt",
+      "raw_sha256": "d538d06f79bed61fc96b14651e72389433012cc42885144a48743fcd38a6ab5f",
+      "copy": "logs/full/test_latch_rule_example.txt",
+      "copy_sha256": "485b4d25998dd7608e250872bab84869807b4de4610a87bc72a1ab34118a72c0"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_layout_navigation.txt",
+      "raw_sha256": "51544c591def965c88efeaab4cc2cbe4db9bf99920dd2afc1f9c95259fc7df09",
+      "copy": "logs/full/test_layout_navigation.txt",
+      "copy_sha256": "8a0e6f6728c9c31e7d34795992609934cbf7f2109c86f5ee757f19c26354b494"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_layout_preview_selection.txt",
+      "raw_sha256": "5b285c5f9632038b85e10c058438a092a7b92609a95837e124e11acebf1c1f23",
+      "copy": "logs/full/test_layout_preview_selection.txt",
+      "copy_sha256": "024033a626c536af1f6fee59404115c8ad7701923d72b94530ed814110eb9810"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_layout_recipe_sources.txt",
+      "raw_sha256": "4642687306d65f87255bc9b6a9a4993dc6f9e2dce766be9a2706536c0d3a0d76",
+      "copy": "logs/full/test_layout_recipe_sources.txt",
+      "copy_sha256": "5b4d0bc136538ff0d1bc80a04e4603491ab4402b7832fde879d62f34bd48a3a8"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_layout_simulation.txt",
+      "raw_sha256": "8a40a0f53959f4376ec1d8f6c4e2ef51f329f749a9bcf7d32630727513a71f5a",
+      "copy": "logs/full/test_layout_simulation.txt",
+      "copy_sha256": "2c0a248a94da17c990981491f86fc389d6f44f5668e39a27f961a556922ff8f4"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_layout_trace_storage.txt",
+      "raw_sha256": "70110da278f9d94d19cf4ab4a3257551fe7d41b9821170b0e15ed06d6b12e75c",
+      "copy": "logs/full/test_layout_trace_storage.txt",
+      "copy_sha256": "83facf57523ec24f8b4f4348ffc2c6bf26f47e82039d8d098db574fbf119b972"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_layout_ui.txt",
+      "raw_sha256": "147266da54c76168679c26695abae210d62f431452c99c3081633ea7b4733a0b",
+      "copy": "logs/full/test_layout_ui.txt",
+      "copy_sha256": "fdfb659a8eac4538f00ffa3275a81402d4068fb321f7aa9ae8f710c6d55ec842"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_learning_handbook.txt",
+      "raw_sha256": "e6450641e6cea1fadebbd91571386d2f1cab1dc7add2259ed0221fbd43d4b790",
+      "copy": "logs/full/test_learning_handbook.txt",
+      "copy_sha256": "ab368100d7047e5391d41c10935786c775ebf00ca9d885acf26bcacfc00b174c"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_locality_chapter_ui.txt",
+      "raw_sha256": "cc3a5faed0701a20be3ac9c132355dc8e26692bba3eedb3f53da06feb42b65f1",
+      "copy": "logs/full/test_locality_chapter_ui.txt",
+      "copy_sha256": "831d08d2f1c44694a7785bf3a0f3cbc20c121d8b880d1a613cdc71fd4639b9ba"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_locality_restored_baseline.txt",
+      "raw_sha256": "dc636bb70a5c996abe845a07c41a6a69e5a3c58d6cd24d77e7b267d784a4270d",
+      "copy": "logs/full/test_locality_restored_baseline.txt",
+      "copy_sha256": "c3676d14902fe50a30667133a25d232b4f6cf206fff5ba4dff441108d9bb1c74"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_localization.txt",
+      "raw_sha256": "7a8942578131fd375a98377221768d2da723273cc39f3bc1feeac3b81aff619a",
+      "copy": "logs/full/test_localization.txt",
+      "copy_sha256": "1335c9219accbc513d566d1a342f2ff1496884a344edcb572fa4cbe0aa3bf95f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_narrative_review.txt",
+      "raw_sha256": "06f4c3bb5c84684ce1b94b1f9e5ac26201da4c0b737d1d705903ee90992aa551",
+      "copy": "logs/full/test_narrative_review.txt",
+      "copy_sha256": "4304eadd8ebb3bde5cd644678f36341cf6314f8fe542299a90b0954a1887a7b9"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_night_narrative.txt",
+      "raw_sha256": "06dfc7eef12a7ed07886466c1debb50da468e6a03c5046e65effa59a65c86327",
+      "copy": "logs/full/test_night_narrative.txt",
+      "copy_sha256": "9edd2fb2942980f6378b345076c3d3fc8fae93b9f9da3d82fb1b86db60e15188"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_observatory_apparatus.txt",
+      "raw_sha256": "c6fcd42f7185081c378a43c81faf4b99ed58481fb594a3af360be6acefb75224",
+      "copy": "logs/full/test_observatory_apparatus.txt",
+      "copy_sha256": "d9d44719a2d9a8cad326e41e80cfc6b2f740b5059c9b397d8d63dbacee866035"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_offline_context.txt",
+      "raw_sha256": "e4dc287348e9dc12071a5a025c6e85d6ba3232fa2402e9d4d4f1e56703f90c74",
+      "copy": "logs/full/test_offline_context.txt",
+      "copy_sha256": "52a9eb3522a177a2753f1fb865ad83e547ee40c273816bb233be7c3fc30c9138"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_offline_feedback.txt",
+      "raw_sha256": "34fec50a2dc4d34b25cd60496ffd2dcf91d09ce0613c026ef92ca70299f0815a",
+      "copy": "logs/full/test_offline_feedback.txt",
+      "copy_sha256": "1dfda1d3cafa8ae777c4b7b4a6e98dbb151bae115a62398a59cc190876b98ce8"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_offline_store.txt",
+      "raw_sha256": "97bcea4aac402f1f8209d1b69cbc74ed009dc70ce921d33913e5295f5ed5bed9",
+      "copy": "logs/full/test_offline_store.txt",
+      "copy_sha256": "42493d6be3842de5ab7981de88eae227868e44d395209b13bbb31bba570d5a5f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_offline_tester_navigation.txt",
+      "raw_sha256": "8208d58daf0768f584e6f693f0659f4b0ddf1cf13de0408664d44127ef9c5e67",
+      "copy": "logs/full/test_offline_tester_navigation.txt",
+      "copy_sha256": "d0ca82671da5d84a327036df75f04fdc434afb8e199389ed0d133b2b06efff63"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_optional_challenges.txt",
+      "raw_sha256": "2ef9098aaddf6505ac82036c96ed79312e825ab22ced7fdedfe9b9861c96f40d",
+      "copy": "logs/full/test_optional_challenges.txt",
+      "copy_sha256": "4c7e8f0947f29587ef35dbd14f8e91993854e4998acbe470cbeccb79bcb90980"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_optional_result_feedback.txt",
+      "raw_sha256": "1beb53f8d8d61a05a330a01127e0a65f9a5d0730118de9800fa4141450e8df8c",
+      "copy": "logs/full/test_optional_result_feedback.txt",
+      "copy_sha256": "b3e331facf4131318383c8c613d97dcfd978e2560a4daecfd3937f9be550f1c3"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_overlap_simulation.txt",
+      "raw_sha256": "4d656a48c7573df681b97d3d641fe1feaad99ec5545520709ecf25d875975ad6",
+      "copy": "logs/full/test_overlap_simulation.txt",
+      "copy_sha256": "6dd2580b0f4fff0e69318f2a9665196d24154dbd19c416558e3809d07d0504fe"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_overlap_ui.txt",
+      "raw_sha256": "1acf352ba83c738afbe97a69015b5693c9abba6a73b96dc2aa12e14fffbdffbd",
+      "copy": "logs/full/test_overlap_ui.txt",
+      "copy_sha256": "0d714fa5585ce2c51cbb2f9f53793f6aafab6d57d191fe0ae00ff3eddfd7c8bc"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_personal_records.txt",
+      "raw_sha256": "0a0ab968c09c5dc9a42541e73481dc4f62afac9e7d42567c5a3b901f3c415e62",
+      "copy": "logs/full/test_personal_records.txt",
+      "copy_sha256": "b93f036f7b17aae3012a2e039b9215827d9c4d9781935b57c5e4c0512641b08a"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_playtest_data.txt",
+      "raw_sha256": "9af111df84417ba9418357ba9be4afcbccb9824b1e34d2a9e9642f061d7aa70b",
+      "copy": "logs/full/test_playtest_data.txt",
+      "copy_sha256": "52edd5199915423f7e731491d3e2ec4e71ed013c726147077138dc135e4a5095"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_playtest_feedback_ui.txt",
+      "raw_sha256": "5e560066cadf23ff2eefacad04189d74118e85b9e38175858d5682bee46187f3",
+      "copy": "logs/full/test_playtest_feedback_ui.txt",
+      "copy_sha256": "bc98fb999e9726344633893bab6e43a9630f473f0aadec5a5fb6c369249392f9"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_playtest_visits.txt",
+      "raw_sha256": "2b017ff2b0572747f9bd1d97aa14d435861c2509fd98225304850765147b8126",
+      "copy": "logs/full/test_playtest_visits.txt",
+      "copy_sha256": "5babafe49dd7116881b83b16b8fe42fcb1a780d2ecd83a1d1bd76283fe6e2c71"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_prediction_goal_feedback.txt",
+      "raw_sha256": "8a5c9ff2dc31d351325792f6995d84f473c98d801c11ab315622d965c9cb29b5",
+      "copy": "logs/full/test_prediction_goal_feedback.txt",
+      "copy_sha256": "fcb4a443e710c7419d8e681498f64ebe906c230c02487e92859f1dacf19f6a00"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_prediction_navigation.txt",
+      "raw_sha256": "0c81109e06fe5222dd1233ee7e89b2828548857331d1a424b2235535a98f9cc4",
+      "copy": "logs/full/test_prediction_navigation.txt",
+      "copy_sha256": "93108a38574a434bcc6991b39f1f91cce304319067257cb64bd66030a0ed8a51"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_prediction_record_source.txt",
+      "raw_sha256": "5473e30c3e2cb10e9b4fa7a684a59e83486f5c1f4cda622a524db51716dc6450",
+      "copy": "logs/full/test_prediction_record_source.txt",
+      "copy_sha256": "35339004e6b58471d4a3fe4f418a940f05b65cdb9596b0e62f60da66e668fb2c"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_prediction_slice.txt",
+      "raw_sha256": "d4c336448783026a40ebe67d00de7bc46520bde8f9ce805ee7f40878505b4532",
+      "copy": "logs/full/test_prediction_slice.txt",
+      "copy_sha256": "622f05bef437296dd749b274709acbc297b5f3fee3aeda83d53a02ecd89640a3"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_prediction_workbench_presentation.txt",
+      "raw_sha256": "a2f414c6923e8be17314e592caf1e3d8b53cb5006aeb5f3c5407718cb9bbbcf5",
+      "copy": "logs/full/test_prediction_workbench_presentation.txt",
+      "copy_sha256": "e10c395e2ceadbeffe29540fb7bc840f10bc6e324d4cc0c9e128594f14068242"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_prelaunch_settings.txt",
+      "raw_sha256": "3b45378c321884399ec5292542074264a7d9ae44cd5780853bba286edbd5d92b",
+      "copy": "logs/full/test_prelaunch_settings.txt",
+      "copy_sha256": "c16418e14686be50612f4da57214b2a85d6e3d1e97a90f120f3dd6225a153882"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_prologue_continuation.txt",
+      "raw_sha256": "117939be73a3a57bdf274e70bef4859e9122791958cdce49c9451af932ca8c8a",
+      "copy": "logs/full/test_prologue_continuation.txt",
+      "copy_sha256": "ae567af2d16d5929db846213a8c37a0a7b21fa4140b3cb89d684e8c5e4832882"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_prologue_simulation.txt",
+      "raw_sha256": "cea32c48707cd9ad72cbae3a80ae2f14f8e1cb9c90d6179ba1fc4e51dac1ebf3",
+      "copy": "logs/full/test_prologue_simulation.txt",
+      "copy_sha256": "6250b1296a4f67e1cd38259d6dca4c7a86d16d30824436a1553cb1b917fcb956"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_release_convergence.txt",
+      "raw_sha256": "1f5081a650e16abb637036b407b2c8565c81f8dc01c825b709a659d791423bc4",
+      "copy": "logs/full/test_release_convergence.txt",
+      "copy_sha256": "231f57b61fc6fbd08fcf75835be2e63fe9486cabf10e6176248c02925f08624e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_remote_feedback.txt",
+      "raw_sha256": "61b327154d0214bb7a8a433e14dc6be73f5c6e4324eab2beaa56d8a40fddafdc",
+      "copy": "logs/full/test_remote_feedback.txt",
+      "copy_sha256": "a89c21f5ffaa5706f486e7855c49df091f0a618d0aade95ab565fc0f4567b269"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_cache.txt",
+      "raw_sha256": "11e2bb5bea086cff07d5c320c16f26cc64a2548d08bfbc942a2423043fa9b91d",
+      "copy": "logs/full/test_representation_cache.txt",
+      "copy_sha256": "bda45b41f248eb7b997be799143e5cea9e2bae1976be7839adef118fdc7383e1"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_closure_navigation.txt",
+      "raw_sha256": "cb93cd31a3ef53b10c3ea0442c48a24240ed1dbdd3db8d1bd758e73e76959d1f",
+      "copy": "logs/full/test_representation_closure_navigation.txt",
+      "copy_sha256": "da4a5f8cac55edaab3c31366aa5aac7036781f63b52ba20056d2173a661e49c4"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_design_shelf.txt",
+      "raw_sha256": "0efa65b1c2bdc979fa09d844060574ee071b6fe9dfde72ded3239de87cc03e29",
+      "copy": "logs/full/test_representation_design_shelf.txt",
+      "copy_sha256": "c4522adff8c2e1de224d8fb004f7ad79dc1115c5ae329a4fc3e4eca0cdfb8c23"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_edit_context.txt",
+      "raw_sha256": "f4eb30f296cf0b432be449df575b4d1be9ac87171120f123eba8be5c39db8d7b",
+      "copy": "logs/full/test_representation_edit_context.txt",
+      "copy_sha256": "2a9174bb860bfa96b961da02e9e261923bccd02af798f9bd53f1e332be7e68ab"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_plan.txt",
+      "raw_sha256": "db981ec9c38822dd3875e0c10d78a87b2f2ce81350c1768820d8d24448f50df1",
+      "copy": "logs/full/test_representation_plan.txt",
+      "copy_sha256": "5e42f0ffd1c2394112c75b9617786be1e0810babedf220ac29b99b56c9b76506"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_region.txt",
+      "raw_sha256": "d8bdca253ebe5240f94aaeee5cb11ee2badf5e563eed6a9d28936d59ff76238f",
+      "copy": "logs/full/test_representation_region.txt",
+      "copy_sha256": "58253617873b4d3efb75eec3e46333f525fbbdd19690bcbabb48740b1b5f89bd"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_restored_notice.txt",
+      "raw_sha256": "09382af3617e2afdbb16bf2a96c04c74bf239f736c0cae44ba871a0db0e7d2b0",
+      "copy": "logs/full/test_representation_restored_notice.txt",
+      "copy_sha256": "5e70bda5275222aa6dda0c6ad3ca5fcfe23b7250a4034737df30bfde2da22b6f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_session.txt",
+      "raw_sha256": "8e2dc6e600989be4940a02e71d1121e9921df1f799350990bedabdb6ad040079",
+      "copy": "logs/full/test_representation_session.txt",
+      "copy_sha256": "1ffcf1c4f65c7dbb20eff5fd1c9d40ec76ace6806e50ef98864e1451bf025f68"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_visual.txt",
+      "raw_sha256": "5ab99e3d641ceea1577efa31b75cc37f3967c5b6084405ee7197e43f2d526304",
+      "copy": "logs/full/test_representation_visual.txt",
+      "copy_sha256": "110fc221465c17fa2d894897111917af374e98d3e1255aa7dc0947ce5c4f5c84"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_representation_workbench_presentation.txt",
+      "raw_sha256": "7b621130a6d1724e96fedf4cb9d30e73dba6bb06e740dee0210d329090bcb86b",
+      "copy": "logs/full/test_representation_workbench_presentation.txt",
+      "copy_sha256": "c75a739834c04b79c169b820280bf7f69a3ee694e29bbdcdd00335c4d66a6a5c"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_rule_practice_input.txt",
+      "raw_sha256": "be4b7cf96ad15dd9d49a0418c91ac46c37eca06d94f4d8baf4bec7ebe3dc62df",
+      "copy": "logs/full/test_rule_practice_input.txt",
+      "copy_sha256": "912c8106e40a6616248b9488ffb86cfb0d00a5d82c57af6426e0a1dabce931fc"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_save_signature_migration.txt",
+      "raw_sha256": "748e3fe288a5b107023baae78867922ef88ed280e6556c21fd8e2e8449cebeb3",
+      "copy": "logs/full/test_save_signature_migration.txt",
+      "copy_sha256": "6b8d9f2ae7be8ffd8c69302fa8fca79555ac2b5d295ccbf05521364020be9b20"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_second_act_content.txt",
+      "raw_sha256": "ec179a19e079872101e06a831cdfebab7dc91d969728a0d20fae2e9ddb26c2df",
+      "copy": "logs/full/test_second_act_content.txt",
+      "copy_sha256": "714f2d6d3e72c00ecb83e70c2cf429a280c6f93a7d8cc29a30dc3839abd19bb6"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_second_act_experiments.txt",
+      "raw_sha256": "451a1b78074c693a2ddea5cd2f545b98ea1ccf74144eccb87dff503755d3d238",
+      "copy": "logs/full/test_second_act_experiments.txt",
+      "copy_sha256": "73758c6f90f58fe8329f6b9bcfdbead5a77a19bc23de7c9df9101e4446479f8a"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_second_act_independent.txt",
+      "raw_sha256": "ae165404550a5e74ccb343adfbbd6d5c6d50bc99dace570c50380630c40c746d",
+      "copy": "logs/full/test_second_act_independent.txt",
+      "copy_sha256": "5c3250cb737eab377a64ac311772b00855ee7d12907d87e221ac6cab9d4c4baf"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_second_act_navigation.txt",
+      "raw_sha256": "bf8fa4f161b9d2fac1ff01a339a6561376c233cba00f1c529898b1fa63d3ee3f",
+      "copy": "logs/full/test_second_act_navigation.txt",
+      "copy_sha256": "190b533cf8cfd29b9b65c3043271328e1ef531973adc0885c0cae9767d569b9f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_commissions.txt",
+      "raw_sha256": "4751f345731b089dc6b25e6965a45496cb187cb916cd924034a1739de03ebcaa",
+      "copy": "logs/full/test_service_commissions.txt",
+      "copy_sha256": "13df718902abad29e06a775f6b3ed6658de8d5eac9a64395a62ea2ead54f7f19"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_commission_ui.txt",
+      "raw_sha256": "1fb57672f869f674f35e8916b264548aa05505ad1bebc70ea1447103e23d167a",
+      "copy": "logs/full/test_service_commission_ui.txt",
+      "copy_sha256": "d9c2737027da8e0f14ab9e39668389bca28ef38d062367bb6bab8ea99480efe6"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_context_navigation.txt",
+      "raw_sha256": "42bad058947e94f71000c10a6ef4ae2a19852ba216181b4321b02f1b3fd41eab",
+      "copy": "logs/full/test_service_context_navigation.txt",
+      "copy_sha256": "1688553b933e56cc466f59f79fcf26bfa0c4dca80f33cd79a22cd68a055260d1"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_design_shelf.txt",
+      "raw_sha256": "fa8463391354c5f5773c37bf7e7246e60ac556a1a142774e067bba08052cca07",
+      "copy": "logs/full/test_service_design_shelf.txt",
+      "copy_sha256": "8b141e5bebf8f25e60d3171686c0913ce14f83f977a85b0ca828cc23bd84beff"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_learning_ui.txt",
+      "raw_sha256": "d69d179aaa426bbc4807325eaaa5c6195e5509d62ddf3f081e8bda9fc93a1df7",
+      "copy": "logs/full/test_service_learning_ui.txt",
+      "copy_sha256": "a16a44ed4423232ce9141ef715b3cceb9158d5d0f7eeaa10f70234fe4ef9ac9e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_number_display.txt",
+      "raw_sha256": "33d380cbdbd14e646838a155539a95ba73300f9b640bf53ad4c5b688f76c840c",
+      "copy": "logs/full/test_service_number_display.txt",
+      "copy_sha256": "15281424e49d186921caadc258ed2d384f707a845bbfc35168c983734ed2f941"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_plan.txt",
+      "raw_sha256": "764497a3bd36fed4f1b2b2b1d1fa8b0881c5ed819bb907b8e2ff44a8ccc3439e",
+      "copy": "logs/full/test_service_plan.txt",
+      "copy_sha256": "f9bdd71ba95723a57d9c9e08e924a831319b830f6423172653eca31a8178a109"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_session.txt",
+      "raw_sha256": "9410abe53078178e68ab41510f81bd1231a422f01fab374c23b1af0a0e3523e4",
+      "copy": "logs/full/test_service_session.txt",
+      "copy_sha256": "790c708ee8aa966a0f9932768d19c0eb131875e0d9951ab83b7a321ff2276c8e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_split_actions.txt",
+      "raw_sha256": "544e8f92fc78d474dae97a1e2148bb61da6d27b49f3cc22436e5cf247a8f92e5",
+      "copy": "logs/full/test_service_split_actions.txt",
+      "copy_sha256": "49e2451757a1e13e4efaa45669d453e8b6637ee3fe7fefa4f251ea77c018c8b0"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_state_replay.txt",
+      "raw_sha256": "5fc3172c67aaba10b8595c6e5224f9d991c0d963cc1c14b0ce9ea9789ed6609f",
+      "copy": "logs/full/test_service_state_replay.txt",
+      "copy_sha256": "34f898bcf1ce6872eb7f7c93178a27dfad807c53daba9615ce2638a49896ad06"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_state_replay_view.txt",
+      "raw_sha256": "5dc4b55676fb4c230af2057a5fad1ee4de85f79a6944ef72a4f9c6f8bbdbe111",
+      "copy": "logs/full/test_service_state_replay_view.txt",
+      "copy_sha256": "6eebe786d4b7ed80a513e740b9dd9b47514faa73a46aee88deead4717c89e892"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_service_undo_context.txt",
+      "raw_sha256": "c1070c245b006296722566ad2ec977d9c044f9b78133a58b708d5863788643e5",
+      "copy": "logs/full/test_service_undo_context.txt",
+      "copy_sha256": "580092e30b995e47ea332acd5dea84e33afc4a9c10a10bea9770ec4d5e53ddf3"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_simulation.txt",
+      "raw_sha256": "9349eb61218be55887423ea76c57685573e1127187e425ca8af7f72fea5e7aca",
+      "copy": "logs/full/test_simulation.txt",
+      "copy_sha256": "678dff2a584c34e93fb36eafaa41b87cde7e5756727e3a5950c3d5b9050352aa"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_storage_caption_playback.txt",
+      "raw_sha256": "001c9901c35b8238c55dd8b66713caf316df85dbd20e115be1f9940f9b9e9396",
+      "copy": "logs/full/test_storage_caption_playback.txt",
+      "copy_sha256": "4fe2824d62262d1bca70705a0762c2061715cfcd2184dafbc6418ce4efc4a38a"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_system_applications.txt",
+      "raw_sha256": "0816ca58686035267fba82f5792674c49a57fd15473270c74217da3614f8623d",
+      "copy": "logs/full/test_system_applications.txt",
+      "copy_sha256": "31ec1b8015a464f6340682116761c12eeed6280385a7389f5c7f13515051f2c5"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_system_baseline_continuity.txt",
+      "raw_sha256": "16c4c476e5d234ac16fdef7a75c071cef50bcd701633bb7b5a933a5f8a22a603",
+      "copy": "logs/full/test_system_baseline_continuity.txt",
+      "copy_sha256": "98403dc6cb8748057f09e997e6414d4eefbedac94f729dd854e30a7c837851c5"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_system_cost_evidence.txt",
+      "raw_sha256": "fd42e234d03ade6a2fc25c16e67963c1bb6a4a848bce92293045f70e736a72bc",
+      "copy": "logs/full/test_system_cost_evidence.txt",
+      "copy_sha256": "c04a64cbc1a5a2ccc8ad3880a6cb324db396c51f499b02f10c6372955fd45db4"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_system_evidence_guidance.txt",
+      "raw_sha256": "f2c3ff592d3084e3aca8f31f7a7946408d12cbc7774a89562e3e833adb243cb3",
+      "copy": "logs/full/test_system_evidence_guidance.txt",
+      "copy_sha256": "46cdceb36514e64eda521e3addac5ed1276d3446483b8f5c47a2c26c5cc44a87"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_system_lab_simulation.txt",
+      "raw_sha256": "b90ae30b83a6efeaf75495bbae6b0a8a43d7383d1e2f6d849f1c12e6b2b76af7",
+      "copy": "logs/full/test_system_lab_simulation.txt",
+      "copy_sha256": "f2bd24204d952ee9bcfbf44403757dbe0deb95720afd9f4e2016036b13bf35f1"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_system_lab_ui.txt",
+      "raw_sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb",
+      "copy": "logs/full/test_system_lab_ui.txt",
+      "copy_sha256": "6c788b06d195deea76d3d974e8e5e4af24dd6dc918caf396aa65e58ad39e9afc"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_system_trace_source_binding.txt",
+      "raw_sha256": "76454884db6be3663e4b875043df0fbff45aa2c9014afebea0690f9646f96d23",
+      "copy": "logs/full/test_system_trace_source_binding.txt",
+      "copy_sha256": "ac6544c9307110f961691efc165e0a609c86a3b17025bfe5527302c80ad09569"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_target_evidence_guidance.txt",
+      "raw_sha256": "cddb616f28d2ad38faff11f1d000b21122060dab13c27d9bc7a3e8fe909c0bd5",
+      "copy": "logs/full/test_target_evidence_guidance.txt",
+      "copy_sha256": "3e5c0d9a27af9a6b9a7d9078861703031f7b766b675be0f67f0bf4e619fd1c41"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_task_tree.txt",
+      "raw_sha256": "d5a8c0a3df05357608e4f93dfd749ff86a3b3474be1e1317536cef43e3a8540f",
+      "copy": "logs/full/test_task_tree.txt",
+      "copy_sha256": "4cb93d722aa9a35f5b0163dca54b9a04e5f0487c6945a12b128ea16d850e5f17"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_task_tree_layout.txt",
+      "raw_sha256": "04a5e928f57006e6c26ce9ff326874835056709288b258f3fa8733856508c2d6",
+      "copy": "logs/full/test_task_tree_layout.txt",
+      "copy_sha256": "7fae6101ab13319b245d43f2e99ab5ba2a97480593d78d4e47df01a8a0072dbb"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_task_tree_presentation.txt",
+      "raw_sha256": "81a29c22f8690fa0607afb4785019edbbe6b7c03f3e38838f91033db5790e6d3",
+      "copy": "logs/full/test_task_tree_presentation.txt",
+      "copy_sha256": "1786c64768f2ff2148c370d743b086f2b8cec9b71eeab1ffc0b65c9c73b1711d"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_terminal_presentation_polish.txt",
+      "raw_sha256": "f510de9446bbdc39dfc02e93d7f38df920367bc27a97feaa6a648bec15dc834b",
+      "copy": "logs/full/test_terminal_presentation_polish.txt",
+      "copy_sha256": "3d00a8d27be2d9adbc8dbd1c1968cc0997adbf64f4957860a9b3a39f4005bce1"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_theme_reflection.txt",
+      "raw_sha256": "7b5b87f92332b1991ad9bb8769cf9d30f327f9b08ec49c0e8b107a645625f16e",
+      "copy": "logs/full/test_theme_reflection.txt",
+      "copy_sha256": "074cc37f4feb3918928808b7f08e0665481a094010d68b28541ab705b27c4312"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_trace_ambience.txt",
+      "raw_sha256": "182711e4e69d37a598f8a4adfe256f139c980a4d05abe4add6e43e90e0e189ff",
+      "copy": "logs/full/test_trace_ambience.txt",
+      "copy_sha256": "0b7ce6af562a8bdbf812d12845cb9aae66a284b9e391c392ed9e7a1e9384f5eb"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_tree_journey_presentation.txt",
+      "raw_sha256": "8cc1e9705e7a3ee09843d2fa8be061f982343a30ab4389e29dee5fa7784cea82",
+      "copy": "logs/full/test_tree_journey_presentation.txt",
+      "copy_sha256": "8371934b2b166dc6596821d4ed3281d27166587c5a8d4b833a1d7c6387e8a34d"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_tutorial_replay.txt",
+      "raw_sha256": "d02a31e84919196bedaf9f351b6b1b0d12e3a32887a0a5ae95dc35de638e7b65",
+      "copy": "logs/full/test_tutorial_replay.txt",
+      "copy_sha256": "c9a77e91cdf6b9414d616dbe7ceebb1e7fe10d0f25017597cbfd8511da78d668"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_two_worlds.txt",
+      "raw_sha256": "15f47ed879047c6ce4e0790fd9ee535b3df5f26dbc4b768af64b488b9d81c512",
+      "copy": "logs/full/test_two_worlds.txt",
+      "copy_sha256": "cc3f15e4e1021dfc31ffd37bba903d63235026009d49e8ca16e656e4a1806cc4"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_ui.txt",
+      "raw_sha256": "233777b3b7a375a2640e3f719869d12a2dfb819aed5d97bba6450069fec8657f",
+      "copy": "logs/full/test_ui.txt",
+      "copy_sha256": "f35a36435d78efabaaca586f63416f571c5db1ebb9e773acdefd8b1c6b613bfe"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_ui_convergence.txt",
+      "raw_sha256": "dccef9066b5dcd1a3412fbd5bed4a5ae45a071be5fde960b3c8e343f57c52da7",
+      "copy": "logs/full/test_ui_convergence.txt",
+      "copy_sha256": "5163357859a11348896a56be99a33198be9b2a25e69076574a7ecb6d343d3327"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_unified_journey_navigation.txt",
+      "raw_sha256": "44c116757f5a3439cc3ee13c676bc56f7d98fe4b9d22b913796daf1842376a2a",
+      "copy": "logs/full/test_unified_journey_navigation.txt",
+      "copy_sha256": "1b76451f628cb14e749c8c911fb2a550f4fb64412eb1a63fb2441215665f67d2"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_unified_style.txt",
+      "raw_sha256": "635a921822e903198e859f5b0832479195742dc0ee43a23d56a479c2177f86d3",
+      "copy": "logs/full/test_unified_style.txt",
+      "copy_sha256": "d6ce7906c30d39702d8afa4e23bd5f43cf46483f44fbf6110723480c44790c05"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_visit_summary.txt",
+      "raw_sha256": "678b8239540a097e2c49105c96fd3a0108492c4bf116ce4487976bea9f591fc1",
+      "copy": "logs/full/test_visit_summary.txt",
+      "copy_sha256": "3efff7b3516aa3041dbf89e3a7d6fb045312b33bc66617210ee51c04f0b28c34"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_wire_drag_geometry.txt",
+      "raw_sha256": "5f9c662e54754063be47839a9f9ebb21589318766d3f058dfe147f16250dc33e",
+      "copy": "logs/full/test_wire_drag_geometry.txt",
+      "copy_sha256": "bb94cfe67ac7bf92f17d8bfea54b5cfa870ac0cd7070ac7b079d57f702656e06"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_wire_tooltip_lifecycle.txt",
+      "raw_sha256": "7624c210ba1da51524dae17190f96450a30fc0219d147aed8983d9a8c8530937",
+      "copy": "logs/full/test_wire_tooltip_lifecycle.txt",
+      "copy_sha256": "a0673b8936e2248c51fdd5697063426777091b3a389a3359e20f2615c6bdf43d"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_workbench_escape.txt",
+      "raw_sha256": "ce40886fdbc988b6517cf32a9782efb4fb5af3dc6a7f628abdfaa6172f15756c",
+      "copy": "logs/full/test_workbench_escape.txt",
+      "copy_sha256": "acc59f62d088a7cb74994b9ec77297f5a04ee7f34ed2e6d729cec3f254917765"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_workbench_interrupted_recovery.txt",
+      "raw_sha256": "142745b4bfbe9cd6676c08acea84c9e1a57f8a0ad2d71d0d5b8e3a93117c957f",
+      "copy": "logs/full/test_workbench_interrupted_recovery.txt",
+      "copy_sha256": "6f8320a5b5f146b7c52e322d4f23496137783f0022e6b18fe31dd1611254e6d7"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_workbench_palette_comparison.txt",
+      "raw_sha256": "c1321259a4caa5874119ad93de7fb908130d59c255dd37c39c04447e72db8a1f",
+      "copy": "logs/full/test_workbench_palette_comparison.txt",
+      "copy_sha256": "64103d30419ce1435429303f8e86925eef53764aca80e7f134bd7e3a9b448db1"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_workbench_write_failure.txt",
+      "raw_sha256": "89e83a23be2012f88cb75108cf3316b78ae96199d1361634eb79a575991a55fd",
+      "copy": "logs/full/test_workbench_write_failure.txt",
+      "copy_sha256": "c99160dbea363f3829a7e98e0fbbf9e0550450a69a410e66e07eab81369cabd4"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_work_focus_feedback.txt",
+      "raw_sha256": "40bb53eedc0baa9912f36c62ad3255814d8976b1f8063807b7d1c2f851d39afd",
+      "copy": "logs/full/test_work_focus_feedback.txt",
+      "copy_sha256": "8e03d7ae16df345c8365b115c9f6201753ae559ef9bb52d41691ba57b7772ca5"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_yi_introduction_media.txt",
+      "raw_sha256": "0f87a6a3626cdba28bc8fb8ea7d553fd932e37af309806ec0a9032258a862789",
+      "copy": "logs/full/test_yi_introduction_media.txt",
+      "copy_sha256": "158e7494378f71e3f233148216e27f2e76cf2937eccfc093cecd5802f55c9c0b"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\test_yi_typewriter.txt",
+      "raw_sha256": "fedde1a5d17062fa1468d7d63108f103badff9409c0f921cca83f342a4062ec4",
+      "copy": "logs/full/test_yi_typewriter.txt",
+      "copy_sha256": "cc71b249a860f8c3ea94425aaabfa1c027d794ce5da1dc77dccd9701a0030f35"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T184116Z-16cf4768\\user_directory.txt",
+      "raw_sha256": "57eff3cb71e866b6ed3fcd2d3a6d8c1f515bd5cf51d3333bc8a86abdfef38676",
+      "copy": "logs/full/user_directory.txt",
+      "copy_sha256": "614164490a77042d9017047dc5a6a65a7b705fae834e049ae31899477591e882"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\import.txt",
+      "raw_sha256": "0623ffd46b1248956d45157bec595bc912171511c85ef9b63dafb782ac9d7b0b",
+      "copy": "logs/final/import.txt",
+      "copy_sha256": "c6ad2db9bea9ed87e735175343a8bdd0c94e211eff52e152fb03113756029871"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\narrative-render.txt",
+      "raw_sha256": "9c7eb848b395e2e5999ff5f8f69a6facc8f8486c03b3a16a40d9fdb16cb8db5a",
+      "copy": "logs/final/narrative-render.txt",
+      "copy_sha256": "a5a933967d9c044bdcf90d845f8ad9b25cfc846eb96b940b0cf1e1d3c98b081c"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\test_bilingual_typography.txt",
+      "raw_sha256": "56c278bf9afc9d266f449960a83eb66254adf64914a6d5656021ce384f4971f6",
+      "copy": "logs/final/test_bilingual_typography.txt",
+      "copy_sha256": "07b0593a4bda85629bdf75df5049d34898bb7c6a784d3727cbb62c72d186d500"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\test_full_journey_narrative.txt",
+      "raw_sha256": "cac5b9d053e0f8428bd4c492a838259544feb63aaa30df62aca9134d7b84a5fc",
+      "copy": "logs/final/test_full_journey_narrative.txt",
+      "copy_sha256": "eb9feef7b30cfad0fa68c59ca8169031c9a20b3fd15d26f2088a4b0d88382db6"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\test_localization.txt",
+      "raw_sha256": "7a8942578131fd375a98377221768d2da723273cc39f3bc1feeac3b81aff619a",
+      "copy": "logs/final/test_localization.txt",
+      "copy_sha256": "1335c9219accbc513d566d1a342f2ff1496884a344edcb572fa4cbe0aa3bf95f"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\test_narrative_review.txt",
+      "raw_sha256": "3fd45d6dc726984e5e7f98c964889e4e6609f6b05002da8d068b41f63e05b705",
+      "copy": "logs/final/test_narrative_review.txt",
+      "copy_sha256": "4e878d326feb59b4523d43a8a9a3a342b628eef182ff3773e92df9326de5171e"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\test_system_evidence_guidance.txt",
+      "raw_sha256": "f2c3ff592d3084e3aca8f31f7a7946408d12cbc7774a89562e3e833adb243cb3",
+      "copy": "logs/final/test_system_evidence_guidance.txt",
+      "copy_sha256": "46cdceb36514e64eda521e3addac5ed1276d3446483b8f5c47a2c26c5cc44a87"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\test_system_lab_ui.txt",
+      "raw_sha256": "cce66c34b99b7e2ad305d9373c35211f8101436e0bd1e9d36fdd810e14a30cfb",
+      "copy": "logs/final/test_system_lab_ui.txt",
+      "copy_sha256": "6c788b06d195deea76d3d974e8e5e4af24dd6dc918caf396aa65e58ad39e9afc"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\test_ui_convergence.txt",
+      "raw_sha256": "dccef9066b5dcd1a3412fbd5bed4a5ae45a071be5fde960b3c8e343f57c52da7",
+      "copy": "logs/final/test_ui_convergence.txt",
+      "copy_sha256": "5163357859a11348896a56be99a33198be9b2a25e69076574a7ecb6d343d3327"
+    },
+    {
+      "source": "E:\\VNB\\game\\.godot\\verification\\20261020T190216Z-030b5e52\\user_directory.txt",
+      "raw_sha256": "bc5bb1a5aa9576faa4f40a3e6ff283dfd3d95a64a23c88f51b9d9fe9ab498f10",
+      "copy": "logs/final/user_directory.txt",
+      "copy_sha256": "f9138268f9b5394b31cfd484209e9c31bb44b5d2a71e3960f13d7abe8fe6665a"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test-report-playtests.txt",
+      "raw_sha256": "db47d284dfd87626030c921eae59c9ae6c96f572ee9e6c5a91ec841be19eee27",
+      "copy": "logs/python/test-report-playtests.txt",
+      "copy_sha256": "e50af953d3bf54e46a34aeb1f6c73afe370c4dffdb5dffb5734566bbb1bb362f"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test_community-loopback.txt",
+      "raw_sha256": "ea78b93daf27c9ff2c46ea955f5796cd96733abb085b9568287821d7de1585ef",
+      "copy": "logs/python/test_community-loopback.txt",
+      "copy_sha256": "424cf5679c7079da4faa0bf27baa542e748b03c63475b0694874bed069d59959"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test_community.txt",
+      "raw_sha256": "f820e68b854b129c8a55699a9344181536de3291f85f0780721646117fa967e9",
+      "copy": "logs/python/test_community.txt",
+      "copy_sha256": "c26a5d682d3f8be8d5ec2bc7486128718bbf069f4eed5c46c7c6dce37a755b84"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test_delivery-loopback.txt",
+      "raw_sha256": "6b9bb677dc7da1643b536585160dca032918f437075c69edd01ab21bd11918ca",
+      "copy": "logs/python/test_delivery-loopback.txt",
+      "copy_sha256": "a417dfcb9c0a7c454f09dceb550bf7d768db66570be7fcc84e57f15b0e19215c"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test_delivery.txt",
+      "raw_sha256": "a74af6ebe510e70514142ec52f1dc2b48032d58491a3dfce7e00c93cad9b04ae",
+      "copy": "logs/python/test_delivery.txt",
+      "copy_sha256": "bc8f3086d106ab4f4a1c8c0d540b9db5d37b1a6cfae64695f4d29c9e5aae393e"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test_private_report.txt",
+      "raw_sha256": "92fb201d5227bfc3ac757ab0e4e04ecc1a16358efd5260767ec2f8d02f8b36b2",
+      "copy": "logs/python/test_private_report.txt",
+      "copy_sha256": "b2b5a20c350e7787b119cfa9dcb9bd9d5060df0ad7ce104ddd69f8bb1be825d7"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test_receiver-loopback.txt",
+      "raw_sha256": "52dddd2110b5f80d3d4292b541ee1fd7a100b2d2337df9ffe5a1304f89c9d87d",
+      "copy": "logs/python/test_receiver-loopback.txt",
+      "copy_sha256": "86a40e860302479bf2fb613d4362c83bbb9f464a5ef343d4ac968593b2baf02b"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test_receiver.txt",
+      "raw_sha256": "3c2a44a010820d534d65f859f337cc0a25596638aa14cdeb031d0ea4703b3e9f",
+      "copy": "logs/python/test_receiver.txt",
+      "copy_sha256": "f809ba96a1ce512166dee928db4411e15c9ef1c9966a481756a4d42443d9accb"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\test_storage.txt",
+      "raw_sha256": "33804a881fbfc15d612e967d7c83552e34991a3b3393b482d8defb7b55159679",
+      "copy": "logs/python/test_storage.txt",
+      "copy_sha256": "d549e879046d4e36b5751d1309a95496fb8458e13f0167aa0b2fb05e17e68644"
+    },
+    {
+      "source": "E:\\VNB\\temp\\narrative-20261021\\check-branding.txt",
+      "raw_sha256": "9c9dcaccb49fbd8c2ab9ddbf3cac7558e2baa09adb1a647b03af191bc7be48a2",
+      "copy": "logs/python/check-branding.txt",
+      "copy_sha256": "3d1ac5ff483f6a40df46af69c85ab303b12afb2656e1459a2c80514f68ad57a7"
+    }
+  ]
+}

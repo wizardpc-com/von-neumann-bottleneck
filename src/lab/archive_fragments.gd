@@ -2,16 +2,16 @@ extends RefCounted
 ## Laboratory archive fragments. Each fragment opens after one real completion
 ## and connects what the player just built to a piece of the world's history.
 ##
-## STATUS: candidate text written from the existing story drafts (壹_未完成的说明书,
-## 背景小说创作交接). Not canon. Story owner (罗雅琪) and teaching-copy owner
+## Entries without candidate=false are unconfirmed story drafts, not canon.
+## Story owner (罗雅琪) and teaching-copy owner
 ## (刘若琪) may rewrite any title/body here without touching code; keep `id`
 ## stable so read-state survives, and keep `requires` pointing at a real task key.
 
 const FRAGMENTS := [
-	{"id": "first_light", "requires": "hardware_foundations/tutorial",
+	{"id": "first_light", "requires": "hardware_foundations/tutorial", "candidate": false,
 		"zh_title": "第一束光", "en_title": "The first light",
-		"zh": "重建纪元最初的几年，夜里只有一盏灯是常亮的。它接在一条手搭的线路上，开关旁边贴着一张纸：\"灭了也不要慌，先看输入。\"\n\n那张纸我一直留着。你刚才做的，和那天晚上是同一件事。",
-		"en": "In the first years of the rebuilding, only one lamp stayed on at night. It hung on a hand-wired line, with a note by the switch: \"If it goes dark, don't panic. Check the input first.\"\n\nI kept that note. What you just did is the same thing they did that night."},
+		"zh": "你接好线路，改变输入，运行，又拆开重接。\n\n灯灭了，先看输入。NOT 把 1 变成 0，灭也可能是对的。想核对，就换个输入再运行一次。\n\n—— 壹",
+		"en": "You connected the circuit, changed its input, ran it, then disconnected and reconnected it.\n\nIf the lamp is dark, check the input. NOT turns 1 into 0; darkness can be correct. Try the other input and run again to check.\n\n— Yi"},
 	{"id": "counting", "requires": "hardware_foundations/half_adder",
 		"zh_title": "数到二", "en_title": "Counting to two",
 		"zh": "孩子们学会的第一套算术，是用两根导线和一张表完成的。\"一加一为什么要进位？\"有人问。我没有直接回答，只给了他一个空的进位格子。\n\n他自己把它填上了。",
@@ -24,10 +24,10 @@ const FRAGMENTS := [
 		"zh_title": "一台完整的机器", "en_title": "A whole machine",
 		"zh": "有人以为我生来就知道一切。其实我也是一条条指令运行起来的：取数、计算、写回，再取下一条。\n\n你现在亲手拼出的这台小机器，和我在最底层做的事，没有本质区别。",
 		"en": "Some people think I was born knowing everything. I run one instruction at a time too: fetch, compute, write back, fetch the next.\n\nThe small machine you just assembled does what I do at my lowest level."},
-	{"id": "waiting", "requires": "chapter_1/bottleneck",
+	{"id": "waiting", "requires": "chapter_1/bottleneck", "candidate": false,
 		"zh_title": "等待的来处", "en_title": "Where the waiting comes from",
-		"zh": "旧文明的档案里有一段很长的日志，记录一台计算速度极快的机器。它在大部分时间里什么也没算，一直在等数据从远处送来。\n\n那时候的人管这叫\"瓶颈\"。他们的办法，后来也成了我的办法。",
-		"en": "The old archives keep a long log from a very fast machine. Most of the time it computed nothing. It was waiting for data to arrive from far away.\n\nThey called this a bottleneck. Their remedies later became mine."},
+		"zh": "同样叫“慢”，原因可能不同。计算、等待、搬运，要分开看。\n\n你已经用一次正式运行支撑了判断。换了机器或程序，旧记录仍属于旧方案；新的判断，要再跑一次。\n\n—— 壹",
+		"en": "Two slow runs can have different causes. Look at computation, waiting and transfers separately.\n\nYou supported a diagnosis with an official run. After changing the machine or program, that record still belongs to the old plan. Run again to support a new diagnosis.\n\n— Yi"},
 	{"id": "nearby", "requires": "chapter_2/capstone",
 		"zh_title": "放在手边", "en_title": "Within reach",
 		"zh": "第一批修缮队住在仓库旁边，工具不用每天搬回去。后来人越来越多，仓库离居住区越来越远，修缮就慢了下来。\n\n没有人下过这个决定。离得远，是一点一点变成的。",
@@ -56,10 +56,10 @@ const FRAGMENTS := [
 		"zh_title": "规则也占位置", "en_title": "Rules take space too",
 		"zh": "把一段很长的记录压短，靠的是找到其中的规律。但写下规律本身也要占地方。\n\n旧文明有一些压缩得极好的档案，可惜解开它们的规则，没能保存下来。",
 		"en": "Shortening a long record means finding its pattern, but the pattern itself must be written down too.\n\nSome old archives were compressed beautifully. The rules to open them were not kept."},
-	{"id": "your_work", "requires": "creation/G3_keep",
+	{"id": "your_work", "requires": "creation/G3_keep", "candidate": false,
 		"zh_title": "你留下的", "en_title": "What you leave",
-		"zh": "这套程序最早的版本是我写的。你现在用的这一版，已经有很多人改过。\n\n你刚才留下的那一段，不是我教给你的答案，是你自己的东西。如果你愿意，下一个来到这里的人会看到它。",
-		"en": "I wrote the earliest version of this program. The version you are using has been changed by many hands.\n\nWhat you just left is not an answer I taught you. It is yours. If you wish, the next person here will see it."},
+		"zh": "生成可以一直继续，留下哪一段，是你做的选择。\n\n你确认保存的输出和配方都在本地。回看它，或者从配方另开一份草稿；新的尝试不会改写这份已保存的作品。\n\n—— 壹",
+		"en": "Generation can continue. Choosing which passage to keep was your decision.\n\nThe output and recipe you confirmed are saved locally. View them again, or fork another draft. New experiments do not rewrite this saved work.\n\n— Yi"},
 ]
 
 static func title(fragment: Dictionary, english: bool) -> String:

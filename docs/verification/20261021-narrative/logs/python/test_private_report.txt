@@ -1,0 +1,10 @@
+test_delete_old_backup_restore_does_not_revive_review (__main__.PrivateReportTests.test_delete_old_backup_restore_does_not_revive_review) ... ok
+test_historical_model_case_mismatch_remains_visible_but_quarantined (__main__.PrivateReportTests.test_historical_model_case_mismatch_remains_visible_but_quarantined) ... ok
+test_same_receipt_task_build_and_private_review (__main__.PrivateReportTests.test_same_receipt_task_build_and_private_review) ... ok
+test_triage_cannot_mutate_receiving_database (__main__.PrivateReportTests.test_triage_cannot_mutate_receiving_database) ... ok
+test_unknown_and_mismatched_historical_rows_quarantined (__main__.PrivateReportTests.test_unknown_and_mismatched_historical_rows_quarantined) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.645s
+
+OK

@@ -1,0 +1,3 @@
+PASS: transaction quantities, debug/run/cases, duplicate exports, revised opinions and missing scores
+PASS: basic summary totals, mixed-detail deduplication, unknown fields and version/cohort separation
+PASS: late visit version attribution and malformed sequence isolation

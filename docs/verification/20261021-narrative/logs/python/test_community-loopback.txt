@@ -1,0 +1,21 @@
+test_contract (__main__.CommunityTests.test_contract) ... ok
+test_creation_content_versions (__main__.CommunityTests.test_creation_content_versions) ... ok
+test_current_and_prior_privacy_notices (__main__.CommunityTests.test_current_and_prior_privacy_notices) ... ok
+test_idle_serve_forever_cleans_expired_events (__main__.CommunityTests.test_idle_serve_forever_cleans_expired_events) ... ok
+test_oversized_trickle_has_total_deadline (__main__.CommunityTests.test_oversized_trickle_has_total_deadline) ... ok
+test_retention (__main__.CommunityTests.test_retention) ... ok
+test_summary_and_board (__main__.CommunityTests.test_summary_and_board) ... ok
+test_valid_length_trickle_cannot_hold_receiver (__main__.CommunityTests.test_valid_length_trickle_cannot_hold_receiver) ... ok
+test_z_journey_versions_and_atomic_rejection (__main__.CommunityTests.test_z_journey_versions_and_atomic_rejection) ... ok
+test_contract (test_receiver.ReceiverTests.test_contract) ... ok
+test_current_and_prior_privacy_notices (test_receiver.ReceiverTests.test_current_and_prior_privacy_notices) ... ok
+test_idle_serve_forever_cleans_expired_events (test_receiver.ReceiverTests.test_idle_serve_forever_cleans_expired_events) ... ok
+test_oversized_trickle_has_total_deadline (test_receiver.ReceiverTests.test_oversized_trickle_has_total_deadline) ... ok
+test_retention (test_receiver.ReceiverTests.test_retention) ... ok
+test_valid_length_trickle_cannot_hold_receiver (test_receiver.ReceiverTests.test_valid_length_trickle_cannot_hold_receiver) ... ok
+test_z_journey_versions_and_atomic_rejection (test_receiver.ReceiverTests.test_z_journey_versions_and_atomic_rejection) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 14.943s
+
+OK

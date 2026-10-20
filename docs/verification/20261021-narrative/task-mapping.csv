@@ -1,61 +1,61 @@
-﻿source_id,canonical_key,actual_chapter,actual_title
-01-1,hardware_foundations/tutorial,序章 · 一线成机,序章·接线教程
-01-2,hardware_foundations/half_adder,序章 · 一线成机,序章·搭建 1 位半加器
-01-3,hardware_foundations/full_adder,序章 · 一线成机,全加器
-01-4,hardware_foundations/parity,序章 · 一线成机,错了一位
-01-5,hardware_foundations/selector,序章 · 一线成机,谁能通过？
-01-6,hardware_foundations/selector4,序章 · 一线成机,四路择一
-01-7,hardware_foundations/delay,序章 · 一线成机,晚一拍
-01-8,hardware_foundations/alarm,序章 · 一线成机,留住一瞬
-01-9,hardware_foundations/latch,序章 · 一线成机,SR 锁存器
-01-10,hardware_foundations/register,序章 · 一线成机,一位寄存器
-01-11,hardware_foundations/ram,序章 · 一线成机,2×4 RAM
-01-12,hardware_foundations/alu,序章 · 一线成机,一位 ALU
-01-13,hardware_foundations/cpu,序章 · 一线成机,四位累加器 CPU
-01-14,hardware_foundations/load_store,序章 · 一线成机,LOAD/STORE 桥接实验
-02-1,chapter_1/assembly,第一章 · 时间的去处,三器相连
-02-2,chapter_1/cpu_speed,第一章 · 时间的去处,快慢之间
-02-3,chapter_1/ram_wait,第一章 · 时间的去处,等待的来处
-02-4,chapter_1/bus_width,第一章 · 时间的去处,宽窄之间
-02-5,chapter_1/read_once,第一章 · 时间的去处,一取再用
-02-6,chapter_1/bottleneck,第一章 · 时间的去处,循时寻因
-02-7,chapter_1/two_orders,第一章 · 时间的去处,一笔预算，两张订单
-03-1,chapter_2/distant_reads,第二章 · 少走远路,远取之累
-03-2,chapter_2/nearby_storage,第二章 · 少走远路,留待再用
-03-3,chapter_2/cache_failure,第二章 · 少走远路,留不住的数据
-03-4,chapter_2/access_order,第二章 · 少走远路,先后有序
-03-5,chapter_2/working_set,第二章 · 少走远路,容量有界
-03-6,chapter_2/blocking,第二章 · 少走远路,分而复用
-03-7,chapter_2/capstone,第二章 · 少走远路,循迹而行
-04-1,chapter_3/arrival,第三章 · 与等待并行,尚在途中
-04-2,chapter_3/buffers,第三章 · 与等待并行,交替接力
-04-3,chapter_3/prefetch,第三章 · 与等待并行,先行一步
-04-4,chapter_3/backpressure,第三章 · 与等待并行,进退有度
-04-5,chapter_3/distance,第三章 · 与等待并行,过犹不及
-04-6,chapter_3/synthesis,第三章 · 与等待并行,各行其时
-05-1,chapter_4/fields,第四章 · 各就其位,只取所需
-05-2,chapter_4/records,第四章 · 各就其位,一窥全貌
-05-3,chapter_4/relocation,第四章 · 各就其位,搬迁有价
-05-4,chapter_4/hot_cold,第四章 · 各就其位,冷热有别
-05-5,chapter_4/batches,第四章 · 各就其位,化整为零
-05-6,chapter_4/mixed,第四章 · 各就其位,两全之策
-06-1,representation/mixed_scan,第五章 · 表示,混合扫描
-06-2,representation/interior_hotspots,第五章 · 表示,内部热点
-06-3,representation/dense_sparse,第五章 · 表示,密集与稀疏
-06-4,representation/prepare_once,第五章 · 表示,准备一次，再服务
-06-5,representation/cross_assets,第五章 · 表示,两份资产，一个方案
-07-1,prediction/regular,第七章 · 地址预测,规律流
-07-2,prediction/changed,第七章 · 地址预测,规律改变
-07-3,prediction/alternating,第七章 · 地址预测,交替热点
-08-1,service/move_state,第六章 · 持续状态与服务,少搬状态
-08-2,service/prompt_response,第六章 · 持续状态与服务,及时服务
-08-3,service/one_plan,第六章 · 持续状态与服务,同一服务方案
-09-1,creation/C1_restore,第八章 · 压缩,让例外抵达
-09-2,creation/C2_cost,第八章 · 压缩,规则也占位置
-09-3,creation/C3_conditions,第八章 · 压缩,值不值得这样搬
-10-1,creation/P1_commit,第九章 · 内容预测,下一格尚未抵达
-10-2,creation/P2_memory,第九章 · 内容预测,需要记住多少
-10-3,creation/P3_check,第九章 · 内容预测,带着不确定检查
-11-1,creation/G1_feedback,第十章 · 创造,让输出接回输入
-11-2,creation/G2_intent,第十章 · 创造,按自己的意图改变
-11-3,creation/G3_keep,第十章 · 创造,留下你的下一段
+﻿source_id,canonical_key,actual_chapter,actual_title,mapping_basis
+01-1,hardware_foundations/tutorial,序章 · 一线成机,序章·接线教程,同域关名或明确机制核对；仍须按审计修文
+01-2,hardware_foundations/half_adder,序章 · 一线成机,序章·搭建 1 位半加器,同域关名或明确机制核对；仍须按审计修文
+01-3,hardware_foundations/full_adder,序章 · 一线成机,全加器,同域关名或明确机制核对；仍须按审计修文
+01-4,hardware_foundations/parity,序章 · 一线成机,错了一位,同域关名或明确机制核对；仍须按审计修文
+01-5,hardware_foundations/selector,序章 · 一线成机,谁能通过？,同域关名或明确机制核对；仍须按审计修文
+01-6,hardware_foundations/selector4,序章 · 一线成机,四路择一,同域关名或明确机制核对；仍须按审计修文
+01-7,hardware_foundations/delay,序章 · 一线成机,晚一拍,同域关名或明确机制核对；仍须按审计修文
+01-8,hardware_foundations/alarm,序章 · 一线成机,留住一瞬,同域关名或明确机制核对；仍须按审计修文
+01-9,hardware_foundations/latch,序章 · 一线成机,SR 锁存器,同域关名或明确机制核对；仍须按审计修文
+01-10,hardware_foundations/register,序章 · 一线成机,一位寄存器,同域关名或明确机制核对；仍须按审计修文
+01-11,hardware_foundations/ram,序章 · 一线成机,2×4 RAM,同域关名或明确机制核对；仍须按审计修文
+01-12,hardware_foundations/alu,序章 · 一线成机,一位 ALU,同域关名或明确机制核对；仍须按审计修文
+01-13,hardware_foundations/cpu,序章 · 一线成机,四位累加器 CPU,同域关名或明确机制核对；仍须按审计修文
+01-14,hardware_foundations/load_store,序章 · 一线成机,LOAD/STORE 桥接实验,同域关名或明确机制核对；仍须按审计修文
+02-1,chapter_1/assembly,第一章 · 时间的去处,三器相连,同域关名或明确机制核对；仍须按审计修文
+02-2,chapter_1/cpu_speed,第一章 · 时间的去处,快慢之间,同域关名或明确机制核对；仍须按审计修文
+02-3,chapter_1/ram_wait,第一章 · 时间的去处,等待的来处,同域关名或明确机制核对；仍须按审计修文
+02-4,chapter_1/bus_width,第一章 · 时间的去处,宽窄之间,同域关名或明确机制核对；仍须按审计修文
+02-5,chapter_1/read_once,第一章 · 时间的去处,一取再用,同域关名或明确机制核对；仍须按审计修文
+02-6,chapter_1/bottleneck,第一章 · 时间的去处,循时寻因,同域关名或明确机制核对；仍须按审计修文
+02-7,chapter_1/two_orders,第一章 · 时间的去处,一笔预算，两张订单,同域关名或明确机制核对；仍须按审计修文
+03-1,chapter_2/distant_reads,第二章 · 少走远路,远取之累,同域关名或明确机制核对；仍须按审计修文
+03-2,chapter_2/nearby_storage,第二章 · 少走远路,留待再用,同域关名或明确机制核对；仍须按审计修文
+03-3,chapter_2/cache_failure,第二章 · 少走远路,留不住的数据,同域关名或明确机制核对；仍须按审计修文
+03-4,chapter_2/access_order,第二章 · 少走远路,先后有序,同域关名或明确机制核对；仍须按审计修文
+03-5,chapter_2/working_set,第二章 · 少走远路,容量有界,同域关名或明确机制核对；仍须按审计修文
+03-6,chapter_2/blocking,第二章 · 少走远路,分而复用,同域关名或明确机制核对；仍须按审计修文
+03-7,chapter_2/capstone,第二章 · 少走远路,循迹而行,同域关名或明确机制核对；仍须按审计修文
+04-1,chapter_3/arrival,第三章 · 与等待并行,尚在途中,同域关名或明确机制核对；仍须按审计修文
+04-2,chapter_3/buffers,第三章 · 与等待并行,交替接力,同域关名或明确机制核对；仍须按审计修文
+04-3,chapter_3/prefetch,第三章 · 与等待并行,先行一步,同域关名或明确机制核对；仍须按审计修文
+04-4,chapter_3/backpressure,第三章 · 与等待并行,进退有度,同域关名或明确机制核对；仍须按审计修文
+04-5,chapter_3/distance,第三章 · 与等待并行,过犹不及,同域关名或明确机制核对；仍须按审计修文
+04-6,chapter_3/synthesis,第三章 · 与等待并行,各行其时,同域关名或明确机制核对；仍须按审计修文
+05-1,chapter_4/fields,第四章 · 各就其位,只取所需,同域关名或明确机制核对；仍须按审计修文
+05-2,chapter_4/records,第四章 · 各就其位,一窥全貌,同域关名或明确机制核对；仍须按审计修文
+05-3,chapter_4/relocation,第四章 · 各就其位,搬迁有价,同域关名或明确机制核对；仍须按审计修文
+05-4,chapter_4/hot_cold,第四章 · 各就其位,冷热有别,同域关名或明确机制核对；仍须按审计修文
+05-5,chapter_4/batches,第四章 · 各就其位,化整为零,槽位候选：正文与实际任务不符，需重写并确认归属
+05-6,chapter_4/mixed,第四章 · 各就其位,两全之策,同域关名或明确机制核对；仍须按审计修文
+06-1,representation/mixed_scan,第五章 · 表示,混合扫描,同域关名或明确机制核对；仍须按审计修文
+06-2,representation/interior_hotspots,第五章 · 表示,内部热点,同域关名或明确机制核对；仍须按审计修文
+06-3,representation/dense_sparse,第五章 · 表示,密集与稀疏,槽位候选：正文与实际任务不符，需重写并确认归属
+06-4,representation/prepare_once,第五章 · 表示,准备一次，再服务,槽位候选：正文与实际任务不符，需重写并确认归属
+06-5,representation/cross_assets,第五章 · 表示,两份资产，一个方案,同域关名或明确机制核对；仍须按审计修文
+07-1,prediction/regular,第七章 · 地址预测,规律流,同域关名或明确机制核对；仍须按审计修文
+07-2,prediction/changed,第七章 · 地址预测,规律改变,同域关名或明确机制核对；仍须按审计修文
+07-3,prediction/alternating,第七章 · 地址预测,交替热点,同域关名或明确机制核对；仍须按审计修文
+08-1,service/move_state,第六章 · 持续状态与服务,少搬状态,同域关名或明确机制核对；仍须按审计修文
+08-2,service/prompt_response,第六章 · 持续状态与服务,及时服务,同域关名或明确机制核对；仍须按审计修文
+08-3,service/one_plan,第六章 · 持续状态与服务,同一服务方案,同域关名或明确机制核对；仍须按审计修文
+09-1,creation/C1_restore,第八章 · 压缩,让例外抵达,同域关名或明确机制核对；仍须按审计修文
+09-2,creation/C2_cost,第八章 · 压缩,规则也占位置,同域关名或明确机制核对；仍须按审计修文
+09-3,creation/C3_conditions,第八章 · 压缩,值不值得这样搬,同域关名或明确机制核对；仍须按审计修文
+10-1,creation/P1_commit,第九章 · 内容预测,下一格尚未抵达,同域关名或明确机制核对；仍须按审计修文
+10-2,creation/P2_memory,第九章 · 内容预测,需要记住多少,同域关名或明确机制核对；仍须按审计修文
+10-3,creation/P3_check,第九章 · 内容预测,带着不确定检查,同域关名或明确机制核对；仍须按审计修文
+11-1,creation/G1_feedback,第十章 · 创造,让输出接回输入,同域关名或明确机制核对；仍须按审计修文
+11-2,creation/G2_intent,第十章 · 创造,按自己的意图改变,同域关名或明确机制核对；仍须按审计修文
+11-3,creation/G3_keep,第十章 · 创造,留下你的下一段,同域关名或明确机制核对；仍须按审计修文

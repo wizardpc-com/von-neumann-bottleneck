@@ -120,7 +120,10 @@ func _show(id: String) -> void:
 		body_label.text = Fragments.body(fragment, english)
 		body_label.visible_ratio = 0.0
 		create_tween().tween_property(body_label, "visible_ratio", 1.0, clampf(body_label.text.length() * 0.012, 0.3, 1.4))
-		note_label.text = "—— 壹的记录" if not english else "— from Yi's records"
+		if bool(fragment.get("candidate", true)):
+			note_label.text = "叙事候选 · 故事设定待确认" if not english else "Story draft · setting awaiting confirmation"
+		else:
+			note_label.text = "旅程记录 · 可回到工作台核对" if not english else "Journey note · check it at the workbench"
 		LabState.mark_fragment_read(id)
 		var entry: Button = list.get_node_or_null("Fragment_" + id)
 		if entry != null: entry.text = Fragments.title(fragment, english)

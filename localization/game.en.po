@@ -2199,7 +2199,7 @@ msgid "system.status.topology_invalid"
 msgstr "The system is missing %d valid route(s) or part(s)"
 
 msgid "system.status.level_complete"
-msgstr "Evidence complete; review Trace, Profiler, and History before opening the finding."
+msgstr "Evidence complete. Review the results."
 
 msgid "system.status.evidence_progress"
 msgstr "Valid evidence %d / %d; continue the controlled comparison"

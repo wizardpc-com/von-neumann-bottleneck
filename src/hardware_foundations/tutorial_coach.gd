@@ -85,7 +85,10 @@ func _ready() -> void:
 	more.text = "完整说明" if not english else "Full briefing"
 	more.add_theme_font_size_override("font_size", 13)
 	more.add_theme_color_override("font_color", Palette.TERM_MUTED)
-	more.pressed.connect(func() -> void: briefing_requested.emit())
+	more.pressed.connect(func() -> void:
+		# The full briefing must cover the coach that opened it.
+		z_index = 100
+		briefing_requested.emit())
 	header.add_child(more)
 	instruction = Label.new(); instruction.name = "CoachInstruction"
 	instruction.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -109,6 +112,10 @@ func set_english(value: bool) -> void:
 
 ## Switch between the first lesson and the generic build → try → test guide.
 func use_steps(build_guide: bool, goal: String = "") -> void:
+	z_index = 120
+	if praise_tween != null: praise_tween.kill()
+	praise.stop()
+	praise_row.modulate.a = 0.0
 	steps = BUILD_STEPS if build_guide else STEPS
 	praise_zh = BUILD_PRAISE_ZH if build_guide else TUTORIAL_PRAISE_ZH
 	praise_en = BUILD_PRAISE_EN if build_guide else TUTORIAL_PRAISE_EN

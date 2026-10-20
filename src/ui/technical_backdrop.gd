@@ -24,6 +24,17 @@ func _ready() -> void:
 	# Arriving from the laboratory: this world opens out of the screen's line of light.
 	if not light and preload("res://src/ui/terminal_passage.gd").take_pending_arrival():
 		preload("res://src/ui/terminal_passage.gd").play_arrival(get_tree().current_scene if get_tree().current_scene != null else get_parent())
+	elif not light:
+		call_deferred("_maybe_switch")
+
+
+# Only a visible terminal backdrop answers an in-terminal scene switch (the lab
+# keeps a hidden classic backdrop and plays its own pull-out instead).
+func _maybe_switch() -> void:
+	if not is_inside_tree() or not is_visible_in_tree(): return
+	var scene: Node = _scene_root()
+	if preload("res://src/ui/terminal_passage.gd").take_switch(scene):
+		preload("res://src/ui/terminal_passage.gd").play_arrival(scene if scene != null else self, true)
 
 func _draw() -> void:
 	if not light:
@@ -80,3 +91,18 @@ func _draw_terminal_world() -> void:
 		var vertical: float = arm if corner.y < size.y * 0.5 else -arm
 		draw_line(corner, corner + Vector2(horizontal, 0), bracket, 1.5)
 		draw_line(corner, corner + Vector2(0, vertical), bracket, 1.5)
+
+
+func _exit_tree() -> void:
+	# Remember that a terminal scene just left, so the next one can re-open briefly.
+	if not light and is_visible_in_tree():
+		preload("res://src/ui/terminal_passage.gd").mark_terminal_exit(_scene_root())
+
+
+## The scene this backdrop belongs to (the root's direct child), valid even while
+## a scene change has already cleared `current_scene`.
+func _scene_root() -> Node:
+	var node: Node = self
+	while node.get_parent() != null and node.get_parent() != get_tree().root:
+		node = node.get_parent()
+	return node

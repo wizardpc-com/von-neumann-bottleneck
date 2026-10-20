@@ -175,7 +175,7 @@ func _cost(value: Dictionary) -> String:
 
 func _refresh() -> void:
 	if not is_instance_valid(body): return
-	toggle_button.text = words("C → P → G 回顾","C → P → G review")
+	toggle_button.text = words("压缩 → 预测 → 创造 回顾","Compress → predict → create review")
 	toggle_button.tooltip_text = words("可选回顾：只查看本次真实记录，不运行或保存。","Optional review: view actual observations from this visit; no run or save.")
 	scope_label.text = words("候选壹回应 · 独立运行记录，不是共同历史或文明事件回放。","Candidate Yi response · separate run records, not a shared history or a civilization replay.")
 	var titles: Array[String] = [words("C 复原","C Restore"),words("P 已揭晓","P Revealed"),words("G 回灌","G Feedback"),words("已保存作品","Saved work")]
@@ -191,7 +191,7 @@ func _refresh() -> void:
 	locate_button.focus_mode = Control.FOCUS_NONE if locate_button.disabled else Control.FOCUS_ALL
 	identity_label.text = ""
 	if record.is_empty():
-		summary_label.text = words("本次没有这一步的运行记录。旧权限或作品不补造 C/P/G 经历。","No observation for this step in this visit. Permissions and saved works do not invent C/P/G runs.")
+		summary_label.text = words("本次没有这一步的运行记录。旧权限或作品不补造压缩、预测、创造的经历。","No observation for this step in this visit. Permissions and saved works do not invent C/P/G runs.")
 		response_label.text = words("壹（候选）：这里留白，直到你真正运行。","Yi (candidate): This stays blank until you actually run it.")
 		detail_label.text = words("原 next-step 与操作按钮继续负责下一步；回顾不执行操作。","The original next-step guide and controls still own the next action. This review runs nothing.")
 		return

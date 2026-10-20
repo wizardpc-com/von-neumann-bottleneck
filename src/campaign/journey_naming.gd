@@ -6,7 +6,7 @@ extends RefCounted
 ## Only presentation changes; task keys, IDs and progress stay as they are.
 
 const ZH_NUMBERS: Array[String] = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"]
-const PREFIX := "^(序章\\s*[·：:]\\s*|Prologue\\s*[·:]\\s*|[A-Z]?\\d+\\s*·\\s*)"
+const PREFIX := "^(序章\\s*[·：:]\\s*|Prologue\\s*[·:]\\s*|[A-Z]?\\d+\\s*·\\s*|\\d+-\\d+(-\\d+)?\\s+)"
 
 
 static func english() -> bool:

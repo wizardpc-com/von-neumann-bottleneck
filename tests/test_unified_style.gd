@@ -45,7 +45,7 @@ func run() -> void:
 		["res://experiments/representation_region/region.tscn", "第五章"],
 		["res://experiments/service_plan/lab.tscn", "第六章"],
 		["res://experiments/prediction/lab.tscn", "第七章"],
-		["res://experiments/creation/workbench.tscn", "光纹工作台"],
+		["res://experiments/creation/workbench.tscn", "第八章"],
 	]
 	for entry: Array in scenes:
 		if not ResourceLoader.exists(str(entry[0])): check(false, "Scene exists: " + str(entry[0])); continue

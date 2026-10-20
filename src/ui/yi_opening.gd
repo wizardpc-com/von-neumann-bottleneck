@@ -56,6 +56,8 @@ func _init() -> void:
 	layer = 90
 	card = PanelContainer.new(); card.name = "YiOpeningCard"
 	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Invisible until it has measured its text (no full-height first frame).
+	card.modulate.a = 0.0
 	var box := StyleBoxFlat.new()
 	box.bg_color = Palette.with_alpha(Palette.TERM_SCREEN, 0.95)
 	box.border_color = Palette.ACCENT_DEEP; box.set_border_width_all(1); box.border_width_left = 3
@@ -97,6 +99,7 @@ func _process(delta: float) -> void:
 	var mouse: Vector2 = card.get_global_mouse_position()
 	var hovered: bool = card.get_global_rect().grow(8).has_point(mouse)
 	# Never in the way: hovering shows what is underneath.
+	if _life < 0.08: return
 	card.modulate.a = move_toward(card.modulate.a, 0.15 if hovered else 1.0, delta * 4.0)
 	if (_life > STAY_SECONDS or _player_acted) and not body.is_playing():
 		_closing = true

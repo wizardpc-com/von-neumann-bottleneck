@@ -6,6 +6,8 @@ var option_button: OptionButton
 
 
 func _ready() -> void:
+	# Sits centred in header rows instead of stretching to the row height.
+	size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	visible = GameMode.developer_tools_enabled()
 	add_theme_constant_override("separation", 6)
 	if show_label:

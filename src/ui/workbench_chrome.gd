@@ -34,7 +34,14 @@ static func frame(header: Control) -> PanelContainer:
 	if header is BoxContainer: (header as BoxContainer).add_theme_constant_override("separation", 8)
 	for child: Node in header.get_children():
 		if child is Button: tidy_button(child)
+	# Buttons that scenes append later (settings, feedback, review) match too.
+	if not header.child_entered_tree.is_connected(_tidy_late_child):
+		header.child_entered_tree.connect(_tidy_late_child)
 	return chrome
+
+
+static func _tidy_late_child(child: Node) -> void:
+	if child is Button: tidy_button(child)
 
 
 static func title(label: Label) -> void:

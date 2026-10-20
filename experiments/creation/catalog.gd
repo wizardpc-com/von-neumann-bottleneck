@@ -1,8 +1,8 @@
 extends RefCounted
 ## Public teaching material. Sealed prediction streams belong to Session.
 const IDS := ["C1_restore", "C2_cost", "C3_conditions", "P1_commit", "P2_memory", "P3_check", "G1_feedback", "G2_intent", "G3_keep"]
-const TITLES_ZH := ["C1 · 让例外抵达", "C2 · 规则也占位置", "C3 · 值不值得这样搬", "P1 · 下一格尚未抵达", "P2 · 需要记住多少", "P3 · 带着不确定检查", "G1 · 让输出接回输入", "G2 · 按自己的意图改变", "G3 · 留下你的下一段"]
-const TITLES_EN := ["C1 · Carry the exceptions", "C2 · Rules take space", "C3 · Is this worth moving?", "P1 · The next cell is sealed", "P2 · How much history?", "P3 · A frozen check", "G1 · Feed output back", "G2 · Change with intent", "G3 · Keep your next passage"]
+const TITLES_ZH := ["让例外抵达", "规则也占位置", "值不值得这样搬", "下一格尚未抵达", "需要记住多少", "带着不确定检查", "让输出接回输入", "按自己的意图改变", "留下你的下一段"]
+const TITLES_EN := ["Carry the exceptions", "Rules take space", "Is this worth moving?", "The next cell is sealed", "How much history?", "A frozen check", "Feed output back", "Change with intent", "Keep your next passage"]
 const GOALS_ZH := [
 	"选择样例并学习规则盒，发送预测包。接收端只拿包复原；点选一格，追到预测和真正修正。无损相等即可留下本单元证据。",
 	"比较同一原文的 RAW 与预测包。规则表、头部和修正全部计字节；短片段或较大的规则盒可能不划算。",
@@ -50,8 +50,14 @@ const WORKBENCH_GOALS_EN := [
 const SAMPLE_NAMES_ZH := ["ABAC · 两步规律", "ABAD · 一个分岔", "ABCD · 四色行进", "AABB · 双拍", "ACAD · 另一条路", "ABAC · 稳定规律与稀少例外"]
 const SAMPLE_NAMES_EN := ["ABAC · two-step pattern", "ABAD · a branch", "ABCD · four-step walk", "AABB · paired beats", "ACAD · another path", "ABAC · stable history, rare exceptions"]
 
+## Chapter number shared with the journey map: 8-1 … 10-3.
+static func number(index: int) -> String:
+	var i: int = clampi(index,0,IDS.size()-1)
+	return "%d-%d" % [8 + i / 3, i % 3 + 1]
+
 static func title(index: int, english: bool = false) -> String:
-	return (TITLES_EN if english else TITLES_ZH)[clampi(index,0,IDS.size()-1)]
+	var i: int = clampi(index,0,IDS.size()-1)
+	return number(i) + " " + (TITLES_EN if english else TITLES_ZH)[i]
 
 static func goal(index: int, english: bool = false) -> String:
 	return (GOALS_EN if english else GOALS_ZH)[clampi(index,0,IDS.size()-1)]

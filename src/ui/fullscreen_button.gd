@@ -23,4 +23,6 @@ func _refresh(fullscreen: bool) -> void:
 
 func _add_settings() -> void:
 	if get_parent() is BoxContainer and get_tree().current_scene != null and get_tree().current_scene.scene_file_path != "res://src/ui/prototype_hub.tscn":
-		get_parent().add_child(WindowMode.settings_button())
+		var settings: Button = WindowMode.settings_button()
+		preload("res://src/ui/workbench_chrome.gd").tidy_button(settings)
+		get_parent().add_child(settings)

@@ -1305,7 +1305,8 @@ func _start_level(level_id: StringName) -> void:
 	if not SystemChapter.workspace_for(current_level_id).is_empty(): status_label.text=_t(&"workspace.model_changed" if SystemChapter.workspace_for(current_level_id).get("stale",false) else &"workspace.restored")
 	for id: StringName in instrument_windows:
 		_close_instrument(id)
-	_open_instrument(&"parts")
+	# Docked: task alone first, machine in readable view; tools open from the toolbar.
+	if not InstrumentDock.enabled(): _open_instrument(&"parts")
 	_open_instrument(&"mission")
 
 

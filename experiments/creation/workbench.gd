@@ -216,7 +216,12 @@ func build() -> void:
 	margin.add_child(page)
 	var header := HBoxContainer.new()
 	page.add_child(header)
-	var title: Label = label(text2("光纹工作台","Signal workbench"),header,22)
+	# Same header naming as every other chapter: 第八章 · 压缩 / 第九章 · 内容预测 / 第十章 · 创造.
+	var chapter_names: Array = [text2("压缩","Compression"),text2("内容预测","Content prediction"),text2("创造","Creation")]
+	var title: Label = label(preload("res://src/campaign/journey_naming.gd").chapter_ordinal(8 + task / 3) + " · " + str(chapter_names[clampi(task / 3,0,2)]),header,22)
+	title.clip_text = true
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	title.custom_minimum_size.x = 150 if not english else 190
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_build_arc_stepper(header)
@@ -1240,9 +1245,9 @@ func _unsupported_saved_recipe() -> bool:
 func saved_design_text() -> String:
 	var provenance_record: Dictionary = session.design_provenance()
 	var source: String = str(provenance_record.source)
-	if source == "none": return text2("尚无已保存的 G2 选择或设计对照。", "No saved G2 choice or design comparison yet.")
+	if source == "none": return text2("尚无已保存的 10-2 选择或设计对照。", "No saved G2 choice or design comparison yet.")
 	if not provenance_record.observation:
-		return text2("G2 来路：已确认作品选择；没有受控设计对照，不据此声称结构修改。", "G2 provenance: confirmed work choice; no controlled design comparison certifies structural change.") if source == "confirmed-choice-no-comparison" else text2("G2 来路：旧生成记录；保留旧完成来源，没有新版设计对照。", "G2 provenance: legacy generation; its original completion source is retained without a new design comparison.")
+		return text2("10-2 来路：已确认作品选择；没有受控设计对照，不据此声称结构修改。", "G2 provenance: confirmed work choice; no controlled design comparison certifies structural change.") if source == "confirmed-choice-no-comparison" else text2("10-2 来路：旧生成记录；保留旧完成来源，没有新版设计对照。", "G2 provenance: legacy generation; its original completion source is retained without a new design comparison.")
 	var receipt: Dictionary = session.data.supports.G2_intent.comparison
 	var lines := PackedStringArray([text2("已保存设计观察 · controlled-design-v1（属于此档案的历史对照，并非当前视图的评价）", "Saved design observation · controlled-design-v1 (a historical profile comparison, not a judgment of the current view)"),CreationComparison.caption(provenance_record.report,english)])
 	lines.append(text2("实测输出出现变化；这不代表优劣。", "Measured output changed; this is not a quality judgment.") if provenance_record.observed_change else text2("设计有效改变，但此次输出相同；保留此观察，不要求重抽。", "Design changed effectively, but this output is identical; the observation is retained without rerolling."))
@@ -2207,18 +2212,16 @@ func _build_arc_stepper(parent: Node) -> void:
 	parent.add_child(stepper)
 	var groups: Array = [[text2("压缩","Compress"),0],[text2("内容预测","Predict"),3],[text2("创造","Create"),6]]
 	for group: Array in groups:
-		var caption := Label.new(); caption.text = str(group[0]) if not english else ""
-		caption.add_theme_font_size_override("font_size",13)
-		caption.add_theme_color_override("font_color",Color("8fa3ad"))
-		stepper.add_child(caption)
+		# The header title already names the chapter; chip tooltips name each unit.
 		for offset: int in 3:
 			var index: int = int(group[1]) + offset
 			var done: bool = session.data.get("supports",{}).has(Catalog.IDS[index])
 			var chip := Button.new(); chip.name = "ArcStep"+str(index)
-			chip.text = ("✓" if done else "") + str(Catalog.IDS[index]).get_slice("_",0)
+			chip.text = ("✓" if done else "") + Catalog.number(index)
 			chip.tooltip_text = Catalog.title(index,english)
-			chip.custom_minimum_size = Vector2(38,28)
-			chip.add_theme_font_size_override("font_size",13)
+			chip.custom_minimum_size = Vector2(40,28)
+			chip.add_theme_font_size_override("font_size",12)
+			chip.tooltip_text = str(group[0]) + " · " + Catalog.title(index,english)
 			chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			chip.toggle_mode = true
 			chip.set_pressed_no_signal(index == task)

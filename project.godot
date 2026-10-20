@@ -33,6 +33,7 @@ PersonalRecords="*res://src/playtest/personal_records.gd"
 PlaytestMoments="*res://src/playtest/playtest_moments.gd"
 OfflineFeedback="*res://src/playtest/offline_feedback.gd"
 DevCapture="*res://src/dev/dev_capture.gd"
+UiFeel="*res://src/ui/ui_feel.gd"
 
 [display]
 

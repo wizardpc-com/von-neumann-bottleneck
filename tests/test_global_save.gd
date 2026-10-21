@@ -26,7 +26,7 @@ func _run() -> void:
 	game_mode = root.get_node("GameMode")
 	system_chapter = root.get_node("SystemChapter")
 	locality_chapter = root.get_node("LocalityChapter")
-	test_directory = "res://.godot/global_save_test_%d" % Time.get_ticks_usec()
+	test_directory = "user://global_save_test_%d" % Time.get_ticks_usec()
 	save_path = test_directory.path_join("savegame_v1.json")
 	workbench_path = test_directory.path_join("hardware_workbenches_v1.json")
 	game_mode.set_mode(&"game")

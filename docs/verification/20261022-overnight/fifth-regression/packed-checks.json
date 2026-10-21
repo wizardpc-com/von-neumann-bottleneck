@@ -1,0 +1,56 @@
+{
+  "package_sha256": "7bd0665aac83177447ec74c0f8f3d9286b45830d3f73f599acbed404f16b6357",
+  "runtime": "Linux Godot 4.7.1 headless loading exported PCK; not Windows execution",
+  "results": [
+    {
+      "name": "test_first_lesson_input",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "test_tree_journey_presentation",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "test_global_save",
+      "passed": false,
+      "exit_code": 1
+    },
+    {
+      "name": "test_creation_save_input",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "test_global_save_user_directory",
+      "passed": true,
+      "exit_code": 0,
+      "fixture_change": "Only res://.godot scratch directory replaced with user://; all assertions unchanged."
+    }
+  ],
+  "navigation_soak": {
+    "checks": 162,
+    "passed": true,
+    "node_counts": [
+      1489,
+      1489,
+      1489,
+      1489,
+      1489,
+      1489,
+      1489,
+      1489
+    ],
+    "orphan_counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

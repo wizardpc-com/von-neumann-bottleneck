@@ -221,3 +221,12 @@ conflicts cannot be safely resolved, preserve the branch and report the blocker.
   under matching Linux headless Godot for 120 frames, exit 0 with no errors.
   This is exported-resource/startup evidence only, not native Windows or visual QA.
   Remote publication remains blocked by the cancelled upload; no retry attempted.
+
+- 21:54 UTC: tested the exported pack, not just source: first tutorial 46 checks,
+  bilingual 60-task map 3,308 checks, creation save input 40 checks, and repeated
+  terminal navigation 162 checks all pass under matching Linux headless Godot.
+  The global-save fixture initially failed because it wrote to res:// inside a
+  packed application. Re-running identical assertions in isolated user:// passed;
+  updated the test's scratch namespace to match real exported save semantics.
+  No production save gate or provenance check was relaxed. Packed navigation
+  retained exactly 1,489 nodes and zero orphans across eight cycles.

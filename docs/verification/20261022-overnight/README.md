@@ -138,3 +138,20 @@ Package SHA256: `7bd0665aac83177447ec74c0f8f3d9286b45830d3f73f599acbed404f16b635
 Publication is not complete. The GitHub tree-upload operation was cancelled;
 no remote branch or main update is claimed. Local commits and a verified recovery
 bundle preserve the work while renewed upload approval is pending.
+
+The same exported PCK also passed first-tutorial input (46 checks), bilingual map
+navigation/layout (3,308), creation save input (40), and terminal navigation soak
+(162) under the Linux headless host. Across eight navigation cycles there were
+1,489 nodes and zero orphan nodes each time. A global-save fixture failed when
+using its source-tree res:// scratch path in the packed application; changing
+only that fixture directory to isolated user:// passed all unchanged assertions.
+The source test now uses user:// as well. Failed and corrected outcomes are both
+recorded in packed-checks.json. These remain controller/input-event checks, not
+native mouse, GPU rendering, Windows performance, or a fresh human playthrough.
+
+An additional accepted-test-mode core-path fixture exercises the ending-review
+footer, then visits all sixty tasks in both locales. All 369 assertions pass,
+including >=100 px task-reading space, on-screen review controls, and unchanged
+real game progress. The isolated source global-save suite also passes with its
+corrected user:// fixture namespace. These are supplemental tests after the full
+snapshot; production source and the exported package have not changed.

@@ -1,0 +1,110 @@
+{
+  "commit": "3e1d312a9ae95f56b1443e021be141c1c03fa6a8",
+  "note": "Both raw Windows test bytes and committed bytes are recorded; differences are CRLF/LF only.",
+  "files": {
+    "scripts/capture-immersive-lab.gd": {
+      "tested_windows_bytes": "99d4a71b0963307bd4625904f750096e2071f3ebbbd756369657ecb97e3c586a",
+      "git_blob_bytes": "3b70e6b8386a754433cf3573cc92a01934a0b577f0c18fcd21776d55c3ba2ec4"
+    },
+    "src/lab/lab_archive.gd": {
+      "tested_windows_bytes": "30d0541b159d84d7778b0350817cd6aa0297e6c4273be3edcd729e37368aa0e8",
+      "git_blob_bytes": "d9828ecd5652e19bf3a941b4b8b5f82d8661b8641c6f6415c6d0286104028ee8"
+    },
+    "src/lab/lab_home.gd": {
+      "tested_windows_bytes": "86fef6eebd2bcbdb324797b03118d7e06ac31617eddbc656d46b600e3934ba9c",
+      "git_blob_bytes": "2cc3708621cbecd3c1ac6b0edb4f0332039bc00e1849e1dec65d1451d53697ab"
+    },
+    "src/lab/lab_room_3d.gd": {
+      "tested_windows_bytes": "71b253fd2c073cdb76b9d271c5e1b74de8105d323baaf59ebbf8a8dcd1780c67",
+      "git_blob_bytes": "a1822a5adc54a349fade939f28745b3b7ab15353e587fade27b19e1af5534470"
+    },
+    "src/lab/lab_screen.gdshader": {
+      "tested_windows_bytes": "c27b23af10a9c6cfc429182e16e32deff2f515235b3811ac9b884b3c76622ef9",
+      "git_blob_bytes": "c27b23af10a9c6cfc429182e16e32deff2f515235b3811ac9b884b3c76622ef9"
+    },
+    "src/lab/lab_screen.gdshader.uid": {
+      "tested_windows_bytes": "e2a4adb47bac58cf62fadd47f0c1235add262495d9a45d8b1a68ed0a89d589b3",
+      "git_blob_bytes": "e2a4adb47bac58cf62fadd47f0c1235add262495d9a45d8b1a68ed0a89d589b3"
+    },
+    "src/lab/lab_terminal.gd": {
+      "tested_windows_bytes": "d1d666e88b2917ec1428c27bf4a92e8bc9a0f597049754fcdaff3aba88346a40",
+      "git_blob_bytes": "3da11ce192a09a28de1672c7ad384cbdfef29eeb8c09bae5ca95439ccd977df9"
+    },
+    "src/lab/lab_terminal_pages.gd": {
+      "tested_windows_bytes": "967cf8f21c0b7e850f208ab4ecc776dc96531850ed9f1922b379d92d28a1e780",
+      "git_blob_bytes": "36510a4a6887a843d9bdfc3c3d9cc93e455e5234d5d477bcebd4e0479f7e724a"
+    },
+    "src/lab/lab_terminal_pages.gd.uid": {
+      "tested_windows_bytes": "269073f9ad83978593da64bd6dcbc366811482f39def88ac9833251ae7161f7b",
+      "git_blob_bytes": "269073f9ad83978593da64bd6dcbc366811482f39def88ac9833251ae7161f7b"
+    },
+    "src/playtest/offline_feedback.gd": {
+      "tested_windows_bytes": "1fb49850ba2b2cd1291a3f10cf0906cb7b969550dc1fadd6f418788637c127d8",
+      "git_blob_bytes": "74f1a0c73af13669f2266d5ee012c39ca667a84127f07724ddec215eb216be66"
+    },
+    "src/playtest/playtest_moments.gd": {
+      "tested_windows_bytes": "331d694c32669a146bc8c13459f47ec1405a18815921b60f030bf2e1c8c5f3ad",
+      "git_blob_bytes": "c88682c71209614720f7dbc771da15e999a93eb87e14903d5477a4480b319bcc"
+    },
+    "src/ui/journey_journal.gd": {
+      "tested_windows_bytes": "eb922c2e18f5f329a8a13b889c62328f221db922b23dc0048974616ee8658e7a",
+      "git_blob_bytes": "f259168f28fda02194f1181759b4a62714f4bf876af28e5672077b145646a19c"
+    },
+    "src/ui/movable_dialog_panel.gd": {
+      "tested_windows_bytes": "5589f572ebba295869ba8c830ca90e5e462a459853abafb4ee9aa0533735bbd9",
+      "git_blob_bytes": "3d666f269648b85c9eac8ab3ec70d3d16633df1377ec68d3331ce915cc6e2af8"
+    },
+    "src/ui/prototype_hub.gd": {
+      "tested_windows_bytes": "e624816eac8a82b6febf4df5ce629a5aa8e87c2d704e965481ddea22946da46a",
+      "git_blob_bytes": "29c8df6782be4b515715d064b3e3f6105176f233a6d716a96b9822707fd012f3"
+    },
+    "src/ui/window_mode.gd": {
+      "tested_windows_bytes": "3dde9a22181fe7c1307ae3c749de3b0cac58904e15d94521ed0641a6f2057316",
+      "git_blob_bytes": "032d61f8c808b00af0410f2127d068d7a1abafca97631dc27933248ecc1350eb"
+    },
+    "tests/test_completion_route.gd": {
+      "tested_windows_bytes": "0b9186d8f6b4e74634f88a74711f606fd4f54e42ddabad8bc15ef24d2b46511f",
+      "git_blob_bytes": "0b9186d8f6b4e74634f88a74711f606fd4f54e42ddabad8bc15ef24d2b46511f"
+    },
+    "tests/test_core_closure_navigation.gd": {
+      "tested_windows_bytes": "05db5296082301a1d4f7cd452c7b5945cd3c183f7d27dac0e84bed60e75c0db9",
+      "git_blob_bytes": "e11bb0fd334115d4cab62464f90d456585017d3b987f1a2c38f570e9b8fc6674"
+    },
+    "tests/test_creation_lab_return_input.gd": {
+      "tested_windows_bytes": "fef24fdaa5e11b3a1562479d37072ab098e0b738b740d73a74f5967a81fb4ad2",
+      "git_blob_bytes": "2e171f6c8f80c006daa088acd5fbe56cf2a15f82517bc996f1a6caff5cf292cd"
+    },
+    "tests/test_immersive_lab.gd": {
+      "tested_windows_bytes": "6f297751541d6500f607a3171525b01bbeddf362c64c54c5fd93176ac3ebdfa6",
+      "git_blob_bytes": "155df70123816cf9bae2697f61c46c8e885f7b12cbf23978cff6d5cd332d4f2a"
+    },
+    "tests/test_lab_journey.gd": {
+      "tested_windows_bytes": "a5f3c6c3d8c7cba885e5a88d22864c935245a406dce9b7c7742f0c2b50d5d008",
+      "git_blob_bytes": "152d3847a152f477b6fe9954f2eb2f0d29ef16439d362b39850dcb9f9da389cf"
+    },
+    "tests/test_lab_terminal_pages.gd": {
+      "tested_windows_bytes": "7aa0b6cf9f0e733dcd3d80f70211b5e02db47a40034bb9154fd0a0cbb087cf70",
+      "git_blob_bytes": "f58d9f1b4212052fd62d6762ee0d6fe1fbfe9b9a15b7e563c098d86bb2f1969d"
+    },
+    "tests/test_lab_terminal_pages.gd.uid": {
+      "tested_windows_bytes": "bf2264f994548520844a2c9577e7398992fc991712159d854f21a697d7c4b266",
+      "git_blob_bytes": "bf2264f994548520844a2c9577e7398992fc991712159d854f21a697d7c4b266"
+    },
+    "tests/test_narrative_review.gd": {
+      "tested_windows_bytes": "6049df463c153e8cfd519dad4bd0a3f3a06e4e288d5fcd9c46b5d67af0d08e9d",
+      "git_blob_bytes": "527b8f111e895135012fa99fb9ba67cad43c2bfee1697b6451b3b5997f36b142"
+    },
+    "tests/test_second_act_navigation.gd": {
+      "tested_windows_bytes": "f91e900bb890ed998cf77006ce5e7278949c92c0b25ef251aaead974e49128a3",
+      "git_blob_bytes": "b17e87e5ef128273d55312e33b0a783fab7744c3e83b4e796e66a946ca768c16"
+    },
+    "tests/test_settings_language_input.gd": {
+      "tested_windows_bytes": "c63f78db582eb5fbc00b8833815daf29561e14317350c4660de02d10d03109c1",
+      "git_blob_bytes": "f03bb67d9435eaaa295b778008d4ec1e4e97ceab6ad0a55670151eeedc682baf"
+    },
+    "tests/test_ui_convergence.gd": {
+      "tested_windows_bytes": "baeb82cddc3331dc4ae1ab9ce1ec8a94568e81990070744711c77963a0b0956a",
+      "git_blob_bytes": "baeb82cddc3331dc4ae1ab9ce1ec8a94568e81990070744711c77963a0b0956a"
+    }
+  }
+}

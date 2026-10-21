@@ -1,0 +1,63 @@
+{
+	"adapter": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+	"engine": {
+		"build": "official",
+		"hash": "a13da4feb8d8aefc283c3763d33a2f170a18d541",
+		"hex": 263937,
+		"major": 4,
+		"minor": 7,
+		"patch": 1,
+		"status": "stable",
+		"string": "4.7.1-stable (official)",
+		"timestamp": 0
+	},
+	"frame_limit": 60,
+	"locale": "zh_CN",
+	"measurements": [
+		{
+			"draw_calls": 532,
+			"fps": 59.9963202256928,
+			"frames": 180,
+			"max_ms": 17.683,
+			"mean_ms": 16.6676888888889,
+			"p50_ms": 16.622,
+			"p95_ms": 17.355,
+			"p99_ms": 17.613,
+			"primitives": 47816,
+			"room_rendering": true,
+			"state": "arrival"
+		},
+		{
+			"draw_calls": 540,
+			"fps": 59.9873226791405,
+			"frames": 180,
+			"max_ms": 17.741,
+			"mean_ms": 16.6701888888889,
+			"p50_ms": 16.656,
+			"p95_ms": 17.412,
+			"p99_ms": 17.66,
+			"primitives": 48476,
+			"room_rendering": true,
+			"state": "look-around"
+		},
+		{
+			"draw_calls": 0,
+			"fps": 60.0152238617863,
+			"frames": 180,
+			"max_ms": 18.205,
+			"mean_ms": 16.6624388888889,
+			"p50_ms": 16.65,
+			"p95_ms": 17.246,
+			"p99_ms": 17.411,
+			"primitives": 0,
+			"room_rendering": false,
+			"state": "terminal"
+		}
+	],
+	"renderer": "gl_compatibility",
+	"scope": "Rendered wall-frame samples after warmup; not GPU-only timing or native input",
+	"size": [
+		1280,
+		720
+	]
+}

@@ -1,5 +1,7 @@
 # Immersive laboratory homepage
 
+Final status — 2026-10-22: completed within the user's revised acceptance scope. Room standby content uses the physical screen material; all main functions open in the fullscreen terminal. Actual GPU rendering, native input and 57 graphical assertions were reviewed. Four bilingual/resolution sets contain 44 images; measured performance is approximately 60 FPS at the 60 FPS cap. The user requested fewer tests and prompt delivery to main. The broad Windows run stopped after 194 completed checks (193 passed; one obsolete fixed-size caret assertion corrected and individually rechecked). Full CI is not an accepted gate for this delivery and remains separately reported. See [terminal acceptance](../../verification/20261021-immersive-lab/terminal-acceptance.md) for evidence and limits. The dated entries below preserve the candidate's verification history.
+
 ## Goal and scope
 Integrate the reviewed independent laboratory geometry as the real homepage on a new branch from 472890a. Keep the terminal, archive, task journey, saved works/achievements, handbook, settings and offline feedback connected to existing owners. Provide restrained fixed-position look-around and reliable return/focus transitions. Preserve the classic homepage option.
 

@@ -1,0 +1,10 @@
+{
+  "status": "stopped_at_user_request",
+  "planned_checks": 206,
+  "completed_checks": 194,
+  "passed_checks": 193,
+  "failed_checks": [
+    "test_ui_convergence"
+  ],
+  "reason": "User requested reduced testing and prompt closeout after graphical review; remaining checks were not run."
+}

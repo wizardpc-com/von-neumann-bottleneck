@@ -1,0 +1,15 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/01-arrival.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/02-left.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/03-right.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/04-terminal.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/panel-archive.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/panel-handbook.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/panel-settings.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/panel-works.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/panel-achievements.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/panel-review.png
+CAPTURE E:/VNB/immersive-lab-qa/.godot/fullscreen-final/en-1280x720/panel-feedback.png
+PASS: actual-render captures and bounded frame-time samples; native input is separate

@@ -7,7 +7,7 @@ blocking/return, real imported geometry, the fixed observation camera and the
 24-second globe loop. Headless layout/physics assertions do not establish image
 quality, frame rate or native mouse input. The real-display capture helper
 `scripts/capture-immersive-lab.gd` refuses dummy rendering. See the
-[receipt](../verification/20261021-immersive-lab/README.md).
+[graphical acceptance](../verification/20261021-immersive-lab/terminal-acceptance.md).
 
 ## Unified style and story beats — 2026-10-20
 
@@ -1082,6 +1082,6 @@ rendered viewport input are separate from actual exported-package/native input.
 
 ### Terminal-only homepage regression
 
-`test_lab_terminal_pages` checks model-derived clipping and hit bounds at 720p, 900p, 5:4 and wide aspect ratios; F10/F8/Esc routing; docked settings; and nested reviews. Run it on a real display as well as headless: nested Window focus is explicitly NOT_RUN with the dummy renderer. `test_settings_language_input` exercises both terminal Settings and F10 using viewport input and checks language/progress continuity. `test_creation_lab_return_input` enters the protected-work journal through the visible terminal menu and preserves the saved-work bytes through the complete round trip.
+`test_lab_terminal_pages` checks full-screen bounds and uniform scaling at 720p, 900p, 5:4 and wide aspect ratios, and physical-pixel rendering at 1440p; F10/F8/Esc routing; docked settings; and nested reviews. Run it on a real display as well as headless: nested Window focus is explicitly NOT_RUN with the dummy renderer. `test_settings_language_input` exercises both terminal Settings and F10 using viewport input and checks language/progress continuity. `test_creation_lab_return_input` enters the protected-work journal through the visible terminal menu and preserves the saved-work bytes through the complete round trip.
 
-Render acceptance must inspect the curved glass edge, page controls and confirmation boundaries, including during focus/return transitions. Use `--capture-size=1280x720` or `1600x900` with `scripts/capture-immersive-lab.gd`; its performance JSON reports rendered wall-frame samples, separately from native input acceptance.
+Render acceptance must inspect perspective on the room-mode glass, full-screen page controls and nested confirmation boundaries, including the return to the room. Use `--capture-size=1280x720` or `1600x900` with `scripts/capture-immersive-lab.gd`; its performance JSON reports rendered wall-frame samples, separately from native input acceptance.

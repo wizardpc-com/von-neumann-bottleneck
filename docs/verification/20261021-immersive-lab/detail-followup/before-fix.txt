@@ -1,0 +1,73 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Archive close restores its launcher cycle 0
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_immersive_lab.gd:18)
+       [1] check_interaction_details (res://tests/test_immersive_lab.gd:363)
+       [2] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Archive close restores its launcher cycle 1
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_immersive_lab.gd:18)
+       [1] check_interaction_details (res://tests/test_immersive_lab.gd:363)
+       [2] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Archive close restores its launcher cycle 2
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_immersive_lab.gd:18)
+       [1] check_interaction_details (res://tests/test_immersive_lab.gd:363)
+       [2] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Reduced-motion failed navigation returns immediately without a return tween
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_immersive_lab.gd:18)
+       [1] check_interaction_details (res://tests/test_immersive_lab.gd:368)
+LAYOUT room=(1280.0, 720.0) viewport=(1280, 720) glass=[P: (407.1256, 263.4816), S: (465.7488, 206.4689)] terminal=[P: (305.5724, 230.0879), S: (668.8552, 280.5657)]
+LAYOUT focused 1280x720 zh glass=[P: (280.4004, 210.9584), S: (719.1991, 318.8247)] terminal=[P: (305.5724, 230.0879), S: (668.8552, 280.5657)]
+LAYOUT control 1280x720 zh TerminalPrimary=[P: (327.5724, 409.0879), S: (624.0, 44.0)]
+LAYOUT control 1280x720 zh @HBoxContainer@859=[P: (327.5724, 462.0879), S: (624.0, 32.0)]
+LAYOUT control 1280x720 zh TerminalLanguage=[P: (907.5724, 246.0879), S: (44.0, 24.0)]
+LAYOUT control 1280x720 zh TerminalJourney=[P: (327.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT control 1280x720 zh TerminalArchive=[P: (453.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT control 1280x720 zh TerminalHandbook=[P: (579.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT control 1280x720 zh TerminalSettings=[P: (705.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT control 1280x720 zh TerminalQuit=[P: (831.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT focused 1280x720 en glass=[P: (280.4004, 210.9584), S: (719.1991, 318.8247)] terminal=[P: (305.5724, 230.0879), S: (668.8552, 280.5657)]
+LAYOUT control 1280x720 en TerminalPrimary=[P: (327.5724, 409.0879), S: (624.0, 44.0)]
+LAYOUT control 1280x720 en @HBoxContainer@859=[P: (327.5724, 462.0879), S: (624.0, 32.0)]
+LAYOUT control 1280x720 en TerminalLanguage=[P: (907.5724, 246.0879), S: (44.0, 24.0)]
+LAYOUT control 1280x720 en TerminalJourney=[P: (327.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT control 1280x720 en TerminalArchive=[P: (453.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT control 1280x720 en TerminalHandbook=[P: (579.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT control 1280x720 en TerminalSettings=[P: (705.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT control 1280x720 en TerminalQuit=[P: (831.5724, 462.0879), S: (120.0, 32.0)]
+LAYOUT focused 1600x900 zh glass=[P: (350.5005, 263.698), S: (898.999, 398.5309)] terminal=[P: (381.9655, 287.6098), S: (836.069, 350.7072)]
+LAYOUT control 1600x900 zh TerminalPrimary=[P: (403.9655, 536.6099), S: (792.0, 44.0)]
+LAYOUT control 1600x900 zh @HBoxContainer@859=[P: (403.9655, 589.6099), S: (792.0, 32.0)]
+LAYOUT control 1600x900 zh TerminalLanguage=[P: (1151.966, 303.6098), S: (44.0, 24.0)]
+LAYOUT control 1600x900 zh TerminalJourney=[P: (403.9655, 589.6099), S: (153.0, 32.0)]
+LAYOUT control 1600x900 zh TerminalArchive=[P: (562.9655, 589.6099), S: (154.0, 32.0)]
+LAYOUT control 1600x900 zh TerminalHandbook=[P: (722.9655, 589.6099), S: (153.0, 32.0)]
+LAYOUT control 1600x900 zh TerminalSettings=[P: (881.9655, 589.6099), S: (154.0, 32.0)]
+LAYOUT control 1600x900 zh TerminalQuit=[P: (1041.966, 589.6099), S: (154.0, 32.0)]
+LAYOUT focused 1600x900 en glass=[P: (350.5005, 263.698), S: (898.999, 398.5309)] terminal=[P: (381.9655, 287.6098), S: (836.069, 350.7072)]
+LAYOUT control 1600x900 en TerminalPrimary=[P: (403.9655, 536.6099), S: (792.0, 44.0)]
+LAYOUT control 1600x900 en @HBoxContainer@859=[P: (403.9655, 589.6099), S: (792.0, 32.0)]
+LAYOUT control 1600x900 en TerminalLanguage=[P: (1151.966, 303.6098), S: (44.0, 24.0)]
+LAYOUT control 1600x900 en TerminalJourney=[P: (403.9655, 589.6099), S: (153.0, 32.0)]
+LAYOUT control 1600x900 en TerminalArchive=[P: (562.9655, 589.6099), S: (154.0, 32.0)]
+LAYOUT control 1600x900 en TerminalHandbook=[P: (722.9655, 589.6099), S: (153.0, 32.0)]
+LAYOUT control 1600x900 en TerminalSettings=[P: (881.9655, 589.6099), S: (154.0, 32.0)]
+LAYOUT control 1600x900 en TerminalQuit=[P: (1041.966, 589.6099), S: (154.0, 32.0)]
+RAY_GRID look_degrees=(0.0, 0.0) hits={ "works": 105, "achievements": 44, "archive": 188, "journey": 188, "terminal": 714, "globe": 26, "handbook": 46, "feedback": 19, "settings": 4 }
+RAY_REACH terminal { "pixel": (414.0, 258.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH archive { "pixel": (66.0, 234.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH journey { "pixel": (1086.0, 234.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH works { "pixel": (450.0, 162.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH achievements { "pixel": (726.0, 162.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH handbook { "pixel": (414.0, 498.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH settings { "pixel": (954.0, 534.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH feedback { "pixel": (810.0, 522.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH globe { "pixel": (318.0, 426.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+FAIL: immersive lab 181 checks, 4 failures

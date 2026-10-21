@@ -4,6 +4,7 @@ extends SceneTree
 ## or entering a task. Scene-changing Start/Journey remain covered by navigation suites.
 const LabHome = preload("res://src/lab/lab_home.gd")
 const Room = preload("res://src/lab/lab_room_3d.gd")
+signal navigation_noop
 var checks: int = 0
 var failures: int = 0
 
@@ -142,6 +143,8 @@ func run() -> void:
 	moments.call("close")
 	await settle(3)
 	check_returned(lab, "Feedback")
+
+	await check_interaction_details(lab)
 
 	# Freeze only presentation input so deterministic camera/ray assertions cannot
 	# depend on the host machine's pointer position or an ongoing focus tween.
@@ -330,3 +333,59 @@ func check_display_state(lab: LabHome) -> void:
 	room.update_progress(rows,0,22,0,tasks,[],false)
 	check(room.display_state.works_count == 0 and room.display_state.latest_name.is_empty() and room.display_state.latest_output.is_empty(), "An empty collection has explicit empty data and no sample work")
 	room.update_progress(lab.station_progress,lab.completed_keys.size(),LabHome.LabState.tasks().size(),lab.works.size(),LabHome.LabState.tasks(),lab.works,lab.english)
+
+
+func check_interaction_details(lab: LabHome) -> void:
+	var room: Room = lab.room
+	ProjectSettings.set_setting("game/reduced_motion", false)
+	lab.room_focus = false
+	room.set_look(Vector2(1.0,0.0))
+	room._process(1.0)
+	lab._process_immersive_room(0.0)
+	check(not lab.terminal.visible, "Rotated look-around hides the flat terminal")
+	lab.escape()
+	await create_timer(0.8).timeout
+	check(lab.terminal.confirming() and lab.terminal.visible, "ESC from look-around reveals confirmation after recentering")
+	check(root.gui_get_focus_owner() == lab.terminal.quit_yes, "Recentered quit confirmation recovers keyboard focus")
+	lab.escape()
+	await settle(3)
+	check(not lab.terminal.confirming() and root.gui_get_focus_owner() == lab.terminal.primary, "Second ESC returns keyboard focus to primary")
+	var opener: Button = lab.room_controls.get_node("RoomArchive")
+	for cycle: int in 3:
+		opener.grab_focus()
+		opener.pressed.emit()
+		await settle(3)
+		lab._on_room_hover("archive")
+		lab._process_immersive_room(0.0)
+		check(lab.room_hover.text.is_empty(), "Modal clears underlying hover hint")
+		check(lab.archive.visible, "Keyboard archive opens cycle %d" % cycle)
+		lab.archive.close_button.grab_focus()
+		check(root.gui_get_focus_owner() == lab.archive.close_button, "Archive accepts keyboard navigation inside its modal")
+		lab.archive.close()
+		await settle(3)
+		check(root.gui_get_focus_owner() == opener, "Archive close restores its launcher cycle %d" % cycle)
+	ProjectSettings.set_setting("game/reduced_motion", true)
+	lab._process_immersive_room(0.0)
+	var departures: Array[int] = [0]
+	var count_departure := func() -> void: departures[0] += 1
+	navigation_noop.connect(count_departure)
+	lab._enter(navigation_noop)
+	lab._enter(navigation_noop)
+	lab._on_room_action("settings")
+	check(not lab.get_parent().options_overlay.visible, "Repeated input cannot open Settings during departure")
+	await create_timer(0.75).timeout
+	check(not lab.zooming and is_zero_approx(lab.passage.progress) and is_equal_approx(lab.terminal.modulate.a,1.0), "Reduced-motion failed navigation returns immediately without a return tween")
+	check(departures[0] == 1, "Repeated departure emits the navigation route only once")
+	navigation_noop.disconnect(count_departure)
+	await create_timer(0.6).timeout
+	# Global feedback shortcut may open independently while a route is pending.
+	lab._enter(navigation_noop)
+	var moments: Node = root.get_node("PlaytestMoments")
+	moments.call("toggle")
+	await settle(3)
+	var feedback_focus: Control = root.gui_get_focus_owner()
+	check(feedback_focus != null and moments.panel.is_ancestor_of(feedback_focus), "Feedback takes keyboard focus during a pending route")
+	await create_timer(0.75).timeout
+	check(not lab.zooming and root.gui_get_focus_owner() == feedback_focus, "Fallback does not steal focus from a globally opened feedback modal")
+	moments.call("close")
+	await settle(3)

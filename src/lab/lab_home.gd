@@ -89,6 +89,7 @@ var room_focus: bool = false
 var _terminal_was_asleep: bool = true
 var room_focus_amount: float = 0.0
 var room_pointer_seen: bool = false
+var _archive_opener: Control
 var english: bool = false
 var world: Control
 var layers: Dictionary = {}
@@ -172,7 +173,7 @@ func _ready() -> void:
 	room_input_shield.hide(); add_child(room_input_shield)
 	archive = ArchiveType.new(); archive.name = "LabArchive"; archive.hide()
 	add_child(archive)
-	archive.closed.connect(_refresh_archive_counts)
+	archive.closed.connect(_on_archive_closed)
 	fade = ColorRect.new(); fade.name = "LabFade"; fade.color = Palette.TERM_SCREEN
 	fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); fade.modulate.a = 0.0
@@ -547,8 +548,20 @@ func preview_chapter_dialogue() -> void:
 	terminal.play_dialogue(Dialogues.for_key("chapter_2/capstone"))
 
 func open_archive() -> void:
-	if zooming: return
+	if zooming or archive.visible: return
+	_archive_opener = get_viewport().gui_get_focus_owner()
 	archive.present(english)
+
+func _on_archive_closed() -> void:
+	_refresh_archive_counts()
+	if room != null: _process_immersive_room(0.0)
+	if is_instance_valid(_archive_opener) and _archive_opener.is_visible_in_tree():
+		_archive_opener.call_deferred("grab_focus")
+	elif room_controls != null:
+		room_controls.get_node("RoomArchive").call_deferred("grab_focus")
+	else:
+		terminal._focus_primary()
+	_archive_opener = null
 
 func _enter(signal_to_emit: Signal, argument: Variant = null) -> void:
 	if zooming: return
@@ -571,12 +584,19 @@ func _enter(signal_to_emit: Signal, argument: Variant = null) -> void:
 	await tree.create_timer(0.6).timeout
 	if is_instance_valid(self) and is_inside_tree():
 		Passage.pending_arrival_msec = -1
-		var back := create_tween().set_parallel(true)
-		back.tween_property(passage, "progress", 0.0, 0.3)
-		back.tween_property(terminal, "modulate:a", 1.0, 0.4)
-		back.tween_method(_apply_zoom, 1.0, 0.0, 0.5)
-		await back.finished
+		if bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+			passage.progress = 0.0
+			terminal.modulate.a = 1.0
+			_apply_zoom(0.0)
+		else:
+			var back := create_tween().set_parallel(true)
+			back.tween_property(passage, "progress", 0.0, 0.3)
+			back.tween_property(terminal, "modulate:a", 1.0, 0.4)
+			back.tween_method(_apply_zoom, 1.0, 0.0, 0.5)
+			await back.finished
 		zooming = false
+		if room != null: _process_immersive_room(0.0)
+		if terminal.visible and not terminal.asleep() and not _room_blocked() and not terminal.confirming(): terminal._focus_primary()
 
 func _apply_zoom(amount: float) -> void:
 	if room != null:

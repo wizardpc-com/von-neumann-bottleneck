@@ -62,3 +62,16 @@ The room now stays neutral until an actual mouse-motion event and recenters when
 Isolated run `20261021T145813Z-33714b07` passed import, user-directory isolation and all eight selected suites: first_lesson_input, ui_convergence, immersive_lab (167 assertions), lab_journey, lab_terminal_routing, terminal_task_titles, terminal_language_input and settings_language_input. Exact tested source bytes were compared before committing. The two before-fix failing logs and all after-fix results are retained in `input-followup/`.
 
 Remote CI run 39620977961 was last observed at 14:57 UTC with Python checks successful and Godot checks in progress. Further CI reads were denied by the execution permission review and were stopped. No terminal CI result is claimed. These local results are not a substitute for full remote CI or graphical acceptance.
+
+## Interaction detail correction (2026-10-21, 15:10 UTC)
+
+Reproduced failures, then corrected:
+- After keyboard navigation inside Archive, closing lost the launching shortcut's focus (three repeated cycles failed). Preserve and restore the valid opener, with a visible room shortcut fallback; ignore duplicate Archive opens.
+- Reduced-motion navigation with no destination still used a 0.5-second animated return. Restore the room directly in this fallback, without that tween. Normal motion keeps its transition.
+- Return-focus repair must not steal focus from a feedback modal opened through the existing global shortcut while navigation is pending. The final guard and test cover this case.
+
+The rotated-camera ESC confirmation hypothesis did not reproduce as a defect. Its existing implementation was not changed; the regression check now covers confirmation focus and a second ESC returning to the primary action. Repeated route activation emits once, pending navigation blocks other room actions, and modal opening clears the underlying hover hint.
+
+Broad isolated run `20261021T150722Z-72293996` passed all eight selected suites (first_lesson_input, immersive_lab, lab_journey, lab_terminal_routing, prelaunch_settings, settings_language_input, terminal_language_input, ui_convergence). After the final modal-focus guard, isolated run `20261021T150929Z-d6829a76` re-ran and passed immersive_lab (188 assertions), lab_journey and lab_terminal_routing, plus import and isolated-user-directory checks. Final source bytes match that tested project. Before-fix, broad and final logs are in `detail-followup/`.
+
+Tests include control-level calls and headless viewport dispatch from existing input suites, not native OS mouse/keyboard or rendered usability validation. The prior CI-read and graphical acceptance limitations still apply; no new CI result was obtained.
